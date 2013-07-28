@@ -36,6 +36,18 @@ static gboolean reset_audio = FALSE;
 
 static gint ready = FALSE;
 
+static double slowdown = 1.0;
+#ifdef _HAVE_RUBBERBAND_
+static RubberBandState rubberband;
+
+static gint rubberband_init(DenemoPrefs *config) {
+	rubberband = rubberband_new(sample_rate, 2 /* channels */, RubberBandOptionProcessRealTime, slowdown, 1.0);
+    return 0;                               
+}
+
+#endif
+
+
 static double
 nframes_to_seconds (unsigned long nframes)
 {
@@ -54,13 +66,18 @@ static int
 stream_callback (const void *input_buffer, void *output_buffer, unsigned long frames_per_buffer, const PaStreamCallbackTimeInfo * time_info, PaStreamCallbackFlags status_flags, void *user_data)
 {
   float **buffers = (float **) output_buffer;
-#ifdef HALF_TEMPO
-  static gboolean even = TRUE;
-  even = !even;
-  if (even)
-    {
-      return paContinue;
-    }
+ // static float *spare[2];
+ // if(spare[0]==NULL)
+//	{
+	//	spare[0] = g_malloc0(512*sizeof(float));		
+	//	spare[1] = g_malloc0(512*sizeof(float));
+//	}
+#ifdef _HAVE_RUBBERBAND_
+  static gboolean initialized = FALSE;
+  if (!initialized) {
+	  rubberband_set_max_process_size(rubberband, frames_per_buffer);
+	  initialized = TRUE;
+  }
 #endif
 
   if (Denemo.prefs.maxrecordingtime)
@@ -130,7 +147,7 @@ stream_callback (const void *input_buffer, void *output_buffer, unsigned long fr
   double event_time;
 
   double until_time = nframes_to_seconds (playback_frame + frames_per_buffer);
-
+  until_time *= slowdown;
 
   while (read_event_from_queue (AUDIO_BACKEND, event_data, &event_length, &event_time, until_time))
     {
@@ -143,12 +160,40 @@ stream_callback (const void *input_buffer, void *output_buffer, unsigned long fr
   event_length = frames_per_buffer;
   read_event_from_mixer_queue (AUDIO_BACKEND, (void *) buffers[1], &event_length, &event_time, until_time);
 
+static int count = 0;
+#ifdef _HAVE_RUBBERBAND_
+//if there is stuff available use it and give buffers[] to rubber band to process
+{
+	float * sample[2];/* 2 channels*/
+	float float1, float2;
+	sample[0] = &float1;
+	sample[1] = &float2;
+	gint i;
+	if(count<10 && *buffers[0]>0.0)
+		g_print("count %d *buffers[0] = %f at %p\n", count++, *buffers[0], buffers[0]);
+	rubberband_process(rubberband, buffers, frames_per_buffer, 0);
+	gint available = rubberband_available(rubberband);
+	if(count>0 && count<10) g_print("%d for %f\n", available, until_time);
+	while(available >= (gint)frames_per_buffer) {
+		//#define spare buffers
+			rubberband_retrieve(rubberband, buffers, frames_per_buffer);//re-use buffers[] as they are available...
+			write_samples_to_rubberband_queue (AUDIO_BACKEND, buffers[0], frames_per_buffer);	
+			write_samples_to_rubberband_queue (AUDIO_BACKEND,  buffers[1], frames_per_buffer);
+			available -= frames_per_buffer;
+	}		
+	event_length = frames_per_buffer;
+	read_event_from_rubberband_queue (AUDIO_BACKEND, buffers[0], &event_length);
+	event_length = frames_per_buffer;	
+	read_event_from_rubberband_queue (AUDIO_BACKEND, buffers[1],  &event_length);
+}
+#endif
 
   if (until_time < get_playuntil ())
     {
 #endif
       playback_frame += frames_per_buffer;
-      update_playback_time (TIMEBASE_PRIO_AUDIO, nframes_to_seconds (playback_frame));
+      if(count>0 && count<10) g_print("time ratio %f time %f\n", rubberband_get_time_ratio(rubberband), slowdown*nframes_to_seconds (playback_frame));
+      update_playback_time (TIMEBASE_PRIO_AUDIO, slowdown*nframes_to_seconds (playback_frame));
 #ifdef _HAVE_FLUIDSYNTH_
     }
 #endif
@@ -170,7 +215,13 @@ actual_portaudio_initialize (DenemoPrefs * config)
       return -1;
     }
 #endif
-
+#ifdef _HAVE_RUBBERBAND_
+ if (rubberband_init (config))
+    {
+      g_warning ("Initializing Rubberband FAILED!\n");
+      return -1;
+    }
+#endif
   g_unlink (recorded_audio_filename ());
 
   g_print ("Initializing PortAudio backend\n");

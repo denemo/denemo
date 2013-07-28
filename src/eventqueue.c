@@ -20,7 +20,11 @@
 
 
 event_queue_t *
-event_queue_new (size_t playback_queue_size, size_t immediate_queue_size, size_t input_queue_size, size_t mixer_queue_size)
+event_queue_new (size_t playback_queue_size, size_t immediate_queue_size, size_t input_queue_size, size_t mixer_queue_size
+#ifdef _HAVE_RUBBERBAND_
+, size_t rubberband_queue_size
+#endif
+)
 {
   event_queue_t *queue = g_malloc0 (sizeof (event_queue_t));
 
@@ -46,6 +50,14 @@ event_queue_new (size_t playback_queue_size, size_t immediate_queue_size, size_t
       queue->mixer = jack_ringbuffer_create (mixer_queue_size * sizeof (float));
       jack_ringbuffer_reset (queue->mixer);
     }
+#ifdef _HAVE_RUBBERBAND_
+  if (rubberband_queue_size)
+    {
+      queue->rubberband = jack_ringbuffer_create (rubberband_queue_size * sizeof (float));
+      jack_ringbuffer_reset (queue->rubberband);
+    }
+#endif
+
   return queue;
 }
 
@@ -89,7 +101,16 @@ event_queue_reset_mixer (event_queue_t * queue)
       jack_ringbuffer_reset (queue->mixer);
     }
 }
-
+#ifdef _HAVE_RUBBERBAND_
+void
+event_queue_reset_rubberband (event_queue_t * queue)
+{
+  if (queue->rubberband)
+    {
+      jack_ringbuffer_reset (queue->rubberband);
+    }
+}
+#endif
 
 gboolean
 event_queue_write_playback (event_queue_t * queue, smf_event_t * event)
@@ -131,6 +152,20 @@ event_queue_write_mixer (event_queue_t * queue, float *data)
 
 }
 
+#ifdef _HAVE_RUBBERBAND_
+gboolean
+event_queue_write_rubberband (event_queue_t * queue, float *data)
+{
+  if (!queue->rubberband || jack_ringbuffer_write_space (queue->rubberband) < sizeof (float))
+    {
+      return FALSE;
+    }
+  size_t n = jack_ringbuffer_write (queue->rubberband, (char const *) data, sizeof (float));
+
+  return n == sizeof (float);
+
+}
+#endif
 static gboolean
 page_viewport_callback (gpointer data)
 {
@@ -155,7 +190,7 @@ page_for_time (gdouble time_seconds)
 gboolean
 mixer_queue_read_output (event_queue_t * queue, unsigned char *event_buffer, size_t * event_length, double *event_time, double until_time)
 {
-  if (jack_ringbuffer_read_space (queue->mixer) >= *event_length)
+  if (jack_ringbuffer_read_space (queue->mixer) >=  (*event_length) * sizeof (float))
     {
 
       *event_length = jack_ringbuffer_read (queue->mixer, (char *) event_buffer, (*event_length) * sizeof (float)) / sizeof (float);
@@ -167,7 +202,19 @@ mixer_queue_read_output (event_queue_t * queue, unsigned char *event_buffer, siz
   *event_length = 0;
   return FALSE;
 }
-
+#ifdef _HAVE_RUBBERBAND_
+gboolean
+rubberband_queue_read_output (event_queue_t * queue, unsigned char *event_buffer, size_t * event_length)
+{
+  if (jack_ringbuffer_read_space (queue->rubberband) >=  (*event_length) * sizeof (float))
+    {
+      *event_length = jack_ringbuffer_read (queue->rubberband, (char *) event_buffer, (*event_length) * sizeof (float)) / sizeof (float);
+      return TRUE;
+    }
+  *event_length = 0;
+  return FALSE;
+}
+#endif
 gboolean
 event_queue_read_output (event_queue_t * queue, unsigned char *event_buffer, size_t * event_length, double *event_time, double until_time)
 {

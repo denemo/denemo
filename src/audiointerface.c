@@ -43,6 +43,7 @@ static backend_t *backends[NUM_BACKENDS] = { NULL };
 #define IMMEDIATE_QUEUE_SIZE 32
 #define INPUT_QUEUE_SIZE 256
 #define MIXER_QUEUE_SIZE 50000
+#define RUBBERBAND_QUEUE_SIZE 50000
 
 
 // the time in µs after which the queue thread wakes up, whether it has been
@@ -229,8 +230,16 @@ audio_initialize (DenemoPrefs * config)
 
   queue_cond = g_cond_new ();
   queue_mutex = g_mutex_new ();
-  event_queues[AUDIO_BACKEND] = event_queue_new (PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, 0, MIXER_QUEUE_SIZE);
-  event_queues[MIDI_BACKEND] = event_queue_new (PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, INPUT_QUEUE_SIZE, 0);
+  event_queues[AUDIO_BACKEND] = event_queue_new (PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, 0, MIXER_QUEUE_SIZE
+#ifdef _HAVE_RUBBERBAND_
+, RUBBERBAND_QUEUE_SIZE
+#endif
+);
+  event_queues[MIDI_BACKEND] = event_queue_new (PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, INPUT_QUEUE_SIZE, 0  
+#ifdef _HAVE_RUBBERBAND_
+, 0
+#endif
+);
   if (initialize_audio (config))
     {
       goto err;
@@ -360,7 +369,16 @@ reset_mixer_queue (backend_type_t backend)
       event_queue_reset_mixer (get_event_queue (backend));
     }
 }
-
+#ifdef _HAVE_RUBBERBAND_
+static void
+reset_rubberband_queue (backend_type_t backend)
+{
+  if (get_event_queue (backend))
+    {
+      event_queue_reset_rubberband (get_event_queue (backend));
+    }
+}
+#endif
 
 static gboolean
 write_event_to_queue (backend_type_t backend, smf_event_t * event)
@@ -373,7 +391,17 @@ write_sample_to_mixer_queue (backend_type_t backend, float *sample)
 {
   return event_queue_write_mixer (get_event_queue (backend), sample);
 }
-
+#ifdef _HAVE_RUBBERBAND_
+gboolean
+write_samples_to_rubberband_queue (backend_type_t backend, float *sample, gint num)
+{gint i;
+  for(i=0;i<num;i++) {
+	if(!event_queue_write_rubberband (get_event_queue (backend), sample+i))
+		return FALSE;
+	}
+	return TRUE;
+}
+#endif
 gboolean
 read_event_from_queue (backend_type_t backend, unsigned char *event_buffer, size_t * event_length, double *event_time, double until_time)
 {
@@ -395,11 +423,14 @@ read_event_from_mixer_queue (backend_type_t backend, unsigned char *event_buffer
 {
   return mixer_queue_read_output (get_event_queue (backend), event_buffer, event_length, event_time, until_time);
 }
+#ifdef _HAVE_RUBBERBAND_
 
-
-
-
-
+gboolean
+read_event_from_rubberband_queue (backend_type_t backend, unsigned char *event_buffer, size_t * event_length)
+{
+  return rubberband_queue_read_output (get_event_queue (backend), event_buffer, event_length);
+}
+#endif
 GStaticMutex smfmutex = G_STATIC_MUTEX_INIT;
 static gpointer
 queue_thread_func (gpointer data)
@@ -560,6 +591,9 @@ void
 audio_play (void)
 {
   reset_mixer_queue (AUDIO_BACKEND);
+#ifdef _HAVE_RUBBERBAND_  
+  reset_rubberband_queue (AUDIO_BACKEND);
+#endif
   playback_start_time = get_start_time ();
   playback_time = playback_start_time;
 
@@ -578,6 +612,9 @@ midi_stop ()
   reset_playback_queue (AUDIO_BACKEND);
   reset_playback_queue (MIDI_BACKEND);
   reset_mixer_queue (AUDIO_BACKEND);
+#ifdef _HAVE_RUBBERBAND_  
+  reset_rubberband_queue (AUDIO_BACKEND);
+#endif
 }
 
 
