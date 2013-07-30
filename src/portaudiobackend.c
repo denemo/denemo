@@ -14,6 +14,9 @@
 #include <glib/gstdio.h>
 #include "portaudiobackend.h"
 #include "portaudioutil.h"
+#ifdef _HAVE_RUBBERBAND_
+	#include <rubberband-c.h>
+#endif
 #include "midi.h"
 #include "fluid.h"
 #include "audiointerface.h"
@@ -33,6 +36,40 @@ static gboolean reset_audio = FALSE;
 
 static gint ready = FALSE;
 
+static double speedup = 1.0; //2.0 = twice as long ie half speed.
+static gboolean rubberband_active = FALSE;
+
+#ifdef _HAVE_RUBBERBAND_
+static RubberBandState rubberband;
+static gint rubberband_init(DenemoPrefs *config) {
+	rubberband = rubberband_new(sample_rate, 2 /* channels */, RubberBandOptionProcessRealTime | RubberBandOptionStretchPrecise,
+	speedup, 1.0);
+	//rubberband_set_debug_level(rubberband, 3);
+    return 0;                               
+}
+void set_playback_speed (double speed) {
+	if(rubberband==NULL)
+		rubberband_init(&Denemo.prefs);
+	Denemo.gui->si->end_time /= speedup;
+	Denemo.gui->si->start_time /= speedup;
+	if(speed>1.01) {
+		speedup = speed;
+		rubberband_active = TRUE;
+	}
+	else
+	{
+		speedup = 1.0;
+		rubberband_active = FALSE;
+	}
+	rubberband_set_time_ratio(rubberband, speedup);
+	Denemo.gui->si->end_time *= speedup;
+	Denemo.gui->si->start_time *= speedup;
+}
+
+
+#endif
+
+
 static double
 nframes_to_seconds (unsigned long nframes)
 {
@@ -51,15 +88,92 @@ static int
 stream_callback (const void *input_buffer, void *output_buffer, unsigned long frames_per_buffer, const PaStreamCallbackTimeInfo * time_info, PaStreamCallbackFlags status_flags, void *user_data)
 {
   float **buffers = (float **) output_buffer;
-#ifdef HALF_TEMPO
-  static gboolean even = TRUE;
-  even = !even;
-  if (even)
-    {
-      return paContinue;
-    }
+ // static float *spare[2];
+ // if(spare[0]==NULL)
+//	{
+	//	spare[0] = g_malloc0(512*sizeof(float));		
+	//	spare[1] = g_malloc0(512*sizeof(float));
+//	}
+#ifdef _HAVE_RUBBERBAND_
+  static gboolean initialized = FALSE;
+  if (!initialized) {
+	  rubberband_set_max_process_size(rubberband, frames_per_buffer);
+	  initialized = TRUE;
+  }
 #endif
 
+  size_t i;
+  for (i = 0; i < 2; ++i)
+    {
+      memset (buffers[i], 0, frames_per_buffer * sizeof (float));
+    }
+
+  if (!ready)
+    return paContinue;
+
+#ifdef _HAVE_FLUIDSYNTH_
+  if (reset_audio)
+    {
+      fluidsynth_all_notes_off ();
+      reset_audio = FALSE;
+      return paContinue;
+    }
+
+  unsigned char event_data[MAX_MESSAGE_LENGTH]; //needs to be long enough for variable length messages...
+  size_t event_length = MAX_MESSAGE_LENGTH;
+  double event_time;
+
+  double until_time = nframes_to_seconds (playback_frame + frames_per_buffer);
+#ifdef _HAVE_RUBBERBAND_  
+gint available = rubberband_available(rubberband);
+if((!rubberband_active) || (available < (gint)frames_per_buffer)) {
+#endif
+
+  while (read_event_from_queue (AUDIO_BACKEND, event_data, &event_length, &event_time, until_time/speedup))
+    {
+      fluidsynth_feed_midi (event_data, event_length);  //in fluid.c note fluidsynth api ues fluid_synth_xxx these naming conventions are a bit too similar
+    }
+
+  fluidsynth_render_audio (frames_per_buffer, buffers[0], buffers[1]);  //in fluid.c calls fluid_synth_write_float()
+
+// Now get any audio to mix - dump it in the left hand channel for now
+  event_length = frames_per_buffer;
+  read_event_from_mixer_queue (AUDIO_BACKEND, (void *) buffers[1], &event_length);
+
+#ifdef _HAVE_RUBBERBAND_  
+  }
+#endif
+
+#ifdef _HAVE_RUBBERBAND_
+//if there is stuff available use it and give buffers[] to rubber band to process
+if(rubberband_active)
+	{
+	if(available < (gint)frames_per_buffer)
+		rubberband_process(rubberband, (const float * const*)buffers, frames_per_buffer, 0);
+	available = rubberband_available(rubberband);
+	if(available >= (gint)frames_per_buffer) 
+		{
+			rubberband_retrieve(rubberband, buffers, frames_per_buffer);//re-use buffers[] as they are available...
+			write_samples_to_rubberband_queue (AUDIO_BACKEND, buffers[0], frames_per_buffer);	
+			write_samples_to_rubberband_queue (AUDIO_BACKEND,  buffers[1], frames_per_buffer);
+			available -= frames_per_buffer;
+		}		
+	event_length = frames_per_buffer;
+	read_event_from_rubberband_queue (AUDIO_BACKEND, (unsigned char *) buffers[0], &event_length);
+	event_length = frames_per_buffer;	
+	read_event_from_rubberband_queue (AUDIO_BACKEND, (unsigned char *) buffers[1],  &event_length);
+	}
+#endif //_HAVE_RUBBERBAND_
+
+  if (until_time < get_playuntil ())
+    {
+#endif //_HAVE_FLUIDSYNTH_
+      playback_frame += frames_per_buffer;
+      update_playback_time (TIMEBASE_PRIO_AUDIO, nframes_to_seconds (playback_frame));
+#ifdef _HAVE_FLUIDSYNTH_
+    }
+#endif //_HAVE_FLUIDSYNTH_
+// Recording audio out - only one channel is saved at the moment, so source audio (which is dumped in the second channel) is not recorded.
   if (Denemo.prefs.maxrecordingtime)
     {
       static FILE *fp = NULL;
@@ -105,51 +219,6 @@ stream_callback (const void *input_buffer, void *output_buffer, unsigned long fr
         }
     }
 
-  size_t i;
-  for (i = 0; i < 2; ++i)
-    {
-      memset (buffers[i], 0, frames_per_buffer * sizeof (float));
-    }
-
-  if (!ready)
-    return paContinue;
-
-#ifdef _HAVE_FLUIDSYNTH_
-  if (reset_audio)
-    {
-      fluidsynth_all_notes_off ();
-      reset_audio = FALSE;
-      return paContinue;
-    }
-
-  unsigned char event_data[MAX_MESSAGE_LENGTH]; //needs to be long enough for variable length messages...
-  size_t event_length = MAX_MESSAGE_LENGTH;
-  double event_time;
-
-  double until_time = nframes_to_seconds (playback_frame + frames_per_buffer);
-
-
-  while (read_event_from_queue (AUDIO_BACKEND, event_data, &event_length, &event_time, until_time))
-    {
-      fluidsynth_feed_midi (event_data, event_length);  //in fluid.c note fluidsynth api ues fluid_synth_xxx these naming conventions are a bit too similar
-    }
-
-  fluidsynth_render_audio (frames_per_buffer, buffers[0], buffers[1]);  //in fluid.c calls fluid_synth_write_float()
-
-// Now get any audio to mix - dump it in the left hand channel for now
-  event_length = frames_per_buffer;
-  read_event_from_mixer_queue (AUDIO_BACKEND, (void *) buffers[1], &event_length, &event_time, until_time);
-
-
-  if (until_time < get_playuntil ())
-    {
-#endif
-      playback_frame += frames_per_buffer;
-      update_playback_time (TIMEBASE_PRIO_AUDIO, nframes_to_seconds (playback_frame));
-#ifdef _HAVE_FLUIDSYNTH_
-    }
-#endif
-
   return paContinue;
 }
 
@@ -167,7 +236,13 @@ actual_portaudio_initialize (DenemoPrefs * config)
       return -1;
     }
 #endif
-
+#ifdef _HAVE_RUBBERBAND_
+ if (rubberband_init (config))
+    {
+      g_warning ("Initializing Rubberband FAILED!\n");
+      return -1;
+    }
+#endif
   g_unlink (recorded_audio_filename ());
 
   g_print ("Initializing PortAudio backend\n");

@@ -46,6 +46,11 @@ typedef struct event_queue_t
 
   /* mixer queue - audio for mixing with playback output */
   jack_ringbuffer_t *mixer;
+  
+ #ifdef _HAVE_RUBBERBAND_
+ /* rubberband queue - for audio stretching */
+ jack_ringbuffer_t *rubberband;
+ #endif
 
 } event_queue_t;
 
@@ -62,7 +67,11 @@ typedef struct event_queue_t
  *
  * @return                      the new event queue
  */
-event_queue_t *event_queue_new (size_t playback_queue_size, size_t immediate_queue_size, size_t input_queue_size, size_t mixer_queue_size);
+event_queue_t *event_queue_new (size_t playback_queue_size, size_t immediate_queue_size, size_t input_queue_size, size_t mixer_queue_size
+#ifdef _HAVE_RUBBERBAND_
+, size_t rubberband_queue_size
+#endif
+);
 
 /**
  * Frees the given queue.
@@ -77,6 +86,13 @@ void event_queue_reset_playback (event_queue_t * queue);
  * Clears the mixer queue.
  */
 void event_queue_reset_mixer (event_queue_t * queue);
+
+#ifdef _HAVE_RUBBERBAND_
+/**
+ * Clears the rubberband queue.
+ */
+void event_queue_reset_rubberband (event_queue_t * queue);
+#endif
 
 /**
  * Writes an SMF event to the playback queue.
@@ -109,6 +125,17 @@ gboolean event_queue_write_immediate (event_queue_t * queue, guchar * data, guin
  */
 gboolean event_queue_write_mixer (event_queue_t * queue, float *sample);
 
+#ifdef _HAVE_RUBBERBAND_
+/**
+ * Writes single sample to the rubberband queue.
+ *
+ * @param event   the sample to be written to the queue. 
+ *
+ * @return        TRUE if the sample was successfully written to the queue
+ */
+gboolean event_queue_write_rubberband (event_queue_t * queue, float *sample);
+
+#endif
 
 /**
  * Reads an event from one of the output queues.
@@ -126,8 +153,10 @@ gboolean event_queue_write_mixer (event_queue_t * queue, float *sample);
 gboolean event_queue_read_output (event_queue_t * queue, unsigned char *event_buffer, size_t * event_length, double *event_time, double until_time);
 
 
-gboolean mixer_queue_read_output (event_queue_t * queue, unsigned char *event_buffer, size_t * event_length, double *event_time, double until_time);
-
+gboolean mixer_queue_read_output (event_queue_t * queue, unsigned char *event_buffer, size_t * event_length);
+#ifdef _HAVE_RUBBERBAND_
+gboolean rubberband_queue_read_output (event_queue_t * queue, unsigned char *event_buffer, size_t * event_length);
+#endif
 /**
  * Writes an event to the input queue.
  *
