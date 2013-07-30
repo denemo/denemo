@@ -10416,9 +10416,12 @@ set_master_volume (DenemoScore * si, gdouble volume)
 void
 set_master_tempo (DenemoScore * si, gdouble tempo)
 {
-	Denemo.gui->si->end_time /= si->master_tempo;
-	Denemo.gui->si->start_time /= si->master_tempo;
-  si->master_tempo = tempo;
+	if(si->master_tempo>0.0)
+		{
+			Denemo.gui->si->end_time /= si->master_tempo;
+			Denemo.gui->si->start_time /= si->master_tempo;
+		}
+	si->master_tempo = tempo;
   	Denemo.gui->si->end_time *= si->master_tempo;
 	Denemo.gui->si->start_time *= si->master_tempo;
   if (master_tempo_adj)
