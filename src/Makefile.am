@@ -45,7 +45,7 @@ denemo_SOURCES = denemo_types.c \
 	generated/callbacks.h generated/entries.h \
 	generated/scheme_cb.h generated/scheme.h generated/register_commands.h \
 	pathconfig.h \
-	midi.c audiocapture.c \
+	midi.c audiocapture.c audiocapture.h \
 	audiointerface.h eventqueue.h dummybackend.h portaudiobackend.h \
 	portmidibackend.h midi.h ringbuffer.h portaudioutil.h \
 	fluid.h portmidiutil.h \
