@@ -10416,26 +10416,18 @@ set_master_volume (DenemoScore * si, gdouble volume)
 void
 set_master_tempo (DenemoScore * si, gdouble tempo)
 {
+	Denemo.gui->si->end_time /= si->master_tempo;
+	Denemo.gui->si->start_time /= si->master_tempo;
   si->master_tempo = tempo;
+  	Denemo.gui->si->end_time *= si->master_tempo;
+	Denemo.gui->si->start_time *= si->master_tempo;
   if (master_tempo_adj)
     {
       gtk_adjustment_set_value (master_tempo_adj, tempo * si->tempo);
       gtk_adjustment_changed (master_tempo_adj);
     }
 }
-#if 0
-//Set the playback speed and change the slider to suit
-void
-set_speed (double speed)
-{
- 
-  if (speed_adj)
-    {
-      gtk_adjustment_set_value (speed_adj, speed);
-      gtk_adjustment_changed (speed_adj);
-    }
-}
-#endif
+
 /* create_window() creates the toplevel window and all the menus - it only
    called once per invocation of Denemo */
 static void
