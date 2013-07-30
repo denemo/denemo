@@ -229,7 +229,7 @@ int panic_all ();
  *                            played
  */
 gboolean read_event_from_queue (backend_type_t backend, unsigned char *event_buffer, size_t * event_length, double *event_time, double until_time);
-gboolean read_event_from_mixer_queue (backend_type_t backend, unsigned char *event_buffer, size_t * event_length, double *event_time, double until_time);
+gboolean read_event_from_mixer_queue (backend_type_t backend, unsigned char *event_buffer, size_t * event_length);
 #ifdef _HAVE_RUBBERBAND_
 gboolean read_event_from_rubberband_queue (backend_type_t backend, unsigned char *event_buffer, size_t * event_length);
 gboolean write_samples_to_rubberband_queue (backend_type_t backend, float *sample, gint len);

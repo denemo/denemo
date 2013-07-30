@@ -419,9 +419,9 @@ read_event_from_queue (backend_type_t backend, unsigned char *event_buffer, size
 }
 
 gboolean
-read_event_from_mixer_queue (backend_type_t backend, unsigned char *event_buffer, size_t * event_length, double *event_time, double until_time)
+read_event_from_mixer_queue (backend_type_t backend, unsigned char *event_buffer, size_t * event_length)
 {
-  return mixer_queue_read_output (get_event_queue (backend), event_buffer, event_length, event_time, until_time);
+  return mixer_queue_read_output (get_event_queue (backend), event_buffer, event_length);
 }
 #ifdef _HAVE_RUBBERBAND_
 

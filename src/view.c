@@ -59,6 +59,9 @@ static GtkSpinButton *leadin;
 static GtkAdjustment *master_vol_adj;
 static GtkAdjustment *audio_vol_adj;
 static GtkAdjustment *master_tempo_adj;
+#ifdef _HAVE_RUBBERBAND_
+static GtkAdjustment *speed_adj;
+#endif
 static void pb_playalong (GtkWidget * button);
 static void pb_conduct (GtkWidget * button);
 static void pb_record (GtkWidget * button);
@@ -7287,6 +7290,14 @@ pb_tempo (GtkAdjustment * adjustment)
   call_out_to_guile ("(DenemoTempo)");
 
 }
+#ifdef _HAVE_RUBBERBAND_
+static void
+set_speed (GtkAdjustment * adjustment)
+{
+  gdouble speed = gtk_adjustment_get_value (adjustment);
+  set_playback_speed(speed);
+}
+#endif
 
 static void
 pb_volume (GtkAdjustment * adjustment)
@@ -10412,7 +10423,19 @@ set_master_tempo (DenemoScore * si, gdouble tempo)
       gtk_adjustment_changed (master_tempo_adj);
     }
 }
-
+#if 0
+//Set the playback speed and change the slider to suit
+void
+set_speed (double speed)
+{
+ 
+  if (speed_adj)
+    {
+      gtk_adjustment_set_value (speed_adj, speed);
+      gtk_adjustment_changed (speed_adj);
+    }
+}
+#endif
 /* create_window() creates the toplevel window and all the menus - it only
    called once per invocation of Denemo */
 static void
@@ -10676,6 +10699,30 @@ create_window (void)
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
 
       gtk_box_pack_start (GTK_BOX (hbox), Denemo.audio_vol_control, TRUE, TRUE, 0);
+      
+#ifdef _HAVE_RUBBERBAND_      
+            /* Speed */
+      label = gtk_label_new (_("Speed:"));
+      gtk_widget_set_can_focus (label, FALSE);
+      gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+      speed_adj = (GtkAdjustment *) gtk_adjustment_new (1.0, 1.0, 4.0, 0.01, 0.1, 0.0);
+      
+  /*    (gdouble value,
+                                                         gdouble lower,
+                                                         gdouble upper,
+                                                         gdouble step_increment,
+                                                         gdouble page_increment,
+                                                         gdouble page_size); */
+      
+      
+      hscale = gtk_hscale_new (GTK_ADJUSTMENT (speed_adj));
+      //gtk_scale_set_digits (GTK_SCALE (hscale), 0);
+      gtk_widget_set_can_focus (hscale, FALSE);
+
+      g_signal_connect (G_OBJECT (speed_adj), "value_changed", G_CALLBACK (set_speed), NULL);
+      gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
+#endif
+      
 
     }
 

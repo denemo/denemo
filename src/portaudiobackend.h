@@ -17,6 +17,8 @@
 #include "audiointerface.h"
 
 extern backend_t portaudio_backend;
-
+#ifdef _HAVE_RUBBERBAND_
+void set_playback_speed (double speed);
+#endif
 
 #endif // PORTAUDIOBACKEND_H

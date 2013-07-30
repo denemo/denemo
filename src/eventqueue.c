@@ -188,15 +188,11 @@ page_for_time (gdouble time_seconds)
 
 
 gboolean
-mixer_queue_read_output (event_queue_t * queue, unsigned char *event_buffer, size_t * event_length, double *event_time, double until_time)
+mixer_queue_read_output (event_queue_t * queue, unsigned char *event_buffer, size_t * event_length)
 {
   if (jack_ringbuffer_read_space (queue->mixer) >=  (*event_length) * sizeof (float))
     {
-
       *event_length = jack_ringbuffer_read (queue->mixer, (char *) event_buffer, (*event_length) * sizeof (float)) / sizeof (float);
-
-      //*event_length = sizeof(float);
-      *event_time = 0.0;
       return TRUE;
     }
   *event_length = 0;
