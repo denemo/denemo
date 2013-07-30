@@ -50,7 +50,8 @@ static gint rubberband_init(DenemoPrefs *config) {
 void set_playback_speed (double speed) {
 	if(rubberband==NULL)
 		rubberband_init(&Denemo.prefs);
-
+	Denemo.gui->si->end_time /= speedup;
+	Denemo.gui->si->start_time /= speedup;
 	if(speed>1.01) {
 		speedup = speed;
 		rubberband_active = TRUE;
@@ -60,8 +61,9 @@ void set_playback_speed (double speed) {
 		speedup = 1.0;
 		rubberband_active = FALSE;
 	}
-
 	rubberband_set_time_ratio(rubberband, speedup);
+	Denemo.gui->si->end_time *= speedup;
+	Denemo.gui->si->start_time *= speedup;
 }
 
 
