@@ -1099,8 +1099,7 @@ draw_score (cairo_t * cr)
     cairo_scale (cr, gui->si->zoom, gui->si->zoom);
   if (cr)
     cairo_translate (cr, 0.5, 0.5);
-  //cairo_rotate( cr, M_PI/6.0 );
-
+ 
   /* Draw each staff */
   for (itp.staffnum = si->top_staff, curstaff = g_list_nth (si->thescore, si->top_staff - 1), (y += si->staffspace / 4); curstaff && itp.staffnum <= si->bottom_staff; itp.staffnum++)
     {
@@ -1344,7 +1343,16 @@ draw_score (cairo_t * cr)
   //g_print("Right most time %f\n", si->rightmost_time);
   //  if(itp.last_midi)
   //  si->rightmost_time = get_midi_off_time(itp.last_midi);
-
+ 
+   if (cr)
+    if(gui->si->audio)      {
+            cairo_save (cr);
+            cairo_set_source_rgb (cr, 0.2, 0.7, 0.2);
+            drawnormaltext_cr (cr, _("Source Audio Attached, will play mixed with your score"), 10, 10);
+            cairo_fill (cr);
+            cairo_restore (cr);
+            
+		}
   return repeat;
 
   /* And we're done */
