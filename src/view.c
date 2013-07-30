@@ -10626,6 +10626,7 @@ create_window (void)
       gtk_box_pack_start (GTK_BOX (inner1), hbox, TRUE, TRUE, 0);
       /* Tempo */
       label = gtk_label_new (_("Tempo:"));
+      gtk_widget_set_tooltip_text (label, _("Set the (initial) tempo of the movement"));
       gtk_widget_set_can_focus (label, FALSE);
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
       master_tempo_adj = (GtkAdjustment *) gtk_adjustment_new (120.0, 0.0, 600.0, 1.0, 1.0, 0.0);
@@ -10641,7 +10642,9 @@ create_window (void)
 
       /* Volume */
       label = gtk_label_new (_("Volume"));
-      //GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
+      //GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);      
+      gtk_widget_set_tooltip_text (label, _("Set the (initial) volume of the movement"));
+
       gtk_widget_set_can_focus (label, FALSE);
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
 
@@ -10658,6 +10661,8 @@ create_window (void)
       /*Audio Volume */
       Denemo.audio_vol_control = gtk_hbox_new (FALSE, 1);
       label = gtk_label_new (_("Audio Volume Cut"));
+      gtk_widget_set_tooltip_text (label, _("Reduce the volume of the source audio relative to the volume of the score"));
+
       gtk_widget_set_can_focus (label, FALSE);
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
 
@@ -10671,6 +10676,7 @@ create_window (void)
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), hscale, TRUE, TRUE, 0);
 
       label = gtk_label_new (_("Audio Volume Boost"));
+       gtk_widget_set_tooltip_text (label, _("Boost the volume of the source audio relative to the volume of the score"));
       gtk_widget_set_can_focus (label, FALSE);
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
 
@@ -10686,18 +10692,18 @@ create_window (void)
       gtk_widget_set_can_focus (label, FALSE);
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
       leadin = (GtkSpinButton *) gtk_spin_button_new_with_range (-2.0, 2.0, 0.01);
-      gtk_widget_set_tooltip_text (GTK_WIDGET (leadin), _("Set the number of seconds to clip from the audio, or if negative number of seconds silence before audio plays.\nThis is useful when the audio track does not begin on a barline."));
+      gtk_widget_set_tooltip_text (GTK_WIDGET (label), _("Set the number of seconds to clip from the audio, or if negative number of seconds silence before audio plays.\nThis is useful when the audio track does not begin on a barline."));
       g_signal_connect (G_OBJECT (leadin), "value_changed", G_CALLBACK (leadin_changed), NULL);
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), GTK_WIDGET (leadin), FALSE, TRUE, 0);
-      label = gtk_label_new (_(" secs."));
-      gtk_widget_set_can_focus (label, FALSE);
-      gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
+      //label = gtk_label_new (_(" secs."));
+      //gtk_widget_set_can_focus (label, FALSE);
+      //gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
 
       gtk_box_pack_start (GTK_BOX (hbox), Denemo.audio_vol_control, TRUE, TRUE, 0);
       
 #ifdef _HAVE_RUBBERBAND_      
             /* Speed */
-      label = gtk_label_new (_("Speed:"));
+      label = gtk_label_new (_("Slowdown:"));
       gtk_widget_set_can_focus (label, FALSE);
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
       speed_adj = (GtkAdjustment *) gtk_adjustment_new (1.0, 1.0, 4.0, 0.01, 0.1, 0.0);
@@ -10713,7 +10719,7 @@ create_window (void)
       hscale = gtk_hscale_new (GTK_ADJUSTMENT (speed_adj));
       //gtk_scale_set_digits (GTK_SCALE (hscale), 0);
       gtk_widget_set_can_focus (hscale, FALSE);
-
+	  gtk_widget_set_tooltip_text (label, _("Slow down the audio output maintaining the pitch"));
       g_signal_connect (G_OBJECT (speed_adj), "value_changed", G_CALLBACK (set_speed), NULL);
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
 #endif
