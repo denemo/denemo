@@ -91,12 +91,17 @@ open_source_audio (gchar * filename)
                    sfinfo.samplerate, 
                    sfinfo.channels, 
                    (int) sf_seek (temp->sndfile, -1, SEEK_END));
-          //FIXME warn if samplerate != Denemo.prefs.samplerate
+          
+          
           temp->volume = 1.0;
           g_static_mutex_lock (&smfmutex);
           Denemo.gui->si->audio = temp;
           g_static_mutex_unlock (&smfmutex);
           update_leadin_widget (-1.0);
+          if(sfinfo.channels != 2)
+			warningdialog(_("Audio is not stereo - expect bad things!"));
+          if(sfinfo.samplerate != 44100)
+			warningdialog(_("Audio does not have 44100 sample rate: this could be bad"));
         }
     }
   Denemo.gui->si->audio ? gtk_widget_show (Denemo.audio_vol_control) : gtk_widget_hide (Denemo.audio_vol_control);
@@ -254,6 +259,8 @@ open_source_audio_file (void)
       filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
       ret = open_source_audio (filename);
       g_free (filename);
+      if(!ret)
+		warningdialog(_("Could not load the audio file. Note only stereo with sample rate 44100 are supported at present. Use Audacity or similar to convert."));
     }
   gtk_widget_destroy (dialog);
   return ret;
