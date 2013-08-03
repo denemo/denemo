@@ -169,7 +169,7 @@ if(rubberband_active)
     {
 #endif //_HAVE_FLUIDSYNTH_
       playback_frame += frames_per_buffer;
-      update_playback_time (TIMEBASE_PRIO_AUDIO, nframes_to_seconds (playback_frame));
+      update_playback_time (TIMEBASE_PRIO_AUDIO, nframes_to_seconds (playback_frame)/speedup);
 #ifdef _HAVE_FLUIDSYNTH_
     }
 #endif //_HAVE_FLUIDSYNTH_
