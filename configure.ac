@@ -130,21 +130,6 @@ if test "x$usejack" = "xyes"; then
 fi
 
 
-AC_ARG_ENABLE(
-  rubberband,
-  AC_HELP_STRING([--enable-rubberband], [use RUBBERBAND @<:@default=no@:>@]),
-  [
-    if test "x$enableval" != "xno"; then
-      userubberband=yes
-    fi
-  ])
-AM_CONDITIONAL(HAVE_RUBBERBAND, [test x$userubberband = xyes])
-
-if test "x$userubberband" = "xyes"; then
-  PKG_CHECK_MODULES(RUBBERBAND, rubberband >= 1.2)
-  CFLAGS="$CFLAGS -D_HAVE_RUBBERBAND_ $RUBBERBAND_CFLAGS"
-  LIBS="$LIBS -D_HAVE_RUBBERBAND_ $RUBBERBAND_LIBS"
-fi
 
 
 
@@ -268,6 +253,24 @@ if test "x$usefluidsynth" = "xyes"; then
   CFLAGS="$CFLAGS -D_HAVE_FLUIDSYNTH_ $FLUIDSYNTH_CFLAGS"
   LIBS="$LIBS -D_HAVE_FLUIDSYNTH_ $FLUIDSYNTH_LIBS"
 fi
+
+AC_ARG_ENABLE(
+  rubberband,
+  AC_HELP_STRING([--enable-rubberband], [use RUBBERBAND @<:@default=yes@:>@]),
+  [ 
+    if test "x$enableval" != "xno"; then
+      userubberband=yes
+    fi 
+  ], [ userubberband=yes ])
+AM_CONDITIONAL(HAVE_RUBBERBAND, [test x$userubberband = xyes])
+
+if test "x$userubberband" = "xyes"; then
+  PKG_CHECK_MODULES(RUBBERBAND, rubberband >= 1.0.8)
+  CFLAGS="$CFLAGS -D_HAVE_RUBBERBAND_ $FLUIDSYNTH_CFLAGS"
+  LIBS="$LIBS -D_HAVE_RUBBERBAND_ $RUBBERBAND_LIBS"
+fi
+
+
 
 AC_ARG_ENABLE(
   portaudio,
