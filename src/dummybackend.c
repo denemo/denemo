@@ -68,6 +68,10 @@ process_thread_func (gpointer data)
             {
               // do nothing. this is the dummy backend after all
             }
+		  if (is_playing ())
+			{
+				update_playback_time (TIMEBASE_PRIO_DUMMY, playback_time);
+			}
         }
 
       if (g_atomic_int_get (&dummy_midi))
@@ -77,12 +81,8 @@ process_thread_func (gpointer data)
             {
               // do nothing. this is the dummy backend after all
             }
-        }
-
-      if (is_playing ())
-        {
-          update_playback_time (TIMEBASE_PRIO_DUMMY, playback_time);
-        }
+ 
+          }
     }
 
   g_mutex_free (mutex);
