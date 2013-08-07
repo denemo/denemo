@@ -15,7 +15,7 @@
 #include "portaudiobackend.h"
 #include "portaudioutil.h"
 #ifdef _HAVE_RUBBERBAND_
-	#include <rubberband-c.h>
+	#include <rubberband/rubberband-c.h>
 #endif
 #include "midi.h"
 #include "fluid.h"
@@ -169,7 +169,7 @@ if(rubberband_active)
     {
 #endif //_HAVE_FLUIDSYNTH_
       playback_frame += frames_per_buffer;
-      update_playback_time (TIMEBASE_PRIO_AUDIO, nframes_to_seconds (playback_frame)/speedup);
+      update_playback_time (TIMEBASE_PRIO_AUDIO, nframes_to_seconds (playback_frame));
 #ifdef _HAVE_FLUIDSYNTH_
     }
 #endif //_HAVE_FLUIDSYNTH_
