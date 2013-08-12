@@ -765,6 +765,8 @@ typedef struct DenemoAudio {
   gint channels;
   gint leadin;/**< number of frames to skip at start, silence to be emitted before play if negative */
   gdouble volume;
+  gint nframes;/**< number of frames in the audio */
+  GList *onsets;  /**< Candidate note onsets in sndfile */
   gpointer sndfile; /**< sndfile handle */
 } DenemoAudio;
 
