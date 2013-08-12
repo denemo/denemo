@@ -130,7 +130,7 @@ if((!rubberband_active) || (available < (gint)frames_per_buffer)) {
 #endif
 
   while (read_event_from_queue (AUDIO_BACKEND, event_data, &event_length, &event_time, until_time/speedup))
-    {
+    {//g_print("");!!!! madness, the call to initialize audio fails with channels assert in alsa code without this with -O0, with -O2 fails anyway!!!
       fluidsynth_feed_midi (event_data, event_length);  //in fluid.c note fluidsynth api ues fluid_synth_xxx these naming conventions are a bit too similar
     }
 
@@ -279,16 +279,12 @@ actual_portaudio_initialize (DenemoPrefs * config)
   output_parameters.sampleFormat = paFloat32 | paNonInterleaved;
   output_parameters.suggestedLatency = Pa_GetDeviceInfo (output_parameters.device)->defaultLowOutputLatency;
   output_parameters.hostApiSpecificStreamInfo = NULL;
-
   err = Pa_OpenStream (&stream, NULL, &output_parameters, config->portaudio_sample_rate, config->portaudio_period_size, paNoFlag /* make this a pref??? paClipOff */ , stream_callback, NULL);
   if (err != paNoError)
     {
       g_warning ("couldn't open output stream\n");
       return -1;
     }
-
-
-
   err = Pa_StartStream (stream);
   if (err != paNoError)
     {

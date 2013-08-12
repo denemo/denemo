@@ -142,6 +142,7 @@ struct infotopass
   gint playposition;            //x coordinate of currently played music
   gdouble leftmosttime;         //MIDI time of left most object on last system line displayed
   gdouble rightmosttime;        //MIDI time of last object  displayed
+  GList *onset;
 };
 
 /* count the number of syllables up to staff->leftmeasurenum */
@@ -270,6 +271,40 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
         //g_print("highy %d\n", itp->highy);
         if ((thechord->lowesty) > itp->lowy + STAFF_HEIGHT)
           itp->lowy = thechord->lowesty - STAFF_HEIGHT;
+ 
+ //display note onsets for source audio above relevant notes in top staff.       
+         if(cr && si->audio && itp->onset) {
+			 GList *g = itp->onset;
+			
+			 gint current = mudelaitem->earliest_time*si->audio->samplerate;
+			 gint next =  mudelaitem->latest_time*si->audio->samplerate;
+			 gint leadin = 	si->audio->leadin;	 
+
+			 //mark playhead on audio!!!  if (Denemo.gui->si->playingnow == mudelaitem)  
+			// gint current_play_time = (gint)(get_playback_time()*si->audio->samplerate);
+			// g_print("%d %f ",current_play_time, get_playback_time());
+			 while( g && ((gint)g->data - leadin) < current)
+				{
+					if(itp->measurenum == 1) {
+						drawnormaltext_cr (cr, "Warning! Note onsets earlier, set leadin.", x, y + 10);	
+					}
+					g=g->next;
+				}
+			while( g && ((gint)g->data - leadin) < next) {
+				gdouble fraction = (((gint)g->data - leadin) - current) / (double)(next-current);
+				gint pos;
+				pos = mudelaitem->minpixelsalloted * fraction;
+				pos +=  mudelaitem->x; 
+
+				cairo_move_to (cr, pos + x, y  - 10);
+				cairo_line_to (cr, pos + x, y  - 30);
+				cairo_line_to (cr, pos + x + 10, y  - 10);
+				cairo_fill (cr);
+				g = g->next;
+			}
+			itp->onset = g;//Search onwards for future onsets. Only notes on top staff are used for display of onsets. 
+		 } 
+          
 
         if (itp->tupletstart)
           itp->tuplety = MAX (0, MAX (itp->tuplety, MAX (-thechord->lowesty, -thechord->highesty)));
@@ -662,7 +697,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoGUI * gui, struct 
 
   //g_print("drawing staff %d at %d\n", itp->staffnum, y);
   gint nummeasures = g_list_length (thestaff->measures);
-
+ 
   // g_print("Of %d current %d\n", nummeasures, itp->measurenum);
   if (itp->measurenum > nummeasures)
     cr = NULL;                  //no more drawing on this staff
@@ -926,7 +961,33 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoGUI * gui, struct 
             cairo_restore (cr);
           }
 
+ 
+  
+  if(0)
+  {
+    if(gui->si->audio)      {
+            cairo_save (cr);
+            cairo_set_source_rgb (cr, 0.2, 0.7, 0.2);
+            drawnormaltext_cr (cr, _("Source Audio Attached, will play mixed with your score"), 10, 10);
+            GList *g = si->audio->onsets;
+            for(;g;g=g->next) {
+				if ( (gint)g->data > (itp->leftmosttime*si->audio->samplerate))
+					break;
+			}
+			if(g)
+				{
+					gchar * text = g_strdup_printf("First note at %f seconds", ((gint)g->data)/(double)si->audio->samplerate);
+					
+					drawnormaltext_cr (cr, text, 10, 20);
+				}
+            cairo_fill (cr);
+            cairo_restore (cr);
+            
+		}	 
+		 
+	}  
 
+  
 
   if (cr)
     cairo_restore (cr);
@@ -1079,6 +1140,7 @@ draw_score (cairo_t * cr)
   itp.endposition = -1;
   itp.startobj = itp.endobj = NULL;
   itp.tupletstart = itp.tuplety = 0;
+  itp.onset = si->audio?si->audio->onsets:NULL;
   y = 0;
 
   if (gui->si->smf)
@@ -1344,15 +1406,7 @@ draw_score (cairo_t * cr)
   //  if(itp.last_midi)
   //  si->rightmost_time = get_midi_off_time(itp.last_midi);
  
-   if (cr)
-    if(gui->si->audio)      {
-            cairo_save (cr);
-            cairo_set_source_rgb (cr, 0.2, 0.7, 0.2);
-            drawnormaltext_cr (cr, _("Source Audio Attached, will play mixed with your score"), 10, 10);
-            cairo_fill (cr);
-            cairo_restore (cr);
-            
-		}
+
   return repeat;
 
   /* And we're done */
@@ -1382,7 +1436,10 @@ draw_callback (cairo_t * cr)
       }
   layout_needed = TRUE;
 
-
+ if(gui->si->audio && (gui->si->smfsync!=gui->si->changecount)) {
+	 set_tempo ();
+	 exportmidi (NULL, gui->si, 0, 0); 
+ }
   /* Clear with an appropriate background color. */
   if (Denemo.gui->input_source != INPUTKEYBOARD && Denemo.gui->input_source != INPUTMIDI && (Denemo.prefs.overlays || (Denemo.gui->input_source == INPUTAUDIO)) && pitch_entry_active (gui))
     {
