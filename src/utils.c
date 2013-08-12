@@ -189,13 +189,7 @@ progress_timeout (ProgressData * pdata)
 
 static ProgressData progress_data;
 
-static gboolean
-call_stop_lilypond (GtkWidget * w, GdkEvent * event, ProgressData * pdata)
-{
-  progressing = FALSE;
-  stop_lilypond ();
-  return TRUE;
-}
+
 
 /**
  * Displays progress bar
@@ -204,7 +198,7 @@ call_stop_lilypond (GtkWidget * w, GdkEvent * event, ProgressData * pdata)
  * @return none
  */
 void
-progressbar (gchar * msg)
+progressbar (gchar * msg, gpointer callback)
 {
 
   GtkWidget *vbox;
@@ -243,10 +237,8 @@ progressbar (gchar * msg)
   gtk_window_set_keep_above (GTK_WINDOW (pdata->window), TRUE);
   gtk_widget_show (pdata->window);
   /* If widget is destroyed stop the printing */
-  /* TODO This should be fed by a function argurment
-     so that that it can stop other things besides
-     lilypond */
-  g_signal_connect (G_OBJECT (pdata->window), "delete-event", G_CALLBACK (call_stop_lilypond), pdata);
+  if(callback)
+	g_signal_connect (G_OBJECT (pdata->window), "delete-event", G_CALLBACK (callback /*call_stop_lilypond*/), &progressing);
 }
 
 void

@@ -416,14 +416,20 @@ open_pngviewer (G_GNUC_UNUSED GPid pid, gint status, gchar * filename)
 {
   open_viewer (status, filename);
 }
-
+static gboolean
+call_stop_lilypond (GtkWidget * w, GdkEvent * event, gboolean *progressing)
+{
+  *progressing = FALSE;
+  stop_lilypond ();
+  return TRUE;
+}
 
 static gint
 run_lilypond (gchar ** arguments)
 {
   gint error = 0;
   if (get_print_status()->background == STATE_NONE)
-    progressbar ("Denemo Typesetting");
+    progressbar (_("Denemo Typesetting"), call_stop_lilypond);
 
   if (get_print_status()->printpid != GPID_NONE)
     {

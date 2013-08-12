@@ -1553,7 +1553,10 @@ scheme_export_recorded_audio (void)
 static SCM
 scheme_open_source_audio_file (SCM optional)
 {
-  return SCM_BOOL (open_source_audio_file ());
+	if(open_source_audio_file () && Denemo.gui->si->audio && Denemo.gui->si->audio->samplerate) {
+		return scm_from_double (Denemo.gui->si->audio->nframes/(double)Denemo.gui->si->audio->samplerate);
+	}
+  return SCM_BOOL_F;
 }
 
 static SCM
@@ -3465,7 +3468,7 @@ scheme_progressbar (SCM msg)
   if (scm_is_string (msg))
     {
       title = scm_to_locale_string (msg);
-      progressbar (title);
+      progressbar (title, NULL);
       msg = SCM_BOOL (TRUE);
     }
   else
@@ -6611,7 +6614,7 @@ create_scheme_identfiers (void)
   INSTALL_SCM_FUNCTION ("Converts the recorded audio to user chosen audio file.", DENEMO_SCHEME_PREFIX "ExportRecordedAudio", scheme_export_recorded_audio);
   INSTALL_SCM_FUNCTION ("Opens a source file for transcribing from. Links to this source file can be placed by shift-clicking on its contents", DENEMO_SCHEME_PREFIX "OpenSourceFile", scheme_open_source_file);
 
-  INSTALL_SCM_FUNCTION ("Opens a source audio file for transcribing from. ", DENEMO_SCHEME_PREFIX "OpenSourceAudioFile", scheme_open_source_audio_file);
+  INSTALL_SCM_FUNCTION ("Opens a source audio file for transcribing from. Returns the number of seconds of audio successfully opened or #f if failed. ", DENEMO_SCHEME_PREFIX "OpenSourceAudioFile", scheme_open_source_audio_file);
   INSTALL_SCM_FUNCTION ("Closes a source audio attached to the current movement.", DENEMO_SCHEME_PREFIX "CloseSourceAudio", scheme_close_source_audio);
 
   INSTALL_SCM_FUNCTION ("Plays audio allowing timings to be entered via keypresses if passed #t as parameter. ", DENEMO_SCHEME_PREFIX "StartAudioPlay", scheme_start_audio_play);
@@ -7288,7 +7291,7 @@ pb_tempo (GtkAdjustment * adjustment)
   tempo = (Denemo.gui->si->tempo > 0) ? bpm / Denemo.gui->si->tempo : 1.0;
   scm_c_define ("DenemoTempo::Value", scm_from_double (tempo));
   call_out_to_guile ("(DenemoTempo)");
-
+  Denemo.gui->si->smfsync = G_MAXINT;
 }
 #ifdef _HAVE_RUBBERBAND_
 static void
