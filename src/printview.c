@@ -27,35 +27,15 @@ file_get_mtime (gchar * filename)
 // Displaying Print Preview
 
 static void
-busy_cursor (void)
+start_busy_cursor (void)
 {
-  static GdkCursor *busycursor = NULL;
-  if(!busycursor)
-    busycursor = gdk_cursor_new (GDK_WATCH);
-  if (gtk_widget_get_window (Denemo.printarea))
-    gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), busycursor);
+ busy_cursor (Denemo.printarea);
 }
 
-/*UNUSED
 static void
-drag_cursor (void)
+start_normal_cursor (void)
 {
-  static GdkCursor *dragcursor = NULL;
-  if(!dragcursor)  
-    dragcursor = gdk_cursor_new (GDK_CROSS);
-  if (gtk_widget_get_window (Denemo.printarea))
-    gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), dragcursor);
-}
-*/
-
-static void
-normal_cursor (void)
-{
-  static GdkCursor *arrowcursor = NULL;
-  if(!arrowcursor)
-    arrowcursor = gdk_cursor_new (GDK_RIGHT_PTR);
-  if (gtk_widget_get_window (Denemo.printarea))
-    gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), arrowcursor);
+  normal_cursor(Denemo.printarea);
 }
 
 /*void                user_function                      (EvPrintOperation       *evprintoperation,
@@ -485,7 +465,7 @@ printview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean 
   set_printarea (&err);
   if (!err && print)
     libevince_print ();
-  normal_cursor ();
+  start_normal_cursor ();
 }
 
 void
@@ -548,25 +528,25 @@ typeset_movement (gboolean force)
 void
 refresh_print_view (G_GNUC_UNUSED gboolean interactive)
 {
-  busy_cursor ();
+  start_busy_cursor ();
   if (typeset (FALSE))
     g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
   else
-    normal_cursor ();
+    start_normal_cursor ();
 }
 
 void
 print_from_print_view (gboolean all_movements)
 {
 
-  busy_cursor ();
+  start_busy_cursor ();
   if (all_movements ? typeset (FALSE) : typeset_movement (FALSE))
     {
       g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (TRUE));
     }
   else
     {
-      normal_cursor ();
+      start_normal_cursor ();
       libevince_print ();       //printview_finished (get_print_status()->printpid, 0, TRUE);
     }
 }
@@ -1016,7 +996,7 @@ start_stage (GtkWidget * widget, WwStage stage)
 static void
 create_all_pdf (void)
 {
-  busy_cursor ();
+  start_busy_cursor ();
   create_pdf (FALSE, TRUE);
   g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
 }
@@ -1024,7 +1004,7 @@ create_all_pdf (void)
 static void
 create_full_score_pdf (void)
 {
-  busy_cursor ();
+  start_busy_cursor ();
   create_default_scoreblock ();
   create_pdf (FALSE, TRUE);
   g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
@@ -1091,7 +1071,7 @@ static void
 create_movement_pdf (void)
 {
 
-  busy_cursor ();
+  start_busy_cursor ();
   create_pdf (FALSE, FALSE);
   g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
 }
@@ -1100,7 +1080,7 @@ static void
 create_part_pdf (void)
 {
 
-  busy_cursor ();
+  start_busy_cursor ();
   create_pdf (TRUE, TRUE);
   g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
 }
@@ -1454,7 +1434,7 @@ apply_tweak (void)
     }
   else
     {
-      normal_cursor ();
+      start_normal_cursor ();
       EvDocumentModel *model;
       model = g_object_get_data (G_OBJECT (Denemo.printarea), "model"); //there is no ev_view_get_model(), when there is use it
       gdouble scale = ev_document_model_get_scale (model);
@@ -1947,7 +1927,7 @@ typeset_control (gpointer data)
         }
       else
         {
-          busy_cursor ();
+          start_busy_cursor ();
           create_pdf (FALSE, TRUE);
         }
       g_string_assign (last_script, data);
@@ -1971,7 +1951,7 @@ typeset_control (gpointer data)
       else if (last_script->len)
         {
 
-          busy_cursor ();
+          start_busy_cursor ();
           call_out_to_guile (last_script->str);
           g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
 
@@ -2011,7 +1991,7 @@ gboolean
 typeset_for_script (gchar * script)
 {
   typeset_control (script);
-  busy_cursor ();
+  start_busy_cursor ();
   show_print_view (NULL, NULL);
   return TRUE;
 }
