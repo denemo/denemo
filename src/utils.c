@@ -247,6 +247,27 @@ progressbar_stop ()
   progressing = FALSE;
 }
 
+
+void
+busy_cursor (GtkWidget *area)
+{
+  static GdkCursor *busycursor = NULL;
+  if(!busycursor)
+    busycursor = gdk_cursor_new (GDK_WATCH);
+  if (gtk_widget_get_window (Denemo.printarea))
+    gdk_window_set_cursor (gtk_widget_get_window (area), busycursor);
+}
+void
+normal_cursor (GtkWidget *area)
+{
+  static GdkCursor *arrowcursor = NULL;
+  if(!arrowcursor)
+    arrowcursor = gdk_cursor_new (GDK_RIGHT_PTR);
+  if (gtk_widget_get_window (area))
+    gdk_window_set_cursor (gtk_widget_get_window (area), arrowcursor);
+}
+
+
 /**
  *  Draws the given bitmap mask on to the pixmap using the given 
  *  grahpics context.
