@@ -19,6 +19,7 @@
 				(if (> count 0)
 					(begin 
 						(d-AddDuplicateMeasure)
-						(loop (- count 1))))))))
+						(loop (- count 1)))))
+			(d-SetPlaybackInterval 0.0 seconds))))
 						
 (d-PopPosition)	
