@@ -368,7 +368,8 @@ open_source_audio_file (void)
 		warningdialog(_("Could not load the audio file. Note only stereo with sample rate 44100 are supported at present. Use Audacity or similar to convert."));
     } else
 	gtk_widget_destroy (dialog);
-  normal_cursor(Denemo.scorearea);
-  return ret;
+	
+	normal_cursor(Denemo.scorearea);
+	return ret;
 }
 
