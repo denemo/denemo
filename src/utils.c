@@ -193,11 +193,11 @@ static ProgressData progress_data;
 
 /**
  * Displays progress bar
- * window should close upon completion
- * @param msg message to display
- * @return none
+ * optionally pass a callback to be run on destruction
+ * @param msg message to display, callback (can be NULL)
+ * @return the GtkWindow of the progress bar
  */
-void
+GtkWindow *
 progressbar (gchar * msg, gpointer callback)
 {
 
@@ -213,7 +213,7 @@ progressbar (gchar * msg, gpointer callback)
       /* Replace GTK_WINDOW_TOPLEVEL with GTK_WINDOW_POPUP
        * to have it without window decoration. 
        */
-      if (Denemo.prefs.progressbardecorations)
+      if (callback && Denemo.prefs.progressbardecorations)
         pdata->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
       else
         pdata->window = gtk_window_new (GTK_WINDOW_POPUP);
@@ -238,7 +238,10 @@ progressbar (gchar * msg, gpointer callback)
   gtk_widget_show (pdata->window);
   /* If widget is destroyed stop the printing */
   if(callback)
-	g_signal_connect (G_OBJECT (pdata->window), "delete-event", G_CALLBACK (callback /*call_stop_lilypond*/), &progressing);
+	g_signal_connect (G_OBJECT (pdata->window), "delete-event", G_CALLBACK (callback /*call_stop_lilypond*/), (gpointer)&progressing);
+  else
+	g_signal_connect (G_OBJECT (pdata->window), "delete-event", G_CALLBACK (progressbar_stop), NULL);
+  return pdata->window;
 }
 
 void

@@ -101,7 +101,7 @@ void warningdialog (gchar * msg);
 
 GtkWidget *infodialog (gchar * msg);
 
-void progressbar (gchar * msg, gpointer callback);
+GtkWindow *progressbar (gchar * msg, gpointer callback);
 void progressbar_stop (void);
 void busy_cursor (GtkWidget *area);
 void normal_cursor (GtkWidget *area);
