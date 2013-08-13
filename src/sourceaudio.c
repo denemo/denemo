@@ -22,7 +22,7 @@
 #include <sndfile.h>
 #include <fcntl.h>
 #include <aubio/aubio.h>
-//#include "view.h"
+#include "utils.h"
 #include "midi.h"
 #include "sourceaudio.h"
 #include "keyresponses.h"
@@ -35,26 +35,7 @@ static gint leadin = 0;         //number of frames of silence before playing aud
 static gboolean playing = FALSE;
 
 
-static aubio_onsetdetection_type type_onset = aubio_onset_kl;
-static aubio_onsetdetection_type type_onset2 = aubio_onset_complex;
-static smpl_t threshold = 0.3;
-static smpl_t silence = -90.;
-static uint_t buffer_size = 1024;       //512; //1024;
-static uint_t overlap_size = 512;       //256; //512;
 
-static uint_t samplerate = 44100;
-
-static aubio_pvoc_t *pv;
-static fvec_t *ibuf;
-static fvec_t *obuf;
-static cvec_t *fftgrain;
-
-static aubio_onsetdetection_t *o;
-static aubio_onsetdetection_t *o2;
-static fvec_t *onset;
-static fvec_t *onset2;
-static int isonset = 0;
-static aubio_pickpeak_t *parms;
 
 //Creates a list of times which the aubio onset detector thinks are note onset times for the audio Denemo->si->audio
 //Result is placed in Denemo->si->note_onsets
@@ -62,9 +43,37 @@ void generate_note_onsets(void)
 {
   DenemoAudio *audio = Denemo.gui->si->audio;
   gint channels = audio->channels;
+  
+ aubio_onsetdetection_type type_onset = aubio_onset_kl;
+ aubio_onsetdetection_type type_onset2 = aubio_onset_complex;
+ smpl_t threshold = 0.3;
+ smpl_t silence = -90.;
+ uint_t buffer_size = 1024;
+ uint_t overlap_size = 512;       
+
+ uint_t samplerate = 44100;
+
+ aubio_pvoc_t *pv;
+ fvec_t *ibuf;
+ fvec_t *obuf;
+ cvec_t *fftgrain;
+
+ aubio_onsetdetection_t *o;
+ aubio_onsetdetection_t *o2;
+ fvec_t *onset;
+ fvec_t *onset2;
+ int isonset = 0;
+ aubio_pickpeak_t *parms;
+  
+  
+  
   unsigned int pos = 0;         /*frames%dspblocksize */
   unsigned int i;               /*channels */
   unsigned int j;               /*frames */
+
+  busy_cursor (Denemo.notebook);
+  gtk_window_set_modal (progressbar (_("Analysing Audio"), NULL), TRUE);
+   
   ibuf = new_fvec (overlap_size, channels);
   obuf = new_fvec (overlap_size, channels);
   fftgrain = new_cvec (buffer_size, channels);
@@ -117,7 +126,34 @@ void generate_note_onsets(void)
 			pos = -1;                 /* so it will be zero next j loop */
 			}                           /* end of if pos==overlap_size-1 */
   pos++;
-}
+	}
+
+
+  del_aubio_onsetdetection (o2);
+  del_fvec (onset2);
+
+  del_aubio_onsetdetection (o);
+  del_aubio_peakpicker (parms);
+  del_aubio_pvoc (pv);
+  del_fvec (obuf);
+  del_fvec (ibuf);
+  del_cvec (fftgrain);
+  del_fvec (onset);
+  aubio_cleanup ();
+
+
+
+
+
+
+
+
+
+
+
+  progressbar_stop();
+  normal_cursor(Denemo.notebook);  
+
 #ifdef DEBUG
 GList *g;
 for(g=audio->onsets;g;g=g->next) {
@@ -157,6 +193,8 @@ open_source_audio (gchar * filename)
   SF_INFO sfinfo;
   DenemoAudio *temp;
   sfinfo.format = 0;
+
+  
   //FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
   if (Denemo.gui->si->audio && Denemo.gui->si->audio->sndfile)
     {
@@ -358,18 +396,17 @@ open_source_audio_file (void)
       char *filename;
       filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
       gtk_widget_destroy (dialog);
-      busy_cursor (Denemo.scorearea);
-      progressbar (_("Analysing Audio"));
+
+      
 
       ret = open_source_audio (filename);
       g_free (filename);
-      progressbar_stop();
+      
       if(!ret)
 		warningdialog(_("Could not load the audio file. Note only stereo with sample rate 44100 are supported at present. Use Audacity or similar to convert."));
     } else
 	gtk_widget_destroy (dialog);
-	
-	normal_cursor(Denemo.scorearea);
+	      
 	return ret;
 }
 
