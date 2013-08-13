@@ -293,12 +293,13 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 			while( g && ((gint)g->data - leadin) < next) {
 				gdouble fraction = (((gint)g->data - leadin) - current) / (double)(next-current);
 				gint pos;
+				gint yy = 30;
 				pos = mudelaitem->minpixelsalloted * fraction;
 				pos +=  mudelaitem->x; 
 
-				cairo_move_to (cr, pos + x, y  - 10);
-				cairo_line_to (cr, pos + x, y  - 30);
-				cairo_line_to (cr, pos + x + 10, y  - 10);
+				cairo_move_to (cr, pos + x, yy  - 10);
+				cairo_line_to (cr, pos + x, yy  - 30);
+				cairo_line_to (cr, pos + x + 10, yy  - 10);
 				cairo_fill (cr);
 				g = g->next;
 			}
