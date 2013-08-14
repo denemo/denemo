@@ -10,6 +10,7 @@
 	 			(if (> count 0)
 	 				(begin
 	 					(eval-string (string-append "(d-" (number->string (duration::lilypond->denemo denominator)) ")")) 
+	 					(d-SetNonprinting)
 	 					(d-CursorUp)
 	 					(loop (- count 1)))))
 	 					
