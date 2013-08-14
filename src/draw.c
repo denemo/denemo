@@ -281,12 +281,22 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 			 gint leadin = 	si->audio->leadin;	 
 
 			 //mark playhead on audio!!!  if (Denemo.gui->si->playingnow == mudelaitem)  
-			// gint current_play_time = (gint)(get_playback_time()*si->audio->samplerate);
-			// g_print("%d %f ",current_play_time, get_playback_time());
+			//gint current_play_time = (gint)(get_playback_time()*si->audio->samplerate);
+			//g_print("%d %f ",current_play_time, get_playback_time());
+			if (Denemo.gui->si->playingnow) {
+				DenemoObject *obj = Denemo.gui->si->playingnow;/*FIXME we are not supposed to de-reference playingnow, but get_playback_time() is returning 0.0 */
+				(obj->earliest_time*si->audio->samplerate < current) ?
+				        cairo_set_source_rgba (cr, 0.0, 0.2, 0.8, 0.8):
+				        cairo_set_source_rgba (cr, 0.8, 0.2, 0.0, 0.8);		
+			} else
+			cairo_set_source_rgba (cr, 0.3, 0.3, 0.3, 0.5);	
+			
 			 while( g && ((gint)g->data - leadin) < current)
 				{
 					if(itp->measurenum == 1) {
-						drawnormaltext_cr (cr, "Warning! Note onsets earlier, set leadin.", x, y + 10);	
+						cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 1.0);
+						drawlargetext_cr (cr, "Warning! Note onsets earlier than start of score, reduce leadin.", 0, 20);	
+						cairo_set_source_rgba (cr, 0.2, 0.2, 0.2, 0.2);	
 					}
 					g=g->next;
 				}

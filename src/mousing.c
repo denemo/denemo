@@ -20,7 +20,7 @@
 #include "audiointerface.h"
 
 static gboolean lh_down;
-
+static gdouble last_event_x;
 /**
  * Get the mid_c_offset of an object or click from its height relative
  * to the top of the staff.  
@@ -364,6 +364,7 @@ perform_command (gint modnum, mouse_gesture press, gboolean left)
 
 static gboolean selecting = FALSE;
 static gboolean dragging_separator = FALSE;
+static gboolean dragging_audio = FALSE;
 
 
 static gboolean
@@ -439,9 +440,18 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     return FALSE;
   gint allocated_height = get_widget_height (Denemo.scorearea);
   gint line_height = allocated_height * gui->si->system_height;
+  
   if (event->y < 0)
     event->y = 0.0;
   gint line_num = ((int) event->y) / line_height;
+
+  if(gui->si->audio && dragging_audio)
+	{		
+		gui->si->audio->leadin -= 500*(event->x_root - last_event_x)/gui->si->zoom;//g_print("%d %d => %d\n", (int)(10*last_event_x), (int)(10*event->x_root), (int)(10*last_event_x) - (int)(10*event->x_root));
+		last_event_x = event->x_root;
+		update_leadin_widget ( gui->si->audio->leadin/(double)gui->si->audio->samplerate);
+		return TRUE; 
+	}
 
 #define DENEMO_MINIMUM_SYSTEM_HEIGHT (0.01)
 
@@ -528,6 +538,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   gint allocated_height = get_widget_height (Denemo.scorearea);
   gint line_height = allocated_height * gui->si->system_height;
   gint line_num = ((int) event->y) / line_height;
+  last_event_x = event->x_root;
   //g_print("diff %d\n", line_height - ((int)event->y)%line_height);
   if (dragging_separator == FALSE)
     if (line_height - ((int) event->y - 8) % line_height < 12)
@@ -539,6 +550,22 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
         return TRUE;
       }
   dragging_separator = FALSE;
+  
+  if(gui->si->audio)
+	{
+	 // g_print("audio %f %f\n", event->x, event->y);
+	  if(event->y < 20*gui->si->zoom /* see draw.c for this value, the note onsets are drawn in the top 20 pixels */)
+		{
+			
+			gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW));
+			dragging_audio = TRUE;
+			return TRUE;
+			
+		}
+	  
+	}
+  
+  
   //g_print("before %f %f\n", event->x, event->y);
   transform_coords (&event->x, &event->y);
   //g_print("after %f %f\n", event->x, event->y);
@@ -744,7 +771,12 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
   if (gui == NULL || gui->si == NULL)
     return FALSE;
   gboolean left = (event->button != 3);
-
+  if(gui->si->audio && dragging_audio)
+	{		
+			dragging_audio = FALSE;
+			gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR));       //FIXME? does this take time/hog memory
+			return TRUE; 
+	}
   if (dragging_separator)
     {
       if (Denemo.prefs.learning)
