@@ -817,6 +817,8 @@ typedef struct DenemoScore
   gint staffspace;
 
   DenemoAudio *audio;/**< Audio attached to movement */ 
+  gint marked_onset_position;/**< horizontal position in display of note onset in audio marked by user */ 
+  GList *marked_onset;/**< Note onset in audio selected by user */ 
   GList *sources; /**< List of source pixbufs, one for each measure score-view*/
   gdouble start_time; /**< time in seconds to start playing at */
   gdouble end_time; /**< time to end playing at */

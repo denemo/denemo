@@ -7293,6 +7293,16 @@ pb_tempo (GtkAdjustment * adjustment)
   call_out_to_guile ("(DenemoTempo)");
   Denemo.gui->si->smfsync = G_MAXINT;
 }
+void
+update_tempo_widget (gdouble value)
+{
+  gdouble bpm = gtk_adjustment_get_value (master_tempo_adj);//g_print("bpm %f and correction %f\n", bpm, value);
+  bpm += value;
+  gtk_adjustment_set_value (master_tempo_adj, bpm);
+  gtk_adjustment_changed (master_tempo_adj);
+  Denemo.gui->si->smfsync = G_MAXINT;
+}
+
 #ifdef _HAVE_RUBBERBAND_
 static void
 set_speed (GtkAdjustment * adjustment)

@@ -291,7 +291,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 			} else
 			cairo_set_source_rgba (cr, 0.3, 0.3, 0.3, 0.5);	
 			
-			 while( g && ((gint)g->data - leadin) < current)
+			 while( g && (((gint)g->data - leadin) < current))
 				{
 					if(itp->measurenum == 1) {
 						cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 1.0);
@@ -304,13 +304,36 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 				gdouble fraction = (((gint)g->data - leadin) - current) / (double)(next-current);
 				gint pos;
 				gint yy = 30;
-				pos = mudelaitem->minpixelsalloted * fraction;
+				gint notewidth;
+				objnode *next = curobj->next;
+				if(next){
+					DenemoObject *nextobj = (DenemoObject*)next->data;
+					notewidth = (nextobj->x - mudelaitem->x) ;
+				} else {
+					notewidth = (gui->si->measurewidth - mudelaitem->x);
+				}
+				
+				pos = notewidth * fraction;
 				pos +=  mudelaitem->x; 
-
+				if(g==si->marked_onset) {	
+					cairo_save (cr);
+					cairo_set_source_rgba (cr, 0, 0, 0, 1);
+				}
 				cairo_move_to (cr, pos + x, yy  - 10);
 				cairo_line_to (cr, pos + x, yy  - 30);
 				cairo_line_to (cr, pos + x + 10, yy  - 10);
 				cairo_fill (cr);
+				if(g==si->marked_onset) {
+					cairo_restore (cr);
+				}
+				if(si->marked_onset_position && ABS((gint)(pos + x - si->marked_onset_position))<20) {
+					si->marked_onset = g; 
+					si->marked_onset_position = 0; //g_print("Found selected onset\n\n");
+				}
+					
+				//if(g==itp->onset) g_print("First onset at %d %d %d %d\n", pos, x, si->marked_onset_position, notewidth);
+					
+				
 				g = g->next;
 			}
 			itp->onset = g;//Search onwards for future onsets. Only notes on top staff are used for display of onsets. 

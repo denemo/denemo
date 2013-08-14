@@ -103,6 +103,7 @@ gint hide_printarea_on_delete (void);
 void set_midi_in_status (void);
 void set_meantone_tuning (gint step);
 void update_leadin_widget (gdouble secs);
+void update_tempo_widget (gdouble bpm_change);
 void append_scheme_call (gchar * str);
 SCM scheme_set_enharmonic_position (SCM position);
 void define_scheme_variable (gchar * varname, gchar * value, gchar * tooltip);
