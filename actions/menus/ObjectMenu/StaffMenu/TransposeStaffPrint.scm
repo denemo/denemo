@@ -1,7 +1,7 @@
  ;;;;;;;;;;; TransposeStaffPrint
-(if (not (defined? 'Transpose::Interval))
-    (begin
-    	(define Transpose::Interval "c ees")))
+
+(define-once Transpose::Interval "c ees")
+
 (let ((lily #f) (text #f))
   (set! Transpose::Interval (d-GetUserInput (_ "Set Transpose Interval") (_ "Give Interval to transpose by
 e.g. c ees means up minor third.

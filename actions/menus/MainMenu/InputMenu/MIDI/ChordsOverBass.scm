@@ -1,6 +1,6 @@
 ;;;;ChordsOverBass (pure filter version)
-(if (not (defined? 'ChordsOverBass::active))
-    (define ChordsOverBass::active #f))
+
+(define-once ChordsOverBass::active #f)
 
 (if ChordsOverBass::active
     (begin ;;;;Filter is already running stop it

@@ -1,9 +1,15 @@
 ;;;;ChordsForBar
 ;;;allows you to play chords (over a bass) for the current bar - plays the bar first, goes on to next bar when you press space
+
 (if (not (defined? 'ChordsForBar::active))
-    (begin
-      (define ChordsForBar::active #f)
-      (d-InfoDialog "This command expects you to play the notes of the current bar together with chords.\nIt will notate the chords in a new staff above the current staff. You can hold chords over several notes, change chords on one note.\nTo temporarily switch to listening so as to try out a chord depress the foot pedal.\nIt will play you two bars of the music at the start and after you have entered the chords.\nUse the pitch bend control to go on to the next bar or to try again in the current bar.")))
+	(d-InfoDialog 
+		(_ "This command expects you to play the notes of the current bar together with chords.
+It will notate the chords in a new staff above the current staff. You can hold chords over several notes, change chords on one note.
+To temporarily switch to listening so as to try out a chord depress the foot pedal.
+It will play you two bars of the music at the start and after you have entered the chords.
+Use the pitch bend control to go on to the next bar or to try again in the current bar.")))
+
+(define-once ChordsForBar::active #f)
 
 (if ChordsForBar::active
     (begin ;;;;Filter is already running stop it

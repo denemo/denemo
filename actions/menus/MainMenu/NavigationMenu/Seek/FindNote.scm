@@ -1,6 +1,7 @@
 ;;;;;; FindNote
-(if (not (defined? 'FindNote::sought))
-    (define FindNote::sought "des"))
+    
+(define-once FindNote::sought "des")
+    
 (let loop ((sought #f))
   (define (note-equal? needle haystack)
   (= (string-prefix-length needle haystack) (string-length needle)))

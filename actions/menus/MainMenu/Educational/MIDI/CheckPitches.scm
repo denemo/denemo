@@ -2,8 +2,9 @@
 ;;;CheckPitches
 (d-Note)
 (d-EditMode)
-(if (not (defined? 'CheckPitches::Active))
-    (define CheckPitches::Active #f))
+
+(define-once CheckPitches::Active #f)
+    
 (if CheckPitches::Active
     (begin
       (d-PutMidi 0)

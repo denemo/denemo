@@ -1,8 +1,7 @@
 ;;; Figured Bass filter
 
-(if (not (defined? 'ToggleFiguredBassMode::Active))
-    (define ToggleFiguredBassMode::Active #f))
 
+(define-once ToggleFiguredBassMode::Active #f)
     
 (if (not ToggleFiguredBassMode::Active)
     (let 

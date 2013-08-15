@@ -1,6 +1,6 @@
 ;;;;;;;PrintAllLayouts
-(if (not (defined? 'PrintAllLayouts::Finished))
-  (define PrintAllLayouts::Finished #f))
+
+(define-once PrintAllLayouts::Finished #f)
   
 (if PrintAllLayouts::Finished
   (begin (disp "printalllayouts not #finished\n")

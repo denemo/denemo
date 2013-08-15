@@ -2,8 +2,7 @@
 ;;;MidiAdvance on Edit
 (d-Note)
 (d-EditMode)
-(if (not (defined? 'MidiAdvanceOnEdit::Active))
-    (define MidiAdvanceOnEdit::Active #f))
+(define-once MidiAdvanceOnEdit::Active #f)
 (if MidiAdvanceOnEdit::Active
     (begin
       (d-PutMidi 0)

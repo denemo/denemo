@@ -1,6 +1,6 @@
 ;;;ToggleCheckChords
-(if (not (defined? 'ToggleCheckChords::Active))
-    (define ToggleCheckChords::Active #f))
+
+(define-once ToggleCheckChords::Active #f)
 
 (if (not ToggleCheckChords::Active)
   (let ( (PedalDown #f))

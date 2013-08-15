@@ -1,10 +1,7 @@
  ;;;;;;;;;;; TransposeScorePrint
-(if (not (defined? 'Transpose::Interval))
-    (begin
-	  (define Transpose::Interval "c ees")
-   ;;;(d-LoadCommand "/MainMenu/EditMenu/Transpose/SetTransposeIntervalFromSelection")
-   ;; (d-InitializeScript "SetTransposeIntervalFromSelection")
-	  ))
+
+(define-once Transpose::Interval "c ees")
+
 (let ((lily #f) (text #f))
   (set! Transpose::Interval (d-GetUserInput (_ "Set Transpose Interval") (_ "Give Interval to transpose by as two note names, 
  for example \"c g\" means transpose 5th up.

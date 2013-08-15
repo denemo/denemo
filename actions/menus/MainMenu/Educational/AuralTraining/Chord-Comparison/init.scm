@@ -146,8 +146,7 @@
 
 
 ;;; Initialize Transpose routines.
-(if (not (defined? 'Transpose::init))
-    (define Transpose::init #f))
+(define-once Transpose::init #f)
 (if (not Transpose::init)
     (begin
 ;;;; public variables
