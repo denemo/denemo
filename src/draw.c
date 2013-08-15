@@ -702,6 +702,8 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoGUI 
               cairo_fill (cr);
             }
           itp->end = TRUE;
+          if(itp->startposition>-1 && itp->endposition<0)
+			itp->endposition = x + GPOINTER_TO_INT (itp->mwidthiterator->data) + 5;//end play marker after last note if not elsewhere
         }
       else
         {
@@ -1330,7 +1332,7 @@ draw_score (cairo_t * cr)
       if (draw_staff (flip_count > 0 ? NULL : cr, curstaff, y, gui, &itp))
         repeat = TRUE;
 
-      if (cr)
+      if (cr) 
         draw_playback_markers (cr, &itp, y, line_height);
 
       gint system_num;
