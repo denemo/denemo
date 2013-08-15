@@ -321,7 +321,7 @@ get_midi_on_time (GList * events)
 }
 
 
-
+//finds the first note which comes ON after the passed time
 DenemoObject *
 get_obj_for_start_time (smf_t * smf, gdouble time)
 {
@@ -339,12 +339,13 @@ get_obj_for_start_time (smf_t * smf, gdouble time)
     }
   while (event && (((event->midi_buffer[0] & 0xF0) == MIDI_NOTE_OFF) || !event->user_pointer));
   if (initial && smf_seek_to_event (smf, initial))
-      g_debug("smf_seek_to_event failed");
+      g_debug("smf_seek_to_event failed");  //if (event) g_print("sought for endObj %f found %f\n", time, event->time_seconds);
   if (event)
     return (DenemoObject *) (event->user_pointer);
   return NULL;
 }
 
+//finds the first note which comes OFF after the passed time
 DenemoObject *
 get_obj_for_end_time (smf_t * smf, gdouble time)
 {
@@ -362,7 +363,7 @@ get_obj_for_end_time (smf_t * smf, gdouble time)
     }
   while (event && (((event->midi_buffer[0] & 0xF0) == MIDI_NOTE_ON) || !event->user_pointer));
   if (initial && smf_seek_to_event (smf, initial))
-      g_debug("smf_seek_to_event failed");
+      g_debug("smf_seek_to_event failed");//if (event) g_print("sought for startObj %f found %f\n", time, event->time_seconds);
   if (event)
     return (DenemoObject *) (event->user_pointer);
   return NULL;

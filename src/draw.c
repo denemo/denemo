@@ -50,7 +50,7 @@ set_start_and_end_objects_for_draw (void)
 {
   if (Denemo.gui->si->smf)
     {
-      Startobj = get_obj_for_end_time (Denemo.gui->si->smf, Denemo.gui->si->start_time - 0.001);
+      Startobj = get_obj_for_end_time (Denemo.gui->si->smf, Denemo.gui->si->start_time + 0.001);
       Endobj = Denemo.gui->si->end_time < 0.0 ? NULL : get_obj_for_start_time (Denemo.gui->si->smf, Denemo.gui->si->end_time - 0.001);
     }
 }
@@ -232,11 +232,14 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
   if (mudelaitem == Denemo.gui->si->playingnow)
     itp->playposition = x + mudelaitem->x;
 
-  if (mudelaitem == itp->startobj)
-    itp->startposition = x + mudelaitem->x + mudelaitem->minpixelsalloted;
+  if (mudelaitem == itp->startobj) {
+	
+    itp->startposition = x + mudelaitem->x/* + mudelaitem->minpixelsalloted*/;
+    // if(curobj->prev==NULL) g_print("item %p at %d\n", curobj, x+mudelaitem->x), itp->startposition -= mudelaitem->minpixelsalloted;
+	}
 
   if (mudelaitem == itp->endobj)
-    itp->endposition = x + mudelaitem->x + mudelaitem->minpixelsalloted;
+    itp->endposition = x + mudelaitem->x/* + mudelaitem->minpixelsalloted*/;
 
   /************ FIXME the drawing is side-effecting the DenemoScore si here *******************/
   if (si->currentobject == curobj)
