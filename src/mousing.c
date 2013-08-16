@@ -451,6 +451,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 		gui->si->audio->leadin -= 500*(event->x_root - last_event_x)/gui->si->zoom;//g_print("%d %d => %d\n", (int)(10*last_event_x), (int)(10*event->x_root), (int)(10*last_event_x) - (int)(10*event->x_root));
 		last_event_x = event->x_root;
 		update_leadin_widget ( gui->si->audio->leadin/(double)gui->si->audio->samplerate);
+		gtk_widget_queue_draw(Denemo.scorearea);
 		return TRUE; 
 	}
   if(gui->si->audio && dragging_tempo)
@@ -461,6 +462,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 		get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
 		change /= pi.measure_number;
 		update_tempo_widget ( change);
+		gtk_widget_queue_draw(Denemo.scorearea);
 		return TRUE; 
 	}
 #define DENEMO_MINIMUM_SYSTEM_HEIGHT (0.01)
@@ -578,6 +580,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 				{
 					gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (left?GDK_SB_H_DOUBLE_ARROW:GDK_X_CURSOR));
 					left? (dragging_audio = TRUE) : (dragging_tempo = TRUE);
+					
 					return TRUE;
 				}
 		}
