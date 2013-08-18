@@ -179,6 +179,13 @@ count_syllables (DenemoStaff * staff, gint from)
   return count;
 }
 
+static void draw_note_onset(cairo_t *cr, double x) 
+{
+				cairo_move_to (cr, x, 20);
+				cairo_line_to (cr, x, 0);
+				cairo_line_to (cr, x + 10, 20);
+				cairo_fill (cr);
+}
 
 /**
  *  draw_object
@@ -297,16 +304,16 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 			 while( g && (((gint)g->data - leadin) < current))
 				{
 					if(itp->measurenum == 1) {
-						cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 1.0);
-						drawlargetext_cr (cr, "Warning! Note onsets earlier than start of score, reduce leadin.", 0, 20);	
-						cairo_set_source_rgba (cr, 0.2, 0.2, 0.2, 0.2);	
+						cairo_save (cr);
+						cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, 1.0);
+						draw_note_onset (cr, x - 10);
+						cairo_restore (cr);
 					}
 					g=g->next;
 				}
 			while( g && ((gint)g->data - leadin) < next) {
 				gdouble fraction = (((gint)g->data - leadin) - current) / (double)(next-current);
 				gint pos;
-				gint yy = 30;
 				gint notewidth;
 				objnode *next = curobj->next;
 				if(next){
@@ -322,10 +329,8 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 					cairo_save (cr);
 					cairo_set_source_rgba (cr, 0, 0, 0, 1);
 				}
-				cairo_move_to (cr, pos + x, yy  - 10);
-				cairo_line_to (cr, pos + x, yy  - 30);
-				cairo_line_to (cr, pos + x + 10, yy  - 10);
-				cairo_fill (cr);
+				draw_note_onset(cr, pos+x);
+
 				if(g==si->marked_onset) {
 					cairo_restore (cr);
 				}

@@ -573,7 +573,12 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 		{
 			if (event->type==GDK_2BUTTON_PRESS) 
 				{	
-					gui->si->marked_onset_position = (gint)event->x/gui->si->zoom;//g_print("marked %d\n", gui->si->marked_onset_position);
+					gui->si->marked_onset_position = (gint)event->x/gui->si->zoom;
+					if(gui->si->marked_onset_position < KEY_MARGIN + SPACE_FOR_TIME + gui->si->maxkeywidth) {
+						 MouseGestureShow(_("Double Click Note Onset"), _("This represents detected note onsets which occur\nbefore the start of the score.\nIf they are just noise,\nor if you are working on just a portion of the audio that is ok.\nOtherwise drag with left mouse button to synchronize\nwith the start of the score."),
+          MouseGesture);
+						
+					}
 					gtk_widget_queue_draw(Denemo.scorearea);
 					return TRUE;
 				} else 
