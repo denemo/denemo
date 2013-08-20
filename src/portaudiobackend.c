@@ -36,37 +36,40 @@ static gboolean reset_audio = FALSE;
 
 static gint ready = FALSE;
 
-static double speedup = 1.0; //2.0 = twice as long ie half speed.
+static double slowdown = 1.0; //2.0 = twice as long ie half speed.
 static gboolean rubberband_active = FALSE;
 
 #ifdef _HAVE_RUBBERBAND_
 static RubberBandState rubberband;
 static gint rubberband_init(DenemoPrefs *config) {
 	rubberband = rubberband_new(sample_rate, 2 /* channels */, RubberBandOptionProcessRealTime | RubberBandOptionStretchPrecise,
-	speedup, 1.0);
+	slowdown, 1.0);
 	//rubberband_set_debug_level(rubberband, 3);
     return 0;                               
 }
 void set_playback_speed (double speed) {
 	if(rubberband==NULL)
 		rubberband_init(&Denemo.prefs);
-	Denemo.gui->si->end_time /= speedup;
-	Denemo.gui->si->start_time /= speedup;
+	Denemo.gui->si->end_time /= slowdown;
+	Denemo.gui->si->start_time /= slowdown;
 	if(speed>1.01) {
-		speedup = speed;
+		slowdown = speed;
 		rubberband_active = TRUE;
 	}
 	else
 	{
-		speedup = 1.0;
+		slowdown = 1.0;
 		rubberband_active = FALSE;
 	}
-	rubberband_set_time_ratio(rubberband, speedup);
-	Denemo.gui->si->end_time *= speedup;
-	Denemo.gui->si->start_time *= speedup;
+	rubberband_set_time_ratio(rubberband, slowdown);
+	Denemo.gui->si->end_time *= slowdown;
+	Denemo.gui->si->start_time *= slowdown;
 }
 
-
+gdouble get_playback_speed (void)
+{
+	return slowdown;	
+}
 #endif
 
 
@@ -129,7 +132,7 @@ gint available = rubberband_available(rubberband);
 if((!rubberband_active) || (available < (gint)frames_per_buffer)) {
 #endif
 
-  while (read_event_from_queue (AUDIO_BACKEND, event_data, &event_length, &event_time, until_time/speedup))
+  while (read_event_from_queue (AUDIO_BACKEND, event_data, &event_length, &event_time, until_time/slowdown))
     {//g_print("");!!!! madness, the call to initialize audio fails with channels assert in alsa code without this with -O0, with -O2 fails anyway!!!
       fluidsynth_feed_midi (event_data, event_length);  //in fluid.c note fluidsynth api ues fluid_synth_xxx these naming conventions are a bit too similar
     }

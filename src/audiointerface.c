@@ -68,6 +68,13 @@ static gboolean must_redraw_playhead = FALSE;
 
 static smf_event_t *redraw_event;
 
+#ifndef _HAVE_RUBBERBAND_
+gdouble get_playback_speed (void)
+{
+	return 1.0;	//Rubberband can do slowdown, backend should define its own version of this
+}
+#endif
+
 static gpointer queue_thread_func (gpointer data);
 static void signal_queue ();
 
@@ -471,7 +478,8 @@ queue_thread_func (gpointer data)
           smf_event_t *event;
           double until_time = playback_time + 5.0;
 
-//      printf("playback_time=%f, until_time=%f\n", playback_time, until_time);
+
+      //printf("playback_time=%f, until_time=%f\n", playback_time, until_time);
           g_static_mutex_lock (&smfmutex);
           while ((event = get_smf_event (until_time)))
             {

@@ -24,6 +24,7 @@
 #include "midi.h"
 #include "displayanimation.h"
 #include "moveviewport.h"
+#include "audiointerface.h"
 
 #define EXCL_WIDTH 3
 #define EXCL_HEIGHT 13
@@ -221,19 +222,50 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
   //g_print("%x %f %f %f\n", Denemo.gui->si->playingnow, Denemo.gui->si->playhead,  mudelaitem->earliest_time, mudelaitem->latest_time );
 
   // draw playhead as yellowish background
-
-  if (Denemo.gui->si->playingnow == mudelaitem)
-    {
-      if (cr)
-        {
+   if (cr) {
+	if((si->audio && itp->onset)) 
+	{
+	  gdouble slowdown = get_playback_speed();
+	 // g_print("slowdown = %f calling %p\n", slowdown, get_playback_speed);
+	  if(slowdown>1.0 && slowdown<10.0) //sanity check
+		{
+			gdouble current = Denemo.gui->si->playhead/slowdown;
+			if ( (current > mudelaitem->earliest_time) && (current < mudelaitem->latest_time))   
+				{ 
+				cairo_save (cr);
+				cairo_set_source_rgba (cr, 0.8, 0.0, 0.8, 0.5);
+				cairo_rectangle (cr, x + mudelaitem->x, y, 20, 80);
+				cairo_fill (cr);
+				cairo_restore (cr);
+				}
+			} else
+			{
+			  if (Denemo.gui->si->playingnow == mudelaitem)
+				{//FIXME repeated code
+					cairo_save (cr);
+					cairo_set_source_rgb (cr, 0.8, 0.8, 0.0);
+					cairo_rectangle (cr, x + mudelaitem->x, y, 20, 80);
+					cairo_fill (cr);
+					cairo_restore (cr);
+       
+				}
+			}
+	}  else {
+     if (Denemo.gui->si->playingnow == mudelaitem)
+      {
+       
           cairo_save (cr);
           cairo_set_source_rgb (cr, 0.8, 0.8, 0.0);
           cairo_rectangle (cr, x + mudelaitem->x, y, 20, 80);
           cairo_fill (cr);
           cairo_restore (cr);
-        }
-    }
-
+       
+     }
+   }
+ }
+  
+  
+  
   /* The current note, rest, etc. being painted */
 
   if (mudelaitem == Denemo.gui->si->playingnow)
@@ -290,12 +322,12 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 			 gint next =  mudelaitem->latest_time*si->audio->samplerate;
 			 gint leadin = 	si->audio->leadin;	 
 
-			 //mark playhead on audio!!!  if (Denemo.gui->si->playingnow == mudelaitem)  
-			//gint current_play_time = (gint)(get_playback_time()*si->audio->samplerate);
-			//g_print("%d %f ",current_play_time, get_playback_time());
+			
 			if (Denemo.gui->si->playingnow) {
-				DenemoObject *obj = Denemo.gui->si->playingnow;/*FIXME we are not supposed to de-reference playingnow, but get_playback_time() is returning 0.0 */
-				(obj->earliest_time*si->audio->samplerate < current) ?
+
+				((si->playhead/get_playback_speed())*si->audio->samplerate
+				
+				 < current) ?
 				        cairo_set_source_rgba (cr, 0.0, 0.2, 0.8, 0.8):
 				        cairo_set_source_rgba (cr, 0.8, 0.2, 0.0, 0.8);		
 			} else
@@ -303,7 +335,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 			
 			 while( g && (((gint)g->data - leadin) < current))
 				{
-					if(itp->measurenum == 1) {
+					if(itp->measurenum == 1) {//represent onsets before score starts as single red onset mark 10 pixels before the first note. test g==itp->onset to avoid re-drawing
 						cairo_save (cr);
 						cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, 1.0);
 						draw_note_onset (cr, x - 10);
