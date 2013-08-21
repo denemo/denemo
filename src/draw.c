@@ -143,7 +143,8 @@ struct infotopass
   gint playposition;            //x coordinate of currently played music
   gdouble leftmosttime;         //MIDI time of left most object on last system line displayed
   gdouble rightmosttime;        //MIDI time of last object  displayed
-  GList *onset;
+  GList *onset;//list of note onsets when audio present
+  gint currentframe; //current frame of audio being played. (current time converted to frames (at si->audio->samplerate) and slowed down)
 };
 
 /* count the number of syllables up to staff->leftmeasurenum */
@@ -321,16 +322,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 			 gint current = mudelaitem->earliest_time*si->audio->samplerate;
 			 gint next =  mudelaitem->latest_time*si->audio->samplerate;
 			 gint leadin = 	si->audio->leadin;	 
-
 			
-			if (Denemo.gui->si->playingnow) {
-
-				((si->playhead/get_playback_speed())*si->audio->samplerate
-				
-				 < current) ?
-				        cairo_set_source_rgba (cr, 0.0, 0.2, 0.8, 0.8):
-				        cairo_set_source_rgba (cr, 0.8, 0.2, 0.0, 0.8);		
-			} else
 			cairo_set_source_rgba (cr, 0.3, 0.3, 0.3, 0.5);	
 			
 			 while( g && (((gint)g->data - leadin) < current))
@@ -360,7 +352,14 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 				if(g==si->marked_onset) {	
 					cairo_save (cr);
 					cairo_set_source_rgba (cr, 0, 0, 0, 1);
+				} else if(si->playingnow)
+				{
+					(itp->currentframe < ((gint)g->data - leadin)) ?
+						cairo_set_source_rgba (cr, 0.0, 0.2, 0.8, 0.8):
+				        cairo_set_source_rgba (cr, 0.8, 0.2, 0.0, 0.8);
 				}
+				
+				
 				draw_note_onset(cr, pos+x);
 
 				if(g==si->marked_onset) {
@@ -1217,6 +1216,7 @@ draw_score (cairo_t * cr)
   itp.startobj = itp.endobj = NULL;
   itp.tupletstart = itp.tuplety = 0;
   itp.onset = si->audio?si->audio->onsets:NULL;
+  itp.currentframe = si->audio?(get_playback_time()/get_playback_speed())*si->audio->samplerate:0;
   y = 0;
 
   if (gui->si->smf)
