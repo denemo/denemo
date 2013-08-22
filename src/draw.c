@@ -28,7 +28,7 @@
 
 #define EXCL_WIDTH 3
 #define EXCL_HEIGHT 13
-
+#define SAMPLERATE (44100) /* arbitrary large figure used if no audio */
 static GdkPixbuf *StaffPixbuf, *StaffPixbufSmall, *StaffGoBack, *StaffGoForward;
 static DenemoObject *Startobj, *Endobj;
 static gboolean layout_needed = TRUE;   //Set FALSE when further call to draw_score(NULL) is not needed.
@@ -220,52 +220,23 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
         cairo_fill (cr);
         cairo_restore (cr);
       }
-  //g_print("%x %f %f %f\n", Denemo.gui->si->playingnow, Denemo.gui->si->playhead,  mudelaitem->earliest_time, mudelaitem->latest_time );
+      
+      
+  //g_print("%p %p %f %f %f\n", Denemo.gui->si->playingnow, mudelaitem, Denemo.gui->si->playhead,  mudelaitem->earliest_time, mudelaitem->latest_time );
 
   // draw playhead as yellowish background
-   if (cr) {
-	if((si->audio && itp->onset)) 
-	{
-	  gdouble slowdown = get_playback_speed();
-	 // g_print("slowdown = %f calling %p\n", slowdown, get_playback_speed);
-	  if(slowdown>1.0 && slowdown<10.0) //sanity check
-		{
-			gdouble current = Denemo.gui->si->playhead/slowdown;
-			if ( (current > mudelaitem->earliest_time) && (current < mudelaitem->latest_time))   
-				{ 
-				cairo_save (cr);
-				cairo_set_source_rgba (cr, 0.8, 0.0, 0.8, 0.5);
-				cairo_rectangle (cr, x + mudelaitem->x, y, 20, 80);
-				cairo_fill (cr);
-				cairo_restore (cr);
-				}
-			} else
-			{
-			  if (Denemo.gui->si->playingnow == mudelaitem)
-				{//FIXME repeated code
-					cairo_save (cr);
-					cairo_set_source_rgb (cr, 0.8, 0.8, 0.0);
-					cairo_rectangle (cr, x + mudelaitem->x, y, 20, 80);
-					cairo_fill (cr);
-					cairo_restore (cr);
-       
-				}
-			}
-	}  else {
-     if (Denemo.gui->si->playingnow == mudelaitem)
-      {
-       
+  if (Denemo.gui->si->playingnow == mudelaitem)
+    {
+      if (cr)
+        {
           cairo_save (cr);
           cairo_set_source_rgb (cr, 0.8, 0.8, 0.0);
           cairo_rectangle (cr, x + mudelaitem->x, y, 20, 80);
           cairo_fill (cr);
           cairo_restore (cr);
-       
-     }
-   }
- }
-  
-  
+        }
+    }
+
   
   /* The current note, rest, etc. being painted */
 
@@ -566,7 +537,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
   //  itp->line_end = itp->markx2 > (int)(Denemo.scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME));
 
 
-  itp->rightmosttime = mudelaitem->latest_time;
+  itp->rightmosttime = mudelaitem->latest_time*get_playback_speed();
 
   //g_print("returning with %d\n", itp->highy);
   /* And give a return value and we're done */
@@ -1216,7 +1187,7 @@ draw_score (cairo_t * cr)
   itp.startobj = itp.endobj = NULL;
   itp.tupletstart = itp.tuplety = 0;
   itp.onset = si->audio?si->audio->onsets:NULL;
-  itp.currentframe = si->audio?(get_playback_time()/get_playback_speed())*si->audio->samplerate:0;
+  itp.currentframe = (get_playback_time()/get_playback_speed())*(si->audio?si->audio->samplerate:SAMPLERATE);
   y = 0;
 
   if (gui->si->smf)
