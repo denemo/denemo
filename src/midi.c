@@ -76,7 +76,7 @@ update_position (smf_event_t * event)
 
   if (event)
     {
-      if ((event->midi_buffer[0] & 0xf0) == MIDI_NOTE_ON && event->time_seconds - last_draw_time > Denemo.prefs.display_refresh)
+      if (((event->midi_buffer[0] & 0xf0) == MIDI_NOTE_ON) && ((event->time_seconds - last_draw_time) > Denemo.prefs.display_refresh))
         {
           last_draw_time = event->time_seconds;
           queue_redraw_playhead (event);
@@ -128,7 +128,7 @@ start_playing (gchar * callback)
   initialize_playhead ();
 
   playing = TRUE;
-  last_draw_time = 0.0;
+  last_draw_time = -1.0;//needed to trigger drawing first note
 }
 
 static gboolean
