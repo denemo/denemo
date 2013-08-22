@@ -6753,7 +6753,7 @@ inner_main (void *files)
       }
   }
 #endif
-
+scm_setlocale( scm_variable_ref(scm_c_lookup("LC_ALL")), scm_from_locale_string("") );
   /* Initialize preferences */
   initprefs ();
 
