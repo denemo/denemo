@@ -588,7 +588,7 @@ midi_play (gchar * callback)
 
   playback_start_time = get_start_time ();
   playback_time = playback_start_time;
-
+  //g_print ("starting playback at %f\n", playback_start_time);
   start_playing (callback);
 
   get_backend (AUDIO_BACKEND)->start_playing ();
@@ -603,6 +603,7 @@ audio_play (void)
   reset_rubberband_queue (AUDIO_BACKEND);
 #endif
   playback_start_time = get_start_time ();
+  //g_print ("starting audio playback at %f\n", playback_start_time);
   playback_time = playback_start_time;
 
 }
