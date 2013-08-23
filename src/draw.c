@@ -51,8 +51,8 @@ set_start_and_end_objects_for_draw (void)
 {
   if (Denemo.gui->si->smf)
     {
-      Startobj = get_obj_for_end_time (Denemo.gui->si->smf, Denemo.gui->si->start_time + 0.001);
-      Endobj = Denemo.gui->si->end_time < 0.0 ? NULL : get_obj_for_start_time (Denemo.gui->si->smf, Denemo.gui->si->end_time - 0.001);
+      Startobj = get_obj_for_end_time (Denemo.gui->si->smf, Denemo.gui->si->start_time/get_playback_speed() + 0.001);
+      Endobj = Denemo.gui->si->end_time < 0.0 ? NULL : get_obj_for_start_time (Denemo.gui->si->smf, Denemo.gui->si->end_time/get_playback_speed() - 0.001);
     }
 }
 

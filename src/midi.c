@@ -31,6 +31,8 @@
 #define NOTE_ON                 0x90
 #define NOTE_OFF                0x80
 
+#define SHAVING (0.01)          //seconds to shave off a note start time to ensure stopping before noteon is sent, and starting with noteon first note may depend of speed of machine??? FIXME
+
 
 static volatile gboolean playing = FALSE;
 
@@ -119,8 +121,8 @@ start_playing (gchar * callback)
 
   set_start_and_end_objects_for_draw ();
   smf_rewind (smf);
-
-  if(smf_seek_to_seconds (smf, Denemo.gui->si->start_time))
+  gdouble start = (Denemo.gui->si->start_time/get_playback_speed()) - SHAVING;
+  if(smf_seek_to_seconds (smf, (start>0.0)?start:0.0))
     g_debug("smf_seek_to_seconds failed");
 
   initialize_until_time ();
@@ -757,7 +759,6 @@ process_midi_event (gchar * buf)
     }
 }
 
-#define SHAVING (0.01)          //seconds to shave off a note start time to ensure stopping before noteon is sent, may depend of speed of machine??? FIXME
 
 void
 initialize_until_time (void)
