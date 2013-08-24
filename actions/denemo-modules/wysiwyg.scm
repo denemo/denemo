@@ -98,12 +98,12 @@
 
 
 ; SetRelativeFontSize
-(define* (SetRelativeFontSize what #:optional (type "chord") (context "") (override #f))
-  (SetValue ChangeRelativeFontSize " #'font-size = #" what type context override))
+;(define* (SetRelativeFontSize what #:optional (type "chord") (context "") (override #f))
+;  (SetValue ChangeRelativeFontSize " #'font-size = #" what type context override))
 
 ; SetPadding
-(define* (SetPadding what  #:optional (type "chord") (context ""))
-  (SetValue ChangePad " #'padding = #" what type context))
+;(define* (SetPadding what  #:optional (type "chord") (context ""))
+;  (SetValue ChangePad " #'padding = #" what type context))
   
 
 
@@ -516,11 +516,11 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
 
   
 ;;;;;;;; ChangePad
-(define (ChangePad oldstr prefixstring postfixstring)
-  (ChangeValue oldstr prefixstring postfixstring d-GetPadding "0"))
+;;;(define (ChangePad oldstr prefixstring postfixstring)
+;;;  (ChangeValue oldstr prefixstring postfixstring d-GetPadding "0"))
 ;;;;;;;; ChangeRelativeFontSize
-(define (ChangeRelativeFontSize oldstr prefixstring postfixstring)
-  (ChangeValue oldstr prefixstring postfixstring d-GetRelativeFontSize "0" DENEMO_OVERRIDE_AFFIX))
+;;;(define (ChangeRelativeFontSize oldstr prefixstring postfixstring)
+;;;  (ChangeValue oldstr prefixstring postfixstring d-GetRelativeFontSize "0" DENEMO_OVERRIDE_AFFIX))
 
 
 ;   (let ((startbit "")
