@@ -1963,25 +1963,28 @@ scheme_restart_play (void)
   return SCM_BOOL_T;
 }
 
+static double convert_and_adjust (SCM time) {
+	return scm_to_double (time) * get_playback_speed();
+}
 static SCM
 scheme_set_playback_interval (SCM start, SCM end)
 {
   if (scm_is_real (start) && scm_is_real (end))
     {
-      Denemo.gui->si->start_time = scm_to_double (start);
-      Denemo.gui->si->end_time = scm_to_double (end);
+      Denemo.gui->si->start_time = convert_and_adjust (start);
+      Denemo.gui->si->end_time = convert_and_adjust (end);
       set_start_and_end_objects_for_draw ();
       return SCM_BOOL_T;
     }
   if (scm_is_real (start))
     {
-      Denemo.gui->si->start_time = scm_to_double (start);
+      Denemo.gui->si->start_time = convert_and_adjust (start);
       set_start_and_end_objects_for_draw ();
       return SCM_BOOL_T;
     }
   if (scm_is_real (end))
     {
-      Denemo.gui->si->end_time = scm_to_double (end);
+      Denemo.gui->si->end_time = convert_and_adjust (end);
       set_start_and_end_objects_for_draw ();
       return SCM_BOOL_T;
     }
@@ -2036,7 +2039,7 @@ scheme_adjust_playback_start (SCM adj)
   SCM ret = SCM_BOOL_F;
   if (scm_is_real (adj))
     {
-      Denemo.gui->si->start_time += scm_to_double (adj);
+      Denemo.gui->si->start_time += convert_and_adjust (adj);
       if (Denemo.gui->si->start_time < 0.0)
         Denemo.gui->si->start_time = 0.0;
       else
@@ -2052,7 +2055,7 @@ scheme_adjust_playback_end (SCM adj)
   SCM ret = SCM_BOOL_F;
   if (scm_is_real (adj))
     {
-      Denemo.gui->si->end_time += scm_to_double (adj);
+      Denemo.gui->si->end_time += convert_and_adjust (adj);
       if (Denemo.gui->si->end_time < 0.0)
         Denemo.gui->si->end_time = 0.0;
       else
