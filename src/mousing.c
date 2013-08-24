@@ -585,7 +585,10 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 				{
 					gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (left?GDK_SB_H_DOUBLE_ARROW:GDK_X_CURSOR));
 					left? (dragging_audio = TRUE) : (dragging_tempo = TRUE);
-					
+					 left? MouseGestureShow(_("Left Drag Note Onset"), _("This moves the audio to synchronize the start with the score.\nYou can use the Leadin button for this too."),
+          MouseGesture) :
+						MouseGestureShow(_("Right Drag Note Onset"), _("This changes the tempo of the score.\nUse this to synchronize the beat after setting the start"),
+          MouseGesture);
 					return TRUE;
 				}
 		}
