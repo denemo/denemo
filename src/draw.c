@@ -183,9 +183,9 @@ count_syllables (DenemoStaff * staff, gint from)
 
 static void draw_note_onset(cairo_t *cr, double x) 
 {
-				cairo_move_to (cr, x, 20);
+				cairo_move_to (cr, x, 22);
 				cairo_line_to (cr, x, 0);
-				cairo_line_to (cr, x + 10, 20);
+				cairo_line_to (cr, x + 10, 22);
 				cairo_fill (cr);
 }
 
@@ -293,6 +293,26 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 			 gint current = mudelaitem->earliest_time*si->audio->samplerate;
 			 gint next =  mudelaitem->latest_time*si->audio->samplerate;
 			 gint leadin = 	si->audio->leadin;	 
+			 gint notewidth = 0;
+			 objnode *curobjnext = curobj->next;
+			 if(curobjnext){
+					DenemoObject *nextobj = (DenemoObject*)curobjnext->data;
+					notewidth = nextobj->x - mudelaitem->x;
+			 } else 
+			 {
+					notewidth = gui->si->measurewidth - mudelaitem->x;
+			 }
+			 /* draw the extent of the note */
+			cairo_set_source_rgba (cr, 0.0, 0.2, 1.0, 1);	
+			cairo_move_to (cr, x + mudelaitem->x, 25);
+			cairo_line_to (cr,x + mudelaitem->x, 20);
+			cairo_line_to (cr,x + mudelaitem->x+ notewidth - 2, 20);
+			cairo_line_to (cr,x + mudelaitem->x+ notewidth, 14);
+			cairo_line_to (cr,x + mudelaitem->x+ notewidth, 22);
+			cairo_line_to (cr,x + mudelaitem->x+2, 22);
+			
+			//cairo_rectangle (cr, x + mudelaitem->x, 20, notewidth, 3);
+			cairo_fill (cr);			
 			
 			cairo_set_source_rgba (cr, 0.3, 0.3, 0.3, 0.5);	
 			
@@ -309,14 +329,8 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 			while( g && ((gint)g->data - leadin) < next) {
 				gdouble fraction = (((gint)g->data - leadin) - current) / (double)(next-current);
 				gint pos;
-				gint notewidth;
-				objnode *next = curobj->next;
-				if(next){
-					DenemoObject *nextobj = (DenemoObject*)next->data;
-					notewidth = (nextobj->x - mudelaitem->x) ;
-				} else {
-					notewidth = (gui->si->measurewidth - mudelaitem->x);
-				}
+				
+
 				
 				pos = notewidth * fraction;
 				pos +=  mudelaitem->x; 
@@ -347,6 +361,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 				g = g->next;
 			}
 			itp->onset = g;//Search onwards for future onsets. Only notes on top staff are used for display of onsets. 
+
 		 } 
           
 
@@ -1483,9 +1498,10 @@ draw_callback (cairo_t * cr)
       }
   layout_needed = TRUE;
 
- if(gui->si->audio && (gui->si->smfsync!=gui->si->changecount)) {
+ if( gui->si->audio && (gui->si->smfsync != gui->si->changecount) && (!audio_is_playing())) 
+ {
 	 set_tempo ();
-	 exportmidi (NULL, gui->si, 0, 0); 
+	 exportmidi (NULL, gui->si, 0, 0);  
  }
   /* Clear with an appropriate background color. */
   if (Denemo.gui->input_source != INPUTKEYBOARD && Denemo.gui->input_source != INPUTMIDI && (Denemo.prefs.overlays || (Denemo.gui->input_source == INPUTAUDIO)) && pitch_entry_active (gui))
