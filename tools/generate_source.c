@@ -129,7 +129,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_NAVIGATION | CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the staff above, extending selection if any", N_("StaffUp"), "staffup", N_("Staff Up"), NULL},
   {CMD_CATEGORY_NAVIGATION | CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the staff below, extending selection if any", N_("StaffDown"), "staffdown", N_("Staff Down"), NULL},
 
-  {CMD_CATEGORY_NAVIGATION | CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the staff above without altering selection", N_("MoveToStaffUp"), "movetostaffup", N_("Move to Staff Up"), NULL},
+  {CMD_CATEGORY_NAVIGATION | CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the staff above without altering selection. On the top staff it adds space above the staffs.", N_("MoveToStaffUp"), "movetostaffup", N_("Move to Staff Up"), NULL},
   {CMD_CATEGORY_NAVIGATION | CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the staff below  without altering selection", N_("MoveToStaffDown"), "movetostaffdown", N_("Move to Staff Down"), NULL},
 
 

@@ -14,7 +14,7 @@
 {"ToggleReduceToDrawingArea", NULL, N_("Hide/Show Menus"), "",N_("Hides/Shows menus, panes etc. The ones shown are those checked in the view menu."),G_CALLBACK (ToggleReduceToDrawingArea)},
 {"StaffUp", NULL, N_("Staff Up"), "",N_("Moves the cursor to the staff above, extending selection if any"),G_CALLBACK (staffup_cb)},
 {"StaffDown", NULL, N_("Staff Down"), "",N_("Moves the cursor to the staff below, extending selection if any"),G_CALLBACK (staffdown_cb)},
-{"MoveToStaffUp", NULL, N_("Move to Staff Up"), "",N_("Moves the cursor to the staff above without altering selection"),G_CALLBACK (movetostaffup_cb)},
+{"MoveToStaffUp", NULL, N_("Move to Staff Up"), "",N_("Moves the cursor to the staff above without altering selection. On the top staff it adds space above the staffs."),G_CALLBACK (movetostaffup_cb)},
 {"MoveToStaffDown", NULL, N_("Move to Staff Down"), "",N_("Moves the cursor to the staff below  without altering selection"),G_CALLBACK (movetostaffdown_cb)},
 {"MeasureLeft", NULL, N_("Measure Left"), "",N_("Moves the cursor to the first object in the next measure, extending selection if any"),G_CALLBACK (measureleft_cb)},
 {"MeasureRight", NULL, N_("Measure Right"), "",N_("Moves the cursor to the first object in the previous measure, extending selection if any"),G_CALLBACK (measureright_cb)},
