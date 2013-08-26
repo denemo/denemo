@@ -11,8 +11,8 @@
 (begin
 (if (not howmany)
 	(begin
-		 (set! howmany (d-GetUserInput "Split in how many notes?" "Enter the amount of fraction of equal duration in their sum:" "5" ) )
-		 (if howmany (set! howmany (string->number howmany)) #f))) ; If the user pressed "Abort" or Esc howmany will be #f which must be catched here
+		 (set! howmany (d-GetUserInput "Split in how many notes?" "Enter the number of notes to split into:" "2" ) )
+		 (if howmany (set! howmany (string->number howmany)) #f))) ; If the user pressed "Abort" or Esc howmany will be #f which must be caught here
 
 (case howmany
 	((1) #t) ; Already original duration in one note.
