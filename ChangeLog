@@ -1,3 +1,13 @@
+2013-08-27 Release 1.0.8
+    Audio Speed Control
+        Slow down the audio output in real time
+        Aids transcription from audio files. 
+    Skeleton Score from Audio
+        Note Onsets detected and marked above skeleton score.
+        Note Onsets can be dragged to set tempo and synchronize 
+    Bug Fixes
+		Guile 2.x now properly supported.
+	  
 2013-07-13 Release 1.0.6
       Import MusicXML
           Direct import of music XML.
