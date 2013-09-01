@@ -1624,13 +1624,16 @@ display_current_object (void)
           break;
         case CLEF:
           {
-						clef *theclef = ((clef *) curObj->object);
+			clef *theclef = ((clef *) curObj->object);
             g_string_append_printf (selection, _("a Clef Change object.\n"));   
-						if (theclef->directives) 
+			if (theclef->directives) 
 							{
 								selection = g_string_append (selection, _("Attached to the Clef Change:"));
 								append_directives_information (selection, theclef->directives);
 							}
+			if (curObj->isinvisible)
+                           selection = g_string_append (selection, _("This clef change is non-printing, it just affects the display.\n"));
+
           }
           break;
         case TIMESIG:
