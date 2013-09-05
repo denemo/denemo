@@ -98,6 +98,16 @@ typedef struct DenemoSelection
 }
 DenemoSelection;
 
+typedef struct DenemoPalette
+{
+	gchar *name;
+	GtkWidget *box;
+	gboolean rows; /* widgets should be packed row-wise or not */
+	gboolean limit; /* how many widgets to pack in the chosen direction */
+	GList *buttons; /**< the data are GtkWidget which have a script attached to be run when activated */
+}
+DenemoPalette;
+
 
 
 /* The idea here is to make everything recursive.  The dominant
@@ -1104,6 +1114,7 @@ struct DenemoRoot
   gboolean ScriptRecording;/**< TRUE when menuitems presses are being recorded as scheme script*/
   gint keyboard_state;/**< state of last keypress/release */
   GtkWidget *ScriptView; /**< a GtkTextView containing a scheme script */
+  GList *palettes; /**< list of palettes of buttons for activating scripts */
 }  Denemo; /**< The root object. */
 
 #endif

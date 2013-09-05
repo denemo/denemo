@@ -359,6 +359,17 @@ install_scm_function4 (gchar * name, gpointer callback)
   scm_c_define_gsubr (name, 0, 4, 0, callback);
 
 }
+static void
+install_scm_function5 (gchar * name, gpointer callback)
+{
+#ifdef DEVELOPER
+  DEV_CODE;
+  if (DEV_fp)
+    fprintf (DEV_fp, "<listitem>%s four parameters: %s </listitem>\n", name, tooltip);
+#endif
+  scm_c_define_gsubr (name, 0, 5, 0, callback);
+
+}
 
 #define DENEMO_SCHEME_PREFIX "d-"
 
@@ -381,6 +392,9 @@ install_scm_function4 (gchar * name, gpointer callback)
   install_scm_function4(name, callback);\
   define_scheme_variable("Help-"name, tooltip, "Value is the help string of the variable");
 
+#define INSTALL_SCM_FUNCTION5(tooltip, name, callback)\
+  install_scm_function5(name, callback);\
+  define_scheme_variable("Help-"name, tooltip, "Value is the help string of the variable");
 
 #undef DEV_CODE
 
@@ -459,6 +473,28 @@ scheme_popup_menu (SCM list)
   return ReturnValue;
 }
 
+static SCM
+scheme_create_palette_button (SCM palette, SCM lbl, SCM tltp, SCM scrp) 
+{
+	gchar *name = scm_to_locale_string (palette);
+	gchar *label = scm_to_locale_string (lbl);
+	gchar *tooltip = scm_to_locale_string (tltp);
+	gchar *script = scm_to_locale_string (scrp);
+	
+	DenemoPalette *pal = get_palette (name);
+	if(pal==NULL) 
+	{
+		pal = new_palette (name, TRUE);
+		GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+		gtk_window_set_title (GTK_WINDOW (window), name);
+		gtk_container_add (GTK_CONTAINER (window), pal->box);
+		g_signal_connect (G_OBJECT (window), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+	}
+	palette_add_button (pal, label, tooltip, script);
+	gtk_widget_show_all (gtk_widget_get_parent(pal->box));
+	return SCM_BOOL_T;
+}	
+	
 static SCM
 scheme_get_offset (void)
 {
@@ -5974,6 +6010,9 @@ create_scheme_identfiers (void)
   INSTALL_SCM_FUNCTION4 ("Move to given Movement, voice measure and object position. Takes 4 parameters integers starting from 1, use #f for no change. Returns #f if it fails", DENEMO_SCHEME_PREFIX "GoToPosition", scheme_goto_position);
 
 
+  INSTALL_SCM_FUNCTION5 ("Takes a palette name, label, tooltip and script", DENEMO_SCHEME_PREFIX "CreatePaletteButton", scheme_create_palette_button);
+
+
   INSTALL_SCM_FUNCTION4 ("Takes up to three strings, title, prompt and initial value. Shows these to the user and returns the user's string. Fourth parameter makes the dialog not block waiting for input", DENEMO_SCHEME_PREFIX "GetUserInput", scheme_get_user_input);
   INSTALL_SCM_FUNCTION4 ("Takes up to three strings, title, prompt and initial value. Shows these to the user with a text editor for the user to return a string. Buttons are present to insert snippets which are bracketed with secion characters in the return string. Fourth parameter makes the dialog not block waiting for input", DENEMO_SCHEME_PREFIX "GetUserInputWithSnippets", scheme_get_user_input_with_snippets);
   INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message for the user to take note of as a warning", DENEMO_SCHEME_PREFIX "WarningDialog", scheme_warningdialog);
@@ -11009,7 +11048,7 @@ newtab (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (top_vbox), main_vbox, TRUE, TRUE, 0);
   gint pagenum =                //gtk_notebook_append_page (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL);
-    gtk_notebook_insert_page_menu (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL, NULL, -1);
+    gtk_notebook_insert_page_menu (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL, NULL, -1); //puts top_vbox inside Denemo.notebook
   /*(GtkNotebook *notebook,
      GtkWidget *child,
      GtkWidget *tab_label,

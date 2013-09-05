@@ -1,0 +1,2 @@
+(while(EmptyMeasure?)
+	(d-DeleteMeasure))
