@@ -492,6 +492,10 @@ scheme_create_palette_button (SCM palette, SCM lbl, SCM tltp, SCM scrp)
 	}
 	palette_add_button (pal, label, tooltip, script);
 	gtk_widget_show_all (gtk_widget_get_parent(pal->box));
+	free(name);
+	free(label);
+	free(tooltip);
+	free(script);
 	return SCM_BOOL_T;
 }	
 	
