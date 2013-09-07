@@ -6017,6 +6017,20 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <_label>Delete Empty Measures</_label>
         <_tooltip>Deletes all empty measures from the cursor until the next music.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>SharpenNote</action>
+        <after>Sharpen</after>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <_label>Sharpen or Append Sharpened</_label>
+        <_tooltip>Sharpens the note at the cursor, or if appending sharpen next entered note.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>FlattenNote</action>
+        <after>Flatten</after>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <_label>Flatten or Append Flattened</_label>
+        <_tooltip>Flatten note at cursor, or if appending flatten next note entered.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
