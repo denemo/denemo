@@ -28,7 +28,7 @@
 /* returns palette of given name, returns NULL if none */
 DenemoPalette *get_palette (gchar *name);
 DenemoPalette *new_palette (gchar *name, gboolean by_row);
-void palette_add_button (DenemoPalette *pal, gchar *label, gchar *tooltip, gchar *script);
+gboolean palette_add_button (DenemoPalette *pal, gchar *label, gchar *tooltip, gchar *script);
 void palette_delete_button (DenemoPalette *pal, GtkWidget *button);
 
 

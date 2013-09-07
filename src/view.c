@@ -476,6 +476,7 @@ scheme_popup_menu (SCM list)
 static SCM
 scheme_create_palette_button (SCM palette, SCM lbl, SCM tltp, SCM scrp) 
 {
+	SCM ret;
 	gchar *name = scm_to_locale_string (palette);
 	gchar *label = scm_to_locale_string (lbl);
 	gchar *tooltip = scm_to_locale_string (tltp);
@@ -490,15 +491,40 @@ scheme_create_palette_button (SCM palette, SCM lbl, SCM tltp, SCM scrp)
 		gtk_container_add (GTK_CONTAINER (window), pal->box);
 		g_signal_connect (G_OBJECT (window), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
 	}
-	palette_add_button (pal, label, tooltip, script);
+	ret = palette_add_button (pal, label, tooltip, script)?SCM_BOOL_T:SCM_BOOL_F;
 	gtk_widget_show_all (gtk_widget_get_parent(pal->box));
 	free(name);
 	free(label);
 	free(tooltip);
 	free(script);
-	return SCM_BOOL_T;
+	return ret;
 }	
+static SCM
+scheme_set_palette_shape (SCM palette, SCM horizontal, SCM limit) 
+{
+	gchar *name = scm_to_locale_string (palette);
+	gboolean *horiz = scm_to_bool (horizontal);
+	gint lim = scm_to_int (limit);
 	
+	DenemoPalette *pal = get_palette (name);
+	
+	if(pal==NULL) 
+	{
+		pal = new_palette (name, TRUE);
+		GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+		gtk_window_set_title (GTK_WINDOW (window), name);
+		gtk_container_add (GTK_CONTAINER (window), pal->box);
+		g_signal_connect (G_OBJECT (window), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+	}
+	free(name);
+	if (lim>0) {
+		pal->limit = lim;
+		pal->rows = horiz;
+		return SCM_BOOL_T;
+	}
+ return SCM_BOOL_F;
+}	
+		
 static SCM
 scheme_get_offset (void)
 {

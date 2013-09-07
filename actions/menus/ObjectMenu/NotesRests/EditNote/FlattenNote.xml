@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>Flatten</after>
+        <action>FlattenNote</action>
+        <_label>Flatten or Append Flattened</_label>
+        <_tooltip>Flatten note at cursor, or if appending flatten next note entered.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -165,10 +165,22 @@ static button_pressed (GtkWidget *button, GdkEventButton  *event, DenemoPalette 
 	popup_button_menu(pal, button);
 	return TRUE;	
 }
-void palette_add_button (DenemoPalette *pal, gchar *label, gchar *tooltip, gchar *script) 
+static gboolean already_present (DenemoPalette *pal, gchar *label) {
+	GList *g;
+	for(g=pal->buttons;g;g=g->next) {
+		if (!strcmp(label, gtk_button_get_label (GTK_LABEL(g->data))))
+			return TRUE;	
+	}
+	return FALSE;
+}
+gboolean palette_add_button (DenemoPalette *pal, gchar *label, gchar *tooltip, gchar *script) 
 {
+	if (already_present(pal, label))
+		return FALSE;
 	gchar *thescript = g_strdup(script);
 	GtkWidget *button = gtk_button_new_with_label (label);
+	GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));
+	gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
 	//put button in a list pal->buttons and then call repack_palette.
 	//REF it for repacking
 	g_object_ref (button);
@@ -180,6 +192,7 @@ void palette_add_button (DenemoPalette *pal, gchar *label, gchar *tooltip, gchar
 	g_object_set_data (G_OBJECT(button), "palette", pal);
 	g_signal_connect_swapped ( G_OBJECT (button), "clicked", G_CALLBACK (call_out_to_guile), thescript);
 	g_signal_connect (G_OBJECT (button), "button-press-event", G_CALLBACK (button_pressed), (gpointer)pal);
+	return TRUE;
 }
 
 void palette_delete_button (DenemoPalette *pal, GtkWidget *button) 
