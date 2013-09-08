@@ -503,7 +503,7 @@ static SCM
 scheme_set_palette_shape (SCM palette, SCM horizontal, SCM limit) 
 {
 	gchar *name = scm_to_locale_string (palette);
-	gboolean *horiz = scm_to_bool (horizontal);
+	gboolean *horiz = scm_is_true (horizontal);
 	gint lim = scm_to_int (limit);
 	
 	DenemoPalette *pal = get_palette (name);
@@ -520,6 +520,7 @@ scheme_set_palette_shape (SCM palette, SCM horizontal, SCM limit)
 	if (lim>0) {
 		pal->limit = lim;
 		pal->rows = horiz;
+		repack_palette (pal);
 		return SCM_BOOL_T;
 	}
  return SCM_BOOL_F;
@@ -6041,6 +6042,7 @@ create_scheme_identfiers (void)
 
 
   INSTALL_SCM_FUNCTION5 ("Takes a palette name, label, tooltip and script", DENEMO_SCHEME_PREFIX "CreatePaletteButton", scheme_create_palette_button);
+  INSTALL_SCM_FUNCTION4 ("Takes a palette name, boolean, and limit", DENEMO_SCHEME_PREFIX "SetPaletteShape", scheme_set_palette_shape);
 
 
   INSTALL_SCM_FUNCTION4 ("Takes up to three strings, title, prompt and initial value. Shows these to the user and returns the user's string. Fourth parameter makes the dialog not block waiting for input", DENEMO_SCHEME_PREFIX "GetUserInput", scheme_get_user_input);
@@ -6836,6 +6838,7 @@ scm_setlocale( scm_variable_ref(scm_c_lookup("LC_ALL")), scm_from_locale_string(
       g_error ("Failed to initialize audio or MIDI backends\n");
 
   create_window ();
+  installPalettes ();
 
   create_scheme_identfiers ();
 
@@ -7208,6 +7211,7 @@ close_gui_with_check (GtkAction * action, gpointer param)
       storeWindowState ();
       writeHistory ();
       writeXMLPrefs (&Denemo.prefs);
+      writePalettes ();
 #ifdef G_OS_WIN32
       CoUninitialize ();
       g_print ("\n\n\nWindows - Exiting without shutting down audio\n\n\n");

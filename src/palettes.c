@@ -32,7 +32,7 @@ static void popupmenu (GtkWidget *menu) {
       gtk_main ();
 }
 
-static void repack_palette (DenemoPalette *pal)
+void repack_palette (DenemoPalette *pal)
 {
 	gint i;
 	GList *g;
@@ -44,6 +44,7 @@ static void repack_palette (DenemoPalette *pal)
 	}
 	gtk_widget_destroy (pal->box);
 	pal->box = gtk_grid_new();
+	gtk_widget_set_tooltip_text (pal->box, _("To edit the shape of this palette, remove buttons etc right click on a button"));
 	for (i=0, g=pal->buttons;g;i++, g=g->next)
 	{
 		if(pal->rows)
@@ -52,6 +53,7 @@ static void repack_palette (DenemoPalette *pal)
 			gtk_grid_attach (GTK_GRID(pal->box), g->data, i%pal->limit, i/pal->limit, 1, 1);
 	}
 	gtk_container_add (GTK_CONTAINER (parent), pal->box);
+	gtk_window_resize (GTK_WINDOW(gtk_widget_get_parent (pal->box)), 1, 1);//FIXME if docked in main display this will not be a GTK_WINDOW
 	gtk_widget_show_all(pal->box);
 }
 
@@ -168,7 +170,7 @@ static button_pressed (GtkWidget *button, GdkEventButton  *event, DenemoPalette 
 static gboolean already_present (DenemoPalette *pal, gchar *label) {
 	GList *g;
 	for(g=pal->buttons;g;g=g->next) {
-		if (!strcmp(label, gtk_button_get_label (GTK_LABEL(g->data))))
+		if (!strcmp(label, gtk_button_get_label (GTK_BUTTON(g->data))))
 			return TRUE;	
 	}
 	return FALSE;
@@ -179,8 +181,9 @@ gboolean palette_add_button (DenemoPalette *pal, gchar *label, gchar *tooltip, g
 		return FALSE;
 	gchar *thescript = g_strdup(script);
 	GtkWidget *button = gtk_button_new_with_label (label);
-	GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));
+	GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));//g_print("is %s\n", g_type_name(G_TYPE_FROM_INSTANCE(label_widget)));
 	gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
+	
 	//put button in a list pal->buttons and then call repack_palette.
 	//REF it for repacking
 	g_object_ref (button);
@@ -191,6 +194,7 @@ gboolean palette_add_button (DenemoPalette *pal, gchar *label, gchar *tooltip, g
 	g_object_set_data (G_OBJECT(button), "script", thescript);
 	g_object_set_data (G_OBJECT(button), "palette", pal);
 	g_signal_connect_swapped ( G_OBJECT (button), "clicked", G_CALLBACK (call_out_to_guile), thescript);
+	g_signal_connect_after ( G_OBJECT (button), "clicked", G_CALLBACK (switch_back_to_main_window), NULL);
 	g_signal_connect (G_OBJECT (button), "button-press-event", G_CALLBACK (button_pressed), (gpointer)pal);
 	return TRUE;
 }
@@ -201,3 +205,37 @@ void palette_delete_button (DenemoPalette *pal, GtkWidget *button)
 	pal->buttons = g_list_remove (pal->buttons, button);
 	gtk_widget_destroy(button);
 }
+
+DenemoPalette *set_palate_shape (gchar *name, gboolean row_wise, gint limit)
+{
+	
+	DenemoPalette *pal = get_palette (name);
+	
+	if(pal==NULL) 
+	{
+		pal = new_palette (name, TRUE);
+		GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+		gtk_window_set_title (GTK_WINDOW (window), name);		
+		gtk_widget_show (window);
+		gtk_container_add (GTK_CONTAINER (window), pal->box);
+		g_signal_connect (G_OBJECT (window), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+	}
+	if (limit>0) {
+		pal->limit = limit;
+		pal->rows = row_wise;
+		repack_palette (pal);
+		//gtk_window_resize (GTK_WINDOW (window), 1, 1);
+		return pal;
+	}
+  return NULL;
+}
+
+void delete_palette (DenemoPalette *pal) {
+	GList *g;
+	for(g=pal->buttons;g;g=g->next)
+		palette_delete_button (pal, GTK_WIDGET(g->data));
+	gtk_widget_destroy (gtk_widget_get_parent (pal->box));//FIXME if docked this will not be a toplevel
+}
+
+
+

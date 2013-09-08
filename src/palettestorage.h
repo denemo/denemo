@@ -1,5 +1,5 @@
 /*
- * palettes.h
+ * palettestorage.h
  * 
  * Copyright 2013 Richard Shann 
  * 
@@ -18,18 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-#ifndef PALETTES_H
-#define PALETTES_H
+#ifndef PALETTESTORAGE_H
+#define PALETTESTORAGE_H
 #include <gtk/gtk.h>
 #include <denemo/denemo.h>
 #include <string.h>
  
 
 /* returns palette of given name, returns NULL if none */
-DenemoPalette *get_palette (gchar *name);
-DenemoPalette *new_palette (gchar *name, gboolean by_row);
-gboolean palette_add_button (DenemoPalette *pal, gchar *label, gchar *tooltip, gchar *script);
-void palette_delete_button (DenemoPalette *pal, GtkWidget *button);
-void repack_palette (DenemoPalette *pal);
-void delete_palette (DenemoPalette *pal);
+
+gint writePalettes (void);
+gint installPalettes (void);
 #endif

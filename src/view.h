@@ -38,6 +38,8 @@
 #include "barline.h"
 #include "runsilent.h"
 #include "palettes.h"
+#include "palettestorage.h"
+
 #include "libguile.h"
 
 #define EXTRA_ACCELS "extra.accels"
