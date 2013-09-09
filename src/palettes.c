@@ -137,7 +137,7 @@ static GtkWidget *popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
   gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
   gtk_main ();
 }
-DenemoPalette *new_palette (gchar *name, gboolean by_row)
+static DenemoPalette *new_palette (gchar *name, gboolean by_row)
 {
 	DenemoPalette *pal = g_malloc0(sizeof (DenemoPalette));
 	pal->name = g_strdup(name);
@@ -206,9 +206,8 @@ void palette_delete_button (DenemoPalette *pal, GtkWidget *button)
 	gtk_widget_destroy(button);
 }
 
-DenemoPalette *set_palate_shape (gchar *name, gboolean row_wise, gint limit)
-{
-	
+
+DenemoPalette *create_palette (gchar *name, gboolean docked) {
 	DenemoPalette *pal = get_palette (name);
 	
 	if(pal==NULL) 
@@ -219,7 +218,13 @@ DenemoPalette *set_palate_shape (gchar *name, gboolean row_wise, gint limit)
 		gtk_widget_show (window);
 		gtk_container_add (GTK_CONTAINER (window), pal->box);
 		g_signal_connect (G_OBJECT (window), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
-	}
+	}	
+	return pal;
+}
+
+DenemoPalette *set_palate_shape (gchar *name, gboolean row_wise, gint limit)
+{
+ DenemoPalette *pal = create_palette (name, FALSE);
 	if (limit>0) {
 		pal->limit = limit;
 		pal->rows = row_wise;
@@ -237,5 +242,43 @@ void delete_palette (DenemoPalette *pal) {
 	gtk_widget_destroy (gtk_widget_get_parent (pal->box));//FIXME if docked this will not be a toplevel
 }
 
+static gchar *selected_palette_name = NULL;
+static void palette_selected (gchar *name) 
+{
+	selected_palette_name = name;
+}
+static void user_palette_name (void)
+{
+	gchar *name;
+	name = string_dialog_entry (Denemo.gui, _("Palette Name"), _("Give name for Palette: "), _("MyPalette"));
+	selected_palette_name = name;
+}
+gchar *get_palette_name (void)
+{
+  GtkWidget *menu = gtk_menu_new ();
+  GtkWidget *item;
+  GList *g;
+  	item = gtk_menu_item_new_with_label (_("Custom"));
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	//g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (user_palette_name), NULL);
+  for (g=Denemo.palettes;g;g=g->next)
+	{
+	DenemoPalette *pal = (DenemoPalette *)g->data;
+	item = gtk_menu_item_new_with_label (pal->name);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (palette_selected), (gpointer) pal->name);
+	}	
+
+	
+	selected_palette_name = NULL;
+	popupmenu (menu);
+	if(selected_palette_name==NULL)
+		user_palette_name ();
+//	 g_signal_connect (menu, "selection-done", gtk_main_quit, NULL);
+ // gtk_widget_show_all (menu);
+ // gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
+ //gtk_main ();
+	return selected_palette_name;
+}
 
 

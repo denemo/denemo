@@ -28,8 +28,8 @@
 static save_button (xmlNodePtr button, GtkWidget *widget)
 {
 	//newXMLIntProp (xmlNodePtr parent, const xmlChar * name, gint content)
-	xmlSetProp (button, (xmlChar *) "label", (xmlChar *) gtk_button_get_label(GTK_BUTTON(widget)));
-	xmlSetProp (button, (xmlChar *) "tooltip", (xmlChar *) gtk_widget_get_tooltip_text(widget));
+	xmlSetProp (button, (xmlChar *) "_label", (xmlChar *) gtk_button_get_label(GTK_BUTTON(widget)));
+	xmlSetProp (button, (xmlChar *) "_tooltip", (xmlChar *) gtk_widget_get_tooltip_text(widget));
 	xmlSetProp (button, (xmlChar *) "script", (xmlChar *) g_object_get_data (G_OBJECT(widget), "script"));
 	
 }
@@ -48,7 +48,7 @@ newXMLIntProp (xmlNodePtr parent, const xmlChar * name, gint content)
 
 static save_palette (xmlNodePtr parent, DenemoPalette *pal)
 {
-	xmlSetProp (parent, (xmlChar *) "name", (xmlChar *) pal->name);
+	xmlSetProp (parent, (xmlChar *) "_name", (xmlChar *) pal->name);
 
 	newXMLIntProp (parent, "row-wise", pal->rows);
 	newXMLIntProp (parent, "limit", pal->limit);
@@ -126,8 +126,8 @@ for ((childElem) = (parentElem)->xmlChildrenNode; \
   FOREACH_CHILD_ELEM (childElem, palette) 
   if (ELEM_NAME_EQ (childElem, "button"))
   {
-	gchar *label = (gchar *) xmlGetProp (childElem, (xmlChar *) "label");	
-	gchar *tooltip = (gchar *) xmlGetProp (childElem, (xmlChar *) "tooltip");	
+	gchar *label = (gchar *) xmlGetProp (childElem, (xmlChar *) "_label");	
+	gchar *tooltip = (gchar *) xmlGetProp (childElem, (xmlChar *) "_tooltip");	
 	gchar *script = (gchar *) xmlGetProp (childElem, (xmlChar *) "script");	
 	if(label && tooltip && script)
 		palette_add_button (pal, label, tooltip, script);
@@ -139,11 +139,11 @@ for ((childElem) = (parentElem)->xmlChildrenNode; \
     
 static void install_palette (xmlNodePtr palette) 
 {
-	gchar *name = (gchar *) xmlGetProp (palette, (xmlChar *) "name");	
+	gchar *name = (gchar *) xmlGetProp (palette, (xmlChar *) "_name");	
 	gboolean hidden =  getXMLIntProp (palette, (xmlChar *) "hidden");
 	gboolean row_wise =  getXMLIntProp (palette, (xmlChar *) "row-wise");
 	gint limit =  getXMLIntProp (palette, (xmlChar *) "limit");
-	DenemoPalette *pal = set_palate_shape (name, row_wise, limit); //FIXME !!!!!!!make view.c use this.!!!
+	DenemoPalette *pal = set_palate_shape (name, row_wise, limit);
 	installButtons (palette, pal);
 	if(hidden)
 		gtk_widget_hide(pal->box);

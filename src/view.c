@@ -482,15 +482,8 @@ scheme_create_palette_button (SCM palette, SCM lbl, SCM tltp, SCM scrp)
 	gchar *tooltip = scm_to_locale_string (tltp);
 	gchar *script = scm_to_locale_string (scrp);
 	
-	DenemoPalette *pal = get_palette (name);
-	if(pal==NULL) 
-	{
-		pal = new_palette (name, TRUE);
-		GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-		gtk_window_set_title (GTK_WINDOW (window), name);
-		gtk_container_add (GTK_CONTAINER (window), pal->box);
-		g_signal_connect (G_OBJECT (window), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
-	}
+	DenemoPalette *pal = create_palette (name, FALSE);
+
 	ret = palette_add_button (pal, label, tooltip, script)?SCM_BOOL_T:SCM_BOOL_F;
 	gtk_widget_show_all (gtk_widget_get_parent(pal->box));
 	free(name);
@@ -506,16 +499,7 @@ scheme_set_palette_shape (SCM palette, SCM horizontal, SCM limit)
 	gboolean *horiz = scm_is_true (horizontal);
 	gint lim = scm_to_int (limit);
 	
-	DenemoPalette *pal = get_palette (name);
-	
-	if(pal==NULL) 
-	{
-		pal = new_palette (name, TRUE);
-		GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-		gtk_window_set_title (GTK_WINDOW (window), name);
-		gtk_container_add (GTK_CONTAINER (window), pal->box);
-		g_signal_connect (G_OBJECT (window), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
-	}
+	DenemoPalette *pal = create_palette (name, FALSE);
 	free(name);
 	if (lim>0) {
 		pal->limit = lim;
@@ -8337,7 +8321,6 @@ setMouseAction (ModifierAction * info)
   g_string_free (modname, TRUE);
 }
 
-
 static void
 placeOnButtonBar (GtkWidget * widget, GtkAction * action)
 {
@@ -8355,6 +8338,31 @@ placeOnButtonBar (GtkWidget * widget, GtkAction * action)
         warningdialog (_("Could not create button"));
       g_free (scheme);
     }
+}
+
+static void
+placeInPalette (GtkWidget * widget, GtkAction * action)
+{
+  gchar *name = (gchar *) gtk_action_get_name (action);
+  gint idx = lookup_command_from_name (Denemo.map, name);
+  if (idx > 0)
+    {
+      gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
+      gchar *script = g_strdup_printf ("(" DENEMO_SCHEME_PREFIX "%s)", name);
+      gchar *tooltip = lookup_tooltip_from_idx (Denemo.map, idx);
+      gchar *palette_name = get_palette_name ();
+      if(palette_name) {
+		DenemoPalette *pal = get_palette (palette_name);
+		if(pal==NULL) 
+			{
+			pal = set_palate_shape (palette_name, TRUE, 1);
+		}
+		if(pal)
+			palette_add_button (pal, label, tooltip, script);
+		}
+	  g_free (script);
+
+	}
 }
 
 /* gets a name label and tooltip from the user, then creates a menuitem in the menu 
@@ -9210,10 +9218,16 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (popup_help), (gpointer) action);
 
+ /* Place button in palette */
+
+  item = gtk_menu_item_new_with_label (_("Place Command in a Palette"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (placeInPalette), action);
+
 
   /* "drag" menu item onto button bar */
 
-  item = gtk_menu_item_new_with_label (_("Place Command on Button Bar"));
+  item = gtk_menu_item_new_with_label (_("Place Command on the Title Bar"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (placeOnButtonBar), action);
 
