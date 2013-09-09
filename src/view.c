@@ -508,7 +508,23 @@ scheme_set_palette_shape (SCM palette, SCM horizontal, SCM limit)
 		return SCM_BOOL_T;
 	}
  return SCM_BOOL_F;
-}	
+}
+static SCM
+scheme_show_all_palettes (void) 
+{
+	if(Denemo.palettes)
+	{
+		GList *g;
+		for (g=Denemo.palettes;g;g=g->next)
+		{
+			DenemoPalette *pal = (DenemoPalette *) g->data;
+			gtk_widget_show (gtk_widget_get_parent(pal->box)); //show all??
+		}	
+		return SCM_BOOL_T;
+	} else
+ return SCM_BOOL_F;
+}
+	
 		
 static SCM
 scheme_get_offset (void)
@@ -6027,6 +6043,7 @@ create_scheme_identfiers (void)
 
   INSTALL_SCM_FUNCTION5 ("Takes a palette name, label, tooltip and script", DENEMO_SCHEME_PREFIX "CreatePaletteButton", scheme_create_palette_button);
   INSTALL_SCM_FUNCTION4 ("Takes a palette name, boolean, and limit", DENEMO_SCHEME_PREFIX "SetPaletteShape", scheme_set_palette_shape);
+  INSTALL_SCM_FUNCTION ("Un-hides all palettes that are defined.", DENEMO_SCHEME_PREFIX "ShowAllPalettes", scheme_show_all_palettes);
 
 
   INSTALL_SCM_FUNCTION4 ("Takes up to three strings, title, prompt and initial value. Shows these to the user and returns the user's string. Fourth parameter makes the dialog not block waiting for input", DENEMO_SCHEME_PREFIX "GetUserInput", scheme_get_user_input);

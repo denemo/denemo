@@ -54,7 +54,7 @@ void repack_palette (DenemoPalette *pal)
 	}
 	gtk_container_add (GTK_CONTAINER (parent), pal->box);
 	gtk_window_resize (GTK_WINDOW(gtk_widget_get_parent (pal->box)), 1, 1);//FIXME if docked in main display this will not be a GTK_WINDOW
-	gtk_widget_show_all(pal->box);
+	gtk_widget_show_all(pal->box);//without this non-hidden palettes have hidden buttons.
 }
 
 
@@ -240,6 +240,7 @@ void delete_palette (DenemoPalette *pal) {
 	for(g=pal->buttons;g;g=g->next)
 		palette_delete_button (pal, GTK_WIDGET(g->data));
 	gtk_widget_destroy (gtk_widget_get_parent (pal->box));//FIXME if docked this will not be a toplevel
+	Denemo.palettes = g_list_remove (Denemo.palettes, pal);
 }
 
 static gchar *selected_palette_name = NULL;
@@ -273,11 +274,10 @@ gchar *get_palette_name (void)
 	selected_palette_name = NULL;
 	popupmenu (menu);
 	if(selected_palette_name==NULL)
-		user_palette_name ();
-//	 g_signal_connect (menu, "selection-done", gtk_main_quit, NULL);
- // gtk_widget_show_all (menu);
- // gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
- //gtk_main ();
+		{
+			//gtk_widget_destroy (menu);
+			user_palette_name ();
+		}
 	return selected_palette_name;
 }
 

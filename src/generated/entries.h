@@ -429,6 +429,7 @@
 {"Note-Reading", NULL, N_("Note Reading"), "",N_("Menu:\nGames for testing your music reading ability. Notice there is (elsewhere) the Checking Pitches feature which lets you test your ability to play via Midi Controller.")},
 {"Simple Titles", NULL, N_("Simple Titling"), "",N_("Menu:\nCommands to place titles etc at the start of the music (and each movement if needed). Do not mix with Book Titles.")},
 {"Book Titles", NULL, N_("Book Titling"), "",N_("Menu:\nCommands to create a title page, table of contents, commentaries, appendices etc.")},
+{"Palettes", NULL, N_("Palettes"), "",N_("Menu:\nCommands to manipulate the palettes of commands")},
 
 #define NOTE0 "\xF0\x9D\x85\x9D"
 

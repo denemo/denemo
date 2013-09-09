@@ -52,7 +52,7 @@ static save_palette (xmlNodePtr parent, DenemoPalette *pal)
 
 	newXMLIntProp (parent, "row-wise", pal->rows);
 	newXMLIntProp (parent, "limit", pal->limit);
-	newXMLIntProp (parent, "hidden", !gtk_widget_get_visible(pal->box));
+	newXMLIntProp (parent, "hidden", !gtk_widget_get_visible(gtk_widget_get_parent(pal->box)));
 	GList *g;
 	for(g=pal->buttons;g;g=g->next)
 	{
@@ -131,7 +131,8 @@ for ((childElem) = (parentElem)->xmlChildrenNode; \
 	gchar *script = (gchar *) xmlGetProp (childElem, (xmlChar *) "script");	
 	if(label && tooltip && script)
 		palette_add_button (pal, label, tooltip, script);
-	else g_warning ("Bad value for button in palettes.xml %s %s %s\n", label, tooltip, script);
+	else 
+		g_warning ("Bad value for button in palettes.xml %s %s %s\n", label, tooltip, script);
   }
 	 
 	 
@@ -143,12 +144,14 @@ static void install_palette (xmlNodePtr palette)
 	gboolean hidden =  getXMLIntProp (palette, (xmlChar *) "hidden");
 	gboolean row_wise =  getXMLIntProp (palette, (xmlChar *) "row-wise");
 	gint limit =  getXMLIntProp (palette, (xmlChar *) "limit");
-	DenemoPalette *pal = set_palate_shape (name, row_wise, limit);
+	DenemoPalette *pal = set_palate_shape (name, row_wise, limit);//does gtk_widget_show in repack
+	
 	installButtons (palette, pal);
 	if(hidden)
-		gtk_widget_hide(pal->box);
+		gtk_widget_hide(gtk_widget_get_parent (pal->box));
 	else
-		gtk_widget_show(pal->box);
+		gtk_widget_show(gtk_widget_get_parent (pal->box));
+		
 	if (pal->buttons==NULL)
 			{
 				delete_palette (pal);

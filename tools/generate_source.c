@@ -637,6 +637,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nGames for testing your music reading ability. Notice there is (elsewhere) the Checking Pitches feature which lets you test your ability to play via Midi Controller.", N_("Note-Reading"), NULL, N_("Note Reading"), NULL},
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands to place titles etc at the start of the music (and each movement if needed). Do not mix with Book Titles.", N_("Simple Titles"), NULL, N_("Simple Titling"), NULL},
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands to create a title page, table of contents, commentaries, appendices etc.", N_("Book Titles"), NULL, N_("Book Titling"), NULL},
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands to manipulate the palettes of commands", N_("Palettes"), NULL, N_("Palettes"), NULL},
 
 
 
