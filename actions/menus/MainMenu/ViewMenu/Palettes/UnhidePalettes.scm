@@ -1,1 +1,1 @@
-(d-ShowAllPalettes)
+(d-ShowPalettes)

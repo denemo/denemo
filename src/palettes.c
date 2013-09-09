@@ -254,13 +254,16 @@ static void user_palette_name (void)
 	name = string_dialog_entry (Denemo.gui, _("Palette Name"), _("Give name for Palette: "), _("MyPalette"));
 	selected_palette_name = name;
 }
-gchar *get_palette_name (void)
+
+gchar *get_palette_name (gboolean allow_custom)
 {
   GtkWidget *menu = gtk_menu_new ();
   GtkWidget *item;
   GList *g;
+  if(allow_custom) {
   	item = gtk_menu_item_new_with_label (_("Custom"));
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	}
 	//g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (user_palette_name), NULL);
   for (g=Denemo.palettes;g;g=g->next)
 	{
@@ -273,7 +276,7 @@ gchar *get_palette_name (void)
 	
 	selected_palette_name = NULL;
 	popupmenu (menu);
-	if(selected_palette_name==NULL)
+	if(allow_custom && (selected_palette_name==NULL))
 		{
 			//gtk_widget_destroy (menu);
 			user_palette_name ();

@@ -6037,6 +6037,13 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <_label>Show Hidden Palettes</_label>
         <_tooltip>Un-hides all non-empty palettes.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ChoosePalette</action>
+        <after>UnhidePalettes</after>
+        <menupath>/MainMenu/ViewMenu/Palettes</menupath>
+        <_label>Select a Palette to Show</_label>
+        <_tooltip>Offers the available palettes to un-hide.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

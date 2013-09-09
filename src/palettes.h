@@ -33,5 +33,5 @@ gboolean palette_add_button (DenemoPalette *pal, gchar *label, gchar *tooltip, g
 void palette_delete_button (DenemoPalette *pal, GtkWidget *button);
 void repack_palette (DenemoPalette *pal);
 void delete_palette (DenemoPalette *pal);
-gchar *get_palette_name (void);
+gchar *get_palette_name (gboolean allow_custom);
 #endif

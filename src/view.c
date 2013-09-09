@@ -510,19 +510,33 @@ scheme_set_palette_shape (SCM palette, SCM horizontal, SCM limit)
  return SCM_BOOL_F;
 }
 static SCM
-scheme_show_all_palettes (void) 
+scheme_show_palettes (SCM option) 
 {
-	if(Denemo.palettes)
+	if(scm_is_true (option)) {
+		gchar *name = get_palette_name (FALSE);
+		if(name)
+			{
+				DenemoPalette *pal = get_palette (name);
+				gtk_widget_show (gtk_widget_get_parent(pal->box));
+				return SCM_BOOL_T;
+				
+			}
+		
+	} else
 	{
-		GList *g;
-		for (g=Denemo.palettes;g;g=g->next)
-		{
+		if(Denemo.palettes)
+			{
+			GList *g;
+			for (g=Denemo.palettes;g;g=g->next)
+			{
 			DenemoPalette *pal = (DenemoPalette *) g->data;
 			gtk_widget_show (gtk_widget_get_parent(pal->box)); //show all??
-		}	
-		return SCM_BOOL_T;
-	} else
- return SCM_BOOL_F;
+			}	
+			return SCM_BOOL_T;
+		} else
+			return SCM_BOOL_F;
+	}
+	return SCM_BOOL_F;
 }
 	
 		
@@ -6043,7 +6057,7 @@ create_scheme_identfiers (void)
 
   INSTALL_SCM_FUNCTION5 ("Takes a palette name, label, tooltip and script", DENEMO_SCHEME_PREFIX "CreatePaletteButton", scheme_create_palette_button);
   INSTALL_SCM_FUNCTION4 ("Takes a palette name, boolean, and limit", DENEMO_SCHEME_PREFIX "SetPaletteShape", scheme_set_palette_shape);
-  INSTALL_SCM_FUNCTION ("Un-hides all palettes that are defined.", DENEMO_SCHEME_PREFIX "ShowAllPalettes", scheme_show_all_palettes);
+  INSTALL_SCM_FUNCTION ("Un-hides a palette. Pass #t to choose a palette otherwise shows all palettes that are defined.", DENEMO_SCHEME_PREFIX "ShowPalettes", scheme_show_palettes);
 
 
   INSTALL_SCM_FUNCTION4 ("Takes up to three strings, title, prompt and initial value. Shows these to the user and returns the user's string. Fourth parameter makes the dialog not block waiting for input", DENEMO_SCHEME_PREFIX "GetUserInput", scheme_get_user_input);
@@ -8367,7 +8381,7 @@ placeInPalette (GtkWidget * widget, GtkAction * action)
       gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
       gchar *script = g_strdup_printf ("(" DENEMO_SCHEME_PREFIX "%s)", name);
       gchar *tooltip = lookup_tooltip_from_idx (Denemo.map, idx);
-      gchar *palette_name = get_palette_name ();
+      gchar *palette_name = get_palette_name (TRUE);
       if(palette_name) {
 		DenemoPalette *pal = get_palette (palette_name);
 		if(pal==NULL) 
