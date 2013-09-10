@@ -112,11 +112,15 @@ static void get_script_for_button (GtkWidget *button) {
 static void edit_label_for_button (GtkWidget *button) {
 	const gchar *label = gtk_button_get_label (GTK_BUTTON(button));
 	gchar *newlabel = string_dialog_entry (Denemo.gui, _("Choose Label"), _("Choose label for this button"), (gchar*)label);
-	GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));
-	gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
-	if(newlabel)
+	
+	if(newlabel) {
+		gtk_button_set_label (button, newlabel); //setting the label changes the widget: this works around a bizarre bug, if you just set the markup on the label the button has two labels
+		GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));
+		gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
 		gtk_label_set_markup (GTK_LABEL (label_widget), newlabel);
+	}
 	g_free(newlabel);
+	
 }
 static void remove_button (GtkWidget *button) {
 	DenemoPalette *pal = g_object_get_data (G_OBJECT(button), "palette");
