@@ -103,16 +103,30 @@ static GtkWidget *get_palette_menu(DenemoPalette *pal) {
 static void get_script_for_button (GtkWidget *button) {
 	gchar *script = g_object_get_data (G_OBJECT(button), "script");
 }
-
+static void edit_label_for_button (GtkWidget *button) {
+	const gchar *label = gtk_button_get_label (GTK_BUTTON(button));
+	gchar *newlabel = string_dialog_entry (Denemo.gui, _("Choose Label"), _("Choose label for this button"), (gchar*)label);
+	GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));
+	gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
+	if(newlabel)
+		gtk_label_set_markup (GTK_LABEL (label_widget), newlabel);
+	g_free(newlabel);
+}
 static void remove_button (GtkWidget *button) {
 	DenemoPalette *pal = g_object_get_data (G_OBJECT(button), "palette");
 	palette_delete_button (pal, button);
+	
 }
 
 static GtkWidget *popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
   GtkWidget *menu = gtk_menu_new ();
   GtkWidget *item;
 
+  item = gtk_menu_item_new_with_label (_("Edit Label"));
+  gtk_widget_set_tooltip_text (item, _("Edit the label of this button"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (edit_label_for_button), (gpointer) button);
+  
   
   item = gtk_menu_item_new_with_label (_("Get Script"));
   gtk_widget_set_tooltip_text (item, _("Places the script that this button executs into the Scheme window"));
