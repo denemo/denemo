@@ -73,7 +73,7 @@ writePalettes (void)
   xmlNodePtr parent, child;
   gchar *localpal = NULL;
   
-  localpal = g_build_filename (get_user_data_dir (), "palettes.xml", NULL);
+  localpal = g_build_filename (get_user_data_dir (), "actions", "palettes.xml", NULL);
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
   doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo", NULL);
@@ -164,7 +164,7 @@ installPalettes (void)
   xmlNodePtr rootElem;
 
   gchar *filename = NULL;
-  filename = g_build_filename (get_user_data_dir (), "palettes.xml", NULL);
+  filename = g_build_filename (get_user_data_dir (), "actions", "palettes.xml", NULL);
   if(!g_file_test (filename, G_FILE_TEST_EXISTS))
 	{
 			g_free(filename);
@@ -172,7 +172,7 @@ installPalettes (void)
 	}
   
   if (filename == NULL)
-    filename = g_build_filename (get_system_data_dir (), "palettes.xml", NULL);
+    filename = g_build_filename (get_system_data_dir (), "actions", "palettes.xml", NULL);
 
   doc = xmlParseFile (filename);
   if (doc == NULL)
