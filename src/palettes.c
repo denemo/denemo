@@ -127,6 +127,19 @@ static void remove_button (GtkWidget *button) {
 	palette_delete_button (pal, button);
 	
 }
+static void copy_button (GtkWidget *button) {
+	gchar *tooltip =  gtk_widget_get_tooltip_text (button);
+	gchar *label = gtk_button_get_label (GTK_BUTTON(button));
+	gchar *script = g_object_get_data (G_OBJECT(button), "script");
+	gchar *name = get_palette_name (TRUE);
+	if(name)
+	{
+		DenemoPalette *pal = get_palette (name);
+		if(pal==NULL)
+			pal = create_palette (name, FALSE);
+		palette_add_button (pal, label, tooltip, script);
+	}
+}
 
 static GtkWidget *popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
   GtkWidget *menu = gtk_menu_new ();
@@ -143,6 +156,10 @@ static GtkWidget *popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (get_script_for_button), (gpointer) button);
   
+  item = gtk_menu_item_new_with_label (_("Copy to another Palette"));
+  gtk_widget_set_tooltip_text (item, _("Copy this button to another palette"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (copy_button), (gpointer) button);
   
   item = gtk_menu_item_new_with_label (_("Remove from Palette"));
   gtk_widget_set_tooltip_text (item, _("Remove this button from this palette"));
