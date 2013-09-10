@@ -21,6 +21,7 @@
 #include "palettes.h"
 #include "view.h"
 #include "utils.h"
+#include "texteditors.h"
 
 #if GTK_MAJOR_VERSION==2
 #define gtk_grid_new() gtk_vbox_new (FALSE, 1)
@@ -108,13 +109,32 @@ static GtkWidget *get_palette_menu(DenemoPalette *pal) {
 
 static void get_script_for_button (GtkWidget *button) {
 	gchar *script = g_object_get_data (G_OBJECT(button), "script");
+	appendSchemeText (script);
 }
+
+static void put_script_for_button (GtkWidget *button) {
+	gchar *text = g_strdup_printf(_("Overwrite script for button \"%s\"?"), gtk_button_get_label(GTK_BUTTON(button)));
+	if(confirm (_("Re-write Script"), text))
+	{
+	gchar *script = getSchemeText ();
+	gchar *oldscript = (gchar*) g_object_get_data (G_OBJECT(button), "script");
+	g_object_set_data (G_OBJECT(button), "script", script);
+	g_signal_handlers_block_by_func(G_OBJECT(button), G_CALLBACK (call_out_to_guile), oldscript);
+	g_free(oldscript);
+	g_signal_connect_swapped ( G_OBJECT (button), "clicked", G_CALLBACK (call_out_to_guile), script);	
+	}
+	else
+	infodialog (_("Cancelled"));
+	g_free(text);
+}
+
+
 static void edit_label_for_button (GtkWidget *button) {
 	const gchar *label = gtk_button_get_label (GTK_BUTTON(button));
 	gchar *newlabel = string_dialog_entry (Denemo.gui, _("Choose Label"), _("Choose label for this button"), (gchar*)label);
 	
 	if(newlabel) {
-		gtk_button_set_label (button, newlabel); //setting the label changes the widget: this works around a bizarre bug, if you just set the markup on the label the button has two labels
+		gtk_button_set_label (GTK_BUTTON(button), newlabel); //setting the label changes the widget: this works around a bizarre bug, if you just set the markup on the label the button has two labels
 		GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));
 		gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
 		gtk_label_set_markup (GTK_LABEL (label_widget), newlabel);
@@ -151,10 +171,7 @@ static GtkWidget *popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
   g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (edit_label_for_button), (gpointer) button);
   
   
-  item = gtk_menu_item_new_with_label (_("Get Script"));
-  gtk_widget_set_tooltip_text (item, _("Places the script that this button executs into the Scheme window"));
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (get_script_for_button), (gpointer) button);
+
   
   item = gtk_menu_item_new_with_label (_("Copy to another Palette"));
   gtk_widget_set_tooltip_text (item, _("Copy this button to another palette"));
@@ -165,6 +182,16 @@ static GtkWidget *popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
   gtk_widget_set_tooltip_text (item, _("Remove this button from this palette"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (remove_button), (gpointer) button);
+  
+  item = gtk_menu_item_new_with_label (_("Get Script"));
+  gtk_widget_set_tooltip_text (item, _("Places the script that this button executes into the Scheme window"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (get_script_for_button), (gpointer) button);
+  
+  item = gtk_menu_item_new_with_label (_("Put Script"));
+  gtk_widget_set_tooltip_text (item, _("Uses the script in the Scheme Window as the one that this button executes when clicked"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (put_script_for_button), (gpointer) button);
  
   item = gtk_menu_item_new_with_label (_("Edit this Palette"));
   gtk_widget_set_tooltip_text (item, _("Edits the palette containing this button"));
