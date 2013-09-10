@@ -2,7 +2,7 @@
 (let ((choice "Bass"))
 (set! choice (d-GetOption (string-append "Treble" stop "Bass" stop "Alto" stop "Tenor" stop "Treble Octava bassa" stop "Bass Octava bassa"stop "Soprano" stop "Drum" stop)))
 (cond
-((boolean? choice) () )
+((not choice) #f )
 ((equal? choice "Drum")
 (begin
 ;(d-MoveCursorRight)
