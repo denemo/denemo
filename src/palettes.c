@@ -26,7 +26,7 @@
 #define gtk_grid_new() gtk_vbox_new (FALSE, 1)
 #define gtk_grid_attach(widget, obj, a,b,c,d) gtk_box_pack_end(widget, obj, FALSE, TRUE, 0)
 #define GTK_GRID(a) a
-#else
+#endif
 static void hide_parent_widget (GtkWidget *w) {
 	GtkWidget *parent = gtk_widget_get_parent (w);
 	gtk_widget_hide (parent);
@@ -304,5 +304,4 @@ gchar *get_palette_name (gboolean allow_custom)
 	return selected_palette_name;
 }
 
-#endif //GTK3
 
