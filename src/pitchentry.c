@@ -196,6 +196,63 @@ static temperament Meantone = {
    }
 };
 
+//  261.6 279.4 294.3 314.3 331.1 353.6 372.5 392.4 419.1 441.5 471.5 496.7
+  static temperament VanZwolle = {
+  "Van Zwolle", 8, 3,
+  {
+   {261.6, {0, 0, 0}},            /* c */
+   {279.4, {0, 1, 0}},
+   {294.3, {1, 0, 0}},            /* d */
+   {314.3, {2, -1, 0}},           /* Eb */
+   {331.1, {2, 0, 0}},            /* e */
+   {353.6, {3, 0, 0}},            /* f */
+   {372.5, {3, 1, 0}},
+   {392.4, {4, 0, 0}},            /* g */
+   {419.1, {4, 1, 0}},            /* g# */
+   {441.5, {5, 0, 0}},            /* a */
+   {471.5, {6, -1, 0}},           /* Bb */
+   {496.7, {6, 0, 0}}             /* b */
+   }
+};
+  
+//261.6 275.0 293.0 312.2 328.1 349.6 367.5 391.6 411.6 438.5 467.2 491.1
+static temperament SilbermannI = {
+  "Silbermann I", 8, 3,
+  {
+   {261.6, {0, 0, 0}},            /* c */
+   {275.0, {0, 1, 0}},
+   {293.0, {1, 0, 0}},            /* d */
+   {312.2, {2, -1, 0}},           /* Eb */
+   {328.1, {2, 0, 0}},            /* e */
+   {349.6, {3, 0, 0}},            /* f */
+   {367.5, {3, 1, 0}},
+   {391.6, {4, 0, 0}},            /* g */
+   {411.6, {4, 1, 0}},            /* g# */
+   {438.5, {5, 0, 0}},            /* a */
+   {467.2, {6, -1, 0}},           /* Bb */
+   {491.1, {6, 0, 0}}             /* b */
+   }
+};
+
+// 261.6 276.2 293.0 312.2 329.6 349.6 369.2 391.6 413.4 438.5 467.2 493.3
+static temperament SilbermannII = {
+  "Silbermann II", 8, 3,
+  {
+   {261.6, {0, 0, 0}},            /* c */
+   {276.2, {0, 1, 0}},
+   {293.0, {1, 0, 0}},            /* d */
+   {312.2, {2, -1, 0}},           /* Eb */
+   {329.6, {2, 0, 0}},            /* e */
+   {349.6, {3, 0, 0}},            /* f */
+   {369.2, {3, 1, 0}},
+   {391.6, {4, 0, 0}},            /* g */
+   {413.4, {4, 1, 0}},            /* g# */
+   {438.5, {5, 0, 0}},            /* a */
+   {467.2, {6, -1, 0}},           /* Bb */
+   {493.3, {6, 0, 0}}             /* b */
+   }
+};
+
 //261.6 277.5 293.3 311.1 328.9 350.0 370.0 391.1 414.8 438.5 466.7 493.3
 static temperament WerckmeisterIII = {
   "Werckmeister III", 8, 3,
@@ -236,7 +293,7 @@ static temperament WerckmeisterIV = {
 
 static temperament *PR_temperament = &Equal;    /* the currently used temperament */
 
-static temperament *temperaments[] = { &Equal, &Meantone, &WerckmeisterIII,  &WerckmeisterIV, &Lehman, &Rameau, &Pythagorean};
+static temperament *temperaments[] = { &Equal, &Meantone, &WerckmeisterIII,  &WerckmeisterIV, &Lehman, &Rameau, &Pythagorean, &SilbermannII, &SilbermannI, &VanZwolle};
 
 
 
