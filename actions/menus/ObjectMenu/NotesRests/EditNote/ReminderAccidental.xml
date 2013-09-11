@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>ReminderAccidental</action>
         <_label>Reminder Accidental</_label>
-        <_tooltip>Shows the accidental in the print out inside (). Display shows accidental but plain.</_tooltip>
+        <_tooltip>Prints the accidental in ().</_tooltip>
       </row>
     </map>
   </merge>
