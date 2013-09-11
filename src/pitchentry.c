@@ -100,6 +100,29 @@ Pythagorean
   261.6 278.3 293.8 311.3 331.1 349.5 372.5 391.7 414.2 441.5 466.9 496.7
   Kirnberger II 261.6 277.5 294.3 312.2 328.9 348.8 370.0 392.4 416.2 438.5 465.1 493.3 Kirnberger III 261.6 277.5 293.3 311.1 328.9 348.8 370.0 391.1 414.8 438.5 465.1 493.3 Italian 18 th Century 261.6 277.2 293.0 311.1 328.9 349.2 370.0 391.1 414.4 438.0 465.1 492.8 Equal Temperament 261.6 277.2 293.7 311.1 329.6 349.2 370.0 392.0 415.3 440.0 466.2 493.9 HARPSICHORD TUNING - A COURSE OUTLINE, by G.C.Klop, distributed by The Sunbury Press, P.O.Box 1778, Raleigh, NC 27602.
 #endif
+
+
+
+
+static temperament Pythagorean = {
+  "Pythagorean", 8, 3,
+  {
+   {261.6, {0, 0, 0}},
+   {279.4, {0, 1, 0}},
+   {294.3, {1, 0, 0}},
+   {310.1, {2, -1,0}},
+   {331.1, {2, 0, 0}},
+   {348.8, {3, 0, 0}},
+   {372.5, {3, 1, 0}},
+   {392.4, {4, 0, 0}},
+   {419.1, {4, 1, 0}},
+   {441.5, {5, 0, 0}},
+   {465.1, {6, -1,0}},
+   {496.7, {6, 0, 0}}
+   }
+};
+
+
 static temperament Rameau = {
   "Rameau", 8, 3,
   {
@@ -173,6 +196,24 @@ static temperament Meantone = {
    }
 };
 
+//261.6 277.5 293.3 311.1 328.9 350.0 370.0 391.1 414.8 438.5 466.7 493.3
+static temperament WerckmeisterIII = {
+  "Werckmeister III", 8, 3,
+  {
+   {261.6, {0, 0, 0}},            /* c */
+   {277.5, {0, 1, 0}},
+   {293.3, {1, 0, 0}},            /* d */
+   {311.1, {2, -1, 0}},           /* Eb */
+   {328.9, {2, 0, 0}},            /* e */
+   {350.0, {3, 0, 0}},            /* f */
+   {370.0, {3, 1, 0}},
+   {391.1, {4, 0, 0}},            /* g */
+   {414.8, {4, 1, 0}},            /* g# */
+   {438.5, {5, 0, 0}},            /* a */
+   {466.7, {6, -1, 0}},           /* Bb */
+   {493.3, {6, 0, 0}}             /* b */
+   }
+};
 
 static temperament WerckmeisterIV = {
   "Werckmeister IV", 8, 3,
@@ -195,7 +236,7 @@ static temperament WerckmeisterIV = {
 
 static temperament *PR_temperament = &Equal;    /* the currently used temperament */
 
-static temperament *temperaments[] = { &Equal, &Meantone, &WerckmeisterIV, &Lehman, &Rameau };
+static temperament *temperaments[] = { &Equal, &Meantone, &WerckmeisterIII,  &WerckmeisterIV, &Lehman, &Rameau, &Pythagorean};
 
 
 
