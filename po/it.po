@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: denemo 1.0.6-rc1\n"
+"Project-Id-Version: denemo 1.0.8-rc1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-17 12:43+0100\n"
-"PO-Revision-Date: 2013-07-23 22:42+0200\n"
+"POT-Creation-Date: 2013-08-27 15:30+0100\n"
+"PO-Revision-Date: 2013-09-07 10:35+0200\n"
 "Last-Translator: Federico Bruni <fedelogy@gmail.com>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "Language: it\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.5\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../src/articulations.c:281
 msgid "<b>General</b>"
@@ -93,7 +93,7 @@ msgstr "Scegli la stanghetta desiderata"
 msgid "OK"
 msgstr "OK"
 
-#: ../src/barline.c:108 ../src/printview.c:1537 ../src/staffheightdialog.c:71
+#: ../src/barline.c:108 ../src/printview.c:1517 ../src/staffheightdialog.c:71
 msgid "Cancel"
 msgstr "Annulla"
 
@@ -242,7 +242,7 @@ msgstr "Questo è l'ultimo rigo"
 msgid "Timer left running"
 msgstr "Timer lasciato in esecuzione"
 
-#: ../src/draw.c:317
+#: ../src/draw.c:411
 msgid ""
 "Crescendo end without a corresponding start\n"
 "removing the crescendo end"
@@ -250,7 +250,7 @@ msgstr ""
 "Fine del crescendo senza un corrispondente inizio.\n"
 "Si elimina la fine del crescendo"
 
-#: ../src/draw.c:329
+#: ../src/draw.c:423
 msgid ""
 "Diminuendo end without a corresponding start\n"
 "removing the diminuendo end"
@@ -258,11 +258,15 @@ msgstr ""
 "Fine del diminuendo senza un corrispondente inizio.\n"
 "Si elimina la fine del diminuendo"
 
-#: ../src/draw.c:1007
+#: ../src/draw.c:1032
+msgid "Source Audio Attached, will play mixed with your score"
+msgstr "Sorgente audio collegata, suonerà insieme alla partitura"
+
+#: ../src/draw.c:1129
 msgid "Playback Start"
 msgstr "Inizio della riproduzione"
 
-#: ../src/draw.c:1010
+#: ../src/draw.c:1132
 msgid "Playback End"
 msgstr "Fine della riproduzione"
 
@@ -413,7 +417,7 @@ msgstr "Chiudi senza salvare"
 msgid "The score %s has unsaved changes"
 msgstr "La partitura %s ha modifiche non salvate"
 
-#: ../src/file.c:176 ../src/utils.c:1349
+#: ../src/file.c:176 ../src/utils.c:1384
 msgid "(Untitled)"
 msgstr "(Senza titolo)"
 
@@ -470,11 +474,11 @@ msgstr "Salva come"
 msgid "A file with the name %s already exists"
 msgstr "Un file col nome %s esiste già"
 
-#: ../src/file.c:1142 ../src/lilydirectives.c:2378 ../src/view.c:8514
+#: ../src/file.c:1142 ../src/lilydirectives.c:2378 ../src/view.c:8541
 msgid "Do you want to replace it?"
 msgstr "Vuoi sostituirlo?"
 
-#: ../src/file.c:1171 ../src/view.c:6839
+#: ../src/file.c:1171 ../src/view.c:6848
 msgid "No selection text available"
 msgstr "Selezione del testo non disponibile"
 
@@ -495,7 +499,7 @@ msgid "Can only paste LilyPond text into the last tab, sorry"
 msgstr "È possibile incollare il codice LilyPond solo nell'ultima scheda"
 
 #. GtkFileFilter *filter;
-#: ../src/fluid.c:197
+#: ../src/fluid.c:199
 msgid "Choose SoundFont File"
 msgstr "Scegli il file SoundFont"
 
@@ -625,8 +629,8 @@ msgid "Move to Staff Up"
 msgstr "Sposta sul rigo superiore"
 
 #: ../src/generated/entries.h:17 ../src/generated/register_commands.h:16
-msgid "Moves the cursor to the staff above without altering selection"
-msgstr "Sposta il cursore sul rigo superiore senza alterare la selezione"
+msgid "Moves the cursor to the staff above without altering selection. On the top staff it adds space above the staffs."
+msgstr "Sposta il cursore sul rigo superiore senza alterare la selezione. Sul rigo superiore aggiunge spazio tra i righi."
 
 #: ../src/generated/entries.h:18 ../src/generated/register_commands.h:17
 msgid "Move to Staff Down"
@@ -1867,7 +1871,7 @@ msgid "Insert Snippet"
 msgstr "Inserisci frammento"
 
 #: ../src/generated/entries.h:200 ../src/generated/register_commands.h:199
-#: ../src/view.c:3369
+#: ../src/view.c:3378
 msgid "Next Snippet"
 msgstr "Prossimo frammento"
 
@@ -1926,7 +1930,7 @@ msgid "Different keyboard and MIDI entry modes"
 msgstr "Diverse modalità di inserimento per tastiera e MIDI"
 
 #: ../src/generated/entries.h:206 ../src/generated/entries.h:365
-#: ../src/scorelayout.c:735 ../src/scorelayout.c:938 ../src/view.c:10111
+#: ../src/scorelayout.c:735 ../src/scorelayout.c:938 ../src/view.c:10138
 msgid "Edit"
 msgstr "Modifica"
 
@@ -2285,7 +2289,7 @@ msgid "Export the score as a MIDI file"
 msgstr "Esporta la partitura come file MIDI"
 
 #: ../src/generated/entries.h:244 ../src/generated/entries.h:249
-#: ../src/generated/register_commands.h:234 ../src/printview.c:2319
+#: ../src/generated/register_commands.h:234 ../src/printview.c:2299
 msgid "Print"
 msgstr "Stampa"
 
@@ -2478,7 +2482,7 @@ msgid "Set actions to take in response to keypresses"
 msgstr "Imposta le azioni da prendere in risposta alla pressione di tasti"
 
 #: ../src/generated/entries.h:265 ../src/generated/register_commands.h:247
-#: ../src/view.c:9129
+#: ../src/kbd-custom.c:1725 ../src/view.c:9156
 msgid "Save Command Set"
 msgstr "Salva l'insieme di comandi"
 
@@ -2643,7 +2647,7 @@ msgid "InsertMenu"
 msgstr "Menu Inserisci"
 
 #: ../src/generated/entries.h:284 ../src/generated/entries.h:346
-#: ../src/generated/entries.h:381 ../src/view.c:10109
+#: ../src/generated/entries.h:381 ../src/view.c:10136
 msgid "Insert"
 msgstr "Inserisci"
 
@@ -3272,7 +3276,7 @@ msgstr ""
 "Menu:\n"
 "Abbellimenti"
 
-#: ../src/generated/entries.h:354 ../src/view.c:10078
+#: ../src/generated/entries.h:354 ../src/view.c:10105
 msgid "Score"
 msgstr "Partitura"
 
@@ -3346,7 +3350,7 @@ msgstr ""
 "Menu:\n"
 "Inserire le note..."
 
-#: ../src/generated/entries.h:360 ../src/view.c:10070
+#: ../src/generated/entries.h:360 ../src/view.c:10097
 msgid "Lyrics"
 msgstr "Testo vocale"
 
@@ -3899,7 +3903,7 @@ msgstr ""
 "Menu:\n"
 "Scegli tra vari modi di inserire le note dalla tastiera del computer."
 
-#: ../src/generated/entries.h:407 ../src/utils.c:2259
+#: ../src/generated/entries.h:407 ../src/utils.c:2294
 msgid "Mouse"
 msgstr "Mouse"
 
@@ -5136,65 +5140,65 @@ msgstr "Impossibile eseguire il browser web specificato: %s\n"
 msgid "Obsolete form, use earlier Denemo version to convert"
 msgstr "Forma obsoleta, usa una versione precedente di Denemo per convertirla"
 
-#: ../src/importxml.c:2959
+#: ../src/importxml.c:2960
 msgid "Custom prolog is no longer supported. Use score directive prefix instead"
 msgstr "Il prologo personalizzato non è più supportato. Usare il prefisso della direttiva dello spartito"
 
-#: ../src/importxml.c:3023 ../src/importxml.c:3048
+#: ../src/importxml.c:3024 ../src/importxml.c:3049
 msgid "Erroneous call"
 msgstr "Chiamata errata"
 
-#: ../src/kbd-custom.c:78
+#: ../src/kbd-custom.c:100
 msgid "No name"
 msgstr "Nessun nome"
 
-#: ../src/kbd-custom.c:79
+#: ../src/kbd-custom.c:101
 msgid "No label"
 msgstr "Nessuna etichetta"
 
-#: ../src/kbd-custom.c:80
+#: ../src/kbd-custom.c:102
 msgid "No indication what this done beyond the name and label"
 msgstr "Nessuna indicazione su cosa è stato fatto oltre al nome e all'etichetta"
 
-#: ../src/kbd-custom.c:733
+#: ../src/kbd-custom.c:755
 msgid "This should not happen..."
 msgstr "Questo non dovrebbe accadere..."
 
-#: ../src/kbd-custom.c:1297
+#: ../src/kbd-custom.c:1319
 #, c-format
 msgid "The Command %s Responds to the Shortcut %s"
 msgstr "Il comando %s risponde alla scorciatoia %s"
 
-#: ../src/kbd-custom.c:1298 ../src/view.c:8225
+#: ../src/kbd-custom.c:1320 ../src/view.c:8252
 #, c-format
 msgid "Lose the shortcut %s for this?"
 msgstr "Abbandonare la scorciatoia %s per questo comando?"
 
-#: ../src/kbd-custom.c:1551
+#: ../src/kbd-custom.c:1573
 msgid "Could not create .denemo/actions for your customized commands"
 msgstr "Impossibile creare .denemo/actions per i propri comandi personalizzati"
 
-#: ../src/kbd-custom.c:1607
+#: ../src/kbd-custom.c:1630
 msgid "Cannot access your local .denemo"
 msgstr "Impossibile accedere alla directory locale .denemo"
 
-#: ../src/kbd-custom.c:1619
+#: ../src/kbd-custom.c:1642
 msgid "Installation error"
 msgstr "Errore di installazione"
 
-#: ../src/kbd-custom.c:1880
+#: ../src/kbd-custom.c:1892
 msgid "Commands"
 msgstr "Comandi"
 
-#: ../src/kbd-custom.c:1888
+#: ../src/kbd-custom.c:1900
 msgid "Hidden"
 msgstr "Nascosto"
 
-#: ../src/kbd-custom.c:1899
+#: ../src/kbd-custom.c:1911
 msgid "Deleted"
 msgstr "Eliminato"
 
-#: ../src/kbd-custom.c:2028
+#: ../src/kbd-custom.c:2040
 msgid "Shortcuts"
 msgstr "Scorciatoie"
 
@@ -5351,20 +5355,20 @@ msgstr "\" collocato in"
 msgid " in the menu system"
 msgstr " nel menu di sistema"
 
-#: ../src/keymapio.c:265
+#: ../src/keymapio.c:270
 msgid "There is no support for loading whole folders of commands yet, sorry"
 msgstr "Il caricamento di intere cartelle di comandi non è ancora supportato"
 
-#: ../src/keymapio.c:392
+#: ../src/keymapio.c:395
 msgid "Return"
 msgstr "Invio"
 
-#: ../src/keymapio.c:729
+#: ../src/keymapio.c:732
 #, c-format
 msgid "Unable to locate the script %s"
 msgstr "Impossibile trovare lo script %s"
 
-#: ../src/keymapio.c:741
+#: ../src/keymapio.c:744
 #, c-format
 msgid "Unable to load the script %s"
 msgstr "Impossibile caricare lo script %s"
@@ -5634,108 +5638,108 @@ msgid "Upload Edit Script"
 msgstr "Carica lo script di modifica"
 
 #. a check item for showing script window
-#: ../src/lilydirectives.c:2523 ../src/view.c:9227
+#: ../src/lilydirectives.c:2523 ../src/view.c:9254
 msgid "Show Current Script"
 msgstr "Mostra lo script corrente"
 
-#: ../src/lilydirectives.c:2624 ../src/lilydirectives.c:2698
+#: ../src/lilydirectives.c:2636 ../src/lilydirectives.c:2710
 msgid "Directive Delete"
 msgstr "Eliminazione della direttiva"
 
-#: ../src/lilydirectives.c:2624 ../src/lilydirectives.c:2698
+#: ../src/lilydirectives.c:2636 ../src/lilydirectives.c:2710
 msgid "Are you sure you want to delete the directive?"
 msgstr "Sei sicuro di voler eliminare la direttiva?"
 
-#: ../src/lilydirectives.c:2652 ../src/print.c:438
+#: ../src/lilydirectives.c:2664 ../src/print.c:444
 msgid "Cancelled"
 msgstr "Annullato"
 
-#: ../src/lilydirectives.c:2654
+#: ../src/lilydirectives.c:2666
 msgid "Use the ObjectMenu to modify this object - there are no directives here"
 msgstr "Usa il Menu degli oggetti per modificare questo oggetto - non ci sono direttive qui"
 
-#: ../src/lilydirectives.c:2688
+#: ../src/lilydirectives.c:2700
 msgid "No directives here"
 msgstr "Nessuna direttiva qui"
 
-#: ../src/lilydirectives.c:2693
+#: ../src/lilydirectives.c:2705
 msgid "No directive selected"
 msgstr "Nessuna direttiva selezionata"
 
-#: ../src/lilydirectives.c:2701 ../src/view.c:8319
+#: ../src/lilydirectives.c:2713 ../src/view.c:8346
 msgid "Operation cancelled"
 msgstr "Operazione annullata"
 
-#: ../src/lilydirectives.c:2711
+#: ../src/lilydirectives.c:2723
 msgid "Select a score directive"
 msgstr "Scegli una direttiva per la partitura"
 
-#: ../src/lilydirectives.c:2719
+#: ../src/lilydirectives.c:2731
 msgid "Select a score header block directive"
 msgstr "Scegli una direttiva del blocco header di una partitura"
 
-#: ../src/lilydirectives.c:2727
+#: ../src/lilydirectives.c:2739
 msgid "Select a score paper block directive"
 msgstr "Scegli una direttiva del blocco paper di una partitura"
 
-#: ../src/lilydirectives.c:2736
+#: ../src/lilydirectives.c:2748
 msgid "Select a movement header block directive"
 msgstr "Scegli una direttiva del blocco header di un movimento"
 
-#: ../src/lilydirectives.c:2744
+#: ../src/lilydirectives.c:2756
 msgid "Select a movement layout block directive"
 msgstr "Scegli una direttiva del blocco paper di un movimento"
 
-#: ../src/lilydirectives.c:2752
+#: ../src/lilydirectives.c:2764
 msgid "Select a movement control directive"
 msgstr "Scegli una direttiva di controllo del movimento"
 
-#: ../src/lilydirectives.c:2761
+#: ../src/lilydirectives.c:2773
 msgid "Select a clef directive"
 msgstr "Scegli una direttiva per la chiave"
 
-#: ../src/lilydirectives.c:2770
+#: ../src/lilydirectives.c:2782
 msgid "Select a key signature directive"
 msgstr "Scegli una direttiva per l'armatura di chiave"
 
-#: ../src/lilydirectives.c:2779 ../src/lilydirectives.c:2788
-#: ../src/lilydirectives.c:2797
+#: ../src/lilydirectives.c:2791 ../src/lilydirectives.c:2800
+#: ../src/lilydirectives.c:2809
 msgid "Select a time signature directive"
 msgstr "Scegli una direttiva per l'indicazione di tempo"
 
-#: ../src/lilydirectives.c:2809
+#: ../src/lilydirectives.c:2821
 msgid "Select a staff directive"
 msgstr "Scegli una direttiva per il rigo"
 
-#: ../src/lilydirectives.c:2820
+#: ../src/lilydirectives.c:2832
 msgid "Select a voice directive"
 msgstr "Scegli una direttiva per la voce"
 
-#: ../src/lilydirectives.c:2957
+#: ../src/lilydirectives.c:2969
 msgid "ScoreDirectives"
 msgstr "Direttive partitura"
 
-#: ../src/lilydirectives.c:2958
+#: ../src/lilydirectives.c:2970
 msgid "Score Header Block Directives"
 msgstr "Direttive del blocco intestazione della partitura"
 
-#: ../src/lilydirectives.c:2959
+#: ../src/lilydirectives.c:2971
 msgid "Score Paper Block Directives"
 msgstr "Direttive del blocco foglio della partitura"
 
-#: ../src/lilydirectives.c:2960 ../src/lilydirectives.c:3023
+#: ../src/lilydirectives.c:2972 ../src/lilydirectives.c:3035
 msgid "Movement Header Block Directives"
 msgstr "Direttive del blocco intestazione del movimento"
 
-#: ../src/lilydirectives.c:2961
+#: ../src/lilydirectives.c:2973
 msgid "Layout Block Directives"
 msgstr "Direttive del blocco di formattazione"
 
-#: ../src/lilydirectives.c:3021
+#: ../src/lilydirectives.c:3033
 msgid "Layout Directives"
 msgstr "Direttive di formattazione"
 
-#: ../src/lilydirectives.c:3022
+#: ../src/lilydirectives.c:3034
 msgid "Movement Directives"
 msgstr "Direttive del movimento"
 
@@ -5857,7 +5861,7 @@ msgstr "Questo programma viene fornito SENZA GARANZIA; maggiori dettagli nel fil
 msgid "This software may be redistributed and modified under the terms of the GNU General Public License; again, see the file COPYING for details.\n"
 msgstr "Questo software può essere modificato e ridistribuito secondo i termini della licenza GNU General Public License; di nuovo,maggiori dettagli nel file COPYING.\n"
 
-#: ../src/main.c:240
+#: ../src/main.c:241
 msgid "You may need to set GUILE_LOAD_PATH to the directory where you have ice9 installed\n"
 msgstr "Potrebbe essere necessario impostare la variabile GUILE_LOAD_PATH sulla directory in cui è installato ice9\n"
 
@@ -5865,135 +5869,179 @@ msgstr "Potrebbe essere necessario impostare la variabile GUILE_LOAD_PATH sulla 
 msgid "removemeasures: received request to delete more measures                   than exist.  Junking request."
 msgstr "rimuovi misure: ricevuta una richiesta di eliminazione di più misure                   di quante esistano.  Richiesta scartata."
 
-#: ../src/midi.c:905
+#: ../src/midi.c:907
 msgid "Not exiting the previous MIDI capture loop"
 msgstr "Non esce dal precedente loop dell'acquisizione MIDI"
 
-#: ../src/mousing.c:536
+#: ../src/mousing.c:560
 msgid "Dragging line separator."
 msgstr "Trascinamento del separatore di linea."
 
-#: ../src/mousing.c:536
+#: ../src/mousing.c:560
 msgid "This will allow the display to show more music, split into lines. The typeset score is not affected."
 msgstr "Questo permette al display di mostrare più musica, divisa in linee. Non ha effetti sulla partitura generata."
 
-#: ../src/mousing.c:568 ../src/mousing.c:591 ../src/mousing.c:621
+#: ../src/mousing.c:578
+msgid "Double Click Note Onset"
+msgstr "Doppio click sull'inizio della nota"
+
+#: ../src/mousing.c:578
+msgid ""
+"This represents detected note onsets which occur\n"
+"before the start of the score.\n"
+"If they are just noise,\n"
+"or if you are working on just a portion of the audio that is ok.\n"
+"Otherwise drag with left mouse button to synchronize\n"
+"with the start of the score."
+msgstr ""
+"Questo rappresenta gli inizi delle note rilevati che\n"
+"si trovano prima dell'inizio della partitura.\n"
+"Se sono solo rumore o si sta lavorando solo su\n"
+"una parte dell'audio che è buona.\n"
+"Altrimenti trascinare col pulsante sinistro del mouse\n"
+"per sincronizzare l'audio con l'inizio della partitura."
+
+#: ../src/mousing.c:588
+msgid "Left Drag Note Onset"
+msgstr "Trascina a sinistra l'inizio della nota"
+
+#: ../src/mousing.c:588
+msgid ""
+"This moves the audio to synchronize the start with the score.\n"
+"You can use the Leadin button for this too."
+msgstr ""
+"Questo sposta l'audio per sincronizzare l'inizio con la partitura.\n"
+"Si può usare il pulsante di Introduzione audio anche per questo."
+
+#: ../src/mousing.c:590
+msgid "Right Drag Note Onset"
+msgstr "Trascina a destra l'inizio della nota"
+
+#: ../src/mousing.c:590
+msgid ""
+"This changes the tempo of the score.\n"
+"Use this to synchronize the beat after setting the start"
+msgstr ""
+"Questo cambia il tempo della partitura.\n"
+"Usarlo per sincronizzare il battito dopo aver impostato l'inizio"
+
+#: ../src/mousing.c:625 ../src/mousing.c:648 ../src/mousing.c:678
 msgid "Press Left."
 msgstr "Premere a sinistra."
 
-#: ../src/mousing.c:568
+#: ../src/mousing.c:625
 msgid "This moved the cursor to the measure offscreen left. The display is shifted to place that measure on screen."
 msgstr "Questo ha spostato il cursore sulla misura a sinistra fuori dallo schermo. Il display si sposta per posizionare quella misura dentro lo schermo."
 
-#: ../src/mousing.c:591
+#: ../src/mousing.c:648
 msgid "This moved the cursor to the measure off-screen right. The display is shifted to move the cursor to the middle."
 msgstr "Questo ha spostato il cursore sulla misura a destra fuori dallo schermo. Il display si sposta per posizionare il cursore al centro."
 
-#: ../src/mousing.c:613
+#: ../src/mousing.c:670
 msgid "Double Click."
 msgstr "Doppio click"
 
-#: ../src/mousing.c:613
+#: ../src/mousing.c:670
 msgid "This gives information about the object at the cursor. Click on a notehead for information about a note in a chord."
 msgstr "Fornisce informazioni sull'oggetto al cursore. Clicca sulla testa di nota per avere informazioni su una nota di un accordo."
 
-#: ../src/mousing.c:621
+#: ../src/mousing.c:678
 msgid "This moved the cursor to the object position clicked. The cursor height becomes the clicked point."
 msgstr "Questo ha spostato il cursore sulla posizione dell'oggetto cliccata. L'altezza del cursore diventa il punto cliccato."
 
-#: ../src/mousing.c:634
+#: ../src/mousing.c:691
 msgid "Left on initial Clef."
 msgstr "Sinistra su Chiave iniziale."
 
-#: ../src/mousing.c:634
+#: ../src/mousing.c:691
 msgid "This pops up the initial clef menu."
 msgstr "Fa apparire il menu della chiave iniziale."
 
-#: ../src/mousing.c:646
+#: ../src/mousing.c:703
 msgid "Left Click on blue."
 msgstr "Click sinistro sul blu."
 
-#: ../src/mousing.c:646
+#: ../src/mousing.c:703
 msgid "This adds one sharp."
 msgstr "Aggiunge un diesis."
 
-#: ../src/mousing.c:653
+#: ../src/mousing.c:710
 msgid "Left Click on red."
 msgstr "Clic sinistro sul rosso."
 
-#: ../src/mousing.c:653
+#: ../src/mousing.c:710
 msgid "This adds one flat."
 msgstr "Aggiunge un bemolle."
 
-#: ../src/mousing.c:661
+#: ../src/mousing.c:718
 msgid "Right Click on key."
 msgstr "Clic destro sulla tonalità."
 
-#: ../src/mousing.c:661
+#: ../src/mousing.c:718
 msgid "This pops up the key signature menu."
 msgstr "Fa apparire il menu dell'armatura di chiave."
 
-#: ../src/mousing.c:670
+#: ../src/mousing.c:727
 msgid "Click on Time."
 msgstr "Clicca su Tempo."
 
-#: ../src/mousing.c:670
+#: ../src/mousing.c:727
 msgid "This pops up the time signature menu."
 msgstr "Fa apparire il menu dell'indicazione di tempo."
 
-#: ../src/mousing.c:687
+#: ../src/mousing.c:744
 msgid "Click on Staff Directives."
 msgstr "Clicca sulle direttive del rigo."
 
-#: ../src/mousing.c:687
+#: ../src/mousing.c:744
 msgid "This pops up the staff directives menu for editing"
 msgstr "Fa apparire il menu delle direttive del rigo per poterle modificare"
 
-#: ../src/mousing.c:696
+#: ../src/mousing.c:753
 msgid "Click on Voice Directives."
 msgstr "Clicca sulle direttive della voce."
 
-#: ../src/mousing.c:696
+#: ../src/mousing.c:753
 msgid "This pops up the voice directives menu for editing"
 msgstr "Fa apparire il menu delle direttive della  voce per poterle modificare"
 
-#: ../src/mousing.c:715
+#: ../src/mousing.c:772
 msgid "Right Click Appending."
 msgstr "Clic destro per aggiungere"
 
-#: ../src/mousing.c:715
+#: ../src/mousing.c:772
 msgid "This pops up the append menu"
 msgstr "Fa apparire il menu di aggiunta"
 
-#: ../src/mousing.c:751
+#: ../src/mousing.c:813
 msgid "Dragged line separator."
 msgstr "Separatore della linea trascinato."
 
-#: ../src/mousing.c:751
+#: ../src/mousing.c:813
 msgid "This allows the display to show more music, split into lines. The typeset score is not affected."
 msgstr "Permette al display di mostrare più musica, dividendola in linee. Non influenza la partitura stampata."
 
-#: ../src/mousing.c:784
+#: ../src/mousing.c:846
 msgid "Ctrl + Mouse Wheel Up"
 msgstr "Ctrl + rotella del mouse in su"
 
-#: ../src/mousing.c:793
+#: ../src/mousing.c:855
 msgid "Shift + Mouse Wheel Up"
 msgstr "Shift + rotella del mouse in su"
 
-#: ../src/mousing.c:802
+#: ../src/mousing.c:864
 msgid "Unshifted + Mouse Wheel Up"
 msgstr "Shift disabilitato + rotella del mouse in su"
 
-#: ../src/mousing.c:820
+#: ../src/mousing.c:882
 msgid "Ctrl + Mouse Wheel Down"
 msgstr "Ctrl + rotella del mouse in giù"
 
-#: ../src/mousing.c:832
+#: ../src/mousing.c:894
 msgid "Shift + Mouse Wheel Down"
 msgstr "Shift + rotella del mouse in giù"
 
-#: ../src/mousing.c:840
+#: ../src/mousing.c:902
 msgid "Unshifted + Mouse Wheel Down"
 msgstr "Shift disabilitato + rotella del mouse in giù"
 
@@ -6026,7 +6074,7 @@ msgstr "Riproduci la selezione in secondi:"
 msgid "Play from time"
 msgstr "Suona dal tempo"
 
-#: ../src/playback.c:135 ../src/print.c:566
+#: ../src/playback.c:135 ../src/print.c:572
 msgid "to"
 msgstr "a"
 
@@ -6381,23 +6429,27 @@ msgid ""
 "and lilypond installation"
 msgstr "Impossibile eseguire lilypond. Verificare l'impostazione Modifica → Preferenze → Programmi esterni → lilypond e l'installazione di lilypond"
 
-#: ../src/print.c:430
+#: ../src/print.c:432
+msgid "Denemo Typesetting"
+msgstr "Composizione tipografica di Denemo"
+
+#: ../src/print.c:436
 msgid "Already doing a print"
 msgstr "Stampa già in corso"
 
-#: ../src/print.c:430
+#: ../src/print.c:436
 msgid "Kill that one off and re-start?"
 msgstr "Fermare la stampa in corso e ricominciare?"
 
-#: ../src/print.c:550
+#: ../src/print.c:556
 msgid "Print Excerpt Range"
 msgstr "Stampa l'estratto"
 
-#: ../src/print.c:559
+#: ../src/print.c:565
 msgid "Print from Measure"
 msgstr "Stampa dalla misura"
 
-#: ../src/print.c:611
+#: ../src/print.c:617
 #, c-format
 msgid ""
 "A PNG file has been created at: %s\n"
@@ -6407,27 +6459,27 @@ msgstr ""
 "È stato creato il file PNG %s\n"
 "Se è installato un visualizzatore di immagini (verificare in Modifica → Cambia preferenze → Programmi esterni → Visualizzatore immagini), verrà mostrato con quel programma."
 
-#: ../src/print.c:634
+#: ../src/print.c:640
 msgid "Your pdf file has now been created"
 msgstr "È stato creato il file PDF"
 
-#: ../src/print.c:783
+#: ../src/print.c:789
 msgid "A range of music is selected"
 msgstr "È stata selezionata una porzione di musica"
 
-#: ../src/print.c:783
+#: ../src/print.c:789
 msgid "Print whole file?"
 msgstr "Stampare il file intero?"
 
-#: ../src/print.c:787
+#: ../src/print.c:793
 msgid "This piece has several movements"
 msgstr "Questo brano ha vari movimenti"
 
-#: ../src/print.c:787
+#: ../src/print.c:793
 msgid "Print this part from all of them?"
 msgstr "Stampare questa parte a partire da tutti i movimenti?"
 
-#: ../src/print.c:807
+#: ../src/print.c:813
 msgid "No selection to print"
 msgstr "Nessuna selezione da stampare"
 
@@ -6440,47 +6492,47 @@ msgstr "Aggiornamenti manuali"
 msgid "Continuous"
 msgstr "Continuo"
 
-#: ../src/printview.c:276
+#: ../src/printview.c:256
 msgid "Possibly Invalid"
 msgstr "Forse non funzionante"
 
-#: ../src/printview.c:277
+#: ../src/printview.c:257
 msgid "Cursor not moved."
 msgstr "Cursore non spostato."
 
-#: ../src/printview.c:280
+#: ../src/printview.c:260
 msgid "Check Score."
 msgstr "Controlla la partitura."
 
-#: ../src/printview.c:281
+#: ../src/printview.c:261
 msgid "Cursor may have moved to error point in the score."
 msgstr "Il cursore potrebbe essersi spostato al punto della partitura in cui si trova l'errore."
 
-#: ../src/printview.c:284
+#: ../src/printview.c:264
 msgid "INVALID!"
 msgstr "NON FUNZIONA!"
 
-#: ../src/printview.c:285
+#: ../src/printview.c:265
 msgid "LilyPond could not typeset this score."
 msgstr "LilyPond non è riuscito a creare questa partitura."
 
-#: ../src/printview.c:304 ../src/printview.c:2235
+#: ../src/printview.c:284 ../src/printview.c:2215
 msgid "Current Movement"
 msgstr "Movimento corrente"
 
-#: ../src/printview.c:306
+#: ../src/printview.c:286
 msgid "Excerpt Only"
 msgstr "Solo l'estratto"
 
-#: ../src/printview.c:802
+#: ../src/printview.c:782
 msgid "Now select the notehead of the note where the slur ends"
 msgstr "Ora seleziona la testa della nota dove termina la legatura di portamento"
 
-#: ../src/printview.c:802
+#: ../src/printview.c:782
 msgid "Now select the notehead of the note where the beam ends"
 msgstr "Ora seleziona la testa della nota dove termina la travatura"
 
-#: ../src/printview.c:807 ../src/printview.c:1789
+#: ../src/printview.c:787 ../src/printview.c:1769
 msgid ""
 "Now drag the begin/end markers to suggest slur position/angle\n"
 "Right click when done."
@@ -6488,7 +6540,7 @@ msgstr ""
 "Ora trascina i contrassegni di inizio/fine per suggerire la posizione e l'angolazione della legatura di portamento\n"
 "Clic destro quando hai fatto."
 
-#: ../src/printview.c:807 ../src/printview.c:1789
+#: ../src/printview.c:787 ../src/printview.c:1769
 msgid ""
 "Now drag the begin/end markers to set position/angle of beam\n"
 "Right click when done."
@@ -6496,11 +6548,11 @@ msgstr ""
 "Ora trascina i contrassegni di inizio/fine per suggerire la posizione e l'angolazione della travatura\n"
 "Clic destro quando hai fatto."
 
-#: ../src/printview.c:1046
+#: ../src/printview.c:1026
 msgid "PDF creation"
 msgstr "Creazione del PDF"
 
-#: ../src/printview.c:1070
+#: ../src/printview.c:1050
 #, c-format
 msgid ""
 "Errno %d:\n"
@@ -6509,31 +6561,31 @@ msgstr ""
 "Errore numero %d:\n"
 "Impossibile copiare %s su %s. Forse perché qualche altro processo sta usando il file di destinazione. Provare ancora con una nuova destinazione\n"
 
-#: ../src/printview.c:1236
+#: ../src/printview.c:1216
 msgid "Slur Angle/Position"
 msgstr "Angolo/posizione della legatura di portamento"
 
-#: ../src/printview.c:1236
+#: ../src/printview.c:1216
 msgid "Repeat Slur Positioning Hint?"
 msgstr "Ripetere il posizionamento suggerito per la legatura di portamento?"
 
-#: ../src/printview.c:1247
+#: ../src/printview.c:1227
 msgid "Slur Shape"
 msgstr "Forma della legatura di portamento"
 
-#: ../src/printview.c:1247
+#: ../src/printview.c:1227
 msgid "Repeat Shaping Slur?"
 msgstr "Ripetere la modifica della legatura di portamento?"
 
-#: ../src/printview.c:1488
+#: ../src/printview.c:1468
 msgid "Operation Cancelled"
 msgstr "Operazione annullata"
 
-#: ../src/printview.c:1504
+#: ../src/printview.c:1484
 msgid "Do not know what to repeat"
 msgstr "Impossibile sapere cosa ripetere"
 
-#: ../src/printview.c:1516
+#: ../src/printview.c:1496
 msgid ""
 "To tweak the positions of objects (and more) move the mouse until the hand pointer appears\n"
 "Click on the object and follow the prompts.\n"
@@ -6543,23 +6595,23 @@ msgstr ""
 "Clicca sull'oggetto e segui i suggerimenti.\n"
 "Per le travature, clicca sulla testa della nota da cui inizia la travatura."
 
-#: ../src/printview.c:1534
+#: ../src/printview.c:1514
 msgid "Apply"
 msgstr "Applica"
 
-#: ../src/printview.c:1545
+#: ../src/printview.c:1525
 msgid "Help for Tweaks"
 msgstr "Aiuto per le modifiche"
 
-#: ../src/printview.c:1546
+#: ../src/printview.c:1526
 msgid "This window can be used to tweak the typesetting that LilyPond does in the case that it is not optimal"
 msgstr "Questa finestra serve a modificare le decisioni tipografiche di LilyPond nel caso in cui non siano ottimali"
 
-#: ../src/printview.c:1550
+#: ../src/printview.c:1530
 msgid "Red dots and crosses (Off/On)"
 msgstr "Punti e crocette rossi (Disattiva/Attiva)"
 
-#: ../src/printview.c:1551
+#: ../src/printview.c:1531
 msgid ""
 "The exact positions of the graphical components of the score will be labelled with red dots\n"
 "and the control points for curves with red crosses for accurate tweaks\n"
@@ -6569,142 +6621,142 @@ msgstr ""
 "e i punti di controllo delle curve con delle crocette rosse in modo da permettere modifiche precise\n"
 "Disattivarle prima di stampare!"
 
-#: ../src/printview.c:1555
+#: ../src/printview.c:1535
 msgid "Score Size"
 msgstr "Dimensione della partitura"
 
 #. never true
-#: ../src/printview.c:1561
+#: ../src/printview.c:1541
 msgid "Repeat"
 msgstr "Ripetizione"
 
-#: ../src/printview.c:2187
+#: ../src/printview.c:2167
 msgid "Measures before cursor:"
 msgstr "Misure prima del cursore:"
 
-#: ../src/printview.c:2196
+#: ../src/printview.c:2176
 msgid "Measures after cursor:"
 msgstr "Misure dopo il cursore:"
 
-#: ../src/printview.c:2207
+#: ../src/printview.c:2187
 msgid "Staffs before cursor:"
 msgstr "Righi prima del cursore:"
 
-#: ../src/printview.c:2215
+#: ../src/printview.c:2195
 msgid "Staffs after cursor:"
 msgstr "Righi dopo il cursore:"
 
-#: ../src/printview.c:2230
+#: ../src/printview.c:2210
 msgid "All Movements"
 msgstr "Tutti i movimenti"
 
-#: ../src/printview.c:2232
+#: ../src/printview.c:2212
 msgid "If checked the current layout is re-typeset at every change"
 msgstr "Se vistato, la formattazione corrente viene ricomposta ad ogni modifica"
 
-#: ../src/printview.c:2237
+#: ../src/printview.c:2217
 msgid "If checked the current movement is re-typeset at every change"
 msgstr "Se vistato, il movimento corrente viene ricomposto ad ogni modifica"
 
-#: ../src/printview.c:2241
+#: ../src/printview.c:2221
 msgid "Cursor Context"
 msgstr "Contesto del cursore"
 
-#: ../src/printview.c:2243
+#: ../src/printview.c:2223
 msgid "If checked the range around the current cursor position is re-typeset at every change or when the cursor moves out of range."
 msgstr "Se vistato, la porzione vicina alla posizione corrente del cursore viene ricomposta a ogni modifica o quando il cursore si allontana da essa."
 
-#: ../src/printview.c:2268
+#: ../src/printview.c:2248
 msgid "Set background updates on/off."
 msgstr "Attiva/Disattiva gli aggiornamenti in background."
 
-#: ../src/printview.c:2272
+#: ../src/printview.c:2252
 msgid "Range"
 msgstr "Porzione"
 
-#: ../src/printview.c:2273
+#: ../src/printview.c:2253
 msgid "Set how much of the score to re-draw."
 msgstr "Imposta la porzione della partitura da ridisegnare."
 
-#: ../src/printview.c:2291
+#: ../src/printview.c:2271
 msgid "Set background updater on/off. This controls if typesetting is re-done after each change to the music. The amount of the score to be re-typeset can be set via this button."
 msgstr "Attiva/Disattiva l'aggiornatore in background. Questo controlla se la composizione tipografica viene riavviata a ogni modifica della musica. Questo pulsante permette di impostare la quantità della partitura da ricomporre."
 
-#: ../src/printview.c:2320
+#: ../src/printview.c:2300
 msgid "Pops up a Print dialog. From this you can send your typeset score to a printer or to a PDF file."
 msgstr "Appare la finestra di dialogo della Stampa, da cui si può inviare la partitura a una stampante o a un file PDF."
 
-#: ../src/printview.c:2324
+#: ../src/printview.c:2304
 msgid "PDF"
 msgstr "PDF"
 
-#: ../src/printview.c:2325
+#: ../src/printview.c:2305
 msgid "Exports a pdf file for this layout"
 msgstr "Esporta su file PDF per questa formattazione"
 
-#: ../src/printview.c:2329 ../src/scorelayout.c:559
+#: ../src/printview.c:2309 ../src/scorelayout.c:559
 msgid "Typeset"
 msgstr "Crea lo spartito"
 
-#: ../src/printview.c:2331
+#: ../src/printview.c:2311
 msgid "Typesets the music using the one of the created layouts. See View → Score Layouts to see the layouts you have created."
 msgstr "Compone la musica usando una delle formattazioni create. Si possono vedere le altre formattazioni in Visualizza → Formattazioni della partitura."
 
-#: ../src/printview.c:2336 ../src/scorelayout.c:1842 ../src/utils.c:1782
+#: ../src/printview.c:2316 ../src/scorelayout.c:1842 ../src/utils.c:1817
 msgid "Movement"
 msgstr "Movimento"
 
-#: ../src/printview.c:2337
+#: ../src/printview.c:2317
 msgid "Typesets the music from the current movement. This creates a score layout comprising one movement."
 msgstr "Componi la musica del movimento corrente. Questo crea una formattazione che comprende un movimento."
 
-#: ../src/printview.c:2341
+#: ../src/printview.c:2321
 msgid "Part"
 msgstr "Parte"
 
-#: ../src/printview.c:2342
+#: ../src/printview.c:2322
 msgid "Typesets the music from the current part for all movements. A part is all the music with the same staff-name. This creates a score layout with one part, all movements."
 msgstr "Compone la musica della parte corrente per tutti i movimenti. Una parte è tutta la musica con lo stesso nome del rigo. Questo crea una formattazione con una parte e tutti i movimenti."
 
-#: ../src/printview.c:2346 ../src/scorelayout.c:595
+#: ../src/printview.c:2326 ../src/scorelayout.c:595
 msgid "Refresh"
 msgstr "Aggiorna"
 
-#: ../src/printview.c:2347
+#: ../src/printview.c:2327
 msgid "Re-issues the last print command. Use this after modifying the file to repeat the typesetting."
 msgstr "Ripete l'ultimo comando di stampa. Si usa dopo aver modificato il file per ripetere la composizione tipografica."
 
-#: ../src/printview.c:2358
+#: ../src/printview.c:2338
 msgid "Duplex"
 msgstr "Doppio"
 
-#: ../src/printview.c:2359
+#: ../src/printview.c:2339
 msgid "Shows pages side by side, so you can see page turns for back-to-back printing\n"
 msgstr "Mostra le pagine affiancate, in modo da vedere i cambi di pagina per la stampa fronte retro\n"
 
-#: ../src/printview.c:2363
+#: ../src/printview.c:2343
 msgid "Next"
 msgstr "Successivo"
 
-#: ../src/printview.c:2364
+#: ../src/printview.c:2344
 msgid "Move to the next page - you can also scroll with the scroll-wheel, and zoom with control-wheel"
 msgstr "Passa alla pagina successiva - si può scorrere con la ruota del mouse e zoomare con Ctrl e la ruota"
 
-#: ../src/printview.c:2367
+#: ../src/printview.c:2347
 msgid "Previous"
 msgstr "Precedente"
 
-#: ../src/printview.c:2368
+#: ../src/printview.c:2348
 msgid "Move to the previous page - you can also scroll with the scroll-wheel, and zoom with control-wheel"
 msgstr "Passa alla pagina precedente - si può scorrere con la ruota del mouse e zoomare con Ctrl e la ruota"
 
 #. if(!Denemo.prefs.manualtypeset)
 #. gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
-#: ../src/printview.c:2376
+#: ../src/printview.c:2356
 msgid "Denemo Print View"
 msgstr "Vista della stampa di Denemo"
 
-#: ../src/printview.c:2398
+#: ../src/printview.c:2378
 msgid ""
 "This window shows the final typeset score from which you can print or (via print to file) create a PDF document.\n"
 "This will be continuously updated while you edit the music in the main window.\n"
@@ -6895,7 +6947,7 @@ msgstr "Sposta questo elemento in giù per questa formattazione"
 msgid "Remove this element from this layout"
 msgstr "Togli questo elemento da questa formattazione"
 
-#: ../src/scorelayout.c:973 ../actions/denemo-modules/wysiwyg.scm.h:21
+#: ../src/scorelayout.c:973 ../actions/denemo-modules/wysiwyg.scm.h:22
 #: ../actions/menus/ObjectMenu/Directives/PageBreak.xml.h:2
 msgid "Page Break"
 msgstr "Interruzione di pagina"
@@ -7306,6 +7358,22 @@ msgstr "Verticale"
 msgid "Landscape"
 msgstr "Orizzontale"
 
+#: ../src/sourceaudio.c:75
+msgid "Analysing Audio"
+msgstr "Analisi dell'audio"
+
+#: ../src/sourceaudio.c:234
+msgid "Audio is not stereo - expect bad things!"
+msgstr "L'audio non è stereo: troverai degli errori!"
+
+#: ../src/sourceaudio.c:236
+msgid "Audio does not have 44100 sample rate: this could be bad"
+msgstr "L'audio non ha una frequenza di campionamento di 44100: questo potrebbe essere un problema"
+
+#: ../src/sourceaudio.c:407
+msgid "Could not load the audio file. Note only stereo with sample rate 44100 are supported at present. Use Audacity or similar to convert."
+msgstr "Impossibile caricare il file audio. Attenzione, al momento sono supportati solo file stereo campionati a 44100. Usare Audacity o programmi analoghi per convertire il file."
+
 #: ../src/staffheightdialog.c:49
 msgid "Set staff height"
 msgstr "Imposta l'altezza del rigo"
@@ -7319,7 +7387,7 @@ msgstr "Inserisci lo spazio (in pixel) tra i righi:"
 msgid "poly voice %d"
 msgstr "voce polifonica %d"
 
-#: ../src/staffops.c:315 ../src/view.c:6808
+#: ../src/staffops.c:315 ../src/view.c:6817
 msgid "Unnamed"
 msgstr "Senza nome"
 
@@ -7411,11 +7479,11 @@ msgid "Denominator"
 msgstr "Denominatore"
 
 #. FIXME this is only a hint; perhaps we should embed the progress bar in the status line...
-#: ../src/utils.c:225
+#: ../src/utils.c:221
 msgid "Progress"
 msgstr "Avanzamento"
 
-#: ../src/utils.c:226
+#: ../src/utils.c:222
 msgid ""
 "This indicates the the LilyPond typsetter is still working on setting the Denemo score. This can take a long time, particularly for polyphony where voices must not collide. You can continue editing while the typsetting is taking place.\n"
 "Kill this window if you want to re-start the typesetting e.g. after fixing a mistake you just spotted."
@@ -7423,61 +7491,61 @@ msgstr ""
 "Questo indica che il compositore tipografico di LilyPond sta ancora lavorando alla creazione della partitura. Ci può volere molto tempo, soprattutto per i brani polifonici in cui le voci non devono entrare in collisione. Puoi continuare a modificare la partitura durante la creazione dello spartito.\n"
 "Chiudi questa finestra se desideri ricominciare la creazione dello spartito, ad esempio dopo aver corretto un errore che puoi aver notato."
 
-#: ../src/utils.c:1380
+#: ../src/utils.c:1415
 msgid "Error"
 msgstr "Errore"
 
-#: ../src/utils.c:1454
+#: ../src/utils.c:1489
 #, c-format
 msgid "Directive for command: \"%s\"\n"
 msgstr "Direttiva per il comando: \"%s\"\n"
 
-#: ../src/utils.c:1456
+#: ../src/utils.c:1491
 #, c-format
 msgid "Directive tagged: \"%s\"\n"
 msgstr "Direttiva etichettata: \"%s\"\n"
 
-#: ../src/utils.c:1458 ../src/utils.c:1654
+#: ../src/utils.c:1493 ../src/utils.c:1689
 #, c-format
 msgid "Menu location for this command: \"%s\"\n"
 msgstr "Posizione del menu per questo comando: \"%s\"\n"
 
-#: ../src/utils.c:1460
+#: ../src/utils.c:1495
 #, c-format
 msgid "LilyPond inserted in prefix to this object is \"%s\"\n"
 msgstr "Il codice LilyPond inserito prima di questo oggetto è \"%s\"\n"
 
-#: ../src/utils.c:1462
+#: ../src/utils.c:1497
 #, c-format
 msgid "LilyPond inserted in postfix to this object is \"%s\"\n"
 msgstr "Il codice LilyPond inserito dopo questo oggetto è \"%s\"\n"
 
-#: ../src/utils.c:1464
+#: ../src/utils.c:1499
 #, c-format
 msgid ""
 "The help for the command that created this directive is:\n"
-"\"%s\""
+"\"%s\"\n"
 msgstr ""
 "L'aiuto per il comando che ha creato questa direttiva è:\n"
-"\"%s\""
+"\"%s\"\n"
 
-#: ../src/utils.c:1496
+#: ../src/utils.c:1531
 msgid "The cursor is in the appending position after "
 msgstr "Il cursore è in posizione di aggiunta dopo"
 
-#: ../src/utils.c:1496
+#: ../src/utils.c:1531
 msgid "The cursor is on "
 msgstr "Il cursore è su"
 
-#: ../src/utils.c:1507
+#: ../src/utils.c:1542
 msgid "a chord.\n"
 msgstr "un accordo.\n"
 
-#: ../src/utils.c:1511
+#: ../src/utils.c:1546
 msgid "a one-note chord.\n"
 msgstr "un accordo di una nota.\n"
 
-#: ../src/utils.c:1514
+#: ../src/utils.c:1549
 msgid ""
 "A slur starts from here.\n"
 "There should be a matching end slur later.\n"
@@ -7485,7 +7553,7 @@ msgstr ""
 "Una legatura di portamento inizia da qui.\n"
 "Deve essere seguita dalla corrispondente chiusura della legatura.\n"
 
-#: ../src/utils.c:1516
+#: ../src/utils.c:1551
 msgid ""
 "A slur ends here\n"
 "There should be a matching start slur earlier.\n"
@@ -7493,7 +7561,7 @@ msgstr ""
 "Una legatura di portamento termina qui\n"
 "Deve essere preceduta da un inizio corrispondente.\n"
 
-#: ../src/utils.c:1518
+#: ../src/utils.c:1553
 msgid ""
 "This is tied to the following note or chord.\n"
 "The following note or chord should have the same pitch"
@@ -7501,65 +7569,65 @@ msgstr ""
 "Questo è legato alla nota o accordo successivi.\n"
 "La nota o l'accordo seguente deve avere la stessa altezza"
 
-#: ../src/utils.c:1520
-msgid "This is an acciacatura note\n"
+#: ../src/utils.c:1555
+msgid "This is an acciaccatura note\n"
 msgstr "Questa è un'acciaccatura\n"
 
-#: ../src/utils.c:1522
-msgid "This is an appogiatura note\n"
+#: ../src/utils.c:1557
+msgid "This is an appoggiatura note\n"
 msgstr "Questa è un'appoggiatura\n"
 
-#: ../src/utils.c:1524
+#: ../src/utils.c:1559
 msgid "This note denotes a rhythm - use a MIDI keyboard to add pitches by playing.\n"
 msgstr "Questa nota rappresenta una durata - usare la tastiera MIDI per aggiungere le altezze suonando.\n"
 
-#: ../src/utils.c:1533
+#: ../src/utils.c:1568
 #, c-format
 msgid "Within the chord the cursor is on the note %s \n"
 msgstr "All'interno dell'accordo il cursore è sulla nota %s.\n"
 
-#: ../src/utils.c:1537
+#: ../src/utils.c:1572
 msgid "Attached to this note:"
 msgstr "Attaccata a questa nota:"
 
-#: ../src/utils.c:1542
+#: ../src/utils.c:1577
 msgid "This rhythm has extra notes added to it, delete them and use the foot-pedal or Alt key to enter chords with the MIDI controller.\n"
 msgstr "Questo ritmo ha delle note in più: eliminarle e usare il pedale o il tasto Alt per inserire gli accordi col controller MIDI.\n"
 
-#: ../src/utils.c:1547
+#: ../src/utils.c:1582
 msgid "a rest.\n"
 msgstr "una pausa.\n"
 
-#: ../src/utils.c:1549
+#: ../src/utils.c:1584
 msgid "This rest has a slur start on it, use the Notes/Rests → Slurs menu to remove it"
 msgstr "Questa pausa ha un inizio di legatura di portamento: usare Note/Pause → Legature di portamento per rimuoverlo"
 
-#: ../src/utils.c:1551
+#: ../src/utils.c:1586
 msgid "This rest has a slur end on it, use the Notes/Rests → Slurs menu to remove it"
 msgstr "Questa pausa ha una chiusura di legatura di portamento: usare Note/Pause → Legature di portamento per rimuoverla"
 
-#: ../src/utils.c:1553
+#: ../src/utils.c:1588
 msgid "This rest has a tie starting on it, use the Notes/Rests → Ties menu to remove it"
 msgstr "Questa pausa contiene l'inizio di una legatura di valore: usare Note/Pause → Legature di valore per rimuoverlo"
 
-#: ../src/utils.c:1557
+#: ../src/utils.c:1592
 msgid "This rest will not print, just act as a spacer.\n"
 msgstr "Questa pausa non verrà stampata, serve solo come spaziatore.\n"
 
-#: ../src/utils.c:1559
+#: ../src/utils.c:1594
 msgid "This rest has the grace attribute set: this can be used to avoid a bug in the print view.\n"
 msgstr "Questa pausa ha impostato l'attributo abbellimento: serve a evitare un bug nella visualizzazione della stampa.\n"
 
-#: ../src/utils.c:1563
+#: ../src/utils.c:1598
 msgid "Attached to the chord:"
 msgstr "Attaccato all'accordo:"
 
-#: ../src/utils.c:1566
+#: ../src/utils.c:1601
 #, c-format
 msgid "This starts %d/384 quarter notes into the measure and lasts %d/384 quarter notes.\n"
 msgstr "Questo inizia %d/384 semiminime nella misura e dura %d/384 semiminime.\n"
 
-#: ../src/utils.c:1572
+#: ../src/utils.c:1607
 #, c-format
 msgid ""
 " a Start Tuplet object\n"
@@ -7570,11 +7638,11 @@ msgstr ""
 "Indica che %d note occuperanno il tempo di %d note\n"
 "fino all'oggetto Fine Gruppo Irregolare.\n"
 
-#: ../src/utils.c:1575
+#: ../src/utils.c:1610
 msgid "Attached to the Start Tuplet:"
 msgstr "Attaccato all'Inizio Gruppo Irregolare:"
 
-#: ../src/utils.c:1582
+#: ../src/utils.c:1617
 #, c-format
 msgid ""
 "an End Tuplet object\n"
@@ -7583,29 +7651,29 @@ msgstr ""
 "un oggetto Fine Gruppo irregolare\n"
 "Nota: l'Inizio Gruppo irregolare deve trovarsi nella stessa misura.\n"
 
-#: ../src/utils.c:1585
+#: ../src/utils.c:1620
 msgid "Attached to the End Tuplet:"
 msgstr "Attaccato alla Fine Gruppo irregolare:"
 
-#: ../src/utils.c:1593
+#: ../src/utils.c:1628
 #, c-format
 msgid "a Clef Change object.\n"
 msgstr "un oggetto Cambio di chiave.\n"
 
-#: ../src/utils.c:1596
+#: ../src/utils.c:1631
 msgid "Attached to the Clef Change:"
 msgstr "Attaccato al Cambio di chiave:"
 
-#: ../src/utils.c:1604
+#: ../src/utils.c:1639
 #, c-format
 msgid "a Time Signature Change object.\n"
 msgstr "un oggetto Cambio di indicazione di tempo.\n"
 
-#: ../src/utils.c:1607
+#: ../src/utils.c:1642
 msgid "Attached to the Time Signature Change:"
 msgstr "Attaccato al Cambio di indicazione di tempo:"
 
-#: ../src/utils.c:1611
+#: ../src/utils.c:1646
 #, c-format
 msgid ""
 "A Time Signature Change should be the first object in a measure\n"
@@ -7614,42 +7682,42 @@ msgstr ""
 "Un Cambio di indicazione di tempo dovrebbe essere il primo oggetto un una misura\n"
 "a meno che non si stia cercando di fare qualcosa di inusuale"
 
-#: ../src/utils.c:1617
+#: ../src/utils.c:1652
 #, c-format
 msgid "a Key Signature Change object.\n"
 msgstr "un oggetto Cambio di armatura di chiave.\n"
 
-#: ../src/utils.c:1620
+#: ../src/utils.c:1655
 msgid "Attached to the Key Signature Change:"
 msgstr "Attaccato al Cambio di armatura di chiave:"
 
-#: ../src/utils.c:1628
+#: ../src/utils.c:1663
 #, c-format
 msgid "a Stem Directive, the notes after the cursor %s"
 msgstr "una direttiva del gambo, le note dopo il cursore %s"
 
-#: ../src/utils.c:1628
+#: ../src/utils.c:1663
 msgid "will have stems downwards"
 msgstr "avranno i gambi in giù"
 
-#: ../src/utils.c:1628
+#: ../src/utils.c:1663
 msgid "will have stems upwards"
 msgstr "avranno i gambi in su"
 
-#: ../src/utils.c:1628
+#: ../src/utils.c:1663
 msgid "will have stems up or down as needed"
 msgstr "avranno i gambi in su o in giù a seconda delle necessità"
 
-#: ../src/utils.c:1631
+#: ../src/utils.c:1666
 msgid "Attached to the Stemming Change:"
 msgstr "Attaccato al Cambio di gambo:"
 
-#: ../src/utils.c:1646 ../src/utils.c:1648
+#: ../src/utils.c:1681 ../src/utils.c:1683
 #, c-format
 msgid "a Denemo Directive: (%s)"
 msgstr "una direttiva di Denemo: (%s)"
 
-#: ../src/utils.c:1650
+#: ../src/utils.c:1685
 #, c-format
 msgid ""
 "\n"
@@ -7658,12 +7726,12 @@ msgstr ""
 "\n"
 "L'aiuto per il comando che ha creato questa direttiva è \"%s\""
 
-#: ../src/utils.c:1652
+#: ../src/utils.c:1687
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: ../src/utils.c:1652
+#: ../src/utils.c:1687
 msgid ""
 "\n"
 "Not all layouts\n"
@@ -7671,7 +7739,7 @@ msgstr ""
 "\n"
 "Non tutte le formattazioni\n"
 
-#: ../src/utils.c:1652
+#: ../src/utils.c:1687
 msgid ""
 "\n"
 "Only for one Layout\n"
@@ -7679,12 +7747,12 @@ msgstr ""
 "\n"
 "Solo per una formattazione\n"
 
-#: ../src/utils.c:1656
+#: ../src/utils.c:1691
 #, c-format
 msgid "The LilyPond text inserted is %s%s\n"
 msgstr "Il codice LilyPond inserito è %s%s\n"
 
-#: ../src/utils.c:1661
+#: ../src/utils.c:1696
 msgid ""
 "This Directive is at the end of the music\n"
 "You may need a closing double bar line - see Directives → barlines"
@@ -7692,64 +7760,64 @@ msgstr ""
 "Questa direttiva si trova alla fine della musica\n"
 "Potrebbe essere necessaria una doppia stanghetta di chiusura - vedi Direttive → stanghette"
 
-#: ../src/utils.c:1666
+#: ../src/utils.c:1701
 msgid "The cursor is on an unknown object type. Please report how this happened!"
 msgstr "Il cursore si trova su un tipo di oggetto sconosciuto. Per favore segnala come è potuto succedere!"
 
-#: ../src/utils.c:1674
+#: ../src/utils.c:1709
 msgid "<span font-desc=\"30\">Warning</span> "
 msgstr "<span font-desc=\"30\">Attenzione</span> "
 
-#: ../src/utils.c:1787
+#: ../src/utils.c:1822
 #, c-format
 msgid "%d min %.2f sec %.2f %.2f"
 msgstr "%d min %.2f sec %.2f %.2f"
 
-#: ../src/utils.c:1789
+#: ../src/utils.c:1824
 #, c-format
 msgid " Staff %d Measure %d Position %d %s"
 msgstr " Rigo %d Misura %d Posizione %d %s"
 
-#: ../src/utils.c:1789
+#: ../src/utils.c:1824
 msgid "Appending"
 msgstr "In aggiunta"
 
-#: ../src/utils.c:1789
+#: ../src/utils.c:1824
 msgid "Not Appending"
 msgstr "Non in aggiunta"
 
-#: ../src/utils.c:2210
+#: ../src/utils.c:2245
 #, c-format
 msgid "Mouse shortcut <span font_desc=\"24\" foreground=\"blue\">%s</span> invokes command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr "La scorciatoia del mouse <span font_desc=\"24\" foreground=\"blue\">%s</span> invoca il comando <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 
-#: ../src/utils.c:2212
+#: ../src/utils.c:2247
 msgid "Mouse Shortcut"
 msgstr "Scorciatoia del mouse"
 
-#: ../src/utils.c:2231
+#: ../src/utils.c:2266
 #, c-format
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> invokes command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr "La pressione del tasto <span font_desc=\"24\" foreground=\"blue\">%s</span> invoca il comando <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 
-#: ../src/utils.c:2236
+#: ../src/utils.c:2271
 #, c-format
 msgid "Key Presses <span font_desc=\"24\" foreground=\"blue\">%s</span> invoke command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr "La pressione dei tasti <span font_desc=\"24\" foreground=\"blue\">%s</span> invoca il comando <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 
-#: ../src/utils.c:2238
+#: ../src/utils.c:2273
 msgid "Single Key Press"
 msgstr "Pressione di un singolo tasto"
 
-#: ../src/utils.c:2238
+#: ../src/utils.c:2273
 msgid "Two Key Presses"
 msgstr "Pressione di due tasti"
 
-#: ../src/utils.c:2247
+#: ../src/utils.c:2282
 msgid "Key Press"
 msgstr "Pressione di tasto"
 
-#: ../src/utils.c:2249
+#: ../src/utils.c:2284
 #, c-format
 msgid ""
 "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> Is not a shortcut.\n"
@@ -7758,38 +7826,38 @@ msgstr ""
 "Il tasto <span font_desc=\"24\" foreground=\"blue\">%s</span> non è una scorciatoia.\n"
 "%s"
 
-#: ../src/utils.c:2251
+#: ../src/utils.c:2286
 msgid "(The menus are now restored in case you are lost.)"
 msgstr "(I menu vengono ora ripristinati nel caso in cui si sia confusi.)"
 
-#: ../src/utils.c:2254
+#: ../src/utils.c:2289
 msgid "First Key Press"
 msgstr "Prima pressione del tasto"
 
-#: ../src/utils.c:2256
+#: ../src/utils.c:2291
 #, c-format
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> Awaiting continuation"
 msgstr "Pressione del tasto <span font_desc=\"24\" foreground=\"blue\">%s</span> In attesa di proseguire"
 
-#: ../src/utils.c:2260
+#: ../src/utils.c:2295
 #, c-format
 msgid "Mouse <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 msgstr "Mouse <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 
-#: ../src/utils.c:2263
+#: ../src/utils.c:2298
 msgid "Key + Mouse"
 msgstr "Tasto + Mouse"
 
-#: ../src/utils.c:2264
+#: ../src/utils.c:2299
 #, c-format
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 msgstr "Pressione del tasto <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 
-#: ../src/view.c:3363
+#: ../src/view.c:3372
 msgid "Paste Current Snippet"
 msgstr "Incolla il frammento corrente"
 
-#: ../src/view.c:3364
+#: ../src/view.c:3373
 msgid ""
 "Pastes the music captured in the currently selected Snippet into the text at the cursor. The music appears here in the LilyPond typesetter syntax between two markers (§). It will print as typeset music embedded in the sentence you are writing.\n"
 "You can edit the syntax, taking care to leave the markers in position. If you delete one marker be sure to delete the other.\n"
@@ -7797,7 +7865,7 @@ msgstr ""
 "Incolla la musica selezionata nel frammento attualmente scelto nel punto del testo in cui si trova il cursore. La musica appare qui nella sintassi di LilyPond tra due contrassegni (§). Apparirà come musica incorporata nella frase che si sta scrivendo.\n"
 "Si può modificare la sintassi, avendo cura di lasciare al loro posto i contrassegni. Se si elimina un contrassegno occorre eliminare anche l'altro.\n"
 
-#: ../src/view.c:3370
+#: ../src/view.c:3379
 msgid ""
 "Makes the next Snippet the one that can be pasted. To see the music snippets you need to check View → Snippets\n"
 "The one selected is in bold black."
@@ -7805,32 +7873,32 @@ msgstr ""
 "Fa sì che sia il prossimo frammento quello che può essere incollato. Per vedere i frammenti di musica bisogna andare in Visualizza → Frammenti\n"
 "Quello selezionato è in grassetto."
 
-#: ../src/view.c:3430
+#: ../src/view.c:3439
 msgid "Script error, wrong parameter type to d-InfoDialog"
 msgstr "Errore dello script, tipo di parametro sbagliato per d-InfoDialog"
 
-#: ../src/view.c:3693
+#: ../src/view.c:3702
 msgid "Already in a padding dialog"
 msgstr "Già nella finestra di dialogo della spaziatura"
 
-#: ../src/view.c:6981
+#: ../src/view.c:6990
 msgid "You have made changes to the commands you have"
 msgstr "Introdotte modifiche ai comandi presenti"
 
-#: ../src/view.c:6981
+#: ../src/view.c:6990
 msgid "Do you want to save the changes?"
 msgstr "Vuoi salvare le modifiche?"
 
-#: ../src/view.c:7016
+#: ../src/view.c:7025
 #, c-format
 msgid "Could not make folder %s for the downloaded commands"
 msgstr "Impossibile creare la cartella %s per i comandi scaricati"
 
-#: ../src/view.c:7138
+#: ../src/view.c:7147
 msgid "MIDI Controller Active?"
 msgstr "Controller MIDI attivo?"
 
-#: ../src/view.c:7138
+#: ../src/view.c:7147
 msgid ""
 "Please turn off your MIDI keyboard\n"
 "if you have not already done so"
@@ -7838,63 +7906,63 @@ msgstr ""
 "Spengere la tastiera MIDI\n"
 "se non lo si è ancora fatto"
 
-#: ../src/view.c:7377
+#: ../src/view.c:7404
 msgid "<span foreground=\"blue\">Recording + Play Along</span>"
 msgstr "<span foreground=\"blue\">Registrazione + accompagnamento</span>"
 
-#: ../src/view.c:7379
+#: ../src/view.c:7406
 msgid "<span foreground=\"red\">Recording</span>"
 msgstr "<span foreground=\"red\">Registrazione</span>"
 
-#: ../src/view.c:7381
+#: ../src/view.c:7408
 msgid "<span foreground=\"red\">Play Along</span>"
 msgstr "<span foreground=\"red\">Accompagnamento</span>"
 
-#: ../src/view.c:7383
+#: ../src/view.c:7410
 msgid "Checking Pitches"
 msgstr "Verifica delle altezze"
 
-#: ../src/view.c:7385
+#: ../src/view.c:7412
 msgid "Listening to Pitches"
 msgstr "Ascolto delle altezze"
 
-#: ../src/view.c:7388
+#: ../src/view.c:7415
 msgid "Adding to a Chord"
 msgstr "Aggiungere a un accordo"
 
-#: ../src/view.c:7390
+#: ../src/view.c:7417
 msgid "Starting a Chord"
 msgstr "Iniziare un accordo"
 
-#: ../src/view.c:7393 ../src/view.c:10708
+#: ../src/view.c:7420 ../src/view.c:10769
 msgid "Appending/Editing Pitches"
 msgstr "Aggiungere/Modificare le altezze"
 
-#: ../src/view.c:7416
+#: ../src/view.c:7443
 msgid "Mouse Conductor ON"
 msgstr "Mouse direttore d'orchestra attivo"
 
-#: ../src/view.c:7418
+#: ../src/view.c:7445
 msgid "Mouse Conductor OFF"
 msgstr "Mouse direttore d'orchestra disattivo"
 
-#: ../src/view.c:7428
+#: ../src/view.c:7455
 msgid "Switch to Normal Playback"
 msgstr "Passa alla riproduzione normale"
 
-#: ../src/view.c:7430 ../src/view.c:10714
+#: ../src/view.c:7457 ../src/view.c:10775
 msgid "Switch to Play Along Playback"
 msgstr "Passa alla riproduzione di accompagnamento"
 
-#: ../src/view.c:7437
+#: ../src/view.c:7464
 msgid "MIDI Recording"
 msgstr "Registrazione MIDI"
 
-#: ../src/view.c:7437
+#: ../src/view.c:7464
 msgid "Delete last recording?"
 msgstr "Eliminare l'ultima registrazione?"
 
-#: ../src/view.c:7465
+#: ../src/view.c:7492
 msgid ""
 "The preference set for recording time is 0 - nothing can be recorded.\n"
 "See Edit → Change Preferences Audio/Midi Tab"
@@ -7903,7 +7971,7 @@ msgstr ""
 "Vedi Modifica → Cambia preferenze → Audio/Midi"
 
 #. no selection
-#: ../src/view.c:7960
+#: ../src/view.c:7987
 msgid ""
 "No selection to create a music snippet from\n"
 "See Edit → Select menu for selecting music to snip"
@@ -7911,11 +7979,11 @@ msgstr ""
 "Nessuna selezione da cui creare il frammento musicale\n"
 "Aprire il menu Modifica → Seleziona per selezionare la musica da inserire"
 
-#: ../src/view.c:8170
+#: ../src/view.c:8197
 msgid "Have no way of getting the script, sorry"
 msgstr "Impossibile ottenere lo script"
 
-#: ../src/view.c:8186
+#: ../src/view.c:8213
 #, c-format
 msgid ""
 "Command: %s\n"
@@ -7928,64 +7996,64 @@ msgstr ""
 "Informazione:\n"
 "%s"
 
-#: ../src/view.c:8224
+#: ../src/view.c:8251
 #, c-format
 msgid "The Command %s Responds to this Shortcut"
 msgstr "Il comando %s risponde a questa scorciatoia"
 
-#: ../src/view.c:8255
+#: ../src/view.c:8282
 msgid "Could not create button"
 msgstr "Impossibile creare il pulsante"
 
-#: ../src/view.c:8278 ../src/view.c:8282 ../src/view.c:8285 ../src/view.c:8287
+#: ../src/view.c:8305 ../src/view.c:8309 ../src/view.c:8312 ../src/view.c:8314
 msgid "Create a new menu item"
 msgstr "Crea un nuovo elemento del menu"
 
-#: ../src/view.c:8278
+#: ../src/view.c:8305
 msgid "Give menu label: "
 msgstr "Assegna un'etichetta al menu: "
 
-#: ../src/view.c:8278
+#: ../src/view.c:8305
 msgid "My Label"
 msgstr "Mia etichetta"
 
-#: ../src/view.c:8282
+#: ../src/view.c:8309
 msgid "Give explanation of what it does: "
 msgstr "Spiega che cosa fa: "
 
-#: ../src/view.c:8282
+#: ../src/view.c:8309
 msgid "Prints my special effect"
 msgstr "Stampa il mio effetto speciale"
 
-#: ../src/view.c:8285
+#: ../src/view.c:8312
 msgid "Do you want the new menu item in a submenu?"
 msgstr "Vuoi che il nuovo menu sia in un sottomenu?"
 
-#: ../src/view.c:8287
+#: ../src/view.c:8314
 msgid "Give a label for the Sub-Menu"
 msgstr "Assegna un'etichetta al sottomenu"
 
-#: ../src/view.c:8287
+#: ../src/view.c:8314
 msgid "Sub Menu Label"
 msgstr "Etichetta del sottomenu"
 
-#: ../src/view.c:8303
+#: ../src/view.c:8330
 msgid "Duplicate Name"
 msgstr "Duplica il nome"
 
-#: ../src/view.c:8303
+#: ../src/view.c:8330
 msgid "A command of this name is already available in your custom menus; Overwrite?"
 msgstr "Un comando con questo nome è già presente nei propri menu personalizzati: sovrascriverlo?"
 
-#: ../src/view.c:8315
+#: ../src/view.c:8342
 msgid "New Command Added"
 msgstr "Nuovo comando aggiunto"
 
-#: ../src/view.c:8315
+#: ../src/view.c:8342
 msgid "Do you want to save this with your default commands?"
 msgstr "Vuoi salvarlo insieme ai tuoi comandi predefiniti?"
 
-#: ../src/view.c:8389
+#: ../src/view.c:8416
 msgid ""
 "No keyboard modifier keys\n"
 "Press with modifier key to change"
@@ -7993,7 +8061,7 @@ msgstr ""
 "Nessun tasto modificatore\n"
 "Premere insieme a tasto modificatore per cambiare"
 
-#: ../src/view.c:8391
+#: ../src/view.c:8418
 msgid ""
 "\n"
 "Press with modifier key to change"
@@ -8001,44 +8069,44 @@ msgstr ""
 "\n"
 "Premere insieme a tasto modificatore per cambiare"
 
-#: ../src/view.c:8399
+#: ../src/view.c:8426
 msgid "Set Mouse Shortcut"
 msgstr "Imposta la scorciatoia del mouse"
 
-#: ../src/view.c:8415
+#: ../src/view.c:8442
 #, c-format
 msgid "Setting mouse shortcut for %s"
 msgstr "Impostare la scorciatoia del mouse per  %s"
 
-#: ../src/view.c:8419
+#: ../src/view.c:8446
 msgid "Choose the mouse button"
 msgstr "Scegli il pulsante del mouse"
 
-#: ../src/view.c:8426
+#: ../src/view.c:8453
 msgid "Left"
 msgstr "Sinistra"
 
-#: ../src/view.c:8429
+#: ../src/view.c:8456
 msgid "Right"
 msgstr "Destra"
 
-#: ../src/view.c:8433
+#: ../src/view.c:8460
 msgid "Choose mouse action"
 msgstr "Scegli l'azione del mouse"
 
-#: ../src/view.c:8439
+#: ../src/view.c:8466
 msgid "Press Button"
 msgstr "Premi il pulsante"
 
-#: ../src/view.c:8442
+#: ../src/view.c:8469
 msgid "Release Button"
 msgstr "Rilascia il pulsante"
 
-#: ../src/view.c:8445
+#: ../src/view.c:8472
 msgid "Drag"
 msgstr "Trascina"
 
-#: ../src/view.c:8449
+#: ../src/view.c:8476
 msgid ""
 "Hold Modifier Keys, Engage Caps or Num Lock\n"
 "and click here to set shorcut."
@@ -8046,19 +8114,19 @@ msgstr ""
 "Tieni premuto i tasti modificatori, il tasto maiuscolo o il tasto numlock\n"
 "e clicca qui per impostare la scorciatoia."
 
-#: ../src/view.c:8514
+#: ../src/view.c:8541
 msgid "There is already an initialization script here"
 msgstr "C'è già uno script di inizializzazione qui"
 
-#: ../src/view.c:8524
+#: ../src/view.c:8551
 msgid "Wrote init.scm"
 msgstr "Scritto init.scm"
 
-#: ../src/view.c:8524
+#: ../src/view.c:8551
 msgid "Shall I execute it now?"
 msgstr "Eseguirlo ora?"
 
-#: ../src/view.c:8529
+#: ../src/view.c:8556
 msgid ""
 "Could not create init.scm;\n"
 "you must create your scripted menu item in the menu\n"
@@ -8068,46 +8136,46 @@ msgstr ""
 "occorre creare il proprio elemento del menu\n"
 "prima di creare lo script di inizializzazione per esso"
 
-#: ../src/view.c:8585 ../src/view.c:9175
+#: ../src/view.c:8612 ../src/view.c:9202
 msgid "Save Script"
 msgstr "Salva script"
 
-#: ../src/view.c:8585
+#: ../src/view.c:8612
 msgid "Over-write previous version of the script for "
 msgstr "Sovrascrivi la versione precedente dello script per"
 
-#: ../src/view.c:8585
+#: ../src/view.c:8612
 msgid " ?"
 msgstr " ?"
 
-#: ../src/view.c:8596
+#: ../src/view.c:8623
 msgid "No script saved"
 msgstr "Nessuno script salvato"
 
-#: ../src/view.c:8657
+#: ../src/view.c:8684
 msgid "Could not create .denemo/actions/bitmaps for your graphics for customized commands"
 msgstr "Impossibile creare .denemo/actions/bitmaps per i simboli grafici associati ai comandi personalizzati"
 
 #. FIXME allow fileselector here to change the name
-#: ../src/view.c:8954
+#: ../src/view.c:8981
 #, c-format
 msgid "Saving a graphic for use in the %s script"
 msgstr "Salvataggio del simbolo grafico per il suo utilizzo nello script %s"
 
-#: ../src/view.c:8955
+#: ../src/view.c:8982
 msgid "Replace current graphic?"
 msgstr "Sostituire il simbolo grafico corrente?"
 
 #. "drag" menu item onto button bar
-#: ../src/view.c:9116
+#: ../src/view.c:9143
 msgid "Place Command on Button Bar"
 msgstr "Metti il comando nella barra dei pulsanti"
 
-#: ../src/view.c:9123
+#: ../src/view.c:9150
 msgid "Create Mouse Shortcut"
 msgstr "Crea scorciatoia per mouse"
 
-#: ../src/view.c:9126
+#: ../src/view.c:9153
 msgid ""
 "Edit Shortcuts\n"
 "Set Mouse Pointers\n"
@@ -8117,7 +8185,7 @@ msgstr ""
 "Imposta i puntatori del mouse\n"
 "Nascondi/Elimina un elemento del menu"
 
-#: ../src/view.c:9171
+#: ../src/view.c:9198
 msgid "Get Script"
 msgstr "Ottieni lo script"
 
@@ -8125,36 +8193,36 @@ msgstr "Ottieni lo script"
 #. GtkSettings* settings = gtk_settings_get_default();
 #. gtk_settings_set_long_property  (settings,"gtk-menu-images",(glong)TRUE, "XProperty");
 #. item = gtk_image_menu_item_new_from_stock("Save Graphic", gtk_accel_group_new());
-#: ../src/view.c:9184
+#: ../src/view.c:9211
 msgid "Save Graphic"
 msgstr "Salva il simbolo grafico"
 
-#: ../src/view.c:9190
+#: ../src/view.c:9217
 msgid "Upload this Script to denemo.org"
 msgstr "Carica questo script su denemo.org"
 
-#: ../src/view.c:9198
+#: ../src/view.c:9225
 msgid "Save Script as New Menu Item"
 msgstr "Salva script come nuovo elemento del menu"
 
 #. options for getting/putting init.scm
-#: ../src/view.c:9212
+#: ../src/view.c:9239
 msgid "Get Initialization Script for this Menu"
 msgstr "Ottieni lo script di inizializzazione per questo menu"
 
-#: ../src/view.c:9218
+#: ../src/view.c:9245
 msgid "Put Script as Initialization Script for this Menu"
 msgstr "Imposta lo script come script di inizializzazione di questo menu"
 
-#: ../src/view.c:9409
+#: ../src/view.c:9436
 msgid "Browse"
 msgstr "Naviga"
 
-#: ../src/view.c:9409
+#: ../src/view.c:9436
 msgid "Opens a dialog for a new file"
 msgstr "Apre una finestra di dialogo per un nuovo file"
 
-#: ../src/view.c:9476
+#: ../src/view.c:9503
 msgid ""
 "You have unsaved work. Hardware problems may cause the program to exit during this task.\n"
 "Please save first."
@@ -8162,39 +8230,39 @@ msgstr ""
 "Hai del lavoro non salvato. Problemi di hardware potrebbero far chiudere il programma durante lo svolgimento di questo compito.\n"
 "Salva prima."
 
-#: ../src/view.c:9508
+#: ../src/view.c:9535
 msgid "Could not start Audio input"
 msgstr "Impossibile avviare l'input audio"
 
-#: ../src/view.c:10037
+#: ../src/view.c:10064
 msgid "Tools"
 msgstr "Strumenti"
 
-#: ../src/view.c:10037
+#: ../src/view.c:10064
 msgid "Show/hide a toolbar for general operations on music files"
 msgstr "Mostra/Nascondi la barra degli strumenti per le operazioni comuni sui file musicali"
 
-#: ../src/view.c:10040 ../src/view.c:10551
+#: ../src/view.c:10067 ../src/view.c:10582
 msgid "Playback Control"
 msgstr "Controlli di riproduzione"
 
-#: ../src/view.c:10040
+#: ../src/view.c:10067
 msgid "Show/hide playback controls"
 msgstr "Mostra/Bascondi i controlli di riproduzione"
 
-#: ../src/view.c:10043 ../src/view.c:10691
+#: ../src/view.c:10070 ../src/view.c:10752
 msgid "Midi In Control"
 msgstr "Controllo dell'ingresso Midi"
 
-#: ../src/view.c:10043
+#: ../src/view.c:10070
 msgid "Show/hide Midi Input controls"
 msgstr "Mostra/Nascondi i controlli dell'ingresso Midi"
 
-#: ../src/view.c:10046
+#: ../src/view.c:10073
 msgid "Snippets"
 msgstr "Frammenti"
 
-#: ../src/view.c:10046
+#: ../src/view.c:10073
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to store and enter snippets of music and to enter notes using rhythm pattern of a snippet"
@@ -8202,11 +8270,11 @@ msgstr ""
 "Mostra/Nascondi la barra  degli strumenti che permette di\n"
 "salvare e inserire frammenti di musica e di inserire note secondo lo schema ritmico di un frammento"
 
-#: ../src/view.c:10049
+#: ../src/view.c:10076
 msgid "Note and Rest Entry"
 msgstr "Inserimento di note e pause"
 
-#: ../src/view.c:10049
+#: ../src/view.c:10076
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to enter notes and rests using the mouse"
@@ -8214,11 +8282,11 @@ msgstr ""
 "Mostra/Nascondi una barra degli strumenti che permette di\n"
 "inserire note e pause col mouse"
 
-#: ../src/view.c:10052
+#: ../src/view.c:10079
 msgid "Object Menu"
 msgstr "Menu degli oggetti"
 
-#: ../src/view.c:10052
+#: ../src/view.c:10079
 msgid ""
 "Show/hide a menu which is arranged by objects\n"
 "The actions available for note objects change with the mode"
@@ -8226,47 +8294,47 @@ msgstr ""
 "Mostra/Nascondi un menu che è disposto per oggetti\n"
 "Le azioni disponibili per gli oggetti delle note cambiano a seconda del modo"
 
-#: ../src/view.c:10055
+#: ../src/view.c:10082
 msgid "LilyPond"
 msgstr "LilyPond"
 
-#: ../src/view.c:10055
+#: ../src/view.c:10082
 msgid "Show/hide the LilyPond music typesetting language window"
 msgstr "Mostra/Nascondi la finestra del linguaggio di composizione tipografica di LilyPond"
 
-#: ../src/view.c:10058
+#: ../src/view.c:10085
 msgid "Scheme Script"
 msgstr "Script scheme"
 
-#: ../src/view.c:10058
+#: ../src/view.c:10085
 msgid "Show scheme script window"
 msgstr "Mostra la finestra degli script scheme"
 
-#: ../src/view.c:10062
+#: ../src/view.c:10089
 msgid "Typeset Music"
 msgstr "Crea lo spartito"
 
-#: ../src/view.c:10066
+#: ../src/view.c:10093
 msgid "Score Layout"
 msgstr "Formattazione della partitura"
 
-#: ../src/view.c:10074
+#: ../src/view.c:10101
 msgid "LilyPond Errors"
 msgstr "Errori di LilyPond"
 
-#: ../src/view.c:10082
+#: ../src/view.c:10109
 msgid "Titles, Buttons etc"
 msgstr "Titoli, pulsanti, etc."
 
-#: ../src/view.c:10087
+#: ../src/view.c:10114
 msgid "Allow Quick Shortcut Edits"
 msgstr "Consenti le modifiche veloci delle scorciatoie"
 
-#: ../src/view.c:10090
+#: ../src/view.c:10117
 msgid "Record Scheme Script"
 msgstr "Registra lo script scheme"
 
-#: ../src/view.c:10094
+#: ../src/view.c:10121
 msgid ""
 "Audible Feedback\n"
 "Insert Duration/Edit Note"
@@ -8274,23 +8342,23 @@ msgstr ""
 "Audible Feedback\n"
 "Inserisci durata/Modifica nota"
 
-#: ../src/view.c:10094
+#: ../src/view.c:10121
 msgid "Gives feedback as you enter durations. N.B. durations are entered in Edit mode"
 msgstr "Dà del feedback mentre inserisci le durate. N.B. le durate vengono inserite in modalità di modifica"
 
-#: ../src/view.c:10097
+#: ../src/view.c:10124
 msgid "Read Only"
 msgstr "Sola lettura"
 
-#: ../src/view.c:10105
+#: ../src/view.c:10132
 msgid "No mode"
 msgstr "Nessuna modalità"
 
-#: ../src/view.c:10107
+#: ../src/view.c:10134
 msgid "Classic"
 msgstr "Classica"
 
-#: ../src/view.c:10109
+#: ../src/view.c:10136
 msgid ""
 "Mode for inserting notes into the score at the cursor position\n"
 "Uses prevailing duration/rhythm\n"
@@ -8302,7 +8370,7 @@ msgstr ""
 "Usa le durate per impostare la durata prevalente\n"
 "Usa i nomi delle note per inserire la nota"
 
-#: ../src/view.c:10111
+#: ../src/view.c:10138
 msgid ""
 "Mode for changing the note at cursor (name, duration)\n"
 "and to enter notes by duration (rhythms)\n"
@@ -8312,27 +8380,27 @@ msgstr ""
 "e inserire le note per durata (ritmi)\n"
 "Usa le durate per inserire le note"
 
-#: ../src/view.c:10117
+#: ../src/view.c:10144
 msgid "Note"
 msgstr "Nota"
 
-#: ../src/view.c:10117
+#: ../src/view.c:10144
 msgid "Normal (note) entry"
 msgstr "Inserimento normale (delle note)"
 
-#: ../src/view.c:10118
+#: ../src/view.c:10145
 msgid "Rest"
 msgstr "Pausa"
 
-#: ../src/view.c:10118
+#: ../src/view.c:10145
 msgid "Entering rests not notes"
 msgstr "Inserire pause, non note"
 
-#: ../src/view.c:10119
+#: ../src/view.c:10146
 msgid "Non printing rests"
 msgstr "Pause spaziatrici"
 
-#: ../src/view.c:10119
+#: ../src/view.c:10146
 msgid ""
 "Enters rests which will not be printed (just take up space)\n"
 "Used for positioning polyphonic voice entries"
@@ -8340,19 +8408,19 @@ msgstr ""
 "Inserisce pause che non verranno stampate (occupano solo lo spazio)\n"
 "Si usano per posizionare gli elementi di ogni voce in un brano polifonico"
 
-#: ../src/view.c:10122
+#: ../src/view.c:10149
 msgid "Audible Feedback"
 msgstr "Feedback sonoro"
 
-#: ../src/view.c:10122
+#: ../src/view.c:10149
 msgid "Gives feedback as you enter durations"
 msgstr "Riproduce il suono mentre si inseriscono le durate"
 
-#: ../src/view.c:10127
+#: ../src/view.c:10154
 msgid "No External Input"
 msgstr "Nessun input esterno"
 
-#: ../src/view.c:10127
+#: ../src/view.c:10154
 msgid ""
 "Entry of notes via computer keyboard only\n"
 "Ignores connected MIDI or microphone devices."
@@ -8360,19 +8428,19 @@ msgstr ""
 "Inserimento delle note solo attraverso la tastiera del computer\n"
 "Ignora gli strumenti MIDI o i microfoni connessi."
 
-#: ../src/view.c:10130
+#: ../src/view.c:10157
 msgid "Audio Input"
 msgstr "Input audio"
 
-#: ../src/view.c:10130
+#: ../src/view.c:10157
 msgid "Enable pitch entry from microphone"
 msgstr "Abilita l'inserimento di altezze dal microfono"
 
-#: ../src/view.c:10133
+#: ../src/view.c:10160
 msgid "Midi Input"
 msgstr "Input Midi"
 
-#: ../src/view.c:10133
+#: ../src/view.c:10160
 msgid ""
 "Input from a MIDI source. Set up the source first using Edit → Change Preferences → Audio/Midi\n"
 "Use View → MIDI In Control to control what the input does.\n"
@@ -8380,15 +8448,15 @@ msgstr ""
 "Input da un sorgente MIDI. Imposta prima il sorgente in Modifica → Cambia Preferenze → Audio/Midi\n"
 "Usa Visualizza → Controlli dell'ingresso MIDI per controllare cosa fa l'input.\n"
 
-#: ../src/view.c:10317
+#: ../src/view.c:10344
 msgid "Menu:"
 msgstr "Menu:"
 
-#: ../src/view.c:10318
+#: ../src/view.c:10345
 msgid "Click here then hover over the menu items to find out what they will do"
 msgstr "Clicca qui e poi passa col mouse sopra gli elementi del menu per scoprire cosa fanno"
 
-#: ../src/view.c:10320
+#: ../src/view.c:10347
 msgid ""
 "Left click to execute the command, press a key to assign a keyboard shortcut to the command,\n"
 "Right click to get a menu from which you can\n"
@@ -8398,25 +8466,25 @@ msgstr ""
 "Clic destro per ottenere un menu dal quale puoi\n"
 "Creare un pulsante per questo comando, o una scorciatoia con due tasti o altre opzioni ancora"
 
-#: ../src/view.c:10428
+#: ../src/view.c:10463
 msgid "Denemo Main Window"
 msgstr "Finestra principale di Denemo"
 
 #. menubar = gtk_item_factory_get_widget (item_factory, "<main>");
 #. this triggers Lily... missing action
-#: ../src/view.c:10523
+#: ../src/view.c:10554
 msgid "This is the Main Menu bar, where menus for the mostly non-musical aspects (saving, printing, setting up input sources etc) are placed. See the Object Menu bar for the commands that edit music"
 msgstr "Questa è la barra del menu principale, dove si trovano i menu per gli aspetti in gran parte non musicali (salvataggio, stampa, impostazione delle sorgenti di input, etc.). Si veda la barra del menu degli oggetti per i comandi che modificano la musica"
 
-#: ../src/view.c:10527
+#: ../src/view.c:10558
 msgid "This is the Object Menu bar, where menus for the commands that edit music live. They are arranged in a hierarchy Score, Movement, Staff (which contains Voices) and then the things that go on a staff, notes, clefs etc. Directives covers everything else that you can put in amongst the notes to change the behavior from that point in the music."
 msgstr "Questa è la barra del menu degli oggetti, dove si trovano i comandi che modificano la musica. Sono disposti in ordine gerarchico: Partitura, Movimento, Rigo (che contiene le Voci) e poi le cose che vanno nel rigo, ovvero note, chiavi, etc. Direttive tratta di qualsiasi cosa si possa inserire tra le note per modificare il comportamento da quel punto della musica in poi."
 
-#: ../src/view.c:10528
+#: ../src/view.c:10559
 msgid "This bar has buttons for entering notes and rests. The highlighted duration is the <i>prevailing duration</i>, that is the duration which will be applied to the next note entered. You can hide this bar (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu → Edit → Change Preferences → Display Note/Rest entry toolbar"
 msgstr "Questa barra ha dei pulsanti che servono a inserire note e pause. La durata evidenziata è la <i>durata prevalente</i>, ovvero la durata che verrà applicata alla prossima nota inserita. Puoi nascondere questa barra (per fare più spazio sullo schermo) tramite il menu Visualizza. Puoi impostare nelle preferenze che sia nascosta usando Menu principale → Modifica → Cambia preferenze → Mostra la barra di inserimento di note e pause"
 
-#: ../src/view.c:10532
+#: ../src/view.c:10563
 msgid ""
 "You can populate this bar with buttons holding a snippet of music. The highlighted snippet is the <i>prevailing duration</i>, that is the next note entered will follow the rhythmic pattern of this snippet.\n"
 "You can enter the whole snippet by clicking on it, or using the command under ObjectMenu → Notes/Rests → Append/InsertDuration → Insert Snippet. You can also select the <i>prevailing snippet</i> using  ObjectMenu → Notes/Rests → Select Duration → Next Snippet.\n"
@@ -8428,17 +8496,17 @@ msgstr ""
 
 #. The user should be able to decide toolbar style.
 #. But without gnome, there is no (ui) to set this option.
-#: ../src/view.c:10537
+#: ../src/view.c:10568
 msgid "This tool bar contains a few conventional commands. You can hide it (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu → Edit → Change Preferences → Display general toolbar"
 msgstr "Questa barra degli strumenti contiene pochi comandi convenzionali. Puoi nasconderla (per fare più spazio sullo schermo) tramite il menu Visualizza. Puoi impostare nelle preferenze che sia nascosta usando Menu principale → Modifica → Cambia preferenze → Mostra la barra generale degli strumenti"
 
-#: ../src/view.c:10548
+#: ../src/view.c:10579
 msgid "Controls for playback. The arrows on either side of the PLAY and STOP buttons move the playback start and playback end markers. Loop plays in a loop - you can edit while it plays. You can also record the output and save it as .ogg or .wav file. The temperament used for playing back can be set here."
 msgstr "Controlli di riproduzione. Le frecce su ciascun lato dei pulsanti PLAY e STOP spostano i contrassegni di inizio e di fine riproduzione. Il loop ripete la riproduzione: si può modificare durante la riproduzione. Si può anche registrare l'output e salvarlo in un file .ogg o .wav. Qui si può impostare anche il temperamento da usare nella riproduzione."
 
 #. create_playbutton(inner, NULL, pb_first, GTK_STOCK_GOTO_FIRST);
 #. create_playbutton(inner,NULL, pb_rewind, GTK_STOCK_MEDIA_REWIND);
-#: ../src/view.c:10573
+#: ../src/view.c:10604
 msgid ""
 "Moves the playback start point (which shows as a green bar) earlier in time\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -8446,7 +8514,7 @@ msgstr ""
 "Sposta indietro nel tempo il punto di inizio della riproduzione (che appare come una barra verde)\n"
 "Le barre verde e rossa non appaiono finché non si è avviata la riproduzione o almeno non si è creata la base del tempo."
 
-#: ../src/view.c:10575
+#: ../src/view.c:10606
 msgid ""
 "Sets the playback start point (green bar) to the note at the cursor.\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -8454,7 +8522,7 @@ msgstr ""
 "Imposta il punto di inizio della riproduzione (barra verde) sulla nota al cursore.\n"
 "Le barre verde e rossa non appaiono finché non si è avviata la riproduzione o almeno non si è creata la base del tempo."
 
-#: ../src/view.c:10576
+#: ../src/view.c:10607
 msgid ""
 "Moves the playback start point (which shows as a green bar) later in time\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -8462,11 +8530,11 @@ msgstr ""
 "Sposta avanti nel tempo il punto di inizio della riproduzione (che appare come una barra verde)\n"
 "Le barre verde e rossa non appaiono finché non si è avviata la riproduzione o almeno non si è creata la base del tempo."
 
-#: ../src/view.c:10577
+#: ../src/view.c:10608
 msgid "Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."
 msgstr "Ferma la riproduzione. Premendo play successivamente la riproduzione riprenderà dal punto in cui si trova la barra verde, non da dove si è fermata.  Usa il pulsante Play/Pausa per questo."
 
-#: ../src/view.c:10578
+#: ../src/view.c:10609
 msgid ""
 "Starts playing back from the playback start (green bar) until the playback end (red bar).\n"
 "When playing it pauses the play, and continues when pressed again."
@@ -8474,7 +8542,7 @@ msgstr ""
 "Inizia a riprodurre dall'inizio (barra verde) alla fine (barra rossa).\n"
 "Mentre suona si può mettere in pausa e riprendere le riproduzione premendo di nuovo."
 
-#: ../src/view.c:10579
+#: ../src/view.c:10610
 msgid ""
 "Starts/Stops recording the audio output from Denemo.\n"
 "Records live performance and/or playback,\n"
@@ -8484,11 +8552,11 @@ msgstr ""
 "Registra l'esecuzione dal vivo e/o la riproduzione,\n"
 "salvare su disco per evitare la sovrascrittura di registrazioni precedenti."
 
-#: ../src/view.c:10580
+#: ../src/view.c:10611
 msgid "Exports the audio recorded to disk"
 msgstr "Esporta l'audio registrato su disco"
 
-#: ../src/view.c:10582
+#: ../src/view.c:10613
 msgid ""
 "Moves the playback end point (which shows as a red bar) earlier in time\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -8496,7 +8564,7 @@ msgstr ""
 "Sposta indietro nel tempo il punto finale della riproduzione (che appare come una barra rossa)\n"
 "Le barre verde e rossa non appaiono finché non si è avviata la riproduzione o almeno non si è creata la base del tempo."
 
-#: ../src/view.c:10583
+#: ../src/view.c:10614
 msgid ""
 "Sets the playback end point (red bar) to the note at the cursor.\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -8504,7 +8572,7 @@ msgstr ""
 "Imposta il punto finale della riproduzione (barra rossa) sulla nota al cursore.\n"
 "Le barre verde e rossa non appaiono finché non si è avviata la riproduzione o almeno non si è creata la base del tempo."
 
-#: ../src/view.c:10585
+#: ../src/view.c:10616
 msgid ""
 "Moves the playback end point (which shows as a red bar) later in time\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -8513,11 +8581,11 @@ msgstr ""
 "Le barre verde e rossa non appaiono finché non si è avviata la riproduzione o almeno non si è creata la base del tempo."
 
 #. create_playbutton(inner,NULL, pb_forward, GTK_STOCK_MEDIA_FORWARD);
-#: ../src/view.c:10589
+#: ../src/view.c:10620
 msgid "Loop"
 msgstr "Loop"
 
-#: ../src/view.c:10589
+#: ../src/view.c:10620
 msgid ""
 "The music between the red and green bars is played in a loop.\n"
 "You can edit the music while it is playing\n"
@@ -8527,11 +8595,11 @@ msgstr ""
 "Si può modificare la musica mentre viene riprodotta\n"
 "e monitorare i cambiamenti."
 
-#: ../src/view.c:10591
+#: ../src/view.c:10622
 msgid "Conductor"
 msgstr "Direttore d'orchestra"
 
-#: ../src/view.c:10591
+#: ../src/view.c:10622
 msgid ""
 "With the mouse conductor once you press play the playback progresses as you move the mouse around\n"
 "With this you can speed up and slow down the playback to listen in detail to a certain passage\n"
@@ -8539,59 +8607,76 @@ msgstr ""
 "Col mouse direttore d'orchestra attivato, dopo aver premuto play la riproduzione avanza insieme al movimento del mouse\n"
 "In questo modo si può velocizzare o rallentare la riproduzione per ascoltare con attenzione un certo passaggio\n"
 
-#: ../src/view.c:10595
+#: ../src/view.c:10626
 msgid "Panic"
 msgstr "Panico"
 
-#: ../src/view.c:10597
+#: ../src/view.c:10628
 msgid "Reset"
 msgstr "Ripristina"
 
-#: ../src/view.c:10599
+#: ../src/view.c:10630
 msgid "Resets the synthesizer, on JACK it sends a JACK panic."
 msgstr "Reimposta il sintetizzatore; se si usa JACK invia un segnale di panico."
 
-#: ../src/view.c:10602
+#: ../src/view.c:10633
 msgid "Set From Selection"
 msgstr "Imposta dalla selezione"
 
-#: ../src/view.c:10602
+#: ../src/view.c:10633
 msgid "Sets the playback range (green and red bars) to the current selection."
 msgstr "Imposta l'estensione della riproduzione (barre verde e rossa) sulla selezione corrente."
 
-#: ../src/view.c:10603
+#: ../src/view.c:10634
 msgid "Playback Range"
 msgstr "Estensione della riproduzione"
 
-#: ../src/view.c:10603
+#: ../src/view.c:10634
 msgid "Pops up a dialog to get timings for start and end of playback."
 msgstr "Fa apparire una finestra di dialogo per inserire i tempi di inizio e fine della riproduzione."
 
 #. Tempo
-#: ../src/view.c:10613
+#: ../src/view.c:10644
 msgid "Tempo:"
 msgstr "Tempo:"
 
+#: ../src/view.c:10645
+msgid "Set the (initial) tempo of the movement"
+msgstr "Imposta il tempo (iniziale) del movimento"
+
 #. create_playbutton(hbox, "Set Tempo", pb_set_tempo, NULL);
 #. Volume
-#: ../src/view.c:10628
+#: ../src/view.c:10660
 #: ../actions/menus/ObjectMenu/Directives/MIDI/ChangeVolume.xml.h:2
 msgid "Volume"
 msgstr "Volume"
 
-#: ../src/view.c:10645
+#. GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
+#: ../src/view.c:10662
+msgid "Set the (initial) volume of the movement"
+msgstr "Imposta il volume (iniziale) del movimento"
+
+#: ../src/view.c:10679
 msgid "Audio Volume Cut"
 msgstr "Diminuzione del volume audio"
 
-#: ../src/view.c:10658
+#: ../src/view.c:10680
+msgid "Reduce the volume of the source audio relative to the volume of the score"
+msgstr "Riduce il volume della sorgente audio in modo proporzionale al volume della partitura"
+
+#: ../src/view.c:10694
 msgid "Audio Volume Boost"
 msgstr "Incremento del volume audio"
 
-#: ../src/view.c:10670
+#: ../src/view.c:10695
+msgid "Boost the volume of the source audio relative to the volume of the score"
+msgstr "Aumenta il volume della sorgente audio in modo proporzionale al volume della partitura"
+
+#: ../src/view.c:10707
 msgid "Audio Lead In "
 msgstr "Introduzione audio"
 
-#: ../src/view.c:10674
+#: ../src/view.c:10711
 msgid ""
 "Set the number of seconds to clip from the audio, or if negative number of seconds silence before audio plays.\n"
 "This is useful when the audio track does not begin on a barline."
@@ -8599,19 +8684,24 @@ msgstr ""
 "Imposta il numero di secondi da prendere dall'audio; se negativo è il numero di secondi di silenzio prima che inizi la riproduzione audio.\n"
 "Questo è utile quando la traccia audio non inizia precisamente su una battuta."
 
-#: ../src/view.c:10677
-msgid " secs."
-msgstr "sec."
+#. Speed
+#: ../src/view.c:10722
+msgid "Slowdown:"
+msgstr "Rallenta:"
 
-#: ../src/view.c:10689
+#: ../src/view.c:10738
+msgid "Slow down the audio output maintaining the pitch"
+msgstr "Rallenta l'output audio mantenendo uguale l'altezza"
+
+#: ../src/view.c:10750
 msgid "Controls for managing input from a MIDI controller (e.g. keyboard) attached to the computer. You may need to select your MIDI device first using MainMenu → Edit → Change Preferences → MIDI looking for MIDI in devices (turn your device on first). When you have a MIDI controller durations are inserted without any pitch (they appear in brown) playing on the controller puts the pitches onto the durations. The Shift and Control and ALT keys can also be used for listening without entering notes, checking pitches entered and entering chords. The foot pedal can also be used for chords. Release the ALT key and re-press to start a new chord - timing is unimportant, play the chord fast or slow."
 msgstr "Controlli  per gestire l'input da un controller MIDI  (ad esempio una tastiera) collegato al computer. Potrebbe essere necessario selezionare prima il proprio strumento MIDI dal menu principale Modifica → Cambia preferenze → MIDI cercando i dispositivi di ingresso MIDI (accendere prima il dispositivo). Con un controller MIDI le durate vengono inserite senza specificare l'altezza (appaiono in marrone); solo quando si suona il dispositivo le altezze vengono aggiunte alle durate. I tasti Shift, Control e Alt possono essere usati per ascoltare senza inserire note, verificare le altezze inserite e aggiungere gli accordi. Si può usare anche il pedale per gli accordi. Rilasciare il tasto Alt e ripremerlo per iniziare un nuovo accordo; il tempo non è importante, si può suonare l'accordo a qualsiasi velocità."
 
-#: ../src/view.c:10709
+#: ../src/view.c:10770
 msgid "This tells you what will happen to a MIDI in event from your controller. Use the Control Shift or ALT keys, or caps lock to affect what will happen."
 msgstr "Avvisa cosa succederà a un evento MIDI dal controller. Usare i tasti Control, Shift, Alt o il blocco del maiuscolo per modificare ciò  che accade."
 
-#: ../src/view.c:10714
+#: ../src/view.c:10775
 msgid ""
 "When in playalong mode, on clicking Play, the music plays until it reaches the Denemo cursor\n"
 "From then on you must play the notes at the cursor to progress the playback.\n"
@@ -8621,15 +8711,15 @@ msgstr ""
 "Da quel momento occorre suonare le note al cursore per andare avanti nella riproduzione.\n"
 "Quindi se si imposta il cursore sulla prima nota della parte che si desidera suonare, dopo aver premuto play si può suonare insieme a Denemo, mentre Denemo riproduce le altre parti e aspetta se si suona una nota sbagliata."
 
-#: ../src/view.c:10716
+#: ../src/view.c:10777
 msgid "Delete the MIDI recording you have made."
 msgstr "Elimina la registrazione MIDI."
 
-#: ../src/view.c:10718
+#: ../src/view.c:10779
 msgid "Convert the MIDI recording you have made to notation."
 msgstr "Converte la registrazione MIDI in notazione."
 
-#: ../src/view.c:10719
+#: ../src/view.c:10780
 msgid ""
 "Starts playing and simultaneously records from MIDI in.\n"
 "Once a recording is made it is played back with the score when you press Play.\n"
@@ -8641,7 +8731,7 @@ msgstr ""
 "Si può eliminare col pulsante Elimina o convertire in notazione con Converti\n"
 "La registrazione MIDI non viene salvata nella partitura Denemo."
 
-#: ../src/view.c:10765
+#: ../src/view.c:10826
 msgid ""
 "This is the Denemo Display for the music you have entered. See the print view window for the typeset appearance.  The blue lozenge is the Denemo Cursor - it turns Red when when the bar is full or green if you are inserting in a bar. Many commands operate on the object at the Denemo cursor\n"
 "Overfull/Underfull bars are colored red/blue, use the Upbeat (Anacrusis, Pickup) command if that is intentional.\n"
@@ -8653,7 +8743,7 @@ msgstr ""
 "Si può passare a una visualizzazione senza menu o della pagina col tasto Esc. Nella visualizzazione per pagina si può trascinare la barra rossa per impostare quanti sistemi si desidera mostrare.\n"
 "Nella visualizzazione per pagina si vorrà probabilmente ridurre l'ingrandimento: usare Control e la ruota del mouse per ingrandire/ridurre il display. Col clic destro sull'oggetto si ottiene un breve menu delle azioni e si può impostare la modalità  di input del mouse."
 
-#: ../src/view.c:10819
+#: ../src/view.c:10883
 msgid ""
 "This bar shows:\n"
 "Pending ♯ or ♭ sign (if the next note entered will be sharpened or flattened)\n"
@@ -8671,11 +8761,11 @@ msgstr ""
 "Se i controlli di riproduzione sono visibili viene mostrato il tempo dell'oggetto al cursore.\n"
 "Quando si preme il primo tasto di una scorciatoia a due tasti, vengono mostrate qui le combinazioni possibili."
 
-#: ../src/view.c:10827
+#: ../src/view.c:10891
 msgid "This area shows which MIDI filters are active. It can also be used by commands to pass information to the user"
 msgstr "Quest'area mostra i filtri MIDI attivi. Può essere usata anche dai comandi per passare informazioni all'utente"
 
-#: ../src/view.c:10934
+#: ../src/view.c:10998
 msgid ""
 "A button bar that can be populated by titles and other user generated buttons.\n"
 "Generally by clicking the button you can edit the title or value or execute the action of the button"
@@ -8712,118 +8802,122 @@ msgid "Chop to One Beam"
 msgstr "Riduci a una travatura"
 
 #: ../actions/denemo-modules/wysiwyg.scm.h:8
+msgid "First click on the center line of the staff aligning with notehead/rest (Positioning will be done with respect to this height)"
+msgstr "Prima clicca sulla linea centrale del rigo che è allineata con la testa di nota/pausa (il posizionamento sarà relativo a questa altezza)"
+
+#: ../actions/denemo-modules/wysiwyg.scm.h:9
 msgid "First click on the center line of the staff aligning with notehead/rest\\n(Positioning will be done with respect to this height)"
 msgstr ""
 "Prima clicca sulla linea centrale del rigo che è allineata con la testa di nota/pausa\n"
 "(Il posizionamento sarà relativo a questa altezza)"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:9
+#: ../actions/denemo-modules/wysiwyg.scm.h:10
 msgid "First click on the notehead of the note where the slur starts"
 msgstr "Clicca sulla testa della nota da dove inizia la legatura di portamento"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:10
+#: ../actions/denemo-modules/wysiwyg.scm.h:11
 msgid "Hint Slur Angle/Position"
 msgstr "Consiglia l'angolo/posizione della legatura di portamento"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:11
+#: ../actions/denemo-modules/wysiwyg.scm.h:12
 msgid "Leave note/chord un-beamed or undo a previous invocation of this command"
 msgstr "Lascia la nota/accordo senza travature o annulla un'invocazione precedente di questo comando"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:12
+#: ../actions/denemo-modules/wysiwyg.scm.h:13
 msgid "No Beam (Off/On)"
 msgstr "Nessuna travatura (Disattiva/Attiva)"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:13
+#: ../actions/denemo-modules/wysiwyg.scm.h:14
 msgid "Now click last control point at the end of the slur, the last red cross to the right"
 msgstr "Ora clicca sull'ultimo punto di controllo della legatura, l'ultima crocetta rossa a destra"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:14
+#: ../actions/denemo-modules/wysiwyg.scm.h:15
 msgid "Now click on the control point at the left end of the slur\\nControl points are marked by red crosses"
 msgstr ""
 "Ora clicca sul punto di controllo all'estremità sinistra della legatura di portamento\n"
 "I punti di controllo sono contrassegnati da crocette rosse"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:15
+#: ../actions/denemo-modules/wysiwyg.scm.h:16
 msgid "Now click on the position desired for the object"
 msgstr "Ora clicca sulla posizione desiderata per l'oggetto"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:16
+#: ../actions/denemo-modules/wysiwyg.scm.h:17
 msgid "Now click second control point of the slur, the next red cross to the right"
 msgstr "Ora clicca sul secondo punto di controllo della legatura, la crocetta rossa successiva a destra"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:17
+#: ../actions/denemo-modules/wysiwyg.scm.h:18
 msgid "Now click third control point of the slur, the next red cross to the right"
 msgstr "Ora clicca sul terzo punto di controllo della legatura, la crocetta rossa successiva a destra"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:18
+#: ../actions/denemo-modules/wysiwyg.scm.h:19
 msgid "Now drag the control points to make the shape desired - when finished click away from a control point"
 msgstr "Ora trascina i punti di controllo per disegnare la forma desiderata; al termine clicca lontano da un punto di controllo"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:19
+#: ../actions/denemo-modules/wysiwyg.scm.h:20
 msgid "One Beam Left (Off/On)"
 msgstr "Una travatura a sinistra (Disattiva/Attiva)"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:20
+#: ../actions/denemo-modules/wysiwyg.scm.h:21
 msgid "One Beam Right (Off/On)"
 msgstr "Una travatura a destra (Disattiva/Attiva)"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:22
+#: ../actions/denemo-modules/wysiwyg.scm.h:23
 msgid "Put just one beam to the left or undo a previous invocation of this command"
 msgstr "Metti una sola travatura a sinistra o annulla un'invocazione precedente di questo comando"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:23
+#: ../actions/denemo-modules/wysiwyg.scm.h:24
 msgid "Put just one beam to the right or undo a previous invocation of this command"
 msgstr "Metti una sola travatura a destra o annulla un'invocazione precedente di questo comando"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:24
+#: ../actions/denemo-modules/wysiwyg.scm.h:25
 msgid "Put just three beams to the left or undo a previous invocation of this command"
 msgstr "Metti solo tre travature a sinistra o annulla un'invocazione precedente di questo comando"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:25
+#: ../actions/denemo-modules/wysiwyg.scm.h:26
 msgid "Put just three beams to the right or undo a previous invocation of this command"
 msgstr "Metti solo tre travature a destra o annulla un'invocazione precedente di questo comando"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:26
+#: ../actions/denemo-modules/wysiwyg.scm.h:27
 msgid "Put just two beams to the left or undo a previous invocation of this command"
 msgstr "Metti solo due travature a sinistra o annulla un'invocazione precedente di questo comando"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:27
+#: ../actions/denemo-modules/wysiwyg.scm.h:28
 msgid "Put just two beams to the right or undo a previous invocation of this command"
 msgstr "Metti solo due travature a destra o annulla un'invocazione precedente di questo comando"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:28
+#: ../actions/denemo-modules/wysiwyg.scm.h:29
 msgid "Reduce the beaming between this and the next note to just one beam"
 msgstr "Riduce a una sola travatura il collegamento tra questa nota e quella successiva"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:29
+#: ../actions/denemo-modules/wysiwyg.scm.h:30
 msgid "Remove the beaming between this and the next note"
 msgstr "Toglie la travatura tra questa nota e quella successiva"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:30
+#: ../actions/denemo-modules/wysiwyg.scm.h:31
 msgid "Removes your customization of this slur"
 msgstr "Elimina la personalizzazione di questa legatura di portamento"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:31
+#: ../actions/denemo-modules/wysiwyg.scm.h:32
 msgid "Slur Re-shaped"
 msgstr "Legatura di portamento ridisegnata"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:32
+#: ../actions/denemo-modules/wysiwyg.scm.h:33
 msgid "Start a new page here"
 msgstr "Inizia una nuova pagina qui:"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:33
+#: ../actions/denemo-modules/wysiwyg.scm.h:34
 msgid "Three Beams Left (Off/On)"
 msgstr "Tre travature a sinistra (Disattiva/Attiva)"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:34
+#: ../actions/denemo-modules/wysiwyg.scm.h:35
 msgid "Three Beams Right (Off/On)"
 msgstr "Tre travature a destra (Disattiva/Attiva)"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:35
+#: ../actions/denemo-modules/wysiwyg.scm.h:36
 msgid "Two Beams Left (Off/On)"
 msgstr "Due travature rimaste (Disattiva/Attiva)"
 
-#: ../actions/denemo-modules/wysiwyg.scm.h:36
+#: ../actions/denemo-modules/wysiwyg.scm.h:37
 msgid "Two Beams Right (Off/On)"
 msgstr "Due travature a destra (Disattiva/Attiva)"
 
@@ -8895,14 +8989,6 @@ msgstr "Elimina gli oggetto selezionati"
 msgid "Delete all selected objects and leave empty measures behind"
 msgstr "Elimina tutti gli oggetti selezionati e lascia le misure vuote"
 
-#: ../actions/menus/MainMenu/EditMenu/Select/SelectAll.xml.h:1
-msgid "Creates a selection for all the music in the current movement."
-msgstr "Crea una selezione di tutta la musica del movimento corrente."
-
-#: ../actions/menus/MainMenu/EditMenu/Select/SelectAll.xml.h:2
-msgid "Select All Music In Movement"
-msgstr "Seleziona tutta la musica nel movimento"
-
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectAllStaffs.xml.h:1
 msgid "Select All Staffs"
 msgstr "Seleziona tutti i righi"
@@ -8911,6 +8997,14 @@ msgstr "Seleziona tutti i righi"
 msgid "Selects the whole movement / All staffs"
 msgstr "Seleziona l'intero movimento / tutti i righi"
 
+#: ../actions/menus/MainMenu/EditMenu/Select/SelectAll.xml.h:1
+msgid "Creates a selection for all the music in the current movement."
+msgstr "Crea una selezione di tutta la musica del movimento corrente."
+
+#: ../actions/menus/MainMenu/EditMenu/Select/SelectAll.xml.h:2
+msgid "Select All Music In Movement"
+msgstr "Seleziona tutta la musica nel movimento"
+
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectColumn.xml.h:1
 msgid "Select Column"
 msgstr "Seleziona colonna"
@@ -8918,6 +9012,14 @@ msgstr "Seleziona colonna"
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectColumn.xml.h:2
 msgid "Selects the whole column"
 msgstr "Seleziona l'intera colonna"
+
+#: ../actions/menus/MainMenu/EditMenu/Select/SelectionToEmptyMeasure.xml.h:1
+msgid "Creates a selection to the next empty measure in the current staff"
+msgstr "Crea una selezione per la misura vuota successiva del rigo corrente"
+
+#: ../actions/menus/MainMenu/EditMenu/Select/SelectionToEmptyMeasure.xml.h:2
+msgid "Selection to Next Empty Measure"
+msgstr "Selezione per la prossima misura vuota"
 
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectLeft.xml.h:1
 msgid "Create a selection, move cursor left."
@@ -8950,14 +9052,6 @@ msgstr "Seleziona il rigo"
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectStaff.xml.h:2
 msgid "Selects the whole staff"
 msgstr "Seleziona l'intero rigo"
-
-#: ../actions/menus/MainMenu/EditMenu/Select/SelectionToEmptyMeasure.xml.h:1
-msgid "Creates a selection to the next empty measure in the current staff"
-msgstr "Crea una selezione per la misura vuota successiva del rigo corrente"
-
-#: ../actions/menus/MainMenu/EditMenu/Select/SelectionToEmptyMeasure.xml.h:2
-msgid "Selection to Next Empty Measure"
-msgstr "Selezione per la prossima misura vuota"
 
 #: ../actions/menus/MainMenu/EditMenu/ShowLastChange.xml.h:1
 msgid "Show Last Change"
@@ -9175,8 +9269,8 @@ msgid "Line and Space Recognition"
 msgstr "Riconoscimento della linea e dello spazio"
 
 #: ../actions/menus/MainMenu/Educational/Note-Reading/NoteNameSpeedTest.xml.h:2
-#: ../actions/menus/MainMenu/Educational/Note-Reading/ReadingNoteNames.xml.h:2
 #: ../actions/menus/MainMenu/Educational/Note-Reading/ReadingNoteNamesSolfege.xml.h:2
+#: ../actions/menus/MainMenu/Educational/Note-Reading/ReadingNoteNames.xml.h:2
 #, no-c-format
 msgid "%tests your ability to name the notes of the scale"
 msgstr "%testa la tua capacità di nominare le note della scala"
@@ -9185,13 +9279,13 @@ msgstr "%testa la tua capacità di nominare le note della scala"
 msgid "Note Name Speed Recognition"
 msgstr "Riconoscimento veloce del nome delle note"
 
-#: ../actions/menus/MainMenu/Educational/Note-Reading/ReadingNoteNames.xml.h:3
-msgid "Note Name Recognition"
-msgstr "Riconoscimento del nome della nota"
-
 #: ../actions/menus/MainMenu/Educational/Note-Reading/ReadingNoteNamesSolfege.xml.h:3
 msgid "Solfege Note Name Recognition"
 msgstr "Solfeggio, riconoscimento del nome delle note"
+
+#: ../actions/menus/MainMenu/Educational/Note-Reading/ReadingNoteNames.xml.h:3
+msgid "Note Name Recognition"
+msgstr "Riconoscimento del nome della nota"
 
 #: ../actions/menus/MainMenu/Educational/Note-Reading/SpaceNumber.xml.h:1
 msgid "Identify Space Number"
@@ -9232,8 +9326,8 @@ msgid "Exports as LilyPond to a file named the same as the .denemo file but with
 msgstr "Esporta in formato LilyPond in un file con lo stesso nome del file .denemo ma con suffisso .ly."
 
 #: ../actions/menus/MainMenu/FileMenu/Export/QuickLilyPondExport.xml.h:2
-msgid "Quick LilyPond Export#"
-msgstr "Esportazione rapida di LilyPond#"
+msgid "Quick LilyPond Export"
+msgstr "Esportazione rapida di LilyPond"
 
 #: ../actions/menus/MainMenu/FileMenu/Import/Import-Lilypond.xml.h:2
 msgid "Try to Import a Lilypond File"
@@ -9861,8 +9955,8 @@ msgstr "Ridimensiona il display del valore inserito dall'utente."
 msgid "Set Display Scale"
 msgstr "Imposta la dimensione del display"
 
-#: ../actions/menus/MainMenu/ViewMenu/Zoom/ZoomIn.xml.h:1
 #: ../actions/menus/MainMenu/ViewMenu/Zoom/ZoomIn~.xml.h:1
+#: ../actions/menus/MainMenu/ViewMenu/Zoom/ZoomIn.xml.h:1
 msgid "Zoom In"
 msgstr "Aumenta ingrandimento"
 
@@ -10240,14 +10334,6 @@ msgstr "(Stampa) Ometti la stanghetta"
 msgid "Skips the printing of any automatic barline here - allows line break."
 msgstr "Non stampa alcuna stanghetta automatica in questo punto. Permette l'interruzione di linea."
 
-#: ../actions/menus/ObjectMenu/Directives/Barlines/RepeatEnd.xml.h:1
-msgid "Insert a barline indicating the end of a repeated section."
-msgstr "Inserisce una stanghetta che indica la fine di una ripetizione."
-
-#: ../actions/menus/ObjectMenu/Directives/Barlines/RepeatEnd.xml.h:2
-msgid "Repeat End Barline"
-msgstr "Stanghetta di fine ripetizione"
-
 #: ../actions/menus/ObjectMenu/Directives/Barlines/RepeatEndStart.xml.h:1
 msgid "Inserts a barline ending one repeated section and starting another"
 msgstr "Inserisce una stanghetta che finisce una ripetizione e ne inizia un'altra"
@@ -10255,6 +10341,14 @@ msgstr "Inserisce una stanghetta che finisce una ripetizione e ne inizia un'altr
 #: ../actions/menus/ObjectMenu/Directives/Barlines/RepeatEndStart.xml.h:2
 msgid "Repeat End-Start"
 msgstr "Ripetizione Fine-Inizio"
+
+#: ../actions/menus/ObjectMenu/Directives/Barlines/RepeatEnd.xml.h:1
+msgid "Insert a barline indicating the end of a repeated section."
+msgstr "Inserisce una stanghetta che indica la fine di una ripetizione."
+
+#: ../actions/menus/ObjectMenu/Directives/Barlines/RepeatEnd.xml.h:2
+msgid "Repeat End Barline"
+msgstr "Stanghetta di fine ripetizione"
 
 #: ../actions/menus/ObjectMenu/Directives/Barlines/RepeatStart.xml.h:1
 msgid "Insert a barline indicating the start of a repeated section."
@@ -10411,6 +10505,14 @@ msgstr "(Stampa) Inizia una nuova linea (ovvero un nuovo sistema) in questa misu
 #: ../actions/menus/ObjectMenu/Directives/LineBreak.xml.h:2
 msgid "Line Break"
 msgstr "Interruzione di linea"
+
+#: ../actions/menus/ObjectMenu/Directives/MetronomeMark.xml.h:1
+msgid "Insert tempi and/or metronome marks, printed or not, adjust playback tempo to suit"
+msgstr "Inserisce tempi e indicazioni metronomiche, stampate oppure no, aggiusta il tempo di riproduzione"
+
+#: ../actions/menus/ObjectMenu/Directives/MetronomeMark.xml.h:2
+msgid "Tempi and Metronome Marks"
+msgstr "Tempi e indicazioni metronomiche"
 
 #: ../actions/menus/ObjectMenu/Directives/MIDI/ChangeBalance.xml.h:1
 msgid "8 Balance"
@@ -10576,14 +10678,6 @@ msgstr "L'output MIDI ha un temperamento mesotonico con comma di un quarto da qu
 msgid "Quarter Comma Meantone"
 msgstr "Temperamento mesotonico con comma di un quarto"
 
-#: ../actions/menus/ObjectMenu/Directives/MetronomeMark.xml.h:1
-msgid "Insert tempi and/or metronome marks, printed or not, adjust playback tempo to suit"
-msgstr "Inserisce tempi e indicazioni metronomiche, stampate oppure no, aggiusta il tempo di riproduzione"
-
-#: ../actions/menus/ObjectMenu/Directives/MetronomeMark.xml.h:2
-msgid "Tempi and Metronome Marks"
-msgstr "Tempi e indicazioni metronomiche"
-
 #: ../actions/menus/ObjectMenu/Directives/NoLineBreak.xml.h:1
 msgid "Disallow a line break at this measure."
 msgstr "Non permette un'interruzione di linea in questa misura."
@@ -10720,6 +10814,22 @@ msgstr "(Stampa) Riprendi a disegnare le note"
 msgid "Reverts the \"Stop drawing notes\" command"
 msgstr "Annulla il comando \"Ferma la stampa delle note\""
 
+#: ../actions/menus/ObjectMenu/Directives/SustainOff.xml.h:1
+msgid "Prints a Sustain Off Mark"
+msgstr "Crea il segno di sostenuto attivo"
+
+#: ../actions/menus/ObjectMenu/Directives/SustainOff.xml.h:2
+msgid "Sustain Off"
+msgstr "Sostenuto disattivo"
+
+#: ../actions/menus/ObjectMenu/Directives/SustainOn.xml.h:1
+msgid "Prints a Sustain Pedal On Mark"
+msgstr "Crea il segno di sostenuto disattivo"
+
+#: ../actions/menus/ObjectMenu/Directives/SustainOn.xml.h:2
+msgid "Sustain On"
+msgstr "Sostenuto attivo"
+
 #: ../actions/menus/ObjectMenu/Directives/Tablature/MinimumFret.xml.h:1
 msgid "In a Tab staff, restrict the frets available to larger than the given value."
 msgstr "In un rigo per intavolatura limita i tasti disponibili a quelli più grandi del valore dato."
@@ -10816,14 +10926,6 @@ msgstr "Preimpostazione della voce automatica. Ripristina il normale comportamen
 msgid "Voice Preset Automatic"
 msgstr "Preimpostazione automatica della voce"
 
-#: ../actions/menus/ObjectMenu/Directives/Voices/VoiceSetting.xml.h:1
-msgid "Choose Voice"
-msgstr "Scegli la voce"
-
-#: ../actions/menus/ObjectMenu/Directives/Voices/VoiceSetting.xml.h:2
-msgid "The Voice 1,2,3,4 commands set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice command returns all the voice settings to the neutral default directions"
-msgstr "I comandi Voce 1,2,3,4 impostano le voci in modo che la prima e la terza voce abbiano i gambi in su mentre la seconda e la quarta i gambi in giù, che le teste di nota della terza e quarta voce siano spostate orizzontalmente e che le pause nelle rispettive voci siano spostate automaticamente per evitare collisioni. Il comando Voce automatica riporta tutte le impostazioni delle voci alle direzioni neutrali predefinite."
-
 #: ../actions/menus/ObjectMenu/Directives/Voices/VoicesDoublestroke.xml.h:1
 msgid "Choose a preset for four voices or automatic voice."
 msgstr "Scegli una preimpostazione per le quattro voci o la voce automatica."
@@ -10831,6 +10933,14 @@ msgstr "Scegli una preimpostazione per le quattro voci o la voce automatica."
 #: ../actions/menus/ObjectMenu/Directives/Voices/VoicesDoublestroke.xml.h:2
 msgid "Voice Preset"
 msgstr "Preimpostazione della voce"
+
+#: ../actions/menus/ObjectMenu/Directives/Voices/VoiceSetting.xml.h:1
+msgid "Choose Voice"
+msgstr "Scegli la voce"
+
+#: ../actions/menus/ObjectMenu/Directives/Voices/VoiceSetting.xml.h:2
+msgid "The Voice 1,2,3,4 commands set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice command returns all the voice settings to the neutral default directions"
+msgstr "I comandi Voce 1,2,3,4 impostano le voci in modo che la prima e la terza voce abbiano i gambi in su mentre la seconda e la quarta i gambi in giù, che le teste di nota della terza e quarta voce siano spostate orizzontalmente e che le pause nelle rispettive voci siano spostate automaticamente per evitare collisioni. Il comando Voce automatica riporta tutte le impostazioni delle voci alle direzioni neutrali predefinite."
 
 #: ../actions/menus/ObjectMenu/Key/FlattenInitialKeysigs.xml.h:1
 msgid "Flattens the inital key signature by one degree on all staffs/voices."
@@ -11484,8 +11594,8 @@ msgid "Augment"
 msgstr "Aumenta"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/Augment.xml.h:2
-msgid "Augments the current Note/Chord/Rest. Quarter Note becomes Half Note."
-msgstr "Aumenta la nota/accordo/pausa. Una nota di un quarto diventa una nota di due quarti."
+msgid "Doubles the duration of the note/chord/rest at the cursor or the selection. E.g. Quarter Note becomes Half Note."
+msgstr "Raddoppia la durata della nota/accordo/pausa selezionati o al cursore. Ad esempio, una nota di un quarto diventa una nota di due quarti."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeBreve.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Breve.xml.h:2
@@ -11514,8 +11624,8 @@ msgid "Diminish"
 msgstr "Diminuisci"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/Diminish.xml.h:2
-msgid "Diminishs the note/chord/rest. Quarter Note becomes Eight Note."
-msgstr "Diminuisce la nota/accordo/pausa. Una nota di un quarto diventa una nota di un ottavo."
+msgid "Halves the duration of the note/chord/rest at the cursor or the selection. E.g. Quarter Note becomes Eighth Note."
+msgstr "Dimezza la durata della nota/accordo/pausa selezionati o al cursore. Ad esempio, una nota di un quarto diventa una nota di un ottavo."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/DotDoubleDotNoDot.xml.h:1
 msgid "Adds a dot to the note/rest/chord at the cursor, or removes them if double dotted."
@@ -11525,14 +11635,6 @@ msgstr "Aggiunge un punto alla nota/pausa/accordo al cursore o in caso di doppio
 msgid "Dot"
 msgstr "Punto"
 
-#: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/DottedRhythm.xml.h:1
-msgid "Create Dotted Rhythm"
-msgstr "Crea ritmo puntato"
-
-#: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/DottedRhythm.xml.h:2
-msgid "In appending position, dots the note or rest at the cursor and appends a note of half the duration so as to create a dotted rhythm."
-msgstr "In posizione di aggiunta, rende puntata la nota o pausa al cursore e aggiunge una nota della metà della durata in modo da creare un ritmo puntato."
-
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/DottedRhythmSlurred.xml.h:1
 msgid "Create Slurred, Dotted Rhythm"
 msgstr "Crea un ritmo puntato  e con legature di portamento"
@@ -11540,6 +11642,14 @@ msgstr "Crea un ritmo puntato  e con legature di portamento"
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/DottedRhythmSlurred.xml.h:2
 msgid "In appending position, dots the note or rest at the cursor and appends a note of half the duration so as to create a dotted rhythm. Slurs the two notes together."
 msgstr "In posizione di aggiunta, rende puntata la nota o pausa al cursore e aggiunge una nota della metà della durata in modo da creare un ritmo puntato. Lega le due note con una legatura di portamento."
+
+#: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/DottedRhythm.xml.h:1
+msgid "Create Dotted Rhythm"
+msgstr "Crea ritmo puntato"
+
+#: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/DottedRhythm.xml.h:2
+msgid "In appending position, dots the note or rest at the cursor and appends a note of half the duration so as to create a dotted rhythm."
+msgstr "In posizione di aggiunta, rende puntata la nota o pausa al cursore e aggiunge una nota della metà della durata in modo da creare un ritmo puntato."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/Dottify.xml.h:1
 msgid "Dottify"
@@ -11549,14 +11659,6 @@ msgstr "Rendi il ritmo puntato"
 msgid "Turns the note on or before the cursor into a dotted rhythm with the same total duration."
 msgstr "Trasforma la nota al cursore o quella precedente in un ritmo puntato della stessa durata totale."
 
-#: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChords.xml.h:1
-msgid "Join music objects"
-msgstr "Unisci gli oggetti musicali"
-
-#: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChords.xml.h:2
-msgid "Joins all notes, chords and rests in the selection and inserts a new, longer note instead. May create tied notes. Uses the cursor position as pitch."
-msgstr "Unisce tutte le note, gli accordi e le pause nella selezione e inserisce al loro posto una nota più lunga. Potrebbe creare delle note con legature di valore. Usa la posizione del cursore per determinare l'altezza."
-
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChordsToMergedChord.xml.h:1
 msgid "Join music objects to new chord"
 msgstr "Unisci gli oggetti musicali in un nuovo accordo"
@@ -11564,6 +11666,14 @@ msgstr "Unisci gli oggetti musicali in un nuovo accordo"
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChordsToMergedChord.xml.h:2
 msgid "Joins all notes, chords and rests in the selection and inserts all selected notes as chord. May create tied notes."
 msgstr "Unisce tutte le note, gli accordi e le pause della selezione e inserisce tutte le note selezionate come accordo. Potrebbe creare note con legature di valore."
+
+#: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChords.xml.h:1
+msgid "Join music objects"
+msgstr "Unisci gli oggetti musicali"
+
+#: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChords.xml.h:2
+msgid "Joins all notes, chords and rests in the selection and inserts a new, longer note instead. May create tied notes. Uses the cursor position as pitch."
+msgstr "Unisce tutte le note, gli accordi e le pause nella selezione e inserisce al loro posto una nota più lunga. Potrebbe creare delle note con legature di valore. Usa la posizione del cursore per determinare l'altezza."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/SplitChord.xml.h:1
 msgid "Split Note/Chord"
@@ -12144,14 +12254,6 @@ msgstr "Aggiunge/Toglie un mordente alla nota"
 msgid "Mordent (Off/On)"
 msgstr "Mordente (Disattiva/Attiva)"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/TogglePrall.xml.h:1
-msgid "Adds/Removes a prall to the note"
-msgstr "Aggiunge/Toglie un mordente superiore alla nota"
-
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/TogglePrall.xml.h:2
-msgid "Prall (Off/On)"
-msgstr "Mordente superiore (Disattiva/Attiva)"
-
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/TogglePrallPrall.xml.h:1
 msgid "Adds/Removes a PrallPrall to the note"
 msgstr "Aggiunge/Toglie un doppio mordente alla nota"
@@ -12159,6 +12261,14 @@ msgstr "Aggiunge/Toglie un doppio mordente alla nota"
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/TogglePrallPrall.xml.h:2
 msgid "PrallPrall (Off/On)"
 msgstr "Doppio mordente (Disattiva/Attiva)"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/TogglePrall.xml.h:1
+msgid "Adds/Removes a prall to the note"
+msgstr "Aggiunge/Toglie un mordente superiore alla nota"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/TogglePrall.xml.h:2
+msgid "Prall (Off/On)"
+msgstr "Mordente superiore (Disattiva/Attiva)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleReverseTurn.xml.h:1
 msgid "Add/Removes a Reverse Turn to the note"
@@ -12312,14 +12422,6 @@ msgstr "Congruentia"
 msgid "Print congruentia / canon symbol"
 msgstr "Stampa il simbolo congruentia/canone"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DCAlFine.xml.h:1
-msgid "D. C. al fine"
-msgstr "D.C. al Fine"
-
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DCAlFine.xml.h:2
-msgid "Puts Da Capo al fine over the chord at the cursor."
-msgstr "Stampa Da Capo al Fine sopra l'accordo al cursore."
-
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DalSegno.xml.h:1
 msgid "Dal Segno"
 msgstr "Dal Segno"
@@ -12327,6 +12429,14 @@ msgstr "Dal Segno"
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DalSegno.xml.h:2
 msgid "Prints Dal Segno below the chord at the cursor."
 msgstr "Stampa Dal Segno sotto l'accordo al cursore."
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DCAlFine.xml.h:1
+msgid "D. C. al fine"
+msgstr "D.C. al Fine"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DCAlFine.xml.h:2
+msgid "Puts Da Capo al fine over the chord at the cursor."
+msgstr "Stampa Da Capo al Fine sopra l'accordo al cursore."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DynamicMarkings/DeleteDynamic.xml.h:2
 msgid "Deletes a dynamic attached to the chord at the cursor."
@@ -12399,14 +12509,6 @@ msgstr "Racchiude la nota tra () quando stampato."
 msgid "Parenthesize Note"
 msgstr "Mette tra parentesi la nota"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Allegro.xml.h:1
-msgid "Allegro"
-msgstr "Allegro"
-
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Allegro.xml.h:2
-msgid "Print Allegro in bold italics above the chord."
-msgstr "Mostra Allegro in grassetto corsivo sopra l'accordo."
-
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/AllegroAssai.xml.h:1
 msgid "Allegro Assai"
 msgstr "Allegro Assai"
@@ -12414,6 +12516,14 @@ msgstr "Allegro Assai"
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/AllegroAssai.xml.h:2
 msgid "Gives Allegro Assai tempo indication"
 msgstr "Dà un'indicazione di tempo Allegro Assai"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Allegro.xml.h:1
+msgid "Allegro"
+msgstr "Allegro"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Allegro.xml.h:2
+msgid "Print Allegro in bold italics above the chord."
+msgstr "Mostra Allegro in grassetto corsivo sopra l'accordo."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Andante.xml.h:1
 msgid "Andante"
@@ -12507,13 +12617,13 @@ msgstr "Converte i righi percussione del Midi generico (GM) in righi percussione
 msgid "Drum GM2 Custom"
 msgstr "Percussione GM2 personalizzata"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Percussion/HiHat.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/HiHatFoot.xml.h:1
+#: ../actions/menus/ObjectMenu/NotesRests/Percussion/HiHat.xml.h:1
 msgid "Hi Hat with Foot"
 msgstr "Charlestone con pedale"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Percussion/HiHat.xml.h:2
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/HiHatFoot.xml.h:2
+#: ../actions/menus/ObjectMenu/NotesRests/Percussion/HiHat.xml.h:2
 msgid "Insert HiHat with foot in the prevailing duration."
 msgstr "Inserisce un charleston con pedale nella durata prevalente."
 
@@ -12525,14 +12635,6 @@ msgstr "Tom"
 msgid "Insert Hi Tom in the prevailing duration."
 msgstr "Inserisce un  tom nella durata prevalente."
 
-#: ../actions/menus/ObjectMenu/NotesRests/Percussion/Ride.xml.h:1
-msgid "Insert Ride in the prevailing duration."
-msgstr "Inserisce un ride nella durata prevalente."
-
-#: ../actions/menus/ObjectMenu/NotesRests/Percussion/Ride.xml.h:2
-msgid "Ride"
-msgstr "Ride"
-
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/RideBell.xml.h:1
 msgid "Insert Ride Bell in the prevailing duration."
 msgstr "Inserisce un piatto ride nella durata prevalente."
@@ -12540,6 +12642,14 @@ msgstr "Inserisce un piatto ride nella durata prevalente."
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/RideBell.xml.h:2
 msgid "Ride Bell"
 msgstr "Piatto ride"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Percussion/Ride.xml.h:1
+msgid "Insert Ride in the prevailing duration."
+msgstr "Inserisce un ride nella durata prevalente."
+
+#: ../actions/menus/ObjectMenu/NotesRests/Percussion/Ride.xml.h:2
+msgid "Ride"
+msgstr "Ride"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/TimbalesStyle.xml.h:1
 msgid "Changes to print as a drum staff in timbales style"
@@ -12630,6 +12740,14 @@ msgstr "Imposta la durata prevalente su breve"
 msgid "Sets Longa as the prevailing duration, installing it as a musical snippet."
 msgstr "Imposta la longa come durata prevalente, installandola come frammento musicale."
 
+#: ../actions/menus/ObjectMenu/NotesRests/Slurs/AvoidSlurAccidentalCollision.xml.h:1
+msgid "Avoid Slur Collision"
+msgstr "Evita collisioni tra legature di portamento"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Slurs/AvoidSlurAccidentalCollision.xml.h:2
+msgid "Avoids slur colliding with accidental (Print)"
+msgstr "Evita la collisione delle legature di portamento con le alterazioni (Stampa)"
+
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/BeginPhrasingSlur.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ToggleBeginPhrasingSlur.xml.h:1
 msgid "Begin Phrasing Slur"
@@ -12655,6 +12773,14 @@ msgstr "Estendi la legatura di portamento"
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ExtendSlur.xml.h:2
 msgid "Extends the slur finishing at the cursor."
 msgstr "Estende la legatura di portamento fino al cursore."
+
+#: ../actions/menus/ObjectMenu/NotesRests/Slurs/MarkingInsideSlur.xml.h:1
+msgid "(Print) Next marking will be placed inside the slur."
+msgstr "(Stampa)  Il prossimo segno sarà posizionato dentro la legatura di portamento."
+
+#: ../actions/menus/ObjectMenu/NotesRests/Slurs/MarkingInsideSlur.xml.h:2
+msgid "Marking Inside Slur"
+msgstr "Segno dentro la legatura di portamento"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ReduceSlur.xml.h:1
 msgid "Shorten Slur from End"
@@ -12703,6 +12829,14 @@ msgstr "Stampa le legature di portamento in su"
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurUp.xml.h:2
 msgid "Slur Up"
 msgstr "Legatura di portamento in su"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Slurs/TextInsideSlur.xml.h:1
+msgid "(Print) Next text marking will be placed inside the slur."
+msgstr "(Stampa) Il prossimo segno testuale sarà posizionato dentro la legatura di portamento."
+
+#: ../actions/menus/ObjectMenu/NotesRests/Slurs/TextInsideSlur.xml.h:2
+msgid "Text Inside Slur"
+msgstr "Testo dentro la legatura di portamento"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ToggleBeginDownSlur.xml.h:1
 msgid "Begin Slur Below (Off/On)"
@@ -12880,14 +13014,6 @@ msgstr "Da far seguire con un tasto di durata per specificare le suddivisioni ri
 msgid "Tremolo"
 msgstr "Tremolo"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CreateTriplet.xml.h:1
-msgid "Create Triplet"
-msgstr "Crea la terzina"
-
-#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CreateTriplet.xml.h:2
-msgid "Takes the current note and appends two more making all three a triplet."
-msgstr "Prende la nota corrente e ne aggiunge due trasformandole tutte e tre in una terzina."
-
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CreateTripletSlurred.xml.h:1
 msgid "Create Slurred Triplet"
 msgstr "Crea una terzina con legatura di portamento"
@@ -12895,6 +13021,14 @@ msgstr "Crea una terzina con legatura di portamento"
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CreateTripletSlurred.xml.h:2
 msgid "Duplicates the current note twice making a triplet and slurring all three notes."
 msgstr "Duplica la nota corrente creando una terzina e unendo le tre note con una legatura di portamento."
+
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CreateTriplet.xml.h:1
+msgid "Create Triplet"
+msgstr "Crea la terzina"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CreateTriplet.xml.h:2
+msgid "Takes the current note and appends two more making all three a triplet."
+msgstr "Prende la nota corrente e ne aggiunge due trasformandole tutte e tre in una terzina."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/NoTupletNumbers.xml.h:1
 msgid "No Tuplet Numbers"
@@ -12920,14 +13054,6 @@ msgstr "Inserisce l'inizio di una terzina o la fine di un gruppo irregolare alte
 msgid "Toggle Triplet Entry (Off/On)"
 msgstr "Attiva/Disattiva l'inserimento di terzine"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletBrackets.xml.h:1
-msgid "Tuplet Brackets On/Off"
-msgstr "Parentesi del gruppo irregolare (Attiva/Disattiva)"
-
-#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletBrackets.xml.h:2
-msgid "Turns tuplet brackets off or on."
-msgstr "Attiva/Disattiva le parentesi del gruppo irregolare."
-
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletBracketsIfBeamed.xml.h:1
 msgid "Tuplet Brackets (On/Off)"
 msgstr "Parentesi del gruppo irregolare (Attiva/Disattiva)"
@@ -12935,6 +13061,14 @@ msgstr "Parentesi del gruppo irregolare (Attiva/Disattiva)"
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletBracketsIfBeamed.xml.h:2
 msgid "Turns tuplet brackets off/on for beamed notes (when printed)"
 msgstr "Attiva/Disattiva le parentesi del gruppo irregolare per le note con travatura (nella stampa)"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletBrackets.xml.h:1
+msgid "Tuplet Brackets On/Off"
+msgstr "Parentesi del gruppo irregolare (Attiva/Disattiva)"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletBrackets.xml.h:2
+msgid "Turns tuplet brackets off or on."
+msgstr "Attiva/Disattiva le parentesi del gruppo irregolare."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletNumbering.xml.h:1
 msgid "Control whether tuplet numbers will be printed over tuplets."
@@ -12944,14 +13078,6 @@ msgstr "Controlla la visibilità dei numeri dei gruppi irregolari."
 msgid "Tuplet Numbering On/Off"
 msgstr "Numerazione del gruppo irregolare (Attiva/Disattiva)"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/Tripletize.xml.h:1
-msgid "Triplet-ize"
-msgstr "Crea la terzina"
-
-#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/Tripletize.xml.h:2
-msgid "Turns the note on or before the cursor into a triplet of notes with the same total duration."
-msgstr "Trasforma la nota al cursore o quella precedente in una terzina di note con la stessa durata totale."
-
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TripletizeSlurred.xml.h:1
 msgid "Triplet-ize (Slurred)"
 msgstr "Crea la terzina (con legatura)"
@@ -12959,6 +13085,14 @@ msgstr "Crea la terzina (con legatura)"
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TripletizeSlurred.xml.h:2
 msgid "Turns the note at or before the cursor into a triplet of the same total duration, slurring the triplet."
 msgstr "Trasforma la nota al cursore o quella precedente in una terzina della stessa durata totale, aggiungendo una legatura di portamento alla terzina."
+
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/Tripletize.xml.h:1
+msgid "Triplet-ize"
+msgstr "Crea la terzina"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/Tripletize.xml.h:2
+msgid "Turns the note on or before the cursor into a triplet of notes with the same total duration."
+msgstr "Trasforma la nota al cursore o quella precedente in una terzina di note con la stessa durata totale."
 
 #: ../actions/menus/ObjectMenu/Score/AccompanistsScore.xml.h:1
 msgid "(Print) Accompanist's Score"
@@ -13178,14 +13312,6 @@ msgstr "Stampa il nome del poeta o del paroliere sul frontespizio"
 msgid "Prints a title on title page"
 msgstr "Stampa un titolo sulla pagina del titolo"
 
-#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.xml.h:1
-msgid "(Re)Create Epilog - Critical Commentary"
-msgstr "(Ri)Crea l'epilogo - Commentario critico"
-
-#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.xml.h:2
-msgid "Collects together any critical comments from the score and places them in an epilog at the end of the music. The Title and text of the Epilog are created with the CriticalCommentaryIntro command, and critical comments are added with the CriticalComment command."
-msgstr "Riunisce insieme i commenti critici della partitura e li mette in un epilogo alla fine della musica. Il titolo e il testo dell'epilogo sono creati col comando CriticalCommentaryIntro, mentre i commenti critici vengono aggiunti col comando Commento critico."
-
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentaryIntro.xml.h:1
 msgid "A button is created for putting a title and introductory text for a critical commentary at the end of the score."
 msgstr "Viene creato un pulsante che permette di inserire un titolo e un'introduzione al commentario critico alla fine della partitura."
@@ -13193,6 +13319,14 @@ msgstr "Viene creato un pulsante che permette di inserire un titolo e un'introdu
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentaryIntro.xml.h:2
 msgid "Title and Introduction"
 msgstr "Titolo e introduzione"
+
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.xml.h:1
+msgid "(Re)Create Epilog - Critical Commentary"
+msgstr "(Ri)Crea l'epilogo - Commentario critico"
+
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.xml.h:2
+msgid "Collects together any critical comments from the score and places them in an epilog at the end of the music. The Title and text of the Epilog are created with the CriticalCommentaryIntro command, and critical comments are added with the CriticalComment command."
+msgstr "Riunisce insieme i commenti critici della partitura e li mette in un epilogo alla fine della musica. Il titolo e il testo dell'epilogo sono creati col comando CriticalCommentaryIntro, mentre i commenti critici vengono aggiunti col comando Commento critico."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/IncipitFromSelection.xml.h:1
 msgid "Creates an incipit from the selection. This music will be printed on the title page. Only one voice is supported."
@@ -13426,6 +13560,14 @@ msgstr "Correggi le legature di portamento"
 msgid "Removes incorrectly placed slur start/end markers on current voice/staff."
 msgstr "Toglie gli indicatori di inizio/fine di una legatura di portamento posizionati erroneamente sulla voce/rigo corrente."
 
+#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/DynamicsStaff.xml.h:1
+msgid "Add Staff for Dynamics"
+msgstr "Aggiungi rigo per le dinamiche"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/DynamicsStaff.xml.h:2
+msgid "Adds a staff to be used purely for dynamic markings, insert after right hand piano staff"
+msgstr "Aggiunge un rigo da usare solamente per i segni di dinamica, inserirlo dopo il rigo per la mano destra del pianoforte"
+
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/NewStaffAfter.xml.h:1
 msgid "Creates a new staff with the given name, after the current staff. Use the staff to voice command if you want to make this staff a voice on the previous staff."
 msgstr "Crea un nuovo rigo col nome assegnato, dopo il rigo corrente. Usa il comando Da rigo a voce se vuoi che questo rigo sia una voce del rigo precedente."
@@ -13655,14 +13797,6 @@ msgstr "Converte nella notazione dell'intavolatura (solo stampa)"
 msgid "Tablature"
 msgstr "Intavolatura"
 
-#: ../actions/menus/ObjectMenu/StaffMenu/TinyStaff.xml.h:1
-msgid "Prints current staff in a tiny font."
-msgstr "Stampa il rigo corrente in un tipo di carattere piccolo."
-
-#: ../actions/menus/ObjectMenu/StaffMenu/TinyStaff.xml.h:2
-msgid "Tiny Staff"
-msgstr "Piccolo rigo"
-
 #: ../actions/menus/ObjectMenu/StaffMenu/TinyStaffAllMovements.xml.h:1
 msgid "Gets a staff number 1 ... n from user and makes that staff tiny in all movements."
 msgstr "Prende un rigo 1 ... n dall'utente e riduce la dimensione di quel rigo in tutti i movimenti."
@@ -13670,6 +13804,14 @@ msgstr "Prende un rigo 1 ... n dall'utente e riduce la dimensione di quel rigo i
 #: ../actions/menus/ObjectMenu/StaffMenu/TinyStaffAllMovements.xml.h:2
 msgid "Tiny Staff in All Movements"
 msgstr "Rigo ridotto in tutti i movimenti"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/TinyStaff.xml.h:1
+msgid "Prints current staff in a tiny font."
+msgstr "Stampa il rigo corrente in un tipo di carattere piccolo."
+
+#: ../actions/menus/ObjectMenu/StaffMenu/TinyStaff.xml.h:2
+msgid "Tiny Staff"
+msgstr "Piccolo rigo"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/TransposeStaffPrint.xml.h:1
 msgid "(Print) Transpose"
@@ -13679,14 +13821,6 @@ msgstr "(Stampa) Trasponi"
 msgid "Prints this staff (only) transposed. This is in addtion to any score-wide transposition"
 msgstr "Stampa questo rigo (soltanto) trasposto. Questa opzione si aggiunge a qualsiasi trasposizione a livello di partitura"
 
-#: ../actions/menus/ObjectMenu/StaffMenu/Voices/CreateParts.xml.h:1
-msgid "Create Parts"
-msgstr "Crea le parti"
-
-#: ../actions/menus/ObjectMenu/StaffMenu/Voices/CreateParts.xml.h:2
-msgid "Create three parts from the current staff."
-msgstr "Crea tre parti dal rigo corrente."
-
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/CreatePartsFromTop.xml.h:1
 msgid "Create Parts (Treble First)"
 msgstr "Crea le parti (prima quelle in chiave di sol)"
@@ -13695,13 +13829,13 @@ msgstr "Crea le parti (prima quelle in chiave di sol)"
 msgid "Creates a set of parts extracting the highest part first."
 msgstr "Crea un gruppo di parti estraendo prima le parti più alte."
 
-#: ../actions/menus/ObjectMenu/StaffMenu/Voices/InitialVoice.xml.h:1
-msgid "Choose Initial Voice"
-msgstr "Scegli la voce iniziale"
+#: ../actions/menus/ObjectMenu/StaffMenu/Voices/CreateParts.xml.h:1
+msgid "Create Parts"
+msgstr "Crea le parti"
 
-#: ../actions/menus/ObjectMenu/StaffMenu/Voices/InitialVoice.xml.h:2
-msgid "Choose which voice this staff will initially be set to. To change voice during music see the Directives-&gt;Voices menu."
-msgstr "Sceglie su quale voce verrà impostato inizialmente questo rigo. Per modificare una voce nel corso della musica si veda il menu Direttive-&gt;Voci."
+#: ../actions/menus/ObjectMenu/StaffMenu/Voices/CreateParts.xml.h:2
+msgid "Create three parts from the current staff."
+msgstr "Crea tre parti dal rigo corrente."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/InitialVoiceAuto.xml.h:1
 msgid "Initial Automatic Voice"
@@ -13742,6 +13876,14 @@ msgstr "Seconda voce iniziale"
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/InitialVoiceTwo.xml.h:2
 msgid "Sets the (initial) voice of the staff to be voice two (this affects stems down, slurs etc on printing)"
 msgstr "Imposta la voce (iniziale) del rigo come seconda voce (questo implica che i gambi e le legature saranno in giù nella stampa)"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/Voices/InitialVoice.xml.h:1
+msgid "Choose Initial Voice"
+msgstr "Scegli la voce iniziale"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/Voices/InitialVoice.xml.h:2
+msgid "Choose which voice this staff will initially be set to. To change voice during music see the Directives-&gt;Voices menu."
+msgstr "Sceglie su quale voce verrà impostato inizialmente questo rigo. Per modificare una voce nel corso della musica si veda il menu Direttive-&gt;Voci."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/MergeRests.xml.h:1
 msgid "(Print) Merges rests where two voices have a common rest. Not for whole measure or multi-measure rests."
@@ -13838,6 +13980,9 @@ msgstr "Stampa due indicazioni di tempo, la seconda è attiva."
 #: ../actions/menus/ObjectMenu/TimeSig/TwoTimeSignatures.xml.h:2
 msgid "Two Time Signatures"
 msgstr "Doppia indicazione di tempo"
+
+#~ msgid " secs."
+#~ msgstr "sec."
 
 #~ msgid ""
 #~ "Usage: denemo [OPTION]... [FILE]\n"
