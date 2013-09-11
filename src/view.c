@@ -6842,7 +6842,12 @@ inner_main (void *files)
       }
   }
 #endif
-scm_setlocale( scm_variable_ref(scm_c_lookup("LC_ALL")), scm_from_locale_string("") );
+
+	const char prog[] =
+  "(catch #t (lambda () (setlocale LC_ALL \"\")) (lambda _(display \"Locale not supported by the C library. Falling back to default \\\"C\\\" locale.\\n\"(current-error-port))))";
+	scm_c_eval_string (prog);
+
+//scm_setlocale( scm_variable_ref(scm_c_lookup("LC_ALL")), scm_from_locale_string("") );
   /* Initialize preferences */
   initprefs ();
 
