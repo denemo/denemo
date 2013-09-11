@@ -10590,7 +10590,8 @@ create_window (void)
     NULL
   };
   data_file = find_path_for_file("denemo.png", icon_dirs);
-  gtk_window_set_default_icon_from_file (data_file, NULL);
+  if(data_file)
+	gtk_window_set_default_icon_from_file (data_file, NULL);
 #endif
 
   g_signal_connect (G_OBJECT (Denemo.window), "delete_event", G_CALLBACK (delete_callback), NULL);
