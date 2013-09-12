@@ -1,7 +1,7 @@
 ;;;;DynamicsText
         ;; Standalone Dynamics - by Dan Wilckens. Tweaked by RTS. Note that for custom text the tag should be different.
 
-;(define-once DenemoDynamicList #f)
+(define-once DenemoDynamicList #f)
 
 (let ((tag "DynamicText")(choice #f)(replace #f)(X 0) (level "63")(LilyString "")(Graphic "")  (DynamicList "") )
   ; format: dynamics, midi volume, image filename
