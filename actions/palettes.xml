@@ -99,5 +99,6 @@
     <button _label="3" _tooltip="Inserts fingering for finger 3" script="(d-Finger3)"/>
     <button _label="4" _tooltip="Inserts fingering for finger 4" script="(d-Finger4)"/>
     <button _label="5" _tooltip="Inserts fingering for finger 5" script="(d-Finger5)"/>
+    <button _label="&lt;i&gt;p i m&lt;/i&gt;" _tooltip="The given number as right hand fingering, using the conventional p,m,i indicators. Use Cancel to delete" script="(d-RHFinger)"/>
   </palette>
 </Denemo>
