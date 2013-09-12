@@ -1,7 +1,7 @@
 ;;;;;; RHFinger
 (let ((tag "RHFinger") (num "0"))
-	(set! num (d-GetKeypress))
-	(if (string->number num) 
+	(set! num (d-GetUserInput "Right Hand Fingering" "Give finger number" "1"))
+	(if (and num (string->number num))
 		(begin 
 			(d-DirectivePut-note-display tag num)
 			(d-DirectivePut-note-postfix tag  (string-append "-\\rightHandFinger #" num " "))

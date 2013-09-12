@@ -8,7 +8,7 @@
         <after>LHFinger</after>
         <action>RHFinger</action>
         <_label>Right Hand Fingering</_label>
-        <_tooltip>Follow with a number keypress, the note at the cursor is typeset with the given number as right hand fingering. Use a non-number to delete.</_tooltip>
+        <_tooltip>Asks for a finger number and typesets p,m,i as appropriate. Use cancel to delete.</_tooltip>
       </row>
     </map>
   </merge>
