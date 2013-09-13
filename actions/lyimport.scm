@@ -73,35 +73,38 @@
       (set! lyimport::create_lexer_each_time #f) ;
       (set! lyimport::halt_on_error #f) ; on  error do not stop
       )
+#!
+;needs rewriting - define-once is not defined outside 'Denemo
     (begin
       ;; Options when not running inside denemo. Have to define some values which denemo.scm expects to exist
       (set! lyimport::create_lexer_each_time #t) ; Switch to decide if the lexer gets rebuilt everytime or the existing file gets used. Default #t if interactive
       (set! lyimport::halt_on_error #t) ; Switch to decide if a caught error stops the program and gives a reminder or silently goes on, potentially creating a wrong output. Default #t if interactive
-     (define (d-SetBreve) #f)
-     (define (d-SetLonga) #f)
-     (define (d-SetMaxima) #f)
-     (define (d-Set0) #f)
-     (define (d-Set1) #f)
-     (define (d-Set2) #f)
-     (define (d-Set3) #f)
-     (define (d-Set4) #f)
-     (define (d-Set5) #f)
-     (define (d-Set6) #f)
-     (define (d-Set7) #f)
-     (define (Denemo-Note0) #f)
-     (define (Denemo-Note1) #f)
-     (define (Denemo-Note2) #f)
-     (define (Denemo-Note3) #f)
-     (define (Denemo-Note4) #f)
-     (define (Denemo-Note5) #f)
-     (define (Denemo-Note6) #f)
-     (define (Denemo-Note7) #f)
-     (define (Denemo-Note8) #f)
+     (define-once (d-SetBreve) #f)
+     (define-once (d-SetLonga) #f)
+     (define-once (d-SetMaxima) #f)
+     (define-once (d-Set0) #f)
+     (define-once (d-Set1) #f)
+     (define-once (d-Set2) #f)
+     (define-once (d-Set3) #f)
+     (define-once (d-Set4) #f)
+     (define-once (d-Set5) #f)
+     (define-once (d-Set6) #f)
+     (define-once (d-Set7) #f)
+     (define-once (Denemo-Note0) #f)
+     (define-once (Denemo-Note1) #f)
+     (define-once (Denemo-Note2) #f)
+     (define-once (Denemo-Note3) #f)
+     (define-once (Denemo-Note4) #f)
+     (define-once (Denemo-Note5) #f)
+     (define-once (Denemo-Note6) #f)
+     (define-once (Denemo-Note7) #f)
+     (define-once (Denemo-Note8) #f)
 
 
 
       
       )
+!#
     )
 
 
