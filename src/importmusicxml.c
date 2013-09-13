@@ -17,6 +17,9 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 
+//A bad array access accessing before the array start is causing a crash sporadically (perhaps a bad xml file?) this pads the memory allocated as work-around
+//#define g_malloc0(a) (g_malloc0(2*(a)) + (a))
+
 gint InitialVoiceNum = 0;
 
 GString *Warnings;
@@ -194,7 +197,7 @@ static gint parse_clef(GString **scripts, gint division, gint *voice_timings, gi
               line = getXMLIntChild(childElem);
             if (ELEM_NAME_EQ (childElem, "sign"))
               sign = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
-          }
+          } //g_assert(voicenum>0);
   if(division > voice_timings[voicenum-1])
     {
       insert_invisible_rest(scripts[voicenum], division - voice_timings[voicenum-1], divisions);
@@ -573,7 +576,14 @@ static gchar *parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for
                 modify_time(childElem, actual_notes, normal_notes);
               }
           }
-
+          if(voicenum<1) {
+			  g_warning("Bad MusicXML file voice 0 encountered");
+			  voicenum = 1;
+		  }
+		  if(staffnum<1) {
+			  g_warning("Bad MusicXML file staff 0 encountered");
+			  staffnum = 1;
+		  }
   if( staff_for_voice[voicenum-1] == 0)
             staff_for_voice[voicenum-1] = staffnum;
 
@@ -630,7 +640,7 @@ static gchar *parse_note(xmlNodePtr rootElem, GString **scripts, gint *staff_for
    }
   
   if (((*current_voice != voicenum) && !(((initial_actual_notes)==1) && (initial_normal_notes==1))))
-    {/* an unterminated tuplet in the last voice */
+    {/* an unterminated tuplet in the last voice */  //g_assert(*current_voice>0);
             g_string_append(scripts[*current_voice], "(d-EndTuplet)");
  
             initial_actual_notes = 1;
@@ -672,6 +682,14 @@ static gint get_staff_for_voice_note(xmlNodePtr rootElem, gint *staff_for_voice)
               if (ELEM_NAME_EQ (childElem, "staff"))
                 staffnum = getXMLIntChild (childElem);
           }
+          if(voicenum<1) {
+			  g_warning("Bad MusicXML file voice 0 encountered");
+			  voicenum = 1;
+		  }
+		  if(staffnum<1) {
+			  g_warning("Bad MusicXML file staff 0 encountered");
+			  staffnum = 1;
+		  }
           if( staff_for_voice[voicenum-1] == 0)
             staff_for_voice[voicenum-1] = staffnum;
 }
@@ -819,15 +837,16 @@ static gchar *parse_measure(xmlNodePtr rootElem, GString **scripts, gint *staff_
       }
 
        
-      if (ELEM_NAME_EQ (childElem, "direction")) {
+      if (ELEM_NAME_EQ (childElem, "direction")) {  //g_assert(current_voice>0);
         parse_direction(childElem, scripts[current_voice]);
       }       
       if (ELEM_NAME_EQ (childElem, "barline")) {
         parse_barline(childElem, scripts, numvoices);
       }              
     }
+    //g_assert(last_voice_with_notes>0);
   if((actual_notes != 1) || (normal_notes != 1))
-     g_string_append_printf(scripts[last_voice_with_notes], "\n;measure end with tuplet still active in voice %d\n(d-EndTuplet)", current_voice);
+      g_string_append_printf(scripts[last_voice_with_notes], "\n;measure end with tuplet still active in voice %d\n(d-EndTuplet)", current_voice);
   return g_string_free (ret, FALSE);
 }
 static gchar *parse_part(xmlNodePtr rootElem)
@@ -875,7 +894,7 @@ static gchar *parse_part(xmlNodePtr rootElem)
   gint *numvoices_for_staff = (gint *)g_malloc0(numstaffs*sizeof(gint)); 
  
   for(i=0;i<numvoices;i++)
-    {
+    {//g_assert(staff_for_voice[i]>0);
       numvoices_for_staff[staff_for_voice[i]-1]++;
     }
 
