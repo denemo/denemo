@@ -63,11 +63,11 @@ extern "C" {
 #endif
 #if 0
   // use these to test for bad frees.
-#define g_free
 #define g_list_free
 #define g_error_free
 #define gtk_tree_path_free
-#define g_string_free
+#define g_free(a) (a)
+#define g_string_free(a, b) (((GString*)(a))->str)
 #endif
 
 #define DEFAULT_KEYMAP "Default"
