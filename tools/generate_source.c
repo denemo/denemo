@@ -607,7 +607,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nDeleting notes, measures staffs keysigs etc", N_("Delete"), NULL, N_("Delete"), NULL},
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nBeaming - controlling which notes are beamed together", N_("Beaming"), NULL, N_("Beaming"), NULL},
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nFor making directives apply only to one score layout or be omitted from one score layout", N_("Conditional Directives"), NULL, N_("Conditional Directives"), NULL},
-  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nFor affecting how MIDI in works. MIDI in refers to MIDI keyboards or other controllers connected to the computer. You may need to configure this using the Audio/MIDI section of the Preferences.", N_("MIDI"), NULL, N_("MIDI Keyboard"), NULL},
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nFor issuing MIDI instructions during playback at the time indicated by the current cursor position.", N_("MIDI"), NULL, N_("Insert MIDI"), NULL},
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nChoose between different ways of entering notes from the computer keyboard.", N_("Keyboard"), NULL, N_("PC Keyboard"), NULL},
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nChoose between different ways of using the mouse.", N_("Mouse"), NULL, N_("Mouse"), NULL},
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nTransposing the score when typesetting.", N_("PrintTranspositions"), NULL, N_("Print Transposed"), NULL},
@@ -638,6 +638,8 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands to place titles etc at the start of the music (and each movement if needed). Do not mix with Book Titles.", N_("Simple Titles"), NULL, N_("Simple Titling"), NULL},
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands to create a title page, table of contents, commentaries, appendices etc.", N_("Book Titles"), NULL, N_("Book Titling"), NULL},
   {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands to manipulate the palettes of commands", N_("Palettes"), NULL, N_("Palettes"), NULL},
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nCommands to tell the typesetter to start or stop a particular effect. Use these around passages that are to be treated differently, or over which a marking should be placed.", N_("Spanning"), NULL, N_("Spanning"), NULL},
+  {CMD_CATEGORY_DIRECT, NULL, "Menu:\\nInstructions for the typesetter to do something at the cursor position.", N_("Typesetter"), NULL, N_("Typesetter"), NULL},
 
 
 

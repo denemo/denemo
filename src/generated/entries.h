@@ -402,7 +402,7 @@
 {"Delete", NULL, N_("Delete"), "",N_("Menu:\nDeleting notes, measures staffs keysigs etc")},
 {"Beaming", NULL, N_("Beaming"), "",N_("Menu:\nBeaming - controlling which notes are beamed together")},
 {"Conditional Directives", NULL, N_("Conditional Directives"), "",N_("Menu:\nFor making directives apply only to one score layout or be omitted from one score layout")},
-{"MIDI", NULL, N_("MIDI Keyboard"), "",N_("Menu:\nFor affecting how MIDI in works. MIDI in refers to MIDI keyboards or other controllers connected to the computer. You may need to configure this using the Audio/MIDI section of the Preferences.")},
+{"MIDI", NULL, N_("Insert MIDI"), "",N_("Menu:\nFor issuing MIDI instructions during playback at the time indicated by the current cursor position.")},
 {"Keyboard", NULL, N_("PC Keyboard"), "",N_("Menu:\nChoose between different ways of entering notes from the computer keyboard.")},
 {"Mouse", NULL, N_("Mouse"), "",N_("Menu:\nChoose between different ways of using the mouse.")},
 {"PrintTranspositions", NULL, N_("Print Transposed"), "",N_("Menu:\nTransposing the score when typesetting.")},
@@ -430,6 +430,8 @@
 {"Simple Titles", NULL, N_("Simple Titling"), "",N_("Menu:\nCommands to place titles etc at the start of the music (and each movement if needed). Do not mix with Book Titles.")},
 {"Book Titles", NULL, N_("Book Titling"), "",N_("Menu:\nCommands to create a title page, table of contents, commentaries, appendices etc.")},
 {"Palettes", NULL, N_("Palettes"), "",N_("Menu:\nCommands to manipulate the palettes of commands")},
+{"Spanning", NULL, N_("Spanning"), "",N_("Menu:\nCommands to tell the typesetter to start or stop a particular effect. Use these around passages that are to be treated differently, or over which a marking should be placed.")},
+{"Typesetter", NULL, N_("Typesetter"), "",N_("Menu:\nInstructions for the typesetter to do something at the cursor position.")},
 
 #define NOTE0 "\xF0\x9D\x85\x9D"
 

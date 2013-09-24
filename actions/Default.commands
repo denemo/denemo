@@ -2167,14 +2167,14 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>OpenOctaveUp</action>
-        <menupath>/ObjectMenu/Directives/PrintTranspositions</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter/Transposition</menupath>
         <_label>(Print) Open { Octave Up</_label>
         <_tooltip>Opens a block to be transposed up one octave
 	This must be followed by a CloseBlock "}" to end the transposed section.</_tooltip>
       </row>
       <row type="scheme">
         <action>CloseLilyBlock</action>
-        <menupath>/ObjectMenu/Directives/PrintTranspositions</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter/Transposition</menupath>
         <_label>(Print) Close } a LilyPond Block</_label>
         <_tooltip>Closes a LilyPond Block (there must be a matching open, {, earlier)</_tooltip>
       </row>
@@ -2264,19 +2264,19 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>RepeatStart</action>
-        <menupath>/ObjectMenu/Directives/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
         <_label>Repeat Start Barline</_label>
         <_tooltip>Insert a barline indicating the start of a repeated section.</_tooltip>
       </row>
       <row type="scheme">
         <action>RepeatEnd</action>
-        <menupath>/ObjectMenu/Directives/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
         <_label>Repeat End Barline</_label>
         <_tooltip>Insert a barline indicating the end of a repeated section.</_tooltip>
       </row>
       <row type="scheme">
         <action>RepeatEndStart</action>
-        <menupath>/ObjectMenu/Directives/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
         <_label>Repeat End-Start</_label>
         <_tooltip>Inserts a barline ending one repeated section and starting another</_tooltip>
       </row>
@@ -2300,7 +2300,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>DoubleBarline</action>
-        <menupath>/ObjectMenu/Directives/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
         <_label>Double Bar</_label>
         <_tooltip>Insert a double barline at cursor position.</_tooltip>
       </row>
@@ -2444,7 +2444,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>ClosingBarline</action>
-        <menupath>/ObjectMenu/Directives/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
         <_label>Closing Barline</_label>
         <_tooltip>Inserts a closing barline (a double bar with last one thicker).</_tooltip>
       </row>
@@ -2496,14 +2496,14 @@ for second and subsequent systems</_tooltip>
       </row>
       <row type="scheme">
         <action>LineBreak</action>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/PrintLayout</menupath>
         <_label>Line Break</_label>
         <_tooltip>(Print) Start a new line (i.e. system) at this measure.</_tooltip>
       </row>
       <row type="scheme">
         <action>PageBreak</action>
         <after>LineBreak</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/PrintLayout</menupath>
         <_label>Page Break</_label>
         <_tooltip>(Print) Forces a new page at this barline.</_tooltip>
       </row>
@@ -2615,7 +2615,7 @@ for second and subsequent systems</_tooltip>
       </row>
       <row type="scheme">
         <action>RehearsalMark</action>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings</menupath>
         <_label>Add Rehearsal/Bookmark</_label>
         <_tooltip>Adds a Denemo bookmark combined with a default Rehearsal Mark</_tooltip>
       </row>
@@ -2734,7 +2734,7 @@ for second and subsequent systems</_tooltip>
       <row type="scheme">
         <action>OpenOctaveDown</action>
         <after>OpenOctaveUp</after>
-        <menupath>/ObjectMenu/Directives/PrintTranspositions</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter/Transposition</menupath>
         <_label>(Print) Open { Octave Down</_label>
         <_tooltip>Opens a block printing an octave lower: must be terminated with CloseLilyBlock</_tooltip>
       </row>
@@ -2793,19 +2793,19 @@ for second and subsequent systems</_tooltip>
       </row>
       <row type="scheme">
         <action>MidiTempo</action>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
         <_label>Set Tempo</_label>
         <_tooltip>Send a Midi command to change the tempo to a new bpm. No printout.</_tooltip>
       </row>
       <row type="scheme">
         <action>MetronomeMark</action>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings</menupath>
         <_label>Tempi and Metronome Marks</_label>
         <_tooltip>Insert tempi and/or metronome marks, printed or not, adjust playback tempo to suit</_tooltip>
       </row>
       <row type="scheme">
         <action>DynamicText</action>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings</menupath>
         <_label>Dynamics</_label>
         <_tooltip>Choose dynamics and midi volume level.</_tooltip>
       </row>
@@ -2830,98 +2830,98 @@ for second and subsequent systems</_tooltip>
       <row type="scheme">
         <action>ChangeChannel</action>
         <after>MidiTempo</after>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
         <_label>Channel</_label>
         <_tooltip>Change the Channel of a staff</_tooltip>
       </row>
       <row type="scheme">
         <action>ChangeProgram</action>
         <after>ChangeChannel</after>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
         <_label>Program</_label>
         <_tooltip>Change the Program of the current channel/staff</_tooltip>
       </row>
       <row type="scheme">
         <action>ChangeVolume</action>
         <after>ChangeProgram</after>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
         <_label>Volume</_label>
         <_tooltip>Change the Volume of a channel/staff</_tooltip>
       </row>
       <row type="scheme">
         <action>ChangeGeneric</action>
         <after>ChangeChannel</after>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
         <_label>Generic Control Change</_label>
         <_tooltip>Generic 0xB Control Change - User can give the midi bytes, too. </_tooltip>
       </row>
       <row type="scheme">
         <action>ChangeModwheel</action>
         <after>ChangeVolume</after>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
         <_label>1 Modwheel</_label>
         <_tooltip>Change the Modwheel value of a channel/staff</_tooltip>
       </row>
       <row type="scheme">
         <action>ChangeBalance</action>
         <after>ChangeModwheel</after>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
         <_label>8 Balance</_label>
         <_tooltip>Balance. Typically used for a stereo signal tweak without changing the pan itself. Like a CD player. </_tooltip>
       </row>
       <row type="scheme">
         <action>ChangePan</action>
         <after>ChangeBalance</after>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
         <_label>10 Pan</_label>
         <_tooltip>Where in the stereo field the channel sound will be placed.</_tooltip>
       </row>
       <row type="scheme">
         <action>ChangeExpression</action>
         <after>ChangePan</after>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
         <_label>11 Expression</_label>
         <_tooltip>Aka "Sub Volume" or "Percent Volume". The "real" volume. Use Volume as initial value for each staff/channel and change further cresc/dim with expression. </_tooltip>
       </row>
       <row type="scheme">
         <action>ChangeHoldPedal</action>
         <after>ChangeExpression</after>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
         <_label>64 Hold Pedal (Right Piano Pedal)</_label>
         <_tooltip>Hold Pedal On/Off (Right Piano Pedal). Deactivates Note-Off until set to "Off"</_tooltip>
       </row>
       <row type="scheme">
         <action>ChangePortamento</action>
         <after>ChangeHoldPedal</after>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
         <_label>65 Portamento (On/Off)</_label>
         <_tooltip>Slides between 2 notes. Can be adjusted with 5 - Portamento Time</_tooltip>
       </row>
       <row type="scheme">
         <action>ChangeSustenutoPedal</action>
         <after>ChangePortamento</after>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
         <_label>66 Sostenuto Pedal (On/Off) (Middle Grand Piano Pedal)</_label>
         <_tooltip>Middle Grand Piano Pedal. All Notes currently active (without a note off) will not have a note-off until Sostenuto Off.</_tooltip>
       </row>
       <row type="scheme">
         <action>ChangeSoftPedal</action>
         <after>ChangeSustenutoPedal</after>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
         <_label>67 Soft Pedal (On/Off) (Left Piano Pedal)</_label>
         <_tooltip>Left Piano Pedal. Lowers the volume of any notes played.</_tooltip>
       </row>
       <row type="scheme">
         <action>ChangeLegatoPedal</action>
         <after>ChangeSoftPedal</after>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
         <_label>68 Legato Pedal (On/Off)</_label>
         <_tooltip>Skips the attack portion of the VCA's envelope. For phrasing like wind or brass or guitar hammer-on.</_tooltip>
       </row>
       <row type="scheme">
         <action>ChangeHold2Pedal</action>
         <after>ChangeLegatoPedal</after>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
         <_label>69 Hold Pedal #2 (On/Off)</_label>
         <_tooltip>Longer release time but notes will fade out eventually.</_tooltip>
       </row>
@@ -3232,35 +3232,35 @@ First it removes notes until just a non-printing rest remains, then deletes that
       </row>
       <row type="scheme">
         <action>SmallFontStart</action>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Small Size</_label>
         <_tooltip>Music after this is printed in a small size.</_tooltip>
       </row>
       <row type="scheme">
         <action>OpenFirstTimeBar</action>
         <after>ClosingBarline</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Start a First Time Bar</_label>
         <_tooltip>(Print) start a first time bar, must be followed by EndVolta.</_tooltip>
       </row>
       <row type="scheme">
         <action>OpenSecondTimeBar</action>
         <after>OpenFirstTimeBar</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Start a Second Time Bar</_label>
         <_tooltip>(Print) start a second time bar, must be followed by EndVolta</_tooltip>
       </row>
       <row type="scheme">
         <action>EndVolta</action>
         <after>OpenSecondTimeBar</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>End 1st/2nd Time Bar</_label>
         <_tooltip>Ends a volta, that is a n'th time bar</_tooltip>
       </row>
       <row type="scheme">
         <action>SmallFontEnd</action>
         <after>SmallFontStart</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>End Small Size</_label>
         <_tooltip>Printing resumes normal size music.</_tooltip>
       </row>
@@ -3286,14 +3286,14 @@ First it removes notes until just a non-printing rest remains, then deletes that
       <row type="scheme">
         <action>CadenzaOn</action>
         <after>Tempo</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Start Cadenza</_label>
         <_tooltip>Turns off barlines etc for cadenza</_tooltip>
       </row>
       <row type="scheme">
         <action>FinishCadenza</action>
         <after>CadenzaOn</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>End Cadenza</_label>
         <_tooltip>Returns to normal barlines etc after a cadenza</_tooltip>
       </row>
@@ -3323,7 +3323,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
       </row>
       <row type="scheme">
         <action>ForceBarline</action>
-        <menupath>/ObjectMenu/Directives/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
         <_label>Insert Barline</_label>
         <_tooltip>Insert barline at cursor, Denemo's measure count is unaffected.</_tooltip>
       </row>
@@ -3341,14 +3341,14 @@ First it removes notes until just a non-printing rest remains, then deletes that
       </row>
       <row type="scheme">
         <action>TypesettingOff</action>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
         <_label>TypesettingOff</_label>
         <_tooltip>Turns off typesetting from that point until turned on.</_tooltip>
       </row>
       <row type="scheme">
         <action>TypesettingOn</action>
         <after>TypesettingOff</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
         <_label>TypesettingOn</_label>
         <_tooltip>Turns on typesetting from this point forward in all staffs.</_tooltip>
       </row>
@@ -3454,7 +3454,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
       <row type="scheme">
         <action>AutoAccidentals</action>
         <after>TypesettingOff</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
         <_label>(Print) Accidental Printing</_label>
         <_tooltip>Prints accidentals according to a chosen style. Affects following notes only.</_tooltip>
       </row>
@@ -3521,33 +3521,33 @@ First it removes notes until just a non-printing rest remains, then deletes that
       </row>
       <row type="scheme">
         <action>SetBarNumber</action>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
         <_label>(Print) Set Bar Number</_label>
         <_tooltip>Enter a number to change the lilypond bar number. The printout will continue to count up from there.</_tooltip>
       </row>
       <row type="scheme">
         <action>SetTuningStaff</action>
         <after>TypesettingOn</after>
-        <menupath>/ObjectMenu/Directives/Tuning</menupath>
+        <menupath>/ObjectMenu/Directives/Playback</menupath>
         <_label>Set Tuning for Current Staff</_label>
         <_tooltip>At this time in playback the current staff's tuning will switch to the temperament selected when this command is invoked.</_tooltip>
       </row>
       <row type="scheme">
         <action>SetTuningAllStaffs</action>
         <after>SetTuningStaff</after>
-        <menupath>/ObjectMenu/Directives/Tuning</menupath>
+        <menupath>/ObjectMenu/Directives/Playback</menupath>
         <_label>Set Tuning Across All Staffs</_label>
         <_tooltip>At this time during playback switch to the temperament set when this command was invoked.</_tooltip>
       </row>
       <row type="scheme">
         <action>Hide</action>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
         <_label>(Print) Hide Object</_label>
         <_tooltip>Hides the object at cursor position with a lilypond directive. Currently only Notes and the three Signatures. No rests!</_tooltip>
       </row>
       <row type="scheme">
         <action>BreathMark</action>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings</menupath>
         <_label>Breath Mark</_label>
         <_tooltip>Inserts a Breath Mark</_tooltip>
       </row>
@@ -3559,27 +3559,27 @@ First it removes notes until just a non-printing rest remains, then deletes that
       </row>
       <row type="scheme">
         <action>StopStaff</action>
-        <menupath>/ObjectMenu/Directives/Staff</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
         <_label>(Print) Stop Drawing Staff</_label>
         <_tooltip>Stop drawing the staff and barlines in Lilypond. Notes are still drawn.</_tooltip>
       </row>
       <row type="scheme">
         <action>StartStaff</action>
         <after>StopStaff</after>
-        <menupath>/ObjectMenu/Directives/Staff</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
         <_label>(Print) Start Drawing Staff (Again)</_label>
         <_tooltip>Reverts the "Stop Drawing Staff" command</_tooltip>
       </row>
       <row type="scheme">
         <action>HideNotes</action>
-        <menupath>/ObjectMenu/Directives/Staff</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
         <_label>(Print) Stop Drawing Notes</_label>
         <_tooltip>Stops the Lilypond engraving of notes</_tooltip>
       </row>
       <row type="scheme">
         <action>UnHideNotes</action>
         <after>HideNotes</after>
-        <menupath>/ObjectMenu/Directives/Staff</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
         <_label>(Print) Start Drawing Notes (Again)</_label>
         <_tooltip>Reverts the "Stop drawing notes" command</_tooltip>
       </row>
@@ -3682,7 +3682,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
       </row>
       <row type="scheme">
         <action>FreeFermata</action>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings</menupath>
         <_label>(Print) Standalone Fermata (for Barlines)</_label>
         <_tooltip>Adds a standalone fermata which has no playback effect. Can be used to place a Fermata on a barline.</_tooltip>
       </row>
@@ -3719,7 +3719,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
       </row>
       <row type="scheme">
         <action>HalfBarline</action>
-        <menupath>/ObjectMenu/Directives/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
         <_label>Half Barline</_label>
         <_tooltip>Insert a barline with only half of its original size</_tooltip>
       </row>
@@ -3744,35 +3744,35 @@ First it removes notes until just a non-printing rest remains, then deletes that
       </row>
       <row type="scheme">
         <action>VoicePresetAutomatic</action>
-        <menupath>/ObjectMenu/Directives/Voices</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter/Voices</menupath>
         <_label>Voice Preset Automatic</_label>
         <_tooltip>Automatic voice preset. Resets to normal behaviour.</_tooltip>
       </row>
       <row type="scheme">
         <action>VoicePreset1</action>
         <after>VoicePresetAutomatic</after>
-        <menupath>/ObjectMenu/Directives/Voices</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter/Voices</menupath>
         <_label>Voice Preset 1 (Stems Up)</_label>
         <_tooltip>Preset for first voice. Stems up</_tooltip>
       </row>
       <row type="scheme">
         <action>VoicePreset2</action>
         <after>VoicePreset1</after>
-        <menupath>/ObjectMenu/Directives/Voices</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter/Voices</menupath>
         <_label>Voice Preset 2 (Stems Down)</_label>
         <_tooltip>Preset for second voice. Stems down.</_tooltip>
       </row>
       <row type="scheme">
         <action>VoicePreset3</action>
         <after>VoicePreset2</after>
-        <menupath>/ObjectMenu/Directives/Voices</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter/Voices</menupath>
         <_label>Voice Preset 3 (Stems Up)</_label>
         <_tooltip>Preset for third voice. Stems up.</_tooltip>
       </row>
       <row type="scheme">
         <action>VoicePreset4</action>
         <after>VoicePreset3</after>
-        <menupath>/ObjectMenu/Directives/Voices</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter/Voices</menupath>
         <_label>Voice Preset 4 (Stems Down)</_label>
         <_tooltip>Preset for voice four. Stems down.</_tooltip>
       </row>
@@ -3805,7 +3805,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
       </row>
       <row type="scheme">
         <action>VoicesDoublestroke</action>
-        <menupath>/ObjectMenu/Directives/Voices</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter/Voices</menupath>
         <_label>Voice Preset</_label>
         <_tooltip>Choose a preset for four voices or automatic voice.</_tooltip>
       </row>
@@ -3878,7 +3878,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
       </row>
       <row type="scheme">
         <action>ChooseBarline</action>
-        <menupath>/ObjectMenu/Directives/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
         <_label>Choose Barline</_label>
         <_tooltip>Choose a barline </_tooltip>
       </row>
@@ -4531,14 +4531,14 @@ First it removes notes until just a non-printing rest remains, then deletes that
       <row type="scheme">
         <action>BeamingOff</action>
         <after>PageBreak</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Stop Beaming</_label>
         <_tooltip>(Print)Stop automatic beaming from current position in score.</_tooltip>
       </row>
       <row type="scheme">
         <action>BeamingOn</action>
         <after>BeamingOff</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Start Beaming</_label>
         <_tooltip>(Print) Start automatic beaming at this point in score. (Used after turning beaming off).</_tooltip>
       </row>
@@ -4622,7 +4622,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
       <row type="scheme">
         <action>Ottava</action>
         <after>BreathMark</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Ottava</_label>
         <_tooltip>Inserts an 8va mark (transposing the notes accordingly) or terminates one already started.</_tooltip>
       </row>
@@ -4698,7 +4698,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
       <row type="scheme">
         <action>NoBarline</action>
         <after>ClosingBarline</after>
-        <menupath>/ObjectMenu/Directives/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
         <_label>(Print) Omit Barline</_label>
         <_tooltip>Skips the printing of any automatic barline here - allows line break.</_tooltip>
       </row>
@@ -4740,7 +4740,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
       <row type="scheme">
         <action>ShiftNext</action>
         <after>Hide</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
         <_label>(Print) Shift Object</_label>
         <_tooltip>Asks for horizontal and vertical offsets and inserts a directive to displace the object at the cursor on printing.</_tooltip>
       </row>
@@ -4850,7 +4850,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
       <row type="scheme">
         <action>AllowLineBreak</action>
         <after>LineBreak</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/PrintLayout</menupath>
         <_label>Allow Line Break</_label>
         <_tooltip>Permits the typesetter to break the line at this point.</_tooltip>
       </row>
@@ -5397,7 +5397,7 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
       </row>
       <row type="scheme">
         <action>VoiceSetting</action>
-        <menupath>/ObjectMenu/Directives/Voices</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter/Voices</menupath>
         <_label>Choose Voice</_label>
         <_tooltip>The Voice 1,2,3,4 commands set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice command returns all the voice settings to the neutral default directions</_tooltip>
       </row>
@@ -5557,7 +5557,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>TextAnnotation</action>
         <after>CriticalComment</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings</menupath>
         <_label>Textual Annotation</_label>
         <_tooltip>Allows placing arbitrary text on the score which can then be dragged in the final typeset view for fine control over positioning.</_tooltip>
       </row>
@@ -5571,7 +5571,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>NoLineBreak</action>
         <after>LineBreak</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/PrintLayout</menupath>
         <_label>No Line Break</_label>
         <_tooltip>Disallow a line break at this measure.</_tooltip>
       </row>
@@ -5838,7 +5838,7 @@ or three systems per page, for example orchestral scores.</_tooltip>
       <row type="scheme">
         <action>TabFull</action>
         <after>UnHideNotes</after>
-        <menupath>/ObjectMenu/Directives/Staff</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter/Tablature</menupath>
         <_label>Full Tab Notation On</_label>
         <_tooltip>Typeset beaming etc with Tablature from the cursor position on.</_tooltip>
       </row>
@@ -5859,14 +5859,14 @@ or three systems per page, for example orchestral scores.</_tooltip>
       <row type="scheme">
         <action>MinimumFret</action>
         <after>DynamicText</after>
-        <menupath>/ObjectMenu/Directives/Tablature</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter/Tablature</menupath>
         <_label>Minimum Fret Number Allowed</_label>
         <_tooltip>In a Tab staff, restrict the frets available to larger than the given value.</_tooltip>
       </row>
       <row type="scheme">
         <action>RestrainOpenStrings</action>
         <after>MinimumFret</after>
-        <menupath>/ObjectMenu/Directives/Tablature</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter/Tablature</menupath>
         <_label>Restrain Open Strings</_label>
         <_tooltip>Restrains the use of open strings in Tablature.</_tooltip>
       </row>
@@ -5978,14 +5978,14 @@ or three systems per page, for example orchestral scores.</_tooltip>
       <row type="scheme">
         <action>SustainOn</action>
         <after>BreathMark</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Sustain On</_label>
         <_tooltip>Prints a Sustain Pedal On Mark</_tooltip>
       </row>
       <row type="scheme">
         <action>SustainOff</action>
         <after>SustainOn</after>
-        <menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Sustain Off</_label>
         <_tooltip>Prints a Sustain Off Mark</_tooltip>
       </row>
