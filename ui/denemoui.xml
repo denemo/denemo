@@ -233,9 +233,10 @@
     </menu>
 
     <menu action="StaffMenu">
-      <menuitem action="StaffProperties"/>
-      <menuitem action="EditStaffDirective"/>
-      
+	  <menu action="StaffPropertiesMenu">
+				<menuitem action="StaffProperties"/>
+				<menuitem action="EditStaffDirective"/>
+      </menu>
       <menu action="InsertStaff">
         <menuitem action="AddBefore"/>
 	<menuitem action="AddAfter"/>

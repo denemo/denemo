@@ -2312,7 +2312,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>SmallerStaff</action>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>Smaller Staff</_label>
         <_tooltip>The current staff will print in a smaller size. Use this for the solo part above a piano accompaniment</_tooltip>
       </row>
@@ -2462,7 +2462,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>Ambitus</action>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>(Print) Ambitus (On/Off)</_label>
         <_tooltip>Toggle the ambitus engraver for this staff on or off</_tooltip>
       </row>
@@ -2482,14 +2482,14 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       <row type="scheme">
         <action>InstrumentName</action>
         <after>SmallerStaff</after>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>Instrument Name</_label>
         <_tooltip>Print Instrument name before staff at start of score,</_tooltip>
       </row>
       <row type="scheme">
         <action>ShortInstrumentName</action>
         <after>InstrumentName</after>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>Short Instrument Name</_label>
         <_tooltip>Prints shortened form of instrument name before this staff
 for second and subsequent systems</_tooltip>
@@ -2583,8 +2583,7 @@ for second and subsequent systems</_tooltip>
       </row>
       <row type="scheme">
         <action>StaffComment</action>
-        <after>NonPrintingStaff</after>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>Comment</_label>
         <_tooltip>Saves textual comments for this staff</_tooltip>
       </row>
@@ -2597,7 +2596,7 @@ for second and subsequent systems</_tooltip>
       </row>
       <row type="scheme">
         <action>TransposeStaffPrint</action>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>(Print) Transpose</_label>
         <_tooltip>Prints this staff (only) transposed. This is in addtion to any score-wide transposition</_tooltip>
       </row>
@@ -2787,7 +2786,7 @@ for second and subsequent systems</_tooltip>
       </row>
       <row type="scheme">
         <action>BarNumbers</action>
-        <menupath>/ObjectMenu/StaffMenu/Numbering</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu/Numbering</menupath>
         <_label>Bar Numbers (On/Off)</_label>
         <_tooltip>Turns bar numbering on/off in print out.</_tooltip>
       </row>
@@ -3669,14 +3668,14 @@ First it removes notes until just a non-printing rest remains, then deletes that
       <row type="scheme">
         <action>TinyStaff</action>
         <after>SmallerStaff</after>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>Tiny Staff</_label>
         <_tooltip>Prints current staff in a tiny font.</_tooltip>
       </row>
       <row type="scheme">
         <action>TabStaff</action>
         <after>TinyStaff</after>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu/Tablature</menupath>
         <_label>Tablature</_label>
         <_tooltip>Converts to tablature notation (print only)</_tooltip>
       </row>
@@ -5221,7 +5220,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
       <row type="scheme">
         <action>CreateCuesForStaff</action>
         <after>StaffComment</after>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>Create Cues</_label>
         <_tooltip>Goes through the staff looking for long rests. Creates a cue in the whole measure rest.</_tooltip>
       </row>
@@ -5404,7 +5403,7 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
       <row type="scheme">
         <action>StaffSize</action>
         <after>TinyStaff</after>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>Set Staff Size</_label>
         <_tooltip>Sets the size of the staff on printing relative to the default 0. Value -3 is tiny 3 is large.</_tooltip>
       </row>
@@ -5745,7 +5744,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>ChordStaff</action>
         <after>TabStaff</after>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>Chord Symbols</_label>
         <_tooltip>Typesets the music on this staff as chord symbols. Normally you will use this on a voice, so that the chord symbols print on the melody staff.</_tooltip>
       </row>
