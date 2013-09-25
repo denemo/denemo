@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <Denemo>
-  <palette _name="Select Duration" row-wise="0" limit="6" hidden="0">
+  <palette _name="Select Duration" row-wise="1" limit="1" dock="0" hidden="0">
     <button _label="~&#x1D15D;" _tooltip="Selects &#x1D15D; as the duration for inserting notes or rests" script="(d-Set0)"/>
     <button _label="~&#x1D15E;" _tooltip="Selects &#x1D15E; as the duration for inserting notes or rests" script="(d-Set1)"/>
     <button _label="~&#x1D15F;" _tooltip="Selects &#x1D15F; as the duration for inserting notes or rests" script="(d-Set2)"/>
@@ -9,9 +9,7 @@
     <button _label="~&#x1D163;" _tooltip="Selects &#x1D163; as the duration for inserting notes or rests" script="(d-Set5)"/>
     <button _label="&lt;i&gt;3&lt;/i&gt;" _tooltip="Alternates inserting start triplet and end triplet markers" script="(d-ToggleTripleting)"/>
   </palette>
-  <palette _name="General" row-wise="1" limit="1" hidden="0">
-    <button _label="&#x266F;" _tooltip="Sharpen the note at the cursor or next entered note if the cursor is in the appending position" script="(d-SharpenNote)"/>
-    <button _label="&#x266D;" _tooltip="Flatten the note at the cursor or next entered note if the cursor is in the appending position" script="(d-FlattenNote)"/>
+  <palette _name="General" row-wise="1" limit="1" dock="1" hidden="0">
     <button _label="&#x2022;" _tooltip="Dot, double dot or undot the note at the cursor" script="(d-DotDoubleDotNoDot)"/>
     <button _label="(" _tooltip="Begin Slur from note/chord at cursor, or remove a Begin Slur" script="(d-ToggleBeginSlur)"/>
     <button _label=")" _tooltip="End Slur at note/chord at cursor, or remove an End Slur" script="(d-ToggleEndSlur)"/>
@@ -20,14 +18,14 @@
     <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_style=&quot;italic&quot; font_weight=&quot;bold&quot;&gt;Allegro&lt;/span&gt;" _tooltip="Insert a tempo change at cursor" script="(d-MetronomeMark)"/>
     <button _label="&lt;span font='16'&gt; &#x1D11E;   &lt;/span&gt;" _tooltip="Choose any sort of clef. If the cursor is at the start change initial clef, else insert chosen clef." script="(d-ClefChooser)"/>
   </palette>
-  <palette _name="Dynamics" row-wise="1" limit="1" hidden="0">
+  <palette _name="Dynamics" row-wise="1" limit="1" dock="1" hidden="0">
     <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_style=&quot;italic&quot; font_weight=&quot;bold&quot;&gt;f p&lt;/span&gt;" _tooltip="Insert a Dynamic Marking at the cursor" script="(d-DynamicText)"/>
     <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_weight=&quot;bold&quot;&gt;&amp;lt;&lt;/span&gt;" _tooltip="Start Crescrendo from note/chord at cursor" script="(d-ToggleStartCrescendo)"/>
     <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_weight=&quot;bold&quot;&gt;&amp;lt;|&lt;/span&gt;" _tooltip="End Crescendo on note/chord at cursor" script="(d-ToggleEndCrescendo)"/>
     <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_weight=&quot;bold&quot;&gt;&amp;gt;&lt;/span&gt;" _tooltip="Start Diminuendo from note/chord at cursor " script="(d-ToggleStartDiminuendo)"/>
     <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_weight=&quot;bold&quot;&gt;&amp;gt;|&lt;/span&gt;" _tooltip="End Diminuendo from note/chord at cursor" script="(d-ToggleEndDiminuendo)"/>
   </palette>
-  <palette _name="Pianoforte" row-wise="1" limit="1" hidden="0">
+  <palette _name="Pianoforte" row-wise="1" limit="2" dock="0" hidden="0">
     <button _label="&lt;span font='24'&gt;&#x1D1AE;&lt;/span&gt;" _tooltip="Prints a Sustain Pedal On Mark" script="(d-SustainOn)"/>
     <button _label="&lt;span font='24'&gt;&#x1D11E;     &#10;&#x1D122;&lt;/span&gt;" _tooltip="Adds two staff braced together for keyboard instrument." script="(d-PianoStaff)"/>
     <button _label="&amp;lt;&amp;gt;" _tooltip="Adds a staff to be used purely for dynamic markings, insert after right hand piano staff" script="(d-DynamicsStaff)"/>
@@ -35,7 +33,7 @@
     <button _label="&#x2B01;" _tooltip="(Print) the current voice moves to the staff you name." script="(d-ChangeStaff)"/>
     <button _label="8va" _tooltip="Inserts an 8va mark (transposing the notes accordingly) or terminates one already started." script="(d-Ottava)"/>
   </palette>
-  <palette _name="Insert or Append Duration" row-wise="0" limit="6" hidden="0">
+  <palette _name="Insert or Append Duration" row-wise="0" limit="1" dock="1" hidden="0">
     <button _label="&#x2B10;&#x1D15D;" _tooltip="When appending, appends a &#x1D15D; &#10;With the cursor on a note inserts a &#x1D15D;  before the current note&#10;If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)&#10; - the MIDI keyboard will provide the pitch. Changes prevailing duration." script="(d-0)"/>
     <button _label="&#x2B10;&#x1D15E;" _tooltip="When appending, appends a &#x1D15E; &#10;With the cursor on a note inserts a &#x1D15E;  before the current note&#10;If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)&#10; - the MIDI keyboard will provide the pitch. Changes prevailing duration." script="(d-1)"/>
     <button _label="&#x2B10;&#x1D15F;" _tooltip="When appending, appends a &#x1D15F; &#10;With the cursor on a note inserts a &#x1D15F;  before the current note&#10;If MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)&#10; - the MIDI keyboard will provide the pitch. Changes prevailing duration." script="(d-2)"/>
@@ -52,7 +50,7 @@
     <button _label="&#x266D;" _tooltip="Flatten the note at the cursor or next entered note if the cursor is in the appending position" script="(d-FlattenNote)"/>
     <button _label="&#x2022;" _tooltip="Dot, double dot or undot the note at the cursor" script="(d-DotDoubleDotNoDot)"/>
   </palette>
-  <palette _name="Edit Duration" row-wise="0" limit="6" hidden="0">
+  <palette _name="Edit Duration" row-wise="0" limit="1" dock="1" hidden="0">
     <button _label="&#x2B46; &#x1D15D;" _tooltip="Change the current note to a &#x1D15D;" script="(d-Change0)"/>
     <button _label="&#x2B46; &#x1D15E;" _tooltip="Change the current note to a &#x1D15E;" script="(d-Change1)"/>
     <button _label="&#x2B46; &#x1D15F;" _tooltip="Change the current note to a &#x1D15F;" script="(d-Change2)"/>
@@ -63,7 +61,7 @@
     <button _label="1/2" _tooltip="Halves the duration of the note/chord/rest at the cursor or the selection. E.g. Quarter Note becomes Eighth Note. " script="(d-Diminish)"/>
     <button _label="2&#x2217;" _tooltip="Doubles the duration of the note/chord/rest at the cursor or the selection. E.g. Quarter Note becomes Half Note." script="(d-Augment)"/>
   </palette>
-  <palette _name="Change or Append Notes" row-wise="0" limit="7" hidden="0">
+  <palette _name="Change or Append Notes" row-wise="0" limit="1" dock="1" hidden="0">
     <button _label="~A" _tooltip="Changes the note the cursor is on to the note A.&#10;If the cursor is in the appending position, appends a note using the prevailing duration." script="(d-A)"/>
     <button _label="~B" _tooltip="Changes the note the cursor is on to the note B.&#10;If the cursor is in the appending position, appends a note using the prevailing duration." script="(d-B)"/>
     <button _label="~C" _tooltip="Changes the note the cursor is on to the note C.&#10;If the cursor is in the appending position, appends a note using the prevailing duration." script="(d-C)"/>
@@ -71,14 +69,14 @@
     <button _label="~E" _tooltip="Changes the note the cursor is on to the note E.&#10;If the cursor is in the appending position, appends a note using the prevailing duration." script="(d-E)"/>
     <button _label="~F" _tooltip="Changes the note the cursor is on to the note F.&#10;If the cursor is in the appending position, appends a note using the prevailing duration." script="(d-F)"/>
     <button _label="~G" _tooltip="Changes the note the cursor is on to the note G.&#10;If the cursor is in the appending position, appends a note using the prevailing duration." script="(d-G)"/>
-    <button _label="&#x266F;" _tooltip="Sharpen the note at the cursor" script="(d-Sharpen)"/>
-    <button _label="&#x266D;" _tooltip="Flatten the note at the cursor" script="(d-Flatten)"/>
     <button _label="&#x2B06;8" _tooltip="Changes the note at the cursor to an octave higher" script="(d-OctaveUp)"/>
     <button _label="&#x2B07;8" _tooltip="Changes the note at the cursor to an octave lower" script="(d-OctaveDown)"/>
     <button _label="!" _tooltip="Forces the accidental on the note to be printed." script="(d-CautionaryAccidental)"/>
     <button _label="(&#x266E;)" _tooltip="Prints the accidental in ()." script="(d-ReminderAccidental)"/>
+    <button _label="&#x266F;" _tooltip="Sharpen the note at the cursor or next entered note if the cursor is in the appending position" script="(d-SharpenNote)"/>
+    <button _label="&#x266D;" _tooltip="Flatten the note at the cursor or next entered note if the cursor is in the appending position" script="(d-FlattenNote)"/>
   </palette>
-  <palette _name="Ornaments" row-wise="1" limit="1" hidden="0">
+  <palette _name="Ornaments" row-wise="0" limit="1" dock="1" hidden="0">
     <button _label="&lt;i&gt;&lt;b&gt;tr&lt;/b&gt;&lt;/i&gt;" _tooltip="Adds/Removes a trill to the note" script="(d-ToggleTrill)"/>
     <button _label="&lt;span font=&quot;emmentaler&quot;&gt;&#xE18D;&lt;/span&gt;" _tooltip="Adds/Removes a Mordent to the note" script="(d-ToggleMordent)"/>
     <button _label="&lt;span font=&quot;emmentaler&quot;&gt;&#xE18C;&lt;/span&gt;" _tooltip="Adds/Removes a prall to the note" script="(d-TogglePrall)"/>
@@ -86,7 +84,7 @@
     <button _label="&lt;span font=&quot;emmentaler&quot;&gt;&#x1D197;&lt;/span&gt;" _tooltip="Add/Removes a Turn to the note" script="(d-ToggleTurn)"/>
     <button _label="&lt;span font=&quot;emmentaler&quot;&gt;&#x1D198;&lt;/span&gt;" _tooltip="Add/Removes a Reverse Turn to the note" script="(d-ToggleReverseTurn)"/>
   </palette>
-  <palette _name="Stringed Instruments" row-wise="0" limit="6" hidden="0">
+  <palette _name="Stringed Instruments" row-wise="0" limit="6" dock="0" hidden="0">
     <button _label="&#xE176;" _tooltip="Mark/Unmark current selection or note with UpBow" script="(d-UpBowSelectionSwitcher)"/>
     <button _label="&#xE177;" _tooltip="Mark/Unmark selection or current object" script="(d-DownbowSelectionSwitcher)"/>
     <button _label="&lt;span font=&quot;emmentaler&quot;&gt;&#xE17F;&lt;/span&gt;" _tooltip="Mark/Unmark current selection or object with a harmonic" script="(d-HarmonicSelectionSwitcher)"/>
