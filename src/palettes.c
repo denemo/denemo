@@ -28,9 +28,12 @@
 #define gtk_grid_attach(widget, obj, a,b,c,d) gtk_box_pack_end(widget, obj, FALSE, TRUE, 0)
 #define GTK_GRID(a) a
 #endif
-static void hide_parent_widget (GtkWidget *w) {
+static void hide_palette_widget (GtkWidget *w) {
 	GtkWidget *parent = gtk_widget_get_parent (w);
-	gtk_widget_hide (parent);
+	if(GTK_IS_WINDOW(parent))
+		gtk_widget_hide (parent);
+	else
+	   gtk_widget_hide (w);
 }
 static void popupmenu (GtkWidget *menu) {
 	  g_signal_connect (menu, "selection-done", gtk_main_quit, NULL);
@@ -51,23 +54,42 @@ void repack_palette (DenemoPalette *pal)
 	}
 	gtk_widget_destroy (pal->box);
 	pal->box = gtk_grid_new();
-	gtk_widget_set_tooltip_text (pal->box, _("To edit the shape of this palette, remove buttons etc right click on a button"));
+	gchar *tooltip = g_strdup_printf("The \"%s\" Palette:\n%s", pal->name, _("To edit the shape of this palette, dock/undock, remove buttons etc right click on a button and choose Edit Palette."));
+	gtk_widget_set_tooltip_text (pal->box, tooltip);
+	g_free(tooltip);
 	for (i=0, g=pal->buttons;g;i++, g=g->next)
 	{
 		if(pal->rows)
 			gtk_grid_attach (GTK_GRID(pal->box), g->data, i/pal->limit, i%pal->limit, 1, 1);
 		else
 			gtk_grid_attach (GTK_GRID(pal->box), g->data, i%pal->limit, i/pal->limit, 1, 1);
+		gtk_widget_show (GTK_WIDGET(g->data));
 	}
 	gtk_container_add (GTK_CONTAINER (parent), pal->box);
-	gtk_window_resize (GTK_WINDOW(gtk_widget_get_parent (pal->box)), 1, 1);//FIXME if docked in main display this will not be a GTK_WINDOW
-	gtk_widget_show_all(pal->box);//without this non-hidden palettes have hidden buttons.
+	if(pal->docked)
+		gtk_widget_hide (pal->window);
+	else
+	{
+		gtk_window_resize (GTK_WINDOW(pal->window), 1, 1);
+		gtk_widget_show (pal->window);
+	}
+	gtk_widget_show(pal->box);
 }
 
 
 static void toggle_rows (DenemoPalette *pal) {
 	pal->rows = !pal->rows;
 	repack_palette (pal);
+}
+static void toggle_dock (DenemoPalette *pal) {
+	if(pal->docked)
+		gtk_widget_reparent (pal->box, pal->window);
+	else
+		pal->rows? gtk_widget_reparent (pal->box, Denemo.vpalettes):gtk_widget_reparent (pal->box, Denemo.hpalettes);
+	pal->docked = !pal->docked;
+	pal->docked?
+		gtk_widget_hide (pal->window):
+		gtk_widget_show (pal->window);
 }
 static void set_limit (DenemoPalette *pal) {
 	gchar *initial = g_strdup_printf("%d", pal->limit);
@@ -83,7 +105,7 @@ static GtkWidget *get_palette_menu(DenemoPalette *pal) {
   GtkWidget *menu = gtk_menu_new ();
   GtkWidget *item = gtk_menu_item_new_with_label (_("Hide"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (hide_parent_widget), (gpointer) pal->box);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (hide_palette_widget), (gpointer) pal->box);
     if(!pal->rows) 
   {
 	item = gtk_menu_item_new_with_label (_("Make Horizontal"));
@@ -103,6 +125,12 @@ static GtkWidget *get_palette_menu(DenemoPalette *pal) {
 	gtk_widget_set_tooltip_text (item, pal->rows? _("Set maximum extent vertically") : _("Set maximum extent horizontally") );
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (set_limit), (gpointer) pal);
+	}	
+	{
+	item = gtk_menu_item_new_with_label ( pal->docked?_("Undock"):_("Dock"));
+	gtk_widget_set_tooltip_text (item,  pal->docked?_("Dock this palette in the main display"):_("Undock this palette from the main display") );
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (toggle_dock), (gpointer) pal);
 	}	
   return menu;
 }
@@ -149,14 +177,14 @@ static void remove_button (GtkWidget *button) {
 }
 static void copy_button (GtkWidget *button) {
 	gchar *tooltip =  gtk_widget_get_tooltip_text (button);
-	gchar *label = gtk_button_get_label (GTK_BUTTON(button));
+	gchar *label = (gchar*)gtk_button_get_label (GTK_BUTTON(button));
 	gchar *script = g_object_get_data (G_OBJECT(button), "script");
 	gchar *name = get_palette_name (TRUE);
 	if(name)
 	{
 		DenemoPalette *pal = get_palette (name);
 		if(pal==NULL)
-			pal = create_palette (name, FALSE);
+			pal = create_palette (name, FALSE, TRUE);
 		palette_add_button (pal, label, tooltip, script);
 	}
 }
@@ -275,24 +303,35 @@ void palette_delete_button (DenemoPalette *pal, GtkWidget *button)
 }
 
 
-DenemoPalette *create_palette (gchar *name, gboolean docked) {
+DenemoPalette *create_palette (gchar *name, gboolean docked, gboolean rows) {
 	DenemoPalette *pal = get_palette (name);
 	
 	if(pal==NULL) 
 	{
 		pal = new_palette (name, TRUE);
-		GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-		gtk_window_set_title (GTK_WINDOW (window), name);		
-		gtk_widget_show (window);
-		gtk_container_add (GTK_CONTAINER (window), pal->box);
-		g_signal_connect (G_OBJECT (window), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+		pal->window =  gtk_window_new (GTK_WINDOW_TOPLEVEL);
+		gtk_window_set_title (GTK_WINDOW (pal->window), name);		
+		g_signal_connect (G_OBJECT (pal->window), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+		pal->rows = rows;
+		if(docked) 
+			{
+			 pal->docked = TRUE;
+			 pal->rows? 
+			 gtk_box_pack_start (GTK_BOX(Denemo.vpalettes), pal->box, FALSE, TRUE, 0):
+			 gtk_box_pack_start (GTK_BOX(Denemo.hpalettes), pal->box, FALSE, TRUE, 0);
+			} 
+		else 
+			{
+			gtk_widget_show (pal->window);
+			gtk_container_add (GTK_CONTAINER (pal->window), pal->box);
+		}
 	}	
 	return pal;
 }
 
 DenemoPalette *set_palate_shape (gchar *name, gboolean row_wise, gint limit)
 {
- DenemoPalette *pal = create_palette (name, FALSE);
+ DenemoPalette *pal = create_palette (name, FALSE, row_wise);
 	if (limit>0) {
 		pal->limit = limit;
 		pal->rows = row_wise;

@@ -482,7 +482,7 @@ scheme_create_palette_button (SCM palette, SCM lbl, SCM tltp, SCM scrp)
 	gchar *tooltip = scm_to_locale_string (tltp);
 	gchar *script = scm_to_locale_string (scrp);
 	
-	DenemoPalette *pal = create_palette (name, FALSE);
+	DenemoPalette *pal = create_palette (name, FALSE, TRUE);
 
 	ret = palette_add_button (pal, label, tooltip, script)?SCM_BOOL_T:SCM_BOOL_F;
 	gtk_widget_show_all (gtk_widget_get_parent(pal->box));
@@ -496,10 +496,10 @@ static SCM
 scheme_set_palette_shape (SCM palette, SCM horizontal, SCM limit) 
 {
 	gchar *name = scm_to_locale_string (palette);
-	gboolean *horiz = scm_is_true (horizontal);
+	gboolean horiz = scm_is_true (horizontal);
 	gint lim = scm_to_int (limit);
 	
-	DenemoPalette *pal = create_palette (name, FALSE);
+	DenemoPalette *pal = create_palette (name, FALSE, horiz);
 	free(name);
 	if (lim>0) {
 		pal->limit = lim;
@@ -512,30 +512,31 @@ scheme_set_palette_shape (SCM palette, SCM horizontal, SCM limit)
 static SCM
 scheme_show_palettes (SCM option) 
 {
-	if(scm_is_true (option)) {
+	if(scm_is_true (option)) 
+		{
 		gchar *name = get_palette_name (FALSE);
 		if(name)
 			{
 				DenemoPalette *pal = get_palette (name);
 				gtk_widget_show (gtk_widget_get_parent(pal->box));
+				gtk_widget_show_all (pal->box);
 				return SCM_BOOL_T;
-				
 			}
-		
-	} else
-	{
+		} else
+		{
 		if(Denemo.palettes)
 			{
 			GList *g;
 			for (g=Denemo.palettes;g;g=g->next)
-			{
-			DenemoPalette *pal = (DenemoPalette *) g->data;
-			gtk_widget_show (gtk_widget_get_parent(pal->box)); //show all??
-			}	
+				{
+				DenemoPalette *pal = (DenemoPalette *) g->data;
+				gtk_widget_show (gtk_widget_get_parent(pal->box));
+				gtk_widget_show_all (pal->box);
+				}	
 			return SCM_BOOL_T;
-		} else
+			} else
 			return SCM_BOOL_F;
-	}
+		}
 	return SCM_BOOL_F;
 }
 	
@@ -10575,7 +10576,7 @@ set_master_tempo (DenemoScore * si, gdouble tempo)
 static void
 create_window (void)
 {
-  GtkWidget *main_vbox, *menubar, *toolbar, *hbox;
+  GtkWidget *outer_main_vbox, *main_hbox, *main_vbox, *menubar, *toolbar, *hbox;
   GtkActionGroup *action_group;
   GtkUIManager *ui_manager;
   GError *error;
@@ -10608,10 +10609,10 @@ create_window (void)
 
 
 
-  main_vbox = gtk_vbox_new (FALSE, 1);
-  gtk_container_set_border_width (GTK_CONTAINER (main_vbox), 1);
-  gtk_container_add (GTK_CONTAINER (Denemo.window), main_vbox);
-  gtk_widget_show (main_vbox);
+  outer_main_vbox = gtk_vbox_new (FALSE, 1);
+  gtk_container_set_border_width (GTK_CONTAINER (outer_main_vbox), 1);
+  gtk_container_add (GTK_CONTAINER (Denemo.window), outer_main_vbox);
+  gtk_widget_show (outer_main_vbox);
 
   Denemo.action_group = action_group = gtk_action_group_new ("MenuActions");
   gtk_action_group_set_translation_domain (action_group, NULL);
@@ -10676,7 +10677,7 @@ create_window (void)
   //menubar = gtk_item_factory_get_widget (item_factory, "<main>");
   Denemo.menubar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu"); // this triggers Lily... missing action
   gtk_widget_set_tooltip_text (Denemo.menubar, _("This is the Main Menu bar, where menus for the mostly non-musical aspects (saving, printing, setting up input sources etc) are placed. See the Object Menu bar for the commands that edit music"));
-  gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.menubar, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (outer_main_vbox), Denemo.menubar, FALSE, TRUE, 0);
   gtk_widget_show (Denemo.menubar);
 
   gtk_widget_set_tooltip_text (gtk_ui_manager_get_widget (ui_manager, "/ObjectMenu"), _("This is the Object Menu bar, where menus for the commands that edit music live. They are arranged in a hierarchy Score, Movement, Staff (which contains Voices) and then the things that go on a staff, notes, clefs etc. Directives covers everything else that you can put in amongst the notes to change the behavior from that point in the music."));
@@ -10691,7 +10692,7 @@ create_window (void)
   // But without gnome, there is no (ui) to set this option.
   gtk_widget_set_tooltip_text (toolbar, _("This tool bar contains a few conventional commands. You can hide it (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu → Edit → Change Preferences → Display general toolbar"));
   gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_BOTH_HORIZ);
-  gtk_box_pack_start (GTK_BOX (main_vbox), toolbar, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (outer_main_vbox), toolbar, FALSE, TRUE, 0);
   gtk_widget_set_can_focus (toolbar, FALSE);
   //GTK_WIDGET_UNSET_FLAGS(toolbar, GTK_CAN_FOCUS); 
 
@@ -10702,7 +10703,7 @@ create_window (void)
                                  _
                                  ("Controls for playback. The arrows on either side of the PLAY and STOP buttons move the playback start"
                                  " and playback end markers. Loop plays in a loop - you can edit while it plays. You can also record the output and save it as .ogg or .wav file. The temperament used for playing back can be set here."));
-    gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.playback_control, FALSE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (outer_main_vbox), Denemo.playback_control, FALSE, TRUE, 0);
     GtkFrame *frame = (GtkFrame *) gtk_frame_new (_("Playback Control"));
     gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
     gtk_container_add (GTK_CONTAINER (Denemo.playback_control), GTK_WIDGET (frame));
@@ -10714,7 +10715,7 @@ create_window (void)
     GtkWidget *inner = gtk_hbox_new (FALSE, 1);
     gtk_box_pack_start (GTK_BOX (inner1), inner, FALSE, TRUE, 0);
 
-    //gtk_box_pack_start (GTK_BOX (main_vbox), inner, FALSE, TRUE, 0);
+    //gtk_box_pack_start (GTK_BOX (outer_main_vbox), inner, FALSE, TRUE, 0);
     gtk_widget_set_can_focus (inner, FALSE);
     GtkWidget *label;
 
@@ -10872,7 +10873,7 @@ create_window (void)
     gtk_widget_set_tooltip_text (Denemo.midi_in_control,
                                  _
                                  ("Controls for managing input from a MIDI controller (e.g. keyboard) attached to the computer. You may need to select your MIDI device first using MainMenu → Edit → Change Preferences → MIDI looking for MIDI in devices (turn your device on first). When you have a MIDI controller durations are inserted without any pitch (they appear in brown) playing on the controller puts the pitches onto the durations. The Shift and Control and ALT keys can also be used for listening without entering notes, checking pitches entered and entering chords. The foot pedal can also be used for chords. Release the ALT key and re-press to start a new chord - timing is unimportant, play the chord fast or slow."));
-    gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.midi_in_control, FALSE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (outer_main_vbox), Denemo.midi_in_control, FALSE, TRUE, 0);
     frame = (GtkFrame *) gtk_frame_new (_("Midi In Control"));
     gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
     gtk_container_add (GTK_CONTAINER (Denemo.midi_in_control), GTK_WIDGET (frame));
@@ -10916,7 +10917,7 @@ create_window (void)
   toolbar = gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar");
   //g_print("EntryToolbar is %p\n", toolbar);
   gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_TEXT);
-  gtk_box_pack_start (GTK_BOX (main_vbox), toolbar, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (outer_main_vbox), toolbar, FALSE, TRUE, 0);
   gtk_widget_set_can_focus (toolbar, FALSE);
   //GTK_WIDGET_UNSET_FLAGS(toolbar, GTK_CAN_FOCUS);
 
@@ -10924,19 +10925,29 @@ create_window (void)
 
   toolbar = gtk_ui_manager_get_widget (ui_manager, "/RhythmToolBar");
   gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_TEXT);
-  gtk_box_pack_start (GTK_BOX (main_vbox), toolbar, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (outer_main_vbox), toolbar, FALSE, TRUE, 0);
 
   menubar = gtk_ui_manager_get_widget (ui_manager, "/ObjectMenu");
   if (menubar)
     {
-      gtk_box_pack_start (GTK_BOX (main_vbox), menubar, FALSE, TRUE, 0);
+      gtk_box_pack_start (GTK_BOX (outer_main_vbox), menubar, FALSE, TRUE, 0);
     }
+    
+  main_hbox = gtk_hbox_new (FALSE, 1);
+  gtk_widget_show (main_hbox);
+  gtk_box_pack_start (GTK_BOX (outer_main_vbox), main_hbox, TRUE, TRUE, 0);
+  Denemo.hpalettes = gtk_hbox_new (FALSE, 1);
+  gtk_widget_show(Denemo.hpalettes);
+  gtk_box_pack_start (GTK_BOX (main_hbox), Denemo.hpalettes, FALSE, FALSE, 0);
+  main_vbox = gtk_vbox_new (FALSE, 1);
+  gtk_widget_show (main_vbox);
+  gtk_box_pack_start (GTK_BOX (main_hbox), main_vbox, TRUE, TRUE, 0);
 
-
-  //  menubar = gtk_ui_manager_get_widget (ui_manager, "/ActionMenu");
-  //  if(menubar) {
-  //    gtk_box_pack_start (GTK_BOX (main_vbox), menubar, FALSE, TRUE, 0);
-  //  }
+  //FIXME - at this point create an empty vbox to pack in to main_vbox and set Denemo.vpalettes to this. Then palettes can use gtk_widget_reparent(pal->box, Denemo.vpalettes) to dock the palette.
+  //a Denemo.hpalettes should also exist. Could pack an hbox in main_vbox, then Denemo.hpalettes, then subsidiary main_vbox and change references from here on to the subsid main_vbox.
+  Denemo.vpalettes = gtk_vbox_new (FALSE, 1);
+  gtk_widget_show(Denemo.vpalettes);
+  gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.vpalettes, FALSE, FALSE, 0);
 
   Denemo.notebook = gtk_notebook_new ();
   gtk_notebook_set_show_tabs (GTK_NOTEBOOK (Denemo.notebook), FALSE);   //only show when more than one
@@ -10954,10 +10965,12 @@ create_window (void)
                                                        " use the Upbeat (Anacrusis, Pickup) command if that is intentional."
                                                        "\nYou can switch to a menu-less view or a page-view using the Esc key." " For the paged view you drag the red bar up the page to set how many systems you want showing." "\nFor the paged view you will probably want a smaller zoom - use Control+scroll-wheel on your mouse to zoom the display." "Right-click on an object to get a short menu of actions or set the mouse input mode."));
     GtkWidget *scorearea_topbox = gtk_vbox_new (FALSE, 1);
-    gtk_container_add (GTK_CONTAINER (main_vbox), scorearea_topbox);
+    //gtk_container_add (GTK_CONTAINER (main_vbox), scorearea_topbox);
+    gtk_box_pack_start (GTK_BOX (main_vbox), scorearea_topbox, TRUE, TRUE, 0);   
 
     GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
-    gtk_container_add (GTK_CONTAINER (scorearea_topbox), score_and_scroll_hbox);
+    //gtk_container_add (GTK_CONTAINER (scorearea_topbox), score_and_scroll_hbox);
+    gtk_box_pack_start (GTK_BOX (scorearea_topbox), score_and_scroll_hbox, TRUE, TRUE, 0);   
     gtk_widget_show (score_and_scroll_hbox);
 
     gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), Denemo.scorearea, TRUE, TRUE, 0);      // with this, the scorearea_draw_event is called
@@ -11004,10 +11017,10 @@ create_window (void)
   create_lilywindow ();
   // create_console(GTK_BOX(main_vbox));
   Denemo.statusbar = gtk_statusbar_new ();
-	  gtk_widget_set_tooltip_text (Denemo.statusbar, _("This bar shows:\nPending ♯ or ♭ sign (if the next note entered will be sharpened or flattened)\nThe movement number\nDescription of the object at the Denemo cursor\nPosition and status (appending or inserting) of the cursor.\nIf the Playback Controls are visible then the timing of the object at the cursor is shown.\nIf MIDI in controls are visible the current enharmonic range is shown.\nWhen the first key of a two-key shortcut is pressed the possible continuations are shown here."));
+  gtk_widget_set_tooltip_text (Denemo.statusbar, _("This bar shows:\nPending ♯ or ♭ sign (if the next note entered will be sharpened or flattened)\nThe movement number\nDescription of the object at the Denemo cursor\nPosition and status (appending or inserting) of the cursor.\nIf the Playback Controls are visible then the timing of the object at the cursor is shown.\nIf MIDI in controls are visible the current enharmonic range is shown.\nWhen the first key of a two-key shortcut is pressed the possible continuations are shown here."));
   hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
-  gtk_box_pack_start (GTK_BOX (hbox), Denemo.statusbar, TRUE, TRUE, 5);
+  gtk_box_pack_start (GTK_BOX (hbox), Denemo.statusbar, FALSE, TRUE, 5);
   gtk_widget_show (Denemo.statusbar);
   Denemo.status_context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (Denemo.statusbar), "Denemo");
   gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id, "Denemo");

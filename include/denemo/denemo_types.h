@@ -102,8 +102,10 @@ typedef struct DenemoPalette
 {
 	gchar *name;
 	GtkWidget *box;
+	GtkWidget *window;
 	gboolean rows; /* widgets should be packed row-wise or not */
 	gint limit; /* how many widgets to pack in the chosen direction */
+	gboolean docked; /**< whether this palette is displayed in the main display */
 	GList *buttons; /**< the data are GtkWidget which have a script attached to be run when activated */
 }
 DenemoPalette;
@@ -1070,7 +1072,9 @@ struct DenemoRoot
   GtkWidget *vscrollbar;
   GtkAdjustment *hadjustment;
   GtkWidget *hscrollbar;
-
+  
+  GtkWidget *hpalettes;/**< hbox holding horizontal docked palettes */
+  GtkWidget *vpalettes;/**< vbox holding vertical docked palettes */
   GtkWidget *printarea;/**< area holding a print preview */
   GtkWidget *printvscrollbar;/**< scrollbar widget for printarea */
   GtkWidget *printhscrollbar;/**< scrollbar widget for printarea */
