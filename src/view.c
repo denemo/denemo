@@ -1043,6 +1043,9 @@ toggle_to_drawing_area (gboolean show)
   gboolean hide = !show;
   if (((current_view == DENEMO_PAGE_VIEW) && hide) || (show && (!current_view)))
     return;
+    
+   hide ? (gtk_widget_hide(Denemo.vpalettes),gtk_widget_hide(Denemo.hpalettes)):
+    (gtk_widget_show(Denemo.vpalettes),gtk_widget_show(Denemo.hpalettes));
   current_view = hide ? DENEMO_LINE_VIEW : DENEMO_MENU_VIEW;
 #define ACCUM height += get_widget_height(widget)
 
