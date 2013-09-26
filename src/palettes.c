@@ -63,7 +63,7 @@ void repack_palette (DenemoPalette *pal)
 	}
 	gtk_widget_destroy (pal->box);
 	pal->box = gtk_grid_new();
-	gchar *tooltip = g_strdup_printf("The \"%s\" Palette:\n%s", pal->name, _("To edit the shape of this palette, dock/undock, remove buttons etc right click on a button and choose Edit Palette."));
+	gchar *tooltip = g_strdup_printf("The \"%s\" Palette:\n%s", pal->name, _("To edit this palette, dock/undock, hide etc, right click on a button and choose Edit Palette."));
 	gtk_widget_set_tooltip_text (pal->box, tooltip);
 	g_free(tooltip);
 	for (i=0, g=pal->buttons;g;i++, g=g->next)
@@ -174,7 +174,7 @@ static void put_script_for_button (GtkWidget *button) {
 
 static void edit_label_for_button (GtkWidget *button) {
 	const gchar *label = gtk_button_get_label (GTK_BUTTON(button));
-	gchar *newlabel = string_dialog_entry (Denemo.gui, _("Choose Label"), _("Choose label for this button"), (gchar*)label);
+	gchar *newlabel = string_dialog_entry (Denemo.gui, _("Write Label"), _("Write a label for this button"), (gchar*)label);
 	
 	if(newlabel) {
 		gtk_button_set_label (GTK_BUTTON(button), newlabel); //setting the label changes the widget: this works around a bizarre bug, if you just set the markup on the label the button has two labels
@@ -184,6 +184,14 @@ static void edit_label_for_button (GtkWidget *button) {
 	}
 	g_free(newlabel);
 	
+}
+static void edit_tooltip_for_button (GtkWidget *button) {
+	const gchar *tooltip = gtk_widget_get_tooltip_text (GTK_BUTTON(button));
+	gchar *newtooltip = string_dialog_entry (Denemo.gui, _("Write Tooltip"), _("Write a tooltip for this button"), (gchar*)tooltip);
+	if(newtooltip) {
+		gtk_widget_set_tooltip_text (button, newtooltip);
+	}
+	g_free(newtooltip);
 }
 static void remove_button (GtkWidget *button) {
 	DenemoPalette *pal = g_object_get_data (G_OBJECT(button), "palette");
@@ -213,7 +221,11 @@ static GtkWidget *popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (edit_label_for_button), (gpointer) button);
   
-  
+    item = gtk_menu_item_new_with_label (_("Edit Tooltip"));
+  gtk_widget_set_tooltip_text (item, _("Edit the tooltip of this button"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (edit_tooltip_for_button), (gpointer) button);
+
 
   
   item = gtk_menu_item_new_with_label (_("Copy to another Palette"));

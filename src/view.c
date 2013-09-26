@@ -10946,8 +10946,6 @@ create_window (void)
   gtk_widget_show (main_vbox);
   gtk_box_pack_start (GTK_BOX (main_hbox), main_vbox, TRUE, TRUE, 0);
 
-  //FIXME - at this point create an empty vbox to pack in to main_vbox and set Denemo.vpalettes to this. Then palettes can use gtk_widget_reparent(pal->box, Denemo.vpalettes) to dock the palette.
-  //a Denemo.hpalettes should also exist. Could pack an hbox in main_vbox, then Denemo.hpalettes, then subsidiary main_vbox and change references from here on to the subsid main_vbox.
   Denemo.vpalettes = gtk_vbox_new (FALSE, 1);
   gtk_widget_show(Denemo.vpalettes);
   gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.vpalettes, FALSE, FALSE, 0);
