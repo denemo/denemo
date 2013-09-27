@@ -75,8 +75,11 @@ void repack_palette (DenemoPalette *pal)
 		gtk_widget_show (GTK_WIDGET(g->data));
 	}
 	gtk_container_add (GTK_CONTAINER (parent), pal->box);
-	if(pal->docked)
+	if(pal->docked) 
+	{
 		gtk_widget_hide (pal->window);
+		pal->rows? gtk_widget_reparent (pal->box, Denemo.vpalettes):gtk_widget_reparent (pal->box, Denemo.hpalettes);
+	}
 	else
 	{
 		gtk_window_resize (GTK_WINDOW(pal->window), 1, 1);
