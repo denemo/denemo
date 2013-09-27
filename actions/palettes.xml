@@ -17,8 +17,13 @@
     <button _label="3" _tooltip="Alternates inserting start triplet and end triplet markers" script="(d-ToggleTripleting)"/>
     <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_style=&quot;italic&quot; font_weight=&quot;bold&quot;&gt;Allegro&lt;/span&gt;" _tooltip="Insert a tempo change at cursor" script="(d-MetronomeMark)"/>
     <button _label="&lt;span font='16'&gt; &#x1D11E;   &lt;/span&gt;" _tooltip="Choose any sort of clef. If the cursor is at the start change initial clef, else insert chosen clef." script="(d-ClefChooser)"/>
+    <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_style=&quot;italic&quot; font_weight=&quot;bold&quot;&gt;f p&lt;/span&gt;" _tooltip="Insert a Dynamic Marking at the cursor" script="(d-DynamicText)"/>
+    <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_weight=&quot;bold&quot;&gt;&amp;lt;&lt;/span&gt;" _tooltip="Start Crescrendo from note/chord at cursor" script="(d-ToggleStartCrescendo)"/>
+    <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_weight=&quot;bold&quot;&gt;&amp;lt;|&lt;/span&gt;" _tooltip="End Crescendo on note/chord at cursor" script="(d-ToggleEndCrescendo)"/>
+    <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_weight=&quot;bold&quot;&gt;&amp;gt;&lt;/span&gt;" _tooltip="Start Diminuendo from note/chord at cursor " script="(d-ToggleStartDiminuendo)"/>
+    <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_weight=&quot;bold&quot;&gt;&amp;gt;|&lt;/span&gt;" _tooltip="End Diminuendo from note/chord at cursor" script="(d-ToggleEndDiminuendo)"/>
   </palette>
-  <palette _name="Dynamics" row-wise="1" limit="1" dock="1" hidden="0">
+  <palette _name="Dynamics" row-wise="1" limit="1" dock="0" hidden="1">
     <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_style=&quot;italic&quot; font_weight=&quot;bold&quot;&gt;f p&lt;/span&gt;" _tooltip="Insert a Dynamic Marking at the cursor" script="(d-DynamicText)"/>
     <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_weight=&quot;bold&quot;&gt;&amp;lt;&lt;/span&gt;" _tooltip="Start Crescrendo from note/chord at cursor" script="(d-ToggleStartCrescendo)"/>
     <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_weight=&quot;bold&quot;&gt;&amp;lt;|&lt;/span&gt;" _tooltip="End Crescendo on note/chord at cursor" script="(d-ToggleEndCrescendo)"/>
