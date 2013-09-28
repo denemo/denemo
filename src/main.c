@@ -283,15 +283,17 @@ init_environment()
   g_setenv ("LILYPOND_VERBOSE", "1", FALSE);
 
   fontpath = find(FONTS, "feta.ttf");
-  add_font_file (fontpath);
+  if(fontpath)
+	add_font_file (fontpath);
   g_free(fontpath);
-
   fontpath = find(FONTS,  "Denemo.ttf");
-  add_font_file (fontpath);
+  if(fontpath)
+    add_font_file (fontpath);
   g_free(fontpath);
 
   fontpath = find(FONTS,  "emmentaler.ttf");
-  add_font_file (fontpath);
+  if(fontpath)
+	 add_font_file (fontpath);
   g_free(fontpath);
   
   g_setenv ("LYEDITOR", "denemoclient %(line)s %(column)s", FALSE);

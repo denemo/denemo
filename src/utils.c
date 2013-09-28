@@ -2359,11 +2359,16 @@ find_dir_for_file(gchar* filename, gchar* dirs[])
 
   for(i = 0; dirs[i]; i++)
   {
+	  g_print("Searching %s\n", dirs[i]);
     if(!dir)
     {
       path = g_build_filename (dirs[i], filename, NULL);
       if(g_file_test (path, G_FILE_TEST_EXISTS))
-        dir = g_strdup(dirs[i]);
+        {
+		 dir = g_strdup(dirs[i]);
+			g_print("Found file %s\n", path);
+		} else
+			g_print("No file %s\n", path);
       g_free(path);
     }
     g_free(dirs[i]);
