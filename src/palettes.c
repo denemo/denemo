@@ -415,8 +415,10 @@ static void user_palette_name (void)
 	selected_palette_name = name;
 }
 
-gchar *get_palette_name (gboolean allow_custom)
+
+gchar *choose_palette_by_name (gboolean allow_custom, gboolean non_showing)
 {
+
   GtkWidget *menu = gtk_menu_new ();
   GtkWidget *item;
   GList *g;
@@ -428,12 +430,14 @@ gchar *get_palette_name (gboolean allow_custom)
   for (g=Denemo.palettes;g;g=g->next)
 	{
 	DenemoPalette *pal = (DenemoPalette *)g->data;
+	if(non_showing && pal->docked && gtk_widget_get_visible (pal->box))
+		continue;//g_print("palette %s is %d\n", pal->name,  gtk_widget_get_visible (pal->box));//continue;
+	if(non_showing && (!pal->docked) && gtk_widget_get_visible (gtk_widget_get_parent(pal->box)))
+		continue;
 	item = gtk_menu_item_new_with_label (pal->name);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (palette_selected), (gpointer) pal->name);
 	}	
-
-	
 	selected_palette_name = NULL;
 	popupmenu (menu);
 	if(allow_custom && (selected_palette_name==NULL))
@@ -444,4 +448,7 @@ gchar *get_palette_name (gboolean allow_custom)
 	return selected_palette_name;
 }
 
-
+gchar *get_palette_name (gboolean allow_custom)
+{
+	choose_palette_by_name (allow_custom, FALSE);
+}
