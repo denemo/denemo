@@ -189,7 +189,7 @@ static void edit_label_for_button (GtkWidget *button) {
 	
 }
 static void edit_tooltip_for_button (GtkWidget *button) {
-	const gchar *tooltip = gtk_widget_get_tooltip_text (GTK_BUTTON(button));
+	const gchar *tooltip = gtk_widget_get_tooltip_text (button);
 	gchar *newtooltip = string_dialog_entry (Denemo.gui, _("Write Tooltip"), _("Write a tooltip for this button"), (gchar*)tooltip);
 	if(newtooltip) {
 		gtk_widget_set_tooltip_text (button, newtooltip);
@@ -200,6 +200,19 @@ static void remove_button (GtkWidget *button) {
 	DenemoPalette *pal = g_object_get_data (G_OBJECT(button), "palette");
 	palette_delete_button (pal, button);
 	
+}
+
+static move_button_to_start (GtkWidget *button) {
+	DenemoPalette *pal = g_object_get_data (G_OBJECT(button), "palette");
+	pal->buttons = g_list_remove (pal->buttons, button);
+	pal->buttons = g_list_prepend (pal->buttons, button);
+	repack_palette (pal);
+}
+static move_button_to_end (GtkWidget *button) {
+	DenemoPalette *pal = g_object_get_data (G_OBJECT(button), "palette");
+	pal->buttons = g_list_remove (pal->buttons, button);
+	pal->buttons = g_list_append (pal->buttons, button);
+	repack_palette (pal);
 }
 static void copy_button (GtkWidget *button) {
 	gchar *tooltip =  gtk_widget_get_tooltip_text (button);
@@ -250,6 +263,16 @@ static GtkWidget *popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
   gtk_widget_set_tooltip_text (item, _("Uses the script in the Scheme Window as the one that this button executes when clicked"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (put_script_for_button), (gpointer) button);
+ 
+  item = gtk_menu_item_new_with_label (_("Move to Start"));
+  gtk_widget_set_tooltip_text (item, _("Moves this button to the start of the palette"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (move_button_to_start), (gpointer) button);
+ 
+  item = gtk_menu_item_new_with_label (_("Move to End"));
+  gtk_widget_set_tooltip_text (item, _("Moves this button to the end of the palette"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (move_button_to_end), (gpointer) button);
  
   item = gtk_menu_item_new_with_label (_("Edit this Palette"));
   gtk_widget_set_tooltip_text (item, _("Edits the palette containing this button"));
