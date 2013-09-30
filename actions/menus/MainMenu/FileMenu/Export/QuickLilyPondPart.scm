@@ -3,7 +3,7 @@
 (d-GoToBeginning)
 (let ((name  (d-Open "query=filename")))
 	(if name
-		(let* ((filename  (string-append (substring name 0 (- (string-length name) 7)) "-" (number->string (d-GetStaff)) ".ly"))   
+		(let* ((filename  (string-append (substring name 0 (- (string-length name) 7)) "-denemo-" (number->string (d-GetStaff)) ".ly"))   
 				(port (open-file filename "w")))
 			(let loop ()
 				(if port
