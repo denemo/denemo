@@ -2478,12 +2478,17 @@ find(DenemoDirectory dir, gchar* filename)
 {
   gchar* current = g_get_current_dir ();
   gchar* dirs[] = {
-    //g_build_filename(current, get_local_dir (dir), NULL),
     g_build_filename(get_executable_dir (), "..", get_local_dir (dir), NULL),
     g_build_filename(get_user_data_dir(), get_local_dir (dir), NULL),
     g_build_filename(get_system_dir(dir), NULL),
     NULL
   };
+  
+  dirs[0] = g_build_filename(get_executable_dir (), "..", get_local_dir (dir), NULL);
+  dirs[1] = g_build_filename(get_user_data_dir(), get_local_dir (dir), NULL);
+  dirs[2] = g_build_filename(get_system_dir(dir), NULL);
+  
+  
   g_free(current);
   return find_path_for_file (filename, dirs);
 }
