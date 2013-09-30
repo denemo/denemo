@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>QuickLilyPondExport</after>
+        <action>QuickLilyPondPart</action>
+        <_label>Quick LilyPond Part</_label>
+        <_tooltip>Writes a file containing the music of the current staff in LilyPond format. The filename is the current file name with staff number appended, and .ly.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

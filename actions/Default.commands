@@ -1249,7 +1249,7 @@ You open the LilyPond file in a texteditor, copy the stretch of notes (control-c
       <row type="builtin">
         <action>ScoreProperties</action>
         <_label>Score Properties</_label>
-        <_tooltip>Change some of the properties of the current score. This will start up a dialog window</_tooltip>
+        <_tooltip>Change built-in properties of the current score. This will start up a dialog window</_tooltip>
       </row>
       <row type="builtin">
         <action>SaveSelection</action>
@@ -1356,8 +1356,8 @@ these may need re-making.</_tooltip>
       </row>
       <row type="builtin">
         <action>StaffProperties</action>
-        <_label>Staff Properties</_label>
-        <_tooltip>Change the properties of the current staff</_tooltip>
+        <_label>Built-in Staff Properties</_label>
+        <_tooltip>Change the built-in properties of the current staff</_tooltip>
       </row>
       <row type="builtin">
         <action>InitialClef</action>
@@ -5218,13 +5218,6 @@ First it removes notes until just a non-printing rest remains, then deletes that
         <_tooltip>Prints top three parts on one staff as cues.</_tooltip>
       </row>
       <row type="scheme">
-        <action>CreateCuesForStaff</action>
-        <after>StaffComment</after>
-        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
-        <_label>Create Cues</_label>
-        <_tooltip>Goes through the staff looking for long rests. Creates a cue in the whole measure rest.</_tooltip>
-      </row>
-      <row type="scheme">
         <action>StaffMultiMeasureRests</action>
         <after>CreateCuesForStaff</after>
         <menupath>/ObjectMenu/StaffMenu</menupath>
@@ -6042,6 +6035,13 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <menupath>/MainMenu/ViewMenu/Palettes</menupath>
         <_label>Select a Palette to Show</_label>
         <_tooltip>Offers the available palettes to un-hide.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>QuickLilyPondPart</action>
+        <after>QuickLilyPondExport</after>
+        <menupath>/MainMenu/FileMenu/Export</menupath>
+        <_label>Quick LilyPond Part</_label>
+        <_tooltip>Writes a file containing the music of the current staff in LilyPond format. The filename is the current file name with staff number appended, and .ly.</_tooltip>
       </row>
     </map>
   </merge>
