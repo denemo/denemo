@@ -10654,9 +10654,7 @@ create_window (void)
     g_build_filename(get_system_data_dir (), UI_DIR, NULL),
     NULL
   };
-  g_print("Auto initialized to %s\n", dirs[1]);
-  dirs[1] = g_build_filename(get_system_data_dir (), UI_DIR, NULL);
-  g_print("Explicitly initialized to %s\n", dirs[1]);
+
   denemoui_path = find_path_for_file("denemoui.xml", dirs);
 
   if (!denemoui_path)
