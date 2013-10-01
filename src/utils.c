@@ -963,18 +963,19 @@ initdir ()
 }
 
 extern gchar *gbr_find_pkg_data_dir (const gchar * default_pkg_data_dir, const gchar * pkg_name);
-
+  
+static gchar *DENEMO_datadir = NULL;
 const gchar *
 get_system_data_dir ()
 {
-  static gchar *datadir = NULL;
-  if (datadir == NULL)
+  DENEMO_datadir?g_print("datadir is %s at %p", DENEMO_datadir, DENEMO_datadir):g_print("datadir not yet set");
+  if (DENEMO_datadir == NULL)
     {
 #ifdef G_OS_WIN32
       gchar *rootdir = g_win32_get_package_installation_directory (NULL, NULL);
-      datadir = g_build_filename (rootdir, "share", "denemo", NULL);
+      DENEMO_datadir = g_build_filename (rootdir, "share", "denemo", NULL);
       g_print ("rootdir=%s\n", rootdir);
-      g_print ("datadir=%s\n", datadir);
+      g_print ("datadir=%s\n", DENEMO_datadir);
       g_free (rootdir);
 #else /* not G_OS_WIN32 */
 
@@ -989,20 +990,20 @@ get_system_data_dir ()
           g_print ("using bin path %s\n", bindir);
         else
           g_critical ("Cannot get bin dir\n");
-        datadir = g_build_filename (g_path_get_dirname (bindir), "..", "share", "denemo", NULL);
-        g_print ("OSX set data dir to %s\n", datadir);
+        DENEMO_datadir = g_build_filename (g_path_get_dirname (bindir), "..", "share", "denemo", NULL);
+        g_print ("OSX set data dir to %s\n", DENEMO_datadir);
       }
 #else
 #ifndef ENABLE_BINRELOC
-      datadir = g_strdup (PKGDATADIR);
+      DENEMO_datadir = g_strdup (PKGDATADIR);
 #else
-      datadir = gbr_find_pkg_data_dir (PKGDATADIR, PKGNAME);
+      DENEMO_datadir = gbr_find_pkg_data_dir (PKGDATADIR, PKGNAME);
 #endif //ENABLE_BINRELOC
 
 #endif //_MACH_O_
 #endif /* not G_OS_WIN32 */
     }
-  return datadir;
+  return DENEMO_datadir;
 }
 
 const gchar *
@@ -1038,18 +1039,18 @@ get_prefix_dir (void)
 #endif //G_OS_WIN32
   return prefix;
 }
-
+static gchar *DENEMO_bindir = NULL;
 const gchar *
 get_system_bin_dir (void)
 {
-  static gchar *bindir = NULL;
-  if (bindir == NULL)
+  
+  if (DENEMO_bindir == NULL)
     {
 #ifdef G_OS_WIN32
       gchar *rootdir = g_win32_get_package_installation_directory (NULL, NULL);
-      bindir = g_build_filename (rootdir, "bin", NULL);
+      DENEMO_bindir = g_build_filename (rootdir, "bin", NULL);
       g_print ("rootdir=%s\n", rootdir);
-      g_print ("bindir=%s\n", bindir);
+      g_print ("bindir=%s\n", DENEMO_bindir);
       g_free (rootdir);
 #else /* not G_OS_WIN32 */
 
@@ -1062,26 +1063,26 @@ get_system_bin_dir (void)
         gchar *bin = (gchar *) g_malloc (size);
         if (_NSGetExecutablePath (bin, &size) == 0)
           {
-            bindir = g_build_filename (bin, "..", NULL);
-            g_print ("using bin path %s\n", bindir);
+            DENEMO_bindir = g_build_filename (bin, "..", NULL);
+            g_print ("using bin path %s\n", DENEMO_bindir);
           }
         else
           g_critical ("Cannot get bin dir\n");
 
-        g_print ("OSX set bin dir to %s\n", bindir);
+        g_print ("OSX set bin dir to %s\n", DENEMO_bindir);
       }
 #else
 
 #ifndef ENABLE_BINRELOC
-      bindir = g_strdup (BINDIR);
+      DENEMO_bindir = g_strdup (BINDIR);
 #else
-      bindir = gbr_find_bin_dir (BINDIR);
+      DENEMO_bindir = gbr_find_bin_dir (BINDIR);
 #endif //ENABLE_BINRELOC
 
 #endif //_MACH_O_
 #endif /* not G_OS_WIN32 */
     }
-  return bindir;
+  return DENEMO_bindir;
 }
 
 /** UNUSED
@@ -2476,19 +2477,13 @@ get_executable_dir ()
 gchar*
 find(DenemoDirectory dir, gchar* filename)
 {
-  gchar* current = g_get_current_dir ();
+  
   gchar* dirs[] = {
     g_build_filename(get_executable_dir (), "..", get_local_dir (dir), NULL),
     g_build_filename(get_user_data_dir(), get_local_dir (dir), NULL),
-    g_build_filename(get_system_dir(dir), NULL),
+    g_strdup(get_system_dir(dir)),
     NULL
   };
-  
-  dirs[0] = g_build_filename(get_executable_dir (), "..", get_local_dir (dir), NULL);
-  dirs[1] = g_build_filename(get_user_data_dir(), get_local_dir (dir), NULL);
-  dirs[2] = g_build_filename(get_system_dir(dir), NULL);
-  
-  
-  g_free(current);
+ 
   return find_path_for_file (filename, dirs);
 }
