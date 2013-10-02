@@ -968,7 +968,7 @@ static gchar *DENEMO_datadir = NULL;
 const gchar *
 get_system_data_dir ()
 {
-  DENEMO_datadir?g_print("datadir is %s at %p", DENEMO_datadir, DENEMO_datadir):g_print("datadir not yet set");
+  //DENEMO_datadir?g_print("datadir is %s at %p", DENEMO_datadir, DENEMO_datadir):g_print("datadir not yet set");
   if (DENEMO_datadir == NULL)
     {
 #ifdef G_OS_WIN32
@@ -2360,16 +2360,16 @@ find_dir_for_file(gchar* filename, gchar* dirs[])
 
   for(i = 0; dirs[i]; i++)
   {
-	  g_print("Searching %s\n", dirs[i]);
+	  //g_print("Searching %s\n", dirs[i]);
     if(!dir)
     {
       path = g_build_filename (dirs[i], filename, NULL);
       if(g_file_test (path, G_FILE_TEST_EXISTS))
         {
 		 dir = g_strdup(dirs[i]);
-			g_print("Found file %s\n", path);
+			//g_print("Found file %s\n", path);
 		} else
-			g_print("No file %s\n", path);
+			//g_print("No file %s\n", path);
       g_free(path);
     }
     g_free(dirs[i]);

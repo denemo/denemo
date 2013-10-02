@@ -306,8 +306,23 @@ init_environment()
 int
 main (int argc, char *argv[])
 {
+
+
+  /* glib/gtk initialization */
+  gtk_init (&argc, &argv);
+ 
+ 
+  if (!g_thread_supported ())
+      g_thread_init (NULL);
+    
+  gdk_threads_init ();
+  /* acquire gdk lock */
+  gdk_threads_enter ();
+
   gchar** files = process_command_line (argc, argv);
 
+  
+  
 //#ifdef G_OS_WIN32
 //  /* workaround necessary for compilation on Cygwin */
 //  g_set_print_handler ((GPrintFunc)printf);
@@ -322,15 +337,6 @@ main (int argc, char *argv[])
 
   init_environment();
 
-  /* glib/gtk initialization */
-  if (!g_thread_supported ())
-      g_thread_init (NULL);
-    
-  gdk_threads_init ();
-  /* acquire gdk lock */
-  gdk_threads_enter ();
-
-  gtk_init (&argc, &argv);
 
   rsvg_init ();
 
