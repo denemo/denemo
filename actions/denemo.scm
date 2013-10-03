@@ -360,7 +360,7 @@
   (begin
     (if (boolean? (d-GetMidiOffTime))
 	(d-RecreateTimebase))
-   (d-PrevObjectInMeasure)
+   (d-PrevObject)
     (if (number? (d-GetMidiOffTime))
 	(begin (d-SetPlaybackInterval #t (d-GetMidiOffTime))
 	(d-RefreshDisplay)))))
