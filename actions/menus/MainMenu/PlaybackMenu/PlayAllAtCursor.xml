@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>PlayAtCursor</after>
+        <action>PlayAllAtCursor</action>
+        <_label>Play Music at Cursor</_label>
+        <_tooltip>Plays the score for the duration of the note/chord at the cursor, starting at that note.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

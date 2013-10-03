@@ -6043,6 +6043,13 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <_label>Quick LilyPond Part</_label>
         <_tooltip>Writes a file containing the music of the current staff in LilyPond format. The filename is the current file name with staff number appended, and .ly.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>PlayAllAtCursor</action>
+        <after>PlayAtCursor</after>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <_label>Play Music at Cursor</_label>
+        <_tooltip>Plays the score for the duration of the note/chord at the cursor, starting at that note.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
