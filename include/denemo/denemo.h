@@ -97,13 +97,13 @@ extern const gchar *Fluidsynth;
 #define LOCALE_DIR     "po"
 
 typedef enum{
-  COMMANDS,
-  UI,
-  SOUNDFONTS,
-  PIXMAPS,
-  FONTS,
-  LOCALE,
-  BIN
+  DENEMO_DIR_COMMANDS,
+  DENEMO_DIR_UI,
+  DENEMO_DIR_SOUNDFONTS,
+  DENEMO_DIR_PIXMAPS,
+  DENEMO_DIR_FONTS,
+  DENEMO_DIR_LOCALE,
+  DENEMO_DIR_BIN
 } DenemoDirectory;
 
 #ifdef __cplusplus

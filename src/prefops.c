@@ -148,7 +148,7 @@ initprefs ()
   ret->portmidi_input_device = g_string_new ("default");
   ret->portmidi_output_device = g_string_new ("default");
 
-  gchar *soundfontpath = find(SOUNDFONTS, "A320U.sf2");
+  gchar *soundfontpath = find_denemo_file(DENEMO_DIR_SOUNDFONTS, "A320U.sf2");
 
   ret->fluidsynth_soundfont = g_string_new (soundfontpath);
   ret->pitchspellingchannel = 15;

@@ -282,16 +282,16 @@ init_environment()
 #endif /* end of else not windows */
   g_setenv ("LILYPOND_VERBOSE", "1", FALSE);
 
-  fontpath = find(FONTS, "feta.ttf");
+  fontpath = find_denemo_file(DENEMO_DIR_FONTS, "feta.ttf");
   if(fontpath)
 	add_font_file (fontpath);
   g_free(fontpath);
-  fontpath = find(FONTS,  "Denemo.ttf");
+  fontpath = find_denemo_file(DENEMO_DIR_FONTS,  "Denemo.ttf");
   if(fontpath)
     add_font_file (fontpath);
   g_free(fontpath);
 
-  fontpath = find(FONTS,  "emmentaler.ttf");
+  fontpath = find_denemo_file(DENEMO_DIR_FONTS,  "emmentaler.ttf");
   if(fontpath)
 	 add_font_file (fontpath);
   g_free(fontpath);

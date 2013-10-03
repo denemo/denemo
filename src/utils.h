@@ -291,5 +291,5 @@ void write_input_status();
 enum clefs cleftypefromname (gchar * str);
 gchar* find_dir_for_file(gchar* filename, gchar* dirs[]);
 gchar* find_path_for_file(gchar* filename, gchar* dirs[]);
-gchar* find(DenemoDirectory dir, gchar* filename);
+gchar* find_denemo_file (DenemoDirectory dir, gchar* filename);
 #endif /* UTILS_H */

@@ -2403,12 +2403,12 @@ get_local_dir(DenemoDirectory dir)
 {
   switch(dir)
   {
-    case COMMANDS:   return COMMANDS_DIR;
-    case UI:         return UI_DIR;
-    case SOUNDFONTS: return SOUNDFONTS_DIR;
-    case PIXMAPS:    return PIXMAPS_DIR;
-    case FONTS:      return FONTS_DIR;
-    case LOCALE:     return LOCALE_DIR;
+    case DENEMO_DIR_COMMANDS:   return COMMANDS_DIR;
+    case DENEMO_DIR_UI:         return UI_DIR;
+    case DENEMO_DIR_SOUNDFONTS: return SOUNDFONTS_DIR;
+    case DENEMO_DIR_PIXMAPS:    return PIXMAPS_DIR;
+    case DENEMO_DIR_FONTS:      return FONTS_DIR;
+    case DENEMO_DIR_LOCALE:     return LOCALE_DIR;
     default:         return NULL;
   }
 }
@@ -2418,20 +2418,20 @@ get_system_dir(DenemoDirectory dir)
 {
   switch(dir)
   {
-    case COMMANDS:
-    case UI:
-    case SOUNDFONTS:
-    case FONTS:
+    case DENEMO_DIR_COMMANDS:
+    case DENEMO_DIR_UI:
+    case DENEMO_DIR_SOUNDFONTS:
+    case DENEMO_DIR_FONTS:
       return g_build_filename(get_system_data_dir (), get_local_dir(dir), NULL);
 #ifndef G_OS_WIN32
-    case PIXMAPS:
+    case DENEMO_DIR_PIXMAPS:
       return g_build_filename(get_system_data_dir (), "..", PIXMAPS_DIR, NULL);
       break;
 #endif
-    case LOCALE:
+    case DENEMO_DIR_LOCALE:
       return g_strdup(get_system_locale_dir ());
       break;
-    case BIN:
+    case DENEMO_DIR_BIN:
       return g_strdup(get_system_bin_dir ());
       break;
     default:
@@ -2475,9 +2475,9 @@ get_executable_dir ()
  *  - in the system directory
  **/
 gchar*
-find(DenemoDirectory dir, gchar* filename)
+find_denemo_file (DenemoDirectory dir, gchar* filename)
 {
-  
+  g_print("find_denemo_file called with %d and %s\n", dir, filename);
   gchar* dirs[] = {
     g_build_filename(get_executable_dir (), "..", get_local_dir (dir), NULL),
     g_build_filename(get_user_data_dir(), get_local_dir (dir), NULL),
