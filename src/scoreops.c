@@ -87,10 +87,16 @@ void set_movement_selector (DenemoGUI *gui)
 			gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
 			gtk_label_set_markup (GTK_LABEL (label_widget), text);
 			g_free(text);
+			text = g_strdup_printf(_("This is the current movement number %d\nClick on another button to change movements"), i);
+			gtk_widget_set_tooltip_text (button, text);
+			g_free(text);
 		} else 
 		{
 			gchar *text = g_strdup_printf("%d", i);
 			gtk_button_set_label (button, text);
+			g_free(text);
+			text = g_strdup_printf(_("Click to switch to movement number %d"), i);
+			gtk_widget_set_tooltip_text (button, text);
 			g_free(text);
 		}
 		
