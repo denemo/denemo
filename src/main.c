@@ -122,15 +122,13 @@ append_to_path (gchar * path, gchar * extra, ...)
   gchar *path_string = (gchar *) g_getenv (path);
   if (!path_string){
     if(extra){
-      path_string = g_strdup (extra);
-      g_free(extra);
+      path_string = g_strdup (extra);  
       extra = va_arg(ap, gchar*);
     }
   }
 
   while(extra){
     path_string = g_strconcat (path_string, G_SEARCHPATH_SEPARATOR_S, extra, NULL);
-    g_free(extra);
     extra = va_arg(ap, gchar*);
   }
 
