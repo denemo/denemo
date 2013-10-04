@@ -3082,5 +3082,6 @@ cleanup:
   sXMLIDToElemMap = NULL;
   //g_print("Number of movements %d\n", g_list_length(gui->movements));
   reset_movement_numbers (gui);
+  set_movement_selector (gui);
   return ret;
 }

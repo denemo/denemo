@@ -59,6 +59,50 @@ point_to_new_movement (DenemoGUI * gui)
   gui->si->undo_guard = Denemo.prefs.disable_undo;
 }
 
+static void select_movement (gint movementnum) {
+	goto_movement_staff_obj (NULL, movementnum, 0, 0, 0);
+	set_movement_selector (Denemo.gui);
+	displayhelper (Denemo.gui);
+	write_status (Denemo.gui);	
+}
+void set_movement_selector (DenemoGUI *gui)
+{
+  GtkWidget *button;
+  GList *g;
+  gint i;
+  if(gui->movements_selector)
+	gtk_widget_destroy (gui->movements_selector);
+  gui->movements_selector = (GtkWidget*)gtk_hbox_new(FALSE,1);
+  gtk_box_pack_start(GTK_BOX(gui->buttonbox), gui->movements_selector,  FALSE, TRUE, 0);
+  gtk_widget_show (gui->movements_selector);
+	
+  for (g=gui->movements, i=1;g;g=g->next, i++)
+	{
+		
+		button = gtk_button_new_with_label("");
+		if (g->data == gui->si)
+		{
+			gchar *text = g_strdup_printf("<span foreground=\"blue\"><i><b>%d</b></i></span>", i);
+			GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));
+			gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
+			gtk_label_set_markup (GTK_LABEL (label_widget), text);
+			g_free(text);
+		} else 
+		{
+			gchar *text = g_strdup_printf("%d", i);
+			gtk_button_set_label (button, text);
+			g_free(text);
+		}
+		
+		
+		gtk_widget_set_can_focus (button, FALSE);
+		gtk_widget_show(button);
+		g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (select_movement), (gpointer) i);
+		gtk_box_pack_start (GTK_BOX(gui->movements_selector), button,  FALSE, TRUE, 0);
+	}
+	if(i==2) 
+		gtk_widget_hide (gui->movements_selector);
+}
 static void
 new_movement (GtkAction * action, DenemoScriptParam * param, gboolean before)
 {
@@ -70,6 +114,9 @@ new_movement (GtkAction * action, DenemoScriptParam * param, gboolean before)
   gui->movements = g_list_insert (gui->movements, newsi, before ? pos : pos + 1);
   newsi->currentmovementnum = 1 + g_list_index (gui->movements, newsi);
   setcurrentprimarystaff (gui->si);
+  gui->movements_selector = NULL;
+  set_movement_selector (gui);
+  
   rewind_audio ();
   write_status (gui);
 }
@@ -98,6 +145,7 @@ append_movement (GtkAction * action, gpointer param, gboolean populate)
     }
   gui->movements = g_list_append (gui->movements, gui->si);
   gui->si->currentmovementnum = 1 + g_list_index (gui->movements, gui->si);
+  set_movement_selector (gui);
   gui->si->undo_guard = Denemo.prefs.disable_undo;
   call_out_to_guile ("(d-DirectivePut-header-postfix \"SuppressTitleRepeats\" \"title = ##f\ninstrument = ##f\n\")");
   set_width_to_work_with (gui);
@@ -204,7 +252,7 @@ delete_movement (GtkAction * action, gpointer param)
   reset_movement_numbers (gui);
   g_string_free (primary, TRUE);
   g_string_free (secondary, TRUE);
-
+  set_movement_selector (gui);
   set_movement_transition (-MOVEMENT_WIDTH);
   displayhelper (gui);
   score_status (gui, TRUE);

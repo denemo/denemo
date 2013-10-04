@@ -956,7 +956,7 @@ typedef struct DenemoGUI
 
   GtkWidget *buttonboxes;/**< box for boxes showing directives */
   GtkWidget *buttonbox;/**< box for buttons accessing DenemoDirectives attached to the whole score */
-
+  GtkWidget *movements_selector; /**< box for buttons to select movements */
 
   gchar *xbm; /**< xbm representation of graphic bitmap from selected rectangle in print preview area*/
   gint xbm_width, xbm_height;/**< width and height of the xbm data */
