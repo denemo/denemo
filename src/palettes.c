@@ -23,9 +23,9 @@
 #include "utils.h"
 #include "texteditors.h"
 
-#if GTK_MAJOR_VERSION==2
-#define gtk_grid_new() gtk_vbox_new (FALSE, 1)
-#define gtk_grid_attach(widget, obj, a,b,c,d) gtk_box_pack_end(widget, obj, FALSE, TRUE, 0)
+#if GTK_MAJOR_VERSION!=2
+#define gtk_grid_new() (pal->rows?gtk_hbox_new (FALSE, 1):gtk_vbox_new (FALSE, 1))
+#define gtk_grid_attach(widget, obj, a,b,c,d) gtk_box_pack_start(widget, obj, FALSE, TRUE, 0)
 #define GTK_GRID(a) a
 #endif
 static void hide_palette_widget (GtkWidget *w) {
