@@ -321,6 +321,7 @@ goto_movement_staff_obj (DenemoGUI * possible_gui, gint movementnum, gint staffn
         return FALSE;
       gui->si->cursor_appending = TRUE;
     }
+  set_movement_selector (gui);
   write_status (gui);
   move_viewport_up (gui);
   move_viewport_down (gui);
@@ -408,6 +409,7 @@ next_movement (GtkAction * action, DenemoScriptParam * param)
     gtk_widget_show (gui->si->lyricsbox);       //toggle_lyrics_view(NULL, NULL);
   gtk_widget_show (gui->si->buttonbox);
   set_master_tempo (gui->si, 1.0);
+  set_movement_selector (gui);
   //!!!!!!!!updatescoreinfo (gui);
   //FIXME duplicate code
   set_rightmeasurenum (gui->si);
@@ -456,6 +458,7 @@ prev_movement (GtkAction * action, DenemoScriptParam * param)
     gtk_widget_show (gui->si->lyricsbox);       //toggle_lyrics_view(NULL, NULL);
   gtk_widget_show (gui->si->buttonbox);
   set_master_tempo (gui->si, 1.0);
+   set_movement_selector (gui);
   //!!!!!!!!!!!!!updatescoreinfo (gui);
   //FIXME duplicate code
   set_rightmeasurenum (gui->si);
