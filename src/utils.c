@@ -2392,7 +2392,7 @@ find_path_for_file(gchar* filename, gchar* dirs[])
   gchar* dir = find_dir_for_file (filename, dirs);
   if(dir){
     gchar* path = g_build_filename(dir, filename, NULL);
-    g_free(dir);
+    g_free(dir);g_print("got %s\n", path);
     return path;
   }
   return NULL;
@@ -2423,11 +2423,9 @@ get_system_dir(DenemoDirectory dir)
     case DENEMO_DIR_SOUNDFONTS:
     case DENEMO_DIR_FONTS:
       return g_build_filename(get_system_data_dir (), get_local_dir(dir), NULL);
-#ifndef G_OS_WIN32
     case DENEMO_DIR_PIXMAPS:
-      return g_build_filename(get_system_data_dir (), "..", PIXMAPS_DIR, NULL);
+      return g_build_filename(get_system_data_dir (), PIXMAPS_DIR, NULL);
       break;
-#endif
     case DENEMO_DIR_LOCALE:
       return g_strdup(get_system_locale_dir ());
       break;
