@@ -115,4 +115,33 @@
     <button _label="&#x1D15F;&#x2B0C;" _tooltip="On printing the current note/chord will be shifted from notes in other voices by the amount you give. Use with Voice Presets to ensure this chord is in a different voice." script="(d-NoteColumnShift)"/>
     <button _label="V?" _tooltip="Select a voice for the music following the cursor position.&#10;The Voice 1,2,3,4 choices set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice setting returns all the voice settings to the neutral default directions" script="(d-VoiceSetting)"/>
   </palette>
+  <palette _name="Articulations" row-wise="1" limit="1" dock="0" hidden="0">
+    <button _label="" _tooltip="Mark/Unmark current selection or object with a fermata" script="(d-FermataSelectionSwitcher)"/>
+  </palette>
+  <palette _name="Barlines" row-wise="1" limit="1" dock="0" hidden="0">
+    <button _label="||:" _tooltip="Insert a barline indicating the start of a repeated section." script="(d-RepeatStart)"/>
+    <button _label=":||" _tooltip="Insert a barline indicating the end of a repeated section." script="(d-RepeatEnd)"/>
+    <button _label=":||:" _tooltip="Inserts a barline ending one repeated section and starting another" script="(d-RepeatEndStart)"/>
+    <button _label="||" _tooltip="Insert a double barline at cursor position." script="(d-DoubleBarline)"/>
+    <button _label="|||" _tooltip="Inserts a closing barline (a double bar with last one thicker)." script="(d-ClosingBarline)"/>
+    <button _label="|x" _tooltip="Skips the printing of any automatic barline here - allows line break." script="(d-NoBarline)"/>
+  </palette>
+  <palette _name="Repeats" row-wise="1" limit="1" dock="0" hidden="0">
+    <button _label="1st" _tooltip="(Print) start a first time bar, must be followed by EndVolta." script="(d-OpenFirstTimeBar)"/>
+    <button _label="2nd" _tooltip="(Print) start a second time bar, must be followed by EndVolta" script="(d-OpenSecondTimeBar)"/>
+    <button _label="1st/2nd ]" _tooltip="Ends a volta, that is a n'th time bar" script="(d-EndVolta)"/>
+    <button _label="1st &amp;amp; 2nd" _tooltip="Inserts first and second time bars each with a whole measure rest. You can then edit this to suit your music, e.g by inserting extra bars, deleting the repeat start etc." script="(d-InsertFirstAndSecondTimeBars)"/>
+  </palette>
+  <palette _name="Beaming" row-wise="1" limit="1" dock="0" hidden="0">
+    <button _label="[" _tooltip="Instructs the LilyPond engraver to start a beam here. (Print effect only)" script="(d-StartBeam)"/>
+    <button _label="]" _tooltip="Instructs LilyPond engraver to stop previously started manual beaming. Print effect only." script="(d-EndBeam)"/>
+    <button _label="[x" _tooltip="Typeset the note at the cursor with no beam to the right." script="(d-BeamRightNone)"/>
+    <button _label="]x" _tooltip="Typeset the note at the cursor with no beam to the left." script="(d-BeamLeftNone)"/>
+    <button _label="[1" _tooltip="Prints with just one beam linking to the right." script="(d-BeamRightOne)"/>
+    <button _label="]1" _tooltip="Prints with just one beam linking to left." script="(d-BeamLeftOne)"/>
+    <button _label="[2" _tooltip="Prints with just two beams linking to the right." script="(d-BeamRightTwo)"/>
+    <button _label="]2" _tooltip="Prints with just two beams linking to the left." script="(d-BeamLeftTwo)"/>
+    <button _label="]3" _tooltip="Prints with just three beams linking to the right." script="(d-BeamRightThree)"/>
+    <button _label="[3" _tooltip="Prints with just three beams linking to the left." script="(d-BeamLeftThree)"/>
+  </palette>
 </Denemo>

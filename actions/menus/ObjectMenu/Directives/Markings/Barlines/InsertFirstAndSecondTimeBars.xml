@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>RepeatEndStart</after>
+        <action>InsertFirstAndSecondTimeBars</action>
+        <_label>Insert 1st &amp; 2nd Time Bars</_label>
+        <_tooltip>Inserts first and second time bars each with a whole measure rest. You can then edit this to suit your music, e.g by inserting extra bars, deleting the repeat start etc.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

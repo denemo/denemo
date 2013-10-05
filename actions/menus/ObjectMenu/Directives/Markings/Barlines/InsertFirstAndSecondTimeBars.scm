@@ -1,0 +1,9 @@
+;;;InsertFirstAndSecondTimeBars
+(d-OpenFirstTimeBar)
+(d-InsertWholeMeasureRest)
+(d-RepeatEnd)
+(d-EndVolta)
+(d-OpenSecondTimeBar)
+(d-InsertWholeMeasureRest)
+(d-EndVolta)
+(d-RepeatStart)
