@@ -132,7 +132,7 @@ set_viewport_transition (gint amount)
     return;
   if (movement_transition_steps)
     return;
-  if (amount)
+  if (Denemo.prefs.cursor_highlight &&  amount)
     {
       transition_amount = amount;
       transition_steps = 10;
@@ -145,7 +145,7 @@ set_measure_transition (gint amount, gboolean all)
 {
   if (measure_transition_steps)
     return;
-  if (amount)
+  if (Denemo.prefs.cursor_highlight && amount)
     {
       measure_transition_amount = amount;
       measure_transition_steps = 10;
@@ -157,7 +157,7 @@ set_measure_transition (gint amount, gboolean all)
 void
 set_cursor_transition (void)
 {
-  if (cursor_steps == 0)
+  if (Denemo.prefs.cursor_highlight && cursor_steps == 0)
     {
       cursor_steps = 10;
       g_timeout_add (TRANSITION_MS, (GSourceFunc) cursor_transition, NULL);
@@ -169,7 +169,7 @@ set_staff_transition (gint amount)
 {
   if (movement_transition_steps)
     return;
-  if (staff_transition_steps == 0)
+  if (Denemo.prefs.cursor_highlight && staff_transition_steps == 0)
     {
       staff_transition_steps = 10;
       staff_transition_amount = amount;
@@ -180,7 +180,7 @@ set_staff_transition (gint amount)
 void
 set_movement_transition (gint amount)
 {
-  if (movement_transition_steps == 0)
+  if (Denemo.prefs.cursor_highlight && movement_transition_steps == 0)
     {
       movement_transition_steps = 20;
       movement_transition_amount = amount;
