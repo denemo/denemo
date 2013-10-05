@@ -180,10 +180,23 @@ static void edit_label_for_button (GtkWidget *button) {
 	gchar *newlabel = string_dialog_entry (Denemo.gui, _("Write Label"), _("Write a label for this button"), (gchar*)label);
 	
 	if(newlabel) {
+		gchar *icon = find_denemo_file (DENEMO_DIR_PIXMAPS, newlabel);
+		if(icon) {
+			gtk_button_set_label (GTK_BUTTON(button), "");
+			gtk_widget_destroy (gtk_bin_get_child (button));
+			gtk_button_set_image(GTK_BUTTON(button), gtk_image_new_from_file(icon));
+			//gtk_button_set_always_show_image (button, TRUE);
+			g_object_set (gtk_settings_get_default (), "gtk-button-images", TRUE, NULL);
+			gtk_widget_show_all(button);
+			g_free (icon);
+		}
+		else 
+		{
 		gtk_button_set_label (GTK_BUTTON(button), newlabel); //setting the label changes the widget: this works around a bizarre bug, if you just set the markup on the label the button has two labels
 		GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));
 		gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
 		gtk_label_set_markup (GTK_LABEL (label_widget), newlabel);
+		}
 	}
 	g_free(newlabel);
 	
