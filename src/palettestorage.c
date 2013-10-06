@@ -28,10 +28,12 @@
 static save_button (xmlNodePtr button, GtkWidget *widget)
 {
 	//newXMLIntProp (xmlNodePtr parent, const xmlChar * name, gint content)
-	xmlSetProp (button, (xmlChar *) "_label", (xmlChar *) gtk_button_get_label(GTK_BUTTON(widget)));
+	gchar *label = g_object_get_data (G_OBJECT(widget), "icon");
+	if(label == NULL)
+		label = gtk_button_get_label(GTK_BUTTON(widget));
+	xmlSetProp (button, (xmlChar *) "_label", (xmlChar *) label );
 	xmlSetProp (button, (xmlChar *) "_tooltip", (xmlChar *) gtk_widget_get_tooltip_text(widget));
 	xmlSetProp (button, (xmlChar *) "script", (xmlChar *) g_object_get_data (G_OBJECT(widget), "script"));
-	
 }
 /**
  * 

@@ -116,7 +116,12 @@
     <button _label="V?" _tooltip="Select a voice for the music following the cursor position.&#10;The Voice 1,2,3,4 choices set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice setting returns all the voice settings to the neutral default directions" script="(d-VoiceSetting)"/>
   </palette>
   <palette _name="Articulations" row-wise="1" limit="1" dock="0" hidden="0">
-    <button _label="" _tooltip="Mark/Unmark current selection or object with a fermata" script="(d-FermataSelectionSwitcher)"/>
+    <button _label="fermata.svg" _tooltip="Mark/Unmark current selection or object with a fermata" script="(d-FermataSelectionSwitcher)"/>
+    <button _label="staccato.svg" _tooltip="Adds the staccato dot or removes it" script="(d-StaccatoSelectionSwitcher)"/>
+    <button _label="staccatissimo.svg" _tooltip="Toggles Staccatissimo" script="(d-StaccatissimoSelectionSwitcher)"/>
+    <button _label="tenuto.svg" _tooltip="Toggles the Tenuto Line _ On/Off" script="(d-TenutoSelectionSwitcher)"/>
+    <button _label="accent.svg" _tooltip="Adds the &gt; accent" script="(d-AccentSelectionSwitcher)"/>
+    <button _label="marcato.svg" _tooltip="Mark/Unmark the selected notes marcato" script="(d-MarcatoSelectionSwitcher)"/>
   </palette>
   <palette _name="Barlines" row-wise="1" limit="1" dock="0" hidden="0">
     <button _label="||:" _tooltip="Insert a barline indicating the start of a repeated section." script="(d-RepeatStart)"/>

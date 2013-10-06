@@ -174,20 +174,38 @@ static void put_script_for_button (GtkWidget *button) {
 	g_free(text);
 }
 
-
+static set_image_for_button (GtkWidget *button, gchar *name)
+{
+	gchar *icon = find_denemo_file (DENEMO_DIR_PIXMAPS, name);
+	GtkWidget *child_widget = gtk_bin_get_child(GTK_BIN(button));
+	if(GTK_IS_LABEL(child_widget)) {
+		gtk_button_set_label (GTK_BUTTON(button), "");
+		//g_print("destroy %p, \n", child_widget);
+		child_widget = gtk_bin_get_child(GTK_BIN(button));
+		//g_print("or rather destroy %p, is %d \n", child_widget, GTK_IS_WIDGET(child_widget));
+		gtk_widget_destroy (child_widget);
+	}
+	
+	gtk_button_set_image(GTK_BUTTON(button), gtk_image_new_from_file(icon));
+	
+			//gtk_button_set_always_show_image (button, TRUE);
+	g_object_set_data (G_OBJECT(button), "icon", (gpointer)g_strdup(name));
+	g_type_class_unref (g_type_class_ref (GTK_TYPE_BUTTON));
+	g_object_set (gtk_settings_get_default (), "gtk-button-images", TRUE, NULL);
+	gtk_widget_show_all(button);
+	g_free (icon);
+}
 static void edit_label_for_button (GtkWidget *button) {
-	const gchar *label = gtk_button_get_label (GTK_BUTTON(button));
+	const gchar *label;
+	label = g_object_get_data (G_OBJECT(button), "icon");
+	if(label==NULL)
+		label = gtk_button_get_label (GTK_BUTTON(button));
 	gchar *newlabel = string_dialog_entry (Denemo.gui, _("Write Label"), _("Write a label for this button"), (gchar*)label);
 	
 	if(newlabel) {
 		gchar *icon = find_denemo_file (DENEMO_DIR_PIXMAPS, newlabel);
 		if(icon) {
-			gtk_button_set_label (GTK_BUTTON(button), "");
-			gtk_widget_destroy (gtk_bin_get_child (button));
-			gtk_button_set_image(GTK_BUTTON(button), gtk_image_new_from_file(icon));
-			//gtk_button_set_always_show_image (button, TRUE);
-			g_object_set (gtk_settings_get_default (), "gtk-button-images", TRUE, NULL);
-			gtk_widget_show_all(button);
+			set_image_for_button (button, newlabel);
 			g_free (icon);
 		}
 		else 
@@ -337,15 +355,29 @@ static gboolean already_present (DenemoPalette *pal, gchar *label) {
 	}
 	return FALSE;
 }
+
+static fixup_image (GtkWidget *button, gchar *label) {
+	//g_print("Fixing up image");
+	set_image_for_button (button, label);	
+}
 gboolean palette_add_button (DenemoPalette *pal, gchar *label, gchar *tooltip, gchar *script) 
 {
 	if (already_present(pal, label))
 		return FALSE;
 	gchar *thescript = g_strdup(script);
 	GtkWidget *button = gtk_button_new_with_label (label);
-	GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));//g_print("is %s\n", g_type_name(G_TYPE_FROM_INSTANCE(label_widget)));
-	gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
-	
+	gchar *icon = find_denemo_file (DENEMO_DIR_PIXMAPS, label);
+	if(icon) 
+	{
+		
+		
+		g_signal_connect (button, "realize", G_CALLBACK (fixup_image), label);
+		
+	} else
+	{
+		GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));//g_print("is %s\n", g_type_name(G_TYPE_FROM_INSTANCE(label_widget)));
+		gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
+	}
 	//put button in a list pal->buttons and then call repack_palette.
 	//REF it for repacking
 	g_object_ref (button);
