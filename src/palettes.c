@@ -350,7 +350,8 @@ static button_pressed (GtkWidget *button, GdkEventButton  *event, DenemoPalette 
 static gboolean already_present (DenemoPalette *pal, gchar *label) {
 	GList *g;
 	for(g=pal->buttons;g;g=g->next) {
-		if (!strcmp(label, gtk_button_get_label (GTK_BUTTON(g->data))))
+		gchar *icon = g_object_get_data (G_OBJECT(g->data), "icon");
+		if (!strcmp(label, gtk_button_get_label (GTK_BUTTON(g->data))) || (icon && !strcmp(icon, label)))
 			return TRUE;	
 	}
 	return FALSE;
@@ -369,10 +370,7 @@ gboolean palette_add_button (DenemoPalette *pal, gchar *label, gchar *tooltip, g
 	gchar *icon = find_denemo_file (DENEMO_DIR_PIXMAPS, label);
 	if(icon) 
 	{
-		
-		
-		g_signal_connect (button, "realize", G_CALLBACK (fixup_image), label);
-		
+		g_signal_connect (button, "realize", G_CALLBACK (fixup_image), label);	
 	} else
 	{
 		GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));//g_print("is %s\n", g_type_name(G_TYPE_FROM_INSTANCE(label_widget)));
