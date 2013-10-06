@@ -128,7 +128,7 @@ void generate_note_onsets(void)
   pos++;
 	}
 
-
+#ifndef G_OS_WIN32
   del_aubio_onsetdetection (o2);
   del_fvec (onset2);
 
@@ -139,6 +139,7 @@ void generate_note_onsets(void)
   del_fvec (ibuf);
   del_cvec (fftgrain);
   del_fvec (onset);
+#endif
   aubio_cleanup ();
 
 
