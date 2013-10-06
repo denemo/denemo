@@ -2475,7 +2475,7 @@ get_executable_dir ()
 gchar*
 find_denemo_file (DenemoDirectory dir, gchar* filename)
 {
-  g_print("find_denemo_file called with %d and %s\n", dir, filename);
+  //g_print("find_denemo_file called with %d and %s\n", dir, filename);
   gchar* dirs[] = {
     g_build_filename(get_executable_dir (), "..", get_local_dir (dir), NULL),
     g_build_filename(get_user_data_dir(), get_local_dir (dir), NULL),
