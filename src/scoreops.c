@@ -72,6 +72,7 @@ void set_movement_selector (DenemoGUI *gui)
   GtkWidget *button;
   GList *g;
   gint i;
+  
   if(gui->movements_selector)
 	gtk_widget_destroy (gui->movements_selector);
   gui->movements_selector = (GtkWidget*)gtk_hbox_new(FALSE,1);
@@ -85,6 +86,7 @@ void set_movement_selector (DenemoGUI *gui)
 	  first = current - NUM_MOVEMENTS_TO_SHOW/2;
 	  if(first<1) first = 1;
 	  last = first + NUM_MOVEMENTS_TO_SHOW -1;
+	  
 	  if(last>num_movements) 
 	  {
 		  last = num_movements;
@@ -111,7 +113,10 @@ void set_movement_selector (DenemoGUI *gui)
 			g_free(text);
 		} else 
 		{
-			gchar *text = g_strdup_printf("%d", i);
+			gchar *more = "";
+			if((last<num_movements) && (i==last))
+				more = "+...";
+			gchar *text = g_strdup_printf("%d%s", i, more);
 			gtk_button_set_label (button, text);
 			g_free(text);
 			text = g_strdup_printf(_("Click to switch to movement number %d"), i);
