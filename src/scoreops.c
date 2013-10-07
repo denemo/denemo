@@ -65,6 +65,8 @@ static void select_movement (gint movementnum) {
 	displayhelper (Denemo.gui);
 	write_status (Denemo.gui);	
 }
+
+#define NUM_MOVEMENTS_TO_SHOW (2*5)
 void set_movement_selector (DenemoGUI *gui)
 {
   GtkWidget *button;
@@ -75,10 +77,27 @@ void set_movement_selector (DenemoGUI *gui)
   gui->movements_selector = (GtkWidget*)gtk_hbox_new(FALSE,1);
   gtk_box_pack_start(GTK_BOX(gui->buttonbox), gui->movements_selector,  FALSE, TRUE, 0);
   gtk_widget_show (gui->movements_selector);
-	
+  gint num_movements = 1;
+  gint last = 1, first = 1;
+  if(gui->movements) {
+	  gint current = g_list_index (gui->movements, gui->si) + 1;
+	  num_movements = g_list_length(gui->movements);
+	  first = current - NUM_MOVEMENTS_TO_SHOW/2;
+	  if(first<1) first = 1;
+	  last = first + NUM_MOVEMENTS_TO_SHOW -1;
+	  if(last>num_movements) 
+	  {
+		  last = num_movements;
+		  first = num_movements - NUM_MOVEMENTS_TO_SHOW;
+		  if(first<1) first = 1;
+		}
+  }
   for (g=gui->movements, i=1;g;g=g->next, i++)
 	{
-		
+		if(i<first)
+			continue;
+		if(i>last)
+			continue;
 		button = gtk_button_new_with_label("");
 		if (g->data == gui->si)
 		{
