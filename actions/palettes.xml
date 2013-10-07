@@ -27,12 +27,14 @@
     <button _label="&lt;i&gt;&lt;b&gt;tr&lt;/b&gt;&lt;/i&gt;" _tooltip="Adds/Removes a trill to the note" script="(d-ToggleTrill)"/>
     <button _label="&#x2022;&#x2022;&#x2022;" _tooltip="Choose more palettes of buttons." script="(d-ChoosePalette)&#10;"/>
   </palette>
-  <palette _name="Dynamics" row-wise="1" limit="1" dock="0" hidden="1">
+  <palette _name="Dynamics" row-wise="1" limit="1" dock="0" hidden="0">
+    <button _label="?" _tooltip="Help with chord symbol entry methods." script="(d-InfoDialog &#10;&quot;There are two methods of adding dynamics, either placing a dynamic directive before the note or chord which it should apply to or creating a separate staff for dynamics. In the second of these options the actual notes on the staff are ignored, they just serve to position the dynamics markings. This method makes it easy to align haripins with each other and with other dynamic markings..&quot;)"/>
     <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_style=&quot;italic&quot; font_weight=&quot;bold&quot;&gt;f p&lt;/span&gt;" _tooltip="Insert a Dynamic Marking at the cursor" script="(d-DynamicText)"/>
     <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_weight=&quot;bold&quot;&gt;&amp;lt;&lt;/span&gt;" _tooltip="Start Crescrendo from note/chord at cursor" script="(d-ToggleStartCrescendo)"/>
     <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_weight=&quot;bold&quot;&gt;&amp;lt;|&lt;/span&gt;" _tooltip="End Crescendo on note/chord at cursor" script="(d-ToggleEndCrescendo)"/>
     <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_weight=&quot;bold&quot;&gt;&amp;gt;&lt;/span&gt;" _tooltip="Start Diminuendo from note/chord at cursor " script="(d-ToggleStartDiminuendo)"/>
     <button _label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_weight=&quot;bold&quot;&gt;&amp;gt;|&lt;/span&gt;" _tooltip="End Diminuendo from note/chord at cursor" script="(d-ToggleEndDiminuendo)"/>
+    <button _label="Staff" _tooltip="Adds a staff to be used purely for dynamic markings, insert after right hand piano staff" script="(d-DynamicsStaff)"/>
   </palette>
   <palette _name="Pianoforte" row-wise="1" limit="2" dock="0" hidden="0">
     <button _label="&lt;span font='24'&gt;&#x1D1AE;&lt;/span&gt;" _tooltip="Prints a Sustain Pedal On Mark" script="(d-SustainOn)"/>
