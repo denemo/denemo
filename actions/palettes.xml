@@ -138,6 +138,7 @@
     <button _label="1st &amp;amp; 2nd" _tooltip="Inserts first and second time bars each with a whole measure rest. You can then edit this to suit your music, e.g by inserting extra bars, deleting the repeat start etc." script="(d-InsertFirstAndSecondTimeBars)"/>
   </palette>
   <palette _name="Beaming" row-wise="1" limit="1" dock="0" hidden="0">
+    <button _label="?" _tooltip="Help with beaming commands." script="(d-InfoDialog &#10;&quot;Beaming commands affect the printed score, not the Denemo display which uses a simple beaming method for quick note entry. You may find it easier to use the beaming commands directly on the typeset score - right click to select a beamed note and right click on the selection box to choose a beaming command.&quot;)"/>
     <button _label="[" _tooltip="Instructs the LilyPond engraver to start a beam here. (Print effect only)" script="(d-StartBeam)"/>
     <button _label="]" _tooltip="Instructs LilyPond engraver to stop previously started manual beaming. Print effect only." script="(d-EndBeam)"/>
     <button _label="[x" _tooltip="Typeset the note at the cursor with no beam to the right." script="(d-BeamRightNone)"/>
@@ -148,5 +149,18 @@
     <button _label="]2" _tooltip="Prints with just two beams linking to the left." script="(d-BeamLeftTwo)"/>
     <button _label="]3" _tooltip="Prints with just three beams linking to the right." script="(d-BeamRightThree)"/>
     <button _label="[3" _tooltip="Prints with just three beams linking to the left." script="(d-BeamLeftThree)"/>
+    <button _label="][x" _tooltip="(Print) Removes beam from current note" script="(d-NoBeam)"/>
+    <button _label="[n][m]..." _tooltip="Inserts a time signature with indication for how to beam the notes. Insert at beginning of staff in order to replace the initial time signature. Time Signature can be hidden on printing - see Time Signatures menu." script="(d-TimesigWithBeatStructure)"/>
+  </palette>
+  <palette _name="Figured Bass" row-wise="1" limit="1" dock="0" hidden="1">
+    <button _label="-&amp;gt;" _tooltip="Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation" script="(d-EditFiguredBass)"/>
+    <button _label="^" _tooltip="Sets the height of the bass figure above the note. The unit is the distance between adjacent lines in the staff." script="(d-AdjustBassFigureHeight)"/>
+    <button _label="^^" _tooltip="Allows several groups of figures to be individually adjusted for height." script="(d-AdjustFiguredBassHeights)"/>
+    <button _label="&#x1D15F; = n" _tooltip="Start filtering MIDI events, First note is bass, hold this down while entering notes for figures. Pedal changes harmony on same bass." script="(d-FiguredBassFilterOn)"/>
+  </palette>
+  <palette _name="Chord Symbols or Fake Chords" row-wise="1" limit="1" dock="0" hidden="0">
+    <button _label="?" _tooltip="Help with chord symbol entry methods." script="(d-InfoDialog &#10;&quot;Chord Symbols (or \&quot;fake chords\&quot;) can be created in two ways. The first attaches a chord symbol to any note. You have to give the name of the chord required, e.g. C7.  This is ok if chord changes only occur on note starts. The other way is to create a voice specially for chords. You can then enter the actual chords as music notation and they will typeset as chord names.&quot;)"/>
+    <button _label="Cdim G ..." _tooltip="Attach a chord symbol to the note at the cursor position. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation" script="(d-EditChords)"/>
+    <button _label="Staff" _tooltip="The current staff becomes a chord symbol staff. The music on this staff will be typeset as chord symbols. Normally you will make this staff a voice on the melody staff, so that the chord symbols print on the melody staff." script="(d-ChordStaff)"/>
   </palette>
 </Denemo>
