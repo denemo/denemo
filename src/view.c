@@ -2289,6 +2289,76 @@ scheme_get_label (SCM command)
   return scm_from_locale_string ((gchar *) lookup_label_from_idx (Denemo.map, idx));
 }
 
+
+static gchar *
+get_menu_label (gchar *name)
+{ gchar *label = NULL;
+  GtkAction *action = gtk_action_group_get_action (Denemo.action_group, name);
+  if(action) 
+  {
+	label = gtk_action_get_label (action);
+
+   }
+ if(!label) 
+		label = name;
+ return label;  
+}
+
+
+static SCM
+scheme_get_menu_position (SCM command)
+{
+  char *name;
+  gchar *menuposition = NULL;
+  if (scm_is_string (command))
+    {
+      name = scm_to_locale_string (command);
+    }
+  else
+    {
+      return SCM_BOOL_F;
+    }
+  if (name == NULL)
+    {
+      return SCM_BOOL_F;
+    }
+  gint idx = lookup_command_from_name (Denemo.map, name);
+  if (name)
+    free (name);
+  if (idx < 0)
+    {
+      return SCM_BOOL_F;
+    }
+  GtkAction *action = (GtkAction *) lookup_action_from_idx (Denemo.map, idx);
+  if (action == NULL)
+    return SCM_BOOL_F;
+  gchar *menupath = g_object_get_data (G_OBJECT (action), "menupath");
+  if(menupath==NULL) {
+	menupath = _("Built-in, see file denemoui.xml for position");
+  }
+  if(menupath)
+  {
+	 GString *position = g_string_new("");
+	 gchar *path = g_strdup(menupath/* + 1 skip over the initial delimeter*/);
+	 gchar *element = strtok (path, "/");
+	 if(element) {
+		g_string_append (position, get_menu_label(element));
+		while ((element = strtok (NULL, "/"))) {
+			if(*element)
+				g_string_append_printf (position, "->%s", get_menu_label(element));	
+			else
+				g_string_append	 (position, "**");
+			}
+	}
+	g_free(path);
+	menuposition = g_string_free (position, FALSE);  
+  }   
+  if(menuposition && *menuposition) 
+	return scm_from_locale_string (menuposition);
+  return SCM_BOOL_F;
+}
+
+
 static SCM
 scheme_get_menu_path (SCM command)
 {
@@ -6745,6 +6815,7 @@ create_scheme_identfiers (void)
   INSTALL_SCM_FUNCTION2 ("Takes a command name or command id and binding name and sets that binding on that command returns the command id that previously had the binding or #f if none", DENEMO_SCHEME_PREFIX "AddKeybinding", scheme_add_keybinding);
 
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the label for the menu item that executes the command or #f if none", DENEMO_SCHEME_PREFIX "GetLabel", scheme_get_label);
+  INSTALL_SCM_FUNCTION ("Takes a non-built-in command name and returns position in the menu system for he command or #f if none", DENEMO_SCHEME_PREFIX "GetMenuPosition", scheme_get_menu_position);
 
 
   INSTALL_SCM_FUNCTION ("Returns the installed LilyPond version", DENEMO_SCHEME_PREFIX "GetLilyVersion", scheme_get_lily_version);
@@ -9224,7 +9295,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
 {
   keymap *the_keymap = Denemo.map;
   const gchar *func_name = gtk_action_get_name (action);
-  //g_print("widget name %s action name %s\n", gtk_widget_get_name(widget), func_name);
+  //g_print("widget name %s action name %s accel path %s\n", gtk_widget_get_name(widget), func_name, gtk_action_get_accel_path (action));
 
   // GSList *h = gtk_action_get_proxies (action);
   //g_print("In menu click action is %p h is %p\n",action, h);
