@@ -1,3 +1,4 @@
+
 ;;;SustainOff
 (let ((tag "SustainOff"))
  (if (d-Directive-standalone? tag)
@@ -7,8 +8,8 @@
 			(if (d-Directive-standalone? tag)
 			  (d-DirectiveDelete-standalone tag)
 				(d-MoveCursorRight)))
-	(StandAloneDirectiveProto (cons "SustainOff" "\\sustainOff") #f "\n!P\nDenemo\n48")
-	(d-DirectivePut-standalone-gy tag -44)
+	(StandAloneDirectiveProto (cons "SustainOff" "\\sustainOff") #f "\n!P\nDenemo\n24")
+	(d-DirectivePut-standalone-gy tag 44)
 	(d-DirectivePut-standalone-grob tag tag)
 	(d-MoveCursorRight)))
 (d-RefreshDisplay)
