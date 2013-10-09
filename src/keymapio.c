@@ -313,7 +313,7 @@ load_xml_keymap (gchar * filename)
     }
 
   xmlFreeDoc (doc);
-
+  alphabeticalize_commands (Denemo.map);
   {
     //if this is a new-style .commands file, we need to load the keybindings separately
     gchar *name = g_strdup (filename);
@@ -424,7 +424,6 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
   gchar* cfilename = NULL;
   const gchar *basename = NULL;
   gchar* dir = NULL;
-
   doc = xmlNewDoc ((xmlChar *) "1.0");
   doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, COMMANDXML_TAG_ROOT, NULL);
 
