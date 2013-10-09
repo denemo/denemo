@@ -360,7 +360,7 @@ static gint parseDuration (gint *current_voice, xmlNodePtr rootElem)
           }
 return duration;
 }
-static gchar *get_rest_for_duration(GString *ret, gint duration, gint divisions) {
+static void get_rest_for_duration(GString *ret, gint duration, gint divisions) {
   //g_print("Rest duration %d, divisions %d\n", duration, divisions);
   if(duration >= 4*divisions) {
     g_string_append(ret, "(d-InsertRest0)");
@@ -1007,3 +1007,4 @@ mxmlinput (gchar * filename)
  g_string_free(script, TRUE);
  return ret;
 }
+
