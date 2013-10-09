@@ -103,7 +103,7 @@ insert_invisible_rest (GString * script, gint duration, gint divisions)
 
 
 
-static gint
+static void
 parse_time (GString ** scripts, gint numvoices, gint measurenum, xmlNodePtr rootElem)
 {
   xmlNodePtr childElem;
@@ -150,7 +150,7 @@ get_clef (gint line, gchar * sign)
 
 }
 
-static gint
+static void
 parse_key (GString ** scripts, gint numvoices, gint measurenum, xmlNodePtr rootElem)
 {
   xmlNodePtr childElem;
@@ -173,7 +173,7 @@ parse_key (GString ** scripts, gint numvoices, gint measurenum, xmlNodePtr rootE
         g_string_append_printf (scripts[i + 1], "(d-InsertKey \"C major\")(d-IncrementKeysig %d)", fifths);
 }
 
-static gint
+static void
 parse_clef (GString ** scripts, gint division, gint * voice_timings, gint voicenum, gint numvoices, gint * staff_for_voice, gint divisions, gint measurenum, xmlNodePtr rootElem)
 {
   xmlNodePtr childElem;
@@ -753,7 +753,7 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
   return g_string_free (ret, FALSE);
 }
 
-static gint
+static void
 get_staff_for_voice_note (xmlNodePtr rootElem, gint * staff_for_voice)
 {
   xmlNodePtr childElem;
@@ -779,7 +779,7 @@ get_staff_for_voice_note (xmlNodePtr rootElem, gint * staff_for_voice)
     staff_for_voice[voicenum - 1] = staffnum;
 }
 
-static gint
+static void
 parse_attributes (xmlNodePtr rootElem, GString ** scripts, gint numvoices, gint * staff_for_voice, gint division, gint * voice_timings, gint * divisions, gint * current_voice, gint measurenum)
 {
   xmlNodePtr childElem;
@@ -799,7 +799,7 @@ parse_attributes (xmlNodePtr rootElem, GString ** scripts, gint numvoices, gint 
 
 
 
-static gint
+static void
 parse_barline (xmlNodePtr rootElem, GString ** scripts, gint numvoices)
 {
   xmlNodePtr childElem;
@@ -842,7 +842,7 @@ parse_barline (xmlNodePtr rootElem, GString ** scripts, gint numvoices)
     </direction-type>
     </direction>
   */
-static gint
+static void
 parse_direction_type (xmlNodePtr rootElem, GString * script)
 {
   xmlNodePtr childElem;
@@ -871,7 +871,7 @@ parse_direction_type (xmlNodePtr rootElem, GString * script)
   }
 }
 
-static gint
+static void
 parse_direction (xmlNodePtr rootElem, GString * script)
 {
   xmlNodePtr childElem;
@@ -882,7 +882,7 @@ parse_direction (xmlNodePtr rootElem, GString * script)
   }
 }
 
-static gint
+static void
 get_staff_for_voice_measure (xmlNodePtr rootElem, gint * staff_for_voice)
 {
   xmlNodePtr childElem;
