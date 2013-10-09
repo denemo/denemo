@@ -2290,25 +2290,13 @@ scheme_get_label (SCM command)
 }
 
 
-static gchar *
-get_menu_label (gchar *name)
-{ gchar *label = NULL;
-  GtkAction *action = gtk_action_group_get_action (Denemo.action_group, name);
-  if(action) 
-  {
-	label = gtk_action_get_label (action);
-
-   }
- if(!label) 
-		label = name;
- return label;  
-}
 
 
 static SCM
 scheme_get_menu_position (SCM command)
 {
   char *name;
+  SCM ret;
   gchar *menuposition = NULL;
   if (scm_is_string (command))
     {
@@ -2322,6 +2310,9 @@ scheme_get_menu_position (SCM command)
     {
       return SCM_BOOL_F;
     }
+    
+   
+    
   gint idx = lookup_command_from_name (Denemo.map, name);
   if (name)
     free (name);
@@ -2332,30 +2323,13 @@ scheme_get_menu_position (SCM command)
   GtkAction *action = (GtkAction *) lookup_action_from_idx (Denemo.map, idx);
   if (action == NULL)
     return SCM_BOOL_F;
-  gchar *menupath = g_object_get_data (G_OBJECT (action), "menupath");
-  if(menupath==NULL) {
-	menupath = _("Built-in, see file denemoui.xml for position");
-  }
-  if(menupath)
-  {
-	 GString *position = g_string_new("");
-	 gchar *path = g_strdup(menupath/* + 1 skip over the initial delimeter*/);
-	 gchar *element = strtok (path, "/");
-	 if(element) {
-		g_string_append (position, get_menu_label(element));
-		while ((element = strtok (NULL, "/"))) {
-			if(*element)
-				g_string_append_printf (position, "->%s", get_menu_label(element));	
-			else
-				g_string_append	 (position, "**");
-			}
-	}
-	g_free(path);
-	menuposition = g_string_free (position, FALSE);  
-  }   
-  if(menuposition && *menuposition) 
-	return scm_from_locale_string (menuposition);
-  return SCM_BOOL_F;
+  menuposition = get_menu_position (g_object_get_data (G_OBJECT (action), "menupath"));
+
+  if(menuposition && *menuposition) { 
+	ret = scm_from_locale_string (menuposition);
+	g_free(menuposition);
+	} 
+  return ret;
 }
 
 

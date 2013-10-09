@@ -165,4 +165,6 @@ void command_row_init(command_row *command);
 gboolean keymap_get_command_row (keymap * the_keymap, command_row * row, guint command_idx);
 gboolean is_action_id_builtin(gint id);
 gboolean is_action_name_builtin(gchar* command_name);
+gchar *get_menu_label (gchar *name);
+gchar *get_menu_position (gchar *menupath);
 #endif

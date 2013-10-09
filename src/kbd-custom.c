@@ -704,7 +704,7 @@ static gint
 command_iter_sort (GtkTreeModel * model, GtkTreeIter * a, GtkTreeIter * b, G_GNUC_UNUSED gpointer user_data)
 {
   GtkTreeIter *iters[2];
-  KeymapCommandType type;
+ // KeymapCommandType type;
   gpointer action;
   const gchar *names[2];
   gint i;
@@ -712,11 +712,11 @@ command_iter_sort (GtkTreeModel * model, GtkTreeIter * a, GtkTreeIter * b, G_GNU
   iters[1] = b;
   for (i = 0; i < 2; i++)
     {
-      gtk_tree_model_get (model, iters[i], COL_TYPE, &type, COL_ACTION, &action, -1);
+     // gtk_tree_model_get (model, iters[i], /*COL_TYPE, &type,*/ COL_ACTION, &action, -1);
 
-      names[i] = gtk_action_get_name (action);
+     // names[i] = gtk_action_get_name (action);
 
-
+	gtk_tree_model_get (model, iters[i], COL_LABEL, names+i, -1);
     }
   return strcmp (names[0], names[1]);
 }
@@ -1804,6 +1804,13 @@ command_name_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRender
 
   g_object_set (renderer, "text", name, NULL);
 }
+static void
+label_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRenderer * renderer, GtkTreeModel * model, GtkTreeIter * iter, G_GNUC_UNUSED gpointer user_data)
+{
+  const gchar *name;
+  gtk_tree_model_get (model, iter, COL_LABEL, &name, -1);
+  g_object_set (renderer, "text", name, NULL);
+}
 
 static void
 command_hidden_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRenderer * renderer, GtkTreeModel * model, GtkTreeIter * iter, G_GNUC_UNUSED gpointer user_data)
@@ -1888,6 +1895,17 @@ keymap_get_command_view (keymap * the_keymap)
   res = GTK_TREE_VIEW (gtk_tree_view_new ());
   gtk_tree_view_set_model (res, model);
 
+
+  col = gtk_tree_view_column_new ();
+  gtk_tree_view_column_set_title (col, _("Command"));
+  gtk_tree_view_append_column (res, col);
+
+  renderer = gtk_cell_renderer_text_new ();
+  gtk_tree_view_column_pack_start (col, renderer, TRUE);
+  gtk_tree_view_column_set_cell_data_func (col, renderer, label_data_function, NULL, NULL);
+
+#if 0
+/* including this column makes the command manager too wide */
   col = gtk_tree_view_column_new ();
   gtk_tree_view_column_set_title (col, _("Commands"));
   gtk_tree_view_append_column (res, col);
@@ -1895,7 +1913,7 @@ keymap_get_command_view (keymap * the_keymap)
   renderer = gtk_cell_renderer_text_new ();
   gtk_tree_view_column_pack_start (col, renderer, TRUE);
   gtk_tree_view_column_set_cell_data_func (col, renderer, command_name_data_function, NULL, NULL);
-
+#endif
   col = gtk_tree_view_column_new ();
   gtk_tree_view_column_set_title (col, _("Hidden"));
   gtk_tree_view_append_column (res, col);
@@ -1965,7 +1983,40 @@ keymap_cleanup_command_view (keyboard_dialog_data * data)
       g_signal_handlers_disconnect_by_func (model, row_deleted_handler, data);
     }
 }
+gchar *
+get_menu_label (gchar *name)
+{ gchar *label = NULL;
+  GtkAction *action = gtk_action_group_get_action (Denemo.action_group, name);
+  if(action) 
+  {
+	label = gtk_action_get_label (action);
 
+   }
+ if(!label) 
+		label = name;
+ return label;  
+}
+
+/* caller must free */
+gchar *get_menu_position (gchar *menupath)
+ {
+	 if(menupath==NULL)
+		menupath = g_strdup(_("Built-in, see file denemoui.xml for position"));
+	 GString *position = g_string_new("");
+	 gchar *path = g_strdup(menupath/* + 1 skip over the initial delimeter*/);
+	 gchar *element = strtok (path, "/");
+	 if(element) {
+		g_string_append (position, get_menu_label(element));
+		while ((element = strtok (NULL, "/"))) {
+			if(*element)
+				g_string_append_printf (position, "->%s", get_menu_label(element));	
+			else
+				g_string_append	 (position, "**");
+			}
+	}
+	g_free(path);
+	return g_string_free (position, FALSE);  
+  }
 gboolean
 keymap_change_binding_view_on_command_selection (GtkTreeSelection * selection, GtkTreeModel * model, GtkTreePath * path, gboolean path_currently_selected, gpointer data)
 {
@@ -2015,10 +2066,14 @@ keymap_change_binding_view_on_command_selection (GtkTreeSelection * selection, G
   if (tooltip)
     {
       gchar *plain;
-      pango_parse_markup (tooltip, -1, 0, NULL, &plain, 0, NULL);
-
+      gchar *menupath = get_menu_position (g_object_get_data (G_OBJECT (action), "menupath"));
+      
+	  gchar *text = g_strdup_printf (_( "%s\nLocation: %s"), tooltip, menupath);
+      pango_parse_markup (text, -1, 0, NULL, &plain, 0, NULL);
+		g_free(text);
       gtk_text_buffer_set_text (text_buffer, plain, -1);
       g_free (plain);
+      g_free(menupath);
     }
   //perform the selection
   return TRUE;
