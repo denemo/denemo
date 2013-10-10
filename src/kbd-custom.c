@@ -1843,7 +1843,7 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
   gchar *name;
   gboolean res;
   gtk_tree_model_get (model, iter, COL_LABEL, &name, -1);
-  res = (strcmp (name, key) == 0);
+  res = (strcmp (name, key) >= 0);
   //g_free (name); The doc says that name should be freed, but it segfaults FIXME
   return !res;
 }
