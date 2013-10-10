@@ -433,6 +433,9 @@
 {"Palettes", NULL, N_("Palettes"), "",N_("Menu:\nCommands to manipulate the palettes of commands")},
 {"Spanning", NULL, N_("Spanning"), "",N_("Menu:\nCommands to tell the typesetter to start or stop a particular effect. Use these around passages that are to be treated differently, or over which a marking should be placed.")},
 {"Typesetter", NULL, N_("Typesetter"), "",N_("Menu:\nInstructions for the typesetter to do something at the cursor position.")},
+{"NotationMagick", NULL, N_("NotationMagick"), "",N_("Menu:\nGenerating and manipulating music automatically.")},
+{"ObjectMenu", NULL, N_("Object Menu"), "",N_("Menu:\nCommands for working with the musical object hierarchy.")},
+{"MainMenu", NULL, N_("Main Menu"), "",N_("Menu:\nThe top level commands for operating Denemo.")},
 
 #define NOTE0 "\xF0\x9D\x85\x9D"
 
