@@ -455,7 +455,10 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
       gtk_tree_view_scroll_to_cell ((GtkTreeView *) command_tree_view, path, NULL, FALSE, 0, 0);
       gtk_tree_path_free (path);
     }
+  gtk_widget_grab_focus (command_tree_view);
   gtk_tree_selection_select_iter (selection, &iter);
+  
+  
   frame = gtk_frame_new (_("Setting the Cursor Shape for Mouse Ops"));
   gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
   //gtk_container_add (GTK_CONTAINER (vbox), frame);
