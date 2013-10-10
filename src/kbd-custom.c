@@ -1835,20 +1835,16 @@ command_deleted_data_function (GtkTreeViewColumn * col, GtkCellRenderer * render
   g_object_set (renderer, "active", deleted, NULL);
 }
 */
+
 static gboolean
 search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar * key, GtkTreeIter * iter, G_GNUC_UNUSED gpointer search_data)
 {
-  KeymapCommandType type;
-  gpointer action;
-  const gchar *name;
-  gboolean res;
-  gchar *name_trunk;
-  gtk_tree_model_get (model, iter, COL_TYPE, &type, COL_ACTION, &action, -1);
-  name = gtk_action_get_name (action);
 
-  name_trunk = g_strndup (name, strlen (key));
-  res = strcmp (name_trunk, key) == 0;
-  g_free (name_trunk);
+  gchar *name;
+  gboolean res;
+  gtk_tree_model_get (model, iter, COL_LABEL, &name, -1);
+  res = (strcmp (name, key) == 0);
+  //g_free (name); The doc says that name should be freed, but it segfaults FIXME
   return !res;
 }
 
@@ -1941,6 +1937,7 @@ keymap_get_command_view (keymap * the_keymap)
   selection = gtk_tree_view_get_selection (res);
   gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
   gtk_tree_view_set_search_equal_func (res, search_equal_func, NULL, NULL);
+//gtk_tree_view_set_search_column (res, COL_LABEL);
   gtk_tree_view_set_enable_search (res, TRUE);
 
   //setting up the scrolledwindow
