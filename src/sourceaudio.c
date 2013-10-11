@@ -139,6 +139,8 @@ void generate_note_onsets(void)
   del_fvec (ibuf);
   del_cvec (fftgrain);
   del_fvec (onset);
+#else
+  g_print("\n\n\n!!!!!!!!!skipping memory free for windows to avoid crash\n\n\n");
 #endif
   aubio_cleanup ();
 
