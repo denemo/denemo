@@ -1835,23 +1835,41 @@ command_deleted_data_function (GtkTreeViewColumn * col, GtkCellRenderer * render
   g_object_set (renderer, "active", deleted, NULL);
 }
 */
-
+static gboolean search_tooltip=0;//not yet implemented, could be a level of match, for number of words present in tooltip & label
+static gint last_idx=-1;//not yet implemented last found idx
+static GtkWidget *SearchEntry = NULL;
 static gboolean
 search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar * key, GtkTreeIter * iter, G_GNUC_UNUSED gpointer search_data)
 {
 
+  gchar *lookin;
   gchar *name;
-  gboolean res;
-  gtk_tree_model_get (model, iter, COL_LABEL, &name, -1);
+  gboolean notfound;
+  if(search_tooltip)
+   gtk_tree_model_get (model, iter, COL_TOOLTIP, &lookin, -1);
+  else
+   gtk_tree_model_get (model, iter, COL_LABEL, &lookin, -1);
   gchar *this, *that;
-  this = g_utf8_casefold (name, -1);
+  this = g_utf8_casefold (lookin, -1);
   that =  g_utf8_casefold (key, -1);
-  
-  res = (strcmp (this, that) >= 0);
+  if(search_tooltip)
+  {
+	  
+	  gtk_tree_model_get (model, iter, COL_NAME, &name, -1);
+	  const gint idx = lookup_action_from_name (name);
+	  notfound = (NULL == g_strstr_len (lookin, -1, key));
+	  if((!notfound) && (idx <= last_idx))
+		;//notfound = TRUE;
+	  if(!notfound) last_idx = idx;
+  } 
+  else
+  {
+  notfound = (strcmp (this, that) < 0);
+  }
   g_free(this);
   g_free(that);
-  //g_free (name); The doc says that name should be freed, but two calls in succession yield the same pointer.
-  return !res;
+  //g_free (lookin); The doc says that name should be freed, but two calls in succession yield the same pointer.
+  return notfound;
 }
 
 /*toggle hidden on action at row in command list */
@@ -1895,6 +1913,8 @@ keymap_get_command_view (keymap * the_keymap)
   model = GTK_TREE_MODEL (the_keymap->commands);
   //setting up the tree view
   res = GTK_TREE_VIEW (gtk_tree_view_new ());
+
+  
   gtk_tree_view_set_model (res, model);
 
 
@@ -1946,6 +1966,8 @@ keymap_get_command_view (keymap * the_keymap)
 //gtk_tree_view_set_search_column (res, COL_LABEL);
   gtk_tree_view_set_enable_search (res, TRUE);
 
+
+
   //setting up the scrolledwindow
   res2 = GTK_SCROLLED_WINDOW (gtk_scrolled_window_new (NULL, NULL));
   gtk_container_add (GTK_CONTAINER (res2), GTK_WIDGET (res));
@@ -1953,6 +1975,19 @@ keymap_get_command_view (keymap * the_keymap)
 
   //FIXME adapt so that 10~15 rows are visible
   gtk_widget_set_size_request (GTK_WIDGET (res2), -1, 300);
+  
+  GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
+  GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
+  if(SearchEntry==NULL)
+	SearchEntry = gtk_entry_new ();
+  gtk_tree_view_set_search_entry (res, SearchEntry);
+  GtkWidget *label = gtk_label_new (_("Search"));
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), SearchEntry, FALSE, TRUE, 0);
+  
+  gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), res2, TRUE, TRUE, 0);
+		
 
   return GTK_WIDGET (res2);
 }
@@ -1979,16 +2014,19 @@ row_deleted_handler (GtkTreeModel * model, GtkTreePath * arg1, gpointer user_dat
 void
 keymap_cleanup_command_view (keyboard_dialog_data * data)
 {
+#if 0
   GtkTreeModel *model;
   model = gtk_tree_view_get_model (data->binding_view);
   if (model)
     {
       g_signal_handlers_disconnect_by_func (model, row_deleted_handler, data);
     }
+#endif
+    gtk_main_quit();
 }
-gchar *
+const gchar *
 get_menu_label (gchar *name)
-{ gchar *label = NULL;
+{ const gchar *label = NULL;
   GtkAction *action = gtk_action_group_get_action (Denemo.action_group, name);
   if(action) 
   {
@@ -2071,9 +2109,9 @@ keymap_change_binding_view_on_command_selection (GtkTreeSelection * selection, G
       gchar *plain;
       gchar *menupath = get_menu_position (g_object_get_data (G_OBJECT (action), "menupath"));
       
-	  gchar *text = g_strdup_printf (_( "%s\nLocation: %s"), tooltip, menupath);
+	  gchar *text = g_strdup_printf (_( "%s\nLocation: %s\nInternal Name: %s"), tooltip, menupath, gtk_action_get_name(action));
       pango_parse_markup (text, -1, 0, NULL, &plain, 0, NULL);
-		g_free(text);
+	  g_free(text);
       gtk_text_buffer_set_text (text_buffer, plain, -1);
       g_free (plain);
       g_free(menupath);

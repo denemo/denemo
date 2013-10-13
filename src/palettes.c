@@ -185,9 +185,11 @@ static set_image_for_button (GtkWidget *button, gchar *name)
 		//g_print("or rather destroy %p, is %d \n", child_widget, GTK_IS_WIDGET(child_widget));
 		gtk_widget_destroy (child_widget);
 	}
-	
-	gtk_button_set_image(GTK_BUTTON(button), gtk_image_new_from_file(icon));
-	
+	GdkPixbuf *pb = gdk_pixbuf_new_from_file(icon, NULL);
+	if(pb)
+		gtk_button_set_image(GTK_BUTTON(button),gtk_image_new_from_pixbuf(pb));
+	else
+		gtk_button_set_label (GTK_BUTTON(button), name);
 			//gtk_button_set_always_show_image (button, TRUE);
 	g_object_set_data (G_OBJECT(button), "icon", (gpointer)g_strdup(name));
 	g_type_class_unref (g_type_class_ref (GTK_TYPE_BUTTON));
@@ -195,6 +197,7 @@ static set_image_for_button (GtkWidget *button, gchar *name)
 	gtk_widget_show_all(button);
 	g_free (icon);
 }
+
 static void edit_label_for_button (GtkWidget *button) {
 	const gchar *label;
 	label = g_object_get_data (G_OBJECT(button), "icon");

@@ -333,23 +333,26 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
   command_view = GTK_WIDGET (keymap_get_command_view (Denemo.map));
   command_tree_view = gtk_bin_get_child (GTK_BIN (command_view));
 
-  dialog = gtk_dialog_new_with_buttons (_("Command Manager"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
+  dialog = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title(dialog, (_("Command Manager")));
   if (Denemo.prefs.newbie)
     gtk_widget_set_tooltip_text (dialog,
                                  _
                                  ("This dialog allows you to set shortcuts for commands. As there are so many commands it is best to launch the dialog from the command that you wish to change.\n(Do this by right clicking on the menu item of the command\nthis dialog then comes up with the command highlighted).\nYou can set single-key or two-key shortcuts, or mouse shortcuts.\nYou can also hide commands, so they don't appear in the menus.\nWhen you are finished you can save the settings as your default command set, or as a command set which you may wish to load in the future.\nThis dialog is also where you can load such a stored command set."));
 
   outer_hbox = gtk_hbox_new (FALSE, 8);
+  gtk_container_add (GTK_CONTAINER (dialog), outer_hbox);
   vbox = gtk_vbox_new (FALSE, 8);
-  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-  gtk_container_add (GTK_CONTAINER (content_area), outer_hbox);
+   
+  
+
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
   gtk_box_pack_start (GTK_BOX (outer_hbox), vbox, TRUE, TRUE, 0);
 
-
+	
   frame = gtk_frame_new (_("Help for Selected Command"));
   gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
-  gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), frame, TRUE, TRUE, 0);
   text_view = gtk_text_view_new ();
   gtk_text_view_set_editable (GTK_TEXT_VIEW (text_view), FALSE);
   scrolled_text_view = gtk_scrolled_window_new (NULL, NULL);
@@ -357,46 +360,19 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_text_view), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_container_add (GTK_CONTAINER (frame), scrolled_text_view);
 
-  //  gtk_box_pack_start (GTK_BOX (vbox), scrolled_text_view, TRUE, TRUE, 0);
 
-
-
-
-  table = gtk_table_new (2, 2, FALSE);
-  gtk_box_pack_start (GTK_BOX (vbox), table, TRUE, TRUE, 0);
-  gtk_table_set_row_spacings (GTK_TABLE (table), 8);
-  gtk_table_set_col_spacings (GTK_TABLE (table), 8);
-
-  button_save = gtk_button_new_with_label (_("Save as Default Command Set"));
-  gtk_table_attach (GTK_TABLE (table), button_save, 0, 1, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
-  gtk_widget_set_tooltip_text (button_save, _("Use this to save the changes you have made so that they are used every time you start Denemo. The changes are stored under a directory (folder) called .denemo-* in your home directory. Look in subdirectory actions for Default.commands"));
-  button_save_as = gtk_button_new_with_label (_("Save as a Custom Command Set"));
-  gtk_table_attach (GTK_TABLE (table), button_save_as, 1, 2, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
-
-  button_load = gtk_button_new_with_label (_("Load a Standard Command Set"));
-  gtk_table_attach (GTK_TABLE (table), button_load, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
-
-  button_load_from = gtk_button_new_with_label (_("Load a Custom Command Set"));
-  gtk_table_attach (GTK_TABLE (table), button_load_from, 1, 2, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
-
-  table = gtk_table_new (6, 6, FALSE);
-  gtk_box_pack_start (GTK_BOX (vbox), table, TRUE, TRUE, 0);
-  gtk_table_set_row_spacings (GTK_TABLE (table), 8);
-  gtk_table_set_col_spacings (GTK_TABLE (table), 8);
-
-  gtk_table_attach (GTK_TABLE (table), command_view, 0, 3, 0, 6, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
-
-  gtk_table_attach (GTK_TABLE (table), binding_view, 3, 6, 0, 5, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
-
-/*   addbutton = gtk_button_new_from_stock (GTK_STOCK_ADD); */
-/*   gtk_table_attach (GTK_TABLE (table), addbutton, 3, 4, 5, 6, */
-/* 		    (GtkAttachOptions) (GTK_FILL), */
-/* 		    (GtkAttachOptions) (0), 0, 0); */
-
+  {
+  GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (vbox), inner_hbox, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (inner_hbox), gtk_widget_get_parent(command_view), TRUE, TRUE, 0);
+  {
+    GtkWidget *inner_vbox = gtk_vbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (inner_hbox), inner_vbox,  TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (inner_vbox), binding_view,  TRUE, TRUE, 0);
   delbutton = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-  //gtk_widget_set_sensitive (delbutton, FALSE);
-  gtk_table_attach (GTK_TABLE (table), delbutton, 4, 5, 5, 6, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-
+    gtk_box_pack_start (GTK_BOX (inner_vbox), delbutton, FALSE, TRUE, 0);
+}
+  }
   //lookbutton = gtk_button_new_from_stock (GTK_STOCK_FIND);
   // gtk_table_attach (GTK_TABLE (table), lookbutton, 5, 6, 5, 6,
 //                  (GtkAttachOptions) (GTK_FILL),
@@ -404,6 +380,28 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
 
   vbox = gtk_vbox_new (FALSE, 8);
   gtk_box_pack_end (GTK_BOX (outer_hbox), vbox, FALSE, TRUE, 0);
+  
+   {
+  GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (vbox), inner_hbox, FALSE, TRUE, 0);
+   button_save = gtk_button_new_with_label (_("Save as Default Command Set"));
+	gtk_box_pack_start (GTK_BOX (inner_hbox), button_save, FALSE, TRUE, 0);
+  gtk_widget_set_tooltip_text (button_save, _("Use this to save the changes you have made so that they are used every time you start Denemo. The changes are stored under a directory (folder) called .denemo-* in your home directory. Look in subdirectory actions for Default.commands"));
+  button_save_as = gtk_button_new_with_label (_("Save as a Custom Command Set"));
+	gtk_box_pack_start (GTK_BOX (inner_hbox), button_save_as, FALSE, TRUE, 0);
+
+  button_load = gtk_button_new_with_label (_("Load a Standard Command Set"));
+	inner_hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (vbox), inner_hbox, FALSE, TRUE, 0);
+    button_load = gtk_button_new_with_label (_("Load a Standard Command Set"));
+  	gtk_box_pack_start (GTK_BOX (inner_hbox), button_load, FALSE, TRUE, 0);
+
+  button_load_from = gtk_button_new_with_label (_("Load a Custom Command Set"));
+  	gtk_box_pack_start (GTK_BOX (inner_hbox), button_load_from, FALSE, TRUE, 0);
+
+   }
+  
+  
   addbutton = gtk_button_new_from_stock (GTK_STOCK_ADD);
   gtk_button_set_label (GTK_BUTTON (addbutton), _("Add 1-Key Shortcut"));
   gtk_widget_set_tooltip_text (addbutton, _("Create a single keypress (with modifier keys - Control, Shift ... - if needed) as a keyboard shortcut for the currently selected command."));
@@ -417,8 +415,8 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
   gtk_box_pack_end (GTK_BOX (vbox), add2button, FALSE, TRUE, 0);
 
   lookbutton = gtk_button_new_from_stock (GTK_STOCK_FIND);
-  gtk_button_set_label (GTK_BUTTON (lookbutton), _("Find "));
-  gtk_widget_set_tooltip_text (lookbutton, _("Finds the command (if any) for a Keyboard Shortcut\nClick button then press the key shortcut you are looking for"));
+  gtk_button_set_label (GTK_BUTTON (lookbutton), _("Find Command for Shortcut"));
+  gtk_widget_set_tooltip_text (lookbutton, _("Finds the command (if any) for a (one key) Keyboard Shortcut\nClick button then press the key shortcut you are looking for"));
   gtk_box_pack_end (GTK_BOX (vbox), lookbutton, FALSE, TRUE, 0);
 
   statusbar = gtk_statusbar_new ();
@@ -489,6 +487,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
   g_object_set_data ((GObject *) mouse_state2, "mask", (gpointer) GDK_BUTTON1_MASK);
   gtk_box_pack_start (GTK_BOX (vbox), mouse_state2, FALSE, TRUE, 0);
 
+  {
   GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (vbox), inner_hbox, FALSE, TRUE, 0);
   label = gtk_label_new (_("Cursor Shape #"));
@@ -498,6 +497,8 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
   GtkWidget *spinner = gtk_spin_button_new ((GtkAdjustment *) spinner_adj, 1.0, 0);
   gtk_box_pack_start (GTK_BOX (inner_hbox), spinner, TRUE, TRUE, 0);
   g_signal_connect (G_OBJECT (spinner), "value-changed", G_CALLBACK (set_cursor_number), &info.cursor_number);
+  }
+
   //FIXME here use gdk_cursor_get_image() to show the cursor selected.
 
 
@@ -519,17 +520,13 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
 
 
   gtk_widget_show_all (dialog);
-  gint val = gtk_dialog_run (GTK_DIALOG (dialog));
+  g_signal_connect (dialog, "delete-event", G_CALLBACK (keymap_cleanup_command_view), &cbdata);
+  gtk_main();
 
   //When closing the dialog remove the signals that were associated to the
   //dialog
-  keymap_cleanup_command_view (&cbdata);
-  gtk_widget_destroy (dialog);
-  if (val == RESPONSE_LOADED)
-    {
-      // test for if load has been performed i.e. finished, if so
-      // configure_keyboard_dialog_init_idx (action, command_idx);
-    }
+ //FIXME is this needed??? keymap_cleanup_command_view (&cbdata);
+ 
 }
 
 void
