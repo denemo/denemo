@@ -1835,9 +1835,8 @@ command_deleted_data_function (GtkTreeViewColumn * col, GtkCellRenderer * render
   g_object_set (renderer, "active", deleted, NULL);
 }
 */
-static gboolean search_tooltip=0;//not yet implemented, could be a level of match, for number of words present in tooltip & label
+static gboolean search_tooltip=1;//not yet implemented, could be a level of match, for number of words present in tooltip & label
 static gint last_idx=-1;//not yet implemented last found idx
-//!!!!!!!!!!!!!!!!static GtkWidget *SearchEntry = NULL;
 static gboolean
 search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar * key, GtkTreeIter * iter, G_GNUC_UNUSED gpointer search_data)
 {
@@ -1900,7 +1899,11 @@ toggle_deleted_on_action (GtkCellRendererToggle * cell_renderer, gchar * path)
     }
 }
 */
-#if 1
+static void toggle_tooltip_search (void)
+{
+	search_tooltip = !search_tooltip;
+}
+
 GtkWidget *
 keymap_get_command_view (keymap * the_keymap, GtkWidget *SearchEntry)
 {
@@ -1984,6 +1987,11 @@ keymap_get_command_view (keymap * the_keymap, GtkWidget *SearchEntry)
   GtkWidget *label = gtk_label_new (_("Search"));
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
   gtk_box_pack_start (GTK_BOX (hbox), SearchEntry, FALSE, TRUE, 0);
+  GtkWidget *toggle = gtk_check_button_new_with_label (_("Search in tooltip"));
+  gtk_toggle_button_set_active (toggle, TRUE);
+  g_signal_connect(G_OBJECT(toggle), "toggled", G_CALLBACK(toggle_tooltip_search), NULL);
+  gtk_box_pack_end (GTK_BOX (hbox), toggle, FALSE, TRUE, 0);
+  
   
   gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
   gtk_box_pack_start (GTK_BOX (vbox), res2, TRUE, TRUE, 0);
@@ -1991,7 +1999,7 @@ keymap_get_command_view (keymap * the_keymap, GtkWidget *SearchEntry)
 
   return GTK_WIDGET (res2);
 }
-#endif
+
 void
 row_inserted_handler (GtkTreeModel * model, GtkTreePath * arg1, GtkTreeIter * arg2, gpointer user_data)
 {
