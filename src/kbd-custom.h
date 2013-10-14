@@ -128,14 +128,14 @@ gboolean idx_has_callback (keymap * the_keymap, guint command_idx);
 
 void dump_command_info (keymap * the_keymap, gint command_idx);
 guint dnm_sanitize_key_state (GdkEventKey * event);
-void load_keymap_dialog (GtkWidget * Widget);
+void load_keymap_dialog (void);
 
 
 void load_default_keymap_file (void);
 
-void load_system_keymap_dialog (GtkWidget * widget);
-void save_keymap_dialog (GtkWidget * widget);
-void load_keymap_dialog_location (GtkWidget * widget, gchar * location);
+void load_system_keymap_dialog (void);
+void save_keymap_dialog (void);
+void load_keymap_dialog_location (gchar * location);
 void save_default_keymap_file_wrapper (GtkAction * action, gpointer param);
 
 void save_default_keymap_file (void);

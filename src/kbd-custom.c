@@ -1613,7 +1613,7 @@ show_type (GtkWidget * widget, gchar * message)
  * a user dialog. 
  */
 void
-load_keymap_dialog_location (GtkWidget * widget, gchar * location)
+load_keymap_dialog_location (gchar * location)
 {
   gchar *filename = file_dialog ("Load Command Set", TRUE, location);
   if (filename)
@@ -1621,23 +1621,23 @@ load_keymap_dialog_location (GtkWidget * widget, gchar * location)
 }
 
 void
-load_keymap_dialog (GtkWidget * widget)
+load_keymap_dialog ()
 {
   gchar *keymapdir = g_strdup_printf ("%s%c", get_user_keymap_dir (), G_DIR_SEPARATOR);
   if (keymapdir)
-    load_keymap_dialog_location (widget, keymapdir);
+    load_keymap_dialog_location (keymapdir);
   else
     warningdialog (_("Cannot access your local .denemo"));
   g_free (keymapdir);
 }
 
 void
-load_system_keymap_dialog (GtkWidget * widget)
+load_system_keymap_dialog (void)
 {
   gchar *systemwide = g_build_filename (get_system_data_dir (), COMMANDS_DIR, USER_KEYMAP, KEYMAP_EXT,
                                         NULL);
   if (systemwide)
-    load_keymap_dialog_location (widget, systemwide);
+    load_keymap_dialog_location (systemwide);
   else
     warningdialog (_("Installation error"));
   g_free (systemwide);
@@ -1718,7 +1718,7 @@ save_keymap_from_dialog (gchar * filename)
  * a user dialog.  Similar to file_saveas. 
  */
 void
-save_keymap_dialog (GtkWidget * widget)
+save_keymap_dialog (void)
 {
   gchar *keymapdir = NULL;
   keymapdir = g_build_filename (get_user_keymap_dir (), NULL);

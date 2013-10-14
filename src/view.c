@@ -7210,7 +7210,7 @@ morecommands (GtkAction * action, gpointer param)
     }
   if (location == NULL)
     location = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", NULL);
-  load_keymap_dialog_location (NULL, location);
+  load_keymap_dialog_location (location);
   //#define WARNING_NEW_MENUS "Note: if you load a command that creates a new menu\nSome of the new commands may not work until you have exited\nand re-started denemo"
   //warningdialog(WARNING_NEW_MENUS);
   if (Denemo.last_merged_command && g_str_has_prefix (Denemo.last_merged_command, get_system_data_dir ()))
@@ -7236,7 +7236,7 @@ mycommands (GtkAction * action, gpointer param)
       g_free (location);
       location = g_path_get_dirname (Denemo.last_merged_command);
     }
-  load_keymap_dialog_location (NULL, location);
+  load_keymap_dialog_location (location);
   // warningdialog(WARNING_NEW_MENUS);
   //g_print("The last was %s %s %s\n", Denemo.last_merged_command, location,  get_user_data_dir());
 }
@@ -8267,7 +8267,7 @@ load_command_from_location (GtkWidget * w, gchar * filepath)
 {
   gchar *location = g_strdup_printf ("%s%c", filepath, G_DIR_SEPARATOR);
   g_print ("Calling the file loader with %s\n", location);
-  load_keymap_dialog_location (w, location);
+  load_keymap_dialog_location (location);
   g_free (location);
 }
 

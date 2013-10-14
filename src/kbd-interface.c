@@ -278,19 +278,19 @@ button_choice_callback (GtkWidget * w, gint * mask)
   g_print ("button choice %x\n", *mask);
 }
 
-#define RESPONSE_LOADED (1)
+
 static void
-load_system_keymap_dialog_response (GtkButton * button, GtkWidget * dialog)
+load_system_keymap_dialog_response (void)
 {
-  load_system_keymap_dialog (GTK_WIDGET (button));
-  gtk_dialog_response (GTK_DIALOG (dialog), RESPONSE_LOADED);
+  load_system_keymap_dialog ();
+  
 }
 
 static void
-load_keymap_dialog_response (GtkButton * button, GtkWidget * dialog)
+load_keymap_dialog_response (void)
 {
-  load_keymap_dialog (GTK_WIDGET (button));
-  gtk_dialog_response (GTK_DIALOG (dialog), RESPONSE_LOADED);
+  load_keymap_dialog ();
+  
 }
 
 static GtkWidget *SearchEntry = NULL;
@@ -536,11 +536,11 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
 
   g_signal_connect (G_OBJECT (button_save), "clicked", G_CALLBACK (save_default_keymap_file), NULL);
   g_signal_connect (G_OBJECT (button_save_as), "clicked", G_CALLBACK (save_keymap_dialog), NULL);
-  g_signal_connect (G_OBJECT (button_load), "clicked", G_CALLBACK (load_system_keymap_dialog_response), Denemo.command_manager);
+  g_signal_connect (G_OBJECT (button_load), "clicked", G_CALLBACK (load_system_keymap_dialog_response), NULL);
 
 
 
-  g_signal_connect (G_OBJECT (button_load_from), "clicked", G_CALLBACK (load_keymap_dialog_response), Denemo.command_manager);
+  g_signal_connect (G_OBJECT (button_load_from), "clicked", G_CALLBACK (load_keymap_dialog_response), NULL);
 
 
 
