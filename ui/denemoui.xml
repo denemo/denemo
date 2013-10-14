@@ -129,12 +129,7 @@
       <menuitem action="EditObject"/>
       <separator/>
       <menuitem action="Preferences"/>
-      <menu action="KeyBindings">
-        <menuitem action="QuickEdits"/>
-        <menuitem action="SaveAccels"/>
-
-        <menuitem action="CommandManagement"/>
-      </menu>
+      <menuitem action="QuickEdits"/>
       <separator/>
       <menuitem action="ClearOverlay"/>
       <menuitem action="ExecuteScheme"/>
@@ -142,6 +137,7 @@
     <menu action="ViewMenu">
       <menuitem action="ToggleReduceToDrawingArea"/>
       <menuitem action="TogglePrintView"/>
+      <menuitem action="ToggleCommandManager"/>
       <menuitem action="ToggleScoreLayout"/>
       <menuitem action="ToggleLyricsView"/>
       <menuitem action="ToggleRhythmToolbar"/>

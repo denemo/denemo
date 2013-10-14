@@ -1837,7 +1837,7 @@ command_deleted_data_function (GtkTreeViewColumn * col, GtkCellRenderer * render
 */
 static gboolean search_tooltip=0;//not yet implemented, could be a level of match, for number of words present in tooltip & label
 static gint last_idx=-1;//not yet implemented last found idx
-static GtkWidget *SearchEntry = NULL;
+//!!!!!!!!!!!!!!!!static GtkWidget *SearchEntry = NULL;
 static gboolean
 search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar * key, GtkTreeIter * iter, G_GNUC_UNUSED gpointer search_data)
 {
@@ -1900,8 +1900,9 @@ toggle_deleted_on_action (GtkCellRendererToggle * cell_renderer, gchar * path)
     }
 }
 */
+#if 1
 GtkWidget *
-keymap_get_command_view (keymap * the_keymap)
+keymap_get_command_view (keymap * the_keymap, GtkWidget *SearchEntry)
 {
   GtkScrolledWindow *res2;
   GtkTreeView *res;
@@ -1978,8 +1979,7 @@ keymap_get_command_view (keymap * the_keymap)
   
   GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
   GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
-  if(SearchEntry==NULL)
-	SearchEntry = gtk_entry_new ();
+
   gtk_tree_view_set_search_entry (res, SearchEntry);
   GtkWidget *label = gtk_label_new (_("Search"));
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
@@ -1991,7 +1991,7 @@ keymap_get_command_view (keymap * the_keymap)
 
   return GTK_WIDGET (res2);
 }
-
+#endif
 void
 row_inserted_handler (GtkTreeModel * model, GtkTreePath * arg1, GtkTreeIter * arg2, gpointer user_data)
 {
@@ -2011,7 +2011,7 @@ row_deleted_handler (GtkTreeModel * model, GtkTreePath * arg1, gpointer user_dat
 }
 
 //Performs cleanup on the keymap when a command view is closed
-void
+gboolean
 keymap_cleanup_command_view (keyboard_dialog_data * data)
 {
 #if 0
@@ -2021,8 +2021,13 @@ keymap_cleanup_command_view (keyboard_dialog_data * data)
     {
       g_signal_handlers_disconnect_by_func (model, row_deleted_handler, data);
     }
-#endif
-    gtk_main_quit();
+
+   Denemo.command_manager = NULL;
+   return FALSE;//allow window to be destroyed
+#endif   
+   activate_action ("/MainMenu/ViewMenu/" "ToggleCommandManager");
+  return TRUE; 
+   
 }
 const gchar *
 get_menu_label (gchar *name)

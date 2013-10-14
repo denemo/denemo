@@ -293,11 +293,14 @@ load_keymap_dialog_response (GtkButton * button, GtkWidget * dialog)
   gtk_dialog_response (GTK_DIALOG (dialog), RESPONSE_LOADED);
 }
 
+static GtkWidget *SearchEntry = NULL;
+
+static  keyboard_dialog_data cbdata;
 
 void
 configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
 {
-  GtkWidget *dialog;
+  
   GtkWidget *frame;
   GtkWidget *vbox, *outer_hbox;
   GtkWidget *table;
@@ -324,24 +327,46 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
   GtkTreeModel *model;
   GtkTreePath *path;
   guint context_id;
-  keyboard_dialog_data cbdata;
-
+ 
+  if(Denemo.command_manager)   {
+	  model = gtk_tree_view_get_model (GTK_TREE_VIEW (cbdata.command_view));
+	  if (command_idx == -1)
+		{
+		//selecting the first command
+		gtk_tree_model_get_iter_first (model, &iter);
+		} 
+	  else
+		{
+			gtk_tree_model_iter_nth_child (model, &iter, NULL, command_idx);
+		}
+	  gtk_widget_grab_focus (SearchEntry);
+	  selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cbdata.command_view));
+      gtk_tree_selection_select_iter (selection, &iter);
+      path = gtk_tree_model_get_path (model, &iter);
+      gtk_tree_view_scroll_to_cell ((GtkTreeView *) cbdata.command_view, path, NULL, FALSE, 0, 0);
+      gtk_tree_path_free (path);
+      if(!gtk_widget_get_visible(Denemo.command_manager))
+		activate_action ("/MainMenu/ViewMenu/" "ToggleCommandManager");
+      return;
+    }
+   if(SearchEntry==NULL)
+	SearchEntry = gtk_entry_new ();   
   //getting a binding view and a command view and connecting the change of
   //command selection the the change of the model displayed by the binding view
   binding_view = keymap_get_binding_view ();
   binding_tree_view = gtk_bin_get_child (GTK_BIN (binding_view));
-  command_view = GTK_WIDGET (keymap_get_command_view (Denemo.map));
+  command_view = GTK_WIDGET (keymap_get_command_view (Denemo.map, SearchEntry));
   command_tree_view = gtk_bin_get_child (GTK_BIN (command_view));
 
-  dialog = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(dialog, (_("Command Manager")));
+  Denemo.command_manager = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title(Denemo.command_manager, (_("Command Manager")));
   if (Denemo.prefs.newbie)
-    gtk_widget_set_tooltip_text (dialog,
+    gtk_widget_set_tooltip_text (Denemo.command_manager,
                                  _
                                  ("This dialog allows you to set shortcuts for commands. As there are so many commands it is best to launch the dialog from the command that you wish to change.\n(Do this by right clicking on the menu item of the command\nthis dialog then comes up with the command highlighted).\nYou can set single-key or two-key shortcuts, or mouse shortcuts.\nYou can also hide commands, so they don't appear in the menus.\nWhen you are finished you can save the settings as your default command set, or as a command set which you may wish to load in the future.\nThis dialog is also where you can load such a stored command set."));
 
   outer_hbox = gtk_hbox_new (FALSE, 8);
-  gtk_container_add (GTK_CONTAINER (dialog), outer_hbox);
+  gtk_container_add (GTK_CONTAINER (Denemo.command_manager), outer_hbox);
   vbox = gtk_vbox_new (FALSE, 8);
    
   
@@ -511,17 +536,17 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
 
   g_signal_connect (G_OBJECT (button_save), "clicked", G_CALLBACK (save_default_keymap_file), NULL);
   g_signal_connect (G_OBJECT (button_save_as), "clicked", G_CALLBACK (save_keymap_dialog), NULL);
-  g_signal_connect (G_OBJECT (button_load), "clicked", G_CALLBACK (load_system_keymap_dialog_response), dialog);
+  g_signal_connect (G_OBJECT (button_load), "clicked", G_CALLBACK (load_system_keymap_dialog_response), Denemo.command_manager);
 
 
 
-  g_signal_connect (G_OBJECT (button_load_from), "clicked", G_CALLBACK (load_keymap_dialog_response), dialog);
+  g_signal_connect (G_OBJECT (button_load_from), "clicked", G_CALLBACK (load_keymap_dialog_response), Denemo.command_manager);
 
 
 
-  gtk_widget_show_all (dialog);
-  g_signal_connect (dialog, "delete-event", G_CALLBACK (keymap_cleanup_command_view), &cbdata);
-  gtk_main();
+  gtk_widget_show_all (Denemo.command_manager);
+  g_signal_connect (Denemo.command_manager, "delete-event", G_CALLBACK (keymap_cleanup_command_view), &cbdata);
+//!!!!  gtk_main(); not needed now??? but Denemo.command_manager needs setting to NULL if we actually allow destroy.
 
   //When closing the dialog remove the signals that were associated to the
   //dialog

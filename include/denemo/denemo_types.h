@@ -1068,6 +1068,7 @@ struct DenemoRoot
   /* Fields used fairly directly for drawing */
   GtkWidget *page;
   GtkWidget *scorearea;
+  GtkWidget *command_manager;
   GtkAdjustment *vadjustment;
   GtkWidget *vscrollbar;
   GtkAdjustment *hadjustment;

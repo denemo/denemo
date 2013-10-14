@@ -241,6 +241,7 @@ execute_script_file (gchar * filename)
 
 #define TogglePrintView_STRING  "TogglePrintView"
 #define ToggleScoreLayout_STRING  "ToggleScoreLayout"
+#define ToggleCommandManager_STRING  "ToggleCommandManager"
 #define ToggleLyricsView_STRING  "ToggleLyricsView"
 #define ToggleConsoleView_STRING  "ToggleConsoleView"
 
@@ -960,6 +961,7 @@ static void toggle_main_menu (GtkAction * action, gpointer param);
 static void toggle_console_view (GtkAction * action, gpointer param);
 static void toggle_print_view (GtkAction * action, gpointer param);
 static void toggle_score_layout (GtkAction * action, gpointer param);
+static void toggle_command_manager (GtkAction * action, gpointer param);
 static void toggle_scoretitles (GtkAction * action, gpointer param);
 
 
@@ -10094,6 +10096,29 @@ toggle_score_layout (GtkAction * action, gpointer param)
 #endif
 }
 
+
+/**
+ *  Function to toggle visibility of command manager window
+ *  
+ *  
+ */
+static void
+toggle_command_manager (GtkAction * action, gpointer param)
+{
+  if(Denemo.command_manager==NULL) 
+  {
+	configure_keyboard_dialog (action, Denemo.gui);
+  }
+  else 
+  {
+	GtkWidget *w = Denemo.command_manager;
+	if ((!action) || gtk_widget_get_visible (w))
+		gtk_widget_hide (w);
+	else	
+      gtk_widget_show (w);
+  }
+}
+
 /**
  *  Function to toggle visibility of lyrics view pane of current movement
  *  
@@ -10264,6 +10289,9 @@ GtkToggleActionEntry toggle_menu_entries[] = {
 
   {ToggleScoreLayout_STRING, NULL, N_("Score Layout"), NULL, NULL,
    G_CALLBACK (toggle_score_layout), FALSE}
+  ,
+  {ToggleCommandManager_STRING, NULL, N_("Command Manager"), NULL, NULL,
+   G_CALLBACK (toggle_command_manager), FALSE}
   ,
 
   {ToggleLyricsView_STRING, NULL, N_("Lyrics"), NULL, NULL,

@@ -142,11 +142,11 @@ void save_default_keymap_file (void);
 
 void set_state (gint state, gchar ** value);
 
-GtkWidget *keymap_get_command_view (keymap * the_keymap);
+GtkWidget *keymap_get_command_view (keymap * the_keymap, GtkWidget *entry);
 
 GtkWidget *keymap_get_binding_view ();
 
-void keymap_cleanup_command_view (keyboard_dialog_data * data);
+gboolean keymap_cleanup_command_view (keyboard_dialog_data * data);
 
 gboolean keymap_change_binding_view_on_command_selection (GtkTreeSelection * selection, GtkTreeModel * model, GtkTreePath * path, gboolean path_currently_selected, gpointer data);
 
