@@ -15,7 +15,7 @@
     fontSize = #-2
    \\override StaffSymbol #'staff-space = #(magstep -2)
     firstClef = ##f
-  }<<{ \\stopStaff ")
+  }<<\\stopStaff ")
  (d-DirectivePut-staff-override "ossia"  (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND))
 (d-DirectivePut-staff-display "ossia" "ossia")
 (d-RefreshDisplay))
