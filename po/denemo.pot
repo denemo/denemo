@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-16 10:08+0100\n"
+"POT-Creation-Date: 2013-10-16 14:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -470,11 +470,11 @@ msgstr ""
 msgid "A file with the name %s already exists"
 msgstr ""
 
-#: ../src/file.c:1142 ../src/lilydirectives.c:2378 ../src/view.c:8709
+#: ../src/file.c:1142 ../src/lilydirectives.c:2378 ../src/view.c:8737
 msgid "Do you want to replace it?"
 msgstr ""
 
-#: ../src/file.c:1171 ../src/view.c:6991
+#: ../src/file.c:1171 ../src/view.c:7019
 msgid "No selection text available"
 msgstr ""
 
@@ -1894,7 +1894,7 @@ msgid "Insert Snippet"
 msgstr ""
 
 #: ../src/generated/entries.h:200 ../src/generated/register_commands.h:199
-#: ../src/view.c:3509
+#: ../src/view.c:3537
 msgid "Next Snippet"
 msgstr ""
 
@@ -1953,7 +1953,7 @@ msgid "Different keyboard and MIDI entry modes"
 msgstr ""
 
 #: ../src/generated/entries.h:206 ../src/generated/entries.h:366
-#: ../src/scorelayout.c:735 ../src/scorelayout.c:938 ../src/view.c:10338
+#: ../src/scorelayout.c:735 ../src/scorelayout.c:938 ../src/view.c:10366
 #: ../actions/denemo.scm:153
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:7
 msgid "Edit"
@@ -2494,7 +2494,7 @@ msgid "Set actions to take in response to keypresses"
 msgstr ""
 
 #: ../src/generated/entries.h:266 ../src/generated/register_commands.h:247
-#: ../src/kbd-custom.c:1725 ../src/view.c:9330
+#: ../src/kbd-custom.c:1726 ../src/view.c:9358
 msgid "Save Command Set"
 msgstr ""
 
@@ -2659,7 +2659,7 @@ msgid "InsertMenu"
 msgstr ""
 
 #: ../src/generated/entries.h:285 ../src/generated/entries.h:347
-#: ../src/generated/entries.h:382 ../src/view.c:10336
+#: ../src/generated/entries.h:382 ../src/view.c:10364
 msgid "Insert"
 msgstr ""
 
@@ -3278,7 +3278,7 @@ msgid ""
 "Grace Notes"
 msgstr ""
 
-#: ../src/generated/entries.h:355 ../src/view.c:10305
+#: ../src/generated/entries.h:355 ../src/view.c:10333
 msgid "Score"
 msgstr ""
 
@@ -3339,7 +3339,7 @@ msgid ""
 "Inserting the note ..."
 msgstr ""
 
-#: ../src/generated/entries.h:361 ../src/view.c:10297
+#: ../src/generated/entries.h:361 ../src/view.c:10325
 msgid "Lyrics"
 msgstr ""
 
@@ -4128,7 +4128,7 @@ msgid ""
 "Generating and manipulating music automatically."
 msgstr ""
 
-#: ../src/generated/entries.h:437 ../src/view.c:10276
+#: ../src/generated/entries.h:437 ../src/view.c:10304
 msgid "Object Menu"
 msgstr ""
 
@@ -5010,7 +5010,7 @@ msgstr ""
 msgid "The Command %s Responds to the Shortcut %s"
 msgstr ""
 
-#: ../src/kbd-custom.c:1320 ../src/view.c:8396
+#: ../src/kbd-custom.c:1320 ../src/view.c:8424
 #, c-format
 msgid "Lose the shortcut %s for this?"
 msgstr ""
@@ -5027,35 +5027,35 @@ msgstr ""
 msgid "Installation error"
 msgstr ""
 
-#: ../src/kbd-custom.c:1951
+#: ../src/kbd-custom.c:1952
 msgid "Command"
 msgstr ""
 
-#: ../src/kbd-custom.c:1961
+#: ../src/kbd-custom.c:1962
 msgid "Commands"
 msgstr ""
 
-#: ../src/kbd-custom.c:1969
+#: ../src/kbd-custom.c:1970
 msgid "Hidden"
 msgstr ""
 
-#: ../src/kbd-custom.c:1980
+#: ../src/kbd-custom.c:1981
 msgid "Deleted"
 msgstr ""
 
-#: ../src/kbd-custom.c:2015
+#: ../src/kbd-custom.c:2016
 msgid "Search"
 msgstr ""
 
-#: ../src/kbd-custom.c:2021
+#: ../src/kbd-custom.c:2022
 msgid "Search in tooltip"
 msgstr ""
 
-#: ../src/kbd-custom.c:2091
+#: ../src/kbd-custom.c:2092
 msgid "Built-in, see file denemoui.xml for position"
 msgstr ""
 
-#: ../src/kbd-custom.c:2158
+#: ../src/kbd-custom.c:2159
 #, c-format
 msgid ""
 "%s\n"
@@ -5063,7 +5063,7 @@ msgid ""
 "Internal Name: %s"
 msgstr ""
 
-#: ../src/kbd-custom.c:2182
+#: ../src/kbd-custom.c:2183
 msgid "Shortcuts"
 msgstr ""
 
@@ -5095,7 +5095,7 @@ msgstr ""
 msgid "Press a shortcut sequence whose command you seek"
 msgstr ""
 
-#: ../src/kbd-interface.c:371 ../src/view.c:10293
+#: ../src/kbd-interface.c:371 ../src/view.c:10321
 msgid "Command Manager"
 msgstr ""
 
@@ -5494,7 +5494,7 @@ msgid "Upload Edit Script"
 msgstr ""
 
 #. a check item for showing script window
-#: ../src/lilydirectives.c:2523 ../src/view.c:9428
+#: ../src/lilydirectives.c:2523 ../src/view.c:9456
 msgid "Show Current Script"
 msgstr ""
 
@@ -5526,7 +5526,7 @@ msgstr ""
 msgid "No directive selected"
 msgstr ""
 
-#: ../src/lilydirectives.c:2713 ../src/view.c:8514
+#: ../src/lilydirectives.c:2713 ../src/view.c:8542
 #: ../actions/menus/ObjectMenu/MeasureMenu/Upbeat.scm:49
 msgid "Operation cancelled"
 msgstr ""
@@ -6050,7 +6050,7 @@ msgstr ""
 msgid "Remove this button from this palette"
 msgstr ""
 
-#: ../src/palettes.c:291 ../src/view.c:9372
+#: ../src/palettes.c:291 ../src/view.c:9400
 msgid "Get Script"
 msgstr ""
 
@@ -7494,7 +7494,7 @@ msgstr ""
 msgid "poly voice %d"
 msgstr ""
 
-#: ../src/staffops.c:315 ../src/view.c:6960
+#: ../src/staffops.c:315 ../src/view.c:6988
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm:23
 msgid "Unnamed"
 msgstr ""
@@ -7962,11 +7962,11 @@ msgstr ""
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 msgstr ""
 
-#: ../src/view.c:3503
+#: ../src/view.c:3531
 msgid "Paste Current Snippet"
 msgstr ""
 
-#: ../src/view.c:3504
+#: ../src/view.c:3532
 msgid ""
 "Pastes the music captured in the currently selected Snippet into the text at "
 "the cursor. The music appears here in the LilyPond typesetter syntax between "
@@ -7976,118 +7976,118 @@ msgid ""
 "you delete one marker be sure to delete the other.\n"
 msgstr ""
 
-#: ../src/view.c:3510
+#: ../src/view.c:3538
 msgid ""
 "Makes the next Snippet the one that can be pasted. To see the music snippets "
 "you need to check View → Snippets\n"
 "The one selected is in bold black."
 msgstr ""
 
-#: ../src/view.c:3570
+#: ../src/view.c:3598
 msgid "Script error, wrong parameter type to d-InfoDialog"
 msgstr ""
 
-#: ../src/view.c:3833
+#: ../src/view.c:3861
 msgid "Already in a padding dialog"
 msgstr ""
 
-#: ../src/view.c:7133
+#: ../src/view.c:7161
 msgid "You have made changes to the commands you have"
 msgstr ""
 
-#: ../src/view.c:7133
+#: ../src/view.c:7161
 msgid "Do you want to save the changes?"
 msgstr ""
 
-#: ../src/view.c:7168
+#: ../src/view.c:7196
 #, c-format
 msgid "Could not make folder %s for the downloaded commands"
 msgstr ""
 
-#: ../src/view.c:7291
+#: ../src/view.c:7319
 msgid "MIDI Controller Active?"
 msgstr ""
 
-#: ../src/view.c:7291
+#: ../src/view.c:7319
 msgid ""
 "Please turn off your MIDI keyboard\n"
 "if you have not already done so"
 msgstr ""
 
-#: ../src/view.c:7548
+#: ../src/view.c:7576
 msgid "<span foreground=\"blue\">Recording + Play Along</span>"
 msgstr ""
 
-#: ../src/view.c:7550
+#: ../src/view.c:7578
 msgid "<span foreground=\"red\">Recording</span>"
 msgstr ""
 
-#: ../src/view.c:7552
+#: ../src/view.c:7580
 msgid "<span foreground=\"red\">Play Along</span>"
 msgstr ""
 
-#: ../src/view.c:7554
+#: ../src/view.c:7582
 msgid "Checking Pitches"
 msgstr ""
 
-#: ../src/view.c:7556
+#: ../src/view.c:7584
 msgid "Listening to Pitches"
 msgstr ""
 
-#: ../src/view.c:7559
+#: ../src/view.c:7587
 msgid "Adding to a Chord"
 msgstr ""
 
-#: ../src/view.c:7561
+#: ../src/view.c:7589
 msgid "Starting a Chord"
 msgstr ""
 
-#: ../src/view.c:7564 ../src/view.c:10971
+#: ../src/view.c:7592 ../src/view.c:10999
 msgid "Appending/Editing Pitches"
 msgstr ""
 
-#: ../src/view.c:7587
+#: ../src/view.c:7615
 msgid "Mouse Conductor ON"
 msgstr ""
 
-#: ../src/view.c:7589
+#: ../src/view.c:7617
 msgid "Mouse Conductor OFF"
 msgstr ""
 
-#: ../src/view.c:7599
+#: ../src/view.c:7627
 msgid "Switch to Normal Playback"
 msgstr ""
 
-#: ../src/view.c:7601 ../src/view.c:10977
+#: ../src/view.c:7629 ../src/view.c:11005
 msgid "Switch to Play Along Playback"
 msgstr ""
 
-#: ../src/view.c:7608
+#: ../src/view.c:7636
 msgid "MIDI Recording"
 msgstr ""
 
-#: ../src/view.c:7608
+#: ../src/view.c:7636
 msgid "Delete last recording?"
 msgstr ""
 
-#: ../src/view.c:7636
+#: ../src/view.c:7664
 msgid ""
 "The preference set for recording time is 0 - nothing can be recorded.\n"
 "See Edit → Change Preferences Audio/Midi Tab"
 msgstr ""
 
 #. no selection
-#: ../src/view.c:8131
+#: ../src/view.c:8159
 msgid ""
 "No selection to create a music snippet from\n"
 "See Edit → Select menu for selecting music to snip"
 msgstr ""
 
-#: ../src/view.c:8341
+#: ../src/view.c:8369
 msgid "Have no way of getting the script, sorry"
 msgstr ""
 
-#: ../src/view.c:8357
+#: ../src/view.c:8385
 #, c-format
 msgid ""
 "Command: %s\n"
@@ -8096,187 +8096,187 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../src/view.c:8395
+#: ../src/view.c:8423
 #, c-format
 msgid "The Command %s Responds to this Shortcut"
 msgstr ""
 
-#: ../src/view.c:8425
+#: ../src/view.c:8453
 msgid "Could not create button"
 msgstr ""
 
-#: ../src/view.c:8473 ../src/view.c:8477 ../src/view.c:8480 ../src/view.c:8482
+#: ../src/view.c:8501 ../src/view.c:8505 ../src/view.c:8508 ../src/view.c:8510
 msgid "Create a new menu item"
 msgstr ""
 
-#: ../src/view.c:8473
+#: ../src/view.c:8501
 msgid "Give menu label: "
 msgstr ""
 
-#: ../src/view.c:8473
+#: ../src/view.c:8501
 msgid "My Label"
 msgstr ""
 
-#: ../src/view.c:8477
+#: ../src/view.c:8505
 msgid "Give explanation of what it does: "
 msgstr ""
 
-#: ../src/view.c:8477
+#: ../src/view.c:8505
 msgid "Prints my special effect"
 msgstr ""
 
-#: ../src/view.c:8480
+#: ../src/view.c:8508
 msgid "Do you want the new menu item in a submenu?"
 msgstr ""
 
-#: ../src/view.c:8482
+#: ../src/view.c:8510
 msgid "Give a label for the Sub-Menu"
 msgstr ""
 
-#: ../src/view.c:8482
+#: ../src/view.c:8510
 msgid "Sub Menu Label"
 msgstr ""
 
-#: ../src/view.c:8498
+#: ../src/view.c:8526
 msgid "Duplicate Name"
 msgstr ""
 
-#: ../src/view.c:8498
+#: ../src/view.c:8526
 msgid ""
 "A command of this name is already available in your custom menus; Overwrite?"
 msgstr ""
 
-#: ../src/view.c:8510
+#: ../src/view.c:8538
 msgid "New Command Added"
 msgstr ""
 
-#: ../src/view.c:8510
+#: ../src/view.c:8538
 msgid "Do you want to save this with your default commands?"
 msgstr ""
 
-#: ../src/view.c:8584
+#: ../src/view.c:8612
 msgid ""
 "No keyboard modifier keys\n"
 "Press with modifier key to change"
 msgstr ""
 
-#: ../src/view.c:8586
+#: ../src/view.c:8614
 msgid ""
 "\n"
 "Press with modifier key to change"
 msgstr ""
 
-#: ../src/view.c:8594
+#: ../src/view.c:8622
 msgid "Set Mouse Shortcut"
 msgstr ""
 
-#: ../src/view.c:8610
+#: ../src/view.c:8638
 #, c-format
 msgid "Setting mouse shortcut for %s"
 msgstr ""
 
-#: ../src/view.c:8614
+#: ../src/view.c:8642
 msgid "Choose the mouse button"
 msgstr ""
 
-#: ../src/view.c:8621
+#: ../src/view.c:8649
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:57
 msgid "Left"
 msgstr ""
 
-#: ../src/view.c:8624
+#: ../src/view.c:8652
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:58
 msgid "Right"
 msgstr ""
 
-#: ../src/view.c:8628
+#: ../src/view.c:8656
 msgid "Choose mouse action"
 msgstr ""
 
-#: ../src/view.c:8634
+#: ../src/view.c:8662
 msgid "Press Button"
 msgstr ""
 
-#: ../src/view.c:8637
+#: ../src/view.c:8665
 msgid "Release Button"
 msgstr ""
 
-#: ../src/view.c:8640
+#: ../src/view.c:8668
 msgid "Drag"
 msgstr ""
 
-#: ../src/view.c:8644
+#: ../src/view.c:8672
 msgid ""
 "Hold Modifier Keys, Engage Caps or Num Lock\n"
 "and click here to set shorcut."
 msgstr ""
 
-#: ../src/view.c:8709
+#: ../src/view.c:8737
 msgid "There is already an initialization script here"
 msgstr ""
 
-#: ../src/view.c:8719
+#: ../src/view.c:8747
 msgid "Wrote init.scm"
 msgstr ""
 
-#: ../src/view.c:8719
+#: ../src/view.c:8747
 msgid "Shall I execute it now?"
 msgstr ""
 
-#: ../src/view.c:8724
+#: ../src/view.c:8752
 msgid ""
 "Could not create init.scm;\n"
 "you must create your scripted menu item in the menu\n"
 "before you create the initialization script for it, sorry."
 msgstr ""
 
-#: ../src/view.c:8780 ../src/view.c:9376
+#: ../src/view.c:8808 ../src/view.c:9404
 msgid "Save Script"
 msgstr ""
 
-#: ../src/view.c:8780
+#: ../src/view.c:8808
 msgid "Over-write previous version of the script for "
 msgstr ""
 
-#: ../src/view.c:8780
+#: ../src/view.c:8808
 msgid " ?"
 msgstr ""
 
-#: ../src/view.c:8791
+#: ../src/view.c:8819
 msgid "No script saved"
 msgstr ""
 
-#: ../src/view.c:8852
+#: ../src/view.c:8880
 msgid ""
 "Could not create .denemo/actions/bitmaps for your graphics for customized "
 "commands"
 msgstr ""
 
 #. FIXME allow fileselector here to change the name
-#: ../src/view.c:9149
+#: ../src/view.c:9177
 #, c-format
 msgid "Saving a graphic for use in the %s script"
 msgstr ""
 
-#: ../src/view.c:9150
+#: ../src/view.c:9178
 msgid "Replace current graphic?"
 msgstr ""
 
 #. Place button in palette
-#: ../src/view.c:9310
+#: ../src/view.c:9338
 msgid "Place Command in a Palette"
 msgstr ""
 
 #. "drag" menu item onto button bar
-#: ../src/view.c:9317
+#: ../src/view.c:9345
 msgid "Place Command on the Title Bar"
 msgstr ""
 
-#: ../src/view.c:9324
+#: ../src/view.c:9352
 msgid "Create Mouse Shortcut"
 msgstr ""
 
-#: ../src/view.c:9327
+#: ../src/view.c:9355
 msgid ""
 "Edit Shortcuts\n"
 "Set Mouse Pointers\n"
@@ -8287,162 +8287,162 @@ msgstr ""
 #. GtkSettings* settings = gtk_settings_get_default();
 #. gtk_settings_set_long_property  (settings,"gtk-menu-images",(glong)TRUE, "XProperty");
 #. item = gtk_image_menu_item_new_from_stock("Save Graphic", gtk_accel_group_new());
-#: ../src/view.c:9385
+#: ../src/view.c:9413
 msgid "Save Graphic"
 msgstr ""
 
-#: ../src/view.c:9391
+#: ../src/view.c:9419
 msgid "Upload this Script to denemo.org"
 msgstr ""
 
-#: ../src/view.c:9399
+#: ../src/view.c:9427
 msgid "Save Script as New Menu Item"
 msgstr ""
 
 #. options for getting/putting init.scm
-#: ../src/view.c:9413
+#: ../src/view.c:9441
 msgid "Get Initialization Script for this Menu"
 msgstr ""
 
-#: ../src/view.c:9419
+#: ../src/view.c:9447
 msgid "Put Script as Initialization Script for this Menu"
 msgstr ""
 
-#: ../src/view.c:9610
+#: ../src/view.c:9638
 msgid "Browse"
 msgstr ""
 
-#: ../src/view.c:9610
+#: ../src/view.c:9638
 msgid "Opens a dialog for a new file"
 msgstr ""
 
-#: ../src/view.c:9677
+#: ../src/view.c:9705
 msgid ""
 "You have unsaved work. Hardware problems may cause the program to exit "
 "during this task.\n"
 "Please save first."
 msgstr ""
 
-#: ../src/view.c:9709
+#: ../src/view.c:9737
 msgid "Could not start Audio input"
 msgstr ""
 
-#: ../src/view.c:10261
+#: ../src/view.c:10289
 msgid "Tools"
 msgstr ""
 
-#: ../src/view.c:10261
+#: ../src/view.c:10289
 msgid "Show/hide a toolbar for general operations on music files"
 msgstr ""
 
-#: ../src/view.c:10264 ../src/view.c:10784
+#: ../src/view.c:10292 ../src/view.c:10812
 msgid "Playback Control"
 msgstr ""
 
-#: ../src/view.c:10264
+#: ../src/view.c:10292
 msgid "Show/hide playback controls"
 msgstr ""
 
-#: ../src/view.c:10267 ../src/view.c:10954
+#: ../src/view.c:10295 ../src/view.c:10982
 msgid "Midi In Control"
 msgstr ""
 
-#: ../src/view.c:10267
+#: ../src/view.c:10295
 msgid "Show/hide Midi Input controls"
 msgstr ""
 
-#: ../src/view.c:10270
+#: ../src/view.c:10298
 msgid "Snippets"
 msgstr ""
 
-#: ../src/view.c:10270
+#: ../src/view.c:10298
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to store and enter snippets of music and to enter notes using rhythm "
 "pattern of a snippet"
 msgstr ""
 
-#: ../src/view.c:10273
+#: ../src/view.c:10301
 msgid "Note and Rest Entry"
 msgstr ""
 
-#: ../src/view.c:10273
+#: ../src/view.c:10301
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to enter notes and rests using the mouse"
 msgstr ""
 
-#: ../src/view.c:10276
+#: ../src/view.c:10304
 msgid ""
 "Show/hide a menu which is arranged by objects\n"
 "The actions available for note objects change with the mode"
 msgstr ""
 
-#: ../src/view.c:10279
+#: ../src/view.c:10307
 msgid "LilyPond"
 msgstr ""
 
-#: ../src/view.c:10279
+#: ../src/view.c:10307
 msgid "Show/hide the LilyPond music typesetting language window"
 msgstr ""
 
-#: ../src/view.c:10282
+#: ../src/view.c:10310
 msgid "Scheme Script"
 msgstr ""
 
-#: ../src/view.c:10282
+#: ../src/view.c:10310
 msgid "Show scheme script window"
 msgstr ""
 
-#: ../src/view.c:10286
+#: ../src/view.c:10314
 msgid "Typeset Music"
 msgstr ""
 
-#: ../src/view.c:10290
+#: ../src/view.c:10318
 msgid "Score Layout"
 msgstr ""
 
-#: ../src/view.c:10301
+#: ../src/view.c:10329
 msgid "LilyPond Errors"
 msgstr ""
 
-#: ../src/view.c:10309
+#: ../src/view.c:10337
 msgid "Titles, Buttons etc"
 msgstr ""
 
-#: ../src/view.c:10314
+#: ../src/view.c:10342
 msgid "Allow Quick Shortcut Edits"
 msgstr ""
 
-#: ../src/view.c:10317
+#: ../src/view.c:10345
 msgid "Record Scheme Script"
 msgstr ""
 
-#: ../src/view.c:10321
+#: ../src/view.c:10349
 msgid ""
 "Audible Feedback\n"
 "Insert Duration/Edit Note"
 msgstr ""
 
-#: ../src/view.c:10321
+#: ../src/view.c:10349
 msgid ""
 "Gives feedback as you enter durations. N.B. durations are entered in Edit "
 "mode"
 msgstr ""
 
-#: ../src/view.c:10324
+#: ../src/view.c:10352
 msgid "Read Only"
 msgstr ""
 
-#: ../src/view.c:10332
+#: ../src/view.c:10360
 msgid "No mode"
 msgstr ""
 
-#: ../src/view.c:10334
+#: ../src/view.c:10362
 msgid "Classic"
 msgstr ""
 
-#: ../src/view.c:10336
+#: ../src/view.c:10364
 msgid ""
 "Mode for inserting notes into the score at the cursor position\n"
 "Uses prevailing duration/rhythm\n"
@@ -8450,85 +8450,85 @@ msgid ""
 "Use the note names to insert the note"
 msgstr ""
 
-#: ../src/view.c:10338
+#: ../src/view.c:10366
 msgid ""
 "Mode for changing the note at cursor (name, duration)\n"
 "and to enter notes by duration (rhythms)\n"
 "Use the durations to insert notes"
 msgstr ""
 
-#: ../src/view.c:10344
+#: ../src/view.c:10372
 msgid "Note"
 msgstr ""
 
-#: ../src/view.c:10344
+#: ../src/view.c:10372
 msgid "Normal (note) entry"
 msgstr ""
 
-#: ../src/view.c:10345
+#: ../src/view.c:10373
 msgid "Rest"
 msgstr ""
 
-#: ../src/view.c:10345
+#: ../src/view.c:10373
 msgid "Entering rests not notes"
 msgstr ""
 
-#: ../src/view.c:10346
+#: ../src/view.c:10374
 msgid "Non printing rests"
 msgstr ""
 
-#: ../src/view.c:10346
+#: ../src/view.c:10374
 msgid ""
 "Enters rests which will not be printed (just take up space)\n"
 "Used for positioning polyphonic voice entries"
 msgstr ""
 
-#: ../src/view.c:10349
+#: ../src/view.c:10377
 msgid "Audible Feedback"
 msgstr ""
 
-#: ../src/view.c:10349
+#: ../src/view.c:10377
 msgid "Gives feedback as you enter durations"
 msgstr ""
 
-#: ../src/view.c:10354
+#: ../src/view.c:10382
 msgid "No External Input"
 msgstr ""
 
-#: ../src/view.c:10354
+#: ../src/view.c:10382
 msgid ""
 "Entry of notes via computer keyboard only\n"
 "Ignores connected MIDI or microphone devices."
 msgstr ""
 
-#: ../src/view.c:10357
+#: ../src/view.c:10385
 msgid "Audio Input"
 msgstr ""
 
-#: ../src/view.c:10357
+#: ../src/view.c:10385
 msgid "Enable pitch entry from microphone"
 msgstr ""
 
-#: ../src/view.c:10360
+#: ../src/view.c:10388
 msgid "Midi Input"
 msgstr ""
 
-#: ../src/view.c:10360
+#: ../src/view.c:10388
 msgid ""
 "Input from a MIDI source. Set up the source first using Edit → Change "
 "Preferences → Audio/Midi\n"
 "Use View → MIDI In Control to control what the input does.\n"
 msgstr ""
 
-#: ../src/view.c:10544
+#: ../src/view.c:10572
 msgid "Menu:"
 msgstr ""
 
-#: ../src/view.c:10545
+#: ../src/view.c:10573
 msgid "Click here then hover over the menu items to find out what they will do"
 msgstr ""
 
-#: ../src/view.c:10547
+#: ../src/view.c:10575
 msgid ""
 "Left click to execute the command, press a key to assign a keyboard shortcut "
 "to the command,\n"
@@ -8537,20 +8537,20 @@ msgid ""
 "options still"
 msgstr ""
 
-#: ../src/view.c:10663
+#: ../src/view.c:10691
 msgid "Denemo Main Window"
 msgstr ""
 
 #. menubar = gtk_item_factory_get_widget (item_factory, "<main>");
 #. this triggers Lily... missing action
-#: ../src/view.c:10756
+#: ../src/view.c:10784
 msgid ""
 "This is the Main Menu bar, where menus for the mostly non-musical aspects "
 "(saving, printing, setting up input sources etc) are placed. See the Object "
 "Menu bar for the commands that edit music"
 msgstr ""
 
-#: ../src/view.c:10760
+#: ../src/view.c:10788
 msgid ""
 "This is the Object Menu bar, where menus for the commands that edit music "
 "live. They are arranged in a hierarchy Score, Movement, Staff (which "
@@ -8559,7 +8559,7 @@ msgid ""
 "change the behavior from that point in the music."
 msgstr ""
 
-#: ../src/view.c:10761
+#: ../src/view.c:10789
 msgid ""
 "This bar has buttons for entering notes and rests. The highlighted duration "
 "is the <i>prevailing duration</i>, that is the duration which will be "
@@ -8569,7 +8569,7 @@ msgid ""
 "toolbar"
 msgstr ""
 
-#: ../src/view.c:10765
+#: ../src/view.c:10793
 msgid ""
 "You can populate this bar with buttons holding a snippet of music. The "
 "highlighted snippet is the <i>prevailing duration</i>, that is the next note "
@@ -8585,7 +8585,7 @@ msgstr ""
 
 #. The user should be able to decide toolbar style.
 #. But without gnome, there is no (ui) to set this option.
-#: ../src/view.c:10770
+#: ../src/view.c:10798
 msgid ""
 "This tool bar contains a few conventional commands. You can hide it (to make "
 "more room on the screen) using the View menu. You can make it your "
@@ -8593,7 +8593,7 @@ msgid ""
 "general toolbar"
 msgstr ""
 
-#: ../src/view.c:10781
+#: ../src/view.c:10809
 msgid ""
 "Controls for playback. The arrows on either side of the PLAY and STOP "
 "buttons move the playback start and playback end markers. Loop plays in a "
@@ -8604,66 +8604,66 @@ msgstr ""
 
 #. create_playbutton(inner, NULL, pb_first, GTK_STOCK_GOTO_FIRST);
 #. create_playbutton(inner,NULL, pb_rewind, GTK_STOCK_MEDIA_REWIND);
-#: ../src/view.c:10806
+#: ../src/view.c:10834
 msgid ""
 "Moves the playback start point (which shows as a green bar) earlier in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: ../src/view.c:10808
+#: ../src/view.c:10836
 msgid ""
 "Sets the playback start point (green bar) to the note at the cursor.\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: ../src/view.c:10809
+#: ../src/view.c:10837
 msgid ""
 "Moves the playback start point (which shows as a green bar) later in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: ../src/view.c:10810
+#: ../src/view.c:10838
 msgid ""
 "Stops the playback. On pressing play after this playback will start where "
 "the green bar is, not where you stopped. Use the Play/Pause button for that."
 msgstr ""
 
-#: ../src/view.c:10811
+#: ../src/view.c:10839
 msgid ""
 "Starts playing back from the playback start (green bar) until the playback "
 "end (red bar).\n"
 "When playing it pauses the play, and continues when pressed again."
 msgstr ""
 
-#: ../src/view.c:10812
+#: ../src/view.c:10840
 msgid ""
 "Starts/Stops recording the audio output from Denemo.\n"
 "Records live performance and/or playback,\n"
 "save to disk to avoid overwriting previous recordings."
 msgstr ""
 
-#: ../src/view.c:10813
+#: ../src/view.c:10841
 msgid "Exports the audio recorded to disk"
 msgstr ""
 
-#: ../src/view.c:10815
+#: ../src/view.c:10843
 msgid ""
 "Moves the playback end point (which shows as a red bar) earlier in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: ../src/view.c:10816
+#: ../src/view.c:10844
 msgid ""
 "Sets the playback end point (red bar) to the note at the cursor.\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: ../src/view.c:10818
+#: ../src/view.c:10846
 msgid ""
 "Moves the playback end point (which shows as a red bar) later in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
@@ -8671,22 +8671,22 @@ msgid ""
 msgstr ""
 
 #. create_playbutton(inner,NULL, pb_forward, GTK_STOCK_MEDIA_FORWARD);
-#: ../src/view.c:10822
+#: ../src/view.c:10850
 msgid "Loop"
 msgstr ""
 
-#: ../src/view.c:10822
+#: ../src/view.c:10850
 msgid ""
 "The music between the red and green bars is played in a loop.\n"
 "You can edit the music while it is playing\n"
 "monitoring your changes."
 msgstr ""
 
-#: ../src/view.c:10824
+#: ../src/view.c:10852
 msgid "Conductor"
 msgstr ""
 
-#: ../src/view.c:10824
+#: ../src/view.c:10852
 msgid ""
 "With the mouse conductor once you press play the playback progresses as you "
 "move the mouse around\n"
@@ -8694,78 +8694,78 @@ msgid ""
 "a certain passage\n"
 msgstr ""
 
-#: ../src/view.c:10828
+#: ../src/view.c:10856
 msgid "Panic"
 msgstr ""
 
-#: ../src/view.c:10830
+#: ../src/view.c:10858
 msgid "Reset"
 msgstr ""
 
-#: ../src/view.c:10832
+#: ../src/view.c:10860
 msgid "Resets the synthesizer, on JACK it sends a JACK panic."
 msgstr ""
 
-#: ../src/view.c:10835
+#: ../src/view.c:10863
 msgid "Set From Selection"
 msgstr ""
 
-#: ../src/view.c:10835
+#: ../src/view.c:10863
 msgid "Sets the playback range (green and red bars) to the current selection."
 msgstr ""
 
-#: ../src/view.c:10836
+#: ../src/view.c:10864
 msgid "Playback Range"
 msgstr ""
 
-#: ../src/view.c:10836
+#: ../src/view.c:10864
 msgid "Pops up a dialog to get timings for start and end of playback."
 msgstr ""
 
 #. Tempo
-#: ../src/view.c:10846
+#: ../src/view.c:10874
 msgid "Tempo:"
 msgstr ""
 
-#: ../src/view.c:10847
+#: ../src/view.c:10875
 msgid "Set the (initial) tempo of the movement"
 msgstr ""
 
 #. create_playbutton(hbox, "Set Tempo", pb_set_tempo, NULL);
 #. Volume
-#: ../src/view.c:10862
+#: ../src/view.c:10890
 #: ../actions/menus/ObjectMenu/Directives/Playback/MIDI/ChangeVolume.xml.h:1
 msgid "Volume"
 msgstr ""
 
 #. GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
-#: ../src/view.c:10864
+#: ../src/view.c:10892
 msgid "Set the (initial) volume of the movement"
 msgstr ""
 
-#: ../src/view.c:10881
+#: ../src/view.c:10909
 msgid "Audio Volume Cut"
 msgstr ""
 
-#: ../src/view.c:10882
+#: ../src/view.c:10910
 msgid ""
 "Reduce the volume of the source audio relative to the volume of the score"
 msgstr ""
 
-#: ../src/view.c:10896
+#: ../src/view.c:10924
 msgid "Audio Volume Boost"
 msgstr ""
 
-#: ../src/view.c:10897
+#: ../src/view.c:10925
 msgid ""
 "Boost the volume of the source audio relative to the volume of the score"
 msgstr ""
 
-#: ../src/view.c:10909
+#: ../src/view.c:10937
 msgid "Audio Lead In "
 msgstr ""
 
-#: ../src/view.c:10913
+#: ../src/view.c:10941
 msgid ""
 "Set the number of seconds to clip from the audio, or if negative number of "
 "seconds silence before audio plays.\n"
@@ -8773,15 +8773,15 @@ msgid ""
 msgstr ""
 
 #. Speed
-#: ../src/view.c:10924
+#: ../src/view.c:10952
 msgid "Slowdown:"
 msgstr ""
 
-#: ../src/view.c:10940
+#: ../src/view.c:10968
 msgid "Slow down the audio output maintaining the pitch"
 msgstr ""
 
-#: ../src/view.c:10952
+#: ../src/view.c:10980
 msgid ""
 "Controls for managing input from a MIDI controller (e.g. keyboard) attached "
 "to the computer. You may need to select your MIDI device first using "
@@ -8795,13 +8795,13 @@ msgid ""
 "chord fast or slow."
 msgstr ""
 
-#: ../src/view.c:10972
+#: ../src/view.c:11000
 msgid ""
 "This tells you what will happen to a MIDI in event from your controller. Use "
 "the Control Shift or ALT keys, or caps lock to affect what will happen."
 msgstr ""
 
-#: ../src/view.c:10977
+#: ../src/view.c:11005
 msgid ""
 "When in playalong mode, on clicking Play, the music plays until it reaches "
 "the Denemo cursor\n"
@@ -8812,15 +8812,15 @@ msgid ""
 "filling in the other parts and waiting if you play a wrong note."
 msgstr ""
 
-#: ../src/view.c:10979
+#: ../src/view.c:11007
 msgid "Delete the MIDI recording you have made."
 msgstr ""
 
-#: ../src/view.c:10981
+#: ../src/view.c:11009
 msgid "Convert the MIDI recording you have made to notation."
 msgstr ""
 
-#: ../src/view.c:10982
+#: ../src/view.c:11010
 msgid ""
 "Starts playing and simultaneously records from MIDI in.\n"
 "Once a recording is made it is played back with the score when you press "
@@ -8830,7 +8830,7 @@ msgid ""
 ".A MIDI recording is not saved with the Denemo score."
 msgstr ""
 
-#: ../src/view.c:11036
+#: ../src/view.c:11064
 msgid ""
 "This is the Denemo Display for the music you have entered. See the print "
 "view window for the typeset appearance.  The blue lozenge is the Denemo "
@@ -8847,7 +8847,7 @@ msgid ""
 "get a short menu of actions or set the mouse input mode."
 msgstr ""
 
-#: ../src/view.c:11095
+#: ../src/view.c:11123
 msgid ""
 "This bar shows:\n"
 "Pending ♯ or ♭ sign (if the next note entered will be sharpened or "
@@ -8862,13 +8862,13 @@ msgid ""
 "continuations are shown here."
 msgstr ""
 
-#: ../src/view.c:11103
+#: ../src/view.c:11131
 msgid ""
 "This area shows which MIDI filters are active. It can also be used by "
 "commands to pass information to the user"
 msgstr ""
 
-#: ../src/view.c:11210
+#: ../src/view.c:11238
 msgid ""
 "A button bar that can be populated by titles and other user generated "
 "buttons.\n"
