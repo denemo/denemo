@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-10 10:10+0100\n"
+"POT-Creation-Date: 2013-10-16 10:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -470,11 +470,11 @@ msgstr ""
 msgid "A file with the name %s already exists"
 msgstr ""
 
-#: ../src/file.c:1142 ../src/lilydirectives.c:2378 ../src/view.c:8707
+#: ../src/file.c:1142 ../src/lilydirectives.c:2378 ../src/view.c:8709
 msgid "Do you want to replace it?"
 msgstr ""
 
-#: ../src/file.c:1171 ../src/view.c:6989
+#: ../src/file.c:1171 ../src/view.c:6991
 msgid "No selection text available"
 msgstr ""
 
@@ -769,7 +769,7 @@ msgid "Octave Up"
 msgstr ""
 
 #: ../src/generated/entries.h:30 ../src/generated/register_commands.h:29
-#: ../actions/palettes.xml.h:124
+#: ../actions/palettes.xml.h:123
 msgid "Changes the note at the cursor to an octave higher"
 msgstr ""
 
@@ -780,7 +780,7 @@ msgid "Octave Down"
 msgstr ""
 
 #: ../src/generated/entries.h:31 ../src/generated/register_commands.h:30
-#: ../actions/palettes.xml.h:126
+#: ../actions/palettes.xml.h:125
 msgid "Changes the note at the cursor to an octave lower"
 msgstr ""
 
@@ -1894,7 +1894,7 @@ msgid "Insert Snippet"
 msgstr ""
 
 #: ../src/generated/entries.h:200 ../src/generated/register_commands.h:199
-#: ../src/view.c:3507
+#: ../src/view.c:3509
 msgid "Next Snippet"
 msgstr ""
 
@@ -1953,7 +1953,7 @@ msgid "Different keyboard and MIDI entry modes"
 msgstr ""
 
 #: ../src/generated/entries.h:206 ../src/generated/entries.h:366
-#: ../src/scorelayout.c:735 ../src/scorelayout.c:938 ../src/view.c:10310
+#: ../src/scorelayout.c:735 ../src/scorelayout.c:938 ../src/view.c:10338
 #: ../actions/denemo.scm:153
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:7
 msgid "Edit"
@@ -2494,7 +2494,7 @@ msgid "Set actions to take in response to keypresses"
 msgstr ""
 
 #: ../src/generated/entries.h:266 ../src/generated/register_commands.h:247
-#: ../src/kbd-custom.c:1725 ../src/view.c:9328
+#: ../src/kbd-custom.c:1725 ../src/view.c:9330
 msgid "Save Command Set"
 msgstr ""
 
@@ -2659,7 +2659,7 @@ msgid "InsertMenu"
 msgstr ""
 
 #: ../src/generated/entries.h:285 ../src/generated/entries.h:347
-#: ../src/generated/entries.h:382 ../src/view.c:10308
+#: ../src/generated/entries.h:382 ../src/view.c:10336
 msgid "Insert"
 msgstr ""
 
@@ -3278,7 +3278,7 @@ msgid ""
 "Grace Notes"
 msgstr ""
 
-#: ../src/generated/entries.h:355 ../src/view.c:10277
+#: ../src/generated/entries.h:355 ../src/view.c:10305
 msgid "Score"
 msgstr ""
 
@@ -3339,7 +3339,7 @@ msgid ""
 "Inserting the note ..."
 msgstr ""
 
-#: ../src/generated/entries.h:361 ../src/view.c:10269
+#: ../src/generated/entries.h:361 ../src/view.c:10297
 msgid "Lyrics"
 msgstr ""
 
@@ -3408,7 +3408,7 @@ msgid ""
 "Commands that apply to the current measure"
 msgstr ""
 
-#: ../src/generated/entries.h:368 ../actions/palettes.xml.h:52
+#: ../src/generated/entries.h:368 ../actions/palettes.xml.h:51
 msgid "Staff"
 msgstr ""
 
@@ -3657,7 +3657,7 @@ msgid ""
 "Changing the note at the cursor to the nearest ..."
 msgstr ""
 
-#: ../src/generated/entries.h:393 ../actions/palettes.xml.h:92
+#: ../src/generated/entries.h:393 ../actions/palettes.xml.h:91
 msgid "Edit Duration"
 msgstr ""
 
@@ -3689,7 +3689,7 @@ msgstr ""
 
 #: ../src/generated/entries.h:396
 #: ../actions/menus/ObjectMenu/Directives/Markings/DynamicText.xml.h:1
-#: ../actions/palettes.xml.h:48
+#: ../actions/palettes.xml.h:47
 msgid "Dynamics"
 msgstr ""
 
@@ -3697,7 +3697,7 @@ msgstr ""
 msgid "Dynamic markings"
 msgstr ""
 
-#: ../src/generated/entries.h:397 ../actions/palettes.xml.h:136
+#: ../src/generated/entries.h:397 ../actions/palettes.xml.h:135
 msgid "Ornaments"
 msgstr ""
 
@@ -4128,7 +4128,7 @@ msgid ""
 "Generating and manipulating music automatically."
 msgstr ""
 
-#: ../src/generated/entries.h:437 ../src/view.c:10251
+#: ../src/generated/entries.h:437 ../src/view.c:10276
 msgid "Object Menu"
 msgstr ""
 
@@ -5010,7 +5010,7 @@ msgstr ""
 msgid "The Command %s Responds to the Shortcut %s"
 msgstr ""
 
-#: ../src/kbd-custom.c:1320 ../src/view.c:8394
+#: ../src/kbd-custom.c:1320 ../src/view.c:8396
 #, c-format
 msgid "Lose the shortcut %s for this?"
 msgstr ""
@@ -5027,34 +5027,43 @@ msgstr ""
 msgid "Installation error"
 msgstr ""
 
-#: ../src/kbd-custom.c:1896
+#: ../src/kbd-custom.c:1951
 msgid "Command"
 msgstr ""
 
-#: ../src/kbd-custom.c:1906
+#: ../src/kbd-custom.c:1961
 msgid "Commands"
 msgstr ""
 
-#: ../src/kbd-custom.c:1914
+#: ../src/kbd-custom.c:1969
 msgid "Hidden"
 msgstr ""
 
-#: ../src/kbd-custom.c:1925
+#: ../src/kbd-custom.c:1980
 msgid "Deleted"
 msgstr ""
 
-#: ../src/kbd-custom.c:2001
+#: ../src/kbd-custom.c:2015
+msgid "Search"
+msgstr ""
+
+#: ../src/kbd-custom.c:2021
+msgid "Search in tooltip"
+msgstr ""
+
+#: ../src/kbd-custom.c:2091
 msgid "Built-in, see file denemoui.xml for position"
 msgstr ""
 
-#: ../src/kbd-custom.c:2068
+#: ../src/kbd-custom.c:2158
 #, c-format
 msgid ""
 "%s\n"
-"Location: %s"
+"Location: %s\n"
+"Internal Name: %s"
 msgstr ""
 
-#: ../src/kbd-custom.c:2092
+#: ../src/kbd-custom.c:2182
 msgid "Shortcuts"
 msgstr ""
 
@@ -5086,11 +5095,11 @@ msgstr ""
 msgid "Press a shortcut sequence whose command you seek"
 msgstr ""
 
-#: ../src/kbd-interface.c:336
+#: ../src/kbd-interface.c:371 ../src/view.c:10293
 msgid "Command Manager"
 msgstr ""
 
-#: ../src/kbd-interface.c:340
+#: ../src/kbd-interface.c:375
 msgid ""
 "This dialog allows you to set shortcuts for commands. As there are so many "
 "commands it is best to launch the dialog from the command that you wish to "
@@ -5104,15 +5113,15 @@ msgid ""
 "This dialog is also where you can load such a stored command set."
 msgstr ""
 
-#: ../src/kbd-interface.c:350
+#: ../src/kbd-interface.c:387
 msgid "Help for Selected Command"
 msgstr ""
 
-#: ../src/kbd-interface.c:370
+#: ../src/kbd-interface.c:421
 msgid "Save as Default Command Set"
 msgstr ""
 
-#: ../src/kbd-interface.c:372
+#: ../src/kbd-interface.c:423
 msgid ""
 "Use this to save the changes you have made so that they are used every time "
 "you start Denemo. The changes are stored under a directory (folder) called ."
@@ -5120,72 +5129,72 @@ msgid ""
 "commands"
 msgstr ""
 
-#: ../src/kbd-interface.c:373
+#: ../src/kbd-interface.c:424
 msgid "Save as a Custom Command Set"
 msgstr ""
 
-#: ../src/kbd-interface.c:376
+#: ../src/kbd-interface.c:427 ../src/kbd-interface.c:430
 msgid "Load a Standard Command Set"
 msgstr ""
 
-#: ../src/kbd-interface.c:379
+#: ../src/kbd-interface.c:433
 msgid "Load a Custom Command Set"
 msgstr ""
 
-#: ../src/kbd-interface.c:408
+#: ../src/kbd-interface.c:440
 msgid "Add 1-Key Shortcut"
 msgstr ""
 
-#: ../src/kbd-interface.c:409
+#: ../src/kbd-interface.c:441
 msgid ""
 "Create a single keypress (with modifier keys - Control, Shift ... - if "
 "needed) as a keyboard shortcut for the currently selected command."
 msgstr ""
 
-#: ../src/kbd-interface.c:415
+#: ../src/kbd-interface.c:447
 msgid "Add 2-Key Shortcut"
 msgstr ""
 
-#: ../src/kbd-interface.c:416
+#: ../src/kbd-interface.c:448
 msgid ""
 "Create a two keypress sequence as a keyboard shortcut for the currently "
 "selected command."
 msgstr ""
 
-#: ../src/kbd-interface.c:420
-msgid "Find "
+#: ../src/kbd-interface.c:452
+msgid "Find Command for Shortcut"
 msgstr ""
 
-#: ../src/kbd-interface.c:421
+#: ../src/kbd-interface.c:453
 msgid ""
-"Finds the command (if any) for a Keyboard Shortcut\n"
+"Finds the command (if any) for a (one key) Keyboard Shortcut\n"
 "Click button then press the key shortcut you are looking for"
 msgstr ""
 
-#: ../src/kbd-interface.c:459
+#: ../src/kbd-interface.c:494
 msgid "Setting the Cursor Shape for Mouse Ops"
 msgstr ""
 
-#: ../src/kbd-interface.c:469
+#: ../src/kbd-interface.c:504
 msgid ""
 "Cursor Shape 0.\n"
 "Mouse Operation Right Drag.\n"
 "Keyboard: None."
 msgstr ""
 
-#: ../src/kbd-interface.c:476
+#: ../src/kbd-interface.c:511
 msgid "Right Drag"
 msgstr ""
 
-#: ../src/kbd-interface.c:480
+#: ../src/kbd-interface.c:515
 msgid "Mouse Move"
 msgstr ""
 
-#: ../src/kbd-interface.c:484
+#: ../src/kbd-interface.c:519
 msgid "Left Drag"
 msgstr ""
 
-#: ../src/kbd-interface.c:491
+#: ../src/kbd-interface.c:527
 msgid "Cursor Shape #"
 msgstr ""
 
@@ -5485,7 +5494,7 @@ msgid "Upload Edit Script"
 msgstr ""
 
 #. a check item for showing script window
-#: ../src/lilydirectives.c:2523 ../src/view.c:9426
+#: ../src/lilydirectives.c:2523 ../src/view.c:9428
 msgid "Show Current Script"
 msgstr ""
 
@@ -5517,7 +5526,7 @@ msgstr ""
 msgid "No directive selected"
 msgstr ""
 
-#: ../src/lilydirectives.c:2713 ../src/view.c:8512
+#: ../src/lilydirectives.c:2713 ../src/view.c:8514
 #: ../actions/menus/ObjectMenu/MeasureMenu/Upbeat.scm:49
 msgid "Operation cancelled"
 msgstr ""
@@ -5993,109 +6002,109 @@ msgstr ""
 msgid "Re-write Script"
 msgstr ""
 
-#: ../src/palettes.c:203
+#: ../src/palettes.c:206
 msgid "Write Label"
 msgstr ""
 
-#: ../src/palettes.c:203
+#: ../src/palettes.c:206
 msgid "Write a label for this button"
 msgstr ""
 
-#: ../src/palettes.c:224
+#: ../src/palettes.c:227
 msgid "Write Tooltip"
 msgstr ""
 
-#: ../src/palettes.c:224
+#: ../src/palettes.c:227
 msgid "Write a tooltip for this button"
 msgstr ""
 
-#: ../src/palettes.c:266
+#: ../src/palettes.c:269
 msgid "Edit Label"
 msgstr ""
 
-#: ../src/palettes.c:267
+#: ../src/palettes.c:270
 msgid "Edit the label of this button"
 msgstr ""
 
-#: ../src/palettes.c:271
+#: ../src/palettes.c:274
 msgid "Edit Tooltip"
 msgstr ""
 
-#: ../src/palettes.c:272
+#: ../src/palettes.c:275
 msgid "Edit the tooltip of this button"
 msgstr ""
 
-#: ../src/palettes.c:278
+#: ../src/palettes.c:281
 msgid "Copy to another Palette"
 msgstr ""
 
-#: ../src/palettes.c:279
+#: ../src/palettes.c:282
 msgid "Copy this button to another palette"
 msgstr ""
 
-#: ../src/palettes.c:283
+#: ../src/palettes.c:286
 msgid "Remove from Palette"
 msgstr ""
 
-#: ../src/palettes.c:284
+#: ../src/palettes.c:287
 msgid "Remove this button from this palette"
 msgstr ""
 
-#: ../src/palettes.c:288 ../src/view.c:9370
+#: ../src/palettes.c:291 ../src/view.c:9372
 msgid "Get Script"
 msgstr ""
 
-#: ../src/palettes.c:289
+#: ../src/palettes.c:292
 msgid "Places the script that this button executes into the Scheme window"
 msgstr ""
 
-#: ../src/palettes.c:293
+#: ../src/palettes.c:296
 msgid "Put Script"
 msgstr ""
 
-#: ../src/palettes.c:294
+#: ../src/palettes.c:297
 msgid ""
 "Uses the script in the Scheme Window as the one that this button executes "
 "when clicked"
 msgstr ""
 
-#: ../src/palettes.c:298
+#: ../src/palettes.c:301
 msgid "Move to Start"
 msgstr ""
 
-#: ../src/palettes.c:299
+#: ../src/palettes.c:302
 msgid "Moves this button to the start of the palette"
 msgstr ""
 
-#: ../src/palettes.c:303
+#: ../src/palettes.c:306
 msgid "Move to End"
 msgstr ""
 
-#: ../src/palettes.c:304
+#: ../src/palettes.c:307
 msgid "Moves this button to the end of the palette"
 msgstr ""
 
-#: ../src/palettes.c:308
+#: ../src/palettes.c:311
 msgid "Edit this Palette"
 msgstr ""
 
-#: ../src/palettes.c:309
+#: ../src/palettes.c:312
 msgid "Edits the palette containing this button"
 msgstr ""
 
-#: ../src/palettes.c:457
+#: ../src/palettes.c:460
 msgid "Palette Name"
 msgstr ""
 
-#: ../src/palettes.c:457
+#: ../src/palettes.c:460
 msgid "Give name for Palette: "
 msgstr ""
 
-#: ../src/palettes.c:457
+#: ../src/palettes.c:460
 msgid "MyPalette"
 msgstr ""
 
-#: ../src/palettes.c:469
+#: ../src/palettes.c:472
 msgid "Custom"
 msgstr ""
 
@@ -7458,15 +7467,15 @@ msgstr ""
 msgid "Analysing Audio"
 msgstr ""
 
-#: ../src/sourceaudio.c:235
+#: ../src/sourceaudio.c:237
 msgid "Audio is not stereo - expect bad things!"
 msgstr ""
 
-#: ../src/sourceaudio.c:237
+#: ../src/sourceaudio.c:239
 msgid "Audio does not have 44100 sample rate: this could be bad"
 msgstr ""
 
-#: ../src/sourceaudio.c:408
+#: ../src/sourceaudio.c:410
 msgid ""
 "Could not load the audio file. Note only stereo with sample rate 44100 are "
 "supported at present. Use Audacity or similar to convert."
@@ -7485,7 +7494,7 @@ msgstr ""
 msgid "poly voice %d"
 msgstr ""
 
-#: ../src/staffops.c:315 ../src/view.c:6958
+#: ../src/staffops.c:315 ../src/view.c:6960
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm:23
 msgid "Unnamed"
 msgstr ""
@@ -7953,11 +7962,11 @@ msgstr ""
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 msgstr ""
 
-#: ../src/view.c:3501
+#: ../src/view.c:3503
 msgid "Paste Current Snippet"
 msgstr ""
 
-#: ../src/view.c:3502
+#: ../src/view.c:3504
 msgid ""
 "Pastes the music captured in the currently selected Snippet into the text at "
 "the cursor. The music appears here in the LilyPond typesetter syntax between "
@@ -7967,118 +7976,118 @@ msgid ""
 "you delete one marker be sure to delete the other.\n"
 msgstr ""
 
-#: ../src/view.c:3508
+#: ../src/view.c:3510
 msgid ""
 "Makes the next Snippet the one that can be pasted. To see the music snippets "
 "you need to check View → Snippets\n"
 "The one selected is in bold black."
 msgstr ""
 
-#: ../src/view.c:3568
+#: ../src/view.c:3570
 msgid "Script error, wrong parameter type to d-InfoDialog"
 msgstr ""
 
-#: ../src/view.c:3831
+#: ../src/view.c:3833
 msgid "Already in a padding dialog"
 msgstr ""
 
-#: ../src/view.c:7131
+#: ../src/view.c:7133
 msgid "You have made changes to the commands you have"
 msgstr ""
 
-#: ../src/view.c:7131
+#: ../src/view.c:7133
 msgid "Do you want to save the changes?"
 msgstr ""
 
-#: ../src/view.c:7166
+#: ../src/view.c:7168
 #, c-format
 msgid "Could not make folder %s for the downloaded commands"
 msgstr ""
 
-#: ../src/view.c:7289
+#: ../src/view.c:7291
 msgid "MIDI Controller Active?"
 msgstr ""
 
-#: ../src/view.c:7289
+#: ../src/view.c:7291
 msgid ""
 "Please turn off your MIDI keyboard\n"
 "if you have not already done so"
 msgstr ""
 
-#: ../src/view.c:7546
+#: ../src/view.c:7548
 msgid "<span foreground=\"blue\">Recording + Play Along</span>"
 msgstr ""
 
-#: ../src/view.c:7548
+#: ../src/view.c:7550
 msgid "<span foreground=\"red\">Recording</span>"
 msgstr ""
 
-#: ../src/view.c:7550
+#: ../src/view.c:7552
 msgid "<span foreground=\"red\">Play Along</span>"
 msgstr ""
 
-#: ../src/view.c:7552
+#: ../src/view.c:7554
 msgid "Checking Pitches"
 msgstr ""
 
-#: ../src/view.c:7554
+#: ../src/view.c:7556
 msgid "Listening to Pitches"
 msgstr ""
 
-#: ../src/view.c:7557
+#: ../src/view.c:7559
 msgid "Adding to a Chord"
 msgstr ""
 
-#: ../src/view.c:7559
+#: ../src/view.c:7561
 msgid "Starting a Chord"
 msgstr ""
 
-#: ../src/view.c:7562 ../src/view.c:10943
+#: ../src/view.c:7564 ../src/view.c:10971
 msgid "Appending/Editing Pitches"
 msgstr ""
 
-#: ../src/view.c:7585
+#: ../src/view.c:7587
 msgid "Mouse Conductor ON"
 msgstr ""
 
-#: ../src/view.c:7587
+#: ../src/view.c:7589
 msgid "Mouse Conductor OFF"
 msgstr ""
 
-#: ../src/view.c:7597
+#: ../src/view.c:7599
 msgid "Switch to Normal Playback"
 msgstr ""
 
-#: ../src/view.c:7599 ../src/view.c:10949
+#: ../src/view.c:7601 ../src/view.c:10977
 msgid "Switch to Play Along Playback"
 msgstr ""
 
-#: ../src/view.c:7606
+#: ../src/view.c:7608
 msgid "MIDI Recording"
 msgstr ""
 
-#: ../src/view.c:7606
+#: ../src/view.c:7608
 msgid "Delete last recording?"
 msgstr ""
 
-#: ../src/view.c:7634
+#: ../src/view.c:7636
 msgid ""
 "The preference set for recording time is 0 - nothing can be recorded.\n"
 "See Edit → Change Preferences Audio/Midi Tab"
 msgstr ""
 
 #. no selection
-#: ../src/view.c:8129
+#: ../src/view.c:8131
 msgid ""
 "No selection to create a music snippet from\n"
 "See Edit → Select menu for selecting music to snip"
 msgstr ""
 
-#: ../src/view.c:8339
+#: ../src/view.c:8341
 msgid "Have no way of getting the script, sorry"
 msgstr ""
 
-#: ../src/view.c:8355
+#: ../src/view.c:8357
 #, c-format
 msgid ""
 "Command: %s\n"
@@ -8087,187 +8096,187 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../src/view.c:8393
+#: ../src/view.c:8395
 #, c-format
 msgid "The Command %s Responds to this Shortcut"
 msgstr ""
 
-#: ../src/view.c:8423
+#: ../src/view.c:8425
 msgid "Could not create button"
 msgstr ""
 
-#: ../src/view.c:8471 ../src/view.c:8475 ../src/view.c:8478 ../src/view.c:8480
+#: ../src/view.c:8473 ../src/view.c:8477 ../src/view.c:8480 ../src/view.c:8482
 msgid "Create a new menu item"
 msgstr ""
 
-#: ../src/view.c:8471
+#: ../src/view.c:8473
 msgid "Give menu label: "
 msgstr ""
 
-#: ../src/view.c:8471
+#: ../src/view.c:8473
 msgid "My Label"
 msgstr ""
 
-#: ../src/view.c:8475
+#: ../src/view.c:8477
 msgid "Give explanation of what it does: "
 msgstr ""
 
-#: ../src/view.c:8475
+#: ../src/view.c:8477
 msgid "Prints my special effect"
 msgstr ""
 
-#: ../src/view.c:8478
+#: ../src/view.c:8480
 msgid "Do you want the new menu item in a submenu?"
 msgstr ""
 
-#: ../src/view.c:8480
+#: ../src/view.c:8482
 msgid "Give a label for the Sub-Menu"
 msgstr ""
 
-#: ../src/view.c:8480
+#: ../src/view.c:8482
 msgid "Sub Menu Label"
 msgstr ""
 
-#: ../src/view.c:8496
+#: ../src/view.c:8498
 msgid "Duplicate Name"
 msgstr ""
 
-#: ../src/view.c:8496
+#: ../src/view.c:8498
 msgid ""
 "A command of this name is already available in your custom menus; Overwrite?"
 msgstr ""
 
-#: ../src/view.c:8508
+#: ../src/view.c:8510
 msgid "New Command Added"
 msgstr ""
 
-#: ../src/view.c:8508
+#: ../src/view.c:8510
 msgid "Do you want to save this with your default commands?"
 msgstr ""
 
-#: ../src/view.c:8582
+#: ../src/view.c:8584
 msgid ""
 "No keyboard modifier keys\n"
 "Press with modifier key to change"
 msgstr ""
 
-#: ../src/view.c:8584
+#: ../src/view.c:8586
 msgid ""
 "\n"
 "Press with modifier key to change"
 msgstr ""
 
-#: ../src/view.c:8592
+#: ../src/view.c:8594
 msgid "Set Mouse Shortcut"
 msgstr ""
 
-#: ../src/view.c:8608
+#: ../src/view.c:8610
 #, c-format
 msgid "Setting mouse shortcut for %s"
 msgstr ""
 
-#: ../src/view.c:8612
+#: ../src/view.c:8614
 msgid "Choose the mouse button"
 msgstr ""
 
-#: ../src/view.c:8619
+#: ../src/view.c:8621
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:57
 msgid "Left"
 msgstr ""
 
-#: ../src/view.c:8622
+#: ../src/view.c:8624
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:58
 msgid "Right"
 msgstr ""
 
-#: ../src/view.c:8626
+#: ../src/view.c:8628
 msgid "Choose mouse action"
 msgstr ""
 
-#: ../src/view.c:8632
+#: ../src/view.c:8634
 msgid "Press Button"
 msgstr ""
 
-#: ../src/view.c:8635
+#: ../src/view.c:8637
 msgid "Release Button"
 msgstr ""
 
-#: ../src/view.c:8638
+#: ../src/view.c:8640
 msgid "Drag"
 msgstr ""
 
-#: ../src/view.c:8642
+#: ../src/view.c:8644
 msgid ""
 "Hold Modifier Keys, Engage Caps or Num Lock\n"
 "and click here to set shorcut."
 msgstr ""
 
-#: ../src/view.c:8707
+#: ../src/view.c:8709
 msgid "There is already an initialization script here"
 msgstr ""
 
-#: ../src/view.c:8717
+#: ../src/view.c:8719
 msgid "Wrote init.scm"
 msgstr ""
 
-#: ../src/view.c:8717
+#: ../src/view.c:8719
 msgid "Shall I execute it now?"
 msgstr ""
 
-#: ../src/view.c:8722
+#: ../src/view.c:8724
 msgid ""
 "Could not create init.scm;\n"
 "you must create your scripted menu item in the menu\n"
 "before you create the initialization script for it, sorry."
 msgstr ""
 
-#: ../src/view.c:8778 ../src/view.c:9374
+#: ../src/view.c:8780 ../src/view.c:9376
 msgid "Save Script"
 msgstr ""
 
-#: ../src/view.c:8778
+#: ../src/view.c:8780
 msgid "Over-write previous version of the script for "
 msgstr ""
 
-#: ../src/view.c:8778
+#: ../src/view.c:8780
 msgid " ?"
 msgstr ""
 
-#: ../src/view.c:8789
+#: ../src/view.c:8791
 msgid "No script saved"
 msgstr ""
 
-#: ../src/view.c:8850
+#: ../src/view.c:8852
 msgid ""
 "Could not create .denemo/actions/bitmaps for your graphics for customized "
 "commands"
 msgstr ""
 
 #. FIXME allow fileselector here to change the name
-#: ../src/view.c:9147
+#: ../src/view.c:9149
 #, c-format
 msgid "Saving a graphic for use in the %s script"
 msgstr ""
 
-#: ../src/view.c:9148
+#: ../src/view.c:9150
 msgid "Replace current graphic?"
 msgstr ""
 
 #. Place button in palette
-#: ../src/view.c:9308
+#: ../src/view.c:9310
 msgid "Place Command in a Palette"
 msgstr ""
 
 #. "drag" menu item onto button bar
-#: ../src/view.c:9315
+#: ../src/view.c:9317
 msgid "Place Command on the Title Bar"
 msgstr ""
 
-#: ../src/view.c:9322
+#: ../src/view.c:9324
 msgid "Create Mouse Shortcut"
 msgstr ""
 
-#: ../src/view.c:9325
+#: ../src/view.c:9327
 msgid ""
 "Edit Shortcuts\n"
 "Set Mouse Pointers\n"
@@ -8278,162 +8287,162 @@ msgstr ""
 #. GtkSettings* settings = gtk_settings_get_default();
 #. gtk_settings_set_long_property  (settings,"gtk-menu-images",(glong)TRUE, "XProperty");
 #. item = gtk_image_menu_item_new_from_stock("Save Graphic", gtk_accel_group_new());
-#: ../src/view.c:9383
+#: ../src/view.c:9385
 msgid "Save Graphic"
 msgstr ""
 
-#: ../src/view.c:9389
+#: ../src/view.c:9391
 msgid "Upload this Script to denemo.org"
 msgstr ""
 
-#: ../src/view.c:9397
+#: ../src/view.c:9399
 msgid "Save Script as New Menu Item"
 msgstr ""
 
 #. options for getting/putting init.scm
-#: ../src/view.c:9411
+#: ../src/view.c:9413
 msgid "Get Initialization Script for this Menu"
 msgstr ""
 
-#: ../src/view.c:9417
+#: ../src/view.c:9419
 msgid "Put Script as Initialization Script for this Menu"
 msgstr ""
 
-#: ../src/view.c:9608
+#: ../src/view.c:9610
 msgid "Browse"
 msgstr ""
 
-#: ../src/view.c:9608
+#: ../src/view.c:9610
 msgid "Opens a dialog for a new file"
 msgstr ""
 
-#: ../src/view.c:9675
+#: ../src/view.c:9677
 msgid ""
 "You have unsaved work. Hardware problems may cause the program to exit "
 "during this task.\n"
 "Please save first."
 msgstr ""
 
-#: ../src/view.c:9707
+#: ../src/view.c:9709
 msgid "Could not start Audio input"
 msgstr ""
 
-#: ../src/view.c:10236
+#: ../src/view.c:10261
 msgid "Tools"
 msgstr ""
 
-#: ../src/view.c:10236
+#: ../src/view.c:10261
 msgid "Show/hide a toolbar for general operations on music files"
 msgstr ""
 
-#: ../src/view.c:10239 ../src/view.c:10756
+#: ../src/view.c:10264 ../src/view.c:10784
 msgid "Playback Control"
 msgstr ""
 
-#: ../src/view.c:10239
+#: ../src/view.c:10264
 msgid "Show/hide playback controls"
 msgstr ""
 
-#: ../src/view.c:10242 ../src/view.c:10926
+#: ../src/view.c:10267 ../src/view.c:10954
 msgid "Midi In Control"
 msgstr ""
 
-#: ../src/view.c:10242
+#: ../src/view.c:10267
 msgid "Show/hide Midi Input controls"
 msgstr ""
 
-#: ../src/view.c:10245
+#: ../src/view.c:10270
 msgid "Snippets"
 msgstr ""
 
-#: ../src/view.c:10245
+#: ../src/view.c:10270
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to store and enter snippets of music and to enter notes using rhythm "
 "pattern of a snippet"
 msgstr ""
 
-#: ../src/view.c:10248
+#: ../src/view.c:10273
 msgid "Note and Rest Entry"
 msgstr ""
 
-#: ../src/view.c:10248
+#: ../src/view.c:10273
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to enter notes and rests using the mouse"
 msgstr ""
 
-#: ../src/view.c:10251
+#: ../src/view.c:10276
 msgid ""
 "Show/hide a menu which is arranged by objects\n"
 "The actions available for note objects change with the mode"
 msgstr ""
 
-#: ../src/view.c:10254
+#: ../src/view.c:10279
 msgid "LilyPond"
 msgstr ""
 
-#: ../src/view.c:10254
+#: ../src/view.c:10279
 msgid "Show/hide the LilyPond music typesetting language window"
 msgstr ""
 
-#: ../src/view.c:10257
+#: ../src/view.c:10282
 msgid "Scheme Script"
 msgstr ""
 
-#: ../src/view.c:10257
+#: ../src/view.c:10282
 msgid "Show scheme script window"
 msgstr ""
 
-#: ../src/view.c:10261
+#: ../src/view.c:10286
 msgid "Typeset Music"
 msgstr ""
 
-#: ../src/view.c:10265
+#: ../src/view.c:10290
 msgid "Score Layout"
 msgstr ""
 
-#: ../src/view.c:10273
+#: ../src/view.c:10301
 msgid "LilyPond Errors"
 msgstr ""
 
-#: ../src/view.c:10281
+#: ../src/view.c:10309
 msgid "Titles, Buttons etc"
 msgstr ""
 
-#: ../src/view.c:10286
+#: ../src/view.c:10314
 msgid "Allow Quick Shortcut Edits"
 msgstr ""
 
-#: ../src/view.c:10289
+#: ../src/view.c:10317
 msgid "Record Scheme Script"
 msgstr ""
 
-#: ../src/view.c:10293
+#: ../src/view.c:10321
 msgid ""
 "Audible Feedback\n"
 "Insert Duration/Edit Note"
 msgstr ""
 
-#: ../src/view.c:10293
+#: ../src/view.c:10321
 msgid ""
 "Gives feedback as you enter durations. N.B. durations are entered in Edit "
 "mode"
 msgstr ""
 
-#: ../src/view.c:10296
+#: ../src/view.c:10324
 msgid "Read Only"
 msgstr ""
 
-#: ../src/view.c:10304
+#: ../src/view.c:10332
 msgid "No mode"
 msgstr ""
 
-#: ../src/view.c:10306
+#: ../src/view.c:10334
 msgid "Classic"
 msgstr ""
 
-#: ../src/view.c:10308
+#: ../src/view.c:10336
 msgid ""
 "Mode for inserting notes into the score at the cursor position\n"
 "Uses prevailing duration/rhythm\n"
@@ -8441,85 +8450,85 @@ msgid ""
 "Use the note names to insert the note"
 msgstr ""
 
-#: ../src/view.c:10310
+#: ../src/view.c:10338
 msgid ""
 "Mode for changing the note at cursor (name, duration)\n"
 "and to enter notes by duration (rhythms)\n"
 "Use the durations to insert notes"
 msgstr ""
 
-#: ../src/view.c:10316
+#: ../src/view.c:10344
 msgid "Note"
 msgstr ""
 
-#: ../src/view.c:10316
+#: ../src/view.c:10344
 msgid "Normal (note) entry"
 msgstr ""
 
-#: ../src/view.c:10317
+#: ../src/view.c:10345
 msgid "Rest"
 msgstr ""
 
-#: ../src/view.c:10317
+#: ../src/view.c:10345
 msgid "Entering rests not notes"
 msgstr ""
 
-#: ../src/view.c:10318
+#: ../src/view.c:10346
 msgid "Non printing rests"
 msgstr ""
 
-#: ../src/view.c:10318
+#: ../src/view.c:10346
 msgid ""
 "Enters rests which will not be printed (just take up space)\n"
 "Used for positioning polyphonic voice entries"
 msgstr ""
 
-#: ../src/view.c:10321
+#: ../src/view.c:10349
 msgid "Audible Feedback"
 msgstr ""
 
-#: ../src/view.c:10321
+#: ../src/view.c:10349
 msgid "Gives feedback as you enter durations"
 msgstr ""
 
-#: ../src/view.c:10326
+#: ../src/view.c:10354
 msgid "No External Input"
 msgstr ""
 
-#: ../src/view.c:10326
+#: ../src/view.c:10354
 msgid ""
 "Entry of notes via computer keyboard only\n"
 "Ignores connected MIDI or microphone devices."
 msgstr ""
 
-#: ../src/view.c:10329
+#: ../src/view.c:10357
 msgid "Audio Input"
 msgstr ""
 
-#: ../src/view.c:10329
+#: ../src/view.c:10357
 msgid "Enable pitch entry from microphone"
 msgstr ""
 
-#: ../src/view.c:10332
+#: ../src/view.c:10360
 msgid "Midi Input"
 msgstr ""
 
-#: ../src/view.c:10332
+#: ../src/view.c:10360
 msgid ""
 "Input from a MIDI source. Set up the source first using Edit → Change "
 "Preferences → Audio/Midi\n"
 "Use View → MIDI In Control to control what the input does.\n"
 msgstr ""
 
-#: ../src/view.c:10516
+#: ../src/view.c:10544
 msgid "Menu:"
 msgstr ""
 
-#: ../src/view.c:10517
+#: ../src/view.c:10545
 msgid "Click here then hover over the menu items to find out what they will do"
 msgstr ""
 
-#: ../src/view.c:10519
+#: ../src/view.c:10547
 msgid ""
 "Left click to execute the command, press a key to assign a keyboard shortcut "
 "to the command,\n"
@@ -8528,20 +8537,20 @@ msgid ""
 "options still"
 msgstr ""
 
-#: ../src/view.c:10635
+#: ../src/view.c:10663
 msgid "Denemo Main Window"
 msgstr ""
 
 #. menubar = gtk_item_factory_get_widget (item_factory, "<main>");
 #. this triggers Lily... missing action
-#: ../src/view.c:10728
+#: ../src/view.c:10756
 msgid ""
 "This is the Main Menu bar, where menus for the mostly non-musical aspects "
 "(saving, printing, setting up input sources etc) are placed. See the Object "
 "Menu bar for the commands that edit music"
 msgstr ""
 
-#: ../src/view.c:10732
+#: ../src/view.c:10760
 msgid ""
 "This is the Object Menu bar, where menus for the commands that edit music "
 "live. They are arranged in a hierarchy Score, Movement, Staff (which "
@@ -8550,7 +8559,7 @@ msgid ""
 "change the behavior from that point in the music."
 msgstr ""
 
-#: ../src/view.c:10733
+#: ../src/view.c:10761
 msgid ""
 "This bar has buttons for entering notes and rests. The highlighted duration "
 "is the <i>prevailing duration</i>, that is the duration which will be "
@@ -8560,7 +8569,7 @@ msgid ""
 "toolbar"
 msgstr ""
 
-#: ../src/view.c:10737
+#: ../src/view.c:10765
 msgid ""
 "You can populate this bar with buttons holding a snippet of music. The "
 "highlighted snippet is the <i>prevailing duration</i>, that is the next note "
@@ -8576,7 +8585,7 @@ msgstr ""
 
 #. The user should be able to decide toolbar style.
 #. But without gnome, there is no (ui) to set this option.
-#: ../src/view.c:10742
+#: ../src/view.c:10770
 msgid ""
 "This tool bar contains a few conventional commands. You can hide it (to make "
 "more room on the screen) using the View menu. You can make it your "
@@ -8584,7 +8593,7 @@ msgid ""
 "general toolbar"
 msgstr ""
 
-#: ../src/view.c:10753
+#: ../src/view.c:10781
 msgid ""
 "Controls for playback. The arrows on either side of the PLAY and STOP "
 "buttons move the playback start and playback end markers. Loop plays in a "
@@ -8595,66 +8604,66 @@ msgstr ""
 
 #. create_playbutton(inner, NULL, pb_first, GTK_STOCK_GOTO_FIRST);
 #. create_playbutton(inner,NULL, pb_rewind, GTK_STOCK_MEDIA_REWIND);
-#: ../src/view.c:10778
+#: ../src/view.c:10806
 msgid ""
 "Moves the playback start point (which shows as a green bar) earlier in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: ../src/view.c:10780
+#: ../src/view.c:10808
 msgid ""
 "Sets the playback start point (green bar) to the note at the cursor.\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: ../src/view.c:10781
+#: ../src/view.c:10809
 msgid ""
 "Moves the playback start point (which shows as a green bar) later in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: ../src/view.c:10782
+#: ../src/view.c:10810
 msgid ""
 "Stops the playback. On pressing play after this playback will start where "
 "the green bar is, not where you stopped. Use the Play/Pause button for that."
 msgstr ""
 
-#: ../src/view.c:10783
+#: ../src/view.c:10811
 msgid ""
 "Starts playing back from the playback start (green bar) until the playback "
 "end (red bar).\n"
 "When playing it pauses the play, and continues when pressed again."
 msgstr ""
 
-#: ../src/view.c:10784
+#: ../src/view.c:10812
 msgid ""
 "Starts/Stops recording the audio output from Denemo.\n"
 "Records live performance and/or playback,\n"
 "save to disk to avoid overwriting previous recordings."
 msgstr ""
 
-#: ../src/view.c:10785
+#: ../src/view.c:10813
 msgid "Exports the audio recorded to disk"
 msgstr ""
 
-#: ../src/view.c:10787
+#: ../src/view.c:10815
 msgid ""
 "Moves the playback end point (which shows as a red bar) earlier in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: ../src/view.c:10788
+#: ../src/view.c:10816
 msgid ""
 "Sets the playback end point (red bar) to the note at the cursor.\n"
 "The red and green bars do not get drawn until you have started play, or at "
 "least created the time base."
 msgstr ""
 
-#: ../src/view.c:10790
+#: ../src/view.c:10818
 msgid ""
 "Moves the playback end point (which shows as a red bar) later in time\n"
 "The red and green bars do not get drawn until you have started play, or at "
@@ -8662,22 +8671,22 @@ msgid ""
 msgstr ""
 
 #. create_playbutton(inner,NULL, pb_forward, GTK_STOCK_MEDIA_FORWARD);
-#: ../src/view.c:10794
+#: ../src/view.c:10822
 msgid "Loop"
 msgstr ""
 
-#: ../src/view.c:10794
+#: ../src/view.c:10822
 msgid ""
 "The music between the red and green bars is played in a loop.\n"
 "You can edit the music while it is playing\n"
 "monitoring your changes."
 msgstr ""
 
-#: ../src/view.c:10796
+#: ../src/view.c:10824
 msgid "Conductor"
 msgstr ""
 
-#: ../src/view.c:10796
+#: ../src/view.c:10824
 msgid ""
 "With the mouse conductor once you press play the playback progresses as you "
 "move the mouse around\n"
@@ -8685,78 +8694,78 @@ msgid ""
 "a certain passage\n"
 msgstr ""
 
-#: ../src/view.c:10800
+#: ../src/view.c:10828
 msgid "Panic"
 msgstr ""
 
-#: ../src/view.c:10802
+#: ../src/view.c:10830
 msgid "Reset"
 msgstr ""
 
-#: ../src/view.c:10804
+#: ../src/view.c:10832
 msgid "Resets the synthesizer, on JACK it sends a JACK panic."
 msgstr ""
 
-#: ../src/view.c:10807
+#: ../src/view.c:10835
 msgid "Set From Selection"
 msgstr ""
 
-#: ../src/view.c:10807
+#: ../src/view.c:10835
 msgid "Sets the playback range (green and red bars) to the current selection."
 msgstr ""
 
-#: ../src/view.c:10808
+#: ../src/view.c:10836
 msgid "Playback Range"
 msgstr ""
 
-#: ../src/view.c:10808
+#: ../src/view.c:10836
 msgid "Pops up a dialog to get timings for start and end of playback."
 msgstr ""
 
 #. Tempo
-#: ../src/view.c:10818
+#: ../src/view.c:10846
 msgid "Tempo:"
 msgstr ""
 
-#: ../src/view.c:10819
+#: ../src/view.c:10847
 msgid "Set the (initial) tempo of the movement"
 msgstr ""
 
 #. create_playbutton(hbox, "Set Tempo", pb_set_tempo, NULL);
 #. Volume
-#: ../src/view.c:10834
+#: ../src/view.c:10862
 #: ../actions/menus/ObjectMenu/Directives/Playback/MIDI/ChangeVolume.xml.h:1
 msgid "Volume"
 msgstr ""
 
 #. GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
-#: ../src/view.c:10836
+#: ../src/view.c:10864
 msgid "Set the (initial) volume of the movement"
 msgstr ""
 
-#: ../src/view.c:10853
+#: ../src/view.c:10881
 msgid "Audio Volume Cut"
 msgstr ""
 
-#: ../src/view.c:10854
+#: ../src/view.c:10882
 msgid ""
 "Reduce the volume of the source audio relative to the volume of the score"
 msgstr ""
 
-#: ../src/view.c:10868
+#: ../src/view.c:10896
 msgid "Audio Volume Boost"
 msgstr ""
 
-#: ../src/view.c:10869
+#: ../src/view.c:10897
 msgid ""
 "Boost the volume of the source audio relative to the volume of the score"
 msgstr ""
 
-#: ../src/view.c:10881
+#: ../src/view.c:10909
 msgid "Audio Lead In "
 msgstr ""
 
-#: ../src/view.c:10885
+#: ../src/view.c:10913
 msgid ""
 "Set the number of seconds to clip from the audio, or if negative number of "
 "seconds silence before audio plays.\n"
@@ -8764,15 +8773,15 @@ msgid ""
 msgstr ""
 
 #. Speed
-#: ../src/view.c:10896
+#: ../src/view.c:10924
 msgid "Slowdown:"
 msgstr ""
 
-#: ../src/view.c:10912
+#: ../src/view.c:10940
 msgid "Slow down the audio output maintaining the pitch"
 msgstr ""
 
-#: ../src/view.c:10924
+#: ../src/view.c:10952
 msgid ""
 "Controls for managing input from a MIDI controller (e.g. keyboard) attached "
 "to the computer. You may need to select your MIDI device first using "
@@ -8786,13 +8795,13 @@ msgid ""
 "chord fast or slow."
 msgstr ""
 
-#: ../src/view.c:10944
+#: ../src/view.c:10972
 msgid ""
 "This tells you what will happen to a MIDI in event from your controller. Use "
 "the Control Shift or ALT keys, or caps lock to affect what will happen."
 msgstr ""
 
-#: ../src/view.c:10949
+#: ../src/view.c:10977
 msgid ""
 "When in playalong mode, on clicking Play, the music plays until it reaches "
 "the Denemo cursor\n"
@@ -8803,15 +8812,15 @@ msgid ""
 "filling in the other parts and waiting if you play a wrong note."
 msgstr ""
 
-#: ../src/view.c:10951
+#: ../src/view.c:10979
 msgid "Delete the MIDI recording you have made."
 msgstr ""
 
-#: ../src/view.c:10953
+#: ../src/view.c:10981
 msgid "Convert the MIDI recording you have made to notation."
 msgstr ""
 
-#: ../src/view.c:10954
+#: ../src/view.c:10982
 msgid ""
 "Starts playing and simultaneously records from MIDI in.\n"
 "Once a recording is made it is played back with the score when you press "
@@ -8821,7 +8830,7 @@ msgid ""
 ".A MIDI recording is not saved with the Denemo score."
 msgstr ""
 
-#: ../src/view.c:11008
+#: ../src/view.c:11036
 msgid ""
 "This is the Denemo Display for the music you have entered. See the print "
 "view window for the typeset appearance.  The blue lozenge is the Denemo "
@@ -8838,7 +8847,7 @@ msgid ""
 "get a short menu of actions or set the mouse input mode."
 msgstr ""
 
-#: ../src/view.c:11067
+#: ../src/view.c:11095
 msgid ""
 "This bar shows:\n"
 "Pending ♯ or ♭ sign (if the next note entered will be sharpened or "
@@ -8853,13 +8862,13 @@ msgid ""
 "continuations are shown here."
 msgstr ""
 
-#: ../src/view.c:11075
+#: ../src/view.c:11103
 msgid ""
 "This area shows which MIDI filters are active. It can also be used by "
 "commands to pass information to the user"
 msgstr ""
 
-#: ../src/view.c:11182
+#: ../src/view.c:11210
 msgid ""
 "A button bar that can be populated by titles and other user generated "
 "buttons.\n"
@@ -11430,7 +11439,7 @@ msgid "Sustain Off"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/SustainOff.xml.h:2
-#: ../actions/palettes.xml.h:59
+#: ../actions/palettes.xml.h:58
 msgid "Prints a Sustain Off Mark"
 msgstr ""
 
@@ -11439,7 +11448,7 @@ msgid "Sustain On"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/SustainOn.xml.h:2
-#: ../actions/palettes.xml.h:54
+#: ../actions/palettes.xml.h:53
 msgid "Prints a Sustain Pedal On Mark"
 msgstr ""
 
@@ -12951,7 +12960,7 @@ msgid "Augment"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/Augment.xml.h:2
-#: ../actions/palettes.xml.h:107
+#: ../actions/palettes.xml.h:106
 msgid ""
 "Doubles the duration of the note/chord/rest at the cursor or the selection. "
 "E.g. Quarter Note becomes Half Note."
@@ -13183,7 +13192,7 @@ msgid "Cautionary Accidental"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/CautionaryAccidental.xml.h:2
-#: ../actions/palettes.xml.h:128
+#: ../actions/palettes.xml.h:127
 msgid "Forces the accidental on the note to be printed."
 msgstr ""
 
@@ -13259,7 +13268,7 @@ msgid "Reminder Accidental"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/ReminderAccidental.xml.h:2
-#: ../actions/palettes.xml.h:130
+#: ../actions/palettes.xml.h:129
 msgid "Prints the accidental in ()."
 msgstr ""
 
@@ -13429,7 +13438,7 @@ msgid "Arpeggio (Off/On)"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ArpeggioSelectionSwitcher.xml.h:2
-#: ../actions/palettes.xml.h:154
+#: ../actions/palettes.xml.h:153
 msgid "Mark/Unmark the selected notes arpeggio"
 msgstr ""
 
@@ -13439,7 +13448,7 @@ msgid "DownBow (Off/On)"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/DownbowSelectionSwitcher.xml.h:2
-#: ../actions/palettes.xml.h:150
+#: ../actions/palettes.xml.h:149
 msgid "Mark/Unmark selection or current object"
 msgstr ""
 
@@ -13471,7 +13480,7 @@ msgid "Harmonic (Off/On)"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/HarmonicSelectionSwitcher.xml.h:2
-#: ../actions/palettes.xml.h:152
+#: ../actions/palettes.xml.h:151
 msgid "Mark/Unmark current selection or object with a harmonic"
 msgstr ""
 
@@ -13509,7 +13518,7 @@ msgid "Portato (Off/On)"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/PortatoSelectionSwitcher.xml.h:2
-#: ../actions/palettes.xml.h:156
+#: ../actions/palettes.xml.h:155
 msgid "Marks/Unmaks the selection with the Portato"
 msgstr ""
 
@@ -13566,7 +13575,7 @@ msgid "Stopped (Off/On)"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/StoppedSelectionSwitcher.xml.h:2
-#: ../actions/palettes.xml.h:158
+#: ../actions/palettes.xml.h:157
 msgid "Mark/Unmark the selected notes stopped"
 msgstr ""
 
@@ -13695,7 +13704,7 @@ msgid "Mark/Unmark the current chord with very long fermata"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/UpBowSelectionSwitcher.xml.h:2
-#: ../actions/palettes.xml.h:148
+#: ../actions/palettes.xml.h:147
 msgid "Mark/Unmark current selection or note with UpBow"
 msgstr ""
 
@@ -13788,7 +13797,7 @@ msgid "Mordent (Off/On)"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleMordent.xml.h:2
-#: ../actions/palettes.xml.h:137
+#: ../actions/palettes.xml.h:136
 msgid "Adds/Removes a Mordent to the note"
 msgstr ""
 
@@ -13805,7 +13814,7 @@ msgid "Prall (Off/On)"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/TogglePrall.xml.h:2
-#: ../actions/palettes.xml.h:139
+#: ../actions/palettes.xml.h:138
 msgid "Adds/Removes a prall to the note"
 msgstr ""
 
@@ -13814,7 +13823,7 @@ msgid "Reverse Turn (Off/On)"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleReverseTurn.xml.h:2
-#: ../actions/palettes.xml.h:145
+#: ../actions/palettes.xml.h:144
 msgid "Add/Removes a Reverse Turn to the note"
 msgstr ""
 
@@ -13823,7 +13832,7 @@ msgid "Trill (Off/On)"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleTrill.xml.h:2
-#: ../actions/palettes.xml.h:44
+#: ../actions/palettes.xml.h:43
 msgid "Adds/Removes a trill to the note"
 msgstr ""
 
@@ -13832,7 +13841,7 @@ msgid "Turn (Off/On)"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleTurn.xml.h:2
-#: ../actions/palettes.xml.h:143
+#: ../actions/palettes.xml.h:142
 msgid "Add/Removes a Turn to the note"
 msgstr ""
 
@@ -13842,7 +13851,7 @@ msgid "Up Prall (Off/On)"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleUpPrall.xml.h:2
-#: ../actions/palettes.xml.h:141
+#: ../actions/palettes.xml.h:140
 msgid "Adds/Removes Up Prall ornament"
 msgstr ""
 
@@ -13893,7 +13902,7 @@ msgid "Finger 0"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger0.xml.h:2
-#: ../actions/palettes.xml.h:160
+#: ../actions/palettes.xml.h:159
 msgid "Inserts fingering for open string"
 msgstr ""
 
@@ -13902,7 +13911,7 @@ msgid "Finger 1"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger1.xml.h:2
-#: ../actions/palettes.xml.h:162
+#: ../actions/palettes.xml.h:161
 msgid "Inserts fingering for finger 1"
 msgstr ""
 
@@ -13911,7 +13920,7 @@ msgid "Finger 2"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger2.xml.h:2
-#: ../actions/palettes.xml.h:164
+#: ../actions/palettes.xml.h:163
 msgid "Inserts fingering for finger 2"
 msgstr ""
 
@@ -13920,7 +13929,7 @@ msgid "Finger 3"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger3.xml.h:2
-#: ../actions/palettes.xml.h:166
+#: ../actions/palettes.xml.h:165
 msgid "Inserts fingering for finger 3"
 msgstr ""
 
@@ -15662,7 +15671,7 @@ msgid "Change Staff"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/ChangeStaff.xml.h:2
-#: ../actions/palettes.xml.h:61
+#: ../actions/palettes.xml.h:60
 msgid "(Print) the current voice moves to the staff you name."
 msgstr ""
 
@@ -15732,7 +15741,7 @@ msgid "Add Staff for Dynamics"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/DynamicsStaff.xml.h:2
-#: ../actions/palettes.xml.h:51
+#: ../actions/palettes.xml.h:50
 msgid ""
 "Adds a staff to be used purely for dynamic markings, insert after right hand "
 "piano staff"
@@ -15778,7 +15787,7 @@ msgid "Add Piano Staff"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/PianoStaff.xml.h:2
-#: ../actions/palettes.xml.h:56
+#: ../actions/palettes.xml.h:55
 msgid "Adds two staff braced together for keyboard instrument."
 msgstr ""
 
@@ -16422,7 +16431,7 @@ msgid "Selects &#x1D15D; as the duration for inserting notes or rests"
 msgstr ""
 
 #: ../actions/palettes.xml.h:3
-msgid "~&#x1D15D;"
+msgid "^&#x1D15D;"
 msgstr ""
 
 #: ../actions/palettes.xml.h:4
@@ -16430,7 +16439,7 @@ msgid "Selects &#x1D15E; as the duration for inserting notes or rests"
 msgstr ""
 
 #: ../actions/palettes.xml.h:5
-msgid "~&#x1D15E;"
+msgid "^&#x1D15E;"
 msgstr ""
 
 #: ../actions/palettes.xml.h:6
@@ -16438,7 +16447,7 @@ msgid "Selects &#x1D15F; as the duration for inserting notes or rests"
 msgstr ""
 
 #: ../actions/palettes.xml.h:7
-msgid "~&#x1D15F;"
+msgid "^&#x1D15F;"
 msgstr ""
 
 #: ../actions/palettes.xml.h:8
@@ -16446,7 +16455,7 @@ msgid "Selects &#x1D160; as the duration for inserting notes or rests"
 msgstr ""
 
 #: ../actions/palettes.xml.h:9
-msgid "~&#x1D160;"
+msgid "^&#x1D160;"
 msgstr ""
 
 #: ../actions/palettes.xml.h:10
@@ -16454,7 +16463,7 @@ msgid "Selects &#x1D161; as the duration for inserting notes or rests"
 msgstr ""
 
 #: ../actions/palettes.xml.h:11
-msgid "~&#x1D161;"
+msgid "^&#x1D161;"
 msgstr ""
 
 #: ../actions/palettes.xml.h:12
@@ -16462,7 +16471,7 @@ msgid "Selects &#x1D163; as the duration for inserting notes or rests"
 msgstr ""
 
 #: ../actions/palettes.xml.h:13
-msgid "~&#x1D163;"
+msgid "^&#x1D163;"
 msgstr ""
 
 #: ../actions/palettes.xml.h:14
@@ -16530,120 +16539,116 @@ msgid "&#x260A;"
 msgstr ""
 
 #: ../actions/palettes.xml.h:31
-msgid "3"
-msgstr ""
-
-#: ../actions/palettes.xml.h:32
 msgid "Insert a tempo change at cursor"
 msgstr ""
 
-#: ../actions/palettes.xml.h:33
+#: ../actions/palettes.xml.h:32
 msgid ""
 "<span font=\"times\" size=\"large\" font_style=\"italic\" font_weight=\"bold"
 "\">Allegro</span>"
 msgstr ""
 
-#: ../actions/palettes.xml.h:34
+#: ../actions/palettes.xml.h:33
 msgid "Insert a Dynamic Marking at the cursor"
 msgstr ""
 
-#: ../actions/palettes.xml.h:35
+#: ../actions/palettes.xml.h:34
 msgid ""
 "<span font=\"times\" size=\"large\" font_style=\"italic\" font_weight=\"bold"
 "\">f p</span>"
 msgstr ""
 
-#: ../actions/palettes.xml.h:36
+#: ../actions/palettes.xml.h:35
 msgid "Start Crescrendo from note/chord at cursor"
 msgstr ""
 
-#: ../actions/palettes.xml.h:37
+#: ../actions/palettes.xml.h:36
 msgid "<span font=\"times\" size=\"large\" font_weight=\"bold\">&lt;</span>"
 msgstr ""
 
-#: ../actions/palettes.xml.h:38
+#: ../actions/palettes.xml.h:37
 msgid "End Crescendo on note/chord at cursor"
 msgstr ""
 
-#: ../actions/palettes.xml.h:39
+#: ../actions/palettes.xml.h:38
 msgid "<span font=\"times\" size=\"large\" font_weight=\"bold\">&lt;|</span>"
 msgstr ""
 
-#: ../actions/palettes.xml.h:40
+#: ../actions/palettes.xml.h:39
 msgid "Start Diminuendo from note/chord at cursor "
 msgstr ""
 
-#: ../actions/palettes.xml.h:41
+#: ../actions/palettes.xml.h:40
 msgid "<span font=\"times\" size=\"large\" font_weight=\"bold\">&gt;</span>"
 msgstr ""
 
-#: ../actions/palettes.xml.h:42
+#: ../actions/palettes.xml.h:41
 msgid "End Diminuendo from note/chord at cursor"
 msgstr ""
 
-#: ../actions/palettes.xml.h:43
+#: ../actions/palettes.xml.h:42
 msgid "<span font=\"times\" size=\"large\" font_weight=\"bold\">&gt;|</span>"
 msgstr ""
 
-#: ../actions/palettes.xml.h:45
+#: ../actions/palettes.xml.h:44
 msgid "<i><b>tr</b></i>"
 msgstr ""
 
-#: ../actions/palettes.xml.h:46
+#: ../actions/palettes.xml.h:45
 msgid "Choose more palettes of buttons."
 msgstr ""
 
-#: ../actions/palettes.xml.h:47
+#: ../actions/palettes.xml.h:46
 msgid "&#x2022;&#x2022;&#x2022;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:49
+#: ../actions/palettes.xml.h:48
 msgid "Help with chord symbol entry methods."
 msgstr ""
 
-#: ../actions/palettes.xml.h:50
+#: ../actions/palettes.xml.h:49
 msgid "?"
 msgstr ""
 
-#: ../actions/palettes.xml.h:53
+#: ../actions/palettes.xml.h:52
 msgid "Pianoforte"
 msgstr ""
 
-#: ../actions/palettes.xml.h:55
+#: ../actions/palettes.xml.h:54
 msgid "<span font='24'>&#x1D1AE;</span>"
 msgstr ""
 
-#: ../actions/palettes.xml.h:57
+#: ../actions/palettes.xml.h:56
 msgid "<span font='24'>&#x1D11E;     &#10;&#x1D122;</span>"
 msgstr ""
 
-#: ../actions/palettes.xml.h:58
+#: ../actions/palettes.xml.h:57
 msgid "&lt;&gt;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:60
+#: ../actions/palettes.xml.h:59
 msgid "<span font='44'>&#x1D1AF;</span>"
 msgstr ""
 
-#: ../actions/palettes.xml.h:62
+#: ../actions/palettes.xml.h:61
 msgid "&#x2B01;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:63
+#: ../actions/palettes.xml.h:62
 msgid ""
 "Inserts an 8va mark (transposing the notes accordingly) or terminates one "
 "already started."
 msgstr ""
 
-#: ../actions/palettes.xml.h:64
+#: ../actions/palettes.xml.h:63
 msgid "8va"
 msgstr ""
 
-#: ../actions/palettes.xml.h:65
+#: ../actions/palettes.xml.h:64
 msgid "Insert or Append Duration"
 msgstr ""
 
-#: ../actions/palettes.xml.h:66
+#: ../actions/palettes.xml.h:65
 msgid ""
 "When appending, appends a &#x1D15D; &#10;With the cursor on a note inserts a "
 "&#x1D15D;  before the current note&#10;If MIDI-in is active, the note will "
@@ -16651,11 +16656,11 @@ msgid ""
 "will provide the pitch. Changes prevailing duration."
 msgstr ""
 
-#: ../actions/palettes.xml.h:67
-msgid "&#x2B10;&#x1D15D;"
+#: ../actions/palettes.xml.h:66
+msgid "&#x25BC;&#x1D15D;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:68
+#: ../actions/palettes.xml.h:67
 msgid ""
 "When appending, appends a &#x1D15E; &#10;With the cursor on a note inserts a "
 "&#x1D15E;  before the current note&#10;If MIDI-in is active, the note will "
@@ -16663,11 +16668,11 @@ msgid ""
 "will provide the pitch. Changes prevailing duration."
 msgstr ""
 
-#: ../actions/palettes.xml.h:69
-msgid "&#x2B10;&#x1D15E;"
+#: ../actions/palettes.xml.h:68
+msgid "&#x25BC;&#x1D15E;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:70
+#: ../actions/palettes.xml.h:69
 msgid ""
 "When appending, appends a &#x1D15F; &#10;With the cursor on a note inserts a "
 "&#x1D15F;  before the current note&#10;If MIDI-in is active, the note will "
@@ -16675,11 +16680,11 @@ msgid ""
 "will provide the pitch. Changes prevailing duration."
 msgstr ""
 
-#: ../actions/palettes.xml.h:71
-msgid "&#x2B10;&#x1D15F;"
+#: ../actions/palettes.xml.h:70
+msgid "&#x25BC;&#x1D15F;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:72
+#: ../actions/palettes.xml.h:71
 msgid ""
 "When appending, appends a &#x1D160; &#10;With the cursor on a note inserts a "
 "&#x1D160;  before the current note&#10;If MIDI-in is active, the note will "
@@ -16687,11 +16692,11 @@ msgid ""
 "will provide the pitch. Changes prevailing duration."
 msgstr ""
 
-#: ../actions/palettes.xml.h:73
-msgid "&#x2B10;&#x1D160;"
+#: ../actions/palettes.xml.h:72
+msgid "&#x25BC;&#x1D160;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:74
+#: ../actions/palettes.xml.h:73
 msgid ""
 "When appending, appends a &#x1D161; &#10;With the cursor on a note inserts a "
 "&#x1D161;  before the current note&#10;If MIDI-in is active, the note will "
@@ -16699,11 +16704,11 @@ msgid ""
 "will provide the pitch. Changes prevailing duration."
 msgstr ""
 
-#: ../actions/palettes.xml.h:75
-msgid "&#x2B10;&#x1D161;"
+#: ../actions/palettes.xml.h:74
+msgid "&#x25BC;&#x1D161;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:76
+#: ../actions/palettes.xml.h:75
 msgid ""
 "When appending, appends a &#x1D162; &#10;With the cursor on a note inserts a "
 "&#x1D162;  before the current note&#10;If MIDI-in is active, the note will "
@@ -16711,296 +16716,300 @@ msgid ""
 "will provide the pitch. Changes prevailing duration."
 msgstr ""
 
-#: ../actions/palettes.xml.h:77
-msgid "&#x2B10;&#x1D162;"
+#: ../actions/palettes.xml.h:76
+msgid "&#x25BC;&#x1D162;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:78
+#: ../actions/palettes.xml.h:77
 msgid "Insert &#x1D13B; rest"
 msgstr ""
 
-#: ../actions/palettes.xml.h:79
-msgid "&#x2B10;&#x1D13B;"
+#: ../actions/palettes.xml.h:78
+msgid "&#x25BC;&#x1D13B;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:80
+#: ../actions/palettes.xml.h:79
 msgid "Insert &#x1D13C; rest"
 msgstr ""
 
-#: ../actions/palettes.xml.h:81
-msgid "&#x2B10;&#x1D13C;"
+#: ../actions/palettes.xml.h:80
+msgid "&#x25BC;&#x1D13C;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:82
+#: ../actions/palettes.xml.h:81
 msgid "Insert &#x1D13D; rest"
 msgstr ""
 
-#: ../actions/palettes.xml.h:83
-msgid "&#x2B10;&#x1D13D;"
+#: ../actions/palettes.xml.h:82
+msgid "&#x25BC;&#x1D13D;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:84
+#: ../actions/palettes.xml.h:83
 msgid "Insert &#x1D13E; rest"
 msgstr ""
 
-#: ../actions/palettes.xml.h:85
-msgid "&#x2B10;&#x1D13E;"
+#: ../actions/palettes.xml.h:84
+msgid "&#x25BC;&#x1D13E;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:86
+#: ../actions/palettes.xml.h:85
 msgid "Insert &#x1D13F; rest"
 msgstr ""
 
-#: ../actions/palettes.xml.h:87
-msgid "&#x2B10;&#x1D13F;"
+#: ../actions/palettes.xml.h:86
+msgid "&#x25BC;&#x1D13F;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:88
+#: ../actions/palettes.xml.h:87
 msgid "Insert &#x1D140; rest"
 msgstr ""
 
-#: ../actions/palettes.xml.h:89
-msgid "&#x2B10;&#x1D140;"
+#: ../actions/palettes.xml.h:88
+msgid "&#x25BC;&#x1D140;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:90
+#: ../actions/palettes.xml.h:89
 msgid "Dot, double dot or undot the note at the cursor"
 msgstr ""
 
-#: ../actions/palettes.xml.h:91
+#: ../actions/palettes.xml.h:90
 msgid "&#x2022;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:93
+#: ../actions/palettes.xml.h:92
 msgid "Change the current note to a &#x1D15D;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:94
-msgid "&#x2B46; &#x1D15D;"
+#: ../actions/palettes.xml.h:93
+msgid "&#x25BA; &#x1D15D;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:95
+#: ../actions/palettes.xml.h:94
 msgid "Change the current note to a &#x1D15E;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:96
-msgid "&#x2B46; &#x1D15E;"
+#: ../actions/palettes.xml.h:95
+msgid "&#x25BA; &#x1D15E;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:97
+#: ../actions/palettes.xml.h:96
 msgid "Change the current note to a &#x1D15F;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:98
-msgid "&#x2B46; &#x1D15F;"
+#: ../actions/palettes.xml.h:97
+msgid "&#x25BA; &#x1D15F;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:99
+#: ../actions/palettes.xml.h:98
 msgid "Change the current note to a &#x1D160;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:100
-msgid "&#x2B46; &#x1D160;"
+#: ../actions/palettes.xml.h:99
+msgid "&#x25BA; &#x1D160;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:101
+#: ../actions/palettes.xml.h:100
 msgid "Change the current note to a &#x1D161;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:102
-msgid "&#x2B46; &#x1D161;"
+#: ../actions/palettes.xml.h:101
+msgid "&#x25BA; &#x1D161;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:103
+#: ../actions/palettes.xml.h:102
 msgid "Change the current note to a &#x1D162;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:104
-msgid "&#x2B46; &#x1D162;"
+#: ../actions/palettes.xml.h:103
+msgid "&#x25BA; &#x1D162;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:105
+#: ../actions/palettes.xml.h:104
 msgid ""
 "Halves the duration of the note/chord/rest at the cursor or the selection. E."
 "g. Quarter Note becomes Eighth Note. "
 msgstr ""
 
-#: ../actions/palettes.xml.h:106
+#: ../actions/palettes.xml.h:105
 msgid "1/2"
 msgstr ""
 
-#: ../actions/palettes.xml.h:108
+#: ../actions/palettes.xml.h:107
 msgid "2&#x2217;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:109
+#: ../actions/palettes.xml.h:108
 msgid "Change or Append Notes"
 msgstr ""
 
-#: ../actions/palettes.xml.h:110
+#: ../actions/palettes.xml.h:109
 msgid ""
 "Changes the note the cursor is on to the note A.&#10;If the cursor is in the "
 "appending position, appends a note using the prevailing duration."
 msgstr ""
 
-#: ../actions/palettes.xml.h:111
-msgid "~A"
+#: ../actions/palettes.xml.h:110
+msgid "&#x25BA; A"
 msgstr ""
 
-#: ../actions/palettes.xml.h:112
+#: ../actions/palettes.xml.h:111
 msgid ""
 "Changes the note the cursor is on to the note B.&#10;If the cursor is in the "
 "appending position, appends a note using the prevailing duration."
 msgstr ""
 
-#: ../actions/palettes.xml.h:113
-msgid "~B"
+#: ../actions/palettes.xml.h:112
+msgid "&#x25BA; B"
 msgstr ""
 
-#: ../actions/palettes.xml.h:114
+#: ../actions/palettes.xml.h:113
 msgid ""
 "Changes the note the cursor is on to the note C.&#10;If the cursor is in the "
 "appending position, appends a note using the prevailing duration."
 msgstr ""
 
-#: ../actions/palettes.xml.h:115
-msgid "~C"
+#: ../actions/palettes.xml.h:114
+msgid "&#x25BA; C"
 msgstr ""
 
-#: ../actions/palettes.xml.h:116
+#: ../actions/palettes.xml.h:115
 msgid ""
 "Changes the note the cursor is on to the note D.&#10;If the cursor is in the "
 "appending position, appends a note using the prevailing duration."
 msgstr ""
 
-#: ../actions/palettes.xml.h:117
-msgid "~D"
+#: ../actions/palettes.xml.h:116
+msgid "&#x25BA; D"
 msgstr ""
 
-#: ../actions/palettes.xml.h:118
+#: ../actions/palettes.xml.h:117
 msgid ""
 "Changes the note the cursor is on to the note E.&#10;If the cursor is in the "
 "appending position, appends a note using the prevailing duration."
 msgstr ""
 
-#: ../actions/palettes.xml.h:119
-msgid "~E"
+#: ../actions/palettes.xml.h:118
+msgid "&#x25BA; E"
 msgstr ""
 
-#: ../actions/palettes.xml.h:120
+#: ../actions/palettes.xml.h:119
 msgid ""
 "Changes the note the cursor is on to the note F.&#10;If the cursor is in the "
 "appending position, appends a note using the prevailing duration."
 msgstr ""
 
-#: ../actions/palettes.xml.h:121
-msgid "~F"
+#: ../actions/palettes.xml.h:120
+msgid "&#x25BA; F"
 msgstr ""
 
-#: ../actions/palettes.xml.h:122
+#: ../actions/palettes.xml.h:121
 msgid ""
 "Changes the note the cursor is on to the note G.&#10;If the cursor is in the "
 "appending position, appends a note using the prevailing duration."
 msgstr ""
 
-#: ../actions/palettes.xml.h:123
-msgid "~G"
+#: ../actions/palettes.xml.h:122
+msgid "&#x25BA; G"
 msgstr ""
 
-#: ../actions/palettes.xml.h:125
+#: ../actions/palettes.xml.h:124
 msgid "&#x2B06;8"
 msgstr ""
 
-#: ../actions/palettes.xml.h:127
+#: ../actions/palettes.xml.h:126
 msgid "&#x2B07;8"
 msgstr ""
 
-#: ../actions/palettes.xml.h:129
+#: ../actions/palettes.xml.h:128
 msgid "!"
 msgstr ""
 
-#: ../actions/palettes.xml.h:131
+#: ../actions/palettes.xml.h:130
 msgid "(&#x266E;)"
 msgstr ""
 
-#: ../actions/palettes.xml.h:132
+#: ../actions/palettes.xml.h:131
 msgid ""
 "Sharpen the note at the cursor or next entered note if the cursor is in the "
 "appending position"
 msgstr ""
 
-#: ../actions/palettes.xml.h:133
+#: ../actions/palettes.xml.h:132
 msgid "&#x266F;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:134
+#: ../actions/palettes.xml.h:133
 msgid ""
 "Flatten the note at the cursor or next entered note if the cursor is in the "
 "appending position"
 msgstr ""
 
-#: ../actions/palettes.xml.h:135
+#: ../actions/palettes.xml.h:134
 msgid "&#x266D;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:138
+#: ../actions/palettes.xml.h:137
 msgid "<span font=\"emmentaler\">&#xE18D;</span>"
 msgstr ""
 
-#: ../actions/palettes.xml.h:140
+#: ../actions/palettes.xml.h:139
 msgid "<span font=\"emmentaler\">&#xE18C;</span>"
 msgstr ""
 
-#: ../actions/palettes.xml.h:142
+#: ../actions/palettes.xml.h:141
 msgid "<span font=\"emmentaler\">&#xE190;</span>"
 msgstr ""
 
-#: ../actions/palettes.xml.h:144
+#: ../actions/palettes.xml.h:143
 msgid "<span font=\"emmentaler\">&#x1D197;</span>"
 msgstr ""
 
-#: ../actions/palettes.xml.h:146
+#: ../actions/palettes.xml.h:145
 msgid "<span font=\"emmentaler\">&#x1D198;</span>"
 msgstr ""
 
-#: ../actions/palettes.xml.h:147
+#: ../actions/palettes.xml.h:146
 msgid "Stringed Instruments"
 msgstr ""
 
-#: ../actions/palettes.xml.h:149
+#: ../actions/palettes.xml.h:148
 msgid "&#xE176;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:151
+#: ../actions/palettes.xml.h:150
 msgid "&#xE177;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:153
+#: ../actions/palettes.xml.h:152
 msgid "<span font=\"emmentaler\">&#xE17F;</span>"
 msgstr ""
 
-#: ../actions/palettes.xml.h:155
+#: ../actions/palettes.xml.h:154
 msgid "&#x2307;"
 msgstr ""
 
-#: ../actions/palettes.xml.h:157
+#: ../actions/palettes.xml.h:156
 msgid "<span font='24'>&#x1D182; </span>"
 msgstr ""
 
-#: ../actions/palettes.xml.h:159
+#: ../actions/palettes.xml.h:158
 msgid "+"
 msgstr ""
 
-#: ../actions/palettes.xml.h:161
+#: ../actions/palettes.xml.h:160
 msgid "0"
 msgstr ""
 
-#: ../actions/palettes.xml.h:163
+#: ../actions/palettes.xml.h:162
 msgid "1"
 msgstr ""
 
-#: ../actions/palettes.xml.h:165
+#: ../actions/palettes.xml.h:164
 msgid "2"
+msgstr ""
+
+#: ../actions/palettes.xml.h:166
+msgid "3"
 msgstr ""
 
 #: ../actions/palettes.xml.h:168
