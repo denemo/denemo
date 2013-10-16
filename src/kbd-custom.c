@@ -1650,6 +1650,7 @@ load_default_keymap_file ()
   gchar* default_keymap_file = g_strconcat (DEFAULT_KEYMAP, KEYMAP_EXT, NULL);
 
   gchar* files[] = {
+    g_build_filename (g_get_current_dir (), COMMANDS_DIR, user_keymap_file, NULL),
     g_build_filename (get_user_keymap_dir (), user_keymap_file, NULL),
     g_build_filename (get_system_data_dir (), COMMANDS_DIR, user_keymap_file, NULL),
     g_build_filename (get_user_keymap_dir (), default_keymap_file, NULL),
