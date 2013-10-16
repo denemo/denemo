@@ -1129,8 +1129,13 @@ update_accel_labels (keymap * the_keymap, guint command_idx)
         *c = '-';
     }
 #endif
-  gchar *markup = g_strdup_printf ("%s <span style=\"italic\" stretch=\"condensed\" weight=\"bold\" foreground=\"blue\">%s</span>", base, str->str);
-
+  gchar *escape_base = g_markup_escape_text(base, -1);
+  gchar *markup;
+  if(str->len)
+	markup = g_strdup_printf ("%s <span style=\"italic\" stretch=\"condensed\" weight=\"bold\" foreground=\"blue\">%s</span>", escape_base, str->str);
+  else
+	markup = g_strdup (escape_base);
+  g_free (escape_base);
 
   action = gtk_action_group_get_action (Denemo.action_group, command_name);
   //For all widgets proxying the action, change the label
