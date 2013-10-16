@@ -1835,8 +1835,8 @@ command_deleted_data_function (GtkTreeViewColumn * col, GtkCellRenderer * render
   g_object_set (renderer, "active", deleted, NULL);
 }
 */
-static gboolean search_tooltip=1;//not yet implemented, could be a level of match, for number of words present in tooltip & label
-static gint last_idx=-1;//not yet implemented last found idx
+static gboolean search_tooltip=1;//implemented as searching substrings in tooltip, could be a level of match, for number of words present in tooltip & label
+static gint last_idx=-1;//implemented as last found idx
 static gboolean
 search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar * key, GtkTreeIter * iter, G_GNUC_UNUSED gpointer search_data)
 {
@@ -1855,15 +1855,16 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
   {
 	  
 	  gtk_tree_model_get (model, iter, COL_NAME, &name, -1);
-	  const gint idx = lookup_action_from_name (name);
-	  notfound = (NULL == g_strstr_len (lookin, -1, key));
+	  const gint idx = lookup_command_from_name(Denemo.map, name);//= lookup_action_from_name (name);
+	  notfound = (NULL == g_strstr_len (this, -1, that));
 	  if((!notfound) && (idx <= last_idx))
-		;//notfound = TRUE;
-	  if(!notfound) last_idx = idx;
+		notfound = TRUE;
+	  if(!notfound) 
+			last_idx = idx;
   } 
   else
-  {
-  notfound = (strcmp (this, that) < 0);
+  {	
+    notfound = (strcmp (this, that) < 0);
   }
   g_free(this);
   g_free(that);
@@ -1899,13 +1900,37 @@ toggle_deleted_on_action (GtkCellRendererToggle * cell_renderer, gchar * path)
     }
 }
 */
+extern GtkWidget *get_command_view();
+static void
+search_next (GtkWidget *SearchEntry)
+{
+	if ( gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW(get_command_view())), NULL, NULL))
+		;//last_idx++;
+	else
+		last_idx = -1;
+  //FIXME issue some signal to cause a search to be made
+  g_signal_emit_by_name (SearchEntry, "insert-at-cursor", "");
+  gtk_widget_grab_focus (SearchEntry);
+}
 static void toggle_tooltip_search (void)
 {
 	search_tooltip = !search_tooltip;
 }
-
+static void selection_changed (GtkTreeSelection *selection, GtkWidget *SearchEntry) {
+	gint command_idx;
+	
+	GtkTreeModel *model = GTK_TREE_MODEL (Denemo.map->commands);
+	
+	GtkTreeIter iter = { 0, NULL, NULL, NULL };
+	const gchar *command_name;
+	if(gtk_tree_selection_get_selected (selection, NULL, &iter))
+	  {
+		gtk_tree_model_get (model, &iter, COL_NAME, &command_name, -1);
+		last_idx = lookup_command_from_name(Denemo.map, command_name);
+	  }
+}
 GtkWidget *
-keymap_get_command_view (keymap * the_keymap, GtkWidget *SearchEntry)
+keymap_get_command_view (keymap * the_keymap, GtkWidget *SearchEntry, GtkWidget *SearchNext)
 {
   GtkScrolledWindow *res2;
   GtkTreeView *res;
@@ -1966,6 +1991,9 @@ keymap_get_command_view (keymap * the_keymap, GtkWidget *SearchEntry)
 
   selection = gtk_tree_view_get_selection (res);
   gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
+  
+  g_signal_connect (G_OBJECT(selection),  "changed", G_CALLBACK(selection_changed), (gpointer)SearchEntry);
+  
   gtk_tree_view_set_search_equal_func (res, search_equal_func, NULL, NULL);
 //gtk_tree_view_set_search_column (res, COL_LABEL);
   gtk_tree_view_set_enable_search (res, TRUE);
@@ -1987,11 +2015,16 @@ keymap_get_command_view (keymap * the_keymap, GtkWidget *SearchEntry)
   GtkWidget *label = gtk_label_new (_("Search"));
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
   gtk_box_pack_start (GTK_BOX (hbox), SearchEntry, FALSE, TRUE, 0);
+  
+  gtk_box_pack_start (GTK_BOX (hbox), SearchNext, FALSE, TRUE, 0);
+
   GtkWidget *toggle = gtk_check_button_new_with_label (_("Search in tooltip"));
   gtk_toggle_button_set_active (toggle, TRUE);
+  gtk_widget_set_can_focus (toggle, FALSE);
   g_signal_connect(G_OBJECT(toggle), "toggled", G_CALLBACK(toggle_tooltip_search), NULL);
   gtk_box_pack_end (GTK_BOX (hbox), toggle, FALSE, TRUE, 0);
   
+  g_signal_connect_swapped (G_OBJECT (SearchNext), "clicked", G_CALLBACK (search_next), SearchEntry);
   
   gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
   gtk_box_pack_start (GTK_BOX (vbox), res2, TRUE, TRUE, 0);
