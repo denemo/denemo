@@ -4893,6 +4893,13 @@ the end point of the selection is unaltered</_tooltip>
         <_label>Set Notehead</_label>
         <_tooltip>Change the type of notehead for the current note</_tooltip>
       </row>
+      <row type="scheme">
+        <action>SetTabStrings</action>
+        <after>TabStaff</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu/Tablature</menupath>
+        <_label>Set Open Strings</_label>
+        <_tooltip>Sets the open strings for tablature\nto the notes of the current chord.</_tooltip>
+      </row>
       <row type="builtin">
         <action>SetPoint</action>
         <_label>Set Point</_label>
