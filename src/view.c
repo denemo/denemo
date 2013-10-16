@@ -515,14 +515,42 @@ scheme_show_palettes (SCM option)
 {
 	if(scm_is_true (option)) 
 		{
-		gchar *name = choose_palette_by_name (FALSE, TRUE);
-		if(name)
+		gchar *name;
+		if(scm_is_string (option))
+		   {
+			name = scm_to_locale_string (option);
+			DenemoPalette *pal = get_palette (name);
+				if(pal)
+				{
+					gtk_widget_show (gtk_widget_get_parent(pal->box));
+					if(gtk_widget_get_visible (pal->box))
+						gtk_widget_hide (pal->box);
+					else
+						gtk_widget_show_all (pal->box);
+					return SCM_BOOL_T;
+				}
+				else
+				{
+					return SCM_BOOL_F;
+				}
+		  } else
+		  {
+			name = choose_palette_by_name (FALSE, TRUE);
+		   if(name)
 			{
 				DenemoPalette *pal = get_palette (name);
-				gtk_widget_show (gtk_widget_get_parent(pal->box));
-				gtk_widget_show_all (pal->box);
-				return SCM_BOOL_T;
+				if(pal)
+				{
+					gtk_widget_show (gtk_widget_get_parent(pal->box));
+					gtk_widget_show_all (pal->box);
+					return SCM_BOOL_T;
+				}
+				else
+				{
+					return SCM_BOOL_F;
+				}
 			}
+		  }
 		} else
 		{
 		if(Denemo.palettes)
@@ -6107,7 +6135,7 @@ create_scheme_identfiers (void)
 
   INSTALL_SCM_FUNCTION5 ("Takes a palette name, label, tooltip and script", DENEMO_SCHEME_PREFIX "CreatePaletteButton", scheme_create_palette_button);
   INSTALL_SCM_FUNCTION4 ("Takes a palette name, boolean, and limit", DENEMO_SCHEME_PREFIX "SetPaletteShape", scheme_set_palette_shape);
-  INSTALL_SCM_FUNCTION ("Un-hides a palette. Pass #t to choose a palette otherwise shows all palettes that are not hidden.", DENEMO_SCHEME_PREFIX "ShowPalettes", scheme_show_palettes);
+  INSTALL_SCM_FUNCTION ("Hides/Un-hides a palette. Pass a palette name (or #t to choose a palette) otherwise shows all palettes that are not hidden.", DENEMO_SCHEME_PREFIX "ShowPalettes", scheme_show_palettes);
 
 
   INSTALL_SCM_FUNCTION4 ("Takes up to three strings, title, prompt and initial value. Shows these to the user and returns the user's string. Fourth parameter makes the dialog not block waiting for input", DENEMO_SCHEME_PREFIX "GetUserInput", scheme_get_user_input);
