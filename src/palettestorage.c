@@ -193,7 +193,7 @@ installPalettes (void)
       return -1;
     }
 
-  g_print ("RootElem: %s\n", rootElem->name);
+ // g_print ("RootElem: %s\n", rootElem->name);
   if (0 != xmlStrcmp (rootElem->name, (xmlChar*) "Denemo"))
     {
       g_warning ("Document has wrong type\n");
@@ -204,7 +204,7 @@ installPalettes (void)
   rootElem = rootElem->xmlChildrenNode;
   while (rootElem != NULL)
     {
-      g_print ("RootElem %s\n", rootElem->name);
+     // g_print ("RootElem %s\n", rootElem->name);
       if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "palette"))
         {         
 		  install_palette (rootElem);
