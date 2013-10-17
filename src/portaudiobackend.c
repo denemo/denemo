@@ -66,7 +66,7 @@ void set_playback_speed (double speed) {
 	Denemo.gui->si->start_time *= slowdown;
 }
 
-gdouble get_playback_speed (void)
+volatile gdouble get_playback_speed (void)
 {
 	return slowdown;	
 }
