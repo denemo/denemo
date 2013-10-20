@@ -54,7 +54,7 @@ get_user_data_dir (gboolean create)
 
   gboolean err;
   if (!dotdenemo)
-    {g_print("have %s  %s\n", PACKAGE_VERSION, "Crashing" PACKAGE_VERSION);
+    {
       dotdenemo = g_build_filename (g_get_home_dir (), ".denemo-" PACKAGE_VERSION, NULL);
     }
   if ((!create) && !g_file_test (dotdenemo, G_FILE_TEST_IS_DIR))
@@ -2437,7 +2437,7 @@ find_path_for_file(gchar* filename, gchar* dirs[])
   gchar* dir = find_dir_for_file (filename, dirs);
   if(dir){
     gchar* path = g_build_filename(dir, filename, NULL);
-    g_free(dir);g_print("got %s\n", path);
+    g_free(dir);
     return path;
   }
   return NULL;
