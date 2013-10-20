@@ -32,7 +32,7 @@ recorded_audio_filename (void)
 {
   static gchar *filename;
   if (filename == NULL)
-    filename = g_build_filename (get_user_data_dir (), "denemo_audio.1channel-floats", NULL);
+    filename = g_build_filename (get_user_data_dir (TRUE), "denemo_audio.1channel-floats", NULL);
   return filename;
 }
 

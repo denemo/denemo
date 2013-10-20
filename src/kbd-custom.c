@@ -724,7 +724,6 @@ command_iter_sort (GtkTreeModel * model, GtkTreeIter * a, GtkTreeIter * b, G_GNU
 void
 alphabeticalize_commands (keymap * the_keymap)
 {
-  // return;
   g_print ("alphabeticalizing the commands");
   gint i, n;
   guint *value;
@@ -1317,6 +1316,7 @@ add_named_binding_to_idx (keymap * the_keymap, gchar * kb_name, guint command_id
   old_command_idx = lookup_command_for_keybinding_name (the_keymap, kb_name);   //lookup_keybinding(the_keymap, keyval, state);  
   gchar *title = NULL;
   gchar *prompt = NULL;
+
   if (old_command_idx >= 0)
     {
       if ((!Denemo.prefs.return_key_is_special) || strcmp (kb_name, "Return"))
@@ -1570,7 +1570,7 @@ get_user_keymap_dir ()
   gboolean err;
   if (!keymapdir)
     {
-      keymapdir = g_build_filename (get_user_data_dir (), COMMANDS_DIR, NULL);
+      keymapdir = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, NULL);
     }
   err = g_mkdir_with_parents (keymapdir, 0770);
   if (err)
@@ -1653,7 +1653,11 @@ load_default_keymap_file ()
 {
   gchar* user_keymap_file = g_strconcat (USER_KEYMAP, KEYMAP_EXT, NULL);
   gchar* default_keymap_file = g_strconcat (DEFAULT_KEYMAP, KEYMAP_EXT, NULL);
-
+  gchar *upgrade = NULL;
+  if(Denemo.old_user_data_dir) 
+	{
+	 upgrade = g_build_filename (Denemo.old_user_data_dir, COMMANDS_DIR, user_keymap_file, NULL);
+	}
   gchar* files[] = {
     g_build_filename (g_get_current_dir (), COMMANDS_DIR, user_keymap_file, NULL),
     g_build_filename (get_user_keymap_dir (), user_keymap_file, NULL),
@@ -1665,7 +1669,16 @@ load_default_keymap_file ()
 
   if(!load_keymap_files (files))
     g_warning ("Unable to load default keymap");
-  
+    
+    
+  if(upgrade) {
+	gchar* files[] = {
+		upgrade,
+		NULL
+	};
+    if(!load_keymap_files (files))
+    g_warning ("Unable to former default keymap");
+  }
   g_free(default_keymap_file);
   g_free (user_keymap_file);
 }

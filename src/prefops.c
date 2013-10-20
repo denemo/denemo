@@ -24,46 +24,6 @@
 
 static gint readxmlprefsFile (gchar * filename);
 
-/**
- * This checks to see if there's a .denemo/ directory in the user's
- * home directory, tries to create one if there isn't, and returns the
- * path to it
- *
- * .denemo/ is used for holding configuration files, templates, and so on.
- *
- * On windows the home directory is the one containing the My Documents folder.
- */
-
-const gchar *
-get_user_data_dir ()
-{
-  static gchar *dotdenemo = NULL;
-
-  gboolean err;
-  if (!dotdenemo)
-    {
-      dotdenemo = g_build_filename (g_get_home_dir (), ".denemo-" PACKAGE_VERSION, NULL);
-    }
-  err = g_mkdir_with_parents (dotdenemo, 0770);
-  if (err)
-    {
-      warningdialog (_("Could not create .denemo for you personal settings"));
-      g_free (dotdenemo);
-      dotdenemo = NULL;
-    }
-
-  return dotdenemo;
-}
-
-/* return a path to a temporary directory to be used for print intermediate files */
-const gchar *
-locateprintdir (void)
-{
-  static gchar *printdir = NULL;
-  if (!printdir)
-    printdir = make_temp_dir ();
-  return printdir;
-}
 
 /**
  * Initialise user preferences to reasonable defaults 
@@ -75,9 +35,15 @@ void
 initprefs ()
 {
 #define ret (&Denemo.prefs)
-  gchar *dotdenemo = (gchar *) get_user_data_dir ();
+  gchar *dotdenemo = (gchar *) get_user_data_dir (TRUE);
   gchar *localrc = dotdenemo ? g_build_filename (dotdenemo, PREFS_FILE, NULL) : NULL;
-
+	if(Denemo.old_user_data_dir) {
+		if(confirm (_("Denemo Upgrade"), _("Re-use your old preferences and shortcuts?")))
+			localrc =  g_build_filename (Denemo.old_user_data_dir, PREFS_FILE, NULL);
+		else
+		Denemo.old_user_data_dir = NULL;
+			
+	}
   /* Reasonable default values */
 
   ret->mode = INPUTEDIT | INPUTRHYTHM | INPUTNORMAL;
@@ -641,7 +607,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   static GString *localrc = NULL;
   if (!localrc)
     {
-      localrc = g_string_new (g_build_filename (get_user_data_dir (), PREFS_FILE, NULL));
+      localrc = g_string_new (g_build_filename (get_user_data_dir (TRUE), PREFS_FILE, NULL));
     }
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
@@ -778,7 +744,7 @@ readHistory ()
   static GString *filename = NULL;
   if (!filename)
     {
-      filename = g_string_new (get_user_data_dir ());
+      filename = g_string_new (get_user_data_dir (TRUE));
       g_string_append (filename, "/denemohistory");
     }
   if (g_file_test (filename->str, G_FILE_TEST_EXISTS))
@@ -843,7 +809,7 @@ writeHistory (void)
   static GString *filename = NULL;
   if (!filename)
     {
-      filename = g_string_new (get_user_data_dir ());
+      filename = g_string_new (get_user_data_dir (TRUE));
       g_string_append (filename, "/denemohistory");
     }
 
@@ -874,7 +840,7 @@ storeWindowState (void)
   g_key_file_set_boolean (keyfile, "State", "maximized", Denemo.maximized);
   contents = g_key_file_to_data (keyfile, NULL, NULL);
   g_key_file_free (keyfile);
-  filename = g_build_filename (get_user_data_dir (), "state.ini", NULL);
+  filename = g_build_filename (get_user_data_dir (TRUE), "state.ini", NULL);
   g_file_set_contents (filename, contents, -1, NULL);
   g_free (filename);
   g_free (contents);
@@ -894,7 +860,7 @@ loadWindowState (void)
   gint w, h;
   gboolean maximized = FALSE;
   GError *err = NULL;
-  filename = g_build_filename (get_user_data_dir (), "state.ini", NULL);
+  filename = g_build_filename (get_user_data_dir (TRUE), "state.ini", NULL);
   keyfile = g_key_file_new ();
   if (g_key_file_load_from_file (keyfile, filename, G_KEY_FILE_NONE, NULL) == FALSE)
     {

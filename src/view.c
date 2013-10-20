@@ -878,7 +878,7 @@ lilypond_to_enshift (gchar * enshift_name)
 static SCM
 scheme_execute_init (gchar * menupath)
 {
-  gchar *filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", menupath, INIT_SCM, NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, INIT_SCM, NULL);
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
     {
       g_print ("About to load from %s\n", filename);
@@ -938,12 +938,12 @@ scheme_load_command (SCM command)
   gboolean ret;
   char *name;
   name = scm_to_locale_string (command);
-  gchar *filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", name, NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", name, NULL);
   ret = load_xml_keymap (filename);
   if (ret == FALSE)
     {
       g_free (filename);
-      filename = g_build_filename (get_user_data_dir (), "download", COMMANDS_DIR, name, NULL);
+      filename = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, name, NULL);
       ret = load_xml_keymap (filename);
     }
   if (ret == FALSE)
@@ -1279,7 +1279,7 @@ scheme_load_keybindings (SCM name)
           free (filename);
           return SCM_BOOL_T;
         }
-      gchar *name = g_build_filename (get_user_data_dir (), COMMANDS_DIR, filename, NULL);
+      gchar *name = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, filename, NULL);
       if (load_xml_keybindings (name) == 0)
         {
           free (filename);
@@ -1287,7 +1287,7 @@ scheme_load_keybindings (SCM name)
           return SCM_BOOL_T;
         }
       g_free (name);
-      name = g_build_filename (get_user_data_dir (), "download", COMMANDS_DIR, filename, NULL);
+      name = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, filename, NULL);
       if (load_xml_keybindings (name) == 0)
         {
           //g_free(name); CHECKME
@@ -5594,7 +5594,7 @@ scheme_insert_snippet (SCM number)
 SCM
 scheme_locate_dotdenemo (SCM optional)
 {
-  const gchar *dotdenemo = get_user_data_dir ();
+  const gchar *dotdenemo = get_user_data_dir (TRUE);
   if (!dotdenemo)
     return SCM_BOOL (FALSE);
   SCM scm = scm_from_locale_string (dotdenemo);
@@ -5654,7 +5654,7 @@ define_scheme_constants (void)
   if (filename)
     g_free (filename);
 
-  filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, NULL);
+  filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, NULL);
   gchar *local_actions_dir = g_strdup_printf ("%s%c", filename, G_DIR_SEPARATOR);
   if (filename)
     g_free (filename);
@@ -5733,7 +5733,7 @@ define_scheme_constants (void)
 static void
 load_local_scheme_init (void)
 {
-  gchar *filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "denemo.scm", NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "denemo.scm", NULL);
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
     eval_file_with_catch (filename);    //scm_c_primitive_load(filename);
   if (filename)
@@ -5774,7 +5774,7 @@ denemo_scheme_init (void)
 void
 append_to_local_scheme_init (gchar * scheme)
 {
-  gchar *filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "denemo.scm", NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "denemo.scm", NULL);
   FILE *fp = fopen (filename, "a+");
   if (fp)
     fprintf (fp, "%s", scheme);
@@ -6857,7 +6857,7 @@ load_files(gchar** files)
 static void
 crash_recovery_check()
 {
-  gchar *crash_file = g_build_filename (get_user_data_dir (), "crashrecovery.denemo", NULL);
+  gchar *crash_file = g_build_filename (get_user_data_dir (TRUE), "crashrecovery.denemo", NULL);
   if (g_file_test (crash_file, G_FILE_TEST_EXISTS))
     {
       GtkWidget *dialog = gtk_dialog_new_with_buttons (NULL,
@@ -7189,7 +7189,7 @@ static void
 fetchcommands (GtkAction * action, gpointer param)
 {
   static gchar *location = NULL;
-  location = g_build_filename (get_user_data_dir (), "download", COMMANDS_DIR, NULL);
+  location = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, NULL);
   gboolean err = g_mkdir_with_parents (location, 0770);
   if (err)
     {
@@ -7230,7 +7230,7 @@ static void
 morecommands (GtkAction * action, gpointer param)
 {
   static gchar *location = NULL;
-  location = g_build_filename (get_user_data_dir (), "download", COMMANDS_DIR, "menus", NULL);
+  location = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", NULL);
   if (!g_file_test (location, G_FILE_TEST_EXISTS))
     {
       g_free (location);
@@ -7257,9 +7257,9 @@ mycommands (GtkAction * action, gpointer param)
 {
   static gchar *location = NULL;
   if (location == NULL)
-    location = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", NULL);
+    location = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", NULL);
 
-  if (Denemo.last_merged_command && g_str_has_prefix (Denemo.last_merged_command, get_user_data_dir ()))
+  if (Denemo.last_merged_command && g_str_has_prefix (Denemo.last_merged_command, get_user_data_dir (TRUE)))
     {
       g_free (location);
       location = g_path_get_dirname (Denemo.last_merged_command);
@@ -8520,8 +8520,8 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
   gchar *xml_filename = g_strconcat (myname, XML_EXT, NULL);
   gchar *scm_filename = g_strconcat (myname, SCM_EXT, NULL);
   g_print ("The filename built is %s from %s", xml_filename, myposition);
-  gchar *xml_path = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", myposition, xml_filename, NULL);
-  gchar *scm_path = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", myposition, scm_filename, NULL);
+  gchar *xml_path = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", myposition, xml_filename, NULL);
+  gchar *scm_path = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", myposition, scm_filename, NULL);
   g_free (xml_filename);
   if ((!g_file_test (xml_path, G_FILE_TEST_EXISTS)) || (g_file_test (xml_path, G_FILE_TEST_EXISTS) && confirm (_("Duplicate Name"), _("A command of this name is already available in your custom menus; Overwrite?"))))
     {
@@ -8704,11 +8704,11 @@ get_initialization_script (GtkWidget * widget, gchar * directory)
   GError *error = NULL;
   gchar *script;
   g_print ("loading %s/init.scm into Denemo.ScriptView\n", directory);
-  gchar *filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", directory, INIT_SCM, NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", directory, INIT_SCM, NULL);
   if (!g_file_test (filename, G_FILE_TEST_EXISTS))
     {
       g_free (filename);
-      filename = g_build_filename (get_user_data_dir (), "download", COMMANDS_DIR, "menus", directory, INIT_SCM, NULL);
+      filename = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", directory, INIT_SCM, NULL);
       if (!g_file_test (filename, G_FILE_TEST_EXISTS))
         {
           g_free (filename);
@@ -8733,7 +8733,7 @@ get_initialization_script (GtkWidget * widget, gchar * directory)
 static void
 put_initialization_script (GtkWidget * widget, gchar * directory)
 {
-  gchar *filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", directory, INIT_SCM, NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", directory, INIT_SCM, NULL);
   if ((!g_file_test (filename, G_FILE_TEST_EXISTS)) || confirm (_("There is already an initialization script here"), _("Do you want to replace it?")))
     {
       gchar *scheme = getSchemeText ();
@@ -8797,11 +8797,11 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
   gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
   
   gchar *xml_filename = g_strconcat (name, XML_EXT, NULL);
-  gchar *xml_path = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", menupath, xml_filename, NULL);
+  gchar *xml_path = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, xml_filename, NULL);
   g_free (xml_filename);
 
   gchar *scm_filename = g_strconcat (name, SCM_EXT, NULL);
-  gchar *scm_path = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", menupath, scm_filename, NULL);
+  gchar *scm_path = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, scm_filename, NULL);
   g_free (scm_filename);
   
   gchar *scheme = getSchemeText ();
@@ -8834,13 +8834,13 @@ uploadMenuItem (GtkWidget * widget, GtkAction * action)
   gchar *tooltip = (gchar *) lookup_tooltip_from_idx (Denemo.map, idx);
   gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
 
-  gchar *filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", menupath, name,
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, name,
                                       NULL);
   gchar *script = g_object_get_data (G_OBJECT (action), "scheme");
   gchar *xml;
   GError *error = NULL;
   g_file_get_contents (filename, &xml, NULL, &error);
-  filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", menupath, INIT_SCM, NULL);
+  filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, INIT_SCM, NULL);
   gchar *init_script;
   g_file_get_contents (filename, &init_script, NULL, &error);
 
@@ -8872,7 +8872,7 @@ locatebitmapsdir (void)
   gboolean err;
   if (!bitmapsdir)
     {
-      bitmapsdir = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "bitmaps", NULL);
+      bitmapsdir = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "bitmaps", NULL);
     }
   err = g_mkdir_with_parents (bitmapsdir, 0770);
   if (err)
@@ -8890,7 +8890,7 @@ locatedownloadbitmapsdir (void)
   static gchar *bitmapsdir = NULL;
   if (!bitmapsdir)
     {
-      bitmapsdir = g_build_filename (get_user_data_dir (), "download", COMMANDS_DIR, "bitmaps", NULL);
+      bitmapsdir = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "bitmaps", NULL);
     }
   return bitmapsdir;
 }
@@ -9276,7 +9276,7 @@ saveGraphicItem (GtkWidget * widget, GtkAction * action)
 static gchar *
 get_system_menupath (gchar * menupath)
 {
-  gchar *filepath = g_build_filename (get_user_data_dir (), "download", COMMANDS_DIR, "menus", menupath, NULL);
+  gchar *filepath = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", menupath, NULL);
   //g_print("No file %s\n", filepath);
   if (0 != g_access (filepath, 4))
     {

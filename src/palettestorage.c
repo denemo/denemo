@@ -48,7 +48,8 @@ newXMLIntProp (xmlNodePtr parent, const xmlChar * name, gint content)
 }
 
 
-static save_palette (xmlNodePtr parent, DenemoPalette *pal)
+static void
+save_palette (xmlNodePtr parent, DenemoPalette *pal)
 {
 	xmlSetProp (parent, (xmlChar *) "_name", (xmlChar *) pal->name);
 
@@ -76,7 +77,7 @@ writePalettes (void)
   xmlNodePtr parent, child;
   gchar *localpal = NULL;
   
-  localpal = g_build_filename (get_user_data_dir (), "actions", "palettes.xml", NULL);
+  localpal = g_build_filename (get_user_data_dir (TRUE), "actions", "palettes.xml", NULL);
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
   doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo", NULL);
@@ -168,7 +169,10 @@ installPalettes (void)
   xmlNodePtr rootElem;
 
   gchar *filename = NULL;
-  filename = g_build_filename (get_user_data_dir (), "actions", "palettes.xml", NULL);
+  if(Denemo.old_user_data_dir)
+	filename = g_build_filename (Denemo.old_user_data_dir, "actions", "palettes.xml", NULL);
+  else
+	filename = g_build_filename (get_user_data_dir (TRUE), "actions", "palettes.xml", NULL);
   if(!g_file_test (filename, G_FILE_TEST_EXISTS))
 	{
 			g_free(filename);

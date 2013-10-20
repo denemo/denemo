@@ -297,6 +297,47 @@ init_environment()
   g_setenv ("LYEDITOR", "denemoclient %(line)s %(column)s", FALSE);
 }
 
+
+//check  .denemo-xxx directory already exists set Denemo.old_user_data_dir to it if so.
+static void check_if_upgrade (void) {
+	if(get_user_data_dir (FALSE)==NULL) {
+		guint32 ver_maj, ver_min, ver_mic, sofar=0;
+		guint32 this_maj, this_min, this_mic, this_ver;
+		guint32 foundmaj=0, foundmin=0, foundmic=0;
+		const gchar *name;
+		sscanf (PACKAGE_VERSION, "%u.%u.%u", &this_maj, &this_min, &this_mic);
+		this_ver = (this_maj<<16) + (this_min<<8) + this_mic;//allows for version numbers up to 256
+		GDir *dir = g_dir_open (g_get_home_dir (), 0, NULL);
+		if(dir==NULL) 
+			{
+			g_warning ("Cannot find home directory\n");
+			return;
+			}		
+		while ((name = g_dir_read_name (dir))) {
+			gchar *filename = g_build_filename (g_get_home_dir (), name, NULL);
+			if(g_file_test (filename, G_FILE_TEST_IS_DIR)) {
+				guint32 val;
+				ver_maj=ver_min=ver_mic=0;
+				sscanf (name, ".denemo-%u.%u.%u", &ver_maj, &ver_min, &ver_mic);
+				//g_print (" %u %u %u\n", ver_maj, ver_min, ver_mic);
+				val = (ver_maj<<16) + (ver_min<<8) + ver_mic;
+				if(val) g_print("name %s\n", name);
+				if (val>this_ver) {
+					g_warning ("Downgrade of Denemo version. Ignoring");
+					return;
+				}
+			g_free(filename);
+			if(val>sofar)
+				sofar = val;	
+			}
+		}
+		if(sofar) {
+			gchar *old_dot_denemo = g_strdup_printf (".denemo-%u.%u.%u", (unsigned)(sofar>>16), (unsigned)((sofar>>8)&0xFF), (unsigned)(sofar&0xFF));
+			Denemo.old_user_data_dir = g_build_filename (g_get_home_dir (), old_dot_denemo, NULL);
+			g_free(old_dot_denemo);
+		}
+	}
+}
 /**
  * Main function
  *
@@ -333,6 +374,7 @@ main (int argc, char *argv[])
   /* initialization of directory relocatability */
   initdir ();
 
+  check_if_upgrade();
   init_environment();
 
 

@@ -35,6 +35,51 @@
 #include <mach-o/dyld.h>
 #endif
 
+/**
+ * This checks to see if there's a .denemo/ directory in the user's
+ * home directory, 
+ * if create tries to create one if there isn't, and returns the
+ * path to it
+ * else returns NULL
+ *
+ * .denemo/ is used for holding configuration files, templates, and so on.
+ *
+ * On windows the home directory is the one containing the My Documents folder.
+ */
+
+const gchar *
+get_user_data_dir (gboolean create)
+{
+  static gchar *dotdenemo = NULL;
+
+  gboolean err;
+  if (!dotdenemo)
+    {g_print("have %s  %s\n", PACKAGE_VERSION, "Crashing" PACKAGE_VERSION);
+      dotdenemo = g_build_filename (g_get_home_dir (), ".denemo-" PACKAGE_VERSION, NULL);
+    }
+  if ((!create) && !g_file_test (dotdenemo, G_FILE_TEST_IS_DIR))
+	return NULL;
+  err = g_mkdir_with_parents (dotdenemo, 0770);
+  if (err)
+    {
+      warningdialog (_("Could not create .denemo for you personal settings"));
+      g_free (dotdenemo);
+      dotdenemo = NULL;
+    }
+  return dotdenemo;
+}
+
+/* return a path to a temporary directory to be used for print intermediate files */
+const gchar *
+locateprintdir (void)
+{
+  static gchar *printdir = NULL;
+  if (!printdir)
+    printdir = make_temp_dir ();
+  return printdir;
+}
+
+
 void
 add_font_directory (gchar * fontpath)
 {
@@ -2477,8 +2522,8 @@ find_denemo_file (DenemoDirectory dir, gchar* filename)
 {
   //g_print("find_denemo_file called with %d and %s\n", dir, filename);
   gchar* dirs[] = {
-    g_build_filename(get_executable_dir (), "..", get_local_dir (dir), NULL),
-    g_build_filename(get_user_data_dir(), get_local_dir (dir), NULL),
+    g_build_filename(get_executable_dir (TRUE), "..", get_local_dir (dir), NULL),
+    g_build_filename(get_user_data_dir (TRUE), get_local_dir (dir), NULL),
     g_strdup(get_system_dir(dir)),
     NULL
   };
