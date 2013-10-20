@@ -722,7 +722,17 @@ writeXMLPrefs (DenemoPrefs * prefs)
     WRITEINTXMLENTRY (portaudio_sample_rate)
     WRITEINTXMLENTRY (portaudio_period_size)
     WRITEINTXMLENTRY (maxrecordingtime)
-    WRITEXMLENTRY (portmidi_input_device) WRITEXMLENTRY (portmidi_output_device) WRITEXMLENTRY (fluidsynth_soundfont) WRITEBOOLXMLENTRY (fluidsynth_reverb) WRITEBOOLXMLENTRY (fluidsynth_chorus) WRITEINTXMLENTRY (dynamic_compression) WRITEINTXMLENTRY (zoom) WRITEINTXMLENTRY (system_height) WRITEBOOLXMLENTRY (progressbardecorations) WRITEXMLENTRY (browser) xmlSaveFormatFile (localrc->str, doc, 1);
+    WRITEXMLENTRY (portmidi_input_device) 
+    WRITEXMLENTRY (portmidi_output_device) 
+    WRITEXMLENTRY (fluidsynth_soundfont) 
+    WRITEBOOLXMLENTRY (fluidsynth_reverb) 
+    WRITEBOOLXMLENTRY (fluidsynth_chorus) 
+    WRITEINTXMLENTRY (dynamic_compression) 
+    WRITEINTXMLENTRY (zoom) 
+    WRITEINTXMLENTRY (system_height) 
+    WRITEBOOLXMLENTRY (progressbardecorations) 
+    WRITEXMLENTRY (browser) 
+  xmlSaveFormatFile (localrc->str, doc, 1);
   xmlFreeDoc (doc);
   ret = 0;
   return ret;
@@ -740,22 +750,23 @@ readHistory ()
   gint ret = -1;
   xmlDocPtr doc = NULL;
   xmlNodePtr rootElem;
-
+  gchar *oldhistory = NULL;
   static GString *filename = NULL;
   if (!filename)
     {
-      filename = g_string_new (get_user_data_dir (TRUE));
-      g_string_append (filename, "/denemohistory");
+      filename = g_string_new (g_build_filename (get_user_data_dir (TRUE), "denemohistory", NULL));
     }
-  if (g_file_test (filename->str, G_FILE_TEST_EXISTS))
-    doc = xmlParseFile (filename->str);
+  if(Denemo.old_user_data_dir)
+	  oldhistory = g_build_filename (Denemo.old_user_data_dir, "denemohistory", NULL);
+  if (g_file_test (oldhistory? oldhistory:filename->str, G_FILE_TEST_EXISTS))
+    doc = xmlParseFile (oldhistory? oldhistory : filename->str);
   else
     return ret;
 
   if (doc == NULL)
     {
       g_warning ("Could not read XML file %s", filename->str);
-      xmlSaveFormatFile ((gchar *) filename->str, doc, 0);
+      xmlSaveFormatFile ((gchar *) filename->str, doc, 0); //What is this for???
       return ret;
     }
 
@@ -809,8 +820,7 @@ writeHistory (void)
   static GString *filename = NULL;
   if (!filename)
     {
-      filename = g_string_new (get_user_data_dir (TRUE));
-      g_string_append (filename, "/denemohistory");
+      filename = g_string_new (g_build_filename (get_user_data_dir (TRUE), "denemohistory", NULL));
     }
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
