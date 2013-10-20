@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-16 21:14+0100\n"
+"POT-Creation-Date: 2013-10-20 16:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -413,7 +413,7 @@ msgstr ""
 msgid "The score %s has unsaved changes"
 msgstr ""
 
-#: ../src/file.c:176 ../src/utils.c:1385
+#: ../src/file.c:176 ../src/utils.c:1430
 msgid "(Untitled)"
 msgstr ""
 
@@ -2494,7 +2494,7 @@ msgid "Set actions to take in response to keypresses"
 msgstr ""
 
 #: ../src/generated/entries.h:266 ../src/generated/register_commands.h:247
-#: ../src/kbd-custom.c:1731 ../src/view.c:9358
+#: ../src/kbd-custom.c:1744 ../src/view.c:9358
 msgid "Save Command Set"
 msgstr ""
 
@@ -3815,7 +3815,7 @@ msgid ""
 "Choose between different ways of entering notes from the computer keyboard."
 msgstr ""
 
-#: ../src/generated/entries.h:408 ../src/utils.c:2298
+#: ../src/generated/entries.h:408 ../src/utils.c:2343
 msgid "Mouse"
 msgstr ""
 
@@ -4991,7 +4991,7 @@ msgstr ""
 msgid "No indication what this done beyond the name and label"
 msgstr ""
 
-#: ../src/kbd-custom.c:755
+#: ../src/kbd-custom.c:754
 msgid "This should not happen..."
 msgstr ""
 
@@ -5017,35 +5017,35 @@ msgstr ""
 msgid "Installation error"
 msgstr ""
 
-#: ../src/kbd-custom.c:1957
+#: ../src/kbd-custom.c:1970
 msgid "Command"
 msgstr ""
 
-#: ../src/kbd-custom.c:1967
+#: ../src/kbd-custom.c:1980
 msgid "Commands"
 msgstr ""
 
-#: ../src/kbd-custom.c:1975
+#: ../src/kbd-custom.c:1988
 msgid "Hidden"
 msgstr ""
 
-#: ../src/kbd-custom.c:1986
+#: ../src/kbd-custom.c:1999
 msgid "Deleted"
 msgstr ""
 
-#: ../src/kbd-custom.c:2021
+#: ../src/kbd-custom.c:2034
 msgid "Search"
 msgstr ""
 
-#: ../src/kbd-custom.c:2027
+#: ../src/kbd-custom.c:2040
 msgid "Search in tooltip"
 msgstr ""
 
-#: ../src/kbd-custom.c:2097
+#: ../src/kbd-custom.c:2110
 msgid "Built-in, see file denemoui.xml for position"
 msgstr ""
 
-#: ../src/kbd-custom.c:2164
+#: ../src/kbd-custom.c:2177
 #, c-format
 msgid ""
 "%s\n"
@@ -5053,7 +5053,7 @@ msgid ""
 "Internal Name: %s"
 msgstr ""
 
-#: ../src/kbd-custom.c:2188
+#: ../src/kbd-custom.c:2201
 msgid "Shortcuts"
 msgstr ""
 
@@ -5206,16 +5206,16 @@ msgstr ""
 msgid "There is no support for loading whole folders of commands yet, sorry"
 msgstr ""
 
-#: ../src/keymapio.c:395
+#: ../src/keymapio.c:401
 msgid "Return"
 msgstr ""
 
-#: ../src/keymapio.c:731
+#: ../src/keymapio.c:737
 #, c-format
 msgid "Unable to locate the script %s"
 msgstr ""
 
-#: ../src/keymapio.c:743
+#: ../src/keymapio.c:749
 #, c-format
 msgid "Unable to load the script %s"
 msgstr ""
@@ -6460,8 +6460,12 @@ msgstr ""
 msgid "Enable Chorus on soundfont"
 msgstr ""
 
-#: ../src/prefops.c:50
-msgid "Could not create .denemo for you personal settings"
+#: ../src/prefops.c:41
+msgid "Denemo Upgrade"
+msgstr ""
+
+#: ../src/prefops.c:41
+msgid "Re-use your old preferences and shortcuts?"
 msgstr ""
 
 #: ../src/print.c:302
@@ -6749,7 +6753,7 @@ msgid ""
 "Layouts to see the layouts you have created."
 msgstr ""
 
-#: ../src/printview.c:2316 ../src/scorelayout.c:1842 ../src/utils.c:1821
+#: ../src/printview.c:2316 ../src/scorelayout.c:1842 ../src/utils.c:1866
 msgid "Movement"
 msgstr ""
 
@@ -7574,12 +7578,16 @@ msgstr ""
 msgid "Denominator"
 msgstr ""
 
+#: ../src/utils.c:65
+msgid "Could not create .denemo for you personal settings"
+msgstr ""
+
 #. FIXME this is only a hint; perhaps we should embed the progress bar in the status line...
-#: ../src/utils.c:221
+#: ../src/utils.c:266
 msgid "Progress"
 msgstr ""
 
-#: ../src/utils.c:222
+#: ../src/utils.c:267
 msgid ""
 "This indicates the the LilyPond typsetter is still working on setting the "
 "Denemo score. This can take a long time, particularly for polyphony where "
@@ -7589,147 +7597,147 @@ msgid ""
 "mistake you just spotted."
 msgstr ""
 
-#: ../src/utils.c:1416
+#: ../src/utils.c:1461
 msgid "Error"
 msgstr ""
 
-#: ../src/utils.c:1490
+#: ../src/utils.c:1535
 #, c-format
 msgid "Directive for command: \"%s\"\n"
 msgstr ""
 
-#: ../src/utils.c:1492
+#: ../src/utils.c:1537
 #, c-format
 msgid "Directive tagged: \"%s\"\n"
 msgstr ""
 
-#: ../src/utils.c:1494 ../src/utils.c:1693
+#: ../src/utils.c:1539 ../src/utils.c:1738
 #, c-format
 msgid "Menu location for this command: \"%s\"\n"
 msgstr ""
 
-#: ../src/utils.c:1496
+#: ../src/utils.c:1541
 #, c-format
 msgid "LilyPond inserted in prefix to this object is \"%s\"\n"
 msgstr ""
 
-#: ../src/utils.c:1498
+#: ../src/utils.c:1543
 #, c-format
 msgid "LilyPond inserted in postfix to this object is \"%s\"\n"
 msgstr ""
 
-#: ../src/utils.c:1500
+#: ../src/utils.c:1545
 #, c-format
 msgid ""
 "The help for the command that created this directive is:\n"
 "\"%s\"\n"
 msgstr ""
 
-#: ../src/utils.c:1532
+#: ../src/utils.c:1577
 msgid "The cursor is in the appending position after "
 msgstr ""
 
-#: ../src/utils.c:1532
+#: ../src/utils.c:1577
 msgid "The cursor is on "
 msgstr ""
 
-#: ../src/utils.c:1543
+#: ../src/utils.c:1588
 msgid "a chord.\n"
 msgstr ""
 
-#: ../src/utils.c:1547
+#: ../src/utils.c:1592
 msgid "a one-note chord.\n"
 msgstr ""
 
-#: ../src/utils.c:1550
+#: ../src/utils.c:1595
 msgid ""
 "A slur starts from here.\n"
 "There should be a matching end slur later.\n"
 msgstr ""
 
-#: ../src/utils.c:1552
+#: ../src/utils.c:1597
 msgid ""
 "A slur ends here\n"
 "There should be a matching start slur earlier.\n"
 msgstr ""
 
-#: ../src/utils.c:1554
+#: ../src/utils.c:1599
 msgid ""
 "This is tied to the following note or chord.\n"
 "The following note or chord should have the same pitch"
 msgstr ""
 
-#: ../src/utils.c:1556
+#: ../src/utils.c:1601
 msgid "This is an acciaccatura note\n"
 msgstr ""
 
-#: ../src/utils.c:1558
+#: ../src/utils.c:1603
 msgid "This is an appoggiatura note\n"
 msgstr ""
 
-#: ../src/utils.c:1560
+#: ../src/utils.c:1605
 msgid ""
 "This note denotes a rhythm - use a MIDI keyboard to add pitches by playing.\n"
 msgstr ""
 
-#: ../src/utils.c:1569
+#: ../src/utils.c:1614
 #, c-format
 msgid "Within the chord the cursor is on the note %s \n"
 msgstr ""
 
-#: ../src/utils.c:1573
+#: ../src/utils.c:1618
 msgid "Attached to this note:"
 msgstr ""
 
-#: ../src/utils.c:1578
+#: ../src/utils.c:1623
 msgid ""
 "This rhythm has extra notes added to it, delete them and use the foot-pedal "
 "or Alt key to enter chords with the MIDI controller.\n"
 msgstr ""
 
-#: ../src/utils.c:1583
+#: ../src/utils.c:1628
 msgid "a rest.\n"
 msgstr ""
 
-#: ../src/utils.c:1585
+#: ../src/utils.c:1630
 msgid ""
 "This rest has a slur start on it, use the Notes/Rests → Slurs menu to remove "
 "it"
 msgstr ""
 
-#: ../src/utils.c:1587
+#: ../src/utils.c:1632
 msgid ""
 "This rest has a slur end on it, use the Notes/Rests → Slurs menu to remove it"
 msgstr ""
 
-#: ../src/utils.c:1589
+#: ../src/utils.c:1634
 msgid ""
 "This rest has a tie starting on it, use the Notes/Rests → Ties menu to "
 "remove it"
 msgstr ""
 
-#: ../src/utils.c:1593
+#: ../src/utils.c:1638
 msgid "This rest will not print, just act as a spacer.\n"
 msgstr ""
 
-#: ../src/utils.c:1595
+#: ../src/utils.c:1640
 msgid ""
 "This rest has the grace attribute set: this can be used to avoid a bug in "
 "the print view.\n"
 msgstr ""
 
-#: ../src/utils.c:1599
+#: ../src/utils.c:1644
 msgid "Attached to the chord:"
 msgstr ""
 
-#: ../src/utils.c:1602
+#: ../src/utils.c:1647
 #, c-format
 msgid ""
 "This starts %d/384 quarter notes into the measure and lasts %d/384 quarter "
 "notes.\n"
 msgstr ""
 
-#: ../src/utils.c:1608
+#: ../src/utils.c:1653
 #, c-format
 msgid ""
 " a Start Tuplet object\n"
@@ -7737,185 +7745,185 @@ msgid ""
 "until an End Tuplet object.\n"
 msgstr ""
 
-#: ../src/utils.c:1611
+#: ../src/utils.c:1656
 msgid "Attached to the Start Tuplet:"
 msgstr ""
 
-#: ../src/utils.c:1618
+#: ../src/utils.c:1663
 #, c-format
 msgid ""
 "an End Tuplet object\n"
 "Note: the Start Tuplet must be in the same measure.\n"
 msgstr ""
 
-#: ../src/utils.c:1621
+#: ../src/utils.c:1666
 msgid "Attached to the End Tuplet:"
 msgstr ""
 
-#: ../src/utils.c:1629
+#: ../src/utils.c:1674
 #, c-format
 msgid "a Clef Change object.\n"
 msgstr ""
 
-#: ../src/utils.c:1632
+#: ../src/utils.c:1677
 msgid "Attached to the Clef Change:"
 msgstr ""
 
-#: ../src/utils.c:1636
+#: ../src/utils.c:1681
 msgid "This clef change is non-printing, it just affects the display.\n"
 msgstr ""
 
-#: ../src/utils.c:1643
+#: ../src/utils.c:1688
 #, c-format
 msgid "a Time Signature Change object.\n"
 msgstr ""
 
-#: ../src/utils.c:1646
+#: ../src/utils.c:1691
 msgid "Attached to the Time Signature Change:"
 msgstr ""
 
-#: ../src/utils.c:1650
+#: ../src/utils.c:1695
 #, c-format
 msgid ""
 "A Time Signature Change should be the first object in a measure\n"
 "unless you are trying to do something unusual"
 msgstr ""
 
-#: ../src/utils.c:1656
+#: ../src/utils.c:1701
 #, c-format
 msgid "a Key Signature Change object.\n"
 msgstr ""
 
-#: ../src/utils.c:1659
+#: ../src/utils.c:1704
 msgid "Attached to the Key Signature Change:"
 msgstr ""
 
-#: ../src/utils.c:1667
+#: ../src/utils.c:1712
 #, c-format
 msgid "a Stem Directive, the notes after the cursor %s"
 msgstr ""
 
-#: ../src/utils.c:1667
+#: ../src/utils.c:1712
 msgid "will have stems downwards"
 msgstr ""
 
-#: ../src/utils.c:1667
+#: ../src/utils.c:1712
 msgid "will have stems upwards"
 msgstr ""
 
-#: ../src/utils.c:1667
+#: ../src/utils.c:1712
 msgid "will have stems up or down as needed"
 msgstr ""
 
-#: ../src/utils.c:1670
+#: ../src/utils.c:1715
 msgid "Attached to the Stemming Change:"
 msgstr ""
 
-#: ../src/utils.c:1685 ../src/utils.c:1687
+#: ../src/utils.c:1730 ../src/utils.c:1732
 #, c-format
 msgid "a Denemo Directive: (%s)"
 msgstr ""
 
-#: ../src/utils.c:1689
+#: ../src/utils.c:1734
 #, c-format
 msgid ""
 "\n"
 "The help for the command that created this directive is \"%s\""
 msgstr ""
 
-#: ../src/utils.c:1691
+#: ../src/utils.c:1736
 #, c-format
 msgid "%s"
 msgstr ""
 
-#: ../src/utils.c:1691
+#: ../src/utils.c:1736
 msgid ""
 "\n"
 "Not all layouts\n"
 msgstr ""
 
-#: ../src/utils.c:1691
+#: ../src/utils.c:1736
 msgid ""
 "\n"
 "Only for one Layout\n"
 msgstr ""
 
-#: ../src/utils.c:1695
+#: ../src/utils.c:1740
 #, c-format
 msgid "The LilyPond text inserted is %s%s\n"
 msgstr ""
 
-#: ../src/utils.c:1700
+#: ../src/utils.c:1745
 msgid ""
 "This Directive is at the end of the music\n"
 "You may need a closing double bar line - see Directives → barlines"
 msgstr ""
 
-#: ../src/utils.c:1705
+#: ../src/utils.c:1750
 msgid ""
 "The cursor is on an unknown object type. Please report how this happened!"
 msgstr ""
 
-#: ../src/utils.c:1713
+#: ../src/utils.c:1758
 msgid "<span font-desc=\"30\">Warning</span> "
 msgstr ""
 
-#: ../src/utils.c:1826
+#: ../src/utils.c:1871
 #, c-format
 msgid "%d min %.2f sec %.2f %.2f"
 msgstr ""
 
-#: ../src/utils.c:1828
+#: ../src/utils.c:1873
 #, c-format
 msgid " Staff %d Measure %d Position %d %s"
 msgstr ""
 
-#: ../src/utils.c:1828
+#: ../src/utils.c:1873
 msgid "Appending"
 msgstr ""
 
-#: ../src/utils.c:1828
+#: ../src/utils.c:1873
 msgid "Not Appending"
 msgstr ""
 
-#: ../src/utils.c:2249
+#: ../src/utils.c:2294
 #, c-format
 msgid ""
 "Mouse shortcut <span font_desc=\"24\" foreground=\"blue\">%s</span> invokes "
 "command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr ""
 
-#: ../src/utils.c:2251
+#: ../src/utils.c:2296
 msgid "Mouse Shortcut"
 msgstr ""
 
-#: ../src/utils.c:2270
+#: ../src/utils.c:2315
 #, c-format
 msgid ""
 "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> invokes "
 "command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr ""
 
-#: ../src/utils.c:2275
+#: ../src/utils.c:2320
 #, c-format
 msgid ""
 "Key Presses <span font_desc=\"24\" foreground=\"blue\">%s</span> invoke "
 "command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr ""
 
-#: ../src/utils.c:2277
+#: ../src/utils.c:2322
 msgid "Single Key Press"
 msgstr ""
 
-#: ../src/utils.c:2277
+#: ../src/utils.c:2322
 msgid "Two Key Presses"
 msgstr ""
 
-#: ../src/utils.c:2286
+#: ../src/utils.c:2331
 msgid "Key Press"
 msgstr ""
 
-#: ../src/utils.c:2288
+#: ../src/utils.c:2333
 #, c-format
 msgid ""
 "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> Is not a "
@@ -7923,31 +7931,31 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../src/utils.c:2290
+#: ../src/utils.c:2335
 msgid "(The menus are now restored in case you are lost.)"
 msgstr ""
 
-#: ../src/utils.c:2293
+#: ../src/utils.c:2338
 msgid "First Key Press"
 msgstr ""
 
-#: ../src/utils.c:2295
+#: ../src/utils.c:2340
 #, c-format
 msgid ""
 "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> Awaiting "
 "continuation"
 msgstr ""
 
-#: ../src/utils.c:2299
+#: ../src/utils.c:2344
 #, c-format
 msgid "Mouse <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 msgstr ""
 
-#: ../src/utils.c:2302
+#: ../src/utils.c:2347
 msgid "Key + Mouse"
 msgstr ""
 
-#: ../src/utils.c:2303
+#: ../src/utils.c:2348
 #, c-format
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 msgstr ""
@@ -16075,7 +16083,6 @@ msgid ""
 "is tiny 3 is large."
 msgstr ""
 
-#. InsertStandaloneDirective
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Tablature/SetTabStrings.xml.h:1
 msgid "Set Open Strings"
 msgstr ""
