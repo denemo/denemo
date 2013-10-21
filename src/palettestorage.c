@@ -31,7 +31,7 @@ static save_button (xmlNodePtr button, GtkWidget *widget)
 	gchar *label = g_object_get_data (G_OBJECT(widget), "icon");
 	if(label == NULL)
 		label = gtk_button_get_label(GTK_BUTTON(widget));
-	xmlSetProp (button, (xmlChar *) "_label", (xmlChar *) label );
+	xmlSetProp (button, (xmlChar *) "label", (xmlChar *) label );
 	xmlSetProp (button, (xmlChar *) "_tooltip", (xmlChar *) gtk_widget_get_tooltip_text(widget));
 	xmlSetProp (button, (xmlChar *) "script", (xmlChar *) g_object_get_data (G_OBJECT(widget), "script"));
 }
@@ -130,7 +130,7 @@ for ((childElem) = (parentElem)->xmlChildrenNode; \
   FOREACH_CHILD_ELEM (childElem, palette) 
   if (ELEM_NAME_EQ (childElem, "button"))
   {
-	gchar *label = (gchar *) xmlGetProp (childElem, (xmlChar *) "_label");	
+	gchar *label = (gchar *) xmlGetProp (childElem, (xmlChar *) "label");	
 	gchar *tooltip = (gchar *) xmlGetProp (childElem, (xmlChar *) "_tooltip");	
 	gchar *script = (gchar *) xmlGetProp (childElem, (xmlChar *) "script");	
 	if(label && tooltip && script)
