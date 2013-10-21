@@ -141,7 +141,6 @@
       <menuitem action="ToggleScoreLayout"/>
       <menuitem action="ToggleLyricsView"/>
       <menuitem action="ToggleRhythmToolbar"/>
-      <menuitem action="ToggleEntryToolbar"/>
       <menuitem action="ToggleToolbar"/>
       <menuitem action="TogglePlaybackToolbar"/>
       <menuitem action="ToggleMidiInToolbar"/>

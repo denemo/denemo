@@ -127,7 +127,6 @@ initprefs ()
   ret->autosave = TRUE;
   ret->autosave_timeout = 5;
   ret->maxhistory = 20;
-  ret->notation_palette = TRUE;
   ret->midi_in_controls = FALSE;
   ret->playback_controls = FALSE;
   ret->toolbar = TRUE;
@@ -317,7 +316,6 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
         READBOOLXMLENTRY (continuous)
         READBOOLXMLENTRY (lilyentrystyle)
         READBOOLXMLENTRY (toolbar)
-        READBOOLXMLENTRY (notation_palette)
         READBOOLXMLENTRY (midi_in_controls)
         READBOOLXMLENTRY (playback_controls)
         READBOOLXMLENTRY (console_pane)
@@ -388,7 +386,7 @@ get_bool_pref (gchar * prefname)
     GETBOOLPREF (overlays)
     GETBOOLPREF (enable_thumbnails)
     GETBOOLPREF (continuous)
-    GETBOOLPREF (lilyentrystyle) GETBOOLPREF (toolbar) GETBOOLPREF (notation_palette) GETBOOLPREF (midi_in_controls) GETBOOLPREF (playback_controls) GETBOOLPREF (console_pane) GETBOOLPREF (lyrics_pane) GETBOOLPREF (visible_directive_buttons) GETBOOLPREF (rhythm_palette) GETBOOLPREF (object_palette) GETBOOLPREF (autoupdate) GETBOOLPREF (jacktransport_start_stopped) GETBOOLPREF (fluidsynth_reverb) GETBOOLPREF (fluidsynth_chorus) GETBOOLPREF (progressbardecorations) return FALSE;
+    GETBOOLPREF (lilyentrystyle) GETBOOLPREF (toolbar) GETBOOLPREF (midi_in_controls) GETBOOLPREF (playback_controls) GETBOOLPREF (console_pane) GETBOOLPREF (lyrics_pane) GETBOOLPREF (visible_directive_buttons) GETBOOLPREF (rhythm_palette) GETBOOLPREF (object_palette) GETBOOLPREF (autoupdate) GETBOOLPREF (jacktransport_start_stopped) GETBOOLPREF (fluidsynth_reverb) GETBOOLPREF (fluidsynth_chorus) GETBOOLPREF (progressbardecorations) return FALSE;
 }
 
 #undef GETBOOLPREF
@@ -701,7 +699,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
     WRITEBOOLXMLENTRY (enable_thumbnails)
     WRITEBOOLXMLENTRY (continuous)
     WRITEBOOLXMLENTRY (toolbar)
-    WRITEBOOLXMLENTRY (notation_palette)
     WRITEBOOLXMLENTRY (midi_in_controls)
     WRITEBOOLXMLENTRY (playback_controls)
     WRITEBOOLXMLENTRY (console_pane)

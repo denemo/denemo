@@ -445,7 +445,6 @@ typedef struct DenemoPrefs
   gboolean toolbar; /**< makes the toolbar visible */
   gboolean playback_controls; /**< makes the playback controls visible */
   gboolean midi_in_controls; /**< makes the midi in controls visible */
-  gboolean notation_palette; /**< makes the Note/Rest entry toolbar visible */
   gboolean rhythm_palette; /**< makes the rhythm toolbar visable */
   gboolean object_palette;  /**< makes the object menu toolbar visible */
   gboolean console_pane;  /**< makes the console pane visible */

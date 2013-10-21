@@ -233,7 +233,7 @@ execute_script_file (gchar * filename)
 #define ToggleMidiInControls_STRING "ToggleMidiInToolbar"
 
 #define ToggleRhythmToolbar_STRING "ToggleRhythmToolbar"
-#define ToggleEntryToolbar_STRING  "ToggleEntryToolbar"
+
 #define ToggleActionMenu_STRING  "ToggleActionMenu"
 #define ToggleObjectMenu_STRING  "ToggleObjectMenu"
 #define ToggleLilyText_STRING  "ToggleLilyText"
@@ -1110,7 +1110,6 @@ toggle_to_drawing_area (gboolean show)
   //TOG("/RhythmToolBar", rtoolbar, "/MainMenu/ViewMenu/"ToggleRhythmToolbar_STRING);
   TOG ("/ObjectMenu", objectmenu, "/MainMenu/ViewMenu/" ToggleObjectMenu_STRING);
 
-  TOG2 ("/EntryToolBar", entrymenu);
   TOG2 ("/MainMenu", mainmenu);
 
   // TOG3(gtk_widget_get_parent(Denemo.console), console_view, "/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
@@ -5866,8 +5865,7 @@ load_preferences (void)
   if (!Denemo.prefs.toolbar)
     activate_action ("/MainMenu/ViewMenu/" ToggleToolbar_STRING);
 
-  if (!Denemo.prefs.notation_palette)
-    activate_action ("/MainMenu/ViewMenu/" ToggleEntryToolbar_STRING);
+
 
   if (!Denemo.prefs.console_pane)
     activate_action ("/MainMenu/ViewMenu/" ToggleConsoleView_STRING);
@@ -8224,15 +8222,6 @@ create_rhythm_cb (GtkAction * action, gpointer param)
     {
       if (singleton)
         {
-          if (!already_done)
-            {                   //When creating first gui only
-              GtkWidget *toolbar = gtk_ui_manager_get_widget (Denemo.ui_manager, "/EntryToolBar");
-              gtk_toolbar_insert (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (r->button), -1);
-              gtk_widget_show_all (GTK_WIDGET (r->button));
-              /* gui->rstep = r->rsteps; */
-              g_signal_connect (G_OBJECT (r->button), "clicked", G_CALLBACK (singleton_callback), (gpointer) r);
-              unhighlight_rhythm (r);
-            }
           if (default_rhythm)
             {
               gui->prevailing_rhythm = r;
@@ -10010,21 +9999,6 @@ toggle_midi_in_controls (GtkAction * action, gpointer param)
     Denemo.prefs.midi_in_controls = gtk_widget_get_visible (widget);
 }
 
-/**
- *  Function to toggle whether entry toolbar is visible 
- *  
- * 
- */
-static void
-toggle_entry_toolbar (GtkAction * action, gpointer param)
-{
-  GtkWidget *widget;
-  widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/EntryToolBar");
-  if ((!action) || gtk_widget_get_visible (widget))
-    gtk_widget_hide (widget);
-  else
-    gtk_widget_show (widget);
-}
 
 /**
  *  Function to toggle whether keyboard bindings can be set by pressing key over menu item 
@@ -10297,9 +10271,6 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   ,
   {ToggleRhythmToolbar_STRING, NULL, N_("Snippets"), NULL, N_("Show/hide a toolbar which allows\nyou to store and enter snippets of music and to enter notes using rhythm pattern of a snippet"),
    G_CALLBACK (toggle_rhythm_toolbar), TRUE}
-  ,
-  {ToggleEntryToolbar_STRING, NULL, N_("Note and Rest Entry"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes and rests using the mouse"),
-   G_CALLBACK (toggle_entry_toolbar), TRUE}
   ,
   {ToggleObjectMenu_STRING, NULL, N_("Object Menu"), NULL, N_("Show/hide a menu which is arranged by objects\nThe actions available for note objects change with the mode"),
    G_CALLBACK (toggle_object_menu), TRUE}
@@ -10786,7 +10757,6 @@ create_window (void)
   gtk_widget_show (Denemo.menubar);
 
   gtk_widget_set_tooltip_text (gtk_ui_manager_get_widget (ui_manager, "/ObjectMenu"), _("This is the Object Menu bar, where menus for the commands that edit music live. They are arranged in a hierarchy Score, Movement, Staff (which contains Voices) and then the things that go on a staff, notes, clefs etc. Directives covers everything else that you can put in amongst the notes to change the behavior from that point in the music."));
-  gtk_widget_set_tooltip_markup (gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar"), _("This bar has buttons for entering notes and rests. The highlighted duration is the <i>prevailing duration</i>, that is the duration which will be applied to the next note entered. You can hide this bar (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu → Edit → Change Preferences → Display Note/Rest entry toolbar"));
 
   gtk_widget_set_tooltip_markup (gtk_ui_manager_get_widget (ui_manager, "/RhythmToolBar"),
                                  _
@@ -11019,15 +10989,6 @@ create_window (void)
   }
 
 
-  toolbar = gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar");
-  //g_print("EntryToolbar is %p\n", toolbar);
-  gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_TEXT);
-  gtk_box_pack_start (GTK_BOX (outer_main_vbox), toolbar, FALSE, TRUE, 0);
-  gtk_widget_set_can_focus (toolbar, FALSE);
-  //GTK_WIDGET_UNSET_FLAGS(toolbar, GTK_CAN_FOCUS);
-
-  // gtk_widget_show (toolbar); cannot show this until the GtkLabels have become GtkAccelLabels - a gtk bug
-
   toolbar = gtk_ui_manager_get_widget (ui_manager, "/RhythmToolBar");
   gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_TEXT);
   gtk_box_pack_start (GTK_BOX (outer_main_vbox), toolbar, FALSE, TRUE, 0);
@@ -11155,9 +11116,6 @@ create_window (void)
   Denemo.EditModeMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/EditModeNote");
   Denemo.ClassicModeMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/ClassicModeNote");
   Denemo.ModelessMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/ModelessNote");
-
-  //gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/ActionMenu"));// make a prefs thing
-  //GTK bug now fixed gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar")); //otherwise buttons only sensitive around their edges
 
 
   g_signal_connect (G_OBJECT (Denemo.notebook), "switch_page", G_CALLBACK (switch_page), NULL);
