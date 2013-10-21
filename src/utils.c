@@ -1857,11 +1857,11 @@ write_status (DenemoGUI * gui)
           }
           break;
         default:
-          selection = g_strdup_printf ("Cursor on a unknown object");
+          selection = g_strdup_printf (_("Cursor on a unknown object"));
         }
     }
   else
-    selection = g_strdup_printf ("Cursor not on any object");
+    selection = g_strdup_printf (_("Cursor not on any object"));
 
   GString *status = g_string_new (_("Movement"));
 
