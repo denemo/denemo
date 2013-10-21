@@ -385,7 +385,7 @@ gboolean palette_add_button (DenemoPalette *pal, gchar *label, gchar *tooltip, g
 	pal->buttons = g_list_append(pal->buttons, (gpointer)button);
 	repack_palette (pal);
 	
-	gtk_widget_set_tooltip_text (button, tooltip);
+	gtk_widget_set_tooltip_text (button, _(tooltip));
 	g_object_set_data (G_OBJECT(button), "script", thescript);
 	g_object_set_data (G_OBJECT(button), "palette", pal);
 	g_signal_connect_swapped ( G_OBJECT (button), "clicked", G_CALLBACK (call_out_to_guile), thescript);
