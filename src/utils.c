@@ -1857,7 +1857,7 @@ write_status (DenemoGUI * gui)
           }
           break;
         default:
-          selection = g_strdup_printf (_("Cursor on a unknown object"));
+          selection = g_strdup_printf (_("Cursor on an unknown object"));
         }
     }
   else
