@@ -8450,23 +8450,7 @@ placeInPalette (GtkWidget * widget, GtkAction * action)
   gchar *name = (gchar *) gtk_action_get_name (action);
   gint idx = lookup_command_from_name (Denemo.map, name);
   if (idx > 0)
-    {
-      gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
-      gchar *script = g_strdup_printf ("(" DENEMO_SCHEME_PREFIX "%s)", name);
-      gchar *tooltip = lookup_tooltip_from_idx (Denemo.map, idx);
-      gchar *palette_name = get_palette_name (TRUE);
-      if(palette_name) {
-		DenemoPalette *pal = get_palette (palette_name);
-		if(pal==NULL) 
-			{
-			pal = set_palate_shape (palette_name, TRUE, 1);
-		}
-		if(pal)
-			palette_add_button (pal, label, tooltip, script);
-		}
-	  g_free (script);
-
-	}
+    place_action_in_palette (idx, name);
 }
 
 /* gets a name label and tooltip from the user, then creates a menuitem in the menu 
@@ -10289,7 +10273,7 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleScoreLayout_STRING, NULL, N_("Score Layout"), NULL, NULL,
    G_CALLBACK (toggle_score_layout), FALSE}
   ,
-  {ToggleCommandManager_STRING, NULL, N_("Command Manager"), NULL, NULL,
+  {ToggleCommandManager_STRING, NULL, N_("Command Center"), NULL, NULL,
    G_CALLBACK (toggle_command_manager), FALSE}
   ,
 

@@ -224,6 +224,20 @@ kbd_interface_del_binding (G_GNUC_UNUSED GtkButton * button, gpointer user_data)
   g_free (binding);
   Denemo.accelerator_status = TRUE;
 }
+static void
+execute_current (keyboard_dialog_data *data)
+{
+	//FIXME if recording, record to scheme window
+ execute_callback_from_idx (Denemo.map, data->command_idx);
+}
+static void
+add_current_to_palette (keyboard_dialog_data *data)
+{
+ place_action_in_palette (data->command_idx, NULL);
+}
+
+
+
 
 typedef struct ModifierPointerInfo
 {
@@ -368,11 +382,16 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
   command_tree_view = gtk_bin_get_child (GTK_BIN (command_view));
 
   Denemo.command_manager = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(GTK_WINDOW(Denemo.command_manager), (_("Command Manager")));
+  gtk_window_set_title(GTK_WINDOW(Denemo.command_manager), (_("Command Center")));
   if (Denemo.prefs.newbie)
     gtk_widget_set_tooltip_text (Denemo.command_manager,
                                  _
-                                 ("This dialog allows you to set shortcuts for commands. As there are so many commands it is best to launch the dialog from the command that you wish to change.\n(Do this by right clicking on the menu item of the command\nthis dialog then comes up with the command highlighted).\nYou can set single-key or two-key shortcuts, or mouse shortcuts.\nYou can also hide commands, so they don't appear in the menus.\nWhen you are finished you can save the settings as your default command set, or as a command set which you may wish to load in the future.\nThis dialog is also where you can load such a stored command set."));
+                                 ("This window allows you find and execute commands.\nOnce you have selected a command the box at the top gives information about that command,"
+                                 "\nwhile the panel to the side gives any shortcuts for the command"
+                                 "\nyou can add a selected command to a palette, or set single-key or two-key shortcuts."
+                                 "\nYou can also hide commands, so they don't appear in the menus.\n"
+                                 "You can save the shortcuts as your default command set, or as a command set which you may wish to load in the future.\n"
+                                 "This window is also where you can load such a stored command set."));
 
   outer_hbox = gtk_hbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (Denemo.command_manager), outer_hbox);
@@ -435,24 +454,42 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
 
    }
   
-  
+  GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 1);
+  gtk_box_pack_end (GTK_BOX (vbox), inner_hbox, FALSE, TRUE, 0);
+    GtkWidget *inner_vbox = gtk_vbox_new (FALSE, 1);
+  gtk_box_pack_end (GTK_BOX (inner_hbox), inner_vbox, FALSE, TRUE, 0);
   addbutton = gtk_button_new_from_stock (GTK_STOCK_ADD);
   gtk_button_set_label (GTK_BUTTON (addbutton), _("Add 1-Key Shortcut"));
   gtk_widget_set_tooltip_text (addbutton, _("Create a single keypress (with modifier keys - Control, Shift ... - if needed) as a keyboard shortcut for the currently selected command."));
-  gtk_box_pack_end (GTK_BOX (vbox), addbutton, FALSE, TRUE, 0);
-
-
+  gtk_box_pack_end (GTK_BOX (inner_vbox), addbutton, FALSE, TRUE, 0);
 
   add2button = gtk_button_new_from_stock (GTK_STOCK_ADD);
   gtk_button_set_label (GTK_BUTTON (add2button), _("Add 2-Key Shortcut"));
   gtk_widget_set_tooltip_text (add2button, _("Create a two keypress sequence as a keyboard shortcut for the currently selected command."));
-  gtk_box_pack_end (GTK_BOX (vbox), add2button, FALSE, TRUE, 0);
+  gtk_box_pack_end (GTK_BOX (inner_vbox), add2button, FALSE, TRUE, 0);
 
   lookbutton = gtk_button_new_from_stock (GTK_STOCK_FIND);
   gtk_button_set_label (GTK_BUTTON (lookbutton), _("Find Command for Shortcut"));
-  gtk_widget_set_tooltip_text (lookbutton, _("Finds the command (if any) for a (one key) Keyboard Shortcut\nClick button then press the key shortcut you are looking for"));
-  gtk_box_pack_end (GTK_BOX (vbox), lookbutton, FALSE, TRUE, 0);
+  gtk_widget_set_tooltip_text (lookbutton, _("Finds the command (if any) for a (one key) Keyboard Shortcut\n"
+											  "Click button then press the key shortcut you are looking for."));
+  gtk_box_pack_end (GTK_BOX (inner_vbox), lookbutton, FALSE, TRUE, 0);
 
+
+  inner_vbox = gtk_vbox_new (FALSE, 1);
+  gtk_box_pack_start (GTK_BOX (inner_hbox), inner_vbox, FALSE, TRUE, 0);
+  GtkWidget *execute_button = gtk_button_new_with_label (_("Execute Selected Command"));
+  gtk_widget_set_tooltip_text (execute_button, _("Executes the currently selected command in the list of commands\nEnsure the cursor is in the movement and at the position if needed for the command."));
+  gtk_box_pack_end (GTK_BOX (inner_vbox), execute_button, FALSE, TRUE, 0);
+  GtkWidget *palette_button = gtk_button_new_with_label (_("Add to Palette"));
+  gtk_widget_set_tooltip_text (palette_button, _("Adds the currently selected command in the list of commands to a palette\nYou can create a new, custom palette, and you can change the label of the button you create by right-clicking on it."));
+  gtk_box_pack_end (GTK_BOX (inner_vbox), palette_button, FALSE, TRUE, 0);
+  g_signal_connect_swapped (G_OBJECT (execute_button), "clicked", G_CALLBACK (execute_current), &cbdata);
+  g_signal_connect_swapped (G_OBJECT (palette_button), "clicked", G_CALLBACK (add_current_to_palette), &cbdata);
+
+  
+  
+  
+  
   statusbar = gtk_statusbar_new ();
   context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (statusbar), "");
   //FIXME gtk_statusbar_set_has_resize_grip(GTK_STATUSBAR(statusbar), FALSE);

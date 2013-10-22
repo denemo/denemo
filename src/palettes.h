@@ -29,10 +29,11 @@
 DenemoPalette *get_palette (gchar *name);
 DenemoPalette *create_palette (gchar *name, gboolean docked, gboolean row_wise);
 DenemoPalette *set_palate_shape (gchar *name, gboolean row_wise, gint limit);//creates palette if it does not exist
-gboolean palette_add_button (DenemoPalette *pal, gchar *label, gchar *tooltip, gchar *script);
+gboolean palette_add_button (DenemoPalette *pal, gchar *label, const gchar *tooltip, gchar *script);
 void palette_delete_button (DenemoPalette *pal, GtkWidget *button);
 void repack_palette (DenemoPalette *pal);
 void delete_palette (DenemoPalette *pal);
 gchar *get_palette_name (gboolean allow_custom);
 gchar *choose_palette_by_name (gboolean allow_custom, gboolean non_showing);
+gboolean place_action_in_palette (gint command_idx, const gchar *name);
 #endif

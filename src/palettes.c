@@ -364,7 +364,7 @@ static fixup_image (GtkWidget *button, gchar *label) {
 	//g_print("Fixing up image");
 	set_image_for_button (button, label);	
 }
-gboolean palette_add_button (DenemoPalette *pal, gchar *label, gchar *tooltip, gchar *script) 
+gboolean palette_add_button (DenemoPalette *pal, gchar *label, const gchar *tooltip, gchar *script) 
 {
 	if (already_present(pal, label))
 		return FALSE;
@@ -488,7 +488,6 @@ gchar *choose_palette_by_name (gboolean allow_custom, gboolean non_showing)
 	popupmenu (menu);
 	if(allow_custom && (selected_palette_name==NULL))
 		{
-			//gtk_widget_destroy (menu);
 			user_palette_name ();
 		}
 	return selected_palette_name;
@@ -496,5 +495,29 @@ gchar *choose_palette_by_name (gboolean allow_custom, gboolean non_showing)
 
 gchar *get_palette_name (gboolean allow_custom)
 {
-	choose_palette_by_name (allow_custom, FALSE);
+	return choose_palette_by_name (allow_custom, FALSE);
 }
+
+gboolean place_action_in_palette (gint idx, const gchar *name)
+{
+     gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
+     if(name==NULL)
+		name = lookup_name_from_idx (Denemo.map, idx);
+      gchar *script = g_strdup_printf ("(d-%s)", name);
+      const gchar *tooltip = lookup_tooltip_from_idx (Denemo.map, idx);
+      gchar *palette_name = get_palette_name (TRUE);g_print("palette name %s\n", palette_name);
+      if(palette_name) {
+		DenemoPalette *pal = get_palette (palette_name);
+		if(pal==NULL) 
+			{
+			pal = set_palate_shape (palette_name, TRUE, 1);
+		}
+		if(pal)
+			palette_add_button (pal, label, tooltip, script);
+		}
+	  g_free (script);	
+	
+}
+
+
+
