@@ -44,6 +44,15 @@ static void hide_docked_palettes (void) {
 				hide_palette_widget (pal->box);
 	}
 }
+
+static void hide_all_palettes (void) {
+	GList *g;
+	for (g=Denemo.palettes;g;g=g->next)
+	{
+			DenemoPalette *pal = g->data;
+			hide_palette_widget (pal->box);
+	}
+}
 static void popupmenu (GtkWidget *menu) {
 	  g_signal_connect (menu, "selection-done", gtk_main_quit, NULL);
 	  gtk_widget_show_all (menu);
@@ -145,10 +154,16 @@ static GtkWidget *get_palette_menu(DenemoPalette *pal) {
 	g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (toggle_dock), (gpointer) pal);
 	}	
 	if (pal->docked)	{
-	item = gtk_menu_item_new_with_label ( _("Hide All"));
+	item = gtk_menu_item_new_with_label ( _("Hide All Docked"));
 	gtk_widget_set_tooltip_text (item, _("Hide all the docked palettes"));
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (hide_docked_palettes), (gpointer) pal);
+	}	
+	{
+	item = gtk_menu_item_new_with_label ( _("Hide All Palettes"));
+	gtk_widget_set_tooltip_text (item, _("Hide all the palettes"));
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (hide_all_palettes), (gpointer) pal);
 	}	
   return menu;
 }
