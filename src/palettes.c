@@ -323,7 +323,7 @@ static GtkWidget *popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
 static DenemoPalette *new_palette (gchar *name, gboolean by_row)
 {
 	DenemoPalette *pal = g_malloc0(sizeof (DenemoPalette));
-	pal->name = g_strdup(name);
+	pal->name = g_strdup(_(name));
 	pal->limit = 1;
 	pal->rows = by_row;
 	pal->box =  gtk_grid_new();
@@ -409,7 +409,7 @@ DenemoPalette *create_palette (gchar *name, gboolean docked, gboolean rows) {
 	{
 		pal = new_palette (name, TRUE);
 		pal->window =  gtk_window_new (GTK_WINDOW_TOPLEVEL);
-		gtk_window_set_title (GTK_WINDOW (pal->window), name);		
+		gtk_window_set_title (GTK_WINDOW (pal->window), pal->name);		
 		g_signal_connect (G_OBJECT (pal->window), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
 		pal->rows = rows;
 		if(docked) 
