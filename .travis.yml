@@ -1,0 +1,11 @@
+language: cpp
+env:
+  matrix:
+  - COMPILER=gcc
+  - COMPILER=clang
+script:
+- tools/travis/run-script.sh
+before_install:
+- tools/travis/before-install.sh
+install:
+- tools/travis/install.sh
