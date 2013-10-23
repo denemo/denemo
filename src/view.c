@@ -92,7 +92,7 @@ static gint dnm_key_snooper (GtkWidget * grab_widget, GdkEventKey * event);
 static void populate_opened_recent_menu (void);
 static gchar *get_most_recent_file (void);
 static void toggle_record_script (GtkAction * action, gpointer param);
-
+static void destroy_local_scheme_init (void);
 typedef enum
 {
   ACCELS_LOADED = 0x0,
@@ -1265,7 +1265,16 @@ scheme_debug_object (SCM optional)
   return SCM_BOOL (TRUE);
 }
 
-
+static SCM
+scheme_destroy_scheme_init (void)
+{
+	if(confirm(_("Destroying Customized Buttons"), _("Remove buttons and other customized scheme on startup?"))) 
+	{
+		destroy_local_scheme_init();
+		return SCM_BOOL_T;
+	}
+return SCM_BOOL_F;
+}
 static SCM
 scheme_load_keybindings (SCM name)
 {
@@ -5781,6 +5790,18 @@ append_to_local_scheme_init (gchar * scheme)
   g_free (filename);
 }
 
+/*
+  empty the user's user's denemo.scm
+*/
+static void
+destroy_local_scheme_init (void)
+{
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "denemo.scm", NULL);
+  FILE *fp = fopen (filename, "w");
+  if (fp)
+  fclose (fp);
+}
+
 
 /*
   load denemo.scm from system,
@@ -6020,6 +6041,7 @@ create_scheme_identfiers (void)
 
 
   INSTALL_SCM_FUNCTION ("Prints out information about the object at the cursor", DENEMO_SCHEME_PREFIX "DebugObject", scheme_debug_object);
+  INSTALL_SCM_FUNCTION ("Remove the user's customized buttons and other scheme startup stuff created by the user in actions/denemo.scm", DENEMO_SCHEME_PREFIX "DestroySchemeInit", scheme_destroy_scheme_init);
 
   INSTALL_SCM_FUNCTION ("Returns the name of the (highest) note in any chord at the cursor position, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteName", scheme_get_note_name);
   INSTALL_SCM_FUNCTION ("Insert a rest at the cursor in the prevailing duration, or if given a integer, in that duration, setting the prevailing duration. If MIDI in is active, the cursor stays on the rest after inserting it, else it moves right.", DENEMO_SCHEME_PREFIX "InsertRest", scheme_insert_rest);

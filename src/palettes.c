@@ -53,6 +53,15 @@ static void hide_all_palettes (void) {
 			hide_palette_widget (pal->box);
 	}
 }
+
+static void destroy_all_palettes (void) {
+	if(confirm(_("Destroy All Palettes"), _("Get rid of all palettes permanently?")))
+	{
+		hide_all_palettes();
+		Denemo.palettes = NULL;//on exit an empty palettes.xml will be written
+	}
+}
+
 static void popupmenu (GtkWidget *menu) {
 	  g_signal_connect (menu, "selection-done", gtk_main_quit, NULL);
 	  gtk_widget_show_all (menu);
@@ -164,6 +173,12 @@ static GtkWidget *get_palette_menu(DenemoPalette *pal) {
 	gtk_widget_set_tooltip_text (item, _("Hide all the palettes"));
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (hide_all_palettes), (gpointer) pal);
+	}	
+		{
+	item = gtk_menu_item_new_with_label ( _("Destroy All Palettes"));
+	gtk_widget_set_tooltip_text (item, _("Destroy all the palettes - this will save time at startup, and shorten the palette menu."));
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (destroy_all_palettes), (gpointer) pal);
 	}	
   return menu;
 }
