@@ -529,7 +529,7 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSa
 static void
 init_local_path (void)
 {
-  local_template_path = g_build_filename (get_user_data_dir (), "templates", NULL);
+  local_template_path = g_build_filename (get_user_data_dir (TRUE), "templates", NULL);
   gboolean err = g_mkdir_with_parents (local_template_path, 0770);
   if (err)
     {
@@ -1112,7 +1112,7 @@ gint
 open_user_default_template (ImportType type)
 {
   gint ret = -1;
-  gchar *filename = g_build_filename (get_user_data_dir (), "templates", "default.denemo", NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), "templates", "default.denemo", NULL);
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
     {
       ret = open_for_real (filename, Denemo.gui, TRUE, type);
@@ -1171,7 +1171,7 @@ selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar * text, 
       warningdialog (_("No selection text available"));
       return;
     }
-  gchar *filename = g_build_filename (get_user_data_dir (), "denemopaste.ly", NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), "denemopaste.ly", NULL);
   FILE *fp = fopen (filename, "w");
   if (fp)
     {

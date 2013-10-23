@@ -8,11 +8,6 @@
 #include "utils.h"              /* Includes gtk.h */
 #include <denemo/denemo.h>
 
-/* Include the pixmaps; they'll actually be made into GdkPixmaps with the
- * GDK create_from_xpm_d functions. Doing things this way circumvents the need
- * to install the pixmaps into a /usr/share directory of some kind before
- * the program can be run from anywhere on the system. */
-
 #define NUMCLEFTYPES DENEMO_INVALID_CLEF
 #define TREBLE_TOPOFFSET 30
 #define BASS_TOPOFFSET 10

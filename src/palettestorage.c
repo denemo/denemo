@@ -31,7 +31,7 @@ static save_button (xmlNodePtr button, GtkWidget *widget)
 	gchar *label = g_object_get_data (G_OBJECT(widget), "icon");
 	if(label == NULL)
 		label = gtk_button_get_label(GTK_BUTTON(widget));
-	xmlSetProp (button, (xmlChar *) "_label", (xmlChar *) label );
+	xmlSetProp (button, (xmlChar *) "label", (xmlChar *) label );
 	xmlSetProp (button, (xmlChar *) "_tooltip", (xmlChar *) gtk_widget_get_tooltip_text(widget));
 	xmlSetProp (button, (xmlChar *) "script", (xmlChar *) g_object_get_data (G_OBJECT(widget), "script"));
 }
@@ -48,7 +48,8 @@ newXMLIntProp (xmlNodePtr parent, const xmlChar * name, gint content)
 }
 
 
-static save_palette (xmlNodePtr parent, DenemoPalette *pal)
+static void
+save_palette (xmlNodePtr parent, DenemoPalette *pal)
 {
 	xmlSetProp (parent, (xmlChar *) "_name", (xmlChar *) pal->name);
 
@@ -76,7 +77,7 @@ writePalettes (void)
   xmlNodePtr parent, child;
   gchar *localpal = NULL;
   
-  localpal = g_build_filename (get_user_data_dir (), "actions", "palettes.xml", NULL);
+  localpal = g_build_filename (get_user_data_dir (TRUE), "actions", "palettes.xml", NULL);
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
   doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo", NULL);
@@ -129,7 +130,7 @@ for ((childElem) = (parentElem)->xmlChildrenNode; \
   FOREACH_CHILD_ELEM (childElem, palette) 
   if (ELEM_NAME_EQ (childElem, "button"))
   {
-	gchar *label = (gchar *) xmlGetProp (childElem, (xmlChar *) "_label");	
+	gchar *label = (gchar *) xmlGetProp (childElem, (xmlChar *) "label");	
 	gchar *tooltip = (gchar *) xmlGetProp (childElem, (xmlChar *) "_tooltip");	
 	gchar *script = (gchar *) xmlGetProp (childElem, (xmlChar *) "script");	
 	if(label && tooltip && script)
@@ -168,7 +169,10 @@ installPalettes (void)
   xmlNodePtr rootElem;
 
   gchar *filename = NULL;
-  filename = g_build_filename (get_user_data_dir (), "actions", "palettes.xml", NULL);
+  if(Denemo.old_user_data_dir)
+	filename = g_build_filename (Denemo.old_user_data_dir, "actions", "palettes.xml", NULL);
+  else
+	filename = g_build_filename (get_user_data_dir (TRUE), "actions", "palettes.xml", NULL);
   if(!g_file_test (filename, G_FILE_TEST_EXISTS))
 	{
 			g_free(filename);

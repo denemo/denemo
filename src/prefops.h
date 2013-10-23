@@ -12,8 +12,7 @@
 #define INITIAL_WIDTH 1000
 #define INITIAL_HEIGHT 500
 
-const gchar *get_user_data_dir (void);
-const gchar *locateprintdir (void);
+
 void initprefs (void);
 gint readxmlprefsString (gchar * xmlprefs);
 gint writeXMLPrefs (DenemoPrefs * prefs);

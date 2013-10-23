@@ -1630,13 +1630,6 @@ If the cursor is in the appending position, appends a note using the prevailing 
         <menupath>/ObjectMenu/NotesRests/Markings/TextMarks/DynamicMarkings</menupath>
         <_label>Delete</_label>
         <_tooltip>Deletes a dynamic attached to the chord at the cursor.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>IntelligentDelete</action>
-        <menupath>/MainMenu/EditMenu</menupath>
-        <_label>Delete</_label>
-        <_tooltip>Deletes a single object at the cursor, an empty measure or the complete selection.</_tooltip>
-      </row>
       <row type="scheme">
         <action>DeleteBeamingDirective</action>
         <after>EndBeam</after>
@@ -1759,6 +1752,20 @@ If the cursor is in the appending position, appends a note using the prevailing 
         <_label>Delete in Stages</_label>
         <_tooltip>Deletes the object at/before the cursor. For Notes/Chords/Rests it deletes stage by stage.
 First it removes notes until just a non-printing rest remains, then deletes that.</_tooltip>
+      </row>
+      </row>
+      <row type="scheme">
+        <action>IntelligentDelete</action>
+        <after>StagedDelete</after>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <_label>Delete</_label>
+        <_tooltip>Deletes a single object at the cursor, an empty measure or the complete selection.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>RemoveSchemeInit</action>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <_label>Destroy Button Customization</_label>
+        <_tooltip>Removes the file that creates customized buttons on the title bar (and any other scheme you have added to the startup script).</_tooltip>
       </row>
       <row type="scheme">
         <action>MovementNoteheadsDiamond</action>

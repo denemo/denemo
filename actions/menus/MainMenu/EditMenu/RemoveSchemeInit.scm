@@ -1,0 +1,2 @@
+;;;RemoveCustomizedButtons
+(d-DestroySchemeInit)

@@ -35,6 +35,51 @@
 #include <mach-o/dyld.h>
 #endif
 
+/**
+ * This checks to see if there's a .denemo/ directory in the user's
+ * home directory, 
+ * if create tries to create one if there isn't, and returns the
+ * path to it
+ * else returns NULL
+ *
+ * .denemo/ is used for holding configuration files, templates, and so on.
+ *
+ * On windows the home directory is the one containing the My Documents folder.
+ */
+
+const gchar *
+get_user_data_dir (gboolean create)
+{
+  static gchar *dotdenemo = NULL;
+
+  gboolean err;
+  if (!dotdenemo)
+    {
+      dotdenemo = g_build_filename (g_get_home_dir (), ".denemo-" PACKAGE_VERSION, NULL);
+    }
+  if ((!create) && !g_file_test (dotdenemo, G_FILE_TEST_IS_DIR))
+	return NULL;
+  err = g_mkdir_with_parents (dotdenemo, 0770);
+  if (err)
+    {
+      warningdialog (_("Could not create .denemo for you personal settings"));
+      g_free (dotdenemo);
+      dotdenemo = NULL;
+    }
+  return dotdenemo;
+}
+
+/* return a path to a temporary directory to be used for print intermediate files */
+const gchar *
+locateprintdir (void)
+{
+  static gchar *printdir = NULL;
+  if (!printdir)
+    printdir = make_temp_dir ();
+  return printdir;
+}
+
+
 void
 add_font_directory (gchar * fontpath)
 {
@@ -1760,7 +1805,7 @@ write_status (DenemoGUI * gui)
           {
             chord *thechord = ((chord *) curObj->object);
             selection = g_strdup_printf ("%s%s%s%s%s%s%s%s%s",
-                                         thechord->notes ? (g_list_length (thechord->notes) > 1 ? "Chord " : "Note ") : "Rest ", thechord->slur_begin_p ? ", begin slur" : "", thechord->slur_end_p ? ", end slur" : "", thechord->is_tied ? ", tied" : "", thechord->crescendo_begin_p ? ", begin cresc." : "", thechord->crescendo_end_p ? ", end cresc." : "", thechord->diminuendo_begin_p ? ", begin dim." : "", thechord->diminuendo_end_p ? ", end dim." : "", thechord->is_grace ? ", grace note" : "");
+                                         thechord->notes ? (g_list_length (thechord->notes) > 1 ? _("Chord ") : _("Note ")) : _("Rest "), thechord->slur_begin_p ? _(", begin slur") : "", thechord->slur_end_p ? _(", end slur") : "", thechord->is_tied ? _(", tied") : "", thechord->crescendo_begin_p ? _(", begin cresc.") : "", thechord->crescendo_end_p ? _(", end cresc.") : "", thechord->diminuendo_begin_p ? _(", begin dim.") : "", thechord->diminuendo_end_p ? _(", end dim.") : "", thechord->is_grace ? _(", grace note") : "");
             if (thechord->notes)
               {
                 GList *g;
@@ -1784,44 +1829,70 @@ write_status (DenemoGUI * gui)
           break;
 
         case TUPOPEN:
-          selection = g_strdup_printf ("Tuplet %d/%d", ((tupopen *) curObj->object)->numerator, ((tupopen *) curObj->object)->denominator);
+          selection = g_strdup_printf (_("Tuplet %d/%d"), ((tupopen *) curObj->object)->numerator, ((tupopen *) curObj->object)->denominator);
           break;
         case TUPCLOSE:
-          selection = g_strdup_printf ("End tuplet");
+          selection = g_strdup_printf (_("End tuplet"));
           break;
         case CLEF:
-          selection = g_strdup_printf ("clef change");
+          selection = g_strdup_printf (_("Clef change"));
           break;
         case TIMESIG:
-          selection = g_strdup_printf ("time signature change");
+          selection = g_strdup_printf (_("Time signature change"));
           break;
         case KEYSIG:
-          selection = g_strdup_printf ("key signature change");
+          selection = g_strdup_printf (_("Key signature change"));
           break;
         case STEMDIRECTIVE:
-          selection = g_strdup_printf ("stem directive: %s", ((stemdirective *) curObj->object)->type == DENEMO_STEMDOWN ? "stem down" : ((stemdirective *) curObj->object)->type == DENEMO_STEMUP ? "stem up" : "normal stemming");
+          selection = g_strdup_printf (_("Stem directive: %s"), ((stemdirective *) curObj->object)->type == DENEMO_STEMDOWN ? _("stem down") : ((stemdirective *) curObj->object)->type == DENEMO_STEMUP ? _("stem up") : _("normal stemming"));
           break;
         case DYNAMIC:
-          selection = g_strdup_printf ("Dynamic: %s", ((dynamic *) curObj->object)->type->str);
+          selection = g_strdup_printf (_("Dynamic: %s"), ((dynamic *) curObj->object)->type->str);
           break;
 
         case LILYDIRECTIVE:
           {
             DenemoDirective *directive = (DenemoDirective *) curObj->object;
-            selection = g_strdup_printf ("Directive:(%.20s) %.20s%.50s", directive->tag ? directive->tag->str : "Unknown Tag", directive->x ? "Not all layouts" : directive->y ? "Only for one Layout" : "", directive->postfix ? directive->postfix->str : directive->prefix ? directive->prefix->str : directive->graphic_name ? directive->graphic_name->str : directive->display ? directive->display->str : "empty");
+            selection = g_strdup_printf (_("Directive:(%.20s) %.20s%.50s"), directive->tag ? directive->tag->str : _("Unknown Tag"), directive->x ? _("Not all layouts") : directive->y ? _("Only for one Layout") : "", directive->postfix ? directive->postfix->str : directive->prefix ? directive->prefix->str : directive->graphic_name ? directive->graphic_name->str : directive->display ? directive->display->str : "empty");
           }
           break;
         default:
-          selection = g_strdup_printf ("Cursor on a unknown object");
+          selection = g_strdup_printf (_("Cursor on an unknown object"));
         }
     }
   else
-    selection = g_strdup_printf ("Cursor not on any object");
+    selection = g_strdup_printf (_("Cursor not on any object"));
 
   GString *status = g_string_new (_("Movement"));
-
   gint index = g_list_index (gui->movements, gui->si);
-  g_string_printf (status, "%s %d: %s: ", enshift_string (gui->si->pending_enshift), index + 1, selection);
+  const gchar *dur ="";
+  switch (get_prevailing_duration())
+  {
+	  case 0: dur = NOTE0;
+	  break;
+	  case 1: dur = NOTE1;
+	  break;
+	  case 2: dur = NOTE2;
+	  break;
+	  case 3: dur = NOTE3;
+	  break;
+	  case 4: dur = NOTE4;
+	  break;
+	  case 5: dur = NOTE5;
+	  break;
+	  case 6: dur = NOTE6;
+	  break;
+	  case 7: dur = NOTE7;
+	  break;
+	  case 8: dur = NOTE8;
+	  break;
+	 
+	  
+  }
+  g_string_printf (status, "%s%s %d: %s: ", enshift_string (gui->si->pending_enshift), dur, index + 1, selection);
+  
+
+  
   if (gui->si->smf && (gui->si->smfsync == gui->si->changecount) && Denemo.prefs.playback_controls)
     g_string_append_printf (status, _("%d min %.2f sec %.2f %.2f"), minutes, seconds, early, late);
   else
@@ -2392,7 +2463,7 @@ find_path_for_file(gchar* filename, gchar* dirs[])
   gchar* dir = find_dir_for_file (filename, dirs);
   if(dir){
     gchar* path = g_build_filename(dir, filename, NULL);
-    g_free(dir);g_print("got %s\n", path);
+    g_free(dir);
     return path;
   }
   return NULL;
@@ -2477,8 +2548,8 @@ find_denemo_file (DenemoDirectory dir, gchar* filename)
 {
   //g_print("find_denemo_file called with %d and %s\n", dir, filename);
   gchar* dirs[] = {
-    g_build_filename(get_executable_dir (), "..", get_local_dir (dir), NULL),
-    g_build_filename(get_user_data_dir(), get_local_dir (dir), NULL),
+    g_build_filename(get_executable_dir (TRUE), "..", get_local_dir (dir), NULL),
+    g_build_filename(get_user_data_dir (TRUE), get_local_dir (dir), NULL),
     g_strdup(get_system_dir(dir)),
     NULL
   };

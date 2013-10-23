@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>ExecuteScheme</after>
+        <action>RemoveSchemeInit</action>
+        <_label>Destroy Button Customization</_label>
+        <_tooltip>Removes the file that creates customized buttons on the title bar (and any other scheme you have added to the startup script).</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

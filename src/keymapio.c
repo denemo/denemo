@@ -8,8 +8,8 @@ find_command_dir(GtkAction* action, gchar* filename)
 {
   gchar *menupath = (gchar *) g_object_get_data (G_OBJECT (action), "menupath");
   gchar* dirs[] = {
-      g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", menupath, NULL),
-      g_build_filename (get_user_data_dir (), "download", COMMANDS_DIR, "menus", menupath, NULL),
+      g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, NULL),
+      g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", menupath, NULL),
       g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", menupath, NULL),
       NULL
   };
@@ -313,7 +313,13 @@ load_xml_keymap (gchar * filename)
     }
 
   xmlFreeDoc (doc);
-  alphabeticalize_commands (Denemo.map);
+  {static gboolean init=FALSE;
+  if (!init)
+	{
+	alphabeticalize_commands (Denemo.map);
+	init = TRUE;
+	}
+  }
   {
     //if this is a new-style .commands file, we need to load the keybindings separately
     gchar *name = g_strdup (filename);
@@ -570,7 +576,7 @@ show_type (GtkWidget * widget, gchar * message)
 static gint
 create_dir_for_menu (gchar * str)
 {
-  gchar *thismenu = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", str, NULL);
+  gchar *thismenu = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", str, NULL);
   if (!g_file_test (thismenu, G_FILE_TEST_IS_DIR))
     {
       return g_mkdir_with_parents (thismenu, 0770);

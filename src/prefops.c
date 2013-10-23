@@ -24,46 +24,6 @@
 
 static gint readxmlprefsFile (gchar * filename);
 
-/**
- * This checks to see if there's a .denemo/ directory in the user's
- * home directory, tries to create one if there isn't, and returns the
- * path to it
- *
- * .denemo/ is used for holding configuration files, templates, and so on.
- *
- * On windows the home directory is the one containing the My Documents folder.
- */
-
-const gchar *
-get_user_data_dir ()
-{
-  static gchar *dotdenemo = NULL;
-
-  gboolean err;
-  if (!dotdenemo)
-    {
-      dotdenemo = g_build_filename (g_get_home_dir (), ".denemo-" PACKAGE_VERSION, NULL);
-    }
-  err = g_mkdir_with_parents (dotdenemo, 0770);
-  if (err)
-    {
-      warningdialog (_("Could not create .denemo for you personal settings"));
-      g_free (dotdenemo);
-      dotdenemo = NULL;
-    }
-
-  return dotdenemo;
-}
-
-/* return a path to a temporary directory to be used for print intermediate files */
-const gchar *
-locateprintdir (void)
-{
-  static gchar *printdir = NULL;
-  if (!printdir)
-    printdir = make_temp_dir ();
-  return printdir;
-}
 
 /**
  * Initialise user preferences to reasonable defaults 
@@ -75,9 +35,15 @@ void
 initprefs ()
 {
 #define ret (&Denemo.prefs)
-  gchar *dotdenemo = (gchar *) get_user_data_dir ();
+  gchar *dotdenemo = (gchar *) get_user_data_dir (TRUE);
   gchar *localrc = dotdenemo ? g_build_filename (dotdenemo, PREFS_FILE, NULL) : NULL;
-
+	if(Denemo.old_user_data_dir) {
+		if(confirm (_("Denemo Upgrade"), _("Re-use your old preferences and shortcuts?")))
+			localrc =  g_build_filename (Denemo.old_user_data_dir, PREFS_FILE, NULL);
+		else
+		Denemo.old_user_data_dir = NULL;
+			
+	}
   /* Reasonable default values */
 
   ret->mode = INPUTEDIT | INPUTRHYTHM | INPUTNORMAL;
@@ -161,7 +127,6 @@ initprefs ()
   ret->autosave = TRUE;
   ret->autosave_timeout = 5;
   ret->maxhistory = 20;
-  ret->notation_palette = TRUE;
   ret->midi_in_controls = FALSE;
   ret->playback_controls = FALSE;
   ret->toolbar = TRUE;
@@ -351,7 +316,6 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
         READBOOLXMLENTRY (continuous)
         READBOOLXMLENTRY (lilyentrystyle)
         READBOOLXMLENTRY (toolbar)
-        READBOOLXMLENTRY (notation_palette)
         READBOOLXMLENTRY (midi_in_controls)
         READBOOLXMLENTRY (playback_controls)
         READBOOLXMLENTRY (console_pane)
@@ -422,7 +386,7 @@ get_bool_pref (gchar * prefname)
     GETBOOLPREF (overlays)
     GETBOOLPREF (enable_thumbnails)
     GETBOOLPREF (continuous)
-    GETBOOLPREF (lilyentrystyle) GETBOOLPREF (toolbar) GETBOOLPREF (notation_palette) GETBOOLPREF (midi_in_controls) GETBOOLPREF (playback_controls) GETBOOLPREF (console_pane) GETBOOLPREF (lyrics_pane) GETBOOLPREF (visible_directive_buttons) GETBOOLPREF (rhythm_palette) GETBOOLPREF (object_palette) GETBOOLPREF (autoupdate) GETBOOLPREF (jacktransport_start_stopped) GETBOOLPREF (fluidsynth_reverb) GETBOOLPREF (fluidsynth_chorus) GETBOOLPREF (progressbardecorations) return FALSE;
+    GETBOOLPREF (lilyentrystyle) GETBOOLPREF (toolbar) GETBOOLPREF (midi_in_controls) GETBOOLPREF (playback_controls) GETBOOLPREF (console_pane) GETBOOLPREF (lyrics_pane) GETBOOLPREF (visible_directive_buttons) GETBOOLPREF (rhythm_palette) GETBOOLPREF (object_palette) GETBOOLPREF (autoupdate) GETBOOLPREF (jacktransport_start_stopped) GETBOOLPREF (fluidsynth_reverb) GETBOOLPREF (fluidsynth_chorus) GETBOOLPREF (progressbardecorations) return FALSE;
 }
 
 #undef GETBOOLPREF
@@ -641,7 +605,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   static GString *localrc = NULL;
   if (!localrc)
     {
-      localrc = g_string_new (g_build_filename (get_user_data_dir (), PREFS_FILE, NULL));
+      localrc = g_string_new (g_build_filename (get_user_data_dir (TRUE), PREFS_FILE, NULL));
     }
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
@@ -735,7 +699,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
     WRITEBOOLXMLENTRY (enable_thumbnails)
     WRITEBOOLXMLENTRY (continuous)
     WRITEBOOLXMLENTRY (toolbar)
-    WRITEBOOLXMLENTRY (notation_palette)
     WRITEBOOLXMLENTRY (midi_in_controls)
     WRITEBOOLXMLENTRY (playback_controls)
     WRITEBOOLXMLENTRY (console_pane)
@@ -756,7 +719,17 @@ writeXMLPrefs (DenemoPrefs * prefs)
     WRITEINTXMLENTRY (portaudio_sample_rate)
     WRITEINTXMLENTRY (portaudio_period_size)
     WRITEINTXMLENTRY (maxrecordingtime)
-    WRITEXMLENTRY (portmidi_input_device) WRITEXMLENTRY (portmidi_output_device) WRITEXMLENTRY (fluidsynth_soundfont) WRITEBOOLXMLENTRY (fluidsynth_reverb) WRITEBOOLXMLENTRY (fluidsynth_chorus) WRITEINTXMLENTRY (dynamic_compression) WRITEINTXMLENTRY (zoom) WRITEINTXMLENTRY (system_height) WRITEBOOLXMLENTRY (progressbardecorations) WRITEXMLENTRY (browser) xmlSaveFormatFile (localrc->str, doc, 1);
+    WRITEXMLENTRY (portmidi_input_device) 
+    WRITEXMLENTRY (portmidi_output_device) 
+    WRITEXMLENTRY (fluidsynth_soundfont) 
+    WRITEBOOLXMLENTRY (fluidsynth_reverb) 
+    WRITEBOOLXMLENTRY (fluidsynth_chorus) 
+    WRITEINTXMLENTRY (dynamic_compression) 
+    WRITEINTXMLENTRY (zoom) 
+    WRITEINTXMLENTRY (system_height) 
+    WRITEBOOLXMLENTRY (progressbardecorations) 
+    WRITEXMLENTRY (browser) 
+  xmlSaveFormatFile (localrc->str, doc, 1);
   xmlFreeDoc (doc);
   ret = 0;
   return ret;
@@ -774,22 +747,23 @@ readHistory ()
   gint ret = -1;
   xmlDocPtr doc = NULL;
   xmlNodePtr rootElem;
-
+  gchar *oldhistory = NULL;
   static GString *filename = NULL;
   if (!filename)
     {
-      filename = g_string_new (get_user_data_dir ());
-      g_string_append (filename, "/denemohistory");
+      filename = g_string_new (g_build_filename (get_user_data_dir (TRUE), "denemohistory", NULL));
     }
-  if (g_file_test (filename->str, G_FILE_TEST_EXISTS))
-    doc = xmlParseFile (filename->str);
+  if(Denemo.old_user_data_dir)
+	  oldhistory = g_build_filename (Denemo.old_user_data_dir, "denemohistory", NULL);
+  if (g_file_test (oldhistory? oldhistory:filename->str, G_FILE_TEST_EXISTS))
+    doc = xmlParseFile (oldhistory? oldhistory : filename->str);
   else
     return ret;
 
   if (doc == NULL)
     {
       g_warning ("Could not read XML file %s", filename->str);
-      xmlSaveFormatFile ((gchar *) filename->str, doc, 0);
+      xmlSaveFormatFile ((gchar *) filename->str, doc, 0); //What is this for???
       return ret;
     }
 
@@ -843,8 +817,7 @@ writeHistory (void)
   static GString *filename = NULL;
   if (!filename)
     {
-      filename = g_string_new (get_user_data_dir ());
-      g_string_append (filename, "/denemohistory");
+      filename = g_string_new (g_build_filename (get_user_data_dir (TRUE), "denemohistory", NULL));
     }
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
@@ -874,7 +847,7 @@ storeWindowState (void)
   g_key_file_set_boolean (keyfile, "State", "maximized", Denemo.maximized);
   contents = g_key_file_to_data (keyfile, NULL, NULL);
   g_key_file_free (keyfile);
-  filename = g_build_filename (get_user_data_dir (), "state.ini", NULL);
+  filename = g_build_filename (get_user_data_dir (TRUE), "state.ini", NULL);
   g_file_set_contents (filename, contents, -1, NULL);
   g_free (filename);
   g_free (contents);
@@ -894,7 +867,7 @@ loadWindowState (void)
   gint w, h;
   gboolean maximized = FALSE;
   GError *err = NULL;
-  filename = g_build_filename (get_user_data_dir (), "state.ini", NULL);
+  filename = g_build_filename (get_user_data_dir (TRUE), "state.ini", NULL);
   keyfile = g_key_file_new ();
   if (g_key_file_load_from_file (keyfile, filename, G_KEY_FILE_NONE, NULL) == FALSE)
     {

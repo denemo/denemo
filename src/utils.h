@@ -35,6 +35,9 @@
 #define FONT "Sans 9"
 #define TIMESIGFONT "Sans 24"
 
+const gchar *get_user_data_dir (gboolean create);
+
+const gchar *locateprintdir (void);
 /* Adds a callback that processes the "activate" signal coming from
  * a widget */
 

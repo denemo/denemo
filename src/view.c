@@ -92,7 +92,7 @@ static gint dnm_key_snooper (GtkWidget * grab_widget, GdkEventKey * event);
 static void populate_opened_recent_menu (void);
 static gchar *get_most_recent_file (void);
 static void toggle_record_script (GtkAction * action, gpointer param);
-
+static void destroy_local_scheme_init (void);
 typedef enum
 {
   ACCELS_LOADED = 0x0,
@@ -233,7 +233,7 @@ execute_script_file (gchar * filename)
 #define ToggleMidiInControls_STRING "ToggleMidiInToolbar"
 
 #define ToggleRhythmToolbar_STRING "ToggleRhythmToolbar"
-#define ToggleEntryToolbar_STRING  "ToggleEntryToolbar"
+
 #define ToggleActionMenu_STRING  "ToggleActionMenu"
 #define ToggleObjectMenu_STRING  "ToggleObjectMenu"
 #define ToggleLilyText_STRING  "ToggleLilyText"
@@ -878,7 +878,7 @@ lilypond_to_enshift (gchar * enshift_name)
 static SCM
 scheme_execute_init (gchar * menupath)
 {
-  gchar *filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", menupath, INIT_SCM, NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, INIT_SCM, NULL);
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
     {
       g_print ("About to load from %s\n", filename);
@@ -938,12 +938,12 @@ scheme_load_command (SCM command)
   gboolean ret;
   char *name;
   name = scm_to_locale_string (command);
-  gchar *filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", name, NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", name, NULL);
   ret = load_xml_keymap (filename);
   if (ret == FALSE)
     {
       g_free (filename);
-      filename = g_build_filename (get_user_data_dir (), "download", COMMANDS_DIR, name, NULL);
+      filename = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, name, NULL);
       ret = load_xml_keymap (filename);
     }
   if (ret == FALSE)
@@ -1110,7 +1110,6 @@ toggle_to_drawing_area (gboolean show)
   //TOG("/RhythmToolBar", rtoolbar, "/MainMenu/ViewMenu/"ToggleRhythmToolbar_STRING);
   TOG ("/ObjectMenu", objectmenu, "/MainMenu/ViewMenu/" ToggleObjectMenu_STRING);
 
-  TOG2 ("/EntryToolBar", entrymenu);
   TOG2 ("/MainMenu", mainmenu);
 
   // TOG3(gtk_widget_get_parent(Denemo.console), console_view, "/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
@@ -1266,7 +1265,16 @@ scheme_debug_object (SCM optional)
   return SCM_BOOL (TRUE);
 }
 
-
+static SCM
+scheme_destroy_scheme_init (void)
+{
+	if(confirm(_("Destroying Customized Buttons"), _("Remove buttons and other customized scheme on startup?"))) 
+	{
+		destroy_local_scheme_init();
+		return SCM_BOOL_T;
+	}
+return SCM_BOOL_F;
+}
 static SCM
 scheme_load_keybindings (SCM name)
 {
@@ -1279,7 +1287,7 @@ scheme_load_keybindings (SCM name)
           free (filename);
           return SCM_BOOL_T;
         }
-      gchar *name = g_build_filename (get_user_data_dir (), COMMANDS_DIR, filename, NULL);
+      gchar *name = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, filename, NULL);
       if (load_xml_keybindings (name) == 0)
         {
           free (filename);
@@ -1287,7 +1295,7 @@ scheme_load_keybindings (SCM name)
           return SCM_BOOL_T;
         }
       g_free (name);
-      name = g_build_filename (get_user_data_dir (), "download", COMMANDS_DIR, filename, NULL);
+      name = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, filename, NULL);
       if (load_xml_keybindings (name) == 0)
         {
           //g_free(name); CHECKME
@@ -5594,7 +5602,7 @@ scheme_insert_snippet (SCM number)
 SCM
 scheme_locate_dotdenemo (SCM optional)
 {
-  const gchar *dotdenemo = get_user_data_dir ();
+  const gchar *dotdenemo = get_user_data_dir (TRUE);
   if (!dotdenemo)
     return SCM_BOOL (FALSE);
   SCM scm = scm_from_locale_string (dotdenemo);
@@ -5654,7 +5662,7 @@ define_scheme_constants (void)
   if (filename)
     g_free (filename);
 
-  filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, NULL);
+  filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, NULL);
   gchar *local_actions_dir = g_strdup_printf ("%s%c", filename, G_DIR_SEPARATOR);
   if (filename)
     g_free (filename);
@@ -5733,7 +5741,7 @@ define_scheme_constants (void)
 static void
 load_local_scheme_init (void)
 {
-  gchar *filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "denemo.scm", NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "denemo.scm", NULL);
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
     eval_file_with_catch (filename);    //scm_c_primitive_load(filename);
   if (filename)
@@ -5774,12 +5782,24 @@ denemo_scheme_init (void)
 void
 append_to_local_scheme_init (gchar * scheme)
 {
-  gchar *filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "denemo.scm", NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "denemo.scm", NULL);
   FILE *fp = fopen (filename, "a+");
   if (fp)
     fprintf (fp, "%s", scheme);
   fclose (fp);
   g_free (filename);
+}
+
+/*
+  empty the user's user's denemo.scm
+*/
+static void
+destroy_local_scheme_init (void)
+{
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "denemo.scm", NULL);
+  FILE *fp = fopen (filename, "w");
+  if (fp)
+  fclose (fp);
 }
 
 
@@ -5866,8 +5886,7 @@ load_preferences (void)
   if (!Denemo.prefs.toolbar)
     activate_action ("/MainMenu/ViewMenu/" ToggleToolbar_STRING);
 
-  if (!Denemo.prefs.notation_palette)
-    activate_action ("/MainMenu/ViewMenu/" ToggleEntryToolbar_STRING);
+
 
   if (!Denemo.prefs.console_pane)
     activate_action ("/MainMenu/ViewMenu/" ToggleConsoleView_STRING);
@@ -6022,6 +6041,7 @@ create_scheme_identfiers (void)
 
 
   INSTALL_SCM_FUNCTION ("Prints out information about the object at the cursor", DENEMO_SCHEME_PREFIX "DebugObject", scheme_debug_object);
+  INSTALL_SCM_FUNCTION ("Remove the user's customized buttons and other scheme startup stuff created by the user in actions/denemo.scm", DENEMO_SCHEME_PREFIX "DestroySchemeInit", scheme_destroy_scheme_init);
 
   INSTALL_SCM_FUNCTION ("Returns the name of the (highest) note in any chord at the cursor position, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteName", scheme_get_note_name);
   INSTALL_SCM_FUNCTION ("Insert a rest at the cursor in the prevailing duration, or if given a integer, in that duration, setting the prevailing duration. If MIDI in is active, the cursor stays on the rest after inserting it, else it moves right.", DENEMO_SCHEME_PREFIX "InsertRest", scheme_insert_rest);
@@ -6857,7 +6877,7 @@ load_files(gchar** files)
 static void
 crash_recovery_check()
 {
-  gchar *crash_file = g_build_filename (get_user_data_dir (), "crashrecovery.denemo", NULL);
+  gchar *crash_file = g_build_filename (get_user_data_dir (TRUE), "crashrecovery.denemo", NULL);
   if (g_file_test (crash_file, G_FILE_TEST_EXISTS))
     {
       GtkWidget *dialog = gtk_dialog_new_with_buttons (NULL,
@@ -7189,7 +7209,7 @@ static void
 fetchcommands (GtkAction * action, gpointer param)
 {
   static gchar *location = NULL;
-  location = g_build_filename (get_user_data_dir (), "download", COMMANDS_DIR, NULL);
+  location = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, NULL);
   gboolean err = g_mkdir_with_parents (location, 0770);
   if (err)
     {
@@ -7230,7 +7250,7 @@ static void
 morecommands (GtkAction * action, gpointer param)
 {
   static gchar *location = NULL;
-  location = g_build_filename (get_user_data_dir (), "download", COMMANDS_DIR, "menus", NULL);
+  location = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", NULL);
   if (!g_file_test (location, G_FILE_TEST_EXISTS))
     {
       g_free (location);
@@ -7257,9 +7277,9 @@ mycommands (GtkAction * action, gpointer param)
 {
   static gchar *location = NULL;
   if (location == NULL)
-    location = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", NULL);
+    location = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", NULL);
 
-  if (Denemo.last_merged_command && g_str_has_prefix (Denemo.last_merged_command, get_user_data_dir ()))
+  if (Denemo.last_merged_command && g_str_has_prefix (Denemo.last_merged_command, get_user_data_dir (TRUE)))
     {
       g_free (location);
       location = g_path_get_dirname (Denemo.last_merged_command);
@@ -8224,15 +8244,6 @@ create_rhythm_cb (GtkAction * action, gpointer param)
     {
       if (singleton)
         {
-          if (!already_done)
-            {                   //When creating first gui only
-              GtkWidget *toolbar = gtk_ui_manager_get_widget (Denemo.ui_manager, "/EntryToolBar");
-              gtk_toolbar_insert (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (r->button), -1);
-              gtk_widget_show_all (GTK_WIDGET (r->button));
-              /* gui->rstep = r->rsteps; */
-              g_signal_connect (G_OBJECT (r->button), "clicked", G_CALLBACK (singleton_callback), (gpointer) r);
-              unhighlight_rhythm (r);
-            }
           if (default_rhythm)
             {
               gui->prevailing_rhythm = r;
@@ -8461,23 +8472,7 @@ placeInPalette (GtkWidget * widget, GtkAction * action)
   gchar *name = (gchar *) gtk_action_get_name (action);
   gint idx = lookup_command_from_name (Denemo.map, name);
   if (idx > 0)
-    {
-      gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
-      gchar *script = g_strdup_printf ("(" DENEMO_SCHEME_PREFIX "%s)", name);
-      gchar *tooltip = lookup_tooltip_from_idx (Denemo.map, idx);
-      gchar *palette_name = get_palette_name (TRUE);
-      if(palette_name) {
-		DenemoPalette *pal = get_palette (palette_name);
-		if(pal==NULL) 
-			{
-			pal = set_palate_shape (palette_name, TRUE, 1);
-		}
-		if(pal)
-			palette_add_button (pal, label, tooltip, script);
-		}
-	  g_free (script);
-
-	}
+    place_action_in_palette (idx, name);
 }
 
 /* gets a name label and tooltip from the user, then creates a menuitem in the menu 
@@ -8520,8 +8515,8 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
   gchar *xml_filename = g_strconcat (myname, XML_EXT, NULL);
   gchar *scm_filename = g_strconcat (myname, SCM_EXT, NULL);
   g_print ("The filename built is %s from %s", xml_filename, myposition);
-  gchar *xml_path = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", myposition, xml_filename, NULL);
-  gchar *scm_path = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", myposition, scm_filename, NULL);
+  gchar *xml_path = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", myposition, xml_filename, NULL);
+  gchar *scm_path = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", myposition, scm_filename, NULL);
   g_free (xml_filename);
   if ((!g_file_test (xml_path, G_FILE_TEST_EXISTS)) || (g_file_test (xml_path, G_FILE_TEST_EXISTS) && confirm (_("Duplicate Name"), _("A command of this name is already available in your custom menus; Overwrite?"))))
     {
@@ -8704,11 +8699,11 @@ get_initialization_script (GtkWidget * widget, gchar * directory)
   GError *error = NULL;
   gchar *script;
   g_print ("loading %s/init.scm into Denemo.ScriptView\n", directory);
-  gchar *filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", directory, INIT_SCM, NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", directory, INIT_SCM, NULL);
   if (!g_file_test (filename, G_FILE_TEST_EXISTS))
     {
       g_free (filename);
-      filename = g_build_filename (get_user_data_dir (), "download", COMMANDS_DIR, "menus", directory, INIT_SCM, NULL);
+      filename = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", directory, INIT_SCM, NULL);
       if (!g_file_test (filename, G_FILE_TEST_EXISTS))
         {
           g_free (filename);
@@ -8733,7 +8728,7 @@ get_initialization_script (GtkWidget * widget, gchar * directory)
 static void
 put_initialization_script (GtkWidget * widget, gchar * directory)
 {
-  gchar *filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", directory, INIT_SCM, NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", directory, INIT_SCM, NULL);
   if ((!g_file_test (filename, G_FILE_TEST_EXISTS)) || confirm (_("There is already an initialization script here"), _("Do you want to replace it?")))
     {
       gchar *scheme = getSchemeText ();
@@ -8797,11 +8792,11 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
   gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
   
   gchar *xml_filename = g_strconcat (name, XML_EXT, NULL);
-  gchar *xml_path = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", menupath, xml_filename, NULL);
+  gchar *xml_path = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, xml_filename, NULL);
   g_free (xml_filename);
 
   gchar *scm_filename = g_strconcat (name, SCM_EXT, NULL);
-  gchar *scm_path = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", menupath, scm_filename, NULL);
+  gchar *scm_path = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, scm_filename, NULL);
   g_free (scm_filename);
   
   gchar *scheme = getSchemeText ();
@@ -8834,13 +8829,13 @@ uploadMenuItem (GtkWidget * widget, GtkAction * action)
   gchar *tooltip = (gchar *) lookup_tooltip_from_idx (Denemo.map, idx);
   gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
 
-  gchar *filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", menupath, name,
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, name,
                                       NULL);
   gchar *script = g_object_get_data (G_OBJECT (action), "scheme");
   gchar *xml;
   GError *error = NULL;
   g_file_get_contents (filename, &xml, NULL, &error);
-  filename = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "menus", menupath, INIT_SCM, NULL);
+  filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, INIT_SCM, NULL);
   gchar *init_script;
   g_file_get_contents (filename, &init_script, NULL, &error);
 
@@ -8872,7 +8867,7 @@ locatebitmapsdir (void)
   gboolean err;
   if (!bitmapsdir)
     {
-      bitmapsdir = g_build_filename (get_user_data_dir (), COMMANDS_DIR, "bitmaps", NULL);
+      bitmapsdir = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "bitmaps", NULL);
     }
   err = g_mkdir_with_parents (bitmapsdir, 0770);
   if (err)
@@ -8890,7 +8885,7 @@ locatedownloadbitmapsdir (void)
   static gchar *bitmapsdir = NULL;
   if (!bitmapsdir)
     {
-      bitmapsdir = g_build_filename (get_user_data_dir (), "download", COMMANDS_DIR, "bitmaps", NULL);
+      bitmapsdir = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "bitmaps", NULL);
     }
   return bitmapsdir;
 }
@@ -9276,7 +9271,7 @@ saveGraphicItem (GtkWidget * widget, GtkAction * action)
 static gchar *
 get_system_menupath (gchar * menupath)
 {
-  gchar *filepath = g_build_filename (get_user_data_dir (), "download", COMMANDS_DIR, "menus", menupath, NULL);
+  gchar *filepath = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", menupath, NULL);
   //g_print("No file %s\n", filepath);
   if (0 != g_access (filepath, 4))
     {
@@ -10010,21 +10005,6 @@ toggle_midi_in_controls (GtkAction * action, gpointer param)
     Denemo.prefs.midi_in_controls = gtk_widget_get_visible (widget);
 }
 
-/**
- *  Function to toggle whether entry toolbar is visible 
- *  
- * 
- */
-static void
-toggle_entry_toolbar (GtkAction * action, gpointer param)
-{
-  GtkWidget *widget;
-  widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/EntryToolBar");
-  if ((!action) || gtk_widget_get_visible (widget))
-    gtk_widget_hide (widget);
-  else
-    gtk_widget_show (widget);
-}
 
 /**
  *  Function to toggle whether keyboard bindings can be set by pressing key over menu item 
@@ -10298,9 +10278,6 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleRhythmToolbar_STRING, NULL, N_("Snippets"), NULL, N_("Show/hide a toolbar which allows\nyou to store and enter snippets of music and to enter notes using rhythm pattern of a snippet"),
    G_CALLBACK (toggle_rhythm_toolbar), TRUE}
   ,
-  {ToggleEntryToolbar_STRING, NULL, N_("Note and Rest Entry"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes and rests using the mouse"),
-   G_CALLBACK (toggle_entry_toolbar), TRUE}
-  ,
   {ToggleObjectMenu_STRING, NULL, N_("Object Menu"), NULL, N_("Show/hide a menu which is arranged by objects\nThe actions available for note objects change with the mode"),
    G_CALLBACK (toggle_object_menu), TRUE}
   ,
@@ -10318,7 +10295,7 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleScoreLayout_STRING, NULL, N_("Score Layout"), NULL, NULL,
    G_CALLBACK (toggle_score_layout), FALSE}
   ,
-  {ToggleCommandManager_STRING, NULL, N_("Command Manager"), NULL, NULL,
+  {ToggleCommandManager_STRING, NULL, N_("Command Center"), NULL, NULL,
    G_CALLBACK (toggle_command_manager), FALSE}
   ,
 
@@ -10786,7 +10763,6 @@ create_window (void)
   gtk_widget_show (Denemo.menubar);
 
   gtk_widget_set_tooltip_text (gtk_ui_manager_get_widget (ui_manager, "/ObjectMenu"), _("This is the Object Menu bar, where menus for the commands that edit music live. They are arranged in a hierarchy Score, Movement, Staff (which contains Voices) and then the things that go on a staff, notes, clefs etc. Directives covers everything else that you can put in amongst the notes to change the behavior from that point in the music."));
-  gtk_widget_set_tooltip_markup (gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar"), _("This bar has buttons for entering notes and rests. The highlighted duration is the <i>prevailing duration</i>, that is the duration which will be applied to the next note entered. You can hide this bar (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu → Edit → Change Preferences → Display Note/Rest entry toolbar"));
 
   gtk_widget_set_tooltip_markup (gtk_ui_manager_get_widget (ui_manager, "/RhythmToolBar"),
                                  _
@@ -11019,15 +10995,6 @@ create_window (void)
   }
 
 
-  toolbar = gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar");
-  //g_print("EntryToolbar is %p\n", toolbar);
-  gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_TEXT);
-  gtk_box_pack_start (GTK_BOX (outer_main_vbox), toolbar, FALSE, TRUE, 0);
-  gtk_widget_set_can_focus (toolbar, FALSE);
-  //GTK_WIDGET_UNSET_FLAGS(toolbar, GTK_CAN_FOCUS);
-
-  // gtk_widget_show (toolbar); cannot show this until the GtkLabels have become GtkAccelLabels - a gtk bug
-
   toolbar = gtk_ui_manager_get_widget (ui_manager, "/RhythmToolBar");
   gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_TEXT);
   gtk_box_pack_start (GTK_BOX (outer_main_vbox), toolbar, FALSE, TRUE, 0);
@@ -11155,9 +11122,6 @@ create_window (void)
   Denemo.EditModeMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/EditModeNote");
   Denemo.ClassicModeMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/ClassicModeNote");
   Denemo.ModelessMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/ModelessNote");
-
-  //gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/ActionMenu"));// make a prefs thing
-  //GTK bug now fixed gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar")); //otherwise buttons only sensitive around their edges
 
 
   g_signal_connect (G_OBJECT (Denemo.notebook), "switch_page", G_CALLBACK (switch_page), NULL);
