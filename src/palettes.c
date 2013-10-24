@@ -498,6 +498,8 @@ gchar *choose_palette_by_name (gboolean allow_custom, gboolean non_showing)
   GtkWidget *menu = gtk_menu_new ();
   GtkWidget *item;
   GList *g;
+  selected_palette_name = NULL;
+  if(Denemo.palettes) {
   if(allow_custom) {
   	item = gtk_menu_item_new_with_label (_("Custom"));
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
@@ -514,8 +516,9 @@ gchar *choose_palette_by_name (gboolean allow_custom, gboolean non_showing)
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (palette_selected), (gpointer) pal->name);
 	}	
-	selected_palette_name = NULL;
+	
 	popupmenu (menu);
+}
 	if(allow_custom && (selected_palette_name==NULL))
 		{
 			user_palette_name ();
