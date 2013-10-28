@@ -11085,7 +11085,9 @@ create_window (void)
 
 
   create_lilywindow ();
-  // create_console(GTK_BOX(main_vbox));
+ 
+  // This section creates an hbox and places it in the main vbox. Inside this hbox are placed a status bar and a label.
+  // The status bar is not properly used within Denemo, and could just as well be a label too.
   Denemo.statusbar = gtk_statusbar_new ();
   gtk_widget_set_tooltip_text (Denemo.statusbar, _("This bar shows:\nPending ♯ or ♭ sign (if the next note entered will be sharpened or flattened)\nThe movement number\nDescription of the object at the Denemo cursor\nPosition and status (appending or inserting) of the cursor.\nIf the Playback Controls are visible then the timing of the object at the cursor is shown.\nIf MIDI in controls are visible the current enharmonic range is shown.\nWhen the first key of a two-key shortcut is pressed the possible continuations are shown here."));
   hbox = gtk_hbox_new (FALSE, 1);
@@ -11100,7 +11102,9 @@ create_window (void)
   Denemo.input_filters = g_string_new ("");
   gtk_box_pack_end (GTK_BOX (hbox), Denemo.input_source, TRUE, TRUE, 5);
   gtk_widget_show (hbox);
-
+  // End of status bar stuff - note this is not working on Windows correctly.
+	
+	
   create_scheme_window ();
 
   if (!Denemo.non_interactive)
