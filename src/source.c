@@ -114,7 +114,9 @@ button_press (EvView * view, GdkEventButton * event)
       gchar *filename = g_object_get_data (G_OBJECT (view), "filename");
       x += event->x;
       y += event->y;
-      gchar *text = g_strdup_printf ("(InsertLink \"%s:%d:%d:%d\")", filename, (gint) (x / scale), (gint) (y / scale), page);
+      gchar *escaped = g_strescape(filename, "");
+      gchar *text = g_strdup_printf ("(InsertLink \"%s:%d:%d:%d\")", escaped, (gint) (x / scale), (gint) (y / scale), page);
+      g_free(escaped);
       Mark.x = (x - MARKER / 2) / scale;
       Mark.y = (y - MARKER / 2) / scale;
       Mark.width = Mark.height = MARKER;
