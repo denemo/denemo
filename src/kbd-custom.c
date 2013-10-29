@@ -724,6 +724,9 @@ command_iter_sort (GtkTreeModel * model, GtkTreeIter * a, GtkTreeIter * b, G_GNU
 void
 alphabeticalize_commands (keymap * the_keymap)
 {
+	/* alphabeticalizing the commands causes saving new commands by the user to fail */
+	return;
+/*	
   g_print ("alphabeticalizing the commands");
   gint i, n;
   guint *value;
@@ -742,6 +745,7 @@ alphabeticalize_commands (keymap * the_keymap)
       else
         g_warning ("Error in keymap read");
     }
+*/
 }
 
 //False if command_idx is an invalid index or keymap is null, true otherwise
