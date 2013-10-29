@@ -1359,7 +1359,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
                       if (debug)
                         fprintf (stderr, "this is a chord\n");
 
-                      slur_update (&slur_status, chordval.slur_begin_p, chordval.slur_end_p);
+                     // slur_update (&slur_status, chordval.slur_begin_p, chordval.slur_end_p);
+ slur_update (&slur_status, 0, 0);
 
                       /* compute beat to add to note velocity */
                       //beat = compute_beat (ticks_read - ticks_at_bar, beats2ticks (1, timesigupper, timesiglower), bars2ticks (1, timesigupper, timesiglower), duration, vel_beatfact);
