@@ -70,6 +70,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
         {
           command.tooltip = _((gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
         }
+        else g_warning("Found XML tag %s reading a .commands file", cur->name);
     }
   create_command((gchar*) after, fallback, &command);
 }
