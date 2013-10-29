@@ -1630,6 +1630,7 @@ If the cursor is in the appending position, appends a note using the prevailing 
         <menupath>/ObjectMenu/NotesRests/Markings/TextMarks/DynamicMarkings</menupath>
         <_label>Delete</_label>
         <_tooltip>Deletes a dynamic attached to the chord at the cursor.</_tooltip>
+      </row>
       <row type="scheme">
         <action>DeleteBeamingDirective</action>
         <after>EndBeam</after>
@@ -1752,7 +1753,6 @@ If the cursor is in the appending position, appends a note using the prevailing 
         <_label>Delete in Stages</_label>
         <_tooltip>Deletes the object at/before the cursor. For Notes/Chords/Rests it deletes stage by stage.
 First it removes notes until just a non-printing rest remains, then deletes that.</_tooltip>
-      </row>
       </row>
       <row type="scheme">
         <action>IntelligentDelete</action>
