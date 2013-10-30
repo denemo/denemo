@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+  <!ENTITY version SYSTEM "version.xml">
+]>
+<book id="denemo">
+  <bookinfo>
+    <title>Denemo Reference Manual</title>
+    <releaseinfo>for denemo stable</releaseinfo>
+
+    <copyright>
+      <year>2013</year>
+      <holder>The denemo authors</holder>
+    </copyright>
+
+    <legalnotice>
+      <para>
+        Permission is granted to copy, distribute and/or modify this
+        document under the terms of the <citetitle>GNU Free
+        Documentation License</citetitle>, Version 1.3 or any later
+        version published by the Free Software Foundation with no
+        Invariant Sections, no Front-Cover Texts, and no Back-Cover
+        Texts. You may obtain a copy of the <citetitle>GNU Free
+        Documentation License</citetitle> from the Free Software
+        Foundation by visiting <ulink type="http"
+        url="http://www.fsf.org">their Web site</ulink> or by writing
+        to:
+        <address>
+          The Free Software Foundation, Inc.
+          <street>51 Franklin Street</street>, Suite 500
+          <city>Boston</city>, <state>MA</state> <postcode>02110-1335</postcode>
+          <country>USA</country>
+        </address>
+      </para>
+    </legalnotice>
+  </bookinfo>
+
+  <chapter>
+    <title>Core</title>
+    <xi:include href="xml/accwidths.xml"/>
+    <xi:include href="xml/alsabackend.xml"/>
+    <xi:include href="xml/articulations.xml"/>
+    <xi:include href="xml/audiocapture.xml"/>
+    <xi:include href="xml/audiofile.xml"/>
+    <xi:include href="xml/audiointerface.xml"/>
+    <xi:include href="xml/audio.xml"/>
+    <xi:include href="xml/barline.xml"/>
+    <xi:include href="xml/binreloc.xml"/>
+    <xi:include href="xml/bookmarks.xml"/>
+    <xi:include href="xml/calculatepositions.xml"/>
+    <xi:include href="xml/callbacks.xml"/>
+    <xi:include href="xml/changenotehead.xml"/>
+    <xi:include href="xml/chordops.xml"/>
+    <xi:include href="xml/commandfuncs.xml"/>
+    <xi:include href="xml/contexts.xml"/>
+    <xi:include href="xml/denemo_api.xml"/>
+    <xi:include href="xml/denemo_objects.xml"/>
+    <xi:include href="xml/denemo_types.xml"/>
+    <xi:include href="xml/denemo.xml"/>
+    <xi:include href="xml/dialogs.xml"/>
+    <xi:include href="xml/displayanimation.xml"/>
+    <xi:include href="xml/drawingprims.xml"/>
+    <xi:include href="xml/draw.xml"/>
+    <xi:include href="xml/dummybackend.xml"/>
+    <xi:include href="xml/dynamic.xml"/>
+    <xi:include href="xml/entries.xml"/>
+    <xi:include href="xml/eventqueue.xml"/>
+    <xi:include href="xml/exportabc.xml"/>
+    <xi:include href="xml/exportlilypond.xml"/>
+    <xi:include href="xml/exportmidi.xml"/>
+    <xi:include href="xml/exportxml.xml"/>
+    <xi:include href="xml/external.xml"/>
+    <xi:include href="xml/fakechord.xml"/>
+    <xi:include href="xml/figure.xml"/>
+    <xi:include href="xml/file.xml"/>
+    <xi:include href="xml/fluid.xml"/>
+    <xi:include href="xml/graceops.xml"/>
+    <xi:include href="xml/hairpin.xml"/>
+    <xi:include href="xml/help.xml"/>
+    <xi:include href="xml/http.xml"/>
+    <xi:include href="xml/importmidi.xml"/>
+    <xi:include href="xml/importmusicxml.xml"/>
+    <xi:include href="xml/importxml.xml"/>
+    <xi:include href="xml/instrumentname.xml"/>
+    <xi:include href="xml/jackbackend.xml"/>
+    <xi:include href="xml/jackutil.xml"/>
+    <xi:include href="xml/kbd-custom.xml"/>
+    <xi:include href="xml/kbd-interface.xml"/>
+    <xi:include href="xml/keyboard.xml"/>
+    <xi:include href="xml/keymapio.xml"/>
+    <xi:include href="xml/keyresponses.xml"/>
+    <xi:include href="xml/keysigdialog.xml"/>
+    <xi:include href="xml/lilydirectives.xml"/>
+    <xi:include href="xml/lyric.xml"/>
+    <xi:include href="xml/measureops.xml"/>
+    <xi:include href="xml/midi.xml"/>
+    <xi:include href="xml/mousing.xml"/>
+    <xi:include href="xml/moveviewport.xml"/>
+    <xi:include href="xml/notewidths.xml"/>
+    <xi:include href="xml/objops.xml"/>
+    <xi:include href="xml/palettestorage.xml"/>
+    <xi:include href="xml/palettes.xml"/>
+    <xi:include href="xml/parseinstruments.xml"/>
+    <xi:include href="xml/pathconfig.xml"/>
+    <xi:include href="xml/pitchentry.xml"/>
+    <xi:include href="xml/pitchrecog.xml"/>
+    <xi:include href="xml/playback.xml"/>
+    <xi:include href="xml/portaudiobackend.xml"/>
+    <xi:include href="xml/portaudioutil.xml"/>
+    <xi:include href="xml/portmidibackend.xml"/>
+    <xi:include href="xml/portmidiutil.xml"/>
+    <xi:include href="xml/prefops.xml"/>
+    <xi:include href="xml/printview.xml"/>
+    <xi:include href="xml/print.xml"/>
+    <xi:include href="xml/processstaffname.xml"/>
+    <xi:include href="xml/redefs.xml"/>
+    <xi:include href="xml/ringbuffer.xml"/>
+    <xi:include href="xml/runsilent.xml"/>
+    <xi:include href="xml/scheme_cb.xml"/>
+    <xi:include href="xml/scheme.xml"/>
+    <xi:include href="xml/scorelayout.xml"/>
+    <xi:include href="xml/scoreops.xml"/>
+    <xi:include href="xml/screenshot.xml"/>
+    <xi:include href="xml/selectops.xml"/>
+    <xi:include href="xml/slurs.xml"/>
+    <xi:include href="xml/sourceaudio.xml"/>
+    <xi:include href="xml/source.xml"/>
+    <xi:include href="xml/staffops.xml"/>
+    <xi:include href="xml/texteditors.xml"/>
+    <xi:include href="xml/tupletops.xml"/>
+    <xi:include href="xml/utils.xml"/>
+    <xi:include href="xml/view.xml"/>
+    <xi:include href="xml/xmldefs.xml"/>
+  </chapter>
+
+  <index id="api-index-full">
+    <title>API Index</title>
+    <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+  </index>
+
+  <index id="deprecated-api-index" role="deprecated">
+    <title>Index of deprecated API</title>
+    <xi:include href="xml/api-index-deprecated.xml"><xi:fallback /></xi:include>
+  </index>
+
+  <xi:include href="xml/annotation-glossary.xml"><xi:fallback /></xi:include>
+</book>

@@ -5,4 +5,3 @@ libtoolize --force && \
 intltoolize --copy --force --automake && \
 automake --add-missing --gnu && \
 autoconf
-

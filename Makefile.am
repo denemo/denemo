@@ -1,4 +1,4 @@
-SUBDIRS = $(WHICH_SMF) tools libsffile m4 doc actions pixmaps po src \
+SUBDIRS = $(WHICH_SMF) tools libsffile m4 docs actions pixmaps po src \
 	  fonts soundfonts ui
 
 INTLTOOL_FILES = intltool-extract.in \
@@ -6,8 +6,8 @@ INTLTOOL_FILES = intltool-extract.in \
                  intltool-update.in
 
 bin_SCRIPTS = denemo_file_update.sh
-EXTRA_DIST = actions/menus doc/DESIGN doc/GOALS @PACKAGE@.spec.in  \
-	     doc/DESIGN.lilypond actions include \
+EXTRA_DIST = actions/menus docs/DESIGN docs/GOALS @PACKAGE@.spec.in  \
+	     docs/DESIGN.lilypond actions include \
 	     guile-1.8.pc libsmf libsffile \
 	     examples templates denemo_file_update.sh $(INTLTOOL_FILES)
 

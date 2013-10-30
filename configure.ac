@@ -379,6 +379,13 @@ AC_ARG_ENABLE(
   ])
 AM_CONDITIONAL(DENEMO_BUILD_DOC,[test "$build_doc" = "yes"])
 
+# check for gtk-doc
+m4_ifdef([GTK_DOC_CHECK], [
+GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
+],[
+AM_CONDITIONAL([ENABLE_GTK_DOC], false)
+])
+
 
 dnl Checks for header files.
 
@@ -450,9 +457,11 @@ AC_OUTPUT(
   tools/Makefile
   src/Makefile 
   pixmaps/Makefile 
-  doc/Makefile
-  doc/transformations/Makefile
-  doc/images/Makefile
+  docs/Makefile
+  docs/transformations/Makefile
+  docs/images/Makefile
+  docs/reference/Makefile
+  docs/reference/denemo/Makefile
   actions/Makefile
   examples/Makefile
   templates/Makefile

@@ -1,0 +1,9 @@
+*.stamp
+*.txt
+xml
+html
+*.args
+*.hierarchy
+*.interfaces
+*.prerequisites
+*.signals
