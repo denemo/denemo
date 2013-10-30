@@ -4,7 +4,7 @@ AC_CONFIG_SRCDIR([src/main.c])
 AM_INIT_AUTOMAKE([tar-pax]) 
 dnl AM_INIT_AUTOMAKE([foreign -Wall -Werror gnu tar-pax])
 dnl AC_CANONICAL_SYSTEM
-AM_CONFIG_HEADER(config.h)
+AC_CONFIG_HEADER(config.h)
 
 AC_CONFIG_MACRO_DIR([m4])
 AM_MAINTAINER_MODE
@@ -33,14 +33,15 @@ AC_PROG_YACC
 AM_PROG_LEX
 GUILE_FLAGS
 
-AM_PROG_LIBTOOL
+AC_PROG_LIBTOOL
 
+dnl Enable color if available
 AS_COMPILER_FLAG([-fdiagnostics-color=auto],
                  [CFLAGS="$CFLAGS -fdiagnostics-color=auto"])
 
 AC_ARG_ENABLE(
   guile_1_8,
-  AC_HELP_STRING([--enable-guile_1_8], [use GUILE_1_8 @<:@default=no@:>@]),
+  AS_HELP_STRING([--enable-guile_1_8], [use GUILE_1_8 @<:@default=no@:>@]),
   [
     if test "x$enableval" != "xno"; then
       useguile_1_8=yes
@@ -52,7 +53,7 @@ AC_ARG_ENABLE(
 
 AC_ARG_ENABLE(
   guile_2_0,
-  AC_HELP_STRING([--enable-guile_2_0], [use GUILE_2_0 @<:@default=no@:>@]),
+  AS_HELP_STRING([--enable-guile_2_0], [use GUILE_2_0 @<:@default=no@:>@]),
   [
     if test "x$enableval" != "xno"; then
       useguile_2_0=yes
@@ -118,7 +119,7 @@ fi
 
 AC_ARG_ENABLE(
   jack,
-  AC_HELP_STRING([--enable-jack], [use JACK @<:@default=no@:>@]),
+  AS_HELP_STRING([--enable-jack], [use JACK @<:@default=no@:>@]),
   [
     if test "x$enableval" != "xno"; then
       usejack=yes
@@ -139,7 +140,7 @@ fi
 
 AC_ARG_ENABLE(
   evince,
-  AC_HELP_STRING([--enable-evince], [use EVINCE @<:@default=yes@:>@]),
+  AS_HELP_STRING([--enable-evince], [use EVINCE @<:@default=yes@:>@]),
   [ 
     if test "x$enableval" == "xno"; then
       useevince=no
@@ -149,7 +150,7 @@ AM_CONDITIONAL(HAVE_EVINCE, [test x$useevince = xyes])
 
 AC_ARG_ENABLE(
   gtk2,
-  AC_HELP_STRING([--enable-gtk2], [use GTK2 @<:@default=no@:>@]),
+  AS_HELP_STRING([--enable-gtk2], [use GTK2 @<:@default=no@:>@]),
   [
     if test "x$enableval" != "xno"; then
       usegtk2=yes
@@ -159,7 +160,7 @@ AC_ARG_ENABLE(
 
 AC_ARG_ENABLE(
   gtk3,
-  AC_HELP_STRING([--enable-gtk3], [use GTK3 @<:@default=no@:>@]),
+  AS_HELP_STRING([--enable-gtk3], [use GTK3 @<:@default=no@:>@]),
   [
     if test "x$enableval" != "xno"; then
       usegtk3=yes
@@ -226,7 +227,7 @@ fi
 
 AC_ARG_ENABLE(
   alsa,
-  AC_HELP_STRING([--enable-alsa], [use ALSA @<:@default=no@:>@]),
+  AS_HELP_STRING([--enable-alsa], [use ALSA @<:@default=no@:>@]),
   [
     if test "x$enableval" != "xno"; then
       usealsa=yes
@@ -243,7 +244,7 @@ fi
 
 AC_ARG_ENABLE(
   fluidsynth,
-  AC_HELP_STRING([--enable-fluidsynth], [use FLUIDSYNTH @<:@default=yes@:>@]),
+  AS_HELP_STRING([--enable-fluidsynth], [use FLUIDSYNTH @<:@default=yes@:>@]),
   [ 
     if test "x$enableval" != "xno"; then
       usefluidsynth=yes
@@ -259,7 +260,7 @@ fi
 
 AC_ARG_ENABLE(
   rubberband,
-  AC_HELP_STRING([--enable-rubberband], [use RUBBERBAND @<:@default=yes@:>@]),
+  AS_HELP_STRING([--enable-rubberband], [use RUBBERBAND @<:@default=yes@:>@]),
   [ 
     if test "x$enableval" != "xno"; then
       userubberband=yes
@@ -277,7 +278,7 @@ fi
 
 AC_ARG_ENABLE(
   portaudio,
-  AC_HELP_STRING([--enable-portaudio], [use PORTAUDIO @<:@default=yes@:>@]),
+  AS_HELP_STRING([--enable-portaudio], [use PORTAUDIO @<:@default=yes@:>@]),
   [ 
     if test "x$enableval" != "xno"; then
       useportaudio=yes
@@ -302,7 +303,7 @@ fi
 
 AC_ARG_ENABLE(
   portmidi,
-  AC_HELP_STRING([--enable-portmidi], [use PORTMIDI @<:@default=yes@:>@]),
+  AS_HELP_STRING([--enable-portmidi], [use PORTMIDI @<:@default=yes@:>@]),
   [
     if test "x$enableval" != "xno"; then
       useportmidi=yes
@@ -328,7 +329,7 @@ dnl Options for configuration
 build_debug=no
 AC_ARG_ENABLE(
   debug,
-  AC_HELP_STRING([--enable-debug], [enable debug code @<:@default=no@:>@]),
+  AS_HELP_STRING([--enable-debug], [enable debug code @<:@default=no@:>@]),
   [
     if test "x$enableval" != "xno"; then
       build_debug=yes
@@ -339,7 +340,7 @@ AC_ARG_ENABLE(
 
 AC_ARG_ENABLE(
   x11,
-  AC_HELP_STRING([--enable-x11], [use X11 @<:@default=yes@:>@]),
+  AS_HELP_STRING([--enable-x11], [use X11 @<:@default=yes@:>@]),
   [
     if test "x$enableval" != "xno"; then
       enable_x11=yes
@@ -356,7 +357,7 @@ dnl Memory debugging
 mem_debug=no
 AC_ARG_ENABLE(
   mem,
-  AC_HELP_STRING([--enable-mem], [enable memory debugging @<:@default=no@:>@]),
+  AS_HELP_STRING([--enable-mem], [enable memory debugging @<:@default=no@:>@]),
   [
     if test "x$enableval" != "xno"; then
       mem_debug=yes
@@ -369,7 +370,7 @@ dnl Build documentation
 build_doc=no
 AC_ARG_ENABLE(
   doc,
-  AC_HELP_STRING(
+  AS_HELP_STRING(
     [--enable-doc],[enable documentation build @<:@default=no@:>@]),
   [
     if test "x$enableval" != "xno"; then
@@ -385,18 +386,18 @@ AC_CHECK_HEADERS(sys/soundcard.h)
 AC_CHECK_HEADERS(errno.h)
 AC_CHECK_HEADERS(getopt.h sys/wait.h wait.h sys/time.h sys/resource.h)
 
-AC_TRY_COMPILE(
-  [#include <signal.h>], [int mysignal = SIGCHLD;],
+AC_COMPILE_IFELSE(
+  [AC_LANG_PROGRAM([#include <signal.h>], [int mysignal = SIGCHLD;])],
   [AC_DEFINE(HAVE_SIGCHLD, 1, [Define to 1 if SIGCHLD signal is available])])
 
-AC_TRY_LINK(
-  [#include <stdio.h>],
-  [
-    FILE * fp;
-    flockfile (fp);
-    ftrylockfile (fp);
-    funlockfile (fp);
-  ],
+AC_LINK_IFELSE(
+  [AC_LANG_PROGRAM([#include <stdio.h>],
+    [
+      FILE * fp;
+      flockfile (fp);
+      ftrylockfile (fp);
+      funlockfile (fp);
+    ])],
   [AC_DEFINE(HAVE_FILE_LOCKS, 1, [Define to 1 if file locking is available])])
 
 dnl Checks for typedefs, structures, and compiler characteristics.
