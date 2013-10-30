@@ -35,6 +35,9 @@ GUILE_FLAGS
 
 AM_PROG_LIBTOOL
 
+AS_COMPILER_FLAG([-fdiagnostics-color=auto],
+                 [CFLAGS="$CFLAGS -fdiagnostics-color=auto"])
+
 AC_ARG_ENABLE(
   guile_1_8,
   AC_HELP_STRING([--enable-guile_1_8], [use GUILE_1_8 @<:@default=no@:>@]),
