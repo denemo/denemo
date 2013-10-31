@@ -210,7 +210,7 @@
 ;;;;;;;;;; SetHeaderField sets a field in the movement header
 ;;;;;;;;;; the directive created is tagged Score or Movement depending on the field
 
-(define* (SetHeaderField field #:optional (title #f) (escape #t))
+(define* (SetHeaderField field #:optional (title #f) (escape #t) (movement #f))
   (let ((current "") (thematch #f) (tag "") (type "") (fieldname ""))
     (if (or (equal? field "subtitle") (equal? field "subsubtitle") (equal? field "piece"))
      (begin
@@ -224,7 +224,8 @@
      (begin
        (set! type "Score")
        (set! fieldname (string-capitalize field))))
-     
+     (if movement
+		(set! type "Movement"))
     (set! tag (string-append type fieldname)) 
 
     (set! current (d-DirectiveGet-header-display tag))
