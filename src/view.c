@@ -10062,6 +10062,8 @@ toggle_action_menu (GtkAction * action, gpointer param)
 static void
 toggle_print_view (GtkAction * action, gpointer param)
 {
+ if(Denemo.non_interactive)
+	return;
 #ifndef USE_EVINCE  
   g_debug("This feature requires denemo to be built with evince");
 #else
