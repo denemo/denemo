@@ -264,6 +264,7 @@ dist-check-gtkdoc:
 	@false
 endif
 
+if ENABLE_GTK_DOC
 dist-hook: dist-check-gtkdoc dist-hook-local
 	@mkdir $(distdir)/html
 	@cp ./html/* $(distdir)/html
@@ -272,5 +273,8 @@ dist-hook: dist-check-gtkdoc dist-hook-local
 	@-cp ./$(DOC_MODULE)-sections.txt $(distdir)/
 	@cd $(distdir) && rm -f $(DISTCLEANFILES)
 	@$(GTKDOC_REBASE) --online --relative --html-dir=$(distdir)/html
+else
+dist-hook:
+endif
 
 .PHONY : dist-hook-local docs
