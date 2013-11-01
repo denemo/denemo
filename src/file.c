@@ -947,7 +947,11 @@ void
 file_savewrapper (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
-
+  GET_1PARAM (action, param, filename);
+  if (filename) {
+	exportXML (filename, gui);
+	return;
+  }
   if (file_save (NULL, gui))
     {
       if (action && Denemo.gui->filename && Denemo.gui->filename->len)
