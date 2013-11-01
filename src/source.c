@@ -166,6 +166,7 @@ get_view (gchar * filename)
   GError *err = NULL;
   EvView *view = NULL;
   GList *g;
+  g_print("\nget_view(filename = %s)\n", filename);
   for (g = theviews; g; g = g->next)
     if (!strcmp (((fileview *) g->data)->filename, filename))
       return (((fileview *) g->data)->view);
@@ -173,8 +174,10 @@ get_view (gchar * filename)
   gchar *uri = g_file_get_uri (file);
   g_object_unref (file);
   EvDocument *doc = ev_document_factory_get_document (uri, &err);
-  if (err)
-    return NULL;
+  if (err) {
+	  g_print("Error creating view from URI <%s> : message was %s\n", uri, err->message);
+	  return NULL;
+	}
   OldMark.width = Mark.width = 0;
   view = (EvView *) ev_view_new ();
   EvDocumentModel *model = ev_document_model_new_with_document (doc);
