@@ -126,6 +126,8 @@ static gchar *default_template_path = NULL;
 static gboolean
 confirm_save (DenemoGUI * gui, gchar * primary, gchar * secondary)
 {
+  if (Denemo.non_interactive)
+	return TRUE;
   GtkWidget *dialog;
   gboolean r = FALSE;
 
