@@ -20,7 +20,16 @@ MAINTAINERCLEANFILES =  Makefile.in aclocal.m4 configure config.h.in \
   intltool-extract \
   intltool-merge \
   intltool-update \
-  po/.intltool-merge-cache
+  po/.intltool-merge-cache \
+  $(GETTEXT_PACKAGE)-$(VERSION).pot
+
+DISTCLEANFILES = intltool-extract \
+                 intltool-merge \
+                 intltool-update \
+                 po/.intltool-merge-cache \
+                 po/denemo.pot
+
+ACLOCAL_AMFLAGS = -I m4
 
 install-data-hook:
 	cp -r $(srcdir)/actions ${DESTDIR}/$(datadir)/${PACKAGE}/
@@ -30,12 +39,9 @@ install-data-hook:
 	cp -r $(srcdir)/templates ${DESTDIR}/$(datadir)/${PACKAGE}/
 	find $(DESTDIR)$(datadir)/${PACKAGE}/templates -type d -exec chmod 755 '{}' \;
 
-clean-potfile:
-	@echo Cleaning POTFILES...
+potfile:
 	@rm -f po/POTFILES.in
 	@rm -f po/POTFILES.skip
-
-potfile:clean-potfile
 	@echo Generating POTFILES...
 	@find src -name '*.c' -o -name '*.h' | sort >> po/POTFILES.in
 	@find actions -name '*.xml' -o -name '*.scm' | sort >> po/POTFILES.in
@@ -45,11 +51,8 @@ pot:potfile
 	@echo Generating POT...
 	$(MAKE) -C "$(srcdir)/po" "$(GETTEXT_PACKAGE).pot"
 	cd po && ln -f -s "$(GETTEXT_PACKAGE).pot" "$(GETTEXT_PACKAGE)-$(VERSION).pot"
-
-all:potfile
-check:potfile
-clean:clean-potfile
-dist-clean:clean-potfile
+	@rm -f po/POTFILES.in
+	@touch po/POTFILES.in
 
 update-po:
 	@echo Get po files from translationproject.org
@@ -61,10 +64,3 @@ dist-hook: @PACKAGE@.spec pot
 
 send-pot:dist
 	echo "You can find in attachment the latest version of denemo.pot. This is an automatic message, but someone should answer you if you reply." | mailx -v -S from=denemo-devel@gnu.org -s "$(GETTEXT_PACKAGE)-$(VERSION).pot" -a $(GETTEXT_PACKAGE)-$(VERSION).tar.gz -a po/$(GETTEXT_PACKAGE)-$(VERSION).pot coordinator@translationproject.org
-
-ACLOCAL_AMFLAGS = -I m4
-
-DISTCLEANFILES = intltool-extract \
-                 intltool-merge \
-                 intltool-update \
-                 po/.intltool-merge-cache
