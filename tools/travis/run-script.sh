@@ -7,10 +7,12 @@ if [ "$COMPILER"x = "gcc"x ]; then
   ./autogen.sh
   ./configure
   make
+  make dist
 elif [ "$COMPILER"x = "clang"x ]; then
   export CC="clang"
   export CXX="clang++"
   ./autogen.sh
   ./configure
   make
+  make dist
 fi
