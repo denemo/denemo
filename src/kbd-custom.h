@@ -28,7 +28,7 @@ typedef struct _keyboard_dialog_data
   GtkTextView *text_view;
   gulong handler_key_press;
   gulong handler_focus_out;
-  gint command_idx;
+  gint command_id;
   gint two_key;                 // 0 means not two key, 1 means first key, 2 second.
   GString *twokeylist;          //list of commands whose shortcuts start with pressed key
   gint first_keyval;
@@ -75,7 +75,7 @@ void keymap_clear_bindings (keymap * the_keymap);
 
 guint keymap_size (keymap * the_keymap);
 
-void keymap_foreach_command_binding (keymap * the_keymap, guint command_idx, GFunc func, gpointer user_data);
+void keymap_foreach_command_binding (keymap * the_keymap, guint command_id, GFunc func, gpointer user_data);
 
 //-1 if the binding is not found
 gint lookup_command_for_keybinding (keymap * the_keymap, gint keyval, GdkModifierType state);
@@ -89,15 +89,15 @@ gint lookup_command_for_keybinding_name (keymap * the_keymap, const gchar * bind
 
 gint lookup_command_from_name (keymap * keymap, const gchar * command_name);
 
-const gchar *lookup_name_from_idx (keymap * keymap, gint command_idx);
+const gchar *lookup_name_from_idx (keymap * keymap, gint command_id);
 
-const gchar *lookup_label_from_idx (keymap * keymap, gint command_idx);
+const gchar *lookup_label_from_idx (keymap * keymap, gint command_id);
 
-const gchar *lookup_tooltip_from_idx (keymap * keymap, gint command_idx);
+const gchar *lookup_tooltip_from_idx (keymap * keymap, gint command_id);
 
-gboolean lookup_hidden_from_idx (keymap * keymap, guint command_idx);
+gboolean lookup_hidden_from_idx (keymap * keymap, guint command_id);
 
-gpointer lookup_callback_from_idx (keymap * keymap, gint command_idx);
+gpointer lookup_callback_from_idx (keymap * keymap, gint command_id);
 
 void remove_keybinding (keymap * the_keymap, gint keyval, GdkModifierType state);
 
@@ -109,23 +109,23 @@ typedef enum
   POS_LAST
 } ListPosition;
 
-gint add_keybinding_to_idx (keymap * the_keymap, gint keyval, GdkModifierType state, guint command_idx, ListPosition pos);
+gint add_keybinding_to_idx (keymap * the_keymap, gint keyval, GdkModifierType state, guint command_id, ListPosition pos);
 gint add_keybinding_to_named_command (keymap * the_keymap, gint keyval, GdkModifierType state, const gchar * command_name, ListPosition pos);
-gint add_named_binding_to_idx (keymap * the_keymap, gchar * kb_name, guint command_idx, ListPosition pos);
+gint add_named_binding_to_idx (keymap * the_keymap, gchar * kb_name, guint command_id, ListPosition pos);
 gint keymap_update_accel (keymap * the_keymap, GtkAction * action, guint keyval, GdkModifierType modifiers);
 
 gint keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event);
 
 GtkAction *lookup_action_from_name (gchar * command_name);
-const GtkAction *lookup_action_from_idx (keymap * keymap, gint command_idx);
-const gchar *lookup_menu_path_from_idx (keymap * keymap, gint command_idx);
+const GtkAction *lookup_action_from_idx (keymap * keymap, gint command_id);
+const gchar *lookup_menu_path_from_idx (keymap * keymap, gint command_id);
 
-gboolean execute_callback_from_idx (keymap * the_keymap, guint command_idx);
+gboolean execute_callback_from_idx (keymap * the_keymap, guint command_id);
 gboolean execute_callback_from_name (const gchar * command_name);
 
-gboolean idx_has_callback (keymap * the_keymap, guint command_idx);
+gboolean idx_has_callback (keymap * the_keymap, guint command_id);
 
-void dump_command_info (keymap * the_keymap, gint command_idx);
+void dump_command_info (keymap * the_keymap, gint command_id);
 guint dnm_sanitize_key_state (GdkEventKey * event);
 void load_keymap_dialog (void);
 
@@ -149,19 +149,19 @@ gboolean keymap_cleanup_command_view (keyboard_dialog_data * data);
 
 gboolean keymap_change_binding_view_on_command_selection (GtkTreeSelection * selection, GtkTreeModel * model, GtkTreePath * path, gboolean path_currently_selected, gpointer data);
 
-void update_accel_labels (keymap * the_keymap, guint command_idx);
+void update_accel_labels (keymap * the_keymap, guint command_id);
 
-gboolean command_has_binding (guint command_idx);
+gboolean command_has_binding (guint command_id);
 
 gint add_keybinding_for_name (gchar * name, gchar * binding);
 gint add_keybinding_for_command (gint idx, gchar * binding);
 
 void update_all_labels (keymap * the_keymap);
 void dnm_clean_event (GdkEventKey * event);
-gint add_twokeybinding_to_idx (keymap * the_keymap, gint first_keyval, GdkModifierType first_state, gint keyval, GdkModifierType state, guint command_idx, ListPosition pos);
+gint add_twokeybinding_to_idx (keymap * the_keymap, gint first_keyval, GdkModifierType first_state, gint keyval, GdkModifierType state, guint command_id, ListPosition pos);
 
 void command_row_init(command_row *command);
-gboolean keymap_get_command_row (keymap * the_keymap, command_row * row, guint command_idx);
+gboolean keymap_get_command_row (keymap * the_keymap, command_row * row, guint command_id);
 gboolean is_action_id_builtin(gint id);
 gboolean is_action_name_builtin(gchar* command_name);
 const gchar *get_menu_label (gchar *name);
