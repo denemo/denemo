@@ -351,6 +351,7 @@
     
 (define (DenemoSetPlaybackStart)
   (begin
+	(d-Stop)
     (if (boolean? (d-GetMidiOnTime))
 	(d-RecreateTimebase))
     (if (number? (d-GetMidiOnTime))
@@ -359,6 +360,7 @@
 
 (define (DenemoSetPlaybackEnd)
   (begin
+  	(d-Stop)
     (if (boolean? (d-GetMidiOffTime))
 	(d-RecreateTimebase))
    (d-PrevObject)
@@ -368,7 +370,7 @@
 	
 (define (DenemoSetPlaybackIntervalToSelection)
   (begin
-    
+    (d-Stop)
     (let ((start #f)(end #f))
       (set! end (d-GetMidiOffTime))
       (if (boolean? end)
