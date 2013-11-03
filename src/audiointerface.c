@@ -545,7 +545,7 @@ try_signal_queue ()
       return FALSE;
     }
 }
-
+static gboolean time_reset = FALSE;
 
 void
 update_playback_time (backend_timebase_prio_t prio, double new_time)
@@ -555,11 +555,15 @@ update_playback_time (backend_timebase_prio_t prio, double new_time)
       // ignore new playback time if another backend has higher priority
       return;
     }
-
+  if(time_reset)
+	{
+		time_reset = FALSE;
+		return;
+	}
   if (new_time != playback_time)
     {
       playback_time = new_time;
-
+// g_print(" %2.2f", new_time);midi_play tries to set playback_time, which then gets overriden by the call in the portaudio callback.
       // if the lock fails, the playback time update will be delayed until the
       // queue thread wakes up on its own
       if (!try_signal_queue ())
@@ -587,8 +591,13 @@ midi_play (gchar * callback)
   g_print ("starting playback\n");
 
   playback_start_time = get_start_time ();
+  time_reset = TRUE;//FIXME, this is a crude attempt to get the playback_time set without the callback from portaudio re-writing it.
   playback_time = playback_start_time;
-  //g_print ("starting playback at %f\n", playback_start_time);
+  while(playback_time != playback_start_time) {
+	time_reset = TRUE;
+	playback_time = playback_start_time;
+	}
+  g_print ("starting playback at %f\n", playback_start_time);
   start_playing (callback);
 
   get_backend (AUDIO_BACKEND)->start_playing ();
