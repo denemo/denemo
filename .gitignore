@@ -41,8 +41,8 @@ po/notexist
 po/Makefile.in.in
 po/stamp-it
 po/*.gmo
-po/POTFILES.*
-po/*-*.pot
+po/POTFILES.skip
+po/*.pot
 
 # Source files
 src/denemo

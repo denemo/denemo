@@ -253,18 +253,8 @@ uninstall-local:
 	fi; \
 	rm -rf $${installdir}
 
-#
-# Require gtk-doc when making dist
-#
 if ENABLE_GTK_DOC
 dist-check-gtkdoc: docs
-else
-dist-check-gtkdoc:
-	@echo "*** gtk-doc must be installed and enabled in order to make dist"
-	@false
-endif
-
-if ENABLE_GTK_DOC
 dist-hook: dist-check-gtkdoc dist-hook-local
 	@mkdir $(distdir)/html
 	@cp ./html/* $(distdir)/html
@@ -274,6 +264,7 @@ dist-hook: dist-check-gtkdoc dist-hook-local
 	@cd $(distdir) && rm -f $(DISTCLEANFILES)
 	@$(GTKDOC_REBASE) --online --relative --html-dir=$(distdir)/html
 else
+dist-check-gtkdoc:
 dist-hook:
 endif
 

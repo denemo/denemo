@@ -1,1 +1,9 @@
 See http://www.denemo.org for README information.
+
+Run:
+$ ./autogen.sh
+$ ./configure
+$ make
+# make install
+
+See "configure" options with ./configure --help.
