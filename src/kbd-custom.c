@@ -1514,7 +1514,7 @@ gboolean
 execute_callback_from_name (const gchar * command_name)
 {
   gchar *text = NULL;
-  GtkAction *action = action_of_name (the_keymap, (gchar *) command_name);
+  GtkAction *action = lookup_action_from_name ((gchar *) command_name);
   text = (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
   if (text && *text)
     call_out_to_guile (text);

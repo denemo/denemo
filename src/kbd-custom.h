@@ -117,7 +117,6 @@ gint keymap_update_accel (keymap * the_keymap, GtkAction * action, guint keyval,
 gint keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event);
 
 GtkAction *lookup_action_from_name (gchar * command_name);
-#define action_of_name(a,b) lookup_action_from_name(b)
 const GtkAction *lookup_action_from_idx (keymap * keymap, gint command_idx);
 const gchar *lookup_menu_path_from_idx (keymap * keymap, gint command_idx);
 

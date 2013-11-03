@@ -298,104 +298,35 @@ cb_string_pairs activatable_commands[] = {
 
 
 
-
-
 static void
-install_scm_function (gchar * name, gpointer callback)
+install_scm_function (gint nbargs, gchar* tooltip, gchar * name, gpointer callback)
 {
 #ifdef DEVELOPER
   DEV_CODE;
   if (DEV_fp)
-    fprintf (DEV_fp, "<listitem>%s one optional parameter: %s </listitem>\n", name, tooltip);
+    fprintf (DEV_fp, "<listitem>%s %i parameter: %s </listitem>\n", name, nbargs, tooltip);
 #endif
-  scm_c_define_gsubr (name, 0, 1, 0, callback); // one optional parameter
+  switch(nbargs){
+    case 0:
+      scm_c_define_gsubr (name, 0, 1, 0, callback);
+      break;
+    case 1:
+      scm_c_define_gsubr (name, 1, 1, 0, callback);
+      break;
+    case 2:
+      scm_c_define_gsubr (name, 2, 0, 0, callback);
+      break;
+    default:
+      scm_c_define_gsubr (name, 0, nbargs, 0, callback);
+      break;
+  }
 
-}
-
-static void
-install_scm_function1 (gchar * name, gpointer callback)
-{
-#ifdef DEVELOPER
-  DEV_CODE;
-  if (DEV_fp)
-    fprintf (DEV_fp, "<listitem>%s one required and one optional parameter: %s </listitem>\n", name, tooltip);
-#endif
-  scm_c_define_gsubr (name, 1, 1, 0, callback);
-
-}
-
-static void
-install_scm_function2 (gchar * name, gpointer callback)
-{
-#ifdef DEVELOPER
-  DEV_CODE;
-  if (DEV_fp)
-    fprintf (DEV_fp, "<listitem>%s two parameters: %s </listitem>\n", name, tooltip);
-#endif
-  scm_c_define_gsubr (name, 2, 0, 0, callback);
-
-}
-
-/*UNUSED
-static void
-install_scm_function3 (gchar * name, gpointer callback)
-{
-#ifdef DEVELOPER
-  DEV_CODE;
-  if (DEV_fp)
-    fprintf (DEV_fp, "<listitem>%s three parameters: %s </listitem>\n", name, tooltip);
-#endif
-  scm_c_define_gsubr (name, 0, 3, 0, callback);
-
-}
-*/
-static void
-install_scm_function4 (gchar * name, gpointer callback)
-{
-#ifdef DEVELOPER
-  DEV_CODE;
-  if (DEV_fp)
-    fprintf (DEV_fp, "<listitem>%s four parameters: %s </listitem>\n", name, tooltip);
-#endif
-  scm_c_define_gsubr (name, 0, 4, 0, callback);
-
-}
-static void
-install_scm_function5 (gchar * name, gpointer callback)
-{
-#ifdef DEVELOPER
-  DEV_CODE;
-  if (DEV_fp)
-    fprintf (DEV_fp, "<listitem>%s four parameters: %s </listitem>\n", name, tooltip);
-#endif
-  scm_c_define_gsubr (name, 0, 5, 0, callback);
-
+  gchar* helpname = g_strconcat("Help-", name, NULL);
+  define_scheme_variable(helpname, tooltip, "Value is the help string of the variable");
+  g_free(helpname);
 }
 
 #define DENEMO_SCHEME_PREFIX "d-"
-
-#define INSTALL_SCM_FUNCTION(tooltip, name, callback)\
-  install_scm_function(name, callback);\
-  define_scheme_variable("Help-"name, tooltip, "Value is the help string of the variable");
-
-#define INSTALL_SCM_FUNCTION1(tooltip, name, callback)\
-  install_scm_function1(name, callback);\
-  define_scheme_variable("Help-"name, tooltip, "Value is the help string of the variable");
-#define INSTALL_SCM_FUNCTION2(tooltip, name, callback)\
-  install_scm_function2(name, callback);\
-  define_scheme_variable("Help-"name, tooltip, "Value is the help string of the variable");
-/*UNUSED
-#define INSTALL_SCM_FUNCTION3(tooltip, name, callback)\
-  install_scm_function3(name, callback);\
-  define_scheme_variable("Help-"name, tooltip, "Value is the help string of the variable");
-*/
-#define INSTALL_SCM_FUNCTION4(tooltip, name, callback)\
-  install_scm_function4(name, callback);\
-  define_scheme_variable("Help-"name, tooltip, "Value is the help string of the variable");
-
-#define INSTALL_SCM_FUNCTION5(tooltip, name, callback)\
-  install_scm_function5(name, callback);\
-  define_scheme_variable("Help-"name, tooltip, "Value is the help string of the variable");
 
 #undef DEV_CODE
 
@@ -5957,229 +5888,229 @@ create_scheme_identfiers (void)
 #include "generated/scheme.h"
   init_denemo_notenames ();
 
-  INSTALL_SCM_FUNCTION ("Hides all the menus", DENEMO_SCHEME_PREFIX "HideMenus", scheme_hide_menus);
-  INSTALL_SCM_FUNCTION ("Hides Score buttons or shows them if passed #f", DENEMO_SCHEME_PREFIX "HideButtons", scheme_hide_buttons);
-  INSTALL_SCM_FUNCTION ("Removes Score buttons", DENEMO_SCHEME_PREFIX "DestroyButtons", scheme_destroy_buttons);
-  INSTALL_SCM_FUNCTION ("Hides the Denemo gui or shows it if passed #f", DENEMO_SCHEME_PREFIX "HideWindow", scheme_hide_window);
+  install_scm_function (0, "Hides all the menus", DENEMO_SCHEME_PREFIX "HideMenus", scheme_hide_menus);
+  install_scm_function (0, "Hides Score buttons or shows them if passed #f", DENEMO_SCHEME_PREFIX "HideButtons", scheme_hide_buttons);
+  install_scm_function (0, "Removes Score buttons", DENEMO_SCHEME_PREFIX "DestroyButtons", scheme_destroy_buttons);
+  install_scm_function (0, "Hides the Denemo gui or shows it if passed #f", DENEMO_SCHEME_PREFIX "HideWindow", scheme_hide_window);
 
-  INSTALL_SCM_FUNCTION1 ("Takes the the name of a scripted command. Runs the script stored for that command. Scripts which invoke other scripted commands use this (implicitly?) ", DENEMO_SCHEME_PREFIX "ScriptCallback", scheme_script_callback);
+  install_scm_function (1, "Takes the the name of a scripted command. Runs the script stored for that command. Scripts which invoke other scripted commands use this (implicitly?) ", DENEMO_SCHEME_PREFIX "ScriptCallback", scheme_script_callback);
 
-  INSTALL_SCM_FUNCTION1 ("create a dialog with the options & return the one chosen, of #f if the user cancels", DENEMO_SCHEME_PREFIX "GetOption", scheme_get_option);
+  install_scm_function (1, "create a dialog with the options & return the one chosen, of #f if the user cancels", DENEMO_SCHEME_PREFIX "GetOption", scheme_get_option);
   /* test with (display (d-GetOption "this\0and\0that\0")) */
-  INSTALL_SCM_FUNCTION ("Returns the text on the clipboard", DENEMO_SCHEME_PREFIX "GetTextSelection", scheme_get_text_selection);
-  INSTALL_SCM_FUNCTION ("Returns the padding that has been set by dragging in the Print view window", DENEMO_SCHEME_PREFIX "GetPadding", scheme_get_padding);
-  INSTALL_SCM_FUNCTION ("Deprecated - gets an integer from the user via a dialog", DENEMO_SCHEME_PREFIX "GetRelativeFontSize", scheme_get_relative_font_size);
+  install_scm_function (0, "Returns the text on the clipboard", DENEMO_SCHEME_PREFIX "GetTextSelection", scheme_get_text_selection);
+  install_scm_function (0, "Returns the padding that has been set by dragging in the Print view window", DENEMO_SCHEME_PREFIX "GetPadding", scheme_get_padding);
+  install_scm_function (0, "Deprecated - gets an integer from the user via a dialog", DENEMO_SCHEME_PREFIX "GetRelativeFontSize", scheme_get_relative_font_size);
   /* install the scheme functions for calling extra Denemo functions created for the scripting interface */
-  INSTALL_SCM_FUNCTION1 ("Takes a command name. called by a script if it requires initialization the initialization script is expected to be in init.scm in the menupath of the command passed in.", DENEMO_SCHEME_PREFIX "InitializeScript", scheme_initialize_script);
-  INSTALL_SCM_FUNCTION1 (" pass in a path (from below menus) to a command script. Loads the command from .denemo or system if it can be found. It is used at startup in .denemo files like ReadingNoteNames.denemo which executes (d-LoadCommand \"MainMenu/Educational/ReadingNoteNames\") to ensure that the command it needs is in the command set.", DENEMO_SCHEME_PREFIX "LoadCommand", scheme_load_command);
+  install_scm_function (1, "Takes a command name. called by a script if it requires initialization the initialization script is expected to be in init.scm in the menupath of the command passed in.", DENEMO_SCHEME_PREFIX "InitializeScript", scheme_initialize_script);
+  install_scm_function (1, " pass in a path (from below menus) to a command script. Loads the command from .denemo or system if it can be found. It is used at startup in .denemo files like ReadingNoteNames.denemo which executes (d-LoadCommand \"MainMenu/Educational/ReadingNoteNames\") to ensure that the command it needs is in the command set.", DENEMO_SCHEME_PREFIX "LoadCommand", scheme_load_command);
 
-  INSTALL_SCM_FUNCTION1 ("Takes a string, a menu path (from below menus). It executes the command for that menu item. Returns #f for no menu item.", DENEMO_SCHEME_PREFIX "ActivateMenuItem", scheme_activate_menu_item);
+  install_scm_function (1, "Takes a string, a menu path (from below menus). It executes the command for that menu item. Returns #f for no menu item.", DENEMO_SCHEME_PREFIX "ActivateMenuItem", scheme_activate_menu_item);
 
 
-  INSTALL_SCM_FUNCTION ("Returns the directory holding the user's preferences", DENEMO_SCHEME_PREFIX "LocateDotDenemo", scheme_locate_dotdenemo);
-  INSTALL_SCM_FUNCTION ("Returns the name of the type of object at the cursor", DENEMO_SCHEME_PREFIX "GetType", scheme_get_type);
-  INSTALL_SCM_FUNCTION ("Returns the lilypond typesetting text for object at the cursor or #f if the object has not yet been typeset", DENEMO_SCHEME_PREFIX "GetLilyPond", scheme_get_lilypond);
+  install_scm_function (0, "Returns the directory holding the user's preferences", DENEMO_SCHEME_PREFIX "LocateDotDenemo", scheme_locate_dotdenemo);
+  install_scm_function (0, "Returns the name of the type of object at the cursor", DENEMO_SCHEME_PREFIX "GetType", scheme_get_type);
+  install_scm_function (0, "Returns the lilypond typesetting text for object at the cursor or #f if the object has not yet been typeset", DENEMO_SCHEME_PREFIX "GetLilyPond", scheme_get_lilypond);
 
-  INSTALL_SCM_FUNCTION ("Returns a string numerator/denominator for a tuplet open object or #f if cursor not on a tuplet open", DENEMO_SCHEME_PREFIX "GetTuplet", scheme_get_tuplet);
-  INSTALL_SCM_FUNCTION ("Set passed string as numerator/denominator for a tuplet open at cursor", DENEMO_SCHEME_PREFIX "SetTuplet", scheme_set_tuplet);
+  install_scm_function (0, "Returns a string numerator/denominator for a tuplet open object or #f if cursor not on a tuplet open", DENEMO_SCHEME_PREFIX "GetTuplet", scheme_get_tuplet);
+  install_scm_function (0, "Set passed string as numerator/denominator for a tuplet open at cursor", DENEMO_SCHEME_PREFIX "SetTuplet", scheme_set_tuplet);
 
-  INSTALL_SCM_FUNCTION ("Set passed 24 bit number as RGB color of background.", DENEMO_SCHEME_PREFIX "SetBackground", scheme_set_background);
+  install_scm_function (0, "Set passed 24 bit number as RGB color of background.", DENEMO_SCHEME_PREFIX "SetBackground", scheme_set_background);
 
-  INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Returns the type of object at the (m, n)th position on the Denemo Clipboard or #f if none.", DENEMO_SCHEME_PREFIX "GetClipObjType", scheme_get_clip_obj_type);
-  INSTALL_SCM_FUNCTION1 ("Takes a staff number m, Returns the number of objects in the mth staff on the Denemo Clipboard or #f if none.", DENEMO_SCHEME_PREFIX "GetClipObjects", scheme_get_clip_objects);
+  install_scm_function (2, "Takes a staff number m and a object number n. Returns the type of object at the (m, n)th position on the Denemo Clipboard or #f if none.", DENEMO_SCHEME_PREFIX "GetClipObjType", scheme_get_clip_obj_type);
+  install_scm_function (1, "Takes a staff number m, Returns the number of objects in the mth staff on the Denemo Clipboard or #f if none.", DENEMO_SCHEME_PREFIX "GetClipObjects", scheme_get_clip_objects);
 
 
-  INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Inserts the (m, n)th Denemo Object from Denemo Clipboard into the staff at the cursor position", DENEMO_SCHEME_PREFIX "PutClipObj", scheme_put_clip_obj);
-  INSTALL_SCM_FUNCTION ("Clears the Denemo Music Clipboard", DENEMO_SCHEME_PREFIX "ClearClipboard", scheme_clear_clipboard);
-  INSTALL_SCM_FUNCTION ("Gives the number of staffs in the Denemo Music Clipboard", DENEMO_SCHEME_PREFIX "GetStaffsInClipboard", scheme_get_staffs_in_clipboard);
+  install_scm_function (2, "Takes a staff number m and a object number n. Inserts the (m, n)th Denemo Object from Denemo Clipboard into the staff at the cursor position", DENEMO_SCHEME_PREFIX "PutClipObj", scheme_put_clip_obj);
+  install_scm_function (0, "Clears the Denemo Music Clipboard", DENEMO_SCHEME_PREFIX "ClearClipboard", scheme_clear_clipboard);
+  install_scm_function (0, "Gives the number of staffs in the Denemo Music Clipboard", DENEMO_SCHEME_PREFIX "GetStaffsInClipboard", scheme_get_staffs_in_clipboard);
 
-  INSTALL_SCM_FUNCTION ("Gives the number of measures in the current staff", DENEMO_SCHEME_PREFIX "GetMeasuresInStaff", scheme_get_measures_in_staff);
+  install_scm_function (0, "Gives the number of measures in the current staff", DENEMO_SCHEME_PREFIX "GetMeasuresInStaff", scheme_get_measures_in_staff);
 
-  INSTALL_SCM_FUNCTION ("Makes the current staff a voice belonging to the staff above", DENEMO_SCHEME_PREFIX "StaffToVoice", scheme_staff_to_voice);
+  install_scm_function (0, "Makes the current staff a voice belonging to the staff above", DENEMO_SCHEME_PREFIX "StaffToVoice", scheme_staff_to_voice);
 
-  INSTALL_SCM_FUNCTION ("Makes the current voice a independent staff", DENEMO_SCHEME_PREFIX "VoiceToStaff", scheme_voice_to_staff);
-  INSTALL_SCM_FUNCTION ("Returns #f if the current staff is not a voice else true", DENEMO_SCHEME_PREFIX "IsVoice", scheme_is_voice);
+  install_scm_function (0, "Makes the current voice a independent staff", DENEMO_SCHEME_PREFIX "VoiceToStaff", scheme_voice_to_staff);
+  install_scm_function (0, "Returns #f if the current staff is not a voice else true", DENEMO_SCHEME_PREFIX "IsVoice", scheme_is_voice);
 
-  INSTALL_SCM_FUNCTION ("Adjusts the horizontal (x-) positioning of notes etc after paste", DENEMO_SCHEME_PREFIX "AdjustXes", scheme_adjust_xes);
+  install_scm_function (0, "Adjusts the horizontal (x-) positioning of notes etc after paste", DENEMO_SCHEME_PREFIX "AdjustXes", scheme_adjust_xes);
 
-  INSTALL_SCM_FUNCTION ("Turn highlighting of cursor off/on", DENEMO_SCHEME_PREFIX "HighlightCursor", scheme_highlight_cursor);
+  install_scm_function (0, "Turn highlighting of cursor off/on", DENEMO_SCHEME_PREFIX "HighlightCursor", scheme_highlight_cursor);
 
-  INSTALL_SCM_FUNCTION ("Returns #t if there is an object at the cursor which has any printing behavior it may have overridden", DENEMO_SCHEME_PREFIX "GetNonprinting", scheme_get_nonprinting);
+  install_scm_function (0, "Returns #t if there is an object at the cursor which has any printing behavior it may have overridden", DENEMO_SCHEME_PREFIX "GetNonprinting", scheme_get_nonprinting);
 
-  INSTALL_SCM_FUNCTION ("Sets the Non Printing attribute of a chord (or note/rest) at the cursor. For a rest this makes a non printing rest, for a note it makes it ia pure rhythm (which will not print, but can be assigned pitch, e.g. via a MIDI keyboard. Pass in #f to unset the attribute", DENEMO_SCHEME_PREFIX "SetNonprinting", scheme_set_nonprinting);
+  install_scm_function (0, "Sets the Non Printing attribute of a chord (or note/rest) at the cursor. For a rest this makes a non printing rest, for a note it makes it ia pure rhythm (which will not print, but can be assigned pitch, e.g. via a MIDI keyboard. Pass in #f to unset the attribute", DENEMO_SCHEME_PREFIX "SetNonprinting", scheme_set_nonprinting);
 
-  INSTALL_SCM_FUNCTION ("Returns #t if there is a grace note/chord at cursor, else #f", DENEMO_SCHEME_PREFIX "IsGrace", scheme_is_grace);
-  INSTALL_SCM_FUNCTION ("Returns #t if there is a tied note/chord at cursor, else #f", DENEMO_SCHEME_PREFIX "IsTied", scheme_is_tied);
+  install_scm_function (0, "Returns #t if there is a grace note/chord at cursor, else #f", DENEMO_SCHEME_PREFIX "IsGrace", scheme_is_grace);
+  install_scm_function (0, "Returns #t if there is a tied note/chord at cursor, else #f", DENEMO_SCHEME_PREFIX "IsTied", scheme_is_tied);
 
-  INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with slur starting at cursor, else #f", DENEMO_SCHEME_PREFIX "IsSlurStart", scheme_is_slur_start);
+  install_scm_function (0, "Returns #t if there is a chord with slur starting at cursor, else #f", DENEMO_SCHEME_PREFIX "IsSlurStart", scheme_is_slur_start);
 
-  INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with slur ending at cursor, else #f", DENEMO_SCHEME_PREFIX "IsSlurEnd", scheme_is_slur_end);
+  install_scm_function (0, "Returns #t if there is a chord with slur ending at cursor, else #f", DENEMO_SCHEME_PREFIX "IsSlurEnd", scheme_is_slur_end);
 
-  INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with crescendo starting at cursor, else #f", DENEMO_SCHEME_PREFIX "IsCrescStart", scheme_is_cresc_start);
-  INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with crescendo ending at cursor, else #f", DENEMO_SCHEME_PREFIX "IsCrescEnd", scheme_is_cresc_end);
+  install_scm_function (0, "Returns #t if there is a chord with crescendo starting at cursor, else #f", DENEMO_SCHEME_PREFIX "IsCrescStart", scheme_is_cresc_start);
+  install_scm_function (0, "Returns #t if there is a chord with crescendo ending at cursor, else #f", DENEMO_SCHEME_PREFIX "IsCrescEnd", scheme_is_cresc_end);
 
-  INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with diminuendo starting at cursor, else #f", DENEMO_SCHEME_PREFIX "IsDimStart", scheme_is_dim_start);
-  INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with diminuendo ending at cursor, else #f", DENEMO_SCHEME_PREFIX "IsDimEnd", scheme_is_dim_end);
+  install_scm_function (0, "Returns #t if there is a chord with diminuendo starting at cursor, else #f", DENEMO_SCHEME_PREFIX "IsDimStart", scheme_is_dim_start);
+  install_scm_function (0, "Returns #t if there is a chord with diminuendo ending at cursor, else #f", DENEMO_SCHEME_PREFIX "IsDimEnd", scheme_is_dim_end);
 
 
 
-  INSTALL_SCM_FUNCTION ("Returns #t if the cursor is in the selection area, else #f", DENEMO_SCHEME_PREFIX "IsInSelection", scheme_is_in_selection);
+  install_scm_function (0, "Returns #t if the cursor is in the selection area, else #f", DENEMO_SCHEME_PREFIX "IsInSelection", scheme_is_in_selection);
 
-  INSTALL_SCM_FUNCTION ("Returns #t if the cursor is in the appending position, else #f", DENEMO_SCHEME_PREFIX "IsAppending", scheme_is_appending);
+  install_scm_function (0, "Returns #t if the cursor is in the appending position, else #f", DENEMO_SCHEME_PREFIX "IsAppending", scheme_is_appending);
 
-  INSTALL_SCM_FUNCTION ("Shifts the cursor up or down by the integer amount passed in", DENEMO_SCHEME_PREFIX "ShiftCursor", scheme_shift_cursor);
+  install_scm_function (0, "Shifts the cursor up or down by the integer amount passed in", DENEMO_SCHEME_PREFIX "ShiftCursor", scheme_shift_cursor);
 
 
-  INSTALL_SCM_FUNCTION ("Returns the movement number counting from 1", DENEMO_SCHEME_PREFIX "GetMovement", scheme_get_movement);
-  INSTALL_SCM_FUNCTION ("Returns the staff/voice number counting from 1", DENEMO_SCHEME_PREFIX "GetStaff", scheme_get_staff);
-  INSTALL_SCM_FUNCTION ("Returns the measure number counting from 1", DENEMO_SCHEME_PREFIX "GetMeasure", scheme_get_measure);
-  INSTALL_SCM_FUNCTION ("Sets the display width of the object at the cursor to the value passed (in pixels)", DENEMO_SCHEME_PREFIX "SetObjectDisplayWidth", scheme_set_object_display_width);
-  INSTALL_SCM_FUNCTION ("Returns the cursor horizontal position in current measure.\n 1 = first position in measure, n+1 is appending position where n is the number of objects in current measure", DENEMO_SCHEME_PREFIX "GetHorizontalPosition", scheme_get_horizontal_position);
+  install_scm_function (0, "Returns the movement number counting from 1", DENEMO_SCHEME_PREFIX "GetMovement", scheme_get_movement);
+  install_scm_function (0, "Returns the staff/voice number counting from 1", DENEMO_SCHEME_PREFIX "GetStaff", scheme_get_staff);
+  install_scm_function (0, "Returns the measure number counting from 1", DENEMO_SCHEME_PREFIX "GetMeasure", scheme_get_measure);
+  install_scm_function (0, "Sets the display width of the object at the cursor to the value passed (in pixels)", DENEMO_SCHEME_PREFIX "SetObjectDisplayWidth", scheme_set_object_display_width);
+  install_scm_function (0, "Returns the cursor horizontal position in current measure.\n 1 = first position in measure, n+1 is appending position where n is the number of objects in current measure", DENEMO_SCHEME_PREFIX "GetHorizontalPosition", scheme_get_horizontal_position);
 
-  INSTALL_SCM_FUNCTION ("Returns the note name for the line or space where the cursor is", DENEMO_SCHEME_PREFIX "GetCursorNote", scheme_get_cursor_note);
-  INSTALL_SCM_FUNCTION ("Returns the note name and octave in LilyPond notation for the line or space where the cursor is", DENEMO_SCHEME_PREFIX "GetCursorNoteWithOctave", scheme_get_cursor_note_with_octave);
+  install_scm_function (0, "Returns the note name for the line or space where the cursor is", DENEMO_SCHEME_PREFIX "GetCursorNote", scheme_get_cursor_note);
+  install_scm_function (0, "Returns the note name and octave in LilyPond notation for the line or space where the cursor is", DENEMO_SCHEME_PREFIX "GetCursorNoteWithOctave", scheme_get_cursor_note_with_octave);
 
 
-  INSTALL_SCM_FUNCTION ("Prints out information about the object at the cursor", DENEMO_SCHEME_PREFIX "DebugObject", scheme_debug_object);
-  INSTALL_SCM_FUNCTION ("Remove the user's customized buttons and other scheme startup stuff created by the user in actions/denemo.scm", DENEMO_SCHEME_PREFIX "DestroySchemeInit", scheme_destroy_scheme_init);
+  install_scm_function (0, "Prints out information about the object at the cursor", DENEMO_SCHEME_PREFIX "DebugObject", scheme_debug_object);
+  install_scm_function (0, "Remove the user's customized buttons and other scheme startup stuff created by the user in actions/denemo.scm", DENEMO_SCHEME_PREFIX "DestroySchemeInit", scheme_destroy_scheme_init);
 
-  INSTALL_SCM_FUNCTION ("Returns the name of the (highest) note in any chord at the cursor position, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteName", scheme_get_note_name);
-  INSTALL_SCM_FUNCTION ("Insert a rest at the cursor in the prevailing duration, or if given a integer, in that duration, setting the prevailing duration. If MIDI in is active, the cursor stays on the rest after inserting it, else it moves right.", DENEMO_SCHEME_PREFIX "InsertRest", scheme_insert_rest);
-  INSTALL_SCM_FUNCTION ("Insert rests at the cursor to the value of the one whole measure in the key signature and return the number of rests inserted", DENEMO_SCHEME_PREFIX "PutWholeMeasureRests", scheme_put_whole_measure_rests);
-  INSTALL_SCM_FUNCTION ("Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the lowest, or #f if none", DENEMO_SCHEME_PREFIX "GetNote", scheme_get_note);
-  INSTALL_SCM_FUNCTION ("Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the highest, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteFromTop", scheme_get_note_from_top);
-  INSTALL_SCM_FUNCTION ("Takes optional integer parameter n = 1..., returns MIDI key for the nth note of the chord at the cursor counting from the highest, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteFromTopAsMidi", scheme_get_note_from_top_as_midi);
-  INSTALL_SCM_FUNCTION ("Returns a space separated string of LilyPond notes for the chord at the cursor position or #f if none", DENEMO_SCHEME_PREFIX "GetNotes", scheme_get_notes);
-  INSTALL_SCM_FUNCTION ("Returns the number of dots on the note at the cursor, or #f if no note", DENEMO_SCHEME_PREFIX "GetDots", scheme_get_dots);
-  INSTALL_SCM_FUNCTION ("Returns the base duration of the note at the cursor number=0, 1, 2 for whole half quarter note etc, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteBaseDuration", scheme_get_note_base_duration);
-  INSTALL_SCM_FUNCTION ("Returns the duration in LilyPond syntax of the note at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteDuration", scheme_get_note_duration);
-  INSTALL_SCM_FUNCTION ("Returns start time for the object at the cursor, or #f if it has not been calculated", DENEMO_SCHEME_PREFIX "GetOnsetTime", scheme_get_onset_time);
+  install_scm_function (0, "Returns the name of the (highest) note in any chord at the cursor position, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteName", scheme_get_note_name);
+  install_scm_function (0, "Insert a rest at the cursor in the prevailing duration, or if given a integer, in that duration, setting the prevailing duration. If MIDI in is active, the cursor stays on the rest after inserting it, else it moves right.", DENEMO_SCHEME_PREFIX "InsertRest", scheme_insert_rest);
+  install_scm_function (0, "Insert rests at the cursor to the value of the one whole measure in the key signature and return the number of rests inserted", DENEMO_SCHEME_PREFIX "PutWholeMeasureRests", scheme_put_whole_measure_rests);
+  install_scm_function (0, "Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the lowest, or #f if none", DENEMO_SCHEME_PREFIX "GetNote", scheme_get_note);
+  install_scm_function (0, "Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the highest, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteFromTop", scheme_get_note_from_top);
+  install_scm_function (0, "Takes optional integer parameter n = 1..., returns MIDI key for the nth note of the chord at the cursor counting from the highest, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteFromTopAsMidi", scheme_get_note_from_top_as_midi);
+  install_scm_function (0, "Returns a space separated string of LilyPond notes for the chord at the cursor position or #f if none", DENEMO_SCHEME_PREFIX "GetNotes", scheme_get_notes);
+  install_scm_function (0, "Returns the number of dots on the note at the cursor, or #f if no note", DENEMO_SCHEME_PREFIX "GetDots", scheme_get_dots);
+  install_scm_function (0, "Returns the base duration of the note at the cursor number=0, 1, 2 for whole half quarter note etc, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteBaseDuration", scheme_get_note_base_duration);
+  install_scm_function (0, "Returns the duration in LilyPond syntax of the note at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteDuration", scheme_get_note_duration);
+  install_scm_function (0, "Returns start time for the object at the cursor, or #f if it has not been calculated", DENEMO_SCHEME_PREFIX "GetOnsetTime", scheme_get_onset_time);
 
-  INSTALL_SCM_FUNCTION1 ("Takes an integer, Sets the number of ticks (PPQN) for the object at the cursor, returns #f if none; if the object is a chord it is set undotted", DENEMO_SCHEME_PREFIX "SetDurationInTicks", scheme_set_duration_in_ticks);
+  install_scm_function (1, "Takes an integer, Sets the number of ticks (PPQN) for the object at the cursor, returns #f if none; if the object is a chord it is set undotted", DENEMO_SCHEME_PREFIX "SetDurationInTicks", scheme_set_duration_in_ticks);
 
-  INSTALL_SCM_FUNCTION ("Returns the number of ticks (PPQN) for the object at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetDurationInTicks", scheme_get_duration_in_ticks);
-  INSTALL_SCM_FUNCTION ("Returns the number of ticks (PPQN) for the chord without dots or tuplet effects at the cursor, or #f if not a chord. The value is -ve for special durations (i.e. non-standard notes)", DENEMO_SCHEME_PREFIX "GetBaseDurationInTicks", scheme_get_base_duration_in_ticks);
+  install_scm_function (0, "Returns the number of ticks (PPQN) for the object at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetDurationInTicks", scheme_get_duration_in_ticks);
+  install_scm_function (0, "Returns the number of ticks (PPQN) for the chord without dots or tuplet effects at the cursor, or #f if not a chord. The value is -ve for special durations (i.e. non-standard notes)", DENEMO_SCHEME_PREFIX "GetBaseDurationInTicks", scheme_get_base_duration_in_ticks);
 
-  INSTALL_SCM_FUNCTION ("Returns the tick count (PPQN) for the end of the object at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetEndTick", scheme_get_end_tick);
-  INSTALL_SCM_FUNCTION ("Returns the tick count (PPQN) for the start of the object at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetStartTick", scheme_get_start_tick);
+  install_scm_function (0, "Returns the tick count (PPQN) for the end of the object at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetEndTick", scheme_get_end_tick);
+  install_scm_function (0, "Returns the tick count (PPQN) for the start of the object at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetStartTick", scheme_get_start_tick);
 
-  INSTALL_SCM_FUNCTION ("Returns the measure number at cursor position.", DENEMO_SCHEME_PREFIX "GetMeasureNumber", scheme_get_measure_number);
+  install_scm_function (0, "Returns the measure number at cursor position.", DENEMO_SCHEME_PREFIX "GetMeasureNumber", scheme_get_measure_number);
 
 
-  INSTALL_SCM_FUNCTION ("Takes LilyPond note name string. Moves the cursor to the line or space", DENEMO_SCHEME_PREFIX "CursorToNote", scheme_cursor_to_note);
+  install_scm_function (0, "Takes LilyPond note name string. Moves the cursor to the line or space", DENEMO_SCHEME_PREFIX "CursorToNote", scheme_cursor_to_note);
 
-  INSTALL_SCM_FUNCTION ("Returns the prevailing key signature at the cursor", DENEMO_SCHEME_PREFIX "GetPrevailingKeysig", scheme_get_prevailing_keysig);
-  INSTALL_SCM_FUNCTION ("Returns the prevailing time signature at the cursor", DENEMO_SCHEME_PREFIX "GetPrevailingTimesig", scheme_get_prevailing_timesig);
-  INSTALL_SCM_FUNCTION ("Returns the prevailing clef at the cursor. Note that non-builtin clefs like drum are not handled yet.", DENEMO_SCHEME_PREFIX "GetPrevailingClef", scheme_get_prevailing_clef);
+  install_scm_function (0, "Returns the prevailing key signature at the cursor", DENEMO_SCHEME_PREFIX "GetPrevailingKeysig", scheme_get_prevailing_keysig);
+  install_scm_function (0, "Returns the prevailing time signature at the cursor", DENEMO_SCHEME_PREFIX "GetPrevailingTimesig", scheme_get_prevailing_timesig);
+  install_scm_function (0, "Returns the prevailing clef at the cursor. Note that non-builtin clefs like drum are not handled yet.", DENEMO_SCHEME_PREFIX "GetPrevailingClef", scheme_get_prevailing_clef);
 
-  INSTALL_SCM_FUNCTION ("Returns the LilyPond typesetting syntax for prevailing clef at the cursor.", DENEMO_SCHEME_PREFIX "GetPrevailingClefAsLilyPond", scheme_get_prevailing_clef_as_lilypond);
-  INSTALL_SCM_FUNCTION ("Returns the LilyPond typesetting syntax for prevailing key signature at the cursor.", DENEMO_SCHEME_PREFIX "GetPrevailingKeysigAsLilyPond", scheme_get_prevailing_keysig_as_lilypond);
-  INSTALL_SCM_FUNCTION ("Returns the LilyPond typesetting syntax for prevailing time signature at the cursor.", DENEMO_SCHEME_PREFIX "GetPrevailingTimesigAsLilyPond", scheme_get_prevailing_timesig_as_lilypond);
+  install_scm_function (0, "Returns the LilyPond typesetting syntax for prevailing clef at the cursor.", DENEMO_SCHEME_PREFIX "GetPrevailingClefAsLilyPond", scheme_get_prevailing_clef_as_lilypond);
+  install_scm_function (0, "Returns the LilyPond typesetting syntax for prevailing key signature at the cursor.", DENEMO_SCHEME_PREFIX "GetPrevailingKeysigAsLilyPond", scheme_get_prevailing_keysig_as_lilypond);
+  install_scm_function (0, "Returns the LilyPond typesetting syntax for prevailing time signature at the cursor.", DENEMO_SCHEME_PREFIX "GetPrevailingTimesigAsLilyPond", scheme_get_prevailing_timesig_as_lilypond);
 
 
-  INSTALL_SCM_FUNCTION ("Returns the prevailing duration, ie duration which will be used for the next inserted note.", DENEMO_SCHEME_PREFIX "GetPrevailingDuration", scheme_get_prevailing_duration);
+  install_scm_function (0, "Returns the prevailing duration, ie duration which will be used for the next inserted note.", DENEMO_SCHEME_PREFIX "GetPrevailingDuration", scheme_get_prevailing_duration);
 
-  //more work needed, see above INSTALL_SCM_FUNCTION ("Sets the prevailing keysignature at the cursor to the string of 7 steps passed. Each step can be -1, 0 or 1",DENEMO_SCHEME_PREFIX"SetPrevailingKeysig", scheme_set_prevailing_keysig);
+  //more work needed, see above install_scm_function (0, "Sets the prevailing keysignature at the cursor to the string of 7 steps passed. Each step can be -1, 0 or 1",DENEMO_SCHEME_PREFIX"SetPrevailingKeysig", scheme_set_prevailing_keysig);
 
-  INSTALL_SCM_FUNCTION ("Makes the initial keysig sharper/flatter", DENEMO_SCHEME_PREFIX "IncrementInitialKeysig", scheme_increment_initial_keysig);
-  INSTALL_SCM_FUNCTION ("Makes the keysig sharper/flatter, affects keysig change when cursor is on one or appending after one, otherwise affects initial keysig", DENEMO_SCHEME_PREFIX "IncrementKeysig", scheme_increment_keysig);
-  INSTALL_SCM_FUNCTION ("Appends a new movement without copying staff structure.", DENEMO_SCHEME_PREFIX "AddMovement", scheme_add_movement);
+  install_scm_function (0, "Makes the initial keysig sharper/flatter", DENEMO_SCHEME_PREFIX "IncrementInitialKeysig", scheme_increment_initial_keysig);
+  install_scm_function (0, "Makes the keysig sharper/flatter, affects keysig change when cursor is on one or appending after one, otherwise affects initial keysig", DENEMO_SCHEME_PREFIX "IncrementKeysig", scheme_increment_keysig);
+  install_scm_function (0, "Appends a new movement without copying staff structure.", DENEMO_SCHEME_PREFIX "AddMovement", scheme_add_movement);
 
 
 
-  INSTALL_SCM_FUNCTION ("Takes a string of LilyPond note names. Replaces the notes of the chord at the cursor with these notes, preserving other attributes", DENEMO_SCHEME_PREFIX "ChangeChordNotes", scheme_change_chord_notes);
-  INSTALL_SCM_FUNCTION ("Takes a LilyPond note name, and changes the note at the cursor to that note", DENEMO_SCHEME_PREFIX "PutNoteName", scheme_put_note_name);
-  INSTALL_SCM_FUNCTION ("Takes a LilyPond note name, changes the note at the cursor to have the accidental passed in either LilyPond string or integer -2..+2. Returns #f if cursor is not on a note position.  ", DENEMO_SCHEME_PREFIX "SetAccidental", scheme_set_accidental);
+  install_scm_function (0, "Takes a string of LilyPond note names. Replaces the notes of the chord at the cursor with these notes, preserving other attributes", DENEMO_SCHEME_PREFIX "ChangeChordNotes", scheme_change_chord_notes);
+  install_scm_function (0, "Takes a LilyPond note name, and changes the note at the cursor to that note", DENEMO_SCHEME_PREFIX "PutNoteName", scheme_put_note_name);
+  install_scm_function (0, "Takes a LilyPond note name, changes the note at the cursor to have the accidental passed in either LilyPond string or integer -2..+2. Returns #f if cursor is not on a note position.  ", DENEMO_SCHEME_PREFIX "SetAccidental", scheme_set_accidental);
 
-  INSTALL_SCM_FUNCTION ("Inserts a rest at the cursor; either passed in duration (note  prevailing duration not supported properly).", DENEMO_SCHEME_PREFIX "PutRest", scheme_put_rest);
+  install_scm_function (0, "Inserts a rest at the cursor; either passed in duration (note  prevailing duration not supported properly).", DENEMO_SCHEME_PREFIX "PutRest", scheme_put_rest);
 
 
 
-  INSTALL_SCM_FUNCTION ("Takes a LilyPond note name, and adds that note to the chord", DENEMO_SCHEME_PREFIX "InsertNoteInChord", scheme_insert_note_in_chord);
+  install_scm_function (0, "Takes a LilyPond note name, and adds that note to the chord", DENEMO_SCHEME_PREFIX "InsertNoteInChord", scheme_insert_note_in_chord);
 
 
-  INSTALL_SCM_FUNCTION ("Moves the note at the cursor by the number of diatonic steps passed in", DENEMO_SCHEME_PREFIX "DiatonicShift", scheme_diatonic_shift);
-  INSTALL_SCM_FUNCTION ("Moves the cursor to the right returning #t if this was possible", DENEMO_SCHEME_PREFIX "NextObject", scheme_next_object);
-  INSTALL_SCM_FUNCTION ("Moves the cursor to the left returning #t if the cursor moved", DENEMO_SCHEME_PREFIX "PrevObject", scheme_prev_object);
-  INSTALL_SCM_FUNCTION ("Moves the cursor to the next object in the current measure, returning #f if there were no more objects to the left in the current measure", DENEMO_SCHEME_PREFIX "NextObjectInMeasure", scheme_next_object_in_measure);
-  INSTALL_SCM_FUNCTION ("Moves the cursor to the previous object in the current measure, returning #f if the cursor was on the first object", DENEMO_SCHEME_PREFIX "PrevObjectInMeasure", scheme_prev_object_in_measure);
-  INSTALL_SCM_FUNCTION ("Moves the cursor to the next object in the selection. Returns #t if the cursor moved", DENEMO_SCHEME_PREFIX "NextSelectedObject", scheme_next_selected_object);
-  INSTALL_SCM_FUNCTION ("Moves the cursor to the previous object in the selection. Returns #t if the cursor moved", DENEMO_SCHEME_PREFIX "PrevSelectedObject", scheme_prev_selected_object);
-  INSTALL_SCM_FUNCTION ("Moves the cursor the the next object of type CHORD in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "NextChord", scheme_next_chord);
-  INSTALL_SCM_FUNCTION ("Moves the cursor the the previous object of type CHORD in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "PrevChord", scheme_prev_chord);
+  install_scm_function (0, "Moves the note at the cursor by the number of diatonic steps passed in", DENEMO_SCHEME_PREFIX "DiatonicShift", scheme_diatonic_shift);
+  install_scm_function (0, "Moves the cursor to the right returning #t if this was possible", DENEMO_SCHEME_PREFIX "NextObject", scheme_next_object);
+  install_scm_function (0, "Moves the cursor to the left returning #t if the cursor moved", DENEMO_SCHEME_PREFIX "PrevObject", scheme_prev_object);
+  install_scm_function (0, "Moves the cursor to the next object in the current measure, returning #f if there were no more objects to the left in the current measure", DENEMO_SCHEME_PREFIX "NextObjectInMeasure", scheme_next_object_in_measure);
+  install_scm_function (0, "Moves the cursor to the previous object in the current measure, returning #f if the cursor was on the first object", DENEMO_SCHEME_PREFIX "PrevObjectInMeasure", scheme_prev_object_in_measure);
+  install_scm_function (0, "Moves the cursor to the next object in the selection. Returns #t if the cursor moved", DENEMO_SCHEME_PREFIX "NextSelectedObject", scheme_next_selected_object);
+  install_scm_function (0, "Moves the cursor to the previous object in the selection. Returns #t if the cursor moved", DENEMO_SCHEME_PREFIX "PrevSelectedObject", scheme_prev_selected_object);
+  install_scm_function (0, "Moves the cursor the the next object of type CHORD in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "NextChord", scheme_next_chord);
+  install_scm_function (0, "Moves the cursor the the previous object of type CHORD in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "PrevChord", scheme_prev_chord);
 
-  INSTALL_SCM_FUNCTION ("Moves the cursor the the next object of type CHORD in the current measure. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "NextChordInMeasure", scheme_next_chord_in_measure);
-  INSTALL_SCM_FUNCTION ("Moves the cursor the the previous object of type CHORD in the current measure. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "PrevChordInMeasure", scheme_prev_chord_in_measure);
+  install_scm_function (0, "Moves the cursor the the next object of type CHORD in the current measure. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "NextChordInMeasure", scheme_next_chord_in_measure);
+  install_scm_function (0, "Moves the cursor the the previous object of type CHORD in the current measure. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "PrevChordInMeasure", scheme_prev_chord_in_measure);
 
 
-  INSTALL_SCM_FUNCTION ("Moves the cursor the next object of type CHORD which is not a rest in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "NextNote", scheme_next_note);
-  INSTALL_SCM_FUNCTION ("Moves the cursor the previous object of type CHORD which is not a rest in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "PrevNote", scheme_prev_note);
-  INSTALL_SCM_FUNCTION ("Creates a music Snippet comprising the object at the cursor Returns #f if not possible, otherwise an identifier for that snippet", DENEMO_SCHEME_PREFIX "CreateSnippetFromObject", scheme_create_snippet_from_object);
+  install_scm_function (0, "Moves the cursor the next object of type CHORD which is not a rest in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "NextNote", scheme_next_note);
+  install_scm_function (0, "Moves the cursor the previous object of type CHORD which is not a rest in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "PrevNote", scheme_prev_note);
+  install_scm_function (0, "Creates a music Snippet comprising the object at the cursor Returns #f if not possible, otherwise an identifier for that snippet", DENEMO_SCHEME_PREFIX "CreateSnippetFromObject", scheme_create_snippet_from_object);
 
-  INSTALL_SCM_FUNCTION ("Selects music Snippet from passed id Returns #f if not possible", DENEMO_SCHEME_PREFIX "SelectSnippet", scheme_select_snippet);
+  install_scm_function (0, "Selects music Snippet from passed id Returns #f if not possible", DENEMO_SCHEME_PREFIX "SelectSnippet", scheme_select_snippet);
 
-  INSTALL_SCM_FUNCTION ("Inserts music Snippet from passed id Returns #f if not possible", DENEMO_SCHEME_PREFIX "InsertSnippet", scheme_insert_snippet);
+  install_scm_function (0, "Inserts music Snippet from passed id Returns #f if not possible", DENEMO_SCHEME_PREFIX "InsertSnippet", scheme_insert_snippet);
 
 
 
-  INSTALL_SCM_FUNCTION ("Moves the cursor the next object that is a Denemo Directive in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "NextStandaloneDirective", scheme_next_standalone_directive);
-  INSTALL_SCM_FUNCTION ("Moves the cursor the previous object that is a Denemo Directive in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "PrevStandaloneDirective", scheme_prev_standalone_directive);
-  INSTALL_SCM_FUNCTION ("Moves the cursor within the current measure to the next object that is a Denemo Directive in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "NextStandaloneDirectiveInMeasure", scheme_next_standalone_directive_in_measure);
-  INSTALL_SCM_FUNCTION ("Moves the cursor within the current measure to the previous object that is a Denemo Directive in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "PrevStandaloneDirectiveInMeasure", scheme_prev_standalone_directive_in_measure);
+  install_scm_function (0, "Moves the cursor the next object that is a Denemo Directive in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "NextStandaloneDirective", scheme_next_standalone_directive);
+  install_scm_function (0, "Moves the cursor the previous object that is a Denemo Directive in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "PrevStandaloneDirective", scheme_prev_standalone_directive);
+  install_scm_function (0, "Moves the cursor within the current measure to the next object that is a Denemo Directive in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "NextStandaloneDirectiveInMeasure", scheme_next_standalone_directive_in_measure);
+  install_scm_function (0, "Moves the cursor within the current measure to the previous object that is a Denemo Directive in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "PrevStandaloneDirectiveInMeasure", scheme_prev_standalone_directive_in_measure);
 
 
-  INSTALL_SCM_FUNCTION ("Enforces the treatment of the note at the cursor as a chord in LilyPond", DENEMO_SCHEME_PREFIX "Chordize", scheme_chordize);
-  INSTALL_SCM_FUNCTION ("Takes xml representation of a preference and adds it to the Denemo preferences", DENEMO_SCHEME_PREFIX "SetPrefs", scheme_set_prefs);
+  install_scm_function (0, "Enforces the treatment of the note at the cursor as a chord in LilyPond", DENEMO_SCHEME_PREFIX "Chordize", scheme_chordize);
+  install_scm_function (0, "Takes xml representation of a preference and adds it to the Denemo preferences", DENEMO_SCHEME_PREFIX "SetPrefs", scheme_set_prefs);
 
-  INSTALL_SCM_FUNCTION ("Takes string name of a boolean-valued preference and returns the current value. Non-existent prefs return #f, ensure that the preference name is correct before using.", DENEMO_SCHEME_PREFIX "GetBooleanPref", scheme_get_boolean_pref);
-  INSTALL_SCM_FUNCTION ("Takes string name of an int-valued preference and returns the current value. Non-existent prefs return #f", DENEMO_SCHEME_PREFIX "GetIntPref", scheme_get_int_pref);
-  INSTALL_SCM_FUNCTION ("Takes string name of a string-valued preference and returns the current value. Non-existent prefs return #f", DENEMO_SCHEME_PREFIX "GetStringPref", scheme_get_string_pref);
+  install_scm_function (0, "Takes string name of a boolean-valued preference and returns the current value. Non-existent prefs return #f, ensure that the preference name is correct before using.", DENEMO_SCHEME_PREFIX "GetBooleanPref", scheme_get_boolean_pref);
+  install_scm_function (0, "Takes string name of an int-valued preference and returns the current value. Non-existent prefs return #f", DENEMO_SCHEME_PREFIX "GetIntPref", scheme_get_int_pref);
+  install_scm_function (0, "Takes string name of a string-valued preference and returns the current value. Non-existent prefs return #f", DENEMO_SCHEME_PREFIX "GetStringPref", scheme_get_string_pref);
 
-  INSTALL_SCM_FUNCTION ("Takes a script as a string, which will be stored. All the callbacks are called when the musical score is closed", DENEMO_SCHEME_PREFIX "AttachQuitCallback", scheme_attach_quit_callback);
-  INSTALL_SCM_FUNCTION ("Removes a callback from the current musical score", DENEMO_SCHEME_PREFIX "DetachQuitCallback", scheme_detach_quit_callback);
-  INSTALL_SCM_FUNCTION ("Returns DENEMO_INPUTMIDI, DENEMO_INPUTKEYBOARD, DENEMO_INPUTAUDIO depending on the source of input to Denemo.", DENEMO_SCHEME_PREFIX "GetInputSource", scheme_get_input_source);
-  INSTALL_SCM_FUNCTION ("Pops up a menu given by the list of pairs in the argument. Each pair should be a label string and an expression, the expression for the chosen label is returned. Alternatively the label string can be replaced by a pair of strings, label . tooltip. The third syntax is just a list of string labels, the chosen string is returned.", DENEMO_SCHEME_PREFIX "PopupMenu", scheme_popup_menu);
-  INSTALL_SCM_FUNCTION ("Returns a list of the target type and grob (if a directive). Target is set by clicking on the typeset version of the score at a link that LilyPond has inserted.", DENEMO_SCHEME_PREFIX "GetTargetInfo", scheme_get_target_info);
-  INSTALL_SCM_FUNCTION ("Interactively sets a target (a click on a LilyPond link in the printview window) from the user ", DENEMO_SCHEME_PREFIX "GetNewTarget", scheme_get_new_target);
-  INSTALL_SCM_FUNCTION ("Interactively sets a point in the printview window from the user", DENEMO_SCHEME_PREFIX "GetNewPoint", scheme_get_new_point);
-  INSTALL_SCM_FUNCTION ("Interactively sets a reference point (a click on a point in the printview window) from the user showing a cross hairs prompt ", DENEMO_SCHEME_PREFIX "GetReferencePoint", scheme_get_reference_point);
-  INSTALL_SCM_FUNCTION ("Interactively gets an offset from the user in the print view window. The offset is from the last clicked object in the print view window. Returns pair of numbers x is positive to the right, y is positive upwards.", DENEMO_SCHEME_PREFIX "GetOffset", scheme_get_offset);
-  INSTALL_SCM_FUNCTION ("Interactively sets a control point for a curve in the print view window. Takes one parameter the number 1-4 of the control point to set.", DENEMO_SCHEME_PREFIX "GetControlPoint", scheme_get_control_point);
-  INSTALL_SCM_FUNCTION ("Interactively gets a curve from the user in the print view window. Returns a list of pairs of numbers, the control points of the curve.", DENEMO_SCHEME_PREFIX "GetCurve", scheme_get_curve);
-  INSTALL_SCM_FUNCTION ("Interactively gets two positions from the user in the print view window. Returns pair of pairs numbers.", DENEMO_SCHEME_PREFIX "GetPositions", scheme_get_positions);
+  install_scm_function (0, "Takes a script as a string, which will be stored. All the callbacks are called when the musical score is closed", DENEMO_SCHEME_PREFIX "AttachQuitCallback", scheme_attach_quit_callback);
+  install_scm_function (0, "Removes a callback from the current musical score", DENEMO_SCHEME_PREFIX "DetachQuitCallback", scheme_detach_quit_callback);
+  install_scm_function (0, "Returns DENEMO_INPUTMIDI, DENEMO_INPUTKEYBOARD, DENEMO_INPUTAUDIO depending on the source of input to Denemo.", DENEMO_SCHEME_PREFIX "GetInputSource", scheme_get_input_source);
+  install_scm_function (0, "Pops up a menu given by the list of pairs in the argument. Each pair should be a label string and an expression, the expression for the chosen label is returned. Alternatively the label string can be replaced by a pair of strings, label . tooltip. The third syntax is just a list of string labels, the chosen string is returned.", DENEMO_SCHEME_PREFIX "PopupMenu", scheme_popup_menu);
+  install_scm_function (0, "Returns a list of the target type and grob (if a directive). Target is set by clicking on the typeset version of the score at a link that LilyPond has inserted.", DENEMO_SCHEME_PREFIX "GetTargetInfo", scheme_get_target_info);
+  install_scm_function (0, "Interactively sets a target (a click on a LilyPond link in the printview window) from the user ", DENEMO_SCHEME_PREFIX "GetNewTarget", scheme_get_new_target);
+  install_scm_function (0, "Interactively sets a point in the printview window from the user", DENEMO_SCHEME_PREFIX "GetNewPoint", scheme_get_new_point);
+  install_scm_function (0, "Interactively sets a reference point (a click on a point in the printview window) from the user showing a cross hairs prompt ", DENEMO_SCHEME_PREFIX "GetReferencePoint", scheme_get_reference_point);
+  install_scm_function (0, "Interactively gets an offset from the user in the print view window. The offset is from the last clicked object in the print view window. Returns pair of numbers x is positive to the right, y is positive upwards.", DENEMO_SCHEME_PREFIX "GetOffset", scheme_get_offset);
+  install_scm_function (0, "Interactively sets a control point for a curve in the print view window. Takes one parameter the number 1-4 of the control point to set.", DENEMO_SCHEME_PREFIX "GetControlPoint", scheme_get_control_point);
+  install_scm_function (0, "Interactively gets a curve from the user in the print view window. Returns a list of pairs of numbers, the control points of the curve.", DENEMO_SCHEME_PREFIX "GetCurve", scheme_get_curve);
+  install_scm_function (0, "Interactively gets two positions from the user in the print view window. Returns pair of pairs numbers.", DENEMO_SCHEME_PREFIX "GetPositions", scheme_get_positions);
 
-  INSTALL_SCM_FUNCTION4 ("Takes 4 parameters and makes http transaction with www.denemo.org", DENEMO_SCHEME_PREFIX "HTTP", scheme_http);
+  install_scm_function (4, "Takes 4 parameters and makes http transaction with www.denemo.org", DENEMO_SCHEME_PREFIX "HTTP", scheme_http);
 
-  INSTALL_SCM_FUNCTION4 ("Move to given Movement, voice measure and object position. Takes 4 parameters integers starting from 1, use #f for no change. Returns #f if it fails", DENEMO_SCHEME_PREFIX "GoToPosition", scheme_goto_position);
+  install_scm_function (4, "Move to given Movement, voice measure and object position. Takes 4 parameters integers starting from 1, use #f for no change. Returns #f if it fails", DENEMO_SCHEME_PREFIX "GoToPosition", scheme_goto_position);
 
 
-  INSTALL_SCM_FUNCTION5 ("Takes a palette name, label, tooltip and script", DENEMO_SCHEME_PREFIX "CreatePaletteButton", scheme_create_palette_button);
-  INSTALL_SCM_FUNCTION4 ("Takes a palette name, boolean, and limit", DENEMO_SCHEME_PREFIX "SetPaletteShape", scheme_set_palette_shape);
-  INSTALL_SCM_FUNCTION ("Hides/Un-hides a palette. Pass a palette name (or #t to choose a palette) otherwise shows all palettes that are not hidden.", DENEMO_SCHEME_PREFIX "ShowPalettes", scheme_show_palettes);
+  install_scm_function (5, "Takes a palette name, label, tooltip and script", DENEMO_SCHEME_PREFIX "CreatePaletteButton", scheme_create_palette_button);
+  install_scm_function (4, "Takes a palette name, boolean, and limit", DENEMO_SCHEME_PREFIX "SetPaletteShape", scheme_set_palette_shape);
+  install_scm_function (0, "Hides/Un-hides a palette. Pass a palette name (or #t to choose a palette) otherwise shows all palettes that are not hidden.", DENEMO_SCHEME_PREFIX "ShowPalettes", scheme_show_palettes);
 
 
-  INSTALL_SCM_FUNCTION4 ("Takes up to three strings, title, prompt and initial value. Shows these to the user and returns the user's string. Fourth parameter makes the dialog not block waiting for input", DENEMO_SCHEME_PREFIX "GetUserInput", scheme_get_user_input);
-  INSTALL_SCM_FUNCTION4 ("Takes up to three strings, title, prompt and initial value. Shows these to the user with a text editor for the user to return a string. Buttons are present to insert snippets which are bracketed with secion characters in the return string. Fourth parameter makes the dialog not block waiting for input", DENEMO_SCHEME_PREFIX "GetUserInputWithSnippets", scheme_get_user_input_with_snippets);
-  INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message for the user to take note of as a warning", DENEMO_SCHEME_PREFIX "WarningDialog", scheme_warningdialog);
-  INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message for the user to take note of as a informative message", DENEMO_SCHEME_PREFIX "InfoDialog", scheme_infodialog);
-  INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message inside of a pulsing progressbar", DENEMO_SCHEME_PREFIX "ProgressBar", scheme_progressbar);
-  INSTALL_SCM_FUNCTION ("If running, Stops the ProgressBar.", DENEMO_SCHEME_PREFIX "ProgressBarStop", scheme_progressbar_stop);
-  INSTALL_SCM_FUNCTION ("Typesets the score. Takes a script which will be called when Refresh is performed on the typeset window.", DENEMO_SCHEME_PREFIX "TypesetForScript", scheme_typeset_for_script);
-  INSTALL_SCM_FUNCTION ("Prints from the PDF file generated by TypesetForScript.", DENEMO_SCHEME_PREFIX "PrintTypesetPDF", scheme_print_typeset_pdf);
+  install_scm_function (4, "Takes up to three strings, title, prompt and initial value. Shows these to the user and returns the user's string. Fourth parameter makes the dialog not block waiting for input", DENEMO_SCHEME_PREFIX "GetUserInput", scheme_get_user_input);
+  install_scm_function (4, "Takes up to three strings, title, prompt and initial value. Shows these to the user with a text editor for the user to return a string. Buttons are present to insert snippets which are bracketed with secion characters in the return string. Fourth parameter makes the dialog not block waiting for input", DENEMO_SCHEME_PREFIX "GetUserInputWithSnippets", scheme_get_user_input_with_snippets);
+  install_scm_function (0, "Takes a message as a string. Pops up the message for the user to take note of as a warning", DENEMO_SCHEME_PREFIX "WarningDialog", scheme_warningdialog);
+  install_scm_function (0, "Takes a message as a string. Pops up the message for the user to take note of as a informative message", DENEMO_SCHEME_PREFIX "InfoDialog", scheme_infodialog);
+  install_scm_function (0, "Takes a message as a string. Pops up the message inside of a pulsing progressbar", DENEMO_SCHEME_PREFIX "ProgressBar", scheme_progressbar);
+  install_scm_function (0, "If running, Stops the ProgressBar.", DENEMO_SCHEME_PREFIX "ProgressBarStop", scheme_progressbar_stop);
+  install_scm_function (0, "Typesets the score. Takes a script which will be called when Refresh is performed on the typeset window.", DENEMO_SCHEME_PREFIX "TypesetForScript", scheme_typeset_for_script);
+  install_scm_function (0, "Prints from the PDF file generated by TypesetForScript.", DENEMO_SCHEME_PREFIX "PrintTypesetPDF", scheme_print_typeset_pdf);
 
 
-  INSTALL_SCM_FUNCTION ("Intercepts the next keypress and returns a string containing the character. Returns #f if keyboard interception was not possible.", DENEMO_SCHEME_PREFIX "GetChar", scheme_get_char);
-  INSTALL_SCM_FUNCTION ("Intercepts the next keypress and returns a string containing the name of the keypress (the shortcut name). Returns #f if keyboard interception was not possible.", DENEMO_SCHEME_PREFIX "GetKeypress", scheme_get_keypress);
-  INSTALL_SCM_FUNCTION ("Returns the last keypress that successfully invoked a command ", DENEMO_SCHEME_PREFIX "GetCommandKeypress", scheme_get_command_keypress);
+  install_scm_function (0, "Intercepts the next keypress and returns a string containing the character. Returns #f if keyboard interception was not possible.", DENEMO_SCHEME_PREFIX "GetChar", scheme_get_char);
+  install_scm_function (0, "Intercepts the next keypress and returns a string containing the name of the keypress (the shortcut name). Returns #f if keyboard interception was not possible.", DENEMO_SCHEME_PREFIX "GetKeypress", scheme_get_keypress);
+  install_scm_function (0, "Returns the last keypress that successfully invoked a command ", DENEMO_SCHEME_PREFIX "GetCommandKeypress", scheme_get_command_keypress);
 
-  INSTALL_SCM_FUNCTION ("Intercepts the next keypress and returns the name of the command invoked, before invoking the command. Returns #f if the keypress is not a shortcut for any command", DENEMO_SCHEME_PREFIX "GetCommand", scheme_get_command);
-  INSTALL_SCM_FUNCTION ("Intercepts the next keyboard shortcut and returns the name of the command invoked, before invoking the command. Returns #f if the keypress(es) are not a shortcut for any command", DENEMO_SCHEME_PREFIX "GetCommandFromUser", scheme_get_command_from_user);
-  INSTALL_SCM_FUNCTION ("Locks the standalone directive at the cursor so that it runs its delete action when deleted. The tag should be the name of a command that responds to the delete parameter.", DENEMO_SCHEME_PREFIX "LockDirective", scheme_lock_directive);
+  install_scm_function (0, "Intercepts the next keypress and returns the name of the command invoked, before invoking the command. Returns #f if the keypress is not a shortcut for any command", DENEMO_SCHEME_PREFIX "GetCommand", scheme_get_command);
+  install_scm_function (0, "Intercepts the next keyboard shortcut and returns the name of the command invoked, before invoking the command. Returns #f if the keypress(es) are not a shortcut for any command", DENEMO_SCHEME_PREFIX "GetCommandFromUser", scheme_get_command_from_user);
+  install_scm_function (0, "Locks the standalone directive at the cursor so that it runs its delete action when deleted. The tag should be the name of a command that responds to the delete parameter.", DENEMO_SCHEME_PREFIX "LockDirective", scheme_lock_directive);
 
-  INSTALL_SCM_FUNCTION2 ("Sets an \"action script\" on the directive of the given tag", DENEMO_SCHEME_PREFIX "SetDirectiveTagActionScript", scheme_set_action_script_for_tag);
+  install_scm_function (2, "Sets an \"action script\" on the directive of the given tag", DENEMO_SCHEME_PREFIX "SetDirectiveTagActionScript", scheme_set_action_script_for_tag);
 
 #define INSTALL_GET_TAG(what)\
-  INSTALL_SCM_FUNCTION1 ("Takes a optional tag. Returns that tag if a "#what" directive exists at the cursor, else returns the tag of the first such directive at the cursor, or #f if none", DENEMO_SCHEME_PREFIX"DirectiveGetForTag"  "-" #what, scheme_##what##_directive_get_tag);
+  install_scm_function (1, "Takes a optional tag. Returns that tag if a "#what" directive exists at the cursor, else returns the tag of the first such directive at the cursor, or #f if none", DENEMO_SCHEME_PREFIX"DirectiveGetForTag"  "-" #what, scheme_##what##_directive_get_tag);
   INSTALL_GET_TAG (object);
   INSTALL_GET_TAG (standalone);
   INSTALL_GET_TAG (chord);
@@ -6200,7 +6131,7 @@ create_scheme_identfiers (void)
 #undef INSTALL_GET_TAG
 
 #define INSTALL_GET_NTH_TAG(what)\
-  INSTALL_SCM_FUNCTION1 ("Takes a number n. Returns the tag of the nth "#what" directive if it exists else returns #f if none", DENEMO_SCHEME_PREFIX"DirectiveGetNthTag"  "-" #what, scheme_##what##_directive_get_nth_tag);
+  install_scm_function (1, "Takes a number n. Returns the tag of the nth "#what" directive if it exists else returns #f if none", DENEMO_SCHEME_PREFIX"DirectiveGetNthTag"  "-" #what, scheme_##what##_directive_get_nth_tag);
   INSTALL_GET_NTH_TAG (chord);
   INSTALL_GET_NTH_TAG (note);
   INSTALL_GET_NTH_TAG (staff);
@@ -6222,24 +6153,24 @@ create_scheme_identfiers (void)
 
 
 #define INSTALL_EDIT(what)\
-  INSTALL_SCM_FUNCTION1 ("Deletes a "#what" directive of the passed in tag. Returns #f if not deleted", DENEMO_SCHEME_PREFIX"DirectiveDelete"  "-" #what, scheme_delete_##what##_directive); \
-  INSTALL_SCM_FUNCTION1 ("Activates a "#what" directive widget of the passed in tag. Returns #f if not a button", DENEMO_SCHEME_PREFIX"DirectiveActivate"  "-" #what, scheme_activate_##what##_directive); \
-  INSTALL_SCM_FUNCTION1 ("Takes a tag. Lets the user edit (by running the editscript named by the tag) a "#what" directive of the passed in tag. Returns #f if none", DENEMO_SCHEME_PREFIX"DirectiveTextEdit"  "-" #what, scheme_text_edit_##what##_directive);
+  install_scm_function (1, "Deletes a "#what" directive of the passed in tag. Returns #f if not deleted", DENEMO_SCHEME_PREFIX"DirectiveDelete"  "-" #what, scheme_delete_##what##_directive); \
+  install_scm_function (1, "Activates a "#what" directive widget of the passed in tag. Returns #f if not a button", DENEMO_SCHEME_PREFIX"DirectiveActivate"  "-" #what, scheme_activate_##what##_directive); \
+  install_scm_function (1, "Takes a tag. Lets the user edit (by running the editscript named by the tag) a "#what" directive of the passed in tag. Returns #f if none", DENEMO_SCHEME_PREFIX"DirectiveTextEdit"  "-" #what, scheme_text_edit_##what##_directive);
   INSTALL_EDIT (note);
   INSTALL_EDIT (chord);
   INSTALL_EDIT (staff);
   INSTALL_EDIT (voice);
   INSTALL_EDIT (score);
-  install_scm_function1 (DENEMO_SCHEME_PREFIX "DirectiveTextEdit-standalone", scheme_text_edit_standalone_directive);
+  install_scm_function (1, NULL, DENEMO_SCHEME_PREFIX "DirectiveTextEdit-standalone", scheme_text_edit_standalone_directive);
 
-  install_scm_function1 (DENEMO_SCHEME_PREFIX "DirectiveDelete-object", scheme_delete_object_directive);
+  install_scm_function (1, NULL, DENEMO_SCHEME_PREFIX "DirectiveDelete-object", scheme_delete_object_directive);
 
 
 #define INSTALL_PUT(what, field)\
- INSTALL_SCM_FUNCTION2 ("Writes the " #field" field (a string) of the " #what" directive with the passed int tag. Creates the directive of the given type and tag if it does not exist.",DENEMO_SCHEME_PREFIX"DirectivePut" "-" #what "-" #field, scheme_##what##_directive_put_##field);
+ install_scm_function (2, "Writes the " #field" field (a string) of the " #what" directive with the passed int tag. Creates the directive of the given type and tag if it does not exist.",DENEMO_SCHEME_PREFIX"DirectivePut" "-" #what "-" #field, scheme_##what##_directive_put_##field);
 
 #define INSTALL_GET(what, field)\
- INSTALL_SCM_FUNCTION1 ("Gets the value of the " #field" field (a string) of the " #what" directive with the passed tag.",DENEMO_SCHEME_PREFIX"DirectiveGet" "-" #what "-" #field, scheme_##what##_directive_get_##field);
+ install_scm_function (1, "Gets the value of the " #field" field (a string) of the " #what" directive with the passed tag.",DENEMO_SCHEME_PREFIX"DirectiveGet" "-" #what "-" #field, scheme_##what##_directive_get_##field);
 
   INSTALL_GET (object, minpixels);
   INSTALL_PUT (object, minpixels);
@@ -6664,192 +6595,192 @@ create_scheme_identfiers (void)
   /* test with (display (d-DirectiveGet-note-minpixels "LHfinger")) after attaching a LH finger directive */
 
   /* test with (display (d-DirectiveGet-note-display "LHfinger")) after attaching a LH finger directive */
-  install_scm_function1 (DENEMO_SCHEME_PREFIX "PutTextClipboard", scheme_put_text_clipboard);
+  install_scm_function (1, NULL, DENEMO_SCHEME_PREFIX "PutTextClipboard", scheme_put_text_clipboard);
 
-  INSTALL_SCM_FUNCTION ("Asks the user for a user name which is returned", DENEMO_SCHEME_PREFIX "GetUserName", scheme_get_username);
-  INSTALL_SCM_FUNCTION ("Asks the user for a password which is returned", DENEMO_SCHEME_PREFIX "GetPassword", scheme_get_password);
+  install_scm_function (0, "Asks the user for a user name which is returned", DENEMO_SCHEME_PREFIX "GetUserName", scheme_get_username);
+  install_scm_function (0, "Asks the user for a password which is returned", DENEMO_SCHEME_PREFIX "GetPassword", scheme_get_password);
 
-  INSTALL_SCM_FUNCTION ("Returns an integer value, a set of bitfields representing the keyboard state, e.g. GDK_SHIFT_MASK etc", DENEMO_SCHEME_PREFIX "GetKeyboardState", scheme_get_keyboard_state);
-  INSTALL_SCM_FUNCTION ("Routes the MIDI in to MIDI out if it is not intercepted by d-GetMidi", DENEMO_SCHEME_PREFIX "SetMidiThru", scheme_set_midi_thru);
+  install_scm_function (0, "Returns an integer value, a set of bitfields representing the keyboard state, e.g. GDK_SHIFT_MASK etc", DENEMO_SCHEME_PREFIX "GetKeyboardState", scheme_get_keyboard_state);
+  install_scm_function (0, "Routes the MIDI in to MIDI out if it is not intercepted by d-GetMidi", DENEMO_SCHEME_PREFIX "SetMidiThru", scheme_set_midi_thru);
 
-  INSTALL_SCM_FUNCTION ("Returns the ticks of the next event on the recorded MIDI track -ve if it is a NOTEOFF or #f if none. Advances to the next note.", DENEMO_SCHEME_PREFIX "GetRecordedMidiOnTick", scheme_get_recorded_midi_on_tick);
+  install_scm_function (0, "Returns the ticks of the next event on the recorded MIDI track -ve if it is a NOTEOFF or #f if none. Advances to the next note.", DENEMO_SCHEME_PREFIX "GetRecordedMidiOnTick", scheme_get_recorded_midi_on_tick);
 
-  INSTALL_SCM_FUNCTION ("Returns the LilyPond representation of the passed MIDI key number, using the current enharmonic set.", DENEMO_SCHEME_PREFIX "GetNoteForMidiKey", scheme_get_note_for_midi_key);
-
-
-
-  INSTALL_SCM_FUNCTION ("Returns the ticks of the next event on the recorded MIDI track -ve if it is a NOTEOFF or #f if none", DENEMO_SCHEME_PREFIX "GetRecordedMidiNote", scheme_get_recorded_midi_note);
-
-  INSTALL_SCM_FUNCTION ("Rewinds the recorded MIDI track returns #f if no MIDI track recorded", DENEMO_SCHEME_PREFIX "RewindRecordedMidi", scheme_rewind_recorded_midi);
-
-  INSTALL_SCM_FUNCTION ("Intercepts a MIDI event and returns it as a 4 byte number", DENEMO_SCHEME_PREFIX "GetMidi", scheme_get_midi);
-
-  INSTALL_SCM_FUNCTION ("Takes one bool parameter - MIDI events will be captured/not captured depending on the value passed in, returns previous value.", DENEMO_SCHEME_PREFIX "SetMidiCapture", scheme_set_midi_capture);
-
-
-  INSTALL_SCM_FUNCTION ("Switches to playalong playback. When playing or recording playback will not advance beyond the cursor position unless then mouse is moved or the next note is played in via MIDI in.", DENEMO_SCHEME_PREFIX "TogglePlayAlong", scheme_toggle_playalong);
-  INSTALL_SCM_FUNCTION ("Switches to mouse conducting playback. Playback will not advance beyond the cursor position unless then mouse is moved in the drawing area.", DENEMO_SCHEME_PREFIX "ToggleConduct", scheme_toggle_conduct);
-
-  INSTALL_SCM_FUNCTION ("Starts playback and synchronously records from MIDI in. The recording will play back with future play until deleted. The recording is not saved with the score - convert to notation first,", DENEMO_SCHEME_PREFIX "MidiRecord", scheme_midi_record);
-
-  INSTALL_SCM_FUNCTION ("Generates the MIDI timings for the music of the current movement. Returns TRUE if the MIDI was re-computed else FALSE (call was unnecessary).", DENEMO_SCHEME_PREFIX "CreateTimebase", scheme_create_timebase);
+  install_scm_function (0, "Returns the LilyPond representation of the passed MIDI key number, using the current enharmonic set.", DENEMO_SCHEME_PREFIX "GetNoteForMidiKey", scheme_get_note_for_midi_key);
 
 
 
-  INSTALL_SCM_FUNCTION1 ("Takes and int as MIDI data and simulates a midi event, avoiding capturing of midi by scripts. Value 0 is special and is received by scripts.", DENEMO_SCHEME_PREFIX "PutMidi", scheme_put_midi);
-  INSTALL_SCM_FUNCTION1 ("Takes and int as MIDI data and sends it directly to the MIDI out backend", DENEMO_SCHEME_PREFIX "OutputMidi", scheme_output_midi);
+  install_scm_function (0, "Returns the ticks of the next event on the recorded MIDI track -ve if it is a NOTEOFF or #f if none", DENEMO_SCHEME_PREFIX "GetRecordedMidiNote", scheme_get_recorded_midi_note);
+
+  install_scm_function (0, "Rewinds the recorded MIDI track returns #f if no MIDI track recorded", DENEMO_SCHEME_PREFIX "RewindRecordedMidi", scheme_rewind_recorded_midi);
+
+  install_scm_function (0, "Intercepts a MIDI event and returns it as a 4 byte number", DENEMO_SCHEME_PREFIX "GetMidi", scheme_get_midi);
+
+  install_scm_function (0, "Takes one bool parameter - MIDI events will be captured/not captured depending on the value passed in, returns previous value.", DENEMO_SCHEME_PREFIX "SetMidiCapture", scheme_set_midi_capture);
 
 
-  install_scm_function1 (DENEMO_SCHEME_PREFIX "OutputMidiBytes", scheme_output_midi_bytes);
-  install_scm_function1 (DENEMO_SCHEME_PREFIX "PlayMidiKey", scheme_play_midikey);
-  INSTALL_SCM_FUNCTION1 ("Takes a midi note key and plays it with next rhythm effect", DENEMO_SCHEME_PREFIX "PendingMidi", scheme_pending_midi);
-  INSTALL_SCM_FUNCTION4 ("Takes midi key number, volume 0-255, duration in ms and channel 0-15 and plays the note on midi out.", DENEMO_SCHEME_PREFIX "PlayMidiNote", scheme_play_midi_note);
+  install_scm_function (0, "Switches to playalong playback. When playing or recording playback will not advance beyond the cursor position unless then mouse is moved or the next note is played in via MIDI in.", DENEMO_SCHEME_PREFIX "TogglePlayAlong", scheme_toggle_playalong);
+  install_scm_function (0, "Switches to mouse conducting playback. Playback will not advance beyond the cursor position unless then mouse is moved in the drawing area.", DENEMO_SCHEME_PREFIX "ToggleConduct", scheme_toggle_conduct);
 
-  INSTALL_SCM_FUNCTION1 ("Takes duration and executable scheme script. Executes the passed scheme code after the passed duration milliseconds", DENEMO_SCHEME_PREFIX "OneShotTimer", scheme_one_shot_timer);
-  INSTALL_SCM_FUNCTION1 ("Takes a duration and scheme script, starts a timer that tries to execute the script after every duration ms. It returns a timer id which must be passed back to destroy the timer", DENEMO_SCHEME_PREFIX "Timer", scheme_timer);
-  INSTALL_SCM_FUNCTION ("Takes a timer id and destroys the timer", DENEMO_SCHEME_PREFIX "KillTimer", scheme_kill_timer);
+  install_scm_function (0, "Starts playback and synchronously records from MIDI in. The recording will play back with future play until deleted. The recording is not saved with the score - convert to notation first,", DENEMO_SCHEME_PREFIX "MidiRecord", scheme_midi_record);
 
-  INSTALL_SCM_FUNCTION ("Returns #f if the current staff has no figures (or will not print out figured bass. See d-ShowFiguredBass)", DENEMO_SCHEME_PREFIX "HasFigures", scheme_has_figures);
-
-  INSTALL_SCM_FUNCTION2 ("Returns a string for the bass figure for the two MIDI keys passed in", DENEMO_SCHEME_PREFIX "BassFigure", scheme_bass_figure);
+  install_scm_function (0, "Generates the MIDI timings for the music of the current movement. Returns TRUE if the MIDI was re-computed else FALSE (call was unnecessary).", DENEMO_SCHEME_PREFIX "CreateTimebase", scheme_create_timebase);
 
 
-  INSTALL_SCM_FUNCTION ("returns #t if the passed list of MIDI keys fails the pitch spellcheck", DENEMO_SCHEME_PREFIX "SpellCheckMidiChord", scheme_spell_check_midi_chord);
 
-  INSTALL_SCM_FUNCTION ("Gets the MIDI key number for the note-position where the cursor is", DENEMO_SCHEME_PREFIX "GetCursorNoteAsMidi", scheme_get_cursor_note_as_midi);
-  INSTALL_SCM_FUNCTION ("Returns the MIDI key number for the note at the cursor, or 0 if none", DENEMO_SCHEME_PREFIX "GetNoteAsMidi", scheme_get_note_as_midi);
-  INSTALL_SCM_FUNCTION ("Re-draws the Denemo display, which can have side effects on the data", DENEMO_SCHEME_PREFIX "RefreshDisplay", scheme_refresh_display);
-  INSTALL_SCM_FUNCTION ("Sets the status of the current musical score to saved, or unsaved if passed #f", DENEMO_SCHEME_PREFIX "SetSaved", scheme_set_saved);
-  INSTALL_SCM_FUNCTION ("Gets the saved status of the current musical score", DENEMO_SCHEME_PREFIX "GetSaved", scheme_get_saved);
-  INSTALL_SCM_FUNCTION ("Returns #f if mark is not set", DENEMO_SCHEME_PREFIX "MarkStatus", scheme_mark_status);
-  INSTALL_SCM_FUNCTION ("Takes a command name and returns the tooltip or #f if none", DENEMO_SCHEME_PREFIX "GetHelp", scheme_get_help);
-
-  INSTALL_SCM_FUNCTION ("Takes a file name, loads keybindings from actions/menus returns #f if it fails", DENEMO_SCHEME_PREFIX "LoadKeybindings", scheme_load_keybindings);
-
-  INSTALL_SCM_FUNCTION ("Takes a file name, saves keybindings from actions/menus returns #f if it fails", DENEMO_SCHEME_PREFIX "SaveKeybindings", scheme_save_keybindings);
-
-  INSTALL_SCM_FUNCTION ("Clears all keybindings returns #t", DENEMO_SCHEME_PREFIX "ClearKeybindings", scheme_clear_keybindings);
-
-  INSTALL_SCM_FUNCTION ("Takes a file name for xml format commandset, loads commands, returns #f if it fails", DENEMO_SCHEME_PREFIX "LoadCommandset", scheme_load_commandset);
-
-  INSTALL_SCM_FUNCTION ("Takes a double or string and scales the display; return #f for invalid value else the value set. With no parameter returns the current value. ", DENEMO_SCHEME_PREFIX "Zoom", scheme_zoom);
-
-  INSTALL_SCM_FUNCTION ("Takes a double or string and scales the tempo; returns the tempo set. With no parameter returns the current master tempo ", DENEMO_SCHEME_PREFIX "MasterTempo", scheme_master_tempo);
-
-  INSTALL_SCM_FUNCTION ("Takes an integer or string number of beats (quarter notes) per minute as the tempo for the current movement; returns the tempo set ", DENEMO_SCHEME_PREFIX "MovementTempo", scheme_movement_tempo);
+  install_scm_function (1, "Takes and int as MIDI data and simulates a midi event, avoiding capturing of midi by scripts. Value 0 is special and is received by scripts.", DENEMO_SCHEME_PREFIX "PutMidi", scheme_put_midi);
+  install_scm_function (1, "Takes and int as MIDI data and sends it directly to the MIDI out backend", DENEMO_SCHEME_PREFIX "OutputMidi", scheme_output_midi);
 
 
-  INSTALL_SCM_FUNCTION ("Takes a double or string and scales the volume; returns the volume set ", DENEMO_SCHEME_PREFIX "MasterVolume", scheme_master_volume);
-  INSTALL_SCM_FUNCTION ("Takes a double 0-1 and sets the staff master volume for the current staff, returns the value. With no (or bad) parameter returns the current value.", DENEMO_SCHEME_PREFIX "StaffMasterVolume", scheme_staff_master_volume);
+  install_scm_function (1, NULL, DENEMO_SCHEME_PREFIX "OutputMidiBytes", scheme_output_midi_bytes);
+  install_scm_function (1, NULL, DENEMO_SCHEME_PREFIX "PlayMidiKey", scheme_play_midikey);
+  install_scm_function (1, "Takes a midi note key and plays it with next rhythm effect", DENEMO_SCHEME_PREFIX "PendingMidi", scheme_pending_midi);
+  install_scm_function (4, "Takes midi key number, volume 0-255, duration in ms and channel 0-15 and plays the note on midi out.", DENEMO_SCHEME_PREFIX "PlayMidiNote", scheme_play_midi_note);
 
-  INSTALL_SCM_FUNCTION ("Takes a integer sets the enharmonic range to use 0 = E-flat to G-sharp ", DENEMO_SCHEME_PREFIX "SetEnharmonicPosition", scheme_set_enharmonic_position);
+  install_scm_function (1, "Takes duration and executable scheme script. Executes the passed scheme code after the passed duration milliseconds", DENEMO_SCHEME_PREFIX "OneShotTimer", scheme_one_shot_timer);
+  install_scm_function (1, "Takes a duration and scheme script, starts a timer that tries to execute the script after every duration ms. It returns a timer id which must be passed back to destroy the timer", DENEMO_SCHEME_PREFIX "Timer", scheme_timer);
+  install_scm_function (0, "Takes a timer id and destroys the timer", DENEMO_SCHEME_PREFIX "KillTimer", scheme_kill_timer);
+
+  install_scm_function (0, "Returns #f if the current staff has no figures (or will not print out figured bass. See d-ShowFiguredBass)", DENEMO_SCHEME_PREFIX "HasFigures", scheme_has_figures);
+
+  install_scm_function (2, "Returns a string for the bass figure for the two MIDI keys passed in", DENEMO_SCHEME_PREFIX "BassFigure", scheme_bass_figure);
 
 
-  INSTALL_SCM_FUNCTION ("Return a string of tuning bytes (offsets from 64) for MIDI tuning message", DENEMO_SCHEME_PREFIX "GetMidiTuning", scheme_get_midi_tuning);
-  INSTALL_SCM_FUNCTION ("Return name of flattest degree of current temperament", DENEMO_SCHEME_PREFIX "GetFlattest", scheme_get_flattest);
+  install_scm_function (0, "returns #t if the passed list of MIDI keys fails the pitch spellcheck", DENEMO_SCHEME_PREFIX "SpellCheckMidiChord", scheme_spell_check_midi_chord);
 
-  INSTALL_SCM_FUNCTION ("Return name of sharpest degree of current temperament", DENEMO_SCHEME_PREFIX "GetSharpest", scheme_get_sharpest);
-  INSTALL_SCM_FUNCTION ("Return name of current temperament", DENEMO_SCHEME_PREFIX "GetTemperament", scheme_get_temperament);
+  install_scm_function (0, "Gets the MIDI key number for the note-position where the cursor is", DENEMO_SCHEME_PREFIX "GetCursorNoteAsMidi", scheme_get_cursor_note_as_midi);
+  install_scm_function (0, "Returns the MIDI key number for the note at the cursor, or 0 if none", DENEMO_SCHEME_PREFIX "GetNoteAsMidi", scheme_get_note_as_midi);
+  install_scm_function (0, "Re-draws the Denemo display, which can have side effects on the data", DENEMO_SCHEME_PREFIX "RefreshDisplay", scheme_refresh_display);
+  install_scm_function (0, "Sets the status of the current musical score to saved, or unsaved if passed #f", DENEMO_SCHEME_PREFIX "SetSaved", scheme_set_saved);
+  install_scm_function (0, "Gets the saved status of the current musical score", DENEMO_SCHEME_PREFIX "GetSaved", scheme_get_saved);
+  install_scm_function (0, "Returns #f if mark is not set", DENEMO_SCHEME_PREFIX "MarkStatus", scheme_mark_status);
+  install_scm_function (0, "Takes a command name and returns the tooltip or #f if none", DENEMO_SCHEME_PREFIX "GetHelp", scheme_get_help);
 
-  INSTALL_SCM_FUNCTION ("Rewind the MIDI generated for the current movement. Given a time in seconds it tries to rewind to there.", DENEMO_SCHEME_PREFIX "RewindMidi", scheme_rewind_midi);
-  INSTALL_SCM_FUNCTION ("Takes an interval, returns a pair, a list of the next note-on events that occur within that interval and the time of these events.", DENEMO_SCHEME_PREFIX "NextMidiNotes", scheme_next_midi_notes);
+  install_scm_function (0, "Takes a file name, loads keybindings from actions/menus returns #f if it fails", DENEMO_SCHEME_PREFIX "LoadKeybindings", scheme_load_keybindings);
 
-  INSTALL_SCM_FUNCTION ("Restart midi play, cancelling any pause", DENEMO_SCHEME_PREFIX "RestartPlay", scheme_restart_play);
-  INSTALL_SCM_FUNCTION ("Return a number, the midi time in seconds for the start of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX "GetMidiOnTime", scheme_get_midi_on_time);
-  INSTALL_SCM_FUNCTION ("Return a number, the midi time in seconds for the end of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX "GetMidiOffTime", scheme_get_midi_off_time);
+  install_scm_function (0, "Takes a file name, saves keybindings from actions/menus returns #f if it fails", DENEMO_SCHEME_PREFIX "SaveKeybindings", scheme_save_keybindings);
 
-  INSTALL_SCM_FUNCTION2 ("Set start and/or end time for playback to the passed numbers/strings in seconds. Use #t if a value is not to be changed. Returns #f for bad parameters ", DENEMO_SCHEME_PREFIX "SetPlaybackInterval", scheme_set_playback_interval);
+  install_scm_function (0, "Clears all keybindings returns #t", DENEMO_SCHEME_PREFIX "ClearKeybindings", scheme_clear_keybindings);
 
-  INSTALL_SCM_FUNCTION ("Adjust start time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX "AdjustPlaybackStart", scheme_adjust_playback_start);
+  install_scm_function (0, "Takes a file name for xml format commandset, loads commands, returns #f if it fails", DENEMO_SCHEME_PREFIX "LoadCommandset", scheme_load_commandset);
 
-  INSTALL_SCM_FUNCTION ("Adjust end time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX "AdjustPlaybackEnd", scheme_adjust_playback_end);
+  install_scm_function (0, "Takes a double or string and scales the display; return #f for invalid value else the value set. With no parameter returns the current value. ", DENEMO_SCHEME_PREFIX "Zoom", scheme_zoom);
+
+  install_scm_function (0, "Takes a double or string and scales the tempo; returns the tempo set. With no parameter returns the current master tempo ", DENEMO_SCHEME_PREFIX "MasterTempo", scheme_master_tempo);
+
+  install_scm_function (0, "Takes an integer or string number of beats (quarter notes) per minute as the tempo for the current movement; returns the tempo set ", DENEMO_SCHEME_PREFIX "MovementTempo", scheme_movement_tempo);
+
+
+  install_scm_function (0, "Takes a double or string and scales the volume; returns the volume set ", DENEMO_SCHEME_PREFIX "MasterVolume", scheme_master_volume);
+  install_scm_function (0, "Takes a double 0-1 and sets the staff master volume for the current staff, returns the value. With no (or bad) parameter returns the current value.", DENEMO_SCHEME_PREFIX "StaffMasterVolume", scheme_staff_master_volume);
+
+  install_scm_function (0, "Takes a integer sets the enharmonic range to use 0 = E-flat to G-sharp ", DENEMO_SCHEME_PREFIX "SetEnharmonicPosition", scheme_set_enharmonic_position);
+
+
+  install_scm_function (0, "Return a string of tuning bytes (offsets from 64) for MIDI tuning message", DENEMO_SCHEME_PREFIX "GetMidiTuning", scheme_get_midi_tuning);
+  install_scm_function (0, "Return name of flattest degree of current temperament", DENEMO_SCHEME_PREFIX "GetFlattest", scheme_get_flattest);
+
+  install_scm_function (0, "Return name of sharpest degree of current temperament", DENEMO_SCHEME_PREFIX "GetSharpest", scheme_get_sharpest);
+  install_scm_function (0, "Return name of current temperament", DENEMO_SCHEME_PREFIX "GetTemperament", scheme_get_temperament);
+
+  install_scm_function (0, "Rewind the MIDI generated for the current movement. Given a time in seconds it tries to rewind to there.", DENEMO_SCHEME_PREFIX "RewindMidi", scheme_rewind_midi);
+  install_scm_function (0, "Takes an interval, returns a pair, a list of the next note-on events that occur within that interval and the time of these events.", DENEMO_SCHEME_PREFIX "NextMidiNotes", scheme_next_midi_notes);
+
+  install_scm_function (0, "Restart midi play, cancelling any pause", DENEMO_SCHEME_PREFIX "RestartPlay", scheme_restart_play);
+  install_scm_function (0, "Return a number, the midi time in seconds for the start of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX "GetMidiOnTime", scheme_get_midi_on_time);
+  install_scm_function (0, "Return a number, the midi time in seconds for the end of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX "GetMidiOffTime", scheme_get_midi_off_time);
+
+  install_scm_function (2, "Set start and/or end time for playback to the passed numbers/strings in seconds. Use #t if a value is not to be changed. Returns #f for bad parameters ", DENEMO_SCHEME_PREFIX "SetPlaybackInterval", scheme_set_playback_interval);
+
+  install_scm_function (0, "Adjust start time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX "AdjustPlaybackStart", scheme_adjust_playback_start);
+
+  install_scm_function (0, "Adjust end time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX "AdjustPlaybackEnd", scheme_adjust_playback_end);
 #ifdef _WITH_X11_
-  INSTALL_SCM_FUNCTION1 ("Takes a parameter #t or #f and optional position: Get a screenshot from the user and append or insert it in a list (one per measure) either applying across the staffs or to the current staff.", DENEMO_SCHEME_PREFIX "UserScreenshot", scheme_user_screenshot);
-  INSTALL_SCM_FUNCTION ("Takes a parameter #t or #f: Delete a screenshot for the current measure, either across staffs or for current staff.", DENEMO_SCHEME_PREFIX "DeleteScreenshot", scheme_delete_screenshot);
+  install_scm_function (1, "Takes a parameter #t or #f and optional position: Get a screenshot from the user and append or insert it in a list (one per measure) either applying across the staffs or to the current staff.", DENEMO_SCHEME_PREFIX "UserScreenshot", scheme_user_screenshot);
+  install_scm_function (0, "Takes a parameter #t or #f: Delete a screenshot for the current measure, either across staffs or for current staff.", DENEMO_SCHEME_PREFIX "DeleteScreenshot", scheme_delete_screenshot);
 #endif /*_WITH_X11_*/
-  INSTALL_SCM_FUNCTION ("Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX "PushClipboard", scheme_push_clipboard);
+  install_scm_function (0, "Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX "PushClipboard", scheme_push_clipboard);
 
-  INSTALL_SCM_FUNCTION ("Pops the Denemo clipboard (cut/copy buffer) from a stack created by d-PushClipboard. Returs #f if nothing on stack, else #t.", DENEMO_SCHEME_PREFIX "PopClipboard", scheme_pop_clipboard);
+  install_scm_function (0, "Pops the Denemo clipboard (cut/copy buffer) from a stack created by d-PushClipboard. Returs #f if nothing on stack, else #t.", DENEMO_SCHEME_PREFIX "PopClipboard", scheme_pop_clipboard);
 
-  INSTALL_SCM_FUNCTION ("Deletes all objects in the selection Returns #f if no selection else #t.", DENEMO_SCHEME_PREFIX "DeleteSelection", scheme_delete_selection);
+  install_scm_function (0, "Deletes all objects in the selection Returns #f if no selection else #t.", DENEMO_SCHEME_PREFIX "DeleteSelection", scheme_delete_selection);
 
-  INSTALL_SCM_FUNCTION ("Sets the selection to be used for a thumbnail. Returns #f if no selection or selection not in first movement else #t.", DENEMO_SCHEME_PREFIX "SetThumbnailSelection", scheme_set_thumbnail_selection);
+  install_scm_function (0, "Sets the selection to be used for a thumbnail. Returns #f if no selection or selection not in first movement else #t.", DENEMO_SCHEME_PREFIX "SetThumbnailSelection", scheme_set_thumbnail_selection);
 
-  INSTALL_SCM_FUNCTION ("Creates a thumbnail for the current score. With no argument it waits for the thumbnail to complete, freezing any display. With #t it generates the thumbnail asynchrously. It does not report on completion.", DENEMO_SCHEME_PREFIX "CreateThumbnail", scheme_create_thumbnail);
+  install_scm_function (0, "Creates a thumbnail for the current score. With no argument it waits for the thumbnail to complete, freezing any display. With #t it generates the thumbnail asynchrously. It does not report on completion.", DENEMO_SCHEME_PREFIX "CreateThumbnail", scheme_create_thumbnail);
 
-  INSTALL_SCM_FUNCTION ("Exits Denemo without saving history, prefs etc.", DENEMO_SCHEME_PREFIX "Exit", scheme_exit);
+  install_scm_function (0, "Exits Denemo without saving history, prefs etc.", DENEMO_SCHEME_PREFIX "Exit", scheme_exit);
 
-  INSTALL_SCM_FUNCTION ("Snapshots the current movement putting it in the undo queue returns #f if no snapshot was taken because of a guard", DENEMO_SCHEME_PREFIX "TakeSnapshot", scheme_take_snapshot);
+  install_scm_function (0, "Snapshots the current movement putting it in the undo queue returns #f if no snapshot was taken because of a guard", DENEMO_SCHEME_PREFIX "TakeSnapshot", scheme_take_snapshot);
 
-  INSTALL_SCM_FUNCTION ("Creates the default layout.", DENEMO_SCHEME_PREFIX "SelectDefaultLayout", scheme_select_default_layout);
-  INSTALL_SCM_FUNCTION1 ("Creates a custom layout from the currently selected (standard) layout if the score layouts window is open. Uses the passed name for the new layout. Returns #f if nothing happened. An additional parameter #t can force creation of the layout while score layout window is closed.", DENEMO_SCHEME_PREFIX "CreateLayout", scheme_create_layout);
-  INSTALL_SCM_FUNCTION ("Returns the id of the currently selected score layout (see View->Score Layout). Returns #f if no layout is selected.", DENEMO_SCHEME_PREFIX "GetLayoutId", scheme_get_layout_id);
-  INSTALL_SCM_FUNCTION ("Returns the id of a score layout for typesetting the part for the current staff. Returns #f if not a primary voice.", DENEMO_SCHEME_PREFIX "GetCurrentStaffLayoutId", scheme_get_current_staff_layout_id);
-  INSTALL_SCM_FUNCTION ("Selects the score layout with the passed id. Returns #f if there is no such layout.", DENEMO_SCHEME_PREFIX "SelectLayoutId", scheme_select_layout_id);
-  INSTALL_SCM_FUNCTION ("Generates LilyPond layout for the current part (ie staffs with the name of the staff with the cursor), all movements and staffs with that staff name are generated.", DENEMO_SCHEME_PREFIX "LilyPondForPart", scheme_lilypond_for_part);
-  INSTALL_SCM_FUNCTION ("Typesets the current part (ie the staff with the cursor), all movements and staffs with that staff name are typeset.", DENEMO_SCHEME_PREFIX "TypesetPart", scheme_typeset_part);
-  INSTALL_SCM_FUNCTION ("Converts the current score layout to editable LilyPond text. After this the score layout is only affected by editing the LilyPond syntax.", DENEMO_SCHEME_PREFIX "ReduceLayoutToLilyPond", scheme_reduce_layout_to_lilypond);
-  INSTALL_SCM_FUNCTION ("Returns the name of the currently selected score layout (see View->Score Layout). Returns #f if no layout is selected.", DENEMO_SCHEME_PREFIX "GetLayoutName", scheme_get_layout_name);
-  INSTALL_SCM_FUNCTION ("Selects the next score layout. If the current layout is the last, returns #f otherwise #t.", DENEMO_SCHEME_PREFIX "SelectNextLayout", scheme_select_next_layout);
-  INSTALL_SCM_FUNCTION ("Selects the first score layout.", DENEMO_SCHEME_PREFIX "SelectFirstLayout", scheme_select_first_layout);
-  INSTALL_SCM_FUNCTION ("Selects the next custom score layout. If the current layout is the last, returns #f otherwise #t.", DENEMO_SCHEME_PREFIX "SelectNextCustomLayout", scheme_select_next_custom_layout);
-  INSTALL_SCM_FUNCTION ("Selects the first custom score layout.", DENEMO_SCHEME_PREFIX "SelectFirstCustomLayout", scheme_select_first_custom_layout);
-
-
-  INSTALL_SCM_FUNCTION ("Follows a link to a source file of form string \"filename:x:y:page\". It opens the file and places a marker there. ", DENEMO_SCHEME_PREFIX "OpenSource", scheme_open_source);
-
-  INSTALL_SCM_FUNCTION ("Converts the recorded audio to user chosen audio file.", DENEMO_SCHEME_PREFIX "ExportRecordedAudio", scheme_export_recorded_audio);
-  INSTALL_SCM_FUNCTION ("Opens a source file for transcribing from. Links to this source file can be placed by shift-clicking on its contents", DENEMO_SCHEME_PREFIX "OpenSourceFile", scheme_open_source_file);
-
-  INSTALL_SCM_FUNCTION ("Opens a source audio file for transcribing from. Returns the number of seconds of audio successfully opened or #f if failed. ", DENEMO_SCHEME_PREFIX "OpenSourceAudioFile", scheme_open_source_audio_file);
-  INSTALL_SCM_FUNCTION ("Closes a source audio attached to the current movement.", DENEMO_SCHEME_PREFIX "CloseSourceAudio", scheme_close_source_audio);
-
-  INSTALL_SCM_FUNCTION ("Plays audio allowing timings to be entered via keypresses if passed #t as parameter. ", DENEMO_SCHEME_PREFIX "StartAudioPlay", scheme_start_audio_play);
-  INSTALL_SCM_FUNCTION ("Stops audio playback", DENEMO_SCHEME_PREFIX "StopAudioPlay", scheme_stop_audio_play);
-  INSTALL_SCM_FUNCTION ("Takes a number of seconds to be used as lead-in for audio. If negative clips that much from the start of the audio. ", DENEMO_SCHEME_PREFIX "SetAudioLeadIn", scheme_set_audio_lead_in);
-  INSTALL_SCM_FUNCTION ("returns #f if audio is not playing else #t", DENEMO_SCHEME_PREFIX "AudioIsPlaying", scheme_audio_is_playing);
-
-  INSTALL_SCM_FUNCTION ("Returns the next in the list of timings registered by the user during audio play.", DENEMO_SCHEME_PREFIX "NextAudioTiming", scheme_next_audio_timing);
+  install_scm_function (0, "Creates the default layout.", DENEMO_SCHEME_PREFIX "SelectDefaultLayout", scheme_select_default_layout);
+  install_scm_function (1, "Creates a custom layout from the currently selected (standard) layout if the score layouts window is open. Uses the passed name for the new layout. Returns #f if nothing happened. An additional parameter #t can force creation of the layout while score layout window is closed.", DENEMO_SCHEME_PREFIX "CreateLayout", scheme_create_layout);
+  install_scm_function (0, "Returns the id of the currently selected score layout (see View->Score Layout). Returns #f if no layout is selected.", DENEMO_SCHEME_PREFIX "GetLayoutId", scheme_get_layout_id);
+  install_scm_function (0, "Returns the id of a score layout for typesetting the part for the current staff. Returns #f if not a primary voice.", DENEMO_SCHEME_PREFIX "GetCurrentStaffLayoutId", scheme_get_current_staff_layout_id);
+  install_scm_function (0, "Selects the score layout with the passed id. Returns #f if there is no such layout.", DENEMO_SCHEME_PREFIX "SelectLayoutId", scheme_select_layout_id);
+  install_scm_function (0, "Generates LilyPond layout for the current part (ie staffs with the name of the staff with the cursor), all movements and staffs with that staff name are generated.", DENEMO_SCHEME_PREFIX "LilyPondForPart", scheme_lilypond_for_part);
+  install_scm_function (0, "Typesets the current part (ie the staff with the cursor), all movements and staffs with that staff name are typeset.", DENEMO_SCHEME_PREFIX "TypesetPart", scheme_typeset_part);
+  install_scm_function (0, "Converts the current score layout to editable LilyPond text. After this the score layout is only affected by editing the LilyPond syntax.", DENEMO_SCHEME_PREFIX "ReduceLayoutToLilyPond", scheme_reduce_layout_to_lilypond);
+  install_scm_function (0, "Returns the name of the currently selected score layout (see View->Score Layout). Returns #f if no layout is selected.", DENEMO_SCHEME_PREFIX "GetLayoutName", scheme_get_layout_name);
+  install_scm_function (0, "Selects the next score layout. If the current layout is the last, returns #f otherwise #t.", DENEMO_SCHEME_PREFIX "SelectNextLayout", scheme_select_next_layout);
+  install_scm_function (0, "Selects the first score layout.", DENEMO_SCHEME_PREFIX "SelectFirstLayout", scheme_select_first_layout);
+  install_scm_function (0, "Selects the next custom score layout. If the current layout is the last, returns #f otherwise #t.", DENEMO_SCHEME_PREFIX "SelectNextCustomLayout", scheme_select_next_custom_layout);
+  install_scm_function (0, "Selects the first custom score layout.", DENEMO_SCHEME_PREFIX "SelectFirstCustomLayout", scheme_select_first_custom_layout);
 
 
+  install_scm_function (0, "Follows a link to a source file of form string \"filename:x:y:page\". It opens the file and places a marker there. ", DENEMO_SCHEME_PREFIX "OpenSource", scheme_open_source);
+
+  install_scm_function (0, "Converts the recorded audio to user chosen audio file.", DENEMO_SCHEME_PREFIX "ExportRecordedAudio", scheme_export_recorded_audio);
+  install_scm_function (0, "Opens a source file for transcribing from. Links to this source file can be placed by shift-clicking on its contents", DENEMO_SCHEME_PREFIX "OpenSourceFile", scheme_open_source_file);
+
+  install_scm_function (0, "Opens a source audio file for transcribing from. Returns the number of seconds of audio successfully opened or #f if failed. ", DENEMO_SCHEME_PREFIX "OpenSourceAudioFile", scheme_open_source_audio_file);
+  install_scm_function (0, "Closes a source audio attached to the current movement.", DENEMO_SCHEME_PREFIX "CloseSourceAudio", scheme_close_source_audio);
+
+  install_scm_function (0, "Plays audio allowing timings to be entered via keypresses if passed #t as parameter. ", DENEMO_SCHEME_PREFIX "StartAudioPlay", scheme_start_audio_play);
+  install_scm_function (0, "Stops audio playback", DENEMO_SCHEME_PREFIX "StopAudioPlay", scheme_stop_audio_play);
+  install_scm_function (0, "Takes a number of seconds to be used as lead-in for audio. If negative clips that much from the start of the audio. ", DENEMO_SCHEME_PREFIX "SetAudioLeadIn", scheme_set_audio_lead_in);
+  install_scm_function (0, "returns #f if audio is not playing else #t", DENEMO_SCHEME_PREFIX "AudioIsPlaying", scheme_audio_is_playing);
+
+  install_scm_function (0, "Returns the next in the list of timings registered by the user during audio play.", DENEMO_SCHEME_PREFIX "NextAudioTiming", scheme_next_audio_timing);
 
 
 
-  INSTALL_SCM_FUNCTION ("Stop collecting undo information. Call DecreaseGuard when finished. Returns #f if already guarded, #t if this call is stopping the undo collection", DENEMO_SCHEME_PREFIX "IncreaseGuard", scheme_increase_guard);
-
-  INSTALL_SCM_FUNCTION ("Drop one guard against collecting undo information. Returns #t if there are no more guards \n(undo information will be collected) \nor #f if there are still guards in place.", DENEMO_SCHEME_PREFIX "DecreaseGuard", scheme_decrease_guard);
-
-  INSTALL_SCM_FUNCTION ("Undoes the actions performed by the script so far, starts another undo stage for the subsequent actions of the script. Note this command has the same name as the built-in Undo command, to override it when called from a script. Returns #t", DENEMO_SCHEME_PREFIX "Undo" /*sic */ , scheme_undo);
-  INSTALL_SCM_FUNCTION ("Creates a new tab. Note this command has the same name as the built-in NewWindow command, to override it when called from a script. Returns #t", DENEMO_SCHEME_PREFIX "NewWindow" /*sic */ , scheme_new_window);
-
-  INSTALL_SCM_FUNCTION ("Undo normally undoes all the actions performed by a script. This puts a stage at the point in a script where it is called, so that a user-invoked undo will stop at this point, continuing when a further undo is invoked. Returns #t", DENEMO_SCHEME_PREFIX "StageForUndo", scheme_stage_for_undo);
-
-  INSTALL_SCM_FUNCTION ("return a string giving the latest step available for Undo", DENEMO_SCHEME_PREFIX "GetLastChange", scheme_get_last_change);
-
-  INSTALL_SCM_FUNCTION ("Takes a command name and returns the menu path to that command or #f if none", DENEMO_SCHEME_PREFIX "GetMenuPath", scheme_get_menu_path);
-  INSTALL_SCM_FUNCTION ("Takes a string and returns a string representing an MD5 checksum for the passed string.", DENEMO_SCHEME_PREFIX "GetChecksum", scheme_get_checksum);
-  INSTALL_SCM_FUNCTION ("Sets the newbie status to the passed value", DENEMO_SCHEME_PREFIX "SetNewbie", scheme_set_newbie);
-  INSTALL_SCM_FUNCTION ("Gets the current verse of the current staff or #f if none, with an integer parameter, gets the nth verse", DENEMO_SCHEME_PREFIX "GetVerse", scheme_get_verse);
-  INSTALL_SCM_FUNCTION ("Puts the passed string as the current verse of the current staff", DENEMO_SCHEME_PREFIX "PutVerse", scheme_put_verse);
-  INSTALL_SCM_FUNCTION ("Appends the passed string to the current verse of the current staff", DENEMO_SCHEME_PREFIX "AppendToVerse", scheme_append_to_verse);
 
 
-  INSTALL_SCM_FUNCTION ("Takes a command name and returns and id for it or #f if no command of that name exists", DENEMO_SCHEME_PREFIX "GetId", scheme_get_id);
+  install_scm_function (0, "Stop collecting undo information. Call DecreaseGuard when finished. Returns #f if already guarded, #t if this call is stopping the undo collection", DENEMO_SCHEME_PREFIX "IncreaseGuard", scheme_increase_guard);
 
-  INSTALL_SCM_FUNCTION2 ("Takes a command name or command id and binding name and sets that binding on that command returns the command id that previously had the binding or #f if none", DENEMO_SCHEME_PREFIX "AddKeybinding", scheme_add_keybinding);
+  install_scm_function (0, "Drop one guard against collecting undo information. Returns #t if there are no more guards \n(undo information will be collected) \nor #f if there are still guards in place.", DENEMO_SCHEME_PREFIX "DecreaseGuard", scheme_decrease_guard);
 
-  INSTALL_SCM_FUNCTION ("Takes a command name and returns the label for the menu item that executes the command or #f if none", DENEMO_SCHEME_PREFIX "GetLabel", scheme_get_label);
-  INSTALL_SCM_FUNCTION ("Takes a non-built-in command name and returns position in the menu system for he command or #f if none", DENEMO_SCHEME_PREFIX "GetMenuPosition", scheme_get_menu_position);
+  install_scm_function (0, "Undoes the actions performed by the script so far, starts another undo stage for the subsequent actions of the script. Note this command has the same name as the built-in Undo command, to override it when called from a script. Returns #t", DENEMO_SCHEME_PREFIX "Undo" /*sic */ , scheme_undo);
+  install_scm_function (0, "Creates a new tab. Note this command has the same name as the built-in NewWindow command, to override it when called from a script. Returns #t", DENEMO_SCHEME_PREFIX "NewWindow" /*sic */ , scheme_new_window);
+
+  install_scm_function (0, "Undo normally undoes all the actions performed by a script. This puts a stage at the point in a script where it is called, so that a user-invoked undo will stop at this point, continuing when a further undo is invoked. Returns #t", DENEMO_SCHEME_PREFIX "StageForUndo", scheme_stage_for_undo);
+
+  install_scm_function (0, "return a string giving the latest step available for Undo", DENEMO_SCHEME_PREFIX "GetLastChange", scheme_get_last_change);
+
+  install_scm_function (0, "Takes a command name and returns the menu path to that command or #f if none", DENEMO_SCHEME_PREFIX "GetMenuPath", scheme_get_menu_path);
+  install_scm_function (0, "Takes a string and returns a string representing an MD5 checksum for the passed string.", DENEMO_SCHEME_PREFIX "GetChecksum", scheme_get_checksum);
+  install_scm_function (0, "Sets the newbie status to the passed value", DENEMO_SCHEME_PREFIX "SetNewbie", scheme_set_newbie);
+  install_scm_function (0, "Gets the current verse of the current staff or #f if none, with an integer parameter, gets the nth verse", DENEMO_SCHEME_PREFIX "GetVerse", scheme_get_verse);
+  install_scm_function (0, "Puts the passed string as the current verse of the current staff", DENEMO_SCHEME_PREFIX "PutVerse", scheme_put_verse);
+  install_scm_function (0, "Appends the passed string to the current verse of the current staff", DENEMO_SCHEME_PREFIX "AppendToVerse", scheme_append_to_verse);
 
 
-  INSTALL_SCM_FUNCTION ("Returns the installed LilyPond version", DENEMO_SCHEME_PREFIX "GetLilyVersion", scheme_get_lily_version);
-  INSTALL_SCM_FUNCTION ("Returns a boolean if the installed version of LilyPond is greater than or equal to the passed in version string", DENEMO_SCHEME_PREFIX "CheckLilyVersion", scheme_check_lily_version);
+  install_scm_function (0, "Takes a command name and returns and id for it or #f if no command of that name exists", DENEMO_SCHEME_PREFIX "GetId", scheme_get_id);
+
+  install_scm_function (2, "Takes a command name or command id and binding name and sets that binding on that command returns the command id that previously had the binding or #f if none", DENEMO_SCHEME_PREFIX "AddKeybinding", scheme_add_keybinding);
+
+  install_scm_function (0, "Takes a command name and returns the label for the menu item that executes the command or #f if none", DENEMO_SCHEME_PREFIX "GetLabel", scheme_get_label);
+  install_scm_function (0, "Takes a non-built-in command name and returns position in the menu system for he command or #f if none", DENEMO_SCHEME_PREFIX "GetMenuPosition", scheme_get_menu_position);
+
+
+  install_scm_function (0, "Returns the installed LilyPond version", DENEMO_SCHEME_PREFIX "GetLilyVersion", scheme_get_lily_version);
+  install_scm_function (0, "Returns a boolean if the installed version of LilyPond is greater than or equal to the passed in version string", DENEMO_SCHEME_PREFIX "CheckLilyVersion", scheme_check_lily_version);
 
 
 
-  INSTALL_SCM_FUNCTION ("Takes a string putting it on the scheme-controlled status bar as a list of active filters", DENEMO_SCHEME_PREFIX "InputFilterNames", scheme_input_filter_names);
+  install_scm_function (0, "Takes a string putting it on the scheme-controlled status bar as a list of active filters", DENEMO_SCHEME_PREFIX "InputFilterNames", scheme_input_filter_names);
 
-  INSTALL_SCM_FUNCTION ("Takes a string putting the scheme controlled status bar; with no argument it hides this  status bar", DENEMO_SCHEME_PREFIX "WriteStatus", scheme_write_status);
+  install_scm_function (0, "Takes a string putting the scheme controlled status bar; with no argument it hides this  status bar", DENEMO_SCHEME_PREFIX "WriteStatus", scheme_write_status);
 
 }
 
@@ -6980,7 +6911,7 @@ inner_main (void *files)
   for (i = 0; i < G_N_ELEMENTS (activatable_commands); i++)
     {
       gchar* function = g_strdup_printf (DENEMO_SCHEME_PREFIX "%s", activatable_commands[i].str);
-      install_scm_function (function, activatable_commands[i].p);
+      install_scm_function (0, NULL, function, activatable_commands[i].p);
       g_free(function);
     }
 
