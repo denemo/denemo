@@ -589,18 +589,14 @@ midi_play (gchar * callback)
   reset_playback_queue (MIDI_BACKEND);
 
   g_print ("starting playback\n");
-
-  playback_start_time = get_start_time ();
-  time_reset = TRUE;//FIXME, this is a crude attempt to get the playback_time set without the callback from portaudio re-writing it.
+  start_playing (callback);
+  do {//FIXME, this is a crude attempt to get the playback_time set without the callback from portaudio re-writing it.
   playback_time = playback_start_time;
-  while(playback_time != playback_start_time) {
 	time_reset = TRUE;
 	playback_time = playback_start_time;
-	}
+	get_backend (AUDIO_BACKEND)->start_playing ();// this must pick up the playback_start_time, which won't happen if an interrrupt has occurred meanwhile.
+  	} while(playback_time != playback_start_time);
   g_print ("starting playback at %f\n", playback_start_time);
-  start_playing (callback);
-
-  get_backend (AUDIO_BACKEND)->start_playing ();
   get_backend (MIDI_BACKEND)->start_playing ();
 }
 
