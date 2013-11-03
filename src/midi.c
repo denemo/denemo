@@ -123,7 +123,7 @@ start_playing (gchar * callback)
   smf_rewind (smf);
   gdouble start = (Denemo.gui->si->start_time/get_playback_speed()) - SHAVING;
   if(smf_seek_to_seconds (smf, (start>0.0)?start:0.0))
-    g_debug("smf_seek_to_seconds failed");
+    g_warning("smf_seek_to_seconds %f failed", start);
 
   initialize_until_time ();
 
