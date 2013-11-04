@@ -4,14 +4,16 @@ set -e
 if [ "$COMPILER"x = "gcc"x ]; then
   export CC="gcc"
   export CXX="g++"
+  ./autogen.sh
+  ./configure --enable-debug --enable-gcov
 elif [ "$COMPILER"x = "clang"x ]; then
   export CC="clang"
   export CXX="clang++"
+  ./autogen.sh
+  ./configure --enable-debug
 fi
 
 if [ "$TEST"x = "integration"x ]; then
-  ./autogen.sh
-  ./configure
   make
   sudo make install
   make -C tests check

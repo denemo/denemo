@@ -391,6 +391,9 @@ AM_CONDITIONAL([ENABLE_GTK_DOC], false)
 # Test suite
 GLIB_TESTS
 
+dnl Check for coverage tool gcov
+AC_TDD_GCOV
+
 dnl Checks for header files.
 
 AC_CHECK_HEADERS(sys/soundcard.h)
