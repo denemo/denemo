@@ -5,7 +5,7 @@ if [ "$COMPILER"x = "gcc"x ]; then
   export CC="gcc"
   export CXX="g++"
   ./autogen.sh
-  ./configure
+  ./configure --enable-gcov
   make
   make dist
 elif [ "$COMPILER"x = "clang"x ]; then

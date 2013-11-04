@@ -1,4 +1,4 @@
-language: cpp
+language: c
 env:
   matrix:
   - COMPILER=gcc
@@ -9,3 +9,5 @@ before_install:
 - tools/travis/before-install.sh
 install:
 - tools/travis/install.sh
+after_success:
+- tools/travis/success.sh
