@@ -2023,6 +2023,7 @@ static double convert_and_adjust (SCM time) {
 static SCM
 scheme_set_playback_interval (SCM start, SCM end)
 {
+  stop_midi_playback(NULL, NULL);
   if (scm_is_real (start) && scm_is_real (end))
     {
       Denemo.gui->si->start_time = convert_and_adjust (start);
@@ -2093,6 +2094,7 @@ scheme_adjust_playback_start (SCM adj)
   SCM ret = SCM_BOOL_F;
   if (scm_is_real (adj))
     {
+	  stop_midi_playback(NULL, NULL);
       Denemo.gui->si->start_time += convert_and_adjust (adj);
       if (Denemo.gui->si->start_time < 0.0)
         Denemo.gui->si->start_time = 0.0;
