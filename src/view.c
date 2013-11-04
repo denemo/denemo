@@ -1572,14 +1572,17 @@ scheme_open_source (SCM link)
       if (filename)
         {
           gint x, y, page;
+          gchar *name = g_strdup(filename);
           gchar *xstr = strtok (NULL, ":");
           gchar *ystr = strtok (NULL, ":");
           gchar *pstr = strtok (NULL, ":");
           x = xstr ? atoi (xstr) : 0;
           y = ystr ? atoi (ystr) : 0;
           page = pstr ? atoi (pstr) : 0;
-          if (open_source (filename, x, y, page))
+          g_print("Calling with %s at %p\n", name, name);
+          if (open_source (name, x, y, page))
             ret = SCM_BOOL_T;
+          g_free(name);
         }
       if (thestring)
         free (thestring);
