@@ -69,7 +69,7 @@ fluidsynth_init (DenemoPrefs * config, unsigned int samplerate)
     }
   else
     {
-      g_warning ("The default fluidsynth soundfont has been loaded");
+      g_print ("The default fluidsynth soundfont has been loaded");
     }
 
   // select bank 0 and preset 0 in the soundfont we just loaded on channel 0

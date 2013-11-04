@@ -25,13 +25,13 @@ get_command_type(xmlChar* type)
 static void
 parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
 {
-  command_row command;
-  command_row_init(&command);
+  command_row* command = g_malloc(sizeof(command_row));
+  command_row_init(command);
   xmlChar *after = NULL, *type = NULL;
 
   type = xmlGetProp(cur, COMMANDXML_TAG_TYPE);
   if(type && 0 == xmlStrcmp (type, COMMAND_TYPE_SCHEME))
-    command.script_type = get_command_type(type);
+    command->script_type = get_command_type(type);
   xmlFree(type);
 
   for (cur = cur->xmlChildrenNode; cur; cur = cur->next)
@@ -44,23 +44,23 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
             }
           else
             {
-              command.name = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+              command->name = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
               // We allow multiple locations for a given action, all are added to the gtk_ui when this command is processed after the tooltip node. 
               // This is very bad xml, as the action should have all the others as children, and not depend on the order.FIXME
-              command.locations = NULL;
+              command->locations = NULL;
             }
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_HIDDEN))
         {
-          command.hidden = TRUE;
+          command->hidden = TRUE;
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_MENUPATH))
         {
-          command.locations = g_list_append (command.locations, xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
+          command->locations = g_list_append (command->locations, xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_LABEL))
         {
-          command.label = _((gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
+          command->label = _((gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_AFTER))
         {
@@ -68,11 +68,11 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_TOOLTIP))
         {
-          command.tooltip = _((gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
+          command->tooltip = _((gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
         }
-        else g_warning("Found XML tag %s reading a .commands file", cur->name);
+      else g_warning("Found XML tag %s reading a .commands file", cur->name);
     }
-  create_command((gchar*) after, fallback, &command);
+  create_command((gchar*) after, fallback, command);
 }
 
 static void

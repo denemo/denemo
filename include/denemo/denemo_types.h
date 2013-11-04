@@ -345,8 +345,7 @@ typedef enum
 
 typedef struct DenemoKeymap
 {
-  //command information store
-  GtkListStore *commands; // ListStore for the commands
+  GHashTable *commands; // hashtable for the commands
 
   //reference for easy access
   GHashTable *idx_from_name; //hashtable linking the name of a command to
