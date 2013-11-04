@@ -2109,6 +2109,7 @@ scheme_adjust_playback_end (SCM adj)
   SCM ret = SCM_BOOL_F;
   if (scm_is_real (adj))
     {
+	  stop_midi_playback(NULL, NULL);
       Denemo.gui->si->end_time += convert_and_adjust (adj);
       if (Denemo.gui->si->end_time < 0.0)
         Denemo.gui->si->end_time = 0.0;
