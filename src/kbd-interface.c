@@ -228,12 +228,12 @@ static void
 execute_current (keyboard_dialog_data *data)
 {
 	//FIXME if recording, record to scheme window
- execute_callback_from_idx (Denemo.map, data->command_idx);
+ execute_callback_from_idx (Denemo.map, data->command_id);
 }
 static void
 add_current_to_palette (keyboard_dialog_data *data)
 {
- place_action_in_palette (data->command_idx, NULL);
+ place_action_in_palette (data->command_id, NULL);
 }
 
 
@@ -504,7 +504,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
   cbdata.command_view = GTK_TREE_VIEW (command_tree_view);
   cbdata.binding_view = GTK_TREE_VIEW (binding_tree_view);
   cbdata.text_view = GTK_TEXT_VIEW (text_view);
-  cbdata.command_idx = -1;
+  cbdata.command_id = -1;
   cbdata.two_key = 0;
   cbdata.twokeylist = NULL;
   //setup the link between command_view and binding_view

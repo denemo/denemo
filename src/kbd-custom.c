@@ -748,10 +748,10 @@ alphabeticalize_commands (keymap * the_keymap)
 */
 }
 
-//False if command_idx is an invalid index or keymap is null, true otherwise
+//False if command_id is an invalid index or keymap is null, true otherwise
 //TODO keymap should not be NULL
 gboolean
-keymap_get_command_row (keymap * the_keymap, command_row * row, guint command_idx)
+keymap_get_command_row (keymap * the_keymap, command_row * row, guint command_id)
 {
   if (!the_keymap)
     {
@@ -760,7 +760,7 @@ keymap_get_command_row (keymap * the_keymap, command_row * row, guint command_id
     }
   GtkTreeModel *model = GTK_TREE_MODEL (the_keymap->commands);
   GtkTreeIter iter;
-  if (!gtk_tree_model_iter_nth_child (model, &iter, NULL, command_idx))
+  if (!gtk_tree_model_iter_nth_child (model, &iter, NULL, command_id))
     return FALSE;
   gtk_tree_model_get (model, &iter,
                       COL_TYPE, &row->type,
@@ -837,11 +837,11 @@ keymap_size (keymap * the_keymap)
 
 /* returns TRUE if command has at least one binding */
 gboolean
-command_has_binding (guint command_idx)
+command_has_binding (guint command_id)
 {
   command_row row;
   GtkTreeIter iter;
-  if (keymap_get_command_row (Denemo.map, &row, command_idx))
+  if (keymap_get_command_row (Denemo.map, &row, command_id))
     {
       GtkTreeModel *model_bind = GTK_TREE_MODEL (row.bindings);
       if (!gtk_tree_model_get_iter_first (model_bind, &iter))
@@ -858,13 +858,13 @@ command_has_binding (guint command_idx)
  * additionnal user data
  */
 void
-keymap_foreach_command_binding (keymap * the_keymap, guint command_idx, GFunc func, gpointer user_data)
+keymap_foreach_command_binding (keymap * the_keymap, guint command_id, GFunc func, gpointer user_data)
 {
   command_row row;
   gchar *binding;
   GtkTreeIter iter;
   GtkTreeModel *model_bind;
-  if (!keymap_get_command_row (the_keymap, &row, command_idx))
+  if (!keymap_get_command_row (the_keymap, &row, command_id))
     return;
   //get the first list element, if the list is empty returns
   model_bind = GTK_TREE_MODEL (row.bindings);
@@ -904,20 +904,20 @@ gint
 lookup_command_for_keyevent (GdkEventKey * event)
 {
   keymap *the_keymap = Denemo.map;
-  gint command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
+  gint command_id = lookup_command_for_keybinding (the_keymap, event->keyval,
                                                     dnm_sanitize_key_state (event));
 #if 0
   if (!Denemo.prefs.strictshortcuts)
     {
       //    lookup_command_for_keybinding (the_keymap, event->keyval,
       //                             dnm_sanitize_key_state(event));
-      if (command_idx == -1)
-        command_idx = lookup_command_for_keybinding (the_keymap, event->keyval, dnm_hyper_sanitize_key_state (event));
-      if (command_idx == -1)
-        command_idx = lookup_command_for_keybinding (the_keymap, event->keyval, dnm_meta_sanitize_key_state (event));
+      if (command_id == -1)
+        command_id = lookup_command_for_keybinding (the_keymap, event->keyval, dnm_hyper_sanitize_key_state (event));
+      if (command_id == -1)
+        command_id = lookup_command_for_keybinding (the_keymap, event->keyval, dnm_meta_sanitize_key_state (event));
     }
 #endif
-  return command_idx;
+  return command_id;
 }
 
 
@@ -954,12 +954,12 @@ lookup_command_from_name (keymap * keymap, const gchar * command_name)
 //do not free the result
 //returns NULL if not found
 const GtkAction *
-lookup_action_from_idx (keymap * keymap, gint command_idx)
+lookup_action_from_idx (keymap * keymap, gint command_id)
 {
-	if (command_idx == -1)
+	if (command_id == -1)
 		return NULL;	
   command_row row;
-  if (!keymap_get_command_row (keymap, &row, command_idx))
+  if (!keymap_get_command_row (keymap, &row, command_id))
     return NULL;
   g_object_unref (row.bindings);
   return row.action;
@@ -968,12 +968,12 @@ lookup_action_from_idx (keymap * keymap, gint command_idx)
 //do not free the result
 //returns NULL if not found
 gpointer
-lookup_callback_from_idx (keymap * keymap, gint command_idx)
+lookup_callback_from_idx (keymap * keymap, gint command_id)
 {
-	if (command_idx == -1)
+	if (command_id == -1)
 		return NULL;
   command_row row;
-  if (!keymap_get_command_row (keymap, &row, command_idx))
+  if (!keymap_get_command_row (keymap, &row, command_id))
     return NULL;
   g_object_unref (row.bindings);
   return row.callback;
@@ -982,13 +982,13 @@ lookup_callback_from_idx (keymap * keymap, gint command_idx)
 //do not free the result
 //returns NULL if not found
 const gchar *
-lookup_name_from_idx (keymap * keymap, gint command_idx)
+lookup_name_from_idx (keymap * keymap, gint command_id)
 {
   const gchar *res = NULL;
-	if (command_idx == -1)
+	if (command_id == -1)
 		return NULL;
   command_row row;
-  if (!keymap_get_command_row (keymap, &row, command_idx))
+  if (!keymap_get_command_row (keymap, &row, command_id))
     return NULL;
   res = gtk_action_get_name (row.action);
   g_object_unref (row.bindings);
@@ -998,13 +998,13 @@ lookup_name_from_idx (keymap * keymap, gint command_idx)
 //do not free the result
 //returns NULL if not found
 const gchar *
-lookup_tooltip_from_idx (keymap * keymap, gint command_idx)
+lookup_tooltip_from_idx (keymap * keymap, gint command_id)
 {
   const gchar *res = NULL;
-  if (command_idx == -1)
+  if (command_id == -1)
 		return NULL;
   command_row row;
-  if (!keymap_get_command_row (keymap, &row, command_idx))
+  if (!keymap_get_command_row (keymap, &row, command_id))
     return NULL;
   res = row.tooltip;            //FIXME label is a property g_object_get_prop...
 
@@ -1013,11 +1013,11 @@ lookup_tooltip_from_idx (keymap * keymap, gint command_idx)
 }
 
 gboolean
-lookup_hidden_from_idx (keymap * keymap, guint command_idx)
+lookup_hidden_from_idx (keymap * keymap, guint command_id)
 {
   gboolean res = FALSE;
   command_row row;
-  if (!keymap_get_command_row (keymap, &row, command_idx))
+  if (!keymap_get_command_row (keymap, &row, command_id))
     return FALSE;
   res = row.hidden;             //FIXME label is a property g_object_get_prop...
   g_object_unref (row.bindings);
@@ -1026,11 +1026,11 @@ lookup_hidden_from_idx (keymap * keymap, guint command_idx)
 
 
 gboolean
-lookup_deleted_from_idx (keymap * keymap, guint command_idx)
+lookup_deleted_from_idx (keymap * keymap, guint command_id)
 {
   gboolean res = FALSE;
   command_row row;
-  if (!keymap_get_command_row (keymap, &row, command_idx))
+  if (!keymap_get_command_row (keymap, &row, command_id))
     return 0;
   res = row.deleted;            //FIXME label is a property g_object_get_prop...
   g_object_unref (row.bindings);
@@ -1041,13 +1041,13 @@ lookup_deleted_from_idx (keymap * keymap, guint command_idx)
 //do not free the result
 //returns NULL if not found
 const gchar *
-lookup_label_from_idx (keymap * keymap, gint command_idx)
+lookup_label_from_idx (keymap * keymap, gint command_id)
 {
   const gchar *res = NULL;	
-  if (command_idx == -1)
+  if (command_id == -1)
 		return NULL;
   command_row row;
-  if (!keymap_get_command_row (keymap, &row, command_idx))
+  if (!keymap_get_command_row (keymap, &row, command_id))
     return NULL;
   res = row.label;              //FIXME label is a property g_object_get_prop...
 
@@ -1055,12 +1055,12 @@ lookup_label_from_idx (keymap * keymap, gint command_idx)
   return res;
 }
 const gchar *
-lookup_menu_path_from_idx (keymap * keymap, gint command_idx)
+lookup_menu_path_from_idx (keymap * keymap, gint command_id)
 {
 	gchar *menupath = NULL;
-	if (command_idx == -1)
+	if (command_id == -1)
 		return NULL;
-  GtkAction *action = (GtkAction *) lookup_action_from_idx (keymap, command_idx);
+  GtkAction *action = (GtkAction *) lookup_action_from_idx (keymap, command_id);
 	if (action)
 		menupath = g_object_get_data (G_OBJECT (action), "menupath");
 	return menupath;
@@ -1069,14 +1069,14 @@ lookup_menu_path_from_idx (keymap * keymap, gint command_idx)
 //the accel is the first keybinding of the list
 #if 0
 static gchar *
-keymap_get_accel (keymap * the_keymap, guint command_idx)
+keymap_get_accel (keymap * the_keymap, guint command_id)
 {
   command_row row;
   GtkTreeModel *model_bind;
   GtkTreeIter iter;
   gchar *res;
 
-  if (!keymap_get_command_row (the_keymap, &row, command_idx))
+  if (!keymap_get_command_row (the_keymap, &row, command_id))
     return g_strdup ("");
   model_bind = GTK_TREE_MODEL (row.bindings);
   if (!gtk_tree_model_get_iter_first (model_bind, &iter))
@@ -1106,19 +1106,19 @@ findActionGroupByName (gconstpointer a, gconstpointer b)
  * present in the keymap.
  */
 void
-update_accel_labels (keymap * the_keymap, guint command_idx)
+update_accel_labels (keymap * the_keymap, guint command_id)
 {
   GtkAction *action;
 
   //Getting the accel
-  const gchar *command_name = lookup_name_from_idx (the_keymap, command_idx);
+  const gchar *command_name = lookup_name_from_idx (the_keymap, command_id);
   GString *str = g_string_new ("");
   //TODO don't use all the bindings as accels
-  keymap_foreach_command_binding (the_keymap, command_idx, (GFunc) listname, str);
+  keymap_foreach_command_binding (the_keymap, command_id, (GFunc) listname, str);
   //Prepare the new label
   const gchar *base;
   //FIXME use translate_dnm_to_gtk
-  base = lookup_label_from_idx (the_keymap, command_idx);
+  base = lookup_label_from_idx (the_keymap, command_id);
 #if 0
   //FIXME here generate a locale dependent name using gtk_accelerator_get_label after back-tracking to find the keyval from the binding (stripping off the prefixes we have added etc). This will be needed for language translation (i.e. _N() should be applied to the gdk_keyval_name() but the label we are writing here should be better with a translated indication of the keybinding (Left becomes Links in German etc).
   // we have to store an invariant gdk name, so we should look it up here to get the keyval  and from that derive a locale specific name to use on the label. In any case the following transformation is redundant
@@ -1166,9 +1166,9 @@ update_accel_labels (keymap * the_keymap, guint command_idx)
 void
 update_all_labels (keymap * the_keymap)
 {
-  gint command_idx, num = keymap_size (the_keymap);
-  for (command_idx = 0; command_idx < num; command_idx++)
-    update_accel_labels (the_keymap, command_idx);
+  gint command_id, num = keymap_size (the_keymap);
+  for (command_id = 0; command_id < num; command_id++)
+    update_accel_labels (the_keymap, command_id);
 }
 
 //if binding is a two-key binding, update a table of such bindings, adding is add is true else removing
@@ -1211,13 +1211,13 @@ update_continuations_table (keymap * the_keymap, const gchar * binding, gboolean
 }
 
 static void
-remove_keybinding_bindings_helper (keymap * the_keymap, guint command_idx, const gchar * binding)
+remove_keybinding_bindings_helper (keymap * the_keymap, guint command_id, const gchar * binding)
 {
   gboolean found = FALSE;
   gchar *cur_binding;
   command_row row;
   GtkTreeIter iter;
-  if (!keymap_get_command_row (the_keymap, &row, command_idx))
+  if (!keymap_get_command_row (the_keymap, &row, command_id))
     return;
   GtkTreeModel *model_bind = GTK_TREE_MODEL (row.bindings);
   if (!gtk_tree_model_get_iter_first (model_bind, &iter))
@@ -1268,16 +1268,16 @@ remove_keybinding_from_name (keymap * the_keymap, const gchar * binding)
 }
 
 /*
- * Insert a binding to the bindings of command_idx.
+ * Insert a binding to the bindings of command_id.
  * pos indicates where in the list of bindings to insert this binding.
  */
 static void
-add_keybinding_bindings_helper (keymap * the_keymap, guint command_idx, const gchar * binding, ListPosition pos)
+add_keybinding_bindings_helper (keymap * the_keymap, guint command_id, const gchar * binding, ListPosition pos)
 {
   command_row row;
   GtkTreeIter iter;
 
-  if (!keymap_get_command_row (the_keymap, &row, command_idx))
+  if (!keymap_get_command_row (the_keymap, &row, command_id))
     return;
 
   if (pos == POS_FIRST)
@@ -1301,60 +1301,60 @@ gint
 add_keybinding_to_named_command (keymap * the_keymap, gint keyval, GdkModifierType state, const gchar * command_name, ListPosition pos)
 {
   gpointer value;
-  guint command_idx;
+  guint command_id;
   value = g_hash_table_lookup (the_keymap->idx_from_name, command_name);
   if (!value)
     {
       g_warning ("add_keybinding: %s, command does not exist", command_name);
       return -1;
     }
-  command_idx = *(guint *) value;
-  return add_keybinding_to_idx (the_keymap, keyval, state, command_idx, pos);
+  command_id = *(guint *) value;
+  return add_keybinding_to_idx (the_keymap, keyval, state, command_id, pos);
 }
 
 gint
-add_named_binding_to_idx (keymap * the_keymap, gchar * kb_name, guint command_idx, ListPosition pos)
+add_named_binding_to_idx (keymap * the_keymap, gchar * kb_name, guint command_id, ListPosition pos)
 {
   guint *new_idx;
-  gint old_command_idx;
-  old_command_idx = lookup_command_for_keybinding_name (the_keymap, kb_name);   //lookup_keybinding(the_keymap, keyval, state);  
+  gint old_command_id;
+  old_command_id = lookup_command_for_keybinding_name (the_keymap, kb_name);   //lookup_keybinding(the_keymap, keyval, state);  
   gchar *title = NULL;
   gchar *prompt = NULL;
 
-  if (old_command_idx >= 0)
+  if (old_command_id >= 0)
     {
       if ((!Denemo.prefs.return_key_is_special) || strcmp (kb_name, "Return"))
         {
-          title = g_strdup_printf (_("The Command %s Responds to the Shortcut %s"), lookup_name_from_idx (Denemo.map, old_command_idx), kb_name);
+          title = g_strdup_printf (_("The Command %s Responds to the Shortcut %s"), lookup_name_from_idx (Denemo.map, old_command_id), kb_name);
           prompt = g_strdup_printf (_("Lose the shortcut %s for this?"), kb_name);
         }
     }
 
-  if (title && (pos == POS_FIRST) && (old_command_idx >= 0) && (!confirm (title, prompt)))
+  if (title && (pos == POS_FIRST) && (old_command_id >= 0) && (!confirm (title, prompt)))
     {
       g_free (title);
       g_free (prompt);
-      return old_command_idx;
+      return old_command_id;
     }
 
-  if (old_command_idx >= 0)
+  if (old_command_id >= 0)
     {
-      remove_keybinding_bindings_helper (the_keymap, old_command_idx, kb_name);
-      update_accel_labels (the_keymap, old_command_idx);
+      remove_keybinding_bindings_helper (the_keymap, old_command_id, kb_name);
+      update_accel_labels (the_keymap, old_command_id);
     }
   //add the keybinding to the binding on idx_command
-  add_keybinding_bindings_helper (the_keymap, command_idx, kb_name, pos);
+  add_keybinding_bindings_helper (the_keymap, command_id, kb_name, pos);
 
   //update the accel labels of the command
-  update_accel_labels (the_keymap, command_idx);
+  update_accel_labels (the_keymap, command_id);
 
   //add or modify an entry in idx_from_keystring
   new_idx = (guint *) g_malloc (sizeof (guint));
-  *new_idx = command_idx;
+  *new_idx = command_id;
   g_hash_table_insert (the_keymap->idx_from_keystring, g_strdup (kb_name), new_idx);
   g_free (title);
   g_free (prompt);
-  return old_command_idx;
+  return old_command_id;
 }
 
 
@@ -1367,27 +1367,27 @@ add_named_binding_to_idx (keymap * the_keymap, gchar * kb_name, guint command_id
  * if POS_LAST it is the command set being loaded, do not ask
  */
 gint
-add_keybinding_to_idx (keymap * the_keymap, gint keyval, GdkModifierType state, guint command_idx, ListPosition pos)
+add_keybinding_to_idx (keymap * the_keymap, gint keyval, GdkModifierType state, guint command_id, ListPosition pos)
 {
-  gint old_command_idx;
+  gint old_command_id;
   gchar *kb_name;
   kb_name = dnm_accelerator_name (keyval, state);
-  old_command_idx = add_named_binding_to_idx (the_keymap, kb_name, command_idx, pos);
+  old_command_id = add_named_binding_to_idx (the_keymap, kb_name, command_id, pos);
   g_free (kb_name);
   //Denemo.accelerator_status = TRUE;
-  return old_command_idx;
+  return old_command_id;
 }
 
 gint
-add_twokeybinding_to_idx (keymap * the_keymap, gint first_keyval, GdkModifierType first_state, gint keyval, GdkModifierType state, guint command_idx, ListPosition pos)
+add_twokeybinding_to_idx (keymap * the_keymap, gint first_keyval, GdkModifierType first_state, gint keyval, GdkModifierType state, guint command_id, ListPosition pos)
 {
-  gint old_command_idx;
+  gint old_command_id;
   gchar *kb_name;
   kb_name = g_strdup_printf ("%s" DENEMO_TWO_KEY_SEPARATOR "%s", dnm_accelerator_name (first_keyval, first_state), dnm_accelerator_name (keyval, state));
-  old_command_idx = add_named_binding_to_idx (the_keymap, kb_name, command_idx, pos);
+  old_command_id = add_named_binding_to_idx (the_keymap, kb_name, command_id, pos);
   g_free (kb_name);
   //Denemo.accelerator_status = TRUE;
-  return old_command_idx;
+  return old_command_id;
 }
 
 /* force keybinding on action of name, returning old command id */
@@ -1480,13 +1480,13 @@ keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event)
 }
 
 gboolean
-idx_has_callback (keymap * the_keymap, guint command_idx)
+idx_has_callback (keymap * the_keymap, guint command_id)
 {
-  if (command_idx == -1)
+  if (command_id == -1)
     return FALSE;
   gboolean res = TRUE;
   command_row row;
-  if (!keymap_get_command_row (the_keymap, &row, command_idx))
+  if (!keymap_get_command_row (the_keymap, &row, command_id))
     return FALSE;
   g_object_unref (row.bindings);
   res = (gboolean) (intptr_t) row.callback;
@@ -1503,10 +1503,10 @@ lookup_action_from_name (gchar * command_name)
 }
 
 gboolean
-execute_callback_from_idx (keymap * the_keymap, guint command_idx)
+execute_callback_from_idx (keymap * the_keymap, guint command_id)
 {
   const gchar *command_name;
-  command_name = lookup_name_from_idx (the_keymap, command_idx);
+  command_name = lookup_name_from_idx (the_keymap, command_id);
   return execute_callback_from_name (command_name);
 }
 
@@ -1525,20 +1525,20 @@ execute_callback_from_name (const gchar * command_name)
 
 //prints info on the data of the keymap relative to a command
 void
-dump_command_info (keymap * the_keymap, gint command_idx)
+dump_command_info (keymap * the_keymap, gint command_id)
 {
   gchar *cur_binding;
   command_row row;
   GtkTreeIter iter;
   GtkTreeModel *model_bind;
 
-  if (command_idx == -1)
+  if (command_id == -1)
     {
       g_print ("no command\n");
       return;
     }
-  g_print ("command %s (%d)\nKeyboard Shortcuts:\n", lookup_name_from_idx (the_keymap, command_idx), command_idx);
-  if (!keymap_get_command_row (the_keymap, &row, command_idx))
+  g_print ("command %s (%d)\nKeyboard Shortcuts:\n", lookup_name_from_idx (the_keymap, command_id), command_id);
+  if (!keymap_get_command_row (the_keymap, &row, command_id))
     return;
   model_bind = GTK_TREE_MODEL (row.bindings);
   if (!gtk_tree_model_get_iter_first (model_bind, &iter))
@@ -1899,8 +1899,8 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
 static void
 toggle_hidden_on_action (G_GNUC_UNUSED GtkCellRendererToggle * cell_renderer, gchar * path)
 {
-  gint command_idx = atoi (path);
-  GtkAction *action = (GtkAction *) lookup_action_from_idx (Denemo.map, command_idx);
+  gint command_id = atoi (path);
+  GtkAction *action = (GtkAction *) lookup_action_from_idx (Denemo.map, command_id);
   if (GTK_IS_ACTION (action))
     {
       gboolean hidden = (g_object_get_data (G_OBJECT (action), "hidden") != NULL);
@@ -1913,8 +1913,8 @@ toggle_hidden_on_action (G_GNUC_UNUSED GtkCellRendererToggle * cell_renderer, gc
 static void
 toggle_deleted_on_action (GtkCellRendererToggle * cell_renderer, gchar * path)
 {
-  gint command_idx = atoi (path);
-  GtkAction *action = (GtkAction *) lookup_action_from_idx (Denemo.map, command_idx);
+  gint command_id = atoi (path);
+  GtkAction *action = (GtkAction *) lookup_action_from_idx (Denemo.map, command_id);
   if (GTK_IS_ACTION (action))
     {
       gboolean deleted = (g_object_get_data (G_OBJECT (action), "deleted") != NULL);
@@ -1940,7 +1940,7 @@ static void toggle_tooltip_search (void)
 	search_tooltip = !search_tooltip;
 }
 static void selection_changed (GtkTreeSelection *selection, GtkWidget *SearchEntry) {
-	gint command_idx;
+	gint command_id;
 	
 	GtkTreeModel *model = GTK_TREE_MODEL (Denemo.map->commands);
 	
@@ -2060,9 +2060,8 @@ void
 row_inserted_handler (GtkTreeModel * model, GtkTreePath * arg1, GtkTreeIter * arg2, gpointer user_data)
 {
   keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
-  //g_print("insert\n");
-  if (cbdata->command_idx != -1)
-    update_accel_labels (Denemo.map, cbdata->command_idx);
+  if (cbdata->command_id != -1)
+    update_accel_labels (Denemo.map, cbdata->command_id);
 }
 
 void
@@ -2070,8 +2069,8 @@ row_deleted_handler (GtkTreeModel * model, GtkTreePath * arg1, gpointer user_dat
 {
   keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
   //g_print("delete\n");
-  if (cbdata->command_idx != -1)
-    update_accel_labels (Denemo.map, cbdata->command_idx);
+  if (cbdata->command_id != -1)
+    update_accel_labels (Denemo.map, cbdata->command_id);
 }
 
 //Performs cleanup on the keymap when a command view is closed
@@ -2160,9 +2159,9 @@ keymap_change_binding_view_on_command_selection (GtkTreeSelection * selection, G
   //getting the new model
   gtk_tree_model_get_iter (model, &iter, path);
   gtk_tree_model_get (model, &iter, COL_TYPE, &type, COL_ACTION, &action, COL_TOOLTIP, &tooltip, COL_BINDINGS, &bindings, -1);
-  //getting the new command_idx
+  //getting the new command_id
   array = gtk_tree_path_get_indices (path);
-  cbdata->command_idx = array[0];
+  cbdata->command_id = array[0];
 
   //setting the model and releasing our reference
   gtk_tree_view_set_model (binding_view, GTK_TREE_MODEL (bindings));
