@@ -1568,21 +1568,26 @@ scheme_open_source (SCM link)
   if (scm_is_string (link))
     {
       gchar *thestring = scm_to_locale_string (link);
-      gchar *filename = strtok (thestring, ":");
+      gchar *filename;
+#ifdef G_OS_WIN32
+		filename = thestring;
+		(void) strtok (thestring+2, ":");//skip leading drive name on windows
+#else      
+       filename = strtok (thestring, ":");//will not work if filename contains ':' characters.
+#endif
       if (filename)
         {
           gint x, y, page;
-          gchar *name = g_strdup(filename);
+          
           gchar *xstr = strtok (NULL, ":");
           gchar *ystr = strtok (NULL, ":");
           gchar *pstr = strtok (NULL, ":");
           x = xstr ? atoi (xstr) : 0;
           y = ystr ? atoi (ystr) : 0;
           page = pstr ? atoi (pstr) : 0;
-          g_print("Calling with %s at %p\n", name, name);
-          if (open_source (name, x, y, page))
+     
+          if (open_source (filename, x, y, page))
             ret = SCM_BOOL_T;
-          g_free(name);
         }
       if (thestring)
         free (thestring);

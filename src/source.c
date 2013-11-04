@@ -166,7 +166,6 @@ get_view (gchar * filename)
   GError *err = NULL;
   EvView *view = NULL;
   GList *g;
-  g_print("\nget_view(filename = %s) at %p\n", filename, filename);
   for (g = theviews; g; g = g->next)
     if (!strcmp (((fileview *) g->data)->filename, filename))
       return (((fileview *) g->data)->view);
@@ -270,7 +269,7 @@ position_view (EvView * eview, gint x, gint y, gint page)
 
 gboolean
 open_source (gchar * filename, gint x, gint y, gint page)
-{g_print("Called open_source with %s at %p\n", filename, filename);
+{
   EvView *eview = get_view (filename);
   gboolean ret = position_view (eview, x, y, page);
   switch_back_to_main_window ();
