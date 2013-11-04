@@ -504,10 +504,6 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
       gchar *tooltip = (gchar *) lookup_tooltip_from_idx (the_keymap, i);
       if (tooltip)
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_TOOLTIP, (xmlChar *) tooltip);
-
-      //  keymap_foreach_command_binding (the_keymap, i,
-      //                                      (GFunc) write_xml_keybinding_info, child);
-
     }
 
   xmlSaveFormatFileEnc (filename, doc, XML_ENCODING, 1);
@@ -524,7 +520,8 @@ save_xml_keybindings (gchar * filename)
   xmlDocPtr doc;
   //xmlNsPtr ns;
   xmlNodePtr parent, child;
-
+  command_row *row;
+    
   doc = xmlNewDoc ((xmlChar *) "1.0");
   doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, COMMANDXML_TAG_ROOT, NULL);
   child = xmlNewChild (parent, NULL, COMMANDXML_TAG_MERGE, NULL);
@@ -556,7 +553,8 @@ save_xml_keybindings (gchar * filename)
           if (hidden)
             xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, (xmlChar *) "true");
 
-          keymap_foreach_command_binding (the_keymap, i, (GFunc) write_xml_keybinding_info, child);
+          if (keymap_get_command_row (the_keymap, &row, i) && row)
+            g_list_foreach(row->bindings, (GFunc) write_xml_keybinding_info, child);   
         }
     }
 

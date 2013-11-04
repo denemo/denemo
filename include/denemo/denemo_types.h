@@ -372,7 +372,7 @@ typedef struct command_row
   gchar *label;
   gchar *tooltip;
   gpointer callback;
-  GtkListStore *bindings;
+  GList *bindings;
   gboolean hidden;
   gboolean deleted;
   gint script_type;
@@ -398,6 +398,7 @@ enum
   COL_DELETED,
   COL_SCRIPTTYPE,
   COL_LOCATIONS,
+  COL_ROW,
   N_COLUMNS
 } COMMAND_COLS;
 

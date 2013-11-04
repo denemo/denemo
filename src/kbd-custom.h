@@ -75,8 +75,6 @@ void keymap_clear_bindings (keymap * the_keymap);
 
 guint keymap_size (keymap * the_keymap);
 
-void keymap_foreach_command_binding (keymap * the_keymap, guint command_id, GFunc func, gpointer user_data);
-
 //-1 if the binding is not found
 gint lookup_command_for_keybinding (keymap * the_keymap, gint keyval, GdkModifierType state);
 
@@ -166,4 +164,5 @@ gboolean is_action_id_builtin(gint id);
 gboolean is_action_name_builtin(gchar* command_name);
 const gchar *get_menu_label (gchar *name);
 gchar *get_menu_position (gchar *menupath);
+void update_bindings_model(GtkListStore * model, GList* bindings);
 #endif

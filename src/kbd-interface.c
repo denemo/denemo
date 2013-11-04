@@ -90,6 +90,12 @@ capture_add_binding (GtkWidget * widget, GdkEventKey * event, gpointer user_data
     add_twokeybinding_to_idx (Denemo.map, cbdata->first_keyval, cbdata->first_modifiers, event->keyval, modifiers, command_idx, POS_FIRST);
   else
     add_keybinding_to_idx (Denemo.map, event->keyval, modifiers, command_idx, POS_FIRST);
+
+  command_row* row = NULL;
+  keymap_get_command_row (Denemo.map, &row, command_idx);
+  GtkListStore* bindings_model = GTK_LIST_STORE(gtk_tree_view_get_model(cbdata->binding_view));
+  update_bindings_model(bindings_model, row->bindings);
+  
   gtk_statusbar_pop (cbdata->statusbar, cbdata->context_id);
   g_signal_handler_disconnect (GTK_WIDGET (widget), cbdata->handler_key_press);
   g_signal_handler_disconnect (GTK_WIDGET (widget), cbdata->handler_focus_out);
@@ -212,6 +218,7 @@ kbd_interface_del_binding (G_GNUC_UNUSED GtkButton * button, gpointer user_data)
   gchar *binding;
   GtkTreeModel *model;
   GtkTreeIter iter;
+  command_row* row;
   keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
   gtk_statusbar_pop (cbdata->statusbar, cbdata->context_id);
   selection = gtk_tree_view_get_selection (cbdata->binding_view);
@@ -220,10 +227,22 @@ kbd_interface_del_binding (G_GNUC_UNUSED GtkButton * button, gpointer user_data)
     return;
   //else get the binding and remove it
   gtk_tree_model_get (model, &iter, 0, &binding, -1);
+
+  gint *command_id_ptr = NULL;
+  command_id_ptr = (gint *) g_hash_table_lookup (Denemo.map->idx_from_keystring, binding);
+  
   remove_keybinding_from_name (Denemo.map, binding);
+
+  if(command_id_ptr){
+    keymap_get_command_row (Denemo.map, &row, *command_id_ptr);
+    update_bindings_model(GTK_LIST_STORE(model), row->bindings);
+  }
+  else 
+    g_debug("Cannot find command to delete.\n");
   g_free (binding);
   Denemo.accelerator_status = TRUE;
 }
+
 static void
 execute_current (keyboard_dialog_data *data)
 {
@@ -371,7 +390,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
     }
    if(SearchEntry==NULL) {
 	SearchEntry = gtk_entry_new ();
-	SearchNext = gtk_button_new_with_label ("->");
+	SearchNext = gtk_button_new_with_label ("→");
 	
 }   
   //getting a binding view and a command view and connecting the change of
@@ -507,6 +526,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
   cbdata.command_id = -1;
   cbdata.two_key = 0;
   cbdata.twokeylist = NULL;
+
   //setup the link between command_view and binding_view
   selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (command_tree_view));
   gtk_tree_selection_set_select_function (selection, keymap_change_binding_view_on_command_selection, &cbdata, NULL);
