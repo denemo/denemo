@@ -419,7 +419,9 @@ static void
 delete_custom_scoreblock_callback (GtkWidget * widget, DenemoScoreblock * sb)
 {
   Denemo.gui->custom_scoreblocks = g_list_remove (Denemo.gui->custom_scoreblocks, sb);
-  gtk_widget_destroy (sb->widget);
+  gtk_widget_destroy (sb->widget); 
+  if(Denemo.gui->standard_scoreblocks==NULL && Denemo.gui->custom_scoreblocks==NULL)
+	create_default_scoreblock ();
 }
 
 static void
@@ -427,6 +429,8 @@ delete_standard_scoreblock_callback (GtkWidget * widget, DenemoScoreblock * sb)
 {
   Denemo.gui->standard_scoreblocks = g_list_remove (Denemo.gui->standard_scoreblocks, sb);
   gtk_widget_destroy (sb->widget);
+  if(Denemo.gui->standard_scoreblocks==NULL && Denemo.gui->custom_scoreblocks==NULL)
+	create_default_scoreblock ();
 }
 
 static void
