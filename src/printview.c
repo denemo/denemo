@@ -1136,7 +1136,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
       gchar **orig_vec = g_strsplit (uri, ":", 6);
       gchar **vec = orig_vec;
       if (vec[0] && vec[1] && vec[2] && vec[3] && vec[4] && vec[5] && *vec[5])
-        vec++;
+        vec++;//this will be the case where the file name has a colon in it, (windows drive name) we do not allow for more than one colon. vec[0] is used hereafter.
       if (g_str_has_prefix (uri, "textedit:") && vec[1] && vec[2] && vec[3])
         {
           DenemoTarget old_target = Denemo.gui->si->target;
