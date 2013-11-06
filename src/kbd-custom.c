@@ -687,7 +687,7 @@ void register_command_row(keymap* the_keymap, command_row* command){
 
 /* Used for compatibility with register_command.h */
 void
-register_command (keymap * the_keymap, GtkAction * action, gchar * name, gchar * label, gchar * tooltip, gpointer callback)
+register_command (gchar * name, gchar * label, gchar * tooltip, gpointer callback)
 {
   command_row command;
   command_row_init(&command);
@@ -695,8 +695,8 @@ register_command (keymap * the_keymap, GtkAction * action, gchar * name, gchar *
   command.label = label;
   command.tooltip = tooltip;
   command.callback = callback;
-  command.action = action;
-  register_command_row(the_keymap, &command);
+  command.action = gtk_action_group_get_action(Denemo.action_group, name);
+  register_command_row(Denemo.map, &command);
 }
 
 

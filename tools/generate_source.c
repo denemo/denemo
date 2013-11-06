@@ -157,7 +157,7 @@ void parse_menu_commands(){
                    "}\n", 
                    ni, fi, !(mi & CMD_CATEGORY_DIRECT) ? "_cb" : "");
           /****************** install the command in the hash table of commands (keymap) **************/
-          fprintf (register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%s\"), \"%s\", _(\"%s\"), _(\"%s\"), %s);\n", ni, ni, ml ? ml : ni, ti ? ti : ni, fi);
+          fprintf (register_commands, "register_command(\"%s\", _(\"%s\"), _(\"%s\"), %s);\n", ni, ml ? ml : ni, ti ? ti : ni, fi);
           /****************** install the command as an action in the menu system **************************/
           fprintf (entries, "{\"%s\", %s, N_(\"%s\"), \"\"," "N_(\"%s\")," "G_CALLBACK (%s%s)},\n", ni, ii ? ii : "NULL", ml ? ml : ni, ti ? ti : ni, fi, (mi & CMD_CATEGORY_DIRECT) ? "" : "_cb");
         }
@@ -323,26 +323,26 @@ main ()
 
   for (i = 'A'; i <= 'G'; i++)
     {
-      fprintf (register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Insert%c\"), \"Insert%c\", _(\"Insert %c\"),_(\"Inserts note %c before note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),  Insert%c);\n", i, i, i, i, i);
+      fprintf (register_commands, "register_command(\"Insert%c\", _(\"Insert %c\"),_(\"Inserts note %c before note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),  Insert%c);\n", i, i, i, i);
       fprintf (scheme, "SCM scheme_Insert%c(SCM optional);\ninstall_scm_function (0, NULL, \"d-Insert%c\", scheme_Insert%c);\n", i, i, i);       // for direct callback via (scheme_xxx)
       fprintf (scheme_cb, "SCM scheme_Insert%c (SCM optional) {\nInsert%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i, i);
-      fprintf (register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"AddNote%c\"), \"AddNote%c\", _(\"Insert %c After\"),_(\"Inserts note %c after note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),  AddNote%c);\n", i, i, i, i, i);
+      fprintf (register_commands, "register_command(\"AddNote%c\", _(\"Insert %c After\"),_(\"Inserts note %c after note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),  AddNote%c);\n", i, i, i, i);
       fprintf (scheme, "SCM scheme_AddNote%c(SCM optional);\ninstall_scm_function (0, NULL, \"d-AddNote%c\", scheme_AddNote%c);\n", i, i, i);    // for direct callback via (scheme_xxx)
       fprintf (scheme_cb, "SCM scheme_AddNote%c (SCM optional) {\nAddNote%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i, i);
 
 
-      fprintf (register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Add%c\"), \"Add%c\", _(\"Add %c\"),_(\"Adds note %c to the chord at cursor\\nCursor height determines which octave\"),  Add%c);\n", i, i, i, i, i);
+      fprintf (register_commands, "register_command(\"Add%c\", _(\"Add %c\"),_(\"Adds note %c to the chord at cursor\\nCursor height determines which octave\"),  Add%c);\n", i, i, i, i);
       fprintf (scheme, "SCM scheme_Add%c(SCM optional);\ninstall_scm_function (0, NULL, \"d-Add%c\", scheme_Add%c);\n", i, i, i);        // for direct callback via (scheme_xxx)
       fprintf (scheme_cb, "SCM scheme_Add%c (SCM optional) {\nAdd%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i, i);
 
 
 
-      fprintf (register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"ChangeTo%c\"), \"ChangeTo%c\", _(\"Change to %c\"),_(\"Changes note at cursor to nearest note %c\\nRhythm is unchanged\"),  ChangeTo%c);\n", i, i, i, i, i);
+      fprintf (register_commands, "register_command(\"ChangeTo%c\", _(\"Change to %c\"),_(\"Changes note at cursor to nearest note %c\\nRhythm is unchanged\"),  ChangeTo%c);\n", i, i, i, i);
       fprintf (scheme, "SCM scheme_ChangeTo%c(SCM optional);\ninstall_scm_function (0, NULL, \"d-ChangeTo%c\", scheme_ChangeTo%c);\n", i, i, i); // for direct callback via (scheme_xxx)
       fprintf (scheme_cb, "SCM scheme_ChangeTo%c (SCM optional) {\nChangeTo%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i, i);
 
 
-      fprintf (register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"MoveTo%c\"), \"MoveTo%c\", _(\"Move to %c\"),_(\"Moves cursor to nearest note %c\"),  MoveTo%c);\n", i, i, i, i, i);
+      fprintf (register_commands, "register_command(\"MoveTo%c\", _(\"Move to %c\"),_(\"Moves cursor to nearest note %c\"),  MoveTo%c);\n", i, i, i, i);
       fprintf (scheme, "SCM scheme_MoveTo%c(SCM optional);\ninstall_scm_function (0, NULL, \"d-MoveTo%c\", scheme_MoveTo%c);\n", i, i, i);       // for direct callback via (scheme_xxx)
       fprintf (scheme_cb, "SCM scheme_MoveTo%c (SCM optional) {\nMoveTo%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i, i);
 
@@ -356,18 +356,18 @@ main ()
        *
        * !!! FIXME what is ChangeRestn???? seems to be Changen ... now dropped. */
 
-      fprintf (register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%d\"), \"%d\", _(\"Insert/Append a %s\"), _(\"When appending, appends a %s \\nWith the cursor on a note inserts a %s  before the current note\\nIf MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)\\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.\"), Dur%d);\n", i, i, NOTECHARS[i], NOTECHARS[i], NOTECHARS[i], i);
+      fprintf (register_commands, "register_command(\"%d\", _(\"Insert/Append a %s\"), _(\"When appending, appends a %s \\nWith the cursor on a note inserts a %s  before the current note\\nIf MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)\\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.\"), Dur%d);\n", i, NOTECHARS[i], NOTECHARS[i], NOTECHARS[i], i);
 
-      fprintf (register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Change%d\"), \"Change%d\", _(\"Change to %s\"), _(\"Change the current note to a %s\"), ChangeDur%d);\n", i, i, NOTECHARS[i], NOTECHARS[i], i);
+      fprintf (register_commands, "register_command(\"Change%d\", _(\"Change to %s\"), _(\"Change the current note to a %s\"), ChangeDur%d);\n", i, NOTECHARS[i], NOTECHARS[i], i);
 
-      fprintf (register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Insert%d\"), \"Insert%d\", _(\"%s\"), _(\"Insert a %s\"), InsertDur%d);\n", i, i, NOTECHARS[i], NOTECHARS[i], i);
+      fprintf (register_commands, "register_command(\"Insert%d\", _(\"%s\"), _(\"Insert a %s\"), InsertDur%d);\n", i, NOTECHARS[i], NOTECHARS[i], i);
 
-      fprintf (register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"InsertRest%d\"), \"InsertRest%d\",  _(\"Insert a %s\") ,  _(\"Inserts a rest at cursor position\\nSets prevailing rhythm to %s\"), InsertRest%d);\n", i, i, RESTCHARS[i], NOTECHARS[i], i);
+      fprintf (register_commands, "register_command(\"InsertRest%d\",  _(\"Insert a %s\") ,  _(\"Inserts a rest at cursor position\\nSets prevailing rhythm to %s\"), InsertRest%d);\n", i, RESTCHARS[i], NOTECHARS[i], i);
 
       //  fprintf(register_commands, 
       //    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"ChangeRest%d\"), \"ChangeRest%d\",  _(\"Change a %s\") ,  _(\"Changes a rest at cursor position\\nSets prevailing rhythm to %s\"), ChangeRest%d);\n", i, i, RESTCHARS[i], NOTECHARS[i], i);
 
-      fprintf (register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Set%d\"), \"Set%d\", _(\"Set Prevailing Duration to %s\"), _(\"Set the prevailing duration to %s (subsequent notes entered will have this duration)\"), SetDur%d);\n", i, i, NOTECHARS[i], NOTECHARS[i], i);
+      fprintf (register_commands, "register_command(\"Set%d\", _(\"Set Prevailing Duration to %s\"), _(\"Set the prevailing duration to %s (subsequent notes entered will have this duration)\"), SetDur%d);\n", i, NOTECHARS[i], NOTECHARS[i], i);
 
       fprintf (register_commands, "\n#undef NOTE%d\n", i);
       fprintf (register_commands, "\n#undef REST%d\n", i);

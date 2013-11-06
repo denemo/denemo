@@ -61,7 +61,7 @@ keymap *allocate_keymap (void);
 
 void free_keymap (keymap * the_keymap);
 
-void register_command (keymap * the_keymap, GtkAction * action, gchar * name, gchar * label, gchar * tooltip, gpointer callback);
+void register_command (gchar * name, gchar * label, gchar * tooltip, gpointer callback);
 void register_command_row(keymap* the_keymap, command_row* command);
 
 void alphabeticalize_commands (keymap * the_keymap);
