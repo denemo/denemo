@@ -11032,18 +11032,18 @@ create_window (void)
  
   // This section creates an hbox and places it in the main vbox. Inside this hbox are placed a status bar and a label.
   // The status bar is not properly used within Denemo, and could just as well be a label too.
-  Denemo.statusbar = gtk_statusbar_new ();
-  gtk_widget_set_tooltip_text (Denemo.statusbar, _("This bar shows:\nPending ♯ or ♭ sign (if the next note entered will be sharpened or flattened)\nThe movement number\nDescription of the object at the Denemo cursor\nPosition and status (appending or inserting) of the cursor.\nIf the Playback Controls are visible then the timing of the object at the cursor is shown.\nIf MIDI in controls are visible the current enharmonic range is shown.\nWhen the first key of a two-key shortcut is pressed the possible continuations are shown here."));
-#if GTK_MAJOR_VERSION == 3
+  Denemo.statuslabel = gtk_label_new ("");
+  gtk_widget_set_tooltip_text (Denemo.statuslabel, _("This bar shows:\nPending ♯ or ♭ sign (if the next note entered will be sharpened or flattened)\nThe movement number\nDescription of the object at the Denemo cursor\nPosition and status (appending or inserting) of the cursor.\nIf the Playback Controls are visible then the timing of the object at the cursor is shown.\nIf MIDI in controls are visible the current enharmonic range is shown.\nWhen the first key of a two-key shortcut is pressed the possible continuations are shown here."));
+#if GTK_MAJOR_VERSION == 2
 	hbox = gtk_hpaned_new ();
 #else
 	hbox = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
 #endif
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
-  gtk_paned_add1 (GTK_PANED (hbox), Denemo.statusbar);
-  gtk_widget_show (Denemo.statusbar);
-  Denemo.status_context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (Denemo.statusbar), "Denemo");
-  gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id, "Denemo");
+  gtk_paned_add1 (GTK_PANED (hbox), Denemo.statuslabel);
+  gtk_widget_show (Denemo.statuslabel);
+  //Denemo.status_context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (Denemo.statusbar), "Denemo");
+  //gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id, "Denemo");
   Denemo.input_source = gtk_label_new (_("No MIDI filter"));
   gtk_widget_set_tooltip_text (Denemo.input_source, _("This area shows which MIDI filters are active. It can also be used by commands to pass information to the user"));
   gtk_widget_show (Denemo.input_source);
