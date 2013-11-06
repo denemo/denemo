@@ -158,7 +158,16 @@ position_source_window (EvView * view)
   return FALSE;
 }
 
-
+static gchar *locate_file (gchar *filename) {
+	if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {	
+	 gchar *basename = g_path_get_basename(filename);
+	 gchar *pathdir = g_path_get_dirname (Denemo.gui->filename->str);
+	 filename = g_build_filename (pathdir, basename, NULL);
+	 g_free(basename);
+	 g_free(pathdir);
+	}
+	return filename;
+}
 static EvView *
 get_view (gchar * filename)
 {
@@ -166,6 +175,7 @@ get_view (gchar * filename)
   GError *err = NULL;
   EvView *view = NULL;
   GList *g;
+  filename = locate_file (filename);
   for (g = theviews; g; g = g->next)
     if (!strcmp (((fileview *) g->data)->filename, filename))
       return (((fileview *) g->data)->view);
