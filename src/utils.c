@@ -1908,8 +1908,8 @@ write_status (DenemoGUI * gui)
     }
 
   g_free (selection);
-  gtk_statusbar_pop (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);
-  gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id, status->str);
+  
+  gtk_label_set_text (GTK_LABEL (Denemo.statuslabel), status->str);
   g_string_free (status, TRUE);
   drop_object_info ();
 }

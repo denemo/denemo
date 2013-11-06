@@ -272,8 +272,8 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
           g_string_free (continuations, TRUE);
           if (Denemo.prefs.immediateplayback)
               play_note (DEFAULT_BACKEND, 0, 9, 61, 300, 127 * Denemo.gui->si->master_volume);
-          gtk_statusbar_pop (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);
-          gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id, prefix_store->str);
+          //gtk_statusbar_pop (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);
+          gtk_label_set_text (GTK_LABEL (Denemo.statuslabel), prefix_store->str);
           g_string_assign (prefix_store, name);
           if (Denemo.prefs.learning)
             {
@@ -530,7 +530,7 @@ default_mode (DenemoGUI * gui)
 {
   gui->mode ^= TRAVERSE;
   if (gui->mode & TRAVERSE)
-    gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id, "Read Only");
+    gtk_label_set_text (GTK_LABEL (Denemo.statuslabel), "Read Only");
   g_print ("Mode %d\n", gui->mode);
   displayhelper (gui);
 }

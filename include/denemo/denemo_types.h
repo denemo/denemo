@@ -1101,11 +1101,10 @@ struct DenemoRoot
   GtkActionGroup *action_group;/*< The action group for the actions that are Denemo commands */
   DenemoGUI *gui; /**< The current gui */
   GtkWidget *notebook;/**< contains the gui.page widgets */
-  GtkWidget *statusbar;
+  GtkWidget *statuslabel;/**< label that appears at bottom left of main window to describe cursor position in score */
   GtkWidget *playback_control;/**< frame containing controls for playback */
   GtkWidget *midi_in_control;/**< frame containing controls for midi in */
   GtkWidget *audio_vol_control;/**< hbox containing vol control for source audio */
-  gint status_context_id;
   GtkWidget *input_source; /**< A label widget advising of source of external input */
   GString *input_filters; /**< Description of any filters operating on external input */
   GtkWidget *menubar;/**< Main menubar to giving load/save play etc functionality */
