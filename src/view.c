@@ -5894,7 +5894,6 @@ create_scheme_identfiers (void)
   /* create scheme functions d-<name> for all the menuitem callbacks of <name> that are not check/radio items
      The scheme functions are defined to take one optional parameter which by denemo convention will be a String type,
      not necessarily null terminated, which is then passed as a GString * to the callback routines (with the first parameter, the GtkAction*, passed as NULL.
-     Note that all such actions (that may be called back by scheme directly in this fashion) are given the attribute "scm" with value 1; I do not think this is being exploited in the code at present, and is perhaps not needed.
    */
 #include "generated/scheme.h"
   init_denemo_notenames ();
