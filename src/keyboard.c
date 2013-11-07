@@ -264,9 +264,6 @@ create_command(command_row *command)
     // Note the script should *not* be in Default.cmdset
     // to delay loading it, but we should set the signal initally and we should not repeat setting the signal later.
     // the signal does not specify which script will be run, that is decided lazily, when the action is invoked for the first time
-
-    if (command->hidden)
-      g_object_set_data (G_OBJECT (command->action), "deleted", (gpointer) TRUE);      //Mark hidden items as deleted on loading them
   }
   
   // we are not as yet re-writing tooltips etc on builtin commands

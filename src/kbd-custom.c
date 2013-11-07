@@ -1726,18 +1726,6 @@ command_hidden_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRend
   g_object_set (renderer, "active", row->hidden, NULL);
 }
 
-/* UNUSED
-static void
-command_deleted_data_function (GtkTreeViewColumn * col, GtkCellRenderer * renderer, GtkTreeModel * model, GtkTreeIter * iter, gpointer user_data)
-{
-  KeymapCommandType type;
-  gpointer action;
-  gboolean deleted;
-  gtk_tree_model_get (model, iter, COL_TYPE, &type, COL_ACTION, &action, -1);
-  deleted = g_object_get_data (G_OBJECT (action), "deleted") ? TRUE : FALSE;
-  g_object_set (renderer, "active", deleted, NULL);
-}
-*/
 static gboolean search_tooltip=1;//implemented as searching substrings in tooltip, could be a level of match, for number of words present in tooltip & label
 static gint last_idx=-1;//implemented as last found idx
 static gboolean
@@ -1790,21 +1778,6 @@ toggle_hidden_on_action (G_GNUC_UNUSED GtkCellRendererToggle * cell_renderer, gc
     }
 }
 
-/*toggle deleted on action at row in command list */
-/* UNUSED
-static void
-toggle_deleted_on_action (GtkCellRendererToggle * cell_renderer, gchar * path)
-{
-  gint command_id = atoi (path);
-  GtkAction *action = (GtkAction *) lookup_action_from_idx (Denemo.map, command_id);
-  if (GTK_IS_ACTION (action))
-    {
-      gboolean deleted = (g_object_get_data (G_OBJECT (action), "deleted") != NULL);
-      //set_visibility_for_action(action, deleted);
-      g_object_set_data (G_OBJECT (action), "deleted", (gboolean *) (intptr_t) ! deleted);
-    }
-}
-*/
 extern GtkWidget *get_command_view();
 static void
 search_next (GtkWidget *SearchEntry)

@@ -454,7 +454,6 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
       keymap_get_command_row (the_keymap, &row, i);
         
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
-      gboolean deleted = (gboolean) (action ? GPOINTER_TO_INT (g_object_get_data (action, "deleted")) : 0);
       gchar *name = (gchar *) lookup_name_from_idx (the_keymap, i);
 
       basename = gtk_action_get_name (action);
@@ -487,7 +486,7 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
       xmlNewTextChild (child, NULL, COMMANDXML_TAG_ACTION, (xmlChar *) name);
       if (row->after)
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_AFTER, (xmlChar *) row->after);
-      if (deleted)              //store as hidden in commands file
+      if (row->deleted)              //store as hidden in commands file
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, (xmlChar *) "true");
 
       if(!is_action_name_builtin(name))
@@ -544,8 +543,7 @@ save_xml_keybindings (gchar * filename)
       keymap_get_command_row (the_keymap, &row, i);
       
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
-      gboolean deleted = (gboolean) (action ? GPOINTER_TO_INT (g_object_get_data (action, "deleted")) : 0);
-      if (deleted && !is_action_id_builtin(i))
+      if (row->deleted && !is_action_id_builtin(i))
         continue;
       if (row->hidden || command_has_binding (i))
         {
