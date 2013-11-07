@@ -108,6 +108,9 @@ command_row_init(command_row *command)
   command->type = KeymapEntry;
   command->script_type = COMMAND_BUILTIN;
   command->locations = NULL;
+  command->after = NULL;
+  command->fallback = NULL;
+  command->menupath = NULL;
 }
 
 void

@@ -377,6 +377,9 @@ typedef struct command_row
   gboolean deleted;
   gint script_type;
   GList* locations;
+  gchar* after;
+  gchar* fallback;
+  gchar* menupath;
 } command_row;
 
 typedef enum{

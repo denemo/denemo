@@ -27,7 +27,8 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
 {
   command_row* command = g_malloc(sizeof(command_row));
   command_row_init(command);
-  xmlChar *after = NULL, *type = NULL;
+  command->fallback = fallback;
+  xmlChar *type = NULL;
 
   type = xmlGetProp(cur, COMMANDXML_TAG_TYPE);
   if(type && 0 == xmlStrcmp (type, COMMAND_TYPE_SCHEME))
@@ -64,7 +65,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_AFTER))
         {
-          after = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          command->after = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_TOOLTIP))
         {
@@ -72,7 +73,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
         }
       else g_warning("Found XML tag %s reading a .commands file", cur->name);
     }
-  create_command((gchar*) after, fallback, command);
+  create_command(command);
 }
 
 static void

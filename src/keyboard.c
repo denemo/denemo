@@ -215,11 +215,8 @@ add_ui (gchar * menupath, gchar * after, gchar * name)
 }
 
 void
-create_command(gchar* after,
-               gchar* fallback,
-               command_row *command)
+create_command(command_row *command)
 {
-  gchar* menupath = NULL;
   if (command->script_type == COMMAND_SCHEME)
   {
     gboolean new_command = FALSE;
@@ -233,8 +230,8 @@ create_command(gchar* after,
 
       if (command->hidden)
         g_object_set_data (G_OBJECT (command->action), "hidden", (gpointer) TRUE);
-      if (after)
-        g_object_set_data (G_OBJECT (command->action), "after", (gpointer) after);
+      if (command->after)
+        g_object_set_data (G_OBJECT (command->action), "after", (gpointer) command->after);
       register_command_row (Denemo.map, command);
       GtkActionGroup *action_group;
       // GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
@@ -249,19 +246,19 @@ create_command(gchar* after,
       GList *g = NULL;
       for (g = command->locations; g; g = g->next)
       {
-        menupath = (gchar *) g->data;
-        menupath = menupath ? menupath : (gchar *) "/MainMenu/Other";
-        add_ui (menupath, after, command->name);
+        command->menupath = (gchar *) g->data;
+        command->menupath = command->menupath ? command->menupath : (gchar *) "/MainMenu/Other";
+        add_ui (command->menupath, command->after, command->name);
       }
     }
-    else if (fallback)
+    else if (command->fallback)
     {           
       /* no path given, use fallback */
-      menupath = fallback;
-      add_ui (menupath, after, command->name);
+      command->menupath = command->fallback;
+      add_ui (command->menupath, command->after, command->name);
     }
 
-    g_object_set_data (G_OBJECT (command->action), "menupath", menupath);
+    g_object_set_data (G_OBJECT (command->action), "menupath", command->menupath);
 
     if (new_command)
       g_signal_connect (G_OBJECT (command->action), "activate", G_CALLBACK (activate_script), NULL);
