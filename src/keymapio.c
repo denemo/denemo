@@ -434,6 +434,7 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
   const gchar *basename = NULL;
   gchar* dir = NULL;
   doc = xmlNewDoc ((xmlChar *) "1.0");
+  command_row* row;
   doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, COMMANDXML_TAG_ROOT, NULL);
 
   child = xmlNewChild (parent, NULL, COMMANDXML_TAG_MERGE, NULL);
@@ -450,8 +451,9 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
 
   for (i = 0; i < keymap_size (the_keymap); i++)
     {
+      keymap_get_command_row (the_keymap, &row, i);
+        
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
-      gchar *after = action ? g_object_get_data (action, "after") : NULL;
       gboolean deleted = (gboolean) (action ? GPOINTER_TO_INT (g_object_get_data (action, "deleted")) : 0);
       gchar *name = (gchar *) lookup_name_from_idx (the_keymap, i);
 
@@ -483,8 +485,8 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
       child = xmlNewChild (parent, NULL, COMMANDXML_TAG_ROW, NULL);
 
       xmlNewTextChild (child, NULL, COMMANDXML_TAG_ACTION, (xmlChar *) name);
-      if (after)
-        xmlNewTextChild (child, NULL, COMMANDXML_TAG_AFTER, (xmlChar *) after);
+      if (row->after)
+        xmlNewTextChild (child, NULL, COMMANDXML_TAG_AFTER, (xmlChar *) row->after);
       if (deleted)              //store as hidden in commands file
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, (xmlChar *) "true");
 

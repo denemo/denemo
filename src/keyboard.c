@@ -192,8 +192,6 @@ add_ui (gchar * menupath, gchar * after, gchar * name)
     {
       instantiate_menus (menupath);
     }
-  //We place the item after the "after" item in the menupath, unless that isn't yet
-  //installed, in which case we just append to the menu
   gchar *menupath_item = g_build_filename (menupath, after, NULL);
   GtkAction *sibling = gtk_ui_manager_get_action (Denemo.ui_manager, menupath_item);
 #ifdef DEBUG
@@ -230,13 +228,10 @@ create_command(command_row *command)
 
       if (command->hidden)
         g_object_set_data (G_OBJECT (command->action), "hidden", (gpointer) TRUE);
-      if (command->after)
-        g_object_set_data (G_OBJECT (command->action), "after", (gpointer) command->after);
+
       register_command_row (Denemo.map, command);
-      GtkActionGroup *action_group;
-      // GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
-      action_group = Denemo.action_group;
-      gtk_action_group_add_action (action_group, command->action);
+
+      gtk_action_group_add_action (Denemo.action_group, command->action);
       // create a scheme function to call this script
       create_scheme_function_for_script (command->name);
     }

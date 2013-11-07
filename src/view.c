@@ -8795,8 +8795,11 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
 {
   gchar *name = (gchar *) gtk_action_get_name (action);
   gchar *menupath = g_object_get_data (G_OBJECT (action), "menupath");
-  gchar *after = g_object_get_data (G_OBJECT (action), "after");
   gint idx = lookup_command_from_name (Denemo.map, name);
+  
+  command_row* row = NULL;
+  keymap_get_command_row (Denemo.map, &row, idx);
+  
   gchar *tooltip = (gchar *) lookup_tooltip_from_idx (Denemo.map, idx);
   gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
   
@@ -8814,7 +8817,7 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
       gchar *dirpath = g_path_get_dirname (xml_path);
       g_mkdir_with_parents (dirpath, 0770);
       g_free (dirpath);
-      save_command_metadata (xml_filename, name, label, tooltip, after);
+      save_command_metadata (xml_filename, name, label, tooltip, row->after);
       save_command_data(scm_path, scheme);
       g_object_set_data (G_OBJECT (action), "scheme", (gpointer) "");
       load_command_data (action);
@@ -8833,8 +8836,10 @@ uploadMenuItem (GtkWidget * widget, GtkAction * action)
 {
   gchar *name = (gchar *) gtk_action_get_name (action);
   gchar *menupath = g_object_get_data (G_OBJECT (action), "menupath");
-  gchar *after = g_object_get_data (G_OBJECT (action), "after");
   gint idx = lookup_command_from_name (Denemo.map, name);
+  
+  command_row* row = NULL;
+  keymap_get_command_row (the_keymap, &row, idx);
   gchar *tooltip = (gchar *) lookup_tooltip_from_idx (Denemo.map, idx);
   gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
 
@@ -8856,7 +8861,7 @@ uploadMenuItem (GtkWidget * widget, GtkAction * action)
     script = "";
 
 
-  upload_scripts (name, script, init_script, xml, menupath, label, tooltip, after);
+  upload_scripts (name, script, init_script, xml, menupath, label, tooltip, row->after);
 
 }
 #endif
