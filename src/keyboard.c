@@ -195,24 +195,13 @@ add_ui (gchar * menupath, gchar * after, gchar * name)
 {
   GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, menupath);
   if (widget == NULL)
-    {
-      instantiate_menus (menupath);
-    }
+    instantiate_menus (menupath);
   gchar *menupath_item = g_build_filename (menupath, after, NULL);
   GtkAction *sibling = gtk_ui_manager_get_action (Denemo.ui_manager, menupath_item);
 #ifdef DEBUG
-  if ((after != NULL) & (sibling == NULL))
-    {
-      static gboolean once = TRUE;
-      if (once)
-        {
-          gchar *msg = g_strdup_printf ("Cannot place %s after %s as requested, because I haven't seen %s yete To fix this delete the %s command save the command set, quit and restart Denemo, then re-install %s by right clicking on the %s item and choosing More Commands and finally saving command set again.", name, after, after, name, name, after);
-          // infodialog(msg);
-          g_warning ("%s", msg);
-          g_free (msg);
-          //once = FALSE;
-        }
-    }
+  static gboolean once = TRUE;
+  if ((after != NULL) && (sibling == NULL) && once)
+    g_warning ("Cannot place %s after %s as requested, because I haven't seen %s yet. To fix this delete the %s command save the command set, quit and restart Denemo, then re-install %s by right clicking on the %s item and choosing More Commands and finally saving command set again.", name, after, after, name, name, after);
 #endif
   gtk_ui_manager_add_ui (Denemo.ui_manager, gtk_ui_manager_new_merge_id (Denemo.ui_manager), sibling ? menupath_item : menupath, name, name, GTK_UI_MANAGER_AUTO, FALSE);
   g_free (menupath_item);
@@ -223,11 +212,11 @@ create_command(command_row *command)
 {
   if (command->script_type == COMMAND_SCHEME)
   {
-    gboolean new_command = FALSE;
-    command->action = lookup_action_from_name (command->name);
-    if (command->action == NULL)
+    gboolean new_command = !g_hash_table_contains(Denemo.map->commands, command->name);
+    if (!new_command)
+      command->action = lookup_action_from_name (command->name);
+    else
     {
-      new_command = TRUE;
       gchar *icon_name = get_icon_for_name (command->name, command->label);
       command->action = gtk_action_new (command->name, command->label, command->tooltip, icon_name);
       command->callback = activate_script;
@@ -244,14 +233,12 @@ create_command(command_row *command)
       GList *g = NULL;
       for (g = command->locations; g; g = g->next)
       {
-        command->menupath = (gchar *) g->data;
-        command->menupath = command->menupath ? command->menupath : (gchar *) "/MainMenu/Other";
+        command->menupath = (gchar *) (g->data ?: "/MainMenu/Other");
         add_ui (command->menupath, command->after, command->name);
       }
     }
     else if (command->fallback)
     {           
-      /* no path given, use fallback */
       command->menupath = command->fallback;
       add_ui (command->menupath, command->after, command->name);
     }

@@ -5908,7 +5908,6 @@ init_keymap (void)
   if (Denemo.map)
     free_keymap (Denemo.map);
   Denemo.map = allocate_keymap ();
-  GtkActionGroup *action_group = Denemo.action_group;
 #include "generated/register_commands.h"
 }
 
@@ -10671,7 +10670,6 @@ static void
 create_window (void)
 {
   GtkWidget *outer_main_vbox, *main_hbox, *main_vbox, *menubar, *toolbar, *hbox;
-  GtkActionGroup *action_group;
   GtkUIManager *ui_manager;
   GError *error;
   gchar *denemoui_path = NULL;
@@ -10708,21 +10706,21 @@ create_window (void)
   gtk_container_add (GTK_CONTAINER (Denemo.window), outer_main_vbox);
   gtk_widget_show (outer_main_vbox);
 
-  Denemo.action_group = action_group = gtk_action_group_new ("MenuActions");
-  gtk_action_group_set_translation_domain (action_group, NULL);
+  Denemo.action_group = gtk_action_group_new ("MenuActions");
+  gtk_action_group_set_translation_domain (Denemo.action_group, NULL);
   /* This also sets current Denemo.gui as the  callback data for all the functions in the
    * menubar, which is not needed since we have only one set of actions for all
    the guis. We will always act on Denemo.gui anyway.*/
-  gtk_action_group_add_actions (action_group, menu_entries, G_N_ELEMENTS (menu_entries), Denemo.gui);
-  gtk_action_group_add_toggle_actions (action_group, toggle_menu_entries, G_N_ELEMENTS (toggle_menu_entries), Denemo.gui);
-  gtk_action_group_add_radio_actions (action_group, mode_menu_entries, G_N_ELEMENTS (mode_menu_entries), INPUTINSERT /* initial value */ ,
+  gtk_action_group_add_actions (Denemo.action_group, menu_entries, G_N_ELEMENTS (menu_entries), Denemo.gui);
+  gtk_action_group_add_toggle_actions (Denemo.action_group, toggle_menu_entries, G_N_ELEMENTS (toggle_menu_entries), Denemo.gui);
+  gtk_action_group_add_radio_actions (Denemo.action_group, mode_menu_entries, G_N_ELEMENTS (mode_menu_entries), INPUTINSERT /* initial value */ ,
                                       G_CALLBACK (change_mode), Denemo.gui);
 
 
-  gtk_action_group_add_radio_actions (action_group, type_menu_entries, G_N_ELEMENTS (type_menu_entries), INPUTNORMAL /* initial value */ ,
+  gtk_action_group_add_radio_actions (Denemo.action_group, type_menu_entries, G_N_ELEMENTS (type_menu_entries), INPUTNORMAL /* initial value */ ,
                                       G_CALLBACK (change_entry_type), Denemo.gui);
 
-  gtk_action_group_add_radio_actions (action_group, input_menu_entries, G_N_ELEMENTS (input_menu_entries), have_midi ()? INPUTMIDI : INPUTKEYBOARD /* initial value */ ,
+  gtk_action_group_add_radio_actions (Denemo.action_group, input_menu_entries, G_N_ELEMENTS (input_menu_entries), have_midi ()? INPUTMIDI : INPUTKEYBOARD /* initial value */ ,
                                       G_CALLBACK (change_input_type), NULL);
 
 
@@ -10731,7 +10729,7 @@ create_window (void)
   ui_manager = gtk_ui_manager_new ();
   Denemo.ui_manager = ui_manager;
   gtk_ui_manager_set_add_tearoffs (Denemo.ui_manager, TRUE);
-  gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+  gtk_ui_manager_insert_action_group (ui_manager, Denemo.action_group, 0);
 
   g_signal_connect (G_OBJECT (Denemo.ui_manager), "connect-proxy", G_CALLBACK (proxy_connected), NULL);
 

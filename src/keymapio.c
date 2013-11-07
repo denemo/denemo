@@ -80,7 +80,7 @@ static void
 parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 {
 
-  xmlChar *name;                //keyval variables
+  xmlChar *name = NULL;                //keyval variables
   gint command_number = -1;
   guint keyval = 0;
   GdkModifierType state = 0;
@@ -97,7 +97,6 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
             {
               name = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
               show_action_of_name ((gchar*) name);
-              g_debug ("Action %s\n", (gchar *) name);
             }
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_HIDDEN))

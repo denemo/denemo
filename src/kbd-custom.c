@@ -659,7 +659,7 @@ register_command (gchar * name, gchar * label, gchar * tooltip, gpointer callbac
   command->label = label;
   command->tooltip = tooltip;
   command->callback = callback;
-  command->action = gtk_action_group_get_action(Denemo.action_group, name);;
+  command->action = gtk_action_group_get_action(Denemo.action_group, name);
   register_command_row(Denemo.map, command);
 }
 
@@ -1055,9 +1055,8 @@ update_accel_labels (keymap * the_keymap, guint command_id)
 	  markup = g_strdup (escape_base);
   g_free (escape_base);
 
-  action = gtk_action_group_get_action (Denemo.action_group, command_name);
   //For all widgets proxying the action, change the label
-  GSList *h = gtk_action_get_proxies (action);
+  GSList *h = gtk_action_get_proxies (row->action);
   for (; h; h = h->next)
     {
       GtkWidget *widget = h->data;
@@ -1989,16 +1988,10 @@ keymap_cleanup_command_view (keyboard_dialog_data * data)
 }
 const gchar *
 get_menu_label (gchar *name)
-{ const gchar *label = NULL;
-  GtkAction *action = gtk_action_group_get_action (Denemo.action_group, name);
-  if(action) 
-  {
-	label = gtk_action_get_label (action);
-
-   }
- if(!label) 
-		label = name;
- return label;  
+{ 
+  gint* idx = (gint*) g_hash_table_lookup(Denemo.map->idx_from_name, name);
+  command_row* row = g_hash_table_lookup(Denemo.map->commands, *idx);
+  return row->label ?: name;  
 }
 
 /* caller must free */
