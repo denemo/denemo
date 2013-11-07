@@ -10558,7 +10558,7 @@ static void
 proxy_connected (GtkUIManager * uimanager, GtkAction * action, GtkWidget * proxy)
 {
   int command_idx;
-
+  command_row* row;
   attach_right_click_callback (proxy, action);
   const gchar *tooltip = gtk_action_get_tooltip (action);
   const gchar *additional_text;
@@ -10588,16 +10588,13 @@ proxy_connected (GtkUIManager * uimanager, GtkAction * action, GtkWidget * proxy
     return;
   command_idx = lookup_command_from_name (Denemo.map, gtk_action_get_name (action));
 
-
-  if (command_idx != -1)
+  if (command_idx > -1){
+    keymap_get_command_row (Denemo.map, &row, command_idx);
     update_accel_labels (Denemo.map, command_idx);
-  //  else //not an error, it occurs for menus being loaded
-  //   g_warning("%s is not yet in map\n",  gtk_action_get_name(action));
-  gboolean hidden = (gboolean) GPOINTER_TO_INT ((action ? g_object_get_data (G_OBJECT (action), "hidden") : NULL));
-  if (hidden)
-    {
+
+    if (row->hidden)
       set_visibility_for_action (action, FALSE);
-    }
+  }
 }
 
 

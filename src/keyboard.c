@@ -165,7 +165,13 @@ set_visibility_for_action (GtkAction * action, gboolean visible)
           else
             gtk_widget_hide (h->data);
         }
-      g_object_set_data (G_OBJECT (action), "hidden", GINT_TO_POINTER (!visible));
+      command_row* row = NULL;
+      const gchar* name = gtk_action_get_name(action);
+      gint id = lookup_command_from_name (Denemo.map, name);
+      if(id < 0)
+        g_error("Invalid command name:'%s' id:'%i'", name, id);
+      keymap_get_command_row (Denemo.map, &row, id);
+      row->hidden = !visible;
     }
 
 }
@@ -225,10 +231,7 @@ create_command(command_row *command)
       gchar *icon_name = get_icon_for_name (command->name, command->label);
       command->action = gtk_action_new (command->name, command->label, command->tooltip, icon_name);
       command->callback = activate_script;
-
-      if (command->hidden)
-        g_object_set_data (G_OBJECT (command->action), "hidden", (gpointer) TRUE);
-
+      
       register_command_row (Denemo.map, command);
 
       gtk_action_group_add_action (Denemo.action_group, command->action);

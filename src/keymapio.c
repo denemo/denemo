@@ -541,23 +541,23 @@ save_xml_keybindings (gchar * filename)
 
   for (i = 0; i < keymap_size (the_keymap); i++)
     {
+      keymap_get_command_row (the_keymap, &row, i);
+      
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
       gboolean deleted = (gboolean) (action ? GPOINTER_TO_INT (g_object_get_data (action, "deleted")) : 0);
-      gboolean hidden = (gboolean) (action ? GPOINTER_TO_INT (g_object_get_data (action, "hidden")) : 0);
       if (deleted && !is_action_id_builtin(i))
         continue;
-      if (hidden || command_has_binding (i))
+      if (row->hidden || command_has_binding (i))
         {
           child = xmlNewChild (parent, NULL, COMMANDXML_TAG_ROW, NULL);
 
           gchar *name = (gchar *) lookup_name_from_idx (the_keymap, i);
           g_debug ("%s %s binding(s) \n", name, command_has_binding (i) ? "has" : "does not have");
           xmlNewTextChild (child, NULL, COMMANDXML_TAG_ACTION, (xmlChar *) name);
-          if (hidden)
+          if (row->hidden)
             xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, (xmlChar *) "true");
 
-          if (keymap_get_command_row (the_keymap, &row, i) && row)
-            g_list_foreach(row->bindings, (GFunc) write_xml_keybinding_info, child);   
+          g_list_foreach(row->bindings, (GFunc) write_xml_keybinding_info, child);   
         }
     }
 

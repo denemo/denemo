@@ -1717,12 +1717,13 @@ label_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRenderer * re
 static void
 command_hidden_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRenderer * renderer, GtkTreeModel * model, GtkTreeIter * iter, G_GNUC_UNUSED gpointer user_data)
 {
-  KeymapCommandType type;
-  gpointer action;
-  gboolean hidden;
-  gtk_tree_model_get (model, iter, COL_TYPE, &type, COL_ACTION, &action, -1);
-  hidden = g_object_get_data (G_OBJECT (action), "hidden") ? TRUE : FALSE;
-  g_object_set (renderer, "active", hidden, NULL);
+  command_row* row = NULL;
+  gchar* name = NULL;
+  gtk_tree_model_get (model, iter, COL_NAME, &name, -1);
+  gint id = lookup_command_from_name (Denemo.map, name);
+  keymap_get_command_row (Denemo.map, &row, id);
+  
+  g_object_set (renderer, "active", row->hidden, NULL);
 }
 
 /* UNUSED
@@ -1778,12 +1779,14 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
 static void
 toggle_hidden_on_action (G_GNUC_UNUSED GtkCellRendererToggle * cell_renderer, gchar * path)
 {
+  command_row* row = NULL;
   gint command_id = atoi (path);
-  GtkAction *action = (GtkAction *) lookup_action_from_idx (Denemo.map, command_id);
+  GtkAction *action = (GtkAction *) lookup_action_from_idx (Denemo.map, command_id);  
+  keymap_get_command_row (Denemo.map, &row, command_id);
+  
   if (GTK_IS_ACTION (action))
     {
-      gboolean hidden = (g_object_get_data (G_OBJECT (action), "hidden") != NULL);
-      set_visibility_for_action (action, hidden);
+      set_visibility_for_action (action, row->hidden);
     }
 }
 
