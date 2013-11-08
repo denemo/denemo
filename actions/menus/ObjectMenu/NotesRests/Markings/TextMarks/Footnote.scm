@@ -1,7 +1,11 @@
 ;;;Footnote
 (let ((tag "Footnote"))
 	(define (set-footnote mark text)
-		(d-DirectivePut-note-prefix tag (string-append "\\override Score.FootnoteItem #'annotation-line = ##f \\footnote \"" mark "\" #'(-1 . 3.5) \\markup { \\super \"" mark "\" \\teeny \"" text "\"} "))
+		(d-Chordize #t)
+		
+		(d-DirectivePut-chord-prefix tag "\\override Score.FootnoteItem #'annotation-line = ##f ")
+		(d-DirectivePut-chord-override tag DENEMO_OVERRIDE_AFFIX)
+		(d-DirectivePut-note-prefix tag (string-append "\\footnote \"" mark "\" #'(0 . 3.5) \\markup { \\super \"" mark "\" \\teeny \"" text "\"} "))
 		(d-DirectivePut-note-display tag (string-append (_ "Fn") "\n" mark "\n" text))
 		(d-DirectivePut-note-ty tag -30) 
 		(d-RefreshDisplay)
@@ -11,6 +15,8 @@
 			(set! text (d-GetUserInput  (_ "Footnote") (_ "Give footnote text") text))
 			(if (and mark text)
 			(set-footnote mark text)))
+	(if (Appending?)
+		(d-MoveCursorLeft))
 	(if (or (Chord?) (Note?))
 		(if (d-Directive-note? tag)
 			(let ((choice #f) (current (d-DirectiveGet-note-display tag)))
@@ -22,10 +28,9 @@
 				(disp "Now got choice " choice " ok\n")
 				(case choice
 					((edit) (choose-footnote mark text))
-					((delete) (d-DirectiveDelete-note tag))
+					((delete) (begin (d-DirectiveDelete-chord tag)(d-DirectiveDelete-note tag)))
 					((advanced) (d-DirectiveTextEdit-note tag))
 					(else (disp "A problem with eqv ..."))))
 			(let ()
 				(choose-footnote "*"(_ "Orig. "))))
 			(d-InfoDialog (_ "No note or chord at cursor to attach footnote to"))))
-			
