@@ -104,7 +104,7 @@ find_directive (GList * directives, gchar * tag)
       for (g = directives; g; g = g->next)
         {
           directive = (DenemoDirective *) g->data;
-          if (directive->tag && number ? g_str_has_prefix (directive->tag->str, tag) : !strcmp (tag, directive->tag->str))
+          if (directive->tag && (number ? g_str_has_prefix (directive->tag->str, tag) : !strcmp (tag, directive->tag->str)))
             {
               if (number == 0)
                 return directive;
