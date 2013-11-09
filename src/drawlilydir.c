@@ -32,14 +32,15 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
       //FIXME there may be scripts expecting a different positioning code
       drawbitmapinverse_cr (cr, (DenemoGraphic *) lily->graphic, xx + lily->gx - (((DenemoGraphic *) lily->graphic)->width) / 2, y + MID_STAFF_HEIGHT + lily->gy - (((DenemoGraphic *) lily->graphic)->height) / 2, FALSE);
     }
-  else
+ // else instead always show position of standalone directive
     {
-      cairo_rectangle (cr, xx /*-2*/ , y, 10, STAFF_HEIGHT);
+	  cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, at_cursor ? 1.0 : 0.5);
+      cairo_rectangle (cr, xx, y, 2, STAFF_HEIGHT);
       cairo_fill (cr);
     }
   if (lily->display)
     {                           //store display position x,y as well
-#define MAXLEN (8)
+#define MAXLEN (4)
       gchar c = 0;              //if it is a long string only show it all when cursor is on it, also only display from first line
       gchar *p;
       for (p = lily->display->str; *p; p++)
