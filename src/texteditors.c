@@ -365,10 +365,12 @@ create_editor_window (void)
   gtk_widget_show (menuBar);
   gtk_menu_shell_append (GTK_MENU_SHELL (menuBar), fileMenu);
 
-
+  GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 1);
+  gtk_box_pack_start (GTK_BOX (main_vbox), inner_hbox, FALSE, FALSE, 0);
   GtkWidget *wid = gtk_check_button_new ();
   gtk_activatable_set_related_action (GTK_ACTIVATABLE (wid), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/RecordScript"));
-  gtk_box_pack_start (GTK_BOX (main_vbox), wid, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (inner_hbox), wid, FALSE, FALSE, 0);
+  
   GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
