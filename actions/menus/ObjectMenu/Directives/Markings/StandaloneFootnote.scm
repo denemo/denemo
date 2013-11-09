@@ -5,7 +5,7 @@
 	(d-DirectivePut-standalone-postfix tag (string-append
 		"\\override Score.FootnoteItem #'annotation-line = ##f \\footnote \""
 		mark 
-		"\" #'(0 . 6) #'NonMusicalPaperColumn \\markup { \\super \"" mark "\" \\teeny \""
+		"\" #'(0 . 0) #'NonMusicalPaperColumn \\markup { \\super \"" mark "\" \\teeny \""
 		text 
 		"\"} \\default  "))
 	(d-DirectivePut-standalone-graphic tag (string-append "\n" mark "\nDenemo\n16"))
