@@ -10,6 +10,7 @@
 #include "scorelayout.h"
 #include <denemo/denemo.h>
 #include <string.h>
+#include <math.h>
 /**
  * Draw a standalone Denemo directive on the score as a vertical bar or graphic and/or text
  *
@@ -34,8 +35,14 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
     }
  // else instead always show position of standalone directive
     {
-	  cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, at_cursor ? 1.0 : 0.5);
-      cairo_rectangle (cr, xx, y, 2, STAFF_HEIGHT);
+		at_cursor?
+	  cairo_set_source_rgba (cr, 0.2 + exclude, 0.3 + only, 0.8, 0.5):
+	  cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, 0.5);
+	  
+	  
+      cairo_rectangle (cr, xx, y - 8, 2, STAFF_HEIGHT + 16);
+      cairo_arc (cr, xx + 1.5, y - 8, 6, 0.0, 2 * M_PI);
+
       cairo_fill (cr);
     }
   if (lily->display)
