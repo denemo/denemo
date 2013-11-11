@@ -574,7 +574,7 @@ update_playback_time (backend_timebase_prio_t prio, double new_time)
 }
 
 double
-get_playback_time ()
+get_playback_time (void)
 {
   return playback_time;
 }
