@@ -7528,7 +7528,7 @@ track_delete (smf_track_t * track)
 }
 
 void
-set_midi_in_status ()
+set_midi_in_status (void)
 {
   if (midi_in_status)
     {
@@ -7555,18 +7555,7 @@ set_midi_in_status ()
     }
 }
 
-void
-finish_recording (void)
-{
-  if ((Denemo.gui->midi_destination & MIDIRECORD))
-    {
-      Denemo.gui->midi_destination ^= MIDIRECORD;
-      g_print ("Showing");
-      gtk_widget_show (deletebutton);
-      gtk_widget_show (convertbutton);
-      set_midi_in_status ();
-    }
-}
+
 
 static void
 pb_conduct (GtkWidget * button)
@@ -7591,6 +7580,12 @@ pb_playalong (GtkWidget * button)
   set_midi_in_status ();
 }
 
+gboolean show_midi_record_control(void) {
+      gtk_widget_show (deletebutton);
+      gtk_widget_show (convertbutton);
+      set_midi_in_status ();
+      return FALSE;// stop timer callback
+ }
 static void
 pb_record (GtkWidget * button)
 {

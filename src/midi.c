@@ -150,6 +150,15 @@ update_playbutton_callback (gboolean paused)
   return FALSE;
 }
 
+static void
+finish_recording (void)
+{
+  if ((Denemo.gui->midi_destination & MIDIRECORD))
+    {
+      Denemo.gui->midi_destination ^= MIDIRECORD;
+      g_idle_add_full (G_PRIORITY_HIGH_IDLE, (GSourceFunc) show_midi_record_control, NULL, NULL);
+    }
+}
 void
 stop_playing ()
 {
@@ -883,7 +892,7 @@ handle_midi_event (gchar * buf)
       if (Denemo.gui->midi_destination & MIDIRECORD)
         record_midi (buf, get_playback_time ());
       if (Denemo.gui->midi_destination & (MIDIPLAYALONG))
-        advance_until_time (buf);
+        advance_until_time (buf);//FIXME is this thread-safe????
       else
         play_midi_event (DEFAULT_BACKEND, 0, (guchar *) buf);
     }
