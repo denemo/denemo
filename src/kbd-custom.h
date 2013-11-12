@@ -165,4 +165,5 @@ gboolean is_action_name_builtin(gchar* command_name);
 const gchar *get_menu_label (gchar *name);
 gchar *get_menu_position (gchar *menupath);
 void update_bindings_model(GtkListStore * model, GList* bindings);
+command_row* get_or_create_command(gchar* name);
 #endif

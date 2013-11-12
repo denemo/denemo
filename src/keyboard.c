@@ -212,7 +212,7 @@ create_command(command_row *command)
 {
   if (command->script_type == COMMAND_SCHEME)
   {
-    gboolean new_command = !g_hash_table_contains(Denemo.map->commands, command->name);
+    gboolean new_command = !g_hash_table_contains(Denemo.map->idx_from_name, command->name);
     if (!new_command)
       command->action = lookup_action_from_name (command->name);
     else
@@ -220,10 +220,10 @@ create_command(command_row *command)
       gchar *icon_name = get_icon_for_name (command->name, command->label);
       command->action = gtk_action_new (command->name, command->label, command->tooltip, icon_name);
       command->callback = activate_script;
+      gtk_action_group_add_action (Denemo.action_group, command->action);
       
       register_command_row (Denemo.map, command);
 
-      gtk_action_group_add_action (Denemo.action_group, command->action);
       // create a scheme function to call this script
       create_scheme_function_for_script (command->name);
     }

@@ -6916,91 +6916,98 @@ inner_main (void *files)
   }
 #endif
 
-	const char prog[] =
-  "(catch #t (lambda () (setlocale LC_ALL \"\")) (lambda _(display \"Locale not supported by the C library. Falling back to default \\\"C\\\" locale.\\n\"(current-error-port))))";
-	scm_c_eval_string (prog);
-
-//scm_setlocale( scm_variable_ref(scm_c_lookup("LC_ALL")), scm_from_locale_string("") );
-  /* Initialize preferences */
   initprefs ();
-
-  initialize_keystroke_help ();
-
-  // initialize the audio subsystem
-  if (audio_initialize (&Denemo.prefs))
-      g_error ("Failed to initialize audio or MIDI backends\n");
-
-  create_window ();
-  installPalettes ();
-
-  create_scheme_identfiers ();
-
-  if (Denemo.prefs.tooltip_timeout)
-    {
-      g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-timeout", Denemo.prefs.tooltip_timeout, NULL);
-      g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-browse-timeout", Denemo.prefs.tooltip_browse_timeout, NULL);
-      g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-browse-mode-timeout", Denemo.prefs.tooltip_browse_mode_timeout, NULL);
-    }
-
-  /*ignore setting of mode unless user has explicitly asked for modal use */
-  if (!Denemo.prefs.modal)
-    Denemo.prefs.mode = INPUTEDIT | INPUTRHYTHM | INPUTNORMAL;  //FIXME must correspond with default in prefops.c
-
-  if (Denemo.prefs.autoupdate)
-    fetchcommands (NULL, NULL);
-
-  gint i;
-  /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
-  for (i = 0; i < G_N_ELEMENTS (activatable_commands); i++)
-    {
-      gchar* function = g_strdup_printf (DENEMO_SCHEME_PREFIX "%s", activatable_commands[i].str);
-      install_scm_function (0, NULL, function, activatable_commands[i].p);
-      g_free(function);
-    }
-
-  //ensure (use-modules (ice-9 optargs)) is loaded first #:optional params
-  call_out_to_guile ("(use-modules (ice-9 optargs))");
-  init_keymap ();
-
-  load_default_keymap_file ();
-
-  Denemo.accelerator_status = FALSE;
-
-  define_scheme_constants ();
-
-  readHistory ();
-  populate_opened_recent_menu ();
-
-  load_scheme_init ();
-
-  gboolean file_loaded = load_files(files);
-
-  load_preferences ();
-
-  if (!file_loaded && !Denemo.scheme_commands)
-    {
-      gchar* code = g_strdup_printf("(d-InstrumentName \"%s\")", _("Unnamed"));
-      call_out_to_guile (code);
-      g_free(code);
-      denemo_scheme_init ();
-    }
-
-  gtk_key_snooper_install ((GtkKeySnoopFunc) dnm_key_snooper, NULL);
   
-  crash_recovery_check();
+  //GUI Initializations
+  {
+    initialize_keystroke_help ();
+
+    if (audio_initialize (&Denemo.prefs))
+        g_error ("Failed to initialize audio or MIDI backends\n");
+
+    create_window ();
+    installPalettes ();
+
+    if (Denemo.prefs.tooltip_timeout)
+      {
+        g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-timeout", Denemo.prefs.tooltip_timeout, NULL);
+        g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-browse-timeout", Denemo.prefs.tooltip_browse_timeout, NULL);
+        g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-browse-mode-timeout", Denemo.prefs.tooltip_browse_mode_timeout, NULL);
+      }
+
+    /*ignore setting of mode unless user has explicitly asked for modal use */
+    if (!Denemo.prefs.modal)
+      Denemo.prefs.mode = INPUTEDIT | INPUTRHYTHM | INPUTNORMAL;  //FIXME must correspond with default in prefops.c
+
+    if (Denemo.prefs.autoupdate)
+      fetchcommands (NULL, NULL);
+    
+    Denemo.accelerator_status = FALSE;
+  }
+
+  //Scheme initializations
+  {
+	  const char prog[] =
+    "(catch #t (lambda () (setlocale LC_ALL \"\")) (lambda _(display \"Locale not supported by the C library. Falling back to default \\\"C\\\" locale.\\n\"(current-error-port))))";
+	  scm_c_eval_string (prog);
+    //scm_setlocale( scm_variable_ref(scm_c_lookup("LC_ALL")), scm_from_locale_string("") );
+    create_scheme_identfiers ();
+    
+    gint i;
+    /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
+    for (i = 0; i < G_N_ELEMENTS (activatable_commands); i++)
+      {
+        gchar* function = g_strdup_printf (DENEMO_SCHEME_PREFIX "%s", activatable_commands[i].str);
+        install_scm_function (0, NULL, function, activatable_commands[i].p);
+        g_free(function);
+      }
+
+    //ensure (use-modules (ice-9 optargs)) is loaded first #:optional params
+    call_out_to_guile ("(use-modules (ice-9 optargs))");
+    init_keymap ();
+
+    define_scheme_constants ();
   
-  score_status (Denemo.gui, FALSE);
-  
+    load_default_keymap_file ();
+
+    load_scheme_init ();
+
+    gboolean file_loaded = load_files(files);
+
+    if (!file_loaded && !Denemo.scheme_commands)
+      {
+        gchar* code = g_strdup_printf("(d-InstrumentName \"%s\")", _("Unnamed"));
+        call_out_to_guile (code);
+        g_free(code);
+        denemo_scheme_init ();
+      }
+  }
+
+  //GUI related initializations
+  {
+    readHistory ();
+    populate_opened_recent_menu ();
+    
+    load_preferences ();
+    
+    gtk_key_snooper_install ((GtkKeySnoopFunc) dnm_key_snooper, NULL);
+    
+    crash_recovery_check();
+    
+    score_status (Denemo.gui, FALSE);
+    
+    if (Denemo.prefs.fontspec->len)
+      {
+        GtkSettings *settings = gtk_settings_get_default ();
+        gtk_settings_set_string_property (settings, "gtk-font-name", Denemo.prefs.fontspec->str, "denemo");
+      }
+
+    gtk_main ();
+  }
+
   if (Denemo.scheme_commands)
     call_out_to_guile (Denemo.scheme_commands);
-
-  if (Denemo.prefs.fontspec->len)
-    {
-      GtkSettings *settings = gtk_settings_get_default ();
-      gtk_settings_set_string_property (settings, "gtk-font-name", Denemo.prefs.fontspec->str, "denemo");
-    }
-
-  gtk_main ();
+  
   return NULL;
 }
 

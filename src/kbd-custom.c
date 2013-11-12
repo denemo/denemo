@@ -113,6 +113,27 @@ command_row_init(command_row *command)
   command->menupath = NULL;
 }
 
+command_row*
+get_or_create_command(gchar* name){
+  if(!Denemo.map)
+    g_error("Map is not instanciated");
+  command_row* command = NULL;
+  gint* idx = (gint*) g_hash_table_lookup(Denemo.map->idx_from_name, name);
+  if(idx)
+    command = (command_row*) g_hash_table_lookup(Denemo.map->commands, idx);
+  else{
+    command = (command_row*) g_malloc(sizeof(command_row));
+    command_row_init(command);
+    command->name = name;/*
+    idx = g_malloc(sizeof(gint));
+    *idx = g_hash_table_size(Denemo.map->commands);
+    g_hash_table_insert(Denemo.map->commands, idx, command);
+    g_hash_table_insert(Denemo.map->idx_from_name, name, idx);
+    g_free(idx);*/
+  }
+  return command;
+} 
+
 void
 dnm_clean_event (GdkEventKey * event)
 {
@@ -640,13 +661,15 @@ void register_command_row(keymap* the_keymap, command_row* command){
   if (g_hash_table_contains (the_keymap->commands, idx))
     g_debug ("Command %s is inserted more than once...\n", command->name);
 
-  //insert the information in the hashmap
-  g_hash_table_insert (the_keymap->commands, idx, command);
-  
-  //insert the command name in the index reference
-  g_hash_table_insert (the_keymap->idx_from_name, g_strdup (command->name), idx);
+  else{
+    //insert the information in the hashmap
+    g_hash_table_insert (the_keymap->commands, idx, command);
+    
+    //insert the command name in the index reference
+    g_hash_table_insert (the_keymap->idx_from_name, g_strdup (command->name), idx);
 
-  g_debug ("Inserting command %s %s %s %p  -> %i\n", command->name, command->label, command->tooltip, command->callback, idx);
+    g_debug ("Inserting command %s %s %s %p  -> %i\n", command->name, command->label, command->tooltip, command->callback, idx);
+  }
 }
 
 /* Used for compatibility with register_command.h */
@@ -1840,7 +1863,7 @@ commands_treemodel(keymap * the_keymap){
                                             G_TYPE_BOOLEAN,            //hidden
                                             G_TYPE_BOOLEAN,            //deleted
                                             G_TYPE_INT,                //type
-                                            G_TYPE_POINTER,                
+                                            G_TYPE_POINTER,            
                                             G_TYPE_POINTER             //row
                                            );
   g_hash_table_foreach(the_keymap->commands, command_from_hashtable_to_treemodel, list);

@@ -103,16 +103,6 @@ sigchld_handler (G_GNUC_UNUSED gint num)
 }
 #endif /* HAVE_SIGCHLD */
 
-
-/**
- * Handler used to print debug messages.
- */
-static void
-debug_handler (const gchar * log_domain, GLogLevelFlags log_level, const gchar * message, gpointer user_data)
-{
-  //g_debug ("%s",message);
-}
-
 static void
 append_to_path (gchar * path, gchar * extra, ...)
 {
@@ -338,38 +328,24 @@ static void check_if_upgrade (void) {
 		}
 	}
 }
-/**
- * Main function
- *
- */
+
 int
 main (int argc, char *argv[])
 {
-
-
-  /* glib/gtk initialization */
+  gchar** files = process_command_line (argc, argv);
+  
   gtk_init (&argc, &argv);
- 
  
   if (!g_thread_supported ())
       g_thread_init (NULL);
     
   gdk_threads_init ();
-  /* acquire gdk lock */
   gdk_threads_enter ();
 
-  gchar** files = process_command_line (argc, argv);
-
-  
-  
 //#ifdef G_OS_WIN32
 //  /* workaround necessary for compilation on Cygwin */
 //  g_set_print_handler ((GPrintFunc)printf);
 //#endif
-
-  /* set the default handler for debug messages */
-  //FIXME this does not work
-  g_log_set_handler (NULL, G_LOG_LEVEL_DEBUG, debug_handler, NULL);
 
   /* initialization of directory relocatability */
   initdir ();
@@ -386,7 +362,6 @@ main (int argc, char *argv[])
 
   scm_with_guile (inner_main, files);
 
-  /* release gdk lock */
   gdk_threads_leave ();
 
   return 0;

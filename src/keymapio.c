@@ -25,16 +25,10 @@ get_command_type(xmlChar* type)
 static void
 parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
 {
-  command_row* command = g_malloc(sizeof(command_row));
-  command_row_init(command);
-  command->fallback = fallback;
+  command_row* command = NULL;
   xmlChar *type = NULL;
-
   type = xmlGetProp(cur, COMMANDXML_TAG_TYPE);
-  if(type && 0 == xmlStrcmp (type, COMMAND_TYPE_SCHEME))
-    command->script_type = get_command_type(type);
-  xmlFree(type);
-
+  
   for (cur = cur->xmlChildrenNode; cur; cur = cur->next)
     {
       if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_ACTION))
@@ -45,10 +39,15 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
             }
           else
             {
-              command->name = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
               // We allow multiple locations for a given action, all are added to the gtk_ui when this command is processed after the tooltip node. 
               // This is very bad xml, as the action should have all the others as children, and not depend on the order.FIXME
+              gchar* name = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+              command = get_or_create_command(name);
+              command->fallback = fallback;
               command->locations = NULL;
+              
+              if(type && 0 == xmlStrcmp (type, COMMAND_TYPE_SCHEME))
+                command->script_type = get_command_type(type);
             }
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_HIDDEN))
@@ -74,6 +73,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
       else g_warning("Found XML tag %s reading a .commands file", cur->name);
     }
   create_command(command);
+  xmlFree(type);
 }
 
 static void
