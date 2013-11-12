@@ -143,8 +143,8 @@ struct infotopass
   gint playposition;            //x coordinate of currently played music
   gdouble leftmosttime;         //MIDI time of left most object on last system line displayed
   gdouble rightmosttime;        //MIDI time of last object  displayed
-  GList *onset;//list of note onsets when audio present
-  gint currentframe; //current frame of audio being played. (current time converted to frames (at si->audio->samplerate) and slowed down)
+  GList *recordednote;//list of notes when recorded audio or MIDI is present
+  gint currentframe; //current frame of audio being played. (current time converted to frames (at si->recording->samplerate) and slowed down)
 };
 
 /* count the number of syllables up to staff->leftmeasurenum */
@@ -287,12 +287,12 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
           itp->lowy = thechord->lowesty - STAFF_HEIGHT;
  
  //display note onsets for source audio above relevant notes in top staff.       
-         if(cr && si->audio && itp->onset) {
-			 GList *g = itp->onset;
+         if(cr && si->recording && itp->recordednote) {
+			 GList *g = itp->recordednote;
 			
-			 gint current = mudelaitem->earliest_time*si->audio->samplerate;
-			 gint next =  mudelaitem->latest_time*si->audio->samplerate;
-			 gint leadin = 	si->audio->leadin;	 
+			 gint current = mudelaitem->earliest_time*si->recording->samplerate;
+			 gint next =  mudelaitem->latest_time*si->recording->samplerate;
+			 gint leadin = 	si->recording->leadin;	 
 			 gint notewidth = 0;
 			 objnode *curobjnext = curobj->next;
 			 if(curobjnext){
@@ -316,7 +316,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 			
 			cairo_set_source_rgba (cr, 0.3, 0.3, 0.3, 0.5);	
 			
-			 while( g && (((gint)g->data - leadin) < current))
+			 while( g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < current))
 				{
 					if(itp->measurenum == 1) {//represent onsets before score starts as single red onset mark 10 pixels before the first note. test g==itp->onset to avoid re-drawing
 						cairo_save (cr);
@@ -326,8 +326,8 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 					}
 					g=g->next;
 				}
-			while( g && ((gint)g->data - leadin) < next) {
-				gdouble fraction = (((gint)g->data - leadin) - current) / (double)(next-current);
+			while( g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < next)) {
+				gdouble fraction = (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) - current) / (double)(next-current);
 				gint pos;
 				
 
@@ -339,7 +339,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 					cairo_set_source_rgba (cr, 0, 0, 0, 1);
 				} else if(si->playingnow)
 				{
-					(itp->currentframe < ((gint)g->data - leadin)) ?
+					(itp->currentframe < ((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin)) ?
 						cairo_set_source_rgba (cr, 0.0, 0.2, 0.8, 0.8):
 				        cairo_set_source_rgba (cr, 0.8, 0.2, 0.0, 0.8);
 				}
@@ -360,7 +360,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 				
 				g = g->next;
 			}
-			itp->onset = g;//Search onwards for future onsets. Only notes on top staff are used for display of onsets. 
+			itp->recordednote = g;//Search onwards for future onsets. Only notes on top staff are used for display of onsets. 
 
 		 } 
           
@@ -1026,18 +1026,18 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoGUI * gui, struct 
   
   if(0)
   {
-    if(gui->si->audio)      {
+    if(gui->si->recording)      {
             cairo_save (cr);
             cairo_set_source_rgb (cr, 0.2, 0.7, 0.2);
             drawnormaltext_cr (cr, _("Source Audio Attached, will play mixed with your score"), 10, 10);
-            GList *g = si->audio->onsets;
+            GList *g = si->recording->notes;
             for(;g;g=g->next) {
-				if ( (gint)g->data > (itp->leftmosttime*si->audio->samplerate))
+				if ( (gint)(((DenemoRecordedNote*)g->data)->timing) > (itp->leftmosttime*si->recording->samplerate))
 					break;
 			}
 			if(g)
 				{
-					gchar * text = g_strdup_printf("First note at %f seconds", ((gint)g->data)/(double)si->audio->samplerate);
+					gchar * text = g_strdup_printf("First note at %f seconds", (((DenemoRecordedNote*)g->data)->timing)/(double)si->recording->samplerate);
 					
 					drawnormaltext_cr (cr, text, 10, 20);
 				}
@@ -1201,8 +1201,8 @@ draw_score (cairo_t * cr)
   itp.endposition = -1;
   itp.startobj = itp.endobj = NULL;
   itp.tupletstart = itp.tuplety = 0;
-  itp.onset = si->audio?si->audio->onsets:NULL;
-  itp.currentframe = (get_playback_time()/get_playback_speed())*(si->audio?si->audio->samplerate:SAMPLERATE);
+  itp.recordednote = si->recording?si->recording->notes:NULL;
+  itp.currentframe = (get_playback_time()/get_playback_speed())*(si->recording?si->recording->samplerate:SAMPLERATE);
   y = 0;
 
   if (gui->si->smf)
@@ -1498,7 +1498,7 @@ draw_callback (cairo_t * cr)
       }
   layout_needed = TRUE;
 
- if( gui->si->audio && (gui->si->smfsync != gui->si->changecount) && (!audio_is_playing())) 
+ if( gui->si->recording && (gui->si->smfsync != gui->si->changecount) && (!audio_is_playing())) 
  {
 	 set_tempo ();
 	 exportmidi (NULL, gui->si, 0, 0);  

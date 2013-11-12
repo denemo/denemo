@@ -664,7 +664,7 @@ outputSources (xmlNodePtr mvmntElem, xmlNsPtr ns, GList * sources)
 
 
 static void
-outputAudio (xmlNodePtr mvmntElem, xmlNsPtr ns, DenemoAudio * audio)
+outputAudio (xmlNodePtr mvmntElem, xmlNsPtr ns, DenemoRecording * audio)
 {
   xmlNodePtr curElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "audio", NULL);
   xmlNewChild (curElem, ns, (xmlChar *) "filename", (xmlChar*) audio->filename);
@@ -830,8 +830,8 @@ exportXML (gchar * thefilename, DenemoGUI * gui)
       if (si->sources)
         outputSources (mvmntElem, ns, si->sources);
       // output audio source
-      if (si->audio)
-        outputAudio (mvmntElem, ns, si->audio);
+      if (si->recording)
+        outputAudio (mvmntElem, ns, si->recording);
 
       parentElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "score-info", NULL);
       curElem = xmlNewChild (parentElem, ns, (xmlChar *) "tempo", NULL);

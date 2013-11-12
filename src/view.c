@@ -1615,8 +1615,8 @@ scheme_export_recorded_audio (void)
 static SCM
 scheme_open_source_audio_file (SCM optional)
 {
-	if(open_source_audio_file () && Denemo.gui->si->audio && Denemo.gui->si->audio->samplerate) {
-		return scm_from_double (Denemo.gui->si->audio->nframes/(double)Denemo.gui->si->audio->samplerate);
+	if(open_source_audio_file () && Denemo.gui->si->recording && Denemo.gui->si->recording->samplerate) {
+		return scm_from_double (Denemo.gui->si->recording->nframes/(double)Denemo.gui->si->recording->samplerate);
 	}
   return SCM_BOOL_F;
 }
@@ -1630,7 +1630,7 @@ scheme_close_source_audio (SCM optional)
 static SCM
 scheme_start_audio_play (SCM annotate)
 {
-  if (Denemo.gui->si->audio)
+  if (Denemo.gui->si->recording)
     {
       start_audio_playing (scm_is_true (annotate));
       return SCM_BOOL_T;
@@ -1669,7 +1669,7 @@ scheme_audio_is_playing (void)
 static SCM
 scheme_next_audio_timing (SCM optional)
 {
-  if (Denemo.gui->si->audio)
+  if (Denemo.gui->si->recording)
     {
       gdouble timing = get_audio_timing ();
       if (timing > 0.0)
@@ -7459,28 +7459,28 @@ pb_volume (GtkAdjustment * adjustment)
 static void
 audio_volume_cut (GtkAdjustment * adjustment)
 {
-  if (Denemo.gui->si->audio)
+  if (Denemo.gui->si->recording)
     {
-      Denemo.gui->si->audio->volume = gtk_adjustment_get_value (adjustment);
+      Denemo.gui->si->recording->volume = gtk_adjustment_get_value (adjustment);
     }
 }
 
 static void
 audio_volume_boost (GtkAdjustment * adjustment)
 {
-  if (Denemo.gui->si->audio)
+  if (Denemo.gui->si->recording)
     {
-      Denemo.gui->si->audio->volume = gtk_adjustment_get_value (adjustment);
+      Denemo.gui->si->recording->volume = gtk_adjustment_get_value (adjustment);
     }
 }
 
 static void
 leadin_changed (GtkSpinButton * spin)
 {
-  if (Denemo.gui->si->audio)
+  if (Denemo.gui->si->recording)
     {
       set_lead_in (gtk_spin_button_get_value (spin));
-      //g_print("%d for %f\n", Denemo.gui->si->audio->leadin, gtk_spin_button_get_value(spin));
+      //g_print("%d for %f\n", Denemo.gui->si->recording->leadin, gtk_spin_button_get_value(spin));
     }
 }
 
@@ -10409,7 +10409,7 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
   Denemo.gui = gui = (DenemoGUI *) (g->data);
   //g_print("switch page\n");
 
-//FIXME if Denemo.gui->si->audio then show Denemo.audio_vol_control
+//FIXME if Denemo.gui->si->recording then show Denemo.audio_vol_control
   if (Denemo.prefs.visible_directive_buttons)
     {
       gtk_widget_hide (Denemo.gui->buttonboxes);

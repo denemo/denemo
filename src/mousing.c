@@ -446,15 +446,15 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     event->y = 0.0;
   gint line_num = ((int) event->y) / line_height;
 
-  if(gui->si->audio && dragging_audio)
+  if(gui->si->recording && dragging_audio)
 	{		
-		gui->si->audio->leadin -= 500*(event->x_root - last_event_x)/gui->si->zoom;//g_print("%d %d => %d\n", (int)(10*last_event_x), (int)(10*event->x_root), (int)(10*last_event_x) - (int)(10*event->x_root));
+		gui->si->recording->leadin -= 500*(event->x_root - last_event_x)/gui->si->zoom;//g_print("%d %d => %d\n", (int)(10*last_event_x), (int)(10*event->x_root), (int)(10*last_event_x) - (int)(10*event->x_root));
 		last_event_x = event->x_root;
-		update_leadin_widget ( gui->si->audio->leadin/(double)gui->si->audio->samplerate);
+		update_leadin_widget ( gui->si->recording->leadin/(double)gui->si->recording->samplerate);
 		gtk_widget_queue_draw(Denemo.scorearea);
 		return TRUE; 
 	}
-  if(gui->si->audio && dragging_tempo)
+  if(gui->si->recording && dragging_tempo)
 	{		
 		gdouble change = (event->x_root - last_event_x)/gui->si->zoom;
 		last_event_x = event->x_root;
@@ -564,7 +564,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
       }
   dragging_separator = FALSE;
   
-  if(gui->si->audio)
+  if(gui->si->recording)
 	{
 	 // g_print("audio %f %f\n", event->x, event->y);
 
@@ -801,7 +801,7 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
   if (gui == NULL || gui->si == NULL)
     return FALSE;
   gboolean left = (event->button != 3);
-  if(gui->si->audio && (dragging_tempo || dragging_audio))
+  if(gui->si->recording && (dragging_tempo || dragging_audio))
 	{		
 			dragging_tempo = dragging_audio = FALSE;
 			gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR));       //FIXME? does this take time/hog memory

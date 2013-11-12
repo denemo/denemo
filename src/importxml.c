@@ -1071,9 +1071,9 @@ parseAudio (xmlNodePtr parentElem, DenemoScore * si)
   FOREACH_CHILD_ELEM (childElem, parentElem)
   {
     if (ELEM_NAME_EQ (childElem, "filename"))
-      si->audio->filename = g_strdup ((gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1));
+      si->recording->filename = g_strdup ((gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1));
     if (ELEM_NAME_EQ (childElem, "lead-in"))
-      si->audio->leadin = getXMLIntChild (childElem);
+      si->recording->leadin = getXMLIntChild (childElem);
   }
 }
 
@@ -2717,7 +2717,7 @@ parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoGUI * gui, ImportType type)
   childElem = getXMLChild (scoreElem, "audio", ns);
   if (childElem != 0)
     {
-      si->audio = (DenemoAudio *) g_malloc (sizeof (DenemoAudio));
+      si->recording = (DenemoRecording *) g_malloc (sizeof (DenemoRecording));
       parseAudio (childElem, si);
     }
 

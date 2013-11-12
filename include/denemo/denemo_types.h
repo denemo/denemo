@@ -770,16 +770,30 @@ typedef struct movementcontrol
   GList *directives;
 }
 movementcontrol;
-typedef struct DenemoAudio {
-  gchar *filename;
-  gint samplerate;
-  gint channels;
+
+typedef enum DenemoRecordingType {
+  DENEMO_RECORDING_AUDIO,/**< Recording is an audio file represented by libsndfile handle */
+  DENEMO_RECORDING_MIDI/**< Recording is an audio file stored in recorded_midi_track */ 
+} DenemoRecordingType;
+
+typedef struct DenemoRecordedNote {
+  gint timing;/**< time in frames, (divide by samplerate to get to seconds) */
+  gboolean noteoff;
+  gint mid_c_offset;
+  gint enshift;
+} DenemoRecordedNote;
+
+typedef struct DenemoRecording {
+  DenemoRecordingType type;
+  gchar *filename; /**< audio file. Could be extended to take MIDI file too */
+  gint samplerate; /**< frames per second */
+  gint channels; /**< audio only */
   gint leadin;/**< number of frames to skip at start, silence to be emitted before play if negative */
   gdouble volume;
   gint nframes;/**< number of frames in the audio */
-  GList *onsets;  /**< Candidate note onsets in sndfile data is the time in frames, divide by sample_rate to get to seconds */
+  GList *notes;  /**< data is DenemoRecordedNote* */
   gpointer sndfile; /**< sndfile handle */
-} DenemoAudio;
+} DenemoRecording;
 
 typedef enum DenemoTargetType {
 	TARGET_NONE = 0,
@@ -827,7 +841,7 @@ typedef struct DenemoScore
   gint widthtoworkwith;
   gint staffspace;
 
-  DenemoAudio *audio;/**< Audio attached to movement */ 
+  DenemoRecording *recording;/**< Audio or MIDI recording attached to movement */ 
   gint marked_onset_position;/**< horizontal position in display of note onset in audio marked by user */ 
   GList *marked_onset;/**< Note onset in audio selected by user */ 
   GList *sources; /**< List of source pixbufs, one for each measure score-view*/
