@@ -781,6 +781,7 @@ typedef struct DenemoRecordedNote {
   gboolean noteoff;
   gint mid_c_offset;
   gint enshift;
+  gint octave;
 } DenemoRecordedNote;
 
 typedef struct DenemoRecording {

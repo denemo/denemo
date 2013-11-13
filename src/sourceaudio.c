@@ -203,16 +203,17 @@ open_source_audio (gchar * filename)
 
 
   //FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
-  if (Denemo.gui->si->recording && Denemo.gui->si->recording->sndfile)
+  if (Denemo.gui->si->recording )
     {
       temp = Denemo.gui->si->recording;
       g_static_mutex_lock (&smfmutex);
       Denemo.gui->si->recording = NULL;
       g_static_mutex_unlock (&smfmutex);
-      sf_close (temp->sndfile);
+      if (temp->sndfile)
+		sf_close (temp->sndfile);
       g_free (temp->filename);
+      g_list_free_full(temp->notes, g_free);
       g_free (temp);
-
     }
   if (filename)
     {
@@ -220,6 +221,7 @@ open_source_audio (gchar * filename)
       if (sndfile)
         {
           temp = (DenemoRecording *) g_malloc (sizeof (DenemoRecording));
+          temp->type = DENEMO_RECORDING_AUDIO;
           temp->sndfile = sndfile;
           temp->filename = g_strdup (filename);
           temp->samplerate = sfinfo.samplerate;
@@ -261,12 +263,17 @@ close_source_audio (void)
 void
 rewind_audio (void)
 {
-  if (Denemo.gui->si->recording)
+  if (Denemo.gui->si->recording && (Denemo.gui->si->recording->type==DENEMO_RECORDING_AUDIO))
     {
       if (Denemo.gui->si->recording->sndfile == NULL)
         {
           gint leadin = Denemo.gui->si->recording->leadin;  /* not part of the audio file itself */
           open_source_audio (Denemo.gui->si->recording->filename);
+          if (Denemo.gui->si->recording==NULL)
+          {
+			g_warning("Unable to open audio file\n");
+			return;  			  
+		  }
           if (Denemo.gui->si->recording->samplerate)
             {
               Denemo.gui->si->recording->leadin = leadin;
@@ -296,13 +303,16 @@ set_lead_in (gdouble secs)
 {
   if (Denemo.gui->si->recording)
     {
-      if (Denemo.gui->si->recording->sndfile == NULL)
-        open_source_audio (Denemo.gui->si->recording->filename);
-      if (Denemo.gui->si->recording->sndfile)
+      if ((Denemo.gui->si->recording->type==DENEMO_RECORDING_AUDIO) && Denemo.gui->si->recording->sndfile == NULL)
         {
-          Denemo.gui->si->recording->leadin = secs * Denemo.gui->si->recording->samplerate;
-          return TRUE;
-        }
+			open_source_audio (Denemo.gui->si->recording->filename);
+			if (Denemo.gui->si->recording==NULL) {
+				g_warning("Unable to open source audio");
+				return FALSE;
+			}
+		}
+      Denemo.gui->si->recording->leadin = secs * Denemo.gui->si->recording->samplerate;
+      return TRUE;   
     }
   return FALSE;
 }

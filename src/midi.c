@@ -424,7 +424,7 @@ typedef struct enharmonic
 
 
 //Add the passed midi to a recording in Denemo.gui->si
-void
+static void
 record_midi (gchar * buf, gdouble time)
 {
   smf_event_t *event = smf_event_new_from_pointer (buf, 3);
@@ -433,6 +433,13 @@ record_midi (gchar * buf, gdouble time)
       if (Denemo.gui->si->recorded_midi_track && ((smf_track_t *) Denemo.gui->si->recorded_midi_track)->smf)
         {
           smf_track_add_event_seconds (Denemo.gui->si->recorded_midi_track, event, time);
+		  if(Denemo.gui->si->recording && noteon_key(event))
+			{
+				DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
+				note->timing = event->time_seconds * Denemo.gui->si->recording->samplerate;
+				notenum2enharmonic (noteon_key(event), &(note->mid_c_offset), &(note->enshift), &(note->octave));
+				Denemo.gui->si->recording->notes = g_list_append (Denemo.gui->si->recording->notes, note);
+			}
         }
       else
         {

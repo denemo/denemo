@@ -7510,6 +7510,7 @@ pb_panic (GtkWidget * button)
   Denemo.gui->si->end_time = -1.0;      //ie unset
   set_start_and_end_objects_for_draw ();
   reset_temperament ();
+  gtk_widget_queue_draw (Denemo.scorearea);
 }
 
 static void
@@ -7589,19 +7590,40 @@ gboolean show_midi_record_control(void) {
 static void
 pb_record (GtkWidget * button)
 {
+  if(Denemo.gui->si->recording && (Denemo.gui->si->recording->type==DENEMO_RECORDING_AUDIO))
+	{
+		warningdialog(_("Cannot mix audio and midi recordings"));
+		return;
+	}
   if (Denemo.gui->si->recorded_midi_track && !confirm (_("MIDI Recording"), _("Delete last recording?")))
     {
       return;
     }
-  // if(!(Denemo.gui->midi_destination & MIDITHRU))
-  //  pb_midi_thru(midithrubutton);
+    call_out_to_guile ("(DenemoSetPlaybackStart)");
+  DenemoRecording *recording;
+  if(Denemo.gui->si->recording && (Denemo.gui->si->recording->type==DENEMO_RECORDING_MIDI))
+	{
+      //FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
+      recording = Denemo.gui->si->recording;
+      g_static_mutex_lock (&smfmutex);
+      Denemo.gui->si->recording = NULL;
+      g_static_mutex_unlock (&smfmutex);
+      g_free (recording->filename);
+      g_free (recording);
+      g_list_free_full (recording->notes, g_free);
+     }
+  recording = (DenemoRecording *) g_malloc (sizeof (DenemoRecording));
+  recording->type = DENEMO_RECORDING_MIDI;
+  recording->samplerate = 44100;
+  Denemo.gui->si->recording = recording;
   Denemo.gui->midi_destination |= MIDIRECORD;
   track_delete (Denemo.gui->si->recorded_midi_track);
   Denemo.gui->si->recorded_midi_track = smf_track_new ();
   gtk_widget_hide (deletebutton);
   gtk_widget_hide (convertbutton);
+  
   set_midi_in_status ();
-  pb_play (playbutton);
+  call_out_to_guile ("(d-Play)");//pb_play (playbutton);
   return;
 }
 
@@ -7637,10 +7659,27 @@ void highlight_audio_record(void) {
 static void
 pb_midi_delete (GtkWidget * button)
 {
+  DenemoRecording *recording = Denemo.gui->si->recording;
+  if(recording->type!=DENEMO_RECORDING_MIDI)
+	{
+		g_warning("Cannot delete Audio yet");
+		return;//see sourceaudio.c:222 for deleting audio
+	}
   track_delete (Denemo.gui->si->recorded_midi_track);
   Denemo.gui->si->recorded_midi_track = NULL;
+  if (recording)
+	{
+	 g_free(recording->filename);
+	 if (recording->notes)
+			{
+			g_list_free_full (recording->notes, g_free);
+			}
+	
+	Denemo.gui->si->recording = NULL;
+	}
   gtk_widget_hide (convertbutton);
   gtk_widget_hide (button);
+  gtk_widget_queue_draw(Denemo.scorearea);
 }
 
 static void
