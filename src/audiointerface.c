@@ -745,12 +745,12 @@ rhythm_feedback (backend_type_t backend, gint duration, gboolean rest, gboolean 
 int
 panic (backend_type_t backend)
 {
-  g_print ("panicking\n");
+ // g_print ("panicking\n");
   return get_backend (backend)->panic ();
 }
 
 int
-panic_all ()
+panic_all (void)
 {
   backend_type_t n;
   for (n = 0; n < NUM_BACKENDS; ++n)
