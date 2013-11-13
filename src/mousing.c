@@ -447,7 +447,31 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
   gint line_num = ((int) event->y) / line_height;
 
   if(gui->si->recording && dragging_audio)
-	{		
+	{	
+		if(gui->si->recording->type == DENEMO_RECORDING_MIDI)
+		{
+			#if 0
+			//This is moving only the NoteOn, so it could be moved later than the note off, and indeed later than a later note in the stream 
+			//- quite a bit more work needed to drag MIDI to correct the timing.
+			smf_event_t *midievent;
+			GList *marked_onset = gui->si->marked_onset;
+			if(marked_onset)
+				{
+				midievent = ((DenemoRecordedNote *)marked_onset->data)->event;
+				gint shift =  2500*(event->x_root - last_event_x)/gui->si->zoom;
+				g_print (" %f (%f %f)",shift/(double)gui->si->recording->samplerate, 
+					midievent->time_seconds,
+					((DenemoRecordedNote *)marked_onset->data)->timing/(double)gui->si->recording->samplerate) ;
+
+				((DenemoRecordedNote *)marked_onset->data)->timing += shift;
+				
+				midievent->time_seconds += shift/(double)gui->si->recording->samplerate;
+				}
+			#endif
+			g_warning("No drag for MIDI yet");
+			return TRUE;
+		}
+
 		gui->si->recording->leadin -= 500*(event->x_root - last_event_x)/gui->si->zoom;//g_print("%d %d => %d\n", (int)(10*last_event_x), (int)(10*event->x_root), (int)(10*last_event_x) - (int)(10*event->x_root));
 		last_event_x = event->x_root;
 		update_leadin_widget ( gui->si->recording->leadin/(double)gui->si->recording->samplerate);

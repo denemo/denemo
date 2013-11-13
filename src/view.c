@@ -4684,6 +4684,37 @@ scheme_midi_record (void)
   return SCM_BOOL (Denemo.gui->midi_destination | MIDIRECORD);
 }
 
+static SCM
+scheme_get_marked_midi_note (void)
+{
+ SCM scm = SCM_BOOL_F;
+ DenemoGUI *gui = Denemo.gui;
+ DenemoScore *si = gui->si;
+ if(si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->marked_onset) {
+	 GList *marked = si->marked_onset;
+	 DenemoRecordedNote *thenote = (DenemoRecordedNote*)marked->data;
+	 gchar *name = mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift);
+	 gchar *str = g_strdup_printf ("%s", mid_c_offsettolily (thenote->mid_c_offset + 7*thenote->octave, thenote->enshift));
+     scm = scm_from_locale_string (str);
+ }
+ return scm;
+}
+static SCM
+scheme_advance_marked_midi (void)
+{
+ SCM scm = SCM_BOOL_F;
+ DenemoGUI *gui = Denemo.gui;
+ DenemoScore *si = gui->si;
+ if(si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->marked_onset) {
+	 si->marked_onset = si->marked_onset->next;
+	 if(si->marked_onset)
+		scm = SCM_BOOL_T;
+ }
+ return scm;
+}
+
+
+
 typedef struct cb_scheme_and_id
 {
   char *scheme_code;
@@ -6633,6 +6664,9 @@ create_scheme_identfiers (void)
 
   install_scm_function (0, "Starts playback and synchronously records from MIDI in. The recording will play back with future play until deleted. The recording is not saved with the score - convert to notation first,", DENEMO_SCHEME_PREFIX "MidiRecord", scheme_midi_record);
 
+  install_scm_function (0, "Gets the marked recorded midi note as LilyPond", DENEMO_SCHEME_PREFIX "GetMarkedMidiNote", scheme_get_marked_midi_note);
+  install_scm_function (0, "Advances the marked recorded midi note. Returns #f if no more.", DENEMO_SCHEME_PREFIX "AdvanceMarkedMidi", scheme_advance_marked_midi);
+
   install_scm_function (0, "Generates the MIDI timings for the music of the current movement. Returns TRUE if the MIDI was re-computed else FALSE (call was unnecessary).", DENEMO_SCHEME_PREFIX "CreateTimebase", scheme_create_timebase);
 
 
@@ -7599,7 +7633,7 @@ pb_record (GtkWidget * button)
     {
       return;
     }
-    call_out_to_guile ("(DenemoSetPlaybackStart)");
+  call_out_to_guile ("(DenemoSetPlaybackStart)");
   DenemoRecording *recording;
   if(Denemo.gui->si->recording && (Denemo.gui->si->recording->type==DENEMO_RECORDING_MIDI))
 	{

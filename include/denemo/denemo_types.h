@@ -782,6 +782,7 @@ typedef struct DenemoRecordedNote {
   gint mid_c_offset;
   gint enshift;
   gint octave;
+  gpointer event;/**< midi event giving rise to the note */
 } DenemoRecordedNote;
 
 typedef struct DenemoRecording {

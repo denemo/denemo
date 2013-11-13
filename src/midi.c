@@ -438,6 +438,7 @@ record_midi (gchar * buf, gdouble time)
 				DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
 				note->timing = event->time_seconds * Denemo.gui->si->recording->samplerate;
 				notenum2enharmonic (noteon_key(event), &(note->mid_c_offset), &(note->enshift), &(note->octave));
+				note->event = event;
 				Denemo.gui->si->recording->notes = g_list_append (Denemo.gui->si->recording->notes, note);
 			}
         }
