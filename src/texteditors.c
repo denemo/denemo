@@ -281,11 +281,13 @@ create_editor_window (void)
   //GtkWidget *w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   GtkWidget *menu, *menuBar, *fileMenu, *item;
   gchar **filename = g_malloc0 (sizeof (gchar *));
+  GtkSourceLanguage* language = NULL;
 
 
   buffer = gtk_source_buffer_new (NULL);
   gtk_source_buffer_set_highlight_syntax (GTK_SOURCE_BUFFER (buffer), TRUE);
-  gtk_source_buffer_set_language (GTK_SOURCE_BUFFER (buffer), gtk_source_language_manager_get_language (LanguageManager, "scheme"));
+  language = gtk_source_language_manager_get_language (LanguageManager, "scheme");
+  gtk_source_buffer_set_language (GTK_SOURCE_BUFFER (buffer), language);
   gtk_source_buffer_set_highlight_matching_brackets (GTK_SOURCE_BUFFER (buffer), TRUE);
 
   TextView = GTK_WIDGET (gtk_source_view_new_with_buffer (GTK_SOURCE_BUFFER (buffer)));
