@@ -63,9 +63,12 @@ load_keymap_files(gchar* files[])
   gint i;
 
   for(i = 0; files[i]; i++)
-    {
-      if(!ret && load_xml_keymap(files[i]) == 0)
+    if(g_file_test(files[i], G_FILE_TEST_EXISTS))
+    {      
+      if(!ret && load_xml_keymap(files[i]) == 0){
+        g_print("Loaded keymap %s\n", files[i]);
         ret = TRUE;
+      }
       g_free(files[i]);
     }
   return ret;
@@ -667,7 +670,7 @@ void register_command_row(keymap* the_keymap, command_row* command){
     //insert the command name in the index reference
     g_hash_table_insert (the_keymap->idx_from_name, g_strdup (command->name), idx);
 
-    g_debug ("Inserting command %s %s %s %p  -> %i\n", command->name, command->label, command->tooltip, command->callback, idx);
+    g_debug ("Inserting command %i: %s %s %s %p", *idx, command->name, command->label, command->tooltip, command->callback);
   }
 }
 
@@ -1575,14 +1578,14 @@ load_default_keymap_file ()
   if(!load_keymap_files (files))
     g_warning ("Unable to load default keymap");
     
-    
   if(upgrade) {
-	gchar* files[] = {
-		upgrade,
-		NULL
-	};
+	  gchar* files[] = {
+		  upgrade,
+		  NULL
+	  };
+
     if(!load_keymap_files (files))
-    g_warning ("Unable to former default keymap");
+      g_warning ("Unable to former default keymap");
   }
   g_free(default_keymap_file);
   g_free (user_keymap_file);
@@ -2013,7 +2016,9 @@ const gchar *
 get_menu_label (gchar *name)
 { 
   gint* idx = (gint*) g_hash_table_lookup(Denemo.map->idx_from_name, name);
-  command_row* row = g_hash_table_lookup(Denemo.map->commands, *idx);
+  if(!idx)
+    return name;
+  command_row* row = g_hash_table_lookup(Denemo.map->commands, idx);
   return row->label ?: name;  
 }
 

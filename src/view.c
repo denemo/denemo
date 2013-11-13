@@ -5640,7 +5640,7 @@ define_scheme_constants (void)
   if (filename)
     g_free (filename);
 
-  g_print ("Version %s", denemo_version);
+  g_print ("Denemo %s\n", denemo_version);
 
 #define DEF_SCHEME_STR(which, what, tooltip)\
   scm_c_define(which, scm_from_locale_string(what));
@@ -6834,14 +6834,17 @@ load_files(gchar** files)
   gint i = 0;
   
   if(!files){
-    newtab (NULL, NULL);
-    open_for_real (get_most_recent_file (), Denemo.gui, FALSE, REPLACE_SCORE);
+    if(!Denemo.non_interactive){
+      newtab (NULL, NULL);
+      open_for_real (get_most_recent_file (), Denemo.gui, FALSE, REPLACE_SCORE);
+    }
     return TRUE;
   }
 
   for(i=0; files[i]; i++)
     {
-      newtab (NULL, NULL);
+      if(!Denemo.non_interactive)
+        newtab (NULL, NULL);
       open_for_real (files[i], Denemo.gui, FALSE, REPLACE_SCORE);
       ret = TRUE;
     }
@@ -6919,6 +6922,7 @@ inner_main (void *files)
   initprefs ();
   
   //GUI Initializations
+  if(!Denemo.non_interactive)
   {
     initialize_keystroke_help ();
 
@@ -6935,12 +6939,9 @@ inner_main (void *files)
         g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-browse-mode-timeout", Denemo.prefs.tooltip_browse_mode_timeout, NULL);
       }
 
-    /*ignore setting of mode unless user has explicitly asked for modal use */
+    //ignore setting of mode unless user has explicitly asked for modal use
     if (!Denemo.prefs.modal)
       Denemo.prefs.mode = INPUTEDIT | INPUTRHYTHM | INPUTNORMAL;  //FIXME must correspond with default in prefops.c
-
-    if (Denemo.prefs.autoupdate)
-      fetchcommands (NULL, NULL);
     
     Denemo.accelerator_status = FALSE;
   }
@@ -6952,6 +6953,9 @@ inner_main (void *files)
 	  scm_c_eval_string (prog);
     //scm_setlocale( scm_variable_ref(scm_c_lookup("LC_ALL")), scm_from_locale_string("") );
     create_scheme_identfiers ();
+
+    if (Denemo.prefs.autoupdate)
+      fetchcommands (NULL, NULL);
     
     gint i;
     /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
@@ -6984,6 +6988,7 @@ inner_main (void *files)
   }
 
   //GUI related initializations
+  if(!Denemo.non_interactive)  
   {
     readHistory ();
     populate_opened_recent_menu ();
@@ -7005,8 +7010,10 @@ inner_main (void *files)
     gtk_main ();
   }
 
-  if (Denemo.scheme_commands)
+  if (Denemo.scheme_commands){
+    g_debug("Executing '%s\n'", Denemo.scheme_commands);
     call_out_to_guile (Denemo.scheme_commands);
+  }
   
   return NULL;
 }
@@ -10676,6 +10683,7 @@ set_master_tempo (DenemoScore * si, gdouble tempo)
 static void
 create_window (void)
 {
+
   GtkWidget *outer_main_vbox, *main_hbox, *main_vbox, *menubar, *toolbar, *hbox;
   GtkUIManager *ui_manager;
   GError *error;
@@ -10684,7 +10692,8 @@ create_window (void)
 
   Denemo.window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (Denemo.window), _("Denemo Main Window"));
-  loadWindowState ( /* it accesses Denemo.window */ );
+  // it accesses Denemo.window
+  loadWindowState ();
 #ifdef G_OS_WIN32
   g_print ("Denemo icon not used");
   //not installed on windows ... data_file = g_build_filename (get_system_data_dir (), "icons","denemo.png", NULL);
@@ -10864,7 +10873,7 @@ create_window (void)
       GtkWidget *hbox;
       hbox = gtk_hbox_new (FALSE, 1);
       gtk_box_pack_start (GTK_BOX (inner1), hbox, TRUE, TRUE, 0);
-      /* Tempo */
+      // Tempo
       label = gtk_label_new (_("Tempo:"));
       gtk_widget_set_tooltip_text (label, _("Set the (initial) tempo of the movement"));
       gtk_widget_set_can_focus (label, FALSE);
@@ -10880,7 +10889,7 @@ create_window (void)
 
       //create_playbutton(hbox, "Set Tempo", pb_set_tempo, NULL);
 
-      /* Volume */
+      // Volume
       label = gtk_label_new (_("Volume"));
       //GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);      
       gtk_widget_set_tooltip_text (label, _("Set the (initial) volume of the movement"));
@@ -10898,7 +10907,7 @@ create_window (void)
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
 
 
-      /*Audio Volume */
+      // Audio Volume
       Denemo.audio_vol_control = gtk_hbox_new (FALSE, 1);
       label = gtk_label_new (_("Audio Volume Cut"));
       gtk_widget_set_tooltip_text (label, _("Reduce the volume of the source audio relative to the volume of the score"));
@@ -10948,12 +10957,6 @@ create_window (void)
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
       speed_adj = (GtkAdjustment *) gtk_adjustment_new (1.0, 1.0, 4.0, 0.01, 0.1, 0.0);
       
-  /*    (gdouble value,
-                                                         gdouble lower,
-                                                         gdouble upper,
-                                                         gdouble step_increment,
-                                                         gdouble page_increment,
-                                                         gdouble page_size); */
       
       
       hscale = gtk_hscale_new (GTK_ADJUSTMENT (speed_adj));
@@ -11103,7 +11106,7 @@ create_window (void)
 
 
   create_lilywindow ();
- 
+
   // This section creates an hbox and places it in the main vbox. Inside this hbox are placed a status bar and a label.
   // The status bar is not properly used within Denemo, and could just as well be a label too.
   Denemo.statuslabel = gtk_label_new ("");
@@ -11132,15 +11135,16 @@ create_window (void)
 
   if (!Denemo.non_interactive)
     gtk_widget_show (Denemo.window);
-  /* Now that the window is shown, initialize the gcs */
+  // Now that the window is shown, initialize the gcs
   // gcs_init (Denemo.window->window);
 
   parse_paths (denemoui_path, Denemo.gui);
   g_free (denemoui_path);
-
-  use_markup (Denemo.window);   /* set all the labels to use markup so that we can use the music font. Be aware this means you cannot use labels involving "&" "<" and ">" and so on without escaping them 
-                                   FIXME labels in toolitems are not correct until you do NewWindow.
-                                   Really we should change the default for the class. */
+  
+  //set all the labels to use markup so that we can use the music font. Be aware this means you cannot use labels involving "&" "<" and ">" and so on without escaping them 
+  //                                 FIXME labels in toolitems are not correct until you do NewWindow.
+  //                                 Really we should change the default for the class. */
+  use_markup (Denemo.window);   
   //  g_print("Turning on the modes\n");
 
 
@@ -11152,6 +11156,7 @@ create_window (void)
 
 
   g_signal_connect (G_OBJECT (Denemo.notebook), "switch_page", G_CALLBACK (switch_page), NULL);
+
 }                               /* create window */
 
 

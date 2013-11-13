@@ -214,48 +214,55 @@ create_command(command_row *command)
   if (command->script_type == COMMAND_SCHEME)
   {
     gboolean new_command = !g_hash_table_contains(Denemo.map->idx_from_name, command->name);
-    if (!new_command)
-      action = lookup_action_from_name (command->name);
-    else
-    {
-      gchar *icon_name = get_icon_for_name (command->name, command->label);
-      action = gtk_action_new (command->name, command->label, command->tooltip, icon_name);
-      command->callback = activate_script;
-      gtk_action_group_add_action (Denemo.action_group, action);
+
+    if(!Denemo.non_interactive){
       
+      if (!new_command)
+        action = lookup_action_from_name (command->name);
+      else
+      {
+        gchar *icon_name = get_icon_for_name (command->name, command->label);
+        action = gtk_action_new (command->name, command->label, command->tooltip, icon_name);
+        gtk_action_group_add_action (Denemo.action_group, action);
+      }
+    }
+
+    if(new_command){  
       register_command_row (Denemo.map, command);
+      command->callback = activate_script;
 
       // create a scheme function to call this script
       create_scheme_function_for_script (command->name);
     }
-
-    if(g_list_length(command->locations) > 0)
-    {
-      GList *g = NULL;
-      for (g = command->locations; g; g = g->next)
+    
+    if(!Denemo.non_interactive){
+      if(g_list_length(command->locations) > 0)
       {
-        command->menupath = (gchar *) (g->data ?: "/MainMenu/Other");
+        GList *g = NULL;
+        for (g = command->locations; g; g = g->next)
+        {
+          command->menupath = (gchar *) (g->data ?: "/MainMenu/Other");
+          add_ui (command->menupath, command->after, command->name);
+        }
+      }
+      else if (command->fallback)
+      {           
+        command->menupath = command->fallback;
         add_ui (command->menupath, command->after, command->name);
       }
+
+      g_object_set_data (G_OBJECT (action), "menupath", command->menupath);
+
+      if (new_command)
+        g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
     }
-    else if (command->fallback)
-    {           
-      command->menupath = command->fallback;
-      add_ui (command->menupath, command->after, command->name);
-    }
-
-    g_object_set_data (G_OBJECT (action), "menupath", command->menupath);
-
-    if (new_command)
-      g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
-
     // Note the script should *not* be in Default.cmdset
     // to delay loading it, but we should set the signal initally and we should not repeat setting the signal later.
     // the signal does not specify which script will be run, that is decided lazily, when the action is invoked for the first time
   }
   
   // we are not as yet re-writing tooltips etc on builtin commands
-  else if (command->hidden)
+  else if (command->hidden && !Denemo.non_interactive)
   {
     hide_action_of_name (command->name);
     command->hidden = FALSE;

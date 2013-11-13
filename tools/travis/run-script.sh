@@ -8,6 +8,7 @@ if [ "$COMPILER"x = "gcc"x ]; then
   ./configure
   make
   make dist
+  sudo make install
 elif [ "$COMPILER"x = "clang"x ]; then
   export CC="clang"
   export CXX="clang++"
@@ -15,4 +16,6 @@ elif [ "$COMPILER"x = "clang"x ]; then
   ./configure
   make
   make dist
+  sudo make install
 fi
+denemo -n -a "(d-Quit)"

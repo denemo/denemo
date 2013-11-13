@@ -161,7 +161,7 @@ process_command_line (int argc, char **argv)
   g_free(header);
   g_option_context_set_description (context, footer);
   g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);
-  g_option_context_add_group (context, gtk_get_option_group (TRUE));
+  //g_option_context_add_group (context, gtk_get_option_group (TRUE));
   if (!g_option_context_parse (context, &argc, &argv, &error))
     {
       g_print ("Option parsing failed: %s\n", error->message);
@@ -334,14 +334,16 @@ main (int argc, char *argv[])
 {
   gchar** files = process_command_line (argc, argv);
   
-  gtk_init (&argc, &argv);
+  if(!Denemo.non_interactive)  
+    gtk_init (&argc, &argv);
  
   if (!g_thread_supported ())
       g_thread_init (NULL);
-    
-  gdk_threads_init ();
-  gdk_threads_enter ();
 
+  if(!Denemo.non_interactive){
+    gdk_threads_init ();
+    gdk_threads_enter ();
+  }
 //#ifdef G_OS_WIN32
 //  /* workaround necessary for compilation on Cygwin */
 //  g_set_print_handler ((GPrintFunc)printf);
@@ -353,7 +355,6 @@ main (int argc, char *argv[])
   check_if_upgrade();
   init_environment();
 
-
   rsvg_init ();
 
   localization_init();
@@ -361,8 +362,9 @@ main (int argc, char *argv[])
   //register_stock_items ();
 
   scm_with_guile (inner_main, files);
-
-  gdk_threads_leave ();
+  
+  if(!Denemo.non_interactive)
+    gdk_threads_leave ();
 
   return 0;
 }

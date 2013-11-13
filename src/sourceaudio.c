@@ -159,7 +159,7 @@ generate_note_onsets (void)
 
   progressbar_stop ();
   normal_cursor (Denemo.notebook);
-
+/*
 #ifdef DEBUG
   GList *g;
   for (g = audio->onsets; g; g = g->next)
@@ -167,6 +167,7 @@ generate_note_onsets (void)
       g_print ("Note at %f seconds\n", ((gint) g->data) / (double) audio->samplerate);
     }
 #endif
+*/
 }
 
 gboolean

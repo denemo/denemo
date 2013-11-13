@@ -35,7 +35,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
         {
           if (cur->xmlChildrenNode == NULL)
             {
-              g_warning ("Empty action node found in keymap file\n");
+              g_warning ("Empty action node found in keymap file");
             }
           else
             {
@@ -69,8 +69,10 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_TOOLTIP))
         {
           command->tooltip = _((gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
-        }
-      else g_warning("Found XML tag %s reading a .commands file", cur->name);
+        }/*
+      else
+        g_warning("Found XML tag '%s' reading a .commands file", cur->name);
+        */
     }
   create_command(command);
   xmlFree(type);
@@ -207,7 +209,6 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menup
   xmlNodePtr ncur;
 
   //Parse commands first
-  ncur = cur->xmlChildrenNode;
   for (ncur = cur->xmlChildrenNode; ncur; ncur = ncur->next)
     {
       if ((0 == xmlStrcmp (ncur->name, COMMANDXML_TAG_ROW)))
@@ -217,18 +218,19 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menup
     }
 
   //Then parse bindings
-  ncur = cur->xmlChildrenNode;
-  for (ncur = cur->xmlChildrenNode; ncur; ncur = ncur->next)
-    {
-      if ((0 == xmlStrcmp (ncur->name, COMMANDXML_TAG_ROW)))
-        {
-          parseBindings (doc, ncur, the_keymap);
-        }
-      else if (0 == xmlStrcmp (ncur->name, COMMANDXML_TAG_CURSORS))
-        {
-          parseCursors (doc, ncur);
-        }
-    }
+  if(!Denemo.non_interactive){
+    for (ncur = cur->xmlChildrenNode; ncur; ncur = ncur->next)
+      {
+        if ((0 == xmlStrcmp (ncur->name, COMMANDXML_TAG_ROW)))
+          {
+            parseBindings (doc, ncur, the_keymap);
+          }
+        else if (0 == xmlStrcmp (ncur->name, COMMANDXML_TAG_CURSORS))
+          {
+            parseCursors (doc, ncur);
+          }
+      }
+  }
 }
 
 static void
@@ -299,7 +301,6 @@ load_xml_keymap (gchar * filename)
 
   while (rootElem != NULL)
     {
-      g_debug ("RootElem %s\n", rootElem->name);
       parseKeymap (doc, rootElem, Denemo.map, menupath);
 
       if (Denemo.last_merged_command)
@@ -308,7 +309,8 @@ load_xml_keymap (gchar * filename)
       if (menupath)
         execute_init_scripts (menupath);
 
-      update_all_labels (Denemo.map);
+      if(!Denemo.non_interactive)
+        update_all_labels (Denemo.map);
       ret = 0;
 
       rootElem = rootElem->next;
@@ -326,7 +328,7 @@ load_xml_keymap (gchar * filename)
     //if this is a new-style .commands file, we need to load the keybindings separately
     gchar *name = g_strdup (filename);
     gchar *ext = remove_extension (name);
-    if (ext && !strcmp (ext, "commands"))
+    if (ext && !strcmp (ext, "commands") && !Denemo.non_interactive)
       {
         gchar *newname = g_strdup_printf ("%s%s", name, ".shortcuts");
         load_xml_keybindings (newname);
