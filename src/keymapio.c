@@ -259,6 +259,7 @@ load_xml_keymap (gchar * filename)
   gint ret = -1;
   xmlDocPtr doc;
   xmlNodePtr rootElem;
+  xmlKeepBlanksDefault (0);
   
   if (filename == NULL)
     return ret;
