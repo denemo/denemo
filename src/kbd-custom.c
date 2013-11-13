@@ -104,7 +104,6 @@ command_row_init(command_row *command)
   command->deleted = FALSE;
   command->bindings = NULL;
   command->callback = NULL;
-  command->action = NULL;
   command->type = KeymapEntry;
   command->script_type = COMMAND_BUILTIN;
   command->locations = NULL;
@@ -682,7 +681,6 @@ register_command (gchar * name, gchar * label, gchar * tooltip, gpointer callbac
   command->label = label;
   command->tooltip = tooltip;
   command->callback = callback;
-  command->action = gtk_action_group_get_action(Denemo.action_group, name);
   register_command_row(Denemo.map, command);
 }
 
@@ -903,7 +901,8 @@ lookup_action_from_idx (keymap * keymap, gint command_id)
   command_row* row;
   if (!keymap_get_command_row (keymap, &row, command_id))
     return NULL;
-  return row->action;
+  GtkAction* action = gtk_action_group_get_action(Denemo.action_group, row->name);
+  return action;
 }
 
 //do not free the result
@@ -1079,7 +1078,8 @@ update_accel_labels (keymap * the_keymap, guint command_id)
   g_free (escape_base);
 
   //For all widgets proxying the action, change the label
-  GSList *h = gtk_action_get_proxies (row->action);
+  action = gtk_action_group_get_action(Denemo.action_group, row->name);
+  GSList *h = gtk_action_get_proxies (action);
   for (; h; h = h->next)
     {
       GtkWidget *widget = h->data;
@@ -1716,7 +1716,7 @@ set_state (gint state, gchar ** value)
       break;
     }
 }
-
+/* UNUSED
 static void
 command_name_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRenderer * renderer, GtkTreeModel * model, GtkTreeIter * iter, G_GNUC_UNUSED gpointer user_data)
 {
@@ -1728,6 +1728,7 @@ command_name_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRender
 
   g_object_set (renderer, "text", name, NULL);
 }
+*/
 static void
 label_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRenderer * renderer, GtkTreeModel * model, GtkTreeIter * iter, G_GNUC_UNUSED gpointer user_data)
 {
@@ -1838,7 +1839,6 @@ command_from_hashtable_to_treemodel(gpointer key, gpointer value, gpointer data)
 
   gtk_list_store_set (list, &iter,
                       COL_TYPE, command->type,
-                      COL_ACTION, command->action,
                       COL_NAME, command->name,
                       COL_LABEL, command->label,
                       COL_TOOLTIP, command->tooltip,
@@ -2091,11 +2091,11 @@ keymap_change_binding_view_on_command_selection (GtkTreeSelection * selection, G
   gchar* name;
   gtk_tree_model_get (model, &iter, 
                       COL_TYPE, &type, 
-                      COL_ACTION, &action, 
                       COL_TOOLTIP, &tooltip, 
                       COL_ROW, &row, 
                       COL_NAME, &name,
                       -1);
+  action = gtk_action_group_get_action(Denemo.action_group, name);
   //getting the new command_id
   array = gtk_tree_path_get_indices (path);
   cbdata->command_id = array[0];

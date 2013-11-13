@@ -367,7 +367,6 @@ typedef struct DenemoKeymap
 typedef struct command_row
 {
   KeymapCommandType type;
-  GtkAction *action;
   gchar *name;
   gchar *label;
   gchar *tooltip;
@@ -391,7 +390,6 @@ typedef enum{
 enum
 {
   COL_TYPE = 0,
-  COL_ACTION,
   COL_NAME,
   COL_LABEL,
   COL_TOOLTIP,

@@ -210,17 +210,18 @@ add_ui (gchar * menupath, gchar * after, gchar * name)
 void
 create_command(command_row *command)
 {
+  GtkAction* action = NULL;
   if (command->script_type == COMMAND_SCHEME)
   {
     gboolean new_command = !g_hash_table_contains(Denemo.map->idx_from_name, command->name);
     if (!new_command)
-      command->action = lookup_action_from_name (command->name);
+      action = lookup_action_from_name (command->name);
     else
     {
       gchar *icon_name = get_icon_for_name (command->name, command->label);
-      command->action = gtk_action_new (command->name, command->label, command->tooltip, icon_name);
+      action = gtk_action_new (command->name, command->label, command->tooltip, icon_name);
       command->callback = activate_script;
-      gtk_action_group_add_action (Denemo.action_group, command->action);
+      gtk_action_group_add_action (Denemo.action_group, action);
       
       register_command_row (Denemo.map, command);
 
@@ -243,10 +244,10 @@ create_command(command_row *command)
       add_ui (command->menupath, command->after, command->name);
     }
 
-    g_object_set_data (G_OBJECT (command->action), "menupath", command->menupath);
+    g_object_set_data (G_OBJECT (action), "menupath", command->menupath);
 
     if (new_command)
-      g_signal_connect (G_OBJECT (command->action), "activate", G_CALLBACK (activate_script), NULL);
+      g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
 
     // Note the script should *not* be in Default.cmdset
     // to delay loading it, but we should set the signal initally and we should not repeat setting the signal later.
