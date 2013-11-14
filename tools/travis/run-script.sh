@@ -9,6 +9,7 @@ if [ "$COMPILER"x = "gcc"x ]; then
   make
   make dist
   sudo make install
+  make -C tests check
 elif [ "$COMPILER"x = "clang"x ]; then
   export CC="clang"
   export CXX="clang++"
@@ -17,5 +18,5 @@ elif [ "$COMPILER"x = "clang"x ]; then
   make
   make dist
   sudo make install
+  make -C tests check
 fi
-denemo -n -a "(d-Quit)"

@@ -6,7 +6,7 @@ dnl AM_INIT_AUTOMAKE([foreign -Wall -Werror gnu tar-pax])
 dnl AC_CANONICAL_SYSTEM
 AC_CONFIG_HEADER(config.h)
 
-AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_MACRO_DIR([build])
 AM_MAINTAINER_MODE
 AM_BINRELOC
 dnl ALL_LINGUAS="es fr sv"
@@ -38,6 +38,8 @@ AC_PROG_LIBTOOL
 dnl Enable color if available
 AS_COMPILER_FLAG([-fdiagnostics-color=auto],
                  [CFLAGS="$CFLAGS -fdiagnostics-color=auto"])
+
+AM_CONDITIONAL(ENABLE_GLIB_TEST, [test "x$enable_glibtest" = "xyes"])
 
 AC_ARG_ENABLE(
   guile_1_8,
@@ -386,6 +388,8 @@ GTK_DOC_CHECK([1.14],[--flavour no-tmpl])
 AM_CONDITIONAL([ENABLE_GTK_DOC], false)
 ])
 
+# Test suite
+GLIB_TESTS
 
 dnl Checks for header files.
 
@@ -451,7 +455,7 @@ AC_SUBST(LDFLAGS)
 
 AC_OUTPUT(
 [
-  m4/Makefile 
+  build/Makefile 
   Makefile 
   denemo.spec
   tools/Makefile
@@ -471,4 +475,5 @@ AC_OUTPUT(
   libsmf/Makefile
   libsffile/Makefile
   ui/Makefile
+  tests/Makefile
 ])

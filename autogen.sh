@@ -1,5 +1,5 @@
 #!/bin/sh
-aclocal $ACLOCAL_FLAGS -I m4 -I /usr/share/aclocal && \
+aclocal $ACLOCAL_FLAGS -I build -I /usr/share/aclocal && \
 autoheader && \
 libtoolize --force && \
 intltoolize --copy --force --automake && \
