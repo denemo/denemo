@@ -39,12 +39,14 @@ point_to_empty_movement (DenemoGUI * gui)
 {
   DenemoScore *newscore = (DenemoScore *) g_malloc0 (sizeof (DenemoScore));
   init_score (newscore, gui);
-  if (gui->si && gui->si->buttonbox)
+  if (!Denemo.non_interactive && gui->si && gui->si->buttonbox)
     gtk_widget_hide (gui->si->buttonbox);
   g_static_mutex_lock (&smfmutex);
   gui->si = newscore;
   g_static_mutex_unlock (&smfmutex);
-  gtk_widget_show (gui->si->buttonbox);
+  if(!Denemo.non_interactive)
+    gtk_widget_show (gui->si->buttonbox);
+
 }
 
 /**
@@ -578,13 +580,15 @@ init_score (DenemoScore * si, DenemoGUI * gui)
   si->redodata = g_queue_new ();
   si->undo_guard = 1;           //do not collect undo information until file is loaded
 
-  si->buttonbox = gtk_hbox_new (FALSE, 1);
-  set_movement_selector (gui);
-  gtk_widget_set_tooltip_text (si->buttonbox, _("A button bar that can be populated by Movement titles and other user generated buttons.\nGenerally by clicking the button you can edit the title or value or execute the action of the button"));
-  gtk_box_pack_end (GTK_BOX (gui->buttonboxes), si->buttonbox, FALSE, TRUE, 0);
-  gtk_widget_show (si->buttonbox);
-  gtk_widget_set_can_focus (si->buttonbox, FALSE);
-  //GTK_WIDGET_UNSET_FLAGS(si->buttonbox, GTK_CAN_FOCUS);
+  if(!Denemo.non_interactive){
+    si->buttonbox = gtk_hbox_new (FALSE, 1);
+    set_movement_selector (gui);
+    gtk_widget_set_tooltip_text (si->buttonbox, _("A button bar that can be populated by Movement titles and other user generated buttons.\nGenerally by clicking the button you can edit the title or value or execute the action of the button"));
+    gtk_box_pack_end (GTK_BOX (gui->buttonboxes), si->buttonbox, FALSE, TRUE, 0);
+    gtk_widget_show (si->buttonbox);
+    gtk_widget_set_can_focus (si->buttonbox, FALSE);
+    //GTK_WIDGET_UNSET_FLAGS(si->buttonbox, GTK_CAN_FOCUS);
+  }
 }
 
 static gboolean

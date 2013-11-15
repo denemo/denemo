@@ -71,6 +71,8 @@ executeCLI (GtkWidget * button, GtkEntry * entry)
 
 
 /* Return number of characters in Scheme script */
+//TODO: Avoid to use gtk widgets for this since it can be used in non 
+//interactive mode.
 gint
 getNumCharsSchemeText (void)
 {

@@ -341,8 +341,10 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
           update_file_selection_path (filename);
           if (type == REPLACE_SCORE)
             {
-              if (xml)
-                set_gui_filename (gui, filename);
+              if (xml){
+                if(!Denemo.non_interactive)
+                  set_gui_filename (gui, filename);
+              }
               else
                 {
                   gchar *sname = strip_path_and_extension (filename);
@@ -363,7 +365,7 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
         updatescoreinfo (gui);
       else
         {
-          if (getNumCharsSchemeText ())
+          if (!Denemo.non_interactive && getNumCharsSchemeText ())
             {
               gui->has_script = TRUE;
               executeScript ();
@@ -371,24 +373,31 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
         }
       set_rightmeasurenum (gui->si);
       select_lyrics ();
-      set_bottom_staff (gui);
-      update_hscrollbar (gui);
-      update_vscrollbar (gui);
-      gtk_widget_queue_draw (Denemo.scorearea);
-      g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
-      g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
-      force_lily_refresh (gui);
+
+      if(!Denemo.non_interactive){
+        set_bottom_staff (gui);
+        update_hscrollbar (gui);
+        update_vscrollbar (gui);
+        gtk_widget_queue_draw (Denemo.scorearea);
+        g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
+        g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
+        force_lily_refresh (gui);
+      }
     }
   else                          /*file load failed - gui may not be valid */
     {
-      deletescore (NULL, gui);
+      if(!Denemo.non_interactive)
+        deletescore (NULL, gui);
     }
-  g_signal_handlers_unblock_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
+  if(!Denemo.non_interactive)
+    g_signal_handlers_unblock_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
   gui->si->undo_guard = 1;
   denemo_scheme_init ();        //to re-instate any user defined directives for whole score
-  if (!(type == ADD_STAFFS || type == ADD_MOVEMENTS))
-    score_status (gui, FALSE);
-  rewind_audio ();
+  if(!Denemo.non_interactive){
+    if (!(type == ADD_STAFFS || type == ADD_MOVEMENTS))
+      score_status (gui, FALSE);
+    rewind_audio ();
+  }
   gui->si->undo_guard = Denemo.prefs.disable_undo;      //user pref to (dis)allow undo information to be collected
   return result;
 }

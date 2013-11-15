@@ -341,7 +341,7 @@ main (int argc, char *argv[])
   gboolean gtk_status = FALSE;
   
   if(!(gtk_status = gtk_init_check (&argc, &argv)))
-    g_print(_("Could not start graphical interface."));
+    g_print(_("Could not start graphical interface.\n"));
 
   files = process_command_line (argc, argv, gtk_status);
   

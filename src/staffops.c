@@ -220,12 +220,10 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action, DenemoContext con
   take_snapshot ();
   DenemoStaff *thestaffstruct = (DenemoStaff *) g_malloc (sizeof (DenemoStaff));
 
-
-
-
-  thestaffstruct->staffmenu = (GtkMenu *) gtk_menu_new ();
-  thestaffstruct->voicemenu = (GtkMenu *) gtk_menu_new ();
-
+  if(!Denemo.non_interactive){
+    thestaffstruct->staffmenu = (GtkMenu *) gtk_menu_new ();
+    thestaffstruct->voicemenu = (GtkMenu *) gtk_menu_new ();
+  }
 
   measurenode *themeasures = NULL;      /* Initial set of measures in staff */
   gint numstaffs = g_list_length (si->thescore);

@@ -72,6 +72,7 @@ static gint insert_pattern_in_toolbar (RhythmPattern * r);
 static gboolean append_rhythm (RhythmPattern * r, gpointer fn);
 static void install_button_for_pattern (RhythmPattern * r, gchar * thelabel);
 
+static DenemoGUI* new_movement();
 static void newtab (GtkAction * action, gpointer param);
 
 static void closewrapper (GtkAction * action, DenemoScriptParam* param);
@@ -6868,6 +6869,8 @@ load_files(gchar** files)
     {
       if(!Denemo.non_interactive)
         newtab (NULL, NULL);
+      else
+        Denemo.gui = new_movement ();
       open_for_real (files[i], Denemo.gui, FALSE, REPLACE_SCORE);
       ret = TRUE;
     }
@@ -11211,6 +11214,24 @@ new_score_cb (GtkAction * action, DenemoScriptParam * param)
     }
 }
 
+static DenemoGUI*
+new_movement()
+{
+  static gint id = 1;
+  DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
+  //uniquely identifies this musical score editor for duration of program.
+  gui->id = id++;
+  gui->mode = Denemo.prefs.mode;
+  gui->pending_midi = g_queue_new ();
+  Denemo.guis = g_list_append (Denemo.guis, gui);
+  Denemo.gui = NULL;
+  gui->lilycontrol.papersize = g_string_new ("a4");     //A4 default
+  gui->lilycontrol.staffsize = g_string_new ("18");
+  gui->lilycontrol.lilyversion = g_string_new ("");
+  gui->lilycontrol.orientation = TRUE;  //portrait
+  return gui;
+}
+
 /**
  * Creates a new DenemoGUI structure represented by a tab in a notebook: the DenemoGUI can, at anyone time, control one musical score possibly of several movements. It can, from time to time have different musical scores loaded into it. So it is to be thought of as a Music Score Editor.
  * This DenemoGUI* gui is appended to the global list Denemo.guis.
@@ -11225,30 +11246,11 @@ newtab (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
   if (Denemo.gui && gtk_widget_get_visible (Denemo.textwindow))
     activate_action ("/MainMenu/ViewMenu/" ToggleLilyText_STRING);
 
-  static gint id = 1;
-  DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
-  //uniquely identifies this musical score editor for duration of program.
-  gui->id = id++;
-  gui->mode = Denemo.prefs.mode;
-  gui->pending_midi = g_queue_new ();
+  DenemoGUI* gui = new_movement();
   gui->score_layout = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (gui->score_layout), "Score Layout");
   gtk_window_set_default_size (GTK_WINDOW (gui->score_layout), 400, 800);
   g_signal_connect (G_OBJECT (gui->score_layout), "delete-event", G_CALLBACK (hide_score_layout_on_delete), NULL);
-
-  Denemo.guis = g_list_append (Denemo.guis, gui);
-
-
-  Denemo.gui = NULL;
-  // Denemo.gui = gui; must do this after switching to page, so after creating page
-  gui->lilycontrol.papersize = g_string_new ("a4");     //A4 default
-  gui->lilycontrol.staffsize = g_string_new ("18");
-  gui->lilycontrol.lilyversion = g_string_new ("");
-  gui->lilycontrol.orientation = TRUE;  //portrait
-
-
-
-  //gui->pixmap = NULL;
 
   /* Initialize the GUI */
 
