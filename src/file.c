@@ -291,6 +291,11 @@ lyinput (gchar * filename)
   return 0;
 }
 
+static gboolean
+exists(gchar* filename, const gchar* extension)
+{
+  return (strcmp (filename + strlen (filename) - strlen(extension), extension) == 0);
+}
 
 /**
  * The function that actually determines the file type and calls the
@@ -301,22 +306,23 @@ lyinput (gchar * filename)
 gint
 open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type)
 {
-  g_signal_handlers_block_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
+  if(!Denemo.non_interactive)
+    g_signal_handlers_block_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
   gint result;
   gboolean xml = FALSE;
   result = 1;                   //FAILURE
-#define EXISTS(extension) (strcmp (filename + strlen (filename) - strlen(extension), extension) == 0)
+
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
     {
-      if (EXISTS (".denemo") || EXISTS (".dnm"))
+      if (exists (filename, ".denemo") || exists (filename, ".dnm"))
         xml = TRUE, result = importXML (filename, gui, type);
-      else if (EXISTS (".ly"))
+      else if (exists (filename, ".ly"))
         result = lyinput (filename);
-      else if (EXISTS (".mxml") || EXISTS (".xml"))
+      else if (exists (filename, ".mxml") || exists (filename, ".xml"))
         result = mxmlinput (filename);
-      else if (EXISTS (".mid") || EXISTS (".midi"))
+      else if (exists (filename, ".mid") || exists (filename, ".midi"))
         result = importMidi (filename);
-      else if (EXISTS (".pdf") || EXISTS (".PDF"))
+      else if (exists (filename, ".pdf") || exists (filename, ".PDF"))
         {                       
 #ifndef USE_EVINCE  
   g_debug("This feature requires denemo to be built with evince");
@@ -326,7 +332,6 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
           return !open_source (filename, 0, 0, 0);
 #endif
         }
-#undef EXISTS
     }
   //printf("\nResult == %d type == %d template == %d xml == %d\n",result,type,template,(int)xml);
   if (result == 0)
