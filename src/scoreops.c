@@ -194,7 +194,7 @@ append_movement (GtkAction * action, gpointer param, gboolean populate)
 
 //copies staff structure to new movement
 void
-append_new_movement (GtkAction * action, gpointer param)
+append_new_movement (GtkAction * action, DenemoScriptParam * param)
 {
   append_movement (action, param, TRUE);
 }
@@ -245,7 +245,7 @@ reset_movement_numbers (DenemoGUI * gui)
 }
 
 void
-delete_movement (GtkAction * action, gpointer param)
+delete_movement (GtkAction * action, DenemoScriptParam* param)
 {
   DenemoGUI *gui = Denemo.gui;
   terminate_playback ();

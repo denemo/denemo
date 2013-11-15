@@ -650,12 +650,11 @@ mark_boundaries_helper (DenemoScore * si, gint mark_staff, gint mark_measure, gi
  *  setmark
  *  Sets the current mark for the start of the buffer
  *
- *  @param gui pointer to the DenemoGUI structure
  */
 void
-set_mark (DenemoGUI * gui)
+set_mark (DenemoScriptParam * param)
 {
-  DenemoScore *si = gui->si;
+  DenemoScore *si = Denemo.gui->si;
   si->markstaffnum = si->currentstaffnum;
   si->markmeasurenum = si->currentmeasurenum;
   si->markcursor_x = si->cursor_x;
@@ -666,12 +665,11 @@ set_mark (DenemoGUI * gui)
  *  set_point
  *  Sets the current cursor position as the end of the selection
  *
- *  @param gui pointer to the DenemoGUI structure
  */
 void
-set_point (DenemoGUI * gui)
+set_point (DenemoScriptParam * param)
 {
-  DenemoScore *si = gui->si;
+  DenemoScore *si = Denemo.gui->si;
   if (si->markstaffnum)
     {
       mark_boundaries_helper (si, si->markstaffnum, si->markmeasurenum, si->markcursor_x, si->currentstaffnum, si->currentmeasurenum, si->cursor_x, NORMAL_SELECT);
@@ -689,12 +687,11 @@ mark_status (void)
  * unset_mark
  * Remove the current mark
  *
- * @param gui pointer to the DenemoGUI structure
  */
 void
-unset_mark (DenemoGUI * gui)
+unset_mark (DenemoScriptParam * param)
 {
-  DenemoScore *si = gui->si;
+  DenemoScore *si = Denemo.gui->si;
   si->markstaffnum = 0;
   calcmarkboundaries (si);
 }
@@ -963,7 +960,7 @@ calcmarkboundaries (DenemoScore * si)
 }
 
 void
-swap_point_and_mark (GtkAction * action, gpointer param)
+swap_point_and_mark (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoScore *si = Denemo.gui->si;
   gint temp = si->currentstaffnum;
@@ -992,7 +989,7 @@ swap_point_and_mark (GtkAction * action, gpointer param)
  * widget - unused
  */
 void
-undowrapper (GtkAction * action, gpointer param)
+undowrapper (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   undo (gui);
@@ -1009,7 +1006,7 @@ undowrapper (GtkAction * action, gpointer param)
  * widget - unused
  */
 void
-redowrapper (GtkAction * action, gpointer param)
+redowrapper (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   redo (gui);

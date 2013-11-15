@@ -18,12 +18,12 @@ void deletescore (GtkWidget * widget, DenemoGUI * gui);
 void updatescoreinfo (DenemoGUI * gui);
 void next_movement (GtkAction * action, DenemoScriptParam * param);
 void prev_movement (GtkAction * action, DenemoScriptParam * param);
-void append_new_movement (GtkAction * action, gpointer param);
+void append_new_movement (GtkAction * action, DenemoScriptParam * param);
 void append_blank_movement (void);
 void insert_movement_before (GtkAction * action, DenemoScriptParam * param);
 void insert_movement_after (GtkAction * action, DenemoScriptParam * param);
-void delete_movement (GtkAction * action, gpointer param);
-void movement_props_dialog (GtkAction * action, gpointer param);
+void delete_movement (GtkAction * action, DenemoScriptParam * param);
+void movement_props_dialog (GtkAction * action, DenemoScriptParam * param);
 gboolean goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint measurenum, gint objnum);
 
 void PopPosition (GtkAction * action, DenemoScriptParam * param);

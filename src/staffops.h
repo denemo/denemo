@@ -45,16 +45,16 @@ void showwhichaccidentalswholestaff (DenemoStaff * thestaff);
 
 void fixnoteheights (DenemoStaff * thestaff);
 
-void newstaffinitial (GtkAction * action, gpointer param);
+void newstaffinitial (GtkAction * action, DenemoScriptParam * param);
 
-void newstaffbefore (GtkAction * action, gpointer param);
+void newstaffbefore (GtkAction * action, DenemoScriptParam * param);
 
-void dnm_newstaffafter (GtkAction * action, gpointer param);
+void dnm_newstaffafter (GtkAction * action, DenemoScriptParam * param);
 
 
-void dnm_newstaffvoice (GtkAction * action, gpointer param);
+void dnm_newstaffvoice (GtkAction * action, DenemoScriptParam * param);
 
-void newstafflast (GtkAction * action, gpointer param);
+void newstafflast (GtkAction * action, DenemoScriptParam * param);
 
 gboolean signal_structural_change (DenemoGUI * gui);
 

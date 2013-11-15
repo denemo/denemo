@@ -616,7 +616,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
 }
 
 void
-configure_keyboard_dialog (GtkAction * action, DenemoGUI * gui)
+configure_keyboard_dialog (GtkAction * action, DenemoScriptParam * param)
 {
   configure_keyboard_dialog_init_idx (action, -1);
 }

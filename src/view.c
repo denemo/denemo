@@ -74,17 +74,17 @@ static void install_button_for_pattern (RhythmPattern * r, gchar * thelabel);
 
 static void newtab (GtkAction * action, gpointer param);
 
-static void closewrapper (GtkAction * action, gpointer param);
-static gboolean close_gui_with_check (GtkAction * action, gpointer param);
+static void closewrapper (GtkAction * action, DenemoScriptParam* param);
+static gboolean close_gui_with_check (GtkAction * action, DenemoScriptParam* param);
 static void openinnew (GtkAction * action, DenemoScriptParam * param);
-static void create_rhythm_cb (GtkAction * action, gpointer param);
-static void delete_rhythm_cb (GtkAction * action, gpointer param);
-static void toggle_edit_mode (GtkAction * action, gpointer param);
-static void toggle_rest_mode (GtkAction * action, gpointer param);
-static void toggle_rhythm_mode (GtkAction * action, gpointer param);
-static void fetchcommands (GtkAction * action, gpointer param);
-static void morecommands (GtkAction * action, gpointer param);
-static void mycommands (GtkAction * action, gpointer param);
+static void create_rhythm_cb (GtkAction * action, DenemoScriptParam* param);
+static void delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param);
+static void toggle_edit_mode (GtkAction * action, DenemoScriptParam* param);
+static void toggle_rest_mode (GtkAction * action, DenemoScriptParam* param);
+static void toggle_rhythm_mode (GtkAction * action, DenemoScriptParam* param);
+static void fetchcommands (GtkAction * action, DenemoScriptParam* param);
+static void morecommands (GtkAction * action, DenemoScriptParam* param);
+static void mycommands (GtkAction * action, DenemoScriptParam* param);
 
 static void create_window (void);
 
@@ -7184,7 +7184,7 @@ free_movements (DenemoGUI * gui)
 *
 */
 static void
-closewrapper (GtkAction * action, gpointer param)
+closewrapper (GtkAction * action, DenemoScriptParam* param)
 {
   GList *display;
 
@@ -7218,7 +7218,7 @@ delete_callback (GtkWidget * widget, GdkEvent * event)
  * callback to fetch up-to-date system commands from internet, denemo.org hardwired at present
  */
 static void
-fetchcommands (GtkAction * action, gpointer param)
+fetchcommands (GtkAction * action, DenemoScriptParam* param)
 {
   static gchar *location = NULL;
   location = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, NULL);
@@ -7259,7 +7259,7 @@ fetchcommands (GtkAction * action, gpointer param)
  * if user has a local (possibly updated) set in ~/.denemo/downloads then that directory is used.
  */
 static void
-morecommands (GtkAction * action, gpointer param)
+morecommands (GtkAction * action, DenemoScriptParam* param)
 {
   static gchar *location = NULL;
   location = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", NULL);
@@ -7285,7 +7285,7 @@ morecommands (GtkAction * action, gpointer param)
  * 
  */
 static void
-mycommands (GtkAction * action, gpointer param)
+mycommands (GtkAction * action, DenemoScriptParam* param)
 {
   static gchar *location = NULL;
   if (location == NULL)
@@ -7325,7 +7325,7 @@ openinnew (GtkAction * action, DenemoScriptParam * param)
  * return FALSE if gui was not closed, else TRUE
  */
 gboolean
-close_gui_with_check (GtkAction * action, gpointer param)
+close_gui_with_check (GtkAction * action, DenemoScriptParam* param)
 {
   DenemoGUI *gui = Denemo.gui;
   Denemo.prefs.mode = Denemo.gui->mode;
@@ -7997,7 +7997,7 @@ install_button_for_pattern (RhythmPattern * r, gchar * thelabel)
 
 */
 static void
-create_rhythm_cb (GtkAction * action, gpointer param)
+create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
 {
   DenemoGUI *gui = Denemo.gui;
   gboolean singleton = FALSE;   // set TRUE if action is one of the insert_... functions.
@@ -9590,7 +9590,7 @@ highlight_duration (DenemoGUI * gui, gint dur)
  * 
  */
 static void
-delete_rhythm_cb (GtkAction * action, gpointer param)
+delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
 {
   DenemoGUI *gui = Denemo.gui;
   if ((gui->mode & (INPUTEDIT)) == 0)
@@ -9849,7 +9849,7 @@ change_entry_type (GtkRadioAction * action, GtkRadioAction * current)
 
 /* callback: if not Insert mode set Insert mode else set Edit mode */
 static void
-toggle_edit_mode (GtkAction * action, gpointer param)
+toggle_edit_mode (GtkAction * action, DenemoScriptParam* param)
 {
   DenemoGUI *gui = Denemo.gui;
   static gint mode = INPUTINSERT;
@@ -9879,7 +9879,7 @@ toggle_edit_mode (GtkAction * action, gpointer param)
 
 /* callback: if rest entry make note entry and vv */
 static void
-toggle_rest_mode (GtkAction * action, gpointer param)
+toggle_rest_mode (GtkAction * action, DenemoScriptParam* param)
 {
   DenemoGUI *gui = Denemo.gui;
   static gint mode = INPUTNORMAL;
@@ -9907,7 +9907,7 @@ toggle_rest_mode (GtkAction * action, gpointer param)
 
 /* callback: if rhythm entry make note entry and vv */
 static void
-toggle_rhythm_mode (GtkAction * action, gpointer param)
+toggle_rhythm_mode (GtkAction * action, DenemoScriptParam* param)
 {
   DenemoGUI *gui = Denemo.gui;
 #if 1
@@ -10170,7 +10170,7 @@ toggle_command_manager (GtkAction * action, gpointer param)
 {
   if(Denemo.command_manager==NULL) 
   {
-	configure_keyboard_dialog (action, Denemo.gui);
+	configure_keyboard_dialog (action, NULL);
   }
   else 
   {
@@ -11187,7 +11187,7 @@ create_window (void)
 
 
 void
-newview (GtkAction * action, gpointer param)
+newview (GtkAction * action, DenemoScriptParam * param)
 {
   newtab (NULL, NULL);
   Denemo.gui->si->undo_guard = 1;       //do not collect undo for initialization of score

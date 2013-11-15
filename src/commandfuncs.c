@@ -48,25 +48,25 @@ DenemoObject *curmudelaobj = \
  * is easy to alternate rhythms.
  */
 void
-nextrhythm (DenemoGUI * gui)
+nextrhythm (DenemoScriptParam* param)
 {
-  if (!gui->rhythms)
+  if (!Denemo.gui->rhythms)
     return;
-  if (gui->currhythm == NULL)
-    gui->currhythm = g_list_last (gui->rhythms);
-  unhighlight_rhythm ((RhythmPattern *) gui->currhythm->data);
-  if (gui->currhythm->next)
-    gui->currhythm = gui->currhythm->next;
+  if (Denemo.gui->currhythm == NULL)
+    Denemo.gui->currhythm = g_list_last (Denemo.gui->rhythms);
+  unhighlight_rhythm ((RhythmPattern *) Denemo.gui->currhythm->data);
+  if (Denemo.gui->currhythm->next)
+    Denemo.gui->currhythm = Denemo.gui->currhythm->next;
   else
-    gui->currhythm = gui->rhythms;
-#define g  (gui->rstep)
+    Denemo.gui->currhythm = Denemo.gui->rhythms;
+#define g  (Denemo.gui->rstep)
 
-  g = ((RhythmPattern *) gui->currhythm->data)->rsteps;
+  g = ((RhythmPattern *) Denemo.gui->currhythm->data)->rsteps;
 
 
-#define CURRP ((RhythmPattern *)gui->currhythm->data)
+#define CURRP ((RhythmPattern *)Denemo.gui->currhythm->data)
 
-  gui->cstep = (CURRP->clipboard)->data;
+  Denemo.gui->cstep = (CURRP->clipboard)->data;
   if (((RhythmElement *) g->data)->icon)
     {
       GtkWidget *label = LABEL (CURRP->button);
@@ -76,7 +76,7 @@ nextrhythm (DenemoGUI * gui)
 #if 0
   gtk_widget_set_state (GTK_WIDGET (((RhythmPattern *) gui->currhythm->data)->button), GTK_STATE_PRELIGHT);
 #else
-  highlight_rhythm ((RhythmPattern *) gui->currhythm->data);
+  highlight_rhythm ((RhythmPattern *) Denemo.gui->currhythm->data);
 #endif
   //g_print("selected active\n");
 #undef CURRP
@@ -344,7 +344,7 @@ gomeasureleft (DenemoScriptParam * param, gboolean extend_selection)
     param = &dummy;
   param->status = FALSE;
   if (extend_selection && !si->markstaffnum)
-    set_mark (gui);
+    set_mark (NULL);
   if (gui->si->currentmeasure->prev)
     {
       gui->si->currentmeasurenum--;
@@ -382,7 +382,7 @@ gomeasureright (DenemoScriptParam * param, gboolean extend_selection)
     param = &dummy;
   param->status = FALSE;
   if (extend_selection && !si->markstaffnum)
-    set_mark (gui);
+    set_mark (NULL);
   if (gui->si->currentmeasure->next)
     {
       gui->si->currentmeasurenum++;
@@ -420,7 +420,7 @@ movetomeasureleft (DenemoScriptParam * param)
  * return TRUE if movements are swapped
  */
 gboolean
-swapmovements (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
+swapmovements (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   (void) signal_structural_change (gui);
@@ -455,7 +455,7 @@ swapmovements (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
  *
  */
 gboolean
-swapstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
+swapstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   (void) signal_structural_change (gui);
@@ -494,7 +494,7 @@ swapstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
  *
  */
 gboolean
-splitstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
+splitstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
 
@@ -525,7 +525,7 @@ splitstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
  *
  */
 gboolean
-joinstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
+joinstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
 
@@ -564,7 +564,7 @@ govoiceup (DenemoScriptParam * param, gboolean extend_selection)
   if (!gui->si->currentstaff)
     return param->status = FALSE;//should never happen
   if (extend_selection && !si->markstaffnum)
-    set_mark (gui);
+    set_mark (NULL);
   if (gui->si->currentstaff && (((DenemoStaff *) (gui->si->currentstaff->data))->voicecontrol & DENEMO_SECONDARY))
     {
       hide_lyrics ();
@@ -599,7 +599,7 @@ gostaffup (DenemoScriptParam * param, gboolean extend_selection)
   if (!gui->si->currentstaff)
     return param->status = FALSE;//should never happen
   if (extend_selection && !si->markstaffnum)
-    set_mark (gui);
+    set_mark (NULL);
   while ((((DenemoStaff *) (gui->si->currentstaff->data))->voicecontrol == DENEMO_SECONDARY) &&
     govoiceup (param, extend_selection))
       ;/* do nothing */
@@ -642,7 +642,7 @@ govoicedown (DenemoScriptParam * param, gboolean extend_selection)
   if (!gui->si->currentstaff)
     return param->status = FALSE;
   if (extend_selection && !si->markstaffnum)
-    set_mark (gui);
+    set_mark (NULL);
   if (gui->si->currentstaff->next && ((DenemoStaff *) (gui->si->currentstaff->next->data))->voicecontrol & DENEMO_SECONDARY)
     {
       hide_lyrics ();
@@ -710,7 +710,7 @@ gostaffdown (DenemoScriptParam * param, gboolean extend_selection)
   if (!gui->si->currentstaff)
     return param->status = FALSE;
   if (extend_selection && !si->markstaffnum)
-    set_mark (gui);
+    set_mark (NULL);
   while (gui->si->currentstaff->next && (((DenemoStaff *) (gui->si->currentstaff->next->data))->voicecontrol == DENEMO_SECONDARY)
     && govoicedown (param, extend_selection))
       ;     /* do nothing */
@@ -781,7 +781,7 @@ move_left (DenemoScriptParam * param, gboolean extend_selection)
     param = &dummy;
   param->status = FALSE;
   if (extend_selection && !si->markstaffnum)
-    set_mark (gui);
+    set_mark (NULL);
   g_debug ("cursorleft: cursorpos %d\n", si->cursor_x);
   if (!si->cursor_x)
     {
@@ -842,7 +842,7 @@ move_right (DenemoScriptParam * param, gboolean extend_selection)
     param = &dummy;
   param->status = FALSE;
   if (extend_selection && !si->markstaffnum)
-    set_mark (gui);
+    set_mark (NULL);
   if (si->cursor_appending && si->currentmeasure->next)
     {
       /* Go to the next measure */
@@ -1469,11 +1469,11 @@ shiftcursor (DenemoGUI * gui, gint note_value)
 
 
 void
-insert_rhythm_pattern (DenemoGUI * gui)
+insert_rhythm_pattern (DenemoScriptParam* param)
 {
-  if (gui->currhythm == NULL)
+  if (Denemo.gui->currhythm == NULL)
     return;
-  insert_clipboard (((RhythmPattern *) gui->currhythm->data)->clipboard);
+  insert_clipboard (((RhythmPattern *) Denemo.gui->currhythm->data)->clipboard);
 
 }
 
@@ -1942,7 +1942,7 @@ dnm_insertmeasures (DenemoScore * si, gint number)
  
  */
 void
-insertmeasureafter (G_GNUC_UNUSED DenemoGUI * gui)
+insertmeasureafter (G_GNUC_UNUSED DenemoScriptParam* param)
 {
   DenemoScore *si = Denemo.gui->si;
   take_snapshot ();
@@ -1961,7 +1961,7 @@ insertmeasureafter (G_GNUC_UNUSED DenemoGUI * gui)
  
  */
 void
-addmeasureafter (G_GNUC_UNUSED DenemoGUI * gui)
+addmeasureafter (G_GNUC_UNUSED DenemoScriptParam* param)
 {
   DenemoScore *si = Denemo.gui->si;
   take_snapshot ();
@@ -1980,7 +1980,7 @@ addmeasureafter (G_GNUC_UNUSED DenemoGUI * gui)
  
  */
 void
-insertmeasurebefore (G_GNUC_UNUSED DenemoGUI * gui)
+insertmeasurebefore (G_GNUC_UNUSED DenemoScriptParam* param)
 {
   DenemoScore *si = Denemo.gui->si;
   si->currentmeasure = addmeasures (si, si->currentmeasurenum - 1, 1, 0);
@@ -2036,7 +2036,7 @@ appendmeasurestoentirescore (DenemoScore * si, gint number)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-delete_staff_before (G_GNUC_UNUSED GtkAction * action, gpointer param)
+delete_staff_before (G_GNUC_UNUSED GtkAction * action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   if (staffup (param))
@@ -2052,7 +2052,7 @@ delete_staff_before (G_GNUC_UNUSED GtkAction * action, gpointer param)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-delete_staff_after (G_GNUC_UNUSED GtkAction * action, gpointer param)
+delete_staff_after (G_GNUC_UNUSED GtkAction * action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   if (staffdown (param))
@@ -2068,7 +2068,7 @@ delete_staff_after (G_GNUC_UNUSED GtkAction * action, gpointer param)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-delete_staff_current (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
+delete_staff_current (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   deletestaff (gui, TRUE);
@@ -2085,11 +2085,11 @@ delete_staff_current (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer p
  * function.
  */
 void
-deletemeasure (DenemoGUI * gui)
+deletemeasure (DenemoScriptParam* param)
 {
-  dnm_deletemeasure (gui->si);
-  isoffleftside (gui);
-  displayhelper (gui);
+  dnm_deletemeasure (Denemo.gui->si);
+  isoffleftside (Denemo.gui);
+  displayhelper (Denemo.gui);
 }
 
 /**
@@ -2100,18 +2100,18 @@ deletemeasure (DenemoGUI * gui)
 
  */
 void
-deletemeasureallstaffs (DenemoGUI * gui)
+deletemeasureallstaffs (DenemoScriptParam* param)
 {
-  DenemoScore *si = gui->si;
+  DenemoScore *si = Denemo.gui->si;
   //take_snapshot(); this does not prevent the multiple undo steps needed
   si->currentmeasure = removemeasures (si, si->currentmeasurenum - 1, 1, TRUE);
   setcurrents (si);
   if (si->markstaffnum)
     calcmarkboundaries (si);
-  score_status (gui, TRUE);
+  score_status (Denemo.gui, TRUE);
   si->markstaffnum = 0;
-  isoffleftside (gui);
-  displayhelper (gui);
+  isoffleftside (Denemo.gui);
+  displayhelper (Denemo.gui);
 }
 
 
@@ -2173,14 +2173,13 @@ delete_object_helper (DenemoScore * si)
 
 /**
  * Helper to remove a object from the score
- * @param gui pointer to the DenemoGUI structure
  * @return none.
  *
  */
 void
-deleteobject (DenemoGUI * gui)
+deleteobject (DenemoScriptParam* param)
 {
-  dnm_deleteobject (gui->si);
+  dnm_deleteobject (Denemo.gui->si);
 }
 
 /**
@@ -2358,7 +2357,7 @@ tolastobject (DenemoGUI * gui)
 
 /* Make note tied/untied */
 void
-toggle_tie (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
+toggle_tie (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
@@ -2385,7 +2384,7 @@ gotoend (gpointer param, gboolean extend_selection)
 {
   DenemoGUI *gui = Denemo.gui;
   if (extend_selection && !gui->si->markstaffnum)
-    set_mark (gui);
+    set_mark (NULL);
   gui->si->currentmeasurenum = g_list_length (((DenemoStaff *) gui->si->currentstaff->data)->measures);
   setcurrents (gui->si);
   if (extend_selection)
@@ -2410,7 +2409,7 @@ gotohome (gboolean extend_selection)
 {
   DenemoGUI *gui = Denemo.gui;
   if (extend_selection && !gui->si->markstaffnum)
-    set_mark (gui);
+    set_mark (NULL);
   gui->si->currentmeasurenum = gui->si->leftmeasurenum = 1;
   displayhelper (gui);
   setcurrents (gui->si);
@@ -2428,7 +2427,7 @@ gotohome (gboolean extend_selection)
  * @return none
 */
 void
-tohome (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
+tohome (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   gotohome (TRUE);
 }
@@ -2441,7 +2440,7 @@ tohome (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
  * @return none
 */
 void
-toend (G_GNUC_UNUSED GtkAction * action, gpointer param)
+toend (G_GNUC_UNUSED GtkAction * action, DenemoScriptParam * param)
 {
   gotoend (param, TRUE);
 }
@@ -2488,7 +2487,7 @@ movetoend (G_GNUC_UNUSED GtkAction * action, DenemoScriptParam * param)
  * @return none
  */
 void
-stem_directive_insert (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
+stem_directive_insert (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   object_insert (gui, dnm_stem_directive_new (DENEMO_STEMBOTH));
@@ -2503,13 +2502,12 @@ stem_directive_insert (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer 
 /**
  * Toggle start_slur flag for the current chord
  * 
- * @param gui pointer to the DenemoGUI structure
  * @return none
  */
 void
-toggle_begin_slur (DenemoGUI * gui)
+toggle_begin_slur (DenemoScriptParam* param)
 {
-  DenemoScore *si = gui->si;
+  DenemoScore *si = Denemo.gui->si;
   declarecurmudelaobj;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
@@ -2539,13 +2537,12 @@ caution (DenemoScore * si)
 
 /**
  * Toggle end_slur flag for the current chord
- * @param gui pointer to the DenemoGUI structure
  * @return none
  */
 void
-toggle_end_slur (DenemoGUI * gui)
+toggle_end_slur (DenemoScriptParam * param)
 {
-  DenemoScore *si = gui->si;
+  DenemoScore *si = Denemo.gui->si;
   declarecurmudelaobj;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
@@ -2565,9 +2562,9 @@ toggle_end_slur (DenemoGUI * gui)
  * @return none
  */
 void
-toggle_start_crescendo (DenemoGUI * gui)
+toggle_start_crescendo (DenemoScriptParam * param)
 {
-  DenemoScore *si = (DenemoScore *) gui->si;
+  DenemoScore *si = (DenemoScore *) Denemo.gui->si;
   declarecurmudelaobj;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
@@ -2584,9 +2581,9 @@ toggle_start_crescendo (DenemoGUI * gui)
  * @return none
  */
 void
-toggle_end_crescendo (DenemoGUI * gui)
+toggle_end_crescendo (DenemoScriptParam * param)
 {
-  DenemoScore *si = (DenemoScore *) gui->si;
+  DenemoScore *si = (DenemoScore *) Denemo.gui->si;
   declarecurmudelaobj;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
@@ -2603,9 +2600,9 @@ toggle_end_crescendo (DenemoGUI * gui)
  * @return none
  */
 void
-toggle_start_diminuendo (DenemoGUI * gui)
+toggle_start_diminuendo (DenemoScriptParam * param)
 {
-  DenemoScore *si = (DenemoScore *) gui->si;
+  DenemoScore *si = (DenemoScore *) Denemo.gui->si;
   declarecurmudelaobj;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
@@ -2622,9 +2619,9 @@ toggle_start_diminuendo (DenemoGUI * gui)
  * @return none
  */
 void
-toggle_end_diminuendo (DenemoGUI * gui)
+toggle_end_diminuendo (DenemoScriptParam * param)
 {
-  DenemoScore *si = (DenemoScore *) gui->si;
+  DenemoScore *si = (DenemoScore *) Denemo.gui->si;
   declarecurmudelaobj;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)

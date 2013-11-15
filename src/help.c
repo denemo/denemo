@@ -18,7 +18,7 @@
  *
  */
 void
-about (GtkAction * action, gpointer callback_data)
+about (GtkAction * action, DenemoScriptParam* callback_data)
 {
   GtkWidget *dialog;
   const char *authors[] = { "Richard Shann", "Jeremiah Benham", "Matthew Hiller", "Adam Tee", "Nils Gey", NULL };

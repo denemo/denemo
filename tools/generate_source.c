@@ -112,22 +112,12 @@ void parse_menu_commands(){
             {
               fprintf (callbacks, "/*%s %s*/\n", ni, fi);
               /*******************   create a callback for calling from a menuitem *******************/
-              if (mi & CMD_CATEGORY_BOOLEAN)
-                {
-                  fprintf (callbacks, 
-                           "static void %s_cb (GtkAction *action, DenemoScriptParam *param) {\n" 
-                           "%s (param);\n"
-                           "%s}\n", fi, fi, (CMD_CLASS (mi) == CMD_CATEGORY_NAVIGATION) ? "gtk_widget_queue_draw(Denemo.scorearea);\n" : " displayhelper (Denemo.gui);\n score_status(Denemo.gui, TRUE);\n");
-                }
-              else
-                {
-                  fprintf (callbacks, 
-                           "static void %s_cb (GtkAction *action, gpointer param) {\n" 
-                           "  %s (Denemo.gui);\n"
-                           "%s"
-                           "}\n", 
-                           fi, fi, CMD_CLASS (mi) == CMD_CATEGORY_NAVIGATION ? "gtk_widget_queue_draw(Denemo.scorearea);\n" : "  displayhelper (Denemo.gui);\n" "  score_status(Denemo.gui, TRUE);\n");
-                }
+              fprintf (callbacks,
+                       "static void %s_cb (GtkAction *action, DenemoScriptParam *param) {\n"
+                       "%s (param);\n"
+                       "%s"
+                       "}\n",
+                       fi, fi, (CMD_CLASS (mi) == CMD_CATEGORY_NAVIGATION) ? "gtk_widget_queue_draw(Denemo.scorearea);\n" : " displayhelper (Denemo.gui);\n score_status(Denemo.gui, TRUE);\n");
             }
 
           /*******************   create a procedure d-<name> in scheme to call scheme_<name>  *******************/
@@ -142,8 +132,10 @@ void parse_menu_commands(){
                    "  return scheme_call_callback(optional, %s%s);\n"
                    "}\n", 
                    ni, fi, !(mi & CMD_CATEGORY_DIRECT) ? "_cb" : "");
+
           /****************** install the command in the hash table of commands (keymap) **************/
           fprintf (register_commands, "register_command(\"%s\", _(\"%s\"), _(\"%s\"), %s);\n", ni, ml ? ml : ni, ti ? ti : ni, fi);
+
           /****************** install the command as an action in the menu system **************************/
           fprintf (entries, "{\"%s\", %s, N_(\"%s\"), \"\"," "N_(\"%s\")," "G_CALLBACK (%s%s)},\n", ni, ii ? ii : "NULL", ml ? ml : ni, ti ? ti : ni, fi, (mi & CMD_CATEGORY_DIRECT) ? "" : "_cb");
         }

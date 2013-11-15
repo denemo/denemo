@@ -45,7 +45,7 @@
 #define EXTRA_ACCELS "extra.accels"
 #define INIT_SCM "init.scm"
 
-void newview (GtkAction * action, gpointer param);
+void newview (GtkAction * action, DenemoScriptParam * param);
 void free_movements (DenemoGUI * gui);  /* frees all movement data (i.e. the DenemoScore objects) from gui, leaving gui interface intact */
 void addhistorymenuitem (gchar * filename);
 

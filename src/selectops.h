@@ -35,10 +35,10 @@ void delete_selection (void);
 
 gboolean mark_status (void);
 
-void set_mark (DenemoGUI * gui);
+void set_mark (DenemoScriptParam * param);
 
-void unset_mark (DenemoGUI * gui);
-void set_point (DenemoGUI * gui);
+void unset_mark (DenemoScriptParam * param);
+void set_point (DenemoScriptParam * param);
 
 void copywrapper (GtkAction * action, DenemoScriptParam * param);
 
@@ -51,8 +51,8 @@ void pastewrapper (GtkAction * action, DenemoScriptParam * param);
 void calcmarkboundaries (DenemoScore * si);
 
 void saveselwrapper (GtkAction * action, DenemoScriptParam * param);
-void undowrapper (GtkAction * action, gpointer param);
-void redowrapper (GtkAction * action, gpointer param);
+void undowrapper (GtkAction * action, DenemoScriptParam * param);
+void redowrapper (GtkAction * action, DenemoScriptParam * param);
 void update_undo_info (DenemoScore * si, DenemoUndoData * undo);
 void update_redo_info (DenemoScore * si, DenemoUndoData * redo);
 void store_for_undo_change (DenemoScore * si, DenemoObject * obj);
@@ -72,7 +72,7 @@ void save_selection (DenemoScore * si);
 void restore_selection (DenemoScore * si);
 gboolean in_selection (DenemoScore * si);
 
-void swap_point_and_mark (GtkAction * action, gpointer param);
+void swap_point_and_mark (GtkAction * action, DenemoScriptParam * param);
 
 GList *pop_off_clipboard (void);
 

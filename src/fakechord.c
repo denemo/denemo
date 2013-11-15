@@ -174,7 +174,7 @@ insertfakechord (GtkWidget * widget, gpointer data)
  *
  */
 void
-fakechord_insert (GtkAction * action, gpointer param)
+fakechord_insert (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   gchar *string;

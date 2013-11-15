@@ -317,7 +317,7 @@ midi_audio_tab_update (GtkWidget * box, gpointer data)
 
 //callback for Prefences command
 void
-preferences_change (GtkAction * action, gpointer param)
+preferences_change (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;

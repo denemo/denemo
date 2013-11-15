@@ -133,7 +133,7 @@ void load_default_keymap_file (void);
 void load_system_keymap_dialog (void);
 void save_keymap_dialog (void);
 void load_keymap_dialog_location (gchar * location);
-void save_default_keymap_file_wrapper (GtkAction * action, gpointer param);
+void save_default_keymap_file_wrapper (GtkAction * action, DenemoScriptParam * param);
 
 void save_default_keymap_file (void);
 

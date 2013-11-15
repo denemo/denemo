@@ -578,7 +578,7 @@ fixnoteheights (DenemoStaff * thestaff)
  * @return none
  */
 void
-newstaffinitial (GtkAction * action, gpointer param)
+newstaffinitial (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   while (gui->si->currentstaff && gui->si->currentstaff->prev)
@@ -593,7 +593,7 @@ newstaffinitial (GtkAction * action, gpointer param)
  * @return none
  */
 void
-newstaffbefore (GtkAction * action, gpointer param)
+newstaffbefore (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   (void) signal_structural_change (gui);
@@ -619,7 +619,7 @@ newstaffbefore (GtkAction * action, gpointer param)
  * @return none
  */
 void
-dnm_newstaffafter (GtkAction * action, gpointer param)
+dnm_newstaffafter (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   if (!signal_structural_change (gui))
@@ -639,7 +639,7 @@ dnm_newstaffafter (GtkAction * action, gpointer param)
  * @return none
  */
 void
-newstafflast (GtkAction * action, gpointer param)
+newstafflast (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   while (gui->si->currentstaff && gui->si->currentstaff->next)
@@ -654,7 +654,7 @@ newstafflast (GtkAction * action, gpointer param)
  * @return none
  */
 void
-dnm_newstaffvoice (GtkAction * action, gpointer param)
+dnm_newstaffvoice (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   newstaff (gui, NEWVOICE, DENEMO_NONE);

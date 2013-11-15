@@ -31,11 +31,11 @@ void movetomeasureleft (DenemoScriptParam * param);
 void movetomeasureright (DenemoScriptParam * param);
 void movetostart (GtkAction * action, DenemoScriptParam * param);
 void movetoend (GtkAction * action, DenemoScriptParam * param);
-gboolean swapstaffs (GtkAction * action, gpointer param);
-gboolean splitstaffs (GtkAction * action, gpointer param);
-gboolean joinstaffs (GtkAction * action, gpointer param);
+gboolean swapstaffs (GtkAction * action, DenemoScriptParam * param);
+gboolean splitstaffs (GtkAction * action, DenemoScriptParam * param);
+gboolean joinstaffs (GtkAction * action, DenemoScriptParam * param);
 
-gboolean swapmovements (GtkAction * action, gpointer param);
+gboolean swapmovements (GtkAction * action, DenemoScriptParam * param);
 
 gboolean staffup (DenemoScriptParam * param);
 
@@ -104,30 +104,30 @@ void appendmeasures (DenemoScore * si, gint number);
 
 void insertclone (DenemoGUI * gui);
 
-void toend (GtkAction * action, gpointer param);
+void toend (GtkAction * action, DenemoScriptParam * param);
 
-void tohome (GtkAction * action, gpointer param);
+void tohome (GtkAction * action, DenemoScriptParam * param);
 
 
 void inserttuplet (DenemoScore * si, tuplet_type type);
 
 void object_insert (DenemoGUI * gui, DenemoObject * mudela_obj_new);
 
-void stem_directive_insert (GtkAction * action, gpointer param);
+void stem_directive_insert (GtkAction * action, DenemoScriptParam * param);
 
-void toggle_begin_slur (DenemoGUI * gui);
+void toggle_begin_slur (DenemoScriptParam* param);
 
-void toggle_end_slur (DenemoGUI * gui);
+void toggle_end_slur (DenemoScriptParam* param);
 
 void insertgrace (DenemoGUI * gui);
 
-void toggle_start_crescendo (DenemoGUI * gui);
+void toggle_start_crescendo (DenemoScriptParam* param);
 
-void toggle_end_crescendo (DenemoGUI * gui);
+void toggle_end_crescendo (DenemoScriptParam* param);
 
-void toggle_start_diminuendo (DenemoGUI * gui);
+void toggle_start_diminuendo (DenemoScriptParam* param);
 
-void toggle_end_diminuendo (DenemoGUI * gui);
+void toggle_end_diminuendo (DenemoScriptParam* param);
 
 void insertion_point (DenemoScore * si);
 void insertion_point_for_type (DenemoScore * si, DenemoObjType type);
@@ -140,28 +140,28 @@ gboolean auto_save_document_timeout (DenemoGUI * gui);
 
 
 
-void delete_staff_current (GtkAction * action, gpointer param);
-void delete_staff_before (GtkAction * action, gpointer param);
-void delete_staff_after (GtkAction * action, gpointer param);
+void delete_staff_current (GtkAction * action, DenemoScriptParam * param);
+void delete_staff_before (GtkAction * action, DenemoScriptParam * param);
+void delete_staff_after (GtkAction * action, DenemoScriptParam * param);
 
 void appendmeasurestoentirescore (DenemoScore * si, gint number);
 
-void insertmeasureafter (DenemoGUI * gui);
-void addmeasureafter (DenemoGUI * gui);
-void insertmeasurebefore (DenemoGUI * gui);
+void insertmeasureafter (DenemoScriptParam* param);
+void addmeasureafter (DenemoScriptParam* param);
+void insertmeasurebefore (DenemoScriptParam* param);
 
-void deletemeasure (DenemoGUI * gui);
-void deletemeasureallstaffs (DenemoGUI * gui);
-void deleteobject (DenemoGUI * gui);
+void deletemeasure (DenemoScriptParam* param);
+void deletemeasureallstaffs (DenemoScriptParam* param);
+void deleteobject (DenemoScriptParam* param);
 
 
 void insert_note_following_pattern (DenemoGUI * gui);
 
 void beamandstemdirhelper (DenemoScore * si);
 
-void nextrhythm (DenemoGUI * gui);
-void insert_rhythm_pattern (DenemoGUI * gui);
-void toggle_tie (GtkAction * action, gpointer param);
+void nextrhythm (DenemoScriptParam* param);
+void insert_rhythm_pattern (DenemoScriptParam* param);
+void toggle_tie (GtkAction * action, DenemoScriptParam * param);
 gint get_prevailing_duration (void);
 void dnm_inserttuplet (DenemoGUI * gui, tuplet_type type);
 gboolean next_editable_note (void);
