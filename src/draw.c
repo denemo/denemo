@@ -32,6 +32,7 @@
 static GdkPixbuf *StaffPixbuf, *StaffPixbufSmall, *StaffGoBack, *StaffGoForward;
 static DenemoObject *Startobj, *Endobj;
 static gboolean layout_needed = TRUE;   //Set FALSE when further call to draw_score(NULL) is not needed.
+static GList *MidiDrawObject;/* a chord used for drawing MIDI recorded notes on the score */
 void
 initialize_playhead (void)
 {
@@ -80,6 +81,7 @@ scorearea_configure_event (G_GNUC_UNUSED GtkWidget * widget, G_GNUC_UNUSED GdkEv
   static gboolean init = FALSE;
   if (!init)
     {
+	  MidiDrawObject = g_list_append(NULL, newchord (0, 0, 0));
       create_tool_pixbuf ();
       init = TRUE;
     }
@@ -286,10 +288,9 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
         if ((thechord->lowesty) > itp->lowy + STAFF_HEIGHT)
           itp->lowy = thechord->lowesty - STAFF_HEIGHT;
  
- //display note onsets for source audio above relevant notes in top staff.       
+ //display note onsets for source audio above relevant notes in top staff (well, the top-most staff with enough notes to use up all the recorded note onsets.       
          if(cr && si->recording && itp->recordednote) {
-			 GList *g = itp->recordednote;
-			
+			 GList *g = itp->recordednote;			
 			 gint current = mudelaitem->earliest_time*si->recording->samplerate;
 			 gint next =  mudelaitem->latest_time*si->recording->samplerate;
 			 gint leadin = 	si->recording->leadin;	 
@@ -326,40 +327,60 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 					}
 					g=g->next;
 				}
-			while( g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < next)) {
-				gdouble fraction = (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) - current) / (double)(next-current);
-				gint pos;
-				
-
-				
+			while( g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < next)) 
+				{
+				DenemoRecordedNote *midinote = (DenemoRecordedNote*)(g->data);
+				gdouble fraction = (((gint)(midinote->timing) - leadin) - current) / (double)(next-current);
+				gint pos;				
 				pos = notewidth * fraction;
 				pos +=  mudelaitem->x; 
-				if(g==si->marked_onset) {	
+				if(g==si->marked_onset) 
+					{	
 					cairo_save (cr);
-					cairo_set_source_rgba (cr, 0, 0, 0, 1);
-				} else if(si->playingnow)
-				{
-					(itp->currentframe < ((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin)) ?
+					cairo_set_source_rgba (cr, 0, 0, 0, 1);//g_print("marked offset %2.2f seconds ", midinote->timing/(double)si->recording->samplerate);
+					} else if(si->playingnow)
+					{
+					(itp->currentframe < ((gint)(midinote->timing) - leadin)) ?
 						cairo_set_source_rgba (cr, 0.0, 0.2, 0.8, 0.8):
 				        cairo_set_source_rgba (cr, 0.8, 0.2, 0.0, 0.8);
-				}
-				
-				
+					}
+				if(si->recording->type==DENEMO_RECORDING_MIDI)//if MIDI RECORDING draw the pitch as a headless diamond note.
+					{
+					//delete_chordnote (gui);
+					chord *thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
+					    //g_list_free_full(thechord->notes, g_free);//if(thechord->notes) g_list_free(thechord->notes);//
+					//thechord->notes=NULL;thechord->highesty=thechord->lowesty=0;thechord->highestpitch = thechord->lowestpitch = midinote->mid_c_offset + 7 * midinote->octave;
+					
+					removetone ((DenemoObject*)(MidiDrawObject->data), 0, si->cursorclef);//there is only one note in the chord so any mid_c_offset will do
+					
+					addtone (MidiDrawObject->data,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, si->cursorclef);
+					//g_print("values now %d %d %d %d ",thechord->highesty,thechord->lowesty,thechord->highestpitch,thechord->lowestpitch);
+					thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
+					((note*)(thechord->notes->data))->noteheadtype = DENEMO_DIAMOND_NOTEHEAD;
+					((note*)(thechord->notes->data))->showaccidental = TRUE;
+					((note*)(thechord->notes->data))->position_of_accidental = 8;
+					cairo_save (cr);
+					cairo_set_source_rgba (cr, 0, 0, 0, 1);
+					draw_chord (cr, MidiDrawObject, pos+x, y, 0, itp->curaccs, FALSE, FALSE);	
+					cairo_restore (cr);
+					}
 				draw_note_onset(cr, pos+x);
 
-				if(g==si->marked_onset) {
+				if(g==si->marked_onset) 
+					{
 					cairo_restore (cr);
-				}
-				if(si->marked_onset_position && ABS((gint)(pos + x - si->marked_onset_position))<20) {
+					}
+				if(si->marked_onset_position && ABS((gint)(pos + x - si->marked_onset_position))<20) 
+					{
 					si->marked_onset = g; 
 					si->marked_onset_position = 0; //g_print("Found selected onset\n\n");
-				}
+					}
 					
 				//if(g==itp->onset) g_print("First onset at %d %d %d %d\n", pos, x, si->marked_onset_position, notewidth);
 					
 				
 				g = g->next;
-			}
+				}
 			itp->recordednote = g;//Search onwards for future onsets. Only notes on top staff are used for display of onsets. 
 
 		 } 
@@ -755,7 +776,8 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoGUI * gui, struct 
   DenemoScore *si = gui->si;
   gint x = KEY_MARGIN, i;
 
-
+  // if(si->marked_onset_position)
+	//g_print("repeat"),repeat = TRUE;//we set up the marked onset with this, then need to repeat to draw it
   //g_print("drawing staff %d at %d\n", itp->staffnum, y);
   gint nummeasures = g_list_length (thestaff->measures);
  

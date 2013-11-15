@@ -7707,6 +7707,8 @@ static void
 pb_midi_delete (GtkWidget * button)
 {
   DenemoRecording *recording = Denemo.gui->si->recording;
+  if(!recording)
+	return;
   if(recording->type!=DENEMO_RECORDING_MIDI)
 	{
 		g_warning("Cannot delete Audio yet");

@@ -599,7 +599,8 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 				{	
 					gui->si->marked_onset_position = (gint)event->x/gui->si->zoom;
 					if(gui->si->marked_onset_position < KEY_MARGIN + SPACE_FOR_TIME + gui->si->maxkeywidth) {
-						 MouseGestureShow(_("Double Click Note Onset"), _("This represents detected note onsets which occur\nbefore the start of the score.\nIf they are just noise,\nor if you are working on just a portion of the audio that is ok.\nOtherwise drag with left mouse button to synchronize\nwith the start of the score."),
+						 if (Denemo.prefs.learning)
+							MouseGestureShow(_("Double Click Note Onset"), _("This represents detected note onsets which occur\nbefore the start of the score.\nIf they are just noise,\nor if you are working on just a portion of the audio that is ok.\nOtherwise drag with left mouse button to synchronize\nwith the start of the score."),
           MouseGesture);
 						
 					}
@@ -609,10 +610,12 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 				{
 					gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (left?GDK_SB_H_DOUBLE_ARROW:GDK_X_CURSOR));
 					left? (dragging_audio = TRUE) : (dragging_tempo = TRUE);
+					 if (Denemo.prefs.learning)
 					 left? MouseGestureShow(_("Left Drag Note Onset"), _("This moves the audio to synchronize the start with the score.\nYou can use the Leadin button for this too."),
           MouseGesture) :
 						MouseGestureShow(_("Right Drag Note Onset"), _("This changes the tempo of the score.\nUse this to synchronize the beat after setting the start"),
           MouseGesture);
+					gtk_widget_queue_draw(Denemo.scorearea);
 					return TRUE;
 				}
 		}

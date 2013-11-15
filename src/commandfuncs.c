@@ -1554,7 +1554,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode, gboolean rest)
 {
   DenemoScore *si = gui->si;
   DenemoObject *mudela_obj_new;
-
+  gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->marked_onset;
   if ((mode & INPUTEDIT) && !si->cursor_appending && !(mode & INPUTRHYTHM))
     {
       highlight_duration (gui, duration);
@@ -1567,8 +1567,14 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode, gboolean rest)
   /* Now actually create the chord as an object (before insertion) */
   mudela_obj_new = newchord (duration, 0, 0);
   if ((mode & INPUTNORMAL) && (rest != TRUE))
-    {
-      addtone (mudela_obj_new, si->cursor_y, si->cursoraccs[si->staffletter_y], si->cursorclef);
+    { 
+		if(inserting_midi)
+		{ 
+			DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;
+			addtone (mudela_obj_new,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, si->cursorclef);
+			si->marked_onset = si->marked_onset->next;
+		} else
+		addtone (mudela_obj_new, si->cursor_y, si->cursoraccs[si->staffletter_y], si->cursorclef);
 
     }
   if ((mode & INPUTBLANK) || (gui->mode & INPUTBLANK) || (!rest && (Denemo.gui->input_source == INPUTMIDI) && (gui->mode & (INPUTRHYTHM))))
@@ -1580,7 +1586,9 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode, gboolean rest)
      don't need to invoke that here.  */
   gboolean was_appending = si->cursor_appending;
   object_insert (gui, mudela_obj_new);
-
+  if(inserting_midi)
+	  mudela_obj_new->isinvisible = FALSE;
+	  
   if (Denemo.gui->input_source == INPUTMIDI && (gui->mode & (INPUTRHYTHM)))
     {
       if (Denemo.prefs.immediateplayback)
@@ -1684,16 +1692,25 @@ notechange (DenemoScore * si, gboolean remove)
 {
   declarecurmudelaobj;
   gboolean ret = FALSE;
+  gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->marked_onset;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
     {
       store_for_undo_change (si, curmudelaobj);
       if (remove == TRUE)
         ret = removetone (curmudelaobj, si->cursor_y /*mid_c_offset */ , si->cursorclef /*dclef */ );
-      else
-        ret = (gboolean) (intptr_t) addtone (curmudelaobj, si->cursor_y /* mid_c_offset */ ,
+      else {
+		  
+		if(inserting_midi)
+			{
+			DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;
+			ret = addtone (curmudelaobj,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, si->cursorclef);
+			si->marked_onset = si->marked_onset->next;
+			}
+		else 
+			ret = (gboolean) (intptr_t) addtone (curmudelaobj, si->cursor_y /* mid_c_offset */ ,
                                              si->cursoraccs[si->staffletter_y] /* enshift */ , si->cursorclef /*dclef */ );
-
+		}
 
       if (Denemo.gui->last_source == INPUTKEYBOARD)
         {
