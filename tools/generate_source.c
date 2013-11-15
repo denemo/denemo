@@ -115,17 +115,18 @@ void parse_menu_commands(){
               if (mi & CMD_CATEGORY_BOOLEAN)
                 {
                   fprintf (callbacks, 
-                           "static void %s_cb (GtkAction *action, DenemoScriptParam *param) {\n" "%s (param);\n%s}\n", fi, fi, (CMD_CLASS (mi) == CMD_CATEGORY_NAVIGATION) ? "gtk_widget_queue_draw(Denemo.scorearea);\n" : " displayhelper (Denemo.gui);\n score_status(gui, TRUE);\n");
+                           "static void %s_cb (GtkAction *action, DenemoScriptParam *param) {\n" 
+                           "%s (param);\n"
+                           "%s}\n", fi, fi, (CMD_CLASS (mi) == CMD_CATEGORY_NAVIGATION) ? "gtk_widget_queue_draw(Denemo.scorearea);\n" : " displayhelper (Denemo.gui);\n score_status(Denemo.gui, TRUE);\n");
                 }
               else
                 {
                   fprintf (callbacks, 
                            "static void %s_cb (GtkAction *action, gpointer param) {\n" 
-                           "  DenemoGUI *gui = Denemo.gui;\n" 
-                           "  %s (gui);\n"
+                           "  %s (Denemo.gui);\n"
                            "%s"
                            "}\n", 
-                           fi, fi, CMD_CLASS (mi) == CMD_CATEGORY_NAVIGATION ? "gtk_widget_queue_draw(Denemo.scorearea);\n" : "  displayhelper (gui);\n" "  score_status(gui, TRUE);\n");
+                           fi, fi, CMD_CLASS (mi) == CMD_CATEGORY_NAVIGATION ? "gtk_widget_queue_draw(Denemo.scorearea);\n" : "  displayhelper (Denemo.gui);\n" "  score_status(Denemo.gui, TRUE);\n");
                 }
             }
 
@@ -138,22 +139,7 @@ void parse_menu_commands(){
           /*******************   create a callback scheme_<name> for calling from a scheme procedure d-<name>  *******************/
           fprintf (scheme_cb, 
                    "SCM scheme_%s (SCM optional) {\n"
-                   "  gboolean query=FALSE;\n"
-                   "  DenemoScriptParam param;\n"
-                   "  GString *gstr=NULL;\n"
-                   "  int length;\n"
-                   "  char *str=NULL;\n"
-                   "  if(scm_is_string(optional)){\n"
-                   "    str = scm_to_locale_stringn(optional, (size_t *)&length);\n"
-                   "    gstr = g_string_new_len(str, length);\n"
-                   "    if(!strncmp(\"query\",str,5)) query = TRUE;"
-                   "  }\n"
-                   "  param.string = gstr;\n"
-                   "  param.status = FALSE;\n\n"
-                   "  %s%s (NULL, &param);\n"
-                   "  if(param.status && query) return scm_from_locale_string (gstr->str);"
-                   "  if(gstr) g_string_free(gstr, TRUE);\n"
-                   "  return SCM_BOOL(param.status);\n"
+                   "  return scheme_call_callback(optional, %s%s);\n"
                    "}\n", 
                    ni, fi, !(mi & CMD_CATEGORY_DIRECT) ? "_cb" : "");
           /****************** install the command in the hash table of commands (keymap) **************/
@@ -193,54 +179,6 @@ main ()
 
   for (i = 0; i < 9; i++)
     {
-      /* callbacks for mode independent duration actions InsertRest0,1,2... InsertDur,ChangeDur0,1,2... SetDur0,1,2... */
-      fprintf (callbacks,
-               "static void InsertRest%d(GtkAction *action, gpointer param){\n"
-               "  DenemoGUI *gui = Denemo.gui;\n"
-               "  highlight_rest(gui, %d);\n"
-               "  gint mode = gui->mode;\n"
-               "  gui->mode = INPUTINSERT|INPUTREST;\n"
-               "  insert_chord_%dkey(gui);\n"
-               "  gui->mode = mode;\n"
-               "  score_status(gui, TRUE);\n"
-               "  displayhelper(gui);\n"
-               "}\n"
-               "/* UNUSED\n"
-               "static void Dummy%d(GtkAction *action, gpointer param){\n"
-               "  DenemoGUI *gui = Denemo.gui;\n"
-               "  gint mode = gui->mode;\n"
-               "  gboolean appending = gui->si->cursor_appending;\n"
-               "  if(appending)\n"
-               "    movecursorleft(NULL);\n"
-               "  gui->mode = INPUTEDIT|INPUTREST;\n"
-               "  insert_chord_%dkey(gui);\n"
-               "  gui->mode = mode;\n"
-               "  if(appending)\n"
-               "    movecursorright(NULL);\n"
-               "  score_status(gui, TRUE);\n"
-               "  displayhelper(gui);\n"
-               "}\n"
-               "*/\n"
-               "static void InsertDur%d(GtkAction *action, gpointer param){\n"
-               "  DenemoGUI *gui = Denemo.gui;\n"
-               "  highlight_duration(gui, %d);\n"
-               "  gint mode = gui->mode;\n"
-               "  gui->mode = INPUTINSERT|INPUTNORMAL;\n"
-               "  insert_chord_%dkey(gui);\n"
-               "  gui->mode = mode;\n"
-               "  score_status(gui, TRUE);\n"
-               "  displayhelper(gui);\n"
-               "}\n"
-               "static void ChangeDur%d(GtkAction *action, gpointer param){\n"
-               "  DenemoGUI *gui = Denemo.gui;\n"
-               "  gint mode = gui->mode;\n"
-               "  gboolean appending = gui->si->cursor_appending;\n"
-               "  if(appending)\n" "    movecursorleft(NULL);\n" "  gui->mode = INPUTEDIT|INPUTNORMAL;\n" "  insert_chord_%dkey(gui);\n" "  gui->mode = mode;\n" "  if(appending)\n" "    movecursorright(NULL);\n" "  score_status(gui, TRUE);\n" "  displayhelper(gui);\n" "}\n" "static void SetDur%d(GtkAction *action, gpointer param){\n" "  DenemoGUI *gui = Denemo.gui;\n" "  highlight_duration(gui, %d);\n" "//  displayhelper(gui);\n" "}\n", i, i, i, i, i, i, i, i, i, i, i, i);
-
-
-      /* callbacks for mode sensitive  duration actions, Dur0,1,2 ... */
-      fprintf (callbacks, "static void Dur%d  (GtkAction *action, gpointer param) {\n" "  DenemoGUI *gui = Denemo.gui;\n" " if(gui->mode&INPUTINSERT)\n" "   highlight_duration(gui, %d);\n" " else \n" " if( !(gui->mode&INPUTRHYTHM) && (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))\n" "   ChangeDur%d (action, param);\n" "else {\n" " insert_chord_%dkey(gui);\n" "   highlight_duration(gui, %d);\n" "  score_status(gui, TRUE);\n" " displayhelper(gui);\n" " }\n" "}\n", i, i, i, i, i);
-
       // fprintf(entries, "\n#define NOTECHAR%d \"%s\"\n", i,  NOTECHARS[i]);
       // fprintf(entries, "\n#define RESTCHAR%d \"%s\"\n", i, RESTCHARS[i]);
       fprintf (entries, "\n#define NOTE%d \"%s\"\n", i, NOTECHARS[i]);
@@ -291,34 +229,6 @@ main ()
                "  {\"ChangeTo%c\", NULL, \"Change current note to %c\", NULL, \"Changes current note to the %c nearest cursor or (if no current note) inserts the note %c\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\",\n"
                "   G_CALLBACK (ChangeTo%c)},\n" "  {\"MoveTo%c\", NULL, \"Move cursor to step %c\", NULL, \"Moves the cursor to the %c nearest cursor\\nCurrent cursor position determines which octave.\",\n" "   G_CALLBACK (MoveTo%c)},\n", i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i);
 
-    }
-
-  for (i = 'A'; i <= 'G'; i++)
-    {
-      fprintf (callbacks, "static void ChangeTo%c(GtkAction *action, gpointer param){\n" "  DenemoGUI *gui = Denemo.gui;\n" "  gboolean appending = gui->si->cursor_appending;\n" "  if(appending)\n" "    movecursorleft(NULL); \n" "  gint mode = gui->mode;\n" "  gui->mode = INPUTEDIT|INPUTNORMAL;\n" "  go_to_%c_key(gui);\n" "  gui->mode = mode;\n" "  if(appending)\n" "    movecursorright(NULL);\n" "  score_status(gui, TRUE);\n" "  displayhelper(gui);\n" "}\n", i, i);
-    }
-
-
-  for (i = 'A'; i <= 'G'; i++)
-    {
-      fprintf (callbacks, "static void MoveTo%c(GtkAction *action, gpointer param){\n" "  DenemoGUI *gui = Denemo.gui;\n" "  gint mode = gui->mode;\n" "  gui->mode = INPUTCLASSIC|INPUTNORMAL;\n" "  go_to_%c_key(gui);\n" "  gui->mode = mode;\n" "  displayhelper(gui);\n" "}\n", i, i);
-    }
-
-
-  for (i = 'A'; i <= 'G'; i++)
-    {
-
-      fprintf (callbacks, "static void Insert%c(GtkAction *action, gpointer param){\n" "  DenemoGUI *gui = Denemo.gui;\n" "  gint mode = gui->mode;\n" "  gui->mode = INPUTINSERT|INPUTNORMAL;\n" "  go_to_%c_key(gui);\n" "  gui->mode = mode;\n" "  score_status(gui, TRUE);\n" "  displayhelper(gui);\n" "}\n", i, i);
-    }
-  for (i = 'A'; i <= 'G'; i++)
-    {
-      fprintf (callbacks, "static void AddNote%c(GtkAction *action, gpointer param){\n" "  DenemoGUI *gui = Denemo.gui;\n" "  movecursorright(NULL);\n" "  gint mode = gui->mode;\n" "  gui->mode = INPUTINSERT|INPUTNORMAL;\n" "  go_to_%c_key(gui);\n" "  gui->mode = mode;\n" "  movecursorleft(NULL);\n" "  score_status(gui, TRUE);\n" "  displayhelper(gui);\n" "}\n", i, i);
-    }
-
-  for (i = 'A'; i <= 'G'; i++)
-    {
-
-      fprintf (callbacks, "static void Add%c(GtkAction *action, gpointer param){\n" "  DenemoGUI *gui = Denemo.gui;\n" "  gint mode = gui->mode;\n" "  gui->mode = INPUTCLASSIC|INPUTNORMAL;\n" "  go_to_%c_key(gui);\n" "  add_tone_key(gui);\n" "  gui->mode = mode;\n" "  score_status(gui, TRUE);\n" "  displayhelper(gui);\n" "}\n", i, i);
     }
 
   for (i = 'A'; i <= 'G'; i++)

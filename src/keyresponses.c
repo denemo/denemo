@@ -383,6 +383,13 @@ insert_chord_key (DenemoGUI * gui)
   dnm_insertchord (gui, 2, gui->mode, FALSE);
 }
 
+void
+go_to_key(gchar note, DenemoGUI * gui)
+{
+  Denemo.gui->last_source = INPUTKEYBOARD;
+  shiftcursor (gui, ((note + 5 - 'A') % 7));
+}
+
 /**
  * Goto the nearest a
  *
@@ -585,6 +592,13 @@ insert_measure_key (DenemoGUI * gui)
   dnm_insertmeasures (gui->si, 1);
 }
 
+void
+insert_chord_xkey (gint duration, DenemoGUI * gui)
+{
+
+  dnm_insertchord (gui, duration, gui->mode, FALSE);
+
+}
 
 void
 insert_chord_0key (DenemoGUI * gui)
@@ -1748,4 +1762,366 @@ setcleffrench (DenemoGUI * gui)
   DenemoStaff *curstaff = (DenemoStaff *) gui->si->currentstaff->data;
   if (curstaff)
     dnm_setinitialclef (gui->si, curstaff, DENEMO_FRENCH_CLEF);
+}
+
+/*******************************************************************************
+* DURATION COMMANDS
+******************************************************************************/
+
+void InsertRest(gint duration){
+  DenemoGUI *gui = Denemo.gui;
+  highlight_rest(gui, duration);
+  gint mode = gui->mode;
+  gui->mode = INPUTINSERT|INPUTREST;
+  insert_chord_xkey(duration, gui);
+  gui->mode = mode;
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+
+void InsertDur(gint duration){
+  DenemoGUI *gui = Denemo.gui;
+  highlight_duration(gui, duration);
+  gint mode = gui->mode;
+  gui->mode = INPUTINSERT|INPUTNORMAL;
+  insert_chord_xkey(duration, gui);
+  gui->mode = mode;
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+
+void ChangeDur(gint duration){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gboolean appending = gui->si->cursor_appending;
+  if(appending)
+    movecursorleft(NULL);
+  gui->mode = INPUTEDIT|INPUTNORMAL;
+  insert_chord_xkey(duration, gui);
+  gui->mode = mode;
+  if(appending)
+    movecursorright(NULL);
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+
+void SetDur(gint duration){
+  highlight_duration(Denemo.gui, duration);
+}
+
+void Dur (gint duration) {
+  DenemoGUI *gui = Denemo.gui;
+ if(gui->mode&INPUTINSERT)
+   highlight_duration(gui, duration);
+ else
+ if( !(gui->mode&INPUTRHYTHM) && (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))
+   ChangeDur (duration);
+else {
+ insert_chord_xkey(duration, gui);
+   highlight_duration(gui, duration);
+  score_status(gui, TRUE);
+ displayhelper(gui);
+ }
+}
+
+/*******************************************************************************
+* NOTE COMMANDS
+******************************************************************************/
+
+void ChangeTo(gchar note){
+  DenemoGUI *gui = Denemo.gui;
+  gboolean appending = gui->si->cursor_appending;
+  if(appending)
+    movecursorleft(NULL);
+  gint mode = gui->mode;
+  gui->mode = INPUTEDIT|INPUTNORMAL;
+  go_to_key(note, gui);
+  gui->mode = mode;
+  if(appending)
+    movecursorright(NULL);
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+
+void MoveTo(gchar note){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gui->mode = INPUTCLASSIC|INPUTNORMAL;
+  go_to_key(note, gui);
+  gui->mode = mode;
+  displayhelper(gui);
+}
+
+void Insert(gchar note){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gui->mode = INPUTINSERT|INPUTNORMAL;
+  go_to_key(note, gui);
+  gui->mode = mode;
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+
+void AddNote(gchar note){
+  DenemoGUI *gui = Denemo.gui;
+  movecursorright(NULL);
+  gint mode = gui->mode;
+  gui->mode = INPUTINSERT|INPUTNORMAL;
+  go_to_key(note, gui);
+  gui->mode = mode;
+  movecursorleft(NULL);
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+
+void Add(gchar note){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gui->mode = INPUTCLASSIC|INPUTNORMAL;
+  go_to_key(note, gui);
+  add_tone_key(gui);
+  gui->mode = mode;
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+
+void Dur0(GtkAction *action, gpointer param) {
+  Dur(0);
+}
+void ChangeDur0(GtkAction *action, gpointer param){
+  ChangeDur(0);
+}
+void InsertDur0(GtkAction *action, gpointer param){
+  InsertDur(0);
+}
+void InsertRest0(GtkAction *action, gpointer param){
+  InsertRest(0);
+}
+void SetDur0(GtkAction *action, gpointer param){
+  SetDur(0);
+}
+void Dur1(GtkAction *action, gpointer param) {
+  Dur(1);
+}
+void ChangeDur1(GtkAction *action, gpointer param){
+  ChangeDur(1);
+}
+void InsertDur1(GtkAction *action, gpointer param){
+  InsertDur(1);
+}
+void InsertRest1(GtkAction *action, gpointer param){
+  InsertRest(1);
+}
+void SetDur1(GtkAction *action, gpointer param){
+  SetDur(1);
+}
+void Dur2(GtkAction *action, gpointer param) {
+  Dur(2);
+}
+void ChangeDur2(GtkAction *action, gpointer param){
+  ChangeDur(2);
+}
+void InsertDur2(GtkAction *action, gpointer param){
+  InsertDur(2);
+}
+void InsertRest2(GtkAction *action, gpointer param){
+  InsertRest(2);
+}
+void SetDur2(GtkAction *action, gpointer param){
+  SetDur(2);
+}
+void Dur3(GtkAction *action, gpointer param) {
+  Dur(3);
+}
+void ChangeDur3(GtkAction *action, gpointer param){
+  ChangeDur(3);
+}
+void InsertDur3(GtkAction *action, gpointer param){
+  InsertDur(3);
+}
+void InsertRest3(GtkAction *action, gpointer param){
+  InsertRest(3);
+}
+void SetDur3(GtkAction *action, gpointer param){
+  SetDur(3);
+}
+void Dur4(GtkAction *action, gpointer param) {
+  Dur(4);
+}
+void ChangeDur4(GtkAction *action, gpointer param){
+  ChangeDur(4);
+}
+void InsertDur4(GtkAction *action, gpointer param){
+  InsertDur(4);
+}
+void InsertRest4(GtkAction *action, gpointer param){
+  InsertRest(4);
+}
+void SetDur4(GtkAction *action, gpointer param){
+  SetDur(4);
+}
+void Dur5(GtkAction *action, gpointer param) {
+  Dur(5);
+}
+void ChangeDur5(GtkAction *action, gpointer param){
+  ChangeDur(5);
+}
+void InsertDur5(GtkAction *action, gpointer param){
+  InsertDur(5);
+}
+void InsertRest5(GtkAction *action, gpointer param){
+  InsertRest(5);
+}
+void SetDur5(GtkAction *action, gpointer param){
+  SetDur(5);
+}
+void Dur6(GtkAction *action, gpointer param) {
+  Dur(6);
+}
+void ChangeDur6(GtkAction *action, gpointer param){
+  ChangeDur(6);
+}
+void InsertDur6(GtkAction *action, gpointer param){
+  InsertDur(6);
+}
+void InsertRest6(GtkAction *action, gpointer param){
+  InsertRest(6);
+}
+void SetDur6(GtkAction *action, gpointer param){
+  SetDur(6);
+}
+void Dur7(GtkAction *action, gpointer param) {
+  Dur(7);
+}
+void ChangeDur7(GtkAction *action, gpointer param){
+  ChangeDur(7);
+}
+void InsertDur7(GtkAction *action, gpointer param){
+  InsertDur(7);
+}
+void InsertRest7(GtkAction *action, gpointer param){
+  InsertRest(7);
+}
+void SetDur7(GtkAction *action, gpointer param){
+  SetDur(7);
+}
+void Dur8(GtkAction *action, gpointer param) {
+  Dur(8);
+}
+void ChangeDur8(GtkAction *action, gpointer param){
+  ChangeDur(8);
+}
+void InsertDur8(GtkAction *action, gpointer param){
+  InsertDur(8);
+}
+void InsertRest8(GtkAction *action, gpointer param){
+  InsertRest(8);
+}
+void SetDur8(GtkAction *action, gpointer param){
+  SetDur(8);
+}
+void InsertA(GtkAction *action, gpointer param){
+  Insert('A');
+}
+void AddNoteA(GtkAction *action, gpointer param){
+  AddNote('A');
+}
+void AddA(GtkAction *action, gpointer param){
+  Add('A');
+}
+void ChangeToA(GtkAction *action, gpointer param){
+  ChangeTo('A');
+}
+void MoveToA(GtkAction *action, gpointer param){
+  MoveTo('A');
+}
+void InsertB(GtkAction *action, gpointer param){
+  Insert('B');
+}
+void AddNoteB(GtkAction *action, gpointer param){
+  AddNote('B');
+}
+void AddB(GtkAction *action, gpointer param){
+  Add('B');
+}
+void ChangeToB(GtkAction *action, gpointer param){
+  ChangeTo('B');
+}
+void MoveToB(GtkAction *action, gpointer param){
+  MoveTo('B');
+}
+void InsertC(GtkAction *action, gpointer param){
+  Insert('C');
+}
+void AddNoteC(GtkAction *action, gpointer param){
+  AddNote('C');
+}
+void AddC(GtkAction *action, gpointer param){
+  Add('C');
+}
+void ChangeToC(GtkAction *action, gpointer param){
+  ChangeTo('C');
+}
+void MoveToC(GtkAction *action, gpointer param){
+  MoveTo('C');
+}
+void InsertD(GtkAction *action, gpointer param){
+  Insert('D');
+}
+void AddNoteD(GtkAction *action, gpointer param){
+  AddNote('D');
+}
+void AddD(GtkAction *action, gpointer param){
+  Add('D');
+}
+void ChangeToD(GtkAction *action, gpointer param){
+  ChangeTo('D');
+}
+void MoveToD(GtkAction *action, gpointer param){
+  MoveTo('D');
+}
+void InsertE(GtkAction *action, gpointer param){
+  Insert('E');
+}
+void AddNoteE(GtkAction *action, gpointer param){
+  AddNote('E');
+}
+void AddE(GtkAction *action, gpointer param){
+  Add('E');
+}
+void ChangeToE(GtkAction *action, gpointer param){
+  ChangeTo('E');
+}
+void MoveToE(GtkAction *action, gpointer param){
+  MoveTo('E');
+}
+void InsertF(GtkAction *action, gpointer param){
+  Insert('F');
+}
+void AddNoteF(GtkAction *action, gpointer param){
+  AddNote('F');
+}
+void AddF(GtkAction *action, gpointer param){
+  Add('F');
+}
+void ChangeToF(GtkAction *action, gpointer param){
+  ChangeTo('F');
+}
+void MoveToF(GtkAction *action, gpointer param){
+  MoveTo('F');
+}
+void InsertG(GtkAction *action, gpointer param){
+  Insert('G');
+}
+void AddNoteG(GtkAction *action, gpointer param){
+  AddNote('G');
+}
+void AddG(GtkAction *action, gpointer param){
+  Add('G');
+}
+void ChangeToG(GtkAction *action, gpointer param){
+  ChangeTo('G');
+}
+void MoveToG(GtkAction *action, gpointer param){
+  MoveTo('G');
 }

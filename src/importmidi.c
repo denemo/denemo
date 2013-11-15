@@ -380,7 +380,7 @@ insert_note_into_score (gint pitch, notetype length)
 }
 
 static void
-AddNote (gint ppqn, gint pitch, gint duration)
+AddMidiNote (gint ppqn, gint pitch, gint duration)
 {
   if (duration == 0)
     return;
@@ -577,7 +577,7 @@ donoteoff (const smf_event_t * event)
   ppqn = event->track->smf->ppqn;
   duration = event->delta_time_pulses;
   duration = round2granule (duration);
-  AddNote (ppqn, event->midi_buffer[1], duration);
+  AddMidiNote (ppqn, event->midi_buffer[1], duration);
 }
 
 /**
