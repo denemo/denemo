@@ -1,5 +1,5 @@
-SUBDIRS = $(WHICH_SMF) tools libsffile m4 docs actions pixmaps po src \
-	  fonts soundfonts ui
+SUBDIRS = $(WHICH_SMF) tools libsffile build docs actions pixmaps po src \
+	  fonts soundfonts ui tests
 
 INTLTOOL_FILES = intltool-extract.in \
                  intltool-merge.in \
@@ -29,7 +29,7 @@ DISTCLEANFILES = intltool-extract \
                  po/.intltool-merge-cache \
                  po/denemo.pot
 
-ACLOCAL_AMFLAGS = -I m4
+ACLOCAL_AMFLAGS = -I build
 
 install-data-hook:
 	cp -r $(srcdir)/actions ${DESTDIR}/$(datadir)/${PACKAGE}/

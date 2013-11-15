@@ -517,7 +517,7 @@ readxmlprefs (gchar * xmlsource, gboolean from_file)
   xmlDocPtr doc = NULL;
   xmlNodePtr rootElem;
   if (from_file)
-    printf ("\nxmlsource == %s\n", xmlsource);
+    printf ("Loading preference file: %s\n", xmlsource);
   if (from_file)
     doc = xmlParseFile (xmlsource);
   else

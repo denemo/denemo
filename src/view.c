@@ -101,6 +101,29 @@ typedef enum
   ACCELS_MAY_HAVE_CHANGED = 0x1 << 2
 } AccelStatus;
 
+typedef void (*callback_function) (GtkAction *action, DenemoScriptParam *param);
+
+static
+SCM scheme_call_callback (SCM optional, callback_function callback) {
+  gboolean query=FALSE;
+  DenemoScriptParam param;
+  GString *gstr=NULL;
+  int length;
+  char *str=NULL;
+  if(scm_is_string(optional)){
+    str = scm_to_locale_stringn(optional, (size_t *)&length);
+    gstr = g_string_new_len(str, length);
+    if(!strncmp("query",str,5)) query = TRUE;  }
+  param.string = gstr;
+  param.status = FALSE;
+
+  callback (NULL, &param);
+  if(param.status && query) 
+    return scm_from_locale_string (gstr->str);  
+  if(gstr) 
+    g_string_free(gstr, TRUE);
+  return SCM_BOOL(param.status);
+}
 
 static void save_accels (void);
 
