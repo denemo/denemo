@@ -213,7 +213,7 @@ create_command(command_row *command)
   GtkAction* action = NULL;
   if (command->script_type == COMMAND_SCHEME)
   {
-    gboolean new_command = !g_hash_table_contains(Denemo.map->idx_from_name, command->name);
+    gboolean new_command = (g_hash_table_lookup(Denemo.map->idx_from_name, command->name) == NULL);
 
     if(!Denemo.non_interactive){
       
