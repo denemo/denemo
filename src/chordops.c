@@ -137,7 +137,6 @@ newchord (gint baseduration, gint numdots, int tied)
   newchord->is_grace = FALSE;
   newchord->struck_through = FALSE;
   newchord->has_dynamic = FALSE;
-  newchord->is_highlighted = FALSE;
   newchord->is_syllable = FALSE;
   newchord->center_lyric = FALSE;
   newchord->lyric = NULL;

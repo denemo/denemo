@@ -82,6 +82,7 @@ scorearea_configure_event (G_GNUC_UNUSED GtkWidget * widget, G_GNUC_UNUSED GdkEv
   if (!init)
     {
 	  MidiDrawObject = g_list_append(NULL, newchord (0, 0, 0));
+	  chord *thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
       create_tool_pixbuf ();
       init = TRUE;
     }
@@ -345,19 +346,13 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 				        cairo_set_source_rgba (cr, 0.8, 0.2, 0.0, 0.8);
 					}
 				if(si->recording->type==DENEMO_RECORDING_MIDI)//if MIDI RECORDING draw the pitch as a headless diamond note.
-					{
-					//delete_chordnote (gui);
-					chord *thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
-					    //g_list_free_full(thechord->notes, g_free);//if(thechord->notes) g_list_free(thechord->notes);//
-					//thechord->notes=NULL;thechord->highesty=thechord->lowesty=0;thechord->highestpitch = thechord->lowestpitch = midinote->mid_c_offset + 7 * midinote->octave;
-					
-					removetone ((DenemoObject*)(MidiDrawObject->data), 0, si->cursorclef);//there is only one note in the chord so any mid_c_offset will do
-					
+					{							 
+					removetone ((DenemoObject*)(MidiDrawObject->data), 0, si->cursorclef);//there is only one note in the chord so any mid_c_offset will do					
 					addtone (MidiDrawObject->data,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, si->cursorclef);
-					//g_print("values now %d %d %d %d ",thechord->highesty,thechord->lowesty,thechord->highestpitch,thechord->lowestpitch);
-					thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
+					chord *thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
 					((note*)(thechord->notes->data))->noteheadtype = DENEMO_DIAMOND_NOTEHEAD;
-					((note*)(thechord->notes->data))->showaccidental = TRUE;
+					if(midinote->enshift)
+						((note*)(thechord->notes->data))->showaccidental = TRUE;
 					((note*)(thechord->notes->data))->position_of_accidental = 8;
 					cairo_save (cr);
 					cairo_set_source_rgba (cr, 0, 0, 0, 1);
