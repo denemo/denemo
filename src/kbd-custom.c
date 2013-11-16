@@ -660,7 +660,7 @@ void register_command_row(keymap* the_keymap, command_row* command){
 
   //This code is only relevant to developers, to check that no action
   //entry masks another. Users cannot add actions. THIS IS CHANGING NOW...
-  if (g_hash_table_contains (the_keymap->commands, idx))
+  if (g_hash_table_lookup (the_keymap->commands, idx) != NULL)
     g_debug ("Command %s is inserted more than once...\n", command->name);
 
   else{
@@ -749,7 +749,7 @@ keymap_get_command_row (keymap * the_keymap, command_row ** row, guint command_i
       return FALSE;
     }
 
-  if(!g_hash_table_contains (the_keymap->commands, &command_id)){
+  if(g_hash_table_contains (the_keymap->commands, &command_id) == NULL){
     g_debug("Command not found");
     return FALSE;
   }
