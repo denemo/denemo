@@ -1568,7 +1568,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode, gboolean rest)
   mudela_obj_new = newchord (duration, 0, 0);
   if ((mode & INPUTNORMAL) && (rest != TRUE))
     { 
-		if(inserting_midi)
+		if(inserting_midi && si->marked_onset && si->marked_onset->data)
 		{ 
 			DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;
 			addtone (mudela_obj_new,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, si->cursorclef);
@@ -1593,7 +1593,13 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode, gboolean rest)
     {
       if (Denemo.prefs.immediateplayback)
         {
-          rhythm_feedback (DEFAULT_BACKEND, duration, rest, FALSE);
+			if(inserting_midi)
+				{
+				DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
+				play_notes (DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, (chord *) mudela_obj_new->object);
+				}
+			else
+				rhythm_feedback (DEFAULT_BACKEND, duration, rest, FALSE);
         }
       if (!was_appending)
         movecursorleft (NULL);
