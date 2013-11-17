@@ -289,8 +289,9 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
         if ((thechord->lowesty) > itp->lowy + STAFF_HEIGHT)
           itp->lowy = thechord->lowesty - STAFF_HEIGHT;
  
- //display note onsets for source audio above relevant notes in top staff (well, the top-most staff with enough notes to use up all the recorded note onsets.       
-         if(cr && si->recording && itp->recordednote) {
+ //display note onsets for source audio above relevant notes in top staff 
+ // if there are not enough notes to use up all the recorded note onsets only some recorded notes are shown.      
+         if(cr && si->recording && itp->recordednote && (itp->staffnum == si->top_staff)) {
 			 GList *g = itp->recordednote;			
 			 gint current = mudelaitem->earliest_time*si->recording->samplerate;
 			 gint next =  mudelaitem->latest_time*si->recording->samplerate;
@@ -304,18 +305,23 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 			 {
 					notewidth = gui->si->measurewidth - mudelaitem->x;
 			 }
+
 			 /* draw the extent of the note */
-			cairo_set_source_rgba (cr, 0.0, 0.2, 1.0, 1);	
-			cairo_move_to (cr, x + mudelaitem->x, 25);
-			cairo_line_to (cr,x + mudelaitem->x, 20);
-			cairo_line_to (cr,x + mudelaitem->x+ notewidth - 2, 20);
-			cairo_line_to (cr,x + mudelaitem->x+ notewidth, 14);
-			cairo_line_to (cr,x + mudelaitem->x+ notewidth, 22);
-			cairo_line_to (cr,x + mudelaitem->x+2, 22);
+			gint extra_width = (curobj->prev==NULL) ? SPACE_FOR_BARLINE:0; //first note has extra width to leave no gap in timing from end of last bar
 			
-			//cairo_rectangle (cr, x + mudelaitem->x, 20, notewidth, 3);
+			notewidth += extra_width;
+			cairo_set_source_rgba (cr, 0.0, 0.2, 1.0, 1);	
+			cairo_move_to (cr, -extra_width + x + mudelaitem->x, 25);
+			cairo_line_to (cr, -extra_width + x + mudelaitem->x, 20);
+			cairo_line_to (cr, -extra_width + x + mudelaitem->x+ notewidth - 2, 20);
+			cairo_line_to (cr, -extra_width + x + mudelaitem->x+ notewidth, 14);
+			cairo_line_to (cr, -extra_width + x + mudelaitem->x+ notewidth, 22);
+			cairo_line_to (cr, -extra_width + x + mudelaitem->x+2, 22);
+			
 			cairo_fill (cr);			
 			
+		
+		
 			cairo_set_source_rgba (cr, 0.3, 0.3, 0.3, 0.5);	
 			
 			 while( g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < current))
@@ -334,7 +340,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 				gdouble fraction = (((gint)(midinote->timing) - leadin) - current) / (double)(next-current);
 				gint pos;				
 				pos = notewidth * fraction;
-				pos +=  mudelaitem->x; 
+				pos +=  mudelaitem->x - extra_width; 
 				if(g==si->marked_onset) 
 					{	
 					cairo_save (cr);
@@ -359,7 +365,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 					draw_chord (cr, MidiDrawObject, pos+x, y, 0, itp->curaccs, FALSE, FALSE);	
 					cairo_restore (cr);
 					}
-				draw_note_onset(cr, pos+x);
+				draw_note_onset(cr, pos + x - extra_width);
 
 				if(g==si->marked_onset) 
 					{
@@ -562,16 +568,11 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
   if (si->selection.laststaffmarked == itp->staffnum && si->selection.lastmeasuremarked == itp->measurenum && si->selection.lastobjmarked == itp->objnum)
     itp->markx2 = x + mudelaitem->x + mudelaitem->minpixelsalloted + EXTRAFORSELECTRECT;
 
-  //gdk_gc_set_foreground (blackgc, &black);
+	//In page view we have to allow the last time to be the last recorded time for any object on the page, but empty measures on the lowest visible staff will cause the rightmost time to be set too early.
+	//FIXME, use smf.c to calculate start and end times for each measure and consult that.
+  if((Denemo.gui->view == DENEMO_PAGE_VIEW) || (itp->rightmosttime < mudelaitem->latest_time*get_playback_speed()))
+	itp->rightmosttime = mudelaitem->latest_time*get_playback_speed();
 
-  //  g_print("obj at %d %d\n",  x + mudelaitem->x + mudelaitem->minpixelsalloted, (int)(Denemo.scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)));
-  //  itp->line_end = itp->markx2 > (int)(Denemo.scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME));
-
-
-  itp->rightmosttime = mudelaitem->latest_time*get_playback_speed();
-
-  //g_print("returning with %d\n", itp->highy);
-  /* And give a return value and we're done */
   return (mudelaitem->starttickofnextnote - itp->tickspermeasure);
 }                               /* draw_object */
 
@@ -1039,34 +1040,6 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoGUI * gui, struct 
             cairo_restore (cr);
           }
 
- 
-  
-  if(0)
-  {
-    if(gui->si->recording)      {
-            cairo_save (cr);
-            cairo_set_source_rgb (cr, 0.2, 0.7, 0.2);
-            drawnormaltext_cr (cr, _("Source Audio Attached, will play mixed with your score"), 10, 10);
-            GList *g = si->recording->notes;
-            for(;g;g=g->next) {
-				if ( (gint)(((DenemoRecordedNote*)g->data)->timing) > (itp->leftmosttime*si->recording->samplerate))
-					break;
-			}
-			if(g)
-				{
-					gchar * text = g_strdup_printf("First note at %f seconds", (((DenemoRecordedNote*)g->data)->timing)/(double)si->recording->samplerate);
-					
-					drawnormaltext_cr (cr, text, 10, 20);
-				}
-            cairo_fill (cr);
-            cairo_restore (cr);
-            
-		}	 
-		 
-	}  
-
-  
-
   if (cr)
     cairo_restore (cr);
   // if(itp->highy > title_highy)
@@ -1416,7 +1389,7 @@ draw_score (cairo_t * cr)
 
         //g_print("staff num %d measure %d playhead %f left time %f\nheight %d system_num %d\n", itp.staffnum,itp.measurenum, si->playhead, itp.leftmosttime, yy, system_num);
 
-        si->rightmost_time = itp.rightmosttime;
+        si->rightmost_time = itp.rightmosttime;//g_print("Setting rightmost time to %f\n", si->rightmost_time);
 
         if ((system_num > 2) && Denemo.gui->si->playingnow && (si->playhead > leftmost) && itp.measurenum <= g_list_length (((DenemoStaff *) curstaff->data)->measures) /*(itp.measurenum > (si->rightmeasurenum+1)) */ )
           {
@@ -1467,6 +1440,10 @@ draw_score (cairo_t * cr)
             //g_print("Repeating %d\n", repeat);
             flip_count = -1;
           }
+       //   if(itp.rightmosttime != si->rightmost_time)
+		//		g_print("Resetting %f %f? ",itp.rightmosttime, si->rightmost_time);
+        // itp.rightmosttime = si->rightmost_time;//We want to ignore the rightmost_time of the flipped over top system that belongs to the next page
+         
       }                         //end of block printing continuations
       *itp.left = 0;            //To signal end of valid systems
 
