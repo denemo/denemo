@@ -179,7 +179,7 @@ static void
 page_for_time (gdouble time_seconds)
 {
   DenemoScore *si = Denemo.gui->si;
-  if (si->rightmost_time > 0.0 && time_seconds > si->rightmost_time)
+  if ((si->rightmost_time > 0.0) && (time_seconds > si->rightmost_time))
     {
       si->rightmost_time = -1;
       g_idle_add_full (G_PRIORITY_HIGH_IDLE, page_viewport_callback, NULL, NULL);
