@@ -6999,6 +6999,8 @@ inner_main (void *files)
 
     load_scheme_init ();
 
+    readHistory ();
+    
     gboolean file_loaded = load_files(files);
 
     if (!file_loaded && !Denemo.scheme_commands)
@@ -7013,7 +7015,6 @@ inner_main (void *files)
   //GUI related initializations
   if(!Denemo.non_interactive)  
   {
-    readHistory ();
     populate_opened_recent_menu ();
     
     load_preferences ();
