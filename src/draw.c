@@ -303,7 +303,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 					notewidth = nextobj->x - mudelaitem->x;
 			 } else 
 			 {
-					notewidth = gui->si->measurewidth - mudelaitem->x;
+					notewidth = GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE - mudelaitem->x;
 			 }
 
 			 /* draw the extent of the note */
@@ -340,18 +340,20 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 				gdouble fraction = (((gint)(midinote->timing) - leadin) - current) / (double)(next-current);
 				gint pos;				
 				pos = notewidth * fraction;
-				pos +=  mudelaitem->x - extra_width; 
+				pos +=  mudelaitem->x; 
 				if(g==si->marked_onset) 
 					{	
 					cairo_save (cr);
-					cairo_set_source_rgba (cr, 0, 0, 0, 1);//g_print("marked offset %2.2f seconds ", midinote->timing/(double)si->recording->samplerate);
+					cairo_set_source_rgba (cr, 0, 0.5, 0, 1);//g_print("marked offset %2.2f seconds ", midinote->timing/(double)si->recording->samplerate);
 					} else if(si->playingnow)
 					{
 					(itp->currentframe < ((gint)(midinote->timing) - leadin)) ?
 						cairo_set_source_rgba (cr, 0.0, 0.2, 0.8, 0.8):
 				        cairo_set_source_rgba (cr, 0.8, 0.2, 0.0, 0.8);
 					}
-				if(si->recording->type==DENEMO_RECORDING_MIDI)//if MIDI RECORDING draw the pitch as a headless diamond note.
+					
+				//if MIDI RECORDING draw the pitch as a headless diamond note.
+				if(si->recording->type==DENEMO_RECORDING_MIDI)
 					{							 
 					removetone ((DenemoObject*)(MidiDrawObject->data), 0, si->cursorclef);//there is only one note in the chord so any mid_c_offset will do					
 					addtone (MidiDrawObject->data,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, si->cursorclef);
@@ -361,14 +363,16 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 						((note*)(thechord->notes->data))->showaccidental = TRUE;
 					((note*)(thechord->notes->data))->position_of_accidental = 8;
 					cairo_save (cr);
-					cairo_set_source_rgba (cr, 0, 0, 0, 1);
-					draw_chord (cr, MidiDrawObject, pos+x, y, 0, itp->curaccs, FALSE, FALSE);	
+					(g==si->marked_onset) ?cairo_set_source_rgba (cr, 0, 0.5, 0, 1):
+						cairo_set_source_rgba (cr, 0, 0, 0, 1);
+					draw_chord (cr, MidiDrawObject, pos + x -extra_width, y, 0, itp->curaccs, FALSE, FALSE);	
 					cairo_restore (cr);
 					}
+					
 				draw_note_onset(cr, pos + x - extra_width);
 
 				if(g==si->marked_onset) 
-					{
+					{//g_print("fraction = %f; notewidth = %d ", fraction, notewidth);
 					cairo_restore (cr);
 					}
 				if(si->marked_onset_position && ABS((gint)(pos + x - si->marked_onset_position))<20) 
