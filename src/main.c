@@ -128,7 +128,7 @@ append_to_path (gchar * path, gchar * extra, ...)
 }
 
 static gchar **
-process_command_line (int argc, char **argv)
+process_command_line (int argc, char **argv, gboolean gtkstatus)
 {
   GError *error = NULL;
   GOptionContext *context;
@@ -161,7 +161,8 @@ process_command_line (int argc, char **argv)
   g_free(header);
   g_option_context_set_description (context, footer);
   g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);
-  //g_option_context_add_group (context, gtk_get_option_group (TRUE));
+  if(gtkstatus)
+    g_option_context_add_group (context, gtk_get_option_group (TRUE));
   if (!g_option_context_parse (context, &argc, &argv, &error))
     {
       g_print ("Option parsing failed: %s\n", error->message);
@@ -194,6 +195,10 @@ process_command_line (int argc, char **argv)
 #ifdef HAVE_SIGCHLD
   signal (SIGCHLD, sigchld_handler);
 #endif
+
+  //Set command line mode if gtk could not be initialized
+  if(!gtkstatus)
+    Denemo.non_interactive = TRUE;
 
   return filenames;
 }
@@ -332,11 +337,14 @@ static void check_if_upgrade (void) {
 int
 main (int argc, char *argv[])
 {
-  gchar** files = process_command_line (argc, argv);
+  gchar** files = NULL;
+  gboolean gtk_status = FALSE;
   
-  if(!Denemo.non_interactive)  
-    gtk_init (&argc, &argv);
- 
+  if(!(gtk_status = gtk_init_check (&argc, &argv)))
+    g_print(_("Could not start graphical interface."));
+
+  files = process_command_line (argc, argv, gtk_status);
+  
   if (!g_thread_supported ())
       g_thread_init (NULL);
 
