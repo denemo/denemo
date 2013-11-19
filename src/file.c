@@ -46,6 +46,10 @@ static gint file_import_midi (DenemoGUI * gui, DenemoSaveType template, ImportTy
 static gint file_import_musicxml (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar * filename);
 static gboolean replace_existing_file_dialog (const gchar * filename, gint format_id);
 
+
+
+
+
 typedef enum
 { DENEMO_FORMAT = 0,
   DNM_FORMAT,
@@ -321,7 +325,7 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
       else if (exists (filename, ".mxml") || exists (filename, ".xml"))
         result = mxmlinput (filename);
       else if (exists (filename, ".mid") || exists (filename, ".midi"))
-        result = importMidi (filename);
+        result = (type==GUIDED_IMPORT)?guidedImportMidi (filename):importMidi (filename);
       else if (exists (filename, ".pdf") || exists (filename, ".PDF"))
         {                       
 #ifndef USE_EVINCE  
@@ -673,16 +677,9 @@ file_open_with_check (GtkAction * action, DenemoScriptParam * param)
     }
 }
 
-#define IMPORT(import_type) \
+#define IMPORT(import_type)  \
   GET_1PARAM(action, param, filename); \
-  if(query){ \
-    param->status = (Denemo.gui->filename!=NULL) && Denemo.gui->filename->len; \
-    if(param->status) \
-      g_string_assign(param->string, Denemo.gui->filename->str); \
-    return; \
-  } \
-  DenemoGUI *gui = Denemo.gui; \
-  param->status = !file_import_##import_type (gui, FALSE, REPLACE_SCORE, filename);
+  param->status = !file_import_##import_type (Denemo.gui, FALSE, REPLACE_SCORE, filename);
 
 void
 file_import_lilypond_with_check (GtkAction * action, DenemoScriptParam * param)
@@ -692,7 +689,12 @@ IMPORT (lilypond)}
 void
 file_import_midi_with_check (GtkAction * action, DenemoScriptParam * param)
 {
-IMPORT (midi)}
+	GET_1PARAM(action, param, filename);
+	if(confirm("MIDI Import", "Use Guided Import?"))
+		file_import_midi (Denemo.gui, FALSE, GUIDED_IMPORT, filename);
+	else
+		file_import_midi (Denemo.gui, FALSE, REPLACE_SCORE, filename);
+}
 
 void
 file_import_musicxml_with_check (GtkAction * action, DenemoScriptParam * param)
@@ -888,6 +890,7 @@ FILE_OPEN_DIALOG ("Import Lilypond", lilypond, MUDELA_FORMAT)}
 static gint
 file_import_midi (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar * filename)
 {
+	
 FILE_OPEN_DIALOG ("Import Midi", midi, MIDI_FORMAT)}
 
 /**
@@ -1114,7 +1117,7 @@ file_newwrapper (GtkAction * action, DenemoScriptParam * param)
 
 }
 
-
+#if 0
 /* open_user_default_template
  * open the user's standard template if there is one
  * @return 0 for success non zero for failure
@@ -1131,7 +1134,7 @@ open_user_default_template (ImportType type)
   g_free (filename);
   return ret;
 }
-
+#endif
 
 /**
  * Creates dialog to say that the chosen filename already exists
