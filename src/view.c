@@ -111,10 +111,12 @@ SCM scheme_call_callback (SCM optional, callback_function callback) {
   GString *gstr=NULL;
   int length;
   char *str=NULL;
+  
   if(scm_is_string(optional)){
     str = scm_to_locale_stringn(optional, (size_t *)&length);
     gstr = g_string_new_len(str, length);
-    if(!strncmp("query",str,5)) query = TRUE;  }
+    if(!strncmp("query",str,5)) query = TRUE;  
+  }
   param.string = gstr;
   param.status = FALSE;
 
@@ -5749,7 +5751,8 @@ void
 denemo_scheme_init (void)
 {
   gchar *initscheme = Denemo.scheme_file;
-  Denemo.gui->si->undo_guard++;
+  if(!Denemo.non_interactive)
+    Denemo.gui->si->undo_guard++;
 
   if (initscheme)
     {
@@ -5770,7 +5773,8 @@ denemo_scheme_init (void)
     }
 
   load_local_scheme_init ();
-  Denemo.gui->si->undo_guard--;
+  if(!Denemo.non_interactive)
+    Denemo.gui->si->undo_guard--;
 }
 
 /*
@@ -7189,19 +7193,21 @@ free_movements (DenemoGUI * gui)
 static void
 closewrapper (GtkAction * action, DenemoScriptParam* param)
 {
-  GList *display;
+  if(!Denemo.non_interactive){
+    GList *display;
 
-  if (Denemo.accelerator_status)
-    {
-      if (confirm (_("You have made changes to the commands you have"), _("Do you want to save the changes?")))
-        save_accels ();
-    }
-  for (display = Denemo.guis; display != NULL; display = g_list_next (display))
-    {
-      Denemo.gui = (DenemoGUI *) display->data;
-      if (close_gui_with_check (NULL, NULL) == FALSE)
-        break;
-    }
+    if (Denemo.accelerator_status)
+      {
+        if (confirm (_("You have made changes to the commands you have"), _("Do you want to save the changes?")))
+          save_accels ();
+      }
+    for (display = Denemo.guis; display != NULL; display = g_list_next (display))
+      {
+        Denemo.gui = (DenemoGUI *) display->data;
+        if (close_gui_with_check (NULL, NULL) == FALSE)
+          break;
+      }
+  }
 }
 
 /**
