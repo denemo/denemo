@@ -7670,22 +7670,13 @@ pb_record (GtkWidget * button)
       return;
     }
   call_out_to_guile ("(DenemoSetPlaybackStart)");
-  DenemoRecording *recording;
-  if(Denemo.gui->si->recording && (Denemo.gui->si->recording->type==DENEMO_RECORDING_MIDI))
-	{
-      //FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
-      recording = Denemo.gui->si->recording;
-      g_static_mutex_lock (&smfmutex);
-      Denemo.gui->si->recording = NULL;
-      g_static_mutex_unlock (&smfmutex);
-      g_free (recording->filename);
-      g_free (recording);
-      g_list_free_full (recording->notes, g_free);
-     }
-  recording = (DenemoRecording *) g_malloc (sizeof (DenemoRecording));
-  recording->type = DENEMO_RECORDING_MIDI;
-  recording->samplerate = 44100;
-  Denemo.gui->si->recording = recording;
+
+
+ 
+  new_midi_recording();
+  
+  
+  
   Denemo.gui->midi_destination |= MIDIRECORD;
   track_delete (Denemo.gui->si->recorded_midi_track);
   Denemo.gui->si->recorded_midi_track = smf_track_new ();
