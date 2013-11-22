@@ -512,4 +512,6 @@ dnm_setinitialkeysig (DenemoStaff * curstaff, gint tokey, gint type)
   curstaff->leftmost_keysig = &curstaff->keysig;
   showwhichaccidentalswholestaff (curstaff);
   adjust_tonal_center (curstaff->keysig.accs);
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }

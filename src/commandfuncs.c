@@ -81,6 +81,8 @@ nextrhythm (DenemoScriptParam* param)
   //g_print("selected active\n");
 #undef CURRP
 #undef g
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 
@@ -225,6 +227,8 @@ adjustmeasurewidth (DenemoScore * si, gint amount)
   if (si->widthtoworkwith < si->measurewidth + SPACE_FOR_BARLINE)
     si->measurewidth = si->widthtoworkwith - SPACE_FOR_BARLINE;
   find_xes_in_all_measures (si);
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
   /*nudgerightward (si); */
 }
 
@@ -316,6 +320,8 @@ object_insert (DenemoGUI * gui, DenemoObject * mudela_obj_new)
 
   score_status (gui, TRUE);
   si->markstaffnum = 0;
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 /**
@@ -327,6 +333,8 @@ adjuststaffheight (DenemoScore * si, gint amount)
   si->staffspace += amount;
   if (si->staffspace < 2 * STAFF_HEIGHT)
     si->staffspace = 2 * STAFF_HEIGHT;
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
   /*nudge_downward (si); */
 }
 
@@ -356,6 +364,8 @@ gomeasureleft (DenemoScriptParam * param, gboolean extend_selection)
   setcurrents (gui->si);
   if (extend_selection)
     calcmarkboundaries (gui->si);
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
 }
 
 /**
@@ -394,6 +404,8 @@ gomeasureright (DenemoScriptParam * param, gboolean extend_selection)
         calcmarkboundaries (gui->si);
 			write_status (gui);
     }
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
 }
 
 void
@@ -580,6 +592,8 @@ govoiceup (DenemoScriptParam * param, gboolean extend_selection)
   else if (param == &dummy)     //is interactive
     warningmessage (_("This is the first voice"));
   write_status(gui);
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
   return param->status;
 }
 
@@ -622,6 +636,8 @@ gostaffup (DenemoScriptParam * param, gboolean extend_selection)
   else if (param == &dummy)     //is interactive
     warningmessage (_("This is the first staff"));
   write_status(gui);
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
   return param->status;
 }
 
@@ -660,6 +676,8 @@ govoicedown (DenemoScriptParam * param, gboolean extend_selection)
   else if (param == &dummy)     //is interactive
     warningmessage (_("This is the last voice"));
   write_status(gui);
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
   return param->status;
 }
 
@@ -734,6 +752,8 @@ gostaffdown (DenemoScriptParam * param, gboolean extend_selection)
   else if (param == &dummy)     //is interactive
     warningmessage (_("This is the last staff"));
   write_status(gui);
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
   return param->status;
 }
 
@@ -824,6 +844,8 @@ move_left (DenemoScriptParam * param, gboolean extend_selection)
   if (extend_selection)
     calcmarkboundaries (si);
   write_status (gui);
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
   return param->status;
 }
 
@@ -876,6 +898,8 @@ move_right (DenemoScriptParam * param, gboolean extend_selection)
   if (extend_selection)
     calcmarkboundaries (si);
   write_status (gui);
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
   return (param->status = (si->currentobject || (!si->cursor_appending) || si->currentmeasure->next));
 }
 
@@ -1287,6 +1311,8 @@ cursorup (DenemoScriptParam * param)
   gui->si->staffletter_y = (gui->si->staffletter_y + 1) % 7;
   param->status = TRUE;         //FIXME introduce some range boundaries, settable by user for instrument ranges.
   //g_print ("Cursor Y Position %d\n", gui->si->cursor_y);
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
 }
 
 /**
@@ -1305,6 +1331,8 @@ cursordown (DenemoScriptParam * param)
   gui->si->staffletter_y = (gui->si->staffletter_y + 6) % 7;
   param->status = TRUE;         //FIXME introduce some range boundaries, settable by user for instrument ranges.
   //g_print ("Cursor Y Position %d\n", gui->si->cursor_y);
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
 }
 
 static gboolean
@@ -1464,7 +1492,8 @@ shiftcursor (DenemoGUI * gui, gint note_value)
   else
     /* in INSERT (or EDIT and appending) we insert a note using the next step of the rhythm pattern */
     insert_note_following_pattern (gui);
-
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
 }
 
 
@@ -1664,6 +1693,8 @@ dnm_inserttuplet (DenemoGUI * gui, tuplet_type type)
 
   si->currentobject = si->currentobject->prev;
   si->cursor_appending = FALSE;
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 
@@ -1731,6 +1762,8 @@ notechange (DenemoScore * si, gboolean remove)
         {
           // Denemo.gui->last_source = INPUTKEYBOARD;
         }
+      displayhelper (Denemo.gui);
+      score_status(Denemo.gui, TRUE);
     }
   return ret;
 }
@@ -1821,7 +1854,8 @@ incrementenshift (DenemoGUI * gui, gint direction)
           //      Denemo.gui->last_source = INPUTKEYBOARD;
         }
 
-      score_status (gui, TRUE);
+      displayhelper (Denemo.gui);
+      score_status(Denemo.gui, TRUE);
     }
 }
 
@@ -1881,9 +1915,8 @@ change_stem_directive (DenemoScore * si, enum stemdirections amount)
           ((stemdirective *) curmudelaobj->object)->type = DENEMO_STEMBOTH;
           break;
         }
-
-
-
+    displayhelper (Denemo.gui);
+    score_status(Denemo.gui, TRUE);
     }
 }
 
@@ -1913,8 +1946,6 @@ changedots (DenemoScore * si, gint amount)
             }
         }
       changenumdots (curmudelaobj, amount);
-
-
     }
 }
 
@@ -1932,6 +1963,8 @@ dnm_insertmeasures (DenemoScore * si, gint number)
   si->cursor_appending = TRUE;
   si->currentobject = NULL;
   set_rightmeasurenum (si);
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
   //si->markstaffnum = 0;
   //calcmarkboundaries (si);
   /* update_hscrollbar (si); */
@@ -2009,6 +2042,8 @@ appendmeasures (DenemoScore * si, gint number)
   si->currentmeasure = g_list_nth (firstmeasurenode (si->currentstaff), si->currentmeasurenum - 1);
   si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data, si->cursor_x - (si->cursor_appending == TRUE));
   set_rightmeasurenum (si);
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
   /*update_hscrollbar (si); */
 }
 
@@ -2090,6 +2125,7 @@ deletemeasure (DenemoScriptParam* param)
   dnm_deletemeasure (Denemo.gui->si);
   isoffleftside (Denemo.gui);
   displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 /**
@@ -2112,6 +2148,7 @@ deletemeasureallstaffs (DenemoScriptParam* param)
   si->markstaffnum = 0;
   isoffleftside (Denemo.gui);
   displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 
@@ -2325,6 +2362,8 @@ dnm_deleteobject (DenemoScore * si)
       update_undo_info (si, undo);
     }
 
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 /**
@@ -2519,6 +2558,8 @@ toggle_begin_slur (DenemoScriptParam* param)
 
 
     }
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 /**
@@ -2554,6 +2595,8 @@ toggle_end_slur (DenemoScriptParam * param)
 
 
     }
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 /**
@@ -2573,6 +2616,8 @@ toggle_start_crescendo (DenemoScriptParam * param)
 
 
     }
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 /**
@@ -2592,6 +2637,8 @@ toggle_end_crescendo (DenemoScriptParam * param)
 
 
     }
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 /**
@@ -2611,6 +2658,8 @@ toggle_start_diminuendo (DenemoScriptParam * param)
 
 
     }
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 /**
@@ -2630,6 +2679,8 @@ toggle_end_diminuendo (DenemoScriptParam * param)
 
 
     }
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 

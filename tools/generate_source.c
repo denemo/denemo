@@ -89,9 +89,8 @@ void parse_menu_commands(){
               fprintf (callbacks,
                        "static void %s_cb (GtkAction *action, DenemoScriptParam *param) {\n"
                        "  %s (param);\n"
-                       "%s"
                        "}\n",
-                       fi, fi, (CMD_CLASS (mi) == CMD_CATEGORY_NAVIGATION) ? "gtk_widget_queue_draw(Denemo.scorearea);\n" : "  displayhelper (Denemo.gui);\n  score_status(Denemo.gui, TRUE);\n");
+                       fi, fi);
             }
 
           /*******************   create a procedure d-<name> in scheme to call scheme_<name>  *******************/

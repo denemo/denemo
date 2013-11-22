@@ -505,6 +505,8 @@ octave_shift_key (DenemoScriptParam *param, gint amount)
       else
         Denemo.gui->si->cursor_y += amount;
     }
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
 }
 
 /**
@@ -554,7 +556,8 @@ rest_toggle_key (DenemoScriptParam *param)
 {
   GtkAction *mode = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/Rest");
   gtk_action_activate (mode);
-
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 /**
@@ -566,6 +569,8 @@ toggle_blank (DenemoScriptParam *param)
 {
   GtkAction *mode = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/Blank");
   gtk_action_activate (mode);
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 /**
@@ -595,203 +600,188 @@ insert_measure_key (DenemoScriptParam *param)
 void
 insert_chord_xkey (gint duration, DenemoScriptParam *param)
 {
-
   dnm_insertchord (Denemo.gui, duration, Denemo.gui->mode, FALSE);
-
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 void
 insert_chord_0key (DenemoScriptParam *param)
 {
-
-  dnm_insertchord (Denemo.gui, 0, Denemo.gui->mode, FALSE);
-
+  insert_chord_xkey(0, param);
 }
 
 void
 insert_chord_1key (DenemoScriptParam *param)
 {
-
-  dnm_insertchord (Denemo.gui, 1, Denemo.gui->mode, FALSE);
+  insert_chord_xkey(1, param);
 }
 
 void
 insert_chord_2key (DenemoScriptParam *param)
 {
-
-  dnm_insertchord (Denemo.gui, 2, Denemo.gui->mode, FALSE);
+  insert_chord_xkey(2, param);
 }
 
 void
 insert_chord_3key (DenemoScriptParam *param)
 {
-
-  dnm_insertchord (Denemo.gui, 3, Denemo.gui->mode, FALSE);
+  insert_chord_xkey(3, param);
 }
 
 void
 insert_chord_4key (DenemoScriptParam *param)
 {
-
-  dnm_insertchord (Denemo.gui, 4, Denemo.gui->mode, FALSE);
+  insert_chord_xkey(4, param);
 }
 
 void
 insert_chord_5key (DenemoScriptParam *param)
 {
-
-  dnm_insertchord (Denemo.gui, 5, Denemo.gui->mode, FALSE);
+  insert_chord_xkey(5, param);
 }
 
 void
 insert_chord_6key (DenemoScriptParam *param)
 {
-
-  dnm_insertchord (Denemo.gui, 6, Denemo.gui->mode, FALSE);
+  insert_chord_xkey(6, param);
 }
 
 void
 insert_chord_7key (DenemoScriptParam *param)
 {
-
-  dnm_insertchord (Denemo.gui, 7, Denemo.gui->mode, FALSE);
+  insert_chord_xkey(7, param);
 }
 
 void
 insert_chord_8key (DenemoScriptParam *param)
 {
-
-  dnm_insertchord (Denemo.gui, 8, Denemo.gui->mode, FALSE);
+  insert_chord_xkey(8, param);
 }
 
-
+void
+insert_rest_xkey(gint duration, DenemoScriptParam* param)
+{
+  dnm_insertchord (Denemo.gui, duration, INPUTREST, TRUE);
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
+}
 
 
 void
 insert_rest_0key (DenemoScriptParam *param)
 {
-  dnm_insertchord (Denemo.gui, 0, INPUTREST, TRUE);
-
+  insert_rest_xkey(0, param);
 }
 
 void
 insert_rest_1key (DenemoScriptParam *param)
 {
-  dnm_insertchord (Denemo.gui, 1, INPUTREST, TRUE);
+  insert_rest_xkey(1, param);
 }
 
 void
 insert_rest_2key (DenemoScriptParam *param)
 {
-  dnm_insertchord (Denemo.gui, 2, INPUTREST, TRUE);
+  insert_rest_xkey(2, param);
 }
 
 void
 insert_rest_3key (DenemoScriptParam *param)
 {
-  dnm_insertchord (Denemo.gui, 3, INPUTREST, TRUE);
+  insert_rest_xkey(3, param);
 }
 
 void
 insert_rest_4key (DenemoScriptParam *param)
 {
-  dnm_insertchord (Denemo.gui, 4, INPUTREST, TRUE);
+  insert_rest_xkey(4, param);
 }
 
 void
 insert_rest_5key (DenemoScriptParam *param)
 {
-  dnm_insertchord (Denemo.gui, 5, INPUTREST, TRUE);
+  insert_rest_xkey(5, param);
 }
 
 void
 insert_rest_6key (DenemoScriptParam *param)
 {
-  dnm_insertchord (Denemo.gui, 6, INPUTREST, TRUE);
+  insert_rest_xkey(6, param);
 }
 
 void
 insert_rest_7key (DenemoScriptParam *param)
 {
-  dnm_insertchord (Denemo.gui, 7, INPUTREST, TRUE);
+  insert_rest_xkey(7, param);
 }
 
 void
 insert_rest_8key (DenemoScriptParam *param)
 {
-  dnm_insertchord (Denemo.gui, 8, INPUTREST, TRUE);
+  insert_rest_xkey(8, param);
 }
 
-
+void
+insert_blankchord_xkey (gint duration, DenemoScriptParam *param)
+{
+  dnm_insertchord (Denemo.gui, duration, INPUTBLANK, FALSE);
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
+}
 
 void
 insert_blankchord_0key (DenemoScriptParam *param)
 {
-  dnm_insertchord (Denemo.gui, 0, INPUTBLANK, FALSE);
+  insert_blankchord_xkey(0, param);
 }
 
 void
 insert_blankchord_1key (DenemoScriptParam *param)
 {
-
-  dnm_insertchord (Denemo.gui, 1, INPUTBLANK, FALSE);
-
+  insert_blankchord_xkey(1, param);
 }
 
 void
 insert_blankchord_2key (DenemoScriptParam *param)
 {
-
-  dnm_insertchord (Denemo.gui, 2, INPUTBLANK, FALSE);
-
+  insert_blankchord_xkey(2, param);
 }
 
 void
 insert_blankchord_3key (DenemoScriptParam *param)
 {
-
-  dnm_insertchord (Denemo.gui, 3, INPUTBLANK, FALSE);
-
+  insert_blankchord_xkey(3, param);
 }
 
 void
 insert_blankchord_4key (DenemoScriptParam *param)
 {
-
-  dnm_insertchord (Denemo.gui, 4, INPUTBLANK, FALSE);
-
+  insert_blankchord_xkey(4, param);
 }
 
 void
 insert_blankchord_5key (DenemoScriptParam *param)
 {
-
-  dnm_insertchord (Denemo.gui, 5, INPUTBLANK, FALSE);
-
+  insert_blankchord_xkey(5, param);
 }
 
 void
 insert_blankchord_6key (DenemoScriptParam *param)
 {
-
-  dnm_insertchord (Denemo.gui, 6, INPUTBLANK, FALSE);
-
+  insert_blankchord_xkey(6, param);
 }
 
 void
 insert_blankchord_7key (DenemoScriptParam *param)
 {
-
-  dnm_insertchord (Denemo.gui, 7, INPUTBLANK, FALSE);
-
+  insert_blankchord_xkey(7, param);
 }
 
 void
 insert_blankchord_8key (DenemoScriptParam *param)
 {
-
-  dnm_insertchord (Denemo.gui, 8, INPUTBLANK, FALSE);
-
+  insert_blankchord_xkey(8, param);
 }
 
 
@@ -951,6 +941,8 @@ pending_sharpen (DenemoScriptParam *param)
   Denemo.gui->si->pending_enshift++;
   if (Denemo.gui->si->pending_enshift > 2)
     Denemo.gui->si->pending_enshift = 2;
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 void
@@ -959,6 +951,8 @@ pending_flatten (DenemoScriptParam *param)
   Denemo.gui->si->pending_enshift--;
   if (Denemo.gui->si->pending_enshift < -2)
     Denemo.gui->si->pending_enshift = -2;
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 void
@@ -1006,7 +1000,6 @@ force_cautionary (DenemoScriptParam *param)
   DenemoObject *theobj = Denemo.gui->si->currentobject ? (DenemoObject *) Denemo.gui->si->currentobject->data : NULL;
   if (theobj && theobj->type == CHORD)
     caution (Denemo.gui->si);
-
 }
 
 void

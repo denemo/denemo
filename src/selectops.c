@@ -176,6 +176,8 @@ insert_clipboard (GList * clipboard)
       call_out_to_guile ("(d-Paste)");
       copybuffer = NULL;
       pop_clipboard ();
+      displayhelper (Denemo.gui);
+      score_status(Denemo.gui, TRUE);
     }
 }
 
@@ -659,6 +661,8 @@ set_mark (DenemoScriptParam * param)
   si->markmeasurenum = si->currentmeasurenum;
   si->markcursor_x = si->cursor_x;
   calcmarkboundaries (si);
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
 }
 
 /**
@@ -675,6 +679,8 @@ set_point (DenemoScriptParam * param)
       mark_boundaries_helper (si, si->markstaffnum, si->markmeasurenum, si->markcursor_x, si->currentstaffnum, si->currentmeasurenum, si->cursor_x, NORMAL_SELECT);
 
     }
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
 }
 
 gboolean
@@ -694,6 +700,8 @@ unset_mark (DenemoScriptParam * param)
   DenemoScore *si = Denemo.gui->si;
   si->markstaffnum = 0;
   calcmarkboundaries (si);
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
 }
 
 

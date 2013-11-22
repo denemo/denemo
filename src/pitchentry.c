@@ -878,6 +878,7 @@ delete_tone (DenemoScore * si, chord * thechord)
       calcmarkboundaries (si);
 
       displayhelper (Denemo.gui);
+      score_status(Denemo.gui, TRUE);
       return TRUE;
     }
   else

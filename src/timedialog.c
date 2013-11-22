@@ -81,6 +81,8 @@ dnm_setinitialtimesig (DenemoScore * si, DenemoStaff * curstaffstruct, gint time
         }
 
     }
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 
