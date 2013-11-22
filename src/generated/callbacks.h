@@ -1,72 +1,72 @@
 /******** generated automatically from generate_source. See generate_source.c */
 /*CursorLeft cursorleft*/
 static void cursorleft_cb (GtkAction *action, DenemoScriptParam *param) {
-cursorleft (param);
+  cursorleft (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }
 /*MoveCursorLeft movecursorleft*/
 static void movecursorleft_cb (GtkAction *action, DenemoScriptParam *param) {
-movecursorleft (param);
+  movecursorleft (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }
 /*CursorDown cursordown*/
 static void cursordown_cb (GtkAction *action, DenemoScriptParam *param) {
-cursordown (param);
+  cursordown (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }
 /*CursorUp cursorup*/
 static void cursorup_cb (GtkAction *action, DenemoScriptParam *param) {
-cursorup (param);
+  cursorup (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }
 /*CursorRight cursorright*/
 static void cursorright_cb (GtkAction *action, DenemoScriptParam *param) {
-cursorright (param);
+  cursorright (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }
 /*MoveCursorRight movecursorright*/
 static void movecursorright_cb (GtkAction *action, DenemoScriptParam *param) {
-movecursorright (param);
+  movecursorright (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }
 /*StaffUp staffup*/
 static void staffup_cb (GtkAction *action, DenemoScriptParam *param) {
-staffup (param);
+  staffup (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }
 /*StaffDown staffdown*/
 static void staffdown_cb (GtkAction *action, DenemoScriptParam *param) {
-staffdown (param);
+  staffdown (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }
 /*MoveToStaffUp movetostaffup*/
 static void movetostaffup_cb (GtkAction *action, DenemoScriptParam *param) {
-movetostaffup (param);
+  movetostaffup (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }
 /*MoveToStaffDown movetostaffdown*/
 static void movetostaffdown_cb (GtkAction *action, DenemoScriptParam *param) {
-movetostaffdown (param);
+  movetostaffdown (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }
 /*MeasureLeft measureleft*/
 static void measureleft_cb (GtkAction *action, DenemoScriptParam *param) {
-measureleft (param);
+  measureleft (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }
 /*MeasureRight measureright*/
 static void measureright_cb (GtkAction *action, DenemoScriptParam *param) {
-measureright (param);
+  measureright (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }
 /*MoveToMeasureLeft movetomeasureleft*/
 static void movetomeasureleft_cb (GtkAction *action, DenemoScriptParam *param) {
-movetomeasureleft (param);
+  movetomeasureleft (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }
 /*MoveToMeasureRight movetomeasureright*/
 static void movetomeasureright_cb (GtkAction *action, DenemoScriptParam *param) {
-movetomeasureright (param);
+  movetomeasureright (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }
 /*A go_to_A_key*/
@@ -1115,21 +1115,21 @@ static void append_measure_score_cb (GtkAction *action, DenemoScriptParam *param
 }
 /*VoiceUp voiceup*/
 static void voiceup_cb (GtkAction *action, DenemoScriptParam *param) {
-voiceup (param);
+  voiceup (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }
 /*VoiceDown voicedown*/
 static void voicedown_cb (GtkAction *action, DenemoScriptParam *param) {
-voicedown (param);
+  voicedown (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }
 /*MoveToVoiceUp movetovoiceup*/
 static void movetovoiceup_cb (GtkAction *action, DenemoScriptParam *param) {
-movetovoiceup (param);
+  movetovoiceup (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }
 /*MoveToVoiceDown movetovoicedown*/
 static void movetovoicedown_cb (GtkAction *action, DenemoScriptParam *param) {
-movetovoicedown (param);
+  movetovoicedown (param);
 gtk_widget_queue_draw(Denemo.scorearea);
 }

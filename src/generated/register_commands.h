@@ -37,13 +37,13 @@ register_command("ThirtysecondNote", _("ThirtysecondNote"), _("Insert \xF0\x9D\x
 register_command("SixtyfourthNote", _("SixtyfourthNote"), _("Insert \xF0\x9D\x85\xA3"), insert_chord_6key);
 register_command("OneHundredTwentyEighthNote", _("OneHundredTwentyEighthNote"), _("Insert \xF0\x9D\x85\xA4"), insert_chord_7key);
 register_command("TwoHundredFiftySixthNote", _("TwoHundredFiftySixthNote"), _("Insert \xF0\x9D\x85\xA5"), insert_chord_8key);
-register_command("InsertWholeRest", _("Insert a <span font_desc=\"Denemo\">\xF0\x9D\x84\xBB</span>"), _("Insert \xF0\x9D\x84\xBB rest"), insert_rest_0key);
-register_command("InsertHalfRest", _("Insert a <span font_desc=\"Denemo\">\xF0\x9D\x84\xBC</span>"), _("Insert \xF0\x9D\x84\xBC rest"), insert_rest_1key);
-register_command("InsertQuarterRest", _("Insert a <span font_desc=\"Denemo\">\xF0\x9D\x84\xBD</span>"), _("Insert \xF0\x9D\x84\xBD rest"), insert_rest_2key);
-register_command("InsertEighthRest", _("Insert a <span font_desc=\"Denemo\">\xF0\x9D\x84\xBE</span>"), _("Insert \xF0\x9D\x84\xBE rest"), insert_rest_3key);
-register_command("InsertSixteenthRest", _("Insert a <span font_desc=\"Denemo\">\xF0\x9D\x84\xBF</span>"), _("Insert \xF0\x9D\x84\xBF rest"), insert_rest_4key);
-register_command("InsertThirtysecondRest", _("Insert a <span font_desc=\"Denemo\">\xF0\x9D\x85\x80</span>"), _("Insert \xF0\x9D\x85\x80 rest"), insert_rest_5key);
-register_command("InsertSixtyfourthRest", _("Insert a <span font_desc=\"Denemo\">\xF0\x9D\x85\x81</span>"), _("Insert \xF0\x9D\x85\x81 rest"), insert_rest_6key);
+register_command("InsertWholeRest", _("Insert a \xF0\x9D\x84\xBB"), _("Insert \xF0\x9D\x84\xBB rest"), insert_rest_0key);
+register_command("InsertHalfRest", _("Insert a \xF0\x9D\x84\xBC"), _("Insert \xF0\x9D\x84\xBC rest"), insert_rest_1key);
+register_command("InsertQuarterRest", _("Insert a \xF0\x9D\x84\xBD"), _("Insert \xF0\x9D\x84\xBD rest"), insert_rest_2key);
+register_command("InsertEighthRest", _("Insert a \xF0\x9D\x84\xBE"), _("Insert \xF0\x9D\x84\xBE rest"), insert_rest_3key);
+register_command("InsertSixteenthRest", _("Insert a \xF0\x9D\x84\xBF"), _("Insert \xF0\x9D\x84\xBF rest"), insert_rest_4key);
+register_command("InsertThirtysecondRest", _("Insert a \xF0\x9D\x85\x80"), _("Insert \xF0\x9D\x85\x80 rest"), insert_rest_5key);
+register_command("InsertSixtyfourthRest", _("Insert a \xF0\x9D\x85\x81"), _("Insert \xF0\x9D\x85\x81 rest"), insert_rest_6key);
 register_command("InsertBlankWholeNote", _("Insert a \xF0\x9D\x84\xBB Spacer"), _("Insert a non-printing \xF0\x9D\x84\xBB rest"), insert_blankchord_0key);
 register_command("InsertBlankHalfNote", _("Insert a \xF0\x9D\x84\xBC Spacer"), _("Insert a non-printing \xF0\x9D\x84\xBC rest"), insert_blankchord_1key);
 register_command("InsertBlankQuarterNote", _("Insert a \xF0\x9D\x84\xBD Spacer"), _("Insert a non-printing \xF0\x9D\x84\xBD rest"), insert_blankchord_2key);
@@ -358,10 +358,6 @@ register_command("Set0", _("Set Prevailing Duration to \xF0\x9D\x85\x9D"), _("Se
 #undef NOTE0
 
 #undef REST0
-
-#undef NOTECHAR0
-
-#undef RESTCHAR0
 register_command("1", _("Insert/Append a \xF0\x9D\x85\x9E"), _("When appending, appends a \xF0\x9D\x85\x9E \nWith the cursor on a note inserts a \xF0\x9D\x85\x9E  before the current note\nIf MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration."), Dur1);
 register_command("Change1", _("Change to \xF0\x9D\x85\x9E"), _("Change the current note to a \xF0\x9D\x85\x9E"), ChangeDur1);
 register_command("Insert1", _("\xF0\x9D\x85\x9E"), _("Insert a \xF0\x9D\x85\x9E"), InsertDur1);
@@ -371,10 +367,6 @@ register_command("Set1", _("Set Prevailing Duration to \xF0\x9D\x85\x9E"), _("Se
 #undef NOTE1
 
 #undef REST1
-
-#undef NOTECHAR1
-
-#undef RESTCHAR1
 register_command("2", _("Insert/Append a \xF0\x9D\x85\x9F"), _("When appending, appends a \xF0\x9D\x85\x9F \nWith the cursor on a note inserts a \xF0\x9D\x85\x9F  before the current note\nIf MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration."), Dur2);
 register_command("Change2", _("Change to \xF0\x9D\x85\x9F"), _("Change the current note to a \xF0\x9D\x85\x9F"), ChangeDur2);
 register_command("Insert2", _("\xF0\x9D\x85\x9F"), _("Insert a \xF0\x9D\x85\x9F"), InsertDur2);
@@ -384,10 +376,6 @@ register_command("Set2", _("Set Prevailing Duration to \xF0\x9D\x85\x9F"), _("Se
 #undef NOTE2
 
 #undef REST2
-
-#undef NOTECHAR2
-
-#undef RESTCHAR2
 register_command("3", _("Insert/Append a \xF0\x9D\x85\xA0"), _("When appending, appends a \xF0\x9D\x85\xA0 \nWith the cursor on a note inserts a \xF0\x9D\x85\xA0  before the current note\nIf MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration."), Dur3);
 register_command("Change3", _("Change to \xF0\x9D\x85\xA0"), _("Change the current note to a \xF0\x9D\x85\xA0"), ChangeDur3);
 register_command("Insert3", _("\xF0\x9D\x85\xA0"), _("Insert a \xF0\x9D\x85\xA0"), InsertDur3);
@@ -397,10 +385,6 @@ register_command("Set3", _("Set Prevailing Duration to \xF0\x9D\x85\xA0"), _("Se
 #undef NOTE3
 
 #undef REST3
-
-#undef NOTECHAR3
-
-#undef RESTCHAR3
 register_command("4", _("Insert/Append a \xF0\x9D\x85\xA1"), _("When appending, appends a \xF0\x9D\x85\xA1 \nWith the cursor on a note inserts a \xF0\x9D\x85\xA1  before the current note\nIf MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration."), Dur4);
 register_command("Change4", _("Change to \xF0\x9D\x85\xA1"), _("Change the current note to a \xF0\x9D\x85\xA1"), ChangeDur4);
 register_command("Insert4", _("\xF0\x9D\x85\xA1"), _("Insert a \xF0\x9D\x85\xA1"), InsertDur4);
@@ -410,10 +394,6 @@ register_command("Set4", _("Set Prevailing Duration to \xF0\x9D\x85\xA1"), _("Se
 #undef NOTE4
 
 #undef REST4
-
-#undef NOTECHAR4
-
-#undef RESTCHAR4
 register_command("5", _("Insert/Append a \xF0\x9D\x85\xA2"), _("When appending, appends a \xF0\x9D\x85\xA2 \nWith the cursor on a note inserts a \xF0\x9D\x85\xA2  before the current note\nIf MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration."), Dur5);
 register_command("Change5", _("Change to \xF0\x9D\x85\xA2"), _("Change the current note to a \xF0\x9D\x85\xA2"), ChangeDur5);
 register_command("Insert5", _("\xF0\x9D\x85\xA2"), _("Insert a \xF0\x9D\x85\xA2"), InsertDur5);
@@ -423,10 +403,6 @@ register_command("Set5", _("Set Prevailing Duration to \xF0\x9D\x85\xA2"), _("Se
 #undef NOTE5
 
 #undef REST5
-
-#undef NOTECHAR5
-
-#undef RESTCHAR5
 register_command("6", _("Insert/Append a \xF0\x9D\x85\xA3"), _("When appending, appends a \xF0\x9D\x85\xA3 \nWith the cursor on a note inserts a \xF0\x9D\x85\xA3  before the current note\nIf MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration."), Dur6);
 register_command("Change6", _("Change to \xF0\x9D\x85\xA3"), _("Change the current note to a \xF0\x9D\x85\xA3"), ChangeDur6);
 register_command("Insert6", _("\xF0\x9D\x85\xA3"), _("Insert a \xF0\x9D\x85\xA3"), InsertDur6);
@@ -436,10 +412,6 @@ register_command("Set6", _("Set Prevailing Duration to \xF0\x9D\x85\xA3"), _("Se
 #undef NOTE6
 
 #undef REST6
-
-#undef NOTECHAR6
-
-#undef RESTCHAR6
 register_command("7", _("Insert/Append a \xF0\x9D\x85\xA4"), _("When appending, appends a \xF0\x9D\x85\xA4 \nWith the cursor on a note inserts a \xF0\x9D\x85\xA4  before the current note\nIf MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration."), Dur7);
 register_command("Change7", _("Change to \xF0\x9D\x85\xA4"), _("Change the current note to a \xF0\x9D\x85\xA4"), ChangeDur7);
 register_command("Insert7", _("\xF0\x9D\x85\xA4"), _("Insert a \xF0\x9D\x85\xA4"), InsertDur7);
@@ -449,10 +421,6 @@ register_command("Set7", _("Set Prevailing Duration to \xF0\x9D\x85\xA4"), _("Se
 #undef NOTE7
 
 #undef REST7
-
-#undef NOTECHAR7
-
-#undef RESTCHAR7
 register_command("8", _("Insert/Append a \xF0\x9D\x85\xA5"), _("When appending, appends a \xF0\x9D\x85\xA5 \nWith the cursor on a note inserts a \xF0\x9D\x85\xA5  before the current note\nIf MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration."), Dur8);
 register_command("Change8", _("Change to \xF0\x9D\x85\xA5"), _("Change the current note to a \xF0\x9D\x85\xA5"), ChangeDur8);
 register_command("Insert8", _("\xF0\x9D\x85\xA5"), _("Insert a \xF0\x9D\x85\xA5"), InsertDur8);
@@ -462,7 +430,3 @@ register_command("Set8", _("Set Prevailing Duration to \xF0\x9D\x85\xA5"), _("Se
 #undef NOTE8
 
 #undef REST8
-
-#undef NOTECHAR8
-
-#undef RESTCHAR8
