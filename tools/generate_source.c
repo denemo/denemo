@@ -45,7 +45,6 @@ struct name_and_function
   char *name;
   char *function;
   char *menu_label;
-  char *initial_setting;        /*of radio/check items */
 };
 
 FILE *entries, *xml, *scheme, *scheme_cb, *register_commands;
@@ -55,7 +54,6 @@ FILE *entries, *xml, *scheme, *scheme_cb, *register_commands;
 #define ml denemo_commands[i].menu_label
 #define ti denemo_commands[i].tooltip
 #define fi denemo_commands[i].function
-#define mi denemo_commands[i].category
 
 void parse_menu_commands(){
   #include "menu.c"
