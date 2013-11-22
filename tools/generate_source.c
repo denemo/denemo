@@ -36,23 +36,8 @@
 char *NOTES[] = { NOTE0, NOTE1, NOTE2, NOTE3, NOTE4, NOTE5, NOTE6, NOTE7, NOTE8 };
 char *RESTS[] = { REST0, REST1, REST2, REST3, REST4, REST5, REST6, REST7, REST8 };
 
-#define CMD_CATEGORY_NAVIGATION		0
-#define CMD_CATEGORY_NOTE_ENTRY		1
-#define CMD_CATEGORY_REST_ENTRY		2
-#define CMD_CATEGORY_ARTICULATION	3
-#define CMD_CATEGORY_EDIT		4
-#define CMD_CATEGORY_MEASURE		5
-#define CMD_CATEGORY_STAFF		6
-#define CMD_CATEGORY_PLAYBACK		7
-#define CMD_CATEGORY_OTHER		8
-
-#define CMD_CLASS(cat) (cat&0xFF)
-#define CMD_CATEGORY_DIRECT		0x100   /* does not require a wrapper to the callback */
-#define CMD_CATEGORY_BOOLEAN		0x200   /* call returns boolean */
-
 struct name_and_function
 {
-  unsigned category;
   /** Command name */
   char *icon;
   //char *menu_label;
