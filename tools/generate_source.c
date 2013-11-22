@@ -63,7 +63,7 @@ struct name_and_function
   char *initial_setting;        /*of radio/check items */
 };
 
-FILE *callbacks, *entries, *xml, *scheme, *scheme_cb, *register_commands;
+FILE *entries, *xml, *scheme, *scheme_cb, *register_commands;
 
 #define ni denemo_commands[i].name
 #define ii denemo_commands[i].icon
@@ -82,16 +82,6 @@ void parse_menu_commands(){
     {
       if (fi != NULL)
         {
-          if (!(mi & CMD_CATEGORY_DIRECT))
-            {
-              fprintf (callbacks, "/*%s %s*/\n", ni, fi);
-              /*******************   create a callback for calling from a menuitem *******************/
-              fprintf (callbacks,
-                       "static void %s_cb (GtkAction *action, DenemoScriptParam *param) {\n"
-                       "  %s (param);\n"
-                       "}\n",
-                       fi, fi);
-            }
 
           /*******************   create a procedure d-<name> in scheme to call scheme_<name>  *******************/
           fprintf (scheme, "/*%s %s*/\n", ni, fi);
@@ -102,15 +92,15 @@ void parse_menu_commands(){
           /*******************   create a callback scheme_<name> for calling from a scheme procedure d-<name>  *******************/
           fprintf (scheme_cb, 
                    "SCM scheme_%s (SCM optional) {\n"
-                   "  return scheme_call_callback(optional, %s%s);\n"
+                   "  return scheme_call_callback(optional, %s);\n"
                    "}\n", 
-                   ni, fi, !(mi & CMD_CATEGORY_DIRECT) ? "_cb" : "");
+                   ni, fi);
 
           /****************** install the command in the hash table of commands (keymap) **************/
           fprintf (register_commands, "register_command(\"%s\", _(\"%s\"), _(\"%s\"), %s);\n", ni, ml ? ml : ni, ti ? ti : ni, fi);
 
           /****************** install the command as an action in the menu system **************************/
-          fprintf (entries, "{\"%s\", %s, N_(\"%s\"), \"\"," "N_(\"%s\")," "G_CALLBACK (%s%s)},\n", ni, ii ? ii : "NULL", ml ? ml : ni, ti ? ti : ni, fi, (mi & CMD_CATEGORY_DIRECT) ? "" : "_cb");
+          fprintf (entries, "{\"%s\", %s, N_(\"%s\"), \"\"," "N_(\"%s\")," "G_CALLBACK (%s)},\n", ni, ii ? ii : "NULL", ml ? ml : ni, ti ? ti : ni, fi);
         }
       else                      //no callback function - a menu rather than a menu item. It still needs to be added as an action in the menu system.
         fprintf (entries, "{\"%s\", %s, N_(\"%s\"), \"\"," "N_(\"%s\")},\n", ni, ii ? ii : "NULL", ml ? ml : ni, ti ? ti : ni);
@@ -122,12 +112,10 @@ main ()
 {
   scheme_cb = fopen ("scheme_cb.h", "w");
   scheme = fopen ("scheme.h", "w");
-  callbacks = fopen ("callbacks.h", "w");
   entries = fopen ("entries.h", "w");
   register_commands = fopen ("register_commands.h", "w");
-  if (!callbacks || !entries || !scheme || !scheme_cb || !register_commands)
+  if (!entries || !scheme || !scheme_cb || !register_commands)
     return -1;
-  fprintf (callbacks, "/******** generated automatically from generate_source. See generate_source.c */\n");
   fprintf (entries, "/******** generated automatically from generate_source. See generate_source.c */\n");
 
   parse_menu_commands ();

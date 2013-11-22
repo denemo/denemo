@@ -130,7 +130,6 @@ SCM scheme_call_callback (SCM optional, callback_function callback) {
 
 static void save_accels (void);
 
-#include "generated/callbacks.h"        /* callback functions menuitems that can be called by scheme */
 #include <libguile.h>
 //#include <guile/gh.h>
 
