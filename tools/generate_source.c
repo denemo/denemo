@@ -12,26 +12,7 @@
 #include <stdio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
-
-#define NOTE0 "\\xF0\\x9D\\x85\\x9D"
-#define NOTE1 "\\xF0\\x9D\\x85\\x9E"
-#define NOTE2 "\\xF0\\x9D\\x85\\x9F"
-#define NOTE3 "\\xF0\\x9D\\x85\\xA0"
-#define NOTE4 "\\xF0\\x9D\\x85\\xA1"
-#define NOTE5 "\\xF0\\x9D\\x85\\xA2"
-#define NOTE6 "\\xF0\\x9D\\x85\\xA3"
-#define NOTE7 "\\xF0\\x9D\\x85\\xA4"
-#define NOTE8 "\\xF0\\x9D\\x85\\xA5"
-
-#define REST0 "\\xF0\\x9D\\x84\\xBB"
-#define REST1 "\\xF0\\x9D\\x84\\xBC"
-#define REST2 "\\xF0\\x9D\\x84\\xBD"
-#define REST3 "\\xF0\\x9D\\x84\\xBE"
-#define REST4 "\\xF0\\x9D\\x84\\xBF"
-#define REST5 "\\xF0\\x9D\\x85\\x80"
-#define REST6 "\\xF0\\x9D\\x85\\x81"
-#define REST7 "\\xF0\\x9D\\x85\\x82"
-#define REST8 "\\xF0\\x9D\\x85\\x83"
+#include <include/denemo/denemo.h>
 
 char *NOTES[] = { NOTE0, NOTE1, NOTE2, NOTE3, NOTE4, NOTE5, NOTE6, NOTE7, NOTE8 };
 char *RESTS[] = { REST0, REST1, REST2, REST3, REST4, REST5, REST6, REST7, REST8 };
@@ -111,10 +92,6 @@ main ()
 
   for (i = 0; i < 9; i++)
     {
-      fprintf (entries, "\n#define NOTE%d \"%s\"\n", i, NOTES[i]);
-      fprintf (entries, "\n#define REST%d \"%s\"\n", i, RESTS[i]);
-
-
       /* menu_entries for the mode sensitive duration actions, Dur0,1,2 ... */
       fprintf (entries, "{\"%d\", \"NULL\", NOTE%d, NULL, \"Inserts a note at the cursor with duration \"NOTE%d\", or \\n(if appending) appends this duration\\nIf MIDI-in is active the note will be pitchless (displays yellow, percussion-sounding)\\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.\",\n" "G_CALLBACK (Dur%d)},\n" "{\"Change%d\", \"NULL\", NOTE%d, NULL, \"Change current note to a \"NOTE%d,\n" "G_CALLBACK (ChangeDur%d)},\n"
                //"{\"ChangeRest%d\", NULL, \"Change duration\", NULL, \"Change duration of current rest\",\n"
@@ -188,9 +165,6 @@ main ()
       //    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"ChangeRest%d\"), \"ChangeRest%d\",  _(\"Change a %s\") ,  _(\"Changes a rest at cursor position\\nSets prevailing rhythm to %s\"), ChangeRest%d);\n", i, i, RESTS[i], NOTES[i], i);
 
       fprintf (register_commands, "register_command(\"Set%d\", _(\"Set Prevailing Duration to %s\"), _(\"Set the prevailing duration to %s (subsequent notes entered will have this duration)\"), SetDur%d);\n", i, NOTES[i], NOTES[i], i);
-
-      fprintf (register_commands, "\n#undef NOTE%d\n", i);
-      fprintf (register_commands, "\n#undef REST%d\n", i);
 
       fprintf (scheme, "/*%d */\n", i);
 

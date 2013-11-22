@@ -29,31 +29,31 @@
 {"G", NULL, N_("Change/Append G"), "",N_("Changes the note the cursor is on to the note G.\nIf the cursor is in the appending position, appends a note using the prevailing duration."),G_CALLBACK (go_to_G_key)},
 {"OctaveUp", NULL, N_("Octave Up"), "",N_("Changes the note at the cursor to an octave higher"),G_CALLBACK (octave_up_key)},
 {"OctaveDown", NULL, N_("Octave Down"), "",N_("Changes the note at the cursor to an octave lower"),G_CALLBACK (octave_down_key)},
-{"WholeNote", NULL, N_("WholeNote"), "",N_("Insert \xF0\x9D\x85\x9D"),G_CALLBACK (insert_chord_0key)},
-{"HalfNote", NULL, N_("HalfNote"), "",N_("Insert \xF0\x9D\x85\x9E"),G_CALLBACK (insert_chord_1key)},
-{"QuarterNote", NULL, N_("QuarterNote"), "",N_("Insert \xF0\x9D\x85\x9F"),G_CALLBACK (insert_chord_2key)},
-{"EighthNote", NULL, N_("EighthNote"), "",N_("Insert \xF0\x9D\x85\xA0"),G_CALLBACK (insert_chord_3key)},
-{"SixteenthNote", NULL, N_("SixteenthNote"), "",N_("Insert \xF0\x9D\x85\xA1"),G_CALLBACK (insert_chord_4key)},
-{"ThirtysecondNote", NULL, N_("ThirtysecondNote"), "",N_("Insert \xF0\x9D\x85\xA2"),G_CALLBACK (insert_chord_5key)},
-{"SixtyfourthNote", NULL, N_("SixtyfourthNote"), "",N_("Insert \xF0\x9D\x85\xA3"),G_CALLBACK (insert_chord_6key)},
-{"OneHundredTwentyEighthNote", NULL, N_("OneHundredTwentyEighthNote"), "",N_("Insert \xF0\x9D\x85\xA4"),G_CALLBACK (insert_chord_7key)},
-{"TwoHundredFiftySixthNote", NULL, N_("TwoHundredFiftySixthNote"), "",N_("Insert \xF0\x9D\x85\xA5"),G_CALLBACK (insert_chord_8key)},
-{"InsertWholeRest", NULL, N_("Insert a \xF0\x9D\x84\xBB"), "",N_("Insert \xF0\x9D\x84\xBB rest"),G_CALLBACK (insert_rest_0key)},
-{"InsertHalfRest", NULL, N_("Insert a \xF0\x9D\x84\xBC"), "",N_("Insert \xF0\x9D\x84\xBC rest"),G_CALLBACK (insert_rest_1key)},
-{"InsertQuarterRest", NULL, N_("Insert a \xF0\x9D\x84\xBD"), "",N_("Insert \xF0\x9D\x84\xBD rest"),G_CALLBACK (insert_rest_2key)},
-{"InsertEighthRest", NULL, N_("Insert a \xF0\x9D\x84\xBE"), "",N_("Insert \xF0\x9D\x84\xBE rest"),G_CALLBACK (insert_rest_3key)},
-{"InsertSixteenthRest", NULL, N_("Insert a \xF0\x9D\x84\xBF"), "",N_("Insert \xF0\x9D\x84\xBF rest"),G_CALLBACK (insert_rest_4key)},
-{"InsertThirtysecondRest", NULL, N_("Insert a \xF0\x9D\x85\x80"), "",N_("Insert \xF0\x9D\x85\x80 rest"),G_CALLBACK (insert_rest_5key)},
-{"InsertSixtyfourthRest", NULL, N_("Insert a \xF0\x9D\x85\x81"), "",N_("Insert \xF0\x9D\x85\x81 rest"),G_CALLBACK (insert_rest_6key)},
-{"InsertBlankWholeNote", NULL, N_("Insert a \xF0\x9D\x84\xBB Spacer"), "",N_("Insert a non-printing \xF0\x9D\x84\xBB rest"),G_CALLBACK (insert_blankchord_0key)},
-{"InsertBlankHalfNote", NULL, N_("Insert a \xF0\x9D\x84\xBC Spacer"), "",N_("Insert a non-printing \xF0\x9D\x84\xBC rest"),G_CALLBACK (insert_blankchord_1key)},
-{"InsertBlankQuarterNote", NULL, N_("Insert a \xF0\x9D\x84\xBD Spacer"), "",N_("Insert a non-printing \xF0\x9D\x84\xBD rest"),G_CALLBACK (insert_blankchord_2key)},
-{"InsertBlankEighthNote", NULL, N_("Insert a \xF0\x9D\x84\xBE Spacer"), "",N_("Insert a non-printing \xF0\x9D\x84\xBE rest"),G_CALLBACK (insert_blankchord_3key)},
-{"InsertBlankSixteenthNote", NULL, N_("Insert a \xF0\x9D\x84\xBF Spacer"), "",N_("Insert a non-printing \xF0\x9D\x84\xBF rest"),G_CALLBACK (insert_blankchord_4key)},
-{"InsertBlankThirtysecondNote", NULL, N_("Insert a \xF0\x9D\x85\x80 Spacer"), "",N_("Insert a non-printing \xF0\x9D\x85\x80 rest"),G_CALLBACK (insert_blankchord_5key)},
-{"InsertBlankSixtyfourthNote", NULL, N_("Insert a \xF0\x9D\x85\x81 Spacer"), "",N_("Insert a non-printing \xF0\x9D\x85\x81 rest"),G_CALLBACK (insert_blankchord_6key)},
-{"InsertBlankOneHundredTwentyEighthNote", NULL, N_("Insert a \xF0\x9D\x85\x82 Spacer"), "",N_("Insert a non-printing \xF0\x9D\x85\x82 rest"),G_CALLBACK (insert_blankchord_7key)},
-{"InsertBlankTwoHundredFiftySixthNote", NULL, N_("Insert a \xF0\x9D\x85\x83 Spacer"), "",N_("Insert a non-printing \xF0\x9D\x85\x83 rest"),G_CALLBACK (insert_blankchord_8key)},
+{"WholeNote", NULL, N_("WholeNote"), "",N_("Insert 𝅝"),G_CALLBACK (insert_chord_0key)},
+{"HalfNote", NULL, N_("HalfNote"), "",N_("Insert 𝅗𝅥"),G_CALLBACK (insert_chord_1key)},
+{"QuarterNote", NULL, N_("QuarterNote"), "",N_("Insert 𝅘𝅥"),G_CALLBACK (insert_chord_2key)},
+{"EighthNote", NULL, N_("EighthNote"), "",N_("Insert 𝅘𝅥𝅮"),G_CALLBACK (insert_chord_3key)},
+{"SixteenthNote", NULL, N_("SixteenthNote"), "",N_("Insert 𝅘𝅥𝅯"),G_CALLBACK (insert_chord_4key)},
+{"ThirtysecondNote", NULL, N_("ThirtysecondNote"), "",N_("Insert 𝅘𝅥𝅰"),G_CALLBACK (insert_chord_5key)},
+{"SixtyfourthNote", NULL, N_("SixtyfourthNote"), "",N_("Insert 𝅘𝅥𝅱"),G_CALLBACK (insert_chord_6key)},
+{"OneHundredTwentyEighthNote", NULL, N_("OneHundredTwentyEighthNote"), "",N_("Insert 𝅘𝅥𝅲"),G_CALLBACK (insert_chord_7key)},
+{"TwoHundredFiftySixthNote", NULL, N_("TwoHundredFiftySixthNote"), "",N_("Insert 𝅥"),G_CALLBACK (insert_chord_8key)},
+{"InsertWholeRest", NULL, N_("Insert a 𝄻"), "",N_("Insert 𝄻 rest"),G_CALLBACK (insert_rest_0key)},
+{"InsertHalfRest", NULL, N_("Insert a 𝄼"), "",N_("Insert 𝄼 rest"),G_CALLBACK (insert_rest_1key)},
+{"InsertQuarterRest", NULL, N_("Insert a 𝄽"), "",N_("Insert 𝄽 rest"),G_CALLBACK (insert_rest_2key)},
+{"InsertEighthRest", NULL, N_("Insert a 𝄾"), "",N_("Insert 𝄾 rest"),G_CALLBACK (insert_rest_3key)},
+{"InsertSixteenthRest", NULL, N_("Insert a 𝄿"), "",N_("Insert 𝄿 rest"),G_CALLBACK (insert_rest_4key)},
+{"InsertThirtysecondRest", NULL, N_("Insert a 𝅀"), "",N_("Insert 𝅀 rest"),G_CALLBACK (insert_rest_5key)},
+{"InsertSixtyfourthRest", NULL, N_("Insert a 𝅁"), "",N_("Insert 𝅁 rest"),G_CALLBACK (insert_rest_6key)},
+{"InsertBlankWholeNote", NULL, N_("Insert a 𝄻 Spacer"), "",N_("Insert a non-printing 𝄻 rest"),G_CALLBACK (insert_blankchord_0key)},
+{"InsertBlankHalfNote", NULL, N_("Insert a 𝄼 Spacer"), "",N_("Insert a non-printing 𝄼 rest"),G_CALLBACK (insert_blankchord_1key)},
+{"InsertBlankQuarterNote", NULL, N_("Insert a 𝄽 Spacer"), "",N_("Insert a non-printing 𝄽 rest"),G_CALLBACK (insert_blankchord_2key)},
+{"InsertBlankEighthNote", NULL, N_("Insert a 𝄾 Spacer"), "",N_("Insert a non-printing 𝄾 rest"),G_CALLBACK (insert_blankchord_3key)},
+{"InsertBlankSixteenthNote", NULL, N_("Insert a 𝄿 Spacer"), "",N_("Insert a non-printing 𝄿 rest"),G_CALLBACK (insert_blankchord_4key)},
+{"InsertBlankThirtysecondNote", NULL, N_("Insert a 𝅀 Spacer"), "",N_("Insert a non-printing 𝅀 rest"),G_CALLBACK (insert_blankchord_5key)},
+{"InsertBlankSixtyfourthNote", NULL, N_("Insert a 𝅁 Spacer"), "",N_("Insert a non-printing 𝅁 rest"),G_CALLBACK (insert_blankchord_6key)},
+{"InsertBlankOneHundredTwentyEighthNote", NULL, N_("Insert a 𝅂 Spacer"), "",N_("Insert a non-printing 𝅂 rest"),G_CALLBACK (insert_blankchord_7key)},
+{"InsertBlankTwoHundredFiftySixthNote", NULL, N_("Insert a 𝅃 Spacer"), "",N_("Insert a non-printing 𝅃 rest"),G_CALLBACK (insert_blankchord_8key)},
 {"ToggleRestMode", NULL, N_("Toggle Rest Mode"), "",N_("No Tooltip yet"),G_CALLBACK (rest_toggle_key)},
 {"ToggleBlankMode", NULL, N_("Toggle Blank Mode"), "",N_("No Tooltip yet"),G_CALLBACK (toggle_blank)},
 {"InsertDuplet", NULL, N_("Insert Duplet"), "",N_("No Tooltip yet"),G_CALLBACK (insert_duplet)},
@@ -435,10 +435,6 @@
 {"Typesetter", NULL, N_("Typesetter"), "",N_("Menu:\nInstructions for the typesetter to do something at the cursor position.")},
 {"ObjectMenu", NULL, N_("Object Menu"), "",N_("Menu:\nCommands for working with the musical object hierarchy.")},
 {"MainMenu", NULL, N_("Main Menu"), "",N_("Menu:\nThe top level commands for operating Denemo.")},
-
-#define NOTE0 "\xF0\x9D\x85\x9D"
-
-#define REST0 "\xF0\x9D\x84\xBB"
 {"0", "NULL", NOTE0, NULL, "Inserts a note at the cursor with duration "NOTE0", or \n(if appending) appends this duration\nIf MIDI-in is active the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.",
 G_CALLBACK (Dur0)},
 {"Change0", "NULL", NOTE0, NULL, "Change current note to a "NOTE0,
@@ -449,10 +445,6 @@ G_CALLBACK (InsertDur0)},
 G_CALLBACK (InsertRest0)},
 {"Set0", NULL, "Set Duration to "NOTE0"", NULL, "Sets prevailing duration to "NOTE0" (subsequent notes entered will have this duration)", 
 G_CALLBACK (SetDur0)},
-
-#define NOTE1 "\xF0\x9D\x85\x9E"
-
-#define REST1 "\xF0\x9D\x84\xBC"
 {"1", "NULL", NOTE1, NULL, "Inserts a note at the cursor with duration "NOTE1", or \n(if appending) appends this duration\nIf MIDI-in is active the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.",
 G_CALLBACK (Dur1)},
 {"Change1", "NULL", NOTE1, NULL, "Change current note to a "NOTE1,
@@ -463,10 +455,6 @@ G_CALLBACK (InsertDur1)},
 G_CALLBACK (InsertRest1)},
 {"Set1", NULL, "Set Duration to "NOTE1"", NULL, "Sets prevailing duration to "NOTE1" (subsequent notes entered will have this duration)", 
 G_CALLBACK (SetDur1)},
-
-#define NOTE2 "\xF0\x9D\x85\x9F"
-
-#define REST2 "\xF0\x9D\x84\xBD"
 {"2", "NULL", NOTE2, NULL, "Inserts a note at the cursor with duration "NOTE2", or \n(if appending) appends this duration\nIf MIDI-in is active the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.",
 G_CALLBACK (Dur2)},
 {"Change2", "NULL", NOTE2, NULL, "Change current note to a "NOTE2,
@@ -477,10 +465,6 @@ G_CALLBACK (InsertDur2)},
 G_CALLBACK (InsertRest2)},
 {"Set2", NULL, "Set Duration to "NOTE2"", NULL, "Sets prevailing duration to "NOTE2" (subsequent notes entered will have this duration)", 
 G_CALLBACK (SetDur2)},
-
-#define NOTE3 "\xF0\x9D\x85\xA0"
-
-#define REST3 "\xF0\x9D\x84\xBE"
 {"3", "NULL", NOTE3, NULL, "Inserts a note at the cursor with duration "NOTE3", or \n(if appending) appends this duration\nIf MIDI-in is active the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.",
 G_CALLBACK (Dur3)},
 {"Change3", "NULL", NOTE3, NULL, "Change current note to a "NOTE3,
@@ -491,10 +475,6 @@ G_CALLBACK (InsertDur3)},
 G_CALLBACK (InsertRest3)},
 {"Set3", NULL, "Set Duration to "NOTE3"", NULL, "Sets prevailing duration to "NOTE3" (subsequent notes entered will have this duration)", 
 G_CALLBACK (SetDur3)},
-
-#define NOTE4 "\xF0\x9D\x85\xA1"
-
-#define REST4 "\xF0\x9D\x84\xBF"
 {"4", "NULL", NOTE4, NULL, "Inserts a note at the cursor with duration "NOTE4", or \n(if appending) appends this duration\nIf MIDI-in is active the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.",
 G_CALLBACK (Dur4)},
 {"Change4", "NULL", NOTE4, NULL, "Change current note to a "NOTE4,
@@ -505,10 +485,6 @@ G_CALLBACK (InsertDur4)},
 G_CALLBACK (InsertRest4)},
 {"Set4", NULL, "Set Duration to "NOTE4"", NULL, "Sets prevailing duration to "NOTE4" (subsequent notes entered will have this duration)", 
 G_CALLBACK (SetDur4)},
-
-#define NOTE5 "\xF0\x9D\x85\xA2"
-
-#define REST5 "\xF0\x9D\x85\x80"
 {"5", "NULL", NOTE5, NULL, "Inserts a note at the cursor with duration "NOTE5", or \n(if appending) appends this duration\nIf MIDI-in is active the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.",
 G_CALLBACK (Dur5)},
 {"Change5", "NULL", NOTE5, NULL, "Change current note to a "NOTE5,
@@ -519,10 +495,6 @@ G_CALLBACK (InsertDur5)},
 G_CALLBACK (InsertRest5)},
 {"Set5", NULL, "Set Duration to "NOTE5"", NULL, "Sets prevailing duration to "NOTE5" (subsequent notes entered will have this duration)", 
 G_CALLBACK (SetDur5)},
-
-#define NOTE6 "\xF0\x9D\x85\xA3"
-
-#define REST6 "\xF0\x9D\x85\x81"
 {"6", "NULL", NOTE6, NULL, "Inserts a note at the cursor with duration "NOTE6", or \n(if appending) appends this duration\nIf MIDI-in is active the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.",
 G_CALLBACK (Dur6)},
 {"Change6", "NULL", NOTE6, NULL, "Change current note to a "NOTE6,
@@ -533,10 +505,6 @@ G_CALLBACK (InsertDur6)},
 G_CALLBACK (InsertRest6)},
 {"Set6", NULL, "Set Duration to "NOTE6"", NULL, "Sets prevailing duration to "NOTE6" (subsequent notes entered will have this duration)", 
 G_CALLBACK (SetDur6)},
-
-#define NOTE7 "\xF0\x9D\x85\xA4"
-
-#define REST7 "\xF0\x9D\x85\x82"
 {"7", "NULL", NOTE7, NULL, "Inserts a note at the cursor with duration "NOTE7", or \n(if appending) appends this duration\nIf MIDI-in is active the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.",
 G_CALLBACK (Dur7)},
 {"Change7", "NULL", NOTE7, NULL, "Change current note to a "NOTE7,
@@ -547,10 +515,6 @@ G_CALLBACK (InsertDur7)},
 G_CALLBACK (InsertRest7)},
 {"Set7", NULL, "Set Duration to "NOTE7"", NULL, "Sets prevailing duration to "NOTE7" (subsequent notes entered will have this duration)", 
 G_CALLBACK (SetDur7)},
-
-#define NOTE8 "\xF0\x9D\x85\xA5"
-
-#define REST8 "\xF0\x9D\x85\x83"
 {"8", "NULL", NOTE8, NULL, "Inserts a note at the cursor with duration "NOTE8", or \n(if appending) appends this duration\nIf MIDI-in is active the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.",
 G_CALLBACK (Dur8)},
 {"Change8", "NULL", NOTE8, NULL, "Change current note to a "NOTE8,
