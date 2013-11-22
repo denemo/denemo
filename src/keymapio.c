@@ -64,15 +64,14 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_AFTER))
         {
-          command->after = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          command->after = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_TOOLTIP))
         {
           command->tooltip = _((gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
-        }/*
+        }
       else
         g_warning("Found XML tag '%s' reading a .commands file", cur->name);
-        */
     }
   create_command(command);
   xmlFree(type);
@@ -485,15 +484,17 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
       child = xmlNewChild (parent, NULL, COMMANDXML_TAG_ROW, NULL);
 
       xmlNewTextChild (child, NULL, COMMANDXML_TAG_ACTION, (xmlChar *) name);
+      
+      if(!is_action_name_builtin(name))
+          xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_SCHEME);
+      else
+          xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_BUILTIN);
+      
       if (row->after)
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_AFTER, (xmlChar *) row->after);
       if (row->deleted)              //store as hidden in commands file
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, (xmlChar *) "true");
 
-      if(!is_action_name_builtin(name))
-          xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_SCHEME);
-      else
-          xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_BUILTIN);
 
       gchar *menupath = action ? g_object_get_data (action, "menupath") : NULL;
       if (menupath)
