@@ -698,7 +698,7 @@ apply_tones (DenemoScore * si)
                   modify_note ((chord *) theobj->object, mid_c_offset, thetone->enshift, dclef);
                   tone_stored = TRUE;
                   if (!si->cursor_appending)
-                    cursorright (NULL);
+                    cursorright (NULL, NULL);
                   store_el = store_el->next;
 
                 }               // tone available
@@ -779,7 +779,7 @@ enter_tone_in_store (DenemoGUI * gui, notepitch * found, gint octave)
   if (Denemo.prefs.continuous && nextmeasure)
     {
       sound_click ();
-      measureright (NULL);
+      measureright (NULL, NULL);
     }
 #undef store
 }

@@ -175,7 +175,7 @@ clef_change (DenemoGUI * gui, actiontype action)
       else
         {
           if (gui->si->currentobject && ((DenemoObject *) gui->si->currentobject->data)->type == CLEF)
-            deleteobject (gui);
+            deleteobject (NULL, NULL);
           object_insert (gui, dnm_newclefobj (clef));
 
         }

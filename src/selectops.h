@@ -35,10 +35,10 @@ void delete_selection (void);
 
 gboolean mark_status (void);
 
-void set_mark (DenemoScriptParam * param);
+void set_mark (GtkAction * action, DenemoScriptParam * param);
 
-void unset_mark (DenemoScriptParam * param);
-void set_point (DenemoScriptParam * param);
+void unset_mark (GtkAction * action, DenemoScriptParam * param);
+void set_point (GtkAction * action, DenemoScriptParam * param);
 
 void copywrapper (GtkAction * action, DenemoScriptParam * param);
 

@@ -1223,7 +1223,7 @@ selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar * text, 
         {
           DenemoGUI *gui = Denemo.gui;
           tohome (NULL, NULL);
-          set_mark (gui);
+          set_mark (NULL, NULL);
           toend (NULL, NULL);
           copywrapper (NULL, NULL);
           free_movements (gui);

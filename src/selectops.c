@@ -654,7 +654,7 @@ mark_boundaries_helper (DenemoScore * si, gint mark_staff, gint mark_measure, gi
  *
  */
 void
-set_mark (DenemoScriptParam * param)
+set_mark (GtkAction* action, DenemoScriptParam * param)
 {
   DenemoScore *si = Denemo.gui->si;
   si->markstaffnum = si->currentstaffnum;
@@ -671,7 +671,7 @@ set_mark (DenemoScriptParam * param)
  *
  */
 void
-set_point (DenemoScriptParam * param)
+set_point (GtkAction* action, DenemoScriptParam * param)
 {
   DenemoScore *si = Denemo.gui->si;
   if (si->markstaffnum)
@@ -695,7 +695,7 @@ mark_status (void)
  *
  */
 void
-unset_mark (DenemoScriptParam * param)
+unset_mark (GtkAction* action, DenemoScriptParam * param)
 {
   DenemoScore *si = Denemo.gui->si;
   si->markstaffnum = 0;
@@ -799,7 +799,7 @@ goto_mark (GtkAction * action, DenemoScriptParam * param)
       set_currentmeasurenum (Denemo.gui, si->markmeasurenum);
       set_currentstaffnum (Denemo.gui, si->markstaffnum);
       while (si->cursor_x < si->markcursor_x && param->status)
-        cursorright (param);
+        cursorright (NULL, param);
       restore_selection (si);
       if (!action)
         displayhelper (Denemo.gui);
@@ -825,7 +825,7 @@ goto_selection_start (GtkAction * action, DenemoScriptParam * param)
       set_currentmeasurenum (Denemo.gui, si->selection.firstmeasuremarked);
       set_currentstaffnum (Denemo.gui, si->selection.firststaffmarked);
       while (si->cursor_x < first)
-        cursorright (param);
+        cursorright (NULL, NULL);
       restore_selection (si);
       if (!action)
         displayhelper (Denemo.gui);
@@ -1285,7 +1285,7 @@ action_chunk (DenemoGUI * gui, DenemoUndoData ** pchunk)
     case ACTION_MEASURE_REMOVE:
       {
         //create empty measure in the chunk->position.staff at measure number chunk->position->object
-        insertmeasureafter (gui);
+        insertmeasureafter (NULL, NULL);
         chunk->action = ACTION_MEASURE_CREATE;
         chunk->position.measure++;
         if (!gui->si->currentmeasure)

@@ -89,9 +89,9 @@ insertfigure (gboolean filter, gpointer data)
       do
         {
           if (si->currentobject->next)
-            movecursorright (NULL);
+            movecursorright (NULL, NULL);
           else if (gui->si->currentmeasure->next)
-            movetomeasureright (NULL);
+            movetomeasureright (NULL, NULL);
           else
             break;
           curObj = si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;

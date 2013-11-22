@@ -271,7 +271,7 @@ timesig_change (DenemoGUI * gui, actiontype action)
       else
         {
           if (gui->si->currentobject && ((DenemoObject *) gui->si->currentobject->data)->type == TIMESIG)
-            deleteobject (gui);
+            deleteobject (NULL, NULL);
           insert_timesig (gui->si, curstaffstruct, time1, time2);
         }
       displayhelper (gui);

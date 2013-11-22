@@ -539,7 +539,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
           set_cursor_y_from_click (gui, event->y);
           if (lh_down & !selecting)
             {
-              set_mark (gui);
+              set_mark (NULL, NULL);
               selecting = TRUE;
             }
           calcmarkboundaries (gui->si);
@@ -890,7 +890,7 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
             gint command_idx = lookup_command_from_name(Denemo.map, "MoveToStaffUp");
             KeyStrokeShow (_("Unshifted + Mouse Wheel Up"), command_idx, TRUE);
           }
-          movetostaffup (&param);
+          movetostaffup (NULL, &param);
           if (!param.status) {
             DenemoStaff *thestaff = (DenemoStaff*)(Denemo.gui->si->currentstaff->data);
             if(thestaff->space_above < MAXEXTRASPACE)
@@ -928,7 +928,7 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
             gint command_idx = lookup_command_from_name(Denemo.map, "MoveToStaffDown");
             KeyStrokeShow (_("Unshifted + Mouse Wheel Down"), command_idx, TRUE);
           }
-          movetostaffdown (&param);
+          movetostaffdown (NULL, &param);
           if (!param.status) {
             warningmessage ("This is the bottom staff");
            // DenemoStaff *thestaff = (DenemoStaff*)(Denemo.gui->si->currentstaff->data);
@@ -939,12 +939,12 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
         }
       break;
     case GDK_SCROLL_LEFT:
-      movetomeasureleft (&param);
+      movetomeasureleft (NULL, &param);
       if (!param.status)
         warningmessage ("This is the first measure");
       break;
     case GDK_SCROLL_RIGHT:
-      movetomeasureright (&param);
+      movetomeasureright (NULL, &param);
       if (!param.status)
         warningmessage ("This is the last measure");
       break;

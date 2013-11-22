@@ -332,7 +332,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
  * Reduce the measure width by 10 pixels
  */
 void
-adjust_measure_less_width_key (DenemoScriptParam *param)
+adjust_measure_less_width_key (GtkAction* action, DenemoScriptParam *param)
 {
   adjustmeasurewidth (Denemo.gui->si, -10);
 }
@@ -341,7 +341,7 @@ adjust_measure_less_width_key (DenemoScriptParam *param)
  * Enlarge the measure width by 10 pixels
  */
 void
-adjust_measure_more_width_key (DenemoScriptParam *param)
+adjust_measure_more_width_key (GtkAction* action, DenemoScriptParam *param)
 {
   adjustmeasurewidth (Denemo.gui->si, 10);
 }
@@ -350,7 +350,7 @@ adjust_measure_more_width_key (DenemoScriptParam *param)
  * Reduce the staff height by 10 pixels
  */
 void
-adjust_staff_less_height_key (DenemoScriptParam *param)
+adjust_staff_less_height_key (GtkAction* action, DenemoScriptParam *param)
 {
   adjuststaffheight (Denemo.gui->si, -10);
 }
@@ -359,7 +359,7 @@ adjust_staff_less_height_key (DenemoScriptParam *param)
  * Enlarge the staff height by 10 pixels
  */
 void
-adjust_staff_more_height_key (DenemoScriptParam *param)
+adjust_staff_more_height_key (GtkAction* action, DenemoScriptParam *param)
 {
   adjuststaffheight (Denemo.gui->si, 10);
 
@@ -395,7 +395,7 @@ go_to_key(gchar note, DenemoScriptParam *param)
  *
  */
 void
-go_to_A_key (DenemoScriptParam *param)
+go_to_A_key (GtkAction* action, DenemoScriptParam *param)
 {
   Denemo.gui->last_source = INPUTKEYBOARD;
   shiftcursor (Denemo.gui, 5);
@@ -406,7 +406,7 @@ go_to_A_key (DenemoScriptParam *param)
  *
  */
 void
-go_to_B_key (DenemoScriptParam *param)
+go_to_B_key (GtkAction* action, DenemoScriptParam *param)
 {
   Denemo.gui->last_source = INPUTKEYBOARD;
   shiftcursor (Denemo.gui, 6);
@@ -417,7 +417,7 @@ go_to_B_key (DenemoScriptParam *param)
  *
  */
 void
-go_to_C_key (DenemoScriptParam *param)
+go_to_C_key (GtkAction* action, DenemoScriptParam *param)
 {
   Denemo.gui->last_source = INPUTKEYBOARD;
   shiftcursor (Denemo.gui, 0);
@@ -428,7 +428,7 @@ go_to_C_key (DenemoScriptParam *param)
  *
  */
 void
-go_to_D_key (DenemoScriptParam *param)
+go_to_D_key (GtkAction* action, DenemoScriptParam *param)
 {
   shiftcursor (Denemo.gui, 1);
 }
@@ -438,7 +438,7 @@ go_to_D_key (DenemoScriptParam *param)
  *
  */
 void
-go_to_E_key (DenemoScriptParam *param)
+go_to_E_key (GtkAction* action, DenemoScriptParam *param)
 {
   Denemo.gui->last_source = INPUTKEYBOARD;
   shiftcursor (Denemo.gui, 2);
@@ -449,7 +449,7 @@ go_to_E_key (DenemoScriptParam *param)
  *
  */
 void
-go_to_F_key (DenemoScriptParam *param)
+go_to_F_key (GtkAction* action, DenemoScriptParam *param)
 {
   Denemo.gui->last_source = INPUTKEYBOARD;
   shiftcursor (Denemo.gui, 3);
@@ -460,7 +460,7 @@ go_to_F_key (DenemoScriptParam *param)
  *
  */
 void
-go_to_G_key (DenemoScriptParam *param)
+go_to_G_key (GtkAction* action, DenemoScriptParam *param)
 {
   Denemo.gui->last_source = INPUTKEYBOARD;
   shiftcursor (Denemo.gui, 4);
@@ -513,7 +513,7 @@ octave_shift_key (DenemoScriptParam *param, gint amount)
  * Move cursor an octave up
  */
 void
-octave_up_key (DenemoScriptParam *param)
+octave_up_key (GtkAction* action, DenemoScriptParam *param)
 {
   octave_shift_key (param, 7);
 }
@@ -525,7 +525,7 @@ octave_up_key (DenemoScriptParam *param)
  * Move cursor an octave down
  */
 void
-octave_down_key (DenemoScriptParam *param)
+octave_down_key (GtkAction* action, DenemoScriptParam *param)
 {
   octave_shift_key (param, -7);
 }
@@ -552,7 +552,7 @@ default_mode (DenemoScriptParam *param)
  * 
  */
 void
-rest_toggle_key (DenemoScriptParam *param)
+rest_toggle_key (GtkAction* action, DenemoScriptParam *param)
 {
   GtkAction *mode = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/Rest");
   gtk_action_activate (mode);
@@ -565,7 +565,7 @@ rest_toggle_key (DenemoScriptParam *param)
  *
  */
 void
-toggle_blank (DenemoScriptParam *param)
+toggle_blank (GtkAction* action, DenemoScriptParam *param)
 {
   GtkAction *mode = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/Blank");
   gtk_action_activate (mode);
@@ -577,13 +577,13 @@ toggle_blank (DenemoScriptParam *param)
  * Add measure to end of staff / score
  */
 void
-append_measure_key (DenemoScriptParam *param)
+append_measure_key (GtkAction* action, DenemoScriptParam *param)
 {
   appendmeasures (Denemo.gui->si, 1);
 }
 
 void
-append_measure_score (DenemoScriptParam *param)
+append_measure_score (GtkAction* action, DenemoScriptParam *param)
 {
   appendmeasurestoentirescore (Denemo.gui->si, 1);
 }
@@ -592,7 +592,7 @@ append_measure_score (DenemoScriptParam *param)
  * Insert measure at the current 
  */
 void
-insert_measure_key (DenemoScriptParam *param)
+insert_measure_key (GtkAction* action, DenemoScriptParam *param)
 {
   dnm_insertmeasures (Denemo.gui->si, 1);
 }
@@ -606,55 +606,55 @@ insert_chord_xkey (gint duration, DenemoScriptParam *param)
 }
 
 void
-insert_chord_0key (DenemoScriptParam *param)
+insert_chord_0key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(0, param);
 }
 
 void
-insert_chord_1key (DenemoScriptParam *param)
+insert_chord_1key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(1, param);
 }
 
 void
-insert_chord_2key (DenemoScriptParam *param)
+insert_chord_2key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(2, param);
 }
 
 void
-insert_chord_3key (DenemoScriptParam *param)
+insert_chord_3key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(3, param);
 }
 
 void
-insert_chord_4key (DenemoScriptParam *param)
+insert_chord_4key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(4, param);
 }
 
 void
-insert_chord_5key (DenemoScriptParam *param)
+insert_chord_5key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(5, param);
 }
 
 void
-insert_chord_6key (DenemoScriptParam *param)
+insert_chord_6key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(6, param);
 }
 
 void
-insert_chord_7key (DenemoScriptParam *param)
+insert_chord_7key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(7, param);
 }
 
 void
-insert_chord_8key (DenemoScriptParam *param)
+insert_chord_8key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(8, param);
 }
@@ -669,55 +669,55 @@ insert_rest_xkey(gint duration, DenemoScriptParam* param)
 
 
 void
-insert_rest_0key (DenemoScriptParam *param)
+insert_rest_0key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(0, param);
 }
 
 void
-insert_rest_1key (DenemoScriptParam *param)
+insert_rest_1key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(1, param);
 }
 
 void
-insert_rest_2key (DenemoScriptParam *param)
+insert_rest_2key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(2, param);
 }
 
 void
-insert_rest_3key (DenemoScriptParam *param)
+insert_rest_3key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(3, param);
 }
 
 void
-insert_rest_4key (DenemoScriptParam *param)
+insert_rest_4key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(4, param);
 }
 
 void
-insert_rest_5key (DenemoScriptParam *param)
+insert_rest_5key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(5, param);
 }
 
 void
-insert_rest_6key (DenemoScriptParam *param)
+insert_rest_6key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(6, param);
 }
 
 void
-insert_rest_7key (DenemoScriptParam *param)
+insert_rest_7key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(7, param);
 }
 
 void
-insert_rest_8key (DenemoScriptParam *param)
+insert_rest_8key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(8, param);
 }
@@ -731,105 +731,105 @@ insert_blankchord_xkey (gint duration, DenemoScriptParam *param)
 }
 
 void
-insert_blankchord_0key (DenemoScriptParam *param)
+insert_blankchord_0key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(0, param);
 }
 
 void
-insert_blankchord_1key (DenemoScriptParam *param)
+insert_blankchord_1key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(1, param);
 }
 
 void
-insert_blankchord_2key (DenemoScriptParam *param)
+insert_blankchord_2key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(2, param);
 }
 
 void
-insert_blankchord_3key (DenemoScriptParam *param)
+insert_blankchord_3key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(3, param);
 }
 
 void
-insert_blankchord_4key (DenemoScriptParam *param)
+insert_blankchord_4key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(4, param);
 }
 
 void
-insert_blankchord_5key (DenemoScriptParam *param)
+insert_blankchord_5key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(5, param);
 }
 
 void
-insert_blankchord_6key (DenemoScriptParam *param)
+insert_blankchord_6key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(6, param);
 }
 
 void
-insert_blankchord_7key (DenemoScriptParam *param)
+insert_blankchord_7key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(7, param);
 }
 
 void
-insert_blankchord_8key (DenemoScriptParam *param)
+insert_blankchord_8key (GtkAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(8, param);
 }
 
 
 void
-insert_duplet (DenemoScriptParam *param)
+insert_duplet (GtkAction* action, DenemoScriptParam *param)
 {
   dnm_inserttuplet (Denemo.gui, DUPLET);
 }
 
 void
-insert_triplet (DenemoScriptParam *param)
+insert_triplet (GtkAction* action, DenemoScriptParam *param)
 {
   dnm_inserttuplet (Denemo.gui, TRIPLET);
 }
 
 void
-start_triplet (DenemoScriptParam *param)
+start_triplet (GtkAction* action, DenemoScriptParam *param)
 {
   insertion_point (Denemo.gui->si);
   object_insert (Denemo.gui, newtupopen (2, 3));
 }
 
 void
-end_tuplet (DenemoScriptParam *param)
+end_tuplet (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, newtupclose ());
 }
 
 void
-insert_quadtuplet (DenemoScriptParam *param)
+insert_quadtuplet (GtkAction* action, DenemoScriptParam *param)
 {
   dnm_inserttuplet (Denemo.gui, QUADTUPLET);
 }
 
 void
-insert_quintuplet (DenemoScriptParam *param)
+insert_quintuplet (GtkAction* action, DenemoScriptParam *param)
 {
   dnm_inserttuplet (Denemo.gui, QUINTUPLET);
 }
 
 void
-insert_sextuplet (DenemoScriptParam *param)
+insert_sextuplet (GtkAction* action, DenemoScriptParam *param)
 {
   dnm_inserttuplet (Denemo.gui, SEXTUPLET);
 }
 
 void
-insert_septuplet (DenemoScriptParam *param)
+insert_septuplet (GtkAction* action, DenemoScriptParam *param)
 {
   dnm_inserttuplet (Denemo.gui, SEPTUPLET);
 }
@@ -837,28 +837,28 @@ insert_septuplet (DenemoScriptParam *param)
 
 
 gboolean
-add_tone_key (DenemoScriptParam *param)
+add_tone_key (GtkAction* action, DenemoScriptParam *param)
 {
   return insert_chordnote (Denemo.gui);
 }
 
 gboolean
-remove_tone_key (DenemoScriptParam *param)
+remove_tone_key (GtkAction* action, DenemoScriptParam *param)
 {
   return delete_chordnote (Denemo.gui);
 }
 
 void
-deletepreviousobject (DenemoScriptParam *param)
+deletepreviousobject (GtkAction* action, DenemoScriptParam *param)
 {
 
   /* remove the object preceding the cursor, within the current measure */
   if (Denemo.gui->si->cursor_x)
     {
       /* Then move the cursor back */
-      movecursorleft (NULL);
+      movecursorleft (NULL, NULL);
       /* And delete */
-      deleteobject (Denemo.gui);
+      deleteobject (NULL, NULL);
       /* if you are following a rhythmic pattern then backup the pattern */
 #define g  (Denemo.gui->rstep)
       if ((Denemo.gui->mode & (INPUTEDIT) && g))
@@ -887,7 +887,7 @@ deletepreviousobject (DenemoScriptParam *param)
 
           do
             {
-              movetomeasureleft (&param);
+              movetomeasureleft (NULL, &param);
               //go to end
               while (Denemo.gui->si->currentobject && (Denemo.gui->si->currentobject->next))
                 {
@@ -900,15 +900,15 @@ deletepreviousobject (DenemoScriptParam *param)
 
           if (Denemo.gui->si->currentobject)
             {
-              movecursorright (NULL);
-              deletepreviousobject (NULL);
+              movecursorright (NULL, NULL);
+              deletepreviousobject (NULL, NULL);
             }
         }
     }
 }
 
 void
-sharpen_key (DenemoScriptParam *param)
+sharpen_key (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoObject *curmudelaobj = (DenemoObject *) (Denemo.gui->si->currentobject ? Denemo.gui->si->currentobject->data : NULL);
 
@@ -919,13 +919,13 @@ sharpen_key (DenemoScriptParam *param)
 }
 
 void
-stem_up (DenemoScriptParam *param)
+stem_up (GtkAction* action, DenemoScriptParam *param)
 {
-  sharpen_key (param);
+  sharpen_key (action, param);
 }
 
 void
-flatten_key (DenemoScriptParam *param)
+flatten_key (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoObject *curmudelaobj = (DenemoObject *) (Denemo.gui->si->currentobject ? Denemo.gui->si->currentobject->data : NULL);
 
@@ -936,7 +936,7 @@ flatten_key (DenemoScriptParam *param)
 }
 
 void
-pending_sharpen (DenemoScriptParam *param)
+pending_sharpen (GtkAction* action, DenemoScriptParam *param)
 {
   Denemo.gui->si->pending_enshift++;
   if (Denemo.gui->si->pending_enshift > 2)
@@ -946,7 +946,7 @@ pending_sharpen (DenemoScriptParam *param)
 }
 
 void
-pending_flatten (DenemoScriptParam *param)
+pending_flatten (GtkAction* action, DenemoScriptParam *param)
 {
   Denemo.gui->si->pending_enshift--;
   if (Denemo.gui->si->pending_enshift < -2)
@@ -956,14 +956,14 @@ pending_flatten (DenemoScriptParam *param)
 }
 
 void
-stem_down (DenemoScriptParam *param)
+stem_down (GtkAction* action, DenemoScriptParam *param)
 {
-  flatten_key (param);
+  flatten_key (action, param);
 }
 
 /* insert a duplicate note and tie to it */
 void
-tie_notes_key (DenemoScriptParam *param)
+tie_notes_key (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoObject *curmudelaobj = (DenemoObject *) (Denemo.gui->si->currentobject ? Denemo.gui->si->currentobject->data : NULL);
 
@@ -973,29 +973,29 @@ tie_notes_key (DenemoScriptParam *param)
 
       insertion_point (Denemo.gui->si);
       object_insert (Denemo.gui, dnm_clone_object (curmudelaobj));
-      movecursorleft (NULL);
-      movecursorleft (NULL);
+      movecursorleft (NULL, NULL);
+      movecursorleft (NULL, NULL);
       toggle_tie (NULL, NULL);
-      movecursorright (NULL);
-      movecursorright (NULL);
+      movecursorright (NULL, NULL);
+      movecursorright (NULL, NULL);
     }
 }
 
 void
-add_dot_key (DenemoScriptParam *param)
+add_dot_key (GtkAction* action, DenemoScriptParam *param)
 {
   changedots (Denemo.gui->si, 1);
 }
 
 void
-remove_dot_key (DenemoScriptParam *param)
+remove_dot_key (GtkAction* action, DenemoScriptParam *param)
 {
   changedots (Denemo.gui->si, -1);
 }
 
 
 void
-force_cautionary (DenemoScriptParam *param)
+force_cautionary (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoObject *theobj = Denemo.gui->si->currentobject ? (DenemoObject *) Denemo.gui->si->currentobject->data : NULL;
   if (theobj && theobj->type == CHORD)
@@ -1003,7 +1003,7 @@ force_cautionary (DenemoScriptParam *param)
 }
 
 void
-change_pitch (DenemoScriptParam *param)
+change_pitch (GtkAction* action, DenemoScriptParam *param)
 {
   if (Denemo.gui->mode & INPUTEDIT)
     {
@@ -1024,7 +1024,7 @@ change_pitch (DenemoScriptParam *param)
  * Wrapper function to create new treble clef and insert into the score
  */
 void
-newcleftreble (DenemoScriptParam *param)
+newcleftreble (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newclefobj (DENEMO_TREBLE_CLEF));
 }
@@ -1033,7 +1033,7 @@ newcleftreble (DenemoScriptParam *param)
  * Wrapper function to create new bass clef and insert into the score
  */
 void
-newclefbass (DenemoScriptParam *param)
+newclefbass (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newclefobj (DENEMO_BASS_CLEF));
 }
@@ -1042,7 +1042,7 @@ newclefbass (DenemoScriptParam *param)
  * Wrapper function to create new alto clef and insert into the score
  */
 void
-newclefalto (DenemoScriptParam *param)
+newclefalto (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newclefobj (DENEMO_ALTO_CLEF));
 }
@@ -1051,7 +1051,7 @@ newclefalto (DenemoScriptParam *param)
  * Wrapper function to create new treble_8 clef and insert into the score
  */
 void
-newclefg8 (DenemoScriptParam *param)
+newclefg8 (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newclefobj (DENEMO_G_8_CLEF));
 }
@@ -1060,7 +1060,7 @@ newclefg8 (DenemoScriptParam *param)
  * Wrapper function to create new bass_8 clef and insert into the score
  */
 void
-newcleff8 (DenemoScriptParam *param)
+newcleff8 (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newclefobj (DENEMO_F_8_CLEF));
 }
@@ -1069,7 +1069,7 @@ newcleff8 (DenemoScriptParam *param)
  * Wrapper function to create new tenor clef and insert into the score
  */
 void
-newcleftenor (DenemoScriptParam *param)
+newcleftenor (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newclefobj (DENEMO_TENOR_CLEF));
 }
@@ -1078,7 +1078,7 @@ newcleftenor (DenemoScriptParam *param)
  * Wrapper function to create new soprano clef and insert into the score
  */
 void
-newclefsoprano (DenemoScriptParam *param)
+newclefsoprano (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newclefobj (DENEMO_SOPRANO_CLEF));
 }
@@ -1087,7 +1087,7 @@ newclefsoprano (DenemoScriptParam *param)
  * Wrapper function to create new french clef and insert into the score
  */
 void
-newcleffrench (DenemoScriptParam *param)
+newcleffrench (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newclefobj (DENEMO_FRENCH_CLEF));
 }
@@ -1096,7 +1096,7 @@ newcleffrench (DenemoScriptParam *param)
  * Wrapper function to create new 4/4 time sig and insert into the score
  */
 void
-newtimesig44 (DenemoScriptParam *param)
+newtimesig44 (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newtimesigobj (4, 4));
 }
@@ -1105,7 +1105,7 @@ newtimesig44 (DenemoScriptParam *param)
  * Wrapper function to create new 2/4 time sig and insert into the score
  */
 void
-newtimesig24 (DenemoScriptParam *param)
+newtimesig24 (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newtimesigobj (2, 4));
 }
@@ -1114,7 +1114,7 @@ newtimesig24 (DenemoScriptParam *param)
  * Wrapper function to create new 3/4 time sig and insert into the score
  */
 void
-newtimesig34 (DenemoScriptParam *param)
+newtimesig34 (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newtimesigobj (3, 4));
 }
@@ -1123,7 +1123,7 @@ newtimesig34 (DenemoScriptParam *param)
  * Wrapper function to create new 6/4 time sig and insert into the score
  */
 void
-newtimesig64 (DenemoScriptParam *param)
+newtimesig64 (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newtimesigobj (6, 4));
 }
@@ -1132,7 +1132,7 @@ newtimesig64 (DenemoScriptParam *param)
  * Wrapper function to create new 5/4 time sig and insert into the score
  */
 void
-newtimesig54 (DenemoScriptParam *param)
+newtimesig54 (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newtimesigobj (5, 4));
 }
@@ -1141,7 +1141,7 @@ newtimesig54 (DenemoScriptParam *param)
  * Wrapper function to create new 3/8 time sig and insert into the score
  */
 void
-newtimesig38 (DenemoScriptParam *param)
+newtimesig38 (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newtimesigobj (3, 8));
 }
@@ -1150,7 +1150,7 @@ newtimesig38 (DenemoScriptParam *param)
  * Wrapper function to create new 6/8 time sig and insert into the score
  */
 void
-newtimesig68 (DenemoScriptParam *param)
+newtimesig68 (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newtimesigobj (6, 8));
 }
@@ -1159,7 +1159,7 @@ newtimesig68 (DenemoScriptParam *param)
  * Wrapper function to create new 9/8 time sig and insert into the score
  */
 void
-newtimesig98 (DenemoScriptParam *param)
+newtimesig98 (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newtimesigobj (9, 8));
 }
@@ -1168,7 +1168,7 @@ newtimesig98 (DenemoScriptParam *param)
  * Wrapper function to create new 12/8 time sig and insert into the score
  */
 void
-newtimesig128 (DenemoScriptParam *param)
+newtimesig128 (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newtimesigobj (12, 8));
 }
@@ -1177,7 +1177,7 @@ newtimesig128 (DenemoScriptParam *param)
  * Wrapper function to create new 2/2 time sig and insert into the score
  */
 void
-newtimesig22 (DenemoScriptParam *param)
+newtimesig22 (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newtimesigobj (2, 2));
 }
@@ -1186,7 +1186,7 @@ newtimesig22 (DenemoScriptParam *param)
  * Wrapper function to create new 3/2 time sig and insert into the score
  */
 void
-newtimesig32 (DenemoScriptParam *param)
+newtimesig32 (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newtimesigobj (3, 2));
 }
@@ -1195,7 +1195,7 @@ newtimesig32 (DenemoScriptParam *param)
  * Wrapper function to create new 4/2 time sig and insert into the score
  */
 void
-newtimesig42 (DenemoScriptParam *param)
+newtimesig42 (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newtimesigobj (4, 2));
 }
@@ -1203,181 +1203,181 @@ newtimesig42 (DenemoScriptParam *param)
 
 
 void
-newkeysigcmaj (DenemoScriptParam *param)
+newkeysigcmaj (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (0, 1, 0));
 }
 
 void
-newkeysiggmaj (DenemoScriptParam *param)
+newkeysiggmaj (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (1, 1, 0));
 }
 
 void
-newkeysigdmaj (DenemoScriptParam *param)
+newkeysigdmaj (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (2, 1, 0));
 }
 
 void
-newkeysigamaj (DenemoScriptParam *param)
+newkeysigamaj (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (3, 1, 0));
 }
 
 void
-newkeysigemaj (DenemoScriptParam *param)
+newkeysigemaj (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (4, 1, 0));
 }
 
 void
-newkeysigbmaj (DenemoScriptParam *param)
+newkeysigbmaj (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (5, 1, 0));
 }
 
 void
-newkeysigfsharpmaj (DenemoScriptParam *param)
+newkeysigfsharpmaj (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (6, 1, 0));
 }
 
 void
-newkeysigcsharpmaj (DenemoScriptParam *param)
+newkeysigcsharpmaj (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (7, 1, 0));
 }
 
 void
-newkeysigfmaj (DenemoScriptParam *param)
+newkeysigfmaj (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (-1, 1, 0));
 }
 
 void
-newkeysigbflatmaj (DenemoScriptParam *param)
+newkeysigbflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (-2, 1, 0));
 }
 
 void
-newkeysigeflatmaj (DenemoScriptParam *param)
+newkeysigeflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (-3, 1, 0));
 }
 
 void
-newkeysigaflatmaj (DenemoScriptParam *param)
+newkeysigaflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (-4, 1, 0));
 }
 
 void
-newkeysigdflatmaj (DenemoScriptParam *param)
+newkeysigdflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (-5, 1, 0));
 }
 
 void
-newkeysiggflatmaj (DenemoScriptParam *param)
+newkeysiggflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (-6, 1, 0));
 }
 
 void
-newkeysigcflatmaj (DenemoScriptParam *param)
+newkeysigcflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (-7, 1, 0));
 }
 
 void
-newkeysigamin (DenemoScriptParam *param)
+newkeysigamin (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (0, 0, 0));
 }
 
 void
-newkeysigemin (DenemoScriptParam *param)
+newkeysigemin (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (1, 0, 0));
 }
 
 void
-newkeysigbmin (DenemoScriptParam *param)
+newkeysigbmin (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (2, 0, 0));
 }
 
 void
-newkeysigfsharpmin (DenemoScriptParam *param)
+newkeysigfsharpmin (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (3, 0, 0));
 }
 
 void
-newkeysigcsharpmin (DenemoScriptParam *param)
+newkeysigcsharpmin (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (4, 0, 0));
 }
 
 void
-newkeysiggsharpmin (DenemoScriptParam *param)
+newkeysiggsharpmin (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (5, 0, 0));
 }
 
 void
-newkeysigdsharpmin (DenemoScriptParam *param)
+newkeysigdsharpmin (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (6, 0, 0));
 }
 
 void
-newkeysigasharpmin (DenemoScriptParam *param)
+newkeysigasharpmin (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (7, 0, 0));
 }
 
 void
-newkeysigdmin (DenemoScriptParam *param)
+newkeysigdmin (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (-1, 0, 0));
 }
 
 void
-newkeysiggmin (DenemoScriptParam *param)
+newkeysiggmin (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (-2, 0, 0));
 }
 
 void
-newkeysigcmin (DenemoScriptParam *param)
+newkeysigcmin (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (-3, 0, 0));
 }
 
 void
-newkeysigfmin (DenemoScriptParam *param)
+newkeysigfmin (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (-4, 0, 0));
 }
 
 void
-newkeysigbflatmin (DenemoScriptParam *param)
+newkeysigbflatmin (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (-5, 0, 0));
 }
 
 void
-newkeysigeflatmin (DenemoScriptParam *param)
+newkeysigeflatmin (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (-6, 0, 0));
 }
 
 void
-newkeysigaflatmin (DenemoScriptParam *param)
+newkeysigaflatmin (GtkAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.gui, dnm_newkeyobj (-7, 0, 0));
 }
@@ -1385,7 +1385,7 @@ newkeysigaflatmin (DenemoScriptParam *param)
 
 //Functions to set the initial key signature
 void
-setkeysigcmaj (DenemoScriptParam *param)
+setkeysigcmaj (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, 0, 1);
@@ -1393,7 +1393,7 @@ setkeysigcmaj (DenemoScriptParam *param)
 }
 
 void
-setkeysiggmaj (DenemoScriptParam *param)
+setkeysiggmaj (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, 1, 1);
@@ -1401,196 +1401,196 @@ setkeysiggmaj (DenemoScriptParam *param)
 }
 
 void
-setkeysigdmaj (DenemoScriptParam *param)
+setkeysigdmaj (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, 2, 1);
 }
 
 void
-setkeysigamaj (DenemoScriptParam *param)
+setkeysigamaj (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, 3, 1);
 }
 
 void
-setkeysigemaj (DenemoScriptParam *param)
+setkeysigemaj (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, 4, 1);
 }
 
 void
-setkeysigbmaj (DenemoScriptParam *param)
+setkeysigbmaj (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, 5, 1);
 }
 
 void
-setkeysigfsharpmaj (DenemoScriptParam *param)
+setkeysigfsharpmaj (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, 6, 1);
 }
 
 void
-setkeysigcsharpmaj (DenemoScriptParam *param)
+setkeysigcsharpmaj (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, 7, 1);
 }
 
 void
-setkeysigfmaj (DenemoScriptParam *param)
+setkeysigfmaj (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, -1, 1);
 }
 
 void
-setkeysigbflatmaj (DenemoScriptParam *param)
+setkeysigbflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, -2, 1);
 }
 
 void
-setkeysigeflatmaj (DenemoScriptParam *param)
+setkeysigeflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, -3, 1);
 }
 
 void
-setkeysigaflatmaj (DenemoScriptParam *param)
+setkeysigaflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, -4, 1);
 }
 
 void
-setkeysigdflatmaj (DenemoScriptParam *param)
+setkeysigdflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, -5, 1);
 }
 
 void
-setkeysiggflatmaj (DenemoScriptParam *param)
+setkeysiggflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, -6, 1);
 }
 
 void
-setkeysigcflatmaj (DenemoScriptParam *param)
+setkeysigcflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, -7, 1);
 }
 
 void
-setkeysigamin (DenemoScriptParam *param)
+setkeysigamin (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, 0, 0);
 }
 
 void
-setkeysigemin (DenemoScriptParam *param)
+setkeysigemin (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, 1, 0);
 }
 
 void
-setkeysigbmin (DenemoScriptParam *param)
+setkeysigbmin (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, 2, 0);
 }
 
 void
-setkeysigfsharpmin (DenemoScriptParam *param)
+setkeysigfsharpmin (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, 3, 0);
 }
 
 void
-setkeysigcsharpmin (DenemoScriptParam *param)
+setkeysigcsharpmin (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, 4, 0);
 }
 
 void
-setkeysiggsharpmin (DenemoScriptParam *param)
+setkeysiggsharpmin (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, 5, 0);
 }
 
 void
-setkeysigdsharpmin (DenemoScriptParam *param)
+setkeysigdsharpmin (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, 6, 0);
 }
 
 void
-setkeysigasharpmin (DenemoScriptParam *param)
+setkeysigasharpmin (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, 7, 0);
 }
 
 void
-setkeysigdmin (DenemoScriptParam *param)
+setkeysigdmin (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, -1, 0);
 }
 
 void
-setkeysiggmin (DenemoScriptParam *param)
+setkeysiggmin (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, -2, 0);
 }
 
 void
-setkeysigcmin (DenemoScriptParam *param)
+setkeysigcmin (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, -3, 0);
 }
 
 void
-setkeysigfmin (DenemoScriptParam *param)
+setkeysigfmin (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, -4, 0);
 }
 
 void
-setkeysigbflatmin (DenemoScriptParam *param)
+setkeysigbflatmin (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, -5, 0);
 }
 
 void
-setkeysigeflatmin (DenemoScriptParam *param)
+setkeysigeflatmin (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, -6, 0);
 }
 
 void
-setkeysigaflatmin (DenemoScriptParam *param)
+setkeysigaflatmin (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   dnm_setinitialkeysig (curstaff, -7, 0);
@@ -1598,7 +1598,7 @@ setkeysigaflatmin (DenemoScriptParam *param)
 
 
 void
-settimesig22 (DenemoScriptParam *param)
+settimesig22 (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1606,7 +1606,7 @@ settimesig22 (DenemoScriptParam *param)
 }
 
 void
-settimesig42 (DenemoScriptParam *param)
+settimesig42 (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1614,7 +1614,7 @@ settimesig42 (DenemoScriptParam *param)
 }
 
 void
-settimesig32 (DenemoScriptParam *param)
+settimesig32 (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1622,7 +1622,7 @@ settimesig32 (DenemoScriptParam *param)
 }
 
 void
-settimesig44 (DenemoScriptParam *param)
+settimesig44 (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1630,7 +1630,7 @@ settimesig44 (DenemoScriptParam *param)
 }
 
 void
-settimesig54 (DenemoScriptParam *param)
+settimesig54 (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1638,7 +1638,7 @@ settimesig54 (DenemoScriptParam *param)
 }
 
 void
-settimesig24 (DenemoScriptParam *param)
+settimesig24 (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1646,7 +1646,7 @@ settimesig24 (DenemoScriptParam *param)
 }
 
 void
-settimesig34 (DenemoScriptParam *param)
+settimesig34 (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1654,7 +1654,7 @@ settimesig34 (DenemoScriptParam *param)
 }
 
 void
-settimesig68 (DenemoScriptParam *param)
+settimesig68 (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1662,7 +1662,7 @@ settimesig68 (DenemoScriptParam *param)
 }
 
 void
-settimesig128 (DenemoScriptParam *param)
+settimesig128 (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1670,7 +1670,7 @@ settimesig128 (DenemoScriptParam *param)
 }
 
 void
-settimesig38 (DenemoScriptParam *param)
+settimesig38 (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1678,7 +1678,7 @@ settimesig38 (DenemoScriptParam *param)
 }
 
 void
-settimesig98 (DenemoScriptParam *param)
+settimesig98 (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1686,7 +1686,7 @@ settimesig98 (DenemoScriptParam *param)
 }
 
 void
-settimesig64 (DenemoScriptParam *param)
+settimesig64 (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1694,7 +1694,7 @@ settimesig64 (DenemoScriptParam *param)
 }
 
 void
-setcleftreble (DenemoScriptParam *param)
+setcleftreble (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1702,7 +1702,7 @@ setcleftreble (DenemoScriptParam *param)
 }
 
 void
-setclefbass (DenemoScriptParam *param)
+setclefbass (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1710,7 +1710,7 @@ setclefbass (DenemoScriptParam *param)
 }
 
 void
-setclefg8 (DenemoScriptParam *param)
+setclefg8 (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1718,7 +1718,7 @@ setclefg8 (DenemoScriptParam *param)
 }
 
 void
-setcleff8 (DenemoScriptParam *param)
+setcleff8 (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1726,7 +1726,7 @@ setcleff8 (DenemoScriptParam *param)
 }
 
 void
-setclefalto (DenemoScriptParam *param)
+setclefalto (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1734,7 +1734,7 @@ setclefalto (DenemoScriptParam *param)
 }
 
 void
-setcleftenor (DenemoScriptParam *param)
+setcleftenor (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1742,7 +1742,7 @@ setcleftenor (DenemoScriptParam *param)
 }
 
 void
-setclefsoprano (DenemoScriptParam *param)
+setclefsoprano (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1750,7 +1750,7 @@ setclefsoprano (DenemoScriptParam *param)
 }
 
 void
-setcleffrench (DenemoScriptParam *param)
+setcleffrench (GtkAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaff)
@@ -1785,12 +1785,12 @@ void ChangeDur(gint duration){
   gint mode = Denemo.gui->mode;
   gboolean appending = Denemo.gui->si->cursor_appending;
   if(appending)
-    movecursorleft(NULL);
+    movecursorleft(NULL, NULL);
   Denemo.gui->mode = INPUTEDIT|INPUTNORMAL;
   insert_chord_xkey(duration, NULL);
   Denemo.gui->mode = mode;
   if(appending)
-    movecursorright(NULL);
+    movecursorright(NULL, NULL);
   score_status(Denemo.gui, TRUE);
   displayhelper(Denemo.gui);
 }
@@ -1819,22 +1819,20 @@ else {
 ******************************************************************************/
 
 void ChangeTo(gchar note){
-  DenemoGUI *gui = Denemo.gui;
   gboolean appending = Denemo.gui->si->cursor_appending;
   if(appending)
-    movecursorleft(NULL);
+    movecursorleft(NULL, NULL);
   gint mode = Denemo.gui->mode;
   Denemo.gui->mode = INPUTEDIT|INPUTNORMAL;
   go_to_key(note, NULL);
   Denemo.gui->mode = mode;
   if(appending)
-    movecursorright(NULL);
+    movecursorright(NULL, NULL);
   score_status(Denemo.gui, TRUE);
   displayhelper(Denemo.gui);
 }
 
 void MoveTo(gchar note){
-  DenemoGUI *gui = Denemo.gui;
   gint mode = Denemo.gui->mode;
   Denemo.gui->mode = INPUTCLASSIC|INPUTNORMAL;
   go_to_key(note, NULL);
@@ -1843,7 +1841,6 @@ void MoveTo(gchar note){
 }
 
 void Insert(gchar note){
-  DenemoGUI *gui = Denemo.gui;
   gint mode = Denemo.gui->mode;
   Denemo.gui->mode = INPUTINSERT|INPUTNORMAL;
   go_to_key(note, NULL);
@@ -1853,23 +1850,21 @@ void Insert(gchar note){
 }
 
 void AddNote(gchar note){
-  DenemoGUI *gui = Denemo.gui;
-  movecursorright(NULL);
+  movecursorright(NULL, NULL);
   gint mode = Denemo.gui->mode;
   Denemo.gui->mode = INPUTINSERT|INPUTNORMAL;
   go_to_key(note, NULL);
   Denemo.gui->mode = mode;
-  movecursorleft(NULL);
+  movecursorleft(NULL, NULL);
   score_status(Denemo.gui, TRUE);
   displayhelper(Denemo.gui);
 }
 
 void Add(gchar note){
-  DenemoGUI *gui = Denemo.gui;
   gint mode = Denemo.gui->mode;
   Denemo.gui->mode = INPUTCLASSIC|INPUTNORMAL;
   go_to_key(note, NULL);
-  add_tone_key(NULL);
+  add_tone_key(NULL, NULL);
   Denemo.gui->mode = mode;
   score_status(Denemo.gui, TRUE);
   displayhelper(Denemo.gui);
