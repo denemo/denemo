@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="16"
+   id="svg1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="midi_keyboard_link.svg"
+   sodipodi:version="0.32"
+   width="16"
+   version="1.1">
+  <defs
+     id="defs3">
+    <linearGradient
+       gradientTransform="matrix(2.0778635,0,0,2.0778635,-518.08353,-281.80071)"
+       gradientUnits="userSpaceOnUse"
+       xlink:href="#linearGradient3013"
+       id="linearGradient3019"
+       y2="333.89423"
+       x2="490.53049"
+       y1="489.13965"
+       x1="382.33768" />
+    <linearGradient
+       id="linearGradient3013">
+      <stop
+         offset="0"
+         style="stop-color:#000000;stop-opacity:0.8263889"
+         id="stop3015" />
+      <stop
+         offset="1"
+         style="stop-color:#000000;stop-opacity:1"
+         id="stop3017" />
+    </linearGradient>
+    <style
+       id="style3205"
+       type="text/css">
+   
+    .str0 {stroke:#1F1A17;stroke-width:0.0762}
+    .fil0 {fill:#1F1A17;fill-rule:nonzero}
+   
+  </style>
+  </defs>
+  <sodipodi:namedview
+     bordercolor="#666666"
+     borderopacity="1.0"
+     id="base"
+     inkscape:current-layer="svg1"
+     inkscape:cx="8"
+     inkscape:cy="8"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:window-height="1391"
+     inkscape:window-width="2560"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:zoom="75.6875"
+     pagecolor="#ffffff"
+     showgrid="false"
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <g
+     id="g840"
+     transform="matrix(0.01795203,0,0,0.01795203,1.1644874,5.1286249)">
+    <rect
+       height="255.70679"
+       id="rect826"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.96589556pt"
+       width="51.717541"
+       x="98.751091"
+       y="154.06419" />
+    <rect
+       height="255.70679"
+       id="rect828"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.96589556pt"
+       width="51.717541"
+       x="201.13907"
+       y="153.93764" />
+    <rect
+       height="255.70679"
+       id="rect829"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.96589556pt"
+       width="51.717541"
+       x="406.25146"
+       y="153.42867" />
+    <rect
+       height="255.70679"
+       id="rect830"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.96589556pt"
+       width="51.717541"
+       x="508.04422"
+       y="154.44659" />
+    <rect
+       height="255.70679"
+       id="rect831"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.96589556pt"
+       width="51.717541"
+       x="611.8728"
+       y="153.93764" />
+    <rect
+       height="449.14487"
+       id="rect832"
+       style="fill:none;stroke:#000000;stroke-width:2.375;stroke-opacity:1;stroke-dasharray:none"
+       width="718.34387"
+       x="21.593504"
+       y="152.63287" />
+    <path
+       d="m 123.80275,399.55859 0,202.17918"
+       id="path833"
+       style="fill:none;stroke:#000000;stroke-width:2.375;stroke-dasharray:none"
+       inkscape:connector-curvature="0" />
+    <path
+       d="m 227.45157,398.58295 0,202.17918"
+       id="path834"
+       style="fill:none;stroke:#000000;stroke-width:2.375;stroke-dasharray:none"
+       inkscape:connector-curvature="0" />
+    <path
+       d="m 432.2492,399.91847 0,202.17918"
+       id="path835"
+       style="fill:none;stroke:#000000;stroke-width:2.375;stroke-dasharray:none"
+       inkscape:connector-curvature="0" />
+    <path
+       d="m 534.07932,399.91847 0,202.17918"
+       id="path836"
+       style="fill:none;stroke:#000000;stroke-width:2.375;stroke-dasharray:none"
+       inkscape:connector-curvature="0" />
+    <path
+       d="m 638.44792,399.19869 0,202.17918"
+       id="path837"
+       style="fill:none;stroke:#000000;stroke-width:2.375;stroke-dasharray:none"
+       inkscape:connector-curvature="0" />
+    <path
+       d="m 329.72557,153.09749 0,448.21563"
+       id="path839"
+       style="fill:none;stroke:#000000;stroke-width:2.375;stroke-dasharray:none"
+       inkscape:connector-curvature="0" />
+  </g>
+  <metadata
+     id="metadata3357">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Open Clip Art Library</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title />
+        <dc:date>2010-04-05T19:21:30</dc:date>
+        <dc:description>Originally posted by Jonathan Dietrich from OCAL 0.18</dc:description>
+        <dc:source>http://openclipart.org/detail/37993/piano-keys-by-anonymous</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Anonymous</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>clip art</rdf:li>
+            <rdf:li>clipart</rdf:li>
+            <rdf:li>ivories</rdf:li>
+            <rdf:li>keys</rdf:li>
+            <rdf:li>music</rdf:li>
+            <rdf:li>piano</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     transform="matrix(0.00987086,0,0,0.00987086,11.681701,-1.775422)"
+     style="fill:#000000">
+    <path
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:5.92410803;stroke-linecap:round;stroke-linejoin:round"
+       id="path3"
+       d="m 418.38768,231.34258 c 5.30712,163.79746 3.00927,316.179 0.55337,483.27339 -1.24608,42.80949 -38.24711,71.52942 -72.88028,89.90822 -30.85392,18.56748 -67.79454,28.96551 -103.60859,20.69063 -33.3036,-3.41726 -67.75581,-27.72972 -68.4537,-63.70404 -2.22037,-41.7108 27.90419,-80.5523 64.98849,-97.02378 36.40406,-20.74876 82.42945,-25.24594 121.63079,-10.33095 19.1562,6.05494 24.48328,-11.72109 26.87355,-28.81947 2.21226,-129.76981 3.98291,-259.54448 4.43537,-389.3337 0.36593,-12.97349 26.29411,-17.16599 26.461,-4.6603 z"
+       inkscape:connector-curvature="0" />
+  </g>
+  <rect
+     id="rect3095"
+     width="1.3819302"
+     height="3.7111762"
+     x="7.3090348"
+     y="3.5872548"
+     style="stroke:#000000;stroke-width:0.05621691" />
+  <g
+     style="fill:#000000;fill-rule:evenodd;stroke:#000000"
+     id="g3216"
+     transform="matrix(0.18265485,0,0,0.18265485,5.6922965,-0.57032871)">
+    <g
+       id="Ebene_x0020_1"
+       style="fill:#000000;stroke:#000000">
+      <metadata
+         id="CorelCorpID_0Corel-Layer" />
+      <path
+         id="path3209"
+         d="m 8.7444,23.9161 19.5037,0 0,4.7494 12.0664,-8.4662 -12.0664,-8.4661 0,4.7494 -19.5037,0 0,7.4335 z m 9.7518,0 m 9.7519,2.3747 m 6.0331,-1.8584 m 0,-8.4662 m -6.0331,-1.8583 m -9.7519,2.3747 m -9.7518,3.7167"
+         class="fil0 str0"
+         inkscape:connector-curvature="0"
+         style="fill:#000000;fill-rule:nonzero;stroke:#000000;stroke-width:0.0762" />
+    </g>
+  </g>
+  <text
+     xml:space="preserve"
+     style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+     x="-0.013247766"
+     y="0.28153732"
+     id="text3014"
+     sodipodi:linespacing="125%"
+     transform="scale(-1,-1)"><tspan
+       sodipodi:role="line"
+       id="tspan3016"
+       x="-0.013247766"
+       y="0.28153732">⏎</tspan></text>
+</svg>

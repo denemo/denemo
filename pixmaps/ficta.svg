@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="16"
+   height="16"
+   id="svg2986"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="ficta.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2560"
+     inkscape:window-height="1391"
+     id="namedview3073"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="22.418025"
+     inkscape:cx="-13.189823"
+     inkscape:cy="12.020976"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2986" />
+  <title
+     id="title3044">quarter note</title>
+  <defs
+     id="defs2988">
+    <linearGradient
+       id="linearGradient3013">
+      <stop
+         id="stop3015"
+         style="stop-color:#000000;stop-opacity:0.8263889"
+         offset="0" />
+      <stop
+         id="stop3017"
+         style="stop-color:#000000;stop-opacity:1"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       x1="382.33768"
+       y1="489.13965"
+       x2="490.53049"
+       y2="333.89423"
+       id="linearGradient3019"
+       xlink:href="#linearGradient3013"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(2.0778635,0,0,2.0778635,-518.08353,-281.80071)" />
+  </defs>
+  <g
+     id="layer1"
+     transform="matrix(0.01474363,0,0,0.01474363,3.6101274,3.7010379)"
+     style="fill:#000000">
+    <path
+       d="m 418.38768,231.34258 c 5.30712,163.79746 3.00927,316.179 0.55337,483.27339 -1.24608,42.80949 -38.24711,71.52942 -72.88028,89.90822 -30.85392,18.56748 -67.79454,28.96551 -103.60859,20.69063 -33.3036,-3.41726 -67.75581,-27.72972 -68.4537,-63.70404 -2.22037,-41.7108 27.90419,-80.5523 64.98849,-97.02378 36.40406,-20.74876 82.42945,-25.24594 121.63079,-10.33095 19.1562,6.05494 24.48328,-11.72109 26.87355,-28.81947 2.21226,-129.76981 3.98291,-259.54448 4.43537,-389.3337 0.36593,-12.97349 26.29411,-17.16599 26.461,-4.6603 z"
+       id="path3"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:5.92410803;stroke-linecap:round;stroke-linejoin:round"
+       inkscape:connector-curvature="0" />
+  </g>
+  <metadata
+     id="metadata3071">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Open Clip Art Library</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>quarter note</dc:title>
+        <dc:date>2010-10-27T16:29:09</dc:date>
+        <dc:description>A single quarter note with stem facing up.</dc:description>
+        <dc:source>http://openclipart.org/detail/92875/quarter-note-(stem-facing-up)-by-jaschon</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>jaschon</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>black and white</rdf:li>
+            <rdf:li>clip art</rdf:li>
+            <rdf:li>clipart</rdf:li>
+            <rdf:li>crotchet</rdf:li>
+            <rdf:li>music</rdf:li>
+            <rdf:li>music note</rdf:li>
+            <rdf:li>musical notation</rdf:li>
+            <rdf:li>note</rdf:li>
+            <rdf:li>quarter</rdf:li>
+            <rdf:li>quaver</rdf:li>
+            <rdf:li>sound</rdf:li>
+            <rdf:li>staff</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <text
+     xml:space="preserve"
+     style="font-size:8px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:feta26;-inkscape-font-specification:feta26 Medium"
+     x="6.9000001"
+     y="3.0219851"
+     id="text3046"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3048"
+       x="6.9000001"
+       y="3.0219851"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:feta26;-inkscape-font-specification:feta26 Medium">.</tspan></text>
+</svg>
