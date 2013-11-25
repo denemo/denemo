@@ -703,10 +703,11 @@ save_command_metadata (gchar * filename, gchar * myname, gchar * mylabel, gchar 
   child = xmlNewChild (parent, NULL, COMMANDXML_TAG_ROW, NULL);
   xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_SCHEME);
 
+  xmlNewTextChild (child, NULL, COMMANDXML_TAG_ACTION, (xmlChar *) myname);
+  
   if (after)
     xmlNewTextChild (child, NULL, COMMANDXML_TAG_AFTER, (xmlChar *) after);
 
-  xmlNewTextChild (child, NULL, COMMANDXML_TAG_ACTION, (xmlChar *) myname);
 
   xmlNewTextChild (child, NULL, COMMANDXML_TAG_LABEL, (xmlChar *) mylabel);
 
