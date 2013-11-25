@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <include/denemo/denemo.h>
+#include <../include/denemo/denemo.h>
 
 char *NOTES[] = { NOTE0, NOTE1, NOTE2, NOTE3, NOTE4, NOTE5, NOTE6, NOTE7, NOTE8 };
 char *RESTS[] = { REST0, REST1, REST2, REST3, REST4, REST5, REST6, REST7, REST8 };
