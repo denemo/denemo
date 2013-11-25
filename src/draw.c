@@ -184,12 +184,17 @@ count_syllables (DenemoStaff * staff, gint from)
   return count;
 }
 
-static void draw_note_onset(cairo_t *cr, double x) 
+static void draw_note_onset(cairo_t *cr, double x, const gchar *glyph) 
 {
+	if(glyph) {	
+		drawlargetext_cr (cr, glyph, x, 10);
+	} else
+	{
 				cairo_move_to (cr, x, 22);
 				cairo_line_to (cr, x, 0);
 				cairo_line_to (cr, x + 10, 22);
 				cairo_fill (cr);
+			}
 }
 
 /**
@@ -329,7 +334,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 					if(itp->measurenum == 1) {//represent onsets before score starts as single red onset mark 10 pixels before the first note. test g==itp->onset to avoid re-drawing
 						cairo_save (cr);
 						cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, 1.0);
-						draw_note_onset (cr, x - 10);
+						draw_note_onset (cr, x - 10, NULL);
 						cairo_restore (cr);
 					}
 					g=g->next;
@@ -338,7 +343,9 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 				{
 				DenemoRecordedNote *midinote = (DenemoRecordedNote*)(g->data);
 				gdouble fraction = (((gint)(midinote->timing) - leadin) - current) / (double)(next-current);
-				gint pos;				
+				gint pos;
+				gchar *glyph;
+				glyph = NULL;				
 				pos = notewidth * fraction;
 				pos +=  mudelaitem->x; 
 				if(g==si->marked_onset) 
@@ -358,10 +365,43 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 					removetone ((DenemoObject*)(MidiDrawObject->data), 0, si->cursorclef);//there is only one note in the chord so any mid_c_offset will do					
 					addtone (MidiDrawObject->data,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, si->cursorclef);
 					chord *thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
-					((note*)(thechord->notes->data))->noteheadtype = DENEMO_DIAMOND_NOTEHEAD;
+					note *thenote = ((note*)(thechord->notes->data));
+					thenote->noteheadtype = DENEMO_DIAMOND_NOTEHEAD;
 					if(midinote->enshift)
-						((note*)(thechord->notes->data))->showaccidental = TRUE;
-					((note*)(thechord->notes->data))->position_of_accidental = 8;
+						thenote->showaccidental = TRUE;
+					thenote->position_of_accidental = 8;
+					//thechord->baseduration = midinote->duration;
+					//thechord->numdots = midinote->dots;
+					//set_basic_numticks (MidiDrawObject->data);
+					switch (midinote->duration) {
+						case 0:
+							glyph = midinote->dots?"𝅝•":"𝅝";
+							break;
+						case 1:
+							glyph = midinote->dots?"𝅗𝅥•":"𝅗𝅥";
+							break;
+						case 2:
+							glyph = midinote->dots?"𝅘𝅥•":"𝅘𝅥";
+							break;
+						case 3:
+							glyph = midinote->dots?"𝅘𝅥𝅮•":"𝅘𝅥𝅮";
+							break;
+						case 4:
+							glyph = midinote->dots?"𝅘𝅥𝅯•":"𝅘𝅥𝅯";
+							break;
+						case 5:
+							glyph = midinote->dots?"•𝅘𝅥𝅰":"𝅘𝅥𝅰";
+							break;
+						case 6:
+							glyph = midinote->dots?"•𝅘𝅥𝅱":"𝅘𝅥𝅱";
+							break;
+						case 7:
+							glyph = NULL;//we do not have a glyph for this yet
+							break;
+							
+							
+						
+					}
 					cairo_save (cr);
 					(g==si->marked_onset) ?cairo_set_source_rgba (cr, 0, 0.5, 0, 1):
 						cairo_set_source_rgba (cr, 0, 0, 0, 1);
@@ -369,7 +409,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 					cairo_restore (cr);
 					}
 					
-				draw_note_onset(cr, pos + x - extra_width);
+				draw_note_onset(cr, pos + x - extra_width, glyph);
 
 				if(g==si->marked_onset) 
 					{//g_print("fraction = %f; notewidth = %d ", fraction, notewidth);

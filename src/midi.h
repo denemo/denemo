@@ -68,4 +68,6 @@ void toggle_paused ();
 void play_adjusted_midi_event (gchar * buf);
 gboolean set_midi_capture (gboolean set);
 void process_midi_event (gchar * buf);
+
+void new_midi_recording (void);
 #endif // MIDI_H

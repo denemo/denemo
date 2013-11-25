@@ -689,8 +689,8 @@ IMPORT (lilypond)}
 void
 file_import_midi_with_check (GtkAction * action, DenemoScriptParam * param)
 {
-	GET_1PARAM(action, param, filename);
-	if(confirm("MIDI Import", "Use Guided Import?"))
+	GET_2PARAMS(action, param, filename, guided);
+	if(guided)
 		file_import_midi (Denemo.gui, FALSE, GUIDED_IMPORT, filename);
 	else
 		file_import_midi (Denemo.gui, FALSE, REPLACE_SCORE, filename);

@@ -21,7 +21,6 @@ void file_add_staffs (GtkAction * action, DenemoScriptParam * param);
 
 void file_add_movements (GtkAction * action, DenemoScriptParam * param);
 
-gint open_user_default_template (ImportType type);
 
 void system_template_open_with_check (GtkAction * action, DenemoScriptParam * param);
 

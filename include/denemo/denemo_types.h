@@ -609,7 +609,8 @@ typedef enum
 {
   REPLACE_SCORE,
   ADD_STAFFS,
-  ADD_MOVEMENTS
+  ADD_MOVEMENTS,
+  GUIDED_IMPORT
 } ImportType;
 
 typedef enum 
@@ -783,6 +784,8 @@ typedef struct DenemoRecordedNote {
   gint mid_c_offset;
   gint enshift;
   gint octave;
+  gint duration;/**< guessed baseduration, 0 if not known */
+  gint dots; /**<guessed number of dots */
   gpointer event;/**< midi event giving rise to the note */
 } DenemoRecordedNote;
 

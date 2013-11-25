@@ -1505,7 +1505,7 @@ insertion_point (DenemoScore * si)
 {
   //gtk_widget_draw(Denemo.Denemo.scorearea, NULL);//FIXME efficiency????
 
-  update_drawing_cache ();;
+  //update_drawing_cache ();;
 
   gboolean next_measure;
 
@@ -1514,14 +1514,14 @@ insertion_point (DenemoScore * si)
    * if it doesn't exist already.) */
 
   next_measure = si->cursoroffend && si->cursor_appending && (!si->currentmeasure->next || !si->currentmeasure->next->data);
-
-  g_debug ("next_measure %d\n", next_measure);
+#define g_debug g_print
+  //g_debug ("next_measure %d\n", next_measure);
   if (next_measure)
     {
       if (!si->currentmeasure->next)
         {
           gboolean all = TRUE;  //add to all measures
-          g_debug ("Appending a new measure\n");
+          //g_debug ("Appending a new measure\n");
 
           /* Add a measure and make it currentmeasure */
           if (!(all && si->currentstaff && g_list_length (((DenemoStaff *) si->currentstaff->data)->measures) == g_list_length (si->measurewidths)))

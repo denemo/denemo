@@ -45,6 +45,7 @@
 #include "keymapio.h"
 #include "measureops.h"
 #include "audiofile.h"
+#include "guidedimportmidi.h"
 
 static GtkWidget *playbutton;
 static GtkWidget *midirecordbutton;
@@ -2902,8 +2903,50 @@ scheme_get_onset_time (void)
   return SCM_BOOL_F;
 }
 
+static SCM
+scheme_get_recorded_midi_tempo (SCM index)
+{
+	SCM scm = scm_list_n (SCM_UNDEFINED);
+	if(scm_is_integer(index)) {	
+	gint idx =scm_to_int (index);
+	smf_tempo_t *tempo = get_recorded_midi_tempo (idx);
+	if(tempo)
+		{
+			scm = scm_cons (scm_from_double (tempo->microseconds_per_quarter_note/1000000.0), scm);
+			scm = scm_cons (scm_from_int (tempo->denominator), scm);
+			scm = scm_cons (scm_from_int (tempo->numerator), scm);
+			scm = scm_cons (scm_from_int (tempo->time_seconds), scm);
+			return scm;
+		}
+	}
+ return SCM_BOOL_F;
+}
 
-
+static SCM
+scheme_get_imported_midi_track (SCM index)
+{
+	if(scm_is_integer(index)) {	
+		gint idx =scm_to_int (index);
+		if(get_imported_midi_track (idx))
+			return SCM_BOOL_F;
+		}
+ return SCM_BOOL_F;
+}
+static SCM
+scheme_get_imported_midi_tracks (void)
+{ gint num = get_imported_midi_tracks ();
+	if(num<0)
+		return SCM_BOOL_F;
+	else
+		return scm_from_int (num);
+}
+static SCM
+scheme_get_recorded_midi_duration (void) {
+	gdouble duration = get_recorded_midi_duration ();
+	if (duration > 0.0)
+		return scm_from_double (duration);
+	return SCM_BOOL_F;
+}
 
 static SCM
 scheme_get_duration_in_ticks (void)
@@ -5019,7 +5062,7 @@ static gint
 flash_cursor (void)
 {
   gtk_widget_queue_draw (Denemo.scorearea);
-  draw_score (NULL);
+ // draw_score (NULL); what was this for?????
   return TRUE;
 }
 
@@ -5027,8 +5070,17 @@ static SCM
 scheme_highlight_cursor (SCM optional)
 {
   static gint id;
+  SCM ret = SCM_BOOL_T;
+  gboolean old_value = Denemo.prefs.cursor_highlight;
+  if (scm_is_bool(optional))
+   {
+	  Denemo.prefs.cursor_highlight = scm_is_true (optional);
+	  ret =  old_value?SCM_BOOL_T:SCM_BOOL_F;  
+  } else
+  {
   Denemo.prefs.cursor_highlight = !Denemo.prefs.cursor_highlight;
-  if (id)
+  }
+  if (id && !Denemo.prefs.cursor_highlight)
     {
       g_source_remove (id);
       id = 0;
@@ -5036,7 +5088,7 @@ scheme_highlight_cursor (SCM optional)
   else if (Denemo.prefs.cursor_highlight)
     id = g_timeout_add (500, (GSourceFunc) flash_cursor, NULL);
   //g_print("Cursor highlighting %d id %d", Denemo.prefs.cursor_highlight, id);
-  return SCM_BOOL_T;
+  return ret;
 }
 
 static SCM
@@ -5996,7 +6048,7 @@ create_scheme_identfiers (void)
 
   install_scm_function (0, "Adjusts the horizontal (x-) positioning of notes etc after paste", DENEMO_SCHEME_PREFIX "AdjustXes", scheme_adjust_xes);
 
-  install_scm_function (0, "Turn highlighting of cursor off/on", DENEMO_SCHEME_PREFIX "HighlightCursor", scheme_highlight_cursor);
+  install_scm_function (0, "Turn highlighting of cursor off/on returning #t, or given a boolean parameter sets the highlighting returning the previous value", DENEMO_SCHEME_PREFIX "HighlightCursor", scheme_highlight_cursor);
 
   install_scm_function (0, "Returns #t if there is an object at the cursor which has any printing behavior it may have overridden", DENEMO_SCHEME_PREFIX "GetNonprinting", scheme_get_nonprinting);
 
@@ -6050,7 +6102,12 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Returns start time for the object at the cursor, or #f if it has not been calculated", DENEMO_SCHEME_PREFIX "GetOnsetTime", scheme_get_onset_time);
 
   install_scm_function (1, "Takes an integer, Sets the number of ticks (PPQN) for the object at the cursor, returns #f if none; if the object is a chord it is set undotted", DENEMO_SCHEME_PREFIX "SetDurationInTicks", scheme_set_duration_in_ticks);
+  install_scm_function (1, "Takes an index, returns the time in seconds, time signature and tempo in seconds per quarter note of the index'th MIDI tempo event in the recorded MIDI stream.", DENEMO_SCHEME_PREFIX "GetRecordedMidiTempo", scheme_get_recorded_midi_tempo);
+  install_scm_function (1, "Takes an track number 1,2 ..., makes that MIDI track of the loaded MIDI stream the current recorded track.", DENEMO_SCHEME_PREFIX "GetImportedMidiTrack", scheme_get_imported_midi_track);
+  install_scm_function (0, "Returns the number of MIDI tracks of the loaded/recorded MIDI.", DENEMO_SCHEME_PREFIX "GetImportedMidiTracks", scheme_get_imported_midi_tracks);
 
+  install_scm_function (0, "Returns the duration in seconds of the recorded MIDI track or #f if none", DENEMO_SCHEME_PREFIX "GetRecordedMidiDuration", scheme_get_recorded_midi_duration);
+  
   install_scm_function (0, "Returns the number of ticks (PPQN) for the object at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetDurationInTicks", scheme_get_duration_in_ticks);
   install_scm_function (0, "Returns the number of ticks (PPQN) for the chord without dots or tuplet effects at the cursor, or #f if not a chord. The value is -ve for special durations (i.e. non-standard notes)", DENEMO_SCHEME_PREFIX "GetBaseDurationInTicks", scheme_get_base_duration_in_ticks);
 
