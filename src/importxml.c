@@ -2803,9 +2803,11 @@ parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoGUI * gui, ImportType ty
     si->cursor_appending = FALSE;
   // si->leftmeasurenum = si->currentstaffnum = si->currentmeasurenum = 1;
 
-  set_rightmeasurenum (gui->si);
-  set_bottom_staff (gui);
-  set_width_to_work_with (gui);
+  if(!Denemo.non_interactive){
+    set_rightmeasurenum (gui->si);
+    set_bottom_staff (gui);
+    set_width_to_work_with (gui);
+  }
   return ret;
 }
 
@@ -2932,12 +2934,13 @@ importXML (gchar * filename, DenemoGUI * gui, ImportType type)
           break;
         case REPLACE_SCORE:
           free_movements (gui);
-          deleteSchemeText ();
+          if(!Denemo.non_interactive)
+            deleteSchemeText ();
           gui->has_script = FALSE;
           /* this is dependent on the order of elements, which is not strictly correct */
           FOREACH_CHILD_ELEM (childElem, rootElem)
           {
-            if (ELEM_NAME_EQ (childElem, "scheme"))
+            if (!Denemo.non_interactive && ELEM_NAME_EQ (childElem, "scheme"))
               {
                 gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
                                                              childElem->xmlChildrenNode, 1);
@@ -3066,7 +3069,8 @@ importXML (gchar * filename, DenemoGUI * gui, ImportType type)
       else
         gtk_widget_show (gui->si->lyricsbox);
     }
-  score_status (gui, FALSE);
+  if(!Denemo.non_interactive)
+    score_status (gui, FALSE);
 
 cleanup:
 
@@ -3082,6 +3086,7 @@ cleanup:
   sXMLIDToElemMap = NULL;
   //g_print("Number of movements %d\n", g_list_length(gui->movements));
   reset_movement_numbers (gui);
-  set_movement_selector (gui);
+  if(!Denemo.non_interactive)
+    set_movement_selector (gui);
   return ret;
 }

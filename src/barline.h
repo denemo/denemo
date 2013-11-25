@@ -3,7 +3,7 @@
 
 
 #include <denemo/denemo.h>
-void insert_barline (GtkAction * action, gpointer param);
+void insert_barline (GtkAction * action, DenemoScriptParam * param);
 
 DenemoObject *newbarline (enum barline_type type);
 

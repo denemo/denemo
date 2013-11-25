@@ -176,6 +176,8 @@ insert_clipboard (GList * clipboard)
       call_out_to_guile ("(d-Paste)");
       copybuffer = NULL;
       pop_clipboard ();
+      displayhelper (Denemo.gui);
+      score_status(Denemo.gui, TRUE);
     }
 }
 
@@ -650,33 +652,35 @@ mark_boundaries_helper (DenemoScore * si, gint mark_staff, gint mark_measure, gi
  *  setmark
  *  Sets the current mark for the start of the buffer
  *
- *  @param gui pointer to the DenemoGUI structure
  */
 void
-set_mark (DenemoGUI * gui)
+set_mark (GtkAction* action, DenemoScriptParam * param)
 {
-  DenemoScore *si = gui->si;
+  DenemoScore *si = Denemo.gui->si;
   si->markstaffnum = si->currentstaffnum;
   si->markmeasurenum = si->currentmeasurenum;
   si->markcursor_x = si->cursor_x;
   calcmarkboundaries (si);
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
 }
 
 /**
  *  set_point
  *  Sets the current cursor position as the end of the selection
  *
- *  @param gui pointer to the DenemoGUI structure
  */
 void
-set_point (DenemoGUI * gui)
+set_point (GtkAction* action, DenemoScriptParam * param)
 {
-  DenemoScore *si = gui->si;
+  DenemoScore *si = Denemo.gui->si;
   if (si->markstaffnum)
     {
       mark_boundaries_helper (si, si->markstaffnum, si->markmeasurenum, si->markcursor_x, si->currentstaffnum, si->currentmeasurenum, si->cursor_x, NORMAL_SELECT);
 
     }
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
 }
 
 gboolean
@@ -689,14 +693,15 @@ mark_status (void)
  * unset_mark
  * Remove the current mark
  *
- * @param gui pointer to the DenemoGUI structure
  */
 void
-unset_mark (DenemoGUI * gui)
+unset_mark (GtkAction* action, DenemoScriptParam * param)
 {
-  DenemoScore *si = gui->si;
+  DenemoScore *si = Denemo.gui->si;
   si->markstaffnum = 0;
   calcmarkboundaries (si);
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
 }
 
 
@@ -794,7 +799,7 @@ goto_mark (GtkAction * action, DenemoScriptParam * param)
       set_currentmeasurenum (Denemo.gui, si->markmeasurenum);
       set_currentstaffnum (Denemo.gui, si->markstaffnum);
       while (si->cursor_x < si->markcursor_x && param->status)
-        cursorright (param);
+        cursorright (NULL, param);
       restore_selection (si);
       if (!action)
         displayhelper (Denemo.gui);
@@ -820,7 +825,7 @@ goto_selection_start (GtkAction * action, DenemoScriptParam * param)
       set_currentmeasurenum (Denemo.gui, si->selection.firstmeasuremarked);
       set_currentstaffnum (Denemo.gui, si->selection.firststaffmarked);
       while (si->cursor_x < first)
-        cursorright (param);
+        cursorright (NULL, NULL);
       restore_selection (si);
       if (!action)
         displayhelper (Denemo.gui);
@@ -963,7 +968,7 @@ calcmarkboundaries (DenemoScore * si)
 }
 
 void
-swap_point_and_mark (GtkAction * action, gpointer param)
+swap_point_and_mark (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoScore *si = Denemo.gui->si;
   gint temp = si->currentstaffnum;
@@ -992,7 +997,7 @@ swap_point_and_mark (GtkAction * action, gpointer param)
  * widget - unused
  */
 void
-undowrapper (GtkAction * action, gpointer param)
+undowrapper (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   undo (gui);
@@ -1009,7 +1014,7 @@ undowrapper (GtkAction * action, gpointer param)
  * widget - unused
  */
 void
-redowrapper (GtkAction * action, gpointer param)
+redowrapper (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   redo (gui);
@@ -1280,7 +1285,7 @@ action_chunk (DenemoGUI * gui, DenemoUndoData ** pchunk)
     case ACTION_MEASURE_REMOVE:
       {
         //create empty measure in the chunk->position.staff at measure number chunk->position->object
-        insertmeasureafter (gui);
+        insertmeasureafter (NULL, NULL);
         chunk->action = ACTION_MEASURE_CREATE;
         chunk->position.measure++;
         if (!gui->si->currentmeasure)

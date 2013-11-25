@@ -1,8 +1,9 @@
 language: cpp
 env:
   matrix:
-  - COMPILER=gcc
-  - COMPILER=clang
+  - COMPILER=gcc TEST=integration
+  - COMPILER=clang TEST=integration
+  - COMPILER=gcc TEST=dist
 script:
 - tools/travis/run-script.sh
 before_install:

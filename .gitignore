@@ -36,6 +36,7 @@ mkinstalldirs
 stamp-h1
 tags
 *~
+*.bak
 
 # Translation directory
 po/POTFILES

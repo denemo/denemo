@@ -73,19 +73,20 @@ static gint insert_pattern_in_toolbar (RhythmPattern * r);
 static gboolean append_rhythm (RhythmPattern * r, gpointer fn);
 static void install_button_for_pattern (RhythmPattern * r, gchar * thelabel);
 
+static DenemoGUI* new_movement();
 static void newtab (GtkAction * action, gpointer param);
 
-static void closewrapper (GtkAction * action, gpointer param);
-static gboolean close_gui_with_check (GtkAction * action, gpointer param);
+static void closewrapper (GtkAction * action, DenemoScriptParam* param);
+static gboolean close_gui_with_check (GtkAction * action, DenemoScriptParam* param);
 static void openinnew (GtkAction * action, DenemoScriptParam * param);
-static void create_rhythm_cb (GtkAction * action, gpointer param);
-static void delete_rhythm_cb (GtkAction * action, gpointer param);
-static void toggle_edit_mode (GtkAction * action, gpointer param);
-static void toggle_rest_mode (GtkAction * action, gpointer param);
-static void toggle_rhythm_mode (GtkAction * action, gpointer param);
-static void fetchcommands (GtkAction * action, gpointer param);
-static void morecommands (GtkAction * action, gpointer param);
-static void mycommands (GtkAction * action, gpointer param);
+static void create_rhythm_cb (GtkAction * action, DenemoScriptParam* param);
+static void delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param);
+static void toggle_edit_mode (GtkAction * action, DenemoScriptParam* param);
+static void toggle_rest_mode (GtkAction * action, DenemoScriptParam* param);
+static void toggle_rhythm_mode (GtkAction * action, DenemoScriptParam* param);
+static void fetchcommands (GtkAction * action, DenemoScriptParam* param);
+static void morecommands (GtkAction * action, DenemoScriptParam* param);
+static void mycommands (GtkAction * action, DenemoScriptParam* param);
 
 static void create_window (void);
 
@@ -111,10 +112,12 @@ SCM scheme_call_callback (SCM optional, callback_function callback) {
   GString *gstr=NULL;
   int length;
   char *str=NULL;
+  
   if(scm_is_string(optional)){
     str = scm_to_locale_stringn(optional, (size_t *)&length);
     gstr = g_string_new_len(str, length);
-    if(!strncmp("query",str,5)) query = TRUE;  }
+    if(!strncmp("query",str,5)) query = TRUE;  
+  }
   param.string = gstr;
   param.status = FALSE;
 
@@ -128,7 +131,6 @@ SCM scheme_call_callback (SCM optional, callback_function callback) {
 
 static void save_accels (void);
 
-#include "generated/callbacks.h"        /* callback functions menuitems that can be called by scheme */
 #include <libguile.h>
 //#include <guile/gh.h>
 
@@ -5800,7 +5802,8 @@ void
 denemo_scheme_init (void)
 {
   gchar *initscheme = Denemo.scheme_file;
-  Denemo.gui->si->undo_guard++;
+  if(!Denemo.non_interactive)
+    Denemo.gui->si->undo_guard++;
 
   if (initscheme)
     {
@@ -5821,7 +5824,8 @@ denemo_scheme_init (void)
     }
 
   load_local_scheme_init ();
-  Denemo.gui->si->undo_guard--;
+  if(!Denemo.non_interactive)
+    Denemo.gui->si->undo_guard--;
 }
 
 /*
@@ -6925,6 +6929,8 @@ load_files(gchar** files)
     {
       if(!Denemo.non_interactive)
         newtab (NULL, NULL);
+      else
+        Denemo.gui = new_movement ();
       open_for_real (files[i], Denemo.gui, FALSE, REPLACE_SCORE);
       ret = TRUE;
     }
@@ -7056,6 +7062,8 @@ inner_main (void *files)
 
     load_scheme_init ();
 
+    readHistory ();
+    
     gboolean file_loaded = load_files(files);
 
     if (!file_loaded && !Denemo.scheme_commands)
@@ -7070,7 +7078,6 @@ inner_main (void *files)
   //GUI related initializations
   if(!Denemo.non_interactive)  
   {
-    readHistory ();
     populate_opened_recent_menu ();
     
     load_preferences ();
@@ -7240,21 +7247,23 @@ free_movements (DenemoGUI * gui)
 *
 */
 static void
-closewrapper (GtkAction * action, gpointer param)
+closewrapper (GtkAction * action, DenemoScriptParam* param)
 {
-  GList *display;
+  if(!Denemo.non_interactive){
+    GList *display;
 
-  if (Denemo.accelerator_status)
-    {
-      if (confirm (_("You have made changes to the commands you have"), _("Do you want to save the changes?")))
-        save_accels ();
-    }
-  for (display = Denemo.guis; display != NULL; display = g_list_next (display))
-    {
-      Denemo.gui = (DenemoGUI *) display->data;
-      if (close_gui_with_check (NULL, NULL) == FALSE)
-        break;
-    }
+    if (Denemo.accelerator_status)
+      {
+        if (confirm (_("You have made changes to the commands you have"), _("Do you want to save the changes?")))
+          save_accels ();
+      }
+    for (display = Denemo.guis; display != NULL; display = g_list_next (display))
+      {
+        Denemo.gui = (DenemoGUI *) display->data;
+        if (close_gui_with_check (NULL, NULL) == FALSE)
+          break;
+      }
+  }
 }
 
 /**
@@ -7274,7 +7283,7 @@ delete_callback (GtkWidget * widget, GdkEvent * event)
  * callback to fetch up-to-date system commands from internet, denemo.org hardwired at present
  */
 static void
-fetchcommands (GtkAction * action, gpointer param)
+fetchcommands (GtkAction * action, DenemoScriptParam* param)
 {
   static gchar *location = NULL;
   location = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, NULL);
@@ -7315,7 +7324,7 @@ fetchcommands (GtkAction * action, gpointer param)
  * if user has a local (possibly updated) set in ~/.denemo/downloads then that directory is used.
  */
 static void
-morecommands (GtkAction * action, gpointer param)
+morecommands (GtkAction * action, DenemoScriptParam* param)
 {
   static gchar *location = NULL;
   location = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", NULL);
@@ -7341,7 +7350,7 @@ morecommands (GtkAction * action, gpointer param)
  * 
  */
 static void
-mycommands (GtkAction * action, gpointer param)
+mycommands (GtkAction * action, DenemoScriptParam* param)
 {
   static gchar *location = NULL;
   if (location == NULL)
@@ -7381,7 +7390,7 @@ openinnew (GtkAction * action, DenemoScriptParam * param)
  * return FALSE if gui was not closed, else TRUE
  */
 gboolean
-close_gui_with_check (GtkAction * action, gpointer param)
+close_gui_with_check (GtkAction * action, DenemoScriptParam* param)
 {
   DenemoGUI *gui = Denemo.gui;
   Denemo.prefs.mode = Denemo.gui->mode;
@@ -8044,7 +8053,7 @@ install_button_for_pattern (RhythmPattern * r, gchar * thelabel)
 
 */
 static void
-create_rhythm_cb (GtkAction * action, gpointer param)
+create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
 {
   DenemoGUI *gui = Denemo.gui;
   gboolean singleton = FALSE;   // set TRUE if action is one of the insert_... functions.
@@ -9637,7 +9646,7 @@ highlight_duration (DenemoGUI * gui, gint dur)
  * 
  */
 static void
-delete_rhythm_cb (GtkAction * action, gpointer param)
+delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
 {
   DenemoGUI *gui = Denemo.gui;
   if ((gui->mode & (INPUTEDIT)) == 0)
@@ -9896,7 +9905,7 @@ change_entry_type (GtkRadioAction * action, GtkRadioAction * current)
 
 /* callback: if not Insert mode set Insert mode else set Edit mode */
 static void
-toggle_edit_mode (GtkAction * action, gpointer param)
+toggle_edit_mode (GtkAction * action, DenemoScriptParam* param)
 {
   DenemoGUI *gui = Denemo.gui;
   static gint mode = INPUTINSERT;
@@ -9926,7 +9935,7 @@ toggle_edit_mode (GtkAction * action, gpointer param)
 
 /* callback: if rest entry make note entry and vv */
 static void
-toggle_rest_mode (GtkAction * action, gpointer param)
+toggle_rest_mode (GtkAction * action, DenemoScriptParam* param)
 {
   DenemoGUI *gui = Denemo.gui;
   static gint mode = INPUTNORMAL;
@@ -9954,7 +9963,7 @@ toggle_rest_mode (GtkAction * action, gpointer param)
 
 /* callback: if rhythm entry make note entry and vv */
 static void
-toggle_rhythm_mode (GtkAction * action, gpointer param)
+toggle_rhythm_mode (GtkAction * action, DenemoScriptParam* param)
 {
   DenemoGUI *gui = Denemo.gui;
 #if 1
@@ -10217,7 +10226,7 @@ toggle_command_manager (GtkAction * action, gpointer param)
 {
   if(Denemo.command_manager==NULL) 
   {
-	configure_keyboard_dialog (action, Denemo.gui);
+	configure_keyboard_dialog (action, NULL);
   }
   else 
   {
@@ -11234,7 +11243,7 @@ create_window (void)
 
 
 void
-newview (GtkAction * action, gpointer param)
+newview (GtkAction * action, DenemoScriptParam * param)
 {
   newtab (NULL, NULL);
   Denemo.gui->si->undo_guard = 1;       //do not collect undo for initialization of score
@@ -11258,6 +11267,24 @@ new_score_cb (GtkAction * action, DenemoScriptParam * param)
     }
 }
 
+static DenemoGUI*
+new_movement()
+{
+  static gint id = 1;
+  DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
+  //uniquely identifies this musical score editor for duration of program.
+  gui->id = id++;
+  gui->mode = Denemo.prefs.mode;
+  gui->pending_midi = g_queue_new ();
+  Denemo.guis = g_list_append (Denemo.guis, gui);
+  Denemo.gui = NULL;
+  gui->lilycontrol.papersize = g_string_new ("a4");     //A4 default
+  gui->lilycontrol.staffsize = g_string_new ("18");
+  gui->lilycontrol.lilyversion = g_string_new ("");
+  gui->lilycontrol.orientation = TRUE;  //portrait
+  return gui;
+}
+
 /**
  * Creates a new DenemoGUI structure represented by a tab in a notebook: the DenemoGUI can, at anyone time, control one musical score possibly of several movements. It can, from time to time have different musical scores loaded into it. So it is to be thought of as a Music Score Editor.
  * This DenemoGUI* gui is appended to the global list Denemo.guis.
@@ -11272,30 +11299,11 @@ newtab (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
   if (Denemo.gui && gtk_widget_get_visible (Denemo.textwindow))
     activate_action ("/MainMenu/ViewMenu/" ToggleLilyText_STRING);
 
-  static gint id = 1;
-  DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
-  //uniquely identifies this musical score editor for duration of program.
-  gui->id = id++;
-  gui->mode = Denemo.prefs.mode;
-  gui->pending_midi = g_queue_new ();
+  DenemoGUI* gui = new_movement();
   gui->score_layout = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (gui->score_layout), "Score Layout");
   gtk_window_set_default_size (GTK_WINDOW (gui->score_layout), 400, 800);
   g_signal_connect (G_OBJECT (gui->score_layout), "delete-event", G_CALLBACK (hide_score_layout_on_delete), NULL);
-
-  Denemo.guis = g_list_append (Denemo.guis, gui);
-
-
-  Denemo.gui = NULL;
-  // Denemo.gui = gui; must do this after switching to page, so after creating page
-  gui->lilycontrol.papersize = g_string_new ("a4");     //A4 default
-  gui->lilycontrol.staffsize = g_string_new ("18");
-  gui->lilycontrol.lilyversion = g_string_new ("");
-  gui->lilycontrol.orientation = TRUE;  //portrait
-
-
-
-  //gui->pixmap = NULL;
 
   /* Initialize the GUI */
 

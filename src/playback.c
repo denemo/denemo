@@ -81,7 +81,7 @@ restart_play (void)
 }
 
 void
-stop_midi_playback (GtkAction * action, gpointer param)
+stop_midi_playback (GtkAction * action, DenemoScriptParam* param)
 {
 
   if (is_paused ())

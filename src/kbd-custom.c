@@ -1660,7 +1660,7 @@ save_keymap_dialog (void)
  *
  */
 void
-save_default_keymap_file_wrapper (GtkAction * action, gpointer param)
+save_default_keymap_file_wrapper (GtkAction * action, DenemoScriptParam * param)
 {
   save_default_keymap_file ();
 }

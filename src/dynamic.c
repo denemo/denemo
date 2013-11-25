@@ -46,7 +46,7 @@ insert_it (gint num)
 }
 
 void
-insert_dynamic (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
+insert_dynamic (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;

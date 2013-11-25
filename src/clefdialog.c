@@ -109,6 +109,8 @@ dnm_setinitialclef (DenemoScore * si, DenemoStaff * curstaffstruct, enum clefs c
   find_leftmost_staffcontext (curstaffstruct, si);
   fixnoteheights (curstaffstruct);
   find_xes_in_all_measures (si);
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 /**
@@ -173,7 +175,7 @@ clef_change (DenemoGUI * gui, actiontype action)
       else
         {
           if (gui->si->currentobject && ((DenemoObject *) gui->si->currentobject->data)->type == CLEF)
-            deleteobject (gui);
+            deleteobject (NULL, NULL);
           object_insert (gui, dnm_newclefobj (clef));
 
         }

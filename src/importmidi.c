@@ -247,35 +247,35 @@ insert_rest_into_score (notetype length)
   switch (length.notetype)
     {
     case 0:
-      insert_rest_0key (gui);
+      insert_rest_0key (NULL, NULL);
       break;
     case 1:
-      insert_rest_1key (gui);
+      insert_rest_1key (NULL, NULL);
       break;
     case 2:
-      insert_rest_2key (gui);
+      insert_rest_2key (NULL, NULL);
       break;
     case 3:
-      insert_rest_3key (gui);
+      insert_rest_3key (NULL, NULL);
       break;
     case 4:
-      insert_rest_4key (gui);
+      insert_rest_4key (NULL, NULL);
       break;
     case 5:
-      insert_rest_5key (gui);
+      insert_rest_5key (NULL, NULL);
       break;
     case 6:
-      insert_rest_6key (gui);
+      insert_rest_6key (NULL, NULL);
       break;
     default:
-      insert_rest_2key (gui);
+      insert_rest_2key (NULL, NULL);
       break;
     }
   displayhelper (gui);
 
   /* add dots */
   for (i = 0; i < length.numofdots; i++)
-    add_dot_key (gui);
+    add_dot_key (NULL, NULL);
 }
 
 static gint
@@ -329,31 +329,31 @@ insert_note_into_score (gint pitch, notetype length)
   switch (length.notetype)
     {
     case 0:
-      insert_chord_0key (gui);
+      insert_chord_0key (NULL, NULL);
       break;
     case 1:
-      insert_chord_1key (gui);
+      insert_chord_1key (NULL, NULL);
       break;
     case 2:
-      insert_chord_2key (gui);
+      insert_chord_2key (NULL, NULL);
       break;
     case 3:
-      insert_chord_3key (gui);
+      insert_chord_3key (NULL, NULL);
       break;
     case 4:
-      insert_chord_4key (gui);
+      insert_chord_4key (NULL, NULL);
       break;
     case 5:
-      insert_chord_5key (gui);
+      insert_chord_5key (NULL, NULL);
       break;
     case 6:
-      insert_chord_6key (gui);
+      insert_chord_6key (NULL, NULL);
       break;
     case 7:
-      insert_chord_7key (gui);
+      insert_chord_7key (NULL, NULL);
       break;
     default:
-      insert_chord_8key (gui);
+      insert_chord_8key (NULL, NULL);
       g_warning ("Cannot handle size %d", length.notetype);
       break;
     }
@@ -374,7 +374,7 @@ insert_note_into_score (gint pitch, notetype length)
   g_free (accidental);
   /* Add dots */
   for (i = 0; i < length.numofdots; i++)
-    add_dot_key (gui);
+    add_dot_key (NULL, NULL);
 
   displayhelper (gui);
 }

@@ -42,15 +42,15 @@ void staff_properties_change_cb (GtkAction * action, DenemoScriptParam * param);
 
 
 
-void playback_properties_change (GtkAction * action, gpointer param);
+void playback_properties_change (GtkAction * action, DenemoScriptParam * param);
 
 
 
-void tomeasurenum (GtkAction * action, gpointer param);
+void tomeasurenum (GtkAction * action, DenemoScriptParam * param);
 
-void preferences_change (GtkAction * action, gpointer param);
+void preferences_change (GtkAction * action, DenemoScriptParam * param);
 
-void header_change (GtkAction * action, gpointer param);
+void header_change (GtkAction * action, DenemoScriptParam * param);
 
 void score_properties_dialog (GtkAction * action, DenemoScriptParam * param);
 

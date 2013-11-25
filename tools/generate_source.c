@@ -9,76 +9,16 @@
  * License: this file may be used under the FSF GPL version 2
  */
 
-
 #include <stdio.h>
+#include <glib.h>
+#include <glib/gi18n.h>
+#include <../include/denemo/denemo.h>
 
-#define NOTECHAR0 "\\xF0\\x9D\\x85\\x9D"
-#define NOTECHAR1 "\\xF0\\x9D\\x85\\x9E"
-#define NOTECHAR2 "\\xF0\\x9D\\x85\\x9F"
-#define NOTECHAR3 "\\xF0\\x9D\\x85\\xA0"
-#define NOTECHAR4 "\\xF0\\x9D\\x85\\xA1"
-#define NOTECHAR5 "\\xF0\\x9D\\x85\\xA2"
-#define NOTECHAR6 "\\xF0\\x9D\\x85\\xA3"
-#define NOTECHAR7 "\\xF0\\x9D\\x85\\xA4"
-#define NOTECHAR8 "\\xF0\\x9D\\x85\\xA5"
-
-#define RESTCHAR0 "\\xF0\\x9D\\x84\\xBB"
-#define RESTCHAR1 "\\xF0\\x9D\\x84\\xBC"
-#define RESTCHAR2 "\\xF0\\x9D\\x84\\xBD"
-#define RESTCHAR3 "\\xF0\\x9D\\x84\\xBE"
-#define RESTCHAR4 "\\xF0\\x9D\\x84\\xBF"
-#define RESTCHAR5 "\\xF0\\x9D\\x85\\x80"
-#define RESTCHAR6 "\\xF0\\x9D\\x85\\x81"
-#define RESTCHAR7 "\\xF0\\x9D\\x85\\x82"
-#define RESTCHAR8 "\\xF0\\x9D\\x85\\x83"
-
-#define REST0 "<span font_desc=\\\"Denemo\\\">"RESTCHAR0"</span>"
-#define REST1 "<span font_desc=\\\"Denemo\\\">"RESTCHAR1"</span>"
-#define REST2 "<span font_desc=\\\"Denemo\\\">"RESTCHAR2"</span>"
-#define REST3 "<span font_desc=\\\"Denemo\\\">"RESTCHAR3"</span>"
-#define REST4 "<span font_desc=\\\"Denemo\\\">"RESTCHAR4"</span>"
-#define REST5 "<span font_desc=\\\"Denemo\\\">"RESTCHAR5"</span>"
-#define REST6 "<span font_desc=\\\"Denemo\\\">"RESTCHAR6"</span>"
-#define REST7 "<span font_desc=\\\"Denemo\\\">"RESTCHAR7"</span>"
-#define REST8 "<span font_desc=\\\"Denemo\\\">"RESTCHAR8"</span>"
-
-//char *NOTES[] = {NOTE0, NOTE1, NOTE2, NOTE3, NOTE4, NOTE5, NOTE6, NOTE7, NOTE8};
-char *NOTECHARS[] = { NOTECHAR0, NOTECHAR1, NOTECHAR2, NOTECHAR3, NOTECHAR4, NOTECHAR5, NOTECHAR6, NOTECHAR7, NOTECHAR8 };
-
-//char *RESTS[] = {REST0, REST1, REST2, REST3, REST4, REST5, REST6, REST7, REST8};
-char *RESTCHARS[] = { RESTCHAR0, RESTCHAR1, RESTCHAR2, RESTCHAR3, RESTCHAR4, RESTCHAR5, RESTCHAR6, RESTCHAR7, RESTCHAR8 };
-
-#define N_
-
-#define CMD_CATEGORY_NAVIGATION		0
-#define CMD_CATEGORY_NOTE_ENTRY		1
-#define CMD_CATEGORY_REST_ENTRY		2
-#define CMD_CATEGORY_ARTICULATION	3
-#define CMD_CATEGORY_EDIT		4
-#define CMD_CATEGORY_MEASURE		5
-#define CMD_CATEGORY_STAFF		6
-#define CMD_CATEGORY_PLAYBACK		7
-#define CMD_CATEGORY_OTHER		8
-
-#define CMD_CLASS(cat) (cat&0xFF)
-#define CMD_CATEGORY_DIRECT		0x100   /* does not require a wrapper to the callback */
-#define CMD_CATEGORY_BOOLEAN		0x200   /* call returns boolean */
-
-char *catname[9] = { 
-  N_("Navigation"),
-  N_("Note entry"),
-  N_("Rest entry"),
-  N_("Articulation"),
-  N_("Edit"),
-  N_("Measure"),
-  N_("Staff"),
-  N_("Playback"),
-  N_("Other")
-};
+char *NOTES[] = { NOTE0, NOTE1, NOTE2, NOTE3, NOTE4, NOTE5, NOTE6, NOTE7, NOTE8 };
+char *RESTS[] = { REST0, REST1, REST2, REST3, REST4, REST5, REST6, REST7, REST8 };
 
 struct name_and_function
 {
-  unsigned category;
   /** Command name */
   char *icon;
   //char *menu_label;
@@ -86,17 +26,15 @@ struct name_and_function
   char *name;
   char *function;
   char *menu_label;
-  char *initial_setting;        /*of radio/check items */
 };
 
-FILE *callbacks, *entries, *xml, *scheme, *scheme_cb, *register_commands;
+FILE *entries, *xml, *scheme, *scheme_cb, *register_commands;
 
 #define ni denemo_commands[i].name
 #define ii denemo_commands[i].icon
 #define ml denemo_commands[i].menu_label
 #define ti denemo_commands[i].tooltip
 #define fi denemo_commands[i].function
-#define mi denemo_commands[i].category
 
 void parse_menu_commands(){
   #include "menu.c"
@@ -108,27 +46,6 @@ void parse_menu_commands(){
     {
       if (fi != NULL)
         {
-          if (!(mi & CMD_CATEGORY_DIRECT))
-            {
-              fprintf (callbacks, "/*%s %s*/\n", ni, fi);
-              /*******************   create a callback for calling from a menuitem *******************/
-              if (mi & CMD_CATEGORY_BOOLEAN)
-                {
-                  fprintf (callbacks, 
-                           "static void %s_cb (GtkAction *action, DenemoScriptParam *param) {\n" 
-                           "%s (param);\n"
-                           "%s}\n", fi, fi, (CMD_CLASS (mi) == CMD_CATEGORY_NAVIGATION) ? "gtk_widget_queue_draw(Denemo.scorearea);\n" : " displayhelper (Denemo.gui);\n score_status(Denemo.gui, TRUE);\n");
-                }
-              else
-                {
-                  fprintf (callbacks, 
-                           "static void %s_cb (GtkAction *action, gpointer param) {\n" 
-                           "  %s (Denemo.gui);\n"
-                           "%s"
-                           "}\n", 
-                           fi, fi, CMD_CLASS (mi) == CMD_CATEGORY_NAVIGATION ? "gtk_widget_queue_draw(Denemo.scorearea);\n" : "  displayhelper (Denemo.gui);\n" "  score_status(Denemo.gui, TRUE);\n");
-                }
-            }
 
           /*******************   create a procedure d-<name> in scheme to call scheme_<name>  *******************/
           fprintf (scheme, "/*%s %s*/\n", ni, fi);
@@ -139,13 +56,15 @@ void parse_menu_commands(){
           /*******************   create a callback scheme_<name> for calling from a scheme procedure d-<name>  *******************/
           fprintf (scheme_cb, 
                    "SCM scheme_%s (SCM optional) {\n"
-                   "  return scheme_call_callback(optional, %s%s);\n"
+                   "  return scheme_call_callback(optional, %s);\n"
                    "}\n", 
-                   ni, fi, !(mi & CMD_CATEGORY_DIRECT) ? "_cb" : "");
+                   ni, fi);
+
           /****************** install the command in the hash table of commands (keymap) **************/
           fprintf (register_commands, "register_command(\"%s\", _(\"%s\"), _(\"%s\"), %s);\n", ni, ml ? ml : ni, ti ? ti : ni, fi);
+
           /****************** install the command as an action in the menu system **************************/
-          fprintf (entries, "{\"%s\", %s, N_(\"%s\"), \"\"," "N_(\"%s\")," "G_CALLBACK (%s%s)},\n", ni, ii ? ii : "NULL", ml ? ml : ni, ti ? ti : ni, fi, (mi & CMD_CATEGORY_DIRECT) ? "" : "_cb");
+          fprintf (entries, "{\"%s\", %s, N_(\"%s\"), \"\"," "N_(\"%s\")," "G_CALLBACK (%s)},\n", ni, ii ? ii : "NULL", ml ? ml : ni, ti ? ti : ni, fi);
         }
       else                      //no callback function - a menu rather than a menu item. It still needs to be added as an action in the menu system.
         fprintf (entries, "{\"%s\", %s, N_(\"%s\"), \"\"," "N_(\"%s\")},\n", ni, ii ? ii : "NULL", ml ? ml : ni, ti ? ti : ni);
@@ -157,13 +76,10 @@ main ()
 {
   scheme_cb = fopen ("scheme_cb.h", "w");
   scheme = fopen ("scheme.h", "w");
-  callbacks = fopen ("callbacks.h", "w");
   entries = fopen ("entries.h", "w");
   register_commands = fopen ("register_commands.h", "w");
-  xml = fopen ("xml.fragment", "w");
-  if (!callbacks || !entries || !xml || !scheme || !scheme_cb || !register_commands)
+  if (!entries || !scheme || !scheme_cb || !register_commands)
     return -1;
-  fprintf (callbacks, "/******** generated automatically from generate_source. See generate_source.c */\n");
   fprintf (entries, "/******** generated automatically from generate_source. See generate_source.c */\n");
 
   parse_menu_commands ();
@@ -173,18 +89,9 @@ main ()
   /* generate source for duration callbacks - these were intercepted when
      typed at the keyboard to set prevailing rhythm, so the callback has to
      include code for this */
-  //     for(i=0;i<9;i++) {
-
-  //     }
 
   for (i = 0; i < 9; i++)
     {
-      // fprintf(entries, "\n#define NOTECHAR%d \"%s\"\n", i,  NOTECHARS[i]);
-      // fprintf(entries, "\n#define RESTCHAR%d \"%s\"\n", i, RESTCHARS[i]);
-      fprintf (entries, "\n#define NOTE%d \"%s\"\n", i, NOTECHARS[i]);
-      fprintf (entries, "\n#define REST%d \"%s\"\n", i, RESTCHARS[i]);
-
-
       /* menu_entries for the mode sensitive duration actions, Dur0,1,2 ... */
       fprintf (entries, "{\"%d\", \"NULL\", NOTE%d, NULL, \"Inserts a note at the cursor with duration \"NOTE%d\", or \\n(if appending) appends this duration\\nIf MIDI-in is active the note will be pitchless (displays yellow, percussion-sounding)\\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.\",\n" "G_CALLBACK (Dur%d)},\n" "{\"Change%d\", \"NULL\", NOTE%d, NULL, \"Change current note to a \"NOTE%d,\n" "G_CALLBACK (ChangeDur%d)},\n"
                //"{\"ChangeRest%d\", NULL, \"Change duration\", NULL, \"Change duration of current rest\",\n"
@@ -195,26 +102,6 @@ main ()
 
 
     }
-
-
-  for (i = 0; i < 9; i++)
-    fprintf (xml, "<menuitem action=\"%d\"/>\n", i);
-  for (i = 0; i < 9; i++)
-    fprintf (xml, "<menuitem action=\"Change%d\"/>\n", i);
-  for (i = 0; i < 9; i++)
-    fprintf (xml, "<menuitem action=\"Insert%d\"/>\n", i);
-  //for (i = 0; i < 9; i++)
-    //fprintf(xml, "<menuitem action=\"ChangeRest%d\"/>\n", i);
-  for (i = 0; i < 9; i++)
-    fprintf (xml, "<menuitem action=\"InsertRest%d\"/>\n", i);
-  
-  for (i = 'A'; i <= 'G'; i++)
-    fprintf (xml, "<menuitem action=\"Insert%c\"/>\n", i);
-  for (i = 'A'; i <= 'G'; i++)
-    fprintf (xml, "<menuitem action=\"ChangeTo%c\"/>\n", i);
-  
-  for (i = 0; i < 9; i++)
-    fprintf (xml, "<menuitem action=\"Set%d\"/>\n", i);
 
   /* menu_entries for the mode    note name    */
   for (i = 'A'; i <= 'G'; i++)
@@ -266,23 +153,18 @@ main ()
        *
        * !!! FIXME what is ChangeRestn???? seems to be Changen ... now dropped. */
 
-      fprintf (register_commands, "register_command(\"%d\", _(\"Insert/Append a %s\"), _(\"When appending, appends a %s \\nWith the cursor on a note inserts a %s  before the current note\\nIf MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)\\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.\"), Dur%d);\n", i, NOTECHARS[i], NOTECHARS[i], NOTECHARS[i], i);
+      fprintf (register_commands, "register_command(\"%d\", _(\"Insert/Append a %s\"), _(\"When appending, appends a %s \\nWith the cursor on a note inserts a %s  before the current note\\nIf MIDI-in is active, the note will be pitchless (displays yellow, percussion-sounding)\\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.\"), Dur%d);\n", i, NOTES[i], NOTES[i], NOTES[i], i);
 
-      fprintf (register_commands, "register_command(\"Change%d\", _(\"Change to %s\"), _(\"Change the current note to a %s\"), ChangeDur%d);\n", i, NOTECHARS[i], NOTECHARS[i], i);
+      fprintf (register_commands, "register_command(\"Change%d\", _(\"Change to %s\"), _(\"Change the current note to a %s\"), ChangeDur%d);\n", i, NOTES[i], NOTES[i], i);
 
-      fprintf (register_commands, "register_command(\"Insert%d\", _(\"%s\"), _(\"Insert a %s\"), InsertDur%d);\n", i, NOTECHARS[i], NOTECHARS[i], i);
+      fprintf (register_commands, "register_command(\"Insert%d\", _(\"%s\"), _(\"Insert a %s\"), InsertDur%d);\n", i, NOTES[i], NOTES[i], i);
 
-      fprintf (register_commands, "register_command(\"InsertRest%d\",  _(\"Insert a %s\") ,  _(\"Inserts a rest at cursor position\\nSets prevailing rhythm to %s\"), InsertRest%d);\n", i, RESTCHARS[i], NOTECHARS[i], i);
+      fprintf (register_commands, "register_command(\"InsertRest%d\",  _(\"Insert a %s\") ,  _(\"Inserts a rest at cursor position\\nSets prevailing rhythm to %s\"), InsertRest%d);\n", i, RESTS[i], NOTES[i], i);
 
       //  fprintf(register_commands, 
-      //    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"ChangeRest%d\"), \"ChangeRest%d\",  _(\"Change a %s\") ,  _(\"Changes a rest at cursor position\\nSets prevailing rhythm to %s\"), ChangeRest%d);\n", i, i, RESTCHARS[i], NOTECHARS[i], i);
+      //    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"ChangeRest%d\"), \"ChangeRest%d\",  _(\"Change a %s\") ,  _(\"Changes a rest at cursor position\\nSets prevailing rhythm to %s\"), ChangeRest%d);\n", i, i, RESTS[i], NOTES[i], i);
 
-      fprintf (register_commands, "register_command(\"Set%d\", _(\"Set Prevailing Duration to %s\"), _(\"Set the prevailing duration to %s (subsequent notes entered will have this duration)\"), SetDur%d);\n", i, NOTECHARS[i], NOTECHARS[i], i);
-
-      fprintf (register_commands, "\n#undef NOTE%d\n", i);
-      fprintf (register_commands, "\n#undef REST%d\n", i);
-      fprintf (register_commands, "\n#undef NOTECHAR%d\n", i);
-      fprintf (register_commands, "\n#undef RESTCHAR%d\n", i);
+      fprintf (register_commands, "register_command(\"Set%d\", _(\"Set Prevailing Duration to %s\"), _(\"Set the prevailing duration to %s (subsequent notes entered will have this duration)\"), SetDur%d);\n", i, NOTES[i], NOTES[i], i);
 
       fprintf (scheme, "/*%d */\n", i);
 
@@ -312,6 +194,38 @@ main ()
 
 
 #ifdef GENERATE_XML_FRAGMENT
+  xml = fopen ("xml.fragment", "w");
+  if(!xml)
+    return -1
+    char *catname[9] = { 
+      N_("Navigation"),
+      N_("Note entry"),
+      N_("Rest entry"),
+      N_("Articulation"),
+      N_("Edit"),
+      N_("Measure"),
+      N_("Staff"),
+      N_("Playback"),
+      N_("Other")
+    };
+
+  for (i = 0; i < 9; i++)
+    fprintf (xml, "<menuitem action=\"%d\"/>\n", i);
+  for (i = 0; i < 9; i++)
+    fprintf (xml, "<menuitem action=\"Change%d\"/>\n", i);
+  for (i = 0; i < 9; i++)
+    fprintf (xml, "<menuitem action=\"Insert%d\"/>\n", i);
+  //for (i = 0; i < 9; i++)
+    //fprintf(xml, "<menuitem action=\"ChangeRest%d\"/>\n", i);
+  for (i = 0; i < 9; i++)
+    fprintf (xml, "<menuitem action=\"InsertRest%d\"/>\n", i);
+  for (i = 'A'; i <= 'G'; i++)
+    fprintf (xml, "<menuitem action=\"Insert%c\"/>\n", i);
+  for (i = 'A'; i <= 'G'; i++)
+    fprintf (xml, "<menuitem action=\"ChangeTo%c\"/>\n", i);
+  for (i = 0; i < 9; i++)
+    fprintf (xml, "<menuitem action=\"Set%d\"/>\n", i);
+
   fprintf (xml, "<menu action=\"AllOther\">\n");
   for (j = 0; j < 9; j++)
     {

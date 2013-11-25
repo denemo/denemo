@@ -477,6 +477,8 @@ changenumdots (DenemoObject * thechord, gint number)
 {
   ((chord *) thechord->object)->numdots = MAX (((chord *) thechord->object)->numdots + number, 0);
   set_basic_numticks (thechord);
+  displayhelper (Denemo.gui);
+  score_status(Denemo.gui, TRUE);
 }
 
 

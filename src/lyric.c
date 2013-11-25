@@ -93,7 +93,7 @@ add_verse_to_staff (DenemoScore * si, DenemoStaff * staff)
 }
 
 void
-add_verse (GtkAction * action, gpointer param)
+add_verse (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
@@ -108,7 +108,7 @@ add_verse (GtkAction * action, gpointer param)
 }
 
 void
-delete_verse (GtkAction * action, gpointer param)
+delete_verse (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;

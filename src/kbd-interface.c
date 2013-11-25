@@ -19,6 +19,28 @@
 #include "mousing.h"
 #include "utils.h"
 
+
+static gint
+get_command_position(GtkTreeModel* model, gint command_idx){
+  gboolean valid;
+  command_row* row1 = NULL;
+  command_row* row2 = NULL;
+  gint i = 0;
+  GtkTreeIter iter;
+  
+  valid = gtk_tree_model_get_iter_first (model, &iter);
+  keymap_get_command_row(Denemo.map, &row2, command_idx);
+  
+  while (valid){
+    gtk_tree_model_get (model, &iter, COL_ROW, &row1, -1);
+    if(row1 && row1 == row2)
+      return i;
+    i++;
+    valid = gtk_tree_model_iter_next (model, &iter);
+  }
+  return -1;
+}
+
 #if 0
 static void
 validate_keymap_name (GtkEntry * entry, GtkDialog * dialog)
@@ -142,10 +164,11 @@ capture_look_binding (GtkWidget * widget, GdkEventKey * event, gpointer user_dat
         cbdata->twokeylist = final_list;
     }
   if (command_idx != -1)
-    {
+  {
       model = gtk_tree_view_get_model (cbdata->command_view);
+      gint pos = get_command_position(model, command_idx);
       selection = gtk_tree_view_get_selection (cbdata->command_view);
-      gtk_tree_model_iter_nth_child (model, &iter, NULL, command_idx);
+      gtk_tree_model_iter_nth_child (model, &iter, NULL, pos);
       gtk_tree_selection_select_iter (selection, &iter);
       path = gtk_tree_model_get_path (model, &iter);
       gtk_tree_view_scroll_to_cell (cbdata->command_view, path, NULL, FALSE, 0, 0);
@@ -376,7 +399,8 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
 		} 
 	  else
 		{
-			gtk_tree_model_iter_nth_child (model, &iter, NULL, command_idx);
+      gint pos = get_command_position(model, command_idx);
+      gtk_tree_model_iter_nth_child (model, &iter, NULL, pos);
 		}
 	  gtk_widget_grab_focus (SearchEntry);
 	  selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cbdata.command_view));
@@ -539,7 +563,8 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
     }
   else
     {
-      gtk_tree_model_iter_nth_child (model, &iter, NULL, command_idx);
+      gint pos = get_command_position(model, command_idx);
+      gtk_tree_model_iter_nth_child (model, &iter, NULL, pos);
       path = gtk_tree_model_get_path (model, &iter);
       gtk_tree_view_scroll_to_cell ((GtkTreeView *) command_tree_view, path, NULL, FALSE, 0, 0);
       gtk_tree_path_free (path);
@@ -616,7 +641,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
 }
 
 void
-configure_keyboard_dialog (GtkAction * action, DenemoGUI * gui)
+configure_keyboard_dialog (GtkAction * action, DenemoScriptParam * param)
 {
   configure_keyboard_dialog_init_idx (action, -1);
 }

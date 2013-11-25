@@ -596,13 +596,13 @@ enharmonic_step (gboolean sharp)
 }
 
 void
-set_sharper (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
+set_sharper (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   enharmonic_step (TRUE);
 }
 
 void
-set_flatter (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
+set_flatter (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   enharmonic_step (FALSE);
 }
@@ -698,7 +698,7 @@ apply_tones (DenemoScore * si)
                   modify_note ((chord *) theobj->object, mid_c_offset, thetone->enshift, dclef);
                   tone_stored = TRUE;
                   if (!si->cursor_appending)
-                    cursorright (NULL);
+                    cursorright (NULL, NULL);
                   store_el = store_el->next;
 
                 }               // tone available
@@ -779,7 +779,7 @@ enter_tone_in_store (DenemoGUI * gui, notepitch * found, gint octave)
   if (Denemo.prefs.continuous && nextmeasure)
     {
       sound_click ();
-      measureright (NULL);
+      measureright (NULL, NULL);
     }
 #undef store
 }
@@ -833,7 +833,7 @@ clear_tone_store (G_GNUC_UNUSED GtkButton * button, DenemoGUI * gui)
 }
 
 void
-clear_overlay (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
+clear_overlay (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam* param)
 {
   DenemoGUI *gui = Denemo.gui;
   clear_tone_store (NULL, gui);
@@ -878,6 +878,7 @@ delete_tone (DenemoScore * si, chord * thechord)
       calcmarkboundaries (si);
 
       displayhelper (Denemo.gui);
+      score_status(Denemo.gui, TRUE);
       return TRUE;
     }
   else

@@ -316,7 +316,7 @@ button_response (GtkWidget * dialog, gint response_id, keysig_data * data)
       else
         {
           if (gui->si->currentobject && ((DenemoObject *) gui->si->currentobject->data)->type == KEYSIG)
-            deleteobject (gui);
+            deleteobject (NULL, NULL);
           insert_keysig (data);
         }
       score_status (gui, TRUE);

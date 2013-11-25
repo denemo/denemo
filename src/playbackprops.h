@@ -9,7 +9,5 @@
 #ifndef PLAYBACKPROPS_H
 #define PLAYBACKPROPS_H
 
-
-
 static void set_playback (GtkWidget * widget, gpointer data);
 #endif
