@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>GuidedMidiImport</action>
+        <after>OpenAudio</after>
+        <_label>Open Source MIDI</_label>
+        <_tooltip>Opens a MIDI file for transcribing. Load each track in turn and insert the MIDI notes by playing the durations.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

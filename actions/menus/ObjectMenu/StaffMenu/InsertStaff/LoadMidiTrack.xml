@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>LoadMidiTrack</action>
+        <after>CreateClickStaffForMidi</after>
+        <_label>Insert Staff for MIDI Track</_label>
+        <_tooltip>Creates a staff below the click track for the MIDI track selected. The staff is empty except for time signature and tempo changes. The MIDI pitches from the track are displayed above the click track and notes can be inserted by double-clicking on a MIDI pitch and entering the rhythm.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

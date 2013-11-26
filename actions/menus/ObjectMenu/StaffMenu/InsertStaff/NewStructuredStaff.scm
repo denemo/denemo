@@ -1,0 +1,16 @@
+;;;; NewStructuredStaff
+(let ()
+(d-MoveToBeginning)	
+(d-AddAfter)
+(d-MoveToStaffUp)
+(while (d-MoveCursorRight)
+	(if (Timesignature?)
+		(begin
+			(d-UnsetMark)
+			(d-SetMark)
+			(d-Copy)
+			(d-MoveToStaffDown)
+			(d-Paste)
+			(d-MoveToStaffUp))))
+(d-MoveToStaffDown)
+(d-MoveToBeginning))
