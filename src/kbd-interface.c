@@ -241,7 +241,7 @@ kbd_interface_del_binding (G_GNUC_UNUSED GtkButton * button, gpointer user_data)
   gchar *binding;
   GtkTreeModel *model;
   GtkTreeIter iter;
-  command_row* row;
+  command_row* row = NULL;
   keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
   gtk_statusbar_pop (cbdata->statusbar, cbdata->context_id);
   selection = gtk_tree_view_get_selection (cbdata->binding_view);
@@ -250,15 +250,13 @@ kbd_interface_del_binding (G_GNUC_UNUSED GtkButton * button, gpointer user_data)
     return;
   //else get the binding and remove it
   gtk_tree_model_get (model, &iter, 0, &binding, -1);
-
-  gint *command_id_ptr = NULL;
-  command_id_ptr = (gint *) g_hash_table_lookup (Denemo.map->idx_from_keystring, binding);
   
+  gint command_id_ptr = lookup_command_for_keybinding_name(Denemo.map, binding);
   remove_keybinding_from_name (Denemo.map, binding);
 
-  if(command_id_ptr){
-    keymap_get_command_row (Denemo.map, &row, *command_id_ptr);
-    update_bindings_model(GTK_LIST_STORE(model), row->bindings);
+  if(command_id_ptr > -1){
+    if(keymap_get_command_row (Denemo.map, &row, command_id_ptr))
+      update_bindings_model(GTK_LIST_STORE(model), row->bindings);
   }
   else 
     g_debug("Cannot find command to delete.\n");
