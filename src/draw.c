@@ -187,12 +187,12 @@ count_syllables (DenemoStaff * staff, gint from)
 static void draw_note_onset(cairo_t *cr, double x, const gchar *glyph) 
 {
 	if(glyph) {	
-		drawlargetext_cr (cr, glyph, x, 10);
+		drawlargetext_cr (cr, glyph, x, 20);
 	} else
 	{
-				cairo_move_to (cr, x, 22);
+				cairo_move_to (cr, x, 32);
 				cairo_line_to (cr, x, 0);
-				cairo_line_to (cr, x + 10, 22);
+				cairo_line_to (cr, x + 10, 32);
 				cairo_fill (cr);
 			}
 }
