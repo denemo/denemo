@@ -49,7 +49,8 @@ denemo_SOURCES = denemo_types.c \
 	audiointerface.h eventqueue.h dummybackend.h portaudiobackend.h \
 	portmidibackend.h midi.h ringbuffer.h portaudioutil.h \
 	fluid.h portmidiutil.h \
-  keymapio.c keymapio.h
+  keymapio.c keymapio.h \
+  scheme-identifiers.c scheme-identifiers.h
 
 if WITH_X11
   denemo_SOURCES += screenshot.c screenshot.h
