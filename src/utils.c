@@ -1624,6 +1624,8 @@ display_current_object (void)
               append_directives_information (selection, thechord->directives);
 						}
           g_string_append_printf (selection, _("This starts %d/384 quarter notes into the measure and lasts %d/384 quarter notes.\n"), curObj->starttick, curObj->durinticks);
+			if(curObj->lilypond)
+				          g_string_append_printf (selection, _("The LilyPond syntax generated is: %s\n"), curObj->lilypond);
 
           }
           break;
