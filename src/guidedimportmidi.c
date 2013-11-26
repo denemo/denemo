@@ -230,7 +230,7 @@ create_staff (gint track)
 /* create the smf for the recorded track if it does not already belong to it
  * this happens when the user records MIDI using a MIDI controller 
  * otherwise add it to smf, or if already present in smf (user_pointer points to smf) re-attach so that smf can be used. */
-static ensure_smf (void) {
+static void ensure_smf (void) {
 	
 	if (Denemo.gui->si->recorded_midi_track) 
 	{	smf_track_t *track = Denemo.gui->si->recorded_midi_track;
