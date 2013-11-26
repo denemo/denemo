@@ -1,5 +1,6 @@
 #include <libguile.h>
 #include "scheme-identifiers.h"
+#include "scheme-callbacks.h"
 #include "view.h"
 
 #ifdef DEVELOPER
