@@ -708,7 +708,8 @@ importMidi (gchar * filename)
 {
   smf_t *smf;
   gint ret = 0;                 // (-1 on failure)
-
+  gboolean save = Denemo.prefs.immediateplayback;
+  Denemo.prefs.immediateplayback = FALSE;
   /* load the file */
   smf = cmd_load (filename);
   if (!smf)
@@ -718,5 +719,6 @@ importMidi (gchar * filename)
     return -1;
   /* Delete data...Does it free it? */
   smf_delete (smf);
+  Denemo.prefs.immediateplayback = save;
   return ret;
 }
