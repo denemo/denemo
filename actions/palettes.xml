@@ -134,10 +134,10 @@
     <button label="|x" _tooltip="Skips the printing of any automatic barline here - allows line break." script="(d-NoBarline)"/>
   </palette>
   <palette _name="Repeats" row-wise="1" limit="1" dock="0" hidden="0">
-    <button label="1st" _tooltip="(Print) start a first time bar, must be followed by EndVolta." script="(d-OpenFirstTimeBar)"/>
-    <button label="2nd" _tooltip="(Print) start a second time bar, must be followed by EndVolta" script="(d-OpenSecondTimeBar)"/>
-    <button label="1st/2nd ]" _tooltip="Ends a volta, that is a n'th time bar" script="(d-EndVolta)"/>
-    <button label="1st &amp;amp; 2nd" _tooltip="Inserts first and second time bars each with a whole measure rest. You can then edit this to suit your music, e.g by inserting extra bars, deleting the repeat start etc." script="(d-InsertFirstAndSecondTimeBars)"/>
+    <button label="1&#xB0;" _tooltip="(Print) start a first time bar, must be followed by EndVolta." script="(d-OpenFirstTimeBar)"/>
+    <button label="2&#xB0;" _tooltip="(Print) start a second time bar, must be followed by EndVolta" script="(d-OpenSecondTimeBar)"/>
+    <button label="1&#xB0;/2&#xB0; ]" _tooltip="Ends a volta, that is a n'th time bar" script="(d-EndVolta)"/>
+    <button label="1&#xB0; &amp;amp; 2&#xB0;" _tooltip="Inserts first and second time bars each with a whole measure rest. You can then edit this to suit your music, e.g by inserting extra bars, deleting the repeat start etc." script="(d-InsertFirstAndSecondTimeBars)"/>
   </palette>
   <palette _name="Beaming" row-wise="1" limit="1" dock="0" hidden="0">
     <button label="?" _tooltip="Help with beaming commands." script="(d-InfoDialog &#10;&quot;Beaming commands affect the printed score, not the Denemo display which uses a simple beaming method for quick note entry. You may find it easier to use the beaming commands directly on the typeset score - right click to select a beamed note and right click on the selection box to choose a beaming command.&quot;)"/>
@@ -164,5 +164,10 @@
     <button label="?" _tooltip="Help with chord symbol entry methods." script="(d-InfoDialog &#10;&quot;Chord Symbols (or \&quot;fake chords\&quot;) can be created in two ways. The first attaches a chord symbol to any note. You have to give the name of the chord required, e.g. C7.  This is ok if chord changes only occur on note starts. The other way is to create a voice specially for chords. You can then enter the actual chords as music notation and they will typeset as chord names.&quot;)"/>
     <button label="Cdim G ..." _tooltip="Attach a chord symbol to the note at the cursor position. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation" script="(d-EditChords)"/>
     <button label="Staff" _tooltip="The current staff becomes a chord symbol staff. The music on this staff will be typeset as chord symbols. Normally you will make this staff a voice on the melody staff, so that the chord symbols print on the melody staff." script="(d-ChordStaff)"/>
+  </palette>
+  <palette _name="Midi Import" row-wise="1" limit="1" dock="0" hidden="0">
+    <button label=" &#x2B05; MIDI" _tooltip="Opens a MIDI file for transcribing. Load each track in turn and insert the MIDI notes by playing the durations." script="(d-GuidedMidiImport)"/>
+    <button label="|&#x2B27;&#x2B27;&#x2B27;&#x2B27;|&#x2B27;&#x2B27;&#x2B27;&#x2B27;|&#x2B27;&#x2B27;&#x2B27;&#x2B27;|" _tooltip="Creates a staff at the top of this score from the imported MIDI using tempo and time signature information (if present). The measures are filled with drum beats so that pitches in the MIDI tracks can be displayed above them. When you have finished the import you can delete this staff." script="(d-CreateClickStaffForMidi)"/>
+    <button label="    &#x1D11E; &#10;&#x2B05; &#x1D11E;  &#10;    &#x1D11E; &#10;" _tooltip="Creates a staff below the click track for the MIDI track selected. The staff is empty except for time signature and tempo changes. The MIDI pitches from the track are displayed above the click track and notes can be inserted by double-clicking on a MIDI pitch and entering the rhythm." script="(d-LoadMidiTrack)"/>
   </palette>
 </Denemo>
