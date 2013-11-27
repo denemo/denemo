@@ -40,8 +40,8 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
 	  cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, 0.5);
 	  
 	  
-      cairo_rectangle (cr, xx, y - 8, 2, STAFF_HEIGHT + 16);
-      cairo_arc (cr, xx + 1.5, y - 8, 6, 0.0, 2 * M_PI);
+      cairo_rectangle (cr, xx, y - 28, 2, STAFF_HEIGHT + 26);
+      cairo_arc (cr, xx + 1.5, y - 28, 6, 0.0, 2 * M_PI);
 
       cairo_fill (cr);
     }
