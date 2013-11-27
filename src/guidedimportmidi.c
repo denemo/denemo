@@ -299,7 +299,7 @@ DenemoRecording *recording = Denemo.gui->si->recording;
 							smf_tempo_t *tempo = smf_get_tempo_by_seconds (smf, event->time_seconds);
 							double spqn = (tempo? tempo->microseconds_per_quarter_note/1000000.0: 60.0/Denemo.gui->si->tempo);
 							guess_note_length((next->time_seconds - event->time_seconds)/spqn, &note->duration, &note->dots);
-							g_print("spqn %f dur %f %d %d\n", spqn, (next->time_seconds - event->time_seconds), note->duration, note->dots);
+							//g_print("spqn %f dur %f %d %d\n", spqn, (next->time_seconds - event->time_seconds), note->duration, note->dots);
 							break;
 						}
 					  }
