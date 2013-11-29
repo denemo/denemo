@@ -28,4 +28,5 @@ smf_tempo_t *get_recorded_midi_tempo (gint index);
 gdouble get_recorded_midi_duration (void);
 smf_tempo_t *get_recorded_midi_tempo (gint index);
 gint get_imported_midi_track (gint track);
+gint get_current_midi_track (void);
 #endif

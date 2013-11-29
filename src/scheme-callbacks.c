@@ -2460,6 +2460,16 @@ scheme_get_imported_midi_track (SCM index)
  return SCM_BOOL_F;
 }
 SCM
+scheme_get_current_midi_track (void)
+{
+gint track = get_current_midi_track();
+  if(track)
+	return scm_from_int (track);
+  return SCM_BOOL_F;
+}
+
+
+SCM
 scheme_get_imported_midi_tracks (void)
 { gint num = get_imported_midi_tracks ();
 	if(num<0)

@@ -167,7 +167,14 @@
   </palette>
   <palette _name="Midi Import" row-wise="1" limit="1" dock="0" hidden="0">
     <button label=" &#x2B05; MIDI" _tooltip="Opens a MIDI file for transcribing. Load each track in turn and insert the MIDI notes by playing the durations." script="(d-GuidedMidiImport)"/>
-    <button label="|&#x2B27;&#x2B27;&#x2B27;&#x2B27;|&#x2B27;&#x2B27;&#x2B27;&#x2B27;|&#x2B27;&#x2B27;&#x2B27;&#x2B27;|" _tooltip="Creates a staff at the top of this score from the imported MIDI using tempo and time signature information (if present). The measures are filled with drum beats so that pitches in the MIDI tracks can be displayed above them. When you have finished the import you can delete this staff." script="(d-CreateClickStaffForMidi)"/>
+    <button label="  &#x1D11E;  c &#x2B27;&#x2B27;&#x2B27;&#x2B27;|&#x2B27;&#x2B27;&#x2B27;&#x2B27;|&#xBE;&#x2B27;&#x2B27;&#x2B27;|" _tooltip="Creates a staff at the top of this score from the imported MIDI using tempo and time signature information (if present). The measures are filled with drum beats so that pitches in the MIDI tracks can be displayed above them. When you have finished the import you can delete this staff." script="(d-CreateClickStaffForMidi)"/>
     <button label="    &#x1D11E; &#10;&#x2B05; &#x1D11E;  &#10;    &#x1D11E; &#10;" _tooltip="Creates a staff below the click track for the MIDI track selected. The staff is empty except for time signature and tempo changes. The MIDI pitches from the track are displayed above the click track and notes can be inserted by double-clicking on a MIDI pitch and entering the rhythm." script="(d-LoadMidiTrack)"/>
+    <button label="&#x2B06;" _tooltip="Creates a staff for the imported MIDI track previous to the current one, making that the current one." script="(d-PreviousMidiTrack)"/>
+    <button label="&#x2B07;" _tooltip="Creates a staff for the next MIDI track after the current one, making that the current one." script="(d-NextMidiTrack)"/>
+    <button label="&amp;lt;&amp;lt;" _tooltip="The first recorded or imported MIDI note onset in the current track becomes marked so that entered durations will be given its pitch." script="(d-FirstNoteOnset)"/>
+    <button label="&#x2B1B;" _tooltip="Removes the mark from the MIDI note onset, so that inserting durations have their normal meaning." script="(d-UnmarkNoteOnset)"/>
+    <button label="&amp;lt;" _tooltip="Moves the marked MIDI note onset to the one before the current one." script="(d-PreviousNoteOnset)"/>
+    <button label="&amp;gt;" _tooltip="Moves to the next MIDI note onset in the current recorded or imported MIDI track. Inserted durations will take their pitch from this note." script="(d-NextNoteOnset)"/>
+    <button label="&#x2714;" _tooltip="Inserts the marked MIDI note from the current track, using the duration suggested. Use duration keys to insert the same note with a different duration." script="(d-InsertMarkedMidi)"/>
   </palette>
 </Denemo>

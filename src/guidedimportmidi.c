@@ -27,7 +27,7 @@
 
 
 static smf_t *smf = NULL;
-
+static current_track = 0;
 
 #define TEXT			0x01
 #define COPYRIGHT		0X02
@@ -336,6 +336,7 @@ readtrack (gint track)
       Denemo.gui->si->recorded_midi_track = selected_track;
       compute_midi_note_durations (); //fills Denemo.gui->si->recording->notes with the note durations
       ((smf_track_t *)Denemo.gui->si->recorded_midi_track)->smf = NULL; // we detach this track from smf, so it can be attached to the playback smf; we cannot use smf while this is done, as it thinks it still owns the track.	  
+	current_track = track;
     }
    else
 	ret = -1;
@@ -359,6 +360,11 @@ gint get_imported_midi_tracks (void) {
 	else
 		return -1;
 }
+gint get_current_midi_track (void) {
+		return current_track;
+}
+
+
 smf_tempo_t *get_recorded_midi_tempo (gint index)
 {
 	ensure_smf ();
