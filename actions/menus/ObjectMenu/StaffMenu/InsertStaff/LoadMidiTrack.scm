@@ -9,4 +9,5 @@
 		(set! n (string->number n))
 		(while (d-MoveToStaffUp))
 		(d-NewStructuredStaff)
-		(d-GetImportedMidiTrack n))))
+		(d-GetImportedMidiTrack n)
+		(d-AdvanceMarkedMidi 0))))

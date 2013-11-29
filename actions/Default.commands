@@ -6106,6 +6106,48 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Open Source MIDI</_label>
         <_tooltip>Opens a MIDI file for transcribing. Load each track in turn and insert the MIDI notes by playing the durations.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>NextNoteOnset</action>
+        <after>DenemoLink</after>
+        <menupath>/MainMenu/NavigationMenu/MIDI</menupath>
+        <_label>Next Note Onset</_label>
+        <_tooltip>Moves to the next MIDI note onset in the current recorded or imported MIDI track. Inserted durations will take their pitch from this note.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>PreviousNoteOnset</action>
+        <after>NextNoteOnset</after>
+        <menupath>/MainMenu/NavigationMenu/MIDI</menupath>
+        <_label>Previous Note Onset</_label>
+        <_tooltip>Moves the marked MIDI note onset to the one before the current one.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>FirstNoteOnset</action>
+        <after>PreviousNoteOnset</after>
+        <menupath>/MainMenu/NavigationMenu/MIDI</menupath>
+        <_label>First Note Onset</_label>
+        <_tooltip>The first recorded or imported MIDI note onset in the current track becomes marked so that entered durations will be given its pitch.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>UnmarkNoteOnset</action>
+        <after>FirstNoteOnset</after>
+        <menupath>/MainMenu/NavigationMenu/MIDI</menupath>
+        <_label>Un-mark Note Onsets</_label>
+        <_tooltip>Removes the mark from the MIDI note onset, so that inserting durations have their normal meaning.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>InsertMarkedMidi</action>
+        <after>Tremolo</after>
+        <menupath>/ObjectMenu/NotesRests/MIDI</menupath>
+        <_label>Insert Marked MIDI</_label>
+        <_tooltip>Inserts the marked MIDI note from the current track, using the duration suggested. Use duration keys to insert the same note with a different duration.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SelectMidiImportStrategy</action>
+        <after>Import-MusicXml</after>
+        <menupath>/MainMenu/FileMenu/Import</menupath>
+        <_label>Import MIDI</_label>
+        <_tooltip>Import Music from a MIDI file, either guided or (in simple cases) automatically.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

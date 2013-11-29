@@ -9,7 +9,7 @@
 #include "playback.h"
 #include "audiointerface.h"
 #include "generated/scheme_cb.h"
-
+#include "guidedimportmidi.h"
 SCM 
 scheme_call_callback (SCM optional, callback_function callback) {
   gboolean query=FALSE;
@@ -164,9 +164,9 @@ scheme_show_palettes (SCM option)
 				if(pal)
 				{
 					gtk_widget_show (gtk_widget_get_parent(pal->box));
-					if(gtk_widget_get_visible (pal->box))
-						gtk_widget_hide (pal->box);
-					else
+					//if(gtk_widget_get_visible (pal->box))
+					//	gtk_widget_hide (pal->box);
+					//else
 						gtk_widget_show_all (pal->box);
 					return SCM_BOOL_T;
 				}
@@ -2467,9 +2467,13 @@ scheme_get_imported_midi_tracks (void)
 	else
 		return scm_from_int (num);
 }
+
+
+
+
 SCM
 scheme_get_recorded_midi_duration (void) {
-	gdouble duration = get_recorded_midi_duration ();
+	gdouble duration = get_recorded_midi_duration (); g_print("Duration returned %f so %d\n", duration, duration>0.0);
 	if (duration > 0.0)
 		return scm_from_double (duration);
 	return SCM_BOOL_F;
@@ -4378,21 +4382,55 @@ scheme_get_marked_midi_note (void)
  }
  return scm;
 }
+
+
+
 SCM
-scheme_advance_marked_midi (void)
+scheme_advance_marked_midi (SCM advance)
 {
  SCM scm = SCM_BOOL_F;
  DenemoGUI *gui = Denemo.gui;
  DenemoScore *si = gui->si;
- if(si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->marked_onset) {
-	 si->marked_onset = si->marked_onset->next;
-	 if(si->marked_onset)
-		scm = SCM_BOOL_T;
+ if(si->recording && (si->recording->type == DENEMO_RECORDING_MIDI))
+ {
+   if (SCM_UNBNDP(advance))
+	{
+		if(si->marked_onset)
+			si->marked_onset = si->marked_onset->next;
+	}
+  else if (scm_is_integer (advance))
+	{
+		gint i = scm_to_int (advance);
+		if(i>0)
+			{
+				while(i-- && si->marked_onset)
+					si->marked_onset = si->marked_onset->next;
+			}
+		else if (i<0)
+		{
+			while(i++ && si->marked_onset)
+					si->marked_onset = si->marked_onset->prev;
+		}
+		else
+			si->marked_onset = si->recording->notes;
+		
+	}
+	else if (scm_is_false (advance))
+		{
+		si->marked_onset = NULL;
+		return SCM_BOOL_T;
+		}
+	if(si->marked_onset)
+			scm = SCM_BOOL_T;
  }
+
  return scm;
 }
 
-
+SCM scheme_insert_marked_midi_note (void)
+{
+	return SCM_BOOL (insert_marked_midi_note ());
+}
 
 typedef struct cb_scheme_and_id
 {

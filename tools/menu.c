@@ -505,7 +505,7 @@ struct name_and_function denemo_commands[] = {
   {NULL, "Menu:\\nDeleting notes, measures staffs keysigs etc", N_("Delete"), NULL, N_("Delete")},
   {NULL, "Menu:\\nBeaming - controlling which notes are beamed together", N_("Beaming"), NULL, N_("Beaming")},
   {NULL, "Menu:\\nFor making directives apply only to one score layout or be omitted from one score layout", N_("Conditional Directives"), NULL, N_("Conditional Directives")},
-  {NULL, "Menu:\\nFor issuing MIDI instructions during playback at the time indicated by the current cursor position.", N_("MIDI"), NULL, N_("Insert MIDI")},
+  {NULL, "Menu:\\nFor issuing MIDI instructions during playback at the time indicated by the current cursor position.", N_("MIDI"), NULL, N_("MIDI")},
   {NULL, "Menu:\\nChoose between different ways of entering notes from the computer keyboard.", N_("Keyboard"), NULL, N_("PC Keyboard")},
   {NULL, "Menu:\\nChoose between different ways of using the mouse.", N_("Mouse"), NULL, N_("Mouse")},
   {NULL, "Menu:\\nTransposing the score when typesetting.", N_("PrintTranspositions"), NULL, N_("Print Transposed")},

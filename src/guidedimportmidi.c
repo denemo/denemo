@@ -367,12 +367,55 @@ smf_tempo_t *get_recorded_midi_tempo (gint index)
 	else return NULL;
 }
 
+
+
+
+double
+my_smf_get_length_seconds(const smf_t *smf)
+{
+	int i;
+	double seconds = 0.0;
+
+	for (i = 1; i <= smf->number_of_tracks; i++) {
+		smf_track_t *track;
+		smf_event_t *event;
+
+	       	track = smf_get_track_by_number(smf, i);
+		assert(track);
+
+		event = smf_track_get_last_event(track);
+		/* Empty track? */
+		if (event == NULL)
+			continue;
+//g_print("my seconds %f\n", event->time_seconds );
+		if (event->time_seconds > seconds)
+			seconds = event->time_seconds;
+	}
+
+	return (seconds);
+}
+
 gdouble get_recorded_midi_duration (void)
 {
 	ensure_smf ();
-	if(smf)
-		return smf_get_length_seconds (smf);
-	else return 0.0;
+	if(smf) {
+#if 0
+		double val1, val2;
+		val1 = smf_get_length_seconds (smf);
+		val2 = my_smf_get_length_seconds (smf);
+		if((int)val1 != (int)val2)
+			g_critical ("Call to smf_get_length_seconds has yielded bad value: %f should be %f\n", val1, val2);
+		return val2;
+#else
+		//return smf_get_length_seconds (smf);
+		g_print("my value %f\n", my_smf_get_length_seconds (smf));
+		double val = smf_get_length_seconds (smf);
+		//g_print("smf val %f\n", val);
+		return val;
+#endif
+	}
+	else 
+	return 0.0;
 }
 
 

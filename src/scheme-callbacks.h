@@ -202,7 +202,10 @@ SCM scheme_toggle_playalong (void);
 SCM scheme_toggle_conduct (void);
 SCM scheme_midi_record (void);
 SCM scheme_get_marked_midi_note (void);
-SCM scheme_advance_marked_midi (void);
+SCM scheme_mark_first_note_onset (void);
+SCM scheme_advance_marked_midi (SCM amount);
+SCM scheme_insert_marked_midi_note (void);
+
 SCM scheme_create_timebase (SCM);
 SCM scheme_put_midi (SCM);
 SCM scheme_output_midi (SCM);

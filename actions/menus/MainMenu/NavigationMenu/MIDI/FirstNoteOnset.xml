@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>FirstNoteOnset</action>
+        <after>PreviousNoteOnset</after>
+        <_label>First Note Onset</_label>
+        <_tooltip>The first recorded or imported MIDI note onset in the current track becomes marked so that entered durations will be given its pitch.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
