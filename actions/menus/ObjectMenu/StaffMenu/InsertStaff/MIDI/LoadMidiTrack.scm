@@ -1,13 +1,23 @@
 ;;;;LoadMidiTrack
-(let ((n "1"))
+(let ((n "1")(max (d-GetImportedMidiTracks)))
+  (if max
+     (begin
 	(if LoadMidiTrack::params
 		(set! n LoadMidiTrack::params)
 		(begin
-			(set! n (d-GetUserInput (_ "MIDI Track Selection") (_ "Select track to import") "1"))))
+			(set! n (d-GetUserInput (_ "MIDI Track Selection") 
+			(string-append (_ "Select track to import") "1 - " (number->string max) ":")
+			
+			 "1"))))
 	(if n
 		(begin
 		(set! n (string->number n))
-		(while (d-MoveToStaffUp))
-		(d-NewStructuredStaff)
-		(d-GetImportedMidiTrack n)
-		(d-AdvanceMarkedMidi 0))))
+		(if (and (<= n max) (> n 0))
+		   (begin
+			(while (d-MoveToStaffUp))
+			(d-NewStructuredStaff)
+			(d-GetImportedMidiTrack n)
+			(d-AdvanceMarkedMidi 0))
+		  (d-WarningDialog (_ "Out of range"))))
+		  (d-InfoDialog (_ "Cancelled"))))
+         (d-WarningDialog (_ "No MIDI file loaded"))))

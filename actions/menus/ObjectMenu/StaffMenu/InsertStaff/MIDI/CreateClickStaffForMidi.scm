@@ -1,4 +1,5 @@
 ;;;CreateClickStaffForMidi
+(if  (d-GetImportedMidiTracks)
 (let ()
  (define (writeBar numerator denominator)
     (let loop ((count numerator))
@@ -21,7 +22,7 @@
 			(if (or (not old_tempo) (not (equal? (list-ref tempo 3) (list-ref old_tempo 3))))
 				(let ((tag "MetronomeMark")(bpm (* 60 (/ 1 (list-ref tempo 3)))))
 					(d-DirectivePut-standalone tag)
-				    (d-DirectivePut-standalone-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
+				       (d-DirectivePut-standalone-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
 					(d-DirectivePut-standalone-midibytes tag (number->string bpm))
 					(d-DirectivePut-standalone-display tag (string-append  (number->string (round bpm)) " = 𝅘𝅥 "  ))
 					(d-DirectivePut-standalone-minpixels tag 30)
@@ -41,7 +42,9 @@
 	(define next-tempo #f)
 	(define old_tempo #f)
 	;;; the procedure
-	(d-MasterVolume 0)	
+	(d-MasterVolume 0)
+	(d-AddInitial)
+	(d-StaffProperties "denemo_name=Click")
 	(let loop ((count 0))
 		(set! tempo (d-GetRecordedMidiTempo count))
 		(set! next-tempo #f)
@@ -62,3 +65,4 @@
 			(loop (1+ count))))
 	(d-MasterVolume old_volume)		
 	(d-HighlightCursor old_highlight))
+(d-WarningDialog (_ "No MIDI file loaded")))
