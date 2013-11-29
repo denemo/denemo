@@ -1008,6 +1008,10 @@
         <action>DottedRhythmSlurred</action>
         <bind>Ctrl+KP_9</bind>
       </row>
+      <row>
+        <action>Import-Midi</action>
+        <hidden>true</hidden>
+      </row>
     </map>
   </merge>
 </Denemo>
