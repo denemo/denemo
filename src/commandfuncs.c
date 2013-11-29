@@ -1542,9 +1542,22 @@ insertion_point (DenemoScore * si)
    * jump to the next measure. (Denemo will implicitly create it
    * if it doesn't exist already.) */
 
-  next_measure = si->cursoroffend && si->cursor_appending && (!si->currentmeasure->next || !si->currentmeasure->next->data);
-#define g_debug g_print
+ // next_measure = si->cursoroffend && si->cursor_appending && ( (!si->currentmeasure->next) || (!si->currentmeasure->next->data) ||
+//						 ((((DenemoObject *)si->currentmeasure->next->data)->type == TIMESIG)	&& 	((si->currentmeasure->next->next==NULL) || (si->currentmeasure->next->next->data==NULL))));
   //g_debug ("next_measure %d\n", next_measure);
+  next_measure = FALSE;
+  if(si->cursoroffend && si->cursor_appending) {
+	 if ( (!si->currentmeasure->next) || (!si->currentmeasure->next->data))
+	  next_measure = TRUE;
+	 else 
+		{
+			objnode *objnode = si->currentmeasure->next->data;
+			DenemoObject *obj = objnode->data;
+			if ((obj->type == TIMESIG) && (objnode->next==NULL))
+				next_measure = TRUE;	 	 
+		}
+  }
+  
   if (next_measure)
     {
       if (!si->currentmeasure->next)
@@ -1565,6 +1578,11 @@ insertion_point (DenemoScore * si)
       si->currentmeasurenum++;
       si->currentobject = (objnode *) si->currentmeasure->data;
       si->cursor_x = 0;
+      if(si->currentobject && (((DenemoObject *)si->currentobject->data)->type == TIMESIG))
+		{
+			si->currentobject = si->currentobject->next;
+			si->cursor_x++;
+		}
       memcpy (si->cursoraccs, si->nextmeasureaccs, SEVENGINTS);
       memcpy (si->curmeasureaccs, si->nextmeasureaccs, SEVENGINTS);
       si->curmeasureclef = si->cursorclef;
@@ -1646,6 +1664,22 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode, gboolean rest)
     }
 }
 
+gboolean
+insert_marked_midi_note (void)
+{
+	DenemoScore *si = Denemo.gui->si;
+	gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->marked_onset;
+
+	if(inserting_midi && si->marked_onset && si->marked_onset->data)
+		{ 
+			gint dots;
+			DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;//FIXME look at marked_onset->prev to see if we should add to a chord
+			dnm_insertchord (Denemo.gui, midinote->duration, INPUTNORMAL, FALSE);
+			changenumdots (si->currentobject->data, midinote->dots);			
+			return TRUE;
+		}
+return FALSE;
+}
 /**
  * Insert tuplet into the score
  * @param si pointer to the scoreinfo structure
