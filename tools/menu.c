@@ -502,7 +502,7 @@ struct name_and_function denemo_commands[] = {
   {NULL, "Customized LilyPond inserts. Store often-used inserts here labelled with what they do", N_("Favorites"), NULL, N_("Favorites")},
   {NULL, "Menu:\\nAdd a custom LilyPond insert to favorites menu", N_("AddFavorite"), NULL, N_("Add Favorite")},
   {NULL, "Menu:\\nEntering triplets and other tuplets", N_("Tuplets"), NULL, N_("Tuplets")},
-  {NULL, "Menu:\\nDeleting notes, measures staffs keysigs etc", N_("Delete"), NULL, N_("Delete")},
+  {NULL, "Menu:\\nDeleting notes, measures, staffs, key signatures as well as meta-objects such as imported MIDI or audio recordings.", N_("Delete"), NULL, N_("Delete")},
   {NULL, "Menu:\\nBeaming - controlling which notes are beamed together", N_("Beaming"), NULL, N_("Beaming")},
   {NULL, "Menu:\\nFor making directives apply only to one score layout or be omitted from one score layout", N_("Conditional Directives"), NULL, N_("Conditional Directives")},
   {NULL, "Menu:\\nFor issuing MIDI instructions during playback at the time indicated by the current cursor position.", N_("MIDI"), NULL, N_("MIDI")},
@@ -541,6 +541,7 @@ struct name_and_function denemo_commands[] = {
 
   {NULL, "Menu:\\nCommands for working with the musical object hierarchy.", N_("ObjectMenu"), NULL, N_("Object Menu")},
   {NULL, "Menu:\\nThe top level commands for operating Denemo.", N_("MainMenu"), NULL, N_("Main Menu")},
+
 
 
 };
