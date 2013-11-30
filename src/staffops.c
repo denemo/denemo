@@ -247,7 +247,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action, DenemoContext con
       thestaffstruct->no_of_lines = 5;
       thestaffstruct->transposition = 0;
 
-      thestaffstruct->space_above = 0;
+      thestaffstruct->space_above = 20;
       thestaffstruct->space_below = 0;
       thestaffstruct->nummeasures = 1;
       thestaffstruct->midi_channel = 0;
