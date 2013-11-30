@@ -123,15 +123,16 @@
 
       
       <menuitem action="PasteClipboard"/>
-      <separator/>
-      <menuitem action="DeletePreviousObject"/>
+      <menu action="Delete">
+		<menuitem action="DeletePreviousObject"/>
+		<menuitem action="ClearOverlay"/>
+      </menu>
       <separator/>
       <menuitem action="EditObject"/>
       <separator/>
       <menuitem action="Preferences"/>
       <menuitem action="QuickEdits"/>
-      <separator/>
-      <menuitem action="ClearOverlay"/>
+      <separator/>    
       <menuitem action="ExecuteScheme"/>
     </menu>
     <menu action="ViewMenu">
