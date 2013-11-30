@@ -400,7 +400,7 @@
 {"Favorites", NULL, N_("Favorites"), "",N_("Customized LilyPond inserts. Store often-used inserts here labelled with what they do")},
 {"AddFavorite", NULL, N_("Add Favorite"), "",N_("Menu:\nAdd a custom LilyPond insert to favorites menu")},
 {"Tuplets", NULL, N_("Tuplets"), "",N_("Menu:\nEntering triplets and other tuplets")},
-{"Delete", NULL, N_("Delete"), "",N_("Menu:\nDeleting notes, measures staffs keysigs etc")},
+{"Delete", NULL, N_("Delete"), "",N_("Menu:\nDeleting notes, measures, staffs, key signatures as well as meta-objects such as imported MIDI or audio recordings.")},
 {"Beaming", NULL, N_("Beaming"), "",N_("Menu:\nBeaming - controlling which notes are beamed together")},
 {"Conditional Directives", NULL, N_("Conditional Directives"), "",N_("Menu:\nFor making directives apply only to one score layout or be omitted from one score layout")},
 {"MIDI", NULL, N_("MIDI"), "",N_("Menu:\nFor issuing MIDI instructions during playback at the time indicated by the current cursor position.")},

@@ -1442,6 +1442,23 @@ void highlight_audio_record(void) {
   gtk_button_set_image (GTK_BUTTON (audiorecordbutton),
     gtk_image_new_from_stock (on?GTK_STOCK_MEDIA_RECORD:GTK_STOCK_MEDIA_STOP, GTK_ICON_SIZE_BUTTON));
 }
+
+void delete_recording (void) {
+	 //FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
+  if (Denemo.gui->si->recording)
+    {
+      DenemoRecording *temp = Denemo.gui->si->recording;
+      g_static_mutex_lock (&smfmutex);
+      Denemo.gui->si->recording = NULL;
+      g_static_mutex_unlock (&smfmutex);
+      if (temp->sndfile)
+		sf_close (temp->sndfile);
+      g_free (temp->filename);
+      g_list_free_full(temp->notes, g_free);
+      g_free (temp);
+      Denemo.gui->si->recording = NULL;
+    }	
+}
 static void
 pb_midi_delete (GtkWidget * button)
 {
@@ -1455,6 +1472,9 @@ pb_midi_delete (GtkWidget * button)
 	}
   track_delete (Denemo.gui->si->recorded_midi_track);
   Denemo.gui->si->recorded_midi_track = NULL;
+  
+  delete_recording ();
+#if 0
   if (recording)
 	{
 	 g_free(recording->filename);
@@ -1465,6 +1485,7 @@ pb_midi_delete (GtkWidget * button)
 	
 	Denemo.gui->si->recording = NULL;
 	}
+#endif
   gtk_widget_hide (convertbutton);
   gtk_widget_hide (button);
   gtk_widget_queue_draw(Denemo.scorearea);

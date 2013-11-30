@@ -158,6 +158,7 @@ create_scheme_identfiers (void)
   install_scm_function (1, "Takes an integer, Sets the number of ticks (PPQN) for the object at the cursor, returns #f if none; if the object is a chord it is set undotted", DENEMO_SCHEME_PREFIX "SetDurationInTicks", scheme_set_duration_in_ticks);
   install_scm_function (1, "Takes an index, returns the time in seconds, time signature and tempo in seconds per quarter note of the index'th MIDI tempo event in the recorded MIDI stream.", DENEMO_SCHEME_PREFIX "GetRecordedMidiTempo", scheme_get_recorded_midi_tempo);
   install_scm_function (1, "Takes an track number 1,2 ..., makes that MIDI track of the loaded MIDI stream the current recorded track.", DENEMO_SCHEME_PREFIX "GetImportedMidiTrack", scheme_get_imported_midi_track);
+  install_scm_function (0, "Delete the current imported track.", DENEMO_SCHEME_PREFIX "DeleteImportedMidi", scheme_delete_imported_midi);
   install_scm_function (0, "Returns the MIDI track number of the current imported track.", DENEMO_SCHEME_PREFIX "GetCurrentMidiTrack", scheme_get_current_midi_track);
   install_scm_function (0, "Returns the number of MIDI tracks of the loaded/recorded MIDI.", DENEMO_SCHEME_PREFIX "GetImportedMidiTracks", scheme_get_imported_midi_tracks);
   install_scm_function (0, "Returns the duration in seconds of the recorded MIDI track or #f if none", DENEMO_SCHEME_PREFIX "GetRecordedMidiDuration", scheme_get_recorded_midi_duration);

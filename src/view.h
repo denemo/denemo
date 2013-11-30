@@ -123,6 +123,7 @@ GtkWidget* get_conduct_button();
 GtkWidget* get_record_button();
 
 void destroy_local_scheme_init (void);
+void delete_recording (void);
 void pb_playalong (GtkWidget * button);
 void pb_record (GtkWidget * button);
 void pb_conduct (GtkWidget * button);

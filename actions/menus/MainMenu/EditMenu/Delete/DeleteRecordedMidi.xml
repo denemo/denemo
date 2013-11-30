@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>DeleteRecordedMidi</action>
+        <after>DeletePreviousObject</after>
+        <_label>Delete Imported/Recorded Midi</_label>
+        <_tooltip>Deletes the MIDI that has been imported or recorded via MIDI in.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

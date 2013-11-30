@@ -1,0 +1,2 @@
+;;;DeleteMidiRecording
+(d-DeleteImportedMidi)

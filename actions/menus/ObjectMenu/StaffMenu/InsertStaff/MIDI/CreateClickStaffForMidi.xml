@@ -8,7 +8,7 @@
         <action>CreateClickStaffForMidi</action>
         <after>NewStructuredStaff</after>
         <_label>Create Click Track Staff</_label>
-        <_tooltip>Creates a staff at the top of this score from the imported MIDI using tempo and time signature information (if present). The measures are filled with drum beats so that pitches in the MIDI tracks can be displayed above them. When you have finished the import you can delete this staff.</_tooltip>
+        <_tooltip>Creates a staff (a click track) at the top of this score from the imported MIDI file, using tempo and time signature information (if present). The measures are filled with drum beats so that pitches in the MIDI tracks can be displayed above them. When you have finished the import you can delete this staff.</_tooltip>
       </row>
     </map>
   </merge>

@@ -424,10 +424,7 @@ gdouble get_recorded_midi_duration (void)
 	return 0.0;
 }
 
-
-gint
-guidedImportMidi (gchar * filename)
-{
+void delete_imported_midi (void) {
   if (smf) 
 	{ 
 	gint track=1;
@@ -435,9 +432,16 @@ guidedImportMidi (gchar * filename)
 			smf_get_track_by_number (smf, track)->smf = smf;
 	smf_delete (smf);
 	smf = NULL;
+	current_track = 0;
 	}
   Denemo.gui->si->recorded_midi_track = NULL;
- 
+  delete_recording ();
+}
+
+gint
+guidedImportMidi (gchar * filename)
+{
+  delete_imported_midi ();
   /* load the file */
   smf = cmd_load (filename);
   if (!smf)

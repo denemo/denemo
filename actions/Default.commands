@@ -6161,6 +6161,13 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Load Next Midi Track</_label>
         <_tooltip>Creates a staff for the next MIDI track after the current one, making that the current one.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>DeleteRecordedMidi</action>
+        <after>DeletePreviousObject</after>
+        <menupath>/MainMenu/EditMenu/Delete</menupath>
+        <_label>Delete Imported/Recorded Midi</_label>
+        <_tooltip>Deletes the MIDI that has been imported or recorded via MIDI in.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

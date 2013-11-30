@@ -2459,6 +2459,14 @@ scheme_get_imported_midi_track (SCM index)
 		}
  return SCM_BOOL_F;
 }
+
+SCM
+scheme_delete_imported_midi (void)
+{
+  delete_imported_midi ();
+  return SCM_BOOL_T;
+}
+
 SCM
 scheme_get_current_midi_track (void)
 {

@@ -202,20 +202,8 @@ open_source_audio (gchar * filename)
   DenemoRecording *temp;
   sfinfo.format = 0;
 
-
-  //FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
-  if (Denemo.gui->si->recording )
-    {
-      temp = Denemo.gui->si->recording;
-      g_static_mutex_lock (&smfmutex);
-      Denemo.gui->si->recording = NULL;
-      g_static_mutex_unlock (&smfmutex);
-      if (temp->sndfile)
-		sf_close (temp->sndfile);
-      g_free (temp->filename);
-      g_list_free_full(temp->notes, g_free);
-      g_free (temp);
-    }
+  delete_recording();
+ 
   if (filename)
     {
       gpointer sndfile = sf_open (filename, SFM_READ, &sfinfo);
