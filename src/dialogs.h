@@ -32,7 +32,6 @@ void timesig_change (DenemoGUI * gui, actiontype action);
 
 void score_mwidth_change (GtkAction * action, gpointer callback_data);
 
-void score_staffspace_change (GtkAction * action, gpointer callback_data);
 
 
 

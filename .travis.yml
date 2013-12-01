@@ -3,7 +3,8 @@ env:
   matrix:
   - COMPILER=gcc TEST=integration
   - COMPILER=clang TEST=integration
-  - COMPILER=gcc TEST=dist
+  - COMPILER=gcc TEST=coverage
+  - COMPILER=gcc TEST=install
 script:
 - tools/travis/run-script.sh
 before_install:

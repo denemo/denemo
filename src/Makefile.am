@@ -44,7 +44,6 @@ denemo_SOURCES = denemo_types.c \
 	drawlilydir.c lilydirectives.h lilydirectives.c displayanimation.c displayanimation.h keysigdialog.h \
 	generated/entries.h \
 	generated/scheme_cb.h generated/scheme.h generated/register_commands.h \
-	pathconfig.h \
 	midi.c audiocapture.c audiocapture.h \
 	audiointerface.h eventqueue.h dummybackend.h portaudiobackend.h \
 	portmidibackend.h midi.h ringbuffer.h portaudioutil.h \
@@ -52,6 +51,7 @@ denemo_SOURCES = denemo_types.c \
   keymapio.c keymapio.h \
   scheme-identifiers.c scheme-identifiers.h \
   scheme-callbacks.h scheme-callbacks.c
+nodist_denemo_SOURCES = pathconfig.h
 
 if WITH_X11
   denemo_SOURCES += screenshot.c screenshot.h
@@ -75,22 +75,28 @@ libaudiobackend_a_SOURCES += alsabackend.c alsabackend.h
 libaudiobackend_a_SOURCES += fluid.c fluid.h
 
 
-AM_CPPFLAGS = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
- $(BINRELOC_CFLAGS) \
- $(SMF_INCLUDE) \
- $(PORTMIDI_INCLUDE) \
--I$(top_srcdir)/libsffile \
--I$(top_srcdir)/pixmaps \
--DPREFIX=\"$(prefix)\" \
--DBINDIR=\"$(exec_prefix)/bin\" \
--DLOCALEDIR=\"${LOCALEDIR}\"\
--DSYSCONFDIR=\"$(sysconfdir)/\" \
--DPKGDATADIR=\"$(pkgdatadir)/\" \
--DDATAROOTDIR=\"$(datarootdir)/\" \
--DPKGNAME=\"denemo\" 
+AM_CPPFLAGS = \
+   $(BINRELOC_CFLAGS) \
+   $(PORTMIDI_INCLUDE) \
+  -I$(top_srcdir)/intl \
+  -I$(top_srcdir)/include \
+  -I$(top_srcdir)/libsffile \
+  -I$(top_srcdir)/pixmaps \
+  -DPREFIX=\"$(prefix)\" \
+  -DBINDIR=\"$(exec_prefix)/bin\" \
+  -DLOCALEDIR=\"${LOCALEDIR}\"\
+  -DSYSCONFDIR=\"$(sysconfdir)/\" \
+  -DPKGDATADIR=\"$(pkgdatadir)/\" \
+  -DDATAROOTDIR=\"$(datarootdir)/\" \
+  -DPKGNAME=\"denemo\" 
 
+denemo_LDADD = $(INTLLIBS) libaudiobackend.a -L$(top_builddir)/libsffile -lsffile
 
-denemo_LDADD = $(INTLLIBS) $(SMF_LDD) libaudiobackend.a ../libsffile/libsffile.a
+if !HAVE_SMF
+  AM_CPPFLAGS += -I$(top_srcdir)/libsmf
+  denemo_LDADD += -L$(top_builddir)/libsmf -lsmf
+endif
+
 
 pathconfig.h:  $(top_builddir)/config.status
 	-@rm pathconfig.tmp 
@@ -98,8 +104,6 @@ pathconfig.h:  $(top_builddir)/config.status
 	@echo '#define DENEMO_LOAD_PATH "@denemo_load_path@"' >pathconfig.tmp
 	@echo '#define DENEMO_BIN_PATH  "@denemo_bin_path@"' >>pathconfig.tmp
 	@mv pathconfig.tmp $@	
-
-
 
 noinst_HEADERS = parseinstruments.h keyboard.h
 

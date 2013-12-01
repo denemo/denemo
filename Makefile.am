@@ -1,33 +1,62 @@
-SUBDIRS = $(WHICH_SMF) tools libsffile build docs actions pixmaps po src \
-	  fonts soundfonts ui tests
+SUBDIRS = \
+  tools \
+  libsffile \
+  libsmf \
+  build \
+  docs \
+  pixmaps \
+  po \
+  src \
+  fonts \
+  soundfonts \
+  ui \
+  tests
 
-INTLTOOL_FILES = intltool-extract.in \
-                 intltool-merge.in \
-                 intltool-update.in
+bin_SCRIPTS = \
+  denemo_file_update.sh
 
-bin_SCRIPTS = denemo_file_update.sh
-EXTRA_DIST = actions/menus docs/DESIGN docs/GOALS @PACKAGE@.spec.in  \
-	     docs/DESIGN.lilypond actions include \
-	     guile-1.8.pc libsmf libsffile \
-	     examples templates denemo_file_update.sh $(INTLTOOL_FILES)
+EXTRA_DIST = \
+  include \
+  actions \
+  templates \
+  examples \
+  @PACKAGE@.spec.in \
+  $(INTLTOOL_FILES) \
+  docs/DESIGN \
+  docs/GOALS \
+  docs/DESIGN.lilypond \
+  intltool-extract.in \
+  intltool-merge.in \
+  intltool-update.in \
+  guile-1.8.pc \
+  denemo_file_update.sh
 
-MAINTAINERCLEANFILES =  Makefile.in aclocal.m4 configure config.h.in \
-	stamp-h.in \
-	config.guess mkinstalldirs \
-	missing install-sh config.sub \
-	acinclude.m4 config.log \
-	depcomp \
+MAINTAINERCLEANFILES = \
+  Makefile.in \
+  aclocal.m4 \
+  configure \
+  config.h.in \
+  stamp-h.in \
+  config.guess \
+  mkinstalldirs \
+  missing \
+  install-sh \
+  config.sub \
+  acinclude.m4 \
+  config.log \
+  depcomp \
   intltool-extract \
   intltool-merge \
   intltool-update \
   po/.intltool-merge-cache \
   $(GETTEXT_PACKAGE)-$(VERSION).pot
 
-DISTCLEANFILES = intltool-extract \
-                 intltool-merge \
-                 intltool-update \
-                 po/.intltool-merge-cache \
-                 po/denemo.pot
+DISTCLEANFILES = \
+  intltool-extract \
+  intltool-merge \
+  intltool-update \
+  po/.intltool-merge-cache \
+  po/denemo.pot
 
 ACLOCAL_AMFLAGS = -I build
 
@@ -39,20 +68,24 @@ install-data-hook:
 	cp -r $(srcdir)/templates ${DESTDIR}/$(datadir)/${PACKAGE}/
 	find $(DESTDIR)$(datadir)/${PACKAGE}/templates -type d -exec chmod 755 '{}' \;
 
+uninstall-hook:
+	rm -rf ${DESTDIR}/$(datadir)/${PACKAGE}/actions
+	rm -rf ${DESTDIR}/$(datadir)/${PACKAGE}/examples
+	rm -rf ${DESTDIR}/$(datadir)/${PACKAGE}/templates
+
 potfile:
 	@rm -f po/POTFILES.in
 	@rm -f po/POTFILES.skip
 	@echo Generating POTFILES...
-	@find src -name '*.c' -o -name '*.h' | sort >> po/POTFILES.in
+	@find src -name '*.c' -o -name '*.h' ! -name 'pathconfig.h' | sort >> po/POTFILES.in
 	@find actions -name '*.xml' -o -name '*.scm' | sort >> po/POTFILES.in
 	@find tools -name '*.c' -o -name '*.h' | sort >> po/POTFILES.skip
+	@find src -name 'pathconfig.h' | sort >> po/POTFILES.skip
 
-pot:potfile
+pot:
 	@echo Generating POT...
 	$(MAKE) -C "$(srcdir)/po" "$(GETTEXT_PACKAGE).pot"
 	cd po && ln -f -s "$(GETTEXT_PACKAGE).pot" "$(GETTEXT_PACKAGE)-$(VERSION).pot"
-	@rm -f po/POTFILES.in
-	@touch po/POTFILES.in
 
 update-po:
 	@echo Get po files from translationproject.org
