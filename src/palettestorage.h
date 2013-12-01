@@ -23,10 +23,10 @@
 #include <gtk/gtk.h>
 #include <denemo/denemo.h>
 #include <string.h>
- 
-
-/* returns palette of given name, returns NULL if none */
 
 gint writePalettes (void);
+/* installs palettes from user's palettes or, failing, from system palettes */
 gint installPalettes (void);
+/* installs palette of given name from the system palettes */
+gint mergePalette (const gchar *name);
 #endif

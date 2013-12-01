@@ -162,6 +162,28 @@ static void install_palette (xmlNodePtr palette)
 				delete_palette (pal);
 			}
 }
+static gint merge_palette (xmlNodePtr palette, const gchar *sought) 
+{
+	gchar *name = (gchar *) xmlGetProp (palette, (xmlChar *) "_name");	
+	gboolean hidden =  getXMLIntProp (palette, (xmlChar *) "hidden");
+	gboolean row_wise =  getXMLIntProp (palette, (xmlChar *) "row-wise");
+	gboolean dock =  getXMLIntProp (palette, (xmlChar *) "dock");
+	gint limit =  getXMLIntProp (palette, (xmlChar *) "limit");
+	if(!strcmp(name, sought))
+	{
+		DenemoPalette *pal = create_palette (name, dock, row_wise);
+		set_palate_shape (name, row_wise, limit);//does gtk_widget_show in repack	
+		installButtons (palette, pal);
+		gtk_widget_show(pal->docked?pal->box:pal->window);
+		if (pal->buttons==NULL)
+			{
+				delete_palette (pal);
+				return -1;
+			}
+		return 0;
+	}
+	return -1;
+}
 gint
 installPalettes (void)
 {
@@ -221,5 +243,59 @@ installPalettes (void)
 }
 
 
+gint
+mergePalette (const gchar *name)
+{
+	gint ret = -1;
+	 xmlDocPtr doc = NULL;
+  xmlNodePtr rootElem;
 
+  gchar *filename = NULL;
+  
+  if (filename == NULL)
+    filename = g_build_filename (get_system_data_dir (), "actions", "palettes.xml", NULL);
+
+  doc = xmlParseFile (filename);
+  if (doc == NULL)
+    {
+      g_warning ("Could not read XML file %s", filename);
+      return -1;
+    }
+
+  rootElem = xmlDocGetRootElement (doc);
+  if (rootElem == NULL)
+    {
+      g_warning ("Empty Document\n");
+      xmlFreeDoc (doc);
+      return -1;
+    }
+
+ // g_print ("RootElem: %s\n", rootElem->name);
+  if (0 != xmlStrcmp (rootElem->name, (xmlChar*) "Denemo"))
+    {
+      g_warning ("Document has wrong type\n");
+      xmlFreeDoc (doc);
+      return -1;
+    }
+
+  rootElem = rootElem->xmlChildrenNode;
+  while (rootElem != NULL)
+	    {
+      if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "palette"))
+        {         
+		  if( 0 == merge_palette (rootElem, name))
+			{
+				ret = 0;
+				break;
+				
+			}
+        }
+      rootElem = rootElem->next;
+    }
+
+  xmlFreeDoc (doc);
+	
+	
+	return ret;
+}
 

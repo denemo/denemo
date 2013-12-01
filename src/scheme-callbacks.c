@@ -161,6 +161,11 @@ scheme_show_palettes (SCM option)
 		   {
 			name = scm_to_locale_string (option);
 			DenemoPalette *pal = get_palette (name);
+				if(pal==NULL)
+				{
+					mergePalette ((const gchar *)name);
+					pal = get_palette (name);			
+				}
 				if(pal)
 				{
 					gtk_widget_show (gtk_widget_get_parent(pal->box));

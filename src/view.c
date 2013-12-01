@@ -1311,7 +1311,7 @@ pb_panic (GtkWidget * button)
 static void
 track_delete (smf_track_t * track)
 {
-  if (track == NULL)
+  if (track == NULL || track->user_pointer)
     return;
   if (track->smf == NULL)
     {
