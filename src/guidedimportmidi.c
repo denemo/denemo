@@ -354,11 +354,10 @@ gint get_imported_midi_track (gint track) {
 		return -1;
 }
 gint get_imported_midi_tracks (void) {
-	ensure_smf ();
 	if(smf)
 		return smf->number_of_tracks;
 	else
-		return -1;
+		return 0;
 }
 gint get_current_midi_track (void) {
 		return current_track;
@@ -430,7 +429,7 @@ void delete_imported_midi (void) {
 	gint track=1;
 	for (track =1; track <= smf->number_of_tracks; track++)
 			smf_get_track_by_number (smf, track)->smf = smf;
-	smf_delete (smf);
+	// FIXME, this crashes with the assertion smf.c:752: smf_get_track_by_number: Assertion `track_number >= 1' failed. in some circumstances.
 	smf = NULL;
 	current_track = 0;
 	}

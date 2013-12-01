@@ -1385,15 +1385,24 @@ gboolean show_midi_record_control(void) {
 void
 pb_record (GtkWidget * button)
 {
-  if(Denemo.gui->si->recording && (Denemo.gui->si->recording->type==DENEMO_RECORDING_AUDIO))
+  if (Denemo.gui->si->recording && (Denemo.gui->si->recording->type==DENEMO_RECORDING_AUDIO))
 	{
-		warningdialog(_("Cannot mix audio and midi recordings"));
+		warningdialog(_("Cannot mix audio and MIDI recordings"));
 		return;
 	}
+	
+  if (get_imported_midi_tracks ())
+	{
+		warningdialog(_("Cannot mix MIDI recordings with imported MIDI - delete imported MIDI first"));
+		return;
+     }
+	
   if (Denemo.gui->si->recorded_midi_track && !confirm (_("MIDI Recording"), _("Delete last recording?")))
     {
       return;
     }
+    
+    
   call_out_to_guile ("(DenemoSetPlaybackStart)");
 
 
@@ -1457,35 +1466,25 @@ void delete_recording (void) {
       g_list_free_full(temp->notes, g_free);
       g_free (temp);
       Denemo.gui->si->recording = NULL;
+      Denemo.gui->si->marked_onset = NULL;
     }	
 }
 static void
 pb_midi_delete (GtkWidget * button)
 {
   DenemoRecording *recording = Denemo.gui->si->recording;
-  if(!recording)
-	return;
-  if(recording->type!=DENEMO_RECORDING_MIDI)
+  if(recording)
 	{
-		g_warning("Cannot delete Audio yet");
-		return;//see sourceaudio.c:222 for deleting audio
+	  if(recording->type!=DENEMO_RECORDING_MIDI)
+		{
+			g_warning("Cannot delete Audio yet");
+			return;//see sourceaudio.c:222 for deleting audio
+		}
+	  track_delete (Denemo.gui->si->recorded_midi_track);
+	  Denemo.gui->si->recorded_midi_track = NULL;
+	  
+	  delete_recording ();
 	}
-  track_delete (Denemo.gui->si->recorded_midi_track);
-  Denemo.gui->si->recorded_midi_track = NULL;
-  
-  delete_recording ();
-#if 0
-  if (recording)
-	{
-	 g_free(recording->filename);
-	 if (recording->notes)
-			{
-			g_list_free_full (recording->notes, g_free);
-			}
-	
-	Denemo.gui->si->recording = NULL;
-	}
-#endif
   gtk_widget_hide (convertbutton);
   gtk_widget_hide (button);
   gtk_widget_queue_draw(Denemo.scorearea);

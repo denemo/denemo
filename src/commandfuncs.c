@@ -1615,7 +1615,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode, gboolean rest)
   mudela_obj_new = newchord (duration, 0, 0);
   if ((mode & INPUTNORMAL) && (rest != TRUE))
     { 
-		if(inserting_midi && si->marked_onset && si->marked_onset->data)
+		if(inserting_midi && si->recording && si->marked_onset && si->marked_onset->data)
 		{ 
 			DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;
 			addtone (mudela_obj_new,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, si->cursorclef);

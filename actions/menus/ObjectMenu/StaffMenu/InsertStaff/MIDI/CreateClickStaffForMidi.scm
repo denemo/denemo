@@ -1,5 +1,4 @@
 ;;;CreateClickStaffForMidi
-(if  (d-GetImportedMidiTracks)
 (let ()
  (define (writeBar numerator denominator)
     (let loop ((count numerator))
@@ -7,6 +6,12 @@
 	  (begin
 	    (eval-string (string-append "(d-" (number->string (duration::lilypond->denemo denominator)) ")"))
 	    (loop (- count 1))))))
+	    
+  (define (writeBars count numer denom)
+	(if (positive? count)
+					(begin					
+						(writeBar numer denom)
+						(writeBars (1- count)  numer denom))))
 	
  (define (writeAllBars duration tempo old_tempo)	
 	(if (and duration tempo)
@@ -28,11 +33,7 @@
 					(d-DirectivePut-standalone-minpixels tag 30)
 					(d-MoveCursorRight)
 				))
-			(let loop ((count bars))
-				(if (positive? count)
-					(begin					
-						(writeBar numer denom)
-						(loop (1- count))))))))
+				(writeBars bars numer denom))))
 						
 	(define duration #f)
 	(define old-time 0)
@@ -42,27 +43,40 @@
 	(define next-tempo #f)
 	(define old_tempo #f)
 	;;; the procedure
-	(d-MasterVolume 0)
-	(d-AddInitial)
-	(d-StaffProperties "denemo_name=Click")
-	(let loop ((count 0))
-		(set! tempo (d-GetRecordedMidiTempo count))
-		(set! next-tempo #f)
-		(if tempo
-			(begin
-				(set! next-tempo (d-GetRecordedMidiTempo (1+ count)))
-				(if next-tempo
+	(if  (d-GetImportedMidiTracks)
+		(begin
+			(d-MasterVolume 0)
+			(d-AddInitial)
+			(d-StaffProperties "denemo_name=Click")
+			(let loop ((count 0))
+				(set! tempo (d-GetRecordedMidiTempo count))
+				(set! next-tempo #f)
+				(if tempo
 					(begin
-						(set! duration (- (list-ref next-tempo 0) old-time))
-						(set! old-time  (list-ref next-tempo 0)))
+						(set! next-tempo (d-GetRecordedMidiTempo (1+ count)))
+						(if next-tempo
+							(begin
+								(set! duration (- (list-ref next-tempo 0) old-time))
+								(set! old-time  (list-ref next-tempo 0)))
+							(begin
+								(set! duration (- (d-GetRecordedMidiDuration) old-time)))))		
 					(begin
-						(set! duration (- (d-GetRecordedMidiDuration) old-time)))))		
-			(begin
-				(set! duration (d-GetRecordedMidiDuration))))
-		(writeAllBars duration tempo old_tempo)
-		(set! old_tempo tempo)
-		(if next-tempo				
-			(loop (1+ count))))
+						(set! duration (d-GetRecordedMidiDuration))))
+				(writeAllBars duration tempo old_tempo)
+				(set! old_tempo tempo)
+				(if next-tempo				
+					(loop (1+ count)))))
+		;;No MIDI file loaded - create click staff for recording
+		(let ((number "10") (timesig (d-InitialTimeSig "query=timesigname")))
+			(define numerator (car (string-split   timesig #\/)))
+			(define denominator (cadr (string-split  timesig #\/)))
+			(d-MasterVolume 0)
+			(d-AddInitial)
+			(d-StaffProperties "denemo_name=Click")
+			(set! number (d-GetUserInput (_ "Click Track Creation") (_ "Give number of measures required: ") number))
+			(if number
+				(writeBars (string->number number) (string->number numerator)(string->number denominator))
+				(d-WarningDialog (_ "Cancelled")))))
 	(d-MasterVolume old_volume)		
 	(d-HighlightCursor old_highlight))
-(d-WarningDialog (_ "No MIDI file loaded")))
+			

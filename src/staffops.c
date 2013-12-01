@@ -388,7 +388,8 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action, DenemoContext con
       insert_staff (si, thestaffstruct, action, addat);
       si->leftmeasurenum = 1;
     }
-
+  if ( addat==1)
+       thestaffstruct->space_above = 20;
   //si->haschanged = TRUE;
 }
 

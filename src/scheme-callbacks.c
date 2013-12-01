@@ -2481,18 +2481,14 @@ gint track = get_current_midi_track();
   return SCM_BOOL_F;
 }
 
-
 SCM
 scheme_get_imported_midi_tracks (void)
 { gint num = get_imported_midi_tracks ();
-	if(num<0)
+	if(num < 1)
 		return SCM_BOOL_F;
 	else
 		return scm_from_int (num);
 }
-
-
-
 
 SCM
 scheme_get_recorded_midi_duration (void) {
