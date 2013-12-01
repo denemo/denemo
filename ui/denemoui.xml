@@ -96,24 +96,27 @@
 
 
     <menu action="EditMenu">
-      <separator/>
+	  <menu action="Delete">
+		<menuitem action="DeletePreviousObject"/>
+		<menuitem action="ClearOverlay"/>
+      </menu>
       <menu action="Select">
          <menuitem action="SetMark"/>
-	 <menuitem action="SetPoint"/>
-	 <menu action="ExtendSelect">
-	   <menuitem action="CursorLeft"/>
-           <menuitem action="CursorRight"/>
-	   <menuitem action="MeasureLeft"/>
-	   <menuitem action="MeasureRight"/>
-	   <menuitem action="GoToBeginning"/>
-	   <menuitem action="GoToEnd"/>
-	   <menuitem action="StaffUp"/>
-	   <menuitem action="StaffDown"/> 
-	   <menuitem action="VoiceUp"/>
-	   <menuitem action="VoiceDown"/>
-         </menu>
-	 <menuitem action="UnsetMark"/>
-	 <menuitem action="SwapPointAndMark"/>
+		 <menuitem action="SetPoint"/>
+		   <menu action="ExtendSelect">
+			   <menuitem action="CursorLeft"/>
+			   <menuitem action="CursorRight"/>
+			   <menuitem action="MeasureLeft"/>
+			   <menuitem action="MeasureRight"/>
+			   <menuitem action="GoToBeginning"/>
+			   <menuitem action="GoToEnd"/>
+			   <menuitem action="StaffUp"/>
+			   <menuitem action="StaffDown"/> 
+			   <menuitem action="VoiceUp"/>
+			   <menuitem action="VoiceDown"/>
+           </menu>
+		<menuitem action="UnsetMark"/>
+		<menuitem action="SwapPointAndMark"/>
       </menu>
       <menuitem action="Cut"/>
       <menuitem action="Copy"/>
@@ -123,10 +126,7 @@
 
       
       <menuitem action="PasteClipboard"/>
-      <menu action="Delete">
-		<menuitem action="DeletePreviousObject"/>
-		<menuitem action="ClearOverlay"/>
-      </menu>
+
       <separator/>
       <menuitem action="EditObject"/>
       <separator/>
