@@ -204,6 +204,7 @@ SCM scheme_set_midi_capture (SCM);
 SCM scheme_toggle_playalong (void);
 SCM scheme_toggle_conduct (void);
 SCM scheme_midi_record (void);
+SCM scheme_compute_midi_note_durations (void);
 SCM scheme_get_marked_midi_note (void);
 SCM scheme_mark_first_note_onset (void);
 SCM scheme_advance_marked_midi (SCM amount);

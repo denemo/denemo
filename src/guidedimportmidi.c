@@ -255,29 +255,56 @@ static void ensure_smf (void) {
 }
 static void guess_note_length (gdouble quarternotes, gint *dur, gint *dot)
 {
+	int vals[] = {	
+	7	
+	,10
+	,13
+	,19
+	,25
+	,37
+	,49
+	,73
+	,97
+	,145
+	,193
+	,289
+	,385
+	,577
+	,769
+	,1153
+	,1537
+	,2205
+};
+//#define formula(n) ((vals[n+1]+vals[n])/2)
+
+#define formula(n) (vals[n] + (vals[n+1]-vals[n])/3) //ad hoc formula, nothing really works for guessing durations.
+
+//#define formula(n) (vals[n])
+
 	gint ticks = (gint)(384*quarternotes+0.5);
-	if(ticks<7) {*dur = 8;*dot = 0; return;}
-	if(ticks<10) {*dur = 8;*dot = 1; return;}
-	if(ticks<13) {*dur = 7;*dot = 0; return;}
-	if(ticks<19) {*dur = 7;*dot = 1; return;}
-	if(ticks<25) {*dur = 6;*dot = 0; return;}
-	if(ticks<37) {*dur = 6;*dot = 1; return;}
-	if(ticks<49) {*dur = 5;*dot = 0; return;}
-	if(ticks<73) {*dur = 5;*dot = 1; return;}
-	if(ticks<97) {*dur = 4;*dot = 0; return;}
-	if(ticks<145) {*dur = 4;*dot = 1; return;}
-	if(ticks<193) {*dur = 3;*dot = 0; return;}
-	if(ticks<289) {*dur = 3;*dot = 1; return;}
-	if(ticks<385) {*dur = 2;*dot = 0; return;}
-	if(ticks<577) {*dur = 2;*dot = 1; return;}
-	if(ticks<769) {*dur = 1;*dot = 0; return;}
-	if(ticks<1153) {*dur = 1;*dot = 1; return;}
-	if(ticks<1537) {*dur = 0;*dot = 0; return;}
-	if(ticks<2205) {*dur = 0;*dot = 1; return;}
+	if(ticks < formula(0)) {*dur = 8;*dot = 0; return;}
+	if(ticks < formula(1)) {*dur = 8;*dot = 1; return;}
+	if(ticks < formula(2)) {*dur = 7;*dot = 0; return;}
+	if(ticks < formula(3)) {*dur = 7;*dot = 1; return;}
+	if(ticks < formula(4)) {*dur = 6;*dot = 0; return;}
+	if(ticks < formula(5)) {*dur = 6;*dot = 1; return;}
+	if(ticks < formula(6)) {*dur = 5;*dot = 0; return;}
+	if(ticks < formula(7)) {*dur = 5;*dot = 1; return;}
+	if(ticks < formula(8)) {*dur = 4;*dot = 0; return;}
+	if(ticks < formula(9)) {*dur = 4;*dot = 1; return;}
+	if(ticks < formula(10)) {*dur = 3;*dot = 0; return;}
+	if(ticks < formula(11)) {*dur = 3;*dot = 1; return;}
+	if(ticks < formula(12)) {*dur = 2;*dot = 0; return;}
+	if(ticks < formula(13)) {*dur = 2;*dot = 1; return;}
+	if(ticks < formula(14)) {*dur = 1;*dot = 0; return;}
+	if(ticks < formula(15)) {*dur = 1;*dot = 1; return;}
+	if(ticks < formula(16)) {*dur = 0;*dot = 0; return;}
+	if(ticks<2705) {*dur = 0;*dot = 1; return;}
     *dur = *dot = 0;
 }
-static void compute_midi_note_durations (void)
+gboolean compute_midi_note_durations (void)
 {
+	gboolean ret = FALSE;
 DenemoRecording *recording = Denemo.gui->si->recording;
 	if (recording)
 	{
@@ -300,14 +327,15 @@ DenemoRecording *recording = Denemo.gui->si->recording;
 							double spqn = (tempo? tempo->microseconds_per_quarter_note/1000000.0: 60.0/Denemo.gui->si->tempo);
 							guess_note_length((next->time_seconds - event->time_seconds)/spqn, &note->duration, &note->dots);
 							//g_print("spqn %f dur %f %d %d\n", spqn, (next->time_seconds - event->time_seconds), note->duration, note->dots);
+							ret = TRUE;
 							break;
 						}
 					  }
-					 smf_rewind (smf);	
-					
+					 smf_rewind (smf);
 				}
 		}
 	}
+	return ret;
 }
 
 static gint

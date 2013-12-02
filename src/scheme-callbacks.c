@@ -4389,8 +4389,13 @@ scheme_toggle_conduct (void)
 SCM
 scheme_midi_record (void)
 {
-  pb_record ("(d-FirstNoteOnset)");
+  pb_record ("(d-ComputeMidiNoteDurations)(d-FirstNoteOnset)");
   return SCM_BOOL (Denemo.gui->midi_destination | MIDIRECORD);
+}
+SCM
+scheme_compute_midi_note_durations (void)
+{
+  return SCM_BOOL (compute_midi_note_durations ());
 }
 
 SCM

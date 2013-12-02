@@ -30,4 +30,5 @@ smf_tempo_t *get_recorded_midi_tempo (gint index);
 gint get_imported_midi_track (gint track);
 gint get_current_midi_track (void);
 void delete_imported_midi (void);
+gboolean compute_midi_note_durations (void);
 #endif

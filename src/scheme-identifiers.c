@@ -952,6 +952,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Switches to mouse conducting playback. Playback will not advance beyond the cursor position unless then mouse is moved in the drawing area.", DENEMO_SCHEME_PREFIX "ToggleConduct", scheme_toggle_conduct);
 
   install_scm_function (0, "Starts playback and synchronously records from MIDI in. The recording will play back with future play until deleted. The recording is not saved with the score - convert to notation first,", DENEMO_SCHEME_PREFIX "MidiRecord", scheme_midi_record);
+  install_scm_function (0, "Computes durationss for recorded/imported MIDI notes based on tempo and timing of note off from previous note off or start.", DENEMO_SCHEME_PREFIX "ComputeMidiNoteDurations", scheme_compute_midi_note_durations);
 
   install_scm_function (0, "Gets the marked recorded midi note as LilyPond", DENEMO_SCHEME_PREFIX "GetMarkedMidiNote", scheme_get_marked_midi_note);
   install_scm_function (1, "Advances the marked recorded midi note can take an integer for number of steps to advance, or #f to clear the mark. Returns #f if no more marks.", DENEMO_SCHEME_PREFIX "AdvanceMarkedMidi", scheme_advance_marked_midi);
