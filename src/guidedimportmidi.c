@@ -357,7 +357,9 @@ gint get_imported_midi_tracks (void) {
 	if(smf)
 		return smf->number_of_tracks;
 	else
-		return 0;
+		if(Denemo.gui->si->recorded_midi_track)   
+			return 1;
+return 0;
 }
 gint get_current_midi_track (void) {
 		return current_track;

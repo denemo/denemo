@@ -49,6 +49,8 @@
 ;Needed to see if lyimport / mxml import is called from inside or outside Denemo
 (define Denemo #t)
 
+(define DenemoClickTrack (_ "Click")) ;;; a name for identifying a click track as the staff name query=denemo_name
+
 (define DenemoKeypressActivatedCommand #f) ;;;is true while a keyboard shortcut is invoking a script, unless the script has set it to #f
 
 (define (lyimport::load-file pathname filename)

@@ -47,7 +47,7 @@
 		(begin
 			(d-MasterVolume 0)
 			(d-AddInitial)
-			(d-StaffProperties "denemo_name=Click")
+			(d-StaffProperties (string-append "denemo_name=" DenemoClickTrack))
 			(let loop ((count 0))
 				(set! tempo (d-GetRecordedMidiTempo count))
 				(set! next-tempo #f)
@@ -72,11 +72,12 @@
 			(define denominator (cadr (string-split  timesig #\/)))
 			(d-MasterVolume 0)
 			(d-AddInitial)
-			(d-StaffProperties "denemo_name=Click")
+			(d-StaffProperties (string-append "denemo_name=" DenemoClickTrack))
 			(set! number (d-GetUserInput (_ "Click Track Creation") (_ "Give number of measures required: ") number))
 			(if number
 				(writeBars (string->number number) (string->number numerator)(string->number denominator))
 				(d-WarningDialog (_ "Cancelled")))))
+	(d-MoveToBeginning)
 	(d-MasterVolume old_volume)		
 	(d-HighlightCursor old_highlight))
 			

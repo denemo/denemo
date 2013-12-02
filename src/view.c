@@ -1382,24 +1382,24 @@ gboolean show_midi_record_control(void) {
       set_midi_in_status ();
       return FALSE;// stop timer callback
  }
-void
-pb_record (GtkWidget * button)
+gboolean
+pb_record (gchar *callback)
 {
   if (Denemo.gui->si->recording && (Denemo.gui->si->recording->type==DENEMO_RECORDING_AUDIO))
 	{
 		warningdialog(_("Cannot mix audio and MIDI recordings"));
-		return;
+		return  FALSE;
 	}
 	
-  if (get_imported_midi_tracks ())
+  if (Denemo.gui->si->recorded_midi_track &&  ((smf_track_t *)Denemo.gui->si->recorded_midi_track)->user_pointer)
 	{
 		warningdialog(_("Cannot mix MIDI recordings with imported MIDI - delete imported MIDI first"));
-		return;
+		return FALSE;
      }
 	
   if (Denemo.gui->si->recorded_midi_track && !confirm (_("MIDI Recording"), _("Delete last recording?")))
     {
-      return;
+      return FALSE;
     }
     
     
@@ -1418,8 +1418,10 @@ pb_record (GtkWidget * button)
   gtk_widget_hide (convertbutton);
   
   set_midi_in_status ();
-  call_out_to_guile ("(d-Play)");//pb_play (playbutton);
-  return;
+  gchar *script = callback?g_strdup_printf("(d-Play \"%s\")", callback): g_strdup("(d-Play)");
+  call_out_to_guile (script);
+  g_free(script);
+  return TRUE;
 }
 
 static void

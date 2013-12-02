@@ -1,22 +1,13 @@
 ;;;RecordAndConvert
-(define (DenemoPlay)
+(define DenemoClickTrack (_ "Click"))
+(let ((position (GetPosition)))
+(while (d-MoveToStaffUp))
+(if  (not (equal? DenemoClickTrack (d-StaffProperties "query=denemo_name")))
+	(begin
+		(d-InitialTimeSig)
+		(d-CreateClickStaffForMidi)
+		(d-GoToPosition #f  (+ 1 (list-ref position 1)) (list-ref position 2)  (list-ref position 3)))
+	(begin
+		(d-GoToPosition #f (list-ref position 1) (list-ref position 2)  (list-ref position 3))))	
+(d-MidiRecord))
 
-  (d-Play "
-  (let ()
-  (define response #f)
-  (d-PopPosition)
-  
-  (set! response (d-GetUserInput\"Recording Finished\" \"Convert to notation?\" \"y\"))
-  
-  (if (equal? response \"y\")
- 	 (d-ConvertMidiForBass))
-  
-  )
-  (d-TogglePlayAlong)
-  (define (DenemoPlay) (DefaultDenemoPlay))
-  "))
-  (d-CreateIntro)
-  (d-PushPosition)
-  (if (not (d-TogglePlayAlong))
-  	 (d-TogglePlayAlong))	
-  (d-MidiRecord)

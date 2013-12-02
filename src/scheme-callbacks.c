@@ -2471,6 +2471,13 @@ scheme_delete_imported_midi (void)
   delete_imported_midi ();
   return SCM_BOOL_T;
 }
+SCM
+scheme_record_midi (void)
+{
+  if(pb_record (NULL))
+	return SCM_BOOL_T;
+  return SCM_BOOL_F;
+}
 
 SCM
 scheme_get_current_midi_track (void)
@@ -4382,7 +4389,7 @@ scheme_toggle_conduct (void)
 SCM
 scheme_midi_record (void)
 {
-  pb_record (get_record_button ());
+  pb_record ("(d-FirstNoteOnset)");
   return SCM_BOOL (Denemo.gui->midi_destination | MIDIRECORD);
 }
 
