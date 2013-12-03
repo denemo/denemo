@@ -1421,6 +1421,12 @@ pb_record (gchar *callback)
   gchar *script = callback?g_strdup_printf("(d-Play \"%s\")", callback): g_strdup("(d-Play)");
   call_out_to_guile (script);
   g_free(script);
+ {//this note off event prevents the first MIDI note from sounding a few seconds into the recording
+ //why such a spurious note is heard is unknown, it does not get put into the event queues (immediate or standard)
+	  gchar buf[] = {0x80, 0x0, 0x0};
+	  handle_midi_event (buf);
+	
+  }
   return TRUE;
 }
 
