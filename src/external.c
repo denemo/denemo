@@ -12,7 +12,7 @@
 #include "prefops.h"
 #include <signal.h>
 #include "external.h"
-
+#include "utils.h"
 
 
 /* give a filepath string pointing to the user's
@@ -27,12 +27,12 @@ gchar *
 get_temp_filename (const gchar * name)
 {
   gchar *path = NULL;
-  if (get_user_data_dir () == NULL)
+  if (get_user_data_dir (FALSE) == NULL)
     return NULL;
   if (name != NULL)
-    path = g_build_filename (get_user_data_dir (), name, NULL);
+    path = g_build_filename (get_user_data_dir (FALSE), name, NULL);
   else
-    path = g_build_filename (get_user_data_dir (), "bla", NULL);
+    path = g_build_filename (get_user_data_dir (FALSE), "bla", NULL);
 
   g_debug ("temp filename: %s\n", path);
   return path;

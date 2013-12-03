@@ -21,6 +21,7 @@
 
 #include <glib.h>
 #include <math.h>
+#include <string.h>
 
 typedef struct
 {
@@ -555,7 +556,7 @@ parse_path_data (const gchar * data, gint * n_elements)
   return ctx.path;
 }
 
-static gchar *
+static void
 path_data_append_csource (GString * string, gchar * name, cairo_path_data_t * path_data, gint size, gdouble width, gdouble height)
 {
   gint i;
@@ -586,7 +587,7 @@ path_data_append_csource (GString * string, gchar * name, cairo_path_data_t * pa
   g_string_append_printf (string, "\n};\n\n" "cairo_path_t %s_path = {0, %s_data, %d};\n\n", name, name, size);
 }
 
-static gchar *
+static void
 path_data_append_cheader_start (GString * string, gchar * name)
 {
   gchar *NAME = g_utf8_strup (name, -1);
@@ -602,7 +603,7 @@ path_data_append_cheader_end (GString * string, gchar * name)
   g_free (NAME);
 }
 
-static gchar *
+static void
 path_data_append_cheader (GString * string, gchar * name, gdouble width, gdouble height)
 {
   gchar *NAME = g_utf8_strup (name, -1);

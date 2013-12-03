@@ -204,7 +204,7 @@ static void put_script_for_button (GtkWidget *button) {
 	g_free(text);
 }
 
-static set_image_for_button (GtkWidget *button, gchar *name)
+static void set_image_for_button (GtkWidget *button, gchar *name)
 {
 	gchar *icon = find_denemo_file (DENEMO_DIR_PIXMAPS, name);
 	GtkWidget *child_widget = gtk_bin_get_child(GTK_BIN(button));
@@ -266,13 +266,13 @@ static void remove_button (GtkWidget *button) {
 	
 }
 
-static move_button_to_start (GtkWidget *button) {
+static void move_button_to_start (GtkWidget *button) {
 	DenemoPalette *pal = g_object_get_data (G_OBJECT(button), "palette");
 	pal->buttons = g_list_remove (pal->buttons, button);
 	pal->buttons = g_list_prepend (pal->buttons, button);
 	repack_palette (pal);
 }
-static move_button_to_end (GtkWidget *button) {
+static void move_button_to_end (GtkWidget *button) {
 	DenemoPalette *pal = g_object_get_data (G_OBJECT(button), "palette");
 	pal->buttons = g_list_remove (pal->buttons, button);
 	pal->buttons = g_list_append (pal->buttons, button);
@@ -292,7 +292,7 @@ static void copy_button (GtkWidget *button) {
 	}
 }
 
-static GtkWidget *popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
+static void GtkWidget *popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
   GtkWidget *menu = gtk_menu_new ();
   GtkWidget *item;
 
@@ -390,7 +390,7 @@ static gboolean already_present (DenemoPalette *pal, gchar *label) {
 	return FALSE;
 }
 
-static fixup_image (GtkWidget *button, gchar *label) {
+static void fixup_image (GtkWidget *button, gchar *label) {
 	//g_print("Fixing up image");
 	set_image_for_button (button, label);	
 }

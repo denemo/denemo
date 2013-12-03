@@ -1022,7 +1022,7 @@ mycommands (GtkAction * action, DenemoScriptParam* param)
     }
   load_keymap_dialog_location (location);
   // warningdialog(WARNING_NEW_MENUS);
-  //g_print("The last was %s %s %s\n", Denemo.last_merged_command, location,  get_user_data_dir());
+  //g_print("The last was %s %s %s\n", Denemo.last_merged_command, location,  get_user_data_dir(FALSE));
 }
 
 

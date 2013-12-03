@@ -25,7 +25,7 @@
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
 
-static save_button (xmlNodePtr button, GtkWidget *widget)
+static void save_button (xmlNodePtr button, GtkWidget *widget)
 {
 	//newXMLIntProp (xmlNodePtr parent, const xmlChar * name, gint content)
 	gchar *label = g_object_get_data (G_OBJECT(widget), "icon");
