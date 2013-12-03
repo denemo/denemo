@@ -292,7 +292,7 @@ static void copy_button (GtkWidget *button) {
 	}
 }
 
-static void GtkWidget *popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
+static void popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
   GtkWidget *menu = gtk_menu_new ();
   GtkWidget *item;
 
