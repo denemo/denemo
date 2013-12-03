@@ -229,7 +229,7 @@ create_staff (gint track)
 
 /* create the smf for the recorded track if it does not already belong to it
  * this happens when the user records MIDI using a MIDI controller 
- * otherwise add it to smf, or if already present in smf (user_pointer points to smf) re-attach so that smf can be used. */
+ * otherwise add it to smf, or if already present in smf (user_pointer points to track number) re-attach so that smf can be used. */
 static void ensure_smf (void) {
 	
 	if (Denemo.gui->si->recorded_midi_track) 
@@ -242,11 +242,11 @@ static void ensure_smf (void) {
 		}
 		else
 		{
-			if(track->user_pointer != smf)
+			if(track->user_pointer == NULL)
 			  {
 				track->smf = NULL;
 				smf_add_track (smf, track);
-				track->user_pointer = smf;	
+				track->user_pointer = track->track_number;	
 			  }
 			else
 			  track->smf = smf;
@@ -355,12 +355,12 @@ readtrack (gint track)
       //re-attach the current Denemo.gui->si->recorded_midi_track to smf or delete it if it is not in smf
       if(Denemo.gui->si->recorded_midi_track)
       {
-		 if(((smf_track_t *)Denemo.gui->si->recorded_midi_track)->user_pointer != smf)
+		 if(((smf_track_t *)Denemo.gui->si->recorded_midi_track)->user_pointer == NULL)
 			smf_track_delete(Denemo.gui->si->recorded_midi_track);		  
 		 else
 			((smf_track_t *)Denemo.gui->si->recorded_midi_track)->smf = smf;
 	  }
-	  selected_track->user_pointer = smf;
+	  selected_track->user_pointer = selected_track;
       Denemo.gui->si->recorded_midi_track = selected_track;
       compute_midi_note_durations (); //fills Denemo.gui->si->recording->notes with the note durations
       ((smf_track_t *)Denemo.gui->si->recorded_midi_track)->smf = NULL; // we detach this track from smf, so it can be attached to the playback smf; we cannot use smf while this is done, as it thinks it still owns the track.	  
