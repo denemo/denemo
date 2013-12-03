@@ -25,7 +25,7 @@
 #include <glib.h>
 #include <string.h>
 #include "audiofile.h"
-
+#include "utils.h"
 
 static PaStream *stream;
 static unsigned long sample_rate;
@@ -133,7 +133,7 @@ if((!rubberband_active) || (available < (gint)frames_per_buffer)) {
 #endif
 
   while (read_event_from_queue (AUDIO_BACKEND, event_data, &event_length, &event_time, until_time/slowdown))
-    {//g_print("");!!!! madness, the call to initialize audio fails with channels assert in alsa code without this with -O0, with -O2 fails anyway!!!
+    {//g_print("%d ", event_data[1] );
       fluidsynth_feed_midi (event_data, event_length);  //in fluid.c note fluidsynth api ues fluid_synth_xxx these naming conventions are a bit too similar
     }
 
@@ -185,7 +185,6 @@ if(rubberband_active)
           static guint recorded_frames;
           if (fp == NULL)
             {
-              extern const gchar *get_user_data_dir (void);
               const gchar *filename = recorded_audio_filename ();
               fp = fopen (filename, "wb");
               recorded_frames = 0;
