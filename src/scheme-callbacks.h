@@ -63,6 +63,7 @@ SCM scheme_put_clip_obj (SCM tag, SCM value);
 SCM scheme_clear_clipboard (SCM);
 SCM scheme_get_staffs_in_clipboard (SCM);
 SCM scheme_get_measures_in_staff (SCM);
+SCM scheme_get_staffs_in_movement (SCM);
 SCM scheme_staff_to_voice (SCM);
 SCM scheme_voice_to_staff (SCM);
 SCM scheme_is_voice (void);
