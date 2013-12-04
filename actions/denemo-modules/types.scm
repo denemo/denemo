@@ -59,6 +59,8 @@
  (if (string=? (d-GetType) "None") #t #f))
  
 (define (MeasureEmpty?) (None?)) 
+
+(define (MovementEmpty?) (and (None?) (= 1 (d-GetMeasuresInStaff)) (= 1 (d-GetStaffsInMovement))))
 	
 (define (Appending?)
  (if (string=? (d-GetType) "Appending") #t #f))	 
