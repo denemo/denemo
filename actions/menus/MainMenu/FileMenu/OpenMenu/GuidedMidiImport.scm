@@ -1,5 +1,5 @@
 ;;;GuidedMidiImport
-(if  (d-New)
+(if (or (MovementEmpty?) (d-New))
     (begin
 	(d-ImportMidi "guided=true")
 	(if (d-GetImportedMidiTracks)
