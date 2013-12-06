@@ -1,7 +1,7 @@
 SUBDIRS = \
   tools \
-  libsffile \
-  libsmf \
+  libs/libsffile \
+  libs/libsmf \
   build \
   docs \
   pixmaps \

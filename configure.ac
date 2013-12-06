@@ -466,6 +466,6 @@ AC_OUTPUT(
   soundfonts/Makefile
   ui/Makefile
   tests/Makefile
-  libsffile/Makefile
-  libsmf/Makefile
+  libs/libsffile/Makefile
+  libs/libsmf/Makefile
 ])

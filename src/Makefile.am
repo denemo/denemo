@@ -80,7 +80,7 @@ AM_CPPFLAGS = \
    $(PORTMIDI_INCLUDE) \
   -I$(top_srcdir)/intl \
   -I$(top_srcdir)/include \
-  -I$(top_srcdir)/libsffile \
+  -I$(top_srcdir)/libs/libsffile \
   -I$(top_srcdir)/pixmaps \
   -DPREFIX=\"$(prefix)\" \
   -DBINDIR=\"$(exec_prefix)/bin\" \
@@ -90,11 +90,11 @@ AM_CPPFLAGS = \
   -DDATAROOTDIR=\"$(datarootdir)/\" \
   -DPKGNAME=\"denemo\" 
 
-denemo_LDADD = $(INTLLIBS) libaudiobackend.a -L$(top_builddir)/libsffile -lsffile
+denemo_LDADD = $(INTLLIBS) libaudiobackend.a -L$(top_builddir)/libs/libsffile -lsffile
 
 if !HAVE_SMF
-  AM_CPPFLAGS += -I$(top_srcdir)/libsmf
-  denemo_LDADD += -L$(top_builddir)/libsmf -lsmf
+  AM_CPPFLAGS += -I$(top_srcdir)/libs/libsmf
+  denemo_LDADD += -L$(top_builddir)/libs/libsmf -lsmf
 endif
 
 
