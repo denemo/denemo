@@ -101,23 +101,10 @@ PKG_CHECK_MODULES(SNDFILE, sndfile >= 1.0)
 CFLAGS="$CFLAGS $SNDFILE_LIBS"
 LIBS="$LIBS $SNDFILE_LIBS"
 
-
 PKG_CHECK_MODULES(SMF, smf >= 1.3, havesmf=yes, havesmf=no)
+AM_CONDITIONAL(HAVE_SMF, [test x$havesmf = xyes])
 CFLAGS="$CFLAGS $SMF_CFLAGS"
 LIBS="$LIBS $SMF_LIBS"
-
-if test "x$havesmf" = "xyes"; then
-  WHICH_SMF=''
-  SMF_LDD=''
-  SMF_INCLUDE=''
-else
-  WHICH_SMF='libsmf'
-  SMF_LDD='../libsmf/libsmf.a'
-  SMF_INCLUDE='-I$(top_srcdir)/libsmf'
-fi
-  AC_SUBST([WHICH_SMF])
-  AC_SUBST([SMF_LDD])
-  AC_SUBST([SMF_INCLUDE])
 
 AC_ARG_ENABLE(
   jack,
@@ -134,11 +121,6 @@ if test "x$usejack" = "xyes"; then
   CFLAGS="$CFLAGS -D_HAVE_JACK_ $JACK_CFLAGS"
   LIBS="$LIBS -D_HAVE_JACK_ $JACK_LIBS"
 fi
-
-
-
-
-
 
 AC_ARG_ENABLE(
   evince,
@@ -341,6 +323,16 @@ AC_ARG_ENABLE(
   ])
 
 AC_ARG_ENABLE(
+  warnings,
+  AS_HELP_STRING([--disable-warnings], [use warnings @<:@default=no@:>@]),
+  [
+    if test "x$enableval" = "xno"; then
+      CFLAGS="$CFLAGS -w"
+      CXXFLAGS="$CXXFLAGS -w"
+    fi
+  ])
+
+AC_ARG_ENABLE(
   x11,
   AS_HELP_STRING([--enable-x11], [use X11 @<:@default=yes@:>@]),
   [
@@ -469,14 +461,11 @@ AC_OUTPUT(
   docs/images/Makefile
   docs/reference/Makefile
   docs/reference/denemo/Makefile
-  actions/Makefile
-  examples/Makefile
-  templates/Makefile
   po/Makefile.in
   fonts/Makefile
   soundfonts/Makefile
-  libsmf/Makefile
-  libsffile/Makefile
   ui/Makefile
   tests/Makefile
+  libs/libsffile/Makefile
+  libs/libsmf/Makefile
 ])

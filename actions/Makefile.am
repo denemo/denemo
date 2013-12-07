@@ -1,2 +1,0 @@
-actionsdir = $(datadir)/${PACKAGE}/actions
-

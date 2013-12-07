@@ -1,11 +1,13 @@
-.libs
-.deps
-Makefile
-Makefile.in
 *.o
 *.a
 *.gcno
 *.gcda
+*~
+*.bak
+.libs
+.deps
+Makefile
+Makefile.in
 INSTALL
 aclocal.m4
 autom4te.cache/
@@ -21,22 +23,20 @@ intltool-*.in
 denemo.spec
 depcomp
 install-sh
-libsmf/libsmf.a
-libsmf/smfsh
 libtool
 ltmain.sh
+missing
+mkinstalldirs
+stamp-h1
+tags
+
+# Build directory
 build/libtool.m4
 build/ltoptions.m4
 build/ltsugar.m4
 build/ltversion.m4
 build/lt~obsolete.m4
 build/intltool.m4
-missing
-mkinstalldirs
-stamp-h1
-tags
-*~
-*.bak
 
 # Translation directory
 po/POTFILES
@@ -44,7 +44,6 @@ po/notexist
 po/Makefile.in.in
 po/stamp-it
 po/*.gmo
-po/POTFILES.skip
 po/*.pot
 
 # Source files
