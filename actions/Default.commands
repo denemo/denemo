@@ -6171,6 +6171,13 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Delete Imported/Recorded Midi</_label>
         <_tooltip>Deletes the MIDI that has been imported or recorded via MIDI in.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>NonPrintingStaff</action>
+        <after>ShortInstrumentName</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
+        <_label>Non Printing Staff</_label>
+        <_tooltip>Turns the on/off whether this staff will be typeset. The staff still displays normally but will be dropped for the print view.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
