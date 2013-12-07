@@ -4992,7 +4992,7 @@ scheme_get_measures_in_staff (SCM optional)
 SCM
 scheme_get_staffs_in_movement (SCM optional)
 {
-  gint num = g_list_length ((DenemoStaff *) Denemo.gui->si->thescore);
+  gint num = g_list_length (Denemo.gui->si->thescore);
   return scm_from_int (num);
 }
 SCM
