@@ -2218,9 +2218,16 @@ set_staff_definition (GString * str, DenemoStaff * curstaffstruct, gchar * denem
       g_string_append_printf (str, "%s%s", staff_prolog_insert, staff_epilog_insert);
     }
   else
-    {
+    { 
+     gchar *alt_override = get_overridden_prefix (curstaffstruct->staff_directives, DENEMO_ALT_OVERRIDE);//AFFIX_OVERRIDE is for staff groupings
+     if(alt_override)
+      g_string_append_printf (str, "\n%%Start of Staff\n %s  \\new Staff = \"%s\" << %s\n", alt_override, denemo_name, staff_epilog_insert);
+     else
       g_string_append_printf (str, "\n%%Start of Staff\n\\new Staff = \"%s\" %s << %s\n", denemo_name, staff_prolog_insert, staff_epilog_insert);
+      g_free(alt_override);
     }
+   g_free(staff_prolog_insert);
+   g_free(staff_epilog_insert);
 }
 
 void
