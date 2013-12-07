@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>NonPrintingStaff</action>
+        <after>ShortInstrumentName</after>
+        <_label>Non Printing Staff</_label>
+        <_tooltip>Turns the on/off whether this staff will be typeset. The staff still displays normally but will be dropped for the print view.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
