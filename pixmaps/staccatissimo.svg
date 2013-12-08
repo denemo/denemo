@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   width="32.000000pt"
-   height="32.000000pt"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16"
+   height="16"
    id="svg1"
    sodipodi:version="0.32"
-   inkscape:version="0.40"
-   sodipodi:docbase="/home/jens/music-icons"
-   sodipodi:docname="staccatissimo.png.svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:cc="http://web.resource.org/cc/"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:xlink="http://www.w3.org/1999/xlink">
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="staccatissimo.svg"
+   version="1.1">
   <defs
      id="defs3" />
   <sodipodi:namedview
@@ -26,16 +25,12 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="19.647764"
-     inkscape:cx="20.433546"
-     inkscape:cy="16.321120"
+     inkscape:zoom="38"
+     inkscape:cx="8"
+     inkscape:cy="8"
      inkscape:current-layer="svg1"
      showborder="true"
      showgrid="true"
-     gridspacingy="1.0000000pt"
-     gridspacingx="1.0000000pt"
-     gridoriginy="0.0000000pt"
-     gridoriginx="0.0000000pt"
      gridtolerance="1.0000000pt"
      showguides="true"
      inkscape:guide-bbox="false"
@@ -43,20 +38,33 @@
      inkscape:window-height="816"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     gridempspacing="4"
      inkscape:grid-bbox="true"
-     inkscape:grid-points="true" />
+     inkscape:grid-points="true"
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       id="GridFromPre046Settings"
+       type="xygrid"
+       originx="0.0000000pt"
+       originy="0.0000000pt"
+       spacingx="1.0000000pt"
+       spacingy="1.0000000pt"
+       color="#3f3fff"
+       empcolor="#3f3fff"
+       opacity="0.15"
+       empopacity="0.38"
+       empspacing="4"
+       units="pt"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
   <metadata
      id="metadata4">
-    <rdf:RDF
-       id="RDF5">
+    <rdf:RDF>
       <cc:Work
-         rdf:about=""
-         id="Work6">
-        <dc:format
-           id="format7">image/svg+xml</dc:format>
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
         <dc:type
-           id="type9"
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
       </cc:Work>
     </rdf:RDF>
@@ -64,8 +72,10 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1" />
+     id="layer1"
+     transform="translate(0,-24)" />
   <path
-     d="M 22.010656,11.750750 C 22.419340,12.026162 22.947816,12.583841 23.185047,12.990036 L 23.616377,13.728574 L 22.797500,18.211448 C 21.037290,27.847572 20.647457,29.099827 19.611115,28.447019 C 19.168775,28.168382 18.509693,25.367569 17.202500,18.211448 L 16.383623,13.728574 L 16.814952,12.990036 C 17.506005,11.806791 18.525182,11.250000 20.000000,11.250000 C 20.947127,11.250000 21.455451,11.376597 22.010656,11.750750 z "
-     id="path3256" />
+     d="m 8.804262,4.7320162 c 0.163474,0.110165 0.374864,0.333237 0.469757,0.495715 L 9.446551,5.5231462 9.119,7.3162962 C 8.414916,11.170745 8.258983,11.671647 7.844446,11.410524 7.66751,11.299069 7.403877,10.178744 6.881,7.3162962 L 6.553449,5.5231462 6.725981,5.2277312 C 7.002402,4.7544332 7.410073,4.5317162 8,4.5317162 c 0.378851,0 0.58218,0.05064 0.804262,0.2003 z"
+     id="path3256"
+     inkscape:connector-curvature="0" />
 </svg>

@@ -275,11 +275,9 @@ static void guess_note_length (gdouble quarternotes, gint *dur, gint *dot)
 	,1537
 	,2205
 };
-//#define formula(n) ((vals[n+1]+vals[n])/2)
+//#define formula(n) ((vals[n+1]+vals[n])/2) // ad hoc formula, nothing really works for guessing durations.
 
-#define formula(n) (vals[n] + (vals[n+1]-vals[n])/3) //ad hoc formula, nothing really works for guessing durations.
-
-//#define formula(n) (vals[n])
+#define formula(n) (vals[n])
 
 	gint ticks = (gint)(384*quarternotes+0.5);
 	if(ticks < formula(0)) {*dur = 8;*dot = 0; return;}
