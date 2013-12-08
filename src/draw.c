@@ -184,7 +184,7 @@ count_syllables (DenemoStaff * staff, gint from)
   return count;
 }
 
-static void draw_note_onset(cairo_t *cr, double x, const gchar *glyph) 
+static void draw_note_onset(cairo_t *cr, double x, const gchar *glyph, gboolean mark) 
 {
 	if(glyph) {	
 		drawlargetext_cr (cr, glyph, x, 20);
@@ -194,7 +194,21 @@ static void draw_note_onset(cairo_t *cr, double x, const gchar *glyph)
 				cairo_line_to (cr, x, 0);
 				cairo_line_to (cr, x + 10, 32);
 				cairo_fill (cr);
-			}
+
+	}
+   static gboolean on;
+   
+    if(mark) 
+		{
+			on = !on;
+			if(on) 
+				{
+				  cairo_set_line_width (cr, 6.0 / Denemo.gui->si->zoom);
+				  cairo_set_source_rgba (cr, 0, 1, 0, 0.40);
+				  cairo_arc (cr, x + 10 / 2, 20, 20 / Denemo.gui->si->zoom, 0, 2 * M_PI);
+				  cairo_stroke (cr);
+				}
+		}
 }
 
 /**
@@ -334,7 +348,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 					if(itp->measurenum == 1) {//represent onsets before score starts as single red onset mark 10 pixels before the first note. test g==itp->onset to avoid re-drawing
 						cairo_save (cr);
 						cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, 1.0);
-						draw_note_onset (cr, x - 10, NULL);
+						draw_note_onset (cr, x - 10, NULL, FALSE);
 						cairo_restore (cr);
 					}
 					g=g->next;
@@ -409,7 +423,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoGUI * gui, st
 					cairo_restore (cr);
 					}
 					
-				draw_note_onset(cr, pos + x - extra_width, glyph);
+				draw_note_onset(cr, pos + x - extra_width, glyph, (g==si->marked_onset));
 
 				if(g==si->marked_onset) 
 					{//g_print("fraction = %f; notewidth = %d ", fraction, notewidth);
