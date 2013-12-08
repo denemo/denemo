@@ -28,7 +28,6 @@ EXTRA_DIST = \
   intltool-extract.in \
   intltool-merge.in \
   intltool-update.in \
-  guile-1.8.pc \
   denemo_file_update.sh
 
 MAINTAINERCLEANFILES = \
