@@ -1575,6 +1575,8 @@ actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordStaff.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordStaff.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.xml
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/NonPrintingStaff.scm
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/NonPrintingStaff.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Numbering/BarNumbers.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Numbering/BarNumbers.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ShortInstrumentName.scm
