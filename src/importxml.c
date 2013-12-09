@@ -2991,10 +2991,14 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
                 if (tmp != NULL)
                   {
                     DenemoScoreblock *sb = get_scoreblock_for_lilypond (tmp);
-                    GtkWidget *notebook = get_score_layout_notebook (gui);
-                    GtkWidget *label = gtk_label_new (sb->name);
-                    gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), sb->widget, label);
-                    gtk_widget_show_all (notebook);
+
+                    if(!Denemo.non_interactive)
+                    {
+                      GtkWidget *notebook = get_score_layout_notebook (gui);
+                      GtkWidget *label = gtk_label_new (sb->name);
+                      gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), sb->widget, label);
+                      gtk_widget_show_all (notebook);
+                    }
                     gui->custom_scoreblocks = g_list_prepend (gui->custom_scoreblocks, sb);
                     sb->uri = uri;      //do not free uri
                     g_free (tmp);
