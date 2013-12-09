@@ -12,9 +12,6 @@ SUBDIRS = \
   ui \
   tests
 
-bin_SCRIPTS = \
-  denemo_file_update.sh
-
 EXTRA_DIST = \
   include \
   actions \
@@ -27,8 +24,7 @@ EXTRA_DIST = \
   docs/DESIGN.lilypond \
   intltool-extract.in \
   intltool-merge.in \
-  intltool-update.in \
-  denemo_file_update.sh
+  intltool-update.in
 
 MAINTAINERCLEANFILES = \
   Makefile.in \
