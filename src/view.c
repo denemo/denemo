@@ -666,7 +666,7 @@ inner_main (void *files)
 
   initprefs ();
   
-  //GUI Initializations
+  //project Initializations
   if(!Denemo.non_interactive)
   {
     initialize_keystroke_help ();
@@ -734,7 +734,7 @@ inner_main (void *files)
       }
   }
 
-  //GUI related initializations
+  //project related initializations
   if(!Denemo.non_interactive)  
   {
     populate_opened_recent_menu ();
@@ -807,12 +807,12 @@ get_widget_path (GtkWidget * widget)
 }
 
 static gboolean
-action_callbacks (DenemoProject * gui)
+action_callbacks (DenemoProject * project)
 {
-  GList *callbacks = gui->callbacks;
+  GList *callbacks = project->callbacks;
   if (callbacks == NULL)
     return FALSE;
-  gui->callbacks = NULL;        //do this before calling the callbacks, so they cannot run twice
+  project->callbacks = NULL;        //do this before calling the callbacks, so they cannot run twice
   for (; callbacks; callbacks = g_list_delete_link (callbacks, callbacks))
     {
       call_out_to_guile (callbacks->data);
@@ -828,7 +828,7 @@ action_callbacks (DenemoProject * gui)
  * Do not close the sequencer
  */
 static gboolean
-close_gui (void)
+close_project (void)
 {
   g_signal_handlers_block_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);       // turn of refresh of display before destroying the data
   stop_midi_playback (NULL, NULL);      // if you do not do this, there is a timer moving the score on which will hang
@@ -851,13 +851,13 @@ close_gui (void)
     }
   free_movements (Denemo.project);
 
-  DenemoProject *oldgui = Denemo.project;
+  DenemoProject *oldproject = Denemo.project;
   //gtk_widget_destroy (Denemo.page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
-  gint index = g_list_index (Denemo.projects, oldgui);
+  gint index = g_list_index (Denemo.projects, oldproject);
   gtk_notebook_remove_page (GTK_NOTEBOOK (Denemo.notebook), index);
   g_print ("Removed %d\n", index);
-  Denemo.projects = g_list_remove (Denemo.projects, oldgui);    //FIXME ?? or in the destroy callback??
-  g_free (oldgui);
+  Denemo.projects = g_list_remove (Denemo.projects, oldproject);    //FIXME ?? or in the destroy callback??
+  g_free (oldproject);
   if (Denemo.projects)
     {
       if (index > g_list_length (Denemo.projects) - 1)
@@ -875,24 +875,24 @@ close_gui (void)
   return TRUE;
 }
 
-/* remove all the movements (ie the DenemoMovement) leaving it with gui->si NULL */
+/* remove all the movements (ie the DenemoMovement) leaving it with project->si NULL */
 void
-free_movements (DenemoProject * gui)
+free_movements (DenemoProject * project)
 {
   GList *g;
-  free_scoreblocks (gui);
-  for (g = gui->movements; g; g = g->next)
+  free_scoreblocks (project);
+  for (g = project->movements; g; g = g->next)
     {
-      gui->si = g->data;
-      gui->si->undo_guard = 1;  //no undo as that is per movement
-      free_score (gui);
+      project->si = g->data;
+      project->si->undo_guard = 1;  //no undo as that is per movement
+      free_score (project);
     }
-  gui->si = NULL;
-  delete_directives (&gui->lilycontrol.directives);
-  delete_directives (&gui->scoreheader.directives);
-  delete_directives (&gui->paper.directives);
-  g_list_free (gui->movements);
-  gui->movements = NULL;
+  project->si = NULL;
+  delete_directives (&project->lilycontrol.directives);
+  delete_directives (&project->scoreheader.directives);
+  delete_directives (&project->paper.directives);
+  g_list_free (project->movements);
+  project->movements = NULL;
 
 
   /* any other free/initializations */
@@ -926,7 +926,7 @@ closewrapper (GtkAction * action, DenemoScriptParam* param)
 }
 
 /**
- * callback from deleting window belonging to gui:
+ * callback from deleting window belonging to project:
  * close window if check for unsaved data succeeds.
  * 
  */
@@ -1037,28 +1037,28 @@ openinnew (GtkAction * action, DenemoScriptParam * param)
   newtab (NULL, param);
   file_open_with_check (NULL, param);
   if (param && (param->status == FALSE))
-    close_gui ();
+    close_project ();
   set_title_bar (Denemo.project);
 }
 
 
 /**
  * Close callback 
- * if user confirms close the current gui
+ * if user confirms close the current project
  * if it is the last close the application.
- * return FALSE if gui was not closed, else TRUE
+ * return FALSE if project was not closed, else TRUE
  */
 gboolean
 close_gui_with_check (GtkAction * action, DenemoScriptParam* param)
 {
-  DenemoProject *gui = Denemo.project;
+  DenemoProject *project = Denemo.project;
   Denemo.prefs.mode = Denemo.project->mode;
   if (action_callbacks (Denemo.project))
     return FALSE;               //Denemo.project may have been closed, depends on script callbacks;
 
   //do not ask for confirm if scripted FIXME
-  if ((!gui->notsaved) || (gui->notsaved && confirmbox (gui)))
-    close_gui ();
+  if ((!project->notsaved) || (project->notsaved && confirmbox (project)))
+    close_project ();
   else
     return FALSE;
   if (Denemo.projects == NULL)
@@ -1070,7 +1070,7 @@ close_gui_with_check (GtkAction * action, DenemoScriptParam* param)
 #ifdef G_OS_WIN32
       CoUninitialize ();
       g_print ("\n\n\nWindows - Exiting without shutting down audio\n\n\n");
-      if (gui->input_source == INPUTMIDI)
+      if (project->input_source == INPUTMIDI)
         {
           if (confirm (_("MIDI Controller Active?"), _("Please turn off your MIDI keyboard\nif you have not already done so")))
             _exit (0);          //audio shutdown can hang
@@ -1091,26 +1091,26 @@ close_gui_with_check (GtkAction * action, DenemoScriptParam* param)
 static void
 singleton_callback (GtkToolButton * toolbutton, RhythmPattern * r)
 {
-  DenemoProject *gui = Denemo.project;
-#define CURRP ((RhythmPattern *)gui->currhythm->data)
-  if (gui->currhythm && CURRP)
+  DenemoProject *project = Denemo.project;
+#define CURRP ((RhythmPattern *)project->currhythm->data)
+  if (project->currhythm && CURRP)
     unhighlight_rhythm (CURRP);
-  gui->currhythm = NULL;
+  project->currhythm = NULL;
 
-  gui->rstep = r->rsteps;
-  gui->cstep = NULL;
+  project->rstep = r->rsteps;
+  project->cstep = NULL;
 
-#define g (gui->rstep)
-#define MODE (gui->mode)
-  unhighlight_rhythm (gui->prevailing_rhythm);
-  gui->prevailing_rhythm = r;
+#define g (project->rstep)
+#define MODE (project->mode)
+  unhighlight_rhythm (project->prevailing_rhythm);
+  project->prevailing_rhythm = r;
   highlight_rhythm (r);
   if ((MODE & (INPUTEDIT | INPUTRHYTHM)))
     {
       gint save = MODE;
       MODE = INPUTINSERT | INPUTNORMAL;
-      ((GSourceFunc) (((RhythmElement *) g->data)->functions->data)) (gui);
-      displayhelper (gui);
+      ((GSourceFunc) (((RhythmElement *) g->data)->functions->data)) (project);
+      displayhelper (project);
       MODE = save;
     }
 #undef CURRP
@@ -1517,24 +1517,24 @@ pb_midi_convert (GtkWidget * button)
 void
 select_rhythm_pattern (RhythmPattern * r)
 {
-  DenemoProject *gui = Denemo.project;
-#define CURRP ((RhythmPattern *)gui->currhythm->data)
+  DenemoProject *project = Denemo.project;
+#define CURRP ((RhythmPattern *)project->currhythm->data)
 
-  if (gui->currhythm && (CURRP != r))
+  if (project->currhythm && (CURRP != r))
     {                           //Change the highlighting
       if (CURRP)
         unhighlight_rhythm (CURRP);
-      else if (gui->rstep)
-        unhighlight_rhythm (((RhythmElement *) gui->rstep->data)->rhythm_pattern);
+      else if (project->rstep)
+        unhighlight_rhythm (((RhythmElement *) project->rstep->data)->rhythm_pattern);
     }
 
-  gui->currhythm = g_list_find (gui->rhythms, r);
-  if (gui->currhythm != NULL)
+  project->currhythm = g_list_find (project->rhythms, r);
+  if (project->currhythm != NULL)
     {
-      gui->rstep = r->rsteps;
-      gui->cstep = r->clipboard->data;
+      project->rstep = r->rsteps;
+      project->cstep = r->clipboard->data;
 
-      gchar *text = ((RhythmElement *) gui->rstep->data)->icon;
+      gchar *text = ((RhythmElement *) project->rstep->data)->icon;
       if (text)
         {
           GtkWidget *label = LABEL (CURRP->button);
@@ -1670,8 +1670,8 @@ remove_breaks (GList * clip)
 static void
 attach_clipboard (RhythmPattern * r)
 {
-  DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoProject *project = Denemo.project;
+  DenemoMovement *si = project->si;
   if (si->markstaffnum)
     {
       push_clipboard ();
@@ -1687,7 +1687,7 @@ attach_clipboard (RhythmPattern * r)
 gint
 insert_pattern_in_toolbar (RhythmPattern * r)
 {
-  DenemoProject *gui = Denemo.project;
+  DenemoProject *project = Denemo.project;
   if (r->clipboard == NULL)
     {
       g_warning ("No clipboard for this pattern, cannot add\n");
@@ -1696,16 +1696,16 @@ insert_pattern_in_toolbar (RhythmPattern * r)
   GtkWidget *toolbar = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
   gtk_toolbar_insert (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (r->button), -1);
   gtk_widget_show_all (GTK_WIDGET (r->button));
-  gui->rstep = r->rsteps;
-  gui->cstep = r->clipboard->data;
-  gui->rhythms = g_list_append (gui->rhythms, r);
+  project->rstep = r->rsteps;
+  project->cstep = r->clipboard->data;
+  project->rhythms = g_list_append (project->rhythms, r);
 
-  if (gui->currhythm)
-    unhighlight_rhythm ((RhythmPattern *) gui->currhythm->data);
-  gui->currhythm = g_list_last (gui->rhythms);
-  highlight_rhythm ((RhythmPattern *) gui->currhythm->data);
+  if (project->currhythm)
+    unhighlight_rhythm ((RhythmPattern *) project->currhythm->data);
+  project->currhythm = g_list_last (project->rhythms);
+  highlight_rhythm ((RhythmPattern *) project->currhythm->data);
   g_signal_connect (G_OBJECT (r->button), "clicked", G_CALLBACK (activate_rhythm_pattern), (gpointer) r);
-  return g_list_length (gui->rhythms);  //the index of the newly added snippet
+  return g_list_length (project->rhythms);  //the index of the newly added snippet
 }
 
 void
@@ -1728,10 +1728,10 @@ install_button_for_pattern (RhythmPattern * r, gchar * thelabel)
    ordinary note entry).
    if ACTION is a GtkAction*
         create a rhythm pattern from the current selection
-        the rhythm is put in gui->
+        the rhythm is put in project->
         a button is created in "/RhythmToolbar"
-        and the pattern is added to gui->rhythms 
-         with the first step of it put in gui->rstep
+        and the pattern is added to project->rhythms 
+         with the first step of it put in project->rstep
 	add a clipboard with the selected music to the created rhythm pattern.
    if ACTION is one of the insert_chord_xkey insert_rest_xkey)
    functions
@@ -1742,11 +1742,11 @@ install_button_for_pattern (RhythmPattern * r, gchar * thelabel)
 void
 create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
 {
-  DenemoProject *gui = Denemo.project;
+  DenemoProject *project = Denemo.project;
   gboolean singleton = FALSE;   // set TRUE if action is one of the insert_... functions.
   gboolean already_done = FALSE;        // a singleton which has already been installed globally
   gboolean default_rhythm = FALSE;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = project->si;
   RhythmPattern *r = (RhythmPattern *) g_malloc0 (sizeof (RhythmPattern));
   GString *lily_string = g_string_new ("");
   gchar *pattern = NULL;
@@ -1815,7 +1815,7 @@ create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
       gint i = si->selection.firststaffmarked;
       attach_clipboard (r);
 
-      if (gui->lilysync != gui->changecount)
+      if (project->lilysync != project->changecount)
         refresh_lily_cb (NULL, Denemo.project);
 
       curstaff = g_list_nth (si->thescore, i - 1);
@@ -2037,9 +2037,9 @@ create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
         {
           if (default_rhythm)
             {
-              gui->prevailing_rhythm = r;
-              gui->rstep = r->rsteps;
-              gui->cstep = NULL;
+              project->prevailing_rhythm = r;
+              project->rstep = r->rsteps;
+              project->cstep = NULL;
               highlight_rhythm (r);
               //g_print("prevailing rhythm is %p\n",r);
             }
@@ -2113,7 +2113,7 @@ This call also ensures that the right-click callback is attached to all the prox
 gboolean
 activate_script (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoProject *gui = Denemo.project;
+  DenemoProject *project = Denemo.project;
   gboolean ret = FALSE;
   // the proxy list is NULL until the menu item is first called...
   //BUT if you first activate it with right button ....
@@ -2153,9 +2153,9 @@ activate_script (GtkAction * action, DenemoScriptParam * param)
             text = load_command_data (action);
           if (text && *text)
             {
-              stage_undo (gui->si, ACTION_STAGE_END);   //undo is a queue so this is the end :)
+              stage_undo (project->si, ACTION_STAGE_END);   //undo is a queue so this is the end :)
               ret = (gboolean) ! call_out_to_guile (text);
-              stage_undo (gui->si, ACTION_STAGE_START);
+              stage_undo (project->si, ACTION_STAGE_START);
             }
           else
             {
@@ -2273,27 +2273,27 @@ placeInPalette (GtkWidget * widget, GtkAction * action)
 static void
 insertScript (GtkWidget * widget, gchar * insertion_point)
 {
-  DenemoProject *gui = Denemo.project;
+  DenemoProject *project = Denemo.project;
   gchar *myname, *mylabel, *myscheme, *mytooltip, *submenu;
   gchar *myposition = g_path_get_dirname (insertion_point);
   gchar *after = g_path_get_basename (insertion_point);
   gint idx = lookup_command_from_name (Denemo.map, after);
-  myname = string_dialog_entry (gui, "Create a new menu item", "Give item name (avoid clashes): ", "MyName");
+  myname = string_dialog_entry (project, "Create a new menu item", "Give item name (avoid clashes): ", "MyName");
   //FIXME check for name clashes
 
   if (myname == NULL)
     return;
   subst_illegals (myname);
-  mylabel = string_dialog_entry (gui, _("Create a new menu item"), _("Give menu label: "), _("My Label"));
+  mylabel = string_dialog_entry (project, _("Create a new menu item"), _("Give menu label: "), _("My Label"));
   if (mylabel == NULL)
     return;
 
-  mytooltip = string_dialog_entry (gui, _("Create a new menu item"), _("Give explanation of what it does: "), _("Prints my special effect"));
+  mytooltip = string_dialog_entry (project, _("Create a new menu item"), _("Give explanation of what it does: "), _("Prints my special effect"));
   if (mytooltip == NULL)
     return;
   if (confirm (_("Create a new menu item"), _("Do you want the new menu item in a submenu?")))
     {
-      submenu = string_dialog_entry (gui, _("Create a new menu item"), _("Give a label for the Sub-Menu"), _("Sub Menu Label"));
+      submenu = string_dialog_entry (project, _("Create a new menu item"), _("Give a label for the Sub-Menu"), _("Sub Menu Label"));
       if (submenu)
         {
           subst_illegals (submenu);
@@ -3253,7 +3253,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
 
   gtk_widget_show_all (menu);
   gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
-  // configure_keyboard_dialog_init_idx (action, gui, idx);
+  // configure_keyboard_dialog_init_idx (action, project, idx);
   return TRUE;
 }
 
@@ -3291,38 +3291,38 @@ unhighlight_rhythm (RhythmPattern * r)
   
 */
 void
-highlight_rest (DenemoProject * gui, gint dur)
+highlight_rest (DenemoProject * project, gint dur)
 {
 
   //g_print("highlight rest");
-  if (gui->currhythm)
+  if (project->currhythm)
     {
-      unhighlight_rhythm ((RhythmPattern *) gui->currhythm->data);
+      unhighlight_rhythm ((RhythmPattern *) project->currhythm->data);
     }
-  gui->currhythm = NULL;
-  gui->cstep = NULL;
-  gui->rstep = Denemo.singleton_rhythms['r' + dur]->rsteps;
-  unhighlight_rhythm (gui->prevailing_rhythm);
-  gui->prevailing_rhythm = Denemo.singleton_rhythms['r' + dur];
-  highlight_rhythm (gui->prevailing_rhythm);
+  project->currhythm = NULL;
+  project->cstep = NULL;
+  project->rstep = Denemo.singleton_rhythms['r' + dur]->rsteps;
+  unhighlight_rhythm (project->prevailing_rhythm);
+  project->prevailing_rhythm = Denemo.singleton_rhythms['r' + dur];
+  highlight_rhythm (project->prevailing_rhythm);
 
 }
 
 void
-highlight_duration (DenemoProject * gui, gint dur)
+highlight_duration (DenemoProject * project, gint dur)
 {
 
   //g_print("higlight duration");
-  if (gui->currhythm)
+  if (project->currhythm)
     {
-      unhighlight_rhythm ((RhythmPattern *) gui->currhythm->data);
+      unhighlight_rhythm ((RhythmPattern *) project->currhythm->data);
     }
-  gui->currhythm = NULL;
-  gui->cstep = NULL;
-  gui->rstep = Denemo.singleton_rhythms['0' + dur]->rsteps;
-  unhighlight_rhythm (gui->prevailing_rhythm);
-  gui->prevailing_rhythm = Denemo.singleton_rhythms['0' + dur];
-  highlight_rhythm (gui->prevailing_rhythm);
+  project->currhythm = NULL;
+  project->cstep = NULL;
+  project->rstep = Denemo.singleton_rhythms['0' + dur]->rsteps;
+  unhighlight_rhythm (project->prevailing_rhythm);
+  project->prevailing_rhythm = Denemo.singleton_rhythms['0' + dur];
+  highlight_rhythm (project->prevailing_rhythm);
 }
 
 
@@ -3335,12 +3335,12 @@ highlight_duration (DenemoProject * gui, gint dur)
 void
 delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
 {
-  DenemoProject *gui = Denemo.project;
-  if ((gui->mode & (INPUTEDIT)) == 0)
+  DenemoProject *project = Denemo.project;
+  if ((project->mode & (INPUTEDIT)) == 0)
     return;
-  if (gui->currhythm == NULL)
+  if (project->currhythm == NULL)
     return;
-  RhythmPattern *r = (RhythmPattern *) gui->currhythm->data;
+  RhythmPattern *r = (RhythmPattern *) project->currhythm->data;
 
   free_clipboard (r->clipboard);
   r->clipboard = NULL;
@@ -3360,21 +3360,21 @@ delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
     g_free (g->data);
   g_list_free (r->rsteps);
   g_free (r);
-  //g_print("length %d\n", g_list_length(gui->rhythms));
-  gui->rhythms = g_list_remove (gui->rhythms, gui->currhythm->data);
-  //g_print("length %d %p\n", g_list_length(gui->rhythms), gui->rhythms);
-  gui->currhythm = g_list_last (gui->rhythms);
+  //g_print("length %d\n", g_list_length(project->rhythms));
+  project->rhythms = g_list_remove (project->rhythms, project->currhythm->data);
+  //g_print("length %d %p\n", g_list_length(project->rhythms), project->rhythms);
+  project->currhythm = g_list_last (project->rhythms);
 
-  if (gui->currhythm == NULL)
+  if (project->currhythm == NULL)
     {
-      gui->rstep = NULL;
-      gui->cstep = NULL;
+      project->rstep = NULL;
+      project->cstep = NULL;
     }
   else
     {
-      highlight_rhythm (gui->currhythm->data);
-      gui->rstep = ((RhythmPattern *) gui->currhythm->data)->rsteps;
-      gui->cstep = ((RhythmPattern *) gui->currhythm->data)->clipboard->data;
+      highlight_rhythm (project->currhythm->data);
+      project->rstep = ((RhythmPattern *) project->currhythm->data)->rsteps;
+      project->cstep = ((RhythmPattern *) project->currhythm->data)->clipboard->data;
     }
   update_scheme_snippet_ids ();
 }
@@ -3386,7 +3386,7 @@ delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
  */
 /* UNUSED
 static void
-attach_action_to_widget (GtkWidget * widget, GtkAction * action, DenemoProject * gui)
+attach_action_to_widget (GtkWidget * widget, GtkAction * action, DenemoProject * project)
 {
   g_object_set_data (G_OBJECT (widget), "action", action);
 }
@@ -3447,22 +3447,22 @@ get_edit_menu_for_mode (gint mode)
 }
 
 /**
- *  callback changing mode  gui->mode
+ *  callback changing mode  project->mode
  *
  */
 static void
 change_mode (GtkRadioAction * action, GtkRadioAction * current)
 {
-  DenemoProject *gui = Denemo.project;
+  DenemoProject *project = Denemo.project;
   gint val = gtk_radio_action_get_current_value (current);
-  GtkWidget *menu = get_edit_menu_for_mode (gui->mode);
+  GtkWidget *menu = get_edit_menu_for_mode (project->mode);
   if (menu)
     gtk_widget_hide (menu);
-  gui->mode = ((gui->mode & MODE_MASK) | val);
-  menu = get_edit_menu_for_mode (gui->mode);
+  project->mode = ((project->mode & MODE_MASK) | val);
+  menu = get_edit_menu_for_mode (project->mode);
   if (menu)
     gtk_widget_show (menu);
-  write_status (gui);
+  write_status (project);
 
 }
 
@@ -3487,41 +3487,41 @@ activate_action (gchar * path)
 static void
 change_input_type (GtkRadioAction * action, GtkRadioAction * current)
 {
-  DenemoProject *gui = Denemo.project;
+  DenemoProject *project = Denemo.project;
 
   gint val = gtk_radio_action_get_current_value (current);
   gboolean fail = FALSE;
-  if (gui->notsaved)
+  if (project->notsaved)
     {
       warningdialog (_("You have unsaved work. Hardware problems may cause the program to exit during this task.\nPlease save first."));
-      gtk_radio_action_set_current_value (current, gui->input_source);
+      gtk_radio_action_set_current_value (current, project->input_source);
       return;
     }
   switch (val)
     {
     case INPUTKEYBOARD:
-      if (gui->input_source == INPUTAUDIO)
+      if (project->input_source == INPUTAUDIO)
         {
           // g_print("Stopping audio\n");
           stop_pitch_input ();
         }
-      if (gui->input_source == INPUTMIDI)
+      if (project->input_source == INPUTMIDI)
         {
           // g_print("Stopping midi\n");
           stop_pitch_input ();
         }
-      gui->input_source = INPUTKEYBOARD;
+      project->input_source = INPUTKEYBOARD;
       Denemo.project->last_source = INPUTKEYBOARD;
       g_print ("Input keyboard %d", Denemo.project->last_source);
       break;
     case INPUTAUDIO:
       //g_print("Starting audio\n");
-      if (gui->input_source == INPUTMIDI)
+      if (project->input_source == INPUTMIDI)
         {
           //g_print("Stopping midi\n");
           stop_pitch_input ();
         }
-      gui->input_source = INPUTAUDIO;
+      project->input_source = INPUTAUDIO;
       if (setup_pitch_input ())
         {
           fail = TRUE;
@@ -3536,7 +3536,7 @@ change_input_type (GtkRadioAction * action, GtkRadioAction * current)
       audio_shutdown ();
       (void)audio_initialize (&Denemo.prefs);
       if(have_midi())
-        gui->input_source = INPUTMIDI;
+        project->input_source = INPUTMIDI;
       else
         fail = TRUE;
       break;
@@ -3546,7 +3546,7 @@ change_input_type (GtkRadioAction * action, GtkRadioAction * current)
     }
   if (fail)
     {
-      gui->input_source = INPUTKEYBOARD;
+      project->input_source = INPUTKEYBOARD;
       gtk_radio_action_set_current_value (current, INPUTKEYBOARD);
     }
   else
@@ -3554,18 +3554,18 @@ change_input_type (GtkRadioAction * action, GtkRadioAction * current)
 }
 
 /**
- *  callback changing type of entry part of gui->mode,
- * depending on the entry type it switches mode part of gui->mode to Classic mode for entering rests and to Insert for entering notes. FIXME could switch to prefs value.
+ *  callback changing type of entry part of project->mode,
+ * depending on the entry type it switches mode part of project->mode to Classic mode for entering rests and to Insert for entering notes. FIXME could switch to prefs value.
  *
  */
 static void
 change_entry_type (GtkRadioAction * action, GtkRadioAction * current)
 {
-  DenemoProject *gui = Denemo.project;
+  DenemoProject *project = Denemo.project;
   gint val = gtk_radio_action_get_current_value (current);
   switch (val)
     {
-#define SET_MODE(m)  (gui->mode=((gui->mode&ENTRY_TYPE_MASK)|m))
+#define SET_MODE(m)  (project->mode=((project->mode&ENTRY_TYPE_MASK)|m))
     case INPUTREST:
       SET_MODE (INPUTREST);
       activate_action ("/MainMenu/ModeMenu/ClassicMode");
@@ -3586,17 +3586,17 @@ change_entry_type (GtkRadioAction * action, GtkRadioAction * current)
     }
 #undef SET_MODE
 
-  write_status (gui);
-  //g_print("Mode is %x masks %x %x\n",ENTRY_TYPE_MASK, MODE_MASK, gui->mode);
+  write_status (project);
+  //g_print("Mode is %x masks %x %x\n",ENTRY_TYPE_MASK, MODE_MASK, project->mode);
 }
 
 /* callback: if not Insert mode set Insert mode else set Edit mode */
 void
 toggle_edit_mode (GtkAction * action, DenemoScriptParam* param)
 {
-  DenemoProject *gui = Denemo.project;
+  DenemoProject *project = Denemo.project;
   static gint mode = INPUTINSERT;
-  if (gui->mode & INPUTEDIT)
+  if (project->mode & INPUTEDIT)
     {
       switch (mode & ~MODE_MASK)
         {
@@ -3615,7 +3615,7 @@ toggle_edit_mode (GtkAction * action, DenemoScriptParam* param)
     }
   else
     {
-      mode = gui->mode;         // remember mode for switching back
+      mode = project->mode;         // remember mode for switching back
       activate_action ("/MainMenu/ModeMenu/EditMode");
     }
 }
@@ -3624,9 +3624,9 @@ toggle_edit_mode (GtkAction * action, DenemoScriptParam* param)
 void
 toggle_rest_mode (GtkAction * action, DenemoScriptParam* param)
 {
-  DenemoProject *gui = Denemo.project;
+  DenemoProject *project = Denemo.project;
   static gint mode = INPUTNORMAL;
-  if (gui->mode & INPUTREST)
+  if (project->mode & INPUTREST)
     {
       switch (mode & ~ENTRY_TYPE_MASK)
         {
@@ -3642,7 +3642,7 @@ toggle_rest_mode (GtkAction * action, DenemoScriptParam* param)
     }
   else
     {
-      mode = gui->mode;         // remember mode for switching back
+      mode = project->mode;         // remember mode for switching back
       activate_action ("/MainMenu/ModeMenu/Rest");
     }
 }
@@ -3652,20 +3652,20 @@ toggle_rest_mode (GtkAction * action, DenemoScriptParam* param)
 void
 toggle_rhythm_mode (GtkAction * action, DenemoScriptParam* param)
 {
-  DenemoProject *gui = Denemo.project;
+  DenemoProject *project = Denemo.project;
 #if 1
-  //g_print("Was mode %x\n", gui->mode);
-  if (gui->mode & INPUTRHYTHM)
-    gui->mode &= ~INPUTRHYTHM;
+  //g_print("Was mode %x\n", project->mode);
+  if (project->mode & INPUTRHYTHM)
+    project->mode &= ~INPUTRHYTHM;
   else
     {
-      gui->mode |= INPUTRHYTHM;
+      project->mode |= INPUTRHYTHM;
       activate_action ("/MainMenu/ModeMenu/EditMode");
     }
-  // g_print("Now mode %x\n", gui->mode);
+  // g_print("Now mode %x\n", project->mode);
 #else
   static gint mode = INPUTNORMAL;
-  if (gui->mode & INPUTRHYTHM)
+  if (project->mode & INPUTRHYTHM)
     {
       switch (mode & ~ENTRY_TYPE_MASK)
         {
@@ -3678,7 +3678,7 @@ toggle_rhythm_mode (GtkAction * action, DenemoScriptParam* param)
     }
   else
     {
-      mode = gui->mode;         // remember mode for switching back, breaks with multi gui FIXME
+      mode = project->mode;         // remember mode for switching back, breaks with multi project FIXME
       activate_action ("/MainMenu/ModeMenu/Rhythm");
     }
 #endif
@@ -3691,9 +3691,9 @@ toggle_rhythm_mode (GtkAction * action, DenemoScriptParam* param)
 static void
 toggle_lilytext (GtkAction * action, gpointer param)
 {
-  DenemoProject *gui = Denemo.project;
-  //if(!gui->textview)
-  refresh_lily_cb (action, gui);
+  DenemoProject *project = Denemo.project;
+  //if(!project->textview)
+  refresh_lily_cb (action, project);
   if (!gtk_widget_get_visible (Denemo.textwindow))
     gtk_widget_show /*_all*/ (Denemo.textwindow);
   else
@@ -3851,7 +3851,7 @@ toggle_action_menu (GtkAction * action, gpointer param)
 }*/
 
 /**
- *  Function to toggle visibility of print preview pane of current gui
+ *  Function to toggle visibility of print preview pane of current project
  *  
  *  
  */
@@ -3876,7 +3876,7 @@ toggle_print_view (GtkAction * action, gpointer param)
 }
 
 /**
- *  Function to toggle visibility of score layout window of current gui
+ *  Function to toggle visibility of score layout window of current project
  *  
  *  
  */
@@ -3886,8 +3886,8 @@ toggle_score_layout (GtkAction * action, gpointer param)
 #ifndef USE_EVINCE  
   g_debug("This feature requires denemo to be built with evince");
 #else
-  DenemoProject *gui = Denemo.project;
-  GtkWidget *w = gui->score_layout;
+  DenemoProject *project = Denemo.project;
+  GtkWidget *w = project->score_layout;
   GList *g = gtk_container_get_children (GTK_CONTAINER (w));
   if (g == NULL)
     {
@@ -3989,7 +3989,7 @@ toggle_console_view (GtkAction * action, gpointer param)
 
 
 /**
- *  Function to toggle visibility of print preview pane of current gui
+ *  Function to toggle visibility of print preview pane of current project
  *  
  *  
  */
@@ -4011,7 +4011,7 @@ toggle_score_view (GtkAction * action, gpointer param)
 }
 
 /**
- *  Function to toggle visibility of titles etc of current gui
+ *  Function to toggle visibility of titles etc of current project
  *  
  *  
  */
@@ -4165,7 +4165,7 @@ static GtkRadioActionEntry input_menu_entries[] = {
 
 struct cbdata
 {
-  DenemoProject *gui;
+  DenemoProject *project;
   gchar *filename;
 };
 
@@ -4242,8 +4242,8 @@ static void
 switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
 {
   //g_print("switching pagenum %d\n",pagenum);
-  DenemoProject *gui = Denemo.project;
-  if (gui == NULL)
+  DenemoProject *project = Denemo.project;
+  if (project == NULL)
     return;
   GList *g = g_list_nth (Denemo.projects, pagenum);
   if (g == NULL)
@@ -4251,9 +4251,9 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
       g_warning ("got a switch page, but there is no such page in Denemo.projects\n");
       return;
     }
-  DenemoProject *newgui = g->data;
-  if (gui == newgui)
-    return;                     //on arrival Denemo.project is already set to the new gui when you are doing new window
+  DenemoProject *newproject = g->data;
+  if (project == newproject)
+    return;                     //on arrival Denemo.project is already set to the new project when you are doing new window
   /* turn off the LilyPond window if it is on
      it would be nice to keep a record of whether it was open for re-opening
      on return to this tab FIXME */
@@ -4266,7 +4266,7 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
 
   unhighlight_rhythm (Denemo.project->prevailing_rhythm);
 
-  Denemo.project = gui = (DenemoProject *) (g->data);
+  Denemo.project = project = (DenemoProject *) (g->data);
   //g_print("switch page\n");
 
 //FIXME if Denemo.project->si->recording then show Denemo.audio_vol_control
@@ -4275,7 +4275,7 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
       gtk_widget_hide (Denemo.project->buttonboxes);
       activate_action ("/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
     }
-  switch (gui->mode & ~MODE_MASK)
+  switch (project->mode & ~MODE_MASK)
     {
     case INPUTINSERT:
       activate_action ("/MainMenu/ModeMenu/InsertMode");
@@ -4293,7 +4293,7 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
       ;
     }
 
-  switch (gui->mode & ~ENTRY_TYPE_MASK)
+  switch (project->mode & ~ENTRY_TYPE_MASK)
     {
     case INPUTNORMAL:
       activate_action ("/MainMenu/ModeMenu/Note");
@@ -4495,7 +4495,7 @@ create_window (void)
   gtk_action_group_set_translation_domain (Denemo.action_group, NULL);
   /* This also sets current Denemo.project as the  callback data for all the functions in the
    * menubar, which is not needed since we have only one set of actions for all
-   the guis. We will always act on Denemo.project anyway.*/
+   the projects. We will always act on Denemo.project anyway.*/
   gtk_action_group_add_actions (Denemo.action_group, menu_entries, G_N_ELEMENTS (menu_entries), Denemo.project);
   gtk_action_group_add_toggle_actions (Denemo.action_group, toggle_menu_entries, G_N_ELEMENTS (toggle_menu_entries), Denemo.project);
   gtk_action_group_add_radio_actions (Denemo.action_group, mode_menu_entries, G_N_ELEMENTS (mode_menu_entries), INPUTINSERT /* initial value */ ,
@@ -4958,18 +4958,18 @@ static DenemoProject*
 new_movement()
 {
   static gint id = 1;
-  DenemoProject *gui = (DenemoProject *) g_malloc0 (sizeof (DenemoProject));
+  DenemoProject *project = (DenemoProject *) g_malloc0 (sizeof (DenemoProject));
   //uniquely identifies this musical score editor for duration of program.
-  gui->id = id++;
-  gui->mode = Denemo.prefs.mode;
-  gui->pending_midi = g_queue_new ();
-  Denemo.projects = g_list_append (Denemo.projects, gui);
+  project->id = id++;
+  project->mode = Denemo.prefs.mode;
+  project->pending_midi = g_queue_new ();
+  Denemo.projects = g_list_append (Denemo.projects, project);
   Denemo.project = NULL;
-  gui->lilycontrol.papersize = g_string_new ("a4");     //A4 default
-  gui->lilycontrol.staffsize = g_string_new ("18");
-  gui->lilycontrol.lilyversion = g_string_new ("");
-  gui->lilycontrol.orientation = TRUE;  //portrait
-  return gui;
+  project->lilycontrol.papersize = g_string_new ("a4");     //A4 default
+  project->lilycontrol.staffsize = g_string_new ("18");
+  project->lilycontrol.lilyversion = g_string_new ("");
+  project->lilycontrol.orientation = TRUE;  //portrait
+  return project;
 }
 
 gint
@@ -5129,8 +5129,8 @@ ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam * param)
 
 /**
  * Creates a new DenemoProject structure represented by a tab in a notebook: the DenemoProject can, at anyone time, control one musical score possibly of several movements. It can, from time to time have different musical scores loaded into it. So it is to be thought of as a Music Score Editor.
- * This DenemoProject* gui is appended to the global list Denemo.projects.
- * A single movement (DenemoMovement) is instantiated in the gui.
+ * This DenemoProject* project is appended to the global list Denemo.projects.
+ * A single movement (DenemoMovement) is instantiated in the project.
  * 
  */
 static void
@@ -5141,24 +5141,24 @@ newtab (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
   if (Denemo.project && gtk_widget_get_visible (Denemo.textwindow))
     activate_action ("/MainMenu/ViewMenu/" ToggleLilyText_STRING);
 
-  DenemoProject* gui = new_movement();
-  gui->score_layout = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (gui->score_layout), "Score Layout");
-  gtk_window_set_default_size (GTK_WINDOW (gui->score_layout), 400, 800);
-  g_signal_connect (G_OBJECT (gui->score_layout), "delete-event", G_CALLBACK (hide_score_layout_on_delete), NULL);
+  DenemoProject* project = new_movement();
+  project->score_layout = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title (GTK_WINDOW (project->score_layout), "Score Layout");
+  gtk_window_set_default_size (GTK_WINDOW (project->score_layout), 400, 800);
+  g_signal_connect (G_OBJECT (project->score_layout), "delete-event", G_CALLBACK (hide_score_layout_on_delete), NULL);
 
-  /* Initialize the GUI */
+  /* Initialize the project */
 
-  //create the tab for this gui
+  //create the tab for this project
   GtkWidget *top_vbox = gtk_vbox_new (FALSE, 1);
-  gui->buttonboxes = gtk_vbox_new (FALSE, 1);
-  gtk_box_pack_start (GTK_BOX (top_vbox), gui->buttonboxes, FALSE, TRUE, 0);
-  gui->buttonbox = gtk_hbox_new (FALSE, 1);
-  gtk_widget_set_tooltip_text (gui->buttonbox, _("A button bar that can be populated by titles and other user generated buttons.\nGenerally by clicking the button you can edit the title or value or execute the action of the button"));
-  gtk_box_pack_start (GTK_BOX (gui->buttonboxes), gui->buttonbox, FALSE, TRUE, 0);
+  project->buttonboxes = gtk_vbox_new (FALSE, 1);
+  gtk_box_pack_start (GTK_BOX (top_vbox), project->buttonboxes, FALSE, TRUE, 0);
+  project->buttonbox = gtk_hbox_new (FALSE, 1);
+  gtk_widget_set_tooltip_text (project->buttonbox, _("A button bar that can be populated by titles and other user generated buttons.\nGenerally by clicking the button you can edit the title or value or execute the action of the button"));
+  gtk_box_pack_start (GTK_BOX (project->buttonboxes), project->buttonbox, FALSE, TRUE, 0);
 
-  gtk_widget_set_can_focus (gui->buttonboxes, FALSE);
-  gtk_widget_set_can_focus (gui->buttonbox, FALSE);
+  gtk_widget_set_can_focus (project->buttonboxes, FALSE);
+  gtk_widget_set_can_focus (project->buttonbox, FALSE);
 
 
 
@@ -5179,11 +5179,11 @@ newtab (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
   Denemo.page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (Denemo.notebook), pagenum);    //note Denemo.page is redundant, it is set to the last page created and it is never unset even when that page is deleted - it is only used by the selection paste routine.
   gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), pagenum);
 
-  Denemo.project = gui;
-  set_title_bar (gui);
+  Denemo.project = project;
+  set_title_bar (project);
   if (pagenum)
     gtk_notebook_set_show_tabs (GTK_NOTEBOOK (Denemo.notebook), TRUE);
-  set_title_bar (gui);
+  set_title_bar (project);
   gtk_widget_show (top_vbox);
   gtk_widget_show (main_vbox);
 
@@ -5199,14 +5199,14 @@ newtab (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
   install_printpreview (main_vbox);
 #endif
   
-  //FIXME populate_opened_recent_menu (gui);
+  //FIXME populate_opened_recent_menu (project);
 
   /* create the first movement now because showing the window causes it to try to draw the scorearea
      which it cannot do before there is a score. FIXME use signal blocking to control this - see importxml.c */
-  point_to_new_movement (gui);
-  gui->movements = g_list_append (NULL, gui->si);
+  point_to_new_movement (project);
+  project->movements = g_list_append (NULL, project->si);
 
-  install_lyrics_preview (gui->si, top_vbox);
+  install_lyrics_preview (project->si, top_vbox);
   gtk_widget_set_can_focus (Denemo.scorearea, TRUE);
   gtk_widget_show (Denemo.page);
   gtk_widget_grab_focus (Denemo.scorearea);
@@ -5262,5 +5262,5 @@ newtab (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
       activate_action ("/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
     }
   if (have_midi () && Denemo.prefs.startmidiin)
-    gui->input_source = INPUTMIDI;
+    project->input_source = INPUTMIDI;
 }                               /* end of newtab creating a new DenemoProject holding one musical score */
