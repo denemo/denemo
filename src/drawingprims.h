@@ -21,7 +21,7 @@ void draw_timesig (cairo_t * cr, gint xx, gint y, gint time1, gint time2, timesi
 
 void draw_tupbracket (cairo_t * cr, gint xx, gint y, DenemoObject * theobj, gint start);
 
-void draw_cursor (cairo_t * cr, DenemoScore * si, gint xx, gint y, gint last_gap, gint minpixels, gint dclef);
+void draw_cursor (cairo_t * cr, DenemoMovement * si, gint xx, gint y, gint last_gap, gint minpixels, gint dclef);
 
 void draw_accidental (cairo_t * cr, gint xx, gint aggheight, gint enshift);
 

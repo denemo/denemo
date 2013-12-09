@@ -2198,7 +2198,7 @@ print_cursor_cb (void)
 #endif
 
 void
-set_initiate_scoreblock (DenemoScore * si, GString * scoreblock)
+set_initiate_scoreblock (DenemoMovement * si, GString * scoreblock)
 {
   gchar *movement_prolog = get_postfix (si->movementcontrol.directives);
   g_string_append_printf (scoreblock, "%s", get_lily_override (si->movementcontrol.directives) ? movement_prolog : " <<\n");
@@ -2425,7 +2425,7 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
   gint visible_movement;        /* 1 for visible -1 for invisible */
   for (g = gui->movements, movement_count = 1; g; g = g->next, movement_count++)
     {
-      DenemoScore *si = g->data;
+      DenemoMovement *si = g->data;
       gint voice_count;         //which voice counting from 1st voice of 1st staff thru to last voice of last staff.
       gint staff_count;         //which staff (not counting voices)
       visible_movement = (((all_movements) || (g->data == gui->si)) ? 1 : -1);
@@ -2668,7 +2668,7 @@ export_lilypond_parts (char *filename, DenemoProject * gui)
   gchar *staff_filename;
   staffnode *curstaff;
   DenemoStaff *curstaffstruct;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
     {
 

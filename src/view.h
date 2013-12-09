@@ -46,7 +46,7 @@
 #define INIT_SCM "init.scm"
 
 void newview (GtkAction * action, DenemoScriptParam * param);
-void free_movements (DenemoProject * gui);  /* frees all movement data (i.e. the DenemoScore objects) from gui, leaving gui interface intact */
+void free_movements (DenemoProject * gui);  /* frees all movement data (i.e. the DenemoMovement objects) from gui, leaving gui interface intact */
 void addhistorymenuitem (gchar * filename);
 
 //TODO Fix for automatic updating during operation
@@ -92,9 +92,9 @@ gint call_out_to_guile (const char *script);
 
 void set_playbutton (gboolean pause);
 
-void set_master_volume (DenemoScore * si, gdouble volume);
+void set_master_volume (DenemoMovement * si, gdouble volume);
 
-void set_master_tempo (DenemoScore * si, gdouble tempo);
+void set_master_tempo (DenemoMovement * si, gdouble tempo);
 
 void toggle_to_drawing_area (gboolean show);
 

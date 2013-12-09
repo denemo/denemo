@@ -119,7 +119,7 @@ pop_off_clipboard (void)
  * 
  */
 void
-setcurrentobject (DenemoScore * si, gint cursorpos)
+setcurrentobject (DenemoMovement * si, gint cursorpos)
 {
 
   g_debug ("Set Current Object Cursor pos %d\n", cursorpos);
@@ -189,7 +189,7 @@ insert_clipboard (GList * clipboard)
  *  @return none
  */
 void
-saveselection (DenemoScore * si)
+saveselection (DenemoMovement * si)
 {
   if (si->markstaffnum == 0)    /* Indicator that there's no selection.  */
     return;
@@ -219,7 +219,7 @@ saveselection (DenemoScore * si)
  *   @param si pointer to the score information structure
  */
 void
-copytobuffer (DenemoScore * si)
+copytobuffer (DenemoMovement * si)
 {
   staffnode *curstaff;
   measurenode *curmeasure;
@@ -288,7 +288,7 @@ copytobuffer (DenemoScore * si)
  *  @param si pointer to score information structure
  */
 static void
-cuttobuffer (DenemoScore * si, gboolean copyfirst)
+cuttobuffer (DenemoMovement * si, gboolean copyfirst)
 {
   staffnode *curstaff;
   measurenode *curmeasure;
@@ -475,7 +475,7 @@ get_clip_objs (gint m)
 void
 insert_object (DenemoObject * clonedobj)
 {
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   staffnode *curstaff = si->currentstaff;
   clonedobj->starttick = (si->currentobject ? ((DenemoObject *) si->currentobject->data)->starttickofnextnote : 0);
   /* update undo information */
@@ -523,7 +523,7 @@ insert_object (DenemoObject * clonedobj)
 gboolean
 insert_clip_obj (gint m, gint n)
 {
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   if (copybuffer == NULL)
     return FALSE;
   GList *stafflist = g_list_nth (copybuffer, m);
@@ -554,7 +554,7 @@ DenemoObject *
 get_mark_object (void)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   if (!si->markstaffnum)
     return NULL;
   staffnode *curstaff = g_list_nth (si->thescore, si->selection.firststaffmarked - 1);
@@ -569,7 +569,7 @@ DenemoObject *
 get_point_object (void)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   if (!si->markstaffnum)
     return NULL;
   staffnode *curstaff = g_list_nth (si->thescore, si->selection.laststaffmarked - 1);
@@ -585,7 +585,7 @@ get_point_object (void)
  * mark
  *
  * Inputs 
- * @param si pointer to the DenemoScore structure
+ * @param si pointer to the DenemoMovement structure
  * @param mark_staff  
  * @param mark_measure -
  * @param mark_object -
@@ -595,7 +595,7 @@ get_point_object (void)
  * @param type -
  */
 static void
-mark_boundaries_helper (DenemoScore * si, gint mark_staff, gint mark_measure, gint mark_object, gint point_staff, gint point_measure, gint point_object, enum drag_selection_type type)
+mark_boundaries_helper (DenemoMovement * si, gint mark_staff, gint mark_measure, gint mark_object, gint point_staff, gint point_measure, gint point_object, enum drag_selection_type type)
 {
   if (mark_staff)
     {
@@ -656,7 +656,7 @@ mark_boundaries_helper (DenemoScore * si, gint mark_staff, gint mark_measure, gi
 void
 set_mark (GtkAction* action, DenemoScriptParam * param)
 {
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   si->markstaffnum = si->currentstaffnum;
   si->markmeasurenum = si->currentmeasurenum;
   si->markcursor_x = si->cursor_x;
@@ -673,7 +673,7 @@ set_mark (GtkAction* action, DenemoScriptParam * param)
 void
 set_point (GtkAction* action, DenemoScriptParam * param)
 {
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   if (si->markstaffnum)
     {
       mark_boundaries_helper (si, si->markstaffnum, si->markmeasurenum, si->markcursor_x, si->currentstaffnum, si->currentmeasurenum, si->cursor_x, NORMAL_SELECT);
@@ -697,7 +697,7 @@ mark_status (void)
 void
 unset_mark (GtkAction* action, DenemoScriptParam * param)
 {
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   si->markstaffnum = 0;
   calcmarkboundaries (si);
   if(!Denemo.non_interactive)
@@ -706,7 +706,7 @@ unset_mark (GtkAction* action, DenemoScriptParam * param)
 
 
 gboolean
-in_selection (DenemoScore * si)
+in_selection (DenemoMovement * si)
 {
   if (si->markstaffnum)
     {
@@ -754,7 +754,7 @@ static gint firstmeasure;
 static gint lastmeasure;
 
 void
-save_selection (DenemoScore * si)
+save_selection (DenemoMovement * si)
 {
   firststaff = si->selection.firststaffmarked;
   laststaff = si->selection.laststaffmarked;
@@ -765,7 +765,7 @@ save_selection (DenemoScore * si)
 }
 
 void
-restore_selection (DenemoScore * si)
+restore_selection (DenemoMovement * si)
 {
   si->selection.firststaffmarked = firststaff;
   si->selection.laststaffmarked = laststaff;
@@ -788,7 +788,7 @@ goto_mark (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoScriptParam local_param;
   local_param.status = TRUE;
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   if (!action)
     ((DenemoScriptParam *) param)->status = si->markstaffnum;
   else
@@ -815,7 +815,7 @@ goto_mark (GtkAction * action, DenemoScriptParam * param)
 void
 goto_selection_start (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   if (!action)
     ((DenemoScriptParam *) param)->status = si->markstaffnum;
   if (si->markstaffnum)
@@ -850,7 +850,7 @@ pop_position (void)
 }
 
 void
-get_position (DenemoScore * si, DenemoPosition * pos)
+get_position (DenemoMovement * si, DenemoPosition * pos)
 {
   pos->movement = g_list_index (Denemo.project->movements, si) + 1;
   pos->staff = si->currentstaffnum;
@@ -863,7 +863,7 @@ get_position (DenemoScore * si, DenemoPosition * pos)
 void
 push_position (void)
 {
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   DenemoPosition *pos = (DenemoPosition *) g_malloc (sizeof (DenemoPosition));
   get_position (si, pos);
   if (pos->movement)
@@ -962,7 +962,7 @@ saveselwrapper (GtkAction * action, DenemoScriptParam * param)
  * scoreinfo - score information
  */
 void
-calcmarkboundaries (DenemoScore * si)
+calcmarkboundaries (DenemoMovement * si)
 {
   mark_boundaries_helper (si, si->markstaffnum, si->markmeasurenum, si->markcursor_x, si->currentstaffnum, si->currentmeasurenum, si->cursor_x, NORMAL_SELECT);
 }
@@ -970,7 +970,7 @@ calcmarkboundaries (DenemoScore * si)
 void
 swap_point_and_mark (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   gint temp = si->currentstaffnum;
   si->currentstaffnum = si->markstaffnum;
   si->markstaffnum = temp;
@@ -1024,7 +1024,7 @@ redowrapper (GtkAction * action, DenemoScriptParam * param)
 /* store the passed object as ACTION_CHANGE undo information */
 /* potentially we could optimize the storage of undo information by telescoping changes to the same object when the undo is staged, it would mean keeping a global note of whether the undo is currently staged. We would peek at the head of the queue and if it was an ACTION_CHANGE at the same position we could free the stored object and replace it with the clone created here */
 void
-store_for_undo_change (DenemoScore * si, DenemoObject * curobj)
+store_for_undo_change (DenemoMovement * si, DenemoObject * curobj)
 {
   if (!si->undo_guard)
     {
@@ -1037,7 +1037,7 @@ store_for_undo_change (DenemoScore * si, DenemoObject * curobj)
 }
 
 void
-store_for_undo_measure_insert (DenemoScore * si, gint staffnum, gint measurenum)
+store_for_undo_measure_insert (DenemoMovement * si, gint staffnum, gint measurenum)
 {
   if (!si->undo_guard)
     {
@@ -1087,7 +1087,7 @@ static DenemoUndoData ActionStageEnd = { ACTION_STAGE_END };
 static DenemoUndoData ActionScriptError = { ACTION_SCRIPT_ERROR };
 
 void
-stage_undo (DenemoScore * si, action_type type)
+stage_undo (DenemoMovement * si, action_type type)
 {
   switch (type)
     {
@@ -1120,7 +1120,7 @@ stage_undo (DenemoScore * si, action_type type)
 //return a string describing the top of the undo stack, or one below if stage start.
 // caller must g_free
 gchar *
-get_last_change (DenemoScore * si)
+get_last_change (DenemoMovement * si)
 {
   DenemoUndoData *last = g_queue_peek_head (si->undodata);
   gint n = 0;
@@ -1339,7 +1339,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
     case ACTION_SNAPSHOT:
       {
 
-        DenemoScore *si = (DenemoScore *) chunk->object;
+        DenemoMovement *si = (DenemoMovement *) chunk->object;
         gint initial_guard = gui->si->undo_guard;
         gint initial_changecount = gui->si->changecount;
         gboolean initial_redo_invalid = gui->si->redo_invalid;
@@ -1645,7 +1645,7 @@ redo (DenemoProject * gui)
  *
  */
 void
-update_undo_info (DenemoScore * si, DenemoUndoData * undo)
+update_undo_info (DenemoMovement * si, DenemoUndoData * undo)
 {
 
 
@@ -1668,12 +1668,12 @@ update_undo_info (DenemoScore * si, DenemoUndoData * undo)
  *  
  *  Updates the redo list with last undo operation.
  *  Is passed score structure and redo_data structure
- *  @param si pointer to the DenemoScore structure
+ *  @param si pointer to the DenemoMovement structure
  *  @param redo redo data structure to prepend to the queue
 g */
 
 void
-update_redo_info (DenemoScore * si, DenemoUndoData * redo)
+update_redo_info (DenemoMovement * si, DenemoUndoData * redo)
 {
   //print_queue("Update redo ******************\nUndo queue:\n", si->undodata);
   //print_queue("Update redo ******************\nredo queue:\n", si->redodata);

@@ -228,7 +228,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 
 
   itp->highy = itp->lowy = 0;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
 
   //g_print("draw obj %d %d\n", mudelaitem->x, y);
@@ -274,7 +274,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
   if (mudelaitem == itp->endobj)
     itp->endposition = x + mudelaitem->x/* + mudelaitem->minpixelsalloted*/;
 
-  /************ FIXME the drawing is side-effecting the DenemoScore si here *******************/
+  /************ FIXME the drawing is side-effecting the DenemoMovement si here *******************/
   if (si->currentobject == curobj)
     {
       si->cursorclef = itp->clef->type;
@@ -649,7 +649,7 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
   static GString *mstring;
   gint last_type = -1;          //type of last object in measure
   gint extra_ticks = 0;         //number of ticks by which measure is over-full
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   objnode *curobj;
   gboolean has_cursor = FALSE;
   /* initialization */
@@ -827,7 +827,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
 {
   DenemoStaff *thestaff = (DenemoStaff *) curstaff->data;
   gboolean repeat = FALSE;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   gint x = KEY_MARGIN, i;
 
   // if(si->marked_onset_position)
@@ -1231,7 +1231,7 @@ draw_score (cairo_t * cr)
   gboolean repeat = FALSE;
   gdouble leftmost = 10000000.0;
   DenemoProject *gui = Denemo.project;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   gint line_height = get_widget_height (Denemo.scorearea) * gui->si->system_height / gui->si->zoom;
   static gint flip_count;       //passed to a timer to indicate which stage of animation of page turn should be used when re-drawing, -1 means not animating 0+ are the stages
   /* Initialize some fields in itp */

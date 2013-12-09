@@ -38,7 +38,7 @@ insertfigure (gboolean filter, gpointer data)
 {
   struct callbackdata *cbdata = (struct callbackdata *) data;
   DenemoProject *gui = cbdata->gui;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   gchar filter_sep = filter ? '/' : '|';
   gchar filter_spc = filter ? '*' : ' ';
   if (si->measurewidth == DENEMO_INITIAL_MEASURE_WIDTH)
@@ -179,7 +179,7 @@ figure_insert (GtkAction * action, DenemoScriptParam * param)
   DenemoProject *gui = Denemo.project;
   gchar *string = NULL;
   gchar *PreValue = NULL;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   static struct callbackdata cbdata;
   DenemoObject *curObj = (DenemoObject *) si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
 

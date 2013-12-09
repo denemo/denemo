@@ -976,7 +976,7 @@ printmeasures (staffnode * thestaff)
 }
 
 G_GNUC_UNUSED void
-printscoreinfo (DenemoScore * si)
+printscoreinfo (DenemoMovement * si)
 {
   if (si->thescore == NULL)
     {

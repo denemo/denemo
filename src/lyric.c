@@ -53,7 +53,7 @@ switch_page (GtkNotebook * notebook, gpointer dummy, guint pagenum, DenemoStaff 
 }
 
 GtkWidget *
-add_verse_to_staff (DenemoScore * si, DenemoStaff * staff)
+add_verse_to_staff (DenemoMovement * si, DenemoStaff * staff)
 {
   GtkWidget *notebook, *textview;
   if (staff->verses == NULL)
@@ -96,7 +96,7 @@ void
 add_verse (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   if (gui->si->currentstaff)
   {
     DenemoStaff *staff = si->currentstaff->data;
@@ -111,7 +111,7 @@ void
 delete_verse (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   if (si->currentstaff)
   {
     DenemoStaff *staff = si->currentstaff->data;
@@ -206,7 +206,7 @@ reset_lyrics (DenemoStaff * staff, gint count)
 
 
 void
-install_lyrics_preview (DenemoScore * si, GtkWidget * top_vbox)
+install_lyrics_preview (DenemoMovement * si, GtkWidget * top_vbox)
 {
   if (si->lyricsbox == NULL)
     si->lyricsbox = gtk_vbox_new (FALSE, 1);    //box to hold notebook of textview widgets
@@ -229,7 +229,7 @@ void
 show_lyrics (void)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   if (si->currentstaff && ((DenemoStaff *) si->currentstaff->data)->verses)
     gtk_widget_show (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) si->currentstaff->data)->verses->data)));   //show the notebook
   select_lyrics ();
@@ -240,7 +240,7 @@ void
 select_lyrics (void)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   GList *current = si->thescore;
   for (; current; current = current->next)
   {

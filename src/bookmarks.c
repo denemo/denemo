@@ -37,7 +37,7 @@ addbookmark (GtkAction * action, gpointer param)
 {
   DenemoProject *gui = Denemo.project;
   g_assert (gui != NULL);
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   Bookmark *bm = (Bookmark *) g_malloc0 (sizeof (Bookmark));
   bm->bar = si->currentmeasurenum;
   bm->staff = si->currentstaffnum;
@@ -55,7 +55,7 @@ deletebookmarks (GtkAction * action, gpointer param)
 {
   DenemoProject *gui = Denemo.project;
   GList *g;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   for (g = si->bookmarks; g; g = g->next)
     {
       g_free (g->data);

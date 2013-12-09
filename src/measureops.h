@@ -15,11 +15,11 @@ struct fourints
   gint stem_directive;
 };
 
-measurenode *addmeasures (DenemoScore * si, gint pos, guint nummeasures, gint all);
+measurenode *addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all);
 
 void freeobjlist (gpointer data, gpointer user_data);
 
-measurenode *removemeasures (DenemoScore * si, guint pos, guint nummeasures, gboolean all);
+measurenode *removemeasures (DenemoMovement * si, guint pos, guint nummeasures, gboolean all);
 
 void calculatebeamsandstemdirs (objnode * theobjs, gint * clef, gint * time1, gint * time2, gint * stemdirs);
 

@@ -33,7 +33,7 @@
  * @return measurenode pointer to the first added in the current staff
  */
 measurenode *
-addmeasures (DenemoScore * si, gint pos, guint nummeasures, gint all)
+addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
 {
   staffnode *curstaff;
   guint i;
@@ -83,7 +83,7 @@ addmeasures (DenemoScore * si, gint pos, guint nummeasures, gint all)
 }
 
 measurenode *
-dnm_addmeasures (DenemoScore * si, gint pos, guint nummeasures, gint all)
+dnm_addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
 {
   return addmeasures (si, pos, nummeasures, all);
 }
@@ -163,7 +163,7 @@ staffremovemeasures (staffnode * curstaff, guint pos)
  * @param all remove from all staffs
  */
 measurenode *
-removemeasures (DenemoScore * si, guint pos, guint nummeasures, gboolean all)
+removemeasures (DenemoMovement * si, guint pos, guint nummeasures, gboolean all)
 {
   staffnode *curstaff;
   measurenode *firstmeasure;

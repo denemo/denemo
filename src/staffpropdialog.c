@@ -158,7 +158,7 @@ set_properties (struct callbackdata *cbdata)
 static gboolean
 staff_properties_change (void)
 {
-  DenemoScore *si;
+  DenemoMovement *si;
   DenemoProject *gui;
 
   gboolean result = FALSE;

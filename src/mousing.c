@@ -137,7 +137,7 @@ struct placement_info
 
 /* find the primary staff of the current staff, return its staffnum */
 static gint
-primary_staff (DenemoScore * si)
+primary_staff (DenemoMovement * si)
 {
   GList *curstaff;
   for (curstaff = si->currentstaff; curstaff && !(((DenemoStaff *) curstaff->data)->voicecontrol & DENEMO_PRIMARY); curstaff = curstaff->prev)
@@ -150,7 +150,7 @@ primary_staff (DenemoScore * si)
 /* find which staff in si the height y lies in, return the staff number (not counting non-primary staffs ie voices) */
 
 static gint
-staff_at (gint y, DenemoScore * si)
+staff_at (gint y, DenemoMovement * si)
 {
   GList *curstaff;
   gint space = 0;
@@ -181,7 +181,7 @@ staff_at (gint y, DenemoScore * si)
 static void
 get_placement_from_coordinates (struct placement_info *pi, gdouble x, gdouble y, gint leftmeasurenum, gint rightmeasurenum, gint scale)
 {
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   GList *mwidthiterator = g_list_nth (si->measurewidths,
                                       leftmeasurenum - 1);
   objnode *obj_iterator;
@@ -369,7 +369,7 @@ static gboolean dragging_tempo = FALSE;
 
 
 static gboolean
-change_staff (DenemoScore * si, gint num, GList * staff)
+change_staff (DenemoMovement * si, gint num, GList * staff)
 {
   if (si->currentstaffnum == num)
     return FALSE;

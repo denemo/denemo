@@ -88,7 +88,7 @@ firstobjnodeinstaff (staffnode * thestaff)
  * @return none
  */
 void
-setcurrentprimarystaff (DenemoScore * si)
+setcurrentprimarystaff (DenemoMovement * si)
 {
   for (si->currentprimarystaff = si->currentstaff; !((DenemoStaff *) si->currentprimarystaff->data)->voicecontrol & DENEMO_PRIMARY; si->currentprimarystaff = si->currentprimarystaff->prev)
     ;
@@ -189,7 +189,7 @@ copy_staff (DenemoStaff * src, DenemoStaff * dest)
  * @return none
  */
 static void
-insert_staff (DenemoScore * si, DenemoStaff * thestaffstruct, enum newstaffcallbackaction action, gint addat)
+insert_staff (DenemoMovement * si, DenemoStaff * thestaffstruct, enum newstaffcallbackaction action, gint addat)
 {
   si->thescore = g_list_insert (si->thescore, thestaffstruct, addat - 1);
   if (action != BEFORE)
@@ -215,7 +215,7 @@ insert_staff (DenemoScore * si, DenemoStaff * thestaffstruct, enum newstaffcallb
 void
 newstaff (DenemoProject * gui, enum newstaffcallbackaction action, DenemoContext context)
 {
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   g_assert (si != NULL);
   take_snapshot ();
   DenemoStaff *thestaffstruct = (DenemoStaff *) g_malloc (sizeof (DenemoStaff));
@@ -412,7 +412,7 @@ signal_structural_change (DenemoProject * gui)
 void
 deletestaff (DenemoProject * gui, gboolean interactive)
 {
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   DenemoStaff *curstaffstruct = si->currentstaff->data;
   gboolean has_next = (si->currentstaff->next != NULL);
   (void) signal_structural_change (gui);

@@ -33,7 +33,7 @@ objnode *firstobjnodeinstaff (staffnode * thestaff);
 
 //void initkeysig (gint *accs, gint number);
 
-void setcurrentprimarystaff (DenemoScore * si);
+void setcurrentprimarystaff (DenemoMovement * si);
 
 void newstaff (DenemoProject * gui, enum newstaffcallbackaction action, DenemoContext context);     /* default context shall be DENEMO_NONE */
 

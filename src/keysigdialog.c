@@ -85,7 +85,7 @@ findkey (GtkWidget * combobox, GList * list)
 void
 set_keysig (keysig_data * cbdata)
 {
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   staffnode *curstaff;
   DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->si->currentstaff->data;
   gint tokey, mode;
@@ -125,7 +125,7 @@ void
 insert_keysig (keysig_data * kdata)
 {
   staffnode *curstaff;
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   measurenode *curmeasure;
   gint tokey, mode;
   DenemoObject *newkey = NULL;

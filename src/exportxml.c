@@ -791,7 +791,7 @@ exportXML (gchar * thefilename, DenemoProject * gui)
   GList *g;
   for (g = gui->movements; g; g = g->next)
     {
-      DenemoScore *si = g->data;
+      DenemoMovement *si = g->data;
 
       mvmntElem = xmlNewChild (scoreElem, ns, (xmlChar *) "movement", NULL);
       parentElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "edit-info", NULL);

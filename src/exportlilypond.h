@@ -34,7 +34,7 @@ void highlight_lily_error ();
 gboolean goto_lilypond_position (gint line, gint column);
 
 
-void set_initiate_scoreblock (DenemoScore * si, GString * scoreblock);
+void set_initiate_scoreblock (DenemoMovement * si, GString * scoreblock);
 gchar *get_lilypond_for_clef (clef * theclef);
 gchar *get_lilypond_for_keysig (struct keysig *key);
 gchar *get_lilypond_for_timesig (timesig * time);

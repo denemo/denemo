@@ -20,7 +20,7 @@
  * minpixels is width of rectangle to draw indicating an object position (used when not a CHORD
  */
 void
-draw_cursor (cairo_t * cr, DenemoScore * si, gint xx, gint y, gint insert_control, gint minpixels, gint dclef)
+draw_cursor (cairo_t * cr, DenemoMovement * si, gint xx, gint y, gint insert_control, gint minpixels, gint dclef)
 {
   if (!cr)
     return;

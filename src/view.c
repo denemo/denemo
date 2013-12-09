@@ -824,7 +824,7 @@ action_callbacks (DenemoProject * gui)
 
 
 /**
- * Close the current musical score (Denemo.project) freeing all its movements (DenemoScore), releasing its memory and removing it from the global list Denemo.projects
+ * Close the current musical score (Denemo.project) freeing all its movements (DenemoMovement), releasing its memory and removing it from the global list Denemo.projects
  * Do not close the sequencer
  */
 static gboolean
@@ -875,7 +875,7 @@ close_gui (void)
   return TRUE;
 }
 
-/* remove all the movements (ie the DenemoScore) leaving it with gui->si NULL */
+/* remove all the movements (ie the DenemoMovement) leaving it with gui->si NULL */
 void
 free_movements (DenemoProject * gui)
 {
@@ -1671,7 +1671,7 @@ static void
 attach_clipboard (RhythmPattern * r)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   if (si->markstaffnum)
     {
       push_clipboard ();
@@ -1746,7 +1746,7 @@ create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
   gboolean singleton = FALSE;   // set TRUE if action is one of the insert_... functions.
   gboolean already_done = FALSE;        // a singleton which has already been installed globally
   gboolean default_rhythm = FALSE;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   RhythmPattern *r = (RhythmPattern *) g_malloc0 (sizeof (RhythmPattern));
   GString *lily_string = g_string_new ("");
   gchar *pattern = NULL;
@@ -4418,7 +4418,7 @@ set_playbutton (gboolean pause)
 
 //Set the master volume of the passed score and change the slider to suit
 void
-set_master_volume (DenemoScore * si, gdouble volume)
+set_master_volume (DenemoMovement * si, gdouble volume)
 {
   si->master_volume = volume;
   if (master_vol_adj)
@@ -4430,7 +4430,7 @@ set_master_volume (DenemoScore * si, gdouble volume)
 
 //Set the master tempo of the passed score and change the slider to suit
 void
-set_master_tempo (DenemoScore * si, gdouble tempo)
+set_master_tempo (DenemoMovement * si, gdouble tempo)
 {
 	if(si->master_tempo>0.0)
 		{
@@ -5005,7 +5005,7 @@ toggle_page_view (void)
 
   static gdouble zoom = 1.0;
   static gdouble system_height = 0.25;
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   if (si->page_width == 0)
     {
       si->page_width = gdk_screen_get_width (gtk_window_get_screen (GTK_WINDOW (Denemo.window)));
@@ -5130,7 +5130,7 @@ ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam * param)
 /**
  * Creates a new DenemoProject structure represented by a tab in a notebook: the DenemoProject can, at anyone time, control one musical score possibly of several movements. It can, from time to time have different musical scores loaded into it. So it is to be thought of as a Music Score Editor.
  * This DenemoProject* gui is appended to the global list Denemo.projects.
- * A single movement (DenemoScore) is instantiated in the gui.
+ * A single movement (DenemoMovement) is instantiated in the gui.
  * 
  */
 static void

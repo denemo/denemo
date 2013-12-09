@@ -46,45 +46,45 @@ typedef struct _DenemoImportXMLNSHandler
   /*
    * Import the given score-level XML element into the given score.
    */
-  void (*importScoreInfo) (DenemoScore * si, xmlNodePtr elem);
+  void (*importScoreInfo) (DenemoMovement * si, xmlNodePtr elem);
 
   /*
    * Import the given staff-level XML element into the "primary" staff located
    * in the given score (si->currentprimarystaff).
    */
-  void (*importStaffInfo) (DenemoScore * si, xmlNodePtr elem);
+  void (*importStaffInfo) (DenemoMovement * si, xmlNodePtr elem);
 
   /*
    * Import the given voice-level XML element into the voice located in the
    * given score (si->currentstaff).  Note that elem may be a child of
    * <voice-info> or <voice-init-params>.
    */
-  void (*importVoiceInfo) (DenemoScore * si, xmlNodePtr elem);
+  void (*importVoiceInfo) (DenemoMovement * si, xmlNodePtr elem);
 
   /*
    * Import the given measure-level XML element into the measure located in
    * the given score (si->currentmeasure).
    */
-  void (*importMeasure) (DenemoScore * si, xmlNodePtr elem);
+  void (*importMeasure) (DenemoMovement * si, xmlNodePtr elem);
 
   /*
    * Import the given object-level XML element into the DenemoObject located
    * in the given score (si->currentobj).  Note that this function is only
    * called for built-in object types, not custom types.
    */
-  void (*importObjectInfo) (DenemoScore * si, xmlNodePtr elem);
+  void (*importObjectInfo) (DenemoMovement * si, xmlNodePtr elem);
 
   /*
    * Import the given note-level XML element into the note located in the
    * given score (N.B.: not yet implemented!).
    */
-  void (*importNoteInfo) (DenemoScore * si, xmlNodePtr elem);
+  void (*importNoteInfo) (DenemoMovement * si, xmlNodePtr elem);
 
   /*
    * Create a new DenemoObject from the given object-level XML element and
    * return it.  Return NULL if no object should be created.
    */
-  DenemoObject *(*importCustomObject) (DenemoScore * si, xmlNodePtr elem);
+  DenemoObject *(*importCustomObject) (DenemoMovement * si, xmlNodePtr elem);
 } DenemoImportXMLNSHandler;
 
 

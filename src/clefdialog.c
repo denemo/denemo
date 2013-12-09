@@ -103,7 +103,7 @@ clef_change_initial (GtkAction * action, DenemoScriptParam * param)
 }
 
 void
-dnm_setinitialclef (DenemoScore * si, DenemoStaff * curstaffstruct, enum clefs clef)
+dnm_setinitialclef (DenemoMovement * si, DenemoStaff * curstaffstruct, enum clefs clef)
 {
   curstaffstruct->clef.type = clef;
   find_leftmost_staffcontext (curstaffstruct, si);

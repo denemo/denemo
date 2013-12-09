@@ -997,7 +997,7 @@ gint
 file_save (GtkWidget * widget, DenemoProject * gui)
 {
   gint ret;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   g_print ("READONLY %d\n", si->readonly);
   if ((gui->filename->len == 0) /* || (si->readonly == TRUE) */ )
     /* No filename's been given or is opened from template */

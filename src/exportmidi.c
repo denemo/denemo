@@ -906,7 +906,7 @@ change_tempo (gint * tempo, gint midi_val, gint midi_interpretation, gint midi_a
  * return the duration in seconds of the music stored
  */
 gdouble
-exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
+exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
 {
   /* variables for reading and decoding the object list */
   smf_event_t *event = NULL;
@@ -1809,7 +1809,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 }
 
 void
-free_midi_data (DenemoScore * si)
+free_midi_data (DenemoMovement * si)
 {
   if (si->smf)
     {

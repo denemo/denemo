@@ -178,7 +178,7 @@ page_viewport_callback (gpointer data)
 static void
 page_for_time (gdouble time_seconds)
 {
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   if ((si->rightmost_time > 0.0) && (time_seconds > si->rightmost_time))
     {
       si->rightmost_time = -1;

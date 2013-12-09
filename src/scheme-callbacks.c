@@ -334,7 +334,7 @@ scheme_get_reference_point (void)
 SCM
 scheme_get_target_info (void)
 {
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   if (Denemo.project->si->currentobject == NULL)
     return SCM_BOOL_F;
   SCM type = SCM_BOOL_F, grob = SCM_BOOL_F, tag = SCM_BOOL_F;
@@ -1335,7 +1335,7 @@ scheme_zoom (SCM factor)
 SCM
 scheme_master_tempo (SCM factor)
 {
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   gdouble request_time = get_time ();
   gdouble duration = request_time - si->tempo_change_time;
   si->start_player += duration * (1.0 - si->master_tempo);
@@ -1366,7 +1366,7 @@ scheme_master_tempo (SCM factor)
 SCM
 scheme_movement_tempo (SCM bpm)
 {
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   if (scm_is_real (bpm))
     si->tempo = scm_to_int (bpm);
   if (scm_is_string (bpm))
@@ -1388,7 +1388,7 @@ scheme_movement_tempo (SCM bpm)
 SCM
 scheme_master_volume (SCM factor)
 {
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   if (scm_is_real (factor))
     si->master_volume = scm_to_double (factor);
   if (scm_is_string (factor))
@@ -1515,7 +1515,7 @@ SCM
 scheme_next_midi_notes (SCM interval)
 {
   SCM scm = scm_list_n (SCM_UNDEFINED);
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   if (scm_is_real (interval))
     {
       double margin = scm_to_double (interval);
@@ -4289,7 +4289,7 @@ scheme_output_midi_bytes (SCM input)
 SCM
 scheme_create_timebase (SCM optional)
 {
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   if (si->smfsync != si->changecount)
     {
       exportmidi (NULL, si, 0, 0);
@@ -4403,7 +4403,7 @@ scheme_get_marked_midi_note (void)
 {
  SCM scm = SCM_BOOL_F;
  DenemoProject *gui = Denemo.project;
- DenemoScore *si = gui->si;
+ DenemoMovement *si = gui->si;
  if(si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->marked_onset) {
 	 GList *marked = si->marked_onset;
 	 DenemoRecordedNote *thenote = (DenemoRecordedNote*)marked->data;
@@ -4421,7 +4421,7 @@ scheme_advance_marked_midi (SCM advance)
 {
  SCM scm = SCM_BOOL_F;
  DenemoProject *gui = Denemo.project;
- DenemoScore *si = gui->si;
+ DenemoMovement *si = gui->si;
  if(si->recording && (si->recording->type == DENEMO_RECORDING_MIDI))
  {
    if (SCM_UNBNDP(advance))
@@ -4620,7 +4620,7 @@ scheme_set_accidental (SCM optional)
         }
       if (g == NULL)
         return SCM_BOOL_F;
-      DenemoScore *si = Denemo.project->si;
+      DenemoMovement *si = Denemo.project->si;
       char *str = NULL;
 
       if (scm_is_string (optional))

@@ -307,7 +307,7 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
  * @return structure containing the nominator and denominator of a timesig
  */
 struct twoints
-find_xes_in_measure (DenemoScore * si, gint measurenum, gint time1, gint time2)
+find_xes_in_measure (DenemoMovement * si, gint measurenum, gint time1, gint time2)
 {
   gint num_staffs = g_list_length (si->thescore);
   gint base_x = 0;
@@ -400,7 +400,7 @@ find_xes_in_measure (DenemoScore * si, gint measurenum, gint time1, gint time2)
  * @return none
  */
 void
-find_xes_in_all_measures (DenemoScore * si)
+find_xes_in_all_measures (DenemoMovement * si)
 {
   gint i, n = g_list_length (si->measurewidths);
   DenemoStaff *firststaffstruct = (DenemoStaff *) si->thescore->data;

@@ -53,12 +53,12 @@ find_measure_context (measurenode * curmeasure, DenemoObjType thetype)
 /**
  * This function finds the first DenemoObject of type thetype before si->currentobject
  * It returns NULL if it was unable to find such a DenemoObject 
- * @param si the DenemoScore with si->currentobject and si->currentmeasure set
+ * @param si the DenemoMovement with si->currentobject and si->currentmeasure set
  * @param thetype type of DenemoObject to find
  * @return the first DenemoObject of type thetype
  */
 static DenemoObject *
-find_context_of_object (DenemoScore * si, DenemoObjType thetype)
+find_context_of_object (DenemoMovement * si, DenemoObjType thetype)
 {
   objnode *curobj = si->currentobject;
   measurenode *curmeasure = si->currentmeasure;
@@ -98,7 +98,7 @@ get_clef_before_object (objnode * obj)
 
 /* find the clef in which the currentobject lies */
 gint
-find_prevailing_clef (DenemoScore * si)
+find_prevailing_clef (DenemoMovement * si)
 {
   DenemoStaff *curstaff = ((DenemoStaff *) si->currentstaff->data);
   DenemoObject *obj = find_context_of_object (si, CLEF);
@@ -152,7 +152,7 @@ get_prevailing_context (DenemoObjType type)
  * @return none
  */
 void
-find_leftmost_staffcontext (DenemoStaff * curstaffstruct, DenemoScore * si)
+find_leftmost_staffcontext (DenemoStaff * curstaffstruct, DenemoMovement * si)
 {
   measurenode *leftmeasure = g_list_nth (curstaffstruct->measures,
                                          si->leftmeasurenum - 1);
@@ -192,7 +192,7 @@ find_leftmost_staffcontext (DenemoStaff * curstaffstruct, DenemoScore * si)
  * @return none
  */
 void
-find_leftmost_allcontexts (DenemoScore * si)
+find_leftmost_allcontexts (DenemoMovement * si)
 {
   staffnode *curstaff = si->thescore;
 

@@ -1069,7 +1069,7 @@ popup_movement_titles_menu (GtkWidget * button)
  *
  */
 static void
-install_pre_movement_widgets (GtkWidget * vbox, DenemoScore * si)
+install_pre_movement_widgets (GtkWidget * vbox, DenemoMovement * si)
 {
   GtkWidget *frame = gtk_frame_new (NULL);
   gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
@@ -1131,7 +1131,7 @@ popup_score_titles_menu (GtkWidget * button)
  * 
  */
 static GtkWidget *
-install_scoreblock_overrides (GtkWidget * vbox, DenemoProject * gui, DenemoScore * si, gboolean last_movement)
+install_scoreblock_overrides (GtkWidget * vbox, DenemoProject * gui, DenemoMovement * si, gboolean last_movement)
 {
 
   GList *g;
@@ -1479,7 +1479,7 @@ popup_initial_clef_menu (GtkWidget * button)
 */
 
 static GtkWidget *
-get_movement_widget (GList ** pstaffs, gchar * partname, DenemoScore * si, gint movementnum, gboolean last_movement)
+get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gint movementnum, gboolean last_movement)
 {
   DenemoProject *gui = Denemo.project;
   gint staff_group_nesting = 0; //to check on loose staff group markers
@@ -1842,7 +1842,7 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
     {
       if (movement == 0 /*all movements */  || (movement == movement_num) /*this movement */ )
         {
-          DenemoScore *si = (DenemoScore *) g->data;
+          DenemoMovement *si = (DenemoMovement *) g->data;
           gchar *label_text = gui->movements->next ? g_strdup_printf (_("Movement %d"), movement_num) : g_strdup (_("Movement"));
           GtkWidget *movement_frame = gtk_expander_new (label_text);
           gtk_widget_set_tooltip_text (movement_frame, _("This contains the layout of the movement- the movement title, and the actual music itself"));
@@ -2398,7 +2398,7 @@ DenemoScoreblock *
 selection_layout (void)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   GString *movement_tail = g_string_new ("");
   gint movementnum = g_list_index (Denemo.project->movements, Denemo.project->si) + 1;
   static DenemoScoreblock *sb;

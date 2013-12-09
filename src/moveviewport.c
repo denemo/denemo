@@ -65,7 +65,7 @@ update_vscrollbar (DenemoProject * gui)
  * returns TRUE if si->rightmeasurenum is changed
  */
 gboolean
-set_rightmeasurenum (DenemoScore * si)
+set_rightmeasurenum (DenemoMovement * si)
 {
   gint initial = si->rightmeasurenum;
   gint spaceleft = si->widthtoworkwith;

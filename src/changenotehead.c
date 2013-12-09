@@ -49,7 +49,7 @@ texttohead (gchar * text)
  * value
  */
 void
-insertnotehead (DenemoScore * si, gchar * notehead_string)
+insertnotehead (DenemoMovement * si, gchar * notehead_string)
 {
   DenemoObject *obj = (DenemoObject *) (si->currentobject ? si->currentobject->data : NULL);
 

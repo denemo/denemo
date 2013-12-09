@@ -327,7 +327,7 @@ redraw_playhead_callback (gpointer data)
 {
   gdk_threads_enter ();
 
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
 
   smf_event_t *event = (smf_event_t *) data;
 

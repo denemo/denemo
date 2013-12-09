@@ -337,7 +337,7 @@ parseVerse (xmlNodePtr parentElem, GtkWidget * verse)
 }
 
 static void
-parseVerses (DenemoScore * si, DenemoStaff * staff, xmlNodePtr parentElem)
+parseVerses (DenemoMovement * si, DenemoStaff * staff, xmlNodePtr parentElem)
 {
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, parentElem)
@@ -873,7 +873,7 @@ parseNote (xmlNodePtr noteElem, xmlNsPtr ns, DenemoObject * chordObj, gint curre
  * or rest.
  */
 static DenemoObject *
-parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoScore * si)
+parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoMovement * si)
 {
   xmlNodePtr durationElem, dotsElem;
   xmlNodePtr childElem;
@@ -996,7 +996,7 @@ parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoScore * si)
  * Parse the given <rest> element and return a chord-type DenemoObject.
  */
 static DenemoObject *
-parseRest (xmlNodePtr restElem, xmlNsPtr ns, DenemoScore * si)
+parseRest (xmlNodePtr restElem, xmlNsPtr ns, DenemoMovement * si)
 {
   DenemoObject *chordObj;
   xmlNodePtr childElem;
@@ -1064,7 +1064,7 @@ parseSources (xmlNodePtr parentElem)
 }
 
 static void
-parseAudio (xmlNodePtr parentElem, DenemoScore * si)
+parseAudio (xmlNodePtr parentElem, DenemoMovement * si)
 {
   xmlNodePtr childElem;
 
@@ -1082,7 +1082,7 @@ parseAudio (xmlNodePtr parentElem, DenemoScore * si)
  * 
  * @param chordElem the XML node to process
  * @param ns the Denemo XML namespaces
- * @param si the DenemoScore to populate 
+ * @param si the DenemoMovement to populate 
  * @param slurEndChordElems pointer to a slur end element
  * @param crescEndChordElems pointer to a crescendo end element
  * @param diminEndChordElems pointer to a diminuendo end element
@@ -1090,7 +1090,7 @@ parseAudio (xmlNodePtr parentElem, DenemoScore * si)
  * @return the new DenemoObject
  */
 static DenemoObject *
-parseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoScore * si, gint currentClef, GList ** slurEndChordElems, GList ** crescEndChordElems, GList ** diminEndChordElems, xmlNodePtr * notesElem)
+parseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoMovement * si, gint currentClef, GList ** slurEndChordElems, GList ** crescEndChordElems, GList ** diminEndChordElems, xmlNodePtr * notesElem)
 {
   DenemoObject *chordObj = parseBaseChord (chordElem, ns, si);
   xmlNodePtr childElem, grandchildElem;
@@ -1417,7 +1417,7 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem)
  * Parse the given <stem-directive> element into a DenemoObject.
  * @param stemDirectiveElem the XML node to process
  * @param ns the Denemo XML namespaces
- * @param si the DenemoScore to populate 
+ * @param si the DenemoMovement to populate 
  * 
  * @return the new DenemoObject
  * 
@@ -1458,7 +1458,7 @@ parseStemDirective (xmlNodePtr stemDirectiveElem, stemdirective * stem)
  * 
  * @param tupletStartElem the XML node to process
  * @param ns the Denemo XML namespaces
- * @param si the DenemoScore to populate 
+ * @param si the DenemoMovement to populate 
  * 
  * @return the new DenemoObject
  */
@@ -1590,7 +1590,7 @@ parseSourceFileElem (xmlNodePtr sElem, DenemoProject * gui)
  * Parse the given <setup-info> element into the given score.
  * @param editInfoElem the XML node to process
  * @param ns the Denemo XML namespaces
- * @param si the DenemoScore to populate 
+ * @param si the DenemoMovement to populate 
  * 
  * @return 0 on succes, -1 on failure
  */
@@ -1671,12 +1671,12 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoProject * gui)
  * Parse the given <edit-info> element into the given score.
  * @param editInfoElem the XML node to process
  * @param ns the Denemo XML namespaces
- * @param si the DenemoScore to populate 
+ * @param si the DenemoMovement to populate 
  * 
  * @return 0 on success, -1 on failure
  */
 static gint
-parseEditInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoScore * si)
+parseEditInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoMovement * si)
 {
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, editInfoElem)
@@ -1759,12 +1759,12 @@ parseEditInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoScore * si)
  * Parse the given <score-info> element into the given score.
  * @param scoreInfoElem the XML node to process
  * @param ns the Denemo XML namespaces
- * @param si the DenemoScore to populate 
+ * @param si the DenemoMovement to populate 
  * 
  * @return 0 on success, -1 on failure
  */
 static gint
-parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoScore * si)
+parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoMovement * si)
 {
   xmlNodePtr childElem, grandchildElem;
   gint bpm;
@@ -1914,12 +1914,12 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoScore * si)
  * Parse the given <staff> element into the staff in the given score.
  * @param staffElem the XML node to process
  * @param ns the Denemo XML namespaces
- * @param si the DenemoScore to populate 
+ * @param si the DenemoMovement to populate 
  * 
  * @return 0 on success, -1 on failure
  */
 static gint
-parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
+parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoMovement * si)
 {
   xmlNodePtr staffInfoElem, childElem;
   DenemoStaff *curStaff = (DenemoStaff *) si->currentprimarystaff->data;
@@ -2112,12 +2112,12 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
  * Parse the given <voice-info> element into the voice in the given score.
  * @param voiceInfoElem the XML node to process
  * @param ns the Denemo XML namespaces
- * @param si the DenemoScore to populate 
+ * @param si the DenemoMovement to populate 
  * 
  * @return 0 on success, -1 on failure
  */
 static gint
-parseVoiceProps (xmlNodePtr voicePropElem, DenemoScore * si)
+parseVoiceProps (xmlNodePtr voicePropElem, DenemoMovement * si)
 {
   DenemoStaff *curStaff = (DenemoStaff *) si->currentstaff->data;
   xmlNodePtr childElem;
@@ -2219,12 +2219,12 @@ parseVoiceProps (xmlNodePtr voicePropElem, DenemoScore * si)
  * Parse the given <voice-info> element into the voice in the given score.
  * @param voiceInfoElem the XML node to process
  * @param ns the Denemo XML namespaces
- * @param si the DenemoScore to populate 
+ * @param si the DenemoMovement to populate 
  * 
  * @return 0 on success, -1 on failure
  */
 static gint
-parseVoiceInfo (xmlNodePtr voiceInfoElem, xmlNsPtr ns, DenemoScore * si)
+parseVoiceInfo (xmlNodePtr voiceInfoElem, xmlNsPtr ns, DenemoMovement * si)
 {
   xmlNodePtr childElem;
   gchar *voiceName;
@@ -2269,12 +2269,12 @@ parseVoiceInfo (xmlNodePtr voiceInfoElem, xmlNsPtr ns, DenemoScore * si)
  * score.
  * @param initVoiceParamsElem the XML node to process
  * @param ns the Denemo XML namespaces
- * @param si the DenemoScore to populate 
+ * @param si the DenemoMovement to populate 
  * 
  * @return 0 on success, -1 on failure
  */
 static gint
-parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, xmlNsPtr ns, DenemoScore * si)
+parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, xmlNsPtr ns, DenemoMovement * si)
 {
   DenemoStaff *curVoice = (DenemoStaff *) si->currentstaff->data;
   xmlNodePtr childElem, staffElem;
@@ -2373,12 +2373,12 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, xmlNsPtr ns, DenemoScore *
  * Parse the given <measures> element into the voice in the given score.
  * @param measuresElem the XML node to process
  * @param ns the Denemo XML namespaces
- * @param si the DenemoScore to populate 
+ * @param si the DenemoMovement to populate 
  *
  * @return 0 on success, -1 on failure
  */
 static gint
-parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
+parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoMovement * si)
 {
   xmlNodePtr childElem, objElem, notesElem = NULL;
   DenemoObject *curObj;
@@ -2620,14 +2620,14 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
  * Parse the given <voice> element into a voice in the given score.
  * @param voiceElem the XML node to process
  * @param ns the Denemo XML namespaces
- * @param si the DenemoScore to populate 
+ * @param si the DenemoMovement to populate 
  * 
  * @return 0 on success, -1 on failure
  */
 static gint
 parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoProject * gui)
 {
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   xmlNodePtr childElem;
   /*  gchar *id; */
 
@@ -2682,14 +2682,14 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoProject * gui)
  * 
  * @param scoreElem the score element to process
  * @param ns Denemo's xml namespaces
- * @param si the DenemoScore structure to populate
+ * @param si the DenemoMovement structure to populate
  * 
  * @return 0 on success ,-1 on failure
  */
 static gint
 parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoProject * gui, ImportType type)
 {
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   xmlNodePtr childElem, voiceElem;
 
 
@@ -2761,13 +2761,13 @@ parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoProject * gui, ImportType t
 }
 
 
-/* parse the movement (ie DenemoScore) from childElem */
+/* parse the movement (ie DenemoMovement) from childElem */
 static gint
 parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoProject * gui, ImportType type)
 {
   int ret = 0;
 
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   if (type != ADD_STAFFS)
     gui->movements = g_list_append (gui->movements, gui->si);
   si->currentstaffnum = 0;

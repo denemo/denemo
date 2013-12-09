@@ -830,7 +830,7 @@ typedef struct DenemoTarget {
  *  that is,  uninterrupted music on a set of staffs, preceded by a title.
  */
  
-typedef struct DenemoScore
+typedef struct DenemoMovement
 {
   gboolean readonly; /**< Indicates if the file is readonly or not */
   GList *curlilynode; /**< the node of the lily parse tree on display 
@@ -878,7 +878,7 @@ typedef struct DenemoScore
    * though they may be modified by side-effects of the drawing routines */
   // score thescore;
   staffnode *thescore;
-  gint currentmovementnum;/**< position of this DenemoScore in the project->movements list starting at 1 */
+  gint currentmovementnum;/**< position of this DenemoMovement in the project->movements list starting at 1 */
   staffnode *currentprimarystaff;
   staffnode *currentstaff;
   gint currentstaffnum;/**< start at 1 */
@@ -955,11 +955,11 @@ typedef struct DenemoScore
   GList *Instruments;
   GtkWidget *buttonbox;/*< box for buttons accessing DenemoDirectives attached to the this movement*/
   GtkWidget *lyricsbox;/*< box for notebooks containing verses of lyrics for the movement */
-} DenemoScore;
+} DenemoMovement;
 
 /**
  * DenemoProject representing a musical score, with associated top level
- * GUI and a list of movements (DenemoScore) and a pointer to the current
+ * GUI and a list of movements (DenemoMovement) and a pointer to the current
  * movement. 
  */
 #define DENEMO_MAX_SYSTEMS (100) /**< Number of lines of music that can be displayed */
@@ -993,8 +993,8 @@ typedef struct DenemoProject
   input_mode mode; /**< Input mode for Score */
   GtkWidget *progressbar;
 
-  GList *movements;   /**< a list of DenemoScore, NULL if just one movement */
-  DenemoScore *si;  /**< the (current)  movement in the musical score controlled by this project */
+  GList *movements;   /**< a list of DenemoMovement, NULL if just one movement */
+  DenemoMovement *si;  /**< the (current)  movement in the musical score controlled by this project */
   DenemoLilyControl lilycontrol; /**< Directives for the start of the score and before every movement */
 
   scoreheader scoreheader;/*< Directives for the header block at the start of the score */

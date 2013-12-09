@@ -130,7 +130,7 @@ insertfakechord (GtkWidget * widget, gpointer data)
 {
   struct callbackdata *cbdata = (struct callbackdata *) data;
   DenemoProject *gui = cbdata->gui;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   if (cbdata->string == NULL)
     return FALSE;
   if (si->currentobject != NULL)
@@ -180,7 +180,7 @@ fakechord_insert (GtkAction * action, DenemoScriptParam * param)
   gchar *string;
   gchar *PreValue = NULL;
   GString *temp = g_string_new ("");
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   static struct callbackdata cbdata;
   DenemoObject *curObj = (DenemoObject *) si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
 

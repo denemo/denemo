@@ -11,8 +11,8 @@
 
 void point_to_empty_movement /*new_empty_score */ (DenemoProject * gui);
 void point_to_new_movement /*new_score */ (DenemoProject * gui);
-void init_score (DenemoScore * si, DenemoProject * gui);
-DenemoScore *clone_movement (DenemoScore * si);
+void init_score (DenemoMovement * si, DenemoProject * gui);
+DenemoMovement *clone_movement (DenemoMovement * si);
 void free_score (DenemoProject * gui);
 void deletescore (GtkWidget * widget, DenemoProject * gui);
 void updatescoreinfo (DenemoProject * gui);

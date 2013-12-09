@@ -50,7 +50,7 @@ settimesig (DenemoStaff * curstaffstruct, gint time1, gint time2)
 
 /**
  * Set the initial timesig on current staff or across entire score
- * @param si pointer to the DenemoScore structure.
+ * @param si pointer to the DenemoMovement structure.
  * @param curstaffstruct the staff to set the timesig for.
  * @param time1 the time signature nominator
  * @param time2 the time signature denominator
@@ -59,7 +59,7 @@ settimesig (DenemoStaff * curstaffstruct, gint time1, gint time2)
  * @return None
  */
 void
-dnm_setinitialtimesig (DenemoScore * si, DenemoStaff * curstaffstruct, gint time1, gint time2, gboolean all_staves)
+dnm_setinitialtimesig (DenemoMovement * si, DenemoStaff * curstaffstruct, gint time1, gint time2, gboolean all_staves)
 {
   staffnode *curstaff;
   take_snapshot ();
@@ -91,7 +91,7 @@ dnm_setinitialtimesig (DenemoScore * si, DenemoStaff * curstaffstruct, gint time
  * entire score.
  */
 static void
-insert_timesig (DenemoScore * si, DenemoStaff * curstaffstruct, gint time1, gint time2)
+insert_timesig (DenemoMovement * si, DenemoStaff * curstaffstruct, gint time1, gint time2)
 {
   staffnode *curstaff = NULL;
   measurenode *curmeasure = NULL;

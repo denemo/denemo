@@ -26,9 +26,9 @@ void clearbuffer (void);
 /* destroy the passed clipboard */
 void free_clipboard (GList * clipboard);
 
-void saveselection (DenemoScore * si);
+void saveselection (DenemoMovement * si);
 
-void copytobuffer (DenemoScore * si);
+void copytobuffer (DenemoMovement * si);
 
 void delete_selection (void);
 
@@ -48,29 +48,29 @@ void pastewrapper (GtkAction * action, DenemoScriptParam * param);
 
 
 
-void calcmarkboundaries (DenemoScore * si);
+void calcmarkboundaries (DenemoMovement * si);
 
 void saveselwrapper (GtkAction * action, DenemoScriptParam * param);
 void undowrapper (GtkAction * action, DenemoScriptParam * param);
 void redowrapper (GtkAction * action, DenemoScriptParam * param);
-void update_undo_info (DenemoScore * si, DenemoUndoData * undo);
-void update_redo_info (DenemoScore * si, DenemoUndoData * redo);
-void store_for_undo_change (DenemoScore * si, DenemoObject * obj);
+void update_undo_info (DenemoMovement * si, DenemoUndoData * undo);
+void update_redo_info (DenemoMovement * si, DenemoUndoData * redo);
+void store_for_undo_change (DenemoMovement * si, DenemoObject * obj);
 gboolean take_snapshot (void);
-void stage_undo (DenemoScore * si, action_type type);
+void stage_undo (DenemoMovement * si, action_type type);
 
 void goto_mark (GtkAction * action, DenemoScriptParam * param);
 void goto_selection_start (GtkAction * action, DenemoScriptParam * param);
 
 DenemoPosition *pop_position (void);
 void push_position (void);
-void get_position (DenemoScore * si, DenemoPosition * pos);
+void get_position (DenemoMovement * si, DenemoPosition * pos);
 
 DenemoObject *get_mark_object (void);
 DenemoObject *get_point_object (void);
-void save_selection (DenemoScore * si);
-void restore_selection (DenemoScore * si);
-gboolean in_selection (DenemoScore * si);
+void save_selection (DenemoMovement * si);
+void restore_selection (DenemoMovement * si);
+gboolean in_selection (DenemoMovement * si);
 
 void swap_point_and_mark (GtkAction * action, DenemoScriptParam * param);
 
@@ -82,10 +82,10 @@ void push_clipboard (void);
 
 gint get_staffs_in_clipboard (void);
 
-gchar *get_last_change (DenemoScore * si);
+gchar *get_last_change (DenemoMovement * si);
 
 void insert_clipboard (GList * clipboard);
 gint get_clip_objs (gint m);
 void insert_object (DenemoObject * clonedobj);
-void store_for_undo_measure_insert (DenemoScore * si, gint staffnum, gint measurenum);
+void store_for_undo_measure_insert (DenemoMovement * si, gint staffnum, gint measurenum);
 #endif

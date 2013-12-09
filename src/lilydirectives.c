@@ -183,7 +183,7 @@ static DenemoObject *
 get_object (void)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   return (DenemoObject *) si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
 }
 
@@ -341,7 +341,7 @@ static void
 insert_lily_directive (gchar * postfix, gchar * display, gboolean locked, gint minpixels)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   DenemoObject *lily;
   lilydirective *lilyobj = NULL;        /* a lily directive object */
   DenemoObject *curObj = (DenemoObject *) si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
@@ -1501,7 +1501,7 @@ attach_textedit_widget (DenemoDirective * directive)
 
      creates a widget (button or menu depending on fn) for editing/actioning directive, point directive->widget to it and attach a callback to edit/action this directive, passing fn as data to it (to say what sort of directive it is) or the directive itself (for actionscripts/editscripts).
 
-if directive is non-DenemoObject directive it  places the widget in the appropriate buttonbox/menu, the directives attached to DenemoObjects have menus created dynamically. (fn gives the type of directive: it determines where the widget goes (score or movement level, DenemoProject or DenemoScore respectively, or in staff or voice menu))
+if directive is non-DenemoObject directive it  places the widget in the appropriate buttonbox/menu, the directives attached to DenemoObjects have menus created dynamically. (fn gives the type of directive: it determines where the widget goes (score or movement level, DenemoProject or DenemoMovement respectively, or in staff or voice menu))
 
      set  the label for the widget from directive->display or the tag if no display text
      set  the visibility for the widget from directive->override
@@ -3244,7 +3244,7 @@ GET_INT_FIELD_FUNC (movementcontrol, y) GET_INT_FIELD_FUNC (movementcontrol, tx)
   GList *first = Denemo.project->movements;
   if (first)
     {
-      DenemoScore *si = (DenemoScore *) first->data;
+      DenemoMovement *si = (DenemoMovement *) first->data;
       if (si)
         {
           DenemoDirective *directive = find_directive (si->header.directives, "Movement-title");

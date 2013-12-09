@@ -17,7 +17,7 @@ void update_hscrollbar (DenemoProject * si);
 
 void update_vscrollbar (DenemoProject * si);
 
-gboolean set_rightmeasurenum (DenemoScore * si);
+gboolean set_rightmeasurenum (DenemoMovement * si);
 
 void set_bottom_staff (DenemoProject * gui);
 

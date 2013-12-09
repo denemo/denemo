@@ -658,7 +658,7 @@ get_tones (GList * tone_store, gint measurenum)
 */
 
 gboolean
-apply_tones (DenemoScore * si)
+apply_tones (DenemoMovement * si)
 {
   gboolean ret = FALSE;
   DenemoStaff *curstaff = ((DenemoStaff *) si->currentstaff->data);
@@ -790,7 +790,7 @@ enter_tone_in_store (DenemoProject * gui, notepitch * found, gint octave)
 static void
 clear_tone_nodes (DenemoProject * gui)
 {
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   DenemoStaff *curstaff = ((DenemoStaff *) si->currentstaff->data);
   measurenode *curmeasure;
   for (curmeasure = curstaff->measures; curmeasure; curmeasure = curmeasure->next)
@@ -844,7 +844,7 @@ clear_overlay (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam
  */
 /* UNUSED
 static void
-clear_tone_nodes_currentmeasure (DenemoScore * si)
+clear_tone_nodes_currentmeasure (DenemoMovement * si)
 {
   measurenode *curmeasure = si->currentmeasure;
   objnode *curobj = curmeasure->data;
@@ -861,7 +861,7 @@ clear_tone_nodes_currentmeasure (DenemoScore * si)
 
 
 gboolean
-delete_tone (DenemoScore * si, chord * thechord)
+delete_tone (DenemoMovement * si, chord * thechord)
 {
   GList *tone_node = thechord->tone_node;
   if (tone_node)

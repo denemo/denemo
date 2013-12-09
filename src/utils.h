@@ -108,7 +108,7 @@ GtkWindow *progressbar (gchar * msg, gpointer callback);
 void progressbar_stop (void);
 void busy_cursor (GtkWidget *area);
 void normal_cursor (GtkWidget *area);
-void headerfields (GtkWidget * dialog, GtkListStore * list_store, GtkTreeIter * iter, DenemoScore * si, gboolean isdialog);
+void headerfields (GtkWidget * dialog, GtkListStore * list_store, GtkTreeIter * iter, DenemoMovement * si, gboolean isdialog);
 /* default isdialog shall be TRUE */
 
 

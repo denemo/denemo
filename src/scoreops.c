@@ -31,13 +31,13 @@
 
 
 /**
- * Create new DenemoScore with no staff
+ * Create new DenemoMovement with no staff
  * set it as gui->si but do not add it to the movements list.
  */
 void
 point_to_empty_movement (DenemoProject * gui)
 {
-  DenemoScore *newscore = (DenemoScore *) g_malloc0 (sizeof (DenemoScore));
+  DenemoMovement *newscore = (DenemoMovement *) g_malloc0 (sizeof (DenemoMovement));
   init_score (newscore, gui);
   if (!Denemo.non_interactive && gui->si && gui->si->buttonbox)
     gtk_widget_hide (gui->si->buttonbox);
@@ -50,7 +50,7 @@ point_to_empty_movement (DenemoProject * gui)
 }
 
 /**
- * Create new DenemoScore with one empty staff
+ * Create new DenemoMovement with one empty staff
  * set it as gui->si but do not add it to the movements list.
  */
 void
@@ -141,7 +141,7 @@ new_movement (GtkAction * action, DenemoScriptParam * param, gboolean before)
   DenemoProject *gui = Denemo.project;
   gint pos = g_list_index (gui->movements, gui->si);
   append_new_movement (action, param);
-  DenemoScore *newsi = g_list_last (gui->movements)->data;
+  DenemoMovement *newsi = g_list_last (gui->movements)->data;
   gui->movements = g_list_delete_link (gui->movements, g_list_last (gui->movements));
   gui->movements = g_list_insert (gui->movements, newsi, before ? pos : pos + 1);
   newsi->currentmovementnum = 1 + g_list_index (gui->movements, newsi);
@@ -158,7 +158,7 @@ static void
 append_movement (GtkAction * action, gpointer param, gboolean populate)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoScore *source_movement = gui->si;
+  DenemoMovement *source_movement = gui->si;
   GList *g;
   (void) signal_structural_change (gui);
 
@@ -241,7 +241,7 @@ reset_movement_numbers (DenemoProject * gui)
   gint i;
   for (i = 1, g = gui->movements; g; g = g->next, i++)
     {
-      DenemoScore *si = g->data;
+      DenemoMovement *si = g->data;
       si->currentmovementnum = i;
     }
 }
@@ -273,7 +273,7 @@ delete_movement (GtkAction * action, DenemoScriptParam* param)
       if (confirm (primary->str, secondary->str))
         {
           free_score (gui);
-          DenemoScore *si = gui->si;
+          DenemoMovement *si = gui->si;
           GList *g = g_list_find (gui->movements, si)->next;
           if (g == NULL)
             g = g_list_find (gui->movements, si)->prev;
@@ -509,7 +509,7 @@ prev_movement (GtkAction * action, DenemoScriptParam * param)
  * @param si pointer to the scoreinfo structure to initialise
  */
 void
-init_score (DenemoScore * si, DenemoProject * gui)
+init_score (DenemoMovement * si, DenemoProject * gui)
 {
   gchar *dir = (gchar *) get_user_data_dir (TRUE);
 
@@ -594,7 +594,7 @@ init_score (DenemoScore * si, DenemoProject * gui)
 static gboolean
 delete_all_staffs (DenemoProject * gui)
 {
-  DenemoScore *si = gui->si;
+  DenemoMovement *si = gui->si;
   gint i;
   for (i = g_list_length (si->thescore); i > 0; i--)
     {
@@ -621,7 +621,7 @@ extract_verses (GList * verses)
 }
 
 /**
- * FIXME there is a muddle here between DenemoScore and DenemoProject
+ * FIXME there is a muddle here between DenemoMovement and DenemoProject
  * frees the data in the passed scoreinfo stucture 
  *
  * @param si pointer to the scoreinfo structure to free
@@ -648,11 +648,11 @@ free_score (DenemoProject * gui)
   g_queue_free (gui->si->redodata);
 }
 
-DenemoScore *
-clone_movement (DenemoScore * si)
+DenemoMovement *
+clone_movement (DenemoMovement * si)
 {
-  DenemoScore *newscore = (DenemoScore *) g_malloc0 (sizeof (DenemoScore));
-  memcpy (newscore, si, sizeof (DenemoScore));
+  DenemoMovement *newscore = (DenemoMovement *) g_malloc0 (sizeof (DenemoMovement));
+  memcpy (newscore, si, sizeof (DenemoMovement));
 
   GList *g;
   newscore->measurewidths = NULL;
@@ -799,7 +799,7 @@ void
 updatescoreinfo (DenemoProject * gui)
 {
   staffnode *curstaff;
-  DenemoScore *si;
+  DenemoMovement *si;
   GList *g = gui->movements;
   if (g)
     si = g->data;

@@ -74,7 +74,7 @@ get_midiqueue (void)
 void
 update_position (smf_event_t * event)
 {
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
 
   if (event)
     {

@@ -2054,7 +2054,7 @@ static gboolean
 retypeset (void)
 {
   static gint firstmeasure, lastmeasure, firststaff, laststaff, movementnum;
-  DenemoScore *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->si;
   if ((get_print_status()->printpid == GPID_NONE) && (gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.printarea))))
     {
       if (get_print_status()->typeset_type == TYPESET_ALL_MOVEMENTS)
