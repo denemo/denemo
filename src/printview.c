@@ -1972,6 +1972,7 @@ typeset_control (gpointer data)
 void
 _show_print_view (GtkAction * action)
 {
+  RETURN_IF_NON_INTERACTIVE ();
   present_print_view_window();
   if (action && (changecount != Denemo.project->changecount || Denemo.project->lilysync != Denemo.project->changecount))
     {

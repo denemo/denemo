@@ -1293,6 +1293,7 @@ scheme_get_last_change (SCM optional)
 SCM
 scheme_new_window (SCM optional)
 {
+  RETURN_IF_NON_INTERACTIVE(SCM_BOOL_T); 
   stage_undo (Denemo.project->si, ACTION_STAGE_START);
 
   //gint current =  Denemo.project->scorearea->allocation.width;
@@ -4757,7 +4758,7 @@ scheme_adjust_xes (SCM optional)
 static gint
 flash_cursor (void)
 {
-  gtk_widget_queue_draw (Denemo.scorearea);
+  score_area_needs_refresh ();
  // draw_score (NULL); what was this for?????
   return TRUE;
 }
@@ -4854,7 +4855,7 @@ scheme_set_background (SCM color)
     {
       gint value = scm_to_int (color);
       Denemo.color = value;
-      gtk_widget_queue_draw (Denemo.scorearea);
+      score_area_needs_refresh ();
       draw_score (NULL);
       return SCM_BOOL_T;
     }
@@ -5018,7 +5019,7 @@ scheme_staff_to_voice (SCM optional)
       ((DenemoStaff *) Denemo.project->si->currentstaff->data)->voicecontrol |= DENEMO_SECONDARY;
       setcurrentprimarystaff (Denemo.project->si);
       ret = SCM_BOOL_T;
-      gtk_widget_queue_draw (Denemo.scorearea);
+      score_area_needs_refresh ();
       score_status (Denemo.project, TRUE);
       draw_score (NULL);
     }
@@ -5035,7 +5036,7 @@ scheme_voice_to_staff (SCM optional)
       setcurrentprimarystaff (Denemo.project->si);
       ret = SCM_BOOL_T;
       score_status (Denemo.project, TRUE);
-      gtk_widget_queue_draw (Denemo.scorearea);
+      score_area_needs_refresh ();
     }
   return ret;
 }

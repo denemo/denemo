@@ -494,7 +494,7 @@ sharpen (GtkWidget * label)
   sharp_degree = flat_degree;
   flat_degree = (flat_degree + 7) % 12;
   temperament_offset = (temperament_offset + 5) % 12;
-  if (1 /*PR_window */ )
+  if (!Denemo.non_interactive /*PR_window */ )
     {
       gchar *names = notenames (PR_temperament);
       gtk_label_set_markup ((GtkLabel *) label, names);
@@ -528,13 +528,12 @@ flatten (GtkWidget * label)
   flat_degree = sharp_degree;
   sharp_degree = (sharp_degree + 5) % 12;
   temperament_offset = (temperament_offset + 7) % 12;
-  if (1 /*PR_window */ )
-    {
-      gchar *names = notenames (PR_temperament);
-      gtk_label_set_markup ((GtkLabel *) label, names);
-      g_free (names);
-      switch_back_to_main_window ();
-    }
+  if(!Denemo.non_interactive /*PR_window */ ){
+    gchar *names = notenames (PR_temperament);
+    gtk_label_set_markup ((GtkLabel *) label, names);
+    g_free (names);
+    switch_back_to_main_window ();
+  }
   reset_temperament ();
   return;
 }
@@ -576,8 +575,6 @@ enharmonic_step (gboolean sharp)
     sharpen (PR_label);
   else
     flatten (PR_label);
-  GtkAction *sharpaction = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/MIDI/SharpenEnharmonicSet");
-  GtkAction *flataction = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/MIDI/FlattenEnharmonicSet");
 
   sharpestname = nameof (sharp_degree);
   flattestname = nameof (flat_degree);
@@ -585,11 +582,17 @@ enharmonic_step (gboolean sharp)
   GValue a = { 0 };
   g_value_init (&a, G_TYPE_STRING);
   g_value_set_string (&a, label);
-  g_object_set_property (G_OBJECT (sharpaction), "label", &a);
+  if(!Denemo.non_interactive){
+    GtkAction *sharpaction = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/MIDI/SharpenEnharmonicSet");
+    g_object_set_property (G_OBJECT (sharpaction), "label", &a);
+  }
   g_free (label);
   label = g_strdup_printf ("(%s) Step Flatter", flattestname);
   g_value_set_string (&a, label);
-  g_object_set_property (G_OBJECT (flataction), "label", &a);
+  if(!Denemo.non_interactive){
+    GtkAction *flataction = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/MIDI/FlattenEnharmonicSet");
+    g_object_set_property (G_OBJECT (flataction), "label", &a);
+  }
   g_free (label);
   g_free (sharpestname);
   g_free (flattestname);
@@ -1757,7 +1760,7 @@ scorearea_set_active (G_GNUC_UNUSED GtkWidget * widget, G_GNUC_UNUSED GdkEventCr
 {
   PR_enable = TRUE;
   //gtk_widget_draw(Denemo.scorearea, NULL);
-  gtk_widget_queue_draw (Denemo.scorearea);
+  score_area_needs_refresh ();
   draw_score (NULL);
 }
 
@@ -1766,7 +1769,7 @@ scorearea_set_inactive (G_GNUC_UNUSED GtkWidget * widget, G_GNUC_UNUSED GdkEvent
 {
   PR_enable = FALSE;
   //gtk_widget_draw(Denemo.scorearea, NULL);
-  gtk_widget_queue_draw (Denemo.scorearea);
+  score_area_needs_refresh ();
   draw_score (NULL);
 }
 

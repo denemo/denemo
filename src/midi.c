@@ -666,7 +666,7 @@ midiaction (gint notenum)
     {
       stage_undo (gui->si, ACTION_STAGE_START);
     }
-  gtk_widget_queue_draw (Denemo.scorearea);     //just for advancing the cursor.
+  score_area_needs_refresh ();     //just for advancing the cursor.
   if (!(Denemo.keyboard_state & CHECKING_MASK))
     {
       if (Denemo.prefs.immediateplayback)

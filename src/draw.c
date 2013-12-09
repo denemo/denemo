@@ -43,7 +43,7 @@ initialize_playhead (void)
 void
 region_playhead (void)
 {
-  gtk_widget_queue_draw (Denemo.scorearea);
+  score_area_needs_refresh ();
 }
 
 
@@ -840,6 +840,7 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
 static gboolean
 draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, struct infotopass *itp)
 {
+  RETURN_IF_NON_INTERACTIVE (FALSE);
   DenemoStaff *thestaff = (DenemoStaff *) curstaff->data;
   gboolean repeat = FALSE;
   DenemoMovement *si = gui->si;
@@ -1227,7 +1228,7 @@ schedule_draw (gint * flip_count)
     {
       return FALSE;
     }
-  gtk_widget_queue_draw (Denemo.scorearea);
+  score_area_needs_refresh ();
   return TRUE;
 }
 

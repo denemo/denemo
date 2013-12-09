@@ -18,7 +18,7 @@ lyric_change (GtkTextBuffer * buffer)
 {
   DenemoProject *gui = Denemo.project;
   score_status (gui, TRUE);
-  gtk_widget_queue_draw (Denemo.scorearea);
+  score_area_needs_refresh ();
   return FALSE;
 }
 
@@ -48,7 +48,7 @@ newlyric (gint baseduration, gint numdots, gchar * lys)
 static void
 switch_page (GtkNotebook * notebook, gpointer dummy, guint pagenum, DenemoStaff * staff)
 {
-  gtk_widget_queue_draw (Denemo.scorearea);
+  score_area_needs_refresh ();
   staff->currentverse = g_list_nth (staff->verses, pagenum);
 }
 
@@ -95,6 +95,8 @@ add_verse_to_staff (DenemoMovement * si, DenemoStaff * staff)
 void
 add_verse (GtkAction * action, DenemoScriptParam * param)
 {
+  RETURN_IF_NON_INTERACTIVE();
+
   DenemoProject *gui = Denemo.project;
   DenemoMovement *si = gui->si;
   if (gui->si->currentstaff)
@@ -122,7 +124,7 @@ delete_verse (GtkAction * action, DenemoScriptParam * param)
       staff->currentverse = staff->verses;
       signal_structural_change (gui);
       score_status (gui, TRUE);
-      gtk_widget_queue_draw (Denemo.scorearea);
+      score_area_needs_refresh ();
     }
   }
 
@@ -142,6 +144,7 @@ get_text_from_view (GtkWidget * textview)
 gboolean
 scan_syllable (gchar ** next, GString * gs)
 {
+  RETURN_IF_NON_INTERACTIVE (TRUE);
   gboolean result;
   result = pango_scan_string ((const char **) next, gs);
   if (result && (*gs->str == '\\') && (*(gs->str + 1) != '\\') && (*(gs->str + 1) != '\"'))
@@ -195,7 +198,7 @@ next_syllable (gint count)
 void
 reset_lyrics (DenemoStaff * staff, gint count)
 {
-  if (DummyVerse == NULL)
+  if (!Denemo.non_interactive && DummyVerse == NULL)
     DummyVerse = gtk_text_view_new ();
   if (staff && staff->currentverse)
     lyric_iterator (staff->currentverse->data, count);
@@ -207,7 +210,7 @@ reset_lyrics (DenemoStaff * staff, gint count)
 
 void
 install_lyrics_preview (DenemoMovement * si, GtkWidget * top_vbox)
-{
+{  
   if (si->lyricsbox == NULL)
     si->lyricsbox = gtk_vbox_new (FALSE, 1);    //box to hold notebook of textview widgets
   gtk_box_pack_start (GTK_BOX (top_vbox), si->lyricsbox, FALSE, TRUE, 0);

@@ -146,4 +146,6 @@ void toggle_rest_mode (GtkAction * action, DenemoScriptParam* param);
 void toggle_rhythm_mode (GtkAction * action, DenemoScriptParam* param);
 void create_rhythm_cb (GtkAction * action, DenemoScriptParam* param);
 void delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param);
+
+void score_area_needs_refresh(void);
 #endif

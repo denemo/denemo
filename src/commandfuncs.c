@@ -948,7 +948,7 @@ cursor_to_next_note (DenemoScriptParam * param)
       if (Denemo.project->si->cursor_appending)
         {
           (void) cursor_to_next_note (param);
-          gtk_widget_queue_draw (Denemo.scorearea);
+          score_area_needs_refresh ();
         }
       if (Denemo.project->si->currentobject)
         {
@@ -977,7 +977,7 @@ cursor_to_next_chord (DenemoScriptParam * param)
       if (Denemo.project->si->cursor_appending)
         {
           (void) cursor_to_next_chord (param);
-          gtk_widget_queue_draw (Denemo.scorearea);
+          score_area_needs_refresh ();
         }
       if (Denemo.project->si->currentobject)
         {
@@ -1597,52 +1597,52 @@ insertion_point (DenemoMovement * si)
  * @param rest specifies a note is a rest
  */
 void
-dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean rest)
+dnm_insertchord (DenemoProject * project, gint duration, input_mode mode, gboolean rest)
 {
-  DenemoMovement *si = gui->si;
+  DenemoMovement *movement = project->si;  
   DenemoObject *mudela_obj_new;
-  gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->marked_onset;
-  if ((mode & INPUTEDIT) && !si->cursor_appending && !(mode & INPUTRHYTHM))
+  gboolean inserting_midi = movement->recording && (movement->recording->type==DENEMO_RECORDING_MIDI) && movement->marked_onset;
+  if ((mode & INPUTEDIT) && !movement->cursor_appending && !(mode & INPUTRHYTHM))
     {
-      highlight_duration (gui, duration);
-      changeduration (si, duration);
+      highlight_duration (project, duration);
+      changeduration (movement, duration);
       return;
     }
 
-  insertion_point (si);
+  insertion_point (movement);
 
   /* Now actually create the chord as an object (before insertion) */
   mudela_obj_new = newchord (duration, 0, 0);
   if ((mode & INPUTNORMAL) && (rest != TRUE))
     { 
-        if(inserting_midi && si->recording && si->marked_onset && si->marked_onset->data)
+        if(inserting_midi && movement->recording && movement->marked_onset && movement->marked_onset->data)
         { 
-            DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;
-            addtone (mudela_obj_new,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, si->cursorclef);
-            si->marked_onset = si->marked_onset->next;
+            DenemoRecordedNote *midinote = (DenemoRecordedNote*)movement->marked_onset->data;
+            addtone (mudela_obj_new,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, movement->cursorclef);
+            movement->marked_onset = movement->marked_onset->next;
         } else
-        addtone (mudela_obj_new, si->cursor_y, si->cursoraccs[si->staffletter_y], si->cursorclef);
+        addtone (mudela_obj_new, movement->cursor_y, movement->cursoraccs[movement->staffletter_y], movement->cursorclef);
 
     }
-  if ((mode & INPUTBLANK) || (gui->mode & INPUTBLANK) || (!rest && (Denemo.project->input_source == INPUTMIDI) && (gui->mode & (INPUTRHYTHM))))
+  if ((mode & INPUTBLANK) || (project->mode & INPUTBLANK) || (!rest && (Denemo.project->input_source == INPUTMIDI) && (project->mode & (INPUTRHYTHM))))
     mudela_obj_new->isinvisible = TRUE;
 
   /* Insert the new note into the score.  Note that while we may have
      added a measure above, object_insert will invoke nudgerightward,
      which will in turn invoke update_hscrollbar, so we
      don't need to invoke that here.  */
-  gboolean was_appending = si->cursor_appending;
-  object_insert (gui, mudela_obj_new);
+  gboolean was_appending = movement->cursor_appending;
+  object_insert (project, mudela_obj_new);
   if(inserting_midi)
       mudela_obj_new->isinvisible = FALSE;
       
-  if (Denemo.project->input_source == INPUTMIDI && (gui->mode & (INPUTRHYTHM)))
+  if (Denemo.project->input_source == INPUTMIDI && (project->mode & (INPUTRHYTHM)))
     {
       if (Denemo.prefs.immediateplayback)
         {
             if(inserting_midi && !rest)
                 {
-                DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
+                DenemoStaff *curstaffstruct = (DenemoStaff *) movement->currentstaff->data;
                 //play_notes (DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, (chord *) mudela_obj_new->object);//compute duration and use that???
                  note *n = ((chord *) mudela_obj_new->object)->notes->data;
 
@@ -1656,7 +1656,7 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
                   gchar key = 60 + 12 * (offset / 7) + key_offset[offset % 7 + 6];
                   key += n->enshift;
 #define MIDI_RESOLUTION (384)
-                 gint duration_ms = 1000 * mudela_obj_new->durinticks * 60.0 / (si->tempo * MIDI_RESOLUTION);
+                 gint duration_ms = 1000 * mudela_obj_new->durinticks * 60.0 / (movement->tempo * MIDI_RESOLUTION);
                  g_debug("duration %d duration ms = %d\n", duration, duration_ms);
                  play_note (DEFAULT_BACKEND , curstaffstruct->midi_port , curstaffstruct->midi_channel, key, duration_ms, 127);
                 
@@ -1672,7 +1672,7 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
     {
       if (Denemo.project->last_source == INPUTKEYBOARD)
         {
-          DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
+          DenemoStaff *curstaffstruct = (DenemoStaff *) movement->currentstaff->data;
           if (Denemo.prefs.immediateplayback)
             {
               play_notes (DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, (chord *) mudela_obj_new->object);
@@ -1852,21 +1852,24 @@ insert_chordnote (DenemoProject * gui)
 void
 displayhelper (DenemoProject * gui)
 {
-  DenemoMovement *si = gui->si;
-  beamandstemdirhelper (si);
-  showwhichaccidentals ((objnode *) si->currentmeasure->data, si->curmeasurekey, si->curmeasureaccs);
-  find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1, si->cursortime2);
-  nudgerightward (gui);
-  set_bottom_staff (gui);
-  write_status (gui);
+  if(!Denemo.non_interactive)
+  {
+    DenemoMovement *si = gui->si;
+    beamandstemdirhelper (si);
+    showwhichaccidentals ((objnode *) si->currentmeasure->data, si->curmeasurekey, si->curmeasureaccs);
+    find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1, si->cursortime2);
+    nudgerightward (gui);
+    set_bottom_staff (gui);
+    write_status (gui);
 
-#if 0
-  if ((gui->mode & (INPUTRHYTHM)) && si->currentobject && (((DenemoObject *) (si->currentobject->data))->type == CHORD) && ((DenemoObject *) (si->currentobject->data))->starttickofnextnote >= WHOLE_NUMTICKS * si->cursortime1 / si->cursortime2)
-    gdk_beep ();                //Signal new measures in Edit mode to catch out of step entry
-#endif
-  /*gtk_widget_draw (Denemo.scorearea, NULL); */
-  gtk_widget_queue_draw (Denemo.scorearea);
-  draw_score (NULL);
+  #if 0
+    if ((gui->mode & (INPUTRHYTHM)) && si->currentobject && (((DenemoObject *) (si->currentobject->data))->type == CHORD) && ((DenemoObject *) (si->currentobject->data))->starttickofnextnote >= WHOLE_NUMTICKS * si->cursortime1 / si->cursortime2)
+      gdk_beep ();                //Signal new measures in Edit mode to catch out of step entry
+  #endif
+    /*gtk_widget_draw (Denemo.scorearea, NULL); */
+    score_area_needs_refresh ();
+    draw_score (NULL);
+  }
 }
 
 
@@ -2456,7 +2459,7 @@ toggle_tie (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * 
     {
       store_for_undo_change (si, curmudelaobj);
       ((chord *) curmudelaobj->object)->is_tied ^= 1;
-      gtk_widget_queue_draw (Denemo.scorearea);
+      score_area_needs_refresh ();
     }
   score_status (gui, TRUE);
 }

@@ -30,6 +30,7 @@ static void replace_cb (GtkAction * action, gpointer user_data);
 gchar *
 getSchemeText (void)
 {
+  RETURN_IF_NON_INTERACTIVE (NULL);
   GtkTextIter startiter, enditer;
   GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.ScriptView));
   gtk_text_buffer_get_start_iter (buffer, &startiter);
@@ -43,6 +44,8 @@ void
 executeScript (void)
 {
   gchar *text = getSchemeText ();
+  if(!text)
+    return;
   g_debug ("Calling script %s\n", text);
   stage_undo (Denemo.project->si, ACTION_STAGE_END);        //undo is a queue so this is the end :)
   (void) call_out_to_guile (text);
@@ -83,6 +86,7 @@ getNumCharsSchemeText (void)
 void
 deleteSchemeText (void)
 {
+  RETURN_IF_NON_INTERACTIVE ();
   GtkTextIter startiter, enditer;
   GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.ScriptView));
   gtk_text_buffer_get_start_iter (buffer, &startiter);
@@ -93,6 +97,7 @@ deleteSchemeText (void)
 void
 appendSchemeText (gchar * text)
 {
+  RETURN_IF_NON_INTERACTIVE ();
   GtkTextIter enditer;
   GtkTextBuffer *buffer = gtk_text_view_get_buffer ((GtkTextView *) (Denemo.ScriptView));
   gtk_text_buffer_get_end_iter (buffer, &enditer);
@@ -114,7 +119,7 @@ save_scheme_text_as (GtkWidget * widget, GtkWidget * textview)
   gchar *text = getSchemeText ();
   GtkWidget *label;
   GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.ScriptView));
-  GtkWidget *dialog = gtk_file_chooser_dialog_new ("Save Scheme Text as...",
+  GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Save Scheme Text as…"),
                                                    NULL /*GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.ScriptView), GTK_TEXT_WINDOW_WIDGET)) */ ,
                                                    GTK_FILE_CHOOSER_ACTION_SAVE,
                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -128,7 +133,7 @@ save_scheme_text_as (GtkWidget * widget, GtkWidget * textview)
       if (g_file_test (*pfilename, G_FILE_TEST_EXISTS))
         {
           gtk_widget_destroy (dialog);
-          dialog = gtk_dialog_new_with_buttons ("File already exists",  //FIXME I think there is a function to do this already.
+          dialog = gtk_dialog_new_with_buttons (_("File already exists"),  //FIXME I think there is a function to do this already.
                                                 NULL /*GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.ScriptView), GTK_TEXT_WINDOW_WIDGET)) */ ,
                                                 GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_OK, GTK_RESPONSE_OK, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
           gchar *labeltext = g_strconcat ("\nThe file ", *pfilename, " already exists.\n Do you want to overwrite it?\n\n", NULL);

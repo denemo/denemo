@@ -11,6 +11,7 @@
  * (at your option) any later version.
  */
 
+#include "utils.h"
 #include "audiointerface.h"
 #include "eventqueue.h"
 #include "dummybackend.h"
@@ -286,6 +287,8 @@ destroy (backend_type_t backend)
 int
 audio_shutdown ()
 {
+  RETURN_IF_NON_INTERACTIVE(0);
+  
   g_atomic_int_set (&quit_thread, TRUE);
 
   if (queue_thread)
@@ -317,7 +320,7 @@ redraw_all_callback (gpointer data)
 {
   gdk_threads_enter ();
   //displayhelper(Denemo.project);
-  gtk_widget_queue_draw (Denemo.scorearea);
+  score_area_needs_refresh ();
   gdk_threads_leave ();
   return FALSE;
 }
@@ -583,6 +586,7 @@ get_playback_time (void)
 void
 midi_play (gchar * callback)
 {
+  RETURN_IF_NON_INTERACTIVE();
   generate_midi ();
 
   reset_playback_queue (AUDIO_BACKEND);
@@ -616,6 +620,7 @@ audio_play (void)
 void
 midi_stop ()
 {
+  RETURN_IF_NON_INTERACTIVE();
   g_message ("Stopping playback");
 
   get_backend (AUDIO_BACKEND)->stop_playing ();
@@ -637,6 +642,8 @@ midi_stop ()
 int
 play_midi_event (backend_type_t backend, int port, unsigned char *buffer)
 {
+  RETURN_IF_NON_INTERACTIVE (FALSE);
+  
   guchar ev[1 + 255];           /* 1 length byte plus up to 255 data bytes */
   gint i = 3;
 #ifndef _HAVE_JACK_
@@ -695,6 +702,8 @@ play_note (backend_type_t backend, int port, int channel, int key, int duration,
 int
 play_notes (backend_type_t backend, int port, int channel, chord * chord_to_play)
 {
+  RETURN_IF_NON_INTERACTIVE (0);
+  
   if (chord_to_play->notes)
     {
       GList *g;

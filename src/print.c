@@ -780,6 +780,7 @@ export_pdf (gchar * filename, DenemoProject * gui)
 void
 printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
+  RETURN_IF_NON_INTERACTIVE ();
 #ifndef USE_EVINCE  
   g_debug("This feature requires denemo to be built with evince");
 #else
@@ -818,8 +819,10 @@ void
 printexcerptpreview_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  if (!gui->si->markstaffnum)   //If no selection has been made 
+  if (!gui->si->markstaffnum){   //If no selection has been made 
+    RETURN_IF_NON_INTERACTIVE();
     printrangedialog (gui);     //Launch a dialog to get selection
+  }
   if (gui->si->selection.firstmeasuremarked)
     {
       gui->lilycontrol.excerpt = TRUE;

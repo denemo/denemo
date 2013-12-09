@@ -334,6 +334,7 @@ button_response (GtkWidget * dialog, gint response_id, keysig_data * data)
 void
 key_change (DenemoProject * gui, actiontype action)
 {
+  RETURN_IF_NON_INTERACTIVE ();
   GtkWidget *dialog;
   gboolean initial = action == CHANGEINITIAL ? TRUE : FALSE;
   /* GUI setup */

@@ -20,6 +20,7 @@
 void
 about (GtkAction * action, DenemoScriptParam* callback_data)
 {
+  RETURN_IF_NON_INTERACTIVE();
   GtkWidget *dialog;
   const char *authors[] = { "Richard Shann", "Jeremiah Benham", "Matthew Hiller", "Adam Tee", "Nils Gey", NULL };
 
@@ -51,6 +52,7 @@ NO WARRANTY; see the file COPYING for details."));
 void
 browse_manual (GtkAction * action, DenemoScriptParam * param)
 {
+  RETURN_IF_NON_INTERACTIVE();
   GET_1PARAM (action, param, url);
   gboolean retval;
   GError *error = NULL;

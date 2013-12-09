@@ -410,6 +410,7 @@ write_xml_keybinding_info (gchar * kb_name, xmlNodePtr node)
 static void
 output_pointer_shortcut (gint * state, GdkCursor * cursor, xmlNodePtr parent)
 {
+  RETURN_IF_NON_INTERACTIVE ();
   gchar *statestr = g_strdup_printf ("%x", *state);
 #if GTK_MAJOR_VERSION==3
   gint cursor_num = gdk_cursor_get_cursor_type (cursor);
@@ -427,6 +428,9 @@ output_pointer_shortcut (gint * state, GdkCursor * cursor, xmlNodePtr parent)
 gint
 save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving C-code to create the actions at runtime with translatable tooltips.
 {
+  /* The gtk_action_get_name() call makes this function unavailable in uninteractive mode */
+  RETURN_IF_NON_INTERACTIVE (0);
+  
   keymap *the_keymap = Denemo.map;
   gint i, ret = -1;
   xmlDocPtr doc;

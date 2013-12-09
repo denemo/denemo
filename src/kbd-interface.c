@@ -360,7 +360,7 @@ return	cbdata.command_view;
 void
 configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
 {
-  
+  RETURN_IF_NON_INTERACTIVE ();
   GtkWidget *frame;
   GtkWidget *vbox, *outer_hbox;
   GtkWidget *table;

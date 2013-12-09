@@ -155,8 +155,10 @@ timesig_change_insert (GtkAction * action, DenemoScriptParam * param)
       param->status = TRUE;
       return;
     }
-  if (timesigname == NULL)
+  if (timesigname == NULL){
+    RETURN_IF_NON_INTERACTIVE();
     timesig_change (gui, INSERT);
+  }
   else
     {
       DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
@@ -191,8 +193,10 @@ timesig_change_initial (GtkAction * action, DenemoScriptParam * param)
       return;
     }
 
-  if (timesigname == NULL)
+  if (timesigname == NULL){
+    RETURN_IF_NON_INTERACTIVE();
     timesig_change (gui, CHANGEINITIAL);
+  }
   else
     {
       DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;

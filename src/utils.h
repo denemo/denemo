@@ -41,6 +41,12 @@
 #define g_info(format) g_log(G_LOG_DOMAIN, G_LOG_LEVEL_INFO, format);
 #endif
 
+#define RETURN_IF_NON_INTERACTIVE(param) if(Denemo.non_interactive) return param;
+#define WARN_AND_RETURN_IF_NON_INTERACTIVE(param) if(Denemo.non_interactive){\
+  g_warning(_("This function cannot be used in non interactive mode"))\
+  return param;\
+}
+
 const gchar *get_user_data_dir (gboolean create);
 
 const gchar *locateprintdir (void);

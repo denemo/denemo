@@ -44,6 +44,7 @@ set_preferences (struct callbackdata *cbdata)
 void
 playback_properties_change (GtkAction * action, DenemoScriptParam* param)
 {
+  RETURN_IF_NON_INTERACTIVE();
   DenemoProject *gui = Denemo.project;
   GtkWidget *dialog;
   GtkWidget *label;

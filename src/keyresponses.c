@@ -554,6 +554,7 @@ default_mode (DenemoScriptParam *param)
 void
 rest_toggle_key (GtkAction* action, DenemoScriptParam *param)
 {
+  RETURN_IF_NON_INTERACTIVE ();
   GtkAction *mode = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/Rest");
   gtk_action_activate (mode);
   displayhelper (Denemo.project);
@@ -567,6 +568,7 @@ rest_toggle_key (GtkAction* action, DenemoScriptParam *param)
 void
 toggle_blank (GtkAction* action, DenemoScriptParam *param)
 {
+  RETURN_IF_NON_INTERACTIVE ();
   GtkAction *mode = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/Blank");
   gtk_action_activate (mode);
   displayhelper (Denemo.project);

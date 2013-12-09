@@ -176,6 +176,7 @@ insertfakechord (GtkWidget * widget, gpointer data)
 void
 fakechord_insert (GtkAction * action, DenemoScriptParam * param)
 {
+  RETURN_IF_NON_INTERACTIVE();
   DenemoProject *gui = Denemo.project;
   gchar *string;
   gchar *PreValue = NULL;
@@ -193,7 +194,7 @@ fakechord_insert (GtkAction * action, DenemoScriptParam * param)
 
 
 
-  string = string_dialog_entry (gui, "Insert/Edit Fake Chord", "Give Chords followed by Enter key", PreValue);
+  string = string_dialog_entry (gui, _("Insert/Edit Fake Chord"), _("Give Chords followed by Enter key"), PreValue);
 
   cbdata.gui = gui;
   cbdata.string = string;

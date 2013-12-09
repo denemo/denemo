@@ -9,6 +9,7 @@
 #include "calculatepositions.h"
 #include "commandfuncs.h"
 #include "staffops.h"
+#include "utils.h"
 #include <stdio.h>
 
 /**
@@ -60,6 +61,7 @@ barlinefromname (gchar * thetext)
 void
 insert_barline (GtkAction * action, DenemoScriptParam * param)
 {
+  RETURN_IF_NON_INTERACTIVE ();
   DenemoProject *gui = Denemo.project;
   GtkWidget *dialog;
   GtkWidget *label;
