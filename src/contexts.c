@@ -89,10 +89,10 @@ DenemoObject *
 get_clef_before_object (objnode * obj)
 {
   DenemoObject *ret;
-  objnode *curobj = Denemo.gui->si->currentobject;
-  Denemo.gui->si->currentobject = obj;
-  ret = find_context_of_object (Denemo.gui->si, CLEF);
-  Denemo.gui->si->currentobject = curobj;
+  objnode *curobj = Denemo.project->si->currentobject;
+  Denemo.project->si->currentobject = obj;
+  ret = find_context_of_object (Denemo.project->si, CLEF);
+  Denemo.project->si->currentobject = curobj;
   return ret;
 }
 
@@ -110,26 +110,26 @@ find_prevailing_clef (DenemoScore * si)
 gpointer
 get_prevailing_context (DenemoObjType type)
 {
-  DenemoStaff *curstaff = ((DenemoStaff *) Denemo.gui->si->currentstaff->data);
+  DenemoStaff *curstaff = ((DenemoStaff *) Denemo.project->si->currentstaff->data);
   DenemoObject *obj;
   switch (type)
     {
     case CLEF:
-      obj = find_context_of_object (Denemo.gui->si, CLEF);
+      obj = find_context_of_object (Denemo.project->si, CLEF);
       if (obj == NULL)
         obj = (DenemoObject *) & curstaff->clef;
       else
         obj = obj->object;
       break;
     case KEYSIG:
-      obj = find_context_of_object (Denemo.gui->si, KEYSIG);
+      obj = find_context_of_object (Denemo.project->si, KEYSIG);
       if (obj == NULL)
         obj = (DenemoObject *) & curstaff->keysig;
       else
         obj = obj->object;
       break;
     case TIMESIG:
-      obj = find_context_of_object (Denemo.gui->si, TIMESIG);
+      obj = find_context_of_object (Denemo.project->si, TIMESIG);
       if (obj == NULL)
         obj = (DenemoObject *) & curstaff->timesig;
       else

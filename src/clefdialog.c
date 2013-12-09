@@ -70,7 +70,7 @@ void
 clef_change_insert (GtkAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, clefname);
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (clefname == NULL)
     clef_change (gui, INSERT);
   else
@@ -90,7 +90,7 @@ void
 clef_change_initial (GtkAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, clefname);
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (clefname == NULL)
     clef_change (gui, CHANGEINITIAL);
   else
@@ -109,8 +109,8 @@ dnm_setinitialclef (DenemoScore * si, DenemoStaff * curstaffstruct, enum clefs c
   find_leftmost_staffcontext (curstaffstruct, si);
   fixnoteheights (curstaffstruct);
   find_xes_in_all_measures (si);
-  displayhelper (Denemo.gui);
-  score_status(Denemo.gui, TRUE);
+  displayhelper (Denemo.project);
+  score_status(Denemo.project, TRUE);
 }
 
 /**
@@ -119,7 +119,7 @@ dnm_setinitialclef (DenemoScore * si, DenemoStaff * curstaffstruct, enum clefs c
  * 2,  Insert Clef Change
  */
 void
-clef_change (DenemoGUI * gui, actiontype action)
+clef_change (DenemoProject * gui, actiontype action)
 {
   GtkWidget *dialog;
   GtkWidget *label;

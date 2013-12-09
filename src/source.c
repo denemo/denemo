@@ -60,7 +60,7 @@ overdraw (cairo_t * cr, EvView * view)
   gint x, y, page;
   gdouble scale;
   get_window_position (view, &x, &y, &page, &scale);
-  // cairo_scale( cr, Denemo.gui->si->preview_zoom, Denemo.gui->si->preview_zoom );
+  // cairo_scale( cr, Denemo.project->si->preview_zoom, Denemo.project->si->preview_zoom );
   cairo_translate (cr, -x, -y);
   if (Mark.width)
     {
@@ -146,12 +146,12 @@ static gboolean
 position_source_window (EvView * view)
 {
   GtkWidget *top_vbox = gtk_widget_get_toplevel (GTK_WIDGET (view));
-  if (Denemo.gui->source_scale)
+  if (Denemo.project->source_scale)
     {
-      //gtk_widget_set_size_request(GTK_WIDGET(top_vbox), Denemo.gui->source_width, Denemo.gui->source_height);
+      //gtk_widget_set_size_request(GTK_WIDGET(top_vbox), Denemo.project->source_width, Denemo.project->source_height);
       //EvDocumentModel *model = (EvDocumentModel*)g_object_get_data(G_OBJECT(view), "model");
-      //ev_document_model_set_scale(model, Denemo.gui->source_scale/1000.0);
-      gtk_window_move (GTK_WINDOW (top_vbox), Denemo.gui->source_x, Denemo.gui->source_y);
+      //ev_document_model_set_scale(model, Denemo.project->source_scale/1000.0);
+      gtk_window_move (GTK_WINDOW (top_vbox), Denemo.project->source_x, Denemo.project->source_y);
     }
   else
     gtk_window_present (GTK_WINDOW (top_vbox));
@@ -161,7 +161,7 @@ position_source_window (EvView * view)
 static gchar *locate_file (gchar *filename) {
 	if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {	
 	 gchar *basename = g_path_get_basename(filename);
-	 gchar *pathdir = g_path_get_dirname (Denemo.gui->filename->str);
+	 gchar *pathdir = g_path_get_dirname (Denemo.project->filename->str);
 	 filename = g_build_filename (pathdir, basename, NULL);
 	 g_free(basename);
 	 g_free(pathdir);
@@ -197,7 +197,7 @@ get_view (gchar * filename)
   gtk_window_set_title (GTK_WINDOW (top_vbox), g_strdup_printf ("Denemo - Source File: %s", filename));
 
 #if 0
-  if (Denemo.gui->source_scale)
+  if (Denemo.project->source_scale)
     {
       ! ! ! !nooooo, get_window_position is getting the vadj, hadj settings, ie where it is scrolled to we need to get the position of the root window top vbox on the desk top, and its width and height, possibly the scale will follow ... ! ! ! ! ! ! ! !this is the gtk window widget not the gdk window ! gtk_window_move (GtkWindow * window, gint x, gint y);
       gtk_window_get_position (GtkWindow * window, gint * root_x, gint * root_y);
@@ -208,10 +208,10 @@ get_view (gchar * filename)
 #else
 
   g_idle_add ((GSourceFunc) position_source_window, view);
-//gtk_window_move (GTK_WINDOW(top_vbox), Denemo.gui->source_x, Denemo.gui->source_y);
+//gtk_window_move (GTK_WINDOW(top_vbox), Denemo.project->source_x, Denemo.project->source_y);
 //gtk_widget_set_size_request(GTK_WIDGET(top_vbox), 600, 750);
-  if (Denemo.gui->source_scale)
-    gtk_window_set_default_size (GTK_WINDOW (top_vbox), Denemo.gui->source_width, Denemo.gui->source_height);
+  if (Denemo.project->source_scale)
+    gtk_window_set_default_size (GTK_WINDOW (top_vbox), Denemo.project->source_width, Denemo.project->source_height);
   else
     gtk_window_set_default_size (GTK_WINDOW (top_vbox), 600, 750);
 #endif

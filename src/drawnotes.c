@@ -265,7 +265,7 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
         {
           if (selected)
             cairo_set_source_rgb (cr, 231.0 / 255, 1, 39.0 / 255);
-          else if (Denemo.gui->si->recording)
+          else if (Denemo.project->si->recording)
             cairo_set_source_rgba (cr, 180.0 / 255, 160.0 / 255, 32.0 / 255, 0.4);    // yellow for non printing
           else
             cairo_set_source_rgb (cr, 180.0 / 255, 160.0 / 255, 32.0 / 255);    // yellow for non printing

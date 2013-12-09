@@ -281,7 +281,7 @@ set_preferences (struct callbackdata *cbdata)
     //g_print ("Timeout %d \n", prefs->autosave_timeout);
     if (midi_in_device_was_default && strcmp (prefs->portmidi_input_device->str, "default"))
     {
-      Denemo.gui->input_source = INPUTMIDI;
+      Denemo.project->input_source = INPUTMIDI;
       prefs->startmidiin = TRUE;
     }
   if (prefs->learning)
@@ -319,7 +319,7 @@ midi_audio_tab_update (GtkWidget * box, gpointer data)
 void
 preferences_change (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GtkWidget *dialog;
   GtkWidget *label;
   GtkWidget *separator;

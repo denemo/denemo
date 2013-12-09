@@ -18,7 +18,7 @@
 void
 toggle_grace (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoScore *si = gui->si;
   GET_1PARAM (action, param, grace);
   DenemoObject *curmudelaobj = (DenemoObject *) (gui->si->currentobject ? gui->si->currentobject->data : NULL);
@@ -30,7 +30,7 @@ toggle_grace (GtkAction * action, DenemoScriptParam * param)
         {
           store_for_undo_change (si, curmudelaobj);
           ((chord *) curmudelaobj->object)->is_grace ^= GRACED_NOTE;
-          displayhelper (Denemo.gui);
+          displayhelper (Denemo.project);
         }
       //g_print("now %x\n",  ((chord *)curmudelaobj->object)->is_grace);
     }
@@ -39,7 +39,7 @@ toggle_grace (GtkAction * action, DenemoScriptParam * param)
 void
 toggle_acciaccatura (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoScore *si = gui->si;
   GET_1PARAM (action, param, grace);
   DenemoObject *curmudelaobj = (DenemoObject *) (gui->si->currentobject ? gui->si->currentobject->data : NULL);
@@ -51,7 +51,7 @@ toggle_acciaccatura (GtkAction * action, DenemoScriptParam * param)
         {
           store_for_undo_change (si, curmudelaobj);
           ((chord *) curmudelaobj->object)->is_grace ^= ACCIACCATURA;
-          displayhelper (Denemo.gui);
+          displayhelper (Denemo.project);
         }
       //g_print("now %x\n",  ((chord *)curmudelaobj->object)->is_grace);
     }

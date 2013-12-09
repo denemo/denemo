@@ -14,12 +14,12 @@
 /**
  *  Find the specified bookmark and go to it.
  * 
- * @param gui pointer to the DenemoGUI structure
+ * @param gui pointer to the DenemoProject structure
  * @param bmbar the bookmarks measure
  * @param bmstaff the bookmarks staff
  */
 static void
-findbookmark (DenemoGUI * gui, gint bmbar, gint bmstaff)
+findbookmark (DenemoProject * gui, gint bmbar, gint bmstaff)
 {
   g_assert (gui != NULL);
   set_currentmeasurenum (gui, bmbar);
@@ -35,7 +35,7 @@ findbookmark (DenemoGUI * gui, gint bmbar, gint bmstaff)
 void
 addbookmark (GtkAction * action, gpointer param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   g_assert (gui != NULL);
   DenemoScore *si = gui->si;
   Bookmark *bm = (Bookmark *) g_malloc0 (sizeof (Bookmark));
@@ -53,7 +53,7 @@ addbookmark (GtkAction * action, gpointer param)
 void
 deletebookmarks (GtkAction * action, gpointer param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GList *g;
   DenemoScore *si = gui->si;
   for (g = si->bookmarks; g; g = g->next)
@@ -66,7 +66,7 @@ deletebookmarks (GtkAction * action, gpointer param)
 void
 nextbookmark (GtkAction * action, gpointer param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (gui->si->bookmarks)
     {
       GList *g = g_list_nth (gui->si->bookmarks, gui->si->currentbookmark + 1);
@@ -85,7 +85,7 @@ nextbookmark (GtkAction * action, gpointer param)
 void
 prevbookmark (GtkAction * action, gpointer param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (gui->si->bookmarks)
     {
       GList *g = g_list_nth (gui->si->bookmarks, gui->si->currentbookmark - 1);
@@ -108,7 +108,7 @@ prevbookmark (GtkAction * action, gpointer param)
 void
 gotobookmark (GtkAction * action, gpointer param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   g_assert (gui != NULL);
   if (gui->si->bookmarks == NULL)
     {

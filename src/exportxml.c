@@ -324,7 +324,7 @@ newThumbnailElem (xmlNodePtr curElem, xmlNsPtr ns, DenemoSelection * thumbnail, 
 }
 
 static void
-newSourceFileElem (xmlNodePtr curElem, xmlNsPtr ns, DenemoGUI * gui)
+newSourceFileElem (xmlNodePtr curElem, xmlNsPtr ns, DenemoProject * gui)
 {
 #ifndef USE_EVINCE  
   g_debug("This feature requires denemo to be built with evince");
@@ -687,7 +687,7 @@ set_invisible (xmlNodePtr objElem, DenemoObject * curObj)
  * Denemo XML file to the given file.
  */
 gint
-exportXML (gchar * thefilename, DenemoGUI * gui)
+exportXML (gchar * thefilename, DenemoProject * gui)
 {
   gint ret = 0;
   GString *filename = g_string_new (thefilename);

@@ -46,7 +46,7 @@
 #define INIT_SCM "init.scm"
 
 void newview (GtkAction * action, DenemoScriptParam * param);
-void free_movements (DenemoGUI * gui);  /* frees all movement data (i.e. the DenemoScore objects) from gui, leaving gui interface intact */
+void free_movements (DenemoProject * gui);  /* frees all movement data (i.e. the DenemoScore objects) from gui, leaving gui interface intact */
 void addhistorymenuitem (gchar * filename);
 
 //TODO Fix for automatic updating during operation
@@ -59,8 +59,8 @@ void addhistorymenuitem (gchar * filename);
 void highlight_rhythm (RhythmPattern * r);
 
 void unhighlight_rhythm (RhythmPattern * r);
-void highlight_duration (DenemoGUI * gui, gint dur);
-void highlight_rest (DenemoGUI * gui, gint dur);
+void highlight_duration (DenemoProject * gui, gint dur);
+void highlight_rest (DenemoProject * gui, gint dur);
 
 void highlight_audio_record();
 

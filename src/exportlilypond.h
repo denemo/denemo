@@ -11,10 +11,10 @@
 #include <stdio.h>
 #define TAB "        "
 void create_lilywindow (void);
-void exportlilypond (gchar * thefilename, DenemoGUI * gui, gboolean all_movements);
+void exportlilypond (gchar * thefilename, DenemoProject * gui, gboolean all_movements);
 
-void export_lilypond_parts (char *filename, DenemoGUI * gui);
-void export_lilypond_part (char *filename, DenemoGUI * gui, gboolean all_movements);
+void export_lilypond_parts (char *filename, DenemoProject * gui);
+void export_lilypond_part (char *filename, DenemoProject * gui, gboolean all_movements);
 
 /* generate the LilyPond for the current part, all movements, into the LilyPond textview window */
 void generate_lilypond_part (void);
@@ -22,8 +22,8 @@ void make_scoreblock_editable (void);
 /* generate lilypond text for the object passed in - the string should
    be g_freed by the caller when finished with*/
 gchar *generate_lily (objnode * obj);
-void refresh_lily_cb (GtkAction * action, DenemoGUI * gui);
-void force_lily_refresh (DenemoGUI * gui);
+void refresh_lily_cb (GtkAction * action, DenemoProject * gui);
+void force_lily_refresh (DenemoProject * gui);
 void toggle_lily_visible_cb (GtkAction * action, gpointer param);
 
 void custom_lily_cb (GtkAction * action, gpointer param);

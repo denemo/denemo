@@ -1566,7 +1566,7 @@ parseThumbElem (xmlNodePtr thumbElem, DenemoSelection * selection)
  * @return 
  */
 static void
-parseSourceFileElem (xmlNodePtr sElem, DenemoGUI * gui)
+parseSourceFileElem (xmlNodePtr sElem, DenemoProject * gui)
 {
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, sElem)
@@ -1595,7 +1595,7 @@ parseSourceFileElem (xmlNodePtr sElem, DenemoGUI * gui)
  * @return 0 on succes, -1 on failure
  */
 static gint
-parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoGUI * gui)
+parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoProject * gui)
 {
   xmlNodePtr childElem;
   gchar *tmp;
@@ -2625,7 +2625,7 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
  * @return 0 on success, -1 on failure
  */
 static gint
-parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoGUI * gui)
+parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoProject * gui)
 {
   DenemoScore *si = gui->si;
   xmlNodePtr childElem;
@@ -2687,7 +2687,7 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoGUI * gui)
  * @return 0 on success ,-1 on failure
  */
 static gint
-parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoGUI * gui, ImportType type)
+parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoProject * gui, ImportType type)
 {
   DenemoScore *si = gui->si;
   xmlNodePtr childElem, voiceElem;
@@ -2763,7 +2763,7 @@ parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoGUI * gui, ImportType type)
 
 /* parse the movement (ie DenemoScore) from childElem */
 static gint
-parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoGUI * gui, ImportType type)
+parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoProject * gui, ImportType type)
 {
   int ret = 0;
 
@@ -2821,11 +2821,11 @@ parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoGUI * gui, ImportType ty
  * the given score.
  * 
  * @param filename the file to importxml
- * @param  gui DenemoGUI to hold the score
+ * @param  gui DenemoProject to hold the score
  * @return 0 on success, -1 on failure
  */
 gint
-importXML (gchar * filename, DenemoGUI * gui, ImportType type)
+importXML (gchar * filename, DenemoProject * gui, ImportType type)
 {
 
   gint ret = 0;

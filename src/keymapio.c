@@ -592,7 +592,7 @@ create_dir_for_menu (gchar * str)
    set menupath as attribute of widgets
  */
 static gint
-parseMenu (xmlNodePtr rootElem, gchar * path, DenemoGUI * gui)
+parseMenu (xmlNodePtr rootElem, gchar * path, DenemoProject * gui)
 {
   for (rootElem = rootElem->xmlChildrenNode; rootElem; rootElem = rootElem->next)
     {
@@ -649,7 +649,7 @@ parseMenu (xmlNodePtr rootElem, gchar * path, DenemoGUI * gui)
  * negative on failure
  */
 gint
-parse_paths (gchar * filename, DenemoGUI * gui)
+parse_paths (gchar * filename, DenemoProject * gui)
 {
   gint ret = -1;
   xmlDocPtr doc;

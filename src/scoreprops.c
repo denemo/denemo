@@ -52,7 +52,7 @@ cell_edited (GtkCellRendererText * cellrenderertext, gchar * path_string, gchar 
 }
 */
 static gboolean
-abandon_editprops_custom_scoreblock (DenemoGUI * gui)
+abandon_editprops_custom_scoreblock (DenemoProject * gui)
 {
   if (gui->custom_scoreblocks)
     return confirm (_("Custom LilyPond Score Block"), _("You will need to edit the LilyPond text to copy these edits from the standard scoreblock.\nIt might be easier to edit your custom scoreblock directly. Abandon?"));
@@ -64,7 +64,7 @@ abandon_editprops_custom_scoreblock (DenemoGUI * gui)
  *
  */
 static void
-setpaperconfig (papersetupcb * cbdata, DenemoGUI * gui)
+setpaperconfig (papersetupcb * cbdata, DenemoProject * gui)
 {
 #if GTK_MAJOR_VERSION==3
   g_string_assign (gui->lilycontrol.papersize, (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->papersize)));
@@ -95,7 +95,7 @@ setpaperconfig (papersetupcb * cbdata, DenemoGUI * gui)
 void
 score_properties_dialog (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
 
   GET_1PARAM (action, param, fontsize);
   if (query)
@@ -103,7 +103,7 @@ score_properties_dialog (GtkAction * action, DenemoScriptParam * param)
       if (*query)
         if (!strcmp ("fontsize", query))
           {
-            g_string_assign (param->string, Denemo.gui->lilycontrol.staffsize->str);
+            g_string_assign (param->string, Denemo.project->lilycontrol.staffsize->str);
             param->status = TRUE;
           }
       return;
@@ -111,7 +111,7 @@ score_properties_dialog (GtkAction * action, DenemoScriptParam * param)
 
   if (fontsize)
     {
-      g_string_assign (Denemo.gui->lilycontrol.staffsize, fontsize);
+      g_string_assign (Denemo.project->lilycontrol.staffsize, fontsize);
       param->status = TRUE;
       return;
     }
@@ -282,7 +282,7 @@ score_properties_dialog (GtkAction * action, DenemoScriptParam * param)
 /***************** movement properties *********************/
 struct callbackdata
 {
-  DenemoGUI *gui;
+  DenemoProject *gui;
 
   GtkWidget *title;
   GtkWidget *subtitle;

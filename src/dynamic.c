@@ -40,7 +40,7 @@ insert_it (gint num)
   GString *directivestring = NULL;
 
   directivestring = g_string_new (directives[num]);
-  mudelaobj = (DenemoObject *) (Denemo.gui->si->currentobject ? Denemo.gui->si->currentobject->data : NULL);
+  mudelaobj = (DenemoObject *) (Denemo.project->si->currentobject ? Denemo.project->si->currentobject->data : NULL);
 
   add_dynamic (mudelaobj, directivestring);
 }
@@ -48,7 +48,7 @@ insert_it (gint num)
 void
 insert_dynamic (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GtkWidget *dialog;
   GtkWidget *combo;
   GtkWidget *label;

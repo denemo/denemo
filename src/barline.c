@@ -20,7 +20,7 @@ static gchar *string_barlines[6] = { "Ordinary", "Double",
 
 struct callbackdata
 {
-  DenemoGUI *gui;
+  DenemoProject *gui;
   GtkWidget *combo;
 };
 
@@ -54,13 +54,13 @@ barlinefromname (gchar * thetext)
 /**
  * Dialog for inserting the barlines
  * @param action the gtk action emitted by the menu item
- * @param gui the DenemoGUI structure
+ * @param gui the DenemoProject structure
  * @return none
  */
 void
 insert_barline (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GtkWidget *dialog;
   GtkWidget *label;
   GtkWidget *combobox;

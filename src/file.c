@@ -40,10 +40,10 @@
 #include "sourceaudio.h"
 #include "pitchentry.h"
 
-static gint file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar * filename);
-static gint file_import_lilypond (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar * filename);
-static gint file_import_midi (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar * filename);
-static gint file_import_musicxml (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar * filename);
+static gint file_open (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename);
+static gint file_import_lilypond (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename);
+static gint file_import_midi (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename);
+static gint file_import_musicxml (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename);
 static gboolean replace_existing_file_dialog (const gchar * filename, gint format_id);
 
 
@@ -128,7 +128,7 @@ static gchar *default_template_path = NULL;
  * or close without saving
  */
 static gboolean
-confirm_save (DenemoGUI * gui, gchar * primary, gchar * secondary)
+confirm_save (DenemoProject * gui, gchar * primary, gchar * secondary)
 {
   if (Denemo.non_interactive)
 	return TRUE;
@@ -176,7 +176,7 @@ confirm_save (DenemoGUI * gui, gchar * primary, gchar * secondary)
  * @return TRUE if the OK button clicked or Enter pressed
  */
 gboolean
-confirmbox (DenemoGUI * gui)
+confirmbox (DenemoProject * gui)
 {
   gboolean ret;
   gchar *primary = g_strdup_printf (_("The score %s has unsaved changes"), gui->filename->len ? gui->filename->str : _("(Untitled)"));
@@ -207,7 +207,7 @@ history_compare (gconstpointer a, gconstpointer b)
 void
 openrecent (G_GNUC_UNUSED GtkWidget * widget, gchar * filename)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (!gui->notsaved || (gui->notsaved && confirmbox (gui)))
     {
       // deletescore(NULL, gui);
@@ -224,7 +224,7 @@ openrecent (G_GNUC_UNUSED GtkWidget * widget, gchar * filename)
  * Decorate the window with the tile
  */
 static void
-set_gui_tabname (DenemoGUI * gui, gchar * filename)
+set_gui_tabname (DenemoProject * gui, gchar * filename)
 {
   g_string_assign (gui->tabname, filename);
   set_title_bar (gui);
@@ -235,7 +235,7 @@ set_gui_tabname (DenemoGUI * gui, gchar * filename)
  * and adds it to the history
  */
 static void
-set_gui_filename (DenemoGUI * gui, gchar * filename)
+set_gui_filename (DenemoProject * gui, gchar * filename)
 {
   GList *link = NULL;
   g_string_assign (gui->filename, filename);
@@ -308,7 +308,7 @@ exists(gchar* filename, const gchar* extension)
  * @return 0 for success non zero for failure
  */
 gint
-open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type)
+open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, ImportType type)
 {
   if(!Denemo.non_interactive)
     g_signal_handlers_block_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
@@ -449,7 +449,7 @@ strip_filename_ext (const gchar * file_name, gint format_id)
    If there is a scheme script, offers to save that with the file.
  */
 static gint
-save_in_format (gint format_id, DenemoGUI * gui, gchar * filename)
+save_in_format (gint format_id, DenemoProject * gui, gchar * filename)
 {
   gint ret = 0;
   gchar *file = filename ? filename : gui->filename->str;
@@ -511,7 +511,7 @@ save_in_format (gint format_id, DenemoGUI * gui, gchar * filename)
  * param file_name is full path to file possibly with extension
  */
 static gint
-filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSaveType template)
+filesel_save (DenemoProject * gui, const gchar * file_name, gint format_id, DenemoSaveType template)
 {
   gint ret = 0;
   g_assert (gui != NULL);
@@ -576,7 +576,7 @@ typedef enum
  * filename is NULL for interactive use, otherwise file base name
  */
 static gint
-template_open (DenemoGUI * gui, TemplateType local, gchar * filename)
+template_open (DenemoProject * gui, TemplateType local, gchar * filename)
 {
   gboolean ret = FALSE;
   if (local == LOCAL)
@@ -628,7 +628,7 @@ template_open (DenemoGUI * gui, TemplateType local, gchar * filename)
 
 #define OPEN_WITH_CHECK(dir) \
 GET_1PARAM(action, param, filename); \
-  DenemoGUI *gui = Denemo.gui; \
+  DenemoProject *gui = Denemo.project; \
   if (gui->notsaved) \
     { \
       if (filename==NULL && confirmbox (gui)) \
@@ -676,12 +676,12 @@ file_open_with_check (GtkAction * action, DenemoScriptParam * param)
   GET_1PARAM (action, param, filename);
   if (query)
     {
-      param->status = (Denemo.gui->filename != NULL) && Denemo.gui->filename->len;
+      param->status = (Denemo.project->filename != NULL) && Denemo.project->filename->len;
       if (param->status)
-        g_string_assign (param->string, Denemo.gui->filename->str);
+        g_string_assign (param->string, Denemo.project->filename->str);
       return;
     }
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (!gui->notsaved || (gui->notsaved && (confirmbox (gui))))
     {
       param->status = !file_open (gui, FALSE, REPLACE_SCORE, filename);
@@ -690,7 +690,7 @@ file_open_with_check (GtkAction * action, DenemoScriptParam * param)
 
 #define IMPORT(import_type)  \
   GET_1PARAM(action, param, filename); \
-  param->status = !file_import_##import_type (Denemo.gui, FALSE, REPLACE_SCORE, filename);
+  param->status = !file_import_##import_type (Denemo.project, FALSE, REPLACE_SCORE, filename);
 
 void
 file_import_lilypond_with_check (GtkAction * action, DenemoScriptParam * param)
@@ -702,9 +702,9 @@ file_import_midi_with_check (GtkAction * action, DenemoScriptParam * param)
 {
 	GET_2PARAMS(action, param, filename, guided);
 	if(guided)
-		file_import_midi (Denemo.gui, FALSE, GUIDED_IMPORT, filename);
+		file_import_midi (Denemo.project, FALSE, GUIDED_IMPORT, filename);
 	else
-		file_import_midi (Denemo.gui, FALSE, REPLACE_SCORE, filename);
+		file_import_midi (Denemo.project, FALSE, REPLACE_SCORE, filename);
 }
 
 void
@@ -713,7 +713,7 @@ file_import_musicxml_with_check (GtkAction * action, DenemoScriptParam * param)
 IMPORT (musicxml)}
 
 #define ADD(insertion_strategy)\
-  DenemoGUI *gui = Denemo.gui;\
+  DenemoProject *gui = Denemo.project;\
   GET_1PARAM(action, param, filename);\
   (void)signal_structural_change(gui);\
   param->status = !file_open(gui, FALSE, insertion_strategy, filename);\
@@ -869,7 +869,7 @@ update_preview_cb (GtkFileChooser * file_chooser, gpointer data)
  * filename must be full path or NULL for dialog
  */
 static gint
-file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar * filename)
+file_open (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename)
 {
 FILE_OPEN_DIALOG ("Open", denemo, DENEMO_FORMAT)}
 
@@ -879,7 +879,7 @@ open_source_file (void)
   gchar *filename = NULL;
   ImportType type = 0;
   DenemoSaveType template = 0;
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   FILE_OPEN_DIALOG ("Open", evince, PDF_FORMAT);
 }
 
@@ -889,7 +889,7 @@ open_source_file (void)
  * filename must be full path or NULL for dialog
  */
 static gint
-file_import_lilypond (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar * filename)
+file_import_lilypond (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename)
 {
 FILE_OPEN_DIALOG ("Import Lilypond", lilypond, MUDELA_FORMAT)}
 
@@ -899,7 +899,7 @@ FILE_OPEN_DIALOG ("Import Lilypond", lilypond, MUDELA_FORMAT)}
  * filename must be full path or NULL for dialog
  */
 static gint
-file_import_midi (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar * filename)
+file_import_midi (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename)
 {
 	
 FILE_OPEN_DIALOG ("Import Midi", midi, MIDI_FORMAT)}
@@ -910,7 +910,7 @@ FILE_OPEN_DIALOG ("Import Midi", midi, MIDI_FORMAT)}
  * filename must be full path or NULL for dialog
  */
 static gint
-file_import_musicxml (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar * filename)
+file_import_musicxml (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename)
 {
 FILE_OPEN_DIALOG ("Import MusicXML", musicxml, MUSICXML_FORMAT)}
 
@@ -922,7 +922,7 @@ void
 file_saveaswrapper (GtkAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, filename);
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (filename == NULL)
     {
       file_saveas (FALSE);
@@ -968,7 +968,7 @@ file_copy_save (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptPara
 void
 file_savewrapper (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GET_1PARAM (action, param, filename);
   if (filename) {
 	exportXML (filename, gui);
@@ -976,7 +976,7 @@ file_savewrapper (GtkAction * action, DenemoScriptParam * param)
   }
   if (file_save (NULL, gui))
     {
-      if (action && Denemo.gui->filename && Denemo.gui->filename->len)
+      if (action && Denemo.project->filename && Denemo.project->filename->len)
         {
           warningdialog (_("File save failed"));
           score_status (gui, TRUE);
@@ -994,7 +994,7 @@ file_savewrapper (GtkAction * action, DenemoScriptParam * param)
  * otherwise call saveas routine
  */
 gint
-file_save (GtkWidget * widget, DenemoGUI * gui)
+file_save (GtkWidget * widget, DenemoProject * gui)
 {
   gint ret;
   DenemoScore *si = gui->si;
@@ -1016,7 +1016,7 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
 static void
 file_dialog_response (GtkWidget * dialog, gint response_id, struct FileDialogData *data)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (response_id == GTK_RESPONSE_ACCEPT)
     {
       gchar *file_name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
@@ -1101,7 +1101,7 @@ file_newwrapper (GtkAction * action, DenemoScriptParam * param)
   dummy.string = NULL;
   if (param == NULL)
     param = &dummy;
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   g_signal_handlers_block_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
   if (gui->notsaved)
     {
@@ -1143,7 +1143,7 @@ open_user_default_template (ImportType type)
   gchar *filename = g_build_filename (get_user_data_dir (TRUE), "templates", "default.denemo", NULL);
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
     {
-      ret = open_for_real (filename, Denemo.gui, TRUE, type);
+      ret = open_for_real (filename, Denemo.project, TRUE, type);
     }
   g_free (filename);
   return ret;
@@ -1181,7 +1181,7 @@ replace_existing_file_dialog (const gchar * filename, gint format_id)
 void
 file_savepartswrapper (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (gui->filename->len == 0)
     {
       file_saveas (FALSE);
@@ -1205,33 +1205,33 @@ selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar * text, 
     {
       fprintf (fp, "music = { %s }\n\\score {\n\\music\n\\layout {}\n}\n", text);
       fclose (fp);
-      gint theclef = find_prevailing_clef (Denemo.gui->si);
+      gint theclef = find_prevailing_clef (Denemo.project->si);
       newview (NULL, NULL);
-      gint fail = open_for_real (filename, Denemo.gui, TRUE, REPLACE_SCORE);
+      gint fail = open_for_real (filename, Denemo.project, TRUE, REPLACE_SCORE);
       //thescore can be NULL after failed load....
       if (fail)
         {
-          DenemoGUI *gui = Denemo.gui;
+          DenemoProject *gui = Denemo.project;
           //FIXME repeated code
           free_movements (gui);
           gtk_widget_destroy (Denemo.page);
-          Denemo.guis = g_list_remove (Denemo.guis, gui);
+          Denemo.projects = g_list_remove (Denemo.projects, gui);
           g_free (gui);
           warningdialog (_("Could not interpret selection as LilyPond notes"));
           return;
         }
-      dnm_setinitialclef (Denemo.gui->si, (DenemoStaff *) Denemo.gui->si->currentstaff->data, theclef);
+      dnm_setinitialclef (Denemo.project->si, (DenemoStaff *) Denemo.project->si->currentstaff->data, theclef);
       call_out_to_guile ("(while (and (None?) (d-MoveToStaffDown)) (begin (d-MoveToStaffUp)(d-DeleteStaff)))");
       if (confirm (_("Paste from Selection"), _("Paste this music into your score?")))
         {
-          DenemoGUI *gui = Denemo.gui;
+          DenemoProject *gui = Denemo.project;
           tohome (NULL, NULL);
           set_mark (NULL, NULL);
           toend (NULL, NULL);
           copywrapper (NULL, NULL);
           free_movements (gui);
           gtk_widget_destroy (Denemo.page);
-          Denemo.guis = g_list_remove (Denemo.guis, gui);
+          Denemo.projects = g_list_remove (Denemo.projects, gui);
           g_free (gui);
           pastewrapper (NULL, NULL);
         }
@@ -1241,7 +1241,7 @@ selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar * text, 
 void
 paste_clipboard (GtkAction * action, DenemoScriptParam * param)
 {
-  if (Denemo.gui != g_list_last (Denemo.guis)->data)
+  if (Denemo.project != g_list_last (Denemo.projects)->data)
     {
       warningdialog (_("Can only paste LilyPond text into the last tab, sorry"));
       return;
@@ -1253,7 +1253,7 @@ paste_clipboard (GtkAction * action, DenemoScriptParam * param)
 
 #define EXPORT_INTERFACE(format_id) \
   GET_1PARAM(action, param, filename); \
-  DenemoGUI *gui = Denemo.gui; \
+  DenemoProject *gui = Denemo.project; \
   if (filename==NULL) \
     file_export(format_id); \
   else \

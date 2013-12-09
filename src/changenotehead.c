@@ -72,7 +72,7 @@ insertnotehead (DenemoScore * si, gchar * notehead_string)
 void
 set_notehead (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GtkWidget *dialog;
   GtkWidget *label;
   GtkWidget *combo;

@@ -50,8 +50,8 @@ static gint rubberband_init(DenemoPrefs *config) {
 void set_playback_speed (double speed) {
 	if(rubberband==NULL)
 		rubberband_init(&Denemo.prefs);
-	Denemo.gui->si->end_time /= slowdown;
-	Denemo.gui->si->start_time /= slowdown;
+	Denemo.project->si->end_time /= slowdown;
+	Denemo.project->si->start_time /= slowdown;
 	if(speed>1.01) {
 		slowdown = speed;
 		rubberband_active = TRUE;
@@ -62,8 +62,8 @@ void set_playback_speed (double speed) {
 		rubberband_active = FALSE;
 	}
 	rubberband_set_time_ratio(rubberband, slowdown);
-	Denemo.gui->si->end_time *= slowdown;
-	Denemo.gui->si->start_time *= slowdown;
+	Denemo.project->si->end_time *= slowdown;
+	Denemo.project->si->start_time *= slowdown;
 }
 
 volatile gdouble get_playback_speed (void)
@@ -180,7 +180,7 @@ if(rubberband_active)
   if (Denemo.prefs.maxrecordingtime)
     {
       static FILE *fp = NULL;
-      if (Denemo.gui && Denemo.gui->audio_recording)
+      if (Denemo.project && Denemo.project->audio_recording)
         {
           static guint recorded_frames;
           if (fp == NULL)

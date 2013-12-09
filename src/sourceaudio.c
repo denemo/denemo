@@ -42,7 +42,7 @@ static gboolean playing = FALSE;
 void
 generate_note_onsets (void)
 {
-  DenemoRecording *audio = Denemo.gui->si->recording;
+  DenemoRecording *audio = Denemo.project->si->recording;
   gint channels = audio->channels;
 
   aubio_onsetdetection_type type_onset = aubio_onset_kl;
@@ -184,12 +184,12 @@ get_audio_sample (float *sample)
     }
   else
     {
-      if (Denemo.gui->si && Denemo.gui->si->recording && Denemo.gui->si->recording->sndfile)
+      if (Denemo.project->si && Denemo.project->si->recording && Denemo.project->si->recording->sndfile)
         {
-          ret = (2 == sf_read_float (Denemo.gui->si->recording->sndfile, sample, 2));
+          ret = (2 == sf_read_float (Denemo.project->si->recording->sndfile, sample, 2));
           if (ret)
-            *sample *= Denemo.gui->si->recording->volume;
-          *(sample + 1) *= Denemo.gui->si->recording->volume;
+            *sample *= Denemo.project->si->recording->volume;
+          *(sample + 1) *= Denemo.project->si->recording->volume;
         }
     }
   return ret;
@@ -221,7 +221,7 @@ open_source_audio (gchar * filename)
 
           temp->volume = 1.0;
           g_static_mutex_lock (&smfmutex);
-          Denemo.gui->si->recording = temp;
+          Denemo.project->si->recording = temp;
           g_static_mutex_unlock (&smfmutex);
           update_leadin_widget (-1.0);
           if (sfinfo.channels != 2)
@@ -229,22 +229,22 @@ open_source_audio (gchar * filename)
           if (sfinfo.samplerate != 44100)
             warningdialog (_("Audio does not have 44100 sample rate: this could be bad"));
           //FIXME here generate a click track if the score is empty
-          if (Denemo.gui->si->smfsync != Denemo.gui->si->changecount)
+          if (Denemo.project->si->smfsync != Denemo.project->si->changecount)
             {
-              exportmidi (NULL, Denemo.gui->si, 0, 0);  //generate a timebase
+              exportmidi (NULL, Denemo.project->si, 0, 0);  //generate a timebase
             }
           generate_note_onsets ();
           gtk_widget_queue_draw (Denemo.scorearea);
         }
     }
-  Denemo.gui->si->recording ? gtk_widget_show (Denemo.audio_vol_control) : gtk_widget_hide (Denemo.audio_vol_control);
-  return (Denemo.gui->si->recording != NULL);
+  Denemo.project->si->recording ? gtk_widget_show (Denemo.audio_vol_control) : gtk_widget_hide (Denemo.audio_vol_control);
+  return (Denemo.project->si->recording != NULL);
 }
 
 gboolean
 close_source_audio (void)
 {
-  gboolean ret = (Denemo.gui->si->recording != NULL);
+  gboolean ret = (Denemo.project->si->recording != NULL);
   (void) open_source_audio (NULL);
   return ret;
 }
@@ -252,28 +252,28 @@ close_source_audio (void)
 void
 rewind_audio (void)
 {
-  if (Denemo.gui->si->recording && (Denemo.gui->si->recording->type==DENEMO_RECORDING_AUDIO))
+  if (Denemo.project->si->recording && (Denemo.project->si->recording->type==DENEMO_RECORDING_AUDIO))
     {
-      if (Denemo.gui->si->recording->sndfile == NULL)
+      if (Denemo.project->si->recording->sndfile == NULL)
         {
-          gint leadin = Denemo.gui->si->recording->leadin;  /* not part of the audio file itself */
-          open_source_audio (Denemo.gui->si->recording->filename);
-          if (Denemo.gui->si->recording==NULL)
+          gint leadin = Denemo.project->si->recording->leadin;  /* not part of the audio file itself */
+          open_source_audio (Denemo.project->si->recording->filename);
+          if (Denemo.project->si->recording==NULL)
           {
 			g_warning("Unable to open audio file\n");
 			return;  			  
 		  }
-          if (Denemo.gui->si->recording->samplerate)
+          if (Denemo.project->si->recording->samplerate)
             {
-              Denemo.gui->si->recording->leadin = leadin;
-              update_leadin_widget (((double) leadin) / Denemo.gui->si->recording->samplerate);
+              Denemo.project->si->recording->leadin = leadin;
+              update_leadin_widget (((double) leadin) / Denemo.project->si->recording->samplerate);
             }
         }
       gdouble start = get_start_time ();
       if (start < 0.0)
         start = 0.0;
-      gint startframe = start * Denemo.gui->si->recording->samplerate;
-      startframe += Denemo.gui->si->recording->leadin;
+      gint startframe = start * Denemo.project->si->recording->samplerate;
+      startframe += Denemo.project->si->recording->leadin;
       if (startframe < 0)
         {
           leadin = -startframe;
@@ -281,7 +281,7 @@ rewind_audio (void)
         }
       else
         leadin = 0;
-      sf_seek (Denemo.gui->si->recording->sndfile, startframe, SEEK_SET);
+      sf_seek (Denemo.project->si->recording->sndfile, startframe, SEEK_SET);
     }
   else
     gtk_widget_hide (Denemo.audio_vol_control);
@@ -290,17 +290,17 @@ rewind_audio (void)
 gboolean
 set_lead_in (gdouble secs)
 {
-  if (Denemo.gui->si->recording)
+  if (Denemo.project->si->recording)
     {
-      if ((Denemo.gui->si->recording->type==DENEMO_RECORDING_AUDIO) && Denemo.gui->si->recording->sndfile == NULL)
+      if ((Denemo.project->si->recording->type==DENEMO_RECORDING_AUDIO) && Denemo.project->si->recording->sndfile == NULL)
         {
-			open_source_audio (Denemo.gui->si->recording->filename);
-			if (Denemo.gui->si->recording==NULL) {
+			open_source_audio (Denemo.project->si->recording->filename);
+			if (Denemo.project->si->recording==NULL) {
 				g_warning("Unable to open source audio");
 				return FALSE;
 			}
 		}
-      Denemo.gui->si->recording->leadin = secs * Denemo.gui->si->recording->samplerate;
+      Denemo.project->si->recording->leadin = secs * Denemo.project->si->recording->samplerate;
       return TRUE;   
     }
   return FALSE;

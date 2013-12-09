@@ -18,7 +18,7 @@
 
 struct callbackdata
 {
-  DenemoGUI *gui;
+  DenemoProject *gui;
   GtkWidget *textentry;
 };
 
@@ -45,7 +45,7 @@ set_mwidth (GtkWidget * widget, gpointer data)
 void
 score_mwidth_change (GtkAction * action, gpointer param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GtkWidget *dialog;
   GtkWidget *label;
   GtkWidget *textentry;

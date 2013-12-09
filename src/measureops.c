@@ -73,8 +73,8 @@ addmeasures (DenemoScore * si, gint pos, guint nummeasures, gint all)
     }
   set_measure_transition (-20 * nummeasures, all);
   measurenode *ret = g_list_nth (firstmeasurenode (si->currentstaff), pos);
-//  displayhelper (Denemo.gui);
- // score_status(Denemo.gui, TRUE);
+//  displayhelper (Denemo.project);
+ // score_status(Denemo.project, TRUE);
 //check not returning NULL!!!!
   if (ret)
     return ret;
@@ -749,6 +749,6 @@ forceaccidentals (DenemoObject * theobj)
   ((chord *) theobj->object)->hasanacc = TRUE;
   set_accidental_positions (theobj);
   setpixelmin (theobj);
-  displayhelper (Denemo.gui);
-  score_status(Denemo.gui, TRUE);
+  displayhelper (Denemo.project);
+  score_status(Denemo.project, TRUE);
 }

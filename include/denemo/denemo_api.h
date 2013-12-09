@@ -23,7 +23,7 @@
 
 #include "denemo_types.h"
 
-void dnm_insertchord (DenemoGUI  *gui, gint duration, input_mode mode, 
+void dnm_insertchord (DenemoProject  *gui, gint duration, input_mode mode, 
 		      gboolean rest);
 void dnm_insertmeasures (DenemoScore  *si, gint number);
 void dnm_deleteobject (DenemoScore *si);

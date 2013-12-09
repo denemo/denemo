@@ -81,8 +81,8 @@ dnm_setinitialtimesig (DenemoScore * si, DenemoStaff * curstaffstruct, gint time
         }
 
     }
-  displayhelper (Denemo.gui);
-  score_status(Denemo.gui, TRUE);
+  displayhelper (Denemo.project);
+  score_status(Denemo.project, TRUE);
 }
 
 
@@ -146,7 +146,7 @@ void
 timesig_change_insert (GtkAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, timesigname);
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (query)
     {
       gchar *curtimesig = g_strdup_printf ("%d/%d", gui->si->cursortime1, gui->si->cursortime2);
@@ -179,7 +179,7 @@ void
 timesig_change_initial (GtkAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, timesigname);
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (query)
     {
       GList *curstaff = gui->si->thescore;
@@ -212,7 +212,7 @@ timesig_change_initial (GtkAction * action, DenemoScriptParam * param)
  * the time signature to insert or change
  */
 void
-timesig_change (DenemoGUI * gui, actiontype action)
+timesig_change (DenemoProject * gui, actiontype action)
 {
   GtkWidget *dialog;
   GtkWidget *label;

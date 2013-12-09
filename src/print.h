@@ -127,8 +127,8 @@ void printselection_cb (GtkAction * action, DenemoScriptParam * param);
 
 void printexcerptpreview_cb (GtkAction * action, DenemoScriptParam * param);
 gchar *get_lily_version_string (void);
-void export_pdf (gchar * filename, DenemoGUI * gui);
-void export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui);
+void export_pdf (gchar * filename, DenemoProject * gui);
+void export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui);
 void printpng_finished (GPid pid, gint status, GList * filelist);
 gboolean create_thumbnail (gboolean async);
 gchar *large_thumbnail_name (gchar * filepath);

@@ -21,8 +21,8 @@
 #define QUARTER_COMMA_MEAN_TONE "Quarter comma meantone"
 
 static GtkWidget *PR_window = NULL;     /* a top level window for controlling pitch-recognition entry.
-                                           We do not create one of these for each view (ie each DenemoGUI object, ie each score) because there is only one audio input source being used, so we would have to cope with resource contention issues, there is just no point. */
-static DenemoGUI *PR_gui;       /* the gui for which the pitch recognition has been set up */
+                                           We do not create one of these for each view (ie each DenemoProject object, ie each score) because there is only one audio input source being used, so we would have to cope with resource contention issues, there is just no point. */
+static DenemoProject *PR_gui;       /* the gui for which the pitch recognition has been set up */
 
 
 gint PR_click;                  /*volume of a audible warning of next measure or extra tones in measure */
@@ -409,7 +409,7 @@ gchar *
 determine_interval (gint bass, gint harmony, gboolean * status)
 {
   gint semitones = harmony - bass;
-  gint *accs = ((DenemoStaff *) Denemo.gui->si->currentstaff->data)->keysig.accs;
+  gint *accs = ((DenemoStaff *) Denemo.project->si->currentstaff->data)->keysig.accs;
   notepitch bassnote = PR_temperament->notepitches[bass % 12];
   notepitch harmonynote = PR_temperament->notepitches[harmony % 12];
   gint interval = harmonynote.spec.step - bassnote.spec.step + 1;
@@ -612,7 +612,7 @@ signal_measure_end (void)
 {
   if (Denemo.prefs.immediateplayback)
     {
-      play_note (DEFAULT_BACKEND, 0 /*port */ , 9, 74, 300, (gint) (100 * Denemo.gui->si->master_volume));
+      play_note (DEFAULT_BACKEND, 0 /*port */ , 9, 74, 300, (gint) (100 * Denemo.project->si->master_volume));
     }
 }
 
@@ -727,7 +727,7 @@ apply_tones (DenemoScore * si)
  * enters the note FOUND in the score gui->si at octave OCTAVE steps above/below mid-c
  */
 static void
-enter_note_in_score (DenemoGUI * gui, notepitch * found, gint octave)
+enter_note_in_score (DenemoProject * gui, notepitch * found, gint octave)
 {
   //printf("Cursor_y %d and staffletter = %d\n", gui->si->cursor_y, gui->si->staffletter_y);
   gui->last_source = INPUTAUDIO;
@@ -763,7 +763,7 @@ put_tone (GList * store, gint measurenum, tone * thetone)
  * enters the note FOUND as a tone in the tone store
  */
 static void
-enter_tone_in_store (DenemoGUI * gui, notepitch * found, gint octave)
+enter_tone_in_store (DenemoProject * gui, notepitch * found, gint octave)
 {
   gboolean nextmeasure;
   tone *thetone = (tone *) g_malloc0 (sizeof (tone));
@@ -788,7 +788,7 @@ enter_tone_in_store (DenemoGUI * gui, notepitch * found, gint octave)
  * clear the references to tones (ie any overlay) in the currentstaff
  */
 static void
-clear_tone_nodes (DenemoGUI * gui)
+clear_tone_nodes (DenemoProject * gui)
 {
   DenemoScore *si = gui->si;
   DenemoStaff *curstaff = ((DenemoStaff *) si->currentstaff->data);
@@ -819,7 +819,7 @@ free_tones (GList * tones)
 
   // clear gui->si->currentstaff->data->tone_store and the references to it
 static void
-clear_tone_store (G_GNUC_UNUSED GtkButton * button, DenemoGUI * gui)
+clear_tone_store (G_GNUC_UNUSED GtkButton * button, DenemoProject * gui)
 {
 #define store  (((DenemoStaff*)gui->si->currentstaff->data)->tone_store)
   g_list_foreach (store, (GFunc) free_tones, NULL);
@@ -835,7 +835,7 @@ clear_tone_store (G_GNUC_UNUSED GtkButton * button, DenemoGUI * gui)
 void
 clear_overlay (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam* param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   clear_tone_store (NULL, gui);
 }
 
@@ -877,8 +877,8 @@ delete_tone (DenemoScore * si, chord * thechord)
       si->cursor_appending = keepa;
       calcmarkboundaries (si);
 
-      displayhelper (Denemo.gui);
-      score_status(Denemo.gui, TRUE);
+      displayhelper (Denemo.project);
+      score_status(Denemo.project, TRUE);
       return TRUE;
     }
   else
@@ -993,7 +993,7 @@ Freq2Pitch (float freq)
 /* look for a new note played into audio input, if
    present insert it into the score/store */
 gint
-pitchentry (DenemoGUI * gui)
+pitchentry (DenemoProject * gui)
 {
   static gint last_step = -1, last_alteration, last_octave;
   if (PR_window == NULL)
@@ -1043,7 +1043,7 @@ pitchentry (DenemoGUI * gui)
                   gint key = (gint) (Freq2Pitch (found->pitch * (pow (2, (octave)))));
                   //g_print("pitch %f key number %d\n",found->pitch, key);
 
-                  DenemoStaff *curstaffstruct = ((DenemoStaff *) Denemo.gui->si->currentstaff->data);
+                  DenemoStaff *curstaffstruct = ((DenemoStaff *) Denemo.project->si->currentstaff->data);
                   play_note (DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, key, 300 /*duration */ , 0);
                 }
               if (gui->input_source == INPUTMIDI || !Denemo.prefs.overlays)
@@ -1159,7 +1159,7 @@ frequency_smoothing (GtkSpinButton * widget, G_GNUC_UNUSED gpointer data)
 int
 stop_pitch_input (void)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (PR_timer)
     g_source_remove (PR_timer);
 
@@ -1193,7 +1193,7 @@ window_destroy_callback (void)
     return FALSE;
   activate_action ("/MainMenu/InputMenu/KeyboardOnly");
   PR_window = NULL;
-  clear_tone_store (NULL, Denemo.gui);
+  clear_tone_store (NULL, Denemo.project);
   return FALSE;
 }
 
@@ -1240,7 +1240,7 @@ static void
 toggle_insert (G_GNUC_UNUSED GtkButton * button, G_GNUC_UNUSED gpointer data)
 {
   Denemo.prefs.overlays = !Denemo.prefs.overlays;
-  clear_tone_store (NULL, Denemo.gui);
+  clear_tone_store (NULL, Denemo.project);
   switch_back_to_main_window ();
 }
 
@@ -1276,7 +1276,7 @@ draw_indicator (GtkWidget * widget, G_GNUC_UNUSED GdkEventExpose * event, G_GNUC
 }
 
 static void
-toggle_tuning (GtkToggleButton * button, DenemoGUI * gui)
+toggle_tuning (GtkToggleButton * button, DenemoProject * gui)
 {
   static int id;
   static GtkWidget *widget;
@@ -1456,7 +1456,7 @@ get_temperament_combo (void)
 #ifdef _HAVE_PORTAUDIO_
 
 static void
-create_pitch_recognition_window (DenemoGUI * gui)
+create_pitch_recognition_window (DenemoProject * gui)
 {
   GtkWidget *hbox, *hbox2;
   GtkWidget *button;
@@ -1719,7 +1719,7 @@ create_pitch_recognition_window (DenemoGUI * gui)
 gint
 setup_pitch_input (void)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (GTK_IS_WINDOW (PR_window))
     {
       gtk_window_present (GTK_WINDOW (PR_window));
@@ -1773,11 +1773,11 @@ scorearea_set_inactive (G_GNUC_UNUSED GtkWidget * widget, G_GNUC_UNUSED GdkEvent
 void
 start_pitch_input (void)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (PR_timer)
     g_source_remove (PR_timer);
 
-  PR_timer = g_timeout_add (PR_time, (GSourceFunc) pitchentry, Denemo.gui);
+  PR_timer = g_timeout_add (PR_time, (GSourceFunc) pitchentry, Denemo.project);
 
   if (PR_timer == 0)
     g_error ("Timer id 0 - if valid the code needs re-writing (documentation not clear)");
@@ -1799,14 +1799,14 @@ pitch_recognition_system_active (void)
 }
 
 gboolean
-pitch_entry_active (DenemoGUI * gui)
+pitch_entry_active (DenemoProject * gui)
 {
   return (PR_gui == gui) && PR_enable;
 }
 
 #else
 gboolean
-pitch_entry_active (DenemoGUI * gui)
+pitch_entry_active (DenemoProject * gui)
 {
   return 0;
 }

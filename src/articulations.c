@@ -184,7 +184,7 @@ set_articulation (gchar * string, DenemoObject * obj)
  * @return none
  */
 static void
-insert_artic_cb (GtkWidget * widget, DenemoGUI * gui)
+insert_artic_cb (GtkWidget * widget, DenemoProject * gui)
 {
   DenemoObject *mudelaobj;
   gchar *tmp;
@@ -235,7 +235,7 @@ insert_artic_cb (GtkWidget * widget, DenemoGUI * gui)
  *
  */
 static GtkWidget *
-create_articulation_button (const gchar * stock_id, GtkTooltip * tips, GtkWidget * table, gint col, gint row, DenemoGUI * si)
+create_articulation_button (const gchar * stock_id, GtkTooltip * tips, GtkWidget * table, gint col, gint row, DenemoProject * si)
 {
   GtkWidget *button;
   GtkStockItem stock;
@@ -267,7 +267,7 @@ create_articulation_button (const gchar * stock_id, GtkTooltip * tips, GtkWidget
  * @return the vbox
  */
 static GtkWidget *
-create_articulation_widget (DenemoGUI * si)
+create_articulation_widget (DenemoProject * si)
 {
   GtkWidget *vbox;
   GtkWidget *label;
@@ -384,7 +384,7 @@ create_articulation_widget (DenemoGUI * si)
  * Callback to hide articulation palette
  */
 static gboolean
-hide_palette (GtkWidget * widget, GdkEvent * event, DenemoGUI * gui)
+hide_palette (GtkWidget * widget, GdkEvent * event, DenemoProject * gui)
 {
   GtkWidget *toggle_palette;
 
@@ -405,7 +405,7 @@ hide_palette (GtkWidget * widget, GdkEvent * event, DenemoGUI * gui)
 void
 toggle_articulation_palette (GtkAction * action, gpointer param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GtkWidget *window;
   GtkWidget *vbox;
 

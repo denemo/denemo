@@ -16,7 +16,7 @@ static GtkWidget *DummyVerse;   /* a non-existent verse */
 gboolean
 lyric_change (GtkTextBuffer * buffer)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   score_status (gui, TRUE);
   gtk_widget_queue_draw (Denemo.scorearea);
   return FALSE;
@@ -95,7 +95,7 @@ add_verse_to_staff (DenemoScore * si, DenemoStaff * staff)
 void
 add_verse (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoScore *si = gui->si;
   if (gui->si->currentstaff)
   {
@@ -110,7 +110,7 @@ add_verse (GtkAction * action, DenemoScriptParam * param)
 void
 delete_verse (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoScore *si = gui->si;
   if (si->currentstaff)
   {
@@ -219,7 +219,7 @@ install_lyrics_preview (DenemoScore * si, GtkWidget * top_vbox)
 void
 hide_lyrics (void)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (gui->si->currentstaff && ((DenemoStaff *) gui->si->currentstaff->data)->verses)
     gtk_widget_hide (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) gui->si->currentstaff->data)->verses->data)));      //hide the notebook
 }
@@ -228,7 +228,7 @@ hide_lyrics (void)
 void
 show_lyrics (void)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoScore *si = gui->si;
   if (si->currentstaff && ((DenemoStaff *) si->currentstaff->data)->verses)
     gtk_widget_show (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) si->currentstaff->data)->verses->data)));   //show the notebook
@@ -239,7 +239,7 @@ show_lyrics (void)
 void
 select_lyrics (void)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoScore *si = gui->si;
   GList *current = si->thescore;
   for (; current; current = current->next)
@@ -296,7 +296,7 @@ put_lyrics_for_current_verse (DenemoStaff * thestaff, gchar * text)
 gint
 get_current_verse_number (void)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (gui->si->currentstaff)
   {
     DenemoStaff *thestaff = ((DenemoStaff *) gui->si->currentstaff->data);
@@ -309,7 +309,7 @@ get_current_verse_number (void)
 gboolean
 set_current_verse (gint number)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (gui->si->currentstaff)
   {
     DenemoStaff *thestaff = ((DenemoStaff *) gui->si->currentstaff->data);
@@ -329,7 +329,7 @@ set_current_verse (gint number)
 
 gchar * get_lyrics_for_verse_num (gint number)
 {
-  DenemoGUI * gui = Denemo.gui; if (gui->si->currentstaff)
+  DenemoProject * gui = Denemo.project; if (gui->si->currentstaff)
   {
     DenemoStaff * thestaff = ((DenemoStaff *) gui->si->currentstaff->data); if (thestaff->verses)
     {

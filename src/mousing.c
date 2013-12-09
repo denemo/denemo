@@ -70,7 +70,7 @@ offset_from_height (gdouble height, enum clefs clef)
 
 
 static gdouble
-get_click_height (DenemoGUI * gui, gdouble y)
+get_click_height (DenemoProject * gui, gdouble y)
 {
   gdouble click_height;
   gint staffs_from_top;
@@ -117,7 +117,7 @@ get_click_height (DenemoGUI * gui, gdouble y)
  *
  */
 void
-set_cursor_y_from_click (DenemoGUI * gui, gdouble y)
+set_cursor_y_from_click (DenemoProject * gui, gdouble y)
 {
   /* Click height relative to the top of the staff.  */
   gdouble click_height = get_click_height (gui, y);
@@ -181,7 +181,7 @@ staff_at (gint y, DenemoScore * si)
 static void
 get_placement_from_coordinates (struct placement_info *pi, gdouble x, gdouble y, gint leftmeasurenum, gint rightmeasurenum, gint scale)
 {
-  DenemoScore *si = Denemo.gui->si;
+  DenemoScore *si = Denemo.project->si;
   GList *mwidthiterator = g_list_nth (si->measurewidths,
                                       leftmeasurenum - 1);
   objnode *obj_iterator;
@@ -357,7 +357,7 @@ perform_command (gint modnum, mouse_gesture press, gboolean left)
         KeyPlusMouseGestureShow(modname->str, command_idx);
       
       execute_callback_from_idx (Denemo.map, command_idx);
-      displayhelper (Denemo.gui);
+      displayhelper (Denemo.project);
     }
   g_string_free (modname, TRUE);
 }
@@ -383,7 +383,7 @@ change_staff (DenemoScore * si, gint num, GList * staff)
 static void
 transform_coords (double *x, double *y)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
 
   gint application_height = get_widget_height (Denemo.scorearea);
   gint line_height = application_height * gui->si->system_height;
@@ -434,7 +434,7 @@ scorearea_enter_event (GtkWidget * widget, GdkEventCrossing * event)
 gint
 scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (gui == NULL || gui->si == NULL)
     return FALSE;
   if (Denemo.scorearea == NULL)
@@ -551,7 +551,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
         }
     }
 
-  if (Denemo.gui->midi_destination & MIDICONDUCT)
+  if (Denemo.project->midi_destination & MIDICONDUCT)
     {
       advance_time (0.01);
       return TRUE;
@@ -567,7 +567,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 gint
 scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (gui == NULL || gui->si == NULL)
     return FALSE;
   gboolean left = (event->button != 3);
@@ -808,7 +808,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 
 
   
-  //displayhelper(Denemo.gui);
+  //displayhelper(Denemo.project);
   draw_score(NULL);//this is needed to refresh cached values such as the prevailing time signature, before the command is invoked
 
   perform_command (event->state | (left ? GDK_BUTTON1_MASK : GDK_BUTTON3_MASK), GESTURE_PRESS, left);
@@ -824,7 +824,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 gint
 scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (gui == NULL || gui->si == NULL)
     return FALSE;
   gboolean left = (event->button != 3);
@@ -859,7 +859,7 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
 gint
 scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (gui == NULL || gui->si == NULL)
     return FALSE;
   switch (event->direction)
@@ -872,7 +872,7 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
             gint command_idx = lookup_command_from_name(Denemo.map, "ZoomIn");
             KeyStrokeShow (_("Ctrl + Mouse Wheel Up"), command_idx, TRUE);
           }
-          Denemo.gui->si->zoom *= 1.1;
+          Denemo.project->si->zoom *= 1.1;
           scorearea_configure_event (Denemo.scorearea, NULL);
         }
       else if (event->state & GDK_SHIFT_MASK)
@@ -892,7 +892,7 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
           }
           movetostaffup (NULL, &param);
           if (!param.status) {
-            DenemoStaff *thestaff = (DenemoStaff*)(Denemo.gui->si->currentstaff->data);
+            DenemoStaff *thestaff = (DenemoStaff*)(Denemo.project->si->currentstaff->data);
             if(thestaff->space_above < MAXEXTRASPACE)
               {
                 thestaff->space_above++;
@@ -908,9 +908,9 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
             gint command_idx = lookup_command_from_name(Denemo.map, "ZoomOut");
             KeyStrokeShow (_("Ctrl + Mouse Wheel Down"), command_idx, TRUE);
           }
-          Denemo.gui->si->zoom /= 1.1;
-          if (Denemo.gui->si->zoom < 0.01)
-            Denemo.gui->si->zoom = 0.01;
+          Denemo.project->si->zoom /= 1.1;
+          if (Denemo.project->si->zoom < 0.01)
+            Denemo.project->si->zoom = 0.01;
           scorearea_configure_event (Denemo.scorearea, NULL);
           //displayhelper(gui);
         }
@@ -931,10 +931,10 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
           movetostaffdown (NULL, &param);
           if (!param.status) {
             warningmessage ("This is the bottom staff");
-           // DenemoStaff *thestaff = (DenemoStaff*)(Denemo.gui->si->currentstaff->data);
+           // DenemoStaff *thestaff = (DenemoStaff*)(Denemo.project->si->currentstaff->data);
            // thestaff->space_below++; //This doesn't help, because the viewport does not change.
            // warningmessage ("Increasing the space below the bottom staff");
-           //move_viewport_down(Denemo.gui);
+           //move_viewport_down(Denemo.project);
           }
         }
       break;
@@ -952,6 +952,6 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
     default:
       break;
     }
-  displayhelper (Denemo.gui);
+  displayhelper (Denemo.project);
   return FALSE;
 }

@@ -35,7 +35,7 @@ set_preferences (struct callbackdata *cbdata)
     prefs->field =\
     gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(cbdata->field));
 
-  Denemo.gui->si->tempo = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (cbdata->tempo));
+  Denemo.project->si->tempo = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (cbdata->tempo));
 
   writeXMLPrefs (prefs);
 }
@@ -44,7 +44,7 @@ set_preferences (struct callbackdata *cbdata)
 void
 playback_properties_change (GtkAction * action, DenemoScriptParam* param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GtkWidget *dialog;
   GtkWidget *label;
   GtkWidget *hbox;

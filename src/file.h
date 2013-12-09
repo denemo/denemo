@@ -8,7 +8,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-gboolean confirmbox (DenemoGUI * gui);
+gboolean confirmbox (DenemoProject * gui);
 
 void file_savepartswrapper (GtkAction * action, DenemoScriptParam * param);
 
@@ -35,7 +35,7 @@ void file_newwrapper (GtkAction * action, DenemoScriptParam * param);
 
 void new_score_cb (GtkAction * action, DenemoScriptParam * param);
 
-gint file_save (GtkWidget * widget, DenemoGUI * gui);
+gint file_save (GtkWidget * widget, DenemoProject * gui);
 
 void file_saveas (DenemoSaveType as_template);
 
@@ -47,7 +47,7 @@ void export_png_action (GtkAction * action, DenemoScriptParam * param);
 void export_midi_action (GtkAction * action, DenemoScriptParam * param);
 void paste_clipboard (GtkAction * action, DenemoScriptParam * param);
 void openrecent (GtkWidget * widget, gchar * filename);
-gint open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type);
+gint open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, ImportType type);
 
 gchar *file_dialog (gchar * message, gboolean type, gchar * location);
 

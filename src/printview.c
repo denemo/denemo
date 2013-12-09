@@ -155,7 +155,7 @@ get_window_size (gint * w, gint * h)
       EvDocumentModel *model;
       model = g_object_get_data (G_OBJECT (Denemo.printarea), "model"); //there is no ev_view_get_model(), when there is use it
       gdouble scale = ev_document_model_get_scale (model);
-      //      gdouble staffsize = atof(Denemo.gui->lilycontrol.staffsize->str);
+      //      gdouble staffsize = atof(Denemo.project->lilycontrol.staffsize->str);
       //      if(staffsize<1) staffsize = 20.0;
       //      scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit       
 #if GTK_MAJOR_VERSION==2
@@ -190,7 +190,7 @@ set_denemo_pixbuf (gint x, gint y)
       EvDocumentModel *model;
       model = g_object_get_data (G_OBJECT (Denemo.printarea), "model"); //there is no ev_view_get_model(), when there is use it
       gdouble scale = ev_document_model_get_scale (model);
-      gdouble staffsize = atof (Denemo.gui->lilycontrol.staffsize->str);
+      gdouble staffsize = atof (Denemo.project->lilycontrol.staffsize->str);
       if (staffsize < 1)
         staffsize = 20.0;
       gint grob_size = GROB_SIZE * (staffsize / 20.0);
@@ -236,7 +236,7 @@ overdraw_print (cairo_t * cr)
 //  width = gdk_pixbuf_get_width( GDK_PIXBUF(Denemo.pixbuf));
   // height = gdk_pixbuf_get_height( GDK_PIXBUF(Denemo.pixbuf));
 
-  // cairo_scale( cr, Denemo.gui->si->preview_zoom, Denemo.gui->si->preview_zoom );
+  // cairo_scale( cr, Denemo.project->si->preview_zoom, Denemo.project->si->preview_zoom );
   cairo_translate (cr, -x, -y);
 //  gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(Denemo.pixbuf), -x, -y);
   cairo_save (cr);
@@ -487,18 +487,18 @@ static gboolean
 typeset (gboolean force)
 {
 
-  if ((force) || (changecount != Denemo.gui->changecount))
+  if ((force) || (changecount != Denemo.project->changecount))
     {
       if (initialize_typesetting ())
         {
           g_warning ("InitializeTypesetting failed\n");
           return FALSE;
         }
-      DenemoGUI *gui = Denemo.gui;
+      DenemoProject *gui = Denemo.project;
       gui->si->markstaffnum = 0;        //FIXME save and restore selection?    
       gui->lilycontrol.excerpt = FALSE;
       create_pdf (FALSE, TRUE);
-      changecount = Denemo.gui->changecount;
+      changecount = Denemo.project->changecount;
       return TRUE;
     }
   return FALSE;
@@ -508,14 +508,14 @@ static gboolean
 typeset_movement (gboolean force)
 {
 
-  if ((force) || (changecount != Denemo.gui->changecount))
+  if ((force) || (changecount != Denemo.project->changecount))
     {
       if (initialize_typesetting ())
         {
           g_warning ("InitializeTypesetting failed\n");
           return FALSE;
         }
-      DenemoGUI *gui = Denemo.gui;
+      DenemoProject *gui = Denemo.project;
       gui->si->markstaffnum = 0;        //FIXME save and restore selection?    
       gui->lilycontrol.excerpt = FALSE;
       create_pdf (FALSE, FALSE);
@@ -598,12 +598,12 @@ thumb_finished ()
   //FIXME if pb->height>128 or 256 scale it down...
   if (pbN && pbL)
     {
-      gchar *uri = g_strdup_printf ("file://%s", Denemo.gui->filename->str);
+      gchar *uri = g_strdup_printf ("file://%s", Denemo.project->filename->str);
       gchar *thumbname = get_thumbname (uri);
 
-      unsigned mtime = file_get_mtime (Denemo.gui->filename->str);
+      unsigned mtime = file_get_mtime (Denemo.project->filename->str);
       //struct stat thebuf;
-      //gint status =  g_stat(Denemo.gui->filename->str, &thebuf);
+      //gint status =  g_stat(Denemo.project->filename->str, &thebuf);
       // unsigned mtime = thebuf.st_mtime;
       //g_print("the mt is %u\n", mtime);
 
@@ -643,7 +643,7 @@ large_thumbnail_name (gchar * filepath)
 }
 
 /***
- *  Create a thumbnail for Denemo.gui if needed
+ *  Create a thumbnail for Denemo.project if needed
  */
 gboolean
 create_thumbnail (gboolean async)
@@ -655,7 +655,7 @@ create_thumbnail (gboolean async)
   GError *err = NULL;
   if (get_print_status()->printpid != GPID_NONE)
     return FALSE;
-  if (Denemo.gui->filename->len)
+  if (Denemo.project->filename->len)
     {
       if (!thumbnailsdirN)
         {
@@ -669,9 +669,9 @@ create_thumbnail (gboolean async)
         }
 //check if thumbnail is newer than file
       struct stat thebuf;
-      g_stat (Denemo.gui->filename->str, &thebuf);
+      g_stat (Denemo.project->filename->str, &thebuf);
       unsigned mtime = thebuf.st_mtime;
-      gchar *uri = g_strdup_printf ("file://%s", Denemo.gui->filename->str);
+      gchar *uri = g_strdup_printf ("file://%s", Denemo.project->filename->str);
       gchar *thumbname = get_thumbname (uri);
       gchar *thumbpathN = g_build_filename (thumbnailsdirN, thumbname, NULL);
       thebuf.st_mtime = 0;
@@ -679,33 +679,33 @@ create_thumbnail (gboolean async)
       unsigned mtime_thumb = thebuf.st_mtime;
       if (mtime_thumb < mtime)
         {
-          gint saved = g_list_index (Denemo.gui->movements, Denemo.gui->si);
-          Denemo.gui->si = Denemo.gui->movements->data; //Thumbnail is from first movement
+          gint saved = g_list_index (Denemo.project->movements, Denemo.project->si);
+          Denemo.project->si = Denemo.project->movements->data; //Thumbnail is from first movement
 //set selection to thumbnailselection, if not set, to the selection, if not set to first three measures of staff 1
-          if (Denemo.gui->thumbnail.firststaffmarked)
-            memcpy (&Denemo.gui->si->selection, &Denemo.gui->thumbnail, sizeof (DenemoSelection));
-          else if (Denemo.gui->si->selection.firststaffmarked)
-            memcpy (&Denemo.gui->thumbnail, &Denemo.gui->si->selection, sizeof (DenemoSelection));
+          if (Denemo.project->thumbnail.firststaffmarked)
+            memcpy (&Denemo.project->si->selection, &Denemo.project->thumbnail, sizeof (DenemoSelection));
+          else if (Denemo.project->si->selection.firststaffmarked)
+            memcpy (&Denemo.project->thumbnail, &Denemo.project->si->selection, sizeof (DenemoSelection));
           else
             {
-              Denemo.gui->thumbnail.firststaffmarked = 1;
-              Denemo.gui->thumbnail.laststaffmarked = 3;
-              Denemo.gui->thumbnail.firstmeasuremarked = 1;
-              Denemo.gui->thumbnail.lastmeasuremarked = 3;
-              Denemo.gui->thumbnail.firstobjmarked = 0;
-              Denemo.gui->thumbnail.lastobjmarked = 100;        //or find out how many there are
-              memcpy (&Denemo.gui->si->selection, &Denemo.gui->thumbnail, sizeof (DenemoSelection));
+              Denemo.project->thumbnail.firststaffmarked = 1;
+              Denemo.project->thumbnail.laststaffmarked = 3;
+              Denemo.project->thumbnail.firstmeasuremarked = 1;
+              Denemo.project->thumbnail.lastmeasuremarked = 3;
+              Denemo.project->thumbnail.firstobjmarked = 0;
+              Denemo.project->thumbnail.lastobjmarked = 100;        //or find out how many there are
+              memcpy (&Denemo.project->si->selection, &Denemo.project->thumbnail, sizeof (DenemoSelection));
             }
-          Denemo.gui->si->markstaffnum = Denemo.gui->si->selection.firststaffmarked;
+          Denemo.project->si->markstaffnum = Denemo.project->si->selection.firststaffmarked;
           gchar *printname = get_thumb_printname ();
-          Denemo.gui->lilycontrol.excerpt = TRUE;
+          Denemo.project->lilycontrol.excerpt = TRUE;
 
           if (async)
             {
               gchar *arguments[] = {
                 g_build_filename (get_system_bin_dir (), "denemo", NULL),
                 "-n", "-a", "(d-CreateThumbnail #f)(d-Exit)",
-                Denemo.gui->filename->str,
+                Denemo.project->filename->str,
                 NULL
               };
 
@@ -721,14 +721,14 @@ create_thumbnail (gboolean async)
             }
           else
             {
-              export_png (printname, NULL, Denemo.gui);
+              export_png (printname, NULL, Denemo.project);
               thumb_finished ();
             }
 
           g_free (printname);
-          Denemo.gui->si = g_list_nth_data (Denemo.gui->movements, saved);
-          if (Denemo.gui->si == NULL)
-            Denemo.gui->si = Denemo.gui->movements->data;
+          Denemo.project->si = g_list_nth_data (Denemo.project->movements, saved);
+          if (Denemo.project->si == NULL)
+            Denemo.project->si = Denemo.project->movements->data;
         }
     }
   return TRUE;
@@ -746,7 +746,7 @@ get_offset (gdouble * offsetx, gdouble * offsety)
       EvDocumentModel *model;
       model = g_object_get_data (G_OBJECT (Denemo.printarea), "model"); //there is no ev_view_get_model(), when there is use it
       gdouble scale = ev_document_model_get_scale (model);
-      gdouble staffsize = atof (Denemo.gui->lilycontrol.staffsize->str);
+      gdouble staffsize = atof (Denemo.project->lilycontrol.staffsize->str);
       if (staffsize < 1)
         staffsize = 20.0;
       scale *= (staffsize / 4); //Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
@@ -803,17 +803,17 @@ static gdouble
 get_center_staff_offset (void)
 {
   gdouble yadjust = 0.0;
-  if (Denemo.gui->si->currentobject)
+  if (Denemo.project->si->currentobject)
     {
-      DenemoObject *obj = (DenemoObject *) Denemo.gui->si->currentobject->data;
+      DenemoObject *obj = (DenemoObject *) Denemo.project->si->currentobject->data;
       if (obj->type == CHORD)
         {
           chord *thechord = (chord *) obj->object;
-          beamandstemdirhelper (Denemo.gui->si);
+          beamandstemdirhelper (Denemo.project->si);
           if (thechord->notes)
             {
               note *thenote = (note *) (thechord->notes->data);
-              gdouble staffsize = atof (Denemo.gui->lilycontrol.staffsize->str);
+              gdouble staffsize = atof (Denemo.project->lilycontrol.staffsize->str);
               if (staffsize < 1)
                 staffsize = 20.0;
               yadjust = -(4 - thenote->y / 5) * staffsize / 8;
@@ -840,7 +840,7 @@ get_positions (gdouble * neary, gdouble * fary, gboolean for_slur)
     {
       EvDocumentModel *model = g_object_get_data (G_OBJECT (Denemo.printarea), "model");        //there is no ev_view_get_model(), when there is use it
       gdouble scale = ev_document_model_get_scale (model);
-      gdouble staffsize = atof (Denemo.gui->lilycontrol.staffsize->str);
+      gdouble staffsize = atof (Denemo.project->lilycontrol.staffsize->str);
       if (staffsize < 1)
         staffsize = 20.0;
       scale *= (staffsize / 4); //Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
@@ -871,7 +871,7 @@ get_curve (gdouble * x1, gdouble * y1, gdouble * x2, gdouble * y2, gdouble * x3,
     {
       EvDocumentModel *model = g_object_get_data (G_OBJECT (Denemo.printarea), "model");        //there is no ev_view_get_model(), when there is use it
       gdouble scale = ev_document_model_get_scale (model);
-      gdouble staffsize = atof (Denemo.gui->lilycontrol.staffsize->str);
+      gdouble staffsize = atof (Denemo.project->lilycontrol.staffsize->str);
       if (staffsize < 1)
         staffsize = 20.0;
       scale *= (staffsize / 4); //Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
@@ -1130,7 +1130,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
 #ifdef G_OS_WIN32
   g_print ("action_for_link: uri %s\n", uri);
 #endif
-  //g_print("acting on external signal %s type=%d directivenum=%d\n", uri, Denemo.gui->si->target.type, Denemo.gui->si->target.directivenum);
+  //g_print("acting on external signal %s type=%d directivenum=%d\n", uri, Denemo.project->si->target.type, Denemo.project->si->target.directivenum);
   if (uri)
     {
       gchar **orig_vec = g_strsplit (uri, ":", 6);
@@ -1139,7 +1139,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
         vec++;//this will be the case where the file name has a colon in it, (windows drive name) we do not allow for more than one colon. vec[0] is used hereafter.
       if (g_str_has_prefix (uri, "textedit:") && vec[1] && vec[2] && vec[3])
         {
-          DenemoTarget old_target = Denemo.gui->si->target;
+          DenemoTarget old_target = Denemo.project->si->target;
           get_wysiwyg_info()->ObjectLocated = goto_lilypond_position (atoi (vec[2]), atoi (vec[3]));     //sets si->target
 #ifdef G_OS_WIN32
           g_print ("action_for_link: object located %d\n", get_wysiwyg_info()->ObjectLocated);
@@ -1148,39 +1148,39 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
             {
               if (!(get_wysiwyg_info()->grob == Beam && (get_wysiwyg_info()->stage == SelectingFarEnd)))
                 {
-                  get_position (Denemo.gui->si, &get_wysiwyg_info()->pos);
-                  get_wysiwyg_info()->repeatable = same_target (&old_target, &Denemo.gui->si->target);
+                  get_position (Denemo.project->si, &get_wysiwyg_info()->pos);
+                  get_wysiwyg_info()->repeatable = same_target (&old_target, &Denemo.project->si->target);
                 }
               else
-                Denemo.gui->si->target = old_target;    //undo the change of target when getting the end of beam note
+                Denemo.project->si->target = old_target;    //undo the change of target when getting the end of beam note
             }
           else
             get_wysiwyg_info()->repeatable = FALSE;
-          //g_print("Target type %d\n", Denemo.gui->si->target.type); 
+          //g_print("Target type %d\n", Denemo.project->si->target.type); 
 
           if ((get_wysiwyg_info()->stage == SelectingNearEnd))
             return TRUE;
 
-          if (get_wysiwyg_info()->ObjectLocated && Denemo.gui->si->currentobject)
+          if (get_wysiwyg_info()->ObjectLocated && Denemo.project->si->currentobject)
             {
               DenemoDirective *directive = NULL; //this information is collected but not used FIXME
-              DenemoObject *obj = (DenemoObject *) Denemo.gui->si->currentobject->data;
+              DenemoObject *obj = (DenemoObject *) Denemo.project->si->currentobject->data;
               get_wysiwyg_info()->grob = OBJ_NONE;
               if (obj->type == LILYDIRECTIVE)
                 {
                   directive = ((lilydirective *) obj->object);
                 }
               else
-                switch (Denemo.gui->si->target.type)
+                switch (Denemo.project->si->target.type)
                   {
                   case TARGET_NONE:
                     break;
                   case TARGET_NOTE:
-                    if (Denemo.gui->si->target.directivenum)
+                    if (Denemo.project->si->target.directivenum)
                       {
-                        if (Denemo.gui->si->target.type == TARGET_NOTE)
+                        if (Denemo.project->si->target.type == TARGET_NOTE)
                           {
-                            directive = get_note_directive_number (Denemo.gui->si->target.directivenum);
+                            directive = get_note_directive_number (Denemo.project->si->target.directivenum);
                           }
                       }
                       {
@@ -1191,13 +1191,13 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
                     break;
                   case TARGET_CHORD:
                     g_print ("Chord directives may be not done");
-                    if (Denemo.gui->si->target.directivenum)
+                    if (Denemo.project->si->target.directivenum)
                       {
-                        //directive = get_chord_directive_number(Denemo.gui->si->target.directivenum);
+                        //directive = get_chord_directive_number(Denemo.project->si->target.directivenum);
                         if (obj->type == CHORD)
                           {
                             chord *thechord = (chord *) obj->object;
-                            directive = (DenemoDirective *) g_list_nth_data (thechord->directives, Denemo.gui->si->target.directivenum - 1);
+                            directive = (DenemoDirective *) g_list_nth_data (thechord->directives, Denemo.project->si->target.directivenum - 1);
                             if (directive && directive->tag)
                               {
                                 g_print ("Found %s\n", directive->tag->str);
@@ -1243,7 +1243,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
                     g_warning ("Not yet done!!");
                     break;
                   default:
-                    g_warning ("Target type %d not yet done!!", Denemo.gui->si->target.type);
+                    g_warning ("Target type %d not yet done!!", Denemo.project->si->target.type);
                     break;
                   }
             }
@@ -1438,7 +1438,7 @@ apply_tweak (void)
       EvDocumentModel *model;
       model = g_object_get_data (G_OBJECT (Denemo.printarea), "model"); //there is no ev_view_get_model(), when there is use it
       gdouble scale = ev_document_model_get_scale (model);
-      gdouble staffsize = atof (Denemo.gui->lilycontrol.staffsize->str);
+      gdouble staffsize = atof (Denemo.project->lilycontrol.staffsize->str);
       if (staffsize < 1)
         staffsize = 20.0;
       scale *= (staffsize / 4); //Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
@@ -1557,7 +1557,7 @@ popup_tweak_menu (void)
 static gint
 printarea_button_press (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event)
 {
-  //DenemoTargetType type = Denemo.gui->si->target.type;
+  //DenemoTargetType type = Denemo.project->si->target.type;
   gboolean left = (event->button == 1);
   gboolean right = !left;
   //g_print("Button press %d, %d %d\n",(int)event->x , (int)event->y, left);
@@ -1722,7 +1722,7 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
 
   if ( /* left && */ get_wysiwyg_info()->stage == TargetEstablished)
     {
-      if (Denemo.gui->si->target.type == TARGET_SLUR)
+      if (Denemo.project->si->target.type == TARGET_SLUR)
         {
           get_wysiwyg_info()->grob = Slur;
           call_out_to_guile ("(EditSlur)");
@@ -1844,11 +1844,11 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
           g_object_unref (alphapixbuf);
           if (data)
             {
-              if (Denemo.gui->xbm)
-                g_free (Denemo.gui->xbm);
-              Denemo.gui->xbm = data;
-              Denemo.gui->xbm_width = width;
-              Denemo.gui->xbm_height = height;
+              if (Denemo.project->xbm)
+                g_free (Denemo.project->xbm);
+              Denemo.project->xbm = data;
+              Denemo.project->xbm_width = width;
+              Denemo.project->xbm_height = height;
             }
         }
     }
@@ -1864,11 +1864,11 @@ typeset_control (gpointer data)
 {
   static gpointer last_data = NULL;
   static GString *last_script = NULL;
-  gint markstaff = Denemo.gui->si->markstaffnum;
-  Denemo.gui->si->markstaffnum = 0;
+  gint markstaff = Denemo.project->si->markstaffnum;
+  Denemo.project->si->markstaffnum = 0;
 
-  //g_print("typeset control with %d : print view is %d\n",  Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow), get_print_status()->background==STATE_ON);
-//  if(Denemo.gui->textwindow && gtk_widget_get_visible(Denemo.gui->textwindow) && (get_print_status()->background==STATE_ON) && get_print_status()->typeset_type!=TYPESET_ALL_MOVEMENTS)
+  //g_print("typeset control with %d : print view is %d\n",  Denemo.project->textwindow && gtk_widget_get_visible(Denemo.project->textwindow), get_print_status()->background==STATE_ON);
+//  if(Denemo.project->textwindow && gtk_widget_get_visible(Denemo.project->textwindow) && (get_print_status()->background==STATE_ON) && get_print_status()->typeset_type!=TYPESET_ALL_MOVEMENTS)
 //                      return;
   if (get_print_status()->background != STATE_ON)
     get_print_status()->background = 0; //STATE_NONE
@@ -1887,41 +1887,41 @@ typeset_control (gpointer data)
     {
       if (get_print_status()->background == STATE_ON)
         {
-          save_selection (Denemo.gui->si);
+          save_selection (Denemo.project->si);
           if (get_print_status()->typeset_type == TYPESET_ALL_MOVEMENTS)
             {
-              Denemo.gui->si->markstaffnum = 0;
+              Denemo.project->si->markstaffnum = 0;
               create_pdf (FALSE, TRUE);
             }
           else if (get_print_status()->typeset_type == TYPESET_MOVEMENT)
             {
-              Denemo.gui->si->markstaffnum = 0;
+              Denemo.project->si->markstaffnum = 0;
               create_pdf (FALSE, FALSE);
             }
           else
             {
-              gint value = Denemo.gui->si->currentstaffnum - get_print_status()->first_staff;
+              gint value = Denemo.project->si->currentstaffnum - get_print_status()->first_staff;
               if (value < 1)
                 value = 1;
-              Denemo.gui->si->markstaffnum = Denemo.gui->si->selection.firststaffmarked = value;
+              Denemo.project->si->markstaffnum = Denemo.project->si->selection.firststaffmarked = value;
 
-              value = Denemo.gui->si->currentstaffnum + get_print_status()->last_staff;
+              value = Denemo.project->si->currentstaffnum + get_print_status()->last_staff;
               if (value < 1)
                 value = 1;
-              Denemo.gui->si->selection.laststaffmarked = value;
+              Denemo.project->si->selection.laststaffmarked = value;
 
-              value = Denemo.gui->si->currentmeasurenum - get_print_status()->first_measure;
+              value = Denemo.project->si->currentmeasurenum - get_print_status()->first_measure;
               if (value < 1)
                 value = 1;
-              Denemo.gui->si->selection.firstmeasuremarked = value;
+              Denemo.project->si->selection.firstmeasuremarked = value;
 
-              value = Denemo.gui->si->currentmeasurenum + get_print_status()->last_measure;
+              value = Denemo.project->si->currentmeasurenum + get_print_status()->last_measure;
               if (value < 1)
                 value = 1;
-              Denemo.gui->si->selection.lastmeasuremarked = value;
+              Denemo.project->si->selection.lastmeasuremarked = value;
 
-              Denemo.gui->si->selection.firstobjmarked = 0;
-              Denemo.gui->si->selection.lastobjmarked = G_MAXINT - 1;   //counts from 0, +1 must be valid
+              Denemo.project->si->selection.firstobjmarked = 0;
+              Denemo.project->si->selection.lastobjmarked = G_MAXINT - 1;   //counts from 0, +1 must be valid
               create_pdf (FALSE, FALSE);        //this movement only cursor-relative selection of measures     
             }
         }
@@ -1935,9 +1935,9 @@ typeset_control (gpointer data)
       g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
       if (get_print_status()->background == STATE_ON)
         {
-          restore_selection (Denemo.gui->si);
+          restore_selection (Denemo.project->si);
         }
-      Denemo.gui->si->markstaffnum = markstaff;
+      Denemo.project->si->markstaffnum = markstaff;
       return;
     }
   else
@@ -1945,7 +1945,7 @@ typeset_control (gpointer data)
       if (last_data)
         {
           ((void (*)()) last_data) ();
-          Denemo.gui->si->markstaffnum = markstaff;
+          Denemo.project->si->markstaffnum = markstaff;
           return;
         }
       else if (last_script->len)
@@ -1955,15 +1955,15 @@ typeset_control (gpointer data)
           call_out_to_guile (last_script->str);
           g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
 
-          Denemo.gui->si->markstaffnum = markstaff;
+          Denemo.project->si->markstaffnum = markstaff;
           return;
         }
-      Denemo.gui->si->markstaffnum = markstaff;
+      Denemo.project->si->markstaffnum = markstaff;
 
       return;
     }
   last_data = data;
-  Denemo.gui->si->markstaffnum = markstaff;
+  Denemo.project->si->markstaffnum = markstaff;
 }
 
 //Callback for the command PrintView
@@ -1973,7 +1973,7 @@ void
 _show_print_view (GtkAction * action)
 {
   present_print_view_window();
-  if (action && (changecount != Denemo.gui->changecount || Denemo.gui->lilysync != Denemo.gui->changecount))
+  if (action && (changecount != Denemo.project->changecount || Denemo.project->lilysync != Denemo.project->changecount))
     {
       if (!initialize_typesetting ())
         typeset_control (create_all_pdf);
@@ -2054,20 +2054,20 @@ static gboolean
 retypeset (void)
 {
   static gint firstmeasure, lastmeasure, firststaff, laststaff, movementnum;
-  DenemoScore *si = Denemo.gui->si;
+  DenemoScore *si = Denemo.project->si;
   if ((get_print_status()->printpid == GPID_NONE) && (gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.printarea))))
     {
       if (get_print_status()->typeset_type == TYPESET_ALL_MOVEMENTS)
         {
-          if (changecount != Denemo.gui->changecount)
+          if (changecount != Denemo.project->changecount)
             {
               get_print_status()->background = STATE_ON;
               typeset_control ("(disp \"This is called when hitting the refresh button while in continuous re-typeset\")(d-PrintView)");
               get_print_status()->background = STATE_OFF;
-              changecount = Denemo.gui->changecount;
+              changecount = Denemo.project->changecount;
             }
         }
-      else if ((changecount != Denemo.gui->changecount) || (si->currentmovementnum != movementnum) || ((get_print_status()->typeset_type == TYPESET_EXCERPT) && (si->currentmeasurenum < firstmeasure || si->currentmeasurenum > lastmeasure || si->currentstaffnum < firststaff || si->currentstaffnum > laststaff)))
+      else if ((changecount != Denemo.project->changecount) || (si->currentmovementnum != movementnum) || ((get_print_status()->typeset_type == TYPESET_EXCERPT) && (si->currentmeasurenum < firstmeasure || si->currentmeasurenum > lastmeasure || si->currentstaffnum < firststaff || si->currentstaffnum > laststaff)))
         {
           firstmeasure = si->currentmeasurenum - get_print_status()->first_measure;
           if (firstmeasure < 0)
@@ -2081,7 +2081,7 @@ retypeset (void)
           get_print_status()->background = STATE_ON;
           typeset_control ("(disp \"This is called when hitting the refresh button while in continuous re-typeset\")(d-PrintView)");
           get_print_status()->background = STATE_OFF;
-          changecount = Denemo.gui->changecount;
+          changecount = Denemo.project->changecount;
         }
     }
   return TRUE;                  //continue

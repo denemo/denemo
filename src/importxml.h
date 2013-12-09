@@ -93,7 +93,7 @@ typedef struct _DenemoImportXMLNSHandler
  * Import the given file in Denemo's "native" XML file format into the given
  * score.  Return TRUE if the file was imported successfully, FALSE otherwise.
  */
-gboolean importXML (gchar * filename, DenemoGUI * gui, ImportType type);
+gboolean importXML (gchar * filename, DenemoProject * gui, ImportType type);
 
 void registerImportXMLNSHandler (DenemoImportXMLNSHandler * handler);
 

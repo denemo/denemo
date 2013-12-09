@@ -60,7 +60,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Hides all the menus", DENEMO_SCHEME_PREFIX "HideMenus", scheme_hide_menus);
   install_scm_function (0, "Hides Score buttons or shows them if passed #f", DENEMO_SCHEME_PREFIX "HideButtons", scheme_hide_buttons);
   install_scm_function (0, "Removes Score buttons", DENEMO_SCHEME_PREFIX "DestroyButtons", scheme_destroy_buttons);
-  install_scm_function (0, "Hides the Denemo gui or shows it if passed #f", DENEMO_SCHEME_PREFIX "HideWindow", scheme_hide_window);
+  install_scm_function (0, "Hides the Denemo.project or shows it if passed #f", DENEMO_SCHEME_PREFIX "HideWindow", scheme_hide_window);
 
   install_scm_function (1, "Takes the the name of a scripted command. Runs the script stored for that command. Scripts which invoke other scripted commands use this (implicitly?) ", DENEMO_SCHEME_PREFIX "ScriptCallback", scheme_script_callback);
 

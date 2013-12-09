@@ -24,11 +24,11 @@ void key_change_insert (GtkAction * action, DenemoScriptParam * param);
 void timesig_change_initial (GtkAction * action, DenemoScriptParam * param);
 void timesig_change_insert (GtkAction * action, DenemoScriptParam * param);
 
-void clef_change (DenemoGUI * gui, actiontype action);
+void clef_change (DenemoProject * gui, actiontype action);
 
-void key_change (DenemoGUI * gui, actiontype action);
+void key_change (DenemoProject * gui, actiontype action);
 
-void timesig_change (DenemoGUI * gui, actiontype action);
+void timesig_change (DenemoProject * gui, actiontype action);
 
 void score_mwidth_change (GtkAction * action, gpointer callback_data);
 

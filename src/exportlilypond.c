@@ -56,7 +56,7 @@
 
 gchar *get_postfix (GList * g);
 
-static void output_score_to_buffer (DenemoGUI * gui, gboolean all_movements, gchar * partname);
+static void output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * partname);
 static GtkTextTagTable *tagtable;
 
 /* inserts a navigation anchor into the lilypond textbuffer at curmark */
@@ -149,7 +149,7 @@ popup_score_layout_options (void)
   GtkWidget *menu = gtk_menu_new ();
   GtkWidget *item;
   GList *g;
-  for (g = Denemo.gui->standard_scoreblocks; g; g = g->next)
+  for (g = Denemo.project->standard_scoreblocks; g; g = g->next)
     {
       DenemoScoreblock *sb = g->data;
       gchar *text = g_strdup_printf (_("Switch to Layout \"%s\""), sb->name);
@@ -158,7 +158,7 @@ popup_score_layout_options (void)
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (select_standard_layout), sb);
     }
-  for (g = Denemo.gui->custom_scoreblocks; g; g = g->next)
+  for (g = Denemo.project->custom_scoreblocks; g; g = g->next)
     {
       DenemoScoreblock *sb = g->data;
       gchar *text = g_strdup_printf (_("Switch to Layout \"%s\""), sb->name);
@@ -169,7 +169,7 @@ popup_score_layout_options (void)
     }
 
 
-  if (Denemo.gui->standard_scoreblocks == NULL)
+  if (Denemo.project->standard_scoreblocks == NULL)
     {
       item = gtk_menu_item_new_with_label (_("Create Standard Score Layout"));
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
@@ -186,10 +186,10 @@ popup_score_layout_options (void)
 void
 make_scoreblock_editable (void)
 {
-  if (!gtk_widget_get_visible (Denemo.gui->score_layout))
+  if (!gtk_widget_get_visible (Denemo.project->score_layout))
     activate_action ("/MainMenu/ViewMenu/ToggleScoreLayout");
   create_custom_lilypond_scoreblock ();
-  force_lily_refresh (Denemo.gui);
+  force_lily_refresh (Denemo.project);
 }
 
 /* insert a pair of anchors and a mark to denote a section.
@@ -198,7 +198,7 @@ make_scoreblock_editable (void)
    if name is non-null a button is attached to the start anchor.
 */
 static GtkTextChildAnchor *
-insert_section (GString ** str, gchar * markname, gchar * name, GtkTextIter * iter, DenemoGUI * gui)
+insert_section (GString ** str, gchar * markname, gchar * name, GtkTextIter * iter, DenemoProject * gui)
 {
   GtkTextIter back;
   GtkTextChildAnchor *objanc = gtk_text_buffer_create_child_anchor (Denemo.textbuffer, iter);
@@ -813,7 +813,7 @@ output_fakechord (GString * fakechord, chord * pchord)
  * 
  */
 static void
-insert_editable (GString ** pdirective, gchar * original, GtkTextIter * iter, DenemoGUI * gui, GString * lily_for_obj, DenemoTargetType type, gint movement_count, gint measurenum, gint voice_count, gint objnum, gint directive_index, gint midcoffset)
+insert_editable (GString ** pdirective, gchar * original, GtkTextIter * iter, DenemoProject * gui, GString * lily_for_obj, DenemoTargetType type, gint movement_count, gint measurenum, gint voice_count, gint objnum, gint directive_index, gint midcoffset)
 {
   gint directivenum = directive_index + 1;
   GtkTextChildAnchor *lilyanc = gtk_text_buffer_create_child_anchor (Denemo.textbuffer, iter);
@@ -912,7 +912,7 @@ GET_AFFIX (postfix);
 #define DIRECTIVES_INSERT_EDITABLE_AFFIX(field) static void \
 directives_insert_##field##_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gboolean override, GString *lily_for_obj,\
 						DenemoTargetType type, gint movement_count,	gint measurenum, gint voice_count, gint objnum, gint midcoffset) {\
-  DenemoGUI *gui = Denemo.gui;\
+  DenemoProject *gui = Denemo.project;\
   GList *g = directives; gint num;\
   for(num=0;g;g=g->next, num++) {\
     DenemoDirective *directive = (DenemoDirective *)g->data;\
@@ -935,7 +935,7 @@ DIRECTIVES_INSERT_EDITABLE_AFFIX (postfix);
 static void
 directives_insert_affix_postfix_editable (GList * directives, gint * popen_braces, gint * pprevduration, GtkTextIter * iter, GString * lily_for_obj, DenemoTargetType type, gint movement_count, gint measurenum, gint voice_count, gint objnum, gint midcoffset)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GList *g = directives;;
   gint num;
   for (num = 0; g; g = g->next, num++)
@@ -973,7 +973,7 @@ get_lily_override (GList * g)
  * returns the excess of open braces "{" created by this object.
  */
 static gint
-generate_lily_for_obj (DenemoGUI * gui, GtkTextIter * iter, DenemoObject * curobj, gint * pprevduration, gint * pprevnumdots, gchar ** pclefname, gchar ** pkeyname, gint * pcur_stime1, gint * pcur_stime2, gint * pgrace_status, GString * figures, GString * fakechords, GtkTextMark * curmark, gpointer curobjnode, gint movement_count, gint measurenum, gint voice_count, gint objnum)
+generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * curobj, gint * pprevduration, gint * pprevnumdots, gchar ** pclefname, gchar ** pkeyname, gint * pcur_stime1, gint * pcur_stime2, gint * pgrace_status, GString * figures, GString * fakechords, GtkTextMark * curmark, gpointer curobjnode, gint movement_count, gint measurenum, gint voice_count, gint objnum)
 {
   GString *lily_for_obj = g_string_new ("");
   GString *ret = g_string_new ("");     //no longer returned, instead put into *music
@@ -1442,7 +1442,7 @@ generate_lily_for_obj (DenemoGUI * gui, GtkTextIter * iter, DenemoObject * curob
 
 /* create and insertion point and button for the next piece of music */
 static void
-insert_music_section (DenemoGUI * gui, gchar * name)
+insert_music_section (DenemoProject * gui, gchar * name)
 {
   GtkTextIter iter;
   gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, gtk_text_buffer_get_mark (Denemo.textbuffer, MUSIC));
@@ -1453,7 +1453,7 @@ insert_music_section (DenemoGUI * gui, gchar * name)
 
 /* create and insertion point and button for the next scoreblock */
 static GtkTextChildAnchor *
-insert_scoreblock_section (DenemoGUI * gui, gchar * name, DenemoScoreblock * sb)
+insert_scoreblock_section (DenemoProject * gui, gchar * name, DenemoScoreblock * sb)
 {
   GString **target = sb ? &sb->lilypond : NULL;
   GtkTextChildAnchor *anchor;
@@ -1506,7 +1506,7 @@ get_text (GtkTextChildAnchor * anchor)
  * 
  */
 static void
-outputHeader (GString * str, DenemoGUI * gui)
+outputHeader (GString * str, DenemoProject * gui)
 {
   g_string_append_printf (str, "%s", _("%% LilyPond file generated by Denemo version "));
   g_string_append_printf (str, "%s", VERSION "\n\n");
@@ -1524,7 +1524,7 @@ outputHeader (GString * str, DenemoGUI * gui)
 gchar *
 get_lilypond_paper (void)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GString *str = g_string_new ("");
   /* \paper block settings for excerpt */
   if (gui->lilycontrol.excerpt == TRUE)
@@ -1669,7 +1669,7 @@ get_lilypond_for_clef (clef * theclef)
  * 
  */
 static void
-outputStaff (DenemoGUI * gui, DenemoStaff * curstaffstruct, gint start, gint end, gchar * movement, gchar * voice, gint movement_count, gint voice_count, DenemoScoreblock * sb)
+outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint end, gchar * movement, gchar * voice, gint movement_count, gint voice_count, DenemoScoreblock * sb)
 {
   gint cur_stime1 = curstaffstruct->timesig.time1;
   gint cur_stime2 = curstaffstruct->timesig.time2;
@@ -2016,11 +2016,11 @@ outputStaff (DenemoGUI * gui, DenemoStaff * curstaffstruct, gint start, gint end
 
 /* Merge back any modified LilyPond text into the Denemo Score */
 void
-merge_lily_strings (DenemoGUI * gui)
+merge_lily_strings (DenemoProject * gui)
 {
   //g_print("Merge...\n");
   GList *g;
-  if (gui == Denemo.gui)
+  if (gui == Denemo.project)
     write_status (gui);
   if (!gtk_text_buffer_get_modified (Denemo.textbuffer))
     {
@@ -2059,7 +2059,7 @@ merge_lily_strings (DenemoGUI * gui)
 #if 0
               g_print ("gstringp %p at %p holds %s\n", *gstringp, gstringp, (*gstringp)->str);
 #endif
-              /* this is    ((DenemoDirective*)((DenemoObject*)(Denemo.gui->si->currentobject->data))->object)->postfix */
+              /* this is    ((DenemoDirective*)((DenemoObject*)(Denemo.project->si->currentobject->data))->object)->postfix */
               g_free (g_object_get_data (G_OBJECT (anchor), ORIGINAL));
               g_object_set_data (G_OBJECT (anchor), ORIGINAL, get_text (anchor));
 
@@ -2075,7 +2075,7 @@ merge_lily_strings (DenemoGUI * gui)
 }
 /* UNUSED
 void
-merge_lily_cb (GtkAction * action, DenemoGUI * gui)
+merge_lily_cb (GtkAction * action, DenemoProject * gui)
 {
   merge_lily_strings (gui);
 }
@@ -2086,7 +2086,7 @@ merge_lily_cb (GtkAction * action, DenemoGUI * gui)
    conditions (see output_score_to_buffer()).
 */
 void
-refresh_lily_cb (GtkAction * action, DenemoGUI * gui)
+refresh_lily_cb (GtkAction * action, DenemoProject * gui)
 {
   if (Denemo.textbuffer)
     {
@@ -2106,7 +2106,7 @@ refresh_lily_cb (GtkAction * action, DenemoGUI * gui)
 }
 
 void
-force_lily_refresh (DenemoGUI * gui)
+force_lily_refresh (DenemoProject * gui)
 {
   gui->lilysync = G_MAXUINT;
   refresh_lily_cb (NULL, gui);
@@ -2115,7 +2115,7 @@ force_lily_refresh (DenemoGUI * gui)
 void
 delete_lily_cb (GtkAction * action, gpointer param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GtkTextChildAnchor *anchor = gui->lilystart;
   GtkTextIter start, end;
   gtk_text_buffer_get_iter_at_child_anchor (Denemo.textbuffer, &start, anchor);
@@ -2133,7 +2133,7 @@ delete_lily_cb (GtkAction * action, gpointer param)
 void
 toggle_lily_visible_cb (GtkAction * action, gpointer param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GtkTextIter start, end;
   GtkTextChildAnchor *anchor = gui->lilystart;
   DenemoScoreblock *sb = g_object_get_data (G_OBJECT (anchor), CUSTOM);
@@ -2161,7 +2161,7 @@ toggle_lily_visible_cb (GtkAction * action, gpointer param)
 }
 
 static void
-place_cursor_cb (GtkAction * action, DenemoGUI * gui)
+place_cursor_cb (GtkAction * action, DenemoProject * gui)
 {
   /* place cursor on current object */
   if (gui->si->currentobject)
@@ -2190,7 +2190,7 @@ static void
 print_cursor_cb (void)
 {
   GtkTextIter iter;
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, gtk_text_buffer_get_insert (Denemo.textbuffer));
   g_print ("Char is %c at bytes=%d chars=%d\n", gtk_text_iter_get_char (&iter), gtk_text_iter_get_visible_line_index (&iter), gtk_text_iter_get_visible_line_offset (&iter));
 
@@ -2280,7 +2280,7 @@ set_staff_termination (GString * str, DenemoStaff * curstaffstruct)
 void
 generate_lilypond_part (void)
 {
-  output_score_to_buffer (Denemo.gui, TRUE, ((DenemoStaff *) (Denemo.gui->si->currentstaff->data))->lily_name->str);
+  output_score_to_buffer (Denemo.project, TRUE, ((DenemoStaff *) (Denemo.project->si->currentstaff->data))->lily_name->str);
 }
 
 /*
@@ -2293,7 +2293,7 @@ generate_lilypond_part (void)
 
 
 static void
-output_score_to_buffer (DenemoGUI * gui, gboolean all_movements, gchar * partname)
+output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * partname)
 {
 
   GString *definitions = g_string_new ("");
@@ -2324,7 +2324,7 @@ output_score_to_buffer (DenemoGUI * gui, gboolean all_movements, gchar * partnam
 
   staffnode *curstaff;
   DenemoStaff *curstaffstruct;
-//  if(Denemo.gui->custom_scoreblocks==NULL)
+//  if(Denemo.project->custom_scoreblocks==NULL)
   //   create_default_scoreblock();
   if ((gui->si->markstaffnum == 0) && Denemo.textbuffer && (gui->changecount == gui->lilysync) && !strcmp (gui->namespec, namespec))
     {
@@ -2602,7 +2602,7 @@ output_score_to_buffer (DenemoGUI * gui, gboolean all_movements, gchar * partnam
 
 
 /**
- * Write out LilyPond to correspond with the music in the DenemoGUI from measure start to measure end
+ * Write out LilyPond to correspond with the music in the DenemoProject from measure start to measure end
  * in the current movement or all the movements if all_movements is TRUE.
  * param PARTNAME if not NULL, print only this parts of this name
  *
@@ -2612,7 +2612,7 @@ output_score_to_buffer (DenemoGUI * gui, gboolean all_movements, gchar * partnam
  * identifiers placed suitably. 
  */
 static void
-export_lilypond (gchar * thefilename, DenemoGUI * gui, gboolean all_movements, gchar * partname)
+export_lilypond (gchar * thefilename, DenemoProject * gui, gboolean all_movements, gchar * partname)
 {
   GtkTextIter startiter, enditer;
 
@@ -2643,7 +2643,7 @@ export_lilypond (gchar * thefilename, DenemoGUI * gui, gboolean all_movements, g
 }
 
 void
-exportlilypond (gchar * thefilename, DenemoGUI * gui, gboolean all_movements)
+exportlilypond (gchar * thefilename, DenemoProject * gui, gboolean all_movements)
 {
   export_lilypond (thefilename, gui, all_movements, NULL);
 }
@@ -2655,7 +2655,7 @@ exportlilypond (gchar * thefilename, DenemoGUI * gui, gboolean all_movements)
 /* output lilypond for the current staff
  */
 void
-export_lilypond_part (char *filename, DenemoGUI * gui, gboolean all_movements)
+export_lilypond_part (char *filename, DenemoProject * gui, gboolean all_movements)
 {
   export_lilypond (filename, gui, all_movements, ((DenemoStaff *) gui->si->currentstaff->data)->lily_name->str);
 }
@@ -2663,7 +2663,7 @@ export_lilypond_part (char *filename, DenemoGUI * gui, gboolean all_movements)
 /* output lilypond for each part into a separate file
  */
 void
-export_lilypond_parts (char *filename, DenemoGUI * gui)
+export_lilypond_parts (char *filename, DenemoProject * gui)
 {
   gchar *staff_filename;
   staffnode *curstaff;
@@ -2707,7 +2707,7 @@ static gboolean lily_refresh (GtkWidget * item, GdkEventCrossing * e);
 static gboolean
 lily_save (G_GNUC_UNUSED GtkWidget * item, G_GNUC_UNUSED GdkEventCrossing * e)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   //g_print("Consider Save ... %d %d", gui->lilysync, gui->changecount);
   // g_signal_handlers_block_by_func (G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_save), NULL);
   // g_signal_handlers_unblock_by_func (G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_refresh), gui);
@@ -2720,7 +2720,7 @@ lily_save (G_GNUC_UNUSED GtkWidget * item, G_GNUC_UNUSED GdkEventCrossing * e)
 static gboolean
 lily_refresh (G_GNUC_UNUSED GtkWidget * item, G_GNUC_UNUSED GdkEventCrossing * e)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   //g_print("Consider Refresh ... %d %d", gui->lilysync, gui->changecount);
 
   //g_signal_handlers_block_by_func(G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_refresh), NULL);
@@ -2736,7 +2736,7 @@ lily_refresh (G_GNUC_UNUSED GtkWidget * item, G_GNUC_UNUSED GdkEventCrossing * e
 
 
 static void
-prepend_menu_item (GtkMenuShell * menu, DenemoGUI * gui, gchar * text, gpointer callback)
+prepend_menu_item (GtkMenuShell * menu, DenemoProject * gui, gchar * text, gpointer callback)
 {
   GtkWidget *item;
   item = gtk_menu_item_new_with_label (text);
@@ -2748,7 +2748,7 @@ prepend_menu_item (GtkMenuShell * menu, DenemoGUI * gui, gchar * text, gpointer 
 static gboolean
 populate_called (G_GNUC_UNUSED GtkWidget * view, GtkMenuShell * menu)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   //g_print("populate called with %p\n", menu);
   prepend_menu_item (menu, gui, _("Find Current Object"), (gpointer) place_cursor_cb);
   
@@ -2763,7 +2763,7 @@ populate_called (G_GNUC_UNUSED GtkWidget * view, GtkMenuShell * menu)
 gboolean
 goto_lilypond_position (gint line, gint column)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GtkTextIter enditer, iter;
 #ifdef G_OS_WIN32
   mswin ("goto_lilypond_position called for line %d column %d\n", line, column);
@@ -2846,7 +2846,7 @@ goto_lilypond_position (gint line, gint column)
 static gboolean
 lily_keypress (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GtkTextIter cursor;
   gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &cursor, gtk_text_buffer_get_insert (Denemo.textbuffer));
 

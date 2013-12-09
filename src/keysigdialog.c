@@ -85,9 +85,9 @@ findkey (GtkWidget * combobox, GList * list)
 void
 set_keysig (keysig_data * cbdata)
 {
-  DenemoScore *si = Denemo.gui->si;
+  DenemoScore *si = Denemo.project->si;
   staffnode *curstaff;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->si->currentstaff->data;
   gint tokey, mode;
   tokey = mode = 0;
 
@@ -114,7 +114,7 @@ set_keysig (keysig_data * cbdata)
           dnm_setinitialkeysig (curstaffstruct, tokey - mode, isminor);
         }
     }
-  score_status (Denemo.gui, TRUE);
+  score_status (Denemo.project, TRUE);
 }
 
 /**
@@ -125,7 +125,7 @@ void
 insert_keysig (keysig_data * kdata)
 {
   staffnode *curstaff;
-  DenemoScore *si = Denemo.gui->si;
+  DenemoScore *si = Denemo.project->si;
   measurenode *curmeasure;
   gint tokey, mode;
   DenemoObject *newkey = NULL;
@@ -157,7 +157,7 @@ insert_keysig (keysig_data * kdata)
       else
         {
 
-          object_insert (Denemo.gui, newkey = dnm_newkeyobj (tokey - mode, isminor, mode));
+          object_insert (Denemo.project, newkey = dnm_newkeyobj (tokey - mode, isminor, mode));
           showwhichaccidentalswholestaff ((DenemoStaff *) si->currentstaff->data);
         }
       si->cursor_appending = FALSE;
@@ -228,7 +228,7 @@ void
 key_change_insert (GtkAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, keyname);
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
   if (keyname == NULL)
     key_change (gui, INSERT);
@@ -249,7 +249,7 @@ key_change_insert (GtkAction * action, DenemoScriptParam * param)
       gboolean number;
       // FIXME try to find the previous keysig object, else return initial keysig
       /* if currentobject is keysig change return the keysig */
-      DenemoObject *curobj = (DenemoObject *) Denemo.gui->si->currentobject->data;
+      DenemoObject *curobj = (DenemoObject *) Denemo.project->si->currentobject->data;
       if (curobj && curobj->type == KEYSIG)
         {
           isminor = ((keysig *) curobj->object)->isminor;
@@ -278,7 +278,7 @@ void
 key_change_initial (GtkAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, keyname);
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
   if (keyname == NULL)
     key_change (gui, CHANGEINITIAL);
@@ -308,7 +308,7 @@ key_change_initial (GtkAction * action, DenemoScriptParam * param)
 static void
 button_response (GtkWidget * dialog, gint response_id, keysig_data * data)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (response_id == GTK_RESPONSE_ACCEPT)
     {
       if (data->initial)
@@ -332,7 +332,7 @@ button_response (GtkWidget * dialog, gint response_id, keysig_data * data)
  *
  */
 void
-key_change (DenemoGUI * gui, actiontype action)
+key_change (DenemoProject * gui, actiontype action)
 {
   GtkWidget *dialog;
   gboolean initial = action == CHANGEINITIAL ? TRUE : FALSE;

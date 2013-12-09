@@ -22,7 +22,7 @@
 
 struct callbackdata
 {
-  DenemoGUI *gui;
+  DenemoProject *gui;
   gchar *string;
 };
 
@@ -37,7 +37,7 @@ static void
 insertfigure (gboolean filter, gpointer data)
 {
   struct callbackdata *cbdata = (struct callbackdata *) data;
-  DenemoGUI *gui = cbdata->gui;
+  DenemoProject *gui = cbdata->gui;
   DenemoScore *si = gui->si;
   gchar filter_sep = filter ? '/' : '|';
   gchar filter_spc = filter ? '*' : ' ';
@@ -114,7 +114,7 @@ insertfigure (gboolean filter, gpointer data)
 void
 delete_figured_bass (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoStaff *thestaff = (DenemoStaff *) gui->si->currentstaff->data;
   if (confirm ("Figured Bass Deletion", "Delete all figured bass markings from this staff?"))
     {
@@ -141,7 +141,7 @@ delete_figured_bass (GtkAction * action, DenemoScriptParam * param)
 void
 hide_figured_bass (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoStaff *thestaff = (DenemoStaff *) gui->si->currentstaff->data;
   thestaff->hasfigures = FALSE;
 }
@@ -150,7 +150,7 @@ hide_figured_bass (GtkAction * action, DenemoScriptParam * param)
 void
 show_figured_bass (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoStaff *thestaff = (DenemoStaff *) gui->si->currentstaff->data;
   measurenode *curmeasure;
   for (curmeasure = thestaff->measures; curmeasure; curmeasure = curmeasure->next)
@@ -176,7 +176,7 @@ show_figured_bass (GtkAction * action, DenemoScriptParam * param)
 void
 figure_insert (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   gchar *string = NULL;
   gchar *PreValue = NULL;
   DenemoScore *si = gui->si;

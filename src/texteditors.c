@@ -44,9 +44,9 @@ executeScript (void)
 {
   gchar *text = getSchemeText ();
   g_debug ("Calling script %s\n", text);
-  stage_undo (Denemo.gui->si, ACTION_STAGE_END);        //undo is a queue so this is the end :)
+  stage_undo (Denemo.project->si, ACTION_STAGE_END);        //undo is a queue so this is the end :)
   (void) call_out_to_guile (text);
-  stage_undo (Denemo.gui->si, ACTION_STAGE_START);
+  stage_undo (Denemo.project->si, ACTION_STAGE_START);
   g_free (text);
 }
 

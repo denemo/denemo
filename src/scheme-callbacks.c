@@ -334,8 +334,8 @@ scheme_get_reference_point (void)
 SCM
 scheme_get_target_info (void)
 {
-  DenemoScore *si = Denemo.gui->si;
-  if (Denemo.gui->si->currentobject == NULL)
+  DenemoScore *si = Denemo.project->si;
+  if (Denemo.project->si->currentobject == NULL)
     return SCM_BOOL_F;
   SCM type = SCM_BOOL_F, grob = SCM_BOOL_F, tag = SCM_BOOL_F;
   switch (si->target.type)
@@ -627,7 +627,7 @@ SCM
 scheme_hide_buttons (SCM hide)
 {
   SCM ret = SCM_BOOL_F;
-  GtkWidget *widget = Denemo.gui->buttonbox;
+  GtkWidget *widget = Denemo.project->buttonbox;
   if (GTK_IS_CONTAINER (widget))
     {
       ret = SCM_BOOL_T;
@@ -643,7 +643,7 @@ SCM
 scheme_destroy_buttons (void)
 {
   SCM ret = SCM_BOOL_F;
-  GtkWidget *widget = Denemo.gui->buttonbox;
+  GtkWidget *widget = Denemo.project->buttonbox;
 
   if (GTK_IS_CONTAINER (widget))
     {
@@ -658,7 +658,7 @@ scheme_destroy_buttons (void)
 SCM
 scheme_hide_menus (SCM hide)
 {
-  if (Denemo.gui->view != DENEMO_MENU_VIEW)
+  if (Denemo.project->view != DENEMO_MENU_VIEW)
     {
       activate_action ("/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
       ToggleReduceToDrawingArea (NULL, NULL);
@@ -708,9 +708,9 @@ scheme_script_callback (SCM script, SCM params)
               if (text && *text)
                 {
                   //undo is a queue so this is the end :)
-                  stage_undo (Denemo.gui->si, ACTION_STAGE_END);
+                  stage_undo (Denemo.project->si, ACTION_STAGE_END);
                   ret = SCM_BOOL (!call_out_to_guile (text));
-                  stage_undo (Denemo.gui->si, ACTION_STAGE_START);
+                  stage_undo (Denemo.project->si, ACTION_STAGE_START);
                 }
               else
                 ret = SCM_BOOL (activate_script (action, NULL));
@@ -746,7 +746,7 @@ scheme_debug_object (SCM optional)
 {
   DenemoObject *curObj;
 
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data))
     return SCM_BOOL (FALSE);
   g_print ("*************\nType = %d\nbasic_durinticks = %d\ndurinticks - %d\nstarttickofnextnote = %d\n***********\n", curObj->type, curObj->basic_durinticks, curObj->durinticks, curObj->starttickofnextnote);
   return SCM_BOOL (TRUE);
@@ -855,9 +855,9 @@ scheme_user_screenshot (SCM type, SCM position)
     pos = scm_to_int (position);
 
   if (scm_is_false (type))
-    sources = &Denemo.gui->si->sources;
+    sources = &Denemo.project->si->sources;
   else
-    sources = &((DenemoStaff *) Denemo.gui->si->currentstaff->data)->sources;
+    sources = &((DenemoStaff *) Denemo.project->si->currentstaff->data)->sources;
   scheme_hide_window (SCM_BOOL_T);
   GdkRectangle *rect = screenshot_find_rectangle ();
   if (rect)
@@ -880,12 +880,12 @@ scheme_delete_screenshot (SCM type)
 {
   GList **sources;
   if (scm_is_false (type))
-    sources = &Denemo.gui->si->sources;
+    sources = &Denemo.project->si->sources;
   else
-    sources = &((DenemoStaff *) Denemo.gui->si->currentstaff->data)->sources;
+    sources = &((DenemoStaff *) Denemo.project->si->currentstaff->data)->sources;
   if (*sources)
     {
-      GList *g = g_list_nth (*sources, Denemo.gui->si->currentmeasurenum - 1);
+      GList *g = g_list_nth (*sources, Denemo.project->si->currentmeasurenum - 1);
       if (g)
         {
           *sources = g_list_remove_link (*sources, g);
@@ -916,7 +916,7 @@ scheme_pop_clipboard (SCM optional)
 SCM
 scheme_delete_selection (SCM optional)
 {
-  if ((!Denemo.gui->si) || (!Denemo.gui->si->markstaffnum))
+  if ((!Denemo.project->si) || (!Denemo.project->si->markstaffnum))
     return SCM_BOOL_F;
   delete_selection ();
   return SCM_BOOL_T;
@@ -925,11 +925,11 @@ scheme_delete_selection (SCM optional)
 SCM
 scheme_set_thumbnail_selection (SCM optional)
 {
-  if ((!Denemo.gui->si) || (!Denemo.gui->si->markstaffnum))
+  if ((!Denemo.project->si) || (!Denemo.project->si->markstaffnum))
     return SCM_BOOL_F;
-  if (Denemo.gui->si == Denemo.gui->movements->data)
+  if (Denemo.project->si == Denemo.project->movements->data)
     {
-      memcpy (&Denemo.gui->thumbnail, &Denemo.gui->si->selection, sizeof (DenemoSelection));
+      memcpy (&Denemo.project->thumbnail, &Denemo.project->si->selection, sizeof (DenemoSelection));
       return SCM_BOOL_T;
     }
   return SCM_BOOL_F;
@@ -1006,11 +1006,11 @@ scheme_create_layout (SCM name, SCM force)
 SCM
 scheme_lilypond_for_part (void)
 {
-  gint save = Denemo.gui->si->markstaffnum;
-  Denemo.gui->si->markstaffnum = 0;
-  if (!select_custom_layout_for_name (((DenemoStaff *) (Denemo.gui->si->currentstaff->data))->lily_name->str))
+  gint save = Denemo.project->si->markstaffnum;
+  Denemo.project->si->markstaffnum = 0;
+  if (!select_custom_layout_for_name (((DenemoStaff *) (Denemo.project->si->currentstaff->data))->lily_name->str))
     generate_lilypond_part ();
-  Denemo.gui->si->markstaffnum = save;
+  Denemo.project->si->markstaffnum = save;
   return SCM_BOOL_T;
 }
 
@@ -1037,9 +1037,9 @@ SCM
 scheme_get_current_staff_layout_id (void)
 {
   guint id;
-  if (((DenemoStaff *) (Denemo.gui->si->currentstaff->data))->voicecontrol == DENEMO_PRIMARY)
+  if (((DenemoStaff *) (Denemo.project->si->currentstaff->data))->voicecontrol == DENEMO_PRIMARY)
   {
-    id = get_layout_id_for_name(((DenemoStaff *) (Denemo.gui->si->currentstaff->data))->lily_name->str);
+    id = get_layout_id_for_name(((DenemoStaff *) (Denemo.project->si->currentstaff->data))->lily_name->str);
     return scm_from_int(id);
   }
   return SCM_BOOL_F;
@@ -1082,7 +1082,7 @@ scheme_get_layout_name (void)
 SCM
 scheme_select_next_layout (void)
 {
-  if (gtk_widget_get_visible (Denemo.gui->score_layout))
+  if (gtk_widget_get_visible (Denemo.project->score_layout))
     {
       DenemoScoreblock *sb = get_next_scoreblock ();
       return sb ? SCM_BOOL_T : SCM_BOOL_F;
@@ -1093,7 +1093,7 @@ scheme_select_next_layout (void)
 SCM
 scheme_select_first_layout (void)
 {
-  if (gtk_widget_get_visible (Denemo.gui->score_layout))
+  if (gtk_widget_get_visible (Denemo.project->score_layout))
     {
       DenemoScoreblock *sb = get_first_scoreblock ();
       return sb ? SCM_BOOL_T : SCM_BOOL_F;
@@ -1171,8 +1171,8 @@ scheme_export_recorded_audio (void)
 SCM
 scheme_open_source_audio_file (SCM optional)
 {
-	if(open_source_audio_file () && Denemo.gui->si->recording && Denemo.gui->si->recording->samplerate) {
-		return scm_from_double (Denemo.gui->si->recording->nframes/(double)Denemo.gui->si->recording->samplerate);
+	if(open_source_audio_file () && Denemo.project->si->recording && Denemo.project->si->recording->samplerate) {
+		return scm_from_double (Denemo.project->si->recording->nframes/(double)Denemo.project->si->recording->samplerate);
 	}
   return SCM_BOOL_F;
 }
@@ -1186,7 +1186,7 @@ scheme_close_source_audio (SCM optional)
 SCM
 scheme_start_audio_play (SCM annotate)
 {
-  if (Denemo.gui->si->recording)
+  if (Denemo.project->si->recording)
     {
       start_audio_playing (scm_is_true (annotate));
       return SCM_BOOL_T;
@@ -1225,7 +1225,7 @@ scheme_audio_is_playing (void)
 SCM
 scheme_next_audio_timing (SCM optional)
 {
-  if (Denemo.gui->si->recording)
+  if (Denemo.project->si->recording)
     {
       gdouble timing = get_audio_timing ();
       if (timing > 0.0)
@@ -1243,7 +1243,7 @@ scheme_take_snapshot (SCM optional)
 SCM
 scheme_increase_guard (SCM optional)
 {
-  if (Denemo.gui->si->undo_guard++)
+  if (Denemo.project->si->undo_guard++)
     return SCM_BOOL_F;
   return SCM_BOOL_T;
 }
@@ -1251,9 +1251,9 @@ scheme_increase_guard (SCM optional)
 SCM
 scheme_decrease_guard (SCM optional)
 {
-  if (Denemo.gui->si->undo_guard > 0)
-    return SCM_BOOL (!--Denemo.gui->si->undo_guard);
-  Denemo.gui->si->undo_guard = 0;
+  if (Denemo.project->si->undo_guard > 0)
+    return SCM_BOOL (!--Denemo.project->si->undo_guard);
+  Denemo.project->si->undo_guard = 0;
   return SCM_BOOL_T;
 }
 
@@ -1261,9 +1261,9 @@ scheme_decrease_guard (SCM optional)
 SCM
 scheme_undo (SCM optional)
 {
-  stage_undo (Denemo.gui->si, ACTION_STAGE_START);
+  stage_undo (Denemo.project->si, ACTION_STAGE_START);
   undowrapper (NULL, NULL);
-  stage_undo (Denemo.gui->si, ACTION_STAGE_END);
+  stage_undo (Denemo.project->si, ACTION_STAGE_END);
   return SCM_BOOL_T;
 }
 
@@ -1271,8 +1271,8 @@ scheme_undo (SCM optional)
 SCM
 scheme_stage_for_undo (SCM optional)
 {
-  stage_undo (Denemo.gui->si, ACTION_STAGE_START);
-  stage_undo (Denemo.gui->si, ACTION_STAGE_END);
+  stage_undo (Denemo.project->si, ACTION_STAGE_START);
+  stage_undo (Denemo.project->si, ACTION_STAGE_END);
   return SCM_BOOL_T;
 }
 
@@ -1280,7 +1280,7 @@ SCM
 scheme_get_last_change (SCM optional)
 {
   SCM ret = SCM_BOOL_F;
-  gchar *last = get_last_change (Denemo.gui->si);
+  gchar *last = get_last_change (Denemo.project->si);
   if (last)
     ret = scm_from_locale_string (last);
   g_free (last);
@@ -1293,13 +1293,13 @@ scheme_get_last_change (SCM optional)
 SCM
 scheme_new_window (SCM optional)
 {
-  stage_undo (Denemo.gui->si, ACTION_STAGE_START);
+  stage_undo (Denemo.project->si, ACTION_STAGE_START);
 
-  //gint current =  Denemo.gui->scorearea->allocation.width;
+  //gint current =  Denemo.project->scorearea->allocation.width;
   newview (NULL, NULL);
-  // Denemo.gui->scorearea->allocation.width = current;
+  // Denemo.project->scorearea->allocation.width = current;
 
-  stage_undo (Denemo.gui->si, ACTION_STAGE_END);
+  stage_undo (Denemo.project->si, ACTION_STAGE_END);
   return SCM_BOOL_T;
 }
 
@@ -1308,34 +1308,34 @@ SCM
 scheme_zoom (SCM factor)
 {
   if (scm_is_real (factor))
-    Denemo.gui->si->zoom = scm_to_double (factor);
+    Denemo.project->si->zoom = scm_to_double (factor);
   else if (scm_is_string (factor))
     {
       char *name;
       name = scm_to_locale_string (factor);
       if (name)
         {
-          Denemo.gui->si->zoom = atof (name);
+          Denemo.project->si->zoom = atof (name);
           free (name);
         }
     }
   else
     {
-      return scm_from_double (Denemo.gui->si->zoom);
+      return scm_from_double (Denemo.project->si->zoom);
     }
   scorearea_configure_event (Denemo.scorearea, NULL);
-  if (Denemo.gui->si->zoom > 0.01)
+  if (Denemo.project->si->zoom > 0.01)
     {
-      return scm_from_int (Denemo.gui->si->zoom);
+      return scm_from_int (Denemo.project->si->zoom);
     }
-  Denemo.gui->si->zoom = 1.0;
+  Denemo.project->si->zoom = 1.0;
   return SCM_BOOL_F;
 }
 
 SCM
 scheme_master_tempo (SCM factor)
 {
-  DenemoScore *si = Denemo.gui->si;
+  DenemoScore *si = Denemo.project->si;
   gdouble request_time = get_time ();
   gdouble duration = request_time - si->tempo_change_time;
   si->start_player += duration * (1.0 - si->master_tempo);
@@ -1366,7 +1366,7 @@ scheme_master_tempo (SCM factor)
 SCM
 scheme_movement_tempo (SCM bpm)
 {
-  DenemoScore *si = Denemo.gui->si;
+  DenemoScore *si = Denemo.project->si;
   if (scm_is_real (bpm))
     si->tempo = scm_to_int (bpm);
   if (scm_is_string (bpm))
@@ -1388,7 +1388,7 @@ scheme_movement_tempo (SCM bpm)
 SCM
 scheme_master_volume (SCM factor)
 {
-  DenemoScore *si = Denemo.gui->si;
+  DenemoScore *si = Denemo.project->si;
   if (scm_is_real (factor))
     si->master_volume = scm_to_double (factor);
   if (scm_is_string (factor))
@@ -1409,7 +1409,7 @@ scheme_master_volume (SCM factor)
 SCM
 scheme_staff_master_volume (SCM level)
 {
-  DenemoStaff *thestaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+  DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->si->currentstaff->data;
   if (scm_is_real (level))
     {
       gdouble master_volume = scm_to_double (level);
@@ -1491,7 +1491,7 @@ scheme_set_enharmonic_position (SCM position)
 SCM
 scheme_rewind_midi (SCM start)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   double thetime = 0.0;
   SCM scm = SCM_BOOL_T;
   gint err;
@@ -1515,7 +1515,7 @@ SCM
 scheme_next_midi_notes (SCM interval)
 {
   SCM scm = scm_list_n (SCM_UNDEFINED);
-  DenemoScore *si = Denemo.gui->si;
+  DenemoScore *si = Denemo.project->si;
   if (scm_is_real (interval))
     {
       double margin = scm_to_double (interval);
@@ -1555,9 +1555,9 @@ scheme_next_midi_notes (SCM interval)
 SCM
 scheme_get_midi_on_time (void)
 {
-  if (!(Denemo.gui->si->currentobject))
+  if (!(Denemo.project->si->currentobject))
     return SCM_BOOL_F;
-  DenemoObject *curobj = Denemo.gui->si->currentobject->data;
+  DenemoObject *curobj = Denemo.project->si->currentobject->data;
   if (!curobj->midi_events)
     return SCM_BOOL_F;
   return scm_from_double (get_midi_on_time (curobj->midi_events));
@@ -1566,9 +1566,9 @@ scheme_get_midi_on_time (void)
 SCM
 scheme_get_midi_off_time (void)
 {
-  if (!(Denemo.gui->si->currentobject))
+  if (!(Denemo.project->si->currentobject))
     return SCM_BOOL_F;
-  DenemoObject *curobj = Denemo.gui->si->currentobject->data;
+  DenemoObject *curobj = Denemo.project->si->currentobject->data;
   if (!curobj->midi_events)
     return SCM_BOOL_F;
   return scm_from_double (get_midi_off_time (curobj->midi_events));
@@ -1590,20 +1590,20 @@ scheme_set_playback_interval (SCM start, SCM end)
   stop_midi_playback(NULL, NULL);
   if (scm_is_real (start) && scm_is_real (end))
     {
-      Denemo.gui->si->start_time = convert_and_adjust (start);
-      Denemo.gui->si->end_time = convert_and_adjust (end);
+      Denemo.project->si->start_time = convert_and_adjust (start);
+      Denemo.project->si->end_time = convert_and_adjust (end);
       set_start_and_end_objects_for_draw ();
       return SCM_BOOL_T;
     }
   if (scm_is_real (start))
     {
-      Denemo.gui->si->start_time = convert_and_adjust (start);
+      Denemo.project->si->start_time = convert_and_adjust (start);
       set_start_and_end_objects_for_draw ();
       return SCM_BOOL_T;
     }
   if (scm_is_real (end))
     {
-      Denemo.gui->si->end_time = convert_and_adjust (end);
+      Denemo.project->si->end_time = convert_and_adjust (end);
       set_start_and_end_objects_for_draw ();
       return SCM_BOOL_T;
     }
@@ -1613,13 +1613,13 @@ scheme_set_playback_interval (SCM start, SCM end)
       name = scm_to_locale_string (start);
       if (name)
         {
-          Denemo.gui->si->start_time = atof (name);
+          Denemo.project->si->start_time = atof (name);
           free (name);
         }
       name = scm_to_locale_string (end);
       if (name)
         {
-          Denemo.gui->si->end_time = atof (name);
+          Denemo.project->si->end_time = atof (name);
           free (name);
         }
       set_start_and_end_objects_for_draw ();
@@ -1631,7 +1631,7 @@ scheme_set_playback_interval (SCM start, SCM end)
       name = scm_to_locale_string (start);
       if (name)
         {
-          Denemo.gui->si->start_time = atof (name);
+          Denemo.project->si->start_time = atof (name);
           free (name);
         }
       set_start_and_end_objects_for_draw ();
@@ -1643,7 +1643,7 @@ scheme_set_playback_interval (SCM start, SCM end)
       name = scm_to_locale_string (end);
       if (name)
         {
-          Denemo.gui->si->end_time = atof (name);
+          Denemo.project->si->end_time = atof (name);
           free (name);
         }
       set_start_and_end_objects_for_draw ();
@@ -1659,9 +1659,9 @@ scheme_adjust_playback_start (SCM adj)
   if (scm_is_real (adj))
     {
 	  stop_midi_playback(NULL, NULL);
-      Denemo.gui->si->start_time += convert_and_adjust (adj);
-      if (Denemo.gui->si->start_time < 0.0)
-        Denemo.gui->si->start_time = 0.0;
+      Denemo.project->si->start_time += convert_and_adjust (adj);
+      if (Denemo.project->si->start_time < 0.0)
+        Denemo.project->si->start_time = 0.0;
       else
         ret = SCM_BOOL_T;
     }
@@ -1676,9 +1676,9 @@ scheme_adjust_playback_end (SCM adj)
   if (scm_is_real (adj))
     {
 	  stop_midi_playback(NULL, NULL);
-      Denemo.gui->si->end_time += convert_and_adjust (adj);
-      if (Denemo.gui->si->end_time < 0.0)
-        Denemo.gui->si->end_time = 0.0;
+      Denemo.project->si->end_time += convert_and_adjust (adj);
+      if (Denemo.project->si->end_time < 0.0)
+        Denemo.project->si->end_time = 0.0;
       else
         ret = SCM_BOOL_T;
     }
@@ -1907,7 +1907,7 @@ SCM
 scheme_get_verse (SCM number)
 {
   gchar *text = NULL;
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (scm_is_integer (number))
     {
       text = get_lyrics_for_verse_num (scm_to_int (number));
@@ -1930,7 +1930,7 @@ scheme_get_verse (SCM number)
 SCM
 scheme_put_verse (SCM verse)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
   if (scm_is_string (verse))
     {
@@ -1947,7 +1947,7 @@ scheme_put_verse (SCM verse)
 SCM
 scheme_append_to_verse (SCM verse)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
   if (scm_is_string (verse))
     {
@@ -2019,37 +2019,37 @@ scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object)
   if (scm_is_integer (movement))
     movementnum = scm_to_int (movement);
   else
-    movementnum = g_list_index (Denemo.gui->movements, Denemo.gui->si) + 1;
+    movementnum = g_list_index (Denemo.project->movements, Denemo.project->si) + 1;
   if (scm_is_integer (staff))
     staffnum = scm_to_int (staff);
   else
-    staffnum = Denemo.gui->si->currentstaffnum;
+    staffnum = Denemo.project->si->currentstaffnum;
 
   if (scm_is_integer (measure))
     measurenum = scm_to_int (measure);
   else
-    measurenum = Denemo.gui->si->currentmeasurenum;
+    measurenum = Denemo.project->si->currentmeasurenum;
 
   if (scm_is_integer (object))
     objectnum = scm_to_int (object);
   else
-    objectnum = 1 + Denemo.gui->si->cursor_x;
+    objectnum = 1 + Denemo.project->si->cursor_x;
 #if 0
   // 1 is ambiguous, either empty measure or object 1
   gboolean result = goto_movement_staff_obj (NULL, movementnum, staffnum, measurenum, objectnum);
-  if (Denemo.gui->si->currentmeasure->data == NULL && objectnum == 1)
+  if (Denemo.project->si->currentmeasure->data == NULL && objectnum == 1)
     return SCM_BOOL (goto_movement_staff_obj (NULL, movementnum, staffnum, measurenum, 0));
-  gint numobjs = (Denemo.gui->si->currentmeasure->data) ? g_list_length (Denemo.gui->si->currentmeasure->data) : 0;
+  gint numobjs = (Denemo.project->si->currentmeasure->data) ? g_list_length (Denemo.project->si->currentmeasure->data) : 0;
   if (objectnum == 1 + numobjs)
-    Denemo.gui->si->cursor_appending = TRUE;
-  write_status (Denemo.gui);
+    Denemo.project->si->cursor_appending = TRUE;
+  write_status (Denemo.project);
   if (objectnum > 1 + numobjs)
     return SCM_BOOL_F;
   return SCM_BOOL (result);
 #endif
-  gint origmvt = g_list_index (Denemo.gui->movements, Denemo.gui->si) + 1, origstaff = Denemo.gui->si->currentstaffnum, origmeas = Denemo.gui->si->currentmeasurenum, origpos = 1 + Denemo.gui->si->cursor_x;
+  gint origmvt = g_list_index (Denemo.project->movements, Denemo.project->si) + 1, origstaff = Denemo.project->si->currentstaffnum, origmeas = Denemo.project->si->currentmeasurenum, origpos = 1 + Denemo.project->si->cursor_x;
   goto_movement_staff_obj (NULL, movementnum, staffnum, measurenum, objectnum);
-  if ((movementnum == g_list_index (Denemo.gui->movements, Denemo.gui->si) + 1) && (staffnum == Denemo.gui->si->currentstaffnum) && (measurenum == Denemo.gui->si->currentmeasurenum) && (objectnum == 1 + Denemo.gui->si->cursor_x))
+  if ((movementnum == g_list_index (Denemo.project->movements, Denemo.project->si) + 1) && (staffnum == Denemo.project->si->currentstaffnum) && (measurenum == Denemo.project->si->currentmeasurenum) && (objectnum == 1 + Denemo.project->si->cursor_x))
     return SCM_BOOL_T;
   else
     goto_movement_staff_obj (NULL, origmvt, origstaff, origmeas, origpos);
@@ -2063,8 +2063,8 @@ scheme_shift_cursor (SCM value)
   if (!scm_is_integer (value))
     return SCM_BOOL_F;
   gint shift = scm_to_int (value);
-  Denemo.gui->si->cursor_y += shift;
-  Denemo.gui->si->staffletter_y = offsettonumber (Denemo.gui->si->staffletter_y + shift);
+  Denemo.project->si->cursor_y += shift;
+  Denemo.project->si->staffletter_y = offsettonumber (Denemo.project->si->staffletter_y + shift);
   return SCM_BOOL_T;
 
 
@@ -2083,7 +2083,7 @@ scheme_mid_c_offsettoname (gint offset)
 SCM
 scheme_get_horizontal_position (void)
 {
-  return scm_from_int (1 + Denemo.gui->si->cursor_x);
+  return scm_from_int (1 + Denemo.project->si->cursor_x);
 }
 
 SCM
@@ -2091,9 +2091,9 @@ scheme_set_object_display_width (SCM value)
 {
   if (!scm_is_integer (value))
     return SCM_BOOL_F;
-  if (Denemo.gui->si->currentobject)
+  if (Denemo.project->si->currentobject)
     {
-      DenemoObject *obj = Denemo.gui->si->currentobject->data;
+      DenemoObject *obj = Denemo.project->si->currentobject->data;
       gint minpixels = scm_to_int (value);
       obj->minpixelsalloted = minpixels;
       return SCM_BOOL_T;
@@ -2107,35 +2107,35 @@ scheme_set_object_display_width (SCM value)
 SCM
 scheme_get_movement (void)
 {
-  gint num = g_list_index (Denemo.gui->movements, Denemo.gui->si) + 1;
+  gint num = g_list_index (Denemo.project->movements, Denemo.project->si) + 1;
   return scm_from_int (num);
 }
 
 SCM
 scheme_get_staff (void)
 {
-  gint num = Denemo.gui->si->currentstaffnum;
+  gint num = Denemo.project->si->currentstaffnum;
   return scm_from_int (num);
 }
 
 SCM
 scheme_get_measure (void)
 {
-  gint num = Denemo.gui->si->currentmeasurenum;
+  gint num = Denemo.project->si->currentmeasurenum;
   return scm_from_int (num);
 }
 
 SCM
 scheme_get_cursor_note (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   return scheme_mid_c_offsettoname (gui->si->cursor_y);
 }
 
 SCM
 scheme_get_cursor_note_with_octave (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   scm_from_locale_string (mid_c_offsettolily (gui->si->cursor_y, 0));
   return SCM_BOOL_T;
 }
@@ -2206,7 +2206,7 @@ scheme_get_string_pref (SCM pref)
 SCM
 scheme_attach_quit_callback (SCM callback)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (scm_is_string (callback))
     {
       char *scheme;
@@ -2221,7 +2221,7 @@ scheme_attach_quit_callback (SCM callback)
 SCM
 scheme_detach_quit_callback (void)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (gui->callbacks)
     {
       g_free (gui->callbacks->data);
@@ -2236,18 +2236,18 @@ scheme_detach_quit_callback (void)
 SCM
 scheme_get_input_source (void)
 {
-  return scm_from_int (Denemo.gui->input_source);
+  return scm_from_int (Denemo.project->input_source);
 }
 
 
 SCM
 scheme_chordize (SCM setting)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
     return SCM_BOOL (FALSE);
   if (SCM_BOOLP (setting))
     {
@@ -2272,7 +2272,7 @@ scheme_get_note_name (SCM optional)
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
     return SCM_BOOL (FALSE);
   else
     {
@@ -2287,9 +2287,9 @@ scheme_get_note_name (SCM optional)
 SCM
 scheme_put_whole_measure_rests (void)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   SCM scm;
-  if (!Denemo.gui || !(Denemo.gui->si))
+  if (!Denemo.project || !(Denemo.project->si))
     return SCM_MAKINUM (0);
   else
     {
@@ -2341,7 +2341,7 @@ scheme_get_dots (void)
 {
   DenemoObject *curObj;
   chord *thechord;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object))
     return SCM_BOOL_F;
   return scm_from_int (thechord->numdots);
 }
@@ -2351,7 +2351,7 @@ scheme_get_note_base_duration (void)
 {
   DenemoObject *curObj;
   chord *thechord;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object))
     return SCM_BOOL_F;
   return scm_from_int (thechord->baseduration);
 }
@@ -2365,7 +2365,7 @@ scheme_get_note_duration (void)
   gint numdots = 0;
   gchar *str;
 
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object))
     return SCM_BOOL_F;
   if (thechord->baseduration >= 0)
     {
@@ -2398,7 +2398,7 @@ scheme_set_duration_in_ticks (SCM duration)
     {
       thedur = scm_to_int (duration);
     }
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data))
     return SCM_BOOL_F;
   if (thedur > 0)
     {
@@ -2408,7 +2408,7 @@ scheme_set_duration_in_ticks (SCM duration)
           ((chord *) curObj->object)->baseduration = -thedur;
           ((chord *) curObj->object)->numdots = 0;
         }
-      objnode *prev = Denemo.gui->si->currentobject->prev;
+      objnode *prev = Denemo.project->si->currentobject->prev;
       DenemoObject *prevObj = prev ? (DenemoObject *) prev->data : NULL;
       gint starttick = (prevObj ? prevObj->starttickofnextnote : 0);
       curObj->starttickofnextnote = starttick + thedur;
@@ -2420,9 +2420,9 @@ scheme_set_duration_in_ticks (SCM duration)
 SCM
 scheme_get_onset_time (void)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoObject *curObj;
-  if ((Denemo.gui->si->currentobject) && (curObj = Denemo.gui->si->currentobject->data))
+  if ((Denemo.project->si->currentobject) && (curObj = Denemo.project->si->currentobject->data))
     if ((gui->si->smfsync == gui->si->changecount))
       {
         if (curObj->midi_events)
@@ -2509,7 +2509,7 @@ SCM
 scheme_get_duration_in_ticks (void)
 {
   DenemoObject *curObj;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data))
     return SCM_BOOL (FALSE);
   return scm_from_int (curObj->durinticks);
 }
@@ -2518,7 +2518,7 @@ SCM
 scheme_get_base_duration_in_ticks (void)
 {
   DenemoObject *curObj;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data))
     return SCM_BOOL (FALSE);
   if (curObj->type == CHORD)
     return scm_from_int (((chord *) curObj->object)->baseduration >= 0 ?        /* (* (expt 2 (- 8 number)) 6) */
@@ -2531,7 +2531,7 @@ SCM
 scheme_get_end_tick (void)
 {
   DenemoObject *curObj;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data))
     return SCM_BOOL (FALSE);
   return scm_from_int (curObj->starttickofnextnote);
 }
@@ -2541,7 +2541,7 @@ SCM
 scheme_get_start_tick (void)
 {
   DenemoObject *curObj;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data))
     return SCM_BOOL (FALSE);
   return scm_from_int (curObj->starttick);
 }
@@ -2550,7 +2550,7 @@ scheme_get_start_tick (void)
 SCM
 scheme_get_measure_number (void)
 {
-  return scm_from_int (Denemo.gui->si->currentmeasurenum);
+  return scm_from_int (Denemo.project->si->currentmeasurenum);
 }
 
 
@@ -2569,7 +2569,7 @@ scheme_get_note (SCM count)
       if (index < 0)
         return SCM_BOOL_F;
     }
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) g_list_nth_data (thechord->notes, index)))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) g_list_nth_data (thechord->notes, index)))
     return SCM_BOOL_F;
   else
     {
@@ -2594,7 +2594,7 @@ scheme_get_note_from_top (SCM count)
       if (index < 1)
         return SCM_BOOL_F;
     }
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes))
     return SCM_BOOL_F;
   else
     {
@@ -2628,7 +2628,7 @@ scheme_get_note_from_top_as_midi (SCM count)
       if (index < 1)
         return SCM_BOOL_F;
     }
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes))
     return SCM_BOOL_F;
   else
     {
@@ -2678,7 +2678,7 @@ SCM
 scheme_get_cursor_note_as_midi (SCM optional)
 {
 
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   gint midi = dia_to_midinote (gui->si->cursor_y);
   SCM scm = scm_from_int (midi);
   return scm;
@@ -2691,7 +2691,7 @@ scheme_get_note_as_midi (void)
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
     return scm_from_int (0);
   else
     {
@@ -2711,7 +2711,7 @@ scheme_get_notes (SCM optional)
   GString *str = g_string_new ("");
   SCM scm;
 
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
     return SCM_BOOL (FALSE);
   else
     {
@@ -2740,7 +2740,7 @@ scheme_add_movement (SCM optional)
 SCM
 scheme_get_prevailing_clef (SCM optional)
 {
-  gint theclef = find_prevailing_clef (Denemo.gui->si);
+  gint theclef = find_prevailing_clef (Denemo.project->si);
   //FIXME look at directives to see if it is overridden, e.g. drum clef
   const gchar *clefname = get_clef_name (theclef);
   if (clefname)
@@ -2822,16 +2822,16 @@ scheme_set_prevailing_keysig (SCM keyaccs)
     }
   keysig *keysig = get_prevailing_context (KEYSIG);
   sscanf (accs, "%d%d%d%d%d%d%d", keysig->accs + 0, keysig->accs + 1, keysig->accs + 2, keysig->accs + 3, keysig->accs + 4, keysig->accs + 5, keysig->accs + 6);
-  showwhichaccidentalswholestaff ((DenemoStaff *) Denemo.gui->si->currentstaff->data);
+  showwhichaccidentalswholestaff ((DenemoStaff *) Denemo.project->si->currentstaff->data);
   free (accs);
-  displayhelper (Denemo.gui);   //score_status(Denemo.gui, TRUE);
+  displayhelper (Denemo.project);   //score_status(Denemo.project, TRUE);
   return SCM_BOOL_T;
 }
 
 SCM
 scheme_increment_initial_keysig (SCM amount)
 {
-  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
+  DenemoStaff *curstaff = Denemo.project->si->currentstaff->data;
   SCM ret = SCM_BOOL_F;
   gint inc = 1;
   if (scm_is_integer (amount))
@@ -2841,7 +2841,7 @@ scheme_increment_initial_keysig (SCM amount)
   if (inc < 8 && inc > -8)
     {
       dnm_setinitialkeysig (curstaff, inc, curstaff->keysig.isminor);
-      score_status (Denemo.gui, TRUE);
+      score_status (Denemo.project, TRUE);
       ret = SCM_BOOL_T;
     }
   return ret;
@@ -2850,14 +2850,14 @@ scheme_increment_initial_keysig (SCM amount)
 SCM
 scheme_increment_keysig (SCM amount)
 {
-  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
+  DenemoStaff *curstaff = Denemo.project->si->currentstaff->data;
   DenemoObject *curObj = NULL;
   SCM ret = SCM_BOOL_F;
   gint inc = 1;
   if (scm_is_integer (amount))
     inc = scm_to_int (amount);
   keysig *sig = &curstaff->keysig;
-  if ((Denemo.gui->si->currentobject) && (curObj = Denemo.gui->si->currentobject->data) && (curObj->type == KEYSIG))
+  if ((Denemo.project->si->currentobject) && (curObj = Denemo.project->si->currentobject->data) && (curObj->type == KEYSIG))
     {
       sig = curObj->object;
     }
@@ -2876,8 +2876,8 @@ scheme_increment_keysig (SCM amount)
           set_basic_numticks (curObj);
           setpixelmin (curObj);
         }
-      score_status (Denemo.gui, TRUE);
-      displayhelper (Denemo.gui);
+      score_status (Denemo.project, TRUE);
+      displayhelper (Denemo.project);
       ret = SCM_BOOL_T;
     }
   return ret;
@@ -2886,7 +2886,7 @@ scheme_increment_keysig (SCM amount)
 SCM
 scheme_cursor_to_note (SCM lilyname)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   gint mid_c_offset;
   gint enshift;
   char *notename;
@@ -2911,7 +2911,7 @@ scheme_cursor_to_note (SCM lilyname)
 SCM
 scheme_change_chord_notes (SCM lilynotes)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
@@ -2927,7 +2927,7 @@ scheme_change_chord_notes (SCM lilynotes)
   if (scm_is_string (lilynotes))
     {
 
-      if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+      if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
         return SCM_BOOL (FALSE);
 
       else
@@ -2941,7 +2941,7 @@ scheme_change_chord_notes (SCM lilynotes)
               delete_chordnote (gui);
             }
           /* add changed tones */
-          dclef = find_prevailing_clef (Denemo.gui->si);
+          dclef = find_prevailing_clef (Denemo.project->si);
           notename = scm_to_locale_string (lilynotes);
           chordnote = strtok (notename, " ");
           while (chordnote)
@@ -2996,7 +2996,7 @@ scheme_get_user_input (SCM label, SCM prompt, SCM init, SCM modal)
   else
     initial_value = strdup (" ");
 
-  gchar *ret = string_dialog_entry_with_widget_opt (Denemo.gui, title, instruction, initial_value, NULL, (modal == SCM_UNDEFINED) || scm_is_true (modal));
+  gchar *ret = string_dialog_entry_with_widget_opt (Denemo.project, title, instruction, initial_value, NULL, (modal == SCM_UNDEFINED) || scm_is_true (modal));
   SCM scm = ret ? scm_from_locale_string (ret) : SCM_BOOL_F;
 
   if (title)
@@ -3013,7 +3013,7 @@ scheme_get_user_input (SCM label, SCM prompt, SCM init, SCM modal)
 static void
 paste_snippet_lilypond (GtkWidget * button)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GtkWidget *hbox = gtk_widget_get_parent (button);
   GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
   if (textbuffer)
@@ -3103,7 +3103,7 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
   GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
   GtkWidget *button = gtk_button_new_with_label (_("Paste Current Snippet"));
   gtk_widget_set_tooltip_text (button, _("Pastes the music captured in the currently selected Snippet into the text at the cursor. The music appears here in the LilyPond typesetter syntax between two markers (\302\247). It will print as typeset music embedded in the sentence you are writing.\nYou can edit the syntax, taking care to leave the markers in position. If you delete one marker be sure to delete the other.\n"));
-// if(!Denemo.gui->rhythms)
+// if(!Denemo.project->rhythms)
   //   gtk_widget_set_sensitive(button, FALSE);
   g_signal_connect (button, "clicked", G_CALLBACK (paste_snippet_lilypond), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
@@ -3114,11 +3114,11 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
     g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_action_activate), action);
   else
     gtk_widget_set_sensitive (button, FALSE);
-// if(!Denemo.gui->rhythms)
+// if(!Denemo.project->rhythms)
 //   gtk_widget_set_sensitive(button, FALSE);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
-  gchar *text = string_dialog_editor_with_widget_opt (Denemo.gui, title, instruction, initial_value, hbox, (modal == SCM_UNDEFINED) || scm_is_true (modal));
+  gchar *text = string_dialog_editor_with_widget_opt (Denemo.project, title, instruction, initial_value, hbox, (modal == SCM_UNDEFINED) || scm_is_true (modal));
   if (text)
     {
       gchar *lilypond = create_lilypond_from_text (text);
@@ -3342,7 +3342,7 @@ scheme_get_command_from_user (void)
           else
             return SCM_BOOL_F;
         }
-      write_status (Denemo.gui);
+      write_status (Denemo.project);
       SCM scm = scm_from_locale_string (command);       //command is from lookup_name_from... functions, do not free.
       return scm;
     }
@@ -3389,7 +3389,7 @@ scheme_get_relative_font_size (void)
   gchar *value = g_object_get_data (G_OBJECT (Denemo.printarea), "font-size");
   if (value)
     g_free (value);
-  value = string_dialog_entry (Denemo.gui, "Font Size", "Give a value (+/-) to adjust font size by", "0");
+  value = string_dialog_entry (Denemo.project, "Font Size", "Give a value (+/-) to adjust font size by", "0");
   if (!value)
     value = g_strdup ("0");
   gchar *clean = g_strdup_printf ("%d", atoi (value));
@@ -3520,7 +3520,7 @@ scheme_lock_directive (SCM lock)
 {
   DenemoObject *curObj;
   DenemoDirective *directive;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != LILYDIRECTIVE) || !(directive = (DenemoDirective *) curObj->object))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != LILYDIRECTIVE) || !(directive = (DenemoDirective *) curObj->object))
     return SCM_BOOL (FALSE);
   directive->locked = scm_is_true (lock);
   return SCM_BOOL_T;
@@ -4116,7 +4116,7 @@ scheme_set_midi_thru (SCM set)
 SCM
 scheme_get_recorded_midi_on_tick (void)
 {
-  smf_track_t *track = Denemo.gui->si->recorded_midi_track;
+  smf_track_t *track = Denemo.project->si->recorded_midi_track;
   if (track)
     {
 #define MIDI_NOTEOFF		0x80
@@ -4139,7 +4139,7 @@ scheme_get_recorded_midi_on_tick (void)
 SCM
 scheme_get_recorded_midi_note (void)
 {
-  smf_track_t *track = Denemo.gui->si->recorded_midi_track;
+  smf_track_t *track = Denemo.project->si->recorded_midi_track;
   if (track)
     {
       smf_event_t *event = NULL;
@@ -4161,15 +4161,15 @@ scheme_get_recorded_midi_note (void)
 SCM
 scheme_rewind_recorded_midi (void)
 {
-  smf_track_t *track = Denemo.gui->si->recorded_midi_track;
+  smf_track_t *track = Denemo.project->si->recorded_midi_track;
   if (track)
     {
       if (track->smf == NULL)
         {
-          if (Denemo.gui->si->smf)
+          if (Denemo.project->si->smf)
             {
-              smf_add_track (Denemo.gui->si->smf, track);
-              smf_rewind (Denemo.gui->si->smf);
+              smf_add_track (Denemo.project->si->smf, track);
+              smf_rewind (Denemo.project->si->smf);
             }
           else
             return SCM_BOOL_F;
@@ -4203,7 +4203,7 @@ scheme_get_midi (void)
   if (!success)
     midi = 0;                   /* scripts should detect this impossible value and take action */
   else
-    Denemo.gui->last_source = INPUTMIDI;
+    Denemo.project->last_source = INPUTMIDI;
   gchar *buf = (gchar *) & midi;
   *buf &= 0xF0;                 //do not return channel info
 
@@ -4259,7 +4259,7 @@ scheme_output_midi_bytes (SCM input)
     {
       return SCM_BOOL_F;
     }
-  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->si->currentstaff->data;
   channel = get_midi_channel (curstaffstruct);
   volume = curstaffstruct->volume;
   char *string_input;
@@ -4289,7 +4289,7 @@ scheme_output_midi_bytes (SCM input)
 SCM
 scheme_create_timebase (SCM optional)
 {
-  DenemoScore *si = Denemo.gui->si;
+  DenemoScore *si = Denemo.project->si;
   if (si->smfsync != si->changecount)
     {
       exportmidi (NULL, si, 0, 0);
@@ -4304,7 +4304,7 @@ scheme_pending_midi (SCM scm)
   if (scm_is_integer (scm))
     {
       guint key = scm_to_int (scm);
-      g_queue_push_head (Denemo.gui->pending_midi, GINT_TO_POINTER (key));
+      g_queue_push_head (Denemo.project->pending_midi, GINT_TO_POINTER (key));
       return SCM_BOOL_T;
     }
   else
@@ -4353,8 +4353,8 @@ scheme_put_rest (SCM optional_duration)
   if ((duration < 0) || (duration > 7))
     return SCM_BOOL_F;
 
-  dnm_insertchord (Denemo.gui, duration, 0, TRUE);
-  displayhelper (Denemo.gui);   //without this a call to d-AddVoice causes a crash as the chord length info has not been updated
+  dnm_insertchord (Denemo.project, duration, 0, TRUE);
+  displayhelper (Denemo.project);   //without this a call to d-AddVoice causes a crash as the chord length info has not been updated
   return SCM_BOOL_T;
 }
 
@@ -4366,7 +4366,7 @@ scheme_insert_rest (SCM optional)
   if (scm_is_integer (optional))
     {
       gint duration = scm_to_int (optional);
-      highlight_duration (Denemo.gui, duration);
+      highlight_duration (Denemo.project, duration);
     }
   return ret;
 }
@@ -4376,21 +4376,21 @@ SCM
 scheme_toggle_playalong (void)
 {
   pb_playalong (get_playalong_button ());
-  return SCM_BOOL (Denemo.gui->midi_destination | MIDIPLAYALONG);
+  return SCM_BOOL (Denemo.project->midi_destination | MIDIPLAYALONG);
 }
 
 SCM
 scheme_toggle_conduct (void)
 {
   pb_conduct (get_conduct_button ());
-  return SCM_BOOL (Denemo.gui->midi_destination | MIDICONDUCT);
+  return SCM_BOOL (Denemo.project->midi_destination | MIDICONDUCT);
 }
 
 SCM
 scheme_midi_record (void)
 {
   pb_record ("(d-ComputeMidiNoteDurations)(d-FirstNoteOnset)");
-  return SCM_BOOL (Denemo.gui->midi_destination | MIDIRECORD);
+  return SCM_BOOL (Denemo.project->midi_destination | MIDIRECORD);
 }
 SCM
 scheme_compute_midi_note_durations (void)
@@ -4402,7 +4402,7 @@ SCM
 scheme_get_marked_midi_note (void)
 {
  SCM scm = SCM_BOOL_F;
- DenemoGUI *gui = Denemo.gui;
+ DenemoProject *gui = Denemo.project;
  DenemoScore *si = gui->si;
  if(si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->marked_onset) {
 	 GList *marked = si->marked_onset;
@@ -4420,7 +4420,7 @@ SCM
 scheme_advance_marked_midi (SCM advance)
 {
  SCM scm = SCM_BOOL_F;
- DenemoGUI *gui = Denemo.gui;
+ DenemoProject *gui = Denemo.project;
  DenemoScore *si = gui->si;
  if(si->recording && (si->recording->type == DENEMO_RECORDING_MIDI))
  {
@@ -4473,7 +4473,7 @@ static gboolean
 scheme_callback_one_shot_timer (cb_scheme_and_id * scheme)
 {
   char *scheme_code = scheme->scheme_code;
-  if (scheme->id == Denemo.gui->id)
+  if (scheme->id == Denemo.project->id)
     call_out_to_guile (scheme_code);
   else
     g_warning ("Timer missed for gui %d\n", scheme->id);
@@ -4490,7 +4490,7 @@ scheme_one_shot_timer (SCM duration_amount, SCM callback)
   gint duration = scm_to_int (duration_amount);
   cb_scheme_and_id *scheme = g_malloc (sizeof (cb_scheme_and_id));
   scheme->scheme_code = scheme_code;
-  scheme->id = Denemo.gui->id;
+  scheme->id = Denemo.project->id;
   g_timeout_add (duration, (GSourceFunc) scheme_callback_one_shot_timer, GINT_TO_POINTER (scheme));
   return SCM_BOOL (TRUE);
 }
@@ -4499,7 +4499,7 @@ static gboolean
 scheme_callback_timer (cb_scheme_and_id * scheme)
 {
   char *scheme_code = scheme->scheme_code;
-  if (scheme->id == Denemo.gui->id)
+  if (scheme->id == Denemo.project->id)
     call_out_to_guile (scheme_code);
   else
     g_warning ("Timer missed for gui %d\n", scheme->id);
@@ -4519,7 +4519,7 @@ scheme_timer (SCM duration_amount, SCM callback)
       //g_print("setting timer for %s after %d ms", scheme_code, duration);
       cb_scheme_and_id *scheme = g_malloc (sizeof (cb_scheme_and_id));
       scheme->scheme_code = scheme_code;
-      scheme->id = Denemo.gui->id;
+      scheme->id = Denemo.project->id;
       g_timeout_add (duration, (GSourceFunc) scheme_callback_timer, GINT_TO_POINTER (scheme));
       //if(scheme_code) free(scheme_code);
       return scm_from_int (GPOINTER_TO_INT (scheme));   //FIXME pointer may not fit in int
@@ -4568,7 +4568,7 @@ scheme_bass_figure (SCM bass, SCM harmony)
 SCM
 scheme_has_figures (SCM optional)
 {
-  return SCM_BOOL (((DenemoStaff *) Denemo.gui->si->currentstaff->data)->hasfigures);
+  return SCM_BOOL (((DenemoStaff *) Denemo.project->si->currentstaff->data)->hasfigures);
 }
 
 
@@ -4580,7 +4580,7 @@ scheme_put_note_name (SCM optional)
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
     return SCM_BOOL (FALSE);
   else
     {
@@ -4592,7 +4592,7 @@ scheme_put_note_name (SCM optional)
           gint enshift;
           interpret_lilypond_notename (str, &mid_c_offset, &enshift);
           //g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
-          modify_note (thechord, mid_c_offset, enshift, find_prevailing_clef (Denemo.gui->si));
+          modify_note (thechord, mid_c_offset, enshift, find_prevailing_clef (Denemo.project->si));
           if (str)
             free (str);
           return SCM_BOOL (TRUE);
@@ -4607,7 +4607,7 @@ scheme_set_accidental (SCM optional)
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
     return SCM_BOOL (FALSE);
   else
     {
@@ -4615,12 +4615,12 @@ scheme_set_accidental (SCM optional)
       for (g = thechord->notes; g; g = g->next)
         {
           thenote = (note *) g->data;
-          if (thenote->mid_c_offset == Denemo.gui->si->cursor_y)
+          if (thenote->mid_c_offset == Denemo.project->si->cursor_y)
             break;
         }
       if (g == NULL)
         return SCM_BOOL_F;
-      DenemoScore *si = Denemo.gui->si;
+      DenemoScore *si = Denemo.project->si;
       char *str = NULL;
 
       if (scm_is_string (optional))
@@ -4638,7 +4638,7 @@ scheme_set_accidental (SCM optional)
       //  find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1,
       //                      si->cursortime2); causes a crash, si is not passed correctly, why???
       //thenote->mid_c_offset = interpret_lilypond_notename(str);
-      displayhelper (Denemo.gui);
+      displayhelper (Denemo.project);
       if (str)
         free (str);
       return SCM_BOOL (TRUE);
@@ -4656,13 +4656,13 @@ scheme_set_accidental (SCM optional)
 SCM
 scheme_insert_note_in_chord (SCM lily)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoObject *curObj;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) )
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) )
     return SCM_BOOL_F;
 #ifdef INSERT_NOTE_IN_CHORD_WORKS_ON_PREVIOUS_CHORD
   if(curObj->type != CHORD) {
-    objnode *theobj = Denemo.gui->si->currentobject;
+    objnode *theobj = Denemo.project->si->currentobject;
     while(theobj->prev)
       {
         theobj = theobj->prev;
@@ -4687,9 +4687,9 @@ scheme_insert_note_in_chord (SCM lily)
       interpret_lilypond_notename (str, &mid_c_offset, &enshift);
 
       //g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
-      addtone (curObj, mid_c_offset, enshift, find_prevailing_clef (Denemo.gui->si));
+      addtone (curObj, mid_c_offset, enshift, find_prevailing_clef (Denemo.project->si));
       score_status (gui, TRUE);
-      displayhelper (Denemo.gui);
+      displayhelper (Denemo.project);
       if (str)
         free (str);
       return SCM_BOOL_T;
@@ -4736,7 +4736,7 @@ scheme_put_clip_obj (SCM m, SCM n)
 SCM
 scheme_adjust_xes (SCM optional)
 {
-  find_xes_in_all_measures (Denemo.gui->si);
+  find_xes_in_all_measures (Denemo.project->si);
   return SCM_BOOL_T;
 }
 
@@ -4777,9 +4777,9 @@ SCM
 scheme_get_type (SCM optional)
 {
   DenemoObject *curObj;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
     return scm_from_locale_string ("None");
-  if (Denemo.gui->si->cursor_appending)
+  if (Denemo.project->si->cursor_appending)
     return scm_from_locale_string ("Appending");
   return scm_from_locale_string (DENEMO_OBJECT_TYPE_NAME (curObj));
 }
@@ -4787,14 +4787,14 @@ scheme_get_type (SCM optional)
 SCM
 scheme_get_lilypond (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoObject *curObj;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
     return SCM_BOOL_F;
 //g_print("Before %d %d\n", gui->lilysync, gui->changecount);
 
   if (gui->lilysync != gui->changecount)
-    refresh_lily_cb (NULL, Denemo.gui);
+    refresh_lily_cb (NULL, Denemo.project);
 //g_print("After %d %d\n", gui->lilysync, gui->changecount);
   if (curObj->lilypond)
     return scm_from_locale_string (curObj->lilypond);
@@ -4805,7 +4805,7 @@ SCM
 scheme_get_tuplet (SCM optional)
 {
   DenemoObject *curObj;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != TUPOPEN))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != TUPOPEN))
     return SCM_BOOL_F;
   GString *ratio = g_string_new ("");
   g_string_printf (ratio, "%d/%d", ((tupopen *) curObj->object)->numerator, ((tupopen *) curObj->object)->denominator);
@@ -4816,7 +4816,7 @@ SCM
 scheme_set_tuplet (SCM ratio)
 {
   DenemoObject *curObj;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != TUPOPEN))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != TUPOPEN))
     {
       return SCM_BOOL_F;
     }
@@ -4852,7 +4852,7 @@ SCM
 scheme_get_nonprinting (SCM optional)
 {
   DenemoObject *curObj;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || curObj->isinvisible)
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || curObj->isinvisible)
     return SCM_BOOL_T;
   return SCM_BOOL_F;
 }
@@ -4861,7 +4861,7 @@ SCM
 scheme_set_nonprinting (SCM optional)
 {
   DenemoObject *curObj;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data))
     return SCM_BOOL_F;
   if (scm_is_false (optional))
     curObj->isinvisible = FALSE;
@@ -4875,7 +4875,7 @@ scheme_is_grace (SCM optional)
 {
   DenemoObject *curObj;
   chord *thechord;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->is_grace))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->is_grace))
     return SCM_BOOL_F;
   return SCM_BOOL_T;
 }
@@ -4885,7 +4885,7 @@ scheme_is_tied (SCM optional)
 {
   DenemoObject *curObj;
   chord *thechord;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->is_tied))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->is_tied))
     return SCM_BOOL_F;
   return SCM_BOOL_T;
 }
@@ -4896,7 +4896,7 @@ scheme_is_slur_start (SCM optional)
 {
   DenemoObject *curObj;
   chord *thechord;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->slur_begin_p))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->slur_begin_p))
     return SCM_BOOL_F;
   return SCM_BOOL_T;
 }
@@ -4906,7 +4906,7 @@ scheme_is_slur_end (SCM optional)
 {
   DenemoObject *curObj;
   chord *thechord;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->slur_end_p))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->slur_end_p))
     return SCM_BOOL_F;
   return SCM_BOOL_T;
 }
@@ -4916,7 +4916,7 @@ scheme_is_cresc_start (SCM optional)
 {
   DenemoObject *curObj;
   chord *thechord;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->crescendo_begin_p))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->crescendo_begin_p))
     return SCM_BOOL_F;
   return SCM_BOOL_T;
 }
@@ -4926,7 +4926,7 @@ scheme_is_cresc_end (SCM optional)
 {
   DenemoObject *curObj;
   chord *thechord;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->crescendo_end_p))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->crescendo_end_p))
     return SCM_BOOL_F;
   return SCM_BOOL_T;
 }
@@ -4936,7 +4936,7 @@ scheme_is_dim_start (SCM optional)
 {
   DenemoObject *curObj;
   chord *thechord;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->diminuendo_begin_p))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->diminuendo_begin_p))
     return SCM_BOOL_F;
   return SCM_BOOL_T;
 }
@@ -4946,7 +4946,7 @@ scheme_is_dim_end (SCM optional)
 {
   DenemoObject *curObj;
   chord *thechord;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->diminuendo_end_p))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->diminuendo_end_p))
     return SCM_BOOL_F;
   return SCM_BOOL_T;
 }
@@ -4954,13 +4954,13 @@ scheme_is_dim_end (SCM optional)
 SCM
 scheme_is_in_selection (void)
 {
-  return SCM_BOOL (in_selection (Denemo.gui->si));
+  return SCM_BOOL (in_selection (Denemo.project->si));
 }
 
 SCM
 scheme_is_appending (void)
 {
-  return SCM_BOOL (Denemo.gui->si->cursor_appending);
+  return SCM_BOOL (Denemo.project->si->cursor_appending);
 }
 
 
@@ -4986,26 +4986,26 @@ scheme_get_staffs_in_clipboard (SCM optional)
 SCM
 scheme_get_measures_in_staff (SCM optional)
 {
-  gint num = g_list_length (((DenemoStaff *) Denemo.gui->si->currentstaff->data)->measures);
+  gint num = g_list_length (((DenemoStaff *) Denemo.project->si->currentstaff->data)->measures);
   return scm_from_int (num);
 }
 SCM
 scheme_get_staffs_in_movement (SCM optional)
 {
-  gint num = g_list_length (Denemo.gui->si->thescore);
+  gint num = g_list_length (Denemo.project->si->thescore);
   return scm_from_int (num);
 }
 SCM
 scheme_staff_to_voice (SCM optional)
 {
   SCM ret = SCM_BOOL_F;
-  if (Denemo.gui->si->currentstaff->prev && (((DenemoStaff *) Denemo.gui->si->currentstaff->data)->voicecontrol == DENEMO_PRIMARY))
+  if (Denemo.project->si->currentstaff->prev && (((DenemoStaff *) Denemo.project->si->currentstaff->data)->voicecontrol == DENEMO_PRIMARY))
     {
-      ((DenemoStaff *) Denemo.gui->si->currentstaff->data)->voicecontrol |= DENEMO_SECONDARY;
-      setcurrentprimarystaff (Denemo.gui->si);
+      ((DenemoStaff *) Denemo.project->si->currentstaff->data)->voicecontrol |= DENEMO_SECONDARY;
+      setcurrentprimarystaff (Denemo.project->si);
       ret = SCM_BOOL_T;
       gtk_widget_queue_draw (Denemo.scorearea);
-      score_status (Denemo.gui, TRUE);
+      score_status (Denemo.project, TRUE);
       draw_score (NULL);
     }
   return ret;
@@ -5015,12 +5015,12 @@ SCM
 scheme_voice_to_staff (SCM optional)
 {
   SCM ret = SCM_BOOL_F;
-  if (((DenemoStaff *) Denemo.gui->si->currentstaff->data)->voicecontrol & DENEMO_SECONDARY)
+  if (((DenemoStaff *) Denemo.project->si->currentstaff->data)->voicecontrol & DENEMO_SECONDARY)
     {
-      ((DenemoStaff *) Denemo.gui->si->currentstaff->data)->voicecontrol = DENEMO_PRIMARY;
-      setcurrentprimarystaff (Denemo.gui->si);
+      ((DenemoStaff *) Denemo.project->si->currentstaff->data)->voicecontrol = DENEMO_PRIMARY;
+      setcurrentprimarystaff (Denemo.project->si);
       ret = SCM_BOOL_T;
-      score_status (Denemo.gui, TRUE);
+      score_status (Denemo.project, TRUE);
       gtk_widget_queue_draw (Denemo.scorearea);
     }
   return ret;
@@ -5029,17 +5029,17 @@ scheme_voice_to_staff (SCM optional)
 SCM
 scheme_is_voice (void)
 {
-return SCM_BOOL ((((DenemoStaff *) Denemo.gui->si->currentstaff->data)->voicecontrol & DENEMO_SECONDARY));
+return SCM_BOOL ((((DenemoStaff *) Denemo.project->si->currentstaff->data)->voicecontrol & DENEMO_SECONDARY));
 }
 /* shifts the note at the cursor by the number of diatonic steps passed in */
 SCM
 scheme_diatonic_shift (SCM optional)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
-  if (!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+  if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
     {
       return SCM_BOOL (FALSE);
     }
@@ -5052,7 +5052,7 @@ scheme_diatonic_shift (SCM optional)
           gint shift;
           sscanf (str, "%d", &shift);
 //     g_print("note shift %s ie %d\n", str, shift);
-          modify_note (thechord, thenote->mid_c_offset + shift, gui->si->curmeasureaccs[offsettonumber (thenote->mid_c_offset + shift)], find_prevailing_clef (Denemo.gui->si));
+          modify_note (thechord, thenote->mid_c_offset + shift, gui->si->curmeasureaccs[offsettonumber (thenote->mid_c_offset + shift)], find_prevailing_clef (Denemo.project->si));
           free (str);
         }
     }
@@ -5102,8 +5102,8 @@ scheme_prev_object_in_measure (void)
 SCM
 scheme_refresh_display (SCM optional)
 {
-  displayhelper (Denemo.gui);
-  //done in displayhelper write_status(Denemo.gui);
+  displayhelper (Denemo.project);
+  //done in displayhelper write_status(Denemo.project);
   return SCM_BOOL (TRUE);
 }
 
@@ -5114,16 +5114,16 @@ scheme_set_saved (SCM optional)
 {
   //scm_is_bool(optional) &&
   if (scm_is_false (optional))
-    score_status (Denemo.gui, TRUE);
+    score_status (Denemo.project, TRUE);
   else
-    score_status (Denemo.gui, FALSE);
+    score_status (Denemo.project, FALSE);
   return SCM_BOOL (TRUE);
 }
 
 SCM
 scheme_get_saved (SCM optional)
 {
-  return SCM_BOOL (!Denemo.gui->notsaved);
+  return SCM_BOOL (!Denemo.project->notsaved);
 }
 
 SCM
@@ -5191,7 +5191,7 @@ SCM
 scheme_next_chord (SCM optional)
 {
   DenemoPosition pos;
-  get_position (Denemo.gui->si, &pos);
+  get_position (Denemo.project->si, &pos);
   gboolean ret = cursor_to_next_chord ();
   if (!ret)
     goto_movement_staff_obj (NULL, -1, pos.staff, pos.measure, pos.object);
@@ -5202,7 +5202,7 @@ SCM
 scheme_prev_chord (SCM optional)
 {
   DenemoPosition pos;
-  get_position (Denemo.gui->si, &pos);
+  get_position (Denemo.project->si, &pos);
   gboolean ret = cursor_to_prev_chord ();
   if (!ret)
     goto_movement_staff_obj (NULL, -1, pos.staff, pos.measure, pos.object);
@@ -5240,7 +5240,7 @@ scheme_prev_note (SCM optional)
 void
 update_scheme_snippet_ids (void)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GList *g;
   gint i;
   for (g = gui->rhythms, i = 1; g; g = g->next, i++)
@@ -5262,9 +5262,9 @@ scheme_create_snippet_from_object (SCM name)
     {
       char *str;
       str = scm_to_locale_string (name);
-      if (Denemo.gui->si->currentobject)
+      if (Denemo.project->si->currentobject)
         {
-          DenemoObject *clonedobj = dnm_clone_object (Denemo.gui->si->currentobject->data);
+          DenemoObject *clonedobj = dnm_clone_object (Denemo.project->si->currentobject->data);
           RhythmPattern *r = (RhythmPattern *) g_malloc0 (sizeof (RhythmPattern));
           install_button_for_pattern (r, str);
           r->clipboard = g_list_append (NULL, g_list_append (NULL, clonedobj));
@@ -5292,7 +5292,7 @@ scheme_select_snippet (SCM number)
   if (scm_is_integer (number))
     {
       gint position = scm_to_int (number);
-      GList *g = g_list_nth (Denemo.gui->rhythms, position - 1);
+      GList *g = g_list_nth (Denemo.project->rhythms, position - 1);
       if (g)
         {
           RhythmPattern *r = g->data;
@@ -5315,7 +5315,7 @@ scheme_insert_snippet (SCM number)
   if (scm_is_integer (number))
     {
       gint position = scm_to_int (number);
-      GList *g = g_list_nth (Denemo.gui->rhythms, position - 1);
+      GList *g = g_list_nth (Denemo.project->rhythms, position - 1);
       if (g)
         {
           RhythmPattern *r = g->data;
@@ -5323,7 +5323,7 @@ scheme_insert_snippet (SCM number)
             {
 
               select_rhythm_pattern (r);
-              insert_note_following_pattern (Denemo.gui);
+              insert_note_following_pattern (Denemo.project);
 
               return SCM_BOOL_T;
             }

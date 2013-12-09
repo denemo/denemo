@@ -10,11 +10,11 @@
 #define COMMANDFUNCSH
 #include <denemo/denemo.h>
 
-void nudgerightward (DenemoGUI * gui);
+void nudgerightward (DenemoProject * gui);
 
-void nudge_downward (DenemoGUI * gui);
+void nudge_downward (DenemoProject * gui);
 
-void set_width_to_work_with (DenemoGUI * gui);
+void set_width_to_work_with (DenemoProject * gui);
 
 void adjustmeasurewidth (DenemoScore * si, gint amount);
 
@@ -83,17 +83,17 @@ void cursorup (GtkAction * action, DenemoScriptParam * param);
 
 void cursordown (GtkAction * action, DenemoScriptParam * param);
 
-void shiftcursor (DenemoGUI * gui, gint note_value);
+void shiftcursor (DenemoProject * gui, gint note_value);
 
 void setenshift (DenemoScore * si, gint enshift);
 
 void changeduration (DenemoScore * si, gint duration);
 
-gboolean delete_chordnote (DenemoGUI * gui);
+gboolean delete_chordnote (DenemoProject * gui);
 
-gboolean insert_chordnote (DenemoGUI * gui);
+gboolean insert_chordnote (DenemoProject * gui);
 
-void incrementenshift (DenemoGUI * gui, gint direction);
+void incrementenshift (DenemoProject * gui, gint direction);
 
 void change_stem_directive (DenemoScore * si, enum stemdirections amount);
 
@@ -102,7 +102,7 @@ void changedots (DenemoScore * si, gint amount);
 
 void appendmeasures (DenemoScore * si, gint number);
 
-void insertclone (DenemoGUI * gui);
+void insertclone (DenemoProject * gui);
 
 void toend (GtkAction * action, DenemoScriptParam * param);
 
@@ -111,7 +111,7 @@ void tohome (GtkAction * action, DenemoScriptParam * param);
 
 void inserttuplet (DenemoScore * si, tuplet_type type);
 
-void object_insert (DenemoGUI * gui, DenemoObject * mudela_obj_new);
+void object_insert (DenemoProject * gui, DenemoObject * mudela_obj_new);
 
 void stem_directive_insert (GtkAction * action, DenemoScriptParam * param);
 
@@ -119,7 +119,7 @@ void toggle_begin_slur (GtkAction * action, DenemoScriptParam* param);
 
 void toggle_end_slur (GtkAction * action, DenemoScriptParam* param);
 
-void insertgrace (DenemoGUI * gui);
+void insertgrace (DenemoProject * gui);
 
 void toggle_start_crescendo (GtkAction * action, DenemoScriptParam* param);
 
@@ -134,9 +134,9 @@ void insertion_point_for_type (DenemoScore * si, DenemoObjType type);
 
 void caution (DenemoScore * si);
 
-void displayhelper (DenemoGUI * si);
+void displayhelper (DenemoProject * si);
 
-gboolean auto_save_document_timeout (DenemoGUI * gui);
+gboolean auto_save_document_timeout (DenemoProject * gui);
 
 
 
@@ -155,7 +155,7 @@ void deletemeasureallstaffs (GtkAction* action, DenemoScriptParam* param);
 void deleteobject (GtkAction* action, DenemoScriptParam* param);
 
 
-void insert_note_following_pattern (DenemoGUI * gui);
+void insert_note_following_pattern (DenemoProject * gui);
 
 void beamandstemdirhelper (DenemoScore * si);
 
@@ -163,7 +163,7 @@ void nextrhythm (GtkAction* action, DenemoScriptParam* param);
 void insert_rhythm_pattern (GtkAction* action, DenemoScriptParam* param);
 void toggle_tie (GtkAction * action, DenemoScriptParam * param);
 gint get_prevailing_duration (void);
-void dnm_inserttuplet (DenemoGUI * gui, tuplet_type type);
+void dnm_inserttuplet (DenemoProject * gui, tuplet_type type);
 gboolean next_editable_note (void);
 gboolean insert_marked_midi_note (void);
 #endif /*COMMANDFUNCSH */

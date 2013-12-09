@@ -1400,7 +1400,7 @@ music_font (gchar * str)
 }
 
 void
-set_title_bar (DenemoGUI * gui)
+set_title_bar (DenemoProject * gui)
 {
   gchar *title;
   if (gui->tabname && gui->tabname->len)
@@ -1410,7 +1410,7 @@ set_title_bar (DenemoGUI * gui)
   title = g_strdup_printf ("%s%c", title, gui->notsaved ? '*' : ' ');
   gtk_window_set_title (GTK_WINDOW (Denemo.window), title);
   gchar *base = g_path_get_basename (title);
-  gint index = g_list_index (Denemo.guis, gui);
+  gint index = g_list_index (Denemo.projects, gui);
   GtkWidget *page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (Denemo.notebook), index);
   gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (Denemo.notebook), page, base);
 
@@ -1443,12 +1443,12 @@ enshift_string (gint enshift)
 
 /* set the status of the current musical score - its change count and
    title bar and status bars.
-   DenemoGUI *gui the musical score.
+   DenemoProject *gui the musical score.
    gboolean change TRUE = a change has just been made
                    FALSE = the score is to be assumed saved
 */
 void
-score_status (DenemoGUI * gui, gboolean change)
+score_status (DenemoProject * gui, gboolean change)
 {
   if (change)
     {
@@ -1529,7 +1529,7 @@ append_directives_information (GString * selection, GList * directives)
 void
 display_current_object (void)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (ObjectInfo == NULL)
     {
       ObjectInfo = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -1757,7 +1757,7 @@ display_current_object (void)
 ********************/
 
 void
-write_status (DenemoGUI * gui)
+write_status (DenemoProject * gui)
 {
   gint minutes = 0;
   gdouble seconds = 0.0;
@@ -1940,14 +1940,14 @@ nullify_gstring (GString ** s)
  */
 
 gchar *
-string_dialog_entry (DenemoGUI * gui, gchar * title, gchar * instruction, gchar * initial_value)
+string_dialog_entry (DenemoProject * gui, gchar * title, gchar * instruction, gchar * initial_value)
 {
   return string_dialog_entry_with_widget (gui, title, instruction, initial_value, NULL);
 }
 
 /* as string_dialog_entry() but with extra widget */
 gchar *
-string_dialog_entry_with_widget_opt (DenemoGUI * gui, gchar * wlabel, gchar * direction, gchar * PreValue, GtkWidget * widget, gboolean modal)
+string_dialog_entry_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar * direction, gchar * PreValue, GtkWidget * widget, gboolean modal)
 {
 
   GtkWidget *dialog;
@@ -2011,14 +2011,14 @@ string_dialog_entry_with_widget_opt (DenemoGUI * gui, gchar * wlabel, gchar * di
 }
 
 gchar *
-string_dialog_entry_with_widget (DenemoGUI * gui, gchar * wlabel, gchar * direction, gchar * PreValue, GtkWidget * widget)
+string_dialog_entry_with_widget (DenemoProject * gui, gchar * wlabel, gchar * direction, gchar * PreValue, GtkWidget * widget)
 {
   return string_dialog_entry_with_widget_opt (gui, wlabel, direction, PreValue, widget, TRUE);
 }
 
 /* as string_dialog_entry_with_widget() but gives a text editor instead of a single line editor */
 gchar *
-string_dialog_editor_with_widget_opt (DenemoGUI * gui, gchar * wlabel, gchar * direction, gchar * PreValue, GtkWidget * widget, gboolean modal)
+string_dialog_editor_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar * direction, gchar * PreValue, GtkWidget * widget, gboolean modal)
 {
   GtkWidget *dialog;
   GtkWidget *textview;
@@ -2089,7 +2089,7 @@ string_dialog_editor_with_widget_opt (DenemoGUI * gui, gchar * wlabel, gchar * d
 }
 
 gchar *
-string_dialog_editor_with_widget (DenemoGUI * gui, gchar * wlabel, gchar * direction, gchar * PreValue, GtkWidget * widget)
+string_dialog_editor_with_widget (DenemoProject * gui, gchar * wlabel, gchar * direction, gchar * PreValue, GtkWidget * widget)
 {
   return string_dialog_editor_with_widget_opt (gui, wlabel, direction, PreValue, widget, TRUE);
 }
@@ -2338,7 +2338,7 @@ KeyStrokeShow (gchar * str, gint command_idx, DenemoShortcutType type)
               gtk_window_set_title (GTK_WINDOW (KeyStrokes), _("Key Press"));
               gtk_label_set_text (GTK_LABEL (KeyStrokeHelp), "");
               text = g_strdup_printf (_("Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span>" " Is not a shortcut.\n%s"), str,
-              (Denemo.gui->view != DENEMO_MENU_VIEW)?
+              (Denemo.project->view != DENEMO_MENU_VIEW)?
               _("(The menus are now restored in case you are lost.)"):"");
               break;
             case TwoKey:

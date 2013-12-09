@@ -121,7 +121,7 @@ fluidsynth_feed_midi (unsigned char *event_data, size_t event_length)
     {
     case MIDI_NOTE_ON:
       {
-        int velocity = ((int) (Denemo.gui->si->master_volume * event_data[2]));
+        int velocity = ((int) (Denemo.project->si->master_volume * event_data[2]));
         if (velocity > 0x7F)
           velocity = 0x7F;
         fluid_synth_noteon (synth, channel, event_data[1], velocity);

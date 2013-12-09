@@ -86,7 +86,7 @@ advance_printname ()
  */
 /* UNUSED
 gboolean
-check_lilypond_path (DenemoGUI * gui)
+check_lilypond_path (DenemoProject * gui)
 {
 
   gchar *lilypath = g_find_program_in_path (Denemo.prefs.lilypath->str);
@@ -500,7 +500,7 @@ stop_lilypond ()
 static void
 generate_lilypond (gchar * lilyfile, gboolean part_only, gboolean all_movements)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (part_only)
     export_lilypond_part (lilyfile, gui, all_movements);
   else
@@ -545,7 +545,7 @@ create_pdf (gboolean part_only, gboolean all_movements)
  */
 
 void
-printrangedialog (DenemoGUI * gui)
+printrangedialog (DenemoProject * gui)
 {
   GtkWidget *dialog;
   GtkWidget *label;
@@ -654,10 +654,10 @@ prepare_preview (GPid pid, gint status, GList * filelist)
  *
  *  @param filename filename to save score to
  *  @param finish callback after creating png or if NULL, wait for finish before returning.
- *  @param gui pointer to the DenemoGUI structure
+ *  @param gui pointer to the DenemoProject structure
  */
 void
-export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
+export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui)
 {
   gchar *basename;
   gchar *lilyfile;
@@ -733,10 +733,10 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoGUI * gui)
  * runs lilypond to a create a filename.pdf
  *
  *	@param filename filename to save score to
- *  @param gui pointer to the DenemoGUI structure
+ *  @param gui pointer to the DenemoProject structure
  */
 void
-export_pdf (gchar * filename, DenemoGUI * gui)
+export_pdf (gchar * filename, DenemoProject * gui)
 {
   gchar *basename;
   gchar *lilyfile;
@@ -784,7 +784,7 @@ printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam 
   g_debug("This feature requires denemo to be built with evince");
 #else
   present_print_view_window();
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (gui->si->markstaffnum)
     if (confirm (_("A range of music is selected"), _("Print whole file?")))
       {
@@ -804,7 +804,7 @@ printselection_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptP
 #ifndef USE_EVINCE  
   g_debug("This feature requires denemo to be built with evince");
 #else
-  if (Denemo.gui->si->markstaffnum) {
+  if (Denemo.project->si->markstaffnum) {
     present_print_view_window();
     create_pdf (FALSE, FALSE);
     g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (TRUE));
@@ -817,7 +817,7 @@ printselection_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptP
 void
 printexcerptpreview_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (!gui->si->markstaffnum)   //If no selection has been made 
     printrangedialog (gui);     //Launch a dialog to get selection
   if (gui->si->selection.firstmeasuremarked)
@@ -848,7 +848,7 @@ printmovement_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptPa
 #else
   changecount = -1;
   print_from_print_view (FALSE);
-  changecount = Denemo.gui->changecount;
+  changecount = Denemo.project->changecount;
 #endif
 }
 

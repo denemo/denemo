@@ -34,7 +34,7 @@ extern int ParseSoundfont (gchar * soundfont, gint index, gchar ** name, gint * 
  */
 struct callbackdata
 {
-  DenemoGUI *gui;
+  DenemoProject *gui;
   DenemoStaff *staffstruct;
   GtkWidget *denemo_name;
   GtkWidget *midi_instrument;
@@ -159,7 +159,7 @@ static gboolean
 staff_properties_change (void)
 {
   DenemoScore *si;
-  DenemoGUI *gui;
+  DenemoProject *gui;
 
   gboolean result = FALSE;
   DenemoStaff *staffstruct;
@@ -192,7 +192,7 @@ staff_properties_change (void)
 
 
   {
-    gui = Denemo.gui;
+    gui = Denemo.project;
     si = gui->si;
     staffstruct = (DenemoStaff *) si->currentstaff->data;
     /*  if(staffstruct->staff_prolog && staffstruct->staff_prolog->len) { */
@@ -363,7 +363,7 @@ void
 staff_properties_change_cb (GtkAction * action, DenemoScriptParam * param)
 {
   GET_4PARAMS (action, param, denemo_name, device_port, midi_prognum, midi_channel);
-  DenemoStaff *staff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+  DenemoStaff *staff = (DenemoStaff *) Denemo.project->si->currentstaff->data;
 
   if (query)
     {
@@ -401,7 +401,7 @@ staff_properties_change_cb (GtkAction * action, DenemoScriptParam * param)
       return;
     }
   take_snapshot ();
-  signal_structural_change (Denemo.gui);
+  signal_structural_change (Denemo.project);
   if (denemo_name)
     {
       g_string_assign (staff->denemo_name, denemo_name);

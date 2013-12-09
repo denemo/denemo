@@ -188,7 +188,7 @@ ConvertLength (gint ppqn, gint duration, notetype * pnotetype)
 static void
 dotimesig (gint numerator, gint denominator)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   /*only does initial TS */
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
 
@@ -203,7 +203,7 @@ dotimesig (gint numerator, gint denominator)
 static void
 dokeysig (gint isminor, gint key)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (key > 7)
     key = key - 256;            /*get flat key num, see keysigdialog.cpp */
   g_debug ("\nkey = %d\n", key);
@@ -216,14 +216,14 @@ dokeysig (gint isminor, gint key)
 static void
 dotempo (gint tempo)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   gui->si->tempo = (gint) (6.0e7 / (double) tempo);
 }
 
 static void
 dotrackname (gchar * name)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
   if (name)
     g_string_assign (curstaffstruct->denemo_name, name);
@@ -232,7 +232,7 @@ dotrackname (gchar * name)
 static void
 doinstrname (gchar * name)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
   if (name)
     g_string_assign (curstaffstruct->midi_instrument, name);
@@ -241,7 +241,7 @@ doinstrname (gchar * name)
 static void
 insert_rest_into_score (notetype length)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   gint i;
 
   switch (length.notetype)
@@ -316,7 +316,7 @@ AddRest (gint ppqn, gint duration)
 static void
 insert_note_into_score (gint pitch, notetype length)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
   gint i;
 

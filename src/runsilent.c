@@ -10,7 +10,7 @@
 #include <string.h>
 
 void
-silentconversion (char *file_in, DenemoGUI * gui)
+silentconversion (char *file_in, DenemoProject * gui)
 {
   char *file_out;
   if (strcmp (file_in + strlen (file_in) - 7, ".denemo") == 0)

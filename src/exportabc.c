@@ -305,7 +305,7 @@ printchord (FILE * fp, chord * chordptr, gint octaveshift, gint defaultlength)
  */
 
 void
-exportabc (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
+exportabc (gchar * thefilename, DenemoProject * gui, gint start, gint end)
 {
   DenemoScore *si = gui->si;
   gchar *clefname;

@@ -14,7 +14,7 @@
 
 struct callbackdata
 {
-  DenemoGUI *gui;
+  DenemoProject *gui;
   gchar *string;
 };
 /**
@@ -129,7 +129,7 @@ gboolean
 insertfakechord (GtkWidget * widget, gpointer data)
 {
   struct callbackdata *cbdata = (struct callbackdata *) data;
-  DenemoGUI *gui = cbdata->gui;
+  DenemoProject *gui = cbdata->gui;
   DenemoScore *si = gui->si;
   if (cbdata->string == NULL)
     return FALSE;
@@ -176,7 +176,7 @@ insertfakechord (GtkWidget * widget, gpointer data)
 void
 fakechord_insert (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   gchar *string;
   gchar *PreValue = NULL;
   GString *temp = g_string_new ("");

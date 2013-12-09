@@ -87,15 +87,15 @@ measure_transition (void)
 gdouble
 transition_offset (void)
 {
-  if (Denemo.gui->view == DENEMO_PAGE_VIEW)
+  if (Denemo.project->view == DENEMO_PAGE_VIEW)
     return 0.0;
-  return (gdouble) transition_steps *transition_amount * Denemo.gui->si->measurewidth / 10;
+  return (gdouble) transition_steps *transition_amount * Denemo.project->si->measurewidth / 10;
 }
 
 gdouble
 staff_transition_offset (void)
 {
-  if (Denemo.gui->view == DENEMO_PAGE_VIEW)
+  if (Denemo.project->view == DENEMO_PAGE_VIEW)
     return 0.0;
   return (gdouble) staff_transition_steps *staff_transition_amount;
 }
@@ -103,7 +103,7 @@ staff_transition_offset (void)
 gdouble
 movement_transition_offset (void)
 {
-  if (Denemo.gui->view == DENEMO_PAGE_VIEW)
+  if (Denemo.project->view == DENEMO_PAGE_VIEW)
     return 0.0;
   return (gdouble) movement_transition_steps *movement_transition_amount;
 }
@@ -111,7 +111,7 @@ movement_transition_offset (void)
 gdouble
 measure_transition_offset (gboolean current)
 {
-  if (Denemo.gui->view == DENEMO_PAGE_VIEW)
+  if (Denemo.project->view == DENEMO_PAGE_VIEW)
     return 0.0;
   if (current || measure_all)
     return (gdouble) measure_transition_steps *measure_transition_amount;

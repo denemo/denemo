@@ -710,7 +710,7 @@ typedef struct Bookmark
 }Bookmark;
 
 /** 
- * Control of the LilyPond output for the whole musical score DenemoGUI
+ * Control of the LilyPond output for the whole musical score DenemoProject
  *
  */
 typedef struct DenemoLilyControl
@@ -734,7 +734,7 @@ typedef struct DenemoScriptParam { /**< commands called by scripts use one of th
 typedef struct DenemoScoreblock {
   GString *lilypond;/**< text of the scoreblock */
   gboolean visible;/**< Whether the scoreblock should be used by default */
-  gboolean layout_sync;/**< Value of gui->layout_sync when the scoreblock was created */
+  gboolean layout_sync;/**< Value of project->layout_sync when the scoreblock was created */
   GtkWidget *widget;/**< Widget to be placed in the Score Layout window for this scoreblock */
   GList *staff_list;/**< List of staff frames contained in widget */
   gchar *name;/**< name for this scoreblock */
@@ -878,7 +878,7 @@ typedef struct DenemoScore
    * though they may be modified by side-effects of the drawing routines */
   // score thescore;
   staffnode *thescore;
-  gint currentmovementnum;/**< position of this DenemoScore in the gui->movements list starting at 1 */
+  gint currentmovementnum;/**< position of this DenemoScore in the project->movements list starting at 1 */
   staffnode *currentprimarystaff;
   staffnode *currentstaff;
   gint currentstaffnum;/**< start at 1 */
@@ -958,16 +958,16 @@ typedef struct DenemoScore
 } DenemoScore;
 
 /**
- * DenemoGUI representing a musical score, with associated top level
+ * DenemoProject representing a musical score, with associated top level
  * GUI and a list of movements (DenemoScore) and a pointer to the current
  * movement. 
  */
-typedef struct DenemoGUI
+#define DENEMO_MAX_SYSTEMS (100) /**< Number of lines of music that can be displayed */
+typedef struct DenemoProject
 {
   gint id; /* A unique id, not repeated for this run of the Denemo program */
 
   DenemoViewType view;/**< The current view */
-#define DENEMO_MAX_SYSTEMS (100) /**< Number of lines of music that can be displayed */
   gint lefts[DENEMO_MAX_SYSTEMS];/**< an array to hold the leftmeasurenum of each system in the last-drawn score, used for determining the mouse position on the music */
   gint rights[DENEMO_MAX_SYSTEMS];/**< an array to hold the rightmeasurenum of each system in the last-drawn score, used for determining the mouse position on the music */
   gint scales[DENEMO_MAX_SYSTEMS];/**< an array to hold the percent horizontal scaling of each system in the last-drawn score, used for determining the mouse position on the music */
@@ -994,13 +994,13 @@ typedef struct DenemoGUI
   GtkWidget *progressbar;
 
   GList *movements;   /**< a list of DenemoScore, NULL if just one movement */
-  DenemoScore *si;  /**< the (current)  movement in the musical score controlled by this gui */
+  DenemoScore *si;  /**< the (current)  movement in the musical score controlled by this project */
   DenemoLilyControl lilycontrol; /**< Directives for the start of the score and before every movement */
 
   scoreheader scoreheader;/*< Directives for the header block at the start of the score */
   paper paper;/*< Directives for the paper block of the score */
   GList *midi_events;/*< midi_events to be output at start of first track of each movement */
-	gboolean has_script;/*< true if there is a script to be run on loading the DenemoGUI from disk */
+	gboolean has_script;/*< true if there is a script to be run on loading the DenemoProject from disk */
   GList *standard_scoreblocks; /**< List of automatically generated \score blocks for LilyPond output elements are DenemoScoreblock * */
   GList *custom_scoreblocks; /**< List of customized  \score blocks for LilyPond output, elements are DenemoScoreblock * */
   GtkWidget *score_layout; /**< The window in which custom_scoreblock widgets are placed */
@@ -1035,7 +1035,7 @@ typedef struct DenemoGUI
   gint source_width;
   gint source_height;
   gint source_scale;/* scale is x1000 */
-}DenemoGUI;
+}DenemoProject;
 
 
 /**
@@ -1071,7 +1071,7 @@ struct cs_callback
 {
 	GtkWidget *entry;
 	GtkWidget *dialog;
-	DenemoGUI *gui;
+	DenemoProject *project;
 };
 
 
@@ -1081,7 +1081,7 @@ struct cs_callback
  */
 struct DenemoRoot
 {
-  gboolean non_interactive; /* if TRUE denemo should not display gui, receive or send sounds etc*/
+  gboolean non_interactive; /* if TRUE denemo should not display project, receive or send sounds etc*/
   gchar *scheme_file;/* filename for scheme code to run on startup */
   gchar *scheme_commands;/* scheme code to run on startup after scheme_file */
   /* Fields used fairly directly for drawing */
@@ -1110,8 +1110,8 @@ struct DenemoRoot
   keymap *map; /**< pointer to data describing each of the Denemo commands and their keyboard shortcuts */
   gchar *last_merged_command;/**<filename of last command merged into the menu system */
   gint last_keyval, last_keystate;/**< most recent keypress which successfully invoked a command */
-  GList *guis; /**< the list of DenemoGUI objects, representing pieces of music
-		  simultaneously open */
+  GList *projects; /**< the list of DenemoProject objects, representing pieces of music simultaneously open */
+  DenemoProject *project; /**< The current project */
   DenemoPrefs prefs;  /**< Preferences stored on exit and re-loaded on startup */
   gint autosaveid;/**< autosave timer id: only one musical score is being autosaved at present */
   gint accelerator_status; /**< if the accelerators have been saved, or extra ones for special keys defined  */
@@ -1119,8 +1119,7 @@ struct DenemoRoot
   GtkWidget *window;
   GtkWidget *console;/**< GtkTextView for console output */
   GtkActionGroup *action_group;/*< The action group for the actions that are Denemo commands */
-  DenemoGUI *gui; /**< The current gui */
-  GtkWidget *notebook;/**< contains the gui.page widgets */
+  GtkWidget *notebook;/**< contains the project.page widgets */
   GtkWidget *statuslabel;/**< label that appears at bottom left of main window to describe cursor position in score */
   GtkWidget *playback_control;/**< frame containing controls for playback */
   GtkWidget *midi_in_control;/**< frame containing controls for midi in */

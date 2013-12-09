@@ -123,7 +123,7 @@ static void toggle_dock (DenemoPalette *pal) {
 }
 static void set_limit (DenemoPalette *pal) {
 	gchar *initial = g_strdup_printf("%d", pal->limit);
-	gchar *response = string_dialog_entry (Denemo.gui, "Palette Layout", _("Give Limit"), initial);
+	gchar *response = string_dialog_entry (Denemo.project, "Palette Layout", _("Give Limit"), initial);
 	g_free(initial);
 	if(response && atoi(response))
 	{
@@ -233,7 +233,7 @@ static void edit_label_for_button (GtkWidget *button) {
 	label = g_object_get_data (G_OBJECT(button), "icon");
 	if(label==NULL)
 		label = gtk_button_get_label (GTK_BUTTON(button));
-	gchar *newlabel = string_dialog_entry (Denemo.gui, _("Write Label"), _("Write a label for this button"), (gchar*)label);
+	gchar *newlabel = string_dialog_entry (Denemo.project, _("Write Label"), _("Write a label for this button"), (gchar*)label);
 	
 	if(newlabel) {
 		gchar *icon = find_denemo_file (DENEMO_DIR_PIXMAPS, newlabel);
@@ -254,7 +254,7 @@ static void edit_label_for_button (GtkWidget *button) {
 }
 static void edit_tooltip_for_button (GtkWidget *button) {
 	const gchar *tooltip = gtk_widget_get_tooltip_text (button);
-	gchar *newtooltip = string_dialog_entry (Denemo.gui, _("Write Tooltip"), _("Write a tooltip for this button"), (gchar*)tooltip);
+	gchar *newtooltip = string_dialog_entry (Denemo.project, _("Write Tooltip"), _("Write a tooltip for this button"), (gchar*)tooltip);
 	if(newtooltip) {
 		gtk_widget_set_tooltip_text (button, newtooltip);
 	}
@@ -487,7 +487,7 @@ static void palette_selected (gchar *name)
 static void user_palette_name (void)
 {
 	gchar *name;
-	name = string_dialog_entry (Denemo.gui, _("Palette Name"), _("Give name for Palette: "), _("MyPalette"));
+	name = string_dialog_entry (Denemo.project, _("Palette Name"), _("Give name for Palette: "), _("MyPalette"));
 	selected_palette_name = name;
 }
 

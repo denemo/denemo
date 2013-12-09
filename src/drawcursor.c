@@ -74,14 +74,14 @@ draw_cursor (cairo_t * cr, DenemoScore * si, gint xx, gint y, gint insert_contro
         cairo_stroke (cr);
         //setcairocolor( cr, paintgc );
 
-        if (Denemo.gui->view == DENEMO_PAGE_VIEW)
+        if (Denemo.project->view == DENEMO_PAGE_VIEW)
           {
             cairo_set_line_width (cr, 6.0 / si->zoom);
             cairo_set_source_rgba (cr, 0, 1, 0, 0.40);
             cairo_arc (cr, xx + CURSOR_WIDTH / 2, height + y, length, 0, 2 * M_PI);
             cairo_stroke (cr);
           }
-        if(Denemo.gui->audio_recording)
+        if(Denemo.project->audio_recording)
             highlight_audio_record();
       }
   }

@@ -37,16 +37,16 @@
 void
 set_tempo (void)
 {
-  gdouble tempo = Denemo.gui->si->master_tempo;
+  gdouble tempo = Denemo.project->si->master_tempo;
   if (tempo < 0.001 || (tempo > 0.999 && tempo < 1.001))
     return;
-  Denemo.gui->si->tempo *= tempo;
-  Denemo.gui->si->start_time /= tempo;
-  Denemo.gui->si->end_time /= tempo;
+  Denemo.project->si->tempo *= tempo;
+  Denemo.project->si->start_time /= tempo;
+  Denemo.project->si->end_time /= tempo;
 
-  Denemo.gui->si->master_tempo = 1.0;
-  score_status (Denemo.gui, TRUE);
-  exportmidi (NULL, Denemo.gui->si, 0, 0);
+  Denemo.project->si->master_tempo = 1.0;
+  score_status (Denemo.project, TRUE);
+  exportmidi (NULL, Denemo.project->si, 0, 0);
 }
 
 
@@ -107,7 +107,7 @@ playback_panic ()
 void
 PlaybackRangeDialog ()
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   GtkWidget *dialog;
   GtkWidget *label;
   GtkWidget *hbox;

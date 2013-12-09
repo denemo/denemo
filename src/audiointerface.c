@@ -316,7 +316,7 @@ static gboolean
 redraw_all_callback (gpointer data)
 {
   gdk_threads_enter ();
-  //displayhelper(Denemo.gui);
+  //displayhelper(Denemo.project);
   gtk_widget_queue_draw (Denemo.scorearea);
   gdk_threads_leave ();
   return FALSE;
@@ -327,7 +327,7 @@ redraw_playhead_callback (gpointer data)
 {
   gdk_threads_enter ();
 
-  DenemoScore *si = Denemo.gui->si;
+  DenemoScore *si = Denemo.project->si;
 
   smf_event_t *event = (smf_event_t *) data;
 
@@ -680,7 +680,7 @@ play_note (backend_type_t backend, int port, int channel, int key, int duration,
   unsigned char buffer[] = {
     MIDI_NOTE_ON | channel,
     key,
-    (volume ? volume : 127) * Denemo.gui->si->master_volume
+    (volume ? volume : 127) * Denemo.project->si->master_volume
   };
 
   int r = play_midi_event (backend, port, buffer);
@@ -728,15 +728,15 @@ rhythm_feedback (backend_type_t backend, gint duration, gboolean rest, gboolean 
 {
   int key;
   if (dot)
-    play_note (backend, 0, 9, 67, 100, 60 * Denemo.gui->si->master_volume);
+    play_note (backend, 0, 9, 67, 100, 60 * Denemo.project->si->master_volume);
   else
-    play_note (backend, 0, 9, rhythm_sounds[duration], rest ? 100 : 200, 127 * Denemo.gui->si->master_volume);
+    play_note (backend, 0, 9, rhythm_sounds[duration], rest ? 100 : 200, 127 * Denemo.project->si->master_volume);
   //add extra sound effect for rests
   if (rest)
-    play_note (backend, 0, 9, 46, 300, 127 * Denemo.gui->si->master_volume);
-  while ((key = GPOINTER_TO_INT( g_queue_pop_head (Denemo.gui->pending_midi)) ))
-    play_note (backend, 0, 9, key, 300, 127 * Denemo.gui->si->master_volume);
-  //g_print("playing %d %d\n", rhythm_sounds[duration], (60/(4*Denemo.gui->si->tempo*(1<<duration)))*1000);
+    play_note (backend, 0, 9, 46, 300, 127 * Denemo.project->si->master_volume);
+  while ((key = GPOINTER_TO_INT( g_queue_pop_head (Denemo.project->pending_midi)) ))
+    play_note (backend, 0, 9, key, 300, 127 * Denemo.project->si->master_volume);
+  //g_print("playing %d %d\n", rhythm_sounds[duration], (60/(4*Denemo.project->si->tempo*(1<<duration)))*1000);
 
   return 0;
 }

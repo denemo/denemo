@@ -96,7 +96,7 @@ dnm_newtimesigobj (gint time1, gint time2)
 DenemoObject *
 dnm_newclefobj (enum clefs type)
 {
-  DenemoStaff *thestaff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+  DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->si->currentstaff->data;
   gboolean invisible = (thestaff->voicecontrol & DENEMO_SECONDARY);
   DenemoObject *ret;
   clef *newclef = (clef *) g_malloc (sizeof (clef));
@@ -512,6 +512,6 @@ dnm_setinitialkeysig (DenemoStaff * curstaff, gint tokey, gint type)
   curstaff->leftmost_keysig = &curstaff->keysig;
   showwhichaccidentalswholestaff (curstaff);
   adjust_tonal_center (curstaff->keysig.accs);
-  displayhelper (Denemo.gui);
-  score_status(Denemo.gui, TRUE);
+  displayhelper (Denemo.project);
+  score_status(Denemo.project, TRUE);
 }

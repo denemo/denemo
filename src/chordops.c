@@ -218,15 +218,15 @@ modify_note (chord * thechord, gint mid_c_offset, gint enshift, gint dclef)
   thechord->highesty = calculateheight (mid_c_offset, dclef);
   thechord->lowestpitch = mid_c_offset;
   thechord->lowesty = calculateheight (mid_c_offset, dclef);
-  if (Denemo.gui->last_source == INPUTKEYBOARD)
+  if (Denemo.project->last_source == INPUTKEYBOARD)
     {
-      DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+      DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->si->currentstaff->data;
       if (Denemo.prefs.immediateplayback)
         {
           play_notes (DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, thechord);
         }
     }
-  displayhelper (Denemo.gui);
+  displayhelper (Denemo.project);
 }
 
 /* Allocate a new note structure initializing the fields
@@ -259,8 +259,8 @@ new_note (gint mid_c_offset, gint enshift, gint dclef)
 note *
 addtone (DenemoObject * thechord, gint mid_c_offset, gint enshift, gint dclef)
 {
-  note *newnote = new_note (mid_c_offset, Denemo.gui->si->pending_enshift + enshift, dclef);
-  Denemo.gui->si->pending_enshift = 0;
+  note *newnote = new_note (mid_c_offset, Denemo.project->si->pending_enshift + enshift, dclef);
+  Denemo.project->si->pending_enshift = 0;
   ((chord *) thechord->object)->notes = g_list_insert_sorted (((chord *) thechord->object)->notes, newnote, insertcomparefunc);
   if (mid_c_offset > ((chord *) thechord->object)->highestpitch)
     {
@@ -408,7 +408,7 @@ changeenshift (DenemoObject * thechord, gint mid_c_offset, gint accidental)
     {
       tone = (note *) tnode->data;
       tone->enshift = accidental;
-      displayhelper (Denemo.gui);
+      displayhelper (Denemo.project);
     }
 }
 
@@ -477,8 +477,8 @@ changenumdots (DenemoObject * thechord, gint number)
 {
   ((chord *) thechord->object)->numdots = MAX (((chord *) thechord->object)->numdots + number, 0);
   set_basic_numticks (thechord);
-  displayhelper (Denemo.gui);
-  score_status(Denemo.gui, TRUE);
+  displayhelper (Denemo.project);
+  score_status(Denemo.project, TRUE);
 }
 
 

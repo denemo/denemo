@@ -35,7 +35,7 @@
  * set it as gui->si but do not add it to the movements list.
  */
 void
-point_to_empty_movement (DenemoGUI * gui)
+point_to_empty_movement (DenemoProject * gui)
 {
   DenemoScore *newscore = (DenemoScore *) g_malloc0 (sizeof (DenemoScore));
   init_score (newscore, gui);
@@ -54,7 +54,7 @@ point_to_empty_movement (DenemoGUI * gui)
  * set it as gui->si but do not add it to the movements list.
  */
 void
-point_to_new_movement (DenemoGUI * gui)
+point_to_new_movement (DenemoProject * gui)
 {
   point_to_empty_movement (gui);
   newstaff (gui, INITIAL, DENEMO_NONE);
@@ -63,13 +63,13 @@ point_to_new_movement (DenemoGUI * gui)
 
 static void select_movement (gint movementnum) {
 	goto_movement_staff_obj (NULL, movementnum, 0, 0, 0);
-	set_movement_selector (Denemo.gui);
-	displayhelper (Denemo.gui);
-	write_status (Denemo.gui);	
+	set_movement_selector (Denemo.project);
+	displayhelper (Denemo.project);
+	write_status (Denemo.project);	
 }
 
 #define NUM_MOVEMENTS_TO_SHOW (2*5)
-void set_movement_selector (DenemoGUI *gui)
+void set_movement_selector (DenemoProject *gui)
 {
   GtkWidget *button;
   GList *g;
@@ -138,7 +138,7 @@ void set_movement_selector (DenemoGUI *gui)
 static void
 new_movement (GtkAction * action, DenemoScriptParam * param, gboolean before)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   gint pos = g_list_index (gui->movements, gui->si);
   append_new_movement (action, param);
   DenemoScore *newsi = g_list_last (gui->movements)->data;
@@ -157,7 +157,7 @@ new_movement (GtkAction * action, DenemoScriptParam * param, gboolean before)
 static void
 append_movement (GtkAction * action, gpointer param, gboolean populate)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   DenemoScore *source_movement = gui->si;
   GList *g;
   (void) signal_structural_change (gui);
@@ -235,7 +235,7 @@ terminate_playback (void)
 }
 
 void
-reset_movement_numbers (DenemoGUI * gui)
+reset_movement_numbers (DenemoProject * gui)
 {
   GList *g;
   gint i;
@@ -249,7 +249,7 @@ reset_movement_numbers (DenemoGUI * gui)
 void
 delete_movement (GtkAction * action, DenemoScriptParam* param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   terminate_playback ();
   (void) signal_structural_change (gui);
   GString *primary = g_string_new (""), *secondary = g_string_new ("");
@@ -295,12 +295,12 @@ delete_movement (GtkAction * action, DenemoScriptParam* param)
 possible_gui is really a flag interactive or not
 */
 gboolean
-goto_movement_staff_obj (DenemoGUI * possible_gui, gint movementnum, gint staffnum, gint measurenum, gint objnum)
+goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint staffnum, gint measurenum, gint objnum)
 {
-  DenemoGUI *gui;
+  DenemoProject *gui;
   terminate_playback ();
   if (possible_gui == NULL)
-    gui = Denemo.gui;
+    gui = Denemo.project;
   else
     gui = possible_gui;
   if (movementnum > 0)
@@ -370,8 +370,8 @@ PopPosition (GtkAction * action, DenemoScriptParam * param)
   param->status = goto_movement_staff_obj (NULL, pos->movement, pos->staff, pos->measure, pos->object);
   if (param->status)
     {
-      Denemo.gui->si->cursor_appending = pos->appending;
-      Denemo.gui->si->cursoroffend = pos->offend;
+      Denemo.project->si->cursor_appending = pos->appending;
+      Denemo.project->si->cursoroffend = pos->offend;
     }
   g_free (pos);
 }
@@ -395,8 +395,8 @@ PopPushPosition (GtkAction * action, DenemoScriptParam * param)
       param->status = goto_movement_staff_obj (NULL, pos->movement, pos->staff, pos->measure, pos->object);
       if (param->status)
         {
-          Denemo.gui->si->cursor_appending = pos->appending;
-          Denemo.gui->si->cursoroffend = pos->offend;
+          Denemo.project->si->cursor_appending = pos->appending;
+          Denemo.project->si->cursoroffend = pos->offend;
         }
     }
   else
@@ -407,13 +407,13 @@ PopPushPosition (GtkAction * action, DenemoScriptParam * param)
 /**
  * Move to the next movement
  * @param action - Gtk Action event
- * @param gui - pointer to the DenemoGUI structure
+ * @param gui - pointer to the DenemoProject structure
  * @return none
 */
 void
 next_movement (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   terminate_playback ();
   GList *this = g_list_find (gui->movements, gui->si);
   this = this->next;
@@ -456,13 +456,13 @@ next_movement (GtkAction * action, DenemoScriptParam * param)
 /**
  * Move to the previous movement
  * @param action - Gtk Action event
- * @param gui - pointer to the DenemoGUI structure
+ * @param gui - pointer to the DenemoProject structure
  * @return none
 */
 void
 prev_movement (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   terminate_playback ();
   GList *this = g_list_find (gui->movements, gui->si);
   this = this->prev;
@@ -509,7 +509,7 @@ prev_movement (GtkAction * action, DenemoScriptParam * param)
  * @param si pointer to the scoreinfo structure to initialise
  */
 void
-init_score (DenemoScore * si, DenemoGUI * gui)
+init_score (DenemoScore * si, DenemoProject * gui)
 {
   gchar *dir = (gchar *) get_user_data_dir (TRUE);
 
@@ -546,14 +546,14 @@ init_score (DenemoScore * si, DenemoGUI * gui)
   si->stafftoplay = 0;
   si->start_time = 0;
   si->end_time = -1.0;          //ie unset
-  if (Denemo.gui->si)
+  if (Denemo.project->si)
     set_master_volume (si, 1.0);
   else
     si->master_volume = 1.0;
 
 
   si->tempo_change_time = 0.0;
-  if (Denemo.gui->si)
+  if (Denemo.project->si)
     set_master_tempo (si, 1.0);
   else
     si->master_tempo = 1.0;
@@ -592,7 +592,7 @@ init_score (DenemoScore * si, DenemoGUI * gui)
 }
 
 static gboolean
-delete_all_staffs (DenemoGUI * gui)
+delete_all_staffs (DenemoProject * gui)
 {
   DenemoScore *si = gui->si;
   gint i;
@@ -621,13 +621,13 @@ extract_verses (GList * verses)
 }
 
 /**
- * FIXME there is a muddle here between DenemoScore and DenemoGUI
+ * FIXME there is a muddle here between DenemoScore and DenemoProject
  * frees the data in the passed scoreinfo stucture 
  *
  * @param si pointer to the scoreinfo structure to free
  */
 void
-free_score (DenemoGUI * gui)
+free_score (DenemoProject * gui)
 {
   delete_all_staffs (gui);
   delete_directives (&gui->si->layout.directives);
@@ -796,7 +796,7 @@ clone_movement (DenemoScore * si)
  * @param gui pointer to the gui structure
  */
 void
-updatescoreinfo (DenemoGUI * gui)
+updatescoreinfo (DenemoProject * gui)
 {
   staffnode *curstaff;
   DenemoScore *si;
@@ -834,7 +834,7 @@ updatescoreinfo (DenemoGUI * gui)
  * This is the action for the d-New command
  */
 void
-deletescore (GtkWidget * widget, DenemoGUI * gui)
+deletescore (GtkWidget * widget, DenemoProject * gui)
 {
   free_movements (gui);
   score_status (gui, FALSE);

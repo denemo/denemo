@@ -213,7 +213,7 @@ insert_staff (DenemoScore * si, DenemoStaff * thestaffstruct, enum newstaffcallb
  * @return none
  */
 void
-newstaff (DenemoGUI * gui, enum newstaffcallbackaction action, DenemoContext context)
+newstaff (DenemoProject * gui, enum newstaffcallbackaction action, DenemoContext context)
 {
   DenemoScore *si = gui->si;
   g_assert (si != NULL);
@@ -395,7 +395,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action, DenemoContext con
 
 
 gboolean
-signal_structural_change (DenemoGUI * gui)
+signal_structural_change (DenemoProject * gui)
 {
   gui->layout_sync = gui->changecount;
   return TRUE;
@@ -406,11 +406,11 @@ signal_structural_change (DenemoGUI * gui)
  * if only one staff, inserts a new empty one
  * if interactive checks for custom_scoreblock
  * if a staff is deleted, updates the changecount
- * @param gui the DenemoGUI structure
+ * @param gui the DenemoProject structure
  * @return nothing
  */
 void
-deletestaff (DenemoGUI * gui, gboolean interactive)
+deletestaff (DenemoProject * gui, gboolean interactive)
 {
   DenemoScore *si = gui->si;
   DenemoStaff *curstaffstruct = si->currentstaff->data;
@@ -573,13 +573,13 @@ fixnoteheights (DenemoStaff * thestaff)
 /**
  * Callback function to insert a staff in the initial position
  * @param action a Gtk Action
- * @param gui the DenemoGUI structure
+ * @param gui the DenemoProject structure
  * @return none
  */
 void
 newstaffinitial (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   while (gui->si->currentstaff && gui->si->currentstaff->prev)
     movetostaffup (NULL, NULL);
   newstaffbefore (action, NULL);
@@ -588,13 +588,13 @@ newstaffinitial (GtkAction * action, DenemoScriptParam * param)
 /**
  Callback function to insert a staff before the current staff
  * @param action a Gtk Action
- * @param gui the DenemoGUI structure
+ * @param gui the DenemoProject structure
  * @return none
  */
 void
 newstaffbefore (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   (void) signal_structural_change (gui);
 
   movetostart (NULL, NULL);
@@ -614,13 +614,13 @@ newstaffbefore (GtkAction * action, DenemoScriptParam * param)
 /**
  * Callback function to insert a staff after the current staff
  * @param action a Gtk Action
- * @param gui the DenemoGUI structure
+ * @param gui the DenemoProject structure
  * @return none
  */
 void
 dnm_newstaffafter (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   if (!signal_structural_change (gui))
     return;
   movetostart (NULL, NULL);
@@ -634,13 +634,13 @@ dnm_newstaffafter (GtkAction * action, DenemoScriptParam * param)
 /**
  * Callback function to insert a staff at the bottom of the score
  * @param action a Gtk Action
- * @param gui the DenemoGUI structure
+ * @param gui the DenemoProject structure
  * @return none
  */
 void
 newstafflast (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   while (gui->si->currentstaff && gui->si->currentstaff->next)
     movetostaffdown (NULL, NULL);
   dnm_newstaffafter (action, param);
@@ -649,13 +649,13 @@ newstafflast (GtkAction * action, DenemoScriptParam * param)
 /**
  * Callback function to add a new voice to the current staff
  * @param action a Gtk Action
- * @param gui the DenemoGUI structure
+ * @param gui the DenemoProject structure
  * @return none
  */
 void
 dnm_newstaffvoice (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoGUI *gui = Denemo.gui;
+  DenemoProject *gui = Denemo.project;
   newstaff (gui, NEWVOICE, DENEMO_NONE);
   set_bottom_staff (gui);
   update_vscrollbar (gui);

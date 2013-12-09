@@ -1105,10 +1105,10 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
       if (tracknumber == 1)
         {
-          if (Denemo.gui->lilycontrol.directives)
+          if (Denemo.project->lilycontrol.directives)
             {
               //FIXME repeated code
-              GList *g = Denemo.gui->lilycontrol.directives;
+              GList *g = Denemo.project->lilycontrol.directives;
               DenemoDirective *directive = NULL;
 
               for (; g; g = g->next)
@@ -1119,14 +1119,14 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
                   gchar *buffer = directive_get_midi_buffer (directive, &numbytes, midi_channel, cur_volume);
                   if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
                     if (buffer)
-                      if (NULL == put_event (buffer, numbytes, &Denemo.gui->midi_events, track))
+                      if (NULL == put_event (buffer, numbytes, &Denemo.project->midi_events, track))
                         g_warning ("Invalid midi bytes in score directive\n");
                 }
             }
 
-          if (Denemo.gui->si->movementcontrol.directives)
+          if (Denemo.project->si->movementcontrol.directives)
             {
-              GList *g = Denemo.gui->si->movementcontrol.directives;
+              GList *g = Denemo.project->si->movementcontrol.directives;
               DenemoDirective *directive = NULL;
               for (; g; g = g->next)
                 {
@@ -1136,7 +1136,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
                   gchar *buffer = directive_get_midi_buffer (directive, &numbytes, midi_channel, cur_volume);
                   if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
                     if (buffer)
-                      if (NULL == put_event (buffer, numbytes, &Denemo.gui->si->midi_events, track))
+                      if (NULL == put_event (buffer, numbytes, &Denemo.project->si->midi_events, track))
                         g_warning ("Invalid midi bytes in movement directive\n");
                 }
             }
@@ -1763,12 +1763,12 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
    ********/
   if (thefilename)
     {
-      if (Denemo.gui->si->recorded_midi_track)
-        smf_add_track (smf, Denemo.gui->si->recorded_midi_track);
+      if (Denemo.project->si->recorded_midi_track)
+        smf_add_track (smf, Denemo.project->si->recorded_midi_track);
       if(smf_save (smf, (const char *) thefilename))
         g_debug("smf_save failed");
-      if (Denemo.gui->si->recorded_midi_track)
-        smf_track_remove_from_smf (Denemo.gui->si->recorded_midi_track);
+      if (Denemo.project->si->recorded_midi_track)
+        smf_track_remove_from_smf (Denemo.project->si->recorded_midi_track);
     }
   /* we are done */
   {
@@ -1776,18 +1776,18 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
 
     g_static_mutex_lock (&smfmutex);
-    if (Denemo.gui->si->recorded_midi_track)
+    if (Denemo.project->si->recorded_midi_track)
       {
-        if (si->smf && (((smf_track_t *) Denemo.gui->si->recorded_midi_track)->smf == si->smf))
+        if (si->smf && (((smf_track_t *) Denemo.project->si->recorded_midi_track)->smf == si->smf))
           {
-            smf_track_remove_from_smf (Denemo.gui->si->recorded_midi_track);
+            smf_track_remove_from_smf (Denemo.project->si->recorded_midi_track);
             midi_track = TRUE;
           }
       }
     free_midi_data (si);
     si->smf = smf;
     if (midi_track)
-      smf_add_track (smf, Denemo.gui->si->recorded_midi_track);
+      smf_add_track (smf, Denemo.project->si->recorded_midi_track);
 
 
     si->smfsync = si->changecount;
