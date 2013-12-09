@@ -68,8 +68,8 @@ static GtkAdjustment *speed_adj;
 static void pb_audiorecord (GtkWidget * button);
 static void pb_exportaudio (GtkWidget * button);
 
-static DenemoProject* new_movement();
-static void newtab (GtkAction * action, gpointer param);
+static DenemoProject* new_project();
+static void newtab ();
 
 static void create_window (void);
 
@@ -577,19 +577,20 @@ load_files(gchar** files)
   gint i = 0;
   
   if(!files){
-    if(!Denemo.non_interactive){
-      newtab (NULL, NULL);
-      open_for_real (get_most_recent_file (), Denemo.project, FALSE, REPLACE_SCORE);
-    }
+    if(!Denemo.non_interactive)
+      newtab ();
+    else
+      Denemo.project = new_project ();
+    open_for_real (get_most_recent_file (), Denemo.project, FALSE, REPLACE_SCORE);
     return TRUE;
   }
 
   for(i=0; files[i]; i++)
     {
       if(!Denemo.non_interactive)
-        newtab (NULL, NULL);
+        newtab ();
       else
-        Denemo.project = new_movement ();
+        Denemo.project = new_project ();
       open_for_real (files[i], Denemo.project, FALSE, REPLACE_SCORE);
       ret = TRUE;
     }
@@ -1034,7 +1035,7 @@ mycommands (GtkAction * action, DenemoScriptParam* param)
 void
 openinnew (GtkAction * action, DenemoScriptParam * param)
 {
-  newtab (NULL, param);
+  newtab ();
   file_open_with_check (NULL, param);
   if (param && (param->status == FALSE))
     close_project ();
@@ -4932,7 +4933,7 @@ create_window (void)
 void
 newview (GtkAction * action, DenemoScriptParam * param)
 {
-  newtab (NULL, NULL);
+  newtab ();
   Denemo.project->si->undo_guard = 1;       //do not collect undo for initialization of score
   load_scheme_init ();
   Denemo.project->si->undo_guard = Denemo.prefs.disable_undo;
@@ -4955,7 +4956,7 @@ new_score_cb (GtkAction * action, DenemoScriptParam * param)
 }
 
 static DenemoProject*
-new_movement()
+new_project()
 {
   static gint id = 1;
   DenemoProject *project = (DenemoProject *) g_malloc0 (sizeof (DenemoProject));
@@ -5134,14 +5135,14 @@ ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam * param)
  * 
  */
 static void
-newtab (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED gpointer param)
+newtab ()
 {
   if (Denemo.project && gtk_widget_get_visible (Denemo.project->score_layout))
     activate_action ("/MainMenu/ViewMenu/" ToggleScoreLayout_STRING);
   if (Denemo.project && gtk_widget_get_visible (Denemo.textwindow))
     activate_action ("/MainMenu/ViewMenu/" ToggleLilyText_STRING);
 
-  DenemoProject* project = new_movement();
+  DenemoProject* project = new_project();
   project->score_layout = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (project->score_layout), "Score Layout");
   gtk_window_set_default_size (GTK_WINDOW (project->score_layout), 400, 800);
