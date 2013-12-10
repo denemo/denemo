@@ -15,8 +15,8 @@
 #include "pitchrecog.h"
 #include "audiocapture.h"
 
-#define  DEFAULT_HIGH (1400.0)
-#define  DEFAULT_LOW (60.0)
+#define DEFAULT_HIGH (1400.0)
+#define DEFAULT_LOW (60.0)
 #define DEFAULT_TIMER_RATE (50)
 #define QUARTER_COMMA_MEAN_TONE "Quarter comma meantone"
 
@@ -1514,7 +1514,7 @@ create_pitch_recognition_window (DenemoProject * gui)
       gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, TRUE, 0);
 
 
-      frame = gtk_frame_new ("Overlay Pitches");
+      frame = gtk_frame_new (_("Overlay Pitches"));
       gtk_container_add (GTK_CONTAINER (hbox), frame);
 
       GtkWidget *vbox2 = gtk_vbox_new (FALSE, 1);
@@ -1524,13 +1524,13 @@ create_pitch_recognition_window (DenemoProject * gui)
 
       gtk_box_pack_start (GTK_BOX (vbox2), hbox2, TRUE, TRUE, 0);
 
-      button = gtk_button_new_with_label ("Clear Overlay");     //FIXME make this a proxy for the ClearOverlay action ??
+      button = gtk_button_new_with_label (_("Clear Overlay"));     //FIXME make this a proxy for the ClearOverlay action ??
       gtk_box_pack_start (GTK_BOX (hbox2), button, TRUE, TRUE, 0);
       g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (clear_tone_store), gui);
       hbox2 = gtk_hbox_new (FALSE, 1);
 
       gtk_box_pack_start (GTK_BOX (vbox2), hbox2, TRUE, TRUE, 0);
-      button = gtk_check_button_new_with_label ("Continuous");
+      button = gtk_check_button_new_with_label (_("Continuous"));
       gtk_box_pack_start (GTK_BOX (hbox2), button, TRUE, TRUE, 0);
 
       g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (toggle_continuous), NULL);
@@ -1539,7 +1539,7 @@ create_pitch_recognition_window (DenemoProject * gui)
           Denemo.prefs.continuous = !Denemo.prefs.continuous;
           gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), !Denemo.prefs.continuous);
         }
-      label = gtk_label_new ("Click Volume");
+      label = gtk_label_new (_("Click Volume"));
       gtk_box_pack_start (GTK_BOX (hbox2), label, TRUE, TRUE, 0);
       PR_click = 1;
       spinner_adj = (GtkAdjustment *) gtk_adjustment_new ((double) PR_click, 0.0, 1.0, 1.0, 1.0, 1.0);
@@ -1575,7 +1575,7 @@ create_pitch_recognition_window (DenemoProject * gui)
     {
       /* spinners to select silence, threshold, smoothing */
 
-      frame = gtk_frame_new ("Pitch Recognition Parameters");
+      frame = gtk_frame_new (_("Pitch Recognition Parameters"));
       gtk_container_add (GTK_CONTAINER (main_vbox), frame);
       hbox = gtk_hbox_new (FALSE, 1);
       gtk_container_add (GTK_CONTAINER (frame), hbox);
@@ -1583,7 +1583,7 @@ create_pitch_recognition_window (DenemoProject * gui)
       hbox2 = gtk_hbox_new (FALSE, 1);
       gtk_box_pack_start (GTK_BOX (hbox), hbox2, TRUE, TRUE, 0);
 
-      label = gtk_label_new ("Silence");
+      label = gtk_label_new (_("Silence"));
       gtk_box_pack_start (GTK_BOX (hbox2), label, TRUE, TRUE, 0);
       spinner_adj = (GtkAdjustment *) gtk_adjustment_new (-90.0, -1000.0, 100.0, 10.0, 1.0, 1.0);
       spinner = gtk_spin_button_new (spinner_adj, 100.0, 0);
@@ -1593,7 +1593,7 @@ create_pitch_recognition_window (DenemoProject * gui)
       hbox2 = gtk_hbox_new (FALSE, 1);
       gtk_box_pack_start (GTK_BOX (hbox), hbox2, TRUE, TRUE, 0);
 
-      label = gtk_label_new ("Threshold");
+      label = gtk_label_new (_("Threshold"));
       gtk_box_pack_start (GTK_BOX (hbox2), label, TRUE, TRUE, 0);
       spinner_adj = (GtkAdjustment *) gtk_adjustment_new (1.0, 0.01, 100.0, 0.1, 1.0, 1.0);
       spinner = gtk_spin_button_new (spinner_adj, 0.5, 2);
@@ -1603,14 +1603,14 @@ create_pitch_recognition_window (DenemoProject * gui)
       hbox2 = gtk_hbox_new (FALSE, 1);
       gtk_box_pack_start (GTK_BOX (hbox), hbox2, TRUE, TRUE, 0);
 
-      label = gtk_label_new ("Smoothing");
+      label = gtk_label_new (_("Smoothing"));
       gtk_box_pack_start (GTK_BOX (hbox2), label, TRUE, TRUE, 0);
       spinner_adj = (GtkAdjustment *) gtk_adjustment_new (6.0, 0.0, 100.0, 1.0, 1.0, 1.0);
       spinner = gtk_spin_button_new (spinner_adj, 0.5, 2);
       gtk_box_pack_start (GTK_BOX (hbox2), spinner, TRUE, TRUE, 0);
       g_signal_connect (G_OBJECT (spinner), "value-changed", G_CALLBACK (change_smoothing), NULL);
 
-      label = gtk_label_new ("Onset");
+      label = gtk_label_new (_("Onset"));
       gtk_box_pack_start (GTK_BOX (hbox2), label, TRUE, TRUE, 0);
       spinner_adj = (GtkAdjustment *) gtk_adjustment_new (7.0, 0.0, 7.0, 1.0, 1.0, 1.0);
       spinner = gtk_spin_button_new (spinner_adj, 0.5, 2);
@@ -1622,7 +1622,7 @@ create_pitch_recognition_window (DenemoProject * gui)
   /* spinners to constrain the note values */
 
 
-  frame = gtk_frame_new ("Note validation criteria");
+  frame = gtk_frame_new (_("Note validation criteria"));
   gtk_container_add (GTK_CONTAINER (main_vbox), frame);
   hbox = gtk_hbox_new (FALSE, 1);
   gtk_container_add (GTK_CONTAINER (frame), hbox);
@@ -1630,7 +1630,7 @@ create_pitch_recognition_window (DenemoProject * gui)
   hbox2 = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (hbox), hbox2, TRUE, TRUE, 0);
 
-  label = gtk_label_new ("Lowest Pitch");
+  label = gtk_label_new (_("Lowest Pitch"));
   gtk_box_pack_start (GTK_BOX (hbox2), label, TRUE, TRUE, 0);
   spinner_adj = (GtkAdjustment *) gtk_adjustment_new (DEFAULT_LOW, 10.0, 2080.0, 10.0, 1.0, 1.0);
   spinner = gtk_spin_button_new (spinner_adj, 100.0, 1);
@@ -1640,7 +1640,7 @@ create_pitch_recognition_window (DenemoProject * gui)
   hbox2 = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (hbox), hbox2, TRUE, TRUE, 0);
 
-  label = gtk_label_new ("Highest Pitch");
+  label = gtk_label_new (_("Highest Pitch"));
   gtk_box_pack_start (GTK_BOX (hbox2), label, TRUE, TRUE, 0);
   spinner_adj = (GtkAdjustment *) gtk_adjustment_new (DEFAULT_HIGH, 120.0, 9600.0, 10.0, 1.0, 1.0);
   spinner = gtk_spin_button_new (spinner_adj, 100.0, 1);
@@ -1650,7 +1650,7 @@ create_pitch_recognition_window (DenemoProject * gui)
   hbox2 = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (hbox), hbox2, TRUE, TRUE, 0);
 
-  label = gtk_label_new ("Greatest Interval");
+  label = gtk_label_new (_("Greatest Interval"));
   gtk_box_pack_start (GTK_BOX (hbox2), label, TRUE, TRUE, 0);
   spinner_adj = (GtkAdjustment *) gtk_adjustment_new (8.0, 1.0, 15.0, 1.0, 1.0, 1.0);
   spinner = gtk_spin_button_new (spinner_adj, 1.0, 0);
@@ -1662,14 +1662,14 @@ create_pitch_recognition_window (DenemoProject * gui)
   /* options */
   if (gui->input_source == INPUTAUDIO)
     {
-      frame = gtk_frame_new ("Input handling");
+      frame = gtk_frame_new (_("Input handling"));
       gtk_container_add (GTK_CONTAINER (main_vbox), frame);
       hbox = gtk_hbox_new (FALSE, 1);
       gtk_container_add (GTK_CONTAINER (frame), hbox);
 
 
 
-      label = gtk_check_button_new_with_label ("Disable repeated notes");
+      label = gtk_check_button_new_with_label (_("Disable repeated notes"));
       gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
       g_signal_connect (G_OBJECT (label), "clicked", G_CALLBACK (toggle_repeated_notes_allowed), NULL);
       label = gtk_label_new ("Transpose Input");
@@ -1679,19 +1679,19 @@ create_pitch_recognition_window (DenemoProject * gui)
       gtk_box_pack_start (GTK_BOX (hbox), spinner, TRUE, TRUE, 0);
       g_signal_connect (G_OBJECT (spinner), "value-changed", G_CALLBACK (change_transposition), NULL);
 
-      label = gtk_label_new ("Delay");
+      label = gtk_label_new (_("Delay"));
       gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
       spinner_adj = (GtkAdjustment *) gtk_adjustment_new (DEFAULT_TIMER_RATE, 1.0, 500.0, 10.0, 1.0, 1.0);
       spinner = gtk_spin_button_new (spinner_adj, 10.0, 0);
       gtk_box_pack_start (GTK_BOX (hbox), spinner, TRUE, TRUE, 0);
       g_signal_connect (G_OBJECT (spinner), "value-changed", G_CALLBACK (change_timer_rate), NULL);
 
-      frame = gtk_frame_new ("Frequency Measurement");
+      frame = gtk_frame_new (_("Frequency Measurement"));
       gtk_container_add (GTK_CONTAINER (main_vbox), frame);
       hbox = gtk_hbox_new (FALSE, 1);
       gtk_container_add (GTK_CONTAINER (frame), hbox);
 
-      label = gtk_label_new ("Frequency smoothing");
+      label = gtk_label_new (_("Frequency smoothing"));
       gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
       spinner_adj = (GtkAdjustment *) gtk_adjustment_new (0.25, 0.1, 1.0, 0.05, 0.05, 0.05);
       spinner = gtk_spin_button_new (spinner_adj, 0.5, 2);
@@ -1829,7 +1829,7 @@ stop_pitch_input (void)
 }
 
 void
-clear_overlay (GtkAction * action, gpointer param)
+clear_overlay (GtkAction * action, DenemoScriptParam* param)
 {
 }
 #endif
