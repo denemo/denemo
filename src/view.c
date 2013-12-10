@@ -443,7 +443,13 @@ static void
 load_scheme_init (void)
 {
   //Denemo.project->si->undo_guard++;
-  gchar *filename = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "denemo.scm", NULL);
+  gchar* dirs[] = {
+    g_build_filename (g_get_current_dir (), COMMANDS_DIR, NULL),
+    g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL),
+    NULL
+  };
+  gchar *filename = find_path_for_file("denemo.scm", dirs);
+
   g_debug ("System wide denemo.scm %s\n", filename);
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
     eval_file_with_catch (filename);    //scm_c_primitive_load(filename);
