@@ -205,7 +205,7 @@ static void draw_note_onset(cairo_t *cr, double x, const gchar *glyph, gboolean 
 				{
 				  cairo_set_line_width (cr, 6.0 / Denemo.project->si->zoom);
 				  cairo_set_source_rgba (cr, 0, 1, 0, 0.40);
-				  cairo_arc (cr, x + 10 / 2, 20, 20 / Denemo.project->si->zoom, 0, 2 * M_PI);
+				  cairo_arc (cr, x + 10, 20, 20 / Denemo.project->si->zoom, 0, 2 * M_PI);
 				  cairo_stroke (cr);
 				}
 		}
