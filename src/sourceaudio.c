@@ -388,7 +388,7 @@ gboolean
 open_source_audio_file (void)
 {
   gboolean ret = FALSE;
-  GtkWidget *dialog = gtk_file_chooser_dialog_new ("Open Audio Source File",
+  GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open Audio Source File"),
                                                    NULL,
                                                    GTK_FILE_CHOOSER_ACTION_OPEN,
                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
