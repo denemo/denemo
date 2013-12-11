@@ -191,19 +191,26 @@ installPalettes (void)
   xmlNodePtr rootElem;
 
   gchar *filename = NULL;
-  if(Denemo.old_user_data_dir)
-	filename = g_build_filename (Denemo.old_user_data_dir, "actions", "palettes.xml", NULL);
-  else
-	filename = g_build_filename (get_user_data_dir (TRUE), "actions", "palettes.xml", NULL);
-  if(!g_file_test (filename, G_FILE_TEST_EXISTS))
-	{
-			g_free(filename);
-			filename = NULL;
-	}
-  
-  if (filename == NULL)
-    filename = g_build_filename (get_system_data_dir (), "actions", "palettes.xml", NULL);
 
+  gchar* user_data = "";
+  if(Denemo.old_user_data_dir)
+    user_data = g_build_filename (Denemo.old_user_data_dir, COMMANDS_DIR, NULL);
+  else
+    user_data = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, NULL);
+  gchar* dirs[] = {
+    g_build_filename (g_get_current_dir (), COMMANDS_DIR, NULL),
+    user_data,
+    g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL),
+    NULL
+  };
+
+  filename = find_path_for_file("palettes.xml", dirs);
+  if (filename == NULL)
+    {
+      g_warning ("Could not find palette file.");
+      return -1;
+    }
+  
   doc = xmlParseFile (filename);
   if (doc == NULL)
     {

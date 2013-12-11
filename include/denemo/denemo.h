@@ -50,6 +50,7 @@ extern "C" {
 #define LILYPOND_EXT        ".ly"
 #define KEYMAP_EXT          ".commands"
 
+#define SCHEME_INIT         "denemo.scm"
 #define DENEMO_NO_COMMAND (-1) /* command id for no command */
 
 #define g_malloc(a) g_malloc0(a) /* for extensible debuggable code */

@@ -106,43 +106,93 @@ static void save_accels (void);
 static gint scm_eval_status = 0;
 
 static SCM
-standard_handler (gchar * data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
+standard_handler (gchar * data SCM_UNUSED, SCM key, SCM parameter SCM_UNUSED)
 {
-  g_warning ("\nA script error for file/script %s; the throw arguments are\n", data);
-  scm_display (throw_args, scm_current_output_port ());
-  scm_newline (scm_current_output_port ());
-  g_warning ("\nThe tag is\n");
-  scm_display (tag, scm_current_output_port ());
-  scm_newline (scm_current_output_port ());
-  scm_newline (scm_current_output_port ());
+  SCM key_str = scm_symbol_to_string(key);
+  SCM function = scm_car(parameter);
+  SCM error_message = scm_cadr(parameter);
+  SCM args = scm_caddr(parameter);
+
+  SCM args_str = 
+    !scm_is_null(args) 
+      ? (scm_is_symbol(scm_car(args)) 
+         ? scm_symbol_to_string(scm_car(args)) 
+         : scm_string_concatenate (args)) 
+      : SCM_BOOL_F;
+
+  gchar* msg_intro = g_strdup_printf("Scheme exception '%s'", scm_to_locale_string(key_str));
+  gchar* msg_location = data ? g_strdup_printf(" in '%s'", data) : NULL;
+  gchar* msg_function = scm_is_string (function) ? g_strdup_printf("%s: ", scm_to_locale_string(function)) : NULL;
+  gchar* msg_message = scm_is_string (error_message) ? g_strdup_printf("%s", scm_to_locale_string(error_message)) : NULL;
+  gchar* msg_args = scm_is_string (args_str) ? g_strdup_printf(" (%s)", scm_to_locale_string(args_str)) : NULL;
+
+  gchar* message = g_strdup_printf("%s%s\n%s%s%s",
+                                   msg_intro,
+                                   msg_location ? msg_location : "",
+                                   msg_function ? msg_function : "",
+                                   msg_message ? msg_message : "",
+                                   msg_args ? msg_args : "");
+  g_warning(message);
+
+  g_free(msg_intro);
+  g_free(msg_location);
+  g_free(msg_function);
+  g_free(msg_message);
+  g_free(msg_args);
+  g_free(message);
+  
   scm_eval_status = -1;
-  // g_warning ("Undo will be affected\n");
+  
   //stage_undo(Denemo.project->si, ACTION_SCRIPT_ERROR); We don't need this as control will return to activate_script() which will terminate the undo properly, with anything the script has done on the undo stack.
   return SCM_BOOL_F;
+}
+
+static SCM
+standard_preunwind_proc (void *data,
+                       SCM key,
+                       SCM parameters)
+{
+  // Capture the stack here:
+  *(SCM *)data = scm_make_stack (SCM_BOOL_T, SCM_EOL);
 }
 
 gint
 eval_file_with_catch (gchar * filename)
 {
   // scm_c_primitive_load(filename);
+  SCM captured_stack = SCM_BOOL_F;
   SCM name = scm_from_locale_string (filename);
   scm_eval_status = 0;
-  scm_internal_catch (SCM_BOOL_T, (scm_t_catch_body) scm_primitive_load, (void *) name, (scm_t_catch_handler) standard_handler, (void *) filename);
+  scm_c_catch (SCM_BOOL_T, 
+              (scm_t_catch_body) scm_primitive_load, (void *) name, 
+              (scm_t_catch_handler) standard_handler, (void *) filename,
+              standard_preunwind_proc, &captured_stack);
+  if (captured_stack != SCM_BOOL_F)
+  {
+#ifdef DEBUG
+    scm_display_backtrace(captured_stack, scm_current_error_port (), SCM_BOOL_F, SCM_BOOL_F);
+#endif
+  }
   return scm_eval_status;
 }
-
 
 gint
 call_out_to_guile (const char *script)
 {
+  SCM captured_stack = SCM_BOOL_F;
   scm_eval_status = 0;
-  scm_internal_catch (SCM_BOOL_T, (scm_t_catch_body) scm_c_eval_string, (void *) script, (scm_t_catch_handler) standard_handler, (void *) script);
+  scm_c_catch (SCM_BOOL_T, 
+              (scm_t_catch_body) scm_c_eval_string, (void *) script, 
+              (scm_t_catch_handler) standard_handler, (void *) script,
+              standard_preunwind_proc, &captured_stack);
+  if (captured_stack != SCM_BOOL_F)
+  {
+#ifdef DEBUG    
+    scm_display_backtrace(captured_stack, scm_current_error_port (), SCM_BOOL_F, SCM_BOOL_F);
+#endif
+  }
   return scm_eval_status;
 }
-
-
-
-
 
 //FIXME common up these!!!
 void
@@ -371,7 +421,7 @@ define_scheme_constants (void)
 static void
 load_local_scheme_init (void)
 {
-  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "denemo.scm", NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, SCHEME_INIT, NULL);
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
     eval_file_with_catch (filename);    //scm_c_primitive_load(filename);
   if (filename)
@@ -414,7 +464,7 @@ denemo_scheme_init (void)
 void
 append_to_local_scheme_init (gchar * scheme)
 {
-  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "denemo.scm", NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, SCHEME_INIT, NULL);
   FILE *fp = fopen (filename, "a+");
   if (fp)
     fprintf (fp, "%s", scheme);
@@ -428,7 +478,7 @@ append_to_local_scheme_init (gchar * scheme)
 void
 destroy_local_scheme_init (void)
 {
-  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "denemo.scm", NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, SCHEME_INIT, NULL);
   FILE *fp = fopen (filename, "w");
   if (fp)
   fclose (fp);
@@ -443,7 +493,13 @@ static void
 load_scheme_init (void)
 {
   //Denemo.project->si->undo_guard++;
-  gchar *filename = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "denemo.scm", NULL);
+  gchar* dirs[] = {
+    g_build_filename (g_get_current_dir (), COMMANDS_DIR, NULL),
+    g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL),
+    NULL
+  };
+  gchar *filename = find_path_for_file(SCHEME_INIT, dirs);
+
   g_debug ("System wide denemo.scm %s\n", filename);
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
     eval_file_with_catch (filename);    //scm_c_primitive_load(filename);
