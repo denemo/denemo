@@ -476,6 +476,8 @@ actions/menus/MainMenu/NavigationMenu/Cursor/ToggleCursorHighlight.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/ToggleCursorHighlight.xml
 actions/menus/MainMenu/NavigationMenu/DenemoLink.scm
 actions/menus/MainMenu/NavigationMenu/DenemoLink.xml
+actions/menus/MainMenu/NavigationMenu/MIDI/CursorToMarkedMidiNotePosition.scm
+actions/menus/MainMenu/NavigationMenu/MIDI/CursorToMarkedMidiNotePosition.xml
 actions/menus/MainMenu/NavigationMenu/MIDI/FirstNoteOnset.scm
 actions/menus/MainMenu/NavigationMenu/MIDI/FirstNoteOnset.xml
 actions/menus/MainMenu/NavigationMenu/MIDI/NextNoteOnset.scm
