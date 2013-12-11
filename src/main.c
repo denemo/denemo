@@ -267,9 +267,17 @@ init_environment()
 #else
   add_font_directory (g_build_filename (get_system_data_dir (), "fonts", NULL));
 
+  gchar* dirs[] = {
+    g_build_filename (".", COMMANDS_DIR, NULL),
+    g_build_filename ("..", COMMANDS_DIR, NULL),
+    g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL),
+    NULL
+  };
+  gchar* data_dir = find_dir_for_file ("denemo.scm", dirs);
+
   append_to_path ("GUILE_LOAD_PATH",
-                  g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL),
-                  g_build_filename (get_system_data_dir (), COMMANDS_DIR, "denemo-modules", NULL),
+                  g_build_filename (data_dir, NULL),
+                  g_build_filename (data_dir, "denemo-modules", NULL),
                   NULL);
 
 #endif /* end of else not windows */
