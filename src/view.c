@@ -750,9 +750,9 @@ inner_main (void *files)
 
   //Scheme initializations
   {
-	  const char prog[] =
+      const char prog[] =
     "(catch #t (lambda () (setlocale LC_ALL \"\")) (lambda _(display \"Locale not supported by the C library. Falling back to default \\\"C\\\" locale.\\n\"(current-error-port))))";
-	  scm_c_eval_string (prog);
+      scm_c_eval_string (prog);
     //scm_setlocale( scm_variable_ref(scm_c_lookup("LC_ALL")), scm_from_locale_string("") );
     create_scheme_identfiers ();
 
@@ -1443,17 +1443,17 @@ gboolean
 pb_record (gchar *callback)
 {
   if (Denemo.project->si->recording && (Denemo.project->si->recording->type==DENEMO_RECORDING_AUDIO))
-	{
-		warningdialog(_("Cannot mix audio and MIDI recordings"));
-		return  FALSE;
-	}
-	
-  if (Denemo.project->si->recorded_midi_track &&  ((smf_track_t *)Denemo.project->si->recorded_midi_track)->user_pointer)
-	{
-		warningdialog(_("Cannot mix MIDI recordings with imported MIDI - delete imported MIDI first"));
-		return FALSE;
+    {
+        warningdialog(_("Cannot mix audio and MIDI recordings"));
+        return  FALSE;
+    }
+    
+  if (Denemo.project->si->recorded_midi_track &&  midi_is_from_file())
+    {
+        warningdialog(_("Cannot mix MIDI recordings with imported MIDI - delete imported MIDI first"));
+        return FALSE;
      }
-	
+    
   if (Denemo.project->si->recorded_midi_track && !confirm (_("MIDI Recording"), _("Delete last recording?")))
     {
       return FALSE;
@@ -1480,9 +1480,9 @@ pb_record (gchar *callback)
   g_free(script);
  {//this note off event prevents the first MIDI note from sounding a few seconds into the recording
  //why such a spurious note is heard is unknown, it does not get put into the event queues (immediate or standard)
-	  gchar buf[] = {0x80, 0x0, 0x0};
-	  handle_midi_event (buf);
-	
+      gchar buf[] = {0x80, 0x0, 0x0};
+      handle_midi_event (buf);
+    
   }
   return TRUE;
 }
@@ -1518,7 +1518,7 @@ void highlight_audio_record(void) {
 }
 
 void delete_recording (void) {
-	 //FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
+     //FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
   if (Denemo.project->si->recording)
     {
       DenemoRecording *temp = Denemo.project->si->recording;
@@ -1526,30 +1526,30 @@ void delete_recording (void) {
       Denemo.project->si->recording = NULL;
       g_static_mutex_unlock (&smfmutex);
       if (temp->sndfile)
-		sf_close (temp->sndfile);
+        sf_close (temp->sndfile);
       g_free (temp->filename);
       g_list_free_full(temp->notes, g_free);
       g_free (temp);
       Denemo.project->si->recording = NULL;
       Denemo.project->si->marked_onset = NULL;
-    }	
+    }   
 }
 static void
 pb_midi_delete (GtkWidget * button)
 {
   DenemoRecording *recording = Denemo.project->si->recording;
   if(recording)
-	{
-	  if(recording->type!=DENEMO_RECORDING_MIDI)
-		{
-			g_warning("Cannot delete Audio yet");
-			return;//see sourceaudio.c:222 for deleting audio
-		}
-	  track_delete (Denemo.project->si->recorded_midi_track);
-	  Denemo.project->si->recorded_midi_track = NULL;
-	  
-	  delete_recording ();
-	}
+    {
+      if(recording->type!=DENEMO_RECORDING_MIDI)
+        {
+            g_warning("Cannot delete Audio yet");
+            return;//see sourceaudio.c:222 for deleting audio
+        }
+      track_delete (Denemo.project->si->recorded_midi_track);
+      Denemo.project->si->recorded_midi_track = NULL;
+      
+      delete_recording ();
+    }
   gtk_widget_hide (convertbutton);
   gtk_widget_hide (button);
   gtk_widget_queue_draw(Denemo.scorearea);
@@ -1789,7 +1789,7 @@ install_button_for_pattern (RhythmPattern * r, gchar * thelabel)
         a button is created in "/RhythmToolbar"
         and the pattern is added to project->rhythms 
          with the first step of it put in project->rstep
-	add a clipboard with the selected music to the created rhythm pattern.
+    add a clipboard with the selected music to the created rhythm pattern.
    if ACTION is one of the insert_chord_xkey insert_rest_xkey)
    functions
         a button is created in the /EntryToolbar (if not already present)
@@ -2602,8 +2602,8 @@ put_initialization_script (GtkWidget * widget, gchar * directory)
 /* upload scripts for command/tag name.
 Parameters: name the name of a command or a tag
             script the scheme script that the command runs, or an editscript for directives with tag name
-	    init_script the scheme script that is run before the command runs, not used for tags
-	    command the xml description of that command, or "" for tags
+        init_script the scheme script that is run before the command runs, not used for tags
+        command the xml description of that command, or "" for tags
 for tags:
    command is "" for an editscript and name is the tag for directives that the script edits
 for commands:
@@ -3916,7 +3916,7 @@ static void
 toggle_print_view (GtkAction * action, gpointer param)
 {
  if(Denemo.non_interactive)
-	return;
+    return;
 #ifndef USE_EVINCE  
   g_debug("This feature requires denemo to be built with evince");
 #else
@@ -3970,14 +3970,14 @@ toggle_command_manager (GtkAction * action, gpointer param)
 {
   if(Denemo.command_manager==NULL) 
   {
-	configure_keyboard_dialog (action, NULL);
+    configure_keyboard_dialog (action, NULL);
   }
   else 
   {
-	GtkWidget *w = Denemo.command_manager;
-	if ((!action) || gtk_widget_get_visible (w))
-		gtk_widget_hide (w);
-	else	
+    GtkWidget *w = Denemo.command_manager;
+    if ((!action) || gtk_widget_get_visible (w))
+        gtk_widget_hide (w);
+    else    
       gtk_widget_show (w);
   }
 }
@@ -4489,14 +4489,14 @@ set_master_volume (DenemoMovement * si, gdouble volume)
 void
 set_master_tempo (DenemoMovement * si, gdouble tempo)
 {
-	if(si->master_tempo>0.0)
-		{
-			Denemo.project->si->end_time /= si->master_tempo;
-			Denemo.project->si->start_time /= si->master_tempo;
-		}
-	si->master_tempo = tempo;
-  	Denemo.project->si->end_time *= si->master_tempo;
-	Denemo.project->si->start_time *= si->master_tempo;
+    if(si->master_tempo>0.0)
+        {
+            Denemo.project->si->end_time /= si->master_tempo;
+            Denemo.project->si->start_time /= si->master_tempo;
+        }
+    si->master_tempo = tempo;
+    Denemo.project->si->end_time *= si->master_tempo;
+    Denemo.project->si->start_time *= si->master_tempo;
   if (master_tempo_adj)
     {
       gtk_adjustment_set_value (master_tempo_adj, tempo * si->tempo);
@@ -4531,7 +4531,7 @@ create_window (void)
   };
   data_file = find_path_for_file("denemo.png", icon_dirs);
   if(data_file)
-	gtk_window_set_default_icon_from_file (data_file, NULL);
+    gtk_window_set_default_icon_from_file (data_file, NULL);
 #endif
 
   g_signal_connect (G_OBJECT (Denemo.window), "delete_event", G_CALLBACK (delete_callback), NULL);
@@ -4788,7 +4788,7 @@ create_window (void)
       hscale = gtk_hscale_new (GTK_ADJUSTMENT (speed_adj));
       //gtk_scale_set_digits (GTK_SCALE (hscale), 0);
       gtk_widget_set_can_focus (hscale, FALSE);
-	  gtk_widget_set_tooltip_text (label, _("Slow down the audio output maintaining the pitch"));
+      gtk_widget_set_tooltip_text (label, _("Slow down the audio output maintaining the pitch"));
       g_signal_connect (G_OBJECT (speed_adj), "value_changed", G_CALLBACK (set_speed), NULL);
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
 #endif
@@ -4938,9 +4938,9 @@ create_window (void)
   Denemo.statuslabel = gtk_label_new ("");
   gtk_widget_set_tooltip_text (Denemo.statuslabel, _("This bar shows:\nPending ♯ or ♭ sign (if the next note entered will be sharpened or flattened)\nThe movement number\nDescription of the object at the Denemo cursor\nPosition and status (appending or inserting) of the cursor.\nIf the Playback Controls are visible then the timing of the object at the cursor is shown.\nIf MIDI in controls are visible the current enharmonic range is shown.\nWhen the first key of a two-key shortcut is pressed the possible continuations are shown here."));
 #if GTK_MAJOR_VERSION == 2
-	hbox = gtk_hpaned_new ();
+    hbox = gtk_hpaned_new ();
 #else
-	hbox = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+    hbox = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
 #endif
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
   gtk_paned_add1 (GTK_PANED (hbox), Denemo.statuslabel);
@@ -4955,8 +4955,8 @@ create_window (void)
   gtk_paned_set_position (GTK_PANED (hbox), 1000);
   gtk_widget_show (hbox);
   // End of status bar stuff - note this is not working on Windows correctly.
-	
-	
+    
+    
   create_scheme_window ();
 
   if (!Denemo.non_interactive)
