@@ -27,7 +27,7 @@
     <button label="&lt;i&gt;&lt;b&gt;tr&lt;/b&gt;&lt;/i&gt;" _tooltip="Adds/Removes a trill to the note" script="(d-ToggleTrill)"/>
     <button label="&#x2022;&#x2022;&#x2022;" _tooltip="Choose more palettes of buttons." script="(d-ChoosePalette)&#10;"/>
   </palette>
-  <palette _name="Dynamics" row-wise="1" limit="1" dock="0" hidden="0">
+  <palette _name="Dynamics" row-wise="1" limit="1" dock="0" hidden="1">
     <button label="?" _tooltip="Help with chord symbol entry methods." script="(d-InfoDialog &#10;&quot;There are two methods of adding dynamics, either placing a dynamic directive before the note or chord which it should apply to or creating a separate staff for dynamics. In the second of these options the actual notes on the staff are ignored, they just serve to position the dynamics markings. This method makes it easy to align haripins with each other and with other dynamic markings..&quot;)"/>
     <button label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_style=&quot;italic&quot; font_weight=&quot;bold&quot;&gt;f p&lt;/span&gt;" _tooltip="Insert a Dynamic Marking at the cursor" script="(d-DynamicText)"/>
     <button label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_weight=&quot;bold&quot;&gt;&amp;lt;&lt;/span&gt;" _tooltip="Start Crescrendo from note/chord at cursor" script="(d-ToggleStartCrescendo)"/>
@@ -36,7 +36,7 @@
     <button label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_weight=&quot;bold&quot;&gt;&amp;gt;|&lt;/span&gt;" _tooltip="End Diminuendo from note/chord at cursor" script="(d-ToggleEndDiminuendo)"/>
     <button label="Staff" _tooltip="Adds a staff to be used purely for dynamic markings, insert after right hand piano staff" script="(d-DynamicsStaff)"/>
   </palette>
-  <palette _name="Pianoforte" row-wise="1" limit="2" dock="0" hidden="0">
+  <palette _name="Pianoforte" row-wise="1" limit="2" dock="0" hidden="1">
     <button label="&lt;span font='24'&gt;&#x1D1AE;&lt;/span&gt;" _tooltip="Prints a Sustain Pedal On Mark" script="(d-SustainOn)"/>
     <button label="&lt;span font='24'&gt;&#x1D11E;     &#10;&#x1D122;&lt;/span&gt;" _tooltip="Adds two staff braced together for keyboard instrument." script="(d-PianoStaff)"/>
     <button label="&amp;lt;&amp;gt;" _tooltip="Adds a staff to be used purely for dynamic markings, insert after right hand piano staff" script="(d-DynamicsStaff)"/>
@@ -108,7 +108,7 @@
     <button label="5" _tooltip="Inserts fingering for finger 5" script="(d-Finger5)"/>
     <button label="&lt;i&gt;p i m&lt;/i&gt;" _tooltip="The given number as right hand fingering, using the conventional p,m,i indicators. Use Cancel to delete" script="(d-RHFinger)"/>
   </palette>
-  <palette _name="Polyphony" row-wise="1" limit="1" dock="0" hidden="0">
+  <palette _name="Polyphony" row-wise="1" limit="1" dock="0" hidden="1">
     <button label="V+" _tooltip="Adds a voice to the current staff, initially displayed on a staff of its own, for readability. It will print on the staff above, and can be displayed there using Join Voices command if desired." script="(d-NewVoice)"/>
     <button label="V(V)" _tooltip="The two voices will be printed only once when they are the same, otherwise they will be printed as parts. (Off/On)" script="(d-PartCombine)"/>
     <button label="&#x1D13D;(&#x1D13D;)" _tooltip="(Print) Merges rests where two voices have a common rest. Not for whole measure or multi-measure rests." script="(d-MergeRests)"/>
@@ -117,7 +117,7 @@
     <button label="&#x1D15F;&#x2B0C;" _tooltip="On printing the current note/chord will be shifted from notes in other voices by the amount you give. Use with Voice Presets to ensure this chord is in a different voice." script="(d-NoteColumnShift)"/>
     <button label="V?" _tooltip="Select a voice for the music following the cursor position.&#10;The Voice 1,2,3,4 choices set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice setting returns all the voice settings to the neutral default directions" script="(d-VoiceSetting)"/>
   </palette>
-  <palette _name="Articulations" row-wise="1" limit="1" dock="0" hidden="0">
+  <palette _name="Articulations" row-wise="1" limit="1" dock="0" hidden="1">
     <button label="fermata.svg" _tooltip="Mark/Unmark current selection or object with a fermata" script="(d-FermataSelectionSwitcher)"/>
     <button label="staccato.svg" _tooltip="Adds the staccato dot or removes it" script="(d-StaccatoSelectionSwitcher)"/>
     <button label="staccatissimo.svg" _tooltip="Toggles Staccatissimo" script="(d-StaccatissimoSelectionSwitcher)"/>
@@ -125,7 +125,7 @@
     <button label="accent.svg" _tooltip="Adds the &gt; accent" script="(d-AccentSelectionSwitcher)"/>
     <button label="marcato.svg" _tooltip="Mark/Unmark the selected notes marcato" script="(d-MarcatoSelectionSwitcher)"/>
   </palette>
-  <palette _name="Barlines" row-wise="1" limit="1" dock="0" hidden="0">
+  <palette _name="Barlines" row-wise="1" limit="1" dock="0" hidden="1">
     <button label="||:" _tooltip="Insert a barline indicating the start of a repeated section." script="(d-RepeatStart)"/>
     <button label=":||" _tooltip="Insert a barline indicating the end of a repeated section." script="(d-RepeatEnd)"/>
     <button label=":||:" _tooltip="Inserts a barline ending one repeated section and starting another" script="(d-RepeatEndStart)"/>
@@ -133,13 +133,13 @@
     <button label="|||" _tooltip="Inserts a closing barline (a double bar with last one thicker)." script="(d-ClosingBarline)"/>
     <button label="|x" _tooltip="Skips the printing of any automatic barline here - allows line break." script="(d-NoBarline)"/>
   </palette>
-  <palette _name="Repeats" row-wise="1" limit="1" dock="0" hidden="0">
+  <palette _name="Repeats" row-wise="1" limit="1" dock="0" hidden="1">
     <button label="1&#xB0;" _tooltip="(Print) start a first time bar, must be followed by EndVolta." script="(d-OpenFirstTimeBar)"/>
     <button label="2&#xB0;" _tooltip="(Print) start a second time bar, must be followed by EndVolta" script="(d-OpenSecondTimeBar)"/>
     <button label="1&#xB0;/2&#xB0; ]" _tooltip="Ends a volta, that is a n'th time bar" script="(d-EndVolta)"/>
     <button label="1&#xB0; &amp;amp; 2&#xB0;" _tooltip="Inserts first and second time bars each with a whole measure rest. You can then edit this to suit your music, e.g by inserting extra bars, deleting the repeat start etc." script="(d-InsertFirstAndSecondTimeBars)"/>
   </palette>
-  <palette _name="Beaming" row-wise="1" limit="1" dock="0" hidden="0">
+  <palette _name="Beaming" row-wise="1" limit="1" dock="0" hidden="1">
     <button label="?" _tooltip="Help with beaming commands." script="(d-InfoDialog &#10;&quot;Beaming commands affect the printed score, not the Denemo display which uses a simple beaming method for quick note entry. You may find it easier to use the beaming commands directly on the typeset score - right click to select a beamed note and right click on the selection box to choose a beaming command.&quot;)"/>
     <button label="[" _tooltip="Instructs the LilyPond engraver to start a beam here. (Print effect only)" script="(d-StartBeam)"/>
     <button label="]" _tooltip="Instructs LilyPond engraver to stop previously started manual beaming. Print effect only." script="(d-EndBeam)"/>
@@ -160,12 +160,12 @@
     <button label="^^" _tooltip="Allows several groups of figures to be individually adjusted for height." script="(d-AdjustFiguredBassHeights)"/>
     <button label="&#x1D15F; = n" _tooltip="Start filtering MIDI events, First note is bass, hold this down while entering notes for figures. Pedal changes harmony on same bass." script="(d-FiguredBassFilterOn)"/>
   </palette>
-  <palette _name="Chord Symbols or Fake Chords" row-wise="1" limit="1" dock="0" hidden="0">
+  <palette _name="Chord Symbols or Fake Chords" row-wise="1" limit="1" dock="0" hidden="1">
     <button label="?" _tooltip="Help with chord symbol entry methods." script="(d-InfoDialog &#10;&quot;Chord Symbols (or \&quot;fake chords\&quot;) can be created in two ways. The first attaches a chord symbol to any note. You have to give the name of the chord required, e.g. C7.  This is ok if chord changes only occur on note starts. The other way is to create a voice specially for chords. You can then enter the actual chords as music notation and they will typeset as chord names.&quot;)"/>
     <button label="Cdim G ..." _tooltip="Attach a chord symbol to the note at the cursor position. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation" script="(d-EditChords)"/>
     <button label="Staff" _tooltip="The current staff becomes a chord symbol staff. The music on this staff will be typeset as chord symbols. Normally you will make this staff a voice on the melody staff, so that the chord symbols print on the melody staff." script="(d-ChordStaff)"/>
   </palette>
-  <palette _name="Midi Import" row-wise="1" limit="1" dock="0" hidden="0">
+  <palette _name="Midi Import" row-wise="1" limit="1" dock="0" hidden="1">
     <button label=" &#x2B05; MIDI" _tooltip="Opens a MIDI file for transcribing. Load each track in turn and insert the MIDI notes by playing the durations." script="(d-GuidedMidiImport)"/>
     <button label="&lt;span foreground=&quot;red&quot;&gt;&#x2B24;&lt;/span&gt;" _tooltip="Starts playing the score from the playhead start (green marker bar) and simultaneously records your playing from MIDI in.&#10;        You can stop the playback at any time and then the first MIDI note you entered is marked. &#10;        Entering duration keys now enters the notes you played into the score. &#10;        If you have no click track at the top one is created." script="(d-RecordAndConvert)"/>
     <button label="&#x1D7C0; MIDI" _tooltip="Deletes the MIDI that has been imported or recorded via MIDI in." script="(d-DeleteRecordedMidi)"/>
