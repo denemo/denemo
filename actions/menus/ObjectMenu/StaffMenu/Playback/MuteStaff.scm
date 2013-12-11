@@ -7,6 +7,7 @@
 			(d-DirectiveDelete-standalone tag)
 			(d-StaffMasterVolume 1))		
 		(begin
+			
 			(d-PushPosition)
 			(d-MoveToBeginning)
 			(if (not (d-Directive-standalone? tag))
@@ -15,6 +16,10 @@
 					(d-LockDirective #t)))
 			(d-DirectivePut-standalone-minpixels tag 50)
 			(d-DirectivePut-standalone-gx tag 20)
+			
+			(if (equal? MuteStaff::params "unmute")
+				(d-StaffMasterVolume 0)) ;;pass #f to force un-mute
+			
 			(if (> (d-StaffMasterVolume) 0)
 				(begin
 					(d-DirectivePut-standalone-graphic tag "Speaker_Icon_Mute")

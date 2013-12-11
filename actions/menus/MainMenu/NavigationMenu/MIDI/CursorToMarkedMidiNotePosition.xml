@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>CursorToMarkedMidiNotePosition</action>
+        <after>UnmarkNoteOnset</after>
+        <_label>Cursor to Marked Onset</_label>
+        <_tooltip>Moves the Denemo cursor to the note to which the marked MIDI note onset belongs.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

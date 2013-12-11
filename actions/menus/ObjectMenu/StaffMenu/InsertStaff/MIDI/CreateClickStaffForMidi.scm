@@ -48,6 +48,7 @@
 			(d-MasterVolume 0)
 			(d-AddInitial)
 			(d-NonPrintingStaff)
+			
 			(d-StaffProperties (string-append "denemo_name=" DenemoClickTrack))
 			(let loop ((count 0))
 				(set! tempo (d-GetRecordedMidiTempo count))
@@ -66,18 +67,22 @@
 				(writeAllBars duration tempo old_tempo)
 				(set! old_tempo tempo)
 				(if next-tempo				
-					(loop (1+ count)))))
+					(loop (1+ count))))
+		(d-MuteStaff "unmute"))
 		;;No MIDI file loaded - create click staff for recording
 		(let ((number "16") (timesig (d-InitialTimeSig "query=timesigname")))
 			(define numerator (car (string-split   timesig #\/)))
 			(define denominator (cadr (string-split  timesig #\/)))
 			(d-MasterVolume 0)
 			(d-AddInitial)
+			
 			(d-NonPrintingStaff)
 			(d-StaffProperties (string-append "denemo_name=" DenemoClickTrack))
 			(set! number (d-GetUserInput (_ "Click Track Creation") (_ "Give number of measures required: ") number))
 			(if number
-				(writeBars (string->number number) (string->number numerator)(string->number denominator))
+				(begin
+					(writeBars (string->number number) (string->number numerator)(string->number denominator))
+					(d-MuteStaff "unmute"))
 				(d-WarningDialog (_ "Cancelled")))))
 	(d-MoveToBeginning)
 	(d-MasterVolume old_volume)		

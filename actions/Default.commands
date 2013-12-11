@@ -6178,6 +6178,13 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Non Printing Staff</_label>
         <_tooltip>Turns the on/off whether this staff will be typeset. The staff still displays normally but will be dropped for the print view.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>CursorToMarkedMidiNotePosition</action>
+        <after>UnmarkNoteOnset</after>
+        <menupath>/MainMenu/NavigationMenu/MIDI</menupath>
+        <_label>Cursor to Marked Onset</_label>
+        <_tooltip>Moves the Denemo cursor to the note to which the marked MIDI note onset belongs.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
