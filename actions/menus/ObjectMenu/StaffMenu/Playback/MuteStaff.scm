@@ -24,4 +24,6 @@
 					(d-DirectivePut-standalone-graphic tag "Speaker_Icon")))
 			(d-SetSaved #f)
 			(d-PopPosition)))
+	(if (d-Directive-standalone? tag)
+		(d-MoveCursorRight))
    (d-RefreshDisplay))
