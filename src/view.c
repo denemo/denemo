@@ -371,7 +371,7 @@ define_scheme_constants (void)
 static void
 load_local_scheme_init (void)
 {
-  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "denemo.scm", NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, SCHEME_INIT, NULL);
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
     eval_file_with_catch (filename);    //scm_c_primitive_load(filename);
   if (filename)
@@ -414,7 +414,7 @@ denemo_scheme_init (void)
 void
 append_to_local_scheme_init (gchar * scheme)
 {
-  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "denemo.scm", NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, SCHEME_INIT, NULL);
   FILE *fp = fopen (filename, "a+");
   if (fp)
     fprintf (fp, "%s", scheme);
@@ -428,7 +428,7 @@ append_to_local_scheme_init (gchar * scheme)
 void
 destroy_local_scheme_init (void)
 {
-  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "denemo.scm", NULL);
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, SCHEME_INIT, NULL);
   FILE *fp = fopen (filename, "w");
   if (fp)
   fclose (fp);
@@ -448,7 +448,7 @@ load_scheme_init (void)
     g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL),
     NULL
   };
-  gchar *filename = find_path_for_file("denemo.scm", dirs);
+  gchar *filename = find_path_for_file(SCHEME_INIT, dirs);
 
   g_debug ("System wide denemo.scm %s\n", filename);
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
