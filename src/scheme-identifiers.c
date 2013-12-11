@@ -160,7 +160,6 @@ create_scheme_identfiers (void)
   install_scm_function (1, "Takes an index, returns the time in seconds, time signature and tempo in seconds per quarter note of the index'th MIDI tempo event in the recorded MIDI stream.", DENEMO_SCHEME_PREFIX "GetRecordedMidiTempo", scheme_get_recorded_midi_tempo);
   install_scm_function (1, "Takes an track number 1,2 ..., makes that MIDI track of the loaded MIDI stream the current recorded track.", DENEMO_SCHEME_PREFIX "GetImportedMidiTrack", scheme_get_imported_midi_track);
   install_scm_function (0, "Delete the current imported track.", DENEMO_SCHEME_PREFIX "DeleteImportedMidi", scheme_delete_imported_midi);
-  install_scm_function (0, "Start playing at the cursor and recording from MIDI in.", DENEMO_SCHEME_PREFIX "RecordMIDI", scheme_record_midi);
   install_scm_function (0, "Returns the MIDI track number of the current imported track.", DENEMO_SCHEME_PREFIX "GetCurrentMidiTrack", scheme_get_current_midi_track);
   install_scm_function (0, "Returns the number of MIDI tracks of the loaded/recorded MIDI.", DENEMO_SCHEME_PREFIX "GetImportedMidiTracks", scheme_get_imported_midi_tracks);
   install_scm_function (0, "Returns the duration in seconds of the recorded MIDI track or #f if none", DENEMO_SCHEME_PREFIX "GetRecordedMidiDuration", scheme_get_recorded_midi_duration);
@@ -952,10 +951,11 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Switches to playalong playback. When playing or recording playback will not advance beyond the cursor position unless then mouse is moved or the next note is played in via MIDI in.", DENEMO_SCHEME_PREFIX "TogglePlayAlong", scheme_toggle_playalong);
   install_scm_function (0, "Switches to mouse conducting playback. Playback will not advance beyond the cursor position unless then mouse is moved in the drawing area.", DENEMO_SCHEME_PREFIX "ToggleConduct", scheme_toggle_conduct);
 
-  install_scm_function (0, "Starts playback and synchronously records from MIDI in. The recording will play back with future play until deleted. The recording is not saved with the score - convert to notation first,", DENEMO_SCHEME_PREFIX "MidiRecord", scheme_midi_record);
+  install_scm_function (1, "Starts playback and synchronously records from MIDI in. any script passed in is run at the end of the recording. The recording will play back with future play until deleted. The recording is not saved with the score - convert to notation first,", DENEMO_SCHEME_PREFIX "MidiRecord", scheme_midi_record);
   install_scm_function (0, "Computes durationss for recorded/imported MIDI notes based on tempo and timing of note off from previous note off or start.", DENEMO_SCHEME_PREFIX "ComputeMidiNoteDurations", scheme_compute_midi_note_durations);
 
   install_scm_function (0, "Gets the marked recorded midi note as LilyPond", DENEMO_SCHEME_PREFIX "GetMarkedMidiNote", scheme_get_marked_midi_note);
+  install_scm_function (0, "Gets the time in seconds of marked recorded midi note or #f if none", DENEMO_SCHEME_PREFIX "GetMarkedMidiNoteSeconds", scheme_get_marked_midi_note_seconds);
   install_scm_function (1, "Advances the marked recorded midi note can take an integer for number of steps to advance, or #f to clear the mark. Returns #f if no more marks.", DENEMO_SCHEME_PREFIX "AdvanceMarkedMidi", scheme_advance_marked_midi);
   install_scm_function (0, "Inserts the marked recorded or imported MIDI note using the duration guessed from the note length. Returns #f if nothing marked.", DENEMO_SCHEME_PREFIX "InsertMarkedMidiNote", scheme_insert_marked_midi_note);
 

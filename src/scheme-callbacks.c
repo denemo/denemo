@@ -2471,13 +2471,7 @@ scheme_delete_imported_midi (void)
   delete_imported_midi ();
   return SCM_BOOL_T;
 }
-SCM
-scheme_record_midi (void)
-{
-  if(pb_record (NULL))
-	return SCM_BOOL_T;
-  return SCM_BOOL_F;
-}
+
 
 SCM
 scheme_get_current_midi_track (void)
@@ -4387,9 +4381,15 @@ scheme_toggle_conduct (void)
 }
 
 SCM
-scheme_midi_record (void)
+scheme_midi_record (SCM script)
 {
-  pb_record ("(d-ComputeMidiNoteDurations)(d-FirstNoteOnset)");
+  if (scm_is_string (script))
+	{
+	  gchar *text = scm_to_locale_string (script);
+	  pb_record (text);
+	  free (text);
+	} else
+	pb_record (NULL);
   return SCM_BOOL (Denemo.project->midi_destination | MIDIRECORD);
 }
 SCM
@@ -4413,8 +4413,20 @@ scheme_get_marked_midi_note (void)
  }
  return scm;
 }
-
-
+SCM
+scheme_get_marked_midi_note_seconds (void)
+{
+ SCM scm = SCM_BOOL_F;
+ DenemoProject *gui = Denemo.project;
+ DenemoMovement *si = gui->si;
+ if(si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->marked_onset) {
+	 GList *marked = si->marked_onset;
+	 DenemoRecordedNote *thenote = (DenemoRecordedNote*)marked->data;
+	 gdouble seconds = thenote->timing/((gdouble)si->recording->samplerate);
+     scm = scm_from_double (seconds);
+ }
+ return scm;
+}
 
 SCM
 scheme_advance_marked_midi (SCM advance)
