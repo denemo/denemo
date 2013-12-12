@@ -1,6 +1,7 @@
 ;;DynamicsStaff
 (let ((tag "DynamicsStaff"))
-(d-AddAfter)
+(d-PushPosition)
+(d-NewStructuredStaff)
 (d-DirectivePut-clef-graphic tag "
 D
 Denemo
@@ -14,5 +15,6 @@ Denemo
 (d-DirectivePut-staff-override tag  DENEMO_OVERRIDE_LILYPOND )
 (d-DirectivePut-voice-override tag  DENEMO_OVERRIDE_LILYPOND )
 (d-MuteStaff #t)
-(d-MoveToEnd) 
+(d-PopPosition)
+(d-MoveToStaffDown)
 (d-InfoDialog (_ "This staff is purely for holding cresc. dim hairpins and dynamic markings so that they can be positioned (using dummy notes or spacers) and will align with each other. Create this between the staffs for a piano work.")))
