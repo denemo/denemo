@@ -1808,7 +1808,7 @@ outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint
                 {
                   curobj = (DenemoObject *) curobjnode->data;
                   // if (curobj->type==CHORD||curobj->type==PARTIAL||curobj->type==LILYDIRECTIVE)
-                  if (curobj->durinticks || curobj->type == LILYDIRECTIVE)
+                  if (curobj->durinticks || (curobj->type == LILYDIRECTIVE && (((lilydirective *) curobj->object)->override & DENEMO_OVERRIDE_LILYPOND)))
                     empty_measure = FALSE;
                   //Print rhythm notes with cross head. We ignore the case where someone reverts to real notes after rhythm only notes
                   if (curobj->type == CHORD && ((chord *) curobj->object)->notes && curobj->isinvisible && !nonprintingnotes)
