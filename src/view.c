@@ -574,11 +574,6 @@ load_preferences (void)
   if (!Denemo.prefs.toolbar)
     activate_action ("/MainMenu/ViewMenu/" ToggleToolbar_STRING);
 
-
-
-  if (!Denemo.prefs.console_pane)
-    activate_action ("/MainMenu/ViewMenu/" ToggleConsoleView_STRING);
-
   if (!Denemo.prefs.lyrics_pane)
     activate_action ("/MainMenu/ViewMenu/" ToggleLyricsView_STRING);
 
@@ -4010,47 +4005,20 @@ toggle_lyrics_view (GtkAction * action, gpointer param)
 #endif
 }
 
-/**
- *  Function to toggle visibility of console view pane
- *  
- *  
- */
-static void
-toggle_console_view (GtkAction * action, gpointer param)
+
+void show_lilypond_errors (void)
 {
-#ifndef USE_EVINCE  
-  g_debug("This feature requires denemo to be built with evince");
-#else
-  GtkWidget *widget = gtk_widget_get_parent (Denemo.console);
-  if (!widget)
-    g_warning ("Internal Error");
-  else
-    {
-      if ((!action) || gtk_widget_get_visible (widget))
-        gtk_widget_hide (widget);
-      else
-        {
-          gtk_widget_show (widget);
-          GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.console));
-          GtkTextIter iter;
-          /* get end iter */
-          gtk_text_buffer_get_end_iter (buffer, &iter);
-          /* scroll to end iter */
-          gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW (Denemo.console), &iter, 0.0, FALSE, 0, 0);
-        }
-    }
-  if (Denemo.prefs.persistence && (Denemo.project->view == DENEMO_MENU_VIEW))
-    Denemo.prefs.console_pane = gtk_widget_get_visible (widget);
-#endif
+    GtkWidget *widget = gtk_widget_get_parent (Denemo.console);
+    
+    if (!gtk_widget_get_visible (widget))
+        activate_action ("/MainMenu/ViewMenu/" ToggleConsoleView_STRING); 
 }
-
-
 /**
  *  Function to toggle visibility of print preview pane of current project
  *  
  *  
  */
-void
+static void
 toggle_score_view (GtkAction * action, gpointer param)
 {
 #ifndef USE_EVINCE  
@@ -4158,9 +4126,6 @@ GtkToggleActionEntry toggle_menu_entries[] = {
    G_CALLBACK (toggle_lyrics_view), TRUE}
   ,
 
-  {ToggleConsoleView_STRING, NULL, N_("LilyPond Errors"), NULL, NULL,
-   G_CALLBACK (toggle_console_view), TRUE}
-  ,
 
   {ToggleScoreView_STRING, NULL, N_("Score"), NULL, NULL,
    G_CALLBACK (toggle_score_view), TRUE}
@@ -5050,7 +5015,6 @@ static void toggle_object_menu (GtkAction * action, gpointer param);
 /* UNUSED
 static void toggle_main_menu (GtkAction * action, gpointer param);
 */
-static void toggle_console_view (GtkAction * action, gpointer param);
 static void toggle_print_view (GtkAction * action, gpointer param);
 static void toggle_score_layout (GtkAction * action, gpointer param);
 static void toggle_command_manager (GtkAction * action, gpointer param);
@@ -5161,7 +5125,6 @@ toggle_to_drawing_area (gboolean show)
 
   TOG2 ("/MainMenu", mainmenu);
 
-  // TOG3(gtk_widget_get_parent(Denemo.console), console_view, "/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
   //TOG3(gtk_widget_get_parent(gtk_widget_get_parent(Denemo.printarea)), print_view, "/MainMenu/ViewMenu/"TogglePrintView_STRING);
   TOG3 (Denemo.project->buttonboxes, scoretitles, "/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
   TOG3 (Denemo.playback_control, playback_control, "/MainMenu/ViewMenu/" TogglePlaybackControls_STRING);
