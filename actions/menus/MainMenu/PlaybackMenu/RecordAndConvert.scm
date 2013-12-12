@@ -16,6 +16,7 @@
                         (d-FirstNoteOnset)
                         (while (d-MoveToStaffUp))
                         (d-CursorToMarkedMidiNotePosition)
-                        (d-MoveToStaffDown)(while (d-NextObjectInMeasure))(d-MoveCursorRight)"))
+                        (d-MoveToStaffDown)
+                        (if (not (None?)) (begin (while (d-NextObjectInMeasure))(d-MoveCursorRight)))"))
                         
 
