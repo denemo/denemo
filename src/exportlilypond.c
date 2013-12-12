@@ -876,13 +876,13 @@ static gchar *get_overridden_##field(GList *g, gboolean override) {\
   for(;g;g=g->next) {\
     DenemoDirective *d = g->data;\
     if(override == ((d->override&DENEMO_OVERRIDE_AFFIX)==0))\
-      continue;					\
+      continue;                 \
     if(!((d->override & DENEMO_OVERRIDE_HIDDEN))){\
       if(d->field && d->field->len) {\
-	if(d->override & DENEMO_OVERRIDE_LILYPOND)\
-	  g_string_prepend(ret, d->field->str);\
-	else\
-	  g_string_append(ret, d->field->str);\
+    if(d->override & DENEMO_OVERRIDE_LILYPOND)\
+      g_string_prepend(ret, d->field->str);\
+    else\
+      g_string_append(ret, d->field->str);\
       }\
     }\
   }\
@@ -911,7 +911,7 @@ GET_AFFIX (postfix);
 //NAVANC
 #define DIRECTIVES_INSERT_EDITABLE_AFFIX(field) static void \
 directives_insert_##field##_editable (GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gboolean override, GString *lily_for_obj,\
-						DenemoTargetType type, gint movement_count,	gint measurenum, gint voice_count, gint objnum, gint midcoffset) {\
+                        DenemoTargetType type, gint movement_count, gint measurenum, gint voice_count, gint objnum, gint midcoffset) {\
   DenemoProject *gui = Denemo.project;\
   GList *g = directives; gint num;\
   for(num=0;g;g=g->next, num++) {\
@@ -921,7 +921,7 @@ directives_insert_##field##_editable (GList *directives, gint *popen_braces, gin
     if(directive->override&DENEMO_OVERRIDE_HIDDEN)\
       continue;\
     if(directive->field && directive->field->len) {\
-      if(pprevduration) *pprevduration = -1;		    \
+      if(pprevduration) *pprevduration = -1;            \
       if(popen_braces) *popen_braces += brace_count(directive->field->str); \
       insert_editable(&directive->field, directive->field->str, iter, gui, lily_for_obj\
       , type, movement_count, measurenum, voice_count, objnum, num, midcoffset);\
@@ -982,7 +982,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
     open_braces +=  brace_count(ret->str), \
     g_string_assign(ret, "")
 #define output(astring) (gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, iter, astring, -1, INEDITABLE, NULL));\
-			g_string_append(lily_for_obj, astring);
+            g_string_append(lily_for_obj, astring);
   gint prevduration = *pprevduration;
   gint prevnumdots = *pprevnumdots;
   chord *pchord;
@@ -1006,7 +1006,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
 
 
 #define NAVANC(type, offset)  place_navigation_anchor(curmark, (gpointer)curobjnode, movement_count, measurenum, voice_count, objnum, type, offset);\
-								gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, iter, curmark);
+                                gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, iter, curmark);
 
 
   switch (curobj->type)
@@ -1824,20 +1824,20 @@ outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint
 #define OUTPUT_LILY(what) \
   if(directive->what && directive->what->len && ((directive->x == 0 || (directive->x!=sb->id))) && ((directive->y == 0 || (directive->y==sb->id))) \
      && (!(directive->override & DENEMO_OVERRIDE_HIDDEN)) \
-     ) {								\
-	  gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, curmark);\
-	  GtkTextChildAnchor *objanc = gtk_text_buffer_create_child_anchor (Denemo.textbuffer, &iter);\
-	  g_object_set_data(G_OBJECT(objanc), OBJECTNODE, (gpointer)curobjnode);\
-	  g_object_set_data(G_OBJECT(objanc), MOVEMENTNUM, (gpointer)(intptr_t)ABS(movement_count));\
-	  g_object_set_data(G_OBJECT(objanc), MEASURENUM, (gpointer)(intptr_t)measurenum);\
-	  g_object_set_data(G_OBJECT(objanc), STAFFNUM, (gpointer)(intptr_t)ABS(voice_count));\
-	  g_object_set_data(G_OBJECT(objanc), OBJECTNUM, (gpointer)(intptr_t)ABS(objnum));\
-	  g_object_set_data(G_OBJECT(objanc), TARGETTYPE, (gpointer)(intptr_t)ABS(TARGET_OBJECT));\
-	  GtkTextIter back;\
-	  back = iter;\
-	  (void)gtk_text_iter_backward_char(&back);\
-	  gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, INEDITABLE, &back, &iter);\
-	  gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, "system_invisible", &back, &iter);\
+     ) {                                \
+      gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, curmark);\
+      GtkTextChildAnchor *objanc = gtk_text_buffer_create_child_anchor (Denemo.textbuffer, &iter);\
+      g_object_set_data(G_OBJECT(objanc), OBJECTNODE, (gpointer)curobjnode);\
+      g_object_set_data(G_OBJECT(objanc), MOVEMENTNUM, (gpointer)(intptr_t)ABS(movement_count));\
+      g_object_set_data(G_OBJECT(objanc), MEASURENUM, (gpointer)(intptr_t)measurenum);\
+      g_object_set_data(G_OBJECT(objanc), STAFFNUM, (gpointer)(intptr_t)ABS(voice_count));\
+      g_object_set_data(G_OBJECT(objanc), OBJECTNUM, (gpointer)(intptr_t)ABS(objnum));\
+      g_object_set_data(G_OBJECT(objanc), TARGETTYPE, (gpointer)(intptr_t)ABS(TARGET_OBJECT));\
+      GtkTextIter back;\
+      back = iter;\
+      (void)gtk_text_iter_backward_char(&back);\
+      gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, INEDITABLE, &back, &iter);\
+      gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, "system_invisible", &back, &iter);\
     open_braces += brace_count( ((lilydirective *) curobj->object)->what->str);\
     gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter,  ((lilydirective *) curobj->object)->what->str, -1, "bold", NULL); \
     g_free(curobj->lilypond);\
@@ -2952,10 +2952,8 @@ create_console (GtkWidget * box)
   Denemo.console = gtk_text_view_new ();
   GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  //gtk_paned_add1 (GTK_PANED (vpaned), sw);
-  gtk_box_pack_start (GTK_BOX (box), sw, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (box), sw, TRUE, TRUE, 0);
   gtk_container_add (GTK_CONTAINER (sw), Denemo.console);
-  // gtk_widget_show_all(vpaned);
   gtk_widget_show_all (sw);
 }
 
@@ -2968,22 +2966,24 @@ create_lilywindow (void)
   gtk_window_set_default_size (GTK_WINDOW (Denemo.textwindow), 800, 600);
   gtk_window_set_title (GTK_WINDOW (Denemo.textwindow), "LilyPond Text - Denemo");
   g_signal_connect (G_OBJECT (Denemo.textwindow), "delete-event", G_CALLBACK (lilywindow_closed), NULL);
-  GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
-  gtk_container_add (GTK_CONTAINER (Denemo.textwindow), vbox);
-  GtkWidget *vpaned = gtk_vpaned_new ();
-  gtk_container_set_border_width (GTK_CONTAINER (vpaned), 5);
-  gtk_box_pack_start (GTK_BOX (vbox), vpaned, TRUE, TRUE, 0);
-  //gtk_container_add (GTK_CONTAINER (Denemo.textwindow), vpaned);
+
+  GtkWidget *top_pane = (GtkWidget*)gtk_vpaned_new ();
+  GtkWidget *vbox = (GtkWidget*)gtk_vbox_new (FALSE, 8);
+  gtk_paned_add2 (GTK_PANED (top_pane), vbox);//gtk_container_add (GTK_CONTAINER (Denemo.textwindow), top_pane);
+  gtk_container_add (GTK_CONTAINER (Denemo.textwindow), top_pane);
   create_console (vbox);
 
   GtkWidget *view = gtk_text_view_new ();
   GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_paned_add1 (GTK_PANED (vpaned), sw);
+  gtk_paned_add1 (GTK_PANED (top_pane), sw);
   gtk_container_add (GTK_CONTAINER (sw), view);
-  gtk_widget_show_all (vbox);
+  
+  gtk_paned_set_position (GTK_PANED (top_pane), 500);
+  gtk_widget_show_all (top_pane);
 
   tagtable = (GtkTextTagTable *) gtk_text_tag_table_new ();
+ 
   Denemo.textview = (GtkTextView *) view;
 
 #if 1
