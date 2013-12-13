@@ -495,6 +495,7 @@ load_scheme_init (void)
   //Denemo.project->si->undo_guard++;
   gchar* dirs[] = {
     g_build_filename (g_get_current_dir (), COMMANDS_DIR, NULL),
+    g_build_filename (g_get_current_dir (), "..", COMMANDS_DIR, NULL),
     g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL),
     NULL
   };
