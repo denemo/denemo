@@ -2161,8 +2161,9 @@ toggle_lily_visible_cb (GtkAction * action, gpointer param)
 }
 
 static void
-place_cursor_cb (GtkAction * action, DenemoProject * gui)
+place_cursor_cb (void)
 {
+    DenemoProject *gui = Denemo.project;
   /* place cursor on current object */
   if (gui->si->currentobject)
     {
@@ -2185,6 +2186,11 @@ place_cursor_cb (GtkAction * action, DenemoProject * gui)
     }
 }
 
+static void
+insert_lilypond_directive (void)
+{
+call_out_to_guile ("(d-InsertStandaloneDirective)");
+}
 #if 0
 static void
 print_cursor_cb (void)
@@ -2736,28 +2742,45 @@ lily_refresh (G_GNUC_UNUSED GtkWidget * item, G_GNUC_UNUSED GdkEventCrossing * e
 
 
 static void
-prepend_menu_item (GtkMenuShell * menu, DenemoProject * gui, gchar * text, gpointer callback)
+prepend_menu_item (GtkMenuShell * menu, DenemoProject * gui, gchar * text, gpointer callback, gchar *tooltip)
 {
   GtkWidget *item;
   item = gtk_menu_item_new_with_label (text);
+  gtk_widget_set_tooltip_text (item, tooltip);
   g_signal_connect (item, "activate", G_CALLBACK (callback), gui);
   gtk_menu_shell_prepend (menu, GTK_WIDGET (item));
   gtk_widget_show (GTK_WIDGET (item));
 }
+
+static void position_display_cursor (G_GNUC_UNUSED GtkWidget *view, GdkEventButton *event)
+{
+    if(event->button == 1)
+    {
+    GtkTextIter iter;
+    gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, gtk_text_buffer_get_insert (Denemo.textbuffer));  
+    gtk_text_buffer_place_cursor (Denemo.textbuffer, &iter);                                                
+    gint column = gtk_text_iter_get_visible_line_offset (&iter);
+    gint line = gtk_text_iter_get_line (&iter);
+    goto_lilypond_position (line + 1, column);
+    place_cursor_cb ();//this is purely for the side effect of taking off the marking which happens without it.
+    }  
+} 
 
 static gboolean
 populate_called (G_GNUC_UNUSED GtkWidget * view, GtkMenuShell * menu)
 {
   DenemoProject *gui = Denemo.project;
   //g_print("populate called with %p\n", menu);
-  prepend_menu_item (menu, gui, _("Find Current Object"), (gpointer) place_cursor_cb);
+  prepend_menu_item (menu, gui, _("Find Current Object"), (gpointer) place_cursor_cb, _("Move the text cursor in this window to the object that the Denemo cursor is on"));
+  prepend_menu_item (menu, gui, _("Insert LilyPond Text"), (gpointer) insert_lilypond_directive, _("Insert LilyPond text at the cursor position"));
 #ifdef USE_EVINCE  
-  prepend_menu_item (menu, gui, _("Print from visible LilyPond text"), (gpointer) typeset_current_layout);
+  prepend_menu_item (menu, gui, _("Typeset this LilyPond text"), (gpointer) typeset_current_layout, _("Typesets the current LilyPond text, which will display in the Print View window. Any errors are shown below in the errors pane."));
 #endif
-  
+  //position_display_cursor();
   return FALSE;
 }
 
+                                                      
 // moves cursor to position indicated by anchor found before line and column, and sets si->target to indicate type of construct there.
 gboolean
 goto_lilypond_position (gint line, gint column)
@@ -2956,7 +2979,10 @@ create_console (GtkWidget * box)
   gtk_widget_show_all (sw);
 }
 
-
+void drag_begin (void)
+{
+    g_print("drag begin");
+}
 void
 create_lilywindow (void)
 {
@@ -2990,6 +3016,8 @@ create_lilywindow (void)
 #endif
 
   g_signal_connect (G_OBJECT (Denemo.textview), "populate-popup", G_CALLBACK (populate_called), NULL);
+
+  g_signal_connect (G_OBJECT (Denemo.textview), "button-release-event", G_CALLBACK (position_display_cursor), NULL);
 
 
 
