@@ -132,8 +132,11 @@ standard_handler (gchar * data SCM_UNUSED, SCM key, SCM parameter SCM_UNUSED)
                                    msg_function ? msg_function : "",
                                    msg_message ? msg_message : "",
                                    msg_args ? msg_args : "");
-  g_warning(message);
-
+  if(!Denemo.fatal_scheme_errors)
+    g_warning(message);
+  else
+    g_error(message);
+  
   g_free(msg_intro);
   g_free(msg_location);
   g_free(msg_function);

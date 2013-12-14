@@ -138,14 +138,15 @@ process_command_line (int argc, char **argv, gboolean gtkstatus)
 
   GOptionEntry entries[] =
   {
-    { "scheme-path",       'i', 0, G_OPTION_ARG_FILENAME, &Denemo.scheme_file, _("Process scheme commands in pathtofile on file open"), _("path") },
-    { "scheme-script-name",'s', 0, G_OPTION_ARG_STRING, &scheme_script_name, _("Process scheme commands from system file on file open"), _("file")  },
-    { "scheme",            'a', 0, G_OPTION_ARG_STRING, &Denemo.scheme_commands, _("Process the scheme on startup"), _("scheme") },
-    { "non-interactive",   'n', 0, G_OPTION_ARG_NONE, &Denemo.non_interactive, _("Launch Denemo without GUI"), NULL },
-    { "version",           'v', 0, G_OPTION_ARG_NONE, &version,  _("Print version information and exit"), NULL },
-    { "audio-options",     'A', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &Denemo.prefs.audio_driver,_("Audio driver options"), _("options") },
-    { "midi-options",      'M', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &Denemo.prefs.midi_driver, _("Midi driver options"), _("options") },
-    { G_OPTION_REMAINING,  0,   0, G_OPTION_ARG_FILENAME_ARRAY, &filenames, NULL, _("[FILE]...") },
+    { "scheme-path",         'i', 0, G_OPTION_ARG_FILENAME, &Denemo.scheme_file, _("Process scheme commands in pathtofile on file open"), _("path") },
+    { "scheme-script-name",  's', 0, G_OPTION_ARG_STRING, &scheme_script_name, _("Process scheme commands from system file on file open"), _("file")  },
+    { "scheme",              'a', 0, G_OPTION_ARG_STRING, &Denemo.scheme_commands, _("Process the scheme on startup"), _("scheme") },
+    { "fatal-scheme-errors", 'e', 0, G_OPTION_ARG_NONE, &Denemo.fatal_scheme_errors, _("Abort on scheme errors"), NULL },
+    { "non-interactive",     'n', 0, G_OPTION_ARG_NONE, &Denemo.non_interactive, _("Launch Denemo without GUI"), NULL },
+    { "version",             'v', 0, G_OPTION_ARG_NONE, &version,  _("Print version information and exit"), NULL },
+    { "audio-options",       'A', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &Denemo.prefs.audio_driver,_("Audio driver options"), _("options") },
+    { "midi-options",        'M', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &Denemo.prefs.midi_driver, _("Midi driver options"), _("options") },
+    { G_OPTION_REMAINING,    0,   0, G_OPTION_ARG_FILENAME_ARRAY, &filenames, NULL, _("[FILE]...") },
     { NULL }
   };
   const gchar* subtitle = _(" ");

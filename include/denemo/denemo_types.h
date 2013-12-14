@@ -1138,6 +1138,7 @@ struct DenemoRoot
   GtkWidget *ScriptView; /**< a GtkTextView containing a scheme script */
   GList *palettes; /**< list of palettes of buttons for activating scripts */
   gchar *old_user_data_dir; /**< set in case of upgrading denemo version */
+  gboolean *fatal_scheme_errors; /** Abort on scheme errors */
 }  Denemo; /**< The root object. */
 
 #endif
