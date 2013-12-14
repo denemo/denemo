@@ -426,7 +426,7 @@ typedef struct enharmonic
 void new_midi_recording (void) {
   DenemoRecording *recording;
   if(Denemo.project->si->recording && (Denemo.project->si->recording->type==DENEMO_RECORDING_MIDI))
-	{  
+    {  
       //FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
       recording = Denemo.project->si->recording;
       g_static_mutex_lock (&smfmutex);
@@ -452,14 +452,14 @@ record_midi (gchar * buf, gdouble time)
       if (Denemo.project->si->recorded_midi_track && ((smf_track_t *) Denemo.project->si->recorded_midi_track)->smf)
         {
           smf_track_add_event_seconds (Denemo.project->si->recorded_midi_track, event, time);
-		  if(Denemo.project->si->recording && noteon_key(event))
-			{
-				DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
-				note->timing = event->time_seconds * Denemo.project->si->recording->samplerate;
-				notenum2enharmonic (noteon_key(event), &(note->mid_c_offset), &(note->enshift), &(note->octave));
-				note->event = event;
-				Denemo.project->si->recording->notes = g_list_append (Denemo.project->si->recording->notes, note);
-			}
+          if(Denemo.project->si->recording && noteon_key(event))
+            {
+                DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
+                note->timing = event->time_seconds * Denemo.project->si->recording->samplerate;
+                notenum2enharmonic (noteon_key(event), &(note->mid_c_offset), &(note->enshift), &(note->octave));
+                note->event = event;
+                Denemo.project->si->recording->notes = g_list_append (Denemo.project->si->recording->notes, note);
+            }
         }
       else
         {
@@ -504,7 +504,7 @@ do_one_note (gint mid_c_offset, gint enshift, gint notenum)
             PopPosition (NULL, NULL);// go to where we started, as there are no non-printing notes
         }          
        else
-				PopPosition (NULL, NULL);// go to where we started, as there are no non-printing notes		
+                PopPosition (NULL, NULL);// go to where we started, as there are no non-printing notes      
       action_note_into_score (mid_c_offset, enshift, notenum);
       
       if (Denemo.keyboard_state & ADDING_MASK)
@@ -641,7 +641,7 @@ midiaction (gint notenum)
               if (gui->si->cursor_appending) {
                 do_one_note (enote.mid_c_offset, enote.enshift, enote.octave);
                 next_editable_note ();//if we have gone back from an appending position after a non-chord we need this
-							}
+                            }
               else
                 gdk_beep ();
             }
@@ -921,7 +921,7 @@ handle_midi_event (gchar * buf)
       if (Denemo.project->midi_destination & (MIDIPLAYALONG))
         advance_until_time (buf);//FIXME is this thread-safe????
       else
-        play_midi_event (DEFAULT_BACKEND, 0, (guchar *) buf);
+        play_adjusted_midi_event (buf);//play_midi_event (DEFAULT_BACKEND, 0, (guchar *) buf);
     }
   else
     {
