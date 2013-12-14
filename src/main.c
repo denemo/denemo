@@ -269,8 +269,7 @@ init_environment()
   add_font_directory (g_build_filename (get_system_data_dir (), "fonts", NULL));
 
   gchar* dirs[] = {
-    g_build_filename (".", COMMANDS_DIR, NULL),
-    g_build_filename ("..", COMMANDS_DIR, NULL),
+    g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, NULL),
     g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL),
     NULL
   };

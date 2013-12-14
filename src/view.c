@@ -497,8 +497,7 @@ load_scheme_init (void)
 {
   //Denemo.project->si->undo_guard++;
   gchar* dirs[] = {
-    g_build_filename (g_get_current_dir (), COMMANDS_DIR, NULL),
-    g_build_filename (g_get_current_dir (), "..", COMMANDS_DIR, NULL),
+    g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, NULL),
     g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL),
     NULL
   };
@@ -4494,7 +4493,7 @@ create_window (void)
   //not installed on windows ... data_file = g_build_filename (get_system_data_dir (), "icons","denemo.png", NULL);
 #else
   gchar* icon_dirs[] = {
-    g_build_filename(g_get_current_dir (), PIXMAPS_DIR, NULL),
+    g_build_filename(PACKAGE_SOURCE_DIR, PIXMAPS_DIR, NULL),
     g_strconcat (get_system_data_dir (), "/../pixmaps", NULL), //FIXME installed in wrong place?
     NULL
   };
@@ -4550,7 +4549,7 @@ create_window (void)
   //gtk_window_add_accel_group (GTK_WINDOW (Denemo.window), accel_group);
 
   gchar* dirs[] = {
-    g_build_filename(UI_DIR, NULL),
+    g_build_filename(PACKAGE_SOURCE_DIR, UI_DIR, NULL),
     g_build_filename(get_system_data_dir (), UI_DIR, NULL),
     NULL
   };
