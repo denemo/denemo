@@ -26,11 +26,6 @@
 #include <string.h>
 #include <assert.h>
 
-
-#define SYS_EXCLUSIVE_MESSAGE1  0xF0
-#define NOTE_ON                 0x90
-#define NOTE_OFF                0x80
-
 #define SHAVING (0.01)          //seconds to shave off a note start time to ensure stopping before noteon is sent, and starting with noteon first note may depend of speed of machine??? FIXME
 
 
@@ -98,8 +93,11 @@ update_position (smf_event_t * event)
 static void
 safely_add_track (smf_t * smf, smf_track_t * track)
 {
-  if (track->smf == NULL)
-    smf_add_track (smf, track);
+  if(track->user_pointer == -1) //track is recorded midi, transfer it to si->smf to play it
+        track->smf = NULL;
+  if (track->smf == NULL) {
+    smf_add_track (smf, track);  
+    }
 }
 
 static void
@@ -446,11 +444,13 @@ void new_midi_recording (void) {
 static void
 record_midi (gchar * buf, gdouble time)
 {
+  buf[0] |= 0xF; //here force the channel to 15 
   smf_event_t *event = smf_event_new_from_pointer (buf, 3);
   if (event && smf_event_is_valid (event))
     {
       if (Denemo.project->si->recorded_midi_track && ((smf_track_t *) Denemo.project->si->recorded_midi_track)->smf)
         {
+           
           smf_track_add_event_seconds (Denemo.project->si->recorded_midi_track, event, time);
           if(Denemo.project->si->recording && noteon_key(event))
             {
@@ -875,13 +875,13 @@ adjust_midi_channel (gchar * buf)
 {
   DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->si->currentstaff->data;
   gint channel = curstaffstruct->midi_channel;
-  if ((buf[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_ON)
+  if ((buf[0] & SYS_EXCLUSIVE_MESSAGE1) == MIDI_NOTE_ON)
     {
-      buf[0] = NOTE_ON | channel;
+      buf[0] = MIDI_NOTE_ON | channel;
     }
-  else if ((buf[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF)
+  else if ((buf[0] & SYS_EXCLUSIVE_MESSAGE1) == MIDI_NOTE_OFF)
     {
-      buf[0] = NOTE_OFF | channel;
+      buf[0] = MIDI_NOTE_OFF | channel;
     }
 }
 
@@ -1043,7 +1043,7 @@ change_tuning (gdouble * cents)
 int
 noteon_key (smf_event_t * event)
 {
-  if ((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_ON)
+  if ((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == MIDI_NOTE_ON)
     return event->midi_buffer[1];
   return 0;
 }
