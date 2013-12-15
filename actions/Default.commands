@@ -2250,7 +2250,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <menupath>/ObjectMenu/Directives/Typesetter/Transposition</menupath>
         <_label>(Print) Open { Octave Up</_label>
         <_tooltip>Opens a block to be transposed up one octave
-	This must be followed by a CloseBlock "}" to end the transposed section.</_tooltip>
+    This must be followed by a CloseBlock "}" to end the transposed section.</_tooltip>
       </row>
       <row type="scheme">
         <action>SetBarNumber</action>
@@ -5046,11 +5046,11 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <action>RecordAndConvert</action>
         <after>MouseOrMidiDrivenPlayback</after>
         <menupath>/MainMenu/PlaybackMenu</menupath>
-        <_label>Record and Convert</_label>
+        <_label>Playback and Record MIDI</_label>
         <_tooltip>Starts playing the score from the playhead start (green marker bar) and simultaneously records your playing from MIDI in.
         You can stop the playback at any time and then the first MIDI note you entered is marked. 
         Entering duration keys now enters the notes you played into the score. 
-        If you have no click track at the top one is created.</_tooltip>
+        If you have no click track at the top one is created - set the keysignature/enharmonic range before you start.</_tooltip>
       </row>
       <row type="scheme">
         <action>ReduceSystemSpacing</action>
