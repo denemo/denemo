@@ -198,8 +198,8 @@ installPalettes (void)
   else
     user_data = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, NULL);
   gchar* dirs[] = {
-    g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, NULL),
     user_data,
+    g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, NULL),
     g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL),
     NULL
   };
