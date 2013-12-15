@@ -43,7 +43,7 @@ test_run_and_quit (gpointer fixture, gconstpointer data)
 {
   if (g_test_trap_fork (0, 0))
     {
-      execl(DENEMO, DENEMO, "-n", "-a", "(d-Quit)", NULL);
+      execl(DENEMO, DENEMO, "-n", "-e", "-a", "(d-Quit)", NULL);
       g_warn_if_reached ();
     }
   g_test_trap_assert_passed ();
@@ -57,7 +57,7 @@ test_open_blank_file(gpointer fixture, gconstpointer data)
 {
   if (g_test_trap_fork (0, 0))
     {
-      execl(DENEMO, DENEMO, "-n", DATA_DIR "/blank.denemo", NULL);
+      execl(DENEMO, DENEMO, "-n", "-e", DATA_DIR "/blank.denemo", NULL);
       g_warn_if_reached ();
     }
   g_test_trap_assert_passed ();
@@ -78,7 +78,7 @@ test_open_save_blank_file(gpointer fixture, gconstpointer data)
   if (g_test_trap_fork (0, 0))
     {
       gchar* scheme = g_strdup_printf("(d-SaveAs \"%s\")(d-Quit)", output);
-      execl(DENEMO, DENEMO, "-n", "-a", scheme, input, NULL);
+      execl(DENEMO, DENEMO, "-n", "-e", "-a", scheme, input, NULL);
       g_warn_if_reached ();
     }
   g_test_trap_assert_passed ();
@@ -90,6 +90,20 @@ test_open_save_blank_file(gpointer fixture, gconstpointer data)
   g_file_get_contents(output, &output_contents, NULL, NULL);
   g_assert_cmpstr(input_contents, ==, output_contents);
   */
+}
+
+/** test_invalid_scheme
+ * Tests the --fatal-scheme-errors program argument.
+ */
+static void
+test_invalid_scheme(gpointer fixture, gconstpointer data)
+{
+  if (g_test_trap_fork (0, 0))
+    {
+      execl(DENEMO, DENEMO, "-n", "--fatal-scheme-errors", "-a", "(d-InvalidSchemeFunction)(d-Quit)", NULL);
+      g_warn_if_reached ();
+    }
+  g_test_trap_assert_failed ();
 }
 
 /*******************************************************************************
@@ -107,6 +121,7 @@ main (int argc, char *argv[])
   g_test_add ("/integration/run-and-quit", void, NULL, setup, test_run_and_quit, teardown);
   g_test_add ("/integration/open-blank-file", void, NULL, setup, test_open_blank_file, teardown);
   g_test_add ("/integration/open-and-save-blank-file", void, NULL, setup, test_open_save_blank_file, teardown);
+  g_test_add ("/integration/invalid-scheme", void, NULL, setup, test_invalid_scheme, teardown);
 
   return g_test_run ();
 }
