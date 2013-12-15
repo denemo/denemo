@@ -5368,7 +5368,7 @@ SCM scheme_log_debug(SCM message){
 SCM scheme_log_info(SCM message){
   if(scm_is_string(message)){
     const gchar* msg = scm_to_locale_string(message);
-    g_info(message);
+    g_info(msg);
   }
   return SCM_BOOL_T;
 }
