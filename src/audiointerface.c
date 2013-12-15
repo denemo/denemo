@@ -116,7 +116,7 @@ initialize_audio (DenemoPrefs * config)
   char const *driver = config->audio_driver->str;
 
 
-  g_print ("audio driver is '%s' %d\n", driver, strcmp (driver, "portaudio"));
+  g_print ("Audio driver is '%s' %d\n", driver, strcmp (driver, "portaudio"));
 
   if (strcmp (driver, "jack") == 0)
     {
@@ -140,7 +140,7 @@ initialize_audio (DenemoPrefs * config)
     }
   else
     {
-      g_warning ("unknown audio backend '%s'\n", driver);
+      g_warning ("Unknown audio backend '%s'\n", driver);
     }
 
   if (backends[AUDIO_BACKEND] == NULL)
@@ -154,7 +154,7 @@ initialize_audio (DenemoPrefs * config)
 
   if (ret)
     {
-      g_warning ("initializing audio backend '%s' failed, falling back to dummy", driver);
+      g_warning ("Initializing audio backend '%s' failed, falling back to dummy", driver);
       backends[AUDIO_BACKEND] = &dummy_audio_backend;
       ret = get_backend (AUDIO_BACKEND)->initialize (config);
     }
@@ -200,7 +200,7 @@ initialize_midi (DenemoPrefs * config)
     }
   else
     {
-      g_warning ("unknown MIDI backend '%s'\n", driver);
+      g_warning ("Unknown MIDI backend '%s'\n", driver);
     }
 
   if (backends[MIDI_BACKEND] == NULL)
@@ -214,7 +214,7 @@ initialize_midi (DenemoPrefs * config)
 
   if (ret)
     {
-      g_warning ("initializing MIDI backend '%s' failed, falling back to dummy", driver);
+      g_warning ("Initializing MIDI backend '%s' failed, falling back to dummy", driver);
       backends[MIDI_BACKEND] = &dummy_midi_backend;
       ret = get_backend (MIDI_BACKEND)->initialize (config);
     }
@@ -568,7 +568,7 @@ update_playback_time (backend_timebase_prio_t prio, double new_time)
       // queue thread wakes up on its own
       if (!try_signal_queue ())
         {
-          g_debug ("couldn't signal playback time update to queue");
+          g_debug ("Couldn't signal playback time update to queue");
         }
     }
 }
@@ -616,7 +616,7 @@ audio_play (void)
 void
 midi_stop ()
 {
-  g_print ("stopping playback\n");
+  g_print ("Stopping playback\n");
 
   get_backend (AUDIO_BACKEND)->stop_playing ();
   get_backend (MIDI_BACKEND)->stop_playing ();
@@ -783,7 +783,7 @@ input_midi_event (backend_type_t backend, int port, unsigned char *buffer)
   // queue thread wakes up on its own
   if (!try_signal_queue ())
     {
-      g_debug ("couldn't signal MIDI event input to queue");
+      g_debug ("Couldn't signal MIDI event input to queue");
     }
 }
 
@@ -795,7 +795,7 @@ queue_redraw_all ()
 
   if (!try_signal_queue ())
     {
-      g_debug ("couldn't signal redraw request to queue");
+      g_debug ("Couldn't signal redraw request to queue");
     }
 }
 
@@ -807,7 +807,7 @@ queue_redraw_playhead (smf_event_t * event)
 
   if (!try_signal_queue ())
     {
-      g_debug ("couldn't signal redraw request to queue");
+      g_debug ("Couldn't signal redraw request to queue");
     }
 }
 

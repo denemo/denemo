@@ -88,7 +88,7 @@ AM_CPPFLAGS = \
   -DSYSCONFDIR=\"$(sysconfdir)/\" \
   -DPKGDATADIR=\"$(pkgdatadir)/\" \
   -DDATAROOTDIR=\"$(datarootdir)/\" \
-  -DPKGNAME=\"denemo\" 
+  -DPKGNAME=\"denemo\"
 
 denemo_LDADD = $(INTLLIBS) libaudiobackend.a -L$(top_builddir)/libs/libsffile -lsffile
 

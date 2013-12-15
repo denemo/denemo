@@ -255,7 +255,7 @@ actual_portaudio_initialize (DenemoPrefs * config)
   err = Pa_Initialize ();
   if (err != paNoError)
     {
-      g_warning ("initializing PortAudio failed\n");
+      g_warning ("Initializing PortAudio failed\n");
       return -1;
     }
 
@@ -270,12 +270,12 @@ actual_portaudio_initialize (DenemoPrefs * config)
 
   if (!info)
     {
-      g_warning ("invalid device '%s\n'", config->portaudio_device->str);
+      g_warning ("Invalid device '%s\n'", config->portaudio_device->str);
       return -1;
     }
 
   char const *api_name = Pa_GetHostApiInfo (info->hostApi)->name;
-  g_print ("opening output device '%s: %s'\n", api_name, info->name);
+  g_print ("Opening output device '%s: %s'\n", api_name, info->name);
 
   output_parameters.channelCount = 2;
   output_parameters.sampleFormat = paFloat32 | paNonInterleaved;
@@ -284,13 +284,13 @@ actual_portaudio_initialize (DenemoPrefs * config)
   err = Pa_OpenStream (&stream, NULL, &output_parameters, config->portaudio_sample_rate, config->portaudio_period_size, paNoFlag /* make this a pref??? paClipOff */ , stream_callback, NULL);
   if (err != paNoError)
     {
-      g_warning ("couldn't open output stream\n");
+      g_warning ("Couldn't open output stream\n");
       return -1;
     }
   err = Pa_StartStream (stream);
   if (err != paNoError)
     {
-      g_warning ("couldn't start output stream\n");
+      g_warning ("Couldn't start output stream\n");
       return -1;
     }
 
@@ -314,14 +314,14 @@ portaudio_initialize (DenemoPrefs * config)
 static int
 portaudio_destroy ()
 {
-  g_print ("destroying PortAudio backend\n");
+  g_print ("Destroying PortAudio backend\n");
   ready = FALSE;
   PaError err;
 
   err = Pa_CloseStream (stream);
   if (err != paNoError)
     {
-      g_warning ("closing stream failed: %d, %s\n", err, Pa_GetErrorText (err));
+      g_warning ("Closing stream failed: %d, %s\n", err, Pa_GetErrorText (err));
       return -1;
     }
 
