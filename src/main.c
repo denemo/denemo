@@ -142,6 +142,8 @@ process_command_line (int argc, char **argv, gboolean gtkstatus)
     { "scheme-script-name",  's', 0, G_OPTION_ARG_STRING, &scheme_script_name, _("Process scheme commands from system file on file open"), _("file")  },
     { "scheme",              'a', 0, G_OPTION_ARG_STRING, &Denemo.scheme_commands, _("Process the scheme on startup"), _("scheme") },
     { "fatal-scheme-errors", 'e', 0, G_OPTION_ARG_NONE, &Denemo.fatal_scheme_errors, _("Abort on scheme errors"), NULL },
+    { "silent",              'm', 0, G_OPTION_ARG_NONE, &Denemo.silent, _("Don't log any message"), NULL },
+    { "verbose",             'V', 0, G_OPTION_ARG_NONE, &Denemo.verbose, _("Display every messages"), NULL },
     { "non-interactive",     'n', 0, G_OPTION_ARG_NONE, &Denemo.non_interactive, _("Launch Denemo without GUI"), NULL },
     { "version",             'v', 0, G_OPTION_ARG_NONE, &version,  _("Print version information and exit"), NULL },
     { "audio-options",       'A', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE, &Denemo.prefs.audio_driver,_("Audio driver options"), _("options") },
@@ -342,14 +344,101 @@ static void check_if_upgrade (void) {
 	}
 }
 
+/* main_log_handler:
+ * Message handler. How log levels should be used:
+ * ERROR:    Fatal error that makes the program stop.
+ * CRITICAL: Error that don't makes the program stop, but should make a test
+ *           fail
+ * WARNING:  Warns the user (or developper) about unwanted, but non fatal stuffs
+ * MESSAGE:  Regular messages about program execution.
+ * INFO:     Further information that may interest users, when launched with
+ *           --verbose. Thoses messages may be relevant to repport bugs, but
+ *           non interesting ortherwise.
+ * DEBUG:    Debug information that may interest developpers, when compiled with
+ *           -DDEBUG or configured with --enable-debug, and launched with
+ *           --verbose
+ */
+static void
+main_log_handler(const gchar *log_domain,
+                 GLogLevelFlags log_level,
+                 const gchar *message,
+                 gpointer user_data ){
+  if(Denemo.silent)
+    return;
+
+  char* color = NULL;
+  char* level = NULL;
+  char* endcolor = "\033[0m";
+  FILE* stream = stdout;
+  char* prev = NULL;
+  char* next = NULL;
+  char* msg = NULL;
+
+  if(log_level & G_LOG_LEVEL_ERROR){
+    color = "\033[1;41m";
+    level = "ERROR";
+    stream = stderr;
+  }
+  else if (log_level & G_LOG_LEVEL_CRITICAL){
+    color = "\033[1;31m";
+    level = "CRITICAL";
+    stream = stderr;
+  }
+  else if (log_level & G_LOG_LEVEL_WARNING){
+    color = "\033[0;33m";
+    level = "WARNING";
+    stream = stderr;
+  }
+  else if (log_level & G_LOG_LEVEL_MESSAGE){
+    color = "\033[0;32m";
+    level = "MESSAGE";
+  }
+  else if (Denemo.verbose && (log_level & G_LOG_LEVEL_INFO)){
+    color = "\033[0;34m";
+    level = "INFO";
+  }
+
+#ifdef DEBUG
+  else if (Denemo.verbose && (log_level & G_LOG_LEVEL_DEBUG)){
+    color = "\033[0;35m";
+    level = "DEBUG";
+  }
+#endif
+
+#ifdef G_OS_WIN32
+  color = "";
+  level = "";
+#endif
+
+  if(color && level){
+    msg = g_strdup(message);
+    //Displays colored header
+    g_fprintf(stream, "%s%6s - %-8s%s: ", color, log_domain, level, endcolor);
+
+    //Add some tab
+    prev = msg;
+    while(next = strchr(prev, '\n')){
+      *next = '\0';
+      g_fprintf(stream, "%s\n                   ", prev);
+      prev = next+1;
+    }
+    g_fprintf(stream, "%s\n", prev);
+    g_free(msg);
+  }
+  if(log_level & G_LOG_FLAG_FATAL)
+    abort();
+}
+
 int
 main (int argc, char *argv[])
 {
   gchar** files = NULL;
   gboolean gtk_status = FALSE;
-  
+
+  g_log_set_default_handler (main_log_handler, NULL);
+
   if(!(gtk_status = gtk_init_check (&argc, &argv)))
-    g_print(_("Could not start graphical interface.\n"));
+    g_message(_("Could not start graphical interface."));
 
   files = process_command_line (argc, argv, gtk_status);
   
@@ -376,7 +465,6 @@ main (int argc, char *argv[])
   localization_init();
 
   //register_stock_items ();
-
   scm_with_guile (inner_main, files);
   
   if(!Denemo.non_interactive)

@@ -1139,6 +1139,8 @@ struct DenemoRoot
   GList *palettes; /**< list of palettes of buttons for activating scripts */
   gchar *old_user_data_dir; /**< set in case of upgrading denemo version */
   gboolean *fatal_scheme_errors; /** Abort on scheme errors */
+  gboolean *silent; /** Don't log any message */
+  gboolean *verbose; /** Display every messages */
 }  Denemo; /**< The root object. */
 
 #endif

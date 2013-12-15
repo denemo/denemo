@@ -120,7 +120,7 @@ standard_handler (gchar * data SCM_UNUSED, SCM key, SCM parameter SCM_UNUSED)
          : scm_string_concatenate (args)) 
       : SCM_BOOL_F;
 
-  gchar* msg_intro = g_strdup_printf("Scheme exception '%s'", scm_to_locale_string(key_str));
+  gchar* msg_intro = g_strdup_printf("%s", scm_to_locale_string(key_str));
   gchar* msg_location = data ? g_strdup_printf(" in '%s'", data) : NULL;
   gchar* msg_function = scm_is_string (function) ? g_strdup_printf("%s: ", scm_to_locale_string(function)) : NULL;
   gchar* msg_message = scm_is_string (error_message) ? g_strdup_printf("%s", scm_to_locale_string(error_message)) : NULL;
@@ -133,9 +133,9 @@ standard_handler (gchar * data SCM_UNUSED, SCM key, SCM parameter SCM_UNUSED)
                                    msg_message ? msg_message : "",
                                    msg_args ? msg_args : "");
   if(!Denemo.fatal_scheme_errors)
-    g_warning(message);
+    g_log("Scheme", G_LOG_LEVEL_CRITICAL, message);
   else
-    g_error(message);
+    g_log("Scheme", G_LOG_LEVEL_ERROR , message);
   
   g_free(msg_intro);
   g_free(msg_location);
@@ -333,7 +333,7 @@ define_scheme_constants (void)
 {
   gint major = 0, minor = 0, micro = 0;
   sscanf (VERSION, "%d.%d.%d", &major, &minor, &micro);
-  gchar *denemo_version = g_strdup_printf ("%d_%d_%d%s", major, minor, micro,
+  gchar *denemo_version = g_strdup_printf ("%d.%d.%d%s", major, minor, micro,
 #ifdef G_OS_WIN32
                                            "_Win"
 #else
@@ -350,7 +350,7 @@ define_scheme_constants (void)
   if (filename)
     g_free (filename);
 
-  g_print ("Denemo %s\n", denemo_version);
+  g_message ("Denemo version %s", denemo_version);
 
 #define DEF_SCHEME_STR(which, what, tooltip)\
   scm_c_define(which, scm_from_locale_string(what));
@@ -727,7 +727,7 @@ inner_main (void *files)
     initialize_keystroke_help ();
 
     if (audio_initialize (&Denemo.prefs))
-        g_error ("Failed to initialize audio or MIDI backends\n");
+        g_error ("Failed to initialize audio or MIDI backends");
 
     create_window ();
     installPalettes ();
@@ -812,7 +812,7 @@ inner_main (void *files)
   }
 
   if (Denemo.scheme_commands){
-    g_debug("Executing '%s\n'", Denemo.scheme_commands);
+    g_debug("Executing '%s'", Denemo.scheme_commands);
     call_out_to_guile (Denemo.scheme_commands);
   }
   
@@ -910,7 +910,7 @@ close_project (void)
   //gtk_widget_destroy (Denemo.page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
   gint index = g_list_index (Denemo.projects, oldproject);
   gtk_notebook_remove_page (GTK_NOTEBOOK (Denemo.notebook), index);
-  g_print ("Removed %d\n", index);
+  g_message ("Closing project %d", index);
   Denemo.projects = g_list_remove (Denemo.projects, oldproject);    //FIXME ?? or in the destroy callback??
   g_free (oldproject);
   if (Denemo.projects)

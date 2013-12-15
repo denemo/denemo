@@ -465,7 +465,6 @@ parseHistory (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
                   g_warning ("%s", err->message);
                   g_error_free (err);
                 }
-              g_debug ("Filename %s\n", tmp);
               g_queue_push_tail (prefs->history, g_strdup (file));
               g_free (tmp);
               g_free (file);
@@ -517,14 +516,14 @@ readxmlprefs (gchar * xmlsource, gboolean from_file)
   xmlDocPtr doc = NULL;
   xmlNodePtr rootElem;
   if (from_file)
-    printf ("Loading preference file: %s\n", xmlsource);
+    g_message ("Loading preference file: %s", xmlsource);
   if (from_file)
     doc = xmlParseFile (xmlsource);
   else
     doc = xmlReadMemory (xmlsource, strlen (xmlsource), "noname.xml", NULL, 0);
   if (doc == NULL)
     {
-      g_warning ("Could not read XML %s %s\n", from_file ? "File: " : ":\n", xmlsource);
+      g_warning ("Could not read XML %s %s", from_file ? "File: " : ":", xmlsource);
       return ret;
     }
 
@@ -774,7 +773,7 @@ readHistory ()
       xmlFreeDoc (doc);
       return ret;
     }
-  g_debug ("RootElem %s\n", rootElem->name);
+
   if (xmlStrcmp (rootElem->name, (const xmlChar *) "Denemo"))
     {
       g_warning ("Document has wrong type\n");
@@ -784,7 +783,6 @@ readHistory ()
   rootElem = rootElem->xmlChildrenNode;
   while (rootElem != NULL)
     {
-      g_debug ("RootElem 2 %s\n", rootElem->name);
       if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "History"))
         {
           parseHistory (doc, rootElem, &Denemo.prefs);

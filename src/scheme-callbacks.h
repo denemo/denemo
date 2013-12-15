@@ -812,5 +812,10 @@ SCM scheme_movementcontrol_directive_get_gy (SCM);
 SCM scheme_movementcontrol_directive_get_override (SCM);
 SCM scheme_movementcontrol_directive_get_width (SCM);
 SCM scheme_movementcontrol_directive_get_height (SCM);
-
+SCM scheme_log_debug(SCM message);
+SCM scheme_log_info(SCM message);
+SCM scheme_log_message(SCM message);
+SCM scheme_log_warning(SCM message);
+SCM scheme_log_critical(SCM message);
+SCM scheme_log_error(SCM message);
 #endif

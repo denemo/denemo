@@ -1118,4 +1118,11 @@ create_scheme_identfiers (void)
 
   install_scm_function (0, "Takes a string putting the scheme controlled status bar; with no argument it hides this  status bar", DENEMO_SCHEME_PREFIX "WriteStatus", scheme_write_status);
 
+  install_scm_function (1, "Display a debug message", DENEMO_SCHEME_PREFIX "Debug", scheme_log_debug);
+  install_scm_function (1, "Display an info message", DENEMO_SCHEME_PREFIX "Info", scheme_log_info);
+  install_scm_function (1, "Display a regular message", DENEMO_SCHEME_PREFIX "Message", scheme_log_message);
+  install_scm_function (1, "Display a warning message", DENEMO_SCHEME_PREFIX "Warning", scheme_log_warning);
+  install_scm_function (1, "Display a critical message", DENEMO_SCHEME_PREFIX "Critical", scheme_log_critical);
+  install_scm_function (1, "Display an error message and abort", DENEMO_SCHEME_PREFIX "Error", scheme_log_error);
+
 }
