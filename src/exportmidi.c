@@ -9,7 +9,7 @@
  * License: this file may be used under the FSF GPL version 3 or later
  */
 
-#define EXPORTMIDI_VERSION	"1.2"
+#define EXPORTMIDI_VERSION  "1.2"
 
 /*
  * The function exportmidi() writes a "Standard MIDI file" to disk.
@@ -58,11 +58,10 @@
 
 #include <denemo/denemo.h>
 #include "exportmidi.h"
-#include "smf.h"
 #include "instrumentname.h"
 #include "audiointerface.h"
 #include "view.h"
-
+#include "smf.h"
 /* 
  * only for developers
  */
@@ -71,12 +70,23 @@ static int debug = 0;
 
 /****************************************************************/
 
+
+/**
+ * some important midi command bytes
+ */
+
+#define MIDI_NOTE_OFF       0x80
+#define MIDI_NOTE_ON        0x90
+#define MIDI_PROG_CHANGE    0xc0
+#define MAX_TRACKS      16
+
+
 /*
  * support macros for exportmidi()
  */
 
 /* length, in ticks, of a quarter note */
-#define MIDI_RESOLUTION		384
+#define MIDI_RESOLUTION     384
 
 /* tick conversion */
 #define ticks2bars(t,u,l) (t/(MIDI_RESOLUTION*4*u/l))
@@ -140,9 +150,9 @@ string_to_vol (char *dynamic, int default_vol)
 /****************************************************************/
 
 /**
- *	unbiased random generator,
- *	
- *	returns a value within +- maxdev
+ *  unbiased random generator,
+ *  
+ *  returns a value within +- maxdev
  */
 /* UNUSED
 static int
@@ -165,8 +175,8 @@ i_random (int *accumulate, int maxdev)
 /****************************************************************/
 
 /**
- *	limit a value to be within limits
- *	(simple first approach)
+ *  limit a value to be within limits
+ *  (simple first approach)
  */
 /* UNUSED
 static int
@@ -232,7 +242,6 @@ midi_change_event (int type, int chan, int val)
   *buffer++ = val;
   return event;
 }
-
 
 /**
  * meta event: set time signature, time scale and metronome FF 58 04 nn dd cc bb Time Signature
@@ -334,18 +343,18 @@ dia_to_midinote (int offs)
  * constants used in note status table
  */
 
-#define FLG_CONNECT_B		0x01
-#define FLG_CONNECT_F		0x02
-#define FLG_SLUR_BEGIN		0x04
-#define FLG_SLUR_END		0x08
+#define FLG_CONNECT_B       0x01
+#define FLG_CONNECT_F       0x02
+#define FLG_SLUR_BEGIN      0x04
+#define FLG_SLUR_END        0x08
 
-#define FLG_NOTE_ON		0x10
-#define FLG_NOTE_OFF		0x20
-#define FLG_STACCATO		0x40
-#define FLG_STACCATISSIMO	0x80
+#define FLG_NOTE_ON     0x10
+#define FLG_NOTE_OFF        0x20
+#define FLG_STACCATO        0x40
+#define FLG_STACCATISSIMO   0x80
 
-#define FLG_TIED_F		0x100
-#define FLG_TIED_B		0x200
+#define FLG_TIED_F      0x100
+#define FLG_TIED_B      0x200
 
 /**
  * debug print-out of slur table
@@ -393,10 +402,10 @@ print_slurs (FILE * fd, int *tab, int status, int t_read, int t_written, char *t
 }
 #endif
 
-#define STATE_NONE	0
-#define STATE_FIRST	1
-#define	STATE_LAST	2
-#define STATE_THROUGH	3
+#define STATE_NONE  0
+#define STATE_FIRST 1
+#define STATE_LAST  2
+#define STATE_THROUGH   3
 
 /**
  * reset note status table and slur status
@@ -684,14 +693,6 @@ compute_beat (long ticks, long ticks_in_a_beat, long ticks_in_a_measure, int len
 */
 /****************************************************************/
 
-/**
- * some important midi command bytes
- */
-
-#define MIDI_NOTE_OFF		0x80
-#define MIDI_NOTE_ON		0x90
-#define MIDI_PROG_CHANGE	0xc0
-#define	MAX_TRACKS		16
 
 /* convert denemo time values to ticks */
 
@@ -700,12 +701,12 @@ compute_beat (long ticks, long ticks_in_a_beat, long ticks_in_a_measure, int len
 
 /* this is a real high-tech macro */
 
-#define percent(t,p)	((t*p)/100)
+#define percent(t,p)    ((t*p)/100)
 
 static int
 is_status_byte(const unsigned char status)
 {
-	return (status & 0x80);
+    return (status & 0x80);
 }
 
 /* puts an event into track if buffer contains valid midi message.
@@ -1190,10 +1191,10 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
 
 
         /*******************************************
-	 *	huge switch:
-	 * 	here we handle every kind of object
-	 * 	that seems relevant to us
-	 *******************************************/
+     *  huge switch:
+     *  here we handle every kind of object
+     *  that seems relevant to us
+     *******************************************/
               int tmpstaccato = 0, tmpstaccatissimo = 0;
               gboolean skip_midi = FALSE;
 
@@ -1201,8 +1202,8 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                 {
                 case CHORD:
           /******************** 
-	   * one or more notes
-	   ********************/
+       * one or more notes
+       ********************/
 
 
                   measure_is_empty = 0;
@@ -1265,8 +1266,8 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                     break;
 
           /***********************************
-	   * compute nominal duration of note 
-	   ***********************************/
+       * compute nominal duration of note 
+       ***********************************/
 
                   numdots = chordval.numdots;
                   duration = 0;
@@ -1302,8 +1303,8 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                     duration = curobj->durinticks;
 
           /********************************
-	   * compute real duration of note
-	   ********************************/
+       * compute real duration of note
+       ********************************/
 #if 0
                   //this is not working - it causes the delta to be -ve later
                   for (tmp = chordval.ornamentlist; tmp; tmp = tmp->next)
@@ -1352,8 +1353,8 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                         midi_channel = 9;
 
             /**************************
-	     * prepare for note output
-	     **************************/
+         * prepare for note output
+         **************************/
 
                       notes_in_chord = 0;
                       if (debug)
@@ -1366,8 +1367,8 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                       //beat = compute_beat (ticks_read - ticks_at_bar, beats2ticks (1, timesigupper, timesiglower), bars2ticks (1, timesigupper, timesiglower), duration, vel_beatfact);
 
             /************************
-	     * begin chord read loop 
-	     ************************/
+         * begin chord read loop 
+         ************************/
 
                       for (curtone = chordval.notes; curtone; curtone = curtone->next)
                         {
@@ -1408,8 +1409,8 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                       print_slurs (stderr, note_status, slur_status, ticks_read, ticks_written, "after chord read");
 #endif
             /****************************
-	     * start note-on output loop
-	     ****************************/
+         * start note-on output loop
+         ****************************/
 
                       /* kill old slurs and ties */
                       /* start new notes */
@@ -1472,8 +1473,8 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                       print_slurs (stderr, note_status, slur_status, ticks_read, ticks_written, "after loop1");
 #endif
             /*****************************
-	     * start note-off output loop
-	     *****************************/
+         * start note-off output loop
+         *****************************/
 
                       /* kill untied notes */
 
@@ -1537,8 +1538,8 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                 case TIMESIG:
 
           /************************
-	   * time signature change
-	   ************************/
+       * time signature change
+       ************************/
 
                   if (ticks_read != ticks_at_bar)
                     {
@@ -1561,8 +1562,8 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                 case TUPOPEN:
 
           /***************
-	   * tuplet begin
-	   ***************/
+       * tuplet begin
+       ***************/
 
                   switch (tuplet)
                     {
@@ -1586,8 +1587,8 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                 case TUPCLOSE:
 
           /*************
-	   * tuplet end
-	   *************/
+       * tuplet end
+       *************/
 
                   tuplet--;
                   switch (tuplet)
@@ -1613,8 +1614,8 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                 case DYNAMIC:
 
           /********************
-	   * dynamic directive
-	   ********************/
+       * dynamic directive
+       ********************/
 
                   cur_volume = string_to_vol (((dynamic *) curobj->object)->type->str, cur_volume);
                   curobj->earliest_time = curobj->latest_time = event->time_seconds;    //the last event
@@ -1634,8 +1635,8 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                 case CLEF:
 
           /***********
-	   * ignored!
-	   ***********/
+       * ignored!
+       ***********/
 
                   break;
 
