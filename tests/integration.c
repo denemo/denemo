@@ -135,7 +135,7 @@ test_scheme_log_error(gpointer fixture, gconstpointer data)
 {
   if (g_test_trap_fork (0, 0))
     {
-      execl(DENEMO, DENEMO, "-n", "--fatal-scheme-errors", "-a", "(d-LogError \"This error is fatal\")(d-Quit)", NULL);
+      execl(DENEMO, DENEMO, "-n", "--fatal-scheme-errors", "-a", "(d-Error \"This error is fatal\")(d-Quit)", NULL);
       g_warn_if_reached ();
     }
   g_test_trap_assert_failed ();
