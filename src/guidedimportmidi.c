@@ -228,26 +228,26 @@ create_staff (gint track)
   return 1;
 }
 
-/* create the smf for the recorded track if it does not already belong to it
- * this happens when the user records MIDI using a MIDI controller 
+/* create the global smf for the recorded track if it does not already belong to it
+ * this happens when the user records MIDI using a MIDI controller, add the track and set user_pointer to -1 to indicate that the smf is for recorded MIDI
  * otherwise add it to smf, or if already present in smf (user_pointer points to track number) re-attach so that smf can be used. */
 static void ensure_smf (void) {
-    
     if (Denemo.project->si->recorded_midi_track) 
     {   smf_track_t *track = Denemo.project->si->recorded_midi_track;
         if(smf==NULL)
         {
             smf = smf_new ();
             smf_add_track (smf, track);
-            
+            track->user_pointer = GINT_TO_POINTER(-1);
         }
         else
         {
-            if(track->user_pointer == NULL)
+            if( GPOINTER_TO_INT(track->user_pointer) <= 0)
               {
-                track->smf = NULL;
-                smf_add_track (smf, track);
-                track->user_pointer = track->track_number;  
+                //the track is recorded MIDI which has been added and then removed from the play midi si->smf  
+                track->smf = smf;
+               // smf_add_track (smf, track);
+               // track->user_pointer = track->track_number;  
               }
             else
               track->smf = smf;
