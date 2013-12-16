@@ -93,7 +93,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
         {
           if (cur->xmlChildrenNode == NULL)
             {
-              g_warning ("Empty children node found in keymap file\n");
+              g_warning ("Empty children node found in keymap file");
             }
           else
             {
@@ -111,10 +111,10 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
         {
           if (name)
             command_number = lookup_command_from_name (the_keymap, (gchar *) name);
-          //g_print("Found bind node for action %s %d\n", name, command_number);
+          //g_debug("Found bind node for action %s %d\n", name, command_number);
           if (cur->xmlChildrenNode == NULL)
             {
-              g_warning ("Empty <bind><\\bind> found in commandset file\n");
+              g_warning ("Empty <bind><\\bind> found in commandset file");
             }
           else
             {
@@ -122,7 +122,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
               if (name && tmp)
                 {
                   gchar *gtk_binding = translate_binding_dnm_to_gtk ((gchar *) tmp);
-                  //g_print("gtk_binding is %s\n", gtk_binding);
+                  //g_debug("gtk_binding is %s\n", gtk_binding);
                   if (gtk_binding)
                     {
                       keyval = 0;
@@ -150,7 +150,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
                     }
                   else
                     {
-                      g_print ("No gtk equivalent for shortcut %s\n", tmp);
+                      g_warning ("No gtk equivalent for shortcut %s", tmp);
                     }
                   xmlFree (tmp);
                 }
@@ -185,7 +185,7 @@ parseCursorBinding (xmlDocPtr doc, xmlNodePtr cur)
               xmlFree (tmp);
             }
           assign_cursor (state, cursor_num);
-          // g_print("type is %s\n",g_type_name(G_TYPE_FROM_INSTANCE(Denemo.window->window)));
+          //g_debug("type is %s\n",g_type_name(G_TYPE_FROM_INSTANCE(Denemo.window->window)));
           // set_cursor_for(state);
         }
     }
@@ -285,14 +285,14 @@ load_xml_keymap (gchar * filename)
   rootElem = xmlDocGetRootElement (doc);
   if (rootElem == NULL)
     {
-      g_warning ("Empty Document\n");
+      g_warning ("Empty Document");
       xmlFreeDoc (doc);
       return ret;
     }
 
   if (xmlStrcmp (rootElem->name, COMMANDXML_TAG_ROOT))
     {
-      g_warning ("Document has wrong type\n");
+      g_warning ("Document has wrong type");
       xmlFreeDoc (doc);
       return ret;
     }
@@ -359,14 +359,14 @@ load_xml_keybindings (gchar * filename)
   rootElem = xmlDocGetRootElement (doc);
   if (rootElem == NULL)
     {
-      g_warning ("Empty Document\n");
+      g_warning ("Empty Document");
       xmlFreeDoc (doc);
       return ret;
     }
-  //g_print ("RootElem %s\n", rootElem->name);
+  //g_debug ("RootElem %s\n", rootElem->name);
   if (xmlStrcmp (rootElem->name, COMMANDXML_TAG_ROOT))
     {
-      g_warning ("Document has wrong type\n");
+      g_warning ("Document has wrong type");
       xmlFreeDoc (doc);
       return ret;
     }
@@ -572,7 +572,7 @@ save_xml_keybindings (gchar * filename)
 static void
 show_type (GtkWidget * widget, gchar * message)
 {
-  g_print ("%s%s\n", message, widget ? g_type_name (G_TYPE_FROM_INSTANCE (widget)) : "NULL widget");
+  g_message ("%s%s", message, widget ? g_type_name (G_TYPE_FROM_INSTANCE (widget)) : "NULL widget");
 }
 */
 /* not used */
@@ -615,11 +615,11 @@ parseMenu (xmlNodePtr rootElem, gchar * path, DenemoProject * gui)
                   g_object_set_data (G_OBJECT (widget), "menupath", str);
                   // we do this in menu_click when needed create_dir_for_menu(str);//FIXME we only need do this once for a given denemoui.xml
                   //show_type(widget, "The type is ");
-                  //g_print("set %p %s\n",widget, str);
+                  //g_debug("set %p %s\n",widget, str);
                   parseMenu (rootElem, str, gui);
                 }
               else
-                g_warning ("no object for %s\n", str);
+                g_warning ("no object for %s", str);
             }
 
         }
@@ -632,7 +632,7 @@ parseMenu (xmlNodePtr rootElem, gchar * path, DenemoProject * gui)
               GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, str);
               g_free (str);
               //show_type(widget, "The type is ");
-              //g_print("set %p %s\n",widget, path);
+              //g_debug("set %p %s\n",widget, path);
               if (widget)
                 {
                   g_object_set_data (G_OBJECT (widget), "menupath", g_strdup (path));
@@ -668,14 +668,14 @@ parse_paths (gchar * filename, DenemoProject * gui)
   rootElem = xmlDocGetRootElement (doc);
   if (rootElem == NULL)
     {
-      g_warning ("Empty Document\n");
+      g_warning ("Empty Document");
       xmlFreeDoc (doc);
       return ret;
     }
 
   if (xmlStrcmp (rootElem->name, (const xmlChar *) "ui"))
     {
-      g_warning ("Document has wrong type\n");
+      g_warning ("Document has wrong type");
       xmlFreeDoc (doc);
       return ret;
     }

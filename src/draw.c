@@ -231,7 +231,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
   DenemoMovement *si = gui->si;
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
 
-  //g_print("draw obj %d %d\n", mudelaitem->x, y);
+  //g_debug("draw obj %d %d\n", mudelaitem->x, y);
   //this is the selection being given a colored background
   if (cr)
     if (itp->mark)
@@ -244,7 +244,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
       }
       
       
-  //g_print("%p %p %f %f %f\n", Denemo.project->si->playingnow, mudelaitem, Denemo.project->si->playhead,  mudelaitem->earliest_time, mudelaitem->latest_time );
+  //g_debug("%p %p %f %f %f\n", Denemo.project->si->playingnow, mudelaitem, Denemo.project->si->playhead,  mudelaitem->earliest_time, mudelaitem->latest_time );
 
   // draw playhead as yellowish background
   if (Denemo.project->si->playingnow == mudelaitem)
@@ -268,7 +268,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
   if (mudelaitem == itp->startobj) {
 	
     itp->startposition = x + mudelaitem->x/* + mudelaitem->minpixelsalloted*/;
-    // if(curobj->prev==NULL) g_print("item %p at %d\n", curobj, x+mudelaitem->x), itp->startposition -= mudelaitem->minpixelsalloted;
+    // if(curobj->prev==NULL) g_debug("item %p at %d\n", curobj, x+mudelaitem->x), itp->startposition -= mudelaitem->minpixelsalloted;
 	}
 
   if (mudelaitem == itp->endobj)
@@ -304,7 +304,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
         if ((thechord->highesty) < itp->highy)
           itp->highy = thechord->highesty;
         itp->highy = MIN (itp->highy, highest);
-        //g_print("highy %d\n", itp->highy);
+        //g_debug("highy %d\n", itp->highy);
         if ((thechord->lowesty) > itp->lowy + STAFF_HEIGHT)
           itp->lowy = thechord->lowesty - STAFF_HEIGHT;
  
@@ -368,7 +368,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 				if(g==si->marked_onset) 
 				{	
 					cairo_save (cr);
-					cairo_set_source_rgba (cr, 0, 0.5, 0, 1);//g_print("marked offset %2.2f seconds ", midinote->timing/(double)si->recording->samplerate);
+					cairo_set_source_rgba (cr, 0, 0.5, 0, 1);//g_debug("marked offset %2.2f seconds ", midinote->timing/(double)si->recording->samplerate);
 				} else 
 				if (si->playingnow)
 					{
@@ -441,16 +441,16 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 				draw_note_onset(cr, pos + x - extra_width, glyph, (g==si->marked_onset));
 
 				if(g==si->marked_onset) 
-					{//g_print("fraction = %f; notewidth = %d ", fraction, notewidth);
+					{//g_debug("fraction = %f; notewidth = %d ", fraction, notewidth);
 						cairo_restore (cr);
 					}
 				if(si->marked_onset_position && ABS((gint)(pos + x - si->marked_onset_position))<20) 
 					{
 					si->marked_onset = g; 
-					si->marked_onset_position = 0; //g_print("Found selected onset\n\n");
+					si->marked_onset_position = 0; //g_debug("Found selected onset\n\n");
 					}
 					
-				//if(g==itp->onset) g_print("First onset at %d %d %d %d\n", pos, x, si->marked_onset_position, notewidth);
+				//if(g==itp->onset) g_debug("First onset at %d %d %d %d\n", pos, x, si->marked_onset_position, notewidth);
 					
 				
 				g = g->next;
@@ -846,11 +846,11 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
   gint x = KEY_MARGIN, i;
 
   // if(si->marked_onset_position)
-	//g_print("repeat"),repeat = TRUE;//we set up the marked onset with this, then need to repeat to draw it
-  //g_print("drawing staff %d at %d\n", itp->staffnum, y);
+	//g_debug("repeat"),repeat = TRUE;//we set up the marked onset with this, then need to repeat to draw it
+  //g_debug("drawing staff %d at %d\n", itp->staffnum, y);
   gint nummeasures = g_list_length (thestaff->measures);
  
-  // g_print("Of %d current %d\n", nummeasures, itp->measurenum);
+  //g_debug("Of %d current %d\n", nummeasures, itp->measurenum);
   if (itp->measurenum > nummeasures)
     cr = NULL;                  //no more drawing on this staff
   if (cr)
@@ -969,7 +969,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
   /* Loop that will draw each measure. Basically a for loop, but was uglier
    * when written that way.  */
   itp->curmeasure = g_list_nth (thestaff->measures, itp->measurenum - 1);
-  // g_print("measurenum %d\nx=%d\n", itp->measurenum, x);
+  //g_debug("measurenum %d\nx=%d\n", itp->measurenum, x);
 
   //FIX in measureops.c for case where si->measurewidths is too short
   itp->mwidthiterator = g_list_nth (si->measurewidths, itp->measurenum - 1);
@@ -986,7 +986,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
         else
           itp->leftmosttime = 1000000.0;
       }
-    //g_print("Drawing staff %d leftmost time %f, measurenum %d\n",itp->staffnum, itp->leftmosttime, itp->measurenum);
+    //g_debug("Drawing staff %d leftmost time %f, measurenum %d\n",itp->staffnum, itp->leftmosttime, itp->measurenum);
   }
 
   if (!*itp->scale)
@@ -1060,12 +1060,12 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
       itp->mwidthiterator = itp->mwidthiterator->next;
 
       itp->measurenum++;
-      //g_print("line_end is %d, while itp->measurenum=%d and si->rightmeasurenum=%d\n",  itp->line_end, itp->measurenum, si->rightmeasurenum);
+      //g_debug("line_end is %d, while itp->measurenum=%d and si->rightmeasurenum=%d\n",  itp->line_end, itp->measurenum, si->rightmeasurenum);
       if (!itp->line_end)
         {
           if (-itp->highy > itp->in_highy && -itp->highy < MAXEXTRASPACE)
             {
-              //g_print("With %d to change %d\n", -itp->highy, itp->in_highy);
+              //g_debug("With %d to change %d\n", -itp->highy, itp->in_highy);
               thestaff->space_above = -itp->highy;
               repeat = TRUE;
             }
@@ -1149,7 +1149,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
 static void
 print_system_separator (cairo_t * cr, gdouble position)
 {
-  //g_print("At %f for %d\n", position, Denemo.scorearea->allocation.height);
+  //g_debug("At %f for %d\n", position, Denemo.scorearea->allocation.height);
 #define SYSTEM_SEP (6)
   cairo_save (cr);
   cairo_set_source_rgb (cr, 0.5, 0.0, 0.0);
@@ -1168,7 +1168,7 @@ draw_playback_marker (cairo_t * cr, gint color, gint pos, gint yy, gint line_hei
 {
   if (!Denemo.prefs.playback_controls)
     return;
-  //g_print("drawing marker %x at %d %d %d\n", color, pos, yy, line_height);
+  //g_debug("drawing marker %x at %d %d %d\n", color, pos, yy, line_height);
   cairo_save (cr);
   cairo_set_line_width (cr, 4.0);
   switch (color)
@@ -1222,7 +1222,7 @@ schedule_draw (gint * flip_count)
   if (*flip_count == -1)
     return FALSE;
   *flip_count += 1;
-  //g_print("flip count %d\n", *flip_count);
+  //g_debug("flip count %d\n", *flip_count);
   if (*flip_count > MAX_FLIP_STAGES)
     {
       return FALSE;
@@ -1239,7 +1239,7 @@ schedule_draw (gint * flip_count)
  */
 gboolean
 draw_score (cairo_t * cr)
-{                               //g_print("draw_score %p\n", cr);
+{                               //g_debug("draw_score %p\n", cr);
   staffnode *curstaff;
   gint y = 0;
   struct infotopass itp;
@@ -1251,7 +1251,7 @@ draw_score (cairo_t * cr)
   static gint flip_count;       //passed to a timer to indicate which stage of animation of page turn should be used when re-drawing, -1 means not animating 0+ are the stages
   /* Initialize some fields in itp */
 
-  //g_print("Printing for %d\n", flip_count);
+  //g_debug("Printing for %d\n", flip_count);
   itp.slur_stack = NULL;
   itp.hairpin_stack = NULL;
   itp.source_displayed = FALSE;
@@ -1271,10 +1271,10 @@ draw_score (cairo_t * cr)
   if (gui->si->smf)
     {
       itp.startobj = Startobj;
-      // g_print("start %p\n", itp.startobj);
+      //g_debug("start %p\n", itp.startobj);
 
       itp.endobj = Endobj;
-      //g_print("Start time %p %f end time %p %f\n", itp.startobj, si->start_time, itp.endobj, si->end_time);
+      //g_debug("Start time %p %f end time %p %f\n", itp.startobj, si->start_time, itp.endobj, si->end_time);
     }
   if (cr)
     cairo_translate (cr, movement_transition_offset (), 0);
@@ -1300,7 +1300,7 @@ draw_score (cairo_t * cr)
       if (curstaff && staff->voicecontrol & DENEMO_PRIMARY)
         y += staff->space_above;
 
-      //g_print("Incrementing vertically %d\n", y);
+      //g_debug("Incrementing vertically %d\n", y);
       itp.space_above = staff->space_above;
       gint top_y = (si->staffspace / 4) + itp.space_above;
 
@@ -1423,7 +1423,7 @@ draw_score (cairo_t * cr)
 
       gint system_num;
       system_num = 1;
-      // g_print("Drawn staffnum %d, at %d %s.\n", itp.staffnum,  y, itp.line_end?" another line":"End");
+      //g_debug("Drawn staffnum %d, at %d %s.\n", itp.staffnum,  y, itp.line_end?" another line":"End");
 
       if (cr)
         if (itp.staffnum == si->top_staff)
@@ -1460,9 +1460,9 @@ draw_score (cairo_t * cr)
 
           }                     //end while printing out all the systems for this staff
 
-        //g_print("staff num %d measure %d playhead %f left time %f\nheight %d system_num %d\n", itp.staffnum,itp.measurenum, si->playhead, itp.leftmosttime, yy, system_num);
+        //g_debug("staff num %d measure %d playhead %f left time %f\nheight %d system_num %d\n", itp.staffnum,itp.measurenum, si->playhead, itp.leftmosttime, yy, system_num);
 
-        si->rightmost_time = itp.rightmosttime;//g_print("Setting rightmost time to %f\n", si->rightmost_time);
+        si->rightmost_time = itp.rightmosttime;//g_debug("Setting rightmost time to %f\n", si->rightmost_time);
 
         if ((system_num > 2) && Denemo.project->si->playingnow && (si->playhead > leftmost) && itp.measurenum <= g_list_length (((DenemoStaff *) curstaff->data)->measures) /*(itp.measurenum > (si->rightmeasurenum+1)) */ )
           {
@@ -1488,10 +1488,10 @@ draw_score (cairo_t * cr)
               {
                 flip = 0.1;
                 flip_count = 0;
-                //g_print("Adding timeout");
+                //g_debug("Adding timeout");
                 g_timeout_add (1000 / MAX_FLIP_STAGES, (GSourceFunc) schedule_draw, &flip_count);
               }
-            // g_print("drawing %d\n", flip_count);
+            //g_debug("drawing %d\n", flip_count);
             if (flip_count > 0 && flip_count < MAX_FLIP_STAGES)
               flip = flip_count / (gdouble) MAX_FLIP_STAGES;
             if (cr)
@@ -1510,11 +1510,11 @@ draw_score (cairo_t * cr)
           {
             if (flip_count != -1)
               repeat = TRUE;
-            //g_print("Repeating %d\n", repeat);
+            //g_debug("Repeating %d\n", repeat);
             flip_count = -1;
           }
        //   if(itp.rightmosttime != si->rightmost_time)
-		//		g_print("Resetting %f %f? ",itp.rightmosttime, si->rightmost_time);
+		//		g_debug("Resetting %f %f? ",itp.rightmosttime, si->rightmost_time);
         // itp.rightmosttime = si->rightmost_time;//We want to ignore the rightmost_time of the flipped over top system that belongs to the next page
          
       }                         //end of block printing continuations
@@ -1531,7 +1531,7 @@ draw_score (cairo_t * cr)
       curstaff = curstaff->next;
     }                           // for all the staffs
 
-  //g_print("Right most time %f\n", si->rightmost_time);
+  //g_debug("Right most time %f\n", si->rightmost_time);
   //  if(itp.last_midi)
   //  si->rightmost_time = get_midi_off_time(itp.last_midi);
  
@@ -1549,10 +1549,10 @@ draw_callback (cairo_t * cr)
 {
   DenemoProject *gui = Denemo.project;
 
-  //g_print("expose\n");
+  //g_debug("expose\n");
   if ((!Denemo.project->si) || (!Denemo.project->si->currentmeasure))
     {
-      g_warning ("Cannot draw!\n");
+      g_warning ("Cannot draw!");
       return TRUE;
     }
 

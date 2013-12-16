@@ -136,7 +136,7 @@ for ((childElem) = (parentElem)->xmlChildrenNode; \
 	if(label && tooltip && script)
 		palette_add_button (pal, label, tooltip, script);
 	else 
-		g_warning ("Bad value for button in palettes.xml %s %s %s\n", label, tooltip, script);
+		g_warning ("Bad value for button in palettes.xml %s %s %s", label, tooltip, script);
   }
 	 
 	 
@@ -221,15 +221,15 @@ installPalettes (void)
   rootElem = xmlDocGetRootElement (doc);
   if (rootElem == NULL)
     {
-      g_warning ("Empty Document\n");
+      g_warning ("Empty Document");
       xmlFreeDoc (doc);
       return -1;
     }
 
- // g_print ("RootElem: %s\n", rootElem->name);
+ //g_debug ("RootElem: %s\n", rootElem->name);
   if (0 != xmlStrcmp (rootElem->name, (xmlChar*) "Denemo"))
     {
-      g_warning ("Document has wrong type\n");
+      g_warning ("Document has wrong type");
       xmlFreeDoc (doc);
       return -1;
     }
@@ -237,7 +237,7 @@ installPalettes (void)
   rootElem = rootElem->xmlChildrenNode;
   while (rootElem != NULL)
     {
-     // g_print ("RootElem %s\n", rootElem->name);
+     //g_debug ("RootElem %s\n", rootElem->name);
       if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "palette"))
         {         
 		  install_palette (rootElem);
@@ -272,15 +272,15 @@ mergePalette (const gchar *name)
   rootElem = xmlDocGetRootElement (doc);
   if (rootElem == NULL)
     {
-      g_warning ("Empty Document\n");
+      g_warning ("Empty Document");
       xmlFreeDoc (doc);
       return -1;
     }
 
- // g_print ("RootElem: %s\n", rootElem->name);
+ //g_debug ("RootElem: %s\n", rootElem->name);
   if (0 != xmlStrcmp (rootElem->name, (xmlChar*) "Denemo"))
     {
-      g_warning ("Document has wrong type\n");
+      g_warning ("Document has wrong type");
       xmlFreeDoc (doc);
       return -1;
     }

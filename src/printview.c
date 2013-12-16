@@ -20,7 +20,7 @@ file_get_mtime (gchar * filename)
   struct stat thebuf;
   g_stat (filename, &thebuf);
   unsigned mtime = thebuf.st_mtime;
-  // g_print("the mt is %u %u\n", mtime, thebuf.st_mtim.tv_nsec);
+  // g_debug("the mt is %u %u\n", mtime, thebuf.st_mtim.tv_nsec);
   return mtime;
 }
 
@@ -48,7 +48,7 @@ printop_done (EvPrintOperation * printop, G_GNUC_UNUSED GtkPrintOperationResult 
     g_object_unref (*psettings);
   *psettings = ev_print_operation_get_print_settings (printop);
   g_object_ref (*psettings);
-  //g_print("Came away with uri %s\n", gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI));
+  //g_debug("Came away with uri %s\n", gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI));
   set_current_scoreblock_uri (g_strdup (gtk_print_settings_get (*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI)));
   if (get_print_status()->background & STATE_PAUSED)
     {
@@ -70,7 +70,7 @@ libevince_print (void)
 
   if (err)
     {
-      g_warning ("Malformed filename %s\n", filename);
+      g_warning ("Malformed filename %s", filename);
       return -1;
     }
 
@@ -358,7 +358,7 @@ overdraw_print (cairo_t * cr)
       cairo_move_to (cr, get_wysiwyg_info()->Mark.x, get_wysiwyg_info()->Mark.y);
       cairo_line_to (cr, get_wysiwyg_info()->curx, get_wysiwyg_info()->cury);
       cairo_stroke (cr);
-      //g_print("grob is %d %d\n\n\n\n", get_wysiwyg_info()->grob, OBJ_NONE);
+      //g_debug("grob is %d %d\n\n\n\n", get_wysiwyg_info()->grob, OBJ_NONE);
       if (Denemo.pixbuf)
         {
           if(get_wysiwyg_info()->grob==OBJ_NONE) {
@@ -416,7 +416,7 @@ set_printarea (GError ** err)
 {
   GFile *file;
   gchar *filename = get_print_status()->printname_pdf[get_print_status()->cycle];
-  //g_print("using %s\n", filename);
+  //g_debug("using %s\n", filename);
   if (get_print_status()->invalid == 0)
     get_print_status()->invalid = (g_file_test (filename, G_FILE_TEST_EXISTS)) ? 0 : 3;
   file = g_file_new_for_commandline_arg (filename);
@@ -448,7 +448,7 @@ printview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean 
 {
   progressbar_stop ();
   g_spawn_close_pid (get_print_status()->printpid);
-  //g_print("background %d\n", get_print_status()->background);
+  //g_debug("background %d\n", get_print_status()->background);
   if (get_print_status()->background == STATE_NONE)
     {
       call_out_to_guile ("(FinalizeTypesetting)");
@@ -491,7 +491,7 @@ typeset (gboolean force)
     {
       if (initialize_typesetting ())
         {
-          g_warning ("InitializeTypesetting failed\n");
+          g_warning ("InitializeTypesetting failed");
           return FALSE;
         }
       DenemoProject *gui = Denemo.project;
@@ -512,7 +512,7 @@ typeset_movement (gboolean force)
     {
       if (initialize_typesetting ())
         {
-          g_warning ("InitializeTypesetting failed\n");
+          g_warning ("InitializeTypesetting failed");
           return FALSE;
         }
       DenemoProject *gui = Denemo.project;
@@ -605,7 +605,7 @@ thumb_finished ()
       //struct stat thebuf;
       //gint status =  g_stat(Denemo.project->filename->str, &thebuf);
       // unsigned mtime = thebuf.st_mtime;
-      //g_print("the mt is %u\n", mtime);
+      //g_debug("the mt is %u\n", mtime);
 
 
 
@@ -614,10 +614,10 @@ thumb_finished ()
 
       gchar *mt = g_strdup_printf ("%u", mtime);
       if (!gdk_pixbuf_save (pbN, thumbpathN, "png" /*type */ , &err, "tEXt::Thumb::URI", uri, "tEXt::Thumb::MTime", mt, NULL))
-        g_print ("%s\n", err->message);
+        g_warning (err->message);
       err = NULL;
       if (!gdk_pixbuf_save (pbL, thumbpathL, "png" /*type */ , &err, "tEXt::Thumb::URI", uri, "tEXt::Thumb::MTime", mt, NULL))
-        g_print ("%s\n", err->message);
+        g_warning (err->message);
 
       //FIXME do the pbN L need freeing???
       g_free (uri);
@@ -629,7 +629,7 @@ thumb_finished ()
   g_free (printname);
   get_print_status()->printpid = GPID_NONE;
   progressbar_stop ();
-  //g_print("Set get_print_status()->printpid = %d\n", get_print_status()->printpid);
+  //g_debug("Set get_print_status()->printpid = %d\n", get_print_status()->printpid);
 }
 
 // large_thumbnail_name takes a full path name to a .denemo file and returns the full path to the large thumbnail of that .denemo file. Caller must g_free the returned string
@@ -759,7 +759,7 @@ get_offset (gdouble * offsetx, gdouble * offsety)
 //here if figured bass adjust for center
 //get_center_staff_offset. Instead in wysiwyg.scm I have used do-center-relative-offset
      gdouble nearadjust = get_center_staff_offset ();
-g_print("Adjusting %f by %f\n", *offsety, (nearadjust / scale));
+g_info("Adjusting %f by %f\n", *offsety, (nearadjust / scale));
       *offsety -= (nearadjust / scale);
 
 #endif
@@ -877,7 +877,7 @@ get_curve (gdouble * x1, gdouble * y1, gdouble * x2, gdouble * y2, gdouble * x3,
       scale *= (staffsize / 4); //Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
       goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object);  //the cursor to the slur-begin note.
       //!!! is pos set up?
-      g_print ("Reference is %f %f %d %d\n", get_wysiwyg_info()->Reference.x, get_wysiwyg_info()->Reference.y, get_wysiwyg_info()->Curve.p4.x, get_wysiwyg_info()->Curve.p4.y);
+      g_debug ("Reference is %f %f %d %d\n", get_wysiwyg_info()->Reference.x, get_wysiwyg_info()->Reference.y, get_wysiwyg_info()->Curve.p4.x, get_wysiwyg_info()->Curve.p4.y);
       *x1 = (get_wysiwyg_info()->Curve.p1.x - get_wysiwyg_info()->Reference.x) / scale;
       *y1 = -(get_wysiwyg_info()->Curve.p1.y - get_wysiwyg_info()->Reference.y) / scale;
 
@@ -908,7 +908,7 @@ gboolean
 get_new_target (void)
 {
   get_wysiwyg_info()->stage = SelectingNearEnd;
-  g_print ("Starting main");
+  g_debug ("Starting main");
   gtk_main ();
   if (get_wysiwyg_info()->stage == SelectingNearEnd)     //should have changed, but user cancelled
     return FALSE;
@@ -921,7 +921,7 @@ gboolean
 get_new_point (void)
 {
   get_wysiwyg_info()->stage = SelectingPoint;
-  g_print ("Starting main");
+  g_debug ("Starting main");
   gtk_main ();
   if (get_wysiwyg_info()->stage == SelectingPoint)       //should have changed, but user cancelled
     return FALSE;
@@ -1056,7 +1056,7 @@ copy_pdf (void)
             }
           else
             {
-              g_print ("I have copied %s to %s (default was %s)\n", get_print_status()->printname_pdf[get_print_status()->cycle], filename, outname);
+              g_debug ("I have copied %s to %s (default was %s)\n", get_print_status()->printname_pdf[get_print_status()->cycle], filename, outname);
             }
           g_free (contents);
         }
@@ -1109,11 +1109,11 @@ static gint
 action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
 {
 #ifdef G_OS_WIN32
-  g_print ("Signal from evince widget received %d %d\n", get_wysiwyg_info()->grob, get_wysiwyg_info()->stage);
+  g_debug ("Signal from evince widget received %d %d\n", get_wysiwyg_info()->grob, get_wysiwyg_info()->stage);
 #endif
-  //g_print("Link action Mark at %f, %f\n", get_wysiwyg_info()->Mark.x, get_wysiwyg_info()->Mark.y);
+  //g_debug("Link action Mark at %f, %f\n", get_wysiwyg_info()->Mark.x, get_wysiwyg_info()->Mark.y);
   gchar *uri = (gchar *) ev_link_action_get_uri (obj);
-  //g_print("Stage %d\n", get_wysiwyg_info()->stage);
+  //g_debug("Stage %d\n", get_wysiwyg_info()->stage);
   if ((get_wysiwyg_info()->stage == SelectingPoint) || (get_wysiwyg_info()->stage == Dragging1) || (get_wysiwyg_info()->stage == Dragging2) || (get_wysiwyg_info()->stage == Dragging3) || (get_wysiwyg_info()->stage == Dragging4))
     return TRUE;
   if ((get_wysiwyg_info()->stage == WaitingForDrag) || (get_wysiwyg_info()->grob == Slur && (get_wysiwyg_info()->stage == SelectingFarEnd)))
@@ -1128,9 +1128,9 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
       return TRUE;              //?Better take over motion notify so as not to get this while working ...
     }
 #ifdef G_OS_WIN32
-  g_print ("action_for_link: uri %s\n", uri);
+  g_debug ("action_for_link: uri %s\n", uri);
 #endif
-  //g_print("acting on external signal %s type=%d directivenum=%d\n", uri, Denemo.project->si->target.type, Denemo.project->si->target.directivenum);
+  //g_debug("acting on external signal %s type=%d directivenum=%d\n", uri, Denemo.project->si->target.type, Denemo.project->si->target.directivenum);
   if (uri)
     {
       gchar **orig_vec = g_strsplit (uri, ":", 6);
@@ -1142,7 +1142,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
           DenemoTarget old_target = Denemo.project->si->target;
           get_wysiwyg_info()->ObjectLocated = goto_lilypond_position (atoi (vec[2]), atoi (vec[3]));     //sets si->target
 #ifdef G_OS_WIN32
-          g_print ("action_for_link: object located %d\n", get_wysiwyg_info()->ObjectLocated);
+          g_debug ("action_for_link: object located %d\n", get_wysiwyg_info()->ObjectLocated);
 #endif
           if (get_wysiwyg_info()->ObjectLocated)
             {
@@ -1156,7 +1156,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
             }
           else
             get_wysiwyg_info()->repeatable = FALSE;
-          //g_print("Target type %d\n", Denemo.project->si->target.type); 
+          //g_debug("Target type %d\n", Denemo.project->si->target.type); 
 
           if ((get_wysiwyg_info()->stage == SelectingNearEnd))
             return TRUE;
@@ -1190,7 +1190,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
                       }
                     break;
                   case TARGET_CHORD:
-                    g_print ("Chord directives may be not done");
+                    g_debug ("Chord directives may be not done");
                     if (Denemo.project->si->target.directivenum)
                       {
                         //directive = get_chord_directive_number(Denemo.project->si->target.directivenum);
@@ -1200,7 +1200,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
                             directive = (DenemoDirective *) g_list_nth_data (thechord->directives, Denemo.project->si->target.directivenum - 1);
                             if (directive && directive->tag)
                               {
-                                g_print ("Found %s\n", directive->tag->str);
+                                g_debug ("Found %s", directive->tag->str);
                                 //This is things like ToggleTrill ToggleCoda which require different offsets to their center
                                 get_wysiwyg_info()->grob = Articulation;
                               }
@@ -1210,7 +1210,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
 
                     break;
                   case TARGET_SLUR:
-                    //g_print("taking action on slur...");
+                    //g_debug("taking action on slur...");
                     if (get_wysiwyg_info()->repeatable && get_wysiwyg_info()->task == Positions)
                       {
                         if (confirm (_("Slur Angle/Position"), _("Repeat Slur Positioning Hint?")))
@@ -1267,12 +1267,12 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
         }
       else
         {
-          g_warning ("Cannot follow link type %s\n", orig_vec[0]);
+          g_warning ("Cannot follow link type %s", orig_vec[0]);
         }
       g_strfreev (orig_vec);
     }
   //!!!! do we want to set_denemo_pixbuf() here if the object is located ???? that is what we are going to drag ....
-  g_print ("Have get_wysiwyg_info()->ObjectLocated (%.2f, %.2f) (%.2f, %.2f)\n", get_wysiwyg_info()->Mark.x, get_wysiwyg_info()->Mark.y, get_wysiwyg_info()->curx, get_wysiwyg_info()->cury);
+  g_debug ("Have get_wysiwyg_info()->ObjectLocated (%.2f, %.2f) (%.2f, %.2f)\n", get_wysiwyg_info()->Mark.x, get_wysiwyg_info()->Mark.y, get_wysiwyg_info()->curx, get_wysiwyg_info()->cury);
   set_denemo_pixbuf ((gint) get_wysiwyg_info()->curx, (gint) get_wysiwyg_info()->cury);
   return TRUE;                  //we do not want the evince widget to handle this.
 }
@@ -1281,7 +1281,7 @@ static gboolean
 in_selected_object (gint x, gint y)
 {
   gint xx, yy;
-  //g_print("reading position of mark");
+  //g_debug("reading position of mark");
   get_window_position (&xx, &yy);
   x += (xx + PRINTMARKER / 2);
   y += (yy + PRINTMARKER / 2);
@@ -1318,7 +1318,7 @@ printarea_motion_notify (G_GNUC_UNUSED GtkWidget * widget, GdkEventMotion * even
       gint xx, yy;
       get_window_position (&xx, &yy);
       // get_wysiwyg_info()->near.x = xx + (gint)event->x;
-      get_wysiwyg_info()->nearpoint.y = yy + (gint) event->y; //g_print("near y becomes %d\n", get_wysiwyg_info()->near.y);
+      get_wysiwyg_info()->nearpoint.y = yy + (gint) event->y; //g_debug("near y becomes %d\n", get_wysiwyg_info()->near.y);
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
     }
@@ -1425,7 +1425,7 @@ normalize (void)
 static void
 apply_tweak (void)
 {
-  //g_print("Apply tweak Quitting with %d %d", get_wysiwyg_info()->stage, get_wysiwyg_info()->grob);
+  //g_debug("Apply tweak Quitting with %d %d", get_wysiwyg_info()->stage, get_wysiwyg_info()->grob);
   gtk_main_quit ();
   return;
   if (get_wysiwyg_info()->stage == Offsetting)
@@ -1447,7 +1447,7 @@ apply_tweak (void)
 
       gdouble neary = -(get_wysiwyg_info()->nearpoint.y - get_wysiwyg_info()->near_i.y + nearadjust) / scale;
       gdouble fary = -(get_wysiwyg_info()->farpoint.y - get_wysiwyg_info()->near_i.y + nearadjust) / scale;    //sic! the value of far_i.y is irrelevant
-      //g_print("near %d %d far %d %d\n", get_wysiwyg_info()->near.y, get_wysiwyg_info()->near_i.y, get_wysiwyg_info()->far.y, get_wysiwyg_info()->far_i.y);
+      //g_debug("near %d %d far %d %d\n", get_wysiwyg_info()->near.y, get_wysiwyg_info()->near_i.y, get_wysiwyg_info()->far.y, get_wysiwyg_info()->far_i.y);
       gchar *script = (get_wysiwyg_info()->grob == Slur) ? g_strdup_printf ("(SetSlurPositions \"%.1f\" \"%.1f\")", neary, fary) : g_strdup_printf ("(SetBeamPositions \"%.1f\" \"%.1f\")", neary, fary);
       //Move back to the correct place in the score
       goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object);
@@ -1560,14 +1560,14 @@ printarea_button_press (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event
   //DenemoTargetType type = Denemo.project->si->target.type;
   gboolean left = (event->button == 1);
   gboolean right = !left;
-  //g_print("Button press %d, %d %d\n",(int)event->x , (int)event->y, left);
+  //g_debug("Button press %d, %d %d\n",(int)event->x , (int)event->y, left);
   get_wysiwyg_info()->button = event->button;
   gint xx, yy;
   get_window_position (&xx, &yy);
   get_wysiwyg_info()->last_button_press.x = xx + event->x;
   get_wysiwyg_info()->last_button_press.y = yy + event->y;
   gboolean hotspot = is_near ((gint) event->x, (gint) event->y, get_wysiwyg_info()->nearpoint) || (is_near ((gint) event->x, (gint) event->y, get_wysiwyg_info()->farpoint));
-  //g_print("stage %d hotspot %d", get_wysiwyg_info()->stage, hotspot);
+  //g_debug("stage %d hotspot %d", get_wysiwyg_info()->stage, hotspot);
   if (left && (get_wysiwyg_info()->stage == WaitingForDrag) && !hotspot)
     {
       popup_tweak_menu ();      //other stages STAGE_NONE for example. And make the offer of Repeat if appropriate...
@@ -1638,7 +1638,7 @@ printarea_button_press (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event
 
   if (in_selected_object ((gint) event->x, (gint) event->y))
     {
-      //g_print("Popping up menu");
+      //g_debug("Popping up menu");
       popup_object_edit_menu ();
       return TRUE;
     }
@@ -1656,7 +1656,7 @@ printarea_button_press (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event
 static gint
 printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event)
 {
-//g_print("stage %d\n", get_wysiwyg_info()->stage);
+//g_debug("stage %d\n", get_wysiwyg_info()->stage);
   gboolean left = (event->button == 1);
   gboolean right = !left;
   gboolean object_located_on_entry = get_wysiwyg_info()->ObjectLocated;
@@ -1666,7 +1666,7 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
   get_wysiwyg_info()->last_button_release.y = yy + event->y;
   if (left && get_wysiwyg_info()->ObjectLocated)
     gtk_window_present (GTK_WINDOW (gtk_widget_get_toplevel (Denemo.scorearea)));
-  //g_print("Button release %d, %d\n",(int)event->x , (int)event->y);
+  //g_debug("Button release %d, %d\n",(int)event->x , (int)event->y);
 
   if (get_wysiwyg_info()->stage == Dragging1)
     {
@@ -1703,8 +1703,8 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
 
   if (get_wysiwyg_info()->stage == WaitingForCurveDrag)
     {
-      g_print ("End of curve drag - should give menu if right click\n");
-      g_print ("Check level > 1  %d", gtk_main_level ());
+      g_debug ("End of curve drag - should give menu if right click");
+      g_debug ("Check level > 1  %d", gtk_main_level ());
       gtk_main_quit ();
       return TRUE;
     }
@@ -1749,7 +1749,7 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
       get_wysiwyg_info()->Mark.width = get_wysiwyg_info()->Mark.height = PRINTMARKER;  //width=0 means no mark
       get_wysiwyg_info()->Mark.x = event->x + xx;
       get_wysiwyg_info()->Mark.y = event->y + yy;
-      g_print ("Selected point, %f %f \n", get_wysiwyg_info()->Mark.x, get_wysiwyg_info()->Mark.y);
+      g_debug ("Selected point, %f %f \n", get_wysiwyg_info()->Mark.x, get_wysiwyg_info()->Mark.y);
       gtk_main_quit ();
       return TRUE;
     }
@@ -1762,7 +1762,7 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
         {
           call_out_to_guile ("(d-MoveCursorRight)(if (not (StemDirective?)) (begin   (d-InfoDialog (_ \"Note that a Directive to revert to automatic stems is now placed after the beamed notes. Edit this as needed for the voice you are using.\")) (d-InsertStem)))");
         }
-      //g_print("yadjust %f %f\n", nearadjust, faradjust);
+      //g_debug("yadjust %f %f\n", nearadjust, faradjust);
       //here we move the cursor back to the beam/slur start
       goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object);
       gtk_widget_queue_draw (Denemo.printarea);
@@ -1786,7 +1786,7 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
         popup_tweak_menu ();
       else
         {
-          g_print ("Offsetting quitting with %d %d", get_wysiwyg_info()->stage, get_wysiwyg_info()->grob);
+          g_debug ("Offsetting quitting with %d %d", get_wysiwyg_info()->stage, get_wysiwyg_info()->grob);
           //The offset depends on the object being dragged. ToogleTrill sign uses bottom right, ToggleCoda uses center left.
           //      get_wysiwyg_info()->curx +=18;//for trill
           //      get_wysiwyg_info()->cury +=18;//for coda, mordent ...
@@ -1801,7 +1801,7 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
   // \once \override DynamicLineSpanner #'padding = #10 setting padding for cresc and dimin
   // \once \override DynamicLineSpanner #'Y-offset = #-10 to move a cresc or dimin vertically downwards.
   // \once \override DynamicLineSpanner #'direction = #1 to place above/below (-1)
-  //g_print("Stage %d object loc %d left %d", get_wysiwyg_info()->stage, object_located_on_entry, left);
+  //g_debug("Stage %d object loc %d left %d", get_wysiwyg_info()->stage, object_located_on_entry, left);
   if (right && (get_wysiwyg_info()->stage == STAGE_NONE))
     {
       if (object_located_on_entry)      //set by action_for_link
@@ -1815,7 +1815,7 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
   return TRUE;
 #if 0
 //This code for use later when dragging an object
-  g_print ("get_wysiwyg_info()->selecting %d\n", get_wysiwyg_info()->selecting);
+  g_debug ("get_wysiwyg_info()->selecting %d\n", get_wysiwyg_info()->selecting);
 
   if (get_wysiwyg_info()->selecting)
     {
@@ -1867,7 +1867,7 @@ typeset_control (gpointer data)
   gint markstaff = Denemo.project->si->markstaffnum;
   Denemo.project->si->markstaffnum = 0;
 
-  //g_print("typeset control with %d : print view is %d\n",  Denemo.project->textwindow && gtk_widget_get_visible(Denemo.project->textwindow), get_print_status()->background==STATE_ON);
+  //g_debug("typeset control with %d : print view is %d\n",  Denemo.project->textwindow && gtk_widget_get_visible(Denemo.project->textwindow), get_print_status()->background==STATE_ON);
 //  if(Denemo.project->textwindow && gtk_widget_get_visible(Denemo.project->textwindow) && (get_print_status()->background==STATE_ON) && get_print_status()->typeset_type!=TYPESET_ALL_MOVEMENTS)
 //                      return;
   if (get_print_status()->background != STATE_ON)
@@ -2024,10 +2024,10 @@ printarea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
   switch (event->direction)
     {
     case GDK_SCROLL_UP:
-      //g_print("scroll up event\n");
+      //g_debug("scroll up event\n");
       break;
     case GDK_SCROLL_DOWN:
-      //g_print("scroll down event\n");
+      //g_debug("scroll down event\n");
       break;
     }
   return FALSE;
@@ -2038,7 +2038,7 @@ typeset_action (G_GNUC_UNUSED GtkWidget * button, gpointer data)
 {
   if (initialize_typesetting ())
     {
-      g_warning ("InitializeTypesetting failed\n");
+      g_warning ("InitializeTypesetting failed");
     }
   else
     typeset_control (data);
@@ -2119,7 +2119,7 @@ set_typeset_type (GtkWidget * radiobutton)
     {
       changecount = 0;          //reset so that a retype occurs
       gint index = g_slist_index (gtk_radio_button_get_group (GTK_RADIO_BUTTON (radiobutton)), radiobutton);
-      //g_print("Get %s at %d\n", gtk_button_get_label(GTK_BUTTON(radiobutton)), index);
+      //g_debug("Get %s at %d\n", gtk_button_get_label(GTK_BUTTON(radiobutton)), index);
       switch (index)
         {
         case 0:
@@ -2393,11 +2393,11 @@ install_printpreview (GtkWidget * top_vbox)
   //            G_CALLBACK (printarea_focus_in_event), NULL);
 
 
-//g_print("Attaching signal...");
+//g_debug("Attaching signal...");
 // !!!not available in early versions of libevince
 //g_signal_connect (G_OBJECT (Denemo.printarea), "sync-source",
 //                    G_CALLBACK (denemoprintf_sync), NULL);
-//g_print("...Attached signal?\n");
+//g_debug("...Attached signal?\n");
 
 //what would this one fire on???? g_signal_connect (G_OBJECT (Denemo.printarea), "binding-activated",
 //                    G_CALLBACK (denemoprintf_sync), NULL);

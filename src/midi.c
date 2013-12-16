@@ -272,7 +272,7 @@ get_smf_event (double until_time)
       event = smf_get_next_event (smf);
       if (event->midi_buffer_length > 3)
         {
-          g_warning ("Not Dropping event %d\n", event->midi_buffer_length);
+          g_warning ("Not Dropping event %d", event->midi_buffer_length);
           //continue;
         }
 
@@ -346,7 +346,7 @@ get_obj_for_start_time (smf_t * smf, gdouble time)
     }
   while (event && (((event->midi_buffer[0] & 0xF0) == MIDI_NOTE_OFF) || !event->user_pointer));
   if (initial && smf_seek_to_event (smf, initial))
-      g_debug("smf_seek_to_event failed");  //if (event) g_print("sought for endObj %f found %f\n", time, event->time_seconds);
+      g_debug("smf_seek_to_event failed");  //if (event) g_debug("sought for endObj %f found %f\n", time, event->time_seconds);
   if (event)
     return (DenemoObject *) (event->user_pointer);
   return NULL;
@@ -370,7 +370,7 @@ get_obj_for_end_time (smf_t * smf, gdouble time)
     }
   while (event && (((event->midi_buffer[0] & 0xF0) == MIDI_NOTE_ON) || !event->user_pointer));
   if (initial && smf_seek_to_event (smf, initial))
-      g_debug("smf_seek_to_event failed");//if (event) g_print("sought for startObj %f found %f\n", time, event->time_seconds);
+      g_debug("smf_seek_to_event failed");//if (event) g_debug("sought for startObj %f found %f\n", time, event->time_seconds);
   if (event)
     return (DenemoObject *) (event->user_pointer);
   return NULL;
@@ -578,7 +578,7 @@ midiaction (gint notenum)
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
   enharmonic enote, prevenote;
   gboolean have_previous;
-  //g_print("Keyboard state %x, mask %x %x %x\n", Denemo.keyboard_state, CHECKING_MASK, GDK_CONTROL_MASK, GDK_MOD2_MASK);
+  //g_debug("Keyboard state %x, mask %x %x %x\n", Denemo.keyboard_state, CHECKING_MASK, GDK_CONTROL_MASK, GDK_MOD2_MASK);
   notenum2enharmonic (notenum, &enote.mid_c_offset, &enote.enshift, &enote.octave);
   if (Denemo.project->si->cursor_appending)
     have_previous = get_current (&prevenote);
@@ -606,7 +606,7 @@ midiaction (gint notenum)
 
 //#define check_midi_note(a,b,c,d) ((a->mid_c_offset==b)&&(a->enshift==c))?playnote(a,curstaffstruct->midi_channel):gdk_beep();
 
-                  //g_print("check %d %d %d %d %d\n", a->mid_c_offset, a->enshift, b, c, d);
+                  //g_debug("check %d %d %d %d %d\n", a->mid_c_offset, a->enshift, b, c, d);
                   if ((Denemo.keyboard_state & CHECKING_MASK) && thechord->notes)
                     {
                       //later - find note nearest cursor and
@@ -645,7 +645,7 @@ midiaction (gint notenum)
             }
           if (gui->mode & INPUTRHYTHM)
             {
-              //g_print("measure was %d now %d with appending %d\n", measure, gui->si->currentmeasurenum, gui->si->cursor_appending);
+              //g_debug("measure was %d now %d with appending %d\n", measure, gui->si->currentmeasurenum, gui->si->cursor_appending);
               if (!beep && (measure != gui->si->currentmeasurenum) && !gui->si->cursor_appending)
                 beep = TRUE;
               else if (beep)
@@ -710,7 +710,7 @@ adjust_midi_velocity (gchar * buf, gint percent)
         }
       if (command == MIDI_NOTE_OFF)
         {
-          //g_print("after %f seconds\n", get_time()-times[notenumber]);
+          //g_debug("after %f seconds\n", get_time()-times[notenumber]);
 
           buf[0] = MIDI_NOTE_ON;        //or the channel here
           buf[2] = 60 / exp ((get_time () - times[notenumber]) * 1);    //scale according to the time
@@ -749,7 +749,7 @@ process_midi_event (gchar * buf)
           divert_midi_event = NULL;
           gtk_main_quit ();
         }
-      //g_print("queue emptied %d\n", g_queue_get_length(&midi_queue));
+      //g_debug("queue emptied %d\n", g_queue_get_length(&midi_queue));
     }
   else
     {
@@ -805,7 +805,7 @@ initialize_until_time (void)
           chord *thechord = obj->object;
           if (thechord->notes)
             {
-              play_until = obj->earliest_time - SHAVING;        //g_print("initial until %f\n", play_until);
+              play_until = obj->earliest_time - SHAVING;        //g_debug("initial until %f\n", play_until);
             }
         }
     }
@@ -854,7 +854,7 @@ advance_until_time (gchar * buf)
                           obj = Denemo.project->si->currentobject->data;
                           thechord = obj->object;
                           play_until = obj->earliest_time - SHAVING;
-                          //g_print("play until %f\n", play_until);
+                          //g_debug("play until %f\n", play_until);
                         }
                     }
                   while (!thechord->notes);
@@ -896,7 +896,7 @@ play_adjusted_midi_event (gchar * buf)
 void
 handle_midi_event (gchar * buf)
 {
-  //g_print("%x : ready %d %x queue %d\n", midi_capture_on, divert_midi_event!=NULL, (0xFFFFFF & *(gint*)buf), g_queue_get_length(&midi_queue));
+  //g_debug("%x : ready %d %x queue %d\n", midi_capture_on, divert_midi_event!=NULL, (0xFFFFFF & *(gint*)buf), g_queue_get_length(&midi_queue));
   if (midi_capture_on && divert_midi_id == Denemo.project->id)
     {
       // this is only good for one endianness - FIXME ??
@@ -958,7 +958,7 @@ intercept_midi_event (gint * midi)
   else
     {
       *midi = (0xFFFFFF & get_midiqueue ());
-      //g_print("getting from queue %x\n", *midi);
+      //g_debug("getting from queue %x\n", *midi);
     }
   return TRUE;
 }

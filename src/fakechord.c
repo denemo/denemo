@@ -102,8 +102,8 @@ separate_fakechord_elements (gchar * fakechord, DenemoObject * curObj)
     }
   while (*++fakechord);
 
-  //g_print("\nthe base chord is %s\n", base->str);
-  //g_print("\nthe chord extension is %s\n", extension->str);
+  //g_debug("\nthe base chord is %s\n", base->str);
+  //g_debug("\nthe chord extension is %s\n", extension->str);
 
 
   if (curObj && curObj->type == CHORD)

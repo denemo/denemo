@@ -84,7 +84,7 @@ capture_add_binding (GtkWidget * widget, GdkEventKey * event, gpointer user_data
           warningdialog (msg);
           g_free (msg);
           g_free (name);
-          g_warning ("trying to set a two key starting with a single\n");
+          g_warning ("trying to set a two key starting with a single");
           return TRUE;
         }
     }
@@ -99,7 +99,7 @@ capture_add_binding (GtkWidget * widget, GdkEventKey * event, gpointer user_data
 
   if (cbdata->two_key == 0 && (GList *) g_hash_table_lookup (Denemo.map->continuations_table, name))
     {
-      //g_warning("There is a two key binding starting with this\n");
+      //g_warning("There is a two key binding starting with this");
       gchar *msg = g_strdup_printf (_("There is at least one two-key shortcut that starts with: %s\nFind them using the Find button\nDelete it/those first or start again selecting an unused keypress."), name);
       warningdialog (msg);
       g_free (msg);
@@ -329,7 +329,7 @@ button_choice_callback (GtkWidget * w, gint * mask)
   gint choice = gtk_toggle_button_get_active ((GtkToggleButton *) w);
   if (choice)
     *mask = (intptr_t) g_object_get_data ((GObject *) w, "mask");
-  g_print ("button choice %x\n", *mask);
+  g_debug ("button choice %x\n", *mask);
 }
 
 

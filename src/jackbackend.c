@@ -209,7 +209,7 @@ process_callback (nframes_t nframes, void *arg)
 static void
 shutdown_callback (void *arg)
 {
-  g_warning ("*** shut down by JACK! ***\n");
+  g_warning ("*** shut down by JACK! ***");
 
   g_atomic_int_set (&audio_initialized, FALSE);
   g_atomic_int_set (&midi_initialized, FALSE);
@@ -228,7 +228,7 @@ initialize_client (char const *name)
 
   if ((client = jack_client_open (name, JackNullOption, NULL)) == NULL)
     {
-      g_warning ("can't connect to jack server\n");
+      g_warning ("Can't connect to jack server");
       return -1;
     }
 
@@ -237,7 +237,7 @@ initialize_client (char const *name)
 
   if (jack_activate (client))
     {
-      g_warning ("can't activate jack client\n");
+      g_warning ("Can't activate jack client");
       return -1;
     }
 

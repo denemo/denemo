@@ -151,7 +151,7 @@ draw_notehead (cairo_t * cr,
       {
         if (override_notehead)
           {
-            //g_print("drawing a chord override graphic at %d %d\n",  xx+gx-override_notehead->width/2,  y+height+gy-override_notehead->height/2);
+            //g_debug("drawing a chord override graphic at %d %d\n",  xx+gx-override_notehead->width/2,  y+height+gy-override_notehead->height/2);
             drawbitmapinverse_cr (cr, override_notehead, xx + gx - override_notehead->width / 2, y + height + gy - override_notehead->height / 2, FALSE);
           }
         else
@@ -260,7 +260,7 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
           cairo_scale (cr, 0.8, 0.8);
           cairo_translate (cr, -xx, -(y + thenote->y));
         }
-      //  g_print("Invisible is %d\n", mudelaitem->isinvisible); 
+      //g_debug("Invisible is %d\n", mudelaitem->isinvisible); 
       if (mudelaitem->isinvisible)
         {
           if (selected)

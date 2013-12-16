@@ -210,7 +210,7 @@ select_area_motion_action (GtkWidget * window, GdkRectangle * rect, GdkRectangle
   draw_rect.x = MIN (rect->x, x_root);
   draw_rect.y = MIN (rect->y, y_root);
 
-  g_print ("... and Drew %d %d for %d, %d\n", draw_rect.x, draw_rect.y, draw_rect.width, draw_rect.height);
+  g_debug ("... and Drew %d %d for %d, %d\n", draw_rect.x, draw_rect.y, draw_rect.width, draw_rect.height);
 
 }
 
@@ -241,7 +241,7 @@ select_area_button_press (GtkWidget * window, GdkEventButton * event, select_are
       gint x = x_root;
       gint y = y_root;
       GdkDisplay *disp = gdk_display_get_default ();
-      g_print ("moving pointer to x %d y %d\n", data->rect.x, data->rect.y);
+      g_debug ("moving pointer to x %d y %d\n", data->rect.x, data->rect.y);
       gdk_display_warp_pointer (disp, gdk_display_get_default_screen (disp), data->rect.x, data->rect.y);
       data->rect.x = x;
       data->rect.y = y;
@@ -401,7 +401,7 @@ screenshot_get_pixbuf (GdkWindow * window, GdkRectangle * rectangle)
 GdkPixbuf *
 screenshot_get_pixbuf (GdkWindow * window, GdkRectangle * rectangle)
 {
-  g_warning ("Not available on gtk3 yet\n");
+  g_warning ("Not available on gtk3 yet");
   return NULL;
 }
 #endif //remove to compile and test on gtk3
@@ -505,7 +505,7 @@ select_area_filter (GdkXEvent * gdk_xevent, GdkEvent * event, gpointer user_data
   select_area_filter_data *data = user_data;
 #ifdef G_OS_WIN32
   MSG *wevent = (MSG *) gdk_xevent;
-  g_print ("Received event %x %x %x at %ld %ld\n", wevent->message, wevent->wParam, wevent->lParam, wevent->pt.x, wevent->pt.y);
+  g_debug ("Received event %x %x %x at %ld %ld\n", wevent->message, wevent->wParam, wevent->lParam, wevent->pt.x, wevent->pt.y);
   return GDK_FILTER_REMOVE;
 #else
   XEvent *xevent = (XEvent *) gdk_xevent;
@@ -534,14 +534,14 @@ select_area_filter (GdkXEvent * gdk_xevent, GdkEvent * event, gpointer user_data
             gint x = xevent->xbutton.x_root;
             gint y = xevent->xbutton.y_root;
             GdkDisplay *disp = gdk_display_get_default ();
-            g_print ("moving pointer to x %d y %d\n", data->rect.x, data->rect.y);
+            g_debug ("moving pointer to x %d y %d\n", data->rect.x, data->rect.y);
             gdk_display_warp_pointer (disp, gdk_display_get_default_screen (disp), data->rect.x, data->rect.y);
             data->rect.x = x;
             data->rect.y = y;
             break;
           }
         default:
-          g_print ("button %d\n", xevent->xbutton.button);
+          g_debug ("button %d\n", xevent->xbutton.button);
           //return GDK_FILTER_CONTINUE; no other application responds to the button press even with this return value.
           break;
         }
@@ -632,7 +632,7 @@ screenshot_select_area (int *px, int *py, int *pwidth, int *pheight)
   if (data.button_pressed)
     {
       GdkDisplay *disp = gdk_display_get_default ();
-      //g_print("re-starting and moving pointer to x %d y %d\n", data.rect.x+data.rect.width, data.rect.y);
+      //g_debug("re-starting and moving pointer to x %d y %d\n", data.rect.x+data.rect.width, data.rect.y);
       gdk_display_warp_pointer (disp, gdk_display_get_default_screen (disp), data.rect.x + data.rect.width, data.rect.y - data.rect.height);
     }
 

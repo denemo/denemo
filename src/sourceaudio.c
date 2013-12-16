@@ -100,7 +100,7 @@ generate_note_onsets (void)
     }
   for (j = 0; j < (unsigned) audio->nframes; j++)
     {
-      sf_read_float (audio->sndfile, ibuf->data[0] + pos, 2);   //g_print("\t%f", ibuf->data[0][pos]);
+      sf_read_float (audio->sndfile, ibuf->data[0] + pos, 2);   //g_debug("\t%f", ibuf->data[0][pos]);
       if (pos == overlap_size - 1)
         {
           /* block loop */
@@ -143,7 +143,7 @@ generate_note_onsets (void)
   del_cvec (fftgrain);
   del_fvec (onset);
 #else
-  g_print ("\n\n\n!!!!!!!!!skipping memory free for windows to avoid crash\n\n\n");
+  g_debug ("\n\n\n!!!!!!!!!skipping memory free for windows to avoid crash\n\n\n");
 #endif
   aubio_cleanup ();
 
@@ -164,7 +164,7 @@ generate_note_onsets (void)
   GList *g;
   for (g = audio->onsets; g; g = g->next)
     {
-      g_print ("Note at %f seconds\n", ((gint) g->data) / (double) audio->samplerate);
+      g_debug ("Note at %f seconds\n", ((gint) g->data) / (double) audio->samplerate);
     }
 #endif
 */
@@ -216,7 +216,7 @@ open_source_audio (gchar * filename)
           temp->samplerate = sfinfo.samplerate;
           temp->channels = sfinfo.channels;
           temp->nframes = (int) sf_seek (temp->sndfile, -1, SEEK_END);
-          g_print ("sndfile: %s sample rate is %d channels %d containing %d \n", sf_strerror (temp->sndfile), sfinfo.samplerate, sfinfo.channels, temp->nframes);
+          g_info ("sndfile: %s sample rate is %d channels %d containing %d \n", sf_strerror (temp->sndfile), sfinfo.samplerate, sfinfo.channels, temp->nframes);
 
 
           temp->volume = 1.0;
@@ -260,7 +260,7 @@ rewind_audio (void)
           open_source_audio (Denemo.project->si->recording->filename);
           if (Denemo.project->si->recording==NULL)
           {
-			g_warning("Unable to open audio file\n");
+			g_warning("Unable to open audio file");
 			return;  			  
 		  }
           if (Denemo.project->si->recording->samplerate)

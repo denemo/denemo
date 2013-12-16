@@ -123,7 +123,7 @@ get_state (gchar * key)
 static void
 instantiate_menus (gchar * menupath)
 {
-  //g_print("Instantiate menus for %s\n", menupath);
+  //g_info("Instantiate menus for %s\n", menupath);
 
   gchar *up1 = g_path_get_dirname (menupath);
   gchar *name = g_path_get_basename (menupath);
@@ -146,7 +146,7 @@ instantiate_menus (gchar * menupath)
       g_object_set_data (G_OBJECT (action), "menupath", up1);
     }
   gtk_ui_manager_add_ui (Denemo.ui_manager, gtk_ui_manager_new_merge_id (Denemo.ui_manager), up1, name, name, GTK_UI_MANAGER_MENU, FALSE);
-  //g_print("Adding %s to %s\n", name, up1);
+  //g_debug("Adding %s to %s\n", name, up1);
   // widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
   //show_type (widget, "for menupath widget is ");
 
@@ -266,7 +266,7 @@ create_command(command_row *command)
   {
     hide_action_of_name (command->name);
     command->hidden = FALSE;
-    g_print ("Hiding Builtin %s\n", command->name);
+    g_info ("Hiding Builtin %s\n", command->name);
   }
 }
 
@@ -286,7 +286,7 @@ extract_menupath (gchar * filename)
       for (c = base; c && *c; c++)
         if (*c == G_DIR_SEPARATOR)
           *c = '/';
-      //g_print("got base as %s\n", base);
+      //g_debug("got base as %s\n", base);
     }
   g_free (head);
 

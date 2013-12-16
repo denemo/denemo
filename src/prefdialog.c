@@ -278,7 +278,7 @@ set_preferences (struct callbackdata *cbdata)
     ASSIGNBOOLEAN (newbie)
     ASSIGNBOOLEAN (learning)
     ASSIGNBOOLEAN (startmidiin) ASSIGNBOOLEAN (applytoselection) ASSIGNBOOLEAN (quickshortcuts) ASSIGNBOOLEAN (autosave) ASSIGNINT (autosave_timeout) ASSIGNBOOLEAN (midi_in_controls) ASSIGNBOOLEAN (playback_controls) ASSIGNBOOLEAN (console_pane) ASSIGNBOOLEAN (lyrics_pane) ASSIGNBOOLEAN (visible_directive_buttons) ASSIGNBOOLEAN (autoupdate) ASSIGNBOOLEAN (toolbar) ASSIGNBOOLEAN (rhythm_palette) ASSIGNBOOLEAN (object_palette) ASSIGNBOOLEAN (saveparts)
-    //g_print ("Timeout %d \n", prefs->autosave_timeout);
+    //g_debug ("Timeout %d \n", prefs->autosave_timeout);
     if (midi_in_device_was_default && strcmp (prefs->portmidi_input_device->str, "default"))
     {
       Denemo.project->input_source = INPUTMIDI;

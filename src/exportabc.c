@@ -374,7 +374,7 @@ exportabc (gchar * thefilename, DenemoProject * gui, gint start, gint end)
 
   fraction = 1.0 / (gdouble) g_list_length (si->thescore);
   fraction /= 2;
-  g_print ("Fraction %lf\n", fraction);
+  g_debug ("Fraction %lf", fraction);
   /* Figure out the %%staves comment.  It should look something like:
 
    *     %%staves [{(1 2) 3} 4 (5 6)] [7 8] 9

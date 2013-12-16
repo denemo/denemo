@@ -89,7 +89,7 @@ dotempo (gint tempo)
 {
   DenemoProject *gui = Denemo.project;
   gui->si->tempo = (gint) (6.0e7 / (double) tempo); //FIXME insert as change of tempo instead
-  g_warning("Changed si->tempo to %d\n", gui->si->tempo);
+  g_warning("Changed si->tempo to %d", gui->si->tempo);
 }
 
 static void
@@ -323,7 +323,7 @@ gboolean compute_midi_note_durations (void)
                             smf_tempo_t *tempo = smf_get_tempo_by_seconds (smf, event->time_seconds);
                             double spqn = (tempo? tempo->microseconds_per_quarter_note/1000000.0: 60.0/Denemo.project->si->tempo);
                             guess_note_length((next->time_seconds - event->time_seconds)/spqn, &note->duration, &note->dots);
-                            //g_print("spqn %f dur %f %d %d\n", spqn, (next->time_seconds - event->time_seconds), note->duration, note->dots);
+                            //g_debug("spqn %f dur %f %d %d\n", spqn, (next->time_seconds - event->time_seconds), note->duration, note->dots);
                             ret = TRUE;
                             break;
                         }
@@ -419,7 +419,7 @@ my_smf_get_length_seconds(const smf_t *smf)
         /* Empty track? */
         if (event == NULL)
             continue;
-//g_print("my seconds %f\n", event->time_seconds );
+//g_debug("my seconds %f\n", event->time_seconds );
         if (event->time_seconds > seconds)
             seconds = event->time_seconds;
     }
@@ -440,9 +440,9 @@ gdouble get_recorded_midi_duration (void)
         return val2;
 #else
         //return smf_get_length_seconds (smf);
-        g_print("my value %f\n", my_smf_get_length_seconds (smf));
+        g_debug("my value %f\n", my_smf_get_length_seconds (smf));
         double val = smf_get_length_seconds (smf);
-        //g_print("smf val %f\n", val);
+        //g_debug("smf val %f\n", val);
         return val;
 #endif
     }

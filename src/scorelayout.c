@@ -1211,7 +1211,7 @@ draw_staff_brace (GtkWidget * w, GdkEventExpose * event, gchar * context)
 static void
 show_type (GtkWidget * widget, gchar * message)
 {
-  g_print ("%s%s\n", message, widget ? g_type_name (G_TYPE_FROM_INSTANCE (widget)) : "NULL widget");
+  g_message ("%s%s", message, widget ? g_type_name (G_TYPE_FROM_INSTANCE (widget)) : "NULL widget");
 }
 
 
@@ -2034,10 +2034,10 @@ refresh_lilypond (DenemoScoreblock * sb)
     {
       if (!is_lilypond_text_layout (sb))
         {
-          //g_print("Changing %s\n", sb->name);
+          //g_debug("Changing %s\n", sb->name);
           //g_free(sb->name);
           //sb->name = g_strdup(scoreblock_name(sb));
-          //g_print("To new value %s\n", sb->name);
+          //g_debug("To new value %s\n", sb->name);
           sb->id = crc32 ((guchar*) sb->name);
           if (sb->lilypond == NULL)
             sb->lilypond = g_string_new (sb->name);
@@ -2224,7 +2224,7 @@ iterate_custom_layout (gboolean init)
     }
   else
     {
-      g_print ("No custom layout %d sb = %p\n", current, sb);
+      g_debug ("No custom layout %d sb = %p\n", current, sb);
       return FALSE;
     }
 }
@@ -2286,7 +2286,7 @@ set_notebook_page (GtkWidget * w)
 {
   GtkWidget *notebook = get_score_layout_notebook (Denemo.project);
   GList *g = gtk_container_get_children (GTK_CONTAINER (notebook));
-  gint position = g_list_index (g, w);  //g_print("pos %d", position);
+  gint position = g_list_index (g, w);  //g_debug("pos %d", position);
   g_list_free (g);
   gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), position);
 }
@@ -2763,7 +2763,7 @@ get_scoreblock_for_lilypond (gchar * lily)
   gtk_box_pack_start (GTK_BOX (vbox), options, FALSE, FALSE, 0);
   GtkWidget *textview = gtk_text_view_new ();
   gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (textview), TRUE);
-  //g_print("Value %d\n", gtk_text_view_get_cursor_visible(GTK_TEXT_VIEW(textview)));
+  //g_debug("Value %d\n", gtk_text_view_get_cursor_visible(GTK_TEXT_VIEW(textview)));
   GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
   gtk_text_buffer_set_text (textbuffer, text, -1);
 
@@ -2857,7 +2857,7 @@ typeset_layout (DenemoScoreblock * sb)
   g_debug("This feature requires denemo to be built with evince");
 #else
   set_notebook_page (sb->widget);
-  g_print ("Switched to %s\n", sb->name);
+  g_debug ("Switched to %s\n", sb->name);
   typeset_current_layout ();
 #endif
 }

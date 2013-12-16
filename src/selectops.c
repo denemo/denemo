@@ -561,7 +561,7 @@ get_mark_object (void)
   DenemoStaff *firststaff = (DenemoStaff *) curstaff->data;
   measurenode *firstmeasure = g_list_nth (firststaff->measures, si->selection.firstmeasuremarked - 1);
   objnode *firstobj = g_list_nth (firstmeasure->data, si->selection.firstobjmarked);
-  //g_print("First %d\n",  si->selection.firstobjmarked);
+  //g_debug("First %d\n",  si->selection.firstobjmarked);
   return firstobj ? ((DenemoObject *) firstobj->data) : NULL;
 }
 
@@ -870,7 +870,7 @@ push_position (void)
     positions = g_slist_prepend (positions, pos);
   else
     g_free (pos);
-  //g_print("%d %d %d %d \n", pos->movement, pos->staff, pos->measure, pos->object);
+  //g_debug("%d %d %d %d \n", pos->movement, pos->staff, pos->measure, pos->object);
 }
 
 static void
@@ -1052,7 +1052,7 @@ store_for_undo_measure_insert (DenemoMovement * si, gint staffnum, gint measuren
 static void
 free_chunk (DenemoUndoData * chunk)
 {
-  g_print ("free %d\n", chunk->action);
+  g_debug ("free %d\n", chunk->action);
   switch (chunk->action)
     {
     case ACTION_STAGE_START:
@@ -1100,7 +1100,7 @@ stage_undo (DenemoMovement * si, action_type type)
           {
             chunk = g_queue_pop_head (si->undodata);
             // free_chunk(chunk); not needed, is static anyway
-            // g_print("Script did not need undoing");
+            //g_debug("Script did not need undoing");
           }
         else
           update_undo_info (si, &ActionStageStart);
@@ -1113,7 +1113,7 @@ stage_undo (DenemoMovement * si, action_type type)
       update_undo_info (si, &ActionScriptError);
       break;
     default:
-      g_warning ("Unknown undo action %d will not be stored\n", type);
+      g_warning ("Unknown undo action %d will not be stored", type);
     }
 }
 
@@ -1190,38 +1190,38 @@ print_queue (gchar * msg, GQueue * q)
       switch (chunk->action)
         {
         case ACTION_STAGE_START:
-          g_print ("[");
+          g_debug ("[");
           break;
         case ACTION_STAGE_END:
-          g_print ("]\n");
+          g_debug ("]\n");
           break;
         case ACTION_SNAPSHOT:
-          g_print ("Snapshot; ");
+          g_debug ("Snapshot; ");
           break;
         case ACTION_INSERT:
-          g_print ("Ins; ");
+          g_debug ("Ins; ");
           break;
         case ACTION_DELETE:
-          g_print ("Del %s; ", DenemoObjTypeNames[((DenemoObject *) chunk->object)->type]);
+          g_debug ("Del %s; ", DenemoObjTypeNames[((DenemoObject *) chunk->object)->type]);
           break;
         case ACTION_CHANGE:
-          g_print ("Chn %s; ", DenemoObjTypeNames[((DenemoObject *) chunk->object)->type]);
+          g_debug ("Chn %s; ", DenemoObjTypeNames[((DenemoObject *) chunk->object)->type]);
           break;
         case ACTION_MEASURE_CREATE:
-          g_print ("Create; ");
+          g_debug ("Create; ");
           break;
         case ACTION_MEASURE_REMOVE:
-          g_print ("Remove; ");
+          g_debug ("Remove; ");
           break;
         case ACTION_NOOP:
-          g_print ("No-op; ");
+          g_debug ("No-op; ");
           break;
         default:
-          g_print ("Unknown action %d\n", chunk->action);
+          g_debug ("Unknown action %d\n", chunk->action);
 
         }
     }
-  g_print ("\nEnd queue\n");
+  g_debug ("End queue");
 }
 
 
@@ -1230,7 +1230,7 @@ position_for_chunk (DenemoProject * gui, DenemoUndoData * chunk)
 {
   DenemoScriptParam param;
   param.status = TRUE;
-  //g_print("undo guard before %d level is %d\n undo action is %d\n",  gui->si->undo_guard, gui->undo_level, chunk->action);
+  //g_debug("undo guard before %d level is %d\n undo action is %d\n",  gui->si->undo_guard, gui->undo_level, chunk->action);
 
   switch (chunk->action)
     {
@@ -1525,7 +1525,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
 static void
 position_warning (DenemoUndoData * chunk)
 {
-  g_warning ("Could not find position for undotype %d  movement %d staff %d measure %d object %d appending %d offend %d\n", chunk->action, chunk->position.movement, chunk->position.staff, chunk->position.measure, chunk->position.object, chunk->position.appending, chunk->position.offend);
+  g_warning ("Could not find position for undotype %d  movement %d staff %d measure %d object %d appending %d offend %d", chunk->action, chunk->position.movement, chunk->position.staff, chunk->position.measure, chunk->position.object, chunk->position.appending, chunk->position.offend);
   print_queue ("The undo queue was:", Denemo.project->si->undodata);
   print_queue ("The redo queue was:", Denemo.project->si->redodata);
 }
@@ -1544,10 +1544,10 @@ static void
 free_queue (GQueue * queue)
 {
   DenemoUndoData *chunk;
-  //g_print("before redo queue %p is %d empty\n", queue, g_queue_is_empty(queue));
+  //g_debug("before redo queue %p is %d empty\n", queue, g_queue_is_empty(queue));
   while ((chunk = (DenemoUndoData *) g_queue_pop_head (queue)))
     free_chunk (chunk);
-  //g_print("after redo queue %p is %d empty\n", queue, g_queue_is_empty(queue));
+  //g_debug("after redo queue %p is %d empty\n", queue, g_queue_is_empty(queue));
 }
 
 /**
@@ -1565,7 +1565,7 @@ undo (DenemoProject * gui)
   if (chunk)
     {
       gui->si->undo_guard++;
-      //g_print("undo %d\n", chunk->action);
+      //g_debug("undo %d\n", chunk->action);
       if (position_for_chunk (gui, chunk))
         {
           action_chunk (gui, &chunk);
@@ -1578,16 +1578,16 @@ undo (DenemoProject * gui)
           warn_no_more_undo (gui);      //returns guard to user preference and sets level 0
           return;
         }
-      //g_print("actioned undo now pushing %d\n", chunk->action);
+      //g_debug("actioned undo now pushing %d\n", chunk->action);
       update_redo_info (gui->si, chunk);
       gui->si->undo_guard--;
-      //g_print("***undo guard after undo %d\n",  gui->si->undo_guard);
+      //g_debug("***undo guard after undo %d\n",  gui->si->undo_guard);
       if (gui->undo_level > 0)
         undo (gui);
       score_status (gui, TRUE);
       if (gui->si->currentmeasurenum > g_list_length (gui->si->measurewidths))
         {
-          g_warning ("Undo failed to set current measurenum %d out of %d\n", gui->si->currentmeasurenum, g_list_length (gui->si->measurewidths));
+          g_warning ("Undo failed to set current measurenum %d out of %d", gui->si->currentmeasurenum, g_list_length (gui->si->measurewidths));
           gui->si->currentmeasurenum = g_list_length (gui->si->measurewidths);
         }
       //print_queue("Undo, queue: ", gui->si->undodata);
@@ -1612,7 +1612,7 @@ redo (DenemoProject * gui)
   DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->si->redodata);
   if (chunk)
     {
-      //g_print("Before %s and %d\n", gui->si->currentobject?"Obj":"noObj", gui->si->cursor_x);
+      //g_debug("Before %s and %d\n", gui->si->currentobject?"Obj":"noObj", gui->si->cursor_x);
       gui->si->undo_guard++;
       if (position_for_chunk (gui, chunk))
         {
@@ -1625,7 +1625,7 @@ redo (DenemoProject * gui)
         }
       update_undo_info (gui->si, chunk);
       gui->si->undo_guard--;
-      //g_print("After %s and %d\n", gui->si->currentobject?"Obj":"noObj!!", gui->si->cursor_x);
+      //g_debug("After %s and %d\n", gui->si->currentobject?"Obj":"noObj!!", gui->si->cursor_x);
       if (gui->undo_level > 0)
         redo (gui);
       score_status (gui, TRUE);
@@ -1649,12 +1649,12 @@ update_undo_info (DenemoMovement * si, DenemoUndoData * undo)
 {
 
 
-  //g_print ("Adding: Action %d at pos %d appending %d\n",  undo->action, undo->position.object, undo->position.appending); 
+  //g_debug ("Adding: Action %d at pos %d appending %d\n",  undo->action, undo->position.object, undo->position.appending); 
 
   //  if (g_queue_get_length (si->undodata) == MAX_UNDOS)
   //    {
   //      tmp = g_queue_pop_tail (si->undodata);//FIXME freeing undo info, especially the object
-  //      g_warning("Lost undo of %p %p\n", tmp, tmp->object);
+  //      g_warning("Lost undo of %p %p", tmp, tmp->object);
   //   }
 
   g_queue_push_head (si->undodata, undo);
@@ -1683,7 +1683,7 @@ update_redo_info (DenemoMovement * si, DenemoUndoData * redo)
     {
       free_queue (si->redodata);
       si->redo_invalid = FALSE;
-      //g_print("queue = %p\n", si->redodata);
+      //g_debug("queue = %p\n", si->redodata);
     }
   g_queue_push_head (si->redodata, redo);
 }

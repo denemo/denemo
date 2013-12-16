@@ -93,9 +93,9 @@ set_properties (struct callbackdata *cbdata)
 
   /* !!!! Insert advisory function for detecting colliding staff names
    * here */
-  //g_print("first %d\t", staffstruct->space_above);
+  //g_debug("first %d\t", staffstruct->space_above);
   ASSIGNNUMBER (space_above);
-  //g_print("then %d\t", staffstruct->space_above);
+  //g_debug("then %d\t", staffstruct->space_above);
   ASSIGNNUMBER (space_below);
   ASSIGNNUMBER (no_of_lines);
   ASSIGNNUMBER (transposition);
@@ -141,7 +141,7 @@ set_properties (struct callbackdata *cbdata)
     {
       unsigned char buffer[3];/* third byte is unused but is put into the queue so must be accessible */
       /* set selected midi program on the synthesizer so that users can play MIDI controller with current staff instrument without having to do playback first*/
-      g_print ("Using channel %d port %d prognum %d\n",  staffstruct->midi_channel, staffstruct->midi_port, staffstruct->midi_prognum);
+      g_info ("Using channel %d port %d prognum %d\n",  staffstruct->midi_channel, staffstruct->midi_port, staffstruct->midi_prognum);
       buffer[0] = 0xC0 /*MIDI_PROG_CHANGE*/ | staffstruct->midi_channel;
       buffer[1] = staffstruct->midi_prognum;
       play_midi_event (DEFAULT_BACKEND, staffstruct->midi_port, buffer);
@@ -315,7 +315,7 @@ staff_properties_change (void)
   // BOOLEANENTRY("Override MIDI Channel/Program", midi_prognum_override);  
   INTENTRY_LIMITS_1 (_("Channel:"), midi_channel, 1, 16);
   INTENTRY_LIMITS_1 (_("Program:"), midi_prognum, 1, 128);
-  g_print ("chan prog %d %d\n", staffstruct->midi_channel, staffstruct->midi_prognum);
+  g_debug ("chan prog %d %d\n", staffstruct->midi_channel, staffstruct->midi_prognum);
 
   // FIXME
 //  GList *md = device_manager_DevicePort_list();

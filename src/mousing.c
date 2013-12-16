@@ -86,7 +86,7 @@ get_click_height (DenemoProject * gui, gdouble y)
 
   for (curstaff = g_list_nth (gui->si->thescore, gui->si->top_staff - 1); curstaff; curstaff = curstaff->next)
     {
-      //g_print("before extra space %d\n", extra_space);
+      //g_debug("before extra space %d\n", extra_space);
       staff = (DenemoStaff *) curstaff->data;
       if (staff->voicecontrol & DENEMO_PRIMARY)
         extra_space += (staff->space_above) + space_below;
@@ -100,11 +100,11 @@ get_click_height (DenemoProject * gui, gdouble y)
           staffs_from_top++;
         }
       space_below = MAX (space_below, ((staff->space_below) + (staff->verses ? LYRICS_HEIGHT : 0)));
-      //g_print("after extra space %d space_below %d\n", extra_space, space_below);
+      //g_debug("after extra space %d space_below %d\n", extra_space, space_below);
     }
 
   click_height = y - (gui->si->staffspace * staffs_from_top + gui->si->staffspace / 4 + extra_space);
-  //  g_print("top staff is %d total %d staffs from top is %d click %f\n", gui->si->top_staff, extra_space, staffs_from_top, click_height);
+  //g_debug("top staff is %d total %d staffs from top is %d click %f\n", gui->si->top_staff, extra_space, staffs_from_top, click_height);
 
   return click_height;
 
@@ -142,7 +142,7 @@ primary_staff (DenemoMovement * si)
   GList *curstaff;
   for (curstaff = si->currentstaff; curstaff && !(((DenemoStaff *) curstaff->data)->voicecontrol & DENEMO_PRIMARY); curstaff = curstaff->prev)
     ;                           //do nothing
-  //g_print("The position is %d\n", 1+g_list_position(si->thescore, curstaff));
+  //g_debug("The position is %d\n", 1+g_list_position(si->thescore, curstaff));
   return 1 + g_list_position (si->thescore, curstaff);
 }
 
@@ -163,7 +163,7 @@ staff_at (gint y, DenemoMovement * si)
       count++;
       if (staff->voicecontrol & DENEMO_PRIMARY)
         space += (staff)->space_above + (staff)->space_below + si->staffspace;
-      //g_print("y %d and space %d count = %d\n",y,space, count);
+      //g_debug("y %d and space %d count = %d\n",y,space, count);
     }
 
   if (y <= 1)
@@ -194,20 +194,20 @@ get_placement_from_coordinates (struct placement_info *pi, gdouble x, gdouble y,
       return;
     }
   pi->staff_number = staff_at ((gint) y, si);
-  //g_print("L/R %d %d got staff number %d\n", leftmeasurenum, rightmeasurenum, pi->staff_number); 
+  //g_debug("L/R %d %d got staff number %d\n", leftmeasurenum, rightmeasurenum, pi->staff_number); 
   pi->measure_number = leftmeasurenum;
   if (scale)
     x_to_explain = (x_to_explain * scale) / 100;
   x_to_explain -= (KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME);
 
-  //g_print("Explaining %d\n", x_to_explain);
+  //g_debug("Explaining %d\n", x_to_explain);
   while (x_to_explain > GPOINTER_TO_INT (mwidthiterator->data) && pi->measure_number < rightmeasurenum)
     {
       x_to_explain -= (GPOINTER_TO_INT (mwidthiterator->data) + SPACE_FOR_BARLINE);
       mwidthiterator = mwidthiterator->next;
       pi->measure_number++;
     }
-  //g_print("got to measure %d\n", pi->measure_number);
+  //g_debug("got to measure %d\n", pi->measure_number);
   pi->nextmeasure = ((si->system_height > 0.5 || x_to_explain > GPOINTER_TO_INT (mwidthiterator->data)) && pi->measure_number >= rightmeasurenum);
 
   pi->the_staff = g_list_nth (si->thescore, pi->staff_number - 1);
@@ -253,7 +253,7 @@ get_placement_from_coordinates (struct placement_info *pi, gdouble x, gdouble y,
                 pi->offend = TRUE, pi->cursor_x++;
             }
         }
-      //g_print("got to cursor x %d\n", pi->cursor_x);
+      //g_debug("got to cursor x %d\n", pi->cursor_x);
     }
 }
 
@@ -263,7 +263,7 @@ assign_cursor (guint state, guint cursor_num)
 {
   guint *cursor_state = g_new (guint, 1);
   *cursor_state = state;
-  //g_print("Storing cursor %x for state %x in hash table %p\n", cursor_num, state, Denemo.map->cursors );  
+  //g_debug("Storing cursor %x for state %x in hash table %p\n", cursor_num, state, Denemo.map->cursors );  
   GdkCursor *cursor = gdk_cursor_new (cursor_num);
   g_assert (cursor);
   g_hash_table_insert (Denemo.map->cursors, cursor_state, cursor);
@@ -274,7 +274,7 @@ set_cursor_for (guint state)
 {
   gint the_state = state;
   GdkCursor *cursor = g_hash_table_lookup (Denemo.map->cursors, &the_state);
-  //g_print("looked up %x in %p got cursor %p which is number %d\n", state, Denemo.map->cursors,  cursor, cursor?cursor->type:-1);
+  //g_debug("looked up %x in %p got cursor %p which is number %d\n", state, Denemo.map->cursors,  cursor, cursor?cursor->type:-1);
   if (cursor)
     gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), cursor);
   else
@@ -312,7 +312,7 @@ mouse_shortcut_name (gint mod, mouse_gesture gesture, gboolean left)
   GString *ret = g_string_new ((gesture == GESTURE_PRESS) ? (left ? "PrsL" : "PrsR") : ((gesture == GESTURE_RELEASE) ? (left ? "RlsL" : "RlsR") : (left ? "MveL" : "MveR")));
 
   append_modifier_name (ret, mod);
-  //g_print("Returning %s for mod %d\n", ret->str, mod);
+  //g_debug("Returning %s for mod %d\n", ret->str, mod);
   return ret;
 
 }
@@ -405,7 +405,7 @@ scorearea_leave_event (GtkWidget * widget, GdkEventCrossing * event)
 gint
 scorearea_enter_event (GtkWidget * widget, GdkEventCrossing * event)
 {
-//g_print("start the enter with ks = %x and state %x\n", Denemo.keyboard_state, event->state);
+//g_debug("start the enter with ks = %x and state %x\n", Denemo.keyboard_state, event->state);
   if (event->state & GDK_CONTROL_MASK)
     Denemo.keyboard_state |= GDK_CONTROL_MASK;
   else
@@ -422,7 +422,7 @@ scorearea_enter_event (GtkWidget * widget, GdkEventCrossing * event)
   else
     Denemo.keyboard_state &= ~(CHORD_MASK | GDK_MOD1_MASK);
 #endif
-//      g_print("end the enter with ks %x (values  %x %x)\n", event->state, ~GDK_CONTROL_MASK, Denemo.keyboard_state & (~GDK_CONTROL_MASK) );
+//      g_debug("end the enter with ks %x (values  %x %x)\n", event->state, ~GDK_CONTROL_MASK, Denemo.keyboard_state & (~GDK_CONTROL_MASK) );
   set_midi_in_status ();
   return FALSE;                 //allow other handlers 
 }
@@ -459,7 +459,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 				{
 				midievent = ((DenemoRecordedNote *)marked_onset->data)->event;
 				gint shift =  2500*(event->x_root - last_event_x)/gui->si->zoom;
-				g_print (" %f (%f %f)",shift/(double)gui->si->recording->samplerate, 
+				g_debug (" %f (%f %f)",shift/(double)gui->si->recording->samplerate, 
 					midievent->time_seconds,
 					((DenemoRecordedNote *)marked_onset->data)->timing/(double)gui->si->recording->samplerate) ;
 
@@ -472,7 +472,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 			return TRUE;
 		}
 
-		gui->si->recording->leadin -= 500*(event->x_root - last_event_x)/gui->si->zoom;//g_print("%d %d => %d\n", (int)(10*last_event_x), (int)(10*event->x_root), (int)(10*last_event_x) - (int)(10*event->x_root));
+		gui->si->recording->leadin -= 500*(event->x_root - last_event_x)/gui->si->zoom;//g_debug("%d %d => %d\n", (int)(10*last_event_x), (int)(10*event->x_root), (int)(10*last_event_x) - (int)(10*event->x_root));
 		last_event_x = event->x_root;
 		update_leadin_widget ( gui->si->recording->leadin/(double)gui->si->recording->samplerate);
 		gtk_widget_queue_draw(Denemo.scorearea);
@@ -510,7 +510,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR));       //FIXME? does this take time/hog memory
 
   transform_coords (&event->x, &event->y);
-  //  g_print("Marked %d\n", gui->si->markstaffnum);
+  //g_debug("Marked %d\n", gui->si->markstaffnum);
   if (gui->lefts[line_num] == 0)
     return TRUE;
 
@@ -576,7 +576,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   gint line_height = allocated_height * gui->si->system_height;
   gint line_num = ((int) event->y) / line_height;
   last_event_x = event->x_root;
-  //g_print("diff %d\n", line_height - ((int)event->y)%line_height);
+  //g_debug("diff %d\n", line_height - ((int)event->y)%line_height);
   if (dragging_separator == FALSE)
     if (line_height - ((int) event->y - 8) % line_height < 12)
       {
@@ -590,7 +590,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   
   if(gui->si->recording)
 	{
-	 // g_print("audio %f %f\n", event->x, event->y);
+	 //g_debug("audio %f %f\n", event->x, event->y);
 
 
 	  if(event->y < 20*gui->si->zoom /* see draw.c for this value, the note onsets are drawn in the top 20 pixels */)
@@ -623,9 +623,9 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 	}
   
   
-  //g_print("before %f %f\n", event->x, event->y);
+  //g_debug("before %f %f\n", event->x, event->y);
   transform_coords (&event->x, &event->y);
-  //g_print("after %f %f\n", event->x, event->y);
+  //g_debug("after %f %f\n", event->x, event->y);
 
   
   gtk_widget_grab_focus (widget);

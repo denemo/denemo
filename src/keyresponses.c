@@ -135,7 +135,7 @@ scorearea_keyrelease_event (GtkWidget * widget, GdkEventKey * event)
       Denemo.keyboard_state &= ~CHORD_MASK;
     }
   set_midi_in_status ();
-  // g_print("release %x state %x\n", Denemo.keyboard_state, event->state);
+  //g_debug("release %x state %x\n", Denemo.keyboard_state, event->state);
   // set_cursor_for(keyrelease_modify(event->state), event->keyval);
   gint state;
   if ((event->keyval == GDK_Caps_Lock) || (event->keyval == GDK_Num_Lock))
@@ -168,7 +168,7 @@ gchar *
 process_key_event (GdkEventKey * event, gchar * perform_command ())
 {
   keymap *the_keymap = Denemo.map;
-  // g_print("\n********\nCaps Lock %x?\n\n********\nShifted %x?\n", event->state&GDK_LOCK_MASK,          event->state&GDK_SHIFT_MASK     );
+  //g_debug("\n********\nCaps Lock %x?\n\n********\nShifted %x?\n", event->state&GDK_LOCK_MASK,          event->state&GDK_SHIFT_MASK     );
   {
     gint state;
     state = (lock_mask (event->keyval) ^ event->state);
@@ -204,7 +204,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
 							{
 								append_scheme_call ((gchar *) command_name);
 							}  
-          //g_print("Single Key shortcut %s invokes %s\n", dnm_accelerator_name(event->keyval, event->state), command_name);
+          //g_debug("Single Key shortcut %s invokes %s\n", dnm_accelerator_name(event->keyval, event->state), command_name);
           return perform_command (command_name, event);
         }
       else
@@ -220,7 +220,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
   if (prefix_store->len)
     {
       gchar *name = dnm_accelerator_name (event->keyval, event->state);
-      //g_print("second key %s\n", name);
+      //g_debug("second key %s\n", name);
       g_string_append_printf (prefix_store, "%c%s", ',', name);
       command_idx = lookup_command_for_keybinding_name (Denemo.map, prefix_store->str);
 
@@ -312,9 +312,9 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
   //  Denemo.keyboard_state |= CHORD_MASK;
   set_midi_in_status ();
 
-  //g_print("press Denemo %x state %x klock %x\n", Denemo.keyboard_state, event->state, klock_mask(event->keyval));
+  //g_debug("press Denemo %x state %x klock %x\n", Denemo.keyboard_state, event->state, klock_mask(event->keyval));
 
-  // g_print("State eored %x\n", (lock_mask(event->keyval)^event->state));
+  //g_debug("State eored %x\n", (lock_mask(event->keyval)^event->state));
   if (divert_key_event && !isModifier (event) && divert_key_id == Denemo.project->id)
     {
       dnm_clean_event (event);
@@ -540,7 +540,7 @@ default_mode (DenemoScriptParam *param)
   Denemo.project->mode ^= TRAVERSE;
   if (Denemo.project->mode & TRAVERSE)
     gtk_label_set_text (GTK_LABEL (Denemo.statuslabel), "Read Only");
-  g_print ("Mode %d\n", Denemo.project->mode);
+  g_debug ("Mode %d\n", Denemo.project->mode);
   displayhelper (Denemo.project);
 }
 

@@ -238,7 +238,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
               define_scheme_variable (curname, (gchar*) tmp, NULL);
               g_free (curname);
               prefs->lilypath = g_string_assign (prefs->lilypath, (gchar *) tmp);
-              //g_print ("Lilypond Path %s\n", tmp);
+              //g_debug ("Lilypond Path %s\n", tmp);
               xmlFree (tmp);
             }
         }
@@ -255,7 +255,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
               prefs->autosave_timeout = atoi ((gchar *) tmp);
               if (prefs->autosave_timeout < 1)
                 prefs->autosave_timeout = 1;
-              //g_print ("Autosave Timeout %s\n", tmp);
+              //g_debug ("Autosave Timeout %s\n", tmp);
               xmlFree (tmp);
             }
         }
@@ -428,7 +428,7 @@ get_string_pref (gchar * prefname)
 static void
 writeHistoryEntry (gpointer data, gpointer user_data)
 {
-  //g_print ("filename %s\n", (gchar *) data);
+  //g_debug ("filename %s\n", (gchar *) data);
   xmlNewTextChild ((xmlNodePtr) user_data, NULL, (xmlChar *) "file", (xmlChar *) data);
 }
 
@@ -530,14 +530,14 @@ readxmlprefs (gchar * xmlsource, gboolean from_file)
   rootElem = xmlDocGetRootElement (doc);
   if (rootElem == NULL)
     {
-      g_warning ("Empty Document\n");
+      g_warning ("Empty Document");
       xmlFreeDoc (doc);
       return ret;
     }
-  //g_print ("RootElem %s\n", rootElem->name);
+  //g_debug ("RootElem %s\n", rootElem->name);
   if (xmlStrcmp (rootElem->name, (const xmlChar *) "Denemo"))
     {
-      g_warning ("Document has wrong type\n");
+      g_warning ("Document has wrong type");
       xmlFreeDoc (doc);
       return ret;
     }
@@ -769,14 +769,14 @@ readHistory ()
   rootElem = xmlDocGetRootElement (doc);
   if (rootElem == NULL)
     {
-      g_warning ("Empty Document\n");
+      g_warning ("Empty Document");
       xmlFreeDoc (doc);
       return ret;
     }
 
   if (xmlStrcmp (rootElem->name, (const xmlChar *) "Denemo"))
     {
-      g_warning ("Document has wrong type\n");
+      g_warning ("Document has wrong type");
       xmlFreeDoc (doc);
       return ret;
     }

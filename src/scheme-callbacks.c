@@ -65,7 +65,7 @@ scheme_popup_menu (SCM list)
               gchar *label = NULL;
               gchar *tooltip = NULL;
               SCM sym;
-              //g_print("Note that %d is value and %d stringp\n", scm_pair_p(el), scm_string_p(el));
+              //g_debug("Note that %d is value and %d stringp\n", scm_pair_p(el), scm_string_p(el));
               if (scm_is_string (scm_car (el)))
                 {
 
@@ -365,7 +365,7 @@ scheme_get_target_info (void)
       type = scm_from_locale_string ("Dim");
       break;
     default:
-      g_warning ("Unknown target type %d\n", si->target.type);
+      g_warning ("Unknown target type %d", si->target.type);
       type = SCM_BOOL_F;
       break;
     }
@@ -463,7 +463,7 @@ scheme_http (SCM hname, SCM page, SCM other, SCM poststr)
 static gint
 interpret_lilypond_notename (gchar * x, gint * mid_c_offset, gint * enshift)
 {
-  // g_print("Mid c offset of %d\n", *x-'c');
+  //g_debug("Mid c offset of %d\n", *x-'c');
   gchar *c;
   gint octave = -1;             /* middle c is c' */
   gint accs = 0;
@@ -527,7 +527,7 @@ scheme_execute_init (gchar * menupath)
   gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, INIT_SCM, NULL);
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
     {
-      g_print ("About to load from %s\n", filename);
+      g_message ("About to load from %s", filename);
       eval_file_with_catch (filename);  //ret = scm_c_primitive_load(filename);
     }
   else
@@ -536,7 +536,7 @@ scheme_execute_init (gchar * menupath)
       filename = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", menupath, INIT_SCM, NULL);
       if (g_file_test (filename, G_FILE_TEST_EXISTS))
         {
-          g_print ("About to load from %s\n", filename);
+          g_message ("About to load from %s", filename);
           eval_file_with_catch (filename);      //ret = scm_c_primitive_load(filename);
         }
       g_free (filename);
@@ -731,7 +731,7 @@ create_scheme_function_for_script (gchar * name)
   gchar *value = g_strdup_printf ("(d-ScriptCallback \"%s\" params)", name);
   gchar *def = g_strdup_printf ("(define %s::params #f) (define* %s %s)", name, proc, value);
 
-  //g_print("Defining %s\n", def);
+  //g_debug("Defining %s\n", def);
   call_out_to_guile (def);
   g_free (proc);
   g_free (value);
@@ -748,7 +748,7 @@ scheme_debug_object (SCM optional)
 
   if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data))
     return SCM_BOOL (FALSE);
-  g_print ("*************\nType = %d\nbasic_durinticks = %d\ndurinticks - %d\nstarttickofnextnote = %d\n***********\n", curObj->type, curObj->basic_durinticks, curObj->durinticks, curObj->starttickofnextnote);
+  g_debug ("*************\nType = %d\nbasic_durinticks = %d\ndurinticks - %d\nstarttickofnextnote = %d\n***********\n", curObj->type, curObj->basic_durinticks, curObj->durinticks, curObj->starttickofnextnote);
   return SCM_BOOL (TRUE);
 }
 
@@ -862,7 +862,7 @@ scheme_user_screenshot (SCM type, SCM position)
   GdkRectangle *rect = screenshot_find_rectangle ();
   if (rect)
     {
-      //g_print("%d %d %d %d\n", rect->x, rect->y, rect->width, rect->height);
+      //g_debug("%d %d %d %d\n", rect->x, rect->y, rect->width, rect->height);
       GdkPixbuf *screenshot = screenshot_get_pixbuf (gdk_get_default_root_window (), rect);
       if (screenshot)
         {
@@ -2492,7 +2492,8 @@ scheme_get_imported_midi_tracks (void)
 
 SCM
 scheme_get_recorded_midi_duration (void) {
-    gdouble duration = get_recorded_midi_duration (); g_print("Duration returned %f so %d\n", duration, duration>0.0);
+    gdouble duration = get_recorded_midi_duration (); 
+  g_debug("Duration returned %f so %d\n", duration, duration>0.0);
     if (duration > 0.0)
         return scm_from_double (duration);
     return SCM_BOOL_F;
@@ -2661,7 +2662,7 @@ scheme_spell_check_midi_chord (SCM list)
     }
   else
     {
-      g_print ("Bad pitch spell list\n");
+      g_warning ("Bad pitch spell list");
       return SCM_BOOL_F;
     }
 }
@@ -3039,7 +3040,7 @@ create_lilypond_from_text (gchar * orig)
 {
   gchar *text = g_strdup (orig);
   GString *ret = g_string_new ("");
-  g_print ("looking at %s\n", text);
+  g_debug ("looking at %s\n", text);
   gunichar section = g_utf8_get_char (SECTION_UTF8_STRING);
   gchar *this = g_utf8_strchr (text, -1, section);
   if (this)
@@ -3295,7 +3296,7 @@ scheme_get_command (void)
   if (success)
     {
       gint cmd = lookup_command_for_keyevent (&event);
-      //g_print("command %d for %x %x\n", cmd, event.keyval, event.state);
+      //g_debug("command %d for %x %x\n", cmd, event.keyval, event.state);
       if (cmd != -1)
         name = g_string_append (name, lookup_name_from_idx (Denemo.map, cmd));  //FIXME NULL?, memory leaks
       name = g_string_prepend (name, DENEMO_SCHEME_PREFIX);
@@ -3484,7 +3485,7 @@ scheme_get_option (SCM options)
       char *str_unterm;
       str_unterm = scm_to_locale_stringn (options, &length);
       response = get_option (str_unterm, length);       //returns NULL or a pointer to a location in str_unterm
-      //g_print("Got %p holding %s\n", response, response);
+      //g_debug("Got %p holding %s\n", response, response);
       if (response)
         response = g_strdup (response);
       if (str_unterm)
@@ -3493,7 +3494,7 @@ scheme_get_option (SCM options)
   if (response)
     {
       SCM ret = scm_from_locale_stringn (response, strlen (response));
-      //g_print("Freeing %p holding %s\n", response, response);
+      //g_debug("Freeing %p holding %s\n", response, response);
       g_free (response);        //FIXME the g_strdup above is not needed?
       return ret;
       //return scm_from_locale_stringn (response, strlen(response));
@@ -4214,7 +4215,7 @@ scheme_put_midi (SCM scm)
   buf[0] = midi & 0xFF;
   buf[1] = (midi >> 8) & 0xFF;
   buf[2] = (midi >> 16) & 0xFF;
-  //g_print("got %x\nbreaks as %x %x %x\n", midi&0xFFFFFF, buf[0], buf[1], buf[2]);
+  //g_debug("got %x\nbreaks as %x %x %x\n", midi&0xFFFFFF, buf[0], buf[1], buf[2]);
   if (midi)
     {
       gboolean capture = set_midi_capture (FALSE);      //Turn off any capturing
@@ -4270,7 +4271,7 @@ scheme_output_midi_bytes (SCM input)
   for (i = 0, next = bytes; i < numbytes; i++, next++)
     buffer[i] = (unsigned char) strtol (next, &next, 0);
   g_free (bytes);
-  //g_print("\nbuffer[0] = %x buffer[1] = %x buffer[2] = %x\n", buffer[0], buffer[1], buffer[2]);
+  //g_debug("\nbuffer[0] = %x buffer[1] = %x buffer[2] = %x\n", buffer[0], buffer[1], buffer[2]);
 
   play_midi_event (DEFAULT_BACKEND, curstaffstruct->midi_port, buffer);
 
@@ -4312,7 +4313,7 @@ scheme_play_midi_note (SCM note, SCM volume, SCM channel, SCM duration)
   gint chan = scm_to_int (channel);
   gint dur = scm_to_int (duration);
 
-  //g_print("Playing %x at %f volume, %d channel for %dms\n", key, vol/255.0, channel, dur);
+  //g_debug("Playing %x at %f volume, %d channel for %dms\n", key, vol/255.0, channel, dur);
   play_note (DEFAULT_BACKEND, 0 /*port */ , chan, key, dur, vol);
   return SCM_BOOL (TRUE);
 }
@@ -4324,7 +4325,7 @@ scheme_play_midikey (SCM scm)
   gint key = (midi >> 8) & 0xFF;
   gint channel = midi & 0xF;
   gint volume = ((midi >> 16) & 0x7F);
-  //g_print("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
+  //g_debug("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
   play_note (DEFAULT_BACKEND, 0 /*port */ , channel, key, 1000 /*duration */ , volume);
   //g_usleep(200000);
   return SCM_BOOL (TRUE);
@@ -4489,7 +4490,7 @@ scheme_callback_one_shot_timer (cb_scheme_and_id * scheme)
   if (scheme->id == Denemo.project->id)
     call_out_to_guile (scheme_code);
   else
-    g_warning ("Timer missed for gui %d\n", scheme->id);
+    g_warning ("Timer missed for gui %d", scheme->id);
   g_free (scheme);
   free (scheme_code);
   return FALSE;
@@ -4515,7 +4516,7 @@ scheme_callback_timer (cb_scheme_and_id * scheme)
   if (scheme->id == Denemo.project->id)
     call_out_to_guile (scheme_code);
   else
-    g_warning ("Timer missed for gui %d\n", scheme->id);
+    g_warning ("Timer missed for gui %d", scheme->id);
 
   return TRUE;                  //continue to call
 }
@@ -4529,7 +4530,7 @@ scheme_timer (SCM duration_amount, SCM callback)
     {
       scheme_code = scm_to_locale_string (callback);    //FIXME check that type of callback is tring
       gint duration = scm_to_int (duration_amount);
-      //g_print("setting timer for %s after %d ms", scheme_code, duration);
+      //g_debug("setting timer for %s after %d ms", scheme_code, duration);
       cb_scheme_and_id *scheme = g_malloc (sizeof (cb_scheme_and_id));
       scheme->scheme_code = scheme_code;
       scheme->id = Denemo.project->id;
@@ -4604,7 +4605,7 @@ scheme_put_note_name (SCM optional)
           gint mid_c_offset;
           gint enshift;
           interpret_lilypond_notename (str, &mid_c_offset, &enshift);
-          //g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
+          //g_debug("note %s gives %d and %d\n", str, mid_c_offset, enshift);
           modify_note (thechord, mid_c_offset, enshift, find_prevailing_clef (Denemo.project->si));
           if (str)
             free (str);
@@ -4699,7 +4700,7 @@ scheme_insert_note_in_chord (SCM lily)
       gint enshift;
       interpret_lilypond_notename (str, &mid_c_offset, &enshift);
 
-      //g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
+      //g_debug("note %s gives %d and %d\n", str, mid_c_offset, enshift);
       addtone (curObj, mid_c_offset, enshift, find_prevailing_clef (Denemo.project->si));
       score_status (gui, TRUE);
       displayhelper (Denemo.project);
@@ -4782,7 +4783,7 @@ scheme_highlight_cursor (SCM optional)
     }
   else if (Denemo.prefs.cursor_highlight)
     id = g_timeout_add (500, (GSourceFunc) flash_cursor, NULL);
-  //g_print("Cursor highlighting %d id %d", Denemo.prefs.cursor_highlight, id);
+  //g_debug("Cursor highlighting %d id %d", Denemo.prefs.cursor_highlight, id);
   return ret;
 }
 
@@ -4804,11 +4805,11 @@ scheme_get_lilypond (SCM optional)
   DenemoObject *curObj;
   if (!Denemo.project || !(Denemo.project->si) || !(Denemo.project->si->currentobject) || !(curObj = Denemo.project->si->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
     return SCM_BOOL_F;
-//g_print("Before %d %d\n", gui->lilysync, gui->changecount);
+//g_debug("Before %d %d\n", gui->lilysync, gui->changecount);
 
   if (gui->lilysync != gui->changecount)
     refresh_lily_cb (NULL, Denemo.project);
-//g_print("After %d %d\n", gui->lilysync, gui->changecount);
+//g_debug("After %d %d\n", gui->lilysync, gui->changecount);
   if (curObj->lilypond)
     return scm_from_locale_string (curObj->lilypond);
   return SCM_BOOL_F;
@@ -4836,7 +4837,7 @@ scheme_set_tuplet (SCM ratio)
   char *theratio;
   theratio = scm_to_locale_string (ratio);
   sscanf (theratio, "%d/%d", &((tupopen *) curObj->object)->numerator, &((tupopen *) curObj->object)->denominator);
-  //g_print("Set %d/%d\n", (((tupopen*)curObj->object)->numerator), (((tupopen*)curObj->object)->denominator));
+  //g_debug("Set %d/%d\n", (((tupopen*)curObj->object)->numerator), (((tupopen*)curObj->object)->denominator));
   free (theratio);
   if (((tupopen *) curObj->object)->denominator)
     {
@@ -5064,7 +5065,7 @@ scheme_diatonic_shift (SCM optional)
           str = scm_to_locale_string (optional);
           gint shift;
           sscanf (str, "%d", &shift);
-//     g_print("note shift %s ie %d\n", str, shift);
+//     g_debug("note shift %s ie %d\n", str, shift);
           modify_note (thechord, thenote->mid_c_offset + shift, gui->si->curmeasureaccs[offsettonumber (thenote->mid_c_offset + shift)], find_prevailing_clef (Denemo.project->si));
           free (str);
         }

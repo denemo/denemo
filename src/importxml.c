@@ -222,7 +222,7 @@ add_staff_context (DenemoContext c)
       staff_directive_put_override ("ContextChoirStaff", DENEMO_OVERRIDE_AFFIX);
       break;
     default:
-      g_warning ("Unexpected context value\n");
+      g_warning ("Unexpected context value");
     }
 
 
@@ -235,7 +235,7 @@ addContext (gchar * string)
     return;
   if ((!strcmp (string, "PianoStaff")) || (!strcmp (string, "ChoirStaff")) || (!strcmp (string, "GroupStaff")))
     {
-      g_warning ("Old context specs found - no longer supported. You will have to reset the Staff contexts\n");
+      g_warning ("Old context specs found - no longer supported. You will have to reset the Staff contexts");
       return;
     }
 #define LOOKUP(A,B)  if (!strcmp (string, A)) {add_staff_context(B); return;}
@@ -1609,7 +1609,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoProject * gui)
             tmp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
             if (tmp != NULL && strcmp (tmp, "2.8.7"))   //2.8.7 is ignored, it was the value used when version was mandated, but did not mean anything.
               {
-                //g_print ("lilypond version %s", tmp);
+                //g_debug ("lilypond version %s", tmp);
                 //g_string_assign (gui->lilycontrol.lilyversion, tmp);
                 if (strcmp (tmp, LILYPOND_VERSION))
                   g_warning ("This file may contain embedded LilyPond from an earlier LilyPond version\nIf you have problems printing from it\nrefresh the directives responsible.");
@@ -1634,7 +1634,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoProject * gui)
           {
             gint font = getXMLIntChild (childElem);
             gui->lilycontrol.staffsize = g_string_new (g_strdup_printf ("%d", font));
-            //g_print ("Font Size %d", font);
+            //g_debug ("Font Size %d", font);
           }
         else if (ELEM_NAME_EQ (childElem, "papersize"))
           {
@@ -1642,7 +1642,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoProject * gui)
             tmp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
             if (tmp != NULL)
               {
-                //g_print ("Paper size %s\n", tmp);
+                //g_debug ("Paper size %s\n", tmp);
                 g_string_assign (gui->lilycontrol.papersize, tmp);
                 g_free (tmp);
               }
@@ -1652,7 +1652,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoProject * gui)
 
             gint orientation = getXMLIntChild (childElem);
             gui->lilycontrol.orientation = orientation;
-            //g_print ("Orientation %d\n", orientation);
+            //g_debug ("Orientation %d\n", orientation);
           }
         else if (ELEM_NAME_EQ (childElem, "score-directives"))
           {
@@ -1686,12 +1686,12 @@ parseEditInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoMovement * si)
         if (ELEM_NAME_EQ (childElem, "staffno"))
           {
             current_staff = getXMLIntChild (childElem);
-            //g_print ("Staff no %d\t", current_staff);
+            //g_debug ("Staff no %d\t", current_staff);
           }
         if (ELEM_NAME_EQ (childElem, "measureno"))
           {
             current_measure = getXMLIntChild (childElem);
-            //g_print ("Staff no %d\t", current_staff);
+            //g_debug ("Staff no %d\t", current_staff);
           }
         else if (ELEM_NAME_EQ (childElem, "cursorposition"))
           {
@@ -2026,7 +2026,7 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoMovement * si)
           {
             gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
             if (temp)
-              g_warning ("Ignoring the old-style string %s\nAdd this in LilyPond window if required\n", temp);
+              g_warning ("Ignoring the old-style string %s\nAdd this in LilyPond window if required", temp);
             g_free (temp);
           }
 /* 	else if (ELEM_NAME_EQ (childElem, "staff-prolog")) */
@@ -2558,7 +2558,7 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoMovement * si)
                    *        that.
                    */
                   si->currentmeasure->data = g_list_append ((objnode *) si->currentmeasure->data, curObj);
-                  //g_print("Element type lily %d\n", curObj->type==LILYDIRECTIVE);
+                  //g_debug("Element type lily %d\n", curObj->type==LILYDIRECTIVE);
 
                   /*
                    * FIXME: Loop through notesElem to search for
@@ -2667,7 +2667,7 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoProject * gui)
       gtk_text_buffer_set_text (gtk_text_view_get_buffer (staff->currentverse->data), Lyric->str, Lyric->len);
       g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (staff->currentverse->data)), "changed", G_CALLBACK (lyric_change), NULL);
       //allow save on backward compatibility files... gtk_text_buffer_set_modified(gtk_text_view_get_buffer(staff->currentverse->data), FALSE);
-      //g_print("Appended <%s>\n", Lyric->str);
+      //g_debug("Appended <%s>\n", Lyric->str);
     }
   g_string_free (Lyric, FALSE);
   Lyric = NULL;
@@ -2777,7 +2777,7 @@ parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoProject * gui, ImportTyp
   staffnode *curstaff;
   if (si->thescore == NULL)
     {
-      g_warning ("Bad Denemo file\n");
+      g_warning ("Bad Denemo file");
       return -1;
     }
   for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
@@ -2840,7 +2840,7 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
 
   if (sXMLIDToElemMap != NULL)
     {
-      g_warning ("Recursive call to importXML - ignored\n");
+      g_warning ("Recursive call to importXML - ignored");
       return -1;
     }
   /* Try to parse the file. */
@@ -2909,7 +2909,7 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
               ret |= parseMovement (childElem, ns, gui, type);
             else
               continue;
-            //g_print("parsed more staffs breaking now\n");
+            //g_debug("parsed more staffs breaking now\n");
             break;              //Note: we only adds staffs from first movement
           }
           break;
@@ -2924,11 +2924,11 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
               {
                 point_to_empty_movement (gui);
                 ret |= parseMovement (childElem, ns, gui, type);
-                //g_print("parsed movement\n");
+                //g_debug("parsed movement\n");
               }
             else
               {
-                g_warning ("Unexpected %s\n", childElem->name);
+                g_warning ("Unexpected %s", childElem->name);
               }
           }
           break;
@@ -2959,7 +2959,7 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
                 gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
                                                              childElem->xmlChildrenNode, 1);
                 //gui->custom_prolog = g_string_new(tmp);
-                g_print ("The custom prolog \n\"%s\"\n is being ignored\n", tmp);
+                g_info ("The custom prolog \n\"%s\"\n is being ignored\n", tmp);
                 warningdialog (_("Custom prolog is no longer supported. Use score directive prefix instead"));
                 g_free (tmp);
               }
@@ -3088,7 +3088,7 @@ cleanup:
       g_hash_table_destroy (sXMLIDToElemMap);
     }
   sXMLIDToElemMap = NULL;
-  //g_print("Number of movements %d\n", g_list_length(gui->movements));
+  //g_debug("Number of movements %d\n", g_list_length(gui->movements));
   reset_movement_numbers (gui);
   if(!Denemo.non_interactive)
     set_movement_selector (gui);

@@ -231,7 +231,7 @@ terminate_playback (void)
   g_thread_yield ();            //FIXME find a better way of ensuring playing is finished - in principle the user could start playing again
   if (is_playing ())
     terminate_playback ();
-  //g_print("Terminated %d\n", is_playing());
+  //g_debug("Terminated %d\n", is_playing());
 }
 
 void
@@ -339,7 +339,7 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
       gui->si->currentobject = gui->si->currentobject->next;
       gui->si->cursor_x++;
     }
-  // g_print("objnum %d\n",objnum);
+  //g_debug("objnum %d\n",objnum);
   if (objnum > 0)
     {
       gui->si->cursor_x++;      // objnum;
@@ -658,7 +658,7 @@ clone_movement (DenemoMovement * si)
   newscore->measurewidths = NULL;
   if (newscore->sources)
     {
-      g_warning ("Undo will lose source screenshots\n");
+      g_warning ("Undo will lose source screenshots");
       newscore->sources = NULL;
     }
   for (g = si->measurewidths; g; g = g->next)

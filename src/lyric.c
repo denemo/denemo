@@ -81,7 +81,7 @@ add_verse_to_staff (DenemoMovement * si, DenemoStaff * staff)
   gtk_widget_show_all (gtk_widget_get_parent (textview));
   staff->verses = g_list_append (staff->verses, textview);
   staff->currentverse = g_list_last (staff->verses);
-  //  g_print("Setting verse to %p\n", staff->currentverse);
+  //g_debug("Setting verse to %p\n", staff->currentverse);
   gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (notebook), gtk_widget_get_parent (textview), NULL);
   gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), pagenum);
   gchar *tablabel = g_strdup_printf ("Verse %d", pagenum + 1);

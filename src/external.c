@@ -68,7 +68,7 @@ spawn_external (const GString * cmdline)
   /*  argv = build_argv (cmdline->str); */
   if (!g_shell_parse_argv (cmdline->str, NULL, &argv, &err))
     {
-      g_message (_("Could not parse command line: %s\n"), err->message);
+      g_message (_("Could not parse command line: %s"), err->message);
       g_error_free (err);
       return pid;
     }

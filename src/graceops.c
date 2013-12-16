@@ -32,7 +32,7 @@ toggle_grace (GtkAction * action, DenemoScriptParam * param)
           ((chord *) curmudelaobj->object)->is_grace ^= GRACED_NOTE;
           displayhelper (Denemo.project);
         }
-      //g_print("now %x\n",  ((chord *)curmudelaobj->object)->is_grace);
+      //g_debug("now %x\n",  ((chord *)curmudelaobj->object)->is_grace);
     }
 }
 
@@ -53,6 +53,6 @@ toggle_acciaccatura (GtkAction * action, DenemoScriptParam * param)
           ((chord *) curmudelaobj->object)->is_grace ^= ACCIACCATURA;
           displayhelper (Denemo.project);
         }
-      //g_print("now %x\n",  ((chord *)curmudelaobj->object)->is_grace);
+      //g_debug("now %x\n",  ((chord *)curmudelaobj->object)->is_grace);
     }
 }

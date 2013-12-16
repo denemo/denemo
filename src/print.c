@@ -77,7 +77,7 @@ advance_printname ()
 
   get_print_status()->cycle = !get_print_status()->cycle;
   /*gint success =*/ g_unlink (get_print_status()->printname_pdf[get_print_status()->cycle]);
-  //g_print("Removed old pdf file %s %d\n",get_print_status()->printname_pdf[get_print_status()->cycle], success);
+  //g_debug("Removed old pdf file %s %d\n",get_print_status()->printname_pdf[get_print_status()->cycle], success);
 }
 
 
@@ -288,7 +288,7 @@ process_lilypond_errors (gchar * filename)
       g_free (bytes);
       return;
     }
-  //g_print("\nLilyPond error messages\n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8>< %s \n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><\n", bytes);
+  //g_debug("\nLilyPond error messages\n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8>< %s \n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><\n", bytes);
   epoint = g_strstr_len (bytes, strlen (bytes), filename_colon);
   if (epoint)
     {
@@ -386,7 +386,7 @@ open_viewer (gint status, gchar * filename)
           if (!ok)
             {
               err = g_error_new (G_FILE_ERROR, -1, "Could not run file assoc for %s", ".png");
-              g_warning ("Could not run the file association for a %s file\n", ".png");
+              g_warning ("Could not run the file association for a %s file", ".png");
             }
         }
       else
@@ -448,7 +448,7 @@ run_lilypond (gchar ** arguments)
     }
   if (lily_err)
     {
-      g_warning ("Old error message from launching lilypond still present - message was %s\nDiscarding...\n", lily_err->message);
+      g_warning ("Old error message from launching lilypond still present - message was %s\nDiscarding...", lily_err->message);
       g_error_free (lily_err);
       lily_err = NULL;
     }
@@ -470,7 +470,7 @@ run_lilypond (gchar ** arguments)
                                                                &lily_err);
   if (lily_err)
     {
-      g_warning ("Error launching lilypond! Message is %s\n", lily_err->message);
+      g_warning ("Error launching lilypond! Message is %s", lily_err->message);
       g_error_free (lily_err);
       lily_err = NULL;
       error = -1;
@@ -604,7 +604,7 @@ printrangedialog (DenemoProject * gui)
 static void
 rm_temp_files (gchar * file, gpointer free_only)
 {
-  //g_print("\n%s Deleting temp file %s\n",free_only?"Not":"", file);
+  //g_debug("\n%s Deleting temp file %s\n",free_only?"Not":"", file);
   if (!free_only)
     g_remove (file);
   g_free (file);

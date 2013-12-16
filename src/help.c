@@ -91,7 +91,7 @@ browse_manual (GtkAction * action, DenemoScriptParam * param)
   retval = g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &error);
   if (!retval)
     {
-      g_message (_("Could not execute specified web browser: %s\n"), error->message);
+      g_message (_("Could not execute specified web browser: %s"), error->message);
       g_error_free (error);
     }
 

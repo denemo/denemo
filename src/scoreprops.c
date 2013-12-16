@@ -84,7 +84,7 @@ setpaperconfig (papersetupcb * cbdata, DenemoProject * gui)
   else
     gui->lilycontrol.orientation = FALSE;
 
-  //g_print(" %s %s %d %d \n", gui->lilycontrol.papersize->str, gui->lilycontrol.lilyversion->str, gui->lilycontrol.fontsize, gui->lilycontrol.orientation);
+  //g_debug(" %s %s %d %d \n", gui->lilycontrol.papersize->str, gui->lilycontrol.lilyversion->str, gui->lilycontrol.fontsize, gui->lilycontrol.orientation);
   score_status (gui, TRUE);
 }
 

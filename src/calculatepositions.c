@@ -233,7 +233,7 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
 
   *base_x += block_width + extra_advance;
   *base_tick = furthest_tick_advance;   //this is growing....
-  //g_print("furthest %d\n", furthest_tick_advance);
+  //g_debug("furthest %d\n", furthest_tick_advance);
   /* Free non_chords and we're done */
 
   g_list_foreach (non_chords, freeit, NULL);
@@ -353,7 +353,7 @@ find_xes_in_measure (DenemoMovement * si, gint measurenum, gint time1, gint time
         {
           /* A-ha!  We've found a block.  Now go set the x positions
            * of all the objects within it appropriately */
-          //g_print("*******Max advance ticks %d\n", max_advance_ticks);
+          //g_debug("*******Max advance ticks %d\n", max_advance_ticks);
           allocate_xes (block_start_obj_nodes, cur_obj_nodes, num_staffs, max_advance_ticks, &base_x, &base_tick, shortest_chord_duration ? shortest_chord_duration : 1, shortest_chord_pixels, whole_note_width, non_chords);
 
           /* And do setup work for the next block */
@@ -408,7 +408,7 @@ find_xes_in_all_measures (DenemoMovement * si)
 
   feed.a = firststaffstruct->timesig.time1;
   feed.b = firststaffstruct->timesig.time2;
-  //g_print ("Number of measures in score %d\n", n);
+  //g_debug ("Number of measures in score %d\n", n);
   for (i = 1; i <= n; i++)
     feed = find_xes_in_measure (si, i, feed.a, feed.b);
   /* obviously inefficient; should fix this */

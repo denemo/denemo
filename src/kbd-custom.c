@@ -142,14 +142,14 @@ dnm_clean_event (GdkEventKey * event)
   if (!Denemo.prefs.strictshortcuts)
     {
       guint ret;
-      //g_print("Called %s\n", gdk_keyval_name(event->keyval));
+      //g_debug("Called %s\n", gdk_keyval_name(event->keyval));
       gdk_keymap_translate_keyboard_state (gdk_keymap_get_default (), event->hardware_keycode, GDK_MOD2_MASK /*NumLock forcing numeric keypad to give numbers */ ,
                                            0 /*group 0 */ , &ret, NULL, NULL, NULL);
       if (ret >= 'A' && ret <= 'G')
         ret += ('a' - 'A');
       event->keyval = ret;
 
-      //g_print("Changed to %s\n", gdk_keyval_name(event->keyval));
+      //g_debug("Changed to %s\n", gdk_keyval_name(event->keyval));
     }
 }
 
@@ -447,8 +447,8 @@ dnm_accelerator_name (guint accelerator_key, GdkModifierType accelerator_mods)
           if((*(name->str + 3) !='7') && (*(name->str + 3) !='8') && (*(name->str + 3) !='9'))
             g_string_erase (name, 0, 3);    //force numeric keypad KP_ names to normal except for 7 8 9 which are not needed for duration entry
         }
-      //g_print("label %s\nname %s\n", gtk_accelerator_get_label(accelerator_key, 0), gdk_keyval_name(accelerator_key));
-      // g_print("mods were %x\n", accelerator_mods);
+      //g_debug("label %s\nname %s\n", gtk_accelerator_get_label(accelerator_key, 0), gdk_keyval_name(accelerator_key));
+      //g_debug("mods were %x\n", accelerator_mods);
 #if 0
       //do not let caps lock affect shift of backspace etc
       if ((accelerator_key == GDK_BackSpace) || (accelerator_key == GDK_Left) || (accelerator_key == GDK_Right) || (accelerator_key == GDK_Up) || (accelerator_key == GDK_Down) || (accelerator_key == GDK_Page_Up) || (accelerator_key == GDK_Page_Down) || (accelerator_key == GDK_Home) || (accelerator_key == GDK_End) || (accelerator_key == GDK_Insert) || (accelerator_key == GDK_Delete) || (accelerator_key == GDK_KP_Decimal) || (accelerator_key == GDK_period))
@@ -459,7 +459,7 @@ dnm_accelerator_name (guint accelerator_key, GdkModifierType accelerator_mods)
         if (!((name->len == 1) && (*name->str >= '0') && (*name->str <= '9')))
           accelerator_mods &= ~GDK_LOCK_MASK;
 #endif
-      // g_print("mods %x\n", accelerator_mods);
+      //g_debug("mods %x\n", accelerator_mods);
       // if (accelerator_mods&GDK_SHIFT_MASK)
 
       //    if((name->len==1) && (*name->str>='A') && (*name->str<='Z'))
@@ -639,7 +639,7 @@ allocate_keymap (void)
   the_keymap->continuations_table = g_hash_table_new (g_str_hash, g_str_equal);
 
   the_keymap->cursors = g_hash_table_new (g_int_hash, g_int_equal);
-  //  g_print("Created hash table %p\n", the_keymap->cursors);
+  //g_debug("Created hash table %p\n", the_keymap->cursors);
   return the_keymap;
 }
 
@@ -717,7 +717,7 @@ alphabeticalize_commands (keymap * the_keymap)
 	/* alphabeticalizing the commands causes saving new commands by the user to fail */
 	return;
 /*	
-  g_print ("alphabeticalizing the commands");
+  g_debug ("alphabeticalizing the commands");
   gint i, n;
   guint *value;
   const gchar *command_name;
@@ -1047,7 +1047,7 @@ update_accel_labels (keymap * the_keymap, guint command_id)
   //Getting the accel
   const gchar *command_name = lookup_name_from_idx (the_keymap, command_id);
   if(!command_name)
-    g_warning("Could not find command %i\n", command_id);
+    g_warning("Could not find command %i", command_id);
   
   GString *str = g_string_new ("");
   
@@ -1122,7 +1122,7 @@ update_continuations_table (keymap * the_keymap, const gchar * binding, gboolean
   gchar *shortcut = g_strdup (binding);
   *(shortcut + (second - binding)) = 0;     // split into two strings at the separator
   gchar *value = shortcut + (second - binding) + 1;
-  //g_print("Two key shortcuts %s %s\n", shortcut, value);
+  //g_debug("Two key shortcuts %s %s\n", shortcut, value);
   if (add)
     {
       GList *thelist = g_hash_table_lookup (the_keymap->continuations_table, shortcut);
@@ -1445,17 +1445,17 @@ dump_command_info (keymap * the_keymap, gint command_id)
 
   if (command_id == -1)
     {
-      g_print ("No command.");
+      g_message ("No command.");
       return;
     }
-  g_print ("command %s (%d)\nKeyboard Shortcuts:\n", lookup_name_from_idx (the_keymap, command_id), command_id);
+  g_message ("command %s (%d)\nKeyboard Shortcuts:", lookup_name_from_idx (the_keymap, command_id), command_id);
   if (!keymap_get_command_row (the_keymap, &row, command_id))
     return;
 
   cur = row->bindings;
   while(cur)
     {
-      g_print ("\t%s (%d)\n", cur->data, lookup_command_for_keybinding_name (the_keymap, cur->data));
+      g_debug ("\t%s (%d)\n", cur->data, lookup_command_for_keybinding_name (the_keymap, cur->data));
       cur = g_list_next(cur);
     }
 }
@@ -1517,7 +1517,7 @@ load_keymap_from_dialog (gchar * filename)
 static void
 show_type (GtkWidget * widget, gchar * message)
 {
-  g_print ("%s%s\n", message, widget ? g_type_name (G_TYPE_FROM_INSTANCE (widget)) : "NULL widget");
+  g_debug ("%s%s\n", message, widget ? g_type_name (G_TYPE_FROM_INSTANCE (widget)) : "NULL widget");
 }
 #endif
 

@@ -120,7 +120,7 @@ portmidi_initialize (DenemoPrefs * config)
   PtError pterr = Pt_Start (TIMER_RESOLUTION, &process_midi, NULL);
   if (pterr != ptNoError)
     {
-      g_warning ("couldn't start timer\n");
+      g_warning ("Couldn't start timer");
       return -1;
     }
 
@@ -131,7 +131,7 @@ portmidi_initialize (DenemoPrefs * config)
   err = Pm_InitializeWrapper ();
   if (err != pmNoError)
     {
-      g_warning ("couldn't initialize PortMidi\n");
+      g_warning ("Couldn't initialize PortMidi");
       portmidi_destroy ();
       return -1;
     }
@@ -143,7 +143,7 @@ portmidi_initialize (DenemoPrefs * config)
       info = Pm_GetDeviceInfo (id);
       if (info == NULL)
         {
-          g_warning ("no input device\n");
+          g_warning ("No input device");
           portmidi_destroy ();
           return -1;
         }
@@ -153,7 +153,7 @@ portmidi_initialize (DenemoPrefs * config)
       err = Pm_OpenInput (&input_stream, id, NULL, INPUT_BUFFER_SIZE, NULL, NULL);
       if (err != pmNoError)
         {
-          g_warning ("couldn't open input stream\n");
+          g_warning ("Couldn't open input stream");
           portmidi_destroy ();
           return -1;
         }
@@ -173,7 +173,7 @@ portmidi_initialize (DenemoPrefs * config)
       info = Pm_GetDeviceInfo (id);
       if (info == NULL)
         {
-          g_warning ("no output device\n");
+          g_warning ("No output device");
           portmidi_destroy ();
           return -1;
         }
@@ -183,7 +183,7 @@ portmidi_initialize (DenemoPrefs * config)
       err = Pm_OpenOutput (&output_stream, id, NULL, OUTPUT_BUFFER_SIZE, NULL, NULL, 0);
       if (err != pmNoError)
         {
-          g_warning ("couldn't open output stream\n");
+          g_warning ("Couldn't open output stream");
           portmidi_destroy ();
           return -1;
         }

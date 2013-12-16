@@ -198,7 +198,7 @@ key_from_string (GString * scheme_string, gint * tokey, gint * isminor)
   gint UNSET = G_MININT;
   gint length = 0;
   *isminor = (g_strstr_len (upper, scheme_string->len, "MINOR")) ? 1 : 0;
-  //g_print("upper %s, scheme %s\n", upper, scheme_string->str);
+  //g_debug("upper %s, scheme %s\n", upper, scheme_string->str);
 
   gchar **keystosearch = (*isminor ? uminorkeys : umajorkeys);
   gint i;

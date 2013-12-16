@@ -210,9 +210,9 @@ static void set_image_for_button (GtkWidget *button, gchar *name)
 	GtkWidget *child_widget = gtk_bin_get_child(GTK_BIN(button));
 	if(GTK_IS_LABEL(child_widget)) {
 		gtk_button_set_label (GTK_BUTTON(button), "");
-		//g_print("destroy %p, \n", child_widget);
+		//g_debug("destroy %p, \n", child_widget);
 		child_widget = gtk_bin_get_child(GTK_BIN(button));
-		//g_print("or rather destroy %p, is %d \n", child_widget, GTK_IS_WIDGET(child_widget));
+		//g_debug("or rather destroy %p, is %d \n", child_widget, GTK_IS_WIDGET(child_widget));
 		gtk_widget_destroy (child_widget);
 	}
 	GdkPixbuf *pb = gdk_pixbuf_new_from_file(icon, NULL);
@@ -391,7 +391,7 @@ static gboolean already_present (DenemoPalette *pal, gchar *label) {
 }
 
 static void fixup_image (GtkWidget *button, gchar *label) {
-	//g_print("Fixing up image");
+	//g_debug("Fixing up image");
 	set_image_for_button (button, label);	
 }
 gboolean palette_add_button (DenemoPalette *pal, gchar *label, const gchar *tooltip, gchar *script) 
@@ -406,7 +406,7 @@ gboolean palette_add_button (DenemoPalette *pal, gchar *label, const gchar *tool
 		g_signal_connect (button, "realize", G_CALLBACK (fixup_image), label);	
 	} else
 	{
-		GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));//g_print("is %s\n", g_type_name(G_TYPE_FROM_INSTANCE(label_widget)));
+		GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));//g_debug("is %s\n", g_type_name(G_TYPE_FROM_INSTANCE(label_widget)));
 		gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
 	}
 	//put button in a list pal->buttons and then call repack_palette.
@@ -509,7 +509,7 @@ gchar *choose_palette_by_name (gboolean allow_custom, gboolean non_showing)
 	{
 	DenemoPalette *pal = (DenemoPalette *)g->data;
 	if(non_showing && pal->docked && gtk_widget_get_visible (pal->box))
-		continue;//g_print("palette %s is %d\n", pal->name,  gtk_widget_get_visible (pal->box));//continue;
+		continue;//g_debug("palette %s is %d\n", pal->name,  gtk_widget_get_visible (pal->box));//continue;
 	if(non_showing && (!pal->docked) && gtk_widget_get_visible (gtk_widget_get_parent(pal->box)))
 		continue;
 	item = gtk_menu_item_new_with_label (pal->name);

@@ -248,7 +248,7 @@ set_gui_filename (DenemoProject * gui, gchar * filename)
   if (g_queue_get_length (Denemo.prefs.history) > Denemo.prefs.maxhistory)
     {
       gpointer data = g_queue_pop_head (Denemo.prefs.history);
-      g_print ("losing one history\n");
+      g_debug ("Losing one history");
       if (data)
         g_free (data);
     }
@@ -282,7 +282,7 @@ lyinput (gchar * filename)
 #ifdef G_OS_WIN32
   gchar *call = g_strescape (path, "");
   call = g_strdup_printf ("%s%s%s%s%s", "(debug-set! stack 200000) (lyimport::load-file \"", call, "\\\\\" \"", base, "\")");
-  g_print ("Calling %s\n", call);
+  g_debug ("Calling %s\n", call);
 #else
   gchar *call = g_strdup_printf ("%s%s%c%s%s%s", "(lyimport::load-file \"", path, G_DIR_SEPARATOR, "\" \"", base, "\")");
 #endif
@@ -998,7 +998,7 @@ file_save (GtkWidget * widget, DenemoProject * gui)
 {
   gint ret;
   DenemoMovement *si = gui->si;
-  g_print ("READONLY %d\n", si->readonly);
+  g_debug ("READONLY %d\n", si->readonly);
   if ((gui->filename->len == 0) /* || (si->readonly == TRUE) */ )
     /* No filename's been given or is opened from template */
     file_saveas (FALSE);
