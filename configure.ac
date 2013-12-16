@@ -300,13 +300,24 @@ if test "x$useportmidi" = "xyes"; then
   [
     AC_MSG_ERROR([Library 'portmidi' not found])
   ])
-  CFLAGS="$CFLAGS -D_HAVE_PORTMIDI_"
-  LIBS="$LIBS -lportmidi -lporttime"
+  PORTMIDI_CFLAGS="-D_HAVE_PORTMIDI_"
 
-  AC_CHECK_HEADER([porttime.h], [],
-  [
-    AC_MSG_ERROR([Library 'porttime' not found])
-  ])
+  AC_CHECK_LIB([portmidi],
+               [Pm_Initialize],
+               PORTMIDI_LIBS="-lportmidi $PORTMIDI_LIBS"
+               )
+
+  AC_CHECK_LIB([porttime],
+               [Pt_Start],
+               PORTMIDI_LIBS="-lporttime $PORTMIDI_LIBS",
+               )
+
+  if test "x$PORTMIDI_LIBS" = "x"; then
+    AC_MSG_ERROR([Cannot link against portmidi nor porttime])
+  fi
+
+  CFLAGS="$CFLAGS $PORTMIDI_CFLAGS"
+  LIBS="$LIBS $PORTMIDI_LIBS"
 fi
 
 dnl Options for configuration
