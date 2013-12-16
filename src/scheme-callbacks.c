@@ -118,104 +118,104 @@ scheme_popup_menu (SCM list)
 SCM
 scheme_create_palette_button (SCM palette, SCM lbl, SCM tltp, SCM scrp) 
 {
-	SCM ret;
-	gchar *name = scm_to_locale_string (palette);
-	gchar *label = scm_to_locale_string (lbl);
-	gchar *tooltip = scm_to_locale_string (tltp);
-	gchar *script = scm_to_locale_string (scrp);
-	
-	DenemoPalette *pal = create_palette (name, FALSE, TRUE);
+    SCM ret;
+    gchar *name = scm_to_locale_string (palette);
+    gchar *label = scm_to_locale_string (lbl);
+    gchar *tooltip = scm_to_locale_string (tltp);
+    gchar *script = scm_to_locale_string (scrp);
+    
+    DenemoPalette *pal = create_palette (name, FALSE, TRUE);
 
-	ret = palette_add_button (pal, label, tooltip, script)?SCM_BOOL_T:SCM_BOOL_F;
-	gtk_widget_show_all (gtk_widget_get_parent(pal->box));
-	free(name);
-	free(label);
-	free(tooltip);
-	free(script);
-	return ret;
-}	
+    ret = palette_add_button (pal, label, tooltip, script)?SCM_BOOL_T:SCM_BOOL_F;
+    gtk_widget_show_all (gtk_widget_get_parent(pal->box));
+    free(name);
+    free(label);
+    free(tooltip);
+    free(script);
+    return ret;
+}   
 SCM
 scheme_set_palette_shape (SCM palette, SCM horizontal, SCM limit)
 {
-	gchar *name = scm_to_locale_string (palette);
-	gboolean horiz = scm_is_true (horizontal);
-	gint lim = scm_to_int (limit);
-	
-	DenemoPalette *pal = create_palette (name, FALSE, horiz);
-	free(name);
-	if (lim>0) {
-		pal->limit = lim;
-		pal->rows = horiz;
-		repack_palette (pal);
-		return SCM_BOOL_T;
-	}
+    gchar *name = scm_to_locale_string (palette);
+    gboolean horiz = scm_is_true (horizontal);
+    gint lim = scm_to_int (limit);
+    
+    DenemoPalette *pal = create_palette (name, FALSE, horiz);
+    free(name);
+    if (lim>0) {
+        pal->limit = lim;
+        pal->rows = horiz;
+        repack_palette (pal);
+        return SCM_BOOL_T;
+    }
  return SCM_BOOL_F;
 }
 SCM
 scheme_show_palettes (SCM option) 
 {
-	if(scm_is_true (option)) 
-		{
-		gchar *name;
-		if(scm_is_string (option))
-		   {
-			name = scm_to_locale_string (option);
-			DenemoPalette *pal = get_palette (name);
-				if(pal==NULL)
-				{
-					mergePalette ((const gchar *)name);
-					pal = get_palette (name);			
-				}
-				if(pal)
-				{
-					gtk_widget_show (gtk_widget_get_parent(pal->box));
-					//if(gtk_widget_get_visible (pal->box))
-					//	gtk_widget_hide (pal->box);
-					//else
-						gtk_widget_show_all (pal->box);
-					return SCM_BOOL_T;
-				}
-				else
-				{
-					return SCM_BOOL_F;
-				}
-		  } else
-		  {
-			name = choose_palette_by_name (FALSE, TRUE);
-		   if(name)
-			{
-				DenemoPalette *pal = get_palette (name);
-				if(pal)
-				{
-					gtk_widget_show (gtk_widget_get_parent(pal->box));
-					gtk_widget_show_all (pal->box);
-					return SCM_BOOL_T;
-				}
-				else
-				{
-					return SCM_BOOL_F;
-				}
-			}
-		  }
-		} else
-		{
-		if(Denemo.palettes)
-			{
-			GList *g;
-			for (g=Denemo.palettes;g;g=g->next)
-				{
-				DenemoPalette *pal = (DenemoPalette *) g->data;
-				gtk_widget_show (gtk_widget_get_parent(pal->box));
-				gtk_widget_show_all (pal->box);
-				}	
-			return SCM_BOOL_T;
-			} else
-			return SCM_BOOL_F;
-		}
-	return SCM_BOOL_F;
+    if(scm_is_true (option)) 
+        {
+        gchar *name;
+        if(scm_is_string (option))
+           {
+            name = scm_to_locale_string (option);
+            DenemoPalette *pal = get_palette (name);
+                if(pal==NULL)
+                {
+                    mergePalette ((const gchar *)name);
+                    pal = get_palette (name);           
+                }
+                if(pal)
+                {
+                    gtk_widget_show (gtk_widget_get_parent(pal->box));
+                    //if(gtk_widget_get_visible (pal->box))
+                    //  gtk_widget_hide (pal->box);
+                    //else
+                        gtk_widget_show_all (pal->box);
+                    return SCM_BOOL_T;
+                }
+                else
+                {
+                    return SCM_BOOL_F;
+                }
+          } else
+          {
+            name = choose_palette_by_name (FALSE, TRUE);
+           if(name)
+            {
+                DenemoPalette *pal = get_palette (name);
+                if(pal)
+                {
+                    gtk_widget_show (gtk_widget_get_parent(pal->box));
+                    gtk_widget_show_all (pal->box);
+                    return SCM_BOOL_T;
+                }
+                else
+                {
+                    return SCM_BOOL_F;
+                }
+            }
+          }
+        } else
+        {
+        if(Denemo.palettes)
+            {
+            GList *g;
+            for (g=Denemo.palettes;g;g=g->next)
+                {
+                DenemoPalette *pal = (DenemoPalette *) g->data;
+                gtk_widget_show (gtk_widget_get_parent(pal->box));
+                gtk_widget_show_all (pal->box);
+                }   
+            return SCM_BOOL_T;
+            } else
+            return SCM_BOOL_F;
+        }
+    return SCM_BOOL_F;
 }
-	
-		
+    
+        
 SCM
 scheme_get_offset (void)
 {
@@ -755,11 +755,11 @@ scheme_debug_object (SCM optional)
 SCM
 scheme_destroy_scheme_init (void)
 {
-	if(confirm(_("Destroying Customized Buttons"), _("Remove buttons and other customized scheme on startup?"))) 
-	{
-		destroy_local_scheme_init();
-		return SCM_BOOL_T;
-	}
+    if(confirm(_("Destroying Customized Buttons"), _("Remove buttons and other customized scheme on startup?"))) 
+    {
+        destroy_local_scheme_init();
+        return SCM_BOOL_T;
+    }
 return SCM_BOOL_F;
 }
 SCM
@@ -1126,8 +1126,8 @@ scheme_open_source (SCM link)
       gchar *thestring = scm_to_locale_string (link);
       gchar *filename;
 #ifdef G_OS_WIN32
-		filename = thestring;
-		(void) strtok (thestring+2, ":");//skip leading drive name on windows
+        filename = thestring;
+        (void) strtok (thestring+2, ":");//skip leading drive name on windows
 #else      
        filename = strtok (thestring, ":");//will not work if filename contains ':' characters.
 #endif
@@ -1171,9 +1171,9 @@ scheme_export_recorded_audio (void)
 SCM
 scheme_open_source_audio_file (SCM optional)
 {
-	if(open_source_audio_file () && Denemo.project->si->recording && Denemo.project->si->recording->samplerate) {
-		return scm_from_double (Denemo.project->si->recording->nframes/(double)Denemo.project->si->recording->samplerate);
-	}
+    if(open_source_audio_file () && Denemo.project->si->recording && Denemo.project->si->recording->samplerate) {
+        return scm_from_double (Denemo.project->si->recording->nframes/(double)Denemo.project->si->recording->samplerate);
+    }
   return SCM_BOOL_F;
 }
 
@@ -1582,7 +1582,7 @@ scheme_restart_play (void)
 }
 
 static double convert_and_adjust (SCM time) {
-	return scm_to_double (time) * get_playback_speed();
+    return scm_to_double (time) * get_playback_speed();
 }
 SCM
 scheme_set_playback_interval (SCM start, SCM end)
@@ -1658,7 +1658,7 @@ scheme_adjust_playback_start (SCM adj)
   SCM ret = SCM_BOOL_F;
   if (scm_is_real (adj))
     {
-	  stop_midi_playback(NULL, NULL);
+      stop_midi_playback(NULL, NULL);
       Denemo.project->si->start_time += convert_and_adjust (adj);
       if (Denemo.project->si->start_time < 0.0)
         Denemo.project->si->start_time = 0.0;
@@ -1675,7 +1675,7 @@ scheme_adjust_playback_end (SCM adj)
   SCM ret = SCM_BOOL_F;
   if (scm_is_real (adj))
     {
-	  stop_midi_playback(NULL, NULL);
+      stop_midi_playback(NULL, NULL);
       Denemo.project->si->end_time += convert_and_adjust (adj);
       if (Denemo.project->si->end_time < 0.0)
         Denemo.project->si->end_time = 0.0;
@@ -1862,9 +1862,9 @@ scheme_get_menu_position (SCM command)
   menuposition = get_menu_position (g_object_get_data (G_OBJECT (action), "menupath"));
 
   if(menuposition && *menuposition) { 
-	ret = scm_from_locale_string (menuposition);
-	g_free(menuposition);
-	} 
+    ret = scm_from_locale_string (menuposition);
+    g_free(menuposition);
+    } 
   return ret;
 }
 
@@ -2438,38 +2438,37 @@ scheme_get_onset_time (void)
 SCM
 scheme_get_recorded_midi_tempo (SCM index)
 {
-	SCM scm = scm_list_n (SCM_UNDEFINED);
-	if(scm_is_integer(index)) {	
-	gint idx =scm_to_int (index);
-	smf_tempo_t *tempo = get_recorded_midi_tempo (idx);
-	if(tempo)
-		{
-			scm = scm_cons (scm_from_double (tempo->microseconds_per_quarter_note/1000000.0), scm);
-			scm = scm_cons (scm_from_int (tempo->denominator), scm);
-			scm = scm_cons (scm_from_int (tempo->numerator), scm);
-			scm = scm_cons (scm_from_int (tempo->time_seconds), scm);
-			return scm;
-		}
-	}
+    SCM scm = scm_list_n (SCM_UNDEFINED);
+    if(scm_is_integer(index)) { 
+    gint idx =scm_to_int (index);
+    smf_tempo_t *tempo = get_recorded_midi_tempo (idx);
+    if(tempo)
+        {
+            scm = scm_cons (scm_from_double (tempo->microseconds_per_quarter_note/1000000.0), scm);
+            scm = scm_cons (scm_from_int (tempo->denominator), scm);
+            scm = scm_cons (scm_from_int (tempo->numerator), scm);
+            scm = scm_cons (scm_from_int (tempo->time_seconds), scm);
+            return scm;
+        }
+    }
  return SCM_BOOL_F;
 }
 
 SCM
 scheme_get_imported_midi_track (SCM index)
 {
-	if(scm_is_integer(index)) {	
-		gint idx =scm_to_int (index);
-		if(get_imported_midi_track (idx))
-			return SCM_BOOL_F;
-		}
+    if(scm_is_integer(index)) { 
+        gint idx =scm_to_int (index);
+        if(get_imported_midi_track (idx))
+            return SCM_BOOL_F;
+        }
  return SCM_BOOL_F;
 }
 
 SCM
 scheme_delete_imported_midi (void)
 {
-  delete_imported_midi ();
-  return SCM_BOOL_T;
+ return SCM_BOOL (delete_imported_midi ());
 }
 
 
@@ -2478,25 +2477,25 @@ scheme_get_current_midi_track (void)
 {
 gint track = get_current_midi_track();
   if(track)
-	return scm_from_int (track);
+    return scm_from_int (track);
   return SCM_BOOL_F;
 }
 
 SCM
 scheme_get_imported_midi_tracks (void)
 { gint num = get_imported_midi_tracks ();
-	if(num < 1)
-		return SCM_BOOL_F;
-	else
-		return scm_from_int (num);
+    if(num < 1)
+        return SCM_BOOL_F;
+    else
+        return scm_from_int (num);
 }
 
 SCM
 scheme_get_recorded_midi_duration (void) {
-	gdouble duration = get_recorded_midi_duration (); g_print("Duration returned %f so %d\n", duration, duration>0.0);
-	if (duration > 0.0)
-		return scm_from_double (duration);
-	return SCM_BOOL_F;
+    gdouble duration = get_recorded_midi_duration (); g_print("Duration returned %f so %d\n", duration, duration>0.0);
+    if (duration > 0.0)
+        return scm_from_double (duration);
+    return SCM_BOOL_F;
 }
 
 SCM
@@ -4113,8 +4112,8 @@ scheme_get_recorded_midi_on_tick (void)
   smf_track_t *track = Denemo.project->si->recorded_midi_track;
   if (track)
     {
-#define MIDI_NOTEOFF		0x80
-#define MIDI_NOTEON		0x90
+#define MIDI_NOTEOFF        0x80
+#define MIDI_NOTEON     0x90
       smf_event_t *event = smf_track_get_next_event (track);
       if (event)
         switch (event->midi_buffer[0] & 0xF0)
@@ -4383,13 +4382,15 @@ scheme_toggle_conduct (void)
 SCM
 scheme_midi_record (SCM script)
 {
+  if(is_playing())
+        return SCM_BOOL_F;
   if (scm_is_string (script))
-	{
-	  gchar *text = scm_to_locale_string (script);
-	  pb_record (text);
-	  free (text);
-	} else
-	pb_record (NULL);
+    {
+      gchar *text = scm_to_locale_string (script);
+      pb_record (text);
+      free (text);
+    } else
+    pb_record (NULL);
   return SCM_BOOL (Denemo.project->midi_destination | MIDIRECORD);
 }
 SCM
@@ -4405,10 +4406,10 @@ scheme_get_marked_midi_note (void)
  DenemoProject *gui = Denemo.project;
  DenemoMovement *si = gui->si;
  if(si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->marked_onset) {
-	 GList *marked = si->marked_onset;
-	 DenemoRecordedNote *thenote = (DenemoRecordedNote*)marked->data;
-	 gchar *name = mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift);
-	 gchar *str = g_strdup_printf ("%s", mid_c_offsettolily (thenote->mid_c_offset + 7*thenote->octave, thenote->enshift));
+     GList *marked = si->marked_onset;
+     DenemoRecordedNote *thenote = (DenemoRecordedNote*)marked->data;
+     gchar *name = mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift);
+     gchar *str = g_strdup_printf ("%s", mid_c_offsettolily (thenote->mid_c_offset + 7*thenote->octave, thenote->enshift));
      scm = scm_from_locale_string (str);
  }
  return scm;
@@ -4420,9 +4421,9 @@ scheme_get_marked_midi_note_seconds (void)
  DenemoProject *gui = Denemo.project;
  DenemoMovement *si = gui->si;
  if(si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->marked_onset) {
-	 GList *marked = si->marked_onset;
-	 DenemoRecordedNote *thenote = (DenemoRecordedNote*)marked->data;
-	 gdouble seconds = thenote->timing/((gdouble)si->recording->samplerate);
+     GList *marked = si->marked_onset;
+     DenemoRecordedNote *thenote = (DenemoRecordedNote*)marked->data;
+     gdouble seconds = thenote->timing/((gdouble)si->recording->samplerate);
      scm = scm_from_double (seconds);
  }
  return scm;
@@ -4437,34 +4438,34 @@ scheme_advance_marked_midi (SCM advance)
  if(si->recording && (si->recording->type == DENEMO_RECORDING_MIDI))
  {
    if (SCM_UNBNDP(advance))
-	{
-		if(si->marked_onset)
-			si->marked_onset = si->marked_onset->next;
-	}
+    {
+        if(si->marked_onset)
+            si->marked_onset = si->marked_onset->next;
+    }
   else if (scm_is_integer (advance))
-	{
-		gint i = scm_to_int (advance);
-		if(i>0)
-			{
-				while(i-- && si->marked_onset)
-					si->marked_onset = si->marked_onset->next;
-			}
-		else if (i<0)
-		{
-			while(i++ && si->marked_onset)
-					si->marked_onset = si->marked_onset->prev;
-		}
-		else
-			si->marked_onset = si->recording->notes;
-		
-	}
-	else if (scm_is_false (advance))
-		{
-		si->marked_onset = NULL;
-		return SCM_BOOL_T;
-		}
-	if(si->marked_onset)
-			scm = SCM_BOOL_T;
+    {
+        gint i = scm_to_int (advance);
+        if(i>0)
+            {
+                while(i-- && si->marked_onset)
+                    si->marked_onset = si->marked_onset->next;
+            }
+        else if (i<0)
+        {
+            while(i++ && si->marked_onset)
+                    si->marked_onset = si->marked_onset->prev;
+        }
+        else
+            si->marked_onset = si->recording->notes;
+        
+    }
+    else if (scm_is_false (advance))
+        {
+        si->marked_onset = NULL;
+        return SCM_BOOL_T;
+        }
+    if(si->marked_onset)
+            scm = SCM_BOOL_T;
  }
 
  return scm;
@@ -4472,7 +4473,7 @@ scheme_advance_marked_midi (SCM advance)
 
 SCM scheme_insert_marked_midi_note (void)
 {
-	return SCM_BOOL (insert_marked_midi_note ());
+    return SCM_BOOL (insert_marked_midi_note ());
 }
 
 typedef struct cb_scheme_and_id
@@ -4768,8 +4769,8 @@ scheme_highlight_cursor (SCM optional)
   gboolean old_value = Denemo.prefs.cursor_highlight;
   if (scm_is_bool(optional))
    {
-	  Denemo.prefs.cursor_highlight = scm_is_true (optional);
-	  ret =  old_value?SCM_BOOL_T:SCM_BOOL_F;  
+      Denemo.prefs.cursor_highlight = scm_is_true (optional);
+      ret =  old_value?SCM_BOOL_T:SCM_BOOL_F;  
   } else
   {
   Denemo.prefs.cursor_highlight = !Denemo.prefs.cursor_highlight;
