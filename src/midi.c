@@ -92,6 +92,7 @@ update_position (smf_event_t * event)
 
 static void
 safely_add_track (smf_t * smf, smf_track_t * track)
+{
     track->smf = NULL;
     smf_add_track (smf, track);
 }
