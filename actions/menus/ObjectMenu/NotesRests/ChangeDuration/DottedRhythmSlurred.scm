@@ -9,6 +9,6 @@
         (d-MoveCursorLeft)
         (d-Diminish)
         (d-ToggleEndSlur)
-        (if nonprinting
+        (if (and nonprinting (not (d-GetMarkedMidiNote)))
         	(d-SetNonprinting))
         (d-MoveCursorRight)))))

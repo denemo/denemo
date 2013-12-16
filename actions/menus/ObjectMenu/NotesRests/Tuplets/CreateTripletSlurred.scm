@@ -1,5 +1,6 @@
-;;;CreateTripletSlurred
-(if (and (MidiInput?) (Appending?))
+;;CreateTripletSlurred
+(let ((nonprinting (MidiInput?)))
+(if (and nonprinting (Appending?))
 	(begin
 	    (d-MoveCursorLeft)
 	    (if (Music?)
@@ -8,12 +9,14 @@
 			(d-MoveCursorRight)
 			(d-ToggleBeginSlur)
   			(eval-string (string-append "(d-" (number->string duration) ")"))
-        		(d-SetNonprinting)
+            		(if (and nonprinting (not (d-GetMarkedMidiNote)))
+                    		 (d-SetNonprinting))
    			(eval-string (string-append "(d-" (number->string duration) ")"))
-        		(d-SetNonprinting)    
+           		 (if (and nonprinting (not (d-GetMarkedMidiNote)))
+                    		 (d-SetNonprinting))
         		(d-ToggleEndSlur)		
 			(d-EndTuplet))
 		 (begin
 		 	(d-MoveCursorRight)
 		 	(d-ToggleTripleting))))
-	(d-ToggleTripleting))
+	(d-ToggleTripleting)))

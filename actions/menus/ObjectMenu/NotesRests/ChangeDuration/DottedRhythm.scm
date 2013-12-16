@@ -7,6 +7,6 @@
         (eval-string (string-append "(d-" (number->string duration) ")"))
         (d-MoveCursorLeft)
         (d-Diminish)
-        (if nonprinting
-        	(d-SetNonprinting))
+        (if (and nonprinting (not (d-GetMarkedMidiNote)))
+            (d-SetNonprinting))
         (d-MoveCursorRight)))))
