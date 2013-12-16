@@ -16,7 +16,7 @@ drawbarline (cairo_t * cr, gint xx, gint top_y, gint y, gint type)
 {
   if (type == ORDINARY_BARLINE)
     {
-      g_print ("Ordinary Co-ords (%d,%d) - (%d,%d) ", xx, top_y, xx, y);
+      g_debug ("Ordinary Co-ords (%d,%d) - (%d,%d) ", xx, top_y, xx, y);
       //gdk_draw_line (pixmap, gc, xx, top_y, xx, y);
       cairo_move_to (cr, xx, top_y);
       cairo_line_to (cr, xx + 10, y);

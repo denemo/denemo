@@ -46,7 +46,7 @@ addbookmark (GtkAction * action, gpointer param)
 
   si->bookmarks = g_list_append (si->bookmarks, bm);
 
-  //g_print ("Bar %d, Staff %d, \n", bm->bar, bm->staff);
+  //g_debug ("Bar %d, Staff %d, \n", bm->bar, bm->staff);
 }
 
 
@@ -119,7 +119,7 @@ gotobookmark (GtkAction * action, gpointer param)
   GtkWidget *combobox;
   dialog = gtk_dialog_new_with_buttons (_("Goto Bookmark"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 
-  //g_print ("List length %d\n", g_list_length (gui->si->bookmarks));
+  //g_debug ("List length %d\n", g_list_length (gui->si->bookmarks));
 #define FORMAT "%d : Staff %d : Bar %d"
 #if GTK_MAJOR_VERSION==3
   GList* tmp;

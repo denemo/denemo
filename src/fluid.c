@@ -33,7 +33,7 @@ fluidsynth_init (DenemoPrefs * config, unsigned int samplerate)
   settings = new_fluid_settings ();
   if (!settings)
     {
-      g_warning ("\nFailed to create the settings\n");
+      g_warning ("Failed to create the settings");
       return -1;
     }
 
@@ -46,7 +46,7 @@ fluidsynth_init (DenemoPrefs * config, unsigned int samplerate)
   synth = new_fluid_synth (settings);
   if (!synth)
     {
-      g_warning ("\nFailed to create the settings\n");
+      g_warning ("Failed to create the settings");
       fluidsynth_shutdown ();
       return -1;
     }
@@ -140,7 +140,7 @@ fluidsynth_feed_midi (unsigned char *event_data, size_t event_length)
       fluid_synth_pitch_bend (synth, channel, event_data[1] + (event_data[2] << 7));
       break;
     case SYS_EXCLUSIVE_MESSAGE1:
-      // g_print("length %d\n", event_length);
+      //g_debug("length %d\n", event_length);
       fluid_synth_sysex (synth, (const char*) event_data + 1, event_length - 1, NULL, 0, NULL, FALSE);
       break;
     default:

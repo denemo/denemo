@@ -79,7 +79,7 @@ ParseInstruments (xmlDocPtr doc, xmlNodePtr cur, GList * list)
 
       if (0 == xmlStrcmp (cur->name, (const xmlChar *) "Instrument"))
         {
-          g_print ("%s\n", cur->name);
+          g_debug ("%s\n", cur->name);
           InstrumentConfig *config = (InstrumentConfig *) g_malloc0 (sizeof (InstrumentConfig));
           gchar *tmpname = (gchar *) xmlGetProp (cur, (xmlChar *) "name");
           if (tmpname)
@@ -117,7 +117,7 @@ ParseInstruments (xmlDocPtr doc, xmlNodePtr cur, GList * list)
               tmpstaff = NULL;
             }
 
-          g_print ("Names %s\n", config->name->str);
+          g_debug ("Names %s\n", config->name->str);
 
           list = g_list_append (list, config);
         }
@@ -154,15 +154,15 @@ parseInstruments (GList * instruments)
   rootElem = xmlDocGetRootElement (doc);
   if (rootElem == NULL)
     {
-      g_warning ("Empty Document\n");
+      g_warning ("Empty Document");
       xmlFreeDoc (doc);
       return instruments;
     }
 
-  g_print ("RootElem: %s\n", rootElem->name);
+  g_debug ("RootElem: %s\n", rootElem->name);
   if (0 != xmlStrcmp (rootElem->name, (xmlChar*) "Instruments"))
     {
-      g_warning ("Document has wrong type\n");
+      g_warning ("Document has wrong type");
       xmlFreeDoc (doc);
       return instruments;
     }
@@ -170,14 +170,14 @@ parseInstruments (GList * instruments)
   rootElem = rootElem->xmlChildrenNode;
   while (rootElem != NULL)
     {
-      g_print ("RootElem %s\n", rootElem->name);
+      g_debug ("RootElem %s\n", rootElem->name);
       if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "InstrumentType"))
         {
           InstrumentList *list = (InstrumentList *) g_malloc0 (sizeof (InstrumentList));
 
           gchar *tmp = (gchar *) xmlGetProp (rootElem, (xmlChar *) "name");
           list->type = lookuptype (tmp);
-          g_print ("Type %s\n", tmp);
+          g_debug ("Type %s\n", tmp);
           list->instruments = ParseInstruments (doc, rootElem, list->instruments);
           instruments = g_list_append (instruments, list);
         }

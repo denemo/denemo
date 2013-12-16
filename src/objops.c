@@ -115,7 +115,7 @@ void
 set_modeaccs (gint * accs, gint number, gint mode)
 {
 
-  g_print ("Mode %d : %d \n", number, mode);
+  g_debug ("Mode %d : %d \n", number, mode);
   if (mode == 0)
     {
       switch (number)
@@ -273,7 +273,7 @@ free_directive_data (DenemoDirective * directive)
     }
   if (directive->widget && G_IS_OBJECT (directive->widget))
     {
-      //g_print("We should destroy the widget now ");
+      //g_debug("We should destroy the widget now ");
       GtkWidget *texteditor = (GtkWidget *) g_object_get_data (G_OBJECT (directive->widget), DENEMO_TEXTEDITOR_TAG);
       if (texteditor)
         gtk_widget_destroy (texteditor);        //FIXME we may need to destroy its parents

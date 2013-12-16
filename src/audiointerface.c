@@ -123,7 +123,7 @@ initialize_audio (DenemoPrefs * config)
 #ifdef _HAVE_JACK_
       backends[AUDIO_BACKEND] = &jack_audio_backend;
 #else
-      g_warning ("JACK backend is not enabled\n");
+      g_warning ("JACK backend is not enabled");
 #endif
     }
   else if (strcmp (driver, "portaudio") == 0)
@@ -131,7 +131,7 @@ initialize_audio (DenemoPrefs * config)
 #ifdef _HAVE_PORTAUDIO_
       backends[AUDIO_BACKEND] = &portaudio_backend;
 #else
-      g_warning ("PortAudio backend is not enabled\n");
+      g_warning ("PortAudio backend is not enabled");
 #endif
     }
   else if (strcmp (driver, "dummy") == 0)
@@ -140,7 +140,7 @@ initialize_audio (DenemoPrefs * config)
     }
   else
     {
-      g_warning ("Unknown audio backend '%s'\n", driver);
+      g_warning ("Unknown audio backend '%s'", driver);
     }
 
   if (backends[AUDIO_BACKEND] == NULL)
@@ -175,7 +175,7 @@ initialize_midi (DenemoPrefs * config)
 #ifdef _HAVE_JACK_
       backends[MIDI_BACKEND] = &jack_midi_backend;
 #else
-      g_warning ("JACK backend is not enabled\n");
+      g_warning ("JACK backend is not enabled");
 #endif
     }
   else if (strcmp (driver, "portmidi") == 0)
@@ -183,7 +183,7 @@ initialize_midi (DenemoPrefs * config)
 #ifdef _HAVE_PORTMIDI_
       backends[MIDI_BACKEND] = &portmidi_backend;
 #else
-      g_warning ("PortMidi backend is not enabled\n");
+      g_warning ("PortMidi backend is not enabled");
 #endif
     }
   else if (strcmp (driver, "alsa") == 0)
@@ -191,7 +191,7 @@ initialize_midi (DenemoPrefs * config)
 #ifdef _HAVE_ALSA_
       backends[MIDI_BACKEND] = &alsa_seq_midi_backend;
 #else
-      g_warning ("ALSA backend is not enabled\n");
+      g_warning ("ALSA backend is not enabled");
 #endif
     }
   else if (strcmp (driver, "dummy") == 0)
@@ -200,7 +200,7 @@ initialize_midi (DenemoPrefs * config)
     }
   else
     {
-      g_warning ("Unknown MIDI backend '%s'\n", driver);
+      g_warning ("Unknown MIDI backend '%s'", driver);
     }
 
   if (backends[MIDI_BACKEND] == NULL)
@@ -563,7 +563,7 @@ update_playback_time (backend_timebase_prio_t prio, double new_time)
   if (new_time != playback_time)
     {
       playback_time = new_time;
-// g_print(" %2.2f", new_time);midi_play tries to set playback_time, which then gets overriden by the call in the portaudio callback.
+// g_debug(" %2.2f", new_time);midi_play tries to set playback_time, which then gets overriden by the call in the portaudio callback.
       // if the lock fails, the playback time update will be delayed until the
       // queue thread wakes up on its own
       if (!try_signal_queue ())
@@ -608,7 +608,7 @@ audio_play (void)
   reset_rubberband_queue (AUDIO_BACKEND);
 #endif
   playback_start_time = get_start_time ();
-  //g_print ("starting audio playback at %f\n", playback_start_time);
+  //g_debug ("starting audio playback at %f\n", playback_start_time);
   playback_time = playback_start_time;
 
 }
@@ -736,7 +736,7 @@ rhythm_feedback (backend_type_t backend, gint duration, gboolean rest, gboolean 
     play_note (backend, 0, 9, 46, 300, 127 * Denemo.project->si->master_volume);
   while ((key = GPOINTER_TO_INT( g_queue_pop_head (Denemo.project->pending_midi)) ))
     play_note (backend, 0, 9, key, 300, 127 * Denemo.project->si->master_volume);
-  //g_print("playing %d %d\n", rhythm_sounds[duration], (60/(4*Denemo.project->si->tempo*(1<<duration)))*1000);
+  //g_debug("playing %d %d\n", rhythm_sounds[duration], (60/(4*Denemo.project->si->tempo*(1<<duration)))*1000);
 
   return 0;
 }
@@ -745,7 +745,7 @@ rhythm_feedback (backend_type_t backend, gint duration, gboolean rest, gboolean 
 int
 panic (backend_type_t backend)
 {
- // g_print ("panicking\n");
+ // g_critical ("Panicking");
   return get_backend (backend)->panic ();
 }
 

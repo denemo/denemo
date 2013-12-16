@@ -68,7 +68,7 @@ gtk_menu_item_set_label_text (GtkMenuItem * item, gchar * text)
 static void
 toggle_locked (GtkWidget * widget, gboolean * locked)
 {
-  //g_print("Called with %d\n", *locked);
+  //g_debug("Called with %d\n", *locked);
   *locked = !*locked;
 }
 
@@ -358,7 +358,7 @@ insert_lily_directive (gchar * postfix, gchar * display, gboolean locked, gint m
       lily = lily_directive_new (postfix);
       is_new = TRUE;
       lilyobj = (lilydirective *) lily->object;
-      setpixelmin (lily);       //lily->minpixelsalloted = minpixels;// g_print("min pixels %d\n", lily->minpixelsalloted);
+      setpixelmin (lily);       //lily->minpixelsalloted = minpixels;//g_debug("min pixels %d\n", lily->minpixelsalloted);
     }
   if (lilyobj)
     {
@@ -431,7 +431,7 @@ standalone_directive (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   GET_4PARAMS (action, param, directive, postfix, display, minpixels);
-  //g_print("query is %s\n", query);
+  //g_debug("query is %s\n", query);
   if (directive)
     postfix = directive;        //support for simpler syntax directive=xxx instead of postfix=xxx
   if (query)
@@ -457,7 +457,7 @@ standalone_directive (GtkAction * action, DenemoScriptParam * param)
   else
     {
       insert_lily_directive (postfix, display, locked, minpixels ? atoi (minpixels) : 8);
-      g_print ("display helper for %s\n", postfix);
+      g_debug ("Display helper for %s", postfix);
       displayhelper (gui);
     }
 }
@@ -1533,7 +1533,7 @@ widget_for_directive_menu (DenemoDirective * directive, void fn (), GtkMenu * me
 
       if ((fn == (void (*)()) staff_directive_put_graphic) || (fn == (void (*)()) voice_directive_put_graphic))
         {
-          //g_print("Doing the staff or voice case");
+          //g_debug("Doing the staff or voice case");
           directive->widget = GTK_WIDGET (gtk_menu_item_new_with_label (value));        //WARNING _with_label is important
           attach_textedit_widget (directive);
           g_signal_connect (G_OBJECT (directive->widget), "button-release-event", G_CALLBACK (button_callback), directive);
@@ -1541,7 +1541,7 @@ widget_for_directive_menu (DenemoDirective * directive, void fn (), GtkMenu * me
         }
       else if (box)
         {
-          //g_print("Doing the score and movement cases starting from %p", directive->widget);
+          //g_debug("Doing the score and movement cases starting from %p", directive->widget);
           directive->widget = GTK_WIDGET (gtk_button_new_with_label (value));
           gchar *tooltip;
           const gchar *label = get_label_for_command(directive->tag->str);
@@ -2037,7 +2037,7 @@ select_directive (gchar * instr, GList * directives)
     }
   gtk_widget_destroy (dialog);
   //if(response && response->tag)
-  //g_print("Came back with response %s\n", response->tag->str);
+  //g_debug("Came back with response %s\n", response->tag->str);
   return response;
 }
 
@@ -2148,7 +2148,7 @@ static void
 populate_menu_for_directives (GtkWidget * menu, GList * directives)
 {
   g_object_set_data (G_OBJECT (menu), "directives", directives);
-  //g_print("setting directives %p for menu %p\n", directives, menu);
+  //g_debug("setting directives %p for menu %p\n", directives, menu);
   for (; directives; directives = directives->next)
     {
       populate_menu_for_directive (menu, directives->data);
@@ -2162,11 +2162,11 @@ gboolean
 unpopulate_menu (GtkWidget * menu)
 {
   GList *directives = g_object_get_data (G_OBJECT (menu), "directives");
-  //g_print("removing directives %p for menu %p\n", directives, menu);
+  //g_debug("removing directives %p for menu %p\n", directives, menu);
   for (; directives; directives = directives->next)
     {
       DenemoDirective *directive = directives->data;
-      //g_print("now remove %p\n", directive->widget);
+      //g_debug("now remove %p\n", directive->widget);
       if (directive->widget)
         gtk_container_remove (GTK_CONTAINER (menu), directive->widget);
     }
@@ -2326,7 +2326,7 @@ if(directive->field)\
 #undef ADD_INTTEXT
   g_string_append (scheme, "(d-RefreshDisplay)\n;;;End of scheme script");
   // quote_scheme(scheme);
-  //g_print("Scheme is %s\n", scheme->str);
+  //g_debug("Scheme is %s\n", scheme->str);
   appendSchemeText (scheme->str);
   g_string_free (scheme, TRUE);
 }
@@ -2362,7 +2362,7 @@ get_edit_script (GtkWidget * widget, gchar * tag)
       if (g_file_get_contents (filename, &script, NULL, &error))
         appendSchemeText (script);
       else
-        g_warning (_("Could not get contents of %s\n"), filename);
+        g_warning (_("Could not get contents of %s"), filename);
       g_free (script);
       g_free (filename);
     }
@@ -2399,7 +2399,7 @@ activate_directive (DenemoDirective * directive, gchar * what)
 {
   if (directive->widget && GTK_IS_WIDGET (directive->widget))
     {
-      g_print ("activate\n");
+      g_debug ("Activate");
       gtk_widget_activate (directive->widget);
       //g_signal_emit!!!!!!!!!!!!!!! what do we do!!!!!!!!!!!(directive->widget, "button-release-event");
       return TRUE;
@@ -2526,7 +2526,7 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
 
   gtk_widget_show_all (dialog);
   gint response = gtk_dialog_run (GTK_DIALOG (dialog));
-  // g_print("Got response %d\n", response);
+  //g_debug("Got response %d\n", response);
 
 
   if (response == GTK_RESPONSE_CANCEL || response == GTK_RESPONSE_DELETE_EVENT || response == GTK_RESPONSE_REJECT)
@@ -2570,7 +2570,7 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
     }
   gtk_widget_destroy (dialog);
   if (response == CREATE_SCRIPT)
-    create_script (directive, what);    //g_print("(d-DirectivePut-%s \"%s\")\n", what, directive->tag->str);
+    create_script (directive, what);    //g_debug("(d-DirectivePut-%s \"%s\")\n", what, directive->tag->str);
   return ret;
 }
 
@@ -2627,7 +2627,7 @@ edit_directive (DenemoDirective * directive, gchar * what)
         {                       //FIXME this should be detecting shift click surely????
           DenemoScriptParam param;
           param.string = g_string_new ("edit");
-          g_print ("Script can look for params \"edit\" - a string to catch this\n");
+          g_debug ("Script can look for params \"edit\" - a string to catch this");
           activate_script (action, &param);
           g_string_free (param.string, TRUE);
         }
@@ -2652,12 +2652,12 @@ edit_directive (DenemoDirective * directive, gchar * what)
 void
 edit_object_directive (GtkAction * action, DenemoScriptParam * param)
 {
-  //g_print("Edit directive called\n");
+  //g_debug("Edit directive called\n");
   DenemoDirective *directive;
   GList **directives;
   gchar *what = NULL;
   user_select_directive_at_cursor (&what, &directives, &directive);
-  //g_print("Got directive %p in list %p\n", directive, directives);
+  //g_debug("Got directive %p in list %p\n", directive, directives);
   if (directive == NULL)
     {
 			if(*directives!=NULL)
@@ -2689,12 +2689,12 @@ edit_object_directive (GtkAction * action, DenemoScriptParam * param)
 void
 delete_chord_or_note_directive (GtkAction * action, DenemoScriptParam * param)
 {
-  //g_print("Edit directive called\n");
+  //g_debug("Edit directive called\n");
   DenemoDirective *directive;
   GList **directives;
   gchar *what = NULL;
   user_select_directive_at_cursor (&what, &directives, &directive);
-  //g_print("Got directive %p in list %p\n", directive, directives);
+  //g_debug("Got directive %p in list %p\n", directive, directives);
   if (directives == NULL)
     {
       warningdialog (_("No directives here"));
@@ -2839,9 +2839,9 @@ select_voice_directive (void)
 void
 edit_voice_directive (GtkAction * action, DenemoScriptParam * param)
 {
-  //g_print("Edit directive called\n");
+  //g_debug("Edit directive called\n");
   DenemoDirective *directive = select_voice_directive ();
-  //g_print("Got directive %p\n", directive);
+  //g_debug("Got directive %p\n", directive);
   if (directive == NULL)
     return;
   if (directive->tag == NULL)
@@ -2857,9 +2857,9 @@ edit_voice_directive (GtkAction * action, DenemoScriptParam * param)
 void
 edit_staff_directive (GtkAction * action, DenemoScriptParam * param)
 {
-  //g_print("Edit directive called\n");
+  //g_debug("Edit directive called\n");
   DenemoDirective *directive = select_staff_directive ();
-  //g_print("Got directive %p\n", directive);
+  //g_debug("Got directive %p\n", directive);
   if (directive == NULL)
     return;
   if (directive->tag == NULL)
@@ -2875,9 +2875,9 @@ edit_staff_directive (GtkAction * action, DenemoScriptParam * param)
 void
 edit_clef_directive (GtkAction * action, DenemoScriptParam * param)
 {
-  //g_print("Edit directive called\n");
+  //g_debug("Edit directive called\n");
   DenemoDirective *directive = select_clef_directive ();
-  //g_print("Got directive %p\n", directive);
+  //g_debug("Got directive %p\n", directive);
   if (directive == NULL)
     return;
   if (directive->tag == NULL)
@@ -2893,9 +2893,9 @@ edit_clef_directive (GtkAction * action, DenemoScriptParam * param)
 void
 edit_keysig_directive (GtkAction * action, DenemoScriptParam * param)
 {
-  //g_print("Edit directive called\n");
+  //g_debug("Edit directive called\n");
   DenemoDirective *directive = select_keysig_directive ();
-  //g_print("Got directive %p\n", directive);
+  //g_debug("Got directive %p\n", directive);
   if (directive == NULL)
     return;
   if (directive->tag == NULL)
@@ -2912,9 +2912,9 @@ edit_keysig_directive (GtkAction * action, DenemoScriptParam * param)
 void
 edit_timesig_directive (GtkAction * action, DenemoScriptParam * param)
 {
-  //g_print("Edit directive called\n");
+  //g_debug("Edit directive called\n");
   DenemoDirective *directive = select_timesig_directive ();
-  //g_print("Got directive %p\n", directive);
+  //g_debug("Got directive %p\n", directive);
   if (directive == NULL)
     return;
   if (directive->tag == NULL)
@@ -2930,9 +2930,9 @@ edit_timesig_directive (GtkAction * action, DenemoScriptParam * param)
 void
 edit_tuplet_directive (GtkAction * action, DenemoScriptParam * param)
 {
-  //g_print("Edit directive called\n");
+  //g_debug("Edit directive called\n");
   DenemoDirective *directive = select_tuplet_directive ();
-  //g_print("Got directive %p\n", directive);
+  //g_debug("Got directive %p\n", directive);
   if (directive == NULL)
     return;
   if (directive->tag == NULL)
@@ -2948,9 +2948,9 @@ edit_tuplet_directive (GtkAction * action, DenemoScriptParam * param)
 void
 edit_stemdirective_directive (GtkAction * action, DenemoScriptParam * param)
 {
-  //g_print("Edit directive called\n");
+  //g_debug("Edit directive called\n");
   DenemoDirective *directive = select_stemdirective_directive ();
-  //g_print("Got directive %p\n", directive);
+  //g_debug("Got directive %p\n", directive);
   if (directive == NULL)
     return;
   if (directive->tag == NULL)
@@ -3016,7 +3016,7 @@ edit_score_directive (GtkAction * action, DenemoScriptParam * param)
   EDITTYPE (HeaderBlockDirectives, header);
   EDITTYPE (LayoutBlockDirectives, layout);
 
-  //  g_print("option was %s\n",option);
+  //g_debug("option was %s\n",option);
   g_string_free (options, TRUE);
 #undef EDITTYPE
 #undef STRINGAPPEND

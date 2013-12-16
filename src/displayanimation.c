@@ -40,7 +40,7 @@ cursor_transition (void)
 static gboolean
 transition (void)
 {
-  //g_print("Transition %d current bar= %d\n", transition_steps, transition_amount);
+  //g_debug("Transition %d current bar= %d\n", transition_steps, transition_amount);
   if (transition_steps == 1)
     {
       set_cursor_transition ();
@@ -52,7 +52,7 @@ transition (void)
 static gboolean
 staff_transition (void)
 {
-  //g_print("Transition %d current bar= %d\n", transition_steps, transition_amount);
+  //g_debug("Transition %d current bar= %d\n", transition_steps, transition_amount);
   if (staff_transition_steps == 1)
     {
       set_cursor_transition ();
@@ -75,7 +75,7 @@ movement_transition (void)
 static gboolean
 measure_transition (void)
 {
-  //g_print("Measure transition %d current bar= %d\n", measure_steps, measure_amount);
+  //g_debug("Measure transition %d current bar= %d\n", measure_steps, measure_amount);
   if (measure_transition_steps == 1)
     {
       set_cursor_transition ();

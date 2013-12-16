@@ -31,7 +31,7 @@ update_hscrollbar (DenemoProject * gui)
   gtk_adjustment_set_page_increment (adj, page_size);
   gtk_adjustment_set_value (adj, gui->si->leftmeasurenum);
   gtk_adjustment_changed (adj);
-  //g_print("steps %d Difference %d\n",transition_steps, (gint)(left-gui->si->leftmeasurenum));
+  //g_debug("steps %d Difference %d\n",transition_steps, (gint)(left-gui->si->leftmeasurenum));
   set_viewport_transition ((gint) (gui->si->leftmeasurenum) - left);
 }
 
@@ -200,7 +200,7 @@ page_viewport (void)
 {
   gdouble value, upper;
   GtkAdjustment *adj = GTK_ADJUSTMENT (Denemo.hadjustment);
-  // g_print("%d %d\n", Denemo.project->si->leftmeasurenum, Denemo.project->si->rightmeasurenum);
+  //g_debug("%d %d\n", Denemo.project->si->leftmeasurenum, Denemo.project->si->rightmeasurenum);
   gint amount = (Denemo.project->si->rightmeasurenum - Denemo.project->si->leftmeasurenum + 1);
   value = gtk_adjustment_get_value (adj);
   upper = gtk_adjustment_get_upper (adj);

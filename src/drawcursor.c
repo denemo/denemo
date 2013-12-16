@@ -64,7 +64,7 @@ draw_cursor (cairo_t * cr, DenemoMovement * si, gint xx, gint y, gint insert_con
       insert_pos = insert_control * CURSOR_WIDTH;
     static gboolean on;
     on = !on;
-    // g_print("on is %d %d\n", on,  Denemo.prefs.cursor_highlight);
+    //g_debug("on is %d %d\n", on,  Denemo.prefs.cursor_highlight);
     if ((!Denemo.prefs.cursor_highlight) || (on && Denemo.prefs.cursor_highlight))
       {
         cairo_set_source_rgb (cr, 0, 0, 255);

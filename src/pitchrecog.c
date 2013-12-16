@@ -377,7 +377,7 @@ initialize_pitch_recognition (void)
 int
 terminate_pitch_recognition (void)
 {
-  g_print ("Terminating portaudio and aubio\n");
+  g_message ("Terminating portaudio and aubio");
   (void) pa_main (NULL);
   aubio_finish ();
   return 0;

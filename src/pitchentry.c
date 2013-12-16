@@ -377,7 +377,7 @@ check_midi_intervals (GList * midichord)
       value = fifths[offset] + 7 * enshift;
       most = MAX (most, value);
       least = MIN (least, value);
-      //g_print("note %d value %d\noffset %d enshift %d least=%d most=%d\n", g->data, value, offset, least, least, most);
+      //g_debug("note %d value %d\noffset %d enshift %d least=%d most=%d\n", g->data, value, offset, least, least, most);
     }
   return abs (most - least) < 6;
 }
@@ -421,8 +421,8 @@ determine_interval (gint bass, gint harmony, gboolean * status)
 
   *status = check_interval (bassnote.spec.step, bassnote.spec.alteration, harmonynote.spec.step, harmonynote.spec.alteration);
 
-//g_print("have %d %d\n", bassnote.spec.step, harmonynote.spec.step);
-// g_print("Bass %d harmony %d\nInterval is %d, semitones is %d cf (%d, %d)  \n keyaccs of bass note %d of harmony %d\ninflection %d\n", bass, harmony, interval, semitones, bassnote.spec.alteration, harmonynote.spec.alteration, accs[bassnote.spec.step], accs[harmonynote.spec.step], inflection);
+//g_debug("have %d %d\n", bassnote.spec.step, harmonynote.spec.step);
+// g_debug("Bass %d harmony %d\nInterval is %d, semitones is %d cf (%d, %d)  \n keyaccs of bass note %d of harmony %d\ninflection %d\n", bass, harmony, interval, semitones, bassnote.spec.alteration, harmonynote.spec.alteration, accs[bassnote.spec.step], accs[harmonynote.spec.step], inflection);
   gchar *modifier = "";
   if (interval == 5 && semitones == 6)
     modifier = "/";
@@ -767,7 +767,7 @@ enter_tone_in_store (DenemoProject * gui, notepitch * found, gint octave)
 {
   gboolean nextmeasure;
   tone *thetone = (tone *) g_malloc0 (sizeof (tone));
-  //g_print("tone %p\n", thetone);
+  //g_debug("tone %p\n", thetone);
   thetone->enshift = found->spec.alteration;
   thetone->step = found->spec.step + 7 * octave;
   thetone->octave = octave;
@@ -974,7 +974,7 @@ static gint
 measure_pitch_accurately (G_GNUC_UNUSED gpointer data)
 {
   double note = determine_frequency ();
-  //g_print("returned %f\n", note);
+  //g_debug("returned %f\n", note);
   if (note > 0.0)
     display_pitch (note);
 
@@ -1041,7 +1041,7 @@ pitchentry (DenemoProject * gui)
               if (gui->input_source == INPUTMIDI)
                 {
                   gint key = (gint) (Freq2Pitch (found->pitch * (pow (2, (octave)))));
-                  //g_print("pitch %f key number %d\n",found->pitch, key);
+                  //g_debug("pitch %f key number %d\n",found->pitch, key);
 
                   DenemoStaff *curstaffstruct = ((DenemoStaff *) Denemo.project->si->currentstaff->data);
                   play_note (DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, key, 300 /*duration */ , 0);
@@ -1320,7 +1320,7 @@ get_cents (temperament * t)
   for (i = 0; i < 12; i++)
     {
       j = (i + temperament_offset) % 12;
-      //g_print("cents tempered %d to %d unshifted %f shifted %f\n", i, j, 1200 * log2(t->notepitches[i].pitch/Equal.notepitches[i].pitch), 1200 * log2(t->notepitches[j].pitch/Equal.notepitches[j].pitch));
+      //g_debug("cents tempered %d to %d unshifted %f shifted %f\n", i, j, 1200 * log2(t->notepitches[i].pitch/Equal.notepitches[i].pitch), 1200 * log2(t->notepitches[j].pitch/Equal.notepitches[j].pitch));
       array[i] = 1200 * log2 (t->notepitches[j].pitch / Equal.notepitches[j].pitch);
     }
   return array;
@@ -1490,7 +1490,7 @@ create_pitch_recognition_window (DenemoProject * gui)
       g_signal_connect (G_OBJECT (radio_button), "toggled", G_CALLBACK (toggle_insert), NULL);
       button = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (radio_button), "Insert Notes");
 
-      //g_print("Overlays %d\n", Denemo.prefs.overlays);
+      //g_debug("Overlays %d\n", Denemo.prefs.overlays);
       if (Denemo.prefs.overlays)
         {
           //gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(button), FALSE);
@@ -1503,7 +1503,7 @@ create_pitch_recognition_window (DenemoProject * gui)
 
           //gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(radio_button), FALSE);
         }
-      //g_print("Overlays after button setting %d\n", Denemo.prefs.overlays);
+      //g_debug("Overlays after button setting %d\n", Denemo.prefs.overlays);
       gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, TRUE, 0);       /* no need for callback */
 
       gtk_box_pack_start (GTK_BOX (vbox), radio_button, TRUE, TRUE, 0);

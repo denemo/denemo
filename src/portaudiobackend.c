@@ -133,7 +133,7 @@ if((!rubberband_active) || (available < (gint)frames_per_buffer)) {
 #endif
 
   while (read_event_from_queue (AUDIO_BACKEND, event_data, &event_length, &event_time, until_time/slowdown))
-    {//g_print("%d ", event_data[1] );
+    {//g_debug("%d ", event_data[1] );
       fluidsynth_feed_midi (event_data, event_length);  //in fluid.c note fluidsynth api ues fluid_synth_xxx these naming conventions are a bit too similar
     }
 
@@ -191,7 +191,7 @@ if(rubberband_active)
               if (fp == NULL)
                 g_warning ("Could not open denemo-output");
               else
-                g_print ("Opened output file");
+                g_info ("Opened output file %s", filename);
             }
           if (fp)
             {
@@ -270,7 +270,7 @@ actual_portaudio_initialize (DenemoPrefs * config)
 
   if (!info)
     {
-      g_warning ("Invalid device '%s\n'", config->portaudio_device->str);
+      g_warning ("Invalid device '%s'", config->portaudio_device->str);
       return -1;
     }
 

@@ -126,7 +126,7 @@ freeobjlist (gpointer data, gpointer user_data)
 void
 staffremovemeasures (staffnode * curstaff, guint pos)
 {
-  //g_print ("In Staffremovemeasures\n");
+  //g_debug ("In Staffremovemeasures\n");
   take_snapshot ();
   measurenode *firstmeasure;
   measurenode *delmeasure;
@@ -344,7 +344,7 @@ settickvalsinmeasure (objnode * theobjs)
 
       //this goes up too fast for grace notes...
 
-      //g_print("start tick next %d\n",       theobj->starttickofnextnote);
+      //g_debug("start tick next %d\n",       theobj->starttickofnextnote);
     }
 }
 
@@ -367,7 +367,7 @@ setsdir (objnode * starter, objnode * ender, gint beamgroup_sum, gint beamgroup_
   {
     static gint count = 0;
     count++;
-    g_print ("Call %d ++++++++++++++++++++++++++++++++\n\
+    g_debug ("Call %d ++++++++++++++++++++++++++++++++\n\
           Stem directive %s\n\
           Clef %d\n\
           ------------------------------\n", count, stem_directive == 2 ? "Neutral" : stem_directive == 1 ? "Down" : "Up", clef);
@@ -448,7 +448,7 @@ calculatebeamsandstemdirs (objnode * theobjs, gint * pclef, gint * time1, gint *
     static gint count = 0;
     count++;
     gint stem = *stem_directive;
-    g_print ("Call calc %d #################################\n\
+    g_debug ("Call calc %d #################################\n\
           Stem directive %s\n\
           Clef %d\n\
           ------------------------------\n", count, stem == 2 ? "Neutral" : stem == 1 ? "Down" : "Up", next_clef);

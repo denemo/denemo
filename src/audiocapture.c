@@ -106,7 +106,7 @@ init_audio_out (void)
   err = Pa_Initialize ();
   if (err != paNoError)
     {
-      g_print ("Error initializing portaudio library\n");
+      g_warning ("Error initializing portaudio library");
       return 0;
     }
   out_data.frameIndex = 0;
@@ -161,13 +161,13 @@ playCallback (void *inputBuffer, void *outputBuffer, unsigned long framesPerBuff
 void
 play_pitch (double pitch, double duration, double volume, int channel)
 {
-  //g_print("playing");
+  //g_debug("playing");
   if (out_data.recordedSamples == NULL && !init_audio_out ())
     {
       fprintf (stderr, "Could not initialize audio out\n");
       return;
     }                           //else
-  //g_print("already initialized");
+  //g_debug("already initialized");
   if (out_stream && StreamActive (out_stream))
     {
       out_data.maxFrameIndex = duration * TABLE_SIZE * pitch /*SAMPLE_RATE */ ;
@@ -177,13 +177,13 @@ play_pitch (double pitch, double duration, double volume, int channel)
       out_data.frameIndex = 0;
       return;
     }
-  // g_print("starting stream ..."); 
+  //g_debug("starting stream ..."); 
 
 #ifdef PA_VERSION_19
   outputParameters.device = Pa_GetDefaultOutputDevice ();       /* default output device */
   if (outputParameters.device == paNoDevice)
     {
-      g_print ("Error: No default output device.\n");
+      g_critical ("Error: No default output device.");
       return;
     }
   outputParameters.channelCount = 1;    /* mono output */
@@ -214,14 +214,14 @@ play_pitch (double pitch, double duration, double volume, int channel)
 #endif
   if (err != paNoError)
     {
-      g_print ("Error opening stream\n");
+      g_critical ("Error opening stream");
       return;
     }
   if (out_stream)
     err = Pa_StartStream (out_stream);
   if (err != paNoError)
     {
-      g_print ("Error starting stream\n");
+      g_critical ("Error starting stream");
       out_stream = NULL;
       return;
     }
@@ -351,7 +351,7 @@ pa_main (AubioCallback * fn)
   if (inputParameters.device == paNoDevice)
     {
 
-      // g_print("Number of devices %d now trying = %d\n", Pa_GetDeviceCount(), last_tried);
+      //g_debug("Number of devices %d now trying = %d\n", Pa_GetDeviceCount(), last_tried);
       inputParameters.device = last_tried++;    // guess
     }
   inputParameters.channelCount = 1;     /* mono input */

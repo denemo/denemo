@@ -127,7 +127,7 @@ process_thread_func (gpointer data)
 static int
 alsa_seq_initialize (DenemoPrefs * config)
 {
-  g_print ("initializing ALSA sequencer MIDI backend\n");
+  g_message ("Initializing ALSA sequencer MIDI backend");
 
   // create sequencer client
   if (snd_seq_open (&seq, "hw", SND_SEQ_OPEN_DUPLEX, SND_SEQ_NONBLOCK) < 0)
@@ -177,7 +177,7 @@ alsa_seq_initialize (DenemoPrefs * config)
 static int
 alsa_seq_destroy ()
 {
-  g_print ("destroying ALSA sequencer MIDI backend\n");
+  g_message ("Destroying ALSA sequencer MIDI backend");
 
   g_atomic_int_set (&quit_thread, TRUE);
   g_cond_signal (process_cond);

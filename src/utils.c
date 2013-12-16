@@ -118,9 +118,9 @@ make_temp_dir (void)
 
   gint fail = g_mkdir_with_parents (ret, 0700);
   if (fail)
-    g_print ("Could not create temp dir %s\n", ret);
+    g_warning ("Could not create temp dir %s", ret);
   else
-    g_print ("Created temp dir %s\n", ret);
+    g_info ("Created temp dir %s\n", ret);
 #else
   ret = g_strdup ("/tmp/DenemoXXXXXX");
   mkdtemp ((char *) ret);
@@ -137,9 +137,9 @@ run_file_association (gchar * filename)
     {
       value = CoInitializeExCalled = TRUE;
       CoInitializeEx (NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
-      g_print ("coinit returned %d\n", value);
+      g_debug ("coinit returned %d\n", value);
     }
-  g_print ("Running ShellExecute %s \n", filename);
+  g_info ("Running ShellExecute %s \n", filename);
   return ShellExecute (NULL, NULL, filename, NULL, NULL, 0) > 32 /* value above 32 indicating success */ ;
 #else
   g_warning ("No file assoc code - set pref in externals tab of prefs dialog");
@@ -426,7 +426,7 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
           gheight = directive->graphic->height;
 
           maxwidth = MAX (gwidth, maxwidth);
-          //g_print("drawing a graphic at %d %d\n", xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2);
+          //g_debug("drawing a graphic at %d %d\n", xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2);
           drawbitmapinverse_cr (cr, directive->graphic, x + directive->gx + count - gwidth / 2, y + directive->gy - gheight / 2, FALSE);
 
         }
@@ -1013,14 +1013,14 @@ static gchar *DENEMO_datadir = NULL;
 const gchar *
 get_system_data_dir ()
 {
-  //DENEMO_datadir?g_print("datadir is %s at %p", DENEMO_datadir, DENEMO_datadir):g_print("datadir not yet set");
+  //DENEMO_datadir?g_debug("datadir is %s at %p", DENEMO_datadir, DENEMO_datadir):g_debug("datadir not yet set");
   if (DENEMO_datadir == NULL)
     {
 #ifdef G_OS_WIN32
       gchar *rootdir = g_win32_get_package_installation_directory (NULL, NULL);
       DENEMO_datadir = g_build_filename (rootdir, "share", "denemo", NULL);
-      g_print ("rootdir=%s\n", rootdir);
-      g_print ("datadir=%s\n", DENEMO_datadir);
+      g_message ("rootdir=%s", rootdir);
+      g_message ("datadir=%s", DENEMO_datadir);
       g_free (rootdir);
 #else /* not G_OS_WIN32 */
 
@@ -1032,11 +1032,11 @@ get_system_data_dir ()
         _NSGetExecutablePath (path, &size);
         gchar *bindir = (gchar *) g_malloc (size);
         if (_NSGetExecutablePath (bindir, &size) == 0)
-          g_print ("using bin path %s\n", bindir);
+          g_message ("Using bin path %s", bindir);
         else
-          g_critical ("Cannot get bin dir\n");
+          g_critical ("Cannot get bin dir");
         DENEMO_datadir = g_build_filename (g_path_get_dirname (bindir), "..", "share", "denemo", NULL);
-        g_print ("OSX set data dir to %s\n", DENEMO_datadir);
+        g_message ("OSX set data dir to %s", DENEMO_datadir);
       }
 #else
 #ifndef ENABLE_BINRELOC
@@ -1067,10 +1067,10 @@ get_prefix_dir (void)
     if (_NSGetExecutablePath (bindir, &size) == 0)
       {
         prefix = g_build_filename (bindir, "..", "..", NULL);
-        g_print ("OSX set data prefix to %s\n", prefix);
+        g_message ("OSX set data prefix to %s", prefix);
       }
     else
-      g_critical ("Cannot get bin dir\n");
+      g_critical ("Cannot get bin dir");
   }
 #else
 
@@ -1094,8 +1094,8 @@ get_system_bin_dir (void)
 #ifdef G_OS_WIN32
       gchar *rootdir = g_win32_get_package_installation_directory (NULL, NULL);
       DENEMO_bindir = g_build_filename (rootdir, "bin", NULL);
-      g_print ("rootdir=%s\n", rootdir);
-      g_print ("bindir=%s\n", DENEMO_bindir);
+      g_message ("rootdir=%s", rootdir);
+      g_message ("bindir=%s", DENEMO_bindir);
       g_free (rootdir);
 #else /* not G_OS_WIN32 */
 
@@ -1109,12 +1109,12 @@ get_system_bin_dir (void)
         if (_NSGetExecutablePath (bin, &size) == 0)
           {
             DENEMO_bindir = g_build_filename (bin, "..", NULL);
-            g_print ("using bin path %s\n", DENEMO_bindir);
+            g_message ("Using bin path %s", DENEMO_bindir);
           }
         else
-          g_critical ("Cannot get bin dir\n");
+          g_critical ("Cannot get bin dir");
 
-        g_print ("OSX set bin dir to %s\n", DENEMO_bindir);
+        g_message ("OSX set bin dir to %s", DENEMO_bindir);
       }
 #else
 
@@ -1150,11 +1150,11 @@ get_system_conf_dir ()
         _NSGetExecutablePath (path, &size);
         gchar *bindir = (gchar *) g_malloc (size);
         if (_NSGetExecutablePath (bindir, &size) == 0)
-          g_print ("using bin path %s\n", bindir);
+          g_debug ("using bin path %s\n", bindir);
         else
           g_critical ("Cannot get bin dir\n");
         confdir = g_build_filename (g_path_get_dirname (bindir), "..", "etc", "denemo", NULL);
-        g_print ("OSX set conf dir to %s\n", confdir);
+        g_debug ("OSX set conf dir to %s\n", confdir);
       }
 #else
 
@@ -1190,11 +1190,11 @@ get_system_locale_dir ()
         _NSGetExecutablePath (path, &size);
         gchar *bindir = (gchar *) g_malloc (size);
         if (_NSGetExecutablePath (bindir, &size) == 0)
-          g_print ("using bin path %s\n", bindir);
+          g_message ("Using bin path %s", bindir);
         else
-          g_critical ("Cannot get bin dir\n");
+          g_critical ("Cannot get bin dir");
         localedir = g_build_filename (g_path_get_dirname (bindir), "..", "share", "locale", NULL);
-        g_print ("OSX set locale dir to %s\n", localedir);
+        g_message ("OSX set locale dir to %s", localedir);
       }
 #else
 #ifndef ENABLE_BINRELOC
@@ -1482,7 +1482,7 @@ findnote (DenemoObject * curObj, gint cursory)
       for (; notes; notes = notes->next)
         {
           curnote = (note *) notes->data;
-          //g_print("comparing %d and %d\n", cursory, curnote->y);
+          //g_debug("comparing %d and %d\n", cursory, curnote->y);
           if (cursory <= curnote->mid_c_offset)
             break;
         }
@@ -2412,19 +2412,52 @@ find_dir_for_file(gchar* filename, gchar* dirs[])
 
   for(i = 0; dirs[i]; i++)
   {
-	  //g_print("Searching %s\n", dirs[i]);
+	  //g_debug("Searching %s\n", dirs[i]);
     if(!dir)
     {
       path = g_build_filename (dirs[i], filename, NULL);
       if(g_file_test (path, G_FILE_TEST_EXISTS))
         {
 		 dir = g_strdup(dirs[i]);
-			//g_print("Found file %s\n", path);
+			//g_debug("Found file %s\n", path);
 		} else
-			//g_print("No file %s\n", path);
+			//g_debug("No file %s\n", path);
       g_free(path);
     }
     g_free(dirs[i]);
+  }
+  return dir;
+}
+
+/**
+ * find_dir_for_files:
+ * @files: The files to search
+ * @dirs: A dir paths array, ending by NULL, where to search.
+ *
+ * Finds the first dir in the list that contains 'filename', and free the array.
+ *
+ * Returns: The dir path if found, NULL either
+ **/
+gchar*
+find_dir_for_files(gchar* files[], gchar* dirs[])
+{
+  gchar *dir = NULL;
+  gchar *path = NULL;
+  gint d, f;
+
+  for(d = 0; dirs[d]; d++)
+  {
+    for(f = 0; files[f]; f++)
+    {
+      if(!dir)
+      {
+        path = g_build_filename (dirs[d], files[f], NULL);
+        if(g_file_test (path, G_FILE_TEST_EXISTS))
+          dir = g_strdup(dirs[d]);
+        g_free(path);
+      }
+    }
+    g_free(dirs[d]);
   }
   return dir;
 }
@@ -2513,6 +2546,7 @@ get_executable_dir ()
   }
   return dir;
 }
+
 /**
  * find:
  * @dir: The denemo directory where to search
@@ -2527,7 +2561,7 @@ get_executable_dir ()
 gchar*
 find_denemo_file (DenemoDirectory dir, gchar* filename)
 {
-  //g_print("find_denemo_file called with %d and %s\n", dir, filename);
+  //g_debug("find_denemo_file called with %d and %s\n", dir, filename);
   gchar* dirs[] = {
     g_build_filename(get_executable_dir (TRUE), "..", get_local_dir (dir), NULL),
     g_build_filename(get_user_data_dir (TRUE), get_local_dir (dir), NULL),

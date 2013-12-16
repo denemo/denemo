@@ -103,7 +103,7 @@ static gint
 button_press (EvView * view, GdkEventButton * event)
 {
   if (event->button == 1)
-    g_print ("Use right button to create link\n");
+    g_warning ("Use right button to create link");
   else
     {
       gint x, y, page;
@@ -184,7 +184,7 @@ get_view (gchar * filename)
   g_object_unref (file);
   EvDocument *doc = ev_document_factory_get_document (uri, &err);
   if (err) {
-	  g_print("Error creating view from URI <%s> : message was %s\n", uri, err->message);
+	  g_critical("Error creating view from URI <%s> : message was %s", uri, err->message);
 	  return NULL;
 	}
   OldMark.width = Mark.width = 0;

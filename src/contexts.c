@@ -102,7 +102,7 @@ find_prevailing_clef (DenemoMovement * si)
 {
   DenemoStaff *curstaff = ((DenemoStaff *) si->currentstaff->data);
   DenemoObject *obj = find_context_of_object (si, CLEF);
-// g_print("prevailing clef %d\n",  obj? ((clef *) obj->object)->type:curstaff->clef.type);
+//g_debug("prevailing clef %d\n",  obj? ((clef *) obj->object)->type:curstaff->clef.type);
   return obj ? ((clef *) obj->object)->type : curstaff->clef.type;
 }
 

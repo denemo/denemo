@@ -167,10 +167,7 @@ process_command_line (int argc, char **argv, gboolean gtkstatus)
   if(gtkstatus)
     g_option_context_add_group (context, gtk_get_option_group (TRUE));
   if (!g_option_context_parse (context, &argc, &argv, &error))
-    {
-      g_print ("Option parsing failed: %s\n", error->message);
-      exit (EXIT_FAILURE);
-    }
+    g_error ("Option parsing failed: %s", error->message);
 
   if(version)
   {
@@ -231,26 +228,26 @@ init_environment()
       gchar *guile_path = g_strconcat (guile, ";", guile_1_8, ";", denemo_scm, ";", denemo_modules_scm, ";", lilypond_current_scm, NULL);
       //FIXME TRUE means we overwrite any installed version of lilyponds scm, FALSE risks not putting denemos scm in the path...
       g_setenv ("GUILE_LOAD_PATH", guile_path, TRUE);
-      g_print ("Setting GUILE_LOAD_PATH=%s\n", guile_path);
+      g_info ("Setting GUILE_LOAD_PATH=%s\n", guile_path);
     }
   else
     warningdialog (_("You may need to set GUILE_LOAD_PATH to the directory where you have ice9 installed\n"));
   g_setenv ("PANGO_PREFIX", prefix, TRUE);
   g_setenv ("PANGO_MODULE_VERSION", "1.6.0", TRUE);
   g_setenv ("PANGO_SO_EXTENSION", ".dll", TRUE);
-  g_print ("Setting PANGO_PREFIX=%s\n", prefix);
+  g_info ("Setting PANGO_PREFIX=%s\n", prefix);
 
   g_setenv ("GTK_MODULE_VERSION", "2.10.0", TRUE);
   g_setenv ("GTK_SO_EXTENSION", ".dll", TRUE);
   g_setenv ("GTK_PREFIX", prefix, TRUE);
-  g_print ("Setting GTK_PREFIX=%s\n", prefix);
+  g_info ("Setting GTK_PREFIX=%s\n", prefix);
 
   gchar *fc_path = g_build_filename (prefix, "etc", "fonts", NULL);
   g_setenv ("FONTCONFIG_PATH", fc_path, TRUE);
-  g_print ("Setting FONTCONFIG_PATH=%s\n", fc_path);
+  g_info ("Setting FONTCONFIG_PATH=%s\n", fc_path);
   gchar *fc_file = g_build_filename (fc_path, "fonts.conf", NULL);
   g_setenv ("FONTCONFIG_FILE", fc_file, TRUE);
-  g_print ("Setting FONTCONFIG_FILE=%s\n", fc_file);
+  g_info ("Setting FONTCONFIG_FILE=%s\n", fc_file);
 
 
   //gchar *program_files = g_getenv ("PROGRAMFILES");
@@ -260,10 +257,10 @@ init_environment()
   path = g_strconcat (path, ";", lilypond_path, ";", lib_path, NULL);
 
   g_setenv ("PATH", path, TRUE);
-  g_print ("PATH set to %s\n", path);
+  g_info ("PATH set to %s\n", path);
   gchar *lilypond_data_path = g_build_filename (prefix, "share", "lilypond", "current", NULL);
   g_setenv ("LILYPOND_DATA_PATH", lilypond_data_path, FALSE);
-  g_print ("LILYPOND_DATA_PATH will be %s if not already set", lilypond_data_path);
+  g_info ("LILYPOND_DATA_PATH will be %s if not already set", lilypond_data_path);
 
   append_to_path ("GUILE_LOAD_PATH", get_system_data_dir (), NULL);
 
@@ -315,7 +312,7 @@ static void check_if_upgrade (void) {
 		GDir *dir = g_dir_open (g_get_home_dir (), 0, NULL);
 		if(dir==NULL) 
 			{
-			g_warning ("Cannot find home directory\n");
+			g_warning ("Cannot find home directory");
 			return;
 			}		
 		while ((name = g_dir_read_name (dir))) {
@@ -324,9 +321,9 @@ static void check_if_upgrade (void) {
 				guint32 val;
 				ver_maj=ver_min=ver_mic=0;
 				sscanf (name, ".denemo-%u.%u.%u", &ver_maj, &ver_min, &ver_mic);
-				//g_print (" %u %u %u\n", ver_maj, ver_min, ver_mic);
+				//g_debug (" %u %u %u\n", ver_maj, ver_min, ver_mic);
 				val = (ver_maj<<16) + (ver_min<<8) + ver_mic;
-				if(val) g_print("name %s\n", name);
+				if(val) g_debug("name %s", name);
 				if (val>this_ver) {
 					g_warning ("Downgrade of Denemo version. Ignoring");
 					return;

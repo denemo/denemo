@@ -12,6 +12,7 @@
 #include <denemo/denemo.h>
 #include "prefops.h"            //for get_user_data_dir()
 #include "file.h"
+#include "utils.h"
 
 /* libxml includes: for libxml2 this should be <libxml.h> */
 #include <libxml/parser.h>
@@ -94,8 +95,8 @@ insert_invisible_rest (GString * script, gint duration, gint divisions)
   g_assert (divisions);
   if (duration == 0)
     return TRUE;
-  //g_print("invis rest  %d, %d\n",  duration, divisions);
-  INSERT_REST (4, 1, "0") INSERT_REST (2, 1, "1") INSERT_REST (1, 1, "2") INSERT_REST (1, 2, "3") INSERT_REST (1, 4, "4") INSERT_REST (1, 8, "5") INSERT_REST (1, 16, "6") INSERT_REST (1, 32, "7") INSERT_REST (1, 64, "8") g_warning ("Cannot cope with rest of %d/%d quarter notes\n", duration, divisions);
+  //g_debug("invis rest  %d, %d\n",  duration, divisions);
+  INSERT_REST (4, 1, "0") INSERT_REST (2, 1, "1") INSERT_REST (1, 1, "2") INSERT_REST (1, 2, "3") INSERT_REST (1, 4, "4") INSERT_REST (1, 8, "5") INSERT_REST (1, 16, "6") INSERT_REST (1, 32, "7") INSERT_REST (1, 64, "8") g_warning ("Cannot cope with rest of %d/%d quarter notes", duration, divisions);
   return FALSE;
 }
 
@@ -186,7 +187,7 @@ parse_clef (GString ** scripts, gint division, gint * voice_timings, gint voicen
   if (staffnum == 0)
     staffnum = 1;
   FOREACH_CHILD_ELEM (childElem, rootElem)
-  {                             //g_print("clef change %s \n", childElem->name);
+  {                             //g_debug("clef change %s \n", childElem->name);
     if (ELEM_NAME_EQ (childElem, "line"))
       line = getXMLIntChild (childElem);
     if (ELEM_NAME_EQ (childElem, "sign"))
@@ -284,7 +285,7 @@ insert_note (gchar * type, gint octave, gchar * step, gint alter)
 {
   if (step == NULL)
     {
-      g_warning ("Note without step\n");
+      g_warning ("Note without step");
       return g_strdup ("");
     }
   gchar *duration_text = "";
@@ -311,7 +312,7 @@ insert_note (gchar * type, gint octave, gchar * step, gint alter)
   else if (!strcmp (type, "longa"))
     duration_text = "\n(d-SetLonga)";
   else
-    g_warning ("Note duration %s not implemented\n", type);
+    g_warning ("Note duration %s not implemented", type);
   const gchar *octavation = octave_string (octave);
   gchar *put_text = g_strdup_printf ("(d-InsertC)(d-PutNoteName \"%c%s%s\")", g_ascii_tolower (*step), alteration (alter), octavation);
   GString *ret = g_string_new (duration_text);
@@ -340,7 +341,7 @@ get_numstaffs_from_note (xmlNodePtr rootElem, gint * maxstaffs, gint * maxvoices
       {
         gint staffnum = getXMLIntChild (childElem);
         if (staffnum > *maxstaffs)
-          *maxstaffs = staffnum;        //g_print("staff num %d ...", staffnum);
+          *maxstaffs = staffnum;        //g_debug("staff num %d ...", staffnum);
       }
     if (ELEM_NAME_EQ (childElem, "voice"))
       {
@@ -349,7 +350,7 @@ get_numstaffs_from_note (xmlNodePtr rootElem, gint * maxstaffs, gint * maxvoices
           *maxvoices = voicenum;
       }
   }
-  // g_print("So far %d %d\t", *maxstaffs, *maxvoices);
+  //g_debug("So far %d %d\t", *maxstaffs, *maxvoices);
 }
 
 static void
@@ -392,7 +393,7 @@ parseDuration (gint * current_voice, xmlNodePtr rootElem)
 static void
 get_rest_for_duration (GString * ret, gint duration, gint divisions)
 {
-  //g_print("Rest duration %d, divisions %d\n", duration, divisions);
+  //g_debug("Rest duration %d, divisions %d\n", duration, divisions);
   if (duration >= 4 * divisions)
     {
       g_string_append (ret, "(d-InsertRest0)");
@@ -484,7 +485,7 @@ add_rest (gchar * type, gint duration, gint divisions)
   else if (!strcmp (type, "longa"))
     duration_text = "(d-InsertLongaRest)";
   else
-    g_warning ("Restduration %s not implemented\n", type);
+    g_warning ("Restduration %s not implemented", type);
   return g_strdup (duration_text);
 }
 
@@ -672,7 +673,7 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
     {
       g_string_append_printf (scripts[voicenum], "(d-ChangeStaff \"voice %d\")(d-MoveCursorRight)", staffnum + InitialVoiceNum);        //always at end of bar !!!!!!!!!!! voice 1 staff 1 in debmand example.
       staff_for_voice[voicenum - 1] = staffnum;
-      // g_warning("Voice %d in staff %d + %d need a staff change directive\n", voicenum, staffnum, InitialVoiceNum);
+      // g_warning("Voice %d in staff %d + %d need a staff change directive", voicenum, staffnum, InitialVoiceNum);
     }
 #else
   if (!in_chord && (staff_for_voice[voicenum - 1] != staffnum))
@@ -784,7 +785,7 @@ parse_attributes (xmlNodePtr rootElem, GString ** scripts, gint numvoices, gint 
 {
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, rootElem)
-  {                             //g_print("attribute %s at division %d\n", childElem->name, division);
+  {                             //g_debug("attribute %s at division %d\n", childElem->name, division);
     if (ELEM_NAME_EQ (childElem, "time"))
       parse_time (scripts, numvoices, measurenum, childElem);
     if (ELEM_NAME_EQ (childElem, "key"))
@@ -807,7 +808,7 @@ parse_barline (xmlNodePtr rootElem, GString ** scripts, gint numvoices)
   gchar *style = NULL, *repeat = NULL;
   gint i;
   FOREACH_CHILD_ELEM (childElem, rootElem)
-  {                             //g_print("attribute %s at division %d\n", childElem->name, division);
+  {                             //g_debug("attribute %s at division %d\n", childElem->name, division);
     if (ELEM_NAME_EQ (childElem, "bar-style"))
       style = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
     if (ELEM_NAME_EQ (childElem, "repeat"))
@@ -909,17 +910,17 @@ parse_measure (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, 
   gint last_voice_with_notes = 1;       /* in case a voice with not "note" elements moves the current voice on while unfinished stuff in last voice */
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
-    //g_print("name %s at voicenumber %d at division %d\n", childElem->name, current_voice, division);
+    //g_debug("name %s at voicenumber %d at division %d\n", childElem->name, current_voice, division);
     if (ELEM_NAME_EQ (childElem, "attributes"))
       parse_attributes (childElem, scripts, numvoices, staff_for_voice, division, voice_timings, divisions, &current_voice, measurenum);
 
     if (ELEM_NAME_EQ (childElem, "backup"))
       {
-        division -= parseDuration (&current_voice, childElem);  //g_print("backward arrives at %d\n", division);
+        division -= parseDuration (&current_voice, childElem);  //g_debug("backward arrives at %d\n", division);
       }
     if (ELEM_NAME_EQ (childElem, "forward"))
       {
-        division += parseDuration (&current_voice, childElem);  //g_print("forward arrives at %d\n", division);
+        division += parseDuration (&current_voice, childElem);  //g_debug("forward arrives at %d\n", division);
       }
     if (ELEM_NAME_EQ (childElem, "note"))
       {
@@ -971,7 +972,7 @@ parse_part (xmlNodePtr rootElem)
           numvoices = maxvoices;
       }
   }
-  g_print ("Number of staffs %d, voices %d\n", numstaffs, numvoices);
+  g_info ("Number of staffs %d, voices %d\n", numstaffs, numvoices);
   gint *staff_for_voice = (gint *) g_malloc0 (numvoices * sizeof (gint));
 
   GString **scripts = (GString **) g_malloc0 ((1 + numvoices) * sizeof (GString *));
@@ -990,7 +991,7 @@ parse_part (xmlNodePtr rootElem)
   for (i = 0; i < numvoices; i++)
     if (staff_for_voice[i] == 0)
       {
-        g_print ("Voicenum %d was not actually used\n", i + 1);
+        g_info ("Voicenum %d was not actually used", i + 1);
         staff_for_voice[i] = 1; //if a voice was not actually used, assign it to the first staff
       }
 
@@ -1005,12 +1006,12 @@ parse_part (xmlNodePtr rootElem)
   g_string_append (scripts[0], "(d-PushPosition)");
   for (i = 0; i < numstaffs; i++)
     {
-      //g_print("Staff %d with %d voices\n", i, numvoices_for_staff[i]);
+      //g_debug("Staff %d with %d voices\n", i, numvoices_for_staff[i]);
       if (i > 0)                /*already have first staff */
         g_string_append (scripts[0], "(d-AddAfter)");
       for (j = 1 /*already have first voice */ ; j < numvoices_for_staff[i]; j++)
         {
-          //g_print("Voice %d on Staff %d\n", j, i);
+          //g_debug("Voice %d on Staff %d\n", j, i);
           g_string_append (scripts[0], "(d-AddAfter)(d-SetCurrentStaffAsVoice)");
         }
     }
@@ -1055,7 +1056,7 @@ parse_part (xmlNodePtr rootElem)
     }
   g_string_append (scripts[0], "(d-AddAfter)(d-InitialKey \"C major\")");
   if (warnings->len)
-    g_warning ("Parsing MusicXML gave these warnings:\n%s\n", warnings->str);
+    g_warning ("Parsing MusicXML gave these warnings:\n%s", warnings->str);
   g_string_free (warnings, TRUE);
   InitialVoiceNum += numvoices;
   return g_string_free (scripts[0], FALSE);

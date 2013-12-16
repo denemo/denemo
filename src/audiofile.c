@@ -73,7 +73,7 @@ export_recorded_audio ()
                     }
                   else
                     {
-                      g_warning ("Unable to open file %s for writing this format\n", outfile);
+                      g_warning ("Unable to open file %s for writing this format", outfile);
                     }
                   g_free (outfile);
                 }

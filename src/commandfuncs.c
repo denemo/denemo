@@ -70,7 +70,7 @@ nextrhythm (GtkAction* action, DenemoScriptParam* param)
   if (((RhythmElement *) g->data)->icon)
     {
       GtkWidget *label = LABEL (CURRP->button);
-      //g_print("markup is %s\n", ((RhythmElement*)g->data)->icon);
+      //g_debug("markup is %s\n", ((RhythmElement*)g->data)->icon);
       gtk_label_set_markup (GTK_LABEL (label), ((RhythmElement *) g->data)->icon);
     }
 #if 0
@@ -78,7 +78,7 @@ nextrhythm (GtkAction* action, DenemoScriptParam* param)
 #else
   highlight_rhythm ((RhythmPattern *) Denemo.project->currhythm->data);
 #endif
-  //g_print("selected active\n");
+  //g_debug("selected active\n");
 #undef CURRP
 #undef g
   displayhelper (Denemo.project);
@@ -211,7 +211,7 @@ set_width_to_work_with (DenemoProject * gui)
 #endif
 
 
-      //g_print("Width %d from num systems%d\n", si->widthtoworkwith, ((int)(1/si->system_height )));
+      //g_debug("Width %d from num systems%d\n", si->widthtoworkwith, ((int)(1/si->system_height )));
     }
 }
 
@@ -316,7 +316,7 @@ object_insert (DenemoProject * gui, DenemoObject * mudela_obj_new)
       si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data, si->cursor_x);
     }
 
-  //g_print("object insert appending %d cursor_x %d length %d\n", si->cursor_appending, si->cursor_x, g_list_length(si->currentmeasure->data));
+  //g_debug("object insert appending %d cursor_x %d length %d\n", si->cursor_appending, si->cursor_x, g_list_length(si->currentmeasure->data));
 
   score_status (gui, TRUE);
   si->markstaffnum = 0;
@@ -1310,7 +1310,7 @@ cursorup (GtkAction* action, DenemoScriptParam * param)
   gui->si->cursor_y++;
   gui->si->staffletter_y = (gui->si->staffletter_y + 1) % 7;
   param->status = TRUE;         //FIXME introduce some range boundaries, settable by user for instrument ranges.
-  //g_print ("Cursor Y Position %d\n", gui->si->cursor_y);
+  //g_debug ("Cursor Y Position %d\n", gui->si->cursor_y);
   if(!Denemo.non_interactive)
     gtk_widget_queue_draw(Denemo.scorearea);
 }
@@ -1330,7 +1330,7 @@ cursordown (GtkAction* action, DenemoScriptParam * param)
   gui->si->cursor_y--;
   gui->si->staffletter_y = (gui->si->staffletter_y + 6) % 7;
   param->status = TRUE;         //FIXME introduce some range boundaries, settable by user for instrument ranges.
-  //g_print ("Cursor Y Position %d\n", gui->si->cursor_y);
+  //g_debug ("Cursor Y Position %d\n", gui->si->cursor_y);
   if(!Denemo.non_interactive)
     gtk_widget_queue_draw(Denemo.scorearea);
 }
@@ -1359,7 +1359,7 @@ insert_note_following_pattern (DenemoProject * gui)
       // if(gui->currhythm && gui->currhythm->data && ((RhythmPattern*)gui->currhythm->data)->clipboard) 
       if (gui->currhythm && gui->cstep)
         {
-          //      g_print("Have a clip\n");
+          //      g_debug("Have a clip\n");
           GList *objs;
           gboolean note_inserted = FALSE;
           for (objs = gui->cstep; objs; objs = objs->next)
@@ -1404,7 +1404,7 @@ insert_note_following_pattern (DenemoProject * gui)
       if (((RhythmElement *) g->data)->icon)
         {                       /* singletons do not have icon */
           GtkWidget *label = LABEL (CURRP->button);
-          //g_print("Markup is %s\n", ((RhythmElement*)g->data)->icon);
+          //g_debug("Markup is %s\n", ((RhythmElement*)g->data)->icon);
           gtk_label_set_markup (GTK_LABEL (label), ((RhythmElement *) g->data)->icon);
         }
       gui->mode = mode;
@@ -1656,7 +1656,8 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
                   gchar key = 60 + 12 * (offset / 7) + key_offset[offset % 7 + 6];
                   key += n->enshift;
 #define MIDI_RESOLUTION (384)
-                 gint duration_ms = 1000 * mudela_obj_new->durinticks * 60.0 / (si->tempo * MIDI_RESOLUTION);g_print("duration %d duration ms = %d\n", duration, duration_ms);
+                 gint duration_ms = 1000 * mudela_obj_new->durinticks * 60.0 / (si->tempo * MIDI_RESOLUTION);
+                 g_debug("duration %d duration ms = %d\n", duration, duration_ms);
                  play_note (DEFAULT_BACKEND , curstaffstruct->midi_port , curstaffstruct->midi_channel, key, duration_ms, 127);
                 
                 
@@ -1732,14 +1733,14 @@ dnm_inserttuplet (DenemoProject * gui, tuplet_type type)
       mudela_obj_new = newtupopen (2, 3);
       break;
     }
-  //g_print ("Cursor pos %d (Before tup open)\n", si->cursor_x);
+  //g_debug ("Cursor pos %d (Before tup open)\n", si->cursor_x);
   object_insert (gui, mudela_obj_new);
-  //g_print ("Cursor pos %d (After tup open, before tup close)\n",         si->cursor_x);
+  //g_debug ("Cursor pos %d (After tup open, before tup close)\n",         si->cursor_x);
   /* Add the closing bracket */
   object_insert (gui, newtupclose ());
-  //g_print ("Cursor pos %d (After tup close)\n", si->cursor_x);
+  //g_debug ("Cursor pos %d (After tup close)\n", si->cursor_x);
   si->cursor_x--;
-  //g_print ("Cursor pos %d( After move back)\n", si->cursor_x);
+  //g_debug ("Cursor pos %d( After move back)\n", si->cursor_x);
 
   si->currentobject = si->currentobject->prev;
   si->cursor_appending = FALSE;
@@ -2223,7 +2224,7 @@ dnm_deletemeasure (DenemoMovement * si)
   if (si->markstaffnum)
     calcmarkboundaries (si);
   si->markstaffnum = 0;
-  // g_print("Removed current measure now %p number %d\n", si->currentmeasure, si->currentmeasurenum);
+  //g_debug("Removed current measure now %p number %d\n", si->currentmeasure, si->currentmeasurenum);
 
 }
 
@@ -2280,7 +2281,7 @@ dnm_deleteobject (DenemoMovement * si)
   declarecurmudelaobj;
   //staffnode *curstaff;
   //measurenode *curmeasure;
-  //g_print ("dnm_deleteobject undo/redo mode %d\n", si->undo_redo_mode);
+  //g_debug ("dnm_deleteobject undo/redo mode %d\n", si->undo_redo_mode);
   if (curmudelaobj == NULL)
     return;
   /* when tone_store is active, act on that, not the staff itself */
@@ -2358,7 +2359,7 @@ dnm_deleteobject (DenemoMovement * si)
               if (curmeasure && curmeasure->data)
                 {
                   DenemoObject *first_obj = ((objnode *) curmeasure->data)->data;
-                  //g_print("Deleting object of type %s\n", DenemoObjTypeNames[first_obj->type]);
+                  //g_debug("Deleting object of type %s\n", DenemoObjTypeNames[first_obj->type]);
                   if (first_obj && first_obj->type == TIMESIG)
                     {
                       remove_object (curmeasure, (objnode *) curmeasure->data);
@@ -2751,10 +2752,10 @@ auto_save_document_timeout (DenemoProject * gui)
       return FALSE;             /* turns off the timer */
     }
   DenemoMovement *si = gui->si;
-  g_print ("Autosaving\n");
+  g_message ("Autosaving");
   if (!gui->autosavename)
     {
-      g_warning ("gui->autosavename not set\n");
+      g_warning ("gui->autosavename not set");
       /*gui->autosavename = g_string_new (dir); */
       gui->autosavename = g_string_new (get_user_data_dir (TRUE));
       if (si->lily_file)
@@ -2762,7 +2763,7 @@ auto_save_document_timeout (DenemoProject * gui)
       else
         gui->autosavename = g_string_append (gui->autosavename, "/autosave.denemo");
     }
-  //g_print ("Auto save file name %s\n", gui->autosavename->str);
+  //g_debug ("Auto save file name %s\n", gui->autosavename->str);
   if (si->lily_file)
     {
       exportlilypond (gui->autosavename->str, gui, TRUE);

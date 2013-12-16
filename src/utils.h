@@ -299,6 +299,7 @@ findnote (DenemoObject * curObj, gint cursory);
 void write_input_status();
 enum clefs cleftypefromname (gchar * str);
 gchar* find_dir_for_file(gchar* filename, gchar* dirs[]);
+gchar* find_dir_for_files(gchar* files[], gchar* dirs[]);
 gchar* find_path_for_file(gchar* filename, gchar* dirs[]);
 gchar* find_denemo_file (DenemoDirectory dir, gchar* filename);
 
