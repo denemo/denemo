@@ -92,19 +92,16 @@ update_position (smf_event_t * event)
 
 static void
 safely_add_track (smf_t * smf, smf_track_t * track)
-{
-  if(track->user_pointer == -1) //track is recorded midi, transfer it to si->smf to play it
-        track->smf = NULL;
-  if (track->smf == NULL) {
-    smf_add_track (smf, track);  
-    }
+    track->smf = NULL;
+    smf_add_track (smf, track);
 }
 
 static void
 safely_track_remove_from_smf (smf_track_t * track)
 {
-  if (track->smf != NULL)
+  if (track->smf != NULL && (track->track_number>=1))
     smf_track_remove_from_smf (track);
+  track->smf = NULL;
 }
 
 static GString *callback_script = NULL;

@@ -242,15 +242,14 @@ static void ensure_smf (void) {
         }
         else
         {
-            if( GPOINTER_TO_INT(track->user_pointer) <= 0)
-              {
-                //the track is recorded MIDI which has been added and then removed from the play midi si->smf  
-                track->smf = smf;
-               // smf_add_track (smf, track);
-               // track->user_pointer = track->track_number;  
-              }
-            else
-              track->smf = smf;
+          track->smf = smf;
+          if(smf_from_file)
+          {
+              assert(track->user_pointer>0);
+              track->track_number = track->user_pointer;
+          }
+         else
+            track->track_number = 1;
         }
     }
 }
@@ -304,10 +303,9 @@ static void guess_note_length (gdouble quarternotes, gint *dur, gint *dot)
 gboolean compute_midi_note_durations (void)
 {
     gboolean ret = FALSE;
-DenemoRecording *recording = Denemo.project->si->recording;
+    DenemoRecording *recording = Denemo.project->si->recording;
     if (recording)
-    {
-        
+    { 
         GList *g;
         ensure_smf ();
         smf_rewind (smf);
@@ -359,11 +357,11 @@ readtrack (gint track)
          else
             ((smf_track_t *)Denemo.project->si->recorded_midi_track)->smf = smf;
       }
-      selected_track->user_pointer = selected_track;
+      selected_track->user_pointer = track;
       Denemo.project->si->recorded_midi_track = selected_track;
       compute_midi_note_durations (); //fills Denemo.project->si->recording->notes with the note durations
       ((smf_track_t *)Denemo.project->si->recorded_midi_track)->smf = NULL; // we detach this track from smf, so it can be attached to the playback smf; we cannot use smf while this is done, as it thinks it still owns the track.      
-    current_track = track;
+      current_track = track;
     }
    else
     ret = -1;
@@ -452,17 +450,17 @@ gdouble get_recorded_midi_duration (void)
     return 0.0;
 }
 
-void delete_imported_midi (void) {
+gboolean delete_imported_midi (void) {
   if(is_playing ())
     {
         stop_playing();
-        return;
+        return FALSE;
     }
   if (smf) 
     { 
-    gint track;
-    for (track=1; track <= smf->number_of_tracks; track++)
-            smf_get_track_by_number (smf, track)->smf = smf;
+  //  gint track;
+  //  for (track=1; track <= smf->number_of_tracks; track++)
+    //        smf_get_track_by_number (smf, track)->smf = smf;
     // FIXME, this crashes with the assertion smf.c:752: smf_get_track_by_number: Assertion `track_number >= 1' failed. in some circumstances.
     smf = NULL;
     current_track = 0;
@@ -470,6 +468,7 @@ void delete_imported_midi (void) {
   Denemo.project->si->recorded_midi_track = NULL;
   delete_recording ();
   smf_from_file = FALSE;
+  return TRUE;
 }
 
 gint
