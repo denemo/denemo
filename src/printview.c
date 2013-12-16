@@ -2062,7 +2062,7 @@ retypeset (void)
           if (changecount != Denemo.project->changecount)
             {
               get_print_status()->background = STATE_ON;
-              typeset_control ("(disp \"This is called when hitting the refresh button while in continuous re-typeset\")(d-PrintView)");
+              typeset_control ("(d-Info \"This is called when hitting the refresh button while in continuous re-typeset\")(d-PrintView)");
               get_print_status()->background = STATE_OFF;
               changecount = Denemo.project->changecount;
             }

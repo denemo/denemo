@@ -694,17 +694,17 @@
 (define (MusbObj::MoveTo musobj)
 	(d-GoToPosition (musobj.movement musobj) (musobj.staff musobj) (musobj.measure musobj) (musobj.horizontal musobj)))		
 
-(define (DefaultInitializePrint) (display "Starting to print\n"))
-(define (DefaultFinalizePrint) (display "Finished print\n"))
+(define (DefaultInitializePrint) (d-Info "Starting to print"))
+(define (DefaultFinalizePrint) (d-Info "Finished print"))
 
-(define (DefaultInitializePlayback) (display "Starting to playback\n"))
-(define (DefaultFinalizePlayback) (display "Finished playback\n"))
+(define (DefaultInitializePlayback) (d-Info "Starting to playback"))
+(define (DefaultFinalizePlayback) (d-Info "Finished playback"))
 
-(define (DefaultInitializeMidiGeneration) (display "Starting to generate MIDI\n"))
-(define (DefaultFinalizeMidiGeneration) (display "Finished MIDI generation\n"))
+(define (DefaultInitializeMidiGeneration) (d-Info "Starting to generate MIDI"))
+(define (DefaultFinalizeMidiGeneration) (d-Info "Finished MIDI generation"))
 
-(define (DefaultInitializeTypesetting) (display "Starting to generate LilyPond\n"))
-(define (DefaultFinalizeTypesetting) (display "Finished generating LilyPond\n"))
+(define (DefaultInitializeTypesetting) (d-Info "Starting to generate LilyPond"))
+(define (DefaultFinalizeTypesetting) (d-Info "Finished generating LilyPond"))
 
 
 (define (InitializePrint) (DefaultInitializePrint))
