@@ -5043,7 +5043,7 @@ affect the last page. This should be set for pieces that have only two
 or three systems per page, for example orchestral scores.</_tooltip>
       </row>
       <row type="scheme">
-        <action>RecordAndConvert</action>
+        <action>PlayAndRecordMidiIn</action>
         <after>MouseOrMidiDrivenPlayback</after>
         <menupath>/MainMenu/PlaybackMenu</menupath>
         <_label>Playback and Record MIDI</_label>
@@ -5589,7 +5589,7 @@ for second and subsequent systems</_tooltip>
       </row>
       <row type="scheme">
         <action>SynchronizeAudio</action>
-        <after>RecordAndConvert</after>
+        <after>PlayAndRecordMidiIn</after>
         <menupath>/MainMenu/PlaybackMenu/Audio</menupath>
         <_label>Synchronize Audio</_label>
         <_tooltip>Plays the audio attached to the current movement. Creates a timing bar for each space bar press. Music written in the staffs below will synchronize with the audio.</_tooltip>

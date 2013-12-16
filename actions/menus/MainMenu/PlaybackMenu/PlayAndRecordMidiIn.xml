@@ -6,7 +6,7 @@
     <map>
       <row type="scheme">
         <after>MouseOrMidiDrivenPlayback</after>
-        <action>RecordAndConvert</action>
+        <action>PlayAndRecordMidiIn</action>
         <_label>Playback and Record MIDI</_label>
         <_tooltip>Starts playing the score from the playhead start (green marker bar) and simultaneously records your playing from MIDI in.
         You can stop the playback at any time and then the first MIDI note you entered is marked. 
