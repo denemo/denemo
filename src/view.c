@@ -2888,7 +2888,7 @@ loadGraphicFromFormat (gchar * basename, gchar * name, DenemoGraphic ** xbm)
           if (handle == NULL)
             {
               if (error)
-                g_warning ("Could not open %s error %s\n", basename, error->message);
+                g_warning ("Could not open %s error %s", basename, error->message);
               else
                 g_warning ("Opening %s, Bug in librsvg:rsvg handle null but no error message", basename);
               return FALSE;
@@ -2902,7 +2902,7 @@ loadGraphicFromFormat (gchar * basename, gchar * name, DenemoGraphic ** xbm)
           g_object_unref (handle);
           cairo_destroy (cr);
 #else
-          g_warning ("Cairo svg backend not available\n");
+          g_warning ("Cairo svg backend not available");
           return FALSE;
 #endif
         }
@@ -2999,20 +2999,36 @@ loadGraphicItem (gchar * name, DenemoGraphic ** xbm)
     {
       return TRUE;
     }
-  gchar *filename = g_build_filename (locatebitmapsdir (), name,
-                                      NULL);
-  if (loadGraphicFromFormat (name, filename, xbm))
-    return TRUE;
-  g_free (filename);
-  filename = g_build_filename (locatedownloadbitmapsdir (), name, NULL);
-  if (loadGraphicFromFormat (name, filename, xbm))
-    return TRUE;
-  g_free (filename);
-  filename = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "bitmaps", name, NULL);
-  if (loadGraphicFromFormat (name, filename, xbm))
-    return TRUE;
-  g_warning ("Could not load graphic");
-  return FALSE;
+
+  gchar* filename = g_strconcat (name, ".png", NULL);
+  gchar* dirs[] = {
+    g_build_filename (locatebitmapsdir (), NULL),
+    g_build_filename (locatedownloadbitmapsdir (), NULL),
+    g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, "bitmaps", NULL),
+    g_build_filename (get_system_data_dir (), COMMANDS_DIR, "bitmaps", NULL),
+    NULL
+  };
+
+  gboolean success = TRUE;
+  gchar *dir = find_dir_for_file (filename, dirs);
+  if(!dir){
+    g_warning ("Could not find graphic item %s", name);
+    success = FALSE;
+  }
+
+  if(success){
+    gchar* basename = g_build_filename(dir, name, NULL);
+    success = loadGraphicFromFormat (name, basename, xbm);
+    g_free(basename);
+  }
+
+  if(!success)
+    g_warning ("Could not load graphic item %s", name);
+
+  g_free(filename);
+  g_free(dir);
+
+  return success;
 }
 
 /* save the current graphic
