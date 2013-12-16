@@ -1440,6 +1440,11 @@ gboolean show_midi_record_control(void) {
 gboolean
 pb_record (gchar *callback)
 {
+   if(is_playing())
+        {
+            warningdialog(_("Stop playing first"));
+            return FALSE;   
+        }
   if (Denemo.project->si->recording && (Denemo.project->si->recording->type==DENEMO_RECORDING_AUDIO))
     {
         warningdialog(_("Cannot mix audio and MIDI recordings"));
@@ -1457,7 +1462,7 @@ pb_record (gchar *callback)
       return FALSE;
     }
     
-    
+  delete_imported_midi (); 
   call_out_to_guile ("(DenemoSetPlaybackStart)");
 
 
