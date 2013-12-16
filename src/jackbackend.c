@@ -434,7 +434,7 @@ connect_midi_ports (char const *connect_input_port, char const *connect_output_p
 static int
 jack_audio_initialize (DenemoPrefs * config)
 {
-  g_print ("initializing JACK audio backend\n");
+  g_message ("Initializing JACK audio backend");
 
   if (initialize_client (JACK_CLIENT_NAME))
     {
@@ -459,7 +459,7 @@ jack_audio_initialize (DenemoPrefs * config)
 
   if (connect_audio_ports (config->jack_connect_ports_l->str, config->jack_connect_ports_r->str))
     {
-      g_print ("could not connect audio output ports\n");
+      g_warning ("Could not connect audio output ports");
     }
 
   g_atomic_int_set (&audio_initialized, TRUE);
@@ -471,7 +471,7 @@ jack_audio_initialize (DenemoPrefs * config)
 static int
 jack_audio_destroy ()
 {
-  g_print ("destroying JACK audio backend\n");
+  g_message ("Destroying JACK audio backend");
 
   if (g_atomic_int_get (&audio_initialized))
     {
@@ -526,7 +526,7 @@ jack_audio_panic ()
 static int
 jack_midi_initialize (DenemoPrefs * config)
 {
-  g_print ("initializing JACK MIDI backend\n");
+  g_message ("Initializing JACK MIDI backend");
 
   if (initialize_client (JACK_CLIENT_NAME))
     {
@@ -544,7 +544,7 @@ jack_midi_initialize (DenemoPrefs * config)
 
   if (connect_midi_ports (config->jack_connect_midi_in_port->str, config->jack_connect_midi_out_port->str))
     {
-      g_print ("could not connect MIDI port(s)\n");
+      g_warning ("Could not connect MIDI port(s)");
     }
 
   g_atomic_int_set (&midi_initialized, TRUE);
@@ -556,7 +556,7 @@ jack_midi_initialize (DenemoPrefs * config)
 static int
 jack_midi_destroy ()
 {
-  g_print ("destroying JACK MIDI backend\n");
+  g_message ("Destroying JACK MIDI backend");
 
   if (g_atomic_int_get (&midi_initialized))
     {
@@ -574,7 +574,7 @@ jack_midi_destroy ()
 static int
 jack_midi_reconfigure (DenemoPrefs * config)
 {
-  g_print ("reconfiguring JACK MIDI backend\n");
+  g_message ("Reconfiguring JACK MIDI backend");
 
   jack_midi_destroy ();
   jack_midi_initialize (config);
