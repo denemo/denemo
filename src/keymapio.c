@@ -128,7 +128,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
                       keyval = 0;
                       if (Denemo.prefs.strictshortcuts)
                         dnm_accelerator_parse (gtk_binding, &keyval, &state);
-                      g_debug ("binding %s, keyval %d, state %d, Command Number %d\n", gtk_binding, keyval, state, command_number);
+                      g_debug ("binding %s, keyval %d, state %d, Command Number %d", gtk_binding, keyval, state, command_number);
                       {
                         gchar *comma;
                         comma = strtok (gtk_binding, ",");

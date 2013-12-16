@@ -116,7 +116,7 @@ initialize_audio (DenemoPrefs * config)
   char const *driver = config->audio_driver->str;
 
 
-  g_print ("Audio driver is '%s' %d\n", driver, strcmp (driver, "portaudio"));
+  g_message ("Audio driver is '%s' %d", driver, strcmp (driver, "portaudio"));
 
   if (strcmp (driver, "jack") == 0)
     {
@@ -168,7 +168,7 @@ initialize_midi (DenemoPrefs * config)
 {
   char const *driver = config->midi_driver->str;
 
-  g_print ("MIDI driver is '%s'\n", driver);
+  g_message ("MIDI driver is '%s'", driver);
 
   if (strcmp (driver, "jack") == 0)
     {
@@ -458,7 +458,7 @@ queue_thread_func (gpointer data)
 
       if (g_atomic_int_get (&quit_thread))
         {
-          g_print ("that's it, i quit!\n");
+          g_message ("That's it, I quit!");
           break;
         }
 
@@ -588,7 +588,7 @@ midi_play (gchar * callback)
   reset_playback_queue (AUDIO_BACKEND);
   reset_playback_queue (MIDI_BACKEND);
 
-  g_print ("starting playback\n");
+  g_message ("Starting playback");
   start_playing (callback);
   do {//FIXME, this is a crude attempt to get the playback_time set without the callback from portaudio re-writing it.
   playback_time = playback_start_time;
@@ -596,7 +596,7 @@ midi_play (gchar * callback)
 	playback_time = playback_start_time;
 	get_backend (AUDIO_BACKEND)->start_playing ();// this must pick up the playback_start_time, which won't happen if an interrrupt has occurred meanwhile.
   	} while(playback_time != playback_start_time);
-  g_print ("starting playback at %f\n", playback_start_time);
+  g_message ("Starting playback at %f", playback_start_time);
   get_backend (MIDI_BACKEND)->start_playing ();
 }
 
@@ -616,7 +616,7 @@ audio_play (void)
 void
 midi_stop ()
 {
-  g_print ("Stopping playback\n");
+  g_message ("Stopping playback");
 
   get_backend (AUDIO_BACKEND)->stop_playing ();
   get_backend (MIDI_BACKEND)->stop_playing ();

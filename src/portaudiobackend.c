@@ -216,7 +216,7 @@ if(rubberband_active)
             {
               fclose (fp);
               fp = NULL;
-              g_print ("File closed samples are raw data, Little Endian (? or architecture dependent), mono");
+              g_message ("File closed samples are raw data, Little Endian (? or architecture dependent), mono");
             }
         }
     }
@@ -231,23 +231,23 @@ actual_portaudio_initialize (DenemoPrefs * config)
   sample_rate = config->portaudio_sample_rate;
 
 #ifdef _HAVE_FLUIDSYNTH_
-  g_print ("Initializing Fluidsynth\n");
+  g_message ("Initializing Fluidsynth");
   if (fluidsynth_init (config, sample_rate))
     {
-      g_warning ("Initializing Fluidsynth FAILED!\n");
+      g_warning ("Initializing Fluidsynth FAILED!");
       return -1;
     }
 #endif
 #ifdef _HAVE_RUBBERBAND_
  if (rubberband_init (config))
     {
-      g_warning ("Initializing Rubberband FAILED!\n");
+      g_warning ("Initializing Rubberband FAILED!");
       return -1;
     }
 #endif
   g_unlink (recorded_audio_filename ());
 
-  g_print ("Initializing PortAudio backend\n");
+  g_message ("Initializing PortAudio backend");
 
   PaStreamParameters output_parameters;
   PaError err;
@@ -255,7 +255,7 @@ actual_portaudio_initialize (DenemoPrefs * config)
   err = Pa_Initialize ();
   if (err != paNoError)
     {
-      g_warning ("Initializing PortAudio failed\n");
+      g_warning ("Initializing PortAudio failed");
       return -1;
     }
 
@@ -275,7 +275,7 @@ actual_portaudio_initialize (DenemoPrefs * config)
     }
 
   char const *api_name = Pa_GetHostApiInfo (info->hostApi)->name;
-  g_print ("Opening output device '%s: %s'\n", api_name, info->name);
+  g_message ("Opening output device '%s: %s'", api_name, info->name);
 
   output_parameters.channelCount = 2;
   output_parameters.sampleFormat = paFloat32 | paNonInterleaved;
@@ -284,13 +284,13 @@ actual_portaudio_initialize (DenemoPrefs * config)
   err = Pa_OpenStream (&stream, NULL, &output_parameters, config->portaudio_sample_rate, config->portaudio_period_size, paNoFlag /* make this a pref??? paClipOff */ , stream_callback, NULL);
   if (err != paNoError)
     {
-      g_warning ("Couldn't open output stream\n");
+      g_warning ("Couldn't open output stream");
       return -1;
     }
   err = Pa_StartStream (stream);
   if (err != paNoError)
     {
-      g_warning ("Couldn't start output stream\n");
+      g_warning ("Couldn't start output stream");
       return -1;
     }
 
@@ -314,14 +314,14 @@ portaudio_initialize (DenemoPrefs * config)
 static int
 portaudio_destroy ()
 {
-  g_print ("Destroying PortAudio backend\n");
+  g_message ("Destroying PortAudio backend");
   ready = FALSE;
   PaError err;
 
   err = Pa_CloseStream (stream);
   if (err != paNoError)
     {
-      g_warning ("Closing stream failed: %d, %s\n", err, Pa_GetErrorText (err));
+      g_warning ("Closing stream failed: %d, %s", err, Pa_GetErrorText (err));
       return -1;
     }
 

@@ -115,7 +115,7 @@ process_midi (PtTimestamp timestamp, void *user_data)
 static int
 portmidi_initialize (DenemoPrefs * config)
 {
-  g_print ("initializing PortMidi backend\n");
+  g_message ("Initializing PortMidi backend");
 
   PtError pterr = Pt_Start (TIMER_RESOLUTION, &process_midi, NULL);
   if (pterr != ptNoError)
@@ -148,7 +148,7 @@ portmidi_initialize (DenemoPrefs * config)
           return -1;
         }
 
-      g_print ("opening input device '%s: %s'\n", info->interf, info->name);
+      g_message ("Opening input device '%s: %s'", info->interf, info->name);
 
       err = Pm_OpenInput (&input_stream, id, NULL, INPUT_BUFFER_SIZE, NULL, NULL);
       if (err != pmNoError)
@@ -160,7 +160,7 @@ portmidi_initialize (DenemoPrefs * config)
     }
   else
     {
-      g_print ("input device is disabled\n");
+      g_message ("Input device is disabled");
 
       input_stream = NULL;
     }
@@ -178,7 +178,7 @@ portmidi_initialize (DenemoPrefs * config)
           return -1;
         }
 
-      g_print ("opening output device '%s: %s'\n", info->interf, info->name);
+      g_message ("Opening output device '%s: %s'", info->interf, info->name);
 
       err = Pm_OpenOutput (&output_stream, id, NULL, OUTPUT_BUFFER_SIZE, NULL, NULL, 0);
       if (err != pmNoError)
@@ -190,7 +190,7 @@ portmidi_initialize (DenemoPrefs * config)
     }
   else
     {
-      g_print ("output device is disabled\n");
+      g_message ("Output device is disabled");
 
       output_stream = NULL;
     }
@@ -204,7 +204,7 @@ portmidi_initialize (DenemoPrefs * config)
 static int
 portmidi_destroy ()
 {
-  g_print ("destroying PortMidi backend\n");
+  g_message ("Destroying PortMidi backend");
 
   Pt_Stop ();
 

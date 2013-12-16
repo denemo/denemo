@@ -232,7 +232,7 @@ newstaff (DenemoProject * gui, enum newstaffcallbackaction action, DenemoContext
     g_free (thestaffstruct);
     return;          /* no code for this yet - just edit textually */
   }
-  g_debug ("newstaff: Num staffs %d\n", numstaffs);
+  g_debug ("newstaff: Num staffs %d", numstaffs);
   if (numstaffs == 0)
     {
       action = INITIAL;

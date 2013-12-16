@@ -106,6 +106,41 @@ test_invalid_scheme(gpointer fixture, gconstpointer data)
   g_test_trap_assert_failed ();
 }
 
+/** test_scheme_log
+ * Tests (d-LogError) scheme function
+ */
+static void
+test_scheme_log(gpointer fixture, gconstpointer data)
+{
+  if (g_test_trap_fork (0, 0))
+    {
+      execl(DENEMO, DENEMO, "-n", "-e", "--verbose", "-a",
+            "(d-Debug \"This is debug\")"
+            "(d-Info \"This is info\")"
+            "(d-Message \"This is message\")"
+            "(d-Warning \"This is warning\")"
+            "(d-Critical \"This is critical\")"
+            "(d-Quit)",
+            NULL);
+      g_warn_if_reached ();
+    }
+  g_test_trap_assert_passed ();
+}
+
+/** test_scheme_log_error
+ * Tests (d-LogError) scheme function
+ */
+static void
+test_scheme_log_error(gpointer fixture, gconstpointer data)
+{
+  if (g_test_trap_fork (0, 0))
+    {
+      execl(DENEMO, DENEMO, "-n", "--fatal-scheme-errors", "-a", "(d-Error \"This error is fatal\")(d-Quit)", NULL);
+      g_warn_if_reached ();
+    }
+  g_test_trap_assert_failed ();
+}
+
 /*******************************************************************************
  * MAIN
  ******************************************************************************/
@@ -122,6 +157,8 @@ main (int argc, char *argv[])
   g_test_add ("/integration/open-blank-file", void, NULL, setup, test_open_blank_file, teardown);
   g_test_add ("/integration/open-and-save-blank-file", void, NULL, setup, test_open_save_blank_file, teardown);
   g_test_add ("/integration/invalid-scheme", void, NULL, setup, test_invalid_scheme, teardown);
+  g_test_add ("/integration/scheme-log", void, NULL, setup, test_scheme_log, teardown);
+  g_test_add ("/integration/scheme-log-error", void, NULL, setup, test_scheme_log_error, teardown);
 
   return g_test_run ();
 }

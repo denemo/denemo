@@ -66,7 +66,7 @@ load_keymap_files(gchar* files[])
     if(g_file_test(files[i], G_FILE_TEST_EXISTS))
     {      
       if(!ret && load_xml_keymap(files[i]) == 0){
-        g_print("Loaded keymap %s\n", files[i]);
+        g_message("Loaded keymap %s", files[i]);
         ret = TRUE;
       }
       g_free(files[i]);

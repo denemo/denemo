@@ -35,6 +35,12 @@
 #define FONT "Sans 9"
 #define TIMESIGFONT "Sans 24"
 
+#ifdef G_HAVE_ISO_VARARGS
+#define g_info(...) g_log(G_LOG_DOMAIN, G_LOG_LEVEL_INFO, __VA_ARGS__);
+#elif defined(G_HAVE_GNUC_VARARGS)
+#define g_info(format) g_log(G_LOG_DOMAIN, G_LOG_LEVEL_INFO, format);
+#endif
+
 const gchar *get_user_data_dir (gboolean create);
 
 const gchar *locateprintdir (void);
@@ -295,4 +301,5 @@ enum clefs cleftypefromname (gchar * str);
 gchar* find_dir_for_file(gchar* filename, gchar* dirs[]);
 gchar* find_path_for_file(gchar* filename, gchar* dirs[]);
 gchar* find_denemo_file (DenemoDirectory dir, gchar* filename);
+
 #endif /* UTILS_H */

@@ -123,7 +123,7 @@ stop_process_thread ()
 static int
 dummy_audio_initialize (DenemoPrefs * config)
 {
-  g_print ("Initializing dummy audio backend\n");
+  g_message ("Initializing dummy audio backend");
 
   start_process_thread ();
 
@@ -135,7 +135,7 @@ dummy_audio_initialize (DenemoPrefs * config)
 static int
 dummy_midi_initialize (DenemoPrefs * config)
 {
-  g_print ("Initializing dummy MIDI backend\n");
+  g_message ("Initializing dummy MIDI backend");
 
   start_process_thread ();
 
@@ -148,7 +148,7 @@ dummy_midi_initialize (DenemoPrefs * config)
 static int
 dummy_audio_destroy ()
 {
-  g_print ("Destroying dummy audio backend\n");
+  g_message ("Destroying dummy audio backend");
 
   g_atomic_int_set (&dummy_audio, FALSE);
 
@@ -160,7 +160,7 @@ dummy_audio_destroy ()
 static int
 dummy_midi_destroy ()
 {
-  g_print ("Destroying dummy MIDI backend\n");
+  g_message ("Destroying dummy MIDI backend");
 
   g_atomic_int_set (&dummy_midi, FALSE);
 

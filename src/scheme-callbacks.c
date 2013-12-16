@@ -5356,3 +5356,53 @@ scheme_locate_dotdenemo (SCM optional)
   SCM scm = scm_from_locale_string (dotdenemo);
   return scm;
 }
+
+
+SCM scheme_log_debug(SCM message){
+  if(scm_is_string(message)){
+    const gchar* msg = scm_to_locale_string(message);
+    g_debug(msg);
+  }
+  return SCM_BOOL_T;
+}
+
+SCM scheme_log_info(SCM message){
+  if(scm_is_string(message)){
+    const gchar* msg = scm_to_locale_string(message);
+    g_info(msg);
+  }
+  return SCM_BOOL_T;
+}
+
+SCM scheme_log_message(SCM message){
+  if(scm_is_string(message)){
+    const gchar* msg = scm_to_locale_string(message);
+    g_message(msg);
+  }
+  return SCM_BOOL_T;
+}
+
+SCM scheme_log_warning(SCM message){
+  if(scm_is_string(message)){
+    const gchar* msg = scm_to_locale_string(message);
+    g_warning(msg);
+  }
+  return SCM_BOOL_T;
+}
+
+SCM scheme_log_critical(SCM message){
+  if(scm_is_string(message)){
+    const gchar* msg = scm_to_locale_string(message);
+    g_critical(msg);
+  }
+  return SCM_BOOL_T;
+}
+
+SCM scheme_log_error(SCM message){
+  if(scm_is_string(message)){
+    const gchar* msg = scm_to_locale_string(message);
+    g_error(msg);
+  }
+  return SCM_BOOL_T;
+}
+

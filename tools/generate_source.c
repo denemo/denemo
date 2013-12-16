@@ -51,7 +51,7 @@ void parse_menu_commands(){
           fprintf (scheme, "/*%s %s*/\n", ni, fi);
           fprintf (scheme, 
                    "SCM scheme_%s(SCM optional);\n"
-                   "install_scm_function (0, NULL, \"d-%s\", scheme_%s);\n", ni, ni, ni);  // for direct callback via (scheme_xxx)
+                   "install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX \"%s\", scheme_%s);\n", ni, ni, ni);  // for direct callback via (scheme_xxx)
 
           /*******************   create a callback scheme_<name> for calling from a scheme procedure d-<name>  *******************/
           fprintf (scheme_cb, 
@@ -114,34 +114,52 @@ main ()
                " {\"Add%c\", NULL, \"Add %c to Chord\", NULL, \"Adds note %c to chord at cursor\\nCursor determines which octave\",\n"
                "  G_CALLBACK (Add%c)},\n"
                "  {\"ChangeTo%c\", NULL, \"Change current note to %c\", NULL, \"Changes current note to the %c nearest cursor or (if no current note) inserts the note %c\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\",\n"
-               "   G_CALLBACK (ChangeTo%c)},\n" "  {\"MoveTo%c\", NULL, \"Move cursor to step %c\", NULL, \"Moves the cursor to the %c nearest cursor\\nCurrent cursor position determines which octave.\",\n" "   G_CALLBACK (MoveTo%c)},\n", i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i);
+               "   G_CALLBACK (ChangeTo%c)},\n" 
+               "  {\"MoveTo%c\", NULL, \"Move cursor to step %c\", NULL, \"Moves the cursor to the %c nearest cursor\\nCurrent cursor position determines which octave.\",\n" "   G_CALLBACK (MoveTo%c)},\n", i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i);
 
     }
 
   for (i = 'A'; i <= 'G'; i++)
     {
       fprintf (register_commands, "register_command(\"Insert%c\", _(\"Insert %c\"),_(\"Inserts note %c before note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),  Insert%c);\n", i, i, i, i);
-      fprintf (scheme, "SCM scheme_Insert%c(SCM optional);\ninstall_scm_function (0, NULL, \"d-Insert%c\", scheme_Insert%c);\n", i, i, i);       // for direct callback via (scheme_xxx)
-      fprintf (scheme_cb, "SCM scheme_Insert%c (SCM optional) {\nInsert%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i, i);
-      fprintf (register_commands, "register_command(\"AddNote%c\", _(\"Insert %c After\"),_(\"Inserts note %c after note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),  AddNote%c);\n", i, i, i, i);
-      fprintf (scheme, "SCM scheme_AddNote%c(SCM optional);\ninstall_scm_function (0, NULL, \"d-AddNote%c\", scheme_AddNote%c);\n", i, i, i);    // for direct callback via (scheme_xxx)
-      fprintf (scheme_cb, "SCM scheme_AddNote%c (SCM optional) {\nAddNote%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i, i);
+      fprintf (scheme, "SCM scheme_Insert%c(SCM optional);\n"
+                       "install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX \"Insert%c\", scheme_Insert%c);\n", i, i, i);       // for direct callback via (scheme_xxx)
+      fprintf (scheme_cb, "SCM scheme_Insert%c (SCM optional) {\n"
+                          "Insert%c (NULL, NULL);\n"
+                          "return SCM_BOOL(TRUE);\n"
+                          "}\n", i, i);
 
+      fprintf (register_commands, "register_command(\"AddNote%c\", _(\"Insert %c After\"),_(\"Inserts note %c after note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),  AddNote%c);\n", i, i, i, i);
+      fprintf (scheme, "SCM scheme_AddNote%c(SCM optional);\n"
+                       "install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX \"AddNote%c\", scheme_AddNote%c);\n", i, i, i);    // for direct callback via (scheme_xxx)
+      fprintf (scheme_cb, "SCM scheme_AddNote%c (SCM optional) {\n"
+                          "AddNote%c (NULL, NULL);\n"
+                          "return SCM_BOOL(TRUE);\n"
+                          "}\n", i, i);
 
       fprintf (register_commands, "register_command(\"Add%c\", _(\"Add %c\"),_(\"Adds note %c to the chord at cursor\\nCursor height determines which octave\"),  Add%c);\n", i, i, i, i);
-      fprintf (scheme, "SCM scheme_Add%c(SCM optional);\ninstall_scm_function (0, NULL, \"d-Add%c\", scheme_Add%c);\n", i, i, i);        // for direct callback via (scheme_xxx)
-      fprintf (scheme_cb, "SCM scheme_Add%c (SCM optional) {\nAdd%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i, i);
-
-
+      fprintf (scheme, "SCM scheme_Add%c(SCM optional);\n"
+                       "install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX \"Add%c\", scheme_Add%c);\n", i, i, i);        // for direct callback via (scheme_xxx)
+      fprintf (scheme_cb, "SCM scheme_Add%c (SCM optional) {\n"
+                          "Add%c (NULL, NULL);\n"
+                          "return SCM_BOOL(TRUE);\n"
+                          "}\n", i, i);
 
       fprintf (register_commands, "register_command(\"ChangeTo%c\", _(\"Change to %c\"),_(\"Changes note at cursor to nearest note %c\\nRhythm is unchanged\"),  ChangeTo%c);\n", i, i, i, i);
-      fprintf (scheme, "SCM scheme_ChangeTo%c(SCM optional);\ninstall_scm_function (0, NULL, \"d-ChangeTo%c\", scheme_ChangeTo%c);\n", i, i, i); // for direct callback via (scheme_xxx)
-      fprintf (scheme_cb, "SCM scheme_ChangeTo%c (SCM optional) {\nChangeTo%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i, i);
-
+      fprintf (scheme, "SCM scheme_ChangeTo%c(SCM optional);\n"
+                       "install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX \"ChangeTo%c\", scheme_ChangeTo%c);\n", i, i, i); // for direct callback via (scheme_xxx)
+      fprintf (scheme_cb, "SCM scheme_ChangeTo%c (SCM optional) {\n"
+                          "ChangeTo%c (NULL, NULL);\n"
+                          "return SCM_BOOL(TRUE);\n"
+                          "}\n", i, i);
 
       fprintf (register_commands, "register_command(\"MoveTo%c\", _(\"Move to %c\"),_(\"Moves cursor to nearest note %c\"),  MoveTo%c);\n", i, i, i, i);
-      fprintf (scheme, "SCM scheme_MoveTo%c(SCM optional);\ninstall_scm_function (0, NULL, \"d-MoveTo%c\", scheme_MoveTo%c);\n", i, i, i);       // for direct callback via (scheme_xxx)
-      fprintf (scheme_cb, "SCM scheme_MoveTo%c (SCM optional) {\nMoveTo%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i, i);
+      fprintf (scheme, "SCM scheme_MoveTo%c(SCM optional);\n"
+                       "install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX \"MoveTo%c\", scheme_MoveTo%c);\n", i, i, i);       // for direct callback via (scheme_xxx)
+      fprintf (scheme_cb, "SCM scheme_MoveTo%c (SCM optional) {\n"
+                          "MoveTo%c (NULL, NULL);\n"
+                          "return SCM_BOOL(TRUE);\n"
+                          "}\n", i, i);
 
     }
 
@@ -168,27 +186,47 @@ main ()
 
       fprintf (scheme, "/*%d */\n", i);
 
-      fprintf (scheme, "SCM scheme_%d(SCM optional);\ninstall_scm_function (0, NULL, \"d-%d\", scheme_%d);\n", i, i, i); // for direct callback via (scheme_xxx)
-      fprintf (scheme_cb, "SCM scheme_%d (SCM optional) {\nDur%d (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i, i);
+      fprintf (scheme, "SCM scheme_%d(SCM optional);\n"
+                       "install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX \"%d\", scheme_%d);\n", i, i, i); // for direct callback via (scheme_xxx)
+      fprintf (scheme_cb, "SCM scheme_%d (SCM optional) {\n"
+                          "Dur%d (NULL, NULL);\n"
+                          "return SCM_BOOL(TRUE);\n"
+                          "}\n", i, i);
 
-      fprintf (scheme, "SCM scheme_InsertDur%d(SCM optional);\ninstall_scm_function (0, NULL, \"d-Insert%d\", scheme_InsertDur%d);\n", i, i, i); // for direct callback via (scheme_xxx)
-      fprintf (scheme_cb, "SCM scheme_InsertDur%d (SCM optional) {\nInsertDur%d (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i, i);
+      fprintf (scheme, "SCM scheme_InsertDur%d(SCM optional);\n"
+                       "install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX \"Insert%d\", scheme_InsertDur%d);\n", i, i, i); // for direct callback via (scheme_xxx)
+      fprintf (scheme_cb, "SCM scheme_InsertDur%d (SCM optional) {\n"
+                          "InsertDur%d (NULL, NULL);\n"
+                          "return SCM_BOOL(TRUE);\n"
+                          "}\n", i, i);
 
+      fprintf (scheme, "SCM scheme_ChangeDur%d(SCM optional);\n"
+                       "install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX \"Change%d\", scheme_ChangeDur%d);\n", i, i, i); // for direct callback via (scheme_xxx)
+      fprintf (scheme_cb, "SCM scheme_ChangeDur%d (SCM optional) {\n"
+                          "ChangeDur%d (NULL, NULL);\n"
+                          "return SCM_BOOL(TRUE);\n"
+                          "}\n", i, i);
 
+      fprintf (scheme, "SCM scheme_SetDur%d(SCM optional);\n"
+                       "install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX \"Set%d\", scheme_SetDur%d);\n", i, i, i);  // for direct callback via (scheme_xxx)
+      fprintf (scheme_cb, "SCM scheme_SetDur%d (SCM optional) {\n"
+                          "SetDur%d (NULL, NULL);\n"
+                          "return SCM_BOOL(TRUE);\n"
+                          "}\n", i, i);
 
-      fprintf (scheme, "SCM scheme_ChangeDur%d(SCM optional);\ninstall_scm_function (0, NULL, \"d-Change%d\", scheme_ChangeDur%d);\n", i, i, i); // for direct callback via (scheme_xxx)
-      fprintf (scheme_cb, "SCM scheme_ChangeDur%d (SCM optional) {\nChangeDur%d (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i, i);
+      fprintf (scheme, "SCM scheme_InsertRest%d(SCM optional);\n"
+                       "install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX \"InsertRest%d\", scheme_InsertRest%d);\n", i, i, i);   // for direct callback via (scheme_xxx)
+      fprintf (scheme_cb, "SCM scheme_InsertRest%d (SCM optional) {\n"
+                          "InsertRest%d (NULL, NULL);\n"
+                          "return SCM_BOOL(TRUE);\n"
+                          "}\n", i, i);
 
-      fprintf (scheme, "SCM scheme_SetDur%d(SCM optional);\ninstall_scm_function (0, NULL, \"d-Set%d\", scheme_SetDur%d);\n", i, i, i);  // for direct callback via (scheme_xxx)
-      fprintf (scheme_cb, "SCM scheme_SetDur%d (SCM optional) {\nSetDur%d (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i, i);
-
-
-
-      fprintf (scheme, "SCM scheme_InsertRest%d(SCM optional);\ninstall_scm_function (0, NULL, \"d-InsertRest%d\", scheme_InsertRest%d);\n", i, i, i);   // for direct callback via (scheme_xxx)
-      fprintf (scheme_cb, "SCM scheme_InsertRest%d (SCM optional) {\nInsertRest%d (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i, i);
-
-      // fprintf(scheme, "SCM scheme_ChangeRest%d(SCM optional);\ninstall_scm_function (0, NULL, \"d-ChangeRest%d\", scheme_ChangeRest%d);\n", i, i, i);// for direct callback via (scheme_xxx)
-      // fprintf(scheme_cb, "SCM scheme_ChangeRest%d (SCM optional) {\nChangeRest%d (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
+      // fprintf(scheme, "SCM scheme_ChangeRest%d(SCM optional);\n"
+      //"install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX \"ChangeRest%d\", scheme_ChangeRest%d);\n", i, i, i);// for direct callback via (scheme_xxx)
+      // fprintf(scheme_cb, "SCM scheme_ChangeRest%d (SCM optional) {\n"
+      //"ChangeRest%d (NULL, NULL);\n"
+      //"return SCM_BOOL(TRUE);\n"
+      //"}\n", i,  i);
     }
 
 
