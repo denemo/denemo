@@ -522,10 +522,10 @@ actions/menus/MainMenu/PlaybackMenu/PlayAllAtCursor.scm
 actions/menus/MainMenu/PlaybackMenu/PlayAllAtCursor.xml
 actions/menus/MainMenu/PlaybackMenu/PlayAll.scm
 actions/menus/MainMenu/PlaybackMenu/PlayAll.xml
+actions/menus/MainMenu/PlaybackMenu/PlayAndRecordMidiIn.scm
+actions/menus/MainMenu/PlaybackMenu/PlayAndRecordMidiIn.xml
 actions/menus/MainMenu/PlaybackMenu/PlayAtCursor.scm
 actions/menus/MainMenu/PlaybackMenu/PlayAtCursor.xml
-actions/menus/MainMenu/PlaybackMenu/RecordAndConvert.scm
-actions/menus/MainMenu/PlaybackMenu/RecordAndConvert.xml
 actions/menus/MainMenu/PlaybackMenu/RecreateTimebase.scm
 actions/menus/MainMenu/PlaybackMenu/RecreateTimebase.xml
 actions/menus/MainMenu/PlaybackMenu/ToggleConduct.scm
