@@ -3000,7 +3000,12 @@ loadGraphicItem (gchar * name, DenemoGraphic ** xbm)
       return TRUE;
     }
 
-  gchar* filename = g_strconcat (name, ".png", NULL);
+  gchar* files[] = {
+    g_strconcat (name, ".png", NULL),
+    g_strconcat (name, ".svg", NULL),
+    NULL
+  };
+  
   gchar* dirs[] = {
     g_build_filename (locatebitmapsdir (), NULL),
     g_build_filename (locatedownloadbitmapsdir (), NULL),
@@ -3010,22 +3015,21 @@ loadGraphicItem (gchar * name, DenemoGraphic ** xbm)
   };
 
   gboolean success = TRUE;
-  gchar *dir = find_dir_for_file (filename, dirs);
+  gchar *dir = find_dir_for_files (files, dirs);
   if(!dir){
     g_warning ("Could not find graphic item %s", name);
     success = FALSE;
   }
 
-  if(success){
+  else{
     gchar* basename = g_build_filename(dir, name, NULL);
     success = loadGraphicFromFormat (name, basename, xbm);
     g_free(basename);
+
+    if(!success)
+      g_warning ("Could not load graphic item %s from %s", name, dir);
   }
-
-  if(!success)
-    g_warning ("Could not load graphic item %s", name);
-
-  g_free(filename);
+  
   g_free(dir);
 
   return success;

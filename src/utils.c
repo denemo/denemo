@@ -2430,6 +2430,39 @@ find_dir_for_file(gchar* filename, gchar* dirs[])
 }
 
 /**
+ * find_dir_for_files:
+ * @files: The files to search
+ * @dirs: A dir paths array, ending by NULL, where to search.
+ *
+ * Finds the first dir in the list that contains 'filename', and free the array.
+ *
+ * Returns: The dir path if found, NULL either
+ **/
+gchar*
+find_dir_for_files(gchar* files[], gchar* dirs[])
+{
+  gchar *dir = NULL;
+  gchar *path = NULL;
+  gint d, f;
+
+  for(d = 0; dirs[d]; d++)
+  {
+    for(f = 0; files[f]; f++)
+    {
+      if(!dir)
+      {
+        path = g_build_filename (dirs[d], files[f], NULL);
+        if(g_file_test (path, G_FILE_TEST_EXISTS))
+          dir = g_strdup(dirs[d]);
+        g_free(path);
+      }
+    }
+    g_free(dirs[d]);
+  }
+  return dir;
+}
+
+/**
  * find_path_for_file:
  * @filename: The file to search
  * @dirs: A dir paths array, ending by NULL, where to search.
@@ -2513,6 +2546,7 @@ get_executable_dir ()
   }
   return dir;
 }
+
 /**
  * find:
  * @dir: The denemo directory where to search
