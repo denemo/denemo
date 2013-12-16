@@ -1,1117 +1,1117 @@
 /*CursorLeft cursorleft*/
 SCM scheme_CursorLeft(SCM optional);
-install_scm_function (0, NULL, "d-CursorLeft", scheme_CursorLeft);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "CursorLeft", scheme_CursorLeft);
 /*MoveCursorLeft movecursorleft*/
 SCM scheme_MoveCursorLeft(SCM optional);
-install_scm_function (0, NULL, "d-MoveCursorLeft", scheme_MoveCursorLeft);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveCursorLeft", scheme_MoveCursorLeft);
 /*CursorDown cursordown*/
 SCM scheme_CursorDown(SCM optional);
-install_scm_function (0, NULL, "d-CursorDown", scheme_CursorDown);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "CursorDown", scheme_CursorDown);
 /*CursorUp cursorup*/
 SCM scheme_CursorUp(SCM optional);
-install_scm_function (0, NULL, "d-CursorUp", scheme_CursorUp);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "CursorUp", scheme_CursorUp);
 /*CursorRight cursorright*/
 SCM scheme_CursorRight(SCM optional);
-install_scm_function (0, NULL, "d-CursorRight", scheme_CursorRight);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "CursorRight", scheme_CursorRight);
 /*MoveCursorRight movecursorright*/
 SCM scheme_MoveCursorRight(SCM optional);
-install_scm_function (0, NULL, "d-MoveCursorRight", scheme_MoveCursorRight);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveCursorRight", scheme_MoveCursorRight);
 /*GoToMark goto_mark*/
 SCM scheme_GoToMark(SCM optional);
-install_scm_function (0, NULL, "d-GoToMark", scheme_GoToMark);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "GoToMark", scheme_GoToMark);
 /*SwapPointAndMark swap_point_and_mark*/
 SCM scheme_SwapPointAndMark(SCM optional);
-install_scm_function (0, NULL, "d-SwapPointAndMark", scheme_SwapPointAndMark);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SwapPointAndMark", scheme_SwapPointAndMark);
 /*GoToSelectionStart goto_selection_start*/
 SCM scheme_GoToSelectionStart(SCM optional);
-install_scm_function (0, NULL, "d-GoToSelectionStart", scheme_GoToSelectionStart);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "GoToSelectionStart", scheme_GoToSelectionStart);
 /*PushPosition PushPosition*/
 SCM scheme_PushPosition(SCM optional);
-install_scm_function (0, NULL, "d-PushPosition", scheme_PushPosition);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "PushPosition", scheme_PushPosition);
 /*PopPosition PopPosition*/
 SCM scheme_PopPosition(SCM optional);
-install_scm_function (0, NULL, "d-PopPosition", scheme_PopPosition);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "PopPosition", scheme_PopPosition);
 /*PopPushPosition PopPushPosition*/
 SCM scheme_PopPushPosition(SCM optional);
-install_scm_function (0, NULL, "d-PopPushPosition", scheme_PopPushPosition);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "PopPushPosition", scheme_PopPushPosition);
 /*ToggleReduceToDrawingArea ToggleReduceToDrawingArea*/
 SCM scheme_ToggleReduceToDrawingArea(SCM optional);
-install_scm_function (0, NULL, "d-ToggleReduceToDrawingArea", scheme_ToggleReduceToDrawingArea);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleReduceToDrawingArea", scheme_ToggleReduceToDrawingArea);
 /*StaffUp staffup*/
 SCM scheme_StaffUp(SCM optional);
-install_scm_function (0, NULL, "d-StaffUp", scheme_StaffUp);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "StaffUp", scheme_StaffUp);
 /*StaffDown staffdown*/
 SCM scheme_StaffDown(SCM optional);
-install_scm_function (0, NULL, "d-StaffDown", scheme_StaffDown);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "StaffDown", scheme_StaffDown);
 /*MoveToStaffUp movetostaffup*/
 SCM scheme_MoveToStaffUp(SCM optional);
-install_scm_function (0, NULL, "d-MoveToStaffUp", scheme_MoveToStaffUp);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveToStaffUp", scheme_MoveToStaffUp);
 /*MoveToStaffDown movetostaffdown*/
 SCM scheme_MoveToStaffDown(SCM optional);
-install_scm_function (0, NULL, "d-MoveToStaffDown", scheme_MoveToStaffDown);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveToStaffDown", scheme_MoveToStaffDown);
 /*MeasureLeft measureleft*/
 SCM scheme_MeasureLeft(SCM optional);
-install_scm_function (0, NULL, "d-MeasureLeft", scheme_MeasureLeft);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MeasureLeft", scheme_MeasureLeft);
 /*MeasureRight measureright*/
 SCM scheme_MeasureRight(SCM optional);
-install_scm_function (0, NULL, "d-MeasureRight", scheme_MeasureRight);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MeasureRight", scheme_MeasureRight);
 /*MoveToMeasureLeft movetomeasureleft*/
 SCM scheme_MoveToMeasureLeft(SCM optional);
-install_scm_function (0, NULL, "d-MoveToMeasureLeft", scheme_MoveToMeasureLeft);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveToMeasureLeft", scheme_MoveToMeasureLeft);
 /*MoveToMeasureRight movetomeasureright*/
 SCM scheme_MoveToMeasureRight(SCM optional);
-install_scm_function (0, NULL, "d-MoveToMeasureRight", scheme_MoveToMeasureRight);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveToMeasureRight", scheme_MoveToMeasureRight);
 /*A go_to_A_key*/
 SCM scheme_A(SCM optional);
-install_scm_function (0, NULL, "d-A", scheme_A);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "A", scheme_A);
 /*B go_to_B_key*/
 SCM scheme_B(SCM optional);
-install_scm_function (0, NULL, "d-B", scheme_B);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "B", scheme_B);
 /*C go_to_C_key*/
 SCM scheme_C(SCM optional);
-install_scm_function (0, NULL, "d-C", scheme_C);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "C", scheme_C);
 /*D go_to_D_key*/
 SCM scheme_D(SCM optional);
-install_scm_function (0, NULL, "d-D", scheme_D);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "D", scheme_D);
 /*E go_to_E_key*/
 SCM scheme_E(SCM optional);
-install_scm_function (0, NULL, "d-E", scheme_E);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "E", scheme_E);
 /*F go_to_F_key*/
 SCM scheme_F(SCM optional);
-install_scm_function (0, NULL, "d-F", scheme_F);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "F", scheme_F);
 /*G go_to_G_key*/
 SCM scheme_G(SCM optional);
-install_scm_function (0, NULL, "d-G", scheme_G);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "G", scheme_G);
 /*OctaveUp octave_up_key*/
 SCM scheme_OctaveUp(SCM optional);
-install_scm_function (0, NULL, "d-OctaveUp", scheme_OctaveUp);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "OctaveUp", scheme_OctaveUp);
 /*OctaveDown octave_down_key*/
 SCM scheme_OctaveDown(SCM optional);
-install_scm_function (0, NULL, "d-OctaveDown", scheme_OctaveDown);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "OctaveDown", scheme_OctaveDown);
 /*WholeNote insert_chord_0key*/
 SCM scheme_WholeNote(SCM optional);
-install_scm_function (0, NULL, "d-WholeNote", scheme_WholeNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "WholeNote", scheme_WholeNote);
 /*HalfNote insert_chord_1key*/
 SCM scheme_HalfNote(SCM optional);
-install_scm_function (0, NULL, "d-HalfNote", scheme_HalfNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "HalfNote", scheme_HalfNote);
 /*QuarterNote insert_chord_2key*/
 SCM scheme_QuarterNote(SCM optional);
-install_scm_function (0, NULL, "d-QuarterNote", scheme_QuarterNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "QuarterNote", scheme_QuarterNote);
 /*EighthNote insert_chord_3key*/
 SCM scheme_EighthNote(SCM optional);
-install_scm_function (0, NULL, "d-EighthNote", scheme_EighthNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EighthNote", scheme_EighthNote);
 /*SixteenthNote insert_chord_4key*/
 SCM scheme_SixteenthNote(SCM optional);
-install_scm_function (0, NULL, "d-SixteenthNote", scheme_SixteenthNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SixteenthNote", scheme_SixteenthNote);
 /*ThirtysecondNote insert_chord_5key*/
 SCM scheme_ThirtysecondNote(SCM optional);
-install_scm_function (0, NULL, "d-ThirtysecondNote", scheme_ThirtysecondNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ThirtysecondNote", scheme_ThirtysecondNote);
 /*SixtyfourthNote insert_chord_6key*/
 SCM scheme_SixtyfourthNote(SCM optional);
-install_scm_function (0, NULL, "d-SixtyfourthNote", scheme_SixtyfourthNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SixtyfourthNote", scheme_SixtyfourthNote);
 /*OneHundredTwentyEighthNote insert_chord_7key*/
 SCM scheme_OneHundredTwentyEighthNote(SCM optional);
-install_scm_function (0, NULL, "d-OneHundredTwentyEighthNote", scheme_OneHundredTwentyEighthNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "OneHundredTwentyEighthNote", scheme_OneHundredTwentyEighthNote);
 /*TwoHundredFiftySixthNote insert_chord_8key*/
 SCM scheme_TwoHundredFiftySixthNote(SCM optional);
-install_scm_function (0, NULL, "d-TwoHundredFiftySixthNote", scheme_TwoHundredFiftySixthNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "TwoHundredFiftySixthNote", scheme_TwoHundredFiftySixthNote);
 /*InsertWholeRest insert_rest_0key*/
 SCM scheme_InsertWholeRest(SCM optional);
-install_scm_function (0, NULL, "d-InsertWholeRest", scheme_InsertWholeRest);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertWholeRest", scheme_InsertWholeRest);
 /*InsertHalfRest insert_rest_1key*/
 SCM scheme_InsertHalfRest(SCM optional);
-install_scm_function (0, NULL, "d-InsertHalfRest", scheme_InsertHalfRest);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertHalfRest", scheme_InsertHalfRest);
 /*InsertQuarterRest insert_rest_2key*/
 SCM scheme_InsertQuarterRest(SCM optional);
-install_scm_function (0, NULL, "d-InsertQuarterRest", scheme_InsertQuarterRest);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertQuarterRest", scheme_InsertQuarterRest);
 /*InsertEighthRest insert_rest_3key*/
 SCM scheme_InsertEighthRest(SCM optional);
-install_scm_function (0, NULL, "d-InsertEighthRest", scheme_InsertEighthRest);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertEighthRest", scheme_InsertEighthRest);
 /*InsertSixteenthRest insert_rest_4key*/
 SCM scheme_InsertSixteenthRest(SCM optional);
-install_scm_function (0, NULL, "d-InsertSixteenthRest", scheme_InsertSixteenthRest);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertSixteenthRest", scheme_InsertSixteenthRest);
 /*InsertThirtysecondRest insert_rest_5key*/
 SCM scheme_InsertThirtysecondRest(SCM optional);
-install_scm_function (0, NULL, "d-InsertThirtysecondRest", scheme_InsertThirtysecondRest);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertThirtysecondRest", scheme_InsertThirtysecondRest);
 /*InsertSixtyfourthRest insert_rest_6key*/
 SCM scheme_InsertSixtyfourthRest(SCM optional);
-install_scm_function (0, NULL, "d-InsertSixtyfourthRest", scheme_InsertSixtyfourthRest);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertSixtyfourthRest", scheme_InsertSixtyfourthRest);
 /*InsertBlankWholeNote insert_blankchord_0key*/
 SCM scheme_InsertBlankWholeNote(SCM optional);
-install_scm_function (0, NULL, "d-InsertBlankWholeNote", scheme_InsertBlankWholeNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBlankWholeNote", scheme_InsertBlankWholeNote);
 /*InsertBlankHalfNote insert_blankchord_1key*/
 SCM scheme_InsertBlankHalfNote(SCM optional);
-install_scm_function (0, NULL, "d-InsertBlankHalfNote", scheme_InsertBlankHalfNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBlankHalfNote", scheme_InsertBlankHalfNote);
 /*InsertBlankQuarterNote insert_blankchord_2key*/
 SCM scheme_InsertBlankQuarterNote(SCM optional);
-install_scm_function (0, NULL, "d-InsertBlankQuarterNote", scheme_InsertBlankQuarterNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBlankQuarterNote", scheme_InsertBlankQuarterNote);
 /*InsertBlankEighthNote insert_blankchord_3key*/
 SCM scheme_InsertBlankEighthNote(SCM optional);
-install_scm_function (0, NULL, "d-InsertBlankEighthNote", scheme_InsertBlankEighthNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBlankEighthNote", scheme_InsertBlankEighthNote);
 /*InsertBlankSixteenthNote insert_blankchord_4key*/
 SCM scheme_InsertBlankSixteenthNote(SCM optional);
-install_scm_function (0, NULL, "d-InsertBlankSixteenthNote", scheme_InsertBlankSixteenthNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBlankSixteenthNote", scheme_InsertBlankSixteenthNote);
 /*InsertBlankThirtysecondNote insert_blankchord_5key*/
 SCM scheme_InsertBlankThirtysecondNote(SCM optional);
-install_scm_function (0, NULL, "d-InsertBlankThirtysecondNote", scheme_InsertBlankThirtysecondNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBlankThirtysecondNote", scheme_InsertBlankThirtysecondNote);
 /*InsertBlankSixtyfourthNote insert_blankchord_6key*/
 SCM scheme_InsertBlankSixtyfourthNote(SCM optional);
-install_scm_function (0, NULL, "d-InsertBlankSixtyfourthNote", scheme_InsertBlankSixtyfourthNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBlankSixtyfourthNote", scheme_InsertBlankSixtyfourthNote);
 /*InsertBlankOneHundredTwentyEighthNote insert_blankchord_7key*/
 SCM scheme_InsertBlankOneHundredTwentyEighthNote(SCM optional);
-install_scm_function (0, NULL, "d-InsertBlankOneHundredTwentyEighthNote", scheme_InsertBlankOneHundredTwentyEighthNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBlankOneHundredTwentyEighthNote", scheme_InsertBlankOneHundredTwentyEighthNote);
 /*InsertBlankTwoHundredFiftySixthNote insert_blankchord_8key*/
 SCM scheme_InsertBlankTwoHundredFiftySixthNote(SCM optional);
-install_scm_function (0, NULL, "d-InsertBlankTwoHundredFiftySixthNote", scheme_InsertBlankTwoHundredFiftySixthNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBlankTwoHundredFiftySixthNote", scheme_InsertBlankTwoHundredFiftySixthNote);
 /*ToggleRestMode rest_toggle_key*/
 SCM scheme_ToggleRestMode(SCM optional);
-install_scm_function (0, NULL, "d-ToggleRestMode", scheme_ToggleRestMode);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleRestMode", scheme_ToggleRestMode);
 /*ToggleBlankMode toggle_blank*/
 SCM scheme_ToggleBlankMode(SCM optional);
-install_scm_function (0, NULL, "d-ToggleBlankMode", scheme_ToggleBlankMode);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleBlankMode", scheme_ToggleBlankMode);
 /*InsertDuplet insert_duplet*/
 SCM scheme_InsertDuplet(SCM optional);
-install_scm_function (0, NULL, "d-InsertDuplet", scheme_InsertDuplet);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertDuplet", scheme_InsertDuplet);
 /*InsertTriplet insert_triplet*/
 SCM scheme_InsertTriplet(SCM optional);
-install_scm_function (0, NULL, "d-InsertTriplet", scheme_InsertTriplet);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertTriplet", scheme_InsertTriplet);
 /*StartTriplet start_triplet*/
 SCM scheme_StartTriplet(SCM optional);
-install_scm_function (0, NULL, "d-StartTriplet", scheme_StartTriplet);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "StartTriplet", scheme_StartTriplet);
 /*EndTuplet end_tuplet*/
 SCM scheme_EndTuplet(SCM optional);
-install_scm_function (0, NULL, "d-EndTuplet", scheme_EndTuplet);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EndTuplet", scheme_EndTuplet);
 /*InsertQuadtuplet insert_quadtuplet*/
 SCM scheme_InsertQuadtuplet(SCM optional);
-install_scm_function (0, NULL, "d-InsertQuadtuplet", scheme_InsertQuadtuplet);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertQuadtuplet", scheme_InsertQuadtuplet);
 /*InsertQuintuplet insert_quintuplet*/
 SCM scheme_InsertQuintuplet(SCM optional);
-install_scm_function (0, NULL, "d-InsertQuintuplet", scheme_InsertQuintuplet);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertQuintuplet", scheme_InsertQuintuplet);
 /*InsertSextuplet insert_sextuplet*/
 SCM scheme_InsertSextuplet(SCM optional);
-install_scm_function (0, NULL, "d-InsertSextuplet", scheme_InsertSextuplet);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertSextuplet", scheme_InsertSextuplet);
 /*InsertSeptuplet insert_septuplet*/
 SCM scheme_InsertSeptuplet(SCM optional);
-install_scm_function (0, NULL, "d-InsertSeptuplet", scheme_InsertSeptuplet);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertSeptuplet", scheme_InsertSeptuplet);
 /*AddNoteToChord add_tone_key*/
 SCM scheme_AddNoteToChord(SCM optional);
-install_scm_function (0, NULL, "d-AddNoteToChord", scheme_AddNoteToChord);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddNoteToChord", scheme_AddNoteToChord);
 /*RemoveNoteFromChord remove_tone_key*/
 SCM scheme_RemoveNoteFromChord(SCM optional);
-install_scm_function (0, NULL, "d-RemoveNoteFromChord", scheme_RemoveNoteFromChord);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "RemoveNoteFromChord", scheme_RemoveNoteFromChord);
 /*Sharpen sharpen_key*/
 SCM scheme_Sharpen(SCM optional);
-install_scm_function (0, NULL, "d-Sharpen", scheme_Sharpen);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Sharpen", scheme_Sharpen);
 /*Flatten flatten_key*/
 SCM scheme_Flatten(SCM optional);
-install_scm_function (0, NULL, "d-Flatten", scheme_Flatten);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Flatten", scheme_Flatten);
 /*PendingSharpen pending_sharpen*/
 SCM scheme_PendingSharpen(SCM optional);
-install_scm_function (0, NULL, "d-PendingSharpen", scheme_PendingSharpen);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "PendingSharpen", scheme_PendingSharpen);
 /*PendingFlatten pending_flatten*/
 SCM scheme_PendingFlatten(SCM optional);
-install_scm_function (0, NULL, "d-PendingFlatten", scheme_PendingFlatten);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "PendingFlatten", scheme_PendingFlatten);
 /*StemUp stem_up*/
 SCM scheme_StemUp(SCM optional);
-install_scm_function (0, NULL, "d-StemUp", scheme_StemUp);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "StemUp", scheme_StemUp);
 /*StemDown stem_down*/
 SCM scheme_StemDown(SCM optional);
-install_scm_function (0, NULL, "d-StemDown", scheme_StemDown);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "StemDown", scheme_StemDown);
 /*AddDot add_dot_key*/
 SCM scheme_AddDot(SCM optional);
-install_scm_function (0, NULL, "d-AddDot", scheme_AddDot);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddDot", scheme_AddDot);
 /*RemoveDot remove_dot_key*/
 SCM scheme_RemoveDot(SCM optional);
-install_scm_function (0, NULL, "d-RemoveDot", scheme_RemoveDot);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "RemoveDot", scheme_RemoveDot);
 /*InsertTiedNote tie_notes_key*/
 SCM scheme_InsertTiedNote(SCM optional);
-install_scm_function (0, NULL, "d-InsertTiedNote", scheme_InsertTiedNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertTiedNote", scheme_InsertTiedNote);
 /*ToggleTie toggle_tie*/
 SCM scheme_ToggleTie(SCM optional);
-install_scm_function (0, NULL, "d-ToggleTie", scheme_ToggleTie);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleTie", scheme_ToggleTie);
 /*DeleteObject deleteobject*/
 SCM scheme_DeleteObject(SCM optional);
-install_scm_function (0, NULL, "d-DeleteObject", scheme_DeleteObject);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DeleteObject", scheme_DeleteObject);
 /*DeletePreviousObject deletepreviousobject*/
 SCM scheme_DeletePreviousObject(SCM optional);
-install_scm_function (0, NULL, "d-DeletePreviousObject", scheme_DeletePreviousObject);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DeletePreviousObject", scheme_DeletePreviousObject);
 /*InsertMeasure insert_measure_key*/
 SCM scheme_InsertMeasure(SCM optional);
-install_scm_function (0, NULL, "d-InsertMeasure", scheme_InsertMeasure);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertMeasure", scheme_InsertMeasure);
 /*AddMeasure addmeasureafter*/
 SCM scheme_AddMeasure(SCM optional);
-install_scm_function (0, NULL, "d-AddMeasure", scheme_AddMeasure);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddMeasure", scheme_AddMeasure);
 /*InsertMeasureBefore insertmeasurebefore*/
 SCM scheme_InsertMeasureBefore(SCM optional);
-install_scm_function (0, NULL, "d-InsertMeasureBefore", scheme_InsertMeasureBefore);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertMeasureBefore", scheme_InsertMeasureBefore);
 /*InsertMeasureAfter insertmeasureafter*/
 SCM scheme_InsertMeasureAfter(SCM optional);
-install_scm_function (0, NULL, "d-InsertMeasureAfter", scheme_InsertMeasureAfter);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertMeasureAfter", scheme_InsertMeasureAfter);
 /*AppendMeasure append_measure_key*/
 SCM scheme_AppendMeasure(SCM optional);
-install_scm_function (0, NULL, "d-AppendMeasure", scheme_AppendMeasure);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AppendMeasure", scheme_AppendMeasure);
 /*DeleteMeasure deletemeasure*/
 SCM scheme_DeleteMeasure(SCM optional);
-install_scm_function (0, NULL, "d-DeleteMeasure", scheme_DeleteMeasure);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DeleteMeasure", scheme_DeleteMeasure);
 /*DeleteMeasureAllStaffs deletemeasureallstaffs*/
 SCM scheme_DeleteMeasureAllStaffs(SCM optional);
-install_scm_function (0, NULL, "d-DeleteMeasureAllStaffs", scheme_DeleteMeasureAllStaffs);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DeleteMeasureAllStaffs", scheme_DeleteMeasureAllStaffs);
 /*ShrinkMeasures adjust_measure_less_width_key*/
 SCM scheme_ShrinkMeasures(SCM optional);
-install_scm_function (0, NULL, "d-ShrinkMeasures", scheme_ShrinkMeasures);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ShrinkMeasures", scheme_ShrinkMeasures);
 /*WidenMeasures adjust_measure_more_width_key*/
 SCM scheme_WidenMeasures(SCM optional);
-install_scm_function (0, NULL, "d-WidenMeasures", scheme_WidenMeasures);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "WidenMeasures", scheme_WidenMeasures);
 /*ShorterStaffs adjust_staff_less_height_key*/
 SCM scheme_ShorterStaffs(SCM optional);
-install_scm_function (0, NULL, "d-ShorterStaffs", scheme_ShorterStaffs);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ShorterStaffs", scheme_ShorterStaffs);
 /*TallerStaffs adjust_staff_more_height_key*/
 SCM scheme_TallerStaffs(SCM optional);
-install_scm_function (0, NULL, "d-TallerStaffs", scheme_TallerStaffs);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "TallerStaffs", scheme_TallerStaffs);
 /*InsertTrebleClef newcleftreble*/
 SCM scheme_InsertTrebleClef(SCM optional);
-install_scm_function (0, NULL, "d-InsertTrebleClef", scheme_InsertTrebleClef);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertTrebleClef", scheme_InsertTrebleClef);
 /*InsertBassClef newclefbass*/
 SCM scheme_InsertBassClef(SCM optional);
-install_scm_function (0, NULL, "d-InsertBassClef", scheme_InsertBassClef);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBassClef", scheme_InsertBassClef);
 /*Insertg8clef newclefg8*/
 SCM scheme_Insertg8clef(SCM optional);
-install_scm_function (0, NULL, "d-Insertg8clef", scheme_Insertg8clef);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insertg8clef", scheme_Insertg8clef);
 /*InsertAltoClef newclefalto*/
 SCM scheme_InsertAltoClef(SCM optional);
-install_scm_function (0, NULL, "d-InsertAltoClef", scheme_InsertAltoClef);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertAltoClef", scheme_InsertAltoClef);
 /*InsertTenorClef newcleftenor*/
 SCM scheme_InsertTenorClef(SCM optional);
-install_scm_function (0, NULL, "d-InsertTenorClef", scheme_InsertTenorClef);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertTenorClef", scheme_InsertTenorClef);
 /*InsertSopranoClef newclefsoprano*/
 SCM scheme_InsertSopranoClef(SCM optional);
-install_scm_function (0, NULL, "d-InsertSopranoClef", scheme_InsertSopranoClef);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertSopranoClef", scheme_InsertSopranoClef);
 /*SetInitialTrebleClef setcleftreble*/
 SCM scheme_SetInitialTrebleClef(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialTrebleClef", scheme_SetInitialTrebleClef);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialTrebleClef", scheme_SetInitialTrebleClef);
 /*SetInitialBassClef setclefbass*/
 SCM scheme_SetInitialBassClef(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialBassClef", scheme_SetInitialBassClef);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialBassClef", scheme_SetInitialBassClef);
 /*SetInitialg8clef setclefg8*/
 SCM scheme_SetInitialg8clef(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialg8clef", scheme_SetInitialg8clef);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialg8clef", scheme_SetInitialg8clef);
 /*SetInitialAltoClef setclefalto*/
 SCM scheme_SetInitialAltoClef(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialAltoClef", scheme_SetInitialAltoClef);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialAltoClef", scheme_SetInitialAltoClef);
 /*SetInitialTenorClef setcleftenor*/
 SCM scheme_SetInitialTenorClef(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialTenorClef", scheme_SetInitialTenorClef);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialTenorClef", scheme_SetInitialTenorClef);
 /*SetInitialSopranoClef setclefsoprano*/
 SCM scheme_SetInitialSopranoClef(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialSopranoClef", scheme_SetInitialSopranoClef);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialSopranoClef", scheme_SetInitialSopranoClef);
 /*Insert22Time newtimesig22*/
 SCM scheme_Insert22Time(SCM optional);
-install_scm_function (0, NULL, "d-Insert22Time", scheme_Insert22Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert22Time", scheme_Insert22Time);
 /*Insert32Time newtimesig32*/
 SCM scheme_Insert32Time(SCM optional);
-install_scm_function (0, NULL, "d-Insert32Time", scheme_Insert32Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert32Time", scheme_Insert32Time);
 /*Insert42Time newtimesig42*/
 SCM scheme_Insert42Time(SCM optional);
-install_scm_function (0, NULL, "d-Insert42Time", scheme_Insert42Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert42Time", scheme_Insert42Time);
 /*Insert44Time newtimesig44*/
 SCM scheme_Insert44Time(SCM optional);
-install_scm_function (0, NULL, "d-Insert44Time", scheme_Insert44Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert44Time", scheme_Insert44Time);
 /*Insert34Time newtimesig34*/
 SCM scheme_Insert34Time(SCM optional);
-install_scm_function (0, NULL, "d-Insert34Time", scheme_Insert34Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert34Time", scheme_Insert34Time);
 /*Insert24Time newtimesig24*/
 SCM scheme_Insert24Time(SCM optional);
-install_scm_function (0, NULL, "d-Insert24Time", scheme_Insert24Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert24Time", scheme_Insert24Time);
 /*Insert64Time newtimesig64*/
 SCM scheme_Insert64Time(SCM optional);
-install_scm_function (0, NULL, "d-Insert64Time", scheme_Insert64Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert64Time", scheme_Insert64Time);
 /*Insert38Time newtimesig38*/
 SCM scheme_Insert38Time(SCM optional);
-install_scm_function (0, NULL, "d-Insert38Time", scheme_Insert38Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert38Time", scheme_Insert38Time);
 /*Insert68Time newtimesig68*/
 SCM scheme_Insert68Time(SCM optional);
-install_scm_function (0, NULL, "d-Insert68Time", scheme_Insert68Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert68Time", scheme_Insert68Time);
 /*Insert128Time newtimesig128*/
 SCM scheme_Insert128Time(SCM optional);
-install_scm_function (0, NULL, "d-Insert128Time", scheme_Insert128Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert128Time", scheme_Insert128Time);
 /*Insert98Time newtimesig98*/
 SCM scheme_Insert98Time(SCM optional);
-install_scm_function (0, NULL, "d-Insert98Time", scheme_Insert98Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert98Time", scheme_Insert98Time);
 /*Set22Time settimesig22*/
 SCM scheme_Set22Time(SCM optional);
-install_scm_function (0, NULL, "d-Set22Time", scheme_Set22Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set22Time", scheme_Set22Time);
 /*Set32Time settimesig32*/
 SCM scheme_Set32Time(SCM optional);
-install_scm_function (0, NULL, "d-Set32Time", scheme_Set32Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set32Time", scheme_Set32Time);
 /*Set42Time settimesig42*/
 SCM scheme_Set42Time(SCM optional);
-install_scm_function (0, NULL, "d-Set42Time", scheme_Set42Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set42Time", scheme_Set42Time);
 /*Set44Time settimesig44*/
 SCM scheme_Set44Time(SCM optional);
-install_scm_function (0, NULL, "d-Set44Time", scheme_Set44Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set44Time", scheme_Set44Time);
 /*Set34Time settimesig34*/
 SCM scheme_Set34Time(SCM optional);
-install_scm_function (0, NULL, "d-Set34Time", scheme_Set34Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set34Time", scheme_Set34Time);
 /*Set24Time settimesig24*/
 SCM scheme_Set24Time(SCM optional);
-install_scm_function (0, NULL, "d-Set24Time", scheme_Set24Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set24Time", scheme_Set24Time);
 /*Set64Time settimesig64*/
 SCM scheme_Set64Time(SCM optional);
-install_scm_function (0, NULL, "d-Set64Time", scheme_Set64Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set64Time", scheme_Set64Time);
 /*Set38Time settimesig38*/
 SCM scheme_Set38Time(SCM optional);
-install_scm_function (0, NULL, "d-Set38Time", scheme_Set38Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set38Time", scheme_Set38Time);
 /*Set68Time settimesig68*/
 SCM scheme_Set68Time(SCM optional);
-install_scm_function (0, NULL, "d-Set68Time", scheme_Set68Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set68Time", scheme_Set68Time);
 /*Set128Time settimesig128*/
 SCM scheme_Set128Time(SCM optional);
-install_scm_function (0, NULL, "d-Set128Time", scheme_Set128Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set128Time", scheme_Set128Time);
 /*Set98Time settimesig98*/
 SCM scheme_Set98Time(SCM optional);
-install_scm_function (0, NULL, "d-Set98Time", scheme_Set98Time);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set98Time", scheme_Set98Time);
 /*InsertCmaj newkeysigcmaj*/
 SCM scheme_InsertCmaj(SCM optional);
-install_scm_function (0, NULL, "d-InsertCmaj", scheme_InsertCmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertCmaj", scheme_InsertCmaj);
 /*InsertGmaj newkeysiggmaj*/
 SCM scheme_InsertGmaj(SCM optional);
-install_scm_function (0, NULL, "d-InsertGmaj", scheme_InsertGmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertGmaj", scheme_InsertGmaj);
 /*InsertDmaj newkeysigdmaj*/
 SCM scheme_InsertDmaj(SCM optional);
-install_scm_function (0, NULL, "d-InsertDmaj", scheme_InsertDmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertDmaj", scheme_InsertDmaj);
 /*InsertAmaj newkeysigamaj*/
 SCM scheme_InsertAmaj(SCM optional);
-install_scm_function (0, NULL, "d-InsertAmaj", scheme_InsertAmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertAmaj", scheme_InsertAmaj);
 /*InsertEmaj newkeysigemaj*/
 SCM scheme_InsertEmaj(SCM optional);
-install_scm_function (0, NULL, "d-InsertEmaj", scheme_InsertEmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertEmaj", scheme_InsertEmaj);
 /*InsertBmaj newkeysigbmaj*/
 SCM scheme_InsertBmaj(SCM optional);
-install_scm_function (0, NULL, "d-InsertBmaj", scheme_InsertBmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBmaj", scheme_InsertBmaj);
 /*InsertFSharpmaj newkeysigfsharpmaj*/
 SCM scheme_InsertFSharpmaj(SCM optional);
-install_scm_function (0, NULL, "d-InsertFSharpmaj", scheme_InsertFSharpmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertFSharpmaj", scheme_InsertFSharpmaj);
 /*InsertCSharpmaj newkeysigcsharpmaj*/
 SCM scheme_InsertCSharpmaj(SCM optional);
-install_scm_function (0, NULL, "d-InsertCSharpmaj", scheme_InsertCSharpmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertCSharpmaj", scheme_InsertCSharpmaj);
 /*InsertFmaj newkeysigfmaj*/
 SCM scheme_InsertFmaj(SCM optional);
-install_scm_function (0, NULL, "d-InsertFmaj", scheme_InsertFmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertFmaj", scheme_InsertFmaj);
 /*InsertBflatmaj newkeysigbflatmaj*/
 SCM scheme_InsertBflatmaj(SCM optional);
-install_scm_function (0, NULL, "d-InsertBflatmaj", scheme_InsertBflatmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBflatmaj", scheme_InsertBflatmaj);
 /*InsertEflatmaj newkeysigeflatmaj*/
 SCM scheme_InsertEflatmaj(SCM optional);
-install_scm_function (0, NULL, "d-InsertEflatmaj", scheme_InsertEflatmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertEflatmaj", scheme_InsertEflatmaj);
 /*InsertAflatmaj newkeysigaflatmaj*/
 SCM scheme_InsertAflatmaj(SCM optional);
-install_scm_function (0, NULL, "d-InsertAflatmaj", scheme_InsertAflatmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertAflatmaj", scheme_InsertAflatmaj);
 /*InsertDflatmaj newkeysigdflatmaj*/
 SCM scheme_InsertDflatmaj(SCM optional);
-install_scm_function (0, NULL, "d-InsertDflatmaj", scheme_InsertDflatmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertDflatmaj", scheme_InsertDflatmaj);
 /*InsertGflatmaj newkeysiggflatmaj*/
 SCM scheme_InsertGflatmaj(SCM optional);
-install_scm_function (0, NULL, "d-InsertGflatmaj", scheme_InsertGflatmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertGflatmaj", scheme_InsertGflatmaj);
 /*InsertCflatmaj newkeysigcflatmaj*/
 SCM scheme_InsertCflatmaj(SCM optional);
-install_scm_function (0, NULL, "d-InsertCflatmaj", scheme_InsertCflatmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertCflatmaj", scheme_InsertCflatmaj);
 /*InsertAmin newkeysigamin*/
 SCM scheme_InsertAmin(SCM optional);
-install_scm_function (0, NULL, "d-InsertAmin", scheme_InsertAmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertAmin", scheme_InsertAmin);
 /*InsertEmin newkeysigemin*/
 SCM scheme_InsertEmin(SCM optional);
-install_scm_function (0, NULL, "d-InsertEmin", scheme_InsertEmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertEmin", scheme_InsertEmin);
 /*InsertBmin newkeysigbmin*/
 SCM scheme_InsertBmin(SCM optional);
-install_scm_function (0, NULL, "d-InsertBmin", scheme_InsertBmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBmin", scheme_InsertBmin);
 /*InsertFSharpmin newkeysigfsharpmin*/
 SCM scheme_InsertFSharpmin(SCM optional);
-install_scm_function (0, NULL, "d-InsertFSharpmin", scheme_InsertFSharpmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertFSharpmin", scheme_InsertFSharpmin);
 /*InsertCSharpmin newkeysigcsharpmin*/
 SCM scheme_InsertCSharpmin(SCM optional);
-install_scm_function (0, NULL, "d-InsertCSharpmin", scheme_InsertCSharpmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertCSharpmin", scheme_InsertCSharpmin);
 /*InsertGSharpmin newkeysiggsharpmin*/
 SCM scheme_InsertGSharpmin(SCM optional);
-install_scm_function (0, NULL, "d-InsertGSharpmin", scheme_InsertGSharpmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertGSharpmin", scheme_InsertGSharpmin);
 /*InsertDSharpmin newkeysigdsharpmin*/
 SCM scheme_InsertDSharpmin(SCM optional);
-install_scm_function (0, NULL, "d-InsertDSharpmin", scheme_InsertDSharpmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertDSharpmin", scheme_InsertDSharpmin);
 /*InsertASharpmin newkeysigasharpmin*/
 SCM scheme_InsertASharpmin(SCM optional);
-install_scm_function (0, NULL, "d-InsertASharpmin", scheme_InsertASharpmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertASharpmin", scheme_InsertASharpmin);
 /*InsertDmin newkeysigdmin*/
 SCM scheme_InsertDmin(SCM optional);
-install_scm_function (0, NULL, "d-InsertDmin", scheme_InsertDmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertDmin", scheme_InsertDmin);
 /*InsertGmin newkeysiggmin*/
 SCM scheme_InsertGmin(SCM optional);
-install_scm_function (0, NULL, "d-InsertGmin", scheme_InsertGmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertGmin", scheme_InsertGmin);
 /*InsertCmin newkeysigcmin*/
 SCM scheme_InsertCmin(SCM optional);
-install_scm_function (0, NULL, "d-InsertCmin", scheme_InsertCmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertCmin", scheme_InsertCmin);
 /*InsertFmin newkeysigfmin*/
 SCM scheme_InsertFmin(SCM optional);
-install_scm_function (0, NULL, "d-InsertFmin", scheme_InsertFmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertFmin", scheme_InsertFmin);
 /*InsertBflatmin newkeysigbflatmin*/
 SCM scheme_InsertBflatmin(SCM optional);
-install_scm_function (0, NULL, "d-InsertBflatmin", scheme_InsertBflatmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBflatmin", scheme_InsertBflatmin);
 /*InsertEflatmin newkeysigeflatmin*/
 SCM scheme_InsertEflatmin(SCM optional);
-install_scm_function (0, NULL, "d-InsertEflatmin", scheme_InsertEflatmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertEflatmin", scheme_InsertEflatmin);
 /*InsertAflatmin newkeysigaflatmin*/
 SCM scheme_InsertAflatmin(SCM optional);
-install_scm_function (0, NULL, "d-InsertAflatmin", scheme_InsertAflatmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertAflatmin", scheme_InsertAflatmin);
 /*SetInitialCmaj setkeysigcmaj*/
 SCM scheme_SetInitialCmaj(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialCmaj", scheme_SetInitialCmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialCmaj", scheme_SetInitialCmaj);
 /*SetInitialGmaj setkeysiggmaj*/
 SCM scheme_SetInitialGmaj(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialGmaj", scheme_SetInitialGmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialGmaj", scheme_SetInitialGmaj);
 /*SetInitialDmaj setkeysigdmaj*/
 SCM scheme_SetInitialDmaj(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialDmaj", scheme_SetInitialDmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialDmaj", scheme_SetInitialDmaj);
 /*SetInitialAmaj setkeysigamaj*/
 SCM scheme_SetInitialAmaj(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialAmaj", scheme_SetInitialAmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialAmaj", scheme_SetInitialAmaj);
 /*SetInitialEmaj setkeysigemaj*/
 SCM scheme_SetInitialEmaj(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialEmaj", scheme_SetInitialEmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialEmaj", scheme_SetInitialEmaj);
 /*SetInitialBmaj setkeysigbmaj*/
 SCM scheme_SetInitialBmaj(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialBmaj", scheme_SetInitialBmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialBmaj", scheme_SetInitialBmaj);
 /*SetInitialFSharpmaj setkeysigfsharpmaj*/
 SCM scheme_SetInitialFSharpmaj(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialFSharpmaj", scheme_SetInitialFSharpmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialFSharpmaj", scheme_SetInitialFSharpmaj);
 /*SetInitialCSharpmaj setkeysigcsharpmaj*/
 SCM scheme_SetInitialCSharpmaj(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialCSharpmaj", scheme_SetInitialCSharpmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialCSharpmaj", scheme_SetInitialCSharpmaj);
 /*SetInitialFmaj setkeysigfmaj*/
 SCM scheme_SetInitialFmaj(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialFmaj", scheme_SetInitialFmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialFmaj", scheme_SetInitialFmaj);
 /*SetInitialBflatmaj setkeysigbflatmaj*/
 SCM scheme_SetInitialBflatmaj(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialBflatmaj", scheme_SetInitialBflatmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialBflatmaj", scheme_SetInitialBflatmaj);
 /*SetInitialEflatmaj setkeysigeflatmaj*/
 SCM scheme_SetInitialEflatmaj(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialEflatmaj", scheme_SetInitialEflatmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialEflatmaj", scheme_SetInitialEflatmaj);
 /*SetInitialAflatmaj setkeysigaflatmaj*/
 SCM scheme_SetInitialAflatmaj(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialAflatmaj", scheme_SetInitialAflatmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialAflatmaj", scheme_SetInitialAflatmaj);
 /*SetInitialDflatmaj setkeysigdflatmaj*/
 SCM scheme_SetInitialDflatmaj(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialDflatmaj", scheme_SetInitialDflatmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialDflatmaj", scheme_SetInitialDflatmaj);
 /*SetInitialGflatmaj setkeysiggflatmaj*/
 SCM scheme_SetInitialGflatmaj(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialGflatmaj", scheme_SetInitialGflatmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialGflatmaj", scheme_SetInitialGflatmaj);
 /*SetInitialCflatmaj setkeysigcflatmaj*/
 SCM scheme_SetInitialCflatmaj(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialCflatmaj", scheme_SetInitialCflatmaj);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialCflatmaj", scheme_SetInitialCflatmaj);
 /*SetInitialAmin setkeysigamin*/
 SCM scheme_SetInitialAmin(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialAmin", scheme_SetInitialAmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialAmin", scheme_SetInitialAmin);
 /*SetInitialEmin setkeysigemin*/
 SCM scheme_SetInitialEmin(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialEmin", scheme_SetInitialEmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialEmin", scheme_SetInitialEmin);
 /*SetInitialBmin setkeysigbmin*/
 SCM scheme_SetInitialBmin(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialBmin", scheme_SetInitialBmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialBmin", scheme_SetInitialBmin);
 /*SetInitialFSharpmin setkeysigfsharpmin*/
 SCM scheme_SetInitialFSharpmin(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialFSharpmin", scheme_SetInitialFSharpmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialFSharpmin", scheme_SetInitialFSharpmin);
 /*SetInitialCSharpmin setkeysigcsharpmin*/
 SCM scheme_SetInitialCSharpmin(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialCSharpmin", scheme_SetInitialCSharpmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialCSharpmin", scheme_SetInitialCSharpmin);
 /*SetInitialGSharpmin setkeysiggsharpmin*/
 SCM scheme_SetInitialGSharpmin(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialGSharpmin", scheme_SetInitialGSharpmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialGSharpmin", scheme_SetInitialGSharpmin);
 /*SetInitialDSharpmin setkeysigdsharpmin*/
 SCM scheme_SetInitialDSharpmin(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialDSharpmin", scheme_SetInitialDSharpmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialDSharpmin", scheme_SetInitialDSharpmin);
 /*SetInitialASharpmin setkeysigasharpmin*/
 SCM scheme_SetInitialASharpmin(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialASharpmin", scheme_SetInitialASharpmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialASharpmin", scheme_SetInitialASharpmin);
 /*SetInitialDmin setkeysigdmin*/
 SCM scheme_SetInitialDmin(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialDmin", scheme_SetInitialDmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialDmin", scheme_SetInitialDmin);
 /*SetInitialGmin setkeysiggmin*/
 SCM scheme_SetInitialGmin(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialGmin", scheme_SetInitialGmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialGmin", scheme_SetInitialGmin);
 /*SetInitialCmin setkeysigcmin*/
 SCM scheme_SetInitialCmin(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialCmin", scheme_SetInitialCmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialCmin", scheme_SetInitialCmin);
 /*SetInitialFmin setkeysigfmin*/
 SCM scheme_SetInitialFmin(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialFmin", scheme_SetInitialFmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialFmin", scheme_SetInitialFmin);
 /*SetInitialBflatmin setkeysigbflatmin*/
 SCM scheme_SetInitialBflatmin(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialBflatmin", scheme_SetInitialBflatmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialBflatmin", scheme_SetInitialBflatmin);
 /*SetInitialEflatmin setkeysigeflatmin*/
 SCM scheme_SetInitialEflatmin(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialEflatmin", scheme_SetInitialEflatmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialEflatmin", scheme_SetInitialEflatmin);
 /*SetInitialAflatmin setkeysigaflatmin*/
 SCM scheme_SetInitialAflatmin(SCM optional);
-install_scm_function (0, NULL, "d-SetInitialAflatmin", scheme_SetInitialAflatmin);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialAflatmin", scheme_SetInitialAflatmin);
 /*SetMark set_mark*/
 SCM scheme_SetMark(SCM optional);
-install_scm_function (0, NULL, "d-SetMark", scheme_SetMark);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetMark", scheme_SetMark);
 /*UnsetMark unset_mark*/
 SCM scheme_UnsetMark(SCM optional);
-install_scm_function (0, NULL, "d-UnsetMark", scheme_UnsetMark);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "UnsetMark", scheme_UnsetMark);
 /*SetPoint set_point*/
 SCM scheme_SetPoint(SCM optional);
-install_scm_function (0, NULL, "d-SetPoint", scheme_SetPoint);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetPoint", scheme_SetPoint);
 /*ToggleBeginSlur toggle_begin_slur*/
 SCM scheme_ToggleBeginSlur(SCM optional);
-install_scm_function (0, NULL, "d-ToggleBeginSlur", scheme_ToggleBeginSlur);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleBeginSlur", scheme_ToggleBeginSlur);
 /*ToggleEndSlur toggle_end_slur*/
 SCM scheme_ToggleEndSlur(SCM optional);
-install_scm_function (0, NULL, "d-ToggleEndSlur", scheme_ToggleEndSlur);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleEndSlur", scheme_ToggleEndSlur);
 /*ToggleStartCrescendo toggle_start_crescendo*/
 SCM scheme_ToggleStartCrescendo(SCM optional);
-install_scm_function (0, NULL, "d-ToggleStartCrescendo", scheme_ToggleStartCrescendo);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleStartCrescendo", scheme_ToggleStartCrescendo);
 /*ToggleEndCrescendo toggle_end_crescendo*/
 SCM scheme_ToggleEndCrescendo(SCM optional);
-install_scm_function (0, NULL, "d-ToggleEndCrescendo", scheme_ToggleEndCrescendo);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleEndCrescendo", scheme_ToggleEndCrescendo);
 /*ToggleStartDiminuendo toggle_start_diminuendo*/
 SCM scheme_ToggleStartDiminuendo(SCM optional);
-install_scm_function (0, NULL, "d-ToggleStartDiminuendo", scheme_ToggleStartDiminuendo);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleStartDiminuendo", scheme_ToggleStartDiminuendo);
 /*ToggleEndDiminuendo toggle_end_diminuendo*/
 SCM scheme_ToggleEndDiminuendo(SCM optional);
-install_scm_function (0, NULL, "d-ToggleEndDiminuendo", scheme_ToggleEndDiminuendo);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleEndDiminuendo", scheme_ToggleEndDiminuendo);
 /*ToggleGrace toggle_grace*/
 SCM scheme_ToggleGrace(SCM optional);
-install_scm_function (0, NULL, "d-ToggleGrace", scheme_ToggleGrace);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleGrace", scheme_ToggleGrace);
 /*ToggleAcciaccatura toggle_acciaccatura*/
 SCM scheme_ToggleAcciaccatura(SCM optional);
-install_scm_function (0, NULL, "d-ToggleAcciaccatura", scheme_ToggleAcciaccatura);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleAcciaccatura", scheme_ToggleAcciaccatura);
 /*ForceCaution force_cautionary*/
 SCM scheme_ForceCaution(SCM optional);
-install_scm_function (0, NULL, "d-ForceCaution", scheme_ForceCaution);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ForceCaution", scheme_ForceCaution);
 /*ChangePitch change_pitch*/
 SCM scheme_ChangePitch(SCM optional);
-install_scm_function (0, NULL, "d-ChangePitch", scheme_ChangePitch);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ChangePitch", scheme_ChangePitch);
 /*InsertRhythm insert_rhythm_pattern*/
 SCM scheme_InsertRhythm(SCM optional);
-install_scm_function (0, NULL, "d-InsertRhythm", scheme_InsertRhythm);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertRhythm", scheme_InsertRhythm);
 /*NextRhythm nextrhythm*/
 SCM scheme_NextRhythm(SCM optional);
-install_scm_function (0, NULL, "d-NextRhythm", scheme_NextRhythm);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "NextRhythm", scheme_NextRhythm);
 /*AppendMeasureAllStaffs append_measure_score*/
 SCM scheme_AppendMeasureAllStaffs(SCM optional);
-install_scm_function (0, NULL, "d-AppendMeasureAllStaffs", scheme_AppendMeasureAllStaffs);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AppendMeasureAllStaffs", scheme_AppendMeasureAllStaffs);
 /*ExecuteScheme execute_scheme*/
 SCM scheme_ExecuteScheme(SCM optional);
-install_scm_function (0, NULL, "d-ExecuteScheme", scheme_ExecuteScheme);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ExecuteScheme", scheme_ExecuteScheme);
 /*SharpenEnharmonicSet set_sharper*/
 SCM scheme_SharpenEnharmonicSet(SCM optional);
-install_scm_function (0, NULL, "d-SharpenEnharmonicSet", scheme_SharpenEnharmonicSet);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SharpenEnharmonicSet", scheme_SharpenEnharmonicSet);
 /*FlattenEnharmonicSet set_flatter*/
 SCM scheme_FlattenEnharmonicSet(SCM optional);
-install_scm_function (0, NULL, "d-FlattenEnharmonicSet", scheme_FlattenEnharmonicSet);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "FlattenEnharmonicSet", scheme_FlattenEnharmonicSet);
 /*New file_newwrapper*/
 SCM scheme_New(SCM optional);
-install_scm_function (0, NULL, "d-New", scheme_New);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "New", scheme_New);
 /*NewScore new_score_cb*/
 SCM scheme_NewScore(SCM optional);
-install_scm_function (0, NULL, "d-NewScore", scheme_NewScore);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "NewScore", scheme_NewScore);
 /*Open file_open_with_check*/
 SCM scheme_Open(SCM optional);
-install_scm_function (0, NULL, "d-Open", scheme_Open);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Open", scheme_Open);
 /*ImportLilypond file_import_lilypond_with_check*/
 SCM scheme_ImportLilypond(SCM optional);
-install_scm_function (0, NULL, "d-ImportLilypond", scheme_ImportLilypond);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ImportLilypond", scheme_ImportLilypond);
 /*ImportMidi file_import_midi_with_check*/
 SCM scheme_ImportMidi(SCM optional);
-install_scm_function (0, NULL, "d-ImportMidi", scheme_ImportMidi);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ImportMidi", scheme_ImportMidi);
 /*ImportMusicXml file_import_musicxml_with_check*/
 SCM scheme_ImportMusicXml(SCM optional);
-install_scm_function (0, NULL, "d-ImportMusicXml", scheme_ImportMusicXml);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ImportMusicXml", scheme_ImportMusicXml);
 /*AddStaffs file_add_staffs*/
 SCM scheme_AddStaffs(SCM optional);
-install_scm_function (0, NULL, "d-AddStaffs", scheme_AddStaffs);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddStaffs", scheme_AddStaffs);
 /*AddMovements file_add_movements*/
 SCM scheme_AddMovements(SCM optional);
-install_scm_function (0, NULL, "d-AddMovements", scheme_AddMovements);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddMovements", scheme_AddMovements);
 /*MovementProps movement_props_dialog*/
 SCM scheme_MovementProps(SCM optional);
-install_scm_function (0, NULL, "d-MovementProps", scheme_MovementProps);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MovementProps", scheme_MovementProps);
 /*OpenNewWindow openinnew*/
 SCM scheme_OpenNewWindow(SCM optional);
-install_scm_function (0, NULL, "d-OpenNewWindow", scheme_OpenNewWindow);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "OpenNewWindow", scheme_OpenNewWindow);
 /*Save file_savewrapper*/
 SCM scheme_Save(SCM optional);
-install_scm_function (0, NULL, "d-Save", scheme_Save);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Save", scheme_Save);
 /*SaveAs file_saveaswrapper*/
 SCM scheme_SaveAs(SCM optional);
-install_scm_function (0, NULL, "d-SaveAs", scheme_SaveAs);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SaveAs", scheme_SaveAs);
 /*SaveCopy file_copy_save*/
 SCM scheme_SaveCopy(SCM optional);
-install_scm_function (0, NULL, "d-SaveCopy", scheme_SaveCopy);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SaveCopy", scheme_SaveCopy);
 /*OpenTemplate system_template_open_with_check*/
 SCM scheme_OpenTemplate(SCM optional);
-install_scm_function (0, NULL, "d-OpenTemplate", scheme_OpenTemplate);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "OpenTemplate", scheme_OpenTemplate);
 /*OpenExample system_example_open_with_check*/
 SCM scheme_OpenExample(SCM optional);
-install_scm_function (0, NULL, "d-OpenExample", scheme_OpenExample);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "OpenExample", scheme_OpenExample);
 /*OpenMyTemplate local_template_open_with_check*/
 SCM scheme_OpenMyTemplate(SCM optional);
-install_scm_function (0, NULL, "d-OpenMyTemplate", scheme_OpenMyTemplate);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "OpenMyTemplate", scheme_OpenMyTemplate);
 /*SaveTemplate template_save*/
 SCM scheme_SaveTemplate(SCM optional);
-install_scm_function (0, NULL, "d-SaveTemplate", scheme_SaveTemplate);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SaveTemplate", scheme_SaveTemplate);
 /*NewWindow newview*/
 SCM scheme_NewWindow(SCM optional);
-install_scm_function (0, NULL, "d-NewWindow", scheme_NewWindow);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "NewWindow", scheme_NewWindow);
 /*InsertMovementBefore insert_movement_before*/
 SCM scheme_InsertMovementBefore(SCM optional);
-install_scm_function (0, NULL, "d-InsertMovementBefore", scheme_InsertMovementBefore);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertMovementBefore", scheme_InsertMovementBefore);
 /*InsertMovementAfter insert_movement_after*/
 SCM scheme_InsertMovementAfter(SCM optional);
-install_scm_function (0, NULL, "d-InsertMovementAfter", scheme_InsertMovementAfter);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertMovementAfter", scheme_InsertMovementAfter);
 /*NewMovement append_new_movement*/
 SCM scheme_NewMovement(SCM optional);
-install_scm_function (0, NULL, "d-NewMovement", scheme_NewMovement);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "NewMovement", scheme_NewMovement);
 /*SaveParts file_savepartswrapper*/
 SCM scheme_SaveParts(SCM optional);
-install_scm_function (0, NULL, "d-SaveParts", scheme_SaveParts);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SaveParts", scheme_SaveParts);
 /*ExportMUDELA export_mudela_action*/
 SCM scheme_ExportMUDELA(SCM optional);
-install_scm_function (0, NULL, "d-ExportMUDELA", scheme_ExportMUDELA);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ExportMUDELA", scheme_ExportMUDELA);
 /*ExportPDF export_pdf_action*/
 SCM scheme_ExportPDF(SCM optional);
-install_scm_function (0, NULL, "d-ExportPDF", scheme_ExportPDF);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ExportPDF", scheme_ExportPDF);
 /*ExportPNG export_png_action*/
 SCM scheme_ExportPNG(SCM optional);
-install_scm_function (0, NULL, "d-ExportPNG", scheme_ExportPNG);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ExportPNG", scheme_ExportPNG);
 /*ExportMIDI export_midi_action*/
 SCM scheme_ExportMIDI(SCM optional);
-install_scm_function (0, NULL, "d-ExportMIDI", scheme_ExportMIDI);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ExportMIDI", scheme_ExportMIDI);
 /*PrintView show_print_view*/
 SCM scheme_PrintView(SCM optional);
-install_scm_function (0, NULL, "d-PrintView", scheme_PrintView);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "PrintView", scheme_PrintView);
 /*PrintSelection printselection_cb*/
 SCM scheme_PrintSelection(SCM optional);
-install_scm_function (0, NULL, "d-PrintSelection", scheme_PrintSelection);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "PrintSelection", scheme_PrintSelection);
 /*PrintExcerptPreview printexcerptpreview_cb*/
 SCM scheme_PrintExcerptPreview(SCM optional);
-install_scm_function (0, NULL, "d-PrintExcerptPreview", scheme_PrintExcerptPreview);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "PrintExcerptPreview", scheme_PrintExcerptPreview);
 /*PrintMovement printmovement_cb*/
 SCM scheme_PrintMovement(SCM optional);
-install_scm_function (0, NULL, "d-PrintMovement", scheme_PrintMovement);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "PrintMovement", scheme_PrintMovement);
 /*Print printall_cb*/
 SCM scheme_Print(SCM optional);
-install_scm_function (0, NULL, "d-Print", scheme_Print);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Print", scheme_Print);
 /*PrintPart printpart_cb*/
 SCM scheme_PrintPart(SCM optional);
-install_scm_function (0, NULL, "d-PrintPart", scheme_PrintPart);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "PrintPart", scheme_PrintPart);
 /*Close close_gui_with_check*/
 SCM scheme_Close(SCM optional);
-install_scm_function (0, NULL, "d-Close", scheme_Close);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Close", scheme_Close);
 /*Quit closewrapper*/
 SCM scheme_Quit(SCM optional);
-install_scm_function (0, NULL, "d-Quit", scheme_Quit);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Quit", scheme_Quit);
 /*Undo undowrapper*/
 SCM scheme_Undo(SCM optional);
-install_scm_function (0, NULL, "d-Undo", scheme_Undo);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Undo", scheme_Undo);
 /*Redo redowrapper*/
 SCM scheme_Redo(SCM optional);
-install_scm_function (0, NULL, "d-Redo", scheme_Redo);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Redo", scheme_Redo);
 /*Copy copywrapper*/
 SCM scheme_Copy(SCM optional);
-install_scm_function (0, NULL, "d-Copy", scheme_Copy);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Copy", scheme_Copy);
 /*Cut cutwrapper*/
 SCM scheme_Cut(SCM optional);
-install_scm_function (0, NULL, "d-Cut", scheme_Cut);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Cut", scheme_Cut);
 /*Paste pastewrapper*/
 SCM scheme_Paste(SCM optional);
-install_scm_function (0, NULL, "d-Paste", scheme_Paste);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Paste", scheme_Paste);
 /*PasteClipboard paste_clipboard*/
 SCM scheme_PasteClipboard(SCM optional);
-install_scm_function (0, NULL, "d-PasteClipboard", scheme_PasteClipboard);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "PasteClipboard", scheme_PasteClipboard);
 /*ScoreProperties score_properties_dialog*/
 SCM scheme_ScoreProperties(SCM optional);
-install_scm_function (0, NULL, "d-ScoreProperties", scheme_ScoreProperties);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ScoreProperties", scheme_ScoreProperties);
 /*SaveSelection saveselwrapper*/
 SCM scheme_SaveSelection(SCM optional);
-install_scm_function (0, NULL, "d-SaveSelection", scheme_SaveSelection);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SaveSelection", scheme_SaveSelection);
 /*Preferences preferences_change*/
 SCM scheme_Preferences(SCM optional);
-install_scm_function (0, NULL, "d-Preferences", scheme_Preferences);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Preferences", scheme_Preferences);
 /*SaveAccels save_default_keymap_file_wrapper*/
 SCM scheme_SaveAccels(SCM optional);
-install_scm_function (0, NULL, "d-SaveAccels", scheme_SaveAccels);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SaveAccels", scheme_SaveAccels);
 /*CommandManagement configure_keyboard_dialog*/
 SCM scheme_CommandManagement(SCM optional);
-install_scm_function (0, NULL, "d-CommandManagement", scheme_CommandManagement);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "CommandManagement", scheme_CommandManagement);
 /*SwapStaffs swapstaffs*/
 SCM scheme_SwapStaffs(SCM optional);
-install_scm_function (0, NULL, "d-SwapStaffs", scheme_SwapStaffs);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SwapStaffs", scheme_SwapStaffs);
 /*SplitVoices splitstaffs*/
 SCM scheme_SplitVoices(SCM optional);
-install_scm_function (0, NULL, "d-SplitVoices", scheme_SplitVoices);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SplitVoices", scheme_SplitVoices);
 /*JoinVoices joinstaffs*/
 SCM scheme_JoinVoices(SCM optional);
-install_scm_function (0, NULL, "d-JoinVoices", scheme_JoinVoices);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "JoinVoices", scheme_JoinVoices);
 /*SwapMovements swapmovements*/
 SCM scheme_SwapMovements(SCM optional);
-install_scm_function (0, NULL, "d-SwapMovements", scheme_SwapMovements);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SwapMovements", scheme_SwapMovements);
 /*VoiceUp voiceup*/
 SCM scheme_VoiceUp(SCM optional);
-install_scm_function (0, NULL, "d-VoiceUp", scheme_VoiceUp);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "VoiceUp", scheme_VoiceUp);
 /*VoiceDown voicedown*/
 SCM scheme_VoiceDown(SCM optional);
-install_scm_function (0, NULL, "d-VoiceDown", scheme_VoiceDown);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "VoiceDown", scheme_VoiceDown);
 /*MoveToVoiceUp movetovoiceup*/
 SCM scheme_MoveToVoiceUp(SCM optional);
-install_scm_function (0, NULL, "d-MoveToVoiceUp", scheme_MoveToVoiceUp);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveToVoiceUp", scheme_MoveToVoiceUp);
 /*MoveToVoiceDown movetovoicedown*/
 SCM scheme_MoveToVoiceDown(SCM optional);
-install_scm_function (0, NULL, "d-MoveToVoiceDown", scheme_MoveToVoiceDown);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveToVoiceDown", scheme_MoveToVoiceDown);
 /*AddBefore newstaffbefore*/
 SCM scheme_AddBefore(SCM optional);
-install_scm_function (0, NULL, "d-AddBefore", scheme_AddBefore);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddBefore", scheme_AddBefore);
 /*AddAfter dnm_newstaffafter*/
 SCM scheme_AddAfter(SCM optional);
-install_scm_function (0, NULL, "d-AddAfter", scheme_AddAfter);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddAfter", scheme_AddAfter);
 /*AddInitial newstaffinitial*/
 SCM scheme_AddInitial(SCM optional);
-install_scm_function (0, NULL, "d-AddInitial", scheme_AddInitial);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddInitial", scheme_AddInitial);
 /*AddLast newstafflast*/
 SCM scheme_AddLast(SCM optional);
-install_scm_function (0, NULL, "d-AddLast", scheme_AddLast);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddLast", scheme_AddLast);
 /*DeleteBefore delete_staff_before*/
 SCM scheme_DeleteBefore(SCM optional);
-install_scm_function (0, NULL, "d-DeleteBefore", scheme_DeleteBefore);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DeleteBefore", scheme_DeleteBefore);
 /*DeleteStaff delete_staff_current*/
 SCM scheme_DeleteStaff(SCM optional);
-install_scm_function (0, NULL, "d-DeleteStaff", scheme_DeleteStaff);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DeleteStaff", scheme_DeleteStaff);
 /*DeleteAfter delete_staff_after*/
 SCM scheme_DeleteAfter(SCM optional);
-install_scm_function (0, NULL, "d-DeleteAfter", scheme_DeleteAfter);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DeleteAfter", scheme_DeleteAfter);
 /*AddVoice dnm_newstaffvoice*/
 SCM scheme_AddVoice(SCM optional);
-install_scm_function (0, NULL, "d-AddVoice", scheme_AddVoice);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddVoice", scheme_AddVoice);
 /*StaffProperties staff_properties_change_cb*/
 SCM scheme_StaffProperties(SCM optional);
-install_scm_function (0, NULL, "d-StaffProperties", scheme_StaffProperties);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "StaffProperties", scheme_StaffProperties);
 /*InitialClef clef_change_initial*/
 SCM scheme_InitialClef(SCM optional);
-install_scm_function (0, NULL, "d-InitialClef", scheme_InitialClef);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InitialClef", scheme_InitialClef);
 /*InsertClef clef_change_insert*/
 SCM scheme_InsertClef(SCM optional);
-install_scm_function (0, NULL, "d-InsertClef", scheme_InsertClef);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertClef", scheme_InsertClef);
 /*InitialKey key_change_initial*/
 SCM scheme_InitialKey(SCM optional);
-install_scm_function (0, NULL, "d-InitialKey", scheme_InitialKey);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InitialKey", scheme_InitialKey);
 /*InsertKey key_change_insert*/
 SCM scheme_InsertKey(SCM optional);
-install_scm_function (0, NULL, "d-InsertKey", scheme_InsertKey);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertKey", scheme_InsertKey);
 /*InitialTimeSig timesig_change_initial*/
 SCM scheme_InitialTimeSig(SCM optional);
-install_scm_function (0, NULL, "d-InitialTimeSig", scheme_InitialTimeSig);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InitialTimeSig", scheme_InitialTimeSig);
 /*InsertTimeSig timesig_change_insert*/
 SCM scheme_InsertTimeSig(SCM optional);
-install_scm_function (0, NULL, "d-InsertTimeSig", scheme_InsertTimeSig);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertTimeSig", scheme_InsertTimeSig);
 /*ChangeNotehead set_notehead*/
 SCM scheme_ChangeNotehead(SCM optional);
-install_scm_function (0, NULL, "d-ChangeNotehead", scheme_ChangeNotehead);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ChangeNotehead", scheme_ChangeNotehead);
 /*InsertStem stem_directive_insert*/
 SCM scheme_InsertStem(SCM optional);
-install_scm_function (0, NULL, "d-InsertStem", scheme_InsertStem);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertStem", scheme_InsertStem);
 /*AddVerse add_verse*/
 SCM scheme_AddVerse(SCM optional);
-install_scm_function (0, NULL, "d-AddVerse", scheme_AddVerse);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddVerse", scheme_AddVerse);
 /*DeleteVerse delete_verse*/
 SCM scheme_DeleteVerse(SCM optional);
-install_scm_function (0, NULL, "d-DeleteVerse", scheme_DeleteVerse);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DeleteVerse", scheme_DeleteVerse);
 /*EditFiguredBass figure_insert*/
 SCM scheme_EditFiguredBass(SCM optional);
-install_scm_function (0, NULL, "d-EditFiguredBass", scheme_EditFiguredBass);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditFiguredBass", scheme_EditFiguredBass);
 /*DeleteFiguredBass delete_figured_bass*/
 SCM scheme_DeleteFiguredBass(SCM optional);
-install_scm_function (0, NULL, "d-DeleteFiguredBass", scheme_DeleteFiguredBass);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DeleteFiguredBass", scheme_DeleteFiguredBass);
 /*HideFiguredBass hide_figured_bass*/
 SCM scheme_HideFiguredBass(SCM optional);
-install_scm_function (0, NULL, "d-HideFiguredBass", scheme_HideFiguredBass);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "HideFiguredBass", scheme_HideFiguredBass);
 /*ShowFiguredBass show_figured_bass*/
 SCM scheme_ShowFiguredBass(SCM optional);
-install_scm_function (0, NULL, "d-ShowFiguredBass", scheme_ShowFiguredBass);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ShowFiguredBass", scheme_ShowFiguredBass);
 /*EditChords fakechord_insert*/
 SCM scheme_EditChords(SCM optional);
-install_scm_function (0, NULL, "d-EditChords", scheme_EditChords);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditChords", scheme_EditChords);
 /*InsertDynamic insert_dynamic*/
 SCM scheme_InsertDynamic(SCM optional);
-install_scm_function (0, NULL, "d-InsertDynamic", scheme_InsertDynamic);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertDynamic", scheme_InsertDynamic);
 /*EditObject edit_object*/
 SCM scheme_EditObject(SCM optional);
-install_scm_function (0, NULL, "d-EditObject", scheme_EditObject);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditObject", scheme_EditObject);
 /*EditDirective edit_object_directive*/
 SCM scheme_EditDirective(SCM optional);
-install_scm_function (0, NULL, "d-EditDirective", scheme_EditDirective);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditDirective", scheme_EditDirective);
 /*EditStaffDirective edit_staff_directive*/
 SCM scheme_EditStaffDirective(SCM optional);
-install_scm_function (0, NULL, "d-EditStaffDirective", scheme_EditStaffDirective);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditStaffDirective", scheme_EditStaffDirective);
 /*EditVoiceDirective edit_voice_directive*/
 SCM scheme_EditVoiceDirective(SCM optional);
-install_scm_function (0, NULL, "d-EditVoiceDirective", scheme_EditVoiceDirective);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditVoiceDirective", scheme_EditVoiceDirective);
 /*EditScoreDirective edit_score_directive*/
 SCM scheme_EditScoreDirective(SCM optional);
-install_scm_function (0, NULL, "d-EditScoreDirective", scheme_EditScoreDirective);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditScoreDirective", scheme_EditScoreDirective);
 /*EditMovementDirective edit_movement_directive*/
 SCM scheme_EditMovementDirective(SCM optional);
-install_scm_function (0, NULL, "d-EditMovementDirective", scheme_EditMovementDirective);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditMovementDirective", scheme_EditMovementDirective);
 /*EditClefDirective edit_clef_directive*/
 SCM scheme_EditClefDirective(SCM optional);
-install_scm_function (0, NULL, "d-EditClefDirective", scheme_EditClefDirective);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditClefDirective", scheme_EditClefDirective);
 /*EditTimesigDirective edit_timesig_directive*/
 SCM scheme_EditTimesigDirective(SCM optional);
-install_scm_function (0, NULL, "d-EditTimesigDirective", scheme_EditTimesigDirective);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditTimesigDirective", scheme_EditTimesigDirective);
 /*EditKeysigDirective edit_keysig_directive*/
 SCM scheme_EditKeysigDirective(SCM optional);
-install_scm_function (0, NULL, "d-EditKeysigDirective", scheme_EditKeysigDirective);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditKeysigDirective", scheme_EditKeysigDirective);
 /*DeleteDirective delete_chord_or_note_directive*/
 SCM scheme_DeleteDirective(SCM optional);
-install_scm_function (0, NULL, "d-DeleteDirective", scheme_DeleteDirective);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DeleteDirective", scheme_DeleteDirective);
 /*AttachLilyToNote note_directive*/
 SCM scheme_AttachLilyToNote(SCM optional);
-install_scm_function (0, NULL, "d-AttachLilyToNote", scheme_AttachLilyToNote);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AttachLilyToNote", scheme_AttachLilyToNote);
 /*AttachLilyToChord chord_directive*/
 SCM scheme_AttachLilyToChord(SCM optional);
-install_scm_function (0, NULL, "d-AttachLilyToChord", scheme_AttachLilyToChord);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AttachLilyToChord", scheme_AttachLilyToChord);
 /*InsertBarline insert_barline*/
 SCM scheme_InsertBarline(SCM optional);
-install_scm_function (0, NULL, "d-InsertBarline", scheme_InsertBarline);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBarline", scheme_InsertBarline);
 /*GoToMeasure tomeasurenum*/
 SCM scheme_GoToMeasure(SCM optional);
-install_scm_function (0, NULL, "d-GoToMeasure", scheme_GoToMeasure);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "GoToMeasure", scheme_GoToMeasure);
 /*GoToBeginning tohome*/
 SCM scheme_GoToBeginning(SCM optional);
-install_scm_function (0, NULL, "d-GoToBeginning", scheme_GoToBeginning);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "GoToBeginning", scheme_GoToBeginning);
 /*GoToEnd toend*/
 SCM scheme_GoToEnd(SCM optional);
-install_scm_function (0, NULL, "d-GoToEnd", scheme_GoToEnd);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "GoToEnd", scheme_GoToEnd);
 /*MoveToBeginning movetostart*/
 SCM scheme_MoveToBeginning(SCM optional);
-install_scm_function (0, NULL, "d-MoveToBeginning", scheme_MoveToBeginning);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveToBeginning", scheme_MoveToBeginning);
 /*MoveToEnd movetoend*/
 SCM scheme_MoveToEnd(SCM optional);
-install_scm_function (0, NULL, "d-MoveToEnd", scheme_MoveToEnd);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveToEnd", scheme_MoveToEnd);
 /*NextMovement next_movement*/
 SCM scheme_NextMovement(SCM optional);
-install_scm_function (0, NULL, "d-NextMovement", scheme_NextMovement);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "NextMovement", scheme_NextMovement);
 /*PreviousMovement prev_movement*/
 SCM scheme_PreviousMovement(SCM optional);
-install_scm_function (0, NULL, "d-PreviousMovement", scheme_PreviousMovement);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "PreviousMovement", scheme_PreviousMovement);
 /*DeleteMovement delete_movement*/
 SCM scheme_DeleteMovement(SCM optional);
-install_scm_function (0, NULL, "d-DeleteMovement", scheme_DeleteMovement);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DeleteMovement", scheme_DeleteMovement);
 /*Play ext_midi_playback*/
 SCM scheme_Play(SCM optional);
-install_scm_function (0, NULL, "d-Play", scheme_Play);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Play", scheme_Play);
 /*Stop stop_midi_playback*/
 SCM scheme_Stop(SCM optional);
-install_scm_function (0, NULL, "d-Stop", scheme_Stop);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Stop", scheme_Stop);
 /*PlaybackProperties playback_properties_change*/
 SCM scheme_PlaybackProperties(SCM optional);
-install_scm_function (0, NULL, "d-PlaybackProperties", scheme_PlaybackProperties);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "PlaybackProperties", scheme_PlaybackProperties);
 /*Help browse_manual*/
 SCM scheme_Help(SCM optional);
-install_scm_function (0, NULL, "d-Help", scheme_Help);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Help", scheme_Help);
 /*About about*/
 SCM scheme_About(SCM optional);
-install_scm_function (0, NULL, "d-About", scheme_About);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "About", scheme_About);
 /*MoreCommands morecommands*/
 SCM scheme_MoreCommands(SCM optional);
-install_scm_function (0, NULL, "d-MoreCommands", scheme_MoreCommands);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoreCommands", scheme_MoreCommands);
 /*MyCommands mycommands*/
 SCM scheme_MyCommands(SCM optional);
-install_scm_function (0, NULL, "d-MyCommands", scheme_MyCommands);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MyCommands", scheme_MyCommands);
 /*FetchCommands fetchcommands*/
 SCM scheme_FetchCommands(SCM optional);
-install_scm_function (0, NULL, "d-FetchCommands", scheme_FetchCommands);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "FetchCommands", scheme_FetchCommands);
 /*ToggleEdit toggle_edit_mode*/
 SCM scheme_ToggleEdit(SCM optional);
-install_scm_function (0, NULL, "d-ToggleEdit", scheme_ToggleEdit);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleEdit", scheme_ToggleEdit);
 /*ToggleRest toggle_rest_mode*/
 SCM scheme_ToggleRest(SCM optional);
-install_scm_function (0, NULL, "d-ToggleRest", scheme_ToggleRest);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleRest", scheme_ToggleRest);
 /*ToggleRhythm toggle_rhythm_mode*/
 SCM scheme_ToggleRhythm(SCM optional);
-install_scm_function (0, NULL, "d-ToggleRhythm", scheme_ToggleRhythm);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleRhythm", scheme_ToggleRhythm);
 /*ClearOverlay clear_overlay*/
 SCM scheme_ClearOverlay(SCM optional);
-install_scm_function (0, NULL, "d-ClearOverlay", scheme_ClearOverlay);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ClearOverlay", scheme_ClearOverlay);
 /*CreateRhythm create_rhythm_cb*/
 SCM scheme_CreateRhythm(SCM optional);
-install_scm_function (0, NULL, "d-CreateRhythm", scheme_CreateRhythm);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "CreateRhythm", scheme_CreateRhythm);
 /*DeleteRhythm delete_rhythm_cb*/
 SCM scheme_DeleteRhythm(SCM optional);
-install_scm_function (0, NULL, "d-DeleteRhythm", scheme_DeleteRhythm);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DeleteRhythm", scheme_DeleteRhythm);
 SCM scheme_InsertA(SCM optional);
-install_scm_function (0, NULL, "d-InsertA", scheme_InsertA);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertA", scheme_InsertA);
 SCM scheme_AddNoteA(SCM optional);
-install_scm_function (0, NULL, "d-AddNoteA", scheme_AddNoteA);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddNoteA", scheme_AddNoteA);
 SCM scheme_AddA(SCM optional);
-install_scm_function (0, NULL, "d-AddA", scheme_AddA);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddA", scheme_AddA);
 SCM scheme_ChangeToA(SCM optional);
-install_scm_function (0, NULL, "d-ChangeToA", scheme_ChangeToA);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ChangeToA", scheme_ChangeToA);
 SCM scheme_MoveToA(SCM optional);
-install_scm_function (0, NULL, "d-MoveToA", scheme_MoveToA);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveToA", scheme_MoveToA);
 SCM scheme_InsertB(SCM optional);
-install_scm_function (0, NULL, "d-InsertB", scheme_InsertB);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertB", scheme_InsertB);
 SCM scheme_AddNoteB(SCM optional);
-install_scm_function (0, NULL, "d-AddNoteB", scheme_AddNoteB);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddNoteB", scheme_AddNoteB);
 SCM scheme_AddB(SCM optional);
-install_scm_function (0, NULL, "d-AddB", scheme_AddB);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddB", scheme_AddB);
 SCM scheme_ChangeToB(SCM optional);
-install_scm_function (0, NULL, "d-ChangeToB", scheme_ChangeToB);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ChangeToB", scheme_ChangeToB);
 SCM scheme_MoveToB(SCM optional);
-install_scm_function (0, NULL, "d-MoveToB", scheme_MoveToB);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveToB", scheme_MoveToB);
 SCM scheme_InsertC(SCM optional);
-install_scm_function (0, NULL, "d-InsertC", scheme_InsertC);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertC", scheme_InsertC);
 SCM scheme_AddNoteC(SCM optional);
-install_scm_function (0, NULL, "d-AddNoteC", scheme_AddNoteC);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddNoteC", scheme_AddNoteC);
 SCM scheme_AddC(SCM optional);
-install_scm_function (0, NULL, "d-AddC", scheme_AddC);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddC", scheme_AddC);
 SCM scheme_ChangeToC(SCM optional);
-install_scm_function (0, NULL, "d-ChangeToC", scheme_ChangeToC);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ChangeToC", scheme_ChangeToC);
 SCM scheme_MoveToC(SCM optional);
-install_scm_function (0, NULL, "d-MoveToC", scheme_MoveToC);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveToC", scheme_MoveToC);
 SCM scheme_InsertD(SCM optional);
-install_scm_function (0, NULL, "d-InsertD", scheme_InsertD);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertD", scheme_InsertD);
 SCM scheme_AddNoteD(SCM optional);
-install_scm_function (0, NULL, "d-AddNoteD", scheme_AddNoteD);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddNoteD", scheme_AddNoteD);
 SCM scheme_AddD(SCM optional);
-install_scm_function (0, NULL, "d-AddD", scheme_AddD);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddD", scheme_AddD);
 SCM scheme_ChangeToD(SCM optional);
-install_scm_function (0, NULL, "d-ChangeToD", scheme_ChangeToD);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ChangeToD", scheme_ChangeToD);
 SCM scheme_MoveToD(SCM optional);
-install_scm_function (0, NULL, "d-MoveToD", scheme_MoveToD);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveToD", scheme_MoveToD);
 SCM scheme_InsertE(SCM optional);
-install_scm_function (0, NULL, "d-InsertE", scheme_InsertE);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertE", scheme_InsertE);
 SCM scheme_AddNoteE(SCM optional);
-install_scm_function (0, NULL, "d-AddNoteE", scheme_AddNoteE);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddNoteE", scheme_AddNoteE);
 SCM scheme_AddE(SCM optional);
-install_scm_function (0, NULL, "d-AddE", scheme_AddE);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddE", scheme_AddE);
 SCM scheme_ChangeToE(SCM optional);
-install_scm_function (0, NULL, "d-ChangeToE", scheme_ChangeToE);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ChangeToE", scheme_ChangeToE);
 SCM scheme_MoveToE(SCM optional);
-install_scm_function (0, NULL, "d-MoveToE", scheme_MoveToE);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveToE", scheme_MoveToE);
 SCM scheme_InsertF(SCM optional);
-install_scm_function (0, NULL, "d-InsertF", scheme_InsertF);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertF", scheme_InsertF);
 SCM scheme_AddNoteF(SCM optional);
-install_scm_function (0, NULL, "d-AddNoteF", scheme_AddNoteF);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddNoteF", scheme_AddNoteF);
 SCM scheme_AddF(SCM optional);
-install_scm_function (0, NULL, "d-AddF", scheme_AddF);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddF", scheme_AddF);
 SCM scheme_ChangeToF(SCM optional);
-install_scm_function (0, NULL, "d-ChangeToF", scheme_ChangeToF);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ChangeToF", scheme_ChangeToF);
 SCM scheme_MoveToF(SCM optional);
-install_scm_function (0, NULL, "d-MoveToF", scheme_MoveToF);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveToF", scheme_MoveToF);
 SCM scheme_InsertG(SCM optional);
-install_scm_function (0, NULL, "d-InsertG", scheme_InsertG);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertG", scheme_InsertG);
 SCM scheme_AddNoteG(SCM optional);
-install_scm_function (0, NULL, "d-AddNoteG", scheme_AddNoteG);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddNoteG", scheme_AddNoteG);
 SCM scheme_AddG(SCM optional);
-install_scm_function (0, NULL, "d-AddG", scheme_AddG);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddG", scheme_AddG);
 SCM scheme_ChangeToG(SCM optional);
-install_scm_function (0, NULL, "d-ChangeToG", scheme_ChangeToG);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ChangeToG", scheme_ChangeToG);
 SCM scheme_MoveToG(SCM optional);
-install_scm_function (0, NULL, "d-MoveToG", scheme_MoveToG);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveToG", scheme_MoveToG);
 /*0 */
 SCM scheme_0(SCM optional);
-install_scm_function (0, NULL, "d-0", scheme_0);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "0", scheme_0);
 SCM scheme_InsertDur0(SCM optional);
-install_scm_function (0, NULL, "d-Insert0", scheme_InsertDur0);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert0", scheme_InsertDur0);
 SCM scheme_ChangeDur0(SCM optional);
-install_scm_function (0, NULL, "d-Change0", scheme_ChangeDur0);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Change0", scheme_ChangeDur0);
 SCM scheme_SetDur0(SCM optional);
-install_scm_function (0, NULL, "d-Set0", scheme_SetDur0);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set0", scheme_SetDur0);
 SCM scheme_InsertRest0(SCM optional);
-install_scm_function (0, NULL, "d-InsertRest0", scheme_InsertRest0);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertRest0", scheme_InsertRest0);
 /*1 */
 SCM scheme_1(SCM optional);
-install_scm_function (0, NULL, "d-1", scheme_1);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "1", scheme_1);
 SCM scheme_InsertDur1(SCM optional);
-install_scm_function (0, NULL, "d-Insert1", scheme_InsertDur1);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert1", scheme_InsertDur1);
 SCM scheme_ChangeDur1(SCM optional);
-install_scm_function (0, NULL, "d-Change1", scheme_ChangeDur1);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Change1", scheme_ChangeDur1);
 SCM scheme_SetDur1(SCM optional);
-install_scm_function (0, NULL, "d-Set1", scheme_SetDur1);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set1", scheme_SetDur1);
 SCM scheme_InsertRest1(SCM optional);
-install_scm_function (0, NULL, "d-InsertRest1", scheme_InsertRest1);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertRest1", scheme_InsertRest1);
 /*2 */
 SCM scheme_2(SCM optional);
-install_scm_function (0, NULL, "d-2", scheme_2);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "2", scheme_2);
 SCM scheme_InsertDur2(SCM optional);
-install_scm_function (0, NULL, "d-Insert2", scheme_InsertDur2);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert2", scheme_InsertDur2);
 SCM scheme_ChangeDur2(SCM optional);
-install_scm_function (0, NULL, "d-Change2", scheme_ChangeDur2);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Change2", scheme_ChangeDur2);
 SCM scheme_SetDur2(SCM optional);
-install_scm_function (0, NULL, "d-Set2", scheme_SetDur2);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set2", scheme_SetDur2);
 SCM scheme_InsertRest2(SCM optional);
-install_scm_function (0, NULL, "d-InsertRest2", scheme_InsertRest2);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertRest2", scheme_InsertRest2);
 /*3 */
 SCM scheme_3(SCM optional);
-install_scm_function (0, NULL, "d-3", scheme_3);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "3", scheme_3);
 SCM scheme_InsertDur3(SCM optional);
-install_scm_function (0, NULL, "d-Insert3", scheme_InsertDur3);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert3", scheme_InsertDur3);
 SCM scheme_ChangeDur3(SCM optional);
-install_scm_function (0, NULL, "d-Change3", scheme_ChangeDur3);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Change3", scheme_ChangeDur3);
 SCM scheme_SetDur3(SCM optional);
-install_scm_function (0, NULL, "d-Set3", scheme_SetDur3);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set3", scheme_SetDur3);
 SCM scheme_InsertRest3(SCM optional);
-install_scm_function (0, NULL, "d-InsertRest3", scheme_InsertRest3);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertRest3", scheme_InsertRest3);
 /*4 */
 SCM scheme_4(SCM optional);
-install_scm_function (0, NULL, "d-4", scheme_4);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "4", scheme_4);
 SCM scheme_InsertDur4(SCM optional);
-install_scm_function (0, NULL, "d-Insert4", scheme_InsertDur4);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert4", scheme_InsertDur4);
 SCM scheme_ChangeDur4(SCM optional);
-install_scm_function (0, NULL, "d-Change4", scheme_ChangeDur4);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Change4", scheme_ChangeDur4);
 SCM scheme_SetDur4(SCM optional);
-install_scm_function (0, NULL, "d-Set4", scheme_SetDur4);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set4", scheme_SetDur4);
 SCM scheme_InsertRest4(SCM optional);
-install_scm_function (0, NULL, "d-InsertRest4", scheme_InsertRest4);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertRest4", scheme_InsertRest4);
 /*5 */
 SCM scheme_5(SCM optional);
-install_scm_function (0, NULL, "d-5", scheme_5);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "5", scheme_5);
 SCM scheme_InsertDur5(SCM optional);
-install_scm_function (0, NULL, "d-Insert5", scheme_InsertDur5);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert5", scheme_InsertDur5);
 SCM scheme_ChangeDur5(SCM optional);
-install_scm_function (0, NULL, "d-Change5", scheme_ChangeDur5);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Change5", scheme_ChangeDur5);
 SCM scheme_SetDur5(SCM optional);
-install_scm_function (0, NULL, "d-Set5", scheme_SetDur5);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set5", scheme_SetDur5);
 SCM scheme_InsertRest5(SCM optional);
-install_scm_function (0, NULL, "d-InsertRest5", scheme_InsertRest5);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertRest5", scheme_InsertRest5);
 /*6 */
 SCM scheme_6(SCM optional);
-install_scm_function (0, NULL, "d-6", scheme_6);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "6", scheme_6);
 SCM scheme_InsertDur6(SCM optional);
-install_scm_function (0, NULL, "d-Insert6", scheme_InsertDur6);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert6", scheme_InsertDur6);
 SCM scheme_ChangeDur6(SCM optional);
-install_scm_function (0, NULL, "d-Change6", scheme_ChangeDur6);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Change6", scheme_ChangeDur6);
 SCM scheme_SetDur6(SCM optional);
-install_scm_function (0, NULL, "d-Set6", scheme_SetDur6);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set6", scheme_SetDur6);
 SCM scheme_InsertRest6(SCM optional);
-install_scm_function (0, NULL, "d-InsertRest6", scheme_InsertRest6);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertRest6", scheme_InsertRest6);
 /*7 */
 SCM scheme_7(SCM optional);
-install_scm_function (0, NULL, "d-7", scheme_7);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "7", scheme_7);
 SCM scheme_InsertDur7(SCM optional);
-install_scm_function (0, NULL, "d-Insert7", scheme_InsertDur7);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert7", scheme_InsertDur7);
 SCM scheme_ChangeDur7(SCM optional);
-install_scm_function (0, NULL, "d-Change7", scheme_ChangeDur7);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Change7", scheme_ChangeDur7);
 SCM scheme_SetDur7(SCM optional);
-install_scm_function (0, NULL, "d-Set7", scheme_SetDur7);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set7", scheme_SetDur7);
 SCM scheme_InsertRest7(SCM optional);
-install_scm_function (0, NULL, "d-InsertRest7", scheme_InsertRest7);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertRest7", scheme_InsertRest7);
 /*8 */
 SCM scheme_8(SCM optional);
-install_scm_function (0, NULL, "d-8", scheme_8);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "8", scheme_8);
 SCM scheme_InsertDur8(SCM optional);
-install_scm_function (0, NULL, "d-Insert8", scheme_InsertDur8);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insert8", scheme_InsertDur8);
 SCM scheme_ChangeDur8(SCM optional);
-install_scm_function (0, NULL, "d-Change8", scheme_ChangeDur8);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Change8", scheme_ChangeDur8);
 SCM scheme_SetDur8(SCM optional);
-install_scm_function (0, NULL, "d-Set8", scheme_SetDur8);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Set8", scheme_SetDur8);
 SCM scheme_InsertRest8(SCM optional);
-install_scm_function (0, NULL, "d-InsertRest8", scheme_InsertRest8);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertRest8", scheme_InsertRest8);
