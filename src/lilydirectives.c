@@ -1520,7 +1520,7 @@ widget_for_directive_menu (DenemoDirective * directive, void fn (), GtkMenu * me
   else if (directive->display)
     value = directive->display->str;
   value = get_label_text (directive, value);
-  if ((directive->widget == NULL))
+  if (!Denemo.non_interactive && directive->widget == NULL)
     {
       //FIXME at this point you could allow the user to specify a custom button box for his directive - some property of the directive saying which button box it should be in. We could even allow the directive to create a toolitem of a toolbar or menuitem on a menu bar???
 
