@@ -9,7 +9,8 @@
  */
 
 #define DENEMO "../src/denemo"
-#define DATA_DIR "integration-data"
+#define DATA_DIR "coverage-data"
+#define COMMON_DATA_DIR "common-data"
 #define TEMP_DIR "coverage-tmp"
 #define BAR "================================================================================\n"
 
@@ -98,12 +99,14 @@ get_all_scheme_commands(const gchar* filename){
 }
 
 /** test_all_scheme_functions:
- * Tries to launch denemo with every possible scheme functions.
+ * Tries to launch denemo with every possible scheme functions. If the file
+ * tests/coverage-data/FUNCTION.scm exists (e.g. MoveRight.scm) it is executed,
+ * else Denemo executes "(d-FUNCTION)(d-Quit)" (e.g. (d-MoveRight)(d-Quit))
  */
 static void
 test_all_scheme_functions (gpointer fixture, gconstpointer data)
 {
-  const gchar* input  = DATA_DIR "/blank.denemo";
+  const gchar* input  = COMMON_DATA_DIR "/blank.denemo";  
   gchar* commands_file = g_build_filename(PACKAGE_SOURCE_DIR, COMMANDS_DIR, "Default.commands", NULL);
   g_print("Reading %s\n", commands_file);
   GList* commands = get_all_scheme_commands(commands_file);
@@ -114,9 +117,20 @@ test_all_scheme_functions (gpointer fixture, gconstpointer data)
   for(c = commands; c; c = g_list_next(c)){
     if (g_test_trap_fork (0, 0))
     {
+      gchar* filename = g_strdup_printf("%s.scm", c->data);
+      gchar* path = g_build_filename(DATA_DIR, filename);
+
+      //FUNCTION.scm exists
+      if(g_file_test(path, G_FILE_TEST_EXISTS)){
+        g_print("********* (%i/%i) denemo -n -e -i tests/%s\n", i, nb, path, input);
+        execl(DENEMO, DENEMO, "-n", "-e", "-i", input, input, NULL);
+      }
+
+      //FUNCTION.scm does not exist
       gchar* scheme = g_strdup_printf("(d-%s)(d-Quit)", c->data);
-      g_print("********* (%i/%i) denemo -n -e -a \"%s\" %s\n", i, nb, scheme, input);
-      execl(DENEMO, DENEMO, "-n", "-a", scheme, input, NULL);
+      g_print("********* (%i/%i) denemo -n -e -a \"%s\" tests/%s\n", i, nb, scheme, input);
+      execl(DENEMO, DENEMO, "-n", "-e", "-a", scheme, input, NULL);
+
       g_warn_if_reached ();
     }
     g_test_trap_assert_passed ();

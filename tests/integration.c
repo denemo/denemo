@@ -6,7 +6,7 @@
  */
 
 #define DENEMO "../src/denemo"
-#define DATA_DIR "integration-data"
+#define DATA_DIR "common-data"
 #define TEMP_DIR "integration-tmp"
 
 /*******************************************************************************

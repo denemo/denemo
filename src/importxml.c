@@ -389,7 +389,7 @@ parseWidgetDirectives (xmlNodePtr parentElem, gpointer fn, GtkMenu * menu, GList
     DenemoDirective *directive = (DenemoDirective *) g_malloc0 (sizeof (DenemoDirective));
     parseWidgetDirective (childElem, fn, directive, menu);
     directives = g_list_append (directives, directive);
-    if (directives_pointer)
+    if (!Denemo.non_interactive && directives_pointer)
       g_object_set_data (G_OBJECT (directive->widget), "directives-pointer", (gpointer) directives_pointer);    //FIXME this const string has to match with lilydirectives.c
   }
   return directives;
