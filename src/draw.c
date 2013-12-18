@@ -81,8 +81,8 @@ scorearea_configure_event (G_GNUC_UNUSED GtkWidget * widget, G_GNUC_UNUSED GdkEv
   static gboolean init = FALSE;
   if (!init)
     {
-	  MidiDrawObject = g_list_append(NULL, newchord (0, 0, 0));
-	  chord *thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
+      MidiDrawObject = g_list_append(NULL, newchord (0, 0, 0));
+      chord *thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
       create_tool_pixbuf ();
       init = TRUE;
     }
@@ -186,29 +186,29 @@ count_syllables (DenemoStaff * staff, gint from)
 
 static void draw_note_onset(cairo_t *cr, double x, const gchar *glyph, gboolean mark) 
 {
-	if(glyph) {	
-		drawlargetext_cr (cr, glyph, x, 20);
-	} else
-	{
-				cairo_move_to (cr, x, 32);
-				cairo_line_to (cr, x, 0);
-				cairo_line_to (cr, x + 10, 32);
-				cairo_fill (cr);
+    if(glyph) { 
+        drawlargetext_cr (cr, glyph, x, 20);
+    } else
+    {
+                cairo_move_to (cr, x, 32);
+                cairo_line_to (cr, x, 0);
+                cairo_line_to (cr, x + 10, 32);
+                cairo_fill (cr);
 
-	}
+    }
    static gboolean on;
    
     if(mark) 
-		{
-			on = !on;
-			if(on) 
-				{
-				  cairo_set_line_width (cr, 6.0 / Denemo.project->si->zoom);
-				  cairo_set_source_rgba (cr, 0, 1, 0, 0.40);
-				  cairo_arc (cr, x + 10, 20, 20 / Denemo.project->si->zoom, 0, 2 * M_PI);
-				  cairo_stroke (cr);
-				}
-		}
+        {
+            on = !on;
+            if(on) 
+                {
+                  cairo_set_line_width (cr, 6.0 / Denemo.project->si->zoom);
+                  cairo_set_source_rgba (cr, 0, 1, 0, 0.40);
+                  cairo_arc (cr, x + 10, 20, 20 / Denemo.project->si->zoom, 0, 2 * M_PI);
+                  cairo_stroke (cr);
+                }
+        }
 }
 
 /**
@@ -244,15 +244,19 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
       }
       
       
-  //g_debug("%p %p %f %f %f\n", Denemo.project->si->playingnow, mudelaitem, Denemo.project->si->playhead,  mudelaitem->earliest_time, mudelaitem->latest_time );
+// if (Denemo.project->si->playingnow)
+ //   g_print("%p %p %f %f %f\n", Denemo.project->si->playingnow, mudelaitem, Denemo.project->si->playhead,  mudelaitem->earliest_time, mudelaitem->latest_time );
 
   // draw playhead as yellowish background
-  if (Denemo.project->si->playingnow == mudelaitem)
+ //if (Denemo.project->si->playingnow == mudelaitem)
+//  if (Denemo.project->si->playingnow && (Denemo.project->si->playhead >= mudelaitem->earliest_time) &&
+//        (Denemo.project->si->playhead < mudelaitem->latest_time)) falls through a gap!!!!
+  if (Denemo.project->si->playingnow && (Denemo.project->si->playhead >= mudelaitem->earliest_time)) 
     {
       if (cr)
         {
           cairo_save (cr);
-          cairo_set_source_rgb (cr, 0.8, 0.8, 0.0);
+          cairo_set_source_rgba (cr, 0.8, 0.8, 0.0, 0.5);
           cairo_rectangle (cr, x + mudelaitem->x, y, 20, 80);
           cairo_fill (cr);
           cairo_restore (cr);
@@ -266,10 +270,10 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
     itp->playposition = x + mudelaitem->x;
 
   if (mudelaitem == itp->startobj) {
-	
+    
     itp->startposition = x + mudelaitem->x/* + mudelaitem->minpixelsalloted*/;
     // if(curobj->prev==NULL) g_debug("item %p at %d\n", curobj, x+mudelaitem->x), itp->startposition -= mudelaitem->minpixelsalloted;
-	}
+    }
 
   if (mudelaitem == itp->endobj)
     itp->endposition = x + mudelaitem->x/* + mudelaitem->minpixelsalloted*/;
@@ -311,153 +315,153 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
  //display note onsets for source audio above relevant notes in top staff 
  // if there are not enough notes to use up all the recorded note onsets only some recorded notes are shown.      
          if(cr && si->recording && itp->recordednote && (itp->staffnum == si->top_staff)) 
-			{
-			 GList *g = itp->recordednote;			
-			 gint current = mudelaitem->earliest_time*si->recording->samplerate;
-			 gint next =  mudelaitem->latest_time*si->recording->samplerate;
-			 gint leadin = 	si->recording->leadin;	 
-			 gint notewidth = 0;
-			 objnode *curobjnext = curobj->next;
-			 if(curobjnext){
-					DenemoObject *nextobj = (DenemoObject*)curobjnext->data;
-					notewidth = nextobj->x - mudelaitem->x;
-			 } else 
-			 {
-					notewidth = GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE - mudelaitem->x;
-			 }
+            {
+             GList *g = itp->recordednote;          
+             gint current = mudelaitem->earliest_time*si->recording->samplerate;
+             gint next =  mudelaitem->latest_time*si->recording->samplerate;
+             gint leadin =  si->recording->leadin;   
+             gint notewidth = 0;
+             objnode *curobjnext = curobj->next;
+             if(curobjnext){
+                    DenemoObject *nextobj = (DenemoObject*)curobjnext->data;
+                    notewidth = nextobj->x - mudelaitem->x;
+             } else 
+             {
+                    notewidth = GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE - mudelaitem->x;
+             }
 
-			 /* draw the extent of the note */
-			gint extra_width = (curobj->prev==NULL) ? SPACE_FOR_BARLINE:0; //first note has extra width to leave no gap in timing from end of last bar
-			
-			notewidth += extra_width;
-			
-			cairo_set_source_rgba (cr, 0.0, 0.2, 1.0, 1);	
-			cairo_move_to (cr, -extra_width + x + mudelaitem->x, 25);
-			cairo_line_to (cr, -extra_width + x + mudelaitem->x, 20);
-			cairo_line_to (cr, -extra_width + x + mudelaitem->x+ notewidth - 2, 20);
-			cairo_line_to (cr, -extra_width + x + mudelaitem->x+ notewidth, 14);
-			cairo_line_to (cr, -extra_width + x + mudelaitem->x+ notewidth, 22);
-			cairo_line_to (cr, -extra_width + x + mudelaitem->x+2, 22);
-			
-			cairo_fill (cr);			
-			
-		
-		
-			cairo_set_source_rgba (cr, 0.3, 0.3, 0.3, 0.5);	
-			
-			 while( g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < current))
-				{
-					if(itp->measurenum == 1) {//represent onsets before score starts as single red onset mark 10 pixels before the first note. test g==itp->onset to avoid re-drawing
-						cairo_save (cr);
-						cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, 1.0);
-						draw_note_onset (cr, x - 10, NULL, FALSE);
-						cairo_restore (cr);
-					}
-					g=g->next;
-				}
-			while( g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < next)) 
-				{
-				DenemoRecordedNote *midinote = (DenemoRecordedNote*)(g->data);
-				gdouble fraction = (((gint)(midinote->timing) - leadin) - current) / (double)(next-current);
-				gint pos;
-				gchar *glyph;
-				glyph = NULL;				
-				pos = notewidth * fraction;
-				pos +=  mudelaitem->x; 
-				
-				if(g==si->marked_onset) 
-				{	
-					cairo_save (cr);
-					cairo_set_source_rgba (cr, 0, 0.5, 0, 1);//g_debug("marked offset %2.2f seconds ", midinote->timing/(double)si->recording->samplerate);
-				} else 
-				if (si->playingnow)
-					{
-					(itp->currentframe < ((gint)(midinote->timing) - leadin)) ?
-						cairo_set_source_rgba (cr, 0.0, 0.2, 0.8, 0.8):
-						cairo_set_source_rgba (cr, 0.8, 0.2, 0.0, 0.8);
-					}
-				
-					
-				//if MIDI RECORDING draw the pitch as a headless diamond note.
-				if(si->recording->type==DENEMO_RECORDING_MIDI)
-					{							 
-						removetone ((DenemoObject*)(MidiDrawObject->data), 0, si->cursorclef);//there is only one note in the chord so any mid_c_offset will do					
-						addtone (MidiDrawObject->data,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, si->cursorclef);
-						chord *thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
-						note *thenote = ((note*)(thechord->notes->data));
-						thenote->noteheadtype = DENEMO_DIAMOND_NOTEHEAD;
-						if(midinote->enshift)
-							thenote->showaccidental = TRUE;
-						thenote->position_of_accidental = 8;
-						//thechord->baseduration = midinote->duration;
-						//thechord->numdots = midinote->dots;
-						//set_basic_numticks (MidiDrawObject->data);
-						switch (midinote->duration) {
-							case 0:
-								glyph = midinote->dots?"𝅝•":"𝅝";
-								break;
-							case 1:
-								glyph = midinote->dots?"𝅗𝅥•":"𝅗𝅥";
-								break;
-							case 2:
-								glyph = midinote->dots?"𝅘𝅥•":"𝅘𝅥";
-								break;
-							case 3:
-								glyph = midinote->dots?"𝅘𝅥𝅮•":"𝅘𝅥𝅮";
-								break;
-							case 4:
-								glyph = midinote->dots?"𝅘𝅥𝅯•":"𝅘𝅥𝅯";
-								break;
-							case 5:
-								glyph = midinote->dots?"•𝅘𝅥𝅰":"𝅘𝅥𝅰";
-								break;
-							case 6:
-								glyph = midinote->dots?"•𝅘𝅥𝅱":"𝅘𝅥𝅱";
-								break;
-							case 7:
-								glyph = NULL;//we do not have a glyph for this yet
-								break;
-								
-								
-							
-						}
-						
-						if (g==si->marked_onset)
-						{
-							//midinote->measurenum = itp->measurenum;
-							//midinote->objnum = itp->objnum;		
-						}
-						
-						
-						
-						cairo_save (cr);
-						(g==si->marked_onset) ?cairo_set_source_rgba (cr, 0, 0.5, 0, 1):
-							cairo_set_source_rgba (cr, 0, 0, 0, 1);
-						draw_chord (cr, MidiDrawObject, pos + x -extra_width, y, 0, itp->curaccs, FALSE, FALSE);	
-						cairo_restore (cr);
-					
-					}
-					
-				draw_note_onset(cr, pos + x - extra_width, glyph, (g==si->marked_onset));
+             /* draw the extent of the note */
+            gint extra_width = (curobj->prev==NULL) ? SPACE_FOR_BARLINE:0; //first note has extra width to leave no gap in timing from end of last bar
+            
+            notewidth += extra_width;
+            
+            cairo_set_source_rgba (cr, 0.0, 0.2, 1.0, 1);   
+            cairo_move_to (cr, -extra_width + x + mudelaitem->x, 25);
+            cairo_line_to (cr, -extra_width + x + mudelaitem->x, 20);
+            cairo_line_to (cr, -extra_width + x + mudelaitem->x+ notewidth - 2, 20);
+            cairo_line_to (cr, -extra_width + x + mudelaitem->x+ notewidth, 14);
+            cairo_line_to (cr, -extra_width + x + mudelaitem->x+ notewidth, 22);
+            cairo_line_to (cr, -extra_width + x + mudelaitem->x+2, 22);
+            
+            cairo_fill (cr);            
+            
+        
+        
+            cairo_set_source_rgba (cr, 0.3, 0.3, 0.3, 0.5); 
+            
+             while( g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < current))
+                {
+                    if(itp->measurenum == 1) {//represent onsets before score starts as single red onset mark 10 pixels before the first note. test g==itp->onset to avoid re-drawing
+                        cairo_save (cr);
+                        cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, 1.0);
+                        draw_note_onset (cr, x - 10, NULL, FALSE);
+                        cairo_restore (cr);
+                    }
+                    g=g->next;
+                }
+            while( g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < next)) 
+                {
+                DenemoRecordedNote *midinote = (DenemoRecordedNote*)(g->data);
+                gdouble fraction = (((gint)(midinote->timing) - leadin) - current) / (double)(next-current);
+                gint pos;
+                gchar *glyph;
+                glyph = NULL;               
+                pos = notewidth * fraction;
+                pos +=  mudelaitem->x; 
+                
+                if(g==si->marked_onset) 
+                {   
+                    cairo_save (cr);
+                    cairo_set_source_rgba (cr, 0, 0.5, 0, 1);//g_debug("marked offset %2.2f seconds ", midinote->timing/(double)si->recording->samplerate);
+                } else 
+                if (si->playingnow)
+                    {
+                    (itp->currentframe < ((gint)(midinote->timing) - leadin)) ?
+                        cairo_set_source_rgba (cr, 0.0, 0.2, 0.8, 0.8):
+                        cairo_set_source_rgba (cr, 0.8, 0.2, 0.0, 0.8);
+                    }
+                
+                    
+                //if MIDI RECORDING draw the pitch as a headless diamond note.
+                if(si->recording->type==DENEMO_RECORDING_MIDI)
+                    {                            
+                        removetone ((DenemoObject*)(MidiDrawObject->data), 0, si->cursorclef);//there is only one note in the chord so any mid_c_offset will do                 
+                        addtone (MidiDrawObject->data,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, si->cursorclef);
+                        chord *thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
+                        note *thenote = ((note*)(thechord->notes->data));
+                        thenote->noteheadtype = DENEMO_DIAMOND_NOTEHEAD;
+                        if(midinote->enshift)
+                            thenote->showaccidental = TRUE;
+                        thenote->position_of_accidental = 8;
+                        //thechord->baseduration = midinote->duration;
+                        //thechord->numdots = midinote->dots;
+                        //set_basic_numticks (MidiDrawObject->data);
+                        switch (midinote->duration) {
+                            case 0:
+                                glyph = midinote->dots?"𝅝•":"𝅝";
+                                break;
+                            case 1:
+                                glyph = midinote->dots?"𝅗𝅥•":"𝅗𝅥";
+                                break;
+                            case 2:
+                                glyph = midinote->dots?"𝅘𝅥•":"𝅘𝅥";
+                                break;
+                            case 3:
+                                glyph = midinote->dots?"𝅘𝅥𝅮•":"𝅘𝅥𝅮";
+                                break;
+                            case 4:
+                                glyph = midinote->dots?"𝅘𝅥𝅯•":"𝅘𝅥𝅯";
+                                break;
+                            case 5:
+                                glyph = midinote->dots?"•𝅘𝅥𝅰":"𝅘𝅥𝅰";
+                                break;
+                            case 6:
+                                glyph = midinote->dots?"•𝅘𝅥𝅱":"𝅘𝅥𝅱";
+                                break;
+                            case 7:
+                                glyph = NULL;//we do not have a glyph for this yet
+                                break;
+                                
+                                
+                            
+                        }
+                        
+                        if (g==si->marked_onset)
+                        {
+                            //midinote->measurenum = itp->measurenum;
+                            //midinote->objnum = itp->objnum;       
+                        }
+                        
+                        
+                        
+                        cairo_save (cr);
+                        (g==si->marked_onset) ?cairo_set_source_rgba (cr, 0, 0.5, 0, 1):
+                            cairo_set_source_rgba (cr, 0, 0, 0, 1);
+                        draw_chord (cr, MidiDrawObject, pos + x -extra_width, y, 0, itp->curaccs, FALSE, FALSE);    
+                        cairo_restore (cr);
+                    
+                    }
+                    
+                draw_note_onset(cr, pos + x - extra_width, glyph, (g==si->marked_onset));
 
-				if(g==si->marked_onset) 
-					{//g_debug("fraction = %f; notewidth = %d ", fraction, notewidth);
-						cairo_restore (cr);
-					}
-				if(si->marked_onset_position && ABS((gint)(pos + x - si->marked_onset_position))<20) 
-					{
-					si->marked_onset = g; 
-					si->marked_onset_position = 0; //g_debug("Found selected onset\n\n");
-					}
-					
-				//if(g==itp->onset) g_debug("First onset at %d %d %d %d\n", pos, x, si->marked_onset_position, notewidth);
-					
-				
-				g = g->next;
-				}
-			itp->recordednote = g;//Search onwards for future onsets. Only notes on top staff are used for display of onsets. 
+                if(g==si->marked_onset) 
+                    {//g_debug("fraction = %f; notewidth = %d ", fraction, notewidth);
+                        cairo_restore (cr);
+                    }
+                if(si->marked_onset_position && ABS((gint)(pos + x - si->marked_onset_position))<20) 
+                    {
+                    si->marked_onset = g; 
+                    si->marked_onset_position = 0; //g_debug("Found selected onset\n\n");
+                    }
+                    
+                //if(g==itp->onset) g_debug("First onset at %d %d %d %d\n", pos, x, si->marked_onset_position, notewidth);
+                    
+                
+                g = g->next;
+                }
+            itp->recordednote = g;//Search onwards for future onsets. Only notes on top staff are used for display of onsets. 
 
-		 } 
+         } 
           
 
         if (itp->tupletstart)
@@ -641,10 +645,10 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
   if (si->selection.laststaffmarked == itp->staffnum && si->selection.lastmeasuremarked == itp->measurenum && si->selection.lastobjmarked == itp->objnum)
     itp->markx2 = x + mudelaitem->x + mudelaitem->minpixelsalloted + EXTRAFORSELECTRECT;
 
-	//In page view we have to allow the last time to be the last recorded time for any object on the page, but empty measures on the lowest visible staff will cause the rightmost time to be set too early.
-	//FIXME, use smf.c to calculate start and end times for each measure and consult that.
+    //In page view we have to allow the last time to be the last recorded time for any object on the page, but empty measures on the lowest visible staff will cause the rightmost time to be set too early.
+    //FIXME, use smf.c to calculate start and end times for each measure and consult that.
   if((Denemo.project->view == DENEMO_PAGE_VIEW) || (itp->rightmosttime < mudelaitem->latest_time*get_playback_speed()))
-	itp->rightmosttime = mudelaitem->latest_time*get_playback_speed();
+    itp->rightmosttime = mudelaitem->latest_time*get_playback_speed();
 
   return (mudelaitem->starttickofnextnote - itp->tickspermeasure);
 }                               /* draw_object */
@@ -815,7 +819,7 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
             }
           itp->end = TRUE;
           if(itp->startposition>-1 && itp->endposition<0)
-			itp->endposition = x + GPOINTER_TO_INT (itp->mwidthiterator->data) + 5;//end play marker after last note if not elsewhere
+            itp->endposition = x + GPOINTER_TO_INT (itp->mwidthiterator->data) + 5;//end play marker after last note if not elsewhere
         }
       else
         {
@@ -846,7 +850,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
   gint x = KEY_MARGIN, i;
 
   // if(si->marked_onset_position)
-	//g_debug("repeat"),repeat = TRUE;//we set up the marked onset with this, then need to repeat to draw it
+    //g_debug("repeat"),repeat = TRUE;//we set up the marked onset with this, then need to repeat to draw it
   //g_debug("drawing staff %d at %d\n", itp->staffnum, y);
   gint nummeasures = g_list_length (thestaff->measures);
  
@@ -1514,7 +1518,7 @@ draw_score (cairo_t * cr)
             flip_count = -1;
           }
        //   if(itp.rightmosttime != si->rightmost_time)
-		//		g_debug("Resetting %f %f? ",itp.rightmosttime, si->rightmost_time);
+        //      g_debug("Resetting %f %f? ",itp.rightmosttime, si->rightmost_time);
         // itp.rightmosttime = si->rightmost_time;//We want to ignore the rightmost_time of the flipped over top system that belongs to the next page
          
       }                         //end of block printing continuations
@@ -1567,8 +1571,8 @@ draw_callback (cairo_t * cr)
 
  if( gui->si->recording && (gui->si->smfsync != gui->si->changecount) && (!audio_is_playing())) 
  {
-	 set_tempo ();
-	 exportmidi (NULL, gui->si, 0, 0);  
+     set_tempo ();
+     exportmidi (NULL, gui->si, 0, 0);  
  }
   /* Clear with an appropriate background color. */
   if (Denemo.project->input_source != INPUTKEYBOARD && Denemo.project->input_source != INPUTMIDI && (Denemo.prefs.overlays || (Denemo.project->input_source == INPUTAUDIO)) && pitch_entry_active (gui))
