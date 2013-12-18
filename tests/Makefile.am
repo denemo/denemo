@@ -1,12 +1,7 @@
 include $(top_srcdir)/build/glib-tap.mk
 
-AM_CPPFLAGS = \
-  -I$(top_srcdir)/include \
-  -I$(top_srcdir)/src
-
 test_programs = \
-    integration \
-    coverage
+    integration
 
 dist_test_data = \
     integration-data
