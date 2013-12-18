@@ -1510,7 +1510,6 @@ if directive is non-DenemoObject directive it  places the widget in the appropri
 void
 widget_for_directive_menu (DenemoDirective * directive, void fn (), GtkMenu * menu)
 {
-  RETURN_IF_NON_INTERACTIVE();
   GtkWidget *box;
   gchar *value = "";
   //FIXME we don't need value now...

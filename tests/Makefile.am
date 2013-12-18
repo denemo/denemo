@@ -9,8 +9,7 @@ test_programs = \
     coverage
 
 dist_test_data = \
-    common-data \
-    coverage-data
+    integration-data
 
 test_data = 
 
