@@ -130,7 +130,8 @@ static gchar *default_template_path = NULL;
 static gboolean
 confirm_save (DenemoProject * gui, gchar * primary, gchar * secondary)
 {
-  RETURN_IF_NON_INTERACTIVE (TRUE);
+  if (Denemo.non_interactive)
+	return TRUE;
   GtkWidget *dialog;
   gboolean r = FALSE;
 
@@ -381,7 +382,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
         set_bottom_staff (gui);
         update_hscrollbar (gui);
         update_vscrollbar (gui);
-        score_area_needs_refresh ();
+        gtk_widget_queue_draw (Denemo.scorearea);
         g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
         g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
         force_lily_refresh (gui);
@@ -680,26 +681,21 @@ file_open_with_check (GtkAction * action, DenemoScriptParam * param)
         g_string_assign (param->string, Denemo.project->filename->str);
       return;
     }
-  if(!Denemo.non_interactive)
-  {
-    DenemoProject *gui = Denemo.project;
-    if (!gui->notsaved || (gui->notsaved && (confirmbox (gui))))
-      {
-        param->status = !file_open (gui, FALSE, REPLACE_SCORE, filename);
-      }
-  }
+  DenemoProject *gui = Denemo.project;
+  if (!gui->notsaved || (gui->notsaved && (confirmbox (gui))))
+    {
+      param->status = !file_open (gui, FALSE, REPLACE_SCORE, filename);
+    }
 }
 
 #define IMPORT(import_type)  \
   GET_1PARAM(action, param, filename); \
-  if(!Denemo.non_interactive) \
-    param->status = !file_import_##import_type (Denemo.project, FALSE, REPLACE_SCORE, filename);
+  param->status = !file_import_##import_type (Denemo.project, FALSE, REPLACE_SCORE, filename);
 
 void
 file_import_lilypond_with_check (GtkAction * action, DenemoScriptParam * param)
 {
-  IMPORT (lilypond);
-}
+IMPORT (lilypond)}
 
 void
 file_import_midi_with_check (GtkAction * action, DenemoScriptParam * param)
@@ -824,8 +820,6 @@ update_preview_cb (GtkFileChooser * file_chooser, gpointer data)
   if(filename && !g_file_test(filename, G_FILE_TEST_IS_DIR))\
     return (open_for_real(filename, gui, template, type));\
   \
-  if(Denemo.non_interactive)\
-    return FALSE;\
   GtkWidget *file_selection;\
   GtkFileFilter *filter;\
   gint i;\
@@ -906,9 +900,9 @@ FILE_OPEN_DIALOG ("Import Lilypond", lilypond, MUDELA_FORMAT)}
  */
 static gint
 file_import_midi (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename)
-{	
-  FILE_OPEN_DIALOG ("Import Midi", midi, MIDI_FORMAT);
-}
+{
+	
+FILE_OPEN_DIALOG ("Import Midi", midi, MIDI_FORMAT)}
 
 /**
  * MusicXML Import dialog - opened where appropriate 
@@ -1041,7 +1035,6 @@ file_dialog_response (GtkWidget * dialog, gint response_id, struct FileDialogDat
 
 
 #define FILE_SAVE_DIALOG(description, template)\
-  RETURN_IF_NON_INTERACTIVE ()\
   GtkWidget *file_selection;\
   GtkFileFilter *filter;\
   file_selection = gtk_file_chooser_dialog_new (description,\
@@ -1095,8 +1088,7 @@ void
 file_saveas (DenemoSaveType template)
 {
   gint format_id = DENEMO_FORMAT;
-  FILE_SAVE_DIALOG (_("Save As"), template);
-}
+FILE_SAVE_DIALOG (_("Save As"), template)}
 
 /**
  * Wrapper function for command New which asks to delete the current gui and on success creates an empty score
@@ -1110,8 +1102,7 @@ file_newwrapper (GtkAction * action, DenemoScriptParam * param)
   if (param == NULL)
     param = &dummy;
   DenemoProject *gui = Denemo.project;
-  if(!Denemo.non_interactive)
-    g_signal_handlers_block_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
+  g_signal_handlers_block_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
   if (gui->notsaved)
     {
       if (confirmbox (gui))
@@ -1136,8 +1127,7 @@ file_newwrapper (GtkAction * action, DenemoScriptParam * param)
     g_object_set_data (G_OBJECT (Denemo.printarea), "printviewupdate", (gpointer) G_MAXUINT);
   score_status (gui, FALSE);
   param->status = TRUE;
-  if (!Denemo.non_interactive)
-    g_signal_handlers_unblock_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
+  g_signal_handlers_unblock_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
 
 }
 
@@ -1251,7 +1241,6 @@ selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar * text, 
 void
 paste_clipboard (GtkAction * action, DenemoScriptParam * param)
 {
-  RETURN_IF_NON_INTERACTIVE ();
   if (Denemo.project != g_list_last (Denemo.projects)->data)
     {
       warningdialog (_("Can only paste LilyPond text into the last tab, sorry"));

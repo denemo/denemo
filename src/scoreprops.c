@@ -95,7 +95,6 @@ setpaperconfig (papersetupcb * cbdata, DenemoProject * gui)
 void
 score_properties_dialog (GtkAction * action, DenemoScriptParam * param)
 {
-  RETURN_IF_NON_INTERACTIVE();
   DenemoProject *gui = Denemo.project;
 
   GET_1PARAM (action, param, fontsize);
@@ -260,14 +259,14 @@ score_properties_dialog (GtkAction * action, DenemoScriptParam * param)
         {
           si->measurewidth = width;
           adjustmeasurewidth (si, 0);
-          score_area_needs_refresh ();
+          gtk_widget_queue_draw (Denemo.scorearea);
         }
 
       gint spacing = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (staff_spacing));
       if (spacing != si->staffspace)
         {
           si->staffspace = spacing;
-          score_area_needs_refresh ();
+          gtk_widget_queue_draw (Denemo.scorearea);
         }
       setpaperconfig (setup, gui);
 

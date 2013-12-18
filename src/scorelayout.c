@@ -1812,7 +1812,6 @@ create_scorewide_block (GtkWidget * vbox)
 static void
 set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname)
 {
-  RETURN_IF_NON_INTERACTIVE ();
   DenemoProject *gui = Denemo.project;
   (*psb)->staff_list = NULL;    //list of staff frames in order they appear in scoreblock
 
@@ -1957,7 +1956,6 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
 static void
 recreate_standard_scoreblock (DenemoScoreblock ** psb)
 {
-  RETURN_IF_NON_INTERACTIVE ();
   gint movement = (*psb)->movement;
   gchar *partname = (*psb)->partname ? g_strdup ((*psb)->partname) : NULL;
   gboolean visible = (*psb)->visible;
@@ -2034,7 +2032,7 @@ refresh_lilypond (DenemoScoreblock * sb)
 {
   if (sb->widget)
     {
-      if (!is_lilypond_text_layout (sb) && sb->name)
+      if (!is_lilypond_text_layout (sb))
         {
           //g_debug("Changing %s\n", sb->name);
           //g_free(sb->name);
@@ -2050,14 +2048,13 @@ refresh_lilypond (DenemoScoreblock * sb)
           lilypond_for_layout (sb->lilypond, sb->widget);
         }
     }
-  else if(!Denemo.non_interactive)
+  else
     g_warning ("No widget for scoreblock");
 }
 
 DenemoScoreblock *
 selected_scoreblock (void)
 {
-  RETURN_IF_NON_INTERACTIVE (NULL);
   GtkWidget *notebook = get_score_layout_notebook (Denemo.project);
   gint pagenum = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));       // value passed in appears to be something else - it is not documented what.
   GtkWidget *page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), pagenum);
@@ -2270,26 +2267,23 @@ static void
 create_standard_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname)
 {
   DenemoProject *gui = Denemo.project;
+  GtkWidget *notebook = get_score_layout_notebook (gui);
   set_default_scoreblock (psb, movement, partname);
 
-  if(!Denemo.non_interactive){
-    GtkWidget *notebook = get_score_layout_notebook (gui);
-    gchar *label_text = movement_part_name (movement, partname);
-    (*psb)->name = g_strdup (label_text);
-    GtkWidget *label = gtk_label_new (label_text);
-    g_free (label_text);
-    gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), (*psb)->widget, label);
-    gtk_widget_set_tooltip_markup ((*psb)->widget,
-                                   _
-                                   ("This is a score layout - the brown buttons affect the score itself, not just the layout.\nThe other buttons will customize the layout\nYou can have several layouts and use them to print different versions of your score.\nOnce customized e.g. by adding page breaks, deleting certain parts etc the layout will be saved with your score and can be used for printing from even though you may have made corrections to the music.\nStandard layouts are created by invoking the standard print commands - print, print part, print movement etc.\nThese standard layouts provide a convenient starting point for your customized layouts.<b>Note 1</b>Custom layouts are not saved for further graphical editing, only the typesetting commands are saved, so, unless you are familiar with LilyPond do all your work on the layout in one session.<b>Note 2</b>The first comment in the LilyPond text of the layout holds the name of the layout. If you change it any conditional directives that are for the layout will need refreshing"));
-    gtk_widget_show_all (notebook);
-  }
+  gchar *label_text = movement_part_name (movement, partname);
+  (*psb)->name = g_strdup (label_text);
+  GtkWidget *label = gtk_label_new (label_text);
+  g_free (label_text);
+  gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), (*psb)->widget, label);
+  gtk_widget_set_tooltip_markup ((*psb)->widget,
+                                 _
+                                 ("This is a score layout - the brown buttons affect the score itself, not just the layout.\nThe other buttons will customize the layout\nYou can have several layouts and use them to print different versions of your score.\nOnce customized e.g. by adding page breaks, deleting certain parts etc the layout will be saved with your score and can be used for printing from even though you may have made corrections to the music.\nStandard layouts are created by invoking the standard print commands - print, print part, print movement etc.\nThese standard layouts provide a convenient starting point for your customized layouts.<b>Note 1</b>Custom layouts are not saved for further graphical editing, only the typesetting commands are saved, so, unless you are familiar with LilyPond do all your work on the layout in one session.<b>Note 2</b>The first comment in the LilyPond text of the layout holds the name of the layout. If you change it any conditional directives that are for the layout will need refreshing"));
+  gtk_widget_show_all (notebook);
 }
 
 static void
 set_notebook_page (GtkWidget * w)
 {
-  RETURN_IF_NON_INTERACTIVE ();
   GtkWidget *notebook = get_score_layout_notebook (Denemo.project);
   GList *g = gtk_container_get_children (GTK_CONTAINER (notebook));
   gint position = g_list_index (g, w);  //g_debug("pos %d", position);
@@ -2581,8 +2575,7 @@ select_layout (gboolean all_movements, gchar * partname)
         sb = (DenemoScoreblock *) (Denemo.project->custom_scoreblocks->data);
       else
         {
-          if(!Denemo.non_interactive)
-            g_critical ("No score layout available");
+          g_critical ("No score layout available");
           return NULL;
         }
       refresh_lilypond (sb);    //creating a scoreblock does *not* include generating the lilypond from its widgets.

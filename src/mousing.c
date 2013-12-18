@@ -500,7 +500,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
       if (gui->si->system_height > 1.0)
         gui->si->system_height = 1.0;
       scorearea_configure_event (Denemo.scorearea, NULL);
-      score_area_needs_refresh ();
+      gtk_widget_queue_draw (Denemo.scorearea);
       return TRUE;
     }
 
@@ -547,7 +547,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
             perform_command (event->state, GESTURE_MOVE, event->state & GDK_BUTTON1_MASK);
 
           /* redraw to show new cursor position  */
-          score_area_needs_refresh ();
+          gtk_widget_queue_draw (Denemo.scorearea);
         }
     }
 
@@ -653,7 +653,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
           MouseGesture);
       moveto_currentmeasurenum (gui, gui->si->leftmeasurenum - 1);
       write_status (gui);
-      score_area_needs_refresh ();
+      gtk_widget_queue_draw (Denemo.scorearea);
       return TRUE;
     }
   else if (pi.nextmeasure)

@@ -48,7 +48,6 @@ insert_it (gint num)
 void
 insert_dynamic (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
-  RETURN_IF_NON_INTERACTIVE();
   DenemoProject *gui = Denemo.project;
   GtkWidget *dialog;
   GtkWidget *combo;

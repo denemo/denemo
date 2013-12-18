@@ -1654,7 +1654,6 @@ widget_for_layout_directive (DenemoDirective * directive)
 #define PUT_GRAPHIC_WIDGET_STR(field, what, name) \
 gboolean \
 what##_directive_put_##field(gchar *tag, gchar *value) {\
-  RETURN_IF_NON_INTERACTIVE(FALSE);\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
   take_snapshot();     \
@@ -1678,7 +1677,6 @@ what##_directive_put_##field(gchar *tag, gchar *value) {\
 #define PUT_GRAPHIC_WIDGET_INT(field, what, name)\
 gboolean \
 what##_directive_put_##field(gchar *tag, gint value) {\
-  RETURN_IF_NON_INTERACTIVE(FALSE);\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
   take_snapshot();		 \
@@ -1700,7 +1698,6 @@ what##_directive_put_##field(gchar *tag, gint value) {\
 //FIXME this is just storing the graphic name, any bitmap of that name could be placed on the button/menu item as an icon
 #define PUT_GRAPHIC_WIDGET_GRAPHIC(what, name) gboolean \
 what##_directive_put_graphic(gchar *tag, gchar *value) {\
-  RETURN_IF_NON_INTERACTIVE(FALSE);\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
   take_snapshot();		\
@@ -2655,10 +2652,9 @@ edit_directive (DenemoDirective * directive, gchar * what)
 void
 edit_object_directive (GtkAction * action, DenemoScriptParam * param)
 {
-  //g_debug("Edit directive called");
-  RETURN_IF_NON_INTERACTIVE();
+  //g_debug("Edit directive called\n");
   DenemoDirective *directive;
-  GList **directives = NULL;
+  GList **directives;
   gchar *what = NULL;
   user_select_directive_at_cursor (&what, &directives, &directive);
   //g_debug("Got directive %p in list %p\n", directive, directives);

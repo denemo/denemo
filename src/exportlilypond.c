@@ -2343,9 +2343,6 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
   gui->namespec = namespec;
   //g_debug("actually refreshing %d %d", gui->lilysync, gui->changecount);
   gui->lilysync = gui->changecount;
-
-  RETURN_IF_NON_INTERACTIVE();
-  
   if (Denemo.textbuffer)
     gtk_text_buffer_set_text (Denemo.textbuffer, "", -1);
   else
@@ -2627,7 +2624,6 @@ export_lilypond (gchar * thefilename, DenemoProject * gui, gboolean all_movement
 
   output_score_to_buffer (gui, all_movements, partname);
   GString *filename = g_string_new (thefilename);
-  RETURN_IF_NON_INTERACTIVE();
   if (filename)
     {
       gtk_text_buffer_get_start_iter (Denemo.textbuffer, &startiter);
@@ -2675,8 +2671,6 @@ export_lilypond_part (char *filename, DenemoProject * gui, gboolean all_movement
 void
 export_lilypond_parts (char *filename, DenemoProject * gui)
 {
-  if(!filename || g_strcmp0 (filename, "") == 0)
-    return;
   gchar *staff_filename;
   staffnode *curstaff;
   DenemoStaff *curstaffstruct;
@@ -2692,9 +2686,7 @@ export_lilypond_parts (char *filename, DenemoProject * gui)
         *c = '\0';
       else
         {
-          gchar* str = g_strdup_printf(_("Filename '%s' does not have extension."), filename);
-          warningdialog (str);
-          g_free(str);
+          warningdialog (_("Filename does not have extension"));
           return;
         }
       staff_filename = g_strconcat (filename, "_", curstaffstruct->lily_name->str, ".ly", NULL);
@@ -2876,7 +2868,6 @@ goto_lilypond_position (gint line, gint column)
 static gboolean
 lily_keypress (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event)
 {
-  RETURN_IF_NON_INTERACTIVE (TRUE);
   DenemoProject *gui = Denemo.project;
   GtkTextIter cursor;
   gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &cursor, gtk_text_buffer_get_insert (Denemo.textbuffer));

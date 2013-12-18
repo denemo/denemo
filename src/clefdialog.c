@@ -71,10 +71,8 @@ clef_change_insert (GtkAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, clefname);
   DenemoProject *gui = Denemo.project;
-  if (clefname == NULL){
-    RETURN_IF_NON_INTERACTIVE();
+  if (clefname == NULL)
     clef_change (gui, INSERT);
-  }
   else
     {
       enum clefs clef = get_clef_from_name (clefname);
@@ -93,10 +91,8 @@ clef_change_initial (GtkAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, clefname);
   DenemoProject *gui = Denemo.project;
-  if (clefname == NULL){
-    RETURN_IF_NON_INTERACTIVE();
+  if (clefname == NULL)
     clef_change (gui, CHANGEINITIAL);
-  }
   else
     {
       enum clefs clef = get_clef_from_name (clefname);

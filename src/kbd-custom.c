@@ -899,7 +899,6 @@ lookup_command_from_name (keymap * keymap, const gchar * command_name)
 const GtkAction *
 lookup_action_from_idx (keymap * keymap, gint command_id)
 {
-  RETURN_IF_NON_INTERACTIVE (NULL);
 	if (command_id == -1)
 		return NULL;	
   command_row* row;
@@ -1411,7 +1410,6 @@ idx_has_callback (keymap * the_keymap, guint command_id)
 GtkAction *
 lookup_action_from_name (gchar * command_name)
 {
-  RETURN_IF_NON_INTERACTIVE (NULL);
   return gtk_action_group_get_action (Denemo.action_group, command_name);
 }
 

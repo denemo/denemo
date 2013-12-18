@@ -77,7 +77,6 @@ static gint dnm_key_snooper (GtkWidget * grab_widget, GdkEventKey * event);
 static void populate_opened_recent_menu (void);
 static gchar *get_most_recent_file (void);
 static void toggle_record_script (GtkAction * action, gpointer param);
-static void new_movement ();
 
 typedef enum
 {
@@ -502,7 +501,8 @@ load_scheme_init (void)
     g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL),
     NULL
   };
-  gchar *filename = find_path_for_file("denemo.scm", dirs);
+  gchar *filename = find_path_for_file(SCHEME_INIT, dirs);
+
   g_debug ("System wide denemo.scm %s\n", filename);
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
     eval_file_with_catch (filename);    //scm_c_primitive_load(filename);
@@ -633,10 +633,8 @@ load_files(gchar** files)
   if(!files){
     if(!Denemo.non_interactive)
       newtab ();
-    else{
+    else
       Denemo.project = new_project ();
-      new_movement();
-    }
     open_for_real (get_most_recent_file (), Denemo.project, FALSE, REPLACE_SCORE);
     return TRUE;
   }
@@ -645,10 +643,8 @@ load_files(gchar** files)
     {
       if(!Denemo.non_interactive)
         newtab ();
-      else{
+      else
         Denemo.project = new_project ();
-        new_movement();
-      }
       open_for_real (files[i], Denemo.project, FALSE, REPLACE_SCORE);
       ret = TRUE;
     }
@@ -889,8 +885,7 @@ action_callbacks (DenemoProject * project)
 static gboolean
 close_project (void)
 {
-  if(Denemo.scorearea)
-    g_signal_handlers_block_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);       // turn of refresh of display before destroying the data
+  g_signal_handlers_block_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);       // turn of refresh of display before destroying the data
   stop_midi_playback (NULL, NULL);      // if you do not do this, there is a timer moving the score on which will hang
   //FIXME why was this here??? activate_action("/MainMenu/InputMenu/KeyboardOnly");
 #ifdef USE_EVINCE  
@@ -914,8 +909,7 @@ close_project (void)
   DenemoProject *oldproject = Denemo.project;
   //gtk_widget_destroy (Denemo.page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
   gint index = g_list_index (Denemo.projects, oldproject);
-  if(!Denemo.non_interactive)
-    gtk_notebook_remove_page (GTK_NOTEBOOK (Denemo.notebook), index);
+  gtk_notebook_remove_page (GTK_NOTEBOOK (Denemo.notebook), index);
   g_message ("Closing project %d", index);
   Denemo.projects = g_list_remove (Denemo.projects, oldproject);    //FIXME ?? or in the destroy callback??
   g_free (oldproject);
@@ -932,8 +926,7 @@ close_project (void)
     }
   else
     Denemo.project = NULL;
-  if(Denemo.scorearea)
-    g_signal_handlers_unblock_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
+  g_signal_handlers_unblock_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
   return TRUE;
 }
 
@@ -1047,7 +1040,6 @@ fetchcommands (GtkAction * action, DenemoScriptParam* param)
 void
 morecommands (GtkAction * action, DenemoScriptParam* param)
 {
-  RETURN_IF_NON_INTERACTIVE();
   static gchar *location = NULL;
   location = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", NULL);
   if (!g_file_test (location, G_FILE_TEST_EXISTS))
@@ -1074,7 +1066,6 @@ morecommands (GtkAction * action, DenemoScriptParam* param)
 void
 mycommands (GtkAction * action, DenemoScriptParam* param)
 {
-  RETURN_IF_NON_INTERACTIVE();
   static gchar *location = NULL;
   if (location == NULL)
     location = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", NULL);
@@ -1098,7 +1089,6 @@ mycommands (GtkAction * action, DenemoScriptParam* param)
 void
 openinnew (GtkAction * action, DenemoScriptParam * param)
 {
-  RETURN_IF_NON_INTERACTIVE();
   newtab ();
   file_open_with_check (NULL, param);
   if (param && (param->status == FALSE))
@@ -1128,8 +1118,7 @@ close_gui_with_check (GtkAction * action, DenemoScriptParam* param)
     return FALSE;
   if (Denemo.projects == NULL)
     {
-      if(!Denemo.non_interactive)
-        storeWindowState ();
+      storeWindowState ();
       writeHistory ();
       writeXMLPrefs (&Denemo.prefs);
       writePalettes ();
@@ -1261,7 +1250,7 @@ pb_start_to_cursor (GtkWidget * button)
 {
   call_out_to_guile ("(DenemoSetPlaybackStart)");
   //gtk_widget_draw(Denemo.scorearea, NULL);
-  score_area_needs_refresh ();
+  gtk_widget_queue_draw (Denemo.scorearea);
   draw_score (NULL);
 }
 
@@ -1270,7 +1259,7 @@ pb_end_to_cursor (GtkWidget * button)
 {
   call_out_to_guile ("(DenemoSetPlaybackEnd)");
   //gtk_widget_draw(Denemo.scorearea, NULL);
-  score_area_needs_refresh ();
+  gtk_widget_queue_draw (Denemo.scorearea);
   draw_score (NULL);
 }
 
@@ -1371,7 +1360,7 @@ pb_panic (GtkWidget * button)
   Denemo.project->si->end_time = -1.0;      //ie unset
   set_start_and_end_objects_for_draw ();
   reset_temperament ();
-  score_area_needs_refresh ();
+  gtk_widget_queue_draw (Denemo.scorearea);
 }
 
 static void
@@ -2811,7 +2800,6 @@ get_icon_for_name (gchar * name, gchar * label)
 gchar *
 create_xbm_data_from_pixbuf (GdkPixbuf * pixbuf, int lox, int loy, int hix, int hiy)
 {
-  RETURN_IF_NON_INTERACTIVE (NULL);
   int width, height, rowstride, n_channels;
   guchar *pixels;
 
@@ -3354,7 +3342,6 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
 static void
 color_rhythm_button (RhythmPattern * r, const gchar * color)
 {
-  RETURN_IF_NON_INTERACTIVE ();
   if (r == NULL)
     return;
   GdkColor thecolor;
@@ -3386,9 +3373,8 @@ unhighlight_rhythm (RhythmPattern * r)
 void
 highlight_rest (DenemoProject * project, gint dur)
 {
-  //g_debug("highlight rest");
-  RETURN_IF_NON_INTERACTIVE();
 
+  //g_debug("highlight rest");
   if (project->currhythm)
     {
       unhighlight_rhythm ((RhythmPattern *) project->currhythm->data);
@@ -3405,9 +3391,8 @@ highlight_rest (DenemoProject * project, gint dur)
 void
 highlight_duration (DenemoProject * project, gint dur)
 {
-  //g_debug("higlight duration");
-  RETURN_IF_NON_INTERACTIVE();
 
+  //g_debug("higlight duration");
   if (project->currhythm)
     {
       unhighlight_rhythm ((RhythmPattern *) project->currhythm->data);
@@ -3491,7 +3476,7 @@ attach_action_to_widget (GtkWidget * widget, GtkAction * action, DenemoProject *
 static void
 attach_right_click_callback (GtkWidget * widget, GtkAction * action)
 {
-  RETURN_IF_NON_INTERACTIVE ();
+
 
 
   gtk_widget_add_events (widget, (GDK_BUTTON_PRESS_MASK));      //will not work because label are NO_WINDOW
@@ -3565,7 +3550,6 @@ change_mode (GtkRadioAction * action, GtkRadioAction * current)
 GtkAction *
 activate_action (gchar * path)
 {
-  RETURN_IF_NON_INTERACTIVE (NULL);
   GtkAction *a;
   a = gtk_ui_manager_get_action (Denemo.ui_manager, path);
   if (a)
@@ -3954,7 +3938,8 @@ toggle_action_menu (GtkAction * action, gpointer param)
 static void
 toggle_print_view (GtkAction * action, gpointer param)
 {
-  RETURN_IF_NON_INTERACTIVE();
+ if(Denemo.non_interactive)
+    return;
 #ifndef USE_EVINCE  
   g_debug("This feature requires denemo to be built with evince");
 #else
@@ -4379,7 +4364,7 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
     }
   set_title_bar (Denemo.project);
   highlight_rhythm (Denemo.project->prevailing_rhythm);
-  score_area_needs_refresh ();
+  gtk_widget_queue_draw (Denemo.scorearea);
   draw_score (NULL);
 }
 
@@ -5180,7 +5165,6 @@ toggle_to_drawing_area (gboolean show)
 void
 ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam * param)
 {
-  RETURN_IF_NON_INTERACTIVE();
   GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu");
   gboolean visibile = gtk_widget_get_visible (widget);
   if (Denemo.project->view == DENEMO_MENU_VIEW && !visibile)
@@ -5189,12 +5173,6 @@ ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam * param)
       Denemo.project->view = DENEMO_LINE_VIEW;
     }
   toggle_to_drawing_area (!gtk_widget_get_visible (widget));
-}
-
-static void
-new_movement(){
-  point_to_new_movement (Denemo.project);
-  Denemo.project->movements = g_list_append (NULL, Denemo.project->si);
 }
 
 /**
@@ -5273,7 +5251,8 @@ newtab ()
 
   /* create the first movement now because showing the window causes it to try to draw the scorearea
      which it cannot do before there is a score. FIXME use signal blocking to control this - see importxml.c */
-  new_movement ();
+  point_to_new_movement (project);
+  project->movements = g_list_append (NULL, project->si);
 
   install_lyrics_preview (project->si, top_vbox);
   gtk_widget_set_can_focus (Denemo.scorearea, TRUE);
@@ -5333,8 +5312,3 @@ newtab ()
   if (have_midi () && Denemo.prefs.startmidiin)
     project->input_source = INPUTMIDI;
 }                               /* end of newtab creating a new DenemoProject holding one musical score */
-
-void score_area_needs_refresh (void){
-  RETURN_IF_NON_INTERACTIVE ();
-  score_area_needs_refresh ();
-}

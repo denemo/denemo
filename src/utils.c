@@ -165,8 +165,7 @@ popup_menu (gchar * name)
 void
 warningmessage (gchar * msg)
 {
-  if(!Denemo.non_interactive)
-    gdk_beep ();
+  gdk_beep ();
   g_message ("%s", msg);
 }
 
@@ -178,11 +177,6 @@ warningmessage (gchar * msg)
 void
 warningdialog (gchar * msg)
 {
-  if(Denemo.non_interactive){
-    g_warning(msg);
-    return;
-  }
-  
   GtkWidget *dialog;
   dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE, "%s", msg);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
@@ -200,10 +194,6 @@ warningdialog (gchar * msg)
 GtkWidget *
 infodialog (gchar * msg)
 {
-  if(Denemo.non_interactive){
-    g_print("%s\n", msg);
-    return NULL;
-  }
   GtkWidget *dialog;
   dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, "%s", msg);
 #ifdef G_OS_WIN32
@@ -255,7 +245,7 @@ static ProgressData progress_data;
 GtkWindow *
 progressbar (gchar * msg, gpointer callback)
 {
-  RETURN_IF_NON_INTERACTIVE (NULL);
+
   GtkWidget *vbox;
   static ProgressData *pdata = NULL;
 
@@ -309,7 +299,6 @@ progressbar_stop ()
 void
 busy_cursor (GtkWidget *area)
 {
-  RETURN_IF_NON_INTERACTIVE ();
   static GdkCursor *busycursor = NULL;
   if(!busycursor)
     busycursor = gdk_cursor_new (GDK_WATCH);
@@ -319,7 +308,6 @@ busy_cursor (GtkWidget *area)
 void
 normal_cursor (GtkWidget *area)
 {
-  RETURN_IF_NON_INTERACTIVE ();
   static GdkCursor *arrowcursor = NULL;
   if(!arrowcursor)
     arrowcursor = gdk_cursor_new (GDK_RIGHT_PTR);
@@ -347,7 +335,6 @@ normal_cursor (GtkWidget *area)
 void
 drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x, gint y, gboolean invert)
 {
-  RETURN_IF_NON_INTERACTIVE ();
   cairo_save (cr);
   switch (mask->type)
     {
@@ -571,7 +558,6 @@ space_after (gint numticks, gint wholenotewidth)
 void
 setpixelmin (DenemoObject * theobj)
 {
-  RETURN_IF_NON_INTERACTIVE ();
   gint i, baseduration, headtype;
   chord chordval;
   GList *tnode;
@@ -1416,7 +1402,6 @@ music_font (gchar * str)
 void
 set_title_bar (DenemoProject * gui)
 {
-  RETURN_IF_NON_INTERACTIVE ();
   gchar *title;
   if (gui->tabname && gui->tabname->len)
     title = gui->tabname->str;
@@ -1470,16 +1455,14 @@ score_status (DenemoProject * gui, gboolean change)
       gboolean just_changed = !gui->notsaved;
       gui->notsaved = TRUE;
       gui->changecount++;
-      if(gui->si)
-        gui->si->changecount++;
-      if (!Denemo.non_interactive && just_changed)
+      gui->si->changecount++;
+      if (just_changed)
         set_title_bar (gui);
     }
   else
     {
       gui->notsaved = FALSE;
-      if(!Denemo.non_interactive)
-        set_title_bar (gui);
+      set_title_bar (gui);
     }
   write_status (gui);
 }
@@ -1776,7 +1759,6 @@ display_current_object (void)
 void
 write_status (DenemoProject * gui)
 {
-  RETURN_IF_NON_INTERACTIVE ();
   gint minutes = 0;
   gdouble seconds = 0.0;
   gdouble early = 0.0, late = 0.0;
@@ -1926,7 +1908,6 @@ write_input_status (void)
 gboolean
 confirm (gchar * primary, gchar * secondary)
 {
-  RETURN_IF_NON_INTERACTIVE(TRUE);
   GtkWidget *dialog;
   gboolean r = 0;
 
@@ -2246,7 +2227,6 @@ cleftypefromname (gchar * str)
 gint
 get_widget_height (GtkWidget * w)
 {
-  RETURN_IF_NON_INTERACTIVE (0);
   GtkAllocation allocation;
   gtk_widget_get_allocation (w, &allocation);
   return allocation.height;
@@ -2255,7 +2235,6 @@ get_widget_height (GtkWidget * w)
 gint
 get_widget_width (GtkWidget * w)
 {
-  RETURN_IF_NON_INTERACTIVE (0);
   GtkAllocation allocation;
   gtk_widget_get_allocation (w, &allocation);
   return allocation.width;
@@ -2264,7 +2243,8 @@ get_widget_width (GtkWidget * w)
 void
 switch_back_to_main_window (void)
 {
-  RETURN_IF_NON_INTERACTIVE ();
+  if (Denemo.non_interactive)
+    return;
   gtk_window_present (GTK_WINDOW (Denemo.window));
   gtk_widget_grab_focus (Denemo.scorearea);
 }

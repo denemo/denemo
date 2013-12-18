@@ -319,7 +319,6 @@ midi_audio_tab_update (GtkWidget * box, gpointer data)
 void
 preferences_change (GtkAction * action, DenemoScriptParam * param)
 {
-  RETURN_IF_NON_INTERACTIVE();
   DenemoProject *gui = Denemo.project;
   GtkWidget *dialog;
   GtkWidget *label;

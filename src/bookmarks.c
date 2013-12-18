@@ -72,8 +72,7 @@ nextbookmark (GtkAction * action, gpointer param)
       GList *g = g_list_nth (gui->si->bookmarks, gui->si->currentbookmark + 1);
       if (g == NULL)
         {
-          if(!Denemo.non_interactive)
-            gdk_beep ();          //wrap around
+          gdk_beep ();          //wrap around
           g = gui->si->bookmarks;
           gui->si->currentbookmark = -1;
         }
@@ -92,8 +91,7 @@ prevbookmark (GtkAction * action, gpointer param)
       GList *g = g_list_nth (gui->si->bookmarks, gui->si->currentbookmark - 1);
       if (g == NULL)
         {
-          if(!Denemo.non_interactive)
-            gdk_beep ();          //wrap around
+          gdk_beep ();          //wrap around
           g = g_list_last (gui->si->bookmarks);
           gui->si->currentbookmark = g_list_length (gui->si->bookmarks) + 1;
         }

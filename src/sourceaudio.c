@@ -234,7 +234,7 @@ open_source_audio (gchar * filename)
               exportmidi (NULL, Denemo.project->si, 0, 0);  //generate a timebase
             }
           generate_note_onsets ();
-          score_area_needs_refresh ();
+          gtk_widget_queue_draw (Denemo.scorearea);
         }
     }
   Denemo.project->si->recording ? gtk_widget_show (Denemo.audio_vol_control) : gtk_widget_hide (Denemo.audio_vol_control);
@@ -252,7 +252,6 @@ close_source_audio (void)
 void
 rewind_audio (void)
 {
-  RETURN_IF_NON_INTERACTIVE ();
   if (Denemo.project->si->recording && (Denemo.project->si->recording->type==DENEMO_RECORDING_AUDIO))
     {
       if (Denemo.project->si->recording->sndfile == NULL)

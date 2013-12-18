@@ -71,14 +71,12 @@ static void select_movement (gint movementnum) {
 #define NUM_MOVEMENTS_TO_SHOW (2*5)
 void set_movement_selector (DenemoProject *gui)
 {
-  RETURN_IF_NON_INTERACTIVE();
-  
   GtkWidget *button;
   GList *g;
   gint i;
   
   if(gui->movements_selector)
-  	gtk_widget_destroy (gui->movements_selector);
+	gtk_widget_destroy (gui->movements_selector);
   gui->movements_selector = (GtkWidget*)gtk_hbox_new(FALSE,1);
   gtk_box_pack_start(GTK_BOX(gui->buttonbox), gui->movements_selector,  FALSE, TRUE, 0);
   gtk_widget_show (gui->movements_selector);
@@ -164,10 +162,8 @@ append_movement (GtkAction * action, gpointer param, gboolean populate)
   GList *g;
   (void) signal_structural_change (gui);
 
-  if(!Denemo.non_interactive){
-    if (gui->si->lyricsbox)
-      gtk_widget_hide (gui->si->lyricsbox);
-  }
+  if (gui->si->lyricsbox)
+    gtk_widget_hide (gui->si->lyricsbox);
   point_to_empty_movement (gui);
   for (g = source_movement->thescore; g; g = g->next)
     {
@@ -191,11 +187,9 @@ append_movement (GtkAction * action, gpointer param, gboolean populate)
   set_bottom_staff (gui);
   update_hscrollbar (gui);
   update_vscrollbar (gui);
-  score_area_needs_refresh ();
-  if(!Denemo.non_interactive){
-    g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
-    g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
-  }
+  gtk_widget_queue_draw (Denemo.scorearea);
+  g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
+  g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
   displayhelper (gui);
   score_status (gui, TRUE);
 }
@@ -318,11 +312,9 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
             warningdialog (_("No such movement"));
           return FALSE;
         }
-      if(!Denemo.non_interactive)
-        gtk_widget_hide (gui->si->buttonbox);
+      gtk_widget_hide (gui->si->buttonbox);
       gui->si = this->data;
-      if(!Denemo.non_interactive)
-        gtk_widget_show (gui->si->buttonbox);
+      gtk_widget_show (gui->si->buttonbox);
     }
 
 
@@ -359,7 +351,7 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
   write_status (gui);
   move_viewport_up (gui);
   move_viewport_down (gui);
-  score_area_needs_refresh ();
+  gtk_widget_queue_draw (Denemo.scorearea);
   return TRUE;
 }
 
@@ -457,7 +449,7 @@ next_movement (GtkAction * action, DenemoScriptParam * param)
   write_status (gui);
   //gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME see staffup/down
   set_movement_transition (-MOVEMENT_WIDTH);
-  score_area_needs_refresh ();
+  gtk_widget_queue_draw (Denemo.scorearea);
   draw_score (NULL);
 }
 
@@ -500,14 +492,14 @@ prev_movement (GtkAction * action, DenemoScriptParam * param)
 
   update_hscrollbar (gui);
   update_vscrollbar (gui);
-  score_area_needs_refresh ();
+  gtk_widget_queue_draw (Denemo.scorearea);
   g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
   g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
   write_status (gui);
   //gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME see staffup/down
   set_movement_transition (MOVEMENT_WIDTH);
 
-  score_area_needs_refresh ();
+  gtk_widget_queue_draw (Denemo.scorearea);
   draw_score (NULL);
 }
 
@@ -866,10 +858,8 @@ deletescore (GtkWidget * widget, DenemoProject * gui)
   set_rightmeasurenum (gui->si);
   update_hscrollbar (gui);
   update_vscrollbar (gui);
-  score_area_needs_refresh ();
-  if(!Denemo.non_interactive){
-    g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
-    g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
-  }
+  gtk_widget_queue_draw (Denemo.scorearea);
+  g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
+  g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
   force_lily_refresh (gui);
 }

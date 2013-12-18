@@ -2,10 +2,8 @@
 #include <unistd.h>
 #include <libxml/parser.h>
 #include "keymapio.h"
-#include "config.h"
 
-/* Coverage test suite tries to launch every possible scheme command and detect
- * trivial bugs like segfaults.
+/* Coverage test suite tries to launch every possible scheme command
  */
 
 #define DENEMO "../src/denemo"
@@ -98,31 +96,25 @@ get_all_scheme_commands(const gchar* filename){
 }
 
 /** test_all_scheme_functions:
- * Tries to launch denemo with every possible scheme functions.
+ * Tries to launch denemo with every scheme possibl functions.
  */
 static void
 test_all_scheme_functions (gpointer fixture, gconstpointer data)
 {
   const gchar* input  = DATA_DIR "/blank.denemo";
-  gchar* commands_file = g_build_filename(PACKAGE_SOURCE_DIR, COMMANDS_DIR, "Default.commands", NULL);
-  g_print("Reading %s\n", commands_file);
-  GList* commands = get_all_scheme_commands(commands_file);
+  GList* commands = get_all_scheme_commands("../actions/Default.commands");
   g_assert(commands != NULL);
   GList* c;
-  gint nb = g_list_length (commands);
-  gint i = 1;
   for(c = commands; c; c = g_list_next(c)){
     if (g_test_trap_fork (0, 0))
     {
       gchar* scheme = g_strdup_printf("(d-%s)(d-Quit)", c->data);
-      g_print("********* (%i/%i) denemo -n -e -a \"%s\" %s\n", i, nb, scheme, input);
+      g_print(BAR "Testing %s\ndenemo -n -a \"%s\"\n" BAR, c->data, scheme);
       execl(DENEMO, DENEMO, "-n", "-a", scheme, input, NULL);
       g_warn_if_reached ();
     }
     g_test_trap_assert_passed ();
-    i++;
   }
-  g_free(commands_file);
 }
 
 /*******************************************************************************

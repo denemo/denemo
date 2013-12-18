@@ -116,7 +116,7 @@ delete_figured_bass (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   DenemoStaff *thestaff = (DenemoStaff *) gui->si->currentstaff->data;
-  if (Denemo.non_interactive || confirm (_("Figured Bass Deletion"), _("Delete all figured bass markings from this staff?")))
+  if (confirm ("Figured Bass Deletion", "Delete all figured bass markings from this staff?"))
     {
       thestaff->hasfigures = FALSE;
       measurenode *curmeasure;
@@ -213,8 +213,7 @@ figure_insert (GtkAction * action, DenemoScriptParam * param)
     }
   else
     {                           //interactive
-      RETURN_IF_NON_INTERACTIVE();
-      string = string_dialog_entry (gui, _("Insert/Edit Figure"), _("Give figures followed by Enter key"), PreValue);
+      string = string_dialog_entry (gui, "Insert/Edit Figure", "Give figures followed by Enter key", PreValue);
     }
   cbdata.gui = gui;
   cbdata.string = string;
