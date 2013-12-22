@@ -421,7 +421,7 @@ delete_custom_scoreblock_callback (GtkWidget * widget, DenemoScoreblock * sb)
   Denemo.project->custom_scoreblocks = g_list_remove (Denemo.project->custom_scoreblocks, sb);
   gtk_widget_destroy (sb->widget); 
   if(Denemo.project->standard_scoreblocks==NULL && Denemo.project->custom_scoreblocks==NULL)
-	create_default_scoreblock ();
+    create_default_scoreblock ();
 }
 
 static void
@@ -430,7 +430,7 @@ delete_standard_scoreblock_callback (GtkWidget * widget, DenemoScoreblock * sb)
   Denemo.project->standard_scoreblocks = g_list_remove (Denemo.project->standard_scoreblocks, sb);
   gtk_widget_destroy (sb->widget);
   if(Denemo.project->standard_scoreblocks==NULL && Denemo.project->custom_scoreblocks==NULL)
-	create_default_scoreblock ();
+    create_default_scoreblock ();
 }
 
 static void
@@ -2676,6 +2676,12 @@ select_standard_layout (DenemoScoreblock * sb)
     {
       create_default_scoreblock ();
       //creating a scoreblock does *not* include generating the lilypond from its widgets.
+      if (Denemo.project->standard_scoreblocks == NULL)
+        {
+            DenemoScoreblock *sb = g_malloc0 (sizeof (DenemoScoreblock));
+            (void) create_standard_scoreblock (&sb, 0, NULL);
+            Denemo.project->standard_scoreblocks = g_list_prepend (NULL, (gpointer) sb);
+        } 
       sb = (DenemoScoreblock *) (Denemo.project->standard_scoreblocks->data);
     }
   refresh_lilypond (sb);
