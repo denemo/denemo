@@ -23,7 +23,7 @@
 #include "selectops.h"
 #include "audiointerface.h"
 
-extern int ParseSoundfont (gchar * soundfont, gint index, gchar ** name, gint * preset);        //in "external" code libsffile/sfile.c
+extern int ParseSoundfont (gchar * soundfont, gint index, gchar ** name, gint * preset, gint * bank);        //in "external" code libsffile/sfile.c
 
 
 
@@ -112,13 +112,13 @@ set_properties (struct callbackdata *cbdata)
       staffstruct->midi_prognum = get_midi_prognum (staffstruct);
       gint i;
       gchar *name;
-      gint preset;
-      gint npresets = ParseSoundfont (Denemo.prefs.fluidsynth_soundfont->str, 0, NULL, NULL);
+      gint preset, bank;
+      gint npresets = ParseSoundfont (Denemo.prefs.fluidsynth_soundfont->str, 0, NULL, NULL, NULL);
       if (npresets)
         {
           for (i = 0; i < npresets - 1; i++)
             {
-              (void) ParseSoundfont (NULL, i, &name, &preset);
+              (void) ParseSoundfont (NULL, i, &name, &preset, &bank);
               if (!strcmp (name, staffstruct->midi_instrument->str))
                 {
                   staffstruct->midi_prognum = preset;
@@ -178,14 +178,22 @@ staff_properties_change (void)
     {
       gint i;
       gchar *name;
-      gint npresets = ParseSoundfont (Denemo.prefs.fluidsynth_soundfont->str, 0, NULL, NULL);
+      gint preset = 0, bank = 0;
+      gint npresets = ParseSoundfont (Denemo.prefs.fluidsynth_soundfont->str, 0, NULL, NULL, NULL);
       if (npresets)
         {
+          gchar **array = g_malloc0 (128 * sizeof (gchar *));
           for (i = 0; i < npresets - 1; i++)
             {
-              (void) ParseSoundfont (NULL, i, &name, NULL);
-              instrument_list = g_list_append (instrument_list, g_strdup ((gchar *) name));
+              (void) ParseSoundfont (NULL, i, &name, &preset, &bank);
+              if (bank == 0) {
+                   array[preset&0x7F] = g_strdup ((gchar *) name);
+              }
             }
+          for (i = 0; i < 128; i++)
+            if(array[i])
+                instrument_list = g_list_append(instrument_list, array[i]); 
+          g_free (array);
         }
     }
 
@@ -196,9 +204,9 @@ staff_properties_change (void)
     si = gui->si;
     staffstruct = (DenemoStaff *) si->currentstaff->data;
     /*  if(staffstruct->staff_prolog && staffstruct->staff_prolog->len) { */
-/* 	warningdialog(_("This staff has a custom prolog for the staff.\n" */
-/* 		      "You will need to make your edits in the LilyPond window\n" */
-/* 		      "to see them in the print-out.")); */
+/*  warningdialog(_("This staff has a custom prolog for the staff.\n" */
+/*            "You will need to make your edits in the LilyPond window\n" */
+/*            "to see them in the print-out.")); */
 /*       } */
   }
 
@@ -218,7 +226,7 @@ staff_properties_change (void)
   main_vbox = gtk_vbox_new (FALSE, 1);\
   gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);\
   gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox,\
-		                                       _(thelabel));
+                                               _(thelabel));
 
 #define TEXTENTRY(thelabel, field) \
   hbox = gtk_hbox_new (FALSE, 8);\
@@ -261,14 +269,14 @@ staff_properties_change (void)
   field =\
     gtk_check_button_new_with_label (_(thelabel)); \
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (field),\
-		                                    staffstruct->field);\
+                                            staffstruct->field);\
     gtk_box_pack_start (GTK_BOX (main_vbox), field, FALSE, TRUE, 0);\
     cbdata.field = field;
 #if GTK_MAJOR_VERSION==3
 #define COMBOBOXENTRY(thelabel, field, thelist, setstring) \
   GtkWidget *field;\
   hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_container_add (GTK_CONTAINER(main_vbox), hbox);	\
+  gtk_container_add (GTK_CONTAINER(main_vbox), hbox);   \
   label = gtk_label_new (_(thelabel));\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_container_add (GTK_CONTAINER(hbox), label);   \
@@ -277,7 +285,7 @@ staff_properties_change (void)
   while (thelist){\
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT(field), (gchar *) thelist->data);\
       if (!g_strcmp0 (thelist->data, setstring->str))\
-	gtk_combo_box_set_active(GTK_COMBO_BOX (field),i);\
+    gtk_combo_box_set_active(GTK_COMBO_BOX (field),i);\
     i++;\
     thelist=thelist->next;\
   }\
@@ -287,14 +295,14 @@ staff_properties_change (void)
 #define COMBOBOXENTRY(thelabel, field, thelist, setstring) \
   GtkWidget *field;\
   hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_container_add (GTK_CONTAINER(main_vbox), hbox);	\
+  gtk_container_add (GTK_CONTAINER(main_vbox), hbox);   \
   label = gtk_label_new (_(thelabel));\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_container_add (GTK_CONTAINER(hbox), label);\
   field = gtk_combo_new ();\
   gtk_combo_set_popdown_strings(GTK_COMBO(field), thelist); \
   gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (field)->entry), setstring->str);\
-  gtk_container_add (GTK_CONTAINER(hbox), field);	\
+  gtk_container_add (GTK_CONTAINER(hbox), field);   \
   cbdata.field = GTK_COMBO (field)->entry;
 #endif
   /* Display appearance tab */

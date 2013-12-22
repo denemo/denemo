@@ -48,7 +48,7 @@ static void ConvertIllegalChar(char *name){
  * parse soundfont file "soundfont" and return number of presets. If "soundfont" is NULL use previously loaded soundfont
  * if name or preset are Non-null, fill in the values for the given index (counting from 0).
  */
-int  ParseSoundfont(char *soundfont, int index, char **name, int *preset) {
+int  ParseSoundfont(char *soundfont, int index, char **name, int *preset, int *bank) {
   FILE *fp;
   static SFInfo sf;
   static initialized = FALSE;
@@ -77,6 +77,8 @@ int  ParseSoundfont(char *soundfont, int index, char **name, int *preset) {
 				*name = sf.preset[index].hdr.name;
 			if(preset)
 				*preset = sf.preset[index].preset;
+			if(bank)
+				*bank = sf.preset[index].bank;
 		}
 	}
 	return number;
