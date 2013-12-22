@@ -2211,7 +2211,16 @@ set_initiate_scoreblock (DenemoMovement * si, GString * scoreblock)
   g_free (movement_prolog);
 }
 
-
+static gchar *get_alt_overridden_prefix (GList *g)
+{
+    GString *s = g_string_new ("");
+    for(;g;g=g->next) {
+        DenemoDirective *d = g->data;
+        if ((d->override & DENEMO_ALT_OVERRIDE) && d->prefix)
+            g_string_append (s, d->prefix->str);
+        }
+    return g_string_free (s, FALSE);  
+}
 void
 set_staff_definition (GString * str, DenemoStaff * curstaffstruct, gchar * denemo_name)
 {
@@ -2225,12 +2234,12 @@ set_staff_definition (GString * str, DenemoStaff * curstaffstruct, gchar * denem
     }
   else
     { 
-     gchar *alt_override = get_overridden_prefix (curstaffstruct->staff_directives, DENEMO_ALT_OVERRIDE);//AFFIX_OVERRIDE is for staff groupings
-     if(alt_override)
+     gchar *alt_override = get_alt_overridden_prefix (curstaffstruct->staff_directives);//AFFIX_OVERRIDE is for staff groupings
+     if(*alt_override)
       g_string_append_printf (str, "\n%%Start of Staff\n %s  \\new Staff = \"%s\" << %s\n", alt_override, denemo_name, staff_epilog_insert);
      else
       g_string_append_printf (str, "\n%%Start of Staff\n\\new Staff = \"%s\" %s << %s\n", denemo_name, staff_prolog_insert, staff_epilog_insert);
-      g_free(alt_override);
+     g_free(alt_override);
     }
    g_free(staff_prolog_insert);
    g_free(staff_epilog_insert);
