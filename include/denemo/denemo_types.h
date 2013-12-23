@@ -25,6 +25,8 @@
 
 #define DENEMO_TEXTEDITOR_TAG "texteditor"
 
+#define DENEMO_CLICK_TRACK_NAME _("Click")
+
 /* values for is_grace attribute of CHORD type */
 #define GRACED_NOTE (1<<1) /*Note is an (appogiatura) grace note */
 #define ENDGRACE (1<<2) /*Note is last grace note in a group */
@@ -100,13 +102,13 @@ DenemoSelection;
 
 typedef struct DenemoPalette
 {
-	gchar *name;
-	GtkWidget *box;
-	GtkWidget *window;
-	gboolean rows; /* widgets should be packed row-wise or not */
-	gint limit; /* how many widgets to pack in the chosen direction */
-	gboolean docked; /**< whether this palette is displayed in the main display */
-	GList *buttons; /**< the data are GtkWidget which have a script attached to be run when activated */
+    gchar *name;
+    GtkWidget *box;
+    GtkWidget *window;
+    gboolean rows; /* widgets should be packed row-wise or not */
+    gint limit; /* how many widgets to pack in the chosen direction */
+    gboolean docked; /**< whether this palette is displayed in the main display */
+    GList *buttons; /**< the data are GtkWidget which have a script attached to be run when activated */
 }
 DenemoPalette;
 
@@ -158,12 +160,12 @@ extern gchar *DenemoObjTypeNames[18];
  * 
  */
 typedef enum tuplet_type{
-	DUPLET,
-	TRIPLET,
-	QUADTUPLET,
-	QUINTUPLET,
-	SEXTUPLET,
-	SEPTUPLET	
+    DUPLET,
+    TRIPLET,
+    QUADTUPLET,
+    QUINTUPLET,
+    SEXTUPLET,
+    SEPTUPLET   
 }tuplet_type;
 
 /**
@@ -288,7 +290,7 @@ typedef struct
   gint no_of_lines; /**< Number of lines on the staff */
   gint transposition; /**< Determines if the notes are to be played back at pitch or not */
 
-  gint volume;	/**< Master Volume used to scale midi playback */
+  gint volume;  /**< Master Volume used to scale midi playback */
   gboolean override_volume; /**< when true staff plays full Volume always */
   /* Back to Hiller stuff */
   //  GString *staff_name;
@@ -308,13 +310,13 @@ typedef struct
   gboolean hasfakechords; /**<TRUE if the staff has had chord symbols attached. Only one staff should have this set */
   DenemoVoice voicecontrol; /**< either controls whether this staff is displayed and printed separately or as a voice */
   measurenode ** is_parasite; /**< points to address of host staff's measures 
-				 field if measures are owned by another 
-				 staff */
+                 field if measures are owned by another 
+                 staff */
 
   gint nummeasures; /**< Number of measures in the staff*/
   GList *tone_store; /**< list of pitches and durations used a source for
-			the notes in this staff
-			the data are tone* */
+            the notes in this staff
+            the data are tone* */
 
   GList *staff_directives;/**< List of DenemoDirective for the staff context, (only relevant for primary staff)*/
   GList *voice_directives;/**< List of DenemoDirective for the voice context */
@@ -338,9 +340,9 @@ staff_info;
 
 typedef enum
 {
-	KeymapEntry,
-	KeymapToggleEntry,
-	KeymapRadioEntry
+    KeymapEntry,
+    KeymapToggleEntry,
+    KeymapRadioEntry
 }KeymapCommandType;
 
 typedef struct DenemoKeymap
@@ -349,12 +351,12 @@ typedef struct DenemoKeymap
 
   //reference for easy access
   GHashTable *idx_from_name; //hashtable linking the name of a command to
-							 //its index in the ListStore (values are guint *)
+                             //its index in the ListStore (values are guint *)
 
   GHashTable *idx_from_keystring; //hashtable linking the string representing
                                   //a keypress to the index of its command
                                   //The keystring is the output of
-  				  //dnm_accelerator_name()
+                  //dnm_accelerator_name()
   GHashTable *cursors;//hashtable linking GdkEvent state to a cursor that should be used in that state
  
   GHashTable *continuations_table;//hashtable giving possible continuations for two-keybindings
@@ -655,11 +657,11 @@ typedef enum DenemoViewType {
  */
 typedef struct 
 {
-	GString *name;
-	GString *midiinstrument;
-	gint sclef;
-	gint transposition;
-	gint numstaffs;
+    GString *name;
+    GString *midiinstrument;
+    gint sclef;
+    gint transposition;
+    gint numstaffs;
 
 }InstrumentConfig;
 
@@ -668,8 +670,8 @@ typedef struct
  */
 typedef struct 
 {
-	InstrumentType type;
-	GList *instruments;  // List to contain a list of Instruments of given type
+    InstrumentType type;
+    GList *instruments;  // List to contain a list of Instruments of given type
 }InstrumentList;
 
 typedef struct DenemoPosition { /**<Represents a position in a Score */
@@ -721,7 +723,7 @@ typedef struct DenemoLilyControl
   gboolean orientation;
   gboolean excerpt;
   GList *directives; /**< list of DenemoDirective for all music in the movements */
-	
+    
 } DenemoLilyControl;
 
 
@@ -802,16 +804,16 @@ typedef struct DenemoRecording {
 } DenemoRecording;
 
 typedef enum DenemoTargetType {
-	TARGET_NONE = 0,
-	TARGET_OBJECT,
-	TARGET_CHORD,
-	TARGET_NOTE,
-	TARGET_SLUR,
-	TARGET_TIE,		
-	TARGET_CRESC,		
-	TARGET_DIM,		
+    TARGET_NONE = 0,
+    TARGET_OBJECT,
+    TARGET_CHORD,
+    TARGET_NOTE,
+    TARGET_SLUR,
+    TARGET_TIE,     
+    TARGET_CRESC,       
+    TARGET_DIM,     
 
-	//TARGET_,
+    //TARGET_,
 } DenemoTargetType;
 
 typedef struct DenemoTarget {
@@ -834,7 +836,7 @@ typedef struct DenemoMovement
 {
   gboolean readonly; /**< Indicates if the file is readonly or not */
   GList *curlilynode; /**< the node of the lily parse tree on display 
-			 in textwindow */
+             in textwindow */
   GList *lily_file; /**< root of lily file parse, see lilyparser.y etc  */
 
  
@@ -1000,7 +1002,7 @@ typedef struct DenemoProject
   scoreheader scoreheader;/*< Directives for the header block at the start of the score */
   paper paper;/*< Directives for the paper block of the score */
   GList *midi_events;/*< midi_events to be output at start of first track of each movement */
-	gboolean has_script;/*< true if there is a script to be run on loading the DenemoProject from disk */
+    gboolean has_script;/*< true if there is a script to be run on loading the DenemoProject from disk */
   GList *standard_scoreblocks; /**< List of automatically generated \score blocks for LilyPond output elements are DenemoScoreblock * */
   GList *custom_scoreblocks; /**< List of customized  \score blocks for LilyPond output, elements are DenemoScoreblock * */
   GtkWidget *score_layout; /**< The window in which custom_scoreblock widgets are placed */
@@ -1060,18 +1062,18 @@ typedef struct RhythmPattern
 typedef struct RhythmElement
 {
   GList* functions; /**< data in list are functions to be called including modifiers 
-		      eg insert_chord_3key, add dot, slur ...  */
+              eg insert_chord_3key, add dot, slur ...  */
   gpointer icon; /**< a string, but displayed in music font, which labels the button when this RhythmElement is
-		  the current one*/
+          the current one*/
   RhythmPattern *rhythm_pattern;/**< the rhythm pattern which this element belongs to */
 } RhythmElement;
 
 
 struct cs_callback
 {
-	GtkWidget *entry;
-	GtkWidget *dialog;
-	DenemoProject *project;
+    GtkWidget *entry;
+    GtkWidget *dialog;
+    DenemoProject *project;
 };
 
 
