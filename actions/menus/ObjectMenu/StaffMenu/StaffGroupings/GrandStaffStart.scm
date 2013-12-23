@@ -1,1 +1,1 @@
-(AttachDirective "staff" "prefix" "ContextGrandStaff"  " \\new GrandStaff <<\n" DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_AFFIX)
+(AttachDirective "staff" "prefix" '("ContextGrandStaff" . "Grand Staff End")  " \\new GrandStaff <<\n" DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_AFFIX DENEMO_OVERRIDE_TAGEDIT)
