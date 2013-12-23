@@ -371,7 +371,7 @@ define_scheme_constants (void)
     for (i = 0; i < G_N_ELEMENTS (DenemoObjTypeNames); i++)
       DEF_SCHEME_CONST (DenemoObjTypeNames[i], i);
   }
-
+ DEF_SCHEME_STR ("DenemoClickTrack", DENEMO_CLICK_TRACK_NAME, "Holds a name for identifying a click track as the staff name query=denemo_name");
 
 #undef DEF_SCHEME_STR
 #undef DEF_SCHEME_CONST
