@@ -1314,7 +1314,7 @@ button_callback (GtkWidget * widget, GdkEventButton * event, DenemoDirective * d
       gchar *script = get_action_script (directive->tag->str);
       if (left && script)
         {
-          stage_undo (Denemo.project->si, ACTION_STAGE_END);        //undo is a queue so this is the end :)
+          stage_undo (Denemo.project->si, ACTION_STAGE_END);    //undo is a queue so this is the end :)
           call_out_to_guile (script);
           stage_undo (Denemo.project->si, ACTION_STAGE_START);
         }
@@ -1544,14 +1544,12 @@ widget_for_directive_menu (DenemoDirective * directive, void fn (), GtkMenu * me
           //g_debug("Doing the score and movement cases starting from %p", directive->widget);
           directive->widget = GTK_WIDGET (gtk_button_new_with_label (value));
           gchar *tooltip;
-          const gchar *label = get_label_for_command(directive->tag->str);
-          const gchar *help = get_tooltip_for_command(directive->tag->str);
-          if(label)
-          tooltip = g_strdup_printf (_("Command: %s.\n(%s)"
-          "\nLeft click to run the command or right click for further options"), label, help?help:"");
+          const gchar *label = get_label_for_command (directive->tag->str);
+          const gchar *help = get_tooltip_for_command (directive->tag->str);
+          if (label)
+            tooltip = g_strdup_printf (_("Command: %s.\n(%s)" "\nLeft click to run the command or right click for further options"), label, help ? help : "");
           else
-						tooltip = g_strdup_printf (_("This button was created for the Denemo Directive whose tag is %s."
-          " Usually you click on it to alter the setting made or perform the action it is labelled with"), directive->tag->str);   //FIXME enable scripters to pass a tooltip in???
+            tooltip = g_strdup_printf (_("This button was created for the Denemo Directive whose tag is %s." " Usually you click on it to alter the setting made or perform the action it is labelled with"), directive->tag->str);     //FIXME enable scripters to pass a tooltip in???
           gtk_widget_set_tooltip_text (directive->widget, tooltip);
           g_free (tooltip);
 
@@ -1805,15 +1803,7 @@ PUT_GRAPHIC_WIDGET_INT (gx, layout, directives)
 PUT_GRAPHIC_WIDGET_INT (gx, movementcontrol, directives)
 PUT_GRAPHIC_WIDGET_INT (gx, staff, staff_directives)
 PUT_GRAPHIC_WIDGET_INT (gx, voice, voice_directives)
-PUT_GRAPHIC_WIDGET_INT (gy, score, directives)
-PUT_GRAPHIC_WIDGET_INT (gy, scoreheader, directives)
-PUT_GRAPHIC_WIDGET_INT (gy, header, directives)
-PUT_GRAPHIC_WIDGET_INT (gy, paper, directives)
-PUT_GRAPHIC_WIDGET_INT (gy, layout, directives)
-PUT_GRAPHIC_WIDGET_INT (gy, movementcontrol, directives)
-PUT_GRAPHIC_WIDGET_INT (gy, staff, staff_directives)
-PUT_GRAPHIC_WIDGET_INT (gy, voice, voice_directives)
-PUT_GRAPHIC_WIDGET_INT (override, score, directives);
+PUT_GRAPHIC_WIDGET_INT (gy, score, directives) PUT_GRAPHIC_WIDGET_INT (gy, scoreheader, directives) PUT_GRAPHIC_WIDGET_INT (gy, header, directives) PUT_GRAPHIC_WIDGET_INT (gy, paper, directives) PUT_GRAPHIC_WIDGET_INT (gy, layout, directives) PUT_GRAPHIC_WIDGET_INT (gy, movementcontrol, directives) PUT_GRAPHIC_WIDGET_INT (gy, staff, staff_directives) PUT_GRAPHIC_WIDGET_INT (gy, voice, voice_directives) PUT_GRAPHIC_WIDGET_INT (override, score, directives);
 PUT_GRAPHIC_WIDGET_INT (override, scoreheader, directives);
 PUT_GRAPHIC_WIDGET_INT (override, header, directives);
 PUT_GRAPHIC_WIDGET_INT (override, paper, directives);
@@ -1823,7 +1813,7 @@ PUT_GRAPHIC_WIDGET_INT (override, staff, staff_directives);
 PUT_GRAPHIC_WIDGET_INT (override, voice, voice_directives);
 #undef PUT_GRAPHIC_WIDGET_STR
 #undef PUT_GRAPHIC_WIDGET_INT
-  gboolean
+gboolean
 standalone_directive_put_graphic (gchar * tag, gchar * value)
 {
   DenemoDirective *directive = get_standalone_directive (tag);
@@ -2613,16 +2603,19 @@ edit_directive (DenemoDirective * directive, gchar * what)
       GtkAction *action;
       gchar *eol;
       gboolean chopped = FALSE;
-      for(eol=directive->tag->str;*eol;eol++) {
-		  if(*eol == '\n') {
-			  *eol = 0;
-			  chopped = TRUE;
-			  break;
-		  } 
-	  }
-      
+      for (eol = directive->tag->str; *eol; eol++)
+        {
+          if (*eol == '\n')
+            {
+              *eol = 0;
+              chopped = TRUE;
+              break;
+            }
+        }
+
       action = lookup_action_from_name (directive->tag->str);
-      if(chopped) *eol = '\n';
+      if (chopped)
+        *eol = '\n';
       if (action && (Denemo.keyboard_state != GDK_MOD2_MASK /*NumLock */ ))
         {                       //FIXME this should be detecting shift click surely????
           DenemoScriptParam param;
@@ -2660,10 +2653,10 @@ edit_object_directive (GtkAction * action, DenemoScriptParam * param)
   //g_debug("Got directive %p in list %p\n", directive, directives);
   if (directive == NULL)
     {
-			if(*directives!=NULL)
-				infodialog(_("Cancelled"));
-			else
-				warningdialog(_("Use the ObjectMenu to modify this object - there are no directives here"));
+      if (*directives != NULL)
+        infodialog (_("Cancelled"));
+      else
+        warningdialog (_("Use the ObjectMenu to modify this object - there are no directives here"));
       return;
     }
   if (directive->tag == NULL)
@@ -2679,7 +2672,7 @@ edit_object_directive (GtkAction * action, DenemoScriptParam * param)
           dnm_deleteobject (Denemo.project->si);
         }
     }
-  if (Denemo.project->si->currentobject)    //for standalone directive
+  if (Denemo.project->si->currentobject)        //for standalone directive
     setpixelmin (Denemo.project->si->currentobject->data);
 }
 
