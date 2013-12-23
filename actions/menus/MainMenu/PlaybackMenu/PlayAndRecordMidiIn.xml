@@ -7,8 +7,8 @@
       <row type="scheme">
         <after>MouseOrMidiDrivenPlayback</after>
         <action>PlayAndRecordMidiIn</action>
-        <_label>Playback and Record MIDI</_label>
-        <_tooltip>Starts playing the score from the playhead start (green marker bar) and simultaneously records your playing from MIDI in.
+        <_label>Playback and Record MIDI (Off/On)</_label>
+        <_tooltip>Starts (or stops) playing the score from the playhead start (green marker bar) and simultaneously records your playing from MIDI in.
         You can stop the playback at any time and then the first MIDI note you entered is marked. 
         Entering duration keys now enters the notes you played into the score. 
         If you have no click track at the top one is created - set the keysignature/enharmonic range before you start.</_tooltip>
