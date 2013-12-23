@@ -447,48 +447,48 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
   gint line_num = ((int) event->y) / line_height;
 
   if(gui->si->recording && dragging_audio)
-	{	
-		if(gui->si->recording->type == DENEMO_RECORDING_MIDI)
-		{
-			#if 0
-			//This is moving only the NoteOn, so it could be moved later than the note off, and indeed later than a later note in the stream 
-			//- quite a bit more work needed to drag MIDI to correct the timing.
-			smf_event_t *midievent;
-			GList *marked_onset = gui->si->marked_onset;
-			if(marked_onset)
-				{
-				midievent = ((DenemoRecordedNote *)marked_onset->data)->event;
-				gint shift =  2500*(event->x_root - last_event_x)/gui->si->zoom;
-				g_debug (" %f (%f %f)",shift/(double)gui->si->recording->samplerate, 
-					midievent->time_seconds,
-					((DenemoRecordedNote *)marked_onset->data)->timing/(double)gui->si->recording->samplerate) ;
+    {   
+        if(gui->si->recording->type == DENEMO_RECORDING_MIDI)
+        {
+            #if 0
+            //This is moving only the NoteOn, so it could be moved later than the note off, and indeed later than a later note in the stream 
+            //- quite a bit more work needed to drag MIDI to correct the timing.
+            smf_event_t *midievent;
+            GList *marked_onset = gui->si->marked_onset;
+            if(marked_onset)
+                {
+                midievent = ((DenemoRecordedNote *)marked_onset->data)->event;
+                gint shift =  2500*(event->x_root - last_event_x)/gui->si->zoom;
+                g_debug (" %f (%f %f)",shift/(double)gui->si->recording->samplerate, 
+                    midievent->time_seconds,
+                    ((DenemoRecordedNote *)marked_onset->data)->timing/(double)gui->si->recording->samplerate) ;
 
-				((DenemoRecordedNote *)marked_onset->data)->timing += shift;
-				
-				midievent->time_seconds += shift/(double)gui->si->recording->samplerate;
-				}
-			#endif
-			g_warning("No drag for MIDI yet");
-			return TRUE;
-		}
+                ((DenemoRecordedNote *)marked_onset->data)->timing += shift;
+                
+                midievent->time_seconds += shift/(double)gui->si->recording->samplerate;
+                }
+            #endif
+            g_warning("No drag for MIDI yet");
+            return TRUE;
+        }
 
-		gui->si->recording->leadin -= 500*(event->x_root - last_event_x)/gui->si->zoom;//g_debug("%d %d => %d\n", (int)(10*last_event_x), (int)(10*event->x_root), (int)(10*last_event_x) - (int)(10*event->x_root));
-		last_event_x = event->x_root;
-		update_leadin_widget ( gui->si->recording->leadin/(double)gui->si->recording->samplerate);
-		gtk_widget_queue_draw(Denemo.scorearea);
-		return TRUE; 
-	}
+        gui->si->recording->leadin -= 500*(event->x_root - last_event_x)/gui->si->zoom;//g_debug("%d %d => %d\n", (int)(10*last_event_x), (int)(10*event->x_root), (int)(10*last_event_x) - (int)(10*event->x_root));
+        last_event_x = event->x_root;
+        update_leadin_widget ( gui->si->recording->leadin/(double)gui->si->recording->samplerate);
+        gtk_widget_queue_draw(Denemo.scorearea);
+        return TRUE; 
+    }
   if(gui->si->recording && dragging_tempo)
-	{		
-		gdouble change = (event->x_root - last_event_x)/gui->si->zoom;
-		last_event_x = event->x_root;
-		struct placement_info pi;
-		get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
-		change /= pi.measure_number;
-		update_tempo_widget ( change);
-		gtk_widget_queue_draw(Denemo.scorearea);
-		return TRUE; 
-	}
+    {       
+        gdouble change = (event->x_root - last_event_x)/gui->si->zoom;
+        last_event_x = event->x_root;
+        struct placement_info pi;
+        get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
+        change /= pi.measure_number;
+        update_tempo_widget ( change);
+        gtk_widget_queue_draw(Denemo.scorearea);
+        return TRUE; 
+    }
 #define DENEMO_MINIMUM_SYSTEM_HEIGHT (0.01)
 
 
@@ -589,38 +589,38 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   dragging_separator = FALSE;
   
   if(gui->si->recording)
-	{
-	 //g_debug("audio %f %f\n", event->x, event->y);
+    {
+     //g_debug("audio %f %f\n", event->x, event->y);
 
 
-	  if(event->y < 20*gui->si->zoom /* see draw.c for this value, the note onsets are drawn in the top 20 pixels */)
-		{
-			if (event->type==GDK_2BUTTON_PRESS) 
-				{	
-					gui->si->marked_onset_position = (gint)event->x/gui->si->zoom;
-					if(gui->si->marked_onset_position < KEY_MARGIN + SPACE_FOR_TIME + gui->si->maxkeywidth) {
-						 if (Denemo.prefs.learning)
-							MouseGestureShow(_("Double Click Note Onset"), _("This represents detected note onsets which occur\nbefore the start of the score.\nIf they are just noise,\nor if you are working on just a portion of the audio that is ok.\nOtherwise drag with left mouse button to synchronize\nwith the start of the score."),
+      if(event->y < 20*gui->si->zoom /* see draw.c for this value, the note onsets are drawn in the top 20 pixels */)
+        {
+            if (event->type==GDK_2BUTTON_PRESS) 
+                {   
+                    gui->si->marked_onset_position = (gint)event->x/gui->si->zoom;
+                    if(gui->si->marked_onset_position < KEY_MARGIN + SPACE_FOR_TIME + gui->si->maxkeywidth) {
+                         if (Denemo.prefs.learning)
+                            MouseGestureShow(_("Double Click Note Onset"), _("This represents detected note onsets which occur\nbefore the start of the score.\nIf they are just noise,\nor if you are working on just a portion of the audio that is ok.\nOtherwise drag with left mouse button to synchronize\nwith the start of the score."),
           MouseGesture);
-						
-					}
-					gtk_widget_queue_draw(Denemo.scorearea);
-					return TRUE;
-				} else 
-				{
-					gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (left?GDK_SB_H_DOUBLE_ARROW:GDK_X_CURSOR));
-					left? (dragging_audio = TRUE) : (dragging_tempo = TRUE);
-					 if (Denemo.prefs.learning)
-					 left? MouseGestureShow(_("Left Drag Note Onset"), _("This moves the audio to synchronize the start with the score.\nYou can use the Leadin button for this too."),
+                        
+                    }
+                    gtk_widget_queue_draw(Denemo.scorearea);
+                    return TRUE;
+                } else 
+                {
+                    gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (left?GDK_SB_H_DOUBLE_ARROW:GDK_X_CURSOR));
+                    left? (dragging_audio = TRUE) : (dragging_tempo = TRUE);
+                     if (Denemo.prefs.learning)
+                     left? MouseGestureShow(_("Left Drag Note Onset"), _("This moves the audio to synchronize the start with the score.\nYou can use the Leadin button for this too."),
           MouseGesture) :
-						MouseGestureShow(_("Right Drag Note Onset"), _("This changes the tempo of the score.\nUse this to synchronize the beat after setting the start"),
+                        MouseGestureShow(_("Right Drag Note Onset"), _("This changes the tempo of the score.\nUse this to synchronize the beat after setting the start"),
           MouseGesture);
-					gtk_widget_queue_draw(Denemo.scorearea);
-					return TRUE;
-				}
-		}
-	  
-	}
+                    gtk_widget_queue_draw(Denemo.scorearea);
+                    return TRUE;
+                }
+        }
+      
+    }
   
   
   //g_debug("before %f %f\n", event->x, event->y);
@@ -692,22 +692,33 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
       gui->si->cursor_appending = (gui->si->cursor_x == (gint) (g_list_length ((objnode *) gui->si->currentmeasure->data)));
       set_cursor_y_from_click (gui, event->y);
       if (event->type==GDK_2BUTTON_PRESS) 
-				{
-          if (Denemo.prefs.learning)
-            MouseGestureShow(_("Double Click."), _("This gives information about the object at the cursor. Click on a notehead for information about a note in a chord."),
-              MouseGesture);
-					display_current_object();
-					return TRUE;
-				}
-			else 
-				{
-          if (Denemo.prefs.learning)
-            MouseGestureShow(_("Press Left."), _("This moved the cursor to the object position clicked. The cursor height becomes the clicked point."),
-              MouseGesture);
-					write_status (gui);
-				}
-    }
-
+                {
+                    if(gui->si->recording &&  !g_strcmp0 (((DenemoStaff *) gui->si->currentstaff->data)->denemo_name->str, DENEMO_CLICK_TRACK_NAME))
+                        {
+                            gui->si->marked_onset_position = (gint)event->x/gui->si->zoom;
+                            if (Denemo.prefs.learning)
+                                MouseGestureShow(_("Double Click on Click Track"), _("This will mark the MIDI note onset."), MouseGesture);
+                            return TRUE;
+                 
+                        }
+                        
+                    else
+                        {
+                          if (Denemo.prefs.learning)
+                            MouseGestureShow(_("Double Click."), _("This gives information about the object at the cursor. Click on a notehead for information about a note in a chord."),
+                              MouseGesture);
+                                    display_current_object();
+                                    return TRUE;
+                        }
+                }
+            else 
+                {
+                  if (Denemo.prefs.learning)
+                    MouseGestureShow(_("Press Left."), _("This moved the cursor to the object position clicked. The cursor height becomes the clicked point."),
+                      MouseGesture);
+                            write_status (gui);
+               }
+            }
 
   gint offset = (gint) get_click_height (gui, event->y);
   if ((((DenemoStaff *) gui->si->currentstaff->data)->voicecontrol == DENEMO_PRIMARY) && (gui->si->leftmeasurenum == 1) && (event->x > LEFT_MARGIN))
@@ -829,11 +840,11 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
     return FALSE;
   gboolean left = (event->button != 3);
   if(gui->si->recording && (dragging_tempo || dragging_audio))
-	{		
-			dragging_tempo = dragging_audio = FALSE;
-			gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR));       //FIXME? does this take time/hog memory
-			return TRUE; 
-	}
+    {       
+            dragging_tempo = dragging_audio = FALSE;
+            gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR));       //FIXME? does this take time/hog memory
+            return TRUE; 
+    }
   if (dragging_separator)
     {
       if (Denemo.prefs.learning)
