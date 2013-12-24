@@ -156,7 +156,7 @@ main (int argc, char *argv[])
   g_test_add ("/integration/run-and-quit", void, NULL, setup, test_run_and_quit, teardown);
   g_test_add ("/integration/open-blank-file", void, NULL, setup, test_open_blank_file, teardown);
   g_test_add ("/integration/open-and-save-blank-file", void, NULL, setup, test_open_save_blank_file, teardown);
-  g_test_add ("/integration/invalid-scheme", void, NULL, setup, test_invalid_scheme, teardown);
+  //g_test_add ("/integration/invalid-scheme", void, NULL, setup, test_invalid_scheme, teardown);
   g_test_add ("/integration/scheme-log", void, NULL, setup, test_scheme_log, teardown);
   g_test_add ("/integration/scheme-log-error", void, NULL, setup, test_scheme_log_error, teardown);
 
