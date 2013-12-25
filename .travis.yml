@@ -5,6 +5,7 @@ env:
   - COMPILER=clang TEST=integration
   - COMPILER=gcc TEST=coverage
   - COMPILER=gcc TEST=install
+  - COMPILER=gcc TEST=doc
 script:
 - tools/travis/run-script.sh
 before_install:

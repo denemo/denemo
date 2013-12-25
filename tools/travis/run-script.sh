@@ -5,6 +5,10 @@ if [ "$TEST"x = "coverage"x ]; then
   CONFIGURE_FLAGS="--enable-gcov"
 fi
 
+if [ "$TEST"x = "doc"x ]; then
+  CONFIGURE_FLAGS="--enable-gtk-doc"
+fi
+
 if [ "$COMPILER"x = "gcc"x ]; then
   export CC="gcc"
   export CXX="g++"
@@ -15,19 +19,17 @@ fi
 
 ./autogen.sh
 ./configure --enable-debug --enable-silent-rules --disable-warnings $CONFIGURE_FLAGS
+make
 
 if [ "$TEST"x = "install"x ]; then
-  make
   sudo make install
   denemo -n -a "(d-Quit)"
 fi
 
 if [ "$TEST"x = "integration"x ]; then
-  make
   make distcheck
 fi
 
 if [ "$TEST"x = "coverage"x ]; then
-  make
   make check
 fi
