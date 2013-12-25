@@ -14,3 +14,15 @@ install:
 - tools/travis/install.sh
 after_success:
 - tools/travis/success.sh
+notifications:
+  email:
+    recipients:
+      - "%{author}@gmail.com"
+    on_success: never
+    on_failure: always
+  irc:
+    channels:
+      - "chat.freenode.net#%{author}"
+    on_success: always
+    on_failure: always
+
