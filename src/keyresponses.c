@@ -200,10 +200,10 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
               g_free (name);
             }
           if (Denemo.ScriptRecording)
-						if (idx_has_callback (the_keymap, command_idx))
-							{
-								append_scheme_call ((gchar *) command_name);
-							}  
+                        if (idx_has_callback (the_keymap, command_idx))
+                            {
+                                append_scheme_call ((gchar *) command_name);
+                            }  
           //g_debug("Single Key shortcut %s invokes %s\n", dnm_accelerator_name(event->keyval, event->state), command_name);
           return perform_command (command_name, event);
         }
@@ -233,11 +233,11 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
                 {
                   KeyStrokeShow (prefix_store->str, command_idx, FALSE);
                 }
-					if (Denemo.ScriptRecording)
-							if (idx_has_callback (the_keymap, command_idx))
-								{
-									append_scheme_call ((gchar *) command_name);
-								}            
+                    if (Denemo.ScriptRecording)
+                            if (idx_has_callback (the_keymap, command_idx))
+                                {
+                                    append_scheme_call ((gchar *) command_name);
+                                }            
               ret = perform_command (command_name, event);
             }
         }
@@ -247,12 +247,12 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
           write_status (Denemo.project);
           if ((Denemo.project->view != DENEMO_MENU_VIEW) || Denemo.prefs.learning)
             {
-							Denemo.prefs.learning = TRUE;
+                            Denemo.prefs.learning = TRUE;
               KeyStrokeDecline (prefix_store->str);
             }
           toggle_to_drawing_area (TRUE);        //restore menus, in case the user is lost and needs to look up a keypress
           if (Denemo.project->view != DENEMO_MENU_VIEW)
-						toggle_to_drawing_area (TRUE);
+                        toggle_to_drawing_area (TRUE);
         }
       g_string_assign (prefix_store, "");
       Denemo.continuations = NULL;
@@ -285,12 +285,12 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
         {
           if ((Denemo.project->view != DENEMO_MENU_VIEW) || Denemo.prefs.learning)
             {
-							Denemo.prefs.learning = TRUE;
+                            Denemo.prefs.learning = TRUE;
               KeyStrokeDecline (name);
             }
           toggle_to_drawing_area (TRUE);  //restore menus, in case the user is lost and needs to look up a keypress
           if (Denemo.project->view != DENEMO_MENU_VIEW)
-						toggle_to_drawing_area (TRUE);
+                        toggle_to_drawing_area (TRUE);
         }
       return NULL;
     }
@@ -970,14 +970,23 @@ tie_notes_key (GtkAction* action, DenemoScriptParam *param)
   /* Equals - toggle whether this note is tied */
   if (curmudelaobj && curmudelaobj->type == CHORD && ((chord *) curmudelaobj->object)->notes)
     {
-
-      insertion_point (Denemo.project->si);
-      object_insert (Denemo.project, dnm_clone_object (curmudelaobj));
-      movecursorleft (NULL, NULL);
-      movecursorleft (NULL, NULL);
-      toggle_tie (NULL, NULL);
-      movecursorright (NULL, NULL);
-      movecursorright (NULL, NULL);
+        if (Denemo.project->si->cursor_appending)
+            {
+              insertion_point (Denemo.project->si);
+              object_insert (Denemo.project, dnm_clone_object (curmudelaobj));
+              movecursorleft (NULL, NULL);
+              movecursorleft (NULL, NULL);
+              toggle_tie (NULL, NULL);
+              movecursorright (NULL, NULL);
+              movecursorright (NULL, NULL);
+          } else
+          {
+              object_insert (Denemo.project, dnm_clone_object (curmudelaobj));
+              movecursorleft (NULL, NULL);
+              ((chord *) ((DenemoObject *)Denemo.project->si->currentobject->data)->object)->is_tied = 1;
+              movecursorright (NULL, NULL);
+              movecursorright (NULL, NULL);
+          }
     }
 }
 
