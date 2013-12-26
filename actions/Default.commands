@@ -6185,6 +6185,62 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Cursor to Marked Onset</_label>
         <_tooltip>Moves the Denemo cursor to the note to which the marked MIDI note onset belongs.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ChangeTo0</action>
+        <after>RemoveDot</after>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
+        <_label>Change Duration To 𝅝</_label>
+        <_tooltip>Changes the note or rest at the cursor to 𝅝 duration. Works also in appending position.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ChangeTo1</action>
+        <after>ChangeTo0</after>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
+        <_label>Change Duration To 𝅗𝅥</_label>
+        <_tooltip>Changes the note or rest at the cursor to 𝅗𝅥 duration. Works also in appending position.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ChangeTo2</action>
+        <after>ChangeTo1</after>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
+        <_label>Change Duration To 𝅘𝅥</_label>
+        <_tooltip>Changes the note or rest at the cursor to 𝅘𝅥 duration. Works also in appending position.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ChangeTo3</action>
+        <after>ChangeTo2</after>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
+        <_label>Change Duration To 𝅘𝅥𝅮</_label>
+        <_tooltip>Changes the note or rest at the cursor to 𝅘𝅥𝅮 duration. Works also in appending position.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ChangeTo4</action>
+        <after>ChangeTo3</after>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
+        <_label>Change Duration To 𝅘𝅥𝅯</_label>
+        <_tooltip>Changes the note or rest at the cursor to 𝅘𝅥𝅯 duration. Works also in appending position.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ChangeTo5</action>
+        <after>ChangeTo4</after>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
+        <_label>Change Duration To 𝅘𝅥𝅰</_label>
+        <_tooltip>Changes the note or rest at the cursor to 𝅘𝅥𝅰 duration. Works also in appending position.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ChangeTo6</action>
+        <after>ChangeTo5</after>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
+        <_label>Change Duration To 𝅘𝅥𝅱</_label>
+        <_tooltip>Changes the note or rest at the cursor to 𝅘𝅥𝅱 duration. Works also in appending position.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ChangeTo7</action>
+        <after>ChangeTo6</after>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
+        <_label>Change Duration To 𝅘𝅥𝅲</_label>
+        <_tooltip>Changes the note or rest at the cursor to 𝅘𝅥𝅲 duration. Works also in appending position.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

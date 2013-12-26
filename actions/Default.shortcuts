@@ -212,7 +212,7 @@
         <bind>Ctrl+period</bind>
       </row>
       <row>
-        <action>ToggleTie</action>
+        <action>InsertTiedNote</action>
         <bind>Ctrl+t</bind>
       </row>
       <row>
@@ -471,7 +471,7 @@
         <bind>0</bind>
       </row>
       <row>
-        <action>Change0</action>
+        <action>ChangeTo0</action>
         <bind>Shft+0</bind>
       </row>
       <row>
@@ -479,7 +479,7 @@
         <bind>1</bind>
       </row>
       <row>
-        <action>Change1</action>
+        <action>ChangeTo1</action>
         <bind>Shft+1</bind>
       </row>
       <row>
@@ -487,7 +487,7 @@
         <bind>2</bind>
       </row>
       <row>
-        <action>Change2</action>
+        <action>ChangeTo2</action>
         <bind>Shft+2</bind>
       </row>
       <row>
@@ -495,7 +495,7 @@
         <bind>3</bind>
       </row>
       <row>
-        <action>Change3</action>
+        <action>ChangeTo3</action>
         <bind>Shft+3</bind>
       </row>
       <row>
@@ -503,7 +503,7 @@
         <bind>4</bind>
       </row>
       <row>
-        <action>Change4</action>
+        <action>ChangeTo4</action>
         <bind>Shft+4</bind>
       </row>
       <row>
@@ -511,7 +511,7 @@
         <bind>5</bind>
       </row>
       <row>
-        <action>Change5</action>
+        <action>ChangeTo5</action>
         <bind>Shft+5</bind>
       </row>
       <row>
@@ -519,12 +519,8 @@
         <bind>6</bind>
       </row>
       <row>
-        <action>Change6</action>
+        <action>ChangeTo6</action>
         <bind>Shft+6</bind>
-      </row>
-      <row>
-        <action>Change8</action>
-        <bind>Ctrl+8</bind>
       </row>
       <row>
         <action>MoveNoteToCursor</action>

@@ -356,14 +356,6 @@
     <menuitem action="InsertRhythm"/>   
       </menu>
       <menu action="ChangeDuration">
-    <menuitem action="Change0"/>
-    <menuitem action="Change1"/>
-    <menuitem action="Change2"/>
-    <menuitem action="Change3"/>
-    <menuitem action="Change4"/>
-    <menuitem action="Change5"/>
-    <menuitem action="Change6"/>
-    <menuitem action="Change7"/>
         <menuitem action="AddDot"/>
     <menuitem action="RemoveDot"/>          
       </menu>

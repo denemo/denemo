@@ -1806,7 +1806,7 @@ toggle_hidden_on_action (G_GNUC_UNUSED GtkCellRendererToggle * cell_renderer, gc
           }
 
       keymap_get_command_row (Denemo.map, &row, command_id);
-      GtkAction *action = lookup_action_from_idx (Denemo.map, command_id);
+      const GtkAction *action = lookup_action_from_idx (Denemo.map, command_id);
       if (GTK_IS_ACTION (action))
         {
           set_visibility_for_action (action, row->hidden);
@@ -1973,7 +1973,7 @@ keymap_get_command_view (keymap * the_keymap, GtkWidget *SearchEntry, GtkWidget 
   gtk_box_pack_start (GTK_BOX (hbox), SearchNext, FALSE, TRUE, 0);
 
   GtkWidget *toggle = gtk_check_button_new_with_label (_("Search in tooltip"));
-  gtk_toggle_button_set_active (toggle, TRUE);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(toggle), TRUE);
   gtk_widget_set_can_focus (toggle, FALSE);
   g_signal_connect(G_OBJECT(toggle), "toggled", G_CALLBACK(toggle_tooltip_search), NULL);
   gtk_box_pack_end (GTK_BOX (hbox), toggle, FALSE, TRUE, 0);

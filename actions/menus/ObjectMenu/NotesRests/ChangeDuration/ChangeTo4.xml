@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ChangeTo4</action>
+        <_label>Change Duration To 𝅘𝅥𝅯</_label>
+        <_tooltip>Changes the note or rest at the cursor to 𝅘𝅥𝅯 duration. Works also in appending position.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
