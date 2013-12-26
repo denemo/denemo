@@ -1648,3 +1648,11 @@ actions/mxml2ly2denemo/import_nwctext.scm
 actions/palettes.xml
 actions/silex.scm
 actions/Simple.scm
+actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo0.xml
+actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo1.xml
+actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo2.xml
+actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo3.xml
+actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo4.xml
+actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo5.xml
+actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo6.xml
+actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo7.xml
