@@ -227,7 +227,6 @@ if(rubberband_active)
 static int
 actual_portaudio_initialize (DenemoPrefs * config)
 {
-
   sample_rate = config->portaudio_sample_rate;
 
 #ifdef _HAVE_FLUIDSYNTH_
@@ -239,6 +238,7 @@ actual_portaudio_initialize (DenemoPrefs * config)
     }
 #endif
 #ifdef _HAVE_RUBBERBAND_
+  g_message ("Initializing Rubberband");
  if (rubberband_init (config))
     {
       g_warning ("Initializing Rubberband FAILED!");
@@ -248,6 +248,7 @@ actual_portaudio_initialize (DenemoPrefs * config)
   g_unlink (recorded_audio_filename ());
 
   g_message ("Initializing PortAudio backend");
+  g_info("PortAudio version: %s", Pa_GetVersionText());
 
   PaStreamParameters output_parameters;
   PaError err;
@@ -263,6 +264,7 @@ actual_portaudio_initialize (DenemoPrefs * config)
 
   if (output_parameters.device == paNoDevice)
     {
+      g_warning("No PortAudio device %s", config->portaudio_device->str);
       return -1;
     }
 
