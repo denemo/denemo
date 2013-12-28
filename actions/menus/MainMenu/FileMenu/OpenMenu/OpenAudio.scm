@@ -36,3 +36,4 @@
             (d-SetPlaybackInterval 0.0 seconds)
                         
             (d-NewStaffAfter))))
+(d-RecreateTimebase)
