@@ -902,6 +902,9 @@ free_movements (DenemoProject * project)
     {
       project->si = g->data;
       project->si->undo_guard = 1;  //no undo as that is per movement
+      //close_source_audio ();//???
+      if(!delete_imported_midi ())
+        delete_imported_midi();
       free_score (project);
     }
   project->si = NULL;
