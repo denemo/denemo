@@ -365,6 +365,7 @@ readtrack (gint track)
     }
    else
     ret = -1;
+  exportmidi (NULL, Denemo.project->si, 0, 0);
   return ret;
 }
 
