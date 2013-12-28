@@ -148,6 +148,7 @@ struct infotopass
   gdouble rightmosttime;        //MIDI time of last object  displayed
   GList *recordednote;//list of notes when recorded audio or MIDI is present
   gint currentframe; //current frame of audio being played. (current time converted to frames (at si->recording->samplerate) and slowed down)
+  gboolean highlight_next_note;//the last CHORD was the one before the currently playing one.
 };
 
 /* count the number of syllables up to staff->leftmeasurenum */
@@ -251,17 +252,24 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
  //if (Denemo.project->si->playingnow == mudelaitem)
 //  if (Denemo.project->si->playingnow && (Denemo.project->si->playhead >= mudelaitem->earliest_time) &&
 //        (Denemo.project->si->playhead < mudelaitem->latest_time)) falls through a gap!!!!
-  if (Denemo.project->si->playingnow && (Denemo.project->si->playhead >= mudelaitem->earliest_time)) 
-    {
-      if (cr)
+//  if (Denemo.project->si->playingnow && (Denemo.project->si->playhead >= mudelaitem->earliest_time)) 
+    if(Denemo.project->si->playingnow && itp->highlight_next_note)
         {
-          cairo_save (cr);
-          cairo_set_source_rgba (cr, 0.8, 0.8, 0.0, 0.5);
-          cairo_rectangle (cr, x + mudelaitem->x, y, 20, 80);
-          cairo_fill (cr);
-          cairo_restore (cr);
+            itp->highlight_next_note = FALSE;
+            if (cr)
+                {
+                  cairo_save (cr);
+                  cairo_set_source_rgba (cr, 0.8, 0.8, 0.0, 0.5);
+                  cairo_rectangle (cr, x + mudelaitem->x, y, 20, 80);
+                  cairo_fill (cr);
+                  cairo_restore (cr);
+                }
         }
-    }
+
+    if (Denemo.project->si->playingnow && (!((Denemo.project->si->playhead < mudelaitem->latest_time))))//For an unknown reason, this is the condition that the next note is being played...
+        {
+            itp->highlight_next_note = TRUE;
+        }
 
   
   /* The current note, rest, etc. being painted */
@@ -269,8 +277,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
   if (mudelaitem == Denemo.project->si->playingnow)
     itp->playposition = x + mudelaitem->x;
 
-  if (mudelaitem == itp->startobj) {
-    
+  if (mudelaitem == itp->startobj) {   
     itp->startposition = x + mudelaitem->x/* + mudelaitem->minpixelsalloted*/;
     // if(curobj->prev==NULL) g_debug("item %p at %d\n", curobj, x+mudelaitem->x), itp->startposition -= mudelaitem->minpixelsalloted;
     }
@@ -1568,12 +1575,13 @@ draw_callback (cairo_t * cr)
         update_vscrollbar (gui);
       }
   layout_needed = TRUE;
-
+#if 0
  if( gui->si->recording && (gui->si->smfsync != gui->si->changecount) && (!audio_is_playing())) 
  {
      set_tempo ();
      exportmidi (NULL, gui->si, 0, 0);  
  }
+#endif
   /* Clear with an appropriate background color. */
   if (Denemo.project->input_source != INPUTKEYBOARD && Denemo.project->input_source != INPUTMIDI && (Denemo.prefs.overlays || (Denemo.project->input_source == INPUTAUDIO)) && pitch_entry_active (gui))
     {
