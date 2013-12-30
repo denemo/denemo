@@ -2380,7 +2380,7 @@ install_printpreview (GtkWidget * top_vbox)
   g_signal_connect (G_OBJECT (Denemo.printarea), "external-link", G_CALLBACK (action_for_link), NULL);
 
 
-#if GTK_MAJOR_VERSION==3
+#if GTK_MAJOR_VERSION != 2
   g_signal_connect_after (G_OBJECT (Denemo.printarea), "draw", G_CALLBACK (printarea_draw_event), NULL);
 #else
   g_signal_connect_after (G_OBJECT (Denemo.printarea), "expose_event", G_CALLBACK (printarea_draw_event), NULL);

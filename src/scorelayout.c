@@ -1173,17 +1173,13 @@ install_scoreblock_overrides (GtkWidget * vbox, DenemoProject * gui, DenemoMovem
     }
   return vbox;
 }
-
-
 static gboolean
-draw_staff_brace (GtkWidget * w, GdkEventExpose * event, gchar * context)
+draw_staff_brace (GtkWidget * w, cairo_t *cr, gchar * context)
 {
   GtkAllocation allocation;
   gtk_widget_get_allocation (w, &allocation);
   gint height = allocation.height;
-  cairo_t *cr = gdk_cairo_create (event->window);
-  gdk_cairo_region (cr, event->region);
-  cairo_clip (cr);
+ 
   cairo_set_source_rgb (cr, 0.9, 0.9, 0.9);
   cairo_paint (cr);
 
@@ -1204,8 +1200,19 @@ draw_staff_brace (GtkWidget * w, GdkEventExpose * event, gchar * context)
       cairo_append_path (cr, &piano_brace_path);
       cairo_fill (cr);
     }
-  cairo_destroy (cr);
+
   return TRUE;
+
+}
+static gboolean
+draw_staff_brace_gtk2 (GtkWidget * w, GdkEventExpose * event, gchar * context)
+{ gboolean ret;
+  cairo_t *cr = gdk_cairo_create (event->window);
+  gdk_cairo_region (cr, event->region);
+  cairo_clip (cr);
+  ret = draw_staff_brace (w, cr, context);
+  cairo_destroy (cr);
+  return ret;
 }
 
 static void
@@ -1321,7 +1328,12 @@ install_staff_group_start (GList ** pstaffs, GtkWidget * vbox, GList * directive
 
               GtkWidget *layout = gtk_drawing_area_new ();
               gtk_widget_set_tooltip_text (layout, _("This brace connects together several staffs - you can delete it for a customized layout."));
-              g_signal_connect (G_OBJECT (layout), "expose_event", G_CALLBACK (draw_staff_brace), directive->tag->str);
+                           
+#if GTK_MAJOR_VERSION != 2  
+              g_signal_connect (G_OBJECT (layout), "draw", G_CALLBACK (draw_staff_brace), directive->tag->str);
+#else
+              g_signal_connect (G_OBJECT (layout), "expose_event", G_CALLBACK (draw_staff_brace_gtk2), directive->tag->str);
+#endif
 
               gint width = 20, height = 100;
               gtk_widget_set_size_request (layout, width, height);

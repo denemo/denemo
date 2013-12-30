@@ -4850,7 +4850,7 @@ create_window (void)
 
     gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), Denemo.scorearea, TRUE, TRUE, 0);      // with this, the scorearea_draw_event is called
     gtk_widget_show (Denemo.scorearea);
-#if GTK_MAJOR_VERSION==3
+#if GTK_MAJOR_VERSION != 2
     g_signal_connect (G_OBJECT (Denemo.scorearea), "draw", G_CALLBACK (scorearea_draw_event), NULL);
 #else
     g_signal_connect (G_OBJECT (Denemo.scorearea), "expose_event", G_CALLBACK (scorearea_draw_event), NULL);
