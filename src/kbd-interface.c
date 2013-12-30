@@ -267,7 +267,7 @@ kbd_interface_del_binding (G_GNUC_UNUSED GtkButton * button, gpointer user_data)
 static void
 execute_current (keyboard_dialog_data *data)
 {
-	//FIXME if recording, record to scheme window
+    //FIXME if recording, record to scheme window
  execute_callback_from_idx (Denemo.map, data->command_id);
 }
 static void
@@ -354,7 +354,7 @@ static  keyboard_dialog_data cbdata;
 
 GtkWidget *get_command_view(void)
 {
-return	cbdata.command_view;
+return  cbdata.command_view;
 }
 
 void
@@ -389,31 +389,32 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
   guint context_id;
  
   if(Denemo.command_manager)   {
-	  model = gtk_tree_view_get_model (GTK_TREE_VIEW (cbdata.command_view));
-	  if (command_idx == -1)
-		{
-		//selecting the first command
-		gtk_tree_model_get_iter_first (model, &iter);
-		} 
-	  else
-		{
+      model = gtk_tree_view_get_model (GTK_TREE_VIEW (cbdata.command_view));
+      if (command_idx == -1)
+        {
+        //selecting the first command
+        gtk_tree_model_get_iter_first (model, &iter);
+        } 
+      else
+        {
       gint pos = get_command_position(model, command_idx);
       gtk_tree_model_iter_nth_child (model, &iter, NULL, pos);
-		}
-	  gtk_widget_grab_focus (SearchEntry);
-	  selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cbdata.command_view));
+        }
+      gtk_widget_grab_focus (SearchEntry);
+      selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (cbdata.command_view));
       gtk_tree_selection_select_iter (selection, &iter);
       path = gtk_tree_model_get_path (model, &iter);
       gtk_tree_view_scroll_to_cell ((GtkTreeView *) cbdata.command_view, path, NULL, FALSE, 0, 0);
       gtk_tree_path_free (path);
       if(!gtk_widget_get_visible(Denemo.command_manager))
-		activate_action ("/MainMenu/ViewMenu/" "ToggleCommandManager");
+        activate_action ("/MainMenu/ViewMenu/" "ToggleCommandManager");
       return;
     }
    if(SearchEntry==NULL) {
-	SearchEntry = gtk_entry_new ();
-	SearchNext = gtk_button_new_with_label ("→");
-	
+    SearchEntry = gtk_entry_new ();
+    SearchNext = gtk_button_new_with_label ("→");
+    gtk_widget_set_tooltip_text (SearchEntry, _("Type search text here. Either the start of a command label,\nor part of the text of a tooltip (if the tooltips flag is set).\nThe search is case insensitive."));
+    gtk_widget_set_tooltip_text (SearchNext, _("Search for the next matching command"));
 }   
   //getting a binding view and a command view and connecting the change of
   //command selection the the change of the model displayed by the binding view
@@ -443,7 +444,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
   gtk_box_pack_start (GTK_BOX (outer_hbox), vbox, TRUE, TRUE, 0);
 
-	
+    
   frame = gtk_frame_new (_("Help for Selected Command"));
   gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
   gtk_box_pack_start (GTK_BOX (vbox), frame, TRUE, TRUE, 0);
@@ -479,19 +480,19 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
   GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (vbox), inner_hbox, FALSE, TRUE, 0);
    button_save = gtk_button_new_with_label (_("Save as Default Command Set"));
-	gtk_box_pack_start (GTK_BOX (inner_hbox), button_save, FALSE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (inner_hbox), button_save, FALSE, TRUE, 0);
   gtk_widget_set_tooltip_text (button_save, _("Use this to save the changes you have made so that they are used every time you start Denemo. The changes are stored under a directory (folder) called .denemo-* in your home directory. Look in subdirectory actions for Default.commands"));
   button_save_as = gtk_button_new_with_label (_("Save as a Custom Command Set"));
-	gtk_box_pack_start (GTK_BOX (inner_hbox), button_save_as, FALSE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (inner_hbox), button_save_as, FALSE, TRUE, 0);
 
   button_load = gtk_button_new_with_label (_("Load a Standard Command Set"));
-	inner_hbox = gtk_hbox_new (FALSE, 8);
+    inner_hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (vbox), inner_hbox, FALSE, TRUE, 0);
     button_load = gtk_button_new_with_label (_("Load a Standard Command Set"));
-  	gtk_box_pack_start (GTK_BOX (inner_hbox), button_load, FALSE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (inner_hbox), button_load, FALSE, TRUE, 0);
 
   button_load_from = gtk_button_new_with_label (_("Load a Custom Command Set"));
-  	gtk_box_pack_start (GTK_BOX (inner_hbox), button_load_from, FALSE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (inner_hbox), button_load_from, FALSE, TRUE, 0);
 
    }
   
@@ -512,7 +513,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx)
   lookbutton = gtk_button_new_from_stock (GTK_STOCK_FIND);
   gtk_button_set_label (GTK_BUTTON (lookbutton), _("Find Command for Shortcut"));
   gtk_widget_set_tooltip_text (lookbutton, _("Finds the command (if any) for a (one key) Keyboard Shortcut\n"
-											  "Click button then press the key shortcut you are looking for."));
+                                              "Click button then press the key shortcut you are looking for."));
   gtk_box_pack_end (GTK_BOX (inner_vbox), lookbutton, FALSE, TRUE, 0);
 
 
