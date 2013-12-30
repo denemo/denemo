@@ -1237,7 +1237,7 @@ change_timer_rate (GtkSpinButton * widget, G_GNUC_UNUSED gpointer data)
 
   // toggle Denemo.prefs.overlays to show where the notes detected should go
 static void
-toggle_insert (G_GNUC_UNUSED GtkButton * button, G_GNUC_UNUSED gpointer data)
+toggle_insert (G_GNUC_UNUSED GtkButton * button)
 {
   Denemo.prefs.overlays = !Denemo.prefs.overlays;
   clear_tone_store (NULL, Denemo.project);
@@ -1295,7 +1295,12 @@ toggle_tuning (GtkToggleButton * button, DenemoProject * gui)
           gtk_container_add (GTK_CONTAINER (widget), hbox);
           PR_indicator = gtk_drawing_area_new ();
           gtk_box_pack_start (GTK_BOX (hbox), PR_indicator, TRUE, TRUE, 0);
-          g_signal_connect (G_OBJECT (PR_indicator), "expose_event", G_CALLBACK (draw_indicator), gui);
+#if GTK_MAJOR_VERSION==3
+            g_signal_connect (G_OBJECT (PR_indicator), "draw", G_CALLBACK (draw_indicator), NULL);
+#else
+            g_signal_connect (G_OBJECT (PR_indicator), "expose_event", G_CALLBACK (draw_indicator), NULL);
+#endif
+          
           gtk_widget_show_all (widget);
         }
       gtk_window_present (GTK_WINDOW (widget));
