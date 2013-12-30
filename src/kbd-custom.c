@@ -655,9 +655,9 @@ free_keymap (keymap * the_keymap)
 
 
 void register_command_row(keymap* the_keymap, command_row* command){
+    
   gint *idx = g_malloc(sizeof(gint));
   *idx = g_hash_table_size (the_keymap->commands);
-
   //This code is only relevant to developers, to check that no action
   //entry masks another. Users cannot add actions. THIS IS CHANGING NOW...
   if (g_hash_table_lookup (the_keymap->commands, idx) != NULL)
@@ -1753,7 +1753,7 @@ command_hidden_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRend
 }
 
 static gboolean search_tooltip=1;//implemented as searching substrings in tooltip, could be a level of match, for number of words present in tooltip & label
-static gint last_idx=-1;//implemented as last found idx
+static gint last_row=-1;//implemented as last found idx
 static gboolean
 search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar * key, GtkTreeIter * iter, G_GNUC_UNUSED gpointer search_data)
 {
@@ -1768,27 +1768,36 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
   gchar *this, *that;
   this = g_utf8_casefold (lookin, -1);
   that =  g_utf8_casefold (key, -1);
+  
+  GtkTreePath *path = gtk_tree_model_get_path (model, iter);
+  gchar *thepath = path?gtk_tree_path_to_string (path):NULL;
+  gint rownum = thepath?atoi (thepath):0;
+  gtk_tree_path_free(path);
+  g_free(thepath);
   if(search_tooltip)
-  {
-      
-      gtk_tree_model_get (model, iter, COL_NAME, &name, -1);
-      const gint idx = lookup_command_from_name(Denemo.map, name);//= lookup_action_from_name (name);
-      notfound = (NULL == g_strstr_len (this, -1, that));
-      if((!notfound) && (idx <= last_idx))
-        notfound = TRUE;
-      if(!notfound) 
-            last_idx = idx;
-  } 
+      {   
+          gtk_tree_model_get (model, iter, COL_NAME, &name, -1);
+          //const gint idx = rownum;//lookup_command_from_name(Denemo.map, name);//= lookup_action_from_name (name);
+          notfound = (NULL == g_strstr_len (this, -1, that));
+          if((!notfound) && (rownum <= last_row))
+            notfound = TRUE;
+          if(!notfound) 
+                last_row = rownum;
+      } 
   else
-  { 
-    notfound = (strcmp (this, that) < 0);
-  }
+      {  
+        notfound = !g_str_has_prefix (this, that);
+        if((!notfound) && (rownum <= last_row))
+            notfound = TRUE;
+        if(!notfound) 
+                last_row = rownum;
+      }
   g_free(this);
   g_free(that);
   //g_free (lookin); The doc says that name should be freed, but two calls in succession yield the same pointer.
   return notfound;
 }
-extern GtkWidget *get_command_view();
+
 /*toggle hidden on action at row in command list */
 static void
 toggle_hidden_on_action (G_GNUC_UNUSED GtkCellRendererToggle * cell_renderer, gchar * path, GtkTreeModel* model)
@@ -1819,10 +1828,10 @@ static void
 search_next (GtkWidget *SearchEntry)
 {
     if ( gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW(get_command_view())), NULL, NULL))
-        ;//last_idx++;
+        last_row++;
     else
-        last_idx = -1;
-  //FIXME issue some signal to cause a search to be made
+       last_row = -1;
+  //FIXME issue some signal to cause a search to be made instead of this:
   g_signal_emit_by_name (SearchEntry, "insert-at-cursor", "");
   gtk_widget_grab_focus (SearchEntry);
 }
@@ -1838,7 +1847,7 @@ static void selection_changed (GtkTreeSelection *selection, GtkTreeModel* model)
     if(gtk_tree_selection_get_selected (selection, NULL, &iter))
       {
         gtk_tree_model_get (model, &iter, COL_NAME, &command_name, -1);
-        last_idx = lookup_command_from_name(Denemo.map, command_name);
+        last_row = lookup_command_from_name(Denemo.map, command_name);
       }
 }
 
