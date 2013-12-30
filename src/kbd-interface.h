@@ -11,5 +11,5 @@ void configure_keyboard_dialog (GtkAction * action, DenemoScriptParam * param);
 
 void configure_keyboard_dialog_init_idx (GtkAction * action, gint command_idx);
 
-
+GtkWidget *get_command_view(void);
 #endif
