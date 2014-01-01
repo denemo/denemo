@@ -35,11 +35,11 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
     }
  // else instead always show position of standalone directive
     {
-		at_cursor?
-	  cairo_set_source_rgba (cr, 0.2 + exclude, 0.3 + only, 0.8, 0.5):
-	  cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, 0.5);
-	  
-	  
+        at_cursor?
+      cairo_set_source_rgba (cr, 0.2 + exclude, 0.3 + only, 0.8, 0.5):
+      cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, 0.5);
+      
+      
       cairo_rectangle (cr, xx, y - 28, 2, STAFF_HEIGHT + 26);
       cairo_arc (cr, xx + 1.5, y - 28, 6, 0.0, 2 * M_PI);
 
@@ -50,7 +50,7 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
 #define MAXLEN (4)
       gchar c = 0;              //if it is a long string only show it all when cursor is on it, also only display from first line
       gchar *p;
-      for (p = lily->display->str; *p; p++)
+      for (p = lily->display->str; *p; p = g_utf8_next_char(p))
         {
           if (*p == '\n' || (!at_cursor && (p - lily->display->str) > MAXLEN))
             {
