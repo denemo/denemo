@@ -2761,9 +2761,9 @@ prepend_menu_item (GtkMenuShell * menu, DenemoProject * gui, gchar * text, gpoin
   gtk_widget_show (GTK_WIDGET (item));
 }
 
-static void position_display_cursor (G_GNUC_UNUSED GtkWidget *view, GdkEventButton *event)
+static gboolean position_display_cursor (G_GNUC_UNUSED GtkWidget *view, GdkEventButton *event)
 {
-    if(event->button == 1)
+    if (event->button == 1 && (GDK_SHIFT_MASK & event->state))
     {
     GtkTextIter iter;
     gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, gtk_text_buffer_get_insert (Denemo.textbuffer));  
@@ -2773,6 +2773,7 @@ static void position_display_cursor (G_GNUC_UNUSED GtkWidget *view, GdkEventButt
     goto_lilypond_position (line + 1, column);
     place_cursor_cb ();//this is purely for the side effect of taking off the marking which happens without it.
     }  
+    return FALSE;
 } 
 
 static gboolean
