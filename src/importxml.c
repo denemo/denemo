@@ -243,14 +243,14 @@ addContext (gchar * string)
 #undef LOOKUP
 }
 
-#define UPDATE_OVERRIDE(directive)		\
+#define UPDATE_OVERRIDE(directive)      \
   if(version_number<4)\
     directive->override |= DENEMO_OVERRIDE_TAGEDIT;
 
 
 #define DO_DIREC(field) if (ELEM_NAME_EQ (childElem, #field))\
          directive->field = g_string_new((gchar *)xmlNodeListGetString (childElem->doc,\
-						  childElem->xmlChildrenNode, 1));
+                          childElem->xmlChildrenNode, 1));
 #define DO_INTDIREC(field) if (ELEM_NAME_EQ (childElem, #field))\
          directive->field = getXMLIntChild(childElem);
 
@@ -1310,15 +1310,15 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoMovement * si, gint current
 
         //Support for old files 0.8.2 only
 #define DO_DIREC(field) else if (ELEM_NAME_EQ (childElem, #field))\
-	  {\
-	    if( ((chord *) chordObj->object)->directives == NULL) {\
-	      DenemoDirective *directive =  (DenemoDirective*)g_malloc0(sizeof(DenemoDirective));\
-	  ((chord *) chordObj->object)->directives = g_list_append(NULL, directive) ;\
-	  }\
-	    ((DenemoDirective*) (((chord *) chordObj->object)->directives)->data)->field = \
-		 g_string_new((gchar *)xmlNodeListGetString (childElem->doc,\
-		 childElem->xmlChildrenNode, 1));\
-	  }
+      {\
+        if( ((chord *) chordObj->object)->directives == NULL) {\
+          DenemoDirective *directive =  (DenemoDirective*)g_malloc0(sizeof(DenemoDirective));\
+      ((chord *) chordObj->object)->directives = g_list_append(NULL, directive) ;\
+      }\
+        ((DenemoDirective*) (((chord *) chordObj->object)->directives)->data)->field = \
+         g_string_new((gchar *)xmlNodeListGetString (childElem->doc,\
+         childElem->xmlChildrenNode, 1));\
+      }
         DO_DIREC (prefix) DO_DIREC (postfix) DO_DIREC (display) DO_DIREC (midibytes)
 #undef DO_DIREC
           // End 0.8.2 support
@@ -1388,6 +1388,24 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem)
   GET_STR_FIELD (prefix);
   if (thedirective->graphic_name && thedirective->graphic_name->len)
     loadGraphicItem (thedirective->graphic_name->str, (DenemoGraphic **) & thedirective->graphic);
+    
+   if(version_number < 7) {
+       GString *lily = ((lilydirective*)curobj->object)->postfix;
+       //convert old style barlines to LilyPond 2.18 style
+       if(lily)
+       {
+        gchar *postfix = lily->str;g_print("postfix %s and cmp %d for \\bar \":|:\"\n", postfix, g_strcmp0("\\bar \":|:\"", postfix));
+        if (!g_strcmp0 ("\\bar \":|\"", postfix))
+            g_string_assign(lily, "\\bar \":|.\"");
+        else if (!g_strcmp0 ("\\bar \"|:\"", postfix))
+            g_string_assign(lily, "\\bar \".|:\"");
+        else if (!g_strcmp0 ("\\bar \":|:\"", postfix))
+            g_string_assign(lily, "\\bar \":..:\"");
+        
+       }
+   } 
+    
+    
 #define GET_INT_FIELD(x)\
   gchar *x = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) #x);\
   if(x)\
@@ -1611,7 +1629,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoProject * gui)
               {
                 //g_debug ("lilypond version %s", tmp);
                 //g_string_assign (gui->lilycontrol.lilyversion, tmp);
-                if (strcmp (tmp, LILYPOND_VERSION))
+                if (strcmp (tmp, INSTALLED_LILYPOND_VERSION))
                   g_warning ("This file may contain embedded LilyPond from an earlier LilyPond version\nIf you have problems printing from it\nrefresh the directives responsible.");
                 g_free (tmp);
               }
@@ -1826,21 +1844,21 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoMovement * si)
           }
 
 #define DO_ELEM(subtitle, dummy)\
-	else if (ELEM_NAME_EQ (childElem, subtitle))\
-	  {\
-	    gchar *field = (gchar *) xmlNodeListGetString (childElem->doc,\
-						       childElem->\
-						       xmlChildrenNode, 1);\
-	    if (field != NULL)\
-	      {\
-		gchar *val = g_strdup_printf(subtitle" = \"%s\"\n", field);\
-	        header_directive_put_postfix("Movement-"subtitle, val);\
-	        header_directive_put_display("Movement-"subtitle, field);\
+    else if (ELEM_NAME_EQ (childElem, subtitle))\
+      {\
+        gchar *field = (gchar *) xmlNodeListGetString (childElem->doc,\
+                               childElem->\
+                               xmlChildrenNode, 1);\
+        if (field != NULL)\
+          {\
+        gchar *val = g_strdup_printf(subtitle" = \"%s\"\n", field);\
+            header_directive_put_postfix("Movement-"subtitle, val);\
+            header_directive_put_display("Movement-"subtitle, field);\
                 paper_directive_put_postfix("PrintAllHeaders", "printallheaders = ##t\n");\
-		g_free(val);\
-		g_free (field);\
-	      }\
-	  }\
+        g_free(val);\
+        g_free (field);\
+          }\
+      }\
                                 //FIXME are these actually in use??? I think the fields are place in a <scoreheaders> element
         DO_ELEM ("subtitle", 0) DO_ELEM ("composer", "HeaderComposer") DO_ELEM ("poet", "HeaderPoet") DO_ELEM ("meter", "HeaderMeter") DO_ELEM ("opus", "HeaderOpus") DO_ELEM ("arranger", "HeaderArranger") DO_ELEM ("instrument", "HeaderInstrument") DO_ELEM ("dedication", "HeaderDedication") DO_ELEM ("piece", "HeaderPiece") DO_ELEM ("head", "HeaderHead") DO_ELEM ("copyright", "HeaderCopyright") DO_ELEM ("footer", "HeaderFooter")
 #undef DO_ELEM
@@ -2029,13 +2047,13 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoMovement * si)
               g_warning ("Ignoring the old-style string %s\nAdd this in LilyPond window if required", temp);
             g_free (temp);
           }
-/* 	else if (ELEM_NAME_EQ (childElem, "staff-prolog")) */
-/* 	  { */
-/* 	    gchar *temp =  */
-/* 	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1); */
-/* 	    curStaff->staff_prolog = (temp?g_string_new(temp):NULL); */
-/* 	    g_free (temp); */
-/* 	  } */
+/*  else if (ELEM_NAME_EQ (childElem, "staff-prolog")) */
+/*    { */
+/*      gchar *temp =  */
+/*        (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1); */
+/*      curStaff->staff_prolog = (temp?g_string_new(temp):NULL); */
+/*      g_free (temp); */
+/*    } */
         else if (ELEM_NAME_EQ (childElem, "staff-prolog-insert"))       //backward compatibility only
           {
             gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
@@ -2072,27 +2090,27 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoMovement * si)
           }
 
 
-/* 	else if (ELEM_NAME_EQ (childElem, "lyrics-prolog")) */
-/* 	  { */
-/* 	    gchar *temp =  */
-/* 	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1); */
-/* 	    curStaff->lyrics_prolog = (temp?g_string_new(temp):NULL); */
-/* 	    g_free (temp); */
-/* 	  } */
-/* 	else if (ELEM_NAME_EQ (childElem, "figures-prolog")) */
-/* 	  { */
-/* 	    gchar *temp =  */
-/* 	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1); */
-/* 	    curStaff->figures_prolog = (temp?g_string_new(temp):NULL); */
-/* 	    g_free (temp); */
-/* 	  } */
-/* 	else if (ELEM_NAME_EQ (childElem, "fakechords-prolog")) */
-/* 	  { */
-/* 	    gchar *temp =  */
-/* 	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1); */
-/* 	    curStaff->fakechords_prolog = (temp?g_string_new(temp):NULL); */
-/* 	    g_free (temp); */
-/* 	  } */
+/*  else if (ELEM_NAME_EQ (childElem, "lyrics-prolog")) */
+/*    { */
+/*      gchar *temp =  */
+/*        (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1); */
+/*      curStaff->lyrics_prolog = (temp?g_string_new(temp):NULL); */
+/*      g_free (temp); */
+/*    } */
+/*  else if (ELEM_NAME_EQ (childElem, "figures-prolog")) */
+/*    { */
+/*      gchar *temp =  */
+/*        (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1); */
+/*      curStaff->figures_prolog = (temp?g_string_new(temp):NULL); */
+/*      g_free (temp); */
+/*    } */
+/*  else if (ELEM_NAME_EQ (childElem, "fakechords-prolog")) */
+/*    { */
+/*      gchar *temp =  */
+/*        (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1); */
+/*      curStaff->fakechords_prolog = (temp?g_string_new(temp):NULL); */
+/*      g_free (temp); */
+/*    } */
         else
           {
             ILLEGAL_ELEM ("staff-info", childElem);
@@ -2788,7 +2806,7 @@ parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoProject * gui, ImportTyp
   find_xes_in_all_measures (si);
   find_leftmost_allcontexts (si);
   if(current_staff==0)
-	current_staff=1;
+    current_staff=1;
   si->currentstaffnum = current_staff ? current_staff : 1;
 
   si->currentmeasurenum = current_measure ? current_measure : 1;
@@ -3032,31 +3050,7 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
           goto cleanup;
         }
     }
-  else
-    {                           //version 1
-      switch (type)
-        {
-        case ADD_STAFFS:
-          ret += parseMovement (rootElem, ns, gui, type);
-          break;
-        case ADD_MOVEMENTS:
-          point_to_empty_movement (gui);
-          ret = parseMovement (rootElem, ns, gui, type);
-          break;
-        case REPLACE_SCORE:
-          free_score (gui);
-          if (gui->movements)
-            g_list_free (gui->movements);       /*FIXME free all the other si */
-          gui->movements = NULL;
-          init_score (gui->si, gui);
-          gui->si->currentstaffnum = 0;
-          ret = parseMovement (rootElem, ns, gui, type);
-          break;
-        default:
-          warningdialog (_("Erroneous call"));
-          goto cleanup;
-        }
-    }
+
   if (gui->si->lyricsbox)
     gtk_widget_hide (gui->si->lyricsbox);
   gint steps_back = g_list_length (gui->movements) - current_movement;

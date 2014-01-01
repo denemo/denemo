@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<score xmlns="http://denemo.org/xmlns/Denemo" version="6">
+<score xmlns="http://denemo.org/xmlns/Denemo" version="7">
   <paper-directives>
     <directive>
       <tag>LimitInterSystemSpace</tag>
@@ -22,6 +22,13 @@ print-all-headers = ##t
     <first-obj>0</first-obj>
     <last-obj>2147483647</last-obj>
   </thumbnail>
+  <sourcefile>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>750</height>
+    <scale>1473</scale>
+  </sourcefile>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>20</fontsize>
@@ -219,7 +226,7 @@ accGeige</tag>
     <edit-info>
       <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>1</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -277,7 +284,7 @@ accGeige</tag>
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument></instrument>
+          <instrument/>
           <device-port>NONE</device-port>
           <volume>65</volume>
           <midi_prognum>0</midi_prognum>
@@ -700,7 +707,7 @@ Alternatively in the Notes/Rests-&gt;Beaming menu.\")"             &#x2B06;Expla
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument></instrument>
+          <instrument/>
           <device-port>NONE</device-port>
           <volume>65</volume>
           <midi_prognum>0</midi_prognum>
@@ -769,7 +776,7 @@ The input Denemo Display gives you an indicator of what you have done. If you wa
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument></instrument>
+          <instrument/>
           <device-port>NONE</device-port>
           <volume>127</volume>
           <midi_prognum>0</midi_prognum>
@@ -915,7 +922,7 @@ The input Denemo Display gives you an indicator of what you have done. If you wa
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument></instrument>
+          <instrument/>
           <device-port>NONE</device-port>
           <volume>65</volume>
           <midi_prognum>0</midi_prognum>
@@ -1004,7 +1011,7 @@ Usually the shortcut is r,1 for this.\")"              Explanation &#x2B0A; }</l
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|"</lily-directive>
+            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|."</lily-directive>
             <lily-directive tag="EndVolta" graphic_name="EndSecondTimeBar" gx="18" gy="-36" minpixels="50">
 \set Score.repeatCommands = #'((volta #f))
 </lily-directive>
@@ -1034,7 +1041,7 @@ Usually the shortcut is r,1 for this.\")"              Explanation &#x2B0A; }</l
 </lily-directive>
           </measure>
           <measure>
-            <lily-directive tag="RepeatStart" graphic_name="RepeatStart" minpixels="30" override="4">\bar "|:"</lily-directive>
+            <lily-directive tag="RepeatStart" graphic_name="RepeatStart" minpixels="30" override="4">\bar ".|:"</lily-directive>
             <lily-directive tag="TextAnnotation&#10;Explanation &#x2B0A;" display="   &#x2B0B;Explanation" grob="Text" prefix="&lt;&gt;-\tweak #'extra-offset #'( -2 . 0 )" minpixels="30">-\markup {    \with-url #'"scheme:(d-InfoDialog \"To put a special barline like this use the command Directives-&gt;Barlines-&gt;Repeat start.
 Usually the shortcut is Shift-B,s for this.\")"             &#x2B09;Explanation }</lily-directive>
             <chord show="true" id="id120">
@@ -1103,7 +1110,7 @@ Usually the shortcut is Shift-B,s for this.\")"             &#x2B09;Explanation 
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|"</lily-directive>
+            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|."</lily-directive>
           </measure>
         </measures>
       </voice>
@@ -1164,7 +1171,7 @@ Usually the shortcut is Shift-B,s for this.\")"             &#x2B09;Explanation 
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument></instrument>
+          <instrument/>
           <device-port>NONE</device-port>
           <volume>65</volume>
           <midi_prognum>0</midi_prognum>

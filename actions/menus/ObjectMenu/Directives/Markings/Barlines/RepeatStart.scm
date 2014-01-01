@@ -1,2 +1,2 @@
 ;;;RepeatStart
-(StandAloneSelfEditDirective (cons "RepeatStart" "\\bar \"|:\"") #t "RepeatStart")
+(StandAloneSelfEditDirective (cons "RepeatStart" "\\bar \".|:\"") #t "RepeatStart")
