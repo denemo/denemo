@@ -29,7 +29,7 @@ extern "C" {
 
 #include "denemo_api.h"
 
-#define LILYPOND_VERSION "2.8.7" /* version of lilypond that we output */
+
 
 /*Set maximum number of undos*/
 #define MAX_UNDOS 50
