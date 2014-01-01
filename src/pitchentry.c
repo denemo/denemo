@@ -1245,7 +1245,7 @@ toggle_insert (G_GNUC_UNUSED GtkButton * button)
 }
 
 static gint
-draw_indicator (GtkWidget * widget, G_GNUC_UNUSED GdkEventExpose * event, G_GNUC_UNUSED gpointer data)
+draw_indicator (GtkWidget * widget)
 {
   int barwidth = 20;
   int centre = 400;
