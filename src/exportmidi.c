@@ -1263,7 +1263,10 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                     }           //if there are directives
                   /* FIXME sound grace notes either simultaneously for shorter duration or steal time .... */
                   if (chordval.is_grace)
-                    break;
+                    {
+                        curobj->latest_time = curobj->earliest_time;
+                        break;
+                    }
 
           /***********************************
        * compute nominal duration of note 
