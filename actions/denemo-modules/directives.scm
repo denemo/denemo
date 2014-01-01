@@ -16,11 +16,32 @@
         (d-MoveCursorRight))
     (d-RefreshDisplay))
 
-
+(define (EditStandaloneDirective tag display)
+ (define (EditLilyPond)
+    (define current (d-DirectiveGet-standalone-postfix tag))
+    (if tag
+        (let ((text (d-GetUserInput (_ "Modifying the LilyPond Text") (_ "Give LilyPond to be issued") current)))
+            (if text
+                (begin (d-DirectivePut-standalone-postfix tag text) 
+                        (d-SetSaved #f))
+                (d-InfoDialog (_ "Cancelled"))))
+        (d-InfoDialog (_ "This directive currently creates no LilyPond via its postfix field, use the Advanced Edit instead"))))
+ (define choice (RadioBoxMenu
+          (cons (_ "Help ")   'help)   
+          (cons (_ "Delete")   'delete)   
+          (cons (_ "Edit LilyPond") 'lilypond)
+          (cons (_ "Advanced") 'advanced)))
+ (case choice
+            ((delete) (d-DirectiveDelete-standalone tag))
+            ((help) (d-InfoDialog (_ "This is a Directive object.\nDouble click on it to get information about it.")))
+            ((lilypond) (EditLilyPond))
+            ((advanced) (d-DirectiveTextEdit-standalone  tag))
+            ((#f)  (d-InfoDialog (_ "Cancelled")))))
+            
 ; Procedure to insert Self-Editing Lilypond Standalone Directives. Takes a pair with car Tag and cdr lilypond: (cons "BreathMark" "\\breathe") with optional boolean to step right after insertion and graphic
 (define* (StandAloneSelfEditDirective pair #:optional (step? #t) (graphic #f) (displaytext #f) (minpixels #f))
     (if (d-Directive-standalone? (car pair))
-      (d-DirectiveTextEdit-standalone (car pair))
+      (EditStandaloneDirective (car pair) displaytext)
       (StandAloneDirectiveProto pair step? graphic displaytext minpixels)))
 
 ;Wrapper to attach any lilypond directive anywhere.
