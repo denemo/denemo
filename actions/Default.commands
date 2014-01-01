@@ -6241,6 +6241,13 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Change Duration To 𝅘𝅥𝅲</_label>
         <_tooltip>Changes the note or rest at the cursor to 𝅘𝅥𝅲 duration. Works also in appending position.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ApparentTimeSignature</action>
+        <after>SingleDigitTimeSig</after>
+        <menupath>/ObjectMenu/TimeSig</menupath>
+        <_label>Apparent Time Signature</_label>
+        <_tooltip>Typesets a time signature which is not the one actually being used. This is used in polymetric music, often in conjunction with a tuplet spanning the whole staff.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
