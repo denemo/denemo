@@ -655,10 +655,12 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
     //In page view we have to allow the last time to be the last recorded time for any object on the page, but empty measures on the lowest visible staff will cause the rightmost time to be set too early.
     //FIXME, use smf.c to calculate start and end times for each measure and consult that.
   if((Denemo.project->view == DENEMO_PAGE_VIEW) || (itp->rightmosttime < mudelaitem->latest_time*get_playback_speed()))
-    itp->rightmosttime = mudelaitem->latest_time*get_playback_speed();
-
+    {
+      if (!(itp->measurenum == si->rightmeasurenum + 1)) //ignore partially drawn measures for computing whether we need to call page_viewport
+        itp->rightmosttime = mudelaitem->latest_time*get_playback_speed();
+    }
   return (mudelaitem->starttickofnextnote - itp->tickspermeasure);
-}                               /* draw_object */
+}                              /* draw_object */
 
 /**
  * Draws a single measure within a staff. 
