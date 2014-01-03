@@ -8,7 +8,9 @@
         <after>CriticalComment</after>
         <action>TextAnnotation</action>
         <_label>Textual Annotation</_label>
-        <_tooltip>Allows placing arbitrary text on the score which can then be dragged in the final typeset view for fine control over positioning.</_tooltip>
+        <_tooltip>Allows placing arbitrary text on the score which can then be dragged in the final typeset view for fine control over positioning.
+Note! Do not place this directive at the end of a staff as it will not be typeset,
+place it before the last note and then right-click on it in the typeset (print) view to adjust its position if needed.</_tooltip>
       </row>
     </map>
   </merge>
