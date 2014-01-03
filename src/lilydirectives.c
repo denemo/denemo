@@ -400,7 +400,7 @@ get_lily_directive (gchar ** directive, gchar ** display, gboolean * locked)
   return TRUE;
 }
 
-/* return the directive tagged tag if present at cursor postion
+/* return the directive whose tag is prefixed with tag if present at cursor postion
  if tag is NULL, return any directive at current position*/
 static DenemoDirective *
 get_standalone_directive (gchar * tag)
@@ -413,7 +413,7 @@ get_standalone_directive (gchar * tag)
         return ret;
       if (*tag == 0)
         return ret;
-      if (ret && ret->tag && strcmp (tag, ret->tag->str))
+      if (ret && ret->tag && !g_str_has_prefix (ret->tag->str, tag))
         ret = NULL;
       return ret;
     }
@@ -1030,7 +1030,7 @@ what##_directive_get_tag(gchar *tag) {\
   DenemoDirective *directive = get_##what##_directive(tag);\
   if(directive && directive->tag)\
     return directive->tag->str;\
-  else directive = NULL;/* get_##what##_directive(NULL)*/;	\
+  else directive = NULL;/* get_##what##_directive(NULL)*/;  \
   if(directive && directive->tag)\
     return directive->tag->str;\
   return NULL;\
@@ -1677,7 +1677,7 @@ gboolean \
 what##_directive_put_##field(gchar *tag, gint value) {\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
-  take_snapshot();		 \
+  take_snapshot();       \
   if(current->name==NULL)\
        create_directives (&current->name, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\
@@ -1698,7 +1698,7 @@ what##_directive_put_##field(gchar *tag, gint value) {\
 what##_directive_put_graphic(gchar *tag, gchar *value) {\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
-  take_snapshot();		\
+  take_snapshot();      \
   if(current->name==NULL)\
        create_directives (&current->name, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\
@@ -1855,16 +1855,16 @@ standalone_directive_put_##field(gchar *tag, gchar *value) {\
   DenemoDirective *directive = get_standalone_directive(tag);\
   if(directive && directive->field){\
     store_for_undo_change (Denemo.project->si, Denemo.project->si->currentobject->data);\
-    g_string_assign(directive->field, value);}				\
+    g_string_assign(directive->field, value);}              \
   else if(directive)\
     directive->field = g_string_new(value);\
   else {\
-	DenemoObject *obj = lily_directive_new (" ");\
+    DenemoObject *obj = lily_directive_new (" ");\
         directive = (DenemoDirective*)obj->object;\
         directive->tag = g_string_new(tag);\
         directive->field = g_string_new(value);\
-	object_insert(Denemo.project, obj);\
-	displayhelper(Denemo.project);\
+    object_insert(Denemo.project, obj);\
+    displayhelper(Denemo.project);\
    }\
   return TRUE;\
 }
@@ -1892,7 +1892,7 @@ standalone_directive_put_##field(gchar *tag, gint value) {\
         directive = (DenemoDirective*)obj->object;\
         directive->tag = g_string_new(tag);\
         directive->field = value;\
-	object_insert(Denemo.project, obj);\
+    object_insert(Denemo.project, obj);\
    }\
   return TRUE;\
 }
@@ -2002,10 +2002,10 @@ select_directive (gchar * instr, GList * directives)
   DenemoDirective *response = NULL;
 
 /*                                 
-	void                user_function                      (GtkDialog *arg0,
+    void                user_function                      (GtkDialog *arg0,
                                                         gpointer   user_data)      : Action
-	The ::close signal is a keybinding signal which gets emitted when the user uses a keybinding to close the dialog.
-	The default binding for this signal is the Escape key. 
+    The ::close signal is a keybinding signal which gets emitted when the user uses a keybinding to close the dialog.
+    The default binding for this signal is the Escape key. 
 */
   g_signal_connect (G_OBJECT (dialog), "close", G_CALLBACK (tag_none), &response);
 
