@@ -286,7 +286,7 @@ create_scheme_identfiers (void)
   install_scm_function (2, "Sets an \"action script\" on the directive of the given tag", DENEMO_SCHEME_PREFIX "SetDirectiveTagActionScript", scheme_set_action_script_for_tag);
 
 #define INSTALL_GET_TAG(what)\
-  install_scm_function (1, "Takes a optional tag. Returns that tag if a "#what" directive exists at the cursor, else returns the tag of the first such directive at the cursor, or #f if none", DENEMO_SCHEME_PREFIX"DirectiveGetForTag"  "-" #what, scheme_##what##_directive_get_tag);
+  install_scm_function (0, "Takes a optional tag. Returns that tag if a "#what" directive exists at the cursor, else returns the tag of the first such directive at the cursor, or #f if none", DENEMO_SCHEME_PREFIX"DirectiveGetForTag"  "-" #what, scheme_##what##_directive_get_tag);
   INSTALL_GET_TAG (object);
   INSTALL_GET_TAG (standalone);
   INSTALL_GET_TAG (chord);
