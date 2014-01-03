@@ -248,18 +248,18 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 // if (Denemo.project->si->playingnow)
  //   g_print("%p %p %f %f %f\n", Denemo.project->si->playingnow, mudelaitem, Denemo.project->si->playhead,  mudelaitem->earliest_time, mudelaitem->latest_time );
 
-  // draw playhead as yellowish background
+  // draw playhead as (yellowish now) blue background
  //if (Denemo.project->si->playingnow == mudelaitem)
 //  if (Denemo.project->si->playingnow && (Denemo.project->si->playhead >= mudelaitem->earliest_time) &&
 //        (Denemo.project->si->playhead < mudelaitem->latest_time)) falls through a gap!!!!
 //  if (Denemo.project->si->playingnow && (Denemo.project->si->playhead >= mudelaitem->earliest_time)) 
-    if(Denemo.project->si->playingnow && itp->highlight_next_note)
+    if(Denemo.project->si->playingnow && itp->highlight_next_note && (((Denemo.project->si->playhead < mudelaitem->latest_time))))
         {
             itp->highlight_next_note = FALSE;
             if (cr)
                 {
                   cairo_save (cr);
-                  cairo_set_source_rgba (cr, 0.8, 0.8, 0.0, 0.5);
+                  cairo_set_source_rgba (cr, 0.0, 0.2, 0.8, 0.5);
                   cairo_rectangle (cr, x + mudelaitem->x, y, 20, 80);
                   cairo_fill (cr);
                   cairo_restore (cr);
