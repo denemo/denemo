@@ -298,6 +298,7 @@
 {"DeleteVerse", NULL, N_("Delete Verse"), "",N_("Deletes current verse of lyrics from current voice"),G_CALLBACK (delete_verse)},
 {"EditFiguredBass", NULL, N_("Insert/Edit Figured Bass"), "",N_("Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation"),G_CALLBACK (figure_insert)},
 {"DeleteFiguredBass", NULL, N_("Delete Figures"), "",N_("Delete the figured bass on the current staff"),G_CALLBACK (delete_figured_bass)},
+{"DeleteChordSymbols", NULL, N_("Delete Chord Symbols"), "",N_("Delete the chord symbols on the current staff"),G_CALLBACK (delete_fakechords)},
 {"HideFiguredBass", NULL, N_("Hide Figures (Print)"), "",N_("Hide the figured bass on the current staff on printing"),G_CALLBACK (hide_figured_bass)},
 {"ShowFiguredBass", NULL, N_("Show Figures (Print)"), "",N_("Show the figured bass on the current staff on printing"),G_CALLBACK (show_figured_bass)},
 {"EditChords", NULL, N_("Edit Chord Symbols"), "",N_("Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation"),G_CALLBACK (fakechord_insert)},

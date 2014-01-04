@@ -829,6 +829,9 @@ install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditFiguredBass", scheme_Ed
 /*DeleteFiguredBass delete_figured_bass*/
 SCM scheme_DeleteFiguredBass(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DeleteFiguredBass", scheme_DeleteFiguredBass);
+/*DeleteChordSymbols delete_fakechords*/
+SCM scheme_DeleteChordSymbols(SCM optional);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DeleteChordSymbols", scheme_DeleteChordSymbols);
 /*HideFiguredBass hide_figured_bass*/
 SCM scheme_HideFiguredBass(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "HideFiguredBass", scheme_HideFiguredBass);

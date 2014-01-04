@@ -366,6 +366,7 @@ struct name_and_function denemo_commands[] = {
   {NULL, "Deletes current verse of lyrics from current voice", "DeleteVerse", "delete_verse", "Delete Verse"},
   {NULL, "Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation", N_("EditFiguredBass"), "figure_insert", "Insert/Edit Figured Bass"},
   {NULL, "Delete the figured bass on the current staff", N_("DeleteFiguredBass"), "delete_figured_bass", "Delete Figures"},
+  {NULL, "Delete the chord symbols on the current staff", N_("DeleteChordSymbols"), "delete_fakechords", "Delete Chord Symbols"},
   {NULL, "Hide the figured bass on the current staff on printing", N_("HideFiguredBass"), "hide_figured_bass", "Hide Figures (Print)"},
   {NULL, "Show the figured bass on the current staff on printing", N_("ShowFiguredBass"), "show_figured_bass", "Show Figures (Print)"},
   {NULL, "Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation", N_("EditChords"), "fakechord_insert", N_("Edit Chord Symbols")},

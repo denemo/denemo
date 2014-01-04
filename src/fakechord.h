@@ -8,5 +8,5 @@
 void separate_fakechord_elements (gchar * fakechord, DenemoObject * curObj);
 
 void fakechord_insert (GtkAction * action, DenemoScriptParam * param);
-
+void delete_fakechords (GtkAction * action, DenemoScriptParam * param);
 //#endif

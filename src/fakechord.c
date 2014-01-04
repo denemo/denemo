@@ -167,7 +167,33 @@ insertfakechord (GtkWidget * widget, gpointer data)
     }
   return FALSE;
 }
-
+void
+delete_fakechords (GtkAction * action, DenemoScriptParam * param)
+{
+  DenemoProject *gui = Denemo.project;
+  DenemoStaff *thestaff = (DenemoStaff *) gui->si->currentstaff->data;
+  if (confirm (_("Chord Symbol Deletion"), _("Delete all Chord Symbols from this staff?")))
+    {
+      thestaff->hasfakechords = FALSE;
+      score_status (gui, TRUE);
+      measurenode *curmeasure;
+      for (curmeasure = thestaff->measures; curmeasure; curmeasure = curmeasure->next)
+        {
+          objnode *curobj;
+          for (curobj = curmeasure->data; curobj; curobj = curobj->next)
+            {
+              DenemoObject *curObj = (DenemoObject *) curobj->data;
+              if (curObj && curObj->type == CHORD)
+                {
+                  GString *s = ((chord *) curObj->object)->fakechord;
+                  if (s)
+                    g_string_free (s, TRUE);
+                  ((chord *) curObj->object)->fakechord = NULL;
+                }
+            }
+        }
+    }
+}
 
 /**
  * Creates fakebook style chord entry dialog

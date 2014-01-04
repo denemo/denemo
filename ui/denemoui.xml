@@ -450,6 +450,7 @@
     </menu>
     <menu action="ChordSymbols">
       <menuitem action="EditChords"/>
+      <menuitem action="DeleteChordSymbols"/>
     </menu>
 
       </menu>

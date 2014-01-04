@@ -275,6 +275,7 @@ register_command("AddVerse", _("Add Lyric Verse"), _("Add a verse of lyrics"), a
 register_command("DeleteVerse", _("Delete Verse"), _("Deletes current verse of lyrics from current voice"), delete_verse);
 register_command("EditFiguredBass", _("Insert/Edit Figured Bass"), _("Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation"), figure_insert);
 register_command("DeleteFiguredBass", _("Delete Figures"), _("Delete the figured bass on the current staff"), delete_figured_bass);
+register_command("DeleteChordSymbols", _("Delete Chord Symbols"), _("Delete the chord symbols on the current staff"), delete_fakechords);
 register_command("HideFiguredBass", _("Hide Figures (Print)"), _("Hide the figured bass on the current staff on printing"), hide_figured_bass);
 register_command("ShowFiguredBass", _("Show Figures (Print)"), _("Show the figured bass on the current staff on printing"), show_figured_bass);
 register_command("EditChords", _("Edit Chord Symbols"), _("Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation"), fakechord_insert);

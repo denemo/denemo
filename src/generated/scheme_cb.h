@@ -829,6 +829,9 @@ SCM scheme_EditFiguredBass (SCM optional) {
 SCM scheme_DeleteFiguredBass (SCM optional) {
   return scheme_call_callback(optional, delete_figured_bass);
 }
+SCM scheme_DeleteChordSymbols (SCM optional) {
+  return scheme_call_callback(optional, delete_fakechords);
+}
 SCM scheme_HideFiguredBass (SCM optional) {
   return scheme_call_callback(optional, hide_figured_bass);
 }
