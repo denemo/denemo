@@ -1932,6 +1932,19 @@ outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint
 
                       /* end of figures and chord symbols */
                     }           // if CHORD
+                    else if(curobj->type == LILYDIRECTIVE)
+                    {
+                        DenemoDirective *directive = ((lilydirective *) curobj->object);
+                        if (directive->tag && !strcmp(directive->tag->str, "MultiMeasureRests"))
+                            {
+                                if(curstaffstruct->hasfigures)
+                                    g_string_append_printf (figures, directive->postfix->str);
+                                if(curstaffstruct->hasfakechords)
+                                    g_string_append_printf (fakechords, directive->postfix->str);
+                            }
+                        
+                    }
+                    
                 }               // if object
             }                   //in obj range
           if (curobjnode == NULL || curobjnode->next == NULL)
