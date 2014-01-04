@@ -82,8 +82,8 @@ insertfigure (gboolean filter, gpointer data)
 
       if (curObj && curObj->type == CHORD)
         ((chord *) curObj->object)->is_figure = TRUE;
-			if(((chord *) curObj->object)->figure)
-				g_string_free (((chord *) curObj->object)->figure, TRUE);
+            if(((chord *) curObj->object)->figure)
+                g_string_free (((chord *) curObj->object)->figure, TRUE);
       ((chord *) curObj->object)->figure = g_string_new (f->str);
       g_string_free (f, TRUE);
       do
@@ -119,6 +119,7 @@ delete_figured_bass (GtkAction * action, DenemoScriptParam * param)
   if (confirm ("Figured Bass Deletion", "Delete all figured bass markings from this staff?"))
     {
       thestaff->hasfigures = FALSE;
+      score_status (gui, TRUE);
       measurenode *curmeasure;
       for (curmeasure = thestaff->measures; curmeasure; curmeasure = curmeasure->next)
         {
