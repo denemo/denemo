@@ -1394,7 +1394,7 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem)
        //convert old style barlines to LilyPond 2.18 style
        if(lily)
        {
-        gchar *postfix = lily->str;g_print("postfix %s and cmp %d for \\bar \":|:\"\n", postfix, g_strcmp0("\\bar \":|:\"", postfix));
+        gchar *postfix = lily->str;
         if (!g_strcmp0 ("\\bar \":|\"", postfix))
             g_string_assign(lily, "\\bar \":|.\"");
         else if (!g_strcmp0 ("\\bar \"|:\"", postfix))
