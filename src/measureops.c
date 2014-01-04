@@ -76,6 +76,7 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
 //  displayhelper (Denemo.project);
  // score_status(Denemo.project, TRUE);
 //check not returning NULL!!!!
+  si->cursoroffend = FALSE;//This was left to the drawing routine to set, but it can happen that no draw occurs before the value is needed.
   if (ret)
     return ret;
   g_warning ("Add measures was going to return NULL");
