@@ -146,7 +146,7 @@ setcurrents (DenemoMovement * si)
     si->cursor_appending = FALSE;
   else
     si->cursor_appending = TRUE;
-  // calcmarkboundaries (si);
+  si->cursoroffend = FALSE;
 }
 
 /**
@@ -398,7 +398,7 @@ gomeasureright (DenemoScriptParam * param, gboolean extend_selection)
       gui->si->currentmeasurenum++;
       if (!gui->si->playingnow) //during playback cursor moves should not affect viewport
         isoffrightside (gui);
-      setcurrents (gui->si);
+      setcurrents (gui->si); 
       param->status = TRUE;
       if (extend_selection)
         calcmarkboundaries (gui->si);
