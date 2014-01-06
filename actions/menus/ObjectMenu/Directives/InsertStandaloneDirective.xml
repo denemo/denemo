@@ -6,7 +6,7 @@
     <map>
       <row type="scheme">
         <action>InsertStandaloneDirective</action>
-        <_label>Insert Lilypond</_label>
+        <_label>Insert/Edit Lilypond</_label>
         <_tooltip>Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas.</_tooltip>
       </row>
     </map>
