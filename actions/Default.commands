@@ -2160,13 +2160,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_label>(Print) Accidental Printing</_label>
         <_tooltip>Prints accidentals according to a chosen style. Affects following notes only.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>AccompanistsScore</action>
-        <after>DeactivateTimeSignatureStencil</after>
-        <menupath>/ObjectMenu/Score</menupath>
-        <_label>(Print) Accompanist's Score</_label>
-        <_tooltip>Sets/Unsets the top staff of each movement to a tiny font, with the lower staffs - the accompaniment - at the normal font. Print effect only.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>Ambitus</action>
         <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
@@ -2181,7 +2175,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>DeactivateTimeSignatureStencil</action>
-        <menupath>/ObjectMenu/Score</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>(Print) Don't Engrave Time Signatures</_label>
         <_tooltip>Deactivates the stencil for Time Signatures for the whole score, which prevents them from getting drawn and taking space. But the logic is still active.</_tooltip>
       </row>
@@ -2308,24 +2302,24 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <action>TransposeStaffPrint</action>
         <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>(Print) Transpose</_label>
-        <_tooltip>Prints this staff (only) transposed. This is in addtion to any score-wide transposition</_tooltip>
+        <_tooltip>Prints this staff (only) transposed. This is in addition to any score-wide transposition</_tooltip>
       </row>
       <row type="scheme">
         <action>TransposeOctaveUp</action>
-        <menupath>/ObjectMenu/Score</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>(Print) Transpose Octave Up</_label>
         <_tooltip>Instructs the LilyPond Engraver to transpose this score one octave up.</_tooltip>
       </row>
       <row type="scheme">
         <action>TransposeScorePrint</action>
         <after>SetFontSize</after>
-        <menupath>/ObjectMenu/Score</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>(Print) Transposed</_label>
         <_tooltip>Prints the score transposed by the interval selected by SetTransposeIntervalFromSelection</_tooltip>
       </row>
       <row type="scheme">
         <action>SetFontSize</action>
-        <menupath>/ObjectMenu/Score</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>(Print)Set Overall Score Size</_label>
         <_tooltip>Choose the font size of for the score, and hence how much space it takes up.</_tooltip>
       </row>
@@ -2771,7 +2765,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>BarNumbers</action>
-        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu/Numbering</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/Numbering</menupath>
         <_label>Bar Numbers (On/Off)</_label>
         <_tooltip>Turns bar numbering on/off in print out.</_tooltip>
       </row>
@@ -3146,13 +3140,6 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <menupath>/ObjectMenu/MovementMenu</menupath>
         <_label>Comment</_label>
         <_tooltip>Stores textual comments for this movement</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>ScoreComment</action>
-        <after>EditScoreDirective</after>
-        <menupath>/ObjectMenu/Score</menupath>
-        <_label>Comment</_label>
-        <_tooltip>Stores any textual commentary you may have for this score.</_tooltip>
       </row>
       <row type="scheme">
         <action>StaffComment</action>
@@ -3998,7 +3985,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>HideEmptyStaffs</action>
         <after>ScoreIndent</after>
-        <menupath>/ObjectMenu/Score/PrintLayout</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Hide Empty Staffs (Off/On)</_label>
         <_tooltip>Controls whether staffs containing only rests are printed.</_tooltip>
       </row>
@@ -4066,7 +4053,7 @@ accidentals are usually printed over the note.</_tooltip>
       </row>
       <row type="scheme">
         <action>ScoreIndent</action>
-        <menupath>/ObjectMenu/Score/PrintLayout</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Indent</_label>
         <_tooltip>Indent the first system of every movement by the given amount.</_tooltip>
       </row>
@@ -4297,7 +4284,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>LimitInterSystemSpace</action>
         <after>ScoreIndent</after>
-        <menupath>/ObjectMenu/Score/PrintLayout</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Limit Space Between Systems</_label>
         <_tooltip>Limits the extent to which the lines are spaced apart to fill the page.</_tooltip>
       </row>
@@ -4915,7 +4902,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>PointAndClick</action>
         <after>ScoreBlockProlog</after>
-        <menupath>/ObjectMenu/Score</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Point and Click (Off/On)</_label>
         <_tooltip>When on, clicking on a note in the Print Preview window takes the cursor to that note. This works also for Rehearsal Marks and many other objects in the score. The only reason to turn it off is for export to PDF file via the Export menu. However, using print to file is a better way of doing this as then it is not needed.</_tooltip>
       </row>
@@ -5036,7 +5023,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>RaggedBottom</action>
         <after>LimitInterSystemSpace</after>
-        <menupath>/ObjectMenu/Score/PrintLayout</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Ragged Bottom</_label>
         <_tooltip>This turns ragged bottom off/on. If set, systems will not spread vertically down the page. This does not
 affect the last page. This should be set for pieces that have only two
@@ -5054,8 +5041,7 @@ or three systems per page, for example orchestral scores.</_tooltip>
       </row>
       <row type="scheme">
         <action>ReduceSystemSpacing</action>
-        <after>NormalBeamEndings</after>
-        <menupath>/ObjectMenu/Score</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Reduce Space Between Systems</_label>
         <_tooltip>Reduces the gap between the systems of staffs on a page.</_tooltip>
       </row>
@@ -5260,13 +5246,6 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
         <_label>Set Tempo</_label>
         <_tooltip>Send a Midi command to change the tempo to a new bpm. No printout.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>SetThumbnail</action>
-        <after>ScoreProlog</after>
-        <menupath>/ObjectMenu/Score</menupath>
-        <_label>Set Thumbnail from Selection</_label>
-        <_tooltip>Sets the thumbnail to the section made in the first movement.</_tooltip>
       </row>
       <row type="scheme">
         <action>TrillIsPlus</action>
@@ -5597,7 +5576,7 @@ for second and subsequent systems</_tooltip>
       <row type="scheme">
         <action>SystemSystemPadding</action>
         <after>ScoreIndent</after>
-        <menupath>/ObjectMenu/Score/PrintLayout</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>System to System Padding</_label>
         <_tooltip>Allows control over the padding between successive systems down the page. (A system is all the staffs representing the music at one time, sometimes called a "line" of music).</_tooltip>
       </row>
@@ -5853,22 +5832,21 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
       </row>
       <row type="scheme">
         <action>DenemoBar</action>
-        <after>Ambitus</after>
-        <menupath>/ObjectMenu/Score</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Typeset Barlines Literally</_label>
         <_tooltip>Typesets the Denemo barlines, regardless of the timing.</_tooltip>
       </row>
       <row type="scheme">
         <action>ToggleCurveControl</action>
         <after>LilyPondDefinition</after>
-        <menupath>/ObjectMenu/Score</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Typeset Curve Control Points (Off/On)</_label>
         <_tooltip>Typesets with curve control points marked. Use these for accurate tweaking of shape via clicking and dragging with mouse on final typeset score.</_tooltip>
       </row>
       <row type="scheme">
         <action>ToggleWysiwygMarks</action>
         <after>LilyPondDefinition</after>
-        <menupath>/ObjectMenu/Score</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Typeset Red Dots (Off/On)</_label>
         <_tooltip>Typesets with red dots on the graphical objects. Use these for accurate tweaking of positions via clicking and dragging with mouse on final typeset score.</_tooltip>
       </row>
@@ -5935,8 +5913,7 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
       </row>
       <row type="scheme">
         <action>NormalBeamEndings</action>
-        <after>AccompanistsScore</after>
-        <menupath>/ObjectMenu/Score</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Use Normal Beam Endings</_label>
         <_tooltip>Ends beams in the expected places (print).</_tooltip>
       </row>
@@ -6247,6 +6224,27 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <menupath>/ObjectMenu/TimeSig</menupath>
         <_label>Apparent Time Signature</_label>
         <_tooltip>Typesets a time signature which is not the one actually being used. This is used in polymetric music, often in conjunction with a tuplet spanning the whole staff.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ScoreComment</action>
+        <after>EditScoreDirective</after>
+        <menupath>/ObjectMenu/Score</menupath>
+        <_label>Comment</_label>
+        <_tooltip>Stores any textual commentary you may have for this score.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SetThumbnail</action>
+        <after>ScoreProlog</after>
+        <menupath>/ObjectMenu/Score</menupath>
+        <_label>Set Thumbnail from Selection</_label>
+        <_tooltip>Sets the thumbnail to the section made in the first movement.</_tooltip>
+      </row>
+
+      <row type="scheme">
+        <action>AccompanistsScore</action>
+        <menupath>/ObjectMenu/Score</menupath>
+        <_label>(Print) Accompanist's Score</_label>
+        <_tooltip>Sets/Unsets the top staff of each movement to a tiny font, with the lower staffs - the accompaniment - at the normal font. Print effect only.</_tooltip>
       </row>
     </map>
   </merge>
