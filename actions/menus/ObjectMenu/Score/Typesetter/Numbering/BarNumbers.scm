@@ -1,0 +1,1 @@
+(ToggleDirective "score" "postfix" "BarNumbers" "\\context Score \\applyContext #(set-bar-number-visibility 4000)" )
