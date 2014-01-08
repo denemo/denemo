@@ -486,9 +486,6 @@ load_preferences (void)
   if (!Denemo.prefs.visible_directive_buttons)
     activate_action ("/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
 
-  if (!Denemo.prefs.modal)
-    gtk_widget_hide (gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ModeMenu"));
-
   //these menu ones are visible on entry - FIXME is this the array of toolbars below, ending in TRUE?
   if (!Denemo.prefs.playback_controls)
     toggle_playback_controls (NULL, NULL);
@@ -633,9 +630,8 @@ inner_main (void *files)
         g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-browse-mode-timeout", Denemo.prefs.tooltip_browse_mode_timeout, NULL);
       }
 
-    //ignore setting of mode unless user has explicitly asked for modal use
-    if (!Denemo.prefs.modal)
-      Denemo.prefs.mode = INPUTEDIT | INPUTRHYTHM | INPUTNORMAL;  //FIXME must correspond with default in prefops.c
+   
+    Denemo.prefs.mode = INPUTEDIT | INPUTRHYTHM | INPUTNORMAL;  //FIXME must correspond with default in prefops.c
     
     Denemo.accelerator_status = FALSE;
   }

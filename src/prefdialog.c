@@ -55,7 +55,6 @@ struct callbackdata
   GtkWidget *laststaff;
   GtkWidget *pitchspellingchannel;
   GtkWidget *pitchspellingprogram;
-  GtkWidget *modal;
   GtkWidget *cursor_highlight;
   GtkWidget *return_key_is_special;
   GtkWidget *newbie;
@@ -271,7 +270,7 @@ set_preferences (struct callbackdata *cbdata)
     ASSIGNINT (laststaff)
     ASSIGNINT (pitchspellingchannel)
     ASSIGNINT (pitchspellingprogram)
-    ASSIGNBOOLEAN (modal)
+   
     ASSIGNBOOLEAN (persistence)
     ASSIGNBOOLEAN (cursor_highlight)
     ASSIGNBOOLEAN (return_key_is_special)
@@ -575,7 +574,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
 
   INTENTRY_LIMITS (_("Excerpt Resolution"), resolution, 72, 600);
   BOOLEANENTRY (_("Enable Thumbnails"), enable_thumbnails);
-  INTENTRY (_("Max recent files"), maxhistory) TEXTENTRY (_("User Name"), username) PASSWORDENTRY (_("Password for Denemo.org"), password) BOOLEANENTRY (_("Use Denemo modally"), modal);
+  INTENTRY (_("Max recent files"), maxhistory) TEXTENTRY (_("User Name"), username) PASSWORDENTRY (_("Password for Denemo.org"), password)
 
   hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);

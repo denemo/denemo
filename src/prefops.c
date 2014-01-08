@@ -37,13 +37,13 @@ initprefs ()
 #define ret (&Denemo.prefs)
   gchar *dotdenemo = (gchar *) get_user_data_dir (TRUE);
   gchar *localrc = dotdenemo ? g_build_filename (dotdenemo, PREFS_FILE, NULL) : NULL;
-	if(Denemo.old_user_data_dir) {
-		if(confirm (_("Denemo Upgrade"), _("Re-use your old preferences and shortcuts?")))
-			localrc =  g_build_filename (Denemo.old_user_data_dir, PREFS_FILE, NULL);
-		else
-		Denemo.old_user_data_dir = NULL;
-			
-	}
+    if(Denemo.old_user_data_dir) {
+        if(confirm (_("Denemo Upgrade"), _("Re-use your old preferences and shortcuts?")))
+            localrc =  g_build_filename (Denemo.old_user_data_dir, PREFS_FILE, NULL);
+        else
+        Denemo.old_user_data_dir = NULL;
+            
+    }
   /* Reasonable default values */
 
   ret->mode = INPUTEDIT | INPUTRHYTHM | INPUTNORMAL;
@@ -175,56 +175,56 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
     {
 #define READXMLENTRY(field)  \
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) #field))\
-	{\
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
-	  if(tmp)\
-	    {\
+    {\
+      xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
+      if(tmp)\
+        {\
               define_scheme_variable("DenemoPref_" #field, (gchar*) tmp, NULL);\
-	      prefs->field =\
-		g_string_assign (prefs->field, (gchar *) tmp);\
-	      xmlFree (tmp);\
-	    }\
-	}
+          prefs->field =\
+        g_string_assign (prefs->field, (gchar *) tmp);\
+          xmlFree (tmp);\
+        }\
+    }
 
 #define READINTXMLENTRY(field) \
       else if (0 ==\
-	       xmlStrcmp (cur->name, (const xmlChar *) #field))\
-	{\
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
-	  if(tmp)\
-	    {\
+           xmlStrcmp (cur->name, (const xmlChar *) #field))\
+    {\
+      xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
+      if(tmp)\
+        {\
               define_scheme_int_variable("DenemoPref_" #field, atoi((gchar *) tmp), NULL); \
-	      prefs->field = atoi ((gchar *) tmp);\
-	      xmlFree (tmp);\
-	    }\
-	}
+          prefs->field = atoi ((gchar *) tmp);\
+          xmlFree (tmp);\
+        }\
+    }
 
 #define READDOUBLEXMLENTRY(field) \
       else if (0 ==\
-	       xmlStrcmp (cur->name, (const xmlChar *) #field))\
-	{\
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
-	  if(tmp)\
-	    {\
+           xmlStrcmp (cur->name, (const xmlChar *) #field))\
+    {\
+      xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
+      if(tmp)\
+        {\
               define_scheme_int_variable("DenemoPref_" #field, atof((gchar *) tmp), NULL); \
-	      prefs->field = atof ((gchar *) tmp);\
-	      xmlFree (tmp);\
-	    }\
-	}
+          prefs->field = atof ((gchar *) tmp);\
+          xmlFree (tmp);\
+        }\
+    }
 
 
 #define READBOOLXMLENTRY(field) \
       else if (0 ==\
-	       xmlStrcmp (cur->name, (const xmlChar *) #field))\
-	{\
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
-	  if(tmp)\
-	    {\
+           xmlStrcmp (cur->name, (const xmlChar *) #field))\
+    {\
+      xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
+      if(tmp)\
+        {\
               define_scheme_bool_variable("DenemoPref_" #field, atoi((gchar *) tmp), NULL); \
-	      prefs->field = atoi ((gchar *) tmp);\
-	      xmlFree (tmp);\
-	    }\
-	}
+          prefs->field = atoi ((gchar *) tmp);\
+          xmlFree (tmp);\
+        }\
+    }
 
 
 
@@ -293,7 +293,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
         READINTXMLENTRY (laststaff)
         READINTXMLENTRY (pitchspellingchannel)
         READINTXMLENTRY (pitchspellingprogram)
-        READBOOLXMLENTRY (modal)
+        
         READBOOLXMLENTRY (persistence)
         READBOOLXMLENTRY (cursor_highlight)
         READBOOLXMLENTRY (return_key_is_special)
@@ -372,7 +372,7 @@ get_bool_pref (gchar * prefname)
     GETBOOLPREF (createclones)
     GETBOOLPREF (immediateplayback)
     GETBOOLPREF (manualtypeset)
-    GETBOOLPREF (modal)
+   
     GETBOOLPREF (persistence)
     GETBOOLPREF (cursor_highlight)
     GETBOOLPREF (return_key_is_special)
@@ -423,7 +423,7 @@ get_string_pref (gchar * prefname)
 /**
  * writeHistoryEntry - adds history entry to the denemohistory file
  * @param data - pointer to the filename to add
- * @param user_data	- pointer to the xml Node
+ * @param user_data - pointer to the xml Node
  */
 static void
 writeHistoryEntry (gpointer data, gpointer user_data)
@@ -439,7 +439,7 @@ writeHistoryEntry (gpointer data, gpointer user_data)
 /**
  * parseHistory - reads history entry from xml node and adds it to the history queue
  * 
- * @param  doc	document pointer
+ * @param  doc  document pointer
  * @param cur pointer to the current XML Node
  * @param prefs pointer to the preferences structure
  */
@@ -619,7 +619,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
     g_free(curname);\
     g_free(def);\
     xmlNewChild (child, NULL, (xmlChar *) #field,\
-		 (xmlChar *) prefs->field->str);}
+         (xmlChar *) prefs->field->str);}
 
 #define WRITEXMLENTRY2(field) \
   if (prefs->field){\
@@ -629,7 +629,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
     g_free(curname);\
     g_free(def);\
     xmlNewChild (child, NULL, (xmlChar *) #field,\
-		 (xmlChar *) prefs->field);}
+         (xmlChar *) prefs->field);}
 
 
   WRITEXMLENTRY (lilypath) WRITEXMLENTRY (audioplayer) WRITEXMLENTRY (fontspec) WRITEXMLENTRY (imageviewer) WRITEXMLENTRY (profile) WRITEXMLENTRY (username) WRITEXMLENTRY (password) WRITEXMLENTRY (denemopath) WRITEXMLENTRY (temperament)
@@ -641,7 +641,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
     g_free(curname);\
     g_free(def);\
   newXMLIntChild (child, (xmlChar *) #field,\
-		  prefs->field);}
+          prefs->field);}
 #define WRITEDOUBLEXMLENTRY(field){ \
     gchar *def = g_strdup("Holds the interger value of the user's " #field " preference");\
     gdouble value = prefs->field;\
@@ -650,7 +650,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
     g_free(curname);\
     g_free(def);\
   newXMLDoubleChild (child, (xmlChar *) #field,\
-		  prefs->field);}
+          prefs->field);}
 #define WRITEBOOLXMLENTRY(field){ \
     gchar *def = g_strdup("Holds #t or #f, the user's " #field " preference");\
     gboolean value = prefs->field;\
@@ -659,7 +659,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
     g_free(curname);\
     g_free(def);\
   newXMLIntChild (child, (xmlChar *) #field,\
-		  prefs->field);}
+          prefs->field);}
     WRITEBOOLXMLENTRY (autosave)
     WRITEINTXMLENTRY (autosave_timeout)
     WRITEINTXMLENTRY (maxhistory)
@@ -676,7 +676,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
     WRITEINTXMLENTRY (laststaff)
     WRITEINTXMLENTRY (pitchspellingchannel)
     WRITEINTXMLENTRY (pitchspellingprogram)
-    WRITEBOOLXMLENTRY (modal)
+   
     WRITEBOOLXMLENTRY (persistence)
     WRITEBOOLXMLENTRY (cursor_highlight)
     WRITEBOOLXMLENTRY (return_key_is_special)
@@ -737,7 +737,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
 /**
  * Read denemohistory file
  *
- * @param prefs	pointer to the preferences structure 
+ * @param prefs pointer to the preferences structure 
  *
  */
 gint
@@ -753,7 +753,7 @@ readHistory ()
       filename = g_string_new (g_build_filename (get_user_data_dir (TRUE), "denemohistory", NULL));
     }
   if(Denemo.old_user_data_dir)
-	  oldhistory = g_build_filename (Denemo.old_user_data_dir, "denemohistory", NULL);
+      oldhistory = g_build_filename (Denemo.old_user_data_dir, "denemohistory", NULL);
   if (g_file_test (oldhistory? oldhistory:filename->str, G_FILE_TEST_EXISTS))
     doc = xmlParseFile (oldhistory? oldhistory : filename->str);
   else

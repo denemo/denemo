@@ -436,7 +436,6 @@ typedef struct DenemoPrefs
   gboolean lilyentrystyle;  
   gboolean createclones;
   gint mode; /**< mode to start in */
-  gboolean modal;/**< whether mode-switching menu is desired */
   gboolean persistence;/**< whether Denemo should re-use settings over sessions */
   gint zoom; /**< percent zoom of score area display  1-100 */
   gint system_height; /**< percent of display height per system  1-100 */
