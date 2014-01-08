@@ -2055,6 +2055,8 @@ addmeasureafter (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
   si->currentobject = NULL;
   set_rightmeasurenum (si);
   //si->markstaffnum = 0;
+  gtk_widget_queue_draw (Denemo.scorearea);// displayhelper (Denemo.project);
+  score_status(Denemo.project, TRUE);
   // calcmarkboundaries (si);
   /* update_hscrollbar (si); */
 }
@@ -2073,8 +2075,9 @@ insertmeasurebefore (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
   si->currentobject = NULL;
   set_rightmeasurenum (si);
   si->markstaffnum = 0;
-  if (si->markstaffnum)
-    calcmarkboundaries (si);
+
+  gtk_widget_queue_draw (Denemo.scorearea);// displayhelper (Denemo.project);
+  score_status(Denemo.project, TRUE);
   /* update_hscrollbar (si); */
 }
 
