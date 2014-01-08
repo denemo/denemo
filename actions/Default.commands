@@ -218,37 +218,37 @@ If the cursor is in the appending position, appends a note using the prevailing 
       </row>
       <row type="builtin">
         <action>InsertWholeRest</action>
-        <_label>Insert a &lt;span font_desc="Denemo"&gt;𝄻&lt;/span&gt;</_label>
+        <_label>Insert a 𝄻</_label>
         <_tooltip>Insert 𝄻 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertHalfRest</action>
-        <_label>Insert a &lt;span font_desc="Denemo"&gt;𝄼&lt;/span&gt;</_label>
+        <_label>Insert a 𝄼</_label>
         <_tooltip>Insert 𝄼 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertQuarterRest</action>
-        <_label>Insert a &lt;span font_desc="Denemo"&gt;𝄽&lt;/span&gt;</_label>
+        <_label>Insert a 𝄽</_label>
         <_tooltip>Insert 𝄽 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertEighthRest</action>
-        <_label>Insert a &lt;span font_desc="Denemo"&gt;𝄾&lt;/span&gt;</_label>
+        <_label>Insert a 𝄾</_label>
         <_tooltip>Insert 𝄾 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertSixteenthRest</action>
-        <_label>Insert a &lt;span font_desc="Denemo"&gt;𝄿&lt;/span&gt;</_label>
+        <_label>Insert a 𝄿</_label>
         <_tooltip>Insert 𝄿 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertThirtysecondRest</action>
-        <_label>Insert a &lt;span font_desc="Denemo"&gt;𝅀&lt;/span&gt;</_label>
+        <_label>Insert a 𝅀</_label>
         <_tooltip>Insert 𝅀 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertSixtyfourthRest</action>
-        <_label>Insert a &lt;span font_desc="Denemo"&gt;𝅁&lt;/span&gt;</_label>
+        <_label>Insert a 𝅁</_label>
         <_tooltip>Insert 𝅁 rest</_tooltip>
       </row>
       <row type="builtin">
@@ -1420,6 +1420,11 @@ these may need re-making.</_tooltip>
         <_tooltip>Delete the figured bass on the current staff</_tooltip>
       </row>
       <row type="builtin">
+        <action>DeleteChordSymbols</action>
+        <_label>Delete Chord Symbols</_label>
+        <_tooltip>Delete the chord symbols on the current staff</_tooltip>
+      </row>
+      <row type="builtin">
         <action>HideFiguredBass</action>
         <_label>Hide Figures (Print)</_label>
         <_tooltip>Hide the figured bass on the current staff on printing</_tooltip>
@@ -2160,7 +2165,6 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_label>(Print) Accidental Printing</_label>
         <_tooltip>Prints accidentals according to a chosen style. Affects following notes only.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>Ambitus</action>
         <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
@@ -6239,12 +6243,17 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Set Thumbnail from Selection</_label>
         <_tooltip>Sets the thumbnail to the section made in the first movement.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>AccompanistsScore</action>
         <menupath>/ObjectMenu/Score</menupath>
         <_label>(Print) Accompanist's Score</_label>
         <_tooltip>Sets/Unsets the top staff of each movement to a tiny font, with the lower staffs - the accompaniment - at the normal font. Print effect only.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>BarNumberingInterval</action>
+        <menupath>/ObjectMenu/Score/Typesetter/Numbering</menupath>
+        <_label>Bar Numbering Interval</_label>
+        <_tooltip>Sets the interval at which bar numbers will be printed on typesetting.</_tooltip>
       </row>
     </map>
   </merge>
