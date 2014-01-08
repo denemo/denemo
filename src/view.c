@@ -223,34 +223,7 @@ execute_scheme (GtkAction * action, DenemoScriptParam * param)
 
 
 
-#define FN_DEF(X) void X##_CB(void) {\
-activate_action("/MainMenu/ModeMenu/"X##_STRING);}
 
-FN_DEF (MODELESS);
-FN_DEF (CLASSICMODE);
-FN_DEF (INSERTMODE);
-FN_DEF (EDITMODE);
-FN_DEF (NOTE_E);
-FN_DEF (REST_E);
-FN_DEF (BLANK_E);
-FN_DEF (RHYTHM_E);
-
-typedef struct cb_string_pairs
-{
-  gpointer p;
-  gchar *str;
-} cb_string_pairs;
-cb_string_pairs activatable_commands[] = {
-  {MODELESS_CB, MODELESS_STRING},
-  {CLASSICMODE_CB, CLASSICMODE_STRING},
-  {INSERTMODE_CB, INSERTMODE_STRING},
-  {EDITMODE_CB, EDITMODE_STRING},
-  {NOTE_E_CB, NOTE_E_STRING},
-  {REST_E_CB, REST_E_STRING},
-  {BLANK_E_CB, BLANK_E_STRING},
-  {RHYTHM_E_CB, RHYTHM_E_STRING}
-
-};
 
 /***************** end of definitions to implement calling radio/check items from scheme *******************/
 
@@ -479,48 +452,7 @@ load_scheme_init (void)
 void
 load_preferences (void)
 {
-    switch (Denemo.prefs.mode & ~MODE_MASK)
-    {
-    case INPUTINSERT:
-      activate_action ("/MainMenu/ModeMenu/InsertMode");
-      break;
-    case INPUTEDIT:
-      activate_action ("/MainMenu/ModeMenu/EditMode");
-      break;
-    case INPUTCLASSIC:
-      activate_action ("/MainMenu/ModeMenu/ClassicMode");
-      break;
-    case 0:
-      activate_action ("/MainMenu/ModeMenu/Modeless");
-      break;
-    default:
-      activate_action ("/MainMenu/ModeMenu/Modeless");
-      break;
-    }
 
-  switch (Denemo.prefs.mode & ~ENTRY_TYPE_MASK)
-    {
-    case INPUTNORMAL:
-      activate_action ("/MainMenu/ModeMenu/Note");
-      break;
-    case INPUTBLANK:
-      activate_action ("/MainMenu/ModeMenu/Blank");
-      break;
-    case INPUTREST:
-      activate_action ("/MainMenu/ModeMenu/Rest");
-      break;
-    default:
-      break;
-    }
-
-  switch (Denemo.prefs.mode & ~ENTRY_FEEDBACK_MASK)
-    {
-    case INPUTRHYTHM:
-      activate_action ("/MainMenu/ModeMenu/Rhythm");
-      break;
-    default:
-      break;
-    }
 
   Denemo.project->mode = Denemo.prefs.mode;
   // if (Denemo.prefs.startmidiin)
@@ -720,14 +652,7 @@ inner_main (void *files)
       fetchcommands (NULL, NULL);
     
     gint i;
-    /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
-    for (i = 0; i < G_N_ELEMENTS (activatable_commands); i++)
-      {
-        gchar* function = g_strdup_printf (DENEMO_SCHEME_PREFIX "%s", activatable_commands[i].str);
-        install_scm_function (0, NULL, function, activatable_commands[i].p);
-        g_free(function);
-      }
-
+ 
     //ensure (use-modules (ice-9 optargs)) is loaded first #:optional params
     call_out_to_guile ("(use-modules (ice-9 optargs))");
     init_keymap ();
@@ -895,7 +820,9 @@ close_project (void)
 /* remove all the movements (ie the DenemoMovement) leaving it with project->si NULL */
 void
 free_movements (DenemoProject * project)
-{
+{gint success;
+   if(!is_playing())
+       success = delete_imported_midi(); g_print("Success %d\n", success);
   GList *g;
   free_scoreblocks (project);
   for (g = project->movements; g; g = g->next)
@@ -903,8 +830,8 @@ free_movements (DenemoProject * project)
       project->si = g->data;
       project->si->undo_guard = 1;  //no undo as that is per movement
       //close_source_audio ();//???
-      if(!delete_imported_midi ())
-        delete_imported_midi();
+   //  if(!delete_imported_midi ()) not if still playing!!!
+    //    delete_imported_midi();
       free_score (project);
     }
   project->si = NULL;
@@ -3155,13 +3082,6 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
     return FALSE;
 
 
-#if 0
-  /* This idx is -1 for the toggles and radio entries because they share a callback function. If we want to allow setting keybindings, getting help etc. for these then we would need to re-work all the radio action entries code using generate_source.c. Instead at the moment we have just defined scheme callback functions d-EditMode etc. using a hand-created array activatable_commands earlier in this file.
-     It is also for menus themselves, so we process the case further. */
-  if (idx == -1)
-    return TRUE;
-#endif
-
   GtkWidget *menu = gtk_menu_new ();
   gchar *labeltext = g_strdup_printf ("Help for %s", func_name);
   GtkWidget *item = gtk_menu_item_new_with_label (labeltext);
@@ -3475,41 +3395,7 @@ GtkActionEntry menu_entries[] = {
 
 };
 
-//Get number of menu entries
-//gint n_menu_items = G_N_ELEMENTS (menu_entries);
 
-static GtkWidget *
-get_edit_menu_for_mode (gint mode)
-{
-  return NULL;
-  if (mode & INPUTEDIT)
-    return Denemo.EditModeMenu;
-  if (mode & INPUTINSERT)
-    return Denemo.InsertModeMenu;
-  if (mode & INPUTCLASSIC)
-    return Denemo.ClassicModeMenu;
-  return Denemo.ModelessMenu;
-}
-
-/**
- *  callback changing mode  project->mode
- *
- */
-static void
-change_mode (GtkRadioAction * action, GtkRadioAction * current)
-{
-  DenemoProject *project = Denemo.project;
-  gint val = gtk_radio_action_get_current_value (current);
-  GtkWidget *menu = get_edit_menu_for_mode (project->mode);
-  if (menu)
-    gtk_widget_hide (menu);
-  project->mode = ((project->mode & MODE_MASK) | val);
-  menu = get_edit_menu_for_mode (project->mode);
-  if (menu)
-    gtk_widget_show (menu);
-  write_status (project);
-
-}
 
 
 GtkAction *
@@ -3596,43 +3482,6 @@ change_input_type (GtkRadioAction * action, GtkRadioAction * current)
     }
   else
     write_input_status ();
-}
-
-/**
- *  callback changing type of entry part of project->mode,
- * depending on the entry type it switches mode part of project->mode to Classic mode for entering rests and to Insert for entering notes. FIXME could switch to prefs value.
- *
- */
-static void
-change_entry_type (GtkRadioAction * action, GtkRadioAction * current)
-{
-  DenemoProject *project = Denemo.project;
-  gint val = gtk_radio_action_get_current_value (current);
-  switch (val)
-    {
-#define SET_MODE(m)  (project->mode=((project->mode&ENTRY_TYPE_MASK)|m))
-    case INPUTREST:
-      SET_MODE (INPUTREST);
-      activate_action ("/MainMenu/ModeMenu/ClassicMode");
-
-      break;
-    case INPUTNORMAL:
-      SET_MODE (INPUTNORMAL);
-      activate_action ("/MainMenu/ModeMenu/InsertMode");
-      break;
-    case INPUTBLANK:
-      SET_MODE (INPUTBLANK);
-      activate_action ("/MainMenu/ModeMenu/ClassicMode");
-      break;
-    case INPUTRHYTHM | INPUTNORMAL:
-      SET_MODE (INPUTRHYTHM | INPUTNORMAL);
-      activate_action ("/MainMenu/ModeMenu/EditMode");
-      break;
-    }
-#undef SET_MODE
-
-  write_status (project);
-  //g_debug("Mode is %x masks %x %x\n",ENTRY_TYPE_MASK, MODE_MASK, project->mode);
 }
 
 /* callback: if not Insert mode set Insert mode else set Edit mode */
@@ -4143,30 +3992,7 @@ GtkToggleActionEntry toggle_menu_entries[] = {
    G_CALLBACK (default_mode), FALSE}
 };
 
-/**
- * Radio entries for the modes and entry types
- */
-static GtkRadioActionEntry mode_menu_entries[] = {
-  {MODELESS_STRING, NULL, N_("No mode"), NULL, "Access all editing functions without change of mode",
-   0},
-  {CLASSICMODE_STRING, NULL, N_("Classic"), NULL, "The original Denemo note entry mode\nUseful for entering notes into chords\nUse the note names to move the cursor\nUse the durations to insert notes",
-   INPUTCLASSIC},
-  {INSERTMODE_STRING, NULL, N_("Insert"), NULL, N_("Mode for inserting notes into the score at the cursor position\nUses prevailing duration/rhythm\nUse the durations to set the prevailing duration\nUse the note names to insert the note"),
-   INPUTINSERT},
-  {EDITMODE_STRING, NULL, N_("Edit"), NULL, N_("Mode for changing the note at cursor (name, duration)\nand to enter notes by duration (rhythms)\nUse the durations to insert notes"),
-   INPUTEDIT}
-};
 
-
-static GtkRadioActionEntry type_menu_entries[] = {
-  {NOTE_E_STRING, NULL, N_("Note"), NULL, N_("Normal (note) entry"), INPUTNORMAL},
-  {REST_E_STRING, NULL, N_("Rest"), NULL, N_("Entering rests not notes"), INPUTREST},
-  {BLANK_E_STRING, NULL, N_("Non printing rests"), NULL, N_("Enters rests which will not be printed (just take up space)\nUsed for positioning polyphonic voice entries"), INPUTBLANK}
-#if 0
-  ,
-  {RHYTHM_E_STRING, NULL, N_("Audible Feedback"), NULL, N_("Gives feedback as you enter durations"), INPUTRHYTHM | INPUTNORMAL}
-#endif
-};
 
 static GtkRadioActionEntry input_menu_entries[] = {
   {"KeyboardOnly", NULL, N_("No External Input"), NULL, N_("Entry of notes via computer keyboard only\nIgnores connected MIDI or microphone devices."),
@@ -4290,43 +4116,7 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
       gtk_widget_hide (Denemo.project->buttonboxes);
       activate_action ("/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
     }
-  switch (project->mode & ~MODE_MASK)
-    {
-    case INPUTINSERT:
-      activate_action ("/MainMenu/ModeMenu/InsertMode");
-      break;
-    case INPUTEDIT:
-      activate_action ("/MainMenu/ModeMenu/EditMode");
-      break;
-    case INPUTCLASSIC:
-      activate_action ("/MainMenu/ModeMenu/ClassicMode");
-      break;
-    case 0:
-      activate_action ("/MainMenu/ModeMenu/Modeless");
-      break;
-    default:
-      ;
-    }
 
-  switch (project->mode & ~ENTRY_TYPE_MASK)
-    {
-    case INPUTNORMAL:
-      activate_action ("/MainMenu/ModeMenu/Note");
-      break;
-    case INPUTBLANK:
-      activate_action ("/MainMenu/ModeMenu/Blank");
-      break;
-    case INPUTREST:
-      activate_action ("/MainMenu/ModeMenu/Rest");
-      break;
-    case INPUTRHYTHM:
-      g_debug ("activating rhythm\n");
-      activate_action ("/MainMenu/ModeMenu/Rhythm");
-      break;
-
-    default:
-      ;
-    }
   set_title_bar (Denemo.project);
   highlight_rhythm (Denemo.project->prevailing_rhythm);
   gtk_widget_queue_draw (Denemo.scorearea);
@@ -4513,12 +4303,9 @@ create_window (void)
    the projects. We will always act on Denemo.project anyway.*/
   gtk_action_group_add_actions (Denemo.action_group, menu_entries, G_N_ELEMENTS (menu_entries), Denemo.project);
   gtk_action_group_add_toggle_actions (Denemo.action_group, toggle_menu_entries, G_N_ELEMENTS (toggle_menu_entries), Denemo.project);
-  gtk_action_group_add_radio_actions (Denemo.action_group, mode_menu_entries, G_N_ELEMENTS (mode_menu_entries), INPUTINSERT /* initial value */ ,
-                                      G_CALLBACK (change_mode), Denemo.project);
 
 
-  gtk_action_group_add_radio_actions (Denemo.action_group, type_menu_entries, G_N_ELEMENTS (type_menu_entries), INPUTNORMAL /* initial value */ ,
-                                      G_CALLBACK (change_entry_type), Denemo.project);
+ 
 
   gtk_action_group_add_radio_actions (Denemo.action_group, input_menu_entries, G_N_ELEMENTS (input_menu_entries), have_midi ()? INPUTMIDI : INPUTKEYBOARD /* initial value */ ,
                                       G_CALLBACK (change_input_type), NULL);
@@ -4932,11 +4719,7 @@ create_window (void)
   //g_debug("Turning on the modes\n");
 
 
-  //write_status(Denemo.project);
-  Denemo.InsertModeMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/InsertModeNote");
-  Denemo.EditModeMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/EditModeNote");
-  Denemo.ClassicModeMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/ClassicModeNote");
-  Denemo.ModelessMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/ModelessNote");
+ 
 
 
   g_signal_connect (G_OBJECT (Denemo.notebook), "switch_page", G_CALLBACK (switch_page), NULL);

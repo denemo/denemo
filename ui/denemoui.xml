@@ -151,24 +151,7 @@
       <menuitem action="ToggleScript"/>
       <menuitem action="ToggleScoreView"/>
     </menu>
-    <menu action="ModeMenu">
-      <menuitem action="Modeless"/>
-      <menuitem action="InsertMode"/>
-      <menuitem action="EditMode"/>
-      <menuitem action="ClassicMode"/>
-      <separator/>
-      <menuitem action="Note"/>
-      <menuitem action="Blank"/>
-      <menuitem action="Rest"/>
 
-      <separator/>
-      <menuitem action="ToggleEdit"/>
-      <menuitem action="ToggleRest"/>
-
-      <separator/>
-      <menuitem action="Rhythm"/>
-      <menuitem action="RecordScript"/>
-    </menu>
 
     <menu action="InputMenu">
       <menuitem action="KeyboardOnly"/>
