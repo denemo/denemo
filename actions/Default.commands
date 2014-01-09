@@ -4514,7 +4514,7 @@ accidentals are usually printed over the note.</_tooltip>
         <after>CreateCuesForStaff</after>
         <menupath>/ObjectMenu/StaffMenu</menupath>
         <_label>Multi-Measure Rests</_label>
-        <_tooltip>Groups of whole measure rests of three or more are changed to multi-measure rests for the whole staff.</_tooltip>
+        <_tooltip>Groups of whole measure rests of two or more are changed to multi-measure rests for the whole staff.</_tooltip>
       </row>
       <row type="scheme">
         <action>MuteStaff</action>

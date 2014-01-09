@@ -8,7 +8,7 @@
         <after>CreateCuesForStaff</after>
         <action>StaffMultiMeasureRests</action>
         <_label>Multi-Measure Rests</_label>
-        <_tooltip>Groups of whole measure rests of three or more are changed to multi-measure rests for the whole staff.</_tooltip>
+        <_tooltip>Groups of whole measure rests of two or more are changed to multi-measure rests for the whole staff.</_tooltip>
       </row>
     </map>
   </merge>

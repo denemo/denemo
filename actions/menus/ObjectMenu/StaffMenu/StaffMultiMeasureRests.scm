@@ -20,7 +20,7 @@
 	    (if (zero? count)
 	      (if (d-MoveToMeasureRight)
 		(loop)))
-	    (if (< count 3) ;;; do not MM less than 3
+	    (if (< count 2) ;;; do not MM less than 2
 	      (begin
 		(set! count 0)
 		(set! position #f)
