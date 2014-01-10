@@ -1410,7 +1410,7 @@ void highlight_audio_record(void) {
 
 void delete_recording (void) {
      //FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
-  if (Denemo.project->si->recording)
+  if (Denemo.project->si && Denemo.project->si->recording)
     {
       DenemoRecording *temp = Denemo.project->si->recording;
       g_static_mutex_lock (&smfmutex);
