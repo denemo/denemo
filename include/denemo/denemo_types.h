@@ -1128,10 +1128,7 @@ struct DenemoRoot
   GtkWidget *input_source; /**< A label widget advising of source of external input */
   GString *input_filters; /**< Description of any filters operating on external input */
   GtkWidget *menubar;/**< Main menubar to giving load/save play etc functionality */
-  GtkWidget *ClassicModeMenu;/**< Menu to give the note editing facilities in Classic mode */
-  GtkWidget *InsertModeMenu;/**< Menu to give the note editing facilities in Insert mode */
-  GtkWidget *EditModeMenu;/**< Menu to give the note editing facilities in Edit mode */
-  GtkWidget *ModelessMenu;/**< Menu to give the note editing facilities when used without modes */
+
   GList *continuations;
   struct RhythmPattern *singleton_rhythms[256]; /**< rhythm patterns for the EntryToolbar */
   gboolean ScriptRecording;/**< TRUE when menuitems presses are being recorded as scheme script*/
