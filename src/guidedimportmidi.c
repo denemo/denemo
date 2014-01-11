@@ -466,7 +466,8 @@ gboolean delete_imported_midi (void) {
     smf = NULL;
     current_track = 0;
     }
-  Denemo.project->si->recorded_midi_track = NULL;
+  if(Denemo.project && Denemo.project->si)
+    Denemo.project->si->recorded_midi_track = NULL;
   delete_recording ();
   smf_from_file = FALSE;
   return TRUE;
