@@ -263,7 +263,15 @@
                                         (d-InfoDialog (_"Slur Re-shaped"))
                                         (SetSlur vals)
                                         (d-SetSaved #f)))))
-(define GetSlurShape::WarningGiven #f)              
+(define GetShape::WarningGiven #f)
+  
+(define (ShapeTweakWarning) (d-WarningDialog (_"To re-shape curves it is better to have the control points marked.
+Use the right click menu to turn these on before invoking this command.
+However, as this is not working well for multiple staffs, you can do without -
+dismiss this dialog and
+simply click on four points: the start of the curve, two points outside along its length and the end point.")) )
+
+            
 (define (GetSlurShape)
         (let ()
             (define (get-control-point n)
@@ -272,16 +280,13 @@
                     ((2) (d-InfoDialog (_"Now click second control point of the slur, the next red cross to the right"))(d-GetControlPoint 2))
                     ((3) (d-InfoDialog (_"Now click third control point of the slur, the next red cross to the right"))(d-GetControlPoint 3))
                     ((4) (d-InfoDialog (_"Now click last control point at the end of the slur, the last red cross to the right"))(d-GetControlPoint 4))))
-            (if (and (not GetSlurShape::WarningGiven) (not (d-Directive-score? "ToggleCurveControl")))
-        (begin
-          (set! GetSlurShape::WarningGiven #t)
-          (d-WarningDialog (_"To re-shape slurs it is better to have the control points marked.
-Use the right click menu to turn these on before invoking this command.
-However, as this is not working well for multiple staffs, you can do without -
-dismiss this dialog and
-simply guess at suitable points."))))
-      
-                    (begin
+            (if (and (not GetShape::WarningGiven) (not (d-Directive-score? "ToggleCurveControl")))
+                (begin
+                  (set! GetShape::WarningGiven #t)
+                 
+                  (ShapeTweakWarning)))
+              
+            (begin
                         (d-InfoDialog (_"First click on the center line of the staff aligning with notehead/rest (Positioning will be done with respect to this height)"))
                         (if (d-GetReferencePoint)
                             (begin      
@@ -301,7 +306,8 @@ simply guess at suitable points."))))
                                         (d-InfoDialog (_"Tie Re-shaped"))
                                         (SetTie vals)
                                         (d-SetSaved #f)))))                
-(define GetTieShape::WarningGiven #f)              
+
+             
 (define (GetTieShape)
         (let ()
             (define (get-control-point n)
@@ -310,14 +316,10 @@ simply guess at suitable points."))))
                     ((2) (d-InfoDialog (_"Now click second control point of the tie, the next red cross to the right"))(d-GetControlPoint 2))
                     ((3) (d-InfoDialog (_"Now click third control point of the tie, the next red cross to the right"))(d-GetControlPoint 3))
                     ((4) (d-InfoDialog (_"Now click last control point at the end of the tie, the last red cross to the right"))(d-GetControlPoint 4))))
-            (if (and (not GetTieShape::WarningGiven) (not (d-Directive-score? "ToggleCurveControl")))
-        (begin
-          (set! GetTieShape::WarningGiven #t)
-          (d-WarningDialog (_"To re-shape ties it is better to have the control points marked.
-Use the right click menu to turn these on before invoking this command.
-However, as this is not working well for multiple staffs, you can do without -
-dismiss this dialog and
-simply guess at suitable points."))))
+            (if (and (not GetShape::WarningGiven) (not (d-Directive-score? "ToggleCurveControl")))
+                (begin
+                  (set! GetShape::WarningGiven #t)
+                  (ShapeTweakWarning)))
       
                     (begin
                         (d-InfoDialog (_"First click on the center line of the staff aligning with notehead/rest (Positioning will be done with respect to this height)"))
