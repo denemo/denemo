@@ -2,9 +2,9 @@
 #define __PRINT_VIEW_H__
 
 #include <denemo/denemo.h>
-
+#include "print.h"
 gboolean get_offset (gdouble * x, gdouble * y);
-gboolean get_positions (gdouble * neary, gdouble * fary, gboolean for_slur);
+gboolean get_positions (gdouble * neary, gdouble * fary, WwGrob grob);
 gboolean get_new_target (void);
 gboolean get_reference_point (void);
 gboolean get_control_point (gint which);

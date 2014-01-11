@@ -10,6 +10,8 @@
 #include "audiointerface.h"
 #include "generated/scheme_cb.h"
 #include "guidedimportmidi.h"
+#include "print.h"
+
 SCM 
 scheme_call_callback (SCM optional, callback_function callback) {
   gboolean query=FALSE;
@@ -290,7 +292,7 @@ scheme_get_positions (SCM is_slur)
   g_debug("This feature requires denemo to be built with evince");
 #else
   gdouble neary, fary;
-  if (get_positions (&neary, &fary, scm_is_true (is_slur)))
+  if (get_positions (&neary, &fary, scm_is_true (is_slur) ? Slur: Beam))
     {
       return scm_cons (scm_from_double (neary), scm_from_double (fary));
     }

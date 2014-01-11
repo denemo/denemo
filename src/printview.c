@@ -777,23 +777,23 @@ g_info("Adjusting %f by %f\n", *offsety, (nearadjust / scale));
 //if repeatable and grob is slur or beam and request matches gives prompt for slur or beam and goes to Waiting for drag
 //else sets up near point to last button press and goes to selecting far end.
 static void
-start_seeking_end (gboolean slur)
+start_seeking_end (WwGrob grob)
 {
-  gchar *msg = (slur) ? _("Now select the notehead of the note where the slur ends") : _("Now select the notehead of the note where the beam ends");
+  gchar *msg = (grob == Slur) ? _("Now select the notehead of the note where the slur ends") : (grob == Tie)? _("Now select the notehead of the note where the tie ends") : _("Now select the notehead of the note where the beam ends");
 
-  if (get_wysiwyg_info()->repeatable && get_wysiwyg_info()->grob == (slur ? Slur : Beam))
+  if (get_wysiwyg_info()->repeatable && get_wysiwyg_info()->grob == grob)
     {
       get_wysiwyg_info()->stage = WaitingForDrag;
-      msg = (get_wysiwyg_info()->grob == Slur) ? _("Now drag the begin/end markers to suggest slur position/angle\nRight click when done.") : _("Now drag the begin/end markers to set position/angle of beam\nRight click when done."); //FIXME repeated text
+      msg = (get_wysiwyg_info()->grob == Slur) ? _("Now drag the begin/end markers to suggest slur position/angle\nRight click when done.") :(get_wysiwyg_info()->grob == Tie) ? _("Now drag the begin/end markers to suggest tie position\nRight click when done.") : _("Now drag the begin/end markers to set position/angle of beam\nRight click when done."); //FIXME repeated text
     }
   else
     {
       get_wysiwyg_info()->nearpoint = get_wysiwyg_info()->near_i = get_wysiwyg_info()->last_button_press;
       get_wysiwyg_info()->stage = SelectingFarEnd;
     }
-  if (get_wysiwyg_info()->grob != (slur ? Slur : Beam))
+  if (get_wysiwyg_info()->grob != grob)
     get_wysiwyg_info()->repeatable = FALSE;
-  get_wysiwyg_info()->grob = slur ? Slur : Beam;
+  get_wysiwyg_info()->grob = grob;
   gtk_widget_show (get_wysiwyg_info()->dialog);
   gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (get_wysiwyg_info()->dialog), msg);
   gtk_widget_queue_draw (Denemo.printarea);
@@ -831,10 +831,10 @@ get_center_staff_offset (void)
 // 
 
 gboolean
-get_positions (gdouble * neary, gdouble * fary, gboolean for_slur)
+get_positions (gdouble * neary, gdouble * fary, WwGrob grob)
 {
   get_wysiwyg_info()->task = Positions;
-  start_seeking_end (for_slur); //goes to WaitingForDrag
+  start_seeking_end (grob); //goes to WaitingForDrag
   gtk_main ();
   if (get_wysiwyg_info()->stage == WaitingForDrag)
     {
@@ -1239,9 +1239,25 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
                         get_wysiwyg_info()->repeatable = FALSE;
                       }
                     break;
-                  case TARGET_TIE:
-                    g_warning ("Not yet done!!");
-                    break;
+                case TARGET_TIE:
+                    if (get_wysiwyg_info()->stage == STAGE_NONE && get_wysiwyg_info()->repeatable && get_wysiwyg_info()->task == Shape)
+                      {
+                        if (confirm (_("Tie Shape"), _("Repeat Shaping Tie?")))
+                          {
+                            get_wysiwyg_info()->stage = WaitingForCurveDrag;
+                            gtk_widget_queue_draw (Denemo.printarea);
+                            call_out_to_guile ("(ReshapeTie)");
+                          }
+                        else
+                          get_wysiwyg_info()->task = TASK_NONE;
+                      }
+                    else
+                      {
+                        get_wysiwyg_info()->stage = TargetEstablished;
+                        get_wysiwyg_info()->repeatable = FALSE;
+                      }
+                    break;                
+
                   default:
                     g_warning ("Target type %d not yet done!!", Denemo.project->si->target.type);
                     break;
@@ -1475,9 +1491,10 @@ cancel_tweak (void)
 static void
 repeat_tweak (void)
 {
-  if (get_wysiwyg_info()->grob == Slur)          //if(get_wysiwyg_info()->repeatable && get_wysiwyg_info()->grob==(slur?Slur:Beam))
-    //call_out_to_guile("(GetSlurPositions)");
+  if (get_wysiwyg_info()->grob == Slur)  
     call_out_to_guile ("(EditSlur)");
+  else if (get_wysiwyg_info()->grob == Tie)  
+    call_out_to_guile ("(EditTie)");
   else if (get_wysiwyg_info()->grob == Beam)     //if(get_wysiwyg_info()->repeatable && get_wysiwyg_info()->grob==(slur?Slur:Beam))
     call_out_to_guile ("(GetBeamPositions)");
   else
@@ -1728,7 +1745,14 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
           call_out_to_guile ("(EditSlur)");
           get_wysiwyg_info()->stage = STAGE_NONE;
           return TRUE;
+        } else if (Denemo.project->si->target.type == TARGET_TIE)
+        {
+          get_wysiwyg_info()->grob = Tie;
+          call_out_to_guile ("(EditTie)");
+          get_wysiwyg_info()->stage = STAGE_NONE;
+          return TRUE;
         }
+        
     }
   if (get_wysiwyg_info()->stage == SelectingNearEnd)
     {

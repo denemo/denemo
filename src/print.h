@@ -86,6 +86,7 @@ typedef enum
   OBJ_NONE,
   Beam,
   Slur,
+  Tie,
   Articulation,
   BassFigure,
 } WwGrob;

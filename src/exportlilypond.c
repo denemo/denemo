@@ -1214,18 +1214,20 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                     outputret;
                   }
 
+
+                if (pchord->is_tied)
+                  {
+                    NAVANC (TARGET_TIE, 0);
+                    g_string_append_printf (ret, "~ ");
+                    outputret;
+                  }
                 if (pchord->slur_begin_p)
                   {
                     NAVANC (TARGET_SLUR, 0);
                     g_string_append_printf (ret, "(");
                     outputret;
                   }
-                if (pchord->is_tied)
-                  {
-                    NAVANC (TARGET_TIE, 0);
-                    g_string_append_printf (ret, " ~");
-                    outputret;
-                  }
+                  
                 if (pchord->crescendo_end_p)
                   g_string_append_printf (ret, " \\!");
                 if (pchord->diminuendo_end_p)
@@ -2810,15 +2812,15 @@ goto_lilypond_position (gint line, gint column)
 {
   DenemoProject *gui = Denemo.project;
   GtkTextIter enditer, iter;
-#ifdef G_OS_WIN32
-  mswin ("goto_lilypond_position called for line %d column %d\n", line, column);
-#endif
+
+  g_print ("goto_lilypond_position called for line %d column %d\n", line, column);
+
   gtk_text_buffer_get_end_iter (Denemo.textbuffer, &enditer);
   gtk_text_buffer_get_start_iter (Denemo.textbuffer, &iter);
 
   line--;
 
-  column++;                     //needed to avoid stepping back after anchor on directives
+  column++; //needed to avoid stepping back after anchor on directives
   if (column > 0 && line > 0)
     {
       gtk_text_buffer_get_iter_at_line_offset (Denemo.textbuffer, &iter, line, 0);
@@ -2828,15 +2830,20 @@ goto_lilypond_position (gint line, gint column)
       gtk_text_iter_set_visible_line_offset (&iter, MIN (maxcol, column));
       gtk_text_buffer_place_cursor (Denemo.textbuffer, &iter);
       GtkTextChildAnchor *anchor = gtk_text_iter_get_child_anchor (&iter);
-      //if(anchor) g_debug("At anchor %x <%c> ", anchor, gtk_text_iter_get_char (&iter));
-      //else g_debug("Not at anchor <%c> ", gtk_text_iter_get_char (&iter));
+     // if(anchor) g_print("Initially at anchor %x <%c> type %d\n", anchor, gtk_text_iter_get_char (&iter),g_object_get_data (G_OBJECT (anchor), TARGETTYPE)) ;
+     // else g_print("Not at anchor <%c> ", gtk_text_iter_get_char (&iter));
       if (anchor && (g_object_get_data (G_OBJECT (anchor), MOVEMENTNUM) == NULL))
         anchor = NULL;
       while ((anchor == NULL) && gtk_text_iter_backward_char (&iter))
         {
           anchor = gtk_text_iter_get_child_anchor (&iter);
           if (anchor && (g_object_get_data (G_OBJECT (anchor), MOVEMENTNUM) == NULL))
+                    //g_print("Now At movementless anchor %x <%c> type %d\n", anchor, gtk_text_iter_get_char (&iter),g_object_get_data (G_OBJECT (anchor), TARGETTYPE)), 
             anchor = NULL;      //ignore anchors without positional info
+         // else if(anchor)
+         //   g_print("Now proper anchor %x <%c> type %d\n", anchor, gtk_text_iter_get_char (&iter),g_object_get_data (G_OBJECT (anchor), TARGETTYPE)); 
+          
+        
           //g_debug("#%c#", gtk_text_iter_get_char (&iter));
         }
       if (anchor)
@@ -2847,8 +2854,9 @@ goto_lilypond_position (gint line, gint column)
           gint movementnum = (intptr_t) g_object_get_data (G_OBJECT (anchor), MOVEMENTNUM);
           gint directivenum = (intptr_t) g_object_get_data (G_OBJECT (anchor), DIRECTIVENUM);
           gint mid_c_offset = (intptr_t) g_object_get_data (G_OBJECT (anchor), MIDCOFFSET);
-          //g_debug("location %d %d %d %d\n", objnum, measurenum, staffnum, movementnum);
+         
           DenemoTargetType type = (intptr_t) g_object_get_data (G_OBJECT (anchor), TARGETTYPE);
+          //g_print("location %d %d %d movement %d, type %d at %d %d \n", objnum, measurenum, staffnum, movementnum, type, line, column);
           gui->si->target.objnum = objnum;
           gui->si->target.measurenum = measurenum;
           gui->si->target.staffnum = staffnum;
