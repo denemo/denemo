@@ -2296,12 +2296,15 @@ get_updates_button (void)
   g_signal_connect (button, "clicked", G_CALLBACK (updates_menu), NULL);
   return button;
 }
-
+//pops up a menu of layouts with the action being to typeset that layout. If only one, typeset that.
 static void
 popup_layouts_menu ()
 {
   GtkWidget *menu = GetLayoutMenu ();
-  gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
+  if(Denemo.project->custom_scoreblocks || (g_list_length(Denemo.project->standard_scoreblocks)>1)) 
+    gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
+  else
+    typeset_current_layout ();
 }
 
 void
