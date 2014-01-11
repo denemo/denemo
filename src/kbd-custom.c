@@ -1249,7 +1249,8 @@ add_named_binding_to_idx (keymap * the_keymap, gchar * kb_name, guint command_id
       g_free (prompt);
       return old_command_id;
     }
-
+  if ((pos == POS_FIRST) && strcmp (kb_name, "Return"))
+    Denemo.accelerator_status = TRUE;
   if (old_command_id >= 0)
     {
       remove_keybinding_bindings_helper (the_keymap, old_command_id, kb_name);
@@ -1299,7 +1300,7 @@ add_twokeybinding_to_idx (keymap * the_keymap, gint first_keyval, GdkModifierTyp
   kb_name = g_strdup_printf ("%s" DENEMO_TWO_KEY_SEPARATOR "%s", dnm_accelerator_name (first_keyval, first_state), dnm_accelerator_name (keyval, state));
   old_command_id = add_named_binding_to_idx (the_keymap, kb_name, command_id, pos);
   g_free (kb_name);
-  //Denemo.accelerator_status = TRUE;
+  Denemo.accelerator_status = TRUE;
   return old_command_id;
 }
 
@@ -1566,12 +1567,12 @@ load_default_keymap_file ()
     {
      upgrade = g_build_filename (Denemo.old_user_data_dir, COMMANDS_DIR, user_keymap_file, NULL);
     }
-  gchar* files[] = {
-    g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, user_keymap_file, NULL),
+  gchar* files[] = {  
     g_build_filename (get_user_keymap_dir (), user_keymap_file, NULL),
     g_build_filename (get_system_data_dir (), COMMANDS_DIR, user_keymap_file, NULL),
     g_build_filename (get_user_keymap_dir (), default_keymap_file, NULL),
     g_build_filename (get_system_data_dir (), COMMANDS_DIR, default_keymap_file, NULL),
+    g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, user_keymap_file, NULL),
     NULL
   };
 

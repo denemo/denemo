@@ -319,10 +319,10 @@ load_xml_keymap (gchar * filename)
   xmlFreeDoc (doc);
   {static gboolean init=FALSE;
   if (!init)
-	{
-	alphabeticalize_commands (Denemo.map);
-	init = TRUE;
-	}
+    {
+    alphabeticalize_commands (Denemo.map);
+    init = TRUE;
+    }
   }
   {
     //if this is a new-style .commands file, we need to load the keybindings separately

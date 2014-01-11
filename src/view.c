@@ -854,11 +854,7 @@ closewrapper (GtkAction * action, DenemoScriptParam* param)
   if(!Denemo.non_interactive){
     GList *display;
 
-    if (Denemo.accelerator_status)
-      {
-        if (confirm (_("You have made changes to the commands you have"), _("Do you want to save the changes?")))
-          save_accels ();
-      }
+
     for (display = Denemo.projects; display != NULL; display = g_list_next (display))
       {
         Denemo.project = (DenemoProject *) display->data;
@@ -998,7 +994,11 @@ close_gui_with_check (GtkAction * action, DenemoScriptParam* param)
   Denemo.prefs.mode = Denemo.project->mode;
   if (action_callbacks (Denemo.project))
     return FALSE;               //Denemo.project may have been closed, depends on script callbacks;
-
+  if (Denemo.accelerator_status)
+      {
+        if (confirm (_("You have made changes to the commands you have"), _("Do you want to save the changes?")))
+          save_accels ();
+      }
   //do not ask for confirm if scripted FIXME
   if ((!project->notsaved) || (project->notsaved && confirmbox (project)))
     close_project ();
@@ -1006,6 +1006,7 @@ close_gui_with_check (GtkAction * action, DenemoScriptParam* param)
     return FALSE;
   if (Denemo.projects == NULL)
     {
+
       storeWindowState ();
       writeHistory ();
       writeXMLPrefs (&Denemo.prefs);
