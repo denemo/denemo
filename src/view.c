@@ -483,8 +483,8 @@ load_preferences (void)
   if (!Denemo.prefs.object_palette)
     activate_action ("/MainMenu/ViewMenu/" ToggleObjectMenu_STRING);
 
-  if (!Denemo.prefs.visible_directive_buttons)
-    activate_action ("/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
+ // if (!Denemo.prefs.visible_directive_buttons)
+  //  activate_action ("/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
 
   //these menu ones are visible on entry - FIXME is this the array of toolbars below, ending in TRUE?
   if (!Denemo.prefs.playback_controls)
