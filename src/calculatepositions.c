@@ -141,8 +141,7 @@ prune_list (GList * source)
          
   while (current)
     {
-       if ((((list_info *) current->data)->start_position != ((list_info *) previous->data)->start_position)
-        && (((list_info *) current->data)->pixels != ((list_info *) previous->data)->pixels))
+       if ((((list_info *) current->data)->start_position != ((list_info *) previous->data)->start_position))
                         sink = g_list_append (sink, current->data),  previous = current       ;
       else
         g_free (current->data);
