@@ -235,7 +235,7 @@ set_gui_tabname (DenemoProject * gui, gchar * filename)
  * and adds it to the history
  */
 static void
-set_gui_filename (DenemoProject * gui, gchar * filename)
+set_project_filename (DenemoProject * gui, gchar * filename)
 {
   GList *link = NULL;
   g_string_assign (gui->filename, filename);
@@ -347,8 +347,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
           if (type == REPLACE_SCORE)
             {
               if (xml){
-                if(!Denemo.non_interactive)
-                  set_gui_filename (gui, filename);
+                 set_project_filename (gui, filename);
               }
               else
                 {
@@ -405,6 +404,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
     rewind_audio ();
     gui->si->undo_guard = Denemo.prefs.disable_undo;      //user pref to (dis)allow undo information to be collected
   }
+
   return result;
 }
 
@@ -527,7 +527,7 @@ filesel_save (DenemoProject * gui, const gchar * file_name, gint format_id, Dene
     {
       update_file_selection_path (file);
       if(!Denemo.non_interactive)
-        set_gui_filename (gui, file);
+        set_project_filename (gui, file);
     }
   basename = g_path_get_basename (file);
   if (basename[0] != '.')       // avoids empty filename

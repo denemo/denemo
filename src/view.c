@@ -68,7 +68,7 @@ static GtkAdjustment *speed_adj;
 static void pb_audiorecord (GtkWidget * button);
 static void pb_exportaudio (GtkWidget * button);
 
-static DenemoProject* new_project();
+static DenemoProject* new_project(gboolean);
 static void newtab ();
 
 static void create_window (void);
@@ -520,12 +520,12 @@ load_files(gchar** files)
 {
   gboolean ret = FALSE;
   gint i = 0;
-  
+
   if(!files){
     if(!Denemo.non_interactive)
       newtab ();
     else
-      Denemo.project = new_project ();
+      Denemo.project = new_project (TRUE);
     open_for_real (get_most_recent_file (), Denemo.project, FALSE, REPLACE_SCORE);
     return TRUE;
   }
@@ -535,7 +535,7 @@ load_files(gchar** files)
       if(!Denemo.non_interactive)
         newtab ();
       else
-        Denemo.project = new_project ();
+        Denemo.project = new_project (TRUE);
       open_for_real (files[i], Denemo.project, FALSE, REPLACE_SCORE);
       ret = TRUE;
     }
@@ -4750,7 +4750,7 @@ new_score_cb (GtkAction * action, DenemoScriptParam * param)
 }
 
 static DenemoProject*
-new_project()
+new_project(gboolean new_movement)
 {
   static gint id = 1;
   DenemoProject *project = (DenemoProject *) g_malloc0 (sizeof (DenemoProject));
@@ -4764,6 +4764,13 @@ new_project()
   project->lilycontrol.staffsize = g_string_new ("18");
   project->lilycontrol.lilyversion = g_string_new ("");
   project->lilycontrol.orientation = TRUE;  //portrait
+
+  if(new_movement){
+    Denemo.project = project;
+    point_to_new_movement (project);
+    project->movements = g_list_append (NULL, project->si);
+  }
+  
   return project;
 }
 
@@ -4934,12 +4941,11 @@ newtab ()
   if (Denemo.project && gtk_widget_get_visible (Denemo.textwindow))
     activate_action ("/MainMenu/ViewMenu/" ToggleLilyText_STRING);
 
-  DenemoProject* project = new_project();
+  DenemoProject* project = new_project(FALSE);
   project->score_layout = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (project->score_layout), "Score Layout");
   gtk_window_set_default_size (GTK_WINDOW (project->score_layout), 400, 800);
   g_signal_connect (G_OBJECT (project->score_layout), "delete-event", G_CALLBACK (hide_score_layout_on_delete), NULL);
-
   /* Initialize the project */
 
   //create the tab for this project
@@ -5005,7 +5011,6 @@ newtab ()
   gtk_widget_grab_focus (Denemo.scorearea);
 
 
-
   create_rhythm_cb ((gpointer) insert_chord_0key, NULL);
   create_rhythm_cb ((gpointer) insert_chord_1key, NULL);
   create_rhythm_cb ((gpointer) insert_chord_2key, NULL);
@@ -5056,4 +5061,5 @@ newtab ()
     }
   if (have_midi () && Denemo.prefs.startmidiin)
     project->input_source = INPUTMIDI;
+
 }                               /* end of newtab creating a new DenemoProject holding one musical score */
