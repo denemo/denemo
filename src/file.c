@@ -337,6 +337,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
 #endif
         }
     }
+  g_message("Opening file %s", filename);
   //printf("\nResult == %d type == %d template == %d xml == %d\n",result,type,template,(int)xml);
   if (result == 0)
     {

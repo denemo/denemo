@@ -676,6 +676,7 @@ create_thumbnail (gboolean async)
       gchar *thumbpathN = g_build_filename (thumbnailsdirN, thumbname, NULL);
       thebuf.st_mtime = 0;
       g_stat (thumbpathN, &thebuf);
+      g_info("Creating thumbnail %s", thumbpathN);
       unsigned mtime_thumb = thebuf.st_mtime;
       if (mtime_thumb < mtime)
         {
