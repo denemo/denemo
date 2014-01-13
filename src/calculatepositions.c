@@ -87,12 +87,24 @@ new_list_info (gint start_position, gint pixels)
   return ret;
 }
 
+G_GNUC_UNUSED
+static print_nonchords (GList *nonchords)
+{
+    GList *g;
+    for (g=nonchords;g;g=g->next)
+    {
+        g_print ("(p = %d, t = %d)\n", ((list_info *) g->data)->pixels, ((list_info *) g->data)->start_position);
+    }
+    
+}
 /**
  * g_list_foreach function to compare the start postion of the 
  * object
- * 
+ * This is used on the non-chord infos, the non-chords being taken from across all staffs for a single block
+ * a "block" being chosen so that the start and end ticks are respectively equal
+ * the sorting is by tick and then within the same tick by the pixels value - here described as "the longer gap"
  */
-gint
+static gint
 list_compare_func (gpointer a, gpointer b)
 {
   list_info *ali = (list_info *) a;
@@ -110,7 +122,7 @@ list_compare_func (gpointer a, gpointer b)
  * 
  * @param source list of DenemoObjects to prune
  */
-GList *
+static GList *
 prune_list (GList * source)
 {
   GList *previous;
@@ -122,24 +134,28 @@ prune_list (GList * source)
   if (previous)
     {
       sink = g_list_append (sink, previous->data);
-      current = previous->next;
+      current = previous->next;   
     }
   else
     current = NULL;
+         
   while (current)
     {
-      if (((list_info *) current->data)->start_position != ((list_info *) previous->data)->start_position)
-        sink = g_list_append (sink, current->data);
+       if ((((list_info *) current->data)->start_position != ((list_info *) previous->data)->start_position)
+        && (((list_info *) current->data)->pixels != ((list_info *) previous->data)->pixels))
+                        sink = g_list_append (sink, current->data),  previous = current       ;
       else
         g_free (current->data);
-      previous = current;
+      
       current = current->next;
     }
   /* Okay. The stuff we care about has been copied to sink.  All that
    * remains to do is free source and return sink */
-  g_list_free (source);
+  g_list_free (source);//g_print("Keeping \n"), print_nonchords(sink), g_print("... ok???");
   return sink;
 }
+
+
 
 /**
  * Allocate_xes - allocate the x position for all chord elements
@@ -167,7 +183,6 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
   GList *non_chords_node = 0;
 
   /* Initializey stuff */
-
   non_chords = prune_list (non_chords);
 
   /* Set the block width */
@@ -255,7 +270,10 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
  * proportionally among all the notes in the block according to their
  * duration.  It also does stuff with a linked list for dealing with
  * non-chord mudela objects.  First, a utility #define: */
-
+//fxim appends to the non-chords list for all the non-chord objects up to the next chord. The list is a list of accumulated x-offset and tick. 
+//If a chord follows the space before is also added to the accumulated x-offset.
+// there is also tick related stuff done.
+//cur_obj_nodes is moved to the first chord
 #define fxim_utility \
   accumulator = 0;  \
   start_tick = 0;\
@@ -268,10 +286,10 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
       non_chords = g_list_append (non_chords,  \
                                   new_list_info (start_tick, accumulator));  \
       if (curobj->type == TIMESIG)  \
-	{  \
-	  ret.a = ((timesig *)curobj->object)->time1;  \
-	  ret.b = ((timesig *)curobj->object)->time2;  \
-	} \
+    {  \
+      ret.a = ((timesig *)curobj->object)->time1;  \
+      ret.b = ((timesig *)curobj->object)->time2;  \
+    } \
       cur_obj_nodes[i] = cur_obj_nodes[i]->next;  \
     }  \
   if (cur_obj_nodes[i])  \
@@ -289,8 +307,8 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
             mudobj (cur_obj_nodes[i])->minpixelsalloted;  \
         }  \
       max_advance_ticks =  \
-	    MAX (max_advance_ticks,  \
-		 mudobj (cur_obj_nodes[i])->starttickofnextnote);  \
+        MAX (max_advance_ticks,  \
+         mudobj (cur_obj_nodes[i])->starttickofnextnote);  \
     }
 
 /* Note that a lot more nodes get added to non_chords than is necessary,
@@ -334,6 +352,7 @@ find_xes_in_measure (DenemoMovement * si, gint measurenum, gint time1, gint time
   for (i = 0, cur_staff = si->thescore; cur_staff; i++, cur_staff = cur_staff->next)
     {
 
+// Point cur_obj_nodes[i] to the list of objects in the measure for the i'th staff  (if no measure NULL)
       if (((DenemoStaff *) cur_staff->data)->nummeasures >= measurenum)
         {
           block_start_obj_nodes[i] = cur_obj_nodes[i] = firstobjnode (g_list_nth (firstmeasurenode (cur_staff), measurenum - 1));
@@ -342,9 +361,9 @@ find_xes_in_measure (DenemoMovement * si, gint measurenum, gint time1, gint time
         {
           block_start_obj_nodes[i] = cur_obj_nodes[i] = NULL;
         }
+// run the fxim thing on these objects
 
-
-      fxim_utility;
+      fxim_utility; //creates the non_chords list up to the first chord, moving cur_obj_nodes to the first chord in each staff
     }
 
   while (non_chords != NULL || music_remains_p (cur_obj_nodes, num_staffs))
