@@ -6255,6 +6255,13 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Bar Numbering Interval</_label>
         <_tooltip>Sets the interval at which bar numbers will be printed on typesetting.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>MMRExpandLimit</action>
+        <after>AutoAccidentals</after>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
+        <_label>Multi-Measure Rest Expand Limit</_label>
+        <_tooltip>In Multi-Measure rests: controls how many measures rest are notated as church rests before numbers are used.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

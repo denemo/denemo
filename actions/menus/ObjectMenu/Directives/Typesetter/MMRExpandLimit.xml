@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>MMRExpandLimit</action>
+        <after>AutoAccidentals</after>
+        <_label>Multi-Measure Rest Expand Limit</_label>
+        <_tooltip>In Multi-Measure rests: controls how many measures rest are notated as church rests before numbers are used.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
