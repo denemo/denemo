@@ -329,15 +329,15 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
       else if (exists (filename, ".pdf") || exists (filename, ".PDF"))
         {                       
 #ifndef USE_EVINCE  
-  g_debug("This feature requires denemo to be built with evince");
+          g_debug("This feature requires denemo to be built with evince");
 #else
           // a .pdf file for transcribing from, does not affect the current score.
           g_signal_handlers_unblock_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
           return !open_source (filename, 0, 0, 0);
 #endif
         }
+    g_message("Opening file %s", filename);
     }
-  g_message("Opening file %s", filename);
   //printf("\nResult == %d type == %d template == %d xml == %d\n",result,type,template,(int)xml);
   if (result == 0)
     {
