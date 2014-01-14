@@ -37,7 +37,7 @@ addbookmark (GtkAction * action, gpointer param)
 {
   DenemoProject *gui = Denemo.project;
   g_assert (gui != NULL);
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   Bookmark *bm = (Bookmark *) g_malloc0 (sizeof (Bookmark));
   bm->bar = si->currentmeasurenum;
   bm->staff = si->currentstaffnum;
@@ -55,7 +55,7 @@ deletebookmarks (GtkAction * action, gpointer param)
 {
   DenemoProject *gui = Denemo.project;
   GList *g;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   for (g = si->bookmarks; g; g = g->next)
     {
       g_free (g->data);
@@ -67,18 +67,18 @@ void
 nextbookmark (GtkAction * action, gpointer param)
 {
   DenemoProject *gui = Denemo.project;
-  if (gui->si->bookmarks)
+  if (gui->movement->bookmarks)
     {
-      GList *g = g_list_nth (gui->si->bookmarks, gui->si->currentbookmark + 1);
+      GList *g = g_list_nth (gui->movement->bookmarks, gui->movement->currentbookmark + 1);
       if (g == NULL)
         {
           gdk_beep ();          //wrap around
-          g = gui->si->bookmarks;
-          gui->si->currentbookmark = -1;
+          g = gui->movement->bookmarks;
+          gui->movement->currentbookmark = -1;
         }
       Bookmark *bm = g->data;
       findbookmark (gui, bm->bar, bm->staff);
-      gui->si->currentbookmark++;
+      gui->movement->currentbookmark++;
     }
 }
 
@@ -86,18 +86,18 @@ void
 prevbookmark (GtkAction * action, gpointer param)
 {
   DenemoProject *gui = Denemo.project;
-  if (gui->si->bookmarks)
+  if (gui->movement->bookmarks)
     {
-      GList *g = g_list_nth (gui->si->bookmarks, gui->si->currentbookmark - 1);
+      GList *g = g_list_nth (gui->movement->bookmarks, gui->movement->currentbookmark - 1);
       if (g == NULL)
         {
           gdk_beep ();          //wrap around
-          g = g_list_last (gui->si->bookmarks);
-          gui->si->currentbookmark = g_list_length (gui->si->bookmarks) + 1;
+          g = g_list_last (gui->movement->bookmarks);
+          gui->movement->currentbookmark = g_list_length (gui->movement->bookmarks) + 1;
         }
       Bookmark *bm = g->data;
       findbookmark (gui, bm->bar, bm->staff);
-      gui->si->currentbookmark--;
+      gui->movement->currentbookmark--;
     }
 }
 
@@ -110,7 +110,7 @@ gotobookmark (GtkAction * action, gpointer param)
 {
   DenemoProject *gui = Denemo.project;
   g_assert (gui != NULL);
-  if (gui->si->bookmarks == NULL)
+  if (gui->movement->bookmarks == NULL)
     {
       warningdialog (_("No bookmarks are present in this movement"));
       return;
@@ -119,12 +119,12 @@ gotobookmark (GtkAction * action, gpointer param)
   GtkWidget *combobox;
   dialog = gtk_dialog_new_with_buttons (_("Goto Bookmark"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 
-  //g_debug ("List length %d\n", g_list_length (gui->si->bookmarks));
+  //g_debug ("List length %d\n", g_list_length (gui->movement->bookmarks));
 #define FORMAT "%d : Staff %d : Bar %d"
 #if GTK_MAJOR_VERSION==3
   GList* tmp;
   combobox = gtk_combo_box_text_new ();
-  for (tmp = gui->si->bookmarks; tmp; tmp = tmp->next)
+  for (tmp = gui->movement->bookmarks; tmp; tmp = tmp->next)
     {
       Bookmark *bm = (Bookmark *) tmp->data;
       char *tmpstring = g_strdup_printf (FORMAT,        //FIXME insane use of sscanf see below
@@ -134,7 +134,7 @@ gotobookmark (GtkAction * action, gpointer param)
 	GList* tmp;
   GList *strings = NULL;
   combobox = gtk_combo_new ();
-  for (tmp = gui->si->bookmarks; tmp; tmp = tmp->next)
+  for (tmp = gui->movement->bookmarks; tmp; tmp = tmp->next)
     {
       Bookmark *bm = (Bookmark *) tmp->data;
       char *tmpstring = g_strdup_printf (FORMAT,        //FIXME insane use of sscanf see below

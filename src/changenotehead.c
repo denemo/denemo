@@ -84,7 +84,7 @@ set_notehead (GtkAction * action, DenemoScriptParam * param)
     {
       if (((DenemoScriptParam *) param)->string && ((DenemoScriptParam *) param)->string->len)
         {
-          insertnotehead (gui->si, ((DenemoScriptParam *) param)->string->str);
+          insertnotehead (gui->movement, ((DenemoScriptParam *) param)->string->str);
           ((DenemoScriptParam *) param)->status = TRUE;
           return;
         }
@@ -133,10 +133,10 @@ set_notehead (GtkAction * action, DenemoScriptParam * param)
     {
 #if GTK_MAJOR_VERSION==3
       gint num = gtk_combo_box_get_active (GTK_COMBO_BOX (combo));
-      insertnotehead (gui->si, notehead[num]);
+      insertnotehead (gui->movement, notehead[num]);
 #else
       gchar *noteheadstring = (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (combo)->entry));
-      insertnotehead (gui->si, noteheadstring);
+      insertnotehead (gui->movement, noteheadstring);
 #endif
     }
   gtk_widget_destroy (dialog);

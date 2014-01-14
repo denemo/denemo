@@ -37,16 +37,16 @@
 void
 set_tempo (void)
 {
-  gdouble tempo = Denemo.project->si->master_tempo;
+  gdouble tempo = Denemo.project->movement->master_tempo;
   if (tempo < 0.001 || (tempo > 0.999 && tempo < 1.001))
     return;
-  Denemo.project->si->tempo *= tempo;
-  Denemo.project->si->start_time /= tempo;
-  Denemo.project->si->end_time /= tempo;
+  Denemo.project->movement->tempo *= tempo;
+  Denemo.project->movement->start_time /= tempo;
+  Denemo.project->movement->end_time /= tempo;
 
-  Denemo.project->si->master_tempo = 1.0;
+  Denemo.project->movement->master_tempo = 1.0;
   score_status (Denemo.project, TRUE);
-  exportmidi (NULL, Denemo.project->si, 0, 0);
+  exportmidi (NULL, Denemo.project->movement, 0, 0);
 }
 
 
@@ -123,14 +123,14 @@ PlaybackRangeDialog ()
 
   //TODO calculate hightest number in seconds
   gdouble max_end_time = 7200.0;
-  //g_list_length (((DenemoStaff *) (gui->si->thescore->data))->measures);
+  //g_list_length (((DenemoStaff *) (gui->movement->thescore->data))->measures);
 
   label = gtk_label_new (_("Play from time"));
   gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
 
   from_time = gtk_spin_button_new_with_range (0.0, max_end_time, 0.1);
   gtk_box_pack_start (GTK_BOX (hbox), from_time, TRUE, TRUE, 0);
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (from_time), (gdouble) gui->si->start_time);
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (from_time), (gdouble) gui->movement->start_time);
 
   label = gtk_label_new (_("to"));
   gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
@@ -138,7 +138,7 @@ PlaybackRangeDialog ()
   to_time = gtk_spin_button_new_with_range (0.0, max_end_time, 0.1);
   gtk_box_pack_start (GTK_BOX (hbox), to_time, TRUE, TRUE, 0);
 
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (to_time), (gdouble) gui->si->end_time);
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (to_time), (gdouble) gui->movement->end_time);
 
   gtk_widget_show (hbox);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
@@ -147,8 +147,8 @@ PlaybackRangeDialog ()
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
-      gui->si->start_time = gtk_spin_button_get_value (GTK_SPIN_BUTTON (from_time));
-      gui->si->end_time = gtk_spin_button_get_value (GTK_SPIN_BUTTON (to_time));
+      gui->movement->start_time = gtk_spin_button_get_value (GTK_SPIN_BUTTON (from_time));
+      gui->movement->end_time = gtk_spin_button_get_value (GTK_SPIN_BUTTON (to_time));
       //gtk_widget_destroy (dialog);
     }
 

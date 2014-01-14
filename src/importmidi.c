@@ -190,7 +190,7 @@ dotimesig (gint numerator, gint denominator)
 {
   DenemoProject *gui = Denemo.project;
   /*only does initial TS */
-  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->movement->currentstaff->data;
 
   curstaffstruct->timesig.time1 = numerator;
   curstaffstruct->timesig.time2 = denominator;
@@ -207,7 +207,7 @@ dokeysig (gint isminor, gint key)
   if (key > 7)
     key = key - 256;            /*get flat key num, see keysigdialog.cpp */
   g_debug ("\nkey = %d\n", key);
-  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->movement->currentstaff->data;
   curstaffstruct->keysig.number = key;
   curstaffstruct->keysig.isminor = isminor;
   dnm_setinitialkeysig (curstaffstruct, key, isminor);
@@ -217,14 +217,14 @@ static void
 dotempo (gint tempo)
 {
   DenemoProject *gui = Denemo.project;
-  gui->si->tempo = (gint) (6.0e7 / (double) tempo);
+  gui->movement->tempo = (gint) (6.0e7 / (double) tempo);
 }
 
 static void
 dotrackname (gchar * name)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->movement->currentstaff->data;
   if (name)
     g_string_assign (curstaffstruct->denemo_name, name);
 }
@@ -233,7 +233,7 @@ static void
 doinstrname (gchar * name)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->movement->currentstaff->data;
   if (name)
     g_string_assign (curstaffstruct->midi_instrument, name);
 }
@@ -317,7 +317,7 @@ static void
 insert_note_into_score (gint pitch, notetype length)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->movement->currentstaff->data;
   gint i;
 
   /* 0-8 accepted bellow */

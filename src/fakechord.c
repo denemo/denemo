@@ -130,7 +130,7 @@ insertfakechord (GtkWidget * widget, gpointer data)
 {
   struct callbackdata *cbdata = (struct callbackdata *) data;
   DenemoProject *gui = cbdata->gui;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   if (cbdata->string == NULL)
     return FALSE;
   if (si->currentobject != NULL)
@@ -146,7 +146,7 @@ insertfakechord (GtkWidget * widget, gpointer data)
         {
           if (si->currentobject->next)
             movecursorright (NULL, NULL);
-          else if (gui->si->currentmeasure->next)
+          else if (gui->movement->currentmeasure->next)
             movetomeasureright (NULL, NULL);
           else
             break;
@@ -171,7 +171,7 @@ void
 delete_fakechords (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoStaff *thestaff = (DenemoStaff *) gui->si->currentstaff->data;
+  DenemoStaff *thestaff = (DenemoStaff *) gui->movement->currentstaff->data;
   if (confirm (_("Chord Symbol Deletion"), _("Delete all Chord Symbols from this staff?")))
     {
       thestaff->hasfakechords = FALSE;
@@ -206,7 +206,7 @@ fakechord_insert (GtkAction * action, DenemoScriptParam * param)
   gchar *string;
   gchar *PreValue = NULL;
   GString *temp = g_string_new ("");
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   static struct callbackdata cbdata;
   DenemoObject *curObj = (DenemoObject *) si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
 

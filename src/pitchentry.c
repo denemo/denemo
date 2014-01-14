@@ -409,7 +409,7 @@ gchar *
 determine_interval (gint bass, gint harmony, gboolean * status)
 {
   gint semitones = harmony - bass;
-  gint *accs = ((DenemoStaff *) Denemo.project->si->currentstaff->data)->keysig.accs;
+  gint *accs = ((DenemoStaff *) Denemo.project->movement->currentstaff->data)->keysig.accs;
   notepitch bassnote = PR_temperament->notepitches[bass % 12];
   notepitch harmonynote = PR_temperament->notepitches[harmony % 12];
   gint interval = harmonynote.spec.step - bassnote.spec.step + 1;
@@ -612,7 +612,7 @@ signal_measure_end (void)
 {
   if (Denemo.prefs.immediateplayback)
     {
-      play_note (DEFAULT_BACKEND, 0 /*port */ , 9, 74, 300, (gint) (100 * Denemo.project->si->master_volume));
+      play_note (DEFAULT_BACKEND, 0 /*port */ , 9, 74, 300, (gint) (100 * Denemo.project->movement->master_volume));
     }
 }
 
@@ -724,17 +724,17 @@ apply_tones (DenemoMovement * si)
 
 /*
  * enter_note_in_score
- * enters the note FOUND in the score gui->si at octave OCTAVE steps above/below mid-c
+ * enters the note FOUND in the score gui->movement at octave OCTAVE steps above/below mid-c
  */
 static void
 enter_note_in_score (DenemoProject * gui, notepitch * found, gint octave)
 {
-  //printf("Cursor_y %d and staffletter = %d\n", gui->si->cursor_y, gui->si->staffletter_y);
+  //printf("Cursor_y %d and staffletter = %d\n", gui->movement->cursor_y, gui->movement->staffletter_y);
   gui->last_source = INPUTAUDIO;
-  gui->si->cursor_y = gui->si->staffletter_y = found->spec.step;
-  gui->si->cursor_y += 7 * octave;
+  gui->movement->cursor_y = gui->movement->staffletter_y = found->spec.step;
+  gui->movement->cursor_y += 7 * octave;
   shiftcursor (gui, found->spec.step);
-  setenshift (gui->si, found->spec.alteration);
+  setenshift (gui->movement, found->spec.alteration);
   displayhelper (gui);
 }
 
@@ -772,9 +772,9 @@ enter_tone_in_store (DenemoProject * gui, notepitch * found, gint octave)
   thetone->step = found->spec.step + 7 * octave;
   thetone->octave = octave;
   thetone->valid = TRUE;
-#define store  (((DenemoStaff*)gui->si->currentstaff->data)->tone_store)
-  store = put_tone (store, gui->si->currentmeasurenum - 1, thetone);
-  nextmeasure = apply_tones (gui->si);
+#define store  (((DenemoStaff*)gui->movement->currentstaff->data)->tone_store)
+  store = put_tone (store, gui->movement->currentmeasurenum - 1, thetone);
+  nextmeasure = apply_tones (gui->movement);
   displayhelper (gui);
   if (Denemo.prefs.continuous && nextmeasure)
     {
@@ -790,7 +790,7 @@ enter_tone_in_store (DenemoProject * gui, notepitch * found, gint octave)
 static void
 clear_tone_nodes (DenemoProject * gui)
 {
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   DenemoStaff *curstaff = ((DenemoStaff *) si->currentstaff->data);
   measurenode *curmeasure;
   for (curmeasure = curstaff->measures; curmeasure; curmeasure = curmeasure->next)
@@ -817,11 +817,11 @@ free_tones (GList * tones)
     }
 }
 
-  // clear gui->si->currentstaff->data->tone_store and the references to it
+  // clear gui->movement->currentstaff->data->tone_store and the references to it
 static void
 clear_tone_store (G_GNUC_UNUSED GtkButton * button, DenemoProject * gui)
 {
-#define store  (((DenemoStaff*)gui->si->currentstaff->data)->tone_store)
+#define store  (((DenemoStaff*)gui->movement->currentstaff->data)->tone_store)
   g_list_foreach (store, (GFunc) free_tones, NULL);
   clear_tone_nodes (gui);
   g_list_free (store);
@@ -1043,7 +1043,7 @@ pitchentry (DenemoProject * gui)
                   gint key = (gint) (Freq2Pitch (found->pitch * (pow (2, (octave)))));
                   //g_debug("pitch %f key number %d\n",found->pitch, key);
 
-                  DenemoStaff *curstaffstruct = ((DenemoStaff *) Denemo.project->si->currentstaff->data);
+                  DenemoStaff *curstaffstruct = ((DenemoStaff *) Denemo.project->movement->currentstaff->data);
                   play_note (DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, key, 300 /*duration */ , 0);
                 }
               if (gui->input_source == INPUTMIDI || !Denemo.prefs.overlays)
@@ -1052,9 +1052,9 @@ pitchentry (DenemoProject * gui)
                   if (gui->mode & INPUTRHYTHM)
                     {
                       static gboolean beep = FALSE;
-                      gint measure = gui->si->currentmeasurenum;
+                      gint measure = gui->movement->currentmeasurenum;
                       scheme_next_note (NULL);
-                      if (measure != gui->si->currentmeasurenum)
+                      if (measure != gui->movement->currentmeasurenum)
                         beep = TRUE;
                       else if (beep)
                         signal_measure_end (), beep = FALSE;

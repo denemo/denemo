@@ -89,7 +89,7 @@ transition_offset (void)
 {
   if (Denemo.project->view == DENEMO_PAGE_VIEW)
     return 0.0;
-  return (gdouble) transition_steps *transition_amount * Denemo.project->si->measurewidth / 10;
+  return (gdouble) transition_steps *transition_amount * Denemo.project->movement->measurewidth / 10;
 }
 
 gdouble

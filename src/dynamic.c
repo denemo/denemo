@@ -40,7 +40,7 @@ insert_it (gint num)
   GString *directivestring = NULL;
 
   directivestring = g_string_new (directives[num]);
-  mudelaobj = (DenemoObject *) (Denemo.project->si->currentobject ? Denemo.project->si->currentobject->data : NULL);
+  mudelaobj = (DenemoObject *) (Denemo.project->movement->currentobject ? Denemo.project->movement->currentobject->data : NULL);
 
   add_dynamic (mudelaobj, directivestring);
 }

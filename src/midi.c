@@ -69,7 +69,7 @@ get_midiqueue (void)
 void
 update_position (smf_event_t * event)
 {
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
 
   if (event)
     {
@@ -109,15 +109,15 @@ static GString *callback_script = NULL;
 void
 start_playing (gchar * callback)
 {
-  smf_t *smf = Denemo.project->si->smf;
+  smf_t *smf = Denemo.project->movement->smf;
   if (callback && *callback)
     callback_script = g_string_new (callback);
-  if (Denemo.project->si->recorded_midi_track)
-    safely_add_track (Denemo.project->si->smf, Denemo.project->si->recorded_midi_track);
+  if (Denemo.project->movement->recorded_midi_track)
+    safely_add_track (Denemo.project->movement->smf, Denemo.project->movement->recorded_midi_track);
 
   set_start_and_end_objects_for_draw ();
   smf_rewind (smf);
-  gdouble start = (Denemo.project->si->start_time/get_playback_speed()) - SHAVING;
+  gdouble start = (Denemo.project->movement->start_time/get_playback_speed()) - SHAVING;
   if(smf_seek_to_seconds (smf, (start>0.0)?start:0.0))
     g_warning("smf_seek_to_seconds %f failed", start);
 
@@ -162,9 +162,9 @@ stop_playing ()
   g_idle_add_full (G_PRIORITY_HIGH_IDLE, (GSourceFunc) update_playbutton_callback, GINT_TO_POINTER (is_paused ()), NULL);
   playing = FALSE;
   play_until = -G_MAXDOUBLE;
-  if (Denemo.project->si && Denemo.project->si->recorded_midi_track)
+  if (Denemo.project->movement && Denemo.project->movement->recorded_midi_track)
     {
-      safely_track_remove_from_smf (Denemo.project->si->recorded_midi_track);
+      safely_track_remove_from_smf (Denemo.project->movement->recorded_midi_track);
       finish_recording ();
     }
   if (callback_script)
@@ -204,18 +204,18 @@ get_playuntil (void)
 void
 update_playback_start_time (double adjust)
 {
-  if (Denemo.project && Denemo.project->si)
+  if (Denemo.project && Denemo.project->movement)
     {
-      Denemo.project->si->start_time += adjust;
+      Denemo.project->movement->start_time += adjust;
     }
 }
 
 double
 get_start_time ()
 {
-  if (Denemo.project && Denemo.project->si && (Denemo.project->si->start_time > 0.0))
+  if (Denemo.project && Denemo.project->movement && (Denemo.project->movement->start_time > 0.0))
     {
-      return Denemo.project->si->start_time;
+      return Denemo.project->movement->start_time;
     }
   else
     {
@@ -227,11 +227,11 @@ get_start_time ()
 double
 get_end_time ()
 {
-  if (Denemo.project && Denemo.project->si && Denemo.project->si->smf)
+  if (Denemo.project && Denemo.project->movement && Denemo.project->movement->smf)
     {
-      if (Denemo.project->si->end_time < 0.0)
-        Denemo.project->si->end_time = smf_get_length_seconds (Denemo.project->si->smf);
-      return Denemo.project->si->end_time;
+      if (Denemo.project->movement->end_time < 0.0)
+        Denemo.project->movement->end_time = smf_get_length_seconds (Denemo.project->movement->smf);
+      return Denemo.project->movement->end_time;
     }
   else
     {
@@ -243,13 +243,13 @@ get_end_time ()
 smf_event_t *
 get_smf_event (double until_time)
 {
-  if (Denemo.project == NULL || Denemo.project->si == NULL || Denemo.project->si->smf == NULL)
+  if (Denemo.project == NULL || Denemo.project->movement == NULL || Denemo.project->movement->smf == NULL)
     return NULL;
-  smf_t *smf = Denemo.project->si->smf;
+  smf_t *smf = Denemo.project->movement->smf;
 
-  if (until_time > Denemo.project->si->end_time)
+  if (until_time > Denemo.project->movement->end_time)
     {
-      until_time = Denemo.project->si->end_time;
+      until_time = Denemo.project->movement->end_time;
     }
 
   for (;;)
@@ -299,12 +299,12 @@ get_time ()
 void
 generate_midi ()
 {
-  if ((Denemo.project->si->smf == NULL) || (Denemo.project->si->smfsync != Denemo.project->si->changecount))
+  if ((Denemo.project->movement->smf == NULL) || (Denemo.project->movement->smfsync != Denemo.project->movement->changecount))
     {
-      exportmidi (NULL, Denemo.project->si, 0, 0);
+      exportmidi (NULL, Denemo.project->movement, 0, 0);
     }
 
-  if (Denemo.project->si->smf == NULL)
+  if (Denemo.project->movement->smf == NULL)
     {
       g_critical ("Loading SMF failed.");
     }
@@ -391,10 +391,10 @@ action_note_into_score (gint mid_c_offset, gint enshift, gint octave)
 {
   DenemoProject *gui = Denemo.project;
   gui->last_source = INPUTMIDI;
-  gui->si->cursor_y = gui->si->staffletter_y = mid_c_offset;
-  gui->si->cursor_y += 7 * octave;
+  gui->movement->cursor_y = gui->movement->staffletter_y = mid_c_offset;
+  gui->movement->cursor_y += 7 * octave;
   shiftcursor (gui, mid_c_offset);
-  setenshift (gui->si, enshift);
+  setenshift (gui->movement, enshift);
   displayhelper (gui);
 }
 
@@ -403,11 +403,11 @@ add_note_to_chord (gint mid_c_offset, gint enshift, gint octave)
 {
   DenemoProject *gui = Denemo.project;
   gui->last_source = INPUTMIDI;
-  gui->si->cursor_y = gui->si->staffletter_y = mid_c_offset;
-  gui->si->cursor_y += 7 * octave;
+  gui->movement->cursor_y = gui->movement->staffletter_y = mid_c_offset;
+  gui->movement->cursor_y += 7 * octave;
   insert_chordnote (gui);
   // shiftcursor(gui, mid_c_offset);
-  setenshift (gui->si, enshift);
+  setenshift (gui->movement, enshift);
   displayhelper (gui);
 }
 
@@ -421,12 +421,12 @@ typedef struct enharmonic
 
 void new_midi_recording (void) {
   DenemoRecording *recording;
-  if(Denemo.project->si->recording && (Denemo.project->si->recording->type==DENEMO_RECORDING_MIDI))
+  if(Denemo.project->movement->recording && (Denemo.project->movement->recording->type==DENEMO_RECORDING_MIDI))
     {  
       //FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
-      recording = Denemo.project->si->recording;
+      recording = Denemo.project->movement->recording;
       g_static_mutex_lock (&smfmutex);
-      Denemo.project->si->recording = NULL;
+      Denemo.project->movement->recording = NULL;
       g_static_mutex_unlock (&smfmutex);
       g_free (recording->filename);
       g_free (recording);
@@ -435,10 +435,10 @@ void new_midi_recording (void) {
   recording = (DenemoRecording *) g_malloc (sizeof (DenemoRecording));
   recording->type = DENEMO_RECORDING_MIDI;
   recording->samplerate = 44100;
-  Denemo.project->si->recording = recording;
+  Denemo.project->movement->recording = recording;
 }
 
-//Add the passed midi to a recording in Denemo.project->si
+//Add the passed midi to a recording in Denemo.project->movement
 static void
 record_midi (gchar * buf, gdouble time)
 {
@@ -446,17 +446,17 @@ record_midi (gchar * buf, gdouble time)
   smf_event_t *event = smf_event_new_from_pointer (buf, 3);
   if (event && smf_event_is_valid (event))
     {
-      if (Denemo.project->si->recorded_midi_track && ((smf_track_t *) Denemo.project->si->recorded_midi_track)->smf)
+      if (Denemo.project->movement->recorded_midi_track && ((smf_track_t *) Denemo.project->movement->recorded_midi_track)->smf)
         {
            
-          smf_track_add_event_seconds (Denemo.project->si->recorded_midi_track, event, time);
-          if(Denemo.project->si->recording && noteon_key(event))
+          smf_track_add_event_seconds (Denemo.project->movement->recorded_midi_track, event, time);
+          if(Denemo.project->movement->recording && noteon_key(event))
             {
                 DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
-                note->timing = event->time_seconds * Denemo.project->si->recording->samplerate;
+                note->timing = event->time_seconds * Denemo.project->movement->recording->samplerate;
                 notenum2enharmonic (noteon_key(event), &(note->mid_c_offset), &(note->enshift), &(note->octave));
                 note->event = event;
-                Denemo.project->si->recording->notes = g_list_append (Denemo.project->si->recording->notes, note);
+                Denemo.project->movement->recording->notes = g_list_append (Denemo.project->movement->recording->notes, note);
             }
         }
       else
@@ -483,15 +483,15 @@ do_one_note (gint mid_c_offset, gint enshift, gint notenum)
       PushPosition (NULL, NULL);
       while (cursor_to_prev_note ())
         {
-          curobj = Denemo.project->si->currentobject->data;
+          curobj = Denemo.project->movement->currentobject->data;
           if (!curobj->isinvisible)
             break;
           else
             non_printing_note = TRUE;
         }
-      if (Denemo.project->si->currentobject)
+      if (Denemo.project->movement->currentobject)
         {
-          curobj = Denemo.project->si->currentobject->data;
+          curobj = Denemo.project->movement->currentobject->data;
           if (non_printing_note)
             {
               if (!curobj->isinvisible)
@@ -516,9 +516,9 @@ static gboolean
 get_current (enharmonic * enote)
 {
   DenemoObject *curObj = NULL;
-  if (Denemo.project->si->currentobject)
+  if (Denemo.project->movement->currentobject)
     {
-      curObj = Denemo.project->si->currentobject->data;
+      curObj = Denemo.project->movement->currentobject->data;
       if (curObj && curObj->type == CHORD)
         {
           chord *thechord = (chord *) curObj->object;
@@ -538,15 +538,15 @@ static gboolean
 get_previous (enharmonic * enote)
 {
   DenemoObject *curObj = NULL;
-  if (Denemo.project->si->currentobject)
+  if (Denemo.project->movement->currentobject)
     {
-      if (Denemo.project->si->currentobject->prev)
-        curObj = Denemo.project->si->currentobject->prev->data;
+      if (Denemo.project->movement->currentobject->prev)
+        curObj = Denemo.project->movement->currentobject->prev->data;
       else
         {
-          if (Denemo.project->si->currentmeasure->prev && Denemo.project->si->currentmeasure->prev->data)
+          if (Denemo.project->movement->currentmeasure->prev && Denemo.project->movement->currentmeasure->prev->data)
             {
-              curObj = g_list_last (Denemo.project->si->currentmeasure->prev->data)->data;
+              curObj = g_list_last (Denemo.project->movement->currentmeasure->prev->data)->data;
             }
         }
     }
@@ -573,34 +573,34 @@ midiaction (gint notenum)
   DenemoProject *gui = Denemo.project;
   if (gui == NULL)
     return TRUE;
-  if (gui->si == NULL)
+  if (gui->movement == NULL)
     return TRUE;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->movement->currentstaff->data;
   enharmonic enote, prevenote;
   gboolean have_previous;
   //g_debug("Keyboard state %x, mask %x %x %x\n", Denemo.keyboard_state, CHECKING_MASK, GDK_CONTROL_MASK, GDK_MOD2_MASK);
   notenum2enharmonic (notenum, &enote.mid_c_offset, &enote.enshift, &enote.octave);
-  if (Denemo.project->si->cursor_appending)
+  if (Denemo.project->movement->cursor_appending)
     have_previous = get_current (&prevenote);
   else
     have_previous = get_previous (&prevenote);
 
   if (!(Denemo.keyboard_state & CHECKING_MASK))
-    stage_undo (gui->si, ACTION_STAGE_END);     //undo is a queue so this is the end :)
+    stage_undo (gui->movement, ACTION_STAGE_END);     //undo is a queue so this is the end :)
 
   if ((gui->mode & INPUTEDIT) || (Denemo.keyboard_state & CHECKING_MASK))
     {
       static gboolean beep = FALSE;
       gboolean is_tied = FALSE;
-      gint measure = gui->si->currentmeasurenum;
-      if (Denemo.project->si->currentobject)
+      gint measure = gui->movement->currentmeasurenum;
+      if (Denemo.project->movement->currentobject)
         {
-          DenemoObject *curObj = Denemo.project->si->currentobject->data;
+          DenemoObject *curObj = Denemo.project->movement->currentobject->data;
           if (curObj->type == CHORD)
             {
               do
                 {
-                  curObj = Denemo.project->si->currentobject->data;
+                  curObj = Denemo.project->movement->currentobject->data;
                   chord *thechord = (chord *) curObj->object;
                   is_tied = thechord->is_tied;
 
@@ -629,14 +629,14 @@ midiaction (gint notenum)
                       do_one_note (enote.mid_c_offset, enote.enshift, enote.octave);
 
                     }
-                  if (Denemo.project->si->cursor_appending)
+                  if (Denemo.project->movement->cursor_appending)
                     break;
                 }
               while ((!(Denemo.keyboard_state & ADDING_MASK)) && next_editable_note () && is_tied);
             }
           else //there is a current object that is not a chord
             {
-              if (gui->si->cursor_appending) {
+              if (gui->movement->cursor_appending) {
                 do_one_note (enote.mid_c_offset, enote.enshift, enote.octave);
                 next_editable_note ();//if we have gone back from an appending position after a non-chord we need this
                             }
@@ -645,8 +645,8 @@ midiaction (gint notenum)
             }
           if (gui->mode & INPUTRHYTHM)
             {
-              //g_debug("measure was %d now %d with appending %d\n", measure, gui->si->currentmeasurenum, gui->si->cursor_appending);
-              if (!beep && (measure != gui->si->currentmeasurenum) && !gui->si->cursor_appending)
+              //g_debug("measure was %d now %d with appending %d\n", measure, gui->movement->currentmeasurenum, gui->movement->cursor_appending);
+              if (!beep && (measure != gui->movement->currentmeasurenum) && !gui->movement->cursor_appending)
                 beep = TRUE;
               else if (beep)
                 signal_measure_end (), beep = FALSE;
@@ -664,7 +664,7 @@ midiaction (gint notenum)
     }
   if (!(Denemo.keyboard_state & CHECKING_MASK))
     {
-      stage_undo (gui->si, ACTION_STAGE_START);
+      stage_undo (gui->movement, ACTION_STAGE_START);
     }
   gtk_widget_queue_draw (Denemo.scorearea);     //just for advancing the cursor.
   if (!(Denemo.keyboard_state & CHECKING_MASK))
@@ -797,9 +797,9 @@ process_midi_event (gchar * buf)
 void
 initialize_until_time (void)
 {
-  if ((Denemo.project->midi_destination & MIDIPLAYALONG) && Denemo.project->si->currentobject)
+  if ((Denemo.project->midi_destination & MIDIPLAYALONG) && Denemo.project->movement->currentobject)
     {
-      DenemoObject *obj = Denemo.project->si->currentobject->data;
+      DenemoObject *obj = Denemo.project->movement->currentobject->data;
       if (obj->type == CHORD)
         {
           chord *thechord = obj->object;
@@ -819,14 +819,14 @@ initialize_until_time (void)
 static void
 advance_until_time (gchar * buf)
 {
-  if (Denemo.project->si->currentobject)
+  if (Denemo.project->movement->currentobject)
     {
-      DenemoObject *obj = Denemo.project->si->currentobject->data;
+      DenemoObject *obj = Denemo.project->movement->currentobject->data;
       if (obj->type != CHORD)
         if (cursor_to_next_chord ())
-          obj = Denemo.project->si->currentobject->data;
+          obj = Denemo.project->movement->currentobject->data;
 
-      if (Denemo.project->si->currentobject && obj->type == CHORD)
+      if (Denemo.project->movement->currentobject && obj->type == CHORD)
         {
           chord *thechord = obj->object;
           if (thechord->notes)
@@ -835,11 +835,11 @@ advance_until_time (gchar * buf)
               if (((buf[0] & 0xf0) == MIDI_NOTE_ON) && buf[2] && buf[1] == (dia_to_midinote (thenote->mid_c_offset) + thenote->enshift))
                 {
                   gdouble thetime = get_time ();
-                  Denemo.project->si->start_player = thetime - obj->earliest_time;
+                  Denemo.project->movement->start_player = thetime - obj->earliest_time;
 
                   if (thechord->is_tied && cursor_to_next_note ())
                     {
-                      obj = Denemo.project->si->currentobject->data;
+                      obj = Denemo.project->movement->currentobject->data;
                     }
                   //IF THE NEXT OBJ IS A REST ADVANCE OVER IT/THEM
                   do
@@ -851,7 +851,7 @@ advance_until_time (gchar * buf)
                         }
                       else
                         {
-                          obj = Denemo.project->si->currentobject->data;
+                          obj = Denemo.project->movement->currentobject->data;
                           thechord = obj->object;
                           play_until = obj->earliest_time - SHAVING;
                           //g_debug("play until %f\n", play_until);
@@ -871,7 +871,7 @@ advance_until_time (gchar * buf)
 static void
 adjust_midi_channel (gchar * buf)
 {
-  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->si->currentstaff->data;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   gint channel = curstaffstruct->midi_channel;
   if ((buf[0] & SYS_EXCLUSIVE_MESSAGE1) == MIDI_NOTE_ON)
     {
@@ -973,7 +973,7 @@ get_midi_channel (DenemoStaff * staff)
     }
   else
     {
-      gint tracknumber = Denemo.project->si->currentstaffnum - 1;
+      gint tracknumber = Denemo.project->movement->currentstaffnum - 1;
       tracknumber = (tracknumber >= 9) ? tracknumber + 1 : tracknumber;
       return tracknumber & 0xF;
     }

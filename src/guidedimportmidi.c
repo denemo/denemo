@@ -61,7 +61,7 @@ dotimesig (gint numerator, gint denominator)
 {
   DenemoProject *gui = Denemo.project;
   /*only does initial TS */
-  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->movement->currentstaff->data;
 
   curstaffstruct->timesig.time1 = numerator;
   curstaffstruct->timesig.time2 = denominator;
@@ -78,7 +78,7 @@ dokeysig (gint isminor, gint key)
   if (key > 7)
     key = key - 256;            /*get flat key num, see keysigdialog.cpp */
   g_debug ("\nkey = %d\n", key);
-  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->movement->currentstaff->data;
   curstaffstruct->keysig.number = key;
   curstaffstruct->keysig.isminor = isminor;
   dnm_setinitialkeysig (curstaffstruct, key, isminor);
@@ -88,15 +88,15 @@ static void
 dotempo (gint tempo)
 {
   DenemoProject *gui = Denemo.project;
-  gui->si->tempo = (gint) (6.0e7 / (double) tempo); //FIXME insert as change of tempo instead
-  g_warning("Changed si->tempo to %d", gui->si->tempo);
+  gui->movement->tempo = (gint) (6.0e7 / (double) tempo); //FIXME insert as change of tempo instead
+  g_warning("Changed si->tempo to %d", gui->movement->tempo);
 }
 
 static void
 dotrackname (gchar * name)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->movement->currentstaff->data;
   if (name)
     g_string_assign (curstaffstruct->denemo_name, name);
 }
@@ -105,7 +105,7 @@ static void
 doinstrname (gchar * name)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->movement->currentstaff->data;
   if (name)
     g_string_assign (curstaffstruct->midi_instrument, name);
 }
@@ -168,10 +168,10 @@ static void
 donoteon (const smf_event_t * event)
 {
     DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
-    note->timing = event->time_seconds * Denemo.project->si->recording->samplerate;
+    note->timing = event->time_seconds * Denemo.project->movement->recording->samplerate;
     notenum2enharmonic (noteon_key(event), &(note->mid_c_offset), &(note->enshift), &(note->octave));
     note->event = event;
-    Denemo.project->si->recording->notes = g_list_append (Denemo.project->si->recording->notes, note);
+    Denemo.project->movement->recording->notes = g_list_append (Denemo.project->movement->recording->notes, note);
 }
 
 
@@ -232,8 +232,8 @@ create_staff (gint track)
  * this happens when the user records MIDI using a MIDI controller, add the track and set user_pointer to -1 to indicate that the smf is for recorded MIDI
  * otherwise add it to smf, or if already present in smf (user_pointer points to track number) re-attach so that smf can be used. */
 static void ensure_smf (void) {
-    if (Denemo.project->si->recorded_midi_track) 
-    {   smf_track_t *track = Denemo.project->si->recorded_midi_track;
+    if (Denemo.project->movement->recorded_midi_track) 
+    {   smf_track_t *track = Denemo.project->movement->recorded_midi_track;
         if(smf==NULL)
         {
             smf = smf_new ();
@@ -303,7 +303,7 @@ static void guess_note_length (gdouble quarternotes, gint *dur, gint *dot)
 gboolean compute_midi_note_durations (void)
 {
     gboolean ret = FALSE;
-    DenemoRecording *recording = Denemo.project->si->recording;
+    DenemoRecording *recording = Denemo.project->movement->recording;
     if (recording)
     { 
         GList *g;
@@ -321,7 +321,7 @@ gboolean compute_midi_note_durations (void)
                         if (((next->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)==NOTE_OFF) && (next->midi_buffer[1] == event->midi_buffer[1]))
                         {
                             smf_tempo_t *tempo = smf_get_tempo_by_seconds (smf, event->time_seconds);
-                            double spqn = (tempo? tempo->microseconds_per_quarter_note/1000000.0: 60.0/Denemo.project->si->tempo);
+                            double spqn = (tempo? tempo->microseconds_per_quarter_note/1000000.0: 60.0/Denemo.project->movement->tempo);
                             guess_note_length((next->time_seconds - event->time_seconds)/spqn, &note->duration, &note->dots);
                             //g_debug("spqn %f dur %f %d %d\n", spqn, (next->time_seconds - event->time_seconds), note->duration, note->dots);
                             ret = TRUE;
@@ -349,23 +349,23 @@ readtrack (gint track)
       selected_track = smf_get_track_by_number (smf, track);
       new_midi_recording ();
       create_staff (track);
-      //re-attach the current Denemo.project->si->recorded_midi_track to smf or delete it if it is not in smf
-      if(Denemo.project->si->recorded_midi_track)
+      //re-attach the current Denemo.project->movement->recorded_midi_track to smf or delete it if it is not in smf
+      if(Denemo.project->movement->recorded_midi_track)
       {
-         if(((smf_track_t *)Denemo.project->si->recorded_midi_track)->user_pointer == NULL)
-            smf_track_delete(Denemo.project->si->recorded_midi_track);        
+         if(((smf_track_t *)Denemo.project->movement->recorded_midi_track)->user_pointer == NULL)
+            smf_track_delete(Denemo.project->movement->recorded_midi_track);        
          else
-            ((smf_track_t *)Denemo.project->si->recorded_midi_track)->smf = smf;
+            ((smf_track_t *)Denemo.project->movement->recorded_midi_track)->smf = smf;
       }
       selected_track->user_pointer = track;
-      Denemo.project->si->recorded_midi_track = selected_track;
-      compute_midi_note_durations (); //fills Denemo.project->si->recording->notes with the note durations
-      ((smf_track_t *)Denemo.project->si->recorded_midi_track)->smf = NULL; // we detach this track from smf, so it can be attached to the playback smf; we cannot use smf while this is done, as it thinks it still owns the track.      
+      Denemo.project->movement->recorded_midi_track = selected_track;
+      compute_midi_note_durations (); //fills Denemo.project->movement->recording->notes with the note durations
+      ((smf_track_t *)Denemo.project->movement->recorded_midi_track)->smf = NULL; // we detach this track from smf, so it can be attached to the playback smf; we cannot use smf while this is done, as it thinks it still owns the track.      
       current_track = track;
     }
    else
     ret = -1;
-  exportmidi (NULL, Denemo.project->si, 0, 0);
+  exportmidi (NULL, Denemo.project->movement, 0, 0);
   return ret;
 }
 
@@ -383,7 +383,7 @@ gint get_imported_midi_tracks (void) {
     if(smf)
         return smf->number_of_tracks;
     else
-        if(Denemo.project->si->recorded_midi_track)   
+        if(Denemo.project->movement->recorded_midi_track)   
             return 1;
 return 0;
 }
@@ -466,8 +466,8 @@ gboolean delete_imported_midi (void) {
     smf = NULL;
     current_track = 0;
     }
-  if(Denemo.project && Denemo.project->si)
-    Denemo.project->si->recorded_midi_track = NULL;
+  if(Denemo.project && Denemo.project->movement)
+    Denemo.project->movement->recorded_midi_track = NULL;
   delete_recording ();
   smf_from_file = FALSE;
   return TRUE;

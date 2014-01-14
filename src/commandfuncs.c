@@ -156,18 +156,18 @@ setcurrents (DenemoMovement * si)
 void
 nudgerightward (DenemoProject * gui)
 {
-  if (set_rightmeasurenum (gui->si) || (gui->si->currentmeasurenum > gui->si->rightmeasurenum))
+  if (set_rightmeasurenum (gui->movement) || (gui->movement->currentmeasurenum > gui->movement->rightmeasurenum))
     {
-      if (gui->si->currentmeasurenum > gui->si->rightmeasurenum)
+      if (gui->movement->currentmeasurenum > gui->movement->rightmeasurenum)
         {
-          while (gui->si->currentmeasurenum > gui->si->rightmeasurenum)
+          while (gui->movement->currentmeasurenum > gui->movement->rightmeasurenum)
             {
-              gui->si->leftmeasurenum++;
-              set_rightmeasurenum (gui->si);
+              gui->movement->leftmeasurenum++;
+              set_rightmeasurenum (gui->movement);
             }
 
         }
-      find_leftmost_allcontexts (gui->si);
+      find_leftmost_allcontexts (gui->movement);
       update_hscrollbar (gui);
     }
 }
@@ -181,9 +181,9 @@ nudge_downward (DenemoProject * gui)
 {
   set_bottom_staff (gui);
 
-  while (gui->si->currentstaffnum > gui->si->bottom_staff)
+  while (gui->movement->currentstaffnum > gui->movement->bottom_staff)
     {
-      gui->si->top_staff++;
+      gui->movement->top_staff++;
       set_bottom_staff (gui);
     }
   update_vscrollbar (gui);
@@ -266,14 +266,14 @@ reset_cursor_stats (DenemoMovement * si)
 /**
  *  General function for inserting a DenemoObject
  *  into the score
- * the object is inserted at position gui->si->cursor_x in the list of objects (counting from 0)
- * gui->si->cursor_x is incremented
- * gui->si->currentobject is set to the object at the new cursor_x position, unless this is too large, or we have cursor_appending in which case it is set to the last object.
+ * the object is inserted at position gui->movement->cursor_x in the list of objects (counting from 0)
+ * gui->movement->cursor_x is incremented
+ * gui->movement->currentobject is set to the object at the new cursor_x position, unless this is too large, or we have cursor_appending in which case it is set to the last object.
  */
 void
 object_insert (DenemoProject * gui, DenemoObject * mudela_obj_new)
 {
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
 
   /* update undo information */
   DenemoUndoData *undo;
@@ -346,24 +346,24 @@ static void
 gomeasureleft (DenemoScriptParam * param, gboolean extend_selection)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   DenemoScriptParam dummy;
   if (param == NULL)
     param = &dummy;
   param->status = FALSE;
   if (extend_selection && !si->markstaffnum)
     set_mark (NULL, NULL);
-  if (gui->si->currentmeasure->prev)
+  if (gui->movement->currentmeasure->prev)
     {
-      gui->si->currentmeasurenum--;
-      if (!gui->si->playingnow) //during playback cursor moves should not affect viewport
+      gui->movement->currentmeasurenum--;
+      if (!gui->movement->playingnow) //during playback cursor moves should not affect viewport
         isoffleftside (gui);
       param->status = TRUE;
       write_status (gui);
     }
-  setcurrents (gui->si);
+  setcurrents (gui->movement);
   if (extend_selection)
-    calcmarkboundaries (gui->si);
+    calcmarkboundaries (gui->movement);
   if(!Denemo.non_interactive)
     gtk_widget_queue_draw(Denemo.scorearea);
 }
@@ -386,22 +386,22 @@ static void
 gomeasureright (DenemoScriptParam * param, gboolean extend_selection)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   DenemoScriptParam dummy;
   if (param == NULL)
     param = &dummy;
   param->status = FALSE;
   if (extend_selection && !si->markstaffnum)
     set_mark (NULL, NULL);
-  if (gui->si->currentmeasure->next)
+  if (gui->movement->currentmeasure->next)
     {
-      gui->si->currentmeasurenum++;
-      if (!gui->si->playingnow) //during playback cursor moves should not affect viewport
+      gui->movement->currentmeasurenum++;
+      if (!gui->movement->playingnow) //during playback cursor moves should not affect viewport
         isoffrightside (gui);
-      setcurrents (gui->si); 
+      setcurrents (gui->movement); 
       param->status = TRUE;
       if (extend_selection)
-        calcmarkboundaries (gui->si);
+        calcmarkboundaries (gui->movement);
             write_status (gui);
     }
   if(!Denemo.non_interactive)
@@ -436,7 +436,7 @@ swapmovements (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam
 {
   DenemoProject *gui = Denemo.project;
   (void) signal_structural_change (gui);
-  GList *this = g_list_find (gui->movements, gui->si);
+  GList *this = g_list_find (gui->movements, gui->movement);
   if (this->prev)
     {
       GList *prev = this->prev;
@@ -452,7 +452,7 @@ swapmovements (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam
       this->prev = prevv;
       prev->next = next;
       prev->prev = this;
-      gchar *str = g_strdup_printf (_("This movement is now number %d in the score"), 1 + g_list_index (gui->movements, gui->si));
+      gchar *str = g_strdup_printf (_("This movement is now number %d in the score"), 1 + g_list_index (gui->movements, gui->movement));
       infodialog (str);
       g_free (str);
       return TRUE;
@@ -471,22 +471,22 @@ swapstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * 
 {
   DenemoProject *gui = Denemo.project;
   (void) signal_structural_change (gui);
-  if (gui->si->currentstaff && gui->si->currentstaff->prev)
+  if (gui->movement->currentstaff && gui->movement->currentstaff->prev)
     {
       DenemoStaff *temp;
       //if this is a staff with no voices extra voices on it then swap
-      if (((DenemoStaff *) gui->si->currentstaff->data)->voicecontrol == DENEMO_PRIMARY && ((gui->si->currentstaff->next == NULL) || !(((DenemoStaff *) gui->si->currentstaff->next->data)->voicecontrol & DENEMO_SECONDARY)))
+      if (((DenemoStaff *) gui->movement->currentstaff->data)->voicecontrol == DENEMO_PRIMARY && ((gui->movement->currentstaff->next == NULL) || !(((DenemoStaff *) gui->movement->currentstaff->next->data)->voicecontrol & DENEMO_SECONDARY)))
         {
-          temp = gui->si->currentstaff->data;
+          temp = gui->movement->currentstaff->data;
           if (temp->context == DENEMO_NONE || confirm (_("A context is set on this staff"), _("You will need to alter the staff → properties → context of this and the previous staff; Proceed?")))
             {
               take_snapshot ();
-              gui->si->currentstaff->data = gui->si->currentstaff->prev->data;
-              gui->si->currentstaff->prev->data = temp;
-              gui->si->currentstaffnum--;
-              gui->si->currentstaff = gui->si->currentstaff->prev;
-              setcurrentprimarystaff (gui->si);
-              setcurrents (gui->si);
+              gui->movement->currentstaff->data = gui->movement->currentstaff->prev->data;
+              gui->movement->currentstaff->prev->data = temp;
+              gui->movement->currentstaffnum--;
+              gui->movement->currentstaff = gui->movement->currentstaff->prev;
+              setcurrentprimarystaff (gui->movement);
+              setcurrents (gui->movement);
               move_viewport_up (gui);
               score_status (gui, TRUE);
               displayhelper (gui);
@@ -510,17 +510,17 @@ splitstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam *
 {
   DenemoProject *gui = Denemo.project;
 
-  if (gui->si->currentstaff && gui->si->currentstaff->next)
+  if (gui->movement->currentstaff && gui->movement->currentstaff->next)
     {
       take_snapshot ();
-      DenemoStaff *thestaff = (DenemoStaff *) gui->si->currentstaff->data;
-      DenemoStaff *nextstaff = (DenemoStaff *) gui->si->currentstaff->next->data;
+      DenemoStaff *thestaff = (DenemoStaff *) gui->movement->currentstaff->data;
+      DenemoStaff *nextstaff = (DenemoStaff *) gui->movement->currentstaff->next->data;
       if ((thestaff->voicecontrol & DENEMO_PRIMARY) && (nextstaff->voicecontrol == DENEMO_SECONDARY))
         nextstaff->voicecontrol = DENEMO_SECONDARY | DENEMO_PRIMARY;
       else
         warningdialog (_("There is no voice below this one on this staff"));
-      setcurrentprimarystaff (gui->si);
-      setcurrents (gui->si);
+      setcurrentprimarystaff (gui->movement);
+      setcurrents (gui->movement);
       move_viewport_up (gui);
       score_status (gui, TRUE);
       displayhelper (gui);
@@ -541,13 +541,13 @@ joinstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * 
 {
   DenemoProject *gui = Denemo.project;
 
-  if (gui->si->currentstaff && gui->si->currentstaff->prev)
+  if (gui->movement->currentstaff && gui->movement->currentstaff->prev)
     {
       take_snapshot ();
-      DenemoStaff *thestaff = (DenemoStaff *) gui->si->currentstaff->data;
+      DenemoStaff *thestaff = (DenemoStaff *) gui->movement->currentstaff->data;
       thestaff->voicecontrol = DENEMO_SECONDARY;
-      setcurrentprimarystaff (gui->si);
-      setcurrents (gui->si);
+      setcurrentprimarystaff (gui->movement);
+      setcurrents (gui->movement);
       move_viewport_up (gui);
       score_status (gui, TRUE);
       displayhelper (gui);
@@ -568,22 +568,22 @@ static gboolean
 govoiceup (DenemoScriptParam * param, gboolean extend_selection)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   DenemoScriptParam dummy;
   if (param == NULL)
     param = &dummy;
   param->status = FALSE;
-  if (!gui->si->currentstaff)
+  if (!gui->movement->currentstaff)
     return param->status = FALSE;//should never happen
   if (extend_selection && !si->markstaffnum)
     set_mark (NULL, NULL);
-  if (gui->si->currentstaff && (((DenemoStaff *) (gui->si->currentstaff->data))->voicecontrol & DENEMO_SECONDARY))
+  if (gui->movement->currentstaff && (((DenemoStaff *) (gui->movement->currentstaff->data))->voicecontrol & DENEMO_SECONDARY))
     {
       hide_lyrics ();
-      gui->si->currentstaffnum--;
-      gui->si->currentstaff = gui->si->currentstaff->prev;
-      setcurrentprimarystaff (gui->si);
-      setcurrents (gui->si);
+      gui->movement->currentstaffnum--;
+      gui->movement->currentstaff = gui->movement->currentstaff->prev;
+      setcurrentprimarystaff (gui->movement);
+      setcurrents (gui->movement);
       show_lyrics ();
       move_viewport_down (gui);
       set_cursor_transition ();
@@ -605,27 +605,27 @@ static gboolean
 gostaffup (DenemoScriptParam * param, gboolean extend_selection)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   DenemoScriptParam dummy;
   if (param == NULL)
     param = &dummy;
   param->status = FALSE;
-  if (!gui->si->currentstaff)
+  if (!gui->movement->currentstaff)
     return param->status = FALSE;//should never happen
   if (extend_selection && !si->markstaffnum)
     set_mark (NULL, NULL);
-  while ((((DenemoStaff *) (gui->si->currentstaff->data))->voicecontrol == DENEMO_SECONDARY) &&
+  while ((((DenemoStaff *) (gui->movement->currentstaff->data))->voicecontrol == DENEMO_SECONDARY) &&
     govoiceup (param, extend_selection))
       ;/* do nothing */
-  if (gui->si->currentstaff->prev)
+  if (gui->movement->currentstaff->prev)
     {
       hide_lyrics ();
-      gui->si->currentstaffnum--;
-      gui->si->currentstaff = gui->si->currentstaff->prev;
-      setcurrentprimarystaff (gui->si);
-      setcurrents (gui->si);
+      gui->movement->currentstaffnum--;
+      gui->movement->currentstaff = gui->movement->currentstaff->prev;
+      setcurrentprimarystaff (gui->movement);
+      setcurrents (gui->movement);
       if (extend_selection)
-        calcmarkboundaries (gui->si);
+        calcmarkboundaries (gui->movement);
       show_lyrics ();
       find_leftmost_allcontexts (si);
       update_drawing_cache ();;
@@ -650,24 +650,24 @@ static gboolean
 govoicedown (DenemoScriptParam * param, gboolean extend_selection)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   DenemoScriptParam dummy;
   if (param == NULL)
     param = &dummy;
   param->status = FALSE;
-  if (!gui->si->currentstaff)
+  if (!gui->movement->currentstaff)
     return param->status = FALSE;
   if (extend_selection && !si->markstaffnum)
     set_mark (NULL, NULL);
-  if (gui->si->currentstaff->next && ((DenemoStaff *) (gui->si->currentstaff->next->data))->voicecontrol & DENEMO_SECONDARY)
+  if (gui->movement->currentstaff->next && ((DenemoStaff *) (gui->movement->currentstaff->next->data))->voicecontrol & DENEMO_SECONDARY)
     {
       hide_lyrics ();
-      gui->si->currentstaffnum++;
-      gui->si->currentstaff = gui->si->currentstaff->next;
-      setcurrentprimarystaff (gui->si);
-      setcurrents (gui->si);
+      gui->movement->currentstaffnum++;
+      gui->movement->currentstaff = gui->movement->currentstaff->next;
+      setcurrentprimarystaff (gui->movement);
+      setcurrents (gui->movement);
       if (extend_selection)
-        calcmarkboundaries (gui->si);
+        calcmarkboundaries (gui->movement);
       show_lyrics ();
       move_viewport_down (gui);
       set_cursor_transition ();
@@ -719,28 +719,28 @@ static gboolean
 gostaffdown (DenemoScriptParam * param, gboolean extend_selection)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   DenemoScriptParam dummy;
   if (param == NULL)
     param = &dummy;
   param->status = FALSE;
 
-  if (!gui->si->currentstaff)
+  if (!gui->movement->currentstaff)
     return param->status = FALSE;
   if (extend_selection && !si->markstaffnum)
     set_mark (NULL, NULL);
-  while (gui->si->currentstaff->next && (((DenemoStaff *) (gui->si->currentstaff->next->data))->voicecontrol == DENEMO_SECONDARY)
+  while (gui->movement->currentstaff->next && (((DenemoStaff *) (gui->movement->currentstaff->next->data))->voicecontrol == DENEMO_SECONDARY)
     && govoicedown (param, extend_selection))
       ;     /* do nothing */
-  if (gui->si->currentstaff->next)
+  if (gui->movement->currentstaff->next)
     {
       hide_lyrics ();
-      gui->si->currentstaffnum++;
-      gui->si->currentstaff = gui->si->currentstaff->next;
-      setcurrentprimarystaff (gui->si);
-      setcurrents (gui->si);
+      gui->movement->currentstaffnum++;
+      gui->movement->currentstaff = gui->movement->currentstaff->next;
+      setcurrentprimarystaff (gui->movement);
+      setcurrents (gui->movement);
       if (extend_selection)
-        calcmarkboundaries (gui->si);
+        calcmarkboundaries (gui->movement);
       show_lyrics ();
       find_leftmost_allcontexts (si);
 
@@ -795,7 +795,7 @@ gboolean
 move_left (DenemoScriptParam * param, gboolean extend_selection)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   DenemoScriptParam dummy;
   if (param == NULL)
     param = &dummy;
@@ -858,7 +858,7 @@ gboolean
 move_right (DenemoScriptParam * param, gboolean extend_selection)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   DenemoScriptParam dummy;
   if (param == NULL)
     param = &dummy;
@@ -943,16 +943,16 @@ gboolean
 cursor_to_next_note (DenemoScriptParam * param)
 {
   gboolean success = FALSE;
-  while (movecursorright (param) && Denemo.project->si->currentobject)
+  while (movecursorright (param) && Denemo.project->movement->currentobject)
     {
-      if (Denemo.project->si->cursor_appending)
+      if (Denemo.project->movement->cursor_appending)
         {
           (void) cursor_to_next_note (param);
           gtk_widget_queue_draw (Denemo.scorearea);
         }
-      if (Denemo.project->si->currentobject)
+      if (Denemo.project->movement->currentobject)
         {
-          DenemoObject *obj = Denemo.project->si->currentobject->data;
+          DenemoObject *obj = Denemo.project->movement->currentobject->data;
           if (obj->type == CHORD)
             {
               chord *thechord = obj->object;
@@ -972,16 +972,16 @@ gboolean
 cursor_to_next_chord (DenemoScriptParam * param)
 {
   gboolean success = FALSE;
-  while (movecursorright (param) && Denemo.project->si->currentobject)
+  while (movecursorright (param) && Denemo.project->movement->currentobject)
     {
-      if (Denemo.project->si->cursor_appending)
+      if (Denemo.project->movement->cursor_appending)
         {
           (void) cursor_to_next_chord (param);
           gtk_widget_queue_draw (Denemo.scorearea);
         }
-      if (Denemo.project->si->currentobject)
+      if (Denemo.project->movement->currentobject)
         {
-          DenemoObject *obj = Denemo.project->si->currentobject->data;
+          DenemoObject *obj = Denemo.project->movement->currentobject->data;
           if (obj->type == CHORD)
             {
               success = TRUE;
@@ -999,12 +999,12 @@ cursor_to_next_chord (DenemoScriptParam * param)
 static gboolean
 to_object_direction (gboolean within_measure, gboolean right, gboolean stopping)
 {
-  if (!Denemo.project || !(Denemo.project->si))
+  if (!Denemo.project || !(Denemo.project->movement))
     return FALSE;
-  GList *start_obj = Denemo.project->si->currentobject;
-  GList *start_measure = Denemo.project->si->currentmeasure;
-  gboolean was_appending = Denemo.project->si->cursor_appending;
-  if (start_obj && Denemo.project->si->cursor_appending)
+  GList *start_obj = Denemo.project->movement->currentobject;
+  GList *start_measure = Denemo.project->movement->currentmeasure;
+  gboolean was_appending = Denemo.project->movement->cursor_appending;
+  if (start_obj && Denemo.project->movement->cursor_appending)
     movecursorleft (NULL, NULL);
   if (start_obj == NULL)
     {
@@ -1016,7 +1016,7 @@ to_object_direction (gboolean within_measure, gboolean right, gboolean stopping)
           if (start_measure->next)
             {
               movetomeasureright (NULL, NULL);
-              if (Denemo.project->si->currentobject)
+              if (Denemo.project->movement->currentobject)
                 return TRUE;
               else if (stopping)
                 return FALSE;
@@ -1030,7 +1030,7 @@ to_object_direction (gboolean within_measure, gboolean right, gboolean stopping)
       if (start_measure->prev)
         {
           movecursorleft (NULL, NULL);
-          if (Denemo.project->si->currentobject == NULL){
+          if (Denemo.project->movement->currentobject == NULL){
             if (stopping)
               return FALSE;
             else
@@ -1070,7 +1070,7 @@ to_object_direction (gboolean within_measure, gboolean right, gboolean stopping)
       if (start_measure->next)
         {
           movetomeasureright (NULL, NULL);
-          if (Denemo.project->si->currentobject == NULL){
+          if (Denemo.project->movement->currentobject == NULL){
             if (stopping)
               return FALSE;
             else
@@ -1091,7 +1091,7 @@ to_object_direction (gboolean within_measure, gboolean right, gboolean stopping)
   if (start_measure->prev)
     {
       movecursorleft (NULL, NULL);
-      if (Denemo.project->si->currentobject == NULL){
+      if (Denemo.project->movement->currentobject == NULL){
         if (stopping)
           return FALSE;
         else
@@ -1110,7 +1110,7 @@ to_standalone_directive_direction (gboolean right)
   if (!ret)
     return ret;
     write_status(Denemo.project);
-  if (Denemo.project->si->currentobject && Denemo.project->si->currentobject->data && ((DenemoObject *) Denemo.project->si->currentobject->data)->type == LILYDIRECTIVE)
+  if (Denemo.project->movement->currentobject && Denemo.project->movement->currentobject->data && ((DenemoObject *) Denemo.project->movement->currentobject->data)->type == LILYDIRECTIVE)
     return TRUE;
   else
     return to_standalone_directive_direction (right);
@@ -1123,13 +1123,13 @@ to_standalone_directive_direction (gboolean right)
 static gboolean
 to_selected_object_direction (gboolean right)
 {
-  if (!Denemo.project || !(Denemo.project->si))
+  if (!Denemo.project || !(Denemo.project->movement))
     return FALSE;
   gboolean success = to_object_direction (FALSE, right, FALSE);
   if (!success)
     success = to_object_direction (FALSE, right, FALSE);
   write_status(Denemo.project);
-  if ((success) && in_selection (Denemo.project->si))
+  if ((success) && in_selection (Denemo.project->movement))
     return TRUE;
   if (success)
     to_object_direction (FALSE, !right, FALSE);
@@ -1143,7 +1143,7 @@ to_chord_direction (gboolean right, gboolean stopping)
   if (!ret)
     return ret;
   write_status(Denemo.project);
-  if (Denemo.project->si->currentobject && Denemo.project->si->currentobject->data && ((DenemoObject *) Denemo.project->si->currentobject->data)->type == CHORD)
+  if (Denemo.project->movement->currentobject && Denemo.project->movement->currentobject->data && ((DenemoObject *) Denemo.project->movement->currentobject->data)->type == CHORD)
     return TRUE;
   else
     return to_chord_direction (right, stopping);
@@ -1156,7 +1156,7 @@ to_chord_direction_in_measure (gboolean right)
   if (!ret)
     return ret;
   write_status(Denemo.project);
-  if (Denemo.project->si->currentobject && Denemo.project->si->currentobject->data && ((DenemoObject *) Denemo.project->si->currentobject->data)->type == CHORD)
+  if (Denemo.project->movement->currentobject && Denemo.project->movement->currentobject->data && ((DenemoObject *) Denemo.project->movement->currentobject->data)->type == CHORD)
     return TRUE;
   else
     return to_chord_direction_in_measure (right);
@@ -1169,7 +1169,7 @@ to_standalone_direction_in_measure (gboolean right)
   if (!ret)
     return ret;
   write_status(Denemo.project);
-  if (Denemo.project->si->currentobject && Denemo.project->si->currentobject->data && ((DenemoObject *) Denemo.project->si->currentobject->data)->type == LILYDIRECTIVE)
+  if (Denemo.project->movement->currentobject && Denemo.project->movement->currentobject->data && ((DenemoObject *) Denemo.project->movement->currentobject->data)->type == LILYDIRECTIVE)
     return TRUE;
   else
     return to_standalone_direction_in_measure (right);
@@ -1185,7 +1185,7 @@ to_note_direction (gboolean right, gboolean stopping)
   if (!ret)
     return ret;
   write_status(Denemo.project);
-  if (Denemo.project->si->currentobject && Denemo.project->si->currentobject->data && ((DenemoObject *) Denemo.project->si->currentobject->data)->type == CHORD && ((((chord *) (((DenemoObject *) Denemo.project->si->currentobject->data)->object))->notes)) && (!Denemo.project->si->cursor_appending))
+  if (Denemo.project->movement->currentobject && Denemo.project->movement->currentobject->data && ((DenemoObject *) Denemo.project->movement->currentobject->data)->type == CHORD && ((((chord *) (((DenemoObject *) Denemo.project->movement->currentobject->data)->object))->notes)) && (!Denemo.project->movement->cursor_appending))
     return TRUE;
   else
     return to_note_direction (right, stopping);
@@ -1197,7 +1197,7 @@ gboolean
 next_editable_note (void)
 {
   gboolean ret = to_note_direction (TRUE, TRUE);
-  if ((!ret) && Denemo.project->si->currentobject == NULL)
+  if ((!ret) && Denemo.project->movement->currentobject == NULL)
     {
       to_note_direction (FALSE, TRUE);
     }
@@ -1307,10 +1307,10 @@ cursorup (GtkAction* action, DenemoScriptParam * param)
   if (param == NULL)
     param = &dummy;
   param->status = FALSE;
-  gui->si->cursor_y++;
-  gui->si->staffletter_y = (gui->si->staffletter_y + 1) % 7;
+  gui->movement->cursor_y++;
+  gui->movement->staffletter_y = (gui->movement->staffletter_y + 1) % 7;
   param->status = TRUE;         //FIXME introduce some range boundaries, settable by user for instrument ranges.
-  //g_debug ("Cursor Y Position %d\n", gui->si->cursor_y);
+  //g_debug ("Cursor Y Position %d\n", gui->movement->cursor_y);
   if(!Denemo.non_interactive)
     gtk_widget_queue_draw(Denemo.scorearea);
 }
@@ -1327,10 +1327,10 @@ cursordown (GtkAction* action, DenemoScriptParam * param)
     param = &dummy;
   param->status = FALSE;
 
-  gui->si->cursor_y--;
-  gui->si->staffletter_y = (gui->si->staffletter_y + 6) % 7;
+  gui->movement->cursor_y--;
+  gui->movement->staffletter_y = (gui->movement->staffletter_y + 6) % 7;
   param->status = TRUE;         //FIXME introduce some range boundaries, settable by user for instrument ranges.
-  //g_debug ("Cursor Y Position %d\n", gui->si->cursor_y);
+  //g_debug ("Cursor Y Position %d\n", gui->movement->cursor_y);
   if(!Denemo.non_interactive)
     gtk_widget_queue_draw(Denemo.scorearea);
 }
@@ -1338,9 +1338,9 @@ cursordown (GtkAction* action, DenemoScriptParam * param)
 static gboolean
 prev_object_is_rhythm (DenemoProject * gui)
 {
-  if (gui->si->currentobject == NULL)
+  if (gui->movement->currentobject == NULL)
     return FALSE;
-  return ((DenemoObject *) (gui->si->currentobject->data))->isinvisible;
+  return ((DenemoObject *) (gui->movement->currentobject->data))->isinvisible;
 }
 
 
@@ -1371,15 +1371,15 @@ insert_note_following_pattern (DenemoProject * gui)
                 {
                   chord *thechord = (chord *) clipobj->object;
                   note *thenote = (note *) (thechord->notes->data);
-                  thenote->mid_c_offset = gui->si->cursor_y;
-                  thechord->lowesty = thechord->highesty = thenote->y = calculateheight (thenote->mid_c_offset, gui->si->cursorclef);
+                  thenote->mid_c_offset = gui->movement->cursor_y;
+                  thechord->lowesty = thechord->highesty = thenote->y = calculateheight (thenote->mid_c_offset, gui->movement->cursorclef);
                   thechord->lowestpitch = thechord->highestpitch = thechord->sum_mid_c_offset = thenote->mid_c_offset;
                   clipobj->isinvisible = FALSE;
                   note_inserted = TRUE;
                 }
 
               g = g->next;
-              insertion_point_for_type (gui->si, ((DenemoObject *) objs->data)->type);
+              insertion_point_for_type (gui->movement, ((DenemoObject *) objs->data)->type);
 
               insert_object (clipobj);
             }
@@ -1389,8 +1389,8 @@ insert_note_following_pattern (DenemoProject * gui)
       else
         {
 
-          insertion_point (gui->si);
-          gui->si->cursoroffend = FALSE;
+          insertion_point (gui->movement);
+          gui->movement->cursoroffend = FALSE;
           h = ((RhythmElement *) g->data)->functions;
 #if GTK_MAJOR_VERSION==3
           ((GSourceFunc) h->data) (gui);
@@ -1456,36 +1456,36 @@ get_prevailing_duration (void)
 void
 shiftcursor (DenemoProject * gui, gint note_value)
 {
-  gint oldstaffletter_y = gui->si->staffletter_y;
-  gint oldcursor_y = gui->si->cursor_y;
-  gui->si->staffletter_y = note_value;
-  gui->si->cursor_y = jumpcursor (gui->si->cursor_y, oldstaffletter_y, gui->si->staffletter_y);
-  int mid_c_offset = gui->si->cursor_y;
+  gint oldstaffletter_y = gui->movement->staffletter_y;
+  gint oldcursor_y = gui->movement->cursor_y;
+  gui->movement->staffletter_y = note_value;
+  gui->movement->cursor_y = jumpcursor (gui->movement->cursor_y, oldstaffletter_y, gui->movement->staffletter_y);
+  int mid_c_offset = gui->movement->cursor_y;
 
   /* in edit mode edit the current note name */
-  if ((gui->mode & INPUTEDIT) && ((!gui->si->cursor_appending) || prev_object_is_rhythm (gui)))
+  if ((gui->mode & INPUTEDIT) && ((!gui->movement->cursor_appending) || prev_object_is_rhythm (gui)))
     {
-      DenemoObject *theobj = (DenemoObject *) (gui->si->currentobject->data);
+      DenemoObject *theobj = (DenemoObject *) (gui->movement->currentobject->data);
       chord *thechord;
       if (theobj->type == CHORD && (thechord = (chord *) theobj->object)->notes)
         {
-          store_for_undo_change (gui->si, theobj);
+          store_for_undo_change (gui->movement, theobj);
           //turn off further storage of UNDO info while this takes place
-          gui->si->undo_guard++;
+          gui->movement->undo_guard++;
           theobj->isinvisible = FALSE;
           if (g_list_length (thechord->notes) > 1)
             {                   /* multi-note chord - remove and add a note */
-              gui->si->cursor_y = oldcursor_y;
+              gui->movement->cursor_y = oldcursor_y;
               delete_chordnote (gui);
-              gui->si->cursor_y = mid_c_offset;
+              gui->movement->cursor_y = mid_c_offset;
               insert_chordnote (gui);
             }
           else
             {                   /* single-note chord - change the note */
-              gint dclef = find_prevailing_clef (gui->si);
-              modify_note (thechord, mid_c_offset, gui->si->curmeasureaccs[note_value], dclef);
+              gint dclef = find_prevailing_clef (gui->movement);
+              modify_note (thechord, mid_c_offset, gui->movement->curmeasureaccs[note_value], dclef);
             }
-          gui->si->undo_guard--;
+          gui->movement->undo_guard--;
           score_status (gui, TRUE);
         }
     }
@@ -1599,7 +1599,7 @@ insertion_point (DenemoMovement * si)
 void
 dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean rest)
 {
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   DenemoObject *mudela_obj_new;
   gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->marked_onset;
   if ((mode & INPUTEDIT) && !si->cursor_appending && !(mode & INPUTRHYTHM))
@@ -1684,7 +1684,7 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
 gboolean
 insert_marked_midi_note (void)
 {
-    DenemoMovement *si = Denemo.project->si;
+    DenemoMovement *si = Denemo.project->movement;
     gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->marked_onset;
 
     if(inserting_midi && si->marked_onset && si->marked_onset->data)
@@ -1705,7 +1705,7 @@ return FALSE;
 void
 dnm_inserttuplet (DenemoProject * gui, tuplet_type type)
 {
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   DenemoObject *mudela_obj_new;
 
   insertion_point (si);
@@ -1825,7 +1825,7 @@ notechange (DenemoMovement * si, gboolean remove)
 gboolean
 delete_chordnote (DenemoProject * gui)
 {
-  notechange (gui->si, TRUE);
+  notechange (gui->movement, TRUE);
   return TRUE;
 }
 
@@ -1836,8 +1836,8 @@ gboolean
 insert_chordnote (DenemoProject * gui)
 {
   DenemoObject *curObj;
-  if (gui->si->currentobject && (curObj = Denemo.project->si->currentobject->data) && (curObj->type == CHORD))
-    notechange (gui->si, FALSE);
+  if (gui->movement->currentobject && (curObj = Denemo.project->movement->currentobject->data) && (curObj->type == CHORD))
+    notechange (gui->movement, FALSE);
   else
     insert_note_following_pattern (gui);
   return TRUE;
@@ -1852,7 +1852,7 @@ insert_chordnote (DenemoProject * gui)
 void
 displayhelper (DenemoProject * gui)
 {
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   beamandstemdirhelper (si);
   showwhichaccidentals ((objnode *) si->currentmeasure->data, si->curmeasurekey, si->curmeasureaccs);
   find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1, si->cursortime2);
@@ -1880,7 +1880,7 @@ displayhelper (DenemoProject * gui)
 void
 incrementenshift (DenemoProject * gui, gint direction)
 {
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   declarecurmudelaobj;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
@@ -2028,7 +2028,7 @@ dnm_insertmeasures (DenemoMovement * si, gint number)
 void
 insertmeasureafter (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
 {
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
   take_snapshot ();
   si->currentmeasure = addmeasures (si, si->currentmeasurenum++, 1, 0);
   si->cursor_x = 0;
@@ -2047,7 +2047,7 @@ insertmeasureafter (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
 void
 addmeasureafter (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
 {
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
   take_snapshot ();
   si->currentmeasure = addmeasures (si, si->currentmeasurenum++, 1, 1);
   si->cursor_x = 0;
@@ -2068,7 +2068,7 @@ addmeasureafter (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
 void
 insertmeasurebefore (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
 {
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
   si->currentmeasure = addmeasures (si, si->currentmeasurenum - 1, 1, 0);
   si->cursor_x = 0;
   si->cursor_appending = TRUE;
@@ -2176,7 +2176,7 @@ delete_staff_current (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScri
 void
 deletemeasure (GtkAction* action, DenemoScriptParam* param)
 {
-  dnm_deletemeasure (Denemo.project->si);
+  dnm_deletemeasure (Denemo.project->movement);
   isoffleftside (Denemo.project);
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
@@ -2192,7 +2192,7 @@ deletemeasure (GtkAction* action, DenemoScriptParam* param)
 void
 deletemeasureallstaffs (GtkAction* action, DenemoScriptParam* param)
 {
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
   //take_snapshot(); this does not prevent the multiple undo steps needed
   si->currentmeasure = removemeasures (si, si->currentmeasurenum - 1, 1, TRUE);
   setcurrents (si);
@@ -2270,7 +2270,7 @@ delete_object_helper (DenemoMovement * si)
 void
 deleteobject (GtkAction* action, DenemoScriptParam* param)
 {
-  dnm_deleteobject (Denemo.project->si);
+  dnm_deleteobject (Denemo.project->movement);
 }
 
 /**
@@ -2335,7 +2335,7 @@ dnm_deleteobject (DenemoMovement * si)
 
           break;
         case CLEF:
-/* here we have to re-validate leftmost clef e.g. find_leftmost_allcontexts (gui->si);
+/* here we have to re-validate leftmost clef e.g. find_leftmost_allcontexts (gui->movement);
  which seems to be done... */
           delete_object_helper (si);
           fixnoteheights ((DenemoStaff *) si->currentstaff->data);
@@ -2429,7 +2429,7 @@ dnm_deleteobject (DenemoMovement * si)
 void
 insertclone (DenemoProject * gui)
 {
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   declarecurmudelaobj;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
@@ -2440,10 +2440,10 @@ insertclone (DenemoProject * gui)
 void
 tolastobject (DenemoProject * gui)
 {
-  while (gui->si->currentobject && (gui->si->currentobject->next))
+  while (gui->movement->currentobject && (gui->movement->currentobject->next))
     {
-      gui->si->currentobject = gui->si->currentobject->next;
-      gui->si->cursor_x++;
+      gui->movement->currentobject = gui->movement->currentobject->next;
+      gui->movement->cursor_x++;
     }
 }
 
@@ -2453,8 +2453,8 @@ void
 toggle_tie (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
-  DenemoObject *curmudelaobj = (DenemoObject *) (gui->si->currentobject ? gui->si->currentobject->data : NULL);
+  DenemoMovement *si = gui->movement;
+  DenemoObject *curmudelaobj = (DenemoObject *) (gui->movement->currentobject ? gui->movement->currentobject->data : NULL);
   if (curmudelaobj && curmudelaobj->type == CHORD && ((chord *) curmudelaobj->object)->notes)
     {
       store_for_undo_change (si, curmudelaobj);
@@ -2476,19 +2476,19 @@ static void
 gotoend (gpointer param, gboolean extend_selection)
 {
   DenemoProject *gui = Denemo.project;
-  if (extend_selection && !gui->si->markstaffnum)
+  if (extend_selection && !gui->movement->markstaffnum)
     set_mark (NULL, NULL);
-  gui->si->currentmeasurenum = g_list_length (((DenemoStaff *) gui->si->currentstaff->data)->measures);
-  setcurrents (gui->si);
+  gui->movement->currentmeasurenum = g_list_length (((DenemoStaff *) gui->movement->currentstaff->data)->measures);
+  setcurrents (gui->movement);
   if (extend_selection)
-    calcmarkboundaries (gui->si);
+    calcmarkboundaries (gui->movement);
   tolastobject (gui);
   if (extend_selection)
     cursorright (NULL, param);
   else
     movecursorright (NULL, param);
   update_drawing_cache ();;     //refresh cached values, eg current timesig
-  find_leftmost_allcontexts (gui->si);  //FIXME is this done in displayhelper?
+  find_leftmost_allcontexts (gui->movement);  //FIXME is this done in displayhelper?
   displayhelper (gui);
 }
 
@@ -2501,14 +2501,14 @@ static void
 gotohome (gboolean extend_selection)
 {
   DenemoProject *gui = Denemo.project;
-  if (extend_selection && !gui->si->markstaffnum)
+  if (extend_selection && !gui->movement->markstaffnum)
     set_mark (NULL, NULL);
-  gui->si->currentmeasurenum = gui->si->leftmeasurenum = 1;
+  gui->movement->currentmeasurenum = gui->movement->leftmeasurenum = 1;
   displayhelper (gui);
-  setcurrents (gui->si);
+  setcurrents (gui->movement);
   if (extend_selection)
-    calcmarkboundaries (gui->si);
-  find_leftmost_allcontexts (gui->si);
+    calcmarkboundaries (gui->movement);
+  find_leftmost_allcontexts (gui->movement);
   update_drawing_cache ();;     //refresh cached values, eg current timesig
 }
 
@@ -2600,7 +2600,7 @@ stem_directive_insert (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScr
 void
 toggle_begin_slur (GtkAction* action, DenemoScriptParam* param)
 {
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
   declarecurmudelaobj;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
@@ -2637,7 +2637,7 @@ caution (DenemoMovement * si)
 void
 toggle_end_slur (GtkAction* action, DenemoScriptParam * param)
 {
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
   declarecurmudelaobj;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
@@ -2661,7 +2661,7 @@ toggle_end_slur (GtkAction* action, DenemoScriptParam * param)
 void
 toggle_start_crescendo (GtkAction* action, DenemoScriptParam * param)
 {
-  DenemoMovement *si = (DenemoMovement *) Denemo.project->si;
+  DenemoMovement *si = (DenemoMovement *) Denemo.project->movement;
   declarecurmudelaobj;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
@@ -2682,7 +2682,7 @@ toggle_start_crescendo (GtkAction* action, DenemoScriptParam * param)
 void
 toggle_end_crescendo (GtkAction* action, DenemoScriptParam * param)
 {
-  DenemoMovement *si = (DenemoMovement *) Denemo.project->si;
+  DenemoMovement *si = (DenemoMovement *) Denemo.project->movement;
   declarecurmudelaobj;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
@@ -2703,7 +2703,7 @@ toggle_end_crescendo (GtkAction* action, DenemoScriptParam * param)
 void
 toggle_start_diminuendo (GtkAction* action, DenemoScriptParam * param)
 {
-  DenemoMovement *si = (DenemoMovement *) Denemo.project->si;
+  DenemoMovement *si = (DenemoMovement *) Denemo.project->movement;
   declarecurmudelaobj;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
@@ -2724,7 +2724,7 @@ toggle_start_diminuendo (GtkAction* action, DenemoScriptParam * param)
 void
 toggle_end_diminuendo (GtkAction* action, DenemoScriptParam * param)
 {
-  DenemoMovement *si = (DenemoMovement *) Denemo.project->si;
+  DenemoMovement *si = (DenemoMovement *) Denemo.project->movement;
   declarecurmudelaobj;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
@@ -2754,7 +2754,7 @@ auto_save_document_timeout (DenemoProject * gui)
       warningdialog (_("Timer left running"));
       return FALSE;             /* turns off the timer */
     }
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   g_message ("Autosaving");
   if (!gui->autosavename)
     {

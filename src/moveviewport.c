@@ -24,15 +24,15 @@ void
 update_hscrollbar (DenemoProject * gui)
 {
   GtkAdjustment *adj = GTK_ADJUSTMENT (Denemo.hadjustment);
-  gdouble upper = g_list_length (gui->si->measurewidths) + 1.0, page_size = gui->si->rightmeasurenum - gui->si->leftmeasurenum + 1.0;
+  gdouble upper = g_list_length (gui->movement->measurewidths) + 1.0, page_size = gui->movement->rightmeasurenum - gui->movement->leftmeasurenum + 1.0;
   gdouble left = gtk_adjustment_get_value (adj);
   gtk_adjustment_set_upper (adj, upper);
   gtk_adjustment_set_page_size (adj, page_size);
   gtk_adjustment_set_page_increment (adj, page_size);
-  gtk_adjustment_set_value (adj, gui->si->leftmeasurenum);
+  gtk_adjustment_set_value (adj, gui->movement->leftmeasurenum);
   gtk_adjustment_changed (adj);
-  //g_debug("steps %d Difference %d\n",transition_steps, (gint)(left-gui->si->leftmeasurenum));
-  set_viewport_transition ((gint) (gui->si->leftmeasurenum) - left);
+  //g_debug("steps %d Difference %d\n",transition_steps, (gint)(left-gui->movement->leftmeasurenum));
+  set_viewport_transition ((gint) (gui->movement->leftmeasurenum) - left);
 }
 
 /**
@@ -50,10 +50,10 @@ void
 update_vscrollbar (DenemoProject * gui)
 {
   GtkAdjustment *adj = GTK_ADJUSTMENT (Denemo.vadjustment);
-  gtk_adjustment_set_upper (adj, g_list_length (gui->si->thescore) + 1.0);
-  gtk_adjustment_set_page_size (adj, gui->si->bottom_staff - gui->si->top_staff + 1.0);
-  gtk_adjustment_set_page_increment (adj, gui->si->bottom_staff - gui->si->top_staff + 1.0);
-  gtk_adjustment_set_value (adj, gui->si->top_staff);
+  gtk_adjustment_set_upper (adj, g_list_length (gui->movement->thescore) + 1.0);
+  gtk_adjustment_set_page_size (adj, gui->movement->bottom_staff - gui->movement->top_staff + 1.0);
+  gtk_adjustment_set_page_increment (adj, gui->movement->bottom_staff - gui->movement->top_staff + 1.0);
+  gtk_adjustment_set_value (adj, gui->movement->top_staff);
 
   gtk_adjustment_changed (adj);
   //gtk_range_slider_update (GTK_RANGE (Denemo.vscrollbar));
@@ -106,26 +106,26 @@ set_bottom_staff (DenemoProject * gui)
   gint staff_number;
 
   /* Bump up si->top_staff, if necessary.  */
-  staff_iterator = g_list_nth (gui->si->thescore, gui->si->top_staff - 1);
+  staff_iterator = g_list_nth (gui->movement->thescore, gui->movement->top_staff - 1);
   if (!((DenemoStaff *) staff_iterator->data)->voicecontrol & DENEMO_PRIMARY)
-    to_next_primary_voice (&gui->si->top_staff, &staff_iterator);
+    to_next_primary_voice (&gui->movement->top_staff, &staff_iterator);
 
   /* With that settled, now determine how many additional (primary)
      staves will fit into the window.  */
-  staff_number = gui->si->top_staff;
+  staff_number = gui->movement->top_staff;
 
-  space_left = get_widget_height (Denemo.scorearea) * gui->si->system_height / gui->si->zoom;
+  space_left = get_widget_height (Denemo.scorearea) * gui->movement->system_height / gui->movement->zoom;
   // space_left -= 2*LINE_SPACE;
   do
     {
       DenemoStaff *staff = staff_iterator->data;
-      space_left -= (staff->space_above + staff->space_below + gui->si->staffspace);    //2*STAFF_HEIGHT);
+      space_left -= (staff->space_above + staff->space_below + gui->movement->staffspace);    //2*STAFF_HEIGHT);
       to_next_primary_voice (&staff_number, &staff_iterator);
     }
   while (staff_iterator && space_left >= 0);
-  if (space_left < 0 && staff_number > (gui->si->top_staff + 1))
+  if (space_left < 0 && staff_number > (gui->movement->top_staff + 1))
     staff_number--;
-  gui->si->bottom_staff = staff_number - 1;
+  gui->movement->bottom_staff = staff_number - 1;
 }
 
 /**
@@ -135,16 +135,16 @@ set_bottom_staff (DenemoProject * gui)
 void
 isoffleftside (DenemoProject * gui)
 {
-  if (gui->si->currentmeasurenum >= gui->si->leftmeasurenum)
+  if (gui->movement->currentmeasurenum >= gui->movement->leftmeasurenum)
     return;
-  while (gui->si->currentmeasurenum < gui->si->leftmeasurenum)
+  while (gui->movement->currentmeasurenum < gui->movement->leftmeasurenum)
     {
-      gui->si->leftmeasurenum -= MAX ((gui->si->rightmeasurenum - gui->si->leftmeasurenum + 1) / 2, 1);
-      if (gui->si->leftmeasurenum < 1)
-        gui->si->leftmeasurenum = 1;
-      set_rightmeasurenum (gui->si);
+      gui->movement->leftmeasurenum -= MAX ((gui->movement->rightmeasurenum - gui->movement->leftmeasurenum + 1) / 2, 1);
+      if (gui->movement->leftmeasurenum < 1)
+        gui->movement->leftmeasurenum = 1;
+      set_rightmeasurenum (gui->movement);
     }
-  find_leftmost_allcontexts (gui->si);
+  find_leftmost_allcontexts (gui->movement);
   update_hscrollbar (gui);
 }
 
@@ -155,14 +155,14 @@ isoffleftside (DenemoProject * gui)
 void
 isoffrightside (DenemoProject * gui)
 {
-  if (gui->si->currentmeasurenum <= gui->si->rightmeasurenum)
+  if (gui->movement->currentmeasurenum <= gui->movement->rightmeasurenum)
     return;
-  while (gui->si->currentmeasurenum > gui->si->rightmeasurenum)
+  while (gui->movement->currentmeasurenum > gui->movement->rightmeasurenum)
     {
-      gui->si->leftmeasurenum += MAX ((gui->si->rightmeasurenum - gui->si->leftmeasurenum + 1) / 2, 1);
-      set_rightmeasurenum (gui->si);
+      gui->movement->leftmeasurenum += MAX ((gui->movement->rightmeasurenum - gui->movement->leftmeasurenum + 1) / 2, 1);
+      set_rightmeasurenum (gui->movement);
     }
-  find_leftmost_allcontexts (gui->si);
+  find_leftmost_allcontexts (gui->movement);
   update_hscrollbar (gui);
 }
 
@@ -175,10 +175,10 @@ move_viewport_up (DenemoProject * gui)
 {
   staffnode *staff_iterator;
 
-  staff_iterator = g_list_nth (gui->si->thescore, gui->si->top_staff - 1);
-  while (gui->si->currentstaffnum < gui->si->top_staff || !((DenemoStaff *) staff_iterator->data)->voicecontrol & DENEMO_PRIMARY)
+  staff_iterator = g_list_nth (gui->movement->thescore, gui->movement->top_staff - 1);
+  while (gui->movement->currentstaffnum < gui->movement->top_staff || !((DenemoStaff *) staff_iterator->data)->voicecontrol & DENEMO_PRIMARY)
     {
-      gui->si->top_staff--;
+      gui->movement->top_staff--;
       staff_iterator = staff_iterator->prev;
     }
   set_bottom_staff (gui);
@@ -190,9 +190,9 @@ move_viewport_up (DenemoProject * gui)
 static void
 center_viewport (void)
 {
-  Denemo.project->si->leftmeasurenum = Denemo.project->si->currentmeasurenum - (Denemo.project->si->rightmeasurenum - Denemo.project->si->leftmeasurenum) / 2;
-  if (Denemo.project->si->leftmeasurenum < 1)
-    Denemo.project->si->leftmeasurenum = 1;
+  Denemo.project->movement->leftmeasurenum = Denemo.project->movement->currentmeasurenum - (Denemo.project->movement->rightmeasurenum - Denemo.project->movement->leftmeasurenum) / 2;
+  if (Denemo.project->movement->leftmeasurenum < 1)
+    Denemo.project->movement->leftmeasurenum = 1;
 }
 
 void
@@ -200,8 +200,8 @@ page_viewport (void)
 {
   gdouble value, upper;
   GtkAdjustment *adj = GTK_ADJUSTMENT (Denemo.hadjustment);
-  //g_debug("%d %d\n", Denemo.project->si->leftmeasurenum, Denemo.project->si->rightmeasurenum);
-  gint amount = (Denemo.project->si->rightmeasurenum - Denemo.project->si->leftmeasurenum + 1);
+  //g_debug("%d %d\n", Denemo.project->movement->leftmeasurenum, Denemo.project->movement->rightmeasurenum);
+  gint amount = (Denemo.project->movement->rightmeasurenum - Denemo.project->movement->leftmeasurenum + 1);
   value = gtk_adjustment_get_value (adj);
   upper = gtk_adjustment_get_upper (adj);
   if (value + amount < upper)
@@ -222,10 +222,10 @@ move_viewport_down (DenemoProject * gui)
 {
   staffnode *staff_iterator;
 
-  staff_iterator = g_list_nth (gui->si->thescore, gui->si->top_staff - 1);
-  while (gui->si->currentstaffnum > gui->si->bottom_staff)
+  staff_iterator = g_list_nth (gui->movement->thescore, gui->movement->top_staff - 1);
+  while (gui->movement->currentstaffnum > gui->movement->bottom_staff)
     {
-      to_next_primary_voice (&gui->si->top_staff, &staff_iterator);
+      to_next_primary_voice (&gui->movement->top_staff, &staff_iterator);
       set_bottom_staff (gui);
     }
   update_vscrollbar (gui);
@@ -240,17 +240,17 @@ move_viewport_down (DenemoProject * gui)
 gboolean
 goto_currentmeasurenum (DenemoProject * gui, gint dest, gboolean extend_selection)
 {
-  if ((dest > 0) && (dest <= (gint) (g_list_length (gui->si->measurewidths))))
+  if ((dest > 0) && (dest <= (gint) (g_list_length (gui->movement->measurewidths))))
     {
-      //gui->si->leftmeasurenum = dest;
-      gui->si->currentmeasurenum = dest;
-      if ((dest < gui->si->leftmeasurenum) || (dest > gui->si->rightmeasurenum))
+      //gui->movement->leftmeasurenum = dest;
+      gui->movement->currentmeasurenum = dest;
+      if ((dest < gui->movement->leftmeasurenum) || (dest > gui->movement->rightmeasurenum))
         center_viewport ();
-      setcurrents (gui->si);
+      setcurrents (gui->movement);
       if (extend_selection)
-        calcmarkboundaries (gui->si);
-      set_rightmeasurenum (gui->si);
-      find_leftmost_allcontexts (gui->si);
+        calcmarkboundaries (gui->movement);
+      set_rightmeasurenum (gui->movement);
+      find_leftmost_allcontexts (gui->movement);
       update_hscrollbar (gui);
       gtk_widget_queue_draw (Denemo.scorearea);
       return TRUE;
@@ -291,15 +291,15 @@ moveto_currentmeasurenum (DenemoProject * gui, gint dest)
 gboolean
 goto_currentstaffnum (DenemoProject * gui, gint dest, gboolean extend_selection)
 {
-  if ((dest > 0) && (dest <= (gint) (g_list_length (gui->si->thescore))))
+  if ((dest > 0) && (dest <= (gint) (g_list_length (gui->movement->thescore))))
     {
-      gui->si->currentstaffnum = dest;
-      gui->si->currentstaff = g_list_nth (gui->si->thescore, gui->si->currentstaffnum - 1);
-      setcurrentprimarystaff (gui->si);
-      setcurrents (gui->si);
+      gui->movement->currentstaffnum = dest;
+      gui->movement->currentstaff = g_list_nth (gui->movement->thescore, gui->movement->currentstaffnum - 1);
+      setcurrentprimarystaff (gui->movement);
+      setcurrents (gui->movement);
       if (extend_selection)
-        calcmarkboundaries (gui->si);
-      find_leftmost_allcontexts (gui->si);
+        calcmarkboundaries (gui->movement);
+      find_leftmost_allcontexts (gui->movement);
       update_vscrollbar (gui);
       gtk_widget_queue_draw (Denemo.scorearea);
       return TRUE;
@@ -334,29 +334,29 @@ vertical_scroll (GtkAdjustment * adjust, gpointer dummy)
   DenemoProject *gui = Denemo.project;
   gint dest;
   gdouble value = gtk_adjustment_get_value (adjust);
-  if ((dest = (gint) (value + 0.5)) != gui->si->top_staff)
+  if ((dest = (gint) (value + 0.5)) != gui->movement->top_staff)
     {
-      gui->si->top_staff = dest;
-      //  while(gui->si->top_staff>g_list_length (gui->si->thescore))
-      //  gui->si->top_staff--;
+      gui->movement->top_staff = dest;
+      //  while(gui->movement->top_staff>g_list_length (gui->movement->thescore))
+      //  gui->movement->top_staff--;
       set_bottom_staff (gui);
-      if (gui->si->currentstaffnum > gui->si->bottom_staff)
+      if (gui->movement->currentstaffnum > gui->movement->bottom_staff)
         {
-          gui->si->currentstaffnum = gui->si->bottom_staff;
-          gui->si->currentstaff = g_list_nth (gui->si->thescore, gui->si->bottom_staff - 1);
-          setcurrentprimarystaff (gui->si);
-          setcurrents (gui->si);
-          if (gui->si->markstaffnum)
-            calcmarkboundaries (gui->si);
+          gui->movement->currentstaffnum = gui->movement->bottom_staff;
+          gui->movement->currentstaff = g_list_nth (gui->movement->thescore, gui->movement->bottom_staff - 1);
+          setcurrentprimarystaff (gui->movement);
+          setcurrents (gui->movement);
+          if (gui->movement->markstaffnum)
+            calcmarkboundaries (gui->movement);
         }
-      else if (gui->si->currentstaffnum < gui->si->top_staff)
+      else if (gui->movement->currentstaffnum < gui->movement->top_staff)
         {
-          gui->si->currentstaffnum = gui->si->top_staff;
-          gui->si->currentstaff = g_list_nth (gui->si->thescore, gui->si->top_staff - 1);
-          setcurrentprimarystaff (gui->si);
-          setcurrents (gui->si);
-          if (gui->si->markstaffnum)
-            calcmarkboundaries (gui->si);
+          gui->movement->currentstaffnum = gui->movement->top_staff;
+          gui->movement->currentstaff = g_list_nth (gui->movement->thescore, gui->movement->top_staff - 1);
+          setcurrentprimarystaff (gui->movement);
+          setcurrents (gui->movement);
+          if (gui->movement->markstaffnum)
+            calcmarkboundaries (gui->movement);
         }
       gtk_widget_queue_draw (Denemo.scorearea);
     }
@@ -371,23 +371,23 @@ static void
 h_scroll (gdouble value, DenemoProject * gui)
 {
   gint dest;
-  if ((dest = (gint) (value + 0.5)) != gui->si->leftmeasurenum)
+  if ((dest = (gint) (value + 0.5)) != gui->movement->leftmeasurenum)
     {
-      set_viewport_transition (dest - gui->si->leftmeasurenum);
-      gui->si->leftmeasurenum = dest;
-      set_rightmeasurenum (gui->si);
-      if (gui->si->currentmeasurenum > gui->si->rightmeasurenum)
+      set_viewport_transition (dest - gui->movement->leftmeasurenum);
+      gui->movement->leftmeasurenum = dest;
+      set_rightmeasurenum (gui->movement);
+      if (gui->movement->currentmeasurenum > gui->movement->rightmeasurenum)
         {
-          gui->si->currentmeasurenum = gui->si->rightmeasurenum;
+          gui->movement->currentmeasurenum = gui->movement->rightmeasurenum;
 
         }
-      else if (gui->si->currentmeasurenum < gui->si->leftmeasurenum)
+      else if (gui->movement->currentmeasurenum < gui->movement->leftmeasurenum)
         {
-          gui->si->currentmeasurenum = gui->si->leftmeasurenum;
+          gui->movement->currentmeasurenum = gui->movement->leftmeasurenum;
 
         }
-      find_leftmost_allcontexts (gui->si);
-      setcurrents (gui->si);
+      find_leftmost_allcontexts (gui->movement);
+      setcurrents (gui->movement);
       gtk_widget_queue_draw (Denemo.scorearea);
     }
   update_hscrollbar (gui);
@@ -404,13 +404,13 @@ horizontal_scroll (GtkAdjustment * adjust, gpointer dummy)
 void
 scroll_left (void)
 {
-  if (Denemo.project->si->leftmeasurenum > 1)
-    h_scroll (Denemo.project->si->leftmeasurenum - 1.0, Denemo.project);
+  if (Denemo.project->movement->leftmeasurenum > 1)
+    h_scroll (Denemo.project->movement->leftmeasurenum - 1.0, Denemo.project);
 }
 
 void
 scroll_right (void)
 {
-  if (Denemo.project->si->leftmeasurenum < g_list_length (Denemo.project->si->measurewidths))
-    h_scroll (Denemo.project->si->leftmeasurenum + 1.0, Denemo.project);
+  if (Denemo.project->movement->leftmeasurenum < g_list_length (Denemo.project->movement->measurewidths))
+    h_scroll (Denemo.project->movement->leftmeasurenum + 1.0, Denemo.project);
 }

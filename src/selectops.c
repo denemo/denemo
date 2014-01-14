@@ -475,7 +475,7 @@ get_clip_objs (gint m)
 void
 insert_object (DenemoObject * clonedobj)
 {
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
   staffnode *curstaff = si->currentstaff;
   clonedobj->starttick = (si->currentobject ? ((DenemoObject *) si->currentobject->data)->starttickofnextnote : 0);
   /* update undo information */
@@ -487,7 +487,7 @@ insert_object (DenemoObject * clonedobj)
       //do position after inserting, so we can go back to it to delete
     }
 
-  Denemo.project->si->currentmeasure->data = g_list_insert ((objnode *) si->currentmeasure->data, clonedobj, si->cursor_x);
+  Denemo.project->movement->currentmeasure->data = g_list_insert ((objnode *) si->currentmeasure->data, clonedobj, si->cursor_x);
 
 
   if (!si->undo_guard)
@@ -523,7 +523,7 @@ insert_object (DenemoObject * clonedobj)
 gboolean
 insert_clip_obj (gint m, gint n)
 {
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
   if (copybuffer == NULL)
     return FALSE;
   GList *stafflist = g_list_nth (copybuffer, m);
@@ -554,7 +554,7 @@ DenemoObject *
 get_mark_object (void)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   if (!si->markstaffnum)
     return NULL;
   staffnode *curstaff = g_list_nth (si->thescore, si->selection.firststaffmarked - 1);
@@ -569,7 +569,7 @@ DenemoObject *
 get_point_object (void)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   if (!si->markstaffnum)
     return NULL;
   staffnode *curstaff = g_list_nth (si->thescore, si->selection.laststaffmarked - 1);
@@ -656,7 +656,7 @@ mark_boundaries_helper (DenemoMovement * si, gint mark_staff, gint mark_measure,
 void
 set_mark (GtkAction* action, DenemoScriptParam * param)
 {
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
   si->markstaffnum = si->currentstaffnum;
   si->markmeasurenum = si->currentmeasurenum;
   si->markcursor_x = si->cursor_x;
@@ -673,7 +673,7 @@ set_mark (GtkAction* action, DenemoScriptParam * param)
 void
 set_point (GtkAction* action, DenemoScriptParam * param)
 {
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
   if (si->markstaffnum)
     {
       mark_boundaries_helper (si, si->markstaffnum, si->markmeasurenum, si->markcursor_x, si->currentstaffnum, si->currentmeasurenum, si->cursor_x, NORMAL_SELECT);
@@ -686,7 +686,7 @@ set_point (GtkAction* action, DenemoScriptParam * param)
 gboolean
 mark_status (void)
 {
-  return Denemo.project->si->markstaffnum != 0;
+  return Denemo.project->movement->markstaffnum != 0;
 }
 
 /**
@@ -697,7 +697,7 @@ mark_status (void)
 void
 unset_mark (GtkAction* action, DenemoScriptParam * param)
 {
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
   si->markstaffnum = 0;
   calcmarkboundaries (si);
   if(!Denemo.non_interactive)
@@ -788,7 +788,7 @@ goto_mark (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoScriptParam local_param;
   local_param.status = TRUE;
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
   if (!action)
     ((DenemoScriptParam *) param)->status = si->markstaffnum;
   else
@@ -815,7 +815,7 @@ goto_mark (GtkAction * action, DenemoScriptParam * param)
 void
 goto_selection_start (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
   if (!action)
     ((DenemoScriptParam *) param)->status = si->markstaffnum;
   if (si->markstaffnum)
@@ -863,7 +863,7 @@ get_position (DenemoMovement * si, DenemoPosition * pos)
 void
 push_position (void)
 {
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
   DenemoPosition *pos = (DenemoPosition *) g_malloc (sizeof (DenemoPosition));
   get_position (si, pos);
   if (pos->movement)
@@ -892,7 +892,7 @@ void
 copywrapper (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  copytobuffer (gui->si);
+  copytobuffer (gui->movement);
 }
 
 /**
@@ -906,7 +906,7 @@ void
 cutwrapper (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  cuttobuffer (gui->si, TRUE);
+  cuttobuffer (gui->movement, TRUE);
   //check that measurewidths is long enough after cutting empty measures
   displayhelper (gui);
 }
@@ -915,7 +915,7 @@ void
 delete_selection (void)
 {
   DenemoProject *gui = Denemo.project;
-  cuttobuffer (gui->si, FALSE);
+  cuttobuffer (gui->movement, FALSE);
   displayhelper (gui);
 }
 
@@ -929,10 +929,10 @@ delete_selection (void)
 void
 pastewrapper (GtkAction * action, DenemoScriptParam * param)
 {
-  stage_undo (Denemo.project->si, ACTION_STAGE_END);        //undo is a queue (ie stack) so we push the end first
+  stage_undo (Denemo.project->movement, ACTION_STAGE_END);        //undo is a queue (ie stack) so we push the end first
   call_out_to_guile ("(DenemoPaste)");
   //FIXME if not success a ACTION_SCRIPT_ERROR will have been put in the undo queue...
-  stage_undo (Denemo.project->si, ACTION_STAGE_START);
+  stage_undo (Denemo.project->movement, ACTION_STAGE_START);
 
   score_status (Denemo.project, TRUE);
 }
@@ -949,7 +949,7 @@ void
 saveselwrapper (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  saveselection (gui->si);
+  saveselection (gui->movement);
 }
 
 
@@ -970,7 +970,7 @@ calcmarkboundaries (DenemoMovement * si)
 void
 swap_point_and_mark (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
   gint temp = si->currentstaffnum;
   si->currentstaffnum = si->markstaffnum;
   si->markstaffnum = temp;
@@ -1162,16 +1162,16 @@ get_last_change (DenemoMovement * si)
 gboolean
 take_snapshot (void)
 {
-  if (!Denemo.project->si->undo_guard)
+  if (!Denemo.project->movement->undo_guard)
     {
       DenemoUndoData *chunk;
       chunk = (DenemoUndoData *) g_malloc (sizeof (DenemoUndoData));
-      chunk->object = (DenemoObject *) clone_movement (Denemo.project->si);
+      chunk->object = (DenemoObject *) clone_movement (Denemo.project->movement);
       //fix up somethings...
-      get_position (Denemo.project->si, &chunk->position);
+      get_position (Denemo.project->movement, &chunk->position);
       chunk->position.appending = 0;
       chunk->action = ACTION_SNAPSHOT;
-      update_undo_info (Denemo.project->si, chunk);
+      update_undo_info (Denemo.project->movement, chunk);
 
       return TRUE;
     }
@@ -1230,7 +1230,7 @@ position_for_chunk (DenemoProject * gui, DenemoUndoData * chunk)
 {
   DenemoScriptParam param;
   param.status = TRUE;
-  //g_debug("undo guard before %d level is %d\n undo action is %d\n",  gui->si->undo_guard, gui->undo_level, chunk->action);
+  //g_debug("undo guard before %d level is %d\n undo action is %d\n",  gui->movement->undo_guard, gui->undo_level, chunk->action);
 
   switch (chunk->action)
     {
@@ -1266,14 +1266,14 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
     case ACTION_MEASURE_CREATE:
       {
         //delete the empty measure in the chunk->position.staff at measure number chunk->position->object
-        dnm_deletemeasure (gui->si);
+        dnm_deletemeasure (gui->movement);
         chunk->action = ACTION_MEASURE_REMOVE;
         if (chunk->position.measure > 1)
           chunk->position.measure--;
         else
           chunk->action = ACTION_NOOP;
 
-        if (!gui->si->currentmeasure)
+        if (!gui->movement->currentmeasure)
           {
             g_warning ("position after undo insert Bug in selectops.c");
             position_for_chunk (gui, chunk);
@@ -1288,7 +1288,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
         insertmeasureafter (NULL, NULL);
         chunk->action = ACTION_MEASURE_CREATE;
         chunk->position.measure++;
-        if (!gui->si->currentmeasure)
+        if (!gui->movement->currentmeasure)
           {
             g_warning ("position after undo insert Bug in selectops.c");
             position_for_chunk (gui, chunk);    //????
@@ -1316,8 +1316,8 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
 
     case ACTION_INSERT:
       {
-        chunk->object = dnm_clone_object (gui->si->currentobject->data);
-        dnm_deleteobject (gui->si);
+        chunk->object = dnm_clone_object (gui->movement->currentobject->data);
+        dnm_deleteobject (gui->movement);
         chunk->action = ACTION_DELETE;
       }
       break;
@@ -1330,9 +1330,9 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
       break;
     case ACTION_CHANGE:
       {
-        //FIXME guard against a corrupt undo queue here by checking  if(gui->si->currentobject) {
-        DenemoObject *temp = gui->si->currentobject->data;
-        gui->si->currentobject->data = chunk->object;
+        //FIXME guard against a corrupt undo queue here by checking  if(gui->movement->currentobject) {
+        DenemoObject *temp = gui->movement->currentobject->data;
+        gui->movement->currentobject->data = chunk->object;
         chunk->object = temp;
       }
       break;
@@ -1340,17 +1340,17 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
       {
 
         DenemoMovement *si = (DenemoMovement *) chunk->object;
-        gint initial_guard = gui->si->undo_guard;
-        gint initial_changecount = gui->si->changecount;
-        gboolean initial_redo_invalid = gui->si->redo_invalid;
-        gpointer initial_smf = gui->si->smf;
-        // replace gui->si in gui->movements with si
-        GList *find = g_list_find (gui->movements, gui->si);
+        gint initial_guard = gui->movement->undo_guard;
+        gint initial_changecount = gui->movement->changecount;
+        gboolean initial_redo_invalid = gui->movement->redo_invalid;
+        gpointer initial_smf = gui->movement->smf;
+        // replace gui->movement in gui->movements with si
+        GList *find = g_list_find (gui->movements, gui->movement);
         if (find)
           {
             find->data = si;
             GList *g, *gorig, *curstaff;
-            for (curstaff = gui->si->thescore; curstaff; curstaff = curstaff->next)
+            for (curstaff = gui->movement->thescore; curstaff; curstaff = curstaff->next)
               {
                 DenemoStaff *thestaff = curstaff->data;
                 gorig = g = thestaff->verses;
@@ -1395,7 +1395,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
 
             {
               GList *direc;
-              for (direc = gui->si->movementcontrol.directives; direc; direc = direc->next)
+              for (direc = gui->movement->movementcontrol.directives; direc; direc = direc->next)
                 {
                   DenemoDirective *directive = direc->data;
                   gtk_widget_destroy (directive->widget);
@@ -1405,7 +1405,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
             }
             {
               GList *direc;
-              for (direc = gui->si->header.directives; direc; direc = direc->next)
+              for (direc = gui->movement->header.directives; direc; direc = direc->next)
                 {
                   DenemoDirective *directive = direc->data;
                   gtk_widget_destroy (directive->widget);
@@ -1414,7 +1414,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
             }
             {
               GList *direc;
-              for (direc = gui->si->layout.directives; direc; direc = direc->next)
+              for (direc = gui->movement->layout.directives; direc; direc = direc->next)
                 {
                   DenemoDirective *directive = direc->data;
                   gtk_widget_destroy (directive->widget);
@@ -1423,9 +1423,9 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
             }
 
             g_list_free (gorig);
-            chunk->object = (DenemoObject *) gui->si;
+            chunk->object = (DenemoObject *) gui->movement;
             //FIXME fix up other values in stored object si?????? voice/staff directive widgets
-            gui->si = si;
+            gui->movement = si;
             for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
               {
                 DenemoStaff *thestaff = curstaff->data;
@@ -1467,7 +1467,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
 
             {
               GList *direc;
-              for (direc = gui->si->movementcontrol.directives; direc; direc = direc->next)
+              for (direc = gui->movement->movementcontrol.directives; direc; direc = direc->next)
                 {
                   DenemoDirective *directive = direc->data;
                   directive->widget = NULL;
@@ -1476,7 +1476,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
             }
             {
               GList *direc;
-              for (direc = gui->si->header.directives; direc; direc = direc->next)
+              for (direc = gui->movement->header.directives; direc; direc = direc->next)
                 {
                   DenemoDirective *directive = direc->data;
                   directive->widget = NULL;
@@ -1485,25 +1485,25 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
             }
             {
               GList *direc;
-              for (direc = gui->si->layout.directives; direc; direc = direc->next)
+              for (direc = gui->movement->layout.directives; direc; direc = direc->next)
                 {
                   DenemoDirective *directive = direc->data;
                   directive->widget = NULL;
                   widget_for_layout_directive (directive);
                 }
             }
-            gui->si->smf = initial_smf;
-            gui->si->smfsync = -1;      //force recalculation of midi
-            gui->si->redo_invalid = initial_redo_invalid;
-            gui->si->undo_guard = initial_guard;        //we keep all the guards we had on entry which will be removed when
-            gui->si->changecount = initial_changecount;
+            gui->movement->smf = initial_smf;
+            gui->movement->smfsync = -1;      //force recalculation of midi
+            gui->movement->redo_invalid = initial_redo_invalid;
+            gui->movement->undo_guard = initial_guard;        //we keep all the guards we had on entry which will be removed when
+            gui->movement->changecount = initial_changecount;
             position_for_chunk (gui, chunk);    //FIXME check return val
-            if (!gui->si->currentmeasure)
+            if (!gui->movement->currentmeasure)
               {
                 g_warning ("positioning after snapshot Bug in selectops.c");
                 movetoend (NULL, NULL);
               }
-            gui->si->currentstaffnum = 1 + g_list_position (gui->si->thescore, gui->si->currentstaff);
+            gui->movement->currentstaffnum = 1 + g_list_position (gui->movement->thescore, gui->movement->currentstaff);
           }
         else
           {
@@ -1526,16 +1526,16 @@ static void
 position_warning (DenemoUndoData * chunk)
 {
   g_warning ("Could not find position for undotype %d  movement %d staff %d measure %d object %d appending %d offend %d", chunk->action, chunk->position.movement, chunk->position.staff, chunk->position.measure, chunk->position.object, chunk->position.appending, chunk->position.offend);
-  print_queue ("The undo queue was:", Denemo.project->si->undodata);
-  print_queue ("The redo queue was:", Denemo.project->si->redodata);
+  print_queue ("The undo queue was:", Denemo.project->movement->undodata);
+  print_queue ("The redo queue was:", Denemo.project->movement->redodata);
 }
 
 static void
 warn_no_more_undo (DenemoProject * gui)
 {
-  g_warning ("No more undo information at level %d guard %d ... resetting", gui->undo_level, gui->si->undo_guard);
+  g_warning ("No more undo information at level %d guard %d ... resetting", gui->undo_level, gui->movement->undo_guard);
   gui->undo_level = 0;
-  gui->si->undo_guard = Denemo.prefs.disable_undo;
+  gui->movement->undo_guard = Denemo.prefs.disable_undo;
 }
 
 
@@ -1561,10 +1561,10 @@ static void
 undo (DenemoProject * gui)
 {
 
-  DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->si->undodata);
+  DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->movement->undodata);
   if (chunk)
     {
-      gui->si->undo_guard++;
+      gui->movement->undo_guard++;
       //g_debug("undo %d\n", chunk->action);
       if (position_for_chunk (gui, chunk))
         {
@@ -1573,24 +1573,24 @@ undo (DenemoProject * gui)
       else
         {
           position_warning (chunk);
-          free_queue (gui->si->redodata);
-          free_queue (gui->si->undodata);
+          free_queue (gui->movement->redodata);
+          free_queue (gui->movement->undodata);
           warn_no_more_undo (gui);      //returns guard to user preference and sets level 0
           return;
         }
       //g_debug("actioned undo now pushing %d\n", chunk->action);
-      update_redo_info (gui->si, chunk);
-      gui->si->undo_guard--;
-      //g_debug("***undo guard after undo %d\n",  gui->si->undo_guard);
+      update_redo_info (gui->movement, chunk);
+      gui->movement->undo_guard--;
+      //g_debug("***undo guard after undo %d\n",  gui->movement->undo_guard);
       if (gui->undo_level > 0)
         undo (gui);
       score_status (gui, TRUE);
-      if (gui->si->currentmeasurenum > g_list_length (gui->si->measurewidths))
+      if (gui->movement->currentmeasurenum > g_list_length (gui->movement->measurewidths))
         {
-          g_warning ("Undo failed to set current measurenum %d out of %d", gui->si->currentmeasurenum, g_list_length (gui->si->measurewidths));
-          gui->si->currentmeasurenum = g_list_length (gui->si->measurewidths);
+          g_warning ("Undo failed to set current measurenum %d out of %d", gui->movement->currentmeasurenum, g_list_length (gui->movement->measurewidths));
+          gui->movement->currentmeasurenum = g_list_length (gui->movement->measurewidths);
         }
-      //print_queue("Undo, queue: ", gui->si->undodata);
+      //print_queue("Undo, queue: ", gui->movement->undodata);
     }
   else
     warn_no_more_undo (gui);
@@ -1609,11 +1609,11 @@ undo (DenemoProject * gui)
 void
 redo (DenemoProject * gui)
 {
-  DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->si->redodata);
+  DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->movement->redodata);
   if (chunk)
     {
-      //g_debug("Before %s and %d\n", gui->si->currentobject?"Obj":"noObj", gui->si->cursor_x);
-      gui->si->undo_guard++;
+      //g_debug("Before %s and %d\n", gui->movement->currentobject?"Obj":"noObj", gui->movement->cursor_x);
+      gui->movement->undo_guard++;
       if (position_for_chunk (gui, chunk))
         {
           action_chunk (gui, &chunk);
@@ -1623,9 +1623,9 @@ redo (DenemoProject * gui)
           position_warning (chunk);
 
         }
-      update_undo_info (gui->si, chunk);
-      gui->si->undo_guard--;
-      //g_debug("After %s and %d\n", gui->si->currentobject?"Obj":"noObj!!", gui->si->cursor_x);
+      update_undo_info (gui->movement, chunk);
+      gui->movement->undo_guard--;
+      //g_debug("After %s and %d\n", gui->movement->currentobject?"Obj":"noObj!!", gui->movement->cursor_x);
       if (gui->undo_level > 0)
         redo (gui);
       score_status (gui, TRUE);

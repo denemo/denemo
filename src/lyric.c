@@ -96,8 +96,8 @@ void
 add_verse (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
-  if (gui->si->currentstaff)
+  DenemoMovement *si = gui->movement;
+  if (gui->movement->currentstaff)
   {
     DenemoStaff *staff = si->currentstaff->data;
     add_verse_to_staff (si, staff);
@@ -111,7 +111,7 @@ void
 delete_verse (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   if (si->currentstaff)
   {
     DenemoStaff *staff = si->currentstaff->data;
@@ -220,8 +220,8 @@ void
 hide_lyrics (void)
 {
   DenemoProject *gui = Denemo.project;
-  if (gui->si->currentstaff && ((DenemoStaff *) gui->si->currentstaff->data)->verses)
-    gtk_widget_hide (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) gui->si->currentstaff->data)->verses->data)));      //hide the notebook
+  if (gui->movement->currentstaff && ((DenemoStaff *) gui->movement->currentstaff->data)->verses)
+    gtk_widget_hide (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) gui->movement->currentstaff->data)->verses->data)));      //hide the notebook
 }
 
 /* show the notebook of verses for the current staff hide all others*/
@@ -229,7 +229,7 @@ void
 show_lyrics (void)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   if (si->currentstaff && ((DenemoStaff *) si->currentstaff->data)->verses)
     gtk_widget_show (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) si->currentstaff->data)->verses->data)));   //show the notebook
   select_lyrics ();
@@ -240,7 +240,7 @@ void
 select_lyrics (void)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   GList *current = si->thescore;
   for (; current; current = current->next)
   {
@@ -297,9 +297,9 @@ gint
 get_current_verse_number (void)
 {
   DenemoProject *gui = Denemo.project;
-  if (gui->si->currentstaff)
+  if (gui->movement->currentstaff)
   {
-    DenemoStaff *thestaff = ((DenemoStaff *) gui->si->currentstaff->data);
+    DenemoStaff *thestaff = ((DenemoStaff *) gui->movement->currentstaff->data);
     if (thestaff->verses)
       return 1 + g_list_index (thestaff->verses, thestaff->currentverse);
 
@@ -310,9 +310,9 @@ gboolean
 set_current_verse (gint number)
 {
   DenemoProject *gui = Denemo.project;
-  if (gui->si->currentstaff)
+  if (gui->movement->currentstaff)
   {
-    DenemoStaff *thestaff = ((DenemoStaff *) gui->si->currentstaff->data);
+    DenemoStaff *thestaff = ((DenemoStaff *) gui->movement->currentstaff->data);
     if (thestaff->verses)
     {
       GList *g = g_list_nth (thestaff->verses, number - 1);
@@ -329,9 +329,9 @@ set_current_verse (gint number)
 
 gchar * get_lyrics_for_verse_num (gint number)
 {
-  DenemoProject * gui = Denemo.project; if (gui->si->currentstaff)
+  DenemoProject * gui = Denemo.project; if (gui->movement->currentstaff)
   {
-    DenemoStaff * thestaff = ((DenemoStaff *) gui->si->currentstaff->data); if (thestaff->verses)
+    DenemoStaff * thestaff = ((DenemoStaff *) gui->movement->currentstaff->data); if (thestaff->verses)
     {
       GList * verse = g_list_nth (thestaff->verses, number - 1); if (verse) return get_text_from_view (verse->data);
     }

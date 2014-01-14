@@ -1793,10 +1793,10 @@ outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint
       gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, staff_str->str, -1, INEDITABLE, NULL);
       g_string_assign (staff_str, "");
       gint firstobj = 1, lastobj = G_MAXINT - 1;
-      if (start && gui->si->markstaffnum)
+      if (start && gui->movement->markstaffnum)
         {                       //markstaffnum==0 means not set
-          firstobj = 1 + gui->si->selection.firstobjmarked;
-          lastobj = 1 + gui->si->selection.lastobjmarked;
+          firstobj = 1 + gui->movement->selection.firstobjmarked;
+          lastobj = 1 + gui->movement->selection.lastobjmarked;
         }
       //g_debug("First last, %d %d %d\n", firstobj, lastobj, start);
       for (objnum = 1, curobjnode = (objnode *) curmeasure->data; /* curobjnode NULL checked at end */ ;
@@ -2074,7 +2074,7 @@ merge_lily_strings (DenemoProject * gui)
 #if 0
               g_debug ("gstringp %p at %p holds %s\n", *gstringp, gstringp, (*gstringp)->str);
 #endif
-              /* this is    ((DenemoDirective*)((DenemoObject*)(Denemo.project->si->currentobject->data))->object)->postfix */
+              /* this is    ((DenemoDirective*)((DenemoObject*)(Denemo.project->movement->currentobject->data))->object)->postfix */
               g_free (g_object_get_data (G_OBJECT (anchor), ORIGINAL));
               g_object_set_data (G_OBJECT (anchor), ORIGINAL, get_text (anchor));
 
@@ -2180,9 +2180,9 @@ place_cursor_cb (void)
 {
     DenemoProject *gui = Denemo.project;
   /* place cursor on current object */
-  if (gui->si->currentobject)
+  if (gui->movement->currentobject)
     {
-      DenemoObject *targetobj = gui->si->currentobject->data;
+      DenemoObject *targetobj = gui->movement->currentobject->data;
       GList *curobjnode;
       GtkTextIter iter;
       gtk_text_buffer_get_start_iter (Denemo.textbuffer, &iter);
@@ -2310,7 +2310,7 @@ set_staff_termination (GString * str, DenemoStaff * curstaffstruct)
 void
 generate_lilypond_part (void)
 {
-  output_score_to_buffer (Denemo.project, TRUE, ((DenemoStaff *) (Denemo.project->si->currentstaff->data))->lily_name->str);
+  output_score_to_buffer (Denemo.project, TRUE, ((DenemoStaff *) (Denemo.project->movement->currentstaff->data))->lily_name->str);
 }
 
 /*
@@ -2337,7 +2337,7 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
   if (all_movements)
     movementname = g_strdup ("All movements");
   else
-    movementname = g_strdup_printf ("Movement %d", 1 + g_list_index (gui->movements, gui->si));
+    movementname = g_strdup_printf ("Movement %d", 1 + g_list_index (gui->movements, gui->movement));
   if (partname)
     namespec = g_strdup_printf ("%s Part %s", movementname, partname);
   else
@@ -2349,14 +2349,14 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
 
   DenemoScoreblock *sb = select_layout (all_movements, partname);       //FIXME gui->namespec mechanism is probably redundant, and could well cause trouble...
 
-  if (gui->si->markstaffnum)
+  if (gui->movement->markstaffnum)
     all_movements = FALSE;
 
   staffnode *curstaff;
   DenemoStaff *curstaffstruct;
 //  if(Denemo.project->custom_scoreblocks==NULL)
   //   create_default_scoreblock();
-  if ((gui->si->markstaffnum == 0) && Denemo.textbuffer && (gui->changecount == gui->lilysync) && !strcmp (gui->namespec, namespec))
+  if ((gui->movement->markstaffnum == 0) && Denemo.textbuffer && (gui->changecount == gui->lilysync) && !strcmp (gui->namespec, namespec))
     {
       g_free (gui->namespec);
       gui->namespec = namespec;
@@ -2458,7 +2458,7 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
       DenemoMovement *si = g->data;
       gint voice_count;         //which voice counting from 1st voice of 1st staff thru to last voice of last staff.
       gint staff_count;         //which staff (not counting voices)
-      visible_movement = (((all_movements) || (g->data == gui->si)) ? 1 : -1);
+      visible_movement = (((all_movements) || (g->data == gui->movement)) ? 1 : -1);
       GString *movement_name = g_string_new ("");
       GString *name = g_string_new ("");
       g_string_printf (name, "Mvmnt%d", movement_count);
@@ -2486,12 +2486,12 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
 
           g_string_free (name, TRUE);
           gint start = 0, end = 0;
-          if (gui->si->markstaffnum)
+          if (gui->movement->markstaffnum)
             {
-              if (!(voice_count >= gui->si->selection.firststaffmarked && voice_count <= gui->si->selection.laststaffmarked))
+              if (!(voice_count >= gui->movement->selection.firststaffmarked && voice_count <= gui->movement->selection.laststaffmarked))
                 visible_part = -1;
-              start = gui->si->selection.firstmeasuremarked;
-              end = gui->si->selection.lastmeasuremarked;
+              start = gui->movement->selection.firstmeasuremarked;
+              end = gui->movement->selection.lastmeasuremarked;
             }
           if (visible_part > 0 && visible_movement > 0)
             outputStaff (gui, curstaffstruct, start, end, movement_name->str, voice_name->str, movement_count * visible_movement, voice_count * visible_part, sb);
@@ -2687,7 +2687,7 @@ exportlilypond (gchar * thefilename, DenemoProject * gui, gboolean all_movements
 void
 export_lilypond_part (char *filename, DenemoProject * gui, gboolean all_movements)
 {
-  export_lilypond (filename, gui, all_movements, ((DenemoStaff *) gui->si->currentstaff->data)->lily_name->str);
+  export_lilypond (filename, gui, all_movements, ((DenemoStaff *) gui->movement->currentstaff->data)->lily_name->str);
 }
 
 /* output lilypond for each part into a separate file
@@ -2698,7 +2698,7 @@ export_lilypond_parts (char *filename, DenemoProject * gui)
   gchar *staff_filename;
   staffnode *curstaff;
   DenemoStaff *curstaffstruct;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
     {
 
@@ -2742,7 +2742,7 @@ lily_save (G_GNUC_UNUSED GtkWidget * item, G_GNUC_UNUSED GdkEventCrossing * e)
   // g_signal_handlers_block_by_func (G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_save), NULL);
   // g_signal_handlers_unblock_by_func (G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_refresh), gui);
   merge_lily_strings (gui);
-  if (gui->si)
+  if (gui->movement)
     update_drawing_cache ();
   return FALSE;
 }
@@ -2756,9 +2756,9 @@ lily_refresh (G_GNUC_UNUSED GtkWidget * item, G_GNUC_UNUSED GdkEventCrossing * e
   //g_signal_handlers_block_by_func(G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_refresh), NULL);
   //g_signal_handlers_unblock_by_func (G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_save), NULL);
 
-  if (gui->si->markstaffnum || (gui->lilysync != gui->changecount))
+  if (gui->movement->markstaffnum || (gui->lilysync != gui->changecount))
     {
-      gui->si->markstaffnum = 0;        //remove selection, else we will only see that bit in LilyText   
+      gui->movement->markstaffnum = 0;        //remove selection, else we will only see that bit in LilyText   
       refresh_lily_cb (NULL, gui);
     }
   return FALSE;
@@ -2857,11 +2857,11 @@ goto_lilypond_position (gint line, gint column)
          
           DenemoTargetType type = (intptr_t) g_object_get_data (G_OBJECT (anchor), TARGETTYPE);
           //g_print("location %d %d %d movement %d, type %d at %d %d \n", objnum, measurenum, staffnum, movementnum, type, line, column);
-          gui->si->target.objnum = objnum;
-          gui->si->target.measurenum = measurenum;
-          gui->si->target.staffnum = staffnum;
-          gui->si->target.type = type;
-          gui->si->target.directivenum = directivenum;
+          gui->movement->target.objnum = objnum;
+          gui->movement->target.measurenum = measurenum;
+          gui->movement->target.staffnum = staffnum;
+          gui->movement->target.type = type;
+          gui->movement->target.directivenum = directivenum;
 #ifdef G_OS_WIN32
           g_debug ("goto_lilypond_position: anchor located and target set %d %d\n", measurenum, objnum);
 #endif
@@ -2878,12 +2878,12 @@ goto_lilypond_position (gint line, gint column)
               int midcoffset = (intptr_t) g_object_get_data (G_OBJECT (anchor), MIDCOFFSET);
               //!!!!move cursor to midcoffset  This has been lifted from view.c, but there surely should exist a function to do this 
               {
-                //dclef =  find_prevailing_clef(gui->si); This should be dropped from scheme_cursor_to_note() as well I guess.
-                gui->si->cursor_y = mid_c_offset;
-                gui->si->staffletter_y = offsettonumber (gui->si->cursor_y);
+                //dclef =  find_prevailing_clef(gui->movement); This should be dropped from scheme_cursor_to_note() as well I guess.
+                gui->movement->cursor_y = mid_c_offset;
+                gui->movement->staffletter_y = offsettonumber (gui->movement->cursor_y);
                 displayhelper (gui);
               }
-              gui->si->target.mid_c_offset = midcoffset;
+              gui->movement->target.mid_c_offset = midcoffset;
             }
 #ifdef G_OS_WIN32
           g_debug ("goto_lilypond_position: Success\n");
@@ -2941,7 +2941,7 @@ lily_keypress (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event)
       if (!goto_movement_staff_obj (gui, movementnum, staffnum, measurenum, objnum))
         return FALSE;
       gchar *key = g_strdup_printf ("%c", gdk_keyval_to_unicode (event->keyval));
-      GList *curobjnode = gui->si->currentobject;
+      GList *curobjnode = gui->movement->currentobject;
       DenemoObject *obj = curobjnode ? curobjnode->data : NULL;
       if (obj && *key > 0x1f)
         {

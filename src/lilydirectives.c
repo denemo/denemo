@@ -183,7 +183,7 @@ static DenemoObject *
 get_object (void)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   return (DenemoObject *) si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
 }
 
@@ -217,7 +217,7 @@ attach_directive (attach_type attach, gchar * postfix, gchar * prefix, gchar * d
       return;
     }
 
-  curnote = findnote (curObj, gui->si->cursor_y);
+  curnote = findnote (curObj, gui->movement->cursor_y);
   if (attach == ATTACH_NOTE && (curnote == NULL))
     {
       if (interactive)
@@ -321,7 +321,7 @@ create_directives (GList ** directives, gchar * tag)
 static void
 get_lily_parameter (gchar * query, DenemoScriptParam * param)
 {
-  DenemoObject *curObj = (DenemoObject *) Denemo.project->si->currentobject ? (DenemoObject *) Denemo.project->si->currentobject->data : NULL;
+  DenemoObject *curObj = (DenemoObject *) Denemo.project->movement->currentobject ? (DenemoObject *) Denemo.project->movement->currentobject->data : NULL;
   param->status = curObj && curObj->type == LILYDIRECTIVE;
 #define ASSIGN_PARAM(field)  if(!strcmp(#field, query))\
   g_string_assign(param->string, lilyobj->field->str);
@@ -341,7 +341,7 @@ static void
 insert_lily_directive (gchar * postfix, gchar * display, gboolean locked, gint minpixels)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   DenemoObject *lily;
   lilydirective *lilyobj = NULL;        /* a lily directive object */
   DenemoObject *curObj = (DenemoObject *) si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
@@ -405,7 +405,7 @@ get_lily_directive (gchar ** directive, gchar ** display, gboolean * locked)
 static DenemoDirective *
 get_standalone_directive (gchar * tag)
 {
-  DenemoObject *curObj = (DenemoObject *) Denemo.project->si->currentobject ? (DenemoObject *) Denemo.project->si->currentobject->data : NULL;
+  DenemoObject *curObj = (DenemoObject *) Denemo.project->movement->currentobject ? (DenemoObject *) Denemo.project->movement->currentobject->data : NULL;
   if (curObj && curObj->type == LILYDIRECTIVE)
     {
       DenemoDirective *ret = (DenemoDirective *) curObj->object;
@@ -444,7 +444,7 @@ standalone_directive (GtkAction * action, DenemoScriptParam * param)
     display = postfix;
   if (action)
     {
-      DenemoObject *curObj = (DenemoObject *) gui->si->currentobject ? (DenemoObject *) gui->si->currentobject->data : NULL;
+      DenemoObject *curObj = (DenemoObject *) gui->movement->currentobject ? (DenemoObject *) gui->movement->currentobject->data : NULL;
       if (curObj && curObj->type == LILYDIRECTIVE)
         {
           lilydirective *lilyobj = (lilydirective *) curObj->object;
@@ -528,16 +528,16 @@ get_note (void)
   DenemoObject *curObj = get_chordobject ();
   if (curObj == NULL)
     return NULL;
-  return findnote (curObj, gui->si->cursor_y);
+  return findnote (curObj, gui->movement->cursor_y);
 }
 
 
 static DenemoStaff *
 get_staff (void)
 {
-  if (Denemo.project->si->currentstaff == NULL)
+  if (Denemo.project->movement->currentstaff == NULL)
     return NULL;
-  return Denemo.project->si->currentstaff->data;
+  return Denemo.project->movement->currentstaff->data;
 }
 
 #define get_voice get_staff
@@ -788,7 +788,7 @@ delete_paper_directive (gchar * tag)
 static layout *
 get_layout (void)
 {
-  return &Denemo.project->si->layout;
+  return &Denemo.project->movement->layout;
 }
 
 static DenemoDirective *
@@ -816,7 +816,7 @@ delete_layout_directive (gchar * tag)
 static movementcontrol *
 get_movementcontrol (void)
 {
-  return &Denemo.project->si->movementcontrol;
+  return &Denemo.project->movement->movementcontrol;
 }
 
 static DenemoDirective *
@@ -844,7 +844,7 @@ delete_movementcontrol_directive (gchar * tag)
 static header *
 get_header (void)
 {
-  return &Denemo.project->si->header;
+  return &Denemo.project->movement->header;
 }
 
 static DenemoDirective *
@@ -932,9 +932,9 @@ get_score_directive (gchar * tag)
 static DenemoDirective *
 get_staff_directive (gchar * tag)
 {
-  if (Denemo.project->si->currentstaff == NULL)
+  if (Denemo.project->movement->currentstaff == NULL)
     return NULL;
-  DenemoStaff *curstaff = Denemo.project->si->currentstaff->data;
+  DenemoStaff *curstaff = Denemo.project->movement->currentstaff->data;
   //FIXME return NULL if not primary staff
   if (curstaff == NULL || curstaff->staff_directives == NULL)
     return NULL;
@@ -944,9 +944,9 @@ get_staff_directive (gchar * tag)
 static DenemoDirective *
 get_voice_directive (gchar * tag)
 {
-  if (Denemo.project->si->currentstaff == NULL)
+  if (Denemo.project->movement->currentstaff == NULL)
     return NULL;
-  DenemoStaff *curstaff = Denemo.project->si->currentstaff->data;
+  DenemoStaff *curstaff = Denemo.project->movement->currentstaff->data;
   if (curstaff == NULL || curstaff->voice_directives == NULL)
     return NULL;
   return find_directive (curstaff->voice_directives, tag);
@@ -955,9 +955,9 @@ get_voice_directive (gchar * tag)
 gboolean
 delete_staff_directive (gchar * tag)
 {
-  if (Denemo.project->si->currentstaff == NULL)
+  if (Denemo.project->movement->currentstaff == NULL)
     return FALSE;
-  DenemoStaff *curstaff = Denemo.project->si->currentstaff->data;
+  DenemoStaff *curstaff = Denemo.project->movement->currentstaff->data;
   if (curstaff == NULL || curstaff->staff_directives == NULL)
     return FALSE;
   return delete_directive (&curstaff->staff_directives, tag);
@@ -967,9 +967,9 @@ delete_staff_directive (gchar * tag)
 gboolean
 delete_initialclef_directive (gchar * tag)
 {
-  if (Denemo.project->si->currentstaff == NULL)
+  if (Denemo.project->movement->currentstaff == NULL)
     return FALSE;
-  DenemoStaff *curstaff = Denemo.project->si->currentstaff->data;
+  DenemoStaff *curstaff = Denemo.project->movement->currentstaff->data;
   if (curstaff == NULL || curstaff->clef.directives == NULL)
     return FALSE;
   return delete_directive (&curstaff->clef.directives, tag);
@@ -979,9 +979,9 @@ delete_initialclef_directive (gchar * tag)
 gboolean
 delete_voice_directive (gchar * tag)
 {
-  if (Denemo.project->si->currentstaff == NULL)
+  if (Denemo.project->movement->currentstaff == NULL)
     return FALSE;
-  DenemoStaff *curstaff = Denemo.project->si->currentstaff->data;
+  DenemoStaff *curstaff = Denemo.project->movement->currentstaff->data;
   if (curstaff == NULL || curstaff->voice_directives == NULL)
     return FALSE;
   return delete_directive (&curstaff->voice_directives, tag);
@@ -1058,8 +1058,8 @@ typedef DenemoObject object;
 what##_directive_put_graphic(gchar *tag, gchar *value) {\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
-  if(Denemo.project->si->currentobject)\
-  store_for_undo_change (Denemo.project->si, Denemo.project->si->currentobject->data);\
+  if(Denemo.project->movement->currentobject)\
+  store_for_undo_change (Denemo.project->movement, Denemo.project->movement->currentobject->data);\
   if(current->directives==NULL)\
        create_directives (&current->directives, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\
@@ -1084,8 +1084,8 @@ gboolean \
 what##_directive_put_##field(gchar *tag, gchar *value) {\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
-  if(Denemo.project->si->currentobject)\
-  store_for_undo_change (Denemo.project->si, Denemo.project->si->currentobject->data);\
+  if(Denemo.project->movement->currentobject)\
+  store_for_undo_change (Denemo.project->movement, Denemo.project->movement->currentobject->data);\
   if(current->name==NULL)\
        create_directives (&current->name, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\
@@ -1154,8 +1154,8 @@ gboolean \
 what##_directive_put_##field(gchar *tag, gint value) {\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
-  if(Denemo.project->si->currentobject)\
-  store_for_undo_change (Denemo.project->si, Denemo.project->si->currentobject->data);\
+  if(Denemo.project->movement->currentobject)\
+  store_for_undo_change (Denemo.project->movement, Denemo.project->movement->currentobject->data);\
   if(current->name==NULL)\
        create_directives (&current->name, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\
@@ -1314,9 +1314,9 @@ button_callback (GtkWidget * widget, GdkEventButton * event, DenemoDirective * d
       gchar *script = get_action_script (directive->tag->str);
       if (left && script)
         {
-          stage_undo (Denemo.project->si, ACTION_STAGE_END);    //undo is a queue so this is the end :)
+          stage_undo (Denemo.project->movement, ACTION_STAGE_END);    //undo is a queue so this is the end :)
           call_out_to_guile (script);
-          stage_undo (Denemo.project->si, ACTION_STAGE_START);
+          stage_undo (Denemo.project->movement, ACTION_STAGE_START);
         }
       else
         {
@@ -1527,7 +1527,7 @@ widget_for_directive_menu (DenemoDirective * directive, void fn (), GtkMenu * me
       if (fn == (void (*)()) score_directive_put_graphic || fn == (void (*)()) scoreheader_directive_put_graphic || fn == (void (*)()) paper_directive_put_graphic || fn == (void (*)()) layout_directive_put_graphic)
         box = Denemo.project->buttonbox;
       else if (fn == (void (*)()) movementcontrol_directive_put_graphic || fn == (void (*)()) header_directive_put_graphic)
-        box = Denemo.project->si->buttonbox;
+        box = Denemo.project->movement->buttonbox;
       else
         box = NULL;
 
@@ -1600,15 +1600,15 @@ void
 widget_for_directive (DenemoDirective * directive, void fn ())
 {
   GtkMenu *menu = NULL;
-  if (Denemo.project->si)
+  if (Denemo.project->movement)
     {
       if (fn == (void (*)()) staff_directive_put_graphic)
         {
-          menu = ((DenemoStaff *) Denemo.project->si->currentstaff->data)->staffmenu;
+          menu = ((DenemoStaff *) Denemo.project->movement->currentstaff->data)->staffmenu;
         }
       if (fn == (void (*)()) voice_directive_put_graphic)
         {
-          menu = ((DenemoStaff *) Denemo.project->si->currentstaff->data)->voicemenu;
+          menu = ((DenemoStaff *) Denemo.project->movement->currentstaff->data)->voicemenu;
         }
     }
   widget_for_directive_menu (directive, fn, menu);
@@ -1854,7 +1854,7 @@ gboolean \
 standalone_directive_put_##field(gchar *tag, gchar *value) {\
   DenemoDirective *directive = get_standalone_directive(tag);\
   if(directive && directive->field){\
-    store_for_undo_change (Denemo.project->si, Denemo.project->si->currentobject->data);\
+    store_for_undo_change (Denemo.project->movement, Denemo.project->movement->currentobject->data);\
     g_string_assign(directive->field, value);}              \
   else if(directive)\
     directive->field = g_string_new(value);\
@@ -1885,7 +1885,7 @@ gboolean \
 standalone_directive_put_##field(gchar *tag, gint value) {\
   DenemoDirective *directive = get_standalone_directive(tag);\
   if(directive){\
-    store_for_undo_change (Denemo.project->si, Denemo.project->si->currentobject->data);\
+    store_for_undo_change (Denemo.project->movement, Denemo.project->movement->currentobject->data);\
     directive->field = value;}\
   else {\
         DenemoObject *obj = lily_directive_new (" ");\
@@ -1916,7 +1916,7 @@ standalone_directive_put_minpixels (gchar * tag, gint value)
     {
       directive->minpixels = value;     //This field is not actually useful for standalone directives.
       DenemoObject *obj = get_object ();
-      store_for_undo_change (Denemo.project->si, obj);
+      store_for_undo_change (Denemo.project->movement, obj);
       obj->minpixelsalloted = value;
     }
   else
@@ -2070,7 +2070,7 @@ user_select_directive_at_cursor (gchar ** what, GList *** pdirectives, DenemoDir
   if (curnote != NULL)
     {
       name = mid_c_offsettolily (curnote->mid_c_offset, curnote->enshift);
-      if (curnote->mid_c_offset == Denemo.project->si->cursor_y)
+      if (curnote->mid_c_offset == Denemo.project->movement->cursor_y)
         if (curnote->directives)
           {
             *pdirectives = &curnote->directives;
@@ -2099,7 +2099,7 @@ user_select_directive_at_cursor (gchar ** what, GList *** pdirectives, DenemoDir
       }
   }
   if (*pdirective == NULL && curnote)   //try nearest note
-    if (curnote->directives && curnote->mid_c_offset != Denemo.project->si->cursor_y)
+    if (curnote->directives && curnote->mid_c_offset != Denemo.project->movement->cursor_y)
       {
         *pdirectives = &curnote->directives;
         *what = "note";
@@ -2200,8 +2200,8 @@ edit_object (GtkAction * action, DenemoScriptParam * param)
         GList *directives = ((chord *) obj->object)->directives;
         if (directives)
           found = TRUE;
-        note *curnote = findnote (obj, Denemo.project->si->cursor_y);
-        if (curnote && (curnote->mid_c_offset == Denemo.project->si->cursor_y))
+        note *curnote = findnote (obj, Denemo.project->movement->cursor_y);
+        if (curnote && (curnote->mid_c_offset == Denemo.project->movement->cursor_y))
           directives = curnote->directives;
         if (directives)
           found = TRUE;
@@ -2669,11 +2669,11 @@ edit_object_directive (GtkAction * action, DenemoScriptParam * param)
         }
       else
         {                       //standalone directive
-          dnm_deleteobject (Denemo.project->si);
+          dnm_deleteobject (Denemo.project->movement);
         }
     }
-  if (Denemo.project->si->currentobject)        //for standalone directive
-    setpixelmin (Denemo.project->si->currentobject->data);
+  if (Denemo.project->movement->currentobject)        //for standalone directive
+    setpixelmin (Denemo.project->movement->currentobject->data);
 }
 
 /**
@@ -2736,25 +2736,25 @@ select_paper_directive (void)
 static DenemoDirective *
 select_header_directive (void)
 {
-  if (Denemo.project->si->header.directives == NULL)
+  if (Denemo.project->movement->header.directives == NULL)
     return NULL;
-  return select_directive (_("Select a movement header block directive"), Denemo.project->si->header.directives);
+  return select_directive (_("Select a movement header block directive"), Denemo.project->movement->header.directives);
 }
 
 static DenemoDirective *
 select_layout_directive (void)
 {
-  if (Denemo.project->si->layout.directives == NULL)
+  if (Denemo.project->movement->layout.directives == NULL)
     return NULL;
-  return select_directive (_("Select a movement layout block directive"), Denemo.project->si->layout.directives);
+  return select_directive (_("Select a movement layout block directive"), Denemo.project->movement->layout.directives);
 }
 
 static DenemoDirective *
 select_movementcontrol_directive (void)
 {
-  if (Denemo.project->si->movementcontrol.directives == NULL)
+  if (Denemo.project->movement->movementcontrol.directives == NULL)
     return NULL;
-  return select_directive (_("Select a movement control directive"), Denemo.project->si->movementcontrol.directives);
+  return select_directive (_("Select a movement control directive"), Denemo.project->movement->movementcontrol.directives);
 }
 
 static DenemoDirective *
@@ -2805,9 +2805,9 @@ select_stemdirective_directive (void)
 static DenemoDirective *
 select_staff_directive (void)
 {
-  if (Denemo.project->si->currentstaff == NULL)
+  if (Denemo.project->movement->currentstaff == NULL)
     return NULL;
-  DenemoStaff *curstaff = Denemo.project->si->currentstaff->data;
+  DenemoStaff *curstaff = Denemo.project->movement->currentstaff->data;
   //FIXME return NULL if not primary staff
   if (curstaff == NULL || curstaff->staff_directives == NULL)
     return NULL;
@@ -2817,9 +2817,9 @@ select_staff_directive (void)
 static DenemoDirective *
 select_voice_directive (void)
 {
-  if (Denemo.project->si->currentstaff == NULL)
+  if (Denemo.project->movement->currentstaff == NULL)
     return NULL;
-  DenemoStaff *curstaff = Denemo.project->si->currentstaff->data;
+  DenemoStaff *curstaff = Denemo.project->movement->currentstaff->data;
   if (curstaff == NULL || curstaff->voice_directives == NULL)
     return NULL;
   return select_directive (_("Select a voice directive"), curstaff->voice_directives);
@@ -2974,9 +2974,9 @@ edit_score_directive (GtkAction * action, DenemoScriptParam * param)
     STRINGAPPEND (ScoreHeaderBlockDirectives);
   if (Denemo.project->paper.directives)
     STRINGAPPEND (ScorePaperBlockDirectives);
-  if (Denemo.project->si->header.directives)
+  if (Denemo.project->movement->header.directives)
     STRINGAPPEND (HeaderBlockDirectives);
-  if (Denemo.project->si->layout.directives)
+  if (Denemo.project->movement->layout.directives)
     STRINGAPPEND (LayoutBlockDirectives);
 
   if (strlen (options->str) != options->len)
@@ -3030,12 +3030,12 @@ edit_movement_directive (GtkAction * action, DenemoScriptParam * param)
 #define STRINGAPPEND(field)  g_string_append_printf(options,"%s%c", field,'\0')
   GString *options = g_string_new ("");
   gchar *option;
-  if (Denemo.project->si->layout.directives)
+  if (Denemo.project->movement->layout.directives)
     STRINGAPPEND (LayoutDirectives);
-  if (Denemo.project->si->movementcontrol.directives)
+  if (Denemo.project->movement->movementcontrol.directives)
     STRINGAPPEND (MovementDirectives);
 
-  if (Denemo.project->si->header.directives)
+  if (Denemo.project->movement->header.directives)
     STRINGAPPEND (HeaderBlockDirectives);
 
   if (strlen (options->str) != options->len)

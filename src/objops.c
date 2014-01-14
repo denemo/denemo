@@ -96,7 +96,7 @@ dnm_newtimesigobj (gint time1, gint time2)
 DenemoObject *
 dnm_newclefobj (enum clefs type)
 {
-  DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->si->currentstaff->data;
+  DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   gboolean invisible = (thestaff->voicecontrol & DENEMO_SECONDARY);
   DenemoObject *ret;
   clef *newclef = (clef *) g_malloc (sizeof (clef));

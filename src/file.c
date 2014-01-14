@@ -375,7 +375,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
               executeScript ();
             }
         }
-      set_rightmeasurenum (gui->si);
+      set_rightmeasurenum (gui->movement);
       select_lyrics ();
 
       if(!Denemo.non_interactive){
@@ -395,14 +395,14 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
     }
   if(!Denemo.non_interactive){
     g_signal_handlers_unblock_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
-    gui->si->undo_guard = 1;
+    gui->movement->undo_guard = 1;
   }
   denemo_scheme_init ();        //to re-instate any user defined directives for whole score
   if(!Denemo.non_interactive){
     if (!(type == ADD_STAFFS || type == ADD_MOVEMENTS))
       score_status (gui, FALSE);
     rewind_audio ();
-    gui->si->undo_guard = Denemo.prefs.disable_undo;      //user pref to (dis)allow undo information to be collected
+    gui->movement->undo_guard = Denemo.prefs.disable_undo;      //user pref to (dis)allow undo information to be collected
   }
 
   return result;
@@ -475,19 +475,19 @@ save_in_format (gint format_id, DenemoProject * gui, gchar * filename)
       };
     case MUDELA_FORMAT:
       {
-        gui->si->markstaffnum = 0;
+        gui->movement->markstaffnum = 0;
         exportlilypond (file, gui, TRUE);
         break;
       };
     case PDF_FORMAT:
       {
-        gui->si->markstaffnum = 0;
+        gui->movement->markstaffnum = 0;
         export_pdf (file, gui);
         break;
       };
     case PNG_FORMAT:
       {
-        gui->si->markstaffnum = 0;
+        gui->movement->markstaffnum = 0;
         export_png (file, (GChildWatchFunc) printpng_finished, gui);
         break;
       };
@@ -498,7 +498,7 @@ save_in_format (gint format_id, DenemoProject * gui, gchar * filename)
       };
     case MIDI_FORMAT:
       {
-        exportmidi (file, gui->si, 0, 0);
+        exportmidi (file, gui->movement, 0, 0);
         break;
       };
     default:
@@ -541,7 +541,7 @@ filesel_save (DenemoProject * gui, const gchar * file_name, gint format_id, Dene
       if (Denemo.prefs.saveparts)
         export_lilypond_parts (file, gui);
       if(!Denemo.non_interactive)
-        gui->si->readonly = FALSE;
+        gui->movement->readonly = FALSE;
     }
   g_free (basename);
   g_free (file);
@@ -998,7 +998,7 @@ gint
 file_save (GtkWidget * widget, DenemoProject * gui)
 {
   gint ret;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   g_debug ("READONLY %d\n", si->readonly);
   if ((gui->filename->len == 0) /* || (si->readonly == TRUE) */ )
     /* No filename's been given or is opened from template */
@@ -1206,7 +1206,7 @@ selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar * text, 
     {
       fprintf (fp, "music = { %s }\n\\score {\n\\music\n\\layout {}\n}\n", text);
       fclose (fp);
-      gint theclef = find_prevailing_clef (Denemo.project->si);
+      gint theclef = find_prevailing_clef (Denemo.project->movement);
       newview (NULL, NULL);
       gint fail = open_for_real (filename, Denemo.project, TRUE, REPLACE_SCORE);
       //thescore can be NULL after failed load....
@@ -1221,7 +1221,7 @@ selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar * text, 
           warningdialog (_("Could not interpret selection as LilyPond notes"));
           return;
         }
-      dnm_setinitialclef (Denemo.project->si, (DenemoStaff *) Denemo.project->si->currentstaff->data, theclef);
+      dnm_setinitialclef (Denemo.project->movement, (DenemoStaff *) Denemo.project->movement->currentstaff->data, theclef);
       call_out_to_guile ("(while (and (None?) (d-MoveToStaffDown)) (begin (d-MoveToStaffUp)(d-DeleteStaff)))");
       if (confirm (_("Paste from Selection"), _("Paste this music into your score?")))
         {

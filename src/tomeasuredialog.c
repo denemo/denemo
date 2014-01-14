@@ -23,7 +23,7 @@ tomeasurenum (GtkAction * action, gpointer param)
 
   DenemoProject *gui = Denemo.project;
   gint measnum;
-  gint max_mesure = g_list_length (((DenemoStaff *) (gui->si->thescore->data))->measures);
+  gint max_mesure = g_list_length (((DenemoStaff *) (gui->movement->thescore->data))->measures);
 
   if (!action)
     {

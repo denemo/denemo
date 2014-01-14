@@ -995,7 +995,7 @@ typedef struct DenemoProject
   GtkWidget *progressbar;
 
   GList *movements;   /**< a list of DenemoMovement, NULL if just one movement */
-  DenemoMovement *si;  /**< the (current)  movement in the musical score controlled by this project */
+  DenemoMovement *movement;  /**< the (current)  movement in the musical score controlled by this project */
   DenemoLilyControl lilycontrol; /**< Directives for the start of the score and before every movement */
 
   scoreheader scoreheader;/*< Directives for the header block at the start of the score */

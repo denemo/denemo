@@ -33,8 +33,8 @@ set_mwidth (GtkWidget * widget, gpointer data)
   gint width = atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->textentry)));
 
   if (width)
-    cbdata->gui->si->measurewidth = width;
-  adjustmeasurewidth (cbdata->gui->si, 0);
+    cbdata->gui->movement->measurewidth = width;
+  adjustmeasurewidth (cbdata->gui->movement, 0);
   gtk_widget_queue_draw (Denemo.scorearea);
 }
 
@@ -69,7 +69,7 @@ score_mwidth_change (GtkAction * action, gpointer param)
   gtk_container_add (GTK_CONTAINER (hbox), label);
 
   textentry = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%d", gui->si->measurewidth);
+  g_string_sprintf (entrycontent, "%d", gui->movement->measurewidth);
   gtk_entry_set_text (GTK_ENTRY (textentry), entrycontent->str);
   gtk_box_pack_start (GTK_BOX (hbox), textentry, TRUE, TRUE, 0);
   gtk_widget_show (textentry);

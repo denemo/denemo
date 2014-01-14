@@ -1511,7 +1511,7 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
   gchar *label_text = (si->thescore->next == NULL) ? _("The Staff") : _("The Staffs");
   GtkWidget *topexpander = gtk_expander_new (label_text);
   gtk_widget_set_tooltip_text (topexpander, _("This holds the staffs below which are the voices with the music."));
-  gtk_expander_set_expanded (GTK_EXPANDER (topexpander), si == Denemo.project->si);
+  gtk_expander_set_expanded (GTK_EXPANDER (topexpander), si == Denemo.project->movement);
   gtk_box_pack_start (GTK_BOX (vbox), topexpander, FALSE, TRUE, 0);
   vbox = gtk_vbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (topexpander), vbox);
@@ -1858,7 +1858,7 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
           gchar *label_text = gui->movements->next ? g_strdup_printf (_("Movement %d"), movement_num) : g_strdup (_("Movement"));
           GtkWidget *movement_frame = gtk_expander_new (label_text);
           gtk_widget_set_tooltip_text (movement_frame, _("This contains the layout of the movement- the movement title, and the actual music itself"));
-          gtk_expander_set_expanded (GTK_EXPANDER (movement_frame), si == gui->si);
+          gtk_expander_set_expanded (GTK_EXPANDER (movement_frame), si == gui->movement);
           g_free (label_text);
           gtk_box_pack_start (GTK_BOX (vbox), movement_frame, FALSE, TRUE, 0);
 
@@ -2411,9 +2411,9 @@ DenemoScoreblock *
 selection_layout (void)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   GString *movement_tail = g_string_new ("");
-  gint movementnum = g_list_index (Denemo.project->movements, Denemo.project->si) + 1;
+  gint movementnum = g_list_index (Denemo.project->movements, Denemo.project->movement) + 1;
   static DenemoScoreblock *sb;
   if (sb == NULL)
     {
@@ -2440,12 +2440,12 @@ selection_layout (void)
         }
     }
   gint voice_count, staff_count;
-  for (voice_count = 1, staff_count = 1, g = gui->si->thescore; g; g? g = g->next : g, voice_count++, staff_count++)
+  for (voice_count = 1, staff_count = 1, g = gui->movement->thescore; g; g? g = g->next : g, voice_count++, staff_count++)
     {
       DenemoStaff *staff = g->data;
       DenemoStaff *nextstaff = g->next ? g->next->data : NULL;
       GString *stafftext = g_string_new ("");
-      if (!(voice_count >= gui->si->selection.firststaffmarked && voice_count <= gui->si->selection.laststaffmarked))
+      if (!(voice_count >= gui->movement->selection.firststaffmarked && voice_count <= gui->movement->selection.laststaffmarked))
         continue;
       if (staff->hasfakechords)
         {                       //the reason these are outside the staff frame is it makes them appear above the staff
@@ -2573,7 +2573,7 @@ select_layout (gboolean all_movements, gchar * partname)
 {
   GList *g;
   DenemoScoreblock *sb;
-  if (Denemo.project->si->markstaffnum)
+  if (Denemo.project->movement->markstaffnum)
     return selection_layout ();
 
   
@@ -2670,7 +2670,7 @@ select_layout (gboolean all_movements, gchar * partname)
     }
   else
     {
-      movement = g_list_index (Denemo.project->movements, Denemo.project->si) + 1;      //current movement
+      movement = g_list_index (Denemo.project->movements, Denemo.project->movement) + 1;      //current movement
     }
 
 

@@ -60,7 +60,7 @@ overdraw (cairo_t * cr, EvView * view)
   gint x, y, page;
   gdouble scale;
   get_window_position (view, &x, &y, &page, &scale);
-  // cairo_scale( cr, Denemo.project->si->preview_zoom, Denemo.project->si->preview_zoom );
+  // cairo_scale( cr, Denemo.project->movement->preview_zoom, Denemo.project->movement->preview_zoom );
   cairo_translate (cr, -x, -y);
   if (Mark.width)
     {

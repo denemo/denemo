@@ -1455,7 +1455,7 @@ score_status (DenemoProject * gui, gboolean change)
       gboolean just_changed = !gui->notsaved;
       gui->notsaved = TRUE;
       gui->changecount++;
-      gui->si->changecount++;
+      gui->movement->changecount++;
       if (just_changed)
         set_title_bar (gui);
     }
@@ -1545,15 +1545,15 @@ display_current_object (void)
   GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (ObjectInfo), vbox);
 
-  if (gui->si->currentobject == NULL)
+  if (gui->movement->currentobject == NULL)
     {
       GtkWidget *label = gtk_label_new ("The cursor is in an empty measure.\n" "As a special case this will be typeset as a non-printing whole measure rest.\n" "Note that if you put anything at all in this measure\n" "you must insert a real whole measure rest if that is what you want.");
       gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
     }
   else
     {
-      DenemoObject *curObj = gui->si->currentobject->data;
-      GString *selection = g_string_new (gui->si->cursor_appending ? _("The cursor is in the appending position after ") : _("The cursor is on "));
+      DenemoObject *curObj = gui->movement->currentobject->data;
+      GString *selection = g_string_new (gui->movement->cursor_appending ? _("The cursor is in the appending position after ") : _("The cursor is on "));
       GString *warning = g_string_new ("");
       switch (curObj->type)
         {
@@ -1586,8 +1586,8 @@ display_current_object (void)
 
 
 
-                note *thenote = findnote (curObj, gui->si->cursor_y);
-                if (thenote && gui->si->cursor_y==thenote->mid_c_offset)
+                note *thenote = findnote (curObj, gui->movement->cursor_y);
+                if (thenote && gui->movement->cursor_y==thenote->mid_c_offset)
                   {
   
 										g_string_append_printf (selection, _("Within the chord the cursor is on the note %s \n"),
@@ -1672,7 +1672,7 @@ display_current_object (void)
 								selection = g_string_append (selection, _("Attached to the Time Signature Change:"));
 								append_directives_information (selection, thetime->directives);
 							}           
-            if (gui->si->currentobject->prev)
+            if (gui->movement->currentobject->prev)
               g_string_append_printf (warning, _("A Time Signature Change should be the first object in a measure\n" "unless you are trying to do something unusual"));
           }
           break;
@@ -1722,7 +1722,7 @@ display_current_object (void)
 							directive->prefix?directive->prefix->str:"",
 							directive->postfix?directive->postfix->str:"");
 						
-           if (gui->si->currentobject->next == NULL && (gui->si->currentmeasure->next == NULL))
+           if (gui->movement->currentobject->next == NULL && (gui->movement->currentmeasure->next == NULL))
               g_string_assign (warning, _("This Directive is at the end of the music" "\nYou may need a closing double bar line - see Directives → barlines"));
           }
           break;
@@ -1763,12 +1763,12 @@ write_status (DenemoProject * gui)
   gdouble seconds = 0.0;
   gdouble early = 0.0, late = 0.0;
   gchar *selection;
-  if (gui->si == NULL)
+  if (gui->movement == NULL)
     return;
-  if (gui->si->currentobject && gui->si->currentobject->data)
+  if (gui->movement->currentobject && gui->movement->currentobject->data)
     {
-      DenemoObject *curObj = gui->si->currentobject->data;
-      if ((gui->si->smfsync == gui->si->changecount))
+      DenemoObject *curObj = gui->movement->currentobject->data;
+      if ((gui->movement->smfsync == gui->movement->changecount))
         {
           if (curObj->midi_events)
             {
@@ -1845,7 +1845,7 @@ write_status (DenemoProject * gui)
     selection = g_strdup_printf (_("Cursor not on any object"));
 
   GString *status = g_string_new (_("Movement"));
-  gint index = g_list_index (gui->movements, gui->si);
+  gint index = g_list_index (gui->movements, gui->movement);
   const gchar *dur ="";
   switch (get_prevailing_duration())
   {
@@ -1870,14 +1870,14 @@ write_status (DenemoProject * gui)
 	 
 	  
   }
-  g_string_printf (status, "%s%s %d: %s: ", enshift_string (gui->si->pending_enshift), dur, index + 1, selection);
+  g_string_printf (status, "%s%s %d: %s: ", enshift_string (gui->movement->pending_enshift), dur, index + 1, selection);
   
 
   
-  if (gui->si->smf && (gui->si->smfsync == gui->si->changecount) && Denemo.prefs.playback_controls)
+  if (gui->movement->smf && (gui->movement->smfsync == gui->movement->changecount) && Denemo.prefs.playback_controls)
     g_string_append_printf (status, _("%d min %.2f sec %.2f %.2f"), minutes, seconds, early, late);
   else
-    g_string_append_printf (status, _(" Staff %d Measure %d Position %d %s"), gui->si->currentstaffnum, gui->si->currentmeasurenum, gui->si->cursor_x + 1, gui->si->cursor_appending ? _("Appending") : _("Not Appending") /*not understood this one... , gui->si->cursoroffend?"Off End":"Not Off End" */ );
+    g_string_append_printf (status, _(" Staff %d Measure %d Position %d %s"), gui->movement->currentstaffnum, gui->movement->currentmeasurenum, gui->movement->cursor_x + 1, gui->movement->cursor_appending ? _("Appending") : _("Not Appending") /*not understood this one... , gui->movement->cursoroffend?"Off End":"Not Off End" */ );
 
   if (Denemo.prefs.midi_in_controls)
     {

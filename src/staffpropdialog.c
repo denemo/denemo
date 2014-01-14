@@ -201,7 +201,7 @@ staff_properties_change (void)
 
   {
     gui = Denemo.project;
-    si = gui->si;
+    si = gui->movement;
     staffstruct = (DenemoStaff *) si->currentstaff->data;
     /*  if(staffstruct->staff_prolog && staffstruct->staff_prolog->len) { */
 /*  warningdialog(_("This staff has a custom prolog for the staff.\n" */
@@ -371,7 +371,7 @@ void
 staff_properties_change_cb (GtkAction * action, DenemoScriptParam * param)
 {
   GET_4PARAMS (action, param, denemo_name, device_port, midi_prognum, midi_channel);
-  DenemoStaff *staff = (DenemoStaff *) Denemo.project->si->currentstaff->data;
+  DenemoStaff *staff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
 
   if (query)
     {

@@ -79,18 +79,18 @@ get_click_height (DenemoProject * gui, gdouble y)
   DenemoStaff *staff;
   gint extra_space = 0;
   gint space_below = 0;
-  curstaff = g_list_nth (gui->si->thescore, gui->si->top_staff - 1);
+  curstaff = g_list_nth (gui->movement->thescore, gui->movement->top_staff - 1);
 
-  if (!(((DenemoStaff *) (gui->si->currentstaff->data))->voicecontrol & DENEMO_PRIMARY))
+  if (!(((DenemoStaff *) (gui->movement->currentstaff->data))->voicecontrol & DENEMO_PRIMARY))
     staffs_from_top--;
 
-  for (curstaff = g_list_nth (gui->si->thescore, gui->si->top_staff - 1); curstaff; curstaff = curstaff->next)
+  for (curstaff = g_list_nth (gui->movement->thescore, gui->movement->top_staff - 1); curstaff; curstaff = curstaff->next)
     {
       //g_debug("before extra space %d\n", extra_space);
       staff = (DenemoStaff *) curstaff->data;
       if (staff->voicecontrol & DENEMO_PRIMARY)
         extra_space += (staff->space_above) + space_below;
-      if (curstaff == gui->si->currentstaff)
+      if (curstaff == gui->movement->currentstaff)
         break;
 
       if (staff->voicecontrol & DENEMO_PRIMARY)
@@ -103,8 +103,8 @@ get_click_height (DenemoProject * gui, gdouble y)
       //g_debug("after extra space %d space_below %d\n", extra_space, space_below);
     }
 
-  click_height = y - (gui->si->staffspace * staffs_from_top + gui->si->staffspace / 4 + extra_space);
-  //g_debug("top staff is %d total %d staffs from top is %d click %f\n", gui->si->top_staff, extra_space, staffs_from_top, click_height);
+  click_height = y - (gui->movement->staffspace * staffs_from_top + gui->movement->staffspace / 4 + extra_space);
+  //g_debug("top staff is %d total %d staffs from top is %d click %f\n", gui->movement->top_staff, extra_space, staffs_from_top, click_height);
 
   return click_height;
 
@@ -121,8 +121,8 @@ set_cursor_y_from_click (DenemoProject * gui, gdouble y)
 {
   /* Click height relative to the top of the staff.  */
   gdouble click_height = get_click_height (gui, y);
-  gui->si->cursor_y = offset_from_height (click_height, (enum clefs) gui->si->cursorclef);
-  gui->si->staffletter_y = offsettonumber (gui->si->cursor_y);
+  gui->movement->cursor_y = offset_from_height (click_height, (enum clefs) gui->movement->cursorclef);
+  gui->movement->staffletter_y = offsettonumber (gui->movement->cursor_y);
 }
 
 struct placement_info
@@ -181,7 +181,7 @@ staff_at (gint y, DenemoMovement * si)
 static void
 get_placement_from_coordinates (struct placement_info *pi, gdouble x, gdouble y, gint leftmeasurenum, gint rightmeasurenum, gint scale)
 {
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
   GList *mwidthiterator = g_list_nth (si->measurewidths,
                                       leftmeasurenum - 1);
   objnode *obj_iterator;
@@ -386,12 +386,12 @@ transform_coords (double *x, double *y)
   DenemoProject *gui = Denemo.project;
 
   gint application_height = get_widget_height (Denemo.scorearea);
-  gint line_height = application_height * gui->si->system_height;
+  gint line_height = application_height * gui->movement->system_height;
   gint line_num = ((int) *y) / line_height;
   *y -= line_num * line_height;
-  *x /= gui->si->zoom;
-  *y /= gui->si->zoom;
-  // *x += ((double)line_num * gui->si->widthtoworkwith / ((int)(1/gui->si->system_height))) - 1.0* (line_num?(double)LEFT_MARGIN:0.0);
+  *x /= gui->movement->zoom;
+  *y /= gui->movement->zoom;
+  // *x += ((double)line_num * gui->movement->widthtoworkwith / ((int)(1/gui->movement->system_height))) - 1.0* (line_num?(double)LEFT_MARGIN:0.0);
 }
 
 
@@ -435,58 +435,58 @@ gint
 scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   DenemoProject *gui = Denemo.project;
-  if (gui == NULL || gui->si == NULL)
+  if (gui == NULL || gui->movement == NULL)
     return FALSE;
   if (Denemo.scorearea == NULL)
     return FALSE;
   gint allocated_height = get_widget_height (Denemo.scorearea);
-  gint line_height = allocated_height * gui->si->system_height;
+  gint line_height = allocated_height * gui->movement->system_height;
   
   if (event->y < 0)
     event->y = 0.0;
   gint line_num = ((int) event->y) / line_height;
 
-  if(gui->si->recording && dragging_audio)
+  if(gui->movement->recording && dragging_audio)
     {   
-        if(gui->si->recording->type == DENEMO_RECORDING_MIDI)
+        if(gui->movement->recording->type == DENEMO_RECORDING_MIDI)
         {
             #if 0
             //This is moving only the NoteOn, so it could be moved later than the note off, and indeed later than a later note in the stream 
             //- quite a bit more work needed to drag MIDI to correct the timing.
             smf_event_t *midievent;
-            GList *marked_onset = gui->si->marked_onset;
+            GList *marked_onset = gui->movement->marked_onset;
             if(marked_onset)
                 {
                 midievent = ((DenemoRecordedNote *)marked_onset->data)->event;
-                gint shift =  2500*(event->x_root - last_event_x)/gui->si->zoom;
-                g_debug (" %f (%f %f)",shift/(double)gui->si->recording->samplerate, 
+                gint shift =  2500*(event->x_root - last_event_x)/gui->movement->zoom;
+                g_debug (" %f (%f %f)",shift/(double)gui->movement->recording->samplerate, 
                     midievent->time_seconds,
-                    ((DenemoRecordedNote *)marked_onset->data)->timing/(double)gui->si->recording->samplerate) ;
+                    ((DenemoRecordedNote *)marked_onset->data)->timing/(double)gui->movement->recording->samplerate) ;
 
                 ((DenemoRecordedNote *)marked_onset->data)->timing += shift;
                 
-                midievent->time_seconds += shift/(double)gui->si->recording->samplerate;
+                midievent->time_seconds += shift/(double)gui->movement->recording->samplerate;
                 }
             #endif
             g_warning("No drag for MIDI yet");
             return TRUE;
         }
 
-        gui->si->recording->leadin -= 500*(event->x_root - last_event_x)/gui->si->zoom;//g_debug("%d %d => %d\n", (int)(10*last_event_x), (int)(10*event->x_root), (int)(10*last_event_x) - (int)(10*event->x_root));
+        gui->movement->recording->leadin -= 500*(event->x_root - last_event_x)/gui->movement->zoom;//g_debug("%d %d => %d\n", (int)(10*last_event_x), (int)(10*event->x_root), (int)(10*last_event_x) - (int)(10*event->x_root));
         last_event_x = event->x_root;
-        update_leadin_widget ( gui->si->recording->leadin/(double)gui->si->recording->samplerate);
+        update_leadin_widget ( gui->movement->recording->leadin/(double)gui->movement->recording->samplerate);
         gtk_widget_queue_draw(Denemo.scorearea);
         return TRUE; 
     }
-  if(gui->si->recording && dragging_tempo)
+  if(gui->movement->recording && dragging_tempo)
     {       
-        gdouble change = (event->x_root - last_event_x)/gui->si->zoom;
+        gdouble change = (event->x_root - last_event_x)/gui->movement->zoom;
         last_event_x = event->x_root;
         struct placement_info pi;
         get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
         change /= pi.measure_number;
         update_tempo_widget ( change);
-        set_tempo (); exportmidi (NULL, gui->si, 0, 0);  
+        set_tempo (); exportmidi (NULL, gui->movement, 0, 0);  
         gtk_widget_queue_draw(Denemo.scorearea);
         return TRUE; 
     }
@@ -495,11 +495,11 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 
   if (dragging_separator)
     {
-      gui->si->system_height = event->y / get_widget_height (Denemo.scorearea);
-      if (gui->si->system_height < DENEMO_MINIMUM_SYSTEM_HEIGHT)
-        gui->si->system_height = DENEMO_MINIMUM_SYSTEM_HEIGHT;
-      if (gui->si->system_height > 1.0)
-        gui->si->system_height = 1.0;
+      gui->movement->system_height = event->y / get_widget_height (Denemo.scorearea);
+      if (gui->movement->system_height < DENEMO_MINIMUM_SYSTEM_HEIGHT)
+        gui->movement->system_height = DENEMO_MINIMUM_SYSTEM_HEIGHT;
+      if (gui->movement->system_height > 1.0)
+        gui->movement->system_height = 1.0;
       scorearea_configure_event (Denemo.scorearea, NULL);
       gtk_widget_queue_draw (Denemo.scorearea);
       return TRUE;
@@ -511,14 +511,14 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR));       //FIXME? does this take time/hog memory
 
   transform_coords (&event->x, &event->y);
-  //g_debug("Marked %d\n", gui->si->markstaffnum);
+  //g_debug("Marked %d\n", gui->movement->markstaffnum);
   if (gui->lefts[line_num] == 0)
     return TRUE;
 
 
 
 
-  if (lh_down || (selecting && gui->si->markstaffnum))
+  if (lh_down || (selecting && gui->movement->markstaffnum))
     {
       struct placement_info pi;
       pi.the_staff = NULL;
@@ -530,12 +530,12 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
         return TRUE;            //could not place the cursor
       if (pi.the_measure != NULL)
         {                       /*don't place cursor in a place that is not there */
-          change_staff (gui->si, pi.staff_number, pi.the_staff);
-          gui->si->currentmeasurenum = pi.measure_number;
-          gui->si->currentmeasure = pi.the_measure;
-          gui->si->currentobject = pi.the_obj;
-          gui->si->cursor_x = pi.cursor_x;
-          gui->si->cursor_appending = (gui->si->cursor_x == (gint) (g_list_length ((objnode *) gui->si->currentmeasure->data)));
+          change_staff (gui->movement, pi.staff_number, pi.the_staff);
+          gui->movement->currentmeasurenum = pi.measure_number;
+          gui->movement->currentmeasure = pi.the_measure;
+          gui->movement->currentobject = pi.the_obj;
+          gui->movement->cursor_x = pi.cursor_x;
+          gui->movement->cursor_appending = (gui->movement->cursor_x == (gint) (g_list_length ((objnode *) gui->movement->currentmeasure->data)));
 
           set_cursor_y_from_click (gui, event->y);
           if (lh_down & !selecting)
@@ -543,7 +543,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
               set_mark (NULL, NULL);
               selecting = TRUE;
             }
-          calcmarkboundaries (gui->si);
+          calcmarkboundaries (gui->movement);
           if (event->state & (GDK_BUTTON1_MASK | GDK_BUTTON2_MASK | GDK_BUTTON3_MASK))
             perform_command (event->state, GESTURE_MOVE, event->state & GDK_BUTTON1_MASK);
 
@@ -569,12 +569,12 @@ gint
 scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
   DenemoProject *gui = Denemo.project;
-  if (gui == NULL || gui->si == NULL)
+  if (gui == NULL || gui->movement == NULL)
     return FALSE;
   gboolean left = (event->button != 3);
   //if the cursor is at a system separator start dragging it
   gint allocated_height = get_widget_height (Denemo.scorearea);
-  gint line_height = allocated_height * gui->si->system_height;
+  gint line_height = allocated_height * gui->movement->system_height;
   gint line_num = ((int) event->y) / line_height;
   last_event_x = event->x_root;
   //g_debug("diff %d\n", line_height - ((int)event->y)%line_height);
@@ -589,17 +589,17 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
       }
   dragging_separator = FALSE;
   
-  if(gui->si->recording)
+  if(gui->movement->recording)
     {
      //g_debug("audio %f %f\n", event->x, event->y);
 
 
-      if(event->y < 20*gui->si->zoom /* see draw.c for this value, the note onsets are drawn in the top 20 pixels */)
+      if(event->y < 20*gui->movement->zoom /* see draw.c for this value, the note onsets are drawn in the top 20 pixels */)
         {
             if (event->type==GDK_2BUTTON_PRESS) 
                 {   
-                    gui->si->marked_onset_position = (gint)event->x/gui->si->zoom;
-                    if(gui->si->marked_onset_position < KEY_MARGIN + SPACE_FOR_TIME + gui->si->maxkeywidth) {
+                    gui->movement->marked_onset_position = (gint)event->x/gui->movement->zoom;
+                    if(gui->movement->marked_onset_position < KEY_MARGIN + SPACE_FOR_TIME + gui->movement->maxkeywidth) {
                          if (Denemo.prefs.learning)
                             MouseGestureShow(_("Double Click Note Onset"), _("This represents detected note onsets which occur\nbefore the start of the score.\nIf they are just noise,\nor if you are working on just a portion of the audio that is ok.\nOtherwise drag with left mouse button to synchronize\nwith the start of the score."),
           MouseGesture);
@@ -630,7 +630,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 
   
   gtk_widget_grab_focus (widget);
-  gint key = gui->si->maxkeywidth;
+  gint key = gui->movement->maxkeywidth;
   gint cmajor = key ? 0 : 5;    //allow some area for keysig in C-major
 
   if (gui->lefts[line_num] == 0)
@@ -644,15 +644,15 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
   if (pi.the_staff == NULL)
     return TRUE;                //could not place the cursor
-  change_staff (gui->si, pi.staff_number, pi.the_staff);
+  change_staff (gui->movement, pi.staff_number, pi.the_staff);
 
 
-  if (left && (gui->si->leftmeasurenum > 1) && (event->x < KEY_MARGIN + SPACE_FOR_TIME + key) && (event->x > LEFT_MARGIN))
+  if (left && (gui->movement->leftmeasurenum > 1) && (event->x < KEY_MARGIN + SPACE_FOR_TIME + key) && (event->x > LEFT_MARGIN))
     {
       if (Denemo.prefs.learning)
         MouseGestureShow(_("Press Left."), _("This moved the cursor to the measure offscreen left. The display is shifted to place that measure on screen."),
           MouseGesture);
-      moveto_currentmeasurenum (gui, gui->si->leftmeasurenum - 1);
+      moveto_currentmeasurenum (gui, gui->movement->leftmeasurenum - 1);
       write_status (gui);
       gtk_widget_queue_draw (Denemo.scorearea);
       return TRUE;
@@ -661,17 +661,17 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     {
       if ((pi.the_obj==NULL) || ((pi.the_obj->next == NULL) && (pi.offend)))//crashed here with the_obj 0x131 !!!
         {
-          if ((gui->si->currentmeasurenum != gui->si->rightmeasurenum) &&
-                (!moveto_currentmeasurenum (gui, gui->si->rightmeasurenum + 1)))
-              moveto_currentmeasurenum (gui, gui->si->rightmeasurenum);
-          else if ((gui->si->cursor_appending) &&
-                (!moveto_currentmeasurenum (gui, gui->si->rightmeasurenum + 1)))
-              moveto_currentmeasurenum (gui, gui->si->rightmeasurenum);
+          if ((gui->movement->currentmeasurenum != gui->movement->rightmeasurenum) &&
+                (!moveto_currentmeasurenum (gui, gui->movement->rightmeasurenum + 1)))
+              moveto_currentmeasurenum (gui, gui->movement->rightmeasurenum);
+          else if ((gui->movement->cursor_appending) &&
+                (!moveto_currentmeasurenum (gui, gui->movement->rightmeasurenum + 1)))
+              moveto_currentmeasurenum (gui, gui->movement->rightmeasurenum);
 
 
           
 
-          if (gui->si->currentmeasurenum != gui->si->rightmeasurenum) {
+          if (gui->movement->currentmeasurenum != gui->movement->rightmeasurenum) {
             if (Denemo.prefs.learning)
               MouseGestureShow(_("Press Left."), _("This moved the cursor to the measure off-screen right. The display is shifted to move the cursor to the middle."),
                 MouseGesture);
@@ -684,19 +684,19 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 
   if (pi.the_measure != NULL)
     {                           /*don't place cursor in a place that is not there */
-      //gui->si->currentstaffnum = pi.staff_number;
-      //gui->si->currentstaff = pi.the_staff;
-      gui->si->currentmeasurenum = pi.measure_number;
-      gui->si->currentmeasure = pi.the_measure;
-      gui->si->currentobject = pi.the_obj;
-      gui->si->cursor_x = pi.cursor_x;
-      gui->si->cursor_appending = (gui->si->cursor_x == (gint) (g_list_length ((objnode *) gui->si->currentmeasure->data)));
+      //gui->movement->currentstaffnum = pi.staff_number;
+      //gui->movement->currentstaff = pi.the_staff;
+      gui->movement->currentmeasurenum = pi.measure_number;
+      gui->movement->currentmeasure = pi.the_measure;
+      gui->movement->currentobject = pi.the_obj;
+      gui->movement->cursor_x = pi.cursor_x;
+      gui->movement->cursor_appending = (gui->movement->cursor_x == (gint) (g_list_length ((objnode *) gui->movement->currentmeasure->data)));
       set_cursor_y_from_click (gui, event->y);
       if (event->type==GDK_2BUTTON_PRESS) 
                 {
-                    if(gui->si->recording &&  !g_strcmp0 (((DenemoStaff *) gui->si->currentstaff->data)->denemo_name->str, DENEMO_CLICK_TRACK_NAME))
+                    if(gui->movement->recording &&  !g_strcmp0 (((DenemoStaff *) gui->movement->currentstaff->data)->denemo_name->str, DENEMO_CLICK_TRACK_NAME))
                         {
-                            gui->si->marked_onset_position = (gint)event->x/gui->si->zoom;
+                            gui->movement->marked_onset_position = (gint)event->x/gui->movement->zoom;
                             if (Denemo.prefs.learning)
                                 MouseGestureShow(_("Double Click on Click Track"), _("This will mark the MIDI note onset."), MouseGesture);
                             return TRUE;
@@ -722,7 +722,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
             }
 
   gint offset = (gint) get_click_height (gui, event->y);
-  if ((((DenemoStaff *) gui->si->currentstaff->data)->voicecontrol == DENEMO_PRIMARY) && (gui->si->leftmeasurenum == 1) && (event->x > LEFT_MARGIN))
+  if ((((DenemoStaff *) gui->movement->currentstaff->data)->voicecontrol == DENEMO_PRIMARY) && (gui->movement->leftmeasurenum == 1) && (event->x > LEFT_MARGIN))
     {
       if (event->x < KEY_MARGIN - cmajor)
         {
@@ -772,26 +772,26 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 
   if (event->x < LEFT_MARGIN)
     {
-      if (pi.staff_number == gui->si->currentstaffnum)
+      if (pi.staff_number == gui->movement->currentstaffnum)
         {
           gint offset = (gint) get_click_height (gui, event->y);
           if (offset < STAFF_HEIGHT / 2)
             {
-              if (((DenemoStaff *) gui->si->currentstaff->data)->staff_directives)
+              if (((DenemoStaff *) gui->movement->currentstaff->data)->staff_directives)
                 {
                   if (Denemo.prefs.learning)
                     MouseGestureShow(_("Click on Staff Directives."), _("This pops up the staff directives menu for editing"),
                       MouseGesture);                  
-                  gtk_menu_popup (((DenemoStaff *) gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
+                  gtk_menu_popup (((DenemoStaff *) gui->movement->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
                 }
               return TRUE;
             }
-          else if (((DenemoStaff *) gui->si->currentstaff->data)->voice_directives)
+          else if (((DenemoStaff *) gui->movement->currentstaff->data)->voice_directives)
             {
               if (Denemo.prefs.learning)
                 MouseGestureShow(_("Click on Voice Directives."), _("This pops up the voice directives menu for editing"),
                     MouseGesture);  
-              gtk_menu_popup (((DenemoStaff *) gui->si->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
+              gtk_menu_popup (((DenemoStaff *) gui->movement->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
               return TRUE;
             }
         }
@@ -800,12 +800,12 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   if (left)
     {
       if (!(GDK_SHIFT_MASK & event->state))
-        gui->si->markstaffnum = 0;
+        gui->movement->markstaffnum = 0;
       lh_down = TRUE;
     }
   else
     {
-      if (gui->si->cursor_appending)
+      if (gui->movement->cursor_appending)
         {
           if (Denemo.prefs.learning)
             MouseGestureShow(_("Right Click Appending."), _("This pops up the append menu"),
@@ -837,10 +837,10 @@ gint
 scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
 {
   DenemoProject *gui = Denemo.project;
-  if (gui == NULL || gui->si == NULL)
+  if (gui == NULL || gui->movement == NULL)
     return FALSE;
   gboolean left = (event->button != 3);
-  if(gui->si->recording && (dragging_tempo || dragging_audio))
+  if(gui->movement->recording && (dragging_tempo || dragging_audio))
     {       
             dragging_tempo = dragging_audio = FALSE;
             gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR));       //FIXME? does this take time/hog memory
@@ -872,7 +872,7 @@ gint
 scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
 {
   DenemoProject *gui = Denemo.project;
-  if (gui == NULL || gui->si == NULL)
+  if (gui == NULL || gui->movement == NULL)
     return FALSE;
   switch (event->direction)
     {
@@ -884,7 +884,7 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
             gint command_idx = lookup_command_from_name(Denemo.map, "ZoomIn");
             KeyStrokeShow (_("Ctrl + Mouse Wheel Up"), command_idx, TRUE);
           }
-          Denemo.project->si->zoom *= 1.1;
+          Denemo.project->movement->zoom *= 1.1;
           scorearea_configure_event (Denemo.scorearea, NULL);
         }
       else if (event->state & GDK_SHIFT_MASK)
@@ -904,7 +904,7 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
           }
           movetostaffup (NULL, &param);
           if (!param.status) {
-            DenemoStaff *thestaff = (DenemoStaff*)(Denemo.project->si->currentstaff->data);
+            DenemoStaff *thestaff = (DenemoStaff*)(Denemo.project->movement->currentstaff->data);
             if(thestaff->space_above < MAXEXTRASPACE)
               {
                 thestaff->space_above++;
@@ -920,9 +920,9 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
             gint command_idx = lookup_command_from_name(Denemo.map, "ZoomOut");
             KeyStrokeShow (_("Ctrl + Mouse Wheel Down"), command_idx, TRUE);
           }
-          Denemo.project->si->zoom /= 1.1;
-          if (Denemo.project->si->zoom < 0.01)
-            Denemo.project->si->zoom = 0.01;
+          Denemo.project->movement->zoom /= 1.1;
+          if (Denemo.project->movement->zoom < 0.01)
+            Denemo.project->movement->zoom = 0.01;
           scorearea_configure_event (Denemo.scorearea, NULL);
           //displayhelper(gui);
         }
@@ -943,7 +943,7 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
           movetostaffdown (NULL, &param);
           if (!param.status) {
             warningmessage ("This is the bottom staff");
-           // DenemoStaff *thestaff = (DenemoStaff*)(Denemo.project->si->currentstaff->data);
+           // DenemoStaff *thestaff = (DenemoStaff*)(Denemo.project->movement->currentstaff->data);
            // thestaff->space_below++; //This doesn't help, because the viewport does not change.
            // warningmessage ("Increasing the space below the bottom staff");
            //move_viewport_down(Denemo.project);

@@ -210,7 +210,7 @@ insert_artic_cb (GtkWidget * widget, DenemoProject * gui)
         }
     }
 
-  mudelaobj = (DenemoObject *) (gui->si->currentobject ? gui->si->currentobject->data : NULL);
+  mudelaobj = (DenemoObject *) (gui->movement->currentobject ? gui->movement->currentobject->data : NULL);
 
   if (mudelaobj)
     {

@@ -560,14 +560,14 @@ printrangedialog (DenemoProject * gui)
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_add (GTK_CONTAINER (content_area), hbox);
 
-  gint max_measure = g_list_length (((DenemoStaff *) (gui->si->thescore->data))->measures);
+  gint max_measure = g_list_length (((DenemoStaff *) (gui->movement->thescore->data))->measures);
 
   label = gtk_label_new (_("Print from Measure"));
   gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
 
   from_measure = gtk_spin_button_new_with_range (1.0, (gdouble) max_measure, 1.0);
   gtk_box_pack_start (GTK_BOX (hbox), from_measure, TRUE, TRUE, 0);
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (from_measure), (gdouble) gui->si->selection.firstmeasuremarked);
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (from_measure), (gdouble) gui->movement->selection.firstmeasuremarked);
 
   label = gtk_label_new (_("to"));
   gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
@@ -575,7 +575,7 @@ printrangedialog (DenemoProject * gui)
   to_measure = gtk_spin_button_new_with_range (1.0, (gdouble) max_measure, 1.0);
   gtk_box_pack_start (GTK_BOX (hbox), to_measure, TRUE, TRUE, 0);
   //  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), to_measure, TRUE, TRUE, 0);
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (to_measure), (gdouble) gui->si->selection.lastmeasuremarked);
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (to_measure), (gdouble) gui->movement->selection.lastmeasuremarked);
 
   gtk_widget_show (hbox);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
@@ -584,18 +584,18 @@ printrangedialog (DenemoProject * gui)
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
-      gui->si->selection.firstmeasuremarked = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (from_measure));
-      gui->si->selection.lastmeasuremarked = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (to_measure));
+      gui->movement->selection.firstmeasuremarked = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (from_measure));
+      gui->movement->selection.lastmeasuremarked = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (to_measure));
       //gtk_widget_destroy (dialog);
     }
   else
     {
-      gui->si->selection.firstmeasuremarked = gui->si->selection.lastmeasuremarked = 0;
+      gui->movement->selection.firstmeasuremarked = gui->movement->selection.lastmeasuremarked = 0;
     }
-  if (gui->si->selection.firstmeasuremarked)
+  if (gui->movement->selection.firstmeasuremarked)
     {
-      gui->si->markstaffnum = gui->si->selection.firststaffmarked = 1;
-      gui->si->selection.laststaffmarked = g_list_length (gui->si->thescore);
+      gui->movement->markstaffnum = gui->movement->selection.firststaffmarked = 1;
+      gui->movement->selection.laststaffmarked = g_list_length (gui->movement->thescore);
     }
 
   gtk_widget_destroy (dialog);
@@ -785,10 +785,10 @@ printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam 
 #else
   present_print_view_window();
   DenemoProject *gui = Denemo.project;
-  if (gui->si->markstaffnum)
+  if (gui->movement->markstaffnum)
     if (confirm (_("A range of music is selected"), _("Print whole file?")))
       {
-        gui->si->markstaffnum = 0;
+        gui->movement->markstaffnum = 0;
       }
   if ((gui->movements && g_list_length (gui->movements) > 1) && (confirm (_("This piece has several movements"), _("Print this part from all of them?"))))
     create_pdf (TRUE, TRUE);
@@ -804,7 +804,7 @@ printselection_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptP
 #ifndef USE_EVINCE  
   g_debug("This feature requires denemo to be built with evince");
 #else
-  if (Denemo.project->si->markstaffnum) {
+  if (Denemo.project->movement->markstaffnum) {
     present_print_view_window();
     create_pdf (FALSE, FALSE);
     g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (TRUE));
@@ -818,9 +818,9 @@ void
 printexcerptpreview_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  if (!gui->si->markstaffnum)   //If no selection has been made 
+  if (!gui->movement->markstaffnum)   //If no selection has been made 
     printrangedialog (gui);     //Launch a dialog to get selection
-  if (gui->si->selection.firstmeasuremarked)
+  if (gui->movement->selection.firstmeasuremarked)
     {
       gui->lilycontrol.excerpt = TRUE;
       export_png ((gchar *) get_printfile_pathbasename (), (GChildWatchFunc) prepare_preview, gui);

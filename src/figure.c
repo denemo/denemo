@@ -38,7 +38,7 @@ insertfigure (gboolean filter, gpointer data)
 {
   struct callbackdata *cbdata = (struct callbackdata *) data;
   DenemoProject *gui = cbdata->gui;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   gchar filter_sep = filter ? '/' : '|';
   gchar filter_spc = filter ? '*' : ' ';
   if (si->measurewidth == DENEMO_INITIAL_MEASURE_WIDTH)
@@ -90,7 +90,7 @@ insertfigure (gboolean filter, gpointer data)
         {
           if (si->currentobject->next)
             movecursorright (NULL, NULL);
-          else if (gui->si->currentmeasure->next)
+          else if (gui->movement->currentmeasure->next)
             movetomeasureright (NULL, NULL);
           else
             break;
@@ -115,7 +115,7 @@ void
 delete_figured_bass (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoStaff *thestaff = (DenemoStaff *) gui->si->currentstaff->data;
+  DenemoStaff *thestaff = (DenemoStaff *) gui->movement->currentstaff->data;
   if (confirm ("Figured Bass Deletion", "Delete all figured bass markings from this staff?"))
     {
       thestaff->hasfigures = FALSE;
@@ -143,7 +143,7 @@ void
 hide_figured_bass (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoStaff *thestaff = (DenemoStaff *) gui->si->currentstaff->data;
+  DenemoStaff *thestaff = (DenemoStaff *) gui->movement->currentstaff->data;
   thestaff->hasfigures = FALSE;
 }
 
@@ -152,7 +152,7 @@ void
 show_figured_bass (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoStaff *thestaff = (DenemoStaff *) gui->si->currentstaff->data;
+  DenemoStaff *thestaff = (DenemoStaff *) gui->movement->currentstaff->data;
   measurenode *curmeasure;
   for (curmeasure = thestaff->measures; curmeasure; curmeasure = curmeasure->next)
     {
@@ -180,7 +180,7 @@ figure_insert (GtkAction * action, DenemoScriptParam * param)
   DenemoProject *gui = Denemo.project;
   gchar *string = NULL;
   gchar *PreValue = NULL;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   static struct callbackdata cbdata;
   DenemoObject *curObj = (DenemoObject *) si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
 

@@ -220,7 +220,7 @@ modify_note (chord * thechord, gint mid_c_offset, gint enshift, gint dclef)
   thechord->lowesty = calculateheight (mid_c_offset, dclef);
   if (Denemo.project->last_source == INPUTKEYBOARD)
     {
-      DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->si->currentstaff->data;
+      DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
       if (Denemo.prefs.immediateplayback)
         {
           play_notes (DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, thechord);
@@ -259,8 +259,8 @@ new_note (gint mid_c_offset, gint enshift, gint dclef)
 note *
 addtone (DenemoObject * thechord, gint mid_c_offset, gint enshift, gint dclef)
 {
-  note *newnote = new_note (mid_c_offset, Denemo.project->si->pending_enshift + enshift, dclef);
-  Denemo.project->si->pending_enshift = 0;
+  note *newnote = new_note (mid_c_offset, Denemo.project->movement->pending_enshift + enshift, dclef);
+  Denemo.project->movement->pending_enshift = 0;
   ((chord *) thechord->object)->notes = g_list_insert_sorted (((chord *) thechord->object)->notes, newnote, insertcomparefunc);
   if (mid_c_offset > ((chord *) thechord->object)->highestpitch)
     {

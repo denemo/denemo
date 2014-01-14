@@ -785,7 +785,7 @@ exportXML (gchar * thefilename, DenemoProject * gui)
     }
   //  if(gui->custom_prolog && gui->custom_prolog->len)
   //   xmlNewChild (scoreElem, ns, "custom_prolog", (xmlChar *)gui->custom_prolog->str);
-  gint movement_number = 1 + g_list_index (gui->movements, gui->si);
+  gint movement_number = 1 + g_list_index (gui->movements, gui->movement);
   if (movement_number)
     newXMLIntChild (scoreElem, ns, (xmlChar *) "movement-number", movement_number);
   GList *g;

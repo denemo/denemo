@@ -117,7 +117,7 @@ standard_handler (gchar * data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
   scm_newline (scm_current_output_port ());
   scm_eval_status = -1;
   // g_warning ("Undo will be affected\n");
-  //stage_undo(Denemo.gui->si, ACTION_SCRIPT_ERROR); We don't need this as control will return to activate_script() which will terminate the undo properly, with anything the script has done on the undo stack.
+  //stage_undo(Denemo.gui->movement, ACTION_SCRIPT_ERROR); We don't need this as control will return to activate_script() which will terminate the undo properly, with anything the script has done on the undo stack.
   return SCM_BOOL_F;
 }
 
@@ -371,7 +371,7 @@ denemo_scheme_init (void)
 {
   gchar *initscheme = Denemo.scheme_file;
   if(!Denemo.non_interactive)
-    Denemo.project->si->undo_guard++;
+    Denemo.project->movement->undo_guard++;
 
   if (initscheme)
     {
@@ -393,7 +393,7 @@ denemo_scheme_init (void)
 
   load_local_scheme_init ();
   if(!Denemo.non_interactive)
-    Denemo.project->si->undo_guard--;
+    Denemo.project->movement->undo_guard--;
 }
 
 /*
@@ -430,7 +430,7 @@ destroy_local_scheme_init (void)
 static void
 load_scheme_init (void)
 {
-  //Denemo.project->si->undo_guard++;
+  //Denemo.project->movement->undo_guard++;
   gchar* dirs[] = {
     g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, NULL),
     g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL),
@@ -445,7 +445,7 @@ load_scheme_init (void)
     g_warning ("Cannot find Denemo's scheme initialization file denemo.scm");
   g_free (filename);
 
-  //Denemo.project->si->undo_guard--;
+  //Denemo.project->movement->undo_guard--;
 }
 
 /* show the user's preferred view. Assumes all hidden on entry */
@@ -813,7 +813,7 @@ close_project (void)
   return TRUE;
 }
 
-/* remove all the movements (ie the DenemoMovement) leaving it with project->si NULL */
+/* remove all the movements (ie the DenemoMovement) leaving it with project->movement NULL */
 void
 free_movements (DenemoProject * project)
 {gint success;
@@ -823,14 +823,14 @@ free_movements (DenemoProject * project)
   free_scoreblocks (project);
   for (g = project->movements; g; g = g->next)
     {
-      project->si = g->data;
-      project->si->undo_guard = 1;  //no undo as that is per movement
+      project->movement = g->data;
+      project->movement->undo_guard = 1;  //no undo as that is per movement
       //close_source_audio ();//???
    //  if(!delete_imported_midi ()) not if still playing!!!
     //    delete_imported_midi();
       free_score (project);
     }
-  project->si = NULL;
+  project->movement = NULL;
   delete_directives (&project->lilycontrol.directives);
   delete_directives (&project->scoreheader.directives);
   delete_directives (&project->paper.directives);
@@ -1163,10 +1163,10 @@ pb_tempo (GtkAdjustment * adjustment)
 {
   gdouble tempo;
   gdouble bpm = gtk_adjustment_get_value (adjustment);
-  tempo = (Denemo.project->si->tempo > 0) ? bpm / Denemo.project->si->tempo : 1.0;
+  tempo = (Denemo.project->movement->tempo > 0) ? bpm / Denemo.project->movement->tempo : 1.0;
   scm_c_define ("DenemoTempo::Value", scm_from_double (tempo));
   call_out_to_guile ("(DenemoTempo)");
-  Denemo.project->si->smfsync = G_MAXINT;
+  Denemo.project->movement->smfsync = G_MAXINT;
 }
 void
 update_tempo_widget (gdouble value)
@@ -1175,7 +1175,7 @@ update_tempo_widget (gdouble value)
   bpm += value;
   gtk_adjustment_set_value (master_tempo_adj, bpm);
   gtk_adjustment_changed (master_tempo_adj);
-  Denemo.project->si->smfsync = G_MAXINT;
+  Denemo.project->movement->smfsync = G_MAXINT;
 }
 
 #ifdef _HAVE_RUBBERBAND_
@@ -1198,28 +1198,28 @@ pb_volume (GtkAdjustment * adjustment)
 static void
 audio_volume_cut (GtkAdjustment * adjustment)
 {
-  if (Denemo.project->si->recording)
+  if (Denemo.project->movement->recording)
     {
-      Denemo.project->si->recording->volume = gtk_adjustment_get_value (adjustment);
+      Denemo.project->movement->recording->volume = gtk_adjustment_get_value (adjustment);
     }
 }
 
 static void
 audio_volume_boost (GtkAdjustment * adjustment)
 {
-  if (Denemo.project->si->recording)
+  if (Denemo.project->movement->recording)
     {
-      Denemo.project->si->recording->volume = gtk_adjustment_get_value (adjustment);
+      Denemo.project->movement->recording->volume = gtk_adjustment_get_value (adjustment);
     }
 }
 
 static void
 leadin_changed (GtkSpinButton * spin)
 {
-  if (Denemo.project->si->recording)
+  if (Denemo.project->movement->recording)
     {
       set_lead_in (gtk_spin_button_get_value (spin));
-      //g_debug("%d for %f\n", Denemo.project->si->recording->leadin, gtk_spin_button_get_value(spin));
+      //g_debug("%d for %f\n", Denemo.project->movement->recording->leadin, gtk_spin_button_get_value(spin));
     }
 }
 
@@ -1245,8 +1245,8 @@ static void
 pb_panic (GtkWidget * button)
 {
   playback_panic ();
-  Denemo.project->si->start_time = 0.0;
-  Denemo.project->si->end_time = -1.0;      //ie unset
+  Denemo.project->movement->start_time = 0.0;
+  Denemo.project->movement->end_time = -1.0;      //ie unset
   set_start_and_end_objects_for_draw ();
   reset_temperament ();
   gtk_widget_queue_draw (Denemo.scorearea);
@@ -1334,19 +1334,19 @@ pb_record (gchar *callback)
             warningdialog(_("Stop playing first"));
             return FALSE;   
         }
-  if (Denemo.project->si->recording && (Denemo.project->si->recording->type==DENEMO_RECORDING_AUDIO))
+  if (Denemo.project->movement->recording && (Denemo.project->movement->recording->type==DENEMO_RECORDING_AUDIO))
     {
         warningdialog(_("Cannot mix audio and MIDI recordings"));
         return  FALSE;
     }
     
-  if (Denemo.project->si->recorded_midi_track &&  midi_is_from_file())
+  if (Denemo.project->movement->recorded_midi_track &&  midi_is_from_file())
     {
         warningdialog(_("Cannot mix MIDI recordings with imported MIDI - delete imported MIDI first"));
         return FALSE;
      }
     
-  if (Denemo.project->si->recorded_midi_track && !confirm (_("MIDI Recording"), _("Delete last recording?")))
+  if (Denemo.project->movement->recorded_midi_track && !confirm (_("MIDI Recording"), _("Delete last recording?")))
     {
       return FALSE;
     }
@@ -1361,8 +1361,8 @@ pb_record (gchar *callback)
   
   
   Denemo.project->midi_destination |= MIDIRECORD;
-  track_delete (Denemo.project->si->recorded_midi_track);
-  Denemo.project->si->recorded_midi_track = smf_track_new ();
+  track_delete (Denemo.project->movement->recorded_midi_track);
+  Denemo.project->movement->recorded_midi_track = smf_track_new ();
   gtk_widget_hide (deletebutton);
   gtk_widget_hide (convertbutton);
   
@@ -1411,25 +1411,25 @@ void highlight_audio_record(void) {
 
 void delete_recording (void) {
      //FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
-  if (Denemo.project->si && Denemo.project->si->recording)
+  if (Denemo.project->movement && Denemo.project->movement->recording)
     {
-      DenemoRecording *temp = Denemo.project->si->recording;
+      DenemoRecording *temp = Denemo.project->movement->recording;
       g_static_mutex_lock (&smfmutex);
-      Denemo.project->si->recording = NULL;
+      Denemo.project->movement->recording = NULL;
       g_static_mutex_unlock (&smfmutex);
       if (temp->sndfile)
         sf_close (temp->sndfile);
       g_free (temp->filename);
       g_list_free_full(temp->notes, g_free);
       g_free (temp);
-      Denemo.project->si->recording = NULL;
-      Denemo.project->si->marked_onset = NULL;
+      Denemo.project->movement->recording = NULL;
+      Denemo.project->movement->marked_onset = NULL;
     }   
 }
 static void
 pb_midi_delete (GtkWidget * button)
 {
-  DenemoRecording *recording = Denemo.project->si->recording;
+  DenemoRecording *recording = Denemo.project->movement->recording;
   if(recording)
     {
       if(recording->type!=DENEMO_RECORDING_MIDI)
@@ -1437,8 +1437,8 @@ pb_midi_delete (GtkWidget * button)
             g_warning("Cannot delete Audio yet");
             return;//see sourceaudio.c:222 for deleting audio
         }
-      track_delete (Denemo.project->si->recorded_midi_track);
-      Denemo.project->si->recorded_midi_track = NULL;
+      track_delete (Denemo.project->movement->recorded_midi_track);
+      Denemo.project->movement->recorded_midi_track = NULL;
       
       delete_recording ();
     }
@@ -1504,7 +1504,7 @@ activate_rhythm_pattern (GtkToolButton * toolbutton, RhythmPattern * r)
       if (Denemo.project->input_source == INPUTMIDI)
         {
           insert_note_following_pattern (Denemo.project);
-          ((DenemoObject *) Denemo.project->si->currentobject->data)->isinvisible = TRUE;
+          ((DenemoObject *) Denemo.project->movement->currentobject->data)->isinvisible = TRUE;
         }
       else
         insert_clipboard (r->clipboard);
@@ -1620,7 +1620,7 @@ static void
 attach_clipboard (RhythmPattern * r)
 {
   DenemoProject *project = Denemo.project;
-  DenemoMovement *si = project->si;
+  DenemoMovement *si = project->movement;
   if (si->markstaffnum)
     {
       push_clipboard ();
@@ -1695,7 +1695,7 @@ create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
   gboolean singleton = FALSE;   // set TRUE if action is one of the insert_... functions.
   gboolean already_done = FALSE;        // a singleton which has already been installed globally
   gboolean default_rhythm = FALSE;
-  DenemoMovement *si = project->si;
+  DenemoMovement *si = project->movement;
   RhythmPattern *r = (RhythmPattern *) g_malloc0 (sizeof (RhythmPattern));
   GString *lily_string = g_string_new ("");
   gchar *pattern = NULL;
@@ -2102,9 +2102,9 @@ activate_script (GtkAction * action, DenemoScriptParam * param)
             text = load_command_data (action);
           if (text && *text)
             {
-              stage_undo (project->si, ACTION_STAGE_END);   //undo is a queue so this is the end :)
+              stage_undo (project->movement, ACTION_STAGE_END);   //undo is a queue so this is the end :)
               ret = (gboolean) ! call_out_to_guile (text);
-              stage_undo (project->si, ACTION_STAGE_START);
+              stage_undo (project->movement, ACTION_STAGE_START);
             }
           else
             {
@@ -2295,7 +2295,7 @@ append_scheme_call (gchar * func)
       //g_debug("Added %s\n", text);
       g_free (text);
       if (Denemo.prefs.immediateplayback)
-        play_note (DEFAULT_BACKEND, 0, 9, 58, 300, 127 * Denemo.project->si->master_volume);
+        play_note (DEFAULT_BACKEND, 0, 9, 58, 300, 127 * Denemo.project->movement->master_volume);
     }
 }
 
@@ -3827,7 +3827,7 @@ toggle_lyrics_view (GtkAction * action, gpointer param)
 #ifndef USE_EVINCE  
   g_debug("This feature requires denemo to be built with evince");
 #else
-  GtkWidget *widget = Denemo.project->si->lyricsbox;
+  GtkWidget *widget = Denemo.project->movement->lyricsbox;
   if (!widget)
     g_warning ("No lyrics");
   else
@@ -4107,7 +4107,7 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
   Denemo.project = project = (DenemoProject *) (g->data);
   //g_debug("switch page\n");
 
-//FIXME if Denemo.project->si->recording then show Denemo.audio_vol_control
+//FIXME if Denemo.project->movement->recording then show Denemo.audio_vol_control
   if (Denemo.prefs.visible_directive_buttons)
     {
       gtk_widget_hide (Denemo.project->buttonboxes);
@@ -4236,12 +4236,12 @@ set_master_tempo (DenemoMovement * si, gdouble tempo)
 {
     if(si->master_tempo>0.0)
         {
-            Denemo.project->si->end_time /= si->master_tempo;
-            Denemo.project->si->start_time /= si->master_tempo;
+            Denemo.project->movement->end_time /= si->master_tempo;
+            Denemo.project->movement->start_time /= si->master_tempo;
         }
     si->master_tempo = tempo;
-    Denemo.project->si->end_time *= si->master_tempo;
-    Denemo.project->si->start_time *= si->master_tempo;
+    Denemo.project->movement->end_time *= si->master_tempo;
+    Denemo.project->movement->start_time *= si->master_tempo;
   if (master_tempo_adj)
     {
       gtk_adjustment_set_value (master_tempo_adj, tempo * si->tempo);
@@ -4728,9 +4728,9 @@ void
 newview (GtkAction * action, DenemoScriptParam * param)
 {
   newtab ();
-  Denemo.project->si->undo_guard = 1;       //do not collect undo for initialization of score
+  Denemo.project->movement->undo_guard = 1;       //do not collect undo for initialization of score
   load_scheme_init ();
-  Denemo.project->si->undo_guard = Denemo.prefs.disable_undo;
+  Denemo.project->movement->undo_guard = Denemo.prefs.disable_undo;
 }
 
 void
@@ -4768,7 +4768,7 @@ new_project(gboolean new_movement)
   if(new_movement){
     Denemo.project = project;
     point_to_new_movement (project);
-    project->movements = g_list_append (NULL, project->si);
+    project->movements = g_list_append (NULL, project->movement);
   }
   
   return project;
@@ -4806,7 +4806,7 @@ toggle_page_view (void)
 
   static gdouble zoom = 1.0;
   static gdouble system_height = 0.25;
-  DenemoMovement *si = Denemo.project->si;
+  DenemoMovement *si = Denemo.project->movement;
   if (si->page_width == 0)
     {
       si->page_width = gdk_screen_get_width (gtk_window_get_screen (GTK_WINDOW (Denemo.window)));
@@ -4855,8 +4855,8 @@ toggle_to_drawing_area (gboolean show)
   if (current_view == DENEMO_PAGE_VIEW)
     {
       toggle_page_view ();
-      win_width = Denemo.project->si->stored_width;
-      win_height = Denemo.project->si->stored_height;
+      win_width = Denemo.project->movement->stored_width;
+      win_height = Denemo.project->movement->stored_height;
     }
   else
     gtk_window_get_size (GTK_WINDOW (Denemo.window), &win_width, &win_height);
@@ -5003,9 +5003,9 @@ newtab ()
   /* create the first movement now because showing the window causes it to try to draw the scorearea
      which it cannot do before there is a score. FIXME use signal blocking to control this - see importxml.c */
   point_to_new_movement (project);
-  project->movements = g_list_append (NULL, project->si);
+  project->movements = g_list_append (NULL, project->movement);
 
-  install_lyrics_preview (project->si, top_vbox);
+  install_lyrics_preview (project->movement, top_vbox);
   gtk_widget_set_can_focus (Denemo.scorearea, TRUE);
   gtk_widget_show (Denemo.page);
   gtk_widget_grab_focus (Denemo.scorearea);

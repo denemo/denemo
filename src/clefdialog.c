@@ -97,7 +97,7 @@ clef_change_initial (GtkAction * action, DenemoScriptParam * param)
     {
       enum clefs clef = get_clef_from_name (clefname);
       if (clef != DENEMO_INVALID_CLEF)
-        dnm_setinitialclef (gui->si, gui->si->currentstaff->data, clef);
+        dnm_setinitialclef (gui->movement, gui->movement->currentstaff->data, clef);
       displayhelper (gui);
     }
 }
@@ -127,7 +127,7 @@ clef_change (DenemoProject * gui, actiontype action)
   GtkListStore *list_store;
   GtkTreeIter iter;
   GtkCellRenderer *renderer;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->movement->currentstaff->data;
   int i;
 
   dialog = gtk_dialog_new_with_buttons (((action == CHANGEINITIAL) ? _("Set Clef") : _("Insert clef change")), NULL,    /* parent window */
@@ -170,11 +170,11 @@ clef_change (DenemoProject * gui, actiontype action)
 
       if (action == CHANGEINITIAL)
         {
-          dnm_setinitialclef (gui->si, curstaffstruct, clef);
+          dnm_setinitialclef (gui->movement, curstaffstruct, clef);
         }
       else
         {
-          if (gui->si->currentobject && ((DenemoObject *) gui->si->currentobject->data)->type == CLEF)
+          if (gui->movement->currentobject && ((DenemoObject *) gui->movement->currentobject->data)->type == CLEF)
             deleteobject (NULL, NULL);
           object_insert (gui, dnm_newclefobj (clef));
 

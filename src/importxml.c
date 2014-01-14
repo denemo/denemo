@@ -2645,7 +2645,7 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoMovement * si)
 static gint
 parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoProject * gui)
 {
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   xmlNodePtr childElem;
   /*  gchar *id; */
 
@@ -2707,7 +2707,7 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoProject * gui)
 static gint
 parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoProject * gui, ImportType type)
 {
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   xmlNodePtr childElem, voiceElem;
 
 
@@ -2785,9 +2785,9 @@ parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoProject * gui, ImportTyp
 {
   int ret = 0;
 
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   if (type != ADD_STAFFS)
-    gui->movements = g_list_append (gui->movements, gui->si);
+    gui->movements = g_list_append (gui->movements, gui->movement);
   si->currentstaffnum = 0;
   sPrevStaffElem = NULL;
   ret = parseScore (childElem, ns, gui, type);
@@ -2822,7 +2822,7 @@ parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoProject * gui, ImportTyp
   // si->leftmeasurenum = si->currentstaffnum = si->currentmeasurenum = 1;
 
   if(!Denemo.non_interactive){
-    set_rightmeasurenum (gui->si);
+    set_rightmeasurenum (gui->movement);
     set_bottom_staff (gui);
     set_width_to_work_with (gui);
   }
@@ -3041,8 +3041,8 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
                 point_to_empty_movement (gui);
                 ret |= parseMovement (childElem, ns, gui, type);
               }
-            if (gui->si && gui->si->lyricsbox)
-              gtk_widget_hide (gui->si->lyricsbox);
+            if (gui->movement && gui->movement->lyricsbox)
+              gtk_widget_hide (gui->movement->lyricsbox);
           }
           break;
         default:
@@ -3051,21 +3051,21 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
         }
     }
 
-  if (gui->si->lyricsbox)
-    gtk_widget_hide (gui->si->lyricsbox);
+  if (gui->movement->lyricsbox)
+    gtk_widget_hide (gui->movement->lyricsbox);
   gint steps_back = g_list_length (gui->movements) - current_movement;
   while (steps_back-- > 0)
     {
-      if (gui->si->lyricsbox)
-        gtk_widget_hide (gui->si->lyricsbox);
+      if (gui->movement->lyricsbox)
+        gtk_widget_hide (gui->movement->lyricsbox);
       prev_movement (NULL, NULL);
     }
-  if (gui->si->lyricsbox)
+  if (gui->movement->lyricsbox)
     {
       if (!Denemo.prefs.lyrics_pane)
-        gtk_widget_hide (gui->si->lyricsbox);
+        gtk_widget_hide (gui->movement->lyricsbox);
       else
-        gtk_widget_show (gui->si->lyricsbox);
+        gtk_widget_show (gui->movement->lyricsbox);
     }
   if(!Denemo.non_interactive)
     score_status (gui, FALSE);

@@ -19,9 +19,9 @@ void
 toggle_grace (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   GET_1PARAM (action, param, grace);
-  DenemoObject *curmudelaobj = (DenemoObject *) (gui->si->currentobject ? gui->si->currentobject->data : NULL);
+  DenemoObject *curmudelaobj = (DenemoObject *) (gui->movement->currentobject ? gui->movement->currentobject->data : NULL);
   if (curmudelaobj && (curmudelaobj->type == CHORD))
     {
       if (query)
@@ -40,9 +40,9 @@ void
 toggle_acciaccatura (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   GET_1PARAM (action, param, grace);
-  DenemoObject *curmudelaobj = (DenemoObject *) (gui->si->currentobject ? gui->si->currentobject->data : NULL);
+  DenemoObject *curmudelaobj = (DenemoObject *) (gui->movement->currentobject ? gui->movement->currentobject->data : NULL);
   if (curmudelaobj && (curmudelaobj->type == CHORD))
     {
       if (query)

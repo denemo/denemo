@@ -149,7 +149,7 @@ timesig_change_insert (GtkAction * action, DenemoScriptParam * param)
   DenemoProject *gui = Denemo.project;
   if (query)
     {
-      gchar *curtimesig = g_strdup_printf ("%d/%d", gui->si->cursortime1, gui->si->cursortime2);
+      gchar *curtimesig = g_strdup_printf ("%d/%d", gui->movement->cursortime1, gui->movement->cursortime2);
       g_string_assign (param->string, curtimesig);
       g_free (curtimesig);
       param->status = TRUE;
@@ -159,12 +159,12 @@ timesig_change_insert (GtkAction * action, DenemoScriptParam * param)
     timesig_change (gui, INSERT);
   else
     {
-      DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+      DenemoStaff *curstaffstruct = (DenemoStaff *) gui->movement->currentstaff->data;
       gint time1, time2;
       sscanf (timesigname, "%d/%d", &time1, &time2);
       if (time1 && time2)
         {
-          insert_timesig (gui->si, curstaffstruct, time1, time2);
+          insert_timesig (gui->movement, curstaffstruct, time1, time2);
           param->status = TRUE;
           displayhelper (gui);
         }
@@ -182,7 +182,7 @@ timesig_change_initial (GtkAction * action, DenemoScriptParam * param)
   DenemoProject *gui = Denemo.project;
   if (query)
     {
-      GList *curstaff = gui->si->thescore;
+      GList *curstaff = gui->movement->thescore;
       DenemoStaff *curstaffstruct = (DenemoStaff *) curstaff->data;
       gchar *curtimesig = g_strdup_printf ("%d/%d", curstaffstruct->timesig.time1, curstaffstruct->timesig.time2);
       g_string_assign (param->string, curtimesig);
@@ -195,12 +195,12 @@ timesig_change_initial (GtkAction * action, DenemoScriptParam * param)
     timesig_change (gui, CHANGEINITIAL);
   else
     {
-      DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+      DenemoStaff *curstaffstruct = (DenemoStaff *) gui->movement->currentstaff->data;
       gint time1, time2;
       sscanf (timesigname, "%d/%d", &time1, &time2);
       if (time1 && time2)
         {
-          dnm_setinitialtimesig (gui->si, curstaffstruct, time1, time2, TRUE);
+          dnm_setinitialtimesig (gui->movement, curstaffstruct, time1, time2, TRUE);
           param->status = TRUE;
           displayhelper (gui);
         }
@@ -220,9 +220,9 @@ timesig_change (DenemoProject * gui, actiontype action)
   GtkWidget *textentry2;
   GtkWidget *checkbutton;
 
-  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->movement->currentstaff->data;
 
-  if (gui->si->lily_file && action == CHANGEINITIAL)
+  if (gui->movement->lily_file && action == CHANGEINITIAL)
     return;                     /* no code for this yet - just edit textually */
 
   dialog = gtk_dialog_new_with_buttons (((action == CHANGEINITIAL) ? _("Change initial time signature") : _("Insert time signature change")), NULL,     /* parent window */
@@ -266,13 +266,13 @@ timesig_change (DenemoProject * gui, actiontype action)
       gboolean all_staves = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton));
       if (action == CHANGEINITIAL)
         {
-          dnm_setinitialtimesig (gui->si, curstaffstruct, time1, time2, all_staves);
+          dnm_setinitialtimesig (gui->movement, curstaffstruct, time1, time2, all_staves);
         }
       else
         {
-          if (gui->si->currentobject && ((DenemoObject *) gui->si->currentobject->data)->type == TIMESIG)
+          if (gui->movement->currentobject && ((DenemoObject *) gui->movement->currentobject->data)->type == TIMESIG)
             deleteobject (NULL, NULL);
-          insert_timesig (gui->si, curstaffstruct, time1, time2);
+          insert_timesig (gui->movement, curstaffstruct, time1, time2);
         }
       displayhelper (gui);
     }

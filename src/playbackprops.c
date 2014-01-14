@@ -35,7 +35,7 @@ set_preferences (struct callbackdata *cbdata)
     prefs->field =\
     gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(cbdata->field));
 
-  Denemo.project->si->tempo = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (cbdata->tempo));
+  Denemo.project->movement->tempo = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (cbdata->tempo));
 
   writeXMLPrefs (prefs);
 }
@@ -93,7 +93,7 @@ playback_properties_change (GtkAction * action, DenemoScriptParam* param)
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
   GtkWidget *field = gtk_spin_button_new_with_range (min, max, 1.0);\
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (field), gui->si->field);\
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (field), gui->movement->field);\
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
   cbdata.field = field;
 

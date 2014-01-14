@@ -215,7 +215,7 @@ insert_staff (DenemoMovement * si, DenemoStaff * thestaffstruct, enum newstaffca
 void
 newstaff (DenemoProject * gui, enum newstaffcallbackaction action, DenemoContext context)
 {
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   g_assert (si != NULL);
   take_snapshot ();
   DenemoStaff *thestaffstruct = (DenemoStaff *) g_malloc (sizeof (DenemoStaff));
@@ -402,7 +402,7 @@ signal_structural_change (DenemoProject * gui)
 }
 
 /**
- * Remove the gui->si->currentstaff from the piece gui and reset si->currentstaff
+ * Remove the gui->movement->currentstaff from the piece gui and reset si->currentstaff
  * if only one staff, inserts a new empty one
  * if interactive checks for custom_scoreblock
  * if a staff is deleted, updates the changecount
@@ -412,7 +412,7 @@ signal_structural_change (DenemoProject * gui)
 void
 deletestaff (DenemoProject * gui, gboolean interactive)
 {
-  DenemoMovement *si = gui->si;
+  DenemoMovement *si = gui->movement;
   DenemoStaff *curstaffstruct = si->currentstaff->data;
   gboolean has_next = (si->currentstaff->next != NULL);
   (void) signal_structural_change (gui);
@@ -474,8 +474,8 @@ deletestaff (DenemoProject * gui, gboolean interactive)
   setcurrents (si);
   if (si->markstaffnum)
     calcmarkboundaries (si);
-  if (gui->si->currentstaffnum < gui->si->top_staff)
-    gui->si->top_staff = gui->si->currentstaffnum;
+  if (gui->movement->currentstaffnum < gui->movement->top_staff)
+    gui->movement->top_staff = gui->movement->currentstaffnum;
   show_lyrics ();
   update_vscrollbar (gui);
 
@@ -580,7 +580,7 @@ void
 newstaffinitial (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  while (gui->si->currentstaff && gui->si->currentstaff->prev)
+  while (gui->movement->currentstaff && gui->movement->currentstaff->prev)
     movetostaffup (NULL, NULL);
   newstaffbefore (action, NULL);
 }
@@ -599,10 +599,10 @@ newstaffbefore (GtkAction * action, DenemoScriptParam * param)
 
   movetostart (NULL, NULL);
   newstaff (gui, BEFORE, DENEMO_NONE);
-  if (gui->si->currentstaffnum >= gui->si->top_staff)
-    gui->si->top_staff++;
-  gui->si->currentstaffnum++;
-  gui->si->bottom_staff++;
+  if (gui->movement->currentstaffnum >= gui->movement->top_staff)
+    gui->movement->top_staff++;
+  gui->movement->currentstaffnum++;
+  gui->movement->bottom_staff++;
   set_bottom_staff (gui);
   move_viewport_down (gui);
 
@@ -641,7 +641,7 @@ void
 newstafflast (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  while (gui->si->currentstaff && gui->si->currentstaff->next)
+  while (gui->movement->currentstaff && gui->movement->currentstaff->next)
     movetostaffdown (NULL, NULL);
   dnm_newstaffafter (action, param);
 }
@@ -659,8 +659,8 @@ dnm_newstaffvoice (GtkAction * action, DenemoScriptParam * param)
   newstaff (gui, NEWVOICE, DENEMO_NONE);
   set_bottom_staff (gui);
   update_vscrollbar (gui);
-  setcurrents (gui->si);
-  if (gui->si->markstaffnum)
-    calcmarkboundaries (gui->si);
+  setcurrents (gui->movement);
+  if (gui->movement->markstaffnum)
+    calcmarkboundaries (gui->movement);
   displayhelper (gui);
 }
