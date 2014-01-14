@@ -432,9 +432,10 @@ deletestaff (DenemoProject * gui, gboolean interactive)
   free_directives (curstaffstruct->timesig.directives);
   free_directives (curstaffstruct->keysig.directives);
 
-  gtk_widget_destroy ((GtkWidget *) (curstaffstruct->staffmenu));
-  gtk_widget_destroy ((GtkWidget *) (curstaffstruct->voicemenu));
-
+  if(!Denemo.non_interactive){
+    gtk_widget_destroy ((GtkWidget *) (curstaffstruct->staffmenu));
+    gtk_widget_destroy ((GtkWidget *) (curstaffstruct->voicemenu));
+  }
 
   g_list_foreach (curstaffstruct->measures, freeobjlist, NULL);
   g_list_free (curstaffstruct->measures);
@@ -477,10 +478,13 @@ deletestaff (DenemoProject * gui, gboolean interactive)
   if (gui->movement->currentstaffnum < gui->movement->top_staff)
     gui->movement->top_staff = gui->movement->currentstaffnum;
   show_lyrics ();
-  update_vscrollbar (gui);
 
-  displayhelper (gui);
-  score_status (gui, TRUE);
+  if(!Denemo.non_interactive){
+    update_vscrollbar (gui);
+    displayhelper (gui);
+    score_status (gui, TRUE);
+  }
+  
   if (give_info)
     infodialog (_("The staff deleted had a start/end context; if you still have the staff with the matching end/start context\n then you should remove it (or its context) now.\nSee Staff->properties->context\nYou will not be able to print with miss-matched contexts."));
   return;

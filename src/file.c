@@ -227,7 +227,8 @@ static void
 set_gui_tabname (DenemoProject * gui, gchar * filename)
 {
   g_string_assign (gui->tabname, filename);
-  set_title_bar (gui);
+  if(!Denemo.non_interactive)
+    set_title_bar (gui);
 }
 
 /**
@@ -252,8 +253,10 @@ set_project_filename (DenemoProject * gui, gchar * filename)
       if (data)
         g_free (data);
     }
-  if (link)                     /* not a new one */
-    addhistorymenuitem (filename);
+  if(!Denemo.non_interactive){
+    if (link)                     /* not a new one */
+      addhistorymenuitem (filename);
+  }
   g_queue_push_tail (Denemo.prefs.history, g_strdup (gui->filename->str));
 }
 
