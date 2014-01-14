@@ -2544,7 +2544,6 @@ get_executable_dir ()
     GetModuleFileNameW(NULL, path, MAX_PATH);
 
 #elif defined _MACH_O_
-    char path[1024];
     guint size = sizeof (path);
     _NSGetExecutablePath (path, &size);
 
