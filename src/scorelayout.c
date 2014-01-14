@@ -2439,8 +2439,8 @@ selection_layout (void)
           g_string_prepend (movement_tail, "\n>>\n>>");
         }
     }
-  gint voice_count, staff_count;
-  for (voice_count = 1, staff_count = 1, g = gui->movement->thescore; g; g? g = g->next : g, voice_count++, staff_count++)
+  gint voice_count;
+  for (voice_count = 1, g = gui->movement->thescore; g; g? g = g->next : g, voice_count++)
     {
       DenemoStaff *staff = g->data;
       DenemoStaff *nextstaff = g->next ? g->next->data : NULL;
