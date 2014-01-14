@@ -2374,7 +2374,7 @@ select_default_scoreblock (void)
 }
 
 void
-selection_install_voice (DenemoStaff * staff, gint movementnum, gint voice_count, GString * lilypond, GString * tail)
+selection_install_voice (DenemoStaff * staff, gint movementnum, gint voice_count, GString * lilypond, GString * tail, GString * voice_tail)
 {
   gchar *voicetag = get_voicetag (movementnum, voice_count);
   gchar *voicename = get_voicename (movementnum, voice_count);
@@ -2385,7 +2385,8 @@ selection_install_voice (DenemoStaff * staff, gint movementnum, gint voice_count
   set_voice_definition (voicetext, staff, voicetag);    //That is \new Voice = name prefix { postfix FIXME is prefix any use here????
   gchar *text = g_strdup_printf (" %s ", voicetext->str);
   g_string_assign (voicetext, "");
-  set_voice_termination (voicetext, staff);     // TAB TAB"} %End of voice" if not overridden
+
+  set_voice_termination (voice_tail, staff);     // TAB TAB"} %End of voice" if not overridden
 
 
 
@@ -2439,7 +2440,7 @@ selection_layout (void)
         }
     }
   gint voice_count, staff_count;
-  for (voice_count = 1, staff_count = 1, g = gui->si->thescore; g; g = g->next, voice_count++, staff_count++)
+  for (voice_count = 1, staff_count = 1, g = gui->si->thescore; g; g? g = g->next : g, voice_count++, staff_count++)
     {
       DenemoStaff *staff = g->data;
       DenemoStaff *nextstaff = g->next ? g->next->data : NULL;
@@ -2451,10 +2452,14 @@ selection_layout (void)
           g_string_append_printf (sb->lilypond, "\n" TAB TAB "\\new ChordNames \\chordmode { \\%sChords }\n", get_voicename (movementnum, voice_count));
         }
       set_staff_definition (sb->lilypond, staff, staff->denemo_name->str);
+      
+      
+      
+      
       if (staff->no_of_lines != 5)
         g_string_append_printf (sb->lilypond, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n", staff->no_of_lines);    //FIXME create_element
       GString *tail = g_string_new ("");
-
+GString *voice_tail = g_string_new ("");
       g_string_assign (stafftext, "");
       set_staff_termination (stafftext, staff); // "\n>>\n%End of Staff\n"
 
@@ -2465,26 +2470,40 @@ selection_layout (void)
           g_string_append_printf (sb->lilypond, "\n" TAB TAB "\\context Staff \\with {implicitBassFigures = #'(0) } \\%sBassFiguresLine %%End of bass figures\n", get_voicename (movementnum, voice_count));
         }
 
-      selection_install_voice (staff, movementnum, voice_count, sb->lilypond, tail);    //Primary voice
-
-
+      selection_install_voice (staff, movementnum, voice_count, sb->lilypond, tail, voice_tail);    //Primary voice
+    
+      g_string_append (sb->lilypond, voice_tail->str);
+      g_string_assign(voice_tail, "");
       //selection_do_verses(staff, vbox, movementnum, this is repeated below
-
-      if (nextstaff && (nextstaff->voicecontrol & DENEMO_SECONDARY))
+       gboolean voices_intervened;
+       voices_intervened = FALSE;
+       if (nextstaff && (nextstaff->voicecontrol & DENEMO_SECONDARY))
         {
           for (g = g->next, voice_count++; g && (((DenemoStaff *) g->data)->voicecontrol & DENEMO_SECONDARY); g = g->next, voice_count++)
             {
               GString *voicetail = g_string_new ("");
               DenemoStaff *staff = g->data;
-              selection_install_voice (staff, movementnum, voice_count, sb->lilypond, voicetail);
+              selection_install_voice (staff, movementnum, voice_count, sb->lilypond, voicetail, voice_tail);
               g_string_append (sb->lilypond, g_string_free (voicetail, FALSE));
+              g_string_append (sb->lilypond, voice_tail->str);
+              g_string_assign(voice_tail, "");
+              voices_intervened = TRUE;
               //selection_do_verses(staff, vbox, movementnum, this is repeated above
             }
         }
+        
+      g_string_free (voice_tail, TRUE);
+    
       if (tail->len)
         g_string_append (sb->lilypond, g_string_free (tail, FALSE));
       else
         g_string_free (tail, FALSE);
+
+     if(g && voices_intervened) // we have added voices to the staff, so the for loop has advanced the iterator over staffs and voice count already, so back up
+     {
+         g = g->prev;
+         voice_count--;  
+     }
     }                           // end of for each staff Now loop back for all the staffs in firststaffnum -  laststaffnum
   g_string_append (sb->lilypond, movement_tail->str);
   g_string_free (movement_tail, TRUE);
