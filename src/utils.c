@@ -166,7 +166,7 @@ void
 warningmessage (gchar * msg)
 {
   gdk_beep ();
-  g_warning (msg);
+  g_warning ("%s", msg);
 }
 
 /**
