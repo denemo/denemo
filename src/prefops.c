@@ -63,7 +63,11 @@ initprefs ()
   ret->browser = g_string_new ("firefox");
   ret->audioplayer = g_string_new ("play");
  #ifdef _GUB_BUILD_
-  ret->lilypath = g_string_new (g_build_filename (get_system_bin_dir (), "lilypond", NULL));
+   #ifdef _MACH_O_
+     ret->lilypath = g_string_new (getenv("LILYPOND_PATH"));
+   #else
+     ret->lilypath = g_string_new (g_build_filename (get_system_bin_dir (), "lilypond", NULL));
+   #endif
  #else
   ret->lilypath = g_string_new ("lilypond");
  #endif
