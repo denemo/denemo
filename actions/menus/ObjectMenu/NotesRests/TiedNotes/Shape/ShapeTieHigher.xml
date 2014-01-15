@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ShapeTieHigher</action>
+        <after>ShapeTieFlatter</after>
+        <_label>Higher/Lower</_label>
+        <_tooltip>Moves the next tie higher/lower by the amount given from the current position.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ShapeTieFlatter</action>
+        <after>ToggleTie</after>
+        <_label>Flatter/More Curved</_label>
+        <_tooltip>Makes the next tie more or less curved depending on the value given. The change is relative to the current shape, not the default shape.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

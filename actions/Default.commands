@@ -6262,6 +6262,33 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Multi-Measure Rest Expand Limit</_label>
         <_tooltip>In Multi-Measure rests: controls how many measures rest are notated as church rests before numbers are used.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>TieShape</action>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes/Shape</menupath>
+        <_label>Tie Shape</_label>
+        <_tooltip>Gives a choice of modifications to make to the following tie.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ShapeTieFlatter</action>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes/Shape</menupath>
+        <_label>Flatter/More Curved</_label>
+        <_tooltip>Makes the next tie more or less curved depending on the value given. The change is relative to the current shape, not the default shape.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ShapeTieHigher</action>
+        <after>ShapeTieFlatter</after>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes/Shape</menupath>
+        <_label>Higher/Lower.</_label>
+        <_tooltip>Moves the next tie higher/lower by the amount given from the current position.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ShapeTieWider</action>
+        <after>ShapeTieHigher</after>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes/Shape</menupath>
+        <_label>Widen/Make Narrower</_label>
+        <_tooltip>Makes the next tie wider/narrower by the amount given. The change is relative to the default value.</_tooltip>
+      </row>
+
     </map>
   </merge>
 </Denemo>

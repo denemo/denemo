@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ShapeTieWider</action>
+        <after>ShapeTieHigher</after>
+        <_label>Widen/Make Narrower</_label>
+        <_tooltip>Makes the next tie wider/narrower by the amount given. The change is relative to the default value.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
