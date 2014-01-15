@@ -178,7 +178,7 @@ void
 warningdialog (gchar * msg)
 {
   if(Denemo.non_interactive)
-    g_warning(msg);
+    g_warning("%s", msg);
 
   else{
     GtkWidget *dialog;
@@ -200,7 +200,7 @@ GtkWidget *
 infodialog (gchar * msg)
 {
   if(Denemo.non_interactive){
-    g_info(msg);
+    g_info("%s", msg);
     return NULL;
   }
 
@@ -2544,7 +2544,6 @@ get_executable_dir ()
     GetModuleFileNameW(NULL, path, MAX_PATH);
 
 #elif defined _MACH_O_
-    char path[1024];
     guint size = sizeof (path);
     _NSGetExecutablePath (path, &size);
 
