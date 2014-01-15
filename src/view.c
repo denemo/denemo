@@ -389,6 +389,7 @@ denemo_scheme_init (void)
         eval_file_with_catch (filename);
       g_free (name);
       g_free (filename);
+      score_status (Denemo.project, FALSE);
     }
 
   load_local_scheme_init ();
@@ -444,7 +445,6 @@ load_scheme_init (void)
   else
     g_warning ("Cannot find Denemo's scheme initialization file denemo.scm");
   g_free (filename);
-
   //Denemo.project->movement->undo_guard--;
 }
 
