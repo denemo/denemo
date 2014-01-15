@@ -437,6 +437,49 @@ SCM scheme_header_directive_put_minpixels (SCM tag, SCM value);
 SCM scheme_paper_directive_put_minpixels (SCM tag, SCM value);
 SCM scheme_layout_directive_put_minpixels (SCM tag, SCM value);
 SCM scheme_movementcontrol_directive_put_minpixels (SCM tag, SCM value);
+
+//cloned from minpixels
+
+
+SCM scheme_object_directive_get_data (SCM);
+SCM scheme_object_directive_put_data (SCM tag, SCM value);
+SCM scheme_standalone_directive_get_data (SCM);
+SCM scheme_chord_directive_get_data (SCM);
+SCM scheme_note_directive_get_data (SCM);
+SCM scheme_staff_directive_get_data (SCM);
+SCM scheme_voice_directive_get_data (SCM);
+SCM scheme_score_directive_get_data (SCM);
+SCM scheme_clef_directive_get_data (SCM);
+SCM scheme_timesig_directive_get_data (SCM);
+SCM scheme_tuplet_directive_get_data (SCM);
+SCM scheme_stemdirective_directive_get_data (SCM);
+SCM scheme_keysig_directive_get_data (SCM);
+SCM scheme_scoreheader_directive_get_data (SCM);
+SCM scheme_header_directive_get_data (SCM);
+SCM scheme_paper_directive_get_data (SCM);
+SCM scheme_layout_directive_get_data (SCM);
+SCM scheme_movementcontrol_directive_get_data (SCM);
+SCM scheme_standalone_directive_put_data (SCM tag, SCM value);
+SCM scheme_chord_directive_put_data (SCM tag, SCM value);
+SCM scheme_note_directive_put_data (SCM tag, SCM value);
+SCM scheme_staff_directive_put_data (SCM tag, SCM value);
+SCM scheme_voice_directive_put_data (SCM tag, SCM value);
+SCM scheme_score_directive_put_data (SCM tag, SCM value);
+SCM scheme_clef_directive_put_data (SCM tag, SCM value);
+SCM scheme_timesig_directive_put_data (SCM tag, SCM value);
+SCM scheme_tuplet_directive_put_data (SCM tag, SCM value);
+SCM scheme_stemdirective_directive_put_data (SCM tag, SCM value);
+SCM scheme_keysig_directive_put_data (SCM tag, SCM value);
+SCM scheme_scoreheader_directive_put_data (SCM tag, SCM value);
+SCM scheme_header_directive_put_data (SCM tag, SCM value);
+SCM scheme_paper_directive_put_data (SCM tag, SCM value);
+SCM scheme_layout_directive_put_data (SCM tag, SCM value);
+SCM scheme_movementcontrol_directive_put_data (SCM tag, SCM value);
+
+
+
+
+
 SCM scheme_standalone_directive_get_grob (SCM);
 SCM scheme_chord_directive_get_grob (SCM);
 SCM scheme_note_directive_get_grob (SCM);
@@ -458,6 +501,11 @@ SCM scheme_timesig_directive_put_grob (SCM tag, SCM value);
 SCM scheme_tuplet_directive_put_grob (SCM tag, SCM value);
 SCM scheme_stemdirective_directive_put_grob (SCM tag, SCM value);
 SCM scheme_keysig_directive_put_grob (SCM tag, SCM value);
+
+
+
+
+
 SCM scheme_standalone_directive_get_midibytes (SCM);
 SCM scheme_chord_directive_get_midibytes (SCM);
 SCM scheme_note_directive_get_midibytes (SCM);

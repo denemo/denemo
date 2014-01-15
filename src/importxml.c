@@ -265,6 +265,7 @@ parseDirective (xmlNodePtr parentElem, DenemoDirective * directive)
     DO_DIREC (postfix);
     DO_DIREC (display);
     DO_DIREC (midibytes);
+    DO_DIREC (data);
     DO_DIREC (grob);
     DO_INTDIREC (override);
     DO_INTDIREC (minpixels);
@@ -302,6 +303,7 @@ parseWidgetDirective (xmlNodePtr parentElem, gpointer fn, DenemoDirective * dire
 
     DO_DIREC (midibytes);
     DO_DIREC (grob);
+    DO_DIREC (data);
     DO_INTDIREC (override);
     DO_INTDIREC (minpixels);
     DO_INTDIREC (x);
@@ -1384,6 +1386,7 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem)
   GET_STR_FIELD (display);
   GET_STR_FIELD (midibytes);
   GET_STR_FIELD (grob);
+  GET_STR_FIELD (data);
   GET_STR_FIELD (graphic_name);
   GET_STR_FIELD (prefix);
   if (thedirective->graphic_name && thedirective->graphic_name->len)
@@ -1399,7 +1402,7 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem)
             g_string_assign(lily, "\\bar \":|.\"");
         else if (!g_strcmp0 ("\\bar \"|:\"", postfix))
             g_string_assign(lily, "\\bar \".|:\"");
-        else if (!g_strcmp0 ("\\bar \":|:\"", postfix))
+        else if (!g_strcmp0 (" \\bar \":|:\"", postfix)) //Note there was a space in the old directive!
             g_string_assign(lily, "\\bar \":..:\"");
         
        }

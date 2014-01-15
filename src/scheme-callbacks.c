@@ -3736,6 +3736,43 @@ PUTFUNC_DEF (timesig, grob)
 PUTFUNC_DEF (tuplet, grob)
 PUTFUNC_DEF (stemdirective, grob)
 PUTFUNC_DEF (keysig, grob)
+
+
+
+GETFUNC_DEF (note, data);
+GETFUNC_DEF (chord, data);
+GETFUNC_DEF (standalone, data);
+GETFUNC_DEF (staff, data);
+GETFUNC_DEF (voice, data);
+GETFUNC_DEF (score, data);
+GETFUNC_DEF (scoreheader, data);
+GETFUNC_DEF (header, data);
+GETFUNC_DEF (paper, data);
+GETFUNC_DEF (layout, data);
+GETFUNC_DEF (movementcontrol, data);
+GETFUNC_DEF (clef, data);
+GETFUNC_DEF (timesig, data);
+GETFUNC_DEF (tuplet, data);
+GETFUNC_DEF (stemdirective, data);
+GETFUNC_DEF (keysig, data);
+PUTFUNC_DEF (note, data);
+PUTFUNC_DEF (chord, data);
+PUTFUNC_DEF (standalone, data);
+PUTFUNC_DEF(staff, data)
+PUTFUNC_DEF(voice, data)
+PUTFUNC_DEF (score, data)
+PUTFUNC_DEF (scoreheader, data)
+PUTFUNC_DEF (header, data)
+PUTFUNC_DEF (paper, data)
+PUTFUNC_DEF (layout, data)
+PUTFUNC_DEF(movementcontrol, data)
+PUTFUNC_DEF (clef, data)
+PUTFUNC_DEF (timesig, data)
+PUTFUNC_DEF (tuplet, data)
+PUTFUNC_DEF (stemdirective, data)
+PUTFUNC_DEF (keysig, data)
+
+
 GETFUNC_DEF (note, midibytes)
 GETFUNC_DEF (chord, midibytes)
 GETFUNC_DEF (standalone, midibytes) 

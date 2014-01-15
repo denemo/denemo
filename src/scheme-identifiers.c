@@ -391,7 +391,42 @@ create_scheme_identfiers (void)
   INSTALL_PUT (movementcontrol, minpixels);
 
   //end block to repeat for new  directive fields 
+  INSTALL_GET (standalone, data);
+  INSTALL_GET (chord, data);
+  INSTALL_GET (note, data);
+  INSTALL_GET (staff, data);
+  INSTALL_GET (voice, data);
+  INSTALL_GET (score, data);
+  INSTALL_GET (clef, data);
+  INSTALL_GET (timesig, data);
+  INSTALL_GET (tuplet, data);
+  INSTALL_GET (stemdirective, data);
+  INSTALL_GET (keysig, data);
 
+  INSTALL_GET (scoreheader, data);
+  INSTALL_GET (header, data);
+  INSTALL_GET (paper, data);
+  INSTALL_GET (layout, data);
+  INSTALL_GET (movementcontrol, data);
+
+  INSTALL_PUT (standalone, data);
+  INSTALL_PUT (chord, data);
+  INSTALL_PUT (note, data);
+  INSTALL_PUT (staff, data);
+  INSTALL_PUT (voice, data);
+  INSTALL_PUT (score, data);
+  INSTALL_PUT (clef, data);
+  INSTALL_PUT (timesig, data);
+  INSTALL_PUT (tuplet, data);
+  INSTALL_PUT (stemdirective, data);
+  INSTALL_PUT (keysig, data);
+
+
+  INSTALL_PUT (scoreheader, data);
+  INSTALL_PUT (header, data);
+  INSTALL_PUT (paper, data);
+  INSTALL_PUT (layout, data);
+  INSTALL_PUT (movementcontrol, data);
 
   INSTALL_GET (standalone, grob);
   INSTALL_GET (chord, grob);

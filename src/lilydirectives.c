@@ -1102,8 +1102,8 @@ what##_directive_put_##field(gchar *tag, gchar *value) {\
   return TRUE;\
 }
 #define PUT_STR_FIELD_FUNC(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, directives)
-//#define PUT_STR_FIELD_FUNCS(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, staff_directives)
-//#define PUT_STR_FIELD_FUNCV(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, voice_directives)
+#define PUT_STR_FIELD_FUNCS(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, staff_directives)
+#define PUT_STR_FIELD_FUNCV(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, voice_directives)
   GET_TAG_FUNC (object);
 GET_TAG_FUNC (standalone);
 GET_TAG_FUNC (chord);
@@ -1129,6 +1129,7 @@ GET_TAG_FUNC (movementcontrol);
 
 
 GET_STR_FIELD_FUNC (score, midibytes) GET_STR_FIELD_FUNC (movementcontrol, midibytes) GET_STR_FIELD_FUNC (note, midibytes) GET_STR_FIELD_FUNC (chord, midibytes) GET_STR_FIELD_FUNC (staff, midibytes) GET_STR_FIELD_FUNC (voice, midibytes) GET_STR_FIELD_FUNC (standalone, midibytes) PUT_STR_FIELD_FUNC (note, midibytes) PUT_STR_FIELD_FUNC (chord, midibytes)
+
 //cloned for grob
   GET_STR_FIELD_FUNC (score, grob) GET_STR_FIELD_FUNC (movementcontrol, grob) GET_STR_FIELD_FUNC (note, grob) GET_STR_FIELD_FUNC (chord, grob) GET_STR_FIELD_FUNC (staff, grob) GET_STR_FIELD_FUNC (voice, grob) GET_STR_FIELD_FUNC (clef, grob) GET_STR_FIELD_FUNC (timesig, grob) GET_STR_FIELD_FUNC (keysig, grob) GET_STR_FIELD_FUNC (tuplet, grob) GET_STR_FIELD_FUNC (stemdirective, grob) GET_STR_FIELD_FUNC (standalone, grob) PUT_STR_FIELD_FUNC (score, grob)
 //PUT_STR_FIELD_FUNC(staff, grob)
@@ -1136,6 +1137,37 @@ GET_STR_FIELD_FUNC (score, midibytes) GET_STR_FIELD_FUNC (movementcontrol, midib
   PUT_STR_FIELD_FUNC (note, grob) PUT_STR_FIELD_FUNC (chord, grob) PUT_STR_FIELD_FUNC (clef, grob) PUT_STR_FIELD_FUNC (timesig, grob) PUT_STR_FIELD_FUNC (keysig, grob) PUT_STR_FIELD_FUNC (tuplet, grob) PUT_STR_FIELD_FUNC (stemdirective, grob)
 //PUT_STR_FIELD_FUNC(standalone, grob)
 //end of clone for grob
+
+//this set for the "data" field is complete I think. For some reason others fields have incomplete sets of get/put functions.
+//In particular, the S and V versions of the macros, that enable staff and voice directives to be accessed were commented out for some reason and needed to be put back for this set.
+  GET_STR_FIELD_FUNC (score, data) 
+  GET_STR_FIELD_FUNC (scoreheader, data)
+  GET_STR_FIELD_FUNC (header, data)
+  GET_STR_FIELD_FUNC (paper, data)
+  GET_STR_FIELD_FUNC (layout, data)
+  GET_STR_FIELD_FUNC (movementcontrol, data) 
+  GET_STR_FIELD_FUNC (note, data) 
+  GET_STR_FIELD_FUNC (chord, data) 
+  GET_STR_FIELD_FUNC (staff, data) 
+  GET_STR_FIELD_FUNC (voice, data) 
+  GET_STR_FIELD_FUNC (clef, data) 
+  GET_STR_FIELD_FUNC (timesig, data) 
+  GET_STR_FIELD_FUNC (keysig, data) GET_STR_FIELD_FUNC (tuplet, data) GET_STR_FIELD_FUNC (stemdirective, data) GET_STR_FIELD_FUNC (standalone, data) 
+
+
+  PUT_STR_FIELD_FUNC (score, data)
+  PUT_STR_FIELD_FUNC (scoreheader, data)
+  PUT_STR_FIELD_FUNC (header, data)
+  PUT_STR_FIELD_FUNC (paper, data)
+  PUT_STR_FIELD_FUNC (layout, data)
+  PUT_STR_FIELD_FUNCS(staff, data)
+  PUT_STR_FIELD_FUNCV(voice, data)
+  PUT_STR_FIELD_FUNC (movementcontrol, data)
+  PUT_STR_FIELD_FUNC (note, data) PUT_STR_FIELD_FUNC (chord, data) PUT_STR_FIELD_FUNC (clef, data) PUT_STR_FIELD_FUNC (timesig, data) PUT_STR_FIELD_FUNC (keysig, data) PUT_STR_FIELD_FUNC (tuplet, data) PUT_STR_FIELD_FUNC (stemdirective, data)
+//PUT_STR_FIELD_FUNC(standalone, data) // done separately below...
+//end of set for data
+
+
   GET_STR_FIELD_FUNC (chord, prefix)
 GET_STR_FIELD_FUNC (chord, postfix)
 GET_STR_FIELD_FUNC (chord, display)
@@ -1876,6 +1908,7 @@ STANDALONE_PUT_STR_FIELD_FUNC (midibytes);
 
 STANDALONE_PUT_STR_FIELD_FUNC (grob);
 
+STANDALONE_PUT_STR_FIELD_FUNC (data);
 
 
 
@@ -2490,6 +2523,7 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
   ADDINTENTRY (_("Graphic Position"), gx, gy);
   TEXTENTRY (_("Tag"), tag);
   TEXTENTRY (_("LilyPond Grob Name"), grob);
+    TEXTENTRY (_("Scheme Data"), data);
   TEXTENTRY (_("MidiBytes"), midibytes);
   NEWINTENTRY (_("Override Mask"), override);
   NEWINTENTRY (_("Minimum pixel width"), minpixels);

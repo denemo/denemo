@@ -371,15 +371,16 @@ newDirectivesElem (xmlNodePtr objElem, xmlNsPtr ns, GList * g, gchar * type)
 #define DO_DIREC(field)  if (directive->field \
                    && directive->field->len)\
                       xmlNewTextChild (directiveElem, ns, (xmlChar *) #field,\
-				     (xmlChar *) directive->field->str);
+                     (xmlChar *) directive->field->str);
 #define DO_INTDIREC(field)   if(directive->field) newXMLIntChild (directiveElem, ns, (xmlChar *) #field,\
-				             directive->field);
+                             directive->field);
       DO_DIREC (tag);
       DO_DIREC (prefix);
       DO_DIREC (postfix);
       DO_DIREC (display);
       DO_DIREC (midibytes);
       DO_DIREC (grob);
+      DO_DIREC (data);
       DO_DIREC (graphic_name);
 
       DO_INTDIREC (minpixels);
@@ -1289,21 +1290,22 @@ exportXML (gchar * thefilename, DenemoProject * gui)
                         xmlSetProp (objElem, (xmlChar *) "locked", (xmlChar *) "true");
 
 #define SETSTRING_PROP(field)\
-		  if(((lilydirective *) curObj->object)->field && ((lilydirective *) curObj->object)->field->len)\
-		    xmlSetProp (objElem, (xmlChar *) #field,\
-			      (xmlChar *) (((lilydirective *) curObj->object)->field->str));
+          if(((lilydirective *) curObj->object)->field && ((lilydirective *) curObj->object)->field->len)\
+            xmlSetProp (objElem, (xmlChar *) #field,\
+                  (xmlChar *) (((lilydirective *) curObj->object)->field->str));
 
                       SETSTRING_PROP (tag);
                       SETSTRING_PROP (display);
                       SETSTRING_PROP (midibytes);
                       SETSTRING_PROP (grob);
+                      SETSTRING_PROP (data);
                       SETSTRING_PROP (graphic_name);
                       SETSTRING_PROP (prefix);  //postfix done above, for backward compatibility
 #undef SETSTRING_PROP
 
 #define SETINT_PROP(x)\
-		    if(((lilydirective *) curObj->object)->x) newXMLIntProp (objElem, (xmlChar *) #x, \
-				   (((lilydirective *) curObj->object)->x));
+            if(((lilydirective *) curObj->object)->x) newXMLIntProp (objElem, (xmlChar *) #x, \
+                   (((lilydirective *) curObj->object)->x));
                       SETINT_PROP (x);
                       SETINT_PROP (y);
                       SETINT_PROP (tx);
