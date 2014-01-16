@@ -1359,6 +1359,14 @@ actions/menus/ObjectMenu/NotesRests/StemControl/StartUpStems.scm
 actions/menus/ObjectMenu/NotesRests/StemControl/StartUpStems.xml
 actions/menus/ObjectMenu/NotesRests/TiedNotes/InsertTiedNoteDuration.scm
 actions/menus/ObjectMenu/NotesRests/TiedNotes/InsertTiedNoteDuration.xml
+actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieFlatter.scm
+actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieFlatter.xml
+actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieHigher.scm
+actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieHigher.xml
+actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieWider.scm
+actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieWider.xml
+actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/TieShape.scm
+actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/TieShape.xml
 actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteDownTie.scm
 actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteDownTie.xml
 actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteTie.scm
