@@ -46,4 +46,5 @@ void set_voice_termination (GString * str, DenemoStaff * curstaffstruct);
 void set_staff_termination (GString * str, DenemoStaff * curstaffstruct);
 void set_voice_definition (GString * str, DenemoStaff * curstaffstruct, gchar * denemo_name);
 void set_staff_definition (GString * str, DenemoStaff * curstaffstruct, gchar * denemo_name);
+void init_lilypond_buffer(void);
 #endif

@@ -1467,14 +1467,17 @@ score_status (DenemoProject * gui, gboolean change)
       gui->changecount++;
       gui->movement->changecount++;
       if (just_changed)
-        set_title_bar (gui);
+        if(!Denemo.non_interactive)
+          set_title_bar (gui);
     }
   else
     {
       gui->notsaved = FALSE;
-      set_title_bar (gui);
+      if(!Denemo.non_interactive)
+        set_title_bar (gui);
     }
-  write_status (gui);
+  if(!Denemo.non_interactive)
+    write_status (gui);
 }
 
 /**

@@ -611,6 +611,7 @@ inner_main (void *files)
 #endif
 
   initprefs ();
+  init_lilypond_buffer();
   
   //project Initializations
   if(!Denemo.non_interactive)

@@ -681,60 +681,61 @@ create_thumbnail (gboolean async)
   g_stat (thumbpathN, &thebuf);
 
   unsigned mtime_thumb = thebuf.st_mtime;
-  if (mtime_thumb < mtime)
+  if (mtime_thumb >= mtime)
+    return FALSE;
+
+  g_info("Creating thumbnail %s", thumbpathN);
+  gint saved = g_list_index (Denemo.project->movements, Denemo.project->movement);
+  Denemo.project->movement = Denemo.project->movements->data; //Thumbnail is from first movement
+  //set selection to thumbnailselection, if not set, to the selection, if not set to first three measures of staff 1
+  if (Denemo.project->thumbnail.firststaffmarked)
+    memcpy (&Denemo.project->movement->selection, &Denemo.project->thumbnail, sizeof (DenemoSelection));
+  else if (Denemo.project->movement->selection.firststaffmarked)
+    memcpy (&Denemo.project->thumbnail, &Denemo.project->movement->selection, sizeof (DenemoSelection));
+  else
     {
-      g_info("Creating thumbnail %s", thumbpathN);
-      gint saved = g_list_index (Denemo.project->movements, Denemo.project->movement);
-      Denemo.project->movement = Denemo.project->movements->data; //Thumbnail is from first movement
-      //set selection to thumbnailselection, if not set, to the selection, if not set to first three measures of staff 1
-      if (Denemo.project->thumbnail.firststaffmarked)
-        memcpy (&Denemo.project->movement->selection, &Denemo.project->thumbnail, sizeof (DenemoSelection));
-      else if (Denemo.project->movement->selection.firststaffmarked)
-        memcpy (&Denemo.project->thumbnail, &Denemo.project->movement->selection, sizeof (DenemoSelection));
-      else
-        {
-          Denemo.project->thumbnail.firststaffmarked = 1;
-          Denemo.project->thumbnail.laststaffmarked = 3;
-          Denemo.project->thumbnail.firstmeasuremarked = 1;
-          Denemo.project->thumbnail.lastmeasuremarked = 3;
-          Denemo.project->thumbnail.firstobjmarked = 0;
-          Denemo.project->thumbnail.lastobjmarked = 100;        //or find out how many there are
-          memcpy (&Denemo.project->movement->selection, &Denemo.project->thumbnail, sizeof (DenemoSelection));
-        }
-      Denemo.project->movement->markstaffnum = Denemo.project->movement->selection.firststaffmarked;
-      gchar *printname = get_thumb_printname ();
-      Denemo.project->lilycontrol.excerpt = TRUE;
-
-      if (async)
-        {
-          gchar *arguments[] = {
-            g_build_filename (get_system_bin_dir (), "denemo", NULL),
-            "-n", "-a", "(d-CreateThumbnail #f)(d-Exit)",
-            Denemo.project->filename->str,
-            NULL
-          };
-
-          g_spawn_async_with_pipes (NULL,   /* any dir */
-                                    arguments, NULL,        /* env */
-                                    G_SPAWN_SEARCH_PATH, NULL,      /* child setup func */
-                                    NULL,   /* user data */
-                                    NULL,   /* pid */
-                                    NULL,   /* stdin */
-                                    NULL,   /* stdout */
-                                    NULL,   /* stderr */
-                                    &err);
-        }
-      else
-        {
-          export_png (printname, NULL, Denemo.project);
-          thumb_finished ();
-        }
-
-      g_free (printname);
-      Denemo.project->movement = g_list_nth_data (Denemo.project->movements, saved);
-      if (Denemo.project->movement == NULL)
-        Denemo.project->movement = Denemo.project->movements->data;
+      Denemo.project->thumbnail.firststaffmarked = 1;
+      Denemo.project->thumbnail.laststaffmarked = 3;
+      Denemo.project->thumbnail.firstmeasuremarked = 1;
+      Denemo.project->thumbnail.lastmeasuremarked = 3;
+      Denemo.project->thumbnail.firstobjmarked = 0;
+      Denemo.project->thumbnail.lastobjmarked = 100;        //or find out how many there are
+      memcpy (&Denemo.project->movement->selection, &Denemo.project->thumbnail, sizeof (DenemoSelection));
     }
+  Denemo.project->movement->markstaffnum = Denemo.project->movement->selection.firststaffmarked;
+  gchar *printname = get_thumb_printname ();
+  Denemo.project->lilycontrol.excerpt = TRUE;
+
+  if (async)
+    {
+      gchar *arguments[] = {
+        g_build_filename (get_system_bin_dir (), "denemo", NULL),
+        "-n", "-a", "(d-CreateThumbnail #f)(d-Exit)",
+        Denemo.project->filename->str,
+        NULL
+      };
+
+      g_spawn_async_with_pipes (NULL,   /* any dir */
+                                arguments, NULL,        /* env */
+                                G_SPAWN_SEARCH_PATH, NULL,      /* child setup func */
+                                NULL,   /* user data */
+                                NULL,   /* pid */
+                                NULL,   /* stdin */
+                                NULL,   /* stdout */
+                                NULL,   /* stderr */
+                                &err);
+    }
+  else
+    {
+      export_png (printname, NULL, Denemo.project);
+      thumb_finished ();
+    }
+
+  g_free (printname);
+  Denemo.project->movement = g_list_nth_data (Denemo.project->movements, saved);
+  if (Denemo.project->movement == NULL)
+    Denemo.project->movement = Denemo.project->movements->data;
+
   return TRUE;
 }
 

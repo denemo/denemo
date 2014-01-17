@@ -219,7 +219,7 @@ insert_section (GString ** str, gchar * markname, gchar * name, GtkTextIter * it
   if (str)
     gui->anchors = g_list_prepend (gui->anchors, objanc);
 
-  if (name)
+  if (!Denemo.non_interactive && name)
     {
       if (!strcmp (markname, "standard scoreblock"))
         {
@@ -3016,44 +3016,8 @@ void drag_begin (void)
 }
 
 void
-create_lilywindow (void)
-{
-  Denemo.textwindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  //gtk_window_set_position (GTK_WINDOW (Denemo.textwindow), GTK_WIN_POS_NONE);
-  gtk_window_set_default_size (GTK_WINDOW (Denemo.textwindow), 800, 600);
-  gtk_window_set_title (GTK_WINDOW (Denemo.textwindow), "LilyPond Text - Denemo");
-  g_signal_connect (G_OBJECT (Denemo.textwindow), "delete-event", G_CALLBACK (lilywindow_closed), NULL);
-
-  GtkWidget *top_pane = (GtkWidget*)gtk_vpaned_new ();
-  GtkWidget *vbox = (GtkWidget*)gtk_vbox_new (FALSE, 8);
-  gtk_paned_add2 (GTK_PANED (top_pane), vbox);//gtk_container_add (GTK_CONTAINER (Denemo.textwindow), top_pane);
-  gtk_container_add (GTK_CONTAINER (Denemo.textwindow), top_pane);
-  create_console (vbox);
-
-  GtkWidget *view = gtk_text_view_new ();
-  GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
-  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_paned_add1 (GTK_PANED (top_pane), sw);
-  gtk_container_add (GTK_CONTAINER (sw), view);
-  
-  gtk_paned_set_position (GTK_PANED (top_pane), 500);
-  gtk_widget_show_all (top_pane);
-
+init_lilypond_buffer(void){
   tagtable = (GtkTextTagTable *) gtk_text_tag_table_new ();
- 
-  Denemo.textview = (GtkTextView *) view;
-
-#if 1
-  g_signal_connect (G_OBJECT (Denemo.textview), "key-press-event", G_CALLBACK (lily_keypress), NULL);
-#endif
-
-  g_signal_connect (G_OBJECT (Denemo.textview), "populate-popup", G_CALLBACK (populate_called), NULL);
-
-  g_signal_connect (G_OBJECT (Denemo.textview), "button-release-event", G_CALLBACK (position_display_cursor), NULL);
-
-
-
-  /*   g_object_set_data(G_OBJECT (SIGNAL_WIDGET),"enter-signal", (gpointer)id); */
   GtkTextTag *t;
 
   t = gtk_text_tag_new ("system_invisible");
@@ -3083,6 +3047,46 @@ create_lilywindow (void)
 
 
   Denemo.textbuffer = gtk_text_buffer_new (tagtable);
+}
+
+void
+create_lilywindow (void)
+{
+  Denemo.textwindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  //gtk_window_set_position (GTK_WINDOW (Denemo.textwindow), GTK_WIN_POS_NONE);
+  gtk_window_set_default_size (GTK_WINDOW (Denemo.textwindow), 800, 600);
+  gtk_window_set_title (GTK_WINDOW (Denemo.textwindow), "LilyPond Text - Denemo");
+  g_signal_connect (G_OBJECT (Denemo.textwindow), "delete-event", G_CALLBACK (lilywindow_closed), NULL);
+
+  GtkWidget *top_pane = (GtkWidget*)gtk_vpaned_new ();
+  GtkWidget *vbox = (GtkWidget*)gtk_vbox_new (FALSE, 8);
+  gtk_paned_add2 (GTK_PANED (top_pane), vbox);//gtk_container_add (GTK_CONTAINER (Denemo.textwindow), top_pane);
+  gtk_container_add (GTK_CONTAINER (Denemo.textwindow), top_pane);
+  create_console (vbox);
+
+  GtkWidget *view = gtk_text_view_new ();
+  GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_paned_add1 (GTK_PANED (top_pane), sw);
+  gtk_container_add (GTK_CONTAINER (sw), view);
+  
+  gtk_paned_set_position (GTK_PANED (top_pane), 500);
+  gtk_widget_show_all (top_pane);
+
+  Denemo.textview = (GtkTextView *) view;
+
+#if 1
+  g_signal_connect (G_OBJECT (Denemo.textview), "key-press-event", G_CALLBACK (lily_keypress), NULL);
+#endif
+
+  g_signal_connect (G_OBJECT (Denemo.textview), "populate-popup", G_CALLBACK (populate_called), NULL);
+
+  g_signal_connect (G_OBJECT (Denemo.textview), "button-release-event", G_CALLBACK (position_display_cursor), NULL);
+
+
+
+  /*   g_object_set_data(G_OBJECT (SIGNAL_WIDGET),"enter-signal", (gpointer)id); */
+
   gtk_text_view_set_buffer (GTK_TEXT_VIEW (Denemo.textview), Denemo.textbuffer);
   //gui->lilysync = G_MAXUINT;//buffer not yet up to date
 
