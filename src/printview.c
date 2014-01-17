@@ -2141,7 +2141,7 @@ toggle_updates (G_GNUC_UNUSED GtkWidget * menu_item, GtkWidget * button)
 }
 
 static void
-set_typeset_type (GtkWidget * radiobutton)
+set_typeset_type (GtkWidget * radiobutton, GtkWidget *rangebox)
 {
   if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radiobutton)))
     {
@@ -2152,12 +2152,15 @@ set_typeset_type (GtkWidget * radiobutton)
         {
         case 0:
           get_print_status()->typeset_type = TYPESET_EXCERPT;
+          gtk_widget_set_sensitive (rangebox, TRUE);
           break;
         case 1:
           get_print_status()->typeset_type = TYPESET_MOVEMENT;
+          gtk_widget_set_sensitive (rangebox, FALSE);
           break;
         case 2:
           get_print_status()->typeset_type = TYPESET_ALL_MOVEMENTS;
+          gtk_widget_set_sensitive (rangebox, FALSE);
         }
       if (Denemo.prefs.persistence)
         Denemo.prefs.typesettype = get_print_status()->typeset_type;
@@ -2183,14 +2186,15 @@ range_dialog (void)
   static GtkWidget *dialog;
   if (dialog == NULL)
     {
-
-
       dialog = gtk_dialog_new ();
       GtkWidget *area = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
       GtkWidget *vbox = gtk_vbox_new (FALSE, 1);
       gtk_container_add (GTK_CONTAINER (area), vbox);
       GtkWidget *hbox = gtk_hbox_new (FALSE, 1);
-      gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
+      GtkWidget *rangeBox = gtk_vbox_new (FALSE, 1);
+      gtk_box_pack_start (GTK_BOX (vbox), rangeBox, TRUE, TRUE, 0);
+      
+      gtk_box_pack_start (GTK_BOX (rangeBox), hbox, TRUE, TRUE, 0);
 
       GtkWidget *label = gtk_label_new (_("Measures before cursor:"));
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 8);
@@ -2210,7 +2214,7 @@ range_dialog (void)
       gtk_box_pack_start (GTK_BOX (hbox), spinner, TRUE, TRUE, 0);
 
       hbox = gtk_hbox_new (FALSE, 1);
-      gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
+      gtk_box_pack_start (GTK_BOX (rangeBox), hbox, TRUE, TRUE, 0);
 
       label = gtk_label_new (_("Staffs before cursor:"));
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 8);
@@ -2231,25 +2235,26 @@ range_dialog (void)
       hbox = gtk_hbox_new (FALSE, 1);
       gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 
-      hbox = gtk_hbox_new (FALSE, 1);
-      gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
+   //   hbox = gtk_hbox_new (FALSE, 1);
+    //  gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 
 
       GtkWidget *button0 = gtk_radio_button_new_with_label_from_widget (NULL, _("All Movements"));
-      g_signal_connect (G_OBJECT (button0), "toggled", G_CALLBACK (set_typeset_type), NULL);
+      g_signal_connect (G_OBJECT (button0), "toggled", G_CALLBACK (set_typeset_type), rangeBox);
       gtk_widget_set_tooltip_text (button0, _("If checked the current layout is re-typeset at every change"));
       gtk_box_pack_start (GTK_BOX (hbox), button0, TRUE, TRUE, 0);
 
       GtkWidget *button1 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (button0), _("Current Movement"));
-      g_signal_connect (G_OBJECT (button1), "toggled", G_CALLBACK (set_typeset_type), NULL);
+      g_signal_connect (G_OBJECT (button1), "toggled", G_CALLBACK (set_typeset_type), rangeBox);
       gtk_widget_set_tooltip_text (button1, _("If checked the current movement is re-typeset at every change"));
       gtk_box_pack_start (GTK_BOX (hbox), button1, TRUE, TRUE, 0);
 
 
       GtkWidget *button2 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (button0), _("Cursor Context"));
-      g_signal_connect (G_OBJECT (button2), "toggled", G_CALLBACK (set_typeset_type), NULL);
+      g_signal_connect (G_OBJECT (button2), "toggled", G_CALLBACK (set_typeset_type), rangeBox);
       gtk_widget_set_tooltip_text (button2, _("If checked the range around the current cursor position is re-typeset at every change or when the cursor moves out of range."));
       gtk_box_pack_start (GTK_BOX (hbox), button2, TRUE, TRUE, 0);
+      gtk_widget_set_sensitive (rangeBox, FALSE);
       if (Denemo.prefs.typesettype == TYPESET_MOVEMENT)
         gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button1), TRUE);
       if (Denemo.prefs.typesettype == TYPESET_EXCERPT)
