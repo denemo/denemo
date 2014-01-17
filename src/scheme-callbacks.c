@@ -972,17 +972,18 @@ scheme_get_checksum (SCM str)
 }
 
 SCM
-scheme_create_thumbnail (SCM optional)
+scheme_create_thumbnail (SCM optional, SCM filename)
 {
 #ifndef USE_EVINCE
   g_debug("This feature requires denemo to be built with evince");
   return SCM_BOOL_F;
 #else
+  gchar* path = !SCM_UNBNDP (filename) ? scm_to_locale_string(filename) : NULL;
   gboolean ret;
   if ((!SCM_UNBNDP (optional)) && scm_is_true (optional))
-    ret = create_thumbnail (TRUE);
+    ret = create_thumbnail (TRUE, path);
   else
-    ret = create_thumbnail (FALSE);
+    ret = create_thumbnail (FALSE, path);
   return SCM_BOOL (ret);
 #endif
 }

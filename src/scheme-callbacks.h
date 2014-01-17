@@ -259,7 +259,7 @@ SCM scheme_push_clipboard (SCM);
 SCM scheme_pop_clipboard (SCM);
 SCM scheme_delete_selection (SCM);
 SCM scheme_set_thumbnail_selection (SCM);
-SCM scheme_create_thumbnail (SCM);
+SCM scheme_create_thumbnail (SCM, SCM);
 SCM scheme_exit (SCM);
 SCM scheme_take_snapshot (SCM);
 SCM scheme_select_default_layout (void);

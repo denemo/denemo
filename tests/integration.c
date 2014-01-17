@@ -1,5 +1,6 @@
 #include <glib.h>
 #include <unistd.h>
+#include <config.h>
 
 /* Integration tests are those which launch the program in different 
  * environments, and with different parameters.
@@ -9,6 +10,9 @@
 #define DATA_DIR "integration-data"
 #define TEMP_DIR "integration-tmp"
 
+static gchar* data_dir = NULL;
+static gchar* temp_dir = NULL;
+
 /*******************************************************************************
  * SETUP AND TEARDOWN
  ******************************************************************************/
@@ -16,18 +20,24 @@
 static void
 setup(gpointer fixture, gconstpointer data)
 {
-  if(!g_file_test(TEMP_DIR, G_FILE_TEST_EXISTS)){
-    if(g_mkdir(TEMP_DIR, 0777) < 0)
-      g_warning("Could not create " TEMP_DIR);
+  if(!data_dir)
+    data_dir = g_build_filename(PACKAGE_SOURCE_DIR, "tests", DATA_DIR, NULL);
+
+  if(!temp_dir)
+    temp_dir = g_build_filename(g_get_current_dir (), TEMP_DIR, NULL);
+  
+  if(!g_file_test(temp_dir, G_FILE_TEST_EXISTS)){
+    if(g_mkdir(temp_dir, 0777) < 0)
+      g_warning("Could not create %s", temp_dir);
   }
 }
 
 static void
 teardown(gpointer fixture, gconstpointer data)
 {  
-  if(g_file_test(TEMP_DIR, G_FILE_TEST_EXISTS)){
-    if(g_remove(TEMP_DIR) < 0)
-      g_warning("Could not remove " TEMP_DIR);
+  if(g_file_test(temp_dir, G_FILE_TEST_EXISTS)){
+    if(g_remove(temp_dir) < 0)
+      g_warning("Could not remove %s", temp_dir);
   }
 }
 
@@ -55,9 +65,10 @@ test_run_and_quit (gpointer fixture, gconstpointer data)
 static void
 test_open_blank_file(gpointer fixture, gconstpointer data)
 {
+  gchar* input = g_build_filename(data_dir, "blank.denemo", NULL);
   if (g_test_trap_fork (0, 0))
     {
-      execl(DENEMO, DENEMO, "-n", "-e", DATA_DIR "/blank.denemo", NULL);
+      execl(DENEMO, DENEMO, "-n", "-e", input, NULL);
       g_warn_if_reached ();
     }
   g_test_trap_assert_passed ();
@@ -70,8 +81,8 @@ test_open_blank_file(gpointer fixture, gconstpointer data)
 static void
 test_open_save_blank_file(gpointer fixture, gconstpointer data)
 {
-  const gchar* output = TEMP_DIR "/blank.denemo";
-  const gchar* input  = DATA_DIR "/blank.denemo";
+  const gchar* output = g_build_filename(temp_dir, "blank.denemo", NULL);
+  const gchar* input  = g_build_filename(data_dir, "blank.denemo", NULL);
   gchar* input_contents = NULL;
   gchar* output_contents = NULL;
 
@@ -141,6 +152,28 @@ test_scheme_log_error(gpointer fixture, gconstpointer data)
   g_test_trap_assert_failed ();
 }
 
+/** test_thumbnailer
+ * Tries to create a thumbnail from a file and check that its exists
+ */
+static void
+test_thumbnailer(gpointer fixture, gconstpointer data)
+{
+  gchar* thumbnail = g_build_filename(temp_dir, "thumbnail.png", NULL);
+  gchar* scheme = g_strdup_printf( "(d-CreateThumbnail #f \"%s\")(d-Exit)", thumbnail, temp_dir);
+  gchar* input = g_build_filename(data_dir, "blank.denemo", NULL);
+  
+  g_printf("Running scheme: %s %s\n", scheme, input);
+  if (g_test_trap_fork (0, 0))
+    {
+      execl(DENEMO, DENEMO, "-n", "-e", "-V", "-a", scheme, input, NULL);
+      g_warn_if_reached ();
+    }
+
+  g_test_trap_assert_passed ();
+  g_assert(g_file_test(thumbnail, G_FILE_TEST_EXISTS));
+  g_assert(g_remove(thumbnail) >= 0);
+}
+
 /*******************************************************************************
  * MAIN
  ******************************************************************************/
@@ -159,6 +192,7 @@ main (int argc, char *argv[])
   //g_test_add ("/integration/invalid-scheme", void, NULL, setup, test_invalid_scheme, teardown);
   g_test_add ("/integration/scheme-log", void, NULL, setup, test_scheme_log, teardown);
   g_test_add ("/integration/scheme-log-error", void, NULL, setup, test_scheme_log_error, teardown);
+  g_test_add ("/integration/thumbnailer", void, NULL, setup, test_thumbnailer, teardown);
 
   return g_test_run ();
 }

@@ -774,7 +774,7 @@ close_project (void)
   //FIXME why was this here??? activate_action("/MainMenu/InputMenu/KeyboardOnly");
 #ifdef USE_EVINCE  
   if (Denemo.prefs.enable_thumbnails)
-    create_thumbnail (TRUE);
+    create_thumbnail (TRUE, NULL);
 #endif
   if (Denemo.autosaveid)
     {

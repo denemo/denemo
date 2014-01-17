@@ -131,7 +131,7 @@ gchar *get_lily_version_string (void);
 void export_pdf (gchar * filename, DenemoProject * gui);
 void export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui);
 void printpng_finished (GPid pid, gint status, GList * filelist);
-gboolean create_thumbnail (gboolean async);
+gboolean create_thumbnail (gboolean async, gchar* thumbnail_path);
 gchar *large_thumbnail_name (gchar * filepath);
 gboolean stop_lilypond ();
 void process_lilypond_errors (gchar * filename);

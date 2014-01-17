@@ -705,26 +705,36 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui)
     NULL
   };
 
+  gchar* output = g_strconcat(filename, ".png", NULL);
+  g_debug("Generating %s from Lilypond", output);
+
   /* generate the png file */
   if (finish)
     {
       gint error = run_lilypond (arguments);
       if (!error)
         g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) finish, (gchar *) filelist);
+
+      if(!g_file_test(output, G_FILE_TEST_EXISTS))
+        g_critical("Lilypond has not generated %s", output);
     }
   else
     {
       GError *err = NULL;
       g_spawn_sync (locateprintdir (),  /* dir */
-                    arguments, NULL,    /* env */
-                    G_SPAWN_SEARCH_PATH, NULL,  /* child setup func */
+                    arguments, 
+                    NULL,    /* env */
+                    G_SPAWN_SEARCH_PATH, 
+                    NULL,  /* child setup func */
                     NULL,       /* user data */
                     NULL,       /* stdout */
                     NULL,       /* stderr */
                     NULL, &err);
-      //These are in tmpdir and can be used for the .eps file, so don't delete them   g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
+      //These are in tmpdir and can be used for the .eps file, so don't delete them   
+      //g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
       g_list_free (filelist);
     }
+  g_free(output);
 }
 
 /**

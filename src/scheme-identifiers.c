@@ -1077,7 +1077,7 @@ create_scheme_identfiers (void)
 
   install_scm_function (0, "Sets the selection to be used for a thumbnail. Returns #f if no selection or selection not in first movement else #t.", DENEMO_SCHEME_PREFIX "SetThumbnailSelection", scheme_set_thumbnail_selection);
 
-  install_scm_function (0, "Creates a thumbnail for the current score. With no argument it waits for the thumbnail to complete, freezing any display. With #t it generates the thumbnail asynchrously. It does not report on completion.", DENEMO_SCHEME_PREFIX "CreateThumbnail", scheme_create_thumbnail);
+  install_scm_function (1, "Creates a thumbnail for the current score. With no argument it waits for the thumbnail to complete, freezing any display. With #t it generates the thumbnail asynchrously. It does not report on completion.", DENEMO_SCHEME_PREFIX "CreateThumbnail", scheme_create_thumbnail);
 
   install_scm_function (0, "Exits Denemo without saving history, prefs etc.", DENEMO_SCHEME_PREFIX "Exit", scheme_exit);
 
