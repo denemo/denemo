@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>Void</action>
+        <after>AutoAccidentals</after>
+        <_label>Hide Next</_label>
+        <_tooltip>On printing the next music item will be omitted from the score. Use with conditional directives to leave out music for certain layouts.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
