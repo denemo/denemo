@@ -1451,6 +1451,8 @@ else use tag
 static void
 set_directive_graphic_label (DenemoDirective * directive)
 {
+  if(Denemo.non_interactive)
+    return;
   gchar *value;
   if (directive->display && directive->display->len > 0)
     value = get_label_text (directive, directive->display->str);
@@ -1542,6 +1544,7 @@ if directive is non-DenemoObject directive it  places the widget in the appropri
 void
 widget_for_directive_menu (DenemoDirective * directive, void fn (), GtkMenu * menu)
 {
+  if(Denemo.non_interactive) return;
   GtkWidget *box;
   gchar *value = "";
   //FIXME we don't need value now...
@@ -1631,6 +1634,7 @@ widget_for_directive_menu (DenemoDirective * directive, void fn (), GtkMenu * me
 void
 widget_for_directive (DenemoDirective * directive, void fn ())
 {
+  if(Denemo.non_interactive) return;
   GtkMenu *menu = NULL;
   if (Denemo.project->movement)
     {

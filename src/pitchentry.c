@@ -570,7 +570,7 @@ get_enharmonic_position (void)
 
 static void
 enharmonic_step (gboolean sharp)
-{
+{if(Denemo.non_interactive) return;
   gchar *sharpestname, *flattestname;
   if (sharp)
     sharpen (PR_label);
