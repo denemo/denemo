@@ -6288,7 +6288,13 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Widen/Make Narrower</_label>
         <_tooltip>Makes the next tie wider/narrower by the amount given. The change is relative to the default value.</_tooltip>
       </row>
-
+      <row type="scheme">
+        <action>Void</action>
+        <after>AutoAccidentals</after>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
+        <_label>Hide Next</_label>
+        <_tooltip>On printing the next music item will be omitted from the score. Use with conditional directives to leave out music for certain layouts.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
