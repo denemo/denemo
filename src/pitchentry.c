@@ -552,6 +552,7 @@ adjust_tonal_center (gint * accs)
 void
 set_enharmonic_position (gint position)
 {
+    if(Denemo.non_interactive) return;
   while (position < enharmonic_position)
     {
       set_flatter (NULL, NULL);

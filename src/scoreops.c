@@ -62,10 +62,10 @@ point_to_new_movement (DenemoProject * gui)
 }
 
 static void select_movement (gint movementnum) {
-	goto_movement_staff_obj (NULL, movementnum, 0, 0, 0);
-	set_movement_selector (Denemo.project);
-	displayhelper (Denemo.project);
-	write_status (Denemo.project);	
+    goto_movement_staff_obj (NULL, movementnum, 0, 0, 0);
+    set_movement_selector (Denemo.project);
+    displayhelper (Denemo.project);
+    write_status (Denemo.project);  
 }
 
 #define NUM_MOVEMENTS_TO_SHOW (2*5)
@@ -76,7 +76,7 @@ void set_movement_selector (DenemoProject *gui)
   gint i;
   
   if(gui->movements_selector)
-	  gtk_widget_destroy (gui->movements_selector);
+      gtk_widget_destroy (gui->movements_selector);
   gui->movements_selector = (GtkWidget*)gtk_hbox_new(FALSE,1);
   gtk_box_pack_start(GTK_BOX(gui->buttonbox), gui->movements_selector,  FALSE, TRUE, 0);
   gtk_widget_show (gui->movements_selector);
@@ -84,57 +84,57 @@ void set_movement_selector (DenemoProject *gui)
   gint last = 1;
   gint first = 1;
   if(gui->movements) {
-	  gint current = g_list_index (gui->movements, gui->movement) + 1;
-	  num_movements = g_list_length(gui->movements);
-	  first = current - NUM_MOVEMENTS_TO_SHOW/2;
-	  if(first<1) first = 1;
-	  last = first + NUM_MOVEMENTS_TO_SHOW -1;
-	  
-	  if(last>num_movements) 
-	  {
-		  last = num_movements;
-		  first = num_movements - NUM_MOVEMENTS_TO_SHOW;
-		  if(first<1) first = 1;
-		}
+      gint current = g_list_index (gui->movements, gui->movement) + 1;
+      num_movements = g_list_length(gui->movements);
+      first = current - NUM_MOVEMENTS_TO_SHOW/2;
+      if(first<1) first = 1;
+      last = first + NUM_MOVEMENTS_TO_SHOW -1;
+      
+      if(last>num_movements) 
+      {
+          last = num_movements;
+          first = num_movements - NUM_MOVEMENTS_TO_SHOW;
+          if(first<1) first = 1;
+        }
   }
   for (g=gui->movements, i=1;g;g=g->next, i++)
-	{
-		if(i<first)
-			continue;
-		if(i>last)
-			continue;
-		button = gtk_button_new_with_label("");
-		if (g->data == gui->movement)
-		{
-			gchar *text = g_strdup_printf("<span foreground=\"blue\"><i><b>%d</b></i></span>", i);
-			GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));
-			gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
-			gtk_label_set_markup (GTK_LABEL (label_widget), text);
-			g_free(text);
-			text = g_strdup_printf(_("This is the current movement number %d\nClick on another button to change movements"), i);
-			gtk_widget_set_tooltip_text (button, text);
-			g_free(text);
-		} else 
-		{
-			gchar *more = "";
-			if((last<num_movements) && (i==last))
-				more = "+...";
-			gchar *text = g_strdup_printf("%d%s", i, more);
-			gtk_button_set_label (button, text);
-			g_free(text);
-			text = g_strdup_printf(_("Click to switch to movement number %d"), i);
-			gtk_widget_set_tooltip_text (button, text);
-			g_free(text);
-		}
-		
-		
-		gtk_widget_set_can_focus (button, FALSE);
-		gtk_widget_show(button);
-		g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (select_movement), (gpointer) i);
-		gtk_box_pack_start (GTK_BOX(gui->movements_selector), button,  FALSE, TRUE, 0);
-	}
-	if(i==2) 
-		gtk_widget_hide (gui->movements_selector);
+    {
+        if(i<first)
+            continue;
+        if(i>last)
+            continue;
+        button = gtk_button_new_with_label("");
+        if (g->data == gui->movement)
+        {
+            gchar *text = g_strdup_printf("<span foreground=\"blue\"><i><b>%d</b></i></span>", i);
+            GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));
+            gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
+            gtk_label_set_markup (GTK_LABEL (label_widget), text);
+            g_free(text);
+            text = g_strdup_printf(_("This is the current movement number %d\nClick on another button to change movements"), i);
+            gtk_widget_set_tooltip_text (button, text);
+            g_free(text);
+        } else 
+        {
+            gchar *more = "";
+            if((last<num_movements) && (i==last))
+                more = "+...";
+            gchar *text = g_strdup_printf("%d%s", i, more);
+            gtk_button_set_label (button, text);
+            g_free(text);
+            text = g_strdup_printf(_("Click to switch to movement number %d"), i);
+            gtk_widget_set_tooltip_text (button, text);
+            g_free(text);
+        }
+        
+        
+        gtk_widget_set_can_focus (button, FALSE);
+        gtk_widget_show(button);
+        g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (select_movement), (gpointer) i);
+        gtk_box_pack_start (GTK_BOX(gui->movements_selector), button,  FALSE, TRUE, 0);
+    }
+    if(i==2) 
+        gtk_widget_hide (gui->movements_selector);
 }
 static void
 new_movement (GtkAction * action, DenemoScriptParam * param, gboolean before)
@@ -428,6 +428,7 @@ next_movement (GtkAction * action, DenemoScriptParam * param)
         warningmessage (_("This is the last movement"));
       return;
     }
+  if(Denemo.non_interactive) return;
   gtk_widget_hide (gui->movement->buttonbox);
   if (gui->movement->lyricsbox)
     gtk_widget_hide (gui->movement->lyricsbox);
@@ -477,6 +478,7 @@ prev_movement (GtkAction * action, DenemoScriptParam * param)
         warningmessage (_("This is the first movement"));
       return;
     }
+  if(Denemo.non_interactive) return;
   gtk_widget_hide (gui->movement->buttonbox);
   if (gui->movement->lyricsbox)
     gtk_widget_hide (gui->movement->lyricsbox);
