@@ -195,6 +195,9 @@ next_syllable (gint count)
 void
 reset_lyrics (DenemoStaff * staff, gint count)
 {
+  if(Denemo.non_interactive)
+    return;
+
   if (DummyVerse == NULL)
     DummyVerse = gtk_text_view_new ();
   if (staff && staff->currentverse)
