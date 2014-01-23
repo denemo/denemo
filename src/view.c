@@ -432,11 +432,10 @@ static void
 load_scheme_init (void)
 {
   //Denemo.project->movement->undo_guard++;
-  gchar* dirs[] = {
-    g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, NULL),
-    g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL),
-    NULL
-  };
+  GList* dirs = NULL;
+  dirs = g_list_append(dirs, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, NULL));
+  dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL));
+
   gchar *filename = find_path_for_file(SCHEME_INIT, dirs);
 
   g_debug ("System wide denemo.scm %s\n", filename);
@@ -2890,19 +2889,15 @@ loadGraphicItem (gchar * name, DenemoGraphic ** xbm)
       return TRUE;
     }
 
-  gchar* files[] = {
-    g_strconcat (name, ".png", NULL),
-    g_strconcat (name, ".svg", NULL),
-    NULL
-  };
+  GList* files = NULL;
+  files = g_list_append(files, g_strconcat (name, ".png", NULL));
+  files = g_list_append(files, g_strconcat (name, ".svg", NULL));
   
-  gchar* dirs[] = {
-    g_build_filename (locatebitmapsdir (), NULL),
-    g_build_filename (locatedownloadbitmapsdir (), NULL),
-    g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, "bitmaps", NULL),
-    g_build_filename (get_system_data_dir (), COMMANDS_DIR, "bitmaps", NULL),
-    NULL
-  };
+  GList* dirs = NULL;
+  dirs = g_list_append(dirs, g_build_filename (locatebitmapsdir (), NULL));
+  dirs = g_list_append(dirs, g_build_filename (locatedownloadbitmapsdir (), NULL));
+  dirs = g_list_append(dirs, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, "bitmaps", NULL));
+  dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "bitmaps", NULL));
 
   gboolean success = TRUE;
   gchar *dir = find_dir_for_files (files, dirs);
@@ -4270,11 +4265,10 @@ create_window (void)
   g_message ("Denemo icon not used");
   //not installed on windows ... data_file = g_build_filename (get_system_data_dir (), "icons","denemo.png", NULL);
 #else
-  gchar* icon_dirs[] = {
-    g_build_filename(PACKAGE_SOURCE_DIR, PIXMAPS_DIR, NULL),
-    g_strconcat (get_system_data_dir (), "/../pixmaps", NULL), //FIXME installed in wrong place?
-    NULL
-  };
+  GList* icon_dirs = NULL;
+  icon_dirs = g_list_append(icon_dirs, g_build_filename(PACKAGE_SOURCE_DIR, PIXMAPS_DIR, NULL));
+  icon_dirs = g_list_append(icon_dirs, g_strconcat (get_system_data_dir (), "/../pixmaps", NULL)); //FIXME installed in wrong place?
+
   data_file = find_path_for_file("denemo.png", icon_dirs);
   if(data_file)
     gtk_window_set_default_icon_from_file (data_file, NULL);
@@ -4323,11 +4317,9 @@ create_window (void)
   //accel_group = gtk_ui_manager_get_accel_group (ui_manager);
   //gtk_window_add_accel_group (GTK_WINDOW (Denemo.window), accel_group);
 
-  gchar* dirs[] = {
-    g_build_filename(PACKAGE_SOURCE_DIR, UI_DIR, NULL),
-    g_build_filename(get_system_data_dir (), UI_DIR, NULL),
-    NULL
-  };
+  GList* dirs = NULL;
+  dirs = g_list_append(dirs, g_build_filename(PACKAGE_SOURCE_DIR, UI_DIR, NULL));
+  dirs = g_list_append(dirs, g_build_filename(get_system_data_dir (), UI_DIR, NULL));
 
   denemoui_path = find_path_for_file("denemoui.xml", dirs);
 

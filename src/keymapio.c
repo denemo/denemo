@@ -7,13 +7,12 @@ static gchar*
 find_command_dir(GtkAction* action, gchar* filename)
 {
   gchar *menupath = (gchar *) g_object_get_data (G_OBJECT (action), "menupath");
-  gchar* dirs[] = {
-      g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, "menus", menupath, NULL),
-      g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, NULL),
-      g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", menupath, NULL),
-      g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", menupath, NULL),
-      NULL
-  };
+  GList* dirs = NULL;
+  dirs = g_list_append(dirs, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, "menus", menupath, NULL));
+  dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, NULL));
+  dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", menupath, NULL));
+  dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", menupath, NULL));
+
   return find_dir_for_file (filename, dirs);
 }
 

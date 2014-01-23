@@ -49,7 +49,7 @@
 
 /**
  * load_keymap_files:
- * @files: The files to test. Must end with NULL. String are freed.
+ * @files: The files to test. String are freed.
  *
  * Takes a list of keymap and try to load them until one is loaded successfully.
  *
@@ -57,19 +57,19 @@
  **/
 
 static gboolean
-load_keymap_files(gchar* files[])
+load_keymap_files(GList* files)
 {
   gboolean ret = FALSE;
-  gint i;
+  GList *cur = NULL;
 
-  for(i = 0; files[i]; i++)
-    if(g_file_test(files[i], G_FILE_TEST_EXISTS))
+  for(cur = files; cur; cur = cur->next)
+    if(g_file_test(cur->data, G_FILE_TEST_EXISTS))
     {      
-      if(!ret && load_xml_keymap(files[i]) == 0){
-        g_message("Loaded keymap %s", files[i]);
+      if(!ret && load_xml_keymap(cur->data) == 0){
+        g_message("Loaded keymap %s", cur->data);
         ret = TRUE;
       }
-      g_free(files[i]);
+      g_free(cur->data);
     }
   return ret;
 }
@@ -1507,7 +1507,7 @@ get_user_keymap_dir ()
 void
 load_keymap_from_dialog (gchar * filename)
 {
-  gchar* files[] = { g_strdup(filename), NULL };
+  GList* files = g_list_append(NULL, g_strdup(filename));
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
     load_keymap_files (files);
   g_free (filename);
@@ -1562,28 +1562,19 @@ load_default_keymap_file ()
 {
   gchar* user_keymap_file = g_strconcat (USER_KEYMAP, KEYMAP_EXT, NULL);
   gchar* default_keymap_file = g_strconcat (DEFAULT_KEYMAP, KEYMAP_EXT, NULL);
-  gchar *upgrade = NULL;
-  if(Denemo.old_user_data_dir) 
-    {
-     upgrade = g_build_filename (Denemo.old_user_data_dir, COMMANDS_DIR, user_keymap_file, NULL);
-    }
-  gchar* files[] = {  
-    g_build_filename (get_user_keymap_dir (), user_keymap_file, NULL),
-    g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, user_keymap_file, NULL),
-    g_build_filename (get_system_data_dir (), COMMANDS_DIR, user_keymap_file, NULL),
-    g_build_filename (get_user_keymap_dir (), default_keymap_file, NULL),
-    g_build_filename (get_system_data_dir (), COMMANDS_DIR, default_keymap_file, NULL),
-    NULL
-  };
+  GList* files = NULL;
+
+  files = g_list_append(files, g_build_filename (get_user_keymap_dir (), user_keymap_file, NULL));
+  files = g_list_append(files, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, user_keymap_file, NULL));
+  files = g_list_append(files, g_build_filename (get_system_data_dir (), COMMANDS_DIR, user_keymap_file, NULL));
+  files = g_list_append(files, g_build_filename (get_user_keymap_dir (), default_keymap_file, NULL));
+  files = g_list_append(files, g_build_filename (get_system_data_dir (), COMMANDS_DIR, default_keymap_file, NULL));
 
   if(!load_keymap_files (files))
     g_warning ("Unable to load default keymap");
     
-  if(upgrade) {
-      gchar* files[] = {
-          upgrade,
-          NULL
-      };
+  if(Denemo.old_user_data_dir) {
+    files = g_list_append(NULL, g_build_filename (Denemo.old_user_data_dir, COMMANDS_DIR, user_keymap_file, NULL));
 
     if(!load_keymap_files (files))
       g_warning ("Unable to former default keymap");
