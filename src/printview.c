@@ -66,6 +66,10 @@ libevince_print (void)
 {
   GError *err = NULL;
   gchar *filename = get_print_status()->printname_pdf[get_print_status()->cycle];
+  if(filename==NULL) { 
+      g_warning ("Typesetting not done? No output filename set.");
+      return -1;
+  }
   gchar *uri = g_filename_to_uri (filename, NULL, &err);
 
   if (err)
