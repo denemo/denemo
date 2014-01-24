@@ -56,7 +56,7 @@
  * Returns: FALSE if no keymap has been loaded, TRUE either.
  **/
 
-static gboolean
+gboolean
 load_keymap_files(GList* files)
 {
   gboolean ret = FALSE;
