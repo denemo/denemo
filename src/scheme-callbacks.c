@@ -526,23 +526,16 @@ lilypond_to_enshift (gchar * enshift_name)
 SCM
 scheme_execute_init (gchar * menupath)
 {
-  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, INIT_SCM, NULL);
-  if (g_file_test (filename, G_FILE_TEST_EXISTS))
-    {
-      g_message ("About to load from %s", filename);
-      eval_file_with_catch (filename);  //ret = scm_c_primitive_load(filename);
-    }
-  else
-    {
-      g_free (filename);
-      filename = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", menupath, INIT_SCM, NULL);
-      if (g_file_test (filename, G_FILE_TEST_EXISTS))
-        {
-          g_message ("About to load from %s", filename);
-          eval_file_with_catch (filename);      //ret = scm_c_primitive_load(filename);
-        }
-      g_free (filename);
-    }
+  GList* dirs = NULL;
+  dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, NULL));
+  dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", menupath, NULL));
+
+  gchar* path = find_path_for_file (INIT_SCM, dirs);
+  if(!path)
+    g_error("Could not load scheme init file");
+  
+  g_message ("About to load from %s", path);
+  eval_file_with_catch (path);  //ret = scm_c_primitive_load(filename);
   return SCM_BOOL (TRUE);
 }
 
@@ -586,24 +579,14 @@ scheme_load_command (SCM command)
   gboolean ret;
   char *name;
   name = scm_to_locale_string (command);
-  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", name, NULL);
-  ret = load_xml_keymap (filename);
-  if (ret == FALSE)
-    {
-      g_free (filename);
-      filename = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, name, NULL);
-      ret = load_xml_keymap (filename);
-    }
-  if (ret == FALSE)
-    {
-      g_free (filename);
-      filename = g_build_filename (get_system_data_dir (), COMMANDS_DIR, name, NULL);
-      ret = load_xml_keymap (filename);
-    }
+  GList* files = NULL;
+  files = g_list_append(files, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", name, NULL));
+  files = g_list_append(files, g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, name, NULL));
+  files = g_list_append(files, g_build_filename (get_system_data_dir (), COMMANDS_DIR, name, NULL));
+  ret = load_keymap_files(files);
+
   if (name)
     free (name);
-  if (filename)
-    g_free (filename);
   return SCM_BOOL (ret);
 }
 
@@ -771,33 +754,15 @@ scheme_load_keybindings (SCM name)
   if (scm_is_string (name))
     {
       filename = scm_to_locale_string (name);
-      if (load_xml_keybindings (filename) == 0)
-        {
-          free (filename);
-          return SCM_BOOL_T;
-        }
-      gchar *name = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, filename, NULL);
-      if (load_xml_keybindings (name) == 0)
-        {
-          free (filename);
-          //g_free(name); CHECKME
-          return SCM_BOOL_T;
-        }
+      GList* files = NULL;
+
+      files = g_list_append(files, g_strdup(filename));
+      files = g_list_append(files, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, filename, NULL));
+      files = g_list_append(files, g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, filename, NULL));
+      files = g_list_append(files, g_build_filename (get_system_data_dir (), COMMANDS_DIR, filename, NULL));
       g_free (name);
-      name = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, filename, NULL);
-      if (load_xml_keybindings (name) == 0)
-        {
-          //g_free(name); CHECKME
-          return SCM_BOOL_T;
-        }
-      g_free (name);
-      name = g_build_filename (get_system_data_dir (), COMMANDS_DIR, filename, NULL);
-      if (load_xml_keybindings (name) == 0)
-        {
-          //g_free(name); CHECKME
-          return SCM_BOOL_T;
-        }
-      g_free (name);
+
+      return SCM_BOOL(load_keymap_files(files));
     }
   //if (name) g_free(name); CHECKME
   return SCM_BOOL_F;

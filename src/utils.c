@@ -2417,27 +2417,23 @@ initialize_keystroke_help (void)
  * Returns: The dir path if found, NULL either
  **/
 gchar*
-find_dir_for_file(gchar* filename, gchar* dirs[])
+find_dir_for_file(gchar* filename, GList* dirs)
 {
   gchar *dir = NULL;
   gchar *path = NULL;
-  gint i;
+  GList* curdir = NULL;
 
-  for(i = 0; dirs[i]; i++)
+  for(curdir = dirs ; curdir ; curdir = g_list_next(curdir))
   {
-	  //g_debug("Searching %s\n", dirs[i]);
     if(!dir)
     {
-      path = g_build_filename (dirs[i], filename, NULL);
+      path = g_build_filename (curdir->data, filename, NULL);
       if(g_file_test (path, G_FILE_TEST_EXISTS))
-        {
-		 dir = g_strdup(dirs[i]);
-			//g_debug("Found file %s\n", path);
-		} else
-			//g_debug("No file %s\n", path);
-      g_free(path);
+	      dir = g_strdup(curdir->data);
+      else
+        g_free(path);
     }
-    g_free(dirs[i]);
+    g_free(curdir->data);
   }
   return dir;
 }
@@ -2445,32 +2441,33 @@ find_dir_for_file(gchar* filename, gchar* dirs[])
 /**
  * find_dir_for_files:
  * @files: The files to search
- * @dirs: A dir paths array, ending by NULL, where to search.
+ * @dirs: A dir paths list, where to search.
  *
  * Finds the first dir in the list that contains 'filename', and free the array.
  *
  * Returns: The dir path if found, NULL either
  **/
 gchar*
-find_dir_for_files(gchar* files[], gchar* dirs[])
+find_dir_for_files(GList* files, GList* dirs)
 {
   gchar *dir = NULL;
   gchar *path = NULL;
-  gint d, f;
+  GList* curdir = NULL;
+  GList* curfile = NULL;
 
-  for(d = 0; dirs[d]; d++)
+  for(curdir = dirs; curdir; curdir = g_list_next(curdir))
   {
-    for(f = 0; files[f]; f++)
+    for(curfile = files; curfile; curfile = g_list_next(curfile))
     {
       if(!dir)
       {
-        path = g_build_filename (dirs[d], files[f], NULL);
+        path = g_build_filename (curdir->data, curfile->data, NULL);
         if(g_file_test (path, G_FILE_TEST_EXISTS))
-          dir = g_strdup(dirs[d]);
+          dir = g_strdup(curdir->data);
         g_free(path);
       }
     }
-    g_free(dirs[d]);
+    g_free(curdir->data);
   }
   return dir;
 }
@@ -2478,14 +2475,14 @@ find_dir_for_files(gchar* files[], gchar* dirs[])
 /**
  * find_path_for_file:
  * @filename: The file to search
- * @dirs: A dir paths array, ending by NULL, where to search.
+ * @dirs: A dir paths list, where to search.
  *
  * Finds the first dir in the list that contains 'filename', and free the array.
  *
  * Returns: The file path if found, NULL either
  **/
 gchar*
-find_path_for_file(gchar* filename, gchar* dirs[])
+find_path_for_file(gchar* filename, GList* dirs)
 {
   gchar* dir = find_dir_for_file (filename, dirs);
   if(dir){
@@ -2574,12 +2571,10 @@ gchar*
 find_denemo_file (DenemoDirectory dir, gchar* filename)
 {
   //g_debug("find_denemo_file called with %d and %s\n", dir, filename);
-  gchar* dirs[] = {
-    g_build_filename(get_executable_dir (TRUE), "..", get_local_dir (dir), NULL),
-    g_build_filename(get_user_data_dir (TRUE), get_local_dir (dir), NULL),
-    g_strdup(get_system_dir(dir)),
-    NULL
-  };
+  GList* dirs = NULL;
+  dirs = g_list_append(dirs, g_build_filename(get_executable_dir (TRUE), "..", get_local_dir (dir), NULL));
+  dirs = g_list_append(dirs, g_build_filename(get_user_data_dir (TRUE), get_local_dir (dir), NULL));
+  dirs = g_list_append(dirs, g_strdup(get_system_dir(dir)));
  
   return find_path_for_file (filename, dirs);
 }

@@ -267,11 +267,9 @@ init_environment()
 #else
   add_font_directory (g_build_filename (get_system_data_dir (), "fonts", NULL));
 
-  gchar* dirs[] = {
-    g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, NULL),
-    g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL),
-    NULL
-  };
+  GList* dirs = NULL;
+  dirs = g_list_append(dirs, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, NULL));
+  dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL));
   gchar* data_dir = find_dir_for_file ("denemo.scm", dirs);
 
   append_to_path ("GUILE_LOAD_PATH",

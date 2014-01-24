@@ -1285,29 +1285,17 @@ GET_INT_FIELD_FUNC (voice, gy) GET_INT_FIELD_FUNC (standalone, override) GET_INT
   GET_INT_GRAPHIC_FIELD_FUNC (note, width)
 GET_INT_GRAPHIC_FIELD_FUNC (chord, width) GET_INT_GRAPHIC_FIELD_FUNC (staff, width) GET_INT_GRAPHIC_FIELD_FUNC (voice, width) GET_INT_GRAPHIC_FIELD_FUNC (standalone, width) GET_INT_GRAPHIC_FIELD_FUNC (score, width) GET_INT_GRAPHIC_FIELD_FUNC (note, height) GET_INT_GRAPHIC_FIELD_FUNC (chord, height) GET_INT_GRAPHIC_FIELD_FUNC (staff, height) GET_INT_GRAPHIC_FIELD_FUNC (voice, height) GET_INT_GRAPHIC_FIELD_FUNC (standalone, height) GET_INT_GRAPHIC_FIELD_FUNC (score, height)
 /* return a full path to an editscript for directive or NULL if there is none */
-     static gchar *
-     get_editscript_filename (gchar * tag)
+
+static gchar *
+get_editscript_filename (gchar * tag)
 {
   gchar *basename = g_strconcat (tag, ".scm", NULL);
   gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "editscripts", basename, NULL);
-  if (!g_file_test (filename, G_FILE_TEST_EXISTS))
-    {
-      g_free (filename);
-      filename = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "editscripts", basename, NULL);
-      if (!g_file_test (filename, G_FILE_TEST_EXISTS))
-        {
-          g_free (filename);
-          filename = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "editscripts", basename, NULL);
-          if (!g_file_test (filename, G_FILE_TEST_EXISTS))
-            {
-              g_free (filename);
-              g_free (basename);
-              return NULL;
-            }
-        }
-    }
-  g_free (basename);
-  return filename;
+  GList* dirs = NULL;
+  dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "editscripts", basename, NULL));
+  dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "editscripts", basename, NULL));
+  dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "editscripts", basename, NULL));
+  return find_path_for_file(basename, dirs);
 }
 
 

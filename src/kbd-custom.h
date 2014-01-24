@@ -166,4 +166,5 @@ const gchar *get_menu_label (gchar *name);
 gchar *get_menu_position (gchar *menupath);
 void update_bindings_model(GtkListStore * model, GList* bindings);
 command_row* get_or_create_command(gchar* name);
+gboolean load_keymap_files(GList* files);
 #endif

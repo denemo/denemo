@@ -192,17 +192,13 @@ installPalettes (void)
 
   gchar *filename = NULL;
 
-  gchar* user_data = "";
+  GList* dirs = NULL;
   if(Denemo.old_user_data_dir)
-    user_data = g_build_filename (Denemo.old_user_data_dir, COMMANDS_DIR, NULL);
+    dirs = g_list_append(dirs, g_build_filename (Denemo.old_user_data_dir, COMMANDS_DIR, NULL));
   else
-    user_data = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, NULL);
-  gchar* dirs[] = {
-    user_data,
-    g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, NULL),
-    g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL),
-    NULL
-  };
+    dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, NULL));
+  dirs = g_list_append(dirs, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, NULL));
+  dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL));
 
   filename = find_path_for_file("palettes.xml", dirs);
   if (filename == NULL)

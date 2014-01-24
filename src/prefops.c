@@ -756,10 +756,13 @@ readHistory ()
     {
       filename = g_string_new (g_build_filename (get_user_data_dir (TRUE), "denemohistory", NULL));
     }
+
+  gchar* history = oldhistory ? oldhistory : filename->str;
+
   if(Denemo.old_user_data_dir)
       oldhistory = g_build_filename (Denemo.old_user_data_dir, "denemohistory", NULL);
-  if (g_file_test (oldhistory? oldhistory:filename->str, G_FILE_TEST_EXISTS))
-    doc = xmlParseFile (oldhistory? oldhistory : filename->str);
+  if (g_file_test (history, G_FILE_TEST_EXISTS))
+    doc = xmlParseFile (history);
   else
     return ret;
 
@@ -773,7 +776,7 @@ readHistory ()
   rootElem = xmlDocGetRootElement (doc);
   if (rootElem == NULL)
     {
-      g_warning ("Empty Document");
+      g_warning ("Empty history document");
       xmlFreeDoc (doc);
       return ret;
     }
@@ -785,6 +788,7 @@ readHistory ()
       return ret;
     }
   rootElem = rootElem->xmlChildrenNode;
+  g_message("Reading history file %s", history);
   while (rootElem != NULL)
     {
       if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "History"))
