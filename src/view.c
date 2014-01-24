@@ -2438,23 +2438,19 @@ get_initialization_script (GtkWidget * widget, gchar * directory)
 {
   GError *error = NULL;
   gchar *script;
-  g_debug ("loading %s/init.scm into Denemo.ScriptView\n", directory);
-  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", directory, INIT_SCM, NULL);
-  if (!g_file_test (filename, G_FILE_TEST_EXISTS))
-    {
-      g_free (filename);
-      filename = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", directory, INIT_SCM, NULL);
-      if (!g_file_test (filename, G_FILE_TEST_EXISTS))
-        {
-          g_free (filename);
-          filename = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", directory, INIT_SCM, NULL);
-          if (!g_file_test (filename, G_FILE_TEST_EXISTS))
-            {
-              g_free (filename);
-              return;
-            }
-        }
-    }
+  g_debug ("Loading %s/init.scm into Denemo.ScriptView", directory);
+
+  GList* dirs = NULL;
+  dirs = g_list_append(dirs,  g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", directory, NULL));
+  dirs = g_list_append(dirs,  g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", directory, NULL));
+  dirs = g_list_append(dirs,  g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", directory, NULL));
+  gchar* filename = find_path_for_file (INIT_SCM, dirs);
+
+  if(!filename){
+    g_warning("Could not find scm initialization file");
+    return;
+  }
+
   if (g_file_get_contents (filename, &script, NULL, &error))
     appendSchemeText (script);
   else
