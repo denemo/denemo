@@ -531,11 +531,11 @@ scheme_execute_init (gchar * menupath)
   dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", menupath, NULL));
 
   gchar* path = find_path_for_file (INIT_SCM, dirs);
-  if(!path)
-    g_error("Could not load scheme init file");
-  
-  g_message ("About to load from %s", path);
-  eval_file_with_catch (path);  //ret = scm_c_primitive_load(filename);
+
+  if(path){
+    g_message ("About to load from %s", path);
+    eval_file_with_catch (path);  //ret = scm_c_primitive_load(filename);
+  }
   return SCM_BOOL (TRUE);
 }
 
