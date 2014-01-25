@@ -367,6 +367,10 @@ actions/menus/MainMenu/FileMenu/OpenMenu/OpenMyDefaultTemplate.scm
 actions/menus/MainMenu/FileMenu/OpenMenu/OpenMyDefaultTemplate.xml
 actions/menus/MainMenu/FileMenu/OpenMenu/OpenSourceDialog.scm
 actions/menus/MainMenu/FileMenu/OpenMenu/OpenSourceDialog.xml
+actions/menus/MainMenu/FileMenu/PrintMenu/CheckAndPrint.scm
+actions/menus/MainMenu/FileMenu/PrintMenu/CheckAndPrint.xml
+actions/menus/MainMenu/FileMenu/PrintMenu/CheckScoreOnTypesetting.scm
+actions/menus/MainMenu/FileMenu/PrintMenu/CheckScoreOnTypesetting.xml
 actions/menus/MainMenu/FileMenu/PrintMenu/Preview4Bars.scm
 actions/menus/MainMenu/FileMenu/PrintMenu/Preview4Bars.xml
 actions/menus/MainMenu/FileMenu/PrintMenu/PrintAccompanistsScore.scm
@@ -822,8 +826,8 @@ actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm
 actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.xml
 actions/menus/ObjectMenu/MeasureMenu/AddDuplicateMeasure.scm
 actions/menus/ObjectMenu/MeasureMenu/AddDuplicateMeasure.xml
-actions/menus/ObjectMenu/MeasureMenu/CheckBeams.scm
-actions/menus/ObjectMenu/MeasureMenu/CheckBeams.xml
+actions/menus/ObjectMenu/MeasureMenu/CheckBeamsInMeasure.scm
+actions/menus/ObjectMenu/MeasureMenu/CheckBeamsInMeasure.xml
 actions/menus/ObjectMenu/MeasureMenu/CheckTupletsInMeasure.scm
 actions/menus/ObjectMenu/MeasureMenu/CheckTupletsInMeasure.xml
 actions/menus/ObjectMenu/MeasureMenu/DeleteEmptyMeasures.scm
