@@ -6,7 +6,7 @@
     <map>
       <row type="scheme">
         <after>CheckTupletsInMeasure</after>
-        <action>CheckBeams</action>
+        <action>CheckBeamsInMeasure</action>
         <_label>Check Beaming</_label>
         <_tooltip>Checks the current measure for beaming errors.</_tooltip>
       </row>

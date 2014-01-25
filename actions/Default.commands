@@ -2971,7 +2971,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>Runs your browser on a page giving access to denemo's internet relay chat</_tooltip>
       </row>
       <row type="scheme">
-        <action>CheckBeams</action>
+        <action>CheckBeamsInMeasure</action>
         <after>CheckTupletsInMeasure</after>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <_label>Check Beaming</_label>
@@ -6294,6 +6294,13 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <menupath>/ObjectMenu/Directives/Typesetter</menupath>
         <_label>Hide Next</_label>
         <_tooltip>On printing the next music item will be omitted from the score. Use with conditional directives to leave out music for certain layouts.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>CheckAndPrint</action>
+        <after>Print</after>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
+        <_label>Check and Print</_label>
+        <_tooltip>Checks the score for errors, if none are found proceeds to typeset and print the current layout.</_tooltip>
       </row>
     </map>
   </merge>
