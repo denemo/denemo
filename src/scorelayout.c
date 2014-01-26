@@ -533,7 +533,14 @@ clone_scoreblock (DenemoScoreblock * sb, gchar * name)
 static void
 customize_standard_scoreblock_callback (GtkWidget * widget, DenemoScoreblock * sb)
 {
-  clone_scoreblock (sb, NULL);
+    if(confirm (_("Customize Layout"), _("Replace Standard Layout?")))
+    { static gboolean warned;
+        clone_scoreblock (sb, sb->name);
+        if(!warned)
+            infodialog (_("This layout will be used in place of the standard one, unless you delete it.\nAny new staffs added to the score will not appear in it unless you edit it."));
+        warned = TRUE;
+    } else
+    clone_scoreblock (sb, NULL);        
 }
 
 static void
@@ -2787,7 +2794,7 @@ text_modified (GtkTextBuffer * textbuffer, DenemoScoreblock * sb)
 DenemoScoreblock *
 get_scoreblock_for_lilypond (gchar * lily)
 {
-  gchar *text = _("The LilyPond text for this layout can be edited in the LilyPond view window.");
+  gchar *text = _("The LilyPond text for this layout can be edited in the LilyPond view window.\nYou can safely delete this layout if you no longer need it\n(for example if you have made structural changes to the score\nnot reflected in this layout).");
   gchar *name = NULL;
   GtkWidget *frame = gtk_frame_new (_(LILYPOND_TEXT_EDITOR));
   DenemoScoreblock *sb = g_malloc0 (sizeof (DenemoScoreblock));
