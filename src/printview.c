@@ -8,7 +8,7 @@
 #include "view.h"
 #include "scorelayout.h"
 #include "lilydirectives.h"
-
+static gint changecount = -1;   //changecount when the printfile was last created FIXME multiple tabs are muddled
 static gchar *thumbnailsdirN = NULL;
 static gchar *thumbnailsdirL = NULL;
 
@@ -542,7 +542,8 @@ refresh_print_view (G_GNUC_UNUSED gboolean interactive)
 void
 print_from_print_view (gboolean all_movements)
 {
-
+  if(!all_movements)
+    changecount = -1;
   start_busy_cursor ();
   if (all_movements ? typeset (FALSE) : typeset_movement (FALSE))
     {
@@ -553,6 +554,8 @@ print_from_print_view (gboolean all_movements)
       start_normal_cursor ();
       libevince_print ();       //printview_finished (get_print_status()->printpid, 0, TRUE);
     }
+  if(!all_movements) 
+    changecount = Denemo.project->changecount;
 }
 
 static gchar *
@@ -2023,15 +2026,18 @@ typeset_control (gpointer data)
 
 //Callback for the command PrintView
 //Ensures the print view window is visible.
-//when called back as an action it calls create_all_pdf() provided the score has changed
+//if refresh_if_needed it calls create_all_pdf() provided the score has changed
 void
-_show_print_view (GtkAction * action)
+implement_show_print_view (gboolean refresh_if_needed)
 {
   present_print_view_window();
-  if (action && (changecount != Denemo.project->changecount || Denemo.project->lilysync != Denemo.project->changecount))
+  if (refresh_if_needed && (changecount != Denemo.project->changecount || Denemo.project->lilysync != Denemo.project->changecount))
     {
-      if (!initialize_typesetting ())
+      if (!initialize_typesetting ()) 
+        {
         typeset_control (create_all_pdf);
+        changecount = Denemo.project->changecount;
+        }
     }
 }
 

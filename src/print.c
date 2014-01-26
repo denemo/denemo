@@ -47,7 +47,7 @@ typedef struct lilyversion
 
 gint LilyPond_stderr = -1;       //A file descriptor to pipe for LilyPond's stderr
 GError *lily_err = NULL;
-gint changecount = -1;   //changecount when the printfile was last created FIXME multiple tabs are muddled
+
 GPid previewerpid = GPID_NONE;
 
 printstatus*
@@ -742,7 +742,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui)
  * calls exportmudela and then  
  * runs lilypond to a create a filename.pdf
  *
- *	@param filename filename to save score to
+ *  @param filename filename to save score to
  *  @param gui pointer to the DenemoProject structure
  */
 void
@@ -856,9 +856,7 @@ printmovement_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptPa
 #ifndef USE_EVINCE  
   g_debug("This feature requires denemo to be built with evince");
 #else
-  changecount = -1;
   print_from_print_view (FALSE);
-  changecount = Denemo.project->changecount;
 #endif
 }
 
@@ -867,6 +865,6 @@ show_print_view (GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param){
 #ifndef USE_EVINCE  
   g_debug("This feature requires denemo to be built with evince");
 #else
-  _show_print_view(action);
+  implement_show_print_view(action!=NULL);
 #endif
 }

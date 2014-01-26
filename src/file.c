@@ -1,10 +1,10 @@
-/*	file.c
+/*  file.c
  * License: this file may be used under the FSF GPL version 3 or later
- * 	Denemo File IO 
+ *  Denemo File IO 
  *
- * 	for Denemo, a gtk+ frontend to GNU Lilypond
- * 	(c) Adam Tee, Matthew Hiller 2000-2005
- * 	(c) University of Leeds 2000-2005
+ *  for Denemo, a gtk+ frontend to GNU Lilypond
+ *  (c) Adam Tee, Matthew Hiller 2000-2005
+ *  (c) University of Leeds 2000-2005
  *      (c) Richard Shann 2010
  */
 
@@ -131,7 +131,7 @@ static gboolean
 confirm_save (DenemoProject * gui, gchar * primary, gchar * secondary)
 {
   if (Denemo.non_interactive)
-	return TRUE;
+    return TRUE;
   GtkWidget *dialog;
   gboolean r = FALSE;
 
@@ -366,8 +366,8 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
         {
           g_string_assign (gui->filename, "");
         }
-      if (Denemo.printarea)
-        g_object_set_data (G_OBJECT (Denemo.printarea), "printviewupdate", (gpointer) G_MAXUINT);
+      //if (Denemo.printarea)
+      //  g_object_set_data (G_OBJECT (Denemo.printarea), "printviewupdate", (gpointer) G_MAXUINT);
       if (!xml)
         updatescoreinfo (gui);
       else
@@ -412,8 +412,8 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
 }
 
 /*
-	If the filename format already has the correct extension use
-	it. otherwise add the file name extension 
+    If the filename format already has the correct extension use
+    it. otherwise add the file name extension 
 */
 static gchar *
 create_filename (const gchar * file_name, gint format_id)
@@ -636,9 +636,9 @@ GET_1PARAM(action, param, filename); \
   if (gui->notsaved) \
     { \
       if (filename==NULL && confirmbox (gui)) \
-	{ \
-	  param->status = !template_open (gui, dir, filename); \
-	} \
+    { \
+      param->status = !template_open (gui, dir, filename); \
+    } \
     } \
   else \
     { \
@@ -704,11 +704,11 @@ IMPORT (lilypond)}
 void
 file_import_midi_with_check (GtkAction * action, DenemoScriptParam * param)
 {
-	GET_2PARAMS(action, param, filename, guided);
-	if(guided)
-		file_import_midi (Denemo.project, FALSE, GUIDED_IMPORT, filename);
-	else
-		file_import_midi (Denemo.project, FALSE, REPLACE_SCORE, filename);
+    GET_2PARAMS(action, param, filename, guided);
+    if(guided)
+        file_import_midi (Denemo.project, FALSE, GUIDED_IMPORT, filename);
+    else
+        file_import_midi (Denemo.project, FALSE, REPLACE_SCORE, filename);
 }
 
 void
@@ -829,12 +829,12 @@ update_preview_cb (GtkFileChooser * file_chooser, gpointer data)
   gint i;\
   \
   file_selection = gtk_file_chooser_dialog_new (_(message),\
-						GTK_WINDOW (Denemo.window),\
-						GTK_FILE_CHOOSER_ACTION_OPEN,\
-						GTK_STOCK_CANCEL,\
-						GTK_RESPONSE_REJECT,\
-						GTK_STOCK_OPEN,\
-						GTK_RESPONSE_ACCEPT, NULL);\
+                        GTK_WINDOW (Denemo.window),\
+                        GTK_FILE_CHOOSER_ACTION_OPEN,\
+                        GTK_STOCK_CANCEL,\
+                        GTK_RESPONSE_REJECT,\
+                        GTK_STOCK_OPEN,\
+                        GTK_RESPONSE_ACCEPT, NULL);\
   /* Open the last visited directory, if any. */\
   set_current_folder(file_selection, template);\
   \
@@ -845,22 +845,22 @@ update_preview_cb (GtkFileChooser * file_chooser, gpointer data)
     gtk_file_filter_add_pattern (filter, supported_##format##_file_extension[i]); \
   gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);\
   gtk_dialog_set_default_response (GTK_DIALOG (file_selection),\
-				   GTK_RESPONSE_ACCEPT);\
+                   GTK_RESPONSE_ACCEPT);\
   gtk_widget_show_all (file_selection);\
   GtkWidget *preview;\
   preview = gtk_image_new();\
   gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER (file_selection), preview);\
   g_signal_connect (GTK_FILE_CHOOSER(file_selection), "update-preview",\
-			G_CALLBACK (update_preview_cb), preview);\
+            G_CALLBACK (update_preview_cb), preview);\
   gtk_widget_show_all (preview);\
   if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)\
     {\
       gchar *name =\
-	gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));\
+    gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));\
       if((ret=open_for_real (name, gui, template, type))) {\
-	gchar *warning = g_strdup_printf(_("Load of file %s failed"), name);\
-	warningdialog(warning);\
-	g_free(warning);\
+    gchar *warning = g_strdup_printf(_("Load of file %s failed"), name);\
+    warningdialog(warning);\
+    g_free(warning);\
       }\
       g_free (name);\
     }\
@@ -905,7 +905,7 @@ FILE_OPEN_DIALOG ("Import Lilypond", lilypond, MUDELA_FORMAT)}
 static gint
 file_import_midi (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename)
 {
-	
+    
 FILE_OPEN_DIALOG ("Import Midi", midi, MIDI_FORMAT)}
 
 /**
@@ -975,8 +975,8 @@ file_savewrapper (GtkAction * action, DenemoScriptParam * param)
   DenemoProject *gui = Denemo.project;
   GET_1PARAM (action, param, filename);
   if (filename) {
-	exportXML (filename, gui);
-	return;
+    exportXML (filename, gui);
+    return;
   }
   if (file_save (NULL, gui))
     {
@@ -1042,12 +1042,12 @@ file_dialog_response (GtkWidget * dialog, gint response_id, struct FileDialogDat
   GtkWidget *file_selection;\
   GtkFileFilter *filter;\
   file_selection = gtk_file_chooser_dialog_new (description,\
-						GTK_WINDOW (Denemo.window),\
-						GTK_FILE_CHOOSER_ACTION_SAVE,\
-						GTK_STOCK_CANCEL,\
-						GTK_RESPONSE_REJECT,\
-						GTK_STOCK_SAVE,\
-						GTK_RESPONSE_ACCEPT, NULL);\
+                        GTK_WINDOW (Denemo.window),\
+                        GTK_FILE_CHOOSER_ACTION_SAVE,\
+                        GTK_STOCK_CANCEL,\
+                        GTK_RESPONSE_REJECT,\
+                        GTK_STOCK_SAVE,\
+                        GTK_RESPONSE_ACCEPT, NULL);\
   /*set default folder for saving */\
   set_current_folder(file_selection, template?SAVE_TEMPLATE:SAVE_NORMAL);\
   \
@@ -1063,7 +1063,7 @@ file_dialog_response (GtkWidget * dialog, gint response_id, struct FileDialogDat
   gtk_file_filter_add_pattern (filter, FORMAT_MASK(format_id));\
   gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);\
   gtk_dialog_set_default_response (GTK_DIALOG (file_selection),\
-				   GTK_RESPONSE_ACCEPT);\
+                   GTK_RESPONSE_ACCEPT);\
   gtk_widget_show_all (file_selection);\
   struct FileDialogData *data = (struct FileDialogData *) g_malloc (sizeof (struct FileDialogData));\
   data->template=template;\
@@ -1127,8 +1127,8 @@ file_newwrapper (GtkAction * action, DenemoScriptParam * param)
   deleteSchemeText ();
   gui->has_script = FALSE;
   set_enharmonic_position (0);
-  if (Denemo.printarea)
-    g_object_set_data (G_OBJECT (Denemo.printarea), "printviewupdate", (gpointer) G_MAXUINT);
+ // if (Denemo.printarea)
+  //  g_object_set_data (G_OBJECT (Denemo.printarea), "printviewupdate", (gpointer) G_MAXUINT);
   score_status (gui, FALSE);
   param->status = TRUE;
   g_signal_handlers_unblock_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);

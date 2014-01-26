@@ -3751,9 +3751,10 @@ toggle_print_view (GtkAction * action, gpointer param)
     gtk_widget_hide (w);
   else
     {
-      gtk_widget_show (w);
-      if (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (Denemo.printarea), "printviewupdate")) < Denemo.project->changecount)
-        refresh_print_view (TRUE);
+     // gtk_widget_show (w);
+      //if (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (Denemo.printarea), "printviewupdate")) < Denemo.project->changecount)
+      //  refresh_print_view (TRUE);
+      implement_show_print_view (TRUE);
     }
 #endif
 }

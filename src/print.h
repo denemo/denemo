@@ -116,7 +116,6 @@ typedef struct WysiwygInfo
 
 gint LilyPond_stderr;       //A file descriptor to pipe for LilyPond's stderr
 GError *lily_err;
-gint changecount;   //changecount when the printfile was last created FIXME multiple tabs are muddled
 GPid previewerpid;
 
 WysiwygInfo* get_wysiwyg_info();
