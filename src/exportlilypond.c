@@ -3046,7 +3046,8 @@ init_lilypond_buffer(void){
   gtk_text_tag_table_add (tagtable, t);
 
 
-  Denemo.textbuffer = gtk_text_buffer_new (tagtable);
+  Denemo.textbuffer = gtk_source_buffer_new (tagtable);
+  gtk_source_buffer_set_highlight_syntax (Denemo.textbuffer, TRUE);
 }
 
 void
@@ -3064,7 +3065,7 @@ create_lilywindow (void)
   gtk_container_add (GTK_CONTAINER (Denemo.textwindow), top_pane);
   create_console (vbox);
 
-  GtkWidget *view = gtk_text_view_new ();
+  GtkWidget *view = gtk_source_view_new ();
   GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_paned_add1 (GTK_PANED (top_pane), sw);
@@ -3072,7 +3073,9 @@ create_lilywindow (void)
   
   gtk_paned_set_position (GTK_PANED (top_pane), 500);
   gtk_widget_show_all (top_pane);
-
+  gtk_source_view_set_show_line_numbers (view, TRUE);
+  gtk_source_view_set_highlight_current_line (view, TRUE);
+  gtk_source_view_set_show_line_marks (view, TRUE);
   Denemo.textview = (GtkTextView *) view;
 
 #if 1
