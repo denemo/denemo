@@ -6302,6 +6302,13 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Check and Print</_label>
         <_tooltip>Checks the score for errors, if none are found proceeds to typeset and print the current layout.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>TransposeOnPrint</action>
+        <after>DeactivateTimeSignatureStencil</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Transpose on Print</_label>
+        <_tooltip>Gets an interval from the user: the entire score is transposed by this interval on typesetting - key signatures are transposed as well as notes and chord symbols.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

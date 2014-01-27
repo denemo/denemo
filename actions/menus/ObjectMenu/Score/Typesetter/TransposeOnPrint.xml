@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>TransposeOnPrint</action>
+        <after>DeactivateTimeSignatureStencil</after>
+        <_label>Transpose on Print</_label>
+        <_tooltip>Gets an interval from the user: the entire score is transposed by this interval on typesetting - key signatures are transposed as well as notes and chord symbols.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
