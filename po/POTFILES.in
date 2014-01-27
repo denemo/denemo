@@ -1535,6 +1535,8 @@ actions/menus/ObjectMenu/Score/Typesetter/ToggleWysiwygMarks.scm
 actions/menus/ObjectMenu/Score/Typesetter/ToggleWysiwygMarks.xml
 actions/menus/ObjectMenu/Score/Typesetter/TransposeOctaveUp.scm
 actions/menus/ObjectMenu/Score/Typesetter/TransposeOctaveUp.xml
+actions/menus/ObjectMenu/Score/Typesetter/TransposeOnPrint.scm
+actions/menus/ObjectMenu/Score/Typesetter/TransposeOnPrint.xml
 actions/menus/ObjectMenu/Score/Typesetter/TransposeScorePrint.scm
 actions/menus/ObjectMenu/Score/Typesetter/TransposeScorePrint.xml
 actions/menus/ObjectMenu/StaffMenu/CaptureScore/CaptureMeasuresForStaff.scm
