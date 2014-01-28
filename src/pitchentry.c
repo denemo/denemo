@@ -613,7 +613,7 @@ signal_measure_end (void)
 {
   if (Denemo.prefs.immediateplayback)
     {
-      play_note (DEFAULT_BACKEND, 0 /*port */ , 9, 74, 300, (gint) (100 * Denemo.project->movement->master_volume));
+      play_note (DEFAULT_BACKEND, 0 /*port */ , 9, 74, 300, 127);//(gint) (100 * Denemo.project->movement->master_volume));
     }
 }
 
