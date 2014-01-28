@@ -159,14 +159,14 @@ position_source_window (EvView * view)
 }
 
 static gchar *locate_file (gchar *filename) {
-	if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {	
-	 gchar *basename = g_path_get_basename(filename);
-	 gchar *pathdir = g_path_get_dirname (Denemo.project->filename->str);
-	 filename = g_build_filename (pathdir, basename, NULL);
-	 g_free(basename);
-	 g_free(pathdir);
-	}
-	return filename;
+    if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {    
+     gchar *basename = g_path_get_basename(filename);
+     gchar *pathdir = g_path_get_dirname (Denemo.project->filename->str);
+     filename = g_build_filename (pathdir, basename, NULL);
+     g_free(basename);
+     g_free(pathdir);
+    }
+    return filename;
 }
 static EvView *
 get_view (gchar * filename)
@@ -184,9 +184,9 @@ get_view (gchar * filename)
   g_object_unref (file);
   EvDocument *doc = ev_document_factory_get_document (uri, &err);
   if (err) {
-	  g_critical("Error creating view from URI <%s> : message was %s", uri, err->message);
-	  return NULL;
-	}
+      g_critical("Error creating view from URI <%s> : message was %s", uri, err->message);
+      return NULL;
+    }
   OldMark.width = Mark.width = 0;
   view = (EvView *) ev_view_new ();
   EvDocumentModel *model = ev_document_model_new_with_document (doc);
@@ -194,6 +194,8 @@ get_view (gchar * filename)
 
   ev_view_set_model (view, model);
   GtkWidget *top_vbox = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    gtk_widget_set_tooltip_text (top_vbox, _("To place a link at the Denemo cursor position to a place in this document\nright-click on the place in this document.\nLater you will be able to re-open the document at this place by right clicking on the link in the Denemo display."));
+
   gtk_window_set_title (GTK_WINDOW (top_vbox), g_strdup_printf ("Denemo - Source File: %s", filename));
 
 #if 0
