@@ -133,8 +133,9 @@ struct placement_info
   objnode *the_obj;
   gboolean nextmeasure;
   gboolean offend;              //TRUE when the user has clicked beyond the last note, taking you into appending
+  gboolean at_edge; //TRUE when user clicked close (CURSOR_AT_EDGE) to right hand edge of scorearea.
 };
-
+#define CURSOR_AT_EDGE (60)
 /* find the primary staff of the current staff, return its staffnum */
 static gint
 primary_staff (DenemoMovement * si)
@@ -193,6 +194,7 @@ get_placement_from_coordinates (struct placement_info *pi, gdouble x, gdouble y,
       g_critical ("Array of measurewidths too small for leftmeasure %d\n", leftmeasurenum);
       return;
     }
+  pi->at_edge = (get_widget_width (Denemo.scorearea) -x) < CURSOR_AT_EDGE;
   pi->staff_number = staff_at ((gint) y, si);
   //g_debug("L/R %d %d got staff number %d\n", leftmeasurenum, rightmeasurenum, pi->staff_number); 
   pi->measure_number = leftmeasurenum;
@@ -659,7 +661,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     }
   else if (pi.nextmeasure)
     {
-      if ((pi.the_obj==NULL) || ((pi.the_obj->next == NULL) && (pi.offend)))//crashed here with the_obj 0x131 !!!
+      if ((pi.at_edge) && ((pi.the_obj==NULL) || ((pi.the_obj->next == NULL) && (pi.offend))))//crashed here with the_obj 0x131 !!!
         {
           if ((gui->movement->currentmeasurenum != gui->movement->rightmeasurenum) &&
                 (!moveto_currentmeasurenum (gui, gui->movement->rightmeasurenum + 1)))
