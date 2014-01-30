@@ -823,7 +823,7 @@
   (d-Directive-standalone  "DenemoLink")
   (d-DirectivePut-standalone-postfix "DenemoLink" (string-append "%{" filepos "%}"))
   (d-DirectivePut-standalone-minpixels "DenemoLink" 30)
-  (d-DirectivePut-standalone-graphic "DenemoLink" "\n⬁\n\n36")
+  (d-DirectivePut-standalone-graphic "DenemoLink" "\n⬁\ndenemo\n36")
   (d-DirectivePut-standalone-gy "DenemoLink" 10)
   (d-MoveCursorRight)
   (d-RefreshDisplay))
