@@ -8,7 +8,7 @@
 #define SAME 1
 #define LESSER 0
 #define GPID_NONE (-1)
-#define INSTALLED_LILYPOND_VERSION "2.18"       /* FIXME set via gub */
+#define INSTALLED_LILYPOND_VERSION "2.18.0"       /* FIXME set via gub */
 #define MANUAL _("Manual Updates")
 #define CONTINUOUS _("Continuous")
 
