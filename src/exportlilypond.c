@@ -2796,6 +2796,7 @@ populate_called (G_GNUC_UNUSED GtkWidget * view, GtkMenuShell * menu)
 {
   DenemoProject *gui = Denemo.project;
   //g_debug("populate called with %p\n", menu);
+  gtk_container_foreach (menu, gtk_widget_destroy, NULL);
   prepend_menu_item (menu, gui, _("Find Current Object"), (gpointer) place_cursor_cb, _("Move the text cursor in this window to the object that the Denemo cursor is on"));
   prepend_menu_item (menu, gui, _("Insert LilyPond Text"), (gpointer) insert_lilypond_directive, _("Insert LilyPond text at the cursor position"));
 #ifdef USE_EVINCE  
@@ -3082,7 +3083,7 @@ create_lilywindow (void)
   g_signal_connect (G_OBJECT (Denemo.textview), "key-press-event", G_CALLBACK (lily_keypress), NULL);
 #endif
 
-  g_signal_connect (G_OBJECT (Denemo.textview), "populate-popup", G_CALLBACK (populate_called), NULL);
+  g_signal_connect_after (G_OBJECT (Denemo.textview), "populate-popup", G_CALLBACK (populate_called), NULL);
 
   g_signal_connect (G_OBJECT (Denemo.textview), "button-release-event", G_CALLBACK (position_display_cursor), NULL);
 
