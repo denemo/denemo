@@ -2923,8 +2923,20 @@ lily_keypress (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event)
     }
 #endif
 
-  if (event->state & (GDK_CONTROL_MASK))
-    return FALSE;
+  if (event->state & (GDK_CONTROL_MASK)) {
+      switch (event->keyval) {
+          case 'z': g_warning( "Undo is disabled because gtk source view crashes with its use\n");
+                return TRUE; //Do not allow Ctrl-Z undo as it breaks a lot of stuff
+           case 'c': 
+                return FALSE; 
+           case 'v': 
+                return FALSE; 
+           case 'x': 
+                return FALSE;      
+        default:
+            return TRUE;
+        }
+    }
   // if you have a visible marker you do this gtk_text_iter_backward_cursor_position(&cursor);
   GtkTextChildAnchor *anchor = gtk_text_iter_get_child_anchor (&cursor);
   //g_debug("Got a keypress event at anchor %p\n", anchor);
@@ -2991,6 +3003,8 @@ lily_keypress (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event)
         }                       //if useful keypress??
       g_free (key);
     }                           //if cursor is at anchor
+    
+
   return FALSE;                 //let the normal handler have the keypress
 }
 
