@@ -430,10 +430,11 @@ typedef struct DenemoPrefs
   gint pitchspellingprogram; /**< program to set pitchspellingchannel to on startup */
   gboolean startmidiin; /**< try to start midi in on startup */
   gboolean applytoselection; /**< apply commands to selection */
+  
   gboolean quickshortcuts;/**< TRUE if pressing a key while hovering over a menu item sets a shortcut */
   gboolean overlays; /*< whether overlays or insert should be used with pitch entry */
   gboolean continuous; /*< whether pitch entry overlays should cross barlines */
-  gboolean lilyentrystyle;  
+  gboolean spillover;  /*< whether appending a note that does not fit the measure should cause a spillover to the next measure */
   gboolean createclones;
   gint mode; /**< mode to start in */
   gboolean persistence;/**< whether Denemo should re-use settings over sessions */

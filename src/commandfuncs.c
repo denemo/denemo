@@ -1608,8 +1608,39 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
       changeduration (si, duration);
       return;
     }
-
   insertion_point (si);
+
+//At this point, if it is the user's preference, check if there is room for this duration in the current measure.
+//if not put in a shorter note and tie it, then call recursively to put in the remaining duration.
+//only do this if we are in the appending position
+//The difficulty here is that we do not have the prevailing time signature cached (?), so we do not know when a measure is full. draw.c is used to compute this.
+//well, they are cached as cursortime1 and 2 in the DenemoMovement structure.
+// is the curObj->starttickofnextnote > tickspermeasure where  tickspermeasure = WHOLE_NUMTICKS * time1 / time2
+
+    if(Denemo.prefs.spillover)
+    { 
+    DenemoObject *curObj;
+    
+            if(duration>= 0 && si->currentobject && (curObj=si->currentobject->data))
+            {
+                if(curObj->type==CHORD)
+                    {
+                        gint ticks  = WHOLE_NUMTICKS / (1 << duration);                        
+                        gint tickspermeasure =  WHOLE_NUMTICKS * si->cursortime1 / si->cursortime2;
+                        if ((ticks + curObj->starttickofnextnote) > tickspermeasure)
+                        {
+                            dnm_insertchord (gui, duration+1, mode, rest); 
+                            toggle_tie (NULL, NULL);
+                            dnm_insertchord (gui, duration+1, mode, rest);
+                            return;
+                        }
+                
+                    }
+        }   
+    }
+
+
+
 
   /* Now actually create the chord as an object (before insertion) */
   mudela_obj_new = newchord (duration, 0, 0);

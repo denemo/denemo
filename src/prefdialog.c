@@ -46,6 +46,7 @@ struct callbackdata
   DenemoPrefs *prefs;
   GtkWidget *lilypath;
   GtkWidget *immediateplayback;
+  GtkWidget *spillover;
   GtkWidget *manualtypeset;
   GtkWidget *typesetrefresh;
   GtkWidget *typesettype;
@@ -261,6 +262,7 @@ set_preferences (struct callbackdata *cbdata)
     ASSIGNINT (zoom)
     ASSIGNINT (system_height)
     ASSIGNBOOLEAN (immediateplayback)
+    ASSIGNBOOLEAN (spillover)
     ASSIGNBOOLEAN (manualtypeset)
     ASSIGNINT (typesetrefresh)
     ASSIGNINT (typesettype)
@@ -531,6 +533,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   TEXTENTRY (_("Profile"), profile)
     //  TEXTENTRY(_("Strict"), strictshortcuts)
     BOOLEANENTRY (_("Apply commands to selection if present"), applytoselection);
+     BOOLEANENTRY (_("Spill notes over into next measure"), spillover);
   BOOLEANENTRY (_("Allow Quick Setting of Shortcuts"), quickshortcuts);
 
 

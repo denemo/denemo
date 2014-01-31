@@ -125,7 +125,7 @@ initprefs ()
   ret->pitchspellingprogram = 17;
 
   ret->saveparts = FALSE;
-  ret->lilyentrystyle = FALSE;
+  ret->spillover = TRUE;
   ret->createclones = FALSE;
   ret->enable_thumbnails = TRUE;
   ret->autosave = TRUE;
@@ -318,7 +318,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
         READBOOLXMLENTRY (overlays)
         READBOOLXMLENTRY (enable_thumbnails)
         READBOOLXMLENTRY (continuous)
-        READBOOLXMLENTRY (lilyentrystyle)
+        READBOOLXMLENTRY (spillover)
         READBOOLXMLENTRY (toolbar)
         READBOOLXMLENTRY (midi_in_controls)
         READBOOLXMLENTRY (playback_controls)
@@ -390,7 +390,7 @@ get_bool_pref (gchar * prefname)
     GETBOOLPREF (overlays)
     GETBOOLPREF (enable_thumbnails)
     GETBOOLPREF (continuous)
-    GETBOOLPREF (lilyentrystyle) GETBOOLPREF (toolbar) GETBOOLPREF (midi_in_controls) GETBOOLPREF (playback_controls) GETBOOLPREF (console_pane) GETBOOLPREF (lyrics_pane) GETBOOLPREF (visible_directive_buttons) GETBOOLPREF (rhythm_palette) GETBOOLPREF (object_palette) GETBOOLPREF (autoupdate) GETBOOLPREF (jacktransport_start_stopped) GETBOOLPREF (fluidsynth_reverb) GETBOOLPREF (fluidsynth_chorus) GETBOOLPREF (progressbardecorations) return FALSE;
+    GETBOOLPREF (spillover) GETBOOLPREF (toolbar) GETBOOLPREF (midi_in_controls) GETBOOLPREF (playback_controls) GETBOOLPREF (console_pane) GETBOOLPREF (lyrics_pane) GETBOOLPREF (visible_directive_buttons) GETBOOLPREF (rhythm_palette) GETBOOLPREF (object_palette) GETBOOLPREF (autoupdate) GETBOOLPREF (jacktransport_start_stopped) GETBOOLPREF (fluidsynth_reverb) GETBOOLPREF (fluidsynth_chorus) GETBOOLPREF (progressbardecorations) return FALSE;
 }
 
 #undef GETBOOLPREF
@@ -669,7 +669,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
     WRITEINTXMLENTRY (maxhistory)
     WRITEBOOLXMLENTRY (saveparts)
     WRITEBOOLXMLENTRY (createclones)
-    WRITEBOOLXMLENTRY (lilyentrystyle)
+    WRITEBOOLXMLENTRY (spillover)
     WRITEBOOLXMLENTRY (immediateplayback)
     WRITEBOOLXMLENTRY (manualtypeset)
     WRITEINTXMLENTRY (typesetrefresh)
