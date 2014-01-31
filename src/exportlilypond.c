@@ -53,7 +53,6 @@
 #define HIGHLIGHT "highlight"
 #define ERRORTEXT "error text"
 
-
 gchar *get_postfix (GList * g);
 
 static void output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * partname);
@@ -2798,7 +2797,7 @@ populate_called (G_GNUC_UNUSED GtkWidget * view, GtkMenuShell * menu)
   //g_debug("populate called with %p\n", menu);
   gtk_container_foreach (menu, gtk_widget_destroy, NULL);
   prepend_menu_item (menu, gui, _("Find Current Object"), (gpointer) place_cursor_cb, _("Move the text cursor in this window to the object that the Denemo cursor is on"));
-  prepend_menu_item (menu, gui, _("Insert LilyPond Text"), (gpointer) insert_lilypond_directive, _("Insert LilyPond text at the cursor position"));
+  prepend_menu_item (menu, gui, _("Insert LilyPond Text"), (gpointer) insert_lilypond_directive, _("Insert LilyPond text at the cursor position.\nWarning! Shift click to position Denemo cursor first"));
 #ifdef USE_EVINCE  
   prepend_menu_item (menu, gui, _("Typeset this LilyPond text"), (gpointer) typeset_current_layout, _("Typesets the current LilyPond text, which will display in the Print View window. Any errors are shown below in the errors pane."));
 #endif
@@ -3054,6 +3053,10 @@ init_lilypond_buffer(void){
 void
 create_lilywindow (void)
 {
+  gchar *helptext = _("Shift left click in music in this window to move the Denemo cursor the corresponding position\n"
+  "Using arrows to move the cursor in the music here also moves the Denemo cursor.\n"
+  "Right click for menu.\n"
+  "Turn off continuous typesetting before using the score layout options.");
   Denemo.textwindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   //gtk_window_set_position (GTK_WINDOW (Denemo.textwindow), GTK_WIN_POS_NONE);
   gtk_window_set_default_size (GTK_WINDOW (Denemo.textwindow), 800, 600);
@@ -3062,12 +3065,14 @@ create_lilywindow (void)
 
   GtkWidget *top_pane = (GtkWidget*)gtk_vpaned_new ();
   GtkWidget *vbox = (GtkWidget*)gtk_vbox_new (FALSE, 8);
+  
   gtk_paned_add2 (GTK_PANED (top_pane), vbox);//gtk_container_add (GTK_CONTAINER (Denemo.textwindow), top_pane);
   gtk_container_add (GTK_CONTAINER (Denemo.textwindow), top_pane);
   create_console (vbox);
 
   GtkWidget *view = gtk_source_view_new ();
   GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_set_tooltip_text (sw, helptext);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_paned_add1 (GTK_PANED (top_pane), sw);
   gtk_container_add (GTK_CONTAINER (sw), view);
