@@ -1627,8 +1627,8 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
                     {
                         gint ticks  = WHOLE_NUMTICKS / (1 << duration);                        
                         gint tickspermeasure =  WHOLE_NUMTICKS * si->cursortime1 / si->cursortime2;
-                        if ((ticks + curObj->starttickofnextnote) > tickspermeasure)
-                        {
+                        if ((curObj->starttickofnextnote < tickspermeasure) && ((ticks + curObj->starttickofnextnote) > tickspermeasure))
+                        {g_print("ticks needed %d out of %d in measure. starttick %d\n", ticks, tickspermeasure, curObj->starttickofnextnote);
                             dnm_insertchord (gui, duration+1, mode, rest); 
                             toggle_tie (NULL, NULL);
                             dnm_insertchord (gui, duration+1, mode, rest);
