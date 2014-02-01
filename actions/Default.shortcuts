@@ -828,6 +828,7 @@
       </row>
       <row>
         <action>ZoomIn</action>
+        <bind>Ctrl+equal</bind>
         <bind>Ctrl+plus</bind>
         <bind>Ctrl+Add</bind>
       </row>
