@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>PartCombineChords</action>
+        <after>InitialVoice</after>
+        <_label>Part Combine Chords</_label>
+        <_tooltip>From the cursor onwards chords will be combined from the parts included in the part combine command.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

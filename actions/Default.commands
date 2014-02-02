@@ -4805,8 +4805,8 @@ accidentals are usually printed over the note.</_tooltip>
       </row>
       <row type="scheme">
         <action>PartCombine</action>
-        <after>InitialVoice</after>
-        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+       
+        <menupath>/ObjectMenu/StaffMenu/Voices/Part-Combining</menupath>
         <_label>Part Combine Two Voices</_label>
         <_tooltip>The two voices will be printed only once when they are the same, otherwise they will be printed as parts. (Off/On)</_tooltip>
       </row>
@@ -6308,6 +6308,34 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Transpose on Print</_label>
         <_tooltip>Gets an interval from the user: the entire score is transposed by this interval on typesetting - key signatures are transposed as well as notes and chord symbols.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>PartCombineChords</action>
+        <after>InitialVoice</after>
+        <menupath>/ObjectMenu/StaffMenu/Voices/Part-Combining</menupath>
+        <_label>Part Combine Chords</_label>
+        <_tooltip>From the cursor onwards chords will be combined from the parts included in the part combine command.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>PartCombineUnisono</action>
+        <after>PartCombineChords</after>
+        <menupath>/ObjectMenu/StaffMenu/Voices/Part-Combining</menupath>
+        <_label>Unisono</_label>
+        <_tooltip>Combine parts as unison.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>PartCombineAutomatic</action>
+        <after>PartCombineUnisono</after>
+        <menupath>/ObjectMenu/StaffMenu/Voices/Part-Combining</menupath>
+        <_label>Automatic</_label>
+        <_tooltip>Reverts to the default part combining.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>PartCombineApart</action>
+        <after>PartCombineAutomatic</after>
+        <menupath>/ObjectMenu/StaffMenu/Voices/Part-Combining</menupath>
+        <_label>Keep Voices Apart</_label>
+        <_tooltip>When part combining, from this point the parts will be kept apart even though they could be combined.</_tooltip>
       </row>
     </map>
   </merge>
