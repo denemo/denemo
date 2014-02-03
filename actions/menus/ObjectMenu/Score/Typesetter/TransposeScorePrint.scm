@@ -17,6 +17,7 @@
     ") Transpose::Interval)))
 (if Transpose::Interval
   (begin
+  	  (d-DirectiveDelete-score "TransposeScorePrint") ;;;get rid of old style transpose directive
 	  (set! lily (string-append  "\\transpose " Transpose::Interval " "))
 	  (set! text (string-append  "Print transposed:  " Transpose::Interval " "))
 	  (d-DirectivePut-score-postfix tag lily)
