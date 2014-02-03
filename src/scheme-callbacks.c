@@ -3604,7 +3604,7 @@ GET_TAG_FN_DEF (movementcontrol);
 #define EDIT_FN_DEF(what)\
  SCM scheme_text_edit_##what##_directive(SCM tag) {\
   if(!scm_is_string(tag)){\
-    return SCM_BOOL(FALSE);\
+    return SCM_BOOL(text_edit_##what##_directive (NULL));\
   }\
   char *tagname;\
   tagname = scm_to_locale_string(tag);\

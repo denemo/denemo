@@ -337,7 +337,7 @@ create_scheme_identfiers (void)
   INSTALL_EDIT (staff);
   INSTALL_EDIT (voice);
   INSTALL_EDIT (score);
-  install_scm_function (1, NULL, DENEMO_SCHEME_PREFIX "DirectiveTextEdit-standalone", scheme_text_edit_standalone_directive);
+  install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DirectiveTextEdit-standalone", scheme_text_edit_standalone_directive);
 
   install_scm_function (1, NULL, DENEMO_SCHEME_PREFIX "DirectiveDelete-object", scheme_delete_object_directive);
 
