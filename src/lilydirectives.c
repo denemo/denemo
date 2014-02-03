@@ -28,8 +28,24 @@
 
 static DenemoDirective *get_movementcontrol_directive (gchar * tag);
 static DenemoDirective *get_score_directive (gchar * tag);
+static gboolean text_edit_directive (DenemoDirective * directive, gchar * what);
 
 static GHashTable *action_scripts;
+
+
+static gboolean shift_held_down(void) 
+    {
+        GdkModifierType mask;
+        GdkWindow *win = gtk_widget_get_window (Denemo.window);
+#if GTK_MAJOR_VERSION == 2
+        gdk_window_get_pointer (win, NULL, NULL, &mask);
+#else
+        gdk_window_get_device_position (win, gdk_device_manager_get_client_pointer (gdk_display_get_device_manager(gdk_display_get_default())) ,NULL, NULL, &mask);
+#endif        
+        return (mask & GDK_SHIFT_MASK);
+    }
+    
+    
 static void
 action_script_table_insert (gchar * name, gchar * script)
 {
@@ -1363,8 +1379,11 @@ button_callback (GtkWidget * widget, GdkEventButton * event, DenemoDirective * d
                       if (idx > 0)
                         {
                           gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
-                          if (confirm (label, _("Repeat the command?")))
-                            gtk_action_activate (action);
+                          if (confirm (label, _("Repeat the command?\n(Hold Shift for advanced edit)")))
+                            if(shift_held_down())
+                                text_edit_directive (directive, "unknown");
+                            else
+                                gtk_action_activate (action);
                         }
                     }
                   else
@@ -1460,7 +1479,6 @@ set_directive_graphic_label (DenemoDirective * directive)
   g_free (value);
 }
 
-static gboolean text_edit_directive (DenemoDirective * directive, gchar * what);
 
 static gboolean
 editor_keypress (GtkWidget * w, GdkEventKey * event, DenemoDirective * directive)
@@ -2641,9 +2659,13 @@ edit_directive (DenemoDirective * directive, gchar * what)
 
       action = lookup_action_from_name (directive->tag->str);
       if (chopped)
-        *eol = '\n';
-      if (action && (Denemo.keyboard_state != GDK_MOD2_MASK /*NumLock */ ))
-        {                       //FIXME this should be detecting shift click surely????
+        *eol = '\n';g_print ("state %x and %x %x \n", Denemo.keyboard_state, GDK_MOD2_MASK ,GDK_SHIFT_MASK );
+        
+       
+        
+ 
+      if (action && !shift_held_down())
+        {                       
           DenemoScriptParam param;
           param.string = g_string_new ("edit");
           g_debug ("Script can look for params \"edit\" - a string to catch this");
@@ -2739,7 +2761,7 @@ select_score_directive (void)
 {
   if (Denemo.project->lilycontrol.directives == NULL)
     return NULL;
-  return select_directive (_("Select a score directive"), Denemo.project->lilycontrol.directives);
+  return select_directive (_("Select a score directive - use Shift for advanced edit"), Denemo.project->lilycontrol.directives);
 }
 
 static DenemoDirective *
@@ -2747,7 +2769,7 @@ select_scoreheader_directive (void)
 {
   if (Denemo.project->scoreheader.directives == NULL)
     return NULL;
-  return select_directive (_("Select a score header block directive"), Denemo.project->scoreheader.directives);
+  return select_directive (_("Select a score header block directive - use Shift for advanced edit"), Denemo.project->scoreheader.directives);
 }
 
 static DenemoDirective *
@@ -2755,7 +2777,7 @@ select_paper_directive (void)
 {
   if (Denemo.project->paper.directives == NULL)
     return NULL;
-  return select_directive (_("Select a score paper block directive"), Denemo.project->paper.directives);
+  return select_directive (_("Select a score paper block directive - use Shift for advanced edit"), Denemo.project->paper.directives);
 }
 
 
@@ -2764,7 +2786,7 @@ select_header_directive (void)
 {
   if (Denemo.project->movement->header.directives == NULL)
     return NULL;
-  return select_directive (_("Select a movement header block directive"), Denemo.project->movement->header.directives);
+  return select_directive (_("Select a movement header block directive - use Shift for advanced edit"), Denemo.project->movement->header.directives);
 }
 
 static DenemoDirective *
@@ -2772,7 +2794,7 @@ select_layout_directive (void)
 {
   if (Denemo.project->movement->layout.directives == NULL)
     return NULL;
-  return select_directive (_("Select a movement layout block directive"), Denemo.project->movement->layout.directives);
+  return select_directive (_("Select a movement layout block directive - use Shift for advanced edit"), Denemo.project->movement->layout.directives);
 }
 
 static DenemoDirective *
@@ -2780,7 +2802,7 @@ select_movementcontrol_directive (void)
 {
   if (Denemo.project->movement->movementcontrol.directives == NULL)
     return NULL;
-  return select_directive (_("Select a movement control directive"), Denemo.project->movement->movementcontrol.directives);
+  return select_directive (_("Select a movement control directive - use Shift for advanced edit"), Denemo.project->movement->movementcontrol.directives);
 }
 
 static DenemoDirective *
@@ -2789,7 +2811,7 @@ select_clef_directive (void)
   clef *curclef = get_clef ();
   if (curclef == NULL || curclef->directives == NULL)
     return NULL;
-  return select_directive (_("Select a clef directive"), curclef->directives);
+  return select_directive (_("Select a clef directive - use Shift for advanced edit"), curclef->directives);
 }
 
 static DenemoDirective *
@@ -2798,7 +2820,7 @@ select_keysig_directive (void)
   keysig *curkeysig = get_keysig ();
   if (curkeysig == NULL || curkeysig->directives == NULL)
     return NULL;
-  return select_directive (_("Select a key signature directive"), curkeysig->directives);
+  return select_directive (_("Select a key signature directive - use Shift for advanced edit"), curkeysig->directives);
 }
 
 static DenemoDirective *
@@ -2807,7 +2829,7 @@ select_timesig_directive (void)
   timesig *curtimesig = get_timesig ();
   if (curtimesig == NULL || curtimesig->directives == NULL)
     return NULL;
-  return select_directive (_("Select a time signature directive"), curtimesig->directives);
+  return select_directive (_("Select a time signature directive - use Shift for advanced edit"), curtimesig->directives);
 }
 
 static DenemoDirective *
@@ -2816,7 +2838,7 @@ select_tuplet_directive (void)
   tuplet *curtuplet = get_tuplet ();
   if (curtuplet == NULL || curtuplet->directives == NULL)
     return NULL;
-  return select_directive (_("Select a time signature directive"), curtuplet->directives);
+  return select_directive (_("Select a time signature directive - use Shift for advanced edit"), curtuplet->directives);
 }
 
 static DenemoDirective *
@@ -2825,7 +2847,7 @@ select_stemdirective_directive (void)
   stemdirective *curstemdirective = get_stemdirective ();
   if (curstemdirective == NULL || curstemdirective->directives == NULL)
     return NULL;
-  return select_directive (_("Select a time signature directive"), curstemdirective->directives);
+  return select_directive (_("Select a time signature directive - use Shift for advanced edit"), curstemdirective->directives);
 }
 
 static DenemoDirective *
@@ -2837,7 +2859,7 @@ select_staff_directive (void)
   //FIXME return NULL if not primary staff
   if (curstaff == NULL || curstaff->staff_directives == NULL)
     return NULL;
-  return select_directive (_("Select a staff directive"), curstaff->staff_directives);
+  return select_directive (_("Select a staff directive - use Shift for advanced edit"), curstaff->staff_directives);
 }
 
 static DenemoDirective *
@@ -2848,7 +2870,7 @@ select_voice_directive (void)
   DenemoStaff *curstaff = Denemo.project->movement->currentstaff->data;
   if (curstaff == NULL || curstaff->voice_directives == NULL)
     return NULL;
-  return select_directive (_("Select a voice directive"), curstaff->voice_directives);
+  return select_directive (_("Select a voice directive - use Shift for advanced edit"), curstaff->voice_directives);
 }
 
 
