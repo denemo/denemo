@@ -4805,7 +4805,6 @@ accidentals are usually printed over the note.</_tooltip>
       </row>
       <row type="scheme">
         <action>PartCombine</action>
-       
         <menupath>/ObjectMenu/StaffMenu/Voices/Part-Combining</menupath>
         <_label>Part Combine Two Voices</_label>
         <_tooltip>The two voices will be printed only once when they are the same, otherwise they will be printed as parts. (Off/On)</_tooltip>
@@ -6336,6 +6335,13 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <menupath>/ObjectMenu/StaffMenu/Voices/Part-Combining</menupath>
         <_label>Keep Voices Apart</_label>
         <_tooltip>When part combining, from this point the parts will be kept apart even though they could be combined.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>AdvancedEdit</action>
+        <after>EditSimilar</after>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <_label>Advanced Edit</_label>
+        <_tooltip>Edits a Denemo Directive at the lowest level. Advanced users only!</_tooltip>
       </row>
     </map>
   </merge>

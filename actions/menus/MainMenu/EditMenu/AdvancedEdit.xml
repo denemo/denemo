@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>AdvancedEdit</action>
+        <after>EditSimilar</after>
+        <_label>Advanced Edit</_label>
+        <_tooltip>Edits a Denemo Directive at the lowest level. Advanced users only!</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
