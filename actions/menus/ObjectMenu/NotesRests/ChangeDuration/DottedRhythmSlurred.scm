@@ -5,9 +5,8 @@
       (begin
         (d-AddDot)
         (d-ToggleBeginSlur)
-        (eval-string (string-append "(d-" (number->string duration) ")"))
+        (eval-string (string-append "(d-" (number->string (+ 1 duration)) ")"))
         (d-MoveCursorLeft)
-        (d-Diminish)
         (d-ToggleEndSlur)
         (if (and nonprinting (not (d-GetMarkedMidiNote)))
         	(d-SetNonprinting))

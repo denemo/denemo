@@ -4,9 +4,8 @@
     (if duration
       (begin
         (d-AddDot)
-        (eval-string (string-append "(d-" (number->string duration) ")"))
+        (eval-string (string-append "(d-" (number->string (+ 1 duration)) ")"))
         (d-MoveCursorLeft)
-        (d-Diminish)
         (if (and nonprinting (not (d-GetMarkedMidiNote)))
             (d-SetNonprinting))
         (d-MoveCursorRight)))))

@@ -1619,13 +1619,13 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
 
     if(Denemo.prefs.spillover)
     { 
-    DenemoObject *curObj;
+     DenemoObject *curObj;
     
             if(duration>= 0 && si->currentobject && (curObj=si->currentobject->data))
             {
                 if(curObj->type==CHORD)
-                    {
-                        gint ticks  = WHOLE_NUMTICKS / (1 << duration);                        
+                    {//g_print("dur %d base %d\n", curObj->durinticks, curObj->basic_durinticks);
+                        gint ticks  = (curObj->durinticks/ curObj->basic_durinticks) * WHOLE_NUMTICKS / (1 << duration); /* takes into account prevailing tuple */                  
                         gint tickspermeasure =  WHOLE_NUMTICKS * si->cursortime1 / si->cursortime2;
                         if ((curObj->starttickofnextnote < tickspermeasure) && ((ticks + curObj->starttickofnextnote) > tickspermeasure))
                         {
@@ -1634,7 +1634,6 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
                             dnm_insertchord (gui, duration+1, mode, rest);
                             return;
                         }
-                
                     }
         }   
     }
