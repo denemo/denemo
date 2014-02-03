@@ -2676,10 +2676,10 @@ edit_object_directive (GtkAction * action, DenemoScriptParam * param)
   GList **directives;
   gchar *what = NULL;
   user_select_directive_at_cursor (&what, &directives, &directive);
-  //g_debug("Got directive %p in list %p\n", directive, directives);
+
   if (directive == NULL)
     {
-      if (*directives != NULL)
+      if (directives && *directives != NULL)
         infodialog (_("Cancelled"));
       else
         warningdialog (_("Use the ObjectMenu to modify this object - there are no directives here"));
