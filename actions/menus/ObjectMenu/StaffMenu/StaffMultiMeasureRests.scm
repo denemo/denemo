@@ -10,35 +10,36 @@
     (disp "find-block called")
     (let loop ()
       (if (whole-measure-rest)
-	(begin
-	  (if (not position)
-	    (set! position (GetPosition)))
-	  (set! count (+ count 1))
-	  (if (d-MoveToMeasureRight)
-	    (loop)))
-	  (begin ;; not on a whole measure rest
-	    (if (zero? count)
-	      (if (d-MoveToMeasureRight)
-		(loop)))
-	    (if (< count 2) ;;; do not MM less than 2
-	      (begin
-		(set! count 0)
-		(set! position #f)
-		(if (d-MoveToMeasureRight)
-		  (loop))))))
+        (begin
+          (if (not position)
+            (set! position (GetPosition)))
+          (set! count (+ count 1))
+          (if (d-MoveToMeasureRight)
+            (loop)))
+          (begin ;; not on a whole measure rest
+            (if (zero? count)
+              (if (d-MoveToMeasureRight)
+            (loop)))
+            (if (< count 2) ;;; do not MM less than 2
+              (begin
+            (set! count 0)
+            (set! position #f)
+            (if (d-MoveToMeasureRight)
+              (loop))))))
       (if position
-	  (apply d-GoToPosition position)
-	  #f)))
+      (apply d-GoToPosition position)
+      #f)))
 
 ;;; actual code
   (d-PushPosition)
   (d-GoToBeginning)
+  (while (and (not (whole-measure-rest)) (d-NextChord)))
   (while (and (not (whole-measure-rest)) (d-MoveToMeasureRight)))
   (let loop ()
     (if (find-block)
       (begin
-	(d-MultiMeasureRests)
-	(while (d-MoveToMeasureRight)
-	  (if (whole-measure-rest)
-	    (loop))))))
+    (d-MultiMeasureRests)
+    (while (d-MoveToMeasureRight)
+      (if (whole-measure-rest)
+        (loop))))))
   (d-PopPosition))
