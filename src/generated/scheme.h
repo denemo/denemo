@@ -922,6 +922,9 @@ install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Help", scheme_Help);
 /*About about*/
 SCM scheme_About(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "About", scheme_About);
+/*Shortcuts display_shortcuts*/
+SCM scheme_Shortcuts(SCM optional);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Shortcuts", scheme_Shortcuts);
 /*MoreCommands morecommands*/
 SCM scheme_MoreCommands(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoreCommands", scheme_MoreCommands);

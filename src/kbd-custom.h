@@ -13,7 +13,7 @@
 #include <denemo/denemo.h>
 
 #define MASK_FILTER(state) state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK \
-				    | GDK_MOD1_MASK)
+                    | GDK_MOD1_MASK)
 
 typedef struct _keyboard_dialog_data
 {
@@ -167,4 +167,5 @@ gchar *get_menu_position (gchar *menupath);
 void update_bindings_model(GtkListStore * model, GList* bindings);
 command_row* get_or_create_command(gchar* name);
 gboolean load_keymap_files(GList* files);
+GString *keymap_get_bindings (keymap * the_keymap);
 #endif

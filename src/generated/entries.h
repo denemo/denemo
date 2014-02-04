@@ -330,6 +330,7 @@
 {"PlaybackProperties", GTK_STOCK_PROPERTIES, N_("Playback Properties"), "",N_("Allows you to specify properties used in playing back (midi)"),G_CALLBACK (playback_properties_change)},
 {"Help", NULL, N_("Browse Manual"), "",N_("Opens a browser on the user manual"),G_CALLBACK (browse_manual)},
 {"About", NULL, N_("About"), "",N_("Gives the version number etc of this program"),G_CALLBACK (about)},
+{"Shortcuts", NULL, N_("Shortcuts"), "",N_("Gives a list of shortcuts currently available. Explains how to set them too."),G_CALLBACK (display_shortcuts)},
 {"MoreMenu", NULL, N_("More"), "",N_("Allows choosing extra commands/menu items from disk")},
 {"MoreCommands", NULL, N_("More Commands"), "",N_("Allows choosing standard extra commands/menu items"),G_CALLBACK (morecommands)},
 {"MyCommands", NULL, N_("My Commands"), "",N_("Allows choosing extra commands/menu items from your own collection of extras"),G_CALLBACK (mycommands)},

@@ -306,6 +306,7 @@ register_command("Stop", _("Stop"), _("Stop Playback"), stop_midi_playback);
 register_command("PlaybackProperties", _("Playback Properties"), _("Allows you to specify properties used in playing back (midi)"), playback_properties_change);
 register_command("Help", _("Browse Manual"), _("Opens a browser on the user manual"), browse_manual);
 register_command("About", _("About"), _("Gives the version number etc of this program"), about);
+register_command("Shortcuts", _("Shortcuts"), _("Gives a list of shortcuts currently available. Explains how to set them too."), display_shortcuts);
 register_command("MoreCommands", _("More Commands"), _("Allows choosing standard extra commands/menu items"), morecommands);
 register_command("MyCommands", _("My Commands"), _("Allows choosing extra commands/menu items from your own collection of extras"), mycommands);
 register_command("FetchCommands", _("Update Commands from Internet"), _("Refreshes the set of commands available from Denemo.org.\nUse More Commands after this has finished"), fetchcommands);

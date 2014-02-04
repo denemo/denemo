@@ -8,6 +8,7 @@
 #include <denemo/denemo.h>
 #include "config.h"
 #include "utils.h"
+#include "kbd-custom.h"
 #include <string.h>             /* for strlen */
 /* The tutorial mentioned that the actual gchar * held within a
  * GtkText widget needs to be freed.  I don't do such a free, though,
@@ -99,4 +100,21 @@ browse_manual (GtkAction * action, DenemoScriptParam * param)
   g_free (browserpath);
   g_free (manualpath);
   g_free (manualuri);
+}
+
+void display_shortcuts (void)
+{
+  GtkWidget *window =  gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  GtkTextView *text_view = gtk_text_view_new ();
+  gtk_text_view_set_editable (GTK_TEXT_VIEW (text_view), FALSE);
+  GtkWidget *scrolled_text_view = gtk_scrolled_window_new (NULL, NULL);
+  gtk_container_add (GTK_CONTAINER (scrolled_text_view), text_view);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_text_view), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_widget_set_size_request (GTK_WIDGET (scrolled_text_view), 150, 300);
+  gtk_container_add (GTK_CONTAINER (window), scrolled_text_view);
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+  GString *shortcuts = keymap_get_bindings (Denemo.map);
+  gtk_text_buffer_set_text (buffer, shortcuts->str, -1);
+  gtk_widget_show_all(window);
+  g_string_free(shortcuts, TRUE);
 }

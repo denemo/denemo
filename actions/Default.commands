@@ -2965,7 +2965,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>IRC</action>
-        <after>Help</after>
+        <after>Shortcuts</after>
         <menupath>/MainMenu/HelpMenu</menupath>
         <_label>Chat to Other Users</_label>
         <_tooltip>Runs your browser on a page giving access to denemo's internet relay chat</_tooltip>
@@ -3967,7 +3967,7 @@ accidentals are usually printed over the note.</_tooltip>
       </row>
       <row type="scheme">
         <action>HelpAllFeatures</action>
-        <after>Help</after>
+        <after>IRC</after>
         <menupath>/MainMenu/HelpMenu</menupath>
         <_label>Help for All Features</_label>
         <_tooltip>Opens a score with examples of many things you can create with Denemo with Explanations attached. Click on the explanations in the Print View window.</_tooltip>

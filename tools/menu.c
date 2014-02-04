@@ -415,6 +415,7 @@ struct name_and_function denemo_commands[] = {
 
   {NULL, "Opens a browser on the user manual", N_("Help"), "browse_manual", N_("Browse Manual")},
   {NULL, "Gives the version number etc of this program", N_("About"), "about", N_("About")},
+  {NULL, "Gives a list of shortcuts currently available. Explains how to set them too.", N_("Shortcuts"), "display_shortcuts", N_("Shortcuts")},
 
 
   {NULL, "Allows choosing extra commands/menu items from disk", N_("MoreMenu"), NULL, N_("More")},

@@ -772,6 +772,16 @@ keymap_clear_bindings_in_row (gpointer key, gpointer value, gpointer data)
   command_row *command = (command_row*) value;
   g_list_free (command->bindings);
 }
+static void
+keymap_collect_bindings_in_row (gpointer key, gpointer value, GList **data)
+{
+  GList *g;
+  command_row *command = (command_row*) value;
+  for (g = command->bindings; g; g=g->next)
+    {
+        *data = g_list_prepend (*data, g_strdup_printf("%s:\n     %s\n     \"%s\"\n\n", g->data, command->label, command->tooltip));
+    }
+}
 
 
 static void
@@ -808,6 +818,25 @@ keymap_clear_bindings (keymap * the_keymap)
   g_hash_table_foreach (the_keymap->commands, keymap_clear_bindings_in_row, NULL);
   g_hash_table_remove_all (the_keymap->idx_from_keystring);
 }
+
+
+GString *keymap_get_bindings (keymap * the_keymap)
+{
+    GString *ret = g_string_new ( _("List of all current command shortcuts\nThe shortcut name is given first \nE.g. \"0\" is the shortcut name of the number key for the number zero.\n(a \",\" separates the two names if is a two-key shortcut)\nThen the label as it appears in the menu\nand finally the tooltip.\nYou can search the tooltip in the Command Center to locate the command. See View->Command Center.\n----------------\n"));
+    GList *g = NULL;
+  g_hash_table_foreach (the_keymap->commands, keymap_collect_bindings_in_row, (gpointer)&g);
+  g = g_list_sort (g, strcmp);
+  GList *tofree = g;
+  for(;g;g=g->next)
+    {
+    g_string_append_printf (ret, "%s %s \n----------------\n", _("Shortcut: "), g->data);
+    g_free(g->data);
+    }
+  g_list_free(tofree);
+  g_string_append (ret, _("\nEnd of short cuts\n"));
+  return ret;
+}
+
 
 /*
  * Returns the number of commands in the keymap

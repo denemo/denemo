@@ -180,6 +180,7 @@
     </menu>
     <menu action="HelpMenu">
       <menuitem action="Help"/>
+      <menuitem action="Shortcuts"/>
       <menuitem action="About"/>
     </menu>
   </menubar>

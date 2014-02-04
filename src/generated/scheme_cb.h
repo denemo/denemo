@@ -922,6 +922,9 @@ SCM scheme_Help (SCM optional) {
 SCM scheme_About (SCM optional) {
   return scheme_call_callback(optional, about);
 }
+SCM scheme_Shortcuts (SCM optional) {
+  return scheme_call_callback(optional, display_shortcuts);
+}
 SCM scheme_MoreCommands (SCM optional) {
   return scheme_call_callback(optional, morecommands);
 }
