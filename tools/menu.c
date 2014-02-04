@@ -539,6 +539,7 @@ struct name_and_function denemo_commands[] = {
   {NULL, "Menu:\\nCommands to manipulate the palettes of commands", N_("Palettes"), NULL, N_("Palettes")},
   {NULL, "Menu:\\nCommands to tell the typesetter to start or stop a particular effect. Use these around passages that are to be treated differently, or over which a marking should be placed.", N_("Spanning"), NULL, N_("Spanning")},
   {NULL, "Menu:\\nInstructions for the typesetter to do something at the cursor position.", N_("Typesetter"), NULL, N_("Typesetter")},
+  {NULL, "Menu:\\nInstructions for the typesetter to do combine parts in various ways.", N_("Part-Combining"), NULL, N_("Part-Combining")},
 
   {NULL, "Menu:\\nCommands for working with the musical object hierarchy.", N_("ObjectMenu"), NULL, N_("Object Menu")},
   {NULL, "Menu:\\nThe top level commands for operating Denemo.", N_("MainMenu"), NULL, N_("Main Menu")},
