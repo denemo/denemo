@@ -1104,7 +1104,7 @@ copy_pdf (void)
 static void
 create_movement_pdf (void)
 {
-
+  return_on_windows_if_printing;
   start_busy_cursor ();
   create_pdf (FALSE, FALSE);
   g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
@@ -1113,7 +1113,7 @@ create_movement_pdf (void)
 static void
 create_part_pdf (void)
 {
-
+  return_on_windows_if_printing;
   start_busy_cursor ();
   create_pdf (TRUE, TRUE);
   g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
@@ -2031,6 +2031,7 @@ void
 implement_show_print_view (gboolean refresh_if_needed)
 {
   present_print_view_window();
+#ifndef G_OS_WIN32  
   if (refresh_if_needed && (changecount != Denemo.project->changecount || Denemo.project->lilysync != Denemo.project->changecount))
     {
       if (!initialize_typesetting ()) 
@@ -2039,11 +2040,13 @@ implement_show_print_view (gboolean refresh_if_needed)
         changecount = Denemo.project->changecount;
         }
     }
+#endif
 }
 
 void
 typeset_current_layout (void)
 {
+  return_on_windows_if_printing;
   typeset_control (create_all_pdf);
 }
 
@@ -2051,6 +2054,7 @@ typeset_current_layout (void)
 gboolean
 typeset_for_script (gchar * script)
 {
+  return1_on_windows_if_printing;
   typeset_control (script);
   start_busy_cursor ();
   show_print_view (NULL, NULL);

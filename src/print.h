@@ -11,6 +11,23 @@
 #define INSTALLED_LILYPOND_VERSION "2.18.0"       /* FIXME set via gub */
 #define MANUAL _("Manual Updates")
 #define CONTINUOUS _("Continuous")
+#ifdef G_OS_WIN32    
+#define  return_on_windows_if_printing \
+  if (get_print_status()->printpid != GPID_NONE)\
+    {\
+    warningdialog (_("Already doing a print"));\
+    return;\
+    }
+#define  return1_on_windows_if_printing \
+  if (get_print_status()->printpid != GPID_NONE)\
+    {\
+    warningdialog (_("Already doing a print"));\
+    return 1;\
+    }
+#else
+#define  return_on_windows_if_printing
+#define  return1_on_windows_if_printing
+#endif  
 
 typedef enum
 {

@@ -30,6 +30,8 @@
 #include "exportlilypond.h"
 #include "utils.h"
 
+
+  
 #if GTK_MAJOR_VERSION==3
 typedef enum
 {
@@ -774,6 +776,7 @@ export_pdf (gchar * filename, DenemoProject * gui)
     NULL
   };
   /* generate the pdf file */
+  return_on_windows_if_printing;
 
   gint error = run_lilypond (arguments);
   if (error)
@@ -789,7 +792,7 @@ export_pdf (gchar * filename, DenemoProject * gui)
 /* callback to print current part (staff) of score */
 void
 printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
-{
+{ return_on_windows_if_printing;
 #ifndef USE_EVINCE  
   g_debug("This feature requires denemo to be built with evince");
 #else
@@ -810,7 +813,7 @@ printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam 
 
 void
 printselection_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
-{
+{ return_on_windows_if_printing;
 #ifndef USE_EVINCE  
   g_debug("This feature requires denemo to be built with evince");
 #else
@@ -826,7 +829,7 @@ printselection_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptP
 
 void
 printexcerptpreview_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
-{
+{ return_on_windows_if_printing;
   DenemoProject *gui = Denemo.project;
   if (!gui->movement->markstaffnum)   //If no selection has been made 
     printrangedialog (gui);     //Launch a dialog to get selection
@@ -841,7 +844,7 @@ printexcerptpreview_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoSc
 /* callback to print whole of score */
 void
 printall_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
-{
+{ return_on_windows_if_printing;
 #ifndef USE_EVINCE  
   g_debug("This feature requires denemo to be built with evince");
 #else
@@ -852,7 +855,7 @@ printall_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam *
 /* callback to print movement of score */
 void
 printmovement_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
-{
+{ return_on_windows_if_printing;
 #ifndef USE_EVINCE  
   g_debug("This feature requires denemo to be built with evince");
 #else
