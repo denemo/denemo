@@ -833,7 +833,7 @@ GString *keymap_get_bindings (keymap * the_keymap)
     g_free(g->data);
     }
   g_list_free(tofree);
-  g_string_append (ret, _("\nEnd of short cuts\n"));
+  g_string_append (ret, _("\nEnd of shortcuts\n"));
   return ret;
 }
 
