@@ -1575,6 +1575,11 @@ these may need re-making.</_tooltip>
         <_tooltip>Gives the version number etc of this program</_tooltip>
       </row>
       <row type="builtin">
+        <action>Shortcuts</action>
+        <_label>Shortcuts</_label>
+        <_tooltip>Gives a list of shortcuts currently available. Explains how to set them too.</_tooltip>
+      </row>
+      <row type="builtin">
         <action>MoreCommands</action>
         <_label>More Commands</_label>
         <_tooltip>Allows choosing standard extra commands/menu items</_tooltip>
