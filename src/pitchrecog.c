@@ -31,21 +31,6 @@
 #include <glib.h>
 #include "pitchrecog.h"
 
-#ifdef HAVE_C99_VARARGS_MACROS
-#define debug(...)              if (verbose) fprintf (stderr, __VA_ARGS__)
-#define errmsg(...)             fprintf (stderr, __VA_ARGS__)
-#define outmsg(...)             fprintf (stdout, __VA_ARGS__)
-#else
-#define debug(format, args...)  if (verbose) fprintf(stderr, format , ##args)
-#define errmsg(format, args...) fprintf(stderr, format , ##args)
-#define outmsg(format, args...) fprintf(stdout, format , ##args)
-#endif
-
-
-
-
-
-
 typedef int (*aubio_process_func_t) (smpl_t ** input, smpl_t ** output, int nframes);
 
 
@@ -66,33 +51,21 @@ static int usedoubled = 1;
 
 
 /* energy,specdiff,hfc,complexdomain,phase */
-static aubio_onsetdetection_type type_onset = aubio_onset_kl;
-static aubio_onsetdetection_type type_onset2 = aubio_onset_complex;
 static smpl_t threshold = 0.3;
 static smpl_t silence = -90.;
 static uint_t buffer_size = 1024;       //512; //1024;
 static uint_t overlap_size = 512;       //256; //512;
-static uint_t channels = 1;
 static uint_t samplerate = 44100;
 
-static aubio_pvoc_t *pv;
 static fvec_t *ibuf;
-static fvec_t *obuf;
-static cvec_t *fftgrain;
 
-static aubio_onsetdetection_t *o;
-static aubio_onsetdetection_t *o2;
+static aubio_onset_t *o;
 static fvec_t *onset;
-static fvec_t *onset2;
-static int isonset = 0;
-static aubio_pickpeak_t *parms;
-
+static uint_t isonset;
 
 /* pitch objects */
-static smpl_t pitch = 0.;
-static aubio_pitchdetection_t *pitchdet;
-static aubio_pitchdetection_type type_pitch = aubio_pitch_yinfft;       // aubio_pitch_mcomb
-static aubio_pitchdetection_mode mode_pitch = aubio_pitchm_freq;
+static aubio_pitch_t *p;
+static fvec_t *pitch;
 static uint_t median = 6;
 
 static fvec_t *note_buffer = NULL;
@@ -105,50 +78,26 @@ static smpl_t curnote = 0.;     // should not be global
 //smpl_t newnote = 0.;
 static uint_t isready = 0;      // should not be global, is static within pitchrecog()
 
-
-static aubio_onsetdetection_type onset_types[] = { aubio_onset_energy,
-  aubio_onset_specdiff,
-  aubio_onset_hfc,
-  aubio_onset_complex,
-  aubio_onset_complex,
-  aubio_onset_phase,
-  aubio_onset_mkl,
-  aubio_onset_kl
-};
-
-
-
-
-
 static void
 init_aubio (void)
 {
 
-  ibuf = new_fvec (overlap_size, channels);
-  obuf = new_fvec (overlap_size, channels);
-  fftgrain = new_cvec (buffer_size, channels);
+  ibuf = new_fvec (overlap_size);
 
   {
-    pitchdet = new_aubio_pitchdetection (buffer_size * 4, overlap_size, channels, samplerate, type_pitch, mode_pitch);
-    aubio_pitchdetection_set_yinthresh (pitchdet, 0.7);
+    p = new_aubio_pitch ("default", buffer_size * 4, overlap_size, samplerate);
+    aubio_pitch_set_tolerance (p, 0.7);
+    aubio_pitch_set_unit (p, "freq");
 
     if (median)
       {
-        note_buffer = new_fvec (median, 1);
-        note_buffer2 = new_fvec (median, 1);
+        note_buffer = new_fvec (median);
+        note_buffer2 = new_fvec (median);
       }
   }
-  /* phase vocoder */
-  pv = new_aubio_pvoc (buffer_size, overlap_size, channels);
-  /* onsets */
-  parms = new_aubio_peakpicker (threshold);
-  o = new_aubio_onsetdetection (type_onset, buffer_size, channels);
-  onset = new_fvec (1, channels);
-  if (usedoubled)
-    {
-      o2 = new_aubio_onsetdetection (type_onset2, buffer_size, channels);
-      onset2 = new_fvec (1, channels);
-    }
+  o = new_aubio_onset ("default", buffer_size, overlap_size, samplerate);
+  onset = new_fvec (2);
+  pitch = new_fvec (1);
 
 }
 
@@ -158,25 +107,16 @@ aubio_finish (void)
 {
   {
     send_noteon (curnote, 0);
-    del_aubio_pitchdetection (pitchdet);
     if (median)
       {
-        del_fvec (note_buffer);
-        del_fvec (note_buffer2);
+        if (note_buffer) del_fvec (note_buffer);
+        if (note_buffer2) del_fvec (note_buffer2);
       }
   }
-  if (usedoubled)
-    {
-      del_aubio_onsetdetection (o2);
-      del_fvec (onset2);
-    }
-  del_aubio_onsetdetection (o);
-  del_aubio_peakpicker (parms);
-  del_aubio_pvoc (pv);
-  del_fvec (obuf);
-  del_fvec (ibuf);
-  del_cvec (fftgrain);
-  del_fvec (onset);
+  if (o) del_aubio_onset (o);
+  if (p) del_aubio_pitch (p);
+  if (onset) del_fvec (onset);
+  if (pitch) del_fvec (pitch);
   aubio_cleanup ();
 }
 
@@ -193,16 +133,16 @@ send_noteon (smpl_t pitch, int velo)
 
 
 /** append new note candidate to the note_buffer and return filtered value. we
- * need to copy the input array as vec_median destroy its input data.*/
+ * need to copy the input array as fvec_median destroy its input data.*/
 static void
 note_append (fvec_t * note_buffer, smpl_t anote)
 {
   uint_t i = 0;
   for (i = 0; i < note_buffer->length - 1; i++)
     {
-      note_buffer->data[0][i] = note_buffer->data[0][i + 1];
+      note_buffer->data[i] = note_buffer->data[i + 1];
     }
-  note_buffer->data[0][note_buffer->length - 1] = anote;
+  note_buffer->data[note_buffer->length - 1] = anote;
   return;
 }
 
@@ -212,122 +152,102 @@ get_note (fvec_t * note_buffer, fvec_t * note_buffer2)
   uint_t i = 0;
   for (i = 0; i < note_buffer->length; i++)
     {
-      note_buffer2->data[0][i] = note_buffer->data[0][i];
+      note_buffer2->data[i] = note_buffer->data[i];
     }
-  return vec_median (note_buffer2);
+  return fvec_median (note_buffer2);
 }
-
-
-static int calls;
 
 
 static int Stop;
 
-int
+  int
 pitchrecog (float **input, float **output, int nframes)
 {
   unsigned int pos = 0;         /*frames%dspblocksize */
-  unsigned int i;               /*channels */
   unsigned int j;               /*frames */
-  calls++;
   if (Stop)
     return Stop;
   for (j = 0; j < (unsigned) nframes; j++)
+  {
+    if (usejack)
     {
-      if (usejack)
-        {
-          for (i = 0; i < channels; i++)
-            {
-              DENEMO_SAMPLE_TYPE *in = (DENEMO_SAMPLE_TYPE *) * input;
-              ibuf->data[i][pos] = *(in + j);   /* need threshold higher - say 0.5 to avoid repeated note detection when using this higher precision data */
-            }
-        }
-      /*when pos reaches overlap size it is time for fft to look for a note */
-      if (pos == overlap_size - 1)
-        {
-          /* block loop */
-          aubio_pvoc_do (pv, ibuf, fftgrain);
-          aubio_onsetdetection (o, fftgrain, onset);
-          if (usedoubled)
-            {
-              aubio_onsetdetection (o2, fftgrain, onset2);
-              onset->data[0][0] *= onset2->data[0][0];
-            }
-          isonset = aubio_peakpick_pimrt (onset, parms);
+      DENEMO_SAMPLE_TYPE *in = (DENEMO_SAMPLE_TYPE *) * input;
+      ibuf->data[pos] = *(in + j);   /* need threshold higher - say 0.5 to avoid repeated note detection when using this higher precision data */
+    }
+    /*when pos reaches overlap size it is time for fft to look for a note */
+    if (pos == overlap_size - 1)
+    {
+      /* block loop */
+      aubio_onset_do (o, ibuf, onset);
+      aubio_pitch_do (p, ibuf, pitch);
 
-          pitch = aubio_pitchdetection (pitchdet, ibuf);
+      isonset = onset->data[0];
 
+      if (median)
+      {
+        note_append (note_buffer, pitch->data[0]);
+      }
+
+      /* curlevel is negatif or 1 if silence */
+      curlevel = aubio_level_detection (ibuf, silence);
+
+      if (isonset)
+      {
+        if (curlevel == 1)
+        {
+          isonset = 0;
           if (median)
-            {
-              note_append (note_buffer, pitch);
-            }
-
-          /* curlevel is negatif or 1 if silence */
-          curlevel = aubio_level_detection (ibuf, silence);
-
-          if (isonset)
-            {
-              /* test for silence */
-#ifndef SUSPICIOUS_CODE
-              if (curlevel == 1.)
-                {
-#else
-              //if (curlevel <= 1.) {
-
-#endif
-
-              isonset = 0;
-              if (median)
-                isready = 0;
-              /* send note off */
-              send_noteon (curnote, 0);
-            }
+            isready = 0;
+          /* send note off */
+          send_noteon (curnote, 0);
+        }
+        else
+        {                   // not silent
+          if (median)
+          {
+            isready = 1;
+          }
           else
-            {                   // not silent
-              if (median)
-                {
-                  isready = 1;
-                }
-              else
-                {
-                  /* kill old note */
-                  send_noteon (curnote, 0);
-                  /* get and send new one */
-                  send_noteon (pitch, 1);
-                  curnote = pitch;
-                }
+          {
+            /* kill old note */
+            send_noteon (curnote, 0);
+            /* get and send new one */
+            curnote = pitch->data[0];
+            send_noteon (curnote, 1);
+          }
 
 
-            }
         }
+      }
       else
-        {                       //not onset
-          if (median)
-            {
-              if (isready > 0)
-                isready++;
-              if (isready == median)
-                {
-                  /* kill old note */
-                  send_noteon (curnote, 0);
+      {                       //not onset
+        if (median)
+        {
+          if (isready > 0)
+            isready++;
+          if (isready == median)
+          {
+            /* kill old note */
+            send_noteon (curnote, 0);
 
-                  curnote = get_note (note_buffer, note_buffer2);
-                  /* get and send new one */
-                  if (curnote > 45)
-                    {           //FIXME
-                      send_noteon (curnote, 1);
-                    }
-                }
-            }                   // if median
+            curnote = get_note (note_buffer, note_buffer2);
+            /* get and send new one */
+            if (curnote > 45)
+            {           //FIXME
+              send_noteon (curnote, 1);
+            }
+          }
+        } // if median
 
-        }
+      }
       /* end of block loop */
       pos = -1;                 /* so it will be zero next j loop */
-    }                           /* end of if pos==overlap_size-1 */
-  pos++;
-}
 
-return Stop;
+    }
+    pos++;
+  }
+
+  return Stop;
 }
 
 extern int pa_main (aubio_process_func_t process_func);
@@ -355,14 +275,15 @@ set_smoothing (double smooth)
   STOP median = (unsigned) smooth;
 START}
 
-/* FIXME consider controlling usedoubled parameter as well*/
 int
 set_onset_type (unsigned onset)
 {
   /* changing onset type requires memory allocation */
+#if 0
   if (onset >= sizeof (onset_types) / sizeof (aubio_onsetdetection_type))
     return 0;
   STOP type_onset = onset_types[onset];
+#endif
 START}
 
 int
@@ -377,7 +298,7 @@ initialize_pitch_recognition (void)
 int
 terminate_pitch_recognition (void)
 {
-  g_message ("Terminating portaudio and aubio");
+  g_print ("Terminating portaudio and aubio\n");
   (void) pa_main (NULL);
   aubio_finish ();
   return 0;

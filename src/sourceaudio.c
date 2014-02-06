@@ -45,28 +45,17 @@ generate_note_onsets (void)
   DenemoRecording *audio = Denemo.project->movement->recording;
   gint channels = audio->channels;
 
-  aubio_onsetdetection_type type_onset = aubio_onset_kl;
-  aubio_onsetdetection_type type_onset2 = aubio_onset_complex;
-  smpl_t threshold = 0.3;
-  smpl_t silence = -90.;
-  uint_t buffer_size = 1024;
-  uint_t overlap_size = 512;
+ smpl_t threshold = 0.3;
+ smpl_t silence = -90.;
+ uint_t buffer_size = 1024;
+ uint_t overlap_size = 512;
 
-  uint_t samplerate = 44100;
+ uint_t samplerate = 44100;
 
-  aubio_pvoc_t *pv;
-  fvec_t *ibuf;
-  fvec_t *obuf;
-  cvec_t *fftgrain;
-
-  aubio_onsetdetection_t *o;
-  aubio_onsetdetection_t *o2;
-  fvec_t *onset;
-  fvec_t *onset2;
-  int isonset = 0;
-  aubio_pickpeak_t *parms;
-
-
+ aubio_onset_t *o = new_aubio_onset("default",
+     buffer_size, overlap_size, samplerate);
+ fvec_t *ibuf = new_fvec (overlap_size);
+ fvec_t *onset = new_fvec (2);
 
   unsigned int pos = 0;         /*frames%dspblocksize */
   unsigned int i;               /*channels */
@@ -75,23 +64,6 @@ generate_note_onsets (void)
   busy_cursor (Denemo.notebook);
   gtk_window_set_modal (progressbar (_("Analysing Audio"), NULL), TRUE);
 
-  ibuf = new_fvec (overlap_size, channels);
-  obuf = new_fvec (overlap_size, channels);
-  fftgrain = new_cvec (buffer_size, channels);
-
-  /* phase vocoder */
-  pv = new_aubio_pvoc (buffer_size, overlap_size, channels);
-  /* onsets */
-  parms = new_aubio_peakpicker (threshold);
-  o = new_aubio_onsetdetection (type_onset, buffer_size, channels);
-
-  // if (usedoubled)
-  // {
-  o2 = new_aubio_onsetdetection (type_onset2, buffer_size, channels);
-  onset2 = new_fvec (1, channels);
-  // }
-
-  onset = new_fvec (1, channels);
   rewind_audio ();
   if (audio->notes)
     {
@@ -100,51 +72,27 @@ generate_note_onsets (void)
     }
   for (j = 0; j < (unsigned) audio->nframes; j++)
     {
-      sf_read_float (audio->sndfile, ibuf->data[0] + pos, 2);   //g_debug("\t%f", ibuf->data[0][pos]);
+      sf_read_float (audio->sndfile, ibuf->data + pos, 2);   //g_debug("\t%f", ibuf->data[0][pos]);
       if (pos == overlap_size - 1)
         {
           /* block loop */
           gtk_main_iteration_do (FALSE);
-          aubio_pvoc_do (pv, ibuf, fftgrain);
+          aubio_onset_do (o, ibuf, onset);
           while (gtk_events_pending ())
             gtk_main_iteration ();
-
-          aubio_onsetdetection (o, fftgrain, onset);
-          while (gtk_events_pending ())
-            gtk_main_iteration ();
-
-          // if (usedoubled) {
-          aubio_onsetdetection (o2, fftgrain, onset2);
-          while (gtk_events_pending ())
-            gtk_main_iteration ();
-
-          onset->data[0][0] *= onset2->data[0][0];
-          // }
-          isonset = aubio_peakpick_pimrt (onset, parms);
-          if (isonset) {
+          if(onset->data[0] != 0) {
 			  DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
-			  note->timing = j;/* /audio->samplerate for seconds */ 
+			  note->timing = aubio_onset_get_last(o);/* aubio_onset_get_delay_s(o) for seconds */ 
             audio->notes = g_list_append (audio->notes, note);
-		}
+          }
           pos = -1;             /* so it will be zero next j loop */
         }                       /* end of if pos==overlap_size-1 */
       pos++;
     }
 
-#ifndef G_OS_WIN32
-  del_aubio_onsetdetection (o2);
-  del_fvec (onset2);
-
-  del_aubio_onsetdetection (o);
-  del_aubio_peakpicker (parms);
-  del_aubio_pvoc (pv);
-  del_fvec (obuf);
+  del_aubio_onset (o);
   del_fvec (ibuf);
-  del_cvec (fftgrain);
   del_fvec (onset);
-#else
-  g_debug ("\n\n\n!!!!!!!!!skipping memory free for windows to avoid crash\n\n\n");
-#endif
   aubio_cleanup ();
 
 
@@ -159,15 +107,6 @@ generate_note_onsets (void)
 
   progressbar_stop ();
   normal_cursor (Denemo.notebook);
-/*
-#ifdef DEBUG
-  GList *g;
-  for (g = audio->onsets; g; g = g->next)
-    {
-      g_debug ("Note at %f seconds\n", ((gint) g->data) / (double) audio->samplerate);
-    }
-#endif
-*/
 }
 
 gboolean
