@@ -79,6 +79,44 @@ if [test "x$useguile_1_8" = "xno"] && [test "x$useguile_2_0" = "xno"]; then
   fi
 fi
 
+AC_ARG_ENABLE(
+  aubio3,
+  AS_HELP_STRING([--enable-aubio3], [use AUBIO_3 @<:@default=no@:>@]),
+  [
+    if test "x$enableval" != "xno"; then
+      useaubio3=yes
+      PKG_CHECK_MODULES(LIBAUBIO_3, aubio >= 0.3.2)
+      CFLAGS="$CFLAGS $LIBAUBIO_3_CFLAGS -D_WITH_AUBIO_3_"
+      LIBS="$LIBS $LIBAUBIO_3_LIBS"
+    fi
+  ], [ useaubio3=no ])
+
+AC_ARG_ENABLE(
+  aubio4,
+  AS_HELP_STRING([--enable-aubio4], [use AUBIO_4 @<:@default=no@:>@]),
+  [
+    if test "x$enableval" != "xno"; then
+      useaubio4=yes
+      PKG_CHECK_MODULES(LIBAUBIO_4, aubio >= 0.4)
+      CFLAGS="$CFLAGS $LIBAUBIO_4_CFLAGS -D_WITH_AUBIO_4_"
+      LIBS="$LIBS $LIBAUBIO_4_LIBS"
+    fi
+  ], [ useaubio4=no ])
+
+if [test "x$useaubio3" = "xno"] && [test "x$useaubio4" = "xno"]; then
+  PKG_CHECK_MODULES([LIBAUBIO_4], [aubio >= 4], useaubio4=yes, useaubio4=no)
+  CFLAGS="$CFLAGS $LIBAUBIO_4_CFLAGS -D_WITH_AUBIO_4_"
+  LIBS="$LIBS $LIBAUBIO_4_LIBS"
+  if test "x$useaubio4" = "xno"; then
+    PKG_CHECK_MODULES(LIBAUBIO_3, aubio >= 0.3.2)
+    CFLAGS="$CFLAGS $LIBAUBIO_3_CFLAGS -D_WITH_AUBIO_3_"
+    LIBS="$LIBS $LIBAUBIO_3_LIBS"
+    useaubio3=yes
+  else
+    useaubio4=yes
+  fi
+fi
+
 PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.3.10)
 CFLAGS="$CFLAGS $XML2_CFLAGS"
 LIBS="$LIBS $XML2_LIBS"
@@ -275,10 +313,6 @@ if test "x$useportaudio" = "xyes"; then
   CFLAGS="$CFLAGS -D_HAVE_PORTAUDIO_ $PORTAUDIO_CFLAGS"
   dnl CFLAGS="$CFLAGS $PORTAUDIO_CFLAGS"
   LIBS="$LIBS $PORTAUDIO_LIBS"
-
-  PKG_CHECK_MODULES(LIBAUBIO, aubio >= 0.3.2)
-  CFLAGS="$CFLAGS $LIBAUBIO_CFLAGS"
-  LIBS="$LIBS $LIBAUBIO_LIBS"
 
   PKG_CHECK_MODULES(FFTW, fftw3 >= 3.1.2)
   CFLAGS="$CFLAGS $FFTW_CFLAGS"
