@@ -440,6 +440,7 @@ store_pitch (double pitch)
 #include <getopt.h>
 #include <unistd.h>
 #include <math.h>
+#define AUBIO_UNSTABLE 1
 #include <aubio/aubio.h>
 #include <audio.h>
 #include <glib.h>
@@ -563,11 +564,7 @@ note_append (fvec_t * note_buffer, smpl_t anote)
 static uint_t
 get_note (fvec_t * note_buffer, fvec_t * note_buffer2)
 {
-  uint_t i = 0;
-  for (i = 0; i < note_buffer->length; i++)
-    {
-      note_buffer2->data[i] = note_buffer->data[i];
-    }
+  fvec_copy(note_buffer, note_buffer2);
   return fvec_median (note_buffer2);
 }
 
