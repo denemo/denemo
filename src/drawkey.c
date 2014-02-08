@@ -142,6 +142,14 @@ draw_key (cairo_t * cr, gint xx, gint y, gint number, gint prevnumber, gint dcle
         for (i = 0; i < number; i++, xx += SHARP_WIDTH + 2)
           if (wetrun)
             draw_accidental (cr, xx, y + theys[i], 1);
+      
+      if(prevnumber==0 && (number==0))
+        {
+             if(cr) drawtext_cr (cr, "(♮)", xx, y + STAFF_HEIGHT + 12, 18);       
+             xx += 20;       
+        }
+            
+            
     }
   return xx - origx;
 }
