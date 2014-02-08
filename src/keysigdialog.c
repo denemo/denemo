@@ -48,6 +48,7 @@ typedef struct keysig_data
   GtkWidget *checkbutton;
   GtkWidget *majorkeycombo;
   GtkWidget *minorkeycombo;
+//  GtkWidget *okbutton;
   GList *majorlist;
   GList *minorlist;
   GtkWidget *radiobutton2;
@@ -147,7 +148,7 @@ insert_keysig (keysig_data * kdata)
               curmeasure = g_list_nth (firstmeasurenode (curstaff), si->currentmeasurenum - 1);
               if (curmeasure)
                 {
-                  curmeasure->data = g_list_append ((objnode *) curmeasure->data, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode));
+                  curmeasure->data = g_list_insert ((objnode *) curmeasure->data, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode), si->cursor_x);
                   if (curmeasure == si->currentmeasure)
                     si->currentobject = g_list_nth ((objnode *) curmeasure->data, si->cursor_x);
                   showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
@@ -165,7 +166,9 @@ insert_keysig (keysig_data * kdata)
         adjust_tonal_center (((keysig *) (newkey->object))->accs);
     }                           /* End if */
 }
-
+//static void sensitize_ok_button (keysig_data *data) {
+  //   gtk_widget_set_sensitive (data->okbutton, TRUE);
+//}
 /**
  * Update the keysig dialogs combobox with the 
  * major keys
@@ -173,6 +176,7 @@ insert_keysig (keysig_data * kdata)
 void
 majorcallback (GtkWidget * widget, struct keysig_data *data)
 {
+//  sensitize_ok_button (data);
   gtk_widget_hide (data->minorkeycombo);
   gtk_widget_show (data->majorkeycombo);
 }
@@ -184,6 +188,7 @@ majorcallback (GtkWidget * widget, struct keysig_data *data)
 void
 minorcallback (GtkWidget * widget, struct keysig_data *data)
 {
+//  sensitize_ok_button (data);
   gtk_widget_hide (data->majorkeycombo);
   gtk_widget_show (data->minorkeycombo);
 }
@@ -338,7 +343,8 @@ key_change (DenemoProject * gui, actiontype action)
   gboolean initial = action == CHANGEINITIAL ? TRUE : FALSE;
   /* GUI setup */
   dialog = gtk_dialog_new_with_buttons (_("Key Signature Change"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
-
+ // GtkWidget *okbutton = gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT);
+  //gtk_widget_set_sensitive (okbutton, FALSE);
   if (action == CHANGEINITIAL)
     gtk_window_set_title (GTK_WINDOW (dialog), _("Change initial key signature"));
   else
@@ -349,6 +355,7 @@ key_change (DenemoProject * gui, actiontype action)
   gtk_container_add (GTK_CONTAINER (content_area), vbox);
 
   keysig_data *keysig_widgets = (keysig_data *) g_malloc0 (sizeof (keysig_data));
+//  keysig_widgets->okbutton = okbutton;
   GtkWidget *label;
   GtkWidget *radiobutton1, *radiobutton2;
   GtkWidget *checkbutton;
@@ -377,7 +384,8 @@ key_change (DenemoProject * gui, actiontype action)
   GtkWidget *minorkeycombo = gtk_combo_new ();
   gtk_combo_set_popdown_strings (GTK_COMBO (minorkeycombo), minorlist);
 #endif
-
+//  g_signal_connect_swapped (majorkeycombo, "changed", sensitize_ok_button, keysig_widgets);
+//  g_signal_connect_swapped (minorkeycombo, "changed", sensitize_ok_button, keysig_widgets);
   GtkWidget *pack_to_vbox = gtk_vbox_new (FALSE, 1);
   label = gtk_label_new (_("Select desired key signature"));
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), label);
