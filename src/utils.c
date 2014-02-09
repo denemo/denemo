@@ -374,7 +374,7 @@ drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x, gint y, gboole
 
         if (invert)
           cairo_scale (cr, 1, -1);
-        cairo_show_text (cr, glyph->utf);
+        cairo_show_text (cr, glyph->utf);//FIXME for windows, need a variant on  windows_draw_text which follows
         break;
       }
     }
@@ -391,19 +391,64 @@ drawfetachar_cr (cairo_t * cr, gunichar uc, double x, double y)
   cairo_select_font_face (cr, "feta26", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
   cairo_set_font_size (cr, 35.0);
   cairo_move_to (cr, x, y);
-  cairo_show_text (cr, utf_string);
+  cairo_show_text (cr, utf_string); //FIXME for windows, need a variant on  windows_draw_text which follows
 }
+
+#ifdef G_OS_WIN32
+//this code actually works on GNU/Linux too, it is not clear what to prefer
+static void
+windows_draw_text (cairo_t *cr, const char *text, double x, double y, double size)
+{
+#define FONT "Denemo"
+
+  PangoLayout *layout;
+  PangoFontDescription *desc;
+  /* Create a PangoLayout, set the font and text */
+  layout = pango_cairo_create_layout (cr);
+
+  pango_layout_set_text (layout, text, -1);
+  desc = pango_font_description_from_string (FONT);
+  pango_font_description_set_size (desc, size*PANGO_SCALE);
+  pango_layout_set_font_description (layout, desc);
+  pango_font_description_free (desc);
+  pango_cairo_update_layout (cr, layout);
+
+     
+  cairo_move_to (cr, x, y);
+  pango_cairo_show_layout (cr, layout);
+  /* free the layout object */
+  g_object_unref (layout);
+}
+#endif
+
+#if DEBUG
+static gboolean shift_held_down(void) 
+    {
+        GdkModifierType mask;
+        GdkWindow *win = gtk_widget_get_window (Denemo.window);
+#if GTK_MAJOR_VERSION == 2
+        gdk_window_get_pointer (win, NULL, NULL, &mask);
+#else
+        gdk_window_get_device_position (win, gdk_device_manager_get_client_pointer (gdk_display_get_device_manager(gdk_display_get_default())) ,NULL, NULL, &mask);
+#endif        
+        return (mask & GDK_SHIFT_MASK);
+    }
+#endif
 
 void
 drawtext_cr (cairo_t * cr, const char *text, double x, double y, double size)
 {
   if (*text)
     {
+#ifdef G_OS_WIN32
+      return windows_draw_text (cr, text, x, y - 14 * (size/14), 0.75 * size); //these values arrived at by trial and error, to match the previously used code below
+#else
       //use the FreeSerif font as it has music symbols - there is no font substitution done by cairo here
-      cairo_select_font_face (cr, "Denemo", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
+      cairo_select_font_face (cr, "Denemo", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL); 
       cairo_set_font_size (cr, size);
       cairo_move_to (cr, x, y);
       cairo_show_text (cr, text);
+#endif
     }
 }
 
