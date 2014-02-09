@@ -342,6 +342,35 @@ normal_cursor (GtkWidget *area)
  */
 
 
+#ifdef G_OS_WIN32
+//this code actually works on GNU/Linux too, it is not clear what to prefer
+static void
+windows_draw_text (cairo_t *cr, const char *font, const char *text, double x, double y, double size, gboolean invert)
+{
+ y -= size;
+ size *= 0.75;
+  PangoLayout *layout;
+  PangoFontDescription *desc;
+  /* Create a PangoLayout, set the font and text */
+  layout = pango_cairo_create_layout (cr);
+
+  pango_layout_set_text (layout, text, -1);
+  desc = pango_font_description_from_string (font);
+  pango_font_description_set_size (desc, size*PANGO_SCALE);
+  pango_layout_set_font_description (layout, desc);
+  pango_font_description_free (desc);
+  pango_cairo_update_layout (cr, layout);
+
+     
+  cairo_move_to (cr, x, y);
+  if (invert)
+          cairo_scale (cr, 1, -1);
+  pango_cairo_show_layout (cr, layout);
+  /* free the layout object */
+  g_object_unref (layout);
+}
+#endif
+
 void
 drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x, gint y, gboolean invert)
 {
@@ -368,13 +397,17 @@ drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x, gint y, gboole
     case DENEMO_FONT:
       {
         DenemoGlyph *glyph = mask->graphic;
+#ifdef G_OS_WIN32
+        windows_draw_text (cr, glyph->fontname, glyph->utf, x, y, glyph->size, invert);
+#else
         cairo_select_font_face (cr, glyph->fontname, glyph->slant, glyph->weight);
         cairo_set_font_size (cr, glyph->size);
         cairo_move_to (cr, x, y);
 
         if (invert)
           cairo_scale (cr, 1, -1);
-        cairo_show_text (cr, glyph->utf);//FIXME for windows, need a variant on  windows_draw_text which follows
+        cairo_show_text (cr, glyph->utf);
+#endif
         break;
       }
     }
@@ -388,38 +421,14 @@ drawfetachar_cr (cairo_t * cr, gunichar uc, double x, double y)
   char utf_string[8];
   len = g_unichar_to_utf8 (uc, utf_string);
   utf_string[len] = '\0';
+  //    windows_draw_text (cr, "feta26", utf_string, x, y, 35.0, FALSE); this fails to position stuff correctly, but the code below is working on windows anyway.
   cairo_select_font_face (cr, "feta26", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
   cairo_set_font_size (cr, 35.0);
   cairo_move_to (cr, x, y);
-  cairo_show_text (cr, utf_string); //FIXME for windows, need a variant on  windows_draw_text which follows
+  cairo_show_text (cr, utf_string);
+
 }
 
-#ifdef G_OS_WIN32
-//this code actually works on GNU/Linux too, it is not clear what to prefer
-static void
-windows_draw_text (cairo_t *cr, const char *text, double x, double y, double size)
-{
-#define FONT "Denemo"
-
-  PangoLayout *layout;
-  PangoFontDescription *desc;
-  /* Create a PangoLayout, set the font and text */
-  layout = pango_cairo_create_layout (cr);
-
-  pango_layout_set_text (layout, text, -1);
-  desc = pango_font_description_from_string (FONT);
-  pango_font_description_set_size (desc, size*PANGO_SCALE);
-  pango_layout_set_font_description (layout, desc);
-  pango_font_description_free (desc);
-  pango_cairo_update_layout (cr, layout);
-
-     
-  cairo_move_to (cr, x, y);
-  pango_cairo_show_layout (cr, layout);
-  /* free the layout object */
-  g_object_unref (layout);
-}
-#endif
 
 #if DEBUG
 static gboolean shift_held_down(void) 
@@ -441,7 +450,7 @@ drawtext_cr (cairo_t * cr, const char *text, double x, double y, double size)
   if (*text)
     {
 #ifdef G_OS_WIN32
-      return windows_draw_text (cr, text, x, y - 14 * (size/14), 0.75 * size); //these values arrived at by trial and error, to match the previously used code below
+      return windows_draw_text (cr, "Denemo", text, x, y, size, FALSE); //these values arrived at by trial and error, to match the previously used code below
 #else
       //use the FreeSerif font as it has music symbols - there is no font substitution done by cairo here
       cairo_select_font_face (cr, "Denemo", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL); 
