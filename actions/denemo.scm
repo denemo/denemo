@@ -207,7 +207,8 @@
     
          (doublestroke::invokegui)) ;  DenemoKeypressActivated has been dropped as it is not working
 
-
+(define (DenemoAbbreviatedString title)
+    (html-escape (if (< (string-length title) 14) title (string-append (substring title 0 10) "..."))))
 
 ;;;;;;;;;; SetHeaderField sets a field in the movement header
 ;;;;;;;;;; the directive created is tagged Score or Movement depending on the field
@@ -229,8 +230,9 @@
      (if movement
         (set! type "Movement"))
     (set! tag (string-append type fieldname)) 
-
-    (set! current (d-DirectiveGet-header-display tag))
+    (set! current (d-DirectiveGet-header-data tag))
+    (if (not current)
+        (set! current (d-DirectiveGet-header-display tag)))
     (if (not current)
             (set! current ""))      
                     
@@ -245,7 +247,9 @@
                     (let ((movement (number->string (d-GetMovement))))
                         (if escape (set! title (scheme-escape title )))
                             (d-DirectivePut-header-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
-                            (d-DirectivePut-header-display tag (html-escape title))
+                            (d-DirectivePut-header-data tag title)
+                            
+                            (d-DirectivePut-header-display tag (DenemoAbbreviatedString title))
                             (d-DirectivePut-header-postfix tag (string-append field " = \\markup { \\with-url #'\"scheme:(d-GoToPosition " movement " 1 1 1)(d-" type fieldname ")\" "  "\"" title "\"}\n")))))
             (disp "Cancelled\n"))))
 
@@ -253,7 +257,9 @@
 (define* (SetScoreHeaderField field  #:optional (title #f) (escape #t) (full-title #f))
 (let ((current "") (tag ""))
   (set! tag (string-append "Score" (string-capitalize field)))
-  (set! current (d-DirectiveGet-scoreheader-display tag))
+  (set! current (d-DirectiveGet-scoreheader-data tag))
+  (if (not current)
+        (set! current (d-DirectiveGet-scoreheader-display tag)))
   (if (not current)
       (set! current ""))
   (if (not title)
@@ -267,7 +273,8 @@
                     (d-DirectivePut-scoreheader-override tag 0)
                     (begin
                             (d-DirectivePut-scoreheader-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
-                            (d-DirectivePut-scoreheader-display tag (html-escape title))))
+                            (d-DirectivePut-scoreheader-data tag title)
+                            (d-DirectivePut-scoreheader-display tag (DenemoAbbreviatedString title))))
             (if (not full-title)
                 (set! full-title (string-append " \\markup { \\with-url #'\"scheme:(d-" tag ")\"  "  "\"" title "\"}\n")))
             (d-DirectivePut-scoreheader-postfix tag (string-append field " = " full-title "\n"))))))
