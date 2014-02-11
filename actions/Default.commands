@@ -6348,6 +6348,13 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Advanced Edit</_label>
         <_tooltip>Edits a Denemo Directive at the lowest level. Advanced users only!</_tooltip>
       </row>
+      <row type="scheme">
+        <action>StaccatoStaccatissimo</action>
+        <after>TrillIsPlus</after>
+        <menupath>/ObjectMenu/Score</menupath>
+        <_label>Staccato as '</_label>
+        <_tooltip>Typesets staccato in 18th c. style, similar to modern stacattissimo. Applies to whole score.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
