@@ -1446,6 +1446,8 @@ actions/menus/ObjectMenu/Score/ScoreProlog.scm
 actions/menus/ObjectMenu/Score/ScoreProlog.xml
 actions/menus/ObjectMenu/Score/SetThumbnail.scm
 actions/menus/ObjectMenu/Score/SetThumbnail.xml
+actions/menus/ObjectMenu/Score/StaccatoStaccatissimo.scm
+actions/menus/ObjectMenu/Score/StaccatoStaccatissimo.xml
 actions/menus/ObjectMenu/Score/Titles/BookTitles/BookArranger.scm
 actions/menus/ObjectMenu/Score/Titles/BookTitles/BookArranger.xml
 actions/menus/ObjectMenu/Score/Titles/BookTitles/BookComposer.scm
