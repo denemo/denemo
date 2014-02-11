@@ -432,22 +432,6 @@ run_lilypond (gchar ** arguments)
   gint error = 0;
   if (get_print_status()->background == STATE_NONE)
     progressbar (_("Denemo Typesetting"), call_stop_lilypond);
-
-  if (get_print_status()->printpid != GPID_NONE)
-    {
-      if (confirm (_("Already doing a print"), _("Kill that one off and re-start?")))
-        {
-          if (get_print_status()->printpid != GPID_NONE)        //It could have died while the user was making up their mind...
-            kill_process (get_print_status()->printpid);
-          get_print_status()->printpid = GPID_NONE;
-        }
-      else
-        {
-          warningdialog (_("Cancelled"));
-          error = -1;
-          return error;
-        }
-    }
   if (lily_err)
     {
       g_warning ("Old error message from launching lilypond still present - message was %s\nDiscarding...", lily_err->message);
@@ -531,6 +515,21 @@ run_lilypond_for_pdf (gchar * filename, gchar * lilyfile)
 void
 create_pdf (gboolean part_only, gboolean all_movements)
 {
+      if (get_print_status()->printpid != GPID_NONE)
+    {
+      if (confirm (_("Already Typesetting"), _("Abandon this typeset?")))
+        {
+          if (get_print_status()->printpid != GPID_NONE)        //It could have died while the user was making up their mind...
+            kill_process (get_print_status()->printpid);
+          get_print_status()->printpid = GPID_NONE;
+        }
+      else
+        {
+          warningdialog (_("Cancelled"));
+          
+          return;
+        }
+    }
   advance_printname ();
   gchar *filename = get_print_status()->printbasename[get_print_status()->cycle];
   gchar *lilyfile = get_print_status()->printname_ly[get_print_status()->cycle];
