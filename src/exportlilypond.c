@@ -2108,12 +2108,12 @@ refresh_lily_cb (GtkAction * action, DenemoProject * gui)
       GtkTextMark *cursor = gtk_text_buffer_get_insert (Denemo.textbuffer);
       gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, cursor);
       gint offset = gtk_text_iter_get_offset (&iter);
-      //g_debug("Offset %d for %p\n", offset, Denemo.textbuffer);
+      //g_print("Offset %d for %p\n", offset, Denemo.textbuffer);
       output_score_to_buffer (gui, TRUE, NULL);
       gtk_text_buffer_get_iter_at_offset (Denemo.textbuffer, &iter, offset);
       gtk_text_buffer_place_cursor (Denemo.textbuffer, &iter);
       // gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(Denemo.textview), gtk_text_buffer_get_insert(Denemo.textbuffer));
-      gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW (Denemo.textview), gtk_text_buffer_get_insert (Denemo.textbuffer), 0.0, TRUE, 0.5, 0.5);
+      //gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW (Denemo.textview), gtk_text_buffer_get_insert (Denemo.textbuffer), 0.0, TRUE, 0.5, 0.5);
     }
   else
     output_score_to_buffer (gui, TRUE, NULL);
@@ -2896,11 +2896,30 @@ goto_lilypond_position (gint line, gint column)
   return FALSE;
 }
 
+gint get_cursor_offset (void) {
+    GtkTextIter cursor;
+    gint offset;
+    gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &cursor, gtk_text_buffer_get_insert (Denemo.textbuffer));
+    offset = gtk_text_iter_get_offset (&cursor);   
+    //g_print("Offset %d\n", offset);
+    return offset;
+}
 static gboolean
-lily_keypress (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event)
+lily_keypress (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event, gboolean after)
 {
   DenemoProject *gui = Denemo.project;
   GtkTextIter cursor;
+  static gint offset;
+  if(after) {
+      //g_print("Called after for %d\n", offset);
+      if(offset) {
+        gtk_text_buffer_get_iter_at_offset (Denemo.textbuffer, &cursor, offset);
+        gtk_text_buffer_place_cursor (Denemo.textbuffer, &cursor);
+        offset = 0;
+    }
+      return TRUE;
+  }
+  offset = 0;
   gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &cursor, gtk_text_buffer_get_insert (Denemo.textbuffer));
 
 
@@ -2939,15 +2958,15 @@ lily_keypress (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event)
     }
   // if you have a visible marker you do this gtk_text_iter_backward_cursor_position(&cursor);
   GtkTextChildAnchor *anchor = gtk_text_iter_get_child_anchor (&cursor);
-  //g_debug("Got a keypress event at anchor %p\n", anchor);
-  //g_debug("The character is %x keyval %x at %d\n", (guint)gdk_keyval_to_unicode(event->keyval), event->keyval,  gtk_text_iter_get_line_offset(&cursor));
+  //g_print("Got a keypress event at anchor %p\n", anchor);g_print("Initially the offset %d at anchor %p\n", gtk_text_iter_get_offset (&cursor), anchor);
+  //g_print("The character is %x keyval %x at %d\n", (guint)gdk_keyval_to_unicode(event->keyval), event->keyval,  gtk_text_iter_get_line_offset(&cursor));
   if (anchor)
     {
       gint objnum = (intptr_t) g_object_get_data (G_OBJECT (anchor), OBJECTNUM);
       gint measurenum = (intptr_t) g_object_get_data (G_OBJECT (anchor), MEASURENUM);
       gint staffnum = (intptr_t) g_object_get_data (G_OBJECT (anchor), STAFFNUM);
       gint movementnum = (intptr_t) g_object_get_data (G_OBJECT (anchor), MOVEMENTNUM);
-      //g_debug("location %d %d %d %d\n", objnum, measurenum, staffnum, movementnum);
+     // g_print("location %d %d %d %d\n", objnum, measurenum, staffnum, movementnum);
       if (movementnum < 1)
         return FALSE;
       if (!goto_movement_staff_obj (gui, movementnum, staffnum, measurenum, objnum))
@@ -2982,21 +3001,58 @@ lily_keypress (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event)
               gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &cursor, gtk_text_buffer_get_insert (Denemo.textbuffer));
               if (gtk_text_iter_forward_char (&cursor))
                 gtk_text_buffer_place_cursor (Denemo.textbuffer, &cursor);
+              offset = get_cursor_offset ();
               g_free (key);
               return TRUE;
             case CHORD:
             default:
               {
-                DenemoObject *lilyobj = lily_directive_new (key);
-                //g_debug("inserted a lilydirective  %s (%x)\n", key, *key);
-                object_insert (gui, lilyobj);
-                displayhelper (gui);
-                refresh_lily_cb (NULL, gui);
-                gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &cursor, gtk_text_buffer_get_insert (Denemo.textbuffer));
-                if (gtk_text_iter_forward_char (&cursor) && gtk_text_iter_forward_char (&cursor))
-                  gtk_text_buffer_place_cursor (Denemo.textbuffer, &cursor);
-                g_free (key);
-                return TRUE;
+                  GString **target = g_object_get_data (G_OBJECT (anchor), GSTRINGP); 
+                  if(target && *target)
+                  {
+                    //g_print("Target is %s\n", (*target)->str);
+                    g_string_prepend (*target, key);
+                    g_object_set_data (G_OBJECT (anchor), ORIGINAL, get_text (anchor));
+                    offset = get_cursor_offset ();                     
+                    score_status (gui, TRUE);
+                    refresh_lily_cb (NULL, gui);
+                    //g_print("After lily refresh %d", offset);
+                    gtk_text_buffer_get_iter_at_offset (Denemo.textbuffer, &cursor, offset);
+                    gtk_text_buffer_place_cursor (Denemo.textbuffer, &cursor);
+                    if (gtk_text_iter_forward_char (&cursor) && gtk_text_iter_forward_char (&cursor))
+                      gtk_text_buffer_place_cursor (Denemo.textbuffer, &cursor);
+                    offset = get_cursor_offset (); 
+                   // g_print("resetting lily refresh %d", offset);
+                    
+                  } else 
+                  {
+                    DenemoObject *lilyobj = lily_directive_new (key);
+                    ((DenemoDirective*)lilyobj->object)->tag = g_string_new("LilyInsert");
+                    //g_debug("inserted a lilydirective  %s (%x)\n", key, *key);
+                    //  offset = gtk_text_iter_get_offset (&cursor);
+                    // g_print("The offset %d at anchor %p\n", offset, anchor);
+                    offset = get_cursor_offset ();
+                    object_insert (gui, lilyobj);
+                          
+                    gtk_text_buffer_get_iter_at_offset (Denemo.textbuffer, &cursor, offset);
+                    gtk_text_buffer_place_cursor (Denemo.textbuffer, &cursor);
+                    
+                    displayhelper (gui);
+                        //    gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &cursor, gtk_text_buffer_get_insert (Denemo.textbuffer));
+                    
+                        //   g_print("Before advancing %d\n", gtk_text_iter_get_offset (&cursor));
+                    
+                    if (gtk_text_iter_forward_char (&cursor) && gtk_text_iter_forward_char (&cursor))
+                      gtk_text_buffer_place_cursor (Denemo.textbuffer, &cursor);
+                            //  g_print("after advancing %d\n", gtk_text_iter_get_offset (&cursor));
+                    refresh_lily_cb (NULL, gui);
+                            //  g_print ("After refresh %d\n\n", get_cursor_offset());
+                    offset = get_cursor_offset ();
+                        //if (gtk_text_iter_forward_char (&cursor) && gtk_text_iter_forward_char (&cursor))
+                        // gtk_text_buffer_place_cursor (Denemo.textbuffer, &cursor);
+                 }
+                    g_free (key);
+                return TRUE;      
               }
             }                   // switch obj->type
 
@@ -3098,9 +3154,10 @@ create_lilywindow (void)
   gtk_source_view_set_show_line_marks (view, TRUE);
   Denemo.textview = (GtkTextView *) view;
 
-#if 1
+
   g_signal_connect (G_OBJECT (Denemo.textview), "key-press-event", G_CALLBACK (lily_keypress), NULL);
-#endif
+  g_signal_connect_after (G_OBJECT (Denemo.textview), "key-release-event", G_CALLBACK (lily_keypress), GINT_TO_POINTER(TRUE));
+
 
   g_signal_connect_after (G_OBJECT (Denemo.textview), "populate-popup", G_CALLBACK (populate_called), NULL);
 
