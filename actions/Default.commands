@@ -3097,13 +3097,6 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>Choose any sort of clef. If the cursor is at the start change initial clef, else insert chosen clef.</_tooltip>
       </row>
       <row type="scheme">
-        <action>EndSecondTimeBar</action>
-        <after>SecondTimeBar</after>
-        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
-        <_label>Close Second Time Bar</_label>
-        <_tooltip>Closes the second time bar peviously opened (printing)</_tooltip>
-      </row>
-      <row type="scheme">
         <action>CloseSourceAudioFile</action>
         <after>SynchronizeAudio</after>
         <menupath>/MainMenu/PlaybackMenu/Audio</menupath>
@@ -3581,13 +3574,6 @@ First it removes notes until just a non-printing rest remains, then deletes that
         <menupath>/ObjectMenu/Directives</menupath>
         <_label>Enable Accordion 16'</_label>
         <_tooltip>Defines the accordions shifts for this score. The command Menu of Objects to Insert will allow them to be inserted.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>EndVolta</action>
-        <after>OpenSecondTimeBar</after>
-        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
-        <_label>End 1st/2nd Time Bar</_label>
-        <_tooltip>Ends a volta, that is a n'th time bar</_tooltip>
       </row>
       <row type="scheme">
         <action>EndBeam</action>
@@ -4121,13 +4107,6 @@ accidentals are usually printed over the note.</_tooltip>
         <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
         <_label>Initial Voice Two</_label>
         <_tooltip>Sets the (initial) voice of the staff to be voice two (this affects stems down, slurs etc on printing)</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>InsertFirstAndSecondTimeBars</action>
-        <after>RepeatEndStart</after>
-        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
-        <_label>Insert 1st &amp; 2nd Time Bars</_label>
-        <_tooltip>Inserts first and second time bars each with a whole measure rest. You can then edit this to suit your music, e.g by inserting extra bars, deleting the repeat start etc.</_tooltip>
       </row>
       <row type="scheme">
         <action>ForceBarline</action>
@@ -5095,6 +5074,28 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
         <_label>Repeat Start Barline</_label>
         <_tooltip>Insert a barline indicating the start of a repeated section.</_tooltip>
+      </row>      
+      <row type="scheme">
+        <action>InsertFirstAndSecondTimeBars</action>
+        <after>RepeatEndStart</after>
+        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
+        <_label>Insert 1st &amp; 2nd Time Bars</_label>
+        <_tooltip>Inserts first and second time bars each with a whole measure rest. You can then edit this to suit your music, e.g by inserting extra bars, deleting the repeat start etc.</_tooltip>
+      </row>
+
+      <row type="scheme">
+        <action>EndVolta</action>
+        <after>OpenSecondTimeBar</after>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
+        <_label>End 1st/2nd Time Bar</_label>
+        <_tooltip>Ends a volta, that is a n'th time bar</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>EndSecondTimeBar</action>
+        <after>SecondTimeBar</after>
+        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
+        <_label>Close Second Time Bar</_label>
+        <_tooltip>Closes the second time bar peviously opened (printing)</_tooltip>
       </row>
       <row type="scheme">
         <action>ReplaceChord</action>
