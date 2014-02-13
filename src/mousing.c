@@ -247,7 +247,7 @@ get_placement_from_coordinates (struct placement_info *pi, gdouble x, gdouble y,
             /* That is, we exited the loop normally, not through a break.  */
             {
               DenemoObject *current = (DenemoObject *) obj_iterator->data;
-              pi->the_obj = obj_iterator;
+              pi->the_obj = obj_iterator;//g_print("x_to_explain %d, compare current->x=%d and minpix %d\n",x_to_explain,current->x,current->minpixelsalloted);
               /* The below makes clicking to get the object at the end of
                  a measure (instead of appending after it) require
                  precision.  This may be bad; tweak me if necessary.  */
@@ -265,7 +265,7 @@ assign_cursor (guint state, guint cursor_num)
 {
   guint *cursor_state = g_new (guint, 1);
   *cursor_state = state;
-  //g_debug("Storing cursor %x for state %x in hash table %p\n", cursor_num, state, Denemo.map->cursors );  
+  //g_print("Storing cursor %d for state 0x%x in hash table %p\n", cursor_num, state, Denemo.map->cursors );  
   GdkCursor *cursor = gdk_cursor_new (cursor_num);
   g_assert (cursor);
   g_hash_table_insert (Denemo.map->cursors, cursor_state, cursor);
@@ -276,7 +276,7 @@ set_cursor_for (guint state)
 {
   gint the_state = state;
   GdkCursor *cursor = g_hash_table_lookup (Denemo.map->cursors, &the_state);
-  //g_debug("looked up %x in %p got cursor %p which is number %d\n", state, Denemo.map->cursors,  cursor, cursor?cursor->type:-1);
+  //g_print("looked up %x in %p got cursor %p\n", state, Denemo.map->cursors,  cursor);
   if (cursor)
     gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), cursor);
   else
@@ -728,10 +728,20 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     {
       if (event->x < KEY_MARGIN - cmajor)
         {
-          if (Denemo.prefs.learning)
-            MouseGestureShow(_("Left on initial Clef."), _("This pops up the initial clef menu."),
-              MouseGesture);
-          popup_menu ("/InitialClefEditPopup");
+        if (offset<-10)
+            {  
+                if (Denemo.prefs.learning)
+                MouseGestureShow(_("Left on Staff name."), _("This pops up the built-in staff properties. For other properties of the current staff see the staff menu or the tools icon before the clef."),
+                  MouseGesture);
+                staff_properties_change_cb (NULL, NULL);
+            }
+        else
+            {
+              if (Denemo.prefs.learning)
+                MouseGestureShow(_("Left on initial Clef."), _("This pops up the initial clef menu."),
+                  MouseGesture);
+              popup_menu ("/InitialClefEditPopup");
+            }
           return TRUE;
         }
       else if (event->x < KEY_MARGIN + key + cmajor)
@@ -807,14 +817,26 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     }
   else
     {
-      if (gui->movement->cursor_appending)
+      if (gui->movement->cursor_appending && (event->state==0))
         {
           if (Denemo.prefs.learning)
-            MouseGestureShow(_("Right Click Appending."), _("This pops up the append menu"),
-                    MouseGesture);  
-          
+           { 
+              
+                    MouseGestureShow(_("Right Click Appending."), _("This pops up the append menu"),
+                        MouseGesture);
+            
+           }
           popup_menu ("/NoteAppendPopup");
           return TRUE;
+        }
+        
+        if ((GDK_SHIFT_MASK & event->state) == GDK_SHIFT_MASK) {     
+            if (Denemo.prefs.learning)  
+                    MouseGestureShow(_("Shift-Right Click."), _("This pops up menu for inserting barlines and many other sorts of objects"),
+                        MouseGesture);
+            gtk_menu_popup (GTK_MENU (gtk_widget_get_parent(gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/Directives/Markings"))),
+                            NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());                       
+            return TRUE;
         }
     }
   set_cursor_for (event->state | (left ? GDK_BUTTON1_MASK : GDK_BUTTON3_MASK));
