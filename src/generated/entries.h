@@ -436,7 +436,6 @@
 {"Spanning", NULL, N_("Spanning"), "",N_("Menu:\nCommands to tell the typesetter to start or stop a particular effect. Use these around passages that are to be treated differently, or over which a marking should be placed.")},
 {"Typesetter", NULL, N_("Typesetter"), "",N_("Menu:\nInstructions for the typesetter to do something at the cursor position.")},
 {"Part-Combining", NULL, N_("Part-Combining"), "",N_("Menu:\nInstructions for the typesetter to combine two voices in various ways.")},
-{"Barlines", NULL, N_("Barlines"), "",N_("Menu:\nBarlines and Repeat Barlines.")},
 {"ObjectMenu", NULL, N_("Object Menu"), "",N_("Menu:\nCommands for working with the musical object hierarchy.")},
 {"MainMenu", NULL, N_("Main Menu"), "",N_("Menu:\nThe top level commands for operating Denemo.")},
 {"0", "NULL", NOTE0, NULL, "Inserts a note at the cursor with duration "NOTE0", or \n(if appending) appends this duration\nIf MIDI-in is active the note will be pitchless (displays yellow, percussion-sounding)\n - the MIDI keyboard will provide the pitch. Changes prevailing duration.",
