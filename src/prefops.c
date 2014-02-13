@@ -83,6 +83,11 @@ initprefs ()
   ret->resolution = 300;
   ret->display_refresh = 0.01;
   ret->animation_steps = 10;
+  ret->tooltip_timeout = 1000;
+  ret->tooltip_browse_timeout = 700;
+  ret->tooltip_browse_mode_timeout = 1000;
+ 
+  
   ret->overlays = FALSE;
   ret->continuous = TRUE;
   ret->cursor_highlight = TRUE;

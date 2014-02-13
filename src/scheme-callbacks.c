@@ -908,7 +908,10 @@ scheme_set_newbie (SCM optional)
   SCM ret = SCM_BOOL (Denemo.prefs.newbie);
   if (scm_is_true (optional))
     {
-      Denemo.prefs.tooltip_timeout = Denemo.prefs.tooltip_browse_timeout = 0;
+      Denemo.prefs.tooltip_timeout = 1000;
+      Denemo.prefs.tooltip_browse_timeout = 700;
+      Denemo.prefs.tooltip_browse_mode_timeout = 1000;
+      
       Denemo.prefs.learning = 1;
       Denemo.prefs.newbie = 1;
     }
