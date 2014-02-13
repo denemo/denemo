@@ -782,9 +782,14 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
 //under windows we have:  <http://savannah.gnu.org/bugs/?36968>
       // stop playback and restart audio subsystem
       // FIXME: only do this when audio settings actually changed
+  if (Denemo.project->notsaved)
+        infodialog(_("Any changes to MIDI or AUDIO will not be effected until re-starting Denemo"));
+  else if (confirm (_("Audio/MIDI Subsystem"), _("Attempt to re-start the audio subsystem now?")))
+    {
       midi_stop ();
       audio_shutdown ();
       audio_initialize (cbdata.prefs);
+    }
 #endif
 
       free_g_lists (&cbdata);
