@@ -4,16 +4,6 @@
     <title>A Denemo Command Set</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <cursors>
-        <cursor-binding>
-          <state>101</state>
-          <cursor>116</cursor>
-        </cursor-binding>
-        <cursor-binding>
-          <state>102</state>
-          <cursor>146</cursor>
-        </cursor-binding>
-      </cursors>
       <row>
         <action>MoveCursorLeft</action>
         <bind>Left</bind>
@@ -524,7 +514,7 @@
       </row>
       <row>
         <action>MoveNoteToCursor</action>
-        <bind>MveL-Shift</bind>
+        <bind>MveL-Control</bind>
       </row>
       <row>
         <action>StartDownStems</action>
