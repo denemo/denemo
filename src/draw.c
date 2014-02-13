@@ -952,13 +952,13 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
       /* Draw staff name on first system */
       if (!itp->line_end)
         {
-          gint staffname_offset = (thestaff->voicecontrol & DENEMO_PRIMARY) ? 24 : 12;
+          gint staffname_offset = (thestaff->voicecontrol & DENEMO_PRIMARY) ? 26 : 12;
           drawnormaltext_cr (cr, thestaff->denemo_name->str, 0 /*KEY_MARGIN */ , y - staffname_offset + 10);
         }
       else
         {
           cairo_save (cr);
-          gint staffname_offset = (thestaff->voicecontrol & DENEMO_PRIMARY) ? 24 : 12;
+          gint staffname_offset = (thestaff->voicecontrol & DENEMO_PRIMARY) ? 26 : 12;
           cairo_translate (cr, 2, (y - staffname_offset + 30));
           cairo_rotate (cr, -M_PI / 5.0);
           drawnormaltext_cr (cr, thestaff->denemo_name->str, 0, 0);
