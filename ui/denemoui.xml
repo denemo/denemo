@@ -657,10 +657,9 @@
             <menuitem action="Insert5"/>
             <menuitem action="Insert6"/>
             <menuitem action="Insert7"/>     
-    </menu>
- 
-                <menuitem action="Cut"/>
-                <menuitem action="Copy"/>
-                <menuitem action="Paste"/>
+       </menu>
+            <menuitem action="Cut"/>
+            <menuitem action="Copy"/>
+            <menuitem action="Paste"/>
   </popup>
 </ui>
