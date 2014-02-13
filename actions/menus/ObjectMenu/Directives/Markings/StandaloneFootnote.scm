@@ -3,13 +3,13 @@
    (define (set-footnote mark text)
 	(d-Directive-standalone tag)
 	(d-DirectivePut-standalone-postfix tag (string-append
-		"\\override Score.FootnoteItem #'annotation-line = ##f \\footnote \""
+		"\\override Score.FootnoteItem.annotation-line = ##f \\footnote \""
 		mark 
-		"\" #'(0 . 0) #'NonMusicalPaperColumn \\markup { \\super \"" mark "\" \\teeny \""
+		"\" #'(0 . 2) \\markup { \\super \"" mark "\" \\teeny \""
 		text 
-		"\"} \\default  "))
+		"\"}  "))
 	(d-DirectivePut-standalone-graphic tag (string-append "\n" mark "\nDenemo\n16"))
-	(d-DirectivePut-standalone-display tag (string-append text "\n" mark "\n" text))
+	(d-DirectivePut-standalone-data tag (string-append "(cons \"" text "\" \""  mark "\")"))
 	(d-DirectivePut-standalone-gy tag -40)
 	(d-DirectivePut-standalone-minpixels tag 20)
 	(d-SetSaved #f)
@@ -20,14 +20,13 @@
 			(if (and mark text)
 			(set-footnote mark text)))
   (if (d-Directive-standalone? tag)
-			(let ((choice #f) (current (d-DirectiveGet-standalone-display tag)))
-				(define mark (GetNthLine current 1))
-				(define text (GetNthLine current 2))
-				(disp "mark " mark " and text " text "ok")
-				
-				(disp "About to ask for choice " choice " at start")
+			(let ((mark "*") (text (_ "Orig. ")) (choice #f) (current  (eval-string (d-DirectiveGet-standalone-data tag) )))
+				(if current 
+					(begin
+						(set! mark (cdr current))
+						(set! text (car  current))))
+
 				(set! choice (GetEditOption))
-				(disp "Now got choice " choice " ok\n")
 				(case choice
 					((edit) (choose-footnote mark text))
 					((delete) (d-DirectiveDelete-standalone tag))
