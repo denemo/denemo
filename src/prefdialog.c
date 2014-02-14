@@ -598,7 +598,8 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
 
   static struct audio_callback_data audio_cbdata;
 
-  NEWPAGE (_("Audio/MIDI"));
+  NEWPAGE (_("Audio"));
+
 
   BOOLEANENTRY (_("Play back entered notes immediately"), immediateplayback);
   INTENTRY_LIMITS (_("Pitch Spelling Channel"), pitchspellingchannel, 0, 15);
@@ -676,9 +677,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
     index = 0;
   driver = g_list_nth_data (cbdata.midi_driver_option_list, index);
 
-
-  SEPARATOR ();
-
+  NEWPAGE (_("MIDI"));
 
   COMBOBOX (_("MIDI backend"), midi_driver, cbdata.midi_driver_option_list, driver, FALSE);
   g_signal_connect (G_OBJECT (GTK_COMBO_BOX (midi_driver)), "changed", G_CALLBACK (midi_audio_tab_update), &audio_cbdata);
