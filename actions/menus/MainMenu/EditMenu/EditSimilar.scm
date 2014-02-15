@@ -1,5 +1,11 @@
 ;;EditSimilar
 (let ((target #f))
+
+ (define (edit-tag tag default-action)
+    (let ((command (with-input-from-string (string-append "d-"  tag) read)))
+        (if (defined? command)
+            ((eval command (current-module)) "edit")
+            (default-action tag))))
   (define (edit)
         (define choice (RadioBoxMenu
           (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " Directives"))   'continue)   
@@ -20,13 +26,13 @@
         (define choice (RadioBoxMenu
           (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Notes"))   'continue)   
           (cons (_ "Delete")   'delete)   
-          ;(cons (_ "Edit") 'edit)
+          (cons (_ "Edit") 'edit)
           (cons (_ "Execute Scheme") 'execute)
           (cons (_ "Stop") 'stop)
           (cons (_ "Advanced") 'advanced)))
           (case choice
             ((delete) (d-DirectiveDelete-note target))
-            ;((edit) (d-DirectiveEdit-note target))
+            ((edit) (edit-tag target d-DirectiveTextEdit-note))
             ((stop) (set! target #f))
             ((execute) (d-ExecuteScheme))
             ((advanced) (d-DirectiveTextEdit-note target))
@@ -36,13 +42,13 @@
         (define choice (RadioBoxMenu
           (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Chords"))   'continue)   
           (cons (_ "Delete")   'delete)   
-          ;(cons (_ "Edit") 'edit)
+          (cons (_ "Edit") 'edit)
           (cons (_ "Execute Scheme") 'execute)
           (cons (_ "Stop") 'stop)
           (cons (_ "Advanced") 'advanced)))
           (case choice
             ((delete) (d-DirectiveDelete-chord target))
-            ;((edit) (d-DirectiveEdit-chord target))
+            ((edit) (edit-tag target d-DirectiveTextEdit-chord))
             ((stop) (set! target #f))
             ((execute) (d-ExecuteScheme))
             ((advanced) (d-DirectiveTextEdit-chord target))
