@@ -107,7 +107,7 @@ struct name_and_function denemo_commands[] = {
   {NULL, "Reduce the dotting of the chord note or rest at the cursor.", N_("RemoveDot"), "remove_dot_key", N_("Remove Dot")},
 
   {NULL, "Inserts a duplicate of the current note, tied", N_("InsertTiedNote"), "tie_notes_key", "Tied note"},
-  {NULL, "Ties/unties the note at the cursor", N_("ToggleTie"), "toggle_tie", "Toggle Tie"},
+  {NULL, "Ties/unties the note at the cursorm. The following note should be the same pitch.", N_("ToggleTie"), "toggle_tie", "Tie (Off/On)"},
 
   {NULL, "Delete the object at the cursor", N_("DeleteObject"), "deleteobject", N_("Delete Object")},
   {NULL, "Delete to the left of the cursor.", N_("DeletePreviousObject"), "deletepreviousobject", N_("Delete Previous Object")},
@@ -233,8 +233,8 @@ struct name_and_function denemo_commands[] = {
   {NULL, "Sets the start point for a selection,\\nthe end point of the selection is unaltered", N_("SetMark"), "set_mark", N_("Set Mark")},
   {NULL, "Gets rid of the selection.", N_("UnsetMark"), "unset_mark", N_("Unset Mark")},
   {NULL, "Extends the selection to the current cursor position", N_("SetPoint"), "set_point", N_("Set Point")},
-  {NULL, "Insert/delete begin slur on this note", N_("ToggleBeginSlur"), "toggle_begin_slur", N_("Begin Slur")},
-  {NULL, "Insert/delete end slur on this note", N_("ToggleEndSlur"), "toggle_end_slur", N_("End Slur")},
+  {NULL, "Insert/delete begin slur on this note", N_("ToggleBeginSlur"), "toggle_begin_slur", N_("Begin Slur (Off/On)")},
+  {NULL, "Insert/delete end slur on this note", N_("ToggleEndSlur"), "toggle_end_slur", N_("End Slur (Off/On)")},
 
   {NULL, "Marks/Unmarks the chord or note at the cursor as the start of a crescendo.", N_("ToggleStartCrescendo"), "toggle_start_crescendo", N_("Start Crescendo (Off/On)")},
   {NULL, "Marks/Unmarks the chord or note at the cursor as the end of a crescendo.", N_("ToggleEndCrescendo"), "toggle_end_crescendo", N_("End Crescendo (Off/On)")},

@@ -74,7 +74,7 @@ register_command("StemDown", _("StemDown"), _("Alters a StemNeutral object to st
 register_command("AddDot", _("Add Dot"), _("Lengthen the chord, note or rest at the cursor by dotting it."), add_dot_key);
 register_command("RemoveDot", _("Remove Dot"), _("Reduce the dotting of the chord note or rest at the cursor."), remove_dot_key);
 register_command("InsertTiedNote", _("Tied note"), _("Inserts a duplicate of the current note, tied"), tie_notes_key);
-register_command("ToggleTie", _("Toggle Tie"), _("Ties/unties the note at the cursor"), toggle_tie);
+register_command("ToggleTie", _("Tie (Off/On)"), _("Ties/unties the note at the cursorm. The following note should be the same pitch."), toggle_tie);
 register_command("DeleteObject", _("Delete Object"), _("Delete the object at the cursor"), deleteobject);
 register_command("DeletePreviousObject", _("Delete Previous Object"), _("Delete to the left of the cursor."), deletepreviousobject);
 register_command("InsertMeasure", _("Insert Measure Before"), _("Insert a blank measure before the current one (in all staffs)"), insert_measure_key);
@@ -185,8 +185,8 @@ register_command("SetInitialAflatmin", _("Set Ab Minor as Initial Keysig"), _("N
 register_command("SetMark", _("Set Mark"), _("Sets the start point for a selection,\nthe end point of the selection is unaltered"), set_mark);
 register_command("UnsetMark", _("Unset Mark"), _("Gets rid of the selection."), unset_mark);
 register_command("SetPoint", _("Set Point"), _("Extends the selection to the current cursor position"), set_point);
-register_command("ToggleBeginSlur", _("Begin Slur"), _("Insert/delete begin slur on this note"), toggle_begin_slur);
-register_command("ToggleEndSlur", _("End Slur"), _("Insert/delete end slur on this note"), toggle_end_slur);
+register_command("ToggleBeginSlur", _("Begin Slur (Off/On)"), _("Insert/delete begin slur on this note"), toggle_begin_slur);
+register_command("ToggleEndSlur", _("End Slur (Off/On)"), _("Insert/delete end slur on this note"), toggle_end_slur);
 register_command("ToggleStartCrescendo", _("Start Crescendo (Off/On)"), _("Marks/Unmarks the chord or note at the cursor as the start of a crescendo."), toggle_start_crescendo);
 register_command("ToggleEndCrescendo", _("End Crescendo (Off/On)"), _("Marks/Unmarks the chord or note at the cursor as the end of a crescendo."), toggle_end_crescendo);
 register_command("ToggleStartDiminuendo", _("Start Diminuendo (Off/On)"), _("Marks/Unmarks the chord or note at the cursor as the start of a diminuendo."), toggle_start_diminuendo);

@@ -404,8 +404,8 @@ The cursor position determines which note to add</_tooltip>
       </row>
       <row type="builtin">
         <action>ToggleTie</action>
-        <_label>Toggle Tie</_label>
-        <_tooltip>Ties/unties the note at the cursor</_tooltip>
+        <_label>Tie (Off/On)</_label>
+        <_tooltip>Ties/unties the note at the cursor. The following note should be the same pitch.</_tooltip>
       </row>
       <row type="builtin">
         <action>DeleteObject</action>
@@ -960,12 +960,12 @@ the end point of the selection is unaltered</_tooltip>
       </row>
       <row type="builtin">
         <action>ToggleBeginSlur</action>
-        <_label>Begin Slur</_label>
+        <_label>Begin Slur (Off/On)</_label>
         <_tooltip>Insert/delete begin slur on this note</_tooltip>
       </row>
       <row type="builtin">
         <action>ToggleEndSlur</action>
-        <_label>End Slur</_label>
+        <_label>End Slur (Off/On)</_label>
         <_tooltip>Insert/delete end slur on this note</_tooltip>
       </row>
       <row type="builtin">
@@ -5074,7 +5074,7 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
         <_label>Repeat Start Barline</_label>
         <_tooltip>Insert a barline indicating the start of a repeated section.</_tooltip>
-      </row>      
+      </row>
       <row type="scheme">
         <action>InsertFirstAndSecondTimeBars</action>
         <after>RepeatEndStart</after>
@@ -5082,7 +5082,6 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <_label>Insert 1st &amp; 2nd Time Bars</_label>
         <_tooltip>Inserts first and second time bars each with a whole measure rest. You can then edit this to suit your music, e.g by inserting extra bars, deleting the repeat start etc.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>EndVolta</action>
         <after>OpenSecondTimeBar</after>
