@@ -115,6 +115,7 @@ SCM scheme_get_base_duration_in_ticks (void);
 SCM scheme_get_end_tick (void);
 SCM scheme_get_start_tick (void);
 SCM scheme_get_measure_number (void);
+SCM scheme_cursor_to_nth_note_height (SCM number);
 SCM scheme_cursor_to_note (SCM);
 SCM scheme_get_prevailing_keysig (SCM);
 SCM scheme_get_prevailing_timesig (SCM);
@@ -340,6 +341,7 @@ SCM scheme_paper_directive_get_nth_tag (SCM);
 SCM scheme_layout_directive_get_nth_tag (SCM);
 SCM scheme_movementcontrol_directive_get_nth_tag (SCM);
 
+SCM scheme_strict_note_directive_get_nth_tag (SCM);
 
 
 SCM scheme_delete_note_directive (SCM);

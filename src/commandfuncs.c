@@ -1121,6 +1121,40 @@ to_standalone_direction_in_measure (gboolean right)
 
  // there is a significant problem with the concept of next note in a chord of several notes. We have no way of iterating over the notes of a chord
   // since the notes may be altered during the iteration and Denemo does not define a "currentnote"
+  //but we can define cursor_to_top_note() and cursor_next_note_down() the latter moving to the next note below the cursor position (if any).
+  
+gboolean cursor_to_nth_note_height(gint n) {
+    DenemoProject *gui = Denemo.project;
+  DenemoObject *curObj;
+  chord *thechord;
+  note *thenote;
+  if (!Denemo.project ||
+   !(Denemo.project->movement) ||
+    !(Denemo.project->movement->currentobject) ||
+     !(curObj = Denemo.project->movement->currentobject->data) ||
+      (curObj->type != CHORD) ||
+       !(thechord = (chord *) curObj->object) ||
+        !(thechord->notes) ||
+         !(thenote = (note *) thechord->notes->data))
+    return FALSE;
+    if(n >= g_list_length (thechord->notes))
+        return FALSE;
+    thenote = g_list_nth (thechord->notes, n)->data;
+    gint mid_c_offset = thenote->mid_c_offset;
+    g_print("Mid c offset required %d\n", mid_c_offset);
+    g_print ("Currently gui->movement->cursor_y = %d\n", gui->movement->cursor_y);
+    if (gui->movement->cursor_y < mid_c_offset)
+        while (gui->movement->cursor_y < mid_c_offset)
+            cursorup (NULL, NULL);
+    else
+         while (gui->movement->cursor_y > mid_c_offset)
+            cursordown (NULL, NULL);
+    return (gui->movement->cursor_y == mid_c_offset);
+}
+
+  
+  
+  
 //This next note is next chord that is not a rest in the given direction.
 static gboolean
 to_note_direction (gboolean right, gboolean stopping)
@@ -1227,13 +1261,13 @@ cursor_to_prev_chord_in_measure (void)
 {
   return to_chord_direction_in_measure (FALSE);
 }
-
+//Badly named - it is a next chord that is not a rest
 gboolean
 cursor_to_next_note (void)
 {
   return to_note_direction (TRUE, FALSE);
 }
-
+//Badly named - it is a prev chord that is not a rest
 gboolean
 cursor_to_prev_note (void)
 {

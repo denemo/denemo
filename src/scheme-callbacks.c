@@ -2849,6 +2849,13 @@ scheme_increment_keysig (SCM amount)
 }
 
 SCM
+scheme_cursor_to_nth_note_height (SCM number)
+{
+  return SCM_BOOL (cursor_to_nth_note_height (scm_to_int(number) - 1));
+}
+
+
+SCM
 scheme_cursor_to_note (SCM lilyname)
 {
   DenemoProject *gui = Denemo.project;
@@ -3548,8 +3555,16 @@ GET_NTH_TAG (movementcontrol);
 #undef GET_NTH_TAG
 
 
-
-
+//only retrieve directives when cursor is actually on the note
+SCM scheme_strict_note_directive_get_nth_tag(SCM index) {
+  gint n;
+  if(!scm_is_integer(index))
+     return SCM_BOOL_F;
+    n = scm_to_int(index);
+  gchar *val = get_nth_strict_note_tag (n);
+  if(val) return scm_from_locale_stringn (val, strlen(val));
+  return SCM_BOOL_F;
+}
 
 
 
