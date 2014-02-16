@@ -936,62 +936,6 @@ movecursorleft (GtkAction* action, DenemoScriptParam * param)
   return move_left (param, FALSE);
 }
 
-#if 0
-
-//next chord that is not a rest
-gboolean
-cursor_to_next_note (DenemoScriptParam * param)
-{
-  gboolean success = FALSE;
-  while (movecursorright (param) && Denemo.project->movement->currentobject)
-    {
-      if (Denemo.project->movement->cursor_appending)
-        {
-          (void) cursor_to_next_note (param);
-          gtk_widget_queue_draw (Denemo.scorearea);
-        }
-      if (Denemo.project->movement->currentobject)
-        {
-          DenemoObject *obj = Denemo.project->movement->currentobject->data;
-          if (obj->type == CHORD)
-            {
-              chord *thechord = obj->object;
-              if (thechord->notes)
-                {
-                  success = TRUE;
-                  break;
-                }
-            }
-        }
-    }
-  return success;
-}
-
-// next chord, ie single or multinote chord or rest
-gboolean
-cursor_to_next_chord (DenemoScriptParam * param)
-{
-  gboolean success = FALSE;
-  while (movecursorright (param) && Denemo.project->movement->currentobject)
-    {
-      if (Denemo.project->movement->cursor_appending)
-        {
-          (void) cursor_to_next_chord (param);
-          gtk_widget_queue_draw (Denemo.scorearea);
-        }
-      if (Denemo.project->movement->currentobject)
-        {
-          DenemoObject *obj = Denemo.project->movement->currentobject->data;
-          if (obj->type == CHORD)
-            {
-              success = TRUE;
-              break;
-            }
-        }
-    }
-  return success;
-}
-#endif
 
 
 // moves the cursor in the direction indicated, observing within_measure and if stopping stopping at empty measures
