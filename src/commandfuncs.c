@@ -1152,7 +1152,35 @@ gboolean cursor_to_nth_note_height(gint n) {
     return (gui->movement->cursor_y == mid_c_offset);
 }
 
-  
+gboolean cursor_to_next_note_height(void) {
+  GList *thenotes;
+  DenemoProject *gui = Denemo.project;
+  DenemoObject *curObj;
+  chord *thechord;
+  note *thenote;
+  gint mid_c_offset; 
+  if (!Denemo.project ||
+   !(Denemo.project->movement) ||
+    !(Denemo.project->movement->currentobject) ||
+     !(curObj = Denemo.project->movement->currentobject->data) ||
+      (curObj->type != CHORD) ||
+       !(thechord = (chord *) curObj->object) ||
+        !(thenotes = thechord->notes) ||
+         !(thenote = (note *) thenotes->data))
+    return FALSE;
+   
+    cursorup (NULL, NULL); //seek *above* the current cursor position only
+    for(;thenotes;thenotes=thenotes->next)
+        {  
+            thenote = (note *) thenotes->data;
+            mid_c_offset = thenote->mid_c_offset; g_print ("Currently gui->movement->cursor_y = %d considering %d\n", gui->movement->cursor_y, mid_c_offset);
+            while (gui->movement->cursor_y < mid_c_offset)  
+                cursorup (NULL, NULL);
+            if (gui->movement->cursor_y == mid_c_offset)
+                break;     
+        }
+    return (gui->movement->cursor_y == mid_c_offset);
+}  
   
   
 //This next note is next chord that is not a rest in the given direction.

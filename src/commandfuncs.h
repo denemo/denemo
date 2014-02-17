@@ -79,6 +79,7 @@ gboolean cursor_to_prev_chord_in_measure (void);
 gboolean cursor_to_next_note (void);
 gboolean cursor_to_prev_note (void);
 gboolean cursor_to_nth_note_height(gint n);
+gboolean cursor_to_next_note_height (void);
 void cursorup (GtkAction * action, DenemoScriptParam * param);
 
 void cursordown (GtkAction * action, DenemoScriptParam * param);
