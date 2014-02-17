@@ -547,6 +547,15 @@ get_note (void)
   return findnote (curObj, gui->movement->cursor_y);
 }
 
+static note *
+get_strict_note (void)
+{
+  DenemoProject *gui = Denemo.project;
+  DenemoObject *curObj = get_chordobject ();
+  if (curObj == NULL)
+    return NULL;
+  return findnote_strict (curObj, gui->movement->cursor_y);
+}
 
 static DenemoStaff *
 get_staff (void)
@@ -3336,7 +3345,7 @@ TEXT_EDIT_DIRECTIVE (standalone);
 gchar *get_nth_##what##_tag(gint n) {\
   what *current = get_##what();\
   if(current==NULL) return NULL;\
-   GList *g = g_list_nth(current->name, n);\
+  GList *g = g_list_nth(current->name, n);\
   if(g==NULL) return NULL;\
   DenemoDirective *directive = (DenemoDirective *)g->data;\
   return directive->tag->str;}
@@ -3357,3 +3366,29 @@ GET_NTH_TAG (paper, directives);
 GET_NTH_TAG (layout, directives);
 GET_NTH_TAG (movementcontrol, directives);
 #undef GET_NTH_TAG
+
+gchar *get_nth_strict_note_tag(gint n) 
+    {
+      note *current = get_strict_note();
+      if(current==NULL) return NULL;
+      GList *g = g_list_nth(current->directives, n);
+      if(g==NULL) return NULL;
+      DenemoDirective *directive = (DenemoDirective *)g->data;
+      return directive->tag->str;
+  }
+
+const gchar *strict_note_directive_get_tag (gchar *tag) 
+    {
+      note *current = get_strict_note();
+      if(current==NULL) return NULL;
+      GList *g = current->directives;
+      for(;g; g=g->next)
+          {
+            DenemoDirective *directive = (DenemoDirective *)g->data;
+            if(tag == NULL)
+                return directive->tag?directive->tag->str:NULL;
+            if (directive->tag && !strcmp (directive->tag->str, tag))
+                return tag;
+          }
+      return NULL;
+    }

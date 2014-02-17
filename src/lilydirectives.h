@@ -41,6 +41,8 @@ void chord_directive (GtkAction * action, DenemoScriptParam * param);
 void standalone_directive (GtkAction * action, DenemoScriptParam * param);
 void delete_chord_or_note_directive (GtkAction * action, DenemoScriptParam * param);
 
+gchar *get_nth_strict_note_tag (gint index);
+const gchar *strict_note_directive_get_tag (gchar *tag);
 
 void delete_directives (GList ** pdirectives);
 
