@@ -750,14 +750,23 @@
 
 
 ;Radiobox is a Radio-Box list where you have a pretty name and a data type.
-;;Wants pairs, car is a string to show as radio-option, cdr is a return value and can be any data type, for example a function.
+;;takes a list of pairs, car is a string to show as radio-option, cdr is a return value and can be any data type, for example a function.
+;;or takes a list of strings, returns the string chosen or #f
 (define (RadioBoxMenu . parameters)
     (define answer #f)
-    (define radiostring (string-append (string-join (map (lambda (x) (car x)) parameters) stop) stop))
+    (define radiostring #f)
+    (if (list? (car parameters))
+        (set! radiostring (string-append (string-join (car  parameters) stop) stop))
+        (set! radiostring (string-append (string-join (map (lambda (x) (car x)) parameters) stop) stop)))
     (set! answer (d-GetOption radiostring))
     (if answer
-        (cdr    (list-ref  parameters (list-index (lambda (x) (equal?  answer (car x))) parameters)))
+        (if (list? (car parameters))
+             answer
+             (cdr (list-ref  parameters (list-index (lambda (x) (equal?  answer (car x))) parameters))))
         #f))
+
+
+
 
 ;Protofunction for all transpose and shift related commands
 ;; Get all notes on cursor position and create a list with new values which then exchanges the current notes on cursor position
