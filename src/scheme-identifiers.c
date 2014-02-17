@@ -174,6 +174,8 @@ create_scheme_identfiers (void)
 
 
   install_scm_function (0, "Takes LilyPond note name string. Moves the cursor to the line or space", DENEMO_SCHEME_PREFIX "CursorToNote", scheme_cursor_to_note);
+  install_scm_function (1, "Takes a number 1 ... n. Moves the cursor to the nth note from the bottom of the chord at the cursor, returning #f if it fails.", DENEMO_SCHEME_PREFIX "CursorToNthNoteHeight", scheme_cursor_to_nth_note_height);
+  install_scm_function (0, "Moves the cursor up to the next higher note of the chord at the cursor, returning #f if it fails.", DENEMO_SCHEME_PREFIX "CursorToNextNoteHeight", scheme_cursor_to_next_note_height);
 
   install_scm_function (0, "Returns the prevailing key signature at the cursor", DENEMO_SCHEME_PREFIX "GetPrevailingKeysig", scheme_get_prevailing_keysig);
   install_scm_function (0, "Returns the prevailing time signature at the cursor", DENEMO_SCHEME_PREFIX "GetPrevailingTimesig", scheme_get_prevailing_timesig);
@@ -325,6 +327,8 @@ create_scheme_identfiers (void)
   INSTALL_GET_NTH_TAG (movementcontrol);
 #undef INSTALL_GET_NTH_TAG
 
+  install_scm_function (1, "Takes a number n. Returns the tag of the nth note directive if it exists at the cursor height else returns #f if none", DENEMO_SCHEME_PREFIX"DirectiveGetNthTagStrictNote", scheme_directive_get_nth_tag_strict_note);
+  install_scm_function (1, "Takes a tag and returns #t if a note directive exists with that tag at the cursor height, with no argument returns the first tag on the note at cursor height, else returns #f", DENEMO_SCHEME_PREFIX"DirectiveGetForTagStrictNote", scheme_directive_get_for_tag_strict_note);
 
 
 

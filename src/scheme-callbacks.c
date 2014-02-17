@@ -2853,7 +2853,11 @@ scheme_cursor_to_nth_note_height (SCM number)
 {
   return SCM_BOOL (cursor_to_nth_note_height (scm_to_int(number) - 1));
 }
-
+SCM
+scheme_cursor_to_next_note_height (void)
+{
+  return SCM_BOOL (cursor_to_next_note_height ());
+}
 
 SCM
 scheme_cursor_to_note (SCM lilyname)
@@ -3556,7 +3560,7 @@ GET_NTH_TAG (movementcontrol);
 
 
 //only retrieve directives when cursor is actually on the note
-SCM scheme_strict_note_directive_get_nth_tag(SCM index) {
+SCM scheme_directive_get_nth_tag_strict_note(SCM index) {
   gint n;
   if(!scm_is_integer(index))
      return SCM_BOOL_F;
@@ -3566,9 +3570,17 @@ SCM scheme_strict_note_directive_get_nth_tag(SCM index) {
   return SCM_BOOL_F;
 }
 
-
-
-
+SCM scheme_directive_get_for_tag_strict_note (SCM tagname) 
+{
+    SCM ret = SCM_BOOL_F;
+    gchar *tag = NULL;
+    if( scm_is_string (tagname))
+        tag = scm_to_locale_string (tagname);
+    tag = strict_note_directive_get_tag (tag);
+    if (tag)
+        ret = scm_from_locale_string (tag);
+return ret;
+}
 #define GET_TAG_FN_DEF(what)\
  SCM scheme_##what##_directive_get_tag(SCM tag) {\
   char *tagname;\
