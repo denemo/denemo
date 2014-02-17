@@ -1558,6 +1558,28 @@ findnote (DenemoObject * curObj, gint cursory)
     }
   return curnote;
 }
+/**
+ * If the curObj is a chord with a note(s)
+ * return the note at cursory else return NULL
+ */
+note *
+findnote_strict (DenemoObject * curObj, gint cursory)
+{
+  note *curnote = NULL;
+  if (curObj && curObj->type == CHORD && ((chord *) curObj->object)->notes)
+    {
+      GList *notes = ((chord *) curObj->object)->notes;
+      for (; notes; notes = notes->next)
+        {
+          curnote = (note *) notes->data;
+          //g_debug("comparing %d and %d\n", cursory, curnote->y);
+          if (cursory == curnote->mid_c_offset)
+            return curnote;
+        }
+
+    }
+  return NULL;
+}
 
 /* display full information about the object at the cursor */
 GtkWidget *ObjectInfo = NULL;

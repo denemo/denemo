@@ -49,12 +49,12 @@ const gchar *locateprintdir (void);
 
 #define processenter(entry, callback,  cbdata, dialog)\
   g_signal_connect(G_OBJECT(entry), "activate", \
-		     G_CALLBACK(callback), \
-		     &cbdata); \
+             G_CALLBACK(callback), \
+             &cbdata); \
   if (dialog) \
     g_signal_connect_object (G_OBJECT (entry), "activate", \
-	  		       G_CALLBACK(gtk_widget_destroy), \
-			       G_OBJECT (dialog), G_CONNECT_AFTER)
+                   G_CALLBACK(gtk_widget_destroy), \
+                   G_OBJECT (dialog), G_CONNECT_AFTER)
 
 
 void drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x, gint y, gboolean invert);
@@ -291,6 +291,8 @@ void display_current_object(void);
 
 note *
 findnote (DenemoObject * curObj, gint cursory);
+note *
+findnote_strict (DenemoObject * curObj, gint cursory);
 
 #define get_label_for_command(name) lookup_label_from_idx(Denemo.map, lookup_command_from_name(Denemo.map, name))
 #define get_tooltip_for_command(name) lookup_tooltip_from_idx(Denemo.map, lookup_command_from_name(Denemo.map, name))
