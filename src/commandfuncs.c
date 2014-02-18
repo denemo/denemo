@@ -1141,8 +1141,8 @@ gboolean cursor_to_nth_note_height(gint n) {
         return FALSE;
     thenote = g_list_nth (thechord->notes, n)->data;
     gint mid_c_offset = thenote->mid_c_offset;
-    g_print("Mid c offset required %d\n", mid_c_offset);
-    g_print ("Currently gui->movement->cursor_y = %d\n", gui->movement->cursor_y);
+    //g_print("Mid c offset required %d\n", mid_c_offset);
+    //g_print ("Currently gui->movement->cursor_y = %d\n", gui->movement->cursor_y);
     if (gui->movement->cursor_y < mid_c_offset)
         while (gui->movement->cursor_y < mid_c_offset)
             cursorup (NULL, NULL);
@@ -1173,7 +1173,7 @@ gboolean cursor_to_next_note_height(void) {
     for(;thenotes;thenotes=thenotes->next)
         {  
             thenote = (note *) thenotes->data;
-            mid_c_offset = thenote->mid_c_offset; g_print ("Currently gui->movement->cursor_y = %d considering %d\n", gui->movement->cursor_y, mid_c_offset);
+            mid_c_offset = thenote->mid_c_offset;// g_print ("Currently gui->movement->cursor_y = %d considering %d\n", gui->movement->cursor_y, mid_c_offset);
             while (gui->movement->cursor_y < mid_c_offset)  
                 cursorup (NULL, NULL);
             if (gui->movement->cursor_y == mid_c_offset)
