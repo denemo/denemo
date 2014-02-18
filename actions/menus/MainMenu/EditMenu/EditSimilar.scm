@@ -6,8 +6,8 @@
         (define tag #f)
         (set! tag (get-command n))
         (if tag
-            (begin (disp "tag is " tag " which is string " (string? tag) "  \n\n")
-                (set! tags (cons tag tags)) (disp "So far tags " tags "\n\n\n")
+            (begin 
+                (set! tags (cons tag tags))
                 (loop tags (+ 1 n)))
             tags)))
         
@@ -17,11 +17,11 @@
             ((note)
                 (set! tags (get-tag-list d-DirectiveGetNthTagStrictNote)))
             ((chord)
-                (set! tags (get-tag-list d-DirectiveGetNthTag-chord)))) (disp "And so now " tags " ok???\n\n")
+                (set! tags (get-tag-list d-DirectiveGetNthTag-chord)))) 
     (if (null? tags)
             #f
         (if (> (length tags) 1)
-            (RadioBoxMenu tags)
+            (RadioBoxMenuList tags)
             (list-ref tags 0)))))
   
  (define (edit-tag tag default-action)

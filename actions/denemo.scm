@@ -749,23 +749,25 @@
 (define (d-Enter) (eval-string (string-append "(d-" (number->string (abs (d-GetPrevailingDuration))) ")" )))
 
 
-;Radiobox is a Radio-Box list where you have a pretty name and a data type.
-;;takes a list of pairs, car is a string to show as radio-option, cdr is a return value and can be any data type, for example a function.
-;;or takes a list of strings, returns the string chosen or #f
-(define (RadioBoxMenu . parameters)
+;RadioBoxMenu is a Radio-Box list where you have a pretty name and a data type.
+;;takes any number of pairs as parameters, car is a string to show as radio-option, cdr is a return value and can be any data type, for example a function.
+;;or any number of strings - returns the string chosen or #f
+;;RadioBoxList takes a list of the parameter types as above, returns chosen value or #f        
+(define (RadioBoxMenuList  parameters)
     (define answer #f)
     (define radiostring #f)
-    (if (list? (car parameters))
-        (set! radiostring (string-append (string-join (car  parameters) stop) stop))
+    (if (string? (car parameters))
+        (set! radiostring (string-append (string-join parameters stop) stop))
         (set! radiostring (string-append (string-join (map (lambda (x) (car x)) parameters) stop) stop)))
     (set! answer (d-GetOption radiostring))
     (if answer
-        (if (list? (car parameters))
+        (if (string? (car parameters))
              answer
              (cdr (list-ref  parameters (list-index (lambda (x) (equal?  answer (car x))) parameters))))
-        #f))
-
-
+        #f))        
+        
+(define (RadioBoxMenu . parameters)
+    (RadioBoxMenuList parameters))
 
 
 ;Protofunction for all transpose and shift related commands
