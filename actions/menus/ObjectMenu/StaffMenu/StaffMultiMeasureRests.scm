@@ -1,7 +1,7 @@
 ;;;StaffMultiMeasureRests
 (let ()
   (define (whole-measure-rest)
-    (d-Directive-chord? "WholeMeasureRest"))
+    (and (not (d-GetNonprinting))(d-Directive-chord? "WholeMeasureRest")))
 
     ;;; find-block looks at the measures from the cursor onwards returning with the cursor on the first of a block of wmrs (#t) or at the end if none (#f)
   (define (find-block)
@@ -33,6 +33,7 @@
 ;;; actual code
   (d-PushPosition)
   (d-GoToBeginning)
+  (d-FillEmptyMeasures)
   (while (and (not (whole-measure-rest)) (d-NextChord)))
   (while (and (not (whole-measure-rest)) (d-MoveToMeasureRight)))
   (let loop ()

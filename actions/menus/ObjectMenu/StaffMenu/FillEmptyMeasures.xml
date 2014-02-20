@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>FillEmptyMeasures</action>
+        <after>StaffMultiMeasureRests</after>
+        <_label>Fill Empty Measures</_label>
+        <_tooltip>Replaces empty measures from the cursor position onwards with non-printing whole measure rests.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
