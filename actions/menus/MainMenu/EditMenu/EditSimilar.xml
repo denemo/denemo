@@ -8,7 +8,7 @@
         <after>EditObject</after>
         <action>EditSimilar</action>
         <_label>Seek/Edit Directives</_label>
-        <_tooltip>Seek and edit Denemo Directives starting with the one at the cursor and optionally similar ones following. Position the cursor on a particular notehead to edit directives attached to individual notes (such as fingering), otherwise you will edit directives attached at the chord level (such as beaming).</_tooltip>
+        <_tooltip>Seek and edit Denemo Directives starting with the one at the cursor and optionally similar ones following. Position the cursor on a particular notehead to edit directives attached to individual noteheads (such as fingering), otherwise you will edit directives attached at the chord level (such as beaming).</_tooltip>
       </row>
     </map>
   </merge>
