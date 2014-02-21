@@ -114,4 +114,4 @@
               (edit-chord)
               (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-chord? target))))
                   (edit-chord)))
-            (d-InfoDialog (_ "Currently only Directives attached to noteheads, chords (including notes and rests) or standalone are supported - position the cursor on a notehead for directives on that notehead or off the noteheads for directives on a chord/note/rest, or on a standalone directive."))))))))
+            (d-InfoDialog (_ "Currently only Directives attached to noteheads, chords (including notes and rests) or standalone are supported - position the cursor on a notehead for directives on that notehead or off the noteheads for directives on a chord/note/rest, or on a standalone directive. \nAlternatively, use \"Choose, Seek & Edit\" to select from possible directives in your score."))))))))
