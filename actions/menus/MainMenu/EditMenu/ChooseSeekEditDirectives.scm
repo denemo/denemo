@@ -38,6 +38,8 @@
                     (loop (GetPosition))))))
     (d-PopPosition)
     (d-MoveCursorLeft) ; to include the original position if possible.
+    (if (null? tags)
+        (d-InfoDialog (_ "No directives are present on any of the objects after the cursor position (searching in column order)."))
     (let ((choice (RadioBoxMenuList tags)))
        (if choice
-            (d-EditSimilar choice))))
+            (d-EditSimilar choice)))))
