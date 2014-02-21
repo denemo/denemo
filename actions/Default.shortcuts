@@ -999,6 +999,10 @@
         <action>Import-Midi</action>
         <hidden>true</hidden>
       </row>
+      <row>
+        <action>ChooseSeekEditDirectives</action>
+        <bind>Ctrl+e</bind>
+      </row>
     </map>
   </merge>
 </Denemo>
