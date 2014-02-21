@@ -1,6 +1,5 @@
 ;;EditSimilar
 (let ((target #f))
-
    (define (get-tag-list get-command) ;;;get-command is d-DirectiveGetNthTag-note
     (let loop ((tags '())(n 0))
         (define tag #f)
@@ -47,7 +46,7 @@
 
   (define (edit-note)
         (define choice (RadioBoxMenu
-          (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Notes"))   'continue)   
+          (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Noteheads"))   'continue)   
           (cons (_ "Delete")   'delete)   
           (cons (_ "Edit") 'edit)
           (cons (_ "Execute Scheme") 'execute)
@@ -64,7 +63,7 @@
 
   (define (edit-chord)
         (define choice (RadioBoxMenu
-          (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Chords"))   'continue)   
+          (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Chords/Notes/Rests"))   'continue)   
           (cons (_ "Delete")   'delete)   
           (cons (_ "Edit") 'edit)
           (cons (_ "Execute Scheme") 'execute)
@@ -79,14 +78,24 @@
             ((#f)  (set! target #f))))
 
 ;;; the actual procedure
-  (set! target (d-DirectiveGetTag-standalone))
+  (if EditSimilar::params 
+    (if (eq? (cdr EditSimilar::params) 'standalone)
+        (begin
+            (set! target (car EditSimilar::params))
+            (FindNextObjectAllColumns (lambda () (d-Directive-standalone? target)))))
+    (set! target (d-DirectiveGetTag-standalone)))
   (if target
     (begin
       (edit)
       (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-standalone? target))))
           (edit)))
     (begin
-      (set! target (select-directive 'note))
+      (if EditSimilar::params 
+        (if (eq? (cdr EditSimilar::params) 'note)
+            (begin
+                (set! target (car EditSimilar::params))
+                (FindNextNoteAllColumns (lambda () (d-DirectiveGetForTagStrictNote target)))))
+        (set! target (select-directive 'note)))
       (if target
         (begin
           (edit-note)
@@ -94,10 +103,15 @@
               (edit-note)))
         
         (begin
-          (set! target (select-directive 'chord))
+            (if EditSimilar::params 
+                (if (eq? (cdr EditSimilar::params) 'chord)
+                    (begin 
+                        (set! target (car EditSimilar::params))
+                        (FindNextObjectAllColumns (lambda () (d-Directive-chord? target)))))
+                (set! target (select-directive 'chord)))
           (if target
             (begin
               (edit-chord)
               (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-chord? target))))
                   (edit-chord)))
-            (d-InfoDialog (_  "Currently only  Directives are supported - position the cursor on a notehead for that note or off the noteheads for the chord."))))))))
+            (d-InfoDialog (_ "Currently only Directives attached to noteheads, chords (including notes and rests) or standalone are supported - position the cursor on a notehead for directives on that notehead or off the noteheads for directives on a chord/note/rest, or on a standalone directive."))))))))
