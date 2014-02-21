@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ChooseSeekEditDirectives</action>
+        <after>EditObject</after>
+        <_label>Choose, Seek &amp; Edit</_label>
+        <_tooltip>Creates a menu of all the directives attached to objects from the cursor position onwards in this movement. Selecting one moves the cursor to the next object of that type which can then be edited, or further searches made. </_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
