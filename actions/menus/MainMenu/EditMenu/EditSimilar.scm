@@ -69,49 +69,165 @@
           (cons (_ "Execute Scheme") 'execute)
           (cons (_ "Stop") 'stop)
           (cons (_ "Advanced") 'advanced)))
-          (case choice
+        (case choice
             ((delete) (d-DirectiveDelete-chord target))
             ((edit) (edit-tag target d-DirectiveTextEdit-chord))
             ((stop) (set! target #f))
             ((execute) (d-ExecuteScheme))
             ((advanced) (d-DirectiveTextEdit-chord target))
             ((#f)  (set! target #f))))
-
+            
+            
+  (define (edit-nonprinting)
+        (define choice (RadioBoxMenu
+          (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " Objects"))   'continue)   
+          (cons (_ "Change to Printing")   'switch)
+          (cons (_ "Execute Scheme") 'execute)
+          (cons (_ "Stop") 'stop)))
+        (case choice
+            ((switch) (d-SetNonprinting #f))
+            ((stop) (set! target #f))
+            ((execute) (d-ExecuteScheme))
+            ((#f)  (set! target #f))))
+  (define (edit-slurstart)
+        (define choice (RadioBoxMenu
+          (cons (_ "Continue seeking slur start positions")   'continue)   
+          (cons (_ "Delete Slur")   'delete)
+          (cons (_ "Execute Scheme") 'execute)
+          (cons (_ "Stop") 'stop)))
+        (case choice
+            ((delete) (d-ToggleBeginSlur)) ;;; make this execute a slur deletion instead
+            ((stop) (set! target #f))
+            ((execute) (d-ExecuteScheme))
+            ((#f)  (set! target #f))))
+    (define (edit-slurend)
+        (define choice (RadioBoxMenu
+          (cons (_ "Continue seeking slur end positions")   'continue)   
+          (cons (_ "Delete Slur")   'delete)
+          (cons (_ "Execute Scheme") 'execute)
+          (cons (_ "Stop") 'stop)))
+        (case choice
+            ((delete) (d-ToggleEndSlur));;; make this execute a slur deletion instead
+            ((stop) (set! target #f))
+            ((execute) (d-ExecuteScheme))
+            ((#f)  (set! target #f))))
+            
+    (define (edit-tupletstart)
+        (define choice (RadioBoxMenu
+          (cons (_ "Continue seeking tuplet start objects")   'continue)   
+          (cons (_ "Execute Scheme") 'execute)
+          (cons (_ "Stop") 'stop)))
+        (case choice
+            ((stop) (set! target #f))
+            ((execute) (d-ExecuteScheme))
+            ((#f)  (set! target #f))))            
+            
+    (define (edit-tupletend)
+        (define choice (RadioBoxMenu
+          (cons (_ "Continue seeking tuplet end objects")   'continue)   
+          (cons (_ "Execute Scheme") 'execute)
+          (cons (_ "Stop") 'stop)))
+        (case choice
+            ((stop) (set! target #f))
+            ((execute) (d-ExecuteScheme))
+            ((#f)  (set! target #f)))) 
 ;;; the actual procedure
-  (if EditSimilar::params 
-    (if (eq? (cdr EditSimilar::params) 'standalone)
-        (begin
-            (set! target (car EditSimilar::params))
-            (FindNextObjectAllColumns (lambda () (d-Directive-standalone? target)))))
-    (set! target (d-DirectiveGetTag-standalone)))
-  (if target
-    (begin
-      (edit)
-      (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-standalone? target))))
-          (edit)))
-    (begin
-      (if EditSimilar::params 
-        (if (eq? (cdr EditSimilar::params) 'note)
-            (begin
+  (let ((type #f))
+    (if EditSimilar::params 
+        (case (cdr EditSimilar::params)
+            ((standalone)
+                (set! type 'standalone)
                 (set! target (car EditSimilar::params))
-                (FindNextNoteAllColumns (lambda () (d-DirectiveGetForTagStrictNote target)))))
-        (set! target (select-directive 'note)))
-      (if target
+                (FindNextObjectAllColumns (lambda () (d-Directive-standalone? target))))
+  
+            ((note)
+                (set! type 'note)
+                (set! target (car EditSimilar::params))
+                (FindNextNoteAllColumns (lambda () (d-DirectiveGetForTagStrictNote target))))
+                
+             ((chord) 
+                (set! type 'chord)
+                (set! target (car EditSimilar::params))
+                (FindNextObjectAllColumns (lambda () (d-Directive-chord? target))))
+             ((nonprinting) 
+                (set! type 'nonprinting)
+                (set! target (car EditSimilar::params))
+                (FindNextObjectAllColumns (lambda () (d-GetNonprinting target))))
+                
+             ((slurstart) 
+                (set! type 'slurstart)
+                (set! target (car EditSimilar::params))
+                (FindNextObjectAllColumns (lambda () (d-IsSlurStart))))
+                
+             ((slurend) 
+                (set! type 'slurend)
+                (set! target (car EditSimilar::params))
+                (FindNextObjectAllColumns (lambda () (d-IsSlurEnd))))
+                   
+              ((tupletstart) 
+                (set! type 'tupletstart)
+                (set! target (car EditSimilar::params))
+                (FindNextObjectAllColumns (lambda () (TupletOpen?))))               
+              ((tupletend) 
+                (set! type 'tupletend)
+                (set! target (car EditSimilar::params))
+                (FindNextObjectAllColumns (lambda () (TupletClose?))))
+                
+                                  
+             (else
+                (disp "Not handling " EditSimilar::params " yet.")
+                (set! EditSimilar::params #f)))) 
+    (if (not type)
         (begin
-          (edit-note)
-          (while (and target (FindNextNoteAllColumns (lambda () (d-DirectiveGetForTagStrictNote target))))
-              (edit-note)))
-        
-        (begin
-            (if EditSimilar::params 
-                (if (eq? (cdr EditSimilar::params) 'chord)
-                    (begin 
-                        (set! target (car EditSimilar::params))
-                        (FindNextObjectAllColumns (lambda () (d-Directive-chord? target)))))
-                (set! target (select-directive 'chord)))
-          (if target
-            (begin
-              (edit-chord)
-              (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-chord? target))))
-                  (edit-chord)))
-            (d-InfoDialog (_ "Currently only Directives attached to noteheads, chords (including notes and rests) or standalone are supported - position the cursor on a notehead for directives on that notehead or off the noteheads for directives on a chord/note/rest, or on a standalone directive. \nAlternatively, use \"Choose, Seek & Edit\" to select from possible directives in your score."))))))))
+            (set! target (d-DirectiveGetTag-standalone))
+            (if target 
+                (set! type 'standalone)
+                (begin
+                    (set! target (select-directive 'note))
+                    (if target
+                        (set! type 'note)
+                        (begin
+                            (set! target (select-directive 'chord))
+                            (if target
+                                (set! type 'chord))))))))
+                            
+     (case type
+             ((standalone)
+                          (edit)
+                          (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-standalone? target))))
+                              (edit)))
+            ((note)
+                          (edit-note)
+                          (while (and target (FindNextNoteAllColumns (lambda () (d-DirectiveGetForTagStrictNote target))))
+                              (edit-note)))
+            ((chord)
+                          (edit-chord)
+                          (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-chord? target))))
+                              (edit-chord)))
+                              
+            ((nonprinting)
+                          (edit-nonprinting)
+                          (while (and target (FindNextObjectAllColumns (lambda () (d-GetNonprinting))))
+                              (edit-nonprinting)))                  
+            ((slurstart)
+                          (edit-slurstart)
+                          (while (and target (FindNextObjectAllColumns (lambda () (d-IsSlurStart))))
+                              (edit-slurstart))) 
+                              
+            ((slurend)
+                          (edit-slurend)
+                          (while (and target (FindNextObjectAllColumns (lambda () (d-IsSlurEnd))))
+                              (edit-slurend))) 
+                              
+            ((tupletstart)
+                          (edit-tupletstart)
+                          (while (and target (FindNextObjectAllColumns (lambda () (TupletOpen?))))
+                              (edit-tupletstart))) 
+            ((tupletend)
+                          (edit-tupletend)
+                          (while (and target (FindNextObjectAllColumns (lambda () (TupletClose?))))
+                              (edit-tupletend)))                                                             
+                              
+                                                       
+            (else
+                (d-InfoDialog (_ "Currently only Directives attached to noteheads, chords (including notes and rests) or standalone are supported - position the cursor on a notehead for directives on that notehead or off the noteheads for directives on a chord/note/rest, or on a standalone directive. \nAlternatively, use \"Choose, Seek &amp; Edit\" to select from possible directives in your score."))))))
