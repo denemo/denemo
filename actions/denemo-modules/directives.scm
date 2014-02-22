@@ -227,7 +227,14 @@
 (define (d-DirectiveGetTag-timesig)
   (d-DirectiveGetForTag-timesig ""))
   
+(define* (d-Directive-stemdirective?  #:optional (tag #f))
+  (if (equal? tag #f)
+      (string? (d-DirectiveGetForTag-stemdirective ""))
+      (equal? tag (d-DirectiveGetForTag-stemdirective tag))))
+(define (d-DirectiveGetTag-stemdirective)
+  (d-DirectiveGetForTag-stemdirective ""))
   
+   
 (define (d-DirectiveDelete-standalone Tag)
     (if (equal? (d-DirectiveGetTag-standalone) Tag)
     (begin (d-DeleteObject) #t)

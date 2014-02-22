@@ -20,26 +20,33 @@
                 (set! tag (d-DirectiveGetNthTag-chord n))
                 (if tag
                     (begin
-                        (set! tags (assoc-set! tags (string-append  tag " (C)") (cons tag 'chord)))
+                        (set! tags (assoc-set! tags (string-append  tag " (CRN)") (cons tag 'chord)))
                         (loop (+ 1 n)))))
                         
         (let loop ((n 0))
                 (set! tag (d-DirectiveGetNthTag-timesig n))
                 (if tag
                     (begin
-                        (set! tags (assoc-set! tags (string-append  tag " (T)") (cons tag 'timesig)))
+                        (set! tags (assoc-set! tags (string-append  tag " (T)") (cons tag 'timesigdir)))
                         (loop (+ 1 n)))))
         (let loop ((n 0))
                 (set! tag (d-DirectiveGetNthTag-keysig n))
                 (if tag
                     (begin
-                        (set! tags (assoc-set! tags (string-append  tag " (K)") (cons tag 'keysig)))
-                        (loop (+ 1 n)))))  
+                        (set! tags (assoc-set! tags (string-append  tag " (K)") (cons tag 'keysigdir)))
+                        (loop (+ 1 n))))) 
+        (let loop ((n 0))
+                (set! tag (d-DirectiveGetNthTag-clef n))
+                (if tag
+                    (begin
+                        (set! tags (assoc-set! tags (string-append  tag " (C)") (cons tag 'clef)))
+                        (loop (+ 1 n))))) 
+                         
         (let loop ((n 0))
                 (set! tag (d-DirectiveGetNthTag-stemdirective n))
                 (if tag
                     (begin
-                        (set! tags (assoc-set! tags (string-append  tag " (S)") (cons tag 'stemdir)))
+                        (set! tags (assoc-set! tags (string-append  tag " (V)") (cons tag 'voicedir)))
                         (loop (+ 1 n)))))
         (if (d-GetNonprinting)
                    (set! tags (assoc-set! tags (string-append (_ "Non Printing") " (O)") (cons "Non Printing" 'nonprinting))))
@@ -51,7 +58,15 @@
                  (set! tags (assoc-set! tags (string-append (_ "Tuplet Start") " (O)") (cons "StartTuplet" 'tupletstart))))  
         (if (TupletClose?)              
                  (set! tags (assoc-set! tags (string-append (_ "Tuplet End") " (O)") (cons "EndTuplet" 'tupletend))))
-                 
+        (if (Keysignature?)              
+                 (set! tags (assoc-set! tags (string-append (_ "Key Change") " (O)") (cons "KeySig" 'keysig))))
+       (if (Timesignature?)              
+                 (set! tags (assoc-set! tags (string-append (_ "Time Signature Change") " (O)") (cons "TimeSig" 'timesig))))
+       (if (StemDirective?)              
+                 (set! tags (assoc-set! tags (string-append (_ "Stems Direction") " (O)") (cons "StemDir" 'stemdirection))))
+       (if (Clef?)              
+                 (set! tags (assoc-set! tags (string-append (_ "Clef Change") " (O)") (cons "ClefChange" 'clef))))
+                  
         (set! tag (d-DirectiveGetForTag-standalone))
         (if tag       
               (set! tags (assoc-set! tags (string-append  tag " (O)") (cons tag 'standalone))))) 
