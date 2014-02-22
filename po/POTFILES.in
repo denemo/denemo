@@ -234,6 +234,8 @@ actions/lyimport.scm
 actions/lyimport-todenemo.scm
 actions/menus/MainMenu/EditMenu/AdvancedEdit.scm
 actions/menus/MainMenu/EditMenu/AdvancedEdit.xml
+actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.scm
+actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.xml
 actions/menus/MainMenu/EditMenu/ConvertDrum2GmSingleSelection.scm
 actions/menus/MainMenu/EditMenu/ConvertDrum2GmSingleSelection.xml
 actions/menus/MainMenu/EditMenu/Delete/DeleteRecordedMidi.scm
@@ -1557,6 +1559,8 @@ actions/menus/ObjectMenu/StaffMenu/CreateCuesForStaff.scm
 actions/menus/ObjectMenu/StaffMenu/CreateCuesForStaff.xml
 actions/menus/ObjectMenu/StaffMenu/CrossStaffArpeggio.scm
 actions/menus/ObjectMenu/StaffMenu/CrossStaffArpeggio.xml
+actions/menus/ObjectMenu/StaffMenu/FillEmptyMeasures.scm
+actions/menus/ObjectMenu/StaffMenu/FillEmptyMeasures.xml
 actions/menus/ObjectMenu/StaffMenu/FixSlursInStaff.scm
 actions/menus/ObjectMenu/StaffMenu/FixSlursInStaff.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/DynamicsStaff.scm
