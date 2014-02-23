@@ -85,7 +85,7 @@
           (cons (_ "Execute Scheme") 'execute)
           (cons (_ "Stop") 'stop)))
         (case choice
-            ((switch) (d-SetNonprinting #f))
+            ((switch) (if (d-Directive-chord? "WholeMeasureRest") (d-WholeMeasureRest 'printing)) (d-SetNonprinting #f))
             ((stop) (set! target #f))
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))

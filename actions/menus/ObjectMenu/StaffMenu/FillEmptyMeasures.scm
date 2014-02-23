@@ -3,7 +3,7 @@
 (let loop ()
     (if (EmptyMeasure?)
         (begin
-            (d-WholeMeasureRest)
+            (d-WholeMeasureRest 'nonprinting)
             (d-SetNonprinting)))
     (if (d-MoveToMeasureRight)
             (loop)))
