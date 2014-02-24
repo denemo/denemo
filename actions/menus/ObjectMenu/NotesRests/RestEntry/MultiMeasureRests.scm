@@ -1,5 +1,5 @@
 ;;MultiMeasureRests
-  (let ((WMRtag "WholeMeasureRest")(MMRtag "MultiMeasureRests"))
+  (let ((WMRtag DenemoWholeMeasureRestTag)(MMRtag "MultiMeasureRests"))
     (define count 1)
     (define (count-grouped-rests)
         (let outer-loop ()
@@ -39,7 +39,7 @@
                         (loop)))))))
   (define (next-chord-good)
     (let loop ()
-        (if  (and (d-NextObject) (not (d-Directive-standalone?)) (not (Timesignature?)) (not (Music?)))
+        (if  (and (or (d-NextObjectInMeasure) (and (d-MeasureRight) (not (EmptyMeasure?)))) (not (d-Directive-standalone?)) (not (Timesignature?)) (not (Music?)))
             (loop)
             (Music?))))
   (define (groupable-wholemeasure-rest?)
