@@ -1,17 +1,20 @@
 ;;;;InsertWholeMeasureRest
 (if (or (None?)  (zero? (d-GetDurationInTicks)))
     (begin
-        (d-WholeMeasureRest)
+        (DenemoWholeMeasureRestCommand)
         (d-MoveCursorRight)
         (d-Set2))
     (begin  
         (if (d-MoveToMeasureRight)
              (if (or (None?)  (zero? (d-GetDurationInTicks)))
-                (d-WholeMeasureRest)
-                (d-MoveToMeasureLeft))
+                (DenemoWholeMeasureRestCommand)
+                (begin
+                	(d-MoveToMeasureLeft)
+                	(if (d-Directive-chord? DenemoWholeMeasureRestTag)
+                		(DenemoWholeMeasureRestCommand))))
             (begin
                 (d-AppendMeasureAllStaffs)  
                 (d-MoveCursorRight)
-                (d-WholeMeasureRest)
+                (DenemoWholeMeasureRestCommand)
                 (d-Set2)
                 (d-MoveCursorRight)))))

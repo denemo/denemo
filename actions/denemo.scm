@@ -49,7 +49,9 @@
 ;Needed to see if lyimport / mxml import is called from inside or outside Denemo
 (define Denemo #t)
 
-
+(define DenemoWholeMeasureRestTag "WholeMeasureRest") ;several commands have to coordinate there behavior around whole measure rests, which are not built-in
+(define DenemoWholeMeasureRestCommand d-WholeMeasureRest)
+(define DenemoWholeMeasureRestParams 'WholeMeasureRest::Params)  ;these three must match for this to work.
 
 (define DenemoKeypressActivatedCommand #f) ;;;is true while a keyboard shortcut is invoking a script, unless the script has set it to #f
 
