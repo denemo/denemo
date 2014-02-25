@@ -1,12 +1,12 @@
 (use-modules (ice-9 q))
 
 #!(define-module (actions denemo-modules helpsystem)
-	#:export (
-		 Help::RemoveTag
-		 Help::TimedNotice 
-		 Help::Push
-		 Help::Pop
-	)) !#
+    #:export (
+         Help::RemoveTag
+         Help::TimedNotice 
+         Help::Push
+         Help::Pop
+    )) !#
 
 
 ; This help system is designed to give out messages in the second Denemo status bar.
@@ -20,39 +20,41 @@
 (define Help::queue (make-q)) ; Prepare the message queue. Only one is used for the entire system.
 
 (define (Q-remove! q obj)  ; A function that replaces Guiles q-remove!. Ours works with a pair and only looks for the car.
-	(set-car! q (filter (lambda (x) (not (equal? (car x) obj))) (car q)))
-	(sync-q! q))
+    (set-car! q (filter (lambda (x) (not (equal? (car x) obj))) (car q)))
+    (sync-q! q))
 
 (define (Help::RemoveTag tag) ; Remove all messages with this 'tag symbol
-	(Q-remove! Help::queue tag)
-	(Help::UpdateWriteStatus))
+    (Q-remove! Help::queue tag)
+    (Help::UpdateWriteStatus))
 
 (define (Help::ClearQueue) ; Clear the entire queue
-	(set! Help::queue (make-q))
-	(Help::UpdateWriteStatus))
+    (set! Help::queue (make-q))
+    (Help::UpdateWriteStatus))
 
 ;Take the current front message and display it.
 ;;Help::UpdateWriteStatus is the only function that accesses the StatusBar.
 ;;If there is no message left in the queue, disable showing the message area.
 (define (Help::UpdateWriteStatus)
-	(if (q-empty? Help::queue)
-		(d-WriteStatus)	
-		(d-WriteStatus (cdr (q-front Help::queue)))))
+    (if (q-empty? Help::queue)
+        (d-WriteStatus) 
+        (d-WriteStatus (cdr (q-front Help::queue)))))
 
 ;Push a message to the queue. 
 ;; Also Updates the StatusBar through UpdateWriteStatus
 (define (Help::Push pair)
-	(Help::RemoveTag (car pair)) ; remove all with the same tag first. TODO: evaluate if this is a heavy performance-loss	
-	(q-push! Help::queue pair)
-	(Help::UpdateWriteStatus))
+    (Help::RemoveTag (car pair)) ; remove all with the same tag first. TODO: evaluate if this is a heavy performance-loss   
+    (q-push! Help::queue pair)
+    (Help::UpdateWriteStatus))
 
 ;Remove the current front message from the queue
 ;; Also Updates the StatusBar through UpdateWriteStatus
 (define (Help::Pop)
-	(q-pop! Help::queue)
-	(Help::UpdateWriteStatus))
+    (if (not (q-empty? Help::queue))
+        (begin
+            (q-pop! Help::queue)
+            (Help::UpdateWriteStatus))))
 
 ; Display a message that deletes itself after 2500ms. No tag or Pop needed from the user.
 (define (Help::TimedNotice string)
-	(Help::Push (cons 'timednotice string))
-	(d-OneShotTimer 2500 "(Help::Pop)"))
+    (Help::Push (cons 'timednotice string))
+    (d-OneShotTimer 2500 "(Help::Pop)"))
