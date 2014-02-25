@@ -1988,7 +1988,7 @@ write_status (DenemoProject * gui)
 void
 write_input_status (void)
 {
-  gtk_label_set_text (GTK_LABEL (Denemo.input_source), Denemo.input_filters->str);
+  gtk_label_set_markup (GTK_LABEL (Denemo.input_source), Denemo.input_filters->str);
 }
 
 /**
