@@ -7,5 +7,9 @@
 		(d-DirectiveDelete-layout tag))
 	(begin
 	 (d-LilyPondInclude "merge-rests.ily")
-	(d-DirectivePut-layout-postfix tag "\\mergeRests" ))))
+	(d-DirectivePut-layout-postfix tag " \\context {
+    \\Staff
+    \\override RestCollision #'positioning-done = #merge-rests-on-positioning
+    \\override MultiMeasureRest #'Y-offset = #merge-multi-measure-rests-on-Y-offset
+  }" ))))
 (d-SetSaved #f)
