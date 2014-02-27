@@ -1319,6 +1319,8 @@ actions/menus/ObjectMenu/NotesRests/RestEntry/InsertWholeMeasureRest.scm
 actions/menus/ObjectMenu/NotesRests/RestEntry/InsertWholeMeasureRest.xml
 actions/menus/ObjectMenu/NotesRests/RestEntry/MoveRest.scm
 actions/menus/ObjectMenu/NotesRests/RestEntry/MoveRest.xml
+actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRestNumber.scm
+actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRestNumber.xml
 actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.scm
 actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.xml
 actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureRest.scm
