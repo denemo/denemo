@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>MultiMeasureRestNumber</action>
+        <after>MultiMeasureRests</after>
+        <_label>Multi-Measure Rest Number (Off/On)</_label>
+        <_tooltip>Turns the printing of the multi-measure rest number off or on. Use this when merging rests to avoid the number appearing twice.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

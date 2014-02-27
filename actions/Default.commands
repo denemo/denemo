@@ -6369,6 +6369,13 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Choose, Seek &amp; Edit</_label>
         <_tooltip>Creates a menu of all the directives attached to objects from the cursor position onwards in this movement. Selecting one moves the cursor to the next object of that type which can then be edited, or further searches made. </_tooltip>
       </row>
+      <row type="scheme">
+        <action>MultiMeasureRestNumber</action>
+        <after>MultiMeasureRests</after>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <_label>Multi-Measure Rest Number (Off/On)</_label>
+        <_tooltip>Turns the printing of the multi-measure rest number off or on. Use this when merging rests to avoid the number appearing twice.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
