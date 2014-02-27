@@ -2649,6 +2649,7 @@ find_denemo_file (DenemoDirectory dir, gchar* filename)
 {
   //g_debug("find_denemo_file called with %d and %s\n", dir, filename);
   GList* dirs = NULL;
+  dirs = g_list_append(dirs, g_build_filename(PACKAGE_SOURCE_DIR, get_local_dir (dir), NULL));
   dirs = g_list_append(dirs, g_build_filename(get_executable_dir (TRUE), "..", get_local_dir (dir), NULL));
   dirs = g_list_append(dirs, g_build_filename(get_user_data_dir (TRUE), get_local_dir (dir), NULL));
   dirs = g_list_append(dirs, g_strdup(get_system_dir(dir)));
