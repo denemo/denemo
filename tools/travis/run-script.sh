@@ -32,7 +32,8 @@ elif [ "$COMPILER"x = "clang"x ]; then
 fi
 
 ./autogen.sh
-./configure --enable-debug --enable-silent-rules --disable-warnings $CONFIGURE_FLAGS
+mkdir bin && cd bin
+../configure --enable-debug --enable-silent-rules --disable-warnings $CONFIGURE_FLAGS
 make
 
 if [ "$TEST"x = "install"x ]; then

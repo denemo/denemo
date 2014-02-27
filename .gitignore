@@ -38,13 +38,16 @@ build/ltversion.m4
 build/lt~obsolete.m4
 build/intltool.m4
 
+# Built directory
+bin
+
 # Translation directory
 po/POTFILES
 po/notexist
 po/Makefile.in.in
 po/stamp-it
 po/*.gmo
-po/*.pot
+po/denemo-*.pot
 
 # Source files
 src/denemo
