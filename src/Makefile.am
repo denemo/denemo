@@ -1,77 +1,209 @@
 bin_PROGRAMS = denemo
 dist_pkgdata_DATA = instruments.xml
-denemo_SOURCES = denemo_types.c \
-	calculatepositions.c changenotehead.c \
-	chordops.c clefdialog.c commandfuncs.c contexts.c draw.c \
-	drawaccidentals.c drawclefs.c drawcursor.c drawkey.c drawdynamic.c \
-	drawnotes.c drawselection.c drawstemdir.c drawtimesig.c drawtuplets.c \
-	drawlyric.c drawfigure.c exportabc.c exportlilypond.c \
-	exportxml.c file.c \
-	hairpin.c \
-	help.c importxml.c importmusicxml.c importmidi.c guidedimportmidi.c kbd-custom.c kbd-interface.c \
-	keyresponses.c keysigdialog.c figure.c 	main.c \
-	measureops.c moveviewport.c mousing.c view.c http.c \
-	mwidthdialog.c objops.c exportmidi.c 	instrumentname.c external.c palettes.c palettestorage.c sourceaudio.c audiofile.c scorelayout.c\
-	playback.c drawfakechord.c fakechord.c \
-	playbackprops.c prefdialog.c prefops.c	processstaffname.c \
-	lyric.c scoreops.c scoreprops.c \
-	selectops.c staffops.c \
-	staffpropdialog.c drawbarline.c slurs.c \
-	timedialog.c tomeasuredialog.c \
-	tupletops.c utils.c graceops.c print.c \
-	accwidths.h \
-	calculatepositions.h changenotehead.h \
-	 chordops.h commandfuncs.h \
-	contexts.h dialogs.h draw.h \
-	drawingprims.h \
-	exportabc.h exportlilypond.h  exportxml.h file.h \
-	figure.h view.h http.h hairpin.h  help.h importxml.h  importmusicxml.h importmidi.h guidedimportmidi.h \
-	kbd-custom.h kbd-interface.h graceops.h \
-	keyresponses.h  \
-	measureops.h mousing.h  moveviewport.h notewidths.h \
-	objops.h \
-	playbackprops.h prefops.h processstaffname.h \
-	scoreops.h \
-	selectops.h staffops.h slurs.h texteditors.h texteditors.c twoints.h  tupletops.h utils.h \
-	exportxml.h \
-	xmldefs.h exportmidi.h instrumentname.h  print.h \
-	lyric.h playback.h binreloc.c  binreloc.h \
-	external.h palettes.h palettestorage.h sourceaudio.h audiofile.h scorelayout.h fakechord.h \
-	parseinstruments.c parseinstruments.h keyboard.c \
-	pitchentry.c pitchrecog.c pitchrecog.h pitchentry.h audio.h \
-	drawlilydir.c lilydirectives.h lilydirectives.c displayanimation.c displayanimation.h keysigdialog.h \
-	generated/entries.h \
-	generated/scheme_cb.h generated/scheme.h generated/register_commands.h \
-	midi.c audiocapture.c audiocapture.h \
-	audiointerface.h eventqueue.h dummybackend.h portaudiobackend.h \
-	portmidibackend.h midi.h ringbuffer.h portaudioutil.h \
-	fluid.h portmidiutil.h \
-  keymapio.c keymapio.h \
-  scheme-identifiers.c scheme-identifiers.h \
-  scheme-callbacks.h scheme-callbacks.c
+denemo_SOURCES = \
+  audio/audio.h \
+  audio/audiocapture.c \
+  audio/audiocapture.h \
+  audio/instrumentname.c \
+  audio/instrumentname.h \
+  audio/midi.c \
+  audio/midi.h \
+  audio/parseinstruments.c \
+  audio/parseinstruments.h \
+  audio/pitchentry.c \
+  audio/pitchentry.h \
+  audio/pitchrecog.c \
+  audio/pitchrecog.h \
+  audio/playback.c \
+  audio/playback.h \
+  command/changenotehead.c \
+  command/changenotehead.h \
+  command/chordops.c \
+  command/chordops.h \
+  command/commandfuncs.c \
+  command/commandfuncs.h \
+  command/contexts.c \
+  command/contexts.h \
+  command/fakechord.c \
+  command/fakechord.h \
+  command/figure.c \
+  command/figure.h \
+  command/graceops.c \
+  command/graceops.h \
+  command/keyresponses.c \
+  command/keyresponses.h \
+  command/lilydirectives.c \
+  command/lilydirectives.h \
+  command/lyric.c \
+  command/lyric.h \
+  command/measureops.c \
+  command/measureops.h \
+  command/processstaffname.c \
+  command/processstaffname.h \
+  command/objops.c \
+  command/objops.h \
+  command/scorelayout.c \
+  command/scorelayout.h \
+  command/scoreops.c \
+  command/scoreops.h \
+  command/selectops.c \
+  command/selectops.h \
+  command/staffops.c \
+  command/staffops.h \
+  command/tupletops.c \
+  command/tupletops.h \
+  core/binreloc.c \
+  core/binreloc.h \
+  core/denemo_types.c \
+  core/external.c \
+  core/external.h \
+  core/exportxml.c \
+  core/exportxml.h \
+  core/http.c \
+  core/http.h \
+  core/importxml.c \
+  core/importxml.h \
+  core/kbd-custom.c \
+  core/kbd-custom.h \
+  core/keyboard.c \
+  core/keyboard.h \
+  core/keymapio.c \
+  core/keymapio.h \
+  core/main.c \
+  core/palettestorage.c \
+  core/palettestorage.h \
+  core/prefops.c \
+  core/prefops.h \
+  core/twoints.h \
+  core/utils.c \
+  core/utils.h \
+  core/view.c \
+  core/view.h \
+  display/accwidths.h \
+  display/calculatepositions.c \
+  display/calculatepositions.h \
+  display/displayanimation.c \
+  display/displayanimation.h \
+  display/drawaccidentals.c \
+  display/drawbarline.c \
+  display/draw.c \
+  display/drawclefs.c \
+  display/drawcursor.c \
+  display/drawdynamic.c \
+  display/drawfakechord.c \
+  display/drawfigure.c \
+  display/draw.h \
+  display/drawingprims.h \
+  display/drawkey.c \
+  display/drawlilydir.c \
+  display/drawlyric.c \
+  display/drawnotes.c \
+  display/drawselection.c \
+  display/drawstemdir.c \
+  display/drawtimesig.c \
+  display/drawtuplets.c \
+  display/hairpin.c \
+  display/hairpin.h \
+  display/notewidths.h \
+  display/slurs.c \
+  display/slurs.h \
+  export/audiofile.c \
+  export/audiofile.h \
+  export/exportabc.c \
+  export/exportabc.h \
+  export/exportlilypond.c \
+  export/exportlilypond.h \
+  export/exportmidi.c \
+  export/exportmidi.h \
+  export/file.c \
+  export/file.h \
+  export/guidedimportmidi.c \
+  export/guidedimportmidi.h \
+  export/importmidi.c \
+  export/importmidi.h \
+  export/importmusicxml.c \
+  export/importmusicxml.h \
+  export/print.c \
+  export/print.h \
+  export/xmldefs.h \
+  generated/entries.h \
+  generated/register_commands.h \
+  generated/scheme_cb.h \
+  generated/scheme.h \
+  scripting/scheme-callbacks.c \
+  scripting/scheme-callbacks.h \
+  scripting/scheme-identifiers.c \
+  scripting/scheme-identifiers.h \
+  source/sourceaudio.c \
+  source/sourceaudio.h \
+  ui/clefdialog.c \
+  ui/dialogs.h \
+  ui/help.c \
+  ui/help.h \
+  ui/kbd-interface.c \
+  ui/kbd-interface.h \
+  ui/keysigdialog.c \
+  ui/keysigdialog.h \
+  ui/mousing.c \
+  ui/mousing.h \
+  ui/moveviewport.c \
+  ui/moveviewport.h \
+  ui/mwidthdialog.c \
+  ui/palettes.c \
+  ui/palettes.h \
+  ui/playbackprops.c \
+  ui/playbackprops.h \
+  ui/prefdialog.c \
+  ui/scoreprops.c \
+  ui/staffpropdialog.c \
+  ui/texteditors.c \
+  ui/texteditors.h \
+  ui/timedialog.c \
+  ui/tomeasuredialog.c
+
 nodist_denemo_SOURCES = pathconfig.h
 
 if WITH_X11
-  denemo_SOURCES += screenshot.c screenshot.h
+  denemo_SOURCES += \
+    export/screenshot.c \
+    export/screenshot.h
 endif
 
 if HAVE_EVINCE
   denemo_SOURCES += \
-    source.c source.h \
-    printview.h printview.c
+    source/source.c \
+    source/source.h \
+    printview/printview.h \
+    printview/printview.c
 endif
 
 noinst_LIBRARIES = libaudiobackend.a
-libaudiobackend_a_SOURCES = audiointerface.c audiointerface.h eventqueue.c eventqueue.h dummybackend.c dummybackend.h
 libaudiobackend_a_CFLAGS = -W -Wall -Wno-unused-parameter $(PLATFORM_CFLAGS) 
-
-libaudiobackend_a_SOURCES += jackbackend.c jackbackend.h jackutil.c jackutil.h
-libaudiobackend_a_SOURCES += ringbuffer.c ringbuffer.h
-libaudiobackend_a_SOURCES += portaudiobackend.c portaudiobackend.h portaudioutil.c portaudioutil.h
-libaudiobackend_a_SOURCES += portmidibackend.c portmidibackend.h portmidiutil.c portmidiutil.h
-libaudiobackend_a_SOURCES += alsabackend.c alsabackend.h
-libaudiobackend_a_SOURCES += fluid.c fluid.h
-
+libaudiobackend_a_SOURCES = \
+  audio/alsabackend.c \
+  audio/alsabackend.h \
+  audio/audiointerface.c \
+  audio/audiointerface.h \
+  audio/dummybackend.c \
+  audio/dummybackend.h \
+  audio/eventqueue.c \
+  audio/eventqueue.h \
+  audio/fluid.c \
+  audio/fluid.h \
+  audio/jackbackend.c \
+  audio/jackbackend.h \
+  audio/jackutil.c \
+  audio/jackutil.h \
+  audio/portaudiobackend.c \
+  audio/portaudiobackend.h \
+  audio/portaudioutil.c \
+  audio/portaudioutil.h \
+  audio/portmidibackend.c \
+  audio/portmidibackend.h \
+  audio/portmidiutil.c \
+  audio/portmidiutil.h \
+  audio/ringbuffer.c \
+  audio/ringbuffer.h
 
 AM_CPPFLAGS = \
    $(BINRELOC_CFLAGS) \
@@ -96,7 +228,6 @@ if !HAVE_SMF
   denemo_LDADD += -L$(top_builddir)/libs/libsmf -lsmf
 endif
 
-
 pathconfig.h:  $(top_builddir)/config.status
 	-@rm pathconfig.tmp 
 	@echo "Generating pathconfig.h..."
@@ -104,6 +235,8 @@ pathconfig.h:  $(top_builddir)/config.status
 	@echo '#define DENEMO_BIN_PATH  "@denemo_bin_path@"' >>pathconfig.tmp
 	@mv pathconfig.tmp $@	
 
-noinst_HEADERS = parseinstruments.h keyboard.h
+noinst_HEADERS = \
+  audio/parseinstruments.h \
+  core/keyboard.h
 
 DISTCLEANFILES: pathconfig.h
