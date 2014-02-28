@@ -33,7 +33,6 @@
 #include "figure.h"
 #include "fakechord.h"
 #include "changenotehead.h"
-#include "articulations.h"
 #include "print.h"
 #include "barline.h"
 #include "palettes.h"

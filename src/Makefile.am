@@ -6,7 +6,6 @@ denemo_SOURCES = denemo_types.c \
 	drawaccidentals.c drawclefs.c drawcursor.c drawkey.c drawdynamic.c \
 	drawnotes.c drawselection.c drawstemdir.c drawtimesig.c drawtuplets.c \
 	drawlyric.c dynamic.c drawfigure.c exportabc.c exportlilypond.c \
-	articulations.c articulations.h \
 	exportxml.c file.c \
 	hairpin.c \
 	help.c importxml.c importmusicxml.c importmidi.c guidedimportmidi.c kbd-custom.c kbd-interface.c \

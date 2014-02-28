@@ -1,8 +1,6 @@
 src/accwidths.h
 src/alsabackend.c
 src/alsabackend.h
-src/articulations.c
-src/articulations.h
 src/audiocapture.c
 src/audiocapture.h
 src/audiofile.c
