@@ -71,13 +71,15 @@ uninstall-hook:
 	rm -rf ${DESTDIR}/$(datadir)/${PACKAGE}/templates
 
 potfile:
+	@echo Generating POTFILES...
 	@rm -f $(srcdir)/po/POTFILES.in
 	@rm -f $(srcdir)/po/POTFILES.skip
-	@echo Generating POTFILES...
-	@find src -name '*.c' -o -name '*.h' ! -name 'pathconfig.h' | sort >> $(srcdir)/po/POTFILES.in
-	@find actions -name '*.xml' -o -name '*.scm' | sort >> $(srcdir)/po/POTFILES.in
-	@find tools -name '*.c' -o -name '*.h' | sort >> $(srcdir)/po/POTFILES.skip
-	@find src -name 'pathconfig.h' | sort >> $(srcdir)/po/POTFILES.skip
+	@cd $(srcdir) && find src -name '*.c' -o -name '*.h' ! -name 'pathconfig.h' | sort >> po/POTFILES.in
+	@cd $(srcdir) && find actions -name '*.xml' -o -name '*.scm' | sort >> po/POTFILES.in
+	@cd $(srcdir) && find tools -name '*.c' -o -name '*.h' | sort >> po/POTFILES.skip
+	@cd $(srcdir) && find src -name 'pathconfig.h' | sort >> po/POTFILES.skip
+	@cp $(srcdir)/po/POTFILES.in $(builddir)/po
+	@cp $(srcdir)/po/POTFILES.skip $(builddir)/po
 
 pot:
 	@echo Generating POT...

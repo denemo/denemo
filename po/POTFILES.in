@@ -160,7 +160,6 @@ src/printview.c
 src/printview.h
 src/processstaffname.c
 src/processstaffname.h
-src/redefs.h
 src/ringbuffer.c
 src/ringbuffer.h
 src/runsilent.c

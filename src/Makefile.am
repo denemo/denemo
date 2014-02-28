@@ -32,7 +32,7 @@ denemo_SOURCES = denemo_types.c \
 	measureops.h mousing.h  moveviewport.h notewidths.h \
 	objops.h \
 	playbackprops.h prefops.h processstaffname.h \
-	redefs.h scoreops.h \
+	scoreops.h \
 	selectops.h staffops.h slurs.h texteditors.h texteditors.c twoints.h  tupletops.h utils.h \
 	exportxml.h \
 	xmldefs.h exportmidi.h instrumentname.h  print.h \
