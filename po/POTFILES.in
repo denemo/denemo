@@ -37,7 +37,6 @@ src/drawcursor.c
 src/drawdynamic.c
 src/drawfakechord.c
 src/drawfigure.c
-src/drawgrace.c
 src/draw.h
 src/drawingprims.h
 src/drawkey.c

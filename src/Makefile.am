@@ -18,7 +18,7 @@ denemo_SOURCES = denemo_types.c \
 	selectops.c staffops.c \
 	staffpropdialog.c drawbarline.c slurs.c \
 	timedialog.c tomeasuredialog.c \
-	tupletops.c utils.c graceops.c drawgrace.c	print.c \
+	tupletops.c utils.c graceops.c print.c \
 	accwidths.h \
 	calculatepositions.h changenotehead.h \
 	 chordops.h commandfuncs.h \
