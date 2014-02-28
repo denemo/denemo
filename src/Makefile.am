@@ -19,7 +19,7 @@ denemo_SOURCES = denemo_types.c \
 	selectops.c staffops.c \
 	staffpropdialog.c drawbarline.c slurs.c \
 	timedialog.c tomeasuredialog.c \
-	tupletops.c utils.c graceops.c runsilent.c drawgrace.c	print.c \
+	tupletops.c utils.c graceops.c drawgrace.c	print.c \
 	accwidths.h \
 	calculatepositions.h changenotehead.h \
 	 chordops.h commandfuncs.h \
@@ -36,7 +36,7 @@ denemo_SOURCES = denemo_types.c \
 	selectops.h staffops.h slurs.h texteditors.h texteditors.c twoints.h  tupletops.h utils.h \
 	exportxml.h \
 	xmldefs.h exportmidi.h instrumentname.h  print.h \
-	lyric.h playback.h runsilent.h binreloc.c  binreloc.h \
+	lyric.h playback.h binreloc.c  binreloc.h \
 	bookmarks.c bookmarks.h \
 	external.h palettes.h palettestorage.h sourceaudio.h audiofile.h scorelayout.h fakechord.h \
 	parseinstruments.c parseinstruments.h keyboard.c \

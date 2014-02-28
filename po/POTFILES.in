@@ -162,8 +162,6 @@ src/processstaffname.c
 src/processstaffname.h
 src/ringbuffer.c
 src/ringbuffer.h
-src/runsilent.c
-src/runsilent.h
 src/scheme-callbacks.c
 src/scheme-callbacks.h
 src/scheme-identifiers.c

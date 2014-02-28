@@ -39,7 +39,6 @@
 #include <librsvg/rsvg.h>
 #include "view.h"
 #include "exportxml.h"
-#include "runsilent.h"
 #include "utils.h"
 #include "keyboard.h"
 
