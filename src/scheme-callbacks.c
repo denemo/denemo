@@ -442,7 +442,7 @@ scheme_http (SCM hname, SCM page, SCM other, SCM poststr)
 
   if (name && thepage && post && oth)
     {
-      gchar *ret = post_denemodotorg (name, thepage, oth, post);
+      gchar *ret = (gchar *)post_denemodotorg (name, thepage, oth, post);
       SCM scm = scm_from_locale_string (ret);
       g_free (ret);
       free (name);
@@ -1018,7 +1018,7 @@ scheme_get_current_staff_layout_id (void)
 SCM
 scheme_get_layout_id (void)
 {
-  DenemoScoreblock *sb = selected_scoreblock ();
+  DenemoScoreblock *sb = (DenemoScoreblock *)selected_scoreblock ();
   if (sb)
     return scm_from_int (sb->id);
   return SCM_BOOL_F;
@@ -1044,7 +1044,7 @@ scheme_select_default_layout (void)
 SCM
 scheme_get_layout_name (void)
 {
-  DenemoScoreblock *sb = selected_scoreblock ();
+  DenemoScoreblock *sb = (DenemoScoreblock *)selected_scoreblock ();
   if (sb && sb->name)
     return scm_from_locale_string (sb->name);
   return SCM_BOOL_F;
@@ -1055,7 +1055,7 @@ scheme_select_next_layout (void)
 {
   if (gtk_widget_get_visible (Denemo.project->score_layout))
     {
-      DenemoScoreblock *sb = get_next_scoreblock ();
+      DenemoScoreblock *sb = (DenemoScoreblock *)get_next_scoreblock ();
       return sb ? SCM_BOOL_T : SCM_BOOL_F;
     }
   return SCM_BOOL_F;
@@ -1066,7 +1066,7 @@ scheme_select_first_layout (void)
 {
   if (gtk_widget_get_visible (Denemo.project->score_layout))
     {
-      DenemoScoreblock *sb = get_first_scoreblock ();
+      DenemoScoreblock *sb = (DenemoScoreblock *)get_first_scoreblock ();
       return sb ? SCM_BOOL_T : SCM_BOOL_F;
     }
   return SCM_BOOL_F;
@@ -4293,7 +4293,7 @@ scheme_output_midi_bytes (SCM input)
   volume = curstaffstruct->volume;
   char *string_input;
   string_input = scm_to_locale_string (input);
-  gchar *bytes = substitute_midi_values (string_input, channel, volume);
+  gchar *bytes = (gchar *)substitute_midi_values (string_input, channel, volume);
 
   for (i = 0, next = bytes; *next; next++)
     {

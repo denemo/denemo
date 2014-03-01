@@ -128,6 +128,7 @@ standard_preunwind_proc (void *data,
 {
   // Capture the stack here:
   *(SCM *)data = scm_make_stack (SCM_BOOL_T, SCM_EOL);
+  return *(SCM *)data;
 }
 
 gint

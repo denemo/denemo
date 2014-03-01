@@ -595,7 +595,7 @@ path_data_append_cheader_start (GString * string, gchar * name)
   g_free (NAME);
 }
 
-static gchar *
+static void
 path_data_append_cheader_end (GString * string, gchar * name)
 {
   gchar *NAME = g_utf8_strup (name, -1);

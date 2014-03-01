@@ -357,7 +357,7 @@ readtrack (gint track)
          else
             ((smf_track_t *)Denemo.project->movement->recorded_midi_track)->smf = smf;
       }
-      selected_track->user_pointer = track;
+      selected_track->user_pointer = (void *)track;
       Denemo.project->movement->recorded_midi_track = selected_track;
       compute_midi_note_durations (); //fills Denemo.project->movement->recording->notes with the note durations
       ((smf_track_t *)Denemo.project->movement->recorded_midi_track)->smf = NULL; // we detach this track from smf, so it can be attached to the playback smf; we cannot use smf while this is done, as it thinks it still owns the track.      

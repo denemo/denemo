@@ -531,7 +531,7 @@ gchar *get_palette_name (gboolean allow_custom)
 	return choose_palette_by_name (allow_custom, FALSE);
 }
 
-gboolean place_action_in_palette (gint idx, const gchar *name)
+void place_action_in_palette (gint idx, const gchar *name)
 {
      gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
      if(name==NULL)

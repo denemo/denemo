@@ -1,18 +1,18 @@
 /*
  * palettes.h
- * 
- * Copyright 2013 Richard Shann 
- * 
+ *
+ * Copyright 2013 Richard Shann
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
@@ -23,7 +23,7 @@
 #include <gtk/gtk.h>
 #include <denemo/denemo.h>
 #include <string.h>
- 
+
 
 /* returns palette of given name, returns NULL if none */
 DenemoPalette *get_palette (gchar *name);
@@ -35,5 +35,5 @@ void repack_palette (DenemoPalette *pal);
 void delete_palette (DenemoPalette *pal);
 gchar *get_palette_name (gboolean allow_custom);
 gchar *choose_palette_by_name (gboolean allow_custom, gboolean non_showing);
-gboolean place_action_in_palette (gint command_idx, const gchar *name);
+void place_action_in_palette (gint command_idx, const gchar *name);
 #endif

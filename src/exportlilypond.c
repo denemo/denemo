@@ -3116,7 +3116,7 @@ init_lilypond_buffer(void){
   gtk_text_tag_table_add (tagtable, t);
 
 
-  Denemo.textbuffer = gtk_source_buffer_new (tagtable);
+  Denemo.textbuffer = (GtkTextBuffer *)gtk_source_buffer_new (tagtable);
   gtk_source_buffer_set_highlight_syntax (Denemo.textbuffer, TRUE);
 }
 
@@ -3140,7 +3140,7 @@ create_lilywindow (void)
   gtk_container_add (GTK_CONTAINER (Denemo.textwindow), top_pane);
   create_console (vbox);
 
-  GtkWidget *view = gtk_source_view_new ();
+  GtkWidget *view = (GtkWidget *)gtk_source_view_new ();
   GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_set_tooltip_text (sw, helptext);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
