@@ -953,7 +953,22 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
       if (!itp->line_end)
         {
           gint staffname_offset = (thestaff->voicecontrol & DENEMO_PRIMARY) ? 26 : 12;
-          drawnormaltext_cr (cr, thestaff->denemo_name->str, 0 /*KEY_MARGIN */ , y - staffname_offset + 10);
+          
+           if (si->leftmeasurenum == 1)//make a button of it if measure 1 is leftmost 
+             {
+              drawnormaltext_cr (cr, thestaff->denemo_name->str, 20 /*KEY_MARGIN */ , y - staffname_offset + 10); 
+              cairo_save (cr);
+              cairo_set_source_rgba (cr, 0.2, 0.8, 0.4, 0.4);
+              cairo_rectangle (cr, 20, y - staffname_offset - 0, 30, 12);
+              cairo_fill (cr);
+              cairo_set_source_rgba (cr, 0.0, 0.8, 0.0, 1);
+              cairo_rectangle (cr, 20, y - staffname_offset - 0, 30, 12);
+              cairo_stroke (cr);
+              cairo_restore(cr);
+             }
+            else
+              drawnormaltext_cr (cr, thestaff->denemo_name->str, 10 /*KEY_MARGIN */ , y - staffname_offset + 10); 
+             
         }
       else
         {
