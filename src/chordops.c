@@ -14,7 +14,6 @@
 #include "objops.h"
 #include "chordops.h"
 #include "utils.h"
-#include "articulations.h"
 #include "audiointerface.h"
 #include "commandfuncs.h"
 

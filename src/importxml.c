@@ -16,7 +16,6 @@
 #include "processstaffname.h"
 #include "tupletops.h"
 #include "xmldefs.h"
-#include "articulations.h"
 #include "view.h"
 #include "texteditors.h"
 #include "lilydirectives.h"

@@ -6,7 +6,6 @@
 #include <string.h>
 #include "kbd-custom.h"
 #include "keyresponses.h"
-#include "articulations.h"
 #include "barline.h"
 #include "utils.h"
 #include "tupletops.h"

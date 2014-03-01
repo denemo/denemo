@@ -1,8 +1,6 @@
 src/accwidths.h
 src/alsabackend.c
 src/alsabackend.h
-src/articulations.c
-src/articulations.h
 src/audiocapture.c
 src/audiocapture.h
 src/audiofile.c
@@ -39,7 +37,6 @@ src/drawcursor.c
 src/drawdynamic.c
 src/drawfakechord.c
 src/drawfigure.c
-src/drawgrace.c
 src/draw.h
 src/drawingprims.h
 src/drawkey.c
@@ -160,11 +157,8 @@ src/printview.c
 src/printview.h
 src/processstaffname.c
 src/processstaffname.h
-src/redefs.h
 src/ringbuffer.c
 src/ringbuffer.h
-src/runsilent.c
-src/runsilent.h
 src/scheme-callbacks.c
 src/scheme-callbacks.h
 src/scheme-identifiers.c

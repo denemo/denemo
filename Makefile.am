@@ -18,13 +18,15 @@ EXTRA_DIST = \
   templates \
   examples \
   @PACKAGE@.spec.in \
+  @PACKAGE@.spec \
   $(INTLTOOL_FILES) \
   docs/DESIGN \
   docs/GOALS \
   docs/DESIGN.lilypond \
   intltool-extract.in \
   intltool-merge.in \
-  intltool-update.in
+  intltool-update.in \
+  po/$(GETTEXT_PACKAGE).pot
 
 MAINTAINERCLEANFILES = \
   Makefile.in \
@@ -69,26 +71,26 @@ uninstall-hook:
 	rm -rf ${DESTDIR}/$(datadir)/${PACKAGE}/templates
 
 potfile:
-	@rm -f po/POTFILES.in
-	@rm -f po/POTFILES.skip
 	@echo Generating POTFILES...
-	@find src -name '*.c' -o -name '*.h' ! -name 'pathconfig.h' | sort >> po/POTFILES.in
-	@find actions -name '*.xml' -o -name '*.scm' | sort >> po/POTFILES.in
-	@find tools -name '*.c' -o -name '*.h' | sort >> po/POTFILES.skip
-	@find src -name 'pathconfig.h' | sort >> po/POTFILES.skip
+	@rm -f $(srcdir)/po/POTFILES.in
+	@rm -f $(srcdir)/po/POTFILES.skip
+	@cd $(srcdir) && find src -name '*.c' -o -name '*.h' ! -name 'pathconfig.h' | sort >> po/POTFILES.in
+	@cd $(srcdir) && find actions -name '*.xml' -o -name '*.scm' | sort >> po/POTFILES.in
+	@cd $(srcdir) && find tools -name '*.c' -o -name '*.h' | sort >> po/POTFILES.skip
+	@cd $(srcdir) && find src -name 'pathconfig.h' | sort >> po/POTFILES.skip
+	@cp $(srcdir)/po/POTFILES.in $(builddir)/po
+	@cp $(srcdir)/po/POTFILES.skip $(builddir)/po
 
 pot:
 	@echo Generating POT...
-	$(MAKE) -C "$(srcdir)/po" "$(GETTEXT_PACKAGE).pot"
-	cd po && ln -f -s "$(GETTEXT_PACKAGE).pot" "$(GETTEXT_PACKAGE)-$(VERSION).pot"
+	$(MAKE) -C "$(builddir)/po" "$(GETTEXT_PACKAGE).pot"
+#	cp "$(builddir)/po/$(GETTEXT_PACKAGE).pot" "$(builddir)/po/$(GETTEXT_PACKAGE)-$(VERSION).pot"
+
+po/$(GETTEXT_PACKAGE).pot:pot
 
 update-po:
 	@echo Get po files from translationproject.org
 	rsync -Lrtvz translationproject.org::tp/latest/denemo/ po
-
-dist-hook: @PACKAGE@.spec pot
-	cp $(srcdir)/@PACKAGE@.spec $(distdir)
-	cp "$(srcdir)/po/$(GETTEXT_PACKAGE).pot" "$(distdir)/po/"
 
 send-pot:dist
 	echo "You can find in attachment the latest version of denemo.pot. This is an automatic message, but someone should answer you if you reply." | mailx -v -S from=denemo-devel@gnu.org -s "$(GETTEXT_PACKAGE)-$(VERSION).pot" -a $(GETTEXT_PACKAGE)-$(VERSION).tar.gz -a po/$(GETTEXT_PACKAGE)-$(VERSION).pot coordinator@translationproject.org
