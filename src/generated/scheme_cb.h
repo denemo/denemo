@@ -880,9 +880,6 @@ SCM scheme_AttachLilyToNote (SCM optional) {
 SCM scheme_AttachLilyToChord (SCM optional) {
   return scheme_call_callback(optional, chord_directive);
 }
-SCM scheme_InsertBarline (SCM optional) {
-  return scheme_call_callback(optional, insert_barline);
-}
 SCM scheme_GoToMeasure (SCM optional) {
   return scheme_call_callback(optional, tomeasurenum);
 }

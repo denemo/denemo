@@ -15,7 +15,6 @@
 #include "staffops.h"
 #include "string.h"
 #include "utils.h"
-#include "barline.h"
 #include "selectops.h"
 #include "displayanimation.h"
 

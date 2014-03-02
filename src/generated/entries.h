@@ -315,7 +315,6 @@
 {"DeleteDirective", NULL, N_("Delete a Directive"), "",N_("Delete a directive attached to chord/note at cursor."),G_CALLBACK (delete_chord_or_note_directive)},
 {"AttachLilyToNote", NULL, N_("Attach Lilypond to Note"), "",N_("Attach or edit attached LilyPond text to the note at the cursor. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation."),G_CALLBACK (note_directive)},
 {"AttachLilyToChord", NULL, N_("Attach Lilypond to Chord"), "",N_("Attach or edit attached LilyPond text to the chord at the cursor. This can be used for attaching and placing text and much more. See LilyPond documentation."),G_CALLBACK (chord_directive)},
-{"InsertBarline", NULL, N_("Insert Barline"), "",N_("Inserts specialized barline at the cursor position. Mostly not working"),G_CALLBACK (insert_barline)},
 {"NavigationMenu", NULL, N_("Navigation"), "",N_("Moving the cursor within the current movement, setting bookmarks, seeking things in the score")},
 {"GoToMeasure", NULL, N_("Go to Measure"), "",N_("Opens a dialog for going to a numbered measure"),G_CALLBACK (tomeasurenum)},
 {"GoToBeginning", GTK_STOCK_GOTO_FIRST, N_("Go to Beginning"), "",N_("Cursor to start of staff/voice, extending selection if any"),G_CALLBACK (tohome)},

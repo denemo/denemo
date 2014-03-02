@@ -10,7 +10,7 @@ denemo_SOURCES = denemo_types.c \
 	hairpin.c \
 	help.c importxml.c importmusicxml.c importmidi.c guidedimportmidi.c kbd-custom.c kbd-interface.c \
 	keyresponses.c keysigdialog.c figure.c 	main.c \
-	measureops.c moveviewport.c mousing.c barline.c 	view.c http.c \
+	measureops.c moveviewport.c mousing.c view.c http.c \
 	mwidthdialog.c objops.c exportmidi.c 	instrumentname.c external.c palettes.c palettestorage.c sourceaudio.c audiofile.c scorelayout.c\
 	playback.c drawfakechord.c fakechord.c \
 	playbackprops.c prefdialog.c prefops.c	processstaffname.c \
@@ -25,7 +25,7 @@ denemo_SOURCES = denemo_types.c \
 	contexts.h  dynamic.h dialogs.h draw.h \
 	drawingprims.h \
 	exportabc.h exportlilypond.h  exportxml.h file.h \
-	figure.h barline.h view.h http.h hairpin.h  help.h importxml.h  importmusicxml.h importmidi.h guidedimportmidi.h \
+	figure.h view.h http.h hairpin.h  help.h importxml.h  importmusicxml.h importmidi.h guidedimportmidi.h \
 	kbd-custom.h kbd-interface.h graceops.h \
 	keyresponses.h  \
 	measureops.h mousing.h  moveviewport.h notewidths.h \

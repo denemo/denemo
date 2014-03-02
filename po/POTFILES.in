@@ -8,8 +8,6 @@ src/audiofile.h
 src/audio.h
 src/audiointerface.c
 src/audiointerface.h
-src/barline.c
-src/barline.h
 src/binreloc.c
 src/binreloc.h
 src/bookmarks.c

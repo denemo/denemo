@@ -34,7 +34,6 @@
 #include "fakechord.h"
 #include "changenotehead.h"
 #include "print.h"
-#include "barline.h"
 #include "palettes.h"
 #include "palettestorage.h"
 

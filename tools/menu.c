@@ -390,7 +390,6 @@ struct name_and_function denemo_commands[] = {
 
   {NULL, "Attach or edit attached LilyPond text to the note at the cursor. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation.", N_("AttachLilyToNote"), "note_directive", N_("Attach Lilypond to Note")},
   {NULL, "Attach or edit attached LilyPond text to the chord at the cursor. This can be used for attaching and placing text and much more. See LilyPond documentation.", N_("AttachLilyToChord"), "chord_directive", N_("Attach Lilypond to Chord")},
-  {NULL, "Inserts specialized barline at the cursor position. Mostly not working", N_("InsertBarline"), "insert_barline", N_("Insert Barline")},
   {NULL, "Moving the cursor within the current movement, setting bookmarks, seeking things in the score", N_("NavigationMenu"), NULL, "Navigation"},
   {NULL, "Opens a dialog for going to a numbered measure", N_("GoToMeasure"), "tomeasurenum", "Go to Measure"},
   {"GTK_STOCK_GOTO_FIRST", "Cursor to start of staff/voice, extending selection if any", N_("GoToBeginning"), "tohome", "Go to Beginning"},

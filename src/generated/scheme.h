@@ -880,9 +880,6 @@ install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AttachLilyToNote", scheme_A
 /*AttachLilyToChord chord_directive*/
 SCM scheme_AttachLilyToChord(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AttachLilyToChord", scheme_AttachLilyToChord);
-/*InsertBarline insert_barline*/
-SCM scheme_InsertBarline(SCM optional);
-install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBarline", scheme_InsertBarline);
 /*GoToMeasure tomeasurenum*/
 SCM scheme_GoToMeasure(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "GoToMeasure", scheme_GoToMeasure);
