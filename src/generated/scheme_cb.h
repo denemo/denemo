@@ -841,9 +841,6 @@ SCM scheme_ShowFiguredBass (SCM optional) {
 SCM scheme_EditChords (SCM optional) {
   return scheme_call_callback(optional, fakechord_insert);
 }
-SCM scheme_InsertDynamic (SCM optional) {
-  return scheme_call_callback(optional, insert_dynamic);
-}
 SCM scheme_EditObject (SCM optional) {
   return scheme_call_callback(optional, edit_object);
 }

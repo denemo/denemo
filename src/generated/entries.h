@@ -302,7 +302,6 @@
 {"HideFiguredBass", NULL, N_("Hide Figures (Print)"), "",N_("Hide the figured bass on the current staff on printing"),G_CALLBACK (hide_figured_bass)},
 {"ShowFiguredBass", NULL, N_("Show Figures (Print)"), "",N_("Show the figured bass on the current staff on printing"),G_CALLBACK (show_figured_bass)},
 {"EditChords", NULL, N_("Edit Chord Symbols"), "",N_("Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation"),G_CALLBACK (fakechord_insert)},
-{"InsertDynamic", NULL, N_("Insert Dynamics"), "",N_("Inserts a dynamic marking at the cursor position"),G_CALLBACK (insert_dynamic)},
 {"EditObject", NULL, N_("Edit Object"), "",N_("Edit the object at the cursor."),G_CALLBACK (edit_object)},
 {"EditDirective", NULL, N_("Edit Directives"), "",N_("Edit any directives attached to chord/note at cursor."),G_CALLBACK (edit_object_directive)},
 {"EditStaffDirective", NULL, N_("Edit Staff Directives"), "",N_("Edit any directives attached to staff."),G_CALLBACK (edit_staff_directive)},

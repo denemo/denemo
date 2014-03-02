@@ -45,8 +45,6 @@ src/drawtimesig.c
 src/drawtuplets.c
 src/dummybackend.c
 src/dummybackend.h
-src/dynamic.c
-src/dynamic.h
 src/eventqueue.c
 src/eventqueue.h
 src/exportabc.c

@@ -28,7 +28,6 @@
 #include "selectops.h"
 #include "staffops.h"
 #include "utils.h"
-#include "dynamic.h"
 #include "lyric.h"
 #include "figure.h"
 #include "fakechord.h"

@@ -841,9 +841,6 @@ install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ShowFiguredBass", scheme_Sh
 /*EditChords fakechord_insert*/
 SCM scheme_EditChords(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditChords", scheme_EditChords);
-/*InsertDynamic insert_dynamic*/
-SCM scheme_InsertDynamic(SCM optional);
-install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertDynamic", scheme_InsertDynamic);
 /*EditObject edit_object*/
 SCM scheme_EditObject(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditObject", scheme_EditObject);

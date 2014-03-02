@@ -5,7 +5,7 @@ denemo_SOURCES = denemo_types.c \
 	chordops.c clefdialog.c commandfuncs.c contexts.c draw.c \
 	drawaccidentals.c drawclefs.c drawcursor.c drawkey.c drawdynamic.c \
 	drawnotes.c drawselection.c drawstemdir.c drawtimesig.c drawtuplets.c \
-	drawlyric.c dynamic.c drawfigure.c exportabc.c exportlilypond.c \
+	drawlyric.c drawfigure.c exportabc.c exportlilypond.c \
 	exportxml.c file.c \
 	hairpin.c \
 	help.c importxml.c importmusicxml.c importmidi.c guidedimportmidi.c kbd-custom.c kbd-interface.c \
@@ -22,7 +22,7 @@ denemo_SOURCES = denemo_types.c \
 	accwidths.h \
 	calculatepositions.h changenotehead.h \
 	 chordops.h commandfuncs.h \
-	contexts.h  dynamic.h dialogs.h draw.h \
+	contexts.h dialogs.h draw.h \
 	drawingprims.h \
 	exportabc.h exportlilypond.h  exportxml.h file.h \
 	figure.h view.h http.h hairpin.h  help.h importxml.h  importmusicxml.h importmidi.h guidedimportmidi.h \
