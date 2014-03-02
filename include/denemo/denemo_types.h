@@ -699,19 +699,6 @@ typedef struct DenemoUndoData
 } DenemoUndoData;
  
 
-/**
- * Structure to hold bookmark information
- * Id - gint
- * Bar - gint
- * Staff - gint
- */
-typedef struct Bookmark
-{
-  gint id;
-  gint bar;
-  gint staff;
-}Bookmark;
-
 /** 
  * Control of the LilyPond output for the whole musical score DenemoProject
  *
@@ -953,8 +940,6 @@ typedef struct DenemoMovement
   
 
  
-  GList *bookmarks;
-  gint currentbookmark;
   GList *Instruments;
   GtkWidget *buttonbox;/*< box for buttons accessing DenemoDirectives attached to the this movement*/
   GtkWidget *lyricsbox;/*< box for notebooks containing verses of lyrics for the movement */

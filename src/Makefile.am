@@ -36,7 +36,6 @@ denemo_SOURCES = denemo_types.c \
 	exportxml.h \
 	xmldefs.h exportmidi.h instrumentname.h  print.h \
 	lyric.h playback.h binreloc.c  binreloc.h \
-	bookmarks.c bookmarks.h \
 	external.h palettes.h palettestorage.h sourceaudio.h audiofile.h scorelayout.h fakechord.h \
 	parseinstruments.c parseinstruments.h keyboard.c \
 	pitchentry.c pitchrecog.c pitchrecog.h pitchentry.h audio.h \

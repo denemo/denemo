@@ -10,8 +10,6 @@ src/audiointerface.c
 src/audiointerface.h
 src/binreloc.c
 src/binreloc.h
-src/bookmarks.c
-src/bookmarks.h
 src/calculatepositions.c
 src/calculatepositions.h
 src/changenotehead.c

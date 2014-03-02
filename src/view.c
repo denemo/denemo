@@ -9,7 +9,6 @@
 #include <string.h>
 #include <math.h>
 #include "view.h"
-#include "bookmarks.h"
 
 #include "lilydirectives.h"
 #include "dialogs.h"
