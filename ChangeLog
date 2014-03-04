@@ -1,3 +1,22 @@
+2014-??-?? Release 1.1.2
+
+    Spillover
+        Appending over-length notes spill into next bar.
+        Works for rests too.
+        Optional – set a preference for old behavior.
+    Shortcuts Cheat Sheet
+        Current set of shortcuts listed.
+        Alphabetical order.
+        Gives description of command.
+    Support for Aubio 4
+        Microphone Input Note Detection.
+        Note Onset Detection.
+        Instrument Tuning.
+    General Seek and Edit Facility
+        Choose from all available object types in movement.
+        Choose from objects at cursor.
+        Seek and edit the chosen type in music playing order.
+
 2014-01-27 Release 1.1.2
     Transcribing from MIDI
         Play in to a click track.
