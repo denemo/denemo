@@ -841,9 +841,6 @@ SCM scheme_ShowFiguredBass (SCM optional) {
 SCM scheme_EditChords (SCM optional) {
   return scheme_call_callback(optional, fakechord_insert);
 }
-SCM scheme_InsertDynamic (SCM optional) {
-  return scheme_call_callback(optional, insert_dynamic);
-}
 SCM scheme_EditObject (SCM optional) {
   return scheme_call_callback(optional, edit_object);
 }
@@ -879,9 +876,6 @@ SCM scheme_AttachLilyToNote (SCM optional) {
 }
 SCM scheme_AttachLilyToChord (SCM optional) {
   return scheme_call_callback(optional, chord_directive);
-}
-SCM scheme_InsertBarline (SCM optional) {
-  return scheme_call_callback(optional, insert_barline);
 }
 SCM scheme_GoToMeasure (SCM optional) {
   return scheme_call_callback(optional, tomeasurenum);

@@ -561,7 +561,6 @@ init_score (DenemoMovement * si, DenemoProject * gui)
   else
     si->master_tempo = 1.0;
   si->savebuffer = NULL;
-  si->bookmarks = NULL;
 
   if (gui->filename == NULL)
     {
@@ -778,7 +777,6 @@ clone_movement (DenemoMovement * si)
 
      smfsync
      savebuffer
-     bookmarks
      Instruments
 
 

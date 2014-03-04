@@ -279,7 +279,6 @@ register_command("DeleteChordSymbols", _("Delete Chord Symbols"), _("Delete the 
 register_command("HideFiguredBass", _("Hide Figures (Print)"), _("Hide the figured bass on the current staff on printing"), hide_figured_bass);
 register_command("ShowFiguredBass", _("Show Figures (Print)"), _("Show the figured bass on the current staff on printing"), show_figured_bass);
 register_command("EditChords", _("Edit Chord Symbols"), _("Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation"), fakechord_insert);
-register_command("InsertDynamic", _("Insert Dynamics"), _("Inserts a dynamic marking at the cursor position"), insert_dynamic);
 register_command("EditObject", _("Edit Object"), _("Edit the object at the cursor."), edit_object);
 register_command("EditDirective", _("Edit Directives"), _("Edit any directives attached to chord/note at cursor."), edit_object_directive);
 register_command("EditStaffDirective", _("Edit Staff Directives"), _("Edit any directives attached to staff."), edit_staff_directive);
@@ -292,7 +291,6 @@ register_command("EditKeysigDirective", _("Edit Key Signature Directives"), _("E
 register_command("DeleteDirective", _("Delete a Directive"), _("Delete a directive attached to chord/note at cursor."), delete_chord_or_note_directive);
 register_command("AttachLilyToNote", _("Attach Lilypond to Note"), _("Attach or edit attached LilyPond text to the note at the cursor. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation."), note_directive);
 register_command("AttachLilyToChord", _("Attach Lilypond to Chord"), _("Attach or edit attached LilyPond text to the chord at the cursor. This can be used for attaching and placing text and much more. See LilyPond documentation."), chord_directive);
-register_command("InsertBarline", _("Insert Barline"), _("Inserts specialized barline at the cursor position. Mostly not working"), insert_barline);
 register_command("GoToMeasure", _("Go to Measure"), _("Opens a dialog for going to a numbered measure"), tomeasurenum);
 register_command("GoToBeginning", _("Go to Beginning"), _("Cursor to start of staff/voice, extending selection if any"), tohome);
 register_command("GoToEnd", _("Go to End"), _("Cursor to end of staff/voice, extending selection if any"), toend);

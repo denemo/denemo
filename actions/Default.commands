@@ -1440,11 +1440,6 @@ these may need re-making.</_tooltip>
         <_tooltip>Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation</_tooltip>
       </row>
       <row type="builtin">
-        <action>InsertDynamic</action>
-        <_label>Insert Dynamics</_label>
-        <_tooltip>Inserts a dynamic marking at the cursor position</_tooltip>
-      </row>
-      <row type="builtin">
         <action>EditObject</action>
         <_label>Edit Object</_label>
         <_tooltip>Edit the object at the cursor.</_tooltip>

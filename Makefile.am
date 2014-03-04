@@ -78,8 +78,10 @@ potfile:
 	@cd $(srcdir) && find actions -name '*.xml' -o -name '*.scm' | sort >> po/POTFILES.in
 	@cd $(srcdir) && find tools -name '*.c' -o -name '*.h' | sort >> po/POTFILES.skip
 	@cd $(srcdir) && find src -name 'pathconfig.h' | sort >> po/POTFILES.skip
-	@cp $(srcdir)/po/POTFILES.in $(builddir)/po
-	@cp $(srcdir)/po/POTFILES.skip $(builddir)/po
+	@cp $(srcdir)/po/POTFILES.in $(builddir)/po/POTFILES.in.bak
+	@cp $(srcdir)/po/POTFILES.skip $(builddir)/po/POTFILES.skip.bak
+	@mv $(builddir)/po/POTFILES.in.bak $(builddir)/po/POTFILES.in
+	@mv $(builddir)/po/POTFILES.skip.bak $(builddir)/po/POTFILES.skip
 
 pot:
 	@echo Generating POT...

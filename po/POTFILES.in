@@ -8,12 +8,8 @@ src/audiofile.h
 src/audio.h
 src/audiointerface.c
 src/audiointerface.h
-src/barline.c
-src/barline.h
 src/binreloc.c
 src/binreloc.h
-src/bookmarks.c
-src/bookmarks.h
 src/calculatepositions.c
 src/calculatepositions.h
 src/changenotehead.c
@@ -49,8 +45,6 @@ src/drawtimesig.c
 src/drawtuplets.c
 src/dummybackend.c
 src/dummybackend.h
-src/dynamic.c
-src/dynamic.h
 src/eventqueue.c
 src/eventqueue.h
 src/exportabc.c

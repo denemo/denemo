@@ -28,13 +28,11 @@
 #include "selectops.h"
 #include "staffops.h"
 #include "utils.h"
-#include "dynamic.h"
 #include "lyric.h"
 #include "figure.h"
 #include "fakechord.h"
 #include "changenotehead.h"
 #include "print.h"
-#include "barline.h"
 #include "palettes.h"
 #include "palettestorage.h"
 

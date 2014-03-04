@@ -5,12 +5,12 @@ denemo_SOURCES = denemo_types.c \
 	chordops.c clefdialog.c commandfuncs.c contexts.c draw.c \
 	drawaccidentals.c drawclefs.c drawcursor.c drawkey.c drawdynamic.c \
 	drawnotes.c drawselection.c drawstemdir.c drawtimesig.c drawtuplets.c \
-	drawlyric.c dynamic.c drawfigure.c exportabc.c exportlilypond.c \
+	drawlyric.c drawfigure.c exportabc.c exportlilypond.c \
 	exportxml.c file.c \
 	hairpin.c \
 	help.c importxml.c importmusicxml.c importmidi.c guidedimportmidi.c kbd-custom.c kbd-interface.c \
 	keyresponses.c keysigdialog.c figure.c 	main.c \
-	measureops.c moveviewport.c mousing.c barline.c 	view.c http.c \
+	measureops.c moveviewport.c mousing.c view.c http.c \
 	mwidthdialog.c objops.c exportmidi.c 	instrumentname.c external.c palettes.c palettestorage.c sourceaudio.c audiofile.c scorelayout.c\
 	playback.c drawfakechord.c fakechord.c \
 	playbackprops.c prefdialog.c prefops.c	processstaffname.c \
@@ -22,10 +22,10 @@ denemo_SOURCES = denemo_types.c \
 	accwidths.h \
 	calculatepositions.h changenotehead.h \
 	 chordops.h commandfuncs.h \
-	contexts.h  dynamic.h dialogs.h draw.h \
+	contexts.h dialogs.h draw.h \
 	drawingprims.h \
 	exportabc.h exportlilypond.h  exportxml.h file.h \
-	figure.h barline.h view.h http.h hairpin.h  help.h importxml.h  importmusicxml.h importmidi.h guidedimportmidi.h \
+	figure.h view.h http.h hairpin.h  help.h importxml.h  importmusicxml.h importmidi.h guidedimportmidi.h \
 	kbd-custom.h kbd-interface.h graceops.h \
 	keyresponses.h  \
 	measureops.h mousing.h  moveviewport.h notewidths.h \
@@ -36,7 +36,6 @@ denemo_SOURCES = denemo_types.c \
 	exportxml.h \
 	xmldefs.h exportmidi.h instrumentname.h  print.h \
 	lyric.h playback.h binreloc.c  binreloc.h \
-	bookmarks.c bookmarks.h \
 	external.h palettes.h palettestorage.h sourceaudio.h audiofile.h scorelayout.h fakechord.h \
 	parseinstruments.c parseinstruments.h keyboard.c \
 	pitchentry.c pitchrecog.c pitchrecog.h pitchentry.h audio.h \
