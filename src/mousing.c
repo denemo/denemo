@@ -830,12 +830,19 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
           return TRUE;
         }
         
-        if ((GDK_SHIFT_MASK & event->state) == GDK_SHIFT_MASK) {     
+        if ((GDK_CONTROL_MASK & event->state) == GDK_CONTROL_MASK) {     
             if (Denemo.prefs.learning)  
-                    MouseGestureShow(_("Shift-Right Click."), _("This pops up menu for inserting barlines and many other sorts of objects"),
+                    MouseGestureShow(_("Control-Right Click."), _("This pops up menu for inserting barlines and many other sorts of objects"),
                         MouseGesture);
             gtk_menu_popup (GTK_MENU (gtk_widget_get_parent(gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/Directives/Markings"))),
                             NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());                       
+            return TRUE;
+        }
+      if ((GDK_SHIFT_MASK & event->state) == GDK_SHIFT_MASK) {     
+            if (Denemo.prefs.learning)  
+                    MouseGestureShow(_("Shift-Right Click."), _("This allows editing the directives/attributes of the object at the cursor"),
+                        MouseGesture);       
+            call_out_to_guile ("(d-EditSimilar 'once)");
             return TRUE;
         }
     }
