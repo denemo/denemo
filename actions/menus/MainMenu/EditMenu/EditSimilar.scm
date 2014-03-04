@@ -1,5 +1,5 @@
 ;;EditSimilar
-(let ((target #f))
+(let ((target #f) (continuations (if (eq? EditSimilar::params 'once) (begin (set! EditSimilar::params #f) #f) #t)))
    (define (get-tag-list get-command) ;;;get-command is d-DirectiveGetNthTag-note
     (let loop ((tags '())(n 0))
         (define tag #f)
@@ -29,13 +29,21 @@
             ((eval command (current-module)) "edit")
             (default-action tag))))
   (define (edit)
-        (define choice (RadioBoxMenu
-          (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " Directives"))   'continue)   
-          (cons (_ "Delete")   'delete)   
-          (cons (_ "Edit") 'edit)
-          (cons (_ "Execute Scheme") 'execute)
-          (cons (_ "Stop") 'stop)
-          (cons (_ "Advanced") 'advanced)))
+        (define choice #f)
+        (if continuations 
+            (set! choice (RadioBoxMenu
+                  (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " Directives"))   'continue)   
+                  (cons (_ "Delete")   'delete)   
+                  (cons (_ "Edit") 'edit)
+                  (cons (_ "Execute Scheme") 'execute)
+                  (cons (_ "Stop") 'stop)
+                  (cons (_ "Advanced") 'advanced)))
+            (set! choice (RadioBoxMenu
+                  (cons (_ "Edit") 'edit)
+                  (cons (_ "Delete")   'delete)   
+                  (cons (_ "Execute Scheme") 'execute)
+                  (cons (_ "Advanced") 'advanced))))
+
           (case choice
             ((delete) (d-DirectiveDelete-standalone target))
             ((edit) (d-EditObject))
@@ -45,13 +53,20 @@
             ((#f)  (set! target #f))))
 
   (define (edit-note)
-        (define choice (RadioBoxMenu
-          (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Noteheads"))   'continue)   
-          (cons (_ "Delete")   'delete)   
-          (cons (_ "Edit") 'edit)
-          (cons (_ "Execute Scheme") 'execute)
-          (cons (_ "Stop") 'stop)
-          (cons (_ "Advanced") 'advanced)))
+        (define choice #f)
+        (if continuations 
+            (set! choice (RadioBoxMenu
+                  (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Noteheads"))   'continue)   
+                  (cons (_ "Delete")   'delete)   
+                  (cons (_ "Edit") 'edit)
+                  (cons (_ "Execute Scheme") 'execute)
+                  (cons (_ "Stop") 'stop)
+                  (cons (_ "Advanced") 'advanced)))
+            (set! choice (RadioBoxMenu
+                  (cons (_ "Edit") 'edit)
+                  (cons (_ "Delete")   'delete)   
+                  (cons (_ "Execute Scheme") 'execute)
+                  (cons (_ "Advanced") 'advanced))))
           (case choice
             ((delete) (d-DirectiveDelete-note target))
             ((edit) (edit-tag target d-DirectiveTextEdit-note))
@@ -62,13 +77,20 @@
             (d-CursorUp))
 
   (define (edit-chord)
-        (define choice (RadioBoxMenu
-          (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Chords/Notes/Rests"))   'continue)   
-          (cons (_ "Delete")   'delete)   
-          (cons (_ "Edit") 'edit)
-          (cons (_ "Execute Scheme") 'execute)
-          (cons (_ "Stop") 'stop)
-          (cons (_ "Advanced") 'advanced)))
+        (define choice #f)
+        (if continuations 
+            (set! choice (RadioBoxMenu
+                  (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Chords/Notes/Rests"))   'continue)   
+                  (cons (_ "Delete")   'delete)   
+                  (cons (_ "Edit Attribute") 'edit)
+                  (cons (_ "Execute Scheme") 'execute)
+                  (cons (_ "Stop") 'stop)
+                  (cons (_ "Advanced") 'advanced)))
+            (set! choice (RadioBoxMenu
+                  (cons  (string-append (_ "Edit ")  "\""target"\"" (_ " Directive") (_ " on this Chord/Note/Rest"))  'edit)
+                  (cons (_ "Delete")   'delete)   
+                  (cons (_ "Execute Scheme") 'execute)
+                  (cons (_ "Advanced") 'advanced))))
         (case choice
             ((delete) (d-DirectiveDelete-chord target))
             ((edit) (edit-tag target d-DirectiveTextEdit-chord))
@@ -79,33 +101,51 @@
             
             
   (define (edit-nonprinting)
-        (define choice (RadioBoxMenu
-          (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " Objects"))   'continue)   
-          (cons (_ "Change to Printing")   'switch)
-          (cons (_ "Execute Scheme") 'execute)
-          (cons (_ "Stop") 'stop)))
+        (define choice #f)
+        (if continuations 
+            (set! choice (RadioBoxMenu
+              (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " Objects"))   'continue)   
+              (cons (_ "Change to Printing")   'switch)
+              (cons (_ "Execute Scheme") 'execute)
+              (cons (_ "Stop") 'stop)))
+            (set! choice (RadioBoxMenu
+                  (cons (_ "Change to Printing")   'switch)
+                  (cons (_ "Execute Scheme") 'execute))))              
         (case choice
             ((switch) (if (d-Directive-chord? DenemoWholeMeasureRestTag) (DenemoWholeMeasureRestCommand 'printing)) (d-SetNonprinting #f))
             ((stop) (set! target #f))
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))
   (define (edit-slurstart)
-        (define choice (RadioBoxMenu
-          (cons (_ "Continue seeking slur start positions")   'continue)   
-          (cons (_ "Delete Slur")   'delete)
-          (cons (_ "Execute Scheme") 'execute)
-          (cons (_ "Stop") 'stop)))
+        (define choice #f)
+        (if continuations 
+            (set! choice (RadioBoxMenu
+              (cons (_ "Continue seeking slur start positions")   'continue)   
+              (cons (_ "Delete Slur")   'delete)
+              (cons (_ "Execute Scheme") 'execute)
+              (cons (_ "Stop") 'stop)))
+            (set! choice (RadioBoxMenu
+              (cons (_ "Delete Slur")   'delete)
+              (cons (_ "Execute Scheme") 'execute))))
+          
         (case choice
             ((delete) (d-ToggleBeginSlur)) ;;; make this execute a slur deletion instead
             ((stop) (set! target #f))
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))
     (define (edit-slurend)
-        (define choice (RadioBoxMenu
-          (cons (_ "Continue seeking slur end positions")   'continue)   
-          (cons (_ "Delete Slur")   'delete)
-          (cons (_ "Execute Scheme") 'execute)
-          (cons (_ "Stop") 'stop)))
+        (define choice #f)
+        (if continuations 
+            (set! choice (RadioBoxMenu
+              (cons (_ "Continue seeking slur end positions")   'continue)   
+              (cons (_ "Delete Slur")   'delete)
+              (cons (_ "Execute Scheme") 'execute)
+              (cons (_ "Stop") 'stop)))
+            (set! choice (RadioBoxMenu
+              (cons (_ "Delete Slur")   'delete)
+              (cons (_ "Execute Scheme") 'execute))))
+          
+          
         (case choice
             ((delete) (d-ToggleEndSlur));;; make this execute a slur deletion instead
             ((stop) (set! target #f))
@@ -113,31 +153,50 @@
             ((#f)  (set! target #f))))
             
     (define (edit-tupletstart)
-        (define choice (RadioBoxMenu
-          (cons (_ "Continue seeking tuplet start objects")   'continue)   
-          (cons (_ "Execute Scheme") 'execute)
-          (cons (_ "Stop") 'stop)))
+        (define choice #f)
+        (if continuations 
+            (set! choice (RadioBoxMenu
+              (cons (_ "Continue seeking tuplet start objects")   'continue)   
+              (cons (_ "Execute Scheme") 'execute)
+              (cons (_ "Stop") 'stop)))
+            (set! choice (RadioBoxMenu
+              (cons (_ "Execute Scheme") 'execute))))
+          
+          
         (case choice
             ((stop) (set! target #f))
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))            
             
     (define (edit-tupletend)
-        (define choice (RadioBoxMenu
-          (cons (_ "Continue seeking tuplet end objects")   'continue)   
-          (cons (_ "Execute Scheme") 'execute)
-          (cons (_ "Stop") 'stop)))
+        (define choice #f)
+        (if continuations 
+            (set! choice (RadioBoxMenu
+              (cons (_ "Continue seeking tuplet end objects")   'continue)   
+              (cons (_ "Execute Scheme") 'execute)
+              (cons (_ "Stop") 'stop)))
+            (set! choice (RadioBoxMenu
+              (cons (_ "Execute Scheme") 'execute))))
+          
+          
         (case choice
             ((stop) (set! target #f))
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))
             
     (define (edit-timesig)
-        (define choice (RadioBoxMenu
-          (cons (_ "Continue seeking time signature change objects")   'continue)   
-          (cons (_ "Edit") 'edit)
-          (cons (_ "Execute Scheme") 'execute)
-          (cons (_ "Stop") 'stop)))
+        (define choice #f)
+        (if continuations 
+            (set! choice (RadioBoxMenu
+              (cons (_ "Continue seeking time signature change objects")   'continue)   
+              (cons (_ "Edit") 'edit)
+              (cons (_ "Execute Scheme") 'execute)
+              (cons (_ "Stop") 'stop)))
+             (set! choice (RadioBoxMenu
+              (cons (_ "Edit") 'edit)
+              (cons (_ "Execute Scheme") 'execute))))
+         
+          
         (case choice
             ((stop) (set! target #f))
             ((edit) (d-InsertTimeSig)) ;;;better - offer to add beat structure, invisibility etc
@@ -145,11 +204,18 @@
             ((#f)  (set! target #f))))    
             
     (define (edit-clef)
-        (define choice (RadioBoxMenu
-          (cons (_ "Continue seeking clef change objects")   'continue)   
-          (cons (_ "Edit") 'edit)
-          (cons (_ "Execute Scheme") 'execute)
-          (cons (_ "Stop") 'stop)))
+        (define choice #f)
+        (if continuations 
+            (set! choice (RadioBoxMenu
+              (cons (_ "Continue seeking clef change objects")   'continue)   
+              (cons (_ "Edit") 'edit)
+              (cons (_ "Execute Scheme") 'execute)
+              (cons (_ "Stop") 'stop)))
+            (set! choice (RadioBoxMenu
+              (cons (_ "Edit") 'edit)
+              (cons (_ "Execute Scheme") 'execute))))
+          
+          
         (case choice
             ((stop) (set! target #f))
             ((edit) (d-InsertClef)) ;;;better - offer  invisibility etc
@@ -157,12 +223,20 @@
             ((#f)  (set! target #f))))                     
             
     (define (edit-keysig)
-        (define choice (RadioBoxMenu
-          (cons (_ "Continue seeking key signature change objects")   'continue)   
-          (cons (_ "Sharpen") 'sharpen)
-          (cons (_ "Flatten") 'flatten)
-          (cons (_ "Execute Scheme") 'execute)
-          (cons (_ "Stop") 'stop)))
+        (define choice #f)
+        (if continuations 
+            (set! choice (RadioBoxMenu
+              (cons (_ "Continue seeking key signature change objects")   'continue)   
+              (cons (_ "Sharpen") 'sharpen)
+              (cons (_ "Flatten") 'flatten)
+              (cons (_ "Execute Scheme") 'execute)
+              (cons (_ "Stop") 'stop)))
+            (set! choice (RadioBoxMenu
+              (cons (_ "Sharpen") 'sharpen)
+              (cons (_ "Flatten") 'flatten)
+              (cons (_ "Execute Scheme") 'execute))))
+          
+          
         (case choice
             ((stop) (set! target #f))
             ((sharpen) (begin (d-SharpenKeysig)(edit-keysig)))
@@ -171,11 +245,18 @@
             ((#f)  (set! target #f)))) 
             
     (define (edit-stemdirection)
-        (define choice (RadioBoxMenu
-          (cons (_ "Continue seeking stem direction change objects")   'continue)   
-          (cons (_ "Edit") 'edit)
-          (cons (_ "Execute Scheme") 'execute)
-          (cons (_ "Stop") 'stop)))
+        (define choice #f)
+        (if continuations 
+            (set! choice (RadioBoxMenu
+              (cons (_ "Continue seeking stem direction change objects")   'continue)   
+              (cons (_ "Edit") 'edit)
+              (cons (_ "Execute Scheme") 'execute)
+              (cons (_ "Stop") 'stop)))
+            (set! choice (RadioBoxMenu
+              (cons (_ "Edit") 'edit)
+              (cons (_ "Execute Scheme") 'execute))))
+           
+          
         (case choice
             ((stop) (set! target #f))
             ((edit) (d-VoiceSetting)) ;;;offer other options
@@ -183,13 +264,21 @@
             ((#f)  (set! target #f))))              
             
      (define (edit-timesigdir)
-        (define choice (RadioBoxMenu
-          (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Time Signature Change Objects"))   'continue)   
-          (cons (_ "Delete")   'delete)   
-          (cons (_ "Edit") 'edit)
-          (cons (_ "Execute Scheme") 'execute)
-          (cons (_ "Stop") 'stop)
-          (cons (_ "Advanced") 'advanced)))
+        (define choice #f)
+        (if continuations 
+            (set! choice (RadioBoxMenu
+                  (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Time Signature Change Objects"))   'continue)   
+                  (cons (_ "Delete")   'delete)   
+                  (cons (_ "Edit") 'edit)
+                  (cons (_ "Execute Scheme") 'execute)
+                  (cons (_ "Stop") 'stop)
+                  (cons (_ "Advanced") 'advanced)))
+            (set! choice (RadioBoxMenu
+                  (cons (_ "Edit") 'edit)
+                  (cons (_ "Delete")   'delete)   
+                  (cons (_ "Execute Scheme") 'execute)
+                  (cons (_ "Advanced") 'advanced))))
+                  
         (case choice
             ((delete) (d-DirectiveDelete-timesig target))
             ((edit) (edit-tag target d-DirectiveTextEdit-timesig))
@@ -200,13 +289,20 @@
             
               
      (define (edit-clefdir)
-        (define choice (RadioBoxMenu
-          (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Clef Change Objects"))   'continue)   
-          (cons (_ "Delete")   'delete)   
-          (cons (_ "Edit") 'edit)
-          (cons (_ "Execute Scheme") 'execute)
-          (cons (_ "Stop") 'stop)
-          (cons (_ "Advanced") 'advanced)))
+        (define choice #f)
+        (if continuations 
+            (set! choice (RadioBoxMenu
+                  (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Clef Change Objects"))   'continue)   
+                  (cons (_ "Delete")   'delete)   
+                  (cons (_ "Edit") 'edit)
+                  (cons (_ "Execute Scheme") 'execute)
+                  (cons (_ "Stop") 'stop)
+                  (cons (_ "Advanced") 'advanced)))
+            (set! choice (RadioBoxMenu
+                  (cons (_ "Edit") 'edit)
+                  (cons (_ "Delete")   'delete)   
+                  (cons (_ "Execute Scheme") 'execute)
+                  (cons (_ "Advanced") 'advanced))))
         (case choice
             ((delete) (d-DirectiveDelete-clef target))
             ((edit) (edit-tag target d-DirectiveTextEdit-clef))
@@ -216,13 +312,20 @@
             ((#f)  (set! target #f))))               
             
      (define (edit-keysigdir)
-        (define choice (RadioBoxMenu
-          (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Key Change Objects"))   'continue)   
-          (cons (_ "Delete")   'delete)   
-          (cons (_ "Edit") 'edit)
-          (cons (_ "Execute Scheme") 'execute)
-          (cons (_ "Stop") 'stop)
-          (cons (_ "Advanced") 'advanced)))
+        (define choice #f)
+        (if continuations 
+            (set! choice (RadioBoxMenu
+                  (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Key Change Objects"))   'continue)   
+                  (cons (_ "Delete")   'delete)   
+                  (cons (_ "Edit") 'edit)
+                  (cons (_ "Execute Scheme") 'execute)
+                  (cons (_ "Stop") 'stop)
+                  (cons (_ "Advanced") 'advanced)))
+            (set! choice (RadioBoxMenu
+                  (cons (_ "Edit") 'edit)
+                  (cons (_ "Delete")   'delete)   
+                  (cons (_ "Execute Scheme") 'execute)
+                  (cons (_ "Advanced") 'advanced))))
         (case choice
             ((delete) (d-DirectiveDelete-keysig target))
             ((edit) (edit-tag target d-DirectiveTextEdit-keysig))
@@ -232,13 +335,20 @@
             ((#f)  (set! target #f))))   
               
      (define (edit-voicedir)
-        (define choice (RadioBoxMenu
-          (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Voice Change objects"))   'continue)   
-          (cons (_ "Delete")   'delete)   
-          (cons (_ "Edit") 'edit)
-          (cons (_ "Execute Scheme") 'execute)
-          (cons (_ "Stop") 'stop)
-          (cons (_ "Advanced") 'advanced)))
+        (define choice #f)
+        (if continuations 
+            (set! choice (RadioBoxMenu
+                  (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Voice Change objects"))   'continue)   
+                  (cons (_ "Delete")   'delete)   
+                  (cons (_ "Edit") 'edit)
+                  (cons (_ "Execute Scheme") 'execute)
+                  (cons (_ "Stop") 'stop)
+                  (cons (_ "Advanced") 'advanced)))
+            (set! choice (RadioBoxMenu
+                  (cons (_ "Edit") 'edit)
+                  (cons (_ "Delete")   'delete)   
+                  (cons (_ "Execute Scheme") 'execute)
+                  (cons (_ "Advanced") 'advanced))))
         (case choice
             ((delete) (d-DirectiveDelete-stemdirective target))
             ((edit) (edit-tag target d-DirectiveTextEdit-stemdirective))
@@ -347,79 +457,81 @@
      (case type
              ((standalone)
                           (edit)
-                          (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-standalone? target))))
-                              (edit)))
+                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-standalone? target))))
+                              (edit))))
             ((note)
                           (edit-note)
-                          (while (and target (FindNextNoteAllColumns (lambda () (d-DirectiveGetForTagStrictNote target))))
-                              (edit-note)))
+                          (if continuations (while (and target (FindNextNoteAllColumns (lambda () (d-DirectiveGetForTagStrictNote target))))
+                              (edit-note))))
             ((chord)
                           (edit-chord)
-                          (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-chord? target))))
-                              (edit-chord)))
+                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-chord? target))))
+                              (edit-chord))))
                               
             ((nonprinting)
                           (edit-nonprinting)
-                          (while (and target (FindNextObjectAllColumns (lambda () (d-GetNonprinting))))
-                              (edit-nonprinting)))                  
+                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (d-GetNonprinting))))
+                              (edit-nonprinting))))                 
             ((slurstart)
                           (edit-slurstart)
-                          (while (and target (FindNextObjectAllColumns (lambda () (d-IsSlurStart))))
-                              (edit-slurstart))) 
+                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (d-IsSlurStart))))
+                              (edit-slurstart)))) 
                               
             ((slurend)
                           (edit-slurend)
-                          (while (and target (FindNextObjectAllColumns (lambda () (d-IsSlurEnd))))
-                              (edit-slurend))) 
+                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (d-IsSlurEnd))))
+                              (edit-slurend))))
                               
             ((tupletstart)
                           (edit-tupletstart)
-                          (while (and target (FindNextObjectAllColumns (lambda () (TupletOpen?))))
-                              (edit-tupletstart))) 
+                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (TupletOpen?))))
+                              (edit-tupletstart)))) 
             ((tupletend)
                           (edit-tupletend)
-                          (while (and target (FindNextObjectAllColumns (lambda () (TupletClose?))))
-                              (edit-tupletend)))                                                             
+                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (TupletClose?))))
+                              (edit-tupletend))))                                                             
  
  
             ((timesig)
                           (edit-timesig)
-                          (while (and target (FindNextObjectAllColumns (lambda () (Timesignature?))))
-                              (edit-timesig)))        
+                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (Timesignature?))))
+                              (edit-timesig))))        
             ((clef)
                           (edit-clef)
-                          (while (and target (FindNextObjectAllColumns (lambda () (Clef?))))
-                              (edit-clef)))                                                             
+                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (Clef?))))
+                              (edit-clef))))                                                             
             ((keysig)
                           (edit-keysig)
-                          (while (and target (FindNextObjectAllColumns (lambda () (Keysignature?))))
-                              (edit-keysig)))                                                             
+                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (Keysignature?))))
+                              (edit-keysig))))                                                             
             ((stemdirection)
                           (edit-stemdirection)
-                          (while (and target (FindNextObjectAllColumns (lambda () (StemDirective?))))
-                              (edit-stemdirection)))                                                             
+                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (StemDirective?))))
+                              (edit-stemdirection))))                                                             
             ((stemdirection)
                           (edit-stemdirection)
-                          (while (and target (FindNextObjectAllColumns (lambda () (StemDirective?))))
-                              (edit-stemdirection)))                                                             
+                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (StemDirective?))))
+                              (edit-stemdirection))))                                                             
             ((timesigdir)
                           (edit-timesigdir)
-                          (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-timesig? target))))
-                              (edit-timesigdir)))            
+                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-timesig? target))))
+                              (edit-timesigdir))))            
             ((keysigdir)
                           (edit-keysigdir)
-                          (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-keysig? target))))
-                              (edit-keysigdir)))            
+                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-keysig? target))))
+                              (edit-keysigdir))))            
             ((voicedir)
                           (edit-voicedir)
-                          (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-stemdirective? target))))
-                              (edit-voicedir)))            
+                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-stemdirective? target))))
+                              (edit-voicedir))))            
                         
             ((clefdir)
                           (edit-clefdir)
-                          (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-clef? target))))
-                              (edit-clefdir)))            
+                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-clef? target))))
+                              (edit-clefdir))))            
                               
                                                        
             (else
-                (d-InfoDialog (_ "Currently only Directives attached to noteheads, chords (including notes and rests) or standalone are supported - position the cursor on a notehead for directives on that notehead or off the noteheads for directives on a chord/note/rest, or on a standalone directive. \nAlternatively, use \"Choose, Seek &amp; Edit\" to select from possible directives in your score."))))))
+                (if continuations
+                    (d-InfoDialog (_ "Attributes and Directives attached to noteheads, chords (including notes and rests) and standalone objects are supported - position the cursor on a notehead for directives on that notehead or off the noteheads for directives on a chord/note/rest, or on any other sort of object in the music. \nAlternatively, use \"Choose, Seek and Edit\" command to select from a list of types of directives in the movement to seek for."))
+                    (d-EditObject))))))
