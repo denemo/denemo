@@ -2193,6 +2193,14 @@ option_choice (GtkWidget * widget, gchar ** response)
   return TRUE;
 }
 
+static gint root_x;
+static gint root_y;
+static gboolean dialog_realize (GtkWidget *dialog) {
+  if(root_x)
+   gtk_window_move (GTK_WINDOW(dialog), root_x, root_y);
+    return FALSE;
+}
+
 /* run a dialog for the user to select a string from the NULL separated strings, str
  return NULL if user cancels.*/
 gchar *
@@ -2206,6 +2214,7 @@ get_option (gchar * str, gint length)
                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
                                                    NULL);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
+  g_signal_connect_after (G_OBJECT(dialog), "realize", G_CALLBACK(dialog_realize), NULL);
   GtkWidget *vbox = gtk_vbox_new (FALSE, 1);
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_add (GTK_CONTAINER (content_area), vbox);
@@ -2234,6 +2243,7 @@ get_option (gchar * str, gint length)
       response = NULL;
     }
   g_debug ("Returning contents of response is %s\n", response);
+  gtk_window_get_position (dialog, &root_x, &root_y);
   gtk_widget_destroy (dialog);
   return response;
 }
