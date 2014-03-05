@@ -4689,7 +4689,7 @@ create_window (void)
   gtk_widget_show (Denemo.input_source);
   Denemo.input_filters = g_string_new ("");
   gtk_paned_add2 (GTK_PANED (hbox), Denemo.input_source);
-  gtk_paned_set_position (GTK_PANED (hbox), 1000);
+  gtk_paned_set_position (GTK_PANED (hbox), 600);
   gtk_widget_show (hbox);
   // End of status bar stuff - note this is not working on Windows correctly.
     
