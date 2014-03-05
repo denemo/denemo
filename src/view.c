@@ -1232,7 +1232,7 @@ update_leadin_widget (gdouble secs)
 static void
 pb_set_range (GtkWidget * button)
 {
-  call_out_to_guile ("(DenemoSetPlaybackIntervalToSelection)");
+  call_out_to_guile ("(DenemoSetPlaybackIntervalToSelection)"); 
 }
 
 static void
@@ -4410,7 +4410,7 @@ create_window (void)
 
     create_playbutton (inner, _("Loop"), pb_loop, NULL, _("The music between the red and green bars is played in a loop.\nYou can edit the music while it is playing\nmonitoring your changes."));
 
-    midiconductbutton = create_playbutton (inner, _("Conductor"), pb_conduct, NULL, _("With the mouse conductor once you press play the playback progresses as you move the mouse around\nWith this you can speed up and slow down the playback to listen in detail to a certain passage\n"));
+   // midiconductbutton = create_playbutton (inner, _("Conductor"), pb_conduct, NULL, _("With the mouse conductor once you press play the playback progresses as you move the mouse around\nWith this you can speed up and slow down the playback to listen in detail to a certain passage\n"));
 
     create_playbutton (inner,
 #ifdef _HAVE_JACK_
