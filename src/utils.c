@@ -2207,7 +2207,7 @@ gchar *
 get_option (gchar * str, gint length)
 {
   gchar *response = NULL;
-  GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select an Option (or Cancel)",
+  GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select from List (or Cancel)",
                                                    GTK_WINDOW (Denemo.window),
                                                    (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
                                                    GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
