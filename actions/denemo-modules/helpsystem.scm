@@ -58,3 +58,8 @@
 (define* (Help::TimedNotice string #:optional (timing 2500))
     (Help::Push (cons 'timednotice string))
     (d-OneShotTimer timing "(Help::Pop)"))
+
+(define* (TimedNotice string #:optional (timing 2500))
+    (Help::TimedNotice (string-append  "<span font_desc=\"16\" foreground=\"blue\">" string   "</span>") timing))
+    
+
