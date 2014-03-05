@@ -36,7 +36,7 @@
 ;;If there is no message left in the queue, disable showing the message area.
 (define (Help::UpdateWriteStatus)
     (if (q-empty? Help::queue)
-        (d-WriteStatus) 
+        (d-WriteStatus "                                  ") ;;; keep the status bar visible
         (d-WriteStatus (cdr (q-front Help::queue)))))
 
 ;Push a message to the queue. 
@@ -54,7 +54,7 @@
             (q-pop! Help::queue)
             (Help::UpdateWriteStatus))))
 
-; Display a message that deletes itself after 2500ms. No tag or Pop needed from the user.
-(define (Help::TimedNotice string)
+; Display a message that deletes itself after timing (default 2500ms). No tag or Pop needed from the user.
+(define* (Help::TimedNotice string #:optional (timing 2500))
     (Help::Push (cons 'timednotice string))
-    (d-OneShotTimer 2500 "(Help::Pop)"))
+    (d-OneShotTimer timing "(Help::Pop)"))
