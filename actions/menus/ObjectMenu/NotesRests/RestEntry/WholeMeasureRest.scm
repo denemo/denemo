@@ -4,7 +4,7 @@
     (set! timesig (d-InsertTimeSig "query=timesigname")) 
     (if (not (d-Directive-chord? DenemoWholeMeasureRestTag))
         (d-InsertWholeRest)
-        (Help::TimedNotice  (_ "<span font_desc=\"16\" foreground=\"blue\">Duration of whole measure rest has been re-calculated</span>")))
+        (Help::TimedNotice (string-append "<span font_desc=\"16\" foreground=\"blue\">" (_ "Duration of whole measure rest has been re-calculated") "</span>") 5000))
     (d-SetDurationInTicks (* 1536 (GetPrevailingTimeSig #t)))
     (d-DirectivePut-chord-graphic DenemoWholeMeasureRestTag "\n\x20")
     (d-DirectivePut-chord-gx DenemoWholeMeasureRestTag 60)
