@@ -1001,7 +1001,11 @@
       </row>
       <row>
         <action>ChooseSeekEditDirectives</action>
-        <bind>Ctrl+e</bind>
+        <bind>Ctrl+e,Ctrl+e</bind>
+      </row>
+      <row>
+        <action>EditSimilar</action>
+        <bind>Ctrl+e,e</bind>
       </row>
     </map>
   </merge>

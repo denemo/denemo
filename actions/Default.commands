@@ -3560,7 +3560,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
         <action>EditSimilar</action>
         <after>EditObject</after>
         <menupath>/MainMenu/EditMenu</menupath>
-        <_label>Seek/Edit Directives</_label>
+        <_label>Edit Here (and ...)</_label>
         <_tooltip>Seek and edit Denemo Directives starting with the one at the cursor and optionally similar ones following. Position the cursor on a particular notehead to edit directives attached to individual noteheads (such as fingering), otherwise you will edit directives attached at the chord level (such as beaming).</_tooltip>
       </row>
       <row type="scheme">

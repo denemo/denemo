@@ -58,7 +58,7 @@
             (set! choice (RadioBoxMenu
                   (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Noteheads"))   'continue)   
                   (cons (_ "Delete")   'delete)   
-                  (cons (_ "Edit") 'edit)
+                  (cons (string-append (_ "Edit ") "\""target"\"" (_ " on Notehead"))  'edit)
                   (cons (_ "Execute Scheme") 'execute)
                   (cons (_ "Stop") 'stop)
                   (cons (_ "Advanced") 'advanced)))
@@ -82,7 +82,7 @@
             (set! choice (RadioBoxMenu
                   (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Chords/Notes/Rests"))   'continue)   
                   (cons (_ "Delete")   'delete)   
-                  (cons (_ "Edit Attribute") 'edit)
+                  (cons  (string-append (_ "Edit ")  "\""target"\"" (_ " Directive") (_ " on this Chord/Note/Rest"))  'edit)
                   (cons (_ "Execute Scheme") 'execute)
                   (cons (_ "Stop") 'stop)
                   (cons (_ "Advanced") 'advanced)))
@@ -105,7 +105,7 @@
         (if continuations 
             (set! choice (RadioBoxMenu
               (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " Objects"))   'continue)   
-              (cons (_ "Change to Printing")   'switch)
+              (cons (_ "Change to Printing") 'switch)
               (cons (_ "Execute Scheme") 'execute)
               (cons (_ "Stop") 'stop)))
             (set! choice (RadioBoxMenu
