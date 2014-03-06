@@ -1007,6 +1007,10 @@
         <action>EditSimilar</action>
         <bind>Ctrl+e,e</bind>
       </row>
+      <row>
+        <action>ResumeEdit</action>
+        <bind>Ctrl+e,r</bind>
+      </row>
     </map>
   </merge>
 </Denemo>
