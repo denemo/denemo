@@ -74,7 +74,8 @@
               (set! tags (assoc-set! tags (string-append  tag " (O)") (cons tag 'standalone))))) 
 
     ;;;actual procedure
-    (d-PushPosition)   
+    (d-PushPosition)
+    (d-MoveToBeginning)   
     (let loop ((staffnum (d-GetStaff)))
         (get-tags)
         (if (d-NextObject)
@@ -84,7 +85,7 @@
     (d-PopPosition)
     (d-MoveCursorLeft) ; to include the original position if possible.
     (if (null? tags)
-        (d-InfoDialog (_ "No directives are present on any of the objects after the cursor position (searching in column order)."))
+        (d-InfoDialog (_ "Nothing in this movement can be searched for (no ties, slurs, time signature changes, tuplets, directives etc)."))
     (let ((choice (RadioBoxMenuList tags)))
        (if choice
             (d-EditSimilar choice)))))

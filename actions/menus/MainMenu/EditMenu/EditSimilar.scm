@@ -596,4 +596,4 @@
                                     (d-EditSimilar (cons target type)))
                                 (begin
                                     (d-InfoDialog (_ "Last Movement")))))
-                (else (d-InfoDialog (_ "Finished"))))))))
+                (else (TimedNotice (_ "Finished"))))))))
