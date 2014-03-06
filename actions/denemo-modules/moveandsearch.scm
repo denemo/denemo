@@ -184,3 +184,7 @@
     (if (d-MoveToVoiceUp)
         #t
         (d-MoveToStaffUp)))     
+
+(define (LastMovement?) (not (Probe (lambda () #t) d-NextMovement)))
+
+(define (FirstMovement?) (not (Probe (lambda () #t) d-PreviousMovement)))
