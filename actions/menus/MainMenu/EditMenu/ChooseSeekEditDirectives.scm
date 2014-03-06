@@ -54,6 +54,8 @@
                    (set! tags (assoc-set! tags (string-append (_ "Slur Start") " (O)") (cons "Slur Start" 'slurstart))))
         (if (d-IsSlurEnd)
                    (set! tags (assoc-set! tags (string-append (_ "Slur End") " (O)") (cons "Slur End" 'slurend))))
+        (if (d-IsTied)
+                   (set! tags (assoc-set! tags (string-append (_ "Tied Note") " (CN)") (cons "Tied Note" 'tied))))
         (if (TupletOpen?)              
                  (set! tags (assoc-set! tags (string-append (_ "Tuplet Start") " (O)") (cons "StartTuplet" 'tupletstart))))  
         (if (TupletClose?)              
