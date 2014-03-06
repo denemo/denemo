@@ -1,4 +1,5 @@
 ;;EditSimilar
+(define-once EditSimilar::last #f)   
 (let ((target #f) (continuations (if (eq? EditSimilar::params 'once) (begin (set! EditSimilar::params #f) #f) #t)))
    (define (get-tag-list get-command) ;;;get-command is d-DirectiveGetNthTag-note
     (let loop ((tags '())(n 0))
@@ -144,14 +145,30 @@
             (set! choice (RadioBoxMenu
               (cons (_ "Delete Slur")   'delete)
               (cons (_ "Execute Scheme") 'execute))))
-          
-          
         (case choice
             ((delete) (d-ToggleEndSlur));;; make this execute a slur deletion instead
             ((stop) (set! target #f))
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))
             
+            
+    (define (edit-tied)
+        (define choice #f)
+        (if continuations 
+            (set! choice (RadioBoxMenu
+              (cons (_ "Continue seeking tied notes")   'continue)   
+              (cons (_ "Delete Tie")   'delete)
+              (cons (_ "Execute Scheme") 'execute)
+              (cons (_ "Stop") 'stop)))
+            (set! choice (RadioBoxMenu
+              (cons (_ "Delete Tie")   'delete)
+              (cons (_ "Execute Scheme") 'execute))))
+        (case choice
+            ((delete) (d-ToggleTie))
+            ((stop) (set! target #f))
+            ((execute) (d-ExecuteScheme))
+            ((#f)  (set! target #f))))
+             
     (define (edit-tupletstart)
         (define choice #f)
         (if continuations 
@@ -161,8 +178,6 @@
               (cons (_ "Stop") 'stop)))
             (set! choice (RadioBoxMenu
               (cons (_ "Execute Scheme") 'execute))))
-          
-          
         (case choice
             ((stop) (set! target #f))
             ((execute) (d-ExecuteScheme))
@@ -177,8 +192,6 @@
               (cons (_ "Stop") 'stop)))
             (set! choice (RadioBoxMenu
               (cons (_ "Execute Scheme") 'execute))))
-          
-          
         (case choice
             ((stop) (set! target #f))
             ((execute) (d-ExecuteScheme))
@@ -214,8 +227,6 @@
             (set! choice (RadioBoxMenu
               (cons (_ "Edit") 'edit)
               (cons (_ "Execute Scheme") 'execute))))
-          
-          
         (case choice
             ((stop) (set! target #f))
             ((edit) (d-InsertClef)) ;;;better - offer  invisibility etc
@@ -235,8 +246,6 @@
               (cons (_ "Sharpen") 'sharpen)
               (cons (_ "Flatten") 'flatten)
               (cons (_ "Execute Scheme") 'execute))))
-          
-          
         (case choice
             ((stop) (set! target #f))
             ((sharpen) (begin (d-SharpenKeysig)(edit-keysig)))
@@ -255,9 +264,7 @@
             (set! choice (RadioBoxMenu
               (cons (_ "Edit") 'edit)
               (cons (_ "Execute Scheme") 'execute))))
-           
-          
-        (case choice
+         (case choice
             ((stop) (set! target #f))
             ((edit) (d-VoiceSetting)) ;;;offer other options
             ((execute) (d-ExecuteScheme))
@@ -357,11 +364,23 @@
             ((advanced) (d-DirectiveTextEdit-stendirective target))
             ((#f)  (set! target #f))))   
                           
-                                         
+                                    
              
 ;;; the actual procedure
   (let ((type #f))
-    (if EditSimilar::params 
+  
+    (if (eq? EditSimilar::params 'continue)
+        (if EditSimilar::last
+            (begin
+                (set! EditSimilar::params #f)
+                (set! type (car EditSimilar::last))
+                (set! target (cdr EditSimilar::last)))
+            (begin
+                (set! EditSimilar::params #f)
+                (set! continuations 'menu)
+                (d-WarningDialog (_ "Cannot resume - no previous search.\nOffering a menu of all possible searches instead.")))))
+
+      (if EditSimilar::params 
         (case (cdr EditSimilar::params)
             ((standalone)
                 (set! type 'standalone)
@@ -391,7 +410,12 @@
                 (set! type 'slurend)
                 (set! target (car EditSimilar::params))
                 (FindNextObjectAllColumns (lambda () (d-IsSlurEnd))))
-                   
+                
+             ((tied) 
+                (set! type 'tied)
+                (set! target (car EditSimilar::params))
+                (FindNextObjectAllColumns (lambda () (d-IsTied))))
+                    
               ((tupletstart) 
                 (set! type 'tupletstart)
                 (set! target (car EditSimilar::params))
@@ -439,7 +463,9 @@
                                                   
              (else
                 (disp "Not handling " EditSimilar::params " yet.")
-                (set! EditSimilar::params #f)))) 
+                (set! EditSimilar::params #f))))
+                
+                 
     (if (not type)
         (begin
             (set! target (d-DirectiveGetTag-standalone))
@@ -453,6 +479,8 @@
                             (set! target (select-directive 'chord))
                             (if target
                                 (set! type 'chord))))))))
+                                
+    (set! EditSimilar::last (cons type target))
                             
      (case type
              ((standalone)
@@ -481,6 +509,11 @@
                           (edit-slurend)
                           (if continuations (while (and target (FindNextObjectAllColumns (lambda () (d-IsSlurEnd))))
                               (edit-slurend))))
+
+            ((tied)
+                          (edit-tied)
+                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (d-IsTied))))
+                              (edit-tied))))
                               
             ((tupletstart)
                           (edit-tupletstart)
@@ -533,5 +566,7 @@
                                                        
             (else
                 (if continuations
-                    (d-InfoDialog (_ "Attributes and Directives attached to noteheads, chords (including notes and rests) and standalone objects are supported - position the cursor on a notehead for directives on that notehead or off the noteheads for directives on a chord/note/rest, or on any other sort of object in the music. \nAlternatively, use \"Choose, Seek and Edit\" command to select from a list of types of directives in the movement to seek for."))
+                    (if (eq? continuations 'menu)
+                        (d-ChooseSeekEditDirectives)
+                        (d-InfoDialog (_ "Attributes and Directives attached to noteheads, chords (including notes and rests) and standalone objects are supported - position the cursor on a notehead for directives on that notehead or off the noteheads for directives on a chord/note/rest, or on any other sort of object in the music. \nAlternatively, use \"Choose, Seek and Edit\" command to select from a list of types of directives in the movement to seek for.")))
                     (d-EditObject))))))
