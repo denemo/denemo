@@ -1,0 +1,2 @@
+;;ResumeEdit
+(d-EditSimilar 'continue)

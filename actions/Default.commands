@@ -1500,11 +1500,6 @@ these may need re-making.</_tooltip>
         <_tooltip>Attach or edit attached LilyPond text to the chord at the cursor. This can be used for attaching and placing text and much more. See LilyPond documentation.</_tooltip>
       </row>
       <row type="builtin">
-        <action>InsertBarline</action>
-        <_label>Insert Barline</_label>
-        <_tooltip>Inserts specialized barline at the cursor position. Mostly not working</_tooltip>
-      </row>
-      <row type="builtin">
         <action>GoToMeasure</action>
         <_label>Go to Measure</_label>
         <_tooltip>Opens a dialog for going to a numbered measure</_tooltip>
@@ -6370,6 +6365,13 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Multi-Measure Rest Number (Off/On)</_label>
         <_tooltip>Turns the printing of the multi-measure rest number off or on. Use this when merging rests to avoid the number appearing twice.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ResumeEdit</action>
+        <after>EditSimilar</after>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <_label>Resume Seek/Edit</_label>
+        <_tooltip>Resumes seeking and optionally editing the last sought type of object.</_tooltip>
       </row>
     </map>
   </merge>
