@@ -380,7 +380,7 @@
                 (set! continuations 'menu)
                 (d-WarningDialog (_ "Cannot resume - no previous search.\nOffering a menu of all possible searches instead.")))))
 
-      (if EditSimilar::params 
+    (if EditSimilar::params 
         (case (cdr EditSimilar::params)
             ((standalone)
                 (set! type 'standalone)
@@ -482,7 +482,7 @@
                                 
     (set! EditSimilar::last (cons type target))
                             
-     (case type
+    (case type
              ((standalone)
                           (edit)
                           (if continuations (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-standalone? target))))
@@ -569,4 +569,31 @@
                     (if (eq? continuations 'menu)
                         (d-ChooseSeekEditDirectives)
                         (d-InfoDialog (_ "Attributes and Directives attached to noteheads, chords (including notes and rests) and standalone objects are supported - position the cursor on a notehead for directives on that notehead or off the noteheads for directives on a chord/note/rest, or on any other sort of object in the music. \nAlternatively, use \"Choose, Seek and Edit\" command to select from a list of types of directives in the movement to seek for.")))
-                    (d-EditObject))))))
+                    (d-EditObject))))
+                    
+    (if continuations
+        (let ((choice #f))
+            (set! choice (RadioBoxMenu
+                (cons (_ "Wrap to beginning") 'wrap)
+                (if (LastMovement?)
+                    (if (FirstMovement?)
+                        (cons (_ "Stop") 'stop)
+                        (cons (_ "Wrap to first movement") 'first))
+                    (cons (_ "Wrap to next movement") 'wrapmovement))))
+            
+            (case choice
+                ((wrap) 
+                    (d-MoveToBeginning)
+                    (d-EditSimilar (cons target type)))
+                 ((first) 
+                    (while (d-PreviousMovement))
+                    (d-MoveToBeginning)
+                    (d-EditSimilar (cons target type)))
+                ((wrapmovement) 
+                        (if (d-NextMovement)
+                                (begin
+                                    (d-MoveToBeginning)
+                                    (d-EditSimilar (cons target type)))
+                                (begin
+                                    (d-InfoDialog (_ "Last Movement")))))
+                (else (d-InfoDialog (_ "Finished"))))))))
