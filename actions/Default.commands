@@ -6373,6 +6373,13 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Resume Seek/Edit</_label>
         <_tooltip>Resumes seeking and optionally editing the last sought type of object.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>DeleteSlur</action>
+        <after>ToggleEndSlur</after>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
+        <_label>Delete Slur</_label>
+        <_tooltip>Deletes the slur that includes the current cursor position.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

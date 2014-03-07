@@ -1323,6 +1323,8 @@ actions/menus/ObjectMenu/NotesRests/Slurs/AvoidSlurAccidentalCollision.scm
 actions/menus/ObjectMenu/NotesRests/Slurs/AvoidSlurAccidentalCollision.xml
 actions/menus/ObjectMenu/NotesRests/Slurs/BeginPhrasingSlur.scm
 actions/menus/ObjectMenu/NotesRests/Slurs/BeginPhrasingSlur.xml
+actions/menus/ObjectMenu/NotesRests/Slurs/DeleteSlur.scm
+actions/menus/ObjectMenu/NotesRests/Slurs/DeleteSlur.xml
 actions/menus/ObjectMenu/NotesRests/Slurs/EndPhrasingSlur.scm
 actions/menus/ObjectMenu/NotesRests/Slurs/EndPhrasingSlur.xml
 actions/menus/ObjectMenu/NotesRests/Slurs/ExtendSlur.scm

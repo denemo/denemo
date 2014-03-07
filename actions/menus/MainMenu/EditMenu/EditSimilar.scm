@@ -130,7 +130,7 @@
               (cons (_ "Execute Scheme") 'execute))))
           
         (case choice
-            ((delete) (d-ToggleBeginSlur)) ;;; make this execute a slur deletion instead
+            ((delete) (d-DeleteSlur))
             ((stop) (set! target #f))
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))
@@ -146,7 +146,7 @@
               (cons (_ "Delete Slur")   'delete)
               (cons (_ "Execute Scheme") 'execute))))
         (case choice
-            ((delete) (d-ToggleEndSlur));;; make this execute a slur deletion instead
+            ((delete) (d-DeleteSlur))
             ((stop) (set! target #f))
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))
