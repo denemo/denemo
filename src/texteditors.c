@@ -19,6 +19,7 @@
 #include <gtksourceview/gtksourcebuffer.h>
 #include "texteditors.h"
 #include "view.h"
+#include "scheme-callbacks.h"
 
 static void find_cb (GtkAction * action, gpointer user_data);
 
@@ -102,6 +103,11 @@ appendSchemeText (gchar * text)
 static gint
 hide_scheme (GtkAction * action, GdkEvent * event, GtkWidget * w)
 {
+  
+  if(Denemo.ScriptRecording) {
+        gtk_action_activate (gtk_action_group_get_action (Denemo.action_group, RecordScript_STRING));
+        infodialog(_("Turning off Recording scheme"));
+    }
   activate_action ("/MainMenu/ViewMenu/ToggleScript");
   return TRUE;
 }
@@ -372,7 +378,7 @@ create_editor_window (void)
   GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), inner_hbox, FALSE, FALSE, 0);
   GtkWidget *wid = gtk_check_button_new ();
-  gtk_activatable_set_related_action (GTK_ACTIVATABLE (wid), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/RecordScript"));
+  gtk_activatable_set_related_action (GTK_ACTIVATABLE (wid), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/HiddenMenu/RecordScript"));
   gtk_box_pack_start (GTK_BOX (inner_hbox), wid, FALSE, FALSE, 0);
   
   GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);

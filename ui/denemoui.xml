@@ -134,6 +134,10 @@
       <menuitem action="QuickEdits"/>
       <separator/>    
       <menuitem action="ExecuteScheme"/>
+      
+    </menu>
+    <menu action="HiddenMenu">
+        <menuitem action="RecordScript"/>
     </menu>
     <menu action="ViewMenu">
       <menuitem action="ToggleReduceToDrawingArea"/>

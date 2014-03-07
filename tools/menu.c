@@ -262,6 +262,7 @@ struct name_and_function denemo_commands[] = {
   {NULL, "Different keyboard and MIDI entry modes", N_("ModeMenu"), NULL, "Mode"},
   {NULL, "Menu:\\nGeneral editing commands", N_("EditMenu"), NULL, "Edit"},
   {NULL, "Menu:\\nControl which tools are to be shown", N_("ViewMenu"), NULL, "View"},
+  {NULL, "Menu:\\nHidden Items", N_("HiddenMenu"), NULL, "Hidden"},
 
   {NULL, "Menu:\\nCommands that manipulate Staffs and voices on staffs.\\nCommands that apply to the current staff.", N_("StaffMenu"), NULL, "Staffs/Voices"},
   {NULL, "Menu:\\nCommands for properties of the current staff.", N_("StaffPropertiesMenu"), NULL, "Staff Properties"},

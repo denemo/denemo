@@ -66,6 +66,7 @@ static GtkAdjustment *speed_adj;
 #endif
 static void pb_audiorecord (GtkWidget * button);
 static void pb_exportaudio (GtkWidget * button);
+static void toggle_scheme (void);
 
 static DenemoProject* new_project(gboolean);
 static void newtab ();
@@ -2030,6 +2031,8 @@ configure_keyboard_idx (GtkWidget * w, gint idx)
 static void
 toggle_record_script (GtkAction * action, gpointer param)
 {
+  if(!gtk_widget_get_visible (gtk_widget_get_toplevel(Denemo.ScriptView)))
+        toggle_scheme();
   Denemo.ScriptRecording = !Denemo.ScriptRecording;
 }
 
@@ -3589,7 +3592,7 @@ toggle_lilytext (GtkAction * action, gpointer param)
  *  Function to toggle the visibility of the Scheme text window. 
  */
 static void
-toggle_scheme (GtkAction * action, gpointer param)
+toggle_scheme (void)
 {
   GtkWidget *textwindow = gtk_widget_get_toplevel (Denemo.ScriptView);
   if (!gtk_widget_get_visible (textwindow))
@@ -4695,7 +4698,7 @@ create_window (void)
     
     
   create_scheme_window ();
-
+  gtk_widget_hide(gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/HiddenMenu"));
   if (!Denemo.non_interactive)
     gtk_widget_show (Denemo.window);
   // Now that the window is shown, initialize the gcs

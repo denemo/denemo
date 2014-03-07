@@ -205,6 +205,7 @@
 {"ModeMenu", NULL, N_("Mode"), "",N_("Different keyboard and MIDI entry modes")},
 {"EditMenu", NULL, N_("Edit"), "",N_("Menu:\nGeneral editing commands")},
 {"ViewMenu", NULL, N_("View"), "",N_("Menu:\nControl which tools are to be shown")},
+{"HiddenMenu", NULL, N_("Hidden"), "",N_("Menu:\nHidden Items")},
 {"StaffMenu", NULL, N_("Staffs/Voices"), "",N_("Menu:\nCommands that manipulate Staffs and voices on staffs.\nCommands that apply to the current staff.")},
 {"StaffPropertiesMenu", NULL, N_("Staff Properties"), "",N_("Menu:\nCommands for properties of the current staff.")},
 {"Voices", NULL, N_("Voices"), "",N_("Menu:\nThings that manipulate Voices, that is separately stemmed and beamed parts that will be typeset on the same staff.\nKeep them displayed on separate staffs for editing purposes at least.\nThe typesetter will amalgamate them for you.\nSee also commands for hiding rests and moving notes and rests to avoid collisions in the Notes/Rests menu")},
