@@ -379,6 +379,7 @@
                 (set! EditSimilar::params #f)
                 (set! continuations 'menu)
                 (d-WarningDialog (_ "Cannot resume - no previous search.\nOffering a menu of all possible searches instead.")))))
+     (disp "0. type is " type " and target " target "\n\n")           
 
     (if EditSimilar::params 
         (case (cdr EditSimilar::params)
@@ -464,7 +465,7 @@
              (else
                 (disp "Not handling " EditSimilar::params " yet.")
                 (set! EditSimilar::params #f))))
-                
+     (disp "1. type is " type " and target " target "\n\n")           
                  
     (if (not type)
         (begin
@@ -478,8 +479,41 @@
                         (begin
                             (set! target (select-directive 'chord))
                             (if target
-                                (set! type 'chord))))))))
-                                
+                                (set! type 'chord)
+                                (if (d-IsSlurStart)
+                                    (set! type 'slurstart)
+                                    (if (d-IsSlurEnd)
+                                        (set! type 'slurend)
+                                        (if (d-IsTied)
+                                            (set! type 'tied)
+                                            (if (d-GetNonprinting)
+                                                (set! type 'nonprinting)
+                                                (if (TupletOpen?)
+                                                    (set! type 'tupletstart)
+                                                    (if (TupletClose?)
+                                                        (set! type 'tupletend)
+                                                        (if (Timesignature?)
+                                                            (set! type 'timesig)
+                                                            (if (Clef?)
+                                                                (set! type 'clef)
+                                                                (if (Keysignature?)
+                                                                    (set! type 'keysig)
+                                                                    (if (StemDirective?)
+                                                                        (set! type 'stemdirection)
+                                                                        (if (d-Directive-timesig? target)
+                                                                            (set! type 'timesigdir)
+                                                                            (if (d-Directive-keysig? target)
+                                                                                (set! type 'keysigdir)
+                                                                                (if (d-Directive-stemdirective? target)
+                                                                                    (set! type 'voicedir)
+                                                                                    (if (d-Directive-clef? target)
+                                                                                        (set! type 'clefdir))))))))))))))))))))))
+                                                            
+                                                            
+                                                            
+       (disp "2. type is " type " and target " target "\n\n")           
+                                                          
+                                                            
     (set! EditSimilar::last (cons type target))
                             
     (case type
@@ -540,11 +574,7 @@
             ((stemdirection)
                           (edit-stemdirection)
                           (if continuations (while (and target (FindNextObjectAllColumns (lambda () (StemDirective?))))
-                              (edit-stemdirection))))                                                             
-            ((stemdirection)
-                          (edit-stemdirection)
-                          (if continuations (while (and target (FindNextObjectAllColumns (lambda () (StemDirective?))))
-                              (edit-stemdirection))))                                                             
+                              (edit-stemdirection))))                                                                                                                       
             ((timesigdir)
                           (edit-timesigdir)
                           (if continuations (while (and target (FindNextObjectAllColumns (lambda () (d-Directive-timesig? target))))
@@ -570,7 +600,8 @@
                         (d-ChooseSeekEditDirectives)
                         (d-InfoDialog (_ "Attributes and Directives attached to noteheads, chords (including notes and rests) and standalone objects are supported - position the cursor on a notehead for directives on that notehead or off the noteheads for directives on a chord/note/rest, or on any other sort of object in the music. \nAlternatively, use \"Choose, Seek and Edit\" command to select from a list of types of directives in the movement to seek for.")))
                     (d-EditObject))))
-                    
+    (disp "3. type is " type " and target " target "\n\n")           
+               
     (if continuations
         (let ((choice #f))
             (set! choice (RadioBoxMenu
@@ -580,7 +611,7 @@
                         (cons (_ "Stop") 'stop)
                         (cons (_ "Wrap to first movement") 'first))
                     (cons (_ "Wrap to next movement") 'wrapmovement))))
-            
+
             (case choice
                 ((wrap) 
                     (d-MoveToBeginning)
@@ -593,7 +624,5 @@
                         (if (d-NextMovement)
                                 (begin
                                     (d-MoveToBeginning)
-                                    (d-EditSimilar (cons target type)))
-                                (begin
-                                    (d-InfoDialog (_ "Last Movement")))))
+                                    (d-EditSimilar (cons target type)))))
                 (else (TimedNotice (_ "Finished"))))))))

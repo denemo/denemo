@@ -39,7 +39,7 @@
                 (set! tag (d-DirectiveGetNthTag-clef n))
                 (if tag
                     (begin
-                        (set! tags (assoc-set! tags (string-append  tag " (C)") (cons tag 'clef)))
+                        (set! tags (assoc-set! tags (string-append  tag " (C)") (cons tag 'clefdir)))
                         (loop (+ 1 n))))) 
                          
         (let loop ((n 0))
