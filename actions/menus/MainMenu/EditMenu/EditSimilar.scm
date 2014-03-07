@@ -48,7 +48,7 @@
           (case choice
             ((delete) (d-DirectiveDelete-standalone target))
             ((edit) (d-EditObject))
-            ((stop) (set! target #f))
+            ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
             ((advanced) (d-DirectiveTextEdit-standalone  target))
             ((#f)  (set! target #f))))
@@ -71,7 +71,7 @@
           (case choice
             ((delete) (d-DirectiveDelete-note target))
             ((edit) (edit-tag target d-DirectiveTextEdit-note))
-            ((stop) (set! target #f))
+            ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
             ((advanced) (d-DirectiveTextEdit-note target))
             ((#f)  (set! target #f)))
@@ -95,7 +95,7 @@
         (case choice
             ((delete) (d-DirectiveDelete-chord target))
             ((edit) (edit-tag target d-DirectiveTextEdit-chord))
-            ((stop) (set! target #f))
+            ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
             ((advanced) (d-DirectiveTextEdit-chord target))
             ((#f)  (set! target #f))))
@@ -114,7 +114,7 @@
                   (cons (_ "Execute Scheme") 'execute))))              
         (case choice
             ((switch) (if (d-Directive-chord? DenemoWholeMeasureRestTag) (DenemoWholeMeasureRestCommand 'printing)) (d-SetNonprinting #f))
-            ((stop) (set! target #f))
+            ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))
   (define (edit-slurstart)
@@ -131,7 +131,7 @@
           
         (case choice
             ((delete) (d-DeleteSlur))
-            ((stop) (set! target #f))
+            ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))
     (define (edit-slurend)
@@ -147,7 +147,7 @@
               (cons (_ "Execute Scheme") 'execute))))
         (case choice
             ((delete) (d-DeleteSlur))
-            ((stop) (set! target #f))
+            ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))
             
@@ -165,7 +165,7 @@
               (cons (_ "Execute Scheme") 'execute))))
         (case choice
             ((delete) (d-ToggleTie))
-            ((stop) (set! target #f))
+            ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))
              
@@ -179,7 +179,7 @@
             (set! choice (RadioBoxMenu
               (cons (_ "Execute Scheme") 'execute))))
         (case choice
-            ((stop) (set! target #f))
+            ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))            
             
@@ -193,7 +193,7 @@
             (set! choice (RadioBoxMenu
               (cons (_ "Execute Scheme") 'execute))))
         (case choice
-            ((stop) (set! target #f))
+            ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))
             
@@ -211,7 +211,7 @@
          
           
         (case choice
-            ((stop) (set! target #f))
+            ((stop) (set! target #f)(set! continuations #f))
             ((edit) (d-InsertTimeSig)) ;;;better - offer to add beat structure, invisibility etc
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))    
@@ -228,7 +228,7 @@
               (cons (_ "Edit") 'edit)
               (cons (_ "Execute Scheme") 'execute))))
         (case choice
-            ((stop) (set! target #f))
+            ((stop) (set! target #f)(set! continuations #f))
             ((edit) (d-InsertClef)) ;;;better - offer  invisibility etc
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))                     
@@ -247,7 +247,7 @@
               (cons (_ "Flatten") 'flatten)
               (cons (_ "Execute Scheme") 'execute))))
         (case choice
-            ((stop) (set! target #f))
+            ((stop) (set! target #f)(set! continuations #f))
             ((sharpen) (begin (d-SharpenKeysig)(edit-keysig)))
             ((flatten) (begin (d-FlattenKeysig)(edit-keysig)))
             ((execute) (d-ExecuteScheme))
@@ -265,7 +265,7 @@
               (cons (_ "Edit") 'edit)
               (cons (_ "Execute Scheme") 'execute))))
          (case choice
-            ((stop) (set! target #f))
+            ((stop) (set! target #f)(set! continuations #f))
             ((edit) (d-VoiceSetting)) ;;;offer other options
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))              
@@ -289,7 +289,7 @@
         (case choice
             ((delete) (d-DirectiveDelete-timesig target))
             ((edit) (edit-tag target d-DirectiveTextEdit-timesig))
-            ((stop) (set! target #f))
+            ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
             ((advanced) (d-DirectiveTextEdit-timesig target))
             ((#f)  (set! target #f))))
@@ -313,7 +313,7 @@
         (case choice
             ((delete) (d-DirectiveDelete-clef target))
             ((edit) (edit-tag target d-DirectiveTextEdit-clef))
-            ((stop) (set! target #f))
+            ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
             ((advanced) (d-DirectiveTextEdit-clef target))
             ((#f)  (set! target #f))))               
@@ -336,7 +336,7 @@
         (case choice
             ((delete) (d-DirectiveDelete-keysig target))
             ((edit) (edit-tag target d-DirectiveTextEdit-keysig))
-            ((stop) (set! target #f))
+            ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
             ((advanced) (d-DirectiveTextEdit-keysig target))
             ((#f)  (set! target #f))))   
@@ -359,7 +359,7 @@
         (case choice
             ((delete) (d-DirectiveDelete-stemdirective target))
             ((edit) (edit-tag target d-DirectiveTextEdit-stemdirective))
-            ((stop) (set! target #f))
+            ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
             ((advanced) (d-DirectiveTextEdit-stendirective target))
             ((#f)  (set! target #f))))   
@@ -379,7 +379,6 @@
                 (set! EditSimilar::params #f)
                 (set! continuations 'menu)
                 (d-WarningDialog (_ "Cannot resume - no previous search.\nOffering a menu of all possible searches instead.")))))
-     (disp "0. type is " type " and target " target "\n\n")           
 
     (if EditSimilar::params 
         (case (cdr EditSimilar::params)
@@ -465,7 +464,6 @@
              (else
                 (disp "Not handling " EditSimilar::params " yet.")
                 (set! EditSimilar::params #f))))
-     (disp "1. type is " type " and target " target "\n\n")           
                  
     (if (not type)
         (begin
@@ -511,7 +509,6 @@
                                                             
                                                             
                                                             
-       (disp "2. type is " type " and target " target "\n\n")           
                                                           
                                                             
     (set! EditSimilar::last (cons type target))
@@ -600,7 +597,6 @@
                         (d-ChooseSeekEditDirectives)
                         (d-InfoDialog (_ "Attributes and Directives attached to noteheads, chords (including notes and rests) and standalone objects are supported - position the cursor on a notehead for directives on that notehead or off the noteheads for directives on a chord/note/rest, or on any other sort of object in the music. \nAlternatively, use \"Choose, Seek and Edit\" command to select from a list of types of directives in the movement to seek for.")))
                     (d-EditObject))))
-    (disp "3. type is " type " and target " target "\n\n")           
                
     (if continuations
         (let ((choice #f))
