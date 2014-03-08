@@ -2526,7 +2526,7 @@ GString *voice_tail = g_string_new ("");
       gchar *lily = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
       if (lily)
         {
-          g_string_append_printf (sb->lilypond, lily);
+          g_string_append (sb->lilypond, lily);
         }
     }
 

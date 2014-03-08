@@ -5397,7 +5397,7 @@ scheme_locate_dotdenemo (SCM optional)
 SCM scheme_log_debug(SCM message){
   if(scm_is_string(message)){
     const gchar* msg = scm_to_locale_string(message);
-    g_debug(msg);
+    g_debug("%s", msg);
   }
   return SCM_BOOL_T;
 }
@@ -5405,7 +5405,7 @@ SCM scheme_log_debug(SCM message){
 SCM scheme_log_info(SCM message){
   if(scm_is_string(message)){
     const gchar* msg = scm_to_locale_string(message);
-    g_info(msg);
+    g_info("%s", msg);
   }
   return SCM_BOOL_T;
 }
@@ -5413,7 +5413,7 @@ SCM scheme_log_info(SCM message){
 SCM scheme_log_message(SCM message){
   if(scm_is_string(message)){
     const gchar* msg = scm_to_locale_string(message);
-    g_message(msg);
+    g_message("%s", msg);
   }
   return SCM_BOOL_T;
 }
@@ -5421,7 +5421,7 @@ SCM scheme_log_message(SCM message){
 SCM scheme_log_warning(SCM message){
   if(scm_is_string(message)){
     const gchar* msg = scm_to_locale_string(message);
-    g_warning(msg);
+    g_warning("%s", msg);
   }
   return SCM_BOOL_T;
 }
@@ -5429,7 +5429,7 @@ SCM scheme_log_warning(SCM message){
 SCM scheme_log_critical(SCM message){
   if(scm_is_string(message)){
     const gchar* msg = scm_to_locale_string(message);
-    g_critical(msg);
+    g_critical("%s", msg);
   }
   return SCM_BOOL_T;
 }
@@ -5437,7 +5437,7 @@ SCM scheme_log_critical(SCM message){
 SCM scheme_log_error(SCM message){
   if(scm_is_string(message)){
     const gchar* msg = scm_to_locale_string(message);
-    g_error(msg);
+    g_error("%s", msg);
   }
   return SCM_BOOL_T;
 }

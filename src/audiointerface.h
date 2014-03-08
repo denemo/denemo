@@ -279,6 +279,6 @@ void advance_time (gdouble seconds);
 /*
  * Returns a slowdown factor; the backend is only emitting audio at this rate
  * */
-volatile gdouble get_playback_speed (void);
+gdouble get_playback_speed (void);
 
 #endif // AUDIOINTERFACE_H
