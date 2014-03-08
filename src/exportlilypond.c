@@ -1939,9 +1939,9 @@ outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint
                         if (directive->tag && !strcmp(directive->tag->str, "MultiMeasureRests"))
                             {
                                 if(curstaffstruct->hasfigures)
-                                    g_string_append_printf (figures, directive->postfix->str);
+                                    g_string_append (figures, directive->postfix->str);
                                 if(curstaffstruct->hasfakechords)
-                                    g_string_append_printf (fakechords, directive->postfix->str);
+                                    g_string_append (fakechords, directive->postfix->str);
                             }
                         
                     }
