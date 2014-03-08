@@ -474,6 +474,8 @@ actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementEnd.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementEnd.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/ToggleCursorHighlight.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/ToggleCursorHighlight.xml
+actions/menus/MainMenu/NavigationMenu/Cursor/WrapToNextStaff.scm
+actions/menus/MainMenu/NavigationMenu/Cursor/WrapToNextStaff.xml
 actions/menus/MainMenu/NavigationMenu/DenemoLink.scm
 actions/menus/MainMenu/NavigationMenu/DenemoLink.xml
 actions/menus/MainMenu/NavigationMenu/MIDI/CursorToMarkedMidiNotePosition.scm
