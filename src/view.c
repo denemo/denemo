@@ -4665,7 +4665,7 @@ create_window (void)
     g_signal_connect (G_OBJECT (Denemo.scorearea), "button_release_event", G_CALLBACK (scorearea_button_release), NULL);
     g_signal_connect (G_OBJECT (Denemo.scorearea), "motion_notify_event", G_CALLBACK (scorearea_motion_notify), NULL);
     g_signal_connect (G_OBJECT (Denemo.scorearea), "leave-notify-event", G_CALLBACK (scorearea_leave_event), NULL);
-    g_signal_connect (G_OBJECT (Denemo.scorearea), "enter-notify-event", G_CALLBACK (scorearea_enter_event), NULL);
+    //instead, set the keyboard state explicitly... g_signal_connect (G_OBJECT (Denemo.scorearea), "enter-notify-event", G_CALLBACK (scorearea_enter_event), NULL);
     g_signal_connect (G_OBJECT (Denemo.scorearea), "scroll_event", G_CALLBACK (scorearea_scroll_event), NULL);
     //g_signal_handlers_block_by_func(Denemo.scorearea, G_CALLBACK (scorearea_motion_notify), NULL);
     g_signal_connect (G_OBJECT (Denemo.scorearea), "button_press_event", G_CALLBACK (scorearea_button_press), NULL);
