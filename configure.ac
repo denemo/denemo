@@ -97,14 +97,14 @@ AC_ARG_ENABLE(
   [
     if test "x$enableval" != "xno"; then
       useaubio4=yes
-      PKG_CHECK_MODULES(LIBAUBIO_4, aubio >= 0.4)
+      PKG_CHECK_MODULES(LIBAUBIO_4, aubio >= 0.4.0)
       CFLAGS="$CFLAGS $LIBAUBIO_4_CFLAGS -D_WITH_AUBIO_4_"
       LIBS="$LIBS $LIBAUBIO_4_LIBS"
     fi
   ], [ useaubio4=no ])
 
 if [test "x$useaubio3" = "xno"] && [test "x$useaubio4" = "xno"]; then
-  PKG_CHECK_MODULES([LIBAUBIO_4], [aubio >= 4], useaubio4=yes, useaubio4=no)
+  PKG_CHECK_MODULES([LIBAUBIO_4], [aubio >= 0.4.0], useaubio4=yes, useaubio4=no)
   CFLAGS="$CFLAGS $LIBAUBIO_4_CFLAGS -D_WITH_AUBIO_4_"
   LIBS="$LIBS $LIBAUBIO_4_LIBS"
   if test "x$useaubio4" = "xno"; then
