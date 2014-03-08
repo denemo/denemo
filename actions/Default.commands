@@ -6380,6 +6380,13 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Delete Slur</_label>
         <_tooltip>Deletes the slur that includes the current cursor position.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>WrapToNextStaff</action>
+        <after>MoveToVoiceDown</after>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
+        <_label>Next Staff, Wrapping</_label>
+        <_tooltip>Moves to the next staff, wrapping to the first staff when on the last staff.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

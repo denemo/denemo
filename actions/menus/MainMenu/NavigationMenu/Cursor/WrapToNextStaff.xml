@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>WrapToNextStaff</action>
+        <after>MoveToVoiceDown</after>
+        <_label>Next Staff, Wrapping</_label>
+        <_tooltip>Moves to the next staff, wrapping to the first staff when on the last staff.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
