@@ -1560,7 +1560,10 @@ load_keymap_dialog_location (gchar * location)
 {
   gchar *filename = file_dialog ("Load Command Set", TRUE, location);
   if (filename)
-    load_keymap_from_dialog (filename);
+    if(confirm (_("Key Map Loading"), _("Load Shortcuts only?")))  
+        load_xml_keybindings (filename);
+    else
+        load_keymap_from_dialog (filename);
 }
 
 void

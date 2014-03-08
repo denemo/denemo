@@ -1275,28 +1275,48 @@ set_midi_in_status (void)
     {
       gchar *text = NULL;
       if ((Denemo.project->midi_destination & MIDIRECORD) && (Denemo.project->midi_destination & MIDIPLAYALONG))
-        text = _("<span foreground=\"blue\">" "Recording + Play Along" "</span>");
+        text = g_strconcat ("<span foreground=\"blue\">", _("Recording + Play Along"), "</span>", NULL);
       else if (Denemo.project->midi_destination & MIDIRECORD)
-        text = _("<span foreground=\"red\">" "Recording" "</span>");
+        text = g_strconcat ("<span foreground=\"red\">", _("Recording"), "</span>", NULL);
       else if (Denemo.project->midi_destination & MIDIPLAYALONG)
-        text = _("<span foreground=\"red\">" "Play Along" "</span>");
+        text = g_strconcat ("<span foreground=\"red\">", _("Play Along"), "</span>", NULL);
       else if ((Denemo.keyboard_state & ~GDK_LOCK_MASK) == (GDK_CONTROL_MASK))
-        text = _("Checking Pitches");
+        text = g_strconcat ("<span foreground=\"#808000\" size=\"larger\">", _("Checking Pitches"), "</span>", NULL);
       else if ((Denemo.keyboard_state == (GDK_SHIFT_MASK)) || (Denemo.keyboard_state == (GDK_LOCK_MASK)))
-        text = _("Listening to Pitches");
-
+        text = g_strconcat ("<span foreground=\"#008080\" size=\"larger\">", _("Listening to Pitches"), "</span>", NULL);
       else if ((Denemo.keyboard_state & CHORD_MASK))
-        text = _("Adding to a Chord");
+        text = g_strconcat ("<span foreground=\"#000000\">", _("Adding to a Chord"), "</span>", NULL);
       else if ((Denemo.keyboard_state & ADDING_MASK))
-        text = _("Starting a Chord");
-
+        text = g_strconcat ("<span foreground=\"#000000\">", _("Starting a Chord"), "</span>", NULL);
       else
-        text = _("Appending/Editing Pitches");
+        text = g_strconcat ("<span foreground=\"#000000\">", _("Appending/Editing Pitches"), "</span>", NULL);
       gtk_label_set_markup (GTK_LABEL (midi_in_status), text);
+      g_free(text);
     }
 }
 
+static void midi_in_adjust (gint value) {
+    Denemo.keyboard_state = value;
+    set_midi_in_status ();
+}
 
+
+static void midi_in_menu (void) {
+    GtkWidget *menu = gtk_menu_new ();
+    GtkWidget *item = gtk_menu_item_new_with_label (_("Checking Pitches"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (midi_in_adjust), GDK_CONTROL_MASK);
+
+    item = gtk_menu_item_new_with_label (_("Listening to Pitches"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (midi_in_adjust), GDK_SHIFT_MASK);
+
+    item = gtk_menu_item_new_with_label (_("Appending/Editing Pitches"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (midi_in_adjust), 0);
+    gtk_widget_show_all (menu);
+    gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
+}
 
 void
 pb_conduct (GtkWidget * button)
@@ -4554,10 +4574,13 @@ create_window (void)
       GtkWidget *hbox;
       hbox = gtk_hbox_new (FALSE, 1);
       gtk_box_pack_start (GTK_BOX (inner1), hbox, TRUE, TRUE, 0);
+      GtkWidget *midi_in_button = gtk_button_new ();
+      g_signal_connect (G_OBJECT(midi_in_button), "clicked", midi_in_menu, NULL);
       midi_in_status = gtk_label_new (_("Appending/Editing Pitches"));
-      gtk_widget_set_tooltip_text (midi_in_status, _("This tells you what will happen to a MIDI in event from your controller. Use the Control Shift or ALT keys, or caps lock to affect what will happen."));
+      gtk_container_add(GTK_CONTAINER(midi_in_button), midi_in_status);
+      gtk_widget_set_tooltip_text (midi_in_status, _("This tells you what will happen to a MIDI in event from your controller. Click here or use the Control Shift or ALT keys, or caps lock to affect what will happen. Moving the cursor into the display will revert to editing notes."));
       gtk_label_set_use_markup (GTK_LABEL (midi_in_status), TRUE);
-      gtk_box_pack_start (GTK_BOX (hbox), midi_in_status, FALSE, TRUE, 0);
+      gtk_box_pack_start (GTK_BOX (hbox), midi_in_button, FALSE, TRUE, 0);
 
       midiplayalongbutton =
         create_playbutton (hbox, _("Switch to Play Along Playback"), pb_playalong, NULL, _("When in playalong mode, on clicking Play, the music plays until it reaches the Denemo cursor\nFrom then on you must play the notes at the cursor to progress the playback.\nSo if you set the cursor on the first note of the part you want to play, then once you have pressed play you can play along with Denemo, with Denemo filling in the other parts and waiting if you play a wrong note."));
