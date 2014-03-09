@@ -1063,6 +1063,9 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Restart midi play, cancelling any pause", DENEMO_SCHEME_PREFIX "RestartPlay", scheme_restart_play);
   install_scm_function (0, "Return a number, the midi time in seconds for the start of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX "GetMidiOnTime", scheme_get_midi_on_time);
   install_scm_function (0, "Return a number, the midi time in seconds for the end of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX "GetMidiOffTime", scheme_get_midi_off_time);
+  install_scm_function (0, "Set the MIDI in controller to listening mode. All signals are directed straight to the output. ", DENEMO_SCHEME_PREFIX "MidiInListening", scheme_midi_in_listening);
+  install_scm_function (0, "Set the MIDI in controller to checking mode. The cursor will advance and the note sounded only if it is the (lowest) note at the cursor. ", DENEMO_SCHEME_PREFIX "MidiInChecking", scheme_midi_in_checking);
+  install_scm_function (0, "Set the MIDI in controller to append/edit mode. The MIDI key sounded will be inserted in score, or appended if in appending position. MIDI signals can be filtered by scheme scripts in this mode. ", DENEMO_SCHEME_PREFIX "MidiInAppendEdit", scheme_midi_in_append_edit);
 
   install_scm_function (2, "Set start and/or end time for playback to the passed numbers/strings in seconds. Use #t if a value is not to be changed. Returns #f for bad parameters ", DENEMO_SCHEME_PREFIX "SetPlaybackInterval", scheme_set_playback_interval);
 

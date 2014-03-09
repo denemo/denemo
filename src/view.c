@@ -1295,7 +1295,7 @@ set_midi_in_status (void)
     }
 }
 
-static void midi_in_adjust (gint value) {
+void midi_in_adjust (gint value) {
     Denemo.keyboard_state = value;
     set_midi_in_status ();
     switch_back_to_main_window ();

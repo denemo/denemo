@@ -1544,6 +1544,24 @@ scheme_get_midi_off_time (void)
     return SCM_BOOL_F;
   return scm_from_double (get_midi_off_time (curobj->midi_events));
 }
+SCM
+scheme_midi_in_listening (void)
+{
+ midi_in_adjust (GDK_SHIFT_MASK);
+ return SCM_BOOL_T;   
+}
+SCM
+scheme_midi_in_checking (void)
+{
+ midi_in_adjust (GDK_CONTROL_MASK);
+ return SCM_BOOL_T;   
+}
+SCM
+scheme_midi_in_append_edit (void)
+{
+ midi_in_adjust (0);
+ return SCM_BOOL_T;   
+}
 
 SCM
 scheme_restart_play (void)
