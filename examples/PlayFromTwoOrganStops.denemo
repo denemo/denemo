@@ -1,0 +1,187 @@
+<?xml version="1.0"?>
+<score xmlns="http://denemo.org/xmlns/Denemo" version="7">
+  <scheme>(d-MidiInListening)
+(d-AddKeybinding "WrapToNextStaff" "space")
+(d-Play)</scheme>
+  <scoreheader-directives>
+    <directive>
+      <tag>ScoreTitle</tag>
+      <postfix>title =  \markup { \with-url #'"scheme:(d-ScoreTitle)"  "Click Title"}
+
+</postfix>
+      <display>Click Title</display>
+      <data>Click Title</data>
+      <override>36</override>
+    </directive>
+  </scoreheader-directives>
+  <paper-directives>
+    <directive>
+      <tag>PrintAllHeaders</tag>
+      <postfix>
+print-all-headers = ##t
+</postfix>
+    </directive>
+    <directive>
+      <tag>LimitInterSystemSpace</tag>
+      <postfix>
+page-limit-inter-system-space = ##t
+page-limit-inter-system-space-factor = 1.2</postfix>
+    </directive>
+  </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
+  <lilycontrol>
+    <papersize>a4</papersize>
+    <fontsize>20</fontsize>
+    <orientation>1</orientation>
+    <score-directives>
+      <directive>
+        <tag>ScoreIndent</tag>
+        <prefix>\layout {indent = 14.0}
+</prefix>
+        <display>indent=14.0</display>
+        <override>4</override>
+      </directive>
+    </score-directives>
+  </lilycontrol>
+  <movement-number>1</movement-number>
+  <movement>
+    <edit-info>
+      <staffno>2</staffno>
+      <measureno>1</measureno>
+      <cursorposition>-1</cursorposition>
+      <tonalcenter>0</tonalcenter>
+      <zoom>100</zoom>
+      <system-height>100</system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
+    </edit-info>
+    <header-directives>
+      <directive>
+        <tag>SuppressTitleRepeats</tag>
+        <postfix>title = ##f
+instrument = ##f
+</postfix>
+      </directive>
+    </header-directives>
+    <score-info>
+      <tempo>
+        <duration>
+          <numerator>1</numerator>
+          <denominator>4</denominator>
+        </duration>
+        <bpm>120</bpm>
+      </tempo>
+    </score-info>
+    <staves>
+      <staff id="id0"/>
+      <staff id="id1"/>
+    </staves>
+    <voices>
+      <voice id="id2">
+        <voice-info>
+          <voice-name>Stop 1</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id0"/>
+          <clef name="treble"/>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"/>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument>Reed Organ</instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>20</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+				(if choice (choice)))    " \transparent {"Unnamed" }}</postfix>
+              <display>Unnamed</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
+        <measures>
+          <measure>
+            <lily-directive tag="RehearsalMark" display="        Stop One" tx="-10" ty="-13" minpixels="100"> </lily-directive>
+            <lily-directive locked="true" tag="MuteStaffDummy" gx="20" minpixels="50"> </lily-directive>
+            <rest show="true" id="id3">
+              <duration base="quarter"/>
+            </rest>
+          </measure>
+        </measures>
+      </voice>
+      <voice id="id4">
+        <voice-info>
+          <voice-name>Stop 2</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id1"/>
+          <clef name="treble"/>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"/>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument>Organ 1</instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>16</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 2 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+				(if choice (choice)))    " "Violin" }</postfix>
+              <display>Violin</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
+        <measures>
+          <measure>
+            <lily-directive tag="RehearsalMark" display="        Stop Two" tx="-10" ty="-12" minpixels="100"> </lily-directive>
+            <lily-directive locked="true" tag="MuteStaffDummy" graphic_name="&#10;Use Space Bar to change stops.&#10;Denemo&#10;24" gx="-93" gy="49" minpixels="50"> </lily-directive>
+            <rest show="true" id="id5">
+              <duration base="quarter"/>
+            </rest>
+          </measure>
+        </measures>
+      </voice>
+    </voices>
+  </movement>
+</score>
