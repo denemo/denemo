@@ -288,23 +288,9 @@ open_source (gchar * filename, gint x, gint y, gint page)
   return ret;
 }
 
-#if 0
-//Finds the scale and position of the (first) source file. Returns FALSE if none
-gboolean
-source_position (gint * x, gint * y, gint * width, gint * height, gdouble * scale)
-{
-  if (theviews == NULL)
-    return FALSE;
 
-  eview = (fileview *) theviews->data)->view;
-  gtk_window_get_position (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (eview))), &x, &y);
-  gdk_window_get_root_origin (GTK_WIDGET (eview))->window, x, y);
-  gtk_window_get_size (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (eview)), &width, &height); EvDocumentModel * model = (EvDocumentModel *) g_object_get_data (G_OBJECT (view), "model"); *scale = ev_document_model_get_scale (model);
-                       //or ???? gdk_window_get_width(gtk_widget_get_toplevel(GTK_WIDGET(eview))->window, width);
-                       //          gdk_window_get_height(gtk_widget_get_toplevel(GTK_WIDGET(eview))->window, height);
-                       // get_window_position(eview, x, y, page, scale);nooo
-                       return TRUE;}
-#else
+//Finds the scale and position of the window (first) source file. Returns the Denemo.project->scale_* values if the window is not visible. Returns FALSE if none
+//FIXME, it would be better to set Denemo.project->scale_* values in a "configure" callback on the window.
 gboolean
 source_position (gint * x, gint * y, gint * width, gint * height, gint * scale)
 {
@@ -312,11 +298,19 @@ source_position (gint * x, gint * y, gint * width, gint * height, gint * scale)
     return FALSE;
   EvView *view = ((fileview *) theviews->data)->view;
   GtkWindow *top = (GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (view));
-
-  gtk_window_get_position (top, x, y);
-  gtk_window_get_size (top, width, height);
-  EvDocumentModel *model = (EvDocumentModel *) g_object_get_data (G_OBJECT (view), "model");
-  *scale = (int) 1000 *ev_document_model_get_scale (model);
+  if(gtk_widget_get_visible(top))
+  {
+          gtk_window_get_position (top, x, y);
+          gtk_window_get_size (top, width, height);
+          EvDocumentModel *model = (EvDocumentModel *) g_object_get_data (G_OBJECT (view), "model");
+          *scale = (int) 1000 *ev_document_model_get_scale (model);
+          if(!*scale) g_warning("Scale of document is zero!!!"); 
+  } else {
+        *x = Denemo.project->source_x;
+        *y = Denemo.project->source_y;
+        *scale = Denemo.project->source_scale;
+  }
+    
   return TRUE;
 }
-#endif
+
