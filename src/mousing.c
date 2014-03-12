@@ -21,6 +21,8 @@
 
 static gboolean lh_down;
 static gdouble last_event_x;
+static gdouble last_event_y;
+static DenemoDirective *last_directive;
 /**
  * Get the mid_c_offset of an object or click from its height relative
  * to the top of the staff.  
@@ -447,6 +449,27 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
   if (event->y < 0)
     event->y = 0.0;
   gint line_num = ((int) event->y) / line_height;
+  
+  
+   if (last_directive && (GDK_SHIFT_MASK & event->state) && (GDK_CONTROL_MASK & event->state))
+      {
+        if(last_directive->graphic)
+        {
+        last_directive->gx -= last_event_x - event->x_root;
+        last_directive->gy -= last_event_y - event->y_root;
+
+        } else {
+             last_directive->tx -= last_event_x - event->x_root;
+            last_directive->ty -= last_event_y - event->y_root;
+            
+        }
+        gtk_widget_queue_draw (Denemo.scorearea);
+        last_event_x = event->x_root;
+        last_event_y = event->y_root; 
+        return TRUE;
+      }
+  
+  
 
   if(gui->movement->recording && dragging_audio)
     {   
@@ -514,6 +537,8 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 
   transform_coords (&event->x, &event->y);
   //g_debug("Marked %d\n", gui->movement->markstaffnum);
+
+
   if (gui->lefts[line_num] == 0)
     return TRUE;
 
@@ -579,7 +604,9 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   gint line_height = allocated_height * gui->movement->system_height;
   gint line_num = ((int) event->y) / line_height;
   last_event_x = event->x_root;
+  last_event_y = event->y_root;
   //g_debug("diff %d\n", line_height - ((int)event->y)%line_height);
+
   if (dragging_separator == FALSE)
     if (line_height - ((int) event->y - 8) % line_height < 12)
       {
@@ -846,6 +873,28 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
             return TRUE;
         }
     }
+    
+    
+      
+  if (left && (GDK_SHIFT_MASK & event->state) && (GDK_CONTROL_MASK & event->state))
+  {
+     // if current object is directive, start dragging its graphic, dragging_display=TRUE
+      
+      DenemoObject *obj;
+      
+      if(pi.the_obj && (obj=(DenemoObject*)(pi.the_obj->data)) && (obj->type == LILYDIRECTIVE))
+      {
+        last_directive = obj->object;
+        g_print("Current obj %s\n", last_directive->tag->str);
+        return TRUE;
+      }
+ }
+  
+  
+  
+    
+    
+    
   set_cursor_for (event->state | (left ? GDK_BUTTON1_MASK : GDK_BUTTON3_MASK));
 
 
@@ -870,6 +919,7 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
   DenemoProject *gui = Denemo.project;
   if (gui == NULL || gui->movement == NULL)
     return FALSE;
+  last_directive = NULL;
   gboolean left = (event->button != 3);
   if(gui->movement->recording && (dragging_tempo || dragging_audio))
     {       
