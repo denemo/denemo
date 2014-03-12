@@ -12,7 +12,7 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
 </legalnotice>
 
     <copyright>
-      <year>2009, 2010, 2011, 2012, 2013</year>
+      <year>2009, 2010, 2011, 2012, 2013, 2014</year>
 
       <holder>Denemo Project</holder>
     </copyright><author>
@@ -25,7 +25,7 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
     
     <productname>Denemo <productnumber>1</productnumber></productname>
 
-    <releaseinfo>Version 0.9.4 mostly with some updates for 1.0</releaseinfo>
+    <releaseinfo>Version 0.9.4 mostly with some updates for 1.0, 1.1.4</releaseinfo>
   </articleinfo>
 
   <sect1>
@@ -50,12 +50,12 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
     install denemo. Builds for Macintosh are available from the Gnu-Darwin
     project. The Denemo development branch can be downloaded using anonymous
     CVS or Git.</para>
-	    <para>Anonymous Git checkout:</para>
+        <para>Anonymous Git checkout:</para>
 
-	    <para>git clone git://git.savannah.gnu.org/denemo.git</para>
+        <para>git clone git://git.savannah.gnu.org/denemo.git</para>
     
-	    <para>Anonymous CVS checkout:</para> 
-	    <para>cvs -d:pserver:anonymous@pserver.git.sv.gnu.org:/denemo.git co -d denemo master</para>
+        <para>Anonymous CVS checkout:</para> 
+        <para>cvs -d:pserver:anonymous@pserver.git.sv.gnu.org:/denemo.git co -d denemo master</para>
  
 
   </sect1>
@@ -135,23 +135,6 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
       </itemizedlist>
     </sect2>
 
-    <sect2>
-      <title>Optional Helper Programs</title>
-
-      <para>Denemo can use other applications for  printing. You may install the following applications, and edit the preferences menu to tell Denemo which you want it to use.</para>
-
-      <itemizedlist>
- 
-        <listitem>
-          <para>A PDF viewer (ghostview, evince etc)</para>
-        </listitem>
-
-	<listitem>
-          <para>An image viewer such as EOG</para>
-        </listitem>
-
-      </itemizedlist>
-    </sect2>
 
     <sect2>
       <title>Installing Denemo from Source Code</title>
@@ -229,6 +212,7 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
 </note>
  </para>
      <para>You can find more shortcuts by exploring the menu system - e.g. under the Notes/Rests menu the Select Duration submenu gives Remove Dot with the shortcut Control-period shown next to the command.
+ Alternatively, a list is available in the Help menu.
  </para>
 
 
@@ -275,9 +259,12 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
       Control Key and Scroll Wheel zooms.
       </listitem>
       <listitem>
+      Control-Shift Key and Right mouse button drags non-music items such as rehearsal marks, double barlines in the display. Use this if Denemo has not placed them nicely. The typesetting is not affected.
+      </listitem>
+      <listitem>
       Shift Key and Left mouse button drags notes up and down.
       </listitem>
-     
+       
       <listitem>
       CapsLock AND Shift key with Left mouse drag inserts a crescendo
       </listitem>
@@ -286,7 +273,7 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
       </listitem>
     </itemizedlist>
 </para>
-     <para>For more serious use of Denemo, for transcribing hundreds of measures of music, for example, you should explore other key shortcut schemes. These are available via the Command Manager. The Arranger scheme uses two-key bindings such as "B,s" for start repeat barline and "B,e" for end repeat barline.  Composer shortcuts is another scheme concentrating on rapid entry from the pc-keyboard. The LilyPond shortcuts scheme will be familiar to those who know the LilyPond music typesetting language, as well as including commands which generate easier-to-read LilyPond output.
+     <para> Two-key shortcuts are also available such as "B,s" for start repeat barline and "B,e" for end repeat barline. 
  </para>
  </sect2>
  <sect2>
@@ -294,7 +281,7 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
 <para>The MIDI keyboard too can be customized to perform different actions. Usually, playing notes adds or edits the score (like hitting note names at the pc-keyboard). 
 With the sustain pedal pressed chords are generated (the Alt key can be used for this too). 
 If the interval between the notes played is augmented or diminished it is played on a different channel, so that you are
-alerted to possible pitch spelling errors (e.g. inputting A-sharp for B-flat). By holding down the Control key a score can be checked by playing the notes - the cursor only advances if the right note is played, and the Shift key can be held down to route the MIDI keyboard straight to the output (e.g. to check a phrase before playing it in). The Pitch Bend controller can be used to set the range of sharps and flats to be used, and the modulation controller can be used to mark sections of the music. With the MIDI controller set as Input source (Input menu) the duration keys create pure durations (notes colored yellow/brown) - you can enter as much of the rhythm as you wish, and then play the notes on top.
+alerted to possible pitch spelling errors (e.g. inputting A-sharp for B-flat). By holding down the Control key a score can be checked by playing the notes - the cursor only advances if the right note is played, and the Shift key can be held down to route the MIDI keyboard straight to the output (e.g. to check a phrase before playing it in). There is a button in the MIDI-in Controls to do this too. The Pitch Bend controller can be used to set the range of sharps and flats to be used, and the modulation controller can be used to mark sections of the music. With the MIDI controller set as Input source (Input menu) the duration keys create pure durations (notes colored yellow/brown) - you can enter as much of the rhythm as you wish, and then play the notes on top.
 </para>
  </sect2>
 
@@ -349,6 +336,7 @@ Below this is a "Console Pane" showing any LilyPond messages while typesetting t
 </para>
 <para>
 The menus in Denemo are unusual: they not only let you do some particular action, but also each menu item lets you enquire what the action does in more detail and lets you see or set keyboard/mouse shortcuts for the action. A single keystroke can be set as a shortcut simply by pressing the key while the menu item is selected. You are warned if you are stealing this shortcut from something else. All the extra functionality of menu items can be accessed by right-clicking the menu item, while the usual left click is for executing the action itself. The menus can always be torn off for working with particular items (e.g. working with different movements or with measures, dynamics etc.).
+In addition commands can be placed in palettes, and you can have any number of these, free-floating or docked in the main display. 
  Also available by right-clicking is creating new actions - often by modifying ones that are already there.
 </para>
   </sect1>
@@ -514,13 +502,13 @@ The menus in Denemo are unusual: they not only let you do some particular action
 
               <entry>Displays the score in a pdf view, from which it can be printed.</entry>
             </row>
-	    <row>
+        <row>
               <entry>Print excerpt</entry>
 
               <entry>Displays only the selection in image viewer, from which it can be saved.</entry>
             </row>
 
-	    <row>
+        <row>
               <entry>Print Current Part</entry>
 
               <entry>Displays one part taken from the score in a pdf view, from which it can be printed.</entry>
@@ -632,10 +620,10 @@ The menus in Denemo are unusual: they not only let you do some particular action
             </row>
             <row>
 
-	      <entry>Save Command Set.</entry> <entry> Save your current customization of the menu commands and shortcuts.</entry>
+          <entry>Save Command Set.</entry> <entry> Save your current customization of the menu commands and shortcuts.</entry>
             </row>
             <row>
-	      <entry>Manage Command Set.</entry> <entry> Hide/Delete/Show menu items, set keyboard shortcuts, set cursor shapes, load/save all these.</entry>
+          <entry>Manage Command Set.</entry> <entry> Hide/Delete/Show menu items, set keyboard shortcuts, set cursor shapes, load/save all these.</entry>
             </row>
           </tbody>
         </tgroup>
@@ -831,7 +819,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
           </thead>
 
           <tbody>
-	    <row>
+        <row>
               <entry><mediaobject>
                   <imageobject>
                     <imagedata fileref="images/new.png" />
@@ -840,7 +828,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
 
               <entry>Creates a new document.</entry>
             </row>
-	    <row>
+        <row>
               <entry><mediaobject>
                   <imageobject>
                     <imagedata fileref="images/scorewizard.png" />
@@ -849,8 +837,8 @@ Update Commands from the Internet allows you to get the latest versions of comma
 
               <entry>Creates a new document using the score wizard.</entry>
             </row>
-	    
-	    <row>
+        
+        <row>
               <entry><mediaobject>
                   <imageobject>
                     <imagedata fileref="images/open.png" />
@@ -979,7 +967,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
           </thead>
 
           <tbody>
-	    <row>
+        <row>
               <entry><mediaobject>
                   <imageobject>
                     <imagedata fileref="images/first.png" />
@@ -989,7 +977,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
               <entry>Runs DenemoFirst script.</entry>
             </row>
 
-	    <row>
+        <row>
               <entry><mediaobject>
                   <imageobject>
                     <imagedata fileref="images/goback.png" />
@@ -999,7 +987,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
               <entry>Runs DenemoGoBack script.</entry>
             </row>
 
-	    <row>
+        <row>
               <entry><mediaobject>
                   <imageobject>
                     <imagedata fileref="images/goback.png" />
@@ -1009,7 +997,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
               <entry>Moves the start playback position backwards. Runs DenemoGoBack script.</entry>
             </row>
 
-	    <row>
+        <row>
               <entry><mediaobject>
                   <imageobject>
                     <imagedata fileref="images/goup.png" />
@@ -1020,7 +1008,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
             </row>
 
 
-	    <row>
+        <row>
               <entry><mediaobject>
                   <imageobject>
                     <imagedata fileref="images/next.png" />
@@ -1030,7 +1018,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
               <entry>Moves the start playback position forwards. Runs DenemoNext script.</entry>
             </row>
 
-	    <row>
+        <row>
               <entry><mediaobject>
                   <imageobject>
                     <imagedata fileref="images/rewind.png" />
@@ -1041,7 +1029,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
             </row>
 
 
-	    <row>
+        <row>
               <entry><mediaobject>
                   <imageobject>
                     <imagedata fileref="images/stop.png" />
@@ -1050,7 +1038,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
 
               <entry>Runs DenemoStop script.</entry>
             </row>
-	    <row>
+        <row>
               <entry><mediaobject>
                   <imageobject>
                     <imagedata fileref="images/play.png" />
@@ -1060,7 +1048,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
               <entry>Runs DenemoPlay script.</entry>
             </row>
 
-	    <row>
+        <row>
               <entry><mediaobject>
                   <imageobject>
                     <imagedata fileref="images/record.png" />
@@ -1071,7 +1059,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
             </row>
 
 
-	    <row>
+        <row>
               <entry><mediaobject>
                   <imageobject>
                     <imagedata fileref="images/forward.png" />
@@ -1080,7 +1068,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
 
               <entry>Moves the end playback position backwards.Runs DenemoGoForward script.</entry>
             </row>
-	    <row>
+        <row>
               <entry><mediaobject>
                   <imageobject>
                     <imagedata fileref="images/down.png" />
@@ -1089,7 +1077,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
 
               <entry>Sets the end playback position to the cursor.Runs DenemoEndToCursor script.</entry>
             </row>
-	    <row>
+        <row>
               <entry><mediaobject>
                   <imageobject>
                     <imagedata fileref="images/last.png" />
@@ -1098,49 +1086,49 @@ Update Commands from the Internet allows you to get the latest versions of comma
 
               <entry>Moves the end playback position forwards. Runs DenemoLast script.</entry>
             </row>
-	    <row>
+        <row>
               <entry>Loop</entry>
               <entry>Runs DenemoLoop script.</entry>
             </row>
-	    <row>
+        <row>
               <entry>Conductor</entry>
               <entry>When you press Play the music advances past the cursor only while the mouse is moving.</entry>
             </row>
 
 
-	    <row>
+        <row>
               <entry>Reset</entry>
               <entry>Internal Synth only. Performs a reset on the synth. Also resets the start/end play positions to whole piece (the visual display shows just a red bar at the start)</entry>
             </row>
-	    <row>
+        <row>
               <entry>Panic</entry>
               <entry>Jack only. Emits jack panic.</entry>
             </row>
 
-	    <row>
+        <row>
               <entry>Set from Selection</entry>
               <entry>Sets the selection to be the start/end. Note first use in a session is buggy.</entry>
             </row>
-	    
-	    <row>
+        
+        <row>
               <entry>Tempo</entry>
               <entry>For movements with a single tempo this tempo is changed for rest of the playback. If the movement has an embedded MIDI tempo change, the change will be altered proportionally. The movement tempo setting itself is not altered - you are just altering the playback.(See next button or Movements->MIDI Tempo for setting that)</entry>
             </row>
-	    <row>
+        <row>
               <entry>Set Tempo</entry>
               <entry>Sets the overall tempo of the movement to the value fixed by the Tempo slider</entry>
             </row>
-	    
-	    <row>
+        
+        <row>
               <entry>Volume</entry>
               <entry>Reduces the current volume by the % set. Again, this applies only to playback and proportionally affects embedded dynamics.</entry>
             </row>
-	    <row>
+        <row>
               <entry>Set</entry>
               <entry>Calls the DenemoSetPlaybackIntervalToSelection script.</entry>
             </row>
-	   
-	   
+       
+       
           </tbody>
         </tgroup>
       </informaltable>
@@ -1167,8 +1155,8 @@ Update Commands from the Internet allows you to get the latest versions of comma
           </thead>
 
           <tbody>
-	    
-	    <row>
+        
+        <row>
               <entry><mediaobject>
                   <imageobject>
                     <imagedata fileref="images/enharmonicselection.png" />
@@ -1177,37 +1165,37 @@ Update Commands from the Internet allows you to get the latest versions of comma
 
               <entry>Sets the end sharps and flats to use.</entry>
             </row>
-	   
-	      <row>
-		<entry>MIDI-&gt;Score</entry>
+       
+          <row>
+        <entry>MIDI-&gt;Score</entry>
               <entry>Directs the MIDI in to the score or to a MIDI recorder. The MIDI recorder is active when Record button is pressed. When you wish to return to score editing, this button re-directs MIDI-in to the score.</entry>
             </row>
-	   
+       
             <row>
-		<entry>Delete</entry>
+        <entry>Delete</entry>
               <entry>Deletes your MIDI recording.</entry>
             </row>
-	   
+       
            <row>
-		<entry>Convert</entry>
+        <entry>Convert</entry>
               <entry>Converts your MIDI recording to Notation. Not yet at all practical!</entry>
             </row>
-	   
+       
            <row>
-		<entry>MIDI status</entry>
+        <entry>MIDI status</entry>
               <entry>Tells you how MIDI in will be treated. Press Control/Shift/Alt keys to modify</entry>
             </row>
-	   
-	      
+       
+          
           <row>
-		<entry>Switch to Play Along Playback</entry>
+        <entry>Switch to Play Along Playback</entry>
               <entry>With this set, when you press Play the music will not advance past the cursor until you play the note. (Mute the current staff to prevent double sounding of notes)</entry>
             </row>
-	   
-	      
-	      
-	   
-	   
+       
+          
+          
+       
+       
           </tbody>
         </tgroup>
       </informaltable>
@@ -1316,8 +1304,14 @@ Update Commands from the Internet allows you to get the latest versions of comma
   </sect2>
 
   </sect1>
-
-
+<sect1>
+    <title>Palettes</title>
+    <para>
+     In the View menu you can select palettes of commands to use. Right-clicking on a palette button allows you to edit the button or the entire palette. You can dock the palette in the main display, arrange it as a column, line or block and much more.
+   </para>    
+ </sect1>     
+     
+     
  <sect1>
     <title>Music Snippets</title>
     <para>The Music Snippet toolbar lets you keep a number of snippets of music for pasting into your score. You can enter notes following a rhythmic pattern of a snippet. If you have a pattern in your music that appears many times you only need to type it once. By selecting it and clicking Create Snippet you install that snippet on the toolbar. Then as you enter notes (in Insert Mode) the notes follow the rhythmic pattern chosen. Pressing a duration key goes back to adding notes of the prevailing duration. You can have several snippets like this and switch between them using the space bar (or other keybinding of your choice). Another (more musical) way of entering rhythms is to "drum" them in using the keys on the computer keyboard for quarter-note, eighth-note etc, a curious sort of "musical instrument" where you change key for different durations. Use the numeric keypad for this. Drumming in is quickly learnt and, by playing in the notes rhythmically you can keep your place in the music. Use the immediate feedback option for this, so that you get a bell to confirm when you have completed a measure.</para>
@@ -1470,9 +1464,9 @@ The Audio Input button introduces a special entry mode where the pitches you pla
       <sect1 id="scoresetup">
         <title>Score Setup</title>
 
-	<para>Denemo provides different ways to set up scores: <itemizedlist>
+    <para>Denemo provides different ways to set up scores: <itemizedlist>
             <listitem>
-	    <para>Create template with the special name "default.denemo". If this is placed at the top level of your templates directory (that is ~/.denemo/templates/default.denemo), then it will be opened each time you start a new score. </para> </listitem>
+        <para>Create template with the special name "default.denemo". If this is placed at the top level of your templates directory (that is ~/.denemo/templates/default.denemo), then it will be opened each time you start a new score. </para> </listitem>
             <listitem>
               <para>Create an init.denemo  score with everything you want to start up with, and any actions you want to be taken before you begin. This will be opened when you first start Denemo (that is once per Denemo session). See <xref linkend="initDotDenemo" /> for details on what actions you can have Denemo perform before you start.</para>
             </listitem>
@@ -1506,11 +1500,11 @@ The Audio Input button introduces a special entry mode where the pitches you pla
             <step>
               <para>Double click on a template name from the list of
               templates. The dialog box closes and the template appears.
-	      <!-- Alternately type @NewfromTemplate@, the <guisubmenu>New From
+          <!-- Alternately type @NewfromTemplate@, the <guisubmenu>New From
               Template </guisubmenu> dialog box appears. Double click on a
               template name from the list of templates. The dialog box closes
-	      and the template appears. 
-	      -->
+          and the template appears. 
+          -->
             </para>
 
             </step>
@@ -1532,13 +1526,13 @@ The Audio Input button introduces a special entry mode where the pitches you pla
               <para>Navigate to the Staff you want to change an attribute
               using one of these shortcuts:<itemizedlist>
                   <listitem>
-			  <!--  <para>Type @StaffDown@ to move down one staff</para> -->
-			  <para>Select Staffs/Voices-\>StaffDown to move down one staff</para>
+              <!--  <para>Type @StaffDown@ to move down one staff</para> -->
+              <para>Select Staffs/Voices-\>StaffDown to move down one staff</para>
                   </listitem>
 
                   <listitem>
-			  <!-- <para>Type @StaffUp@ to move up one staff</para> -->
-			  <para>Select Staffs/Voices-\>StaffUp to move up one staff</para>
+              <!-- <para>Type @StaffUp@ to move up one staff</para> -->
+              <para>Select Staffs/Voices-\>StaffUp to move up one staff</para>
                   </listitem>
                 </itemizedlist></para>
             </step>
@@ -1555,7 +1549,7 @@ The Audio Input button introduces a special entry mode where the pitches you pla
 
           <procedure>
             <step>
-		    <para>Click on File-\>New From Template, The <interfacename>
+            <para>Click on File-\>New From Template, The <interfacename>
               Open</interfacename> Dialog box appears displaying the currently
               available Templates.</para>
             </step>
@@ -2441,31 +2435,31 @@ To create the following table execute the scheme that follows in Denemo's scheme
 (define (DocumentCommand name)
   (let ((help (d-GetHelp name)))
     (if (boolean? help)
-	(begin
-	  (set! help (string-append "Help-d-" name))	  
-	  (let ((sym (with-input-from-string help read)))
-	    (if (defined? sym)
-		(set! help (eval sym (current-module)))
-		(set! help "No help")
-		))))
+    (begin
+      (set! help (string-append "Help-d-" name))      
+      (let ((sym (with-input-from-string help read)))
+        (if (defined? sym)
+        (set! help (eval sym (current-module)))
+        (set! help "No help")
+        ))))
     (format #t "~%~%Command ~A~%Tooltip ~A~%Label ~A~%Menu Path ~A~%" name help (d-GetLabel name) (d-GetMenuPath name))))
 ;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;; Documenting all the commands
  (module-for-each (lambda (name var)
-		    (let ((mystring ""))
-		      (set! mystring (format #f "~a" name))
-		      (if (> (string-length mystring) 2)
-			  (begin
-			    (if (string=? "d-" (substring mystring 0 2))	
-				(set! mystring (substring mystring 2))
-				(if (> (string-length mystring) 7)
-				    (if (string=? "Help-d-" (substring mystring 0 7));; a tooltip so ignore
-					(set! mystring #f))))))
-		      (if (not (boolean? mystring))
-			  (DocumentCommand mystring))))
-		  (current-module))
+            (let ((mystring ""))
+              (set! mystring (format #f "~a" name))
+              (if (> (string-length mystring) 2)
+              (begin
+                (if (string=? "d-" (substring mystring 0 2))    
+                (set! mystring (substring mystring 2))
+                (if (> (string-length mystring) 7)
+                    (if (string=? "Help-d-" (substring mystring 0 7));; a tooltip so ignore
+                    (set! mystring #f))))))
+              (if (not (boolean? mystring))
+              (DocumentCommand mystring))))
+          (current-module))
 
 ;;;;;;;;
 
@@ -2475,17 +2469,17 @@ To create the following table execute the scheme that follows in Denemo's scheme
 (define (XmlDocumentCommand name port)
   (let ((help (d-GetHelp name)) (label (d-GetLabel name)) (menu (d-GetMenuPath name)))
     (if (boolean? help)
-	(begin
-	  (set! help (string-append "Help-d-" name))	  
-	  (let ((sym (with-input-from-string help read)))
-	    (if (defined? sym)
-		(set! help (eval sym (current-module)))
-		(set! help "No help")
-		))))
+    (begin
+      (set! help (string-append "Help-d-" name))      
+      (let ((sym (with-input-from-string help read)))
+        (if (defined? sym)
+        (set! help (eval sym (current-module)))
+        (set! help "No help")
+        ))))
     (if (not (string? label))
-	(set! label "-"))
+    (set! label "-"))
     (if (not (string? menu))
-	(set! menu "-"))
+    (set! menu "-"))
     (format port "<entry>~A</entry>~%<entry>~A</entry>~%<entry>~A</entry>~%<entry>~A</entry>~%" (html-escape name) (html-escape help) (html-escape label) (html-escape menu))))
 ;;;;;;;;;;;;;;;
 ;;;;;;;;;; create xml documentation for a variable
@@ -2508,29 +2502,29 @@ To create the following table execute the scheme that follows in Denemo's scheme
 ~%</row></thead><tbody>")
 
 (module-for-each (lambda (name var)
-		    (let ((mystring ""))
-		      (set! mystring (format #f "~a" name))
-		      (if (> (string-length mystring) 2)
-			  (begin
-			    (if (string=? "d-" (substring mystring 0 2))	
-				(set! mystring (substring mystring 2))
-				(if (> (string-length mystring) 7)
-				    (if (string=? "Help-d-" (substring mystring 0 7));; a tooltip so ignore
-					(set! mystring #f))))))
-		      (if (not (boolean? mystring))
-			  (begin 
-			    (if (string? (variable-ref var))	      		       
-				(begin
-				  (format docport2 "<row>~%")
-				  (XmlDocumentVariable mystring docport2)
-				  (format docport2 "</row>~%")
-				  )
-				(begin
-				  (format docport1 "<row>~%")
-				  (XmlDocumentCommand mystring docport1)
-				  (format docport1 "</row>~%")
-				  ))))))
-		  (current-module))
+            (let ((mystring ""))
+              (set! mystring (format #f "~a" name))
+              (if (> (string-length mystring) 2)
+              (begin
+                (if (string=? "d-" (substring mystring 0 2))    
+                (set! mystring (substring mystring 2))
+                (if (> (string-length mystring) 7)
+                    (if (string=? "Help-d-" (substring mystring 0 7));; a tooltip so ignore
+                    (set! mystring #f))))))
+              (if (not (boolean? mystring))
+              (begin 
+                (if (string? (variable-ref var))                       
+                (begin
+                  (format docport2 "<row>~%")
+                  (XmlDocumentVariable mystring docport2)
+                  (format docport2 "</row>~%")
+                  )
+                (begin
+                  (format docport1 "<row>~%")
+                  (XmlDocumentCommand mystring docport1)
+                  (format docport1 "</row>~%")
+                  ))))))
+          (current-module))
 (format docport1 "</tbody></tgroup></informaltable>~%")
 (format docport2 "</tbody></tgroup></informaltable>~%")
 (flush-all-ports)
@@ -2931,7 +2925,7 @@ or #f if there are still guards in place."</entry>
 <row>
 <entry>OpenOctaveUp</entry>
 <entry>Opens a block to be transposed up one octave
-	This must be followed by a CloseBlock "}" to end the transposed section.</entry>
+    This must be followed by a CloseBlock "}" to end the transposed section.</entry>
 <entry>(Print) Open { Octave Up</entry>
 <entry>/ObjectMenu/Directives/Print Transpositions</entry>
 </row>
@@ -19390,7 +19384,7 @@ LilyPond inserts at notes can only be completely deleted in the Denemo window - 
       <para>When you append music by pressing a duration key you get a brown note, indicating a duration which has not been given a pitch. Once you have pressed a note-name it becomes that note printed in black. Prior to that it is a pure rhythm and will play back as a drum beat and will print as a space.
       </para>
       <para>
-	When not appending music, you need to use the shift key to insert a new note, or set the caps lock. So Shift-a inserts the note A etc. Plain "a" edits the note at the cursor to be an A.  Likewise with the numeric keypad the Shift key can be used to insert a note duration, while the plain number keys edit the duration of the note at the cursor. (If you do not have a numeric keypad, you have to use Shift-0,1, etc to do insertion of a duration).
+    When not appending music, you need to use the shift key to insert a new note, or set the caps lock. So Shift-a inserts the note A etc. Plain "a" edits the note at the cursor to be an A.  Likewise with the numeric keypad the Shift key can be used to insert a note duration, while the plain number keys edit the duration of the note at the cursor. (If you do not have a numeric keypad, you have to use Shift-0,1, etc to do insertion of a duration).
 </para>
     </sect2>
     <sect2>
