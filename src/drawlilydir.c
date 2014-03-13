@@ -26,13 +26,14 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
   if (lily->y && lily->y != layout)
     exclude = 0.9;
   cairo_save (cr);
-  gdouble gx = xx + lily->gx - (((DenemoGraphic *) lily->graphic)->width) / 2;
-  gdouble gy = y + MID_STAFF_HEIGHT + lily->gy - (((DenemoGraphic *) lily->graphic)->height) / 2;
   
   selected ? cairo_set_source_rgba (cr, 0.0, 0.0, 1.0, at_cursor ? 1.0 : 0.5) : lily->graphic ? cairo_set_source_rgb (cr, 0.0 + exclude, 0.0 + only, 0.0) : cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, at_cursor ? 1.0 : 0.5);
   if (lily->graphic)
     {
       //FIXME there may be scripts expecting a different positioning code
+      gdouble gx = xx + lily->gx - (((DenemoGraphic *) lily->graphic)->width) / 2;
+      gdouble gy = y + MID_STAFF_HEIGHT + lily->gy - (((DenemoGraphic *) lily->graphic)->height) / 2;
+
       drawbitmapinverse_cr (cr, (DenemoGraphic *) lily->graphic, gx, gy, FALSE);
     }
  // else instead always show position of standalone directive
