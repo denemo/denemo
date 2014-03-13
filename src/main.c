@@ -411,7 +411,7 @@ main_log_handler(const gchar *log_domain,
   level = "";
 #endif
 
-  if(color && level){
+  if(color != NULL && level != NULL){
     msg = g_strdup(message);
     //Displays colored header
     g_fprintf(stream, "%s%6s - %-8s%s: ", color, log_domain, level, endcolor);
