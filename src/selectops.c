@@ -109,7 +109,8 @@ pop_off_clipboard (void)
   GList *thecopy = NULL;
   if (clipboards && clipboards->data)
     thecopy = ((DenemoClipboard *) clipboards->data)->objectlist;
-  g_free (clipboards->data);
+  if(clipboards)
+    g_free (clipboards->data);
   clipboards = g_list_remove (clipboards, clipboards->data);
   return thecopy;
 }

@@ -406,9 +406,10 @@ append_to_local_scheme_init (gchar * scheme)
 {
   gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, SCHEME_INIT, NULL);
   FILE *fp = fopen (filename, "a+");
-  if (fp)
+  if (fp){
     fprintf (fp, "%s", scheme);
-  fclose (fp);
+    fclose (fp);
+  }
   g_free (filename);
 }
 

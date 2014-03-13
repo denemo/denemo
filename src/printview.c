@@ -82,8 +82,7 @@ libevince_print (void)
   if (err)
     {
       g_warning ("Trying to print the pdf file %s gave an error: %s", uri, err->message);
-      if (err)
-        g_error_free (err);
+      g_error_free (err);
       err = NULL;
       return -1;
     }

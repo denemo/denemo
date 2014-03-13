@@ -405,8 +405,7 @@ open_viewer (gint status, gchar * filename)
         {
           warningdialog (err->message);
           g_warning ("%s", err->message);
-          if (err)
-            g_error_free (err);
+          g_error_free (err);
           err = NULL;
         }
       g_free (printfile);
