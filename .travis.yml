@@ -1,5 +1,7 @@
 language: c
 env:
+  global:
+  - secure: "Yw/ZVthSSeTy4URVvxp+nXYdS5PcNUX6gjjYTzzYiw4rHmqYlYRz27ve1DRydCYeqQq3JgZCn5iKR3MJPj12E861SwihrXpataWZz4rhwJTEhzvJp17O0aV3GxNYNoPlYPoawpEniI6kaqKBrZ6HuxVXgPd6+zrxGroFBKaaync="
   matrix:
   - COMPILER=gcc TEST=integration
   - COMPILER=clang TEST=integration
@@ -8,7 +10,7 @@ env:
   - COMPILER=gcc TEST=doc
   - TEST=cppcheck
 script:
-- tools/travis/run-script.sh
+- if [ ${COVERITY_SCAN_BRANCH} != 1 ]; then tools/travis/run-script.sh ; fi
 before_install:
 - tools/travis/before-install.sh
 install:
@@ -24,3 +26,13 @@ notifications:
       - "chat.freenode.net#denemo"
     on_success: always
     on_failure: always
+
+addons:
+  coverity_scan:
+    project:
+      name: "denemo/denemo"
+      description: "Free and Open Music Notation Editor"
+    notification_email: azmeuk@gmail.com
+    build_command_prepend:
+    build_command: tools/travis/run-script.sh
+    branch_pattern: coverity
