@@ -371,8 +371,10 @@ dnm_clone_object (DenemoObject * orig)
           break;
         }
     }
-  ret->lilypond = NULL;
-  ret->midi_events = NULL;
+  if(ret){
+    ret->lilypond = NULL;
+    ret->midi_events = NULL;
+  }
   return ret;
 }
 
