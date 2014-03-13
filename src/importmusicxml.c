@@ -1059,6 +1059,10 @@ parse_part (xmlNodePtr rootElem)
     g_warning ("Parsing MusicXML gave these warnings:\n%s", warnings->str);
   g_string_free (warnings, TRUE);
   InitialVoiceNum += numvoices;
+
+  g_free (numvoices_for_staff);
+  g_free (staff_for_voice);
+  g_free (voice_timings);
   return g_string_free (scripts[0], FALSE);
 }
 
