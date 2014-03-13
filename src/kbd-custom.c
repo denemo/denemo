@@ -1826,7 +1826,7 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
 static void
 toggle_hidden_on_action (G_GNUC_UNUSED GtkCellRendererToggle * cell_renderer, gchar * path, GtkTreeModel* model)
 {
-    gint command_id;
+    gint command_id = -1;
     command_row* row = NULL;
    GtkTreeIter iter = { 0, NULL, NULL, NULL };
    const gchar *command_name;

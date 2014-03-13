@@ -106,7 +106,7 @@ writePalettes (void)
  
 static gint getXMLIntProp (xmlNodePtr child, gchar *name)
  {
-  gint val;
+  gint val = -1;
   gchar *thename = (gchar *) xmlGetProp (child, (xmlChar *) name);
   if (thename)
     val = atoi (thename);

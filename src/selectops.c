@@ -226,7 +226,7 @@ copytobuffer (DenemoMovement * si)
   objnode *curobj;
   objnode *theobjs;
   DenemoObject *clonedobject;
-  gint i, j, k;
+  gint i = 0, j = 0, k = 0;
 
   if (si->markstaffnum == 0)    /* Indicator that there's no selection.  */
     return;
