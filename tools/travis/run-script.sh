@@ -33,8 +33,10 @@ fi
 
 ./autogen.sh
 mkdir bin && cd bin
-../configure --enable-debug --enable-silent-rules --disable-warnings $CONFIGURE_FLAGS
-make
+if [ -n "$COMPILER" ]; then
+  ../configure --enable-debug --enable-silent-rules --disable-warnings $CONFIGURE_FLAGS
+  make
+fi
 
 if [ "$TEST"x = "install"x ]; then
   sudo make install
@@ -48,6 +50,11 @@ fi
 
 if [ "$TEST"x = "coverage"x ]; then
   make check
+fi
+
+if [ "$TEST"x = "cppcheck"x ]; then
+  cd ..
+  cppcheck --force --enable=unusedFunction --template '{file}:{line} — {severity} — {id} — {message}' -q -I include src tools
 fi
 
 #Should be the last command ran, it checks that the repository is clean after tests are ran.
