@@ -881,20 +881,15 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
      // if current object is directive, start dragging its graphic, dragging_display=TRUE
       
       DenemoObject *obj;
-      
-      if(pi.the_obj && (obj=(DenemoObject*)(pi.the_obj->data)) && (obj->type == LILYDIRECTIVE))
-      {
-        last_directive = obj->object;
-        g_print("Current obj %s\n", last_directive->tag->str);
-        return TRUE;
-      } else
-      {
-          last_directive = get_next_directive_at_cursor ();
-          if(last_directive)
+      if (Denemo.prefs.learning)  
+                    MouseGestureShow(_("Control-Shift-Drag."), _("This allows dragging objects in the display.\nAll sorts of directives such as staccato dots, ornaments, repeat marks etc can be dragged if the display is too cluttered.\nThe typeset score is unaffected.\nClick on a notehead to drag things attached to the notehead,\nor off the noteheads for things attached to the whole chord."),
+                        MouseGesture);       
+
+    last_directive = get_next_directive_at_cursor ();
+    if(last_directive)
             return TRUE;
-      }
-      
-      
+    infodialog (_("Control-Shift-Drag is used to tidy up the Denemo display. Useful if Denemo has created a clutter with your input music.\nIf you have several things attached to one object you can move them in turn by dragging them in turn.\nNotes, Slurs and Ties are fixed but most other things can be moved to make the input music clear. Does not affect the typeset score!\nNB! if you have dragged something to one side of a note you have to control-shift-click on the note itself to drag it back - it is where the cursor is that counts."));
+    return TRUE;
  }
   
   

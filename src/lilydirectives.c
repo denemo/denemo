@@ -3438,26 +3438,30 @@ DenemoDirective *get_next_directive_at_cursor (void)
         DenemoObject *currentobject = get_object ();
         if (currentobject)
             {static GList *last;
-                gpointer obj = currentobject->object;
-                directives = (currentobject->type==KEYSIG)?((keysig*)obj)->directives:
-                    (currentobject->type==TIMESIG)?((timesig*)obj)->directives:
-                    (currentobject->type==CLEF)?((clef*)obj)->directives:
-                    (currentobject->type==STEMDIRECTIVE)?((stemdirective*)obj)->directives:
-                    (currentobject->type==TUPOPEN)?((tuplet*)obj)->directives:
-                    (currentobject->type==TUPCLOSE)?((tuplet*)obj)->directives:NULL;
-                     
-                    
-                if(directives)
+                if(currentobject->type == LILYDIRECTIVE)
                     {
-                        if(last && (g_list_position(directives, last)>=0)) 
-                        {
-                            last = last->next; 
-                            if(!last) last = directives;                 
-                        } else
-                        last = directives;
-                    directive = last->data;
+                       directive = currentobject->object; 
+                    } else {
+                        gpointer obj = currentobject->object;
+                        directives = (currentobject->type==KEYSIG)?((keysig*)obj)->directives:
+                        (currentobject->type==TIMESIG)?((timesig*)obj)->directives:
+                        (currentobject->type==CLEF)?((clef*)obj)->directives:
+                        (currentobject->type==STEMDIRECTIVE)?((stemdirective*)obj)->directives:
+                        (currentobject->type==TUPOPEN)?((tuplet*)obj)->directives:
+                        (currentobject->type==TUPCLOSE)?((tuplet*)obj)->directives:NULL;
+
+                        if(directives)
+                            {
+                                if(last && (g_list_position(directives, last)>=0)) 
+                                {
+                                    last = last->next; 
+                                    if(!last) last = directives;                 
+                                } else
+                                last = directives;
+                            directive = last->data;
+                            }
                     }
             }
-    }    
+    }
     return directive;
 }
