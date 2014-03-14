@@ -3392,3 +3392,72 @@ const gchar *strict_note_directive_get_tag (gchar *tag)
           }
       return NULL;
     }
+
+
+/* gets the directive at the cursor a further call on the same object gets the next directive unless called on another object of the same type
+ * which causes it to reset to the first directive */
+DenemoDirective *get_next_directive_at_cursor (void)
+{
+  GList *directives = NULL;
+  DenemoDirective *directive = NULL;
+  note *current = get_strict_note();
+  if(current)
+    {static GList *last;
+        directives = current->directives;  
+        if(directives)
+            {
+                if(last && (g_list_position(directives, last)>=0)) 
+                {
+                    last = last->next;
+                    if(!last) last = directives;
+                } else
+                last = directives;
+            directive =  last->data;
+            }
+    }
+  if(directives==NULL)
+    {
+       chord *curchord = get_chord (); 
+       if(curchord)
+           {static GList *last;
+            directives = curchord->directives;
+            if(directives)
+                {
+                    if(last && (g_list_position(directives, last)>=0)) 
+                    {
+                        last = last->next; 
+                        if(!last) last = directives;                   
+                    } else
+                    last = directives;
+                directive =  last->data;
+                }
+           } 
+    }
+  if(directives==NULL)
+    {
+        DenemoObject *currentobject = get_object ();
+        if (currentobject)
+            {static GList *last;
+                gpointer obj = currentobject->object;
+                directives = (currentobject->type==KEYSIG)?((keysig*)obj)->directives:
+                    (currentobject->type==TIMESIG)?((timesig*)obj)->directives:
+                    (currentobject->type==CLEF)?((clef*)obj)->directives:
+                    (currentobject->type==STEMDIRECTIVE)?((stemdirective*)obj)->directives:
+                    (currentobject->type==TUPOPEN)?((tuplet*)obj)->directives:
+                    (currentobject->type==TUPCLOSE)?((tuplet*)obj)->directives:NULL;
+                     
+                    
+                if(directives)
+                    {
+                        if(last && (g_list_position(directives, last)>=0)) 
+                        {
+                            last = last->next; 
+                            if(!last) last = directives;                 
+                        } else
+                        last = directives;
+                    directive = last->data;
+                    }
+            }
+    }    
+    return directive;
+}

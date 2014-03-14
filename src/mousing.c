@@ -887,7 +887,14 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
         last_directive = obj->object;
         g_print("Current obj %s\n", last_directive->tag->str);
         return TRUE;
+      } else
+      {
+          last_directive = get_next_directive_at_cursor ();
+          if(last_directive)
+            return TRUE;
       }
+      
+      
  }
   
   

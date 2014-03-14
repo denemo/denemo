@@ -91,4 +91,5 @@ DECL_PUT_GRAPHIC(keysig)
 #undef DECL_PUT_INT
 #undef DECL_GET_INT
 void widget_for_directive_menu (DenemoDirective * directive, void fn (), GtkMenu * menu);
+DenemoDirective *get_next_directive_at_cursor (void);
 #endif
