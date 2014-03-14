@@ -325,14 +325,14 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
                       //FIXME - use count to stack up multiple markings
                       drawbitmapinverse_cr (cr, directive->graphic, xx + directive->gx - directive->graphic->width / 2 + 4, (thechord.is_stemup ? (y + thechord.lowesty + 8 + count + directive->gy) : (y + thechord.highesty - 8 - count - directive->gy)) - directive->graphic->height / 2, thechord.is_stemup);
                       if (!thechord.is_stemup)
-                        highest = ((y + thechord.highesty - directive->gy - 16 - 2 * count) - directive->graphic->height / 2);
+                        highest = ((y + thechord.highesty + directive->gy - 16 - 2 * count) - directive->graphic->height / 2);
 
                     }
                   else
                     {
                       if (directive->override & DENEMO_OVERRIDE_ABOVE)
                         {
-                          gint posy = MIN (y - 16 + thechord.highesty - count - directive->gy + directive->graphic->height / 2, y - 8);
+                          gint posy = MIN (y - 16 + thechord.highesty - count + directive->gy + directive->graphic->height / 2, y - 8);
                           drawbitmapinverse_cr (cr, directive->graphic, xx + directive->gx - directive->graphic->width / 2, posy, FALSE);
                         }
                       else
