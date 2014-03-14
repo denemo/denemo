@@ -887,7 +887,10 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 
     last_directive = get_next_directive_at_cursor ();
     if(last_directive)
+        {
+            score_status (Denemo.project, TRUE);
             return TRUE;
+        }
     infodialog (_("Control-Shift-Drag is used to tidy up the Denemo display. Useful if Denemo has created a clutter with your input music.\nIf you have several things attached to one object you can move them in turn by dragging them in turn.\nNotes, Slurs and Ties are fixed but most other things can be moved to make the input music clear. Does not affect the typeset score!\nNB! if you have dragged something to one side of a note you have to control-shift-click on the note itself to drag it back - it is where the cursor is that counts."));
     return TRUE;
  }
