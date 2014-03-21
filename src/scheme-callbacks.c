@@ -4149,7 +4149,7 @@ scheme_get_keyboard_state (void)
 }
 
 SCM
-scheme_set_midi_thru (SCM set)
+scheme_set_midi_thru (SCM set) // see also d-MidiInListening this doesn't lock the state against keyboard changes
 {
   SCM ret = scm_from_int (Denemo.keyboard_state);
   if (scm_is_true (set))

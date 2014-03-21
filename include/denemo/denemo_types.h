@@ -1119,7 +1119,9 @@ struct DenemoRoot
   GList *continuations;
   struct RhythmPattern *singleton_rhythms[256]; /**< rhythm patterns for the EntryToolbar */
   gboolean ScriptRecording;/**< TRUE when menuitems presses are being recorded as scheme script*/
-  gint keyboard_state;/**< state of last keypress/release */
+  gint keyboard_state;/**< state of last keypress/release controlling MIDI in*/
+  gboolean keyboard_state_locked;/**< lock against changes by shift and control keypresses */
+
   GtkWidget *ScriptView; /**< a GtkTextView containing a scheme script */
   GList *palettes; /**< list of palettes of buttons for activating scripts */
   gchar *old_user_data_dir; /**< set in case of upgrading denemo version */

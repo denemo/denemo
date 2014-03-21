@@ -125,15 +125,18 @@ llock_mask (gint keyval)
 gint
 scorearea_keyrelease_event (GtkWidget * widget, GdkEventKey * event)
 {
-  Denemo.keyboard_state ^= (0xf & klock_mask (event->keyval));
-  if ((event->keyval == GDK_Alt_L) || (event->keyval == GDK_Alt_R))
-    {
-      if ((Denemo.keyboard_state & CHORD_MASK)) //At least one note has been entered in a chord
-        next_editable_note ();
-      Denemo.keyboard_state &= ~CHORD_MASK;
-    }
-  set_midi_in_status ();
-  //g_debug("release %x state %x\n", Denemo.keyboard_state, event->state);
+     if(!Denemo.keyboard_state_locked)
+          {
+              Denemo.keyboard_state ^= (0xf & klock_mask (event->keyval));
+              if ((event->keyval == GDK_Alt_L) || (event->keyval == GDK_Alt_R))
+                {
+                  if ((Denemo.keyboard_state & CHORD_MASK)) //At least one note has been entered in a chord
+                    next_editable_note ();
+                  Denemo.keyboard_state &= ~CHORD_MASK;
+                }
+              set_midi_in_status ();
+        }
+  //g_print("release %x state %x\n", Denemo.keyboard_state, event->state);
   // set_cursor_for(keyrelease_modify(event->state), event->keyval);
   gint state;
   if ((event->keyval == GDK_Caps_Lock) || (event->keyval == GDK_Num_Lock))
@@ -304,13 +307,15 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
 gint
 scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 {
-  Denemo.keyboard_state |= (0xf & klock_mask (event->keyval));
-  Denemo.keyboard_state ^= llock_mask (event->keyval);
-  // if((event->keyval==GDK_Alt_L)||(event->keyval==GDK_Alt_R))
-  //  Denemo.keyboard_state |= CHORD_MASK;
-  set_midi_in_status ();
-
-  //g_debug("press Denemo %x state %x klock %x\n", Denemo.keyboard_state, event->state, klock_mask(event->keyval));
+      if(!Denemo.keyboard_state_locked)
+          {
+              Denemo.keyboard_state |= (0xf & klock_mask (event->keyval));
+              Denemo.keyboard_state ^= llock_mask (event->keyval);
+              // if((event->keyval==GDK_Alt_L)||(event->keyval==GDK_Alt_R))
+              //  Denemo.keyboard_state |= CHORD_MASK;
+              set_midi_in_status ();
+          }
+  //g_print("press Denemo %x state %x klock %x\n", Denemo.keyboard_state, event->state, klock_mask(event->keyval));
 
   //g_debug("State eored %x\n", (lock_mask(event->keyval)^event->state));
   if (divert_key_event && !isModifier (event) && divert_key_id == Denemo.project->id)

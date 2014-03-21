@@ -409,6 +409,7 @@ scorearea_leave_event (GtkWidget * widget, GdkEventCrossing * event)
 gint
 scorearea_enter_event (GtkWidget * widget, GdkEventCrossing * event)
 {
+  if(Denemo.keyboard_state_locked) return FALSE;
 //g_debug("start the enter with ks = %x and state %x\n", Denemo.keyboard_state, event->state);
   if (event->state & GDK_CONTROL_MASK)
     Denemo.keyboard_state |= GDK_CONTROL_MASK;
