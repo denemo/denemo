@@ -6387,6 +6387,13 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Next Staff, Wrapping</_label>
         <_tooltip>Moves to the next staff, wrapping to the first staff when on the last staff.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>FingeringSwap</action>
+        <after>Finger5</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
+        <_label>Fingering Swap</_label>
+        <_tooltip>Prints two fingerings joined to indicate a change of fingering on one note.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

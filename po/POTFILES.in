@@ -1216,6 +1216,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger4.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger4.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger5.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger5.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/FingeringSwap.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/FingeringSwap.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/RHFinger.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/RHFinger.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/StringNum.scm
