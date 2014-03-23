@@ -454,19 +454,31 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
   
    if (last_directive && (GDK_SHIFT_MASK & event->state) && (GDK_CONTROL_MASK & event->state))
       {
-        if(last_directive->graphic)
-        {
-        last_directive->gx -= last_event_x - event->x_root;
-        last_directive->gy -= last_event_y - event->y_root;
-
-        } else {
-             last_directive->tx -= last_event_x - event->x_root;
-            last_directive->ty -= last_event_y - event->y_root;
+          gint incrx, incry;
+          incrx=incry=0;
+          if(((gint)((last_event_x - event->x_root)/gui->movement->zoom)) != 0)
+            {
+                incrx = (last_event_x - event->x_root)/gui->movement->zoom;
+                last_event_x = event->x_root;
+            }
+          if( ((gint)((last_event_y - event->y_root)/gui->movement->zoom)) != 0)
+            {
+                incry = (last_event_y - event->y_root)/gui->movement->zoom;
+                last_event_y = event->y_root;
+            }           
             
-        }
+        if(last_directive->graphic)
+            {
+                last_directive->gx -= incrx; 
+                last_directive->gy -= incry;
+            } 
+        else 
+            {
+                last_directive->tx -= incrx;
+                last_directive->ty -= incry;
+            }
         gtk_widget_queue_draw (Denemo.scorearea);
-        last_event_x = event->x_root;
-        last_event_y = event->y_root; 
+        
         return TRUE;
       }
   
