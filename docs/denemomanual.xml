@@ -1590,6 +1590,18 @@ If your choice of keyboard shortcut already belongs to another command, you are 
      <title>Adding More Features </title>
    <para>
 It is possible to add more commands to the set that Denemo ships with. Some of these are shipped with Denemo, but not added automatically so as to keep the menu sizes manageable. Generally, you right-click to find more menu items to add; once added you can set a keyboard/mouse shortcut and keep the command in your default setup.
+Scheme to be executed at startup can be placed in the denemo.scm file.
+<sect3>
+    <title>An example - quicker dynamics selection</title>
+It can be slow to choose dynamics (Ctrl-D) because the list is quite long to move down (or move to the mouse).
+You can define a list of the dynamics you actually want to be readily available as for example:
+
+(define DenemoDynamicList '(("f" "127" "Forte") ("p" "127" "Piano")))
+
+This makes forte available just by pressing Return and piano available by pressing down arrow Return. (The others via More of course).
+
+If you place this in (home directory)/.denemo-x.x.x/actions/denemo.scm then it will be defined when you start Denemo.
+</sect3>
   </para>
 </sect2>
 <sect2>
@@ -19548,7 +19560,8 @@ Piano staffs, and staff groups can be created using the menu under the staff men
 
  <sect2>
 <title>What Happens at Startup</title>
-    <para>On starting a Denemo up to two music scores (called init.denemo) are loaded, and any actions associated with them are run. The first of these is provided with the system and does essential initialization, the second you can provide yourself in the file ~/.denemo/actions/init.denemo (where ~ means your home directory).
+    <para>On starting the scheme script ~/.denemo-(version number)/actions/denemo.scm is executed (where ~ means your home directory and version number is 1.1.2 or later).
+    A denemo file called init.denemo is/was loaded, but this is deprecated.
 </para>
     <para>In addition, on startup a set of keyboard and mouse shortcuts, and a selection of optional menu items are loaded. Other sets are available via the Edit->Customize Commands ...->Manage Command Set dialog.
 <note>
