@@ -779,7 +779,7 @@ keymap_collect_bindings_in_row (gpointer key, gpointer value, GList **data)
   command_row *command = (command_row*) value;
   for (g = command->bindings; g; g=g->next)
     {
-        *data = g_list_prepend (*data, g_strdup_printf("\"%s\":\n     %s\n     \"%s\"\n\n", g->data, command->label, command->tooltip));
+        *data = g_list_prepend (*data, g_strdup_printf("\"%s\":\n     %s\n\"%s\"\n\n", g->data, command->label, command->tooltip));
     }
 }
 
