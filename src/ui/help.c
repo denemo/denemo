@@ -116,5 +116,6 @@ void display_shortcuts (void)
   GString *shortcuts = keymap_get_bindings (Denemo.map);
   gtk_text_buffer_set_text (buffer, shortcuts->str, -1);
   gtk_widget_show_all(window);
+  Denemo.prefs.learning = TRUE;
   g_string_free(shortcuts, TRUE);
 }
