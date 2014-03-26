@@ -577,7 +577,7 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
   gint octave, alter = 0;
   gchar *step = NULL;
   gchar *type = NULL;
-  gboolean in_chord = FALSE, is_dotted = FALSE, is_double_dotted = FALSE, is_rest = FALSE, is_grace = FALSE, is_tied = FALSE;
+  gboolean in_chord = FALSE, is_dotted = FALSE, is_double_dotted = FALSE, is_rest = FALSE, is_whole_measure_rest = FALSE, is_grace = FALSE, is_tied = FALSE;
   GString *notations = g_string_new ("");
   gint voicenum = 1, staffnum = 1;
   gint duration = 0;
@@ -610,7 +610,9 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
       }
     if (ELEM_NAME_EQ (childElem, "rest"))
       {
-        is_rest = TRUE;         //FIXME measure attribute set for whole measure rest - get this.
+        is_rest = TRUE;
+        gchar *whole  = xmlGetProp (childElem, (xmlChar *) "measure");   
+        is_whole_measure_rest = !g_strcmp0 (whole , "yes");
       }
     if (ELEM_NAME_EQ (childElem, "dot"))
       {
@@ -691,7 +693,8 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
 
   if (type)
     {
-      g_string_append (text, in_chord ? add_note (octave, step, alter) : (is_rest ? add_rest (type, duration, divisions) : insert_note (type, octave, step, alter)));
+       
+            g_string_append (text, in_chord ? add_note (octave, step, alter) : (is_rest ? add_rest (type, duration, divisions) : insert_note (type, octave, step, alter)));
 
       if (is_nonprinting)
         g_string_append (text, "(d-SetNonprinting)");
@@ -710,8 +713,13 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
     }
   else if (is_rest)
     {                           //for the case where a rest is given without a type, just a duration.
-      get_rest_for_duration (text, duration, divisions);
-      voice_timings[voicenum - 1] += duration;
+     if(is_whole_measure_rest)
+            g_string_append (text, "(d-InsertWholeMeasureRest)");
+     else 
+            get_rest_for_duration (text, duration, divisions);
+
+    voice_timings[voicenum - 1] += duration;
+
     }
 
 
@@ -1066,6 +1074,25 @@ parse_part (xmlNodePtr rootElem)
   return g_string_free (scripts[0], FALSE);
 }
 
+static gchar *
+parse_identification (xmlNodePtr rootElem, GString *script)
+{
+  
+  xmlNodePtr childElem;
+   FOREACH_CHILD_ELEM (childElem, rootElem)
+  {
+    if (ELEM_NAME_EQ (childElem, "creator"))
+        {
+            gchar *title = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            g_string_append_printf (script, "(d-BookComposer \"%s\")", title);
+        }    
+    if (ELEM_NAME_EQ (childElem, "rights"))
+        {
+            gchar *title = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            g_string_append_printf (script, "(d-BookCopyright \"%s\")", title);
+        } 
+  }
+}
 
 gint
 mxmlinput (gchar * filename)
@@ -1097,6 +1124,14 @@ mxmlinput (gchar * filename)
     g_string_assign (Warnings, "");
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
+       if (ELEM_NAME_EQ (childElem, "movement-title"))
+        {
+            gchar *title = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            g_string_append_printf (script, "(d-BookTitle \"%s\")", title);
+        }
+     if (ELEM_NAME_EQ (childElem, "identification"))   {
+            parse_identification (childElem, script);
+    }   
     if (ELEM_NAME_EQ (childElem, "part"))
       {
         g_string_append_printf (script, "\n;;-------------------------Part (ie Instrument) %d ----------------------\n", part_count++);
