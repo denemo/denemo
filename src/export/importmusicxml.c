@@ -851,10 +851,11 @@ parse_barline (xmlNodePtr rootElem, GString ** scripts, gint numvoices)
     </direction-type>
     </direction>
   */
-static void
-parse_direction_type (xmlNodePtr rootElem, GString * script)
+static gchar *
+parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
 {
   xmlNodePtr childElem;
+  gchar *pending = NULL;
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
     if (ELEM_NAME_EQ (childElem, "wedge"))
@@ -864,31 +865,61 @@ parse_direction_type (xmlNodePtr rootElem, GString * script)
         if (type && spread)
           {
             if (!strcmp (type, "crescendo"))
-              g_string_append (script, "(d-ToggleStartCrescendo)");
+              g_string_append (script, "(if (Appending?)(d-MoveCursorLeft))(d-ToggleStartCrescendo)(GoToMeasureEnd)");
             if (!strcmp (type, "diminuendo"))
-              g_string_append (script, "(d-ToggleStartDiminuendo)");
+              g_string_append (script, "(if (Appending?)(d-MoveCursorLeft))(d-ToggleStartDiminuendo)(GoToMeasureEnd)");
 
             if (!strcmp (type, "stop"))
               {
                 if (!strcmp (spread, "0"))
-                  g_string_append (script, "(d-ToggleEndDiminuendo)");
+                  g_string_append (script, "(if (Appending?)(d-MoveCursorLeft))(d-ToggleEndDiminuendo)(GoToMeasureEnd)");
                 else
-                  g_string_append (script, "(d-ToggleEndCrescendo)");
+                  g_string_append (script, "(if (Appending?)(d-MoveCursorLeft))(d-ToggleEndCrescendo)(GoToMeasureEnd)");
               }
           }
       }
+     if (ELEM_NAME_EQ (childElem, "words"))
+      {
+          //FIXME get italic etc here xmlGetProp
+          gchar *words = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+          //pending = g_strdup_printf ("(d-TextAnnotation \"%s\")(GoToMeasureEnd)", g_strescape(words, NULL));
+          gchar *font_style = xmlGetProp (childElem, "font-style");
+          if(font_style)
+            {
+                if(!strcmp(font_style, "italic"))
+                    font_style = "\\\\italic";
+                else
+                    font_style = "";  
+            } 
+          else
+            font_style = "";  
+          if(placement)
+            {
+            if(!strcmp(placement, "above"))
+                placement = "^";
+            else if(!strcmp(placement, "below"))
+                placement = "_";  
+            else
+                placement = "-";  
+            }
+          else
+            placement = "-";
+          pending = g_strdup_printf ("(StandaloneText \"TextAnnotation\" \"%s\" \"%s\" \"%s\")(GoToMeasureEnd)",  words/*g_strescape(words, NULL)*/, placement, font_style);
+      }
   }
+  return pending;
 }
 
-static void
-parse_direction (xmlNodePtr rootElem, GString * script)
+static gchar *
+parse_direction (xmlNodePtr rootElem, GString * script, gchar *placement)
 {
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
     if (ELEM_NAME_EQ (childElem, "direction-type"))
-      parse_direction_type (childElem, script);
+      return parse_direction_type (childElem, script, placement);
   }
+  return NULL;
 }
 
 static void
@@ -916,6 +947,7 @@ parse_measure (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, 
   gint current_voice = 1;
   gint actual_notes = 1, normal_notes = 1;      /* for tuplets */
   gint last_voice_with_notes = 1;       /* in case a voice with not "note" elements moves the current voice on while unfinished stuff in last voice */
+  GString *pendings = g_string_new("");
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
     //g_debug("name %s at voicenumber %d at division %d\n", childElem->name, current_voice, division);
@@ -936,7 +968,14 @@ parse_measure (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, 
         gboolean is_nonprinting = FALSE;
         if (printing && !strcmp (printing, "no"))
           is_nonprinting = TRUE;
+   
         gchar *warning = parse_note (childElem, scripts, staff_for_voice, &division, *divisions, voice_timings, &current_voice, &actual_notes, &normal_notes, is_nonprinting);
+        if(pendings->len)
+            {
+                g_string_prepend (pendings, "(d-MoveCursorLeft)");
+                g_string_append (scripts[current_voice], pendings->str);
+                g_string_assign(pendings, "");
+            }      
         note_count++;
         if (*warning)
           g_string_append_printf (ret, "%s at note number %d, ", warning, note_count);
@@ -946,7 +985,10 @@ parse_measure (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, 
 
     if (ELEM_NAME_EQ (childElem, "direction"))
       {                         //g_assert(current_voice>0);
-        parse_direction (childElem, scripts[current_voice]);
+        gchar *placement = xmlGetProp (childElem, "placement");
+        gchar *text = parse_direction (childElem, scripts[current_voice], placement);
+        if(text)
+            g_string_append(pendings, text);
       }
     if (ELEM_NAME_EQ (childElem, "barline"))
       {
@@ -956,6 +998,7 @@ parse_measure (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, 
   //g_assert(last_voice_with_notes>0);
   if ((actual_notes != 1) || (normal_notes != 1))
     g_string_append_printf (scripts[last_voice_with_notes], "\n;measure end with tuplet still active in voice %d\n(d-EndTuplet)", current_voice);
+  g_string_free(pendings, TRUE);
   return g_string_free (ret, FALSE);
 }
 
