@@ -1,5 +1,4 @@
 2014-??-?? Release 1.1.2
-
     Spillover
         Appending over-length notes spill into next bar.
         Works for rests too.
@@ -16,6 +15,15 @@
         Choose from all available object types in movement.
         Choose from objects at cursor.
         Seek and edit the chosen type in music playing order.
+        Restart last search, wrap to beginning, to next movemnt.
+    Display Editing
+        Control+Shift drag to move objects in the input music display
+        Does not affect the final typeset score.
+        Useful when the input music display is too cluttered to see clearly.
+    MusicXML import
+        Imports Titles, copyright and other text
+        Imports dynamic markings
+
 
 2014-01-27 Release 1.1.2
     Transcribing from MIDI
