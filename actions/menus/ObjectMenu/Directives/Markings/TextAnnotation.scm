@@ -35,7 +35,7 @@
                             
                         (else  (d-InfoDialog "This places text tied to the position of the following note or chord.\nIt can't be placed after all music, but the positioning can be altered in the typeset (print) view by right-clicking on the text.")
                             (set! TextAnnotation::params 'finished)))))
-         (if (Appending?)
+         (if (and (not TextAnnotation::params) (Appending?))
              (set! TextAnnotation::params 'abort)))
                 
     (cond 
@@ -46,7 +46,7 @@
                      (set! TextAnnotation::params 'unchanged))
             ((string? TextAnnotation::params)
                      (let ((text  TextAnnotation::params))
-                                    (StandaloneText tag text)))
+                        (StandaloneText tag text)))
         
             ((and (pair? TextAnnotation::params) (equal? (car TextAnnotation::params) 'fontsize))
                     (let ((value (cdr TextAnnotation::params)))
