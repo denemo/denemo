@@ -1,5 +1,3 @@
-#ifdef _WITH_AUBIO_3_
-
 /*
  * pitchrecog.c
   Hacked from aubionotes.c for denemo by Richard Shann (c) 2007
@@ -20,8 +18,9 @@
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
+#include "audio/audio.h"
 
-
+#ifdef _WITH_AUBIO_3_
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -30,7 +29,6 @@
 #include <math.h>
 #include <glib.h>
 #include <aubio/aubio.h>
-#include "audio/audio.h"
 #include "audio/pitchrecog.h"
 
 #ifdef HAVE_C99_VARARGS_MACROS
