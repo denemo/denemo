@@ -286,6 +286,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Locks the standalone directive at the cursor so that it runs its delete action when deleted. The tag should be the name of a command that responds to the delete parameter.", DENEMO_SCHEME_PREFIX "LockDirective", scheme_lock_directive);
 
   install_scm_function (2, "Sets an \"action script\" on the directive of the given tag", DENEMO_SCHEME_PREFIX "SetDirectiveTagActionScript", scheme_set_action_script_for_tag);
+  install_scm_function (1, "Inserts a Denemo Directive of the given tag, even if one already exists at the cursor, a pixel width can be passed as well", DENEMO_SCHEME_PREFIX "PutStandaloneDirective", scheme_put_standalone_directive);
 
 #define INSTALL_GET_TAG(what)\
   install_scm_function (0, "Takes a optional tag. Returns that tag if a "#what" directive exists at the cursor, else returns the tag of the first such directive at the cursor, or #f if none", DENEMO_SCHEME_PREFIX"DirectiveGetForTag"  "-" #what, scheme_##what##_directive_get_tag);

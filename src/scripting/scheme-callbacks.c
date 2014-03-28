@@ -3080,13 +3080,13 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
       title = scm_to_locale_string (label);
     }
   else
-    title = strdup ("Input Required");
+    title = strdup (_("Input Required"));
   if (scm_is_string (prompt))
     {
       instruction = scm_to_locale_string (prompt);
     }
   else
-    instruction = strdup ("Give input: ");
+    instruction = strdup (_("Give input: "));
 
   if (scm_is_string (init))
     {
@@ -3546,7 +3546,23 @@ scheme_set_action_script_for_tag (SCM tag, SCM script)
   return SCM_BOOL (FALSE);
 }
 
-
+SCM
+scheme_put_standalone_directive (SCM tag, SCM width)
+{
+ if (scm_is_string (tag))
+    {
+        char *the_tag;
+        gint pixelwidth = 40;
+        if(scm_is_integer (width))
+            pixelwidth = scm_to_int (width);
+        the_tag = scm_to_locale_string (tag);
+        put_standalone_directive (the_tag, pixelwidth);
+        if (the_tag)
+                free (the_tag);
+        return SCM_BOOL_T;
+    }
+  return SCM_BOOL_F;
+}
 
 #define GET_NTH_TAG(what)\
  SCM scheme_##what##_directive_get_nth_tag(SCM index) {\

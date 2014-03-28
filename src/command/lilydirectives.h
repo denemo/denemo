@@ -39,6 +39,7 @@ void edit_object (GtkAction * action, DenemoScriptParam * param);       //FIXME 
 void note_directive (GtkAction * action, DenemoScriptParam * param);
 void chord_directive (GtkAction * action, DenemoScriptParam * param);
 void standalone_directive (GtkAction * action, DenemoScriptParam * param);
+void put_standalone_directive (gchar *tag, gint pixelwidth);
 void delete_chord_or_note_directive (GtkAction * action, DenemoScriptParam * param);
 
 gchar *get_nth_strict_note_tag (gint index);

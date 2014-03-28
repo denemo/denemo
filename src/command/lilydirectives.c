@@ -436,47 +436,6 @@ get_standalone_directive (gchar * tag)
   return NULL;
 }
 
-/**
- * DEPRECATED - only called from InsertLilyDirective action, not the general Get/Put directive functions
- * Denemo directive insert/Edit.  Allows user to insert a Denemo directive 
- * before the current cursor position
- * or edit the current Denemo directive
- */
-void
-standalone_directive (GtkAction * action, DenemoScriptParam * param)
-{
-  DenemoProject *gui = Denemo.project;
-  GET_4PARAMS (action, param, directive, postfix, display, minpixels);
-  //g_debug("query is %s\n", query);
-  if (directive)
-    postfix = directive;        //support for simpler syntax directive=xxx instead of postfix=xxx
-  if (query)
-    {
-      get_lily_parameter (*query ? query : "postfix", param);
-      return;
-    }
-  gboolean locked = FALSE;
-  if (postfix && !display)
-    display = postfix;
-  if (action)
-    {
-      DenemoObject *curObj = (DenemoObject *) gui->movement->currentobject ? (DenemoObject *) gui->movement->currentobject->data : NULL;
-      if (curObj && curObj->type == LILYDIRECTIVE)
-        {
-          lilydirective *lilyobj = (lilydirective *) curObj->object;
-          postfix = lilyobj->postfix ? lilyobj->postfix->str : NULL;
-          display = lilyobj->display ? lilyobj->display->str : NULL;
-        }
-      if (get_lily_directive (&postfix, &display, &locked))
-        insert_lily_directive (postfix, display, locked, 8);
-    }
-  else
-    {
-      insert_lily_directive (postfix, display, locked, minpixels ? atoi (minpixels) : 8);
-      g_debug ("Display helper for %s", postfix);
-      displayhelper (gui);
-    }
-}
 
 /**
  * callback for AttachLilyToNote (command name is historical)
@@ -1959,6 +1918,13 @@ STANDALONE_PUT_INT_FIELD_FUNC (gy);
 
 STANDALONE_PUT_INT_FIELD_FUNC (override);
 
+void put_standalone_directive (gchar *tag, gint value) {
+  DenemoObject *obj = lily_directive_new (" ");
+  DenemoDirective *directive = (DenemoDirective *) obj->object;
+  directive->tag = g_string_new (tag);
+  obj->minpixelsalloted = directive->minpixels = value;
+  object_insert (Denemo.project, obj);   
+}
 
 gboolean
 standalone_directive_put_minpixels (gchar * tag, gint value)
@@ -1973,11 +1939,7 @@ standalone_directive_put_minpixels (gchar * tag, gint value)
     }
   else
     {
-      DenemoObject *obj = lily_directive_new (" ");
-      directive = (DenemoDirective *) obj->object;
-      directive->tag = g_string_new (tag);
-      obj->minpixelsalloted = directive->minpixels = value;
-      object_insert (Denemo.project, obj);
+      put_standalone_directive (tag, value);
     }
   return TRUE;
 }
