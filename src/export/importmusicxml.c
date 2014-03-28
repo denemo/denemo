@@ -904,7 +904,32 @@ parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
             }
           else
             placement = "-";
-          pending = g_strdup_printf ("(StandaloneText \"TextAnnotation\" \"%s\" \"%s\" \"%s\")(GoToMeasureEnd)",  words/*g_strescape(words, NULL)*/, placement, font_style);
+        //if(pending==NULL)
+         //   pending = "";
+        pending = g_strdup_printf ("(StandaloneText \"TextAnnotation\" \"%s\" \"%s\" \"%s\")(GoToMeasureEnd)", words/*g_strescape(words, NULL)*/, placement, font_style);
+      }
+      
+      
+      /*     
+  <direction placement="below">
+        <direction-type>
+          <dynamics default-x="-21" default-y="-67" halign="center">
+            <f/>
+          </dynamics>
+        </direction-type>
+        <offset sound="yes">4</offset>
+        <staff>2</staff>
+        <sound dynamics="98"/>
+      </direction>
+   */         
+    if (ELEM_NAME_EQ (childElem, "dynamics"))
+      {   
+       // if(pending==NULL)
+       //     pending = "";
+       // pending = g_strdup_printf ("%s(d-DynamicText \"%s\")(GoToMeasureEnd)", pending, childElem->xmlChildrenNode->name);
+       
+       g_string_append_printf (script, "(if (Appending?)(d-MoveCursorLeft))(d-DynamicText \"%s\")(GoToMeasureEnd)", childElem->xmlChildrenNode->name);
+       
       }
   }
   return pending;
@@ -918,6 +943,9 @@ parse_direction (xmlNodePtr rootElem, GString * script, gchar *placement)
   {
     if (ELEM_NAME_EQ (childElem, "direction-type"))
       return parse_direction_type (childElem, script, placement);
+ 
+            
+            
   }
   return NULL;
 }
