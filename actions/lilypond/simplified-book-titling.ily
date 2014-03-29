@@ -8,8 +8,15 @@
   (if (chain-assoc-get symbol props)
       (ly:make-stencil '()  '(1 . -1) '(1 . -1))
       (interpret-markup layout props markp)))
-
-                     
+#(cond-expand
+   (guile-2) ; nothing
+   (else ; guile < 2.0
+    (define-macro (define-once sym exp)
+      `(define ,sym
+         (if (module-locally-bound? (current-module) ',sym)
+             ,sym
+             ,exp)))))
+#(define-once denemo-top-margin 6)                     
 \paper {
   bookTitleMarkup = \markup \when-property #'header:title {
      { \postscript #"
@@ -19,8 +26,8 @@
                     0.5 setlinewidth 45 45 moveto 507 0 rlineto 0 750 rlineto -507 0 rlineto 0 -750 rlineto  stroke
                     grestore" }
     \column {
-      \when-property #'header:poet \vspace #6
-      \when-notproperty #'header:poet  \vspace #16
+      \when-property #'header:poet \vspace #denemo-top-margin
+      \when-notproperty #'header:poet  \vspace #(+ 10 denemo-top-margin)
       \fill-line { \fontsize #8 \italic \fromproperty #'header:composer }
       \vspace #1
       \when-property #'header:poet  
@@ -36,7 +43,7 @@
       \when-property #'header:date \vspace #6
       \when-property #'header:instrumentation 
           \fill-line { \fontsize #5 \italic \fromproperty #'header:instrumentation }
-			\when-property #'header:instrumentation \vspace #4
+            \when-property #'header:instrumentation \vspace #4
       \when-property #'header:incipit 
           \fill-line { \fontsize #5 \italic \fromproperty #'header:incipit }
       
