@@ -685,6 +685,8 @@ actions/menus/ObjectMenu/Directives/Markings/Spanning/FinishCadenza.scm
 actions/menus/ObjectMenu/Directives/Markings/Spanning/FinishCadenza.xml
 actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenFirstTimeBar.scm
 actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenFirstTimeBar.xml
+actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm
+actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.xml
 actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenSecondTimeBar.scm
 actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenSecondTimeBar.xml
 actions/menus/ObjectMenu/Directives/Markings/Spanning/Ottava.scm
