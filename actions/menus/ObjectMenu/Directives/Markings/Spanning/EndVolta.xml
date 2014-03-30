@@ -7,7 +7,7 @@
       <row type="scheme">
         <after>OpenSecondTimeBar</after>
         <action>EndVolta</action>
-        <_label>End 1st/2nd Time Bar</_label>
+        <_label>End 1st/2nd ... Time Bar</_label>
         <_tooltip>Ends a volta, that is a n'th time bar</_tooltip>
       </row>
     </map>
