@@ -1025,15 +1025,15 @@ printmeasure (measurenode * mnode)
       fprintf (stderr, "Empty measure\n");
       return;
     }
-  printobjs (measure_first_obj_node (mnode));
+  printobjs (firstobjnode (mnode));
 }
 
 G_GNUC_UNUSED void
 printmeasures (staffnode * thestaff)
 {
-  GList *measure = staff_first_measure_node (thestaff);
+  GList *measure = firstmeasurenode (thestaff);
   gint measurenum = 1;
-  for (measure = staff_first_measure_node (thestaff); measure; measure = measure->next)
+  for (measure = firstmeasurenode (thestaff); measure; measure = measure->next)
     {
       fprintf (stderr, "*************Measure %d *************\n", measurenum++);
       printmeasure (measure);

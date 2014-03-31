@@ -1797,7 +1797,7 @@ create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
           int j, k;
           objnode *curobj;
           /* Measure loop.  */
-          for (j = si->selection.firstmeasuremarked, k = si->selection.firstobjmarked, curmeasure = g_list_nth (staff_first_measure_node (curstaff), j - 1); curmeasure && j <= si->selection.lastmeasuremarked; curmeasure = curmeasure->next, j++)
+          for (j = si->selection.firstmeasuremarked, k = si->selection.firstobjmarked, curmeasure = g_list_nth (firstmeasurenode (curstaff), j - 1); curmeasure && j <= si->selection.lastmeasuremarked; curmeasure = curmeasure->next, j++)
             {
               for (curobj = g_list_nth ((objnode *) curmeasure->data, k);
                    /* cursor_x is 0-indexed */

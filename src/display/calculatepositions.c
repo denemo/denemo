@@ -354,7 +354,7 @@ find_xes_in_measure (DenemoMovement * si, gint measurenum, gint time1, gint time
 // Point cur_obj_nodes[i] to the list of objects in the measure for the i'th staff  (if no measure NULL)
       if (((DenemoStaff *) cur_staff->data)->nummeasures >= measurenum)
         {
-          block_start_obj_nodes[i] = cur_obj_nodes[i] = measure_first_obj_node (g_list_nth (staff_first_measure_node (cur_staff), measurenum - 1));
+          block_start_obj_nodes[i] = cur_obj_nodes[i] = firstobjnode (g_list_nth (firstmeasurenode (cur_staff), measurenum - 1));
         }
       else
         {

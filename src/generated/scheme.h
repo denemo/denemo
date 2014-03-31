@@ -766,16 +766,16 @@ install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveToVoiceUp", scheme_Move
 /*MoveToVoiceDown movetovoicedown*/
 SCM scheme_MoveToVoiceDown(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MoveToVoiceDown", scheme_MoveToVoiceDown);
-/*AddBefore staff_new_before*/
+/*AddBefore newstaffbefore*/
 SCM scheme_AddBefore(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddBefore", scheme_AddBefore);
-/*AddAfter staff_new_after*/
+/*AddAfter dnm_newstaffafter*/
 SCM scheme_AddAfter(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddAfter", scheme_AddAfter);
-/*AddInitial staff_new_initial*/
+/*AddInitial newstaffinitial*/
 SCM scheme_AddInitial(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddInitial", scheme_AddInitial);
-/*AddLast staff_new_last*/
+/*AddLast newstafflast*/
 SCM scheme_AddLast(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddLast", scheme_AddLast);
 /*DeleteBefore delete_staff_before*/
@@ -787,7 +787,7 @@ install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DeleteStaff", scheme_Delete
 /*DeleteAfter delete_staff_after*/
 SCM scheme_DeleteAfter(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DeleteAfter", scheme_DeleteAfter);
-/*AddVoice staff_new_voice*/
+/*AddVoice dnm_newstaffvoice*/
 SCM scheme_AddVoice(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AddVoice", scheme_AddVoice);
 /*StaffProperties staff_properties_change_cb*/

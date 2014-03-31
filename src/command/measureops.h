@@ -26,7 +26,3 @@ void calculatebeamsandstemdirs (objnode * theobjs, gint * clef, gint * time1, gi
 gint showwhichaccidentals (objnode * theobjs, gint initialnum, gint * initialaccs);
 
 void forceaccidentals (DenemoObject * theobj);
-
-objnode *measure_first_obj_node (measurenode * mnode);
-
-objnode *measure_last_obj_node (measurenode * mnode);

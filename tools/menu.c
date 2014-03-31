@@ -340,14 +340,14 @@ struct name_and_function denemo_commands[] = {
 
 
 
-  {NULL, "Inserts a new staff before the current staff", N_("AddBefore"), "staff_new_before", N_("Add Staff Before")},
-  {NULL, "Inserts/Adds a new staff after the current staff", N_("AddAfter"), "staff_new_after", N_("Add Staff After")},
-  {NULL, "Inserts a new staff at the top of the score", N_("AddInitial"), "staff_new_initial", N_("Add Initial Staff")},
-  {NULL, "Inserts a new staff at the end of the score", N_("AddLast"), "staff_new_last", N_("Add Last Staff")},
+  {NULL, "Inserts a new staff before the current staff", N_("AddBefore"), "newstaffbefore", N_("Add Staff Before")},
+  {NULL, "Inserts/Adds a new staff after the current staff", N_("AddAfter"), "dnm_newstaffafter", N_("Add Staff After")},
+  {NULL, "Inserts a new staff at the top of the score", N_("AddInitial"), "newstaffinitial", N_("Add Initial Staff")},
+  {NULL, "Inserts a new staff at the end of the score", N_("AddLast"), "newstafflast", N_("Add Last Staff")},
   {NULL, "Deletes the staff before the current staff", N_("DeleteBefore"), "delete_staff_before", N_("Delete Staff Before")},
   {NULL, "Deletes the current staff", N_("DeleteStaff"), "delete_staff_current", N_("Delete Current Staff")},
   {NULL, "Deletes the staff after the current staff", N_("DeleteAfter"), "delete_staff_after", N_("Delete Staff After")},
-  {NULL, "Adds a new voice (part), to the current staff. It is tricky to switch between the voices. Suggest to use merge staffs", "AddVoice", "staff_new_voice", N_("Add Voice")},
+  {NULL, "Adds a new voice (part), to the current staff. It is tricky to switch between the voices. Suggest to use merge staffs", "AddVoice", "dnm_newstaffvoice", N_("Add Voice")},
   {"GTK_STOCK_PROPERTIES", "Change the built-in properties of the current staff", N_("StaffProperties"), "staff_properties_change_cb", N_("Built-in Staff Properties")},
   {NULL, "Insert", N_("InsertMenu"), NULL, NULL},
   {NULL, "Menu:\\nClef", N_("Clef"), NULL, NULL},

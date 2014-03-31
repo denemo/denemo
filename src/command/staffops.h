@@ -9,50 +9,55 @@
 #define __STAFFOPS_H__
 #include <denemo/denemo.h>
 
-gboolean signal_structural_change (DenemoProject * project);
-
 enum newstaffcallbackaction
-{
-  INITIAL,
-  FIRST,
-  LAST,
-  ADDFROMLOAD,
-  BEFORE,
-  AFTER,
-  CURRENT,
-  NEWVOICE,
-  LYRICSTAFF,
-  FIGURESTAFF,
-  CHORDSTAFF
+{ INITIAL, FIRST, LAST, ADDFROMLOAD, BEFORE, AFTER, CURRENT,
+  NEWVOICE, LYRICSTAFF, FIGURESTAFF, CHORDSTAFF
 };
 
-measurenode *staff_first_measure_node (staffnode * thestaff);
+struct newstaffinfotopass
+{
+  DenemoProject *gui;
+  DenemoStaff *staff;
+  guint addat;
+};
 
-measurenode *staff_nth_measure_node (staffnode * thestaff, gint n);
+objnode *firstobjnode (measurenode * mnode);
 
-void staff_set_current_primary (DenemoMovement * movement);
+objnode *lastobjnode (measurenode * mnode);
 
-/* default context shall be DENEMO_NONE */
-DenemoStaff* staff_new (DenemoProject * gui, enum newstaffcallbackaction action, DenemoContext context);
+measurenode *firstmeasurenode (staffnode * thestaff);
 
-void staff_delete (DenemoProject * gui, gboolean interactive);
+measurenode *nth_measure_node_in_staff (staffnode * thestaff, gint n);
 
-void staff_beams_and_stems_dirs (DenemoStaff * thestaff);
+objnode *firstobjnodeinstaff (staffnode * thestaff);
 
-void staff_show_which_accidentals (DenemoStaff * thestaff);
+//void initkeysig (gint *accs, gint number);
 
-void staff_fix_note_heights (DenemoStaff * thestaff);
+void setcurrentprimarystaff (DenemoMovement * si);
 
-void staff_new_initial (GtkAction * action, DenemoScriptParam * param);
+void newstaff (DenemoProject * gui, enum newstaffcallbackaction action, DenemoContext context);     /* default context shall be DENEMO_NONE */
 
-void staff_new_before (GtkAction * action, DenemoScriptParam * param);
+void deletestaff (DenemoProject * gui, gboolean interactive);
 
-void staff_new_after (GtkAction * action, DenemoScriptParam * param);
+void beamsandstemdirswholestaff (DenemoStaff * thestaff);
 
-void staff_new_voice (GtkAction * action, DenemoScriptParam * param);
+void showwhichaccidentalswholestaff (DenemoStaff * thestaff);
 
-void staff_new_last (GtkAction * action, DenemoScriptParam * param);
+void fixnoteheights (DenemoStaff * thestaff);
 
-void staff_copy (DenemoStaff * src, DenemoStaff * dest);
+void newstaffinitial (GtkAction * action, DenemoScriptParam * param);
+
+void newstaffbefore (GtkAction * action, DenemoScriptParam * param);
+
+void dnm_newstaffafter (GtkAction * action, DenemoScriptParam * param);
+
+
+void dnm_newstaffvoice (GtkAction * action, DenemoScriptParam * param);
+
+void newstafflast (GtkAction * action, DenemoScriptParam * param);
+
+gboolean signal_structural_change (DenemoProject * gui);
+
+void copy_staff (DenemoStaff * src, DenemoStaff * dest);
 
 #endif /* __STAFFOPS_H__ */
