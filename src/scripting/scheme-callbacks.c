@@ -2805,7 +2805,7 @@ scheme_set_prevailing_keysig (SCM keyaccs)
     }
   keysig *keysig = get_prevailing_context (KEYSIG);
   sscanf (accs, "%d%d%d%d%d%d%d", keysig->accs + 0, keysig->accs + 1, keysig->accs + 2, keysig->accs + 3, keysig->accs + 4, keysig->accs + 5, keysig->accs + 6);
-  showwhichaccidentalswholestaff ((DenemoStaff *) Denemo.project->movement->currentstaff->data);
+  staff_show_which_accidentals ((DenemoStaff *) Denemo.project->movement->currentstaff->data);
   free (accs);
   displayhelper (Denemo.project);   //score_status(Denemo.project, TRUE);
   return SCM_BOOL_T;
@@ -5085,7 +5085,7 @@ scheme_staff_to_voice (SCM optional)
   if (Denemo.project->movement->currentstaff->prev && (((DenemoStaff *) Denemo.project->movement->currentstaff->data)->voicecontrol == DENEMO_PRIMARY))
     {
       ((DenemoStaff *) Denemo.project->movement->currentstaff->data)->voicecontrol |= DENEMO_SECONDARY;
-      setcurrentprimarystaff (Denemo.project->movement);
+      staff_set_current_primary (Denemo.project->movement);
       ret = SCM_BOOL_T;
       gtk_widget_queue_draw (Denemo.scorearea);
       score_status (Denemo.project, TRUE);
@@ -5101,7 +5101,7 @@ scheme_voice_to_staff (SCM optional)
   if (((DenemoStaff *) Denemo.project->movement->currentstaff->data)->voicecontrol & DENEMO_SECONDARY)
     {
       ((DenemoStaff *) Denemo.project->movement->currentstaff->data)->voicecontrol = DENEMO_PRIMARY;
-      setcurrentprimarystaff (Denemo.project->movement);
+      staff_set_current_primary (Denemo.project->movement);
       ret = SCM_BOOL_T;
       score_status (Denemo.project, TRUE);
       gtk_widget_queue_draw (Denemo.scorearea);

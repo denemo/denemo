@@ -106,7 +106,7 @@ beamandstemdirhelper (DenemoMovement * si)
   DenemoObject *theclef = NULL;
   if (si->currentmeasure->prev)
     {
-      objnode *curobj = lastobjnode (si->currentmeasure->prev);
+      objnode *curobj = measure_last_obj_node (si->currentmeasure->prev);
       if (curobj)
         theclef = get_clef_before_object (curobj);
     }
@@ -130,12 +130,12 @@ setcurrents (DenemoMovement * si)
 {
   if (((DenemoStaff *) si->currentstaff->data)->nummeasures >= si->currentmeasurenum)
     {
-      si->currentmeasure = g_list_nth (firstmeasurenode (si->currentstaff), si->currentmeasurenum - 1);
+      si->currentmeasure = g_list_nth (staff_first_measure_node (si->currentstaff), si->currentmeasurenum - 1);
     }
   else
     {
       g_debug ("Setting measure to %d which is last in Staff\n", ((DenemoStaff *) si->currentstaff->data)->nummeasures);
-      si->currentmeasure = g_list_nth (firstmeasurenode (si->currentstaff), ((DenemoStaff *) si->currentstaff->data)->nummeasures - 1);
+      si->currentmeasure = g_list_nth (staff_first_measure_node (si->currentstaff), ((DenemoStaff *) si->currentstaff->data)->nummeasures - 1);
       si->currentmeasurenum = ((DenemoStaff *) si->currentstaff->data)->nummeasures;
 
     }
@@ -289,8 +289,8 @@ object_insert (DenemoProject * gui, DenemoObject * mudela_obj_new)
   if (mudela_obj_new->type == CLEF)
     {
       reset_cursor_stats (si);
-      fixnoteheights ((DenemoStaff *) si->currentstaff->data);
-      beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
+      staff_fix_note_heights ((DenemoStaff *) si->currentstaff->data);
+      staff_beams_and_stems_dirs ((DenemoStaff *) si->currentstaff->data);
       find_xes_in_all_measures (si);
     }
 
@@ -485,7 +485,7 @@ swapstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * 
               gui->movement->currentstaff->prev->data = temp;
               gui->movement->currentstaffnum--;
               gui->movement->currentstaff = gui->movement->currentstaff->prev;
-              setcurrentprimarystaff (gui->movement);
+              staff_set_current_primary (gui->movement);
               setcurrents (gui->movement);
               move_viewport_up (gui);
               score_status (gui, TRUE);
@@ -519,7 +519,7 @@ splitstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam *
         nextstaff->voicecontrol = DENEMO_SECONDARY | DENEMO_PRIMARY;
       else
         warningdialog (_("There is no voice below this one on this staff"));
-      setcurrentprimarystaff (gui->movement);
+      staff_set_current_primary (gui->movement);
       setcurrents (gui->movement);
       move_viewport_up (gui);
       score_status (gui, TRUE);
@@ -546,7 +546,7 @@ joinstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * 
       take_snapshot ();
       DenemoStaff *thestaff = (DenemoStaff *) gui->movement->currentstaff->data;
       thestaff->voicecontrol = DENEMO_SECONDARY;
-      setcurrentprimarystaff (gui->movement);
+      staff_set_current_primary (gui->movement);
       setcurrents (gui->movement);
       move_viewport_up (gui);
       score_status (gui, TRUE);
@@ -582,7 +582,7 @@ govoiceup (DenemoScriptParam * param, gboolean extend_selection)
       hide_lyrics ();
       gui->movement->currentstaffnum--;
       gui->movement->currentstaff = gui->movement->currentstaff->prev;
-      setcurrentprimarystaff (gui->movement);
+      staff_set_current_primary (gui->movement);
       setcurrents (gui->movement);
       show_lyrics ();
       move_viewport_down (gui);
@@ -622,7 +622,7 @@ gostaffup (DenemoScriptParam * param, gboolean extend_selection)
       hide_lyrics ();
       gui->movement->currentstaffnum--;
       gui->movement->currentstaff = gui->movement->currentstaff->prev;
-      setcurrentprimarystaff (gui->movement);
+      staff_set_current_primary (gui->movement);
       setcurrents (gui->movement);
       if (extend_selection)
         calcmarkboundaries (gui->movement);
@@ -664,7 +664,7 @@ govoicedown (DenemoScriptParam * param, gboolean extend_selection)
       hide_lyrics ();
       gui->movement->currentstaffnum++;
       gui->movement->currentstaff = gui->movement->currentstaff->next;
-      setcurrentprimarystaff (gui->movement);
+      staff_set_current_primary (gui->movement);
       setcurrents (gui->movement);
       if (extend_selection)
         calcmarkboundaries (gui->movement);
@@ -737,7 +737,7 @@ gostaffdown (DenemoScriptParam * param, gboolean extend_selection)
       hide_lyrics ();
       gui->movement->currentstaffnum++;
       gui->movement->currentstaff = gui->movement->currentstaff->next;
-      setcurrentprimarystaff (gui->movement);
+      staff_set_current_primary (gui->movement);
       setcurrents (gui->movement);
       if (extend_selection)
         calcmarkboundaries (gui->movement);
@@ -2126,10 +2126,10 @@ insertmeasurebefore (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
 void
 appendmeasures (DenemoMovement * si, gint number)
 {
-  dnm_addmeasures (si, g_list_length (firstmeasurenode (si->currentstaff)), number, FALSE);
+  dnm_addmeasures (si, g_list_length (staff_first_measure_node (si->currentstaff)), number, FALSE);
   /* Reset these two variables because si->currentmeasure and
    * si->currentobject may now be pointing to dead data */
-  si->currentmeasure = g_list_nth (firstmeasurenode (si->currentstaff), si->currentmeasurenum - 1);
+  si->currentmeasure = g_list_nth (staff_first_measure_node (si->currentstaff), si->currentmeasurenum - 1);
   si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data, si->cursor_x - (si->cursor_appending == TRUE));
   set_rightmeasurenum (si);
   displayhelper (Denemo.project);
@@ -2140,10 +2140,10 @@ appendmeasures (DenemoMovement * si, gint number)
 void
 appendmeasurestoentirescore (DenemoMovement * si, gint number)
 {
-  dnm_addmeasures (si, g_list_length (firstmeasurenode (si->currentstaff)), number, TRUE);
+  dnm_addmeasures (si, g_list_length (staff_first_measure_node (si->currentstaff)), number, TRUE);
   /* Reset these two variables because si->currentmeasure and
    * si->currentobject may now be pointing to dead data */
-  si->currentmeasure = g_list_nth (firstmeasurenode (si->currentstaff), si->currentmeasurenum - 1);
+  si->currentmeasure = g_list_nth (staff_first_measure_node (si->currentstaff), si->currentmeasurenum - 1);
   si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data, si->cursor_x - (si->cursor_appending == TRUE));
   set_rightmeasurenum (si);
   /* update_hscrollbar (si); */
@@ -2166,7 +2166,7 @@ delete_staff_before (GtkAction * action, DenemoScriptParam * param)
   DenemoProject *gui = Denemo.project;
   if (staffup (action, param))
     {
-      deletestaff (gui, TRUE);
+      staff_delete (gui, TRUE);
     }
 }
 
@@ -2182,7 +2182,7 @@ delete_staff_after (GtkAction * action, DenemoScriptParam * param)
   DenemoProject *gui = Denemo.project;
   if (staffdown (action, param))
     {
-      deletestaff (gui, TRUE);
+      staff_delete (gui, TRUE);
     }
 }
 
@@ -2196,7 +2196,7 @@ void
 delete_staff_current (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
-  deletestaff (gui, TRUE);
+  staff_delete (gui, TRUE);
 }
 
 
@@ -2374,16 +2374,16 @@ dnm_deleteobject (DenemoMovement * si)
 /* here we have to re-validate leftmost clef e.g. find_leftmost_allcontexts (gui->movement);
  which seems to be done... */
           delete_object_helper (si);
-          fixnoteheights ((DenemoStaff *) si->currentstaff->data);
-          beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
+          staff_fix_note_heights ((DenemoStaff *) si->currentstaff->data);
+          staff_beams_and_stems_dirs ((DenemoStaff *) si->currentstaff->data);
           find_xes_in_all_measures (si);
           break;
         case KEYSIG:
           /* Doesn't automatically delete sibling key signatures, though
            * I probably will have it do so soon */
           delete_object_helper (si);
-          beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
-          showwhichaccidentalswholestaff ((DenemoStaff *) si->currentstaff->data);
+          staff_beams_and_stems_dirs ((DenemoStaff *) si->currentstaff->data);
+          staff_show_which_accidentals ((DenemoStaff *) si->currentstaff->data);
           find_xes_in_all_measures (si);
           break;
         case TIMESIG:
@@ -2394,7 +2394,7 @@ dnm_deleteobject (DenemoMovement * si)
            * if in the conventional, first, position */
           for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
             {
-              curmeasure = g_list_nth (firstmeasurenode (curstaff), si->currentmeasurenum - 1);
+              curmeasure = g_list_nth (staff_first_measure_node (curstaff), si->currentmeasurenum - 1);
               if (curmeasure && curmeasure->data)
                 {
                   DenemoObject *first_obj = ((objnode *) curmeasure->data)->data;
@@ -2402,7 +2402,7 @@ dnm_deleteobject (DenemoMovement * si)
                   if (first_obj && first_obj->type == TIMESIG)
                     {
                       remove_object (curmeasure, (objnode *) curmeasure->data);
-                      beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
+                      staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
                     }
                 }
             }
@@ -2412,7 +2412,7 @@ dnm_deleteobject (DenemoMovement * si)
           break;
         case STEMDIRECTIVE:
           delete_object_helper (si);
-          beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
+          staff_beams_and_stems_dirs ((DenemoStaff *) si->currentstaff->data);
           find_xes_in_all_measures (si);
           break;
         case DYNAMIC:

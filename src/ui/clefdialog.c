@@ -107,7 +107,7 @@ dnm_setinitialclef (DenemoMovement * si, DenemoStaff * curstaffstruct, enum clef
 {
   curstaffstruct->clef.type = clef;
   find_leftmost_staffcontext (curstaffstruct, si);
-  fixnoteheights (curstaffstruct);
+  staff_fix_note_heights (curstaffstruct);
   find_xes_in_all_measures (si);
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);

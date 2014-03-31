@@ -145,13 +145,13 @@ insert_keysig (keysig_data * kdata)
         {
           for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
             {
-              curmeasure = g_list_nth (firstmeasurenode (curstaff), si->currentmeasurenum - 1);
+              curmeasure = g_list_nth (staff_first_measure_node (curstaff), si->currentmeasurenum - 1);
               if (curmeasure)
                 {
                   curmeasure->data = g_list_insert ((objnode *) curmeasure->data, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode), si->cursor_x);
                   if (curmeasure == si->currentmeasure)
                     si->currentobject = g_list_nth ((objnode *) curmeasure->data, si->cursor_x);
-                  showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
+                  staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
                 }
             }                   /* End for */
         }                       /* End if */
@@ -159,7 +159,7 @@ insert_keysig (keysig_data * kdata)
         {
 
           object_insert (Denemo.project, newkey = dnm_newkeyobj (tokey - mode, isminor, mode));
-          showwhichaccidentalswholestaff ((DenemoStaff *) si->currentstaff->data);
+          staff_show_which_accidentals ((DenemoStaff *) si->currentstaff->data);
         }
       si->cursor_appending = FALSE;
       if (newkey)
@@ -246,7 +246,7 @@ key_change_insert (GtkAction * action, DenemoScriptParam * param)
       if (valid)
         {
           object_insert (gui, dnm_newkeyobj (tokey, isminor, 0));
-          showwhichaccidentalswholestaff (gui->movement->currentstaff->data);
+          staff_show_which_accidentals (gui->movement->currentstaff->data);
           displayhelper (gui);
         }
       gchar *key;

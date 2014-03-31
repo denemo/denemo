@@ -2654,7 +2654,7 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoProject * gui)
   /* Create the staff structure. */
 
   si->currentstaffnum++;
-  newstaff (gui, ADDFROMLOAD, DENEMO_NONE);
+  staff_new (gui, ADDFROMLOAD, DENEMO_NONE);
   si->currentstaff = g_list_last (si->thescore);
   si->currentmeasurenum = 1;
   Lyric = g_string_new ("");
@@ -2802,8 +2802,8 @@ parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoProject * gui, ImportTyp
     }
   for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
     {
-      beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
-      showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
+      staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
+      staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
     }
   find_xes_in_all_measures (si);
   find_leftmost_allcontexts (si);

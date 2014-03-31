@@ -295,7 +295,7 @@ goto_currentstaffnum (DenemoProject * gui, gint dest, gboolean extend_selection)
     {
       gui->movement->currentstaffnum = dest;
       gui->movement->currentstaff = g_list_nth (gui->movement->thescore, gui->movement->currentstaffnum - 1);
-      setcurrentprimarystaff (gui->movement);
+      staff_set_current_primary (gui->movement);
       setcurrents (gui->movement);
       if (extend_selection)
         calcmarkboundaries (gui->movement);
@@ -344,7 +344,7 @@ vertical_scroll (GtkAdjustment * adjust, gpointer dummy)
         {
           gui->movement->currentstaffnum = gui->movement->bottom_staff;
           gui->movement->currentstaff = g_list_nth (gui->movement->thescore, gui->movement->bottom_staff - 1);
-          setcurrentprimarystaff (gui->movement);
+          staff_set_current_primary (gui->movement);
           setcurrents (gui->movement);
           if (gui->movement->markstaffnum)
             calcmarkboundaries (gui->movement);
@@ -353,7 +353,7 @@ vertical_scroll (GtkAdjustment * adjust, gpointer dummy)
         {
           gui->movement->currentstaffnum = gui->movement->top_staff;
           gui->movement->currentstaff = g_list_nth (gui->movement->thescore, gui->movement->top_staff - 1);
-          setcurrentprimarystaff (gui->movement);
+          staff_set_current_primary (gui->movement);
           setcurrents (gui->movement);
           if (gui->movement->markstaffnum)
             calcmarkboundaries (gui->movement);
