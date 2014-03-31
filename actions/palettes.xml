@@ -136,8 +136,9 @@
   <palette _name="Repeats" row-wise="1" limit="1" dock="0" hidden="1">
     <button label="1&#xB0;" _tooltip="(Print) start a first time bar, must be followed by EndVolta." script="(d-OpenFirstTimeBar)"/>
     <button label="2&#xB0;" _tooltip="(Print) start a second time bar, must be followed by EndVolta" script="(d-OpenSecondTimeBar)"/>
-    <button label="1&#xB0;/2&#xB0; ]" _tooltip="Ends a volta, that is a n'th time bar" script="(d-EndVolta)"/>
+    <button label="1&#xB0;/2&#xB0; &#xAC;" _tooltip="Ends a volta, that is a n'th time bar" script="(d-EndVolta)"/>
     <button label="1&#xB0; &amp;amp; 2&#xB0;" _tooltip="Inserts first and second time bars each with a whole measure rest. You can then edit this to suit your music, e.g by inserting extra bars, deleting the repeat start etc." script="(d-InsertFirstAndSecondTimeBars)"/>
+    <button label="1,2" _tooltip="Start passage to be played on one or more of the repeats as indicated by the text given by the user (e.g. 3 for third time bar). Finish the passage by placing the End ... time bar command." script="(d-OpenNthTimeBar)"/>
   </palette>
   <palette _name="Beaming" row-wise="1" limit="1" dock="0" hidden="1">
     <button label="?" _tooltip="Help with beaming commands." script="(d-InfoDialog &#10;&quot;Beaming commands affect the printed score, not the Denemo display which uses a simple beaming method for quick note entry. You may find it easier to use the beaming commands directly on the typeset score - right click to select a beamed note and right click on the selection box to choose a beaming command.&quot;)"/>
