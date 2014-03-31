@@ -767,16 +767,16 @@ SCM scheme_MoveToVoiceDown (SCM optional) {
   return scheme_call_callback(optional, movetovoicedown);
 }
 SCM scheme_AddBefore (SCM optional) {
-  return scheme_call_callback(optional, newstaffbefore);
+  return scheme_call_callback(optional, staff_new_before);
 }
 SCM scheme_AddAfter (SCM optional) {
-  return scheme_call_callback(optional, dnm_newstaffafter);
+  return scheme_call_callback(optional, staff_new_after);
 }
 SCM scheme_AddInitial (SCM optional) {
-  return scheme_call_callback(optional, newstaffinitial);
+  return scheme_call_callback(optional, staff_new_initial);
 }
 SCM scheme_AddLast (SCM optional) {
-  return scheme_call_callback(optional, newstafflast);
+  return scheme_call_callback(optional, staff_new_last);
 }
 SCM scheme_DeleteBefore (SCM optional) {
   return scheme_call_callback(optional, delete_staff_before);
@@ -788,7 +788,7 @@ SCM scheme_DeleteAfter (SCM optional) {
   return scheme_call_callback(optional, delete_staff_after);
 }
 SCM scheme_AddVoice (SCM optional) {
-  return scheme_call_callback(optional, dnm_newstaffvoice);
+  return scheme_call_callback(optional, staff_new_voice);
 }
 SCM scheme_StaffProperties (SCM optional) {
   return scheme_call_callback(optional, staff_properties_change_cb);

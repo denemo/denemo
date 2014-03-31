@@ -60,7 +60,7 @@ void
 point_to_new_movement (DenemoProject * gui)
 {
   point_to_empty_movement (gui);
-  newstaff (gui, INITIAL, DENEMO_NONE);
+  staff_new (gui, INITIAL, DENEMO_NONE);
   gui->movement->undo_guard = Denemo.prefs.disable_undo;
 }
 
@@ -164,7 +164,7 @@ new_movement (GtkAction * action, DenemoScriptParam * param, gboolean before)
   gui->movements = g_list_delete_link (gui->movements, g_list_last (gui->movements));
   gui->movements = g_list_insert (gui->movements, newsi, before ? pos : pos + 1);
   newsi->currentmovementnum = 1 + g_list_index (gui->movements, newsi);
-  setcurrentprimarystaff (gui->movement);
+  staff_set_current_primary (gui->movement);
   //gui->movements_selector = NULL;
   set_movement_selector (gui);
   
@@ -187,12 +187,12 @@ append_movement (GtkAction * action, gpointer param, gboolean populate)
   for (g = source_movement->thescore; g; g = g->next)
     {
       DenemoStaff *source_staff = g->data;
-      newstaff (gui, LAST, DENEMO_NONE);
+      staff_new (gui, LAST, DENEMO_NONE);
       if (!populate)
         break;
       GList *dest = g_list_last (gui->movement->thescore);
       DenemoStaff *dest_staff = dest->data;
-      copy_staff (source_staff, dest_staff);
+      staff_copy (source_staff, dest_staff);
     }
   gui->movements = g_list_append (gui->movements, gui->movement);
   gui->movement->currentmovementnum = 1 + g_list_index (gui->movements, gui->movement);
@@ -642,7 +642,7 @@ delete_all_staffs (DenemoProject * gui)
     {
       si->currentstaffnum = i;
       si->currentstaff = g_list_nth (si->thescore, i - 1);
-      deletestaff (gui, FALSE);
+      staff_delete (gui, FALSE);
     }
   return TRUE;
 }
@@ -711,7 +711,7 @@ clone_movement (DenemoMovement * si)
     {
       DenemoStaff *thestaff = (DenemoStaff *) g_malloc (sizeof (DenemoStaff));
       DenemoStaff *srcStaff = (DenemoStaff *) g->data;
-      // copy_staff(srcStaff, thestaff);!!!!!! does not copy e.g. no of lines ... need proper clone code.
+      // staff_copy(srcStaff, thestaff);!!!!!! does not copy e.g. no of lines ... need proper clone code.
       memcpy (thestaff, srcStaff, sizeof (DenemoStaff));
 
       thestaff->denemo_name = g_string_new (srcStaff->denemo_name->str);
@@ -856,15 +856,15 @@ updatescoreinfo (DenemoProject * gui)
     {
       for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
         {
-          beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
-          showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
+          staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
+          staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
         }
       find_xes_in_all_measures (si);
       find_leftmost_allcontexts (si);
 
       si->currentstaff = si->thescore;
-      si->currentmeasure = firstmeasurenode (si->currentstaff);
-      si->currentobject = firstobjnode (si->currentmeasure);
+      si->currentmeasure = staff_first_measure_node (si->currentstaff);
+      si->currentobject = measure_first_obj_node (si->currentmeasure);
       if (!si->currentobject)
         si->cursor_appending = TRUE;
       else

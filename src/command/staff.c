@@ -25,27 +25,13 @@
 #include "core/utils.h"
 #include "command/lyric.h"
 
-/**
- * Return the first object node of the given measure
- * @param mnode a measurenode
- * @return the first object node of the measure
- */
-objnode *
-firstobjnode (measurenode * mnode)
+gboolean
+signal_structural_change (DenemoProject * project)
 {
-  return (objnode *) mnode->data;
+  project->layout_sync = project->changecount;
+  return TRUE;
 }
 
-/**
- * Return the last object node of the given measure
- * @param mnode a measurenode
- * @return the last object node of the measure
- */
-objnode *
-lastobjnode (measurenode * mnode)
-{
-  return g_list_last ((objnode *) mnode->data);
-}
 
 /**
  * Return the first measure node of the given staffops
@@ -53,7 +39,7 @@ lastobjnode (measurenode * mnode)
  * @return the first measure node of the staff
  */
 measurenode *
-firstmeasurenode (staffnode * thestaff)
+staff_first_measure_node (staffnode * thestaff)
 {
   return ((DenemoStaff *) thestaff->data)->measures;
 }
@@ -65,32 +51,21 @@ firstmeasurenode (staffnode * thestaff)
  * @return the nth measure of the staff
  */
 measurenode *
-nth_measure_node_in_staff (staffnode * thestaff, gint n)
+staff_nth_measure_node (staffnode * thestaff, gint n)
 {
   return g_list_nth (((DenemoStaff *) thestaff->data)->measures, n);
 }
 
 /**
- * Return the first object node in the given staff
- * @param thestaff a staffnode
- * @return the first object node of the staff
- */
-objnode *
-firstobjnodeinstaff (staffnode * thestaff)
-{
-  return firstobjnode (firstmeasurenode (thestaff));
-}
-
-/**
- * Reset si->currentprimarystaff based on current value of
- * si->currentstaff 
- * @param si a scoreinfo structure
+ * Reset movement->currentprimarystaff based on current value of
+ * movement->currentstaff 
+ * @param movement a scoreinfo structure
  * @return none
  */
 void
-setcurrentprimarystaff (DenemoMovement * si)
+staff_set_current_primary (DenemoMovement * movement)
 {
-  for (si->currentprimarystaff = si->currentstaff; !((DenemoStaff *) si->currentprimarystaff->data)->voicecontrol & DENEMO_PRIMARY; si->currentprimarystaff = si->currentprimarystaff->prev)
+  for (movement->currentprimarystaff = movement->currentstaff; !((DenemoStaff *) movement->currentprimarystaff->data)->voicecontrol & DENEMO_PRIMARY; movement->currentprimarystaff = movement->currentprimarystaff->prev)
     ;
 }
 
@@ -101,7 +76,7 @@ setcurrentprimarystaff (DenemoMovement * si)
  * @return none
  */
 static void
-copy_staff_bits (DenemoStaff * src, DenemoStaff * dest)
+staff_copy_bits (DenemoStaff * src, DenemoStaff * dest)
 {
   dest->clef.type = src->clef.type;     //other fields - take care if dynamic
   dest->keysig.number = src->keysig.number;
@@ -125,11 +100,8 @@ copy_staff_bits (DenemoStaff * src, DenemoStaff * dest)
  * @return none
  */
 static void
-copy_staff_properties (DenemoStaff * src, DenemoStaff * dest)
+staff_copy_properties (DenemoStaff * src, DenemoStaff * dest)
 {
-
-
-
   dest->midi_instrument = g_string_new (src->midi_instrument->str);
   dest->space_above = src->space_above;
   dest->space_below = src->space_below;
@@ -138,8 +110,7 @@ copy_staff_properties (DenemoStaff * src, DenemoStaff * dest)
 
   dest->volume = src->volume;
   dest->voicecontrol = DENEMO_SECONDARY;
-  beamsandstemdirswholestaff (dest);
-
+  staff_beams_and_stems_dirs (dest);
 }
 
 static void create_menus (DenemoStaff *dest)
@@ -154,7 +125,7 @@ static void create_menus (DenemoStaff *dest)
 
 /* copies a staff without its music data to another staff */
 void
-copy_staff (DenemoStaff * src, DenemoStaff * dest)
+staff_copy (DenemoStaff * src, DenemoStaff * dest)
 {
   dest->denemo_name = g_string_new (src->denemo_name->str);
   dest->lily_name = g_string_new (src->lily_name->str);
@@ -192,114 +163,112 @@ copy_staff (DenemoStaff * src, DenemoStaff * dest)
 
 /**
  * Insert a new staff into the score
- * @param si the scoreinfo structure
- * @param thestaffstruct the staff to insert
+ * @param movement the scoreinfo structure
+ * @param staff the staff to insert
  * @param action where to insert the new staff
  * @param addat the position to insert at
  * @return none
  */
 static void
-insert_staff (DenemoMovement * si, DenemoStaff * thestaffstruct, enum newstaffcallbackaction action, gint addat)
+staff_insert (DenemoMovement * movement, DenemoStaff * staff, enum newstaffcallbackaction action, gint addat)
 {
-  si->thescore = g_list_insert (si->thescore, thestaffstruct, addat - 1);
+  movement->thescore = g_list_insert (movement->thescore, staff, addat - 1);
   if (action != BEFORE)
     if (action != AFTER)
       {
-        si->currentstaff = g_list_nth (si->thescore, addat - 1);
-        si->currentstaffnum = addat;
-        setcurrentprimarystaff (si);
-        find_leftmost_staffcontext (thestaffstruct, si);
+        movement->currentstaff = g_list_nth (movement->thescore, addat - 1);
+        movement->currentstaffnum = addat;
+        staff_set_current_primary (movement);
+        find_leftmost_staffcontext (staff, movement);
       }
   set_staff_transition (20);
 }
 
-
-
 /**
  * Create and insert a new staff into the score
- * @param si the scoreinfo structure
+ * @param movement the scoreinfo structure
  * @param action the staffs type / where to insert it
  * @param context the staffs contexts
- * @return none
+ * @return the newly created staff
  */
-void
-newstaff (DenemoProject * gui, enum newstaffcallbackaction action, DenemoContext context)
+DenemoStaff*
+staff_new (DenemoProject * project, enum newstaffcallbackaction action, DenemoContext context)
 {
-  DenemoMovement *si = gui->movement;
-  g_assert (si != NULL);
+  DenemoMovement *movement = project->movement;
+  g_assert (movement != NULL);
   take_snapshot ();
-  DenemoStaff *thestaffstruct = (DenemoStaff *) g_malloc (sizeof (DenemoStaff));
+  DenemoStaff *staff = (DenemoStaff *) g_malloc (sizeof (DenemoStaff));
 
   if(!Denemo.non_interactive){
-    thestaffstruct->staffmenu = (GtkMenu *) gtk_menu_new ();
-    thestaffstruct->voicemenu = (GtkMenu *) gtk_menu_new ();
+    staff->staffmenu = (GtkMenu *) gtk_menu_new ();
+    staff->voicemenu = (GtkMenu *) gtk_menu_new ();
   }
 
   measurenode *themeasures = NULL;      /* Initial set of measures in staff */
-  gint numstaffs = g_list_length (si->thescore);
+  gint numstaffs = g_list_length (movement->thescore);
   gint i, addat = 1;
-  if (si->lily_file){
-    g_free (thestaffstruct);
-    return;          /* no code for this yet - just edit textually */
+  if (movement->lily_file){
+    g_free (staff);
+    return NULL;          /* no code for this yet - just edit textually */
   }
   g_debug ("newstaff: Num staffs %d", numstaffs);
   if (numstaffs == 0)
     {
       action = INITIAL;
 
-      thestaffstruct->clef.type = DENEMO_TREBLE_CLEF;
-      thestaffstruct->keysig.number = 0;
-      thestaffstruct->keysig.isminor = FALSE;
-      memset (thestaffstruct->keysig.accs, 0, SEVENGINTS);
-      thestaffstruct->timesig.time1 = 4;
-      thestaffstruct->timesig.time2 = 4;
-      thestaffstruct->volume = 127;
-      thestaffstruct->no_of_lines = 5;
-      thestaffstruct->transposition = 0;
+      staff->clef.type = DENEMO_TREBLE_CLEF;
+      staff->keysig.number = 0;
+      staff->keysig.isminor = FALSE;
+      memset (staff->keysig.accs, 0, SEVENGINTS);
+      staff->timesig.time1 = 4;
+      staff->timesig.time2 = 4;
+      staff->volume = 127;
+      staff->no_of_lines = 5;
+      staff->transposition = 0;
 
-      thestaffstruct->space_above = 20;
-      thestaffstruct->space_below = 0;
-      thestaffstruct->nummeasures = 1;
-      thestaffstruct->midi_channel = 0;
+      staff->space_above = 20;
+      staff->space_below = 0;
+      staff->nummeasures = 1;
+      staff->midi_channel = 0;
 #if 0
-      si->measurewidths = g_list_append (si->measurewidths, GINT_TO_POINTER (si->measurewidth));
+      movement->measurewidths = g_list_append (movement->measurewidths, GINT_TO_POINTER (movement->measurewidth));
 #else
-      si->measurewidths = g_list_append (NULL, GINT_TO_POINTER (si->measurewidth));     //FIXME free old measurewidths
+      movement->measurewidths = g_list_append (NULL, GINT_TO_POINTER (movement->measurewidth));     //FIXME free old measurewidths
 #endif
     }
   else
     {
       /* how did this work before? a new staff must have the same number of measures as the present one(s) */
-      thestaffstruct->nummeasures = g_list_length (firstmeasurenode (si->thescore));
-      copy_staff_bits ((DenemoStaff *) si->currentstaff->data, thestaffstruct);
-      thestaffstruct->midi_channel = (numstaffs < 9 ? numstaffs : numstaffs + 1) & 0xF;
+      staff->nummeasures = g_list_length (staff_first_measure_node (movement->thescore));
+      staff_copy_bits ((DenemoStaff *) movement->currentstaff->data, staff);
+      staff->midi_channel = (numstaffs < 9 ? numstaffs : numstaffs + 1) & 0xF;
     }
 
   if (action == NEWVOICE)
     {
-      thestaffstruct->voicecontrol = DENEMO_SECONDARY;
-      thestaffstruct->nummeasures = g_list_length (firstmeasurenode (si->currentstaff));        //FIXME redundant
+      staff->voicecontrol = DENEMO_SECONDARY;
+      staff->nummeasures = g_list_length (staff_first_measure_node (movement->currentstaff));        //FIXME redundant
     }
   else
     {
-      thestaffstruct->voicecontrol = DENEMO_PRIMARY;
+      staff->voicecontrol = DENEMO_PRIMARY;
     };
 
-  for (i = 0; i < thestaffstruct->nummeasures; i++)
+  for (i = 0; i < staff->nummeasures; i++)
     {
       themeasures = g_list_append (themeasures, NULL);
     };
 
   if (action == INITIAL || action == ADDFROMLOAD)
     {
-      si->currentmeasure = themeasures;
+      movement->currentmeasure = themeasures;
     }
 
 #if 0
   // always go home for new staffs.
   else
     {
-      si->currentmeasure = g_list_nth (themeasures, si->currentmeasurenum - 1);
+      movement->currentmeasure = g_list_nth (themeasures, movement->currentmeasurenum - 1);
 
     }
 #endif
@@ -308,25 +277,25 @@ newstaff (DenemoProject * gui, enum newstaffcallbackaction action, DenemoContext
    * the current staff, if this staff was non-initial and that
    * was done to begin with */
 
-  thestaffstruct->measures = themeasures;
-  thestaffstruct->denemo_name = g_string_new (NULL);
-  thestaffstruct->lily_name = g_string_new (NULL);
+  staff->measures = themeasures;
+  staff->denemo_name = g_string_new (NULL);
+  staff->lily_name = g_string_new (NULL);
 
-  //thestaffstruct->staff_prolog = NULL;
-  // thestaffstruct->lyrics_prolog = NULL;
-  //thestaffstruct->figures_prolog = NULL;
-  //thestaffstruct->fakechords_prolog = NULL;
-  thestaffstruct->context = context;
+  //staff->staff_prolog = NULL;
+  // staff->lyrics_prolog = NULL;
+  //staff->figures_prolog = NULL;
+  //staff->fakechords_prolog = NULL;
+  staff->context = context;
   if (action == NEWVOICE)
-    g_string_sprintf (thestaffstruct->denemo_name, _("poly voice %d"), numstaffs + 1);
+    g_string_sprintf (staff->denemo_name, _("poly voice %d"), numstaffs + 1);
   else if (action == INITIAL)
-    g_string_sprintf (thestaffstruct->denemo_name, _("Unnamed"));
+    g_string_sprintf (staff->denemo_name, _("Unnamed"));
   else
-    g_string_sprintf (thestaffstruct->denemo_name, _("voice %d"), numstaffs + 1);
-  set_lily_name (thestaffstruct->denemo_name, thestaffstruct->lily_name);
-  thestaffstruct->midi_instrument = g_string_new ("");
-  thestaffstruct->device_port = g_string_new ("NONE");
-  thestaffstruct->leftmost_timesig = &thestaffstruct->timesig;
+    g_string_sprintf (staff->denemo_name, _("voice %d"), numstaffs + 1);
+  set_lily_name (staff->denemo_name, staff->lily_name);
+  staff->midi_instrument = g_string_new ("");
+  staff->device_port = g_string_new ("NONE");
+  staff->leftmost_timesig = &staff->timesig;
 
   /* In what position should the scrollbar be added?  */
   switch (action)
@@ -339,16 +308,16 @@ newstaff (DenemoProject * gui, enum newstaffcallbackaction action, DenemoContext
       addat = numstaffs + 1;
       break;
     case BEFORE:
-      addat = si->currentstaffnum;
+      addat = movement->currentstaffnum;
       break;
     case AFTER:
     case NEWVOICE:
     case LYRICSTAFF:
     case FIGURESTAFF:
-      addat = si->currentstaffnum + 1;
+      addat = movement->currentstaffnum + 1;
       break;
     case CHORDSTAFF:
-      addat = si->currentstaffnum + 1;
+      addat = movement->currentstaffnum + 1;
       break;
     case FIRST:
       addat = 1;
@@ -361,9 +330,9 @@ newstaff (DenemoProject * gui, enum newstaffcallbackaction action, DenemoContext
     {
       if (action == NEWVOICE)
         {
-          copy_staff_properties ((DenemoStaff *) si->currentstaff->data, thestaffstruct);
-          set_lily_name (thestaffstruct->denemo_name, thestaffstruct->lily_name);       //this should be re-done if the denemo_name is reset.
-          insert_staff (si, thestaffstruct, action, addat);
+          staff_copy_properties ((DenemoStaff *) movement->currentstaff->data, staff);
+          set_lily_name (staff->denemo_name, staff->lily_name);       //this should be re-done if the denemo_name is reset.
+          staff_insert (movement, staff, action, addat);
         }
       else
         {
@@ -375,13 +344,13 @@ newstaff (DenemoProject * gui, enum newstaffcallbackaction action, DenemoContext
                then the staff should probably be removed
                Fixed 09042005 Adam Tee 
              */
-            insert_staff (si, thestaffstruct, action, addat);
-            si->currentmeasurenum = 1;
+            staff_insert (movement, staff, action, addat);
+            movement->currentmeasurenum = 1;
             /*
                Reset leftmeasure num to 1 to be at the start of 
                the next staff. 
              */
-            si->leftmeasurenum = 1;
+            movement->leftmeasurenum = 1;
           }
           //    else
           //      {
@@ -389,44 +358,37 @@ newstaff (DenemoProject * gui, enum newstaffcallbackaction action, DenemoContext
            *  Free the staff struct as it has not been inserted 
            *  into the score
            */
-          //     g_free (thestaffstruct);
+          //     g_free (staff);
           //  }
         }
     }
   else                          // is INITIAL or ADDFROMLOAD
     {
-      insert_staff (si, thestaffstruct, action, addat);
-      si->leftmeasurenum = 1;
+      staff_insert (movement, staff, action, addat);
+      movement->leftmeasurenum = 1;
     }
   if ( addat==1)
-       thestaffstruct->space_above = 20;
-  //si->haschanged = TRUE;
-}
+       staff->space_above = 20;
 
-
-gboolean
-signal_structural_change (DenemoProject * gui)
-{
-  gui->layout_sync = gui->changecount;
-  return TRUE;
+  return staff;
 }
 
 /**
- * Remove the gui->movement->currentstaff from the piece gui and reset si->currentstaff
+ * Remove the project->movement->currentstaff from the piece project and reset movement->currentstaff
  * if only one staff, inserts a new empty one
  * if interactive checks for custom_scoreblock
  * if a staff is deleted, updates the changecount
- * @param gui the DenemoProject structure
+ * @param project the DenemoProject structure
  * @return nothing
  */
 void
-deletestaff (DenemoProject * gui, gboolean interactive)
+staff_delete (DenemoProject * project, gboolean interactive)
 {
-  DenemoMovement *si = gui->movement;
-  DenemoStaff *curstaffstruct = si->currentstaff->data;
-  gboolean has_next = (si->currentstaff->next != NULL);
-  (void) signal_structural_change (gui);
-  if (si->currentstaff == NULL)
+  DenemoMovement *movement = project->movement;
+  DenemoStaff *curstaffstruct = movement->currentstaff->data;
+  gboolean has_next = (movement->currentstaff->next != NULL);
+  (void) signal_structural_change (project);
+  if (movement->currentstaff == NULL)
     return;
 
   gboolean give_info = FALSE;   //give info about removing matching context
@@ -459,40 +421,38 @@ deletestaff (DenemoProject * gui, gboolean interactive)
   g_free (curstaffstruct);
 
 
-
-
-  if (si->currentstaff == g_list_last (si->thescore))
-    si->currentstaffnum--;      //deleting the last, so the currentstaffnum must decrease
+  if (movement->currentstaff == g_list_last (movement->thescore))
+    movement->currentstaffnum--;      //deleting the last, so the currentstaffnum must decrease
   else
     set_staff_transition (20);
-  si->thescore = g_list_delete_link (si->thescore, si->currentstaff);
-  if (si->thescore == NULL)
+  movement->thescore = g_list_delete_link (movement->thescore, movement->currentstaff);
+  if (movement->thescore == NULL)
     {
-      newstaff (gui, INITIAL, DENEMO_NONE);
+      staff_new (project, INITIAL, DENEMO_NONE);
     }
-  si->currentstaff = g_list_nth (si->thescore, si->currentstaffnum - 1);
+  movement->currentstaff = g_list_nth (movement->thescore, movement->currentstaffnum - 1);
 
 
   if (isprimary && has_next)                // we deleted the primary, so the next one (which is present) must become the primary
     {
-      ((DenemoStaff *) si->currentstaff->data)->voicecontrol = DENEMO_PRIMARY;
-      si->currentprimarystaff = si->currentstaff;
+      ((DenemoStaff *) movement->currentstaff->data)->voicecontrol = DENEMO_PRIMARY;
+      movement->currentprimarystaff = movement->currentstaff;
     }
   else
     {
-      setcurrentprimarystaff (si);
+      staff_set_current_primary (movement);
     }
-  setcurrents (si);
-  if (si->markstaffnum)
-    calcmarkboundaries (si);
-  if (gui->movement->currentstaffnum < gui->movement->top_staff)
-    gui->movement->top_staff = gui->movement->currentstaffnum;
+  setcurrents (movement);
+  if (movement->markstaffnum)
+    calcmarkboundaries (movement);
+  if (project->movement->currentstaffnum < project->movement->top_staff)
+    project->movement->top_staff = project->movement->currentstaffnum;
   show_lyrics ();
 
   if(!Denemo.non_interactive){
-    update_vscrollbar (gui);
-    displayhelper (gui);
-    score_status (gui, TRUE);
+    update_vscrollbar (project);
+    displayhelper (project);
+    score_status (project, TRUE);
   }
   
   if (give_info)
@@ -506,7 +466,7 @@ deletestaff (DenemoProject * gui, gboolean interactive)
  * @return none
  */
 void
-beamsandstemdirswholestaff (DenemoStaff * thestaff)
+staff_beams_and_stems_dirs (DenemoStaff * thestaff)
 {
   measurenode *curmeasure;
   gint nclef, time1, time2, stem_directive;
@@ -528,7 +488,7 @@ beamsandstemdirswholestaff (DenemoStaff * thestaff)
  * @return none
  */
 void
-showwhichaccidentalswholestaff (DenemoStaff * thestaff)
+staff_show_which_accidentals (DenemoStaff * thestaff)
 {
   gint feed[7];
   gint feednum;
@@ -546,7 +506,7 @@ showwhichaccidentalswholestaff (DenemoStaff * thestaff)
  * @return none 
  */
 void
-fixnoteheights (DenemoStaff * thestaff)
+staff_fix_note_heights (DenemoStaff * thestaff)
 {
   gint nclef = thestaff->clef.type;
   //gint time1 = thestaff->stime1;//USELESS
@@ -579,104 +539,102 @@ fixnoteheights (DenemoStaff * thestaff)
             }
         }                       /* End for */
     }                           /* End for */
-  beamsandstemdirswholestaff (thestaff);
+  staff_beams_and_stems_dirs (thestaff);
 }
-
-
 
 /**
  * Callback function to insert a staff in the initial position
  * @param action a Gtk Action
- * @param gui the DenemoProject structure
+ * @param project the DenemoProject structure
  * @return none
  */
 void
-newstaffinitial (GtkAction * action, DenemoScriptParam * param)
+staff_new_initial (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoProject *gui = Denemo.project;
-  while (gui->movement->currentstaff && gui->movement->currentstaff->prev)
+  DenemoProject *project = Denemo.project;
+  while (project->movement->currentstaff && project->movement->currentstaff->prev)
     movetostaffup (NULL, NULL);
-  newstaffbefore (action, NULL);
+  staff_new_before (action, NULL);
 }
 
 /**
  Callback function to insert a staff before the current staff
  * @param action a Gtk Action
- * @param gui the DenemoProject structure
+ * @param project the DenemoProject structure
  * @return none
  */
 void
-newstaffbefore (GtkAction * action, DenemoScriptParam * param)
+staff_new_before (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoProject *gui = Denemo.project;
-  (void) signal_structural_change (gui);
+  DenemoProject *project = Denemo.project;
+  (void) signal_structural_change (project);
 
   movetostart (NULL, NULL);
-  newstaff (gui, BEFORE, DENEMO_NONE);
-  if (gui->movement->currentstaffnum >= gui->movement->top_staff)
-    gui->movement->top_staff++;
-  gui->movement->currentstaffnum++;
-  gui->movement->bottom_staff++;
-  set_bottom_staff (gui);
-  move_viewport_down (gui);
+  staff_new (project, BEFORE, DENEMO_NONE);
+  if (project->movement->currentstaffnum >= project->movement->top_staff)
+    project->movement->top_staff++;
+  project->movement->currentstaffnum++;
+  project->movement->bottom_staff++;
+  set_bottom_staff (project);
+  move_viewport_down (project);
 
   movetostaffup (NULL, NULL);
-  displayhelper (gui);
+  displayhelper (project);
 
 }
 
 /**
  * Callback function to insert a staff after the current staff
  * @param action a Gtk Action
- * @param gui the DenemoProject structure
+ * @param project the DenemoProject structure
  * @return none
  */
 void
-dnm_newstaffafter (GtkAction * action, DenemoScriptParam * param)
+staff_new_after (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoProject *gui = Denemo.project;
-  if (!signal_structural_change (gui))
+  DenemoProject *project = Denemo.project;
+  if (!signal_structural_change (project))
     return;
   movetostart (NULL, NULL);
-  newstaff (gui, AFTER, DENEMO_NONE);
+  staff_new (project, AFTER, DENEMO_NONE);
   if(!Denemo.non_interactive){
-    set_bottom_staff (gui);
-    update_vscrollbar (gui);
+    set_bottom_staff (project);
+    update_vscrollbar (project);
   }
   movetostaffdown (NULL, NULL);
-  displayhelper (gui);
+  displayhelper (project);
 }
 
 /**
  * Callback function to insert a staff at the bottom of the score
  * @param action a Gtk Action
- * @param gui the DenemoProject structure
+ * @param project the DenemoProject structure
  * @return none
  */
 void
-newstafflast (GtkAction * action, DenemoScriptParam * param)
+staff_new_last (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoProject *gui = Denemo.project;
-  while (gui->movement->currentstaff && gui->movement->currentstaff->next)
+  DenemoProject *project = Denemo.project;
+  while (project->movement->currentstaff && project->movement->currentstaff->next)
     movetostaffdown (NULL, NULL);
-  dnm_newstaffafter (action, param);
+  staff_new_after (action, param);
 }
 
 /**
  * Callback function to add a new voice to the current staff
  * @param action a Gtk Action
- * @param gui the DenemoProject structure
+ * @param project the DenemoProject structure
  * @return none
  */
 void
-dnm_newstaffvoice (GtkAction * action, DenemoScriptParam * param)
+staff_new_voice (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoProject *gui = Denemo.project;
-  newstaff (gui, NEWVOICE, DENEMO_NONE);
-  set_bottom_staff (gui);
-  update_vscrollbar (gui);
-  setcurrents (gui->movement);
-  if (gui->movement->markstaffnum)
-    calcmarkboundaries (gui->movement);
-  displayhelper (gui);
+  DenemoProject *project = Denemo.project;
+  staff_new (project, NEWVOICE, DENEMO_NONE);
+  set_bottom_staff (project);
+  update_vscrollbar (project);
+  setcurrents (project->movement);
+  if (project->movement->markstaffnum)
+    calcmarkboundaries (project->movement);
+  displayhelper (project);
 }

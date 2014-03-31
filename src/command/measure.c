@@ -46,14 +46,14 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
           for (j = 1, curstaff = si->thescore; curstaff; j++, curstaff = curstaff->next)
             {
               store_for_undo_measure_insert (si, j, pos);
-              ((DenemoStaff *) curstaff->data)->measures = g_list_insert (firstmeasurenode (curstaff), barlinenode, pos);
+              ((DenemoStaff *) curstaff->data)->measures = g_list_insert (staff_first_measure_node (curstaff), barlinenode, pos);
               ((DenemoStaff *) curstaff->data)->nummeasures++;
             }
         }
       else
         {
           store_for_undo_measure_insert (si, si->currentstaffnum, pos);
-          ((DenemoStaff *) si->currentstaff->data)->measures = g_list_insert (firstmeasurenode (si->currentstaff), barlinenode, pos);
+          ((DenemoStaff *) si->currentstaff->data)->measures = g_list_insert (staff_first_measure_node (si->currentstaff), barlinenode, pos);
           ((DenemoStaff *) si->currentstaff->data)->nummeasures++;
         }
 
@@ -71,7 +71,7 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
 
     }
   set_measure_transition (-20 * nummeasures, all);
-  measurenode *ret = g_list_nth (firstmeasurenode (si->currentstaff), pos);
+  measurenode *ret = g_list_nth (staff_first_measure_node (si->currentstaff), pos);
 //  displayhelper (Denemo.project);
  // score_status(Denemo.project, TRUE);
 //check not returning NULL!!!!
@@ -79,7 +79,7 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
   if (ret)
     return ret;
   g_warning ("Add measures was going to return NULL");
-  return g_list_last (firstmeasurenode (si->currentstaff));
+  return g_list_last (staff_first_measure_node (si->currentstaff));
 }
 
 measurenode *
@@ -134,7 +134,7 @@ staffremovemeasures (staffnode * curstaff, guint pos)
     {
       ((DenemoStaff *) curstaff->data)->measures = *((DenemoStaff *) curstaff->data)->is_parasite;
     }
-  firstmeasure = firstmeasurenode (curstaff);
+  firstmeasure = staff_first_measure_node (curstaff);
   delmeasure = g_list_nth (firstmeasure, pos);
   if (delmeasure)
     {
@@ -150,7 +150,7 @@ staffremovemeasures (staffnode * curstaff, guint pos)
       ((DenemoStaff *) curstaff->data)->nummeasures--;
     }
 //if the removed measures have a clef change in them the noteheights may need to change so...  
-  fixnoteheights (curstaff->data);
+  staff_fix_note_heights (curstaff->data);
 }
 
 /**
@@ -171,7 +171,7 @@ removemeasures (DenemoMovement * si, guint pos, guint nummeasures, gboolean all)
   guint totalmeasures = 0;
   guint i;
 
-  if (nummeasures <= g_list_length (firstmeasurenode ((staffnode *) si->currentstaff)) - pos)
+  if (nummeasures <= g_list_length (staff_first_measure_node ((staffnode *) si->currentstaff)) - pos)
     {
       for (i = 0; i < nummeasures; i++)
         {
@@ -181,7 +181,7 @@ removemeasures (DenemoMovement * si, guint pos, guint nummeasures, gboolean all)
               if (curstaff == si->currentstaff || all)
                 {
                   staffremovemeasures (curstaff, pos);
-                  if (!firstmeasurenode (curstaff))
+                  if (!staff_first_measure_node (curstaff))
                     {
                       ((DenemoStaff *) curstaff->data)->measures = g_list_append (NULL, NULL);
                       ((DenemoStaff *) curstaff->data)->nummeasures = 1;
@@ -209,8 +209,8 @@ removemeasures (DenemoMovement * si, guint pos, guint nummeasures, gboolean all)
                    than exist.  Junking request."));
       return si->currentmeasure;
     }
-  firstmeasure = firstmeasurenode (si->currentstaff);
-  if (pos == g_list_length (firstmeasurenode ((staffnode *) si->currentstaff)))
+  firstmeasure = staff_first_measure_node (si->currentstaff);
+  if (pos == g_list_length (staff_first_measure_node ((staffnode *) si->currentstaff)))
     {
       /* That is, we deleted the last measure */
       si->currentmeasurenum--;
@@ -425,7 +425,7 @@ setsdir (objnode * starter, objnode * ender, gint beamgroup_sum, gint beamgroup_
 /**
  * This function takes all these int *s in so that appropriate values
  * can be fed into the function when it's called again for the
- * next measure -- see beamsandstemdirswholestaff for details
+ * next measure -- see staff_beams_and_stems_dirs for details
   */
 void
 calculatebeamsandstemdirs (objnode * theobjs, gint * pclef, gint * time1, gint * time2, gint * stem_directive)
@@ -751,4 +751,26 @@ forceaccidentals (DenemoObject * theobj)
   setpixelmin (theobj);
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
+}
+
+/**
+ * Return the first object node of the given measure
+ * @param mnode a measurenode
+ * @return the first object node of the measure
+ */
+objnode *
+measure_first_obj_node (measurenode * mnode)
+{
+  return (objnode *) mnode->data;
+}
+
+/**
+ * Return the last object node of the given measure
+ * @param mnode a measurenode
+ * @return the last object node of the measure
+ */
+objnode *
+measure_last_obj_node (measurenode * mnode)
+{
+  return g_list_last ((objnode *) mnode->data);
 }
