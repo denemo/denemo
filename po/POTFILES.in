@@ -75,6 +75,8 @@ src/command/selectops.c
 src/command/selectops.h
 src/command/staffops.c
 src/command/staffops.h
+src/command/timesig.c
+src/command/timesig.h
 src/command/tupletops.c
 src/command/tupletops.h
 src/core/binreloc.c

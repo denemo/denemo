@@ -54,6 +54,8 @@ denemo_SOURCES = \
   command/selectops.h \
   command/staffops.c \
   command/staffops.h \
+  command/timesig.c \
+  command/timesig.h \
   command/tupletops.c \
   command/tupletops.h \
   core/binreloc.c \
