@@ -129,15 +129,15 @@ void append_measure_score (GtkAction* action, DenemoScriptParam *param);
 gchar *process_key_event (GdkEventKey * event, gchar * perform_command ());
 
 
-void InsertRest(gint duration);
-void InsertDur(gint duration);
-void ChangeDur(gint duration);
-void SetDur(gint duration);
+void rest_note_insert(gint duration);
+void duration_note_insert(gint duration);
+void duration_change(gint duration);
+void duration_set(gint duration);
 void Dur(gint duration);
 void ChangeTo(gchar note);
-void MoveTo(gchar note);
-void Insert(gchar note);
-void AddNote(gchar note);
+void move_to_note(gchar note);
+void note_insert(gchar note);
+void note_add(gchar note);
 void Add(gchar note);
 
 void Dur0(GtkAction *action, gpointer param);

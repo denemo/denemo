@@ -215,7 +215,14 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
         }
     }
 
-  /*  we create a store for the prefix char and look to see if it is populated when a keystroke is received. If it is populated, we try for the two-key combination, {???else we try for the single key, and if that fails populate the store. OR if it fails clear store}. If the two-key combination works we clear the store. If the two-key combination fails we try for the single key, if that succeeds we clear the store if it fails we set the store to the unresolved keystroke.  */
+  /* we create a store for the prefix char and look to see if it is populated 
+   * when a keystroke is received. If it is populated, we try for the two-key 
+   * combination, {???else we try for the single key, and if that fails populate 
+   * the store. OR if it fails clear store}. If the two-key combination works we 
+   * clear the store. If the two-key combination fails we try for the single 
+   * key, if that succeeds we clear the store if it fails we set the store to 
+   * the unresolved keystroke.
+   */
 
   gchar *ret = NULL;
   if (prefix_store->len)
@@ -981,7 +988,7 @@ change_pitch (GtkAction* action, DenemoScriptParam *param)
 * DURATION COMMANDS
 ******************************************************************************/
 
-void InsertRest(gint duration){
+void rest_note_insert(gint duration){
   highlight_rest(Denemo.project, duration);
   gint mode = Denemo.project->mode;
   Denemo.project->mode = INPUTINSERT|INPUTREST;
@@ -991,7 +998,7 @@ void InsertRest(gint duration){
   displayhelper(Denemo.project);
 }
 
-void InsertDur(gint duration){
+void duration_note_insert(gint duration){
   highlight_duration(Denemo.project, duration);
   gint mode = Denemo.project->mode;
   Denemo.project->mode = INPUTINSERT|INPUTNORMAL;
@@ -1001,37 +1008,35 @@ void InsertDur(gint duration){
   displayhelper(Denemo.project);
 }
 
-void ChangeDur(gint duration){
-  gint mode = Denemo.project->mode;
+void duration_change(gint duration){
   gboolean appending = Denemo.project->movement->cursor_appending;
   if(appending)
     movecursorleft(NULL, NULL);
+  gint mode = Denemo.project->mode;
   Denemo.project->mode = INPUTEDIT|INPUTNORMAL;
   insert_chord_xkey(duration, NULL);
   Denemo.project->mode = mode;
-  if(appending)
-    movecursorright(NULL, NULL);
   score_status(Denemo.project, TRUE);
   displayhelper(Denemo.project);
+  if(appending)
+    movecursorright(NULL, NULL);
 }
 
-void SetDur(gint duration){
+void duration_set(gint duration){
   highlight_duration(Denemo.project, duration);
 }
 
 void Dur (gint duration) {
-  DenemoProject *gui = Denemo.project;
- if(Denemo.project->mode&INPUTINSERT)
-   highlight_duration(Denemo.project, duration);
- else
- if( !(Denemo.project->mode&INPUTRHYTHM) && (Denemo.project->mode&INPUTEDIT) && (!Denemo.project->movement->cursor_appending))
-   ChangeDur (duration);
-else {
- insert_chord_xkey(duration, NULL);
-   highlight_duration(Denemo.project, duration);
-  score_status(Denemo.project, TRUE);
- displayhelper(Denemo.project);
- }
+  if(Denemo.project->mode & INPUTINSERT)
+    highlight_duration(Denemo.project, duration);
+  else if( !(Denemo.project->mode & INPUTRHYTHM) && (Denemo.project->mode & INPUTEDIT) && (!Denemo.project->movement->cursor_appending))
+   duration_change (duration);
+  else {
+    insert_chord_xkey(duration, NULL);
+    highlight_duration(Denemo.project, duration);
+    score_status(Denemo.project, TRUE);
+    displayhelper(Denemo.project);
+  }
 }
 
 /*******************************************************************************
@@ -1043,46 +1048,46 @@ void ChangeTo(gchar note){
   if(appending)
     movecursorleft(NULL, NULL);
   gint mode = Denemo.project->mode;
-  Denemo.project->mode = INPUTEDIT|INPUTNORMAL;
+  Denemo.project->mode = INPUTEDIT | INPUTNORMAL;
   go_to_key(note, NULL);
   Denemo.project->mode = mode;
+  score_status(Denemo.project, TRUE);
+  displayhelper(Denemo.project);
   if(appending)
     movecursorright(NULL, NULL);
-  score_status(Denemo.project, TRUE);
-  displayhelper(Denemo.project);
 }
 
-void MoveTo(gchar note){
+void move_to_note(gchar note){
   gint mode = Denemo.project->mode;
-  Denemo.project->mode = INPUTCLASSIC|INPUTNORMAL;
+  Denemo.project->mode = INPUTCLASSIC | INPUTNORMAL;
   go_to_key(note, NULL);
   Denemo.project->mode = mode;
   displayhelper(Denemo.project);
 }
 
-void Insert(gchar note){
+void note_insert(gchar note){
   gint mode = Denemo.project->mode;
-  Denemo.project->mode = INPUTINSERT|INPUTNORMAL;
+  Denemo.project->mode = INPUTINSERT | INPUTNORMAL;
   go_to_key(note, NULL);
   Denemo.project->mode = mode;
   score_status(Denemo.project, TRUE);
   displayhelper(Denemo.project);
 }
 
-void AddNote(gchar note){
+void note_add(gchar note){
   movecursorright(NULL, NULL);
   gint mode = Denemo.project->mode;
-  Denemo.project->mode = INPUTINSERT|INPUTNORMAL;
+  Denemo.project->mode = INPUTINSERT | INPUTNORMAL;
   go_to_key(note, NULL);
   Denemo.project->mode = mode;
-  movecursorleft(NULL, NULL);
   score_status(Denemo.project, TRUE);
   displayhelper(Denemo.project);
+  movecursorleft(NULL, NULL);
 }
 
 void Add(gchar note){
   gint mode = Denemo.project->mode;
-  Denemo.project->mode = INPUTCLASSIC|INPUTNORMAL;
+  Denemo.project->mode = INPUTCLASSIC | INPUTNORMAL;
   go_to_key(note, NULL);
   add_tone_key(NULL, NULL);
   Denemo.project->mode = mode;
@@ -1094,142 +1099,142 @@ void Dur0(GtkAction *action, gpointer param) {
   Dur(0);
 }
 void ChangeDur0(GtkAction *action, gpointer param){
-  ChangeDur(0);
+  duration_change(0);
 }
 void InsertDur0(GtkAction *action, gpointer param){
-  InsertDur(0);
+  duration_note_insert(0);
 }
 void InsertRest0(GtkAction *action, gpointer param){
-  InsertRest(0);
+  rest_note_insert(0);
 }
 void SetDur0(GtkAction *action, gpointer param){
-  SetDur(0);
+  duration_set(0);
 }
 void Dur1(GtkAction *action, gpointer param) {
   Dur(1);
 }
 void ChangeDur1(GtkAction *action, gpointer param){
-  ChangeDur(1);
+  duration_change(1);
 }
 void InsertDur1(GtkAction *action, gpointer param){
-  InsertDur(1);
+  duration_note_insert(1);
 }
 void InsertRest1(GtkAction *action, gpointer param){
-  InsertRest(1);
+  rest_note_insert(1);
 }
 void SetDur1(GtkAction *action, gpointer param){
-  SetDur(1);
+  duration_set(1);
 }
 void Dur2(GtkAction *action, gpointer param) {
   Dur(2);
 }
 void ChangeDur2(GtkAction *action, gpointer param){
-  ChangeDur(2);
+  duration_change(2);
 }
 void InsertDur2(GtkAction *action, gpointer param){
-  InsertDur(2);
+  duration_note_insert(2);
 }
 void InsertRest2(GtkAction *action, gpointer param){
-  InsertRest(2);
+  rest_note_insert(2);
 }
 void SetDur2(GtkAction *action, gpointer param){
-  SetDur(2);
+  duration_set(2);
 }
 void Dur3(GtkAction *action, gpointer param) {
   Dur(3);
 }
 void ChangeDur3(GtkAction *action, gpointer param){
-  ChangeDur(3);
+  duration_change(3);
 }
 void InsertDur3(GtkAction *action, gpointer param){
-  InsertDur(3);
+  duration_note_insert(3);
 }
 void InsertRest3(GtkAction *action, gpointer param){
-  InsertRest(3);
+  rest_note_insert(3);
 }
 void SetDur3(GtkAction *action, gpointer param){
-  SetDur(3);
+  duration_set(3);
 }
 void Dur4(GtkAction *action, gpointer param) {
   Dur(4);
 }
 void ChangeDur4(GtkAction *action, gpointer param){
-  ChangeDur(4);
+  duration_change(4);
 }
 void InsertDur4(GtkAction *action, gpointer param){
-  InsertDur(4);
+  duration_note_insert(4);
 }
 void InsertRest4(GtkAction *action, gpointer param){
-  InsertRest(4);
+  rest_note_insert(4);
 }
 void SetDur4(GtkAction *action, gpointer param){
-  SetDur(4);
+  duration_set(4);
 }
 void Dur5(GtkAction *action, gpointer param) {
   Dur(5);
 }
 void ChangeDur5(GtkAction *action, gpointer param){
-  ChangeDur(5);
+  duration_change(5);
 }
 void InsertDur5(GtkAction *action, gpointer param){
-  InsertDur(5);
+  duration_note_insert(5);
 }
 void InsertRest5(GtkAction *action, gpointer param){
-  InsertRest(5);
+  rest_note_insert(5);
 }
 void SetDur5(GtkAction *action, gpointer param){
-  SetDur(5);
+  duration_set(5);
 }
 void Dur6(GtkAction *action, gpointer param) {
   Dur(6);
 }
 void ChangeDur6(GtkAction *action, gpointer param){
-  ChangeDur(6);
+  duration_change(6);
 }
 void InsertDur6(GtkAction *action, gpointer param){
-  InsertDur(6);
+  duration_note_insert(6);
 }
 void InsertRest6(GtkAction *action, gpointer param){
-  InsertRest(6);
+  rest_note_insert(6);
 }
 void SetDur6(GtkAction *action, gpointer param){
-  SetDur(6);
+  duration_set(6);
 }
 void Dur7(GtkAction *action, gpointer param) {
   Dur(7);
 }
 void ChangeDur7(GtkAction *action, gpointer param){
-  ChangeDur(7);
+  duration_change(7);
 }
 void InsertDur7(GtkAction *action, gpointer param){
-  InsertDur(7);
+  duration_note_insert(7);
 }
 void InsertRest7(GtkAction *action, gpointer param){
-  InsertRest(7);
+  rest_note_insert(7);
 }
 void SetDur7(GtkAction *action, gpointer param){
-  SetDur(7);
+  duration_set(7);
 }
 void Dur8(GtkAction *action, gpointer param) {
   Dur(8);
 }
 void ChangeDur8(GtkAction *action, gpointer param){
-  ChangeDur(8);
+  duration_change(8);
 }
 void InsertDur8(GtkAction *action, gpointer param){
-  InsertDur(8);
+  duration_note_insert(8);
 }
 void InsertRest8(GtkAction *action, gpointer param){
-  InsertRest(8);
+  rest_note_insert(8);
 }
 void SetDur8(GtkAction *action, gpointer param){
-  SetDur(8);
+  duration_set(8);
 }
 void InsertA(GtkAction *action, gpointer param){
-  Insert('A');
+  note_insert('A');
 }
 void AddNoteA(GtkAction *action, gpointer param){
-  AddNote('A');
+  note_add('A');
 }
 void AddA(GtkAction *action, gpointer param){
   Add('A');
@@ -1238,13 +1243,13 @@ void ChangeToA(GtkAction *action, gpointer param){
   ChangeTo('A');
 }
 void MoveToA(GtkAction *action, gpointer param){
-  MoveTo('A');
+  move_to_note('A');
 }
 void InsertB(GtkAction *action, gpointer param){
-  Insert('B');
+  note_insert('B');
 }
 void AddNoteB(GtkAction *action, gpointer param){
-  AddNote('B');
+  note_add('B');
 }
 void AddB(GtkAction *action, gpointer param){
   Add('B');
@@ -1253,13 +1258,13 @@ void ChangeToB(GtkAction *action, gpointer param){
   ChangeTo('B');
 }
 void MoveToB(GtkAction *action, gpointer param){
-  MoveTo('B');
+  move_to_note('B');
 }
 void InsertC(GtkAction *action, gpointer param){
-  Insert('C');
+  note_insert('C');
 }
 void AddNoteC(GtkAction *action, gpointer param){
-  AddNote('C');
+  note_add('C');
 }
 void AddC(GtkAction *action, gpointer param){
   Add('C');
@@ -1268,13 +1273,13 @@ void ChangeToC(GtkAction *action, gpointer param){
   ChangeTo('C');
 }
 void MoveToC(GtkAction *action, gpointer param){
-  MoveTo('C');
+  move_to_note('C');
 }
 void InsertD(GtkAction *action, gpointer param){
-  Insert('D');
+  note_insert('D');
 }
 void AddNoteD(GtkAction *action, gpointer param){
-  AddNote('D');
+  note_add('D');
 }
 void AddD(GtkAction *action, gpointer param){
   Add('D');
@@ -1283,13 +1288,13 @@ void ChangeToD(GtkAction *action, gpointer param){
   ChangeTo('D');
 }
 void MoveToD(GtkAction *action, gpointer param){
-  MoveTo('D');
+  move_to_note('D');
 }
 void InsertE(GtkAction *action, gpointer param){
-  Insert('E');
+  note_insert('E');
 }
 void AddNoteE(GtkAction *action, gpointer param){
-  AddNote('E');
+  note_add('E');
 }
 void AddE(GtkAction *action, gpointer param){
   Add('E');
@@ -1298,13 +1303,13 @@ void ChangeToE(GtkAction *action, gpointer param){
   ChangeTo('E');
 }
 void MoveToE(GtkAction *action, gpointer param){
-  MoveTo('E');
+  move_to_note('E');
 }
 void InsertF(GtkAction *action, gpointer param){
-  Insert('F');
+  note_insert('F');
 }
 void AddNoteF(GtkAction *action, gpointer param){
-  AddNote('F');
+  note_add('F');
 }
 void AddF(GtkAction *action, gpointer param){
   Add('F');
@@ -1313,13 +1318,13 @@ void ChangeToF(GtkAction *action, gpointer param){
   ChangeTo('F');
 }
 void MoveToF(GtkAction *action, gpointer param){
-  MoveTo('F');
+  move_to_note('F');
 }
 void InsertG(GtkAction *action, gpointer param){
-  Insert('G');
+  note_insert('G');
 }
 void AddNoteG(GtkAction *action, gpointer param){
-  AddNote('G');
+  note_add('G');
 }
 void AddG(GtkAction *action, gpointer param){
   Add('G');
@@ -1328,5 +1333,5 @@ void ChangeToG(GtkAction *action, gpointer param){
   ChangeTo('G');
 }
 void MoveToG(GtkAction *action, gpointer param){
-  MoveTo('G');
+  move_to_note('G');
 }
