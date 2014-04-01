@@ -18,6 +18,7 @@
 #include "core/kbd-custom.h"
 #include "ui/kbd-interface.h"
 #include "command/keyresponses.h"
+#include "command/clef.h"
 #include "command/contexts.h"
 #include "ui/help.h"
 #include "audio/midi.h"

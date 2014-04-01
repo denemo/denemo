@@ -77,7 +77,7 @@ clef_change_insert (GtkAction * action, DenemoScriptParam * param)
     {
       enum clefs clef = get_clef_from_name (clefname);
       if (clef != DENEMO_INVALID_CLEF)
-        object_insert (gui, dnm_newclefobj (clef));
+        object_insert (gui, clef_new (clef));
       displayhelper (gui);
     }
 }
@@ -179,7 +179,7 @@ clef_change (DenemoProject * gui, actiontype action)
         {
           if (gui->movement->currentobject && ((DenemoObject *) gui->movement->currentobject->data)->type == CLEF)
             deleteobject (NULL, NULL);
-          object_insert (gui, dnm_newclefobj (clef));
+          object_insert (gui, clef_new (clef));
 
         }
       score_status (gui, TRUE);

@@ -2524,7 +2524,7 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoMovement * si)
                 }
               else if (ELEM_NAME_EQ (objElem, "clef"))
                 {
-                  curObj = dnm_newclefobj (DENEMO_TREBLE_CLEF);
+                  curObj = clef_new (DENEMO_TREBLE_CLEF);
                   parseClef (objElem, curObj->object);
                   gchar *showProp = (gchar *) xmlGetProp (objElem, (xmlChar *) "show");
                   if (showProp)

@@ -85,32 +85,6 @@ dnm_newtimesigobj (gint time1, gint time2)
   return ret;
 }
 
-
-
-/**
- * Create a new clef object
- * @param type clef type to create 
- *
- * @return the clef 
- */
-DenemoObject *
-dnm_newclefobj (enum clefs type)
-{
-  DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  gboolean invisible = (thestaff->voicecontrol & DENEMO_SECONDARY);
-  DenemoObject *ret;
-  clef *newclef = (clef *) g_malloc (sizeof (clef));
-  ret = (DenemoObject *) g_malloc (sizeof (DenemoObject));
-  ret->type = CLEF;
-  ret->isinvisible = invisible;
-  newclef->type = type;
-  ret->object = newclef;
-  set_basic_numticks (ret);
-  setpixelmin (ret);
-  return ret;
-}
-
-
 void
 set_modeaccs (gint * accs, gint number, gint mode)
 {
@@ -330,7 +304,7 @@ dnm_clone_object (DenemoObject * orig)
 
           break;
         case CLEF:
-          ret = dnm_newclefobj (((clef *) orig->object)->type);
+          ret = clef_new (((clef *) orig->object)->type);
           ((clef *) ret->object)->directives = clone_directives (((clef *) orig->object)->directives);
           break;
         case TIMESIG:

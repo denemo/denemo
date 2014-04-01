@@ -132,19 +132,6 @@ void insert_openrepeat (DenemoScriptParam *param);
 void insert_endbar (DenemoScriptParam *param);
 void insert_doublebar (DenemoScriptParam *param);
 void blank_mode (GtkAction * action, DenemoScriptParam *param);
-void newcleftreble (GtkAction* action, DenemoScriptParam *param);
-void newclefbass (GtkAction* action, DenemoScriptParam *param);
-void newclefg8 (GtkAction* action, DenemoScriptParam *param);
-void newclefalto (GtkAction* action, DenemoScriptParam *param);
-void newcleftenor (GtkAction* action, DenemoScriptParam *param);
-void newclefsoprano (GtkAction* action, DenemoScriptParam *param);
-
-void setcleftreble (GtkAction* action, DenemoScriptParam *param);
-void setclefbass (GtkAction* action, DenemoScriptParam *param);
-void setclefg8 (GtkAction* action, DenemoScriptParam *param);
-void setclefalto (GtkAction* action, DenemoScriptParam *param);
-void setcleftenor (GtkAction* action, DenemoScriptParam *param);
-void setclefsoprano (GtkAction* action, DenemoScriptParam *param);
 
 void newtimesig22 (GtkAction* action, DenemoScriptParam *param);
 void newtimesig42 (GtkAction* action, DenemoScriptParam *param);
