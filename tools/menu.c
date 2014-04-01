@@ -85,14 +85,14 @@ struct name_and_function denemo_commands[] = {
 
 
 
-  {NULL, "No Tooltip yet", N_("InsertDuplet"), "insert_duplet", N_("Insert Duplet")},
-  {NULL, "Inserts a Start Triplet object and an End Tuplet object and places the cursor between these two", N_("InsertTriplet"), "insert_triplet", N_("Insert Triplet")},
-  {NULL, "Inserts an Start Triplet object, which makes the notes following take 2/3 of their written duration. Later in this measure there should be an End Tuplet object.", N_("StartTriplet"), "start_triplet", N_("Start Triplet")},
-  {NULL, "Inserts an End Tuplet object, which terminates a tuplet started earlier in this measure.", N_("EndTuplet"), "end_tuplet", N_("End Tuplet")},
+  {NULL, "No Tooltip yet", N_("InsertDuplet"), "duplet_insert", N_("Insert Duplet")},
+  {NULL, "Inserts a Start Triplet object and an End Tuplet object and places the cursor between these two", N_("InsertTriplet"), "triplet_insert", N_("Insert Triplet")},
+  {NULL, "Inserts an Start Triplet object, which makes the notes following take 2/3 of their written duration. Later in this measure there should be an End Tuplet object.", N_("StartTriplet"), "triplet_start", N_("Start Triplet")},
+  {NULL, "Inserts an End Tuplet object, which terminates a tuplet started earlier in this measure.", N_("EndTuplet"), "tuplet_end", N_("End Tuplet")},
   {NULL, "No Tooltip yet", N_("InsertQuadtuplet"), "insert_quadtuplet", N_("Insert Quadruplet")},
-  {NULL, "No Tooltip yet", N_("InsertQuintuplet"), "insert_quintuplet", N_("Insert Quintuplet")},
-  {NULL, "No Tooltip yet", N_("InsertSextuplet"), "insert_sextuplet", N_("Insert Sextuplet")},
-  {NULL, "No Tooltip yet", N_("InsertSeptuplet"), "insert_septuplet", N_("Insert Septuplet")},
+  {NULL, "No Tooltip yet", N_("InsertQuintuplet"), "quintuplet_insert", N_("Insert Quintuplet")},
+  {NULL, "No Tooltip yet", N_("InsertSextuplet"), "sextuplet_insert", N_("Insert Sextuplet")},
+  {NULL, "No Tooltip yet", N_("InsertSeptuplet"), "septuplet_insert", N_("Insert Septuplet")},
   {NULL, "Add a note to the current chord\\nThe cursor position determines which note to add", N_("AddNoteToChord"), "add_tone_key", "Add note"},
   {NULL, "Remove a note from the current chord, based on the cursor position", N_("RemoveNoteFromChord"), "remove_tone_key", "Remove note"},
 

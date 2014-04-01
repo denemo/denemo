@@ -238,12 +238,12 @@ dnm_clone_object (DenemoObject * orig)
           break;
 
         case TUPOPEN:
-          ret = (DenemoObject *) newtupopen (((tupopen *) orig->object)->numerator, ((tupopen *) orig->object)->denominator);
+          ret = (DenemoObject *) tuplet_open_new (((tupopen *) orig->object)->numerator, ((tupopen *) orig->object)->denominator);
           ((tupopen *) ret->object)->directives = clone_directives (((tupopen *) orig->object)->directives);
 
           break;
         case TUPCLOSE:
-          ret = (DenemoObject *) newtupclose ();
+          ret = (DenemoObject *) tuplet_close_new ();
           ((tupopen *) ret->object)->directives = clone_directives (((tupopen *) orig->object)->directives);
 
           break;

@@ -169,28 +169,28 @@ install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleRestMode", scheme_Tog
 /*ToggleBlankMode toggle_blank*/
 SCM scheme_ToggleBlankMode(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleBlankMode", scheme_ToggleBlankMode);
-/*InsertDuplet insert_duplet*/
+/*InsertDuplet duplet_insert*/
 SCM scheme_InsertDuplet(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertDuplet", scheme_InsertDuplet);
-/*InsertTriplet insert_triplet*/
+/*InsertTriplet triplet_insert*/
 SCM scheme_InsertTriplet(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertTriplet", scheme_InsertTriplet);
-/*StartTriplet start_triplet*/
+/*StartTriplet triplet_start*/
 SCM scheme_StartTriplet(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "StartTriplet", scheme_StartTriplet);
-/*EndTuplet end_tuplet*/
+/*EndTuplet tuplet_end*/
 SCM scheme_EndTuplet(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EndTuplet", scheme_EndTuplet);
 /*InsertQuadtuplet insert_quadtuplet*/
 SCM scheme_InsertQuadtuplet(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertQuadtuplet", scheme_InsertQuadtuplet);
-/*InsertQuintuplet insert_quintuplet*/
+/*InsertQuintuplet quintuplet_insert*/
 SCM scheme_InsertQuintuplet(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertQuintuplet", scheme_InsertQuintuplet);
-/*InsertSextuplet insert_sextuplet*/
+/*InsertSextuplet sextuplet_insert*/
 SCM scheme_InsertSextuplet(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertSextuplet", scheme_InsertSextuplet);
-/*InsertSeptuplet insert_septuplet*/
+/*InsertSeptuplet septuplet_insert*/
 SCM scheme_InsertSeptuplet(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertSeptuplet", scheme_InsertSeptuplet);
 /*AddNoteToChord add_tone_key*/

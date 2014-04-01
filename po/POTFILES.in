@@ -195,6 +195,7 @@ src/ui/texteditors.c
 src/ui/texteditors.h
 src/ui/timedialog.c
 src/ui/tomeasuredialog.c
+src/ui/tupletdialog.c
 actions/Arranger.scm
 actions/Composer.scm
 actions/Default.scm
