@@ -170,28 +170,28 @@ SCM scheme_ToggleBlankMode (SCM optional) {
   return scheme_call_callback(optional, toggle_blank);
 }
 SCM scheme_InsertDuplet (SCM optional) {
-  return scheme_call_callback(optional, insert_duplet);
+  return scheme_call_callback(optional, duplet_insert);
 }
 SCM scheme_InsertTriplet (SCM optional) {
-  return scheme_call_callback(optional, insert_triplet);
+  return scheme_call_callback(optional, triplet_insert);
 }
 SCM scheme_StartTriplet (SCM optional) {
-  return scheme_call_callback(optional, start_triplet);
+  return scheme_call_callback(optional, triplet_start);
 }
 SCM scheme_EndTuplet (SCM optional) {
-  return scheme_call_callback(optional, end_tuplet);
+  return scheme_call_callback(optional, tuplet_end);
 }
 SCM scheme_InsertQuadtuplet (SCM optional) {
   return scheme_call_callback(optional, insert_quadtuplet);
 }
 SCM scheme_InsertQuintuplet (SCM optional) {
-  return scheme_call_callback(optional, insert_quintuplet);
+  return scheme_call_callback(optional, quintuplet_insert);
 }
 SCM scheme_InsertSextuplet (SCM optional) {
-  return scheme_call_callback(optional, insert_sextuplet);
+  return scheme_call_callback(optional, sextuplet_insert);
 }
 SCM scheme_InsertSeptuplet (SCM optional) {
-  return scheme_call_callback(optional, insert_septuplet);
+  return scheme_call_callback(optional, septuplet_insert);
 }
 SCM scheme_AddNoteToChord (SCM optional) {
   return scheme_call_callback(optional, add_tone_key);

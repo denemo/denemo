@@ -2603,12 +2603,12 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoMovement * si)
                 }
               else if (ELEM_NAME_EQ (objElem, "tuplet-end"))
                 {
-                  curObj = newtupclose ();
+                  curObj = tuplet_close_new ();
                   parseTupletEnd (objElem, curObj->object);
                 }
               else if (ELEM_NAME_EQ (objElem, "tuplet-start"))
                 {
-                  curObj = newtupopen (4, 4);
+                  curObj = tuplet_open_new (4, 4);
                   parseTupletStart (objElem, ns, curObj->object);
                 }
               else

@@ -1566,8 +1566,8 @@ duration_code (gpointer fn)
 gchar
 modifier_code (gpointer fn)
 {
-  return fn == (gpointer) start_triplet ? '~' :
-    fn == (gpointer) end_tuplet ? '|' :
+  return fn == (gpointer) triplet_start ? '~' :
+    fn == (gpointer) tuplet_end ? '|' :
     fn == (gpointer) add_dot_key ? '.' :
     fn == (gpointer) toggle_begin_slur ? '(' : fn == (gpointer) toggle_end_slur ? ')' : fn == (gpointer) insert_rest_0key ? 'r' : fn == (gpointer) insert_rest_1key ? 's' : fn == (gpointer) insert_rest_2key ? 't' : fn == (gpointer) insert_rest_3key ? 'u' : fn == (gpointer) insert_rest_4key ? 'v' : fn == (gpointer) insert_rest_5key ? 'w' : fn == (gpointer) insert_rest_6key ? 'x' : fn == (gpointer) insert_rest_7key ? 'y' : fn == (gpointer) insert_rest_8key ? 'z' : 0;
 }
@@ -1817,7 +1817,7 @@ create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
                   switch (obj->type)
                     {
                     case TUPCLOSE:
-                      fn = (gpointer) end_tuplet;
+                      fn = (gpointer) tuplet_end;
                       add_to_pattern (&pattern, '|');
                       append_rhythm (r, fn);
                       break;
@@ -1825,10 +1825,10 @@ create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
                       switch (((tupopen *) obj->object)->denominator)
                         {
                         case 3:
-                          fn = (gpointer) start_triplet;
+                          fn = (gpointer) triplet_start;
                           add_to_pattern (&pattern, '~');
                           break;
-                        default:       // need to create start_xxxtuplet() functions to go with start_triplet(), then they can go here.
+                        default:       // need to create start_xxxtuplet() functions to go with triplet_start(), then they can go here.
                           fn = NULL;
                         }
                       append_rhythm (r, fn);

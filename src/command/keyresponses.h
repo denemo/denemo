@@ -78,17 +78,6 @@ void insert_rest_6key (GtkAction* action, DenemoScriptParam *param);
 void insert_rest_7key (GtkAction* action, DenemoScriptParam *param);
 void insert_rest_8key (GtkAction* action, DenemoScriptParam *param);
 
-void insert_duplet (GtkAction* action, DenemoScriptParam *param);
-void insert_triplet (GtkAction* action, DenemoScriptParam *param);
-void start_triplet (GtkAction* action, DenemoScriptParam *param);
-void end_tuplet (GtkAction* action, DenemoScriptParam *param);
-
-
-
-void insert_quadtuplet (GtkAction* action, DenemoScriptParam *param);
-void insert_quintuplet (GtkAction* action, DenemoScriptParam *param);
-void insert_sextuplet (GtkAction* action, DenemoScriptParam *param);
-void insert_septuplet (GtkAction* action, DenemoScriptParam *param);
 gboolean add_tone_key (GtkAction* action, DenemoScriptParam *param);
 gboolean remove_tone_key (GtkAction* action, DenemoScriptParam *param);
 void deletepreviousobject (GtkAction* action, DenemoScriptParam *param);

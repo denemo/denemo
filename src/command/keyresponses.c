@@ -787,58 +787,6 @@ insert_blankchord_8key (GtkAction* action, DenemoScriptParam *param)
   insert_blankchord_xkey(8, param);
 }
 
-
-void
-insert_duplet (GtkAction* action, DenemoScriptParam *param)
-{
-  dnm_inserttuplet (Denemo.project, DUPLET);
-}
-
-void
-insert_triplet (GtkAction* action, DenemoScriptParam *param)
-{
-  dnm_inserttuplet (Denemo.project, TRIPLET);
-}
-
-void
-start_triplet (GtkAction* action, DenemoScriptParam *param)
-{
-  insertion_point (Denemo.project->movement);
-  object_insert (Denemo.project, newtupopen (2, 3));
-}
-
-void
-end_tuplet (GtkAction* action, DenemoScriptParam *param)
-{
-  object_insert (Denemo.project, newtupclose ());
-}
-
-void
-insert_quadtuplet (GtkAction* action, DenemoScriptParam *param)
-{
-  dnm_inserttuplet (Denemo.project, QUADTUPLET);
-}
-
-void
-insert_quintuplet (GtkAction* action, DenemoScriptParam *param)
-{
-  dnm_inserttuplet (Denemo.project, QUINTUPLET);
-}
-
-void
-insert_sextuplet (GtkAction* action, DenemoScriptParam *param)
-{
-  dnm_inserttuplet (Denemo.project, SEXTUPLET);
-}
-
-void
-insert_septuplet (GtkAction* action, DenemoScriptParam *param)
-{
-  dnm_inserttuplet (Denemo.project, SEPTUPLET);
-}
-
-
-
 gboolean
 add_tone_key (GtkAction* action, DenemoScriptParam *param)
 {
@@ -1028,10 +976,6 @@ change_pitch (GtkAction* action, DenemoScriptParam *param)
   //       si->cursorclef);
 
 }
-
-
-
-
 
 /*******************************************************************************
 * DURATION COMMANDS

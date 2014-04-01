@@ -1752,32 +1752,32 @@ dnm_inserttuplet (DenemoProject * gui, tuplet_type type)
   switch (type)
     {
     case DUPLET:
-      mudela_obj_new = newtupopen (3, 2);
+      mudela_obj_new = tuplet_open_new (3, 2);
       break;
     case TRIPLET:
-      mudela_obj_new = newtupopen (2, 3);
+      mudela_obj_new = tuplet_open_new (2, 3);
       break;
     case QUADTUPLET:
-      mudela_obj_new = newtupopen (3, 4);
+      mudela_obj_new = tuplet_open_new (3, 4);
       break;
     case QUINTUPLET:
-      mudela_obj_new = newtupopen (4, 5);
+      mudela_obj_new = tuplet_open_new (4, 5);
       break;
     case SEXTUPLET:
-      mudela_obj_new = newtupopen (4, 6);
+      mudela_obj_new = tuplet_open_new (4, 6);
       break;
     case SEPTUPLET:
-      mudela_obj_new = newtupopen (4, 7);
+      mudela_obj_new = tuplet_open_new (4, 7);
       break;
     default:
-      mudela_obj_new = newtupopen (2, 3);
+      mudela_obj_new = tuplet_open_new (2, 3);
       break;
     }
   //g_debug ("Cursor pos %d (Before tup open)\n", si->cursor_x);
   object_insert (gui, mudela_obj_new);
   //g_debug ("Cursor pos %d (After tup open, before tup close)\n",         si->cursor_x);
   /* Add the closing bracket */
-  object_insert (gui, newtupclose ());
+  object_insert (gui, tuplet_close_new ());
   //g_debug ("Cursor pos %d (After tup close)\n", si->cursor_x);
   si->cursor_x--;
   //g_debug ("Cursor pos %d( After move back)\n", si->cursor_x);

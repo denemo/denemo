@@ -167,7 +167,8 @@ denemo_SOURCES = \
   ui/texteditors.c \
   ui/texteditors.h \
   ui/timedialog.c \
-  ui/tomeasuredialog.c
+  ui/tomeasuredialog.c \
+  ui/tupletdialog.c
 
 nodist_denemo_SOURCES = pathconfig.h
 

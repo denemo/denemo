@@ -57,4 +57,5 @@ void export_pdf_action (GtkAction * action, DenemoScriptParam * param);
 
 const gchar *get_clef_name (guint type);
 
+void tupletchangedialog (DenemoObject * newobj, GtkWidget * scorearea);
 #endif /* __DIALOGS_H__ */
