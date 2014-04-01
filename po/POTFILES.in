@@ -55,6 +55,8 @@ src/command/grace.c
 src/command/grace.h
 src/command/keyresponses.c
 src/command/keyresponses.h
+src/command/keysig.c
+src/command/keysig.h
 src/command/lilydirectives.c
 src/command/lilydirectives.h
 src/command/lyric.c
@@ -73,6 +75,8 @@ src/command/select.c
 src/command/select.h
 src/command/staff.c
 src/command/staff.h
+src/command/timesig.c
+src/command/timesig.h
 src/command/tuplet.c
 src/command/tuplet.h
 src/core/binreloc.c

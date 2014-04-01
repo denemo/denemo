@@ -34,6 +34,8 @@ denemo_SOURCES = \
   command/grace.h \
   command/keyresponses.c \
   command/keyresponses.h \
+  command/keysig.c \
+  command/keysig.h \
   command/lilydirectives.c \
   command/lilydirectives.h \
   command/lyric.c \
@@ -52,6 +54,8 @@ denemo_SOURCES = \
   command/select.h \
   command/staff.c \
   command/staff.h \
+  command/timesig.c \
+  command/timesig.h \
   command/tuplet.c \
   command/tuplet.h \
   core/binreloc.c \
