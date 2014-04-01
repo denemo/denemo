@@ -126,41 +126,6 @@ initkeyaccs (gint * accs, gint number)
 }
 
 /**
- * Create a new keysignature object
- * 
- * @param number number of keysignature
- * @param isminor signifies if the key sig should be minor
- * @param mode    description of the keys mode
- * @return the key signature
- */
-DenemoObject *
-dnm_newkeyobj (gint number, gint isminor, gint mode)
-{
-  DenemoObject *ret;
-  keysig *newkeysig = (keysig *) g_malloc (sizeof (keysig));
-  ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
-  ret->type = KEYSIG;
-  ret->isinvisible = FALSE;
-  g_debug ("Number %d \t IsMinor %d \t Mode %d\n", number, isminor, mode);
-
-  newkeysig->mode = mode;
-  newkeysig->number = number;
-  newkeysig->isminor = isminor;
-
-
-
-  if (isminor == 2)
-    set_modeaccs (newkeysig->accs, number, mode);
-  else
-    initkeyaccs (newkeysig->accs, number);
-
-  ret->object = newkeysig;
-  set_basic_numticks (ret);
-  setpixelmin (ret);
-  return ret;
-}
-
-/**
  * Create a new measure break object
  * @return the measurebreak
  */

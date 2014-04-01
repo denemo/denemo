@@ -34,6 +34,8 @@ denemo_SOURCES = \
   command/graceops.h \
   command/keyresponses.c \
   command/keyresponses.h \
+  command/keysig.c \
+  command/keysig.h \
   command/lilydirectives.c \
   command/lilydirectives.h \
   command/lyric.c \

@@ -55,6 +55,8 @@ src/command/graceops.c
 src/command/graceops.h
 src/command/keyresponses.c
 src/command/keyresponses.h
+src/command/keysig.c
+src/command/keysig.h
 src/command/lilydirectives.c
 src/command/lilydirectives.h
 src/command/lyric.c
