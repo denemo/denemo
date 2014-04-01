@@ -20,6 +20,8 @@ denemo_SOURCES = \
   command/changenotehead.h \
   command/chordops.c \
   command/chordops.h \
+  command/clef.c \
+  command/clef.h \
   command/commandfuncs.c \
   command/commandfuncs.h \
   command/contexts.c \

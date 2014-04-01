@@ -269,40 +269,40 @@ SCM scheme_TallerStaffs (SCM optional) {
   return scheme_call_callback(optional, adjust_staff_more_height_key);
 }
 SCM scheme_InsertTrebleClef (SCM optional) {
-  return scheme_call_callback(optional, newcleftreble);
+  return scheme_call_callback(optional, clef_new_treble);
 }
 SCM scheme_InsertBassClef (SCM optional) {
-  return scheme_call_callback(optional, newclefbass);
+  return scheme_call_callback(optional, clef_new_bass);
 }
 SCM scheme_Insertg8clef (SCM optional) {
-  return scheme_call_callback(optional, newclefg8);
+  return scheme_call_callback(optional, clef_new_g8);
 }
 SCM scheme_InsertAltoClef (SCM optional) {
-  return scheme_call_callback(optional, newclefalto);
+  return scheme_call_callback(optional, clef_new_alto);
 }
 SCM scheme_InsertTenorClef (SCM optional) {
-  return scheme_call_callback(optional, newcleftenor);
+  return scheme_call_callback(optional, clef_new_tenor);
 }
 SCM scheme_InsertSopranoClef (SCM optional) {
-  return scheme_call_callback(optional, newclefsoprano);
+  return scheme_call_callback(optional, clef_new_soprano);
 }
 SCM scheme_SetInitialTrebleClef (SCM optional) {
-  return scheme_call_callback(optional, setcleftreble);
+  return scheme_call_callback(optional, clef_set_treble);
 }
 SCM scheme_SetInitialBassClef (SCM optional) {
-  return scheme_call_callback(optional, setclefbass);
+  return scheme_call_callback(optional, clef_set_bass);
 }
 SCM scheme_SetInitialg8clef (SCM optional) {
-  return scheme_call_callback(optional, setclefg8);
+  return scheme_call_callback(optional, clef_set_g8);
 }
 SCM scheme_SetInitialAltoClef (SCM optional) {
-  return scheme_call_callback(optional, setclefalto);
+  return scheme_call_callback(optional, clef_set_alto);
 }
 SCM scheme_SetInitialTenorClef (SCM optional) {
-  return scheme_call_callback(optional, setcleftenor);
+  return scheme_call_callback(optional, clef_set_tenor);
 }
 SCM scheme_SetInitialSopranoClef (SCM optional) {
-  return scheme_call_callback(optional, setclefsoprano);
+  return scheme_call_callback(optional, clef_set_soprano);
 }
 SCM scheme_Insert22Time (SCM optional) {
   return scheme_call_callback(optional, newtimesig22);

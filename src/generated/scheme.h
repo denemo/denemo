@@ -268,40 +268,40 @@ install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ShorterStaffs", scheme_Shor
 /*TallerStaffs adjust_staff_more_height_key*/
 SCM scheme_TallerStaffs(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "TallerStaffs", scheme_TallerStaffs);
-/*InsertTrebleClef newcleftreble*/
+/*InsertTrebleClef clef_new_treble*/
 SCM scheme_InsertTrebleClef(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertTrebleClef", scheme_InsertTrebleClef);
-/*InsertBassClef newclefbass*/
+/*InsertBassClef clef_new_bass*/
 SCM scheme_InsertBassClef(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBassClef", scheme_InsertBassClef);
-/*Insertg8clef newclefg8*/
+/*Insertg8clef clef_new_g8*/
 SCM scheme_Insertg8clef(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Insertg8clef", scheme_Insertg8clef);
-/*InsertAltoClef newclefalto*/
+/*InsertAltoClef clef_new_alto*/
 SCM scheme_InsertAltoClef(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertAltoClef", scheme_InsertAltoClef);
-/*InsertTenorClef newcleftenor*/
+/*InsertTenorClef clef_new_tenor*/
 SCM scheme_InsertTenorClef(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertTenorClef", scheme_InsertTenorClef);
-/*InsertSopranoClef newclefsoprano*/
+/*InsertSopranoClef clef_new_soprano*/
 SCM scheme_InsertSopranoClef(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertSopranoClef", scheme_InsertSopranoClef);
-/*SetInitialTrebleClef setcleftreble*/
+/*SetInitialTrebleClef clef_set_treble*/
 SCM scheme_SetInitialTrebleClef(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialTrebleClef", scheme_SetInitialTrebleClef);
-/*SetInitialBassClef setclefbass*/
+/*SetInitialBassClef clef_set_bass*/
 SCM scheme_SetInitialBassClef(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialBassClef", scheme_SetInitialBassClef);
-/*SetInitialg8clef setclefg8*/
+/*SetInitialg8clef clef_set_g8*/
 SCM scheme_SetInitialg8clef(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialg8clef", scheme_SetInitialg8clef);
-/*SetInitialAltoClef setclefalto*/
+/*SetInitialAltoClef clef_set_alto*/
 SCM scheme_SetInitialAltoClef(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialAltoClef", scheme_SetInitialAltoClef);
-/*SetInitialTenorClef setcleftenor*/
+/*SetInitialTenorClef clef_set_tenor*/
 SCM scheme_SetInitialTenorClef(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialTenorClef", scheme_SetInitialTenorClef);
-/*SetInitialSopranoClef setclefsoprano*/
+/*SetInitialSopranoClef clef_set_soprano*/
 SCM scheme_SetInitialSopranoClef(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SetInitialSopranoClef", scheme_SetInitialSopranoClef);
 /*Insert22Time newtimesig22*/

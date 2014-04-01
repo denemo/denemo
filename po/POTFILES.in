@@ -41,6 +41,8 @@ src/command/changenotehead.c
 src/command/changenotehead.h
 src/command/chordops.c
 src/command/chordops.h
+src/command/clef.c
+src/command/clef.h
 src/command/commandfuncs.c
 src/command/commandfuncs.h
 src/command/contexts.c

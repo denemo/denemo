@@ -78,6 +78,6 @@ DenemoObject *
 dnm_newtimesigobj (gint time1, gint time2);
 
 DenemoObject *
-dnm_newclefobj (enum clefs type);
+clef_new (enum clefs type);
 
 #endif //DENEMO_APIH
