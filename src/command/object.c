@@ -64,27 +64,6 @@ freeobject (DenemoObject * mudobj)
     }
 }
 
-/**
- * Create a new timesignature object
- * @param time1 nominator of time signature
- * @param time2 denominator of the time signature
- * @return the timesignature
- */
-DenemoObject *
-dnm_newtimesigobj (gint time1, gint time2)
-{
-  DenemoObject *ret;
-  timesig *newtimesig = (timesig *) g_malloc0 (sizeof (timesig));
-  ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
-  ret->type = TIMESIG;
-  newtimesig->time1 = time1;
-  newtimesig->time2 = time2;
-  ret->object = newtimesig;
-  set_basic_numticks (ret);
-  setpixelmin (ret);
-  return ret;
-}
-
 void
 set_modeaccs (gint * accs, gint number, gint mode)
 {
