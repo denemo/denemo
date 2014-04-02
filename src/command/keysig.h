@@ -3,6 +3,7 @@
 
 #include <denemo/denemo.h>
 
+void keysig_new_maj(gint number);
 void keysig_new_cmaj (GtkAction* action, DenemoScriptParam *param);
 void keysig_new_gmaj (GtkAction* action, DenemoScriptParam *param);
 void keysig_new_dmaj (GtkAction* action, DenemoScriptParam *param);
@@ -19,6 +20,7 @@ void keysig_new_dflatmaj (GtkAction* action, DenemoScriptParam *param);
 void keysig_new_gflatmaj (GtkAction* action, DenemoScriptParam *param);
 void keysig_new_cflatmaj (GtkAction* action, DenemoScriptParam *param);
 
+void keysig_new_min(gint number);
 void keysig_new_amin (GtkAction* action, DenemoScriptParam *param);
 void keysig_new_emin (GtkAction* action, DenemoScriptParam *param);
 void keysig_new_bmin (GtkAction* action, DenemoScriptParam *param);
@@ -35,6 +37,7 @@ void keysig_new_bflatmin (GtkAction* action, DenemoScriptParam *param);
 void keysig_new_eflatmin (GtkAction* action, DenemoScriptParam *param);
 void keysig_new_aflatmin (GtkAction* action, DenemoScriptParam *param);
 
+void keysig_set_maj(gint number);
 void keysig_set_cmaj (GtkAction* action, DenemoScriptParam *param);
 void keysig_set_gmaj (GtkAction* action, DenemoScriptParam *param);
 void keysig_set_dmaj (GtkAction* action, DenemoScriptParam *param);
@@ -51,6 +54,7 @@ void keysig_set_dflatmaj (GtkAction* action, DenemoScriptParam *param);
 void keysig_set_gflatmaj (GtkAction* action, DenemoScriptParam *param);
 void keysig_set_cflatmaj (GtkAction* action, DenemoScriptParam *param);
 
+void keysig_set_min(gint number);
 void keysig_set_amin (GtkAction* action, DenemoScriptParam *param);
 void keysig_set_emin (GtkAction* action, DenemoScriptParam *param);
 void keysig_set_bmin (GtkAction* action, DenemoScriptParam *param);
