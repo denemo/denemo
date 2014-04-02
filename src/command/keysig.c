@@ -34,396 +34,389 @@ dnm_newkeyobj (gint number, gint isminor, gint mode)
 }
 
 void
+keysig_new_maj(gint number){
+  object_insert (Denemo.project, dnm_newkeyobj (number, 1, 0));
+}
+
+void
 keysig_new_cmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (0, 1, 0));
+  keysig_new_maj(0);
 }
 
 void
 keysig_new_gmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (1, 1, 0));
+  keysig_new_maj(1);
 }
 
 void
 keysig_new_dmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (2, 1, 0));
+  keysig_new_maj(2);
 }
 
 void
 keysig_new_amaj (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (3, 1, 0));
+  keysig_new_maj(3);
 }
 
 void
 keysig_new_emaj (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (4, 1, 0));
+  keysig_new_maj(4);
 }
 
 void
 keysig_new_bmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (5, 1, 0));
+  keysig_new_maj(5);
 }
 
 void
 keysig_new_fsharpmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (6, 1, 0));
+  keysig_new_maj(6);
 }
 
 void
 keysig_new_csharpmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (7, 1, 0));
+  keysig_new_maj(7);
 }
 
 void
 keysig_new_fmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (-1, 1, 0));
+  keysig_new_maj(-1);
 }
 
 void
 keysig_new_bflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (-2, 1, 0));
+  keysig_new_maj(-2);
 }
 
 void
 keysig_new_eflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (-3, 1, 0));
+  keysig_new_maj(-3);
 }
 
 void
 keysig_new_aflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (-4, 1, 0));
+  keysig_new_maj(-4);
 }
 
 void
 keysig_new_dflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (-5, 1, 0));
+  keysig_new_maj(-5);
 }
 
 void
 keysig_new_gflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (-6, 1, 0));
+  keysig_new_maj(-6);
 }
 
 void
 keysig_new_cflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (-7, 1, 0));
+  keysig_new_maj(-7);
+}
+
+void
+keysig_new_min(gint number)
+{
+  object_insert (Denemo.project, dnm_newkeyobj (number, 0, 0));
 }
 
 void
 keysig_new_amin (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (0, 0, 0));
+  keysig_new_min (0);
 }
 
 void
 keysig_new_emin (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (1, 0, 0));
+  keysig_new_min (1);
 }
 
 void
 keysig_new_bmin (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (2, 0, 0));
+  keysig_new_min (2);
 }
 
 void
 keysig_new_fsharpmin (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (3, 0, 0));
+  keysig_new_min (3);
 }
 
 void
 keysig_new_csharpmin (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (4, 0, 0));
+  keysig_new_min (4);
 }
 
 void
 keysig_new_gsharpmin (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (5, 0, 0));
+  keysig_new_min (5);
 }
 
 void
 keysig_new_dsharpmin (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (6, 0, 0));
+  keysig_new_min (6);
 }
 
 void
 keysig_new_asharpmin (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (7, 0, 0));
+  keysig_new_min (7);
 }
 
 void
 keysig_new_dmin (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (-1, 0, 0));
+  keysig_new_min (-1);
 }
 
 void
 keysig_new_gmin (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (-2, 0, 0));
+  keysig_new_min (-2);
 }
 
 void
 keysig_new_cmin (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (-3, 0, 0));
+  keysig_new_min (-3);
 }
 
 void
 keysig_new_fmin (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (-4, 0, 0));
+  keysig_new_min (-4);
 }
 
 void
 keysig_new_bflatmin (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (-5, 0, 0));
+  keysig_new_min (-5);
 }
 
 void
 keysig_new_eflatmin (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (-6, 0, 0));
+  keysig_new_min (-6);
 }
 
 void
 keysig_new_aflatmin (GtkAction* action, DenemoScriptParam *param)
 {
-  object_insert (Denemo.project, dnm_newkeyobj (-7, 0, 0));
+  keysig_new_min (-7);
 }
 
 
 //Functions to set the initial key signature
 void
-keysig_set_cmaj (GtkAction* action, DenemoScriptParam *param)
+keysig_set_maj(gint number)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, 0, 1);
-  //displayhelper(si);
+  dnm_setinitialkeysig (curstaff, number, 1);
+}
+
+void
+keysig_set_cmaj (GtkAction* action, DenemoScriptParam *param)
+{
+  keysig_set_maj (0);
 }
 
 void
 keysig_set_gmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, 1, 1);
-  //displayhelper(si);
+  keysig_set_maj (1);
 }
 
 void
 keysig_set_dmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, 2, 1);
+  keysig_set_maj (2);
 }
 
 void
 keysig_set_amaj (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, 3, 1);
+  keysig_set_maj (3);
 }
 
 void
 keysig_set_emaj (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, 4, 1);
+  keysig_set_maj (4);
 }
 
 void
 keysig_set_bmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, 5, 1);
+  keysig_set_maj (5);
 }
 
 void
 keysig_set_fsharpmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, 6, 1);
+  keysig_set_maj (6);
 }
 
 void
 keysig_set_csharpmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, 7, 1);
+  keysig_set_maj (7);
 }
 
 void
 keysig_set_fmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, -1, 1);
+  keysig_set_maj (-1);
 }
 
 void
 keysig_set_bflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, -2, 1);
+  keysig_set_maj (-2);
 }
 
 void
 keysig_set_eflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, -3, 1);
+  keysig_set_maj (-3);
 }
 
 void
 keysig_set_aflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, -4, 1);
+  keysig_set_maj (-4);
 }
 
 void
 keysig_set_dflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, -5, 1);
+  keysig_set_maj (-5);
 }
 
 void
 keysig_set_gflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, -6, 1);
+  keysig_set_maj (-6);
 }
 
 void
 keysig_set_cflatmaj (GtkAction* action, DenemoScriptParam *param)
 {
+  keysig_set_maj (-7);
+}
+
+void
+keysig_set_min(gint number)
+{
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, -7, 1);
+  dnm_setinitialkeysig (curstaff, number, 0);
 }
 
 void
 keysig_set_amin (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, 0, 0);
+  keysig_set_min (0);
 }
 
 void
 keysig_set_emin (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, 1, 0);
+  keysig_set_min (1);
 }
 
 void
 keysig_set_bmin (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, 2, 0);
+  keysig_set_min (2);
 }
 
 void
 keysig_set_fsharpmin (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, 3, 0);
+  keysig_set_min (3);
 }
 
 void
 keysig_set_csharpmin (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, 4, 0);
+  keysig_set_min (4);
 }
 
 void
 keysig_set_gsharpmin (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, 5, 0);
+  keysig_set_min (5);
 }
 
 void
 keysig_set_dsharpmin (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, 6, 0);
+  keysig_set_min (6);
 }
 
 void
 keysig_set_asharpmin (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, 7, 0);
+  keysig_set_min (7);
 }
 
 void
 keysig_set_dmin (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, -1, 0);
+  keysig_set_min (-1);
 }
 
 void
 keysig_set_gmin (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, -2, 0);
+  keysig_set_min (-2);
 }
 
 void
 keysig_set_cmin (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, -3, 0);
+  keysig_set_min (-3);
 }
 
 void
 keysig_set_fmin (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, -4, 0);
+  keysig_set_min (-4);
 }
 
 void
 keysig_set_bflatmin (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, -5, 0);
+  keysig_set_min (-5);
 }
 
 void
 keysig_set_eflatmin (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, -6, 0);
+  keysig_set_min (-6);
 }
 
 void
 keysig_set_aflatmin (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  dnm_setinitialkeysig (curstaff, -7, 0);
+  keysig_set_min (-7);
 }
 
