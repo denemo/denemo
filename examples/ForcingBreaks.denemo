@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<score xmlns="http://denemo.org/xmlns/Denemo" version="6">
+<score xmlns="http://denemo.org/xmlns/Denemo" version="7">
   <paper-directives>
     <directive>
       <tag>PrintAllHeaders</tag>
@@ -13,6 +13,14 @@ page-limit-inter-system-space = ##t
 page-limit-inter-system-space-factor = 1.2</postfix>
     </directive>
   </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>24</fontsize>
@@ -373,7 +381,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <number-of-lines>5</number-of-lines>
           <voice-control>3</voice-control>
           <transpose>0</transpose>
-          <instrument></instrument>
+          <instrument/>
           <device-port>NONE</device-port>
           <volume>127</volume>
           <midi_prognum>0</midi_prognum>
@@ -909,7 +917,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <number-of-lines>5</number-of-lines>
           <voice-control>3</voice-control>
           <transpose>0</transpose>
-          <instrument></instrument>
+          <instrument/>
           <device-port>NONE</device-port>
           <volume>127</volume>
           <midi_prognum>0</midi_prognum>

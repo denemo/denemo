@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<score xmlns="http://denemo.org/xmlns/Denemo" version="6">
+<score xmlns="http://denemo.org/xmlns/Denemo" version="7">
   <paper-directives>
     <directive>
       <tag>LimitInterSystemSpace</tag>
@@ -8,6 +8,14 @@ page-limit-inter-system-space = ##t
 page-limit-inter-system-space-factor = 1.2</postfix>
     </directive>
   </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>16</fontsize>
@@ -24,7 +32,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <edit-info>
       <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>1</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>

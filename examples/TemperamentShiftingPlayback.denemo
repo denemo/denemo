@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<score xmlns="http://denemo.org/xmlns/Denemo" version="6">
+<score xmlns="http://denemo.org/xmlns/Denemo" version="7">
   <scoreheader-directives>
     <directive>
       <tag>Scoretagline</tag>
@@ -27,6 +27,14 @@ page-limit-inter-system-space = ##t
 page-limit-inter-system-space-factor = 1.2</postfix>
     </directive>
   </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>24</fontsize>
@@ -50,7 +58,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <edit-info>
       <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>1</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>99</zoom>
       <system-height>100</system-height>
@@ -3206,7 +3214,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|"</lily-directive>
+            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|."</lily-directive>
             <lily-directive tag="EndVolta" graphic_name="EndSecondTimeBar" gy="-33" minpixels="30" override="32">
 \set Score.repeatCommands = #'((volta #f))
 </lily-directive>
@@ -4737,7 +4745,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|"</lily-directive>
+            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|."</lily-directive>
             <key-signature>
               <modal-key-signature note-name="G" mode="major"/>
             </key-signature>
@@ -6511,7 +6519,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <rest show="true" id="id1380">
               <duration base="eighth"/>
             </rest>
-            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|"</lily-directive>
+            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|."</lily-directive>
             <lily-directive tag="EndVolta" graphic_name="EndSecondTimeBar" gy="-33" minpixels="30" override="32">
 \set Score.repeatCommands = #'((volta #f))
 </lily-directive>
@@ -7915,7 +7923,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|"</lily-directive>
+            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|."</lily-directive>
             <key-signature>
               <modal-key-signature note-name="G" mode="major"/>
             </key-signature>

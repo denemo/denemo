@@ -22,13 +22,6 @@ print-all-headers = ##t
     <first-obj>0</first-obj>
     <last-obj>2147483647</last-obj>
   </thumbnail>
-  <sourcefile>
-    <x>0</x>
-    <y>0</y>
-    <width>600</width>
-    <height>750</height>
-    <scale>1473</scale>
-  </sourcefile>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>20</fontsize>
@@ -226,7 +219,7 @@ accGeige</tag>
     <edit-info>
       <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>0</cursorposition>
+      <cursorposition>-1</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
