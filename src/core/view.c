@@ -3291,7 +3291,8 @@ highlight_rest (DenemoProject * project, gint dur)
 void
 highlight_duration (DenemoProject * project, gint dur)
 {
-
+  if(Denemo.non_interactive)
+    return;
   //g_debug("higlight duration");
   if (project->currhythm)
     {

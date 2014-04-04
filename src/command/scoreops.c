@@ -74,6 +74,9 @@ void set_movement_selector (DenemoProject *gui)
   GtkWidget *button;
   GList *g;
   gint i;
+
+  if(Denemo.non_interactive)
+    return;
   
   if(gui->movements_selector)
       gtk_widget_destroy (gui->movements_selector);

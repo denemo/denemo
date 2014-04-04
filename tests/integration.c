@@ -138,10 +138,11 @@ test_open_save_blank_file(gpointer fixture, gconstpointer data)
 static void
 test_open_save_complex_file(gpointer fixture, gconstpointer data)
 {
-  gchar* filename = (gchar*) data;
-  g_print("Opening %s\n", filename);
-  const gchar* output = g_build_filename(temp_dir, filename, NULL);
-  const gchar* input  = g_build_filename(example_dir, filename, NULL);
+  const gchar* input = (const gchar*) data;
+  gchar* filename = basename(input);
+  const gchar* output_filename = g_strconcat(filename, ".denemo", NULL);
+  const gchar* output = g_build_filename(temp_dir, output_filename, NULL);
+  g_print("Opening %s\nSaving at %s\n", input, output);
   gchar* input_contents = NULL;
   gchar* output_contents = NULL;
 
@@ -153,6 +154,7 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
     }
   g_test_trap_assert_passed ();
 
+  g_print("Finding and reopening %s\n", output);
   g_assert(g_file_test(output, G_FILE_TEST_EXISTS));
 
   if (g_test_trap_fork (0, 0))
@@ -270,9 +272,18 @@ main (int argc, char *argv[])
   g_test_add ("/integration/scheme-log-error", void, NULL, setup, test_scheme_log_error, teardown);
   g_test_add ("/integration/thumbnailer", void, NULL, setup, test_thumbnailer, teardown);
 
+  // Parses example dir for .denemo files
   GList* files = find_files_with_ext(example_dir, ".denemo");
   while(files){
-    gchar* filename = files->data;
+    gchar* filename = g_build_filename(example_dir, files->data, NULL);
+    g_test_add ("/integration/open-and-save-complex-file", gchar*, filename, setup, test_open_save_complex_file, teardown);
+    files = g_list_next(files);
+  }
+
+  // Parses integration-data dir for .mxml files
+  files = find_files_with_ext(data_dir, ".mxml");
+  while(files){
+    gchar* filename = g_build_filename(data_dir, files->data, NULL);
     g_test_add ("/integration/open-and-save-complex-file", gchar*, filename, setup, test_open_save_complex_file, teardown);
     files = g_list_next(files);
   }

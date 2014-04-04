@@ -677,6 +677,9 @@ play_note_noteoff_callback (gpointer data)
 int
 play_note (backend_type_t backend, int port, int channel, int key, int duration, int volume)
 {
+  if(Denemo.non_interactive)
+    return -1;
+
   unsigned char buffer[] = {
     MIDI_NOTE_ON | channel,
     key,
