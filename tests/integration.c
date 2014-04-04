@@ -16,24 +16,39 @@ static gchar* temp_dir = NULL;
 static gchar* example_dir = NULL;
 
 /*******************************************************************************
+ * Utils
+ ******************************************************************************/
+
+static GList*
+find_files_with_ext(gchar* dirname, gchar* ext){
+  GList* list = NULL;
+  GError* error = NULL;
+  const gchar* filename = NULL;
+  GDir* dir = g_dir_open(dirname, 0, &error);
+
+  while (filename = g_dir_read_name(dir))
+    if(g_str_has_suffix (filename, ext))
+      list = g_list_append(list, filename);
+  return list;
+}
+
+/*******************************************************************************
  * SETUP AND TEARDOWN
  ******************************************************************************/
 
 static void
 setup(gpointer fixture, gconstpointer data)
 {
-  if(!data_dir)
-    data_dir = g_build_filename(PACKAGE_SOURCE_DIR, "tests", DATA_DIR, NULL);
-
-  if(!temp_dir)
-    temp_dir = g_build_filename(g_get_current_dir (), TEMP_DIR, NULL);
-
-  if(!example_dir)
-    example_dir = g_build_filename(PACKAGE_SOURCE_DIR, EXAMPLE_DIR, NULL);
-  
   if(!g_file_test(temp_dir, G_FILE_TEST_EXISTS)){
     if(g_mkdir(temp_dir, 0777) < 0)
       g_warning("Could not create %s", temp_dir);
+  }
+
+  else{
+    GDir* dir = g_dir_open(temp_dir, 0, NULL);
+    gchar* filename = NULL;
+    while (filename = g_dir_read_name(dir))
+      g_remove (g_build_filename(temp_dir, filename, NULL));
   }
 }
 
@@ -123,8 +138,10 @@ test_open_save_blank_file(gpointer fixture, gconstpointer data)
 static void
 test_open_save_complex_file(gpointer fixture, gconstpointer data)
 {
-  const gchar* output = g_build_filename(temp_dir, "AllFeaturesExplained.denemo", NULL);
-  const gchar* input  = g_build_filename(example_dir, "AllFeaturesExplained.denemo", NULL);
+  gchar* filename = (gchar*) data;
+  g_print("Opening %s\n", filename);
+  const gchar* output = g_build_filename(temp_dir, filename, NULL);
+  const gchar* input  = g_build_filename(example_dir, filename, NULL);
   gchar* input_contents = NULL;
   gchar* output_contents = NULL;
 
@@ -236,14 +253,28 @@ main (int argc, char *argv[])
   if(!g_file_test(DENEMO, G_FILE_TEST_EXISTS))
     g_error("Denemo has not been compiled successfully");
 
+  if(!data_dir)
+    data_dir = g_build_filename(PACKAGE_SOURCE_DIR, "tests", DATA_DIR, NULL);
+
+  if(!temp_dir)
+    temp_dir = g_build_filename(g_get_current_dir (), TEMP_DIR, NULL);
+
+  if(!example_dir)
+    example_dir = g_build_filename(PACKAGE_SOURCE_DIR, EXAMPLE_DIR, NULL);
+  
   g_test_add ("/integration/run-and-quit", void, NULL, setup, test_run_and_quit, teardown);
   g_test_add ("/integration/open-blank-file", void, NULL, setup, test_open_blank_file, teardown);
   g_test_add ("/integration/open-and-save-blank-file", void, NULL, setup, test_open_save_blank_file, teardown);
-  g_test_add ("/integration/open-and-save-complex-file", void, NULL, setup, test_open_save_complex_file, teardown);
   //g_test_add ("/integration/invalid-scheme", void, NULL, setup, test_invalid_scheme, teardown);
   g_test_add ("/integration/scheme-log", void, NULL, setup, test_scheme_log, teardown);
   g_test_add ("/integration/scheme-log-error", void, NULL, setup, test_scheme_log_error, teardown);
   g_test_add ("/integration/thumbnailer", void, NULL, setup, test_thumbnailer, teardown);
 
+  GList* files = find_files_with_ext(example_dir, ".denemo");
+  while(files){
+    gchar* filename = files->data;
+    g_test_add ("/integration/open-and-save-complex-file", gchar*, filename, setup, test_open_save_complex_file, teardown);
+    files = g_list_next(files);
+  }
   return g_test_run ();
 }

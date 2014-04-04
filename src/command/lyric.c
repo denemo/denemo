@@ -55,6 +55,8 @@ switch_page (GtkNotebook * notebook, gpointer dummy, guint pagenum, DenemoStaff 
 GtkWidget *
 add_verse_to_staff (DenemoMovement * si, DenemoStaff * staff)
 {
+  if(Denemo.non_interactive)
+    return NULL;
   GtkWidget *notebook, *textview;
   if (staff->verses == NULL)
   {
@@ -211,6 +213,8 @@ reset_lyrics (DenemoStaff * staff, gint count)
 void
 install_lyrics_preview (DenemoMovement * si, GtkWidget * top_vbox)
 {
+  if(Denemo.non_interactive)
+    return;  
   if (si->lyricsbox == NULL)
     si->lyricsbox = gtk_vbox_new (FALSE, 1);    //box to hold notebook of textview widgets
   gtk_box_pack_start (GTK_BOX (top_vbox), si->lyricsbox, FALSE, TRUE, 0);
