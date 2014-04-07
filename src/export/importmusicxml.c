@@ -714,7 +714,7 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
   else if (is_rest)
     {                           //for the case where a rest is given without a type, just a duration.
      if(is_whole_measure_rest)
-            g_string_append (text, "(d-InsertWholeMeasureRest)");
+            g_string_append (text, "(d-InsertWholeMeasureRest)(d-MoveCursorLeft)");
      else 
             get_rest_for_duration (text, duration, divisions);
 
@@ -1198,7 +1198,8 @@ mxmlinput (gchar * filename)
        if (ELEM_NAME_EQ (childElem, "movement-title"))
         {
             gchar *title = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
-            g_string_append_printf (script, "(d-BookTitle \"%s\")", title);
+            if(title)
+                g_string_append_printf (script, "(d-BookTitle \"%s\")", escape_scheme(title));
         }
      if (ELEM_NAME_EQ (childElem, "identification"))   {
             parse_identification (childElem, script);

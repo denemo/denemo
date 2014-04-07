@@ -2666,3 +2666,23 @@ find_denemo_file (DenemoDirectory dir, gchar* filename)
  
   return find_path_for_file (filename, dirs);
 }
+
+gchar *escape_scheme (gchar *input)
+{
+    gchar *c = input -1;
+    GString *out = g_string_new("");
+       for(c=input; c && *c; c++)
+        {
+            if(*c=='"')
+                g_string_append (out, "\\\\\\\""); 
+            else
+                if(*c=='\\')
+                    g_string_append(out, "\\\\");
+                else 
+                {
+                    g_string_append_printf (out, "%c", *c);
+                }
+        }
+    return g_string_free(out, FALSE); 
+}
+
