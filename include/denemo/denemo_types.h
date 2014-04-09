@@ -1117,7 +1117,9 @@ struct DenemoRoot
   GtkWidget *menubar;/**< Main menubar to giving load/save play etc functionality */
 
   GList *continuations;
-  struct RhythmPattern *singleton_rhythms[256]; /**< rhythm patterns for the EntryToolbar */
+
+#define NB_SINGLETON_RHYTHMS 256
+  struct RhythmPattern *singleton_rhythms[NB_SINGLETON_RHYTHMS]; /**< rhythm patterns for the EntryToolbar */
   gboolean ScriptRecording;/**< TRUE when menuitems presses are being recorded as scheme script*/
   gint keyboard_state;/**< state of last keypress/release controlling MIDI in*/
   gboolean keyboard_state_locked;/**< lock against changes by shift and control keypresses */

@@ -3273,7 +3273,15 @@ unhighlight_rhythm (RhythmPattern * r)
 void
 highlight_rest (DenemoProject * project, gint dur)
 {
-
+  gint nb_sr = 'r' + dur;
+  if(nb_sr < 0 || nb_sr > NB_SINGLETON_RHYTHMS){
+    g_critical("Singleton rhythm index out of range");
+    return;
+  }
+  if(!Denemo.singleton_rhythms[nb_sr]){
+    g_critical("Unvalid singleton rhythm");
+    return;
+  }
   //g_debug("highlight rest");
   if (project->currhythm)
     {
@@ -3281,9 +3289,9 @@ highlight_rest (DenemoProject * project, gint dur)
     }
   project->currhythm = NULL;
   project->cstep = NULL;
-  project->rstep = Denemo.singleton_rhythms['r' + dur]->rsteps;
+  project->rstep = Denemo.singleton_rhythms[nb_sr]->rsteps;
   unhighlight_rhythm (project->prevailing_rhythm);
-  project->prevailing_rhythm = Denemo.singleton_rhythms['r' + dur];
+  project->prevailing_rhythm = Denemo.singleton_rhythms[nb_sr];
   highlight_rhythm (project->prevailing_rhythm);
 
 }
