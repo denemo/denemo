@@ -2089,6 +2089,8 @@ gboolean
 activate_script (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *project = Denemo.project;
+  gchar *name = (gchar *) gtk_action_get_name (action);
+  gint idx = lookup_command_from_name (Denemo.map, name);
   gboolean ret = FALSE;
   // the proxy list is NULL until the menu item is first called...
   //BUT if you first activate it with right button ....
@@ -2125,7 +2127,7 @@ activate_script (GtkAction * action, DenemoScriptParam * param)
       if (!is_action_name_builtin((gchar*) gtk_action_get_name(action)))
         {
           if (!text || !*text)
-            text = load_command_data (action);
+            text = load_command_data (idx);
           if (text && *text)
             {
               stage_undo (project->movement, ACTION_STAGE_END);   //undo is a queue so this is the end :)
@@ -2294,7 +2296,7 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
       save_command_data(scm_path, myscheme);
       load_xml_keymap (xml_path);
       GtkAction* action = lookup_action_from_name (myname);
-      load_command_data (action);
+      load_command_data (idx);
 
       if (confirm (_("New Command Added"), _("Do you want to save this with your default commands?")))
         save_accels ();
@@ -2573,7 +2575,7 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
       save_command_metadata (xml_filename, name, label, tooltip, row->after);
       save_command_data(scm_path, scheme);
       g_object_set_data (G_OBJECT (action), "scheme", (gpointer) "");
-      load_command_data (action);
+      load_command_data (idx);
     }
   else
     warningdialog (_("No script saved"));
@@ -3163,7 +3165,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
     {
       gchar *scheme = g_object_get_data (G_OBJECT (action), "scheme");
       if (!scheme || !*scheme)
-        scheme = load_command_data (action);
+        scheme = load_command_data (idx);
       if (!scheme)
         g_warning ("Could not get script for %s", gtk_action_get_name (action));
       else

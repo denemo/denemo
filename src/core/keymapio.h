@@ -16,7 +16,7 @@ gint save_xml_keybindings (gchar * filename);
 gint load_xml_keybindings (gchar * filename);
 gint save_command_metadata (gchar * filename, gchar * myname, gchar * mylabel, gchar * mytooltip, gchar * after);
 gint save_command_data (gchar * filename, gchar * myscheme);
-gchar* load_command_data (GtkAction * action);
+gchar* load_command_data (gint idx);
 
 #define XML_ENCODING "UTF-8"
 
