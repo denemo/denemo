@@ -690,7 +690,7 @@ scheme_script_callback (SCM script, SCM params)
               scm_c_define (paramvar, params);
 
               gchar *text = g_object_get_data (G_OBJECT (action), "scheme");
-              if (text && *text)
+              if (text)
                 {
                   //undo is a queue so this is the end :)
                   stage_undo (Denemo.project->movement, ACTION_STAGE_END);
