@@ -2126,9 +2126,9 @@ activate_script (GtkAction * action, DenemoScriptParam * param)
       gchar *text = (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
       if (!is_action_name_builtin((gchar*) gtk_action_get_name(action)))
         {
-          if (!text || !*text)
+          if (!text)
             text = load_command_data (idx);
-          if (text && *text)
+          if (text)
             {
               stage_undo (project->movement, ACTION_STAGE_END);   //undo is a queue so this is the end :)
               ret = (gboolean) ! call_out_to_guile (text);

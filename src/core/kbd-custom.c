@@ -1456,8 +1456,9 @@ execute_callback_from_name (const gchar * command_name)
 {
   gchar *text = NULL;
   GtkAction *action = lookup_action_from_name ((gchar *) command_name);
+  gboolean builtin = is_action_name_builtin((gchar*) gtk_action_get_name(action));
   text = (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
-  if (text && *text)
+  if (!builtin && text)
     call_out_to_guile (text);
   else
     gtk_action_activate (action);
