@@ -11,7 +11,7 @@
 #include "generated/scheme_cb.h"
 #include "export/guidedimportmidi.h"
 #include "export/print.h"
-
+#include "export/exportmidi.h"
 SCM 
 scheme_call_callback (SCM optional, callback_function callback) {
   gboolean query=FALSE;
@@ -4327,8 +4327,7 @@ scheme_output_midi_bytes (SCM input)
   volume = curstaffstruct->volume;
   char *string_input;
   string_input = scm_to_locale_string (input);
-  gchar *bytes = (gchar *)substitute_midi_values (string_input, channel, volume);
-
+  gchar *bytes = substitute_midi_values (string_input, channel, volume);
   for (i = 0, next = bytes; *next; next++)
     {
       i++;
