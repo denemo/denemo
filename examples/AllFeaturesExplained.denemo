@@ -214,7 +214,7 @@ accGeige</tag>
       </directive>
     </score-directives>
   </lilycontrol>
-  <movement-number>4</movement-number>
+  <movement-number>2</movement-number>
   <movement>
     <edit-info>
       <staffno>1</staffno>
@@ -646,9 +646,9 @@ Alternatively in the Notes/Rests-&gt;Beaming menu.\")"             &#x2B06;Expla
   </movement>
   <movement>
     <edit-info>
-      <staffno>1</staffno>
+      <staffno>2</staffno>
       <measureno>1</measureno>
-      <cursorposition>-1</cursorposition>
+      <cursorposition>10</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -829,6 +829,7 @@ The input Denemo Display gives you an indicator of what you have done. If you wa
                 </note>
               </notes>
             </chord>
+            <lily-directive tag="SustainOn" grob="SustainOn" graphic_name="&#10;P&#10;Denemo&#10;24" gy="44" minpixels="30" override="4">\sustainOn</lily-directive>
             <chord show="true" id="id92">
               <duration base="eighth">
                 <dots>1</dots>
@@ -847,6 +848,8 @@ The input Denemo Display gives you an indicator of what you have done. If you wa
                 </note>
               </notes>
             </chord>
+            <lily-directive tag="TextAnnotation&#10;Explanation &#x2B0A;" display="Explanation" grob="Text" prefix="&lt;&gt;-\tweak #'extra-offset #'( -7 . -4 )" minpixels="30">-\markup {    \with-url #'"scheme:(d-InfoDialog \"The pedal symbols are in the Directives-&gt;Markings-&gt;Spanning directory. There is a palette for Piano symbols too..\")"             &#x2B06;Explanation }</lily-directive>
+            <lily-directive tag="SustainOff" grob="SustainOff" graphic_name="&#10;!P&#10;Denemo&#10;24" gy="44" minpixels="30" override="4">\sustainOff</lily-directive>
             <chord show="true" id="id96">
               <duration base="quarter"/>
               <notes>
