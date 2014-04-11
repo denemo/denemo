@@ -166,12 +166,20 @@ event_queue_write_rubberband (event_queue_t * queue, float *data)
 
 }
 #endif
+
+static gboolean do_page_viewport(void)
+{
+    
+    page_viewport ();
+    return FALSE;
+}
+
 static gboolean
 page_viewport_callback (gpointer data)
 {
-  gdk_threads_enter ();
-  page_viewport ();
-  gdk_threads_leave ();
+  
+  g_main_context_invoke (NULL, (GSourceFunc)do_page_viewport, NULL);
+  
   return FALSE;
 }
 

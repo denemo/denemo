@@ -137,12 +137,17 @@ stop_play_callback (gchar * thescript)
   return FALSE;
 }
 
+static gboolean do_set_playbutton (gboolean paused)
+{
+    set_playbutton (paused);
+    return FALSE;
+}
 static gboolean
 update_playbutton_callback (gboolean paused)
 {
-  gdk_threads_enter ();
-  set_playbutton (paused);
-  gdk_threads_leave ();
+  
+  g_main_context_invoke (NULL, (GSourceFunc)do_set_playbutton, paused);
+  
   return FALSE;
 }
 

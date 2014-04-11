@@ -71,7 +71,7 @@ static smf_event_t *redraw_event;
 #ifndef _HAVE_RUBBERBAND_
 gdouble get_playback_speed (void)
 {
-	return 1.0;	//Rubberband can do slowdown, backend should define its own version of this
+    return 1.0; //Rubberband can do slowdown, backend should define its own version of this
 }
 #endif
 
@@ -311,22 +311,22 @@ audio_shutdown ()
   return 0;
 }
 
-
+static gboolean do_queue_draw (void) {
+    gtk_widget_queue_draw (Denemo.scorearea);
+    return FALSE;
+}
 static gboolean
 redraw_all_callback (gpointer data)
 {
-  gdk_threads_enter ();
-  //displayhelper(Denemo.project);
-  gtk_widget_queue_draw (Denemo.scorearea);
-  gdk_threads_leave ();
+
+  g_main_context_invoke (NULL, (GSourceFunc)do_queue_draw, NULL);
+
   return FALSE;
 }
 
 static gboolean
 redraw_playhead_callback (gpointer data)
 {
-  gdk_threads_enter ();
-
   DenemoMovement *si = Denemo.project->movement;
 
   smf_event_t *event = (smf_event_t *) data;
@@ -334,24 +334,24 @@ redraw_playhead_callback (gpointer data)
   si->playingnow = event->user_pointer;
   si->playhead = event->time_seconds;
 
-  region_playhead ();
+  g_main_context_invoke (NULL, (GSourceFunc)do_queue_draw, NULL);
 
-  gdk_threads_leave ();
   return FALSE;
 }
 
-
+static gboolean do_handle_midi_event (gchar *data) {
+  handle_midi_event (data);
+  g_free(data);
+  return FALSE;  
+}
 static gboolean
 handle_midi_event_callback (gpointer data)
 {
-  gdk_threads_enter ();
 
   midi_event_t *ev = (midi_event_t *) data;
 
   // TODO: handle backend type and port
-  handle_midi_event ((gchar *) ev->data);
-
-  gdk_threads_leave ();
+  g_main_context_invoke (NULL, (GSourceFunc)do_handle_midi_event, g_strdup(ev->data));
 
   g_free (ev);
 
@@ -403,10 +403,10 @@ gboolean
 write_samples_to_rubberband_queue (backend_type_t backend, float *sample, gint num)
 {gint i;
   for(i=0;i<num;i++) {
-	if(!event_queue_write_rubberband (get_event_queue (backend), sample+i))
-		return FALSE;
-	}
-	return TRUE;
+    if(!event_queue_write_rubberband (get_event_queue (backend), sample+i))
+        return FALSE;
+    }
+    return TRUE;
 }
 #endif
 gboolean
@@ -556,10 +556,10 @@ update_playback_time (backend_timebase_prio_t prio, double new_time)
       return;
     }
   if(time_reset)
-	{
-		time_reset = FALSE;
-		return;
-	}
+    {
+        time_reset = FALSE;
+        return;
+    }
   if (new_time != playback_time)
     {
       playback_time = new_time;
@@ -592,10 +592,10 @@ midi_play (gchar * callback)
   start_playing (callback);
   do {//FIXME, this is a crude attempt to get the playback_time set without the callback from portaudio re-writing it.
   playback_time = playback_start_time;
-	time_reset = TRUE;
-	playback_time = playback_start_time;
-	get_backend (AUDIO_BACKEND)->start_playing ();// this must pick up the playback_start_time, which won't happen if an interrrupt has occurred meanwhile.
-  	} while(playback_time != playback_start_time);
+    time_reset = TRUE;
+    playback_time = playback_start_time;
+    get_backend (AUDIO_BACKEND)->start_playing ();// this must pick up the playback_start_time, which won't happen if an interrrupt has occurred meanwhile.
+    } while(playback_time != playback_start_time);
   g_message ("Starting playback at %f", playback_start_time);
   get_backend (MIDI_BACKEND)->start_playing ();
 }
