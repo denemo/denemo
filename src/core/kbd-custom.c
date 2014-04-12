@@ -113,6 +113,7 @@ command_row_init(command_row *command)
   command->after = NULL;
   command->fallback = NULL;
   command->menupath = NULL;
+  command->scheme = NULL;
 }
 
 command_row*
@@ -905,7 +906,25 @@ lookup_command_for_keybinding_name (keymap * the_keymap, const gchar * binding_n
     return -1;
 }
 
+/**
+ * get_scheme_from_idx:
+ * @idx: The command id.
+ *
+ * Returns null if idx is not valid.
+ * Loads the scheme code if it is not yet loaded, and caches it.
+ * Finally returns the scheme code, or NULL if the command is builtin.
+ **/
 
+gchar*
+get_scheme_from_idx (gint idx){
+  command_row* row = g_hash_table_lookup(Denemo.map->commands, &idx);
+  if(!row)
+    return NULL;
+  if(row->scheme)
+    return row->scheme;
+  row->scheme = load_command_data (idx);
+  return row->scheme;
+}
 
 /**
  * Look up for a command index.
@@ -1454,12 +1473,12 @@ execute_callback_from_idx (keymap * the_keymap, guint command_id)
 gboolean
 execute_callback_from_name (const gchar * command_name)
 {
-  gchar *text = NULL;
+  gint idx = lookup_command_from_name(Denemo.map, command_name);
   GtkAction *action = lookup_action_from_name ((gchar *) command_name);
   gboolean builtin = is_action_name_builtin((gchar*) gtk_action_get_name(action));
-
+  
   if (!builtin){
-    text = (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
+    gchar* text = get_scheme_from_idx (idx);
     if(text)
       call_out_to_guile (text);
     else

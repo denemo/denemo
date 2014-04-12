@@ -758,8 +758,6 @@ load_command_data (gint idx)
     return NULL;
   }
   g_free(path);
-
-  g_object_set_data (G_OBJECT (action), "scheme", scheme);
   
   // Load the init script if there is one
   path = g_build_filename (dir, INIT_SCM, NULL);

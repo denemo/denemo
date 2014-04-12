@@ -381,6 +381,7 @@ typedef struct command_row
   gchar* after;
   gchar* fallback;
   gchar* menupath;
+  gchar* scheme;
 } command_row;
 
 typedef enum{
@@ -388,7 +389,7 @@ typedef enum{
   COMMAND_SCHEME
 } SCRIPT_TYPE;
 
-//index of columns in the keymap command list store FIXME if you add columns you must add them in keymap_get_command_row and allocate_keymap !!!!
+//index of columns in the keymap command list store FIXME if you add columns you must add them in allocate_keymap !!!!
 enum
 {
   COL_TYPE = 0,
@@ -402,6 +403,7 @@ enum
   COL_SCRIPTTYPE,
   COL_LOCATIONS,
   COL_ROW,
+  COL_SCHEME,
   N_COLUMNS
 } COMMAND_COLS;
 

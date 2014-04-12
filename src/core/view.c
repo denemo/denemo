@@ -2123,11 +2123,9 @@ activate_script (GtkAction * action, DenemoScriptParam * param)
       scm_c_eval_string (current_script);
       g_free (current_script);
 
-      gchar *text = (gchar *) g_object_get_data (G_OBJECT (action), "scheme");
+      gchar *text = get_scheme_from_idx (idx);
       if (!is_action_name_builtin((gchar*) gtk_action_get_name(action)))
         {
-          if (!text)
-            text = load_command_data (idx);
           if (text)
             {
               stage_undo (project->movement, ACTION_STAGE_END);   //undo is a queue so this is the end :)
@@ -2295,8 +2293,6 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
       save_command_metadata (xml_path, myname, mylabel, mytooltip, idx < 0 ? NULL : after);
       save_command_data(scm_path, myscheme);
       load_xml_keymap (xml_path);
-      GtkAction* action = lookup_action_from_name (myname);
-      load_command_data (idx);
 
       if (confirm (_("New Command Added"), _("Do you want to save this with your default commands?")))
         save_accels ();
@@ -2574,8 +2570,7 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
       g_free (dirpath);
       save_command_metadata (xml_filename, name, label, tooltip, row->after);
       save_command_data(scm_path, scheme);
-      g_object_set_data (G_OBJECT (action), "scheme", (gpointer) "");
-      load_command_data (idx);
+      row->scheme = NULL;
     }
   else
     warningdialog (_("No script saved"));
@@ -2600,7 +2595,7 @@ uploadMenuItem (GtkWidget * widget, GtkAction * action)
 
   gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, name,
                                       NULL);
-  gchar *script = g_object_get_data (G_OBJECT (action), "scheme");
+  gchar *script = get_scheme_from_idx (idx);
   gchar *xml;
   GError *error = NULL;
   g_file_get_contents (filename, &xml, NULL, &error);
@@ -3163,9 +3158,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
 
   if (!is_action_name_builtin(func_name))
     {
-      gchar *scheme = g_object_get_data (G_OBJECT (action), "scheme");
-      if (!scheme || !*scheme)
-        scheme = load_command_data (idx);
+      gchar *scheme = get_scheme_from_idx (idx);
       if (!scheme)
         g_warning ("Could not get script for %s", gtk_action_get_name (action));
       else

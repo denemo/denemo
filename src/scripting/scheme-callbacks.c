@@ -681,6 +681,7 @@ scheme_script_callback (SCM script, SCM params)
   if (scm_is_string (script))
     {
       name = scm_to_locale_string (script);
+      gint idx = lookup_command_from_name(Denemo.map, name);
       if (name)
         {
           GtkAction *action = lookup_action_from_name (name);
@@ -689,7 +690,7 @@ scheme_script_callback (SCM script, SCM params)
               gchar *paramvar = g_strdup_printf ("%s::params", name);
               scm_c_define (paramvar, params);
 
-              gchar *text = g_object_get_data (G_OBJECT (action), "scheme");
+              gchar *text = get_scheme_from_idx (idx);
               if (text)
                 {
                   //undo is a queue so this is the end :)
