@@ -684,8 +684,7 @@ scheme_script_callback (SCM script, SCM params)
       gint idx = lookup_command_from_name(Denemo.map, name);
       if (name)
         {
-          GtkAction *action = lookup_action_from_name (name);
-          if (action && !is_action_name_builtin(name))
+          if (!is_action_name_builtin(name))
             {
               gchar *paramvar = g_strdup_printf ("%s::params", name);
               scm_c_define (paramvar, params);
@@ -698,8 +697,12 @@ scheme_script_callback (SCM script, SCM params)
                   ret = SCM_BOOL (!call_out_to_guile (text));
                   stage_undo (Denemo.project->movement, ACTION_STAGE_START);
                 }
-              else
+              else if(!Denemo.non_interactive){
+                GtkAction *action = lookup_action_from_name (name);
                 ret = SCM_BOOL (activate_script (action, NULL));
+              }
+              else
+                g_warning("Could not execute %s script", name);
               scm_c_define (paramvar, SCM_BOOL_F);
               g_free (paramvar);
             }
@@ -1229,7 +1232,10 @@ scheme_decrease_guard (SCM optional)
   return SCM_BOOL_T;
 }
 
-//From a script undo must undo only the modifications to the start of the script, and push another STAGE_END for the end of the actions that it will do after the invocation of undo. This function overrides the built-in undo called directly by the user.
+//From a script undo must undo only the modifications to the start of the 
+//script, and push another STAGE_END for the end of the actions that it will do 
+//after the invocation of undo. This function overrides the built-in undo called
+//directly by the user.
 SCM
 scheme_undo (SCM optional)
 {
