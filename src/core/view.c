@@ -4651,10 +4651,11 @@ create_window (void)
                                                        "\nMany commands operate on the object at the Denemo cursor. " 
                                                        "Right-click on an object to get a short menu of actions or set the mouse input mode.\n"
                                                        "Shift-Right-click for more objects to insert."));
+    GtkWidget *outer_pane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
     GtkWidget *scorearea_topbox = gtk_vbox_new (FALSE, 1);
     //gtk_container_add (GTK_CONTAINER (main_vbox), scorearea_topbox);
-    gtk_box_pack_start (GTK_BOX (main_vbox), scorearea_topbox, TRUE, TRUE, 0);   
-
+    gtk_box_pack_start (GTK_BOX (main_vbox), outer_pane, TRUE, TRUE, 0);   
+    gtk_paned_add1 (outer_pane, scorearea_topbox);
     GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
     //gtk_container_add (GTK_CONTAINER (scorearea_topbox), score_and_scroll_hbox);
     gtk_box_pack_start (GTK_BOX (scorearea_topbox), score_and_scroll_hbox, TRUE, TRUE, 0);   
@@ -4697,7 +4698,7 @@ create_window (void)
     g_signal_connect (G_OBJECT (Denemo.hadjustment), "value_changed", G_CALLBACK (horizontal_scroll), NULL);
     Denemo.hscrollbar = gtk_hscrollbar_new (GTK_ADJUSTMENT (Denemo.hadjustment));
     gtk_box_pack_start (GTK_BOX (scorearea_topbox), Denemo.hscrollbar, FALSE, TRUE, 0);
-    gtk_widget_show_all (scorearea_topbox);
+    gtk_widget_show_all (outer_pane);
   }
 
 

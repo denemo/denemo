@@ -31,7 +31,7 @@ new_lyric_editor (void)
   GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   if (Denemo.prefs.newbie)
-    gtk_widget_set_tooltip_text (sw, _("The text of a verse can be typed or pasted here. The space between syllables determines which syllable goes beneath which note(s).\nNew lines have no special significance for this. Slurs on notes make them take only one syllable. Use the underscore _ for blank syllables and the hyphen - for extending syllables."));
+    gtk_widget_set_tooltip_text (sw, _("The text of a verse can be typed or pasted here.  Separate syllables with space double hyphen space, -- , if they should have their own note(s).\nNew lines and extra spaces have no special significance. Slurs on notes make them take only one syllable. Use the underscore _ for blank syllables."));
   gtk_container_add (GTK_CONTAINER (sw), view);
 
 
@@ -103,6 +103,7 @@ add_verse (GtkAction * action, DenemoScriptParam * param)
   {
     DenemoStaff *staff = si->currentstaff->data;
     add_verse_to_staff (si, staff);
+   // put_lyrics_for_current_verse (staff, "\n\n\n\n");//Force some height on the widget so the user has some place to type
     signal_structural_change (gui);
     gtk_widget_show (staff->currentverse->data);
     g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (staff->currentverse->data)), "changed", G_CALLBACK (lyric_change), NULL);
@@ -217,7 +218,7 @@ install_lyrics_preview (DenemoMovement * si, GtkWidget * top_vbox)
     return;  
   if (si->lyricsbox == NULL)
     si->lyricsbox = gtk_vbox_new (FALSE, 1);    //box to hold notebook of textview widgets
-  gtk_box_pack_start (GTK_BOX (top_vbox), si->lyricsbox, FALSE, TRUE, 0);
+  gtk_paned_add2 (GTK_PANED (gtk_widget_get_parent(top_vbox)), si->lyricsbox);
   if (Denemo.prefs.lyrics_pane)
     gtk_widget_show (si->lyricsbox);
 }
