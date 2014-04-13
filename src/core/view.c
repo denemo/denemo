@@ -2545,7 +2545,6 @@ static void
 saveMenuItem (GtkWidget * widget, GtkAction * action)
 {
   gchar *name = (gchar *) gtk_action_get_name (action);
-  gchar *menupath = g_object_get_data (G_OBJECT (action), "menupath");
   gint idx = lookup_command_from_name (Denemo.map, name);
   
   command_row* row = NULL;
@@ -2555,11 +2554,11 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
   gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
   
   gchar *xml_filename = g_strconcat (name, XML_EXT, NULL);
-  gchar *xml_path = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, xml_filename, NULL);
+  gchar *xml_path = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", row->menupath, xml_filename, NULL);
   g_free (xml_filename);
 
   gchar *scm_filename = g_strconcat (name, SCM_EXT, NULL);
-  gchar *scm_path = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, scm_filename, NULL);
+  gchar *scm_path = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", row->menupath, scm_filename, NULL);
   g_free (scm_filename);
   
   gchar *scheme = getSchemeText ();
@@ -2585,7 +2584,6 @@ static void
 uploadMenuItem (GtkWidget * widget, GtkAction * action)
 {
   gchar *name = (gchar *) gtk_action_get_name (action);
-  gchar *menupath = g_object_get_data (G_OBJECT (action), "menupath");
   gint idx = lookup_command_from_name (Denemo.map, name);
   
   command_row* row = NULL;
@@ -2593,13 +2591,13 @@ uploadMenuItem (GtkWidget * widget, GtkAction * action)
   gchar *tooltip = (gchar *) lookup_tooltip_from_idx (Denemo.map, idx);
   gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
 
-  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, name,
+  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", row->menupath, name,
                                       NULL);
   gchar *script = get_scheme_from_idx (idx);
   gchar *xml;
   GError *error = NULL;
   g_file_get_contents (filename, &xml, NULL, &error);
-  filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, INIT_SCM, NULL);
+  filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", row->menupath, INIT_SCM, NULL);
   gchar *init_script;
   g_file_get_contents (filename, &init_script, NULL, &error);
 
@@ -2611,7 +2609,7 @@ uploadMenuItem (GtkWidget * widget, GtkAction * action)
     script = "";
 
 
-  upload_scripts (name, script, init_script, xml, menupath, label, tooltip, row->after);
+  upload_scripts (name, script, init_script, xml, row->menupath, label, tooltip, row->after);
 
 }
 #endif
@@ -3082,6 +3080,9 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
 
 
   gint idx = lookup_command_from_name (the_keymap, func_name);
+  command_row* row = NULL;
+  keymap_get_command_row (the_keymap, &row, idx);
+
   //g_debug("event button %d, idx %d for %s recording = %d scm = %d\n", event->button, idx, func_name, Denemo.ScriptRecording,g_object_get_data(G_OBJECT(action), "scm") );
   if (event->button != 3)       //Not right click
     if (Denemo.ScriptRecording)
@@ -3132,11 +3133,12 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
     }                           //idx!=-1
 
-  gchar *myposition = g_object_get_data (G_OBJECT (widget), "menupath");        // applies if it is a built-in command: FIXME not set for the popup menus though
+  // applies if it is a built-in command: FIXME not set for the popup menus though
+  gchar *myposition = g_object_get_data (G_OBJECT (widget), "menupath");
   //g_debug("position from built in is %s\n", myposition);
   if (!myposition)
-    myposition = g_object_get_data (G_OBJECT (action), "menupath");     //menu item runs a script
-  //g_debug("Connecting to %s\n", g_object_get_data(G_OBJECT(widget), "menupath"));
+    //menu item runs a script
+    myposition = row->menupath;
 
   //g_debug("position is %s\n", myposition);
   if (myposition == NULL)

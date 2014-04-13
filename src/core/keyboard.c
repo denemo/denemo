@@ -143,7 +143,12 @@ instantiate_menus (gchar * menupath)
       GtkAction *action = gtk_action_new (name, name, tooltip, NULL);
       g_free (tooltip);
       gtk_action_group_add_action (action_group, action);
-      g_object_set_data (G_OBJECT (action), "menupath", up1);
+
+      gint idx = lookup_command_from_name (Denemo.map, gtk_action_get_name (action));
+      command_row* row = NULL;
+      keymap_get_command_row(Denemo.map, &row, idx);
+      if(row)
+        row->menupath = up1;
     }
   gtk_ui_manager_add_ui (Denemo.ui_manager, gtk_ui_manager_new_merge_id (Denemo.ui_manager), up1, name, name, GTK_UI_MANAGER_MENU, FALSE);
   //g_debug("Adding %s to %s\n", name, up1);
@@ -250,8 +255,6 @@ create_command(command_row *command)
         command->menupath = command->fallback;
         add_ui (command->menupath, command->after, command->name);
       }
-
-      g_object_set_data (G_OBJECT (action), "menupath", command->menupath);
 
       if (new_command)
         g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);

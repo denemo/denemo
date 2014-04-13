@@ -550,17 +550,14 @@ execute_init_scripts (gchar * menupath)
 SCM
 scheme_initialize_script (SCM action_name)
 {
-  SCM ret;
-  char *name;
-  name = scm_to_locale_string (action_name);
-  GtkAction *action = lookup_action_from_name (name);
-  if (!action)
-    {
-      g_warning ("Non-existent action %s", name);
-      return SCM_BOOL (FALSE);
-    }
-  gchar *menupath = g_object_get_data (G_OBJECT (action), "menupath");
-  ret = scheme_execute_init (menupath);
+  SCM ret = SCM_BOOL_T;
+  char *name = scm_to_locale_string (action_name);
+  
+  gint idx = lookup_command_from_name (Denemo.map, name);
+  command_row* row = NULL;
+  keymap_get_command_row(Denemo.map, &row, idx);
+
+  ret = scheme_execute_init (row->menupath);
   if (name)
     free (name);
   return ret;
@@ -1842,20 +1839,17 @@ scheme_get_menu_position (SCM command)
     {
       return SCM_BOOL_F;
     }
-    
-   
-    
+
   gint idx = lookup_command_from_name (Denemo.map, name);
+  command_row* row = NULL;
+  keymap_get_command_row(Denemo.map, &row, idx);
   if (name)
     free (name);
   if (idx < 0)
     {
       return SCM_BOOL_F;
     }
-  GtkAction *action = (GtkAction *) lookup_action_from_idx (Denemo.map, idx);
-  if (action == NULL)
-    return SCM_BOOL_F;
-  menuposition = get_menu_position (g_object_get_data (G_OBJECT (action), "menupath"));
+  menuposition = get_menu_position (row->menupath);
 
   if(menuposition && *menuposition) { 
     ret = scm_from_locale_string (menuposition);
@@ -1882,21 +1876,19 @@ scheme_get_menu_path (SCM command)
       return SCM_BOOL_F;
     }
   gint idx = lookup_command_from_name (Denemo.map, name);
+  command_row* row = NULL;
+  keymap_get_command_row(Denemo.map, &row, idx);
   if (name)
     free (name);
   if (idx < 0)
     {
       return SCM_BOOL_F;
     }
-  GtkAction *action = (GtkAction *) lookup_action_from_idx (Denemo.map, idx);
-  if (action == NULL)
-    return SCM_BOOL_F;
-  gchar *menupath = g_object_get_data (G_OBJECT (action), "menupath");
-  if (menupath == NULL)
+  if (row->menupath == NULL)
     {
       return SCM_BOOL_F;
     }
-  return scm_from_locale_string (menupath);
+  return scm_from_locale_string (row->menupath);
 }
 
 SCM

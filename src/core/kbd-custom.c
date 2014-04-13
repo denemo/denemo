@@ -1040,13 +1040,9 @@ lookup_label_from_idx (keymap * keymap, gint command_id)
 const gchar *
 lookup_menu_path_from_idx (keymap * keymap, gint command_id)
 {
-    gchar *menupath = NULL;
-    if (command_id == -1)
-        return NULL;
-  GtkAction *action = (GtkAction *) lookup_action_from_idx (keymap, command_id);
-    if (action)
-        menupath = g_object_get_data (G_OBJECT (action), "menupath");
-    return menupath;
+  command_row* row = NULL;
+  keymap_get_command_row(Denemo.map, &row, command_id);
+  return row->menupath;
 }
 //returns the accel, "" if no accel defined. free the result
 //the accel is the first keybinding of the list
@@ -2184,7 +2180,7 @@ keymap_change_binding_view_on_command_selection (GtkTreeSelection * selection, G
   if (tooltip)
     {
       gchar *plain;
-      gchar *menupath = get_menu_position (g_object_get_data (G_OBJECT (action), "menupath"));
+      gchar *menupath = get_menu_position (row->menupath);
       
       gchar *text = g_strdup_printf (_( "%s\nLocation: %s\nInternal Name: %s"), tooltip, menupath, gtk_action_get_name(action));
       pango_parse_markup (text, -1, 0, NULL, &plain, 0, NULL);
