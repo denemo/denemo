@@ -629,8 +629,10 @@ dnm_newstaffafter (GtkAction * action, DenemoScriptParam * param)
     return;
   movetostart (NULL, NULL);
   newstaff (gui, AFTER, DENEMO_NONE);
-  set_bottom_staff (gui);
-  update_vscrollbar (gui);
+  if(!Denemo.non_interactive){
+    set_bottom_staff (gui);
+    update_vscrollbar (gui);
+  }
   movetostaffdown (NULL, NULL);
   displayhelper (gui);
 }

@@ -9,6 +9,9 @@ find_command_dir(gint idx, gchar* filename)
   command_row* row = NULL;
   keymap_get_command_row(Denemo.map, &row, idx);
 
+  if(!row->menupath)
+    g_debug("Command %s has no menupath", filename);
+  
   GList* dirs = NULL;
   dirs = g_list_append(dirs, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, "menus", row->menupath, NULL));
   dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", row->menupath, NULL));

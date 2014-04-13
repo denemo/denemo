@@ -1081,8 +1081,10 @@ what##_directive_put_##field(gchar *tag, gchar *value) {\
     g_string_assign(directive->field, value);\
   else\
     directive->field = g_string_new(value);\
-  widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
-  g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
+  if(!Denemo.non_interactive){\
+    widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
+    g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
+  }\
   return TRUE;\
 }
 #define PUT_STR_FIELD_FUNC(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, directives)
@@ -1180,8 +1182,10 @@ what##_directive_put_##field(gchar *tag, gint value) {\
     current->name = g_list_append(current->name, directive);\
     }\
   directive->field = value;\
-  widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
-  g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
+  if(!Denemo.non_interactive){\
+    widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
+    g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
+  }\
   return TRUE;\
 }
 #define PUT_INT_FIELD_FUNC(what, field)  PUT_INT_FIELD_FUNC_NAME(what, field, directives)
@@ -1676,8 +1680,10 @@ what##_directive_put_##field(gchar *tag, gchar *value) {\
     g_string_assign(directive->field, value);\
   else\
     directive->field = g_string_new(value);\
-  widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
-  g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", (gpointer)&current->name); \
+  if(!Denemo.non_interactive){\
+    widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
+    g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", (gpointer)&current->name); \
+  }\
   return TRUE;\
 }
 
@@ -1696,8 +1702,10 @@ what##_directive_put_##field(gchar *tag, gint value) {\
     current->name = g_list_append(current->name, directive);\
     }\
   directive->field = value;\
-  widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
-  g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
+  if(!Denemo.non_interactive){\
+    widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
+    g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
+  }\
   return TRUE;\
 }
 
@@ -1720,8 +1728,10 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
     directive->graphic_name = g_string_new(value);\
   else\
     g_string_assign(directive->graphic_name, value);\
-  widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
-  g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
+  if(!Denemo.non_interactive){\
+    widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
+    g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
+  }\
   return directive != NULL;\
 }
 

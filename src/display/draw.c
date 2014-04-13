@@ -1638,6 +1638,8 @@ draw_callback (cairo_t * cr)
 void
 update_drawing_cache (void)
 {
+  if(Denemo.non_interactive)
+    return;
   draw_score (NULL);
 }
 

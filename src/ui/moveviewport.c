@@ -85,6 +85,9 @@ set_rightmeasurenum (DenemoMovement * si)
 static void
 to_next_primary_voice (gint * staff_number, staffnode ** staff_iterator)
 {
+  if(!staff_iterator)
+    return;
+
   do
     {
       (*staff_number)++;
@@ -145,7 +148,8 @@ isoffleftside (DenemoProject * gui)
       set_rightmeasurenum (gui->movement);
     }
   find_leftmost_allcontexts (gui->movement);
-  update_hscrollbar (gui);
+  if(!Denemo.non_interactive)
+    update_hscrollbar (gui);
 }
 
 /**
@@ -163,7 +167,8 @@ isoffrightside (DenemoProject * gui)
       set_rightmeasurenum (gui->movement);
     }
   find_leftmost_allcontexts (gui->movement);
-  update_hscrollbar (gui);
+  if(!Denemo.non_interactive)
+    update_hscrollbar (gui);
 }
 
 /**
@@ -173,6 +178,8 @@ isoffrightside (DenemoProject * gui)
 void
 move_viewport_up (DenemoProject * gui)
 {
+  if(Denemo.non_interactive)  
+    return;
   staffnode *staff_iterator;
 
   staff_iterator = g_list_nth (gui->movement->thescore, gui->movement->top_staff - 1);
@@ -220,6 +227,8 @@ page_viewport (void)
 void
 move_viewport_down (DenemoProject * gui)
 {
+  if(Denemo.non_interactive)
+    return;
   staffnode *staff_iterator;
 
   staff_iterator = g_list_nth (gui->movement->thescore, gui->movement->top_staff - 1);
@@ -251,7 +260,8 @@ goto_currentmeasurenum (DenemoProject * gui, gint dest, gboolean extend_selectio
         calcmarkboundaries (gui->movement);
       set_rightmeasurenum (gui->movement);
       find_leftmost_allcontexts (gui->movement);
-      update_hscrollbar (gui);
+      if(!Denemo.non_interactive)
+        update_hscrollbar (gui);
       draw_score_area();
       return TRUE;
     }
@@ -300,7 +310,8 @@ goto_currentstaffnum (DenemoProject * gui, gint dest, gboolean extend_selection)
       if (extend_selection)
         calcmarkboundaries (gui->movement);
       find_leftmost_allcontexts (gui->movement);
-      update_vscrollbar (gui);
+      if(!Denemo.non_interactive)
+        update_vscrollbar (gui);
       draw_score_area();
       return TRUE;
     }

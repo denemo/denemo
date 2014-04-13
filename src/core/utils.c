@@ -1849,6 +1849,9 @@ display_current_object (void)
 void
 write_status (DenemoProject * gui)
 {
+  if(Denemo.non_interactive)
+    return;
+
   gint minutes = 0;
   gdouble seconds = 0.0;
   gdouble early = 0.0, late = 0.0;

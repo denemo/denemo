@@ -3724,7 +3724,7 @@ SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   return SCM_BOOL(ret);\
 }
 //block to clone for new GString entries in DenemoDirective
-  GETFUNC_DEF (note, display);
+GETFUNC_DEF (note, display);
 GETFUNC_DEF (chord, display);
 GETFUNC_DEF (standalone, display);
 GETFUNC_DEF (staff, display);
@@ -4922,7 +4922,8 @@ scheme_set_background (SCM color)
       gint value = scm_to_int (color);
       Denemo.color = value;
       draw_score_area();
-      draw_score (NULL);
+      if(!Denemo.non_interactive)
+        draw_score (NULL);
       return SCM_BOOL_T;
     }
   return SCM_BOOL_F;
@@ -5087,7 +5088,8 @@ scheme_staff_to_voice (SCM optional)
       ret = SCM_BOOL_T;
       draw_score_area();
       score_status (Denemo.project, TRUE);
-      draw_score (NULL);
+      if(!Denemo.non_interactive)
+        draw_score (NULL);
     }
   return ret;
 }

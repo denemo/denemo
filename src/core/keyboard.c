@@ -240,22 +240,23 @@ create_command(command_row *command)
       create_scheme_function_for_script (command->name);
     }
     
-    if(!Denemo.non_interactive){
-      if(g_list_length(command->locations) > 0)
+    if(g_list_length(command->locations) > 0)
+    {
+      GList *g = NULL;
+      for (g = command->locations; g; g = g->next)
       {
-        GList *g = NULL;
-        for (g = command->locations; g; g = g->next)
-        {
-          command->menupath = (gchar *) (g->data ?: "/MainMenu/Other");
+        command->menupath = (gchar *) (g->data ?: "/MainMenu/Other");
+        if(!Denemo.non_interactive)
           add_ui (command->menupath, command->after, command->name);
-        }
       }
-      else if (command->fallback)
-      {           
-        command->menupath = command->fallback;
-        add_ui (command->menupath, command->after, command->name);
-      }
-
+    }
+    else if (command->fallback)
+    {           
+      command->menupath = command->fallback;
+      add_ui (command->menupath, command->after, command->name);
+    }
+    
+    if(!Denemo.non_interactive){
       if (new_command)
         g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
     }

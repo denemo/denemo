@@ -3270,20 +3270,19 @@ unhighlight_rhythm (RhythmPattern * r)
 void
 highlight_rest (DenemoProject * project, gint dur)
 {
+  if (project->currhythm)
+    {
+      unhighlight_rhythm ((RhythmPattern *) project->currhythm->data);
+    }
   gint nb_sr = 'r' + dur;
   if(nb_sr < 0 || nb_sr > NB_SINGLETON_RHYTHMS){
     g_critical("Singleton rhythm index out of range");
     return;
   }
   if(!Denemo.singleton_rhythms[nb_sr]){
-    g_critical("Unvalid singleton rhythm");
+    g_debug("Unvalid singleton rhythm %i", nb_sr);
     return;
   }
-  //g_debug("highlight rest");
-  if (project->currhythm)
-    {
-      unhighlight_rhythm ((RhythmPattern *) project->currhythm->data);
-    }
   project->currhythm = NULL;
   project->cstep = NULL;
   project->rstep = Denemo.singleton_rhythms[nb_sr]->rsteps;
@@ -3296,18 +3295,24 @@ highlight_rest (DenemoProject * project, gint dur)
 void
 highlight_duration (DenemoProject * project, gint dur)
 {
-  if(Denemo.non_interactive)
-    return;
-  //g_debug("higlight duration");
   if (project->currhythm)
     {
       unhighlight_rhythm ((RhythmPattern *) project->currhythm->data);
     }
+  gint nb_sr = '0' + dur;
+  if(nb_sr < 0 || nb_sr > NB_SINGLETON_RHYTHMS){
+    g_critical("Singleton rhythm index out of range");
+    return;
+  }
+  if(!Denemo.singleton_rhythms[nb_sr]){
+    g_debug("Unvalid singleton rhythm %i", nb_sr);
+    return;
+  }
   project->currhythm = NULL;
   project->cstep = NULL;
-  project->rstep = Denemo.singleton_rhythms['0' + dur]->rsteps;
+  project->rstep = Denemo.singleton_rhythms[nb_sr]->rsteps;
   unhighlight_rhythm (project->prevailing_rhythm);
-  project->prevailing_rhythm = Denemo.singleton_rhythms['0' + dur];
+  project->prevailing_rhythm = Denemo.singleton_rhythms[nb_sr];
   highlight_rhythm (project->prevailing_rhythm);
 }
 

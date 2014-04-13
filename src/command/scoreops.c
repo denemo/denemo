@@ -316,9 +316,11 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
             warningdialog (_("No such movement"));
           return FALSE;
         }
-      gtk_widget_hide (gui->movement->buttonbox);
+      if(!Denemo.non_interactive)
+        gtk_widget_hide (gui->movement->buttonbox);
       gui->movement = this->data;
-      gtk_widget_show (gui->movement->buttonbox);
+      if(!Denemo.non_interactive)
+        gtk_widget_show (gui->movement->buttonbox);
     }
 
 
@@ -687,25 +689,30 @@ clone_movement (DenemoMovement * si)
 
       if (srcStaff->leftmost_clefcontext == &srcStaff->clef)
         thestaff->leftmost_clefcontext = &thestaff->clef;
-      else
+      else{
         // has to be fixed up after the measures are done..., so do the whole thing after???
         //                                                         likewise keysig timesig
-        g_warning ("Not doing clef context yet..."), thestaff->leftmost_clefcontext = &thestaff->clef;
-
+        g_warning ("Not doing clef context yet...");
+        thestaff->leftmost_clefcontext = &thestaff->clef;
+      }
+      
       if (srcStaff->leftmost_timesig == &srcStaff->timesig)
         thestaff->leftmost_timesig = &thestaff->timesig;
-      else
+      else{
         // has to be fixed up after the measures are done..., so do the whole thing after???
         //                                                         likewise keysig timesig
-        g_warning ("Not doing timesig context yet..."), thestaff->leftmost_timesig = &thestaff->timesig;
-
+        g_warning ("Not doing timesig context yet...");
+        thestaff->leftmost_timesig = &thestaff->timesig;
+      }
+      
       if (srcStaff->leftmost_keysig == &srcStaff->keysig)
         thestaff->leftmost_keysig = &thestaff->keysig;
-      else
+      else{
         // has to be fixed up after the measures are done..., so do the whole thing after???
         //                                                         likewise keysig timesig
-        g_warning ("Not doing keysig context yet..."), thestaff->leftmost_keysig = &thestaff->keysig;
-
+        g_warning ("Not doing keysig context yet...");
+        thestaff->leftmost_keysig = &thestaff->keysig;
+      }
 
 
       thestaff->denemo_name = g_string_new (srcStaff->denemo_name->str);

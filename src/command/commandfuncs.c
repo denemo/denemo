@@ -744,9 +744,10 @@ gostaffdown (DenemoScriptParam * param, gboolean extend_selection)
       show_lyrics ();
       find_leftmost_allcontexts (si);
 
-      update_drawing_cache ();;
+      update_drawing_cache ();
       move_viewport_down (gui);
       set_cursor_transition ();
+    
       param->status = TRUE;
     }
   else if (param == &dummy)     //is interactive
@@ -1888,6 +1889,9 @@ insert_chordnote (DenemoProject * gui)
 void
 displayhelper (DenemoProject * gui)
 {
+  if(Denemo.non_interactive)
+    return;
+
   DenemoMovement *si = gui->movement;
   beamandstemdirhelper (si);
   showwhichaccidentals ((objnode *) si->currentmeasure->data, si->curmeasurekey, si->curmeasureaccs);
@@ -2091,7 +2095,7 @@ addmeasureafter (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
   si->currentobject = NULL;
   set_rightmeasurenum (si);
   //si->markstaffnum = 0;
-  draw_score_area();// displayhelper (Denemo.project);
+  draw_score_area();
   score_status(Denemo.project, TRUE);
   // calcmarkboundaries (si);
   /* update_hscrollbar (si); */
@@ -2523,7 +2527,8 @@ gotoend (gpointer param, gboolean extend_selection)
     cursorright (NULL, param);
   else
     movecursorright (NULL, param);
-  update_drawing_cache ();;     //refresh cached values, eg current timesig
+  //refresh cached values, eg current timesig
+  update_drawing_cache ();
   find_leftmost_allcontexts (gui->movement);  //FIXME is this done in displayhelper?
   displayhelper (gui);
 }
@@ -2545,7 +2550,11 @@ gotohome (gboolean extend_selection)
   if (extend_selection)
     calcmarkboundaries (gui->movement);
   find_leftmost_allcontexts (gui->movement);
-  update_drawing_cache ();;     //refresh cached values, eg current timesig
+
+  if(!Denemo.non_interactive){
+    //refresh cached values, eg current timesig
+    update_drawing_cache ();
+  }
 }
 
 
