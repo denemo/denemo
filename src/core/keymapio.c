@@ -4,9 +4,8 @@
 #include "ui/mousing.h"
 
 static gchar*
-find_command_dir(GtkAction* action, gchar* filename)
+find_command_dir(gint idx, gchar* filename)
 {
-  gint idx = lookup_command_from_name (Denemo.map, gtk_action_get_name (action));
   command_row* row = NULL;
   keymap_get_command_row(Denemo.map, &row, idx);
 
@@ -465,7 +464,7 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
       {
         // Check if the command metada file exists
         cfilename = g_strconcat (basename, XML_EXT, NULL);
-        dir = find_command_dir(action, cfilename);
+        dir = find_command_dir(i, cfilename);
         g_free(cfilename);
         if(!dir)
         {
@@ -475,7 +474,7 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
 
         // Check if the command data file exists
         cfilename = g_strconcat (basename, SCM_EXT, NULL);
-        dir = find_command_dir(action, cfilename);
+        dir = find_command_dir(i, cfilename);
         g_free(cfilename);
         if(!dir)
         {
@@ -737,7 +736,7 @@ load_command_data (gint idx)
   GError* error = NULL;
 
   // Locate the script
-  gchar* dir = find_command_dir(action, filename);
+  gchar* dir = find_command_dir(idx, filename);
   if(!dir)
   {
     gchar* msg = g_strdup_printf(_("Unable to locate the script %s"), filename);
