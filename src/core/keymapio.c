@@ -728,7 +728,6 @@ save_command_data (gchar * filename, gchar * myscheme)
 gchar *
 load_command_data (gint idx)
 {
-  GAction* action = lookup_action_from_idx(Denemo.map, idx);
   gchar *basename = lookup_name_from_idx (Denemo.map, idx);
   gchar *filename = g_strconcat (basename, SCM_EXT, NULL);
   gchar* path = NULL;
