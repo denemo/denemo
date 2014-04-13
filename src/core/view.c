@@ -1141,7 +1141,7 @@ pb_start_to_cursor (GtkWidget * button)
 {
   call_out_to_guile ("(DenemoSetPlaybackStart)");
   //gtk_widget_draw(Denemo.scorearea, NULL);
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   draw_score (NULL);
 }
 
@@ -1150,7 +1150,7 @@ pb_end_to_cursor (GtkWidget * button)
 {
   call_out_to_guile ("(DenemoSetPlaybackEnd)");
   //gtk_widget_draw(Denemo.scorearea, NULL);
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   draw_score (NULL);
 }
 
@@ -1251,7 +1251,7 @@ pb_panic (GtkWidget * button)
   Denemo.project->movement->end_time = -1.0;      //ie unset
   set_start_and_end_objects_for_draw ();
   reset_temperament ();
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
 }
 
 static void
@@ -4141,7 +4141,7 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
 
   set_title_bar (Denemo.project);
   highlight_rhythm (Denemo.project->prevailing_rhythm);
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   draw_score (NULL);
 }
 

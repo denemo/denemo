@@ -4824,7 +4824,7 @@ scheme_adjust_xes (SCM optional)
 static gint
 flash_cursor (void)
 {
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
  // draw_score (NULL); what was this for?????
   return TRUE;
 }
@@ -4921,7 +4921,7 @@ scheme_set_background (SCM color)
     {
       gint value = scm_to_int (color);
       Denemo.color = value;
-      gtk_widget_queue_draw (Denemo.scorearea);
+      draw_score_area();
       draw_score (NULL);
       return SCM_BOOL_T;
     }
@@ -5085,7 +5085,7 @@ scheme_staff_to_voice (SCM optional)
       ((DenemoStaff *) Denemo.project->movement->currentstaff->data)->voicecontrol |= DENEMO_SECONDARY;
       setcurrentprimarystaff (Denemo.project->movement);
       ret = SCM_BOOL_T;
-      gtk_widget_queue_draw (Denemo.scorearea);
+      draw_score_area();
       score_status (Denemo.project, TRUE);
       draw_score (NULL);
     }
@@ -5102,7 +5102,7 @@ scheme_voice_to_staff (SCM optional)
       setcurrentprimarystaff (Denemo.project->movement);
       ret = SCM_BOOL_T;
       score_status (Denemo.project, TRUE);
-      gtk_widget_queue_draw (Denemo.scorearea);
+      draw_score_area();
     }
   return ret;
 }

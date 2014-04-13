@@ -33,7 +33,7 @@ static gint movement_transition_steps = 0;
 static gint
 cursor_transition (void)
 {
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   return --cursor_steps;
 }
 
@@ -45,7 +45,7 @@ transition (void)
     {
       set_cursor_transition ();
     }
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   return --transition_steps;
 }
 
@@ -57,7 +57,7 @@ staff_transition (void)
     {
       set_cursor_transition ();
     }
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   return --staff_transition_steps;
 }
 
@@ -68,7 +68,7 @@ movement_transition (void)
     {
       set_cursor_transition ();
     }
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   return --movement_transition_steps;
 }
 
@@ -80,7 +80,7 @@ measure_transition (void)
     {
       set_cursor_transition ();
     }
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   return --measure_transition_steps;
 }
 

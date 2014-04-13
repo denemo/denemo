@@ -18,7 +18,7 @@ lyric_change (GtkTextBuffer * buffer)
 {
   DenemoProject *gui = Denemo.project;
   score_status (gui, TRUE);
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   return FALSE;
 }
 
@@ -48,7 +48,7 @@ newlyric (gint baseduration, gint numdots, gchar * lys)
 static void
 switch_page (GtkNotebook * notebook, gpointer dummy, guint pagenum, DenemoStaff * staff)
 {
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   staff->currentverse = g_list_nth (staff->verses, pagenum);
 }
 
@@ -125,7 +125,7 @@ delete_verse (GtkAction * action, DenemoScriptParam * param)
       staff->currentverse = staff->verses;
       signal_structural_change (gui);
       score_status (gui, TRUE);
-      gtk_widget_queue_draw (Denemo.scorearea);
+      draw_score_area();
     }
   }
 

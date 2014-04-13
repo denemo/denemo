@@ -236,7 +236,7 @@ open_source_audio (gchar * filename)
               exportmidi (NULL, Denemo.project->movement, 0, 0);  //generate a timebase
             }
           generate_note_onsets ();
-          gtk_widget_queue_draw (Denemo.scorearea);
+          draw_score_area();
         }
     }
   Denemo.project->movement->recording ? gtk_widget_show (Denemo.audio_vol_control) : gtk_widget_hide (Denemo.audio_vol_control);
@@ -595,7 +595,7 @@ open_source_audio (gchar * filename)
               exportmidi (NULL, Denemo.project->movement, 0, 0);  //generate a timebase
             }
           generate_note_onsets ();
-          gtk_widget_queue_draw (Denemo.scorearea);
+          draw_score_area();
         }
     }
   Denemo.project->movement->recording ? gtk_widget_show (Denemo.audio_vol_control) : gtk_widget_hide (Denemo.audio_vol_control);

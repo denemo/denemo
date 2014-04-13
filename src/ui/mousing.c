@@ -477,7 +477,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
                 last_directive->tx -= incrx;
                 last_directive->ty -= incry;
             }
-        gtk_widget_queue_draw (Denemo.scorearea);
+        draw_score_area();
         
         return TRUE;
       }
@@ -539,7 +539,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
       if (gui->movement->system_height > 1.0)
         gui->movement->system_height = 1.0;
       scorearea_configure_event (Denemo.scorearea, NULL);
-      gtk_widget_queue_draw (Denemo.scorearea);
+      draw_score_area();
       return TRUE;
     }
 
@@ -588,7 +588,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
             perform_command (event->state, GESTURE_MOVE, event->state & GDK_BUTTON1_MASK);
 
           /* redraw to show new cursor position  */
-          gtk_widget_queue_draw (Denemo.scorearea);
+          draw_score_area();
         }
     }
 
@@ -696,7 +696,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
           MouseGesture);
       moveto_currentmeasurenum (gui, gui->movement->leftmeasurenum - 1);
       write_status (gui);
-      gtk_widget_queue_draw (Denemo.scorearea);
+      draw_score_area();
       return TRUE;
     }
   else if (pi.nextmeasure)

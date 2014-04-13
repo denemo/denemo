@@ -259,14 +259,14 @@ score_properties_dialog (GtkAction * action, DenemoScriptParam * param)
         {
           si->measurewidth = width;
           adjustmeasurewidth (si, 0);
-          gtk_widget_queue_draw (Denemo.scorearea);
+          draw_score_area();
         }
 
       gint spacing = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (staff_spacing));
       if (spacing != si->staffspace)
         {
           si->staffspace = spacing;
-          gtk_widget_queue_draw (Denemo.scorearea);
+          draw_score_area();
         }
       setpaperconfig (setup, gui);
 

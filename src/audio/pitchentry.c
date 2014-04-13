@@ -1763,7 +1763,7 @@ scorearea_set_active (G_GNUC_UNUSED GtkWidget * widget, G_GNUC_UNUSED GdkEventCr
 {
   PR_enable = TRUE;
   //gtk_widget_draw(Denemo.scorearea, NULL);
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   draw_score (NULL);
 }
 
@@ -1772,7 +1772,7 @@ scorearea_set_inactive (G_GNUC_UNUSED GtkWidget * widget, G_GNUC_UNUSED GdkEvent
 {
   PR_enable = FALSE;
   //gtk_widget_draw(Denemo.scorearea, NULL);
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   draw_score (NULL);
 }
 

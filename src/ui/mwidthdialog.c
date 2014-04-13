@@ -35,7 +35,7 @@ set_mwidth (GtkWidget * widget, gpointer data)
   if (width)
     cbdata->gui->movement->measurewidth = width;
   adjustmeasurewidth (cbdata->gui->movement, 0);
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
 }
 
 /**

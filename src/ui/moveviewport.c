@@ -252,7 +252,7 @@ goto_currentmeasurenum (DenemoProject * gui, gint dest, gboolean extend_selectio
       set_rightmeasurenum (gui->movement);
       find_leftmost_allcontexts (gui->movement);
       update_hscrollbar (gui);
-      gtk_widget_queue_draw (Denemo.scorearea);
+      draw_score_area();
       return TRUE;
     }
   return FALSE;
@@ -301,7 +301,7 @@ goto_currentstaffnum (DenemoProject * gui, gint dest, gboolean extend_selection)
         calcmarkboundaries (gui->movement);
       find_leftmost_allcontexts (gui->movement);
       update_vscrollbar (gui);
-      gtk_widget_queue_draw (Denemo.scorearea);
+      draw_score_area();
       return TRUE;
     }
   return FALSE;
@@ -358,7 +358,7 @@ vertical_scroll (GtkAdjustment * adjust, gpointer dummy)
           if (gui->movement->markstaffnum)
             calcmarkboundaries (gui->movement);
         }
-      gtk_widget_queue_draw (Denemo.scorearea);
+      draw_score_area();
     }
   update_vscrollbar (gui);
 }
@@ -388,7 +388,7 @@ h_scroll (gdouble value, DenemoProject * gui)
         }
       find_leftmost_allcontexts (gui->movement);
       setcurrents (gui->movement);
-      gtk_widget_queue_draw (Denemo.scorearea);
+      draw_score_area();
     }
   update_hscrollbar (gui);
 }

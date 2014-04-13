@@ -191,7 +191,7 @@ append_movement (GtkAction * action, gpointer param, gboolean populate)
   set_bottom_staff (gui);
   update_hscrollbar (gui);
   update_vscrollbar (gui);
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
   g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
   displayhelper (gui);
@@ -355,7 +355,7 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
   write_status (gui);
   move_viewport_up (gui);
   move_viewport_down (gui);
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   return TRUE;
 }
 
@@ -454,7 +454,7 @@ next_movement (GtkAction * action, DenemoScriptParam * param)
   write_status (gui);
   //gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME see staffup/down
   set_movement_transition (-MOVEMENT_WIDTH);
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   draw_score (NULL);
 }
 
@@ -498,14 +498,14 @@ prev_movement (GtkAction * action, DenemoScriptParam * param)
 
   update_hscrollbar (gui);
   update_vscrollbar (gui);
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
   g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
   write_status (gui);
   //gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME see staffup/down
   set_movement_transition (MOVEMENT_WIDTH);
 
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   draw_score (NULL);
 }
 
@@ -862,7 +862,7 @@ deletescore (GtkWidget * widget, DenemoProject * gui)
   set_rightmeasurenum (gui->movement);
   update_hscrollbar (gui);
   update_vscrollbar (gui);
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
   g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
   force_lily_refresh (gui);

@@ -43,7 +43,7 @@ initialize_playhead (void)
 void
 region_playhead (void)
 {
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
 }
 
 
@@ -1244,6 +1244,12 @@ draw_playback_markers (cairo_t * cr, struct infotopass *itp, gint yy, gint line_
   itp->endposition = -1;
 }
 
+void 
+draw_score_area(){
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw (Denemo.scorearea);
+}
+
 #define MAX_FLIP_STAGES (Denemo.prefs.animation_steps>0?Denemo.prefs.animation_steps:1)
 static gboolean
 schedule_draw (gint * flip_count)
@@ -1256,7 +1262,7 @@ schedule_draw (gint * flip_count)
     {
       return FALSE;
     }
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   return TRUE;
 }
 

@@ -312,7 +312,7 @@ audio_shutdown ()
 }
 
 static gboolean do_queue_draw (void) {
-    gtk_widget_queue_draw (Denemo.scorearea);
+    draw_score_area();
     return FALSE;
 }
 static gboolean

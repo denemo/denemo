@@ -385,7 +385,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
         set_bottom_staff (gui);
         update_hscrollbar (gui);
         update_vscrollbar (gui);
-        gtk_widget_queue_draw (Denemo.scorearea);
+        draw_score_area();
         g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
         g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
         force_lily_refresh (gui);

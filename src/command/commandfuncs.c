@@ -1901,7 +1901,7 @@ displayhelper (DenemoProject * gui)
     gdk_beep ();                //Signal new measures in Edit mode to catch out of step entry
 #endif
   /*gtk_widget_draw (Denemo.scorearea, NULL); */
-  gtk_widget_queue_draw (Denemo.scorearea);
+  draw_score_area();
   draw_score (NULL);
 }
 
@@ -2091,7 +2091,7 @@ addmeasureafter (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
   si->currentobject = NULL;
   set_rightmeasurenum (si);
   //si->markstaffnum = 0;
-  gtk_widget_queue_draw (Denemo.scorearea);// displayhelper (Denemo.project);
+  draw_score_area();// displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
   // calcmarkboundaries (si);
   /* update_hscrollbar (si); */
@@ -2112,7 +2112,7 @@ insertmeasurebefore (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
   set_rightmeasurenum (si);
   si->markstaffnum = 0;
 
-  gtk_widget_queue_draw (Denemo.scorearea);// displayhelper (Denemo.project);
+  draw_score_area();// displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
   /* update_hscrollbar (si); */
 }
@@ -2495,7 +2495,7 @@ toggle_tie (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * 
     {
       store_for_undo_change (si, curmudelaobj);
       ((chord *) curmudelaobj->object)->is_tied ^= 1;
-      gtk_widget_queue_draw (Denemo.scorearea);
+      draw_score_area();
     }
   score_status (gui, TRUE);
 }

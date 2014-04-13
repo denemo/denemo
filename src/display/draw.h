@@ -23,4 +23,5 @@ gint scorearea_draw_event (GtkWidget * widget, GdkEventExpose * event);
 void update_drawing_cache (void);
 gboolean draw_score (cairo_t * cr);
 void set_start_and_end_objects_for_draw();
+void draw_score_area();
 #endif
