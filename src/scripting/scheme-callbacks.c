@@ -11,6 +11,7 @@
 #include "generated/scheme_cb.h"
 #include "export/guidedimportmidi.h"
 #include "export/print.h"
+#include "export/exportmidi.h"
 
 SCM 
 scheme_call_callback (SCM optional, callback_function callback) {
