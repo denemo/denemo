@@ -402,16 +402,10 @@ staff_delete (DenemoProject * project, gboolean interactive)
   g_string_free (curstaffstruct->denemo_name, FALSE);   //FIXME these should all be TRUE??
   g_string_free (curstaffstruct->lily_name, FALSE);
   g_string_free (curstaffstruct->midi_instrument, FALSE);
-<<<<<<< HEAD
-  // g_list_foreach (curstaffstruct->verse_views, (GFunc)destroy_parent, NULL);//FIXME it is enough to destroy the notebook, here we are only destroying the GtkTextViews
+  //FIXME it is enough to destroy the notebook, here we are only destroying the GtkTextViews
+  // g_list_foreach (curstaffstruct->verse_views, (GFunc)destroy_parent, NULL);
   if (curstaffstruct->verse_views)
     gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (curstaffstruct->verse_views->data)));
-=======
-  //FIXME it is enough to destroy the notebook, here we are only destroying the GtkTextViews
-  // g_list_foreach (curstaffstruct->verses, (GFunc)destroy_parent, NULL);
-  if (curstaffstruct->verses)
-    gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (curstaffstruct->verses->data)));
->>>>>>> Refactored staffops file. (Vars and functions renaming)
 
   g_free (curstaffstruct);
 
@@ -592,8 +586,10 @@ staff_new_after (GtkAction * action, DenemoScriptParam * param)
     return;
   movetostart (NULL, NULL);
   staff_new (project, AFTER, DENEMO_NONE);
-  set_bottom_staff (project);
-  update_vscrollbar (project);
+  if(!Denemo.non_interactive){
+    set_bottom_staff (project);
+    update_vscrollbar (project);
+  }
   movetostaffdown (NULL, NULL);
   displayhelper (project);
 }
