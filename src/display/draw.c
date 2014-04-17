@@ -480,7 +480,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 
         if (si->currentstaffnum == itp->staffnum && itp->verse && thechord->notes && !itp->slur_stack && !thechord->is_tied)
           {
-            gchar *syllable = (gchar *) next_syllable (0);
+            gchar *syllable = (gchar *) next_syllable ();
             if (cr)
               if (syllable)
                 draw_lyric (cr, x + mudelaitem->x, y + itp->in_lowy, syllable);

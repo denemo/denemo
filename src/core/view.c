@@ -5041,7 +5041,7 @@ newtab ()
   point_to_new_movement (project);
   project->movements = g_list_append (NULL, project->movement);
 
-  install_lyrics_preview (project->movement, top_vbox);
+  //install_lyrics_preview (project->movement, top_vbox);
   gtk_widget_set_can_focus (Denemo.scorearea, TRUE);
   gtk_widget_show (Denemo.page);
   gtk_widget_grab_focus (Denemo.scorearea);

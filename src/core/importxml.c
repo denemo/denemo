@@ -2687,7 +2687,7 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoProject * gui)
       DenemoStaff *staff = (DenemoStaff *) si->currentstaff->data;
       add_verse_to_staff (si, staff);
       gtk_text_buffer_set_text (gtk_text_view_get_buffer (staff->currentverse->data), Lyric->str, Lyric->len);
-      g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (staff->currentverse->data)), "changed", G_CALLBACK (lyric_change), NULL);
+      //g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (staff->currentverse->data)), "changed", G_CALLBACK (lyric_change), NULL);
       //allow save on backward compatibility files... gtk_text_buffer_set_modified(gtk_text_view_get_buffer(staff->currentverse->data), FALSE);
       //g_debug("Appended <%s>\n", Lyric->str);
     }

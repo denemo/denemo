@@ -13,7 +13,7 @@ void delete_verse (GtkAction * action, DenemoScriptParam * param);
 void reset_lyrics (DenemoStaff * staff, gint count);
 gchar *get_text_from_view (GtkWidget * textview);
 GtkWidget *add_verse_to_staff (DenemoMovement * si, DenemoStaff * staff);
-gchar *next_syllable (gint count);
+gchar *next_syllable (void);
 void install_lyrics_preview (DenemoMovement * si, GtkWidget * top_vbox);
 void hide_lyrics (void);
 void show_lyrics (void);

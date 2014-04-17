@@ -52,6 +52,102 @@ switch_page (GtkNotebook * notebook, gpointer dummy, guint pagenum, DenemoStaff 
   staff->currentverse = g_list_nth (staff->verses, pagenum);
 }
 
+static gboolean
+scan_syllable (gchar ** next, GString * gs)
+{
+  gboolean result;
+  result = pango_scan_string ((const char **) next, gs);
+  if (result && (*gs->str == '\\') && (*(gs->str + 1) != '\\') && (*(gs->str + 1) != '\"'))
+  {
+    while (**next && **next != '\n')
+      (*next)++;              //skip to end of line
+    return scan_syllable (next, gs);
+  }
+  if (result && ((!strcmp (gs->str, "--") || (!strcmp (gs->str, "__")))))
+    return scan_syllable (next, gs);
+  return result;
+}
+
+
+//get the count of the syllable at the cursor.
+static gint get_syllable_count (GtkTextBuffer *buffer)
+{GString *gs = g_string_new("");
+  GtkTextIter cursor, startiter;
+  gtk_text_buffer_get_iter_at_mark (buffer, &cursor, gtk_text_buffer_get_insert (buffer));   
+  gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER (buffer), &startiter);
+  gchar *text = gtk_text_buffer_get_text (GTK_TEXT_BUFFER (buffer), &startiter, &cursor, FALSE);
+  gchar *next = text;
+  gint count = 0;
+  while (scan_syllable(&next, gs))
+    {
+            count++;
+        
+    }
+  g_string_free(gs, TRUE);
+  g_free(text);
+  return count?count:1;
+}
+/* count the number of measures up to syllable num */
+static gint
+measure_at_syllable_count (DenemoStaff * staff, gint num)
+{
+  gint count = 0;
+  gint i;
+  GList *curmeasure = staff->measures;
+  gboolean in_slur = FALSE;
+  for (i = 0; curmeasure && (count < num); i++, curmeasure = curmeasure->next)
+    {
+      objnode *curobj;
+      for (curobj = curmeasure->data; curobj; curobj = curobj->next)
+        {
+          DenemoObject *obj = curobj->data;
+
+          if (obj->type == CHORD)
+            {
+              chord *thechord = ((chord *) obj->object);
+              if (thechord->notes && !in_slur)
+                count++;
+              if (thechord->slur_begin_p)
+                in_slur = TRUE;
+              if (thechord->slur_end_p)
+                in_slur = FALSE;
+              if (thechord->is_tied)
+                count--;
+            }
+        }                       //for objs
+    }                           //for measures
+
+  return i;
+}
+
+static void synchronize_cursor(GtkWidget *textview)
+{
+    DenemoStaff *staff = Denemo.project->movement->currentstaff->data;
+    gint count, measurenum;
+    count = get_syllable_count (gtk_text_view_get_buffer(textview));
+    measurenum = measure_at_syllable_count (staff, count);
+    goto_movement_staff_obj (NULL, 0, Denemo.project->movement->currentstaffnum, measurenum, 0);
+}
+static gboolean text_insert (GtkWidget *textview, GdkEventKey *event )
+{
+    static gboolean seen_space;
+    gchar *str = event->string;
+    guint keyval = event->keyval;
+    if ((keyval==0x20) || (keyval==0xFF0D)|| (keyval==0xFF09)|| (keyval==0xFF8D)) //space return tab Enter
+        {
+         seen_space = TRUE;
+        } else if ((keyval==0xFF51) || (keyval==0xFF52) ||(keyval==0xFF53) ||(keyval==0xFF54) || seen_space)//arrows
+        {
+            seen_space = FALSE;
+            synchronize_cursor(textview);
+        }
+    return FALSE;
+}
+static gboolean button_release (GtkWidget *textview)
+{
+    synchronize_cursor(textview);
+    return FALSE;
+}
 GtkWidget *
 add_verse_to_staff (DenemoMovement * si, DenemoStaff * staff)
 {
@@ -74,10 +170,6 @@ add_verse_to_staff (DenemoMovement * si, DenemoStaff * staff)
     GtkWidget *w = staff->verses->data;
     notebook = gtk_widget_get_parent (gtk_widget_get_parent (w));
   }
-  // if(staff->currentverse)    
-  //  gtk_widget_hide(staff->currentverse->data); 
-  //if(si->currentstaff && si->currentstaff->data == staff)
-  //  gtk_widget_show(staff->currentverse->data);
   textview = new_lyric_editor ();
   gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (textview), GTK_WRAP_WORD_CHAR);
   gtk_widget_show_all (gtk_widget_get_parent (textview));
@@ -91,6 +183,9 @@ add_verse_to_staff (DenemoMovement * si, DenemoStaff * staff)
   g_free (tablabel);
   if (pagenum)
     gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), TRUE);
+  g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (staff->currentverse->data)), "changed", G_CALLBACK (lyric_change), NULL);
+  g_signal_connect (G_OBJECT(staff->currentverse->data), "key-release-event",  G_CALLBACK (text_insert), NULL);
+  g_signal_connect (G_OBJECT(staff->currentverse->data), "button-release-event",  G_CALLBACK (button_release), NULL);
   return textview;
 }
 
@@ -106,7 +201,7 @@ add_verse (GtkAction * action, DenemoScriptParam * param)
    // put_lyrics_for_current_verse (staff, "\n\n\n\n");//Force some height on the widget so the user has some place to type
     signal_structural_change (gui);
     gtk_widget_show (staff->currentverse->data);
-    g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (staff->currentverse->data)), "changed", G_CALLBACK (lyric_change), NULL);
+
   }
 }
 
@@ -142,22 +237,9 @@ get_text_from_view (GtkWidget * textview)
   return gtk_text_buffer_get_text (GTK_TEXT_BUFFER (buffer), &startiter, &enditer, FALSE);
 }
 
-gboolean
-scan_syllable (gchar ** next, GString * gs)
-{
-  gboolean result;
-  result = pango_scan_string ((const char **) next, gs);
-  if (result && (*gs->str == '\\') && (*(gs->str + 1) != '\\') && (*(gs->str + 1) != '\"'))
-  {
-    while (**next && **next != '\n')
-      (*next)++;              //skip to end of line
-    return scan_syllable (next, gs);
-  }
-  if (result && ((!strcmp (gs->str, "--") || (!strcmp (gs->str, "__")))))
-    return scan_syllable (next, gs);
-  return result;
-}
 
+// For the first call a textview is passed and the count'th syllable in that textview is set to be the next syllable returned. 
+// Subsequent calls with NULL for textview return the next syllable of the textview that was set up by the above
 static gchar *
 lyric_iterator (GtkWidget * textview, gint count)
 {
@@ -186,11 +268,11 @@ lyric_iterator (GtkWidget * textview, gint count)
   return NULL;
 }
 
-
+//for every chord while drawing next_syllable is called.
 gchar *
-next_syllable (gint count)
+next_syllable (void)
 {
-  return lyric_iterator (NULL, count);
+  return lyric_iterator (NULL, 0);
 }
 
 
@@ -215,10 +297,13 @@ void
 install_lyrics_preview (DenemoMovement * si, GtkWidget * top_vbox)
 {
   if(Denemo.non_interactive)
-    return;  
+    return;
+  GtkWidget *parent = gtk_widget_get_parent(top_vbox);
+      
   if (si->lyricsbox == NULL)
     si->lyricsbox = gtk_vbox_new (FALSE, 1);    //box to hold notebook of textview widgets
-  gtk_paned_add2 (GTK_PANED (gtk_widget_get_parent(top_vbox)), si->lyricsbox);
+  if(parent)
+    gtk_paned_add2 (GTK_PANED (parent), si->lyricsbox);
   if (Denemo.prefs.lyrics_pane)
     gtk_widget_show (si->lyricsbox);
 }
