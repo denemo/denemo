@@ -3082,7 +3082,6 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
   gint idx = lookup_command_from_name (the_keymap, func_name);
   command_row* row = NULL;
   keymap_get_command_row (the_keymap, &row, idx);
-
   //g_debug("event button %d, idx %d for %s recording = %d scm = %d\n", event->button, idx, func_name, Denemo.ScriptRecording,g_object_get_data(G_OBJECT(action), "scm") );
   if (event->button != 3)       //Not right click
     if (Denemo.ScriptRecording)
@@ -3136,7 +3135,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
   // applies if it is a built-in command: FIXME not set for the popup menus though
   gchar *myposition = g_object_get_data (G_OBJECT (widget), "menupath");
   //g_debug("position from built in is %s\n", myposition);
-  if (!myposition)
+  if (row && !myposition)
     //menu item runs a script
     myposition = row->menupath;
 
