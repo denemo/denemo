@@ -1624,7 +1624,7 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
 //well, they are cached as cursortime1 and 2 in the DenemoMovement structure.
 // is the curObj->starttickofnextnote > tickspermeasure where  tickspermeasure = WHOLE_NUMTICKS * time1 / time2
 
-    if(Denemo.prefs.spillover)
+    if(Denemo.prefs.spillover && si->cursor_appending)
     { 
      DenemoObject *curObj;
     
