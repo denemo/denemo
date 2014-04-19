@@ -1731,6 +1731,12 @@ static void
 create_misc_scorewide (GtkWidget * inner_vbox)
 {
   DenemoProject *gui = Denemo.project;
+
+
+  gchar *lily = g_strdup_printf ("#(set-default-paper-size \"%s%s\")\n", gui->lilycontrol.papersize->str, gui->lilycontrol.orientation ? "" : " 'landscape");
+  create_element (inner_vbox, gtk_button_new_with_label (_("paper size")), lily);
+  lily = g_strdup_printf ("#(set-global-staff-size %s)\n", gui->lilycontrol.staffsize->str);
+  create_element (inner_vbox, gtk_button_new_with_label (_("Global staff size")), lily);
   GtkWidget *expander = gtk_expander_new (_("Paper Block"));
   gtk_widget_set_tooltip_text (expander, _("Settings for whole score: includes overall staff size, paper size ...\n"));
   add_lilypond (expander, g_strdup ("\\paper {\n"), g_strdup ("\n}\n"));
@@ -1740,10 +1746,6 @@ create_misc_scorewide (GtkWidget * inner_vbox)
 
   create_element (paper_box, gtk_button_new_with_label (_("the paper block contents")), get_lilypond_paper ());
 
-  gchar *lily = g_strdup_printf ("#(set-default-paper-size \"%s%s\")\n", gui->lilycontrol.papersize->str, gui->lilycontrol.orientation ? "" : " 'landscape");
-  create_element (inner_vbox, gtk_button_new_with_label (_("paper size")), lily);
-  lily = g_strdup_printf ("#(set-global-staff-size %s)\n", gui->lilycontrol.staffsize->str);
-  create_element (inner_vbox, gtk_button_new_with_label (_("Global staff size")), lily);
 }
 
 static void
