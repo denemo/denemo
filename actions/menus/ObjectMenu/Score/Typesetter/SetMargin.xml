@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SetMargin</action>
+        <after>ScoreIndent</after>
+        <_label>Adjust Margins</_label>
+        <_tooltip>Allows the left, right, top and bottom margins to be set to a value in millimeters.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
