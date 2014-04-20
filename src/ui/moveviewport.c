@@ -303,6 +303,7 @@ goto_currentstaffnum (DenemoProject * gui, gint dest, gboolean extend_selection)
 {
   if ((dest > 0) && (dest <= (gint) (g_list_length (gui->movement->thescore))))
     {
+      hide_lyrics();
       gui->movement->currentstaffnum = dest;
       gui->movement->currentstaff = g_list_nth (gui->movement->thescore, gui->movement->currentstaffnum - 1);
       setcurrentprimarystaff (gui->movement);
@@ -312,6 +313,7 @@ goto_currentstaffnum (DenemoProject * gui, gint dest, gboolean extend_selection)
       find_leftmost_allcontexts (gui->movement);
       if(!Denemo.non_interactive)
         update_vscrollbar (gui);
+      show_lyrics();
       draw_score_area();
       return TRUE;
     }
