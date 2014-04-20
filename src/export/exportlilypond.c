@@ -2813,7 +2813,7 @@ goto_lilypond_position (gint line, gint column)
   DenemoProject *gui = Denemo.project;
   GtkTextIter enditer, iter;
 
-  g_print ("goto_lilypond_position called for line %d column %d\n", line, column);
+  //g_print ("goto_lilypond_position called for line %d column %d\n", line, column);
 
   gtk_text_buffer_get_end_iter (Denemo.textbuffer, &enditer);
   gtk_text_buffer_get_start_iter (Denemo.textbuffer, &iter);
@@ -2870,8 +2870,13 @@ goto_lilypond_position (gint line, gint column)
               g_warning ("Object %p has no location data", g_object_get_data (G_OBJECT (anchor), OBJECTNODE));
               return FALSE;
             }
+          hide_lyrics();
           if (!goto_movement_staff_obj (gui, movementnum, staffnum, measurenum, objnum))
-            return FALSE;
+            {
+                show_lyrics ();
+                return FALSE;
+            }
+          show_lyrics ();
           //g_debug("TARGET is %d\n", type);
           if (type == TARGET_NOTE)
             {
@@ -2893,6 +2898,7 @@ goto_lilypond_position (gint line, gint column)
       else
         g_warning ("Anchor not found");
     }                           //if reasonable column and line number
+   
   return FALSE;
 }
 
