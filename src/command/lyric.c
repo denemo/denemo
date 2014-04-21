@@ -90,18 +90,18 @@ static gint get_syllable_count (GtkTextBuffer *buffer)
   g_free(text);
   return count?count:1;
 }
-/* count the number of measures up to syllable num */
-static gint
-measure_at_syllable_count (DenemoStaff * staff, gint num)
+/* fills the measure and object fields of the passed in position with values for num'th syllable */
+static void
+get_pos_at_syllable_count (DenemoStaff * staff, gint num, DenemoPosition *pos)
 {
   gint count = 0;
-  gint i;
+  gint measurenum, objnum;
   GList *curmeasure = staff->measures;
   gboolean in_slur = FALSE;
-  for (i = 0; curmeasure && (count < num); i++, curmeasure = curmeasure->next)
+  for (measurenum = 0; curmeasure && (count < num); measurenum++, curmeasure = curmeasure->next)
     {
       objnode *curobj;
-      for (curobj = curmeasure->data; curobj; curobj = curobj->next)
+      for (objnum=0, curobj = curmeasure->data; curobj && (count < num); objnum++, curobj = curobj->next)
         {
           DenemoObject *obj = curobj->data;
 
@@ -120,7 +120,8 @@ measure_at_syllable_count (DenemoStaff * staff, gint num)
         }                       //for objs
     }                           //for measures
 
-  return i;
+  pos->measure = measurenum;
+  pos->object = objnum;
 }
 /* count the number of syllables up to Denemo cursor position */
  gint
@@ -193,10 +194,11 @@ gboolean synchronize_lyric_cursor(void)
 static void synchronize_cursor(GtkWidget *textview)
 {
     DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data;
-    gint count, measurenum;
+    gint count;
+    DenemoPosition pos;
     count = get_syllable_count (gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview)));
-    measurenum = measure_at_syllable_count (thestaff, count);
-    goto_movement_staff_obj (NULL, 0, Denemo.project->movement->currentstaffnum, measurenum, 0);
+    get_pos_at_syllable_count (thestaff, count, &pos);
+    goto_movement_staff_obj (NULL, 0, Denemo.project->movement->currentstaffnum, pos.measure, pos.object);
 }
 static gboolean text_insert (GtkWidget *textview, GdkEventKey *event )
 {
