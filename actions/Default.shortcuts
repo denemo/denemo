@@ -1015,6 +1015,10 @@
         <action>EditLyricAtCursor</action>
         <bind>Ctrl+l,Ctrl+l</bind>
       </row>
+      <row>
+        <action>AddVerse</action>
+        <bind>Ctrl+l,a</bind>
+      </row>
     </map>
   </merge>
 </Denemo>
