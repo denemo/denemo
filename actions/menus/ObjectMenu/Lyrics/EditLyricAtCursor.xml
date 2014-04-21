@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>EditLyricAtCursor</action>
+        <after>DeleteVerse</after>
+        <_label>Edit Lyric at Cursor</_label>
+        <_tooltip>Switches keyboard input to the lyrics pane, placing the cursor on the syllable that belongs to the cursor note.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

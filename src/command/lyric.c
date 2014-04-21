@@ -52,10 +52,13 @@ switch_page (GtkNotebook * notebook, gpointer dummy, guint pagenum, DenemoStaff 
   staff->currentverse = g_list_nth (staff->verses, pagenum);
 }
 
+//scans *next for a syllable putting the syllable into gs and moving *next to the address beyond the syllable
+//return TRUE if a syllable was found
 static gboolean
 scan_syllable (gchar ** next, GString * gs)
 {
   gboolean result;
+  gchar *initial = *next;
   result = pango_scan_string ((const char **) next, gs);
   if (result && (*gs->str == '\\') && (*(gs->str + 1) != '\\') && (*(gs->str + 1) != '\"'))
   {
@@ -119,13 +122,80 @@ measure_at_syllable_count (DenemoStaff * staff, gint num)
 
   return i;
 }
+/* count the number of syllables up to Denemo cursor position */
+ gint
+syllable_count (void)
+{
+  DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data;
+  gint count = 0;
+  gint i;
+  GList *curmeasure;
+  gboolean in_slur = FALSE;
+  objnode *curobj = Denemo.project->movement->currentobject;
+  for (curmeasure = thestaff->measures; curmeasure; curmeasure = curmeasure->next)
+    {
+      objnode *thisobj;
+      for (thisobj = curmeasure->data; thisobj && (thisobj != curobj); thisobj = thisobj->next)
+        {
+          DenemoObject *obj = thisobj->data;
+          if (obj->type == CHORD)
+            {
+              chord *thechord = ((chord *) obj->object);
+              if (thechord->notes && !in_slur)
+                count++;
+              if (thechord->slur_begin_p)
+                in_slur = TRUE;
+              if (thechord->slur_end_p)
+                in_slur = FALSE;
+              if (thechord->is_tied)
+                count--;
+            }
+        }                       //for objs
+        
+       if(thisobj==curobj) break;   
+    }                           //for measures
 
+  return count;
+}
+
+static gint get_character_count_at_syllable (gchar *text, gint count)
+{
+    gint chars = 0;
+    GString *gs = g_string_new ("");
+    for(;count;count--) {
+        gchar *next = text+chars;
+        gint this;
+        if(!scan_syllable (&next, gs))
+            break;
+        chars = next - text;
+    }
+  g_string_free(gs, TRUE);
+  return chars;
+}
+gboolean synchronize_lyric_cursor(void)
+{
+  DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data; 
+  gint count = syllable_count() + 1;  
+  if (thestaff->currentverse && thestaff->currentverse->data)
+    {
+        gchar *text = get_text_from_view (thestaff->currentverse->data);
+        gint character_count = get_character_count_at_syllable (text, count);
+        GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (thestaff->currentverse->data); 
+        GtkTextIter where; 
+        gtk_text_buffer_get_iter_at_offset (textbuffer, &where, character_count);
+        gtk_text_buffer_place_cursor (textbuffer, &where);
+        gtk_widget_grab_focus (thestaff->currentverse->data);
+        gtk_text_view_scroll_mark_onscreen (thestaff->currentverse->data, gtk_text_buffer_get_insert(textbuffer));
+        return TRUE;
+    }   
+    return FALSE;
+}
 static void synchronize_cursor(GtkWidget *textview)
 {
-    DenemoStaff *staff = Denemo.project->movement->currentstaff->data;
+    DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data;
     gint count, measurenum;
-    count = get_syllable_count (gtk_text_view_get_buffer(textview));
-    measurenum = measure_at_syllable_count (staff, count);
+    count = get_syllable_count (gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview)));
+    measurenum = measure_at_syllable_count (thestaff, count);
     goto_movement_staff_obj (NULL, 0, Denemo.project->movement->currentstaffnum, measurenum, 0);
 }
 static gboolean text_insert (GtkWidget *textview, GdkEventKey *event )

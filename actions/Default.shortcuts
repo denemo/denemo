@@ -1011,6 +1011,10 @@
         <action>ResumeEdit</action>
         <bind>Ctrl+e,r</bind>
       </row>
+      <row>
+        <action>EditLyricAtCursor</action>
+        <bind>Ctrl+l,Ctrl+l</bind>
+      </row>
     </map>
   </merge>
 </Denemo>

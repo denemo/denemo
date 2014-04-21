@@ -1914,7 +1914,12 @@ scheme_get_verse (SCM number)
     }
   return SCM_BOOL_F;
 }
-
+SCM
+scheme_synchronize_lyric_cursor (void)
+{
+    return SCM_BOOL(synchronize_lyric_cursor());
+    
+}
 SCM
 scheme_put_verse (SCM verse)
 {

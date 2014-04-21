@@ -300,6 +300,7 @@ SCM scheme_get_last_change (SCM);
 SCM scheme_get_menu_path (SCM);
 SCM scheme_get_checksum (SCM);
 SCM scheme_set_newbie (SCM);
+SCM scheme_synchronize_lyric_cursor (void);
 SCM scheme_get_verse (SCM);
 SCM scheme_put_verse (SCM);
 SCM scheme_append_to_verse (SCM);
