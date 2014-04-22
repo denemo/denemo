@@ -32,9 +32,9 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
 {
   command_row* command = NULL;
   xmlChar *type = NULL;
+  xmlNodePtr head = cur;
   type = xmlGetProp(cur, COMMANDXML_TAG_TYPE);
-  
-  for (cur = cur->xmlChildrenNode; cur; cur = cur->next)
+    for (cur = cur->xmlChildrenNode; cur; cur = cur->next)
     {
       if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_ACTION))
         {
@@ -55,7 +55,11 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
                 command->script_type = get_command_type(type);
             }
         }
-      else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_HIDDEN))
+    }
+  cur = head;
+  for (cur = cur->xmlChildrenNode; cur; cur = cur->next)
+    {
+    if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_HIDDEN))
         {
           command->hidden = TRUE;
         }
@@ -75,8 +79,6 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
         {
           command->tooltip = _((gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
         }
-      else
-        g_warning("Found XML tag '%s' reading a .commands file", cur->name);
     }
   create_command(command);
   xmlFree(type);
