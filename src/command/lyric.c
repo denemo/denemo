@@ -213,6 +213,11 @@ static gboolean text_insert (GtkWidget *textview, GdkEventKey *event )
             seen_space = FALSE;
             synchronize_cursor(textview);
         }
+//Note a Control-l is received when used as a shortcut to switch to the lyrics pane, so we use Control-m to switch back
+   if(keyval == 0x6d && (event->state & GDK_CONTROL_MASK)) //Control-m
+    {
+      switch_back_to_main_window ();
+    }
     return FALSE;
 }
 static gboolean button_release (GtkWidget *textview)
@@ -220,6 +225,8 @@ static gboolean button_release (GtkWidget *textview)
     synchronize_cursor(textview);
     return FALSE;
 }
+
+
 GtkWidget *
 add_verse_to_staff (DenemoMovement * si, DenemoStaff * staff)
 {
@@ -258,6 +265,11 @@ add_verse_to_staff (DenemoMovement * si, DenemoStaff * staff)
   g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (staff->currentverse->data)), "changed", G_CALLBACK (lyric_change), NULL);
   g_signal_connect (G_OBJECT(staff->currentverse->data), "key-release-event",  G_CALLBACK (text_insert), NULL);
   g_signal_connect (G_OBJECT(staff->currentverse->data), "button-release-event",  G_CALLBACK (button_release), NULL);
+  GdkRGBA grayed = {0.8, 0.8, 0.8, 1.0};
+  GdkRGBA white = {1, 1, 1, 1.0};
+  gtk_widget_override_background_color (staff->currentverse->data, GTK_STATE_FLAG_FOCUSED, &white);
+  gtk_widget_override_background_color (staff->currentverse->data, GTK_STATE_FLAG_NORMAL, &grayed);
+
   return textview;
 }
 
