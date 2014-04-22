@@ -1624,7 +1624,7 @@ draw_callback (cairo_t * cr)
     }
   else
     {
-      cairo_set_source_rgb (cr, 0.9, 0.9, 0.9); //gray background when key strokes are not being received.
+      cairo_set_source_rgb (cr, 0.8, 0.8, 0.8); //gray background when key strokes are not being received.
     }
   cairo_paint (cr);
 
