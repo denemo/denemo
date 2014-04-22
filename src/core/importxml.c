@@ -333,7 +333,7 @@ parseVerse (xmlNodePtr parentElem, GtkWidget * verse)
     return;
   gchar *text = (gchar *) xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode, 1);
 
-  gtk_text_buffer_set_text (gtk_text_view_get_buffer ((GtkTextView *) verse), text, -1);
+  gtk_text_buffer_set_text (gtk_text_view_get_buffer ((GtkTextView *) verse), text?text:"", -1);
   //gtk_text_buffer_set_modified(gtk_text_view_get_buffer(verse), FALSE);
   g_signal_connect (G_OBJECT (gtk_text_view_get_buffer ((GtkTextView *) verse)), "changed", G_CALLBACK (lyric_change), NULL);
   g_free (text);
