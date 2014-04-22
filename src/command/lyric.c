@@ -31,7 +31,7 @@ new_lyric_editor (void)
   GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   if (Denemo.prefs.newbie)
-    gtk_widget_set_tooltip_text (sw, _("The text of a verse can be typed or pasted here.  Separate syllables with space double hyphen space, -- , if they should have their own note(s).\nNew lines and extra spaces have no special significance. Slurs on notes make them take only one syllable. Use the underscore _ for blank syllables."));
+    gtk_widget_set_tooltip_text (sw, _("The text of a verse can be typed or pasted here. Press Esc to return to editing notes.\nSeparate syllables with space double hyphen space, -- , if they should have their own note(s).\nNew lines and extra spaces have no special significance. Slurs on notes make them take only one syllable. Use the underscore _ for blank syllables."));
   gtk_container_add (GTK_CONTAINER (sw), view);
 
 
@@ -213,10 +213,12 @@ static gboolean text_insert (GtkWidget *textview, GdkEventKey *event )
             seen_space = FALSE;
             synchronize_cursor(textview);
         }
-//Note a Control-l is received when used as a shortcut to switch to the lyrics pane, so we use Control-m to switch back
-   if(keyval == 0x6d && (event->state & GDK_CONTROL_MASK)) //Control-m
+//Note a Control-l is received when used as a shortcut to switch to the lyrics pane, so we use Esc or Tab to switch back
+   if(  (keyval == 0xFF09) //TAB
+        || (keyval == 0xFF1B)) //ESC
     {
       switch_back_to_main_window ();
+      return TRUE;
     }
     return FALSE;
 }
@@ -237,6 +239,7 @@ add_verse_to_staff (DenemoMovement * si, DenemoStaff * staff)
   {
     notebook = gtk_notebook_new ();
     gtk_widget_show (notebook);
+
     g_signal_connect (G_OBJECT (notebook), "switch_page", G_CALLBACK (switch_page), staff);
     if (si->lyricsbox == NULL)
       install_lyrics_preview (si, gtk_widget_get_parent (gtk_widget_get_parent (Denemo.scorearea)));  //FIXME we need a proper way of getting to the top vbox, that will not break when scorearea is moved in the widget hierarchy.
@@ -269,7 +272,6 @@ add_verse_to_staff (DenemoMovement * si, DenemoStaff * staff)
   GdkRGBA white = {1, 1, 1, 1.0};
   gtk_widget_override_background_color (staff->currentverse->data, GTK_STATE_FLAG_FOCUSED, &white);
   gtk_widget_override_background_color (staff->currentverse->data, GTK_STATE_FLAG_NORMAL, &grayed);
-
   return textview;
 }
 
