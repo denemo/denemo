@@ -93,7 +93,12 @@ capture_add_binding (GtkWidget * widget, GdkEventKey * event, gpointer user_data
   gtk_tree_selection_get_selected (selection, &model, &iter);
   path = gtk_tree_model_get_path (model, &iter);
   array = gtk_tree_path_get_indices (path);
-  command_idx = array[0];
+  command_idx = array[0]; //this fails in general, yielding the value in cbdata, instead ...
+  gchar* cname = NULL;
+  gtk_tree_model_get (model, &iter, COL_NAME, &cname, -1);
+  command_idx = lookup_command_from_name (Denemo.map, cname);
+  if(command_idx != cbdata->command_id)
+    g_warning("correct command idx %d compare %d for action of name %s\n", command_idx, cbdata->command_id, cname);
   gtk_tree_path_free (path);
 
 
