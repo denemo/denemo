@@ -8,7 +8,8 @@
         <after>TabStaff</after>
         <action>SetTabStrings</action>
         <_label>Set Open Strings</_label>
-        <_tooltip>Sets the open strings for tablature\nto the notes of the current chord.</_tooltip>
+        <_tooltip>Sets the open strings for tablature
+to the notes of the current chord.</_tooltip>
       </row>
     </map>
   </merge>

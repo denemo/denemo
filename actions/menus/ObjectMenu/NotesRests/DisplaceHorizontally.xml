@@ -8,7 +8,8 @@
         <action>DisplaceHorizontally</action>
         <after>ParenthesizeNote</after>
         <_label>Displace Horizontally</_label>
-        <_tooltip>Shifts the next note, chord or rest and its markings horizontally by the amount given when typesetting. Use this to refine the positioning, but be aware that notes in other staffs will not be affected.</_tooltip>
+        <_tooltip>Shifts the next note, chord or rest and its markings horizontally by the amount given when typesetting.
+Use this to refine the positioning, but be aware that notes in other staffs will not be affected.</_tooltip>
       </row>
     </map>
   </merge>

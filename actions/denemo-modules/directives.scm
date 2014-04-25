@@ -1,15 +1,16 @@
 ; Prototype to insert Lilypond Standalone Directives. Wants a pair with car Tag and cdr lilypond: (cons "BreathMark" "\\breathe")
-(define* (StandAloneDirectiveProto pair #:optional (step? #t) (graphic #f) (displaytext #f) (minpixels #f))
+(define* (StandAloneDirectiveProto pair #:optional (step? #t) (graphic #f) (displaytext #f) (minpixels #f) (data #f))
     (d-Directive-standalone (car pair))
     (d-DirectivePut-standalone-postfix (car pair) (cdr pair))
     (d-DirectivePut-standalone-minpixels (car pair) 30)
+    (if data
+        (d-DirectivePut-standalone-data (car pair) data))
     (if graphic ;If the user specified a graphic use this, else greate a display text
         (begin (d-DirectivePut-standalone-graphic (car pair) graphic)
-               (d-DirectivePut-standalone-override (car pair) DENEMO_OVERRIDE_GRAPHIC))
-        (if displaytext
+               (d-DirectivePut-standalone-override (car pair) DENEMO_OVERRIDE_GRAPHIC)))
+    (if displaytext
           (d-DirectivePut-standalone-display (car pair) displaytext)
           (d-DirectivePut-standalone-display (car pair) (cdr pair)))
-        )
     (if minpixels
       (d-DirectivePut-standalone-minpixels (car pair) minpixels))
     (if step?
