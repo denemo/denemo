@@ -1,4 +1,16 @@
-2014-??-?? Release 1.1.2
+2014-??-?? Release 1.1.6
+    Lyrics Interface
+        Cursor on music moves to match cursor in lyrics
+        Jump to any point in the lyrics by mouse or keyboard
+        The inactive pane (lyrics or music) clearly indicated by graying-out
+    Margins Control
+        Set top, bottom, left and right margins in mm.
+    Tweaking Typesetting
+        Individual notes, chords and rests can be tweaked
+        Accidentals and markings move with the note
+        For use when LilyPond is sub-optimal
+
+2014-04-21 Release 1.1.4
     Spillover
         Appending over-length notes spill into next bar.
         Works for rests too.
