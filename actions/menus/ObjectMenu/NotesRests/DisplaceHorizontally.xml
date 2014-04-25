@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>DisplaceHorizontally</action>
+        <after>ParenthesizeNote</after>
+        <_label>Displace Horizontally</_label>
+        <_tooltip>Shifts the next note, chord or rest and its markings horizontally by the amount given when typesetting. Use this to refine the positioning, but be aware that notes in other staffs will not be affected.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -6415,6 +6415,13 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Edit Lyric at Cursor</_label>
         <_tooltip>Switches keyboard input to the lyrics pane, placing the cursor on the syllable that belongs to the cursor note.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>DisplaceHorizontally</action>
+        <after>ParenthesizeNote</after>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <_label>Displace Horizontally</_label>
+        <_tooltip>Shifts the next note, chord or rest and its markings horizontally by the amount given when typesetting. Use this to refine the positioning, but be aware that notes in other staffs will not be affected.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
