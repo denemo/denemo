@@ -5230,7 +5230,8 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <after>TabStaff</after>
         <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu/Tablature</menupath>
         <_label>Set Open Strings</_label>
-        <_tooltip>Sets the open strings for tablature\nto the notes of the current chord.</_tooltip>
+        <_tooltip>Sets the open strings for tablature
+to the notes of the current chord.</_tooltip>
       </row>
       <row type="scheme">
         <action>StaffSize</action>
@@ -6420,7 +6421,8 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <after>ParenthesizeNote</after>
         <menupath>/ObjectMenu/NotesRests</menupath>
         <_label>Displace Horizontally</_label>
-        <_tooltip>Shifts the next note, chord or rest and its markings horizontally by the amount given when typesetting. Use this to refine the positioning, but be aware that notes in other staffs will not be affected.</_tooltip>
+        <_tooltip>Shifts the next note, chord or rest and its markings horizontally by the amount given when typesetting.
+Use this to refine the positioning, but be aware that notes in other staffs will not be affected.</_tooltip>
       </row>
     </map>
   </merge>
