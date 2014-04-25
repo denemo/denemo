@@ -2640,11 +2640,7 @@ edit_directive (DenemoDirective * directive, gchar * what)
 
       action = lookup_action_from_name (directive->tag->str);
       if (chopped)
-        *eol = '\n';g_print ("state %x and %x %x \n", Denemo.keyboard_state, GDK_MOD2_MASK ,GDK_SHIFT_MASK );
-        
-       
-        
- 
+        *eol = '\n';
       if (action && !shift_held_down())
         {                       
           DenemoScriptParam param;
