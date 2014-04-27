@@ -6427,7 +6427,7 @@ Use this to refine the positioning, but be aware that notes in other staffs will
       <row type="scheme">
         <action>FretBoards</action>
         <after>StaffSize</after>
-        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu/Fret Diagrams</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu/FretDiagrams</menupath>
         <_label>Fret Diagrams</_label>
         <_tooltip>Chords on this staff will typeset as fret diagrams. The default is guitar.</_tooltip>
       </row>
