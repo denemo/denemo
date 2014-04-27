@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>FretBoards</action>
+        <after>StaffSize</after>
+        <_label>Fret Diagrams</_label>
+        <_tooltip>Chords on this staff will typeset as fret diagrams. The default is guitar.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
