@@ -1629,8 +1629,8 @@ actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Ambitus.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Ambitus.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordStaff.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordStaff.xml
-actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Fret Diagrams/FretBoards.scm
-actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Fret Diagrams/FretBoards.xml
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/FretDiagrams/FretBoards.scm
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/FretDiagrams/FretBoards.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/NonPrintingStaff.scm
