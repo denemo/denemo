@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="7">
   <paper-directives>
     <directive>
@@ -45,7 +45,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <edit-info>
       <staffno>1</staffno>
       <measureno>2</measureno>
-      <cursorposition>1</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -71,7 +71,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       </tempo>
     </score-info>
     <staves>
-      <staff id="id0"/>
+      <staff id="id0"></staff>
     </staves>
     <voices>
       <voice id="id1">
@@ -80,10 +80,10 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id0"/>
-          <clef name="treble"/>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -122,7 +122,7 @@ Serif
               </directives>
             </stem-directive>
             <chord show="true" id="id2">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id3">
                   <middle-c-offset>6</middle-c-offset>
@@ -130,12 +130,12 @@ Serif
               </notes>
             </chord>
             <chord show="true" id="id4">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <directives>
                 <directive>
                   <tag>Tremolo</tag>
                   <postfix>:32</postfix>
-                  <display>&#x1D16C;</display>
+                  <display>𝅬</display>
                 </directive>
               </directives>
               <notes>
@@ -145,12 +145,12 @@ Serif
               </notes>
             </chord>
             <chord show="true" id="id6">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <directives>
                 <directive>
                   <tag>Tremolo</tag>
                   <postfix>:16</postfix>
-                  <display>&#x1D16B;</display>
+                  <display>𝅫</display>
                 </directive>
               </directives>
               <notes>
@@ -160,12 +160,12 @@ Serif
               </notes>
             </chord>
             <chord show="true" id="id8">
-              <duration base="half"/>
+              <duration base="half"></duration>
               <directives>
                 <directive>
                   <tag>Tremolo</tag>
                   <postfix>:8</postfix>
-                  <display>&#x1D16A;</display>
+                  <display>𝅪</display>
                 </directive>
               </directives>
               <notes>
@@ -177,12 +177,12 @@ Serif
           </measure>
           <measure>
             <chord show="true" id="id10">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <directives>
                 <directive>
                   <tag>Tremolo</tag>
                   <postfix>:32</postfix>
-                  <display>&#x1D16C;</display>
+                  <display>𝅬</display>
                 </directive>
               </directives>
               <notes>
@@ -192,7 +192,7 @@ Serif
               </notes>
             </chord>
             <chord show="true" id="id12">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id13">
                   <middle-c-offset>6</middle-c-offset>
@@ -200,7 +200,7 @@ Serif
               </notes>
             </chord>
             <chord show="true" id="id14">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id15">
                   <middle-c-offset>6</middle-c-offset>

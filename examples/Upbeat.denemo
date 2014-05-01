@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="7">
   <paper-directives>
     <directive>
@@ -65,7 +65,7 @@ Just right click on it to do this.
       </tempo>
     </score-info>
     <staves>
-      <staff id="id0"/>
+      <staff id="id0"></staff>
     </staves>
     <voices>
       <voice id="id1">
@@ -74,10 +74,10 @@ Just right click on it to do this.
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id0"/>
-          <clef name="treble"/>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -102,7 +102,7 @@ Just right click on it to do this.
           <measure>
             <lily-directive tag="Upbeat" display="Upbeat" minpixels="30" override="512" ticks="1728">\partial 256*96 </lily-directive>
             <chord show="true" id="id2">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id3">
                   <middle-c-offset>5</middle-c-offset>
@@ -110,7 +110,7 @@ Just right click on it to do this.
               </notes>
             </chord>
             <chord show="true" id="id4">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id5">
                   <middle-c-offset>6</middle-c-offset>
@@ -118,7 +118,7 @@ Just right click on it to do this.
               </notes>
             </chord>
             <chord show="true" id="id6">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id7">
                   <middle-c-offset>7</middle-c-offset>
@@ -128,7 +128,7 @@ Just right click on it to do this.
           </measure>
           <measure>
             <chord show="true" id="id8">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id9">
                   <middle-c-offset>5</middle-c-offset>
@@ -136,7 +136,7 @@ Just right click on it to do this.
               </notes>
             </chord>
             <chord show="true" id="id10">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id11">
                   <middle-c-offset>6</middle-c-offset>
@@ -144,7 +144,7 @@ Just right click on it to do this.
               </notes>
             </chord>
             <chord show="true" id="id12">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id13">
                   <middle-c-offset>7</middle-c-offset>
@@ -152,7 +152,7 @@ Just right click on it to do this.
               </notes>
             </chord>
             <chord show="true" id="id14">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id15">
                   <middle-c-offset>8</middle-c-offset>
@@ -160,7 +160,7 @@ Just right click on it to do this.
               </notes>
             </chord>
             <chord show="true" id="id16">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id17">
                   <middle-c-offset>9</middle-c-offset>
@@ -168,7 +168,7 @@ Just right click on it to do this.
               </notes>
             </chord>
             <chord show="true" id="id18">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id19">
                   <middle-c-offset>11</middle-c-offset>
@@ -176,7 +176,7 @@ Just right click on it to do this.
               </notes>
             </chord>
             <chord show="true" id="id20">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id21">
                   <middle-c-offset>12</middle-c-offset>
@@ -184,7 +184,7 @@ Just right click on it to do this.
               </notes>
             </chord>
             <chord show="true" id="id22">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id23">
                   <middle-c-offset>13</middle-c-offset>
@@ -192,7 +192,7 @@ Just right click on it to do this.
               </notes>
             </chord>
             <chord show="true" id="id24">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id25">
                   <middle-c-offset>11</middle-c-offset>
@@ -200,7 +200,7 @@ Just right click on it to do this.
               </notes>
             </chord>
             <chord show="true" id="id26">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id27">
                   <middle-c-offset>13</middle-c-offset>
@@ -208,7 +208,7 @@ Just right click on it to do this.
               </notes>
             </chord>
             <chord show="true" id="id28">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id29">
                   <middle-c-offset>12</middle-c-offset>

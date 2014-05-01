@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="7">
   <scoreheader-directives>
     <directive>
@@ -87,7 +87,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       </tempo>
     </score-info>
     <staves>
-      <staff id="id0"/>
+      <staff id="id0"></staff>
     </staves>
     <voices>
       <voice id="id1">
@@ -96,10 +96,10 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id0"/>
-          <clef name="treble"/>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="A" accidental="flat" mode="major"/>
+            <modal-key-signature note-name="A" accidental="flat" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -112,7 +112,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument/>
+          <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
           <midi_prognum>0</midi_prognum>
@@ -130,16 +130,16 @@ ll me dit des mots d'am- our
 Des mots de tous les jours
 Et ca_me fait quel- que chos- e
 
-Il est en- tr&#xE9; dans mon c&#x153;ur,
+Il est en- tré dans mon cœur,
 Un- e part de bon- heur
 Dont je con- nais la cause,
 C'est lui pour moi,
 Moi pour lui dans la vie
-Il me l'a dit, l'a ju- r&#xE9;
+Il me l'a dit, l'a ju- ré
 Pour la vi- e.
-Et d&#xE8;s que je l'a- per- &#xE7;ois
+Et dès que je l'a- per- çois
 A- lors je sens en moi
-Mon c&#x153;ur qui bat.</verse>
+Mon cœur qui bat.</verse>
           </verses>
         </voice-props>
         <measures>
@@ -152,12 +152,12 @@ Mon c&#x153;ur qui bat.</verse>
               <notes>
                 <note id="id3">
                   <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id4">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id5">
                   <middle-c-offset>4</middle-c-offset>
@@ -165,7 +165,7 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id6">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id7">
                   <middle-c-offset>3</middle-c-offset>
@@ -173,16 +173,16 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id8">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id9">
                   <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id10">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id11">
                   <middle-c-offset>0</middle-c-offset>
@@ -190,11 +190,11 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id12">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id13">
                   <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
@@ -212,7 +212,7 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id16">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id17">
                   <middle-c-offset>3</middle-c-offset>
@@ -220,16 +220,16 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id18">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id19">
                   <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id20">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id21">
                   <middle-c-offset>0</middle-c-offset>
@@ -237,16 +237,16 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id22">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id23">
                   <middle-c-offset>-2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id24">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id25">
                   <middle-c-offset>4</middle-c-offset>
@@ -267,16 +267,16 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id28">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id29">
                   <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id30">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id31">
                   <middle-c-offset>0</middle-c-offset>
@@ -284,7 +284,7 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id32">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id33">
                   <middle-c-offset>-3</middle-c-offset>
@@ -292,16 +292,16 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id34">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id35">
                   <middle-c-offset>-2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id36">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id37">
                   <middle-c-offset>4</middle-c-offset>
@@ -311,7 +311,7 @@ Mon c&#x153;ur qui bat.</verse>
           </measure>
           <measure>
             <chord show="true" id="id38">
-              <duration base="half"/>
+              <duration base="half"></duration>
               <fakechord>bes:min7</fakechord>
               <notes>
                 <note id="id39">
@@ -320,12 +320,12 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id40">
-              <duration base="half"/>
+              <duration base="half"></duration>
               <fakechord>ees:7</fakechord>
               <notes>
                 <note id="id41">
                   <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
@@ -339,21 +339,21 @@ Mon c&#x153;ur qui bat.</verse>
               <notes>
                 <note id="id43">
                   <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id44">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id45">
                   <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id46">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id47">
                   <middle-c-offset>4</middle-c-offset>
@@ -361,7 +361,7 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id48">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id49">
                   <middle-c-offset>3</middle-c-offset>
@@ -369,20 +369,20 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id50">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id51">
                   <middle-c-offset>1</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id52">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id53">
                   <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
@@ -400,7 +400,7 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id56">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id57">
                   <middle-c-offset>3</middle-c-offset>
@@ -408,34 +408,34 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id58">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id59">
                   <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id60">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id61">
                   <middle-c-offset>1</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id62">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id63">
                   <middle-c-offset>-1</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id64">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id65">
                   <middle-c-offset>4</middle-c-offset>
@@ -456,44 +456,44 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id68">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id69">
                   <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id70">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <fakechord>ees:7</fakechord>
               <notes>
                 <note id="id71">
                   <middle-c-offset>1</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id72">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id73">
                   <middle-c-offset>-2</middle-c-offset>
-                  <accidental name="natural" show="true"/>
+                  <accidental name="natural" show="true"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id74">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id75">
                   <middle-c-offset>-1</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id76">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id77">
                   <middle-c-offset>4</middle-c-offset>
@@ -503,7 +503,7 @@ Mon c&#x153;ur qui bat.</verse>
           </measure>
           <measure>
             <chord show="true" id="id78">
-              <duration base="half"/>
+              <duration base="half"></duration>
               <fakechord>aes:6</fakechord>
               <notes>
                 <note id="id79">
@@ -512,23 +512,23 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id80">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <fakechord>bes:min6</fakechord>
-              <tie to="id82"/>
+              <tie to="id82"></tie>
               <notes>
                 <note id="id81">
                   <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id82">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <fakechord>ees:7</fakechord>
               <notes>
                 <note id="id83">
                   <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
@@ -542,12 +542,12 @@ Mon c&#x153;ur qui bat.</verse>
               <notes>
                 <note id="id85">
                   <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id86">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id87">
                   <middle-c-offset>4</middle-c-offset>
@@ -555,7 +555,7 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id88">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id89">
                   <middle-c-offset>3</middle-c-offset>
@@ -563,16 +563,16 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id90">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id91">
                   <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id92">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id93">
                   <middle-c-offset>0</middle-c-offset>
@@ -580,11 +580,11 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id94">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id95">
                   <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
@@ -602,7 +602,7 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id98">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id99">
                   <middle-c-offset>3</middle-c-offset>
@@ -610,16 +610,16 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id100">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id101">
                   <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id102">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id103">
                   <middle-c-offset>0</middle-c-offset>
@@ -627,16 +627,16 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id104">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id105">
                   <middle-c-offset>-2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id106">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id107">
                   <middle-c-offset>4</middle-c-offset>
@@ -657,16 +657,16 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id110">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id111">
                   <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id112">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <fakechord>aes:7</fakechord>
               <notes>
                 <note id="id113">
@@ -675,7 +675,7 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id114">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id115">
                   <middle-c-offset>-3</middle-c-offset>
@@ -683,20 +683,20 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id116">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id117">
                   <middle-c-offset>-2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id118">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id119">
                   <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
@@ -710,198 +710,198 @@ Mon c&#x153;ur qui bat.</verse>
               <notes>
                 <note id="id121">
                   <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <rest show="true" id="id122">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
             </rest>
           </measure>
           <measure>
             <chord show="true" id="id123">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <fakechord>des:min6</fakechord>
               <notes>
                 <note id="id124">
                   <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id125">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id126">
                   <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id127">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id128">
                   <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id129">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id130">
                   <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id131">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id132">
                   <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id133">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id134">
                   <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
           </measure>
           <measure>
             <chord show="true" id="id135">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <fakechord>aes:6</fakechord>
               <notes>
                 <note id="id136">
                   <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id137">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id138">
                   <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id139">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id140">
                   <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id141">
-              <duration base="half"/>
+              <duration base="half"></duration>
               <notes>
                 <note id="id142">
                   <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
           </measure>
           <measure>
             <chord show="true" id="id143">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <fakechord>bes:dim</fakechord>
               <notes>
                 <note id="id144">
                   <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id145">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id146">
                   <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id147">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id148">
                   <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id149">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id150">
                   <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id151">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id152">
                   <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id153">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id154">
                   <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
           </measure>
           <measure>
             <chord show="true" id="id155">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <fakechord>bes:min7</fakechord>
               <notes>
                 <note id="id156">
                   <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id157">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id158">
                   <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id159">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id160">
                   <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id161">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <fakechord>e:7</fakechord>
               <notes>
                 <note id="id162">
@@ -910,11 +910,11 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id163">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id164">
                   <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
@@ -928,12 +928,12 @@ Mon c&#x153;ur qui bat.</verse>
               <notes>
                 <note id="id166">
                   <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id167">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id168">
                   <middle-c-offset>4</middle-c-offset>
@@ -941,7 +941,7 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id169">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id170">
                   <middle-c-offset>3</middle-c-offset>
@@ -949,16 +949,16 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id171">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id172">
                   <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id173">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id174">
                   <middle-c-offset>0</middle-c-offset>
@@ -966,11 +966,11 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id175">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id176">
                   <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
@@ -988,7 +988,7 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id179">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id180">
                   <middle-c-offset>3</middle-c-offset>
@@ -996,16 +996,16 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id181">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id182">
                   <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id183">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id184">
                   <middle-c-offset>0</middle-c-offset>
@@ -1013,16 +1013,16 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id185">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id186">
                   <middle-c-offset>-2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id187">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id188">
                   <middle-c-offset>4</middle-c-offset>
@@ -1043,16 +1043,16 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id191">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id192">
                   <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id193">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <fakechord>ees:7</fakechord>
               <notes>
                 <note id="id194">
@@ -1061,7 +1061,7 @@ Mon c&#x153;ur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id195">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id196">
                   <middle-c-offset>4</middle-c-offset>
@@ -1078,16 +1078,16 @@ Mon c&#x153;ur qui bat.</verse>
               <notes>
                 <note id="id198">
                   <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"/>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <rest show="true" id="id199">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <fakechord>bes:min7</fakechord>
             </rest>
             <rest show="true" id="id200">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <fakechord>ees:7</fakechord>
             </rest>
           </measure>

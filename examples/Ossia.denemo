@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="7">
   <paper-directives>
     <directive>
@@ -35,7 +35,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <edit-info>
       <staffno>2</staffno>
       <measureno>2</measureno>
-      <cursorposition>5</cursorposition>
+      <cursorposition>4</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -61,8 +61,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       </tempo>
     </score-info>
     <staves>
-      <staff id="id0"/>
-      <staff id="id1"/>
+      <staff id="id0"></staff>
+      <staff id="id1"></staff>
     </staves>
     <voices>
       <voice id="id2">
@@ -71,10 +71,10 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id0"/>
-          <clef name="treble"/>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -87,7 +87,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument/>
+          <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
           <midi_prognum>0</midi_prognum>
@@ -112,12 +112,12 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
-          <measure/>
+          <measure></measure>
+          <measure></measure>
           <measure>
             <lily-directive tag="StartStaff" display="Show" ty="40" override="32">\startStaff </lily-directive>
             <chord show="true" id="id3">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id4">
                   <middle-c-offset>4</middle-c-offset>
@@ -125,7 +125,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id5">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id6">
                   <middle-c-offset>12</middle-c-offset>
@@ -133,7 +133,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id7">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id8">
                   <middle-c-offset>12</middle-c-offset>
@@ -141,7 +141,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id9">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id10">
                   <middle-c-offset>12</middle-c-offset>
@@ -149,7 +149,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id11">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id12">
                   <middle-c-offset>5</middle-c-offset>
@@ -157,7 +157,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id13">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id14">
                   <middle-c-offset>5</middle-c-offset>
@@ -165,7 +165,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id15">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id16">
                   <middle-c-offset>5</middle-c-offset>
@@ -173,7 +173,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id17">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id18">
                   <middle-c-offset>5</middle-c-offset>
@@ -182,7 +182,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <lily-directive tag="StopStaff" display="Hide" ty="40" override="32">\stopStaff </lily-directive>
           </measure>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id19">
@@ -191,10 +191,10 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id1"/>
-          <clef name="treble"/>
+          <staff-ref staff="id1"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -218,7 +218,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         <measures>
           <measure>
             <chord show="true" id="id20">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id21">
                   <middle-c-offset>5</middle-c-offset>
@@ -226,7 +226,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id22">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id23">
                   <middle-c-offset>4</middle-c-offset>
@@ -234,7 +234,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id24">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id25">
                   <middle-c-offset>5</middle-c-offset>
@@ -242,7 +242,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id26">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id27">
                   <middle-c-offset>4</middle-c-offset>
@@ -250,7 +250,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id28">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id29">
                   <middle-c-offset>5</middle-c-offset>
@@ -258,7 +258,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id30">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id31">
                   <middle-c-offset>4</middle-c-offset>
@@ -266,7 +266,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id32">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id33">
                   <middle-c-offset>4</middle-c-offset>
@@ -274,7 +274,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id34">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id35">
                   <middle-c-offset>4</middle-c-offset>
@@ -284,7 +284,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           </measure>
           <measure>
             <chord show="true" id="id36">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id37">
                   <middle-c-offset>4</middle-c-offset>
@@ -292,7 +292,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id38">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id39">
                   <middle-c-offset>4</middle-c-offset>
@@ -300,7 +300,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id40">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id41">
                   <middle-c-offset>4</middle-c-offset>
@@ -308,7 +308,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id42">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id43">
                   <middle-c-offset>5</middle-c-offset>
@@ -316,7 +316,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id44">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id45">
                   <middle-c-offset>5</middle-c-offset>
@@ -324,7 +324,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id46">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id47">
                   <middle-c-offset>5</middle-c-offset>
@@ -332,7 +332,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id48">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id49">
                   <middle-c-offset>5</middle-c-offset>
@@ -340,7 +340,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id50">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id51">
                   <middle-c-offset>5</middle-c-offset>
@@ -350,7 +350,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           </measure>
           <measure>
             <chord show="true" id="id52">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id53">
                   <middle-c-offset>5</middle-c-offset>
@@ -358,7 +358,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id54">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id55">
                   <middle-c-offset>5</middle-c-offset>
@@ -366,7 +366,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id56">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id57">
                   <middle-c-offset>5</middle-c-offset>
@@ -374,7 +374,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id58">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id59">
                   <middle-c-offset>5</middle-c-offset>
@@ -382,7 +382,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id60">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id61">
                   <middle-c-offset>5</middle-c-offset>
@@ -390,7 +390,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id62">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id63">
                   <middle-c-offset>5</middle-c-offset>
@@ -398,7 +398,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id64">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id65">
                   <middle-c-offset>5</middle-c-offset>
@@ -406,7 +406,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id66">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id67">
                   <middle-c-offset>5</middle-c-offset>
@@ -416,7 +416,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           </measure>
           <measure>
             <chord show="true" id="id68">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id69">
                   <middle-c-offset>5</middle-c-offset>
@@ -424,7 +424,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id70">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id71">
                   <middle-c-offset>5</middle-c-offset>
@@ -432,7 +432,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id72">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id73">
                   <middle-c-offset>5</middle-c-offset>
@@ -440,7 +440,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id74">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id75">
                   <middle-c-offset>5</middle-c-offset>

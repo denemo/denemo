@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="7">
   <scoreheader-directives>
     <directive>
@@ -52,7 +52,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <edit-info>
       <staffno>2</staffno>
       <measureno>2</measureno>
-      <cursorposition>1</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>75</zoom>
       <system-height>100</system-height>
@@ -82,9 +82,9 @@ instrument = ##f
       </tempo>
     </score-info>
     <staves>
-      <staff id="id0"/>
-      <staff id="id1"/>
-      <staff id="id2"/>
+      <staff id="id0"></staff>
+      <staff id="id1"></staff>
+      <staff id="id2"></staff>
     </staves>
     <voices>
       <voice id="id3">
@@ -93,7 +93,7 @@ instrument = ##f
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id0"/>
+          <staff-ref staff="id0"></staff-ref>
           <clef name="treble-8vb">
             <directives>
               <directive>
@@ -106,7 +106,7 @@ instrument = ##f
             </directives>
           </clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
             <directives>
               <directive>
                 <tag>ChordStaff</tag>
@@ -137,7 +137,7 @@ instrument = ##f
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument/>
+          <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
           <midi_prognum>0</midi_prognum>
@@ -173,7 +173,7 @@ instrument = ##f
         <measures>
           <measure>
             <chord show="true" id="id4">
-              <duration base="half"/>
+              <duration base="half"></duration>
               <notes>
                 <note id="id5">
                   <middle-c-offset>0</middle-c-offset>
@@ -181,7 +181,7 @@ instrument = ##f
               </notes>
             </chord>
             <chord show="true" id="id6">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id7">
                   <middle-c-offset>-4</middle-c-offset>
@@ -189,7 +189,7 @@ instrument = ##f
               </notes>
             </chord>
             <chord show="true" id="id8">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id9">
                   <middle-c-offset>0</middle-c-offset>
@@ -199,7 +199,7 @@ instrument = ##f
           </measure>
           <measure>
             <chord show="true" id="id10">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id11">
                   <middle-c-offset>0</middle-c-offset>
@@ -207,7 +207,7 @@ instrument = ##f
               </notes>
             </chord>
             <chord show="true" id="id12">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id13">
                   <middle-c-offset>-3</middle-c-offset>
@@ -215,7 +215,7 @@ instrument = ##f
               </notes>
             </chord>
             <chord show="true" id="id14">
-              <duration base="half"/>
+              <duration base="half"></duration>
               <notes>
                 <note id="id15">
                   <middle-c-offset>0</middle-c-offset>
@@ -225,7 +225,7 @@ instrument = ##f
           </measure>
           <measure>
             <chord show="true" id="id16">
-              <duration base="half"/>
+              <duration base="half"></duration>
               <notes>
                 <note id="id17">
                   <middle-c-offset>0</middle-c-offset>
@@ -233,7 +233,7 @@ instrument = ##f
               </notes>
             </chord>
             <chord show="true" id="id18">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id19">
                   <middle-c-offset>-4</middle-c-offset>
@@ -241,7 +241,7 @@ instrument = ##f
               </notes>
             </chord>
             <chord show="true" id="id20">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id21">
                   <middle-c-offset>0</middle-c-offset>
@@ -251,7 +251,7 @@ instrument = ##f
           </measure>
           <measure>
             <chord show="true" id="id22">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id23">
                   <middle-c-offset>0</middle-c-offset>
@@ -259,7 +259,7 @@ instrument = ##f
               </notes>
             </chord>
             <chord show="true" id="id24">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id25">
                   <middle-c-offset>-3</middle-c-offset>
@@ -267,7 +267,7 @@ instrument = ##f
               </notes>
             </chord>
             <chord show="true" id="id26">
-              <duration base="half"/>
+              <duration base="half"></duration>
               <notes>
                 <note id="id27">
                   <middle-c-offset>0</middle-c-offset>
@@ -283,7 +283,7 @@ instrument = ##f
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id1"/>
+          <staff-ref staff="id1"></staff-ref>
           <clef name="treble-8vb">
             <directives>
               <directive>
@@ -296,7 +296,7 @@ instrument = ##f
             </directives>
           </clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -309,7 +309,7 @@ instrument = ##f
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument/>
+          <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>100</volume>
           <midi_prognum>0</midi_prognum>
@@ -347,7 +347,7 @@ instrument = ##f
         <measures>
           <measure>
             <chord show="true" id="id29">
-              <duration base="half"/>
+              <duration base="half"></duration>
               <notes>
                 <note id="id30">
                   <middle-c-offset>-12</middle-c-offset>
@@ -370,7 +370,7 @@ instrument = ##f
               </notes>
             </chord>
             <chord show="true" id="id36">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id37">
                   <middle-c-offset>-11</middle-c-offset>
@@ -393,7 +393,7 @@ instrument = ##f
               </notes>
             </chord>
             <chord show="true" id="id43">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id44">
                   <middle-c-offset>-12</middle-c-offset>
@@ -418,7 +418,7 @@ instrument = ##f
           </measure>
           <measure>
             <chord show="true" id="id50">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id51">
                   <middle-c-offset>-12</middle-c-offset>
@@ -441,7 +441,7 @@ instrument = ##f
               </notes>
             </chord>
             <chord show="true" id="id57">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id58">
                   <middle-c-offset>-10</middle-c-offset>
@@ -464,7 +464,7 @@ instrument = ##f
               </notes>
             </chord>
             <chord show="true" id="id64">
-              <duration base="half"/>
+              <duration base="half"></duration>
               <notes>
                 <note id="id65">
                   <middle-c-offset>-12</middle-c-offset>
@@ -489,7 +489,7 @@ instrument = ##f
           </measure>
           <measure>
             <chord show="true" id="id71">
-              <duration base="half"/>
+              <duration base="half"></duration>
               <notes>
                 <note id="id72">
                   <middle-c-offset>-12</middle-c-offset>
@@ -512,7 +512,7 @@ instrument = ##f
               </notes>
             </chord>
             <chord show="true" id="id78">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id79">
                   <middle-c-offset>-11</middle-c-offset>
@@ -535,7 +535,7 @@ instrument = ##f
               </notes>
             </chord>
             <chord show="true" id="id85">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id86">
                   <middle-c-offset>-12</middle-c-offset>
@@ -560,7 +560,7 @@ instrument = ##f
           </measure>
           <measure>
             <chord show="true" id="id92">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id93">
                   <middle-c-offset>-12</middle-c-offset>
@@ -583,7 +583,7 @@ instrument = ##f
               </notes>
             </chord>
             <chord show="true" id="id99">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id100">
                   <middle-c-offset>-10</middle-c-offset>
@@ -606,7 +606,7 @@ instrument = ##f
               </notes>
             </chord>
             <chord show="true" id="id106">
-              <duration base="half"/>
+              <duration base="half"></duration>
               <notes>
                 <note id="id107">
                   <middle-c-offset>-12</middle-c-offset>
@@ -637,10 +637,10 @@ instrument = ##f
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id2"/>
-          <clef name="treble"/>
+          <staff-ref staff="id2"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -653,7 +653,7 @@ instrument = ##f
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument/>
+          <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
           <midi_prognum>0</midi_prognum>
@@ -680,7 +680,7 @@ Eee -- i Eee -- i -- oh!</verse>
           <measure>
             <lily-directive locked="true" tag="MuteStaff" graphic_name="Speaker_Icon" gx="20" minpixels="50"> </lily-directive>
             <chord show="true" id="id114">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id115">
                   <middle-c-offset>7</middle-c-offset>
@@ -688,7 +688,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id116">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id117">
                   <middle-c-offset>7</middle-c-offset>
@@ -696,7 +696,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id118">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id119">
                   <middle-c-offset>7</middle-c-offset>
@@ -704,7 +704,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id120">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id121">
                   <middle-c-offset>4</middle-c-offset>
@@ -712,7 +712,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id122">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id123">
                   <middle-c-offset>5</middle-c-offset>
@@ -720,7 +720,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id124">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id125">
                   <middle-c-offset>5</middle-c-offset>
@@ -728,7 +728,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id126">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id127">
                   <middle-c-offset>4</middle-c-offset>
@@ -738,7 +738,7 @@ Eee -- i Eee -- i -- oh!</verse>
           </measure>
           <measure>
             <chord show="true" id="id128">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id129">
                   <middle-c-offset>9</middle-c-offset>
@@ -746,7 +746,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id130">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id131">
                   <middle-c-offset>9</middle-c-offset>
@@ -754,7 +754,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id132">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id133">
                   <middle-c-offset>8</middle-c-offset>
@@ -762,7 +762,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id134">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id135">
                   <middle-c-offset>8</middle-c-offset>
@@ -780,7 +780,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id138">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id139">
                   <middle-c-offset>4</middle-c-offset>
@@ -790,7 +790,7 @@ Eee -- i Eee -- i -- oh!</verse>
           </measure>
           <measure>
             <chord show="true" id="id140">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id141">
                   <middle-c-offset>7</middle-c-offset>
@@ -798,7 +798,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id142">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id143">
                   <middle-c-offset>7</middle-c-offset>
@@ -806,7 +806,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id144">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id145">
                   <middle-c-offset>7</middle-c-offset>
@@ -814,7 +814,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id146">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id147">
                   <middle-c-offset>4</middle-c-offset>
@@ -822,7 +822,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id148">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id149">
                   <middle-c-offset>5</middle-c-offset>
@@ -830,7 +830,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id150">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id151">
                   <middle-c-offset>5</middle-c-offset>
@@ -838,7 +838,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id152">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id153">
                   <middle-c-offset>4</middle-c-offset>
@@ -848,7 +848,7 @@ Eee -- i Eee -- i -- oh!</verse>
           </measure>
           <measure>
             <chord show="true" id="id154">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id155">
                   <middle-c-offset>9</middle-c-offset>
@@ -856,7 +856,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id156">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id157">
                   <middle-c-offset>9</middle-c-offset>
@@ -864,7 +864,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id158">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id159">
                   <middle-c-offset>8</middle-c-offset>
@@ -872,7 +872,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id160">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id161">
                   <middle-c-offset>8</middle-c-offset>
@@ -880,7 +880,7 @@ Eee -- i Eee -- i -- oh!</verse>
               </notes>
             </chord>
             <chord show="true" id="id162">
-              <duration base="half"/>
+              <duration base="half"></duration>
               <notes>
                 <note id="id163">
                   <middle-c-offset>7</middle-c-offset>

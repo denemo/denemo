@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="7">
   <paper-directives>
     <directive>
@@ -26,7 +26,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <edit-info>
       <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>1</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -52,7 +52,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       </tempo>
     </score-info>
     <staves>
-      <staff id="id0"/>
+      <staff id="id0"></staff>
     </staves>
     <voices>
       <voice id="id1">
@@ -61,10 +61,10 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id0"/>
-          <clef name="treble"/>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="D" mode="major"/>
+            <modal-key-signature note-name="D" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -88,7 +88,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         <measures>
           <measure>
             <chord show="true" id="id2">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id3">
                   <middle-c-offset>6</middle-c-offset>
@@ -96,7 +96,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id4">
-              <duration base="eighth"/>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id5">
                   <middle-c-offset>8</middle-c-offset>
@@ -111,13 +111,13 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               <notes>
                 <note id="id7">
                   <middle-c-offset>7</middle-c-offset>
-                  <accidental name="natural" show="true"/>
+                  <accidental name="natural" show="true"></accidental>
                 </note>
               </notes>
             </chord>
             <lily-directive tag="Suggest Accidentals Off" display="Off Suggest Acc" override="32">\set suggestAccidentals = ##f</lily-directive>
             <chord show="true" id="id8">
-              <duration base="sixteenth"/>
+              <duration base="sixteenth"></duration>
               <notes>
                 <note id="id9">
                   <middle-c-offset>6</middle-c-offset>
@@ -125,7 +125,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id10">
-              <duration base="sixteenth"/>
+              <duration base="sixteenth"></duration>
               <notes>
                 <note id="id11">
                   <middle-c-offset>5</middle-c-offset>

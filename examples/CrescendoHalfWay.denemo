@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="7">
   <paper-directives>
     <directive>
@@ -35,7 +35,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <edit-info>
       <staffno>2</staffno>
       <measureno>2</measureno>
-      <cursorposition>1</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -52,8 +52,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       </tempo>
     </score-info>
     <staves>
-      <staff id="id0"/>
-      <staff id="id1"/>
+      <staff id="id0"></staff>
+      <staff id="id1"></staff>
     </staves>
     <voices>
       <voice id="id2">
@@ -62,10 +62,10 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id0"/>
-          <clef name="treble"/>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -78,7 +78,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument/>
+          <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
           <midi_prognum>0</midi_prognum>
@@ -89,7 +89,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         <measures>
           <measure>
             <chord show="true" id="id3">
-              <duration base="whole"/>
+              <duration base="whole"></duration>
               <notes>
                 <note id="id4">
                   <middle-c-offset>2</middle-c-offset>
@@ -99,7 +99,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           </measure>
           <measure>
             <chord show="true" id="id5">
-              <duration base="whole"/>
+              <duration base="whole"></duration>
               <notes>
                 <note id="id6">
                   <middle-c-offset>2</middle-c-offset>
@@ -115,7 +115,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id1"/>
+          <staff-ref staff="id1"></staff-ref>
           <clef name="treble">
             <directives>
               <directive>
@@ -130,7 +130,7 @@ Denemo
             </directives>
           </clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
             <directives>
               <directive>
                 <tag>DynamicsStaff</tag>
@@ -155,7 +155,7 @@ Denemo
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument/>
+          <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
           <midi_prognum>0</midi_prognum>
@@ -192,7 +192,7 @@ Denemo
         <measures>
           <measure>
             <chord show="true" id="id8">
-              <duration base="half"/>
+              <duration base="half"></duration>
               <notes>
                 <note id="id9">
                   <middle-c-offset>5</middle-c-offset>
@@ -200,9 +200,9 @@ Denemo
               </notes>
             </chord>
             <chord show="true" id="id10">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <crescendos>
-                <crescendo to="id16"/>
+                <crescendo to="id16"></crescendo>
               </crescendos>
               <notes>
                 <note id="id11">
@@ -211,7 +211,7 @@ Denemo
               </notes>
             </chord>
             <chord show="true" id="id12">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id13">
                   <middle-c-offset>5</middle-c-offset>
@@ -221,7 +221,7 @@ Denemo
           </measure>
           <measure>
             <chord show="true" id="id14">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id15">
                   <middle-c-offset>5</middle-c-offset>
@@ -229,7 +229,7 @@ Denemo
               </notes>
             </chord>
             <chord show="true" id="id16">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id17">
                   <middle-c-offset>5</middle-c-offset>
@@ -237,7 +237,7 @@ Denemo
               </notes>
             </chord>
             <chord show="true" id="id18">
-              <duration base="half"/>
+              <duration base="half"></duration>
               <notes>
                 <note id="id19">
                   <middle-c-offset>5</middle-c-offset>

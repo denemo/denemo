@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="7">
   <scheme>(d-MidiInListening)
 (d-AddKeybinding "WrapToNextStaff" "space")
@@ -80,8 +80,8 @@ instrument = ##f
       </tempo>
     </score-info>
     <staves>
-      <staff id="id0"/>
-      <staff id="id1"/>
+      <staff id="id0"></staff>
+      <staff id="id1"></staff>
     </staves>
     <voices>
       <voice id="id2">
@@ -90,10 +90,10 @@ instrument = ##f
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id0"/>
-          <clef name="treble"/>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -128,7 +128,7 @@ instrument = ##f
             <lily-directive tag="RehearsalMark" display="        Stop One" tx="-10" ty="-13" minpixels="100"> </lily-directive>
             <lily-directive locked="true" tag="MuteStaffDummy" gx="20" minpixels="50"> </lily-directive>
             <rest show="true" id="id3">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
             </rest>
           </measure>
         </measures>
@@ -139,10 +139,10 @@ instrument = ##f
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id1"/>
-          <clef name="treble"/>
+          <staff-ref staff="id1"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -177,7 +177,7 @@ instrument = ##f
             <lily-directive tag="RehearsalMark" display="        Stop Two" tx="-10" ty="-12" minpixels="100"> </lily-directive>
             <lily-directive locked="true" tag="MuteStaffDummy" graphic_name="&#10;Use Space Bar to change stops.&#10;Denemo&#10;24" gx="-93" gy="49" minpixels="50"> </lily-directive>
             <rest show="true" id="id5">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
             </rest>
           </measure>
         </measures>

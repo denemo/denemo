@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="7">
   <paper-directives>
     <directive>
@@ -32,7 +32,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <edit-info>
       <staffno>1</staffno>
       <measureno>5</measureno>
-      <cursorposition>1</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -58,7 +58,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       </tempo>
     </score-info>
     <staves>
-      <staff id="id0"/>
+      <staff id="id0"></staff>
     </staves>
     <voices>
       <voice id="id1">
@@ -67,10 +67,10 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id0"/>
-          <clef name="treble"/>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -95,7 +95,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure>
             <lily-directive override="32"> \once \override TextScript #'extra-offset = #'( 0.0 . -4.0 )</lily-directive>
             <chord show="true" id="id2">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id3">
                   <middle-c-offset>9</middle-c-offset>
@@ -104,7 +104,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <lily-directive tag="&lt;Unknown Tag&gt;" override="32">_\markup {text moved down}</lily-directive>
             <chord show="true" id="id4">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id5">
                   <middle-c-offset>9</middle-c-offset>
@@ -112,7 +112,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id6">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id7">
                   <middle-c-offset>9</middle-c-offset>
@@ -120,7 +120,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id8">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id9">
                   <middle-c-offset>9</middle-c-offset>
@@ -130,7 +130,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           </measure>
           <measure>
             <rest show="true" id="id10">
-              <duration base="whole"/>
+              <duration base="whole"></duration>
               <directives>
                 <directive>
                   <tag>WholeMeasureRest</tag>
@@ -150,7 +150,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure>
             <lily-directive override="32"> \once \override TextScript #'extra-offset = #'( -4.0 . 0.0 )</lily-directive>
             <chord show="true" id="id11">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id12">
                   <middle-c-offset>9</middle-c-offset>
@@ -159,7 +159,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <lily-directive override="32">_\markup {text moved to left}</lily-directive>
             <chord show="true" id="id13">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id14">
                   <middle-c-offset>9</middle-c-offset>
@@ -167,7 +167,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id15">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id16">
                   <middle-c-offset>9</middle-c-offset>
@@ -175,7 +175,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id17">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id18">
                   <middle-c-offset>9</middle-c-offset>
@@ -185,7 +185,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           </measure>
           <measure>
             <chord show="true" id="id19">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id20">
                   <middle-c-offset>8</middle-c-offset>
@@ -193,7 +193,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id21">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id22">
                   <middle-c-offset>8</middle-c-offset>
@@ -201,7 +201,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id23">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id24">
                   <middle-c-offset>8</middle-c-offset>
@@ -209,7 +209,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id25">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id26">
                   <middle-c-offset>8</middle-c-offset>
@@ -219,7 +219,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           </measure>
           <measure>
             <chord show="true" id="id27">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id28">
                   <middle-c-offset>8</middle-c-offset>
@@ -227,7 +227,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id29">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id30">
                   <middle-c-offset>8</middle-c-offset>
@@ -235,7 +235,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               </notes>
             </chord>
             <chord show="true" id="id31">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id32">
                   <middle-c-offset>8</middle-c-offset>
@@ -244,7 +244,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <lily-directive tag="&lt;Unknown Tag&gt;" override="32">_\markup \italic \bold {D.C. al fine}</lily-directive>
             <chord show="true" id="id33">
-              <duration base="quarter"/>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id34">
                   <middle-c-offset>8</middle-c-offset>
