@@ -8,6 +8,7 @@
 
 #include "config.h"
 #include <denemo/denemo.h>
+#include <libxml/xmlsave.h>
 #include "core/exportxml.h"
 #include "source/source.h"
 #include "core/utils.h"
@@ -1342,7 +1343,8 @@ exportXML (gchar * thefilename, DenemoProject * gui)
     }                           // for each movement
   /* Save the file. */
 
-  if (xmlSaveFormatFile (filename->str, doc, 1) < 0)
+  xmlSaveCtxt *ctxt = xmlSaveToFilename(filename->str, "UTF-8", XML_SAVE_FORMAT | XML_SAVE_NO_EMPTY);
+  if (!ctxt || xmlSaveDoc(ctxt, doc) < 0 || xmlSaveClose(ctxt) < 0)
     {
       g_warning ("Could not save file %s", filename->str);
       ret = -1;
