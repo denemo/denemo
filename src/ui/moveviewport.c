@@ -23,6 +23,8 @@
 void
 update_hscrollbar (DenemoProject * gui)
 {
+  if(Denemo.non_interactive)
+    return;
   GtkAdjustment *adj = GTK_ADJUSTMENT (Denemo.hadjustment);
   gdouble upper = g_list_length (gui->movement->measurewidths) + 1.0, page_size = gui->movement->rightmeasurenum - gui->movement->leftmeasurenum + 1.0;
   gdouble left = gtk_adjustment_get_value (adj);
@@ -49,6 +51,8 @@ update_hscrollbar (DenemoProject * gui)
 void
 update_vscrollbar (DenemoProject * gui)
 {
+  if(Denemo.non_interactive)
+    return;
   GtkAdjustment *adj = GTK_ADJUSTMENT (Denemo.vadjustment);
   gtk_adjustment_set_upper (adj, g_list_length (gui->movement->thescore) + 1.0);
   gtk_adjustment_set_page_size (adj, gui->movement->bottom_staff - gui->movement->top_staff + 1.0);
@@ -104,6 +108,9 @@ to_next_primary_voice (gint * staff_number, staffnode ** staff_iterator)
 void
 set_bottom_staff (DenemoProject * gui)
 {
+  if(Denemo.non_interactive)
+    return;
+
   gint space_left;
   staffnode *staff_iterator;
   gint staff_number;

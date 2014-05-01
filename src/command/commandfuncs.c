@@ -195,6 +195,8 @@ nudge_downward (DenemoProject * gui)
 void
 set_width_to_work_with (DenemoProject * gui)
 {
+  if(Denemo.non_interactive)
+    return;
   GList *g;
 
   for (g = gui->movements; g; g = g->next)

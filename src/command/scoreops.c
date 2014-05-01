@@ -189,11 +189,13 @@ append_movement (GtkAction * action, gpointer param, gboolean populate)
   set_rightmeasurenum (gui->movement);
   find_leftmost_allcontexts (gui->movement);
   set_bottom_staff (gui);
-  update_hscrollbar (gui);
-  update_vscrollbar (gui);
-  draw_score_area();
-  g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
-  g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
+  if(!Denemo.non_interactive){
+    update_hscrollbar (gui);
+    update_vscrollbar (gui);
+    draw_score_area();
+    g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
+    g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
+  }
   displayhelper (gui);
   score_status (gui, TRUE);
 }

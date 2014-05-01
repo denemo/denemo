@@ -243,6 +243,24 @@ test_thumbnailer(gpointer fixture, gconstpointer data)
   g_assert(g_remove(thumbnail) >= 0);
 }
 
+/** test_regression_check
+ * Opens a user written scm file to check some features that have been failing
+ * by the past.
+ */
+static void
+test_regression_check(gpointer fixture, gconstpointer data)
+{
+  const gchar* scheme_file = (const gchar*) data;
+  g_print("Opening %s\n", scheme_file);
+
+  if (g_test_trap_fork (0, 0))
+    {
+      execl(DENEMO, DENEMO, "-n", "-e", "-i", scheme_file, NULL);
+      g_warn_if_reached ();
+    }
+  g_test_trap_assert_passed ();
+}
+
 /*******************************************************************************
  * MAIN
  ******************************************************************************/
@@ -287,5 +305,14 @@ main (int argc, char *argv[])
     g_test_add ("/integration/open-and-save-complex-file", gchar*, filename, setup, test_open_save_complex_file, teardown);
     files = g_list_next(files);
   }
+
+  // Parses integration-data dir for .scm files
+  files = find_files_with_ext(data_dir, ".scm");
+  while(files){
+    gchar* filename = g_build_filename(data_dir, files->data, NULL);
+    g_test_add ("/integration/regression-check", gchar*, filename, setup, test_regression_check, teardown);
+    files = g_list_next(files);
+  }
+
   return g_test_run ();
 }

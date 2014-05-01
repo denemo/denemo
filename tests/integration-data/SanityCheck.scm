@@ -23,4 +23,6 @@
 (d-ToggleEndSlur)
 (d-BreathMark)
 (d-InsertF)
-(d-Save "tempfile")
+
+; integration-temp is automatically cleaned at the end of the tests
+(d-Save "integration-temp/SanityCheck.denemo")

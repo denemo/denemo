@@ -1988,7 +1988,7 @@ scheme_write_status (SCM filtername)
   if (scm_is_string (filtername))
     {
       name = scm_to_locale_string (filtername);
-      if (name)
+      if (name && Denemo.input_filters)
         {
 
           g_string_assign (Denemo.input_filters, name);
