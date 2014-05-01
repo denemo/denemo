@@ -32,6 +32,29 @@ find_files_with_ext(gchar* dirname, gchar* ext){
   return list;
 }
 
+static gboolean
+compare_denemo_files(gchar* fileA, gchar* fileB){
+  gchar* contentA = NULL;
+  gchar* contentB = NULL;
+
+  g_file_get_contents(fileA, &contentA, NULL, NULL);
+  g_file_get_contents(fileB, &contentB, NULL, NULL);
+
+  gboolean equals = (g_strcmp0(contentA, contentB) == 0);
+
+  if(!equals){
+    if (g_test_trap_fork (0, 0))
+      {
+        //TODO: Dynamically find diff path if possible
+        execl("/usr/bin/diff", "/usr/bin/diff", fileA, fileB, NULL);
+        g_warn_if_reached ();
+      }
+    g_test_trap_assert_passed ();
+  }
+  
+  return equals;
+}
+
 /*******************************************************************************
  * SETUP AND TEARDOWN
  ******************************************************************************/
@@ -123,12 +146,8 @@ test_open_save_blank_file(gpointer fixture, gconstpointer data)
     }
   g_test_trap_assert_passed ();
   
+  g_assert(compare_denemo_files(input, output));
   g_remove(output);
-  /* TODO:
-  g_file_get_contents(input, &input_contents, NULL, NULL);
-  g_file_get_contents(output, &output_contents, NULL, NULL);
-  g_assert_cmpstr(input_contents, ==, output_contents);
-  */
 }
 
 /** test_open_save_complex_file
