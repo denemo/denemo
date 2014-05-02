@@ -1354,15 +1354,15 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
             for (curstaff = gui->movement->thescore; curstaff; curstaff = curstaff->next)
               {
                 DenemoStaff *thestaff = curstaff->data;
-                gorig = g = thestaff->verses;
-                thestaff->verses = NULL;
+                gorig = g = thestaff->verse_views;
+                thestaff->verse_views = NULL;
                 for (; g; g = g->next)
                   {
                     gchar *text = get_text_from_view (g->data);
                     gtk_widget_destroy (g->data);       //what about its parent??? FIXME
-                    thestaff->verses = g_list_append (thestaff->verses, text);
-                    if (thestaff->currentverse == g)
-                      thestaff->currentverse = g_list_last (thestaff->verses);
+                    thestaff->verse_views = g_list_append (thestaff->verse_views, text);
+                    if (thestaff->current_verse_view == g)
+                      thestaff->current_verse_view = g_list_last (thestaff->verse_views);
                   }
 
                 {
@@ -1430,18 +1430,18 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
             for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
               {
                 DenemoStaff *thestaff = curstaff->data;
-                gorig = g = thestaff->verses;
-                gint curversenum = g_list_position (g, thestaff->currentverse);
-                thestaff->verses = NULL;
+                gorig = g = thestaff->verse_views;
+                gint curversenum = g_list_position (g, thestaff->current_verse_view);
+                thestaff->verse_views = NULL;
 
                 for (; g; g = g->next)
                   {
                     add_verse_to_staff (si, thestaff);
-                    gtk_text_buffer_set_text (gtk_text_view_get_buffer ((GtkTextView *) thestaff->currentverse->data), g->data, -1);
-                    gtk_widget_show (thestaff->currentverse->data);
-                    g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (thestaff->currentverse->data)), "changed", G_CALLBACK (lyric_change), NULL);
+                    gtk_text_buffer_set_text (gtk_text_view_get_buffer ((GtkTextView *) thestaff->current_verse_view->data), g->data, -1);
+                    gtk_widget_show (thestaff->current_verse_view->data);
+                    g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (thestaff->current_verse_view->data)), "changed", G_CALLBACK (lyric_change), NULL);
                   }
-                thestaff->currentverse = g_list_nth (thestaff->verses, curversenum);
+                thestaff->current_verse_view = g_list_nth (thestaff->verse_views, curversenum);
 
 
                 {

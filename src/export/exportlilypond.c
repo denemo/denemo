@@ -1709,13 +1709,13 @@ outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint
 
   /* a button and mark for the lyrics of this staff */
   GString *lyrics_name = g_string_new (movement);
-  if (curstaffstruct->verses)
+  if (curstaffstruct->verse_views)
     {
       g_string_prepend (lyrics_name, "Lyrics for ");
       g_string_append_printf (lyrics_name, " Voice %d", voice_count);
       insert_music_section (gui, lyrics_name->str);
       GList *g;
-      for (g = curstaffstruct->verses; g; g = g->next)
+      for (g = curstaffstruct->verse_views; g; g = g->next)
         {
           lyrics = g_list_append (lyrics, get_text_from_view (g->data));
         }
@@ -2502,11 +2502,11 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
             {
               if (!(curstaffstruct->voicecontrol & DENEMO_SECONDARY))
                 {
-                  if (curstaffstruct->verses)
+                  if (curstaffstruct->verse_views)
                     {
                       GList *g;
                       gint versenum;
-                      for (g = curstaffstruct->verses, versenum = 1; g; g = g->next, versenum++)
+                      for (g = curstaffstruct->verse_views, versenum = 1; g; g = g->next, versenum++)
                         {
                           GString *versename = g_string_new ("");
                           GString *temp = g_string_new ("");
@@ -2532,11 +2532,11 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
                 {
                   //g_string_append_printf(staffdefinitions, "%s"TAB TAB"\\%s%s\n"TAB TAB"\n"TAB TAB"\n", thestr->str, movement_name->str, voice_name->str);
 
-                  if (curstaffstruct->verses)
+                  if (curstaffstruct->verse_views)
                     {
                       GList *g;
                       gint versenum;
-                      for (g = curstaffstruct->verses, versenum = 1; g; g = g->next, versenum++)
+                      for (g = curstaffstruct->verse_views, versenum = 1; g; g = g->next, versenum++)
                         {
                           GString *versename = g_string_new ("");
                           GString *temp = g_string_new ("");
