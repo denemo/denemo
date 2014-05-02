@@ -53,7 +53,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <edit-info>
       <staffno>2</staffno>
       <measureno>20</measureno>
-      <cursorposition>-1</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>1</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>

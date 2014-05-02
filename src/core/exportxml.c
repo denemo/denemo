@@ -800,7 +800,7 @@ exportXML (gchar * thefilename, DenemoProject * gui)
       newXMLIntChild (parentElem, ns, (xmlChar *) "staffno", si->currentstaffnum);
       newXMLIntChild (parentElem, ns, (xmlChar *) "measureno", si->currentmeasurenum);
 
-      newXMLIntChild (parentElem, ns, (xmlChar *) "cursorposition", si->cursor_x - 1);
+      newXMLIntChild (parentElem, ns, (xmlChar *) "cursorposition", MAX(0, si->cursor_x - 1));
       newXMLIntChild (parentElem, ns, (xmlChar *) "tonalcenter", get_enharmonic_position ());
 
       newXMLIntChild (parentElem, ns, (xmlChar *) "zoom", (int) (100 * si->zoom));

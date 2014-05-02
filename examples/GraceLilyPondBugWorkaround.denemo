@@ -53,7 +53,7 @@ a bug in LilyPond.
     <edit-info>
       <staffno>2</staffno>
       <measureno>2</measureno>
-      <cursorposition>-1</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>80</zoom>
       <system-height>100</system-height>

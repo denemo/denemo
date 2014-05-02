@@ -219,7 +219,7 @@ accGeige</tag>
     <edit-info>
       <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>-1</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -648,7 +648,7 @@ Alternatively in the Notes/Rests-&gt;Beaming menu.\")"             ⬆Explanatio
     <edit-info>
       <staffno>2</staffno>
       <measureno>1</measureno>
-      <cursorposition>9</cursorposition>
+      <cursorposition>8</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -867,7 +867,7 @@ The input Denemo Display gives you an indicator of what you have done. If you wa
     <edit-info>
       <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>-1</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -1116,7 +1116,7 @@ Usually the shortcut is Shift-B,s for this.\")"             ⬉Explanation }</li
     <edit-info>
       <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>-1</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
