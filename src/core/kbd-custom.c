@@ -1042,7 +1042,10 @@ lookup_menu_path_from_idx (keymap * keymap, gint command_id)
 {
   command_row* row = NULL;
   keymap_get_command_row(Denemo.map, &row, command_id);
-  return row->menupath;
+  if(row)
+    return row->menupath;
+  g_critical ("No row for command number %d\n", command_id);
+  return NULL;
 }
 //returns the accel, "" if no accel defined. free the result
 //the accel is the first keybinding of the list
