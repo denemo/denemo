@@ -2825,11 +2825,9 @@ parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoProject * gui, ImportTyp
     si->cursor_appending = FALSE;
   // si->leftmeasurenum = si->currentstaffnum = si->currentmeasurenum = 1;
 
-  if(!Denemo.non_interactive){
-    set_rightmeasurenum (gui->movement);
-    set_bottom_staff (gui);
-    set_width_to_work_with (gui);
-  }
+  set_rightmeasurenum (gui->movement);
+  set_bottom_staff (gui);
+  set_width_to_work_with (gui);
   return ret;
 }
 
@@ -3071,8 +3069,7 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
       else
         gtk_widget_show (gui->movement->lyricsbox);
     }
-  if(!Denemo.non_interactive)
-    score_status (gui, FALSE);
+  score_status (gui, FALSE);
 
 cleanup:
 
@@ -3088,7 +3085,6 @@ cleanup:
   sXMLIDToElemMap = NULL;
   //g_debug("Number of movements %d\n", g_list_length(gui->movements));
   reset_movement_numbers (gui);
-  if(!Denemo.non_interactive)
-    set_movement_selector (gui);
+  set_movement_selector (gui);
   return ret;
 }

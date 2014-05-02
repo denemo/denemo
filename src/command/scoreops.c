@@ -485,32 +485,41 @@ prev_movement (GtkAction * action, DenemoScriptParam * param)
         warningmessage (_("This is the first movement"));
       return;
     }
-  if(Denemo.non_interactive) return;
-  gtk_widget_hide (gui->movement->buttonbox);
-  if (gui->movement->lyricsbox)
-    gtk_widget_hide (gui->movement->lyricsbox);
+  if(!Denemo.non_interactive){
+    gtk_widget_hide (gui->movement->buttonbox);
+    if (gui->movement->lyricsbox)
+      gtk_widget_hide (gui->movement->lyricsbox);
+  }
+  
   gui->movement = this->data;
-  if (gui->movement->lyricsbox)
-    gtk_widget_show (gui->movement->lyricsbox);       //toggle_lyrics_view(NULL, NULL);
-  gtk_widget_show (gui->movement->buttonbox);
+
+  if(!Denemo.non_interactive){
+    if (gui->movement->lyricsbox)
+      gtk_widget_show (gui->movement->lyricsbox);       //toggle_lyrics_view(NULL, NULL);
+    gtk_widget_show (gui->movement->buttonbox);
+  }
   set_master_tempo (gui->movement, 1.0);
-   set_movement_selector (gui);
+  set_movement_selector (gui);
   //!!!!!!!!!!!!!updatescoreinfo (gui);
   //FIXME duplicate code
   set_rightmeasurenum (gui->movement);
   set_bottom_staff (gui);
 
-  update_hscrollbar (gui);
-  update_vscrollbar (gui);
-  draw_score_area();
-  g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
-  g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
+  if(!Denemo.non_interactive){
+    update_hscrollbar (gui);
+    update_vscrollbar (gui);
+    draw_score_area();
+    g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
+    g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
+  }
   write_status (gui);
   //gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME see staffup/down
   set_movement_transition (MOVEMENT_WIDTH);
 
-  draw_score_area();
-  draw_score (NULL);
+  if(!Denemo.non_interactive){
+    draw_score_area();
+    draw_score (NULL);
+  }
 }
 
 /**
