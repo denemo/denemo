@@ -2962,11 +2962,11 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
           /* this is dependent on the order of elements, which is not strictly correct */
           FOREACH_CHILD_ELEM (childElem, rootElem)
           {
-            if (!Denemo.non_interactive && ELEM_NAME_EQ (childElem, "scheme"))
+            if (ELEM_NAME_EQ (childElem, "scheme"))
               {
                 gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
                                                              childElem->xmlChildrenNode, 1);
-                if (tmp != NULL)
+                if (!Denemo.non_interactive && tmp != NULL)
                   {
                     appendSchemeText (tmp);
                     g_free (tmp);
