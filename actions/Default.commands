@@ -6431,6 +6431,20 @@ Use this to refine the positioning, but be aware that notes in other staffs will
         <_label>Fret Diagrams</_label>
         <_tooltip>Chords on this staff will typeset as fret diagrams. The default is guitar.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>MergeDifferentlyDottedOn</action>
+        <after>ShiftOn</after>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <_label>Differently Dotted Merge On</_label>
+        <_tooltip>From this point in the music notes in different voices beginning at the same time will be merged onto the same stem even if they differ in the dotting.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>MergeDifferentlyDottedOff</action>
+        <after>MergeDifferentlyDottedOn</after>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <_label>Merge Differently Dotted Off</_label>
+        <_tooltip>From this point notes in different voices that begin at the same time will not be merged onto the same stem if they differ in the dotting.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

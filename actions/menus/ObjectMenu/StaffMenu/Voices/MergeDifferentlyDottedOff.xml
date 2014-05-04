@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>MergeDifferentlyDottedOff</action>
+        <after>MergeDifferentlyDotttedOn</after>
+        <_label>Merge Differently Dotted Off</_label>
+        <_tooltip>From this point notes in different voices that begin at the same time will not be merged onto the same stem if they differ in the dotting.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
