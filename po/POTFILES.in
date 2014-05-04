@@ -1671,6 +1671,10 @@ actions/menus/ObjectMenu/StaffMenu/Voices/InitialVoiceThree.xml
 actions/menus/ObjectMenu/StaffMenu/Voices/InitialVoiceTwo.scm
 actions/menus/ObjectMenu/StaffMenu/Voices/InitialVoiceTwo.xml
 actions/menus/ObjectMenu/StaffMenu/Voices/InitialVoice.xml
+actions/menus/ObjectMenu/StaffMenu/Voices/MergeDifferentlyDottedOff.scm
+actions/menus/ObjectMenu/StaffMenu/Voices/MergeDifferentlyDottedOff.xml
+actions/menus/ObjectMenu/StaffMenu/Voices/MergeDifferentlyDottedOn.scm
+actions/menus/ObjectMenu/StaffMenu/Voices/MergeDifferentlyDottedOn.xml
 actions/menus/ObjectMenu/StaffMenu/Voices/MergeRests.scm
 actions/menus/ObjectMenu/StaffMenu/Voices/MergeRests.xml
 actions/menus/ObjectMenu/StaffMenu/Voices/NewVoice.scm
