@@ -592,8 +592,8 @@ newVoiceProps (xmlNodePtr parentElem, xmlNsPtr ns, DenemoStaff * curStaffStruct)
 
   newXMLIntChild (curElem, ns, (xmlChar *) "hasfakechords", curStaffStruct->hasfakechords);
 
-  if (curStaffStruct->verses)
-    newVersesElem (curElem, ns, curStaffStruct->verses, "verses");
+  if (curStaffStruct->verse_views)
+    newVersesElem (curElem, ns, curStaffStruct->verse_views, "verses");
 
   if (curStaffStruct->staff_directives)
     newDirectivesElem (curElem, ns, curStaffStruct->staff_directives, "staff-directives");

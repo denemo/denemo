@@ -752,10 +752,10 @@ clone_movement (DenemoMovement * si)
       }
 
       newscore->lyricsbox = NULL;
-      thestaff->verses = extract_verses (srcStaff->verses);
+      thestaff->verse_views = extract_verses (srcStaff->verse_views);
 
-      if (srcStaff->currentverse)
-        thestaff->currentverse = g_list_nth (thestaff->verses, g_list_position (srcStaff->verses, srcStaff->currentverse));
+      if (srcStaff->current_verse_view)
+        thestaff->current_verse_view = g_list_nth (thestaff->verse_views, g_list_position (srcStaff->verse_views, srcStaff->current_verse_view));
 
       newscore->thescore = g_list_append (newscore->thescore, thestaff);
       if (g == si->currentprimarystaff)

@@ -49,7 +49,7 @@ static void
 switch_page (GtkNotebook * notebook, gpointer dummy, guint pagenum, DenemoStaff * staff)
 {
   draw_score_area();
-  staff->currentverse = g_list_nth (staff->verses, pagenum);
+  staff->current_verse_view = g_list_nth (staff->verse_views, pagenum);
 }
 
 //scans *next for a syllable putting the syllable into gs and moving *next to the address beyond the syllable
@@ -177,16 +177,16 @@ gboolean synchronize_lyric_cursor(void)
 {
   DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data; 
   gint count = syllable_count() + 1;  
-  if (thestaff->currentverse && thestaff->currentverse->data)
+  if (thestaff->current_verse_view && thestaff->current_verse_view->data)
     {
-        gchar *text = get_text_from_view (thestaff->currentverse->data);
+        gchar *text = get_text_from_view (thestaff->current_verse_view->data);
         gint character_count = get_character_count_at_syllable (text, count);
-        GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (thestaff->currentverse->data); 
+        GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (thestaff->current_verse_view->data); 
         GtkTextIter where; 
         gtk_text_buffer_get_iter_at_offset (textbuffer, &where, character_count);
         gtk_text_buffer_place_cursor (textbuffer, &where);
-        gtk_widget_grab_focus (thestaff->currentverse->data);
-        gtk_text_view_scroll_mark_onscreen (thestaff->currentverse->data, gtk_text_buffer_get_insert(textbuffer));
+        gtk_widget_grab_focus (thestaff->current_verse_view->data);
+        gtk_text_view_scroll_mark_onscreen (thestaff->current_verse_view->data, gtk_text_buffer_get_insert(textbuffer));
         return TRUE;
     }   
     return FALSE;
@@ -230,63 +230,64 @@ static gboolean button_release (GtkWidget *textview)
 
 
 GtkWidget *
-add_verse_to_staff (DenemoMovement * si, DenemoStaff * staff)
+add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
 {
   if(Denemo.non_interactive)
     return NULL;
   GtkWidget *notebook, *textview;
-  if (staff->verses == NULL)
+  if (staff->verse_views == NULL)
   {
     notebook = gtk_notebook_new ();
     gtk_widget_show (notebook);
 
     g_signal_connect (G_OBJECT (notebook), "switch_page", G_CALLBACK (switch_page), staff);
-    if (si->lyricsbox == NULL)
-      install_lyrics_preview (si, gtk_widget_get_parent (gtk_widget_get_parent (Denemo.scorearea)));  //FIXME we need a proper way of getting to the top vbox, that will not break when scorearea is moved in the widget hierarchy.
-    gtk_box_pack_start (GTK_BOX (si->lyricsbox), notebook, TRUE, TRUE, 0);
-    if (si->measurewidth == DENEMO_INITIAL_MEASURE_WIDTH)
-      si->measurewidth = DENEMO_INITIAL_MEASURE_WIDTH * 3;
+    if (movement->lyricsbox == NULL)
+      //FIXME we need a proper way of getting to the top vbox, that will not break when scorearea is moved in the widget hierarchy.
+      install_lyrics_preview (movement, gtk_widget_get_parent (gtk_widget_get_parent (Denemo.scorearea)));
+    gtk_box_pack_start (GTK_BOX (movement->lyricsbox), notebook, TRUE, TRUE, 0);
+    if (movement->measurewidth == DENEMO_INITIAL_MEASURE_WIDTH)
+      movement->measurewidth = DENEMO_INITIAL_MEASURE_WIDTH * 3;
   }
   else
   {
-    GtkWidget *w = staff->verses->data;
+    GtkWidget *w = staff->verse_views->data;
     notebook = gtk_widget_get_parent (gtk_widget_get_parent (w));
   }
   textview = new_lyric_editor ();
   gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (textview), GTK_WRAP_WORD_CHAR);
   gtk_widget_show_all (gtk_widget_get_parent (textview));
-  staff->verses = g_list_append (staff->verses, textview);
-  staff->currentverse = g_list_last (staff->verses);
-  //g_debug("Setting verse to %p\n", staff->currentverse);
+  staff->verse_views = g_list_append (staff->verse_views, textview);
+  staff->current_verse_view = g_list_last (staff->verse_views);
+  //g_debug("Setting verse to %p\n", staff->current_verse_view);
   gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (notebook), gtk_widget_get_parent (textview), NULL);
   gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), pagenum);
-  gchar *tablabel = g_strdup_printf ("Verse %d", pagenum + 1);
+  gchar *tablabel = g_strdup_printf (_("Verse %d"), pagenum + 1);
   gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), gtk_widget_get_parent (textview), tablabel);
   g_free (tablabel);
   if (pagenum)
     gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), TRUE);
-  g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (staff->currentverse->data)), "changed", G_CALLBACK (lyric_change), NULL);
-  g_signal_connect (G_OBJECT(staff->currentverse->data), "key-release-event",  G_CALLBACK (text_insert), NULL);
-  g_signal_connect (G_OBJECT(staff->currentverse->data), "button-release-event",  G_CALLBACK (button_release), NULL);
+  g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (staff->current_verse_view->data)), "changed", G_CALLBACK (lyric_change), NULL);
+  g_signal_connect (G_OBJECT(staff->current_verse_view->data), "key-release-event",  G_CALLBACK (text_insert), NULL);
+  g_signal_connect (G_OBJECT(staff->current_verse_view->data), "button-release-event",  G_CALLBACK (button_release), NULL);
   GdkRGBA grayed = {0.8, 0.8, 0.8, 1.0};
   GdkRGBA white = {1, 1, 1, 1.0};
-  gtk_widget_override_background_color (staff->currentverse->data, GTK_STATE_FLAG_FOCUSED, &white);
-  gtk_widget_override_background_color (staff->currentverse->data, GTK_STATE_FLAG_NORMAL, &grayed);
+  gtk_widget_override_background_color (staff->current_verse_view->data, GTK_STATE_FLAG_FOCUSED, &white);
+  gtk_widget_override_background_color (staff->current_verse_view->data, GTK_STATE_FLAG_NORMAL, &grayed);
   return textview;
 }
 
 void
 add_verse (GtkAction * action, DenemoScriptParam * param)
 {
-  DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->movement;
-  if (gui->movement->currentstaff)
+  DenemoProject *project = Denemo.project;
+  DenemoMovement *movement = project->movement;
+  if (project->movement->currentstaff)
   {
-    DenemoStaff *staff = si->currentstaff->data;
-    add_verse_to_staff (si, staff);
+    DenemoStaff *staff = movement->currentstaff->data;
+    add_verse_to_staff (movement, staff);
    // put_lyrics_for_current_verse (staff, "\n\n\n\n");//Force some height on the widget so the user has some place to type
-    signal_structural_change (gui);
-    gtk_widget_show (staff->currentverse->data);
+    signal_structural_change (project);
+    gtk_widget_show (staff->current_verse_view->data);
 
   }
 }
@@ -299,11 +300,11 @@ delete_verse (GtkAction * action, DenemoScriptParam * param)
   if (si->currentstaff)
   {
     DenemoStaff *staff = si->currentstaff->data;
-    if (staff->currentverse)
+    if (staff->current_verse_view)
     {
-      staff->verses = g_list_remove_link (staff->verses, staff->currentverse);
-      gtk_widget_destroy (gtk_widget_get_parent (staff->currentverse->data));
-      staff->currentverse = staff->verses;
+      staff->verse_views = g_list_remove_link (staff->verse_views, staff->current_verse_view);
+      gtk_widget_destroy (gtk_widget_get_parent (staff->current_verse_view->data));
+      staff->current_verse_view = staff->verse_views;
       signal_structural_change (gui);
       score_status (gui, TRUE);
       draw_score_area();
@@ -371,8 +372,8 @@ reset_lyrics (DenemoStaff * staff, gint count)
 
   if (DummyVerse == NULL)
     DummyVerse = gtk_text_view_new ();
-  if (staff && staff->currentverse)
-    lyric_iterator (staff->currentverse->data, count);
+  if (staff && staff->current_verse_view)
+    lyric_iterator (staff->current_verse_view->data, count);
   else
     lyric_iterator (DummyVerse, count);
 }
@@ -399,8 +400,8 @@ void
 hide_lyrics (void)
 {
   DenemoProject *gui = Denemo.project;
-  if (gui->movement->currentstaff && ((DenemoStaff *) gui->movement->currentstaff->data)->verses)
-    gtk_widget_hide (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) gui->movement->currentstaff->data)->verses->data)));      //hide the notebook
+  if (gui->movement->currentstaff && ((DenemoStaff *) gui->movement->currentstaff->data)->verse_views)
+    gtk_widget_hide (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) gui->movement->currentstaff->data)->verse_views->data)));      //hide the notebook
 }
 
 /* show the notebook of verses for the current staff hide all others*/
@@ -409,8 +410,8 @@ show_lyrics (void)
 {
   DenemoProject *gui = Denemo.project;
   DenemoMovement *si = gui->movement;
-  if (si->currentstaff && ((DenemoStaff *) si->currentstaff->data)->verses)
-    gtk_widget_show (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) si->currentstaff->data)->verses->data)));   //show the notebook
+  if (si->currentstaff && ((DenemoStaff *) si->currentstaff->data)->verse_views)
+    gtk_widget_show (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) si->currentstaff->data)->verse_views->data)));   //show the notebook
   select_lyrics ();
 }
 
@@ -423,16 +424,16 @@ select_lyrics (void)
   GList *current = si->thescore;
   for (; current; current = current->next)
   {
-    if (current != si->currentstaff && ((DenemoStaff *) current->data)->verses)
-      gtk_widget_hide (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) current->data)->verses->data)));        //hide the notebook
+    if (current != si->currentstaff && ((DenemoStaff *) current->data)->verse_views)
+      gtk_widget_hide (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) current->data)->verse_views->data)));        //hide the notebook
   }
 }
 
 gchar *
 get_lyrics_for_current_verse (DenemoStaff * thestaff)
 {
-  if (thestaff->currentverse && thestaff->currentverse->data)
-    return get_text_from_view (thestaff->currentverse->data);
+  if (thestaff->current_verse_view && thestaff->current_verse_view->data)
+    return get_text_from_view (thestaff->current_verse_view->data);
   else
     return NULL;
 }
@@ -440,10 +441,10 @@ get_lyrics_for_current_verse (DenemoStaff * thestaff)
 gboolean
 append_lyrics_for_current_verse (DenemoStaff * thestaff, gchar * text)
 {
-  if (thestaff->currentverse && thestaff->currentverse->data)
+  if (thestaff->current_verse_view && thestaff->current_verse_view->data)
   {
     GtkTextIter iter;
-    GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (thestaff->currentverse->data);
+    GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (thestaff->current_verse_view->data);
     gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER (textbuffer), &iter);
     gtk_text_buffer_insert (textbuffer, &iter, text, -1);
     return TRUE;
@@ -455,9 +456,9 @@ append_lyrics_for_current_verse (DenemoStaff * thestaff, gchar * text)
 gboolean
 put_lyrics_for_current_verse (DenemoStaff * thestaff, gchar * text)
 {
-  if (thestaff->currentverse && thestaff->currentverse->data)
+  if (thestaff->current_verse_view && thestaff->current_verse_view->data)
   {
-    GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (thestaff->currentverse->data);
+    GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (thestaff->current_verse_view->data);
     GtkTextIter startiter, enditer;
     gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER (textbuffer), &startiter);
     gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER (textbuffer), &enditer);
@@ -479,8 +480,8 @@ get_current_verse_number (void)
   if (gui->movement->currentstaff)
   {
     DenemoStaff *thestaff = ((DenemoStaff *) gui->movement->currentstaff->data);
-    if (thestaff->verses)
-      return 1 + g_list_index (thestaff->verses, thestaff->currentverse);
+    if (thestaff->verse_views)
+      return 1 + g_list_index (thestaff->verse_views, thestaff->current_verse_view);
 
   }
 }
@@ -492,12 +493,12 @@ set_current_verse (gint number)
   if (gui->movement->currentstaff)
   {
     DenemoStaff *thestaff = ((DenemoStaff *) gui->movement->currentstaff->data);
-    if (thestaff->verses)
+    if (thestaff->verse_views)
     {
-      GList *g = g_list_nth (thestaff->verses, number - 1);
+      GList *g = g_list_nth (thestaff->verse_views, number - 1);
       if (g)
       {
-        thestaff->currentverse = g;
+        thestaff->current_verse_view = g;
         //emit_signal ("switch-page", ....
         return TRUE;
       }
@@ -510,9 +511,9 @@ gchar * get_lyrics_for_verse_num (gint number)
 {
   DenemoProject * gui = Denemo.project; if (gui->movement->currentstaff)
   {
-    DenemoStaff * thestaff = ((DenemoStaff *) gui->movement->currentstaff->data); if (thestaff->verses)
+    DenemoStaff * thestaff = ((DenemoStaff *) gui->movement->currentstaff->data); if (thestaff->verse_views)
     {
-      GList * verse = g_list_nth (thestaff->verses, number - 1); if (verse) return get_text_from_view (verse->data);
+      GList * verse = g_list_nth (thestaff->verse_views, number - 1); if (verse) return get_text_from_view (verse->data);
     }
   }
   return NULL;

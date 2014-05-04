@@ -101,7 +101,7 @@ get_click_height (DenemoProject * gui, gdouble y)
           space_below = 0;
           staffs_from_top++;
         }
-      space_below = MAX (space_below, ((staff->space_below) + (staff->verses ? LYRICS_HEIGHT : 0)));
+      space_below = MAX (space_below, ((staff->space_below) + (staff->verse_views ? LYRICS_HEIGHT : 0)));
       //g_debug("after extra space %d space_below %d\n", extra_space, space_below);
     }
 

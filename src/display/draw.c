@@ -1326,7 +1326,7 @@ draw_score (cairo_t * cr)
   for (itp.staffnum = si->top_staff, curstaff = g_list_nth (si->thescore, si->top_staff - 1), (y += si->staffspace / 4); curstaff && itp.staffnum <= si->bottom_staff; itp.staffnum++)
     {
       DenemoStaff *staff = (DenemoStaff *) curstaff->data;
-      itp.verse = staff->currentverse ? staff->currentverse->data : NULL;
+      itp.verse = staff->current_verse_view ? staff->current_verse_view->data : NULL;
       GdkPixbuf *StaffDirectivesPixbuf = (si->currentstaffnum == itp.staffnum) ? StaffPixbuf : StaffPixbufSmall;
       if (si->currentstaffnum == itp.staffnum)
         y += staff_transition_offset ();

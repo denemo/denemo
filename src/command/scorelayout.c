@@ -856,8 +856,8 @@ static void
 do_verses (DenemoStaff * staff, GtkWidget * vbox, gint movementnum, gint voice_count)
 {
 
-  //FIXME do text of the verses get_text_from_view(GtkWidget *textview) where staff->verses->data is textview widget
-  GList *g = staff->verses;
+  //FIXME do text of the verses get_text_from_view(GtkWidget *textview) where staff->verse_views->data is textview widget
+  GList *g = staff->verse_views;
   gint versenum = 1;
   for (versenum = 1; g; g = g->next, versenum++)
     {

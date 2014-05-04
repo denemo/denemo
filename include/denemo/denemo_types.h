@@ -304,8 +304,8 @@ typedef struct
   gint midi_port; /**< midi port assigned to the staff voice */ 
   gint space_above; /**< space above the staff used in the denemo gui */
   gint space_below; /**< space below the staff used in the denemo gui */
-  GList *verses;/**< a list of text editor widgets each containing a verse */
-  GList *currentverse;/**< verse to be displayed */
+  GList *verse_views;/**< a list of text editor widgets each containing a verse */
+  GList *current_verse_view;/**< verse to be displayed */
   gboolean hasfigures; /**<TRUE if the staff has had figures attached. Only one staff should have this set */
   gboolean hasfakechords; /**<TRUE if the staff has had chord symbols attached. Only one staff should have this set */
   DenemoVoice voicecontrol; /**< either controls whether this staff is displayed and printed separately or as a voice */
