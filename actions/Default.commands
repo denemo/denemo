@@ -6445,6 +6445,13 @@ Use this to refine the positioning, but be aware that notes in other staffs will
         <_label>Merge Differently Dotted Off</_label>
         <_tooltip>From this point notes in different voices that begin at the same time will not be merged onto the same stem if they differ in the dotting.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>TweakFingeringPosition</action>
+        <after>FingeringSwap</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
+        <_label>Tweak Position</_label>
+        <_tooltip>Shifts the position of the fingering indication by the amounts given.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
