@@ -1281,6 +1281,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleSegno.scm
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleSegno.xml
 actions/menus/ObjectMenu/NotesRests/MIDI/InsertMarkedMidi.scm
 actions/menus/ObjectMenu/NotesRests/MIDI/InsertMarkedMidi.xml
+actions/menus/ObjectMenu/NotesRests/NoteheadControl/IndividualNoteheadSize.scm
+actions/menus/ObjectMenu/NotesRests/NoteheadControl/IndividualNoteheadSize.xml
 actions/menus/ObjectMenu/NotesRests/NoteheadControl/NeoMensuralNotehead.scm
 actions/menus/ObjectMenu/NotesRests/NoteheadControl/NeoMensuralNotehead.xml
 actions/menus/ObjectMenu/NotesRests/NoteheadSizes/NormalSizeNotehead.scm
@@ -1411,7 +1413,11 @@ actions/menus/ObjectMenu/NotesRests/Transpose/ShiftRealWholeUp.scm
 actions/menus/ObjectMenu/NotesRests/Transpose/ShiftRealWholeUp.xml
 actions/menus/ObjectMenu/NotesRests/Transpose/ShiftUp.scm
 actions/menus/ObjectMenu/NotesRests/Transpose/ShiftUp.xml
+actions/menus/ObjectMenu/NotesRests/TremoloDownward.scm
+actions/menus/ObjectMenu/NotesRests/TremoloDownward.xml
 actions/menus/ObjectMenu/NotesRests/Tremolo.scm
+actions/menus/ObjectMenu/NotesRests/TremoloUpward.scm
+actions/menus/ObjectMenu/NotesRests/TremoloUpward.xml
 actions/menus/ObjectMenu/NotesRests/Tremolo.xml
 actions/menus/ObjectMenu/NotesRests/Tuplets/CreateTriplet.scm
 actions/menus/ObjectMenu/NotesRests/Tuplets/CreateTripletSlurred.scm
@@ -1571,6 +1577,8 @@ actions/menus/ObjectMenu/StaffMenu/FillEmptyMeasures.scm
 actions/menus/ObjectMenu/StaffMenu/FillEmptyMeasures.xml
 actions/menus/ObjectMenu/StaffMenu/FixSlursInStaff.scm
 actions/menus/ObjectMenu/StaffMenu/FixSlursInStaff.xml
+actions/menus/ObjectMenu/StaffMenu/InsertStaff/CouleStaff.scm
+actions/menus/ObjectMenu/StaffMenu/InsertStaff/CouleStaff.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/DynamicsStaff.scm
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/DynamicsStaff.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm

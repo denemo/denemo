@@ -6473,6 +6473,13 @@ Use this to refine the positioning, but be aware that notes in other staffs will
         <_label>Add Staff for Coulés</_label>
         <_tooltip>Adds a voice to the current staff which typesets notes as a slanting line - a coulé. The main voice provides the chord notes, and this provides the coulé between them.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>IndividualNoteheadSize</action>
+        <after>NeoMensuralNotehead</after>
+        <menupath>/ObjectMenu/NotesRests/NoteheadControl</menupath>
+        <_label>Individual Note Head Size</_label>
+        <_tooltip>Allows the notehead that the cursor is on to be made larger of smaller than normal.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

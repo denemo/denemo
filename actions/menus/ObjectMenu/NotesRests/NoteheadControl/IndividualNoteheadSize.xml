@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>IndividualNoteheadSize</action>
+        <after>NeoMensuralNotehead</after>
+        <_label>Individual Note Head Size</_label>
+        <_tooltip>Allows the notehead that the cursor is on to be made larger of smaller than normal.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
