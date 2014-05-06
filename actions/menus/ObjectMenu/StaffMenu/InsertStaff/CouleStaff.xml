@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>CouleStaff</action>
+        <after>NewStructuredStaff</after>
+        <_label>Add Staff for Coulés</_label>
+        <_tooltip>Adds a voice to the current staff which typesets notes as a slanting line - a coulé. The main voice provides the chord notes, and this provides the coulé between them.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
