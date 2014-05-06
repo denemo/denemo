@@ -6452,6 +6452,20 @@ Use this to refine the positioning, but be aware that notes in other staffs will
         <_label>Tweak Position</_label>
         <_tooltip>Shifts the position of the fingering indication by the amounts given.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>TremoloDownward</action>
+        <after>Tremolo</after>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <_label>Tremolo Downward</_label>
+        <_tooltip>Slopes the tremolo slash downwards instead of upwards.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>TremoloUpward</action>
+        <after>TremoloDownward</after>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <_label>Tremolo Upward</_label>
+        <_tooltip>Slopes tremolo mark on stem upward.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

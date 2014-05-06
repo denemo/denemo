@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>TremoloDownward</action>
+        <after>Tremolo</after>
+        <_label>Tremolo Downward</_label>
+        <_tooltip>Slopes the tremolo slash downwards instead of upwards.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
