@@ -6480,6 +6480,13 @@ Use this to refine the positioning, but be aware that notes in other staffs will
         <_label>Individual Note Head Size</_label>
         <_tooltip>Allows the notehead that the cursor is on to be made larger of smaller than normal.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ToggleDownPrall</action>
+        <after>ToggleUpPrall</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <_label>Down Prall (Off/On)</_label>
+        <_tooltip>Typesets a down prall on the current note/chord. Removes that ornament if already present.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

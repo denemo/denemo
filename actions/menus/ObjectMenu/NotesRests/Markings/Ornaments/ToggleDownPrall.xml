@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ToggleDownPrall</action>
+        <after>ToggleUpPrall</after>
+        <_label>Down Prall (Off/On)</_label>
+        <_tooltip>Typesets a down prall on the current note/chord. Removes that ornament if already present.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
