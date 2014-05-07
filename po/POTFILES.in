@@ -1190,6 +1190,12 @@ actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeight
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.xml
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.scm
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentAccidentalBelow.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentAccidentalBelow.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentFlat.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentFlat.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentSharp.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentSharp.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleDownPrall.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleDownPrall.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleMordent.scm
