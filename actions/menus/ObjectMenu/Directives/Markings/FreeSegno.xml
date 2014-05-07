@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>FreeSegno</action>
+        <after>FreeFermata</after>
+        <_label>Standalone Segno (for barlines)</_label>
+        <_tooltip>Typesets a segno over the barline.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

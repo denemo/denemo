@@ -6493,7 +6493,7 @@ Use this to refine the positioning, but be aware that notes in other staffs will
         <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
         <_label>Attach ♯</_label>
         <_tooltip>Places a sharp above the ornament on the note at the cursor.</_tooltip>
-      </row>      
+      </row>
       <row type="scheme">
         <action>OrnamentFlat</action>
         <after>OrnamentSharp</after>
@@ -6507,6 +6507,13 @@ Use this to refine the positioning, but be aware that notes in other staffs will
         <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
         <_label>Accidental Below</_label>
         <_tooltip>Places the accidental on the ornament below rather than above.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>FreeSegno</action>
+        <after>FreeFermata</after>
+        <menupath>/ObjectMenu/Directives/Markings</menupath>
+        <_label>Standalone Segno (for barlines)</_label>
+        <_tooltip>Typesets a segno over the barline.</_tooltip>
       </row>
     </map>
   </merge>
