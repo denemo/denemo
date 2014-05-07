@@ -6487,6 +6487,27 @@ Use this to refine the positioning, but be aware that notes in other staffs will
         <_label>Down Prall (Off/On)</_label>
         <_tooltip>Typesets a down prall on the current note/chord. Removes that ornament if already present.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>OrnamentSharp</action>
+        <after>ToggleDownPrall</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <_label>Attach ♯</_label>
+        <_tooltip>Places a sharp above the ornament on the note at the cursor.</_tooltip>
+      </row>      
+      <row type="scheme">
+        <action>OrnamentFlat</action>
+        <after>OrnamentSharp</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <_label>Attach ♭</_label>
+        <_tooltip>Places a flat above the ornament on the note at the cursor.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>OrnamentAccidentalBelow</action>
+        <after>OrnamentSharp</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <_label>Accidental Below</_label>
+        <_tooltip>Places the accidental on the ornament below rather than above.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
