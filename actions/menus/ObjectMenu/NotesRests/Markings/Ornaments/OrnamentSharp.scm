@@ -1,2 +1,2 @@
 ;;;OrnamentSharp
-(ChordAnnotation "OrnamentSharp" "^\\markup { \\sharp }" #f LG-Sharp)
+(ChordAnnotation "OrnamentSharp" "^\\markup { \\tiny \\sharp }" #f LG-Sharp)

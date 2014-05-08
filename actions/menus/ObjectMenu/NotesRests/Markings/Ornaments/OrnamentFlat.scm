@@ -1,2 +1,2 @@
 ;;;OrnamentFlat
-(ChordAnnotation "OrnamentFlat" "^\\markup { \\flat }" #f LG-Flat)
+(ChordAnnotation "OrnamentFlat" "^\\markup { \\tiny \\flat }" #f LG-Flat)
