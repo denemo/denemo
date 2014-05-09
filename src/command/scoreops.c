@@ -872,7 +872,8 @@ deletescore (GtkWidget * widget, DenemoProject * gui)
       g_string_free (gui->tabname, TRUE);
       gui->tabname = NULL;
     }
-
+  gui->total_edit_time = 0;
+  reset_editing_timer();
   point_to_new_movement (gui);
   gui->movements = g_list_append (gui->movements, gui->movement);
   reset_movement_numbers (gui);

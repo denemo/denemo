@@ -305,4 +305,6 @@ gchar* find_dir_for_files(GList* files, GList* dirs);
 gchar* find_path_for_file(gchar* filename, GList* dirs);
 gchar* find_denemo_file (DenemoDirectory dir, gchar* filename);
 gchar *escape_scheme (gchar *input);
+gchar *time_spent_editing(void);
+void reset_editing_timer(void);
 #endif /* UTILS_H */

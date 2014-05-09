@@ -765,10 +765,12 @@ exportXML (gchar * thefilename, DenemoProject * gui)
 
   newXMLIntChild (parentElem, ns, (xmlChar *) "fontsize", atoi (gui->lilycontrol.staffsize->str));
   newXMLIntChild (parentElem, ns, (xmlChar *) "orientation", gui->lilycontrol.orientation);
+  newXMLIntChild (parentElem, ns, (xmlChar *) "total-edit-time", gui->total_edit_time);
 
   if (gui->lilycontrol.directives)
     newDirectivesElem (parentElem, ns, gui->lilycontrol.directives, "score-directives");
-
+  if (gui->total_edit_time)
+    newXMLIntChild (parentElem, ns, (xmlChar *)"total-editing-time", gui->total_edit_time);
   GList *custom;
   for (custom = g_list_last (gui->custom_scoreblocks); custom; custom = custom->prev)
     {

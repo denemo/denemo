@@ -4799,7 +4799,8 @@ new_project(gboolean new_movement)
   project->lilycontrol.staffsize = g_string_new ("18");
   project->lilycontrol.lilyversion = g_string_new ("");
   project->lilycontrol.orientation = TRUE;  //portrait
-
+  project->total_edit_time = 0;
+  reset_editing_timer ();
   if(new_movement){
     Denemo.project = project;
     point_to_new_movement (project);
@@ -4969,7 +4970,7 @@ ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam * param)
  * 
  */
 static void
-newtab ()
+newtab (void)
 {
   if (Denemo.project && gtk_widget_get_visible (Denemo.project->score_layout))
     activate_action ("/MainMenu/ViewMenu/" ToggleScoreLayout_STRING);

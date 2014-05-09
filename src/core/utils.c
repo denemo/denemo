@@ -1506,6 +1506,42 @@ enshift_string (gint enshift)
     }
 }
 
+gint64 thetime;
+
+static void start_editing_timer (void)
+{
+   
+    thetime = g_get_monotonic_time ();
+    
+}
+static void stop_editing_timer (void)
+{
+    if (thetime)
+        Denemo.project->total_edit_time += (g_get_monotonic_time () - thetime);
+}
+
+void reset_editing_timer (void)
+{
+    thetime = 0;
+}
+
+gchar *time_spent_editing()
+{
+    gint64 seconds =  Denemo.project->total_edit_time/1000000;
+    gint days = seconds/(24*60*60);
+    gint hours;
+    gint minutes;
+    
+   
+    seconds -= days*(24*60*60);
+    hours = (seconds/(60*60));
+    seconds -= hours*(60*60);
+    minutes = seconds/60;
+    seconds -= minutes*60;
+    
+    return g_strdup_printf("%d days %d hours %d minutes %d seconds\n", days, hours, minutes, seconds);
+}
+
 /* set the status of the current musical score - its change count and
    title bar and status bars.
    DenemoProject *gui the musical score.
@@ -1523,16 +1559,20 @@ score_status (DenemoProject * gui, gboolean change)
       gui->movement->changecount++;
       if (just_changed)
         if(!Denemo.non_interactive)
-          set_title_bar (gui);
+            start_editing_timer();
+
     }
   else
     {
       gui->notsaved = FALSE;
       if(!Denemo.non_interactive)
-        set_title_bar (gui);
+       stop_editing_timer();
     }
   if(!Denemo.non_interactive)
-    write_status (gui);
+     {
+            set_title_bar (gui);
+            write_status (gui);
+    }
 }
 
 /**

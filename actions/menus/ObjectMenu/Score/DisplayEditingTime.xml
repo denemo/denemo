@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>DisplayEditingTime</action>
+        <after>CheckScore</after>
+        <_label>Time Spent Editing</_label>
+        <_tooltip>Prints out the cumulative time spent editing this score.\nThe time counts any period between starting to edit and saving to disk\nThe time is accumulated over different editing sessions.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

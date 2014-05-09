@@ -1675,6 +1675,11 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoProject * gui)
             gui->lilycontrol.orientation = orientation;
             //g_debug ("Orientation %d\n", orientation);
           }
+        else if (ELEM_NAME_EQ (childElem, "total-edit-time"))
+              {
+                gint edit = getXMLIntChild (childElem);
+                gui->total_edit_time =  edit;
+              }
         else if (ELEM_NAME_EQ (childElem, "score-directives"))
           {
             gui->lilycontrol.directives = parseWidgetDirectives (childElem, (gpointer) score_directive_put_graphic, NULL, NULL);
@@ -2955,6 +2960,8 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
           free_movements (gui);
           if(!Denemo.non_interactive)
             deleteSchemeText ();
+          reset_editing_timer ();
+          gui->total_edit_time = 0;
           gui->has_script = FALSE;
           /* this is dependent on the order of elements, which is not strictly correct */
           FOREACH_CHILD_ELEM (childElem, rootElem)

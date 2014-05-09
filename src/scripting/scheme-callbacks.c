@@ -739,6 +739,16 @@ scheme_debug_object (SCM optional)
 }
 
 SCM
+scheme_get_editing_time (void)
+{
+   SCM ret;
+   gchar *edit_time = time_spent_editing();
+   ret = scm_from_locale_string (edit_time);
+   g_free (edit_time);
+   return ret;
+}
+
+SCM
 scheme_destroy_scheme_init (void)
 {
     if(confirm(_("Destroying Customized Buttons"), _("Remove buttons and other customized scheme on startup?"))) 

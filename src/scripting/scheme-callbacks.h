@@ -89,6 +89,7 @@ SCM scheme_set_object_display_width (SCM);
 SCM scheme_get_horizontal_position (void);
 SCM scheme_get_cursor_note (SCM);
 SCM scheme_get_cursor_note_with_octave (SCM);
+SCM scheme_get_editing_time (void);
 SCM scheme_debug_object (SCM);
 SCM scheme_destroy_scheme_init (void);
 SCM scheme_get_note_name (SCM);
