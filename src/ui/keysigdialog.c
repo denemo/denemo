@@ -148,7 +148,16 @@ insert_keysig (keysig_data * kdata)
               curmeasure = g_list_nth (firstmeasurenode (curstaff), si->currentmeasurenum - 1);
               if (curmeasure)
                 {
-                  curmeasure->data = g_list_insert ((objnode *) curmeasure->data, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode), si->cursor_x);
+                    if (curmeasure == si->currentmeasure) 
+                        curmeasure->data = g_list_insert ((objnode *) curmeasure->data, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode), si->cursor_x);
+                    else
+                    {
+                        if(si->cursor_x<2)
+                            curmeasure->data = g_list_prepend ((objnode *) curmeasure->data, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode));
+                        else
+                            curmeasure->data = g_list_append ((objnode *) curmeasure->data, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode));
+                    }
+                        
                   if (curmeasure == si->currentmeasure)
                     si->currentobject = g_list_nth ((objnode *) curmeasure->data, si->cursor_x);
                   showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
@@ -163,7 +172,9 @@ insert_keysig (keysig_data * kdata)
         }
       si->cursor_appending = FALSE;
       if (newkey)
-        adjust_tonal_center (((keysig *) (newkey->object))->accs);
+        {
+            adjust_tonal_center (((keysig *) (newkey->object))->accs);
+        }   
     }                           /* End if */
 }
 //static void sensitize_ok_button (keysig_data *data) {
