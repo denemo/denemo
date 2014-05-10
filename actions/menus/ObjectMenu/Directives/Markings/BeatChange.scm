@@ -1,4 +1,5 @@
-(let ((i 0)(Beat1 #f) (Beat2 #f) (LilyString #f) (DisplayString #f) (Input #f) (NewBPM 100) (ValidBPM? #f)(MidiBPM 100) )
+;;;BeatChange
+(let ((tag "BeatChange")(i 0)(Beat1 #f) (Beat2 #f) (LilyString #f) (DisplayString #f) (Input #f) (NewBPM 100) (ValidBPM? #f)(MidiBPM 100) (initial-text "(") (final-text ")"))
 
 ;GetBPM:
 ;sets MidiBPM, ValidBPM? based on user input.  This will allow denemo's midi to respect the beat change.
@@ -49,7 +50,15 @@
 		(_ "\ni.e. 4 for quarter, 4. for dotted quarter, etc.")
 		(_ "\nPlace immediately after a barline to center the beat change  over the barline."))
 	 "4=4."))
-	 
+	;Input from the user text to be placed before
+	(set! initial-text (d-GetUserInput (_ "Beat Change") 
+		 (_ "Enter text (if any) to appear before the [beat1]=[beat2]") initial-text))
+	(set! final-text (d-GetUserInput (_ "Beat Change") 
+		 (_ "Enter text (if any) to appear after  the [beat1]=[beat2]") final-text))
+	(if (not initial-text)
+		(set! initial-text ""))
+	(if (not final-text)
+		(set! final-text ""))
 	;remove spaces from Input:		
 	(set! DisplayString Input)
 	(set! i (string-index Input #\=))
@@ -61,18 +70,22 @@
 	(set! MidiBPM (GetBPM Beat2))
 	
 	;set the string that tells lilypond how to make a beat change:
-	(set! LilyString (string-append "\\mark \\markup \\tiny { \\general-align #Y #DOWN \\note #\"" Beat1 "\" #UP = \\general-align #Y #DOWN \\note #\"" Beat2 "\" #UP } "))
+	(set! LilyString (string-append "\\mark \\markup \\tiny {" initial-text " \\general-align #Y #DOWN \\note #\"" Beat1
+		 "\" #UP = \\general-align #Y #DOWN \\note #\"" Beat2 "\" #UP"
+		final-text " } "))
 			
 	;now put in all the info into the denemo directive, including a midi bpm change if we have a valid one:
-	(d-DirectivePut-standalone "BeatChange")
-	(d-DirectivePut-standalone-postfix "BeatChange" LilyString)
-	(d-DirectivePut-standalone-display "BeatChange" DisplayString)
-	(d-DirectivePut-standalone-minpixels "BeatChange" 15)
+	(if (not (d-Directive-standalone? tag))
+		(d-DirectivePut-standalone tag))
+	(d-DirectivePut-standalone-postfix tag LilyString)
+	(d-DirectivePut-standalone-display tag DisplayString)
+	(d-DirectivePut-standalone-minpixels tag 15)
 	(if (equal? ValidBPM? #t)
 		(begin 
-			(d-DirectivePut-standalone-override "BeatChange" (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
-			(d-DirectivePut-standalone-midibytes "BeatChange" MidiBPM)
+			(d-DirectivePut-standalone-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
+			(d-DirectivePut-standalone-midibytes tag MidiBPM)
 		)
 	)
+	(d-SetSaved #f)
 	(d-RefreshDisplay)		
 )
