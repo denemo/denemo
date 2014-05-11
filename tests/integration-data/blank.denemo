@@ -4,6 +4,7 @@
     <papersize>a4</papersize>
     <fontsize>18</fontsize>
     <orientation>1</orientation>
+    <total-edit-time>0</total-edit-time>
   </lilycontrol>
   <movement-number>1</movement-number>
   <movement>
