@@ -6529,6 +6529,13 @@ Use this to refine the positioning, but be aware that notes in other staffs will
         <_label>BeatChange</_label>
         <_tooltip>Changes beat</_tooltip>
       </row>
+      <row type="scheme">
+        <action>RepeatTie</action>
+        <after>InsertTiedNoteDuration</after>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
+        <_label>Repeat Tie</_label>
+        <_tooltip>The note at the cursor ends a tie that has begun elsewhere, usually in a first time bar. That is it is a repeat of the tie ending.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

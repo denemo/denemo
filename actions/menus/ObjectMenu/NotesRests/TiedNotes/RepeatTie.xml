@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>RepeatTie</action>
+        <after>InsertTiedNoteDuration</after>
+        <_label>Repeat Tie</_label>
+        <_tooltip>The note at the cursor ends a tie that has begun elsewhere, usually in a first time bar. That is it is a repeat of the tie ending.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
