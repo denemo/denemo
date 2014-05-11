@@ -1516,8 +1516,9 @@ static void start_editing_timer (void)
 }
 static void stop_editing_timer (void)
 {
-    if (thetime)
-        Denemo.project->total_edit_time += (g_get_monotonic_time () - thetime);
+    gint64 thistime = g_get_monotonic_time ();
+    if ((thetime>0) && (thetime<thistime))
+        Denemo.project->total_edit_time += (thistime - thetime)/1000000;
 }
 
 void reset_editing_timer (void)
@@ -1527,18 +1528,16 @@ void reset_editing_timer (void)
 
 gchar *time_spent_editing()
 {
-    gint64 seconds =  Denemo.project->total_edit_time/1000000;
+    gint seconds =  Denemo.project->total_edit_time;
     gint days = seconds/(24*60*60);
     gint hours;
     gint minutes;
-    
-   
+
     seconds -= days*(24*60*60);
     hours = (seconds/(60*60));
     seconds -= hours*(60*60);
     minutes = seconds/60;
     seconds -= minutes*60;
-    
     return g_strdup_printf("%d days %d hours %d minutes %d seconds\n", days, hours, minutes, seconds);
 }
 

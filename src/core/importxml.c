@@ -1679,6 +1679,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoProject * gui)
               {
                 gint edit = getXMLIntChild (childElem);
                 gui->total_edit_time =  edit;
+                reset_editing_timer ();
               }
         else if (ELEM_NAME_EQ (childElem, "score-directives"))
           {
