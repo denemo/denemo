@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ToggleSuspension</action>
+        <after>OrnamentFlat</after>
+        <_label>Suspension</_label>
+        <_tooltip>Suspension ornament (Off/On)</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
