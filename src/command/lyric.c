@@ -35,10 +35,9 @@ verse_get_current_pos(DenemoStaff* staff){
 }
 
 gboolean
-lyric_change (GtkTextBuffer * buffer)
+lyric_changed_cb (GtkTextBuffer * buffer)
 {
-  DenemoProject *gui = Denemo.project;
-  score_status (gui, TRUE);
+  score_status (Denemo.project, TRUE);
   draw_score_area();
   return FALSE;
 }
@@ -52,7 +51,6 @@ new_lyric_editor (void)
   if (Denemo.prefs.newbie)
     gtk_widget_set_tooltip_text (sw, _("The text of a verse can be typed or pasted here. Press Esc to return to editing notes.\nSeparate syllables with space double hyphen space, -- , if they should have their own note(s).\nNew lines and extra spaces have no special significance. Slurs on notes make them take only one syllable. Use the underscore _ for blank syllables."));
   gtk_container_add (GTK_CONTAINER (sw), view);
-
 
   return view;
 }
@@ -212,7 +210,9 @@ gboolean synchronize_lyric_cursor(void)
     }   
     return FALSE;
 }
-static void synchronize_cursor(GtkWidget *textview)
+
+static void 
+synchronize_cursor(GtkWidget *textview)
 {
     DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data;
     gint count;
@@ -221,7 +221,9 @@ static void synchronize_cursor(GtkWidget *textview)
     get_pos_at_syllable_count (thestaff, count, &pos);
     goto_movement_staff_obj (NULL, 0, Denemo.project->movement->currentstaffnum, pos.measure, pos.object);
 }
-static gboolean text_insert (GtkWidget *textview, GdkEventKey *event )
+
+static gboolean 
+text_inserted_cb (GtkWidget *textview, GdkEventKey *event )
 {
     static gboolean seen_space;
     gchar *str = event->string;
@@ -229,7 +231,8 @@ static gboolean text_insert (GtkWidget *textview, GdkEventKey *event )
     if ((keyval==0x20) || (keyval==0xFF0D)|| (keyval==0xFF09)|| (keyval==0xFF8D)) //space return tab Enter
         {
          seen_space = TRUE;
-        } else if ((keyval==0xFF51) || (keyval==0xFF52) ||(keyval==0xFF53) ||(keyval==0xFF54) || seen_space)//arrows
+        } 
+    else if ((keyval==0xFF51) || (keyval==0xFF52) ||(keyval==0xFF53) ||(keyval==0xFF54) || seen_space)//arrows
         {
             seen_space = FALSE;
             synchronize_cursor(textview);
@@ -243,7 +246,9 @@ static gboolean text_insert (GtkWidget *textview, GdkEventKey *event )
     }
     return FALSE;
 }
-static gboolean button_release (GtkWidget *textview)
+
+static gboolean 
+button_released_cb (GtkWidget *textview)
 {
     synchronize_cursor(textview);
     return FALSE;
@@ -287,9 +292,9 @@ add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
   if (pagenum)
     gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), TRUE);
   GtkTextView* verse_view = verse_get_current_view (staff);
-  g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (verse_view)), "changed", G_CALLBACK (lyric_change), NULL);
-  g_signal_connect (G_OBJECT(verse_view), "key-release-event",  G_CALLBACK (text_insert), NULL);
-  g_signal_connect (G_OBJECT(verse_view), "button-release-event",  G_CALLBACK (button_release), NULL);
+  g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (verse_view)), "changed", G_CALLBACK (lyric_changed_cb), NULL);
+  g_signal_connect (G_OBJECT(verse_view), "key-release-event",  G_CALLBACK (text_inserted_cb), NULL);
+  g_signal_connect (G_OBJECT(verse_view), "button-release-event",  G_CALLBACK (button_released_cb), NULL);
   GdkRGBA grayed = {0.8, 0.8, 0.8, 1.0};
   GdkRGBA white = {1, 1, 1, 1.0};
   gtk_widget_override_background_color (verse_view, GTK_STATE_FLAG_FOCUSED, &white);

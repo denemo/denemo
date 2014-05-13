@@ -334,7 +334,7 @@ parseVerse (xmlNodePtr parentElem, GtkWidget * verse)
   gchar *text = (gchar *) xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode, 1);
 
   gtk_text_buffer_set_text (gtk_text_view_get_buffer ((GtkTextView *) verse), text ? text : "", -1);
-  g_signal_connect (G_OBJECT (gtk_text_view_get_buffer ((GtkTextView *) verse)), "changed", G_CALLBACK (lyric_change), NULL);
+  g_signal_connect (G_OBJECT (gtk_text_view_get_buffer ((GtkTextView *) verse)), "changed", G_CALLBACK (lyric_changed_cb), NULL);
   g_free (text);
 }
 
@@ -2692,7 +2692,7 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoProject * gui)
       add_verse_to_staff (si, staff);
       GtkTextView* verse_view = verse_get_current_view (staff);
       gtk_text_buffer_set_text (gtk_text_view_get_buffer (verse_view), Lyric->str, Lyric->len);
-      //g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (verse_view)), "changed", G_CALLBACK (lyric_change), NULL);
+      //g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (verse_view)), "changed", G_CALLBACK (lyric_changed_cb), NULL);
       //allow save on backward compatibility files... gtk_text_buffer_set_modified(gtk_text_view_get_buffer(verse_view), FALSE);
       //g_debug("Appended <%s>\n", Lyric->str);
     }

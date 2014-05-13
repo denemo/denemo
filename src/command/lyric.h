@@ -17,7 +17,7 @@ gchar *next_syllable (void);
 void install_lyrics_preview (DenemoMovement * si, GtkWidget * top_vbox);
 void hide_lyrics (void);
 void show_lyrics (void);
-gboolean lyric_change (GtkTextBuffer * buffer);
+gboolean lyric_changed_cb (GtkTextBuffer * buffer);
 void select_lyrics (void);
 gchar *get_lyrics_for_current_verse (DenemoStaff * thestaff);
 gboolean put_lyrics_for_current_verse (DenemoStaff * staff, gchar * text);
