@@ -348,8 +348,7 @@ newVersesElem (xmlNodePtr curElem, xmlNsPtr ns, GList * verses, gchar * type)
   xmlNodePtr versesElem = xmlNewChild (curElem, ns, (xmlChar *) type, NULL);
   for (; verses; verses = verses->next)
     {
-      GtkWidget *textview = verses->data;
-      xmlNewTextChild (versesElem, ns, (xmlChar *) "verse", (xmlChar *) get_text_from_view (textview));
+      xmlNewTextChild (versesElem, ns, (xmlChar *) "verse", (xmlChar *) verses->data);
     }
 }
 
@@ -592,8 +591,8 @@ newVoiceProps (xmlNodePtr parentElem, xmlNsPtr ns, DenemoStaff * curStaffStruct)
 
   newXMLIntChild (curElem, ns, (xmlChar *) "hasfakechords", curStaffStruct->hasfakechords);
 
-  if (curStaffStruct->verse_views)
-    newVersesElem (curElem, ns, curStaffStruct->verse_views, "verses");
+  if (curStaffStruct->verses)
+    newVersesElem (curElem, ns, curStaffStruct->verses, "verses");
 
   if (curStaffStruct->staff_directives)
     newDirectivesElem (curElem, ns, curStaffStruct->staff_directives, "staff-directives");
@@ -793,6 +792,7 @@ exportXML (gchar * thefilename, DenemoProject * gui)
   if (movement_number)
     newXMLIntChild (scoreElem, ns, (xmlChar *) "movement-number", movement_number);
   GList *g;
+
   for (g = gui->movements; g; g = g->next)
     {
       DenemoMovement *si = g->data;
@@ -853,13 +853,8 @@ exportXML (gchar * thefilename, DenemoProject * gui)
               xmlSetProp (parentElem, (xmlChar *) "id", (xmlChar *) staffXMLID);
               //  curElem = xmlNewChild (parentElem, ns,
               //                       (xmlChar *) "staff-info", NULL);
-
-
-
             }
         }
-
-
 
 
       /* Output each voice. These are the DenemoStaff objects */
@@ -868,7 +863,7 @@ exportXML (gchar * thefilename, DenemoProject * gui)
       for (curStaff = si->thescore; curStaff != NULL; curStaff = curStaff->next)
         {
           curStaffStruct = (DenemoStaff *) curStaff->data;
-
+          
           /* Initialize voice-wide variables. */
 
           prevTieElem = NULL;

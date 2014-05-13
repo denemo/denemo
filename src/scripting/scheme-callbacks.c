@@ -5230,12 +5230,6 @@ scheme_mark_status (SCM optional)
 
 }
 
-
-
-
-
-
-
 /* moves currentobject to next object in the selection.
    Steps over barlines (i.e. cursor_appending).
  returns TRUE if currentobject is different after than before the call

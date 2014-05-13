@@ -971,7 +971,7 @@ file_copy_save (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptPara
  */
 void
 file_savewrapper (GtkAction * action, DenemoScriptParam * param)
-{
+{                
   DenemoProject *gui = Denemo.project;
   GET_1PARAM (action, param, filename);
   if (filename) {

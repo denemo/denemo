@@ -22,7 +22,7 @@ verse_get_current_view(DenemoStaff* staff){
   return staff->current_verse_view->data;
 }
 
-void verse_set_current_view(DenemoStaff* staff, guint id){
+void verse_set_current(DenemoStaff* staff, guint id){
   if(staff)
     staff->current_verse_view = g_list_nth (staff->verse_views, id);
   else
@@ -30,13 +30,34 @@ void verse_set_current_view(DenemoStaff* staff, guint id){
 }
 
 guint
-verse_get_current_pos(DenemoStaff* staff){
+verse_get_current(DenemoStaff* staff){
   return g_list_position(staff->verse_views, staff->current_verse_view);
+}
+
+void 
+verse_set_current_text(DenemoStaff* staff, gchar* text){
+  guint pos = verse_get_current (staff);
+  GList* _current_verse = g_list_nth(staff->verses, pos);
+  if(_current_verse->data)
+    g_free(_current_verse->data);
+  _current_verse->data = text;
+}
+
+gchar* 
+verse_get_current_text(DenemoStaff* staff){
+  guint id = verse_get_current (staff);
+  GList* verse =  g_list_nth (staff->verses, id);
+  return (gchar*) verse->data;
 }
 
 gboolean
 lyric_changed_cb (GtkTextBuffer * buffer)
 {
+  // Synchronizes buffers and verses
+  DenemoStaff *staff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+  gchar* text = get_lyrics_for_current_verse (staff);
+  verse_set_current_text (staff, text);
+
   score_status (Denemo.project, TRUE);
   draw_score_area();
   return FALSE;
@@ -49,7 +70,9 @@ new_lyric_editor (void)
   GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   if (Denemo.prefs.newbie)
-    gtk_widget_set_tooltip_text (sw, _("The text of a verse can be typed or pasted here. Press Esc to return to editing notes.\nSeparate syllables with space double hyphen space, -- , if they should have their own note(s).\nNew lines and extra spaces have no special significance. Slurs on notes make them take only one syllable. Use the underscore _ for blank syllables."));
+    gtk_widget_set_tooltip_text (sw, _("The text of a verse can be typed or pasted here. Press Esc to return to editing notes.\n"
+    "Separate syllables with space double hyphen space, -- , if they should have their own note(s).\n"
+    "New lines and extra spaces have no special significance. Slurs on notes make them take only one syllable. Use the underscore _ for blank syllables."));
   gtk_container_add (GTK_CONTAINER (sw), view);
 
   return view;
@@ -66,7 +89,7 @@ static void
 switch_page (GtkNotebook * notebook, gpointer dummy, guint pagenum, DenemoStaff * staff)
 {
   draw_score_area();
-  verse_set_current_view (staff, pagenum);
+  verse_set_current (staff, pagenum);
 }
 
 //scans *next for a syllable putting the syllable into gs and moving *next to the address beyond the syllable
@@ -251,11 +274,13 @@ button_released_cb (GtkWidget *textview)
   return FALSE;
 }
 
-GtkWidget *
+guint
 add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
 {
+  staff->verses = g_list_append (staff->verses, NULL);
   if(Denemo.non_interactive)
-    return NULL;
+    return g_list_length (staff->verses) -1;
+    
   GtkWidget *notebook, *textview;
   if (staff->verse_views == NULL)
   {
@@ -279,7 +304,8 @@ add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
   gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (textview), GTK_WRAP_WORD_CHAR);
   gtk_widget_show_all (gtk_widget_get_parent (textview));
   staff->verse_views = g_list_append (staff->verse_views, textview);
-  verse_set_current_view (staff, g_list_position (staff->verse_views, g_list_last (staff->verse_views)));
+  guint pos = g_list_position (staff->verse_views, g_list_last (staff->verse_views));
+  verse_set_current (staff, pos);
   gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (notebook), gtk_widget_get_parent (textview), NULL);
   gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), pagenum);
   gchar *tablabel = g_strdup_printf (_("Verse %d"), pagenum + 1);
@@ -295,7 +321,7 @@ add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
   GdkRGBA white = {1, 1, 1, 1.0};
   gtk_widget_override_background_color (verse_view, GTK_STATE_FLAG_FOCUSED, &white);
   gtk_widget_override_background_color (verse_view, GTK_STATE_FLAG_NORMAL, &grayed);
-  return textview;
+  return pos;
 }
 
 void
@@ -322,11 +348,13 @@ delete_verse (GtkAction * action, DenemoScriptParam * param)
   {
     DenemoStaff *staff = si->currentstaff->data;
     GtkTextView* verse_view = verse_get_current_view (staff);
+    gchar* verse_text = verse_get_current_text (staff);
     if (verse_view)
     {
       staff->verse_views = g_list_remove (staff->verse_views, verse_view);
+      staff->verses = g_list_remove (staff->verses, verse_text);
       gtk_widget_destroy (gtk_widget_get_parent (verse_view));
-      verse_set_current_view (staff, 0);
+      verse_set_current (staff, 0);
       signal_structural_change (gui);
       score_status (gui, TRUE);
       draw_score_area();
@@ -502,11 +530,11 @@ get_lyrics_for_verse_num (gint number)
   if (gui->movement->currentstaff)
   {
     DenemoStaff * thestaff = ((DenemoStaff *) gui->movement->currentstaff->data);
-    if (thestaff->verse_views)
+    if (thestaff->verses)
     {
-      GList * verse = g_list_nth (thestaff->verse_views, number - 1);
+      GList * verse = g_list_nth (thestaff->verses, number - 1);
       if (verse)
-        return get_text_from_view (verse->data);
+        return verse->data;
     }
   }
   return NULL;

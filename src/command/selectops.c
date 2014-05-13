@@ -1157,8 +1157,6 @@ get_last_change (DenemoMovement * si)
 
 }
 
-
-
 // snapshot the current movement for undo
 gboolean
 take_snapshot (void)

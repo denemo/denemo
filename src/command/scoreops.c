@@ -753,10 +753,10 @@ clone_movement (DenemoMovement * si)
 
       newscore->lyricsbox = NULL;
       thestaff->verse_views = extract_verses (srcStaff->verse_views);
-
+      //FIXME: thestaff->verses should probably be cloned too
       GtkTextView* verse_view = verse_get_current_view (srcStaff);
       if (verse_view)
-        verse_set_current_view (thestaff, verse_get_current_pos (srcStaff));
+        verse_set_current (thestaff, verse_get_current (srcStaff));
 
       newscore->thescore = g_list_append (newscore->thescore, thestaff);
       if (g == si->currentprimarystaff)
