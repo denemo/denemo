@@ -193,6 +193,7 @@ SCM scheme_get_command_from_user (void);
 SCM scheme_lock_directive (SCM);
 SCM scheme_set_action_script_for_tag (SCM tag, SCM script);
 SCM scheme_put_standalone_directive (SCM tag, SCM width);
+SCM scheme_directive_change_tag (SCM tag);
 SCM scheme_text_edit_standalone_directive (SCM);
 SCM scheme_delete_object_directive (SCM);
 SCM scheme_put_text_clipboard (SCM);

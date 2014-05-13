@@ -3577,7 +3577,21 @@ scheme_put_standalone_directive (SCM tag, SCM width)
     }
   return SCM_BOOL_F;
 }
-
+SCM
+scheme_directive_change_tag (SCM tag)
+{   DenemoObject *curObj;
+    if(scm_is_string (tag)) {
+            gchar *thetag = scm_to_locale_string (tag);
+            DenemoDirective *directive;
+              if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || (curObj->type != LILYDIRECTIVE) || !(directive = (DenemoDirective *) curObj->object))
+                return SCM_BOOL (FALSE);
+                if(directive->tag==NULL) directive->tag = g_string_new("");
+                g_string_assign (directive->tag, thetag);
+                g_free(thetag);
+                return SCM_BOOL_T;
+            }
+    return SCM_BOOL_F;
+}
 #define GET_NTH_TAG(what)\
  SCM scheme_##what##_directive_get_nth_tag(SCM index) {\
   gint n;\
