@@ -1157,8 +1157,6 @@ get_last_change (DenemoMovement * si)
 
 }
 
-
-
 // snapshot the current movement for undo
 gboolean
 take_snapshot (void)
@@ -1439,7 +1437,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
                     add_verse_to_staff (si, thestaff);
                     gtk_text_buffer_set_text (gtk_text_view_get_buffer ((GtkTextView *) thestaff->current_verse_view->data), g->data, -1);
                     gtk_widget_show (thestaff->current_verse_view->data);
-                    g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (thestaff->current_verse_view->data)), "changed", G_CALLBACK (lyric_change), NULL);
+                    g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (thestaff->current_verse_view->data)), "changed", G_CALLBACK (lyric_changed_cb), NULL);
                   }
                 thestaff->current_verse_view = g_list_nth (thestaff->verse_views, curversenum);
 

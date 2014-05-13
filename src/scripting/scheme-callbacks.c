@@ -1909,7 +1909,6 @@ scheme_get_verse (SCM number)
   if (scm_is_integer (number))
     {
       text = get_lyrics_for_verse_num (scm_to_int (number));
-
     }
   else
     {
@@ -5244,12 +5243,6 @@ scheme_mark_status (SCM optional)
   return SCM_BOOL (mark_status ());
 
 }
-
-
-
-
-
-
 
 /* moves currentobject to next object in the selection.
    Steps over barlines (i.e. cursor_appending).

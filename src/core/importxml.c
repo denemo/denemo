@@ -327,15 +327,24 @@ parseWidgetDirective (xmlNodePtr parentElem, gpointer fn, DenemoDirective * dire
 #undef DO_INTDIREC
 
 static void
-parseVerse (xmlNodePtr parentElem, GtkWidget * verse)
+parseVerse (xmlNodePtr parentElem, guint verse)
 {
-  if(Denemo.non_interactive)
-    return;
   gchar *text = (gchar *) xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode, 1);
+  DenemoStaff* staff = (DenemoStaff*) Denemo.project->movement->currentstaff->data;
+  
+  if(!Denemo.non_interactive){
+    GtkTextView* verse_view = g_list_nth_data (staff->verse_views, verse);
+    gtk_text_buffer_set_text (gtk_text_view_get_buffer(verse_view), text ? text : "", -1);
+    g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (verse_view)), "changed", G_CALLBACK (lyric_changed_cb), NULL);
+    g_free (text);
+  }
 
-  gtk_text_buffer_set_text (gtk_text_view_get_buffer ((GtkTextView *) verse), text ? text : "", -1);
-  g_signal_connect (G_OBJECT (gtk_text_view_get_buffer ((GtkTextView *) verse)), "changed", G_CALLBACK (lyric_change), NULL);
-  g_free (text);
+  else{
+    GList* _current_verse = g_list_nth(staff->verses, verse);
+    if(_current_verse->data)
+      g_free(_current_verse->data);
+    _current_verse->data = text;
+  }
 }
 
 static void
@@ -344,8 +353,8 @@ parseVerses (DenemoMovement * movement, DenemoStaff * staff, xmlNodePtr parentEl
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, parentElem)
   {
-    GtkWidget *verse_view = add_verse_to_staff (movement, staff);
-    parseVerse (childElem, verse_view);
+    guint verse = add_verse_to_staff (movement, staff);
+    parseVerse (childElem, verse);
   }
 }
 
@@ -392,7 +401,8 @@ parseWidgetDirectives (xmlNodePtr parentElem, gpointer fn, GtkMenu * menu, GList
     parseWidgetDirective (childElem, fn, directive, menu);
     directives = g_list_append (directives, directive);
     if (directive->widget && directives_pointer)
-      g_object_set_data (G_OBJECT (directive->widget), "directives-pointer", (gpointer) directives_pointer);    //FIXME this const string has to match with lilydirectives.c
+      //FIXME this const string has to match with lilydirectives.c
+      g_object_set_data (G_OBJECT (directive->widget), "directives-pointer", (gpointer) directives_pointer);
   }
   return directives;
 }
@@ -2692,7 +2702,7 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoProject * gui)
       add_verse_to_staff (si, staff);
       GtkTextView* verse_view = verse_get_current_view (staff);
       gtk_text_buffer_set_text (gtk_text_view_get_buffer (verse_view), Lyric->str, Lyric->len);
-      //g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (verse_view)), "changed", G_CALLBACK (lyric_change), NULL);
+      //g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (verse_view)), "changed", G_CALLBACK (lyric_changed_cb), NULL);
       //allow save on backward compatibility files... gtk_text_buffer_set_modified(gtk_text_view_get_buffer(verse_view), FALSE);
       //g_debug("Appended <%s>\n", Lyric->str);
     }
