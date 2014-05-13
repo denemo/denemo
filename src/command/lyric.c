@@ -100,10 +100,7 @@ static gint get_syllable_count (GtkTextBuffer *buffer)
   gchar *next = text;
   gint count = 0;
   while (scan_syllable(&next, gs))
-    {
-            count++;
-        
-    }
+    count++;
   g_string_free(gs, TRUE);
   g_free(text);
   return count?count:1;
@@ -179,15 +176,15 @@ syllable_count (void)
 
 static gint get_character_count_at_syllable (gchar *text, gint count)
 {
-    gint chars = 0;
-    GString *gs = g_string_new ("");
-    for(;count;count--) {
-        gchar *next = text+chars;
-        gint this;
-        if(!scan_syllable (&next, gs))
-            break;
-        chars = next - text;
-    }
+  gint chars = 0;
+  GString *gs = g_string_new ("");
+  for(;count;count--) {
+      gchar *next = text+chars;
+      gint this;
+      if(!scan_syllable (&next, gs))
+          break;
+      chars = next - text;
+  }
   g_string_free(gs, TRUE);
   return chars;
 }
@@ -198,15 +195,15 @@ gboolean synchronize_lyric_cursor(void)
   GtkTextView* verse_view = verse_get_current_view(thestaff);
   if (verse_view)
     {
-        gchar *text = get_text_from_view (verse_view);
-        gint character_count = get_character_count_at_syllable (text, count);
-        GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (verse_view); 
-        GtkTextIter where; 
-        gtk_text_buffer_get_iter_at_offset (textbuffer, &where, character_count);
-        gtk_text_buffer_place_cursor (textbuffer, &where);
-        gtk_widget_grab_focus (verse_view);
-        gtk_text_view_scroll_mark_onscreen (verse_view, gtk_text_buffer_get_insert(textbuffer));
-        return TRUE;
+      gchar *text = get_text_from_view (verse_view);
+      gint character_count = get_character_count_at_syllable (text, count);
+      GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (verse_view); 
+      GtkTextIter where; 
+      gtk_text_buffer_get_iter_at_offset (textbuffer, &where, character_count);
+      gtk_text_buffer_place_cursor (textbuffer, &where);
+      gtk_widget_grab_focus (verse_view);
+      gtk_text_view_scroll_mark_onscreen (verse_view, gtk_text_buffer_get_insert(textbuffer));
+      return TRUE;
     }   
     return FALSE;
 }
@@ -214,46 +211,45 @@ gboolean synchronize_lyric_cursor(void)
 static void 
 synchronize_cursor(GtkWidget *textview)
 {
-    DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data;
-    gint count;
-    DenemoPosition pos;
-    count = get_syllable_count (gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview)));
-    get_pos_at_syllable_count (thestaff, count, &pos);
-    goto_movement_staff_obj (NULL, 0, Denemo.project->movement->currentstaffnum, pos.measure, pos.object);
+  DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data;
+  gint count;
+  DenemoPosition pos;
+  count = get_syllable_count (gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview)));
+  get_pos_at_syllable_count (thestaff, count, &pos);
+  goto_movement_staff_obj (NULL, 0, Denemo.project->movement->currentstaffnum, pos.measure, pos.object);
 }
 
 static gboolean 
 text_inserted_cb (GtkWidget *textview, GdkEventKey *event )
 {
-    static gboolean seen_space;
-    gchar *str = event->string;
-    guint keyval = event->keyval;
-    if ((keyval==0x20) || (keyval==0xFF0D)|| (keyval==0xFF09)|| (keyval==0xFF8D)) //space return tab Enter
-        {
-         seen_space = TRUE;
-        } 
-    else if ((keyval==0xFF51) || (keyval==0xFF52) ||(keyval==0xFF53) ||(keyval==0xFF54) || seen_space)//arrows
-        {
-            seen_space = FALSE;
-            synchronize_cursor(textview);
-        }
-//Note a Control-l is received when used as a shortcut to switch to the lyrics pane, so we use Esc or Tab to switch back
-   if(  (keyval == 0xFF09) //TAB
-        || (keyval == 0xFF1B)) //ESC
+  static gboolean seen_space;
+  gchar *str = event->string;
+  guint keyval = event->keyval;
+  if ((keyval==0x20) || (keyval==0xFF0D)|| (keyval==0xFF09)|| (keyval==0xFF8D)) //space return tab Enter
     {
-      switch_back_to_main_window ();
-      return TRUE;
+      seen_space = TRUE;
+    } 
+  else if ((keyval==0xFF51) || (keyval==0xFF52) ||(keyval==0xFF53) ||(keyval==0xFF54) || seen_space)//arrows
+    {
+      seen_space = FALSE;
+      synchronize_cursor(textview);
     }
-    return FALSE;
+ //Note a Control-l is received when used as a shortcut to switch to the lyrics pane, so we use Esc or Tab to switch back
+ if(  (keyval == 0xFF09) //TAB
+      || (keyval == 0xFF1B)) //ESC
+  {
+    switch_back_to_main_window ();
+    return TRUE;
+  }
+  return FALSE;
 }
 
 static gboolean 
 button_released_cb (GtkWidget *textview)
 {
-    synchronize_cursor(textview);
-    return FALSE;
+  synchronize_cursor(textview);
+  return FALSE;
 }
-
 
 GtkWidget *
 add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
@@ -328,7 +324,7 @@ delete_verse (GtkAction * action, DenemoScriptParam * param)
     GtkTextView* verse_view = verse_get_current_view (staff);
     if (verse_view)
     {
-      staff->verse_views = g_list_remove_link (staff->verse_views, verse_view);
+      staff->verse_views = g_list_remove (staff->verse_views, verse_view);
       gtk_widget_destroy (gtk_widget_get_parent (verse_view));
       verse_set_current_view (staff, 0);
       signal_structural_change (gui);
@@ -336,9 +332,7 @@ delete_verse (GtkAction * action, DenemoScriptParam * param)
       draw_score_area();
     }
   }
-
 }
-
 
 gchar *
 get_text_from_view (GtkWidget * textview)
@@ -388,7 +382,6 @@ next_syllable (void)
   return lyric_iterator (NULL, 0);
 }
 
-
 /* rename reset_lyrics */
 void
 reset_lyrics (DenemoStaff * staff, gint count)
@@ -404,8 +397,6 @@ reset_lyrics (DenemoStaff * staff, gint count)
   else
     lyric_iterator (DummyVerse, count);
 }
-
-
 
 void
 install_lyrics_preview (DenemoMovement * si, GtkWidget * top_vbox)
@@ -428,7 +419,8 @@ hide_lyrics (void)
 {
   DenemoProject *gui = Denemo.project;
   if (gui->movement->currentstaff && ((DenemoStaff *) gui->movement->currentstaff->data)->verse_views)
-    gtk_widget_hide (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) gui->movement->currentstaff->data)->verse_views->data)));      //hide the notebook
+    //hide the notebook
+    gtk_widget_hide (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) gui->movement->currentstaff->data)->verse_views->data)));
 }
 
 /* show the notebook of verses for the current staff hide all others*/
@@ -438,7 +430,8 @@ show_lyrics (void)
   DenemoProject *gui = Denemo.project;
   DenemoMovement *si = gui->movement;
   if (si->currentstaff && ((DenemoStaff *) si->currentstaff->data)->verse_views)
-    gtk_widget_show (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) si->currentstaff->data)->verse_views->data)));   //show the notebook
+    //show the notebook
+    gtk_widget_show (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) si->currentstaff->data)->verse_views->data)));
   select_lyrics ();
 }
 
@@ -452,7 +445,8 @@ select_lyrics (void)
   for (; current; current = current->next)
   {
     if (current != si->currentstaff && ((DenemoStaff *) current->data)->verse_views)
-      gtk_widget_hide (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) current->data)->verse_views->data)));        //hide the notebook
+      //hide the notebook
+      gtk_widget_hide (gtk_widget_get_parent (gtk_widget_get_parent (((DenemoStaff *) current->data)->verse_views->data)));
   }
 }
 
@@ -501,13 +495,18 @@ put_lyrics_for_current_verse (DenemoStaff * thestaff, gchar * text)
     return FALSE;
 }
 
-gchar * get_lyrics_for_verse_num (gint number)
+gchar*
+get_lyrics_for_verse_num (gint number)
 {
-  DenemoProject * gui = Denemo.project; if (gui->movement->currentstaff)
+  DenemoProject * gui = Denemo.project;
+  if (gui->movement->currentstaff)
   {
-    DenemoStaff * thestaff = ((DenemoStaff *) gui->movement->currentstaff->data); if (thestaff->verse_views)
+    DenemoStaff * thestaff = ((DenemoStaff *) gui->movement->currentstaff->data);
+    if (thestaff->verse_views)
     {
-      GList * verse = g_list_nth (thestaff->verse_views, number - 1); if (verse) return get_text_from_view (verse->data);
+      GList * verse = g_list_nth (thestaff->verse_views, number - 1);
+      if (verse)
+        return get_text_from_view (verse->data);
     }
   }
   return NULL;

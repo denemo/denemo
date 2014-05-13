@@ -1909,7 +1909,6 @@ scheme_get_verse (SCM number)
   if (scm_is_integer (number))
     {
       text = get_lyrics_for_verse_num (scm_to_int (number));
-
     }
   else
     {
