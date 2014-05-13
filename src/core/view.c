@@ -2057,7 +2057,7 @@ configure_keyboard_idx (GtkWidget * w, gint idx)
 static void
 toggle_record_script (GtkAction * action, gpointer param)
 {
-  if(!gtk_widget_get_visible (gtk_widget_get_toplevel(Denemo.ScriptView)))
+  if(!gtk_widget_get_visible (gtk_widget_get_toplevel(Denemo.script_view)))
         toggle_scheme();
   Denemo.ScriptRecording = !Denemo.ScriptRecording;
 }
@@ -2314,7 +2314,7 @@ append_scheme_call (gchar * func)
   if (strcmp (func, "ExecuteScheme"))
     {
       GtkTextIter enditer;
-      GtkTextBuffer *buffer = gtk_text_view_get_buffer ((GtkTextView *) (Denemo.ScriptView));
+      GtkTextBuffer *buffer = gtk_text_view_get_buffer ((GtkTextView *) (Denemo.script_view));
       //gtk_text_buffer_set_text(buffer,"",-1);
       gtk_text_buffer_get_end_iter (buffer, &enditer);
       gchar *text = g_strdup_printf ("(d-%s)\n", func); //prefix dnm_!!!!!!!
@@ -2465,7 +2465,7 @@ get_initialization_script (GtkWidget * widget, gchar * directory)
 {
   GError *error = NULL;
   gchar *script;
-  g_debug ("Loading %s/init.scm into Denemo.ScriptView", directory);
+  g_debug ("Loading %s/init.scm into Denemo.script_view", directory);
 
   GList* dirs = NULL;
   dirs = g_list_append(dirs,  g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", directory, NULL));
@@ -2486,7 +2486,7 @@ get_initialization_script (GtkWidget * widget, gchar * directory)
   g_free (filename);
 }
 
-/* write scheme script from Denemo.ScriptView into file init.scm in the user's local menupath.
+/* write scheme script from Denemo.script_view into file init.scm in the user's local menupath.
 */
 static void
 put_initialization_script (GtkWidget * widget, gchar * directory)
@@ -2541,7 +2541,7 @@ upload_scripts (gchar * name, gchar * script, gchar * init_script, gchar * comma
 
 
 /* save the action (which must be a script),
-   setting the script text to the script currently in the ScriptView
+   setting the script text to the script currently in the script_view
    The save is to the user's menu hierarchy on disk
 */
 static void
@@ -3193,7 +3193,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
     }
 
   {
-    gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.ScriptView));
+    gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view));
     item = gtk_menu_item_new_with_label (_("Save Script as New Menu Item"));
     gtk_widget_set_sensitive (item, sensitive);
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
@@ -3224,7 +3224,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
 
   /* a check item for showing script window */
   item = gtk_check_menu_item_new_with_label (_("Show Current Script"));
-  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.ScriptView)));
+  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view)));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   //FIXME the next statement triggers a warning that ToggleScript is not a registered denemo commad - correct, since we do not make the toggles available as commands since using such a command would make the check boxes out of step, instead we install function that activate the menuitem.
   gtk_activatable_set_related_action (GTK_ACTIVATABLE (item), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"));
@@ -3630,7 +3630,7 @@ toggle_lilytext (GtkAction * action, gpointer param)
 static void
 toggle_scheme (void)
 {
-  GtkWidget *textwindow = gtk_widget_get_toplevel (Denemo.ScriptView);
+  GtkWidget *textwindow = gtk_widget_get_toplevel (Denemo.script_view);
   if (!gtk_widget_get_visible (textwindow))
     gtk_widget_show_all (textwindow);
   else
