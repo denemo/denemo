@@ -20,6 +20,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <papersize>a4</papersize>
     <fontsize>20</fontsize>
     <orientation>1</orientation>
+    <total-edit-time>0</total-edit-time>
     <score-directives>
       <directive>
         <tag>UnknownScoreTag</tag>

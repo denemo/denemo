@@ -26,6 +26,7 @@ print-all-headers = ##t
     <papersize>a4</papersize>
     <fontsize>20</fontsize>
     <orientation>1</orientation>
+    <total-edit-time>0</total-edit-time>
     <score-directives>
       <directive>
         <tag>ScoreIndent</tag>
@@ -648,7 +649,7 @@ Alternatively in the Notes/Rests-&gt;Beaming menu.\")"             ⬆Explanatio
     <edit-info>
       <staffno>2</staffno>
       <measureno>1</measureno>
-      <cursorposition>8</cursorposition>
+      <cursorposition>7</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
