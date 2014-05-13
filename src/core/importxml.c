@@ -2015,7 +2015,6 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoMovement * si)
           }
         else if (ELEM_NAME_EQ (childElem, "verses"))
           {
-
             parseVerses (si, curStaff, childElem);
           }
         else if (ELEM_NAME_EQ (childElem, "instrument"))
@@ -2691,9 +2690,10 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoProject * gui)
     {
       DenemoStaff *staff = (DenemoStaff *) si->currentstaff->data;
       add_verse_to_staff (si, staff);
-      gtk_text_buffer_set_text (gtk_text_view_get_buffer (staff->current_verse_view->data), Lyric->str, Lyric->len);
-      //g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (staff->current_verse_view->data)), "changed", G_CALLBACK (lyric_change), NULL);
-      //allow save on backward compatibility files... gtk_text_buffer_set_modified(gtk_text_view_get_buffer(staff->current_verse_view->data), FALSE);
+      GtkTextView* verse_view = verse_get_current_view (staff);
+      gtk_text_buffer_set_text (gtk_text_view_get_buffer (verse_view), Lyric->str, Lyric->len);
+      //g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (verse_view)), "changed", G_CALLBACK (lyric_change), NULL);
+      //allow save on backward compatibility files... gtk_text_buffer_set_modified(gtk_text_view_get_buffer(verse_view), FALSE);
       //g_debug("Appended <%s>\n", Lyric->str);
     }
   g_string_free (Lyric, FALSE);
