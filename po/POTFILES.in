@@ -1192,6 +1192,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeight
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.xml
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.scm
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleSuspension.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleSuspension.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentAccidentalBelow.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentAccidentalBelow.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentFlat.scm
