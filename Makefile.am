@@ -96,3 +96,7 @@ update-po:
 
 send-pot:dist
 	echo "You can find in attachment the latest version of denemo.pot. This is an automatic message, but someone should answer you if you reply." | mailx -v -S from=denemo-devel@gnu.org -s "$(GETTEXT_PACKAGE)-$(VERSION).pot" -a $(GETTEXT_PACKAGE)-$(VERSION).tar.gz -a po/$(GETTEXT_PACKAGE)-$(VERSION).pot coordinator@translationproject.org
+
+update-samples:
+	find . -name '*.denemo' -exec src/denemo -n -a "(d-Save \"{}\")(d-Quit)" '{}' \;
+
