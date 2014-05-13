@@ -120,7 +120,7 @@ save_scheme_text_as (GtkWidget * widget, GtkWidget * textview)
   gchar *text = getSchemeText ();
   GtkWidget *label;
   GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.ScriptView));
-  GtkWidget *dialog = gtk_file_chooser_dialog_new ("Save Scheme Text as...",
+  GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Save Scheme Text as..."),
                                                    NULL /*GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.ScriptView), GTK_TEXT_WINDOW_WIDGET)) */ ,
                                                    GTK_FILE_CHOOSER_ACTION_SAVE,
                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -134,10 +134,10 @@ save_scheme_text_as (GtkWidget * widget, GtkWidget * textview)
       if (g_file_test (*pfilename, G_FILE_TEST_EXISTS))
         {
           gtk_widget_destroy (dialog);
-          dialog = gtk_dialog_new_with_buttons ("File already exists",  //FIXME I think there is a function to do this already.
+          dialog = gtk_dialog_new_with_buttons (_("File already exists"),  //FIXME I think there is a function to do this already.
                                                 NULL /*GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.ScriptView), GTK_TEXT_WINDOW_WIDGET)) */ ,
                                                 GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_OK, GTK_RESPONSE_OK, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
-          gchar *labeltext = g_strconcat ("\nThe file ", *pfilename, " already exists.\n Do you want to overwrite it?\n\n", NULL);
+          gchar* labeltext = g_strdup_printf(_("The file %s already exists.\nDo you want to overwrite it?"), *pfilename);
           label = gtk_label_new (labeltext);
           g_free (labeltext);
           GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -187,15 +187,15 @@ save_scheme_dialog (GtkTextBuffer * buffer, GtkWidget * textview)
 
   if (gtk_text_buffer_get_modified (buffer))
     {
-      dialog = gtk_dialog_new_with_buttons ("Scheme text changed", NULL /*GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.ScriptView), GTK_TEXT_WINDOW_WIDGET)) */ ,
+      dialog = gtk_dialog_new_with_buttons (_("Scheme text changed"), NULL /*GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.ScriptView), GTK_TEXT_WINDOW_WIDGET)) */ ,
                                             GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_YES, GTK_RESPONSE_YES, GTK_STOCK_NO, GTK_RESPONSE_NO, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
 
 
       if (*pfilename == NULL)
-        label = gtk_label_new ("\nDo you want to save the changes in a new file?\n\n");
+        label = gtk_label_new (_("\nDo you want to save the changes in a new file?\n\n"));
       else
         {
-          gchar *labeltext = g_strconcat ("\nDo you want to save the changes in ", *pfilename, "?\n\n", NULL);
+          gchar* labeltext = g_strdup_printf(_("\nDo you want to save the changes in %s ?\n\n"), *pfilename);
           label = gtk_label_new (labeltext);
           g_free (labeltext);
         }
@@ -224,7 +224,7 @@ load_scheme_from_file (GtkWidget * widget, GtkWidget * textview)
   gchar **pfilename = g_object_get_data (G_OBJECT (textview), "pfilename");
   gchar *text = NULL;
   GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.ScriptView));
-  GtkWidget *dialog = gtk_file_chooser_dialog_new ("Open File",
+  GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open File"),
                                                    NULL /*GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.ScriptView),GTK_TEXT_WINDOW_WIDGET)) */ ,
                                                    GTK_FILE_CHOOSER_ACTION_OPEN,
                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -308,7 +308,7 @@ create_editor_window (void)
 
   GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   GtkWidget *w = window;
-  gtk_window_set_title (GTK_WINDOW (w), "Denemo Scheme Script");
+  gtk_window_set_title (GTK_WINDOW (w), _("Denemo Scheme Script"));
   //gtk_window_set_resizable (GTK_WINDOW (w), TRUE);
   g_signal_connect (G_OBJECT (w), "delete-event", G_CALLBACK (hide_scheme /*gtk_widget_hide_on_delete */ ), w);
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
@@ -333,37 +333,34 @@ create_editor_window (void)
   gtk_box_pack_start (GTK_BOX (main_vbox), w, FALSE, FALSE, 0);
 
 
-
-
-
   menu = gtk_menu_new ();
 
-  item = gtk_menu_item_new_with_label ("New");
+  item = gtk_menu_item_new_with_label (_("New"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (clear_scheme_window), (gpointer) TextView);
 
-  item = gtk_menu_item_new_with_label ("Open");
+  item = gtk_menu_item_new_with_label (_("Open"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (load_scheme_from_file), (gpointer) TextView);
 
-  item = gtk_menu_item_new_with_label ("Save");
+  item = gtk_menu_item_new_with_label (_("Save"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (save_scheme_text), (gpointer) TextView);
 
-  item = gtk_menu_item_new_with_label ("Save as...");
+  item = gtk_menu_item_new_with_label (_("Save as…"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (save_scheme_text_as), (gpointer) TextView);
 
-  item = gtk_menu_item_new_with_label ("Find");
+  item = gtk_menu_item_new_with_label (_("Find"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (find_cb), (gpointer) TextView);
-  item = gtk_menu_item_new_with_label ("Replace");
+  item = gtk_menu_item_new_with_label (_("Replace"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (replace_cb), (gpointer) TextView);
 
 
 
-  fileMenu = gtk_menu_item_new_with_label ("File");
+  fileMenu = gtk_menu_item_new_with_label (_("File"));
   gtk_widget_show (fileMenu);
 
   gtk_menu_item_set_submenu (GTK_MENU_ITEM (fileMenu), menu);
@@ -429,7 +426,7 @@ search_dialog (GtkWidget * widget, gboolean replace, char **what_p, char **repla
   GtkWidget *dialog;
   GtkEntry *entry1, *entry2;
 
-  dialog = gtk_dialog_new_with_buttons (replace ? "Replace" : "Find", GTK_WINDOW (gtk_widget_get_toplevel (widget)), GTK_DIALOG_MODAL, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+  dialog = gtk_dialog_new_with_buttons (replace ? _("Replace") : _("Find"), GTK_WINDOW (gtk_widget_get_toplevel (widget)), GTK_DIALOG_MODAL, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
   entry1 = g_object_new (GTK_TYPE_ENTRY, "visible", TRUE, "text", search_data.what ? search_data.what : "", "activates-default", TRUE, NULL);
