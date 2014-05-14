@@ -889,10 +889,12 @@ deletescore (GtkWidget * widget, DenemoProject * gui)
   reset_movement_numbers (gui);
   set_width_to_work_with (gui);
   set_rightmeasurenum (gui->movement);
-  update_hscrollbar (gui);
-  update_vscrollbar (gui);
-  draw_score_area();
-  g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
-  g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
-  force_lily_refresh (gui);
+  if(!Denemo.non_interactive){
+    update_hscrollbar (gui);
+    update_vscrollbar (gui);
+    draw_score_area();
+    g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
+    g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
+    force_lily_refresh (gui);
+  }
 }

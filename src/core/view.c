@@ -1663,6 +1663,8 @@ attach_clipboard (RhythmPattern * r)
 gint
 insert_pattern_in_toolbar (RhythmPattern * r)
 {
+  if(Denemo.non_interactive)
+    return -1;
   DenemoProject *project = Denemo.project;
   if (r->clipboard == NULL)
     {
@@ -4881,6 +4883,8 @@ toggle_page_view (void)
 void
 toggle_to_drawing_area (gboolean show)
 {
+  if(Denemo.non_interactive)
+    return;
 #define current_view Denemo.project->view
   gint height;                  // height of menus that are hidden
   gint win_width, win_height;

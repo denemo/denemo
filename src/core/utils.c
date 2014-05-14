@@ -1467,6 +1467,8 @@ music_font (gchar * str)
 void
 set_title_bar (DenemoProject * gui)
 {
+  if(Denemo.non_interactive)
+    return;
   gchar *title;
   if (gui->tabname && gui->tabname->len)
     title = gui->tabname->str;
