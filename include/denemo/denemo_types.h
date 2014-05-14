@@ -1028,6 +1028,7 @@ typedef struct DenemoProject
   gint source_scale;/* scale is x1000 */
   /* support for time spent editing the score */
   gint total_edit_time;/* in seconds */
+  gchar* script; /**< The script, synchronized with the view buffer */
 }DenemoProject;
 
 

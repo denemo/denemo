@@ -193,7 +193,7 @@ static void put_script_for_button (GtkWidget *button) {
     gchar *text = g_strdup_printf(_("Overwrite script for button \"%s\"?"), gtk_button_get_label(GTK_BUTTON(button)));
     if(confirm (_("Re-write Script"), text))
     {
-    gchar *script = getSchemeText ();
+    gchar *script = get_script_view_text ();
     gchar *oldscript = (gchar*) g_object_get_data (G_OBJECT(button), "script");
     g_object_set_data (G_OBJECT(button), "script", script);
     g_signal_handlers_block_by_func(G_OBJECT(button), G_CALLBACK (call_out_to_guile), oldscript);

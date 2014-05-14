@@ -372,7 +372,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
         updatescoreinfo (gui);
       else
         {
-          if (!Denemo.non_interactive && getNumCharsSchemeText ())
+          if (gui->script)
             {
               gui->has_script = TRUE;
               executeScript ();

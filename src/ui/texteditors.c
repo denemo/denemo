@@ -29,26 +29,24 @@ static void replace_cb (GtkAction * action, gpointer user_data);
  caller must free
 */
 gchar *
-getSchemeText (void)
+get_script_view_text (void)
 {
   GtkTextIter startiter, enditer;
   GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.script_view));
   gtk_text_buffer_get_start_iter (buffer, &startiter);
   gtk_text_buffer_get_end_iter (buffer, &enditer);
   return gtk_text_buffer_get_text (buffer, &startiter, &enditer, FALSE);
-
 }
 
 /* execute the script that is in the Scheme script window */
 void
 executeScript (void)
 {
-  gchar *text = getSchemeText ();
+  gchar *text = Denemo.project->script;
   g_debug ("Calling script %s\n", text);
   stage_undo (Denemo.project->movement, ACTION_STAGE_END);        //undo is a queue so this is the end :)
   (void) call_out_to_guile (text);
   stage_undo (Denemo.project->movement, ACTION_STAGE_START);
-  g_free (text);
 }
 
 
@@ -68,9 +66,6 @@ executeCLI (GtkWidget * button, GtkEntry * entry)
     g_critical ("entry is NULL!!!!");
 }
 
-
-
-
 /* Return number of characters in Scheme script */
 //TODO: Avoid to use gtk widgets for this since it can be used in non 
 //interactive mode.
@@ -84,20 +79,39 @@ getNumCharsSchemeText (void)
 void
 deleteSchemeText (void)
 {
-  GtkTextIter startiter, enditer;
-  GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.script_view));
-  gtk_text_buffer_get_start_iter (buffer, &startiter);
-  gtk_text_buffer_get_end_iter (buffer, &enditer);
-  gtk_text_buffer_delete (buffer, &startiter, &enditer);
+  if(!Denemo.non_interactive){
+    GtkTextIter startiter, enditer;
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.script_view));
+    gtk_text_buffer_get_start_iter (buffer, &startiter);
+    gtk_text_buffer_get_end_iter (buffer, &enditer);
+    gtk_text_buffer_delete (buffer, &startiter, &enditer);
+  }
+  else
+  {
+    g_free(Denemo.project->script);
+    Denemo.project->script = NULL;
+  }
 }
 
 void
 appendSchemeText (gchar * text)
-{
-  GtkTextIter enditer;
-  GtkTextBuffer *buffer = gtk_text_view_get_buffer ((GtkTextView *) (Denemo.script_view));
-  gtk_text_buffer_get_end_iter (buffer, &enditer);
-  gtk_text_buffer_insert (buffer, &enditer, text, -1);
+{  
+  if(!Denemo.non_interactive){
+    GtkTextIter enditer;
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer ((GtkTextView *) (Denemo.script_view));
+    gtk_text_buffer_get_end_iter (buffer, &enditer);
+    gtk_text_buffer_insert (buffer, &enditer, text, -1);
+  }
+
+  else{
+    if(Denemo.project->script){
+      gchar* old_script = Denemo.project->script;
+      Denemo.project->script = g_strconcat(old_script, text, NULL);
+      g_free(old_script);
+    }
+    else
+      Denemo.project->script = text;
+  }
 }
 
 static gint
@@ -117,7 +131,7 @@ static void
 save_scheme_text_as (GtkWidget * widget, GtkWidget * textview)
 {
   gchar **pfilename = g_object_get_data (G_OBJECT (textview), "pfilename");
-  gchar *text = getSchemeText ();
+  gchar *text = get_script_view_text ();
   GtkWidget *label;
   GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.script_view));
   GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Save Scheme Text as..."),
@@ -168,7 +182,7 @@ save_scheme_text (GtkWidget * widget, GtkWidget * textview)
     save_scheme_text_as (NULL, textview);
   else
     {
-      gchar *text = getSchemeText ();
+      gchar *text = get_script_view_text ();
       buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.script_view));
       g_file_set_contents (*pfilename, text, -1, NULL);
       gtk_text_buffer_set_modified (GTK_TEXT_BUFFER (buffer), FALSE);
@@ -271,13 +285,20 @@ keypress (GtkEntry * w, GdkEventKey * event)
 {
   if (event->keyval == GDK_Return)
     executeCLI (NULL, w);
-  return FALSE;                 //let the normal handler have the keypress
+  //let the normal handler have the keypress
+  return FALSE;
+}
+
+static void
+scheme_changed_cb (GtkSourceBuffer *buffer){
+  if(Denemo.project->script)
+    g_free(Denemo.project->script);
+  Denemo.project->script = get_script_view_text();
 }
 
 /*
  create_editor_window()
  create a text window for editing
-
 */
 
 static GtkWidget *
@@ -293,6 +314,8 @@ create_editor_window (void)
 
 
   buffer = gtk_source_buffer_new (NULL);
+  g_signal_connect (G_OBJECT (buffer), "changed", G_CALLBACK (scheme_changed_cb), NULL);
+
   gtk_source_buffer_set_highlight_syntax (GTK_SOURCE_BUFFER (buffer), TRUE);
   language = gtk_source_language_manager_get_language (LanguageManager, "scheme");
   gtk_source_buffer_set_language (GTK_SOURCE_BUFFER (buffer), language);

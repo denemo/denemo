@@ -1088,6 +1088,8 @@ findActionGroupByName (gconstpointer a, gconstpointer b)
 void
 update_accel_labels (keymap * the_keymap, guint command_id)
 {
+  if(Denemo.non_interactive)
+    return;
   GtkAction *action;
   command_row *row;
 

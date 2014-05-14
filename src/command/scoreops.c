@@ -102,12 +102,12 @@ void set_movement_selector (DenemoProject *gui)
   }
   for (g=gui->movements, i=1;g;g=g->next, i++)
     {
-        if(i<first)
-            continue;
-        if(i>last)
-            continue;
-        button = gtk_button_new_with_label("");
-        if (g->data == gui->movement)
+      if(i<first)
+          continue;
+      if(i>last)
+          continue;
+      button = gtk_button_new_with_label("");
+      if (g->data == gui->movement)
         {
             gchar *text = g_strdup_printf("<span foreground=\"blue\"><i><b>%d</b></i></span>", i);
             GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));
@@ -117,7 +117,8 @@ void set_movement_selector (DenemoProject *gui)
             text = g_strdup_printf(_("This is the current movement number %d\nClick on another button to change movements"), i);
             gtk_widget_set_tooltip_text (button, text);
             g_free(text);
-        } else 
+        } 
+      else 
         {
             gchar *more = "";
             if((last<num_movements) && (i==last))
@@ -139,6 +140,7 @@ void set_movement_selector (DenemoProject *gui)
     if(i==2) 
         gtk_widget_hide (gui->movements_selector);
 }
+
 static void
 new_movement (GtkAction * action, DenemoScriptParam * param, gboolean before)
 {
@@ -435,14 +437,19 @@ next_movement (GtkAction * action, DenemoScriptParam * param)
         warningmessage (_("This is the last movement"));
       return;
     }
-  if(Denemo.non_interactive) return;
-  gtk_widget_hide (gui->movement->buttonbox);
-  if (gui->movement->lyricsbox)
-    gtk_widget_hide (gui->movement->lyricsbox);
+  
+  if(!Denemo.non_interactive){
+    gtk_widget_hide (gui->movement->buttonbox);
+    if (gui->movement->lyricsbox)
+      gtk_widget_hide (gui->movement->lyricsbox);
+  }
   gui->movement = this->data;
-  if (gui->movement->lyricsbox && Denemo.prefs.lyrics_pane)
-    gtk_widget_show (gui->movement->lyricsbox);       //toggle_lyrics_view(NULL, NULL);
-  gtk_widget_show (gui->movement->buttonbox);
+
+  if(!Denemo.non_interactive){
+    if (gui->movement->lyricsbox && Denemo.prefs.lyrics_pane)
+      gtk_widget_show (gui->movement->lyricsbox);       //toggle_lyrics_view(NULL, NULL);
+    gtk_widget_show (gui->movement->buttonbox);
+  }
   set_master_tempo (gui->movement, 1.0);
   set_movement_selector (gui);
   //!!!!!!!!updatescoreinfo (gui);
@@ -451,15 +458,17 @@ next_movement (GtkAction * action, DenemoScriptParam * param)
   find_leftmost_allcontexts (gui->movement);
   set_bottom_staff (gui);
 
-  update_hscrollbar (gui);
-  update_vscrollbar (gui);
-  g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
-  g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
-  write_status (gui);
-  //gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME see staffup/down
-  set_movement_transition (-MOVEMENT_WIDTH);
-  draw_score_area();
-  draw_score (NULL);
+  if(!Denemo.non_interactive){
+    update_hscrollbar (gui);
+    update_vscrollbar (gui);
+    g_signal_emit_by_name (G_OBJECT (Denemo.hadjustment), "changed");
+    g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
+    write_status (gui);
+    //gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME see staffup/down
+    set_movement_transition (-MOVEMENT_WIDTH);
+    draw_score_area();
+    draw_score (NULL);
+  }
 }
 
 /**

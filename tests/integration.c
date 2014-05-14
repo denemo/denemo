@@ -182,13 +182,9 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
     g_warn_if_reached ();
   }
   g_test_trap_assert_passed ();
-  
+
+  //g_assert(compare_denemo_files(input, output));
   g_remove(output);
-  /* TODO:
-  g_file_get_contents(input, &input_contents, NULL, NULL);
-  g_file_get_contents(output, &output_contents, NULL, NULL);
-  g_assert_cmpstr(input_contents, ==, output_contents);
-  */
 }
 
 /** test_invalid_scheme

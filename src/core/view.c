@@ -2279,7 +2279,7 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
         }
     }
 
-  myscheme = getSchemeText ();
+  myscheme = get_script_view_text ();
 
   gchar *xml_filename = g_strconcat (myname, XML_EXT, NULL);
   gchar *scm_filename = g_strconcat (myname, SCM_EXT, NULL);
@@ -2494,7 +2494,7 @@ put_initialization_script (GtkWidget * widget, gchar * directory)
   gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", directory, INIT_SCM, NULL);
   if ((!g_file_test (filename, G_FILE_TEST_EXISTS)) || confirm (_("There is already an initialization script here"), _("Do you want to replace it?")))
     {
-      gchar *scheme = getSchemeText ();
+      gchar *scheme = get_script_view_text ();
       if (scheme && *scheme)
         {
           FILE *fp = fopen (filename, "w");
@@ -2564,7 +2564,7 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
   gchar *scm_path = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", row->menupath, scm_filename, NULL);
   g_free (scm_filename);
   
-  gchar *scheme = getSchemeText ();
+  gchar *scheme = get_script_view_text ();
   if (scheme && *scheme && confirm (_("Save Script"), g_strconcat (_("Over-write previous version of the script for "), name, _(" ?"), NULL)))
     {
       gchar *dirpath = g_path_get_dirname (xml_path);
