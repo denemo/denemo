@@ -183,7 +183,8 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
   }
   g_test_trap_assert_passed ();
 
-  //g_assert(compare_denemo_files(input, output));
+  if(g_str_has_suffix (filename, ".denemo"))
+    g_assert(compare_denemo_files(input, output));
   g_remove(output);
 }
 
