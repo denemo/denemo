@@ -485,16 +485,14 @@ sharpen (GtkWidget * label)
   else
     {
       f.step = g.step;
-
       f.alteration = g.alteration + 1;
-
     }
 #undef f
 #undef g
   sharp_degree = flat_degree;
   flat_degree = (flat_degree + 7) % 12;
   temperament_offset = (temperament_offset + 5) % 12;
-  if (1 /*PR_window */ )
+  if (!Denemo.non_interactive)
     {
       gchar *names = notenames (PR_temperament);
       gtk_label_set_markup ((GtkLabel *) label, names);
@@ -504,10 +502,6 @@ sharpen (GtkWidget * label)
   reset_temperament ();
   return;
 }
-
-
-
-
 
 static void
 flatten (GtkWidget * label)
@@ -528,7 +522,7 @@ flatten (GtkWidget * label)
   flat_degree = sharp_degree;
   sharp_degree = (sharp_degree + 5) % 12;
   temperament_offset = (temperament_offset + 7) % 12;
-  if (1 /*PR_window */ )
+  if (!Denemo.non_interactive)
     {
       gchar *names = notenames (PR_temperament);
       gtk_label_set_markup ((GtkLabel *) label, names);
@@ -552,7 +546,6 @@ adjust_tonal_center (gint * accs)
 void
 set_enharmonic_position (gint position)
 {
-    if(Denemo.non_interactive) return;
   while (position < enharmonic_position)
     {
       set_flatter (NULL, NULL);
@@ -571,12 +564,16 @@ get_enharmonic_position (void)
 
 static void
 enharmonic_step (gboolean sharp)
-{if(Denemo.non_interactive) return;
+{
   gchar *sharpestname, *flattestname;
   if (sharp)
     sharpen (PR_label);
   else
     flatten (PR_label);
+
+  if(Denemo.non_interactive) 
+    return;
+
   GtkAction *sharpaction = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/MIDI/SharpenEnharmonicSet");
   GtkAction *flataction = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/MIDI/FlattenEnharmonicSet");
 

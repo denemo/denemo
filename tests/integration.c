@@ -182,13 +182,19 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
     g_warn_if_reached ();
   }
   g_test_trap_assert_passed ();
-  
+
+  // Comparision
+  if(g_str_has_suffix (filename, ".denemo"))
+    g_assert(compare_denemo_files(input, output));
+  else{
+    gchar* ext = g_strrstr (input, ".");
+    guint length = ext - input;
+    gchar* basename = g_strndup(input, length);
+    gchar* compare_file = g_strconcat(basename, ".denemo", NULL);
+    if(g_file_test(compare_file, G_FILE_TEST_EXISTS))
+      g_assert(compare_denemo_files(compare_file, output));
+  }
   g_remove(output);
-  /* TODO:
-  g_file_get_contents(input, &input_contents, NULL, NULL);
-  g_file_get_contents(output, &output_contents, NULL, NULL);
-  g_assert_cmpstr(input_contents, ==, output_contents);
-  */
 }
 
 /** test_invalid_scheme

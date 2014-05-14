@@ -1028,6 +1028,7 @@ typedef struct DenemoProject
   gint source_scale;/* scale is x1000 */
   /* support for time spent editing the score */
   gint total_edit_time;/* in seconds */
+  gchar* script; /**< The script, synchronized with the view buffer */
 }DenemoProject;
 
 
@@ -1129,7 +1130,7 @@ struct DenemoRoot
   gint keyboard_state;/**< state of last keypress/release controlling MIDI in*/
   gboolean keyboard_state_locked;/**< lock against changes by shift and control keypresses */
 
-  GtkWidget *ScriptView; /**< a GtkTextView containing a scheme script */
+  GtkWidget *script_view; /**< a GtkTextView containing a scheme script */
   GList *palettes; /**< list of palettes of buttons for activating scripts */
   gchar *old_user_data_dir; /**< set in case of upgrading denemo version */
   gboolean *fatal_scheme_errors; /** Abort on scheme errors */

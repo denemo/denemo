@@ -2862,7 +2862,6 @@ parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoProject * gui, ImportTyp
 gint
 importXML (gchar * filename, DenemoProject * gui, ImportType type)
 {
-
   gint ret = 0;
   xmlDocPtr doc = NULL;
   xmlNsPtr ns;
@@ -2969,8 +2968,7 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
           break;
         case REPLACE_SCORE:
           free_movements (gui);
-          if(!Denemo.non_interactive)
-            deleteSchemeText ();
+          deleteSchemeText ();
           reset_editing_timer ();
           gui->total_edit_time = 0;
           gui->has_script = FALSE;
@@ -2981,10 +2979,9 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
               {
                 gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
                                                              childElem->xmlChildrenNode, 1);
-                if (!Denemo.non_interactive && tmp != NULL)
+                if (tmp != NULL)
                   {
                     appendSchemeText (tmp);
-                    g_free (tmp);
                   }
               }
             else if (ELEM_NAME_EQ (childElem, "movement-number"))

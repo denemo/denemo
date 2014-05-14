@@ -56,6 +56,9 @@ set_tempo (void)
 void
 ext_midi_playback (GtkAction * action, DenemoScriptParam * param)
 {
+  if(Denemo.non_interactive)
+    return;
+
   GET_1PARAM (action, param, callback);
 
   set_playbutton (is_paused ());

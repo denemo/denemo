@@ -121,6 +121,9 @@ dnm_setinitialclef (DenemoMovement * si, DenemoStaff * curstaffstruct, enum clef
 void
 clef_change (DenemoProject * gui, actiontype action)
 {
+  if(Denemo.non_interactive)
+    return;
+
   GtkWidget *dialog;
   GtkWidget *label;
   GtkWidget *combobox;

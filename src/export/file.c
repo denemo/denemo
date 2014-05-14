@@ -372,7 +372,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
         updatescoreinfo (gui);
       else
         {
-          if (!Denemo.non_interactive && getNumCharsSchemeText ())
+          if (gui->script)
             {
               gui->has_script = TRUE;
               executeScript ();
@@ -1106,8 +1106,9 @@ file_newwrapper (GtkAction * action, DenemoScriptParam * param)
   if (param == NULL)
     param = &dummy;
   DenemoProject *gui = Denemo.project;
-  g_signal_handlers_block_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
-  if (gui->notsaved)
+  if(!Denemo.non_interactive)
+    g_signal_handlers_block_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
+  if (!Denemo.non_interactive && gui->notsaved)
     {
       if (confirmbox (gui))
         {
@@ -1131,8 +1132,8 @@ file_newwrapper (GtkAction * action, DenemoScriptParam * param)
   //  g_object_set_data (G_OBJECT (Denemo.printarea), "printviewupdate", (gpointer) G_MAXUINT);
   score_status (gui, FALSE);
   param->status = TRUE;
-  g_signal_handlers_unblock_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
-
+  if(!Denemo.non_interactive)
+    g_signal_handlers_unblock_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
 }
 
 #if 0

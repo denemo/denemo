@@ -65,5 +65,8 @@ Debug
 .anjuta*
 *.anjuta
 
+# Vim files
+*.swp
+
 #Tests
 test-driver

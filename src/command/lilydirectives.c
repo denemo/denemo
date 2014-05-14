@@ -2391,7 +2391,7 @@ put_edit_script (GtkWidget * widget, gchar * tag)
   gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "editscripts", tagscm, NULL);
   if ((!g_file_test (filename, G_FILE_TEST_EXISTS)) || confirm (_("There is already an edit script for this tag"), _("Do you want to replace it?")))
     {
-      gchar *scheme = (gchar *) getSchemeText ();
+      gchar *scheme = (gchar *) get_script_view_text ();
       if (scheme && *scheme)
         {
           FILE *fp = fopen (filename, "w");

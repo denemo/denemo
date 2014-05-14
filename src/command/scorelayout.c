@@ -2238,9 +2238,11 @@ iterate_custom_layout (gboolean init)
     }
   if (sb && sb->widget)
     {
-      if (!gtk_widget_get_visible (Denemo.project->score_layout))
-        activate_action ("/MainMenu/ViewMenu/ToggleScoreLayout");
-      set_notebook_page (sb->widget);
+      if(!Denemo.non_interactive){
+        if (!gtk_widget_get_visible (Denemo.project->score_layout))
+          activate_action ("/MainMenu/ViewMenu/ToggleScoreLayout");
+        set_notebook_page (sb->widget);
+      }
       return TRUE;
     }
   else

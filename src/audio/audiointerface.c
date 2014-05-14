@@ -637,6 +637,8 @@ midi_stop ()
 int
 play_midi_event (backend_type_t backend, int port, unsigned char *buffer)
 {
+  if(Denemo.non_interactive)
+    return TRUE;
   guchar ev[1 + 255];           /* 1 length byte plus up to 255 data bytes */
   gint i = 3;
 #ifndef _HAVE_JACK_

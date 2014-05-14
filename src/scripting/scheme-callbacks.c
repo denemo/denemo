@@ -649,8 +649,10 @@ scheme_hide_menus (SCM hide)
   gboolean show = FALSE;
   if (scm_is_false (hide))
     show = TRUE;
-  toggle_to_drawing_area (show);
-  activate_action ("/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
+  if(!Denemo.non_interactive){
+    toggle_to_drawing_area (show);
+    activate_action ("/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
+  }
   return SCM_BOOL (TRUE);
 }
 
