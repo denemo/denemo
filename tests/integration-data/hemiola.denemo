@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<score xmlns="http://denemo.org/xmlns/Denemo" version="7">
+  <scheme>;;;This tests deletes the ignore directive and re-instates it.
+;;;So the file should be unchanged.
+(d-DeleteObject)
+(d-IgnoreMeasureDurationError)
+</scheme>
+  <scoreheader-directives>
+    <directive>
+      <tag>ScoreTitle</tag>
+      <postfix>title =  \markup { \with-url #'"scheme:(d-ScoreTitle)"  "Click Title"}
+
+</postfix>
+      <display>Click Title</display>
+      <data>Click Title</data>
+      <override>36</override>
+    </directive>
+  </scoreheader-directives>
+  <paper-directives>
+    <directive>
+      <tag>PrintAllHeaders</tag>
+      <postfix>
+print-all-headers = ##t
+</postfix>
+    </directive>
+    <directive>
+      <tag>LimitInterSystemSpace</tag>
+      <postfix>
+page-limit-inter-system-space = ##t
+page-limit-inter-system-space-factor = 1.2</postfix>
+    </directive>
+  </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
+  <lilycontrol>
+    <papersize>a4</papersize>
+    <fontsize>20</fontsize>
+    <orientation>1</orientation>
+    <total-edit-time>320</total-edit-time>
+    <score-directives>
+      <directive>
+        <tag>ScoreIndent</tag>
+        <prefix>\layout {indent = 14.0}
+</prefix>
+        <display>indent=14.0</display>
+        <override>4</override>
+      </directive>
+    </score-directives>
+    <total-editing-time>320</total-editing-time>
+  </lilycontrol>
+  <movement-number>1</movement-number>
+  <movement>
+    <edit-info>
+      <staffno>3</staffno>
+      <measureno>1</measureno>
+      <cursorposition>3</cursorposition>
+      <tonalcenter>0</tonalcenter>
+      <zoom>100</zoom>
+      <system-height>100</system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
+    </edit-info>
+    <header-directives>
+      <directive>
+        <tag>SuppressTitleRepeats</tag>
+        <postfix>title = ##f
+instrument = ##f
+</postfix>
+      </directive>
+    </header-directives>
+    <score-info>
+      <tempo>
+        <duration>
+          <numerator>1</numerator>
+          <denominator>4</denominator>
+        </duration>
+        <bpm>120</bpm>
+      </tempo>
+    </score-info>
+    <staves>
+      <staff id="id0"></staff>
+      <staff id="id1"></staff>
+    </staves>
+    <voices>
+      <voice id="id2">
+        <voice-info>
+          <voice-name>Unnamed</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+				(if choice (choice)))    " \transparent {"Unnamed" }}</postfix>
+              <display>Unnamed</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ContextPianoStaff</tag>
+              <prefix> \new PianoStaff &lt;&lt;
+</prefix>
+              <display>Piano Staff Start</display>
+              <override>52</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
+        <measures>
+          <measure>
+            <stem-directive type="auto">
+              <directives>
+                <directive>
+                  <tag>VoiceSetting</tag>
+                  <postfix>\oneVoice</postfix>
+                  <graphic_name>
+vAuto
+Serif
+24
+1
+1</graphic_name>
+                  <override>1</override>
+                </directive>
+              </directives>
+            </stem-directive>
+            <chord show="true" id="id3">
+              <duration base="eighth"></duration>
+              <chordize>1</chordize>
+              <directives>
+                <directive>
+                  <tag>Beam</tag>
+                  <postfix>[</postfix>
+                  <display>[</display>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id4">
+                  <middle-c-offset>9</middle-c-offset>
+                  <directives>
+                    <directive>
+                      <tag>Fingering</tag>
+                      <postfix>-3 </postfix>
+                      <display>3</display>
+                    </directive>
+                  </directives>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id5">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id6">
+                  <middle-c-offset>10</middle-c-offset>
+                  <accidental name="sharp" show="true"></accidental>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id7">
+              <duration base="eighth"></duration>
+              <directives>
+                <directive>
+                  <tag>Beam</tag>
+                  <postfix>]</postfix>
+                  <display>]</display>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id8">
+                  <middle-c-offset>11</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id9">
+              <duration base="eighth"></duration>
+              <chordize>1</chordize>
+              <directives>
+                <directive>
+                  <tag>Beam</tag>
+                  <postfix>[</postfix>
+                  <display>[</display>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id10">
+                  <middle-c-offset>9</middle-c-offset>
+                  <directives>
+                    <directive>
+                      <tag>Fingering</tag>
+                      <postfix>-3 </postfix>
+                      <display>3</display>
+                    </directive>
+                  </directives>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id11">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id12">
+                  <middle-c-offset>8</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id13">
+              <duration base="eighth"></duration>
+              <directives>
+                <directive>
+                  <tag>Beam</tag>
+                  <postfix>]</postfix>
+                  <display>]</display>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id14">
+                  <middle-c-offset>11</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id15">
+              <duration base="eighth"></duration>
+              <chordize>1</chordize>
+              <directives>
+                <directive>
+                  <tag>Beam</tag>
+                  <postfix>[</postfix>
+                  <display>[</display>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id16">
+                  <middle-c-offset>8</middle-c-offset>
+                  <directives>
+                    <directive>
+                      <tag>Fingering</tag>
+                      <postfix>-2 </postfix>
+                      <display>2</display>
+                    </directive>
+                  </directives>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id17">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id18">
+                  <middle-c-offset>7</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+          </measure>
+          <measure>
+            <chord show="true" id="id19">
+              <duration base="eighth"></duration>
+              <directives>
+                <directive>
+                  <tag>Beam</tag>
+                  <postfix>]</postfix>
+                  <display>]</display>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id20">
+                  <middle-c-offset>11</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <stem-directive type="up">
+              <directives>
+                <directive>
+                  <tag>VoiceSetting</tag>
+                  <postfix>\voiceOne </postfix>
+                  <graphic_name>
+v1
+Serif
+24
+1
+1</graphic_name>
+                  <override>1</override>
+                </directive>
+              </directives>
+            </stem-directive>
+            <chord show="true" id="id21">
+              <duration base="eighth"></duration>
+              <chordize>1</chordize>
+              <directives>
+                <directive>
+                  <tag>Beam</tag>
+                  <postfix>[</postfix>
+                  <display>[</display>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id22">
+                  <middle-c-offset>6</middle-c-offset>
+                  <directives>
+                    <directive>
+                      <tag>Fingering</tag>
+                      <postfix>-4 </postfix>
+                      <display>4</display>
+                    </directive>
+                  </directives>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id23">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id24">
+                  <middle-c-offset>7</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id25">
+              <duration base="eighth"></duration>
+              <directives>
+                <directive>
+                  <tag>Beam</tag>
+                  <postfix>]</postfix>
+                  <display>]</display>
+                </directive>
+              </directives>
+              <tie to="id27"></tie>
+              <notes>
+                <note id="id26">
+                  <middle-c-offset>6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id27">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id28">
+                  <middle-c-offset>6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id29">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id30">
+                  <middle-c-offset>5</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id31">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id32">
+                  <middle-c-offset>4</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id33">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id34">
+                  <middle-c-offset>3</middle-c-offset>
+                  <accidental name="sharp" show="true"></accidental>
+                </note>
+              </notes>
+            </chord>
+          </measure>
+        </measures>
+      </voice>
+      <voice id="id35">
+        <voice-info>
+          <voice-name>unnamed</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>3</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 2 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+				(if choice (choice)))    " "" }</postfix>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
+        <measures>
+          <measure>
+            <stem-directive type="down">
+              <directives>
+                <directive>
+                  <tag>VoiceSetting</tag>
+                  <postfix>\voiceTwo</postfix>
+                  <graphic_name>
+v2
+Serif
+24
+1
+1</graphic_name>
+                  <override>1</override>
+                </directive>
+              </directives>
+            </stem-directive>
+            <lily-directive tag="!" minpixels="10"> </lily-directive>
+          </measure>
+          <measure>
+            <rest show="false" id="id36">
+              <duration base="eighth"></duration>
+            </rest>
+            <chord show="true" id="id37">
+              <duration base="quarter">
+                <dots>1</dots>
+              </duration>
+              <notes>
+                <note id="id38">
+                  <middle-c-offset>4</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id39">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id40">
+                  <middle-c-offset>2</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id41">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id42">
+                  <middle-c-offset>1</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+          </measure>
+        </measures>
+      </voice>
+      <voice id="id43">
+        <voice-info>
+          <voice-name>unnamed</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id1"></staff-ref>
+          <clef name="treble"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>3</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 3 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+				(if choice (choice)))    " "" }</postfix>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
+        <measures>
+          <measure>
+            <chord show="true" id="id44">
+              <duration base="quarter">
+                <dots>1</dots>
+              </duration>
+              <notes>
+                <note id="id45">
+                  <middle-c-offset>4</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id46">
+              <duration base="quarter">
+                <dots>1</dots>
+              </duration>
+              <notes>
+                <note id="id47">
+                  <middle-c-offset>4</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id48">
+              <duration base="quarter">
+                <dots>1</dots>
+              </duration>
+              <notes>
+                <note id="id49">
+                  <middle-c-offset>4</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <lily-directive tag="!" minpixels="10"> </lily-directive>
+          </measure>
+          <measure>
+            <chord show="true" id="id50">
+              <duration base="quarter">
+                <dots>1</dots>
+              </duration>
+              <notes>
+                <note id="id51">
+                  <middle-c-offset>4</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <clef name="bass" show="false"></clef>
+            <chord show="true" id="id52">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id53">
+                  <middle-c-offset>-7</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id54">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id55">
+                  <middle-c-offset>-6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+          </measure>
+        </measures>
+      </voice>
+      <voice id="id56">
+        <voice-info>
+          <voice-name>unnamed</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id1"></staff-ref>
+          <clef name="treble"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>3</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>2</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 4 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+				(if choice (choice)))    " "" }</postfix>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ContextPianoStaff</tag>
+              <postfix> &gt;&gt;
+</postfix>
+              <display>Piano Staff End</display>
+              <override>52</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
+        <measures>
+          <measure>
+            <stem-directive type="down">
+              <directives>
+                <directive>
+                  <tag>VoiceSetting</tag>
+                  <postfix>\voiceTwo</postfix>
+                  <graphic_name>
+v2
+Serif
+24
+1
+1</graphic_name>
+                  <override>1</override>
+                </directive>
+              </directives>
+            </stem-directive>
+            <chord show="true" id="id57">
+              <duration base="quarter">
+                <dots>1</dots>
+              </duration>
+              <notes>
+                <note id="id58">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id59">
+              <duration base="quarter">
+                <dots>1</dots>
+              </duration>
+              <notes>
+                <note id="id60">
+                  <middle-c-offset>-1</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id61">
+              <duration base="quarter">
+                <dots>1</dots>
+              </duration>
+              <notes>
+                <note id="id62">
+                  <middle-c-offset>-2</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <lily-directive tag="!" minpixels="10"> </lily-directive>
+          </measure>
+          <measure>
+            <chord show="true" id="id63">
+              <duration base="quarter">
+                <dots>1</dots>
+              </duration>
+              <notes>
+                <note id="id64">
+                  <middle-c-offset>-3</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <clef name="bass" show="true"></clef>
+            <rest show="false" id="id65">
+              <duration base="quarter"></duration>
+            </rest>
+            <rest show="false" id="id66">
+              <duration base="quarter"></duration>
+            </rest>
+          </measure>
+        </measures>
+      </voice>
+    </voices>
+  </movement>
+</score>
