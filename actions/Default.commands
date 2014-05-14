@@ -6543,6 +6543,12 @@ Use this to refine the positioning, but be aware that notes in other staffs will
         <_label>Suspension</_label>
         <_tooltip>Suspension ornament (Off/On)</_tooltip>
       </row>
+      <row type="scheme">
+        <action>IgnoreMeasureDurationError</action>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <_label>Ignore Measure Duration Error</_label>
+        <_tooltip>Allow too few notes/rests in this measure. Only affects the Denemo display and error checking, the typesetting will place barlines according to the actual durations of notes as usual.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
