@@ -149,6 +149,7 @@ struct infotopass
   GList *recordednote;//list of notes when recorded audio or MIDI is present
   gint currentframe; //current frame of audio being played. (current time converted to frames (at si->recording->samplerate) and slowed down)
   gboolean highlight_next_note;//the last CHORD was the one before the currently playing one.
+  gboolean allow_duration_error; //do not indicate errors in duration of measure
 };
 
 /* count the number of syllables up to staff->leftmeasurenum */
@@ -566,6 +567,8 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
           itp->highy = directive->ty - 10 /* for height of text */ ;
         if ((directive->gy - 10) < itp->highy)
           itp->highy = directive->gy - 10 /* for height of text */ ;
+          if(directive->tag && *directive->tag->str == '!')
+            itp->allow_duration_error = TRUE;
       }
       break;
     case CLEF:
@@ -788,13 +791,18 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
         }
       /* Indicate fill status  */
 #define OPACITY (curmeasure == si->currentmeasure?0.3:0.8)
+         if(itp->allow_duration_error)
+            {
+                extra_ticks = 0;
+                itp->allow_duration_error = FALSE;
+            } 
       if (curmeasure->data)
         {
           if (extra_ticks > 0)
-            cairo_set_source_rgba (cr, 1.0, 0.6, 0.6, OPACITY);
+                cairo_set_source_rgba (cr, 1.0, 0.6, 0.6, OPACITY);
           else if ((extra_ticks < 0)/* && curmeasure->next*/)
-            cairo_set_source_rgba (cr, 0.6, 0.6, 1, OPACITY);
-#undef OPACITY
+                cairo_set_source_rgba (cr, 0.6, 0.6, 1, OPACITY);
+
           if (((extra_ticks > 0) || (extra_ticks < 0)) &&
             ((curmeasure->next && curmeasure->next->data) || ((curmeasure->next!= NULL) && (!has_cursor))))
               
@@ -808,6 +816,7 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
               cairo_set_source_rgb (cr, 0, 0, 0);
             }
         }
+#undef OPACITY        
       if (extra_ticks == 0)
         {
           cairo_set_source_rgb (cr, 0, 0, 0);
