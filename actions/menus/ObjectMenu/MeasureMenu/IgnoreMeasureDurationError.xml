@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>IgnoreMeasureDurationError</action>
+        <_label>Ignore Measure Duration Error</_label>
+        <_tooltip>Allow too few notes/rests in this measure. Only affects the Denemo display and error checking, the typesetting will place barlines according to the actual durations of notes as usual.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
