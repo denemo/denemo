@@ -55,6 +55,15 @@ compare_denemo_files(gchar* fileA, gchar* fileB){
   return equals;
 }
 
+static gchar*
+get_basename(gchar* input){
+  gchar* ext = g_strrstr (input, ".");
+  if(NULL == ext)
+    return g_strdup(input);
+  guint length = ext - input;
+  gchar* basename = g_strndup(input, length);
+  return basename;
+}
 /*******************************************************************************
  * SETUP AND TEARDOWN
  ******************************************************************************/
@@ -162,8 +171,6 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
   const gchar* output_filename = g_strconcat(filename, ".denemo", NULL);
   const gchar* output = g_build_filename(temp_dir, output_filename, NULL);
   g_print("Opening %s\nSaving at %s\n", input, output);
-  gchar* input_contents = NULL;
-  gchar* output_contents = NULL;
 
   if (g_test_trap_fork (0, 0))
     {
@@ -187,10 +194,8 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
   if(g_str_has_suffix (filename, ".denemo"))
     g_assert(compare_denemo_files(input, output));
   else{
-    gchar* ext = g_strrstr (input, ".");
-    guint length = ext - input;
-    gchar* basename = g_strndup(input, length);
-    gchar* compare_file = g_strconcat(basename, ".denemo", NULL);
+    gchar* base_name = get_basename(input);
+    gchar* compare_file = g_strconcat(base_name, ".denemo", NULL);
     if(g_file_test(compare_file, G_FILE_TEST_EXISTS))
       g_assert(compare_denemo_files(compare_file, output));
   }
@@ -276,14 +281,27 @@ static void
 test_regression_check(gpointer fixture, gconstpointer data)
 {
   const gchar* scheme_file = (const gchar*) data;
+  gchar* filename = basename(scheme_file);
+  const gchar* output_filename = g_strconcat(filename, ".denemo", NULL);
+  const gchar* output = g_build_filename(temp_dir, output_filename, NULL);
   g_print("Opening %s\n", scheme_file);
 
   if (g_test_trap_fork (0, 0))
     {
-      execl(DENEMO, DENEMO, "-n", "-e", "-i", scheme_file, NULL);
+      gchar* scheme = g_strdup_printf("(d-SaveAs \"%s\")(d-Quit)", output);
+      execl(DENEMO, DENEMO, "-n", "-e", "-i", scheme_file, "-a", scheme, NULL);
       g_warn_if_reached ();
     }
   g_test_trap_assert_passed ();
+  
+  g_assert(g_file_test(output, G_FILE_TEST_EXISTS));
+
+  gchar* base_name = get_basename(scheme_file);
+  gchar* compare_file = g_strconcat(base_name, ".denemo", NULL);
+  if(g_file_test(compare_file, G_FILE_TEST_EXISTS))
+    g_assert(compare_denemo_files(compare_file, output));
+
+  g_remove(output);
 }
 
 /*******************************************************************************
