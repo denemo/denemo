@@ -6,9 +6,10 @@
 ;Variable descriptions:
 ;SplitAll set to #f allows user to decide whether to split across barlines; set to #t, splits always.
 ;TupletScaleFactor: e.g. if we're inside a triplet, scale durations by 2/3
+;IgnoreDurationError set if a measure is marked as having an allowable duration discrepancy, marking is done with a directive of tag "!"
 (define ReBar::return #f)
 (let ( (Input1 #f) (Input2 #f) (InitialTimeSig 1) (ScanAllStaffs #f) (TupletScaleFactor 1)  
-(SplitAll #f))
+(SplitAll #f)(IgnoreDurationError #f))
     
 ;MakeBlankRestDuration: makes a tied rest conglomerate of total duration Duration.
 ;IsConsecutive is set to #t when it recurses in order to make it add a dot instead of adding the next TryDuration.  Externally, call it always set to #f
@@ -203,7 +204,9 @@
             )
             
             (if (equal? (d-GetType) "LILYDIRECTIVE")
-                (set! NoteBeat (/ (d-GetDurationInTicks) 1536))
+                (begin
+                    (set! NoteBeat (/ (d-GetDurationInTicks) 1536))
+                    (set! IgnoreDurationError (d-Directive-standalone? "!"))) ;;This tag tells Denemo to ignore duration errors in this measure.
             )
             (if (equal? (d-GetType) "CHORD" ) 
                 (if (not (d-ToggleGrace "query="))  ;if it's not a grace, continue; otherwise, leave it as 0.                   
@@ -242,6 +245,10 @@
         ;;ticks have granularity of 1 so we cannot accept a 1 discrepancy as meaning anything once we have reached a certain number of ticks - how many I am not sure, but try 383, fails with septuplet, try 255
     (if (and (None?) (not Pad?))
         (set! Counter TimeSig))
+    (if IgnoreDurationError
+        (begin
+            (set! IgnoreDurationError #f)
+            (set! Counter TimeSig)))
     (let ((top (numerator Counter)) (bottom (denominator Counter)))
         ;(disp "We have top " top " bottom " bottom " div "  (/ (1+ top) bottom) " ok")
         (if  (and (> top 254) (equal? TimeSig (/ (1+ top) bottom)))
