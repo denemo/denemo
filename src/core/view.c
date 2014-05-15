@@ -1311,11 +1311,11 @@ static void midi_in_menu (void) {
     GtkWidget *menu = gtk_menu_new ();
     GtkWidget *item = gtk_menu_item_new_with_label (_("Checking Pitches"));
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (midi_in_adjust), GDK_CONTROL_MASK);
+    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (midi_in_adjust), GINT_TO_POINTER(GDK_CONTROL_MASK));
 
     item = gtk_menu_item_new_with_label (_("Listening to Pitches"));
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (midi_in_adjust), GDK_SHIFT_MASK);
+    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (midi_in_adjust), GINT_TO_POINTER(GDK_SHIFT_MASK));
 
     item = gtk_menu_item_new_with_label (_("Appending/Editing Pitches"));
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);

@@ -1145,7 +1145,7 @@ parse_part (xmlNodePtr rootElem)
   return g_string_free (scripts[0], FALSE);
 }
 
-static gchar *
+static void
 parse_identification (xmlNodePtr rootElem, GString *script)
 {
   
