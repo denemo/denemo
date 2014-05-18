@@ -42,7 +42,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <papersize>a4</papersize>
     <fontsize>20</fontsize>
     <orientation>1</orientation>
-    <total-edit-time>320</total-edit-time>
+    <total-edit-time>0</total-edit-time>
     <score-directives>
       <directive>
         <tag>ScoreIndent</tag>
@@ -52,12 +52,11 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         <override>4</override>
       </directive>
     </score-directives>
-    <total-editing-time>320</total-editing-time>
   </lilycontrol>
   <movement-number>1</movement-number>
   <movement>
     <edit-info>
-      <staffno>3</staffno>
+      <staffno>4</staffno>
       <measureno>1</measureno>
       <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
@@ -121,7 +120,7 @@ instrument = ##f
             <directive>
               <tag>InstrumentName</tag>
               <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
-				(if choice (choice)))    " \transparent {"Unnamed" }}</postfix>
+                (if choice (choice)))    " \transparent {"Unnamed" }}</postfix>
               <display>Unnamed</display>
               <override>4</override>
             </directive>
@@ -423,7 +422,7 @@ Serif
             <directive>
               <tag>InstrumentName</tag>
               <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 2 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
-				(if choice (choice)))    " "" }</postfix>
+                (if choice (choice)))    " "" }</postfix>
               <override>4</override>
             </directive>
           </staff-directives>
@@ -513,12 +512,13 @@ Serif
             <directive>
               <tag>InstrumentName</tag>
               <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 3 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
-				(if choice (choice)))    " "" }</postfix>
+                (if choice (choice)))    " "" }</postfix>
               <override>4</override>
             </directive>
           </staff-directives>
         </voice-props>
         <measures>
+          <measure></measure>
           <measure>
             <chord show="true" id="id44">
               <duration base="quarter">
@@ -530,52 +530,19 @@ Serif
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id46">
-              <duration base="quarter">
-                <dots>1</dots>
-              </duration>
-              <notes>
-                <note id="id47">
-                  <middle-c-offset>4</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id48">
-              <duration base="quarter">
-                <dots>1</dots>
-              </duration>
-              <notes>
-                <note id="id49">
-                  <middle-c-offset>4</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-            <lily-directive tag="!" minpixels="10"> </lily-directive>
-          </measure>
-          <measure>
-            <chord show="true" id="id50">
-              <duration base="quarter">
-                <dots>1</dots>
-              </duration>
-              <notes>
-                <note id="id51">
-                  <middle-c-offset>4</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
             <clef name="bass" show="false"></clef>
-            <chord show="true" id="id52">
+            <chord show="true" id="id46">
               <duration base="quarter"></duration>
               <notes>
-                <note id="id53">
+                <note id="id47">
                   <middle-c-offset>-7</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id54">
+            <chord show="true" id="id48">
               <duration base="quarter"></duration>
               <notes>
-                <note id="id55">
+                <note id="id49">
                   <middle-c-offset>-6</middle-c-offset>
                 </note>
               </notes>
@@ -583,7 +550,7 @@ Serif
           </measure>
         </measures>
       </voice>
-      <voice id="id56">
+      <voice id="id50">
         <voice-info>
           <voice-name>unnamed</voice-name>
           <first-measure-number>1</first-measure-number>
@@ -616,7 +583,7 @@ Serif
             <directive>
               <tag>InstrumentName</tag>
               <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 4 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
-				(if choice (choice)))    " "" }</postfix>
+                (if choice (choice)))    " "" }</postfix>
               <override>4</override>
             </directive>
             <directive>
@@ -630,69 +597,44 @@ Serif
         </voice-props>
         <measures>
           <measure>
-            <stem-directive type="down">
-              <directives>
-                <directive>
-                  <tag>VoiceSetting</tag>
-                  <postfix>\voiceTwo</postfix>
-                  <graphic_name>
-v2
-Serif
-24
-1
-1</graphic_name>
-                  <override>1</override>
-                </directive>
-              </directives>
-            </stem-directive>
-            <chord show="true" id="id57">
+            <lily-directive tag="!" minpixels="10"> </lily-directive>
+            <chord show="true" id="id51">
               <duration base="quarter">
                 <dots>1</dots>
               </duration>
               <notes>
-                <note id="id58">
-                  <middle-c-offset>0</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id59">
-              <duration base="quarter">
-                <dots>1</dots>
-              </duration>
-              <notes>
-                <note id="id60">
+                <note id="id52">
                   <middle-c-offset>-1</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id61">
+            <chord show="true" id="id53">
               <duration base="quarter">
                 <dots>1</dots>
               </duration>
               <notes>
-                <note id="id62">
+                <note id="id54">
                   <middle-c-offset>-2</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="!" minpixels="10"> </lily-directive>
           </measure>
           <measure>
-            <chord show="true" id="id63">
+            <chord show="true" id="id55">
               <duration base="quarter">
                 <dots>1</dots>
               </duration>
               <notes>
-                <note id="id64">
+                <note id="id56">
                   <middle-c-offset>-3</middle-c-offset>
                 </note>
               </notes>
             </chord>
             <clef name="bass" show="true"></clef>
-            <rest show="false" id="id65">
+            <rest show="false" id="id57">
               <duration base="quarter"></duration>
             </rest>
-            <rest show="false" id="id66">
+            <rest show="false" id="id58">
               <duration base="quarter"></duration>
             </rest>
           </measure>
