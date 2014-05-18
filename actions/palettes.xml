@@ -16,7 +16,7 @@
     <button label="&lt;span  font='denemo 12' letter_spacing=&quot;-14000&quot;&gt;&#x1D15F;&lt;span rise=&quot;8000&quot;&gt;&#x1D15F;&lt;/span&gt;&lt;/span&gt;" _tooltip="Add a note to the current chord&#10;The cursor position determines which note to add" script="(d-AddNoteToChord)"/>
     <button label="(" _tooltip="Begin Slur from note/chord at cursor, or remove a Begin Slur" script="(d-ToggleBeginSlur)"/>
     <button label=")" _tooltip="End Slur at note/chord at cursor, or remove an End Slur" script="(d-ToggleEndSlur)"/>
-    <button label="&#x260A;" _tooltip="Tie from the note/chord at the cursor - will be ignored by the LilyPond typesetter if next note is not at the same pitch" script="(d-ToggleTie)"/>
+    <button label="&lt;span rise=&quot;4000&quot;&gt;&#x1D15F;&lt;/span&gt;&#x2B04;&lt;span rise=&quot;4000&quot;&gt;&#x1D15F;&lt;/span&gt;&#x2323;" _tooltip="Tie/Untie from the note/chord at the cursor - will be ignored by the LilyPond typesetter if next note is not at the same pitch" script="(d-ToggleTie)"/>
     <button label="&lt;i&gt;3&lt;/i&gt;" _tooltip="Alternates inserting start triplet and end triplet markers" script="(d-ToggleTripleting)"/>
     <button label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_style=&quot;italic&quot; font_weight=&quot;bold&quot;&gt;Allegro&lt;/span&gt;" _tooltip="Insert a tempo change at cursor" script="(d-MetronomeMark)"/>
     <button label="&lt;span font=&quot;times&quot; size=&quot;large&quot; font_style=&quot;italic&quot; font_weight=&quot;bold&quot;&gt;f p&lt;/span&gt;" _tooltip="Insert a Dynamic Marking at the cursor" script="(d-DynamicText)"/>
@@ -179,5 +179,11 @@
     <button label="&amp;lt;" _tooltip="Moves the marked MIDI note onset to the one before the current one." script="(d-PreviousNoteOnset)"/>
     <button label="&amp;gt;" _tooltip="Moves to the next MIDI note onset in the current recorded or imported MIDI track. Inserted durations will take their pitch from this note." script="(d-NextNoteOnset)"/>
     <button label="&#x2714;" _tooltip="Inserts the marked MIDI note from the current track, using the duration suggested. Use duration keys to insert the same note with a different duration." script="(d-InsertMarkedMidi)"/>
+  </palette>
+  <palette _name="Ties" row-wise="1" limit="1" dock="0" hidden="1">
+    <button label="&lt;span rise=&quot;4000&quot;&gt;&#x1D15F;&lt;/span&gt;&#x2B04;&lt;span rise=&quot;4000&quot;&gt;&#x1D15F;&lt;/span&gt;&#x2323;" _tooltip="Tie/Untie from the note/chord at the cursor - will be ignored by the LilyPond typesetter if next note is not at the same pitch" script="(d-ToggleTie)"/>
+    <button label="&#x2322;&#x2312;&#x23DD;" _tooltip="Gives a choice of modifications to make to the following tie." script="(d-TieShape)"/>
+    <button label="&#x2323;&lt;span rise=&quot;4000&quot;&gt;&#x1D15F;&lt;/span&gt;" _tooltip="The note at the cursor ends a tie that has begun elsewhere, usually in a first time bar. That is it is a repeat of the tie ending." script="(d-RepeatTie)"/>
+    <button label="&#x2323;" _tooltip="Ties/unties the note at the cursor. The following note should be the same pitch." script="(d-ToggleTie)"/>
   </palette>
 </Denemo>
