@@ -64,6 +64,7 @@ get_basename(gchar* input){
   gchar* basename = g_strndup(input, length);
   return basename;
 }
+
 /*******************************************************************************
  * SETUP AND TEARDOWN
  ******************************************************************************/
@@ -191,13 +192,17 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
   g_test_trap_assert_passed ();
 
   // Comparision
-  if(g_str_has_suffix (filename, ".denemo"))
+  if(g_str_has_suffix (filename, ".denemo")){
+    g_print("Comparing %s with %s\n", input, output);
     g_assert(compare_denemo_files(input, output));
+  }
   else{
     gchar* base_name = get_basename(input);
     gchar* compare_file = g_strconcat(base_name, ".denemo", NULL);
-    if(g_file_test(compare_file, G_FILE_TEST_EXISTS))
+    if(g_file_test(compare_file, G_FILE_TEST_EXISTS)){
+      g_print("Comparing %s with %s\n", compare_file, output);
       g_assert(compare_denemo_files(compare_file, output));
+    }
   }
   g_remove(output);
 }
@@ -337,6 +342,14 @@ main (int argc, char *argv[])
   GList* files = find_files_with_ext(example_dir, ".denemo");
   while(files){
     gchar* filename = g_build_filename(example_dir, files->data, NULL);
+    g_test_add ("/integration/open-and-save-complex-file", gchar*, filename, setup, test_open_save_complex_file, teardown);
+    files = g_list_next(files);
+  }
+
+  // Parses example dir for .denemo files
+  files = find_files_with_ext(data_dir, ".denemo");
+  while(files){
+    gchar* filename = g_build_filename(data_dir, files->data, NULL);
     g_test_add ("/integration/open-and-save-complex-file", gchar*, filename, setup, test_open_save_complex_file, teardown);
     files = g_list_next(files);
   }
