@@ -6549,6 +6549,12 @@ Use this to refine the positioning, but be aware that notes in other staffs will
         <_label>Ignore Measure Duration Error</_label>
         <_tooltip>Allow too few notes/rests in this measure. Only affects the Denemo display and error checking, the typesetting will place barlines according to the actual durations of notes as usual.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>StaffSpacer</action>
+        <menupath>/ObjectMenu/Directives/PrintLayout</menupath>
+        <_label>Staff Spacer</_label>
+        <_tooltip>Forces extra space between this staff and the adjacent one at this point in the score.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
