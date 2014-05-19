@@ -237,23 +237,24 @@
         )
     )
     ;here's the actual algorithm
+     (set! IgnoreDurationError #f)
     (while (d-PrevObjectInMeasure)) ;go to beginning of measure
     (set! Counter (+ Counter (GetNoteBeat)) );read the first note in to get started...NOTE: if GetNoteBeat= #f this will terminate execution.
     (LoopThroughBar)    ;then loop through the rest of the bar until counter equals or overshoots the measure size in TimeSig,
                     ; or the measure's done being processed
-        (disp "check Counter " Counter " and time sig " TimeSig "ok")
+       ; (disp "check Counter " Counter " and time sig " TimeSig "and " IgnoreDurationError " ok")
         ;;ticks have granularity of 1 so we cannot accept a 1 discrepancy as meaning anything once we have reached a certain number of ticks - how many I am not sure, but try 383, fails with septuplet, try 255
     (if (and (None?) (not Pad?))
         (set! Counter TimeSig))
     (if IgnoreDurationError
         (begin
-            (set! IgnoreDurationError #f)
+           
             (set! Counter TimeSig)))
     (let ((top (numerator Counter)) (bottom (denominator Counter)))
         ;(disp "We have top " top " bottom " bottom " div "  (/ (1+ top) bottom) " ok")
         (if  (and (> top 254) (equal? TimeSig (/ (1+ top) bottom)))
             (set! Counter (/ (1+ top) bottom))))
-(disp "Set Counter " Counter "\n")          
+;(disp "Set Counter " Counter "\n")          
           (if (< Counter TimeSig) ;if measure too small, (going back first)
             (if Pad?    ; and the user wants us to pad,
                 (begin
@@ -291,7 +292,7 @@
             )
             ;if it wasn't too small...
 
-            (if  (equal? Counter TimeSig) ; and if measure is exactly full now...
+            (if (and (not IgnoreDurationError)  (equal? Counter TimeSig)) ; and if measure is exactly full now... or we are counting it as
                 (if (NextBreakInMeasure) ;see if there's extra stuff that has duration,
                     (if MergeAndSplit?  ;if there IS and we're supposed to merge/split...
                         (begin
@@ -363,7 +364,7 @@
                         )                   
                     )
                     
-                    #f  ;just return false if they don't want to Merge/Split.
+                    IgnoreDurationError  ;just return false if they don't want to Merge/Split, unless it is ignored
                 )
             )
             
