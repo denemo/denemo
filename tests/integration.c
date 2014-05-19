@@ -8,8 +8,8 @@
 
 #define DENEMO "../src/denemo"
 #define EXAMPLE_DIR "examples"
-#define DATA_DIR "integration-data"
-#define TEMP_DIR "integration-tmp"
+#define DATA_DIR "fixtures"
+#define TEMP_DIR "tmp"
 
 static gchar* data_dir = NULL;
 static gchar* temp_dir = NULL;
@@ -63,6 +63,21 @@ get_basename(gchar* input){
   guint length = ext - input;
   gchar* basename = g_strndup(input, length);
   return basename;
+}
+
+static void
+g_test_print(const char *fmt, ...)
+{
+	va_list argp;
+	va_start(argp, fmt);
+#ifdef G_OS_WIN32
+  vprintf(fmt, argp);
+#else
+  gchar* str = g_strconcat("\e[7m", fmt, "\e[27m", NULL);
+	vprintf(str, argp);
+  g_free(str);
+#endif
+	va_end(argp);
 }
 
 /*******************************************************************************
@@ -171,7 +186,7 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
   gchar* filename = basename(input);
   const gchar* output_filename = g_strconcat(filename, ".denemo", NULL);
   const gchar* output = g_build_filename(temp_dir, output_filename, NULL);
-  g_print("Opening %s\nSaving at %s\n", input, output);
+  g_test_print("Opening %s\nSaving at %s\n", input, output);
 
   if (g_test_trap_fork (0, 0))
     {
@@ -181,7 +196,7 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
     }
   g_test_trap_assert_passed ();
 
-  g_print("Finding and reopening %s\n", output);
+  g_test_print("Finding and reopening %s\n", output);
   g_assert(g_file_test(output, G_FILE_TEST_EXISTS));
 
   if (g_test_trap_fork (0, 0))
@@ -193,14 +208,14 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
 
   // Comparision
   if(g_str_has_suffix (filename, ".denemo")){
-    g_print("Comparing %s with %s\n", input, output);
+    g_test_print("Comparing %s with %s\n", input, output);
     g_assert(compare_denemo_files(input, output));
   }
   else{
     gchar* base_name = get_basename(input);
     gchar* compare_file = g_strconcat(base_name, ".denemo", NULL);
     if(g_file_test(compare_file, G_FILE_TEST_EXISTS)){
-      g_print("Comparing %s with %s\n", compare_file, output);
+      g_test_print("Comparing %s with %s\n", compare_file, output);
       g_assert(compare_denemo_files(compare_file, output));
     }
   }
@@ -266,7 +281,7 @@ test_thumbnailer(gpointer fixture, gconstpointer data)
   gchar* scheme = g_strdup_printf( "(d-CreateThumbnail #f \"%s\")(d-Exit)", thumbnail, temp_dir);
   gchar* input = g_build_filename(data_dir, "blank.denemo", NULL);
   
-  g_printf("Running scheme: %s %s\n", scheme, input);
+  g_test_print("Running scheme: %s %s\n", scheme, input);
   if (g_test_trap_fork (0, 0))
     {
       execl(DENEMO, DENEMO, "-n", "-e", "-V", "-a", scheme, input, NULL);
@@ -289,7 +304,7 @@ test_regression_check(gpointer fixture, gconstpointer data)
   gchar* filename = basename(scheme_file);
   const gchar* output_filename = g_strconcat(filename, ".denemo", NULL);
   const gchar* output = g_build_filename(temp_dir, output_filename, NULL);
-  g_print("Opening %s\n", scheme_file);
+  g_test_print("Opening %s\n", scheme_file);
 
   if (g_test_trap_fork (0, 0))
     {

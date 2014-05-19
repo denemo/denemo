@@ -4,7 +4,7 @@ test_programs = \
     integration
 
 dist_test_data = \
-    integration-data
+    fixtures
 
 test_data = 
 
