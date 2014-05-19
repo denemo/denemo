@@ -313,6 +313,17 @@ test_regression_check(gpointer fixture, gconstpointer data)
  * MAIN
  ******************************************************************************/
 
+static gchar*
+parse_dir_and_run_complex_test(gchar* dir, const gchar* extension)
+{
+  GList* files = find_files_with_ext(dir, extension);
+  while(files){
+    gchar* filename = g_build_filename(dir, files->data, NULL);
+    g_test_add ("/integration/open-and-save-complex-file", gchar*, filename, setup, test_open_save_complex_file, teardown);
+    files = g_list_next(files);
+  }
+}
+
 int
 main (int argc, char *argv[])
 {
@@ -338,37 +349,10 @@ main (int argc, char *argv[])
   g_test_add ("/integration/scheme-log-error", void, NULL, setup, test_scheme_log_error, teardown);
   g_test_add ("/integration/thumbnailer", void, NULL, setup, test_thumbnailer, teardown);
 
-  // Parses example dir for .denemo files
-  GList* files = find_files_with_ext(example_dir, ".denemo");
-  while(files){
-    gchar* filename = g_build_filename(example_dir, files->data, NULL);
-    g_test_add ("/integration/open-and-save-complex-file", gchar*, filename, setup, test_open_save_complex_file, teardown);
-    files = g_list_next(files);
-  }
-
-  // Parses example dir for .denemo files
-  files = find_files_with_ext(data_dir, ".denemo");
-  while(files){
-    gchar* filename = g_build_filename(data_dir, files->data, NULL);
-    g_test_add ("/integration/open-and-save-complex-file", gchar*, filename, setup, test_open_save_complex_file, teardown);
-    files = g_list_next(files);
-  }
-
-  // Parses integration-data dir for .mxml files
-  files = find_files_with_ext(data_dir, ".mxml");
-  while(files){
-    gchar* filename = g_build_filename(data_dir, files->data, NULL);
-    g_test_add ("/integration/open-and-save-complex-file", gchar*, filename, setup, test_open_save_complex_file, teardown);
-    files = g_list_next(files);
-  }
-
-  // Parses integration-data dir for .scm files
-  files = find_files_with_ext(data_dir, ".scm");
-  while(files){
-    gchar* filename = g_build_filename(data_dir, files->data, NULL);
-    g_test_add ("/integration/regression-check", gchar*, filename, setup, test_regression_check, teardown);
-    files = g_list_next(files);
-  }
+  parse_dir_and_run_complex_test(example_dir, ".denemo");
+  parse_dir_and_run_complex_test(data_dir, ".denemo");
+  parse_dir_and_run_complex_test(data_dir, ".mxml");
+  parse_dir_and_run_complex_test(data_dir, ".scm");
 
   return g_test_run ();
 }
