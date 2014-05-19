@@ -1110,6 +1110,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/Articulations/AccentSelectionSwitch
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/AccentSelectionSwitcher.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ArpeggioSelectionSwitcher.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ArpeggioSelectionSwitcher.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ArticulationOutsideSlur.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ArticulationOutsideSlur.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/DownbowSelectionSwitcher.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/DownbowSelectionSwitcher.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/FermataSelectionSwitcher.scm
