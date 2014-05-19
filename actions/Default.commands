@@ -6555,6 +6555,12 @@ Use this to refine the positioning, but be aware that notes in other staffs will
         <_label>Staff Spacer</_label>
         <_tooltip>Forces extra space between this staff and the adjacent one at this point in the score.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ArticulationOutsideSlur</action>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <_label>Articulation Outside Slur (Off/On)</_label>
+        <_tooltip>The articulation(s) on this note will be placed outside the slur (furthest from the note). Repeat the command to return the slur to the outside.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
