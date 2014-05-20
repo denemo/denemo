@@ -2033,7 +2033,7 @@ implement_show_print_view (gboolean refresh_if_needed)
 #ifndef G_OS_WIN32  
   if (refresh_if_needed && (changecount != Denemo.project->changecount || Denemo.project->lilysync != Denemo.project->changecount))
     {
-      if (!initialize_typesetting ()) 
+      if (Denemo.prefs.manualtypeset && (!initialize_typesetting ()))
         {
         typeset_control (create_all_pdf);
         changecount = Denemo.project->changecount;
