@@ -6561,6 +6561,17 @@ Use this to refine the positioning, but be aware that notes in other staffs will
         <_label>Articulation Outside Slur (Off/On)</_label>
         <_tooltip>The articulation(s) on this note will be placed outside the slur (furthest from the note). Repeat the command to return the slur to the outside.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>MusicGlyph</action>
+        <after>CriticalComment</after>
+        <menupath>/ObjectMenu/Directives/Markings</menupath>
+        <_label>Music Glyph</_label>
+        <_tooltip>Allows placing any musical glyph which can then be dragged in the final typeset view for fine control over positioning.
+The complete list of glyphs is in the LilyPond documentation.
+Note! Do not place this directive at the end of a staff as it will not be typeset,
+place it before the last note and then right-click on it in the typeset (print) view
+to adjust its position if needed.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

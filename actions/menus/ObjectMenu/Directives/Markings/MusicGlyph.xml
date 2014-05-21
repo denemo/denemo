@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>CriticalComment</after>
+        <action>MusicGlyph</action>
+        <_label>Music Glyph</_label>
+        <_tooltip>Allows placing any musical glyph which can then be dragged in the final typeset view for fine control over positioning.
+The complete list of glyphs is in the LilyPond documentation.
+Note! Do not place this directive at the end of a staff as it will not be typeset,
+place it before the last note and then right-click on it in the typeset (print) view
+to adjust its position if needed.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

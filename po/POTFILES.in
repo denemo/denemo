@@ -673,6 +673,8 @@ actions/menus/ObjectMenu/Directives/Markings/FreeSegno.scm
 actions/menus/ObjectMenu/Directives/Markings/FreeSegno.xml
 actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm
 actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.xml
+actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm
+actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.xml
 actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm
 actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.xml
 actions/menus/ObjectMenu/Directives/Markings/Spanning/BeamingOff.scm
