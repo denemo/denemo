@@ -2727,7 +2727,29 @@ scheme_get_notes (SCM optional)
       return scm;
     }
 }
+SCM
+scheme_get_note_at_cursor (void)
+{
+  DenemoObject *curObj;
+  chord *thechord;
+  note *thenote;
+  GString *str = g_string_new ("");
+  SCM scm;
 
+  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+    return SCM_BOOL_F;
+      GList *g;
+      for (g = thechord->notes; g; g = g->next)
+        {
+          thenote = (note *) g->data;
+          if(thenote->mid_c_offset == Denemo.project->movement->cursor_y)
+            {
+              gchar *name = mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift);
+              return scm_from_locale_string (name);
+            }
+      }
+     return SCM_BOOL_F;   
+}
 SCM
 scheme_add_movement (SCM optional)
 {

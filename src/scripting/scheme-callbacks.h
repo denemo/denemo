@@ -99,6 +99,7 @@ SCM scheme_get_note (SCM);
 SCM scheme_get_note_from_top (SCM);
 SCM scheme_get_note_from_top_as_midi (SCM);
 SCM scheme_get_notes (SCM);
+SCM scheme_get_note_at_cursor (void);
 SCM scheme_get_dots (void);
 SCM scheme_get_note_base_duration (void);
 SCM scheme_get_note_duration (void);

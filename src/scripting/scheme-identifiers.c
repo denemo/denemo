@@ -152,6 +152,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the highest, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteFromTop", scheme_get_note_from_top);
   install_scm_function (0, "Takes optional integer parameter n = 1..., returns MIDI key for the nth note of the chord at the cursor counting from the highest, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteFromTopAsMidi", scheme_get_note_from_top_as_midi);
   install_scm_function (0, "Returns a space separated string of LilyPond notes for the chord at the cursor position or #f if none", DENEMO_SCHEME_PREFIX "GetNotes", scheme_get_notes);
+  install_scm_function (0, "Returns LilyPond note at the cursor position or #f if none", DENEMO_SCHEME_PREFIX "GetNoteAtCursor", scheme_get_note_at_cursor);
   install_scm_function (0, "Returns the number of dots on the note at the cursor, or #f if no note", DENEMO_SCHEME_PREFIX "GetDots", scheme_get_dots);
   install_scm_function (0, "Returns the base duration of the note at the cursor number=0, 1, 2 for whole half quarter note etc, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteBaseDuration", scheme_get_note_base_duration);
   install_scm_function (0, "Returns the duration in LilyPond syntax of the note at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteDuration", scheme_get_note_duration);
