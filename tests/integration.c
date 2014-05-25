@@ -1,15 +1,11 @@
 #include <glib.h>
 #include <unistd.h>
 #include <config.h>
+#include "common.h"
 
 /* Integration tests are those which launch the program in different 
  * environments, and with different parameters.
  */
-
-#define DENEMO "../src/denemo"
-#define EXAMPLE_DIR "examples"
-#define DATA_DIR "fixtures"
-#define TEMP_DIR "tmp"
 
 static gchar* data_dir = NULL;
 static gchar* temp_dir = NULL;
@@ -65,21 +61,6 @@ get_basename(gchar* input){
   return basename;
 }
 
-static void
-g_test_print(const char *fmt, ...)
-{
-	va_list argp;
-	va_start(argp, fmt);
-#ifdef G_OS_WIN32
-  vprintf(fmt, argp);
-#else
-  gchar* str = g_strconcat("\e[7m", fmt, "\e[27m", NULL);
-	vprintf(str, argp);
-  g_free(str);
-#endif
-	va_end(argp);
-}
-
 /*******************************************************************************
  * SETUP AND TEARDOWN
  ******************************************************************************/
@@ -112,20 +93,6 @@ teardown(gpointer fixture, gconstpointer data)
 /*******************************************************************************
  * TEST FUNCTIONS
  ******************************************************************************/
-
-/** test_run_and_quit:
- * This is the simpliest test. It just launches denemo and quit.
- */
-static void
-test_run_and_quit (gpointer fixture, gconstpointer data)
-{
-  if (g_test_trap_fork (0, 0))
-    {
-      execl(DENEMO, DENEMO, "-n", "-e", "-a", "(d-Quit)", NULL);
-      g_warn_if_reached ();
-    }
-  g_test_trap_assert_passed ();
-}
 
 /** test_open_blank_file
  * Opens a blank file and quits.
@@ -222,77 +189,6 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
   g_remove(output);
 }
 
-/** test_invalid_scheme
- * Tests the --fatal-scheme-errors program argument.
- */
-static void
-test_invalid_scheme(gpointer fixture, gconstpointer data)
-{
-  if (g_test_trap_fork (0, 0))
-    {
-      execl(DENEMO, DENEMO, "-n", "--fatal-scheme-errors", "-a", "(d-InvalidSchemeFunction)(d-Quit)", NULL);
-      g_warn_if_reached ();
-    }
-  g_test_trap_assert_failed ();
-}
-
-/** test_scheme_log
- * Tests (d-LogError) scheme function
- */
-static void
-test_scheme_log(gpointer fixture, gconstpointer data)
-{
-  if (g_test_trap_fork (0, 0))
-    {
-      execl(DENEMO, DENEMO, "-n", "-e", "--verbose", "-a",
-            "(d-Debug \"This is debug\")"
-            "(d-Info \"This is info\")"
-            "(d-Message \"This is message\")"
-            "(d-Warning \"This is warning\")"
-            "(d-Critical \"This is critical\")"
-            "(d-Quit)",
-            NULL);
-      g_warn_if_reached ();
-    }
-  g_test_trap_assert_passed ();
-}
-
-/** test_scheme_log_error
- * Tests (d-LogError) scheme function
- */
-static void
-test_scheme_log_error(gpointer fixture, gconstpointer data)
-{
-  if (g_test_trap_fork (0, 0))
-    {
-      execl(DENEMO, DENEMO, "-n", "--fatal-scheme-errors", "-a", "(d-Error \"This error is fatal\")(d-Quit)", NULL);
-      g_warn_if_reached ();
-    }
-  g_test_trap_assert_failed ();
-}
-
-/** test_thumbnailer
- * Tries to create a thumbnail from a file and check that its exists
- */
-static void
-test_thumbnailer(gpointer fixture, gconstpointer data)
-{
-  gchar* thumbnail = g_build_filename(temp_dir, "thumbnail.png", NULL);
-  gchar* scheme = g_strdup_printf( "(d-CreateThumbnail #f \"%s\")(d-Exit)", thumbnail, temp_dir);
-  gchar* input = g_build_filename(data_dir, "blank.denemo", NULL);
-  
-  g_test_print("Running scheme: %s %s\n", scheme, input);
-  if (g_test_trap_fork (0, 0))
-    {
-      execl(DENEMO, DENEMO, "-n", "-e", "-V", "-a", scheme, input, NULL);
-      g_warn_if_reached ();
-    }
-
-  g_test_trap_assert_passed ();
-  g_assert(g_file_test(thumbnail, G_FILE_TEST_EXISTS));
-  g_assert(g_remove(thumbnail) >= 0);
-}
-
 /** test_regression_check
  * Opens a user written scm file to check some features that have been failing
  * by the past.
@@ -356,13 +252,8 @@ main (int argc, char *argv[])
   if(!example_dir)
     example_dir = g_build_filename(PACKAGE_SOURCE_DIR, EXAMPLE_DIR, NULL);
   
-  g_test_add ("/integration/run-and-quit", void, NULL, setup, test_run_and_quit, teardown);
   g_test_add ("/integration/open-blank-file", void, NULL, setup, test_open_blank_file, teardown);
   g_test_add ("/integration/open-and-save-blank-file", void, NULL, setup, test_open_save_blank_file, teardown);
-  //g_test_add ("/integration/invalid-scheme", void, NULL, setup, test_invalid_scheme, teardown);
-  g_test_add ("/integration/scheme-log", void, NULL, setup, test_scheme_log, teardown);
-  g_test_add ("/integration/scheme-log-error", void, NULL, setup, test_scheme_log_error, teardown);
-  g_test_add ("/integration/thumbnailer", void, NULL, setup, test_thumbnailer, teardown);
 
   parse_dir_and_run_complex_test(example_dir, ".denemo");
   parse_dir_and_run_complex_test(data_dir, ".denemo");
