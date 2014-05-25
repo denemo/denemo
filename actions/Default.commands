@@ -2900,14 +2900,14 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>ChangeEnharmonicUp</action>
-        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <menupath>/ObjectMenu/ChordMenu</menupath>
         <_label>Change Enharmonic +</_label>
         <_tooltip>Shift through enharmonic variants of the same sounding note in the direction of higher diatonic base notes.</_tooltip>
       </row>
       <row type="scheme">
         <action>ChangeEnharmonicDown</action>
         <after>ChangeEnharmonicUp</after>
-        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <menupath>/ObjectMenu/ChordMenu</menupath>
         <_label>Change Enharmonic -</_label>
         <_tooltip>Switch through enharmonic variants of the same sounding note in the direction of lower diatonic base notes</_tooltip>
       </row>
@@ -6571,6 +6571,19 @@ The complete list of glyphs is in the LilyPond documentation.
 Note! Do not place this directive at the end of a staff as it will not be typeset,
 place it before the last note and then right-click on it in the typeset (print) view
 to adjust its position if needed.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ChangeNoteEnharmonicUp</action>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <_label>Change Note Enharmonic +</_label>
+        <_tooltip>Changes the note at the cursor to its enharmonic equivalent one step higher. Use for individual notes in chords.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ChangeNoteEnharmonicDown</action>
+        <after>ChangeNoteEnharmonicUp</after>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <_label>Change Note Enharmonic -</_label>
+        <_tooltip>Changes the note at the cursor to its enharmonic equivalent one step lower. Use for individual notes in chords.</_tooltip>
       </row>
     </map>
   </merge>
