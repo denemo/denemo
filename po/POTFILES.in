@@ -602,6 +602,10 @@ actions/menus/ObjectMenu/ChordMenu/AddBelowTop/AddHighestDownPerfect4.scm
 actions/menus/ObjectMenu/ChordMenu/AddBelowTop/AddHighestDownPerfect4.xml
 actions/menus/ObjectMenu/ChordMenu/AddBelowTop/AddHighestDownPerfect5.scm
 actions/menus/ObjectMenu/ChordMenu/AddBelowTop/AddHighestDownPerfect5.xml
+actions/menus/ObjectMenu/ChordMenu/ChangeEnharmonicDown.scm
+actions/menus/ObjectMenu/ChordMenu/ChangeEnharmonicDown.xml
+actions/menus/ObjectMenu/ChordMenu/ChangeEnharmonicUp.scm
+actions/menus/ObjectMenu/ChordMenu/ChangeEnharmonicUp.xml
 actions/menus/ObjectMenu/ChordMenu/ChangePrintDuration/ChangePrintDuration0.scm
 actions/menus/ObjectMenu/ChordMenu/ChangePrintDuration/ChangePrintDuration0.xml
 actions/menus/ObjectMenu/ChordMenu/ChangePrintDuration/ChangePrintDuration1.scm
@@ -1062,10 +1066,10 @@ actions/menus/ObjectMenu/NotesRests/EditNote/AddDotSelectionSwitcher.scm
 actions/menus/ObjectMenu/NotesRests/EditNote/AddDotSelectionSwitcher.xml
 actions/menus/ObjectMenu/NotesRests/EditNote/CautionaryAccidental.scm
 actions/menus/ObjectMenu/NotesRests/EditNote/CautionaryAccidental.xml
-actions/menus/ObjectMenu/NotesRests/EditNote/ChangeEnharmonicDown.scm
-actions/menus/ObjectMenu/NotesRests/EditNote/ChangeEnharmonicDown.xml
-actions/menus/ObjectMenu/NotesRests/EditNote/ChangeEnharmonicUp.scm
-actions/menus/ObjectMenu/NotesRests/EditNote/ChangeEnharmonicUp.xml
+actions/menus/ObjectMenu/NotesRests/EditNote/ChangeNoteEnharmonicDown.scm
+actions/menus/ObjectMenu/NotesRests/EditNote/ChangeNoteEnharmonicDown.xml
+actions/menus/ObjectMenu/NotesRests/EditNote/ChangeNoteEnharmonicUp.scm
+actions/menus/ObjectMenu/NotesRests/EditNote/ChangeNoteEnharmonicUp.xml
 actions/menus/ObjectMenu/NotesRests/EditNote/Ficta.scm
 actions/menus/ObjectMenu/NotesRests/EditNote/Ficta.xml
 actions/menus/ObjectMenu/NotesRests/EditNote/FlattenNote.scm
