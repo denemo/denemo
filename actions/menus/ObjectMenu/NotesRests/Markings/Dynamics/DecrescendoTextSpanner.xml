@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>DecrescendoTextSpanner</action>
+        <after>Dim</after>
+        <_label>Diminuendo Text Spanner</_label>
+        <_tooltip>Prints text to start or continue a diminuendo.
+Use for dim. poco a poco, for example. Terminate with End Diminuendo marking.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

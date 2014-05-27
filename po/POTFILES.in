@@ -1198,6 +1198,14 @@ actions/menus/ObjectMenu/NotesRests/Markings/Articulations/UpBowSelectionSwitche
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/UpBowSelectionSwitcher.xml
 actions/menus/ObjectMenu/NotesRests/Markings/AttachedText.scm
 actions/menus/ObjectMenu/NotesRests/Markings/AttachedText.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.xml
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.scm
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.xml
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.scm
@@ -1287,6 +1295,10 @@ actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ParenthesizeChord.scm
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ParenthesizeChord.xml
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ParenthesizeNote.scm
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ParenthesizeNote.xml
+actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm
+actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.xml
+actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStop.scm
+actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStop.xml
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/AllegroAssai.scm
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/AllegroAssai.xml
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Allegro.scm

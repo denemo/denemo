@@ -6585,6 +6585,50 @@ to adjust its position if needed.</_tooltip>
         <_label>Change Note Enharmonic -</_label>
         <_tooltip>Changes the note at the cursor to its enharmonic equivalent one step lower. Use for individual notes in chords.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>Cresc</action>
+        <after>ToggleEndDiminuendo</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
+        <_label>Cresc (Off/On)</_label>
+        <_tooltip>Starts textual cresc. (or deletes one already present at cursor). Terminate with End Crescendo or with a dynamic.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>Dim</action>
+        <after>Cresc</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
+        <_label>Dim (Off/On)</_label>
+        <_tooltip>Starts a textual diminuendo. Terminate with End Diminuendo or a dynamic.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>CrescendoTextSpanner</action>
+        <after>Cresc</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
+        <_label>Crescendo Text Spanner</_label>
+        <_tooltip>Prints text to start or continue a crescendo. Use for cresc. poco a poco, for example.
+Terminate with End Crescendo marking.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>DecrescendoTextSpanner</action>
+        <after>Dim</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
+        <_label>Diminuendo Text Spanner</_label>
+        <_tooltip>Prints text to start or continue a diminuendo.
+Use for dim. poco a poco, for example. Terminate with End Diminuendo marking.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>TextSpanStart</action>
+        <after>ToggleCoda</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/TextMarks/Spanning</menupath>
+        <_label>Text Span Start</_label>
+        <_tooltip>Starts text which spans several notes, e.g. rallentando poco a poco. Terminate with Stop Text Span command.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>TextSpanStop</action>
+        <after>TextSpanStart</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/TextMarks/Spanning</menupath>
+        <_label>Text Span Stop</_label>
+        <_tooltip>Stops the spanning text started earlier.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

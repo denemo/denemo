@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>Dim</action>
+        <after>Cresc</after>
+        <_label>Dim (Off/On)</_label>
+        <_tooltip>Starts a textual diminuendo. Terminate with End Diminuendo or a dynamic.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
