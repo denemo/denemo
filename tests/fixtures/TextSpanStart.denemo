@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<score xmlns="http://denemo.org/xmlns/Denemo" version="7">
+  <scheme>(d-DeleteStaff)
+(d-C)
+(d-D)
+(d-E)
+(d-F)
+(d-G)
+(d-A)
+(d-B)
+(d-C)
+(d-MoveToMeasureLeft)
+(d-CrescendoTextSpanner "cresc.")
+(d-MoveCursorRight)
+(d-MoveCursorRight)
+(d-MoveCursorRight)
+(d-MoveCursorRight)
+(d-MoveCursorRight)
+(d-ToggleEndCrescendo)
+(d-MoveCursorLeft)
+(d-MoveCursorLeft)
+(d-MoveCursorLeft)
+(d-TextSpanStart "rall.")
+(d-MoveCursorRight)
+(d-MoveCursorRight)
+(d-MoveCursorRight)
+(d-MoveCursorRight)
+(d-MoveCursorRight)
+(d-TextSpanStop)
+</scheme>
+  <scoreheader-directives>
+    <directive>
+      <tag>ScoreTitle</tag>
+      <postfix>title =  \markup { \with-url #'"scheme:(d-ScoreTitle)"  "Click Title"}
+
+</postfix>
+      <display>Click Title</display>
+      <data>Click Title</data>
+      <override>36</override>
+    </directive>
+  </scoreheader-directives>
+  <paper-directives>
+    <directive>
+      <tag>PrintAllHeaders</tag>
+      <postfix>
+print-all-headers = ##t
+</postfix>
+    </directive>
+    <directive>
+      <tag>LimitInterSystemSpace</tag>
+      <postfix>
+page-limit-inter-system-space = ##t
+page-limit-inter-system-space-factor = 1.2</postfix>
+    </directive>
+  </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
+  <lilycontrol>
+    <papersize>a4</papersize>
+    <fontsize>20</fontsize>
+    <orientation>1</orientation>
+    <total-edit-time>0</total-edit-time>
+    <score-directives>
+      <directive>
+        <tag>ScoreIndent</tag>
+        <prefix>\layout {indent = 14.0}
+</prefix>
+        <display>indent=14.0</display>
+        <override>4</override>
+      </directive>
+    </score-directives>
+  </lilycontrol>
+  <movement-number>1</movement-number>
+  <movement>
+    <edit-info>
+      <staffno>1</staffno>
+      <measureno>2</measureno>
+      <cursorposition>2</cursorposition>
+      <tonalcenter>0</tonalcenter>
+      <zoom>100</zoom>
+      <system-height>100</system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
+    </edit-info>
+    <header-directives>
+      <directive>
+        <tag>SuppressTitleRepeats</tag>
+        <postfix>title = ##f
+instrument = ##f
+</postfix>
+      </directive>
+    </header-directives>
+    <score-info>
+      <tempo>
+        <duration>
+          <numerator>1</numerator>
+          <denominator>4</denominator>
+        </duration>
+        <bpm>120</bpm>
+      </tempo>
+    </score-info>
+    <staves>
+      <staff id="id0"></staff>
+    </staves>
+    <voices>
+      <voice id="id1">
+        <voice-info>
+          <voice-name>Unnamed</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
+        <measures>
+          <measure>
+            <chord show="true" id="id2">
+              <duration base="quarter"></duration>
+              <directives>
+                <directive>
+                  <tag>CrescendoTextSpanner</tag>
+                  <prefix>\set crescendoText = \markup {\italic { cresc.}}\set crescendoSpanner = #'text </prefix>
+                  <postfix>\&lt;</postfix>
+                  <display>cresc.</display>
+                  <override>16</override>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id3">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id4">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id5">
+                  <middle-c-offset>1</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id6">
+              <duration base="quarter"></duration>
+              <directives>
+                <directive>
+                  <tag>TextSpanStart</tag>
+                  <prefix>\override TextSpanner.bound-details.left.text = "rall."  </prefix>
+                  <postfix>\startTextSpan</postfix>
+                  <display>rall.</display>
+                  <override>16</override>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id7">
+                  <middle-c-offset>2</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id8">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id9">
+                  <middle-c-offset>3</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+          </measure>
+          <measure>
+            <chord show="true" id="id10">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id11">
+                  <middle-c-offset>4</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id12">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id13">
+                  <middle-c-offset>5</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id14">
+              <duration base="quarter"></duration>
+              <directives>
+                <directive>
+                  <tag>TextSpanStop</tag>
+                  <postfix>\stopTextSpan</postfix>
+                  <display>...|</display>
+                  <override>16</override>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id15">
+                  <middle-c-offset>6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id16">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id17">
+                  <middle-c-offset>7</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+          </measure>
+        </measures>
+      </voice>
+    </voices>
+  </movement>
+</score>
