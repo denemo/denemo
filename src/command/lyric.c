@@ -273,7 +273,48 @@ button_released_cb (GtkWidget *textview)
   synchronize_cursor(textview);
   return FALSE;
 }
+static void
+insert_stanza_number (void)
+{
+  DenemoProject *project = Denemo.project;
+  DenemoMovement *movement = project->movement;
+    if (movement->currentstaff)
+      {
+        DenemoStaff *staff = movement->currentstaff->data;
+        GtkTextView* verse_view = verse_get_current_view (staff);
+        //gchar *text = g_strconcat"\\set stanza = #\"1\"\n";
+        GtkTextIter iter;
+        gchar *text = string_dialog_entry (Denemo.project, _("Stanza Number"), _("Give text to appear before lyrics"), _("1. "));
+        if(text)
+        {
+            gchar *stanza = g_strdup_printf("\\set stanza = #\"%s\"\n", text);
+            g_free(text);
+            GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (verse_view);
+            GtkTextMark *cursor = gtk_text_buffer_get_insert (textbuffer);
+            gtk_text_buffer_get_iter_at_mark (textbuffer, &iter, cursor);
+           // gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, 0);
+            gtk_text_buffer_insert (textbuffer, &iter, stanza, -1);
+            g_free(stanza);
+        }
+    }
+}
+static void
+prepend_menu_item (GtkMenuShell * menu, gchar * text, gpointer callback, gchar *tooltip)
+{
+  GtkWidget *item;
+  item = gtk_menu_item_new_with_label (text);
+  gtk_widget_set_tooltip_text (item, tooltip);
+  g_signal_connect (item, "activate", G_CALLBACK (callback), NULL);
+  gtk_menu_shell_prepend (menu, GTK_WIDGET (item));
+  gtk_widget_show (GTK_WIDGET (item));
+}
 
+static gboolean
+populate_called (G_GNUC_UNUSED GtkWidget * view, GtkMenuShell * menu)
+{
+  prepend_menu_item (menu, _("Insert Stanza Number"), (gpointer) insert_stanza_number, _("Insert a stanza number using the LilyPond syntax"));
+  return FALSE;
+}
 guint
 add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
 {
@@ -317,8 +358,9 @@ add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
   g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (verse_view)), "changed", G_CALLBACK (lyric_changed_cb), NULL);
   g_signal_connect (G_OBJECT(verse_view), "key-release-event",  G_CALLBACK (text_inserted_cb), NULL);
   g_signal_connect (G_OBJECT(verse_view), "button-release-event",  G_CALLBACK (button_released_cb), NULL);
-  GdkRGBA grayed = {0.8, 0.8, 0.8, 1.0};
-  GdkRGBA white = {1, 1, 1, 1.0};
+  g_signal_connect_after (G_OBJECT (verse_view), "populate-popup", G_CALLBACK (populate_called), NULL);
+  GdkRGBA grayed = {0.5, 0.5, 0.5, 1.0};
+  GdkRGBA white = {0.7, 0.7, 0.7, 1.0};
   gtk_widget_override_background_color (verse_view, GTK_STATE_FLAG_FOCUSED, &white);
   gtk_widget_override_background_color (verse_view, GTK_STATE_FLAG_NORMAL, &grayed);
   return pos;
