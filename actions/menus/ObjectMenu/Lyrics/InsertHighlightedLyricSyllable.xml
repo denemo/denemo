@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>InsertHighlightedLyricSyllable</action>
+        <after>EditLyricAtCursor</after>
+        <_label>Insert Highlighted Lyric</_label>
+        <_tooltip>Inserts a syllable which can be bold and/or italic.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
