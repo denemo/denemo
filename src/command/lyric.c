@@ -13,7 +13,7 @@
 
 static GtkWidget *DummyVerse;   /* a non-existent verse */
 
-GtkTextView*
+GtkWidget*
 verse_get_current_view(DenemoStaff* staff){
   if(!staff)
     return NULL;
@@ -215,16 +215,16 @@ gboolean synchronize_lyric_cursor(void)
 {
   DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data; 
   gint count = syllable_count() + 1;
-  GtkTextView* verse_view = verse_get_current_view(thestaff);
+  GtkTextView* verse_view = (GtkTextView*)verse_get_current_view(thestaff);
   if (verse_view)
     {
-      gchar *text = get_text_from_view (verse_view);
+      gchar *text = get_text_from_view (GTK_WIDGET(verse_view));
       gint character_count = get_character_count_at_syllable (text, count);
       GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (verse_view); 
       GtkTextIter where; 
       gtk_text_buffer_get_iter_at_offset (textbuffer, &where, character_count);
       gtk_text_buffer_place_cursor (textbuffer, &where);
-      gtk_widget_grab_focus (verse_view);
+      gtk_widget_grab_focus (GTK_WIDGET(verse_view));
       gtk_text_view_scroll_mark_onscreen (verse_view, gtk_text_buffer_get_insert(textbuffer));
       return TRUE;
     }   
@@ -273,27 +273,39 @@ button_released_cb (GtkWidget *textview)
   synchronize_cursor(textview);
   return FALSE;
 }
+//Insert the text at the current insertion point of the current verse
+// return FALSE if no verse
+gboolean insert_text_in_verse (gchar *text)
+{
+    DenemoProject *project = Denemo.project;
+    DenemoMovement *movement = project->movement;
+    DenemoStaff *staff = movement->currentstaff->data;
+    GtkTextView* verse_view = (GtkTextView*)verse_get_current_view (staff);
+    GtkTextIter iter;
+       if(verse_view)
+       {
+        GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (verse_view);
+        GtkTextMark *cursor = gtk_text_buffer_get_insert (textbuffer);
+        gtk_text_buffer_get_iter_at_mark (textbuffer, &iter, cursor);
+        gtk_text_buffer_insert (textbuffer, &iter, text, -1);   
+        return TRUE;
+        }
+        return FALSE;
+}
+
 static void
 insert_stanza_number (void)
 {
-  DenemoProject *project = Denemo.project;
-  DenemoMovement *movement = project->movement;
+    DenemoProject *project = Denemo.project;
+    DenemoMovement *movement = project->movement;
     if (movement->currentstaff)
       {
-        DenemoStaff *staff = movement->currentstaff->data;
-        GtkTextView* verse_view = verse_get_current_view (staff);
-        //gchar *text = g_strconcat"\\set stanza = #\"1\"\n";
-        GtkTextIter iter;
         gchar *text = string_dialog_entry (Denemo.project, _("Stanza Number"), _("Give text to appear before lyrics"), _("1. "));
         if(text)
         {
             gchar *stanza = g_strdup_printf("\\set stanza = #\"%s\"\n", text);
             g_free(text);
-            GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (verse_view);
-            GtkTextMark *cursor = gtk_text_buffer_get_insert (textbuffer);
-            gtk_text_buffer_get_iter_at_mark (textbuffer, &iter, cursor);
-           // gtk_text_buffer_get_iter_at_offset (textbuffer, &iter, 0);
-            gtk_text_buffer_insert (textbuffer, &iter, stanza, -1);
+            (void)insert_text_in_verse (stanza);
             g_free(stanza);
         }
     }

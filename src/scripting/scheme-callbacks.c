@@ -1932,6 +1932,17 @@ scheme_synchronize_lyric_cursor (void)
     
 }
 SCM
+scheme_insert_text_in_verse (SCM text)
+{
+if (scm_is_string (text))
+    {
+    char *thetext;
+    thetext = scm_to_locale_string (text);
+    return SCM_BOOL(insert_text_in_verse(thetext));
+    }
+return SCM_BOOL_F;
+}
+SCM
 scheme_put_verse (SCM verse)
 {
   DenemoProject *gui = Denemo.project;

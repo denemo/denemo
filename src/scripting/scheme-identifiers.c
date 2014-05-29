@@ -1144,6 +1144,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Sets the newbie status to the passed value", DENEMO_SCHEME_PREFIX "SetNewbie", scheme_set_newbie);
   install_scm_function (0, "Gets the current verse of the current staff or #f if none, with an integer parameter, gets the nth verse", DENEMO_SCHEME_PREFIX "GetVerse", scheme_get_verse);
   install_scm_function (0, "Moves the lyric cursor to match the current Denemo Cursor position, switching the keyboard input to the lyrics pane", DENEMO_SCHEME_PREFIX "SynchronizeLyricCursor", scheme_synchronize_lyric_cursor);
+  install_scm_function (1, "Inserts passed text at the lyric cursor in the lyrics pane, returns #f if no verse at cursor", DENEMO_SCHEME_PREFIX "InsertTextInVerse", scheme_insert_text_in_verse);
   install_scm_function (0, "Puts the passed string as the current verse of the current staff", DENEMO_SCHEME_PREFIX "PutVerse", scheme_put_verse);
   install_scm_function (0, "Appends the passed string to the current verse of the current staff", DENEMO_SCHEME_PREFIX "AppendToVerse", scheme_append_to_verse);
 
