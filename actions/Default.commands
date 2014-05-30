@@ -6650,6 +6650,13 @@ Use for dim. poco a poco, for example. Terminate with End Diminuendo marking.</_
         <_label>Melismata</_label>
         <_tooltip>Inserts a double hyphen in the lyrics at the cursor position. If the syllables separated by this extend over many notes hyphens will be typeset to continue the syllable (melismata).</_tooltip>
       </row>
+      <row type="scheme">
+        <action>LyricVerseDynamic</action>
+        <after>InsertMelismata</after>
+        <menupath>/ObjectMenu/Lyrics</menupath>
+        <_label>Dynamic</_label>
+        <_tooltip>Inserts a dynamic marking in the current verse at the insertion point in the lyrics pane. Use this to indicate dynamics which change from one verse to another.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

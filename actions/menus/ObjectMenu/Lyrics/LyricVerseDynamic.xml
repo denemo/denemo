@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>LyricVerseDynamic</action>
+        <after>InsertMelismata</after>
+        <_label>Dynamic</_label>
+        <_tooltip>Inserts a dynamic marking in the current verse at the insertion point in the lyrics pane. Use this to indicate dynamics which change from one verse to another.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

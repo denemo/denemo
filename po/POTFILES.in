@@ -836,6 +836,8 @@ actions/menus/ObjectMenu/Lyrics/InsertMelismata.scm
 actions/menus/ObjectMenu/Lyrics/InsertMelismata.xml
 actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm
 actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.xml
+actions/menus/ObjectMenu/Lyrics/LyricVerseDynamic.scm
+actions/menus/ObjectMenu/Lyrics/LyricVerseDynamic.xml
 actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm
 actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.xml
 actions/menus/ObjectMenu/MeasureMenu/AddDuplicateMeasure.scm
