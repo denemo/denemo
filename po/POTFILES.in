@@ -832,6 +832,8 @@ actions/menus/ObjectMenu/Lyrics/EditLyricAtCursor.scm
 actions/menus/ObjectMenu/Lyrics/EditLyricAtCursor.xml
 actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm
 actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.xml
+actions/menus/ObjectMenu/Lyrics/InsertMelismata.scm
+actions/menus/ObjectMenu/Lyrics/InsertMelismata.xml
 actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm
 actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.xml
 actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm

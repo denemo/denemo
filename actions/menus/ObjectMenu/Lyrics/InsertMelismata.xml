@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>InsertMelismata</action>
+        <after>InsertStanzaNumber</after>
+        <_label>Melismata</_label>
+        <_tooltip>Inserts a double hyphen in the lyrics at the cursor position. If the syllables separated by this extend over many notes hyphens will be typeset to continue the syllable (melismata).</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
