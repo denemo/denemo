@@ -6644,11 +6644,13 @@ Use for dim. poco a poco, for example. Terminate with End Diminuendo marking.</_
         <_tooltip>Inserts a stanza number (or other text that is not part of the lyrics) in the current verse at the cursor position.</_tooltip>
       </row>
       <row type="scheme">
-        <action>InsertMelismata</action>
+        <action>InsertMelisma</action>
         <after>InsertStanzaNumber</after>
         <menupath>/ObjectMenu/Lyrics</menupath>
         <_label>Melismata</_label>
-        <_tooltip>Inserts a double hyphen in the lyrics at the cursor position. If the syllables separated by this extend over many notes hyphens will be typeset to continue the syllable (melismata).</_tooltip>
+                <_tooltip>Inserts a double hyphen or double underscore in the lyrics at the cursor position. 
+Use double hyphen between syllables and double undescore between words which are sung over many notes (a melisma). 
+Hyphens/extender lines will be typeset to continue the syllable/word under the notes.</_tooltip>
       </row>
       <row type="scheme">
         <action>LyricVerseDynamic</action>
