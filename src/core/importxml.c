@@ -1155,6 +1155,32 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoMovement * si, gint current
             chordObj->basic_durinticks = getXMLIntChild (childElem);
             ((chord *) chordObj->object)->baseduration = -chordObj->basic_durinticks;
           }
+          
+         else if (ELEM_NAME_EQ (childElem, "slur-begin"))
+          {         
+           ((chord *) chordObj->object)->slur_begin_p = TRUE;
+          }
+        else if (ELEM_NAME_EQ (childElem, "slur-end"))
+          {         
+           ((chord *) chordObj->object)->slur_end_p = TRUE;
+          }         
+         else if (ELEM_NAME_EQ (childElem, "cresc-begin"))
+          {         
+           ((chord *) chordObj->object)->crescendo_begin_p = TRUE;
+          }
+        else if (ELEM_NAME_EQ (childElem, "cresc-end"))
+          {         
+           ((chord *) chordObj->object)->crescendo_end_p = TRUE;
+          }  
+         else if (ELEM_NAME_EQ (childElem, "dim-begin"))
+          {         
+           ((chord *) chordObj->object)->diminuendo_begin_p = TRUE;
+          }
+        else if (ELEM_NAME_EQ (childElem, "dim-end"))
+          {         
+           ((chord *) chordObj->object)->diminuendo_end_p = TRUE;
+          }  
+
         else if (ELEM_NAME_EQ (childElem, "dynamic"))
           {
             parseDynamic (childElem, chordObj);

@@ -710,9 +710,7 @@ exportXML (gchar * thefilename, DenemoProject * gui)
   DenemoObject *curObj;
   GList *curNoteNode;
   note *curNote;
-  GList *slurElemStack;
-  GList *crescElemStack;
-  GList *diminElemStack;
+
   //gint numerator, denominator;
   gchar *durationType;
   static gchar *version_string;
@@ -866,9 +864,6 @@ exportXML (gchar * thefilename, DenemoProject * gui)
           /* Initialize voice-wide variables. */
 
           prevTieElem = NULL;
-          slurElemStack = NULL;
-          crescElemStack = NULL;
-          diminElemStack = NULL;
           lastBeamStartXMLID = NULL;
           lastTupletStartXMLID = NULL;
 
@@ -1038,105 +1033,40 @@ exportXML (gchar * thefilename, DenemoProject * gui)
 
                         if ((thechord)->slur_end_p)
                           {
-                            if (slurElemStack == NULL)
-                              {
-                                g_warning ("Encountered slur end without a " "beginning");
-                              }
-                            else
-                              {
-                                xmlSetProp ((xmlNodePtr) slurElemStack->data, (xmlChar *) "to", (xmlChar *) chordXMLID);
-
-                                /* Pop the top element off the stack. */
-
-                                slurElemStack = g_list_remove (slurElemStack, slurElemStack->data);
-                              }
+                           newXMLIntChild (objElem, ns, (xmlChar *) "slur-end", 1);
                           }
 
-                        /*
-                         * If this is the end of a crescendo, terminate the previous
-                         * <crescendo> element.
-                         */
+                      
 
                         if ((thechord)->crescendo_end_p)
                           {
-                            if (crescElemStack == NULL)
-                              {
-                                g_warning ("Encountered crescendo end without a " "beginning");
-                              }
-                            else
-                              {
-                                xmlSetProp ((xmlNodePtr) crescElemStack->data, (xmlChar *) "to", (xmlChar *) chordXMLID);
-
-                                /* Pop the top element off the stack. */
-
-                                crescElemStack = g_list_remove (crescElemStack, crescElemStack->data);
-                              }
+                            newXMLIntChild (objElem, ns, (xmlChar *) "cresc-end", 1);
                           }
 
-                        /*
-                         * If this is the end of a diminuendo, terminate the previous
-                         * <diminuendo> element.
-                         */
+                        
 
                         if ((thechord)->diminuendo_end_p)
                           {
-                            if (diminElemStack == NULL)
-                              {
-                                g_warning ("Encountered diminuendo end without a " "beginning");
-                              }
-                            else
-                              {
-                                xmlSetProp ((xmlNodePtr) diminElemStack->data, (xmlChar *) "to", (xmlChar *) chordXMLID);
-
-                                /* Pop the top element off the stack. */
-
-                                diminElemStack = g_list_remove (diminElemStack, diminElemStack->data);
-                              }
+                            newXMLIntChild (objElem, ns, (xmlChar *) "dim-end", 1);
                           }
 
-                        /*
-                         * Output a <slur> element (to be filled in by the end of
-                         * the slur) if there's a slur beginning on this chord.
-                         */
-
+                      
                         if ((thechord)->slur_begin_p)
                           {
-                            parentElem = xmlNewChild (objElem, ns, (xmlChar *) "slurs", NULL);
-                            curElem = xmlNewChild (parentElem, ns, (xmlChar *) "slur", NULL);
-
-                            /* Push the <slur> element onto the slur stack. */
-
-                            slurElemStack = g_list_prepend (slurElemStack, curElem);
+                             newXMLIntChild (objElem, ns, (xmlChar *) "slur-begin", 1);
                           }
 
-                        /*
-                         * Output a <crescendo> element (to be filled in by the end of
-                         * the crescendo) if there's a crescendo beginning on this chord.
-                         */
-
+                      
                         if ((thechord)->crescendo_begin_p)
                           {
-                            parentElem = xmlNewChild (objElem, ns, (xmlChar *) "crescendos", NULL);
-                            curElem = xmlNewChild (parentElem, ns, (xmlChar *) "crescendo", NULL);
-
-                            /* Push the <crescendo> element onto the crescendo stack. */
-
-                            crescElemStack = g_list_prepend (crescElemStack, curElem);
+                            newXMLIntChild (objElem, ns, (xmlChar *) "cresc-begin", 1);
                           }
 
-                        /*
-                         * Output a <diminuendo> element (to be filled in by the end of
-                         * the diminuendo) if there's a diminuendo beginning on this chord.
-                         */
+                       
 
                         if ((thechord)->diminuendo_begin_p)
                           {
-                            parentElem = xmlNewChild (objElem, ns, (xmlChar *) "diminuendos", NULL);
-                            curElem = xmlNewChild (parentElem, ns, (xmlChar *) "diminuendo", NULL);
-
-                            /* Push the <diminuendo> element onto the diminuendo stack. */
-
-                            diminElemStack = g_list_prepend (diminElemStack, curElem);
+                           newXMLIntChild (objElem, ns, (xmlChar *) "dim-begin", 1);
                           }
 
                         /*
@@ -1331,9 +1261,7 @@ exportXML (gchar * thefilename, DenemoProject * gui)
 
           /* Clean up voice-specific variables. */
 
-          g_list_free (slurElemStack);
-          g_list_free (crescElemStack);
-          g_list_free (diminElemStack);
+          
           g_free (lastBeamStartXMLID);
         }                       /* end for each voice in score */
     }                           // for each movement
