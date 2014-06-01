@@ -1,34 +1,34 @@
 ;;;MuteStaff
-(let ((tag "MuteStaff")) 
-	(if (equal? MuteStaff::params "delete")
-		(begin
-			(d-LockDirective #f)
-			(set! MuteStaff::params #f)
-			(d-DirectiveDelete-standalone tag)
-			(d-StaffMasterVolume 1))		
-		(begin
-			
-			(d-PushPosition)
-			(d-MoveToBeginning)
-			(if (not (d-Directive-standalone? tag))
-				(begin
-					(d-Directive-standalone tag)
-					(d-LockDirective #t)))
-			(d-DirectivePut-standalone-minpixels tag 50)
-			(d-DirectivePut-standalone-gx tag 20)
-			
-			(if (equal? MuteStaff::params "unmute")
-				(d-StaffMasterVolume 0)) ;;pass #f to force un-mute
-			
-			(if (> (d-StaffMasterVolume) 0)
-				(begin
-					(d-DirectivePut-standalone-graphic tag "Speaker_Icon_Mute")
-					(d-StaffMasterVolume 0))
-				(begin
-					(d-StaffMasterVolume 1)
-					(d-DirectivePut-standalone-graphic tag "Speaker_Icon")))
-			(d-SetSaved #f)
-			(d-PopPosition)))
-	(if (d-Directive-standalone? tag)
-		(d-MoveCursorRight))
+(let ((tag "MuteStaff"))
+    (if (equal? MuteStaff::params "delete")
+        (begin
+            (d-LockDirective #f)
+            (set! MuteStaff::params #f)
+            (d-DirectiveDelete-standalone tag)
+            (d-StaffMasterVolume #t))       
+        (begin
+            
+            (d-PushPosition)
+            (d-MoveToBeginning)
+            (if (not (d-Directive-standalone? tag))
+                (begin
+                    (d-Directive-standalone tag)
+                    (d-LockDirective #t)))
+            (d-DirectivePut-standalone-minpixels tag 50)
+            (d-DirectivePut-standalone-gx tag 20)
+            
+            (if (equal? MuteStaff::params "unmute")
+                (d-StaffMasterVolume #t)) ;;pass #t to force un-mute
+            
+            (if (> (d-StaffMasterVolume) 0)
+                (begin
+                    (d-DirectivePut-standalone-graphic tag "Speaker_Icon_Mute")
+                    (d-StaffMasterVolume #f))
+                (begin
+                    (d-StaffMasterVolume #t)
+                    (d-DirectivePut-standalone-graphic tag "Speaker_Icon")))
+            (d-SetSaved #f)
+            (d-PopPosition)))
+    (if (d-Directive-standalone? tag)
+        (d-MoveCursorRight))
    (d-RefreshDisplay))
