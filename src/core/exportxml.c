@@ -584,6 +584,8 @@ newVoiceProps (xmlNodePtr parentElem, xmlNsPtr ns, DenemoStaff * curStaffStruct)
     xmlNewChild (curElem, ns, (xmlChar *) "device-port", (xmlChar *) curStaffStruct->device_port->str);
 
   newXMLIntChild (curElem, ns, (xmlChar *) "volume", curStaffStruct->volume);
+  newXMLIntChild (curElem, ns, (xmlChar *) "override_volume", curStaffStruct->override_volume);
+  newXMLIntChild (curElem, ns, (xmlChar *) "mute", curStaffStruct->mute);
   newXMLIntChild (curElem, ns, (xmlChar *) "midi_prognum", curStaffStruct->midi_prognum);
   newXMLIntChild (curElem, ns, (xmlChar *) "midi_channel", curStaffStruct->midi_channel);
 

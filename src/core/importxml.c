@@ -2185,6 +2185,14 @@ parseVoiceProps (xmlNodePtr voicePropElem, DenemoMovement * si)
       {
         curStaff->volume = getXMLIntChild (childElem);
       }
+    else if (ELEM_NAME_EQ (childElem, "override_volume"))
+      {
+        curStaff->override_volume = getXMLIntChild (childElem);
+      }
+    else if (ELEM_NAME_EQ (childElem, "mute"))
+      {
+        curStaff->mute = getXMLIntChild (childElem);
+      }
     else if (ELEM_NAME_EQ (childElem, "midi_prognum"))
       {
         curStaff->midi_prognum = getXMLIntChild (childElem);
