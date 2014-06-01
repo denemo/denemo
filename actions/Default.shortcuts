@@ -864,6 +864,10 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>TextAbove</action>
+        <hidden>true</hidden>
+      </row>  
+      <row>
         <action>SelectRight</action>
         <bind>Shft+Right</bind>
       </row>

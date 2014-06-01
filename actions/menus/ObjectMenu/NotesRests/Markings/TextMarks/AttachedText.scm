@@ -9,7 +9,7 @@
             	(set! text (cons AttachedText::params (string-append "\"" AttachedText::params "\"")))
             	(begin;;; this is a list of pairs
             		(if (eq? (car (car AttachedText::params)) 'offsetx)
-            			(d-WarningDialog "Not Possible")
+            			(d-WarningDialog (_ "Sorry, not possible, use Directives->Markings->Textual Annotation instead"))
             			(set! position (cdar AttachedText::params))))))
          (begin   
             (set! position (d-PopupMenu (list (cons (_ "Above") "^")  (cons (_ "Below") "_") (cons (_ "Auto Position") "-")))) ))

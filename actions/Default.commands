@@ -2694,7 +2694,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>TextAbove</action>
-        <menupath>/ObjectMenu/NotesRests/Markings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
         <_label>Arbitrary Text</_label>
         <_tooltip>Prints your text above the music at this point</_tooltip>
       </row>
@@ -5643,7 +5643,7 @@ for second and subsequent systems</_tooltip>
       <row type="scheme">
         <action>AttachedText</action>
         <after>TextAbove</after>
-        <menupath>/ObjectMenu/NotesRests/Markings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
         <_label>Text with Positioning</_label>
         <_tooltip>Prints text you give above/below/auto-positioned.</_tooltip>
       </row>
