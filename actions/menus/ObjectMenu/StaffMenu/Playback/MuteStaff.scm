@@ -26,6 +26,8 @@
                     (d-StaffMasterVolume #f))
                 (begin
                     (d-StaffMasterVolume #t)
+                     (if (< (d-StaffMasterVolume) 0.2)
+                        (d-WarningDialog (_ "The volume set on this staff is very low, you may not hear it.\nSee Staff->Staff Properties->Built-in Staff Properties, MIDI tab.")))
                     (d-DirectivePut-standalone-graphic tag "Speaker_Icon")))
             (d-SetSaved #f)
             (d-PopPosition)))
