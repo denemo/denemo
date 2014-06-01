@@ -326,7 +326,9 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
       if(!Denemo.non_interactive)
         gtk_widget_show (gui->movement->buttonbox);
     }
-
+    
+  set_master_tempo (gui->movement, 1.0);
+  set_movement_selector (gui);
 
   if (!moveto_currentstaffnum (gui, staffnum))
     {
@@ -357,7 +359,7 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
         return FALSE;
       gui->movement->cursor_appending = TRUE;
     }
-  set_movement_selector (gui);
+
   write_status (gui);
   move_viewport_up (gui);
   move_viewport_down (gui);
