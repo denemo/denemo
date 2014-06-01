@@ -923,3 +923,6 @@
     (d-DirectivePut-standalone-grob tag "Text")
     (d-DirectivePut-standalone-display tag text)
     (d-DirectivePut-standalone-minpixels tag 30))
+;;;;;;;;    
+(define (GetLilyPondDirection)
+    (RadioBoxMenu (cons (_ "Up") "^") (cons (_ "Down") "_") (cons (_ "Auto") "-")))
