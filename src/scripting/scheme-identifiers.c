@@ -1050,7 +1050,7 @@ create_scheme_identfiers (void)
 
 
   install_scm_function (0, "Takes a double or string and scales the volume; returns the volume set ", DENEMO_SCHEME_PREFIX "MasterVolume", scheme_master_volume);
-  install_scm_function (0, "Takes a double 0-1 and sets the staff master volume for the current staff, returns the value. With no (or bad) parameter returns the current value.", DENEMO_SCHEME_PREFIX "StaffMasterVolume", scheme_staff_master_volume);
+  install_scm_function (0, "Takes a double 0-1 and sets the staff master volume for the current staff, returns the value.\nWith no parameter returns the current value or zero if staff is muted.\nPass #f to mute the current staff and #t to unmute, leaving master volume unchanged.", DENEMO_SCHEME_PREFIX "StaffMasterVolume", scheme_staff_master_volume);
 
   install_scm_function (0, "Takes a integer sets the enharmonic range to use 0 = E-flat to G-sharp ", DENEMO_SCHEME_PREFIX "SetEnharmonicPosition", scheme_set_enharmonic_position);
 

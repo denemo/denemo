@@ -292,6 +292,7 @@ typedef struct
 
   gint volume;  /**< Master Volume used to scale midi playback */
   gboolean override_volume; /**< when true staff plays full Volume always */
+  gboolean mute;/**< when true mutes regardless of override_volume */
   /* Back to Hiller stuff */
   //  GString *staff_name;
 

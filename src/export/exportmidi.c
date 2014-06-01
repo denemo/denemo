@@ -1024,7 +1024,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
     {
       /* handle one track */
       curstaffstruct = (DenemoStaff *) curstaff->data;
-
+     
       /* select a suitable track number */
       tracknumber++;
       smf_track_t *track = smf_track_new ();
@@ -1443,7 +1443,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                             {
                               // int mix = cur_volume? compress(128, cur_volume + rand_delta + beat) : 0;
                               // FIXME the function compress is returning large values.
-                              event = smf_event_new_from_bytes (MIDI_NOTE_ON | midi_channel, n, override_volume ? 127 : (gint) (master_volume * cur_volume /*FIXME as above, mix */ ));
+                              event = smf_event_new_from_bytes (MIDI_NOTE_ON | midi_channel, n,(curstaffstruct->mute)? 0: (override_volume ? 127 : (gint) (master_volume * cur_volume /*FIXME as above, mix */ )));
                               smf_track_add_event_delta_pulses (track, event, mididelta);
                               event->user_pointer = curobj;
                               curobj->midi_events = g_list_append (curobj->midi_events, event);
