@@ -13,13 +13,14 @@
                         (set! direction params)
                         (begin
                             (set! direction #f)
-                            (d-WarningDialog (_ "Not yet implemented"))))))
+                            (d-WarningDialog  (_ "Sorry, not yet implemented"))))))
             ((string? params)
                         (set! text params))
             ((eq? params 'edit)
                 (set! direction (GetLilyPondDirection)))
             ((eq? params 'advanced)
-                    (d-DirectiveTextEdit-chord tag))
+                    (if (not (d-DirectiveTextEdit-chord tag))
+                        (set! params 'delete)))
             (else
                     (set! text (d-DirectiveGet-chord-display tag)))))
         (if (eq? params 'delete)
