@@ -832,8 +832,8 @@ actions/menus/ObjectMenu/Lyrics/EditLyricAtCursor.scm
 actions/menus/ObjectMenu/Lyrics/EditLyricAtCursor.xml
 actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm
 actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.xml
-actions/menus/ObjectMenu/Lyrics/InsertMelismata.scm
-actions/menus/ObjectMenu/Lyrics/InsertMelismata.xml
+actions/menus/ObjectMenu/Lyrics/InsertMelisma.scm
+actions/menus/ObjectMenu/Lyrics/InsertMelisma.xml
 actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm
 actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.xml
 actions/menus/ObjectMenu/Lyrics/LyricVerseDynamic.scm
@@ -1204,8 +1204,6 @@ actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleVeryLongFermata
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleVeryLongFermata.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/UpBowSelectionSwitcher.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/UpBowSelectionSwitcher.xml
-actions/menus/ObjectMenu/NotesRests/Markings/AttachedText.scm
-actions/menus/ObjectMenu/NotesRests/Markings/AttachedText.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.scm
@@ -1272,10 +1270,10 @@ actions/menus/ObjectMenu/NotesRests/Markings/Strings/StringNum.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/StringNum.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/ToggleStemSupport.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/ToggleStemSupport.xml
-actions/menus/ObjectMenu/NotesRests/Markings/TextAbove.scm
-actions/menus/ObjectMenu/NotesRests/Markings/TextAbove.xml
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ArbitraryTextAbove.scm
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ArbitraryTextAbove.xml
+actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm
+actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.xml
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Congruentia.scm
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Congruentia.xml
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DalSegno.scm
@@ -1317,6 +1315,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Largo.sc
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Largo.xml
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Presto.scm
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Presto.xml
+actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.scm
+actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.xml
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleCoda.scm
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleCoda.xml
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleFine.scm
