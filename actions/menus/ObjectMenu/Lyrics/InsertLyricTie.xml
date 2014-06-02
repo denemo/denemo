@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>InsertLyricTie</action>
+        <after>InsertMelisma</after>
+        <_label>Lyric Tie</_label>
+        <_tooltip>Inserts a lyric tie between two words at the cursor.
+Use this instead of a space between two words that are sung to the same note (do not leave a space as well).
+It will be typeset as a tie or space between the words.</_tooltip>     
+    </row>
+    </map>
+  </merge>
+</Denemo>

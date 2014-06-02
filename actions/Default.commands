@@ -6648,7 +6648,7 @@ Use for dim. poco a poco, for example. Terminate with End Diminuendo marking.</_
         <after>InsertStanzaNumber</after>
         <menupath>/ObjectMenu/Lyrics</menupath>
         <_label>Melismata</_label>
-                <_tooltip>Inserts a double hyphen or double underscore in the lyrics at the cursor position. 
+        <_tooltip>Inserts a double hyphen or double underscore in the lyrics at the cursor position. 
 Use double hyphen between syllables and double undescore between words which are sung over many notes (a melisma). 
 Hyphens/extender lines will be typeset to continue the syllable/word under the notes.</_tooltip>
       </row>
@@ -6658,6 +6658,15 @@ Hyphens/extender lines will be typeset to continue the syllable/word under the n
         <menupath>/ObjectMenu/Lyrics</menupath>
         <_label>Dynamic</_label>
         <_tooltip>Inserts a dynamic marking in the current verse at the insertion point in the lyrics pane. Use this to indicate dynamics which change from one verse to another.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>InsertLyricTie</action>
+        <after>InsertMelisma</after>
+        <menupath>/ObjectMenu/Lyrics</menupath>
+        <_label>Lyric Tie</_label>
+        <_tooltip>Inserts a lyric tie between two words at the cursor.
+Use this instead of a space between two words that are sung to the same note (do not leave a space as well).
+It will be typeset as a tie or space between the words.</_tooltip>
       </row>
     </map>
   </merge>
