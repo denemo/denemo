@@ -1421,6 +1421,8 @@ actions/menus/ObjectMenu/NotesRests/StemControl/StartUpStems.scm
 actions/menus/ObjectMenu/NotesRests/StemControl/StartUpStems.xml
 actions/menus/ObjectMenu/NotesRests/TiedNotes/InsertTiedNoteDuration.scm
 actions/menus/ObjectMenu/NotesRests/TiedNotes/InsertTiedNoteDuration.xml
+actions/menus/ObjectMenu/NotesRests/TiedNotes/LaissezVibrer.scm
+actions/menus/ObjectMenu/NotesRests/TiedNotes/LaissezVibrer.xml
 actions/menus/ObjectMenu/NotesRests/TiedNotes/RepeatTie.scm
 actions/menus/ObjectMenu/NotesRests/TiedNotes/RepeatTie.xml
 actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieFlatter.scm

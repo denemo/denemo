@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>LaissezVibrer</action>
+        <after>RepeatTie</after>
+        <_label>Laissez Vibrer</_label>
+        <_tooltip>Places a tie after the note at the cursor, tying to nothing. Use for laissez vibrer or when a tie comes at a final repeat.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
