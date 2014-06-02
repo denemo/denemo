@@ -366,7 +366,7 @@ add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
   g_free (tablabel);
   if (pagenum)
     gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), TRUE);
-  GtkTextView* verse_view = verse_get_current_view (staff);
+  GtkTextView* verse_view = (GtkTextView*)verse_get_current_view (staff);
   g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (verse_view)), "changed", G_CALLBACK (lyric_changed_cb), NULL);
   g_signal_connect (G_OBJECT(verse_view), "key-release-event",  G_CALLBACK (text_inserted_cb), NULL);
   g_signal_connect (G_OBJECT(verse_view), "button-release-event",  G_CALLBACK (button_released_cb), NULL);
@@ -380,8 +380,8 @@ add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
 #else
   GdkRGBA grayed = {0.5, 0.5, 0.5, 1.0};
   GdkRGBA white = {0.7, 0.7, 0.7, 1.0};
-  gtk_widget_override_background_color (verse_view, GTK_STATE_FLAG_FOCUSED, &white);
-  gtk_widget_override_background_color (verse_view, GTK_STATE_FLAG_NORMAL, &grayed);
+  gtk_widget_override_background_color (GTK_WIDGET(verse_view), GTK_STATE_FLAG_FOCUSED, &white);
+  gtk_widget_override_background_color (GTK_WIDGET(verse_view), GTK_STATE_FLAG_NORMAL, &grayed);
  #endif 
   
   return pos;
@@ -397,8 +397,8 @@ add_verse (GtkAction * action, DenemoScriptParam * param)
     DenemoStaff *staff = movement->currentstaff->data;
     add_verse_to_staff (movement, staff);
     signal_structural_change (project);
-    GtkTextView* verse_view = verse_get_current_view (staff);
-    gtk_widget_show (verse_view);
+    GtkTextView* verse_view = (GtkTextView*)verse_get_current_view (staff);
+    gtk_widget_show (GTK_WIDGET(verse_view));
   }
 }
 
@@ -410,14 +410,17 @@ delete_verse (GtkAction * action, DenemoScriptParam * param)
   if (si->currentstaff)
   {
     DenemoStaff *staff = si->currentstaff->data;
-    GtkTextView* verse_view = verse_get_current_view (staff);
+    GtkTextView* verse_view = (GtkTextView*)verse_get_current_view (staff);
     gchar* verse_text = verse_get_current_text (staff);
     if (verse_view)
     {
       staff->verse_views = g_list_remove (staff->verse_views, verse_view);
       staff->verses = g_list_remove (staff->verses, verse_text);
-      gtk_widget_destroy (gtk_widget_get_parent (verse_view));
-      verse_set_current (staff, 0);
+      gtk_widget_destroy (gtk_widget_get_parent (GTK_WIDGET(verse_view)));
+      if(staff->verse_views == NULL)
+        {
+        verse_set_current (staff, 0);
+        }
       signal_structural_change (gui);
       score_status (gui, TRUE);
       draw_score_area();
