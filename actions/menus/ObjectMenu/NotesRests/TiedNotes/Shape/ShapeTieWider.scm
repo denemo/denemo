@@ -23,4 +23,5 @@
                 (d-DirectivePut-standalone-display tag "~")
                 (d-DirectivePut-standalone-data tag (format #f "'~A" data))
                 (d-DirectivePut-standalone-postfix tag (string-append "\\shape #'" (format #f "~A" data) " Tie "))))
+        (d-RefreshDisplay)
         (d-SetSaved #f))
