@@ -371,10 +371,19 @@ add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
   g_signal_connect (G_OBJECT(verse_view), "key-release-event",  G_CALLBACK (text_inserted_cb), NULL);
   g_signal_connect (G_OBJECT(verse_view), "button-release-event",  G_CALLBACK (button_released_cb), NULL);
   g_signal_connect_after (G_OBJECT (verse_view), "populate-popup", G_CALLBACK (populate_called), NULL);
+#if GTK_MAJOR_VERSION==2
+  GdkColor thecolor;
+  //gdk_color_parse ("white", &thecolor);
+  //gtk_widget_modify_bg (verse_view, GTK_STATE_SELECTED, &thecolor);     
+  gdk_color_parse ("gray", &thecolor);
+  gtk_widget_modify_bg (verse_view, GTK_STATE_NORMAL, &thecolor);     
+#else
   GdkRGBA grayed = {0.5, 0.5, 0.5, 1.0};
   GdkRGBA white = {0.7, 0.7, 0.7, 1.0};
   gtk_widget_override_background_color (verse_view, GTK_STATE_FLAG_FOCUSED, &white);
   gtk_widget_override_background_color (verse_view, GTK_STATE_FLAG_NORMAL, &grayed);
+ #endif 
+  
   return pos;
 }
 
