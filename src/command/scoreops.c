@@ -139,6 +139,8 @@ void set_movement_selector (DenemoProject *gui)
     }
     if(i==2) 
         gtk_widget_hide (gui->movements_selector);
+    if(gui->movement)
+        set_master_tempo (gui->movement, 1.0);
 }
 
 static void
@@ -152,7 +154,7 @@ new_movement (GtkAction * action, DenemoScriptParam * param, gboolean before)
   gui->movements = g_list_insert (gui->movements, newsi, before ? pos : pos + 1);
   newsi->currentmovementnum = 1 + g_list_index (gui->movements, newsi);
   setcurrentprimarystaff (gui->movement);
-  gui->movements_selector = NULL;
+  //gui->movements_selector = NULL;
   set_movement_selector (gui);
   
   rewind_audio ();
@@ -327,7 +329,6 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
         gtk_widget_show (gui->movement->buttonbox);
     }
     
-  set_master_tempo (gui->movement, 1.0);
   set_movement_selector (gui);
 
   if (!moveto_currentstaffnum (gui, staffnum))
@@ -452,7 +453,6 @@ next_movement (GtkAction * action, DenemoScriptParam * param)
       gtk_widget_show (gui->movement->lyricsbox);       //toggle_lyrics_view(NULL, NULL);
     gtk_widget_show (gui->movement->buttonbox);
   }
-  set_master_tempo (gui->movement, 1.0);
   set_movement_selector (gui);
   //!!!!!!!!updatescoreinfo (gui);
   //FIXME duplicate code
@@ -509,7 +509,6 @@ prev_movement (GtkAction * action, DenemoScriptParam * param)
       gtk_widget_show (gui->movement->lyricsbox);       //toggle_lyrics_view(NULL, NULL);
     gtk_widget_show (gui->movement->buttonbox);
   }
-  set_master_tempo (gui->movement, 1.0);
   set_movement_selector (gui);
   //!!!!!!!!!!!!!updatescoreinfo (gui);
   //FIXME duplicate code
