@@ -6675,6 +6675,13 @@ It will be typeset as a tie or space between the words.</_tooltip>
         <_label>Laissez Vibrer</_label>
         <_tooltip>Places a tie after the note at the cursor, tying to nothing. Use for laissez vibrer or when a tie comes at a final repeat.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>AppendPostscript</action>
+        <after>TaglineLink</after>
+        <menupath>/ObjectMenu/MovementMenu/Titles</menupath>
+        <_label>Append Encapsulated Postscript</_label>
+        <_tooltip>Appends an encapsulated postscript file at the end of the current movement. Use this for text or images prepared in other programs which are to appear after the music.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
