@@ -930,6 +930,8 @@ actions/menus/ObjectMenu/MovementMenu/SetMovementTempo.scm
 actions/menus/ObjectMenu/MovementMenu/SetMovementTempo.xml
 actions/menus/ObjectMenu/MovementMenu/SwitchMensuralBarlines.scm
 actions/menus/ObjectMenu/MovementMenu/SwitchMensuralBarlines.xml
+actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm
+actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.xml
 actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/Chapter.scm
 actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/Chapter.xml
 actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/init.scm
