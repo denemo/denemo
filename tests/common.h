@@ -5,8 +5,9 @@
 
 #define DENEMO "../src/denemo"
 #define EXAMPLE_DIR "examples"
-#define DATA_DIR "fixtures"
+#define FIXTURES_DIR "fixtures"
 #define TEMP_DIR "tmp"
+#define REFERENCE_DIR "references"
 
 void g_test_print(const char *fmt, ...);
 

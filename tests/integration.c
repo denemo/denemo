@@ -7,9 +7,10 @@
  * environments, and with different parameters.
  */
 
-static gchar* data_dir = NULL;
+static gchar* fixtures_dir = NULL;
 static gchar* temp_dir = NULL;
 static gchar* example_dir = NULL;
+static gchar* ref_dir = NULL;
 
 /*******************************************************************************
  * Utils
@@ -61,6 +62,23 @@ get_basename(gchar* input){
   return basename;
 }
 
+static gboolean
+mkdir_if_not_exists(gchar* dir){
+  if(!g_file_test(dir, G_FILE_TEST_EXISTS)){
+    if(g_mkdir(dir, 0777) < 0)
+      g_warning("Could not create %s", temp_dir);
+    return FALSE;
+  }
+  return TRUE;
+}
+
+static gboolean
+delete_if_exists(gchar* dir){
+  if(g_file_test(dir, G_FILE_TEST_EXISTS)){
+    if(g_remove(dir) < 0)
+      g_warning("Could not remove %s", temp_dir);
+  }
+}
 /*******************************************************************************
  * SETUP AND TEARDOWN
  ******************************************************************************/
@@ -68,26 +86,42 @@ get_basename(gchar* input){
 static void
 setup(gpointer fixture, gconstpointer data)
 {
-  if(!g_file_test(temp_dir, G_FILE_TEST_EXISTS)){
-    if(g_mkdir(temp_dir, 0777) < 0)
-      g_warning("Could not create %s", temp_dir);
-  }
-
-  else{
+  if(!mkdir_if_not_exists(temp_dir)){
     GDir* dir = g_dir_open(temp_dir, 0, NULL);
     gchar* filename = NULL;
     while (filename = g_dir_read_name(dir))
       g_remove (g_build_filename(temp_dir, filename, NULL));
   }
+  
+  gchar* dnm_fixtures = g_build_filename(temp_dir, "denemo", NULL);
+  mkdir_if_not_exists(dnm_fixtures);
+  g_free(dnm_fixtures);
+
+  gchar* mxml_fixtures = g_build_filename(temp_dir, "mxml", NULL);
+  mkdir_if_not_exists(mxml_fixtures);
+  g_free(mxml_fixtures);
+
+  gchar* scm_fixtures = g_build_filename(temp_dir, "scm", NULL);
+  mkdir_if_not_exists(scm_fixtures);
+  g_free(scm_fixtures);
 }
 
 static void
 teardown(gpointer fixture, gconstpointer data)
 {  
-  if(g_file_test(temp_dir, G_FILE_TEST_EXISTS)){
-    if(g_remove(temp_dir) < 0)
-      g_warning("Could not remove %s", temp_dir);
-  }
+  gchar* dnm_fixtures = g_build_filename(temp_dir, "denemo", NULL);
+  delete_if_exists(dnm_fixtures);
+  g_free(dnm_fixtures);
+
+  gchar* mxml_fixtures = g_build_filename(temp_dir, "mxml", NULL);
+  delete_if_exists(mxml_fixtures);
+  g_free(mxml_fixtures);
+
+  gchar* scm_fixtures = g_build_filename(temp_dir, "scm", NULL);
+  delete_if_exists(scm_fixtures);
+  g_free(scm_fixtures);
+  
+  delete_if_exists(temp_dir);
 }
 
 /*******************************************************************************
@@ -100,7 +134,8 @@ teardown(gpointer fixture, gconstpointer data)
 static void
 test_open_blank_file(gpointer fixture, gconstpointer data)
 {
-  gchar* input = g_build_filename(data_dir, "blank.denemo", NULL);
+  gchar* input = g_build_filename(fixtures_dir, "denemo", "blank.denemo", NULL);
+  g_test_print("Opening %s\n", input);
   if (g_test_trap_fork (0, 0))
     {
       execl(DENEMO, DENEMO, "-n", "-e", input, NULL);
@@ -116,8 +151,8 @@ test_open_blank_file(gpointer fixture, gconstpointer data)
 static void
 test_open_save_blank_file(gpointer fixture, gconstpointer data)
 {
-  const gchar* output = g_build_filename(temp_dir, "blank.denemo", NULL);
-  const gchar* input  = g_build_filename(data_dir, "blank.denemo", NULL);
+  const gchar* output = g_build_filename(temp_dir, "denemo", "blank.denemo", NULL);
+  const gchar* input  = g_build_filename(fixtures_dir, "denemo", "blank.denemo", NULL);
   gchar* input_contents = NULL;
   gchar* output_contents = NULL;
 
@@ -151,21 +186,28 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
 {
   const gchar* input = (const gchar*) data;
   gchar* filename = basename(input);
-  const gchar* output_filename = g_strconcat(filename, ".denemo", NULL);
-  const gchar* output = g_build_filename(temp_dir, output_filename, NULL);
-  g_test_print("Opening %s\nSaving at %s\n", input, output);
-
+  gchar* base_name = get_basename(filename);
+  gchar* extension = g_strrstr (input, ".") + 1;
+  
+  const gchar* output_filename = g_strconcat(base_name, ".denemo", NULL);
+  const gchar* output = g_build_filename(temp_dir, extension, output_filename, NULL);
+  const gchar* reference = g_build_filename(ref_dir, extension, output_filename, NULL);
+ 
+  g_test_print("Opening %s\n", input);
   if (g_test_trap_fork (0, 0))
     {
       gchar* scheme = g_strdup_printf("(d-SaveAs \"%s\")(d-Quit)", output);
-      execl(DENEMO, DENEMO, "-n", "-e", "-a", scheme, input, NULL);
+      if(g_strcmp0("scm", extension) == 0)
+        execl(DENEMO, DENEMO, "-n", "-e", "-i", input, "-a", scheme, NULL);
+      else
+        execl(DENEMO, DENEMO, "-n", "-e", "-a", scheme, input, NULL);
       g_warn_if_reached ();
     }
   g_test_trap_assert_passed ();
 
+  
   g_test_print("Finding and reopening %s\n", output);
   g_assert(g_file_test(output, G_FILE_TEST_EXISTS));
-
   if (g_test_trap_fork (0, 0))
   {
     execl(DENEMO, DENEMO, "-n", "-e", output, NULL);
@@ -173,13 +215,14 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
   }
   g_test_trap_assert_passed ();
 
+  
   // Comparision
   if(g_str_has_suffix (filename, ".denemo")){
     g_test_print("Comparing %s with %s\n", input, output);
     g_assert(compare_denemo_files(input, output));
   }
   else{
-    gchar* base_name = get_basename(input);
+    
     gchar* compare_file = g_strconcat(base_name, ".denemo", NULL);
     if(g_file_test(compare_file, G_FILE_TEST_EXISTS)){
       g_test_print("Comparing %s with %s\n", compare_file, output);
@@ -189,47 +232,25 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
   g_remove(output);
 }
 
-/** test_regression_check
- * Opens a user written scm file to check some features that have been failing
- * by the past.
- */
-static void
-test_regression_check(gpointer fixture, gconstpointer data)
-{
-  const gchar* scheme_file = (const gchar*) data;
-  gchar* filename = basename(scheme_file);
-  const gchar* output_filename = g_strconcat(filename, ".denemo", NULL);
-  const gchar* output = g_build_filename(temp_dir, output_filename, NULL);
-  g_test_print("Opening %s\n", scheme_file);
-
-  if (g_test_trap_fork (0, 0))
-    {
-      gchar* scheme = g_strdup_printf("(d-SaveAs \"%s\")(d-Quit)", output);
-      execl(DENEMO, DENEMO, "-n", "-e", "-i", scheme_file, "-a", scheme, NULL);
-      g_warn_if_reached ();
-    }
-  g_test_trap_assert_passed ();
-  
-  g_assert(g_file_test(output, G_FILE_TEST_EXISTS));
-
-  gchar* base_name = get_basename(scheme_file);
-  gchar* compare_file = g_strconcat(base_name, ".denemo", NULL);
-  if(g_file_test(compare_file, G_FILE_TEST_EXISTS))
-    g_assert(compare_denemo_files(compare_file, output));
-
-  g_remove(output);
-}
-
 /*******************************************************************************
  * MAIN
  ******************************************************************************/
 
 static gchar*
-parse_dir_and_run_complex_test(gchar* dir, const gchar* extension)
+parse_dir_and_run_complex_test(gchar* path, const gchar* extension)
 {
-  GList* files = find_files_with_ext(dir, extension);
+  GError* error = NULL;
+  GDir* dir = g_dir_open(path, 0, &error);
+  gchar* filename = NULL;
+  while (filename = g_dir_read_name(dir)){
+    filename = g_build_filename(path, filename, NULL);
+    if(g_file_test(filename, G_FILE_TEST_IS_DIR)) 
+      parse_dir_and_run_complex_test(filename, extension);
+  }
+
+  GList* files = find_files_with_ext(path, extension);
   while(files){
-    gchar* filename = g_build_filename(dir, files->data, NULL);
+    filename = g_build_filename(path, files->data, NULL);
     g_test_add ("/integration/open-and-save-complex-file", gchar*, filename, setup, test_open_save_complex_file, teardown);
     files = g_list_next(files);
   }
@@ -243,22 +264,25 @@ main (int argc, char *argv[])
   if(!g_file_test(DENEMO, G_FILE_TEST_EXISTS))
     g_error("Denemo has not been compiled successfully");
 
-  if(!data_dir)
-    data_dir = g_build_filename(PACKAGE_SOURCE_DIR, "tests", DATA_DIR, NULL);
-
+  if(!fixtures_dir)
+    fixtures_dir = g_build_filename(PACKAGE_SOURCE_DIR, "tests", FIXTURES_DIR, NULL);
+  
   if(!temp_dir)
     temp_dir = g_build_filename(g_get_current_dir (), TEMP_DIR, NULL);
 
   if(!example_dir)
     example_dir = g_build_filename(PACKAGE_SOURCE_DIR, EXAMPLE_DIR, NULL);
   
+  if(!ref_dir)
+    ref_dir = g_build_filename(g_get_current_dir (), REFERENCE_DIR, NULL);
+
   g_test_add ("/integration/open-blank-file", void, NULL, setup, test_open_blank_file, teardown);
   g_test_add ("/integration/open-and-save-blank-file", void, NULL, setup, test_open_save_blank_file, teardown);
 
   parse_dir_and_run_complex_test(example_dir, ".denemo");
-  parse_dir_and_run_complex_test(data_dir, ".denemo");
-  parse_dir_and_run_complex_test(data_dir, ".mxml");
-  parse_dir_and_run_complex_test(data_dir, ".scm");
+  parse_dir_and_run_complex_test(fixtures_dir, ".denemo");
+  parse_dir_and_run_complex_test(fixtures_dir, ".mxml");
+  parse_dir_and_run_complex_test(fixtures_dir, ".scm");
 
   return g_test_run ();
 }

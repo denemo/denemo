@@ -111,7 +111,7 @@ test_thumbnailer(gpointer fixture, gconstpointer data)
 {
   gchar* thumbnail = g_build_filename(temp_dir, "thumbnail.png", NULL);
   gchar* scheme = g_strdup_printf( "(d-CreateThumbnail #f \"%s\")(d-Exit)", thumbnail, temp_dir);
-  gchar* input = g_build_filename(data_dir, "blank.denemo", NULL);
+  gchar* input = g_build_filename(data_dir, "denemo", "blank.denemo", NULL);
   
   g_test_print("Running scheme: %s %s\n", scheme, input);
   if (g_test_trap_fork (0, 0))
@@ -138,7 +138,7 @@ main (int argc, char *argv[])
     g_error("Denemo has not been compiled successfully");
 
   if(!data_dir)
-    data_dir = g_build_filename(PACKAGE_SOURCE_DIR, "tests", DATA_DIR, NULL);
+    data_dir = g_build_filename(PACKAGE_SOURCE_DIR, "tests", FIXTURES_DIR, NULL);
 
   if(!temp_dir)
     temp_dir = g_build_filename(g_get_current_dir (), TEMP_DIR, NULL);
