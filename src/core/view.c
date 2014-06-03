@@ -4662,7 +4662,11 @@ create_window (void)
                                                        "\nMany commands operate on the object at the Denemo cursor. " 
                                                        "Right-click on an object to get a short menu of actions or set the mouse input mode.\n"
                                                        "Shift-Right-click for more objects to insert."));
+#if GTK_MAJOR_VERSION == 2
+    GtkWidget *outer_pane = gtk_vpaned_new ();
+#else                                                       
     GtkWidget *outer_pane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
+#endif
     GtkWidget *scorearea_topbox = gtk_vbox_new (FALSE, 1);
     //gtk_container_add (GTK_CONTAINER (main_vbox), scorearea_topbox);
     gtk_box_pack_start (GTK_BOX (main_vbox), outer_pane, TRUE, TRUE, 0);   
