@@ -13,7 +13,7 @@
             
             
     (set! filename (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give full .eps filename:") filename))
-    (set! scale (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give scale required:")  scale))
+    (set! scale (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give width required:")  scale))
     (set! space-above (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give space above required:") space-above))
     (if (and filename scale space-above)
         (begin
@@ -26,3 +26,4 @@
                     (begin
                         (d-DirectiveDelete-movementcontrol tag)
                         (d-InfoDialog "Appended Postscript Deleted"))))))
+(d-SetSaved #f)
