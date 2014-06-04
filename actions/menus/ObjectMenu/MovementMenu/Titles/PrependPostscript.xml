@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>PrependPostscript</action>
+        <after>AppendPostscript</after>
+        <_label>Prepend Encapsulated Postscript</_label>
+        <_tooltip>Prepends an encapsulated postscript file at the start of the current movement. Use this for text or images, title pages etc. prepared in other programs which are to appear before the music.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -19,7 +19,7 @@
         (begin
                     (d-DirectivePut-movementcontrol-postfix tag
                         (string-append "\\markup {\\vspace #" space-above " \\epsfile #X #" scale " #\"" filename "\"}"))
-                    (d-DirectivePut-movementcontrol-override tag DENEMO_OVERRIDE_AFFIX)
+                   ;;; (d-DirectivePut-movementcontrol-override tag DENEMO_OVERRIDE_AFFIX)
                      (d-DirectivePut-movementcontrol-data tag (string-append "(list \"" filename "\" \"" scale "\" \"" space-above "\")")))
                 (begin
                     (if (equal? (_ "y") (d-GetUserInput  (_ "Encapsulated Postscript File") (_ "Delete appended postscript?") (_ "n")))
