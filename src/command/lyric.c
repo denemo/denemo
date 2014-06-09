@@ -501,8 +501,8 @@ install_lyrics_preview (DenemoMovement * si, GtkWidget * top_vbox)
       
   if (si->lyricsbox == NULL)
     si->lyricsbox = gtk_vbox_new (FALSE, 1);    //box to hold notebook of textview widgets
-  if(parent)
-    gtk_paned_add2 (GTK_PANED (parent), si->lyricsbox);
+  gtk_box_pack_start (GTK_BOX (top_vbox), si->lyricsbox, FALSE, TRUE, 0);
+  //gtk_paned_add2 (GTK_PANED (gtk_widget_get_parent(top_vbox)), si->lyricsbox);
   if (Denemo.prefs.lyrics_pane)
     gtk_widget_show (si->lyricsbox);
 }
