@@ -126,7 +126,7 @@ struct callbackdata
   GtkWidget *tooltip_browse_mode_timeout;
   GtkWidget *profile;
   GtkWidget *midiplayer;
-  GtkWidget *audioplayer;
+  GtkWidget *graphicseditor;
   GtkWidget *fontspec;
   GtkWidget *denemopath;
   GtkWidget *temperament;
@@ -550,7 +550,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
    */
   NEWPAGE (_("Externals"));
 
-  TEXTENTRY (_("Path to Lilypond"), lilypath)  TEXTENTRY (_("File/Internet Browser"), browser) TEXTENTRY (_("Image Viewer"), imageviewer) TEXTENTRY (_("Audio Player"), audioplayer) TEXTENTRY (_("Default Font Specification"), fontspec) TEXTENTRY (_("Default Save Path"), denemopath) BOOLEANENTRY (_("Update the command set on startup"), autoupdate);
+  TEXTENTRY (_("Path to Lilypond"), lilypath)  TEXTENTRY (_("File/Internet Browser"), browser) TEXTENTRY (_("Image Viewer"), imageviewer) TEXTENTRY (_("Graphics Editor"), graphicseditor) TEXTENTRY (_("Default Font Specification"), fontspec) TEXTENTRY (_("Default Save Path"), denemopath) BOOLEANENTRY (_("Update the command set on startup"), autoupdate);
   /*
    * Misc Menu
    */

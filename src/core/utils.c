@@ -2067,6 +2067,33 @@ nullify_gstring (GString ** s)
   *s = NULL;
 }
 
+/* dialog to get a filename from the user
+ */ 
+gchar *choose_file (gchar *title, gchar *startdir, GList *extensions)
+{
+  GtkWidget *dialog;
+  gchar *filename = NULL;
+  dialog = gtk_file_chooser_dialog_new (title,
+                                      NULL,
+                                      GTK_FILE_CHOOSER_ACTION_OPEN,
+                                      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                                      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+                                      NULL);
+  GtkFileFilter *filter = gtk_file_filter_new();
+  for(extensions;extensions;extensions=extensions->next)
+    gtk_file_filter_add_pattern (filter,(gchar*)extensions->data);
+  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER(dialog), filter);
+  gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(dialog), startdir);
+  
+  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+      {
+        filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+      }
+
+  gtk_widget_destroy (dialog);  
+  return filename;  
+}
+
 /**
  * Pops up a dialog box that has a text entry box and ok/cancel buttons
  * title is a title for the box.
@@ -2627,7 +2654,14 @@ find_path_for_file(gchar* filename, GList* dirs)
   }
   return NULL;
 }
-
+gchar *
+get_project_dir (void) {
+    if(Denemo.project && Denemo.project->filename->len)
+        {
+            return g_path_get_dirname (Denemo.project->filename->str);
+        }
+    return g_strdup(g_get_home_dir ());
+}
 const gchar*
 get_local_dir(DenemoDirectory dir)
 {
@@ -2708,7 +2742,7 @@ find_denemo_file (DenemoDirectory dir, gchar* filename)
   //g_debug("find_denemo_file called with %d and %s\n", dir, filename);
   GList* dirs = NULL;
   dirs = g_list_append(dirs, g_build_filename(PACKAGE_SOURCE_DIR, get_local_dir (dir), NULL));
-  dirs = g_list_append(dirs, g_build_filename(get_executable_dir (TRUE), "..", get_local_dir (dir), NULL));
+  dirs = g_list_append(dirs, g_build_filename(get_executable_dir (), "..", get_local_dir (dir), NULL));
   dirs = g_list_append(dirs, g_build_filename(get_user_data_dir (TRUE), get_local_dir (dir), NULL));
   dirs = g_list_append(dirs, g_strdup(get_system_dir(dir)));
  

@@ -59,6 +59,8 @@ denemo_SOURCES = \
   core/external.h \
   core/exportxml.c \
   core/exportxml.h \
+  core/graphicseditor.c \
+  core/graphicseditor.h \
   core/http.c \
   core/http.h \
   core/importxml.c \

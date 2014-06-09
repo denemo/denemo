@@ -343,6 +343,7 @@ define_scheme_constants (void)
   DEF_SCHEME_STR ("DENEMO_LILYPOND_DIR", g_build_filename (actions_dir, "lilypond", NULL), "Holds location of Denemo's system-wide  lilypond include files directory");
   DEF_SCHEME_STR ("DENEMO_LOCAL_ACTIONS_DIR", local_actions_dir, "Holds location of Denemo actions directory beneath your home directory");
   DEF_SCHEME_STR ("DENEMO_LOCAL_LILYPOND_DIR", g_build_filename (local_actions_dir, "lilypond", NULL), "Holds location of user lilypond include files directory");
+  DEF_SCHEME_STR ("DENEMO_HOME_DIR", g_get_home_dir (), "Holds location of user home directory");
   {
     gint i;
     for (i = 0; i < G_N_ELEMENTS (DenemoObjTypeNames); i++)

@@ -125,9 +125,10 @@ const gchar *get_system_conf_dir (void);
 */
 const gchar *get_system_locale_dir (void);
 const gchar *get_system_bin_dir (void);
-const gchar *get_system_font_dir();
-const gchar *get_executable_dir();
-
+const gchar *get_system_font_dir(void);
+const gchar *get_executable_dir(void);
+/* get directory of current Denemo.project or home directory if untitled. User must free the returned string */
+gchar *get_project_dir(void);
 void kill_process (GPid pid);
 
 gchar *music_font (gchar * str);
@@ -137,7 +138,7 @@ void score_status (DenemoProject * gui, gboolean change);
 void write_status (DenemoProject * gui);
 gboolean confirm (gchar * primary, gchar * secondary);
 void nullify_gstring (GString ** s);
-
+gchar *choose_file (gchar *title, gchar *startdir, GList *extensions);
 gchar *string_dialog_entry (DenemoProject * gui, gchar * title, gchar * instruction, gchar * initial_value);
 
 gchar *string_dialog_entry_with_widget (DenemoProject * gui, gchar * title, gchar * instruction, gchar * initial_value, GtkWidget * extra_widget);

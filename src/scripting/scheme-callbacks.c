@@ -3,7 +3,10 @@
 #include "command/selectops.h"
 #include "command/scoreops.h"
 #include "command/graceops.h"
+#include "command/scorelayout.h"
 #include "core/view.h"
+#include "core/graphicseditor.h"
+#include "core/http.h"
 #include "audio/pitchentry.h"
 #include "command/lilydirectives.h"
 #include "audio/playback.h"
@@ -12,6 +15,7 @@
 #include "export/guidedimportmidi.h"
 #include "export/print.h"
 #include "export/exportmidi.h"
+
 SCM 
 scheme_call_callback (SCM optional, callback_function callback) {
   gboolean query=FALSE;
@@ -1096,6 +1100,90 @@ SCM
 scheme_select_first_custom_layout (void)
 {
   return SCM_BOOL (iterate_custom_layout (TRUE));
+}
+SCM
+scheme_get_filename (void)
+{
+    if(Denemo.project && Denemo.project->filename && Denemo.project->filename->len && strcmp ("Unnamed", Denemo.project->filename->str))
+        return scm_from_locale_string (Denemo.project->filename->str);
+    return SCM_BOOL_F;
+}
+SCM
+scheme_path_from_filename (SCM filepath)
+{
+    SCM ret = SCM_BOOL_F;
+    if (scm_is_string (filepath))
+        { 
+            char *temp = scm_to_locale_string (filepath);
+            gchar *dirname = g_path_get_dirname (temp);
+            free(temp);
+            ret = scm_from_locale_string (dirname);
+            g_free(dirname);
+        }
+return ret;
+}
+SCM
+scheme_choose_file (SCM title, SCM startdir, SCM list)
+{
+    gchar *thetitle = g_strdup(_( "Choose File"));
+    gchar *thedir = get_project_dir();
+    GList *exts = NULL;
+    gchar *filename;
+    SCM ret = SCM_BOOL_F;
+     if (scm_is_string (title))
+        { char *temp = scm_to_locale_string (title);
+            thetitle = g_strdup(temp);
+            free(temp);
+        }
+     if (scm_is_string (startdir))
+        { 
+            char *temp = scm_to_locale_string (startdir);
+            g_free(thedir);
+            thedir = g_strdup(temp);
+            free(temp);
+        } 
+    if (scm_is_list(list))
+        {
+        gint length = scm_to_int (scm_length (list));
+        int i;
+        for (i=0;i<length;i++)
+            {
+                SCM glob = scm_list_ref (list, scm_from_int(i));
+                if (scm_is_string (glob))
+                    {   char *extension = scm_to_locale_string (glob);
+                        exts = g_list_append (exts, g_strdup(extension));
+                        free(extension);
+                    }
+            }
+        }
+    filename = choose_file (thetitle, thedir, exts);
+    g_free(thetitle);
+    g_free(thedir);
+    g_list_free_full (exts, g_free);
+    if(filename)
+        ret = scm_from_locale_string(filename);
+    g_free(filename);
+    return ret;
+}
+
+SCM
+scheme_edit_graphics (SCM link)
+{
+  SCM ret = SCM_BOOL_F;
+  gchar *opened = NULL;
+  if (scm_is_string (link))
+    {
+      gchar *filename = scm_to_locale_string (link);
+      opened = edit_graphics_file (filename);
+      free (filename);
+  } else
+  {
+      opened = edit_graphics_file (NULL);
+  }
+ if(opened)
+    ret = scm_from_locale_string (opened);
+  g_free (opened);
+  return ret;
 }
 
 SCM

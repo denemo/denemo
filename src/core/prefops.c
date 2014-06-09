@@ -56,12 +56,12 @@ initprefs ()
 
 #ifdef G_OS_WIN32
   ret->browser = g_string_new ("");     //use file association
-  ret->audioplayer = g_string_new ("");
+  ret->graphicseditor = g_string_new ("");
   ret->lilypath = g_string_new (g_build_filename (get_system_bin_dir (), "lilypond-windows.exe", NULL));       //We don't assume the file assoc works - we are installing this anyway to a known place,the option  neither lilypond-windows.exe nor the -dgui option are used
   ret->imageviewer = g_string_new ("");
 #else /* !G_OS_WIN32 */
   ret->browser = g_string_new ("firefox");
-  ret->audioplayer = g_string_new ("play");
+  ret->graphicseditor = g_string_new ("inkscape");
  #ifdef _GUB_BUILD_
    #ifdef _MACH_O_
      ret->lilypath = g_string_new (getenv("LILYPOND_PATH"));
@@ -252,7 +252,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
             }
         }
 
-      READXMLENTRY (audioplayer) READXMLENTRY (fontspec) READXMLENTRY (browser)
+      READXMLENTRY (graphicseditor) READXMLENTRY (fontspec) READXMLENTRY (browser)
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "autosavetimeout"))
         {
           xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
@@ -641,7 +641,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
          (xmlChar *) prefs->field);}
 
 
-  WRITEXMLENTRY (lilypath) WRITEXMLENTRY (audioplayer) WRITEXMLENTRY (fontspec) WRITEXMLENTRY (imageviewer) WRITEXMLENTRY (profile) WRITEXMLENTRY (username) WRITEXMLENTRY (password) WRITEXMLENTRY (denemopath) WRITEXMLENTRY (temperament)
+  WRITEXMLENTRY (lilypath) WRITEXMLENTRY (graphicseditor) WRITEXMLENTRY (fontspec) WRITEXMLENTRY (imageviewer) WRITEXMLENTRY (profile) WRITEXMLENTRY (username) WRITEXMLENTRY (password) WRITEXMLENTRY (denemopath) WRITEXMLENTRY (temperament)
 #define WRITEINTXMLENTRY(field){ \
     gchar *def = g_strdup("Holds the interger value of the user's " #field " preference");\
     gint value = prefs->field;\
