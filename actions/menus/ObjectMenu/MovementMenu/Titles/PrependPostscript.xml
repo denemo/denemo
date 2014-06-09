@@ -8,7 +8,9 @@
         <action>PrependPostscript</action>
         <after>AppendPostscript</after>
         <_label>Prepend Encapsulated Postscript</_label>
-        <_tooltip>Prepends an encapsulated postscript file at the start of the current movement. Use this for text or images, title pages etc. prepared in other programs which are to appear before the music.</_tooltip>
+        <_tooltip>Places text/graphics from an encapsulated postscript file at the start of the current movement.
+Use this for columns of text or images, fancy titles etc. prepared in other programs
+which are to appear before the music.</_tooltip>
       </row>
     </map>
   </merge>

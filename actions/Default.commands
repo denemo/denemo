@@ -6680,14 +6680,18 @@ It will be typeset as a tie or space between the words.</_tooltip>
         <after>TaglineLink</after>
         <menupath>/ObjectMenu/MovementMenu/Titles</menupath>
         <_label>Append Encapsulated Postscript</_label>
-        <_tooltip>Appends an encapsulated postscript file at the end of the current movement. Use this for text or images prepared in other programs which are to appear after the music.</_tooltip>
+        <_tooltip>Places text/graphics from an encapsulated postscript file at the end of the current movement.
+Use this for columns of text or images, fancy titles etc. prepared in other programs
+which are to appear after the music.</_tooltip>
       </row>
       <row type="scheme">
         <action>PrependPostscript</action>
         <after>AppendPostscript</after>
         <menupath>/ObjectMenu/MovementMenu/Titles</menupath>
         <_label>Prepend Encapsulated Postscript</_label>
-        <_tooltip>Prepends an encapsulated postscript file at the start of the current movement. Use this for text or images, title pages etc. prepared in other programs which are to appear before the music.</_tooltip>
+        <_tooltip>Places text/graphics from an encapsulated postscript file at the start of the current movement.
+Use this for columns of text or images, fancy titles etc. prepared in other programs
+which are to appear before the music.</_tooltip>
       </row>
     </map>
   </merge>
