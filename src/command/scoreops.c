@@ -40,7 +40,10 @@ point_to_empty_movement (DenemoProject * gui)
   DenemoMovement *newscore = (DenemoMovement *) g_malloc0 (sizeof (DenemoMovement));
   init_score (newscore, gui);
   if (!Denemo.non_interactive && gui->movement && gui->movement->buttonbox)
-    gtk_widget_hide (gui->movement->buttonbox);
+        gtk_widget_hide (gui->movement->buttonbox);
+
+  if (!Denemo.non_interactive && (gui->movement) && gui->movement->lyricsbox)
+        gtk_widget_hide (gui->movement->lyricsbox); 
   g_static_mutex_lock (&smfmutex);
   gui->movement = newscore;
   g_static_mutex_unlock (&smfmutex);
@@ -77,6 +80,8 @@ void set_movement_selector (DenemoProject *gui)
 
   if(Denemo.non_interactive)
     return;
+    
+
   
   if(gui->movements_selector)
       gtk_widget_destroy (gui->movements_selector);
@@ -140,7 +145,13 @@ void set_movement_selector (DenemoProject *gui)
     if(i==2) 
         gtk_widget_hide (gui->movements_selector);
     if(gui->movement)
-        set_master_tempo (gui->movement, 1.0);
+        set_master_tempo (gui->movement, 1.0);   
+    
+   
+    if ((gui->movement) && gui->movement->lyricsbox && Denemo.prefs.lyrics_pane)
+      g_print("Showing\n"), gtk_widget_show (gui->movement->lyricsbox);
+    
+  
 }
 
 static void
@@ -322,8 +333,13 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
             warningdialog (_("No such movement"));
           return FALSE;
         }
+         
       if(!Denemo.non_interactive)
+        {
         gtk_widget_hide (gui->movement->buttonbox);
+        if ((gui->movement) && gui->movement->lyricsbox && Denemo.prefs.lyrics_pane)
+            gtk_widget_hide (gui->movement->lyricsbox); 
+        }
       gui->movement = this->data;
       if(!Denemo.non_interactive)
         gtk_widget_show (gui->movement->buttonbox);
@@ -505,8 +521,6 @@ prev_movement (GtkAction * action, DenemoScriptParam * param)
   gui->movement = this->data;
 
   if(!Denemo.non_interactive){
-    if (gui->movement->lyricsbox)
-      gtk_widget_show (gui->movement->lyricsbox);       //toggle_lyrics_view(NULL, NULL);
     gtk_widget_show (gui->movement->buttonbox);
   }
   set_movement_selector (gui);
