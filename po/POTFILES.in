@@ -80,6 +80,8 @@ src/core/exportxml.c
 src/core/exportxml.h
 src/core/external.c
 src/core/external.h
+src/core/graphicseditor.c
+src/core/graphicseditor.h
 src/core/http.c
 src/core/http.h
 src/core/importxml.c
