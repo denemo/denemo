@@ -1,5 +1,25 @@
 ;;PrependPostscript
 (let ((tag "PrependPostscript")(filename #f)(width #f)(space-below #f)(space-left #f)(params PrependPostscript::params))
+
+  (define (edit)
+        (define choice (RadioBoxMenu
+          (cons (_ "Edit") 'edit)
+          (cons (_ "Delete")   'delete)   
+          (cons (_ "Advanced") 'advanced)))
+          (case choice
+            ((delete) (d-DirectiveDelete-movementcontrol tag))
+            ((edit) 
+                 (if (RadioBoxMenu (cons (string-append (_ "Edit the file ") filename) #t) (cons (_ "Edit width and position ") #f))
+                    (d-EditGraphics filename)
+                    (set-params)))
+            ((advanced) (d-DirectiveTextEdit-movementcontrol  tag))))
+  (define (set-params)
+            (set! width (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give width required:")  width))
+            (set! space-below (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give space below required:") space-below))
+            (set! space-left (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give space to the left required:") space-left)))
+            
+   (define (scale val)
+       (number->string (/ (* 16 (string->number val)) (string->number (d-ScoreProperties "query=fontsize")))))
     (if (list? params)
         (begin
                 (set! filename  (list-ref params 0))
@@ -25,8 +45,9 @@
     (cond
         ((equal? params "edit")
             (begin
-                (d-EditGraphics filename)))
+                (edit)))
         ((equal? params 'refresh))
+        ((equal? params 'finished))
         (else
                 (set! filename (d-ChooseFile (_ "Encapsulated Postscript File") (d-PathFromFilename filename) (list "*.eps" "*.EPS")))
                 (if filename
@@ -46,14 +67,16 @@ as this will give better editing later.
 Quit your graphics editor before quitting this dialog
 to return to work in Denemo.")))))))))
 
+   (if (not (eq? params 'finished))
     (if (and filename width space-below space-left)
         (begin
+                (d-DirectivePut-movementcontrol-override tag DENEMO_OVERRIDE_DYNAMIC) ;;call with 'refresh to re-scale for score size change 
                 (d-DirectivePut-movementcontrol-prefix tag
-                        (string-append "\\markup {\\hspace #" space-left " \\with-url #'\"scheme:(d-AppendPostscript 'refresh)\" \\epsfile #X #" width " #\"" filename "\" \\vspace #" space-below " }"))
+                        (string-append "\\markup {\\hspace #" (scale space-left) " \\with-url #'\"scheme:(d-PrependPostscript \\\"edit\\\")\" \\epsfile #X #" (scale width) " #\"" filename "\" \\vspace #" (scale space-below) " }"))
                 (d-DirectivePut-movementcontrol-data tag (string-append "(list \"" (scheme-escape filename) "\" \"" width "\" \"" space-below "\" \"" space-left "\")")))
         (begin
                     (if (equal? (_ "y") (d-GetUserInput  (_ "Encapsulated Postscript File") (_ "Delete prepended postscript?") (_ "n")))
                     (begin
                         (d-DirectiveDelete-movementcontrol tag)
-                        (d-InfoDialog (_ "Prepended Postscript Deleted")))))))
+                        (d-InfoDialog (_ "Prepended Postscript Deleted"))))))))
 (d-SetSaved #f)

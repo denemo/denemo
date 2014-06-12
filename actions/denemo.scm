@@ -541,11 +541,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (DenemoPrintAllHeaders)
-  (if (or (d-Directive-score? "LilyPondInclude:book-titling.ily") (d-Directive-score? "LilyPondInclude:simplified-book-titling.ily"))
+  (if (or (d-LilyPondInclude (cons 'query "book-titling.ily")) (d-LilyPondInclude (cons 'query "simplified-book-titling.ily")))
     (begin
-      (d-WarningDialog "You had book titles for this score. These are being dropped. To re-instate them, re-set the title as a book title.")
-      (d-DirectiveDelete-score "LilyPondInclude:book-titling.ily")
-      (d-DirectiveDelete-score "LilyPondInclude:simplified-book-titling.ily")))
+      (d-WarningDialog (_ "You had book titles for this score. These are being dropped. To re-instate them, re-set the title as a book title."))
+      (d-LilyPondInclude (cons 'delete "book-titling.ily"))
+      (d-LilyPondInclude (cons 'delete "simplified-book-titling.ily"))))
   (d-DirectivePut-paper-postfix "PrintAllHeaders" "\nprint-all-headers = ##t\n"))
      
 (define* (SetQuarterCommaMeanTone #:optional (thestep 0))
