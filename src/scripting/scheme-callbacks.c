@@ -1122,6 +1122,22 @@ scheme_path_from_filename (SCM filepath)
         }
 return ret;
 }
+
+SCM
+scheme_filename_from_path (SCM filepath)
+{
+    SCM ret = SCM_BOOL_F;
+    if (scm_is_string (filepath))
+        { 
+            char *temp = scm_to_locale_string (filepath);
+            gchar *dirname = g_path_get_basename (temp);
+            free(temp);
+            ret = scm_from_locale_string (dirname);
+            g_free(dirname);
+        }
+return ret;
+}
+
 SCM
 scheme_choose_file (SCM title, SCM startdir, SCM list)
 {
