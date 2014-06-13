@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>GraphicTitlePage</action>
+        <after>BookTitle</after>
+        <_label>Create or Edit Graphic Title Page</_label>
+        <_tooltip>Places text/graphics from an encapsulated postscript file at the start of the score.
+Use this for a title page prepared in your vector graphics editor.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
