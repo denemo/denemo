@@ -33,8 +33,8 @@ static gchar *choose_graphic_file (void)
 {
   GtkWidget *dialog;
   gchar *filename = NULL;
-  gchar *system_dir = g_build_filename (get_system_data_dir (), "pixmaps",NULL);
-  gchar *title =  _("Encapsulated Postscript File");
+  gchar *system_dir = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "graphics", NULL);
+  gchar *title =  _("Graphics File");
   GList *extensions = NULL;
   extensions = g_list_append (extensions, (gpointer) "*.eps");
   extensions = g_list_append (extensions, (gpointer) "*.EPS");
@@ -50,7 +50,7 @@ static gchar *create_editable_file (gchar *filename)
    gchar *ret, *contents, *outname;
    gsize length;
    gchar *temp = g_path_get_basename (filename);
-   gchar * current_directory = g_path_get_dirname (Denemo.project->filename->str);
+   gchar * current_directory = get_project_dir ();
    outname = g_build_filename (current_directory, temp, NULL);
    g_free(temp);
    if(g_file_get_contents (filename, &contents, &length, NULL))
