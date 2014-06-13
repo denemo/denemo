@@ -72,13 +72,6 @@ mkdir_if_not_exists(gchar* dir){
   return TRUE;
 }
 
-static gboolean
-delete_if_exists(gchar* dir){
-  if(g_file_test(dir, G_FILE_TEST_EXISTS)){
-    if(g_remove(dir) < 0)
-      g_warning("Could not remove %s", temp_dir);
-  }
-}
 /*******************************************************************************
  * SETUP AND TEARDOWN
  ******************************************************************************/
@@ -109,18 +102,6 @@ setup(gpointer fixture, gconstpointer data)
 static void
 teardown(gpointer fixture, gconstpointer data)
 {  
-  gchar* dnm_fixtures = g_build_filename(temp_dir, "denemo", NULL);
-  delete_if_exists(dnm_fixtures);
-  g_free(dnm_fixtures);
-
-  gchar* mxml_fixtures = g_build_filename(temp_dir, "mxml", NULL);
-  delete_if_exists(mxml_fixtures);
-  g_free(mxml_fixtures);
-
-  gchar* scm_fixtures = g_build_filename(temp_dir, "scm", NULL);
-  delete_if_exists(scm_fixtures);
-  g_free(scm_fixtures);
-  
   delete_if_exists(temp_dir);
 }
 
@@ -217,12 +198,15 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
 
   
   // Comparision
-  if(g_str_has_suffix (filename, ".denemo")){
+  if(g_file_test(reference, G_FILE_TEST_EXISTS)){
+    g_test_print("Comparing %s with the reference %s\n", output, reference);
+    g_assert(compare_denemo_files(output, reference)); 
+  }
+  else if(g_str_has_suffix (filename, ".denemo")){
     g_test_print("Comparing %s with %s\n", input, output);
     g_assert(compare_denemo_files(input, output));
   }
-  else{
-    
+  else{ 
     gchar* compare_file = g_strconcat(base_name, ".denemo", NULL);
     if(g_file_test(compare_file, G_FILE_TEST_EXISTS)){
       g_test_print("Comparing %s with %s\n", compare_file, output);

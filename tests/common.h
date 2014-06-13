@@ -10,5 +10,6 @@
 #define REFERENCE_DIR "references"
 
 void g_test_print(const char *fmt, ...);
+gboolean delete_if_exists(gchar* path);
 
 #endif

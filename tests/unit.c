@@ -30,10 +30,7 @@ setup(gpointer fixture, gconstpointer data)
 static void
 teardown(gpointer fixture, gconstpointer data)
 {  
-  if(g_file_test(temp_dir, G_FILE_TEST_EXISTS)){
-    if(g_remove(temp_dir) < 0)
-      g_warning("Could not remove %s", temp_dir);
-  }
+  delete_if_exists(temp_dir);
 }
 
 /*******************************************************************************
