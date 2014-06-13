@@ -1538,6 +1538,8 @@ actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentaryIntro.
 actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentaryIntro.xml
 actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.scm
 actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.xml
+actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm
+actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.xml
 actions/menus/ObjectMenu/Score/Titles/BookTitles/IncipitFromSelection.scm
 actions/menus/ObjectMenu/Score/Titles/BookTitles/IncipitFromSelection.xml
 actions/menus/ObjectMenu/Score/Titles/BookTitles/init.scm
