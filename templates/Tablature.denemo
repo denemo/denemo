@@ -1,5 +1,5 @@
-<?xml version="1.0"?>
-<score xmlns="http://denemo.org/xmlns/Denemo" version="6">
+<?xml version="1.0" encoding="UTF-8"?>
+<score xmlns="http://denemo.org/xmlns/Denemo" version="7">
   <scheme>(d-SelectFirstCustomLayout)</scheme>
   <paper-directives>
     <directive>
@@ -27,6 +27,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <papersize>a4</papersize>
     <fontsize>16</fontsize>
     <orientation>1</orientation>
+    <total-edit-time>0</total-edit-time>
     <score-directives>
       <directive>
         <tag>ScoreIndent</tag>
@@ -93,7 +94,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "C
     <edit-info>
       <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>-1</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -119,7 +120,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "C
       </tempo>
     </score-info>
     <staves>
-      <staff id="id0"/>
+      <staff id="id0"></staff>
     </staves>
     <voices>
       <voice id="id1">
@@ -128,10 +129,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "C
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id0"/>
-          <clef name="treble"/>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -147,6 +148,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "C
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>65</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -162,7 +165,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "C
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
     </voices>

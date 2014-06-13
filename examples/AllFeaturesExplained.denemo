@@ -281,6 +281,8 @@ accGeige</tag>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>65</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -356,9 +358,7 @@ Usually the shortcut is u for this.\")"             ⬆Explanation }</lily-direc
             </chord>
             <chord show="true" id="id14" grace="acciaccatura">
               <duration base="eighth"></duration>
-              <slurs>
-                <slur to="id16"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id15">
                   <middle-c-offset>2</middle-c-offset>
@@ -367,6 +367,7 @@ Usually the shortcut is u for this.\")"             ⬆Explanation }</lily-direc
             </chord>
             <chord show="true" id="id16">
               <duration base="quarter"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id17">
                   <middle-c-offset>1</middle-c-offset>
@@ -375,9 +376,7 @@ Usually the shortcut is u for this.\")"             ⬆Explanation }</lily-direc
             </chord>
             <chord show="true" id="id18" grace="true">
               <duration base="eighth"></duration>
-              <slurs>
-                <slur to="id20"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id19">
                   <middle-c-offset>1</middle-c-offset>
@@ -387,6 +386,7 @@ Usually the shortcut is u for this.\")"             ⬆Explanation }</lily-direc
             </chord>
             <chord show="true" id="id20">
               <duration base="eighth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id21">
                   <middle-c-offset>0</middle-c-offset>
@@ -704,6 +704,8 @@ Alternatively in the Notes/Rests-&gt;Beaming menu.\")"             ⬆Explanatio
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>65</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -773,6 +775,8 @@ The input Denemo Display gives you an indicator of what you have done. If you wa
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>0</hasfigures>
@@ -922,6 +926,8 @@ The input Denemo Display gives you an indicator of what you have done. If you wa
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>65</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -1171,6 +1177,8 @@ Usually the shortcut is Shift-B,s for this.\")"             ⬉Explanation }</li
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>65</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>

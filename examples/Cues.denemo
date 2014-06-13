@@ -158,6 +158,8 @@ smaller = {
           <instrument>acoustic grand</instrument>
           <device-port>NONE</device-port>
           <volume>65</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -256,9 +258,7 @@ smaller = {
             </chord>
             <chord show="true" id="id24">
               <duration base="quarter"></duration>
-              <slurs>
-                <slur to="id26"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id25">
                   <middle-c-offset>9</middle-c-offset>
@@ -267,6 +267,7 @@ smaller = {
             </chord>
             <chord show="true" id="id26">
               <duration base="sixteenth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id27">
                   <middle-c-offset>9</middle-c-offset>
@@ -981,9 +982,7 @@ smaller = {
             </chord>
             <chord show="true" id="id192">
               <duration base="quarter"></duration>
-              <slurs>
-                <slur to="id194"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id193">
                   <middle-c-offset>9</middle-c-offset>
@@ -994,6 +993,7 @@ smaller = {
           <measure>
             <chord show="true" id="id194">
               <duration base="sixteenth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id195">
                   <middle-c-offset>9</middle-c-offset>
@@ -1196,9 +1196,7 @@ smaller = {
             </chord>
             <chord show="true" id="id242">
               <duration base="eighth"></duration>
-              <slurs>
-                <slur to="id244"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id243">
                   <middle-c-offset>11</middle-c-offset>
@@ -1209,6 +1207,7 @@ smaller = {
           <measure>
             <chord show="true" id="id244">
               <duration base="eighth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id245">
                   <middle-c-offset>11</middle-c-offset>
@@ -1497,9 +1496,7 @@ smaller = {
             </chord>
             <chord show="true" id="id312">
               <duration base="eighth"></duration>
-              <slurs>
-                <slur to="id314"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id313">
                   <middle-c-offset>7</middle-c-offset>
@@ -1511,6 +1508,7 @@ smaller = {
           <measure>
             <chord show="true" id="id314">
               <duration base="eighth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id315">
                   <middle-c-offset>7</middle-c-offset>
@@ -1667,9 +1665,7 @@ smaller = {
             </chord>
             <chord show="true" id="id348">
               <duration base="quarter"></duration>
-              <slurs>
-                <slur to="id350"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id349">
                   <middle-c-offset>6</middle-c-offset>
@@ -1678,6 +1674,7 @@ smaller = {
             </chord>
             <chord show="true" id="id350">
               <duration base="sixteenth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id351">
                   <middle-c-offset>6</middle-c-offset>
@@ -2311,9 +2308,7 @@ smaller = {
             </chord>
             <chord show="true" id="id498">
               <duration base="eighth"></duration>
-              <slurs>
-                <slur to="id500"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id499">
                   <middle-c-offset>5</middle-c-offset>
@@ -2325,6 +2320,7 @@ smaller = {
           <measure>
             <chord show="true" id="id500">
               <duration base="eighth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id501">
                   <middle-c-offset>5</middle-c-offset>
@@ -2375,9 +2371,7 @@ smaller = {
             </chord>
             <chord show="true" id="id512">
               <duration base="eighth"></duration>
-              <slurs>
-                <slur to="id514"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id513">
                   <middle-c-offset>12</middle-c-offset>
@@ -2388,6 +2382,7 @@ smaller = {
           <measure>
             <chord show="true" id="id514">
               <duration base="sixteenth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id515">
                   <middle-c-offset>12</middle-c-offset>
@@ -2833,9 +2828,7 @@ smaller = {
             </chord>
             <chord show="true" id="id618">
               <duration base="quarter"></duration>
-              <slurs>
-                <slur to="id620"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id619">
                   <middle-c-offset>9</middle-c-offset>
@@ -2846,6 +2839,7 @@ smaller = {
           <measure>
             <chord show="true" id="id620">
               <duration base="sixteenth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id621">
                   <middle-c-offset>9</middle-c-offset>
@@ -3204,9 +3198,7 @@ smaller = {
             </chord>
             <chord show="true" id="id702">
               <duration base="sixteenth"></duration>
-              <slurs>
-                <slur to="id704"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id703">
                   <middle-c-offset>8</middle-c-offset>
@@ -3215,6 +3207,7 @@ smaller = {
             </chord>
             <chord show="true" id="id704">
               <duration base="sixteenth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id705">
                   <middle-c-offset>6</middle-c-offset>
@@ -3223,9 +3216,7 @@ smaller = {
             </chord>
             <chord show="true" id="id706">
               <duration base="quarter"></duration>
-              <slurs>
-                <slur to="id708"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id707">
                   <middle-c-offset>11</middle-c-offset>
@@ -3234,6 +3225,7 @@ smaller = {
             </chord>
             <chord show="true" id="id708">
               <duration base="eighth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id709">
                   <middle-c-offset>11</middle-c-offset>
@@ -3242,9 +3234,7 @@ smaller = {
             </chord>
             <chord show="true" id="id710">
               <duration base="sixteenth"></duration>
-              <slurs>
-                <slur to="id712"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id711">
                   <middle-c-offset>10</middle-c-offset>
@@ -3254,6 +3244,7 @@ smaller = {
             </chord>
             <chord show="true" id="id712">
               <duration base="sixteenth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id713">
                   <middle-c-offset>9</middle-c-offset>
@@ -3289,9 +3280,7 @@ smaller = {
             </chord>
             <chord show="true" id="id720">
               <duration base="sixteenth"></duration>
-              <slurs>
-                <slur to="id722"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id721">
                   <middle-c-offset>7</middle-c-offset>
@@ -3301,6 +3290,7 @@ smaller = {
             </chord>
             <chord show="true" id="id722">
               <duration base="sixteenth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id723">
                   <middle-c-offset>5</middle-c-offset>
@@ -3309,9 +3299,7 @@ smaller = {
             </chord>
             <chord show="true" id="id724">
               <duration base="quarter"></duration>
-              <slurs>
-                <slur to="id726"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id725">
                   <middle-c-offset>10</middle-c-offset>
@@ -3321,6 +3309,7 @@ smaller = {
             </chord>
             <chord show="true" id="id726">
               <duration base="eighth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id727">
                   <middle-c-offset>10</middle-c-offset>
@@ -3330,9 +3319,7 @@ smaller = {
             </chord>
             <chord show="true" id="id728">
               <duration base="sixteenth"></duration>
-              <slurs>
-                <slur to="id730"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id729">
                   <middle-c-offset>9</middle-c-offset>
@@ -3341,6 +3328,7 @@ smaller = {
             </chord>
             <chord show="true" id="id730">
               <duration base="sixteenth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id731">
                   <middle-c-offset>8</middle-c-offset>
@@ -3384,9 +3372,7 @@ smaller = {
             </chord>
             <chord show="true" id="id740">
               <duration base="quarter"></duration>
-              <slurs>
-                <slur to="id742"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id741">
                   <middle-c-offset>10</middle-c-offset>
@@ -3396,6 +3382,7 @@ smaller = {
             </chord>
             <chord show="true" id="id742">
               <duration base="sixteenth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id743">
                   <middle-c-offset>10</middle-c-offset>
@@ -3783,9 +3770,7 @@ smaller = {
           <measure>
             <chord show="true" id="id833">
               <duration base="quarter"></duration>
-              <slurs>
-                <slur to="id835"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id834">
                   <middle-c-offset>9</middle-c-offset>
@@ -3794,6 +3779,7 @@ smaller = {
             </chord>
             <chord show="true" id="id835">
               <duration base="sixteenth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id836">
                   <middle-c-offset>9</middle-c-offset>
@@ -4096,9 +4082,7 @@ smaller = {
             </chord>
             <chord show="true" id="id907">
               <duration base="quarter"></duration>
-              <slurs>
-                <slur to="id909"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id908">
                   <middle-c-offset>10</middle-c-offset>
@@ -4110,6 +4094,7 @@ smaller = {
           <measure>
             <chord show="true" id="id909">
               <duration base="sixteenth"></duration>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id910">
                   <middle-c-offset>10</middle-c-offset>
@@ -4187,6 +4172,8 @@ smaller = {
           <instrument>acoustic grand</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>1</hasfigures>
@@ -4318,9 +4305,7 @@ smaller = {
             <chord show="true" id="id946">
               <duration base="quarter"></duration>
               <figure>6+</figure>
-              <slurs>
-                <slur to="id948"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id947">
                   <middle-c-offset>-8</middle-c-offset>
@@ -4332,6 +4317,7 @@ smaller = {
             <chord show="true" id="id948">
               <duration base="sixteenth"></duration>
               <figure>4+ 2</figure>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id949">
                   <middle-c-offset>-8</middle-c-offset>
@@ -5053,9 +5039,7 @@ smaller = {
             </chord>
             <chord show="true" id="id1110">
               <duration base="quarter"></duration>
-              <slurs>
-                <slur to="id1112"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id1111">
                   <middle-c-offset>-3</middle-c-offset>
@@ -5065,6 +5049,7 @@ smaller = {
             <chord show="true" id="id1112">
               <duration base="sixteenth"></duration>
               <figure>4 2</figure>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id1113">
                   <middle-c-offset>-3</middle-c-offset>
@@ -5778,9 +5763,7 @@ smaller = {
             <chord show="true" id="id1270">
               <duration base="quarter"></duration>
               <figure>3</figure>
-              <slurs>
-                <slur to="id1272"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id1271">
                   <middle-c-offset>-5</middle-c-offset>
@@ -5790,6 +5773,7 @@ smaller = {
             <chord show="true" id="id1272">
               <duration base="sixteenth"></duration>
               <figure>4+ 2</figure>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id1273">
                   <middle-c-offset>-5</middle-c-offset>
@@ -6576,9 +6560,7 @@ smaller = {
             <chord show="true" id="id1448">
               <duration base="quarter"></duration>
               <figure>6+</figure>
-              <slurs>
-                <slur to="id1450"></slur>
-              </slurs>
+              <slur-begin>1</slur-begin>
               <notes>
                 <note id="id1449">
                   <middle-c-offset>-8</middle-c-offset>
@@ -6588,6 +6570,7 @@ smaller = {
             <chord show="true" id="id1450">
               <duration base="sixteenth"></duration>
               <figure>4+ 2</figure>
+              <slur-end>1</slur-end>
               <notes>
                 <note id="id1451">
                   <middle-c-offset>-8</middle-c-offset>

@@ -14,3 +14,23 @@ g_test_print(const char *fmt, ...)
 #endif
 	va_end(argp);
 }
+
+gboolean
+delete_if_exists(gchar* path){
+  if(g_file_test(path, G_FILE_TEST_EXISTS)){
+    if(g_file_test(path, G_FILE_TEST_IS_DIR)){
+      GError *error = NULL;
+      GDir* dir = g_dir_open(path, 0, &error);
+      gchar* filename = NULL;
+      gchar* child = NULL;
+      while (filename = g_dir_read_name(dir)){
+        child = g_build_filename(path, filename, NULL);
+        delete_if_exists(child);
+        g_free(child);
+      }
+   }
+   if(g_remove(path) < 0)
+     g_warning("Could not remove %s", path);
+  }
+}
+
