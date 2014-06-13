@@ -1110,6 +1110,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Returns the full path to the currently opened Denemo score or #f if it does not have a disk file yet.", DENEMO_SCHEME_PREFIX "GetFilename", scheme_get_filename);
 
   install_scm_function (1, "Returns the directory component of the passed filename.", DENEMO_SCHEME_PREFIX "PathFromFilename", scheme_path_from_filename);
+  install_scm_function (1, "Returns the #t if file passed in exists.", DENEMO_SCHEME_PREFIX "FileExists", scheme_file_exists);
   install_scm_function (1, "Returns the filename component of the passed path.", DENEMO_SCHEME_PREFIX "FilenameFromPath", scheme_filename_from_path);
   install_scm_function (3, "Gives dialog to choose a file. Takes a title, start directory and list of extensions. Returns a string or #f if user cancesl", DENEMO_SCHEME_PREFIX "ChooseFile", scheme_choose_file);
 

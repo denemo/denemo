@@ -286,6 +286,7 @@ SCM scheme_select_next_custom_layout (void);
 SCM scheme_select_first_custom_layout (void);
 SCM scheme_get_filename (void);
 SCM scheme_path_from_filename (SCM);
+SCM scheme_file_exists (SCM);
 SCM scheme_filename_from_path (SCM);
 SCM scheme_choose_file (SCM, SCM, SCM);
 SCM scheme_edit_graphics (SCM);

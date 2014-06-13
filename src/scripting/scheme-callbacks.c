@@ -1139,6 +1139,18 @@ return ret;
 }
 
 SCM
+scheme_file_exists (SCM filepath)
+{
+    SCM ret = SCM_BOOL_F;
+    if (scm_is_string (filepath))
+        { 
+            char *temp = scm_to_locale_string (filepath);
+            return SCM_BOOL(g_file_test(temp, G_FILE_TEST_EXISTS));
+        }
+return ret;
+}
+
+SCM
 scheme_choose_file (SCM title, SCM startdir, SCM list)
 {
     gchar *thetitle = g_strdup(_( "Choose File"));
