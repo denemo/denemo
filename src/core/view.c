@@ -24,7 +24,7 @@
 #include "export/exportlilypond.h"
 #include "export/print.h"
 #include "printview/printview.h"
-#include "command/graceops.h"
+#include "command/grace.h"
 #include "core/kbd-custom.h"
 #include "core/keyboard.h"
 #include "export/exportmidi.h"
@@ -37,12 +37,12 @@
 #include "display/calculatepositions.h"
 #include "core/http.h"
 #include "ui/texteditors.h"
-#include "core/prefops.h"
+#include "core/preferences.h"
 #include "audio/audiointerface.h"
 #include "source/sourceaudio.h"
 #include "command/scorelayout.h"
 #include "core/keymapio.h"
-#include "command/measureops.h"
+#include "command/measure.h"
 #include "export/audiofile.h"
 #include "export/guidedimportmidi.h"
 #include "scripting/scheme-identifiers.h"
@@ -1806,7 +1806,7 @@ create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
           int j, k;
           objnode *curobj;
           /* Measure loop.  */
-          for (j = si->selection.firstmeasuremarked, k = si->selection.firstobjmarked, curmeasure = g_list_nth (firstmeasurenode (curstaff), j - 1); curmeasure && j <= si->selection.lastmeasuremarked; curmeasure = curmeasure->next, j++)
+          for (j = si->selection.firstmeasuremarked, k = si->selection.firstobjmarked, curmeasure = g_list_nth (staff_first_measure_node (curstaff), j - 1); curmeasure && j <= si->selection.lastmeasuremarked; curmeasure = curmeasure->next, j++)
             {
               for (curobj = g_list_nth ((objnode *) curmeasure->data, k);
                    /* cursor_x is 0-indexed */

@@ -7,7 +7,7 @@
 #include "core/kbd-custom.h"
 #include "command/keyresponses.h"
 #include "core/utils.h"
-#include "command/tupletops.h"
+#include "command/tuplet.h"
 #include "core/view.h"
 #include "command/commandfuncs.h"
 #include "core/kbd-custom.h"

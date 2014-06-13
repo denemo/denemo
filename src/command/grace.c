@@ -6,8 +6,8 @@
  * (c) 2000, 2001, 2002 Adam Tee 
  *
  */
-#include "command/graceops.h"
-#include "command/selectops.h"
+#include "command/grace.h"
+#include "command/select.h"
 #include "command/commandfuncs.h"
 #include <denemo/denemo.h>
 #include <string.h>

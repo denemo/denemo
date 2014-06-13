@@ -24,7 +24,7 @@
 #include <string.h>
 #include "export/audiofile.h"
 #include "export/file.h"
-#include "core/prefops.h"
+#include "core/preferences.h"
 #include "core/utils.h"
 
 const gchar *

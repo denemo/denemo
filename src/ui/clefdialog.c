@@ -9,14 +9,14 @@
 #include <gtk/gtk.h>
 #include <string.h>
 #include "display/calculatepositions.h"
-#include "command/chordops.h"
+#include "command/chord.h"
 #include "command/commandfuncs.h"
 #include "command/contexts.h"
 #include "display/draw.h"
 #include "ui/dialogs.h"
-#include "command/measureops.h"
-#include "command/objops.h"
-#include "command/staffops.h"
+#include "command/measure.h"
+#include "command/object.h"
+#include "command/staff.h"
 #include "core/utils.h"
 
 #define COLUMN_NAME (0)
@@ -107,7 +107,7 @@ dnm_setinitialclef (DenemoMovement * si, DenemoStaff * curstaffstruct, enum clef
 {
   curstaffstruct->clef.type = clef;
   find_leftmost_staffcontext (curstaffstruct, si);
-  fixnoteheights (curstaffstruct);
+  staff_fix_note_heights (curstaffstruct);
   find_xes_in_all_measures (si);
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);

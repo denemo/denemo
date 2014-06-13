@@ -15,7 +15,7 @@
 #include <gtk/gtk.h>
 
 #include "core/kbd-custom.h"
-#include "core/prefops.h"
+#include "core/preferences.h"
 #include "ui/mousing.h"
 #include "core/utils.h"
 

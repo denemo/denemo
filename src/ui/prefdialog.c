@@ -17,7 +17,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <denemo/denemo.h>
-#include "core/prefops.h"
+#include "core/preferences.h"
 #include "core/utils.h"
 #include "audio/playback.h"
 #include "audio/fluid.h"

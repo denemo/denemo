@@ -1,4 +1,4 @@
-/* tupletops.h
+/* tuplet.h
  * 
  * tuplet function prototypes
  *

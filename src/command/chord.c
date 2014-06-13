@@ -11,8 +11,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
-#include "command/objops.h"
-#include "command/chordops.h"
+#include "command/object.h"
+#include "command/chord.h"
 #include "core/utils.h"
 #include "audio/audiointerface.h"
 #include "command/commandfuncs.h"

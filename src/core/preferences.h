@@ -1,4 +1,4 @@
-/* prefops.h
+/* preferences.h
  * header file for initializing preferences
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond

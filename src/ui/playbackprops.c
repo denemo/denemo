@@ -10,7 +10,7 @@
 #include <string.h>
 #include <denemo/denemo.h>
 #include "core/utils.h"
-#include "core/prefops.h"
+#include "core/preferences.h"
 
 struct callbackdata
 {

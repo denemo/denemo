@@ -16,7 +16,7 @@
 #include "display/drawingprims.h"
 #include "display/slurs.h"
 #include "display/hairpin.h"
-#include "command/staffops.h"
+#include "command/staff.h"
 #include "core/utils.h"
 #include "export/exportlilypond.h"     /* to generate lily text for display */
 #include "audio/pitchentry.h"

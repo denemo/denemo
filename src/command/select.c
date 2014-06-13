@@ -13,14 +13,14 @@
 #include "command/commandfuncs.h"
 #include <denemo/denemo.h>
 #include "display/draw.h"
-#include "command/objops.h"
-#include "command/measureops.h"
-#include "command/selectops.h"
-#include "command/staffops.h"
-#include "core/prefops.h"
+#include "command/object.h"
+#include "command/measure.h"
+#include "command/select.h"
+#include "command/staff.h"
+#include "core/preferences.h"
 #include "command/lyric.h"
 #include "command/lilydirectives.h"
-#include "command/scoreops.h"
+#include "command/score.h"
 #include "core/view.h"
 #include "command/contexts.h"
 #include "ui/moveviewport.h"
@@ -244,7 +244,7 @@ copytobuffer (DenemoMovement * si)
       /* Initialize first ->data for copybuffer to NULL.  */
       theobjs = NULL;
       /* Measure loop.  */
-      for (j = si->selection.firstmeasuremarked, k = si->selection.firstobjmarked, curmeasure = g_list_nth (firstmeasurenode (curstaff), j - 1); curmeasure && j <= si->selection.lastmeasuremarked; curmeasure = curmeasure->next, j++)
+      for (j = si->selection.firstmeasuremarked, k = si->selection.firstobjmarked, curmeasure = g_list_nth (staff_first_measure_node (curstaff), j - 1); curmeasure && j <= si->selection.lastmeasuremarked; curmeasure = curmeasure->next, j++)
         {
           for (curobj = g_list_nth ((objnode *) curmeasure->data, k);
                /* cursor_x is 0-indexed */
@@ -315,7 +315,7 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
     {
       /* Just a single staff is a special case, again.  */
       jcounter = si->selection.firstmeasuremarked;      //currently clearing stuff from the firstmeasuremarked
-      curmeasure = g_list_nth (firstmeasurenode (si->currentstaff), jcounter - 1);
+      curmeasure = g_list_nth (staff_first_measure_node (si->currentstaff), jcounter - 1);
 
       /* Clear the relevant part of the first measure selected */
       if (lmeasurebreaksinbuffer)
@@ -361,10 +361,10 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
              one staff.  */
 
           if (!curmeasure->data && !si->thescore->next)
-            removemeasures (si, g_list_position (firstmeasurenode (si->currentstaff), curmeasure), 1, TRUE);
+            removemeasures (si, g_list_position (staff_first_measure_node (si->currentstaff), curmeasure), 1, TRUE);
         }
-      showwhichaccidentalswholestaff ((DenemoStaff *) si->currentstaff->data);
-      beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
+      staff_show_which_accidentals ((DenemoStaff *) si->currentstaff->data);
+      staff_beams_and_stems_dirs ((DenemoStaff *) si->currentstaff->data);
     }                           // end of single staff
   else
     {                           /* Multiple staff selection */
@@ -380,12 +380,12 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
           else
             for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
               {
-                curmeasure = g_list_nth (firstmeasurenode (curstaff), si->selection.firstmeasuremarked - 1);
+                curmeasure = g_list_nth (staff_first_measure_node (curstaff), si->selection.firstmeasuremarked - 1);
                 freeobjlist (curmeasure->data, NULL);
                 curmeasure->data = NULL;
 
-                showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
-                beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
+                staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
+                staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
               }
         }
       else
@@ -396,13 +396,13 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
               if (((DenemoStaff *) curstaff->data)->is_parasite)
                 continue;
               /* Measure loop */
-              for (jcounter = si->selection.firstmeasuremarked, curmeasure = g_list_nth (firstmeasurenode (curstaff), jcounter - 1); curmeasure && jcounter <= si->selection.lastmeasuremarked; curmeasure = curmeasure->next, jcounter++)
+              for (jcounter = si->selection.firstmeasuremarked, curmeasure = g_list_nth (staff_first_measure_node (curstaff), jcounter - 1); curmeasure && jcounter <= si->selection.lastmeasuremarked; curmeasure = curmeasure->next, jcounter++)
                 {
                   freeobjlist (curmeasure->data, NULL);
                   curmeasure->data = NULL;
                 }
-              showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
-              beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
+              staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
+              staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
             }
         }
     }
@@ -420,7 +420,7 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
     }
 
 
-  si->currentmeasure = g_list_nth (firstmeasurenode (si->currentstaff), si->currentmeasurenum - 1);
+  si->currentmeasure = g_list_nth (staff_first_measure_node (si->currentstaff), si->currentmeasurenum - 1);
 
   si->cursor_x = si->selection.firstobjmarked;
   if (si->cursor_x < (gint) (g_list_length ((objnode *) si->currentmeasure->data)))
@@ -515,7 +515,7 @@ insert_object (DenemoObject * clonedobj)
     }
 
 
-  beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
+  staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
   find_xes_in_all_measures (si);
 }
 
@@ -542,8 +542,8 @@ insert_clip_obj (gint m, gint n)
   octave_down_key (Denemo.project); //FIXME up and down to fix clef change bug !!!!!!!!
 #endif
   //reset_cursor_stats (si);
-  fixnoteheights ((DenemoStaff *) si->currentstaff->data);
-  beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
+  staff_fix_note_heights ((DenemoStaff *) si->currentstaff->data);
+  staff_beams_and_stems_dirs ((DenemoStaff *) si->currentstaff->data);
   find_xes_in_all_measures (si);
   showwhichaccidentals ((objnode *) si->currentmeasure->data, si->curmeasurekey, si->curmeasureaccs);
 

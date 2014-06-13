@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "command/chordops.h"
+#include "command/chord.h"
 #include "display/calculatepositions.h"
 #include "command/commandfuncs.h"
 #include "command/contexts.h"
 #include "command/fakechord.h"
 #include "ui/dialogs.h"
 #include "display/draw.h"
-#include "command/objops.h"
-#include "command/staffops.h"
+#include "command/object.h"
+#include "command/staff.h"
 #include "core/utils.h"
 
 struct callbackdata

@@ -6,13 +6,13 @@
  */
 
 #include <denemo/denemo.h>
-#include "command/chordops.h"
+#include "command/chord.h"
 #include "core/utils.h"
 #include "command/commandfuncs.h"
-#include "command/objops.h"
-#include "command/staffops.h"
-#include "command/tupletops.h"
-#include "command/selectops.h"
+#include "command/object.h"
+#include "command/staff.h"
+#include "command/tuplet.h"
+#include "command/select.h"
 #include "audio/pitchentry.h"
 #include <string.h>
 
@@ -512,7 +512,7 @@ dnm_setinitialkeysig (DenemoStaff * curstaff, gint tokey, gint type)
   initkeyaccs (curstaff->keysig.accs, tokey);
   //memcpy (curstaff->keysig.keyaccs, curstaff->leftmost_keyaccs, SEVENGINTS);
   curstaff->leftmost_keysig = &curstaff->keysig;
-  showwhichaccidentalswholestaff (curstaff);
+  staff_show_which_accidentals (curstaff);
   adjust_tonal_center (curstaff->keysig.accs);
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);

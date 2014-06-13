@@ -9,10 +9,10 @@
 #include "command/commandfuncs.h"
 #include "command/contexts.h"
 #include "ui/moveviewport.h"
-#include "command/staffops.h"
+#include "command/staff.h"
 #include "core/utils.h"
 #include "display/displayanimation.h"
-#include "command/selectops.h"
+#include "command/select.h"
 
 /**
  * update_hscrollbar should be called as a cleanup whenever
@@ -313,7 +313,7 @@ goto_currentstaffnum (DenemoProject * gui, gint dest, gboolean extend_selection)
       //hide_lyrics(); cannot do this here, the lyrics pane when clicked on adjusts the current staff, and so this unselects the lyrics pane.
       gui->movement->currentstaffnum = dest;
       gui->movement->currentstaff = g_list_nth (gui->movement->thescore, gui->movement->currentstaffnum - 1);
-      setcurrentprimarystaff (gui->movement);
+      staff_set_current_primary (gui->movement);
       setcurrents (gui->movement);
       if (extend_selection)
         calcmarkboundaries (gui->movement);
@@ -364,7 +364,7 @@ vertical_scroll (GtkAdjustment * adjust, gpointer dummy)
         {
           gui->movement->currentstaffnum = gui->movement->bottom_staff;
           gui->movement->currentstaff = g_list_nth (gui->movement->thescore, gui->movement->bottom_staff - 1);
-          setcurrentprimarystaff (gui->movement);
+          staff_set_current_primary (gui->movement);
           setcurrents (gui->movement);
           if (gui->movement->markstaffnum)
             calcmarkboundaries (gui->movement);
@@ -373,7 +373,7 @@ vertical_scroll (GtkAdjustment * adjust, gpointer dummy)
         {
           gui->movement->currentstaffnum = gui->movement->top_staff;
           gui->movement->currentstaff = g_list_nth (gui->movement->thescore, gui->movement->top_staff - 1);
-          setcurrentprimarystaff (gui->movement);
+          staff_set_current_primary (gui->movement);
           setcurrents (gui->movement);
           if (gui->movement->markstaffnum)
             calcmarkboundaries (gui->movement);

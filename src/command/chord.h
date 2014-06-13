@@ -1,4 +1,4 @@
-/* chordops.h
+/* chord.h
  *
  * the header files for chordops.c, functions which manipulate chords
  * For denemo, a gtk+ frontend to Lilypond, the GNU music typesetter

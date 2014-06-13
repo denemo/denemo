@@ -26,7 +26,7 @@
 
 #include "export/print.h"
 #include "printview/printview.h"
-#include "core/prefops.h"
+#include "core/preferences.h"
 #include "export/exportlilypond.h"
 #include "core/utils.h"
 

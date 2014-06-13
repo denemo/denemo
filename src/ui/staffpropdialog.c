@@ -9,18 +9,18 @@
 #include <glib/gprintf.h>
 #include <gtk/gtk.h>
 #include "display/calculatepositions.h"
-#include "command/chordops.h"
+#include "command/chord.h"
 #include "command/contexts.h"
 #include <denemo/denemo.h>
 #include "command/processstaffname.h"
-#include "command/staffops.h"
+#include "command/staff.h"
 #include "core/utils.h"
 #include "ui/dialogs.h"
 #include <stdlib.h>
 #include <string.h>
 #include "export/xmldefs.h"
 #include "audio/midi.h"
-#include "command/selectops.h"
+#include "command/select.h"
 #include "audio/audiointerface.h"
 
 extern int ParseSoundfont (gchar * soundfont, gint index, gchar ** name, gint * preset, gint * bank);        //in "external" code libsffile/sfile.c

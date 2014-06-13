@@ -10,7 +10,7 @@
  */
 #include <string.h>
 #include <denemo/denemo.h>
-#include "core/prefops.h"            //for get_user_data_dir()
+#include "core/preferences.h"            //for get_user_data_dir()
 #include "export/file.h"
 #include "core/utils.h"
 

@@ -18,7 +18,7 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include "core/utils.h"
-#include "core/prefops.h"
+#include "core/preferences.h"
 #include "audio/playback.h"
 #include "core/view.h"
 

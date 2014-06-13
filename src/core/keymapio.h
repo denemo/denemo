@@ -6,7 +6,7 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include "core/utils.h"
-#include "core/prefops.h"
+#include "core/preferences.h"
 #include "core/kbd-custom.h"
 #include "core/keyboard.h"
 

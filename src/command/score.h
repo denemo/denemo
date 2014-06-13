@@ -1,4 +1,4 @@
-/* scoreops.h
+/* score.h
  * headers for functions dealing with the whole score
 
  * for Denemo, a gtk+ frontend to GNU Lilypond

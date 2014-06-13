@@ -23,7 +23,7 @@
 #include "core/utils.h"
 #include "export/print.h"
 #include "printview/printview.h"
-#include "command/scoreops.h"
+#include "command/score.h"
 #include "command/processstaffname.h"
 #include "core/view.h"
 

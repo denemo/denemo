@@ -11,7 +11,7 @@
 #include "audio/pitchentry.h"
 #include "core/view.h"
 #include "audio/audiointerface.h"
-#include "command/measureops.h"
+#include "command/measure.h"
 #include "audio/pitchrecog.h"
 #include "audio/audiocapture.h"
 

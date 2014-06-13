@@ -9,7 +9,7 @@
  */
 
 #include <denemo/denemo.h>
-#include "core/prefops.h"
+#include "core/preferences.h"
 #include <signal.h>
 #include "core/external.h"
 #include "core/utils.h"
