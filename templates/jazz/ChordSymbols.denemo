@@ -1,5 +1,5 @@
-<?xml version="1.0"?>
-<score xmlns="http://denemo.org/xmlns/Denemo" version="6">
+<?xml version="1.0" encoding="UTF-8"?>
+<score xmlns="http://denemo.org/xmlns/Denemo" version="7">
   <scoreheader-directives>
     <directive>
       <tag>ScoreTitle</tag>
@@ -36,6 +36,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <papersize>a4</papersize>
     <fontsize>20</fontsize>
     <orientation>1</orientation>
+    <total-edit-time>0</total-edit-time>
     <score-directives>
       <directive>
         <tag>ScoreIndent</tag>
@@ -51,12 +52,12 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <edit-info>
       <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>-1</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>121</zoom>
       <system-height>100</system-height>
-      <page-zoom>0</page-zoom>
-      <page-system-height>0</page-system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
     </edit-info>
     <header-directives>
       <directive>
@@ -74,7 +75,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       </tempo>
     </score-info>
     <staves>
-      <staff id="id0"/>
+      <staff id="id0"></staff>
     </staves>
     <voices>
       <voice id="id1">
@@ -83,10 +84,10 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id0"/>
-          <clef name="treble"/>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -102,6 +103,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>0</hasfigures>
@@ -117,8 +120,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
-          <measure/>
+          <measure></measure>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id2">
@@ -127,7 +130,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id0"/>
+          <staff-ref staff="id0"></staff-ref>
           <clef name="treble">
             <directives>
               <directive>
@@ -140,7 +143,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </directives>
           </clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
             <directives>
               <directive>
                 <tag>ChordStaff</tag>
@@ -174,6 +177,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -207,8 +212,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           </clef-directives>
         </voice-props>
         <measures>
-          <measure/>
-          <measure/>
+          <measure></measure>
+          <measure></measure>
         </measures>
       </voice>
     </voices>

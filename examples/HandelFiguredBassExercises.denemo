@@ -141,6 +141,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>2</midi_channel>
           <hasfigures>0</hasfigures>
@@ -370,6 +372,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>0</hasfigures>
@@ -571,6 +575,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -932,6 +938,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>0</hasfigures>
@@ -1221,6 +1229,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -1498,6 +1508,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>0</hasfigures>
@@ -1920,6 +1932,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -2122,6 +2136,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>1</hasfigures>
@@ -2322,6 +2338,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -2613,6 +2631,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>1</hasfigures>
@@ -3034,6 +3054,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -3475,6 +3497,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>1</hasfigures>
@@ -3748,6 +3772,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -4134,6 +4160,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>1</hasfigures>
@@ -4515,6 +4543,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -4877,6 +4907,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>1</hasfigures>
@@ -5281,6 +5313,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -5764,6 +5798,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>1</hasfigures>
@@ -6263,6 +6299,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -6990,6 +7028,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>1</hasfigures>
@@ -7702,6 +7742,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -8520,6 +8562,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>1</hasfigures>
@@ -9355,6 +9399,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -10576,6 +10622,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>1</hasfigures>
@@ -12059,6 +12107,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -12836,6 +12886,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>1</hasfigures>
@@ -13528,6 +13580,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -14356,6 +14410,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>1</hasfigures>
@@ -15014,6 +15070,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -15650,6 +15708,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>1</hasfigures>
@@ -16191,6 +16251,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -17236,6 +17298,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>1</hasfigures>
@@ -18140,6 +18204,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -18874,6 +18940,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>1</hasfigures>
@@ -19259,6 +19327,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -20230,6 +20300,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>1</hasfigures>
@@ -21169,6 +21241,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -22028,6 +22102,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>1</hasfigures>
@@ -22600,6 +22676,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -23296,6 +23374,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>1</hasfigures>

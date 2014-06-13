@@ -1,5 +1,5 @@
-<?xml version="1.0"?>
-<score xmlns="http://denemo.org/xmlns/Denemo" version="6">
+<?xml version="1.0" encoding="UTF-8"?>
+<score xmlns="http://denemo.org/xmlns/Denemo" version="7">
   <paper-directives>
     <directive>
       <tag>LimitInterSystemSpace</tag>
@@ -20,6 +20,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <papersize>a4</papersize>
     <fontsize>16</fontsize>
     <orientation>1</orientation>
+    <total-edit-time>0</total-edit-time>
     <score-directives>
       <directive>
         <tag>UnknownScoreTag</tag>
@@ -280,7 +281,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
     <edit-info>
       <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>-1</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -306,25 +307,25 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
       </tempo>
     </score-info>
     <staves>
-      <staff id="id0"/>
-      <staff id="id1"/>
-      <staff id="id2"/>
-      <staff id="id3"/>
-      <staff id="id4"/>
-      <staff id="id5"/>
-      <staff id="id6"/>
-      <staff id="id7"/>
-      <staff id="id8"/>
-      <staff id="id9"/>
-      <staff id="id10"/>
-      <staff id="id11"/>
-      <staff id="id12"/>
-      <staff id="id13"/>
-      <staff id="id14"/>
-      <staff id="id15"/>
-      <staff id="id16"/>
-      <staff id="id17"/>
-      <staff id="id18"/>
+      <staff id="id0"></staff>
+      <staff id="id1"></staff>
+      <staff id="id2"></staff>
+      <staff id="id3"></staff>
+      <staff id="id4"></staff>
+      <staff id="id5"></staff>
+      <staff id="id6"></staff>
+      <staff id="id7"></staff>
+      <staff id="id8"></staff>
+      <staff id="id9"></staff>
+      <staff id="id10"></staff>
+      <staff id="id11"></staff>
+      <staff id="id12"></staff>
+      <staff id="id13"></staff>
+      <staff id="id14"></staff>
+      <staff id="id15"></staff>
+      <staff id="id16"></staff>
+      <staff id="id17"></staff>
+      <staff id="id18"></staff>
     </staves>
     <voices>
       <voice id="id19">
@@ -333,10 +334,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id0"/>
-          <clef name="treble"/>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="A" mode="major"/>
+            <modal-key-signature note-name="A" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -352,6 +353,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>Trumpet</instrument>
           <device-port>NONE</device-port>
           <volume>65</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>56</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -374,7 +377,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id20">
@@ -383,10 +386,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id1"/>
-          <clef name="treble"/>
+          <staff-ref staff="id1"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="D" mode="major"/>
+            <modal-key-signature note-name="D" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -402,6 +405,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>muted trumpet</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>60</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -417,7 +422,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id21">
@@ -426,10 +431,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id2"/>
-          <clef name="treble"/>
+          <staff-ref staff="id2"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="D" mode="major"/>
+            <modal-key-signature note-name="D" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -445,6 +450,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>muted trumpet</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>60</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -460,7 +467,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id22">
@@ -469,10 +476,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id3"/>
-          <clef name="treble"/>
+          <staff-ref staff="id3"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="D" mode="major"/>
+            <modal-key-signature note-name="D" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -488,6 +495,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>muted trumpet</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>60</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -503,7 +512,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id23">
@@ -512,10 +521,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id4"/>
-          <clef name="treble"/>
+          <staff-ref staff="id4"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="D" mode="major"/>
+            <modal-key-signature note-name="D" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -531,6 +540,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>muted trumpet</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>60</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -546,7 +557,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id24">
@@ -555,10 +566,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id5"/>
-          <clef name="treble"/>
+          <staff-ref staff="id5"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="D" mode="major"/>
+            <modal-key-signature note-name="D" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -574,6 +585,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>Tuba</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>58</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -589,7 +602,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id25">
@@ -598,10 +611,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id6"/>
-          <clef name="treble"/>
+          <staff-ref staff="id6"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="A" mode="major"/>
+            <modal-key-signature note-name="A" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -617,6 +630,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>french horn</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>61</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -632,7 +647,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id26">
@@ -641,10 +656,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id7"/>
-          <clef name="treble"/>
+          <staff-ref staff="id7"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="A" mode="major"/>
+            <modal-key-signature note-name="A" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -660,6 +675,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>acoustic grand</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>1</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -675,7 +692,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id27">
@@ -684,10 +701,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id8"/>
-          <clef name="treble"/>
+          <staff-ref staff="id8"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="A" mode="major"/>
+            <modal-key-signature note-name="A" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -703,6 +720,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>acoustic grand</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>1</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -718,7 +737,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id28">
@@ -727,10 +746,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id9"/>
-          <clef name="treble"/>
+          <staff-ref staff="id9"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="D" mode="major"/>
+            <modal-key-signature note-name="D" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -746,6 +765,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>acoustic grand</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>1</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -761,7 +782,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id29">
@@ -770,10 +791,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id10"/>
-          <clef name="treble"/>
+          <staff-ref staff="id10"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="D" mode="major"/>
+            <modal-key-signature note-name="D" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -789,6 +810,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>acoustic grand</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>1</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -804,7 +827,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id30">
@@ -813,10 +836,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id11"/>
-          <clef name="treble"/>
+          <staff-ref staff="id11"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="D" mode="major"/>
+            <modal-key-signature note-name="D" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -832,6 +855,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>acoustic grand</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>1</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -847,7 +872,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id31">
@@ -856,10 +881,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id12"/>
-          <clef name="treble"/>
+          <staff-ref staff="id12"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="D" mode="major"/>
+            <modal-key-signature note-name="D" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -875,13 +900,15 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>acoustic grand</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id32">
@@ -890,10 +917,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id13"/>
-          <clef name="bass"/>
+          <staff-ref staff="id13"></staff-ref>
+          <clef name="bass"></clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -909,6 +936,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>acoustic grand</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -924,7 +953,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id33">
@@ -933,10 +962,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id14"/>
-          <clef name="treble"/>
+          <staff-ref staff="id14"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="D" mode="major"/>
+            <modal-key-signature note-name="D" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -952,6 +981,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>acoustic grand</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>1</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -967,7 +998,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id34">
@@ -976,10 +1007,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id15"/>
-          <clef name="treble"/>
+          <staff-ref staff="id15"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="A" mode="major"/>
+            <modal-key-signature note-name="A" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -995,6 +1026,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>acoustic grand</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>1</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -1010,7 +1043,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id35">
@@ -1019,10 +1052,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id16"/>
-          <clef name="treble"/>
+          <staff-ref staff="id16"></staff-ref>
+          <clef name="treble"></clef>
           <key-signature>
-            <modal-key-signature note-name="D" mode="major"/>
+            <modal-key-signature note-name="D" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -1038,6 +1071,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>acoustic grand</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>1</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -1053,7 +1088,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id36">
@@ -1062,10 +1097,10 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id17"/>
-          <clef name="bass"/>
+          <staff-ref staff="id17"></staff-ref>
+          <clef name="bass"></clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -1081,6 +1116,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>acoustic grand</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
@@ -1096,7 +1133,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </staff-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
       <voice id="id37">
@@ -1105,7 +1142,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id18"/>
+          <staff-ref staff="id18"></staff-ref>
           <clef name="bass">
             <directives>
               <directive>
@@ -1118,7 +1155,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
             </directives>
           </clef>
           <key-signature>
-            <modal-key-signature note-name="C" mode="major"/>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
           </key-signature>
           <time-signature>
             <simple-time-signature>
@@ -1134,6 +1171,8 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <instrument>acoustic grand</instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>9</midi_channel>
           <hasfigures>0</hasfigures>
@@ -1165,7 +1204,7 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           </clef-directives>
         </voice-props>
         <measures>
-          <measure/>
+          <measure></measure>
         </measures>
       </voice>
     </voices>
