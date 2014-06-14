@@ -1,5 +1,13 @@
 ;;PrependPostscript
-(let ((tag "PrependPostscript")(filename #f)(width #f)(space-below #f)(space-left #f)(params PrependPostscript::params))
+(let ((tag "PrependPostscript")(filename #f)(width #f)(space-below #f)(space-left #f)(params PrependPostscript::params)
+    (warning (_ "Wait for your vector graphics editor to start.
+It will open an SVG file of the same name, if available,
+but be sure to save as encapsulated postscript (eps).
+You will need to refresh the print view to see your changes.
+When saving your eps it is good to save as SVG file format as well, 
+as this will give better editing later.  
+Quit your graphics editor before quitting this dialog
+to return to work in Denemo.")))
 
   (define (edit)
         (define choice (RadioBoxMenu
@@ -7,7 +15,7 @@
           (cons (_ "Delete")   'delete)   
           (cons (_ "Advanced") 'advanced)))
           (case choice
-            ((delete) (d-DirectiveDelete-movementcontrol tag))
+            ((delete) (d-DirectiveDelete-movementcontrol tag)(set! params 'finished))
             ((edit) 
                  (if (RadioBoxMenu (cons (string-append (_ "Edit the file ") filename) #t) (cons (_ "Edit width and position ") #f))
                     (d-EditGraphics filename)
@@ -48,24 +56,27 @@
                 (edit)))
         ((equal? params 'refresh))
         ((equal? params 'finished))
-        (else
-                (set! filename (d-ChooseFile (_ "Encapsulated Postscript File") (d-PathFromFilename filename) (list "*.eps" "*.EPS")))
-                (if filename
-                    (begin
-                        (set! width (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give width required:")  width))
-                        (set! space-below (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give space below required:") space-below))
-                        (set! space-left (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give space to the left required:") space-left))
-                        (if (RadioBoxMenu (cons (string-append (_ "Edit the file ") filename) #t) (cons (_ "Use the file unedited") #f))
-                            (begin
-                            (d-EditGraphics filename)
-                             (d-WarningDialog (_ "Wait for your vector graphics editor to start.
-It will open an SVG file of the same name, if available,
-but be sure to save as encapsulated postscript (eps).
-You will need to refresh the print view to see your changes.
-When saving your eps it is good to save as SVG file format as well, 
-as this will give better editing later.  
-Quit your graphics editor before quitting this dialog
-to return to work in Denemo.")))))))))
+        (else 
+            (if (RadioBoxMenu (cons (_ "Start From Template") #t)
+                           (cons (_ "Choose File") #f))
+                (begin
+                    (set! filename (d-EditGraphics))
+                    (if filename
+                        (begin
+                            (set! filename (string-append filename ".eps"))
+                                                             (d-WarningDialog warning))))           
+                
+                (begin
+                    (set! filename (d-ChooseFile (_ "Encapsulated Postscript File") (d-PathFromFilename filename) (list "*.eps" "*.EPS")))
+                    (if filename
+                        (begin
+                            (set! width (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give width required:")  width))
+                            (set! space-below (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give space below required:") space-below))
+                            (set! space-left (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give space to the left required:") space-left))
+                            (if (RadioBoxMenu (cons (string-append (_ "Edit the file ") filename) #t) (cons (_ "Use the file unedited") #f))
+                                (begin
+                                (d-EditGraphics filename)
+                                 (d-WarningDialog warning))))))))))
 
    (if (not (eq? params 'finished))
     (if (and filename width space-below space-left)

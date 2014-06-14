@@ -1,5 +1,15 @@
 ;;GraphicTitlePage
-(let ((tag "GraphicTitlePage")(filename #f)(width #f)(space-below #f)(space-left #f)(params GraphicTitlePage::params))
+(let ((tag "GraphicTitlePage")
+    (filename #f)(width #f)(space-below #f)(space-left #f)
+    (warning (_ "Wait for your vector graphics editor to start.
+It will open an SVG file of the same name, if available,
+but be sure to save as encapsulated postscript (eps).
+You will need to refresh the print view to see your changes.
+When saving your eps it is good to save as SVG file format as well, 
+as this will give better editing later.  
+Quit your graphics editor before quitting this dialog
+to return to work in Denemo."))
+    (params GraphicTitlePage::params))
 
   (define (edit)
         (define choice (RadioBoxMenu
@@ -7,7 +17,7 @@
           (cons (_ "Delete")   'delete)   
           (cons (_ "Advanced") 'advanced)))
           (case choice
-            ((delete) (d-DirectiveDelete-score tag))
+            ((delete) (d-DirectiveDelete-score tag)(set! params 'finished))
             ((edit) 
                  (if (RadioBoxMenu (cons (string-append (_ "Edit the file ") filename) #t) (cons (_ "Edit width and position ") #f))
                     (d-EditGraphics filename)
@@ -20,7 +30,7 @@
             
    (define (scale val)
        (number->string (/ (* 16 (string->number val)) (string->number (d-ScoreProperties "query=fontsize")))))
-    (if (list? params)
+   (if (list? params)
         (begin
                 (set! filename  (list-ref params 0))
                 (set! width (list-ref params 1))
@@ -32,7 +42,8 @@
                 (set! width (list-ref data 1))
                 (set! space-below (list-ref data 2))
                 (set! space-left (list-ref data 3)))))
-    (if (not filename)
+                
+   (if (not filename)
         (let ((name (d-GetFilename)))
             (if name
                 (set! filename (string-append (d-PathFromFilename name) "//" "drawing.eps"))
@@ -56,33 +67,17 @@
                     (if filename
                         (begin
                             (set! filename (string-append filename ".eps"))
-                                                             (d-WarningDialog (_ "Wait for your vector graphics editor to start.
-It will open an SVG file of the same name, if available,
-but be sure to save as encapsulated postscript (eps).
-You will need to refresh the print view to see your changes.
-When saving your eps it is good to save as SVG file format as well, 
-as this will give better editing later.  
-Quit your graphics editor before quitting this dialog
-to return to work in Denemo.")))))           
+                                                             (d-WarningDialog warning))))           
                 
                 (begin
                     (set! filename (d-ChooseFile (_ "Encapsulated Postscript File") (d-PathFromFilename filename) (list "*.eps" "*.EPS")))
                     (if filename
                         (begin
-                            (set! width (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give width required:")  width))
-                            (set! space-below (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give space below required:") space-below))
-                            (set! space-left (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give space to the left required:") space-left))
+                            (set-params)
                             (if (RadioBoxMenu (cons (string-append (_ "Edit the file ") filename) #t) (cons (_ "Use the file unedited") #f))
                                 (begin
                                 (d-EditGraphics filename)
-                                 (d-WarningDialog (_ "Wait for your vector graphics editor to start.
-It will open an SVG file of the same name, if available,
-but be sure to save as encapsulated postscript (eps).
-You will need to refresh the print view to see your changes.
-When saving your eps it is good to save as SVG file format as well, 
-as this will give better editing later.  
-Quit your graphics editor before quitting this dialog
-to return to work in Denemo.")))))))))))
+                                 (d-WarningDialog warning))))))))))
 
    (if (not (eq? params 'finished))
     (if (and (d-FileExists filename) width space-below space-left)
