@@ -46,12 +46,9 @@ static gint file_import_midi (DenemoProject * gui, DenemoSaveType template, Impo
 static gint file_import_musicxml (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename);
 static gboolean replace_existing_file_dialog (const gchar * filename, gint format_id);
 
-
-
-
-
 typedef enum
-{ DENEMO_FORMAT = 0,
+{ 
+  DENEMO_FORMAT = 0,
   DNM_FORMAT,
   MUDELA_FORMAT,
   PDF_FORMAT,
@@ -71,37 +68,52 @@ struct FileFormatData
   gboolean async;               /* TRUE if uses async */
 };
 
-static struct FileFormatData supported_file_formats[] = {       /* WARNING this array has to match the FileFormatNames enum above which is used to index it!!!!!!!!!" */
-  {"*.denemo", N_("Denemo XML format (*.denemo)"), ".denemo", 0},
-  {"*.dnm", N_("Denemo XML format (*.dnm)"), ".dnm", 0},
-  {"*.ly", N_("Lilypond (*.ly)"), ".ly", 0},
-  {"*.pdf", N_("PDF (*.pdf)"), ".pdf", 1},
-  {"*.png", N_("PNG Image format (*.png)"), ".png", 1},
-  {"*.abc", N_("ABC (*.abc)"), ".abc", 0},
-  {"*.mid", N_("Midi (*.mid, *.midi)"), ".mid", 0},
-  {"*.sco", N_("CSound Score File (*.sco)"), ".sco", 0},
-  {"*.mxml", N_("MusicXML file (*.mxml, *.xml)"), ".mxml", 0}
+/* WARNING this array has to match the FileFormatNames enum above which is used to index it!!!!!!!!!" */
+static struct FileFormatData supported_file_formats[] = {
+  {"*.denemo", N_("Denemo XML format (*.denemo)"),  ".denemo", 0},
+  {"*.dnm",    N_("Denemo XML format (*.dnm)"),     ".dnm", 0},
+  {"*.ly",     N_("Lilypond (*.ly)"),               ".ly", 0},
+  {"*.pdf",    N_("PDF (*.pdf)"),                   ".pdf", 1},
+  {"*.png",    N_("PNG Image format (*.png)"),      ".png", 1},
+  {"*.abc",    N_("ABC (*.abc)"),                   ".abc", 0},
+  {"*.mid",    N_("Midi (*.mid, *.midi)"),          ".mid", 0},
+  {"*.sco",    N_("CSound Score File (*.sco)"),     ".sco", 0},
+  {"*.mxml",   N_("MusicXML file (*.mxml, *.xml)"), ".mxml", 0}
 };
 
-static gchar *supported_denemo_file_extension[] = {
-  "*.denemo", "*.DENEMO"
-};
+static GList*
+supported_file_extensions(gchar* format){
+  GList* exts = NULL;
+  
+  if(g_strcmp0 ("denemo", format) == 0){
+    exts = g_list_append(exts, "*.denemo");
+    exts = g_list_append(exts, "*.DENEMO");
+  }
+  
+  if(g_strcmp0 ("lilypond", format) == 0){
+    exts = g_list_append(exts, "*.ly");
+    exts = g_list_append(exts, "*.LY");
+  }
+  
+  if(g_strcmp0 ("midi", format) == 0){
+    exts = g_list_append(exts, "*.midi");
+    exts = g_list_append(exts, "*.mid");
+    exts = g_list_append(exts, "*.MIDI");
+    exts = g_list_append(exts, "*.MID");
+  }  
+  
+  if(g_strcmp0 ("musicxml", format) == 0){
+    exts = g_list_append(exts, "*.mxml");
+    exts = g_list_append(exts, "*.MXML");
+  }
+  
+  if(g_strcmp0 ("pdf", format) == 0){
+    exts = g_list_append(exts, "*.pdf");
+    exts = g_list_append(exts, "*.PDF");
+  }
 
-static gchar *supported_lilypond_file_extension[] = {
-  "*.ly", "*.LY"
-};
-
-static gchar *supported_midi_file_extension[] = {
-  "*.midi", "*.mid", "*.MIDI", "*.MID"
-};
-
-static gchar *supported_musicxml_file_extension[] = {
-  "*.mxml", "*.MXML", "*.xml"
-};
-
-static gchar *supported_evince_file_extension[] = {
-  "*.pdf", "*.PDF"
-};
+  return exts;
+}
 
 /* Some macros just to shorten lines */
 #define FORMAT_MASK(i) supported_file_formats[i].filename_mask
@@ -718,11 +730,10 @@ file_import_musicxml_with_check (GtkAction * action, DenemoScriptParam * param)
 }
 
 #define ADD(insertion_strategy)\
-  DenemoProject *gui = Denemo.project;\
   GET_1PARAM(action, param, filename);\
-  (void)signal_structural_change(gui);\
-  param->status = !file_open(gui, FALSE, insertion_strategy, filename);\
-  score_status(gui, TRUE);\
+  (void)signal_structural_change(Denemo.project);\
+  param->status = !file_open(Denemo.project, FALSE, insertion_strategy, filename);\
+  score_status(Denemo.project, TRUE);\
 
 /**
  * Wrapper function for opening a file to add movements to the current score
@@ -819,54 +830,56 @@ update_preview_cb (GtkFileChooser * file_chooser, gpointer data)
 #endif
 }
 
-
-#define FILE_OPEN_DIALOG(message, format, save_type) \
-  gboolean ret = -1;\
-  if(filename && !g_file_test(filename, G_FILE_TEST_IS_DIR))\
-    return (open_for_real(filename, gui, template, type));\
-  \
-  GtkWidget *file_selection;\
-  GtkFileFilter *filter;\
-  gint i;\
-  \
-  file_selection = gtk_file_chooser_dialog_new (_(message),\
-                        GTK_WINDOW (Denemo.window),\
-                        GTK_FILE_CHOOSER_ACTION_OPEN,\
-                        GTK_STOCK_CANCEL,\
-                        GTK_RESPONSE_REJECT,\
-                        GTK_STOCK_OPEN,\
-                        GTK_RESPONSE_ACCEPT, NULL);\
-  /* Open the last visited directory, if any. */\
-  set_current_folder(file_selection, template);\
-  \
-  filter = gtk_file_filter_new ();\
-  gtk_file_filter_set_name (filter, FORMAT_DESCRIPTION(save_type));\
-  \
-  for (i = 0; i < (gint) G_N_ELEMENTS (supported_##format##_file_extension); i++)\
-    gtk_file_filter_add_pattern (filter, supported_##format##_file_extension[i]); \
-  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);\
-  gtk_dialog_set_default_response (GTK_DIALOG (file_selection),\
-                   GTK_RESPONSE_ACCEPT);\
-  gtk_widget_show_all (file_selection);\
-  GtkWidget *preview;\
-  preview = gtk_image_new();\
-  gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER (file_selection), preview);\
-  g_signal_connect (GTK_FILE_CHOOSER(file_selection), "update-preview",\
-            G_CALLBACK (update_preview_cb), preview);\
-  gtk_widget_show_all (preview);\
-  if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)\
-    {\
-      gchar *name =\
-    gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));\
-      if((ret=open_for_real (name, gui, template, type))) {\
-    gchar *warning = g_strdup_printf(_("Load of file %s failed"), name);\
-    warningdialog(warning);\
-    g_free(warning);\
-      }\
-      g_free (name);\
-    }\
-  gtk_widget_destroy (file_selection);\
-  return ret;\
+static gboolean
+file_open_dialog(gchar* message, gchar* format, FileFormatNames save_type, DenemoSaveType template, ImportType type, gchar* filename){
+  gboolean ret = -1;
+  if(filename && !g_file_test(filename, G_FILE_TEST_IS_DIR))
+    return (open_for_real(filename, Denemo.project, template, type));
+  
+  GtkWidget *file_selection;
+  GtkFileFilter *filter;
+  gint i;
+  
+  file_selection = gtk_file_chooser_dialog_new (_(message),
+                        GTK_WINDOW (Denemo.window),
+                        GTK_FILE_CHOOSER_ACTION_OPEN,
+                        GTK_STOCK_CANCEL,
+                        GTK_RESPONSE_REJECT,
+                        GTK_STOCK_OPEN,
+                        GTK_RESPONSE_ACCEPT, NULL);
+  /* Open the last visited directory, if any. */
+  set_current_folder(file_selection, template);
+  
+  filter = gtk_file_filter_new ();
+  gtk_file_filter_set_name (filter, FORMAT_DESCRIPTION(save_type));
+  
+  GList* exts = supported_file_extensions (format); 
+  GList* cur = NULL; 
+  for (cur = exts; cur; cur = cur->next)
+    gtk_file_filter_add_pattern (filter, cur->data); 
+  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);
+  gtk_dialog_set_default_response (GTK_DIALOG (file_selection),
+                   GTK_RESPONSE_ACCEPT);
+  gtk_widget_show_all (file_selection);
+  GtkWidget *preview;
+  preview = gtk_image_new();
+  gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER (file_selection), preview);
+  g_signal_connect (GTK_FILE_CHOOSER(file_selection), "update-preview",
+            G_CALLBACK (update_preview_cb), preview);
+  gtk_widget_show_all (preview);
+  if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)
+    {
+      gchar *name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));
+      if((ret=open_for_real (name, Denemo.project, template, type))) {
+        gchar *warning = g_strdup_printf(_("Load of file %s failed"), name);
+        warningdialog(warning);
+        g_free(warning);
+      }
+      g_free (name);
+    }
+  gtk_widget_destroy (file_selection);
+  return ret;
+}
 
 /**
  * File open dialog - opened where appropriate 
@@ -876,16 +889,13 @@ update_preview_cb (GtkFileChooser * file_chooser, gpointer data)
 static gint
 file_open (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename)
 {
-FILE_OPEN_DIALOG ("Open", denemo, DENEMO_FORMAT)}
+  return file_open_dialog ("Open", "denemo", DENEMO_FORMAT, template, type, filename);
+}
 
 gint
 open_source_file (void)
 {
-  gchar *filename = NULL;
-  ImportType type = 0;
-  DenemoSaveType template = 0;
-  DenemoProject *gui = Denemo.project;
-  FILE_OPEN_DIALOG ("Open", evince, PDF_FORMAT);
+  return file_open_dialog ("Open", "evince", PDF_FORMAT, 0, 0, NULL);
 }
 
 /**
@@ -896,7 +906,8 @@ open_source_file (void)
 static gint
 file_import_lilypond (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename)
 {
-FILE_OPEN_DIALOG ("Import Lilypond", lilypond, MUDELA_FORMAT)}
+  return file_open_dialog ("Import Lilypond", "lilypond", MUDELA_FORMAT, template, type, filename);
+}
 
 /**
  * Midi Import dialog - opened where appropriate 
@@ -906,8 +917,8 @@ FILE_OPEN_DIALOG ("Import Lilypond", lilypond, MUDELA_FORMAT)}
 static gint
 file_import_midi (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename)
 {
-    
-FILE_OPEN_DIALOG ("Import Midi", midi, MIDI_FORMAT)}
+  return file_open_dialog ("Import Midi", "midi", MIDI_FORMAT, template, type, filename);
+}
 
 /**
  * MusicXML Import dialog - opened where appropriate 
@@ -917,7 +928,8 @@ FILE_OPEN_DIALOG ("Import Midi", midi, MIDI_FORMAT)}
 static gint
 file_import_musicxml (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename)
 {
-FILE_OPEN_DIALOG ("Import MusicXML", musicxml, MUSICXML_FORMAT)}
+  return file_open_dialog ("Import MusicXML", "musicxml", MUSICXML_FORMAT, template, type, filename);
+}
 
 /**
  * Wrapper function to save the current file if not already 
