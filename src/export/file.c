@@ -632,17 +632,16 @@ template_open (DenemoProject * gui, TemplateType local, gchar * filename)
 
 #define OPEN_WITH_CHECK(dir) \
 GET_1PARAM(action, param, filename); \
-  DenemoProject *gui = Denemo.project; \
-  if (gui->notsaved) \
+  if (Denemo.project->notsaved) \
     { \
-      if (filename==NULL && confirmbox (gui)) \
+      if (filename==NULL && confirmbox (Denemo.project)) \
     { \
-      param->status = !template_open (gui, dir, filename); \
+      param->status = !template_open (Denemo.project, dir, filename); \
     } \
     } \
   else \
     { \
-      param->status = !template_open (gui, dir, filename); \
+      param->status = !template_open (Denemo.project, dir, filename); \
     }
 
 /*
@@ -692,14 +691,12 @@ file_open_with_check (GtkAction * action, DenemoScriptParam * param)
     }
 }
 
-#define IMPORT(import_type)  \
-  GET_1PARAM(action, param, filename); \
-  param->status = !file_import_##import_type (Denemo.project, FALSE, REPLACE_SCORE, filename);
-
 void
 file_import_lilypond_with_check (GtkAction * action, DenemoScriptParam * param)
 {
-IMPORT (lilypond)}
+  GET_1PARAM(action, param, filename);
+  param->status = !file_import_lilypond (Denemo.project, FALSE, REPLACE_SCORE, filename);
+}
 
 void
 file_import_midi_with_check (GtkAction * action, DenemoScriptParam * param)
@@ -714,7 +711,9 @@ file_import_midi_with_check (GtkAction * action, DenemoScriptParam * param)
 void
 file_import_musicxml_with_check (GtkAction * action, DenemoScriptParam * param)
 {
-IMPORT (musicxml)}
+  GET_1PARAM(action, param, filename);
+  param->status = !file_import_musicxml (Denemo.project, FALSE, REPLACE_SCORE, filename);
+}
 
 #define ADD(insertion_strategy)\
   DenemoProject *gui = Denemo.project;\
