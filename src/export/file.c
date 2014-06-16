@@ -630,19 +630,18 @@ template_open (DenemoProject * gui, TemplateType local, gchar * filename)
   return ret;
 }
 
-#define OPEN_WITH_CHECK(dir) \
-GET_1PARAM(action, param, filename); \
-  if (Denemo.project->notsaved) \
-    { \
-      if (filename==NULL && confirmbox (Denemo.project)) \
-    { \
-      param->status = !template_open (Denemo.project, dir, filename); \
-    } \
-    } \
-  else \
-    { \
-      param->status = !template_open (Denemo.project, dir, filename); \
+static void
+open_with_check(TemplateType dir, GtkAction * action, DenemoScriptParam * param){
+  GET_1PARAM(action, param, filename);
+  if (Denemo.project->notsaved){
+    if (filename==NULL && confirmbox (Denemo.project)){
+      param->status = !template_open (Denemo.project, dir, filename);
     }
+  }
+  else{
+    param->status = !template_open (Denemo.project, dir, filename);
+  }
+}
 
 /*
  * Open system template file callback function 
@@ -650,7 +649,8 @@ GET_1PARAM(action, param, filename); \
 void
 system_template_open_with_check (GtkAction * action, DenemoScriptParam * param)
 {
-OPEN_WITH_CHECK (SYSTEM)}
+  open_with_check (SYSTEM, action, param);
+}
 
 /*
  * Open system template file callback function 
@@ -658,7 +658,8 @@ OPEN_WITH_CHECK (SYSTEM)}
 void
 system_example_open_with_check (GtkAction * action, DenemoScriptParam * param)
 {
-OPEN_WITH_CHECK (EXAMPLE)}
+  open_with_check (EXAMPLE, action, param);
+}
 
 /*
  * Open local template file callback function 
@@ -666,7 +667,8 @@ OPEN_WITH_CHECK (EXAMPLE)}
 void
 local_template_open_with_check (GtkAction * action, DenemoScriptParam * param)
 {
-OPEN_WITH_CHECK (LOCAL)}
+  open_with_check (LOCAL, action, param);
+}
 
 /**
  * Wrapper function for opening a file, d-Open
