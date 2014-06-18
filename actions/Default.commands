@@ -6701,6 +6701,18 @@ which are to appear before the music.</_tooltip>
         <_tooltip>Places text/graphics from an encapsulated postscript file at the start of the score.
 Use this for a title page prepared in your vector graphics editor.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>CustomOrnamentDefinition</action>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <_label>Create/Edit Custom Ornament</_label>
+        <_tooltip>Allows the user to create or edit a customized ornament. The name chosen should not have spaces or numerals in it.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ToggleCustomOrnament</action>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <_label>Attach Custom Ornament (Off/On)</_label>
+        <_tooltip>Typesets a custom ornament on the current note/chord. Removes that ornament if already present.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

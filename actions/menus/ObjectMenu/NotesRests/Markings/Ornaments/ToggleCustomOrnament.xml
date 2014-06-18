@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ToggleCustomOrnament</action>
+        <_label>Attach Custom Ornament (Off/On)</_label>
+        <_tooltip>Typesets a custom ornament on the current note/chord. Removes that ornament if already present.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

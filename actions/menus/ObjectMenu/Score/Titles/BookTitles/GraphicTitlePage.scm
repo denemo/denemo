@@ -20,7 +20,7 @@ to return to work in Denemo."))
             ((delete) (d-DirectiveDelete-score tag)(set! params 'finished))
             ((edit) 
                  (if (RadioBoxMenu (cons (string-append (_ "Edit the file ") filename) #t) (cons (_ "Edit width and position ") #f))
-                    (d-EditGraphics filename)
+                    (d-EditGraphics filename #f)
                     (set-params)))
             ((advanced) (d-DirectiveTextEdit-score  tag))))
   (define (set-params)
@@ -63,7 +63,7 @@ to return to work in Denemo."))
             (if (RadioBoxMenu (cons (_ "Start From Template") #t)
                            (cons (_ "Choose File") #f))
                 (begin
-                    (set! filename (d-EditGraphics))
+                    (set! filename (d-EditGraphics #f #f))
                     (if filename
                         (begin
                             (set! filename (string-append filename ".eps"))
@@ -76,7 +76,7 @@ to return to work in Denemo."))
                             (set-params)
                             (if (RadioBoxMenu (cons (string-append (_ "Edit the file ") filename) #t) (cons (_ "Use the file unedited") #f))
                                 (begin
-                                (d-EditGraphics filename)
+                                (d-EditGraphics filename #f)
                                  (d-WarningDialog warning))))))))))
 
    (if (not (eq? params 'finished))

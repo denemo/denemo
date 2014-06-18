@@ -1115,7 +1115,7 @@ create_scheme_identfiers (void)
   install_scm_function (3, "Gives dialog to choose a file. Takes a title, start directory and list of extensions. Returns a string or #f if user cancesl", DENEMO_SCHEME_PREFIX "ChooseFile", scheme_choose_file);
 
   install_scm_function (0, "Follows a link to a source file of form string \"filename:x:y:page\". It opens the file and places a marker there. ", DENEMO_SCHEME_PREFIX "OpenSource", scheme_open_source);
-  install_scm_function (0, "Opens an encapsulated postscript file for editing. Returns the filename (without extension) if successful.\nStarts the graphics editor on the passed in filename or one from a dialog.\nThe returned .eps file may not exist when this procedure returns, an editor is open on it. ", DENEMO_SCHEME_PREFIX "EditGraphics", scheme_edit_graphics);
+  install_scm_function (3, "Takes an optional filename and optional new name. Opens an encapsulated postscript file for editing. Returns the filename (without extension) if successful.\nStarts the graphics editor on the passed in filename or one from a dialog.\nThe returned .eps file may not exist when this procedure returns, an editor is open on it. With no filename parameter allows the user to choose,\ncopying to the project directory or the users graphics templates (if a new name is given)", DENEMO_SCHEME_PREFIX "EditGraphics", scheme_edit_graphics);
 
   install_scm_function (0, "Converts the recorded audio to user chosen audio file.", DENEMO_SCHEME_PREFIX "ExportRecordedAudio", scheme_export_recorded_audio);
   install_scm_function (0, "Opens a source file for transcribing from. Links to this source file can be placed by shift-clicking on its contents", DENEMO_SCHEME_PREFIX "OpenSourceFile", scheme_open_source_file);

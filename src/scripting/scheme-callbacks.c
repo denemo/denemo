@@ -1195,22 +1195,27 @@ scheme_choose_file (SCM title, SCM startdir, SCM list)
 }
 
 SCM
-scheme_edit_graphics (SCM link)
+scheme_edit_graphics (SCM name, SCM newname)
 {
   SCM ret = SCM_BOOL_F;
   gchar *opened = NULL;
-  if (scm_is_string (link))
+  gchar *thenewname = NULL;
+  if(scm_is_string (newname))
+        thenewname = scm_to_locale_string (newname);
+  if (scm_is_string (name))
     {
-      gchar *filename = scm_to_locale_string (link);
-      opened = edit_graphics_file (filename);
+      gchar *filename = scm_to_locale_string (name);
+      
+      opened = edit_graphics_file (filename, thenewname);
       free (filename);
   } else
   {
-      opened = edit_graphics_file (NULL);
+      opened = edit_graphics_file (NULL, thenewname);
   }
  if(opened)
     ret = scm_from_locale_string (opened);
   g_free (opened);
+  if(thenewname) free(thenewname);
   return ret;
 }
 

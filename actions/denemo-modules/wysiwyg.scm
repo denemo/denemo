@@ -198,11 +198,12 @@
                     (TweakRelativeOffset sa-tag offsetx offsety)))
         ;;; not a standalone directive              
         (begin
-      ;;(if (equal? grob "BassFigure")
-        ;;(d-AdjustBassFigureHeight offsety))
-        
             (if tag
-                (eval-string (string-append "(d-" tag "  (list (cons 'offsetx \"" offsetx "\")  (cons 'offsety \"" offsety "\")))")))
+              (if (defined? (string->symbol (string-append "d-" tag)))
+                (eval-string (string-append "(d-" tag "  (list (cons 'offsetx \"" offsetx "\")  (cons 'offsety \"" offsety "\")))"))                
+                (eval-string (string-append "(d-ToggleCustomOrnament (list \"" tag "\" (cons 'offsetx \"" offsetx "\")  (cons 'offsety \"" offsety "\")))"))))
+                
+                
             (if (Rest?)
                 (ExtraOffset "RestOffset" "Rest" "chord" "Voice." (cons offsetx offsety) DENEMO_OVERRIDE_AFFIX)
                 (if (equal? grob "BassFigure")
@@ -404,13 +405,24 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
         (let ((direction #f)
                 (choice #f)
                 (menu (list (cons (_ "Up")  "^")  (cons (_ "Down")  "_") (cons (_ "Auto")  "-") )) )
-                         (set! choice (d-PopupMenu menu))
-                          (if choice
-                                (eval-string (string-append "(d-" tag " (list (cons 'direction \"" choice "\")))")))))
+            (set! choice (d-PopupMenu menu))
+            (if choice
+                (begin
+                    (if (defined? (string->symbol (string-append "d-" tag)))
+                        (eval-string (string-append "(d-" tag " (list (cons 'direction \"" choice "\")))"))
+                        (eval-string (string-append "(d-ToggleCustomOrnament (list \"" tag "\" (cons 'direction \"" choice "\")))")))))))
+                                    
+                                    
     
   (define (do-padding)
-        (let ((padding (d-GetUserInput (_ "Padding") (_ "Give amount of padding required around this item (in staff spaces)") "2")))
-                                (eval-string (string-append "(d-" tag " (list (cons 'padding \"" padding "\")))"))))
+        (let ((padding (d-GetUserInput (_ "Padding") (_ "Give amount of padding required around this item (in staff spaces)") "0.5")))
+        (if padding
+                (begin
+                    (if (defined? (string->symbol (string-append "d-" tag)))
+                                (eval-string (string-append "(d-" tag " (list (cons 'padding \"" padding "\")))"))
+                                (eval-string (string-append "(d-ToggleCustomOrnament (list \"" tag "\" (cons 'padding \"" padding "\")))")))))))
+                                
+                                
                             
                             
     (define (alter-text)
@@ -457,7 +469,7 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
                                 ;;; FIXME the value is relative to the centre line of the staff, this gets relative to the tr sign.
                                 ;;;need to use d-GetNewTarget to find the notehead position, then use its mid_c_offset to get the centre line value
                                 ;;; beaming does this
-                                
+                           
                                 
                                 (set! choice (d-PopupMenu menu))
                                 (if choice
@@ -560,7 +572,7 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
                                 ((delete) (d-DirectiveDelete-chord tag))
                                 (else #f))
                         (if params
-                            (begin 
+                            (begin (disp "Tag is " tag "and params " params "\n\n\n")
                                 (if (and (d-Directive-chord? tag) (list? params))
                                     (begin
                                         (d-SetSaved #f)

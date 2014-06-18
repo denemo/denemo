@@ -28,7 +28,18 @@
 #define GPID_NONE (-1)
 
 
-
+static gchar *get_extension (gchar *filename) {
+   if(filename==NULL) return NULL;
+   gchar *c = filename+strlen(filename);
+   for(;c != filename; c--)
+        {
+          if(*c=='.')
+          {
+             return (c+1); 
+          }  
+        }
+    return NULL;
+}
 static gchar *choose_graphic_file (void)
 {
   GtkWidget *dialog;
@@ -45,14 +56,21 @@ static gchar *choose_graphic_file (void)
   g_free(system_dir);
   return filename;
 }
-static gchar *create_editable_file (gchar *filename)
+static gchar *create_editable_file (gchar *filename, gchar *newname)
 {
    gchar *ret, *contents, *outname;
    gsize length;
-   gchar *temp = g_path_get_basename (filename);
-   gchar * current_directory = get_project_dir ();
+   gchar *temp;
+   if(newname) newname = g_strdup_printf ("%s.%s", newname, get_extension (filename));
+   temp = g_path_get_basename (newname?newname:filename);
+   gchar * current_directory = newname?
+        g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "graphics", NULL):
+        get_project_dir ();
+        
+  if (!g_file_test (current_directory, G_FILE_TEST_EXISTS))
+    g_mkdir_with_parents (current_directory, 0770);
    outname = g_build_filename (current_directory, temp, NULL);
-   g_free(temp);
+   g_free(temp);g_print("outname is %s for %s %s\n", outname, newname, get_user_data_dir (TRUE)); 
    if(g_file_get_contents (filename, &contents, &length, NULL))
     {
         if(g_file_set_contents (outname, contents, length, NULL))
@@ -65,20 +83,10 @@ static gchar *create_editable_file (gchar *filename)
             }
     }
     g_free (filename);
+    if(newname) g_free(current_directory);
     return NULL;
 }
-static gchar *get_extension (gchar *filename) {
-   if(filename==NULL) return NULL;
-   gchar *c = filename+strlen(filename);
-   for(;c != filename; c--)
-        {
-          if(*c=='.')
-          {
-             return (c+1); 
-          }  
-        }
-    return NULL;
-}
+
 static gboolean try_for_svg (gchar *filename) {
     gchar *extension = get_extension (filename);
     if(extension)
@@ -100,12 +108,13 @@ static gboolean try_for_svg (gchar *filename) {
     return TRUE;
 } 
 /* filename is an svg or eps file, if NULL allows the user to choose an svg or eps file from
- * the system files and the file is copied to the users actions/bitmaps directory 
+ * the system files and the file is copied to the project directory (template==FALSE) or
+ * to the users actions/graphics directory (template=TRUE)
  * prefs->graphicseditor run on the .svg file of the same name (if present).
  * the filename being edited (without the extension) is returned
  * returns the filename chosen which should be freed by the caller
  */
-gchar *edit_graphics_file (gchar *filename)
+gchar *edit_graphics_file (gchar *filename, gchar *newname)
 {
    GPid pid = GPID_NONE;
    GError *err = NULL;
@@ -114,7 +123,7 @@ gchar *edit_graphics_file (gchar *filename)
         {
             choice = choose_graphic_file();
             if(choice)
-                choice = create_editable_file (choice);
+                choice = create_editable_file (choice, newname);
         } else
         choice = strdup (filename);
        

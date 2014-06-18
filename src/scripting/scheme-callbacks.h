@@ -289,7 +289,7 @@ SCM scheme_path_from_filename (SCM);
 SCM scheme_file_exists (SCM);
 SCM scheme_filename_from_path (SCM);
 SCM scheme_choose_file (SCM, SCM, SCM);
-SCM scheme_edit_graphics (SCM);
+SCM scheme_edit_graphics (SCM, SCM);
 SCM scheme_open_source (SCM);
 SCM scheme_export_recorded_audio (void);
 SCM scheme_open_source_file (SCM);

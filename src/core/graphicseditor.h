@@ -19,4 +19,4 @@
  * MA 02110-1301, USA.
  */
 
-gchar *edit_graphics_file (gchar *filename);
+gchar *edit_graphics_file (gchar *filename, gchar *newname);

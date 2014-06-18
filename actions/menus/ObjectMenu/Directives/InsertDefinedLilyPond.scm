@@ -7,7 +7,7 @@
 				"")))
 	(define (extract-menuitem tag)
 		(define name (get-second-line tag))
-		(cons name (lambda () (d-DirectivePut-standalone name) (d-DirectivePut-standalone-postfix name (string-append "\\" name " ")) (d-DirectivePut-standalone-display
+		(cons name (lambda () (d-DirectivePut-standalone name) (d-DirectivePut-standalone-grob name  "TextScript") (d-DirectivePut-standalone-postfix name (string-append "\\" name " ")) (d-DirectivePut-standalone-display
 		name name)(d-DirectivePut-standalone-minpixels name 30))))
 		
 	(let loop ((count 1))
