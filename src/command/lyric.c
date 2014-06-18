@@ -22,7 +22,7 @@ verse_get_current_view(DenemoStaff* staff){
   return staff->current_verse_view->data;
 }
 
-void verse_set_current(DenemoStaff* staff, guint id){
+void verse_set_current(DenemoStaff* staff, guint id){g_print("staff->current_verse_view %p\nviews %p\n\n", staff->current_verse_view, staff->verse_views);
   if(staff)
     staff->current_verse_view = g_list_nth (staff->verse_views, id);
   else
@@ -410,20 +410,23 @@ delete_verse (GtkAction * action, DenemoScriptParam * param)
   if (si->currentstaff)
   {
     DenemoStaff *staff = si->currentstaff->data;
-    GtkTextView* verse_view = (GtkTextView*)verse_get_current_view (staff);
-    gchar* verse_text = verse_get_current_text (staff);
-    if (verse_view)
-    {
-      staff->verse_views = g_list_remove (staff->verse_views, verse_view);
-      staff->verses = g_list_remove (staff->verses, verse_text);
-      gtk_widget_destroy (gtk_widget_get_parent (GTK_WIDGET(verse_view)));
-      if(staff->verse_views == NULL)
+    if(staff->verses)
         {
-        verse_set_current (staff, 0);
-        }
-      signal_structural_change (gui);
-      score_status (gui, TRUE);
-      draw_score_area();
+        GtkTextView* verse_view = (GtkTextView*)verse_get_current_view (staff);
+        gchar* verse_text = verse_get_current_text (staff);
+        if (verse_view)
+            {
+              staff->verse_views = g_list_remove (staff->verse_views, verse_view);
+              staff->verses = g_list_remove (staff->verses, verse_text);
+              gtk_widget_destroy (gtk_widget_get_parent (GTK_WIDGET(verse_view)));
+              if(staff->verse_views == NULL)
+                {
+                verse_set_current (staff, 0);
+                }
+              signal_structural_change (gui);
+              score_status (gui, TRUE);
+              draw_score_area();
+          }
     }
   }
 }
