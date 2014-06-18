@@ -1,4 +1,5 @@
 ;;;LilyPondInclude
+(define-once LilyPondInclude::return #f)
 (let* ((tag "LilyPondInclude")(params LilyPondInclude::params) (includes (d-DirectiveGet-score-data tag)))
   (define (setinclude) ;;; sets the LilyPond to include all the files listed in Directive-score-data 
     (d-SetSaved #f)
@@ -28,7 +29,7 @@
                         (setinclude))))))
     
  ;;;;;start of procedure   
-  (let ()
+    (set! LilyPondInclude::return #f) ;;; "return" value
     (if includes
         (set! includes (eval-string includes))
         (set! includes '()))
@@ -40,8 +41,8 @@
             (update-data params))
         ((equal? params 'refresh)
               (setinclude))
-        ((and (pair? params) (eq? (car params) 'query))
-              (member (cdr params) includes))
+        ((and (pair? params) (eq? (car params) 'query))  
+              (set! LilyPondInclude::return (member (cdr params) includes)))
         ((and (pair? params) (eq? (car params) 'delete))
               (delete-include (cdr params)))
          
@@ -51,4 +52,4 @@
                         (begin
                             (set! include (d-FilenameFromPath include))
                                     (update-data include))
-                        (d-WarningDialog (_ "LilyPond include files unchanged"))))))))
+                        (d-WarningDialog (_ "LilyPond include files unchanged")))))))

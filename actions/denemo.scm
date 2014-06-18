@@ -541,7 +541,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (DenemoPrintAllHeaders)
-  (if (or (d-LilyPondInclude (cons 'query "book-titling.ily")) (d-LilyPondInclude (cons 'query "simplified-book-titling.ily")))
+    (d-LilyPondInclude (cons 'query "book-titling.ily"))
+    (if (not LilyPondInclude::return)
+        (d-LilyPondInclude (cons 'query "simplified-book-titling.ily")))
+  (if LilyPondInclude::return
     (begin
       (d-WarningDialog (_ "You had book titles for this score. These are being dropped. To re-instate them, re-set the title as a book title."))
       (d-LilyPondInclude (cons 'delete "book-titling.ily"))
