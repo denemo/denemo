@@ -1228,12 +1228,16 @@ actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.s
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleSuspension.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleSuspension.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentAccidentalBelow.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentAccidentalBelow.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentFlat.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentFlat.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentSharp.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentSharp.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleDownPrall.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleDownPrall.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleMordent.scm
