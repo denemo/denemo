@@ -81,8 +81,13 @@ to return to work in Denemo."))
 
                     (begin
                             (set! name (d-GetUserInput (_ "Custom Ornament") (_ "Give Ornament Name") ""))
+                            (if (string-index name char-set:digit)
+                                (begin
+                                    (d-WarningDialog "Numerals are not allowed in ornament names")
+                                    (set! name #f)))
                             (if name
                                 (begin
+                                    (set! name (string-downcase name 0 1))
                                     (set-def-tag name)
                                     (if (d-Directive-score? def-tag)
                                         (let ((data (eval-string (d-DirectiveGet-score-data def-tag))))
