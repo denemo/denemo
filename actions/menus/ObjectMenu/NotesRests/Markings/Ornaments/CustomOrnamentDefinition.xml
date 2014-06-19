@@ -6,8 +6,8 @@
     <map>
       <row type="scheme">
         <action>CustomOrnamentDefinition</action>
-        <_label>Create/Edit Custom Ornament</_label>
-        <_tooltip>Allows the user to create or edit a customized ornament. The name chosen should not have spaces or numerals in it.</_tooltip>
+        <_label>Create Custom Ornament</_label>
+        <_tooltip>Allows the user to create a customized ornament. The name chosen should not have spaces or numerals in it.</_tooltip>
       </row>
     </map>
   </merge>

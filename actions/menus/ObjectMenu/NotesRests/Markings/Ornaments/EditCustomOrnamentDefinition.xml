@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>EditCustomOrnamentDefinition</action>
+        <after>CustomOrnamentDefinition</after>
+        <_label>Edit Custom Ornament</_label>
+        <_tooltip>Edit the definition (size or appearance) of a custom ornament definition. The definition must already have been created in this score.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

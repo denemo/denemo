@@ -1,0 +1,2 @@
+;;;EditCustomOrnamentDefinition
+(d-CustomOrnamentDefinition "edit")

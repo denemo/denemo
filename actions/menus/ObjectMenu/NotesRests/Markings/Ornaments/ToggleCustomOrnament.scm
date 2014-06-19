@@ -9,7 +9,7 @@
         (define name (get-second-line tag))
         (cons name (lambda () (ChordAnnotation 
                                 (string-append "Toggle" (string-upcase name 0 1)) 
-                                (string-append "\\" name) params LG-DownPrall)  )))
+                                (string-append "\\" name) params "custom" (_ "Custom")))))
            
      (define (edit-ornament tag)
         (define data (eval-string (d-DirectiveGet-score-data (string-append "Allow\n" params))))
@@ -40,6 +40,7 @@
                     (loop (1+ count)))))
     (if (not (null? directives))
         (set! definitions (map extract-menuitem directives)))
+        (disp "params in togllecustomorn " params "\n\n")
     (if definitions
         (begin
             (if (string? params)
@@ -49,7 +50,13 @@
                 (if (list? params) ;call ChordAnnotation with params  
                     (set! choice (lambda () (ChordAnnotation 
                                 (string-append "Toggle" (string-upcase (get-name (car params)) 0 1)) 
-                                (string-append "\\" (get-name (car params))) (cdr params) LG-DownPrall)  ))
+                                (string-append "\\" (get-name (car params))) (cdr params) "custom" 
+                                
+                                
+                               (_ "Custom")
+                                ;(get-name (car params))
+                                
+                                )))
                     (set! choice (d-PopupMenu definitions)))))
         (d-WarningDialog (_ "No Definitions have been created for this score")))
     (if choice

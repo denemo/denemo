@@ -3,7 +3,8 @@
     (filename #f)(width #f)
     (warning (_ "Wait for your vector graphics editor to start.
 It will open an SVG file of the same name, if available,
-but be sure to save as encapsulated postscript (eps).
+but be sure to save as encapsulated postscript (eps),
+using the name given.
 You will need to refresh the print view to see your changes.
 When saving your eps it is good to save as SVG file format as well, 
 as this will give better editing later.  
@@ -26,76 +27,124 @@ to return to work in Denemo."))
                                 (else (d-WarningDialog (_ "Cancelled"))))))
                 
                 
-  (define (set-params)
-            (set! width (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give width required:")  width)))
-  (define (set-def-tag name)
-                (set! def-tag (string-append "Allow\n" name)))
-   (define (scale val)
-       (number->string (/ (* 16 (string->number val)) (string->number (d-ScoreProperties "query=fontsize")))))
-       
-    (disp "params are " params " list? " (list? params))   
-       
-   (if (list? params)
-        (begin
-                (set! name  (list-ref params 0))
-                (set-def-tag name) 
-                (set! filename  (list-ref params 1))
-                (set! width (list-ref params 2)))
-        (begin
-            (set! name (d-GetUserInput (_ "Custom Ornament") (_ "Give Ornament Name") ""))
-            (set-def-tag name)
-            (if (d-Directive-score? def-tag)
-                (let ((data (eval-string (d-DirectiveGet-score-data def-tag))))
-                    (set! filename  (list-ref data 1))
-                    (set! width (list-ref data 2))))))
-                
-   (if (not filename)
-        (let ((name (d-GetFilename)))
-            (if name
-                (set! filename (string-append (d-PathFromFilename name) "//" "drawing.eps"))
-                (set! filename (string-append DENEMO_HOME_DIR "//" "drawing.eps")))
-            (set! width "6")))
-            
-   (if (not (list? params))
-    (cond
-        ((equal? params "edit")
-            (begin
-                (edit)))
-        ((equal? params 'refresh))
-        ((equal? params 'finished))
-        (else
-            (if (RadioBoxMenu (cons (_ "Start From Template") #t)
-                           (cons (_ "Choose File") #f))
-                (begin
-                    (set! filename (d-EditGraphics #f name))
-                    (if filename
+        (define (set-params)
+                    (set! width (d-GetUserInput (_ "Encapsulated Postscript File") (_ "Give width required:")  width)))
+        (define (set-def-tag name)
+                        (set! def-tag (string-append "Allow\n" name)))
+        (define (scale val)
+               (number->string (/ (* 16 (string->number val)) (string->number (d-ScoreProperties "query=fontsize")))))
+        (define (get-second-line text)
+                (let ((thelist (string-split text #\newline)))
+                    (if (> (length thelist) 1)
+                        (list-ref thelist 1)
+                        "")))       
+        (define (extract-menuitem tag)
+                (define name (get-second-line tag))
+                (cons name (eval-string (d-DirectiveGet-score-data tag))))     
+        (define (get-definition)
+                (let ((directives '()) (definitions #f) (choice #f))
+               (let loop ((count 1))
+                    (define good-tag (d-Directive-score? (string-append "Allow\n" (number->string count))))
+                    (if good-tag
                         (begin
-                            (set! filename (string-append filename ".eps"))
-                                                             (d-WarningDialog warning))))           
-                
-                (begin
-                    (set! filename (d-ChooseFile (_ "Encapsulated Postscript File") (d-PathFromFilename filename) (list "*.eps" "*.EPS")))
-                    (if filename
+                            (set! directives (cons good-tag directives))
+                            (loop (1+ count)))))
+                    (if (not (null? directives))
                         (begin
-                            (set-params)
-                            (if (RadioBoxMenu (cons (string-append (_ "Edit the file ") filename) #t) (cons (_ "Use the file unedited") #f))
-                                (begin
-                                (d-EditGraphics filename #f)
-                                 (d-WarningDialog warning)))))))))
-      (edit))
-
-   (if (not (eq? params 'finished))
-    (if (and (d-FileExists filename) width)
-        (begin
-                (d-LilyPondDefinition (cons name (string-append "-\\markup {\\epsfile #X #" (scale width) " #\"" filename "\" }")))
-                (d-DirectivePut-score-override def-tag (logior DENEMO_OVERRIDE_AFFIX DENEMO_OVERRIDE_DYNAMIC)) ;;call with 'refresh to re-scale for score size change 
-                (d-DirectivePut-score-data def-tag (string-append "(list \"" name "\" \"" (scheme-escape filename) "\" \"" width "\")")))
-        (let ((message (string-append (_ "The file \"") filename (_ "\"\ndoes not (yet) exist, or no longer exists.\nTypesetting will silently fail until the file exists.\nEither create the file or delete the Graphic Title Page now"))))
-        
-                     (d-WarningDialog message)
-        
-                    (if (equal? (_ "y") (d-GetUserInput  (_ "Encapsulated Postscript File") (_ "Delete Custom Ornament?") (_ "n")))
+                            (set! definitions (map extract-menuitem directives))
+                            (set! params (d-PopupMenu definitions)))
+                        (begin
+                            (d-WarningDialog (_ "No definitions created for this score"))
+                            #f))))
+                    
+   (define (use-params)
+        (set! name  (list-ref params 0))
+                            (set-def-tag name) 
+                            (set! filename  (list-ref params 1))
+                            (set! width (list-ref params 2)))
+       
+       
+       
+    
+    (if (equal? params "edit")
+            (begin 
+                (if (get-definition)
                     (begin
-                        (d-DirectiveDelete-score def-tag)
-                        (d-InfoDialog (_ "Custom Ornament Definition Deleted"))))))))
+                        (use-params)
+                        (edit))
+                    (begin
+                        (set! params 'finished)
+                        (d-WarningDialog (_ "No definitions selected")))))
+            (begin       
+               (if (list? params)
+                    (use-params)
+
+                    (begin
+                            (set! name (d-GetUserInput (_ "Custom Ornament") (_ "Give Ornament Name") ""))
+                            (if name
+                                (begin
+                                    (set-def-tag name)
+                                    (if (d-Directive-score? def-tag)
+                                        (let ((data (eval-string (d-DirectiveGet-score-data def-tag))))
+                                            (set! filename  (list-ref data 1))
+                                            (set! width (list-ref data 2)))))
+                                (set! params 'finished))))
+                    
+                               
+               (if (and (not (equal? params 'finished)) (not filename))
+                    (let ((name (d-GetFilename)))
+                        (if name
+                            (set! filename (string-append (d-PathFromFilename name) "//" "drawing.eps"))
+                            (set! filename (string-append DENEMO_HOME_DIR "//" "drawing.eps")))
+                        (set! width "3")))
+                        
+              
+                            
+               (if (not (list? params))
+                (cond
+                    ((equal? params "edit")
+                        (begin
+                            (edit)))
+                    ((equal? params 'refresh))
+                    ((equal? params 'finished))
+                    (else
+                        (if filename
+                            (d-WarningDialog (_ "This will replace the current definition")))
+                    
+                        (case (RadioBoxMenu (cons (_ "Start From Template") 'template)
+                                       (cons (_ "Choose File") 'choose))
+                            ((template)
+                                (set! filename (d-EditGraphics #f name))
+                                (if filename
+                                    (begin
+                                        (set! filename (string-append filename ".eps"))
+                                                                         (d-WarningDialog warning))
+                                    (set! params 'finished)))           
+                            
+                            ((choose)
+                                (set! filename (d-ChooseFile (_ "Encapsulated Postscript File") (d-PathFromFilename filename) (list "*.eps" "*.EPS")))
+                                (if filename
+                                    (begin
+                                        (set-params)
+                                        (if (RadioBoxMenu (cons (string-append (_ "Edit the file ") filename) #t) (cons (_ "Use the file unedited") #f))
+                                            (begin
+                                            (d-EditGraphics filename #f)
+                                             (d-WarningDialog warning))))
+                                    (set! params 'finished))))))
+                  (edit))))
+
+    (if (not (eq? params 'finished))
+        (if (and (d-FileExists filename) width)
+            (begin
+                    (d-LilyPondDefinition (cons name (string-append "-\\markup {\\epsfile #X #" (scale width) " #\"" filename "\" }")))
+                    (d-DirectivePut-score-override def-tag (logior DENEMO_OVERRIDE_AFFIX DENEMO_OVERRIDE_DYNAMIC)) ;;call with 'refresh to re-scale for score size change 
+                    (d-DirectivePut-score-data def-tag (string-append "(list \"" name "\" \"" (scheme-escape filename) "\" \"" width "\")")))
+            (let ((message (string-append (_ "The file \"") filename (_ "\"\ndoes not (yet) exist, or no longer exists.\nTypesetting will silently fail until the file exists.\nEither create the file or delete the Graphic Title Page now"))))
+            
+                         (d-WarningDialog message)
+            
+                        (if (equal? (_ "y") (d-GetUserInput  (_ "Encapsulated Postscript File") (_ "Delete Custom Ornament?") (_ "n")))
+                        (begin
+                            (d-DirectiveDelete-score def-tag)
+                            (d-InfoDialog (_ "Custom Ornament Definition Deleted"))))))))
 (d-SetSaved #f)

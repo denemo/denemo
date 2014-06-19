@@ -6713,6 +6713,20 @@ Use this for a title page prepared in your vector graphics editor.</_tooltip>
         <_label>Attach Custom Ornament (Off/On)</_label>
         <_tooltip>Typesets a custom ornament on the current note/chord. Removes that ornament if already present.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>BarNumberAlignment</action>
+        <after>BarNumberingInterval</after>
+        <menupath>/ObjectMenu/Score/Typesetter/Numbering</menupath>
+        <_label>Bar Number Alignment</_label>
+        <_tooltip>Allow choice of alignment of bar numbers with the barline.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>EditCustomOrnamentDefinition</action>
+        <after>CustomOrnamentDefinition</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <_label>Edit Custom Ornament</_label>
+        <_tooltip>Edit the definition (size or appearance) of a custom ornament definition. The definition must already have been created in this score.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
