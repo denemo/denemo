@@ -116,7 +116,7 @@ to return to work in Denemo."))
                         (if filename
                             (d-WarningDialog (_ "This will replace the current definition")))
                     
-                        (case (RadioBoxMenu (cons (_ "Start From Template") 'template)
+                        (case (RadioBoxMenu (cons (_ "Start From Template") 'template) (cons (_ "Choose Custom Template") 'custom)
                                        (cons (_ "Choose File") 'choose))
                             ((template)
                                 (set! filename (d-EditGraphics #f name))
@@ -124,7 +124,14 @@ to return to work in Denemo."))
                                     (begin
                                         (set! filename (string-append filename ".eps"))
                                                                          (d-WarningDialog warning))
-                                    (set! params 'finished)))           
+                                    (set! params 'finished))) 
+                             ((custom)
+                                (set! filename (d-ChooseFile (_ "Encapsulated Postscript File") (string-append DENEMO_LOCAL_ACTIONS_DIR "//graphics") (list "*.eps" "*.EPS")))
+                                (if filename
+                                    (set-params)
+                                    (begin
+                                        (d-WarningDialog (_ "Cancelled"))
+                                        (set! params 'finished))))
                             
                             ((choose)
                                 (set! filename (d-ChooseFile (_ "Encapsulated Postscript File") (d-PathFromFilename filename) (list "*.eps" "*.EPS")))
