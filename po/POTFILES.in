@@ -1230,6 +1230,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleSuspen
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleSuspension.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/EditCustomOrnamentDefinition.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/EditCustomOrnamentDefinition.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentAccidentalBelow.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentAccidentalBelow.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentFlat.scm
@@ -1593,6 +1595,8 @@ actions/menus/ObjectMenu/Score/Typesetter/LimitInterSystemSpace.scm
 actions/menus/ObjectMenu/Score/Typesetter/LimitInterSystemSpace.xml
 actions/menus/ObjectMenu/Score/Typesetter/NormalBeamEndings.scm
 actions/menus/ObjectMenu/Score/Typesetter/NormalBeamEndings.xml
+actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberAlignment.scm
+actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberAlignment.xml
 actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberingInterval.scm
 actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberingInterval.xml
 actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumbers.scm
