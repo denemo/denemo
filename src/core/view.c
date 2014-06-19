@@ -2682,10 +2682,15 @@ get_icon_for_name (gchar * name, gchar * label)
           filename = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "bitmaps", pngname, NULL);
           if (!g_file_test (filename, G_FILE_TEST_EXISTS))
             {
+                
               g_free (filename);
-              g_free (pngname);
-              return NULL;
-            }
+              filename = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "graphics", pngname, NULL);
+              if (!g_file_test (filename, G_FILE_TEST_EXISTS))
+                {                  
+                  g_free (filename);
+                  g_free (pngname);
+                  return NULL;
+                }
         }
     }
   GError *error = NULL;
@@ -2924,6 +2929,7 @@ loadGraphicItem (gchar * name, DenemoGraphic ** xbm)
   dirs = g_list_append(dirs, g_build_filename (locatedownloadbitmapsdir (), NULL));
   dirs = g_list_append(dirs, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, "bitmaps", NULL));
   dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "bitmaps", NULL));
+  dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "graphics", NULL));
 
   gboolean success = TRUE;
   gchar *dir = find_dir_for_files (files, dirs);
