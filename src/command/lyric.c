@@ -13,7 +13,7 @@
 
 static GtkWidget *DummyVerse;   /* a non-existent verse */
 
-GtkTextView*
+GtkWidget*
 verse_get_current_view(DenemoStaff* staff){
   if(!staff)
     return NULL;
@@ -215,16 +215,16 @@ gboolean synchronize_lyric_cursor(void)
 {
   DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data; 
   gint count = syllable_count() + 1;
-  GtkTextView* verse_view = verse_get_current_view(thestaff);
+  GtkTextView* verse_view = (GtkTextView*)verse_get_current_view(thestaff);
   if (verse_view)
     {
-      gchar *text = get_text_from_view (verse_view);
+      gchar *text = get_text_from_view (GTK_WIDGET(verse_view));
       gint character_count = get_character_count_at_syllable (text, count);
       GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (verse_view); 
       GtkTextIter where; 
       gtk_text_buffer_get_iter_at_offset (textbuffer, &where, character_count);
       gtk_text_buffer_place_cursor (textbuffer, &where);
-      gtk_widget_grab_focus (verse_view);
+      gtk_widget_grab_focus (GTK_WIDGET(verse_view));
       gtk_text_view_scroll_mark_onscreen (verse_view, gtk_text_buffer_get_insert(textbuffer));
       return TRUE;
     }   
@@ -355,17 +355,27 @@ delete_verse (GtkAction * action, DenemoScriptParam * param)
   if (si->currentstaff)
   {
     DenemoStaff *staff = si->currentstaff->data;
-    GtkTextView* verse_view = verse_get_current_view (staff);
-    gchar* verse_text = verse_get_current_text (staff);
-    if (verse_view)
-    {
-      staff->verse_views = g_list_remove (staff->verse_views, verse_view);
-      staff->verses = g_list_remove (staff->verses, verse_text);
-      gtk_widget_destroy (gtk_widget_get_parent (verse_view));
-      verse_set_current (staff, 0);
-      signal_structural_change (gui);
-      score_status (gui, TRUE);
-      draw_score_area();
+    if(staff->verses)
+        {
+        GtkTextView* verse_view = (GtkTextView*)verse_get_current_view (staff);
+        gchar* verse_text = verse_get_current_text (staff);
+        if (verse_view)
+            {
+              staff->verse_views = g_list_remove (staff->verse_views, verse_view);
+              staff->verses = g_list_remove (staff->verses, verse_text);
+              
+              if(staff->verse_views == NULL)
+                {
+                verse_set_current (staff, 0);
+                gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (GTK_WIDGET(verse_view))));
+                } else
+                gtk_widget_destroy (gtk_widget_get_parent (GTK_WIDGET(verse_view)));
+               // g_print("Children are %p\n",  gtk_container_get_children (GTK_CONTAINER (gtk_container_get_children (GTK_CONTAINER (si->lyricsbox))->data)));
+                
+              signal_structural_change (gui);
+              score_status (gui, TRUE);
+              draw_score_area();
+          }
     }
   }
 }
@@ -442,9 +452,16 @@ install_lyrics_preview (DenemoMovement * si, GtkWidget * top_vbox)
   GtkWidget *parent = gtk_widget_get_parent(top_vbox);
       
   if (si->lyricsbox == NULL)
-    si->lyricsbox = gtk_vbox_new (FALSE, 1);    //box to hold notebook of textview widgets
+    si->lyricsbox = (GtkWidget*)gtk_vbox_new (FALSE, 1);    //box to hold notebook of textview widgets
   if(parent)
-    gtk_paned_add2 (GTK_PANED (parent), si->lyricsbox);
+    {
+        if(!gtk_paned_get_child2(GTK_PANED (parent))) {
+            GtkWidget *vbox = (GtkWidget*)gtk_vbox_new (FALSE, 8);
+            gtk_paned_add2 (GTK_PANED (parent), vbox); //si->lyricsbox);
+            gtk_widget_show (vbox);
+        }
+        gtk_box_pack_start (GTK_BOX(gtk_paned_get_child2(GTK_PANED (parent))), si->lyricsbox, TRUE, TRUE, 0);
+    }
   if (Denemo.prefs.lyrics_pane)
     gtk_widget_show (si->lyricsbox);
 }
