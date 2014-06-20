@@ -22,7 +22,7 @@ verse_get_current_view(DenemoStaff* staff){
   return staff->current_verse_view->data;
 }
 
-void verse_set_current(DenemoStaff* staff, guint id){g_print("staff->current_verse_view %p\nviews %p\n\n", staff->current_verse_view, staff->verse_views);
+void verse_set_current(DenemoStaff* staff, guint id){
   if(staff)
     staff->current_verse_view = g_list_nth (staff->verse_views, id);
   else
@@ -418,11 +418,15 @@ delete_verse (GtkAction * action, DenemoScriptParam * param)
             {
               staff->verse_views = g_list_remove (staff->verse_views, verse_view);
               staff->verses = g_list_remove (staff->verses, verse_text);
-              gtk_widget_destroy (gtk_widget_get_parent (GTK_WIDGET(verse_view)));
+              
               if(staff->verse_views == NULL)
                 {
                 verse_set_current (staff, 0);
-                }
+                gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (GTK_WIDGET(verse_view))));
+                } else
+                gtk_widget_destroy (gtk_widget_get_parent (GTK_WIDGET(verse_view)));
+               // g_print("Children are %p\n",  gtk_container_get_children (GTK_CONTAINER (gtk_container_get_children (GTK_CONTAINER (si->lyricsbox))->data)));
+                
               signal_structural_change (gui);
               score_status (gui, TRUE);
               draw_score_area();
