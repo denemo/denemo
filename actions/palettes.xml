@@ -185,5 +185,11 @@
     <button label="&#x2322;&#x2312;&#x23DD;" _tooltip="Gives a choice of modifications to make to the following tie." script="(d-TieShape)"/>
     <button label="&#x2323;&lt;span rise=&quot;4000&quot;&gt;&#x1D15F;&lt;/span&gt;" _tooltip="The note at the cursor ends a tie that has begun elsewhere, usually in a first time bar. That is it is a repeat of the tie ending." script="(d-RepeatTie)"/>
     <button label="&#x2323;" _tooltip="Ties/unties the note at the cursor. The following note should be the same pitch." script="(d-ToggleTie)"/>
+  </palette>  
+  <palette _name="Custom Ornaments" row-wise="1" limit="1" dock="0" hidden="0">
+    <button label="Create/Load" _tooltip="Allows the user to create a customized ornament (or load one previously created)&#10;into this score's definitions. Ornament names should be start in lower case&#10;and have no numerals.&#10;If a standard ornament is used, e.g. trill,&#10;then this will replace the standard ornament throughout the score." script="(d-CustomOrnamentDefinition)"/>
+    <button label="Edit" _tooltip="Edit the definition (size or appearance) of a custom ornament definition. The definition must already have been created in this score." script="(d-EditCustomOrnamentDefinition)"/>
+    <button label="Attach (Off/On)" _tooltip="Typesets a custom ornament on the current note/chord. Removes that ornament if already present." script="(d-ToggleCustomOrnament)"/>
+    <button label="Insert" _tooltip="Gives a menu of previously created LilyPondDefinition commands (see Score-&gt;LilyPond Definition  menu for this)" script="(d-InsertDefinedLilyPond)"/>
   </palette>
 </Denemo>

@@ -7,7 +7,11 @@
       <row type="scheme">
         <action>CustomOrnamentDefinition</action>
         <_label>Create Custom Ornament</_label>
-        <_tooltip>Allows the user to create a customized ornament. The name chosen should not have spaces or numerals in it.</_tooltip>
+        <_tooltip>Allows the user to create a customized ornament (or load one previously created)
+into this score's definitions. Ornament names should be start in lower case
+and have no numerals.
+If a standard ornament is used, e.g. trill,
+then this will replace the standard ornament throughout the score.</_tooltip>
       </row>
     </map>
   </merge>

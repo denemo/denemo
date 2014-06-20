@@ -6704,8 +6704,12 @@ Use this for a title page prepared in your vector graphics editor.</_tooltip>
       <row type="scheme">
         <action>CustomOrnamentDefinition</action>
         <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
-        <_label>Create/Edit Custom Ornament</_label>
-        <_tooltip>Allows the user to create or edit a customized ornament. The name chosen should not have spaces or numerals in it.</_tooltip>
+        <_label>Create/Load Custom Ornament</_label>
+        <_tooltip>Allows the user to create a customized ornament (or load one previously created)
+into this score's definitions. Ornament names should be start in lower case
+and have no numerals.
+If a standard ornament is used, e.g. trill,
+then this will replace the standard ornament throughout the score.</_tooltip>
       </row>
       <row type="scheme">
         <action>ToggleCustomOrnament</action>
