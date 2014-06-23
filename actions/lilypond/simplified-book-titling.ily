@@ -331,7 +331,7 @@ chapter =
   (make-music 'Music 'void #t))
 
 section =
-#(define-music-function (parser location title) (string?)
+#(define-music-function (parser location title) (markup?)
   (add-toc-item parser 'tocSectionMarkup title)
   (add-toplevel-markup parser (markup #:section-title (string-upper-case title)))
   (add-no-page-break parser)
