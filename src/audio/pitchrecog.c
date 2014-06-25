@@ -330,7 +330,17 @@ pitchrecog (float **input, float **output, int nframes)
 return Stop;
 }
 
-extern int pa_main (aubio_process_func_t process_func);
+#ifdef _HAVE_PORTAUDIO_
+ extern int pa_main (aubio_process_func_t process_func);
+#else
+int
+pa_main (AubioCallback * fn)
+{
+  fprintf (stderr, "portaudio support not compiled\n");
+  return -1;
+ 
+}
+#endif
 
 
 #define START  init_aubio();return pa_main(pitchrecog);
