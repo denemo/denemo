@@ -563,25 +563,23 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
                                                             ((equal? choice (_ "Auto")) "-")))
                     (d-DirectivePut-chord-postfix tag (string-append  (string-append choice " " lilypond " ")))
                     (d-SetSaved #f)))))
-  
     (if (and (d-Directive-chord? tag) (equal? params "edit"))
-                        (case (GetEditOption)
-                                ((edit) (direction-edit))
-                                ((cancel) #f)
-                                ((advanced) (d-DirectiveTextEdit-chord tag))
-                                ((delete) (d-DirectiveDelete-chord tag))
-                                (else #f))
-                        (if params
-                            (begin (disp "Tag is " tag "and params " params "\n\n\n")
-                                (if (and (d-Directive-chord? tag) (list? params))
+        (case (GetEditOption)
+            ((edit) (direction-edit))
+            ((cancel) #f)
+            ((advanced) (d-DirectiveTextEdit-chord tag))
+            ((delete) (d-DirectiveDelete-chord tag))
+            (else #f))
+        (if params
+            (begin 
+                    (if (and (d-Directive-chord? tag) (list? params))
                                     (begin
                                         (d-SetSaved #f)
-                    (set! current-direction (substring (string-trim (d-DirectiveGet-chord-postfix tag)) 0 1))
+                                        (set! current-direction (substring (string-trim (d-DirectiveGet-chord-postfix tag)) 0 1))
                                         (d-DirectivePut-chord-postfix tag (string-append  (string-join (map set-option params)) " " lilypond " ")))
                                     (d-WarningDialog "Cannot complete operation - cursor moved or bad parameter list")))
-                            (begin  ;;;no parameters, toggle annotation off/on
-                                            
-                                            (ToggleChordDirective tag graphic lilypond DENEMO_OVERRIDE_ABOVE display)))))
+            (begin  ;;;no parameters, toggle annotation off/on
+                    (ToggleChordDirective tag graphic lilypond DENEMO_OVERRIDE_ABOVE display)))))
                                             
                                             
                                                                 
