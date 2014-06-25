@@ -1226,8 +1226,14 @@ actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeight
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.xml
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.scm
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/TogglePince.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/TogglePince.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleSuspension.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleSuspension.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblementAppuye.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblementAppuye.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblement.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblement.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/EditCustomOrnamentDefinition.scm

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ToggleTremblementAppuye</action>
+        <after>ToggleTremblement</after>
+        <_label>Tremblement Appuyé</_label>
+        <_tooltip>Attaches tremblement appuyé to the note/chord at the cursor, or removes it if already present.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

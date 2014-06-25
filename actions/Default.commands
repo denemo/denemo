@@ -6731,6 +6731,26 @@ then this will replace the standard ornament throughout the score.</_tooltip>
         <_label>Edit Custom Ornament</_label>
         <_tooltip>Edit the definition (size or appearance) of a custom ornament definition. The definition must already have been created in this score.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ToggleTremblement</action>
+        <after>ToggleSuspension</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste</menupath>
+        <_label>Tremblement</_label>
+        <_tooltip>Attach a tremblement to the current note/chord or remove it if already present.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ToggleTremblementAppuye</action>
+        <after>ToggleTremblement</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste</menupath>
+        <_label>Tremblement Appuyé</_label>
+        <_tooltip>Attaches tremblement appuyé to the note/chord at the cursor, or removes it if already present.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>TogglePince</action>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste</menupath>
+        <_label>Pincé</_label>
+        <_tooltip>Pincé ornament (Off/On)</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

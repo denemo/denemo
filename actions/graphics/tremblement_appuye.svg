@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="466.91824"
-   height="504.47702"
+   width="31.75"
+   height="40.279999"
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="tremblement_appuye.eps"
+   sodipodi:docname="tremblement_appuye.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.0"
    sodipodi:modified="true">
@@ -31,8 +31,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="53.951654"
-     inkscape:cy="252.12759"
+     inkscape:cx="-641.33287"
+     inkscape:cy="-73.836766"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:window-width="1600"
@@ -40,7 +40,11 @@
      inkscape:window-x="0"
      inkscape:window-y="27"
      showgrid="false"
-     inkscape:window-maximized="0" />
+     inkscape:window-maximized="0"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -51,7 +55,7 @@
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
         <cc:license
            rdf:resource="http://web.resource.org/cc/PublicDomain" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
       <cc:License
          rdf:about="http://web.resource.org/cc/PublicDomain">
@@ -68,12 +72,11 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-22.674046,-28.268586)">
+     transform="translate(-181.0625,-166.50125)">
     <path
-       style="fill:none;stroke:#000000;stroke-width:14.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m 55.55839,120.61905 76.77159,147.48227 38.3858,-63.63961 30.30458,63.63961 32.32488,-58.58884 31.31473,57.57869 26.26396,-53.53808"
+       style="fill:none;stroke:#000000;stroke-width:1.81760001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 182.87215,167.73305 9.82669,18.8777 4.91334,-8.14579 3.87911,8.14579 4.1376,-7.49939 4.00819,7.37011 3.36179,-6.85287"
        id="path3000"
-       inkscape:connector-curvature="0"
-       transform="translate(22.674046,28.268586)" />
+       inkscape:connector-curvature="0" />
   </g>
 </svg>
