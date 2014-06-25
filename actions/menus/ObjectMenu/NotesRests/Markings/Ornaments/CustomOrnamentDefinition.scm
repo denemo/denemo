@@ -39,8 +39,8 @@ to return to work in Denemo."))
                         (list-ref thelist 1)
                         "")))       
         (define (extract-menuitem tag)
-                (define name (get-second-line tag))
-                (cons name (eval-string (d-DirectiveGet-score-data tag))))     
+                (define orn-name (get-second-line tag))
+                (cons orn-name (eval-string (d-DirectiveGet-score-data tag))))     
         (define (get-definition)
                 (let ((directives '()) (definitions #f) (choice #f))
                (let loop ((count 1))
@@ -63,19 +63,19 @@ to return to work in Denemo."))
                             (set! filename  (list-ref params 1))
                             (set! width (list-ref params 2)))
        
-       
-       
+
     
     (if (equal? params "edit")
             (begin 
                 (if (get-definition)
                     (begin
                         (use-params)
-                        (edit))
+                        (edit)
+                        (set! params 'finished))
                     (begin
                         (set! params 'finished)
                         (d-WarningDialog (_ "No definitions selected")))))
-            (begin       
+            (begin
                (if (list? params)
                     (use-params)
 
@@ -93,28 +93,23 @@ to return to work in Denemo."))
                                         (let ((data (eval-string (d-DirectiveGet-score-data def-tag))))
                                             (set! filename  (list-ref data 1))
                                             (set! width (list-ref data 2)))))
-                                (set! params 'finished))))
-                    
-                               
+                                (set! params 'finished))))                         
                (if (and (not (equal? params 'finished)) (not filename))
-                    (let ((name (d-GetFilename)))
-                        (if name
-                            (set! filename (string-append (d-PathFromFilename name) "//" "drawing.eps"))
+                    (let ((scorename (d-GetFilename)))
+                        (if scorename
+                            (set! filename (string-append (d-PathFromFilename scorename) "//" "drawing.eps"))
                             (set! filename (string-append DENEMO_HOME_DIR "//" "drawing.eps")))
-                        (set! width "3")))
-                        
-              
-                            
+                        (set! width "3")))               
                (if (not (list? params))
                 (cond
                     ((equal? params "edit")
-                        (begin
+                        (begin (disp "this condition is redundant, edit is already done earlier!!!\n")
                             (edit)))
                     ((equal? params 'refresh))
                     ((equal? params 'finished))
                     (else
-                        (if filename
-                            (d-WarningDialog (_ "This will replace the current definition")))
+                       ; (if filename
+                        ;    (d-WarningDialog (_ "This will replace the current definition")))
                     
                         (case (RadioBoxMenu (cons (_ "Start From Template") 'template) (cons (_ "Choose Custom Template") 'custom)
                                        (cons (_ "Choose File") 'choose))
@@ -123,7 +118,7 @@ to return to work in Denemo."))
                                 (if filename
                                     (begin
                                         (set! filename (string-append filename ".eps"))
-                                                                         (d-WarningDialog warning))
+                                        (d-WarningDialog warning))
                                     (set! params 'finished))) 
                              ((custom)
                                 (set! filename (d-ChooseFile (_ "Encapsulated Postscript File") (string-append DENEMO_LOCAL_ACTIONS_DIR "//graphics") (list "*.eps" "*.EPS")))
@@ -148,7 +143,10 @@ to return to work in Denemo."))
     (if (not (eq? params 'finished))
         (if (and (d-FileExists filename) width)
             (begin
-                    (d-LilyPondDefinition (cons name (string-append "-\\markup {\\epsfile #X #" (scale width) " #\"" filename "\" }")))
+            
+                    (d-CreatePaletteButton "Custom Ornaments" name (_ "Attaches (or removes) this ornament from the current note/chord.") (string-append "(if (CheckForLilyPondDefine \"" name "\")
+                        (ChordAnnotation \"Toggle" (string-upcase  name 0 1) "\"  \"\\\\" name "\" #f  \"" name "\") (d-WarningDialog \"Not Defined\"))"))
+                    (d-LilyPondDefinition (cons name (string-append "^\\markup {\\epsfile #X #" (scale width) " #\"" filename "\" }")))
                     (d-DirectivePut-score-override def-tag (logior DENEMO_OVERRIDE_AFFIX DENEMO_OVERRIDE_DYNAMIC)) ;;call with 'refresh to re-scale for score size change 
                     (d-DirectivePut-score-data def-tag (string-append "(list \"" name "\" \"" (scheme-escape filename) "\" \"" width "\")")))
             (let ((message (string-append (_ "The file \"") filename (_ "\"\ndoes not (yet) exist, or no longer exists.\nTypesetting will silently fail until the file exists.\nEither create the file or delete the Graphic Title Page now"))))
