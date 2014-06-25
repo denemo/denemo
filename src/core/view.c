@@ -2649,7 +2649,24 @@ locatebitmapsdir (void)
     }
   return bitmapsdir;
 }
-
+static const gchar *
+locategraphicsdir (void)
+{
+  static gchar *bitmapsdir = NULL;
+  gboolean err;
+  if (!bitmapsdir)
+    {
+      bitmapsdir = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "graphics", NULL);
+    }
+  err = g_mkdir_with_parents (bitmapsdir, 0770);
+  if (err)
+    {
+      warningdialog (_("Could not create .denemo-xxx/actions/graphics for your graphics for customized commands"));
+      g_free (bitmapsdir);
+      bitmapsdir = g_strdup ("");       //FIXME
+    }
+  return bitmapsdir;
+}
 static const gchar *
 locatedownloadbitmapsdir (void)
 {
@@ -2925,6 +2942,7 @@ loadGraphicItem (gchar * name, DenemoGraphic ** xbm)
   files = g_list_append(files, g_strconcat (name, ".svg", NULL));
   
   GList* dirs = NULL;
+  dirs = g_list_append(dirs, g_build_filename (locategraphicsdir (), NULL));
   dirs = g_list_append(dirs, g_build_filename (locatebitmapsdir (), NULL));
   dirs = g_list_append(dirs, g_build_filename (locatedownloadbitmapsdir (), NULL));
   dirs = g_list_append(dirs, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, "bitmaps", NULL));
