@@ -929,3 +929,14 @@
 ;;;;;;;;    
 (define (GetLilyPondDirection)
     (RadioBoxMenu (cons (_ "Up") "^") (cons (_ "Down") "_") (cons (_ "Auto") "-")))
+;;;;
+(define (CheckForLilyPondDefine name)
+    (if (d-Directive-score? (string-append "Allow\n" name))
+        #t
+        (let ((filename
+            (string-append DENEMO_LOCAL_ACTIONS_DIR "//graphics//" name ".eps")))
+            (if (d-FileExists filename)
+                (d-CustomOrnamentDefinition (list name filename 2))
+                #f))))
+                
+                
