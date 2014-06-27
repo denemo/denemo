@@ -2799,7 +2799,7 @@ auto_save_document_timeout (DenemoProject * gui)
   /* first check that this timer has not been left running after destruction of the gui */
   if (g_list_find (Denemo.projects, gui) == NULL)
     {
-      warningdialog (_("Timer left running"));
+      //do not do this, it causes denemo to hang. warningdialog (_("Timer left running"));
       return FALSE;             /* turns off the timer */
     }
   DenemoMovement *si = gui->movement;
