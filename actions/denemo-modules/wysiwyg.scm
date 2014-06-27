@@ -581,8 +581,16 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
             (begin  ;;;no parameters, toggle annotation off/on
                     (ToggleChordDirective tag graphic lilypond DENEMO_OVERRIDE_ABOVE display)))))
                                             
-                                            
-                                                                
+(define* (ChordOrnament tag lilypond params graphic #:optional display)
+       (ChordAnnotation tag lilypond params graphic display))  
+;       (ChordAnnotation tag (string-append "-\\tweak outside-staff-priority #50 " lilypond) params graphic display))  
+;        (if (d-Directive-chord? tag)
+;           (let ((priotag (string-append "Priority" tag)))
+;                (d-DirectivePut-chord-prefix priotag "\\once \\override TextScript.outside-staff-priority = #50 ")
+;                (d-DirectivePut-chord-override priotag DENEMO_OVERRIDE_AFFIX))
+;            (d-DirectiveDelete-chord priotag)))
+
+
 ; SetSlurPositions
 (define (SetSlurPositions near far)
     (d-DirectivePut-chord-override "Slur" DENEMO_OVERRIDE_AFFIX)

@@ -16,15 +16,16 @@ to return to work in Denemo."))
         (let ((choice (RadioBoxMenu
                               (cons (_ "Edit") 'edit)
                               (cons (_ "Delete")   'delete)   
-                              (cons (_ "Advanced") 'advanced))))
+                              (cons (_ "Advanced") 'advanced)))) (disp "def-tag " def-tag "\n\n")
                             (case choice
                                 ((delete) (d-DirectiveDelete-score def-tag)(set! params 'finished))
                                 ((edit) 
                                      (if (RadioBoxMenu (cons (string-append (_ "Edit the file ") filename) #t) (cons (_ "Edit width ") #f))
                                         (d-EditGraphics filename #f)
-                                        (set-params)))
-                                ((advanced) (d-DirectiveTextEdit-score  def-tag))
-                                (else (d-WarningDialog (_ "Cancelled"))))))
+                                        (set-params))
+                                        (set! params 'referesh))
+                                ((advanced) (d-DirectiveTextEdit-score  def-tag)(set! params 'finished))
+                                (else (set! params 'finished)(d-WarningDialog (_ "Cancelled"))))))
                 
                 
         (define (set-params)
@@ -69,9 +70,13 @@ to return to work in Denemo."))
             (begin 
                 (if (get-definition)
                     (begin
-                        (use-params)
-                        (edit)
-                        (set! params 'finished))
+                        (if (list? params)
+                            (begin
+                                (use-params)
+                                (edit))
+                            (begin
+                                (d-WarningDialog "Nothing selected?")
+                                (set! params 'finished))))
                     (begin
                         (set! params 'finished)
                         (d-WarningDialog (_ "No definitions selected")))))
@@ -145,8 +150,8 @@ to return to work in Denemo."))
             (begin
             
                     (d-CreatePaletteButton "Custom Ornaments" name (_ "Attaches (or removes) this ornament from the current note/chord.") (string-append "(if (CheckForLilyPondDefine \"" name "\")
-                        (ChordAnnotation \"Toggle" (string-upcase  name 0 1) "\"  \"\\\\" name "\" #f  \"" name "\") (d-WarningDialog \"Not Defined\"))"))
-                    (d-LilyPondDefinition (cons name (string-append "^\\markup {\\epsfile #X #" (scale width) " #\"" filename "\" }")))
+                        (ChordOrnament \"Toggle" (string-upcase  name 0 1) "\"  \"\\\\" name "\" #f  \"" name "\") (d-WarningDialog \"Not Defined\"))"))
+                    (d-LilyPondDefinition (cons name (string-append "\\tweak outside-staff-priority #50 -\\markup {\\epsfile #X #" (scale width) " #\"" filename "\" }")))
                     (d-DirectivePut-score-override def-tag (logior DENEMO_OVERRIDE_AFFIX DENEMO_OVERRIDE_DYNAMIC)) ;;call with 'refresh to re-scale for score size change 
                     (d-DirectivePut-score-data def-tag (string-append "(list \"" name "\" \"" (scheme-escape filename) "\" \"" width "\")")))
             (let ((message (string-append (_ "The file \"") filename (_ "\"\ndoes not (yet) exist, or no longer exists.\nTypesetting will silently fail until the file exists.\nEither create the file or delete the Graphic Title Page now"))))

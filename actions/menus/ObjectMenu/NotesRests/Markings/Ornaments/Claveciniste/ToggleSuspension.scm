@@ -1,6 +1,8 @@
 ;;ToggleSuspension
 (let ((tag "ToggleSuspension"))
-                        (ChordAnnotation tag "\\suspension"   ToggleSuspension::params   "suspension"))
+    (ChordOrnament tag "\\suspension"   ToggleSuspension::params   "suspension"))
 (if (not (d-Directive-score? "Allow\nsuspension"))
-    (d-LilyPondDefinition (cons "suspension" (string-append "^\\markup {\\epsfile #X #2 #\"" DENEMO_GRAPHICS_DIR "suspension.eps\""   "}" ))))
+    (begin
+        (d-LilyPondDefinition (cons "suspension" (string-append "\\tweak outside-staff-priority #50 -\\markup {\\epsfile #X #2 #\"" DENEMO_GRAPHICS_DIR "suspension.eps\""   "}" )))
+        (d-DirectivePut-score-data "Allow\nsuspension" (string-append "(list \"suspension\" \"" (scheme-escape (string-append DENEMO_GRAPHICS_DIR "suspension.eps")) "\" \"2\")"))))
  
