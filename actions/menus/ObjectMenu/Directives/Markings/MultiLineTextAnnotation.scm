@@ -1,7 +1,10 @@
 ;;;MultiLineTextAnnotation
 (let ((text #f) (params  MultiLineTextAnnotation::params) (tag "MultiLineTextAnnotation")(markup #f)(current #f)
-            (position #f) (shift ""))
+            (position #f) (shift "") (prefix "<>"))
      (set! current (d-DirectiveGet-standalone-data tag))
+     (if current
+        (set! prefix (d-DirectiveGet-standalone-prefix tag)))
+     
      (if (and params (not (equal? "edit" params)))
         (begin
             (set! position "-")
@@ -28,9 +31,9 @@
                             (d-DirectivePut-standalone tag))
                         (d-DirectivePut-standalone-data tag text)
                         (d-DirectivePut-standalone-display tag text)
-                        (d-DirectivePut-standalone-postfix tag  (string-append  shift position "\\markup\\scale #'(.5 . .5)\\column{" markup "}"))
-                        (d-DirectivePut-standalone-prefix tag  "<>")
-                        (d-DirectivePut-standalone-minpixels  tag 30)
+                        (d-DirectivePut-standalone-postfix tag (string-append  shift position "\\markup\\scale #'(.5 . .5)\\column{" markup "}"))
+                        (d-DirectivePut-standalone-prefix tag prefix)
+                        (d-DirectivePut-standalone-minpixels tag 30)
                         (d-RefreshDisplay)
                         (d-SetSaved #f))))
         (begin
