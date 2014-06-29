@@ -5644,8 +5644,12 @@ for second and subsequent systems</_tooltip>
         <action>AttachedText</action>
         <after>TextAbove</after>
         <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
-        <_label>Text with Positioning</_label>
-        <_tooltip>Prints text you give above/below/auto-positioned.</_tooltip>
+        <_label>Multi-line text and Music</_label>
+        <_tooltip>Attaches multi-line text which can include music snippets. 
+The snippets are surrounded by section markers "§" to distinguish them
+from ordinary text. These must come in pairs, 
+before and after the LilyPond syntax.
+        </_tooltip>
       </row>
       <row type="scheme">
         <action>TextAnnotation</action>
@@ -6750,6 +6754,16 @@ then this will replace the standard ornament throughout the score.</_tooltip>
         <menupath>/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste</menupath>
         <_label>Pincé</_label>
         <_tooltip>Pincé ornament (Off/On)</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>MultiLineTextAnnotation</action>
+        <after>TextAnnotation</after>
+        <menupath>/ObjectMenu/Directives/Markings</menupath>
+        <_label>Multi-line text and Music</_label>
+        <_tooltip>Inserts multi-line text object which can include music snippets. 
+The snippets are surrounded by section markers "§" to distinguish them
+from ordinary text. These must come in pairs, 
+before and after the LilyPond syntax. </_tooltip>
       </row>
     </map>
   </merge>
