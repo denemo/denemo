@@ -7,8 +7,11 @@
       <row type="scheme">
         <after>TextAbove</after>
         <action>AttachedText</action>
-        <_label>Text with Positioning</_label>
-        <_tooltip>Prints text you give above/below/auto-positioned.</_tooltip>
+        <_label>Multi-line text and Music</_label>
+        <_tooltip>Attaches multi-line text which can include music snippets. 
+The snippets are surrounded by section markers "§" to distinguish them
+from ordinary text. These must come in pairs, 
+before and after the LilyPond syntax. </_tooltip>
       </row>
     </map>
   </merge>

@@ -3198,7 +3198,7 @@ paste_snippet_lilypond (GtkWidget * button)
           extern gchar *score_directive_get_postfix (gchar * tagname);
           transpose = score_directive_get_postfix ("TransposeScorePrint");
           transpose = transpose ? transpose : "";
-          gchar *text = g_strdup_printf ("§\\raise #6.0 \\score { %s { {%s}{%s}{%s} %s } \\layout {indent=0.0}}§", transpose, clefname, keysigname, timesigname, r->lilypond);
+          gchar *text = g_strdup_printf ("§\\raise #0.5 \\score{\n%s{{%s}{%s}{%s}%s}\\layout{indent=0.0}\n}§", transpose, clefname, keysigname, timesigname, r->lilypond);
           gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1 /*gint len */ );
           g_free (text);
         }
@@ -3212,42 +3212,62 @@ paste_snippet_lilypond (GtkWidget * button)
 }
 
 #define SECTION_UTF8_STRING "§"
-//#define SECTION_UTF8_STRING "\302\247"
 
+static void
+insert_markup (GtkWidget * button, gchar *text)
+{
+  DenemoProject *gui = Denemo.project;
+  GtkWidget *hbox = gtk_widget_get_parent (button);
+  GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+  if (textbuffer)
+          gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1);
+   else
+    {
+      g_warning ("Denemo program error, widget hierarchy changed???");
+    }      
+ GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
+ gtk_widget_grab_focus (textview);
+}
+
+
+
+
+//#define SECTION_UTF8_STRING "\302\247"
 static gchar *
 create_lilypond_from_text (gchar * orig)
 {
   gchar *text = g_strdup (orig);
-  GString *ret = g_string_new ("");
+  GString *ret = g_string_new ("\\line\\large{");
   g_debug ("looking at %s\n", text);
   gunichar section = g_utf8_get_char (SECTION_UTF8_STRING);
-  gchar *this = g_utf8_strchr (text, -1, section);
-  if (this)
+  gunichar lf = g_utf8_get_char ("\n");
+  gchar *next, *this;
+  gboolean in_section = FALSE;
+  for(this = text;*this;this = g_utf8_next_char (this))
     {
-      gchar *start = g_utf8_next_char (this);
-      *this = 0;
-      if (*text)
-        {
-          g_string_append_printf (ret, "\\wordwrap-string #\"%s\"", g_strescape (text, "\"\\"));
-        }
-      gchar *end = g_utf8_strchr (start, -1, section);
-      if (end == NULL)
-        {
-          g_warning ("Unbalanced § marks");
-          g_string_free (ret, TRUE);
-          return g_strdup ("%{error %}");
-        }
-      gchar *next = g_utf8_next_char (end);
-      *end = 0;
-      g_string_append_printf (ret, "%s %s", start, create_lilypond_from_text (next));
+        gunichar thechar = g_utf8_get_char (this);
+        if (thechar == section)
+            {
+                in_section = !in_section;
+            } else if ((!in_section) && (*this == '\n'))
+            {
+              g_string_append (ret, "}\\line\\large{");
+            } else {
+                g_string_append_printf (ret, "%c", *this);
+            }
+    }
+  g_string_append (ret, "}\n");
+  g_free (text);
+  if(in_section) 
+    {
+        g_warning ("Unbalanced § marks");
+        g_string_free (ret, TRUE);
+        return g_strdup ("%{error %}");
     }
   else
-    {
-      g_string_append_printf (ret, "\\wordwrap-string #\"%s\"", g_strescape (text, "\"\\"));
-    }
-  g_free (text);
-  return g_string_free (ret, FALSE);
+    return g_string_free (ret, FALSE);
 }
+
 
 SCM
 scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
@@ -3275,21 +3295,29 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
     initial_value = strdup (" ");
   GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
   GtkWidget *button = gtk_button_new_with_label (_("Paste Current Snippet"));
-  gtk_widget_set_tooltip_text (button, _("Pastes the music captured in the currently selected Snippet into the text at the cursor. The music appears here in the LilyPond typesetter syntax between two markers (\302\247). It will print as typeset music embedded in the sentence you are writing.\nYou can edit the syntax, taking care to leave the markers in position. If you delete one marker be sure to delete the other.\n"));
-// if(!Denemo.project->rhythms)
-  //   gtk_widget_set_sensitive(button, FALSE);
+  gtk_widget_set_tooltip_text (button, _("Pastes the music captured in the currently selected Snippet into the text at the cursor.\nThe music appears here in the LilyPond typesetter syntax between two markers (§).\nIt will print as typeset music embedded in the sentence you are writing.\nYou can edit the syntax, taking care to leave the markers in position. If you delete one marker be sure to delete the other.\n"));
+
   g_signal_connect (button, "clicked", G_CALLBACK (paste_snippet_lilypond), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
   button = gtk_button_new_with_label (_("Next Snippet"));
-  gtk_widget_set_tooltip_text (button, _("Makes the next Snippet the one that can be pasted. To see the music snippets you need to check View → Snippets\nThe one selected is in bold black."));
+  gtk_widget_set_tooltip_text (button, _("Makes the next Snippet the one that can be pasted.\nTo see the music snippets you need to check View → Snippets\nThe one selected is in bold black."));
   GtkAction *action = gtk_ui_manager_get_action (Denemo.ui_manager, "/ObjectMenu/NotesRests/SelectDuration/NextRhythm");
   if (action)
     g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_action_activate), action);
   else
     gtk_widget_set_sensitive (button, FALSE);
-// if(!Denemo.project->rhythms)
-//   gtk_widget_set_sensitive(button, FALSE);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+
+  button = gtk_button_new_with_label (_("Bold"));
+  gtk_widget_set_tooltip_text (button, _("Inserts markup to make the following text bold.\nNote that the section markers (§) must come in pairs"));
+  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "§\\bold §");
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+  
+  button = gtk_button_new_with_label (_("Italic"));
+  gtk_widget_set_tooltip_text (button, _("Inserts markup to make the following text italic.\nNote that the section markers (§) must come in pairs"));
+  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "§\\italic §");
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+   
 
   gchar *text = string_dialog_editor_with_widget_opt (Denemo.project, title, instruction, initial_value, hbox, (modal == SCM_UNDEFINED) || scm_is_true (modal));
   if (text)
