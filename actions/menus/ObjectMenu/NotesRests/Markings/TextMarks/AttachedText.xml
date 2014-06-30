@@ -7,7 +7,7 @@
       <row type="scheme">
         <after>TextAbove</after>
         <action>AttachedText</action>
-        <_label>Multi-line text and Music</_label>
+        <_label>Multi-line Text and Music</_label>
         <_tooltip>Attaches multi-line text which can include music snippets. 
 The snippets are surrounded by section markers "§" to distinguish them
 from ordinary text. These must come in pairs, 

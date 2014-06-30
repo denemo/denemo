@@ -2693,12 +2693,6 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>Followed by a keyboard shortcut: applies the shortcut with the cursor successively on each object in the selection.</_tooltip>
       </row>
       <row type="scheme">
-        <action>TextAbove</action>
-        <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
-        <_label>Arbitrary Text</_label>
-        <_tooltip>Prints your text above the music at this point</_tooltip>
-      </row>
-      <row type="scheme">
         <action>ShiftRealDialogDown</action>
         <after>ShiftRealDialogUp</after>
         <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
@@ -5644,7 +5638,7 @@ for second and subsequent systems</_tooltip>
         <action>AttachedText</action>
         <after>TextAbove</after>
         <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
-        <_label>Multi-line text and Music</_label>
+        <_label>Multi-line Text and Music</_label>
         <_tooltip>Attaches multi-line text which can include music snippets. 
 The snippets are surrounded by section markers "§" to distinguish them
 from ordinary text. These must come in pairs, 
@@ -6759,7 +6753,7 @@ then this will replace the standard ornament throughout the score.</_tooltip>
         <action>MultiLineTextAnnotation</action>
         <after>TextAnnotation</after>
         <menupath>/ObjectMenu/Directives/Markings</menupath>
-        <_label>Multi-line text and Music</_label>
+        <_label>Multi-line Text and Music</_label>
         <_tooltip>Inserts multi-line text object which can include music snippets. 
 The snippets are surrounded by section markers "§" to distinguish them
 from ordinary text. These must come in pairs, 

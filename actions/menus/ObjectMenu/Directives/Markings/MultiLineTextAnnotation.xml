@@ -7,7 +7,7 @@
       <row type="scheme">
         <after>TextAnnotation</after>
         <action>MultiLineTextAnnotation</action>
-        <_label>Multi-line text and Music</_label>
+        <_label>Multi-line Text and Music</_label>
         <_tooltip>Inserts multi-line text object which can include music snippets. 
 The snippets are surrounded by section markers "§" to distinguish them
 from ordinary text. These must come in pairs, 
