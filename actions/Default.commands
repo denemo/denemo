@@ -6759,6 +6759,13 @@ The snippets are surrounded by section markers "§" to distinguish them
 from ordinary text. These must come in pairs, 
 before and after the LilyPond syntax. </_tooltip>
       </row>
+      <row type="scheme">
+        <action>DynamicUp</action>
+        <after>AutoAccidentals</after>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
+        <_label>Dynamics Above</_label>
+        <_tooltip>Inserts a directive to cause dynamics to be printed above the staff.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
