@@ -4,11 +4,11 @@
     (warning (_ "Wait for your vector graphics editor to start.
 It will open an SVG file of the same name, if available,
 but be sure to save as encapsulated postscript (eps).
-You will need to refresh the print view to see your changes.
 When saving your eps it is good to save as SVG file format as well, 
 as this will give better editing later.  
 Quit your graphics editor before quitting this dialog
-to return to work in Denemo."))
+to return to work in Denemo.
+If you are saving to a new file you will be asked to open it later."))
     (params GraphicTitlePage::params))
 
   (define (edit)
@@ -63,11 +63,13 @@ to return to work in Denemo."))
             (if (RadioBoxMenu (cons (_ "Start From Template") #t)
                            (cons (_ "Choose File") #f))
                 (begin
+                    (set! params 'template)
                     (set! filename (d-EditGraphics #f #f))
                     (if filename
                         (begin
                             (set! filename (string-append filename ".eps"))
-                                                             (d-WarningDialog warning))))           
+                            (d-WarningDialog warning)
+                            (d-SetSaved #f))))           
                 
                 (begin
                     (set! filename (d-ChooseFile (_ "Encapsulated Postscript File") (d-PathFromFilename filename) (list "*.eps" "*.EPS")))
@@ -76,22 +78,33 @@ to return to work in Denemo."))
                             (set-params)
                             (if (RadioBoxMenu (cons (string-append (_ "Edit the file ") filename) #t) (cons (_ "Use the file unedited") #f))
                                 (begin
-                                (d-EditGraphics filename #f)
-                                 (d-WarningDialog warning))))))))))
+                                    (d-EditGraphics filename #f)
+                                    (d-WarningDialog warning)
+                                    (d-SetSaved #f))))))))))
 
    (if (not (eq? params 'finished))
-    (if (and (d-FileExists filename) width space-below space-left)
-        (begin
-                (d-DirectivePut-score-override tag DENEMO_OVERRIDE_DYNAMIC) ;;call with 'refresh to re-scale for score size change 
-                (d-DirectivePut-score-prefix tag
-                        (string-append "\\markup {\\hspace #" (scale space-left) " \\with-url #'\"scheme:(d-GraphicTitlePage \\\"edit\\\")\" \\epsfile #X #" (scale width) " #\"" filename "\" \\vspace #" (scale space-below) " }"))
-                (d-DirectivePut-score-data tag (string-append "(list \"" (scheme-escape filename) "\" \"" width "\" \"" space-below "\" \"" space-left "\")")))
-        (let ((message (string-append (_ "The file \"") filename (_ "\"\ndoes not (yet) exist, or no longer exists.\nTypesetting will silently fail until the file exists.\nEither create the file or delete the Graphic Title Page now"))))
-        
-                     (d-WarningDialog message)
-        
-                    (if (equal? (_ "y") (d-GetUserInput  (_ "Encapsulated Postscript File") (_ "Delete Graphic Title Page?") (_ "n")))
-                    (begin
-                        (d-DirectiveDelete-score tag)
-                        (d-InfoDialog (_ "Graphic Title Page Deleted"))))))))
+    (begin
+    
+        (if (eq? params 'template)
+            (let ((tempname #f))
+                (d-WarningDialog (_ "Now dismiss this dialog and select the .eps file you have just saved in the graphics editor program."))
+                (set! tempname (d-ChooseFile (_ "Encapsulated Postscript File") (d-PathFromFilename filename) (list "*.eps" "*.EPS")))
+                (if tempname
+                    (set! filename tempname))
+            ))
+    
+        (if (and (d-FileExists filename) width space-below space-left)
+            (begin
+                    (d-DirectivePut-score-override tag DENEMO_OVERRIDE_DYNAMIC) ;;call with 'refresh to re-scale for score size change 
+                    (d-DirectivePut-score-prefix tag
+                            (string-append "\\markup {\\hspace #" (scale space-left) " \\with-url #'\"scheme:(d-GraphicTitlePage \\\"edit\\\")\" \\epsfile #X #" (scale width) " #\"" filename "\" \\vspace #" (scale space-below) " }"))
+                    (d-DirectivePut-score-data tag (string-append "(list \"" (scheme-escape filename) "\" \"" width "\" \"" space-below "\" \"" space-left "\")")))
+            (let ((message (string-append (_ "The file \"") filename (_ "\"\ndoes not (yet) exist, or no longer exists.\nTypesetting will silently fail until the file exists.\nEither create the file or delete the Graphic Title Page now"))))
+            
+                         (d-WarningDialog message)
+            
+                        (if (equal? (_ "y") (d-GetUserInput  (_ "Encapsulated Postscript File") (_ "Delete Graphic Title Page?") (_ "n")))
+                        (begin
+                            (d-DirectiveDelete-score tag)
+                            (d-InfoDialog (_ "Graphic Title Page Deleted")))))))))
 (d-SetSaved #f)
