@@ -146,7 +146,7 @@ static gboolean
 update_playbutton_callback (gboolean paused)
 {
   
-  g_main_context_invoke (NULL, (GSourceFunc)do_set_playbutton, paused);
+  g_main_context_invoke (NULL, (GSourceFunc)do_set_playbutton, GINT_TO_POINTER(paused));
   
   return FALSE;
 }
