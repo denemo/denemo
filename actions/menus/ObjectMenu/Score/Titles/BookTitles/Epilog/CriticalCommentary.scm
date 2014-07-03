@@ -25,14 +25,14 @@
     (let ((thecomments '())  (tag "CriticalComment"))
      ;;;format-commentary numbers the strings in the list
      (define (format-commentary thelist)
-      (define ret " \\markup { \\vspace #1 }\n")
+      (define ret " \\markup \\vspace #1 \\markup \\column {\n")
       (let loop ((count 0))
         (if (< count (length thelist))
           (begin         
-            (set! ret (string-append ret " \\markup { \\vspace #0.5 }\n\\markup {  \\wordwrap-string #\"" (number->string (+ 1 count)) ".  "
-              (list-ref thelist count) "\"}\n"))
+            (set! ret (string-append ret "  \\vspace #0.5 \n\\column { \\line \\large {" (number->string (+ 1 count)) ".  "
+              (list-ref thelist count) "}\n"))
           (loop (+ 1 count)))))
-     ret)
+     (string-append ret "}\n"))
    (let movement ()
     (define movement-number (number->string (d-GetMovement)))
     (define voice 1)
@@ -46,14 +46,14 @@
           (if (d-Directive-standalone? tag) 
            (begin
             (set! thecomment (d-DirectiveGet-standalone-postfix tag))
-            (if (equal? (string-ref thecomment 0) #\\)
-                (begin 
-                    (set! thecomment (substring thecomment 19))
-                    (set! thecomment (string-drop-right thecomment 1))))
-            
+          ;  (if (equal? (string-ref thecomment 0) #\\)
+             ;   (begin 
+               ;     (set! thecomment (substring thecomment 19))
+                ;    (set! thecomment (string-drop-right thecomment 1))))
+           
             (set! thecomments (cons* (string-append (_ "At m") movement-number (_ " v")
-            (number->string voice) (_ " b") measure-number (_ ":  ")
-            thecomment "\n") thecomments))))
+            (number->string voice) (_ " b") measure-number ":} "
+            thecomment " %end of critical comment\n") thecomments))))
         (if (NextDirectiveOfTagInMeasure tag)
           (loop)))       
       (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
