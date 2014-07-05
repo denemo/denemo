@@ -450,7 +450,6 @@ store_pitch (double pitch)
 #include <math.h>
 #define AUBIO_UNSTABLE 1
 #include <aubio/aubio.h>
-#include <audio.h>
 #include <glib.h>
 #include "audio/pitchrecog.h"
 
