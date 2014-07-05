@@ -3318,6 +3318,17 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
   g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "§\\italic §");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
+  button = gtk_button_new_with_label (_("“"));
+  gtk_widget_set_tooltip_text (button, _("Inserts code for open quotes - leave a space after this code. Note that this is not the \" character which is used for grouping words and must be paired or LilyPond will not typeset the music."));
+  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "§\\char ##x201C §");
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+
+  button = gtk_button_new_with_label (_("”"));
+  gtk_widget_set_tooltip_text (button, _("Inserts code for close quotes - leave a space after this code. Note that this is not the \" character which is used for grouping words and must be paired or LilyPond will not typeset the music."));
+  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "§\\char ##x201D §");
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+
+
   gchar *text = string_dialog_editor_with_widget_opt (Denemo.project, title, instruction, initial_value, hbox, (modal == SCM_UNDEFINED) || scm_is_true (modal));
   if (text)
     {
