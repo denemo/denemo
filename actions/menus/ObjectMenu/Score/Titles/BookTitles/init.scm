@@ -1,10 +1,15 @@
 (define (BookTitles::Do field lilyfield initial help)
     (define tag (string-append "Book" field))
+    (define (get-current tag)
+    	(let ((value (d-DirectiveGet-scoreheader-data tag)))
+    		(if value
+    			value
+    			(d-DirectiveGet-scoreheader-display tag))))
     ;(d-LilyPondInclude "book-titling.ily")
     (d-LilyPondInclude "simplified-book-titling.ily")
-    (let ((chapter (if help (d-DirectiveGet-scoreheader-display tag) initial))
+    (let ((chapter (if help (get-current tag) initial))
             (simple-tag (string-append "Score" (string-capitalize field))))
-        (define simple-title (d-DirectiveGet-scoreheader-display simple-tag))
+        (define simple-title (get-current simple-tag))
         (if simple-title
             (begin
                 (d-DirectiveDelete-scoreheader simple-tag)
@@ -19,7 +24,8 @@
              (if (string-null? chapter)
             (d-DirectiveDelete-scoreheader tag)
                 (begin 
-                    (d-DirectivePut-scoreheader-display tag  chapter)
+                    (d-DirectivePut-scoreheader-data tag  chapter)
+                    (d-DirectivePut-scoreheader-display tag  (DenemoAbbreviatedString chapter))
                     (d-DirectivePut-scoreheader-override tag  (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
                     (d-DirectivePut-scoreheader-postfix tag (string-append lilyfield " = \\markup { \\with-url #'\"scheme:(d-Book" field   ")\" "  "\"" chapter "\"}\n"))))))))
 

@@ -11,6 +11,6 @@
  				(d-DirectiveDelete-scoreheader tag))
  			(begin
 				 (d-DirectivePut-scoreheader-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
-  				(d-DirectivePut-scoreheader-display tag text)
+  				(d-DirectivePut-scoreheader-display tag (DenemoAbbreviatedString text))
   				(d-DirectivePut-scoreheader-postfix tag (string-append "tagline = \\markup { \\with-url #\"" link "\" \"" text "\"}\n"))))		
 		(d-SetSaved #f))))
