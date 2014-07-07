@@ -38,7 +38,7 @@ initprefs ()
   gchar *dotdenemo = (gchar *) get_user_data_dir (TRUE);
   gchar *localrc = dotdenemo ? g_build_filename (dotdenemo, PREFS_FILE, NULL) : NULL;
     if(Denemo.old_user_data_dir) {
-        if(confirm (_("Denemo Upgrade"), _("Re-use your old preferences and shortcuts?")))
+        if(confirm (_("Denemo Upgrade"), _("Re-use your old preferences, palettes and shortcuts?")))
             localrc =  g_build_filename (Denemo.old_user_data_dir, PREFS_FILE, NULL);
         else
         Denemo.old_user_data_dir = NULL;

@@ -27,6 +27,8 @@
 gint writePalettes (void);
 /* installs palettes from user's palettes or, failing, from system palettes */
 gint installPalettes (void);
-/* installs palette of given name from the system palettes */
+/* installs palette of given name from the system palettes merging with those already present */
 gint mergePalette (const gchar *name);
+/*installs palettes from the give xml file, merging with those already present. If hide is TRUE hide all elements in the merged palettes */
+gint installPalettesFile (gchar *filename, gboolean hide);
 #endif
