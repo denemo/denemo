@@ -213,7 +213,7 @@ set_preferences (struct callbackdata *cbdata)
    g_string_assign (prefs->field,\
     (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
 
-  ASSIGNTEXT (lilypath) ASSIGNTEXT (browser) ASSIGNTEXT (imageviewer) ASSIGNTEXT (username) ASSIGNTEXT (password) ASSIGNTEXT (profile) ASSIGNTEXT (fontspec) ASSIGNTEXT (denemopath) gchar const *text = (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->audio_driver));
+  ASSIGNTEXT (lilypath) ASSIGNTEXT (browser) ASSIGNTEXT (imageviewer) ASSIGNTEXT (graphicseditor) ASSIGNTEXT (username) ASSIGNTEXT (password) ASSIGNTEXT (profile) ASSIGNTEXT (fontspec) ASSIGNTEXT (denemopath) gchar const *text = (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->audio_driver));
   GList *item = g_list_find_custom (cbdata->audio_driver_option_list, text, (GCompareFunc) strcmp);
   gint index = g_list_position (cbdata->audio_driver_option_list, item);
   if (index < 0)
