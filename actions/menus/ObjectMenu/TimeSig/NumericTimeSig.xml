@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>NumericTimeSig</action>
+        <after>InsertTimeSig</after>
+        <_label>Numeric Time Signature</_label>
+        <_tooltip>Typesets common and cut time numerically rather than the traditional C and C cut.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

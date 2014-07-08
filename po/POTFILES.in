@@ -1793,6 +1793,8 @@ actions/menus/ObjectMenu/TimeSig/ChooseTimeSignature.scm
 actions/menus/ObjectMenu/TimeSig/ChooseTimeSignature.xml
 actions/menus/ObjectMenu/TimeSig/HideTimesig.scm
 actions/menus/ObjectMenu/TimeSig/HideTimesig.xml
+actions/menus/ObjectMenu/TimeSig/NumericTimeSig.scm
+actions/menus/ObjectMenu/TimeSig/NumericTimeSig.xml
 actions/menus/ObjectMenu/TimeSig/SingleDigitTimeSig.scm
 actions/menus/ObjectMenu/TimeSig/SingleDigitTimeSig.xml
 actions/menus/ObjectMenu/TimeSig/TimesigWithBeatStructure.scm

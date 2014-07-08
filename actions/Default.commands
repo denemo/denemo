@@ -6766,6 +6766,13 @@ before and after the LilyPond syntax. </_tooltip>
         <_label>Dynamics Above</_label>
         <_tooltip>Inserts a directive to cause dynamics to be printed above the staff.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>NumericTimeSig</action>
+        <after>InsertTimeSig</after>
+        <menupath>/ObjectMenu/TimeSig</menupath>
+        <_label>Numeric Time Signature</_label>
+        <_tooltip>Typesets common and cut time numerically rather than the traditional C and C cut.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
