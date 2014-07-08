@@ -97,7 +97,7 @@ If you are saving to a new file you will be asked to open it later."))
             (begin
                     (d-DirectivePut-score-override tag DENEMO_OVERRIDE_DYNAMIC) ;;call with 'refresh to re-scale for score size change 
                     (d-DirectivePut-score-prefix tag
-                            (string-append "\\markup {\\hspace #" (scale space-left) " \\with-url #'\"scheme:(d-GraphicTitlePage \\\"edit\\\")\" \\epsfile #X #" (scale width) " #\"" filename "\" \\vspace #" (scale space-below) " }"))
+                            (string-append "\\markup {\\hspace #" (scale space-left) " \\with-url #'\"scheme:(d-GraphicTitlePage \\\"edit\\\")\" \\epsfile #X #" (scale width) " #\"" (scheme-escape filename) "\" \\vspace #" (scale space-below) " }"))
                     (d-DirectivePut-score-data tag (string-append "(list \"" (scheme-escape filename) "\" \"" width "\" \"" space-below "\" \"" space-left "\")")))
             (let ((message (string-append (_ "The file \"") filename (_ "\"\ndoes not (yet) exist, or no longer exists.\nTypesetting will silently fail until the file exists.\nEither create the file or delete the Graphic Title Page now"))))
             

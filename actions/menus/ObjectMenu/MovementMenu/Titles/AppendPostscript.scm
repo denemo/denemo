@@ -85,7 +85,7 @@ to return to work in Denemo.")))
                 (begin
                     (d-DirectivePut-movementcontrol-override tag DENEMO_OVERRIDE_DYNAMIC) ;;call with 'refresh to re-scale for score size change 
                     (d-DirectivePut-movementcontrol-postfix tag
-                                (string-append "\\markup { \\hspace #" (scale space-left) " \\vspace #" (scale space-above) " \\with-url #'\"scheme:(d-AppendPostscript \\\"edit\\\")\" \\epsfile #X #" (scale width) " #\"" filename "\" }"))
+                                (string-append "\\markup { \\hspace #" (scale space-left) " \\vspace #" (scale space-above) " \\with-url #'\"scheme:(d-AppendPostscript \\\"edit\\\")\" \\epsfile #X #" (scale width) " #\"" (scheme-escape filename) "\" }"))
                     (d-DirectivePut-movementcontrol-data tag (string-append "(list \"" (scheme-escape filename) "\" \"" width "\" \"" space-above "\" \"" space-left "\")")))
                 (begin
                     (d-WarningDialog (string-append (_ "The file ") filename (_ "does not exist\nPerhaps you saved to a different directory?"))))))                         

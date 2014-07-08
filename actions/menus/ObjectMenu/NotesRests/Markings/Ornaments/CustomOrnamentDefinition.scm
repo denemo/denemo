@@ -151,7 +151,7 @@ to return to work in Denemo."))
             
                     (d-CreatePaletteButton "Custom Ornaments" name (_ "Attaches (or removes) this ornament from the current note/chord.") (string-append "(if (CheckForLilyPondDefine \"" name "\")
                         (ChordOrnament \"Toggle" (string-upcase  name 0 1) "\"  \"\\\\" name "\" #f  \"" name "\") (d-WarningDialog \"Not Defined\"))"))
-                    (d-LilyPondDefinition (cons name (string-append "\\tweak outside-staff-priority #50 -\\markup {\\epsfile #X #" (scale width) " #\"" filename "\" }")))
+                    (d-LilyPondDefinition (cons name (string-append "\\tweak outside-staff-priority #50 -\\markup {\\epsfile #X #" (scale width) " #\"" (scheme-escape filename) "\" }")))
                     (d-DirectivePut-score-override def-tag (logior DENEMO_OVERRIDE_AFFIX DENEMO_OVERRIDE_DYNAMIC)) ;;call with 'refresh to re-scale for score size change 
                     (d-DirectivePut-score-data def-tag (string-append "(list \"" name "\" \"" (scheme-escape filename) "\" \"" width "\")")))
             (let ((message (string-append (_ "The file \"") filename (_ "\"\ndoes not (yet) exist, or no longer exists.\nTypesetting will silently fail until the file exists.\nEither create the file or delete the Graphic Title Page now"))))

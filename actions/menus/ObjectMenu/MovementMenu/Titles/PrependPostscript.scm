@@ -85,7 +85,7 @@ to return to work in Denemo.")))
                 (begin
                     (d-DirectivePut-movementcontrol-override tag DENEMO_OVERRIDE_DYNAMIC) ;;call with 'refresh to re-scale for score size change 
                     (d-DirectivePut-movementcontrol-prefix tag
-                        (string-append "\\markup {\\hspace #" (scale space-left) " \\with-url #'\"scheme:(d-PrependPostscript \\\"edit\\\")\" \\epsfile #X #" (scale width) " #\"" filename "\" \\vspace #" (scale space-below) " }"))
+                        (string-append "\\markup {\\hspace #" (scale space-left) " \\with-url #'\"scheme:(d-PrependPostscript \\\"edit\\\")\" \\epsfile #X #" (scale width) " #\"" (scheme-escape filename) "\" \\vspace #" (scale space-below) " }"))
                     (d-DirectivePut-movementcontrol-data tag (string-append "(list \"" (scheme-escape filename) "\" \"" width "\" \"" space-below "\" \"" space-left "\")")))
                     
                 (begin
