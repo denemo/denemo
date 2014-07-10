@@ -1810,3 +1810,4 @@ actions/mxml2ly2denemo/import_nwctext.scm
 actions/palettes.xml
 actions/silex.scm
 actions/Simple.scm
+denemo.appdata.xml.in

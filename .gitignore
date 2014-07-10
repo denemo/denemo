@@ -48,6 +48,7 @@ po/Makefile.in.in
 po/stamp-it
 po/*.gmo
 po/denemo-*.pot
+po/.intltool-merge-cache
 
 # Source files
 src/denemo
@@ -70,3 +71,5 @@ Debug
 
 #Tests
 test-driver
+
+*.appdata.xml

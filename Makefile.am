@@ -1,3 +1,8 @@
+@INTLTOOL_XML_RULE@
+appdatadir = $(datarootdir)/appdata
+appdata_DATA = $(appdata_in_files:.xml.in=.xml)
+appdata_in_files = denemo.appdata.xml.in
+
 SUBDIRS = \
   tools \
   libs/libsffile \
@@ -26,7 +31,8 @@ EXTRA_DIST = \
   intltool-extract.in \
   intltool-merge.in \
   intltool-update.in \
-  po/$(GETTEXT_PACKAGE).pot
+  po/$(GETTEXT_PACKAGE).pot \
+  denemo.appdata.xml.in
 
 MAINTAINERCLEANFILES = \
   Makefile.in \
@@ -55,6 +61,9 @@ DISTCLEANFILES = \
   po/.intltool-merge-cache \
   po/denemo.pot
 
+CLEANFILES = \
+  $(appdata_DATA)
+
 ACLOCAL_AMFLAGS = -I build
 
 install-data-hook:
@@ -76,6 +85,7 @@ potfile:
 	@rm -f $(srcdir)/po/POTFILES.skip
 	@cd $(srcdir) && find src -name '*.c' -o -name '*.h' ! -name 'pathconfig.h' | sort >> po/POTFILES.in
 	@cd $(srcdir) && find actions -name '*.xml' -o -name '*.scm' | sort >> po/POTFILES.in
+	@cd $(srcdir) && echo denemo.appdata.xml.in >> po/POTFILES.in
 	@cd $(srcdir) && find tools -name '*.c' -o -name '*.h' | sort >> po/POTFILES.skip
 	@cd $(srcdir) && find src -name 'pathconfig.h' | sort >> po/POTFILES.skip
 	@cp $(srcdir)/po/POTFILES.in $(builddir)/po/POTFILES.in.bak
