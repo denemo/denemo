@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ChordChartStaff</action>
+        <after>ChordStaff</after>
+        <_label>Chord Chart Staff</_label>
+        <_tooltip>Prints Chord symbols separated by bar lines. Repeats, time signatures and text are also printed for this staff.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -6780,6 +6780,13 @@ before and after the LilyPond syntax. </_tooltip>
         <_label>Add Bass Inversion</_label>
         <_tooltip>Adds a bass note to a chord, while keeping the current lowest note as the root of the chord. Use this on Chord Symbol staffs to create an inversion of the chord entered.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ChordChartStaff</action>
+        <after>ChordStaff</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
+        <_label>Chord Chart Staff</_label>
+        <_tooltip>Prints Chord symbols separated by bar lines. Repeats, time signatures and text are also printed for this staff.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

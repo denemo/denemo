@@ -1717,6 +1717,8 @@ actions/menus/ObjectMenu/StaffMenu/StaffMultiMeasureRests.scm
 actions/menus/ObjectMenu/StaffMenu/StaffMultiMeasureRests.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Ambitus.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Ambitus.xml
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordStaff.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordStaff.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/FretDiagrams/FretBoards.scm
