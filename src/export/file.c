@@ -111,6 +111,10 @@ supported_file_extensions(gchar* format){
     exts = g_list_append(exts, "*.pdf");
     exts = g_list_append(exts, "*.PDF");
   }
+  if(g_strcmp0 ("evince", format) == 0){
+    exts = g_list_append(exts, "*.pdf");
+    exts = g_list_append(exts, "*.PDF");
+  }
 
   return exts;
 }
