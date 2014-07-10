@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>AddBassInversion</action>
+        <after>ParenthesizeChord</after>
+        <_label>Add Bass Inversion</_label>
+        <_tooltip>Adds a bass note to a chord, while keeping the current lowest note as the root of the chord. Use this on Chord Symbol staffs to create an inversion of the chord entered.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

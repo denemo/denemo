@@ -6773,6 +6773,13 @@ before and after the LilyPond syntax. </_tooltip>
         <_label>Numeric Time Signature</_label>
         <_tooltip>Typesets common and cut time numerically rather than the traditional C and C cut.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>AddBassInversion</action>
+        <after>ParenthesizeChord</after>
+        <menupath>/ObjectMenu/ChordMenu</menupath>
+        <_label>Add Bass Inversion</_label>
+        <_tooltip>Adds a bass note to a chord, while keeping the current lowest note as the root of the chord. Use this on Chord Symbol staffs to create an inversion of the chord entered.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

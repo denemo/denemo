@@ -578,6 +578,8 @@ actions/menus/ObjectMenu/ChordMenu/AddAboveBase/AddLowestUpPerfect4.scm
 actions/menus/ObjectMenu/ChordMenu/AddAboveBase/AddLowestUpPerfect4.xml
 actions/menus/ObjectMenu/ChordMenu/AddAboveBase/AddLowestUpPerfect5.scm
 actions/menus/ObjectMenu/ChordMenu/AddAboveBase/AddLowestUpPerfect5.xml
+actions/menus/ObjectMenu/ChordMenu/AddBassInversion.scm
+actions/menus/ObjectMenu/ChordMenu/AddBassInversion.xml
 actions/menus/ObjectMenu/ChordMenu/AddBelowTop/AddHighestDownAugmented4.scm
 actions/menus/ObjectMenu/ChordMenu/AddBelowTop/AddHighestDownAugmented4.xml
 actions/menus/ObjectMenu/ChordMenu/AddBelowTop/AddHighestDownDiminished5.scm
