@@ -15,6 +15,7 @@
 	 \\consists \"Script_engraver\"
 	 \\consists \"Text_engraver\"
 	 \\consists \"Time_signature_engraver\"
+	 \\consists \"Multi_measure_rest_engraver\"
 	\\numericTimeSignature 
 }
 "  DENEMO_OVERRIDE_LILYPOND)
