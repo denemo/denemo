@@ -414,7 +414,7 @@ scheme_get_target_info (void)
           else
             grob = SCM_BOOL_F;
         }
-      if (directive->tag)
+      if (directive && directive->tag)
         {
           tag = scm_from_locale_string (directive->tag->str);
         }
