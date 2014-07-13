@@ -171,7 +171,7 @@
     (define (doublestroke::invokegui)
         (if gui-version
              (gui-version)
-             (begin FallBack ; create a gui from the given parameters, test for cancel-button #f
+             (begin ;FallBack ; create a gui from the given parameters, test for cancel-button #f
                 (set! gui-version (apply RadioBoxMenu (delete (cons "" False) 
                     (list first second third fourth fifth sixth seventh eighth ninth tenth 
 
