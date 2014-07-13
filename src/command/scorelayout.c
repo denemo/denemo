@@ -2800,25 +2800,28 @@ get_scoreblock_for_lilypond (gchar * lily)
 {
   gchar *text = _("The LilyPond text for this layout can be edited in the LilyPond view window.\nYou can safely delete this layout if you no longer need it\n(for example if you have made structural changes to the score\nnot reflected in this layout).");
   gchar *name = NULL;
-  GtkWidget *frame = gtk_frame_new (_(LILYPOND_TEXT_EDITOR));
   DenemoScoreblock *sb = g_malloc0 (sizeof (DenemoScoreblock));
   sb->text_only = TRUE;
-  sb->widget = frame;
-  gtk_widget_set_tooltip_text (frame, _("This is a customized layout, which has been transformed into instructions for the LilyPond music typesetter.\nThis is the form in which customized layouts are stored in a Denemo score on disk - the graphical interface is no longer available. You can, however still edit the layout with care (and some understanding of LilyPond).\nUse the View → LilyPond window to do this.\nOtherwise you can delete it and create a new one from a standard layout."));
-  GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
-  gtk_container_add (GTK_CONTAINER (sb->widget), vbox);
-  GtkWidget *options = get_options_button (sb, TRUE);
-  gtk_box_pack_start (GTK_BOX (vbox), options, FALSE, FALSE, 0);
-  GtkWidget *textview = gtk_text_view_new ();
-  gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (textview), TRUE);
-  //g_debug("Value %d\n", gtk_text_view_get_cursor_visible(GTK_TEXT_VIEW(textview)));
-  GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
-  gtk_text_buffer_set_text (textbuffer, text, -1);
 
-  GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
-  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_container_add (GTK_CONTAINER (sw), textview);
-  gtk_box_pack_start (GTK_BOX (vbox), sw, TRUE, TRUE, 0);
+  if(!Denemo.non_interactive){
+    GtkWidget *frame = gtk_frame_new (_(LILYPOND_TEXT_EDITOR));
+    sb->widget = frame;
+    gtk_widget_set_tooltip_text (frame, _("This is a customized layout, which has been transformed into instructions for the LilyPond music typesetter.\nThis is the form in which customized layouts are stored in a Denemo score on disk - the graphical interface is no longer available. You can, however still edit the layout with care (and some understanding of LilyPond).\nUse the View → LilyPond window to do this.\nOtherwise you can delete it and create a new one from a standard layout."));
+    GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
+    gtk_container_add (GTK_CONTAINER (sb->widget), vbox);
+    GtkWidget *options = get_options_button (sb, TRUE);
+    gtk_box_pack_start (GTK_BOX (vbox), options, FALSE, FALSE, 0);
+    GtkWidget *textview = gtk_text_view_new ();
+    gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (textview), TRUE);
+    GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+    gtk_text_buffer_set_text (textbuffer, text, -1);
+
+    GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+    gtk_container_add (GTK_CONTAINER (sw), textview);
+    gtk_box_pack_start (GTK_BOX (vbox), sw, TRUE, TRUE, 0);
+  }
+  
   gchar *newline = g_strstr_len (lily, -1, "\n");
   if (newline)
     {
@@ -2831,7 +2834,6 @@ get_scoreblock_for_lilypond (gchar * lily)
     sb->name = g_strdup (_("Custom Scoreblock"));
   sb->id = crc32 ((guchar*) sb->name);
   sb->lilypond = g_string_new (lily);
-
 
   refresh_lilypond (sb);
   return sb;
