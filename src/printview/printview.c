@@ -647,6 +647,18 @@ large_thumbnail_name (gchar * filepath)
   return g_build_filename (get_thumb_directory (), ret, NULL);
 }
 
+static void
+thumbnail_finished(GPid pid, gint status, gpointer data)
+{
+  /*
+  GError* err = NULL;
+  if(!g_spawn_check_exit_status (status, &err))
+    g_critical("Lilypond did not end successfully: %s", err->message);
+  */
+  if(status)
+    g_critical("Thumbnailer: Lilyond did not end successfully");
+}
+
 /***
  *  Create a thumbnail for Denemo.project if needed
  */
@@ -744,11 +756,12 @@ create_thumbnail (gboolean async, gchar* thumbnail_path)
         Denemo.project->filename->str,
         NULL
       };
+      GPid pid;
       gboolean success = g_spawn_async_with_pipes (NULL,   /* any dir */
                                 arguments, NULL,        /* env */
                                 G_SPAWN_SEARCH_PATH, NULL,      /* child setup func */
                                 NULL,   /* user data */
-                                NULL,   /* pid */
+                                &pid,   /* pid */
                                 NULL,   /* stdin */
                                 NULL,   /* stdout */
                                 NULL,   /* stderr */
@@ -757,6 +770,7 @@ create_thumbnail (gboolean async, gchar* thumbnail_path)
         g_info("Launched thumbnail subprocess");
       else
         g_critical("An error happened during thumbnail generation: %s", err->message);
+      g_child_watch_add (pid, thumbnail_finished, NULL);
     }
   else
     {

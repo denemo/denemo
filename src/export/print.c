@@ -455,14 +455,14 @@ run_lilypond (gchar ** arguments)
                                                                &lily_err);
   if (lily_err)
     {
-      g_warning ("Error launching lilypond! Message is %s", lily_err->message);
+      g_critical ("Error launching lilypond! Message is %s", lily_err->message);
       g_error_free (lily_err);
       lily_err = NULL;
       error = -1;
     }
   if (!lilypond_launch_success)
     {
-      g_warning ("Error executing lilypond. Perhaps Lilypond is not installed or its path is not correctly configured.");
+      g_critical ("Error executing lilypond. Perhaps Lilypond is not installed or its path is not correctly configured. %s", lily_err->message);
       error = -1;
     }
   if (error)
@@ -721,7 +721,8 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui)
   else
     {
       GError *err = NULL;
-      g_spawn_sync (locateprintdir (),  /* dir */
+      gint ret = 0;
+      gboolean success = g_spawn_sync (locateprintdir (),  /* dir */
                     arguments, 
                     NULL,    /* env */
                     G_SPAWN_SEARCH_PATH, 
@@ -729,7 +730,14 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui)
                     NULL,       /* user data */
                     NULL,       /* stdout */
                     NULL,       /* stderr */
-                    NULL, &err);
+                    &ret, 
+                    &err);
+      if(!success)
+        g_critical("An error happened during lilypond launching: %s", err->message);
+
+      if(ret != 0)
+        g_critical("Lilypond did not end successfully");
+
       //These are in tmpdir and can be used for the .eps file, so don't delete them   
       //g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
       g_list_free (filelist);
