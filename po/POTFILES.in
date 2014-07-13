@@ -653,6 +653,7 @@ actions/menus/ObjectMenu/Directives/Markings/Barlines/ChooseBarline.scm
 actions/menus/ObjectMenu/Directives/Markings/Barlines/ChooseBarline.xml
 actions/menus/ObjectMenu/Directives/Markings/Barlines/ClosingBarline.scm
 actions/menus/ObjectMenu/Directives/Markings/Barlines/ClosingBarline.xml
+actions/menus/ObjectMenu/Directives/Markings/Barlines/CustomBarline.scm
 actions/menus/ObjectMenu/Directives/Markings/Barlines/DoubleBarline.scm
 actions/menus/ObjectMenu/Directives/Markings/Barlines/DoubleBarline.xml
 actions/menus/ObjectMenu/Directives/Markings/Barlines/ForceBarline.scm
@@ -1812,3 +1813,4 @@ actions/mxml2ly2denemo/import_nwctext.scm
 actions/palettes.xml
 actions/silex.scm
 actions/Simple.scm
+denemo.appdata.xml.in
