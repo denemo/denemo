@@ -6787,6 +6787,13 @@ before and after the LilyPond syntax. </_tooltip>
         <_label>Chord Chart Staff</_label>
         <_tooltip>Prints Chord symbols separated by bar lines. Repeats, time signatures and text are also printed for this staff.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>CustomRehearsalMark</action>
+        <after>RehearsalMark</after>
+        <menupath>/ObjectMenu/Directives/Markings</menupath>
+        <_label>Add Text/Rehearsal/Bookmark</_label>
+        <_tooltip>Inserts an arbitray mark in the score at the cursor. Any size, font, effect can be chosen. The text position can be dragged in the print view if needed.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

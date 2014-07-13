@@ -673,6 +673,8 @@ actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm
 actions/menus/ObjectMenu/Directives/Markings/BeatChange.xml
 actions/menus/ObjectMenu/Directives/Markings/BreathMark.scm
 actions/menus/ObjectMenu/Directives/Markings/BreathMark.xml
+actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm
+actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.xml
 actions/menus/ObjectMenu/Directives/Markings/DynamicText.scm
 actions/menus/ObjectMenu/Directives/Markings/DynamicText.xml
 actions/menus/ObjectMenu/Directives/Markings/FreeFermata.scm
@@ -1810,4 +1812,3 @@ actions/mxml2ly2denemo/import_nwctext.scm
 actions/palettes.xml
 actions/silex.scm
 actions/Simple.scm
-denemo.appdata.xml.in

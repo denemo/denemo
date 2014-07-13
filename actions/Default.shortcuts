@@ -613,7 +613,7 @@
         <bind>F9</bind>
       </row>
       <row>
-        <action>BookmarkNamed</action>
+        <action>CustomRehearsalMark</action>
         <bind>Shft+F9</bind>
       </row>
       <row>
