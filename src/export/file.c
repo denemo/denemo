@@ -1274,18 +1274,17 @@ paste_clipboard (GtkAction * action, DenemoScriptParam * param)
 
 }
 
-#define EXPORT_INTERFACE(format_id) \
-  GET_1PARAM(action, param, filename); \
-  DenemoProject *gui = Denemo.project; \
-  if (filename==NULL) \
-    file_export(format_id); \
-  else \
-    if (action==NULL || replace_existing_file_dialog \
-       (filename, format_id)){ \
-      filesel_save (gui, filename, format_id, SAVE_COPY); \
-      force_lily_refresh(gui); \
+static void
+export_interface(GtkAction* action, DenemoScriptParam* param, gint format_id){
+  GET_1PARAM(action, param, filename);
+  if (filename==NULL)
+    file_export(format_id);
+  else
+    if (action==NULL || replace_existing_file_dialog(filename, format_id)){
+      filesel_save (Denemo.project, filename, format_id, SAVE_COPY);
+      force_lily_refresh(Denemo.project);
     }
-
+}
 
 /**
  * Export mudela callback prompts for filename
@@ -1294,7 +1293,8 @@ paste_clipboard (GtkAction * action, DenemoScriptParam * param)
 void
 export_mudela_action (GtkAction * action, DenemoScriptParam * param)
 {
-EXPORT_INTERFACE (MUDELA_FORMAT)}
+  export_interface (action, param, MUDELA_FORMAT);
+}
 
 /**
  * Export pdf callback prompts for filename
@@ -1303,7 +1303,8 @@ EXPORT_INTERFACE (MUDELA_FORMAT)}
 void
 export_pdf_action (GtkAction * action, DenemoScriptParam * param)
 {
-EXPORT_INTERFACE (PDF_FORMAT)}
+  export_interface (action, param, PDF_FORMAT);
+}
 
 /**
  * Export pdf callback prompts for filename
@@ -1312,7 +1313,8 @@ EXPORT_INTERFACE (PDF_FORMAT)}
 void
 export_png_action (GtkAction * action, DenemoScriptParam * param)
 {
-EXPORT_INTERFACE (PNG_FORMAT)}
+  export_interface (action, param, PNG_FORMAT);
+}
 
 /**
  * Export ABC callback prompts for filename
@@ -1321,7 +1323,8 @@ EXPORT_INTERFACE (PNG_FORMAT)}
 void
 export_ABC_action (GtkAction * action, DenemoScriptParam * param)
 {
-EXPORT_INTERFACE (ABC_FORMAT)}
+  export_interface (action, param, ABC_FORMAT);
+}
 
 /**
  * Export MIDI callback prompts for filename
@@ -1330,4 +1333,5 @@ EXPORT_INTERFACE (ABC_FORMAT)}
 void
 export_midi_action (GtkAction * action, DenemoScriptParam * param)
 {
-EXPORT_INTERFACE (MIDI_FORMAT)}
+  export_interface (action, param, MIDI_FORMAT);
+}

@@ -609,18 +609,20 @@ thumb_finished (gchar* thumbname)
     {
       gchar *uri = g_strdup_printf ("file://%s", Denemo.project->filename->str);
       unsigned mtime = file_get_mtime (Denemo.project->filename->str);
-      //struct stat thebuf;
-      //gint status =  g_stat(Denemo.project->filename->str, &thebuf);
-      // unsigned mtime = thebuf.st_mtime;
-      //g_debug("the mt is %u\n", mtime);
 
       gchar *thumbpathN = g_build_filename (thumbnailsdirN, thumbname, NULL);
       gchar *thumbpathL = g_build_filename (thumbnailsdirL, thumbname, NULL);
       gchar *mt = g_strdup_printf ("%u", mtime);
-      if (!gdk_pixbuf_save (pbN, thumbpathN, "png" /*type */ , &err, "tEXt::Thumb::URI", uri, "tEXt::Thumb::MTime", mt, NULL))
+
+      if (gdk_pixbuf_save (pbN, thumbpathN, "png", &err, "tEXt::Thumb::URI", uri, "tEXt::Thumb::MTime", mt, NULL))
+        g_info("Thumbnail generated at %s", thumbpathN);
+      else
         g_critical ("Could not save normal thumbnail: %s", err->message);
+
       err = NULL;
-      if (!gdk_pixbuf_save (pbL, thumbpathL, "png" /*type */ , &err, "tEXt::Thumb::URI", uri, "tEXt::Thumb::MTime", mt, NULL))
+      if (gdk_pixbuf_save (pbL, thumbpathL, "png", &err, "tEXt::Thumb::URI", uri, "tEXt::Thumb::MTime", mt, NULL))
+        g_info("Large thumbnail generated at %s", thumbpathL);
+      else
         g_critical ("Could not save large thumbnail: %s", err->message);
 
       //FIXME do the pbN L need freeing???
@@ -633,7 +635,6 @@ thumb_finished (gchar* thumbname)
   g_free (printname);
   get_print_status()->printpid = GPID_NONE;
   progressbar_stop ();
-  //g_debug("Set get_print_status()->printpid = %d\n", get_print_status()->printpid);
 }
 
 // large_thumbnail_name takes a full path name to a .denemo file and returns the full path to the large thumbnail of that .denemo file. Caller must g_free the returned string
@@ -712,7 +713,7 @@ create_thumbnail (gboolean async, gchar* thumbnail_path)
     return FALSE;
   }
 
-  g_info("Creating thumbnail %s", thumbpathN);
+  g_info("Attempt to create thumbnail %s", thumbpathN);
 
   gint saved = g_list_index (Denemo.project->movements, Denemo.project->movement);
   Denemo.project->movement = Denemo.project->movements->data; //Thumbnail is from first movement
@@ -743,7 +744,7 @@ create_thumbnail (gboolean async, gchar* thumbnail_path)
         Denemo.project->filename->str,
         NULL
       };
-      g_spawn_async_with_pipes (NULL,   /* any dir */
+      gboolean success = g_spawn_async_with_pipes (NULL,   /* any dir */
                                 arguments, NULL,        /* env */
                                 G_SPAWN_SEARCH_PATH, NULL,      /* child setup func */
                                 NULL,   /* user data */
@@ -752,6 +753,10 @@ create_thumbnail (gboolean async, gchar* thumbnail_path)
                                 NULL,   /* stdout */
                                 NULL,   /* stderr */
                                 &err);
+      if(success)
+        g_info("Launched thumbnail subprocess");
+      else
+        g_critical("An error happened during thumbnail generation: %s", err->message);
     }
   else
     {
