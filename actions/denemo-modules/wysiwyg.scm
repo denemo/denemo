@@ -189,10 +189,10 @@
 (define (TweakOffset grob tag offsetx offsety)
     (define sa-tag (d-DirectiveGetForTag-standalone ""))
     (if sa-tag      
-        (let ((grob (d-DirectiveGet-standalone-grob sa-tag))) ;;; FIXME can we just use the passed in grob
+        (let ()
                 (if grob
                     (cond ((or (equal? grob "RehearsalMark") (equal? grob "BreathingSign")   (equal? grob "MetronomeMark")    )
-                            (ExtraOffset sa-tag sa-tag "standalone" "Score." (cons offsetx offsety)))
+                            (ExtraOffset sa-tag grob "standalone" "Score." (cons offsetx offsety)))
                         (#t
                             (TweakRelativeOffset sa-tag offsetx offsety)))
                     (TweakRelativeOffset sa-tag offsetx offsety)))
