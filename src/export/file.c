@@ -105,6 +105,7 @@ supported_file_extensions(gchar* format){
   if(g_strcmp0 ("musicxml", format) == 0){
     exts = g_list_append(exts, "*.mxml");
     exts = g_list_append(exts, "*.MXML");
+    exts = g_list_append(exts, "*.xml");
   }
   
   if(g_strcmp0 ("pdf", format) == 0){
