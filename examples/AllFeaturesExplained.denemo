@@ -215,12 +215,12 @@ accGeige</tag>
       </directive>
     </score-directives>
   </lilycontrol>
-  <movement-number>2</movement-number>
+  <movement-number>4</movement-number>
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>1</measureno>
-      <cursorposition>0</cursorposition>
+      <measureno>4</measureno>
+      <cursorposition>7</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -649,7 +649,7 @@ Alternatively in the Notes/Rests-&gt;Beaming menu.\")"             ⬆Explanatio
     <edit-info>
       <staffno>2</staffno>
       <measureno>1</measureno>
-      <cursorposition>0</cursorposition>
+      <cursorposition>11</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -871,8 +871,8 @@ The input Denemo Display gives you an indicator of what you have done. If you wa
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>1</measureno>
-      <cursorposition>0</cursorposition>
+      <measureno>4</measureno>
+      <cursorposition>1</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -967,7 +967,7 @@ The input Denemo Display gives you an indicator of what you have done. If you wa
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="TextAnnotation&#10;Explanation ⬊" display="Explanation ⬊" grob="Text" prefix="&lt;&gt;-\tweak #'extra-offset #'( -13.4384197530864 . 9.65886419753087 )" minpixels="30">-\markup {    \with-url #'"scheme:(d-InfoDialog \"To put in the start of a first time bar use the command Directives-&gt;Start a first time bar.
+            <lily-directive tag="TextAnnotation&#10;Explanation ⬊" display="Explanation ⬊" grob="Text" prefix="&lt;&gt;-\tweak #'extra-offset #'( -13.4384197530864 . 9.65886419753087 )" minpixels="30">-\markup {    \with-url #'"scheme:(d-InfoDialog \"To put in the start of a first time bar use the command Directives-&gt;Markings-&gt;Spanning-&gt;Start a first time bar.
 Usually the shortcut is r,1 for this.\")"              Explanation ⬊ }</lily-directive>
             <chord show="true" id="id106">
               <duration base="quarter"></duration>
@@ -1045,7 +1045,7 @@ Usually the shortcut is r,1 for this.\")"              Explanation ⬊ }</lily-d
           </measure>
           <measure>
             <lily-directive tag="RepeatStart" graphic_name="RepeatStart" minpixels="30" override="4">\bar ".|:"</lily-directive>
-            <lily-directive tag="TextAnnotation&#10;Explanation ⬊" display="   ⬋Explanation" grob="Text" prefix="&lt;&gt;-\tweak #'extra-offset #'( -2 . 0 )" minpixels="30">-\markup {    \with-url #'"scheme:(d-InfoDialog \"To put a special barline like this use the command Directives-&gt;Barlines-&gt;Repeat start.
+            <lily-directive tag="TextAnnotation&#10;Explanation ⬊" display="   ⬋Explanation" grob="Text" prefix="&lt;&gt;-\tweak #'extra-offset #'( -2 . 0 )" minpixels="30">-\markup {    \with-url #'"scheme:(d-InfoDialog \"To put a special barline like this use the command Directives-&gt;Markings-&gt;Inserting Barlines-&gt;Repeat start.
 Usually the shortcut is Shift-B,s for this.\")"             ⬉Explanation }</lily-directive>
             <chord show="true" id="id120">
               <duration base="quarter"></duration>
@@ -1123,7 +1123,7 @@ Usually the shortcut is Shift-B,s for this.\")"             ⬉Explanation }</li
     <edit-info>
       <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>0</cursorposition>
+      <cursorposition>5</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
