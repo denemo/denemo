@@ -462,7 +462,7 @@ run_lilypond (gchar ** arguments)
     }
   if (!lilypond_launch_success)
     {
-      g_critical ("Error executing lilypond. Perhaps Lilypond is not installed or its path is not correctly configured. %s", lily_err->message);
+      //g_critical ("Error executing lilypond. Perhaps Lilypond is not installed or its path is not correctly configured. %s", lily_err->message);
       error = -1;
     }
   if (error)
