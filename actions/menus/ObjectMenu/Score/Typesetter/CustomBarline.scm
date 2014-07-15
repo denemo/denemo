@@ -1,7 +1,7 @@
 ;;;CustomBarline
 
 (define-once CustomBarline::return #f)
-(let* ((tag "CustomBarline")(params CustomBarline::params) (defines (d-DirectiveGet-score-data tag)) (name "A")(start "]")(end ":")(mid "|")(span "."))
+(let* ((tag "CustomBarline")(params CustomBarline::params) (defines (d-DirectiveGet-score-data tag)) (name "A")(start "|")(end "|")(mid "|")(span "|"))
     (define (createTag name)
         (string-append "Bar" name))
     (define (setBarline) ;;; sets the LilyPond to define all the defines listed in Directive-score-data
