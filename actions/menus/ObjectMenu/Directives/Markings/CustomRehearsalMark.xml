@@ -8,7 +8,7 @@
         <action>CustomRehearsalMark</action>
         <after>RehearsalMark</after>
         <_label>Add Text/Rehearsal/Bookmark</_label>
-        <_tooltip>Inserts an arbitray mark in the score at the cursor. Any size, font, effect can be chosen. The text position can be dragged in the print view if needed.</_tooltip>
+        <_tooltip>Inserts an arbitrary mark in the score at the cursor. Any size, font, effect can be chosen. The text position can be dragged in the print view if needed.</_tooltip>
       </row>
     </map>
   </merge>

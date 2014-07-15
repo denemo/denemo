@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>CustomBarline</action>
+        <_label>Custom Barline</_label>
+        <_tooltip>Create a custom barline.
+These can be named, or can simply override a standard LilyPond bar line type.
+A bar line is defined by four forms, which describe 1) the appearance normally (during a line), 
+2) appearance when the barline is at the beginning or 
+3) end of a line , and 
+4) what to show when joining staffs together as with a Piano Staff.
+Barline forms are made of characters including |,:,.,[,],:
+and others in the LilyPond documentation.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
