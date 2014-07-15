@@ -200,9 +200,9 @@
     <button label="Whole Measure Repeat" _tooltip="Inserts a whole measure repeat sign." script="(d-WholeMeasureRepeat)"/>
     <button label="9 sus4" _tooltip="Inserts a chord at the cursor." script=" (d-Insert0)&#10; (d-PutNoteName (d-GetCursorNoteWithOctave))&#10;(d-MoveCursorLeft)&#10;(d-AddLowestUpPerfect4)&#10;(d-AddLowestUpMinor7)&#10;(d-AddLowestUpMajor2)&#10;(d-CursorUp)&#10;(d-OctaveUp)&#10;"/>
     <button label="m 7" _tooltip="Inserts a chord at the cursor." script=" (d-Insert0)&#10; (d-PutNoteName (d-GetCursorNoteWithOctave))&#10;(d-MoveCursorLeft)&#10;(d-AddLowestUpMinor3)&#10;(d-AddLowestUpMinor7)&#10;"/>
-    <button label="9" _tooltip="Inserts a chord at the cursor." script=" (d-Insert0)&#10; (d-PutNoteName (d-GetCursorNoteWithOctave))&#10;(d-MoveCursorLeft)&#10;(d-AddLowestUpMajor2)&#10;(d-CursorUp)&#10;(d-OctaveUp)&#10;(d-DeletePreviousObject)&#10;"/>
+    <button label="9" _tooltip="Inserts a chord at the cursor." script=" (d-Insert0)&#10; (d-PutNoteName (d-GetCursorNoteWithOctave))&#10;(d-MoveCursorLeft)&#10;(d-AddLowestUpMajor2)&#10;(d-CursorUp)&#10;(d-OctaveUp)&#10;"/>
     <button label="m 6" _tooltip="Inserts a chord at the cursor." script="(d-Insert0)&#10; (d-PutNoteName (d-GetCursorNoteWithOctave))&#10;(d-MoveCursorLeft)&#10;(d-AddLowestUpMinor3)&#10;(d-AddLowestUpMajor6)&#10;"/>
     <button label="7#" _tooltip="Inserts a chord at the cursor." script=" (d-Insert0)&#10; (d-PutNoteName (d-GetCursorNoteWithOctave))&#10;(d-MoveCursorLeft)&#10;(d-AddLowestUpMajor7)&#10;"/>
-    <button label="7# 13" _tooltip="Inserts a chord at the cursor." script=" (d-Insert0)&#10; (d-PutNoteName (d-GetCursorNoteWithOctave))&#10;(d-MoveCursorLeft)&#10;(d-AddLowestUpMajor7)&#10;(d-AddLowestUpMajor6)&#10;(d-CursorUp)(d-CursorUp)(d-CursorUp)(d-CursorUp)(d-CursorUp)&#10;(d-OctaveUp)&#10;(d-DeletePreviousObject)&#10;"/>
+    <button label="7# 13" _tooltip="Inserts a chord at the cursor." script=" (d-Insert0)&#10; (d-PutNoteName (d-GetCursorNoteWithOctave))&#10;(d-MoveCursorLeft)&#10;(d-AddLowestUpMajor7)&#10;(d-AddLowestUpMajor6)&#10;(d-CursorUp)(d-CursorUp)(d-CursorUp)(d-CursorUp)(d-CursorUp)&#10;(d-OctaveUp)&#10;"/>
   </palette>
 </Denemo>
