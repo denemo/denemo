@@ -653,8 +653,6 @@ actions/menus/ObjectMenu/Directives/Markings/Barlines/ChooseBarline.scm
 actions/menus/ObjectMenu/Directives/Markings/Barlines/ChooseBarline.xml
 actions/menus/ObjectMenu/Directives/Markings/Barlines/ClosingBarline.scm
 actions/menus/ObjectMenu/Directives/Markings/Barlines/ClosingBarline.xml
-actions/menus/ObjectMenu/Directives/Markings/Barlines/CustomBarline.scm
-actions/menus/ObjectMenu/Directives/Markings/Barlines/CustomBarline.xml
 actions/menus/ObjectMenu/Directives/Markings/Barlines/DoubleBarline.scm
 actions/menus/ObjectMenu/Directives/Markings/Barlines/DoubleBarline.xml
 actions/menus/ObjectMenu/Directives/Markings/Barlines/ForceBarline.scm
@@ -1601,6 +1599,8 @@ actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm
 actions/menus/ObjectMenu/Score/Titles/TaglineLink.xml
 actions/menus/ObjectMenu/Score/TrillIsPlus.scm
 actions/menus/ObjectMenu/Score/TrillIsPlus.xml
+actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm
+actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.xml
 actions/menus/ObjectMenu/Score/Typesetter/DeactivateTimeSignatureStencil.scm
 actions/menus/ObjectMenu/Score/Typesetter/DeactivateTimeSignatureStencil.xml
 actions/menus/ObjectMenu/Score/Typesetter/DenemoBar.scm
