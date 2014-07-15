@@ -1,4 +1,48 @@
-2014-??-?? Release 1.1.6
+2014-07-15 Release 1.1.8
+Spanners
+
+    Dynamics such as cresc. poco a poco
+    Text such as rall …
+    LilyPond takes care of the extents
+
+Lyrics Enhancements
+
+    Lyric stanza numbers can be inserted
+    Available on lyrics pane menu
+    Lyric font style control
+    Melismata Insert
+
+Text and Graphics
+
+    Graphic Title Pages
+    Multiple columns of text
+    Edit in external vector editor
+    Use for music books, verses …
+    Multi-line text, with embedded music snippets
+
+Custom Ornaments/Symbols
+
+    Edit the Ornament Shape and Size
+    Re-define existing ornaments
+    Attach to notes or stand-alone
+
+Custom Barlines
+
+    Define new barlines
+    Re-define existing barlines
+    Control over how/if they print in all positions
+
+Chord Charts
+
+    Chord Symbols
+    With barlines, repeats
+    Text markings, pauses
+    Use for songs, jazz …
+    Display on smartphone while busking…
+
+
+
+2014-06-20 Release 1.1.6
     Lyrics Interface
         Cursor on music moves to match cursor in lyrics
         Jump to any point in the lyrics by mouse or keyboard
