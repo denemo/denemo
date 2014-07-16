@@ -10,6 +10,8 @@
 				(ToggleDirective "staff" "postfix" tag ""(logior  DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX))))
 		(d-DirectiveDelete-staff "InstrumentName")
 		(ToggleDirective "voice" "prefix" tag "\\new ChordNames \\with {
+	\\override ChordName.font-size=#8
+	\\override ChordName.extra-offset = #'(0 . -2)
 	 \\override BarLine.bar-extent = #'(-2 . 2)
 	 \\consists \"Bar_engraver\"
 	 \\consists \"Script_engraver\"
