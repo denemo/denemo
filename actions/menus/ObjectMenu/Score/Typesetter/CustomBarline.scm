@@ -8,7 +8,7 @@
         
         (d-SetSaved #f)
         (d-DirectivePut-score-display tag (_ "Custom Barlines"))
-        (d-DirectivePut-score-override tag (logior DENEMO_OVERRIDE_AFFIX DENEMO_OVERRIDE_DYNAMIC))
+        (d-DirectivePut-score-override tag (logior DENEMO_OVERRIDE_AFFIX))
         (let ((prefix ""))
             (define (do-append def)
                 (set! name (list-ref def 0))
