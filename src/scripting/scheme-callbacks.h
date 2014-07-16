@@ -135,6 +135,7 @@ SCM scheme_change_chord_notes (SCM);
 SCM scheme_put_note_name (SCM);
 SCM scheme_set_accidental (SCM);
 SCM scheme_put_rest (SCM);
+SCM scheme_put_note (SCM);
 SCM scheme_insert_note_in_chord (SCM);
 SCM scheme_diatonic_shift (SCM);
 SCM scheme_next_object (void);

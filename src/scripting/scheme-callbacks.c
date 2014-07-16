@@ -3838,7 +3838,7 @@ SCM scheme_directive_get_nth_tag_strict_note(SCM index) {
 SCM scheme_directive_get_for_tag_strict_note (SCM tagname) 
 {
     SCM ret = SCM_BOOL_F;
-    gchar *tag = NULL;
+    const gchar *tag = NULL;
     if( scm_is_string (tagname))
         tag = scm_to_locale_string (tagname);
     tag = strict_note_directive_get_tag (tag);
@@ -4645,12 +4645,37 @@ scheme_put_rest (SCM optional_duration)
     }
   if ((duration < 0) || (duration > 7))
     return SCM_BOOL_F;
-
+//FIXME should not allow spillover?
   dnm_insertchord (Denemo.project, duration, 0, TRUE);
   displayhelper (Denemo.project);   //without this a call to d-AddVoice causes a crash as the chord length info has not been updated
   return SCM_BOOL_T;
 }
-
+//Insert a note without setting the prevailing duration
+SCM
+scheme_put_note (SCM optional_duration)
+{
+  gint duration;
+  if (scm_is_integer (optional_duration))
+    {
+      duration = scm_to_int (optional_duration);
+    }
+  else
+    {
+      duration = get_prevailing_duration ();
+    }
+  if ((duration < 0) || (duration > 7))
+    return SCM_BOOL_F;
+  gboolean spill = Denemo.prefs.spillover;
+  gint mode = Denemo.project->mode;
+  Denemo.project->mode = 0;
+  Denemo.prefs.spillover = 0;
+  dnm_insertchord (Denemo.project, duration, INPUTNORMAL, FALSE);
+  Denemo.project->mode = mode;
+  Denemo.prefs.spillover = spill;
+  
+  displayhelper (Denemo.project);   //without this a call to d-AddVoice causes a crash as the chord length info has not been updated
+  return SCM_BOOL_T;
+}
 //Insert a rest in the given (or prevailing duration) and set the prevailing duration
 SCM
 scheme_insert_rest (SCM optional)

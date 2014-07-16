@@ -202,7 +202,8 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Takes a LilyPond note name, and changes the note at the cursor to that note", DENEMO_SCHEME_PREFIX "PutNoteName", scheme_put_note_name);
   install_scm_function (0, "Takes a LilyPond note name, changes the note at the cursor to have the accidental passed in either LilyPond string or integer -2..+2. Returns #f if cursor is not on a note position.  ", DENEMO_SCHEME_PREFIX "SetAccidental", scheme_set_accidental);
 
-  install_scm_function (0, "Inserts a rest at the cursor; either passed in duration (note  prevailing duration not supported properly).", DENEMO_SCHEME_PREFIX "PutRest", scheme_put_rest);
+  install_scm_function (0, "Inserts a rest at the cursor; either passed in duration or if none passed the prevailing duration.", DENEMO_SCHEME_PREFIX "PutRest", scheme_put_rest);
+  install_scm_function (0, "Inserts a note at the cursor; either passed in duration or if none passed the prevailing duration.", DENEMO_SCHEME_PREFIX "PutNote", scheme_put_note);
 
 
 
