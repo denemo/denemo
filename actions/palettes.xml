@@ -209,5 +209,6 @@
     <button label=" &#x1D15D;" _tooltip="Set the prevailing duration to &#x1D15D; (subsequent chords entered will have this duration)" script="(d-Set0)"/>
     <button label="&#x1D15E;" _tooltip="Set the prevailing duration to &#x1D15E; (subsequent chords entered will have this duration)" script="(d-Set1)"/>
     <button label="&#x1D15F;" _tooltip="Set the prevailing duration to &#x1D15F; (subsequent chords entered will have this duration)" script="(d-Set2)"/>
+    <button label="/" _tooltip="Insert a repeated chord sign." script="(d-InsertQuarterRest)"/>
   </palette>
 </Denemo>
