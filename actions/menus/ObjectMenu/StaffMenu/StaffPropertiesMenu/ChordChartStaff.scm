@@ -10,7 +10,7 @@
                     (ToggleDirective "staff" "prefix" tag ""(logior  DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX))
                     (ToggleDirective "staff" "postfix" tag ""(logior  DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX))))
             (d-DirectiveDelete-staff "InstrumentName")
-            (ToggleDirective "voice" "prefix" tag (string-append "\\new ChordNames \\with {
+            (ToggleDirective "voice" "prefix" (cons tag (_ "Chord Chart")) (string-append "\\new ChordNames \\with {
         \\override ChordName.font-size=#" size "
         \\override ChordName.extra-offset = #'(0 . -2)
          \\override BarLine.bar-extent = #'(-2 . 2)
@@ -21,14 +21,13 @@
          \\consists \"Multi_measure_rest_engraver\"
         \\numericTimeSignature 
     }
-    ")  DENEMO_OVERRIDE_LILYPOND)
+    ")  DENEMO_OVERRIDE_LILYPOND DENEMO_OVERRIDE_GRAPHIC)
             (d-CustomBarline (format #f "'~s" (list (_ "Single") "|" "|" "|" "")))
             (d-CustomBarline (format #f "'~s" (list (_ "Double") "||" "||" "||" "")))
             (d-CustomBarline (format #f "'~s" (list (_ "RepeatStart")  "[|:"  "[|:" "||" "")))           
             (d-CustomBarline (format #f "'~s" (list (_ "RepeatEnd") "|" ":|]"  ":|]"  "")))
             (d-Set0)
             (d-DirectivePut-layout-postfix tag "\\set noChordSymbol = \"\\\\\"")
-            (ToggleDirective "clef" "postfix" tag "\n" DENEMO_OVERRIDE_LILYPOND)
-            (if (d-Directive-clef? tag) (d-DirectivePut-clef-display tag "     CC"))
-            (ToggleDirective "keysig" "postfix" tag "\n" DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX)
-            (ToggleDirective "timesig" "postfix" tag "\n" DENEMO_OVERRIDE_LILYPOND))))
+            (ToggleDirective "clef" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND)
+            (ToggleDirective "keysig" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX)
+            (ToggleDirective "timesig" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND))))
