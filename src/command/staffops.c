@@ -142,7 +142,15 @@ copy_staff_properties (DenemoStaff * src, DenemoStaff * dest)
 
 }
 
-
+static void create_menus (DenemoStaff *dest)
+{
+  GtkMenu *ms = dest->staffmenu, *mv = dest->voicemenu;
+  GList *g;
+  for (g=dest->staff_directives;g;g=g->next)
+    widget_for_directive_menu (g->data, staff_directive_put_graphic,ms);
+  for (g=dest->voice_directives;g;g=g->next)
+    widget_for_directive_menu (g->data, voice_directive_put_graphic, mv);
+}
 
 /* copies a staff without its music data to another staff */
 void
@@ -160,6 +168,8 @@ copy_staff (DenemoStaff * src, DenemoStaff * dest)
 
   dest->staff_directives = clone_directives (src->staff_directives);
   dest->voice_directives = clone_directives (src->voice_directives);
+  create_menus(dest);
+  
   dest->clef.directives = clone_directives (src->clef.directives);
   dest->keysig.directives = clone_directives (src->keysig.directives);
   dest->timesig.directives = clone_directives (src->timesig.directives);
