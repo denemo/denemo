@@ -1,6 +1,4 @@
 ;;;CustomBarline
-
-(define-once CustomBarline::return #f)
 (let* ((tag "CustomBarline")(params CustomBarline::params) (defines (d-DirectiveGet-score-data tag)) (name "A")(start "|")(end "|")(mid "|")(span "|"))
     (define (createTag name)
         (string-append "Bar" name))
@@ -16,7 +14,7 @@
                 (set! start (list-ref def 1))
                 (set! mid (list-ref def 2))
                 (set! end (list-ref def 3))
-                (set! span (list-ref def 4))
+                (set! span (list-ref def 4)) 
                 (if (not (string-null? name))
                     (let ((deftag (createTag name)))
                         (d-DirectiveDelete-score (string-append "Allow\n" deftag)) ;; remove old definition
@@ -46,16 +44,16 @@
                     (list name start mid end span)
                     #f))
 
- ;;;;;start of procedure   
-    (set! CustomBarline::return #f) ;;; "return" value
+ ;;;;;start of procedure
     (if defines
         (set! defines (eval-string defines))
         (set! defines '()))
-     
-    (let ((def (get-data)))
+    (let ((def #f))
+        (if params
+            (set! def (eval-string params))
+            (set! def (get-data)))
         (if def
-            (begin
-                (update-data def))
-            (d-WarningDialog (_ "Custom Bar Lines unchanged")))))    
+            (update-data def)
+            (d-WarningDialog (_ "Custom Bar Lines unchanged"))))) 
      
    

@@ -22,6 +22,11 @@
         \\numericTimeSignature 
     }
     ")  DENEMO_OVERRIDE_LILYPOND)
+            (d-CustomBarline (format #f "'~s" (list (_ "Single") "|" "|" "|" "")))
+            (d-CustomBarline (format #f "'~s" (list (_ "Double") "||" "||" "||" "")))
+            (d-CustomBarline (format #f "'~s" (list (_ "RepeatStart")  "[|:"  "[|:" "||" "")))           
+            (d-CustomBarline (format #f "'~s" (list (_ "RepeatEnd") "|" ":|]"  ":|]"  "")))
+           
             (d-DirectivePut-layout-postfix tag "\\set noChordSymbol = \"\\\\\"")
             (ToggleDirective "clef" "postfix" tag "\n" DENEMO_OVERRIDE_LILYPOND)
             (if (d-Directive-clef? tag) (d-DirectivePut-clef-display tag "     CC"))
