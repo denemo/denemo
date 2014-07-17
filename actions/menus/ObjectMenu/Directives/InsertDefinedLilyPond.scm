@@ -8,7 +8,7 @@
 	(define (extract-menuitem tag)
 		(define name (get-second-line tag))
 		(cons name (lambda () (d-DirectivePut-standalone name) (d-DirectivePut-standalone-grob name  "TextScript") (d-DirectivePut-standalone-postfix name (string-append "\\" name " ")) (d-DirectivePut-standalone-display
-		name name)(d-DirectivePut-standalone-minpixels name 30))))
+		name name)(d-DirectivePut-standalone-minpixels name 30)(d-MoveCursorRight))))
 		
 	(let loop ((count 1))
 			(define good-tag (d-Directive-score? (string-append "Allow\n" (number->string count))))
