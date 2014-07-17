@@ -27,6 +27,8 @@
             (d-CustomBarline (format #f "'~s" (list (_ "RepeatStart")  "[|:"  "[|:" "||" "")))           
             (d-CustomBarline (format #f "'~s" (list (_ "RepeatEnd") "|" ":|]"  ":|]"  "")))
             (d-Set0)
+            (d-ScoreIndent 0)
+            (d-BarNumberingInterval 10000) ;; no bar numbers
             (d-DirectivePut-layout-postfix tag "\\set noChordSymbol = \"\\\\\"")
             (ToggleDirective "clef" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND)
             (ToggleDirective "keysig" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX)
