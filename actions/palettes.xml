@@ -194,6 +194,7 @@
   </palette>
   <palette _name="Chord Charts" row-wise="0" limit="1" dock="0" hidden="0">
     <button label="Chord Chart Staff" _tooltip="Prints Chord symbols separated by bar lines. Repeats, time signatures and text are also printed for this staff." script="(d-ChordChartStaff)"/>
+    <button label="Root Chord" _tooltip="Inserts a note of the current duration at the cursor position and moves the cursor right." script="(d-InsertNote)"/>
     <button label="Add Bass Inversion" _tooltip="Adds a bass note to a chord, while keeping the current lowest note as the root of the chord. Use this on Chord Symbol staffs to create an inversion of the chord entered." script="(d-AddBassInversion)"/>
     <button label="Custom Barline" _tooltip="Create a custom barline.&#10;These can be named, or can simply override a standard LilyPond bar line type.&#10;A bar line is defined by four forms, which describe 1) the appearance normally (during a line), &#10;2) appearance when the barline is at the beginning or &#10;3) end of a line , and &#10;4) what to show when joining staffs together as with a Piano Staff.&#10;Barline forms are made of characters including |,:,.,[,],:&#10;and others in the LilyPond documentation." script="(d-CustomBarline)"/>
     <button label="Menu of Objects to Insert" _tooltip="Gives a menu of previously created LilyPondDefinition commands (see Score-&gt;LilyPond Definition  menu for this)" script="(d-InsertDefinedLilyPond)"/>

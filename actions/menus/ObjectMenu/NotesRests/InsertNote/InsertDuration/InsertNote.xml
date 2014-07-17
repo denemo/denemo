@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>InsertNote</action>
+        <after>InsertLonga</after>
+        <_label>Current Duration</_label>
+        <_tooltip>Inserts a note of the current duration at the cursor position and moves the cursor right.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -6807,6 +6807,13 @@ A bar line is defined by four forms, which describe 1) the appearance normally (
 Barline forms are made of characters including |,:,.,[,],:
 and others in the LilyPond documentation.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>InsertNote</action>
+        <after>InsertLonga</after>
+        <menupath>/ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
+        <_label>Current Duration</_label>
+        <_tooltip>Inserts a note of the current duration at the cursor position and moves the cursor right.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
