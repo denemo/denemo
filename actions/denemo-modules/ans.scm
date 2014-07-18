@@ -4,52 +4,52 @@
 (use-modules (ice-9 optargs))
 
 #!(define-module (actions denemo-modules ans)
-	#:export (
-			;ANS::NoteTable
-			;ANS::NoteTableR
-			;ANS::PillarOfFifthIndex
-			;ANS::PillarOfFifth
-		ANS::IntervalGetSteps
-		ANS::Ly2Ans lilynote
-		ANS::Ans2Ly ansNote
-		ANS::ChangeChordNotes
-		ANS::InsertNotes
-		ANS::GetNote
-		ANS::GetOctave
-		ANS::GetWhiteKey
-		ANS::GetHalfToneDistanceFromC
-		ANS::Alteration
-			;ANS::IntervalCalcPrototype
-		ANS::IntervalCalcUp
-		ANS::IntervalCalcDown
-		ANS::AddIntervalAsChordnoteFromLowestUp
-		ANS::AddIntervalAsChordnoteFromHighestDown
-		ANS::CalculateRealOctaveUp
-		ANS::CalculateRealOctaveDown
-		ANS::CalculateWholeRealStepUp
-		ANS::CalculateWholeRealStepDown
-		ANS::CalculateHalfRealStepUp
-		ANS::CalculateHalfRealStepDown
-		ANS::GetDiatonic
-		ANS::CalculateDiatonicStepUp
-		ANS::CalculateDiatonicStepDown 
-		
-		ANS::GetIntervall
-		ANS::CreateIntervalsFromPairs
-		ANS::Interval->Sound
-		ANS::IntervalMember? 
-		ANS::ConsecutiveOpen?
-		ANS::ConsecutiveCrossed?
-		ANS::ConsecutiveAnti?
-		ANS::ConsecutiveHidden?
-		ANS::ConsecutiveHiddenCrossed?
-		
-		ANS::random
-		ANS::RandomDiatonic
-		ANS::RandomChromatic
-		ANS::InsertListRandomly
-		ANS::InsertMemberRandomly	
-		)) !#
+    #:export (
+            ;ANS::NoteTable
+            ;ANS::NoteTableR
+            ;ANS::PillarOfFifthIndex
+            ;ANS::PillarOfFifth
+        ANS::IntervalGetSteps
+        ANS::Ly2Ans lilynote
+        ANS::Ans2Ly ansNote
+        ANS::ChangeChordNotes
+        ANS::InsertNotes
+        ANS::GetNote
+        ANS::GetOctave
+        ANS::GetWhiteKey
+        ANS::GetHalfToneDistanceFromC
+        ANS::Alteration
+            ;ANS::IntervalCalcPrototype
+        ANS::IntervalCalcUp
+        ANS::IntervalCalcDown
+        ANS::AddIntervalAsChordnoteFromLowestUp
+        ANS::AddIntervalAsChordnoteFromHighestDown
+        ANS::CalculateRealOctaveUp
+        ANS::CalculateRealOctaveDown
+        ANS::CalculateWholeRealStepUp
+        ANS::CalculateWholeRealStepDown
+        ANS::CalculateHalfRealStepUp
+        ANS::CalculateHalfRealStepDown
+        ANS::GetDiatonic
+        ANS::CalculateDiatonicStepUp
+        ANS::CalculateDiatonicStepDown 
+        
+        ANS::GetIntervall
+        ANS::CreateIntervalsFromPairs
+        ANS::Interval->Sound
+        ANS::IntervalMember? 
+        ANS::ConsecutiveOpen?
+        ANS::ConsecutiveCrossed?
+        ANS::ConsecutiveAnti?
+        ANS::ConsecutiveHidden?
+        ANS::ConsecutiveHiddenCrossed?
+        
+        ANS::random
+        ANS::RandomDiatonic
+        ANS::RandomChromatic
+        ANS::InsertListRandomly
+        ANS::InsertMemberRandomly   
+        )) !#
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -727,81 +727,81 @@
 ; First the index where a notename/ANS value can be found in the pillar, which is actually a list.
 ; Strange pattern. it starts with 150 then for all bb its -150, +200. The transition to single b its only -140, then -150 +200 again! 140 must be the b/f change.
 (define ANS::PillarOfFifthIndex (make-hash-table))
-	(hashq-set! ANS::PillarOfFifthIndex 150 0) ;feses
-	(hashq-set! ANS::PillarOfFifthIndex 0 1) ;ceses
-	(hashq-set! ANS::PillarOfFifthIndex 200 2) ;geses	
-	(hashq-set! ANS::PillarOfFifthIndex 50  3) ;deses
-	(hashq-set! ANS::PillarOfFifthIndex 250 4) ;aeses
-	(hashq-set! ANS::PillarOfFifthIndex 100 5) ;eeses
-	(hashq-set! ANS::PillarOfFifthIndex 300 6) ;beses 
-	(hashq-set! ANS::PillarOfFifthIndex 160 7) ;fes
-	(hashq-set! ANS::PillarOfFifthIndex 10 8) ;ces
-	(hashq-set! ANS::PillarOfFifthIndex 210 9) ;ges
-	(hashq-set! ANS::PillarOfFifthIndex 60 10) ;des
-	(hashq-set! ANS::PillarOfFifthIndex 260 11) ;aes
-	(hashq-set! ANS::PillarOfFifthIndex 110 12) ;ees
-	(hashq-set! ANS::PillarOfFifthIndex 310 13) ;bes
-	(hashq-set! ANS::PillarOfFifthIndex 170 14) ;f
-	(hashq-set! ANS::PillarOfFifthIndex 20 15) ;c
-	(hashq-set! ANS::PillarOfFifthIndex 220 16) ;g
-	(hashq-set! ANS::PillarOfFifthIndex 70 17) ;d
-	(hashq-set! ANS::PillarOfFifthIndex 270 18) ;a
-	(hashq-set! ANS::PillarOfFifthIndex 120 19) ;e
-	(hashq-set! ANS::PillarOfFifthIndex 320 20) ;b
-	(hashq-set! ANS::PillarOfFifthIndex 180 21) ;fis
-	(hashq-set! ANS::PillarOfFifthIndex 30 22) ;cis
-	(hashq-set! ANS::PillarOfFifthIndex 230 23) ;gis
-	(hashq-set! ANS::PillarOfFifthIndex 80 24) ;dis
-	(hashq-set! ANS::PillarOfFifthIndex 280 25) ;ais
-	(hashq-set! ANS::PillarOfFifthIndex 130 26) ;eis
-	(hashq-set! ANS::PillarOfFifthIndex 330 27) ;bis
-	(hashq-set! ANS::PillarOfFifthIndex 190 28) ;fisis
-	(hashq-set! ANS::PillarOfFifthIndex 40 29) ;cisis
-	(hashq-set! ANS::PillarOfFifthIndex 240 30) ;gisis
-	(hashq-set! ANS::PillarOfFifthIndex 90 31) ;disis
-	(hashq-set! ANS::PillarOfFifthIndex 290 32) ;aisis
-	(hashq-set! ANS::PillarOfFifthIndex 140 33) ;eisis	
-	(hashq-set! ANS::PillarOfFifthIndex 340 34) ;bisis
+    (hashq-set! ANS::PillarOfFifthIndex 150 0) ;feses
+    (hashq-set! ANS::PillarOfFifthIndex 0 1) ;ceses
+    (hashq-set! ANS::PillarOfFifthIndex 200 2) ;geses   
+    (hashq-set! ANS::PillarOfFifthIndex 50  3) ;deses
+    (hashq-set! ANS::PillarOfFifthIndex 250 4) ;aeses
+    (hashq-set! ANS::PillarOfFifthIndex 100 5) ;eeses
+    (hashq-set! ANS::PillarOfFifthIndex 300 6) ;beses 
+    (hashq-set! ANS::PillarOfFifthIndex 160 7) ;fes
+    (hashq-set! ANS::PillarOfFifthIndex 10 8) ;ces
+    (hashq-set! ANS::PillarOfFifthIndex 210 9) ;ges
+    (hashq-set! ANS::PillarOfFifthIndex 60 10) ;des
+    (hashq-set! ANS::PillarOfFifthIndex 260 11) ;aes
+    (hashq-set! ANS::PillarOfFifthIndex 110 12) ;ees
+    (hashq-set! ANS::PillarOfFifthIndex 310 13) ;bes
+    (hashq-set! ANS::PillarOfFifthIndex 170 14) ;f
+    (hashq-set! ANS::PillarOfFifthIndex 20 15) ;c
+    (hashq-set! ANS::PillarOfFifthIndex 220 16) ;g
+    (hashq-set! ANS::PillarOfFifthIndex 70 17) ;d
+    (hashq-set! ANS::PillarOfFifthIndex 270 18) ;a
+    (hashq-set! ANS::PillarOfFifthIndex 120 19) ;e
+    (hashq-set! ANS::PillarOfFifthIndex 320 20) ;b
+    (hashq-set! ANS::PillarOfFifthIndex 180 21) ;fis
+    (hashq-set! ANS::PillarOfFifthIndex 30 22) ;cis
+    (hashq-set! ANS::PillarOfFifthIndex 230 23) ;gis
+    (hashq-set! ANS::PillarOfFifthIndex 80 24) ;dis
+    (hashq-set! ANS::PillarOfFifthIndex 280 25) ;ais
+    (hashq-set! ANS::PillarOfFifthIndex 130 26) ;eis
+    (hashq-set! ANS::PillarOfFifthIndex 330 27) ;bis
+    (hashq-set! ANS::PillarOfFifthIndex 190 28) ;fisis
+    (hashq-set! ANS::PillarOfFifthIndex 40 29) ;cisis
+    (hashq-set! ANS::PillarOfFifthIndex 240 30) ;gisis
+    (hashq-set! ANS::PillarOfFifthIndex 90 31) ;disis
+    (hashq-set! ANS::PillarOfFifthIndex 290 32) ;aisis
+    (hashq-set! ANS::PillarOfFifthIndex 140 33) ;eisis  
+    (hashq-set! ANS::PillarOfFifthIndex 340 34) ;bisis
 
 
-;The list is the actual pillar of fifth. Stepping left and right can be done by calculating a list-ref index value.	
+;The list is the actual pillar of fifth. Stepping left and right can be done by calculating a list-ref index value. 
 (define ANS::PillarOfFifth 
  (list 
-	150 ;feses	0
-	0 ;ceses	1
-	200 ;geses	2
-	50 ;deses	3
-	250 ;aeses	4
-	100 ;eeses	5
-	300 ;beses 	6
-	160 ;fes	7
-	10 ;ces		8
-	210 ;ges	9
-	60 ;des		10
-	260 ;aes	11
-	110 ;ees	12
-	310 ;bes	13
-	170 ;f		14
-	20 ;c		15
-	220 ;g		16
-	70 ;d		17
-	270 ;a		19
-	120 ;e		20
-	320 ;b		21
-	180 ;fis	22
-	30 ;cis		23
-	230 ;gis	24
-	80 ;dis		25
-	280 ;ais	26
-	130 ;eis	27
-	330 ;bis	28
-	190 ;fisis	29
-	40 ;cisis	30
-	240 ;gisis	31
-	90 ;disis	32
-	290 ;aisis	33
-	140 ;eisis	34
-	340 ;bisis	35	
+    150 ;feses  0
+    0 ;ceses    1
+    200 ;geses  2
+    50 ;deses   3
+    250 ;aeses  4
+    100 ;eeses  5
+    300 ;beses  6
+    160 ;fes    7
+    10 ;ces     8
+    210 ;ges    9
+    60 ;des     10
+    260 ;aes    11
+    110 ;ees    12
+    310 ;bes    13
+    170 ;f      14
+    20 ;c       15
+    220 ;g      16
+    70 ;d       17
+    270 ;a      19
+    120 ;e      20
+    320 ;b      21
+    180 ;fis    22
+    30 ;cis     23
+    230 ;gis    24
+    80 ;dis     25
+    280 ;ais    26
+    130 ;eis    27
+    330 ;bis    28
+    190 ;fisis  29
+    40 ;cisis   30
+    240 ;gisis  31
+    90 ;disis   32
+    290 ;aisis  33
+    140 ;eisis  34
+    340 ;bisis  35  
  )
 )
 
@@ -809,92 +809,92 @@
 ; Without octave transpositions.
 ; TODO: Replace with real hashtable, not cond. Just a performance tweak.
 (define (ANS::IntervalGetSteps target)
-	(cond
-		((eq? target 'r) +inf.0) ; rests
-		((or (eq? target 'p1) (eq? target 'P1)) 0)			
-		((eq? target 'm2) -5)			
-		((eq? target 'M2) 2)			
-		((eq? target 'm3) -3)
-		((eq? target 'M3) 4)	
-		((or (eq? target 'p4) (eq? target 'P4)) -1)	
-		((or (eq? target 't) (eq? target 'T)) 6)		
-		((or (eq? target 'p5) (eq? target 'P5)) 1)
-		((eq? target 'm6) -4)			
-		((eq? target 'M6) 3)		
-		((eq? target 'm7) -2)	
-		((eq? target 'M7) 5)		
-		;Augmentend, Diminished
-		((or (eq? target 'a1) (eq? target 'A1)) 7)		
-		((or (eq? target 'd1) (eq? target 'D1)) -7)		
-		((or (eq? target 'a2) (eq? target 'A2)) 9)		
-		((or (eq? target 'd2) (eq? target 'D2)) -12)	
-		((or (eq? target 'a3) (eq? target 'A3))  11)		
-		((or (eq? target 'd3) (eq? target 'D3))  -10)	
-		((or (eq? target 'a4) (eq? target 'A4))  6)		
-		((or (eq? target 'd4) (eq? target 'D4))  -8)	
-		((or (eq? target 'a5) (eq? target 'A5))  8)		
-		((or (eq? target 'd5) (eq? target 'D5))  -6)
-		((or (eq? target 'a6) (eq? target 'A6))  10)		
-		((or (eq? target 'd6) (eq? target 'D6))  -11)	
-		((or (eq? target 'a7) (eq? target 'A7))  12)		
-		((or (eq? target 'd7) (eq? target 'D7))  -9)
-		;Double Augmented, Double Diminished
-		((or (eq? target 'aa1) (eq? target 'AA1)) 14)		
-		((or (eq? target 'dd1) (eq? target 'DD1)) -14)		
-		((or (eq? target 'aa2) (eq? target 'AA2)) 16)		
-		((or (eq? target 'dd2) (eq? target 'DD2)) -19)			
-		((or (eq? target 'aa3) (eq? target 'AA3))  18)		
-		((or (eq? target 'dd3) (eq? target 'DD3))  -17)					
-		((or (eq? target 'aa4) (eq? target 'AA4))  13)		
-		((or (eq? target 'dd4) (eq? target 'DD4))  -15)			
-		((or (eq? target 'aa5) (eq? target 'AA5))  15)		
-		((or (eq? target 'dd5) (eq? target 'DD5))  -13)
-		((or (eq? target 'aa6) (eq? target 'AA6))  17)		
-		((or (eq? target 'dd6) (eq? target 'DD6))  -18)		
-		((or (eq? target 'aa7) (eq? target 'AA7))  19)		
-		((or (eq? target 'dd7) (eq? target 'DD7))  -16)
-		;Triple Augmented, Triple Diminished
-		((or (eq? target 'aaa1) (eq? target 'AAA1)) 21)		
-		((or (eq? target 'ddd1) (eq? target 'DDD1)) -21)		
-		((or (eq? target 'aaa2) (eq? target 'AAA2)) 23)		
-		((or (eq? target 'ddd2) (eq? target 'DDD2)) -26)			
-		((or (eq? target 'aaa3) (eq? target 'AAA3))  25)		
-		((or (eq? target 'ddd3) (eq? target 'DDD3))  -24)					
-		((or (eq? target 'aaa4) (eq? target 'AAA4))  20)		
-		((or (eq? target 'ddd4) (eq? target 'DDD4))  -22)			
-		((or (eq? target 'aaa5) (eq? target 'AAA5))  22)		
-		((or (eq? target 'ddd5) (eq? target 'DDD5))  -20)
-		((or (eq? target 'aaa6) (eq? target 'AAA6))  24)		
-		((or (eq? target 'ddd6) (eq? target 'DDD6))  -25)		
-		((or (eq? target 'aaa7) (eq? target 'AAA7))  26)		
-		((or (eq? target 'ddd7) (eq? target 'DDD7))  -23)
-		;Quadruple Augmented, Quadruple Diminished		
-		((or (eq? target 'aaaa1) (eq? target 'AAAA1)) 28)		
-		((or (eq? target 'dddd1) (eq? target 'DDDD1)) -28)		
-		((or (eq? target 'aaaa2) (eq? target 'AAAA2)) 30)		
-		((or (eq? target 'dddd2) (eq? target 'DDDD2)) -33)			
-		((or (eq? target 'aaaa3) (eq? target 'AAAA3))  32)		
-		((or (eq? target 'dddd3) (eq? target 'DDDD3))  -31)					
-		((or (eq? target 'aaaa4) (eq? target 'AAAA4))  27)		
-		((or (eq? target 'dddd4) (eq? target 'DDDD4))  -29)			
-		((or (eq? target 'aaaa5) (eq? target 'AAAA5))  29)		
-		((or (eq? target 'dddd5) (eq? target 'DDDD5))  -27)
-		((or (eq? target 'aaaa6) (eq? target 'AAAA6))  31)		
-		((or (eq? target 'dddd6) (eq? target 'DDDD6))  -32)		
-		((or (eq? target 'aaaa7) (eq? target 'AAAA7))  33)		
-		((or (eq? target 'dddd7) (eq? target 'DDDD7))  -30)		
-		;Quintuple Augmented, Quintuple Diminished. Only feses to bisis, the Final Frontier.	
-		((or (eq? target 'aaaaa4) (eq? target 'AAAAA4))  34)		
-		((or (eq? target 'ddddd5) (eq? target 'DDDDD5))  -34)
-	
-		((or (eq? target 'q1) (eq? target 'Q1)) 0) 	;IntervalGetSteps variation to stay in key. These can be compared to the special rest symbol. They are only an indicator for other functions.
-		((or (eq? target 'q2) (eq? target 'Q2)) 102)
-		((or (eq? target 'q3) (eq? target 'Q3)) 104)
-		((or (eq? target 'q4) (eq? target 'Q4)) 106)
-		((or (eq? target 'q5) (eq? target 'Q5)) 101)
-		((or (eq? target 'q6) (eq? target 'Q6)) 103)
-		((or (eq? target 'q7) (eq? target 'Q7)) 105)
-		(else #f)))		
+    (cond
+        ((eq? target 'r) +inf.0) ; rests
+        ((or (eq? target 'p1) (eq? target 'P1)) 0)          
+        ((eq? target 'm2) -5)           
+        ((eq? target 'M2) 2)            
+        ((eq? target 'm3) -3)
+        ((eq? target 'M3) 4)    
+        ((or (eq? target 'p4) (eq? target 'P4)) -1) 
+        ((or (eq? target 't) (eq? target 'T)) 6)        
+        ((or (eq? target 'p5) (eq? target 'P5)) 1)
+        ((eq? target 'm6) -4)           
+        ((eq? target 'M6) 3)        
+        ((eq? target 'm7) -2)   
+        ((eq? target 'M7) 5)        
+        ;Augmentend, Diminished
+        ((or (eq? target 'a1) (eq? target 'A1)) 7)      
+        ((or (eq? target 'd1) (eq? target 'D1)) -7)     
+        ((or (eq? target 'a2) (eq? target 'A2)) 9)      
+        ((or (eq? target 'd2) (eq? target 'D2)) -12)    
+        ((or (eq? target 'a3) (eq? target 'A3))  11)        
+        ((or (eq? target 'd3) (eq? target 'D3))  -10)   
+        ((or (eq? target 'a4) (eq? target 'A4))  6)     
+        ((or (eq? target 'd4) (eq? target 'D4))  -8)    
+        ((or (eq? target 'a5) (eq? target 'A5))  8)     
+        ((or (eq? target 'd5) (eq? target 'D5))  -6)
+        ((or (eq? target 'a6) (eq? target 'A6))  10)        
+        ((or (eq? target 'd6) (eq? target 'D6))  -11)   
+        ((or (eq? target 'a7) (eq? target 'A7))  12)        
+        ((or (eq? target 'd7) (eq? target 'D7))  -9)
+        ;Double Augmented, Double Diminished
+        ((or (eq? target 'aa1) (eq? target 'AA1)) 14)       
+        ((or (eq? target 'dd1) (eq? target 'DD1)) -14)      
+        ((or (eq? target 'aa2) (eq? target 'AA2)) 16)       
+        ((or (eq? target 'dd2) (eq? target 'DD2)) -19)          
+        ((or (eq? target 'aa3) (eq? target 'AA3))  18)      
+        ((or (eq? target 'dd3) (eq? target 'DD3))  -17)                 
+        ((or (eq? target 'aa4) (eq? target 'AA4))  13)      
+        ((or (eq? target 'dd4) (eq? target 'DD4))  -15)         
+        ((or (eq? target 'aa5) (eq? target 'AA5))  15)      
+        ((or (eq? target 'dd5) (eq? target 'DD5))  -13)
+        ((or (eq? target 'aa6) (eq? target 'AA6))  17)      
+        ((or (eq? target 'dd6) (eq? target 'DD6))  -18)     
+        ((or (eq? target 'aa7) (eq? target 'AA7))  19)      
+        ((or (eq? target 'dd7) (eq? target 'DD7))  -16)
+        ;Triple Augmented, Triple Diminished
+        ((or (eq? target 'aaa1) (eq? target 'AAA1)) 21)     
+        ((or (eq? target 'ddd1) (eq? target 'DDD1)) -21)        
+        ((or (eq? target 'aaa2) (eq? target 'AAA2)) 23)     
+        ((or (eq? target 'ddd2) (eq? target 'DDD2)) -26)            
+        ((or (eq? target 'aaa3) (eq? target 'AAA3))  25)        
+        ((or (eq? target 'ddd3) (eq? target 'DDD3))  -24)                   
+        ((or (eq? target 'aaa4) (eq? target 'AAA4))  20)        
+        ((or (eq? target 'ddd4) (eq? target 'DDD4))  -22)           
+        ((or (eq? target 'aaa5) (eq? target 'AAA5))  22)        
+        ((or (eq? target 'ddd5) (eq? target 'DDD5))  -20)
+        ((or (eq? target 'aaa6) (eq? target 'AAA6))  24)        
+        ((or (eq? target 'ddd6) (eq? target 'DDD6))  -25)       
+        ((or (eq? target 'aaa7) (eq? target 'AAA7))  26)        
+        ((or (eq? target 'ddd7) (eq? target 'DDD7))  -23)
+        ;Quadruple Augmented, Quadruple Diminished      
+        ((or (eq? target 'aaaa1) (eq? target 'AAAA1)) 28)       
+        ((or (eq? target 'dddd1) (eq? target 'DDDD1)) -28)      
+        ((or (eq? target 'aaaa2) (eq? target 'AAAA2)) 30)       
+        ((or (eq? target 'dddd2) (eq? target 'DDDD2)) -33)          
+        ((or (eq? target 'aaaa3) (eq? target 'AAAA3))  32)      
+        ((or (eq? target 'dddd3) (eq? target 'DDDD3))  -31)                 
+        ((or (eq? target 'aaaa4) (eq? target 'AAAA4))  27)      
+        ((or (eq? target 'dddd4) (eq? target 'DDDD4))  -29)         
+        ((or (eq? target 'aaaa5) (eq? target 'AAAA5))  29)      
+        ((or (eq? target 'dddd5) (eq? target 'DDDD5))  -27)
+        ((or (eq? target 'aaaa6) (eq? target 'AAAA6))  31)      
+        ((or (eq? target 'dddd6) (eq? target 'DDDD6))  -32)     
+        ((or (eq? target 'aaaa7) (eq? target 'AAAA7))  33)      
+        ((or (eq? target 'dddd7) (eq? target 'DDDD7))  -30)     
+        ;Quintuple Augmented, Quintuple Diminished. Only feses to bisis, the Final Frontier.    
+        ((or (eq? target 'aaaaa4) (eq? target 'AAAAA4))  34)        
+        ((or (eq? target 'ddddd5) (eq? target 'DDDDD5))  -34)
+    
+        ((or (eq? target 'q1) (eq? target 'Q1)) 0)  ;IntervalGetSteps variation to stay in key. These can be compared to the special rest symbol. They are only an indicator for other functions.
+        ((or (eq? target 'q2) (eq? target 'Q2)) 102)
+        ((or (eq? target 'q3) (eq? target 'Q3)) 104)
+        ((or (eq? target 'q4) (eq? target 'Q4)) 106)
+        ((or (eq? target 'q5) (eq? target 'Q5)) 101)
+        ((or (eq? target 'q6) (eq? target 'Q6)) 103)
+        ((or (eq? target 'q7) (eq? target 'Q7)) 105)
+        (else #f)))     
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -903,130 +903,130 @@
 
 ;Checks if a string is a lilypond note compatible with (d-ChangeChordNotes)
 ;(define (ANS::IsLily?)
-;	
+;   
 ;)
 
 (define (ANS::Ly2Ans lilynote) ;wants symbol, returns number
-	(hashq-ref ANS::NoteTableR lilynote))
+    (hashq-ref ANS::NoteTableR lilynote))
 
 (define (ANS::Ans2Ly ansNote) ;wants number, returns symbol
-	(hashq-ref ANS::NoteTable ansNote))
+    (hashq-ref ANS::NoteTable ansNote))
 
 ; The main function to get notes from Denemo
 ; Opposite is ANS::ChangeChordNotes
 ; For singles and chords and rests. Returns a list of ANS-numbers as chord.
 (define (ANS::GetChordNotes)
-	(if (Note?)
-		(map (lambda (value) (ANS::Ly2Ans (string->symbol value))) (string-tokenize (d-GetNotes)))
-		(if (Rest?) ; not a note
-			(list +inf.0)
-			#f)))
+    (if (Note?)
+        (map (lambda (value) (ANS::Ly2Ans (string->symbol value))) (string-tokenize (d-GetNotes)))
+        (if (Rest?) ; not a note
+            (list +inf.0)
+            #f)))
 
 ; Change chord/note to another chord/note
 ; The main function to get ANS back to Denemo via (d-ChangeChordNotes)
 ; Opposite is ANS::GetChordNotes
 ; Wants a ANS-number or list of ANS numbers.
 (define (ANS::ChangeChordNotes ansNotes)
-	(define newList '())
-	(if (list? ansNotes) ; check if it was a single note, in this case make a list.
-		#t
-		(set! ansNotes (list ansNotes)))	
-	(if (every inf? ansNotes)
-		(ChangeToRest)
-		(begin
-			(set! newList (map (lambda (value) (symbol->string (ANS::Ans2Ly value))) (delete +inf.0 ansNotes))) ; first remove all rests, then prepare a string.
-			(d-ChangeChordNotes (string-join newList))))) ; d-ChangeChordNotes wants a long string of notes with space between.
+    (define newList '())
+    (if (list? ansNotes) ; check if it was a single note, in this case make a list.
+        #t
+        (set! ansNotes (list ansNotes)))    
+    (if (every inf? ansNotes)
+        (ChangeToRest)
+        (begin
+            (set! newList (map (lambda (value) (symbol->string (ANS::Ans2Ly value))) (delete +inf.0 ansNotes))) ; first remove all rests, then prepare a string.
+            (d-ChangeChordNotes (string-join newList))))) ; d-ChangeChordNotes wants a long string of notes with space between.
 
 
 ;Insert A note/chord on Denemos cursor position 
 ; wants a single or a list of ANS numbers (chord).
 ; Optional duration and number of dots. Tick Syntax. returns #t or #f. 
 (define* (ANS::InsertNotes ansNotes #:optional (ticks #f) (dots 0) )
-	;TODO: Check if these are valid notes.
-	(define cursorposition (GetCursorNoteAsLilypond)) ; this belongs to the hack down here.
-	(begin hack ; TODO: This is a hack. There is no way to directly insert notes with lilypond syntax and let the cursor stay on the same position
-		(d-InsertA) 
-		(d-CursorToNote cursorposition)
-		(d-MoveCursorLeft))
-	(ANS::ChangeChordNotes ansNotes)
-	(if ticks
-		(duration::ChangeNoteDurationInTicks ticks dots))	
-	(d-MoveCursorRight))
+    ;TODO: Check if these are valid notes.
+    (define cursorposition (GetCursorNoteAsLilypond)) ; this belongs to the hack down here.
+    (begin ;hack ; TODO: This is a hack. There is no way to directly insert notes with lilypond syntax and let the cursor stay on the same position
+        (d-InsertA) 
+        (d-CursorToNote cursorposition)
+        (d-MoveCursorLeft))
+    (ANS::ChangeChordNotes ansNotes)
+    (if ticks
+        (duration::ChangeNoteDurationInTicks ticks dots))   
+    (d-MoveCursorRight))
 
 
 ; Extract the note from an ANS-number, without any octave but with the tailing zero. Return as number.
 ; This means we double-use the lowest octave as abstract version.
 ; Dividing through the octave, 350, results in the number of the octave and the note as remainder.
 (define (ANS::GetNote ansNote) 
-	(if (= ansNote +inf.0)
-		+inf.0
-		(remainder ansNote 350)))
+    (if (= ansNote +inf.0)
+        +inf.0
+        (remainder ansNote 350)))
 
 ;Extract the octave as integer, where c,,, is in the 0 octave. 
 (define (ANS::GetOctave ansNote) 
-	(if (= ansNote +inf.0)
-		+inf.0
-		(quotient ansNote 350)))
+    (if (= ansNote +inf.0)
+        +inf.0
+        (quotient ansNote 350)))
 
 ; Return the natural, "white key" version of an ansNote.
 (define (ANS::GetWhiteKey ansNote) 
-	; /50 without rest to get a multiplier that will...
- 	; *50 return the "...eses" version which is a multiple of 50. 
- 	; +20 from "...eses" to plain.
- 	(+ 20 (* 50 (quotient ansNote 50))))
+    ; /50 without rest to get a multiplier that will...
+    ; *50 return the "...eses" version which is a multiple of 50. 
+    ; +20 from "...eses" to plain.
+    (+ 20 (* 50 (quotient ansNote 50))))
 
 ;without enharmonic or chromatic versions. This functions simply is concerned about how it "sounds".
 ;Returns the half-tone step distance from C. 
 (define (ANS::GetHalfToneDistanceFromC ansNote)
-		(if (= ansNote +inf.0)
-			+inf.0
-			(case (remainder ansNote 350)
-				((00) 10) ; ceses,,, -> bes
-				((10) 11) ; ces,,, -> b
-				((20) 0) ; c,,, 
-				((30) 1) ; cis,,,
-				((40) 2) ; cisis,,, -> d ...
-				((50) 0) ; deses,,,
-				((60) 1) ; des,,,
-				((70) 2) ; d,,,
-				((80) 3) ; dis,,,
-				((90) 4) ; disis,,,
-				((100) 2) ; eeses,,,
-				((110) 3) ; ees,,,
-				((120) 4) ; e,,,
-				((130) 5) ; eis,,,
-				((140) 6) ; eisis,,,
-				((150) 3) ; feses,,,
-				((160) 4) ; fes,,,
-				((170) 5) ; f,,,
-				((180) 6) ; fis,,,
-				((190) 7) ; fisis,,,
-				((200) 5) ; geses,,,
-				((210) 6) ; ges,,,
-				((220) 7) ; g,,,
-				((230) 8) ; gis,,,
-				((240) 9) ; gisis,,,
-				((250) 7) ; aeses,,,
-				((260) 8) ; aes,,,
-				((270) 9) ; a,,,
-				((280) 10) ; ais,,,
-				((290) 11) ; aisis,,,
-				((300) 9) ; beses,,,
-				((310) 10) ; bes,,,
-				((320) 11) ; b,,,
-				((330) 0) ; bis,,,
-				((340) 1) ; bisis,,,
-				(else #f))))
+        (if (= ansNote +inf.0)
+            +inf.0
+            (case (remainder ansNote 350)
+                ((00) 10) ; ceses,,, -> bes
+                ((10) 11) ; ces,,, -> b
+                ((20) 0) ; c,,, 
+                ((30) 1) ; cis,,,
+                ((40) 2) ; cisis,,, -> d ...
+                ((50) 0) ; deses,,,
+                ((60) 1) ; des,,,
+                ((70) 2) ; d,,,
+                ((80) 3) ; dis,,,
+                ((90) 4) ; disis,,,
+                ((100) 2) ; eeses,,,
+                ((110) 3) ; ees,,,
+                ((120) 4) ; e,,,
+                ((130) 5) ; eis,,,
+                ((140) 6) ; eisis,,,
+                ((150) 3) ; feses,,,
+                ((160) 4) ; fes,,,
+                ((170) 5) ; f,,,
+                ((180) 6) ; fis,,,
+                ((190) 7) ; fisis,,,
+                ((200) 5) ; geses,,,
+                ((210) 6) ; ges,,,
+                ((220) 7) ; g,,,
+                ((230) 8) ; gis,,,
+                ((240) 9) ; gisis,,,
+                ((250) 7) ; aeses,,,
+                ((260) 8) ; aes,,,
+                ((270) 9) ; a,,,
+                ((280) 10) ; ais,,,
+                ((290) 11) ; aisis,,,
+                ((300) 9) ; beses,,,
+                ((310) 10) ; bes,,,
+                ((320) 11) ; b,,,
+                ((330) 0) ; bis,,,
+                ((340) 1) ; bisis,,,
+                (else #f))))
 
 ;Alteration adds a sharp, flat or nothing to a ans-note. Returns an ANS
 ;number. Wants an ans number and a procedure that will return either 0, 1 or -1. 
 (define (ANS::Alteration ansNote modificator)
-	(case modificator
-	  ((0)		ansNote) ; natural, no change
-	  ((1)		(+ ansNote  10)) ;sharp
-	  ((-1)		(- ansNote  10)) ;flat
-	  (else   #f))) ; someone might introduce some insane feature in the future where you can add doublecrosses or similar to a keysig. Or maybe there is even a real usage for micotonals like turkish maqam.
-	 
+    (case modificator
+      ((0)      ansNote) ; natural, no change
+      ((1)      (+ ansNote  10)) ;sharp
+      ((-1)     (- ansNote  10)) ;flat
+      (else   #f))) ; someone might introduce some insane feature in the future where you can add doublecrosses or similar to a keysig. Or maybe there is even a real usage for micotonals like turkish maqam.
+     
 
 ;IntervalCalc wants an ANS note as root and an interval like "m2", "M6" or "p5" returns an ANS value.
 ;;It is also possible to use diatonic intervals which are name "q2" "q3" "q4" to "q7"
@@ -1034,78 +1034,78 @@
 ;Op is needed to calc up or down. 1 is up, -1 is down.
 (define (ANS::IntervalCalcPrototype op ansNote interval)
  (define targ 
-	(if (number? interval)
-		interval
-		(ANS::IntervalGetSteps interval)))
+    (if (number? interval)
+        interval
+        (ANS::IntervalGetSteps interval)))
  (define root (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote ansNote)))
  (if (> targ 100) ; > 100 are diatonic interval identifiers.
- 	(ANS::GetDiatonic (list-ref ANS::PillarOfFifth (+ root (* op (- targ 100))))) ; -100 is a normal interval which then is modified to become in scale.
-	(list-ref ANS::PillarOfFifth (+ root (* op targ)))))
+    (ANS::GetDiatonic (list-ref ANS::PillarOfFifth (+ root (* op (- targ 100))))) ; -100 is a normal interval which then is modified to become in scale.
+    (list-ref ANS::PillarOfFifth (+ root (* op targ)))))
 
 
 ;Since IntervalCalcPrototype just returns a note name without octave we must check if the new note with the old octave is really above the old, if not shift it.
 (define (ANS::IntervalCalcUp ansNote interval)
-	(define result	(ANS::IntervalCalcPrototype 1 ansNote interval))
-	(define octave (* 350 (ANS::GetOctave ansNote))) ; gets us an octave counter. * 350 to make it addable.
-	(if (>= result (ANS::GetNote ansNote)) ; test if the calulated interval, just one digit until now, will be in the same octave which means its note-value itself is higher or equal (in case of p1) compared to the root. Or it seems to be lower, in this case we need to add an octave because we really want it higher
-		 (+ octave result) ;its still in the same octave, just recalculate
-		 (+ octave 350 result))) ;+350 to go one octave up
+    (define result  (ANS::IntervalCalcPrototype 1 ansNote interval))
+    (define octave (* 350 (ANS::GetOctave ansNote))) ; gets us an octave counter. * 350 to make it addable.
+    (if (>= result (ANS::GetNote ansNote)) ; test if the calulated interval, just one digit until now, will be in the same octave which means its note-value itself is higher or equal (in case of p1) compared to the root. Or it seems to be lower, in this case we need to add an octave because we really want it higher
+         (+ octave result) ;its still in the same octave, just recalculate
+         (+ octave 350 result))) ;+350 to go one octave up
 
 
 (define (ANS::IntervalCalcDown ansNote interval)
-	(define result (ANS::IntervalCalcPrototype -1 ansNote interval))
-	(define octave (* 350 (ANS::GetOctave ansNote)))	
-	(if (<= result (ANS::GetNote ansNote)) 
-		 (+ octave result) 
-		 (+ octave -350 result))) ;-350 to go one octave down
-	 
+    (define result (ANS::IntervalCalcPrototype -1 ansNote interval))
+    (define octave (* 350 (ANS::GetOctave ansNote)))    
+    (if (<= result (ANS::GetNote ansNote)) 
+         (+ octave result) 
+         (+ octave -350 result))) ;-350 to go one octave down
+     
 (define (ANS::AddIntervalAsChordnoteFromLowestUp interval)
-	(if (Note?)
-		(ANS::ChangeChordNotes 
-			(append (ANS::GetChordNotes) (list (ANS::IntervalCalcUp (ANS::Ly2Ans (string->symbol (GetLowestNote))) interval))))
-		#f))
-		
+    (if (Note?)
+        (ANS::ChangeChordNotes 
+            (append (ANS::GetChordNotes) (list (ANS::IntervalCalcUp (ANS::Ly2Ans (string->symbol (GetLowestNote))) interval))))
+        #f))
+        
 (define (ANS::AddIntervalAsChordnoteFromHighestDown interval)
-	(if (Note?)
-		(ANS::ChangeChordNotes 
-			(append (ANS::GetChordNotes) (list (ANS::IntervalCalcDown (ANS::Ly2Ans (string->symbol (GetHighestNote))) interval))))
-		#f))
+    (if (Note?)
+        (ANS::ChangeChordNotes 
+            (append (ANS::GetChordNotes) (list (ANS::IntervalCalcDown (ANS::Ly2Ans (string->symbol (GetHighestNote))) interval))))
+        #f))
 
 (define (ANS::CalculateRealOctaveUp ansNote) 
-	(+ ansNote 350))
+    (+ ansNote 350))
 
 (define (ANS::CalculateRealOctaveDown ansNote) 
-	(- ansNote 350))
-	
+    (- ansNote 350))
+    
 (define (ANS::CalculateWholeRealStepUp ansNote) 
-	(ANS::IntervalCalcUp ansNote 'M2))
-	
+    (ANS::IntervalCalcUp ansNote 'M2))
+    
 (define (ANS::CalculateWholeRealStepDown ansNote) 
-	(ANS::IntervalCalcDown ansNote 'M2))
+    (ANS::IntervalCalcDown ansNote 'M2))
 
 (define (ANS::CalculateHalfRealStepUp ansNote) 
-	(ANS::IntervalCalcUp ansNote 'm2))	
-	
+    (ANS::IntervalCalcUp ansNote 'm2))  
+    
 (define (ANS::CalculateHalfRealStepDown ansNote) 
-	(ANS::IntervalCalcDown ansNote 'm2))
+    (ANS::IntervalCalcDown ansNote 'm2))
 
 ;GetDiatonic. Looks ups the prevailing keysignature and returns the correct diatonic value for a given note.
 ; PrevailingKeysig is either -1 (flat), 0 (natural) or 1 (sharp)
 (define (ANS::GetDiatonic ansNote)
-	(define keysiglist (string-tokenize (d-GetPrevailingKeysig))) ; A list of strings! We need numbers, later
-	(define whitekey (ANS::GetWhiteKey ansNote))
-	(define getkeysigfor "0")
-	
-	(set! getkeysigfor 	; Is used by the new note to sharpen 1, flatten -1, or stay natural 0. 
-	   (cond		  	; each list-ref position for keysiglist is one diatonic note position from c to b.
-		((= 20 (ANS::GetNote whitekey)) (list-ref keysiglist 0)) ; Test which note the white-key version is and send the corresponding sharp/flat/natural modificator to ANS::Alteration later.
-		((= 70 (ANS::GetNote whitekey)) (list-ref keysiglist 1)) ; Only one can be true because we test one note alone.
-		((= 120 (ANS::GetNote whitekey)) (list-ref keysiglist 2))
-		((= 170 (ANS::GetNote whitekey)) (list-ref keysiglist 3))
-		((= 220 (ANS::GetNote whitekey)) (list-ref keysiglist 4))
-		((= 270 (ANS::GetNote whitekey)) (list-ref keysiglist 5))
-		((= 320 (ANS::GetNote whitekey)) (list-ref keysiglist 6))
-	     )) 
+    (define keysiglist (string-tokenize (d-GetPrevailingKeysig))) ; A list of strings! We need numbers, later
+    (define whitekey (ANS::GetWhiteKey ansNote))
+    (define getkeysigfor "0")
+    
+    (set! getkeysigfor  ; Is used by the new note to sharpen 1, flatten -1, or stay natural 0. 
+       (cond            ; each list-ref position for keysiglist is one diatonic note position from c to b.
+        ((= 20 (ANS::GetNote whitekey)) (list-ref keysiglist 0)) ; Test which note the white-key version is and send the corresponding sharp/flat/natural modificator to ANS::Alteration later.
+        ((= 70 (ANS::GetNote whitekey)) (list-ref keysiglist 1)) ; Only one can be true because we test one note alone.
+        ((= 120 (ANS::GetNote whitekey)) (list-ref keysiglist 2))
+        ((= 170 (ANS::GetNote whitekey)) (list-ref keysiglist 3))
+        ((= 220 (ANS::GetNote whitekey)) (list-ref keysiglist 4))
+        ((= 270 (ANS::GetNote whitekey)) (list-ref keysiglist 5))
+        ((= 320 (ANS::GetNote whitekey)) (list-ref keysiglist 6))
+         )) 
        (ANS::Alteration whitekey (string->number getkeysigfor)))  ; keysiglist-members are strings so we need to convert first
 
 
@@ -1121,17 +1121,17 @@
 ;TODO: Give out the octave between.
 ;If a rest is part of the pair the return value will be +inf.0 as interval step number (like 1 stands for fifth)
 (define (ANS::GetInterval ansNoteOne ansNoteTwo)
-	(define higher ansNoteOne)
-	(define lower ansNoteTwo)
-	(if (<= ansNoteOne ansNoteTwo) ; bring the notes in right order. We want to calculate from top to bottom.
-		(begin 	(set! lower ansNoteOne)
-				(set! higher ansNoteTwo)))		
+    (define higher ansNoteOne)
+    (define lower ansNoteTwo)
+    (if (<= ansNoteOne ansNoteTwo) ; bring the notes in right order. We want to calculate from top to bottom.
+        (begin  (set! lower ansNoteOne)
+                (set! higher ansNoteTwo)))      
 
-	;Extract the tone, without octave and feed it to the hash to get the notes position in the pillar of 5th.
-	(if (or (equal? higher +inf.0) (equal? lower +inf.0)) ; with rests?
-			+inf.0
-			(- (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote higher)) (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote lower))))) ; no rest. Return interval step.	
-		 
+    ;Extract the tone, without octave and feed it to the hash to get the notes position in the pillar of 5th.
+    (if (or (equal? higher +inf.0) (equal? lower +inf.0)) ; with rests?
+            +inf.0
+            (- (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote higher)) (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote lower))))) ; no rest. Return interval step.   
+         
 
 
 ; Wants a number from ANS::GetInterval
@@ -1141,213 +1141,213 @@
 ; Augmented Prime and Diminished Octave have to build an Octave; so do have Augmented Octave and Diminished Prime.
 ; With the normal system a double diminished second has to be treated as Major Seventh! Or not? Its confusing.
 ;; TODO: Supplemental: No no, its all wrong. "Diminished Prime upwards" from C results ins Ces which sounds a half tone down. The flaw is in my system which cannot go octaves down while going "up" at the same time.
-(define (ANS::Interval->Sound interval)	
-	(case interval
-		((+inf.0) +inf.0) ; rests
-		((0) 0) ;P1			
-		((-5) -5) ;m2			
-		((2) 2) ;M2			
-		((-3) -3) ;m3
-		((4) 4) ;M3	
-		((-1) -1) ;P4	
-		((6) 6) ;T		
-		((1) 1) ;P5
-		((-4) -4) ;m6			
-		((3) 3) ;M6		
-		((-2) -2) ;m7	
-		((5) 5) ;M7		
-		;Augmentend, Diminished
-		((7) -5) ;A1		
-		((-7) 5) ;D1 ; ALERT
-		((9) -3) ;A2
-		((-12) 0) ;D2
-		((11) -1) ;A3
-		((-10) 2) ;D3
-		((6) 6) ;A4
-		((-8) 4) ;D4
-		((8) -4) ;A5		
-		((-6) 6) ;D5
-		((10) -2) ;A6	
-		((-11) 1) ;D6	
-		((12) 0) ;A7		
-		((-9) 3) ;D7
-		#! ;Double Augmented, Double Diminished  TODO: commented out. why?
-		((14) ) ;AA1		
-		((-14) ) ;DD1		
-		((16) ) ;AA2		
-		((-19) ) ;DD2			
-		((18) ) ;AA3		
-		((-17) ) ;DD3					
-		((13) ) ;AA4		
-		((-15) ) ;DD4			
-		((15) ) ;AA5		
-		((-13) ) ;DD5
-		((17) ) ;AA6		
-		((-18) ) ;DD6		
-		((19) ) ;AA7		
-		((-16) ) ;DD7
-		;Triple Augmented, Triple Diminished
-		((21) ) ;AAA1		
-		((-21) ) ;DDD1		
-		((23) ) ;AAA2		
-		((-26) ) ;DDD2			
-		((25) ) ;AAA3		
-		((-24) ) ;DDD3					
-		((20) ) ;AAA4		
-		((-22) ) ;DDD4			
-		((22) ) ;AAA5		
-		((-20) ) ;DDD5
-		((24) ) ;AAA6		
-		((-25) ) ;DDD6		
-		((26) ) ;AAA7		
-		((-23) ) ;DDD7
-		;Quadruple Augmented, Quadruple Diminished		
-		((28) ) ;AAAA1		
-		((-28) ) ;DDDD1		
-		((30) ) ;AAAA2		
-		((-33) ) ;DDDD2			
-		((32) ) ;AAAA3		
-		((-31) ) ;DDDD3					
-		((27) ) ;AAAA4		
-		((-29) ) ;DDDD4			
-		((29) ) ;AAAA5		
-		((-27) ) ;DDDD5
-		((31) ) ;AAAA6		
-		((-32) ) ;DDDD6		
-		((33) ) ;AAAA7		
-		((-30) ) ;DDDD7		
-		;Quintuple Augmented, Quintuple Diminished. Only feses to bisis, the Final Frontier.	
-		((34) ) ;AAAAA4		
-		((-34) ) ;DDDDD5 !#
-		(else #f)))
+(define (ANS::Interval->Sound interval) 
+    (case interval
+        ((+inf.0) +inf.0) ; rests
+        ((0) 0) ;P1         
+        ((-5) -5) ;m2           
+        ((2) 2) ;M2         
+        ((-3) -3) ;m3
+        ((4) 4) ;M3 
+        ((-1) -1) ;P4   
+        ((6) 6) ;T      
+        ((1) 1) ;P5
+        ((-4) -4) ;m6           
+        ((3) 3) ;M6     
+        ((-2) -2) ;m7   
+        ((5) 5) ;M7     
+        ;Augmentend, Diminished
+        ((7) -5) ;A1        
+        ((-7) 5) ;D1 ; ALERT
+        ((9) -3) ;A2
+        ((-12) 0) ;D2
+        ((11) -1) ;A3
+        ((-10) 2) ;D3
+        ((6) 6) ;A4
+        ((-8) 4) ;D4
+        ((8) -4) ;A5        
+        ((-6) 6) ;D5
+        ((10) -2) ;A6   
+        ((-11) 1) ;D6   
+        ((12) 0) ;A7        
+        ((-9) 3) ;D7
+        #! ;Double Augmented, Double Diminished  TODO: commented out. why?
+        ((14) ) ;AA1        
+        ((-14) ) ;DD1       
+        ((16) ) ;AA2        
+        ((-19) ) ;DD2           
+        ((18) ) ;AA3        
+        ((-17) ) ;DD3                   
+        ((13) ) ;AA4        
+        ((-15) ) ;DD4           
+        ((15) ) ;AA5        
+        ((-13) ) ;DD5
+        ((17) ) ;AA6        
+        ((-18) ) ;DD6       
+        ((19) ) ;AA7        
+        ((-16) ) ;DD7
+        ;Triple Augmented, Triple Diminished
+        ((21) ) ;AAA1       
+        ((-21) ) ;DDD1      
+        ((23) ) ;AAA2       
+        ((-26) ) ;DDD2          
+        ((25) ) ;AAA3       
+        ((-24) ) ;DDD3                  
+        ((20) ) ;AAA4       
+        ((-22) ) ;DDD4          
+        ((22) ) ;AAA5       
+        ((-20) ) ;DDD5
+        ((24) ) ;AAA6       
+        ((-25) ) ;DDD6      
+        ((26) ) ;AAA7       
+        ((-23) ) ;DDD7
+        ;Quadruple Augmented, Quadruple Diminished      
+        ((28) ) ;AAAA1      
+        ((-28) ) ;DDDD1     
+        ((30) ) ;AAAA2      
+        ((-33) ) ;DDDD2         
+        ((32) ) ;AAAA3      
+        ((-31) ) ;DDDD3                 
+        ((27) ) ;AAAA4      
+        ((-29) ) ;DDDD4         
+        ((29) ) ;AAAA5      
+        ((-27) ) ;DDDD5
+        ((31) ) ;AAAA6      
+        ((-32) ) ;DDDD6     
+        ((33) ) ;AAAA7      
+        ((-30) ) ;DDDD7     
+        ;Quintuple Augmented, Quintuple Diminished. Only feses to bisis, the Final Frontier.    
+        ((34) ) ;AAAAA4     
+        ((-34) ) ;DDDDD5 !#
+        (else #f)))
 
 
 ; The following tests compare 2*2 notes and check if a sequcence is forbidden.
 ;; Used to detect often forbidden parallels of 5th or 8th or 1th etc. 
 ;; Repetitions and Octave shifts return as #f. ANS::GetNote equalizes octaves
-;; The main difference between these functions is the checking with < >.		  
+;; The main difference between these functions is the checking with < >.          
 
 ;new system:
-;;	g a
-;;	c d
-;;	high1 high2
-;;	low1 low2
+;;  g a
+;;  c d
+;;  high1 high2
+;;  low1 low2
 
 (define (ANS::ConsecutiveOpen? low1 high1 low2 high2 forbidden)
-	(and
-		(= (ANS::GetInterval high1 low1) (ANS::GetInterval high2 low2))  ; same interval?
-		(= (ANS::GetInterval high1 low1) forbidden) ; interval forbidden?
-		(not (= (ANS::GetNote high1) (ANS::GetNote high2))) ; not the same notes, no direct repetition, , no octave jump
-		(or ;if both first notes are higher or lower as both seconds, but higher/lower does not change.
-			(and	(> low1 low2)
-					(> high1 high2)
-					(< low1 high1)  ;lower voice has the lower pitch 
-					(< low2 high2)) ;lower voice has the lower pitch 
-			(and	(< low1 low2)
-					(< high1 high2)
-					(< low1 high1)
-					(< low2 high2)))))
-					
+    (and
+        (= (ANS::GetInterval high1 low1) (ANS::GetInterval high2 low2))  ; same interval?
+        (= (ANS::GetInterval high1 low1) forbidden) ; interval forbidden?
+        (not (= (ANS::GetNote high1) (ANS::GetNote high2))) ; not the same notes, no direct repetition, , no octave jump
+        (or ;if both first notes are higher or lower as both seconds, but higher/lower does not change.
+            (and    (> low1 low2)
+                    (> high1 high2)
+                    (< low1 high1)  ;lower voice has the lower pitch 
+                    (< low2 high2)) ;lower voice has the lower pitch 
+            (and    (< low1 low2)
+                    (< high1 high2)
+                    (< low1 high1)
+                    (< low2 high2)))))
+                    
 (define (ANS::ConsecutiveCrossed? low1 high1 low2 high2 forbidden)
 ;cover inverted crossed also. Not the second interval but the firs is crossed. 
-	(and
-	(= (ANS::GetInterval high1 low1) (ANS::GetInterval high2 low2))  ; same interval?
-	(= (ANS::GetInterval high1 low1) forbidden) ; interval forbidden?
-	(not (= (ANS::GetNote high1) (ANS::GetNote high2))) ; not the same notes, no direct repetition, no octave jump
-	(or 
-		(and	(> low1 low2)
-				(< high1 high2)
-				(> low1 high1)
-				(< low2 high2))
-		(and	(< low1 low2)
-				(> high1 high2)
-				(< low1 high1)
-				(> low2 high2))
-		(and	(< low1 low2)
-				(< high1 high2)
-				(< low1 high1)
-				(> low2 high2))
-		(and	(< low1 low2)
-				(< high1 high2)
-				(> low1 high1)
-				(< low2 high2))		
-		(and	(> low1 low2)
-				(> high1 high2)
-				(< low1 high1)
-				(> low2 high2))
-		(and	(> low1 low2)
-				(> high1 high2)
-				(> low1 high1)
-				(< low2 high2)))))
-		 
+    (and
+    (= (ANS::GetInterval high1 low1) (ANS::GetInterval high2 low2))  ; same interval?
+    (= (ANS::GetInterval high1 low1) forbidden) ; interval forbidden?
+    (not (= (ANS::GetNote high1) (ANS::GetNote high2))) ; not the same notes, no direct repetition, no octave jump
+    (or 
+        (and    (> low1 low2)
+                (< high1 high2)
+                (> low1 high1)
+                (< low2 high2))
+        (and    (< low1 low2)
+                (> high1 high2)
+                (< low1 high1)
+                (> low2 high2))
+        (and    (< low1 low2)
+                (< high1 high2)
+                (< low1 high1)
+                (> low2 high2))
+        (and    (< low1 low2)
+                (< high1 high2)
+                (> low1 high1)
+                (< low2 high2))     
+        (and    (> low1 low2)
+                (> high1 high2)
+                (< low1 high1)
+                (> low2 high2))
+        (and    (> low1 low2)
+                (> high1 high2)
+                (> low1 high1)
+                (< low2 high2)))))
+         
 (define (ANS::ConsecutiveAnti? low1 high1 low2 high2 forbidden)
-	(= (ANS::GetInterval high1 low1) (ANS::GetInterval high2 low2))  ; same interval?
-	(= (ANS::GetInterval high1 low1) forbidden) ; interval forbidden?
-	(not (= (ANS::GetNote high1) (ANS::GetNote high2))) ; not the same notes, no direct repetition, no octave jump
-	(or 
-		(and	(> low1 low2)
-				(< high1 high2)
-				(< low1 high1)
-				(< low2 high2))
-		(and	(< low1 low2)
-				(> high1 high2)
-				(< low1 high1)
-				(< low2 high2))))
+    (= (ANS::GetInterval high1 low1) (ANS::GetInterval high2 low2))  ; same interval?
+    (= (ANS::GetInterval high1 low1) forbidden) ; interval forbidden?
+    (not (= (ANS::GetNote high1) (ANS::GetNote high2))) ; not the same notes, no direct repetition, no octave jump
+    (or 
+        (and    (> low1 low2)
+                (< high1 high2)
+                (< low1 high1)
+                (< low2 high2))
+        (and    (< low1 low2)
+                (> high1 high2)
+                (< low1 high1)
+                (< low2 high2))))
 
 ;;ANS::ConsecutiveAntiCrossed is covered by Crossed because AntiCrossed means just further octave spread.
 
 ;TODO: Sometimes it is important if one of the voices does a step or if both voices jump. Test for that, too.
 (define (ANS::ConsecutiveHidden? low1 high1 low2 high2 forbidden)
-	(and
-		(= (ANS::GetInterval high2 low2) forbidden) ; second interval forbidden?
-	 	(not (= (ANS::GetInterval high1 low1) forbidden)) ; but the first is not a forbidden one?
-		;comparision to open variants: Hidden progression cannot have a direct repetition by definition because the intervals are different.
-		(or 
-			(and	(< low1 low2) 
-					(< high1 high2)
-					(< low1 high1)
-					(< low2 high2))
-			(and	(> low1 low2)
-					(> high1 high2)
-					(< low1 high1)
-					(< low2 high2)))))
+    (and
+        (= (ANS::GetInterval high2 low2) forbidden) ; second interval forbidden?
+        (not (= (ANS::GetInterval high1 low1) forbidden)) ; but the first is not a forbidden one?
+        ;comparision to open variants: Hidden progression cannot have a direct repetition by definition because the intervals are different.
+        (or 
+            (and    (< low1 low2) 
+                    (< high1 high2)
+                    (< low1 high1)
+                    (< low2 high2))
+            (and    (> low1 low2)
+                    (> high1 high2)
+                    (< low1 high1)
+                    (< low2 high2)))))
 
 (define (ANS::ConsecutiveHiddenCrossed? low1 high1 low2 high2 forbidden)
 ;cover inverted crossed also. Not the second interval but the firs is crossed. 
-	(and
-		(= (ANS::GetInterval high2 low2) forbidden) ; second interval forbidden?
-	 	(not (= (ANS::GetInterval high1 low1) forbidden)) ; but the first is not a forbidden one?
-		;comparision to open variants: Hidden progression cannot have a direct repetition by definition because the intervals are different.
-		(or 
-			(and	(> low1 low2)
-					(< high1 high2)
-					(> low1 high1)
-					(< low2 high2))
-			(and	(< low1 low2)
-					(> high1 high2)
-					(< low1 high1)
-					(> low2 high2))
-			(and	(< low1 low2)
-					(< high1 high2)
-					(< low1 high1)
-					(> low2 high2))
-			(and	(< low1 low2)
-					(< high1 high2)
-					(> low1 high1)
-					(< low2 high2))		
-			(and	(> low1 low2)
-					(> high1 high2)
-					(< low1 high1)
-					(> low2 high2))
-			(and	(> low1 low2)
-					(> high1 high2)
-					(> low1 high1)
-					(< low2 high2)))))			  
-		  
+    (and
+        (= (ANS::GetInterval high2 low2) forbidden) ; second interval forbidden?
+        (not (= (ANS::GetInterval high1 low1) forbidden)) ; but the first is not a forbidden one?
+        ;comparision to open variants: Hidden progression cannot have a direct repetition by definition because the intervals are different.
+        (or 
+            (and    (> low1 low2)
+                    (< high1 high2)
+                    (> low1 high1)
+                    (< low2 high2))
+            (and    (< low1 low2)
+                    (> high1 high2)
+                    (< low1 high1)
+                    (> low2 high2))
+            (and    (< low1 low2)
+                    (< high1 high2)
+                    (< low1 high1)
+                    (> low2 high2))
+            (and    (< low1 low2)
+                    (< high1 high2)
+                    (> low1 high1)
+                    (< low2 high2))     
+            (and    (> low1 low2)
+                    (> high1 high2)
+                    (< low1 high1)
+                    (> low2 high2))
+            (and    (> low1 low2)
+                    (> high1 high2)
+                    (> low1 high1)
+                    (< low2 high2)))))            
+          
 ; There is no Anti-Hidden or Anti-Crossed-Hidden. These become valid intervalprogressions!
-		 
+         
 (define (ANS::ConsecutiveIndirect? low1 high1 low2 high2 forbidden) ; TODO: this is a paradox name. Indirect intervals are not consecutive by definition! It should probably need a complete new type of IntervalFinder, not only a special test.
-	#f
+    #f
 )
 
        
@@ -1359,44 +1359,44 @@
                
 ; Generates a random note within a given range. The range includes both values.
 (define (ANS::random from to)
-	(let (
-		  (from (/ from 10)) ;drop microtones, just use the chromatic/enharmonic material
-		  (to (/ to 10))
-		  (rand 0)
-		 )
-	(set! to (+ 1 (- to from))) ; (- to from ) means only use the relative range, not absolute values . +1 to include the last, given value. 
-	(set! rand  (+ from (random to)) ) ; get a random value in the range and then shift the relative range to start from "from"
-	(* rand 10))) ; convert to octave scale again and return	
+    (let (
+          (from (/ from 10)) ;drop microtones, just use the chromatic/enharmonic material
+          (to (/ to 10))
+          (rand 0)
+         )
+    (set! to (+ 1 (- to from))) ; (- to from ) means only use the relative range, not absolute values . +1 to include the last, given value. 
+    (set! rand  (+ from (random to)) ) ; get a random value in the range and then shift the relative range to start from "from"
+    (* rand 10))) ; convert to octave scale again and return    
 
 ;Random note generator, respects the keysignature. Insert an optional range, default is all 56 diatonic notes.
 (define* (ANS::RandomDiatonic #:optional (from 0) (to 3150))
-	(ANS::GetDiatonic (ANS::random from to))	
+    (ANS::GetDiatonic (ANS::random from to))    
 )
 
 ;Random note generator, one of each possible chromatic notes or optional range. Same probability for natural, flat or sharp.
 (define* (ANS::RandomChromatic #:optional (from 0) (to 3140))
-	(define rand (- (random 3) 1))	; -1, 0 or 1
-	(ANS::Alteration (ANS::RandomDiatonic from to) rand) 
+    (define rand (- (random 3) 1))  ; -1, 0 or 1
+    (ANS::Alteration (ANS::RandomDiatonic from to) rand) 
 )  
 
 
 ;Takes a list of notes, shuffle the members and inserts them as new notes.
 (define (ANS::InsertListRandomly ansList)
-	(define shuffledlist (Merge-shuffle-list ansList))
-	(for-each ANS::InsertNotes shuffledlist)
+    (define shuffledlist (Merge-shuffle-list ansList))
+    (for-each ANS::InsertNotes shuffledlist)
 )
 
 ;Takes a list of notes and randomly pick one to insert. The member
 ;remains in the original list but the function returns a new list without the
 ;inserted value. 
 (define (ANS::InsertMemberRandomly ansList)
-	(define rnd (random (length ansList) ))
-	(define ANSListcopy (list-copy ansList))
-	(ANS::InsertNotes (list (list-ref ansList rnd) ))
-	(if (= rnd 0) ;delete1! cannot delete first item
-	   (list-tail ANSListcopy 1)
-	   (delete1! (list-ref ANSListcopy rnd) ANSListcopy)	
-	)
+    (define rnd (random (length ansList) ))
+    (define ANSListcopy (list-copy ansList))
+    (ANS::InsertNotes (list (list-ref ansList rnd) ))
+    (if (= rnd 0) ;delete1! cannot delete first item
+       (list-tail ANSListcopy 1)
+       (delete1! (list-ref ANSListcopy rnd) ANSListcopy)    
+    )
 )
 
 ;; Example to enter random triads. Uses nearly the complete featureset of ANS as of today. Creating random notes in a range, making it diatonic and then calculate intervals to add up and down and finally placing all as real Denemo notation, as chord at once.
