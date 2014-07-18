@@ -825,8 +825,8 @@ GString *keymap_get_bindings (keymap * the_keymap)
 {
     GString *ret = g_string_new ( _("List of all current command shortcuts\nThe name of the shortcut key is given first \nE.g. \"0\" is the shortcut name of the number key for the number zero.\n(a \",\" separates the two names if is a two-key shortcut)\nThen the label as it appears in the menu\nand finally the tooltip.\nYou can search the tooltip in the Command Center to locate the command. See View->Command Center.\nThis list is in alphabetical order by name.\n----------------\n"));
     GList *g = NULL;
-  g_hash_table_foreach (the_keymap->commands, keymap_collect_bindings_in_row, (gpointer)&g);
-  g = g_list_sort (g, strcmp);
+  g_hash_table_foreach (the_keymap->commands, (GHFunc)keymap_collect_bindings_in_row, (gpointer)&g);
+  g = g_list_sort (g, (GCompareFunc)strcmp);
   GList *tofree = g;
   for(;g;g=g->next)
     {
@@ -1292,6 +1292,7 @@ add_named_binding_to_idx (keymap * the_keymap, gchar * kb_name, guint command_id
         }
     }
 
+
   if (title && (pos == POS_FIRST) && (old_command_id >= 0) && (!confirm (title, prompt)))
     {
       g_free (title);
@@ -1300,21 +1301,30 @@ add_named_binding_to_idx (keymap * the_keymap, gchar * kb_name, guint command_id
     }
   if ((pos == POS_FIRST) && strcmp (kb_name, "Return"))
     Denemo.accelerator_status = TRUE;
-  if (old_command_id >= 0)
+  if(g_hash_table_lookup(Denemo.map->continuations_table, kb_name))
     {
-      remove_keybinding_bindings_helper (the_keymap, old_command_id, kb_name);
-      update_accel_labels (the_keymap, old_command_id);
-    }
-  //add the keybinding to the binding on idx_command
-  add_keybinding_bindings_helper (the_keymap, command_id, kb_name, pos);
+         gchar *text = g_strdup_printf (_("The key %s is the first keypress of some two key shortcuts.\nIf you wish to re-assign it you will need to remove those first.\nOpen the View->Command Center to find and remove the shortcuts."), kb_name);
+        infodialog (text);//Warning! cannot use warningdialog() here as it is modal, resulting in a deadlock if a command which also modal is fired off from the menu at the same time.
+        g_free(text);
+    } else 
+    {
+    
+      if (old_command_id >= 0)
+        {
+          remove_keybinding_bindings_helper (the_keymap, old_command_id, kb_name);
+          update_accel_labels (the_keymap, old_command_id);
+        }
+      //add the keybinding to the binding on idx_command
+      add_keybinding_bindings_helper (the_keymap, command_id, kb_name, pos);
 
-  //update the accel labels of the command
-  update_accel_labels (the_keymap, command_id);
+      //update the accel labels of the command
+      update_accel_labels (the_keymap, command_id);
 
-  //add or modify an entry in idx_from_keystring
-  new_idx = (guint *) g_malloc (sizeof (guint));
-  *new_idx = command_id;
-  g_hash_table_insert (the_keymap->idx_from_keystring, g_strdup (kb_name), new_idx);
+      //add or modify an entry in idx_from_keystring
+      new_idx = (guint *) g_malloc (sizeof (guint));
+      *new_idx = command_id;
+      g_hash_table_insert (the_keymap->idx_from_keystring, g_strdup (kb_name), new_idx);
+  }
   g_free (title);
   g_free (prompt);
   return old_command_id;
@@ -1868,7 +1878,7 @@ toggle_hidden_on_action (G_GNUC_UNUSED GtkCellRendererToggle * cell_renderer, gc
       const GtkAction *action = lookup_action_from_idx (Denemo.map, command_id);
       if (GTK_IS_ACTION (action))
         {
-          set_visibility_for_action (action, row->hidden);
+          set_visibility_for_action ((GtkAction *)action, row->hidden);
         }
     }
 }
@@ -2024,7 +2034,7 @@ keymap_get_command_view (keymap * the_keymap, GtkWidget *SearchEntry, GtkWidget 
   GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
   GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
 
-  gtk_tree_view_set_search_entry (res, SearchEntry);
+  gtk_tree_view_set_search_entry (res, (GtkEntry*)SearchEntry);
   GtkWidget *label = gtk_label_new (_("Search"));
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
   gtk_box_pack_start (GTK_BOX (hbox), SearchEntry, FALSE, TRUE, 0);
@@ -2040,7 +2050,7 @@ keymap_get_command_view (keymap * the_keymap, GtkWidget *SearchEntry, GtkWidget 
   g_signal_connect_swapped (G_OBJECT (SearchNext), "clicked", G_CALLBACK (search_next), SearchEntry);
   
   gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
-  gtk_box_pack_start (GTK_BOX (vbox), res2, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), (GtkWidget*)res2, TRUE, TRUE, 0);
         
 
   return GTK_WIDGET (res2);
