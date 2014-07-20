@@ -2080,8 +2080,13 @@ gchar *choose_file (gchar *title, gchar *startdir, GList *extensions)
                                       GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
                                       NULL);
   GtkFileFilter *filter = gtk_file_filter_new();
+  GString *filter_description = g_string_new ("");
   for(extensions;extensions;extensions=extensions->next)
+    {
     gtk_file_filter_add_pattern (filter,(gchar*)extensions->data);
+    g_string_append_printf (filter_description, "%s ", (gchar*)extensions->data);
+    }
+  gtk_file_filter_set_name (filter, filter_description->str);
   gtk_file_chooser_add_filter (GTK_FILE_CHOOSER(dialog), filter);
   gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(dialog), startdir);
   
