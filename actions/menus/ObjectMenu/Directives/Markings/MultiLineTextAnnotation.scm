@@ -1,5 +1,5 @@
 ;;;MultiLineTextAnnotation
-(let ((text #f) (params  MultiLineTextAnnotation::params) (tag "MultiLineTextAnnotation")(markup #f)(current #f)
+(let ((text #f) (params  MultiLineTextAnnotation::params) (tag "MultiLineTextAnnotation")(markup #f)(current #f)(scale "0.5")
             (position #f) (shift "") (prefix "<>"))
      (set! current (d-DirectiveGet-standalone-data tag))
      (if current
@@ -25,13 +25,15 @@
       (begin 
             (if position
                (begin
+               		(set! scale (d-GetUserInput (_ "Scaling Text") (_ "Give text size: ") scale));
+               		(if (not scale) (set! scale "0.5"))
                         (set! markup (cdr text))
                         (set! text (car text))
                         (if (not (d-Directive-standalone? tag))
                             (d-DirectivePut-standalone tag))
                         (d-DirectivePut-standalone-data tag text)
                         (d-DirectivePut-standalone-display tag text)
-                        (d-DirectivePut-standalone-postfix tag (string-append  shift position "\\markup\\scale #'(.5 . .5)\\column{" markup "}"))
+                        (d-DirectivePut-standalone-postfix tag (string-append  shift position "\\markup\\scale #'(" scale " . " scale ")\\column{" markup "}"))
                         (d-DirectivePut-standalone-prefix tag prefix)
                         (d-DirectivePut-standalone-minpixels tag 30)
                         (d-RefreshDisplay)
