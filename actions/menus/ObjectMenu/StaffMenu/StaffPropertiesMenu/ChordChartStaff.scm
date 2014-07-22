@@ -23,7 +23,7 @@
     }
     ")  DENEMO_OVERRIDE_LILYPOND DENEMO_OVERRIDE_GRAPHIC)
             (d-CustomBarline (format #f "'~s" (list (_ "Single") "|" "|" "|" "")))
-            (d-CustomBarline (format #f "'~s" (list (_ "Double") "||" "||" "||" "")))
+            (d-CustomBarline (format #f "'~s" (list (_ "Double") "|" "||" "||" "")))
             (d-CustomBarline (format #f "'~s" (list (_ "RepeatStart")  "[|:"  "[|:" "||" "")))           
             (d-CustomBarline (format #f "'~s" (list (_ "RepeatEnd") "|" ":|]"  ":|]"  "")))
             (d-Set0)
