@@ -1,7 +1,7 @@
-;;;;;;; TransposeScorePrint
+;;;; TransposeScorePrint
 (define-once Transpose::Interval "c ees")
 
-(let ((lily #f) (text #f) (tag "TransposeOnPrint"))
+(let ((text #f) (global-tag "GlobalTranspose")(tag "TransposeOnPrint"))
 (if (and TransposeScorePrint::params (not (equal?  TransposeScorePrint::params "edit")))
     (set! Transpose::Interval TransposeScorePrint::params)
     (set! Transpose::Interval (d-GetUserInput (_ "Set Transpose Interval") (_ "Give Interval to transpose by as two note names, 
@@ -16,11 +16,20 @@
     e.g. d e means a tone higher.
     ") Transpose::Interval)))
 (if Transpose::Interval
-  (begin
-  	  (d-DirectiveDelete-score "TransposeScorePrint") ;;;get rid of old style transpose directive
-	  (set! lily (string-append  "\\transpose " Transpose::Interval " "))
-	  (set! text (string-append  "Print transposed:  " Transpose::Interval " "))
-	  (d-DirectivePut-score-postfix tag lily)
+  (let ((choice (RadioBoxMenu
+                     (cons "Global (includes quoted music)"   'global)   
+                        (cons "Main Score Only" 'score))))
+              (d-DirectiveDelete-score "TransposeScorePrint") ;;;get rid of old style transpose directive      
+               (d-DirectiveDelete-score tag)
+               (d-DirectiveDelete-score global-tag)
+              (case choice
+         			 ((global)      
+         			 	 (d-DirectivePut-score-override global-tag  DENEMO_OVERRIDE_AFFIX)
+         			 	 (d-DirectivePut-score-prefix global-tag   (string-append     "\nDenemoGlobalTranspose = #(define-music-function (parser location arg)(ly:music?) #{\\transpose "
+         			 Transpose::Interval "#arg #})\n")) (d-DirectivePut-score-postfix tag  "\\DenemoGlobalTranspose "))
+  	  			(else
+  	  			    	 (d-DirectivePut-score-postfix tag (string-append  "\\transpose " Transpose::Interval " "))))
+	  (set! text (string-append  "Print transposed:  " Transpose::Interval " ")) 
 	  (d-DirectivePut-score-display tag text)
 	  (d-DirectivePut-score-override tag DENEMO_OVERRIDE_GRAPHIC)
 	  (d-SetSaved #f))))
