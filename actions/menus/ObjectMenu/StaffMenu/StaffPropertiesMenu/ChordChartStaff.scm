@@ -22,6 +22,12 @@
         \\numericTimeSignature 
     }
     ")  DENEMO_OVERRIDE_LILYPOND DENEMO_OVERRIDE_GRAPHIC)
+            
+             
+            (d-DirectivePut-score-display "CustomBarline" (_ "Custom Barlines"))
+            (d-DirectivePut-score-override tag (logior DENEMO_OVERRIDE_AFFIX))
+            (d-DirectivePut-score-prefix tag "\n\\defineBarLine \"|\" #'(\"|\" \"|\" \"|\")\n")
+            
             (d-CustomBarline (format #f "'~s" (list (_ "Single") "|" "|" "|" "")))
             (d-CustomBarline (format #f "'~s" (list (_ "Double") "|" "||" "||" "")))
             (d-CustomBarline (format #f "'~s" (list (_ "RepeatStart")  "[|:"  "[|:" "||" "")))           
@@ -32,4 +38,5 @@
             (d-DirectivePut-layout-postfix tag "\\set noChordSymbol = \"\\\\\"")
             (ToggleDirective "clef" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND)
             (ToggleDirective "keysig" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX)
-            (ToggleDirective "timesig" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND))))
+            (ToggleDirective "timesig" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_GRAPHIC)
+            (d-DirectivePut-timesig-display tag "4/4"))))
