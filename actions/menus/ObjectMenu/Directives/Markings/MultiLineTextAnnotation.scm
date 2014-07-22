@@ -7,7 +7,7 @@
      
      (if (and params (not (equal? "edit" params)))
         (begin
-            (set! position "-")
+            (set! position "^")
             (if (string? params)
                 (set! text (cons params (string-append "\"" params "\"")))
                 (begin;;; this is a list of pairs
@@ -15,7 +15,7 @@
                         (d-WarningDialog (_ "Sorry, not possible, use Directives->Markings->Textual Annotation instead"))
                         (set! position (cdar params))))))
          (begin   
-            (set! position "-")))
+            (set! position "^")))
             
      (if (not current)
                 (set! current ""))
@@ -25,8 +25,8 @@
       (begin 
             (if position
                (begin
-               		(set! scale (d-GetUserInput (_ "Scaling Text") (_ "Give text size: ") scale));
-               		(if (not scale) (set! scale "0.5"))
+                    (set! scale (d-GetUserInput (_ "Scaling Text") (_ "Give text size: ") scale));
+                    (if (not scale) (set! scale "0.5"))
                         (set! markup (cdr text))
                         (set! text (car text))
                         (if (not (d-Directive-standalone? tag))
