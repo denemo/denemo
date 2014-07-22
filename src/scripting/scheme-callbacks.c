@@ -3194,13 +3194,37 @@ paste_snippet_lilypond (GtkWidget * button)
       RhythmPattern *r = (gui->currhythm) ? ((RhythmPattern *) gui->currhythm->data) : NULL;
       if (r)
         {
-          const gchar *transpose, *clefname = get_prevailing_clef_as_lilypond (), *keysigname = get_prevailing_keysig_as_lilypond (), *timesigname = get_prevailing_timesig_as_lilypond ();
-          extern gchar *score_directive_get_postfix (gchar * tagname);
-          transpose = score_directive_get_postfix ("TransposeScorePrint");
-          transpose = transpose ? transpose : "";
-          gchar *text = g_strdup_printf ("§\\raise #0.5 \\score{\n%s{{%s}{%s}{%s}%s}\\layout{indent=0.0}\n}§", transpose, clefname, keysigname, timesigname, r->lilypond);
+          const gchar *clefname = get_prevailing_clef_as_lilypond (), *keysigname = get_prevailing_keysig_as_lilypond (), *timesigname = get_prevailing_timesig_as_lilypond ();
+          gchar *text = g_strdup_printf ("§\\raise #0.5 \\score{\n\\DenemoGlobalTranspose {{%s}{%s}{%s}%s}\\layout{indent=0.0}\n}§", clefname, keysigname, timesigname, r->lilypond);
           gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1 /*gint len */ );
           g_free (text);
+        }
+    }
+  else
+    {
+      g_warning ("Denemo program error, widget hierarchy changed???");
+    }
+  GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
+  gtk_widget_grab_focus (textview);
+}
+static void
+paste_current_lilypond (GtkWidget * button)
+{
+  DenemoProject *gui = Denemo.project;
+  GtkWidget *hbox = gtk_widget_get_parent (button);
+  GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+  if (textbuffer)
+    {
+      DenemoObject *curObj;
+      if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
+        return;
+      if (gui->lilysync != gui->changecount)
+        refresh_lily_cb (NULL, Denemo.project);
+      if (curObj->lilypond)
+        {
+              gchar *text = g_strdup_printf ("§\\score{\n\\DenemoGlobalTranspose \\new ChordNames {%s}\\layout{indent=0.0}\n}§",  curObj->lilypond);
+              gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1 /*gint len */ );
+              g_free (text);
         }
     }
   else
@@ -3307,6 +3331,17 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
   else
     gtk_widget_set_sensitive (button, FALSE);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+  
+  
+  button = gtk_button_new_with_label (_("Paste Current Note/Chord"));
+  gtk_widget_set_tooltip_text (button, _("Pastes the chord at the cursor as a Chord Symbol\n"
+    "The music appears here in the LilyPond typesetter syntax between two markers (§).\n"
+    "It will print as chord name in the sentence you are writing, transposed according to the global transposition set.\n"
+    "This is not just for chords, use this to reference a note name.\n"));
+
+  g_signal_connect (button, "clicked", G_CALLBACK (paste_current_lilypond), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+  
 
   button = gtk_button_new_with_label (_("Bold"));
   gtk_widget_set_tooltip_text (button, _("Inserts markup to make the following text bold. Enclose the words to be bold in {}. \nNote that the section markers (§) must come in pairs"));
@@ -3841,7 +3876,7 @@ SCM scheme_directive_get_for_tag_strict_note (SCM tagname)
     const gchar *tag = NULL;
     if( scm_is_string (tagname))
         tag = scm_to_locale_string (tagname);
-    tag = strict_note_directive_get_tag (tag);
+    tag = strict_note_directive_get_tag ((gchar *)tag);
     if (tag)
         ret = scm_from_locale_string (tag);
 return ret;
