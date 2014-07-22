@@ -16,7 +16,7 @@
 
   (SingleAndSelectionSwitcher accum)
   (set! lily (string-append (d-GetPrevailingClefAsLilyPond) " "  (d-GetPrevailingTimesigAsLilyPond) " "  (d-GetPrevailingKeysigAsLilyPond) " " lily))
-  (set! lily (string-append "\n\\markup \\score {\n{" lily "\n}\n\\layout {indent = 0.0\\cm }\n}"))
+  (set! lily (string-append "\n\\markup \\score {\\DenemoGlobalTranspose\n{" lily "\n}\n\\layout {indent = 0.0\\cm }\n}"))
 
   (SetScoreHeaderField "incipit" (_ "Incipit") #f lily))
   
