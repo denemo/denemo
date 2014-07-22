@@ -44,6 +44,3 @@
         (set! size (/ (string->number (d-ScoreProperties "query=fontsize")) 10.0))
         (set! indent (max (string->number indent) (* size (string-length current))))
         (d-ScoreIndent indent))))
-
-        
-        ))
