@@ -1625,6 +1625,8 @@ actions/menus/ObjectMenu/Score/Typesetter/PointAndClick.scm
 actions/menus/ObjectMenu/Score/Typesetter/PointAndClick.xml
 actions/menus/ObjectMenu/Score/Typesetter/RaggedBottom.scm
 actions/menus/ObjectMenu/Score/Typesetter/RaggedBottom.xml
+actions/menus/ObjectMenu/Score/Typesetter/RaggedLast.scm
+actions/menus/ObjectMenu/Score/Typesetter/RaggedLast.xml
 actions/menus/ObjectMenu/Score/Typesetter/ReduceSystemSpacing.scm
 actions/menus/ObjectMenu/Score/Typesetter/ReduceSystemSpacing.xml
 actions/menus/ObjectMenu/Score/Typesetter/ScoreIndent.scm
