@@ -6814,6 +6814,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Current Duration</_label>
         <_tooltip>Inserts a note of the current duration at the cursor position and moves the cursor right.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>RaggedLast</action>
+        <after>RaggedBottom</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Ragged Last</_label>
+        <_tooltip>When set the last line will not be stretched to fill the line.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

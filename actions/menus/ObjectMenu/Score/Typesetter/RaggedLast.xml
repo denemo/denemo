@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>RaggedLast</action>
+        <after>RaggedBottom</after>
+        <_label>Ragged Last</_label>
+        <_tooltip>When set the last line will not be stretched to fill the line.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
