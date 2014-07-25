@@ -11,14 +11,19 @@
                     (ToggleDirective "staff" "postfix" tag ""(logior  DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX))))
             (d-DirectiveDelete-staff "InstrumentName")
             (ToggleDirective "voice" "prefix" (cons tag (_ "Chord Chart")) (string-append "\\new ChordNames \\with {
-        \\override ChordName.font-size=#" size "
-        \\override ChordName.extra-offset = #'(0 . -2)
-         \\override BarLine.bar-extent = #'(-2 . 2)
+
          \\consists \"Bar_engraver\"
          \\consists \"Script_engraver\"
          \\consists \"Text_engraver\"
          \\consists \"Time_signature_engraver\"
          \\consists \"Multi_measure_rest_engraver\"
+         \\override ChordName.font-size=#" size "
+         \\override ChordName.extra-offset = #'(0 . -2)
+         \\override BarLine.bar-extent = #'(-2 . 2)
+         \\override BarLine #'hair-thickness = #6
+       
+         
+         
         \\numericTimeSignature 
     }
     ")  DENEMO_OVERRIDE_LILYPOND DENEMO_OVERRIDE_GRAPHIC)
