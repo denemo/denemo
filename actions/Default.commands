@@ -6821,6 +6821,20 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Ragged Last</_label>
         <_tooltip>When set the last line will not be stretched to fill the line.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ProportionalNotation</action>
+        <after>DenemoBar</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Proportional Note Spacing</_label>
+        <_tooltip>Spaces notes in proportion to duration, based on the duration given.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>NewSpacing</action>
+        <after>ProportionalNotation</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Start New Spacing</_label>
+        <_tooltip>Spaces notes from cursor onwards based on the spacing given.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
