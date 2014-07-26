@@ -11,7 +11,7 @@
     (if x
         (begin
 		(d-DirectivePut-chord-data tag (format #f "(cons ~s  ~s)" x y))
-		(d-DirectivePut-chord-prefix tag (string-append "\\tweak ChordName.extra-offset  #'(" x " . " y ") "))
+		(d-DirectivePut-chord-prefix tag (string-append "\\once \\override ChordName.extra-offset =#'(" x " . " y ") "))
 		(d-DirectivePut-chord-override tag DENEMO_OVERRIDE_AFFIX)
 		(d-DirectivePut-chord-display tag "<-->")))
 (d-SetSaved #f))
