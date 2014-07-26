@@ -198,6 +198,7 @@
     <button label="Special Barline" _tooltip="Insert a previously created barline. (Any other LilyPond definitions  - see Score-&gt;LilyPond Definition - are here too)." script="(d-InsertDefinedLilyPond)"/>
     <button label="Line Break" _tooltip="Start a new line at this measure." script="(d-LineBreak #t)"/>
     <button label="Whole Measure Repeat" _tooltip="Inserts a whole measure repeat sign." script="(d-WholeMeasureRepeat)"/>
+    <button label="Change Chord Size" _tooltip="Typeset the chord at the cursor larger or smaller than normal." script="(d-IndividualNoteheadSize)"/>
     <button label="Root Chord" _tooltip="Inserts a note of the current duration at the cursor position and moves the cursor right." script="(d-InsertNote)"/>
     <button label="Add Bass Inversion" _tooltip="Adds a bass note to a chord, while keeping the current lowest note as the root of the chord. Use this on Chord Symbol staffs to create an inversion of the chord entered." script="(d-AddBassInversion)"/>
     <button label="m" _tooltip="Inserts a chord at the cursor. Cursor height gives bass note. Use pending sharpen/flatten command for sharp/flat bass note." script="(d-PutNote)&#10; (d-PutNoteName (d-GetCursorNoteWithOctave))&#10;(d-MoveCursorLeft)&#10;(d-AddLowestUpMinor3)&#10;(d-AddLowestUpPerfect5)&#10;(d-MoveCursorRight)"/>
@@ -216,5 +217,5 @@
     <button label="&#x1D15E;" _tooltip="Set the prevailing duration to &#x1D15E; (subsequent chords entered will have this duration)" script="(d-Set1)"/>
     <button label="&#x1D15F;" _tooltip="Set the prevailing duration to &#x1D15F; (subsequent chords entered will have this duration)" script="(d-Set2)"/>
     <button label="/" _tooltip="Insert a repeated chord sign." script="(d-InsertQuarterRest)"/>
- </palette>
+  </palette>
 </Denemo>
