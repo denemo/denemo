@@ -3346,6 +3346,7 @@ highlight_duration (DenemoProject * project, gint dur)
   unhighlight_rhythm (project->prevailing_rhythm);
   project->prevailing_rhythm = Denemo.singleton_rhythms[nb_sr];
   highlight_rhythm (project->prevailing_rhythm);
+  write_status (project);
 }
 
 
