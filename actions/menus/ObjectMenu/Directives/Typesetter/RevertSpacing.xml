@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>RevertSpacing</action>
+        <after>NewSpacing</after>
+        <_label>Revert Spacing</_label>
+        <_tooltip>Spaces notes from cursor onwards in default manner.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
