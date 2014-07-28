@@ -788,6 +788,10 @@ actions/menus/ObjectMenu/Directives/Typesetter/Hide.scm
 actions/menus/ObjectMenu/Directives/Typesetter/Hide.xml
 actions/menus/ObjectMenu/Directives/Typesetter/MMRExpandLimit.scm
 actions/menus/ObjectMenu/Directives/Typesetter/MMRExpandLimit.xml
+actions/menus/ObjectMenu/Directives/Typesetter/NewSpacing.scm
+actions/menus/ObjectMenu/Directives/Typesetter/NewSpacing.xml
+actions/menus/ObjectMenu/Directives/Typesetter/RevertSpacing.scm
+actions/menus/ObjectMenu/Directives/Typesetter/RevertSpacing.xml
 actions/menus/ObjectMenu/Directives/Typesetter/SetBarNumber.scm
 actions/menus/ObjectMenu/Directives/Typesetter/SetBarNumber.xml
 actions/menus/ObjectMenu/Directives/Typesetter/ShiftNext.scm
@@ -1613,8 +1617,6 @@ actions/menus/ObjectMenu/Score/Typesetter/HideEmptyStaffs.scm
 actions/menus/ObjectMenu/Score/Typesetter/HideEmptyStaffs.xml
 actions/menus/ObjectMenu/Score/Typesetter/LimitInterSystemSpace.scm
 actions/menus/ObjectMenu/Score/Typesetter/LimitInterSystemSpace.xml
-actions/menus/ObjectMenu/Score/Typesetter/NewSpacing.scm
-actions/menus/ObjectMenu/Score/Typesetter/NewSpacing.xml
 actions/menus/ObjectMenu/Score/Typesetter/NormalBeamEndings.scm
 actions/menus/ObjectMenu/Score/Typesetter/NormalBeamEndings.xml
 actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberAlignment.scm

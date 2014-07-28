@@ -1,15 +1,20 @@
 ;;;NewSpacing
-(let ((tag "NewSpacing")(count NewSpacing::params))
-    (if (d-Directive-standalone? tag)
+(let* ((tag "NewSpacing")(params NewSpacing::params)(count (d-DirectiveGet-standalone-data tag)))
+    
+    (if (and params (d-Directive-standalone? tag))
         (begin
-            (d-InfoDialog (_ "Reverting to the default spacing"))
-            (d-DirectiveDelete-standalone tag)
-            (StandAloneDirectiveProto (cons tag "\\newSpacingSection\n\\revert Score.SpacingSpanner.spacing-increment\n")  #f "\n->\nDenemo\n48"))
+            (d-InfoDialog (_ (string-append "Spacing of notes from this point is based on spacing-increment " count))))
         (begin
-            (if count
-                (set! count (number->string count))
-                (set! count (d-GetUserInput (_ "Spacing") (_ "Give new spacing: ") "4")))
+            
+            (if (not count)
+                (set! count "4"))
+            (set! count (d-GetUserInput (_ "Spacing") (_ "Give new spacing: ") count))
             (if (and (string? count) (string->number count))
-                    (StandAloneDirectiveProto (cons tag (string-append "\\newSpacingSection\n\\override Score.SpacingSpanner.spacing-increment = #"  count "\n"))  #f "\n<-\nDenemo\n48")
                     (begin
-                        (d-InfoDialog (_ "Prevailing music spacing restored.")))))))
+                        (StandAloneDirectiveProto (cons tag (string-append "\\newSpacingSection\n\\override Score.SpacingSpanner.spacing-increment = #"  count "\n"))  #f "\n<-\nDenemo\n48")
+                        (d-DirectivePut-standalone-data tag count))
+                    (begin
+                      (if (d-Directive-standalone? tag)
+                        (d-InfoDialog (_ "To restore the prevailing music spacing delete this directive object."))
+                         (d-InfoDialog (_ "Note spacing unaltered."))))))))
+

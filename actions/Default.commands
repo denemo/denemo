@@ -6830,10 +6830,16 @@ and others in the LilyPond documentation.</_tooltip>
       </row>
       <row type="scheme">
         <action>NewSpacing</action>
-        <after>ProportionalNotation</after>
-        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
         <_label>Start New Spacing</_label>
         <_tooltip>Spaces notes from cursor onwards based on the spacing given.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>RevertSpacing</action>
+        <after>NewSpacing</after>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
+        <_label>Revert Spacing</_label>
+        <_tooltip>Spaces notes from cursor onwards in default manner.</_tooltip>
       </row>
       <row type="scheme">
         <action>ChordNameOffset</action>
