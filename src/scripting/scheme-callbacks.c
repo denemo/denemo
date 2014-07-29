@@ -2395,15 +2395,10 @@ scheme_chordize (SCM setting)
   note *thenote;
   if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
     return SCM_BOOL (FALSE);
-  if (SCM_BOOLP (setting))
-    {
-      gboolean val = scm_to_bool (setting);
-      if (thechord->chordize != val)
-        {
-          thechord->chordize = val;
-          score_status (gui, TRUE);
-        }
-    }
+  gboolean old =   thechord->chordize;
+  thechord->chordize = scm_is_true (setting);
+  if (old != thechord->chordize)
+    score_status (Denemo.project, TRUE);
   return SCM_BOOL (TRUE);
 }
 
