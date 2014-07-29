@@ -1140,8 +1140,6 @@ actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertBreve.scm
 actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertBreve.xml
 actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertLonga.scm
 actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertLonga.xml
-actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertNote.scm
-actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertNote.xml
 actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertOneNote.scm
 actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertOneNote.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/AccentSelectionSwitcher.scm
