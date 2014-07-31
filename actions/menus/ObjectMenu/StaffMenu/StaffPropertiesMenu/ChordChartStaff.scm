@@ -1,67 +1,74 @@
 ;;;;;ChordChartStaff
-(let ((tag "ChordChartStaff"))
-    (if (and ChordStaff::params (d-Directive-voice? tag))
-        (begin (d-InfoDialog "Use the Staffs/Voices Chord Chart command to turn off the typestting of chord names for this staff"))
-        (let ((size "8"))
-            (if (d-Directive-staff? tag)
-                (begin
-                    (d-DirectiveDelete-timesig tag)
-                    (d-DirectiveDelete-keysig tag)
-                    (d-DirectiveDelete-clef tag)
-                
-                    (d-DirectiveDelete-staff tag)
-                    (d-DirectiveDelete-voice tag))
-                (begin
-                    (set! size (d-GetUserInput (_ "Chord Chart Staff") (_ "Give size of chord symbols required") size))
-                    (if size
+(let ((tag "ChordChartStaff")
+        (choice (RadioBoxMenu (cons (_ "New Chord Chart") 'new) (cons (_ "Customizable Chord Chart") 'custom)(cons (_ "Convert Staff") 'convert)  (cons (_ "Cancel") 'cancel))))
+    (define (create-chart)
+     (if (and ChordStaff::params (d-Directive-voice? tag))
+                (begin (d-InfoDialog "Use the Staffs/Voices Chord Chart command to turn off the typesetting of chord names for this staff"))
+                (let ((size "8"))
+                    (if (d-Directive-staff? tag)
                         (begin
-                            
-                            (while (d-DirectiveGetForTag-staff)
-                               (d-DirectiveDelete-staff (d-DirectiveGetForTag-staff))) 
-                            (while (d-DirectiveGetForTag-voice)
-                               (d-DirectiveDelete-voice (d-DirectiveGetForTag-voice))) 
-                            ;; (while (d-DirectiveGetForTag-timesig)
-                            ;;   (d-DirectiveDelete-timesig (d-DirectiveGetForTag-timesig)))
-                           ;; (while (d-DirectiveGetForTag-keysig)
-                            ;;   (d-DirectiveDelete-keysig (d-DirectiveGetForTag-keysig)))   
-                            ;;(while (d-DirectiveGetForTag-clef)
-                            ;;   (d-DirectiveDelete-clef (d-DirectiveGetForTag-clef)))   
-                            ;;(d-New)            
-                            (ToggleDirective "staff" "prefix" tag ""(logior  DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX))
-                            (ToggleDirective "staff" "postfix" tag ""(logior  DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX))))
-                            (ToggleDirective "voice" "prefix" (cons tag (_ "Chord Chart")) (string-append "\\new ChordNames \\with {
+                            (d-DirectiveDelete-timesig tag)
+                            (d-DirectiveDelete-keysig tag)
+                            (d-DirectiveDelete-clef tag)
+                        
+                            (d-DirectiveDelete-staff tag)
+                            (d-DirectiveDelete-voice tag))
+                        (begin
+                            (set! size (d-GetUserInput (_ "Chord Chart Staff") (_ "Give size of chord symbols required") size))
+                            (if size
+                                (begin
+                                    (while (d-DirectiveGetForTag-staff)
+                                       (d-DirectiveDelete-staff (d-DirectiveGetForTag-staff))) 
+                                    (while (d-DirectiveGetForTag-voice)
+                                       (d-DirectiveDelete-voice (d-DirectiveGetForTag-voice)))
+                                    (ToggleDirective "staff" "prefix" tag ""(logior  DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX))
+                                    (ToggleDirective "staff" "postfix" tag ""(logior  DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX))))
+                                    (ToggleDirective "voice" "prefix" (cons tag (_ "Chord Chart")) (string-append "\\new ChordNames \\with {
 
-         \\consists \"Bar_engraver\"
-         \\consists \"Script_engraver\"
-         \\consists \"Text_engraver\"
-         \\consists \"Time_signature_engraver\"
-         \\consists \"Multi_measure_rest_engraver\"
-         \\override ChordName.font-size=#" size "
-         \\override ChordName.extra-offset = #'(0 . -2)
-         \\override BarLine.bar-extent = #'(-2 . 2)
-         \\override BarLine #'hair-thickness = #6     
-         \\numericTimeSignature 
-    }
-                        ")  DENEMO_OVERRIDE_LILYPOND DENEMO_OVERRIDE_GRAPHIC)
-                        
-                         
-                        (d-DirectivePut-score-display "CustomBarline" (_ "Custom Barlines"))
-                        (d-DirectivePut-score-override tag (logior DENEMO_OVERRIDE_AFFIX))
-                        (d-DirectivePut-score-prefix tag "\n\\defineBarLine \"|\" #'(\"|\" \"|\" \"|\")\n")
-                        
-                        (d-CustomBarline (format #f "'~s" (list (_ "Single") "|" "|" "|" "")))
-                        (d-CustomBarline (format #f "'~s" (list (_ "Double") "|" "||" "||" "")))
-                        (d-CustomBarline (format #f "'~s" (list (_ "RepeatStart")  "[|:"  "[|:" "||" "")))           
-                        (d-CustomBarline (format #f "'~s" (list (_ "RepeatEnd") "|" ":|]"  ":|]"  "")))
-                        (d-Set0)
-                        (d-ScoreIndent 0)
-                        (d-RaggedLast)
-                       
-                        (d-DirectivePut-layout-postfix tag "\\set noChordSymbol = \\markup \\smaller \\bold  \"/\"")
-                         (if (d-Directive-staff? tag)
-                            (begin
-                                (d-BarNumberingInterval 10000) ;; no bar numbers
-                                (ToggleDirective "clef" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND)
-                                (ToggleDirective "keysig" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX)
-                                (ToggleDirective "timesig" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_GRAPHIC)
-                                (d-DirectivePut-timesig-display tag "4/4"))))))))
+                 \\consists \"Bar_engraver\"
+                 \\consists \"Script_engraver\"
+                 \\consists \"Text_engraver\"
+                 \\consists \"Time_signature_engraver\"
+                 \\consists \"Multi_measure_rest_engraver\"
+                 \\override ChordName.font-size=#" size "
+                 \\override ChordName.extra-offset = #'(0 . -2)
+                 \\override BarLine.bar-extent = #'(-2 . 2)
+                 \\override BarLine #'hair-thickness = #6     
+                 \\numericTimeSignature 
+            }
+                                ")  DENEMO_OVERRIDE_LILYPOND DENEMO_OVERRIDE_GRAPHIC)
+                                
+                                 
+                                (d-DirectivePut-score-display "CustomBarline" (_ "Custom Barlines"))
+                                (d-DirectivePut-score-override tag (logior DENEMO_OVERRIDE_AFFIX))
+                                (d-DirectivePut-score-prefix tag "\n\\defineBarLine \"|\" #'(\"|\" \"|\" \"|\")\n")
+                                
+                                (d-CustomBarline (format #f "'~s" (list (_ "Single") "|" "|" "|" "")))
+                                (d-CustomBarline (format #f "'~s" (list (_ "Double") "|" "||" "||" "")))
+                                (d-CustomBarline (format #f "'~s" (list (_ "RepeatStart")  "[|:"  "[|:" "||" "")))           
+                                (d-CustomBarline (format #f "'~s" (list (_ "RepeatEnd") "|" ":|]"  ":|]"  "")))
+                                (d-Set0)
+                                (d-ScoreIndent 0)
+                                (d-RaggedLast)
+                               
+                                (d-DirectivePut-layout-postfix tag "\\set noChordSymbol = \\markup \\smaller \\bold  \"/\"")
+                                 (if (d-Directive-staff? tag)
+                                    (begin
+                                        (d-BarNumberingInterval 10000) ;; no bar numbers
+                                        (ToggleDirective "clef" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND)
+                                        (ToggleDirective "keysig" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX)
+                                        (ToggleDirective "timesig" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_GRAPHIC)
+                                        (d-DirectivePut-timesig-display tag "4/4"))))))))
+
+    (case choice
+    
+        ((cancel)
+            (d-InfoDialog (_ "Cancelled")))
+        ((convert)
+            (create-chart))
+        ((custom)
+            (if (d-New)
+                (d-OpenTemplate "filename=ChordChart.denemo")))
+        ((new) (if (d-New)
+            (create-chart)
+            (d-InfoDialog (_ "Cancelled"))))))
