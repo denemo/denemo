@@ -6,8 +6,8 @@
     <map>
       <row type="scheme">
         <action>HideMovement</action>
-        <_label>(Print) Hide Movement</_label>
-        <_tooltip>Explains how to hide a movement when printing. Removes obsolete directives for this.</_tooltip>
+        <_label>(Print) Hide/Un-hide Movement</_label>
+        <_tooltip>Stops the current movement from being typeset. At least one movement must be typeset.</_tooltip>
       </row>
     </map>
   </merge>

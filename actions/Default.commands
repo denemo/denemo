@@ -2209,8 +2209,8 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       <row type="scheme">
         <action>HideMovement</action>
         <menupath>/ObjectMenu/MovementMenu</menupath>
-        <_label>(Print) Hide Movement</_label>
-        <_tooltip>Hides the movement on printing.</_tooltip>
+        <_label>(Print) Hide/Un-hide Movement</_label>
+        <_tooltip>Stops the current movement from being typeset. At least one movement must be typeset.</_tooltip>
       </row>
       <row type="scheme">
         <action>Hide</action>
