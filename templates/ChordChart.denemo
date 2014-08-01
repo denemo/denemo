@@ -155,15 +155,6 @@ BarSingle</tag>
                 \set Score.barNumberVisibility = #(every-nth-bar-number-visible 10000) </postfix>
         <display>BarNumberingInterval</display>
       </directive>
-      <directive>
-        <tag>Allow
-nineSusFour</tag>
-        <prefix>nineSusFour = \tweak outside-staff-priority #50 -\markup {\epsfile #X #16/3 #"/home/rshann/.denemo-1.1.9/actions/graphics/nineSusFour.eps" }
-</prefix>
-        <display>nineSusFour</display>
-        <data>(list "nineSusFour" "/home/rshann/.denemo-1.1.9/actions/graphics/nineSusFour.eps" "6")</data>
-        <override>268435472</override>
-      </directive>
     </score-directives>
     <total-editing-time>1127</total-editing-time>
   </lilycontrol>
