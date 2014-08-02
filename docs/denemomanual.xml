@@ -241,7 +241,12 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
       <listitem>
       Shift-/ inserts a cautionary accidental
       </listitem>
-
+      <listitem>
+        Esc switches between various views of the music which can allow more music on the screen at once.
+      </listitem>
+      <listitem>
+        TAB alternately inserts a start or stop triplet marker.
+      </listitem>  
     </itemizedlist>
 </para>
  </sect2>
@@ -264,13 +269,18 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
       <listitem>
       Shift Key and Left mouse button drags notes up and down.
       </listitem>
-       
+
       <listitem>
-      CapsLock AND Shift key with Left mouse drag inserts a crescendo
-      </listitem>
+        Double left-button click describes the object clicked on.
+      </listitem>      
+     <listitem>
+        right-button click edits the object at the cursor (with Shift advanced edit).
+      </listitem>      
+            
       <listitem>
-      CapsLock AND AltGr key with Left mouse drag inserts a diminuendo
-      </listitem>
+        Ctrl-Shift left-button drag allow you to move stuff in the display if it is cluttered.
+      </listitem>      
+  
     </itemizedlist>
 </para>
      <para> Two-key shortcuts are also available such as "B,s" for start repeat barline and "B,e" for end repeat barline. 
@@ -1308,7 +1318,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
     <title>Palettes</title>
     <para>
      In the View menu you can select palettes of commands to use. Right-clicking on a palette button allows you to edit the button or the entire palette. You can dock the palette in the main display, arrange it as a column, line or block and much more.
-   </para>    
+   </para> 
  </sect1>     
      
      
