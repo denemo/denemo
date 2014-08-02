@@ -1438,7 +1438,9 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem)
             g_string_assign(lily, "\\bar \":|.\"");
         else if (!g_strcmp0 (" \\bar \"|:\"", postfix))//Note there was a space in the old directive before \bar!
             g_string_assign(lily, "\\bar \".|:\"");
-        else if (!g_strcmp0 (" \\bar \":|:\"", postfix)) //Note there was a space in the old directive!
+        else if (!g_strcmp0 (" \\bar \":|:\"", postfix)) //Note there was a space in (some versions of?) the old directive!
+            g_string_assign(lily, "\\bar \":..:\"");
+        else if (!g_strcmp0 ("\\bar \":|:\"", postfix))
             g_string_assign(lily, "\\bar \":..:\"");
         
        }
