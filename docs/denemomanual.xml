@@ -25,7 +25,7 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
     
     <productname>Denemo <productnumber>1</productnumber></productname>
 
-    <releaseinfo>Version 0.9.4 mostly with some updates for 1.0, 1.1.4</releaseinfo>
+    <releaseinfo>Version 0.9.4 mostly with some updates for 1.0, 1.1.6</releaseinfo>
   </articleinfo>
 
   <sect1>
@@ -297,7 +297,7 @@ alerted to possible pitch spelling errors (e.g. inputting A-sharp for B-flat). B
     <para>
     One score may contain several movements, which you can move between, insert and delete with the Movements menu. A movement is a continuous piece of music with titles etc.
 <note>
-  It is not all that easy to tell that you have several movements; the first thing on the status bar is the movement number. If you try to move to a new movement which isn't there the bell sounds (if enabled).
+  When you have more than one movement numbered buttons appear in the score title bar for you to navigate by. The first thing on the status bar after any pending accidental is the movement number. 
 </note>
  </para>
     <para>
@@ -19000,16 +19000,24 @@ Note is inserted in the prevailing rhythm</entry>
 </tbody></tgroup></informaltable>
 
 
-
-
-
-
-
-
-
 </sect1>
   <sect1 id="DenemoDirectives">
    <title>Denemo Directives</title>
+    <para>
+  Denemo directives are things like special barlines, rehearsal marks that appear amongst the notes, as well things like trills that are attached to notes and modifications
+   to other things in the score to give them a different appearance or behavior. If they are objects in their own right ("Standalone Directives"), 
+   like the first time bar marker then they appear betwen notes
+   and the cursor can be placed on them. If they are attached to other things (such as a page break attached to a movement) then they are modified with the command used to create them.
+  </para>
+  
+     <para>
+  Double clicking on Standalone Directives, gives information about the directive, while right-clicking will edit it.
+  </para> 
+  
+</sect1>
+  <sect1 id="DenemoDirectivesTechnical">
+   <title>Denemo Directives - Technical</title>   
+   
   <para>
   These give attributes to objects that are not built-in but can be changed by the user.
   </para>
