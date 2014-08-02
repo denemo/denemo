@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="7">
   <scheme> (let ((tag1 "CreateCustomizeChordSymbol")(tag2 "InsertCustomizeChordSymbol")(tag3 "ToggleTypeset")) 
+   (d-PushPosition)
+   (while (d-PreviousMovement))
    (d-HideMovement #t)
-
+   (d-PushPosition)
   
    (CreateButton tag1 (string-append " &lt;span font_desc=\"16\" foreground=\"blue\"&gt;" (_ "Create/Load a custom Chord Symbol")"&lt;/span&gt;"))
     (d-SetDirectiveTagActionScript tag1 
@@ -81,7 +83,7 @@ ragged-last = ##t</postfix>
     <papersize>a4</papersize>
     <fontsize>18</fontsize>
     <orientation>1</orientation>
-    <total-edit-time>1127</total-edit-time>
+    <total-edit-time>1803</total-edit-time>
     <score-directives>
       <directive>
         <tag>ScoreIndent</tag>
@@ -156,9 +158,9 @@ BarSingle</tag>
         <display>BarNumberingInterval</display>
       </directive>
     </score-directives>
-    <total-editing-time>1127</total-editing-time>
+    <total-editing-time>1803</total-editing-time>
   </lilycontrol>
-  <movement-number>1</movement-number>
+  <movement-number>2</movement-number>
   <movement>
     <edit-info>
       <staffno>1</staffno>
@@ -458,8 +460,8 @@ instrument = ##f
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>2</measureno>
-      <cursorposition>2</cursorposition>
+      <measureno>1</measureno>
+      <cursorposition>3</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -591,110 +593,27 @@ chordNameExceptions = #(append
         </voice-props>
         <measures>
           <measure>
+            <lily-directive tag="MultiLineTextAnnotation" display="Delete this sample chord and these text markings and &#10;enter the chords for your song, customizing any chord&#10;symbols you wish to alter by editing the first movement." data="Delete this sample chord and these text markings and &#10;enter the chords for your song, customizing any chord&#10;symbols you wish to alter by editing the first movement." prefix="&lt;&gt;-\tweak #'extra-offset #'( -0.18 . -8.36 )" minpixels="30">_\markup\scale #'(1 . 1)\column{\line\large{Delete this sample chord and these text markings and }\line\large{enter the chords for your song, customizing any chord}\line\large{symbols you wish to alter by editing the first movement.}
+}</lily-directive>
+            <lily-directive tag="MultiLineTextAnnotation" display="Sample Chord Only&#10;This, the second movement, is the actual chord chart.&#10;It will use as chord symbols the markup added to the&#10;corresponding chord types in the first movment." data="Delete this sample chord and these text markings and &#10;enter the chords for your song, customizing any chord&#10;symbols you wish to alter by editing the first movement." prefix="&lt;&gt;" minpixels="30">^\markup\scale #'(1.5 . 1.5)\column{\line\large{Sample Chord Only}\line\large{This, the second movement, is the actual chord chart.}\line\large{It will use as chord symbols the markup added to the}\line\large{corresponding chord types in the first movment.}
+}</lily-directive>
             <chord show="true" id="id54">
-              <duration base="quarter"></duration>
+              <duration base="whole"></duration>
               <notes>
                 <note id="id55">
                   <middle-c-offset>3</middle-c-offset>
                 </note>
                 <note id="id56">
                   <middle-c-offset>5</middle-c-offset>
+                  <accidental name="flat" show="true"></accidental>
                 </note>
                 <note id="id57">
                   <middle-c-offset>7</middle-c-offset>
+                  <accidental name="flat" show="true"></accidental>
                 </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id58">
-              <duration base="quarter"></duration>
-              <notes>
-                <note id="id59">
-                  <middle-c-offset>6</middle-c-offset>
-                </note>
-                <note id="id60">
-                  <middle-c-offset>8</middle-c-offset>
-                </note>
-                <note id="id61">
-                  <middle-c-offset>10</middle-c-offset>
-                  <accidental name="sharp" show="true"></accidental>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id62">
-              <duration base="quarter"></duration>
-              <notes>
-                <note id="id63">
-                  <middle-c-offset>6</middle-c-offset>
-                </note>
-                <note id="id64">
-                  <middle-c-offset>11</middle-c-offset>
-                  <accidental name="sharp" show="true"></accidental>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id65">
-              <duration base="quarter"></duration>
-              <notes>
-                <note id="id66">
-                  <middle-c-offset>6</middle-c-offset>
-                </note>
-                <note id="id67">
-                  <middle-c-offset>8</middle-c-offset>
-                </note>
-                <note id="id68">
-                  <middle-c-offset>12</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-          </measure>
-          <measure>
-            <chord show="true" id="id69">
-              <duration base="quarter"></duration>
-              <notes>
-                <note id="id70">
-                  <middle-c-offset>6</middle-c-offset>
-                </note>
-                <note id="id71">
-                  <middle-c-offset>8</middle-c-offset>
-                </note>
-                <note id="id72">
-                  <middle-c-offset>11</middle-c-offset>
-                  <accidental name="sharp" show="true"></accidental>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id73">
-              <duration base="quarter"></duration>
-              <notes>
-                <note id="id74">
-                  <middle-c-offset>6</middle-c-offset>
-                </note>
-                <note id="id75">
-                  <middle-c-offset>8</middle-c-offset>
-                </note>
-                <note id="id76">
-                  <middle-c-offset>10</middle-c-offset>
-                </note>
-                <note id="id77">
-                  <middle-c-offset>12</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id78">
-              <duration base="quarter"></duration>
-              <notes>
-                <note id="id79">
-                  <middle-c-offset>6</middle-c-offset>
-                </note>
-                <note id="id80">
+                <note id="id58">
                   <middle-c-offset>9</middle-c-offset>
-                </note>
-                <note id="id81">
-                  <middle-c-offset>12</middle-c-offset>
-                </note>
-                <note id="id82">
-                  <middle-c-offset>14</middle-c-offset>
-                  <accidental name="sharp" show="true"></accidental>
+                  <accidental name="flat" show="true"></accidental>
                 </note>
               </notes>
             </chord>
