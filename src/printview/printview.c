@@ -70,6 +70,13 @@ libevince_print (void)
       g_warning ("Typesetting not done? No output filename set.");
       return -1;
   }
+#ifdef G_OS_WIN32
+    infodialog("Direct Printing not available under Windows. Create PDF and print from that");
+    return -1;
+#endif
+  
+  
+  
   gchar *uri = g_filename_to_uri (filename, NULL, &err);
 
   if (err)
