@@ -3231,7 +3231,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <after>CreateTriplet</after>
         <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
         <_label>Create Slurred Triplet</_label>
-        <_tooltip>Duplicates the current note twice making a triplet and slurring all three notes.</_tooltip>
+        <_tooltip>If a MIDI controller is active duplicates the current note twice making a triplet and slurring all three notes, otherwise same as Toggle Tripleting command.</_tooltip>
       </row>
       <row type="scheme">
         <action>DottedRhythmSlurred</action>
@@ -3251,7 +3251,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <after>ToggleTupletBracketsIfBeamed</after>
         <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
         <_label>Create Triplet</_label>
-        <_tooltip>Takes the current note and appends two more making all three a triplet.</_tooltip>
+        <_tooltip>If a MIDI controller is active takes the current note and appends two more making all three a triplet, otherwise same as Toggle Tripleting command.</_tooltip>
       </row>
       <row type="scheme">
         <action>CriticalComment</action>

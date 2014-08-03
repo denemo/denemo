@@ -8,7 +8,7 @@
         <after>ToggleTupletBracketsIfBeamed</after>
         <action>CreateTriplet</action>
         <_label>Create Triplet</_label>
-        <_tooltip>Takes the current note and appends two more making all three a triplet.</_tooltip>
+        <_tooltip>If a MIDI controller is active takes the current note and appends two more making all three a triplet, otherwise same as Toggle Tripleting command.</_tooltip>
       </row>
     </map>
   </merge>

@@ -8,7 +8,7 @@
         <after>CreateTriplet</after>
         <action>CreateTripletSlurred</action>
         <_label>Create Slurred Triplet</_label>
-        <_tooltip>Duplicates the current note twice making a triplet and slurring all three notes.</_tooltip>
+        <_tooltip>If a MIDI controller is active duplicates the current note twice making a triplet and slurring all three notes, otherwise same as Toggle Tripleting command.</_tooltip>
       </row>
     </map>
   </merge>
