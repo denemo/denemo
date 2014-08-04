@@ -43,6 +43,13 @@
                 (begin 
                     (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
                     (staff))))))
+                    
+    (if (not CheckScore::return)
+        (begin
+            (d-CheckBraces 'noninteractive)
+            (set! CheckScore::return CheckBraces::Return)))
+                        
+                                        
     (if (and (not CheckScore::return) (d-NextMovement))
             (movement)))
             
