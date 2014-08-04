@@ -3008,6 +3008,13 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>Checks each measure for complete number of beats, ignoring Anacrusis and ShortMeasure ones. Stops at anything bad.</_tooltip>
       </row>
       <row type="scheme">
+        <action>ChoirStaffStart</action>
+        <after>PianoStaffEnd</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
+        <_label>ChoirStaff Start</_label>
+        <_tooltip>Start grouping single staves together in order to form multi-stave systems. In a ChoirStaff, the group starts with a bracket, but bar lines are not connected. </_tooltip>
+      </row>
+      <row type="scheme">
         <action>ChoirStaffEnd</action>
         <after>ChoirStaffStart</after>
         <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
@@ -3015,12 +3022,33 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>Stop ChoirStaff multi-stave system.</_tooltip>
       </row>
       <row type="scheme">
-        <action>ChoirStaffStart</action>
-        <after>PianoStaffEnd</after>
+        <action>GrandStaffStart</action>
+        <after>ChoirStaffEnd</after>
         <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
-        <_label>ChoirStaff Start</_label>
-        <_tooltip>Start grouping single staves together in order to form multi-stave systems. In a ChoirStaff, the group starts with a bracket, but bar lines are not connected. </_tooltip>
+        <_label>GrandStaff Start</_label>
+        <_tooltip>Start grouping single staves together in order to form multi-stave systems. In a GrandStaff, the group begins with a brace, and bar lines are connected between the staves.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>GrandStaffEnd</action>
+        <after>GrandStaffStart</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
+        <_label>GrandStaff End</_label>
+        <_tooltip>Stop GrandStaff multi-stave system.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>GroupStaffStart</action>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
+        <_label>GroupStaff Start</_label>
+        <_tooltip>Start grouping single staves together in order to form multi-stave systems. In the StaffGroup context, the group is started with a bracket and bar lines are drawn through all the staves.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>GroupStaffEnd</action>
+        <after>GroupStaffStart</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
+        <_label>GroupStaff End</_label>
+        <_tooltip>Stop GroupStaff multi-stave system.</_tooltip>
+      </row>
+ 
       <row type="scheme">
         <action>ChooseBarline</action>
         <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
@@ -3399,8 +3427,29 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>Delete all selected objects and leave empty measures behind</_tooltip>
       </row>
       <row type="scheme">
+        <action>PianoStaffStart</action>
+        <after>GroupStaffEnd</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
+        <_label>PianoStaff Start</_label>
+        <_tooltip>Start grouping single staves together in order to form multi-stave systems. The PianoStaff is identical to a GrandStaff, except that it supports printing the instrument name directly.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>PianoStaffEnd</action>
+        <after>PianoStaffStart</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
+        <_label>PianoStaff End</_label>
+        <_tooltip>Stop PianoStaff multi-stave system.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>PianoStaffName</action>
+        <after>PianoStaffEnd</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
+        <_label>Piano Staff Name</_label>
+        <_tooltip>Prints the name given at the start of the Piano staff which must be where the cursor is. Remove instrument names on the individual staffs by setting them blank.</_tooltip>
+      </row>
+      <row type="scheme">
         <action>DeleteStaffGroupings</action>
-        <after>GrandStaffEnd</after>
+        <after>PianoStaffName</after>
         <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
         <_label>Delete all staff contexts</_label>
         <_tooltip>Clear the staff from all groupings</_tooltip>
@@ -3832,33 +3881,8 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Grace/UnGrace</_label>
         <_tooltip>Changes the note at the cursor to/from being a grace note. Gives audio feedback.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>GrandStaffEnd</action>
-        <after>GrandStaffStart</after>
-        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
-        <_label>GrandStaff End</_label>
-        <_tooltip>Stop GrandStaff multi-stave system.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>GrandStaffStart</action>
-        <after>ChoirStaffEnd</after>
-        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
-        <_label>GrandStaff Start</_label>
-        <_tooltip>Start grouping single staves together in order to form multi-stave systems. In a GrandStaff, the group begins with a brace, and bar lines are connected between the staves.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>GroupStaffEnd</action>
-        <after>GroupStaffStart</after>
-        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
-        <_label>GroupStaff End</_label>
-        <_tooltip>Stop GroupStaff multi-stave system.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>GroupStaffStart</action>
-        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
-        <_label>GroupStaff Start</_label>
-        <_tooltip>Start grouping single staves together in order to form multi-stave systems. In the StaffGroup context, the group is started with a bracket and bar lines are drawn through all the staves.</_tooltip>
-      </row>
+
+
       <row type="scheme">
         <action>HalfBarline</action>
         <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
@@ -4798,27 +4822,8 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Petrucci</_label>
         <_tooltip>Petrucci note head style for the current movement.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>PianoStaffName</action>
-        <after>DeleteStaffGroupings</after>
-        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
-        <_label>Piano Staff Name</_label>
-        <_tooltip>Prints the name given at the start of the Piano staff which must be where the cursor is. Remove instrument names on the individual staffs by setting them blank.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>PianoStaffEnd</action>
-        <after>PianoStaffStart</after>
-        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
-        <_label>PianoStaff End</_label>
-        <_tooltip>Stop PianoStaff multi-stave system.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>PianoStaffStart</action>
-        <after>GroupStaffEnd</after>
-        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
-        <_label>PianoStaff Start</_label>
-        <_tooltip>Start grouping single staves together in order to form multi-stave systems. The PianoStaff is identical to a GrandStaff, except that it supports printing the instrument name directly.</_tooltip>
-      </row>
+
+
       <row type="scheme">
         <action>MovementPiece</action>
         <menupath>/ObjectMenu/MovementMenu/Titles/SimpleTitles</menupath>
@@ -6840,6 +6845,12 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/ChordMenu</menupath>
         <_label>Offset Chord Name</_label>
         <_tooltip>Offsets the Chord symbol generated by the chord at the cursor.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>CheckBraces</action>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
+        <_label>Check Braces</_label>
+        <_tooltip>Checks the braces (staff groupings) for this movement.</_tooltip>
       </row>
     </map>
   </merge>

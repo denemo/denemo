@@ -1707,6 +1707,8 @@ actions/menus/ObjectMenu/StaffMenu/PrintEffects/TransposeStaffOutput.scm
 actions/menus/ObjectMenu/StaffMenu/PrintEffects/TransposeStaffOutput.xml
 actions/menus/ObjectMenu/StaffMenu/SimplifyTies.scm
 actions/menus/ObjectMenu/StaffMenu/SimplifyTies.xml
+actions/menus/ObjectMenu/StaffMenu/StaffGroupings/CheckBraces.scm
+actions/menus/ObjectMenu/StaffMenu/StaffGroupings/CheckBraces.xml
 actions/menus/ObjectMenu/StaffMenu/StaffGroupings/ChoirStaffEnd.scm
 actions/menus/ObjectMenu/StaffMenu/StaffGroupings/ChoirStaffEnd.xml
 actions/menus/ObjectMenu/StaffMenu/StaffGroupings/ChoirStaffStart.scm

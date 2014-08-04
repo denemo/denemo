@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>CheckBraces</action>
+        <_label>Check Braces</_label>
+        <_tooltip>Checks the braces (staff groupings) for this movement.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
