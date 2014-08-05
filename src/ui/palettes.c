@@ -103,9 +103,11 @@ void repack_palette (DenemoPalette *pal)
     {
         gtk_window_resize (GTK_WINDOW(pal->window), 1, 1);
         gtk_widget_show (pal->window);
+        gtk_widget_set_can_focus (pal->window, FALSE);
+        switch_back_to_main_window ();
     }
     gtk_widget_show(pal->box);
-    gtk_widget_set_can_focus (pal->box, FALSE);
+   
 }
 
 
