@@ -936,7 +936,7 @@
         (let ((filename
             (string-append DENEMO_LOCAL_ACTIONS_DIR "//graphics//" name ".eps")))
             (if (d-FileExists filename)
-                (d-CustomOrnamentDefinition (list name filename 2))
-                #f))))
+                (d-CustomOrnamentDefinition (list name filename 2)))
+                #f)))
                 
                 
