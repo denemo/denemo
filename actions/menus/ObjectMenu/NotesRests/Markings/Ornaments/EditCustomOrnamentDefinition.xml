@@ -7,8 +7,8 @@
       <row type="scheme">
         <action>EditCustomOrnamentDefinition</action>
         <after>CustomOrnamentDefinition</after>
-        <_label>Edit Custom Ornament</_label>
-        <_tooltip>Edit the definition (size or appearance) of a custom ornament definition. The definition must already have been created in this score.</_tooltip>
+        <_label>Edit Custom Ornament Definition</_label>
+        <_tooltip>Edit the definition (size or appearance) of a custom ornament definition. The definition must already have been created/loaded in this score.</_tooltip>
       </row>
     </map>
   </merge>
