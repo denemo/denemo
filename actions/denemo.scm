@@ -936,7 +936,19 @@
         (let ((filename
             (string-append DENEMO_LOCAL_ACTIONS_DIR "//graphics//" name ".eps")))
             (if (d-FileExists filename)
-                (d-CustomOrnamentDefinition (list name filename 2)))
-                #f)))
+                    (begin
+                        (d-WarningDialog (_ "This definition is not loaded ... trying to load"))
+                        (d-CustomOrnamentDefinition (list name filename 2))
+                        )
+                    #f))))
                 
                 
+;;;;;;;;;;
+(define (ToggleOrnament name params)
+(let ((tag (string-append "Toggle" (string-upcase name 0  1)))(filename (scheme-escape (string-append DENEMO_GRAPHICS_DIR name ".eps"))))
+                        (ChordOrnament tag (string-append "\\" name)   params   name)
+(if (not (d-Directive-score? (string-append "Allow\n" name)))
+    (begin
+        (d-LilyPondDefinition (cons name (string-append "\\tweak outside-staff-priority #50 -\\markup {\\epsfile #X #2 #\"" filename "\""   "}" )))
+        (d-DirectivePut-score-data (string-append "Allow\n" name) (string-append "(list \"" name "\" \"" filename  "\" \"2\")"))))))
+ 
