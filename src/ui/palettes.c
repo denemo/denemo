@@ -105,7 +105,7 @@ void repack_palette (DenemoPalette *pal)
         gtk_widget_show (pal->window);
     }
     gtk_widget_show(pal->box);
-    gtk_widget_set_can_focus (parent, FALSE);
+    gtk_widget_set_can_focus (pal->box, FALSE);
 }
 
 
