@@ -3048,7 +3048,6 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_label>GroupStaff End</_label>
         <_tooltip>Stop GroupStaff multi-stave system.</_tooltip>
       </row>
- 
       <row type="scheme">
         <action>ChooseBarline</action>
         <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
@@ -3881,8 +3880,6 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Grace/UnGrace</_label>
         <_tooltip>Changes the note at the cursor to/from being a grace note. Gives audio feedback.</_tooltip>
       </row>
-
-
       <row type="scheme">
         <action>HalfBarline</action>
         <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
@@ -4822,8 +4819,6 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Petrucci</_label>
         <_tooltip>Petrucci note head style for the current movement.</_tooltip>
       </row>
-
-
       <row type="scheme">
         <action>MovementPiece</action>
         <menupath>/ObjectMenu/MovementMenu/Titles/SimpleTitles</menupath>
@@ -6731,8 +6726,8 @@ then this will replace the standard ornament throughout the score.</_tooltip>
         <action>EditCustomOrnamentDefinition</action>
         <after>CustomOrnamentDefinition</after>
         <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
-        <_label>Edit Custom Ornament</_label>
-        <_tooltip>Edit the definition (size or appearance) of a custom ornament definition. The definition must already have been created in this score.</_tooltip>
+        <_label>Edit Custom Ornament Definition</_label>
+        <_tooltip>Edit the definition (size or appearance) of a custom ornament definition. The definition must already have been created/loaded in this score.</_tooltip>
       </row>
       <row type="scheme">
         <action>ToggleTremblement</action>
@@ -6851,6 +6846,13 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
         <_label>Check Braces</_label>
         <_tooltip>Checks the braces (staff groupings) for this movement.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>AdjustCustomOrnament</action>
+        <after>EditCustomOrnamentDefinition</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <_label>Adjust Ornament</_label>
+        <_tooltip>Place the ornament attached to the note at the cursor above/below or adjust padding around it.</_tooltip>
       </row>
     </map>
   </merge>

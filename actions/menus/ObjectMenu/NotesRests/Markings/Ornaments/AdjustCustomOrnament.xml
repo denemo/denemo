@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>AdjustCustomOrnament</action>
+        <after>EditCustomOrnamentDefinition</after>
+        <_label>Adjust Ornament</_label>
+        <_tooltip>Place the ornament attached to the note at the cursor above/below or adjust padding around it.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
