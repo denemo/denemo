@@ -6,10 +6,10 @@
 # Pavel Fric <pavelfric@seznam.cz>, 2011, 2012, 2013, 2014.
 msgid ""
 msgstr ""
-"Project-Id-Version: denemo-1.1.6-rc1\n"
+"Project-Id-Version: denemo-1.1.8-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
-"POT-Creation-Date: 2014-05-26 09:26+0100\n"
-"PO-Revision-Date: 2014-06-10 10:42+0200\n"
+"POT-Creation-Date: 2014-07-17 11:38-0500\n"
+"PO-Revision-Date: 2014-08-04 21:40+0200\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "Language: cs\n"
@@ -135,6 +135,8 @@ msgstr "po"
 #.
 #: ../src/command/changenotehead.c:22 ../src/command/changenotehead.c:34
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:18
+#: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm:11
+#: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm:11
 msgid "Normal"
 msgstr "Obvyklá"
 
@@ -161,67 +163,63 @@ msgstr "Změnit notovou hlavičkuo"
 msgid "Select Notehead Type"
 msgstr "Vybrat notovou hlavičku"
 
-#: ../src/command/commandfuncs.c:457
+#: ../src/command/commandfuncs.c:458
 #, c-format
 msgid "This movement is now number %d in the score"
 msgstr "Tato věta je nyní číslo %d v notovém zápisu"
 
-#: ../src/command/commandfuncs.c:463
+#: ../src/command/commandfuncs.c:464
 msgid "There is no previous movement to swap with"
 msgstr "Není tu žádná předchozí věta, se kterou by se dala prohodit"
 
 #. give info about removing matching context
-#: ../src/command/commandfuncs.c:483 ../src/command/staffops.c:423
+#: ../src/command/commandfuncs.c:484 ../src/command/staffops.c:423
 msgid "A context is set on this staff"
 msgstr "Prostředí je nastaveno na tuto osnovu"
 
-#: ../src/command/commandfuncs.c:483
+#: ../src/command/commandfuncs.c:484
 msgid "You will need to alter the staff → properties → context of this and the previous staff; Proceed?"
 msgstr "Bude potřeba, abyste změnil Osnova → Vlastnosti → Prostředí této a předchozí osnovy. Pokračovat?"
 
-#: ../src/command/commandfuncs.c:499
+#: ../src/command/commandfuncs.c:500
 msgid "Split off voices from this staff first"
 msgstr "Nejprve oddělit hlasy z této notové osnovy"
 
-#: ../src/command/commandfuncs.c:502
+#: ../src/command/commandfuncs.c:503
 msgid "There is no previous staff to swap with"
 msgstr "Není tu žádná předchozí osnova, se kterou by se dala prohodit"
 
-#: ../src/command/commandfuncs.c:523
+#: ../src/command/commandfuncs.c:524
 msgid "There is no voice below this one on this staff"
 msgstr "Na této osnově není pod tímto žádný hlas"
 
-#: ../src/command/commandfuncs.c:532
+#: ../src/command/commandfuncs.c:533
 msgid "There is no voice below this one to split from"
 msgstr "Pod tímto hlasem není žádný hlas, od kterého by se oddělil"
 
-#: ../src/command/commandfuncs.c:559
+#: ../src/command/commandfuncs.c:560
 msgid "There is no staff above to move this staff into"
 msgstr "Nad touto osnovou není žádná osnova, ke které by se tato osnova přesunula"
 
 #. is interactive
-#: ../src/command/commandfuncs.c:595
+#: ../src/command/commandfuncs.c:596
 msgid "This is the first voice"
 msgstr "Toto je první hlas"
 
 #. is interactive
-#: ../src/command/commandfuncs.c:639
+#: ../src/command/commandfuncs.c:640
 msgid "This is the first staff"
 msgstr "Toto je první osnova"
 
 #. is interactive
-#: ../src/command/commandfuncs.c:679
+#: ../src/command/commandfuncs.c:680
 msgid "This is the last voice"
 msgstr "Toto je poslední hlas"
 
 #. is interactive
-#: ../src/command/commandfuncs.c:756
+#: ../src/command/commandfuncs.c:757
 msgid "This is the last staff"
 msgstr "Toto je poslední osnova"
-
-#: ../src/command/commandfuncs.c:2801
-msgid "Timer left running"
-msgstr "Časovač běží"
 
 #: ../src/command/fakechord.c:166
 msgid "There is no object here to attach a fakechord to."
@@ -402,8 +400,8 @@ msgstr "Nepodařilo se získat obsah %s"
 msgid "There is already an edit script for this tag"
 msgstr "Pro tuto značku je tu již upravovací skript"
 
-#: ../src/command/lilydirectives.c:2392 ../src/core/view.c:2497
-#: ../src/export/file.c:1175
+#: ../src/command/lilydirectives.c:2392 ../src/core/view.c:2501
+#: ../src/export/file.c:1193
 msgid "Do you want to replace it?"
 msgstr "Chcete jej nahradit?"
 
@@ -502,7 +500,7 @@ msgid "Upload Edit Script"
 msgstr "Nahrát upravovací skript"
 
 #. a check item for showing script window
-#: ../src/command/lilydirectives.c:2538 ../src/core/view.c:3228
+#: ../src/command/lilydirectives.c:2538 ../src/core/view.c:3256
 msgid "Show Current Script"
 msgstr "Ukázat nynější skript"
 
@@ -517,10 +515,13 @@ msgstr "Opravdu chcete smazat příkaz?"
 #: ../src/command/lilydirectives.c:2682 ../src/export/print.c:527
 #: ../src/ui/palettes.c:204 ../actions/denemo-modules/directives.scm:28
 #: ../actions/denemo-modules/directives.scm:40
-#: ../actions/denemo-modules/wysiwyg.scm:356
+#: ../actions/denemo-modules/wysiwyg.scm:357
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:46
 #: ../actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm:30
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/AttachedText.scm:38
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextAbove.scm:23
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:28
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:133
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:35
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.scm:23
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm:87
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/LoadMidiTrack.scm:24
 msgid "Cancelled"
@@ -538,7 +539,7 @@ msgstr "Nejsou zde žádné příkazy"
 msgid "No directive selected"
 msgstr "Nebyl vybrán žádný příkaz"
 
-#: ../src/command/lilydirectives.c:2731 ../src/core/view.c:2306
+#: ../src/command/lilydirectives.c:2731 ../src/core/view.c:2310
 #: ../actions/denemo-modules/directives.scm:77
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:49
 #: ../actions/menus/ObjectMenu/MeasureMenu/Upbeat.scm:49
@@ -628,7 +629,29 @@ msgstr ""
 "Oddělte slabiky kombinací mezera dvakrát spojovník mezera:, -- , pokud mají mít svoji vlastní notu/své vlastní noty.\n"
 "Nové řádky a zvláštní mezery nemají žádný zvláštní význam. Legata na notách vedou k tomu, že tyto noty berou jen jednu slabiku. Použijte znaku podtržítka _ na prázdné slabiky."
 
-#: ../src/command/lyric.c:311
+#: ../src/command/lyric.c:303
+#: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm:16
+msgid "Stanza Number"
+msgstr "Číslo sloky"
+
+#: ../src/command/lyric.c:303
+msgid "Give text to appear before lyrics"
+msgstr "Zadejte text, aby se objevil před textem písně"
+
+#: ../src/command/lyric.c:303
+msgid "1. "
+msgstr "1. "
+
+#: ../src/command/lyric.c:327
+#: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.xml.h:1
+msgid "Insert Stanza Number"
+msgstr "Vložit číslo sloky"
+
+#: ../src/command/lyric.c:327
+msgid "Insert a stanza number using the LilyPond syntax"
+msgstr "Vložit číslo sloky pomocí skladby LilyPondu"
+
+#: ../src/command/lyric.c:364
 #, c-format
 msgid "Verse %d"
 msgstr "Sloka %d"
@@ -674,7 +697,7 @@ msgstr ""
 msgid "Actions for this Layout"
 msgstr "Činnosti pro toto rozvržení"
 
-#: ../src/command/scorelayout.c:570 ../src/printview/printview.c:2381
+#: ../src/command/scorelayout.c:570 ../src/printview/printview.c:2400
 msgid "Typeset"
 msgstr "Sazba"
 
@@ -729,8 +752,16 @@ msgstr "Převede toto rozvržení na text Lilypond pro další úpravy."
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:55
 #: ../actions/menus/ObjectMenu/MeasureMenu/Upbeat.scm:46
 #: ../actions/menus/ObjectMenu/MeasureMenu/Upbeat.scm:55
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:16
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:15
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:5
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:5
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:18
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.scm:29
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DynamicMarkings/DeleteDynamic.xml.h:1
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:5
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.scm:8
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:17
 msgid "Delete"
 msgstr "Smazat"
 
@@ -738,7 +769,7 @@ msgstr "Smazat"
 msgid "Discard this customized score layout."
 msgstr "Zahodit vlastní rozvržení notového zápisu."
 
-#: ../src/command/scorelayout.c:606 ../src/printview/printview.c:2398
+#: ../src/command/scorelayout.c:606 ../src/printview/printview.c:2417
 msgid "Refresh"
 msgstr "Obnovit"
 
@@ -779,6 +810,14 @@ msgstr "Zahodit toto standardní rozvržení notového zápisu."
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:350
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:355
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:27
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:15
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:14
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:5
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:5
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:17
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.scm:29
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:5
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:16
 msgid "Edit"
 msgstr "Úpravy"
 
@@ -897,7 +936,7 @@ msgstr "Posunout tento prvek dolů pro toto rozvržení notového zápisu"
 msgid "Remove this element from this layout"
 msgstr "Smazat tento prvek z tohoto rozvržení notového zápisu"
 
-#: ../src/command/scorelayout.c:984 ../actions/denemo-modules/wysiwyg.scm:489
+#: ../src/command/scorelayout.c:984 ../actions/denemo-modules/wysiwyg.scm:501
 #: ../actions/menus/ObjectMenu/Directives/PrintLayout/PageBreak.xml.h:1
 msgid "Page Break"
 msgstr "Zalomení strany"
@@ -1165,7 +1204,7 @@ msgid "Set book titles for the score"
 msgstr "Nastavit názvy knih v notovém zápisu"
 
 #: ../src/command/scorelayout.c:1867 ../src/core/utils.c:1983
-#: ../src/printview/printview.c:2388
+#: ../src/printview/printview.c:2407
 msgid "Movement"
 msgstr "Věta"
 
@@ -1217,7 +1256,7 @@ msgstr ""
 "(například když jste provedl stavební změny v notovém zápisu, které\n"
 "se neodráží v tomto rozvržení."
 
-#: ../src/command/scorelayout.c:2807
+#: ../src/command/scorelayout.c:2809
 msgid ""
 "This is a customized layout, which has been transformed into instructions for the LilyPond music typesetter.\n"
 "This is the form in which customized layouts are stored in a Denemo score on disk - the graphical interface is no longer available. You can, however still edit the layout with care (and some understanding of LilyPond).\n"
@@ -1229,15 +1268,15 @@ msgstr ""
 "Použijte na to okno Pohled → LilyPond.\n"
 "Jinak je můžete smazat a vytvořit nové ze standardního rozvržení."
 
-#: ../src/command/scorelayout.c:2831
+#: ../src/command/scorelayout.c:2834
 msgid "Custom Scoreblock"
 msgstr "Vlastní blok notového zápisu"
 
-#: ../src/command/scorelayout.c:2923
+#: ../src/command/scorelayout.c:2925
 msgid "Typesets this layout"
 msgstr "Vysází toto rozvržení"
 
-#: ../src/command/scoreops.c:117
+#: ../src/command/scoreops.c:122
 #, c-format
 msgid ""
 "This is the current movement number %d\n"
@@ -1246,49 +1285,49 @@ msgstr ""
 "Toto je nynější věta číslo %d.\n"
 "Klepněte na jiné tlačítko pro změnu věty"
 
-#: ../src/command/scoreops.c:129
+#: ../src/command/scoreops.c:134
 #, c-format
 msgid "Click to switch to movement number %d"
 msgstr "Klepněte pro přepnutí věty číslo %d"
 
-#: ../src/command/scoreops.c:266
+#: ../src/command/scoreops.c:279
 msgid "This is the only movement"
 msgstr "Toto je jediná věta"
 
-#: ../src/command/scoreops.c:267
+#: ../src/command/scoreops.c:280
 msgid "Delete it and start over?"
 msgstr "Smazat ji a začít od začátku?"
 
-#: ../src/command/scoreops.c:279
+#: ../src/command/scoreops.c:292
 #, c-format
 msgid "This is movement #%d"
 msgstr "Toto je věta #%d"
 
-#: ../src/command/scoreops.c:280
+#: ../src/command/scoreops.c:293
 msgid "Delete entire movement?"
 msgstr "Smazat celou větu?"
 
-#: ../src/command/scoreops.c:320
+#: ../src/command/scoreops.c:333
 msgid "No such movement"
 msgstr "Věta nenalezena"
 
-#: ../src/command/scoreops.c:334
+#: ../src/command/scoreops.c:353
 msgid "No such voice"
 msgstr "Hlas nenalezen"
 
-#: ../src/command/scoreops.c:340
+#: ../src/command/scoreops.c:359
 msgid "No such measure"
 msgstr "Takt nenalezen"
 
-#: ../src/command/scoreops.c:437
+#: ../src/command/scoreops.c:456
 msgid "This is the last movement"
 msgstr "Toto je poslední věta"
 
-#: ../src/command/scoreops.c:494
+#: ../src/command/scoreops.c:512
 msgid "This is the first movement"
 msgstr "Toto je první věta"
 
-#: ../src/command/scoreops.c:613
+#: ../src/command/scoreops.c:628
 msgid ""
 "A button bar that can be populated by Movement titles and other user generated buttons.\n"
 "Generally by clicking the button you can edit the title or value or execute the action of the button"
@@ -1301,7 +1340,7 @@ msgstr ""
 msgid "poly voice %d"
 msgstr "Vícehlas %d"
 
-#: ../src/command/staffops.c:313 ../src/core/view.c:673
+#: ../src/command/staffops.c:313 ../src/core/view.c:677
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm:23
 msgid "Unnamed"
 msgstr "Bez názvu"
@@ -1344,15 +1383,19 @@ msgstr "Jmenovatel"
 msgid "Could not parse command line: %s"
 msgstr "Nepodařilo se zpracovat příkazový řádek: %s"
 
-#: ../src/core/importxml.c:2520 ../src/core/importxml.c:2524
+#: ../src/core/graphicseditor.c:48
+msgid "Graphics File"
+msgstr "Grafický soubor"
+
+#: ../src/core/importxml.c:2554 ../src/core/importxml.c:2558
 msgid "Obsolete form, use earlier Denemo version to convert"
 msgstr "Zastaralý formulář. Na převod použijte dřívější verzi Denema"
 
-#: ../src/core/importxml.c:2997
+#: ../src/core/importxml.c:3031
 msgid "Custom prolog is no longer supported. Use score directive prefix instead"
 msgstr "Vlastní úvod (prolog) není nadále podporován. Místo něj použijte předponu příkazu notového zápisu"
 
-#: ../src/core/importxml.c:3065
+#: ../src/core/importxml.c:3099
 msgid "Erroneous call"
 msgstr "Chybné volání"
 
@@ -1411,7 +1454,7 @@ msgstr ""
 msgid "The Command %s Responds to the Shortcut %s"
 msgstr "Příkaz %s odpovídá zkratce %s"
 
-#: ../src/core/kbd-custom.c:1291 ../src/core/view.c:2206
+#: ../src/core/kbd-custom.c:1291 ../src/core/view.c:2210
 #, c-format
 msgid "Lose the shortcut %s for this?"
 msgstr "Ztratit klávesovou zkratku %s pro toto?"
@@ -1436,7 +1479,7 @@ msgstr "Nelze přistupovat k vašemu místnímu .denemo"
 msgid "Installation error"
 msgstr "Chyba při instalaci"
 
-#: ../src/core/kbd-custom.c:1702 ../src/core/view.c:3131
+#: ../src/core/kbd-custom.c:1702 ../src/core/view.c:3159
 #: ../src/generated/entries.h:267 ../src/generated/register_commands.h:247
 msgid "Save Command Set"
 msgstr "Uložit seznam příkazů"
@@ -1454,6 +1497,9 @@ msgid "Hidden"
 msgstr "Skryto"
 
 #: ../src/core/kbd-custom.c:1993
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:27
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:27
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.scm:25
 msgid "Deleted"
 msgstr "Smazáno"
 
@@ -1654,8 +1700,8 @@ msgid "Denemo Upgrade"
 msgstr "Povýšení Denema"
 
 #: ../src/core/prefops.c:41
-msgid "Re-use your old preferences and shortcuts?"
-msgstr "Použít znovu vaše stará nastavení a klávesové zkratky?"
+msgid "Re-use your old preferences, palettes and shortcuts?"
+msgstr "Použít znovu vaše stará nastavení , palety a klávesové zkratky?"
 
 #: ../src/core/utils.c:65
 msgid "Could not create .denemo for you personal settings"
@@ -1674,7 +1720,7 @@ msgstr ""
 "Toto ukazuje, že sazeč LilyPondu ještě pracuje na sazbě notového zápisu Denema. Může to trvat dlouho, obzvláště v případě vícehlasu, kde se hlasy nesmí střetávat. Můžete pokračovat v úpravách, zatímco sázení pokračuje.\n"
 "Toto okno zabijte, pokud chcete sázení spustit znovu, to jest po opravě chyby, již jste si právě všiml."
 
-#: ../src/core/utils.c:1476 ../src/export/file.c:182
+#: ../src/core/utils.c:1476 ../src/export/file.c:199
 msgid "(Untitled)"
 msgstr "(Bez názvu)"
 
@@ -2102,38 +2148,38 @@ msgstr "Připojuje se"
 msgid "Not Appending"
 msgstr "Nepřipojuje se"
 
-#: ../src/core/utils.c:2449
+#: ../src/core/utils.c:2476
 #, c-format
 msgid "Mouse shortcut <span font_desc=\"24\" foreground=\"blue\">%s</span> invokes command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr "Zkratka s myší<span font_desc=\"24\" foreground=\"blue\">%s</span> vyvolá příkaz <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 
-#: ../src/core/utils.c:2451
+#: ../src/core/utils.c:2478
 msgid "Mouse Shortcut"
 msgstr "Zkratka s myší"
 
-#: ../src/core/utils.c:2470
+#: ../src/core/utils.c:2497
 #, c-format
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> invokes command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr "Stisknutí klávesy<span font_desc=\"24\" foreground=\"blue\">%s</span> vyvolá příkaz <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 
-#: ../src/core/utils.c:2475
+#: ../src/core/utils.c:2502
 #, c-format
 msgid "Key Presses <span font_desc=\"24\" foreground=\"blue\">%s</span> invoke command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr "Stisknutí kláves<span font_desc=\"24\" foreground=\"blue\">%s</span> vyvolá příkaz <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 
-#: ../src/core/utils.c:2477
+#: ../src/core/utils.c:2504
 msgid "Single Key Press"
 msgstr "Jedno stisknutí klávesy"
 
-#: ../src/core/utils.c:2477
+#: ../src/core/utils.c:2504
 msgid "Two Key Presses"
 msgstr "Dvě stisknutí klávesy"
 
-#: ../src/core/utils.c:2486
+#: ../src/core/utils.c:2513
 msgid "Key Press"
 msgstr "Stisknutí klávesy"
 
-#: ../src/core/utils.c:2488
+#: ../src/core/utils.c:2515
 #, c-format
 msgid ""
 "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> Is not a shortcut.\n"
@@ -2142,59 +2188,59 @@ msgstr ""
 "Stisknutí klávesy <span font_desc=\"24\" foreground=\"blue\">%s</span>. Není to klávesová zkratka.\n"
 "%s"
 
-#: ../src/core/utils.c:2490
+#: ../src/core/utils.c:2517
 msgid "(The menus are now restored in case you are lost.)"
 msgstr "(Nabídky jsou nyní, v případě že jste se ztratil, obnoveny.)"
 
-#: ../src/core/utils.c:2493
+#: ../src/core/utils.c:2520
 msgid "First Key Press"
 msgstr "Stisknutí první klávesy"
 
-#: ../src/core/utils.c:2495
+#: ../src/core/utils.c:2522
 #, c-format
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> Awaiting continuation"
 msgstr "Stisknutí klávesy <span font_desc=\"24\" foreground=\"blue\">%s</span>. Čeká se na pokračování"
 
-#: ../src/core/utils.c:2498 ../src/generated/entries.h:409
+#: ../src/core/utils.c:2525 ../src/generated/entries.h:409
 msgid "Mouse"
 msgstr "Myš"
 
-#: ../src/core/utils.c:2499
+#: ../src/core/utils.c:2526
 #, c-format
 msgid "Mouse <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 msgstr "Myš <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 
-#: ../src/core/utils.c:2502
+#: ../src/core/utils.c:2529
 msgid "Key + Mouse"
 msgstr "Klávesa + Myš"
 
-#: ../src/core/utils.c:2503
+#: ../src/core/utils.c:2530
 #, c-format
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 msgstr "Stisknutí klávesy <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 
-#: ../src/core/view.c:716 ../src/export/file.c:1204
+#: ../src/core/view.c:720 ../src/export/file.c:1222
 msgid "No selection text available"
 msgstr "Není dostupný žádný text výběru"
 
-#: ../src/core/view.c:896
+#: ../src/core/view.c:900
 #, c-format
 msgid "Could not make folder %s for the downloaded commands"
 msgstr "Nepodařilo se vytvořit složku %s pro stažené příkazy"
 
-#: ../src/core/view.c:1004
+#: ../src/core/view.c:1008
 msgid "You have made changes to the commands you have"
 msgstr "Udělal jste změny v příkazech, které máte"
 
-#: ../src/core/view.c:1004
+#: ../src/core/view.c:1008
 msgid "Do you want to save the changes?"
 msgstr "Chcete uložit tyto změny?"
 
-#: ../src/core/view.c:1024
+#: ../src/core/view.c:1028
 msgid "MIDI Controller Active?"
 msgstr "Ovladač MIDI v činnosti?"
 
-#: ../src/core/view.c:1024
+#: ../src/core/view.c:1028
 msgid ""
 "Please turn off your MIDI keyboard\n"
 "if you have not already done so"
@@ -2202,75 +2248,75 @@ msgstr ""
 "Vypněte, prosím, svoji klávesnici MIDI,\n"
 "pokud jste tak již neučinil"
 
-#: ../src/core/view.c:1282
+#: ../src/core/view.c:1286
 msgid "Recording + Play Along"
 msgstr "Nahrávání + Přehrávat zároveň"
 
-#: ../src/core/view.c:1284
+#: ../src/core/view.c:1288
 msgid "Recording"
 msgstr "Nahrávání"
 
-#: ../src/core/view.c:1286
+#: ../src/core/view.c:1290
 msgid "Play Along"
 msgstr "Hrát zároveň"
 
-#: ../src/core/view.c:1288 ../src/core/view.c:1312
+#: ../src/core/view.c:1292 ../src/core/view.c:1316
 msgid "Checking Pitches"
 msgstr "Ověření výšek tónů"
 
-#: ../src/core/view.c:1290 ../src/core/view.c:1316
+#: ../src/core/view.c:1294 ../src/core/view.c:1320
 msgid "Listening to Pitches"
 msgstr "Poslech výšek tónů"
 
-#: ../src/core/view.c:1292
+#: ../src/core/view.c:1296
 msgid "Adding to a Chord"
 msgstr "Přidání do akordu"
 
-#: ../src/core/view.c:1294
+#: ../src/core/view.c:1298
 msgid "Starting a Chord"
 msgstr "Založení akordu"
 
-#: ../src/core/view.c:1296 ../src/core/view.c:1320 ../src/core/view.c:4597
+#: ../src/core/view.c:1300 ../src/core/view.c:1324 ../src/core/view.c:4625
 msgid "Appending/Editing Pitches"
 msgstr "Přidání nebo upravení výšek tónů"
 
-#: ../src/core/view.c:1332
+#: ../src/core/view.c:1336
 msgid "Mouse Conductor ON"
 msgstr "Vodič myši ZAPNUT"
 
-#: ../src/core/view.c:1334
+#: ../src/core/view.c:1338
 msgid "Mouse Conductor OFF"
 msgstr "Vodič myši VYPNUT"
 
-#: ../src/core/view.c:1344
+#: ../src/core/view.c:1348
 msgid "Switch to Normal Playback"
 msgstr "Přepnout na běžné přehrávání"
 
-#: ../src/core/view.c:1346 ../src/core/view.c:4604
+#: ../src/core/view.c:1350 ../src/core/view.c:4632
 msgid "Switch to Play Along Playback"
 msgstr "Přepnout do režimu přehrávání Hrát zároveň"
 
-#: ../src/core/view.c:1361
+#: ../src/core/view.c:1365
 msgid "Stop playing first"
 msgstr "Nejprve zastavit přehrávání"
 
-#: ../src/core/view.c:1366
+#: ../src/core/view.c:1370
 msgid "Cannot mix audio and MIDI recordings"
 msgstr "Nelze míchat nahrávky zvuku a MIDI"
 
-#: ../src/core/view.c:1372
+#: ../src/core/view.c:1376
 msgid "Cannot mix MIDI recordings with imported MIDI - delete imported MIDI first"
 msgstr "Nelze míchat nahrávky MIDI se zavedeným MIDI. Nejprve smažte zavedené MIDI"
 
-#: ../src/core/view.c:1376
+#: ../src/core/view.c:1380
 msgid "MIDI Recording"
 msgstr "Nahrávka MIDI"
 
-#: ../src/core/view.c:1376
+#: ../src/core/view.c:1380
 msgid "Delete last recording?"
 msgstr "Smazat poslední nahrávku?"
 
-#: ../src/core/view.c:1421
+#: ../src/core/view.c:1425
 msgid ""
 "The preference set for recording time is 0 - nothing can be recorded.\n"
 "See Edit → Change Preferences Audio/Midi Tab"
@@ -2279,7 +2325,7 @@ msgstr ""
 "Podívejte se na Úpravy → Změnit nastavení, karta Zvuk/MIDI"
 
 #. no selection
-#: ../src/core/view.c:1948
+#: ../src/core/view.c:1952
 msgid ""
 "No selection to create a music snippet from\n"
 "See Edit → Select menu for selecting music to snip"
@@ -2287,11 +2333,11 @@ msgstr ""
 "Žádný výběr pro vytvoření úryvku not.\n"
 "Podívejte se na Úpravy → Vybrat nabídku pro výběr not pro úryvek"
 
-#: ../src/core/view.c:2151
+#: ../src/core/view.c:2155
 msgid "Have no way of getting the script, sorry"
 msgstr "Není cesta, jak dostat skript, promiňte"
 
-#: ../src/core/view.c:2167
+#: ../src/core/view.c:2171
 #, c-format
 msgid ""
 "Command: %s\n"
@@ -2304,65 +2350,65 @@ msgstr ""
 "Informace:\n"
 "%s"
 
-#: ../src/core/view.c:2205
+#: ../src/core/view.c:2209
 #, c-format
 msgid "The Command %s Responds to this Shortcut"
 msgstr "Příkaz %s odpovídá této zkratce"
 
-#: ../src/core/view.c:2235
+#: ../src/core/view.c:2239
 msgid "Could not create button"
 msgstr "Nepodařilo se vytvořit tlačítko"
 
-#: ../src/core/view.c:2267 ../src/core/view.c:2271 ../src/core/view.c:2274
-#: ../src/core/view.c:2276
+#: ../src/core/view.c:2271 ../src/core/view.c:2275 ../src/core/view.c:2278
+#: ../src/core/view.c:2280
 msgid "Create a new menu item"
 msgstr "Vytvořit novou položku nabídky"
 
-#: ../src/core/view.c:2267
+#: ../src/core/view.c:2271
 msgid "Give menu label: "
 msgstr "Dát nabídce popisek: "
 
-#: ../src/core/view.c:2267
+#: ../src/core/view.c:2271
 msgid "My Label"
 msgstr "Můj popisek"
 
-#: ../src/core/view.c:2271
+#: ../src/core/view.c:2275
 msgid "Give explanation of what it does: "
 msgstr "Podat vysvětlení toho, co to dělá: "
 
-#: ../src/core/view.c:2271
+#: ../src/core/view.c:2275
 msgid "Prints my special effect"
 msgstr "Vytiskne můj zvláštní efekt"
 
-#: ../src/core/view.c:2274
+#: ../src/core/view.c:2278
 msgid "Do you want the new menu item in a submenu?"
 msgstr "Chcete novou položku nabídky v podnabídce?"
 
-#: ../src/core/view.c:2276
+#: ../src/core/view.c:2280
 msgid "Give a label for the Sub-Menu"
 msgstr "Dát popisek pro podnabídku"
 
-#: ../src/core/view.c:2276
+#: ../src/core/view.c:2280
 msgid "Sub Menu Label"
 msgstr "Popisek pro podnabídku"
 
-#: ../src/core/view.c:2292
+#: ../src/core/view.c:2296
 msgid "Duplicate Name"
 msgstr "Zdvojit název"
 
-#: ../src/core/view.c:2292
+#: ../src/core/view.c:2296
 msgid "A command of this name is already available in your custom menus; Overwrite?"
 msgstr "Příkaz s tímto názvem je již dostupný ve vašich vlastních nabídkách. Přepsat?"
 
-#: ../src/core/view.c:2302
+#: ../src/core/view.c:2306
 msgid "New Command Added"
 msgstr "Nový příkaz přidán"
 
-#: ../src/core/view.c:2302
+#: ../src/core/view.c:2306
 msgid "Do you want to save this with your default commands?"
 msgstr "Chcete toto uložit se svými výchozími příkazy?"
 
-#: ../src/core/view.c:2376
+#: ../src/core/view.c:2380
 msgid ""
 "No keyboard modifier keys\n"
 "Press with modifier key to change"
@@ -2370,7 +2416,7 @@ msgstr ""
 "Žádné klávesy modifikátoru klávesnice\n"
 "Pro změnu stiskněte s klávesou modifikátoru"
 
-#: ../src/core/view.c:2378
+#: ../src/core/view.c:2382
 msgid ""
 "\n"
 "Press with modifier key to change"
@@ -2378,46 +2424,46 @@ msgstr ""
 "\n"
 "Pro změnu stiskněte s klávesou modifikátoru"
 
-#: ../src/core/view.c:2386
+#: ../src/core/view.c:2390
 msgid "Set Mouse Shortcut"
 msgstr "Nastavit zkratku myši"
 
-#: ../src/core/view.c:2402
+#: ../src/core/view.c:2406
 #, c-format
 msgid "Setting mouse shortcut for %s"
 msgstr "Nastavení zkratky myši pro %s"
 
-#: ../src/core/view.c:2406
+#: ../src/core/view.c:2410
 msgid "Choose the mouse button"
 msgstr "Vybrat tlačítko myši"
 
-#: ../src/core/view.c:2413
+#: ../src/core/view.c:2417
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:48
 msgid "Left"
 msgstr "Levé"
 
-#: ../src/core/view.c:2416
+#: ../src/core/view.c:2420
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:49
 msgid "Right"
 msgstr "Pravé"
 
-#: ../src/core/view.c:2420
+#: ../src/core/view.c:2424
 msgid "Choose mouse action"
 msgstr "Vybrat činnost myši"
 
-#: ../src/core/view.c:2426
+#: ../src/core/view.c:2430
 msgid "Press Button"
 msgstr "Stisknout tlačítko"
 
-#: ../src/core/view.c:2429
+#: ../src/core/view.c:2433
 msgid "Release Button"
 msgstr "Uvolnit tlačítko"
 
-#: ../src/core/view.c:2432
+#: ../src/core/view.c:2436
 msgid "Drag"
 msgstr "Táhnout"
 
-#: ../src/core/view.c:2436
+#: ../src/core/view.c:2440
 msgid ""
 "Hold Modifier Keys, Engage Caps or Num Lock\n"
 "and click here to set shorcut."
@@ -2425,19 +2471,19 @@ msgstr ""
 "Držet klávesy modifikátorů, Engage Caps nebo Num Lock\n"
 "a klepnout sem pro nastavení zkratky."
 
-#: ../src/core/view.c:2497
+#: ../src/core/view.c:2501
 msgid "There is already an initialization script here"
 msgstr "Již je tu inicializační skript"
 
-#: ../src/core/view.c:2507
+#: ../src/core/view.c:2511
 msgid "Wrote init.scm"
 msgstr "Zapsán init.scm"
 
-#: ../src/core/view.c:2507
+#: ../src/core/view.c:2511
 msgid "Shall I execute it now?"
 msgstr "Má se vykonat nyní?"
 
-#: ../src/core/view.c:2512
+#: ../src/core/view.c:2516
 msgid ""
 "Could not create init.scm;\n"
 "you must create your scripted menu item in the menu\n"
@@ -2447,51 +2493,55 @@ msgstr ""
 "promiňte, ale musíte svou skriptovanou položku nabídky vytvořit\n"
 "v nabídce předtím, než pro ni vytvoříte inicializační skript."
 
-#: ../src/core/view.c:2570 ../src/core/view.c:3176
+#: ../src/core/view.c:2574 ../src/core/view.c:3204
 msgid "Save Script"
 msgstr "Uložit skript"
 
-#: ../src/core/view.c:2570
+#: ../src/core/view.c:2574
 msgid "Over-write previous version of the script for "
 msgstr "Přepsat předchozí verzi skriptu pro "
 
-#: ../src/core/view.c:2570
+#: ../src/core/view.c:2574
 msgid " ?"
 msgstr " ?"
 
-#: ../src/core/view.c:2580
+#: ../src/core/view.c:2584
 msgid "No script saved"
 msgstr "Žádný skript nebyl uložen"
 
-#: ../src/core/view.c:2642
+#: ../src/core/view.c:2646
 msgid "Could not create .denemo/actions/bitmaps for your graphics for customized commands"
 msgstr "Nepodařilo se vytvořit .denemo/actions/bitmaps pro vaši grafiku pro vaše vlastní příkazy"
 
+#: ../src/core/view.c:2664
+msgid "Could not create .denemo-xxx/actions/graphics for your graphics for customized commands"
+msgstr "Nepodařilo se vytvořit .denemo-xxx/actions/graphics pro vaši grafiku pro vaše vlastní příkazy"
+
 #. FIXME allow fileselector here to change the name
-#: ../src/core/view.c:2955
+#: ../src/core/view.c:2983
 #, c-format
 msgid "Saving a graphic for use in the %s script"
 msgstr "Ukládá se grafika pro použití ve skriptu %s"
 
-#: ../src/core/view.c:2956
+#: ../src/core/view.c:2984
 msgid "Replace current graphic?"
 msgstr "Nahradit nynější grafiku?"
 
 #. Place button in palette
-#: ../src/core/view.c:3111
+#: ../src/core/view.c:3139
 msgid "Place Command in a Palette"
 msgstr "Umístit příkaz do palety"
 
 #. "drag" menu item onto button bar
-#: ../src/core/view.c:3118
+#: ../src/core/view.c:3146
 msgid "Place Command on the Title Bar"
 msgstr "Umístit příkaz na pruh s názvy"
 
-#: ../src/core/view.c:3125
+#: ../src/core/view.c:3153
 msgid "Create Mouse Shortcut"
 msgstr "Vytvořit zkratku myši"
 
-#: ../src/core/view.c:3128
+#: ../src/core/view.c:3156
 msgid ""
 "Edit Shortcuts\n"
 "Set Mouse Pointers\n"
@@ -2501,7 +2551,7 @@ msgstr ""
 "Nastavit ukazovátko myši\n"
 "Skrýt/Smazat položku nabídky"
 
-#: ../src/core/view.c:3172 ../src/ui/palettes.c:323
+#: ../src/core/view.c:3200 ../src/ui/palettes.c:323
 msgid "Get Script"
 msgstr "Získat skript"
 
@@ -2509,36 +2559,36 @@ msgstr "Získat skript"
 #. GtkSettings* settings = gtk_settings_get_default();
 #. gtk_settings_set_long_property  (settings,"gtk-menu-images",(glong)TRUE, "XProperty");
 #. item = gtk_image_menu_item_new_from_stock("Save Graphic", gtk_accel_group_new());
-#: ../src/core/view.c:3185
+#: ../src/core/view.c:3213
 msgid "Save Graphic"
 msgstr "Uložit grafiku"
 
-#: ../src/core/view.c:3191
+#: ../src/core/view.c:3219
 msgid "Upload this Script to denemo.org"
 msgstr "Nahrát tento skript na denemo.org"
 
-#: ../src/core/view.c:3199
+#: ../src/core/view.c:3227
 msgid "Save Script as New Menu Item"
 msgstr "Uložit skript jako novou položku nabídky"
 
 #. options for getting/putting init.scm
-#: ../src/core/view.c:3213
+#: ../src/core/view.c:3241
 msgid "Get Initialization Script for this Menu"
 msgstr "Získat inicializační skript pro tuto nabídku"
 
-#: ../src/core/view.c:3219
+#: ../src/core/view.c:3247
 msgid "Put Script as Initialization Script for this Menu"
 msgstr "Dát skript jako inicializační skript pro tuto nabídku"
 
-#: ../src/core/view.c:3424
+#: ../src/core/view.c:3452
 msgid "Browse"
 msgstr "Procházet"
 
-#: ../src/core/view.c:3424
+#: ../src/core/view.c:3452
 msgid "Opens a dialog for a new file"
 msgstr "Otevře dialogové okno pro nový soubor"
 
-#: ../src/core/view.c:3457
+#: ../src/core/view.c:3485
 msgid ""
 "You have unsaved work. Hardware problems may cause the program to exit during this task.\n"
 "Please save first."
@@ -2546,39 +2596,39 @@ msgstr ""
 "Máte neuloženou práci. Potíže s technickým vybavením by mohly způsobit, že program bude během tohoto úkolu ukončen.\n"
 "Nejprve, prosím, svou práci uložte."
 
-#: ../src/core/view.c:3489
+#: ../src/core/view.c:3517
 msgid "Could not start Audio input"
 msgstr "Nepodařilo se spustit vstup zvuku"
 
-#: ../src/core/view.c:3965
+#: ../src/core/view.c:3993
 msgid "Tools"
 msgstr "Nástroje"
 
-#: ../src/core/view.c:3965
+#: ../src/core/view.c:3993
 msgid "Show/hide a toolbar for general operations on music files"
 msgstr "Ukázat/Skrýt nástrojový pruh pro obecné úkony s hudebními soubory"
 
-#: ../src/core/view.c:3968 ../src/core/view.c:4414
+#: ../src/core/view.c:3996 ../src/core/view.c:4442
 msgid "Playback Control"
 msgstr "Ovládání přehrávání"
 
-#: ../src/core/view.c:3968
+#: ../src/core/view.c:3996
 msgid "Show/hide playback controls"
 msgstr "Ukázat/Skrýt ovládání přehrávání"
 
-#: ../src/core/view.c:3971 ../src/core/view.c:4578
+#: ../src/core/view.c:3999 ../src/core/view.c:4606
 msgid "Midi In Control"
 msgstr "Ovládání vstupu MIDI"
 
-#: ../src/core/view.c:3971
+#: ../src/core/view.c:3999
 msgid "Show/hide Midi Input controls"
 msgstr "Ukázat/Skrýt ovládání vstupu MIDI"
 
-#: ../src/core/view.c:3974
+#: ../src/core/view.c:4002
 msgid "Snippets"
 msgstr "Úryvky"
 
-#: ../src/core/view.c:3974
+#: ../src/core/view.c:4002
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to store and enter snippets of music and to enter notes using rhythm pattern of a snippet"
@@ -2586,11 +2636,11 @@ msgstr ""
 "Ukázat/Skrýt nástrojový pruh, který umožňuje\n"
 "ukládání a vkládání úryvků not a zadávání not pomocí rytmických vzorů úryvku"
 
-#: ../src/core/view.c:3977 ../src/generated/entries.h:438
+#: ../src/core/view.c:4005 ../src/generated/entries.h:438
 msgid "Object Menu"
 msgstr "Nabídka předmětů"
 
-#: ../src/core/view.c:3977
+#: ../src/core/view.c:4005
 msgid ""
 "Show/hide a menu which is arranged by objects\n"
 "The actions available for note objects change with the mode"
@@ -2598,55 +2648,55 @@ msgstr ""
 "Ukázat/Skrýt nástrojový pruh s předměty\n"
 "Dostupné činnosti pro předměty not jsou odvislé od režimu zadávání"
 
-#: ../src/core/view.c:3980
+#: ../src/core/view.c:4008
 msgid "LilyPond"
 msgstr "LilyPond"
 
-#: ../src/core/view.c:3980
+#: ../src/core/view.c:4008
 msgid "Show/hide the LilyPond music typesetting language window"
 msgstr "Ukázat/Skrýt okno s LilyPondem pro sazbu not"
 
-#: ../src/core/view.c:3983
+#: ../src/core/view.c:4011
 msgid "Scheme Script"
 msgstr "Skript Scheme"
 
-#: ../src/core/view.c:3983
+#: ../src/core/view.c:4011
 msgid "Show scheme script window"
 msgstr "Ukáže skriptovací okno Scheme"
 
-#: ../src/core/view.c:3987
+#: ../src/core/view.c:4015
 msgid "Typeset Music"
 msgstr "Sazba not"
 
-#: ../src/core/view.c:3991
+#: ../src/core/view.c:4019
 msgid "Score Layout"
 msgstr "Rozvržení notového zápisu"
 
-#: ../src/core/view.c:3994 ../src/ui/kbd-interface.c:432
+#: ../src/core/view.c:4022 ../src/ui/kbd-interface.c:432
 msgid "Command Center"
 msgstr "Správce příkazů"
 
-#: ../src/core/view.c:3998 ../src/generated/entries.h:362
+#: ../src/core/view.c:4026 ../src/generated/entries.h:362
 msgid "Lyrics"
 msgstr "Text písně"
 
-#: ../src/core/view.c:4003 ../src/generated/entries.h:356
+#: ../src/core/view.c:4031 ../src/generated/entries.h:356
 msgid "Score"
 msgstr "Notový zápis"
 
-#: ../src/core/view.c:4007
+#: ../src/core/view.c:4035
 msgid "Titles, Buttons etc"
 msgstr "Názvy, tlačítka atd."
 
-#: ../src/core/view.c:4012
+#: ../src/core/view.c:4040
 msgid "Allow Quick Shortcut Edits"
 msgstr "Dovolit rychlou změnu klávesových zkratek"
 
-#: ../src/core/view.c:4015
+#: ../src/core/view.c:4043
 msgid "Record Scheme Script"
 msgstr "Nahrát skript Scheme"
 
-#: ../src/core/view.c:4019
+#: ../src/core/view.c:4047
 msgid ""
 "Audible Feedback\n"
 "Insert Duration/Edit Note"
@@ -2654,19 +2704,19 @@ msgstr ""
 "Slyšitelná zpětná vazba\n"
 "Vložit délku/Upravit notu"
 
-#: ../src/core/view.c:4019
+#: ../src/core/view.c:4047
 msgid "Gives feedback as you enter durations. N.B. durations are entered in Edit mode"
 msgstr "Dává zpětnou vazbu, když vkládáte délky. Dobře si všimněte, že délky se vkládají v režimu úprav"
 
-#: ../src/core/view.c:4022
+#: ../src/core/view.c:4050
 msgid "Read Only"
 msgstr "Pouze pro čtení"
 
-#: ../src/core/view.c:4029
+#: ../src/core/view.c:4057
 msgid "No External Input"
 msgstr "Žádný vnější vstup"
 
-#: ../src/core/view.c:4029
+#: ../src/core/view.c:4057
 msgid ""
 "Entry of notes via computer keyboard only\n"
 "Ignores connected MIDI or microphone devices."
@@ -2674,19 +2724,19 @@ msgstr ""
 "Zadávání not pouze pomocí klávesnice počítače\n"
 "Přehlíží připojená zařízení MIDI nebo mikrofony."
 
-#: ../src/core/view.c:4032
+#: ../src/core/view.c:4060
 msgid "Audio Input"
 msgstr "Zvukový vstup"
 
-#: ../src/core/view.c:4032
+#: ../src/core/view.c:4060
 msgid "Enable pitch entry from microphone"
 msgstr "Zapnout zadávání výšky tónu prostřednictvím mikrofonu"
 
-#: ../src/core/view.c:4035
+#: ../src/core/view.c:4063
 msgid "Midi Input"
 msgstr "MIDI vstup"
 
-#: ../src/core/view.c:4035
+#: ../src/core/view.c:4063
 msgid ""
 "Input from a MIDI source. Set up the source first using Edit → Change Preferences → Audio/Midi\n"
 "Use View → MIDI In Control to control what the input does.\n"
@@ -2694,15 +2744,15 @@ msgstr ""
 "Vstup ze zdroje MIDI. Nejprve nastavte zdroj pomocí Úpravy → Změnit nastavení → Zvuk/MIDI\n"
 "Použijte Pohled → MIDI in na ovládání toho, co vstup dělá.\n"
 
-#: ../src/core/view.c:4183
+#: ../src/core/view.c:4211
 msgid "Menu:"
 msgstr "Nabídka:"
 
-#: ../src/core/view.c:4184
+#: ../src/core/view.c:4212
 msgid "Click here then hover over the menu items to find out what they will do"
 msgstr "Klepněte sem, pak přejeďte nad položkami nabídky, abyste zjistil, co budou dělat"
 
-#: ../src/core/view.c:4186
+#: ../src/core/view.c:4214
 msgid ""
 "Left click to execute the command, press a key to assign a keyboard shortcut to the command,\n"
 "Right click to get a menu from which you can\n"
@@ -2712,21 +2762,21 @@ msgstr ""
 "Klepnutí pravým tlačítkem myši pro vyvolání nabídky, ze které můžete\n"
 "vytvořit tlačítko pro tento příkaz, nebo dvojklávesovou klávesovou zkratku nebo získat ještě více voleb"
 
-#: ../src/core/view.c:4299
+#: ../src/core/view.c:4327
 msgid "Denemo Main Window"
 msgstr "Hlavní okno"
 
 #. menubar = gtk_item_factory_get_widget (item_factory, "<main>");
 #. this triggers Lily... missing action
-#: ../src/core/view.c:4387
+#: ../src/core/view.c:4415
 msgid "This is the Main Menu bar, where menus for the mostly non-musical aspects (saving, printing, setting up input sources etc) are placed. See the Object Menu bar for the commands that edit music"
 msgstr "Toto je pruh s hlavní nabídkou, kde jsou umístěny nabídky pro většinu nehudebních stránek (ukládání, tisk, nastavení vstupních zdrojů atd.). Podívejte se na pruh s nabídkou předmětů na příkazy, kterými se upravují noty."
 
-#: ../src/core/view.c:4391
+#: ../src/core/view.c:4419
 msgid "This is the Object Menu bar, where menus for the commands that edit music live. They are arranged in a hierarchy Score, Movement, Staff (which contains Voices) and then the things that go on a staff, notes, clefs etc. Directives covers everything else that you can put in amongst the notes to change the behavior from that point in the music."
 msgstr "Toto je pruh s nabídkou předmětů, kde jsou nabídky pro příkazy, jimiž se noty upravují. Jsou uspořádány hierarchicky: notový zápis, věta, osnova (obsahuje hlasy), a pak věci, co jdou na osnovu, noty, klíče atd. Příkazy pokrývají vše ostatní, co můžete dát mezi noty pro změnu chování od toho bodu v notách."
 
-#: ../src/core/view.c:4395
+#: ../src/core/view.c:4423
 msgid ""
 "You can populate this bar with buttons holding a snippet of music. The highlighted snippet is the <i>prevailing duration</i>, that is the next note entered will follow the rhythmic pattern of this snippet.\n"
 "You can enter the whole snippet by clicking on it, or using the command under ObjectMenu → Notes/Rests → Append/InsertDuration → Insert Snippet. You can also select the <i>prevailing snippet</i> using  ObjectMenu → Notes/Rests → Select Duration → Next Snippet.\n"
@@ -2738,17 +2788,17 @@ msgstr ""
 
 #. The user should be able to decide toolbar style.
 #. But without gnome, there is no (ui) to set this option.
-#: ../src/core/view.c:4400
+#: ../src/core/view.c:4428
 msgid "This tool bar contains a few conventional commands. You can hide it (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu → Edit → Change Preferences → Display general toolbar"
 msgstr "Tento pruh obsahuje několik obvyklých příkazů. Můžete jej skrýt pomocí nabídky Pohled, abyste na obrazovce měli víc místa. Můžete z toho udělat své nastavení pomocí hlavní nabídky Úpravy → Změnit nastavení → Zobrazit nástrojový pruh pro zadání noty/pomlky"
 
-#: ../src/core/view.c:4411
+#: ../src/core/view.c:4439
 msgid "Controls for playback. The arrows on either side of the PLAY and STOP buttons move the playback start and playback end markers. Loop plays in a loop - you can edit while it plays. You can also record the output and save it as .ogg or .wav file. The temperament used for playing back can be set here."
 msgstr "Ovládání přehrávání. Šipky po stranách tlačítek PŘEHRÁT a ZASTAVIT posunou značky pro začátek přehrávání a pro konec přehrávání. Smyčka přehrává ve smyčce - během přehrávání můžete provádět úpravy. Taktéž můžete nahrávat výstup a uložit jej jako soubor .ogg nebo .wav. Zde se dá nastavit temperované ladění použité pro přehrávání."
 
 #. create_playbutton(inner, NULL, pb_first, GTK_STOCK_GOTO_FIRST);
 #. create_playbutton(inner,NULL, pb_rewind, GTK_STOCK_MEDIA_REWIND);
-#: ../src/core/view.c:4436
+#: ../src/core/view.c:4464
 msgid ""
 "Moves the playback start point (which shows as a green bar) earlier in time\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -2756,7 +2806,7 @@ msgstr ""
 "Přesune začáteční bod přehrávání, jenž se ukazuje jako zelený proužek, na dřívější místo v čase.\n"
 "Červený a zelený proužek se nekreslí, dokud nezačnete přehrávání, nebo dokud alespoň nevytvoříte časový základ."
 
-#: ../src/core/view.c:4438
+#: ../src/core/view.c:4466
 msgid ""
 "Sets the playback start point (green bar) to the note at the cursor.\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -2764,7 +2814,7 @@ msgstr ""
 "Nastaví začáteční bod přehrávání (zelený proužek) na notu v poloze ukazatele.\n"
 "Červený a zelený proužek se nekreslí, dokud nezačnete přehrávání, nebo dokud alespoň nevytvoříte časový základ."
 
-#: ../src/core/view.c:4439
+#: ../src/core/view.c:4467
 msgid ""
 "Moves the playback start point (which shows as a green bar) later in time\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -2772,11 +2822,11 @@ msgstr ""
 "Přesune začáteční bod přehrávání, jenž se ukazuje jako zelený proužek, na pozdější místo v čase.\n"
 "Červený a zelený proužek se nekreslí, dokud nezačnete přehrávání, nebo dokud alespoň nevytvoříte časový základ."
 
-#: ../src/core/view.c:4440
+#: ../src/core/view.c:4468
 msgid "Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."
 msgstr "Zastaví přehrávání. Po dalším stisknutí přehrát přehrávání začne tam, kde je zelený proužek, ne tam, kde bylo přehrávání vámi zastaveno. Použijte pro to tlačítko Přehrát/Pozastavit."
 
-#: ../src/core/view.c:4441
+#: ../src/core/view.c:4469
 msgid ""
 "Starts playing back from the playback start (green bar) until the playback end (red bar).\n"
 "When playing it pauses the play, and continues when pressed again."
@@ -2784,7 +2834,7 @@ msgstr ""
 "Začne přehrávání od začátku přehrávání (zelený proužek), dokud přehrávání neskončí (červený proužek)\n"
 "Při přehrávání to přehrávání pozastaví a přehrávání pokračuje, až když je znovu stisknuto."
 
-#: ../src/core/view.c:4442
+#: ../src/core/view.c:4470
 msgid ""
 "Starts/Stops recording the audio output from Denemo.\n"
 "Records live performance and/or playback,\n"
@@ -2794,11 +2844,11 @@ msgstr ""
 "Nahrává živé představení a/nebo přehrávání.\n"
 "Ukládejte na disk, abyste se vyhnul přepsání předchozích nahrávek."
 
-#: ../src/core/view.c:4443
+#: ../src/core/view.c:4471
 msgid "Exports the audio recorded to disk"
 msgstr "Vyvede zvuk nahraný na disk do souboru"
 
-#: ../src/core/view.c:4445
+#: ../src/core/view.c:4473
 msgid ""
 "Moves the playback end point (which shows as a red bar) earlier in time\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -2806,7 +2856,7 @@ msgstr ""
 "Přesune koncový bod přehrávání, jenž se ukazuje jako červený proužek, na dřívější místo v čase.\n"
 "Červený a zelený proužek se nekreslí, dokud nezačnete přehrávání, nebo dokud alespoň nevytvoříte časový základ."
 
-#: ../src/core/view.c:4446
+#: ../src/core/view.c:4474
 msgid ""
 "Sets the playback end point (red bar) to the note at the cursor.\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -2814,7 +2864,7 @@ msgstr ""
 "Nastaví koncový bod přehrávání (červený proužek) na notu v poloze ukazatele.\n"
 "Červený a zelený proužek se nekreslí, dokud nezačnete přehrávání, nebo dokud alespoň nevytvoříte časový základ."
 
-#: ../src/core/view.c:4448
+#: ../src/core/view.c:4476
 msgid ""
 "Moves the playback end point (which shows as a red bar) later in time\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -2823,11 +2873,11 @@ msgstr ""
 "Červený a zelený proužek se nekreslí, dokud nezačnete přehrávání, nebo dokud alespoň nevytvoříte časový základ."
 
 #. create_playbutton(inner,NULL, pb_forward, GTK_STOCK_MEDIA_FORWARD);
-#: ../src/core/view.c:4452
+#: ../src/core/view.c:4480
 msgid "Loop"
 msgstr "Smyčka"
 
-#: ../src/core/view.c:4452
+#: ../src/core/view.c:4480
 msgid ""
 "The music between the red and green bars is played in a loop.\n"
 "You can edit the music while it is playing\n"
@@ -2837,76 +2887,76 @@ msgstr ""
 "Noty můžete upravovat během přehrávání.\n"
 "Vaše změny jsou sledovány."
 
-#: ../src/core/view.c:4458
+#: ../src/core/view.c:4486
 msgid "Panic"
 msgstr "Nouzové zastavení"
 
-#: ../src/core/view.c:4460
+#: ../src/core/view.c:4488
 msgid "Reset"
 msgstr "Nastavit znovu"
 
-#: ../src/core/view.c:4462
+#: ../src/core/view.c:4490
 msgid "Resets the synthesizer, on JACK it sends a JACK panic."
 msgstr "Nastaví syntetizátor znovu, při zapnutém JACK to pošle nouzové zastavení JACK."
 
-#: ../src/core/view.c:4465
+#: ../src/core/view.c:4493
 msgid "Set From Selection"
 msgstr "Nastavit z výběru"
 
-#: ../src/core/view.c:4465
+#: ../src/core/view.c:4493
 msgid "Sets the playback range (green and red bars) to the current selection."
 msgstr "Nastaví rozsah přehrávání (červený a zelený proužek) na současný výběr."
 
-#: ../src/core/view.c:4466
+#: ../src/core/view.c:4494
 msgid "Playback Range"
 msgstr "Rozsah přehrávání"
 
-#: ../src/core/view.c:4466
+#: ../src/core/view.c:4494
 msgid "Pops up a dialog to get timings for start and end of playback."
 msgstr "Otevře dialog pro načasování začátku a konce přehrávání."
 
 #. Tempo
-#: ../src/core/view.c:4476
+#: ../src/core/view.c:4504
 msgid "Tempo:"
 msgstr "Tempo:"
 
-#: ../src/core/view.c:4477
+#: ../src/core/view.c:4505
 msgid "Set the (initial) tempo of the movement"
 msgstr "Nastavit (počáteční) tempo věty"
 
 #. create_playbutton(hbox, "Set Tempo", pb_set_tempo, NULL);
 #. Volume
-#: ../src/core/view.c:4492
+#: ../src/core/view.c:4520
 #: ../actions/menus/ObjectMenu/Directives/Playback/MIDI/ChangeVolume.xml.h:1
 msgid "Volume"
 msgstr "Hlasitost"
 
 #. GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
-#: ../src/core/view.c:4494
+#: ../src/core/view.c:4522
 msgid "Set the (initial) volume of the movement"
 msgstr "Nastavit (počáteční) hlasitost věty"
 
-#: ../src/core/view.c:4511
+#: ../src/core/view.c:4539
 msgid "Audio Volume Cut"
 msgstr "Zeslabení hlasitosti zvuku"
 
-#: ../src/core/view.c:4512
+#: ../src/core/view.c:4540
 msgid "Reduce the volume of the source audio relative to the volume of the score"
 msgstr "Snížit hlasitost zdrojového zvuku poměrně k hlasitosti notového zápisu"
 
-#: ../src/core/view.c:4526
+#: ../src/core/view.c:4554
 msgid "Audio Volume Boost"
 msgstr "Zesílení hlasitosti zvuku"
 
-#: ../src/core/view.c:4527
+#: ../src/core/view.c:4555
 msgid "Boost the volume of the source audio relative to the volume of the score"
 msgstr "Zvýšit hlasitost zdrojového zvuku poměrně k hlasitosti notového zápisu"
 
-#: ../src/core/view.c:4539
+#: ../src/core/view.c:4567
 msgid "Audio Lead In "
 msgstr "Zavedení zvuku "
 
-#: ../src/core/view.c:4543
+#: ../src/core/view.c:4571
 msgid ""
 "Set the number of seconds to clip from the audio, or if negative number of seconds silence before audio plays.\n"
 "This is useful when the audio track does not begin on a barline."
@@ -2915,23 +2965,23 @@ msgstr ""
 "Toto je užitečné, když zvuková stopa nezačíná na taktové čáře."
 
 #. Speed
-#: ../src/core/view.c:4554
+#: ../src/core/view.c:4582
 msgid "Slowdown:"
 msgstr "Zpomalení:"
 
-#: ../src/core/view.c:4564
+#: ../src/core/view.c:4592
 msgid "Slow down the audio output maintaining the pitch"
 msgstr "Zpomalit výstup zvuku při zachování výšky tónu"
 
-#: ../src/core/view.c:4576
+#: ../src/core/view.c:4604
 msgid "Controls for managing input from a MIDI controller (e.g. keyboard) attached to the computer. You may need to select your MIDI device first using MainMenu → Edit → Change Preferences → MIDI looking for MIDI in devices (turn your device on first). When you have a MIDI controller durations are inserted without any pitch (they appear in brown) playing on the controller puts the pitches onto the durations. The Shift and Control and ALT keys can also be used for listening without entering notes, checking pitches entered and entering chords. The foot pedal can also be used for chords. Release the ALT key and re-press to start a new chord - timing is unimportant, play the chord fast or slow."
 msgstr "Ovládání správy vstupu z ovladače MIDI (např. keyboard) připojeného k počítači. Nejprve možná budete potřebovat vybrat své zařízení MIDI pomocí hlavní nabídky Úpravy → Změnit nastavení → MIDI, kde budete hledat vstupní zařízení MIDI (nejprve své zařízení zapněte). Když máte ovladač MIDI, doby trvání jsou vkládány bez výšky tónu (objeví se zbarveny hnědě). Přehrání na ovladači výšky tónů k dobám trvání přidá. Klávesy Shift a Ctrl a Alt se také dají použít pro poslech bez vkládání not, ověřování zadávaných výšek tónů a k zadávání akordů. Nožní pedál se také dá použít pro akordy. Uvolněte klávesu Alt a znovu ji stiskněte, abyste začali nový akord - načasování je nedůležité. Akord zahrajte rychle nebo pomalu."
 
-#: ../src/core/view.c:4599
+#: ../src/core/view.c:4627
 msgid "This tells you what will happen to a MIDI in event from your controller. Click here or use the Control Shift or ALT keys, or caps lock to affect what will happen. Moving the cursor into the display will revert to editing notes."
 msgstr "Toto vám řekne, co se s událostí vstupu MIDI z vašeho ovladače stane. Klepněte zde, nebo použijte klávesy Ctrl, Shift nebo Alt, nebo Caps Lock k ovlivnění toho, co nastane. Přesunutím ukazatele na zobrazení dojde k návratu do režimu úprav not."
 
-#: ../src/core/view.c:4604
+#: ../src/core/view.c:4632
 msgid ""
 "When in playalong mode, on clicking Play, the music plays until it reaches the Denemo cursor\n"
 "From then on you must play the notes at the cursor to progress the playback.\n"
@@ -2941,15 +2991,15 @@ msgstr ""
 "Od toho místa dále musíte noty v poloze ukazatele zahrát, aby přehrávání postupovalo kupředu.\n"
 "Takže když ukazatel nastavíte na první notu hlasu, který chcete přehrávat, potom jakmile stisknete tlačítko pro přehrávání, můžete hrát zároveň s Denemem, přičemž Denemo dodá další hlasy a čeká na to, jestli nezahrajete špatnou notu."
 
-#: ../src/core/view.c:4606
+#: ../src/core/view.c:4634
 msgid "Delete the MIDI recording you have made."
 msgstr "Smazat vámi pořízenou nahrávku MIDI."
 
-#: ../src/core/view.c:4608
+#: ../src/core/view.c:4636
 msgid "Convert the MIDI recording you have made to notation."
 msgstr "Převést vámi pořízenou nahrávku MIDI do notového zápisu."
 
-#: ../src/core/view.c:4609
+#: ../src/core/view.c:4637
 msgid ""
 "Starts playing and simultaneously records from MIDI in.\n"
 "Once a recording is made it is played back with the score when you press Play.\n"
@@ -2960,7 +3010,7 @@ msgstr ""
 "Může být smazána pomocí tlačítka Smazat nebo převedena na notový zápis pomocí Převést.\n"
 "Nahrávka MIDI není uložena společně s notovým zápisem Denema."
 
-#: ../src/core/view.c:4654
+#: ../src/core/view.c:4682
 msgid ""
 "This is the Denemo Display for the music you have entered. See the print view window for the typeset appearance.  The blue lozenge is the Denemo Cursor - it turns red when when the bar is full or green if you are inserting in a bar.Overfull/Underfull bars are colored red/blue, use the Upbeat (Anacrusis, Pickup) command if that is intentional.\n"
 "You can switch to a menu-less view or a page-view using the Esc key. For the paged view you drag the red bar up the page to set how many systems you want showing.For the paged view you will probably want a smaller zoom - use Control+scroll-wheel on your mouse to zoom the display.\n"
@@ -2974,7 +3024,7 @@ msgstr ""
 "Mnoho příkazů pracuje na předmětu v poloze ukazatele Denema. Klepněte pravým tlačítkem myši na předmět, abyste získal krátkou nabídku činností nebo nastavte myší zadávací režim.\n"
 "Použijte Shift+klepnutí pravým tlačítkem myši k vložení více předmětů."
 
-#: ../src/core/view.c:4721
+#: ../src/core/view.c:4753
 msgid ""
 "This bar shows:\n"
 "Pending ♯ or ♭ sign (if the next note entered will be sharpened or flattened)\n"
@@ -2996,15 +3046,15 @@ msgstr ""
 
 #. Denemo.status_context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (Denemo.statusbar), "Denemo");
 #. gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id, "Denemo");
-#: ../src/core/view.c:4732
+#: ../src/core/view.c:4764
 msgid "No MIDI filter"
 msgstr "Žádný filtr MIDI "
 
-#: ../src/core/view.c:4733
+#: ../src/core/view.c:4765
 msgid "This area shows which MIDI filters are active. It can also be used by commands to pass information to the user"
 msgstr "Tato oblast ukazuje, které filtry MIDI jsou činné. Také to může být využito pomocí příkazů, aby se informace dostala k uživateli"
 
-#: ../src/core/view.c:4999
+#: ../src/core/view.c:5031
 msgid ""
 "A button bar that can be populated by titles and other user generated buttons.\n"
 "Generally by clicking the button you can edit the title or value or execute the action of the button"
@@ -3167,118 +3217,116 @@ msgstr ""
 "Klepnutí pravým tlačítkem myši pro vyvolání nabídky.\n"
 "Vypněte nepřetržitou sazbu, předtím než použijete volby pro rozvržení notového zápisu."
 
-#. WARNING this array has to match the FileFormatNames enum above which is used to index it!!!!!!!!!"
-#: ../src/export/file.c:75
+#: ../src/export/file.c:73
 msgid "Denemo XML format (*.denemo)"
 msgstr "Formát XML Denemo (*.denemo)"
 
-#: ../src/export/file.c:76
+#: ../src/export/file.c:74
 msgid "Denemo XML format (*.dnm)"
 msgstr "Formát XML Denemo (*.dnm)"
 
-#: ../src/export/file.c:77
+#: ../src/export/file.c:75
 msgid "Lilypond (*.ly)"
 msgstr "Liliypond (*.ly)"
 
-#: ../src/export/file.c:78
+#: ../src/export/file.c:76
 msgid "PDF (*.pdf)"
 msgstr "PDF (*.pdf)"
 
-#: ../src/export/file.c:79
+#: ../src/export/file.c:77
 msgid "PNG Image format (*.png)"
 msgstr "Obrázkový formát PNG (*.png)"
 
-#: ../src/export/file.c:80
+#: ../src/export/file.c:78
 msgid "ABC (*.abc)"
 msgstr "ABC·(*.abc)"
 
-#: ../src/export/file.c:81
+#: ../src/export/file.c:79
 msgid "Midi (*.mid, *.midi)"
 msgstr "MIDI·(*.midi)"
 
-#: ../src/export/file.c:82
+#: ../src/export/file.c:80
 msgid "CSound Score File (*.sco)"
 msgstr "Soubor s notovým zápisem pro CSound (*.sco)"
 
-#: ../src/export/file.c:83
+#: ../src/export/file.c:81
 msgid "MusicXML file (*.mxml, *.xml)"
 msgstr "Soubor Music XML (*.mxml, *.xml)"
 
-#: ../src/export/file.c:139
+#: ../src/export/file.c:156
 msgid "Close without Saving"
 msgstr "Zavřít bez uložení"
 
-#: ../src/export/file.c:182
+#: ../src/export/file.c:199
 #, c-format
 msgid "The score %s has unsaved changes"
 msgstr "Změny v notovém zápisu %s nebyly uloženy"
 
-#: ../src/export/file.c:183
+#: ../src/export/file.c:200
 msgid "Save changes?"
 msgstr "Uložit změny?"
 
-#: ../src/export/file.c:216
+#: ../src/export/file.c:233
 #, c-format
 msgid "Load of recently used file %s failed"
 msgstr "Nahrání nedávno použitého souboru %s se nezdařilo"
 
-#: ../src/export/file.c:472
+#: ../src/export/file.c:489
 msgid "You have a Script defined"
 msgstr "Máte stanoven skript"
 
-#: ../src/export/file.c:472
+#: ../src/export/file.c:489
 msgid "Use this script every time this file is opened?"
 msgstr "Použít tento skript pokaždé, když je tento soubor otevřen?"
 
-#: ../src/export/file.c:562
+#: ../src/export/file.c:579
 msgid "Could not create .denemo/templates for you personal templates"
 msgstr "Nepodařilo se vytvořit .denemo/templates pro vaše osobní předlohy"
 
-#: ../src/export/file.c:602
+#: ../src/export/file.c:619
 msgid "No examples directory in installation"
 msgstr "Žádný adresář s příklady v instalaci"
 
-#: ../src/export/file.c:616
+#: ../src/export/file.c:633
 msgid "No templates directory in installation"
 msgstr "Žádný adresář s předlohami v instalaci"
 
-#. Open the last visited directory, if any.
-#: ../src/export/file.c:861
+#: ../src/export/file.c:879
 #, c-format
 msgid "Load of file %s failed"
 msgstr "Nahrání souboru %s se nezdařilo"
 
-#: ../src/export/file.c:985
+#: ../src/export/file.c:1003
 msgid "File save failed"
 msgstr "Uložení souboru se nezdařilo"
 
-#: ../src/export/file.c:1081
+#: ../src/export/file.c:1099
 msgid "Export As "
 msgstr "Vyvést jako "
 
-#: ../src/export/file.c:1095 ../src/generated/entries.h:230
+#: ../src/export/file.c:1113 ../src/generated/entries.h:230
 #: ../src/generated/register_commands.h:215
 msgid "Save As"
 msgstr "Uložit jako"
 
-#: ../src/export/file.c:1174
+#: ../src/export/file.c:1192
 #, c-format
 msgid "A file with the name %s already exists"
 msgstr "Soubor s názvem %s již existuje."
 
-#: ../src/export/file.c:1225
+#: ../src/export/file.c:1243
 msgid "Could not interpret selection as LilyPond notes"
 msgstr "Nepodařilo se vyložit výběr jako noty LilyPondu"
 
-#: ../src/export/file.c:1230
+#: ../src/export/file.c:1248
 msgid "Paste from Selection"
 msgstr "Vložit z výběru"
 
-#: ../src/export/file.c:1230
+#: ../src/export/file.c:1248
 msgid "Paste this music into your score?"
 msgstr "Vložit tyto noty do vašeho notového zápisu?"
 
-#: ../src/export/file.c:1251
+#: ../src/export/file.c:1269
 msgid "Can only paste LilyPond text into the last tab, sorry"
 msgstr "Lilypondovský text lze vložit jen k poslední zarážce, promiňte"
 
@@ -3329,23 +3377,23 @@ msgstr ""
 msgid "Your pdf file has now been created"
 msgstr "Soubor PDF byl nyní vytvořen"
 
-#: ../src/export/print.c:800
+#: ../src/export/print.c:808
 msgid "A range of music is selected"
 msgstr "Je vybrán rozsah not"
 
-#: ../src/export/print.c:800
+#: ../src/export/print.c:808
 msgid "Print whole file?"
 msgstr "Vytisknout celý soubor"
 
-#: ../src/export/print.c:804
+#: ../src/export/print.c:812
 msgid "This piece has several movements"
 msgstr "Tento kus má několik vět"
 
-#: ../src/export/print.c:804
+#: ../src/export/print.c:812
 msgid "Print this part from all of them?"
 msgstr "Vytisknout tento hlas ze všech?"
 
-#: ../src/export/print.c:824
+#: ../src/export/print.c:832
 msgid "No selection to print"
 msgstr "Žádný výběr pro tisk"
 
@@ -4739,7 +4787,7 @@ msgid "Insert Snippet"
 msgstr "Vložit úryvek"
 
 #: ../src/generated/entries.h:200 ../src/generated/register_commands.h:199
-#: ../src/scripting/scheme-callbacks.c:3141
+#: ../src/scripting/scheme-callbacks.c:3302
 msgid "Next Snippet"
 msgstr "Další úryvek"
 
@@ -5208,7 +5256,7 @@ msgid "Export the score as a MIDI file"
 msgstr "Vyvést notový zápis jako soubor MIDI"
 
 #: ../src/generated/entries.h:246 ../src/generated/entries.h:251
-#: ../src/generated/register_commands.h:234 ../src/printview/printview.c:2371
+#: ../src/generated/register_commands.h:234 ../src/printview/printview.c:2390
 msgid "Print"
 msgstr "Tisk"
 
@@ -8086,7 +8134,7 @@ msgstr "NEPLATNÝ!"
 msgid "LilyPond could not typeset this score."
 msgstr "LilyPondu se tento notový zápis vysázet nepodařilo."
 
-#: ../src/printview/printview.c:287 ../src/printview/printview.c:2283
+#: ../src/printview/printview.c:287 ../src/printview/printview.c:2302
 msgid "Current Movement"
 msgstr "Nynější věta"
 
@@ -8094,19 +8142,19 @@ msgstr "Nynější věta"
 msgid "Excerpt Only"
 msgstr "Pouze úryvek"
 
-#: ../src/printview/printview.c:815
+#: ../src/printview/printview.c:834
 msgid "Now select the notehead of the note where the slur ends"
 msgstr "Nyní vyberte notovou hlavičku noty, kde končí legatový oblouček"
 
-#: ../src/printview/printview.c:815
+#: ../src/printview/printview.c:834
 msgid "Now select the notehead of the note where the tie ends"
 msgstr "Nyní vyberte notovou hlavičku noty, kde končí ligatura"
 
-#: ../src/printview/printview.c:815
+#: ../src/printview/printview.c:834
 msgid "Now select the notehead of the note where the beam ends"
 msgstr "Nyní vyberte notovou hlavičku noty, kde končí trámec"
 
-#: ../src/printview/printview.c:820 ../src/printview/printview.c:1826
+#: ../src/printview/printview.c:839 ../src/printview/printview.c:1845
 msgid ""
 "Now drag the begin/end markers to suggest slur position/angle\n"
 "Right click when done."
@@ -8114,7 +8162,7 @@ msgstr ""
 "Nyní táhněte značky začátku a konce pro naznačení směru a úhlu spojení (legata).\n"
 "Klepněte pravým tlačítkem myši, až budete hotovi."
 
-#: ../src/printview/printview.c:820
+#: ../src/printview/printview.c:839
 msgid ""
 "Now drag the begin/end markers to suggest tie position\n"
 "Right click when done."
@@ -8122,7 +8170,7 @@ msgstr ""
 "Nyní táhněte značky začátku a konce pro naznačení směru a úhlu spojení (ligatury).\n"
 "Klepněte pravým tlačítkem myši, až budete hotovi."
 
-#: ../src/printview/printview.c:820 ../src/printview/printview.c:1826
+#: ../src/printview/printview.c:839 ../src/printview/printview.c:1845
 msgid ""
 "Now drag the begin/end markers to set position/angle of beam\n"
 "Right click when done."
@@ -8130,11 +8178,11 @@ msgstr ""
 "Nyní táhněte značky začátku a konce pro nastavení směru a úhlu spojení.\n"
 "Klepněte pravým tlačítkem myši, až budete hotovi."
 
-#: ../src/printview/printview.c:1059
+#: ../src/printview/printview.c:1078
 msgid "PDF creation"
 msgstr "Vytvoření PDF"
 
-#: ../src/printview/printview.c:1083
+#: ../src/printview/printview.c:1102
 #, c-format
 msgid ""
 "Errno %d:\n"
@@ -8143,40 +8191,40 @@ msgstr ""
 "Chyba %d:\n"
 "Nepodařilo se zkopírovat %s do %s. Možná je to proto, že nějaký jiný proces používá cílový soubor. Zkuste to znovu s novým umístěním.\n"
 
-#: ../src/printview/printview.c:1249
+#: ../src/printview/printview.c:1268
 msgid "Slur Angle/Position"
 msgstr "Úhel/Směr legatového obloučku"
 
-#: ../src/printview/printview.c:1249
+#: ../src/printview/printview.c:1268
 msgid "Repeat Slur Positioning Hint?"
 msgstr "Zopakovat naznačení umístění legatového obloučku?"
 
-#: ../src/printview/printview.c:1260
+#: ../src/printview/printview.c:1279
 msgid "Slur Shape"
 msgstr "Tvar legatového obloučku"
 
-#: ../src/printview/printview.c:1260
+#: ../src/printview/printview.c:1279
 msgid "Repeat Shaping Slur?"
 msgstr "Opakovat tvarování legatového obloučku?"
 
-#: ../src/printview/printview.c:1278
+#: ../src/printview/printview.c:1297
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/TieShape.xml.h:1
 msgid "Tie Shape"
 msgstr "Tvar ligatury"
 
-#: ../src/printview/printview.c:1278
+#: ../src/printview/printview.c:1297
 msgid "Repeat Shaping Tie?"
 msgstr "Opakovat tvarování ligatury?"
 
-#: ../src/printview/printview.c:1517
+#: ../src/printview/printview.c:1536
 msgid "Operation Cancelled"
 msgstr "Operace zrušena"
 
-#: ../src/printview/printview.c:1534
+#: ../src/printview/printview.c:1553
 msgid "Do not know what to repeat"
 msgstr "Není známo, co se má opakovat"
 
-#: ../src/printview/printview.c:1546
+#: ../src/printview/printview.c:1565
 msgid ""
 "To tweak the positions of objects (and more) move the mouse until the hand pointer appears\n"
 "Click on the object and follow the prompts.\n"
@@ -8186,29 +8234,29 @@ msgstr ""
 "Klepněte na předmět a následujte pokyny.\n"
 "U trámců klepněte na notovou hlavičku not tam, kde trámec začíná."
 
-#: ../src/printview/printview.c:1564
+#: ../src/printview/printview.c:1583
 msgid "Apply"
 msgstr "Použít"
 
-#: ../src/printview/printview.c:1567
+#: ../src/printview/printview.c:1586
 #: ../actions/menus/ObjectMenu/Score/Typesetter/TransposeOnPrint.scm:34
 #: ../actions/Simple.scm:12
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: ../src/printview/printview.c:1575
+#: ../src/printview/printview.c:1594
 msgid "Help for Tweaks"
 msgstr "Nápověda k úpravám"
 
-#: ../src/printview/printview.c:1576
+#: ../src/printview/printview.c:1595
 msgid "This window can be used to tweak the typesetting that LilyPond does in the case that it is not optimal"
 msgstr "Toto okno lze použít pro vyladění sazby, kterou LilyPond dělá, v případě že není nejlepší."
 
-#: ../src/printview/printview.c:1580
+#: ../src/printview/printview.c:1599
 msgid "Red dots and crosses (Off/On)"
 msgstr "Červené tečky a křížky (vypnuto/zapnuto)"
 
-#: ../src/printview/printview.c:1581
+#: ../src/printview/printview.c:1600
 msgid ""
 "The exact positions of the graphical components of the score will be labelled with red dots\n"
 "and the control points for curves with red crosses for accurate tweaks\n"
@@ -8218,132 +8266,132 @@ msgstr ""
 "a ovládací body pro křivky červenými křížky pro přesné ladění.\n"
 "Před tiskem tyto vypněte!"
 
-#: ../src/printview/printview.c:1585
+#: ../src/printview/printview.c:1604
 msgid "Score Size"
 msgstr "Velikost notového zápisu"
 
 #. never true
-#: ../src/printview/printview.c:1591
+#: ../src/printview/printview.c:1610
 msgid "Repeat"
 msgstr "Opakovat"
 
-#: ../src/printview/printview.c:2235
+#: ../src/printview/printview.c:2254
 msgid "Measures before cursor:"
 msgstr "Takty před ukazatelem:"
 
-#: ../src/printview/printview.c:2244
+#: ../src/printview/printview.c:2263
 msgid "Measures after cursor:"
 msgstr "Takty po ukazateli:"
 
-#: ../src/printview/printview.c:2255
+#: ../src/printview/printview.c:2274
 msgid "Staffs before cursor:"
 msgstr "Osnovy před ukazatelem:"
 
-#: ../src/printview/printview.c:2263
+#: ../src/printview/printview.c:2282
 msgid "Staffs after cursor:"
 msgstr "Osnovy po ukazateli:"
 
 #. hbox = gtk_hbox_new (FALSE, 1);
 #. gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
-#: ../src/printview/printview.c:2278
+#: ../src/printview/printview.c:2297
 msgid "All Movements"
 msgstr "Všechny věty"
 
-#: ../src/printview/printview.c:2280
+#: ../src/printview/printview.c:2299
 msgid "If checked the current layout is re-typeset at every change"
 msgstr "Pokud zaškrtnuto, nynější rozvržení je znovu vysázeno při každé změně"
 
-#: ../src/printview/printview.c:2285
+#: ../src/printview/printview.c:2304
 msgid "If checked the current movement is re-typeset at every change"
 msgstr "Pokud zaškrtnuto, nynější věta je znovu vysázena při každé změně"
 
-#: ../src/printview/printview.c:2289
+#: ../src/printview/printview.c:2308
 msgid "Cursor Context"
 msgstr "Prostředí ukazatele"
 
-#: ../src/printview/printview.c:2291
+#: ../src/printview/printview.c:2310
 msgid "If checked the range around the current cursor position is re-typeset at every change or when the cursor moves out of range."
 msgstr "Pokud zaškrtnuto, je rozsah okolo nynější polohy ukazatele znovu vysázen při každé změně, nebo když se ukazatel přesune mimo rozsah."
 
-#: ../src/printview/printview.c:2317
+#: ../src/printview/printview.c:2336
 msgid "Set background updates on/off."
 msgstr "Nastavit aktualizace pozadí na zapnuto/vypnuto."
 
-#: ../src/printview/printview.c:2321
+#: ../src/printview/printview.c:2340
 msgid "Range"
 msgstr "Rozsah"
 
-#: ../src/printview/printview.c:2322
+#: ../src/printview/printview.c:2341
 msgid "Set how much of the score to re-draw."
 msgstr "Nastavit kolik z notového zápisu se má překreslit."
 
-#: ../src/printview/printview.c:2340
+#: ../src/printview/printview.c:2359
 msgid "Set background updater on/off. This controls if typesetting is re-done after each change to the music. The amount of the score to be re-typeset can be set via this button."
 msgstr "Nastavit aktualizace pozadí na zapnuto/vypnuto. Toto řídí, zda je sazba po každé změně v notách udělána znovu. Množství notového zápisu k přesázení lze nastavit pomocí tohoto tlačítka."
 
-#: ../src/printview/printview.c:2372
+#: ../src/printview/printview.c:2391
 msgid "Pops up a Print dialog. From this you can send your typeset score to a printer or to a PDF file."
 msgstr "Zobrazí okno s tiskovým dialogem. Z něj můžete poslat svou sazbu notového zápisu tiskárně nebo do souboru PDF."
 
-#: ../src/printview/printview.c:2376
+#: ../src/printview/printview.c:2395
 msgid "PDF"
 msgstr "PDF"
 
-#: ../src/printview/printview.c:2377
+#: ../src/printview/printview.c:2396
 msgid "Exports a pdf file for this layout"
 msgstr "Udělá soubor PDF pro toto rozvržení"
 
-#: ../src/printview/printview.c:2383
+#: ../src/printview/printview.c:2402
 msgid "Typesets the music using the one of the created layouts. See View → Score Layouts to see the layouts you have created."
 msgstr "Vysází noty za použití jednoho z vytvořených rozvržení. Podívejte se na Pohled → Rozvržení notového zápisu, abyste viděli rozvržení, jež jste vytvořili."
 
-#: ../src/printview/printview.c:2389
+#: ../src/printview/printview.c:2408
 msgid "Typesets the music from the current movement. This creates a score layout comprising one movement."
 msgstr "Vysází noty z nynější věty. Vytvoří rozvržení notového zápisu sestávající z jedné věty."
 
-#: ../src/printview/printview.c:2393
+#: ../src/printview/printview.c:2412
 msgid "Part"
 msgstr "Hlas"
 
-#: ../src/printview/printview.c:2394
+#: ../src/printview/printview.c:2413
 msgid "Typesets the music from the current part for all movements. A part is all the music with the same staff-name. This creates a score layout with one part, all movements."
 msgstr "Vysází noty z nynějšího hlasu pro všechny věty. Hlas jsou veškeré noty s týmž názvem osnovy. Vytvoří rozvržení notového zápisu s jedním hlasem, všemi větami."
 
-#: ../src/printview/printview.c:2399
+#: ../src/printview/printview.c:2418
 msgid "Re-issues the last print command. Use this after modifying the file to repeat the typesetting."
 msgstr "Vydá znovu poslední příkaz pro tisk. Použijte po úpravě souboru, aby opakoval sazbu."
 
-#: ../src/printview/printview.c:2410
+#: ../src/printview/printview.c:2429
 msgid "Duplex"
 msgstr "Dvojitý (duplex)"
 
-#: ../src/printview/printview.c:2411
+#: ../src/printview/printview.c:2430
 msgid "Shows pages side by side, so you can see page turns for back-to-back printing\n"
 msgstr "Ukáže strany vedle sebe, takže můžete vidět otočení stran pro tisk, kdy jsou strany otočeny zadními stranami k sobě\n"
 
-#: ../src/printview/printview.c:2415
+#: ../src/printview/printview.c:2434
 msgid "Next"
 msgstr "Další"
 
-#: ../src/printview/printview.c:2416
+#: ../src/printview/printview.c:2435
 msgid "Move to the next page - you can also scroll with the scroll-wheel, and zoom with control-wheel"
 msgstr "Přesunout se na další stranu - také můžete projíždět pomocí projížděcího kolečka myši, a zvětšovat ovládacím kolečkem"
 
-#: ../src/printview/printview.c:2419
+#: ../src/printview/printview.c:2438
 msgid "Previous"
 msgstr "Předchozí"
 
-#: ../src/printview/printview.c:2420
+#: ../src/printview/printview.c:2439
 msgid "Move to the previous page - you can also scroll with the scroll-wheel, and zoom with control-wheel"
 msgstr "Přesunout se na předchozí stranu - také můžete projíždět pomocí projížděcího kolečka myši, a zvětšovat ovládacím kolečkem"
 
 #. if(!Denemo.prefs.manualtypeset)
 #. gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
-#: ../src/printview/printview.c:2428
+#: ../src/printview/printview.c:2447
 msgid "Denemo Print View"
 msgstr "Pohled na tisk"
 
-#: ../src/printview/printview.c:2450
+#: ../src/printview/printview.c:2469
 msgid ""
 "This window shows the final typeset score from which you can print or (via print to file) create a PDF document.\n"
 "This will be continuously updated while you edit the music in the main window.\n"
@@ -8355,47 +8403,107 @@ msgstr ""
 "V tomto okně s náhledem na tisk můžete klepnout na notu, abyste se na to místo v hlavním okně Denema zobrazujícího noty přesunuli. Klepnutí pravým tlačítkem pro dostání nabídky pro úpravy, které můžete použít pro tažení legatových obloučků, na trámce atd., pokud nejsou tak docela v pořádku.\n"
 "<b>Poznámka</b>: Vytvoření krásné sazby notového zápisu může chvíli trvat, zvláště v případě rozsáhlého notového zápisu a pomalého počítače, takže v takovém případě pro stálou aktualizaci vyberte jen určitý rozsah."
 
-#: ../src/scripting/scheme-callbacks.c:756
+#: ../src/scripting/scheme-callbacks.c:760
 msgid "Destroying Customized Buttons"
 msgstr "Odstranění vlastních tlačítek"
 
-#: ../src/scripting/scheme-callbacks.c:756
+#: ../src/scripting/scheme-callbacks.c:760
 msgid "Remove buttons and other customized scheme on startup?"
 msgstr "Odstranit tlačítka a jiná vlastní schemata při spuštění?"
 
-#: ../src/scripting/scheme-callbacks.c:3120
+#: ../src/scripting/scheme-callbacks.c:1156
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:62
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:61
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:120
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:64
+msgid "Choose File"
+msgstr "Vybrat soubor"
+
+#: ../src/scripting/scheme-callbacks.c:3282
 msgid "Input Required"
 msgstr "Požadován vstup"
 
-#: ../src/scripting/scheme-callbacks.c:3126
+#: ../src/scripting/scheme-callbacks.c:3288
 msgid "Give input: "
 msgstr "Podat vstup: "
 
-#: ../src/scripting/scheme-callbacks.c:3135
+#: ../src/scripting/scheme-callbacks.c:3297
 msgid "Paste Current Snippet"
 msgstr "Vložit nynější úryvek"
 
-#: ../src/scripting/scheme-callbacks.c:3136
+#: ../src/scripting/scheme-callbacks.c:3298
 msgid ""
-"Pastes the music captured in the currently selected Snippet into the text at the cursor. The music appears here in the LilyPond typesetter syntax between two markers (§). It will print as typeset music embedded in the sentence you are writing.\n"
+"Pastes the music captured in the currently selected Snippet into the text at the cursor.\n"
+"The music appears here in the LilyPond typesetter syntax between two markers (§).\n"
+"It will print as typeset music embedded in the sentence you are writing.\n"
 "You can edit the syntax, taking care to leave the markers in position. If you delete one marker be sure to delete the other.\n"
 msgstr ""
-"Vloží noty zachycené v nyní vybraném úryvku do textu v poloze ukazatele. Hudba se objevuje zde ve skladbě sazeče LilyPondu mezi dvěma značkami (§). Bude se tisknout jako sazba not vložených do věty, kterou píšete.\n"
+"Vloží noty zachycené v nyní vybraném úryvku do textu v poloze ukazatele.\n"
+"Hudba se objevuje zde ve skladbě sazeče LilyPondu mezi dvěma značkami (§).\n"
+"Bude se tisknout jako sazba not vložených do věty, kterou píšete.\n"
 "Můžete upravit skladbu, staraje se, aby byly značky ponechány v jejich umístění. Pokud smažete jednu značku, ujistěte se, že smažete i druhou.\n"
 
-#: ../src/scripting/scheme-callbacks.c:3142
+#: ../src/scripting/scheme-callbacks.c:3303
 msgid ""
-"Makes the next Snippet the one that can be pasted. To see the music snippets you need to check View → Snippets\n"
+"Makes the next Snippet the one that can be pasted.\n"
+"To see the music snippets you need to check View → Snippets\n"
 "The one selected is in bold black."
 msgstr ""
-"Udělá další úryvek tím, který lze vložit. Abyste viděli úryvky not, potřebujete prověřit Pohled → Úryvky\n"
+"Udělá další úryvek tím, který lze vložit.\n"
+"Abyste viděli úryvky not, potřebujete prověřit Pohled → Úryvky\n"
 "Ten, který je vybrán, je vyznačen tučným řezem písma, černě."
 
-#: ../src/scripting/scheme-callbacks.c:3202
+#: ../src/scripting/scheme-callbacks.c:3311
+#: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:12
+#: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm:5
+#: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm:5
+msgid "Bold"
+msgstr "Tučné"
+
+#: ../src/scripting/scheme-callbacks.c:3312
+msgid ""
+"Inserts markup to make the following text bold. Enclose the words to be bold in {}. \n"
+"Note that the section markers (§) must come in pairs"
+msgstr ""
+"Vloží značení pro udělání následujícího textu tučným. Slova, aby byla provedena tučně, uzavřete složenými závorkami {}.\n"
+"Všimněte si, že značky (§) pro část musí být ve dvojici"
+
+#: ../src/scripting/scheme-callbacks.c:3316
+#: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:18
+#: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm:11
+#: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm:11
+msgid "Italic"
+msgstr "Kurzíva"
+
+#: ../src/scripting/scheme-callbacks.c:3317
+msgid ""
+"Inserts markup to make the following text italic. Enclose the words to be bold in {}.\n"
+"Note that the section markers (§) must come in pairs"
+msgstr ""
+"Vloží značení pro udělání následujícího textu kurzivním. Slova, aby byla provedena tučně, uzavřete složenými závorkami {}.\n"
+"Všimněte si, že značky (§) pro část musí být ve dvojici"
+
+#: ../src/scripting/scheme-callbacks.c:3321
+msgid "“"
+msgstr "“"
+
+#: ../src/scripting/scheme-callbacks.c:3322
+msgid "Inserts code for open quotes - leave a space after this code. Note that this is not the \" character which is used for grouping words and must be paired or LilyPond will not typeset the music."
+msgstr "Vloží kód pro otevřené uvozovky - Za tímto kódem ponechejte mezeru. Všimněte si, že toto není znak \", jenž se používá k seskupování slov a že musí být ve dvojicích, neboť jinak LilyPond noty nevysází."
+
+#: ../src/scripting/scheme-callbacks.c:3326
+msgid "”"
+msgstr "”"
+
+#: ../src/scripting/scheme-callbacks.c:3327
+msgid "Inserts code for close quotes - leave a space after this code. Note that this is not the \" character which is used for grouping words and must be paired or LilyPond will not typeset the music."
+msgstr "Vloží kód pro zavřené uvozovky - Za tímto kódem ponechejte mezeru. Všimněte si, že toto není znak \", jenž se používá k seskupování slov a že musí být ve dvojicích, neboť jinak LilyPond noty nevysází."
+
+#: ../src/scripting/scheme-callbacks.c:3382
 msgid "Script error, wrong parameter type to d-InfoDialog"
 msgstr "Chyba skriptu, nesprávný typ parametru pro d-InfoDialog"
 
-#: ../src/scripting/scheme-callbacks.c:3465
+#: ../src/scripting/scheme-callbacks.c:3645
 msgid "Already in a padding dialog"
 msgstr "Již ve vycpávkovém dialogu"
 
@@ -9298,8 +9406,8 @@ msgid "Image Viewer"
 msgstr "Prohlížeč obrázků"
 
 #: ../src/ui/prefdialog.c:553
-msgid "Audio Player"
-msgstr "Přehrávač zvuku"
+msgid "Graphics Editor"
+msgstr "Editor grafiky"
 
 #: ../src/ui/prefdialog.c:553
 msgid "Default Font Specification"
@@ -9530,7 +9638,7 @@ msgstr "Odstup mezi notovými řádky (v pixelech):"
 msgid "Paper Size"
 msgstr "Velikost papíru"
 
-#: ../src/ui/scoreprops.c:203 ../actions/denemo-modules/wysiwyg.scm:419
+#: ../src/ui/scoreprops.c:203 ../actions/denemo-modules/wysiwyg.scm:431
 msgid "Font Size"
 msgstr "Velikost písma"
 
@@ -9702,8 +9810,16 @@ msgstr "Nápověda"
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:57
 #: ../actions/menus/ObjectMenu/MeasureMenu/Upbeat.scm:46
 #: ../actions/menus/ObjectMenu/MeasureMenu/Upbeat.scm:57
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:17
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:16
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:5
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:5
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:19
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.scm:29
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:5
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/TieShape.scm:7
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.scm:7
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:18
 msgid "Advanced"
 msgstr "Pokročilé"
 
@@ -9727,16 +9843,16 @@ msgstr "Pouze pro rozvržení \""
 msgid "For all Layouts"
 msgstr "Pro všechna rozvržení"
 
-#: ../actions/denemo-modules/wysiwyg.scm:259
-#: ../actions/denemo-modules/wysiwyg.scm:302
+#: ../actions/denemo-modules/wysiwyg.scm:260
+#: ../actions/denemo-modules/wysiwyg.scm:303
 msgid "Now drag the control points to make the shape desired - when finished click away from a control point"
 msgstr "Nyní táhněte ovládací body a udělejte požadovaný tvar. Až budete hotov, klepněte na místo ležící mimo ovládací bod"
 
-#: ../actions/denemo-modules/wysiwyg.scm:263
+#: ../actions/denemo-modules/wysiwyg.scm:264
 msgid "Slur Re-shaped"
 msgstr "Legatový oblouček přetvarován"
 
-#: ../actions/denemo-modules/wysiwyg.scm:268
+#: ../actions/denemo-modules/wysiwyg.scm:269
 msgid ""
 "To re-shape curves it is better to have the control points marked.\n"
 "Use the right click menu to turn these on before invoking this command.\n"
@@ -9749,7 +9865,7 @@ msgstr ""
 "Protože však tento způsob nepracuje dobře v případě více osnov, můžete to udělat bez něj. -\n"
 "Opusťte tento dialog a jednoduše klepněte na čtyři body: začátek křivky, dva body mimo podél její délky a koncový bod."
 
-#: ../actions/denemo-modules/wysiwyg.scm:279
+#: ../actions/denemo-modules/wysiwyg.scm:280
 msgid ""
 "Now click on the control point at the left end of the slur\n"
 "Control points are marked by red crosses"
@@ -9757,28 +9873,28 @@ msgstr ""
 "Nyní klepněte na ovládací bod na levém konci legatového obloučku.\n"
 "Ovládací body jsou označeny červenými křížky"
 
-#: ../actions/denemo-modules/wysiwyg.scm:280
+#: ../actions/denemo-modules/wysiwyg.scm:281
 msgid "Now click second control point of the slur, the next red cross to the right"
 msgstr "Nyní klepněte na druhý ovládací bod legatového obloučku, další červený křížek vpravo"
 
-#: ../actions/denemo-modules/wysiwyg.scm:281
+#: ../actions/denemo-modules/wysiwyg.scm:282
 msgid "Now click third control point of the slur, the next red cross to the right"
 msgstr "Nyní klepněte na třetí ovládací bod legatového obloučku, další červený křížek vpravo"
 
-#: ../actions/denemo-modules/wysiwyg.scm:282
+#: ../actions/denemo-modules/wysiwyg.scm:283
 msgid "Now click last control point at the end of the slur, the last red cross to the right"
 msgstr "Nyní klepněte na poslední ovládací bod legatového obloučku, poslední červený křížek vpravo"
 
-#: ../actions/denemo-modules/wysiwyg.scm:290
-#: ../actions/denemo-modules/wysiwyg.scm:325
+#: ../actions/denemo-modules/wysiwyg.scm:291
+#: ../actions/denemo-modules/wysiwyg.scm:326
 msgid "First click on the center line of the staff aligning with notehead/rest (Positioning will be done with respect to this height)"
 msgstr "Nejprve klepněte na středovou linku vyrovnávání osnovy s notovou hlavičkou/pomlkou (Umístění se provede s ohledem na tuto výšku)"
 
-#: ../actions/denemo-modules/wysiwyg.scm:306
+#: ../actions/denemo-modules/wysiwyg.scm:307
 msgid "Tie Re-shaped"
 msgstr "Ligatura přetvarována"
 
-#: ../actions/denemo-modules/wysiwyg.scm:315
+#: ../actions/denemo-modules/wysiwyg.scm:316
 msgid ""
 "Now click on the control point at the left end of the tie\n"
 "Control points are marked by red crosses"
@@ -9786,55 +9902,55 @@ msgstr ""
 "Nyní klepněte na ovládací bod na levém konci ligatury.\n"
 "Ovládací body jsou označeny červenými křížky"
 
-#: ../actions/denemo-modules/wysiwyg.scm:316
+#: ../actions/denemo-modules/wysiwyg.scm:317
 msgid "Now click second control point of the tie, the next red cross to the right"
 msgstr "Nyní klepněte na druhý ovládací bod ligatury, další červený křížek vpravo"
 
-#: ../actions/denemo-modules/wysiwyg.scm:317
+#: ../actions/denemo-modules/wysiwyg.scm:318
 msgid "Now click third control point of the tie, the next red cross to the right"
 msgstr "Nyní klepněte na třetí ovládací bod ligatury, další červený křížek vpravo"
 
-#: ../actions/denemo-modules/wysiwyg.scm:318
+#: ../actions/denemo-modules/wysiwyg.scm:319
 msgid "Now click last control point at the end of the tie, the last red cross to the right"
 msgstr "Nyní klepněte na poslední ovládací bod ligatury, poslední červený křížek vpravo"
 
-#: ../actions/denemo-modules/wysiwyg.scm:335
+#: ../actions/denemo-modules/wysiwyg.scm:336
 msgid "Restore Default Slur Shape/Position"
 msgstr "Obnovit výchozí tvar/polohu legatového obloučku"
 
-#: ../actions/denemo-modules/wysiwyg.scm:335
+#: ../actions/denemo-modules/wysiwyg.scm:336
 msgid "Removes your customization of this slur"
 msgstr "Odstraní vaše vlastní úpravy tohoto legatového obloučku"
 
-#: ../actions/denemo-modules/wysiwyg.scm:336
+#: ../actions/denemo-modules/wysiwyg.scm:337
 msgid "Restore Default Tie Shape/Position"
 msgstr "Obnovit výchozí tvar/polohu ligatury"
 
-#: ../actions/denemo-modules/wysiwyg.scm:336
+#: ../actions/denemo-modules/wysiwyg.scm:337
 msgid "Removes your customization of this tie"
 msgstr "Odstraní vaše vlastní úpravy této ligatury"
 
-#: ../actions/denemo-modules/wysiwyg.scm:341
+#: ../actions/denemo-modules/wysiwyg.scm:342
 msgid "Hint Slur Position"
 msgstr "Naznačit polohu legatového obloučku"
 
-#: ../actions/denemo-modules/wysiwyg.scm:341
+#: ../actions/denemo-modules/wysiwyg.scm:342
 msgid "Edit Slur Shape"
 msgstr "Upravit tvar legatového obloučku"
 
-#: ../actions/denemo-modules/wysiwyg.scm:349
+#: ../actions/denemo-modules/wysiwyg.scm:350
 msgid "First click on the notehead of the note where the slur starts"
 msgstr "Nejprve klepněte na notovou hlavičku noty, kde legatový oblouček začíná"
 
-#: ../actions/denemo-modules/wysiwyg.scm:355
+#: ../actions/denemo-modules/wysiwyg.scm:356
 msgid "Not a slur start - cancelled"
 msgstr "Toto není začátek legatového obloučku - zrušeno"
 
-#: ../actions/denemo-modules/wysiwyg.scm:362
+#: ../actions/denemo-modules/wysiwyg.scm:363
 msgid "Edit Tie Shape"
 msgstr "Upravit tvar ligatury"
 
-#: ../actions/denemo-modules/wysiwyg.scm:390
+#: ../actions/denemo-modules/wysiwyg.scm:391
 msgid ""
 "To re-position stuff attached to notes accurately you need to have the locations of the objects marked with red dots.\n"
 "You can use the right click menu to turn these on before invoking this command. However, since this marking code is only working well for single staffs, you can go ahead without.\n"
@@ -9844,7 +9960,7 @@ msgstr ""
 "Můžete použít nabídku, která se objeví, jakmile klepnete pravým tlačítkem myši, pro jejich zapnutí před zavoláním tohoto příkazu. Nicméně, protože tento označující kód pracuje dobře jen, když jde o jednu osnovu, můžete pokračovat bez něj.\n"
 "Opusťte tento dialog a odhadněte, kde je na předmětu červené místo."
 
-#: ../actions/denemo-modules/wysiwyg.scm:394
+#: ../actions/denemo-modules/wysiwyg.scm:395
 msgid ""
 "First click on the center line of the staff aligning with notehead/rest\n"
 "(Positioning will be done with respect to this height)"
@@ -9852,170 +9968,170 @@ msgstr ""
 "Nejprve klepněte na středovou linku vyrovnávání osnovy s notovou hlavičkou/pomlkou\n"
 "(Umístění se provede s ohledem na tuto výšku)"
 
-#: ../actions/denemo-modules/wysiwyg.scm:396
+#: ../actions/denemo-modules/wysiwyg.scm:397
 msgid "Now click on the position desired for the object"
 msgstr "Nyní klepněte na polohu požadovanou pro předmět"
 
-#: ../actions/denemo-modules/wysiwyg.scm:400
+#: ../actions/denemo-modules/wysiwyg.scm:401
 msgid "Re-positioned"
 msgstr "Přemístěno"
 
-#: ../actions/denemo-modules/wysiwyg.scm:406
-#: ../actions/denemo-modules/wysiwyg.scm:546
-#: ../actions/denemo-modules/wysiwyg.scm:549
+#: ../actions/denemo-modules/wysiwyg.scm:407
+#: ../actions/denemo-modules/wysiwyg.scm:558
+#: ../actions/denemo-modules/wysiwyg.scm:561 ../actions/denemo.scm:931
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:5
 msgid "Up"
 msgstr "Nahoru"
 
-#: ../actions/denemo-modules/wysiwyg.scm:406
-#: ../actions/denemo-modules/wysiwyg.scm:546
-#: ../actions/denemo-modules/wysiwyg.scm:550
+#: ../actions/denemo-modules/wysiwyg.scm:407
+#: ../actions/denemo-modules/wysiwyg.scm:558
+#: ../actions/denemo-modules/wysiwyg.scm:562 ../actions/denemo.scm:931
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:5
 msgid "Down"
 msgstr "Dolů"
 
-#: ../actions/denemo-modules/wysiwyg.scm:406
-#: ../actions/denemo-modules/wysiwyg.scm:546
-#: ../actions/denemo-modules/wysiwyg.scm:551
+#: ../actions/denemo-modules/wysiwyg.scm:407
+#: ../actions/denemo-modules/wysiwyg.scm:558
+#: ../actions/denemo-modules/wysiwyg.scm:563 ../actions/denemo.scm:931
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:5
 msgid "Auto"
 msgstr "Automaticky"
 
-#: ../actions/denemo-modules/wysiwyg.scm:412
-#: ../actions/denemo-modules/wysiwyg.scm:456
+#: ../actions/denemo-modules/wysiwyg.scm:418
+#: ../actions/denemo-modules/wysiwyg.scm:468
 msgid "Padding"
 msgstr "Vycpání"
 
-#: ../actions/denemo-modules/wysiwyg.scm:412
+#: ../actions/denemo-modules/wysiwyg.scm:418
 msgid "Give amount of padding required around this item (in staff spaces)"
 msgstr "Uvést velikost vycpání požadované okolo této položky (v mezerách notové osnovy)"
 
-#: ../actions/denemo-modules/wysiwyg.scm:419
+#: ../actions/denemo-modules/wysiwyg.scm:431
 msgid "Give relative font size: "
 msgstr "Zadejte poměrnou velikost písma: "
 
-#: ../actions/denemo-modules/wysiwyg.scm:456
+#: ../actions/denemo-modules/wysiwyg.scm:468
 msgid "Up/Down"
 msgstr "Nahoru/Dolů"
 
-#: ../actions/denemo-modules/wysiwyg.scm:456
+#: ../actions/denemo-modules/wysiwyg.scm:468
 msgid "Offset Position"
 msgstr "Posunout polohu"
 
-#: ../actions/denemo-modules/wysiwyg.scm:488
+#: ../actions/denemo-modules/wysiwyg.scm:500
 #: ../actions/menus/ObjectMenu/Directives/PrintLayout/LineBreak.xml.h:1
 msgid "Line Break"
 msgstr "Zalomení řádku"
 
-#: ../actions/denemo-modules/wysiwyg.scm:488
+#: ../actions/denemo-modules/wysiwyg.scm:500
 msgid "Start a new line here"
 msgstr "Začít nový řádek zde"
 
-#: ../actions/denemo-modules/wysiwyg.scm:489
+#: ../actions/denemo-modules/wysiwyg.scm:501
 msgid "Start a new page here"
 msgstr "Začít novou stranu zde"
 
-#: ../actions/denemo-modules/wysiwyg.scm:492
+#: ../actions/denemo-modules/wysiwyg.scm:504
 msgid "Three Beams Right (Off/On)"
 msgstr "Tři trámce doprava (zapnuto/vypnuto)"
 
-#: ../actions/denemo-modules/wysiwyg.scm:492
+#: ../actions/denemo-modules/wysiwyg.scm:504
 msgid "Put just three beams to the right or undo a previous invocation of this command"
 msgstr "Dát pouze tři trámce doprava nebo vrátit zpět předchozí vyvolání tohoto příkazu"
 
-#: ../actions/denemo-modules/wysiwyg.scm:493
+#: ../actions/denemo-modules/wysiwyg.scm:505
 msgid "Three Beams Left (Off/On)"
 msgstr "Tři trámce doleva (zapnuto/vypnuto)"
 
-#: ../actions/denemo-modules/wysiwyg.scm:493
+#: ../actions/denemo-modules/wysiwyg.scm:505
 msgid "Put just three beams to the left or undo a previous invocation of this command"
 msgstr "Dát pouze tři trámce doleva nebo vrátit zpět předchozí vyvolání tohoto příkazu"
 
-#: ../actions/denemo-modules/wysiwyg.scm:496
+#: ../actions/denemo-modules/wysiwyg.scm:508
 msgid "Two Beams Right (Off/On)"
 msgstr "Dva trámce doprava (zapnuto/vypnuto)"
 
-#: ../actions/denemo-modules/wysiwyg.scm:496
+#: ../actions/denemo-modules/wysiwyg.scm:508
 msgid "Put just two beams to the right or undo a previous invocation of this command"
 msgstr "Dát pouze dva trámce doprava nebo vrátit zpět předchozí vyvolání tohoto příkazu"
 
-#: ../actions/denemo-modules/wysiwyg.scm:497
+#: ../actions/denemo-modules/wysiwyg.scm:509
 msgid "Two Beams Left (Off/On)"
 msgstr "Dva trámce doleva (zapnuto/vypnuto)"
 
-#: ../actions/denemo-modules/wysiwyg.scm:497
+#: ../actions/denemo-modules/wysiwyg.scm:509
 msgid "Put just two beams to the left or undo a previous invocation of this command"
 msgstr "Dát pouze dva trámce doleva nebo vrátit zpět předchozí vyvolání tohoto příkazu"
 
-#: ../actions/denemo-modules/wysiwyg.scm:502
+#: ../actions/denemo-modules/wysiwyg.scm:514
 msgid "One Beam Right (Off/On)"
 msgstr "Jeden trámec doprava (zapnuto/vypnuto)"
 
-#: ../actions/denemo-modules/wysiwyg.scm:502
+#: ../actions/denemo-modules/wysiwyg.scm:514
 msgid "Put just one beam to the right or undo a previous invocation of this command"
 msgstr "Dát pouze jeden trámec doprava nebo vrátit zpět předchozí vyvolání tohoto příkazu"
 
-#: ../actions/denemo-modules/wysiwyg.scm:503
+#: ../actions/denemo-modules/wysiwyg.scm:515
 msgid "One Beam Left (Off/On)"
 msgstr "Jeden trámec doleva (zapnuto/vypnuto)"
 
-#: ../actions/denemo-modules/wysiwyg.scm:503
+#: ../actions/denemo-modules/wysiwyg.scm:515
 msgid "Put just one beam to the left or undo a previous invocation of this command"
 msgstr "Dát pouze jeden trámec doleva nebo vrátit zpět předchozí vyvolání tohoto příkazu"
 
-#: ../actions/denemo-modules/wysiwyg.scm:504
+#: ../actions/denemo-modules/wysiwyg.scm:516
 msgid "Chop to One Beam"
 msgstr "Zkrouhnout na jeden trámec"
 
-#: ../actions/denemo-modules/wysiwyg.scm:504
+#: ../actions/denemo-modules/wysiwyg.scm:516
 msgid "Reduce the beaming between this and the next note to just one beam"
 msgstr "Omezit trámec mezi touto a další notou na jen jeden trámec"
 
-#: ../actions/denemo-modules/wysiwyg.scm:509
+#: ../actions/denemo-modules/wysiwyg.scm:521
 msgid "Chop Gap in Beam"
 msgstr "Zkrouhnout mezeru v trámci"
 
-#: ../actions/denemo-modules/wysiwyg.scm:509
+#: ../actions/denemo-modules/wysiwyg.scm:521
 msgid "Remove the beaming between this and the next note"
 msgstr "Odstranit trámec mezi touto a další notou"
 
-#: ../actions/denemo-modules/wysiwyg.scm:510
+#: ../actions/denemo-modules/wysiwyg.scm:522
 msgid "No Beam (Off/On)"
 msgstr "Žádný trámec (zapnuto/vypnuto)"
 
-#: ../actions/denemo-modules/wysiwyg.scm:510
+#: ../actions/denemo-modules/wysiwyg.scm:522
 msgid "Leave note/chord un-beamed or undo a previous invocation of this command"
 msgstr "Ponechat notu/akord bez trámce nebo nebo vrátit zpět předchozí vyvolání tohoto příkazu"
 
-#: ../actions/denemo-modules/wysiwyg.scm:511
+#: ../actions/denemo-modules/wysiwyg.scm:523
 msgid "Change beam angle/position"
 msgstr "Změnit úhel/směr trámce"
 
-#: ../actions/denemo-modules/wysiwyg.scm:511
+#: ../actions/denemo-modules/wysiwyg.scm:523
 msgid "Allows you to drag the ends of the beam"
 msgstr "Umožní vám tažení konců trámce"
 
-#: ../actions/denemo-modules/wysiwyg.scm:515
+#: ../actions/denemo-modules/wysiwyg.scm:527
 msgid "Hint Slur Angle/Position"
 msgstr "Naznačit úhel/směr legatového obloučku"
 
-#: ../actions/denemo-modules/wysiwyg.scm:515
+#: ../actions/denemo-modules/wysiwyg.scm:527
 msgid "Allows you to drag the ends of the slur"
 msgstr "Umožní vám tažení konců legatového obloučku"
 
-#: ../actions/denemo-modules/wysiwyg.scm:516
+#: ../actions/denemo-modules/wysiwyg.scm:528
 msgid "Change Slur Shape"
 msgstr "Změnit tvar legatového obloučku"
 
-#: ../actions/denemo-modules/wysiwyg.scm:516
+#: ../actions/denemo-modules/wysiwyg.scm:528
 msgid "Allows you to drag the control points of the slur"
 msgstr "Umožní vám tažení ovládacích bodů legatového obloučku"
 
-#: ../actions/denemo-modules/wysiwyg.scm:523
+#: ../actions/denemo-modules/wysiwyg.scm:535
 msgid "Change Tie Shape"
 msgstr "Změnit tvar ligatury"
 
-#: ../actions/denemo-modules/wysiwyg.scm:523
+#: ../actions/denemo-modules/wysiwyg.scm:535
 msgid "Allows you to drag the control points of the tie"
 msgstr "Umožní vám tažení ovládacích bodů ligatury"
 
@@ -10063,11 +10179,15 @@ msgstr "Ukončit výběr na notě"
 msgid "Start the selection at a note"
 msgstr "Začít výběr na notě"
 
-#: ../actions/denemo.scm:810
+#: ../actions/denemo.scm:549
+msgid "You had book titles for this score. These are being dropped. To re-instate them, re-set the title as a book title."
+msgstr "Měl jste pro tento notový zápis názvy knih. Tyto jsou zahozeny. Pro jejich opětovné ustanovení nastavte název znovu jako název knihy."
+
+#: ../actions/denemo.scm:813
 msgid "Please enter a transpose interval"
 msgstr "Zadejte, prosím, transpoziční interval"
 
-#: ../actions/denemo.scm:810
+#: ../actions/denemo.scm:813
 msgid ""
 "Please enter a transpose interval or two notes in Lilypond syntax.\n"
 "\n"
@@ -10096,6 +10216,7 @@ msgid "Edits a Denemo Directive at the lowest level. Advanced users only!"
 msgstr "Upraví příkaz Denemo na nejnižší úrovni. Pouze pro pokročilé uživatele!"
 
 #: ../actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.scm:52
+#: ../actions/menus/ObjectMenu/Lyrics/InsertLyricTie.scm:2
 msgid "Non Printing"
 msgstr "Neviditelné"
 
@@ -11113,13 +11234,19 @@ msgid "Plays the context of the current bar. Then listens for you to play each n
 msgstr "Přehrává prostředí nynějšího taktu. Pak poslouchá, jak hrajete každou notu v nynějším taktu s přidaným akordem/akordy. Když to děláte, zapisuje akordy do osnovy nahoře. Když je takt skončen, takt přehraje znovu. Umožní vám opakovat (změna výšky tónu dolů), nebo jít na další takt (změna výšky tónu nahoru)."
 
 #: ../actions/menus/MainMenu/InputMenu/MIDI/ChordsOverBass.scm:214
-#: ../actions/menus/ObjectMenu/Directives/CriticalComment.scm:15
+#: ../actions/menus/ObjectMenu/Directives/CriticalComment.scm:18
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:41
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:42
 #: ../actions/menus/ObjectMenu/MovementMenu/CreateIntro.scm:30
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:93
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:94
 #: ../actions/menus/ObjectMenu/NotesRests/ChordComment.scm:10
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/AttachedText.scm:33
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/AttachedText.scm:34
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextAbove.scm:18
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextAbove.scm:19
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:161
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:30
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:31
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.scm:18
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.scm:19
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:106
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm:38
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm:39
 msgid "y"
@@ -11864,6 +11991,23 @@ msgstr "Přidat čistou kvintu nad základ"
 msgid "Add a perfect fifth as chordnote relative to the lowest note upwards."
 msgstr "Přidat čistou kvintu jako notu akordu relativně k nejnižší notě nahoru."
 
+#: ../actions/menus/ObjectMenu/ChordMenu/AddBassInversion.scm:12
+msgid "Add Bass Note"
+msgstr "Přidat basovou notu"
+
+#: ../actions/menus/ObjectMenu/ChordMenu/AddBassInversion.scm:12
+msgid "Give bass note to add below root"
+msgstr "Zadejte basovou notu pro přidání pod základní tón akordu"
+
+#: ../actions/menus/ObjectMenu/ChordMenu/AddBassInversion.xml.h:1
+msgid "Add Bass Inversion"
+msgstr "Přidat převrat basu"
+
+#: ../actions/menus/ObjectMenu/ChordMenu/AddBassInversion.xml.h:2
+#: ../actions/palettes.xml.h:170
+msgid "Adds a bass note to a chord, while keeping the current lowest note as the root of the chord. Use this on Chord Symbol staffs to create an inversion of the chord entered."
+msgstr "Přidá do akordu basovou notu, přičemž zachová nynější nejnižší notu jako základní tón akordu. Toto použijte v osnově se symboly akordů pro vytvoření převratu (inverze) zadaného akordu."
+
 #: ../actions/menus/ObjectMenu/ChordMenu/AddBelowTop/AddHighestDownAugmented4.xml.h:1
 msgid "Add Augmented 4th below top"
 msgstr "Přidat zvětšenou kvartu pod vrchol"
@@ -12150,23 +12294,22 @@ msgstr "Výlučně pro nynější rozvržení"
 msgid "The Denemo Directive at the cursor will only apply to the current Score Layout (see View-&gt;Score Layout)"
 msgstr "Pokyn Denemo v poloze ukazatele se použije jen na nynější rozvržení notového zápisu (viz Pohled -&gt; Rozvržení notového zápisu)"
 
-#. (disp "we have " current " now\n\n")
-#: ../actions/menus/ObjectMenu/Directives/CriticalComment.scm:8
-#: ../actions/menus/ObjectMenu/Directives/CriticalComment.scm:24
+#: ../actions/menus/ObjectMenu/Directives/CriticalComment.scm:11
+#: ../actions/menus/ObjectMenu/Directives/CriticalComment.scm:27
 #: ../actions/menus/ObjectMenu/Directives/CriticalComment.xml.h:1
 msgid "Critical Comment"
 msgstr "Kritická poznámka"
 
-#: ../actions/menus/ObjectMenu/Directives/CriticalComment.scm:8
+#: ../actions/menus/ObjectMenu/Directives/CriticalComment.scm:11
 msgid "Give Comment"
 msgstr "Uvést poznámku"
 
-#: ../actions/menus/ObjectMenu/Directives/CriticalComment.scm:15
+#: ../actions/menus/ObjectMenu/Directives/CriticalComment.scm:18
 #: ../actions/menus/ObjectMenu/NotesRests/ChordComment.scm:10
 msgid "Cursor has Moved"
 msgstr "Ukazatel se přesunul"
 
-#: ../actions/menus/ObjectMenu/Directives/CriticalComment.scm:15
+#: ../actions/menus/ObjectMenu/Directives/CriticalComment.scm:18
 #: ../actions/menus/ObjectMenu/NotesRests/ChordComment.scm:10
 msgid "Apply Command to new position of cursor?"
 msgstr "Použít příkaz na novou polohu ukazatele?"
@@ -12184,6 +12327,7 @@ msgid "Defines the accordions shifts for this score. The command Menu of Objects
 msgstr "Určuje posuny akordeonu pro tento notový zápis. Příkazová nabídka předmětů k vložení umožní jejich vložení."
 
 #: ../actions/menus/ObjectMenu/Directives/InsertDefinedLilyPond.scm:23
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.scm:65
 msgid "No Definitions have been created for this score"
 msgstr "Pro tento notový zápis nebyla vytvořena žádná vymezení"
 
@@ -12330,6 +12474,10 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:12
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:26
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:93
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:94
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:161
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:106
 msgid "n"
 msgstr "n"
 
@@ -12398,6 +12546,35 @@ msgstr "Značka nádechu"
 msgid "Inserts a Breath Mark"
 msgstr "Vloží značku pro nádech"
 
+#: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm:9
+msgid "Custom Rehearsal/Text Mark"
+msgstr "Vlastní značka pro zkoušení/textová značka"
+
+#: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm:9
+msgid "Give text to use for mark"
+msgstr "Zadejte text, který se použije pro značku"
+
+#. in case the user pressed Escape do nothing
+#: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm:11
+msgid "left"
+msgstr "vlevo"
+
+#: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm:11
+msgid "center"
+msgstr "střed"
+
+#: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm:11
+msgid "right"
+msgstr "vpravo"
+
+#: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.xml.h:1
+msgid "Add Text/Rehearsal/Bookmark"
+msgstr "Přidat text/zkoušku/záložku"
+
+#: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.xml.h:2
+msgid "Inserts an arbitrary mark in the score at the cursor. Any size, font, effect can be chosen. The text position can be dragged in the print view if needed."
+msgstr "Vloží do notového zápisu v poloze ukazatele libovolnou značku. Je možné vybrat jakoukoli velikost, písmo, účinek. Polohu textu lze v případě potřeby táhnout v pohledu na tisk."
+
 #: ../actions/menus/ObjectMenu/Directives/Markings/DynamicText.scm:65
 msgid "Custom dynamic"
 msgstr "Vlastní dynamika"
@@ -12457,6 +12634,40 @@ msgstr "Značka pro tempo a metronom"
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.xml.h:2
 msgid "Insert tempi and/or metronome marks, printed or not, adjust playback tempo to suit"
 msgstr "Vložit značku pro tempo a/nebo metronom, tištěno nebo ne, upravit tempo přehrávání tak, aby vyhovovalo"
+
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:15
+msgid "Sorry, not possible, use Directives->Markings->Textual Annotation instead"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:23
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:24
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.scm:6
+msgid "Text"
+msgstr "Text"
+
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:23
+msgid ""
+"Give text to appear with following note/chord:\n"
+"The characters \\, \", §, { and } have a special meaning in the text,\n"
+"the backslash \\ starts some LilyPond sytax, the others must be paired.\n"
+"To apply italic or bold to a group of words enclose them in {}, e.g. \\bold {These words are bold}.\n"
+"Other markup commands \\super, \\tiny etc, see LilyPond documentation."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:41
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:30
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.scm:18
+msgid "Delete this text?"
+msgstr "Smazat tento text?"
+
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.xml.h:1
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.xml.h:1
+msgid "Multi-line Text and Music"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.xml.h:2
+msgid "Inserts multi-line text object which can include music snippets. The snippets are surrounded by section markers \"§\" to distinguish them from ordinary text. These must come in pairs, before and after the LilyPond syntax."
+msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:5
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:532
@@ -15001,16 +15212,10 @@ msgid "Inserts a footnote at the cursor position."
 msgstr "Vloží poznámku pod čarou v poloze ukazatele."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:12
-msgid "Bold"
-msgstr "Tučné"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:12
+#: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm:5
+#: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm:5
 msgid "Light"
 msgstr "Normální"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:18
-msgid "Italic"
-msgstr "Kurzíva"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:44
 msgid ""
@@ -15295,6 +15500,18 @@ msgstr "(Tisk) Tisk posuvek"
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/AutoAccidentals.xml.h:2
 msgid "Prints accidentals according to a chosen style"
 msgstr "Tiskne posuvky podle zvoleného stylu"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/DynamicUp.xml.h:1
+#, fuzzy
+#| msgid "Dynamics"
+msgid "Dynamics Above"
+msgstr "Dynamika"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/DynamicUp.xml.h:2
+#, fuzzy
+#| msgid "Place this at the start of the music to be printed from the Ossia staff"
+msgid "Inserts a directive to cause dynamics to be printed above the staff."
+msgstr "Toto umístit na začátek not, které se mají vytisknout z osnovy ossia"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/HideNotes.xml.h:1
 msgid "(Print) Stop Drawing Notes"
@@ -15652,6 +15869,84 @@ msgstr "Rozdělit takt na ukazateli"
 msgid "Switches keyboard input to the lyrics pane, placing the cursor on the syllable that belongs to the cursor note."
 msgstr ""
 
+#: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm:16
+msgid "Highlighted Syllable"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm:17
+#, fuzzy
+#| msgid "Give LilyPond text to insert"
+msgid "Give syllable to insert:"
+msgstr "Zadejte text LilyPondu k vložení"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.xml.h:1
+#, fuzzy
+#| msgid "Insert eighth-note rest"
+msgid "Insert Highlighted Lyric"
+msgstr "Vložit osminovou pomlku"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.xml.h:2
+msgid "Inserts a syllable which can be bold and/or italic."
+msgstr ""
+
+#. InsertLyricTie
+#: ../actions/menus/ObjectMenu/Lyrics/InsertLyricTie.scm:2
+#, fuzzy
+#| msgid "Non Printing"
+msgid "Printing"
+msgstr "Neviditelné"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertLyricTie.xml.h:1
+#, fuzzy
+#| msgid "Lyrics View"
+msgid "Lyric Tie"
+msgstr "Pohled na text písně"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertLyricTie.xml.h:2
+msgid "Inserts a lyric tie between two words at the cursor. Use this instead of a space between two words that are sung to the same note (do not leave a space as well). It will be typeset as a tie or space between the words."
+msgstr ""
+
+#. InsertMelisma
+#: ../actions/menus/ObjectMenu/Lyrics/InsertMelisma.scm:2
+#, fuzzy
+#| msgid "Split Note/Chord"
+msgid "Split Word"
+msgstr "Rozdělit notu/akord"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertMelisma.scm:2
+#, fuzzy
+#| msgid "Extend Slur"
+msgid "Extend Word"
+msgstr "Rozšířit legatový oblouček"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertMelisma.xml.h:1
+msgid "Melismata"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertMelisma.xml.h:2
+msgid "Inserts a double hyphen or double underscore in the lyrics at the cursor position. Use double hyphen between syllables and double undescore between words which are sung over many notes (a melisma). Hyphens/extender lines will be typeset to continue the syllable/word under the notes."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm:17
+#, fuzzy
+#| msgid "Give LilyPond text to insert"
+msgid "Give non-lyric text to insert"
+msgstr "Zadejte text LilyPondu k vložení"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.xml.h:2
+msgid "Inserts a stanza number (or other text that is not part of the lyrics) in the current verse at the cursor position."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Lyrics/LyricVerseDynamic.xml.h:1
+#, fuzzy
+#| msgid "Dynamics"
+msgid "Dynamic"
+msgstr "Dynamika"
+
+#: ../actions/menus/ObjectMenu/Lyrics/LyricVerseDynamic.xml.h:2
+msgid "Inserts a dynamic marking in the current verse at the insertion point in the lyrics pane. Use this to indicate dynamics which change from one verse to another."
+msgstr ""
+
 #: ../actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm:6
 msgid "Verses will no longer be printed at the end of the piece"
 msgstr "Sloky se nebudou nadále zobrazovat na konci kusu"
@@ -15862,6 +16157,7 @@ msgid "Whole Measure Repeat"
 msgstr "Celotaktová pomlka"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/WholeMeasureRepeat.xml.h:2
+#: ../actions/palettes.xml.h:168
 msgid "Inserts a whole measure repeat sign."
 msgstr "Vloží značku celotaktové pomlky."
 
@@ -16203,6 +16499,139 @@ msgstr "(Tisk) Menzurální taktové čáry (zapnuto/vypnuto)"
 msgid "Draw the barlines only between the staves but not inside."
 msgstr "Kreslit taktové čáry jen mezi notovými osnovami, ale ne uvnitř."
 
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:3
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:3
+msgid ""
+"Wait for your vector graphics editor to start.\n"
+"It will open an SVG file of the same name, if available,\n"
+"but be sure to save as encapsulated postscript (eps).\n"
+"You will need to refresh the print view to see your changes.\n"
+"When saving your eps it is good to save as SVG file format as well, \n"
+"as this will give better editing later.  \n"
+"Quit your graphics editor before quitting this dialog\n"
+"to return to work in Denemo."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:21
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:75
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:20
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:76
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:23
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:141
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:22
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:79
+#, fuzzy
+#| msgid "Edit this Palette"
+msgid "Edit the file "
+msgstr "Upravit tuto paletu"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:21
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:20
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:22
+#, fuzzy
+#| msgid "Text with Positioning"
+msgid "Edit width and position "
+msgstr "Text s umístěním"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:26
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:27
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:28
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:71
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:93
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:25
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:26
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:27
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:70
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:73
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:74
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:75
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:94
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:32
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:129
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:137
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:161
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:27
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:28
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:29
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:75
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:91
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:106
+msgid "Encapsulated Postscript File"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:26
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:25
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:73
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:32
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:27
+#, fuzzy
+msgid "Give width required:"
+msgstr "Zadat požadované % velikosti"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:27
+#, fuzzy
+msgid "Give space above required:"
+msgstr "Zadat požadované % velikosti"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:28
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:27
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:75
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:29
+#, fuzzy
+#| msgid "Give Display text if required"
+msgid "Give space to the left required:"
+msgstr "Zadejte text zobrazení, je-li vyžadován"
+
+#. (if filename
+#. (d-WarningDialog (_ "This will replace the current definition")))
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:61
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:60
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:119
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:63
+#, fuzzy
+#| msgid "Save Template"
+msgid "Start From Template"
+msgstr "Uložit předlohu"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:75
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:76
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:141
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:79
+msgid "Use the file unedited"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:91
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:92
+#, fuzzy
+#| msgid "file"
+msgid "The file "
+msgstr "Soubor"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:91
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:92
+msgid ""
+"does not exist\n"
+"Perhaps you saved to a different directory?"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:93
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:94
+msgid "Delete prepended postscript?"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:96
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:97
+msgid "Prepended Postscript Deleted"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.xml.h:1
+msgid "Append Encapsulated Postscript"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.xml.h:2
+msgid "Places text/graphics from an encapsulated postscript file at the end of the current movement. Use this for columns of text or images, fancy titles etc. prepared in other programs which are to appear after the music."
+msgstr ""
+
 #. Chapter
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/Chapter.scm:2
 msgid "Give heading or blank out to delete: "
@@ -16259,6 +16688,21 @@ msgstr "Název"
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/TitledPiece.xml.h:2
 msgid "Prints title for the current movement"
 msgstr "Vytiskne název nynější věty"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:26
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:74
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:28
+#, fuzzy
+msgid "Give space below required:"
+msgstr "Zadat požadované % velikosti"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.xml.h:1
+msgid "Prepend Encapsulated Postscript"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.xml.h:2
+msgid "Places text/graphics from an encapsulated postscript file at the start of the current movement. Use this for columns of text or images, fancy titles etc. prepared in other programs which are to appear before the music."
+msgstr ""
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementComposer.xml.h:1
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookComposer.xml.h:1
@@ -17027,6 +17471,19 @@ msgstr "Vložit notu brevis/dvoucelou notu"
 msgid "Insert a Longa"
 msgstr "Vložit notu longa"
 
+#: ../actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertNote.xml.h:1
+#, fuzzy
+#| msgid "Select Duration"
+msgid "Current Duration"
+msgstr "Vybrat dobu trvání"
+
+#: ../actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertNote.xml.h:2
+#: ../actions/palettes.xml.h:169
+#, fuzzy
+#| msgid "Changes the pitch of the note at the cursor to the cursor height"
+msgid "Inserts a note of the current duration at the cursor position and moves the cursor right."
+msgstr "Změní výšku tónu noty v poloze ukazatele směrem k výšce ukazatele"
+
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertOneNote.xml.h:2
 msgid "Inserts a note in the prevailing duration."
 msgstr "Vloží notu o převládající době trvání."
@@ -17325,41 +17782,77 @@ msgstr "Označit/Zrušit označení nynějšího akordu velice dlouhou korunou (
 msgid "Mark/Unmark current selection or note with UpBow"
 msgstr "Označit/Zrušit nynější výběr nebo notu tahem smyčce nahoru"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/AttachedText.scm:15
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:46
-msgid "Above"
-msgstr "Nad"
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:13
+msgid "Sorry, this operation needs to be applied to the start of the crescendo."
+msgstr ""
 
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/AttachedText.scm:15
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:47
-msgid "Below"
-msgstr "Pod"
+#. End of scheme script
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:31
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.xml.h:1
+msgid "Crescendo Text Spanner"
+msgstr ""
 
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/AttachedText.scm:15
-msgid "Auto Position"
-msgstr "Umístit automaticky"
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:31
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:31
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:33
+#, fuzzy
+#| msgid "Give new text"
+msgid "Give text "
+msgstr "Zadat nový text"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/AttachedText.scm:20
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextAbove.scm:6
-msgid "Text"
-msgstr "Text"
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.xml.h:2
+msgid "Prints text to start or continue a crescendo. Use for cresc. poco a poco, for example. Terminate with End Crescendo marking."
+msgstr ""
 
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/AttachedText.scm:20
-msgid "Give text to appear with note/chord: "
-msgstr "Zadejte text, který se má objevit s notou/akordem: "
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.scm:11
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.scm:11
+msgid "Not yet implmented"
+msgstr ""
 
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/AttachedText.scm:33
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextAbove.scm:18
-msgid "Delete this text?"
-msgstr "Smazat tento text?"
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.scm:14
+msgid "cresc. start deleted. The end crescendo should also be deleted ..."
+msgstr ""
 
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/AttachedText.xml.h:1
-msgid "Text with Positioning"
-msgstr "Text s umístěním"
+#. End of scheme script
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.xml.h:1
+#, fuzzy
+#| msgid "End Crescendo (Off/On)"
+msgid "Cresc (Off/On)"
+msgstr "Ukončit crescendo (vypnuto/zapnuto)"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/AttachedText.xml.h:2
-msgid "Prints text you give above/below/auto-positioned."
-msgstr "Vytiskne text, který zadáte, nad/pod/umístěný automaticky."
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.xml.h:2
+msgid "Starts textual cresc. (or deletes one already present at cursor). Terminate with End Crescendo or with a dynamic."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:13
+msgid "Sorry, this operation needs to be applied to the start of the Decrescendo."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:31
+msgid "Decrescendo Text Spanner"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.xml.h:1
+msgid "Diminuendo Text Spanner"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.xml.h:2
+msgid "Prints text to start or continue a diminuendo. Use for dim. poco a poco, for example. Terminate with End Diminuendo marking."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.scm:14
+msgid "dim. start deleted. The end diminuendo should also be deleted ..."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.xml.h:1
+#, fuzzy
+#| msgid "Tie (Off/On)"
+msgid "Dim (Off/On)"
+msgstr "Ligatura (vypnuto/zapnuto)"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.xml.h:2
+msgid "Starts a textual diminuendo. Terminate with End Diminuendo or a dynamic."
+msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.scm:10
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.scm:3
@@ -17403,6 +17896,15 @@ msgstr "Umístit čísla pod basové noty"
 msgid "Places an instruction (between $ ... $) which tells the engraver to place the figures below from this note on. Any figure for this note should follow the last $"
 msgstr "Umístí příkaz (mezi $ ... $), který rytci řekne, aby čísla umístil pod od této noty dál. Kterékoli číslo pro tuto notu má následovat poslední $"
 
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/TogglePince.xml.h:1
+msgid "Pincé"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/TogglePince.xml.h:2
+#, fuzzy
+msgid "Pincé ornament (Off/On)"
+msgstr "Mordent (vypnuto/zapnuto)"
+
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleSuspension.xml.h:1
 msgid "Suspension"
 msgstr ""
@@ -17411,6 +17913,124 @@ msgstr ""
 #, fuzzy
 msgid "Suspension ornament (Off/On)"
 msgstr "Mordent (vypnuto/zapnuto)"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblementAppuye.xml.h:1
+msgid "Tremblement Appuyé"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblementAppuye.xml.h:2
+#, fuzzy
+#| msgid "Adds a dot to the note/rest/chord at the cursor, or removes them if double dotted."
+msgid "Attaches tremblement appuyé to the note/chord at the cursor, or removes it if already present."
+msgstr "Přidá tečku k notě/pomlce/akordu v poloze ukazatele, nebo tečky, v případě že je nota/pomlka/akord opatřena dvěma tečkami, odstraní."
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblement.xml.h:1
+#, fuzzy
+#| msgid "trilelement"
+msgid "Tremblement"
+msgstr "trylkový prvek"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblement.xml.h:2
+msgid "Attach a tremblement to the current note/chord or remove it if already present."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:4
+msgid ""
+"Wait for your vector graphics editor to start.\n"
+"It will open an SVG file of the same name, if available,\n"
+"but be sure to save as encapsulated postscript (eps),\n"
+"using the name given.\n"
+"You will need to refresh the print view to see your changes.\n"
+"When saving your eps it is good to save as SVG file format as well, \n"
+"as this will give better editing later.  \n"
+"Quit your graphics editor before quitting this dialog\n"
+"to return to work in Denemo."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:23
+#, fuzzy
+#| msgid "Edit "
+msgid "Edit width "
+msgstr "Upravit"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:58
+#, fuzzy
+#| msgid "No Definitions have been created for this score"
+msgid "No definitions created for this score"
+msgstr "Pro tento notový zápis nebyla vytvořena žádná vymezení"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:82
+#, fuzzy
+#| msgid "No directive selected"
+msgid "No definitions selected"
+msgstr "Nebyl vybrán žádný příkaz"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:88
+#, fuzzy
+#| msgid "Custom dynamic"
+msgid "Custom Ornament"
+msgstr "Vlastní dynamika"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:88
+#, fuzzy
+#| msgid "Give Short Instrument Name:"
+msgid "Give Ornament Name"
+msgstr "Zadat krátký název nástroje:"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:119
+#, fuzzy
+#| msgid "Open Custom Template"
+msgid "Choose Custom Template"
+msgstr "Otevřít vlastní předlohu"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:152
+#, fuzzy
+msgid "Attaches (or removes) this ornament from the current note/chord."
+msgstr "Vytiskne odrážku nad notou v poloze ukazatele"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:157
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:102
+msgid "The file \""
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:157
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:102
+msgid ""
+"\"\n"
+"does not (yet) exist, or no longer exists.\n"
+"Typesetting will silently fail until the file exists.\n"
+"Either create the file or delete the Graphic Title Page now"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:161
+#, fuzzy
+#| msgid "Delete Movement"
+msgid "Delete Custom Ornament?"
+msgstr "Smazat větu"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:164
+msgid "Custom Ornament Definition Deleted"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.xml.h:1
+#, fuzzy
+#| msgid "Create Custom Version"
+msgid "Create Custom Ornament"
+msgstr "Vytvořit vlastní verzi"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.xml.h:2
+msgid "Allows the user to create a customized ornament (or load one previously created) into this score's definitions. Ornament names should be start in lower case and have no numerals. If a standard ornament is used, e.g. trill, then this will replace the standard ornament throughout the score."
+msgstr ""
+
+#. EditCustomOrnamentDefinition
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/EditCustomOrnamentDefinition.xml.h:1
+msgid "Edit Custom Ornament"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/EditCustomOrnamentDefinition.xml.h:2
+#: ../actions/palettes.xml.h:160
+msgid "Edit the definition (size or appearance) of a custom ornament definition. The definition must already have been created in this score."
+msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentAccidentalBelow.xml.h:1
 #, fuzzy
@@ -17441,6 +18061,30 @@ msgstr "Staccato (vypnuto/zapnuto)"
 #, fuzzy
 msgid "Places a sharp above the ornament on the note at the cursor."
 msgstr "Vytiskne odrážku nad notou v poloze ukazatele"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.scm:21
+#, fuzzy
+#| msgid "Edit this Palette"
+msgid "Edit this individual ornament"
+msgstr "Upravit tuto paletu"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.scm:22
+msgid "Edit the ornament definition"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.scm:24
+msgid "Position editing not implemented"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.xml.h:1
+#, fuzzy
+msgid "Attach Custom Ornament (Off/On)"
+msgstr "Mordent (vypnuto/zapnuto)"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.xml.h:2
+#: ../actions/palettes.xml.h:161
+msgid "Typesets a custom ornament on the current note/chord. Removes that ornament if already present."
+msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleDownPrall.xml.h:1
 #, fuzzy
@@ -17531,8 +18175,18 @@ msgid "Inserts 18th c style trill below note"
 msgstr "Vloží trylek ve stylu 18. století pod notu"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:46
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:19
+msgid "Above"
+msgstr "Nad"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:46
 msgid "Places the fingering above the chord"
 msgstr "Umístí prstoklad nad akord"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:47
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:19
+msgid "Below"
+msgstr "Pod"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:47
 msgid "Places the fingering below the chord"
@@ -17683,18 +18337,6 @@ msgstr "Vyhnout se střetům s nožičkami"
 msgid "Fingerings and String numbers will be moved to avoid colliding with stems on typesetting."
 msgstr "Prstoklady a čísla strun budou přesunuty, aby se při sázení zabránilo střetůms nožičkami."
 
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextAbove.scm:6
-msgid "Give text to appear above music: "
-msgstr "Zadejte text, aby se objevil nad notami: "
-
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextAbove.xml.h:1
-msgid "Arbitrary Text"
-msgstr "Libovolný text"
-
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextAbove.xml.h:2
-msgid "Prints your text above the music at this point"
-msgstr "Vytiskne text nad notami v tomto bodě"
-
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ArbitraryTextAbove.scm:3
 msgid "Give string"
 msgstr "Zadat řetězec"
@@ -17711,6 +18353,23 @@ msgstr "Libovolný text nad"
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ArbitraryTextAbove.xml.h:2
 msgid "Prints the text you give above the chord."
 msgstr "Vytiskne vámi zadaný text nad akordem."
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:19
+msgid "Auto Position"
+msgstr "Umístit automaticky"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:24
+msgid ""
+"Give text to appear with note/chord:\n"
+"The characters \\, \", §, { and } have a special meaning in the text,\n"
+"the backslash \\ starts some LilyPond sytax, the others must be paired.\n"
+"To apply italic or bold to a group of words enclose them in {}, e.g. \\bold {These words are bold}.\n"
+"Other markup commands \\super, \\tiny etc, see LilyPond documentation."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.xml.h:2
+msgid "Attaches multi-line text which can include music snippets. The snippets are surrounded by section markers \"§\" to distinguish them from ordinary text. These must come in pairs, before and after the LilyPond syntax."
+msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Congruentia.xml.h:1
 msgid "Congruentia"
@@ -17829,6 +18488,36 @@ msgstr "Uzavřít notu závorkami"
 msgid "Enclose the note at the cursor in ( ) when printed."
 msgstr "Dát při tisku notu v poloze ukazatele do závorek ( )."
 
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:16
+msgid "Sorry, not yet implemented"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:29
+msgid "Text Span Start deleted. The end text span later should also be deleted ..."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:33
+msgid "Text Spanner"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.xml.h:1
+#, fuzzy
+#| msgid "Tuplet Start"
+msgid "Text Span Start"
+msgstr "Začátek rytmické notové skupiny"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.xml.h:2
+msgid "Starts text which spans several notes, e.g. rallentando poco a poco. Terminate with Stop Text Span command."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStop.xml.h:1
+msgid "Text Span Stop"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStop.xml.h:2
+msgid "Stops the spanning text started earlier."
+msgstr ""
+
 #. End of scheme script
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/AllegroAssai.xml.h:1
 msgid "Allegro Assai"
@@ -17865,6 +18554,18 @@ msgstr "Presto"
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Presto.xml.h:2
 msgid "Print Presto in bold italics above the chord."
 msgstr "Vytisknout presto tučnou kurzívou nad akordem."
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.scm:6
+msgid "Give text to appear above music: "
+msgstr "Zadejte text, aby se objevil nad notami: "
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.xml.h:1
+msgid "Arbitrary Text"
+msgstr "Libovolný text"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.xml.h:2
+msgid "Prints your text above the music at this point"
+msgstr "Vytiskne text nad notami v tomto bodě"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleCoda.xml.h:1
 msgid "Coda (Off/On)"
@@ -18368,10 +19069,19 @@ msgstr "Připojit svázanou notu"
 msgid "Toggles a tie on the note at the cursor and moves right for inserting a note to tie to with duration key. Gives audible feedback."
 msgstr "Přepne ligaturu na notě v poloze ukazatele a posune vpravo pro vložení noty, ke kterou má dojít ke svázání s klíčem doby trvání. Dává zvukovou zpětnou vazbu."
 
-#: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/RepeatTie.scm:14
+#: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/LaissezVibrer.scm:15
+#: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/RepeatTie.scm:15
 #, fuzzy
 msgid "This command only applies to notes or chords."
 msgstr "Tento příkaz potřebuje notu nebo akord pro proměnu v triolu"
+
+#: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/LaissezVibrer.xml.h:1
+msgid "Laissez Vibrer"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/LaissezVibrer.xml.h:2
+msgid "Places a tie after the note at the cursor, tying to nothing. Use for laissez vibrer or when a tie comes at a final repeat."
+msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/RepeatTie.xml.h:1
 #, fuzzy
@@ -18784,16 +19494,20 @@ msgstr "Vymezení Lilypondu"
 msgid "Create a definition at the head of the LilyPond text. This can then be referenced in the music. See LilyPond documentation."
 msgstr "Vytvořit vymezení v čele textu LilyPondu. Toto pak může být odkazováno v notách. Podívejte se na dokumentaci k LilyPondu."
 
-#: ../actions/menus/ObjectMenu/Score/LilyPondInclude.scm:14
+#: ../actions/menus/ObjectMenu/Score/LilyPondInclude.scm:6
+#, fuzzy
+#| msgid "Include LilyPond File"
+msgid "Included LilyPond Files"
+msgstr "Zahrnout soubor Lilypond"
+
+#: ../actions/menus/ObjectMenu/Score/LilyPondInclude.scm:50
 msgid "Include LilyPond File"
 msgstr "Zahrnout soubor Lilypond"
 
-#: ../actions/menus/ObjectMenu/Score/LilyPondInclude.scm:14
-msgid "Give LilyPond file name:"
-msgstr "Zadat název souboru Lilypond:"
-
-#: ../actions/menus/ObjectMenu/Score/LilyPondInclude.scm:17
-msgid "LilyPondInclude unchanged"
+#: ../actions/menus/ObjectMenu/Score/LilyPondInclude.scm:55
+#, fuzzy
+#| msgid "LilyPondInclude unchanged"
+msgid "LilyPond include files unchanged"
 msgstr "Soubor include LilyPondu nezměněn"
 
 #: ../actions/menus/ObjectMenu/Score/LilyPondInclude.xml.h:1
@@ -18968,11 +19682,11 @@ msgstr "Prostor nad názvem"
 msgid "Give amount of space at top of title page"
 msgstr "Zadat množství místa nahoře strany s názvem"
 
-#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookTitle.scm:15
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookTitle.scm:16
 msgid "My Title"
 msgstr "Můj název"
 
-#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookTitle.scm:15
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookTitle.scm:16
 msgid "Give a title for the whole score or blank out to delete: "
 msgstr "Uvést název pro celý notový zápis nebo vymazat pro smazání: "
 
@@ -18988,6 +19702,10 @@ msgstr "Název a úvod"
 msgid "A button is created for putting a title and introductory text for a critical commentary at the end of the score."
 msgstr "Tlačítko je vytvořeno pro vložení názvu a úvodního textu pro kritické poznámky na konci notového zápisu."
 
+#. (if (equal? (string-ref thecomment 0) #\\)
+#. (begin
+#. (set! thecomment (substring thecomment 19))
+#. (set! thecomment (string-drop-right thecomment 1))))
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.scm:54
 msgid "At m"
 msgstr "Na m"
@@ -19000,10 +19718,6 @@ msgstr " v"
 msgid " b"
 msgstr " b"
 
-#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.scm:55
-msgid ":  "
-msgstr ":  "
-
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.xml.h:1
 msgid "(Re)Create Epilog - Critical Commentary"
 msgstr "(Znovu) Vytvořit doslov (závěr) - kritické poznámky"
@@ -19011,6 +19725,42 @@ msgstr "(Znovu) Vytvořit doslov (závěr) - kritické poznámky"
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.xml.h:2
 msgid "Collects together any critical comments from the score and places them in an epilog at the end of the music. The Title and text of the Epilog are created with the CriticalCommentaryIntro command, and critical comments are added with the CriticalComment command."
 msgstr "Sesbírá všechny kritické poznámky, které jsou v notovém zápisu, a umístí je do doslovu (epilog) na konec not. Název a text doslovu jsou vytvořeny příkazem CriticalCommentaryIntro a kritické poznámky jsou přidány pomocí příkazu CriticalComment."
+
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:4
+msgid ""
+"Wait for your vector graphics editor to start.\n"
+"It will open an SVG file of the same name, if available,\n"
+"but be sure to save as encapsulated postscript (eps).\n"
+"When saving your eps it is good to save as SVG file format as well, \n"
+"as this will give better editing later.  \n"
+"Quit your graphics editor before quitting this dialog\n"
+"to return to work in Denemo.\n"
+"If you are saving to a new file you will be asked to open it later."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:90
+msgid "Now dismiss this dialog and select the .eps file you have just saved in the graphics editor program."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:106
+#, fuzzy
+#| msgid "Delete in Stages"
+msgid "Delete Graphic Title Page?"
+msgstr "Smazat postupně"
+
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:109
+msgid "Graphic Title Page Deleted"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.xml.h:1
+#, fuzzy
+#| msgid "Print Part with Title Page"
+msgid "Create or Edit Graphic Title Page"
+msgstr "Vytisknout hlas s názvem na straně s názvem"
+
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.xml.h:2
+msgid "Places text/graphics from an encapsulated postscript file at the start of the score. Use this for a title page prepared in your vector graphics editor."
+msgstr ""
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/IncipitFromSelection.scm:21
 msgid "Incipit"
@@ -19037,21 +19787,27 @@ msgstr ""
 "Uvést název pro obsah\n"
 "Vyprázdnit pro smazání"
 
-#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.scm:9
-msgid "Table of Contents Page Break Control"
-msgstr "Ovládání zalomení strany obsahu"
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.scm:11
+#, fuzzy
+#| msgid "Page Break Before"
+msgid "Page Break before Table of Contents"
+msgstr "Zalomení strany před"
 
-#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.scm:9
-msgid ""
-"Give 0 - No page breaks\n"
-"1 - Page Break before Table of Contents\n"
-"2 - Page Break after\n"
-"3 - Both"
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.scm:12
+msgid "Page Break after Table of Contents"
 msgstr ""
-"Zadat 0 - Žádná zalomení stran\n"
-"1 - Zalomení strany před obsahem\n"
-"2 - Zalomení strany za obsahem\n"
-"3 - Obojí"
+
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.scm:13
+#, fuzzy
+#| msgid "Page Break Before"
+msgid "Page Break before and after"
+msgstr "Zalomení strany před"
+
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.scm:14
+#, fuzzy
+#| msgid "Page Break"
+msgid "No page breaks"
+msgstr "Zalomení strany"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.xml.h:2
 msgid "Gives a heading for a table of contents, inserting the table in the book."
@@ -19166,23 +19922,29 @@ msgstr "Podnázev. Zarovnán na střed pod názvem."
 msgid "Prints the name given as a title centered at the start of the score."
 msgstr "Vytiskne název zadaný jako nadpis. Zarovnán na střed na začátku notového zápisu."
 
-#: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm:3
-#: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm:4
+#: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm:9
+msgid "Source file at http://denemo.org"
+msgstr "Zdrojový soubor na http://denemo.org"
+
+#: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm:12
+#: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm:13
 #: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.xml.h:1
 msgid "Tagline with Link"
 msgstr "Heslo s odkazem"
 
-#: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm:3
+#: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm:12
 msgid "Give URL to link to"
 msgstr "Zadejte adresu (URL), na kterou se odkazuje"
 
-#: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm:4
+#: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm:13
 msgid "Give text for tagline"
 msgstr "Zadejte text hesla (motto)"
 
-#: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm:4
-msgid "Source file at http://denemo.org"
-msgstr "Zdrojový soubor na http://denemo.org"
+#: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm:20
+#, fuzzy
+#| msgid "Tagline"
+msgid "Tagline deleted"
+msgstr "Heslo"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.xml.h:2
 msgid "Creates a tagline with a link in PDF output."
@@ -19195,6 +19957,51 @@ msgstr "Nastavit styl trylku jako +"
 #: ../actions/menus/ObjectMenu/Score/TrillIsPlus.xml.h:2
 msgid "Prints trills with the common 18th c. notation: a plus sign."
 msgstr "Zobrazí trylky v podobě notového zápisu běžného v 18. století: znaménko plus."
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:8
+#, fuzzy
+#| msgid "Barlines"
+msgid "Custom Barlines"
+msgstr "Taktové čáry"
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:38
+#: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:39
+#: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:40
+#: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:41
+#: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:42
+#: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.xml.h:1
+#, fuzzy
+#| msgid "Choose Barline"
+msgid "Custom Barline"
+msgstr "Vybrat taktovou čáru"
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:38
+msgid "Give name (blank to re-define a standard barline)"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:39
+msgid "Give barline char(s) - | : . [ ] ; etc, for the normal appearance of the barline"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:40
+msgid "Give char(s) for line start appearance"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:41
+msgid "Give char(s) for line end appearance"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:42
+msgid "Give char(s) for appearance when spanning staffs"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:57
+msgid "Custom Bar Lines unchanged"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.xml.h:2
+msgid "Create a custom barline. These can be named, or can simply override a standard LilyPond bar line type. A bar line is defined by four forms, which describe 1) the appearance normally (during a line), 2) appearance when the barline is at the beginning or 3) end of a line , and 4) what to show when joining staffs together as with a Piano Staff. Barline forms are made of characters including |,:,.,[,],: and others in the LilyPond documentation."
+msgstr ""
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/DeactivateTimeSignatureStencil.xml.h:1
 msgid "(Print) Don't Engrave Time Signatures"
@@ -19251,6 +20058,33 @@ msgstr "Použít běžné konce trámců"
 #: ../actions/menus/ObjectMenu/Score/Typesetter/NormalBeamEndings.xml.h:2
 msgid "Ends beams in the expected places (print)."
 msgstr "Ukončí trámce na očekávaných místech (tisk)."
+
+#. BarNumberingAlignment
+#: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberAlignment.scm:2
+#, fuzzy
+#| msgid "Choose a barline"
+msgid "Center on barline"
+msgstr "Vybrat taktovou čáru "
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberAlignment.scm:2
+msgid "Align to left"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberAlignment.scm:7
+#, fuzzy
+#| msgid "Default bar numbering restored"
+msgid "Default bar number alignment restored"
+msgstr "Výchozí číslování taktů obnoveno"
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberAlignment.xml.h:1
+#, fuzzy
+#| msgid "Bar Numbering"
+msgid "Bar Number Alignment"
+msgstr "Číslování taktů"
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberAlignment.xml.h:2
+msgid "Allow choice of alignment of bar numbers with the barline."
+msgstr ""
 
 #. BarNumberingInterval
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberingInterval.scm:2
@@ -19776,6 +20610,12 @@ msgstr "Ukázat ossia"
 msgid "Place this at the start of the music to be printed from the Ossia staff"
 msgstr "Toto umístit na začátek not, které se mají vytisknout z osnovy ossia"
 
+#: ../actions/menus/ObjectMenu/StaffMenu/Playback/MuteStaff.scm:30
+msgid ""
+"The volume set on this staff is very low, you may not hear it.\n"
+"See Staff->Staff Properties->Built-in Staff Properties, MIDI tab."
+msgstr ""
+
 #: ../actions/menus/ObjectMenu/StaffMenu/Playback/MuteStaff.xml.h:1
 #: ../actions/menus/ObjectMenu/StaffMenu/Playback/SetInitialVolumeToZero.xml.h:1
 msgid "Mute"
@@ -19933,6 +20773,53 @@ msgstr "(Tisk) Tónový rozsah (ambitus) (zapnuto/vypnuto)"
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Ambitus.xml.h:2
 msgid "Toggle the ambitus engraver for this staff on or off"
 msgstr "Přepnout rytce tónového rozsahu (ambitu) pro tuto osnovu na zapnuto nebo vypnuto"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:9
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.xml.h:1
+#, fuzzy
+#| msgid "Add Last Staff"
+msgid "Chord Chart Staff"
+msgstr "Přidat poslední notovou osnovu"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:9
+#, fuzzy
+msgid "Give size of chord symbols required"
+msgstr "Zadat požadované % velikosti"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:13
+#, fuzzy
+#| msgid "Chord "
+msgid "Chord Chart"
+msgstr "Akord "
+
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:25
+#, fuzzy
+#| msgid "Triangle"
+msgid "Single"
+msgstr "Trojúhelník"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:26
+#, fuzzy
+#| msgid "Double Bar"
+msgid "Double"
+msgstr "Dvojitá čára"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:27
+#, fuzzy
+#| msgid "Repeat End-Start"
+msgid "RepeatStart"
+msgstr "Začátek/Konec opakování"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:28
+#, fuzzy
+#| msgid "Repeat"
+msgid "RepeatEnd"
+msgstr "Opakovat"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.xml.h:2
+#: ../actions/palettes.xml.h:164
+msgid "Prints Chord symbols separated by bar lines. Repeats, time signatures and text are also printed for this staff."
+msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordStaff.xml.h:2
 msgid "Typesets the music on this staff as chord symbols. Normally you will use this on a voice, so that the chord symbols print on the melody staff."
@@ -20401,6 +21288,16 @@ msgstr "Vybrat z množiny typických taktových označení"
 msgid "On printing, omit the time signature change at the cursor, or the initial time signature if the cursor is not on a time signature change."
 msgstr "Při tisku vynechat změnu taktové označení v poloze ukazatele, nebo začáteční taktové označení, pokud ukazatel není na změně předznamenání."
 
+#: ../actions/menus/ObjectMenu/TimeSig/NumericTimeSig.xml.h:1
+#, fuzzy
+#| msgid "Time Signatures"
+msgid "Numeric Time Signature"
+msgstr "Taktová označení"
+
+#: ../actions/menus/ObjectMenu/TimeSig/NumericTimeSig.xml.h:2
+msgid "Typesets common and cut time numerically rather than the traditional C and C cut."
+msgstr ""
+
 #: ../actions/menus/ObjectMenu/TimeSig/SingleDigitTimeSig.xml.h:1
 msgid "(Print) Single Digit (On/Off)"
 msgstr "(Tisk) Jednoduchá číslice (zapnuto/vypnuto)"
@@ -20735,6 +21632,84 @@ msgstr ""
 msgid "Ties/unties the note at the cursor. The following note should be the same pitch."
 msgstr "Sváže notu v poloze ukazatele ligaturou/Rozváže ligaturu. Následující nota by měla mít stejnou výšku tónu "
 
+#: ../actions/palettes.xml.h:158
+#, fuzzy
+#| msgid "Ornaments"
+msgid "Custom Ornaments"
+msgstr "Ozdoby"
+
+#: ../actions/palettes.xml.h:159
+msgid "Allows the user to create a customized ornament (or load one previously created)&#10;into this score's definitions. Ornament names should be start in lower case&#10;and have no numerals.&#10;If a standard ornament is used, e.g. trill,&#10;then this will replace the standard ornament throughout the score."
+msgstr ""
+
+#: ../actions/palettes.xml.h:162
+msgid "Inserts an ornament (or other LilyPond Definition) as a separate object (it will appear on the previous note)"
+msgstr ""
+
+#: ../actions/palettes.xml.h:163
+#, fuzzy
+#| msgid "Chord "
+msgid "Chord Charts"
+msgstr "Akord "
+
+#: ../actions/palettes.xml.h:165
+msgid "Create a custom barline.&#10;These can be named, or can simply override a standard LilyPond bar line type.&#10;A bar line is defined by four forms, which describe 1) the appearance normally (during a line), &#10;2) appearance when the barline is at the beginning or &#10;3) end of a line , and &#10;4) what to show when joining staffs together as with a Piano Staff.&#10;Barline forms are made of characters including |,:,.,[,],:&#10;and others in the LilyPond documentation."
+msgstr ""
+
+#: ../actions/palettes.xml.h:166
+#, fuzzy
+#| msgid "Gives a menu of previously created LilyPondDefinition commands (see Score-&gt;LilyPond Definition menu for this)"
+msgid "Insert a previously created barline. (Any other LilyPond definitions  - see Score->LilyPond Definition - are here too)."
+msgstr "Dává nabídku dříve vytvořených příkazů s vymezeními LilyPondu (nato se podívejte v nabídce Notový zápis -&gt; Vymezení Lilypondu)"
+
+#: ../actions/palettes.xml.h:167
+#, fuzzy
+#| msgid "Start a new line here"
+msgid "Start a new line at this measure."
+msgstr "Začít nový řádek zde"
+
+#: ../actions/palettes.xml.h:171
+msgid "Inserts a chord at the cursor. Cursor height gives bass note. Use pending sharpen/flatten command for sharp/flat bass note."
+msgstr ""
+
+#: ../actions/palettes.xml.h:172
+#, fuzzy
+#| msgid "Inserts a whole measure rest at the cursor"
+msgid "Inserts a chord at the cursor."
+msgstr "Vloží celotaktovou pomlku v poloze ukazatele"
+
+#: ../actions/palettes.xml.h:173
+msgid "Use in appending position to flatten the bass note of the next chord (extra to what it would be)."
+msgstr ""
+
+#: ../actions/palettes.xml.h:174
+msgid "Use in appending position to sharpen the bass note of the next chord (extra to what it would be)."
+msgstr ""
+
+#: ../actions/palettes.xml.h:175
+#, fuzzy
+#| msgid "Set the prevailing duration to 𝅝 (subsequent notes entered will have this duration)"
+msgid "Set the prevailing duration to &#x1D15D; (subsequent chords entered will have this duration)"
+msgstr "Nastavit převládající dobu trvání na 𝅝 (následně zadané noty budou mít tuto dobu trvání)"
+
+#: ../actions/palettes.xml.h:176
+#, fuzzy
+#| msgid "Set the prevailing duration to 𝅝 (subsequent notes entered will have this duration)"
+msgid "Set the prevailing duration to &#x1D15E; (subsequent chords entered will have this duration)"
+msgstr "Nastavit převládající dobu trvání na 𝅝 (následně zadané noty budou mít tuto dobu trvání)"
+
+#: ../actions/palettes.xml.h:177
+#, fuzzy
+#| msgid "Set the prevailing duration to 𝅝 (subsequent notes entered will have this duration)"
+msgid "Set the prevailing duration to &#x1D15F; (subsequent chords entered will have this duration)"
+msgstr "Nastavit převládající dobu trvání na 𝅝 (následně zadané noty budou mít tuto dobu trvání)"
+
+#: ../actions/palettes.xml.h:178
+#, fuzzy
+#| msgid "Inserts a whole measure repeat sign."
+msgid "Insert a repeated chord sign."
+msgstr "Vloží značku celotaktové pomlky."
+
 #: ../actions/Simple.scm:11
 msgid "Score Check: Error in this measure"
 msgstr "Ověření notového zápisu: Chyba v tomto taktu"
@@ -20742,6 +21717,56 @@ msgstr "Ověření notového zápisu: Chyba v tomto taktu"
 #: ../actions/Simple.scm:12
 msgid "Print Anyway"
 msgstr "Přesto vytisknout"
+
+#: ../denemo.appdata.xml.in.h:1
+#, fuzzy
+#| msgid "Create Mouse Shortcut"
+msgid "Create Music Scores"
+msgstr "Vytvořit zkratku myši"
+
+#: ../denemo.appdata.xml.in.h:2
+msgid "Denemo is a music notation program that lets you rapidly enter notation. Music can be typed in at the PC-Keyboard, or played in via MIDI controller. The typesetting is done in the background by LilyPond while you work, and is generally flawless publication quality. Any final tweaks to can be done on the final typeset score with the mouse if needed. This represents an enormous practical improvement over the most programs which require you to re-position colliding notation constantly as you enter the music."
+msgstr ""
+
+#: ../denemo.appdata.xml.in.h:3
+msgid "Unique to Denemo are methods to enter music in a musical, rather than mechanical, manner. You play in a phrase or two of the music using the number keys to indicate the note durations. Audible feedback lets you hear what you have entered; playing the phrase a second time on a real instrument adds the pitches to the rhythm. Again, Denemo gives you audible feedback so that you don’t enter E-flat when you meant D-sharp etc."
+msgstr ""
+
+#: ../denemo.appdata.xml.in.h:4
+msgid "Another great feature is the ability to put links in the score to the original source document that you transcribed from. Clicking on such a link opens the document for you and highlights the bar you are looking at. You can use this to continue work from where you left off, or for looking back at the source to check a doubtful bar."
+msgstr ""
+
+#~ msgid "Timer left running"
+#~ msgstr "Časovač běží"
+
+#~ msgid "Audio Player"
+#~ msgstr "Přehrávač zvuku"
+
+#~ msgid "Give text to appear with note/chord: "
+#~ msgstr "Zadejte text, který se má objevit s notou/akordem: "
+
+#~ msgid "Prints text you give above/below/auto-positioned."
+#~ msgstr "Vytiskne text, který zadáte, nad/pod/umístěný automaticky."
+
+#~ msgid "Give LilyPond file name:"
+#~ msgstr "Zadat název souboru Lilypond:"
+
+#~ msgid ":  "
+#~ msgstr ":  "
+
+#~ msgid "Table of Contents Page Break Control"
+#~ msgstr "Ovládání zalomení strany obsahu"
+
+#~ msgid ""
+#~ "Give 0 - No page breaks\n"
+#~ "1 - Page Break before Table of Contents\n"
+#~ "2 - Page Break after\n"
+#~ "3 - Both"
+#~ msgstr ""
+#~ "Zadat 0 - Žádná zalomení stran\n"
+#~ "1 - Zalomení strany před obsahem\n"
+#~ "2 - Zalomení strany za obsahem\n"
+#~ "3 - Obojí"
 
 #~ msgid "<b>General</b>"
 #~ msgstr "<b>Obecné</b>"
@@ -21585,9 +22610,6 @@ msgstr "Přesto vytisknout"
 #~ msgid "Toggle visibility of section"
 #~ msgstr "Přepnout viditelnost části"
 
-#~ msgid "Create Custom Version"
-#~ msgstr "Vytvořit vlastní verzi"
-
 #~ msgid "Delete Block"
 #~ msgstr "Smazat blok"
 
@@ -21637,9 +22659,6 @@ msgstr "Přesto vytisknout"
 #~ msgid "_Articulation Palette"
 #~ msgstr "_Paleta s artikulacemi"
 
-#~ msgid "Lyrics View"
-#~ msgstr "Pohled na text písně"
-
 #~ msgid "Insert whole-note"
 #~ msgstr "Vložit celou notu"
 
@@ -21675,9 +22694,6 @@ msgstr "Přesto vytisknout"
 
 #~ msgid "Insert quarter-note rest"
 #~ msgstr "Vložit čtvrťovou pomlku"
-
-#~ msgid "Insert eighth-note rest"
-#~ msgstr "Vložit osminovou pomlku"
 
 #~ msgid "Insert sixteenth-note rest"
 #~ msgstr "Vložit šestnáctinovou pomlku"
