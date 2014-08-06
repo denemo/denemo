@@ -1,5 +1,10 @@
  ;;;;;;;;;;;TwoGraceInsert with beaming into the score
- (Help::Push (cons 'doublestroketemp (_ "Press a duration key to get two, beamed, grace notes")))
+ ;(Help::Push (cons 'doublestroketemp (_ "Press a duration key to get two, beamed, grace notes")))
+
+(Help::Push (cons 'doublestroketemp
+(string-append " <span font_desc=\"22\" foreground=\"blue\">"  (_ "Press a duration key to get two, beamed, grace notes")  "</span>")))
+
+
 
 (let ()
 (define command #f)
