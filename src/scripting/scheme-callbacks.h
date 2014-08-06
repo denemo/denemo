@@ -80,6 +80,7 @@ SCM scheme_is_cresc_end (SCM);
 SCM scheme_is_dim_start (SCM);
 SCM scheme_is_dim_end (SCM);
 SCM scheme_is_in_selection (void);
+SCM scheme_has_selection (void);
 SCM scheme_is_appending (void);
 SCM scheme_shift_cursor (SCM);
 SCM scheme_get_movement (void);

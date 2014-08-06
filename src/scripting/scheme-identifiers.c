@@ -125,6 +125,7 @@ create_scheme_identfiers (void)
 
 
   install_scm_function (0, "Returns #t if the cursor is in the selection area, else #f", DENEMO_SCHEME_PREFIX "IsInSelection", scheme_is_in_selection);
+  install_scm_function (0, "Returns #t if there is a selection, else #f", DENEMO_SCHEME_PREFIX "HasSelection", scheme_has_selection);
 
   install_scm_function (0, "Returns #t if the cursor is in the appending position, else #f", DENEMO_SCHEME_PREFIX "IsAppending", scheme_is_appending);
 

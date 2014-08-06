@@ -5325,7 +5325,11 @@ scheme_is_in_selection (void)
 {
   return SCM_BOOL (in_selection (Denemo.project->movement));
 }
-
+SCM
+scheme_has_selection (void)
+{
+  return SCM_BOOL (Denemo.project->movement->markstaffnum != 0);
+}
 SCM
 scheme_is_appending (void)
 {
