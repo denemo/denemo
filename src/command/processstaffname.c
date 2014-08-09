@@ -65,7 +65,7 @@ set_lily_name (GString * denemo_name, GString * lily_name)
             g_string_append (lily_name, "O");   /* replace with upper case o */
           else if ((sscanf (&denemo_name->str[i], "%u%n", &decimal, &numchars)) == 1)
             {
-              i += numchars;    /* move over digits that have been converted by sscanf */
+              i += numchars, i--;    /* move over digits that have been converted by sscanf */
               to_roman (decimal, lily_name);
             }
           else
