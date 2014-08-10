@@ -2439,6 +2439,13 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_label>Add Diminished 5th above base</_label>
         <_tooltip>Add a diminished fifth as chordnote relative to the lowest note upwards.</_tooltip>
       </row>
+            <row type="scheme">
+        <action>AddLowestUpAugmented5</action>
+        <after>AddLowestUpDiminished5</after>
+        <menupath>/ObjectMenu/ChordMenu/AddAboveBase</menupath>
+        <_label>Add Augmented 5th above base</_label>
+        <_tooltip>Add an augmented fifth as a chord note above the lowest note at the cursor.</_tooltip>
+      </row>
       <row type="scheme">
         <action>AddHighestDownDiminished5</action>
         <after>AddHighestDownAugmented4</after>
@@ -6860,7 +6867,14 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste</menupath>
         <_label>Bémol Tremblement</_label>
         <_tooltip>Attach a tremblement with ♭ above to the current note/chord or remove it if already present.</_tooltip>
-      </row>      
+      </row>
+      <row type="scheme">
+        <action>StaffDeleteEmptyMeasures</action>
+        <after>FillEmptyMeasures</after>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <_label>Delete Empty Measures</_label>
+        <_tooltip>Deletes any measures that are empty from the measure after the cursor to end of staff.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
