@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>AddLowestUpDiminished5</after>
+        <action>AddLowestUpAugmented5</action>
+        <_label>Add Augmented 5th above base</_label>
+        <_tooltip>Add an augmented fifth as a chord note above the lowest note at the cursor.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
