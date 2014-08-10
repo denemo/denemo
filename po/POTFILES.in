@@ -554,6 +554,8 @@ actions/menus/MainMenu/ViewMenu/Zoom/ZoomReset.scm
 actions/menus/MainMenu/ViewMenu/Zoom/ZoomReset.xml
 actions/menus/ObjectMenu/ChordMenu/AddAboveBase/AddLowestUpAugmented4.scm
 actions/menus/ObjectMenu/ChordMenu/AddAboveBase/AddLowestUpAugmented4.xml
+actions/menus/ObjectMenu/ChordMenu/AddAboveBase/AddLowestUpAugmented5.scm
+actions/menus/ObjectMenu/ChordMenu/AddAboveBase/AddLowestUpAugmented5.xml
 actions/menus/ObjectMenu/ChordMenu/AddAboveBase/AddLowestUpDiminished5.scm
 actions/menus/ObjectMenu/ChordMenu/AddAboveBase/AddLowestUpDiminished5.xml
 actions/menus/ObjectMenu/ChordMenu/AddAboveBase/AddLowestUpMajor2.scm
@@ -1711,6 +1713,8 @@ actions/menus/ObjectMenu/StaffMenu/PrintEffects/TransposeStaffOutput.scm
 actions/menus/ObjectMenu/StaffMenu/PrintEffects/TransposeStaffOutput.xml
 actions/menus/ObjectMenu/StaffMenu/SimplifyTies.scm
 actions/menus/ObjectMenu/StaffMenu/SimplifyTies.xml
+actions/menus/ObjectMenu/StaffMenu/StaffDeleteEmptyMeasures.scm
+actions/menus/ObjectMenu/StaffMenu/StaffDeleteEmptyMeasures.xml
 actions/menus/ObjectMenu/StaffMenu/StaffGroupings/CheckBraces.scm
 actions/menus/ObjectMenu/StaffMenu/StaffGroupings/CheckBraces.xml
 actions/menus/ObjectMenu/StaffMenu/StaffGroupings/ChoirStaffEnd.scm
