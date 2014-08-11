@@ -11,6 +11,7 @@
             (set! count (d-GetUserInput (_ "Spacing") (_ "Give new spacing: ") count))
             (if (and (string? count) (string->number count))
                     (begin
+                    	(d-SetSaved #f)
                         (StandAloneDirectiveProto (cons tag (string-append "\\newSpacingSection\n\\override Score.SpacingSpanner.spacing-increment = #"  count "\n"))  #f "\n<-\nDenemo\n48")
                         (d-DirectivePut-standalone-data tag count))
                     (begin

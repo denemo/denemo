@@ -1,5 +1,6 @@
 ;;;RevertSpacing
 (let ((tag "RevertSpacing"))
+    (d-SetSaved #f)
     (if (d-Directive-standalone? tag)
         (begin
             (d-DirectiveDelete-standalone tag)
