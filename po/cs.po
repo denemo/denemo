@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: denemo-1.1.8-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2014-07-17 11:38-0500\n"
-"PO-Revision-Date: 2014-08-10 23:20+0200\n"
+"PO-Revision-Date: 2014-08-12 12:21+0200\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "Language: cs\n"
@@ -12655,7 +12655,7 @@ msgid ""
 msgstr ""
 "Zadejte text, který se má objevit s následující notou/akordem:\n"
 "Znaky \\, \", §, { a } mají v textu zvláštní význam,\n"
-"zpětné lomítkoh \\ začíná určitou skladbu LilyPondu, ostatní musí být ve dvojici.\n"
+"zpětné lomítko \\ začíná určitou skladbu LilyPondu, ostatní musí být ve dvojici.\n"
 "Pro použití kurzívy anebo ztučnění na skupinu slov je uzavřete ve složených závorkách: {}, např. \\bold {Tato slova jsou tučně}.\n"
 "Na další příkazy značení \\super, \\tiny atd. se podívejte do dokumentace k LilyPondu."
 
@@ -15580,7 +15580,7 @@ msgstr "Posun X-Y"
 #: ../actions/menus/ObjectMenu/NotesRests/DisplaceHorizontally.scm:5
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/DisplaceRestHorizontally.scm:2
 msgid "Give horizontal shift required"
-msgstr "Uvést vodorovný posun požadován"
+msgstr "Uvést požadovaný vodorovný posun"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/ShiftNext.scm:6
 msgid "Give vertical shift required"
@@ -17762,7 +17762,7 @@ msgstr "Promiňte. Tato operace se musí použít na začátek crescenda."
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:31
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.xml.h:1
 msgid "Crescendo Text Spanner"
-msgstr "Rozsah textu crescenda"
+msgstr "Roztažení textu crescenda"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:31
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:31
@@ -17798,11 +17798,11 @@ msgstr "Promiňte. Tato operace se musí použít na začátek decrescenda."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:31
 msgid "Decrescendo Text Spanner"
-msgstr "Rozsah textu decrescenda"
+msgstr "Roztažení textu decrescenda"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.xml.h:1
 msgid "Diminuendo Text Spanner"
-msgstr "Rozsah textu diminuenda"
+msgstr "Roztažení textu diminuenda"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.xml.h:2
 msgid "Prints text to start or continue a diminuendo. Use for dim. poco a poco, for example. Terminate with End Diminuendo marking."
@@ -17921,44 +17921,33 @@ msgid "Edit width "
 msgstr "Upravit šířku"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:58
-#, fuzzy
-#| msgid "No Definitions have been created for this score"
 msgid "No definitions created for this score"
 msgstr "Pro tento notový zápis nebyla vytvořena žádná vymezení"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:82
-#, fuzzy
-#| msgid "No directive selected"
 msgid "No definitions selected"
-msgstr "Nebyl vybrán žádný příkaz"
+msgstr "Nebyla vybrána žádná vymezení"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:88
-#, fuzzy
-#| msgid "Custom dynamic"
 msgid "Custom Ornament"
-msgstr "Vlastní dynamika"
+msgstr "Vlastní ozdoba"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:88
-#, fuzzy
-#| msgid "Give Short Instrument Name:"
 msgid "Give Ornament Name"
-msgstr "Zadat krátký název nástroje:"
+msgstr "Zadat název ozdoby"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:119
-#, fuzzy
-#| msgid "Open Custom Template"
 msgid "Choose Custom Template"
-msgstr "Otevřít vlastní předlohu"
+msgstr "Vybrat vlastní předlohu"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:152
-#, fuzzy
 msgid "Attaches (or removes) this ornament from the current note/chord."
-msgstr "Vytiskne odrážku nad notou v poloze ukazatele"
+msgstr "Připojí (nebo odstraní) tuto ozdobu z nynější noty/akordu."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:157
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:102
 msgid "The file \""
-msgstr ""
+msgstr "Soubor \""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:157
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:102
@@ -17968,99 +17957,89 @@ msgid ""
 "Typesetting will silently fail until the file exists.\n"
 "Either create the file or delete the Graphic Title Page now"
 msgstr ""
+"\"\n"
+"neexistuje (ještě), nebo už neexistuje.\n"
+"Sazba potichu selže, dokud soubor nebude existovat.\n"
+"Buď soubor vytvořte, anebo nyní smažte stránku s grafickým názvem"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:161
-#, fuzzy
-#| msgid "Delete Movement"
 msgid "Delete Custom Ornament?"
-msgstr "Smazat větu"
+msgstr "Smazat vlastní ozdobu?"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:164
 msgid "Custom Ornament Definition Deleted"
-msgstr ""
+msgstr "Vymezení vlastní ozdoby smazáno"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.xml.h:1
-#, fuzzy
-#| msgid "Create Custom Version"
 msgid "Create Custom Ornament"
-msgstr "Vytvořit vlastní verzi"
+msgstr "Vytvořit vlastní ozdobu"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.xml.h:2
 msgid "Allows the user to create a customized ornament (or load one previously created) into this score's definitions. Ornament names should be start in lower case and have no numerals. If a standard ornament is used, e.g. trill, then this will replace the standard ornament throughout the score."
-msgstr ""
+msgstr "Umožní uživateli vytvořit vlastní ozdobu (nebo nahrát jednu předtím vytvořenou) do vymezení tohoto notového zápisu. Názvy ozdob by měly začínat malým písmenem a nemají obsahovat čísla. Pokud je použita běžná ozdoba, např. trylek, potom bude tímto tato běžná ozdoba nahrazena napříč notovým zápisem."
 
 #. EditCustomOrnamentDefinition
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/EditCustomOrnamentDefinition.xml.h:1
 msgid "Edit Custom Ornament"
-msgstr ""
+msgstr "Upravit vlastní ozdobu"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/EditCustomOrnamentDefinition.xml.h:2
 #: ../actions/palettes.xml.h:160
 msgid "Edit the definition (size or appearance) of a custom ornament definition. The definition must already have been created in this score."
-msgstr ""
+msgstr "Upravit vymezení (velikost nebo vzhled) vymezení vlastní ozdoby. Vymezení již muselo být vytvořeno v tomto notovém zápisu."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentAccidentalBelow.xml.h:1
-#, fuzzy
 msgid "Accidental Below"
-msgstr "Skrýt posuvku"
+msgstr "Posuvka pod"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentAccidentalBelow.xml.h:2
-#, fuzzy
 msgid "Places the accidental on the ornament below rather than above."
-msgstr "Vynutí posuvku u noty, která se má vytisknout."
+msgstr "Umístí posuvku na ozdobu pod spíše než nad."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentFlat.xml.h:1
-#, fuzzy
 msgid "Attach ♭ (Off/On)"
-msgstr "Staccato (vypnuto/zapnuto)"
+msgstr "Připojit ♭  (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentFlat.xml.h:2
-#, fuzzy
 msgid "Places a flat above the ornament on the note at the cursor."
-msgstr "Umístí značku ff při akordu v poloze ukazatele"
+msgstr "Umístí béčko nad ozdobu na notě v poloze ukazatele."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentSharp.xml.h:1
-#, fuzzy
 msgid "Attach ♯ (Off/On)"
-msgstr "Staccato (vypnuto/zapnuto)"
+msgstr "Připojit ♯ (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentSharp.xml.h:2
-#, fuzzy
 msgid "Places a sharp above the ornament on the note at the cursor."
-msgstr "Vytiskne odrážku nad notou v poloze ukazatele"
+msgstr "Umístí křížek nad ozdobu na notě v poloze ukazatele."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.scm:21
-#, fuzzy
-#| msgid "Edit this Palette"
 msgid "Edit this individual ornament"
-msgstr "Upravit tuto paletu"
+msgstr "Upravit tuto jednotlivou ozdobu"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.scm:22
 msgid "Edit the ornament definition"
-msgstr ""
+msgstr "Upravit vymezení ozdoby"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.scm:24
 msgid "Position editing not implemented"
-msgstr ""
+msgstr "Upravování polohy ještě neuděláno"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.xml.h:1
-#, fuzzy
 msgid "Attach Custom Ornament (Off/On)"
-msgstr "Mordent (vypnuto/zapnuto)"
+msgstr "Připojit vlastní ozdobu (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.xml.h:2
 #: ../actions/palettes.xml.h:161
 msgid "Typesets a custom ornament on the current note/chord. Removes that ornament if already present."
-msgstr ""
+msgstr "Vysází vlastní ozdobu na nynější notě/akordu. Odstraní tuto ozdobu, pokud již je přítomna."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleDownPrall.xml.h:1
-#, fuzzy
 msgid "Down Prall (Off/On)"
-msgstr "Nátryl (náraz, odraz) (vypnuto/zapnuto)"
+msgstr "Dvojitý příraz a trylek (zdola) (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleDownPrall.xml.h:2
 msgid "Typesets a down prall on the current note/chord. Removes that ornament if already present."
-msgstr ""
+msgstr "Vysází dvojitý příraz a trylek (zdola) na nynější notě/akordu. Odstraní tuto ozdobu, pokud již je přítomna."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleMordent.xml.h:1
 msgid "Mordent (Off/On)"
@@ -18073,7 +18052,7 @@ msgstr "Přidá/Odstraní mordent z noty"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/TogglePrallPrall.xml.h:1
 msgid "PrallPrall (Off/On)"
-msgstr "Nátryl a nátryl (vypnuto/zapnuto)"
+msgstr "Nátryl a nátryl (trylek) (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/TogglePrallPrall.xml.h:2
 msgid "Adds/Removes a PrallPrall to the note"
@@ -18081,7 +18060,7 @@ msgstr "Přidá/Odstraní nátryl a nátryl z noty"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/TogglePrall.xml.h:1
 msgid "Prall (Off/On)"
-msgstr "Nátryl (náraz, odraz) (vypnuto/zapnuto)"
+msgstr "Nátryl (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/TogglePrall.xml.h:2
 #: ../actions/palettes.xml.h:73
@@ -18118,7 +18097,7 @@ msgstr "Přidá/Odstraní obal z noty"
 #. (d-DirectivePut-chord-gy "UpPrall" -100)
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleUpPrall.xml.h:1
 msgid "Up Prall (Off/On)"
-msgstr "Nátryl nahoru (vypnuto/zapnuto)"
+msgstr "Dvojitý příraz a trylek (shora) (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleUpPrall.xml.h:2
 #: ../actions/palettes.xml.h:74
@@ -18250,34 +18229,28 @@ msgid "Prints two fingerings joined to indicate a change of fingering on one not
 msgstr "Vytiskne dva prstoklady spojené tak, aby naznačily změnu prstokladu na jedné notě."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/TweakFingeringPosition.scm:8
-#, fuzzy
 msgid "Fingering"
 msgstr "Prstoklad"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/TweakFingeringPosition.scm:8
-#, fuzzy
 msgid "Give finger number: "
-msgstr "Dát nabídce popisek: "
+msgstr "Zadat číslo prstu: "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/TweakFingeringPosition.scm:12
-#, fuzzy
 msgid "Give horizontal shift required: "
-msgstr "Uvést vodorovný posun požadován"
+msgstr "Zadat požadovaný vodorovný posun: "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/TweakFingeringPosition.scm:18
-#, fuzzy
 msgid "Give vertical shift required: "
-msgstr "Zadat požadovaný svislý posun"
+msgstr "Zadat požadovaný svislý posun: "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/TweakFingeringPosition.xml.h:1
-#, fuzzy
 msgid "Tweak Position"
-msgstr "Poloha textu"
+msgstr "Ladění polohy"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/TweakFingeringPosition.xml.h:2
-#, fuzzy
 msgid "Shifts the position of the fingering indication by the amounts given."
-msgstr "Dovolí vám určit polohu prstokladu v poměru k notě v poloze ukazatele."
+msgstr "Posune polohu označení prstokladu o zadané množství."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/RHFinger.xml.h:1
 msgid "Right Hand Fingering"
@@ -18333,10 +18306,15 @@ msgid ""
 "To apply italic or bold to a group of words enclose them in {}, e.g. \\bold {These words are bold}.\n"
 "Other markup commands \\super, \\tiny etc, see LilyPond documentation."
 msgstr ""
+"Zadejte text, který se má objevit s notou/akordem:\n"
+"Znaky \\, \", §, { a } mají v textu zvláštní význam,\n"
+"zpětné lomítko \\ začíná určitou skladbu LilyPondu, ostatní musí být ve dvojici.\n"
+"Pro použití kurzívy anebo ztučnění na skupinu slov je uzavřete ve složených závorkách: {}, např. \\bold {Tato slova jsou tučně}.\n"
+"Na další příkazy značení \\super, \\tiny atd. se podívejte do dokumentace k LilyPondu."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.xml.h:2
 msgid "Attaches multi-line text which can include music snippets. The snippets are surrounded by section markers \"§\" to distinguish them from ordinary text. These must come in pairs, before and after the LilyPond syntax."
-msgstr ""
+msgstr "Připojí víceřádkový text, který může zahrnout úryvky not. Úryvky jsou obklopeny značkami pro části \"§\" pro jejich odlišení od obyčejného textu. Tyto musí být ve dvojicích, před a po LilyPondovské skladbě."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Congruentia.xml.h:1
 msgid "Congruentia"
@@ -18457,33 +18435,31 @@ msgstr "Dát při tisku notu v poloze ukazatele do závorek ( )."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:16
 msgid "Sorry, not yet implemented"
-msgstr ""
+msgstr "Promiňte. Nebylo ještě uděláno"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:29
 msgid "Text Span Start deleted. The end text span later should also be deleted ..."
-msgstr ""
+msgstr "Začátek roztažení textu smazán. Konec roztažení textu by měl být smazán také..."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:33
 msgid "Text Spanner"
-msgstr ""
+msgstr "Roztažení textu"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.xml.h:1
-#, fuzzy
-#| msgid "Tuplet Start"
 msgid "Text Span Start"
-msgstr "Začátek rytmické notové skupiny"
+msgstr "Začátek roztažení textu"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.xml.h:2
 msgid "Starts text which spans several notes, e.g. rallentando poco a poco. Terminate with Stop Text Span command."
-msgstr ""
+msgstr "Začne text, který má rozsah několik not, například rallentando poco a poco. Ukončete příkazem pro zastavení roztažení textu (Stop Text Span)."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStop.xml.h:1
 msgid "Text Span Stop"
-msgstr ""
+msgstr "Konec roztažení textu"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStop.xml.h:2
 msgid "Stops the spanning text started earlier."
-msgstr ""
+msgstr "Zastaví roztahující se text započatý dříve."
 
 #. End of scheme script
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/AllegroAssai.xml.h:1
@@ -18569,23 +18545,20 @@ msgid "Inserts the marked MIDI note from the current track, using the duration s
 msgstr "Vloží označenou notu MIDI z nynější stopy. Použije se navržená doba trvání. Použijte klávesy pro dobu trvání k vložení stejné noty o jiné době trvání."
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/IndividualNoteheadSize.scm:10
-#, fuzzy
 msgid "Notehead Font Magnification"
-msgstr "Výchozí písmo"
+msgstr "Zvětšení písma pro notovou hlavičku"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/IndividualNoteheadSize.scm:10
-#, fuzzy
 msgid "Give size required: "
-msgstr "Zadat požadované % velikosti"
+msgstr "Zadat požadovanou velikost: "
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/IndividualNoteheadSize.xml.h:1
-#, fuzzy
 msgid "Individual Note Head Size"
-msgstr "Ligatura jednotlivé noty (vypnuto/zapnuto)"
+msgstr "Velikost jednotlivé notové hlavičky"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/IndividualNoteheadSize.xml.h:2
 msgid "Allows the notehead that the cursor is on to be made larger of smaller than normal."
-msgstr ""
+msgstr "Umožní, aby notová hlavička, na níž je ukazatel, byla větší anebo menší, než je obvyklé."
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/NeoMensuralNotehead.xml.h:1
 msgid "Neo-mensural"
@@ -18739,7 +18712,7 @@ msgstr "Číslo vícetaktové pomlky (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRestNumber.xml.h:2
 msgid "Turns the printing of the multi-measure rest number off or on. Use this when merging rests to avoid the number appearing twice."
-msgstr ""
+msgstr "Vypne nebo zapne tisk vícetaktové pomlky. Použijte při slučování pomlk, abyste se vyhnul objevení se stejných čísel dvakrát."
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.scm:70
 msgid "Grouped in mm rest"
@@ -18836,9 +18809,8 @@ msgid "Not on a slur"
 msgstr "Toto není legatový oblouček"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/DeleteSlur.xml.h:2
-#, fuzzy
 msgid "Deletes the slur that includes the current cursor position."
-msgstr "Rozšíří výběr k nynější poloze ukazatele"
+msgstr "Smaže legatový oblouček, který zahrnuje nynější polohu ukazatele."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/EndPhrasingSlur.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ToggleEndPhrasingSlur.xml.h:1
@@ -19038,27 +19010,25 @@ msgstr "Přepne ligaturu na notě v poloze ukazatele a posune vpravo pro vložen
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/LaissezVibrer.scm:15
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/RepeatTie.scm:15
-#, fuzzy
 msgid "This command only applies to notes or chords."
-msgstr "Tento příkaz potřebuje notu nebo akord pro proměnu v triolu"
+msgstr "Tento příkaz se použije jen na noty nebo akordy."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/LaissezVibrer.xml.h:1
 msgid "Laissez Vibrer"
-msgstr ""
+msgstr "Laissez Vibrer"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/LaissezVibrer.xml.h:2
 msgid "Places a tie after the note at the cursor, tying to nothing. Use for laissez vibrer or when a tie comes at a final repeat."
-msgstr ""
+msgstr "Umístí ligaturu za notu v poloze ukazatele, nespojí ji s ničím. Použijte pro Laissez Vibrer (nechte chvět), nebo když ligatura přichází při posledním/závěrečném opakování."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/RepeatTie.xml.h:1
-#, fuzzy
 msgid "Repeat Tie"
-msgstr "Opakovat"
+msgstr "Opakovat ligaturu"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/RepeatTie.xml.h:2
 #: ../actions/palettes.xml.h:156
 msgid "The note at the cursor ends a tie that has begun elsewhere, usually in a first time bar. That is it is a repeat of the tie ending."
-msgstr ""
+msgstr "Nota v poloze ukazatele ukončí ligaturu, která začala někde jinde, obvykle v první době taktu. Jinými slovy, je to opakování ukončení ligatury."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieFlatter.scm:10
 msgid "Convexity of Tie"
@@ -19238,13 +19208,12 @@ msgid "Transpose/shift the cursor note or selection one step up, stay in the key
 msgstr "Převést/Posunout notu ukazatele nebo výběr o jeden krok nahoru, zůstat v předznamenání."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TremoloDownward.xml.h:1
-#, fuzzy
 msgid "Tremolo Downward"
-msgstr "Tremolo"
+msgstr "Tremolo dolů"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TremoloDownward.xml.h:2
 msgid "Slopes the tremolo slash downwards instead of upwards."
-msgstr ""
+msgstr "Skloní tremolové lomítko dolů, místo aby směřovalo nahoru."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:4
 msgid ""
@@ -19259,14 +19228,12 @@ msgid "Click on the display and press a shortcut key 3-7 for the duration into w
 msgstr "Klepněte na zobrazení a použijte klávesovou zkratku 3-7 pro dobu trvání, na kterou se nota v poloze ukazatele má rozdělit"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TremoloUpward.xml.h:1
-#, fuzzy
 msgid "Tremolo Upward"
-msgstr "Tremolo"
+msgstr "Tremolo nahoru"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TremoloUpward.xml.h:2
-#, fuzzy
 msgid "Slopes tremolo mark on stem upward."
-msgstr "Nožičky od teď na místě nahoru."
+msgstr "Skloní značku pro tremolo na nožičce nahoru."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tremolo.xml.h:1
 msgid "Tremolo"
@@ -19406,22 +19373,20 @@ msgstr "Prověří notový zápis na nesprávné doby trvání taktů, neukonče
 
 #. DisplayEditTime
 #: ../actions/menus/ObjectMenu/Score/DisplayEditingTime.scm:2
-#, fuzzy
 msgid "This score has taken\n"
-msgstr "Toto je poslední stopa"
+msgstr "Tento notový zápis zabralo\n"
 
 #: ../actions/menus/ObjectMenu/Score/DisplayEditingTime.scm:2
 msgid "to create, not counting unsaved edits."
-msgstr ""
+msgstr "vytvořit, nepočítaje v to neuložené úpravy."
 
 #: ../actions/menus/ObjectMenu/Score/DisplayEditingTime.xml.h:1
-#, fuzzy
 msgid "Time Spent Editing"
-msgstr "Časovač běží"
+msgstr "Upravení stráveného času"
 
 #: ../actions/menus/ObjectMenu/Score/DisplayEditingTime.xml.h:2
 msgid "Prints out the cumulative time spent editing this score.\\nThe time counts any period between starting to edit and saving to disk\\nThe time is accumulated over different editing sessions."
-msgstr ""
+msgstr "Zobrazí sčítající se čas strávený při úpravách tohoto notového zápisu.\\nDo času se započítává veškerá doba mezi začátkem úprav a uložením práce na disk.\\nČas se hromadí napříč různými sezeními vyplněnými úpravami."
 
 #: ../actions/menus/ObjectMenu/Score/EditProlog.scm:5
 msgid "Edit Score Prolog"
@@ -19462,24 +19427,20 @@ msgid "Create a definition at the head of the LilyPond text. This can then be re
 msgstr "Vytvořit vymezení v čele textu LilyPondu. Toto pak může být odkazováno v notách. Podívejte se na dokumentaci k LilyPondu."
 
 #: ../actions/menus/ObjectMenu/Score/LilyPondInclude.scm:6
-#, fuzzy
-#| msgid "Include LilyPond File"
 msgid "Included LilyPond Files"
-msgstr "Zahrnout soubor Lilypond"
+msgstr "Hlavičkové soubory Lilypond"
 
 #: ../actions/menus/ObjectMenu/Score/LilyPondInclude.scm:50
 msgid "Include LilyPond File"
-msgstr "Zahrnout soubor Lilypond"
+msgstr "Hlavičkový soubor Lilypond"
 
 #: ../actions/menus/ObjectMenu/Score/LilyPondInclude.scm:55
-#, fuzzy
-#| msgid "LilyPondInclude unchanged"
 msgid "LilyPond include files unchanged"
-msgstr "Soubor include LilyPondu nezměněn"
+msgstr "Hlavičkové soubory LilyPondu nezměněny"
 
 #: ../actions/menus/ObjectMenu/Score/LilyPondInclude.xml.h:1
 msgid "LilyPond Include File"
-msgstr "Soubor include LilyPondu"
+msgstr "Hlavičkový soubor LilyPondu"
 
 #: ../actions/menus/ObjectMenu/Score/LilyPondInclude.xml.h:2
 msgid "Allows specification of a LilyPond include file from the Denemo provided include files."
@@ -19496,7 +19457,7 @@ msgstr "Spustí jakýkoli pokyn znovu, jenž by mohl zastarat."
 
 #: ../actions/menus/ObjectMenu/Score/ScoreBlockProlog.xml.h:1
 msgid "LilyPond Score Block Prolog"
-msgstr "Prolog k bloku notového zápisu v LilyPondu"
+msgstr "Úvod k bloku notového zápisu v LilyPondu"
 
 #: ../actions/menus/ObjectMenu/Score/ScoreBlockProlog.xml.h:2
 msgid "Inserts LilyPond at the start of every score block (movement)."
@@ -19509,7 +19470,7 @@ msgstr "Uchovává jakoukoli textovou poznámku, kterou můžete k tomuto notov�
 #: ../actions/menus/ObjectMenu/Score/ScoreProlog.scm:7
 #: ../actions/menus/ObjectMenu/Score/ScoreProlog.xml.h:1
 msgid "LilyPond Score Prolog"
-msgstr "Prolog k notovému zápisu v LilyPondu"
+msgstr "Úvod k notovému zápisu v LilyPondu"
 
 #: ../actions/menus/ObjectMenu/Score/ScoreProlog.scm:7
 msgid "Give LilyPond:"
@@ -19715,27 +19676,23 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:90
 msgid "Now dismiss this dialog and select the .eps file you have just saved in the graphics editor program."
-msgstr ""
+msgstr "Nyní opusťte tento dialog a vyberte soubor .eps, jejž jste právě uložil v programu na upravování grafiky"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:106
-#, fuzzy
-#| msgid "Delete in Stages"
 msgid "Delete Graphic Title Page?"
-msgstr "Smazat postupně"
+msgstr "Smazat stránku s grafickým názvem?"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:109
 msgid "Graphic Title Page Deleted"
-msgstr ""
+msgstr "Stránka s grafickým názvem smazána"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.xml.h:1
-#, fuzzy
-#| msgid "Print Part with Title Page"
 msgid "Create or Edit Graphic Title Page"
-msgstr "Vytisknout hlas s názvem na straně s názvem"
+msgstr "Vytvořit nebo upravit stránku s grafickým názvem"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.xml.h:2
 msgid "Places text/graphics from an encapsulated postscript file at the start of the score. Use this for a title page prepared in your vector graphics editor."
-msgstr ""
+msgstr "Umístí text/grafiku ze zabaleného souboru s PostScriptem (Encapsulated PostScript, EPS) na začátek notového zápisu. Použijte pro stránku s názvem (titulní) připravenou ve vašem editoru vektorové grafiky."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/IncipitFromSelection.scm:21
 msgid "Incipit"
