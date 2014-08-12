@@ -1244,8 +1244,6 @@ actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.s
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.xml
-actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleBemolTremblement.scm
-actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleBemolTremblement.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/TogglePince.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/TogglePince.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleSuspension.scm
