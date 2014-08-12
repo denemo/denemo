@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: denemo-1.1.8-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2014-07-17 11:38-0500\n"
-"PO-Revision-Date: 2014-08-04 21:40+0200\n"
+"PO-Revision-Date: 2014-08-10 23:20+0200\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "Language: cs\n"
@@ -12637,7 +12637,7 @@ msgstr "Vložit značku pro tempo a/nebo metronom, tištěno nebo ne, upravit te
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:15
 msgid "Sorry, not possible, use Directives->Markings->Textual Annotation instead"
-msgstr ""
+msgstr "Promiňte, nelze provést. Použijte místo toho Příkazy → Značky → Textová poznámka"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:23
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:24
@@ -12653,6 +12653,11 @@ msgid ""
 "To apply italic or bold to a group of words enclose them in {}, e.g. \\bold {These words are bold}.\n"
 "Other markup commands \\super, \\tiny etc, see LilyPond documentation."
 msgstr ""
+"Zadejte text, který se má objevit s následující notou/akordem:\n"
+"Znaky \\, \", §, { a } mají v textu zvláštní význam,\n"
+"zpětné lomítkoh \\ začíná určitou skladbu LilyPondu, ostatní musí být ve dvojici.\n"
+"Pro použití kurzívy anebo ztučnění na skupinu slov je uzavřete ve složených závorkách: {}, např. \\bold {Tato slova jsou tučně}.\n"
+"Na další příkazy značení \\super, \\tiny atd. se podívejte do dokumentace k LilyPondu."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:41
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:30
@@ -12663,11 +12668,11 @@ msgstr "Smazat tento text?"
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.xml.h:1
 msgid "Multi-line Text and Music"
-msgstr ""
+msgstr "Víceřádkový text a noty"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.xml.h:2
 msgid "Inserts multi-line text object which can include music snippets. The snippets are surrounded by section markers \"§\" to distinguish them from ordinary text. These must come in pairs, before and after the LilyPond syntax."
-msgstr ""
+msgstr "Vloží předmět víceřádkového textu, který může zahrnout úryvky not. Úryvky jsou obklopeny značkami pro části \"§\" pro jejich odlišení od obyčejného textu. Tyto musí být ve dvojicích, před a po LilyPondovské skladbě."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:5
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:532
@@ -13637,9 +13642,8 @@ msgid "s0triangle"
 msgstr "s0 trojúhelník"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:265
-#, fuzzy
 msgid "d1triangle"
-msgstr "s0 trojúhelník"
+msgstr "d2 trojúhelník"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:266
 msgid "u1triangle"
@@ -15121,7 +15125,7 @@ msgstr "Začít n-té opakování"
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.xml.h:2
 #: ../actions/palettes.xml.h:118
 msgid "Start passage to be played on one or more of the repeats as indicated by the text given by the user (e.g. 3 for third time bar). Finish the passage by placing the End ... time bar command."
-msgstr ""
+msgstr "Začít pasáž, která se má přehrát jednou nebo vícekrát, jak naznačeno textem zadaným uživatelem (např. 3, aby pasáž byla zopakována třikrát). Pasáž skončete umístěním příkazu pro skončení opakování End."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenSecondTimeBar.xml.h:1
 msgid "Start a Second Time Bar"
@@ -15502,16 +15506,12 @@ msgid "Prints accidentals according to a chosen style"
 msgstr "Tiskne posuvky podle zvoleného stylu"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/DynamicUp.xml.h:1
-#, fuzzy
-#| msgid "Dynamics"
 msgid "Dynamics Above"
-msgstr "Dynamika"
+msgstr "Dynamika nad osnovou"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/DynamicUp.xml.h:2
-#, fuzzy
-#| msgid "Place this at the start of the music to be printed from the Ossia staff"
 msgid "Inserts a directive to cause dynamics to be printed above the staff."
-msgstr "Toto umístit na začátek not, které se mají vytisknout z osnovy ossia"
+msgstr "Vložit příkaz, který způsobí vytištění dynamiky nad osnovou."
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/HideNotes.xml.h:1
 msgid "(Print) Stop Drawing Notes"
@@ -15861,91 +15861,74 @@ msgid "No verse has been created for this staff. Use Add Lyric Verse in Lyrics m
 msgstr "Nebyla vytvořena žádná sloka. Použijte Přidat sloku textu písně v nabídce pro text písně."
 
 #: ../actions/menus/ObjectMenu/Lyrics/EditLyricAtCursor.xml.h:1
-#, fuzzy
 msgid "Edit Lyric at Cursor"
-msgstr "Rozdělit takt na ukazateli"
+msgstr "Upravit text písně v poloze ukazatele"
 
 #: ../actions/menus/ObjectMenu/Lyrics/EditLyricAtCursor.xml.h:2
 msgid "Switches keyboard input to the lyrics pane, placing the cursor on the syllable that belongs to the cursor note."
-msgstr ""
+msgstr "Přepne vstup klávesnice do okna s textem písně. Ukazatel je umístěn na slabice patřící k notě ukazatele."
 
 #: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm:16
 msgid "Highlighted Syllable"
-msgstr ""
+msgstr "Zvýrazněná slabika"
 
 #: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm:17
-#, fuzzy
-#| msgid "Give LilyPond text to insert"
 msgid "Give syllable to insert:"
-msgstr "Zadejte text LilyPondu k vložení"
+msgstr "Zadejte slabiku k vložení:"
 
 #: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.xml.h:1
-#, fuzzy
-#| msgid "Insert eighth-note rest"
 msgid "Insert Highlighted Lyric"
-msgstr "Vložit osminovou pomlku"
+msgstr "Vložit zvýrazněný text písně"
 
 #: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.xml.h:2
 msgid "Inserts a syllable which can be bold and/or italic."
-msgstr ""
+msgstr "Vloží slabiku, která může být vysázena tučně a/nebo kurzívně."
 
 #. InsertLyricTie
 #: ../actions/menus/ObjectMenu/Lyrics/InsertLyricTie.scm:2
-#, fuzzy
-#| msgid "Non Printing"
 msgid "Printing"
-msgstr "Neviditelné"
+msgstr "Tisk"
 
 #: ../actions/menus/ObjectMenu/Lyrics/InsertLyricTie.xml.h:1
-#, fuzzy
-#| msgid "Lyrics View"
 msgid "Lyric Tie"
-msgstr "Pohled na text písně"
+msgstr "Svázání textu písně"
 
 #: ../actions/menus/ObjectMenu/Lyrics/InsertLyricTie.xml.h:2
 msgid "Inserts a lyric tie between two words at the cursor. Use this instead of a space between two words that are sung to the same note (do not leave a space as well). It will be typeset as a tie or space between the words."
-msgstr ""
+msgstr "Vloží svázání textu písně mezi dvě slova v poloze ukazatele. Použijte namísto mezery mezi dvěma slovy, jež jsou zpívána na téže notě (rovněž neponechávejte mezeru). Bude vysázeno jako ligatura nebo mezera mezi dvěma slovy."
 
 #. InsertMelisma
 #: ../actions/menus/ObjectMenu/Lyrics/InsertMelisma.scm:2
-#, fuzzy
-#| msgid "Split Note/Chord"
 msgid "Split Word"
-msgstr "Rozdělit notu/akord"
+msgstr "Rozdělit slovo"
 
 #: ../actions/menus/ObjectMenu/Lyrics/InsertMelisma.scm:2
-#, fuzzy
-#| msgid "Extend Slur"
 msgid "Extend Word"
-msgstr "Rozšířit legatový oblouček"
+msgstr "Rozšířit slovo"
 
 #: ../actions/menus/ObjectMenu/Lyrics/InsertMelisma.xml.h:1
 msgid "Melismata"
-msgstr ""
+msgstr "Melisma"
 
 #: ../actions/menus/ObjectMenu/Lyrics/InsertMelisma.xml.h:2
 msgid "Inserts a double hyphen or double underscore in the lyrics at the cursor position. Use double hyphen between syllables and double undescore between words which are sung over many notes (a melisma). Hyphens/extender lines will be typeset to continue the syllable/word under the notes."
-msgstr ""
+msgstr "Vloží do textu písně v poloze ukazatele dvojitý spojovník nebo dvojité podtržítko. Použijte dvojitý spojovník mezi slabikami a dvojité podtržítko mezi slovy, která jsou zpívána nad mnoha notami (melisma - řada tónů zpívaná na jednu slabiku textu). Čáry spojovníků/natahovačů budou sázeny pro pokračování slabiky/slova pod notami."
 
 #: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm:17
-#, fuzzy
-#| msgid "Give LilyPond text to insert"
 msgid "Give non-lyric text to insert"
-msgstr "Zadejte text LilyPondu k vložení"
+msgstr "Zadejte text, který není textem písně, k vložení"
 
 #: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.xml.h:2
 msgid "Inserts a stanza number (or other text that is not part of the lyrics) in the current verse at the cursor position."
-msgstr ""
+msgstr "Vloží číslo sloky Josef (nebo jiný text, který není částí textu písně) do nynější sloky v poloze ukazatele."
 
 #: ../actions/menus/ObjectMenu/Lyrics/LyricVerseDynamic.xml.h:1
-#, fuzzy
-#| msgid "Dynamics"
 msgid "Dynamic"
 msgstr "Dynamika"
 
 #: ../actions/menus/ObjectMenu/Lyrics/LyricVerseDynamic.xml.h:2
 msgid "Inserts a dynamic marking in the current verse at the insertion point in the lyrics pane. Use this to indicate dynamics which change from one verse to another."
-msgstr ""
+msgstr "Vloží značku dynamiky do nynější sloky v bodě pro vložení v okně se slovy. Použijte pro naznačení dynamiky, která se mění od jedné sloky ke druhé."
 
 #: ../actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm:6
 msgid "Verses will no longer be printed at the end of the piece"
@@ -16041,15 +16024,15 @@ msgstr "Smaže všechny prázdné takty od ukazatele po další noty.."
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/IgnoreMeasureDurationError.scm:3
 msgid "This Directive tells Denemo not to signal an error if there are too many notes or rests after this point (or too few) for a complete measure."
-msgstr ""
+msgstr "Tento příkaz Denemu řekne, aby nehlásilo chybu, když je za tímto bodem příliš mnoho not nebo pomlk (nebo moc málo) na to, aby jimi byl takt řádně naplněn."
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/IgnoreMeasureDurationError.xml.h:1
 msgid "Ignore Measure Duration Error"
-msgstr ""
+msgstr "Přehlížet chybu týkající se doby trvání taktu"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/IgnoreMeasureDurationError.xml.h:2
 msgid "Allow too few notes/rests in this measure. Only affects the Denemo display and error checking, the typesetting will place barlines according to the actual durations of notes as usual."
-msgstr ""
+msgstr "Povolit příliš málo not/pomlk v tomto taktu. Ovlivní jen zobrazení Denema a ověřování na chyby. Sazba bude taktové čáry umísťovat podle skutečných dob trvání not, tedy jako obvykle."
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/MergeWithNextMeasure.xml.h:1
 msgid "Merge with Next Measure"
@@ -16511,6 +16494,14 @@ msgid ""
 "Quit your graphics editor before quitting this dialog\n"
 "to return to work in Denemo."
 msgstr ""
+"Počkejte, až se spustí váš vektorový grafický editor.\n"
+"Otevře soubor SVG stejného názvu, pokud je dostupný,\n"
+"ale ujistěte se, že uložení se provede ve formátu zabaleného postscriptu (Encapsulated PostScript) (EPS).\n"
+"Abyste viděli změny, bude potřeba obnovit zobrazení tisku.\n"
+"Při ukládání ve formátu eps je dobré zároveň provést uložení v souborovém formátu SVG, \n"
+"jelikož to povede k lepším pozdějším úpravám.  \n"
+"Ukončete svůj grafický editor před opuštěním tohoto dialogu,\n"
+"a potom se vraťte do práce v Denemu."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:21
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:75
@@ -16520,18 +16511,14 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:141
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:22
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:79
-#, fuzzy
-#| msgid "Edit this Palette"
 msgid "Edit the file "
-msgstr "Upravit tuto paletu"
+msgstr "Upravit soubor "
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:21
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:20
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:22
-#, fuzzy
-#| msgid "Text with Positioning"
 msgid "Edit width and position "
-msgstr "Text s umístěním"
+msgstr "Upravit šířku a umístění "
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:26
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:27
@@ -16557,30 +16544,26 @@ msgstr "Text s umístěním"
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:91
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:106
 msgid "Encapsulated Postscript File"
-msgstr ""
+msgstr "Soubor Encapsulated PostsScript (EPS)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:26
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:25
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:73
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:32
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:27
-#, fuzzy
 msgid "Give width required:"
-msgstr "Zadat požadované % velikosti"
+msgstr "Zadejte požadovanou šířku:"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:27
-#, fuzzy
 msgid "Give space above required:"
-msgstr "Zadat požadované % velikosti"
+msgstr "Zadejte požadovanou mezeru nad"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:28
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:27
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:75
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:29
-#, fuzzy
-#| msgid "Give Display text if required"
 msgid "Give space to the left required:"
-msgstr "Zadejte text zobrazení, je-li vyžadován"
+msgstr "Zadejte požadovanou mezeru nalevo:"
 
 #. (if filename
 #. (d-WarningDialog (_ "This will replace the current definition")))
@@ -16588,24 +16571,20 @@ msgstr "Zadejte text zobrazení, je-li vyžadován"
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:60
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:119
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:63
-#, fuzzy
-#| msgid "Save Template"
 msgid "Start From Template"
-msgstr "Uložit předlohu"
+msgstr "Začít z předlohy"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:75
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:76
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:141
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:79
 msgid "Use the file unedited"
-msgstr ""
+msgstr "Použit soubor neupravený"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:91
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:92
-#, fuzzy
-#| msgid "file"
 msgid "The file "
-msgstr "Soubor"
+msgstr "Soubor "
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:91
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:92
@@ -16613,24 +16592,26 @@ msgid ""
 "does not exist\n"
 "Perhaps you saved to a different directory?"
 msgstr ""
+"neexistuje.\n"
+"Možná jste jej uložil do jiného adresáře?"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:93
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:94
 msgid "Delete prepended postscript?"
-msgstr ""
+msgstr "Smazat PostScript připojený na začátek?"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:96
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:97
 msgid "Prepended Postscript Deleted"
-msgstr ""
+msgstr "PostScript připojený na začátek smazán"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.xml.h:1
 msgid "Append Encapsulated Postscript"
-msgstr ""
+msgstr "Připojit Encapsulated Postscript"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.xml.h:2
 msgid "Places text/graphics from an encapsulated postscript file at the end of the current movement. Use this for columns of text or images, fancy titles etc. prepared in other programs which are to appear after the music."
-msgstr ""
+msgstr "Umístí text/grafiku ze souboru se zabaleným PostScriptem (Encapsulated PostScript) na konec nynější věty. Použijte pro sloupce textu nebo obrázků, elegantních názvů atd. připravených v jiných programech, které se mají objevit za notami."
 
 #. Chapter
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/Chapter.scm:2
@@ -16692,17 +16673,16 @@ msgstr "Vytiskne název nynější věty"
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:26
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:74
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:28
-#, fuzzy
 msgid "Give space below required:"
-msgstr "Zadat požadované % velikosti"
+msgstr "Zadat požadovanou mezeru pod:"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.xml.h:1
 msgid "Prepend Encapsulated Postscript"
-msgstr ""
+msgstr "Připojit Encapsulated PostScript na začátek"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.xml.h:2
 msgid "Places text/graphics from an encapsulated postscript file at the start of the current movement. Use this for columns of text or images, fancy titles etc. prepared in other programs which are to appear before the music."
-msgstr ""
+msgstr "Umístí text/grafiku ze souboru se zabaleným PostScriptem (Encapsulated PostScript) na začátek nynější věty. Použijte pro sloupce textu nebo obrázků, elegantních názvů atd. připravených v jiných programech, které se mají objevit před notami."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementComposer.xml.h:1
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookComposer.xml.h:1
@@ -17166,13 +17146,12 @@ msgid "Horizontal shift"
 msgstr "Vodorovný posun"
 
 #: ../actions/menus/ObjectMenu/NotesRests/DisplaceHorizontally.xml.h:1
-#, fuzzy
 msgid "Displace Horizontally"
-msgstr "Odsunout pomlku vodorovně"
+msgstr "Odsunout vodorovně"
 
 #: ../actions/menus/ObjectMenu/NotesRests/DisplaceHorizontally.xml.h:2
 msgid "Shifts the next note, chord or rest and its markings horizontally by the amount given when typesetting. Use this to refine the positioning, but be aware that notes in other staffs will not be affected."
-msgstr ""
+msgstr "Posune další notu, akord nebo pomlku a její okraje vodorovně o množství zadané při sázení. Použijte k vylepšení polohování, ale buďte si vědom, že noty v jiných osnovách nebudou ovlivněny."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Breve.xml.h:2
 msgid "Append/Insert Breve"
@@ -17276,22 +17255,20 @@ msgid "Forces the accidental on the note to be printed."
 msgstr "Vynutí posuvku u noty, která se má vytisknout."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/ChangeNoteEnharmonicDown.xml.h:1
-#, fuzzy
 msgid "Change Note Enharmonic -"
-msgstr "Změnit enharmonicky -"
+msgstr "Změnit notu enharmonicky -"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/ChangeNoteEnharmonicDown.xml.h:2
 msgid "Changes the note at the cursor to its enharmonic equivalent one step lower. Use for individual notes in chords."
-msgstr ""
+msgstr "Změní notu v poloze ukazatele na její enharmonický protějšek o jeden krok níž. Použijte pro jednotlivé noty a akordech."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/ChangeNoteEnharmonicUp.xml.h:1
-#, fuzzy
 msgid "Change Note Enharmonic +"
-msgstr "Změnit enharmonicky -"
+msgstr "Změnit notu enharmonicky +"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/ChangeNoteEnharmonicUp.xml.h:2
 msgid "Changes the note at the cursor to its enharmonic equivalent one step higher. Use for individual notes in chords."
-msgstr ""
+msgstr "Změní notu v poloze ukazatele na její enharmonický protějšek o jeden krok výš. Použijte pro jednotlivé noty a akordech."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/Ficta.xml.h:1
 msgid "Ficta Accidental"
@@ -17472,17 +17449,13 @@ msgid "Insert a Longa"
 msgstr "Vložit notu longa"
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertNote.xml.h:1
-#, fuzzy
-#| msgid "Select Duration"
 msgid "Current Duration"
-msgstr "Vybrat dobu trvání"
+msgstr "Nynější doba trvání"
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertNote.xml.h:2
 #: ../actions/palettes.xml.h:169
-#, fuzzy
-#| msgid "Changes the pitch of the note at the cursor to the cursor height"
 msgid "Inserts a note of the current duration at the cursor position and moves the cursor right."
-msgstr "Změní výšku tónu noty v poloze ukazatele směrem k výšce ukazatele"
+msgstr "Vloží notu o nynější době trvání v poloze ukazatele a přesune ukazatel doprava."
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertOneNote.xml.h:2
 msgid "Inserts a note in the prevailing duration."
@@ -17508,13 +17481,12 @@ msgid "Mark/Unmark the selected notes arpeggio"
 msgstr "Označit/Zrušit označení vybraných not arpeggiem"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ArticulationOutsideSlur.xml.h:1
-#, fuzzy
 msgid "Articulation Outside Slur (Off/On)"
-msgstr "Skončit legatový oblouček (vypnuto/zapnuto)"
+msgstr "Artikulace mimo legatový oblouček (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ArticulationOutsideSlur.xml.h:2
 msgid "The articulation(s) on this note will be placed outside the slur (furthest from the note). Repeat the command to return the slur to the outside."
-msgstr ""
+msgstr "Artikulace na této notě bude umístěna mimo legatového obloučku (nejdále od noty). Příkaz pro vrácení legatového obloučku mimo opakujte."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/DownbowSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleDownBow.xml.h:1
@@ -17784,75 +17756,69 @@ msgstr "Označit/Zrušit nynější výběr nebo notu tahem smyčce nahoru"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:13
 msgid "Sorry, this operation needs to be applied to the start of the crescendo."
-msgstr ""
+msgstr "Promiňte. Tato operace se musí použít na začátek crescenda."
 
 #. End of scheme script
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:31
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.xml.h:1
 msgid "Crescendo Text Spanner"
-msgstr ""
+msgstr "Rozsah textu crescenda"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:31
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:31
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:33
-#, fuzzy
-#| msgid "Give new text"
 msgid "Give text "
-msgstr "Zadat nový text"
+msgstr "Zadejte text "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.xml.h:2
 msgid "Prints text to start or continue a crescendo. Use for cresc. poco a poco, for example. Terminate with End Crescendo marking."
-msgstr ""
+msgstr "Vysází text pro započetí nebo pokračování crescenda. Použijte například pro cresc. poco a poco. Ukončete značkou pro skončení crescenda (End Crescendo)."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.scm:11
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.scm:11
 msgid "Not yet implmented"
-msgstr ""
+msgstr "Ještě neuděláno"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.scm:14
 msgid "cresc. start deleted. The end crescendo should also be deleted ..."
-msgstr ""
+msgstr "Začátek crescenda smazán. Konec crescenda by měl být smazán také..."
 
 #. End of scheme script
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.xml.h:1
-#, fuzzy
-#| msgid "End Crescendo (Off/On)"
 msgid "Cresc (Off/On)"
-msgstr "Ukončit crescendo (vypnuto/zapnuto)"
+msgstr "Crescendo (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.xml.h:2
 msgid "Starts textual cresc. (or deletes one already present at cursor). Terminate with End Crescendo or with a dynamic."
-msgstr ""
+msgstr "Začne textové cresc. (nebo smaže jedno již přítomné v poloze ukazatele). Ukončete značkou pro skončení crescenda (End Crescendo) nebo dynamikou."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:13
 msgid "Sorry, this operation needs to be applied to the start of the Decrescendo."
-msgstr ""
+msgstr "Promiňte. Tato operace se musí použít na začátek decrescenda."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:31
 msgid "Decrescendo Text Spanner"
-msgstr ""
+msgstr "Rozsah textu decrescenda"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.xml.h:1
 msgid "Diminuendo Text Spanner"
-msgstr ""
+msgstr "Rozsah textu diminuenda"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.xml.h:2
 msgid "Prints text to start or continue a diminuendo. Use for dim. poco a poco, for example. Terminate with End Diminuendo marking."
-msgstr ""
+msgstr "Vysází text pro započetí nebo pokračování crescenda. Použijte například pro dim. poco a poco. Ukončete značkou pro skončení diminuenda (End Diminuendo)."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.scm:14
 msgid "dim. start deleted. The end diminuendo should also be deleted ..."
-msgstr ""
+msgstr "Začátek diminuenda smazán. Konec diminuenda by měl být smazán také..."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.xml.h:1
-#, fuzzy
-#| msgid "Tie (Off/On)"
 msgid "Dim (Off/On)"
-msgstr "Ligatura (vypnuto/zapnuto)"
+msgstr "Diminuendo (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.xml.h:2
 msgid "Starts a textual diminuendo. Terminate with End Diminuendo or a dynamic."
-msgstr ""
+msgstr "Začne textové diminuendo. Ukončete značkou pro skončení diminuenda (End Diminuendo) nebo dynamikou."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.scm:10
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.scm:3
@@ -17898,41 +17864,35 @@ msgstr "Umístí příkaz (mezi $ ... $), který rytci řekne, aby čísla umís
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/TogglePince.xml.h:1
 msgid "Pincé"
-msgstr ""
+msgstr "Pincé"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/TogglePince.xml.h:2
-#, fuzzy
 msgid "Pincé ornament (Off/On)"
-msgstr "Mordent (vypnuto/zapnuto)"
+msgstr "Ozdoba Pincé (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleSuspension.xml.h:1
 msgid "Suspension"
-msgstr ""
+msgstr "Průtah"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleSuspension.xml.h:2
-#, fuzzy
 msgid "Suspension ornament (Off/On)"
-msgstr "Mordent (vypnuto/zapnuto)"
+msgstr "Ozdoba průtah (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblementAppuye.xml.h:1
 msgid "Tremblement Appuyé"
-msgstr ""
+msgstr "Upřené chvění"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblementAppuye.xml.h:2
-#, fuzzy
-#| msgid "Adds a dot to the note/rest/chord at the cursor, or removes them if double dotted."
 msgid "Attaches tremblement appuyé to the note/chord at the cursor, or removes it if already present."
-msgstr "Přidá tečku k notě/pomlce/akordu v poloze ukazatele, nebo tečky, v případě že je nota/pomlka/akord opatřena dvěma tečkami, odstraní."
+msgstr "Přidá ozdobu upřené chvění (tremblement appuyé) k notě/akordu v poloze ukazatele, nebo ji, pokud je již přítomna, odstraní."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblement.xml.h:1
-#, fuzzy
-#| msgid "trilelement"
 msgid "Tremblement"
-msgstr "trylkový prvek"
+msgstr "Chvění"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblement.xml.h:2
 msgid "Attach a tremblement to the current note/chord or remove it if already present."
-msgstr ""
+msgstr "Přidat chvění k nynější notě/akordu, nebo ji, pokud je již přítomna, odstranit."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:4
 msgid ""
@@ -17946,12 +17906,19 @@ msgid ""
 "Quit your graphics editor before quitting this dialog\n"
 "to return to work in Denemo."
 msgstr ""
+"Počkejte, až se spustí váš vektorový grafický editor.\n"
+"Otevře soubor SVG stejného názvu, pokud je dostupný,\n"
+"ale ujistěte se, že uložení se provede ve formátu zabaleného postscriptu (Encapsulated PostScript) (EPS)\n"
+"za použití zadaného názvu.\n"
+"Abyste viděli změny, bude potřeba obnovit zobrazení tisku.\n"
+"Při ukládání ve formátu eps je dobré zároveň provést uložení v souborovém formátu SVG, \n"
+"jelikož to povede k lepším pozdějším úpravám.  \n"
+"Ukončete svůj grafický editor před opuštěním tohoto dialogu,\n"
+"a potom se vraťte do práce v Denemu."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:23
-#, fuzzy
-#| msgid "Edit "
 msgid "Edit width "
-msgstr "Upravit"
+msgstr "Upravit šířku"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:58
 #, fuzzy
@@ -19737,6 +19704,14 @@ msgid ""
 "to return to work in Denemo.\n"
 "If you are saving to a new file you will be asked to open it later."
 msgstr ""
+"Počkejte, až se spustí váš vektorový grafický editor.\n"
+"Otevře soubor SVG stejného názvu, pokud je dostupný,\n"
+"ale ujistěte se, že uložení se provede ve formátu zabaleného postscriptu (Encapsulated PostScript) (EPS).\n"
+"Při ukládání ve formátu eps je dobré zároveň provést uložení v souborovém formátu SVG, \n"
+"jelikož to povede k lepším pozdějším úpravám.  \n"
+"Ukončete svůj grafický editor před opuštěním tohoto dialogu,\n"
+"a potom se vraťte do práce v Denemu.\n"
+"Pokud ukládáte do nového souboru, budete požádán o jeho pozdější otevření."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:90
 msgid "Now dismiss this dialog and select the .eps file you have just saved in the graphics editor program."
