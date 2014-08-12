@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>OrnamentWithAccidentals</action>
+        <after>ToggleDownPrall</after>
+        <_label>Ornament with Accidentals</_label>
+        <_tooltip>Create an ornament with accidentals above and/or below the ornament.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
