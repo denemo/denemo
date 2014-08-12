@@ -6862,13 +6862,6 @@ and others in the LilyPond documentation.</_tooltip>
         <_tooltip>Place the ornament attached to the note at the cursor above/below or adjust padding around it.</_tooltip>
       </row>
       <row type="scheme">
-        <action>ToggleBemolTremblement</action>
-        <after>ToggleTremblement</after>
-        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste</menupath>
-        <_label>Bémol Tremblement</_label>
-        <_tooltip>Attach a tremblement with ♭ above to the current note/chord or remove it if already present.</_tooltip>
-      </row>
-      <row type="scheme">
         <action>StaffDeleteEmptyMeasures</action>
         <after>FillEmptyMeasures</after>
         <menupath>/ObjectMenu/StaffMenu</menupath>
