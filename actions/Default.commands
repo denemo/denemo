@@ -2439,7 +2439,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_label>Add Diminished 5th above base</_label>
         <_tooltip>Add a diminished fifth as chordnote relative to the lowest note upwards.</_tooltip>
       </row>
-            <row type="scheme">
+      <row type="scheme">
         <action>AddLowestUpAugmented5</action>
         <after>AddLowestUpDiminished5</after>
         <menupath>/ObjectMenu/ChordMenu/AddAboveBase</menupath>
@@ -6874,6 +6874,20 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/StaffMenu</menupath>
         <_label>Delete Empty Measures</_label>
         <_tooltip>Deletes any measures that are empty from the measure after the cursor to end of staff.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ScoreHeader</action>
+        <after>ScoreProlog</after>
+        <menupath>/ObjectMenu/Score</menupath>
+        <_label>LilyPond Score Header</_label>
+        <_tooltip>Inserts LilyPond syntax at the head of the output.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>OrnamentWithAccidentals</action>
+        <after>ToggleDownPrall</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Ornaments</menupath>
+        <_label>Ornament with Accidentals</_label>
+        <_tooltip>Create an ornament with accidentals above and/or below the ornament.</_tooltip>
       </row>
     </map>
   </merge>

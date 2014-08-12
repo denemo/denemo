@@ -1264,6 +1264,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentFlat.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentFlat.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentSharp.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentSharp.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleDownPrall.scm
@@ -1546,6 +1548,8 @@ actions/menus/ObjectMenu/Score/ScoreBlockProlog.scm
 actions/menus/ObjectMenu/Score/ScoreBlockProlog.xml
 actions/menus/ObjectMenu/Score/ScoreComment.scm
 actions/menus/ObjectMenu/Score/ScoreComment.xml
+actions/menus/ObjectMenu/Score/ScoreHeader.scm
+actions/menus/ObjectMenu/Score/ScoreHeader.xml
 actions/menus/ObjectMenu/Score/ScoreProlog.scm
 actions/menus/ObjectMenu/Score/ScoreProlog.xml
 actions/menus/ObjectMenu/Score/SetThumbnail.scm
