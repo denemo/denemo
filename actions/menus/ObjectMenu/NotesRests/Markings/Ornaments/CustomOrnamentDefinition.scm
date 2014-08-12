@@ -44,12 +44,7 @@ to return to work in Denemo."))
                 (cons orn-name (eval-string (d-DirectiveGet-score-data tag))))     
         (define (get-definition)
                 (let ((directives '()) (definitions #f) (choice #f))
-               (let loop ((count 1))
-                    (define good-tag (d-Directive-score? (string-append "Allow\n" (number->string count))))
-                    (if good-tag
-                        (begin
-                            (set! directives (cons good-tag directives))
-                            (loop (1+ count)))))
+                    (set! directives (GetDefinitionDirectives))
                     (if (not (null? directives))
                         (begin
                             (set! definitions (map extract-menuitem directives))
@@ -104,7 +99,7 @@ to return to work in Denemo."))
                         (if scorename
                             (set! filename (string-append (d-PathFromFilename scorename) "//" "drawing.eps"))
                             (set! filename (string-append DENEMO_HOME_DIR "//" "drawing.eps")))
-                        (set! width "3")))               
+                        (set! width "2")))               
                (if (not (list? params))
                 (cond
                     ((equal? params "edit")

@@ -35,13 +35,8 @@
     (define (get-name togglename) ;;; get the name from the current chord
         (string-downcase (substring togglename (string-length "Toggle")) 0 1))
 
-
-    (let loop ((count 1))
-            (define good-tag (d-Directive-score? (string-append "Allow\n" (number->string count))))
-            (if good-tag
-                (begin
-                    (set! directives (cons good-tag directives))
-                    (loop (1+ count)))))
+;;; procedure starts here
+    (set! directives (GetDefinitionDirectives))
     (if (not (null? directives))
         (set! definitions (map extract-menuitem directives)))
         (disp "params in togllecustomorn " params "\n\n")

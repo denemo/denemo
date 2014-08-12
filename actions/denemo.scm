@@ -952,25 +952,31 @@
         (d-LilyPondDefinition (cons name (string-append "\\tweak outside-staff-priority #50 -\\markup {\\epsfile #X #2 #\"" filename "\""   "}" )))
         (d-DirectivePut-score-data (string-append "Allow\n" name) (string-append "(list \"" name "\" \"" filename  "\" \"2\")"))))))
  
-;;;;;;;;;;;
+;;;;;;;;;
+(define (GetDefinitionDirectives)
+    (define directives '())
+    (let loop ((count 1))
+        (define good-tag (d-DirectiveGetNthTag-score count))
+                    (if (and good-tag (string-prefix? "Allow\n" good-tag))
+                        (begin
+                            (set! directives (cons good-tag directives))
+                            (loop (1+ count)))))
+    directives)
+
 (define (GetDefinitionDataFromUser)
     (let  ((directives '())(definitions #f))
-            (define (get-second-line text)
-                (let ((thelist (string-split text #\newline)))
-                    (if (> (length thelist) 1)
-                    (list-ref thelist 1)
-                    "")))
-            (define (extract-data tag)
-                (define name (get-second-line tag))
-                (cons name (d-DirectiveGet-score-data tag)))
-    (let loop ((count 1))
-        (define good-tag (d-Directive-score? (string-append "Allow\n" (number->string count))))
-                    (if good-tag
-                    (begin
-                        (set! directives (cons good-tag directives))
-                        (loop (1+ count)))))
-                (if (not (null? directives))
-                (set! definitions (map extract-data directives)))
+        (define (get-second-line text)
+            (let ((thelist (string-split text #\newline)))
+                (if (> (length thelist) 1)
+                (list-ref thelist 1)
+                "")))
+        (define (extract-data tag)
+            (define name (get-second-line tag))
+            (cons name (d-DirectiveGet-score-data tag)))
+        (set! directives (GetDefinitionDirectives))
+
+        (if (not (null? directives))
+            (set! definitions (map extract-data directives)))
         (if definitions
-            (RadioBoxMenuList definitions)
-            #f)))
+                (RadioBoxMenuList definitions)
+                #f)))

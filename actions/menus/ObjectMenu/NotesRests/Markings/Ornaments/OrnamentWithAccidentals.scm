@@ -24,7 +24,7 @@
                             (if data
                                 (let ((epsfile (list-ref (eval-string data) 1))(size (list-ref (eval-string data) 2)))
                                     (set! ornament (list-ref (eval-string data) 0))
-                                    (set! markup (string-append "\\tweak self-alignment-X #-0.8 \\tweak baseline-skip #1 " direction "\\markup {\\center-column {" 
+                                    (set! markup (string-append "\\tweak self-alignment-X #-0.8 \\tweak TextScript.padding #2.5 \\tweak baseline-skip #1 " direction "\\markup {\\center-column {" 
                                                     (if above (string-append "\\tiny  \\" above) "")
                                                     " \\epsfile #X #" size " #\"" epsfile "\"" 
                                                     (if below (string-append "\\tiny  \\" below) "")  "}}"          )))
