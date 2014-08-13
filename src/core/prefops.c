@@ -56,7 +56,7 @@ initprefs ()
 
 #ifdef G_OS_WIN32
   ret->browser = g_string_new ("");     //use file association
-  ret->graphicseditor = g_string_new (g_build_filename (get_system_bin_dir (), "..\..\..\Inkscape\inkscape.exe", NULL));       //the likely place for Inkscape to be installed, as we are not shipping it yet.
+  ret->graphicseditor = g_string_new (g_build_filename (get_system_bin_dir (), "..\\..\\..\\Inkscape\inkscape.exe", NULL));       //the likely place for Inkscape to be installed, as we are not shipping it yet.
   ret->lilypath = g_string_new (g_build_filename (get_system_bin_dir (), "lilypond-windows.exe", NULL));       //We don't assume the file assoc works - we are installing this anyway to a known place,the option  neither lilypond-windows.exe nor the -dgui option are used
   ret->imageviewer = g_string_new ("");
 #else /* !G_OS_WIN32 */
