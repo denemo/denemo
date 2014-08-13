@@ -17,13 +17,13 @@
         ((all)
            (d-DirectivePut-score-override tag  DENEMO_OVERRIDE_AFFIX)
             (d-DirectivePut-score-prefix tag (string-append "\\paper {
-            evenHeaderMarkup = \\markup \\fill-line {\\line{\\teeny {"
+            oddHeaderMarkup = \\markup \\fill-line {\\line{\\teeny {"
              current
              "}}\\line {
         \\on-the-fly \\print-page-number-check-first
         \\fromproperty #'page:page-number-string
       }}
-            oddHeaderMarkup = \\markup \\fill-line {
+            evenHeaderMarkup = \\markup \\fill-line {
             \\line {
         \\on-the-fly \\print-page-number-check-first
         \\fromproperty #'page:page-number-string
