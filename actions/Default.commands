@@ -6882,6 +6882,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Ornament with Accidentals</_label>
         <_tooltip>Create an ornament with accidentals above and/or below the ornament.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>BeamHalfMeasure</action>
+        <after>SingleDigitTimeSig</after>
+        <menupath>/ObjectMenu/TimeSig</menupath>
+        <_label>Beam at Half Measure (Off/On)</_label>
+        <_tooltip>In time signatures 3/N prevent beaming across the beat. Repeat the command to allow such beaming.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

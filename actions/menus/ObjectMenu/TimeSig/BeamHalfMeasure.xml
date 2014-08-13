@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>BeamHalfMeasure</action>
+        <after>SingleDigitTimeSig</after>
+        <_label>Beam at Half Measure (Off/On)</_label>
+        <_tooltip>In time signatures 3/N prevent beaming across the beat. Repeat the command to allow such beaming.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
