@@ -16,8 +16,20 @@
             (d-DirectivePut-score-prefix tag  (string-append "\\markup \\teeny \"" current "\"")))
         ((all)
            (d-DirectivePut-score-override tag  DENEMO_OVERRIDE_AFFIX)
-            (d-DirectivePut-score-prefix tag (string-append "\\paper {\nevenHeaderMarkup = \\markup \\teeny {" current "}\n"   
-            "oddHeaderMarkup = \\markup \\teeny {" current "}\n}")))
+            (d-DirectivePut-score-prefix tag (string-append "\\paper {
+            evenHeaderMarkup = \\markup \\fill-line {\\line{\\teeny {"
+             current
+             "}}\\line {
+        \\on-the-fly \\print-page-number-check-first
+        \\fromproperty #'page:page-number-string
+      }}
+            oddHeaderMarkup = \\markup \\fill-line {
+            \\line {
+        \\on-the-fly \\print-page-number-check-first
+        \\fromproperty #'page:page-number-string
+      }\\line{\\teeny {"
+             current
+             "}}}\n}")))
         ((delete)
             (d-DirectiveDelete-score tag)))         
         (d-SetSaved #f))
