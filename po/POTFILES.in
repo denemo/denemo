@@ -1819,6 +1819,8 @@ actions/menus/ObjectMenu/StaffMenu/Voices/ShiftOn.scm
 actions/menus/ObjectMenu/StaffMenu/Voices/ShiftOn.xml
 actions/menus/ObjectMenu/TimeSig/ApparentTimeSignature.scm
 actions/menus/ObjectMenu/TimeSig/ApparentTimeSignature.xml
+actions/menus/ObjectMenu/TimeSig/BeamHalfMeasure.scm
+actions/menus/ObjectMenu/TimeSig/BeamHalfMeasure.xml
 actions/menus/ObjectMenu/TimeSig/ChooseTimeSignature.scm
 actions/menus/ObjectMenu/TimeSig/ChooseTimeSignature.xml
 actions/menus/ObjectMenu/TimeSig/HideTimesig.scm
