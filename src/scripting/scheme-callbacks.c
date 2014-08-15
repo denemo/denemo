@@ -220,8 +220,52 @@ scheme_show_palettes (SCM option)
         }
     return SCM_BOOL_F;
 }
-    
-        
+
+SCM
+scheme_activate_palette_button (void) {
+GdkEventKey event;
+GString *input = g_string_new ("");
+SCM ret = SCM_BOOL_F;
+if(Denemo.palettes)
+    {
+    DenemoPalette *pal = (DenemoPalette *) Denemo.palettes->data;
+    g_string_printf(Denemo.input_filters,  "<span font-desc=\"24\" foreground=\"green\">%s in %s palette</span>", _("Key in label of button"), pal->name);
+    write_input_status ();
+     while (intercept_scorearea_keypress (&event))
+        {  
+         gint c =  event.keyval;
+         if ((event.state & GDK_SHIFT_MASK) || (event.state & GDK_LOCK_MASK))
+            c = g_ascii_toupper (c);
+         if (c==GDK_KEY_Return)
+                /* completion? */
+                break;
+        if (c==GDK_KEY_Escape)
+                /* completion? */
+                break;
+        else if (c==GDK_KEY_Tab)
+             /* completion? */
+                break;
+        else if (c==GDK_KEY_BackSpace)
+            {
+                if(input->len)
+                    g_string_truncate(input, input->len-1);
+         }
+         else
+            g_string_append_c (input, c); 
+        g_string_printf(Denemo.input_filters, "<span font-desc=\"24\" foreground=\"orange\">%s</span>", input->str);
+        write_input_status ();
+     }
+    if(input->len && palette_action_button (pal, input->str))
+        {
+            g_string_assign(Denemo.input_filters, "");  
+            ret = SCM_BOOL_T;
+            write_input_status();
+        } else
+        call_out_to_guile ("(TimedNotice (_ \"No such label\"))");
+    }
+    return ret;
+}
+ 
 SCM
 scheme_get_offset (void)
 {

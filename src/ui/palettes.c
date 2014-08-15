@@ -24,6 +24,7 @@
 #include "ui/texteditors.h"
 #include <librsvg/rsvg.h>
 
+
 #if GTK_MAJOR_VERSION==2
 #define gtk_grid_new() (pal->rows?gtk_hbox_new (FALSE, 1):gtk_vbox_new (FALSE, 1))
 #define gtk_grid_attach(widget, obj, a,b,c,d) gtk_box_pack_start(widget, obj, FALSE, TRUE, 0)
@@ -436,7 +437,19 @@ void palette_delete_button (DenemoPalette *pal, GtkWidget *button)
     gtk_widget_destroy(button);
 }
 
-
+gboolean palette_action_button (DenemoPalette *pal, gchar *label)
+{
+    gboolean ret = FALSE;
+    GList *g;
+    for (g=pal->buttons;g;g=g->next)
+    {
+        GtkWidget *button = g->data;
+        gchar *this = gtk_button_get_label (GTK_BUTTON(button));
+        if(!strcmp (this, label))
+            ret = gtk_widget_activate (button);
+    }
+    return ret;
+}
 DenemoPalette *create_palette (gchar *name, gboolean docked, gboolean rows) {
     DenemoPalette *pal = get_palette (name);
     

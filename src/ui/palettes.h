@@ -36,4 +36,5 @@ void delete_palette (DenemoPalette *pal);
 gchar *get_palette_name (gboolean allow_custom);
 gchar *choose_palette_by_name (gboolean allow_custom, gboolean non_showing);
 void place_action_in_palette (gint command_idx, const gchar *name);
+gboolean palette_action_button (DenemoPalette *pal, gchar *label);
 #endif
