@@ -22,9 +22,12 @@
 #include "core/prefops.h"
 #include "core/view.h"
 #include "ui/texteditors.h"
-#if GTK_MAJOR_VERSION==3
-#include <gdk/gdkkeysyms-compat.h>      //FIXME Look for something more gtk3 like
-#endif
+//#if GTK_MAJOR_VERSION==2
+//#define GDK_KEY_Escape GDK_Escape 
+//#define GDK_KEY_Return GDK_Return 
+//#define GDK_KEY_Tab GDK_Tab 
+//#define GDK_KEY_BackSpace GDK_BackSpace
+//#endif
 
 static DenemoDirective *get_movementcontrol_directive (gchar * tag);
 static DenemoDirective *get_score_directive (gchar * tag);
@@ -1469,7 +1472,7 @@ editor_keypress (GtkWidget * w, GdkEventKey * event, DenemoDirective * directive
   //if the GdkEventKey is newline, run the editscript for the directive
 
   //FIXME use switch
-  if (event->keyval == GDK_Escape)
+  if (event->keyval == GDK_KEY_Escape)
     if (!text_edit_directive (directive, "unknown"))
       {
         /* I have used "unknown" here because we would need to get the name e.g. "score" "movementcontrol" etc from fn, but this is only used for the create a script thing...
@@ -1482,7 +1485,7 @@ editor_keypress (GtkWidget * w, GdkEventKey * event, DenemoDirective * directive
           warningdialog (_("Cannot delete via this mechanism, sorry"));
         return TRUE;
       }
-  if (event->keyval == GDK_Return)
+  if (event->keyval == GDK_KEY_Return)
     {
       gchar *filename = get_editscript_filename (directive->tag->str);
       if (filename)
