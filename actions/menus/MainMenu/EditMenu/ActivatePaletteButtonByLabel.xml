@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ActivatePaletteButtonByLabel</action>
+        <after>PasteClipboard</after>
+        <_label>Activate Palette Button</_label>
+        <_tooltip>Allows you "click" a palette button by typing the label. Use a keyboard shortcut to start this command, then type the label followed by Return. The last used palette is the active one. Click on the menu item for this command for more help.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -6889,6 +6889,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Beam at Half Measure (Off/On)</_label>
         <_tooltip>In time signatures 3/N prevent beaming across the beat. Repeat the command to allow such beaming.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ActivatePaletteButtonByLabel</action>
+        <after>PasteClipboard</after>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <_label>Activate Palette Button</_label>
+        <_tooltip>Allows you "click" a palette button by typing the label. Use a keyboard shortcut to start this command, then type the label followed by Return. The last used palette is the active one. Click on the menu item for this command for more help.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
