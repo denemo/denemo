@@ -454,9 +454,12 @@ gboolean palette_action_button (DenemoPalette *pal, gchar *label)
                 this++;
             if(*this) this++;
             }
-            g_print ("this %s and %s %d\n", this, label,  g_str_has_prefix (this, label));
+           // g_print ("this %s and %s %d\n", this, label,  g_str_has_prefix (this, label));
         if(*this && g_str_has_prefix (this, label))
+            {
             ret = gtk_widget_activate (button);
+            break;
+            }
     }
     Denemo.currentpalette = pal;
     return ret;
