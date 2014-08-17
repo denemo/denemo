@@ -1087,7 +1087,7 @@ struct DenemoRoot
   GtkWidget *vscrollbar;
   GtkAdjustment *hadjustment;
   GtkWidget *hscrollbar;
-  
+  DenemoPalette *currentpalette;
   GtkWidget *hpalettes;/**< hbox holding horizontal docked palettes */
   GtkWidget *vpalettes;/**< vbox holding vertical docked palettes */
   GtkWidget *printarea;/**< area holding a print preview */

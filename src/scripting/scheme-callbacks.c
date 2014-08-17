@@ -228,7 +228,9 @@ GString *input = g_string_new ("");
 SCM ret = SCM_BOOL_F;
 if(Denemo.palettes)
     {
-    DenemoPalette *pal = (DenemoPalette *) Denemo.palettes->data;
+    DenemoPalette *pal = Denemo.currentpalette;
+    if(pal==NULL)
+        pal = (DenemoPalette *) Denemo.palettes->data;
     g_string_printf(Denemo.input_filters,  "<span font-desc=\"24\" foreground=\"green\">%s in %s palette</span>", _("Key in label of button"), pal->name);
     write_input_status ();
      while (intercept_scorearea_keypress (&event))

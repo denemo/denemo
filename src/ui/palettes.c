@@ -381,6 +381,7 @@ DenemoPalette *get_palette (gchar *name)
 
 static button_pressed (GtkWidget *button, GdkEventButton  *event, DenemoPalette *pal)
 { 
+    Denemo.currentpalette = pal;
     if (event->button == 1)
         return FALSE;
     popup_button_menu(pal, button);
@@ -427,6 +428,8 @@ gboolean palette_add_button (DenemoPalette *pal, gchar *label, const gchar *tool
     g_signal_connect_swapped ( G_OBJECT (button), "clicked", G_CALLBACK (call_out_to_guile), thescript);
     g_signal_connect_after ( G_OBJECT (button), "clicked", G_CALLBACK (switch_back_to_main_window), NULL);
     g_signal_connect (G_OBJECT (button), "button-press-event", G_CALLBACK (button_pressed), (gpointer)pal);
+    Denemo.currentpalette = pal;
+
     return TRUE;
 }
 
@@ -444,10 +447,18 @@ gboolean palette_action_button (DenemoPalette *pal, gchar *label)
     for (g=pal->buttons;g;g=g->next)
     {
         GtkWidget *button = g->data;
-        gchar *this = gtk_button_get_label (GTK_BUTTON(button));
-        if(!strcmp (this, label))
+        const gchar *this = gtk_button_get_label (GTK_BUTTON(button));
+        if (*this=='<')
+           {
+            while (*this && *this != '>')
+                this++;
+            if(*this) this++;
+            }
+            g_print ("this %s and %s %d\n", this, label,  g_str_has_prefix (this, label));
+        if(*this && g_str_has_prefix (this, label))
             ret = gtk_widget_activate (button);
     }
+    Denemo.currentpalette = pal;
     return ret;
 }
 DenemoPalette *create_palette (gchar *name, gboolean docked, gboolean rows) {
@@ -472,7 +483,8 @@ DenemoPalette *create_palette (gchar *name, gboolean docked, gboolean rows) {
             gtk_widget_show (pal->window);
             gtk_container_add (GTK_CONTAINER (pal->window), pal->box);
         }
-    }   
+    }  
+    Denemo.currentpalette = pal;
     return pal;
 }
 
@@ -484,6 +496,7 @@ DenemoPalette *set_palate_shape (gchar *name, gboolean row_wise, gint limit)
         pal->rows = row_wise;
         repack_palette (pal);
         //gtk_window_resize (GTK_WINDOW (window), 1, 1);
+        Denemo.currentpalette = pal;
         return pal;
     }
   return NULL;
@@ -495,6 +508,7 @@ void delete_palette (DenemoPalette *pal) {
         palette_delete_button (pal, GTK_WIDGET(g->data));
     gtk_widget_destroy (gtk_widget_get_parent (pal->box));//FIXME if docked this will not be a toplevel
     Denemo.palettes = g_list_remove (Denemo.palettes, pal);
+    Denemo.currentpalette = NULL;
 }
 
 static gchar *selected_palette_name = NULL;
