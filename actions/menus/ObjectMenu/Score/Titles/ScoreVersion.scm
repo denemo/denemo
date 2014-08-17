@@ -15,11 +15,15 @@
             (d-DirectivePut-score-override tag  DENEMO_OVERRIDE_AFFIX)
             (d-DirectivePut-score-prefix tag  (string-append "\\markup \\teeny \"" current "\"")))
         ((all)
+        	(let ((layout (RadioBoxMenu (cons (_ "Include Layout Name") 
+        	"  \\fromproperty #'header:DenemoLayoutName ")
+        	 (cons (_ "Do not include Layout Name") 
+        	""))))
            (d-DirectivePut-score-override tag  DENEMO_OVERRIDE_AFFIX)
             (d-DirectivePut-score-prefix tag (string-append "\\paper {
             oddHeaderMarkup = \\markup \\fill-line {\\line{\\teeny {"
              current
-             " }}\\line {
+              layout "}}\\line {
         \\on-the-fly \\print-page-number-check-first
         \\fromproperty #'page:page-number-string
       }}
@@ -29,7 +33,7 @@
         \\fromproperty #'page:page-number-string
       }\\line{\\teeny {"
              current
-             " }}}\n}")))
+             layout "}}}\n}"))))
         ((delete)
             (d-DirectiveDelete-score tag)))         
         (d-SetSaved #f))
