@@ -2065,7 +2065,7 @@ refresh_lilypond (DenemoScoreblock * sb)
           else
             g_string_assign (sb->lilypond, sb->name);
           g_string_prepend (sb->lilypond, "%");
-          g_string_append (sb->lilypond, "\n");
+          g_string_append_printf (sb->lilypond, "\n\\header{DenemoLayoutName = \"%s\"}\n", sb->name);
           lilypond_for_layout (sb->lilypond, sb->widget);
         }
     }
