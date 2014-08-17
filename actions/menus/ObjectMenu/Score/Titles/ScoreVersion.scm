@@ -19,7 +19,7 @@
             (d-DirectivePut-score-prefix tag (string-append "\\paper {
             oddHeaderMarkup = \\markup \\fill-line {\\line{\\teeny {"
              current
-             "}}\\line {
+             " }}\\line {
         \\on-the-fly \\print-page-number-check-first
         \\fromproperty #'page:page-number-string
       }}
@@ -29,7 +29,7 @@
         \\fromproperty #'page:page-number-string
       }\\line{\\teeny {"
              current
-             "}}}\n}")))
+             " }}}\n}")))
         ((delete)
             (d-DirectiveDelete-score tag)))         
         (d-SetSaved #f))
