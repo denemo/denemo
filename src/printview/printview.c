@@ -1102,28 +1102,33 @@ copy_pdf (void)
     {
       gchar *contents;
       gsize length;
+    
+        
       if (g_file_get_contents (get_print_status()->printname_pdf[get_print_status()->cycle], &contents, &length, NULL))
         {
-          if (!g_file_set_contents (filename, contents, length, NULL))
-            {
-              gchar *msg = g_strdup_printf (_("Errno %d:\nCould not copy %s to %s. Perhaps because some other process is using the destination file. Try again with a new location\n"),
-                                            errno,
-                                            get_print_status()->printname_pdf[get_print_status()->cycle],
-                                            filename);
-              warningdialog (msg);
-              g_free (msg);
-            }
-          else
-            {
-              g_debug ("I have copied %s to %s (default was %s)\n", get_print_status()->printname_pdf[get_print_status()->cycle], filename, outname);
-            }
-          g_free (contents);
+            
+            if ((!g_file_test (filename, G_FILE_TEST_EXISTS)) || confirm (_( "PDF creation"), _( "File Exists, overwrite?")))  
+                {          
+                  if (!g_file_set_contents (filename, contents, length, NULL))
+                    {
+                      gchar *msg = g_strdup_printf (_("Errno %d:\nCould not copy %s to %s. Perhaps because some other process is using the destination file. Try again with a new location\n"),
+                                                    errno,
+                                                    get_print_status()->printname_pdf[get_print_status()->cycle],
+                                                    filename);
+                      warningdialog (msg);
+                      g_free (msg);
+                    }
+                  else
+                    {
+                      g_debug ("I have copied %s to %s (default was %s)\n", get_print_status()->printname_pdf[get_print_status()->cycle], filename, outname);
+                    }
+                  g_free (contents);
+                }
         }
       g_free (outpath);
       g_free (outname);
       g_free (filename);
     }
-
 }
 
 static void
