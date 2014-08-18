@@ -271,7 +271,7 @@ overdraw_print (cairo_t * cr)
           explanation = _("Cursor may have moved to error point in the score.");
           break;
         case 3:
-          headline = _("INVALID!");
+          headline = _("INVALID! try Score->Check Score command.");
           explanation = _("LilyPond could not typeset this score.");
           break;
         }
@@ -2374,7 +2374,7 @@ get_updates_button (void)
 }
 //pops up a menu of layouts with the action being to typeset that layout. If only one, typeset that.
 static void
-popup_layouts_menu ()
+popup_layouts_menu (void)
 {
   GtkWidget *menu = GetLayoutMenu ();
   if(Denemo.project->custom_scoreblocks || (g_list_length(Denemo.project->standard_scoreblocks)>1)) 
