@@ -479,9 +479,12 @@ load_preferences (void)
   if (!Denemo.prefs.toolbar)
     activate_action ("/MainMenu/ViewMenu/" ToggleToolbar_STRING);
 
-  if (!Denemo.prefs.lyrics_pane)
+ //if (!Denemo.prefs.lyrics_pane)
     activate_action ("/MainMenu/ViewMenu/" ToggleLyricsView_STRING);
+    Denemo.prefs.lyrics_pane = TRUE; //ignore pref, does not work.
+    //gtk_toggle_action_set_active (gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLyricsView"), !Denemo.prefs.lyrics_pane);
 
+  
   if (!Denemo.prefs.rhythm_palette)
     activate_action ("/MainMenu/ViewMenu/" ToggleRhythmToolbar_STRING);
 
@@ -491,8 +494,7 @@ load_preferences (void)
   if (!Denemo.prefs.object_palette)
     activate_action ("/MainMenu/ViewMenu/" ToggleObjectMenu_STRING);
 
- // if (!Denemo.prefs.visible_directive_buttons)
-  //  activate_action ("/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
+
 
   //these menu ones are visible on entry - FIXME is this the array of toolbars below, ending in TRUE?
   if (!Denemo.prefs.playback_controls)
@@ -4025,7 +4027,7 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   ,
 
   {ToggleLyricsView_STRING, NULL, N_("Lyrics"), NULL, NULL,
-   G_CALLBACK (toggle_lyrics_view), TRUE}
+   G_CALLBACK (toggle_lyrics_view), FALSE}
   ,
 
 
@@ -4699,7 +4701,7 @@ create_window (void)
     GtkWidget *scorearea_topbox = gtk_vbox_new (FALSE, 1);
     //gtk_container_add (GTK_CONTAINER (main_vbox), scorearea_topbox);
     gtk_box_pack_start (GTK_BOX (main_vbox), outer_pane, TRUE, TRUE, 0);   
-    gtk_paned_add1 (outer_pane, scorearea_topbox);
+    gtk_paned_pack1 (outer_pane, scorearea_topbox, TRUE, FALSE);
     GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
     //gtk_container_add (GTK_CONTAINER (scorearea_topbox), score_and_scroll_hbox);
     gtk_box_pack_start (GTK_BOX (scorearea_topbox), score_and_scroll_hbox, TRUE, TRUE, 0);   

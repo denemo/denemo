@@ -512,7 +512,7 @@ install_lyrics_preview (DenemoMovement * si, GtkWidget * top_vbox)
     {
         if(!gtk_paned_get_child2(GTK_PANED (parent))) {
             GtkWidget *vbox = (GtkWidget*)gtk_vbox_new (FALSE, 8);
-            gtk_paned_add2 (GTK_PANED (parent), vbox); //si->lyricsbox);
+            gtk_paned_pack2 (GTK_PANED (parent), vbox, FALSE, TRUE); //si->lyricsbox);
             gtk_widget_show (vbox);
         }
         gtk_box_pack_start (GTK_BOX(gtk_paned_get_child2(GTK_PANED (parent))), si->lyricsbox, TRUE, TRUE, 0);
