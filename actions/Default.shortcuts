@@ -1023,6 +1023,10 @@
         <action>AddVerse</action>
         <bind>Ctrl+l,a</bind>
       </row>
+      <row>
+        <action>ActivatePaletteButtonByLabel</action>
+        <bind>p</bind>
+      </row>
     </map>
   </merge>
 </Denemo>
