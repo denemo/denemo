@@ -480,7 +480,7 @@ load_preferences (void)
     activate_action ("/MainMenu/ViewMenu/" ToggleToolbar_STRING);
 
  //if (!Denemo.prefs.lyrics_pane)
-    activate_action ("/MainMenu/ViewMenu/" ToggleLyricsView_STRING);
+    //activate_action ("/MainMenu/ViewMenu/" ToggleLyricsView_STRING);
     Denemo.prefs.lyrics_pane = TRUE; //ignore pref, does not work.
     //gtk_toggle_action_set_active (gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLyricsView"), !Denemo.prefs.lyrics_pane);
 
@@ -3893,15 +3893,26 @@ toggle_lyrics_view (GtkAction * action, gpointer param)
   g_debug("This feature requires denemo to be built with evince");
 #else
   GtkWidget *widget = Denemo.project->movement->lyricsbox;
+  static gint last_height = 100;
   if (!widget)
     g_warning ("No lyrics");
   else
     {
       if ((!action) || gtk_widget_get_visible (widget))
+        {
+        GtkWidget *parent = gtk_widget_get_parent(gtk_widget_get_parent(widget));
+        gint height = get_widget_height (parent);
+        last_height = get_widget_height (widget);
+        gtk_paned_set_position (GTK_PANED(parent), height); 
         gtk_widget_hide (widget);
+        }
       else
         {
           gtk_widget_show (widget);
+          GtkWidget *parent = gtk_widget_get_parent(gtk_widget_get_parent(widget));
+          gint height = get_widget_height (parent);
+          if((height>last_height))
+             gtk_paned_set_position (GTK_PANED(parent), height - last_height);
         }
       if (Denemo.prefs.persistence && (Denemo.project->view == DENEMO_MENU_VIEW))
         Denemo.prefs.lyrics_pane = gtk_widget_get_visible (widget);
@@ -4027,7 +4038,7 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   ,
 
   {ToggleLyricsView_STRING, NULL, N_("Lyrics"), NULL, NULL,
-   G_CALLBACK (toggle_lyrics_view), FALSE}
+   G_CALLBACK (toggle_lyrics_view), TRUE}
   ,
 
 
