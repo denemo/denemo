@@ -6898,8 +6898,8 @@ and others in the LilyPond documentation.</_tooltip>
       </row>
       <row type="scheme">
         <action>AccidentalStyle</action>
-        <after>MMRExpandLimit</after>
-        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
+        <after>ScoreIndent</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Accidental Style</_label>
         <_tooltip>Choose the style for typesetting accidentals. Determines whether or not an accidental is printed in particular circumstances (such as repeated notes in different measures, octaves, voices etc).</_tooltip>
       </row>

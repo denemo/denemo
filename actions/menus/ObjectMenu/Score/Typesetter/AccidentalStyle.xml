@@ -6,7 +6,7 @@
     <map>
       <row type="scheme">
         <action>AccidentalStyle</action>
-        <after>MMRExpandLimit</after>
+        <after>ScoreIndent</after>
         <_label>Accidental Style</_label>
         <_tooltip>Choose the style for typesetting accidentals. Determines whether or not an accidental is printed in particular circumstances (such as repeated notes in different measures, octaves, voices etc).</_tooltip>
       </row>
