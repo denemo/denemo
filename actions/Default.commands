@@ -6903,6 +6903,20 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Accidental Style</_label>
         <_tooltip>Choose the style for typesetting accidentals. Determines whether or not an accidental is printed in particular circumstances (such as repeated notes in different measures, octaves, voices etc).</_tooltip>
       </row>
+      <row type="scheme">
+        <action>LyricFont</action>
+        <after>DeleteVerse</after>
+        <menupath>/ObjectMenu/Lyrics</menupath>
+        <_label>Change Font</_label>
+        <_tooltip>Inserts into the current lyric verse a change of font. Keep this code on a line of its own.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>LyricFontSize</action>
+        <after>LyricFont</after>
+        <menupath>/ObjectMenu/Lyrics</menupath>
+        <_label>Larger/Smaller Font Size</_label>
+        <_tooltip>Inserts a code in the current lyric verse to change to larger or smaller font size. Keep this code on a separate line.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

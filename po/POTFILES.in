@@ -858,6 +858,10 @@ actions/menus/ObjectMenu/Lyrics/InsertMelisma.scm
 actions/menus/ObjectMenu/Lyrics/InsertMelisma.xml
 actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm
 actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.xml
+actions/menus/ObjectMenu/Lyrics/LyricFont.scm
+actions/menus/ObjectMenu/Lyrics/LyricFontSize.scm
+actions/menus/ObjectMenu/Lyrics/LyricFontSize.xml
+actions/menus/ObjectMenu/Lyrics/LyricFont.xml
 actions/menus/ObjectMenu/Lyrics/LyricVerseDynamic.scm
 actions/menus/ObjectMenu/Lyrics/LyricVerseDynamic.xml
 actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm

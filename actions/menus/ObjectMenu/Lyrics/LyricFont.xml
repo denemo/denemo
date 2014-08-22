@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>LyricFont</action>
+        <after>DeleteVerse</after>
+        <_label>Change Font</_label>
+        <_tooltip>Inserts into the current lyric verse a change of font. Keep this code on a line of its own.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
