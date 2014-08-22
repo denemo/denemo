@@ -180,6 +180,7 @@ SCM scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object);
 SCM scheme_create_palette_button (SCM palette, SCM lbl, SCM tltp, SCM scrp);
 SCM scheme_set_palette_shape (SCM palette, SCM horizontal, SCM limit);
 SCM scheme_show_palettes (SCM);
+SCM scheme_select_palette (SCM);
 SCM scheme_activate_palette_button (void);
 SCM scheme_get_user_input (SCM label, SCM prompt, SCM init, SCM modal);
 SCM scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal);

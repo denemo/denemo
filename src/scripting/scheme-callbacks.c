@@ -220,7 +220,23 @@ scheme_show_palettes (SCM option)
         }
     return SCM_BOOL_F;
 }
-
+SCM
+scheme_select_palette (SCM aname) {
+     gchar *name = NULL;
+     if(scm_is_string (aname))
+        name = scm_to_locale_string (aname);
+     else
+        if(!SCM_UNBNDP (aname))
+            name = choose_palette_by_name (FALSE, FALSE);
+    if(name) {
+        DenemoPalette *pal = get_palette (name);
+        if(pal)
+            Denemo.currentpalette = pal;
+    }
+    if(Denemo.currentpalette)
+        return scm_from_locale_string(Denemo.currentpalette->name);
+    return SCM_BOOL_F;
+}
 SCM
 scheme_activate_palette_button (void) {
 GdkEventKey event;
@@ -262,8 +278,11 @@ if(Denemo.palettes)
             g_string_assign(Denemo.input_filters, "");  
             ret = SCM_BOOL_T;
             write_input_status();
-        } else
-        call_out_to_guile ("(TimedNotice (_ \"No such label\"))");
+        } else 
+        {
+            g_string_assign(Denemo.input_filters, _("No such label"));
+            write_input_status();
+        }
     }
     return ret;
 }
