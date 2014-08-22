@@ -4,23 +4,30 @@
    (d-PushPosition)
    (while (d-PreviousMovement))
    (d-HideMovement #t)
-   (d-PushPosition)
+   (d-PopPosition)
   
    (CreateButton tag1 (string-append " &lt;span font_desc=\"16\" foreground=\"blue\"&gt;" (_ "Create/Load a custom Chord Symbol")"&lt;/span&gt;"))
     (d-SetDirectiveTagActionScript tag1 
         "(let ()
-            (d-WarningDialog (_ \"This will allow you to customize how a Chord Symbol is drawn. 
+        	(if (eq? 1 (d-GetMovement))
+        		(begin
+           		 	(d-WarningDialog (_ \"For simple chord symbols don't use this:
+just attach the text you want to use as the symbol
+to the type of chord you are designing the symbol for.
+This button will allow you to customize how a Chord Symbol is drawn using a vector graphics editor (e.g. Inkscape). 
 For each type of chord you wish to modify, you create an \\\"ornament\\\" 
 which is the symbol you want - e.g. 9sus4 or +7.
 Placing one of these \\\"ornaments\\\" on the type of chord in this movement
 will result in it being used in the Chord Chart itself,
 which you construct in the next movement.
-You must always typeset this movement, otherwise
+You must not delete this movement even though it is hidden, otherwise
 the Chord Chart will not see the definitions.
 In what follows, the chord symbols are referred to as 
 \\\"ornaments\\\" because the custom ornament code is being re-used.\"
 ))
-(d-CustomOrnamentDefinition)
+			(d-CustomOrnamentDefinition))
+		(begin
+			(d-WarningDialog (_ \"Use this button only in the Chord Symbol Definitions movement - the first movement\"))))
         )")
         
    (CreateButton tag2 (string-append " &lt;span font_desc=\"16\" foreground=\"green\"&gt;" (_ "Insert Chord Symbol Definition")"&lt;/span&gt;"))
@@ -37,8 +44,7 @@ In what follows, the chord symbols are referred to as
     (d-SetDirectiveTagActionScript tag3 "(if (eq? 1 (d-GetMovement)) (d-HideMovement)
     											(d-WarningDialog (_ \"Use only in the first movement\")))")     
         
-        
-          )
+        (d-TypesetForScript "(d-PrintView)"))
         </scheme>
   <scoreheader-directives>
     <directive>
@@ -461,7 +467,7 @@ instrument = ##f
     <edit-info>
       <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>3</cursorposition>
+      <cursorposition>1</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -593,9 +599,9 @@ chordNameExceptions = #(append
         </voice-props>
         <measures>
           <measure>
-            <lily-directive tag="MultiLineTextAnnotation" display="Delete this sample chord and these text markings and &#10;enter the chords for your song, customizing any chord&#10;symbols you wish to alter by editing the first movement." data="Delete this sample chord and these text markings and &#10;enter the chords for your song, customizing any chord&#10;symbols you wish to alter by editing the first movement." prefix="&lt;&gt;-\tweak #'extra-offset #'( -0.18 . -8.36 )" minpixels="30">_\markup\scale #'(1 . 1)\column{\line\large{Delete this sample chord and these text markings and }\line\large{enter the chords for your song, customizing any chord}\line\large{symbols you wish to alter by editing the first movement.}
+            <lily-directive tag="MultiLineTextAnnotation" display="Delete this sample chord and these text markings and &#10;enter the chords for your song, customizing any chord&#10;symbols you wish to alter by editing the first movement." data="Delete this sample chord and these text markings and &#10;enter the chords for your song, customizing any chord&#10;symbols you wish to alter by editing the first movement." prefix="&lt;&gt;-\tweak #'extra-offset #'( -0.18 . -8.36 )" ty="79" minpixels="30">_\markup\scale #'(1 . 1)\column{\line\large{Delete this sample chord and these text markings and }\line\large{enter the chords for your song, customizing any chord}\line\large{symbols you wish to alter by editing the first movement.}
 }</lily-directive>
-            <lily-directive tag="MultiLineTextAnnotation" display="Sample Chord Only&#10;This, the second movement, is the actual chord chart.&#10;It will use as chord symbols the markup added to the&#10;corresponding chord types in the first movment." data="Delete this sample chord and these text markings and &#10;enter the chords for your song, customizing any chord&#10;symbols you wish to alter by editing the first movement." prefix="&lt;&gt;" minpixels="30">^\markup\scale #'(1.5 . 1.5)\column{\line\large{Sample Chord Only}\line\large{This, the second movement, is the actual chord chart.}\line\large{It will use as chord symbols the markup added to the}\line\large{corresponding chord types in the first movment.}
+            <lily-directive tag="MultiLineTextAnnotation" display="Sample Chord Only&#10;This, the second movement, is the actual chord chart.&#10;It will use as chord symbols the markup added to the&#10;corresponding chord types in the first movment." data="Delete this sample chord and these text markings and &#10;enter the chords for your song, customizing any chord&#10;symbols you wish to alter by editing the first movement." prefix="&lt;&gt;" tx="66" ty="-5" minpixels="30">^\markup\scale #'(1.5 . 1.5)\column{\line\large{Sample Chord Only}\line\large{This, the second movement, is the actual chord chart.}\line\large{It will use as chord symbols the markup added to the}\line\large{corresponding chord types in the first movment.}
 }</lily-directive>
             <chord show="true" id="id54">
               <duration base="whole"></duration>
