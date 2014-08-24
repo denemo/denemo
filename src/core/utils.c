@@ -1865,6 +1865,19 @@ display_current_object (void)
           }
           break;
         }
+        
+         if (curObj->midi_events)
+            {
+              smf_event_t *event = (smf_event_t *) curObj->midi_events->data;
+              gdouble time = event->time_seconds;
+              gint minutes = time / 60.0;
+              gdouble seconds = time - 60 * minutes;
+              char *buf = event->midi_buffer;
+              g_string_append_printf (selection, _("MIDI information: time %d minutes %1.2f seconds "), minutes, seconds);
+              #define velocity ((*(buf+2))&0x7F)
+              if ((*buf & 0xf0) == 0x90)
+                g_string_append_printf (selection, _("velocity %d\n"), buf[2]);
+          }
 
       if (warning->len)
         {
