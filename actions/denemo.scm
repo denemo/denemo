@@ -957,10 +957,11 @@
     (define directives '())
     (let loop ((count 1))
         (define good-tag (d-DirectiveGetNthTag-score count))
-                    (if (and good-tag (string-prefix? "Allow\n" good-tag))
-                        (begin
-                            (set! directives (cons good-tag directives))
-                            (loop (1+ count)))))
+        (if good-tag 
+            (begin
+                (if (string-prefix? "Allow\n" good-tag)
+                    (set! directives (cons good-tag directives)))
+                (loop (1+ count)))))
     directives)
 
 (define (GetDefinitionDataFromUser)
