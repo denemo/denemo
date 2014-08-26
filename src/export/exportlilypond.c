@@ -2522,10 +2522,10 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
 
                         }
                     }
-#if 0
-                  if (curstaffstruct->hasfigures)
-                    g_string_append_printf (staffdefinitions, TAB TAB " \\context Staff = \"%s\" \\with {implicitBassFigures = #'(0) } \\%s%sBassFiguresLine\n", curstaffstruct->denemo_name->str, movement_name->str, voice_name->str);
-#endif
+                    
+                 //g_string_append_printf (staffdefinitions, "\n\\addQuote \"%s\" \\%s%s\n", curstaffstruct->denemo_name->str, movement_name->str, voice_name->str);
+                    
+
                   //g_string_append_printf(staffdefinitions, TAB TAB"%s\n", endofblock);
                 }
               else if (curstaffstruct->voicecontrol & DENEMO_SECONDARY)
@@ -2554,9 +2554,10 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
 
                         }
                     }
-                  // g_string_append_printf(staffdefinitions,"}%s", endofblock);
                 }
-//        g_string_free(thestr, TRUE);
+                
+                
+            g_string_append_printf (staffdefinitions, "\n\\addQuote \"%s Mvmnt %d\" \\%s%s\n", curstaffstruct->denemo_name->str, movement_count, movement_name->str, voice_name->str);    
             }
         }                       /*end for staff loop */
 
