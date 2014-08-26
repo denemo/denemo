@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>NumbersSelectDuration</action>
+        <after>NoteNamesMove</after>
+        <_label>Numbers Select Duration</_label>
+        <_tooltip>Changes the action of keys 0,1,2... to select the prevailing duration instead of inserting notes of the duration.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

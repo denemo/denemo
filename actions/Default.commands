@@ -6924,6 +6924,20 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Install Cue</_label>
         <_tooltip>Starts quoting music from another staff as a cue. The end cue marker is placed at the end of the measure, but can be moved with cut and paste to the desired position.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>NumbersSelectDuration</action>
+        <after>NoteNamesMove</after>
+        <menupath>/MainMenu/InputMenu/Keyboard</menupath>
+        <_label>Numbers Select Duration</_label>
+        <_tooltip>Changes the action of keys 0,1,2... to select the prevailing duration instead of inserting notes of the duration.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>NumbersDefault</action>
+        <after>NoteNamesDefault</after>
+        <menupath>/MainMenu/InputMenu/Keyboard</menupath>
+        <_label>Numbers Default Action</_label>
+        <_tooltip>Sets key shortcuts 0,1,2... to the default action, inserting notes of the duration.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

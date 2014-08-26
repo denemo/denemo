@@ -399,6 +399,10 @@ actions/menus/MainMenu/InputMenu/Keyboard/NoteNamesDefault.scm
 actions/menus/MainMenu/InputMenu/Keyboard/NoteNamesDefault.xml
 actions/menus/MainMenu/InputMenu/Keyboard/NoteNamesMove.scm
 actions/menus/MainMenu/InputMenu/Keyboard/NoteNamesMove.xml
+actions/menus/MainMenu/InputMenu/Keyboard/NumbersDefault.scm
+actions/menus/MainMenu/InputMenu/Keyboard/NumbersDefault.xml
+actions/menus/MainMenu/InputMenu/Keyboard/NumbersSelectDuration.scm
+actions/menus/MainMenu/InputMenu/Keyboard/NumbersSelectDuration.xml
 actions/menus/MainMenu/InputMenu/MIDI/AngryDelete.scm
 actions/menus/MainMenu/InputMenu/MIDI/AngryDelete.xml
 actions/menus/MainMenu/InputMenu/MIDI/CheckPitches.scm
