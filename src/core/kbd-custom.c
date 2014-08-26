@@ -1597,7 +1597,16 @@ load_keymap_dialog_location (gchar * location)
   gchar *filename = file_dialog ("Load Command Set", TRUE, location);
   if (filename)
     if(confirm (_("Key Map Loading"), _("Load Shortcuts only?")))  
-        load_xml_keybindings (filename);
+        {g_print("Starting filename %s\n", filename);
+            if(g_str_has_suffix (filename, ".commands"))
+                {
+                    *(filename+strlen(filename)-strlen(".commands")) = 0;
+                    
+                filename = g_strdup_printf ("%s.shortcuts", filename);
+            }
+            g_print("Doing filename %s\n", filename);
+            load_xml_keybindings (filename);
+        }
     else
         load_keymap_from_dialog (filename);
 }
