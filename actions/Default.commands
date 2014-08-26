@@ -6917,6 +6917,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Larger/Smaller Font Size</_label>
         <_tooltip>Inserts a code in the current lyric verse to change to larger or smaller font size. Keep this code on a separate line.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>InstallCue</action>
+        <after>AutoAccidentals</after>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
+        <_label>Install Cue</_label>
+        <_tooltip>Starts quoting music from another staff as a cue. The end cue marker is placed at the end of the measure, but can be moved with cut and paste to the desired position.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

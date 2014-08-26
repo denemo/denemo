@@ -790,6 +790,8 @@ actions/menus/ObjectMenu/Directives/Typesetter/HideNotes.scm
 actions/menus/ObjectMenu/Directives/Typesetter/HideNotes.xml
 actions/menus/ObjectMenu/Directives/Typesetter/Hide.scm
 actions/menus/ObjectMenu/Directives/Typesetter/Hide.xml
+actions/menus/ObjectMenu/Directives/Typesetter/InstallCue.scm
+actions/menus/ObjectMenu/Directives/Typesetter/InstallCue.xml
 actions/menus/ObjectMenu/Directives/Typesetter/MMRExpandLimit.scm
 actions/menus/ObjectMenu/Directives/Typesetter/MMRExpandLimit.xml
 actions/menus/ObjectMenu/Directives/Typesetter/NewSpacing.scm

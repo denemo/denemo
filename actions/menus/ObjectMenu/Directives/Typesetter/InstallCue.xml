@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>StartCue</action>
+        <after>AutoAccidentals</after>
+        <_label>Install Cue</_label>
+        <_tooltip>Starts quoting music from another staff as a cue. The end cue marker is placed at the end of the measure, but can be moved with cut and paste to the desired position.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
