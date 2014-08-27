@@ -34,6 +34,9 @@ as this will not typeset."))))
                     (d-DirectivePut-standalone-minpixels tag 30)
                     (d-DirectivePut-standalone-postfix tag cuename)
                     (d-DirectivePut-standalone-display tag (_ "Start Cue"))
+                      (d-DirectivePut-standalone-graphic "InstallCue" "
+[
+Denemo 48")
                     (d-PushPosition)
                     (GoToMeasureEnd)
                     (if (d-Directive-standalone? tag)
@@ -46,6 +49,11 @@ as this will not typeset."))))
                             (d-Directive-standalone tag)
                             (d-DirectivePut-standalone-minpixels tag 30)
                             (d-DirectivePut-standalone-display tag (_ "End Cue"))
+                            (d-DirectivePut-standalone-graphic "InstallCue" "
+]
+Denemo 48")
                             (d-DirectivePut-standalone-postfix tag "}")))
+                     (d-SetSaved #f)
+                     (d-RefreshDisplay)
                     (d-PopPosition))))))
 
