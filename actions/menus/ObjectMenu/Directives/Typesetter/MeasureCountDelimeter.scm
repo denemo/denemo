@@ -29,12 +29,23 @@
                     (d-Directive-standalone tag)
                     (d-DirectivePut-standalone-data tag "#f")
                     (d-DirectivePut-standalone-display tag (_ "Stop Count"))
+                    (d-DirectivePut-standalone-graphic tag "
+]
+Denemo
+24")
                     (d-DirectivePut-standalone-postfix tag "\\stopMeasureCount"))
                 (begin
                     (d-Directive-standalone tag)
                     (d-DirectivePut-standalone-data tag "#t")
                     (d-DirectivePut-standalone-display tag (_ "Start Count"))
+                    (d-DirectivePut-standalone-graphic tag "
+[
+Denemo
+24")
+                    
                     (d-DirectivePut-standalone-postfix tag "\\startMeasureCount")))
+            (d-DirectivePut-standalone-gy tag -50)
             (d-DirectivePut-standalone-minpixels tag 30)
             (d-SetSaved #f)
             (d-RefreshDisplay))))
+            
