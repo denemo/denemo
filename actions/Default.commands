@@ -6938,6 +6938,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Numbers Default Action</_label>
         <_tooltip>Sets key shortcuts 0,1,2... to the default action, inserting notes of the duration.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>MeasureCountDelimeter</action>
+        <after>SetBarNumber</after>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
+        <_label>Measure Count Start or End</_label>
+        <_tooltip>Inserts a directive to start or stop the printing of a counter above each measure. Use for repeated measures to assist the performer count the number of repetitions.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
