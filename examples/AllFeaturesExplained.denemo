@@ -30,9 +30,10 @@ print-all-headers = ##t
     <score-directives>
       <directive>
         <tag>ScoreIndent</tag>
-        <prefix>\layout {indent = 20.0}
+        <prefix>\layout {indent = 25}
 </prefix>
-        <display>indent=20.0</display>
+        <display>indent=25</display>
+        <data>25</data>
         <override>4</override>
       </directive>
       <directive>
@@ -213,9 +214,21 @@ accGeige</tag>
         <display>accGeige</display>
         <override>16</override>
       </directive>
+      <directive>
+        <tag>EnableMeasureCounter</tag>
+        <prefix>
+\layout {
+    \context {
+        \Staff
+        \consists #Measure_counter_engraver
+    }
+}</prefix>
+        <display>EnableMeasureCounter</display>
+        <override>16</override>
+      </directive>
     </score-directives>
   </lilycontrol>
-  <movement-number>4</movement-number>
+  <movement-number>5</movement-number>
   <movement>
     <edit-info>
       <staffno>1</staffno>
@@ -1123,7 +1136,7 @@ Usually the shortcut is Shift-B,s for this.\")"             ⬉Explanation }</li
     <edit-info>
       <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>5</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -1229,6 +1242,343 @@ To put in a shift use Directives-&gt;Menu of Objects to Insert\")"   "⬋Explana
               <notes>
                 <note id="id145">
                   <middle-c-offset>1</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+          </measure>
+        </measures>
+      </voice>
+    </voices>
+  </movement>
+  <movement>
+    <edit-info>
+      <staffno>1</staffno>
+      <measureno>2</measureno>
+      <cursorposition>1</cursorposition>
+      <tonalcenter>0</tonalcenter>
+      <zoom>100</zoom>
+      <system-height>100</system-height>
+      <page-zoom>0</page-zoom>
+      <page-system-height>0</page-system-height>
+    </edit-info>
+    <header-directives>
+      <directive>
+        <tag>SuppressTitleRepeats</tag>
+        <postfix>title = ##f
+instrument = ##f
+</postfix>
+      </directive>
+    </header-directives>
+    <score-info>
+      <tempo>
+        <duration>
+          <numerator>1</numerator>
+          <denominator>4</denominator>
+        </duration>
+        <bpm>120</bpm>
+      </tempo>
+    </score-info>
+    <staves>
+      <staff id="id146"></staff>
+    </staves>
+    <voices>
+      <voice id="id147">
+        <voice-info>
+          <voice-name>unnamed</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id146"></staff-ref>
+          <clef name="treble"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>65</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 5 1 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+                    (if choice (choice)))    " "" }</postfix>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
+        <measures>
+          <measure>
+            <chord show="true" id="id148">
+              <duration base="quarter"></duration>
+              <directives>
+                <directive>
+                  <tag>Tremolo</tag>
+                  <postfix>:8</postfix>
+                  <display>𝅪</display>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id149">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id150">
+              <duration base="quarter"></duration>
+              <directives>
+                <directive>
+                  <tag>Tremolo</tag>
+                  <postfix>:8</postfix>
+                  <display>𝅪</display>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id151">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id152">
+              <duration base="quarter"></duration>
+              <directives>
+                <directive>
+                  <tag>Tremolo</tag>
+                  <postfix>:8</postfix>
+                  <display>𝅪</display>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id153">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id154">
+              <duration base="quarter"></duration>
+              <directives>
+                <directive>
+                  <tag>Tremolo</tag>
+                  <postfix>:8</postfix>
+                  <display>𝅪</display>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id155">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+          </measure>
+          <measure>
+            <lily-directive tag="MeasureCountDelimeter" display="Start Count" data="#t" graphic_name="&#10;[&#10;Denemo&#10;24" gy="-50" minpixels="30">\startMeasureCount</lily-directive>
+            <rest show="true" id="id156">
+              <duration base="whole"></duration>
+              <directives>
+                <directive>
+                  <tag>WholeMeasureRest</tag>
+                  <postfix>R1*4/4</postfix>
+                  <display>1</display>
+                  <graphic_name>
+𝄎
+Denemo
+48</graphic_name>
+                  <minpixels>100</minpixels>
+                  <tx>76</tx>
+                  <ty>15</ty>
+                  <gx>40</gx>
+                  <gy>15</gy>
+                  <override>7</override>
+                </directive>
+                <directive>
+                  <tag>WholeMeasureRepeat</tag>
+                  <prefix>\once \override MultiMeasureRest #'extra-offset = #'(0 . -1)  \override MultiMeasureRest #'stencil  = #ly:multi-measure-rest::percent  \override MultiMeasureRest #'thickness = #0.48 </prefix>
+                </directive>
+              </directives>
+              <ticks>1536</ticks>
+            </rest>
+          </measure>
+          <measure>
+            <rest show="true" id="id157">
+              <duration base="whole"></duration>
+              <directives>
+                <directive>
+                  <tag>WholeMeasureRest</tag>
+                  <postfix>R1*4/4</postfix>
+                  <display>1</display>
+                  <graphic_name>
+𝄎
+Denemo
+48</graphic_name>
+                  <minpixels>100</minpixels>
+                  <tx>76</tx>
+                  <ty>15</ty>
+                  <gx>40</gx>
+                  <gy>15</gy>
+                  <override>7</override>
+                </directive>
+                <directive>
+                  <tag>WholeMeasureRepeat</tag>
+                  <prefix>\once \override MultiMeasureRest #'extra-offset = #'(0 . -1)  \override MultiMeasureRest #'stencil  = #ly:multi-measure-rest::percent  \override MultiMeasureRest #'thickness = #0.48 </prefix>
+                </directive>
+              </directives>
+              <ticks>1536</ticks>
+            </rest>
+          </measure>
+          <measure>
+            <rest show="true" id="id158">
+              <duration base="whole"></duration>
+              <directives>
+                <directive>
+                  <tag>WholeMeasureRest</tag>
+                  <postfix>R1*4/4</postfix>
+                  <display>1</display>
+                  <graphic_name>
+𝄎
+Denemo
+48</graphic_name>
+                  <minpixels>100</minpixels>
+                  <tx>76</tx>
+                  <ty>15</ty>
+                  <gx>40</gx>
+                  <gy>15</gy>
+                  <override>7</override>
+                </directive>
+                <directive>
+                  <tag>WholeMeasureRepeat</tag>
+                  <prefix>\once \override MultiMeasureRest #'extra-offset = #'(0 . -1)  \override MultiMeasureRest #'stencil  = #ly:multi-measure-rest::percent  \override MultiMeasureRest #'thickness = #0.48 </prefix>
+                </directive>
+              </directives>
+              <ticks>1536</ticks>
+            </rest>
+          </measure>
+          <measure>
+            <rest show="true" id="id159">
+              <duration base="whole"></duration>
+              <directives>
+                <directive>
+                  <tag>WholeMeasureRest</tag>
+                  <postfix>R1*4/4</postfix>
+                  <display>1</display>
+                  <graphic_name>
+𝄎
+Denemo
+48</graphic_name>
+                  <minpixels>100</minpixels>
+                  <tx>76</tx>
+                  <ty>15</ty>
+                  <gx>40</gx>
+                  <gy>15</gy>
+                  <override>7</override>
+                </directive>
+                <directive>
+                  <tag>WholeMeasureRepeat</tag>
+                  <prefix>\once \override MultiMeasureRest #'extra-offset = #'(0 . -1)  \override MultiMeasureRest #'stencil  = #ly:multi-measure-rest::percent  \override MultiMeasureRest #'thickness = #0.48 </prefix>
+                </directive>
+              </directives>
+              <ticks>1536</ticks>
+            </rest>
+          </measure>
+          <measure>
+            <rest show="true" id="id160">
+              <duration base="whole"></duration>
+              <directives>
+                <directive>
+                  <tag>WholeMeasureRest</tag>
+                  <postfix>R1*4/4</postfix>
+                  <display>1</display>
+                  <graphic_name>
+𝄎
+Denemo
+48</graphic_name>
+                  <minpixels>100</minpixels>
+                  <tx>76</tx>
+                  <ty>15</ty>
+                  <gx>40</gx>
+                  <gy>15</gy>
+                  <override>7</override>
+                </directive>
+                <directive>
+                  <tag>WholeMeasureRepeat</tag>
+                  <prefix>\once \override MultiMeasureRest #'extra-offset = #'(0 . -1)  \override MultiMeasureRest #'stencil  = #ly:multi-measure-rest::percent  \override MultiMeasureRest #'thickness = #0.48 </prefix>
+                </directive>
+              </directives>
+              <ticks>1536</ticks>
+            </rest>
+          </measure>
+          <measure>
+            <rest show="true" id="id161">
+              <duration base="whole"></duration>
+              <directives>
+                <directive>
+                  <tag>WholeMeasureRest</tag>
+                  <postfix>R1*4/4</postfix>
+                  <display>1</display>
+                  <graphic_name>
+𝄎
+Denemo
+48</graphic_name>
+                  <minpixels>100</minpixels>
+                  <tx>76</tx>
+                  <ty>15</ty>
+                  <gx>40</gx>
+                  <gy>15</gy>
+                  <override>7</override>
+                </directive>
+                <directive>
+                  <tag>WholeMeasureRepeat</tag>
+                  <prefix>\once \override MultiMeasureRest #'extra-offset = #'(0 . -1)  \override MultiMeasureRest #'stencil  = #ly:multi-measure-rest::percent  \override MultiMeasureRest #'thickness = #0.48 </prefix>
+                </directive>
+              </directives>
+              <ticks>1536</ticks>
+            </rest>
+            <lily-directive tag="MeasureCountDelimeter" display="Stop Count" data="#f" graphic_name="&#10;]&#10;Denemo&#10;24" gy="-50" minpixels="30">\stopMeasureCount</lily-directive>
+          </measure>
+          <measure>
+            <chord show="true" id="id162">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id163">
+                  <middle-c-offset>4</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id164">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id165">
+                  <middle-c-offset>5</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id166">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id167">
+                  <middle-c-offset>6</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id168">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id169">
+                  <middle-c-offset>7</middle-c-offset>
                 </note>
               </notes>
             </chord>
