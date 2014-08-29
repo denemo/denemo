@@ -241,13 +241,16 @@ SCM
 scheme_activate_palette_button (void) {
 GdkEventKey event;
 GString *input = g_string_new ("");
+GString *status = g_string_new ("");
 SCM ret = SCM_BOOL_F;
 if(Denemo.palettes)
     {
     DenemoPalette *pal = Denemo.currentpalette;
     if(pal==NULL)
         pal = (DenemoPalette *) Denemo.palettes->data;
-    g_string_printf(Denemo.input_filters,  "<span font-desc=\"24\" foreground=\"green\">%s in %s palette</span>", _("Key in label of button"), pal->name);
+    g_string_printf(status, "<span font-desc=\"24\" foreground=\"dark green\">%s</span>" , _("Key in (part of) label from"));
+    gtk_label_set_markup (GTK_LABEL (Denemo.statuslabel), status->str);
+    g_string_printf(Denemo.input_filters,  "<span font-desc=\"24\" foreground=\"dark green\">%s %s</span>",  pal->name, _("Palette"));
     write_input_status ();
      while (intercept_scorearea_keypress (&event))
         {  
@@ -272,6 +275,8 @@ if(Denemo.palettes)
             g_string_append_c (input, c); 
         g_string_printf(Denemo.input_filters, "<span font-desc=\"24\" foreground=\"orange\">%s</span>", input->str);
         write_input_status ();
+        g_string_printf(status, "<span font-desc=\"24\" foreground=\"orange\">%s</span>" , _("&lt;Esc&gt; to cancel, &lt;Return&gt; ok"));
+        gtk_label_set_markup (GTK_LABEL (Denemo.statuslabel), status->str);
      }
     if(input->len && palette_action_button (pal, input->str))
         {
@@ -282,8 +287,10 @@ if(Denemo.palettes)
         {
             g_string_assign(Denemo.input_filters, _("No such label"));
             write_input_status();
+            write_status (Denemo.project);
         }
     }
+    g_string_free(status, TRUE);
     return ret;
 }
  
