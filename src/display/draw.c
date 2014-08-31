@@ -1310,6 +1310,7 @@ draw_score (cairo_t * cr)
   itp.tupletstart = itp.tuplety = 0;
   itp.recordednote = si->recording?si->recording->notes:NULL;
   itp.currentframe = (get_playback_time()/get_playback_speed())*(si->recording?si->recording->samplerate:SAMPLERATE);
+  itp.allow_duration_error = FALSE;
   y = 0;
 
   if (gui->movement->smf)
