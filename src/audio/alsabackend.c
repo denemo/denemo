@@ -117,7 +117,7 @@ process_thread_func (gpointer data)
           update_playback_time (TIMEBASE_PRIO_MIDI, playback_time);
         }
     }
-
+  g_mutex_unlock (mutex);
   g_mutex_free (mutex);
   return NULL;
 }
