@@ -912,6 +912,8 @@ actions/menus/ObjectMenu/MovementMenu/CaptureScore/DeleteCapturedMeasure.scm
 actions/menus/ObjectMenu/MovementMenu/CaptureScore/DeleteCapturedMeasure.xml
 actions/menus/ObjectMenu/MovementMenu/CaptureScore/InsertCaptureMeasure.scm
 actions/menus/ObjectMenu/MovementMenu/CaptureScore/InsertCaptureMeasure.xml
+actions/menus/ObjectMenu/MovementMenu/CheckTimeSignatures.scm
+actions/menus/ObjectMenu/MovementMenu/CheckTimeSignatures.xml
 actions/menus/ObjectMenu/MovementMenu/CreateIntro.scm
 actions/menus/ObjectMenu/MovementMenu/CreateIntro.xml
 actions/menus/ObjectMenu/MovementMenu/Custos.scm

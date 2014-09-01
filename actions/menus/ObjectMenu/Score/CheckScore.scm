@@ -35,6 +35,12 @@
                       (measure)
                       (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
                            (staff))))))))
+                           
+     (if (not CheckScore::return)                      
+               (begin
+               		(d-CheckTimeSignatures #t)
+               		(set! CheckScore::return CheckTimeSignatures::return)))            
+                           
     (if (not CheckScore::return)
           (let staff ()
             (d-ReBar #t)

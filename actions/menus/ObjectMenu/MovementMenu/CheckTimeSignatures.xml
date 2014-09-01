@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>CheckTimeSignatures</action>
+        <after>EvenOutStaffLengths</after>
+        <_label>Check Time Signatures</_label>
+        <_tooltip>Checks the movement for miss-matched or miss-placed time signature changes.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -6945,6 +6945,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Measure Count Start or End</_label>
         <_tooltip>Inserts a directive to start or stop the printing of a counter above each measure. Use for repeated measures to assist the performer count the number of repetitions.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>CheckTimeSignatures</action>
+        <after>EvenOutStaffLengths</after>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <_label>Check Time Signatures</_label>
+        <_tooltip>Checks the movement for miss-matched or miss-placed time signature changes.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
