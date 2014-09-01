@@ -10,8 +10,11 @@
                 (DenemoWholeMeasureRestCommand)
                 (begin
                 	(d-MoveToMeasureLeft)
-                	(if (d-Directive-chord? DenemoWholeMeasureRestTag)
-                		(DenemoWholeMeasureRestCommand))))
+                	 (let loop () 
+                		(if (d-Directive-chord? DenemoWholeMeasureRestTag)
+                			(DenemoWholeMeasureRestCommand)
+                			(if (d-NextObjectInMeasure) 
+                				(loop))))))
             (begin
                 (d-AppendMeasureAllStaffs)  
                 (d-MoveCursorRight)
