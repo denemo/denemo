@@ -1,7 +1,8 @@
 ;;;;;; CreateOssiaStaff
 (let ((current "voice 1"))
   (set! current (d-StaffProperties "query=denemo_name"))
-  (d-AddBefore)
+  (d-NewStructuredStaff)
+  (d-SwapStaffs)
   (d-StaffProperties (string-append "denemo_name=" current))
   (d-DirectivePut-score-prefix "HideEmptyStaffs" 
 			       "\\layout {
