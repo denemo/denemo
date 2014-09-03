@@ -1,8 +1,12 @@
-  ;;; ShowOssia
-(d-Directive-standalone "StartStaff")
-(d-DirectivePut-standalone-postfix "StartStaff" "\\startStaff ")
-(d-DirectivePut-standalone-display "StartStaff" (_ "Show"))
-(d-DirectivePut-standalone-ty "StartStaff" 40)
-(d-DirectivePut-standalone-minpixels "StartStaff" 30)
-(d-MoveCursorRight)
-(d-RefreshDisplay)
+;;; ShowOssia
+(let ((tag "ShowOssia"))
+  (if (d-Directive-standalone? tag)
+        (d-InfoDialog (_ "This marks the start of a passage to be shown on the ossia staff"))
+        (begin 
+            (d-Directive-standalone tag)
+            (d-DirectivePut-standalone-postfix tag "\\startStaff \\unHideNotes")
+            (d-DirectivePut-standalone-display tag (_ "Show"))
+            (d-DirectivePut-standalone-ty tag 40)
+            (d-DirectivePut-standalone-minpixels tag 30)
+            (d-MoveCursorRight)
+            (d-RefreshDisplay))))
