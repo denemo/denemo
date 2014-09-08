@@ -13,7 +13,7 @@
 (d-StaffProperties "midi_channel=9")
 (d-PushPosition)
 (d-MoveToBeginning)
-(d-DirectivePut-standalone-postfix "MiddleCPosition" "\\set Staff.middleCPosition = #6")
+(d-DirectivePut-standalone-postfix "MiddleCPosition" "\\set Staff.middleCPosition = #6 ")
 (d-PopPosition)
 ;; (d-DirectivePut-voice-postfix "DrumClef" "\\drummode ")
 ;; (d-DirectivePut-voice-override "DrumClef" DENEMO_OVERRIDE_LILYPOND)
