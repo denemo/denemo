@@ -189,6 +189,7 @@ delete_fakechords (GtkAction * action, DenemoScriptParam * param)
                   if (s)
                     g_string_free (s, TRUE);
                   ((chord *) curObj->object)->fakechord = NULL;
+                  ((chord *) curObj->object)->is_fakechord = 0;
                 }
             }
         }
@@ -219,7 +220,7 @@ fakechord_insert (GtkAction * action, DenemoScriptParam * param)
 
 
 
-  string = string_dialog_entry (gui, "Insert/Edit Fake Chord", "Give Chords followed by Enter key", PreValue);
+  string = string_dialog_entry (gui, _("Insert/Edit Chord Symbol"), _("Give Chord(s) in LilyPond Notation\nE.g. c:m7 aes:aug7\n(Separate chord changes with spaces)"), PreValue);
 
   cbdata.gui = gui;
   cbdata.string = string;

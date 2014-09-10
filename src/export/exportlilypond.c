@@ -253,7 +253,7 @@ insert_section (GString ** str, gchar * markname, gchar * name, GtkTextIter * it
   return objanc;
 }
 
-#define FAKECHORD_SEP " |"      /* allow space or | to separate chord symbols */
+#define FAKECHORD_SEP " |/t"      /*  | to separate chord symbols */
 
 #define FIGURES_SEP "|"
 /* a separator for groups of figured bass figures on one note
@@ -666,13 +666,23 @@ output_figured_bass (GString * figures, chord * pchord)
 static gchar *
 parse_extension (gchar * input)
 {
-  gchar *colon = strtok (input, ":");
-  if (colon)
-    colon = strtok (NULL, ":");
-
-  return colon;
+    while (*input && *input != ':')
+        input++;
+    if(*input==':')
+       return input++;
+    return NULL;
 }
 
+static gint num_fakechords (gchar *thestr)
+{
+    gint num = 1;
+    gchar *str = g_strdup(thestr);
+    strtok(str, FAKECHORD_SEP);
+    while(strtok(NULL, FAKECHORD_SEP))
+        num++;
+    g_free (str);
+    return num;
+}
 /**
  * add figures to *pfigures for *pchord  
  */
@@ -690,30 +700,24 @@ output_fakechord (GString * fakechord, chord * pchord)
     fig_str = g_string_new ("s");       /* the no-fakechord figure */
   else
     {
-      fig_str = g_string_ascii_down (g_string_new (((GString *) ((chord *) pchord->fakechord))->str));
+      fig_str = g_string_new (((GString *) ((chord *) pchord->fakechord))->str);
+      if(*fig_str->str>='A' && *fig_str->str<='G')
+        *fig_str->str = *fig_str->str - 'A' + 'a';//downcase only first Chord root name, allows inserted LilyPond syntax
     }
 
-  str = strchr (fig_str->str, *(char *) FAKECHORD_SEP);
-  if (str != NULL)
-    {
-      /* we have more than one group of figures to be output
-         for one bass note. Count the number of groups */
-      num_groups = 2;
-      /* one on either side of the FAKECHORD_SEP found */
-      while ((str = strchr (++str, *(char *) FAKECHORD_SEP)) != NULL)
-        num_groups++;
-    }
-
+ num_groups = num_fakechords (fig_str->str);
+g_print("for %s num groups %d\n",fig_str->str, num_groups);
   switch (num_groups)
     {
     default:
     case 1:
-      {
+      {gchar *c;
         extension = parse_extension (fig_str->str);
-        fakechord = g_string_append (fakechord, fig_str->str);
+        for (c=fig_str->str;*c && *c!=':';c++)
+            g_string_append_c (fakechord, *c);
         append_duration (fakechord, duration, numdots);
         if (extension)
-          g_string_append_printf (fakechord, "%c%s", ':', extension);
+          g_string_append (fakechord, extension);
         break;
       }
       /* Each group of fakechord is assigned a duration to
@@ -730,23 +734,26 @@ output_fakechord (GString * fakechord, chord * pchord)
           {
             first_duration = second_duration = duration * 2;
           }
-        str = strtok (fig_str->str, FAKECHORD_SEP);
-        gint length = strlen (str);
+        gchar *c;
+        gchar *thestr = g_strdup(fig_str->str);
+        str = strtok (thestr, FAKECHORD_SEP);
+        g_print("str %s ", str);
         extension = parse_extension (str);
-        fakechord = g_string_append (fakechord, str);
-        fakechord = g_string_append (fakechord, " ");
+        for (c=str;*c && *c!=':';c++)
+            g_string_append_c (fakechord, *c);
         append_duration (fakechord, first_duration, 0);
         if (extension)
-          g_string_append_printf (fakechord, "%c%s", ':', extension);
-
+          g_string_append (fakechord, extension);
         fakechord = g_string_append (fakechord, " ");
-        str = strtok (fig_str->str + length + 1, FAKECHORD_SEP);
+        str = strtok (NULL, FAKECHORD_SEP);g_print("str2 %s ", str);
         extension = parse_extension (str);
-        fakechord = g_string_append (fakechord, str);
-        fakechord = g_string_append (fakechord, " ");
+        for (c=str;*c && *c!=':';c++)
+            g_string_append_c (fakechord, *c);
         append_duration (fakechord, second_duration, 0);
         if (extension)
-          g_string_append_printf (fakechord, "%c%s", ':', extension);
+          g_string_append (fakechord, extension);
+        fakechord = g_string_append (fakechord, " ");
+        g_free(thestr); 
       }
       break;
     case 3:
@@ -767,33 +774,84 @@ output_fakechord (GString * fakechord, chord * pchord)
             first_duration = duration * 2;
             second_duration = third_duration = duration * 4;
           }
-        str = strtok (fig_str->str, FAKECHORD_SEP);
-        gint length = strlen (str);
+        gchar *c;
+        gchar *thestr = g_strdup(fig_str->str);
+        str = strtok (thestr, FAKECHORD_SEP);
+        g_print("str %s ", str);
         extension = parse_extension (str);
-        fakechord = g_string_append (fakechord, str);
-        fakechord = g_string_append (fakechord, " ");
+        for (c=str;*c && *c!=':';c++)
+            g_string_append_c (fakechord, *c);
         append_duration (fakechord, first_duration, 0);
         if (extension)
-          g_string_append_printf (fakechord, "%c%s", ':', extension);
+          g_string_append (fakechord, extension);
         fakechord = g_string_append (fakechord, " ");
-        str = strtok (fig_str->str + length + 1, FAKECHORD_SEP);
-        length += strlen (str);
+        str = strtok (NULL, FAKECHORD_SEP);g_print("str2 %s ", str);
         extension = parse_extension (str);
-
-        fakechord = g_string_append (fakechord, str);
-        fakechord = g_string_append (fakechord, " ");
+        for (c=str;*c && *c!=':';c++)
+            g_string_append_c (fakechord, *c);
         append_duration (fakechord, second_duration, 0);
         if (extension)
-          g_string_append_printf (fakechord, "%c%s", ':', extension);
+          g_string_append (fakechord, extension);
         fakechord = g_string_append (fakechord, " ");
-        str = strtok (fig_str->str + length + 2, FAKECHORD_SEP);
+        
+        str = strtok (NULL, FAKECHORD_SEP);g_print("str2 %s ", str);
         extension = parse_extension (str);
-        fakechord = g_string_append (fakechord, str);
-        fakechord = g_string_append (fakechord, " ");
+        for (c=str;*c && *c!=':';c++)
+            g_string_append_c (fakechord, *c);
         append_duration (fakechord, third_duration, 0);
         if (extension)
-          g_string_append_printf (fakechord, "%c%s", ':', extension);
+          g_string_append (fakechord, extension);
         fakechord = g_string_append (fakechord, " ");
+        g_free(thestr);
+      }
+      break;
+          case 4:
+      {
+        gint first_duration, second_duration;
+        if (numdots)
+          {                     /* divide unequally */
+            first_duration = duration * 2;
+            second_duration = duration * 4;
+          }
+        else
+          {
+            first_duration = second_duration = duration * 4;
+          }
+        gchar *c;
+        gchar *thestr = g_strdup(fig_str->str);
+        str = strtok (thestr, FAKECHORD_SEP);
+        g_print("str %s duration %d", str, first_duration);
+        extension = parse_extension (str);
+        for (c=str;*c && *c!=':';c++)
+            g_string_append_c (fakechord, *c);
+        append_duration (fakechord, first_duration, 0);
+        if (extension)
+          g_string_append (fakechord, extension);
+        fakechord = g_string_append (fakechord, " ");
+        str = strtok (NULL, FAKECHORD_SEP);g_print("str2 %s ", str);
+        extension = parse_extension (str);
+        for (c=str;*c && *c!=':';c++)
+            g_string_append_c (fakechord, *c);
+        append_duration (fakechord, second_duration, 0);
+        if (extension)
+          g_string_append (fakechord, extension);
+        fakechord = g_string_append (fakechord, " ");
+        str = strtok (NULL, FAKECHORD_SEP);g_print("str3 %s ", str);
+        extension = parse_extension (str);
+        for (c=str;*c && *c!=':';c++)
+            g_string_append_c (fakechord, *c);
+        append_duration (fakechord, second_duration, 0);
+        if (extension)
+          g_string_append (fakechord, extension); 
+        fakechord = g_string_append (fakechord, " ");
+        str = strtok (NULL, FAKECHORD_SEP);g_print("str4 %s ", str);
+        extension = parse_extension (str);
+        for (c=str;*c && *c!=':';c++)
+            g_string_append_c (fakechord, *c);
+        append_duration (fakechord, second_duration, 0);
+        if (extension)
+          g_string_append (fakechord, extension);
+        g_free(thestr);
       }
       break;
     }
