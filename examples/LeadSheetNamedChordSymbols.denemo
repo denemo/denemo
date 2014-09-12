@@ -35,7 +35,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <papersize>a4</papersize>
     <fontsize>22</fontsize>
     <orientation>1</orientation>
-    <total-edit-time>0</total-edit-time>
+    <total-edit-time>95</total-edit-time>
     <score-directives>
       <directive>
         <tag>&lt;Unknown Tag&gt;</tag>
@@ -48,13 +48,14 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         <override>4</override>
       </directive>
     </score-directives>
+    <total-editing-time>95</total-editing-time>
   </lilycontrol>
   <movement-number>1</movement-number>
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>4</measureno>
-      <cursorposition>0</cursorposition>
+      <measureno>19</measureno>
+      <cursorposition>4</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -515,9 +516,8 @@ Mon cœur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id80">
-              <duration base="quarter"></duration>
-              <fakechord>bes:min6</fakechord>
-              <tie to="id82"></tie>
+              <duration base="half"></duration>
+              <fakechord>bes:min6 | ees:7</fakechord>
               <notes>
                 <note id="id81">
                   <middle-c-offset>2</middle-c-offset>
@@ -525,27 +525,25 @@ Mon cœur qui bat.</verse>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id82">
-              <duration base="quarter"></duration>
-              <fakechord>ees:7</fakechord>
-              <notes>
-                <note id="id83">
-                  <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"></accidental>
-                </note>
-              </notes>
-            </chord>
           </measure>
           <measure>
-            <chord show="true" id="id84">
+            <chord show="true" id="id82">
               <duration base="quarter">
                 <dots>1</dots>
               </duration>
               <fakechord>aes:6</fakechord>
               <notes>
-                <note id="id85">
+                <note id="id83">
                   <middle-c-offset>5</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id84">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id85">
+                  <middle-c-offset>4</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -553,7 +551,7 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id87">
-                  <middle-c-offset>4</middle-c-offset>
+                  <middle-c-offset>3</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -561,7 +559,8 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id89">
-                  <middle-c-offset>3</middle-c-offset>
+                  <middle-c-offset>2</middle-c-offset>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
@@ -569,8 +568,7 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id91">
-                  <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"></accidental>
+                  <middle-c-offset>0</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -578,14 +576,6 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id93">
-                  <middle-c-offset>0</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id94">
-              <duration base="eighth"></duration>
-              <notes>
-                <note id="id95">
                   <middle-c-offset>5</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
                 </note>
@@ -593,14 +583,22 @@ Mon cœur qui bat.</verse>
             </chord>
           </measure>
           <measure>
-            <chord show="true" id="id96">
+            <chord show="true" id="id94">
               <duration base="quarter">
                 <dots>1</dots>
               </duration>
               <fakechord>aes:maj7</fakechord>
               <notes>
-                <note id="id97">
+                <note id="id95">
                   <middle-c-offset>4</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id96">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id97">
+                  <middle-c-offset>3</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -608,7 +606,8 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id99">
-                  <middle-c-offset>3</middle-c-offset>
+                  <middle-c-offset>2</middle-c-offset>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
@@ -616,8 +615,7 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id101">
-                  <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"></accidental>
+                  <middle-c-offset>0</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -625,7 +623,8 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id103">
-                  <middle-c-offset>0</middle-c-offset>
+                  <middle-c-offset>-2</middle-c-offset>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
@@ -633,47 +632,46 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id105">
-                  <middle-c-offset>-2</middle-c-offset>
-                  <accidental name="flat" show="false"></accidental>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id106">
-              <duration base="eighth"></duration>
-              <notes>
-                <note id="id107">
                   <middle-c-offset>4</middle-c-offset>
                 </note>
               </notes>
             </chord>
           </measure>
           <measure>
-            <chord show="true" id="id108">
+            <chord show="true" id="id106">
               <duration base="quarter">
                 <dots>1</dots>
               </duration>
               <fakechord>aes:6</fakechord>
               <notes>
-                <note id="id109">
+                <note id="id107">
                   <middle-c-offset>3</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id110">
+            <chord show="true" id="id108">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id111">
+                <note id="id109">
                   <middle-c-offset>2</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id112">
+            <chord show="true" id="id110">
               <duration base="eighth"></duration>
               <fakechord>aes:7</fakechord>
               <notes>
-                <note id="id113">
+                <note id="id111">
                   <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id112">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id113">
+                  <middle-c-offset>-3</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -681,7 +679,8 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id115">
-                  <middle-c-offset>-3</middle-c-offset>
+                  <middle-c-offset>-2</middle-c-offset>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
@@ -689,13 +688,18 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id117">
-                  <middle-c-offset>-2</middle-c-offset>
+                  <middle-c-offset>5</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
+          </measure>
+          <measure>
             <chord show="true" id="id118">
-              <duration base="eighth"></duration>
+              <duration base="half">
+                <dots>1</dots>
+              </duration>
+              <fakechord>des:maj7</fakechord>
               <notes>
                 <note id="id119">
                   <middle-c-offset>5</middle-c-offset>
@@ -703,28 +707,23 @@ Mon cœur qui bat.</verse>
                 </note>
               </notes>
             </chord>
-          </measure>
-          <measure>
-            <chord show="true" id="id120">
-              <duration base="half">
-                <dots>1</dots>
-              </duration>
-              <fakechord>des:maj7</fakechord>
-              <notes>
-                <note id="id121">
-                  <middle-c-offset>5</middle-c-offset>
-                  <accidental name="flat" show="false"></accidental>
-                </note>
-              </notes>
-            </chord>
-            <rest show="true" id="id122">
+            <rest show="true" id="id120">
               <duration base="quarter"></duration>
             </rest>
           </measure>
           <measure>
-            <chord show="true" id="id123">
+            <chord show="true" id="id121">
               <duration base="eighth"></duration>
               <fakechord>des:min6</fakechord>
+              <notes>
+                <note id="id122">
+                  <middle-c-offset>6</middle-c-offset>
+                  <accidental name="flat" show="false"></accidental>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id123">
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id124">
                   <middle-c-offset>6</middle-c-offset>
@@ -733,10 +732,10 @@ Mon cœur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id125">
-              <duration base="quarter"></duration>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id126">
-                  <middle-c-offset>6</middle-c-offset>
+                  <middle-c-offset>5</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
@@ -745,13 +744,13 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id128">
-                  <middle-c-offset>5</middle-c-offset>
+                  <middle-c-offset>6</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id129">
-              <duration base="eighth"></duration>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id130">
                   <middle-c-offset>6</middle-c-offset>
@@ -760,18 +759,9 @@ Mon cœur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id131">
-              <duration base="quarter"></duration>
-              <notes>
-                <note id="id132">
-                  <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"></accidental>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id133">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id134">
+                <note id="id132">
                   <middle-c-offset>5</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
                 </note>
@@ -779,9 +769,18 @@ Mon cœur qui bat.</verse>
             </chord>
           </measure>
           <measure>
-            <chord show="true" id="id135">
+            <chord show="true" id="id133">
               <duration base="eighth"></duration>
               <fakechord>aes:6</fakechord>
+              <notes>
+                <note id="id134">
+                  <middle-c-offset>6</middle-c-offset>
+                  <accidental name="flat" show="false"></accidental>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id135">
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id136">
                   <middle-c-offset>6</middle-c-offset>
@@ -790,27 +789,18 @@ Mon cœur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id137">
-              <duration base="quarter"></duration>
-              <notes>
-                <note id="id138">
-                  <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"></accidental>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id139">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id140">
+                <note id="id138">
                   <middle-c-offset>5</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id141">
+            <chord show="true" id="id139">
               <duration base="half"></duration>
               <notes>
-                <note id="id142">
+                <note id="id140">
                   <middle-c-offset>2</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
                 </note>
@@ -818,9 +808,18 @@ Mon cœur qui bat.</verse>
             </chord>
           </measure>
           <measure>
-            <chord show="true" id="id143">
+            <chord show="true" id="id141">
               <duration base="eighth"></duration>
               <fakechord>bes:dim</fakechord>
+              <notes>
+                <note id="id142">
+                  <middle-c-offset>6</middle-c-offset>
+                  <accidental name="flat" show="false"></accidental>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id143">
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id144">
                   <middle-c-offset>6</middle-c-offset>
@@ -829,10 +828,10 @@ Mon cœur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id145">
-              <duration base="quarter"></duration>
+              <duration base="eighth"></duration>
               <notes>
                 <note id="id146">
-                  <middle-c-offset>6</middle-c-offset>
+                  <middle-c-offset>5</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
@@ -841,13 +840,13 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id148">
-                  <middle-c-offset>5</middle-c-offset>
+                  <middle-c-offset>6</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
             <chord show="true" id="id149">
-              <duration base="eighth"></duration>
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id150">
                   <middle-c-offset>6</middle-c-offset>
@@ -856,18 +855,9 @@ Mon cœur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id151">
-              <duration base="quarter"></duration>
-              <notes>
-                <note id="id152">
-                  <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"></accidental>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id153">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id154">
+                <note id="id152">
                   <middle-c-offset>5</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
                 </note>
@@ -875,9 +865,18 @@ Mon cœur qui bat.</verse>
             </chord>
           </measure>
           <measure>
-            <chord show="true" id="id155">
+            <chord show="true" id="id153">
               <duration base="eighth"></duration>
               <fakechord>bes:min7</fakechord>
+              <notes>
+                <note id="id154">
+                  <middle-c-offset>6</middle-c-offset>
+                  <accidental name="flat" show="false"></accidental>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id155">
+              <duration base="quarter"></duration>
               <notes>
                 <note id="id156">
                   <middle-c-offset>6</middle-c-offset>
@@ -886,36 +885,27 @@ Mon cœur qui bat.</verse>
               </notes>
             </chord>
             <chord show="true" id="id157">
-              <duration base="quarter"></duration>
-              <notes>
-                <note id="id158">
-                  <middle-c-offset>6</middle-c-offset>
-                  <accidental name="flat" show="false"></accidental>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id159">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id160">
+                <note id="id158">
                   <middle-c-offset>5</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id161">
+            <chord show="true" id="id159">
               <duration base="quarter"></duration>
               <fakechord>e:7</fakechord>
               <notes>
-                <note id="id162">
+                <note id="id160">
                   <middle-c-offset>7</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id163">
+            <chord show="true" id="id161">
               <duration base="quarter"></duration>
               <notes>
-                <note id="id164">
+                <note id="id162">
                   <middle-c-offset>6</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
                 </note>
@@ -923,15 +913,23 @@ Mon cœur qui bat.</verse>
             </chord>
           </measure>
           <measure>
-            <chord show="true" id="id165">
+            <chord show="true" id="id163">
               <duration base="quarter">
                 <dots>1</dots>
               </duration>
               <fakechord>aes:6</fakechord>
               <notes>
-                <note id="id166">
+                <note id="id164">
                   <middle-c-offset>5</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id165">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id166">
+                  <middle-c-offset>4</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -939,7 +937,7 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id168">
-                  <middle-c-offset>4</middle-c-offset>
+                  <middle-c-offset>3</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -947,7 +945,8 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id170">
-                  <middle-c-offset>3</middle-c-offset>
+                  <middle-c-offset>2</middle-c-offset>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
@@ -955,8 +954,7 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id172">
-                  <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"></accidental>
+                  <middle-c-offset>0</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -964,14 +962,6 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id174">
-                  <middle-c-offset>0</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id175">
-              <duration base="eighth"></duration>
-              <notes>
-                <note id="id176">
                   <middle-c-offset>5</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
                 </note>
@@ -979,14 +969,22 @@ Mon cœur qui bat.</verse>
             </chord>
           </measure>
           <measure>
-            <chord show="true" id="id177">
+            <chord show="true" id="id175">
               <duration base="quarter">
                 <dots>1</dots>
               </duration>
               <fakechord>aes:maj7</fakechord>
               <notes>
-                <note id="id178">
+                <note id="id176">
                   <middle-c-offset>4</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id177">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id178">
+                  <middle-c-offset>3</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -994,7 +992,8 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id180">
-                  <middle-c-offset>3</middle-c-offset>
+                  <middle-c-offset>2</middle-c-offset>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
@@ -1002,8 +1001,7 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id182">
-                  <middle-c-offset>2</middle-c-offset>
-                  <accidental name="flat" show="false"></accidental>
+                  <middle-c-offset>0</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -1011,7 +1009,8 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id184">
-                  <middle-c-offset>0</middle-c-offset>
+                  <middle-c-offset>-2</middle-c-offset>
+                  <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
@@ -1019,80 +1018,61 @@ Mon cœur qui bat.</verse>
               <duration base="eighth"></duration>
               <notes>
                 <note id="id186">
-                  <middle-c-offset>-2</middle-c-offset>
-                  <accidental name="flat" show="false"></accidental>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id187">
-              <duration base="eighth"></duration>
-              <notes>
-                <note id="id188">
                   <middle-c-offset>4</middle-c-offset>
                 </note>
               </notes>
             </chord>
           </measure>
           <measure>
-            <chord show="true" id="id189">
+            <chord show="true" id="id187">
               <duration base="quarter">
                 <dots>1</dots>
               </duration>
               <fakechord>bes:min7</fakechord>
               <notes>
-                <note id="id190">
+                <note id="id188">
                   <middle-c-offset>3</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id191">
+            <chord show="true" id="id189">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id192">
+                <note id="id190">
                   <middle-c-offset>2</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id193">
+            <chord show="true" id="id191">
               <duration base="quarter"></duration>
               <fakechord>ees:7</fakechord>
               <notes>
-                <note id="id194">
+                <note id="id192">
                   <middle-c-offset>3</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id195">
+            <chord show="true" id="id193">
               <duration base="quarter"></duration>
               <notes>
-                <note id="id196">
+                <note id="id194">
                   <middle-c-offset>4</middle-c-offset>
                 </note>
               </notes>
             </chord>
           </measure>
           <measure>
-            <chord show="true" id="id197">
-              <duration base="half">
-                <dots>1</dots>
-              </duration>
-              <fakechord>aes:6</fakechord>
+            <chord show="true" id="id195">
+              <duration base="whole"></duration>
+              <fakechord>aes:6 | bes:min7 | ees:7</fakechord>
               <notes>
-                <note id="id198">
+                <note id="id196">
                   <middle-c-offset>5</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
                 </note>
               </notes>
             </chord>
-            <rest show="true" id="id199">
-              <duration base="eighth"></duration>
-              <fakechord>bes:min7</fakechord>
-            </rest>
-            <rest show="true" id="id200">
-              <duration base="eighth"></duration>
-              <fakechord>ees:7</fakechord>
-            </rest>
           </measure>
         </measures>
       </voice>
