@@ -265,72 +265,7 @@ static void choose_palette (GtkWidget *button)
     }
 }
 
-#if 0
-SCM
-scheme_activate_palette_button (void) {
-GdkEventKey event;
-GString *input = g_string_new ("");
-GString *status = g_string_new ("");
-SCM ret = SCM_BOOL_F;
-gint id = 0;
 
-if(Denemo.palettes)
-    {
-    DenemoPalette *pal = Denemo.currentpalette;
-    if(pal==NULL)
-        pal = (DenemoPalette *) Denemo.palettes->data;
-    g_string_printf(status, "<span font-desc=\"24\" foreground=\"dark green\">%s</span>" , _("Key in (part of) label from"));
-    gtk_label_set_markup (GTK_LABEL (Denemo.statuslabel), status->str);
-    g_string_printf(Denemo.input_filters,  "<span font-desc=\"24\" foreground=\"dark green\">%s %s</span>",  pal->name, _("Palette"));
-    write_input_status ();
-     while (intercept_scorearea_keypress (&event))
-        {  
-         gint c =  event.keyval;
-         if(id==0)
-            id = g_timeout_add (500, (GSourceFunc) flash_input_cursor, NULL);
-         if ((event.state & GDK_SHIFT_MASK) || (event.state & GDK_LOCK_MASK))
-            c = g_ascii_toupper (c);
-         if (c==GDK_KEY_Return)
-                /* completion? */
-                break;
-        if (c==GDK_KEY_Escape)
-                /* completion? */
-                break;
-        else if (c==GDK_KEY_Tab)
-             /* completion? */
-                break;
-        else if (c==GDK_KEY_BackSpace)
-            {
-                if(input->len)
-                    g_string_truncate(input, input->len-1);
-         }
-         else
-            g_string_append_c (input, c); 
-        g_string_printf(Denemo.input_filters, "<span font-desc=\"24\" foreground=\"orange\">%s</span>", input->str);
-        write_input_status ();
-        g_string_printf(status, "<span font-desc=\"24\" foreground=\"orange\">%s</span>" , _("&lt;Esc&gt; to cancel, &lt;Return&gt; ok"));
-        gtk_label_set_markup (GTK_LABEL (Denemo.statuslabel), status->str);
-     }
-    g_source_remove (id);
-       
-    if(input->len && palette_action_button (pal, input->str))
-        {
-            g_string_assign(Denemo.input_filters, "");  
-            ret = SCM_BOOL_T;
-            write_input_status();
-        } else 
-        {
-            g_string_assign(Denemo.input_filters, _("No such label"));
-            gtk_widget_show (gtk_widget_get_parent(pal->box));
-            gtk_widget_show_all (pal->box);
-            write_input_status();
-            write_status (Denemo.project);
-        }
-    }
-    g_string_free(status, TRUE);
-    return ret;
-}
-#else
 SCM
 scheme_activate_palette_button (void) {
 GdkEventKey event;
@@ -365,12 +300,7 @@ if(Denemo.palettes)
     }
     return ret;
 }
- 
 
-
-
-
-#endif
 SCM
 scheme_get_offset (void)
 {
