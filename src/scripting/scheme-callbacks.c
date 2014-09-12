@@ -250,6 +250,22 @@ static gint flash_input_cursor (void)
   write_input_status ();
   return TRUE;
 }
+
+static void choose_palette (GtkWidget *button)
+{
+    GtkWidget *win = gtk_widget_get_toplevel (button);
+    gchar *name = choose_palette_by_name (FALSE, FALSE);
+    if(name) {
+        DenemoPalette *pal = get_palette (name);
+        if(pal)
+            {
+            Denemo.currentpalette = pal;
+            gtk_window_set_title (GTK_WINDOW(win), pal->name);
+        }
+    }
+}
+
+#if 0
 SCM
 scheme_activate_palette_button (void) {
 GdkEventKey event;
@@ -314,7 +330,47 @@ if(Denemo.palettes)
     g_string_free(status, TRUE);
     return ret;
 }
+#else
+SCM
+scheme_activate_palette_button (void) {
+GdkEventKey event;
+GString *input = g_string_new ("");
+
+SCM ret = SCM_BOOL_F;
+gint id = 0;
+
+if(Denemo.palettes)
+    {
+    DenemoPalette *pal = Denemo.currentpalette;
+    GtkWidget *button = gtk_button_new_with_label (_("Switch Palette"));
+    g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (choose_palette), NULL);
+    if(pal==NULL)
+        pal = (DenemoPalette *) Denemo.palettes->data;
+    gchar *str =   string_dialog_entry_with_widget (Denemo.project, pal->name,  _("Key in (part of) label") , "", button);
+    pal = Denemo.currentpalette;
+    if(str)
+        {
+            g_string_assign (input, str);
+            g_free(str);
+            if(input->len && palette_action_button (pal, input->str))
+                {
+                    ret = SCM_BOOL_T;
+                } else 
+                {
+                    infodialog ( _("No such label"));
+                    gtk_widget_show (gtk_widget_get_parent(pal->box));
+                    gtk_widget_show_all (pal->box);
+                }
+        }
+    }
+    return ret;
+}
  
+
+
+
+
+#endif
 SCM
 scheme_get_offset (void)
 {
