@@ -1244,6 +1244,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleVeryLongFermata
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleVeryLongFermata.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/UpBowSelectionSwitcher.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/UpBowSelectionSwitcher.xml
+actions/menus/ObjectMenu/NotesRests/Markings/ChordSymbols/CompactChordSymbol.scm
+actions/menus/ObjectMenu/NotesRests/Markings/ChordSymbols/CompactChordSymbol.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.scm
@@ -1667,6 +1669,8 @@ actions/menus/ObjectMenu/Score/Typesetter/SetFontSize.scm
 actions/menus/ObjectMenu/Score/Typesetter/SetFontSize.xml
 actions/menus/ObjectMenu/Score/Typesetter/SetMargin.scm
 actions/menus/ObjectMenu/Score/Typesetter/SetMargin.xml
+actions/menus/ObjectMenu/Score/Typesetter/SystemsPerPage.scm
+actions/menus/ObjectMenu/Score/Typesetter/SystemsPerPage.xml
 actions/menus/ObjectMenu/Score/Typesetter/SystemSystemPadding.scm
 actions/menus/ObjectMenu/Score/Typesetter/SystemSystemPadding.xml
 actions/menus/ObjectMenu/Score/Typesetter/ToggleCurveControl.scm
@@ -1841,6 +1845,8 @@ actions/menus/ObjectMenu/TimeSig/BeamHalfMeasure.scm
 actions/menus/ObjectMenu/TimeSig/BeamHalfMeasure.xml
 actions/menus/ObjectMenu/TimeSig/ChooseTimeSignature.scm
 actions/menus/ObjectMenu/TimeSig/ChooseTimeSignature.xml
+actions/menus/ObjectMenu/TimeSig/ChordChartTimeSignature.scm
+actions/menus/ObjectMenu/TimeSig/ChordChartTimeSignature.xml
 actions/menus/ObjectMenu/TimeSig/HideTimesig.scm
 actions/menus/ObjectMenu/TimeSig/HideTimesig.xml
 actions/menus/ObjectMenu/TimeSig/NumericTimeSig.scm

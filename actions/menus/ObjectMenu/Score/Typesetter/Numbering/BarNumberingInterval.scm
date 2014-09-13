@@ -1,5 +1,7 @@
 ;;;BarNumberingInterval
 (let ((tag "BarNumberingInterval")(count BarNumberingInterval::params))
+   (if (equal? count "edit")
+   	(set! count #f))
     (if count
         (set! count (number->string count))
         (set! count (d-GetUserInput (_ "Regular Bar Numbering") (_ "Give interval at which to place bar numbers: ") "5")))

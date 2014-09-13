@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>CompactChordSymbol</action>
+        <after>EditChords</after>
+        <_label>Chord Chart Symbol</_label>
+        <_tooltip>Attaches an arbitrary chord type to the note at the cursor - used in compact chord charts for uncommon chords.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

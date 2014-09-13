@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ChordChartTimeSignature</action>
+        <after>NumericTimeSig</after>
+        <_label>Chord Chart Time Signature</_label>
+        <_tooltip>Inserts a time signature (for use in Chord Charts)</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

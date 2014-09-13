@@ -6952,6 +6952,27 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Check Time Signatures</_label>
         <_tooltip>Checks the movement for miss-matched or miss-placed time signature changes.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ChordChartTimeSignature</action>
+        <after>NumericTimeSig</after>
+        <menupath>/ObjectMenu/TimeSig</menupath>
+        <_label>Chord Chart Time Signature</_label>
+        <_tooltip>Inserts a time signature (for use in Chord Charts)</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>CompactChordSymbol</action>
+        <after>EditChords</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/ChordSymbols</menupath>
+        <_label>Chord Chart Symbol</_label>
+        <_tooltip>Attaches an arbitrary chord type to the note at the cursor - used in compact chord charts for uncommon chords.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SystemsPerPage</action>
+        <after>SystemSystemPadding</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Systems Per Page</_label>
+        <_tooltip>Forces a specific number of systems (lines of music) per page.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
