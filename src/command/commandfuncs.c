@@ -1563,7 +1563,12 @@ insertion_point (DenemoMovement * si)
         {
             objnode *objnode = si->currentmeasure->next->data;
             DenemoObject *obj = objnode->data;
-            if ((obj->type == TIMESIG) && (objnode->next==NULL))
+            while (obj && (obj->type != CHORD)) 
+                { 
+                    objnode=objnode->next;obj = objnode?objnode->data:NULL;
+                }
+                
+            if ((obj==NULL) || (obj->type != CHORD))
                 next_measure = TRUE;         
         }
   }
@@ -1582,13 +1587,17 @@ insertion_point (DenemoMovement * si)
         }
       else
         si->currentmeasure = si->currentmeasure->next;
+        
+        
+        
+        
       if (Denemo.project->mode & (INPUTRHYTHM))
         signal_measure_end ();
       /* Now the stuff that needs to be done for each case */
       si->currentmeasurenum++;
       si->currentobject = (objnode *) si->currentmeasure->data;
       si->cursor_x = 0;
-      if(si->currentobject && (((DenemoObject *)si->currentobject->data)->type == TIMESIG))
+      while(si->currentobject && (((DenemoObject *)si->currentobject->data)->type != CHORD))
         {
             si->currentobject = si->currentobject->next;
             si->cursor_x++;
