@@ -264,8 +264,59 @@ static void choose_palette (GtkWidget *button)
         }
     }
 }
+static gboolean check_character (GtkWidget *entry, GdkEventKey *event, GtkWidget *dialog)
+{
+   if(event->keyval == GDK_KEY_Tab) {
+    choose_palette (entry);
+    return TRUE;
+    }
+  if (event->keyval == GDK_KEY_Return) {
+    gtk_dialog_response (dialog, GTK_RESPONSE_ACCEPT);
+    return TRUE;
+    }
+  return FALSE;  
+}
+static gchar *
+label_entry (gchar * wlabel, gchar * direction)
+{
 
+  GtkWidget *dialog;
+  GtkWidget *entry;
+  GtkWidget *label;
+  gchar *entry_string;
+  GString *string;
+  entry = gtk_entry_new ();
+  dialog = gtk_dialog_new_with_buttons (wlabel, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT), NULL);
+  g_signal_connect(G_OBJECT(entry), "key-press-event", G_CALLBACK(check_character), dialog);
+  label = gtk_label_new (direction);
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_container_add (GTK_CONTAINER (content_area), label);
+  gtk_container_add (GTK_CONTAINER (content_area), entry);
+  
+  label = gtk_label_new (_("Use <Tab> to switch palette\n<Return>to activate"));
+  gtk_container_add (GTK_CONTAINER (content_area), label);
 
+  gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
+  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+  gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
+  gtk_widget_show_all (dialog);
+  gtk_widget_grab_focus (entry);
+  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+    {
+      entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
+      string = g_string_new (entry_string);
+      gtk_widget_destroy (dialog);
+      return g_string_free (string, FALSE);
+    }
+  else
+    {
+      gtk_widget_destroy (dialog);
+      return NULL;
+    }
+return NULL;
+
+ 
+}
 SCM
 scheme_activate_palette_button (void) {
 GdkEventKey event;
@@ -277,11 +328,9 @@ gint id = 0;
 if(Denemo.palettes)
     {
     DenemoPalette *pal = Denemo.currentpalette;
-    GtkWidget *button = gtk_button_new_with_label (_("Switch Palette"));
-    g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (choose_palette), NULL);
     if(pal==NULL)
         pal = (DenemoPalette *) Denemo.palettes->data;
-    gchar *str =   string_dialog_entry_with_widget (Denemo.project, pal->name,  _("Key in (part of) label") , "", button);
+    gchar *str =   label_entry (pal->name,  _("Key in (part of) label"));
     pal = Denemo.currentpalette;
     if(str)
         {
