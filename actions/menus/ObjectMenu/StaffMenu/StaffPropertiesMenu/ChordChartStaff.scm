@@ -45,7 +45,7 @@
                  \\override ChordName.extra-spacing-width=#'(+inf.0 . -inf.0)
                  \\override ChordName.extra-offset = #'(0 . -2)
                  \\override BarLine.bar-extent = #'(-4 . 6)
-                 \\override BarLine #'hair-thickness = #4 "
+                 \\override BarLine #'hair-thickness = #2 "
                  "
                  \\override ChordName.extra-offset = #'(0 . -2)
                  \\override BarLine.bar-extent = #'(-2 . 2)
@@ -68,9 +68,14 @@
 
                                 (d-Set0)
                                 (d-ScoreIndent 0)
+                                (if compact
+                                    (begin
+                                        (d-SetPageSize "(cons \"5\" \"8.1\")")
+                                        (d-SetFontSize "7.2")))
                                 (let ((stag "CompactChordChartSettings"))
+
                                         (d-DirectivePut-paper-postfix stag  "
- system-system-spacing =
+system-system-spacing =
 #'((basic-distance . 2)
 (minimum-distance . 2)
 (padding . 2))\n"))

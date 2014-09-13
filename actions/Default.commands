@@ -6973,6 +6973,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Systems Per Page</_label>
         <_tooltip>Forces a specific number of systems (lines of music) per page.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>SetPageSize</action>
+        <after>SetMargin</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Page Size</_label>
+        <_tooltip>Set the page size - this overrides the default page size set in score properties.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
