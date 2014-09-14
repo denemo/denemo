@@ -8,7 +8,7 @@
         <action>CompactChordSymbol</action>
         <after>EditChords</after>
         <_label>Chord Chart Symbol</_label>
-        <_tooltip>Attaches an arbitrary chord type to the note at the cursor - used in compact chord charts for uncommon chords.</_tooltip>
+        <_tooltip>Creates an arbitrary chord symbol text for the root note at the cursor - used in compact chord charts for uncommon chords.</_tooltip>
       </row>
     </map>
   </merge>
