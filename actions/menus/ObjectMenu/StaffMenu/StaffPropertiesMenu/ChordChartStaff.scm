@@ -70,6 +70,7 @@
                                 (d-ScoreIndent 0)
                                 (if compact
                                     (begin
+                                        (d-MeasuresPerLine)
                                         (d-SetPageSize "(cons \"5\" \"8.1\")")
                                         (d-SetFontSize "7.2")))
                                 (let ((stag "CompactChordChartSettings"))
@@ -139,7 +140,7 @@ pitch))
                                             (d-AppendMeasure)
                                             (d-AppendMeasure)
                                             (d-MoveToEnd)
-                                            (d-LineBreak #t)
+                                            ;(d-LineBreak #t)
                                             (d-MoveToBeginning)
                                             (if compact
                                                 (d-ChordChartTimeSignature))

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>MeasuresPerLine</action>
+        <after>SystemSystemPadding</after>
+        <_label>Measures Per Line</_label>
+        <_tooltip>Forces a fixed number of measures per line.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

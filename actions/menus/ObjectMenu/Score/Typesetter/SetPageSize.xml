@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SetPageSize</action>
+        <after>SetMargin</after>
+        <_label>Page Size</_label>
+        <_tooltip>Set the page size - this overrides the default page size set in score properties.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
