@@ -1,7 +1,14 @@
 ;;;MultiLineTextAnnotation
 (let ((text #f) (params  MultiLineTextAnnotation::params) (tag "MultiLineTextAnnotation")(markup #f)(current #f)(scale "0.5")
-            (position #f) (shift "") (prefix "<>"))
-     (set! current (d-DirectiveGet-standalone-data tag))
+            (position #f) (shift "") (prefix "<>")(data #f))
+     (set! data (d-DirectiveGet-standalone-data tag))
+     (if data
+        (set! data (eval-string data))
+        (set! data '()))
+    (set! current (assq-ref data 'text))
+    (set! scale (assq-ref data 'scale))
+    (if (not scale)
+    	(set! scale "1"))
      (if current
         (set! prefix (d-DirectiveGet-standalone-prefix tag)))
      
@@ -17,7 +24,7 @@
          (begin   
             (set! position "^")))
             
-     (if (not current)
+    (if (not current)
                 (set! current ""))
     (if (not text)
         (set! text (d-GetUserInputWithSnippets (_ "Text") (_ "Give text to appear with following note/chord:\nThe characters \\, \", §, { and } have a special meaning in the text,\nthe backslash \\ starts some LilyPond sytax, the others must be paired.\nTo apply italic or bold to a group of words enclose them in {}, e.g. \\bold {These words are bold}.\nOther markup commands \\super, \\tiny etc, see LilyPond documentation.") current)));;cannot popup menu after this, it runs gtk_main
@@ -26,18 +33,24 @@
             (if position
                (begin
                     (set! scale (d-GetUserInput (_ "Scaling Text") (_ "Give text size: ") scale));
-                    (if (not scale) (set! scale "0.5"))
-                        (set! markup (cdr text))
-                        (set! text (car text))
-                        (if (not (d-Directive-standalone? tag))
-                            (d-DirectivePut-standalone tag))
-                        (d-DirectivePut-standalone-data tag text)
-                        (d-DirectivePut-standalone-display tag text)
-                        (d-DirectivePut-standalone-postfix tag (string-append  shift position "\\markup\\scale #'(" scale " . " scale ")\\column{" markup "}"))
-                        (d-DirectivePut-standalone-prefix tag prefix)
-                        (d-DirectivePut-standalone-minpixels tag 30)
-                        (d-RefreshDisplay)
-                        (d-SetSaved #f))))
+                    (if (not scale) 
+                        (set! scale "0.5"))
+                    (set! markup (cdr text))
+                    (set! text (car text))
+                    (set! data (assq-set! data 'text text))
+                    (set! data (assq-set! data 'position position))
+                    (set! data (assq-set! data 'shift shift))
+                    (set! data (assq-set! data 'scale scale))
+                        
+                    (if (not (d-Directive-standalone? tag))
+                        (d-DirectivePut-standalone tag))
+                    (d-DirectivePut-standalone-data tag (format #f "'~s" data))
+                    (d-DirectivePut-standalone-display tag text)
+                    (d-DirectivePut-standalone-postfix tag (string-append  shift position "\\markup\\scale #'(" scale " . " scale ")\\column{" markup "}"))
+                    (d-DirectivePut-standalone-prefix tag prefix)
+                    (d-DirectivePut-standalone-minpixels tag 30)
+                    (d-RefreshDisplay)
+                    (d-SetSaved #f))))
         (begin
             (if (not params)
                 (let ((confirm (d-GetUserInput (d-DirectiveGet-standalone-display tag) (_ "Delete this text?") (_ "y"))))
