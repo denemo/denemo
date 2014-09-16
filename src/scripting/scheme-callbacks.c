@@ -4094,7 +4094,7 @@ SCM scheme_##what##_directive_get_##field(SCM tag) {\
   extern gchar* what##_directive_get_##field(gchar *tagname);\
   gchar *value = (gchar*)what##_directive_get_##field((gchar*)tagname);\
   if(tagname) free(tagname);\
-  if(value){\
+  if(value && *value){\
     return scm_from_locale_string(value);\
   }\
   return SCM_BOOL(FALSE);\
