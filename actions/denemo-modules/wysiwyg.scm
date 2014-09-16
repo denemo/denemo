@@ -46,11 +46,30 @@
                 (BeamCount "Right" n))
             (d-PopPosition)))))
 
-
     
 (define (TweakRelativeOffset tag offsetx offsety)
-        (define newvalue (ChangeOffset (d-DirectiveGet-standalone-prefix tag) "-\\tweak #'extra-offset #'("  ")" (cons offsetx offsety)))
-    (d-DirectivePut-standalone-prefix tag newvalue))
+   ; (define newvalue (ChangeOffset (d-DirectiveGet-standalone-prefix tag) "-\\tweak #'extra-offset #'("  ")" (cons offsetx offsety)))
+    (define oldx #f)
+    (define oldy #f)
+    (define data (d-DirectiveGet-standalone-data tag))
+    (if data
+        (set! data (eval-string data))
+        (set! data '()))
+    (set! oldx (assq-ref data 'x-offset))
+    (set! oldy (assq-ref data 'y-offset))
+    (if (not oldx)
+        (set! oldx "0"))
+    (if (not oldy)
+        (set! oldy "0"))
+    (set! offsetx (number->string (+ (string->number offsetx) (string->number oldx))))
+    (set! offsety (number->string (+ (string->number offsety) (string->number oldy))))
+
+    (d-DirectivePut-standalone-prefix tag (string-append "-\\tweak #'extra-offset #'(" offsetx " . " offsety ")")) 
+    (if (list? data)
+        (begin
+            (set! data (assq-set! data 'x-offset offsetx))
+            (set! data (assq-set! data 'y-offset offsety))
+            (d-DirectivePut-standalone-data tag (format #f "'~s" data)))))
     
 (define (TweakRelativeFontSize tag size)
         (define newvalue (ChangeValue (d-DirectiveGet-standalone-prefix tag) "-\\tweak #'font-size #" " " size))
@@ -60,33 +79,62 @@
 ;; the parameter "what" is the LilyPond grob that is being tweaked - it may not be the tag of the DenemoDirective that is being edited
 ;; property is the (two values - a pair) lilypond property being altered
 (define* (ExtraAmount what property tag #:optional (type "chord") (context "") (offset '(0 . 0)) (override #f))
-  (let ((oldstr #f) (start "") (end "") (get-command d-DirectiveGet-chord-prefix)  (put-command d-DirectivePut-chord-prefix) (override-command d-DirectivePut-chord-override))
+  (let ((oldstr #f) (start "") (end "")
+  (get-data-command #f)
+  (put-data-command #f)
+  (put-command #f) 
+  (override-command #f))
+      (define oldx #f)
+    (define oldy #f)
+    (define data #f)
+    (define offsetx (car offset))
+    (define offsety (cdr offset))
   ;(disp "Entered with " offset "and " type " and " context " ok")
     (cond
      ((string=? type "chord")
-      (begin (set! get-command d-DirectiveGet-chord-prefix)
+      (begin 
+        (set! put-data-command d-DirectivePut-chord-data)
+        (set! get-data-command d-DirectiveGet-chord-data) 
          (set! put-command d-DirectivePut-chord-prefix)
          (set! override-command d-DirectivePut-chord-override)
          ))
      ((string=? type "note")
-      (begin (set! get-command d-DirectiveGet-note-prefix)
+      (begin
+        (set! put-data-command d-DirectivePut-note-data)
+        (set! get-data-command d-DirectiveGet-note-data) 
          (set! put-command d-DirectivePut-note-prefix)
          (set! override-command d-DirectivePut-note-override)))
      ((string=? type "standalone")
-      (begin (set! get-command d-DirectiveGet-standalone-prefix)
+      (begin 
+        (set! put-data-command d-DirectivePut-standalone-data)
+        (set! get-data-command d-DirectiveGet-standalone-data)
          (set! put-command d-DirectivePut-standalone-prefix)
          (set! override-command d-DirectivePut-standalone-override)))
      )
-
-    (set! oldstr (get-command tag))
-    (if (equal? oldstr "")
-    (set! oldstr #f))
-        ;(disp "The old prefix was " oldstr " with " tag " from running " get-command " ok???")
+     
+    (set! data (get-data-command tag))
+    (if data
+        (set! data (eval-string data))
+        (set! data '()))
+    (set! oldx (assq-ref data 'x-offset))
+    (set! oldy (assq-ref data 'y-offset))
+    (if (not oldx)
+        (set! oldx "0"))
+    (if (not oldy)
+        (set! oldy "0")) (disp "working with " oldx " " oldy " and " offsetx " " offsety"\n\n")
+    (set! offsetx (number->string (+ (string->number offsetx) (string->number oldx))))
+    (set! offsety (number->string (+ (string->number offsety) (string->number oldy))))
+    (if (list? data)
+        (begin
+            (set! data (assq-set! data 'x-offset offsetx))
+            (set! data (assq-set! data 'y-offset offsety))
+            (put-data-command tag (format #f "'~s" data))))
     (set! start (string-append "\\once \\override " context what " #'" property " = #'("))
     (set! end ")")
+    (put-command tag (string-append start offsetx " . " offsety end)) 
     (if override
             (override-command tag override))
-    (put-command tag (ChangeOffset oldstr start end offset))))
+    ))
 
 ;;    
 (define* (ExtraOffset tag what #:optional (type "chord") (context "") (offset '(0 . 0)) (override #f))

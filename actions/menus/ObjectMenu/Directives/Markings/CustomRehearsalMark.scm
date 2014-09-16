@@ -3,7 +3,12 @@
     (if (equal? value "edit")
         (set! value #f))
     (if (and (not value) (d-Directive-standalone? tag))
-        (set! value (d-DirectiveGet-standalone-data tag)))
+        (begin
+            (set! value (d-DirectiveGet-standalone-data tag))
+            (if value 
+                (begin
+                    (set! value (eval-string value))
+                    (set! value (assq-ref value 'value))))))
     (if (not value)
         (set! value "X"))
     (set! value (d-GetUserInputWithSnippets (_ "Custom Rehearsal/Text Mark") (_ "Give text to use for mark") value))
@@ -16,7 +21,7 @@
           (d-DirectivePut-standalone-postfix tag  (string-append  " \\once \\override Score.RehearsalMark #'self-alignment-X = #" position " \\mark \\markup {" text "}" ) )
           (d-DirectivePut-standalone-grob  tag  "RehearsalMark")
           (d-DirectivePut-standalone-minpixels  tag  30)
-          (d-DirectivePut-standalone-data tag data)
+          (d-DirectivePut-standalone-data tag (string-append "'(('value . \"" data "\"))"))
           (d-SetSaved #f)
           (d-RefreshDisplay))))
 
