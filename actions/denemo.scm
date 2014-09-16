@@ -156,7 +156,20 @@
 (define cue-Delete (_ "Delete"))
 (define cue-Edit (_ "Edit"))
 (define cue-RestorePosition (_ "Restore Position")) 
+(define cue-NudgePosition (_ "Nudge Position")) 
+
 ;(define cue- "")
+
+(define (GetNudge)
+    (let ((offsetx "0")(offsety "0"))
+            (set! offsetx (d-GetUserInput (_ "Offset Position") (_ "Amount (+/-) to nudge in horizontal direction") offsetx))
+            (if offsetx
+                (begin
+                    (set! offsety (d-GetUserInput (_ "Offset Position") (_ "Amount (+/-) to nudge in vertical direction") offsetx))
+                    (if offsety
+                        (cons offsetx offsety)
+                        #f)
+                #f))))
 
 ;;;;;;;;;;;;;;;; Double-Stroke for sequencing keypresses. By Nils Gey June 2010
 ;One parameter for the GUI-version or help window. This is the version that appears if someone clicks on the menu version.
