@@ -850,7 +850,10 @@ free_movements (DenemoProject * project)
 
 
   /* any other free/initializations */
-
+  project->lilycontrol.papersize = g_string_new ("a4");     //A4 default
+  project->lilycontrol.staffsize = g_string_new ("18");
+  project->lilycontrol.lilyversion = g_string_new ("");
+  project->lilycontrol.orientation = TRUE;  //portrait
 }
 
 /**
