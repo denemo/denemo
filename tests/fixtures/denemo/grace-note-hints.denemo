@@ -17,6 +17,12 @@
 print-all-headers = ##t
 </postfix>
     </directive>
+    <directive>
+      <tag>LimitInterSystemSpace</tag>
+      <postfix>
+page-limit-inter-system-space = ##t
+page-limit-inter-system-space-factor = 1.2</postfix>
+    </directive>
   </paper-directives>
   <thumbnail>
     <first-staff>1</first-staff>

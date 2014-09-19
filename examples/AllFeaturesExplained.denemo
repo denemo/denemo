@@ -1258,8 +1258,8 @@ To put in a shift use Directives-&gt;Menu of Objects to Insert\")"   "⬋Explana
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
-      <page-zoom>0</page-zoom>
-      <page-system-height>0</page-system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
     </edit-info>
     <header-directives>
       <directive>

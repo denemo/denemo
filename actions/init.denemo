@@ -18,6 +18,12 @@
 </postfix>
       <override>32</override>
     </directive>
+    <directive>
+      <tag>LimitInterSystemSpace</tag>
+      <postfix>
+page-limit-inter-system-space = ##t
+page-limit-inter-system-space-factor = 1.2</postfix>
+    </directive>
   </paper-directives>
   <lilycontrol>
     <papersize>a4</papersize>
