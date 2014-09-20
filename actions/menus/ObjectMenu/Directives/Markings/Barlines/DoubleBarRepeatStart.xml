@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>DoubleBarRepeatStart</action>
+        <after>RepeatStart</after>
+        <_label>Double Bar Repeat Start</_label>
+        <_tooltip>Prints a repeat start, with double bar on previous line if at a line break.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

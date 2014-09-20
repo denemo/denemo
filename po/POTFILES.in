@@ -665,6 +665,8 @@ actions/menus/ObjectMenu/Directives/Markings/Barlines/ClosingBarline.scm
 actions/menus/ObjectMenu/Directives/Markings/Barlines/ClosingBarline.xml
 actions/menus/ObjectMenu/Directives/Markings/Barlines/DoubleBarline.scm
 actions/menus/ObjectMenu/Directives/Markings/Barlines/DoubleBarline.xml
+actions/menus/ObjectMenu/Directives/Markings/Barlines/DoubleBarRepeatStart.scm
+actions/menus/ObjectMenu/Directives/Markings/Barlines/DoubleBarRepeatStart.xml
 actions/menus/ObjectMenu/Directives/Markings/Barlines/ForceBarline.scm
 actions/menus/ObjectMenu/Directives/Markings/Barlines/ForceBarline.xml
 actions/menus/ObjectMenu/Directives/Markings/Barlines/HalfBarline.scm
