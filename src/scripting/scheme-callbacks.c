@@ -4648,10 +4648,20 @@ scheme_get_note_for_midi_key (SCM scm)
 }
 
 SCM
-scheme_get_midi (void)
+scheme_get_midi (SCM bytes)
 {
   gint midi;
+  SCM scm;
   gboolean success = intercept_midi_event (&midi);
+  if (scm_is_false(bytes))
+    {
+        if (!success)
+            scm = SCM_BOOL_F;
+        else {
+            Denemo.project->last_source = INPUTMIDI;
+            scm = scm_list_n (scm_from_int (midi>>24), scm_from_int ((midi>>16)&0xFF),  scm_from_int ((midi>>8)&0xFF),  scm_from_int (midi&0xFF), SCM_UNDEFINED);
+        }
+    } else {
   if (!success)
     midi = 0;                   /* scripts should detect this impossible value and take action */
   else
@@ -4659,7 +4669,8 @@ scheme_get_midi (void)
   gchar *buf = (gchar *) & midi;
   *buf &= 0xF0;                 //do not return channel info
 
-  SCM scm = scm_from_int (midi);
+  scm = scm_from_int (midi);
+}
   return scm;
 }
 
