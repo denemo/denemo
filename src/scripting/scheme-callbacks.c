@@ -4659,7 +4659,7 @@ scheme_get_midi (SCM bytes)
             scm = SCM_BOOL_F;
         else {
             Denemo.project->last_source = INPUTMIDI;
-            scm = scm_list_n (scm_from_int (midi>>24), scm_from_int ((midi>>16)&0xFF),  scm_from_int ((midi>>8)&0xFF),  scm_from_int (midi&0xFF), SCM_UNDEFINED);
+            scm = scm_list_n ( scm_from_int (midi&0xFF), scm_from_int ((midi>>8)&0xFF), scm_from_int ((midi>>16)&0xFF), scm_from_int (midi>>24), SCM_UNDEFINED);
         }
     } else {
   if (!success)
