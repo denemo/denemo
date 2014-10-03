@@ -143,9 +143,14 @@ portmidi_initialize (DenemoPrefs * config)
       info = Pm_GetDeviceInfo (id);
       if (info == NULL)
         {
-          g_warning ("No input device");
-          portmidi_destroy ();
-          return -1;
+          id = get_portmidi_device_id ("default", FALSE);
+          info = Pm_GetDeviceInfo (id);
+           if (info == NULL)  
+                {
+                g_warning ("No MIDI input device, and no default device");
+                portmidi_destroy ();
+                return -1;
+                }
         }
 
       g_message ("Opening input device '%s: %s'", info->interf, info->name);
