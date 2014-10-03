@@ -267,7 +267,7 @@ actual_portaudio_initialize (DenemoPrefs * config)
       output_parameters.device =   get_portaudio_device_index ("default");
        if (output_parameters.device == paNoDevice)
         {
-            g_warning("No PortAudio device %s", config->portaudio_device->str);
+            g_warning("No PortAudio device %s and no default either.", config->portaudio_device->str);
             return -1;
         }
     }
