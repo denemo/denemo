@@ -1,32 +1,43 @@
-;;;ClefChooser
-(let ((choice "Bass"))
-(set! choice (d-GetOption (string-append "Treble" stop "Bass" stop "Alto" stop "Tenor" stop "Treble Octava bassa" stop "Bass Octava bassa"stop "Soprano" stop "Drum" stop)))
-(cond
-((not choice) #f )
-((equal? choice "Drum")
-(begin
-;(d-MoveCursorRight)
-(d-InitialClef "Bass")
-(d-DirectivePut-clef-override "DrumClef" (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND))
-(d-DirectivePut-clef-postfix "DrumClef" "\\clef percussion\n ")
-(d-DirectivePut-clef-graphic "DrumClef" "DrumClef")
-(d-StaffProperties "midi_channel=9")
-(d-PushPosition)
-(d-MoveToBeginning)
-(d-DirectivePut-standalone-postfix "MiddleCPosition" "\\set Staff.middleCPosition = #6 ")
-(d-PopPosition)
-;; (d-DirectivePut-voice-postfix "DrumClef" "\\drummode ")
-;; (d-DirectivePut-voice-override "DrumClef" DENEMO_OVERRIDE_LILYPOND)
-;; (d-DirectivePut-staff-postfix "DrumClef" "<< { \\new DrumStaff\n")
-;; (d-DirectivePut-staff-override "DrumClef" DENEMO_OVERRIDE_LILYPOND)
-))
-(#t
-(if (d-MoveCursorLeft)
-(begin
-(d-MoveCursorRight)
-(d-InsertClef choice))
-(begin
-(if (equal? (d-DirectiveGetTag-clef ) "DrumClef" ) (d-DirectiveDelete-clef "DrumClef") )
-(d-InitialClef choice)
-)))))
-(d-RefreshDisplay)
+;;;;ClefChooser
+(let ((choice (RadioBoxMenu (cons (_ "Treble") "treble")
+                          (cons (_ "Bass") "bass")
+                          (cons (_ "Alto") "alto")                     
+                          (cons (_ "Tenor") "tenor")                   
+                          (cons (_ "Treble Octava Bassa") "Treble Octava bassa")
+                          (cons (_ "Bass Octava Bassa") "Bass Octava bassa")
+                          (cons (_ "Soprano") "Soprano")
+                          (cons (_ "French") "French")
+                          (cons (_ "Drum") 'drum)
+                          (cons (_ "LilyPond") 'lilypond))))
+
+    (if choice
+        (case choice
+            ((lilypond)
+                (let ((clef (d-GetUserInput (_ "Custom Clef") (_ "Give LilyPond syntax for clef name") "treble^8"))  (tag "ClefChooser"))
+                    (if clef
+                        (begin
+                            (d-Directive-standalone tag)
+                            (d-DirectivePut-standalone-postfix tag (string-append "\\clef \"" clef "\" "))
+                            (d-DirectivePut-standalone-graphic tag "\nC\nDenemo\n24")
+                            (d-DirectivePut-standalone-minpixels tag 50)
+                            (d-InfoDialog (_ "N.B.The Denemo display will show notes using prevailing Denemo clef,\nbut they will be typeset in the clef given"))))))
+            ((drum)
+                (d-InitialClef "Bass")
+                (d-DirectivePut-clef-override "DrumClef" (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND))
+                (d-DirectivePut-clef-postfix "DrumClef" "\\clef percussion\n ")
+                (d-DirectivePut-clef-graphic "DrumClef" "DrumClef")
+                (d-StaffProperties "midi_channel=9")
+                (d-PushPosition)
+                (d-MoveToBeginning)
+                (d-DirectivePut-standalone-postfix "MiddleCPosition" "\\set Staff.middleCPosition = #6 ")
+                (d-PopPosition))
+            (else
+                (if (d-MoveCursorLeft)
+                    (begin
+                    (d-MoveCursorRight)
+                    (d-InsertClef choice))
+                    (begin
+                        (if (equal? (d-DirectiveGetTag-clef ) "DrumClef" ) (d-DirectiveDelete-clef "DrumClef") )
+                        (d-InitialClef choice))))))
+             (d-SetSaved #f)           
+            (d-RefreshDisplay)))
