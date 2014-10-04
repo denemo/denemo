@@ -1041,6 +1041,8 @@ const gchar *
 lookup_menu_path_from_idx (keymap * keymap, gint command_id)
 {
   command_row* row = NULL;
+  if (command_id == -1)
+    return NULL;
   keymap_get_command_row(Denemo.map, &row, command_id);
   if(row)
     return row->menupath;
