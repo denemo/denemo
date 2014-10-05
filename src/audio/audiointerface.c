@@ -306,7 +306,6 @@ audio_shutdown ()
     }
 
   g_cond_free (queue_cond);
-  g_mutex_unlock (queue_mutex);
   g_mutex_free (queue_mutex);
 
   return 0;
