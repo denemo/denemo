@@ -84,7 +84,6 @@ process_thread_func (gpointer data)
  
           }
     }
-  g_mutex_unlock (mutex);
   return NULL;
 }
 
