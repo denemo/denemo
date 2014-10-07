@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="7">
+  <paper-directives>
+    <directive>
+      <tag>LimitInterSystemSpace</tag>
+      <postfix>
+page-limit-inter-system-space = ##t
+page-limit-inter-system-space-factor = 1.2</postfix>
+    </directive>
+  </paper-directives>
   <thumbnail>
     <first-staff>1</first-staff>
     <last-staff>3</last-staff>
@@ -23,8 +31,8 @@
       <tonalcenter>-1</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
-      <page-zoom>0</page-zoom>
-      <page-system-height>0</page-system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
     </edit-info>
     <score-info>
       <tempo>
