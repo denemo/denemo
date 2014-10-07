@@ -6987,6 +6987,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Measures Per Line</_label>
         <_tooltip>Forces a fixed number of measures per line.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>DoubleBarRepeatStart</action>
+        <after>RepeatStart</after>
+        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
+        <_label>Double Bar Repeat Start</_label>
+        <_tooltip>Prints a repeat start, with double bar on previous line if at a line break.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

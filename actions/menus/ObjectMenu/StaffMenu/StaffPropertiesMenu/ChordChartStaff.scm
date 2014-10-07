@@ -4,7 +4,7 @@
     (define (create-chart compact)
      (if (and ChordStaff::params (d-Directive-voice? tag))
                 (begin (d-InfoDialog "Use the Staffs/Voices Chord Chart command to turn off the typesetting of chord names for this staff"))
-                (let ((size (if compact "12" "8")))
+                (let ()
                     (if (d-Directive-staff? tag)
                         (begin
                             (d-DirectiveDelete-timesig tag)
@@ -14,10 +14,6 @@
                             (d-DirectiveDelete-staff tag)
                             (d-DirectiveDelete-voice tag))
                         (begin
-                            (if (not compact)
-                                (set! size (d-GetUserInput (_ "Chord Chart Staff") (_ "Give size of chord symbols required") size)))
-                            (if size
-                                (begin
                                     (while (d-DirectiveGetForTag-staff)
                                        (d-DirectiveDelete-staff (d-DirectiveGetForTag-staff))) 
                                     (while (d-DirectiveGetForTag-voice)
@@ -26,30 +22,27 @@
                                     (ToggleDirective "staff" "postfix" tag ""(logior  DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX))))
                                     (ToggleDirective "voice" "prefix" (cons tag (_ "Chord Chart")) (string-append "\\new ChordNames \\with {"
 (if compact
-"chordNameExceptions = #(append
-  (sequential-music-to-chord-exceptions CompactChordSymbols #t)
-  ignatzekExceptions)
-"
+"chordNameExceptions = #(sequential-music-to-chord-exceptions CompactChordSymbols #t)\n"
 "")
   
-"                 \\consists \"Bar_engraver\"
+"                \\consists \"Bar_engraver\"
+                
                  \\consists \"Script_engraver\"
                  \\consists \"Text_engraver\""
                  (if compact "" "\\consists \"Time_signature_engraver\"\n") "
                  \\consists \"Multi_measure_rest_engraver\"
-                 \\override ChordName.font-size=#" 
-                 size      
+                 " 
  (if compact                
                  "
                  \\override ChordName.Y-extent = ##f
                  \\override ChordName.extra-spacing-width=#'(+inf.0 . -inf.0)
                  \\override ChordName.extra-offset = #'(0 . -2)
-                 \\override BarLine.bar-extent = #'(-4 . 6)
-                 \\override BarLine #'hair-thickness = #2 "
+                 \\override BarLine.bar-extent = #'(-3.5 . 3.5)
+                 \\override BarLine #'hair-thickness = #1.2 "
                  "
                  \\override ChordName.extra-offset = #'(0 . -2)
-                 \\override BarLine.bar-extent = #'(-2 . 2)
-                 \\override BarLine #'hair-thickness = #4 "
+                 \\override BarLine.bar-extent = #'(-3.5 . 3.5)
+                 \\override BarLine #'hair-thickness = #1.2 "
                  )"    
                  \\numericTimeSignature 
             }
@@ -82,51 +75,16 @@ system-system-spacing =
 (padding . 2))\n"))
 
                                 (d-DirectivePut-score-override "ChordNamer" (logior DENEMO_OVERRIDE_AFFIX))
-                                (d-DirectivePut-score-prefix "ChordNamer" "
-#(define (conditional-string-downcase str condition)
-  (if condition
-      (string-downcase str)
-      str))
-
-#(define (denemo-chord-name->pop-markup pitch lowercase?)
-  (let* ((alt (ly:pitch-alteration pitch)))
-  (make-line-markup
-    (list
-      (make-bold-markup (make-scale-markup '(0.5 . 1) (make-simple-markup 
-       (conditional-string-downcase
-        (vector-ref #(\"C\" \"D\" \"E\" \"F\" \"G\" \"A\" \"B\") (ly:pitch-notename
-pitch))
-        lowercase?))))
-      (if (= alt 0)
-    (make-hspace-markup 1)
-    (make-line-markup
-            (list
-              (make-hspace-markup 0.1)
-              (make-fontsize-markup -6 (make-raise-markup 5
-                 (alteration->text-accidental-markup alt))))))))))
-#(define (denemo-chord-inv-name->pop-markup pitch lowercase?)
-  (let* ((alt (ly:pitch-alteration pitch)))
-  (make-line-markup
-    (list
-      (make-bold-markup (make-scale-markup '(0.5 . 1) (make-simple-markup 
-       (conditional-string-downcase
-        (vector-ref #(\"C\" \"D\" \"E\" \"F\" \"G\" \"A\" \"B\") (ly:pitch-notename
-pitch))
-        lowercase?))))
-      (if (= alt 0)
-        (make-line-markup (list empty-markup))
-          (make-line-markup
-            (list
-              (make-hspace-markup 0.1)
-              (make-fontsize-markup -4 
-                 (alteration->text-accidental-markup alt)))))))))                                     
-                                ")
-                               (d-DirectivePut-layout-postfix "ChordNamer" "
+                                
+                                (d-DirectivePut-layout-postfix "ChordNamer" (string-append "
 \\context {
-        \\Score
-        chordRootNamer = #denemo-chord-name->pop-markup
-        } ")
-                                (d-DirectivePut-layout-postfix tag "\\set noChordSymbol = \\markup \\smaller \\bold  \"/\"")
+        \\Score\n"
+        (if compact
+            "chordCompactScale = #'(2.5 . 2.0)\n"
+            "")
+        "\\remove \"Bar_number_engraver\"
+        } "))
+                                (d-DirectivePut-layout-postfix tag "\\set noChordSymbol = \\markup \\fontsize #6 \\bold  \"/\"")
                                  (if (d-Directive-staff? tag)
                                     (begin
                                         (d-ProportionalNotation 4)
@@ -149,11 +107,11 @@ pitch))
                                             
                                         (if compact
                                             (d-DirectivePut-score-display "CompactChordChart" (_ "Compact Chord Chart Marker")))
-                                        (d-BarNumberingInterval 10000) ;; no bar numbers
+                                        ;;;(d-BarNumberingInterval 10000) ;; no bar numbers
                                         (ToggleDirective "clef" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND)
                                         (ToggleDirective "keysig" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX)
                                         (ToggleDirective "timesig" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_GRAPHIC)
-                                        (d-DirectivePut-timesig-display tag "4/4"))))))))
+                                        (d-DirectivePut-timesig-display tag "4/4"))))))
 
     (case choice
     

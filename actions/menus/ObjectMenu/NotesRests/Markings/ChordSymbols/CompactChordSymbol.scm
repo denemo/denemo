@@ -1,6 +1,6 @@
 ;;;CompactChordSymbol
 (let ((tag "CompactChordSymbol")
-    (params CompactChordSymbol::params)(symbol "9add13")(x-scale "0.4")(y-scale "0.4")(x-offset #f)(y-offset #f))
+    (params CompactChordSymbol::params)(symbol "9add13")(x-scale "0.4")(y-scale "0.4")(x-offset "-2")(y-offset "0"))
     (define (put-data)
         (define data (d-DirectiveGet-standalone-data tag))
         (if data
@@ -52,5 +52,6 @@
             (begin
                 (get-data)
                 (d-MoveCursorRight)
+                (d-DirectivePut-standalone-prefix tag (string-append "-\\tweak #'extra-offset #'(" x-offset " . " y-offset ")"))
                 (put-symbol))
             (d-WarningDialog (_ "Insert Root note of chord for symbol to attach to")))))
