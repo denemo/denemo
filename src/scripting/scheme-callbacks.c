@@ -3376,6 +3376,28 @@ insert_markup (GtkWidget * button, gchar *text)
  gtk_widget_grab_focus (textview);
 }
 
+static void
+insert_font_mag (GtkWidget * button)
+{
+  DenemoProject *gui = Denemo.project;
+  GtkWidget *hbox = gtk_widget_get_parent (button);
+  GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+  gchar *text = string_dialog_entry (gui, _( "Font Magnification"), _("Give a relative font size +/- "), "-2");
+  if (text && *text && atoi(text))
+    {
+        gchar *out = g_strdup_printf ("§\\fontsize #%s §", text);
+      if (textbuffer)
+              gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), out, -1);
+       else
+        {
+          g_warning ("Denemo program error, widget hierarchy changed???");
+        }      
+     GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
+     gtk_widget_grab_focus (textview);
+     g_free (out);
+    }
+ g_free (text);
+}
 
 
 
@@ -3486,6 +3508,10 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
   g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "§\\char ##x201D §");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
+  button = gtk_button_new_with_label (_("size"));
+  gtk_widget_set_tooltip_text (button, _("Inserts code change the relative font size."));
+  g_signal_connect (button, "clicked", G_CALLBACK (insert_font_mag), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   gchar *text = string_dialog_editor_with_widget_opt (Denemo.project, title, instruction, initial_value, hbox, (modal == SCM_UNDEFINED) || scm_is_true (modal));
   if (text)
