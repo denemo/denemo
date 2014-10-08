@@ -631,6 +631,8 @@ actions/menus/ObjectMenu/ChordMenu/ChangePrintDuration/ChangePrintDurationLonga.
 actions/menus/ObjectMenu/ChordMenu/ChangePrintDuration/init.scm
 actions/menus/ObjectMenu/ChordMenu/ChordNameOffset.scm
 actions/menus/ObjectMenu/ChordMenu/ChordNameOffset.xml
+actions/menus/ObjectMenu/ChordMenu/CompactChordScale.scm
+actions/menus/ObjectMenu/ChordMenu/CompactChordScale.xml
 actions/menus/ObjectMenu/ChordMenu/Directives/DeleteLilyPondOnChord.scm
 actions/menus/ObjectMenu/ChordMenu/Directives/DeleteLilyPondOnChord.xml
 actions/menus/ObjectMenu/ChordMenu/HideLilyPond.scm

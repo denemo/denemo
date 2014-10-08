@@ -6994,6 +6994,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Double Bar Repeat Start</_label>
         <_tooltip>Prints a repeat start, with double bar on previous line if at a line break.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>CompactChordScale</action>
+        <after>ChordNameOffset</after>
+        <menupath>/ObjectMenu/ChordMenu</menupath>
+        <_label>Scale Next Chord</_label>
+        <_tooltip>The next chord symbol will be scaled to the values given.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
