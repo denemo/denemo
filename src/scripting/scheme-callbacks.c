@@ -3345,7 +3345,7 @@ paste_current_lilypond (GtkWidget * button)
         refresh_lily_cb (NULL, Denemo.project);
       if (curObj->lilypond)
         {
-              gchar *text = g_strdup_printf ("§\\score{\n\\DenemoGlobalTranspose \\new ChordNames {%s}\\layout{indent=0.0}\n}§",  curObj->lilypond);
+              gchar *text = g_strdup_printf ("§\\score{\n\\DenemoGlobalTranspose \\new ChordNames \with {chordNameExceptions = #(sequential-music-to-chord-exceptions CompactChordSymbols #t)}{%s}\\layout{indent=0.0 \context {\Score chordCompactScale = #'(2.5 . 2.0)}}\n}§",  curObj->lilypond);
               gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1 /*gint len */ );
               g_free (text);
         }
@@ -3509,7 +3509,7 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label (_("size"));
-  gtk_widget_set_tooltip_text (button, _("Inserts code change the relative font size."));
+  gtk_widget_set_tooltip_text (button, _("Inserts code to change the relative font size."));
   g_signal_connect (button, "clicked", G_CALLBACK (insert_font_mag), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
