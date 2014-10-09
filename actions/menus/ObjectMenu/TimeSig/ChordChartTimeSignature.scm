@@ -1,14 +1,15 @@
-;;;ChordChartTimeSignature
+;;ChordChartTimeSignature
 (let ((tag "ChordChartTimeSignature")(params ChordChartTimeSignature::params) 
             (numerator (car (string-split (d-GetPrevailingTimesig) #\/)))
             (denominator (cadr (string-split (d-GetPrevailingTimesig) #\/))))
         (let ((scale (/ (string->number (d-ScoreProperties "query=fontsize")) 7.2)))
             (define (scale-val val)
                 (number->string (* (string->number val) scale)))
+            (d-InsertTimeSig (d-GetPrevailingTimesig))
             (d-Directive-standalone tag)
             (d-DirectivePut-standalone-prefix tag "\\once \\override Score.RehearsalMark #'extra-offset = #'(-2 . -7)")
             (d-DirectivePut-standalone-postfix tag (string-append "\\mark \\markup {\\line\\large{\\scale #'(1.5 . 1.8) \\column{\\line\\large{\\bold "numerator"}\\line\\large \\raise #2 {\\bold "denominator"}}}}\n"))
-            (d-DirectivePut-standalone-data tag "(list (cons 'x-offset \"-2\") (cons 'y-offset \"-7\"))")
+            (d-DirectivePut-standalone-data tag "(list (cons 'x-offset \"-3\") (cons 'y-offset \"-7\"))")
             (d-DirectivePut-standalone-grob tag "RehearsalMark")
             (d-DirectivePut-standalone-graphic tag (string-append "\n"numerator"/"denominator"\nDenemo\n24"))
             (d-DirectivePut-standalone-minpixels tag 50)
