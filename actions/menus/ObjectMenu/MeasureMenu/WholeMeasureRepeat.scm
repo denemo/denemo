@@ -11,8 +11,8 @@ Denemo
 48")
 	   (d-DirectivePut-chord-postfix tag (string-append "s1*" (number->string timesig)
 	 "
- -\\tweak #'extra-offset  #'(1 . 5)
--\\markup \\scale #'(1 . -1){ 
+ -\\tweak #'extra-offset  #'(5 . 2)
+-\\markup \\scale #'(0.5 . -0.5){ 
 \\translate-scaled #'(4 . 0.5)    \\draw-circle #1 #0 ##t 
 \\translate-scaled #'(-2 . 4) \\beam #4 #-1.5 #2   \\translate-scaled #'(0 . 0.5)
 \\draw-circle #1 #0 ##t }    "))

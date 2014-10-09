@@ -44,7 +44,6 @@
                  \\override BarLine.bar-extent = #'(-3.5 . 3.5)
                  \\override BarLine #'hair-thickness = #1.2 "
                  )"    
-                 \\numericTimeSignature 
             }
                                 ")  DENEMO_OVERRIDE_LILYPOND DENEMO_OVERRIDE_GRAPHIC)
                                 
@@ -101,7 +100,9 @@ system-system-spacing =
                                             ;(d-LineBreak #t)
                                             (d-MoveToBeginning)
                                             (if compact
-                                                (d-ChordChartTimeSignature))
+                                                (begin
+                                                    (d-InitialTimeSig)
+                                                    (d-ChordChartTimeSignature)))
                                             (d-MoveCursorRight)
                                             (d-MoveCursorRight))
                                             
@@ -111,7 +112,7 @@ system-system-spacing =
                                         (ToggleDirective "clef" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND)
                                         (ToggleDirective "keysig" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX)
                                         (ToggleDirective "timesig" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_GRAPHIC)
-                                        (d-DirectivePut-timesig-display tag "4/4"))))))
+                                        (d-DirectivePut-timesig-display tag (d-GetPrevailingTimesig)))))))
 
     (case choice
     
