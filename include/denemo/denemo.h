@@ -71,6 +71,15 @@ extern "C" {
 #define g_string_free(a, b) (((GString*)(a))->str)
 #endif
 
+#if GTK_MAJOR_VERSION == 2
+#else
+//we always have homogeneous FALSE which is the default
+//so this is not needed. static GtkWidget *vbox_setter (gboolean homogeneous, gint spacing) {GtkWidget *ret = gtk_box_new(GTK_ORIENTATION_VERTICAL, spacing);gtk_box_set_homogeneous (ret, homogeneous);return ret;}
+#define gtk_vbox_new(homogeneous, spacing) gtk_box_new(GTK_ORIENTATION_VERTICAL, spacing)
+#define gtk_hbox_new(homogeneous, spacing) gtk_box_new(GTK_ORIENTATION_HORIZONTAL, spacing)
+#endif
+
+
 #define DEFAULT_KEYMAP "Default"
 #define DEFAULT_KEYBINDINGS "Default.shortcuts"
 #ifdef G_OS_WIN32
