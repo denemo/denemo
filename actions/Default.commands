@@ -7001,6 +7001,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Scale Next Chord</_label>
         <_tooltip>The next chord symbol will be scaled to the values given.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>FilledTitleLine</action>
+        <after>ScoreVersion</after>
+        <menupath>/ObjectMenu/Score/Titles</menupath>
+        <_label>Filled Title Line</_label>
+        <_tooltip>Prints three pieces of text left, right and centered on a single line. Each field can be a different size etc.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

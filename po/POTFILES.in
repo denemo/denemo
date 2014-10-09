@@ -1601,6 +1601,8 @@ actions/menus/ObjectMenu/Score/Titles/BookTitles/IncipitFromSelection.xml
 actions/menus/ObjectMenu/Score/Titles/BookTitles/init.scm
 actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.scm
 actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.xml
+actions/menus/ObjectMenu/Score/Titles/FilledTitleLine.scm
+actions/menus/ObjectMenu/Score/Titles/FilledTitleLine.xml
 actions/menus/ObjectMenu/Score/Titles/ScoreTagline.scm
 actions/menus/ObjectMenu/Score/Titles/ScoreTagline.xml
 actions/menus/ObjectMenu/Score/Titles/ScoreVersion.scm

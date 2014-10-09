@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>FilledTitleLine</action>
+        <after>ScoreVersion</after>
+        <_label>Filled Title Line</_label>
+        <_tooltip>Prints three pieces of text left, right and centered on a single line. Each field can be a different size etc.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
