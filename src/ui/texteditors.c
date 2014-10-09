@@ -404,7 +404,8 @@ create_editor_window (void)
   GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-  gtk_container_add (GTK_CONTAINER (main_vbox), sw);
+  gtk_box_pack_start (GTK_BOX (main_vbox), sw, TRUE, TRUE, 0);
+
   gtk_container_add (GTK_CONTAINER (sw), TextView);
   return TextView;
 }
