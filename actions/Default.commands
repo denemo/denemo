@@ -7015,6 +7015,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Insert Whole Measure Spacer</_label>
         <_tooltip>Inserts a non-printing whole measure after the current measure with a directive to omit the barline. This gives a one measure spacer.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>DottedBarline</action>
+        <after>HalfBarline</after>
+        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
+        <_label>Dotted Barline</_label>
+        <_tooltip>Prints dotted barline</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
