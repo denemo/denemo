@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>WholeMeasureSpacer</action>
+        <after>InsertBlankOneHundredTwentyEighthNote</after>
+        <_label>Insert Whole Measure Spacer</_label>
+        <_tooltip>Inserts a non-printing whole measure after the current measure with a directive to omit the barline. This gives a one measure spacer.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

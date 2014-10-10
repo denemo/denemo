@@ -7008,6 +7008,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Filled Title Line</_label>
         <_tooltip>Prints three pieces of text left, right and centered on a single line. Each field can be a different size etc.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>WholeMeasureSpacer</action>
+        <after>InsertBlankOneHundredTwentyEighthNote</after>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <_label>Insert Whole Measure Spacer</_label>
+        <_tooltip>Inserts a non-printing whole measure after the current measure with a directive to omit the barline. This gives a one measure spacer.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
