@@ -3067,6 +3067,16 @@ scheme_get_prevailing_timesig_as_lilypond (SCM optional)
 SCM
 scheme_get_prevailing_duration (SCM optional)
 {
+  if (scm_is_integer (optional))
+    {
+      gint duration = scm_to_int (optional);
+      if(duration >=0 && (duration < 8))
+        {
+            SetDur (duration);
+            return SCM_BOOL_T;
+        }
+      return SCM_BOOL_F;
+    } else 
   return scm_from_int (get_prevailing_duration ());
 }
 
@@ -3078,6 +3088,7 @@ scheme_get_prevailing_timesig (SCM optional)
   gchar *name = g_strdup_printf ("%d/%d", timesig->time1, timesig->time2);
   SCM ret = scm_from_locale_string (name);
   g_free (name);
+    
   return ret;
 }
 

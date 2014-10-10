@@ -189,7 +189,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Returns the LilyPond typesetting syntax for prevailing time signature at the cursor.", DENEMO_SCHEME_PREFIX "GetPrevailingTimesigAsLilyPond", scheme_get_prevailing_timesig_as_lilypond);
 
 
-  install_scm_function (0, "Returns the prevailing duration, ie duration which will be used for the next inserted note.", DENEMO_SCHEME_PREFIX "GetPrevailingDuration", scheme_get_prevailing_duration);
+  install_scm_function (0, "Returns the prevailing duration, ie duration which will be used for the next inserted note, with a parameter 0 ... 8 sets the prevailing duration.", DENEMO_SCHEME_PREFIX "GetPrevailingDuration", scheme_get_prevailing_duration);
 
   //more work needed, see above install_scm_function (0, "Sets the prevailing keysignature at the cursor to the string of 7 steps passed. Each step can be -1, 0 or 1",DENEMO_SCHEME_PREFIX"SetPrevailingKeysig", scheme_set_prevailing_keysig);
 
