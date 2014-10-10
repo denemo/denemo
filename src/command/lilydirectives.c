@@ -2315,7 +2315,7 @@ create_script (DenemoDirective * directive, gchar * what)
   if (what == NULL)
     {
       what = "standalone";
-      g_string_append_printf (scheme, "(d-DirectivePut-standalone \"%s\")", directive->tag->str);
+      g_string_append_printf (scheme, "(d-Directive-standalone \"%s\")\n", directive->tag->str);
     }
 #define ADD_TEXT(field)\
 if(directive->field && directive->field->len)\
@@ -2343,7 +2343,7 @@ if(directive->field)\
   ADD_INTTEXT (gy);
 
 #undef ADD_INTTEXT
-  g_string_append (scheme, "(d-RefreshDisplay)\n;;;End of scheme script");
+  g_string_append (scheme, "(d-SetSaved #f)(d-RefreshDisplay)\n;;;End of scheme script");
   // quote_scheme(scheme);
   //g_debug("Scheme is %s\n", scheme->str);
   appendSchemeText (scheme->str);
