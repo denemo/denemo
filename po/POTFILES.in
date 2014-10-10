@@ -1435,6 +1435,8 @@ actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.scm
 actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.xml
 actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureRest.scm
 actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureRest.xml
+actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureSpacer.scm
+actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureSpacer.xml
 actions/menus/ObjectMenu/NotesRests/SelectDuration/SetBreve.scm
 actions/menus/ObjectMenu/NotesRests/SelectDuration/SetBreve.xml
 actions/menus/ObjectMenu/NotesRests/SelectDuration/SetLonga.scm
