@@ -3342,7 +3342,7 @@ paste_snippet_lilypond (GtkWidget * button)
   gtk_widget_grab_focus (textview);
 }
 static void
-paste_current_lilypond (GtkWidget * button)
+paste_current_lilypond_as_fakechord (GtkWidget * button)
 {
   DenemoProject *gui = Denemo.project;
   GtkWidget *hbox = gtk_widget_get_parent (button);
@@ -3368,7 +3368,33 @@ paste_current_lilypond (GtkWidget * button)
   GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
   gtk_widget_grab_focus (textview);
 }
-
+static void
+paste_current_lilypond_as_fretdiagram (GtkWidget * button)
+{
+  DenemoProject *gui = Denemo.project;
+  GtkWidget *hbox = gtk_widget_get_parent (button);
+  GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+  if (textbuffer)
+    {
+      DenemoObject *curObj;
+      if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
+        return;
+      if (gui->lilysync != gui->changecount)
+        refresh_lily_cb (NULL, Denemo.project);
+      if (curObj->lilypond)
+        {
+              gchar *text = g_strdup_printf ("§\\score{\n\\DenemoGlobalTranspose \\new FretBoards {%s}\\layout{indent=0.0}\n}§",  curObj->lilypond);
+              gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1 /*gint len */ );
+              g_free (text);
+        }
+    }
+  else
+    {
+      g_warning ("Denemo program error, widget hierarchy changed???");
+    }
+  GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
+  gtk_widget_grab_focus (textview);
+}
 #define SECTION_UTF8_STRING "§"
 
 static void
@@ -3489,13 +3515,21 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
   
   
-  button = gtk_button_new_with_label (_("Paste Current Note/Chord"));
-  gtk_widget_set_tooltip_text (button, _("Pastes the chord at the cursor as a Chord Symbol\n"
+  button = gtk_button_new_with_label (_("Paste Chord Symbol"));
+  gtk_widget_set_tooltip_text (button, _("Pastes the note or chord at the cursor as a Chord Symbol\n"
     "The music appears here in the LilyPond typesetter syntax between two markers (§).\n"
-    "It will print as chord name in the sentence you are writing, transposed according to the global transposition set.\n"
+    "It will print as chord name/symbol in the sentence you are writing, transposed according to the global transposition set.\n"
     "This is not just for chords, use this to reference a note name.\n"));
 
-  g_signal_connect (button, "clicked", G_CALLBACK (paste_current_lilypond), NULL);
+  g_signal_connect (button, "clicked", G_CALLBACK (paste_current_lilypond_as_fakechord), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+
+  button = gtk_button_new_with_label (_("Paste Fret Diagram"));
+  gtk_widget_set_tooltip_text (button, _("Pastes the chord at the cursor as a Fret Diagram\n"
+    "The music appears here in the LilyPond typesetter syntax between two markers (§).\n"
+    "It will print as fret diagram in the sentence you are writing, transposed according to the global transposition set.\n"));
+
+  g_signal_connect (button, "clicked", G_CALLBACK (paste_current_lilypond_as_fretdiagram), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
   
 
