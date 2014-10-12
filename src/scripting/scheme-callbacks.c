@@ -4,6 +4,7 @@
 #include "command/scoreops.h"
 #include "command/graceops.h"
 #include "command/scorelayout.h"
+#include "core/utils.h"
 #include "core/view.h"
 #include "core/graphicseditor.h"
 #include "core/http.h"
@@ -15,6 +16,7 @@
 #include "export/guidedimportmidi.h"
 #include "export/print.h"
 #include "export/exportmidi.h"
+
 
 SCM 
 scheme_call_callback (SCM optional, callback_function callback) {
@@ -3349,16 +3351,13 @@ paste_current_lilypond_as_fakechord (GtkWidget * button)
   GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
   if (textbuffer)
     {
-      DenemoObject *curObj;
-      if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
-        return;
-      if (gui->lilysync != gui->changecount)
-        refresh_lily_cb (NULL, Denemo.project);
-      if (curObj->lilypond)
+      gchar *text = get_fakechord_as_markup ();
+      if(text)
         {
-              gchar *text = g_strdup_printf ("§\\score{\n\\DenemoGlobalTranspose \\new ChordNames \with {chordNameExceptions = #(sequential-music-to-chord-exceptions CompactChordSymbols #t)}{%s}\\layout{indent=0.0 \context {\Score chordCompactScale = #'(2.5 . 2.0)}}\n}§",  curObj->lilypond);
-              gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1 /*gint len */ );
-              g_free (text);
+            gchar *insert = g_strdup_printf("§%s§", text);   
+            gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), insert, -1 /*gint len */ );
+            g_free (text);
+            g_free (insert);
         }
     }
   else
@@ -3376,16 +3375,13 @@ paste_current_lilypond_as_fretdiagram (GtkWidget * button)
   GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
   if (textbuffer)
     {
-      DenemoObject *curObj;
-      if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
-        return;
-      if (gui->lilysync != gui->changecount)
-        refresh_lily_cb (NULL, Denemo.project);
-      if (curObj->lilypond)
+      gchar *text = get_fretdiagram_as_markup ();
+      if(text)
         {
-              gchar *text = g_strdup_printf ("§\\score{\n\\DenemoGlobalTranspose \\new FretBoards {%s}\\layout{indent=0.0}\n}§",  curObj->lilypond);
-              gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1 /*gint len */ );
-              g_free (text);
+            gchar *insert = g_strdup_printf("§%s§", text);   
+            gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), insert, -1 /*gint len */ );
+            g_free (text);
+            g_free (insert);
         }
     }
   else

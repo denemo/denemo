@@ -1622,6 +1622,40 @@ findnote_strict (DenemoObject * curObj, gint cursory)
   return NULL;
 }
 
+/* get a fret diagram for the chord at the cursor */
+gchar *get_fretdiagram_as_markup (void)
+{
+DenemoProject *gui = Denemo.project;
+   DenemoObject *curObj;
+      if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
+        return NULL;
+      if (gui->lilysync != gui->changecount)
+        refresh_lily_cb (NULL, Denemo.project);
+      if (curObj->lilypond)
+        {
+              gchar *text = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose \\new FretBoards {%s}\\layout{indent=0.0}\n}",  curObj->lilypond);
+              return text;
+        }  
+    return NULL;
+}
+
+/* get a chord symbol for the chord at the cursor */
+gchar *get_fakechord_as_markup (void)
+{
+DenemoProject *gui = Denemo.project;
+   DenemoObject *curObj;
+      if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
+        return NULL;
+      if (gui->lilysync != gui->changecount)
+        refresh_lily_cb (NULL, Denemo.project);
+      if (curObj->lilypond)
+        {
+            gchar *text = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose \\new ChordNames \\with {chordNameExceptions = #(sequential-music-to-chord-exceptions CompactChordSymbols #t)}{%s}\\layout{indent=0.0 \context {\Score chordCompactScale = #'(2.5 . 2.0)}}\n}",  curObj->lilypond);
+            return text;
+        }  
+    return NULL;
+}
+
 /* display full information about the object at the cursor */
 GtkWidget *ObjectInfo = NULL;
 static gboolean
