@@ -1,4 +1,4 @@
-/* staffops.h
+/* staff.h
  * Header file for functions dealing with whole staffs
 
  * for Denemo, a gtk+ frontend to GNU Lilypond

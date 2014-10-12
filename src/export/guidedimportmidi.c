@@ -17,7 +17,7 @@
 #include <string.h>
 #include <assert.h>
 #include <denemo/denemo.h>
-#include "command/staffops.h"
+#include "command/staff.h"
 #include "smf.h"
 #include "core/view.h"
 #include "core/utils.h"

@@ -11,8 +11,8 @@
 
 #include "command/contexts.h"
 #include "display/drawingprims.h"
-#include "command/objops.h"
-#include "command/staffops.h"
+#include "command/object.h"
+#include "command/staff.h"
 
 /**
  * This function finds the first DenemoObject of type thetype *before* measure

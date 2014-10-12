@@ -10,14 +10,14 @@
 #include <string.h>
 #include <denemo/denemo.h>
 #include "command/lilydirectives.h"
-#include "command/chordops.h"
+#include "command/chord.h"
 #include "display/calculatepositions.h"
 #include "command/commandfuncs.h"
 #include "command/contexts.h"
 #include "ui/dialogs.h"
 #include "display/draw.h"
-#include "command/objops.h"
-#include "command/staffops.h"
+#include "command/object.h"
+#include "command/staff.h"
 #include "core/utils.h"
 #include "core/prefops.h"
 #include "core/view.h"

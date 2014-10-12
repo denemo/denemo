@@ -1,5 +1,5 @@
 /**
- * selectops.c
+ * select.c
  * operations for selecting, cutting, copying, and pasting music
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
@@ -13,14 +13,14 @@
 #include "command/commandfuncs.h"
 #include <denemo/denemo.h>
 #include "display/draw.h"
-#include "command/objops.h"
-#include "command/measureops.h"
-#include "command/selectops.h"
-#include "command/staffops.h"
+#include "command/object.h"
+#include "command/measure.h"
+#include "command/select.h"
+#include "command/staff.h"
 #include "core/prefops.h"
 #include "command/lyric.h"
 #include "command/lilydirectives.h"
-#include "command/scoreops.h"
+#include "command/score.h"
 #include "core/view.h"
 #include "command/contexts.h"
 #include "ui/moveviewport.h"
@@ -1274,7 +1274,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
 
         if (!gui->movement->currentmeasure)
           {
-            g_warning ("position after undo insert Bug in selectops.c");
+            g_warning ("position after undo insert Bug in select.c");
             position_for_chunk (gui, chunk);
             //movetoend(NULL, NULL);
           }
@@ -1289,7 +1289,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
         chunk->position.measure++;
         if (!gui->movement->currentmeasure)
           {
-            g_warning ("position after undo insert Bug in selectops.c");
+            g_warning ("position after undo insert Bug in select.c");
             position_for_chunk (gui, chunk);    //????
             //movetoend(NULL, NULL);
           }
@@ -1499,7 +1499,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
             position_for_chunk (gui, chunk);    //FIXME check return val
             if (!gui->movement->currentmeasure)
               {
-                g_warning ("positioning after snapshot Bug in selectops.c");
+                g_warning ("positioning after snapshot Bug in select.c");
                 movetoend (NULL, NULL);
               }
             gui->movement->currentstaffnum = 1 + g_list_position (gui->movement->thescore, gui->movement->currentstaff);

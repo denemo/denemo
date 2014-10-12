@@ -7,9 +7,9 @@
 
 #include "command/commandfuncs.h"
 #include "core/kbd-custom.h"
-#include "command/staffops.h"
+#include "command/staff.h"
 #include "core/utils.h"
-#include "command/selectops.h"
+#include "command/select.h"
 #include "command/lilydirectives.h"
 #include "command/lyric.h"
 #include "ui/moveviewport.h"

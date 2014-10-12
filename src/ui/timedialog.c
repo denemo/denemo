@@ -15,11 +15,11 @@
 #include <denemo/denemo.h>
 #include "ui/dialogs.h"
 #include "display/draw.h"
-#include "command/measureops.h"
-#include "command/objops.h"
-#include "command/staffops.h"
+#include "command/measure.h"
+#include "command/object.h"
+#include "command/staff.h"
 #include "core/utils.h"
-#include "command/selectops.h"
+#include "command/select.h"
 
 /**
  * Is the integer a power of 2, or the value 1

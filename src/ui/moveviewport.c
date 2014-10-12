@@ -9,10 +9,10 @@
 #include "command/commandfuncs.h"
 #include "command/contexts.h"
 #include "ui/moveviewport.h"
-#include "command/staffops.h"
+#include "command/staff.h"
 #include "core/utils.h"
 #include "display/displayanimation.h"
-#include "command/selectops.h"
+#include "command/select.h"
 
 /**
  * update_hscrollbar should be called as a cleanup whenever

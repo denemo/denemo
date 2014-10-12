@@ -1,4 +1,4 @@
-/* measureops.cpp
+/* measure.cpp
  * functions dealing with measures
  *
  * for Denemo, a gtk+ frontent to GNU Lilypond
@@ -6,16 +6,16 @@
  */
 
 #include "display/accwidths.h"
-#include "command/chordops.h"
+#include "command/chord.h"
 #include <denemo/denemo.h>
 #include "display/drawingprims.h"
-#include "command/measureops.h"
+#include "command/measure.h"
 #include "display/notewidths.h"
-#include "command/objops.h"
-#include "command/staffops.h"
+#include "command/object.h"
+#include "command/staff.h"
 #include "string.h"
 #include "core/utils.h"
-#include "command/selectops.h"
+#include "command/select.h"
 #include "display/displayanimation.h"
 
 #define STEMDIFFERENCE 6

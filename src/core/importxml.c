@@ -6,15 +6,15 @@
  * 2009, 2010, 2011 Richard Shann
  */
 
-#include "command/chordops.h"
-#include "command/graceops.h"
+#include "command/chord.h"
+#include "command/grace.h"
 #include "core/importxml.h"
-#include "command/measureops.h"
-#include "command/objops.h"
-#include "command/scoreops.h"
-#include "command/staffops.h"
+#include "command/measure.h"
+#include "command/object.h"
+#include "command/score.h"
+#include "command/staff.h"
 #include "command/processstaffname.h"
-#include "command/tupletops.h"
+#include "command/tuplet.h"
 #include "export/xmldefs.h"
 #include "core/view.h"
 #include "ui/texteditors.h"

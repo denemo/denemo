@@ -1,4 +1,4 @@
-/* measureops.h
+/* measure.h
  * header file for functions dealing with measures
  *
  * for Denemo, a gtk+ frontent to GNU Lilypond

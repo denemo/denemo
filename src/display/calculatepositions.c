@@ -8,8 +8,8 @@
 
 #include <stdio.h>
 #include "display/calculatepositions.h"
-#include "command/chordops.h"
-#include "command/staffops.h"
+#include "command/chord.h"
+#include "command/staff.h"
 #include "core/utils.h"
 
 #define mudobj(x) ((DenemoObject *) x->data)

@@ -18,8 +18,8 @@ denemo_SOURCES = \
   audio/playback.h \
   command/changenotehead.c \
   command/changenotehead.h \
-  command/chordops.c \
-  command/chordops.h \
+  command/chord.c \
+  command/chord.h \
   command/clef.c \
   command/clef.h \
   command/commandfuncs.c \
@@ -30,8 +30,8 @@ denemo_SOURCES = \
   command/fakechord.h \
   command/figure.c \
   command/figure.h \
-  command/graceops.c \
-  command/graceops.h \
+  command/grace.c \
+  command/grace.h \
   command/keyresponses.c \
   command/keyresponses.h \
   command/keysig.c \
@@ -40,24 +40,24 @@ denemo_SOURCES = \
   command/lilydirectives.h \
   command/lyric.c \
   command/lyric.h \
-  command/measureops.c \
-  command/measureops.h \
+  command/measure.c \
+  command/measure.h \
   command/processstaffname.c \
   command/processstaffname.h \
-  command/objops.c \
-  command/objops.h \
+  command/object.c \
+  command/object.h \
   command/scorelayout.c \
   command/scorelayout.h \
-  command/scoreops.c \
-  command/scoreops.h \
-  command/selectops.c \
-  command/selectops.h \
-  command/staffops.c \
-  command/staffops.h \
+  command/score.c \
+  command/score.h \
+  command/select.c \
+  command/select.h \
+  command/staff.c \
+  command/staff.h \
   command/timesig.c \
   command/timesig.h \
-  command/tupletops.c \
-  command/tupletops.h \
+  command/tuplet.c \
+  command/tuplet.h \
   core/binreloc.c \
   core/binreloc.h \
   core/denemo_types.c \

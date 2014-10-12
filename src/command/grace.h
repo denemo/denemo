@@ -1,4 +1,4 @@
-/* graceops.h
+/* grace.h
  *
  * Grace note function prototypes
  *

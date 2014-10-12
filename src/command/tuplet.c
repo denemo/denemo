@@ -1,4 +1,4 @@
-/* tupletops.cpp  
+/* tuplet.cpp  
  * Set Tuplet options 
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
@@ -8,16 +8,16 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 #include <string.h>
-#include "command/tupletops.h"
-#include "command/chordops.h"
+#include "command/tuplet.h"
+#include "command/chord.h"
 #include "command/contexts.h"
 #include <denemo/denemo.h>
-#include "command/staffops.h"
+#include "command/staff.h"
 #include "core/utils.h"
 #include "display/draw.h"
-#include "command/measureops.h"
+#include "command/measure.h"
 #include "audio/midi.h"
-#include "command/objops.h"
+#include "command/object.h"
 #include "command/commandfuncs.h"
 
 DenemoObject *

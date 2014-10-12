@@ -1,4 +1,4 @@
-/* objops.cpp
+/* object.cpp
  * functions that do operations to mudela objects
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
@@ -6,13 +6,13 @@
  */
 
 #include <denemo/denemo.h>
-#include "command/chordops.h"
+#include "command/chord.h"
 #include "core/utils.h"
 #include "command/commandfuncs.h"
-#include "command/objops.h"
-#include "command/staffops.h"
-#include "command/tupletops.h"
-#include "command/selectops.h"
+#include "command/object.h"
+#include "command/staff.h"
+#include "command/tuplet.h"
+#include "command/select.h"
 #include "audio/pitchentry.h"
 #include <string.h>
 

@@ -1623,7 +1623,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
 
                 case KEYSIG:
                   // curobj->object
-                  //  ((keysig *) theobj->object)->number; referenced in src/measureops.cpp       
+                  //  ((keysig *) theobj->object)->number; referenced in src/measure.cpp       
                   //printf("\nKEYSIG type = %d\n", ((keysig *) curobj->object)->number);
                   event = midi_keysig ((((keysig *) curobj->object)->number), curstaffstruct->keysig.isminor);
                   smf_track_add_event_delta_pulses (track, event, 0);

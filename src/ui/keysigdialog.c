@@ -14,8 +14,8 @@
 #include <denemo/denemo.h>
 #include "ui/dialogs.h"
 #include "display/draw.h"
-#include "command/objops.h"
-#include "command/staffops.h"
+#include "command/object.h"
+#include "command/staff.h"
 #include "core/utils.h"
 #include "ui/keysigdialog.h"
 #include "audio/pitchentry.h"

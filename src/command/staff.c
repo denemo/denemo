@@ -1,27 +1,27 @@
 /**
- * staffops.cpp
+ * staff.cpp
  * functions dealing with whole staffs
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 1999-2005 Matthew Hiller 
  */
 
-#include "command/chordops.h"
+#include "command/chord.h"
 #include "command/contexts.h"
 #include <denemo/denemo.h>
 #include "ui/dialogs.h"
-#include "command/measureops.h"
+#include "command/measure.h"
 #include "ui/moveviewport.h"
-#include "command/objops.h"
+#include "command/object.h"
 #include "command/processstaffname.h"
-#include "command/staffops.h"
+#include "command/staff.h"
 #include <stdlib.h>
 #include <string.h>
 #include "display/calculatepositions.h"
 #include "command/commandfuncs.h"
 #include "command/lilydirectives.h"
 #include "display/displayanimation.h"
-#include "command/selectops.h"
+#include "command/select.h"
 #include "core/utils.h"
 #include "command/lyric.h"
 

@@ -1,4 +1,4 @@
-/* selectops.h
+/* select.h
  * Undoing, selecting, cutting, copying, and pasting music
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond

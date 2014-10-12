@@ -933,7 +933,7 @@ freeit (gpointer data, gpointer user_data)
 
 
 /************* routines for calling from debug code ***************/
-#include "command/staffops.h"
+#include "command/staff.h"
 
 G_GNUC_UNUSED void
 printobj (objnode * obj)

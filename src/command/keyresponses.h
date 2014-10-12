@@ -13,9 +13,9 @@
 #include "command/commandfuncs.h"
 #include <denemo/denemo.h>
 #include "display/draw.h"
-#include "command/selectops.h"
-#include "command/chordops.h"
-#include "command/objops.h"
+#include "command/select.h"
+#include "command/chord.h"
+#include "command/object.h"
 
 
 gint scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event);

@@ -1,4 +1,4 @@
-/* scoreops.cpp
+/* score.cpp
  * functions dealing with the whole score
 
  * for Denemo, a gtk+ frontend to GNU Lilypond
@@ -8,11 +8,11 @@
 #include <stdio.h>
 #include <string.h>
 #include "config.h"
-#include "command/staffops.h"
-#include "command/scoreops.h"
+#include "command/staff.h"
+#include "command/score.h"
 #include "core/prefops.h"
-#include "command/selectops.h"
-#include "command/objops.h"
+#include "command/select.h"
+#include "command/object.h"
 #include "command/lyric.h"
 #include "audio/audiointerface.h"
 #include "source/sourceaudio.h"
