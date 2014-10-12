@@ -48,7 +48,6 @@
 
     
 (define (TweakRelativeOffset tag offsetx offsety)
-   ; (define newvalue (ChangeOffset (d-DirectiveGet-standalone-prefix tag) "-\\tweak #'extra-offset #'("  ")" (cons offsetx offsety)))
     (define oldx #f)
     (define oldy #f)
     (define data (d-DirectiveGet-standalone-data tag))
@@ -64,7 +63,7 @@
     (set! offsetx (number->string (+ (string->number offsetx) (string->number oldx))))
     (set! offsety (number->string (+ (string->number offsety) (string->number oldy))))
 
-    (d-DirectivePut-standalone-prefix tag (string-append "-\\tweak #'extra-offset #'(" offsetx " . " offsety ")")) 
+    (d-DirectivePut-standalone-prefix tag (string-append "<>-\\tweak #'extra-offset #'(" offsetx " . " offsety ")")) 
     (if (list? data)
         (begin
             (set! data (assq-set! data 'x-offset offsetx))
