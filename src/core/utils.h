@@ -35,10 +35,12 @@
 #define FONT "Sans 9"
 #define TIMESIGFONT "Sans 24"
 
+#ifndef g_info
 #ifdef G_HAVE_ISO_VARARGS
 #define g_info(...) g_log(G_LOG_DOMAIN, G_LOG_LEVEL_INFO, __VA_ARGS__)
 #elif defined(G_HAVE_GNUC_VARARGS)
 #define g_info(format) g_log(G_LOG_DOMAIN, G_LOG_LEVEL_INFO, format)
+#endif
 #endif
 
 const gchar *get_user_data_dir (gboolean create);
