@@ -14,7 +14,7 @@
 #include <denemo/denemo.h>
 #include "display/draw.h"
 #include "ui/moveviewport.h"
-#include "command/staffops.h"
+#include "command/staff.h"
 #include "core/utils.h"
 
 void

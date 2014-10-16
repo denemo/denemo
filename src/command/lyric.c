@@ -7,8 +7,8 @@
    */
 #include <string.h>             /* for strcmp() */
 #include "command/lyric.h"
-#include "command/objops.h"
-#include "command/staffops.h"
+#include "command/object.h"
+#include "command/staff.h"
 #include "core/utils.h"
 
 static GtkWidget *DummyVerse;   /* a non-existent verse */

@@ -1,6 +1,6 @@
-/* chordops.h
+/* chord.h
  *
- * the header files for chordops.c, functions which manipulate chords
+ * the header files for chord.c, functions which manipulate chords
  * For denemo, a gtk+ frontend to Lilypond, the GNU music typesetter
  *
  * (c) 2000-2005 Matthew Hiller, Adam Tee

@@ -15,11 +15,11 @@
 #include <denemo/denemo.h>
 #include "ui/dialogs.h"
 #include "display/draw.h"
-#include "command/measureops.h"
-#include "command/objops.h"
-#include "command/staffops.h"
+#include "command/measure.h"
+#include "command/object.h"
+#include "command/staff.h"
 #include "core/utils.h"
-#include "command/selectops.h"
+#include "command/select.h"
 
 /**
  * Is the integer a power of 2, or the value 1
@@ -45,7 +45,7 @@ settimesig (DenemoStaff * curstaffstruct, gint time1, gint time2)
 {
   curstaffstruct->timesig.time1 = time1;
   curstaffstruct->timesig.time2 = time2;
-  beamsandstemdirswholestaff (curstaffstruct);
+  staff_beams_and_stems_dirs (curstaffstruct);
 }
 
 /**
@@ -106,12 +106,12 @@ insert_timesig (DenemoMovement * si, DenemoStaff * curstaffstruct, gint time1, g
       if (((DenemoStaff *) curstaff->data)->is_parasite)
         continue;
 
-      curmeasure = g_list_nth (firstmeasurenode (curstaff), si->currentmeasurenum - 1);
+      curmeasure = g_list_nth (staff_first_measure_node (curstaff), si->currentmeasurenum - 1);
       /* First, look to see if there already is a time signature change at
          the beginning of this measure. If so, delete it first. */
       if (!curmeasure)
         continue;
-      firstobj = firstobjnode (curmeasure);
+      firstobj = measure_first_obj_node (curmeasure);
       if (firstobj)
         firstmudobj = (DenemoObject *) firstobj->data;
       else
@@ -133,7 +133,7 @@ insert_timesig (DenemoMovement * si, DenemoStaff * curstaffstruct, gint time1, g
           else
             si->currentobject = g_list_nth ((objnode *) curmeasure->data, si->cursor_x);
         }
-      beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
+      staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
     }
 
 }

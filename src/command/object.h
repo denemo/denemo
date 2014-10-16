@@ -1,4 +1,4 @@
-/* objops.h
+/* object.h
  * header file for operations to objects
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond

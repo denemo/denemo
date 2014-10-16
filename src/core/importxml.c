@@ -6,15 +6,15 @@
  * 2009, 2010, 2011 Richard Shann
  */
 
-#include "command/chordops.h"
-#include "command/graceops.h"
+#include "command/chord.h"
+#include "command/grace.h"
 #include "core/importxml.h"
-#include "command/measureops.h"
-#include "command/objops.h"
-#include "command/scoreops.h"
-#include "command/staffops.h"
+#include "command/measure.h"
+#include "command/object.h"
+#include "command/score.h"
+#include "command/staff.h"
 #include "command/processstaffname.h"
-#include "command/tupletops.h"
+#include "command/tuplet.h"
 #include "export/xmldefs.h"
 #include "core/view.h"
 #include "ui/texteditors.h"
@@ -2528,7 +2528,7 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoMovement * si)
                 }
               else if (ELEM_NAME_EQ (objElem, "clef"))
                 {
-                  curObj = dnm_newclefobj (DENEMO_TREBLE_CLEF);
+                  curObj = clef_new (DENEMO_TREBLE_CLEF);
                   parseClef (objElem, curObj->object);
                   gchar *showProp = (gchar *) xmlGetProp (objElem, (xmlChar *) "show");
                   if (showProp)
@@ -2607,12 +2607,12 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoMovement * si)
                 }
               else if (ELEM_NAME_EQ (objElem, "tuplet-end"))
                 {
-                  curObj = newtupclose ();
+                  curObj = tuplet_close_new ();
                   parseTupletEnd (objElem, curObj->object);
                 }
               else if (ELEM_NAME_EQ (objElem, "tuplet-start"))
                 {
-                  curObj = newtupopen (4, 4);
+                  curObj = tuplet_open_new (4, 4);
                   parseTupletStart (objElem, ns, curObj->object);
                 }
               else
@@ -2708,7 +2708,7 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoProject * gui)
   /* Create the staff structure. */
 
   si->currentstaffnum++;
-  newstaff (gui, ADDFROMLOAD, DENEMO_NONE);
+  staff_new (gui, ADDFROMLOAD, DENEMO_NONE);
   si->currentstaff = g_list_last (si->thescore);
   si->currentmeasurenum = 1;
   Lyric = g_string_new ("");
@@ -2857,8 +2857,8 @@ parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoProject * gui, ImportTyp
     }
   for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
     {
-      beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
-      showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
+      staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
+      staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
     }
   find_xes_in_all_measures (si);
   find_leftmost_allcontexts (si);

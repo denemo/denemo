@@ -13,9 +13,9 @@
 #include "command/commandfuncs.h"
 #include <denemo/denemo.h>
 #include "display/draw.h"
-#include "command/selectops.h"
-#include "command/chordops.h"
-#include "command/objops.h"
+#include "command/select.h"
+#include "command/chord.h"
+#include "command/object.h"
 
 
 gint scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event);
@@ -78,17 +78,6 @@ void insert_rest_6key (GtkAction* action, DenemoScriptParam *param);
 void insert_rest_7key (GtkAction* action, DenemoScriptParam *param);
 void insert_rest_8key (GtkAction* action, DenemoScriptParam *param);
 
-void insert_duplet (GtkAction* action, DenemoScriptParam *param);
-void insert_triplet (GtkAction* action, DenemoScriptParam *param);
-void start_triplet (GtkAction* action, DenemoScriptParam *param);
-void end_tuplet (GtkAction* action, DenemoScriptParam *param);
-
-
-
-void insert_quadtuplet (GtkAction* action, DenemoScriptParam *param);
-void insert_quintuplet (GtkAction* action, DenemoScriptParam *param);
-void insert_sextuplet (GtkAction* action, DenemoScriptParam *param);
-void insert_septuplet (GtkAction* action, DenemoScriptParam *param);
 gboolean add_tone_key (GtkAction* action, DenemoScriptParam *param);
 gboolean remove_tone_key (GtkAction* action, DenemoScriptParam *param);
 void deletepreviousobject (GtkAction* action, DenemoScriptParam *param);
@@ -132,111 +121,7 @@ void insert_openrepeat (DenemoScriptParam *param);
 void insert_endbar (DenemoScriptParam *param);
 void insert_doublebar (DenemoScriptParam *param);
 void blank_mode (GtkAction * action, DenemoScriptParam *param);
-void newcleftreble (GtkAction* action, DenemoScriptParam *param);
-void newclefbass (GtkAction* action, DenemoScriptParam *param);
-void newclefg8 (GtkAction* action, DenemoScriptParam *param);
-void newclefalto (GtkAction* action, DenemoScriptParam *param);
-void newcleftenor (GtkAction* action, DenemoScriptParam *param);
-void newclefsoprano (GtkAction* action, DenemoScriptParam *param);
 
-void setcleftreble (GtkAction* action, DenemoScriptParam *param);
-void setclefbass (GtkAction* action, DenemoScriptParam *param);
-void setclefg8 (GtkAction* action, DenemoScriptParam *param);
-void setclefalto (GtkAction* action, DenemoScriptParam *param);
-void setcleftenor (GtkAction* action, DenemoScriptParam *param);
-void setclefsoprano (GtkAction* action, DenemoScriptParam *param);
-
-void newtimesig22 (GtkAction* action, DenemoScriptParam *param);
-void newtimesig42 (GtkAction* action, DenemoScriptParam *param);
-void newtimesig32 (GtkAction* action, DenemoScriptParam *param);
-void newtimesig44 (GtkAction* action, DenemoScriptParam *param);
-void newtimesig54 (GtkAction* action, DenemoScriptParam *param);
-void newtimesig24 (GtkAction* action, DenemoScriptParam *param);
-void newtimesig34 (GtkAction* action, DenemoScriptParam *param);
-void newtimesig68 (GtkAction* action, DenemoScriptParam *param);
-void newtimesig128 (GtkAction* action, DenemoScriptParam *param);
-void newtimesig38 (GtkAction* action, DenemoScriptParam *param);
-void newtimesig98 (GtkAction* action, DenemoScriptParam *param);
-void newtimesig64 (GtkAction* action, DenemoScriptParam *param);
-
-
-void settimesig22 (GtkAction* action, DenemoScriptParam *param);
-void settimesig42 (GtkAction* action, DenemoScriptParam *param);
-void settimesig32 (GtkAction* action, DenemoScriptParam *param);
-void settimesig44 (GtkAction* action, DenemoScriptParam *param);
-void settimesig54 (GtkAction* action, DenemoScriptParam *param);
-void settimesig24 (GtkAction* action, DenemoScriptParam *param);
-void settimesig34 (GtkAction* action, DenemoScriptParam *param);
-void settimesig68 (GtkAction* action, DenemoScriptParam *param);
-void settimesig128 (GtkAction* action, DenemoScriptParam *param);
-void settimesig38 (GtkAction* action, DenemoScriptParam *param);
-void settimesig98 (GtkAction* action, DenemoScriptParam *param);
-void settimesig64 (GtkAction* action, DenemoScriptParam *param);
-
-void newkeysigcmaj (GtkAction* action, DenemoScriptParam *param);
-void newkeysiggmaj (GtkAction* action, DenemoScriptParam *param);
-void newkeysigdmaj (GtkAction* action, DenemoScriptParam *param);
-void newkeysigamaj (GtkAction* action, DenemoScriptParam *param);
-void newkeysigemaj (GtkAction* action, DenemoScriptParam *param);
-void newkeysigbmaj (GtkAction* action, DenemoScriptParam *param);
-void newkeysigfsharpmaj (GtkAction* action, DenemoScriptParam *param);
-void newkeysigcsharpmaj (GtkAction* action, DenemoScriptParam *param);
-void newkeysigfmaj (GtkAction* action, DenemoScriptParam *param);
-void newkeysigbflatmaj (GtkAction* action, DenemoScriptParam *param);
-void newkeysigeflatmaj (GtkAction* action, DenemoScriptParam *param);
-void newkeysigaflatmaj (GtkAction* action, DenemoScriptParam *param);
-void newkeysigdflatmaj (GtkAction* action, DenemoScriptParam *param);
-void newkeysiggflatmaj (GtkAction* action, DenemoScriptParam *param);
-void newkeysigcflatmaj (GtkAction* action, DenemoScriptParam *param);
-
-void newkeysigamin (GtkAction* action, DenemoScriptParam *param);
-void newkeysigemin (GtkAction* action, DenemoScriptParam *param);
-void newkeysigbmin (GtkAction* action, DenemoScriptParam *param);
-void newkeysigfsharpmin (GtkAction* action, DenemoScriptParam *param);
-void newkeysigcsharpmin (GtkAction* action, DenemoScriptParam *param);
-void newkeysiggsharpmin (GtkAction* action, DenemoScriptParam *param);
-void newkeysigdsharpmin (GtkAction* action, DenemoScriptParam *param);
-void newkeysigasharpmin (GtkAction* action, DenemoScriptParam *param);
-void newkeysigdmin (GtkAction* action, DenemoScriptParam *param);
-void newkeysiggmin (GtkAction* action, DenemoScriptParam *param);
-void newkeysigcmin (GtkAction* action, DenemoScriptParam *param);
-void newkeysigfmin (GtkAction* action, DenemoScriptParam *param);
-void newkeysigbflatmin (GtkAction* action, DenemoScriptParam *param);
-void newkeysigeflatmin (GtkAction* action, DenemoScriptParam *param);
-void newkeysigaflatmin (GtkAction* action, DenemoScriptParam *param);
-
-
-void setkeysigcmaj (GtkAction* action, DenemoScriptParam *param);
-void setkeysiggmaj (GtkAction* action, DenemoScriptParam *param);
-void setkeysigdmaj (GtkAction* action, DenemoScriptParam *param);
-void setkeysigamaj (GtkAction* action, DenemoScriptParam *param);
-void setkeysigemaj (GtkAction* action, DenemoScriptParam *param);
-void setkeysigbmaj (GtkAction* action, DenemoScriptParam *param);
-void setkeysigfsharpmaj (GtkAction* action, DenemoScriptParam *param);
-void setkeysigcsharpmaj (GtkAction* action, DenemoScriptParam *param);
-void setkeysigfmaj (GtkAction* action, DenemoScriptParam *param);
-void setkeysigbflatmaj (GtkAction* action, DenemoScriptParam *param);
-void setkeysigeflatmaj (GtkAction* action, DenemoScriptParam *param);
-void setkeysigaflatmaj (GtkAction* action, DenemoScriptParam *param);
-void setkeysigdflatmaj (GtkAction* action, DenemoScriptParam *param);
-void setkeysiggflatmaj (GtkAction* action, DenemoScriptParam *param);
-void setkeysigcflatmaj (GtkAction* action, DenemoScriptParam *param);
-
-void setkeysigamin (GtkAction* action, DenemoScriptParam *param);
-void setkeysigemin (GtkAction* action, DenemoScriptParam *param);
-void setkeysigbmin (GtkAction* action, DenemoScriptParam *param);
-void setkeysigfsharpmin (GtkAction* action, DenemoScriptParam *param);
-void setkeysigcsharpmin (GtkAction* action, DenemoScriptParam *param);
-void setkeysiggsharpmin (GtkAction* action, DenemoScriptParam *param);
-void setkeysigdsharpmin (GtkAction* action, DenemoScriptParam *param);
-void setkeysigasharpmin (GtkAction* action, DenemoScriptParam *param);
-void setkeysigdmin (GtkAction* action, DenemoScriptParam *param);
-void setkeysiggmin (GtkAction* action, DenemoScriptParam *param);
-void setkeysigcmin (GtkAction* action, DenemoScriptParam *param);
-void setkeysigfmin (GtkAction* action, DenemoScriptParam *param);
-void setkeysigbflatmin (GtkAction* action, DenemoScriptParam *param);
-void setkeysigeflatmin (GtkAction* action, DenemoScriptParam *param);
-void setkeysigaflatmin (GtkAction* action, DenemoScriptParam *param);
 
 
 void append_measure_score (GtkAction* action, DenemoScriptParam *param);

@@ -13,7 +13,7 @@
 #include "command/contexts.h"
 #include <denemo/denemo.h>
 #include "display/draw.h"
-#include "command/staffops.h"
+#include "command/staff.h"
 #include "core/utils.h"
 
 struct callbackdata

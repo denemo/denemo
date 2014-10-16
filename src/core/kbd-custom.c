@@ -26,7 +26,7 @@
 #include "ui/kbd-interface.h"
 #include "command/keyresponses.h"
 #include "core/prefops.h"
-#include "command/selectops.h"
+#include "command/select.h"
 #include "core/utils.h"
 #include "audio/playback.h"
 #include "core/keyboard.h"

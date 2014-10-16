@@ -16,7 +16,7 @@
 #include "display/drawingprims.h"
 #include "display/slurs.h"
 #include "display/hairpin.h"
-#include "command/staffops.h"
+#include "command/staff.h"
 #include "core/utils.h"
 #include "export/exportlilypond.h"     /* to generate lily text for display */
 #include "audio/pitchentry.h"
@@ -1009,7 +1009,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
   itp->curmeasure = g_list_nth (thestaff->measures, itp->measurenum - 1);
   //g_debug("measurenum %d\nx=%d\n", itp->measurenum, x);
 
-  //FIX in measureops.c for case where si->measurewidths is too short
+  //FIX in measure.c for case where si->measurewidths is too short
   itp->mwidthiterator = g_list_nth (si->measurewidths, itp->measurenum - 1);
 
   {

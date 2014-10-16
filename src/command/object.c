@@ -1,4 +1,4 @@
-/* objops.cpp
+/* object.cpp
  * functions that do operations to mudela objects
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
@@ -6,13 +6,13 @@
  */
 
 #include <denemo/denemo.h>
-#include "command/chordops.h"
+#include "command/chord.h"
 #include "core/utils.h"
 #include "command/commandfuncs.h"
-#include "command/objops.h"
-#include "command/staffops.h"
-#include "command/tupletops.h"
-#include "command/selectops.h"
+#include "command/object.h"
+#include "command/staff.h"
+#include "command/tuplet.h"
+#include "command/select.h"
 #include "audio/pitchentry.h"
 #include <string.h>
 
@@ -64,53 +64,6 @@ freeobject (DenemoObject * mudobj)
     }
 }
 
-/**
- * Create a new timesignature object
- * @param time1 nominator of time signature
- * @param time2 denominator of the time signature
- * @return the timesignature
- */
-DenemoObject *
-dnm_newtimesigobj (gint time1, gint time2)
-{
-  DenemoObject *ret;
-  timesig *newtimesig = (timesig *) g_malloc0 (sizeof (timesig));
-  ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
-  ret->type = TIMESIG;
-  newtimesig->time1 = time1;
-  newtimesig->time2 = time2;
-  ret->object = newtimesig;
-  set_basic_numticks (ret);
-  setpixelmin (ret);
-  return ret;
-}
-
-
-
-/**
- * Create a new clef object
- * @param type clef type to create 
- *
- * @return the clef 
- */
-DenemoObject *
-dnm_newclefobj (enum clefs type)
-{
-  DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  gboolean invisible = (thestaff->voicecontrol & DENEMO_SECONDARY);
-  DenemoObject *ret;
-  clef *newclef = (clef *) g_malloc (sizeof (clef));
-  ret = (DenemoObject *) g_malloc (sizeof (DenemoObject));
-  ret->type = CLEF;
-  ret->isinvisible = invisible;
-  newclef->type = type;
-  ret->object = newclef;
-  set_basic_numticks (ret);
-  setpixelmin (ret);
-  return ret;
-}
-
-
 void
 set_modeaccs (gint * accs, gint number, gint mode)
 {
@@ -149,41 +102,6 @@ initkeyaccs (gint * accs, gint number)
     for (index = 6; number; number++, index = (index + 3) % 7)
       accs[index] = -1;
 
-}
-
-/**
- * Create a new keysignature object
- * 
- * @param number number of keysignature
- * @param isminor signifies if the key sig should be minor
- * @param mode    description of the keys mode
- * @return the key signature
- */
-DenemoObject *
-dnm_newkeyobj (gint number, gint isminor, gint mode)
-{
-  DenemoObject *ret;
-  keysig *newkeysig = (keysig *) g_malloc (sizeof (keysig));
-  ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
-  ret->type = KEYSIG;
-  ret->isinvisible = FALSE;
-  g_debug ("Number %d \t IsMinor %d \t Mode %d\n", number, isminor, mode);
-
-  newkeysig->mode = mode;
-  newkeysig->number = number;
-  newkeysig->isminor = isminor;
-
-
-
-  if (isminor == 2)
-    set_modeaccs (newkeysig->accs, number, mode);
-  else
-    initkeyaccs (newkeysig->accs, number);
-
-  ret->object = newkeysig;
-  set_basic_numticks (ret);
-  setpixelmin (ret);
-  return ret;
 }
 
 /**
@@ -320,17 +238,17 @@ dnm_clone_object (DenemoObject * orig)
           break;
 
         case TUPOPEN:
-          ret = (DenemoObject *) newtupopen (((tupopen *) orig->object)->numerator, ((tupopen *) orig->object)->denominator);
+          ret = (DenemoObject *) tuplet_open_new (((tupopen *) orig->object)->numerator, ((tupopen *) orig->object)->denominator);
           ((tupopen *) ret->object)->directives = clone_directives (((tupopen *) orig->object)->directives);
 
           break;
         case TUPCLOSE:
-          ret = (DenemoObject *) newtupclose ();
+          ret = (DenemoObject *) tuplet_close_new ();
           ((tupopen *) ret->object)->directives = clone_directives (((tupopen *) orig->object)->directives);
 
           break;
         case CLEF:
-          ret = dnm_newclefobj (((clef *) orig->object)->type);
+          ret = clef_new (((clef *) orig->object)->type);
           ((clef *) ret->object)->directives = clone_directives (((clef *) orig->object)->directives);
           break;
         case TIMESIG:
@@ -512,7 +430,7 @@ dnm_setinitialkeysig (DenemoStaff * curstaff, gint tokey, gint type)
   initkeyaccs (curstaff->keysig.accs, tokey);
   //memcpy (curstaff->keysig.keyaccs, curstaff->leftmost_keyaccs, SEVENGINTS);
   curstaff->leftmost_keysig = &curstaff->keysig;
-  showwhichaccidentalswholestaff (curstaff);
+  staff_show_which_accidentals (curstaff);
   adjust_tonal_center (curstaff->keysig.accs);
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);

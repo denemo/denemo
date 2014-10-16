@@ -1,56 +1,4 @@
-/* tupletops.cpp  
- * Set Tuplet options 
- *
- * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 2000-2005 Adam Tee Matthew Hiller
- */
-
-#include <gtk/gtk.h>
-#include <stdlib.h>
-#include <string.h>
-#include "command/tupletops.h"
-#include "command/chordops.h"
-#include "command/contexts.h"
-#include <denemo/denemo.h>
-#include "command/staffops.h"
-#include "core/utils.h"
-#include "display/draw.h"
-#include "command/measureops.h"
-#include "audio/midi.h"
-#include "command/objops.h"
-#include "command/commandfuncs.h"
-
-DenemoObject *
-newtupopen (gint numerator, gint denominator)
-{
-  DenemoObject *tuplet;
-  tupopen *newtup = (tupopen *) g_malloc (sizeof (tupopen));
-  tuplet = (DenemoObject *) g_malloc (sizeof (DenemoObject));
-  tuplet->type = TUPOPEN;
-  newtup->numerator = numerator;
-  newtup->denominator = denominator;
-
-  tuplet->object = newtup;
-  set_basic_numticks (tuplet);
-  setpixelmin (tuplet);
-  return tuplet;
-}
-
-DenemoObject *
-newtupclose ()
-{
-  DenemoObject *tuplet;
-  tupopen *newtup = (tupopen *) g_malloc (sizeof (tupopen));    //avoids a null object
-  tuplet = (DenemoObject *) g_malloc (sizeof (DenemoObject));
-  tuplet->type = TUPCLOSE;
-  tuplet->object = newtup;      //avoids a null object
-  set_basic_numticks (tuplet);
-  setpixelmin (tuplet);
-  return tuplet;
-}
-
-
-
+#include "dialogs.h"
 
 /* This is broken at the moment because the program doesn't pause
  * when the dialog is created. Fix me. */
@@ -58,13 +6,10 @@ newtupclose ()
 void
 tupletchangedialog (DenemoObject * theobj, GtkWidget * scorearea)
 {
-
   GtkWidget *dialog;
   GtkWidget *label;
   GtkWidget *numerator;
   GtkWidget *denominator;
-
-
   GString *entrycontent = NULL;
 
   dialog = gtk_dialog_new_with_buttons (_("Customize tuplet multiplier"), NULL, (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_STOCK_CANCEL, NULL);
