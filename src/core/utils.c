@@ -1650,7 +1650,7 @@ DenemoProject *gui = Denemo.project;
         refresh_lily_cb (NULL, Denemo.project);
       if (curObj->lilypond)
         {
-            gchar *text = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose \\new ChordNames \\with {chordNameExceptions = #(sequential-music-to-chord-exceptions CompactChordSymbols #t)}{%s}\\layout{indent=0.0 \context {\Score chordCompactScale = #'(2.5 . 2.0)}}\n}",  curObj->lilypond);
+            gchar *text = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose \\new ChordNames \\with {chordNameExceptions = #(sequential-music-to-chord-exceptions CompactChordSymbols #t)}{%s}\\layout{indent=0.0 \\context {\\Score chordCompactScale = #'(1 . 1)}}\n}",  curObj->lilypond);
             return text;
         }  
     return NULL;
