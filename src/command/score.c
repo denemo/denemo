@@ -26,6 +26,7 @@
 #include "command/lilydirectives.h"
 #include "export/exportmidi.h"
 #include "display/calculatepositions.h"
+#include "command/measure.h"
 
 #define MOVEMENT_WIDTH (10)
 

@@ -13,6 +13,7 @@
 #include "display/drawingprims.h"
 #include "command/object.h"
 #include "command/staff.h"
+#include "command/measure.h"
 
 /**
  * This function finds the first DenemoObject of type thetype *before* measure

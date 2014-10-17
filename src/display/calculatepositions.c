@@ -11,6 +11,7 @@
 #include "command/chord.h"
 #include "command/staff.h"
 #include "core/utils.h"
+#include "command/measure.h"
 
 #define mudobj(x) ((DenemoObject *) x->data)
 #define CHORDTEST(node) ((mudobj(node)->type!=CHORD)||((mudobj(node)->type==CHORD && ((chord *)(mudobj(node)->object))->is_grace)))
