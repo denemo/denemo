@@ -272,8 +272,17 @@ kbd_interface_del_binding (G_GNUC_UNUSED GtkButton * button, gpointer user_data)
 static void
 execute_current (keyboard_dialog_data *data)
 {
-    //FIXME if recording, record to scheme window
- execute_callback_from_idx (Denemo.map, data->command_id);
+  GtkTreeModel *model;
+  GtkTreeSelection *selection;
+  GtkTreeIter iter;
+  gchar* cname = NULL;
+  selection = gtk_tree_view_get_selection (data->command_view);
+  gtk_tree_selection_get_selected (selection, &model, &iter);
+  gtk_tree_model_get (model, &iter, COL_NAME, &cname, -1);
+  gint command_idx = lookup_command_from_name (Denemo.map, cname);
+  if(command_idx != data->command_id)
+    g_warning("correct command idx %d compare %d for action of name %s\n", command_idx, data->command_id, cname);
+ execute_callback_from_idx (Denemo.map, command_idx);
 }
 static void
 add_current_to_palette (keyboard_dialog_data *data)
