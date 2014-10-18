@@ -53,7 +53,7 @@
                                 (d-DirectivePut-score-prefix tag "\n\\defineBarLine \"|\" #'(\"|\" \"|\" \"|\")\n")
                                 
                                 (d-CustomBarline (format #f "'~s" (list (_ "Single") "|" "|" "|" "")))
-                                (d-CustomBarline (format #f "'~s" (list (_ "Double") "|" "||" "||" "")))
+                                (d-CustomBarline (format #f "'~s" (list (_ "Double") "||" "||" "||" "")))
                                 (d-CustomBarline (format #f "'~s" (list (_ "RepeatStart")  "[|:"  "[|:" "||" "")))           
                                 (d-CustomBarline (format #f "'~s" (list (_ "RepeatEnd") "|" ":|]"  ":|]"  "")))                                
                                 (d-CustomBarline (format #f "'~s" (list (_ "RepeatEndFirstTime") "" ":|]"  ":|]"  "")))
@@ -79,7 +79,7 @@ system-system-spacing =
 \\context {
         \\Score\n"
         (if compact
-            "chordCompactScale = #'(2.5 . 2.0)\n"
+            "chordCompactScale = #'(2.5 . 3.0)\n"
             "")
         "\\remove \"Bar_number_engraver\"
         } "))
