@@ -1,9 +1,9 @@
-;;;;DynamicsText
+;;;;DynamicText
         ;; Standalone Dynamics - by Dan Wilckens. Tweaked by RTS. Note that for custom text the tag should be different.
 
 (define-once DenemoDynamicList #f)
 
-(let ((tag "DynamicText")(choice #f)(replace #f)(X 0) (level "63")(LilyString "")(Graphic "")  (DynamicList "") )
+(let ((tag "DynamicText")(params DynamicText::params)(choice #f)(replace #f)(X 0) (level "63")(LilyString "")(Graphic "")  (DynamicList "") )
   ; format: dynamics, midi volume, image filename
   (define DefaultDynamicList '(("fff" "127" "Fortississimo")("ff" "111" "Fortissimo") ("f" "95" "Forte") ("mf" "79" "MezzoForte")("mp" "63" "MezzoPiano") ("p" "47" "Piano") ("pp" "31" "Pianissimo") ("ppp" "15" "Pianississimo") ("More" "60" "") ("ppppp" "5" "ppppp")("pppp" "7" "pppp")("ffff" "127" "ffff") ("fp" "" "fp")
    ("sf" "" "sf") ("sff" "" "sff") ("sp" "" "sp" ) ("spp" "" "spp") ("sfz" "" "sfz") ("rfz" "" "rfz") ("Custom" "" "")))
@@ -14,7 +14,8 @@
         (set! choices (string-append choices (car (car thelist)) stop))
         (firstmenu choices (cdr thelist)))
     (set! choice (d-GetOption (string-append choices (_ "More") stop)))))
-   
+   (if (equal? params "edit")
+   	(set! params #f))
   (if (d-Directive-standalone? tag)
     (set! replace #t))
    (d-PushPosition)
@@ -27,9 +28,9 @@
             (begin
                 (d-PopPosition))))
             
-(if DynamicText::params
+(if params
     (begin
-        (set! choice DynamicText::params)
+        (set! choice params)
         (set! DynamicList DefaultDynamicList))
     (begin
           (if DenemoDynamicList
