@@ -126,8 +126,8 @@ static cairo_path_data_t piano_brace_data[] = {
 
 static cairo_path_t piano_brace_path = { 0, piano_brace_data, 92 };
 
-#define LILYPOND_TEXT_EDITOR "LilyPond text editor"
-#define DEFAULT_SCORE_LAYOUT "Default Score Layout"
+#define LILYPOND_TEXT_EDITOR _("LilyPond text editor")
+#define DEFAULT_SCORE_LAYOUT _("Default Score Layout")
 static void set_notebook_page (GtkWidget * w);
 static void prefix_edit_callback (GtkWidget * widget, GtkWidget * frame);
 static void create_element (GtkWidget * vbox, GtkWidget * widget, gchar * lilypond);
@@ -1713,7 +1713,7 @@ movement_part_name (gint movement, gchar * partname)
     return g_strdup_printf (_("Movement %d"), movement);
   if (partname)
     return g_strdup_printf ("%s", partname);
-  return g_strdup (_(DEFAULT_SCORE_LAYOUT));
+  return g_strdup (DEFAULT_SCORE_LAYOUT);
 }
 
 static GtkWidget *
@@ -2804,7 +2804,7 @@ get_scoreblock_for_lilypond (gchar * lily)
   sb->text_only = TRUE;
 
   if(!Denemo.non_interactive){
-    GtkWidget *frame = gtk_frame_new (_(LILYPOND_TEXT_EDITOR));
+    GtkWidget *frame = gtk_frame_new (LILYPOND_TEXT_EDITOR);
     sb->widget = frame;
     gtk_widget_set_tooltip_text (frame, _("This is a customized layout, which has been transformed into instructions for the LilyPond music typesetter.\nThis is the form in which customized layouts are stored in a Denemo score on disk - the graphical interface is no longer available. You can, however still edit the layout with care (and some understanding of LilyPond).\nUse the View → LilyPond window to do this.\nOtherwise you can delete it and create a new one from a standard layout."));
     GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
