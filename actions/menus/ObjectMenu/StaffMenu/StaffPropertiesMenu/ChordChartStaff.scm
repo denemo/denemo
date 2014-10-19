@@ -36,11 +36,11 @@
                  "
                  \\override ChordName.Y-extent = ##f
                  \\override ChordName.extra-spacing-width=#'(+inf.0 . -inf.0)
-                 \\override ChordName.extra-offset = #'(0 . -2)
-                 \\override BarLine.bar-extent = #'(-3.5 . 3.5)
+                 \\override ChordName.extra-offset = #'(0 . -2.5)
+                 \\override BarLine.bar-extent = #'(-3.5 . 4.2)
                  \\override BarLine #'hair-thickness = #1.2 "
                  "
-                 \\override ChordName.extra-offset = #'(0 . -2)
+                 \\override ChordName.extra-offset = #'(0 . -2.5)
                  \\override BarLine.bar-extent = #'(-3.5 . 3.5)
                  \\override BarLine #'hair-thickness = #1.2 "
                  )"    
@@ -71,7 +71,14 @@
 system-system-spacing =
 #'((basic-distance . 2)
 (minimum-distance . 2)
-(padding . 2))\n"))
+(padding . 2))\n")
+                                    (set! stag "LeftMargin")
+                                    (d-DirectivePut-paper-data stag 0.1)
+                                    (d-DirectivePut-paper-postfix stag "left-margin=0.01\\cm\n")
+                                    (set! stag "RightMargin")
+                                    (d-DirectivePut-paper-data stag 0.1)
+                                    (d-DirectivePut-paper-postfix stag "right-margin=0.01\\cm\n")
+                                )
 
                                 (d-DirectivePut-score-override "ChordNamer" (logior DENEMO_OVERRIDE_AFFIX))
                                 
