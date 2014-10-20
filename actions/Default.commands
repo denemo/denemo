@@ -7022,6 +7022,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Dotted Barline</_label>
         <_tooltip>Prints dotted barline</_tooltip>
       </row>
+      <row type="scheme">
+        <action>InsertGraphic</action>
+        <after>MusicGlyph</after>
+        <menupath>/ObjectMenu/Directives/Markings</menupath>
+        <_label>Insert Graphic</_label>
+        <_tooltip>Inserts a graphic in the music. This should be created as an encapsulated postscript file.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
