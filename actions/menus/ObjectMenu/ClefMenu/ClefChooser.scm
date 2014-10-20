@@ -27,11 +27,12 @@
                 (d-DirectivePut-clef-postfix "DrumClef" "\\clef percussion\n ")
                 (d-DirectivePut-clef-graphic "DrumClef" "DrumClef")
                 (d-StaffProperties "midi_channel=9")
-                (d-PushPosition)
-                (d-MoveToBeginning)
-                (d-DirectivePut-standalone-postfix "MiddleCPosition" "\\set Staff.middleCPosition = #6 ")
-                (d-PopPosition))
+                (d-DirectivePut-voice-display "DrumClef" (_ "Drum Clef"))
+                (d-DirectivePut-voice-override "DrumClef" DENEMO_OVERRIDE_GRAPHIC)
+                (d-DirectivePut-voice-prefix "DrumClef" "\\new Voice \\with { middleCPosition = #6 }"))
             (else
+            	(d-DirectiveDelete-voice "DrumClef")
+            	(d-DirectiveDelete-clef "DrumClef")
                 (if (d-MoveCursorLeft)
                     (begin
                     (d-MoveCursorRight)
