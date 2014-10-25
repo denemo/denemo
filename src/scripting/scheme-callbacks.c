@@ -3576,6 +3576,48 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
   return scm;
 }
 
+static gchar *select_font(gchar *title)
+{
+  gchar *fontname = NULL;
+  GtkResponseType result;
+
+  GtkWidget *dialog = 
+#if GTK_MAJOR_VERSION == 2 
+  gtk_font_selection_dialog_new(_("Select Font"));
+#else
+  gtk_font_chooser_dialog_new (_("Select Font"), NULL);
+#endif
+  result = gtk_dialog_run(GTK_DIALOG(dialog));
+
+  if (result == GTK_RESPONSE_OK || result == GTK_RESPONSE_APPLY)
+#if GTK_MAJOR_VERSION == 2 
+    fontname = gtk_font_selection_dialog_get_font_name(
+                            GTK_FONT_SELECTION_DIALOG(dialog));
+#else
+    fontname = gtk_font_chooser_get_font (dialog);
+#endif
+  gtk_widget_destroy(dialog);
+  return fontname;
+}
+
+SCM
+scheme_select_font (SCM text)
+{
+    SCM ret = SCM_BOOL_F;
+    gchar *title, *choice;
+    if (scm_is_string (text))
+    {
+      title = scm_to_locale_string (text);
+    }
+    else
+    title = strdup (_("Choose Font"));  
+    choice = select_font (title);
+    if(choice)
+        ret = scm_from_locale_string (choice);
+    g_free(choice);
+    return ret;
+}
+
 SCM
 scheme_warningdialog (SCM msg)
 {

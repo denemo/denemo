@@ -275,6 +275,7 @@ create_scheme_identfiers (void)
 
   install_scm_function (4, "Takes up to three strings, title, prompt and initial value. Shows these to the user and returns the user's string. Fourth parameter makes the dialog not block waiting for input", DENEMO_SCHEME_PREFIX "GetUserInput", scheme_get_user_input);
   install_scm_function (4, "Takes up to three strings, title, prompt and initial value. Shows these to the user with a text editor for the user to return a string. Buttons are present to insert snippets which are bracketed with secion characters in the return string. Fourth parameter makes the dialog not block waiting for input", DENEMO_SCHEME_PREFIX "GetUserInputWithSnippets", scheme_get_user_input_with_snippets);
+  install_scm_function (0, "Allows the user to select a font returns a string describing the font. Takes an optional title.", DENEMO_SCHEME_PREFIX "SelectFont", scheme_select_font);
   install_scm_function (0, "Takes a message as a string. Pops up the message for the user to take note of as a warning", DENEMO_SCHEME_PREFIX "WarningDialog", scheme_warningdialog);
   install_scm_function (0, "Takes a message as a string. Pops up the message for the user to take note of as a informative message", DENEMO_SCHEME_PREFIX "InfoDialog", scheme_infodialog);
   install_scm_function (0, "Takes a message as a string. Pops up the message inside of a pulsing progressbar", DENEMO_SCHEME_PREFIX "ProgressBar", scheme_progressbar);
