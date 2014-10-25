@@ -484,7 +484,7 @@ output_figured_bass (GString * figures, chord * pchord)
     {
       if (!continuation)
         {
-          figures = g_string_append (figures, " \\set Staff.useBassFigureExtenders = ##t ");
+          figures = g_string_append (figures, " \\bassFigureExtendersOn ");
           continuation = TRUE;
         }
       if (last_figure->len)
@@ -528,7 +528,7 @@ output_figured_bass (GString * figures, chord * pchord)
       APPEND_DUR (figures, duration, numdots);
       if (continuation_finishing)
         {
-          figures = g_string_append (figures, "\\set Staff.useBassFigureExtenders = ##f ");
+          figures = g_string_append (figures, "\\bassFigureExtendersOff ");
           continuation = FALSE;
         }
       break;
