@@ -74,7 +74,7 @@ system-system-spacing =
 (padding . 2))\n")
                                     (set! stag "LeftMargin")
                                     (d-DirectivePut-paper-data stag 0.1)
-                                    (d-DirectivePut-paper-postfix stag "left-margin=0.01\\cm\n")
+                                    (d-DirectivePut-paper-postfix stag "left-margin=0.07\\cm\n")
                                     (set! stag "RightMargin")
                                     (d-DirectivePut-paper-data stag 0.1)
                                     (d-DirectivePut-paper-postfix stag "right-margin=0.01\\cm\n")
