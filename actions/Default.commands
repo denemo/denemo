@@ -7029,6 +7029,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Insert Graphic</_label>
         <_tooltip>Inserts a graphic in the music. This should be created as an encapsulated postscript file.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>SetFonts</action>
+        <after>SetMargin</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Set Fonts</_label>
+        <_tooltip>Select the default fonts used for titles, chord names etc. for the whole score.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
