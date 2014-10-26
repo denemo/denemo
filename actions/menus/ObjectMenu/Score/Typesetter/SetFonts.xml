@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SetFonts</action>
+        <after>SetMargin</after>
+        <_label>Set Fonts</_label>
+        <_tooltip>Select the default fonts used for titles, chord names etc. for the whole score.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
