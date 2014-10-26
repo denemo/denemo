@@ -3583,9 +3583,9 @@ static gchar *select_font(gchar *title)
 
   GtkWidget *dialog = 
 #if GTK_MAJOR_VERSION == 2 
-  gtk_font_selection_dialog_new(_("Select Font"));
+  gtk_font_selection_dialog_new(title);
 #else
-  gtk_font_chooser_dialog_new (_("Select Font"), NULL);
+  gtk_font_chooser_dialog_new (title, NULL);
 #endif
   result = gtk_dialog_run(GTK_DIALOG(dialog));
 
@@ -3593,9 +3593,9 @@ static gchar *select_font(gchar *title)
 #if GTK_MAJOR_VERSION == 2
     fontname = gtk_font_selection_dialog_get_font_name(
                             GTK_FONT_SELECTION_DIALOG(dialog));
-    fontname = string_dialog_entry (Denemo.project, _("Select Font"), _("Please delete the font size and bold/italic indications,\nleaving just the font family name."), fontname);
+    fontname = string_dialog_entry (Denemo.project, title, _("Please delete the font size and bold/italic indications,\nleaving just the font family name."), fontname);
 #else
-    fontname = g_strdup(pango_font_family_get_name (gtk_font_chooser_get_font_family (dialog)));
+    fontname = g_strdup(pango_font_family_get_name (gtk_font_chooser_get_font_family (GTK_FONT_CHOOSER(dialog))));
                          
                          
 #endif
@@ -3620,15 +3620,19 @@ scheme_select_font (SCM text)
     g_free(choice);
     return ret;
 }
+
+#define GDOUBLE_TO_POINTER(x) (GINT_TO_POINTER((gint)(10000*x)))
+#define GPOINTER_TO_DOUBLE(x) (GPOINTER_TO_INT(x)/10000.0)
+
 static GList *select_color (gchar *title)
 {
   GtkResponseType result;
   GList *ret = NULL;
   GtkWidget *dialog = 
 #if GTK_MAJOR_VERSION == 2 
-  gtk_color_selection_dialog_new(_("Select Color"));
+  gtk_color_selection_dialog_new(title);
 #else
-  gtk_color_chooser_dialog_new (_("Select Color"), NULL);
+  gtk_color_chooser_dialog_new (title, NULL);
 #endif
   result = gtk_dialog_run(GTK_DIALOG(dialog));
 
@@ -3638,16 +3642,16 @@ static GList *select_color (gchar *title)
     GdkColor color;
     GtkColorSelection *colorsel = gtk_color_selection_dialog_get_color_selection (dialog);
     gtk_color_selection_get_current_color (colorsel, &color);
-    ret = g_list_append (ret, GINT_TO_POINTER (color.red>>8));
-    ret = g_list_append (ret, GINT_TO_POINTER (color.red>>8));
-    ret = g_list_append (ret, GINT_TO_POINTER (color.red>>8));
+    ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.red/65535.0));
+    ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.green/65535.0));
+    ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.blue/65535.0));
 
 #else
     GdkRGBA color;
-    gtk_color_chooser_get_rgba (dialog, &color);                    
-    ret = g_list_append (ret, GINT_TO_POINTER (255*color.red));
-    ret = g_list_append (ret, GINT_TO_POINTER (255*color.green));
-    ret = g_list_append (ret, GINT_TO_POINTER (255*color.blue));
+    gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER(dialog), &color);                    
+    ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.red));
+    ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.green));
+    ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.blue));
 #endif
   }
   gtk_widget_destroy(dialog);
@@ -3669,7 +3673,7 @@ scheme_select_color (SCM text)
     list = select_color (title);
     if(list)
         {
-            ret = scm_list_n (scm_from_int (GPOINTER_TO_INT(list->data)), scm_from_int (GPOINTER_TO_INT(list->next->data)), scm_from_int (GPOINTER_TO_INT(list->next->next->data)), SCM_UNDEFINED);
+            ret = scm_list_n (scm_from_double (GPOINTER_TO_DOUBLE(list->data)), scm_from_double (GPOINTER_TO_DOUBLE(list->next->data)), scm_from_double (GPOINTER_TO_DOUBLE(list->next->next->data)), SCM_UNDEFINED);
             g_list_free(list);
         }
     return ret;
