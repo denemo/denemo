@@ -185,6 +185,7 @@ SCM scheme_activate_palette_button (void);
 SCM scheme_get_user_input (SCM label, SCM prompt, SCM init, SCM modal);
 SCM scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal);
 SCM scheme_select_font (SCM);
+SCM scheme_select_color (SCM);
 SCM scheme_warningdialog (SCM);
 SCM scheme_infodialog (SCM);
 SCM scheme_progressbar (SCM);

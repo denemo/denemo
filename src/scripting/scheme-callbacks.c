@@ -3620,6 +3620,60 @@ scheme_select_font (SCM text)
     g_free(choice);
     return ret;
 }
+static GList *select_color (gchar *title)
+{
+  GtkResponseType result;
+  GList *ret = NULL;
+  GtkWidget *dialog = 
+#if GTK_MAJOR_VERSION == 2 
+  gtk_color_selection_dialog_new(_("Select Color"));
+#else
+  gtk_color_chooser_dialog_new (_("Select Color"), NULL);
+#endif
+  result = gtk_dialog_run(GTK_DIALOG(dialog));
+
+  if (result == GTK_RESPONSE_OK || result == GTK_RESPONSE_APPLY)
+  {
+#if GTK_MAJOR_VERSION == 2
+    GdkColor color;
+    GtkColorSelection *colorsel = gtk_color_selection_dialog_get_color_selection (dialog);
+    gtk_color_selection_get_current_color (colorsel, &color);
+    ret = g_list_append (ret, GINT_TO_POINTER (color.red>>8));
+    ret = g_list_append (ret, GINT_TO_POINTER (color.red>>8));
+    ret = g_list_append (ret, GINT_TO_POINTER (color.red>>8));
+
+#else
+    GdkRGBA color;
+    gtk_color_chooser_get_rgba (dialog, &color);                    
+    ret = g_list_append (ret, GINT_TO_POINTER (255*color.red));
+    ret = g_list_append (ret, GINT_TO_POINTER (255*color.green));
+    ret = g_list_append (ret, GINT_TO_POINTER (255*color.blue));
+#endif
+  }
+  gtk_widget_destroy(dialog);
+  return ret;
+}
+
+SCM
+scheme_select_color (SCM text)
+{
+    SCM ret = SCM_BOOL_F;
+    gchar *title;
+    GList *list;
+    if (scm_is_string (text))
+    {
+      title = scm_to_locale_string (text);
+    }
+    else
+    title = strdup (_("Choose Font"));  
+    list = select_color (title);
+    if(list)
+        {
+            ret = scm_list_n (scm_from_int (GPOINTER_TO_INT(list->data)), scm_from_int (GPOINTER_TO_INT(list->next->data)), scm_from_int (GPOINTER_TO_INT(list->next->next->data)), SCM_UNDEFINED);
+            g_list_free(list);
+        }
+    return ret;
+}
 
 SCM
 scheme_warningdialog (SCM msg)
