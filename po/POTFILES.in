@@ -803,6 +803,8 @@ actions/menus/ObjectMenu/Directives/PrintLayout/StaffSpacer.scm
 actions/menus/ObjectMenu/Directives/PrintLayout/StaffSpacer.xml
 actions/menus/ObjectMenu/Directives/Typesetter/AutoAccidentals.scm
 actions/menus/ObjectMenu/Directives/Typesetter/AutoAccidentals.xml
+actions/menus/ObjectMenu/Directives/Typesetter/ChordSymbols/ColorChordSymbol.scm
+actions/menus/ObjectMenu/Directives/Typesetter/ChordSymbols/ColorChordSymbol.xml
 actions/menus/ObjectMenu/Directives/Typesetter/DynamicUp.scm
 actions/menus/ObjectMenu/Directives/Typesetter/DynamicUp.xml
 actions/menus/ObjectMenu/Directives/Typesetter/HideNotes.scm
