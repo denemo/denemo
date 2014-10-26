@@ -3590,11 +3590,14 @@ static gchar *select_font(gchar *title)
   result = gtk_dialog_run(GTK_DIALOG(dialog));
 
   if (result == GTK_RESPONSE_OK || result == GTK_RESPONSE_APPLY)
-#if GTK_MAJOR_VERSION == 2 
+#if GTK_MAJOR_VERSION == 2
     fontname = gtk_font_selection_dialog_get_font_name(
                             GTK_FONT_SELECTION_DIALOG(dialog));
+    fontname = string_dialog_entry (Denemo.project, _("Select Font"), _("Please delete the font size and bold/italic indications,\nleaving just the font family name."), fontname);
 #else
-    fontname = gtk_font_chooser_get_font (dialog);
+    fontname = g_strdup(pango_font_family_get_name (gtk_font_chooser_get_font_family (dialog)));
+                         
+                         
 #endif
   gtk_widget_destroy(dialog);
   return fontname;
