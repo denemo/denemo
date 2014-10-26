@@ -1089,6 +1089,11 @@ copy_pdf (void)
                                                     GTK_RESPONSE_REJECT,
                                                     GTK_STOCK_SAVE,
                                                     GTK_RESPONSE_ACCEPT, NULL);
+  GtkFileFilter *filter = gtk_file_filter_new();
+  gtk_file_filter_set_name (filter, _("PDF files"));
+  gtk_file_filter_add_pattern (filter, "*.pdf");
+  gtk_file_filter_add_pattern (filter, "*.PDF");
+  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER(chooser), filter);
   gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (chooser), outpath);
   gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (chooser), outname);
   gtk_widget_show_all (chooser);
