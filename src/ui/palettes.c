@@ -297,7 +297,13 @@ static void copy_button (GtkWidget *button) {
         palette_add_button (pal, label, tooltip, script);
     }
 }
-
+static void duplicate_button (GtkWidget *button) {
+    DenemoPalette *pal = g_object_get_data (G_OBJECT(button), "palette");
+    gchar *tooltip =  gtk_widget_get_tooltip_text (button);
+    gchar *label = _("Duplicate Button");
+    gchar *script = g_object_get_data (G_OBJECT(button), "script");
+    palette_add_button (pal, label, tooltip, script);
+}
 static void popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
   GtkWidget *menu = gtk_menu_new ();
   GtkWidget *item;
@@ -318,6 +324,11 @@ static void popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
   gtk_widget_set_tooltip_text (item, _("Copy this button to another palette"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (copy_button), (gpointer) button);
+  
+  item = gtk_menu_item_new_with_label (_("Duplicate this button"));
+  gtk_widget_set_tooltip_text (item, _("Create a new button with the same effect"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (duplicate_button), (gpointer) button); 
   
   item = gtk_menu_item_new_with_label (_("Remove from Palette"));
   gtk_widget_set_tooltip_text (item, _("Remove this button from this palette"));
