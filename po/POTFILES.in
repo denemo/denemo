@@ -704,6 +704,8 @@ actions/menus/ObjectMenu/Directives/Markings/FreeFermata.scm
 actions/menus/ObjectMenu/Directives/Markings/FreeFermata.xml
 actions/menus/ObjectMenu/Directives/Markings/FreeSegno.scm
 actions/menus/ObjectMenu/Directives/Markings/FreeSegno.xml
+actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm
+actions/menus/ObjectMenu/Directives/Markings/FretDiagram.xml
 actions/menus/ObjectMenu/Directives/Markings/InsertGraphic.scm
 actions/menus/ObjectMenu/Directives/Markings/InsertGraphic.xml
 actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm

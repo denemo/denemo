@@ -8,7 +8,7 @@
         <action>FretDiagram</action>
         <after>InsertGraphic</after>
         <_label>Fret Diagram</_label>
-        <_tooltip>Creates a dialog for you to enter\na description of the fret diagram\nto be typeset at the cursor position.</_tooltip>
+        <_tooltip>Creates a dialog for you to enter a description of the fret diagram to be typeset at the cursor position.</_tooltip>
       </row>
     </map>
   </merge>
