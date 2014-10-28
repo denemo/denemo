@@ -52,9 +52,9 @@
             (set! strings (assq-ref data 'strings))))
             
     (if (equal? "edit" params)
-        (let ((choice (RadioBoxMenu (cons (_ "Edit Fret Diagram") #f) (cons (_ "Edit Space Occupied") 'space) (cons (_ "Edit Position") 'position))))
-            (set! params #f)
-            (case choice
+        (begin
+            (set! params (RadioBoxMenu (cons (_ "Edit Fret Diagram") #f) (cons (_ "Edit Space Occupied") 'space) (cons (_ "Edit Position") 'position)))
+            (case params
                 ((space) 
                     (begin
                         (set! dimensions (d-GetUserInput (_ "Space Occupied by Text/Music") (_ "Give space:\n(0 prevents dragging position\nBlank for natural size.)") dimensions))
@@ -69,7 +69,7 @@
                             (set! x-offset #f)
                             (set! y-offset #f)))))))        
             
-    (if params
+    (if (list params)
         (begin
             (if (assq-ref params 'number-of-strings)
                   (set! number-of-strings (assq-ref params 'number-of-strings)))
