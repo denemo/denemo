@@ -33,7 +33,7 @@
 
     (if (not scale)
         (set! scale "1"))
-    (if current
+    (if (and  (d-Directive-standalone? tag) current)
         (set! prefix (d-DirectiveGet-standalone-prefix tag)))
     (if (equal? "edit" params)
         (let ((choice (RadioBoxMenu (cons (_ "Edit Text") #f) 
