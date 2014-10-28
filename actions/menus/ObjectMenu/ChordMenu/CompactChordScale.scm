@@ -1,15 +1,25 @@
 ;;;CompactChordScale
-(let* ((tag "CompactChordScale")(scalex "2.0") (scaley "2.0") (data  (d-DirectiveGet-standalone-data tag)))
+(let* ((tag "CompactChordScale")(params CompactChordScale::params)(scalex "2.0") (scaley "2.0") (data  (d-DirectiveGet-standalone-data tag)))
     (if data
         (begin
             (d-DirectiveDelete-standalone tag)
             (set! data (eval-string data))
             (set! scalex (car data))
             (set! scaley (cdr data))))
-    (set! scalex (d-GetUserInput (_ "Chord Symbol Scale") (_ "Give horizontal scaling for next chord") scalex))
+     (if (equal? params "edit")
+     	(set! params #f))
+    (if params
+    	(begin
+    		(set! scalex (number->string (car params)))
+    		(set! scaley (number->string (cdr params)))
+    		(set! params 'finished)))
+    (if (not params)	
+    	(set! scalex (d-GetUserInput (_ "Chord Symbol Scale") (_ "Give horizontal scaling for next chord") scalex)))
+    	
         (if scalex
             (begin
-                (set! scaley (d-GetUserInput (_ "Chord Symbol Scale") (_ "Give vertical scaling for next chord") scaley))
+            	(if (not params)
+                	(set! scaley (d-GetUserInput (_ "Chord Symbol Scale") (_ "Give vertical scaling for next chord") scaley)))
                 (if scaley 
                     (begin
                         (d-DirectivePut-standalone tag)
