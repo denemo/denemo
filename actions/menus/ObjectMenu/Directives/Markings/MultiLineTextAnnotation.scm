@@ -22,12 +22,12 @@
     (if current
         (set! prefix (d-DirectiveGet-standalone-prefix tag)))
     (if (equal? "edit" params)
-        (let ((choice (RadioBoxMenu (cons (_ "Edit Space Occupied") 'space) (cons (_ "Edit Position") 'position))))
+        (let ((choice (RadioBoxMenu (cons (_ "Edit Text") #f) (cons (_ "Edit Space Occupied") 'space) (cons (_ "Edit Position") 'position))))
             (case choice
                 ((space) 
                     (begin
                         (set! dim (d-GetUserInput (_ "Space Occupied by Text/Music") (_ "Give space:\n(0 prevents dragging position\nBlank for natural size.)") dim)))
-                        (if (and dim (string->number dim)) (< (string->number dim) 0)
+                        (if (not (and dim (string->number dim) (>= (string->number dim) 0)))
                                     (set! dim #f)))
                 ((position) 
                     (set! x-offset (d-GetUserInput (_ "Offsets")  (_ "Give horizontal displacement required") x-offset))
