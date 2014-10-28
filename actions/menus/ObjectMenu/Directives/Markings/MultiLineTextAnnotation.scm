@@ -16,16 +16,36 @@
     (set! scale (assq-ref data 'scale))
     (set! x-offset (assq-ref data 'x-offset))
     (set! y-offset (assq-ref data 'y-offset))
+    
+    (if (list? params)
+    	(begin
+    		(if  (assq-ref params 'dimensions)
+    			(set! dim  (assq-ref params 'dimensions)))
+   		(if  (assq-ref params 'text)
+    			(set! current  (assq-ref params 'text)))
+   		(if  (assq-ref params 'scale)
+    			(set! scale  (assq-ref params 'scale)))      			   
+   		(if  (assq-ref params 'x-offset)
+    			(set! x-offset  (assq-ref params 'x-offset)))      			   
+   		(if  (assq-ref params 'y-offset)
+    			(set! y-offset  (assq-ref params 'y-offset)))
+    			(set! params 'finished)))  			   
 
     (if (not scale)
         (set! scale "1"))
     (if current
         (set! prefix (d-DirectiveGet-standalone-prefix tag)))
     (if (equal? "edit" params)
-        (let ((choice (RadioBoxMenu (cons (_ "Edit Text") #f) (cons (_ "Edit Space Occupied") 'space) (cons (_ "Edit Position") 'position))))
+        (let ((choice (RadioBoxMenu (cons (_ "Edit Text") #f) 
+        (cons (_ "Edit Space Occupied") 'space)
+        (cons (_ "Edit Size") 'scale)
+         (cons (_ "Edit Position") 'position))))
             (case choice
+              ((scale) 
+              	(set! params #f))
                 ((space) 
                     (begin
+                    	(set! params #f)
                         (set! dim (d-GetUserInput (_ "Space Occupied by Text/Music") (_ "Give space:\n(0 prevents dragging position\nBlank for natural size.)") dim)))
                         (if (not (and dim (string->number dim) (>= (string->number dim) 0)))
                                     (set! dim #f)))
@@ -52,10 +72,11 @@
     (if (not dimensions)
                 (set! dimensions ""))
     (if (not text)
-        (set! text (d-GetUserInputWithSnippets (_ "Text") (_ "Give text to appear with following note/chord:\nThe characters \\, \", §, { and } have a special meaning in the text,\nthe backslash \\ starts some LilyPond sytax, the others must be paired.\nTo apply italic or bold to a group of words enclose them in {}, e.g. \\bold {These words are bold}.\nOther markup commands \\super, \\tiny etc, see LilyPond documentation.") current)));;cannot popup menu after this, it runs gtk_main
+        (set! text (d-GetUserInputWithSnippets (_ "Text") (_ "Give text to appear with following note/chord:\nThe characters \\, \", §, { and } have a special meaning in the text,\nthe backslash \\ starts some LilyPond sytax, the others must be paired.\nTo apply italic or bold to a group of words enclose them in {}, e.g. \\bold {These words are bold}.\nOther markup commands \\super, \\tiny etc, see LilyPond documentation.") current)))
     (if text 
        (begin
-            (set! scale (d-GetUserInput (_ "Scaling Text") (_ "Give text size: ") scale))
+       	   (if (not params)
+           	 (set! scale (d-GetUserInput (_ "Scaling Text") (_ "Give text size: ") scale)))
             (if (not scale) 
                 (set! scale "0.5"))
             (set! markup (cdr text))
@@ -65,8 +86,7 @@
             (if dim 
                 (set! data (assq-set! data 'dimensions dim))
                 (set! data (assq-remove! data 'dimensions)))
-               
-                
+ 
             (if x-offset
              (set! data (assq-set! data 'x-offset x-offset)))
             (if y-offset
