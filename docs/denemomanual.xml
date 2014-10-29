@@ -247,6 +247,15 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
       <listitem>
         TAB alternately inserts a start or stop triplet marker.
       </listitem>  
+      <listitem>
+        Multiply (on the numeric keypad) ties/unties the note at the cursor.
+      </listitem>  
+      <listitem>
+        Divide (on the numeric keypad) sets/usets the note at the cursor as a grace note.
+      </listitem>  
+      <listitem>
+        Add/Subtract (on the numeric keypad) sharpens/flattens the note at the cursor.
+      </listitem>  
     </itemizedlist>
 </para>
  </sect2>
@@ -264,22 +273,24 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
       Control Key and Scroll Wheel zooms.
       </listitem>
       <listitem>
-      Control-Shift Key and Right mouse button drags non-music items such as rehearsal marks, double barlines in the display. Use this if Denemo has not placed them nicely. The typesetting is not affected.
+        Right-button click edits at the cursor.
+      </listitem>      
+     <listitem>
+        Shift-right-button click edits things attached to the object at the cursor.
+      </listitem>      
+
+      <listitem>
+        Double click left-button describes the object clicked on.
+      </listitem>      
+      <listitem>
+        Ctrl-Shift left-button drag allow you to move stuff in the display if it is cluttered. Typesettting is not affected.
+      </listitem>      
+      <listitem>
+      Control-Shift Key and Right mouse button gives the menu of directives to insert at the cursor.
       </listitem>
       <listitem>
       Shift Key and Left mouse button drags notes up and down.
       </listitem>
-
-      <listitem>
-        Double left-button click describes the object clicked on.
-      </listitem>      
-     <listitem>
-        right-button click edits the object at the cursor (with Shift advanced edit).
-      </listitem>      
-            
-      <listitem>
-        Ctrl-Shift left-button drag allow you to move stuff in the display if it is cluttered.
-      </listitem>      
   
     </itemizedlist>
 </para>
@@ -294,7 +305,6 @@ If the interval between the notes played is augmented or diminished it is played
 alerted to possible pitch spelling errors (e.g. inputting A-sharp for B-flat). By holding down the Control key a score can be checked by playing the notes - the cursor only advances if the right note is played, and the Shift key can be held down to route the MIDI keyboard straight to the output (e.g. to check a phrase before playing it in). There is a button in the MIDI-in Controls to do this too. The Pitch Bend controller can be used to set the range of sharps and flats to be used, and the modulation controller can be used to mark sections of the music. With the MIDI controller set as Input source (Input menu) the duration keys create pure durations (notes colored yellow/brown) - you can enter as much of the rhythm as you wish, and then play the notes on top.
 </para>
  </sect2>
-
     <para>Denemo is used via the computer keyboard, MIDI controller or playing in via a musical instrument. Quite a few mouse operations are also included by default. Clicking on the score will select items, and the status bar at the bottom will describe the item clicked. Right-clicking on items in the score allows you to edit any special attributes, (called Directives, see <xref linkend="DenemoDirectives" />), that they may have. Clicking on the initial clef, key or timesignature lets you edit these, clicking to the right or left of the measures visible moves you forwards and backwards in the score.  Selections can be made by dragging with the mouse from one note to another. And right-clicking any menu item gets help and the opportunity to set a shortcuts for the menu item. Furthermore, scripts are available in the menu system that give the mouse further uses.</para>
  </sect1>
   <sect1>
