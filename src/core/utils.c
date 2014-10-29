@@ -1740,9 +1740,19 @@ display_current_object (void)
                 if (thechord->slur_end_p)
                   selection = g_string_append (selection, _("A slur ends here\n" "There should be a matching start slur earlier.\n"));
                 if (thechord->is_tied)
-                  selection = g_string_append (selection, _("This is tied to the following note or chord.\n" "The following note or chord should have the same pitch"));
+                  selection = g_string_append (selection, _("This is tied to the following note or chord.\n" "The following note or chord should have the same pitch\n"));
+                 if (thechord->crescendo_begin_p)
+                  selection = g_string_append (selection, _("This note begins a crescendo. Use the Right Click->Dynamics menu to control this.\n"));
+                 if (thechord->crescendo_end_p)
+                  selection = g_string_append (selection, _("This note ends a crescendo. Use the Right Click->Dynamics menu to control this.\n"));
+                if (thechord->diminuendo_begin_p)
+                  selection = g_string_append (selection, _("This note begins a diminuendo. Use the Right Click->Dynamics menu to control this.\n"));
+                 if (thechord->diminuendo_end_p)
+                  selection = g_string_append (selection, _("This note ends a diminuendo. Use the Right Click->Dynamics menu to control this.\n"));
+                  
                 if (thechord->is_grace && !(thechord->is_grace & GRACED_NOTE))
-                  selection = g_string_append (selection, _("This is an acciaccatura note\n"));
+                  selection = g_string_append (selection, _("This is an acciaccatura note\n"));    
+                  
                 if (thechord->is_grace & GRACED_NOTE)
                   selection = g_string_append (selection, _("This is an appoggiatura note\n"));
                 if (curObj->isinvisible)
