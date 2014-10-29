@@ -994,6 +994,8 @@ actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/Section.scm
 actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/Section.xml
 actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/TitledPiece.scm
 actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/TitledPiece.xml
+actions/menus/ObjectMenu/MovementMenu/Titles/InsertSpaceBeforeMovement.scm
+actions/menus/ObjectMenu/MovementMenu/Titles/InsertSpaceBeforeMovement.xml
 actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm
 actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.xml
 actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementComposer.scm
