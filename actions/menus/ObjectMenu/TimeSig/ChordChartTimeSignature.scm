@@ -6,7 +6,7 @@
             (d-Directive-standalone tag)
             (d-DirectivePut-standalone-prefix tag "<>")
             (d-DirectivePut-standalone-postfix tag (string-append "^\\markup\\with-dimensions #'(-0 . 1) #'(-0 . 1)
-{\\scale #'(1.5 . 1.8) \\column{\\bold "numerator" \\raise #2 \\bold "denominator"}}\n"))
+{\\scale #'(1.5 . 1.8) \\column{\\bold "numerator" \\raise #2 \\bold "denominator"}}\n\\once \\override ChordName.extra-offset =#'(2 . -2.5)\n"))
            ; (d-DirectivePut-standalone-data tag "(list (cons 'x-offset \"-3\") (cons 'y-offset \"-8\"))")
             (d-DirectivePut-standalone-graphic tag (string-append "\n"numerator"/"denominator"\nDenemo\n24"))
             (d-DirectivePut-standalone-minpixels tag 50)
