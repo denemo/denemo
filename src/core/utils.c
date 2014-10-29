@@ -1742,13 +1742,13 @@ display_current_object (void)
                 if (thechord->is_tied)
                   selection = g_string_append (selection, _("This is tied to the following note or chord.\n" "The following note or chord should have the same pitch\n"));
                  if (thechord->crescendo_begin_p)
-                  selection = g_string_append (selection, _("This note begins a crescendo. Use the Right Click->Dynamics menu to control this.\n"));
+                  selection = g_string_append (selection, _("This note begins a crescendo. Use the Right Click → Dynamics menu to control this.\n"));
                  if (thechord->crescendo_end_p)
-                  selection = g_string_append (selection, _("This note ends a crescendo. Use the Right Click->Dynamics menu to control this.\n"));
+                  selection = g_string_append (selection, _("This note ends a crescendo. Use the Right Click → Dynamics menu to control this.\n"));
                 if (thechord->diminuendo_begin_p)
-                  selection = g_string_append (selection, _("This note begins a diminuendo. Use the Right Click->Dynamics menu to control this.\n"));
+                  selection = g_string_append (selection, _("This note begins a diminuendo. Use the Right Click → Dynamics menu to control this.\n"));
                  if (thechord->diminuendo_end_p)
-                  selection = g_string_append (selection, _("This note ends a diminuendo. Use the Right Click->Dynamics menu to control this.\n"));
+                  selection = g_string_append (selection, _("This note ends a diminuendo. Use the Right Click → Dynamics menu to control this.\n"));
                   
                 if (thechord->is_grace && !(thechord->is_grace & GRACED_NOTE))
                   selection = g_string_append (selection, _("This is an acciaccatura note\n"));    
@@ -1781,11 +1781,11 @@ display_current_object (void)
               {
                 selection = g_string_append (selection, _("a rest.\n"));
                 if (thechord->slur_begin_p)
-                  warning = g_string_append (warning, _("This rest has a slur start on it, use the Notes/Rests → Slurs menu to remove it"));
+                  warning = g_string_append (warning, _("This rest has a slur start on it, use the Right Click  → Slurs menu to remove it\n"));
                 if (thechord->slur_end_p)
-                  warning = g_string_append (warning, _("This rest has a slur end on it, use the Notes/Rests → Slurs menu to remove it"));
+                  warning = g_string_append (warning, _("This rest has a slur end on it, use the Right Click → Slurs menu to remove it\n"));
                 if (thechord->is_tied)
-                  warning = g_string_append (warning, _("This rest has a tie starting on it, use the Notes/Rests → Ties menu to remove it"));
+                  warning = g_string_append (warning, _("This rest has a tie starting on it, use the Right Click  → Tied Note to remove it\n"));
 
                   
                 if (curObj->isinvisible)
