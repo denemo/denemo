@@ -2507,7 +2507,7 @@ toggle_tie (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * 
   DenemoProject *gui = Denemo.project;
   DenemoMovement *si = gui->movement;
   DenemoObject *curmudelaobj = (DenemoObject *) (gui->movement->currentobject ? gui->movement->currentobject->data : NULL);
-  if (curmudelaobj && curmudelaobj->type == CHORD && ((chord *) curmudelaobj->object)->notes)
+  if (curmudelaobj && curmudelaobj->type == CHORD && ((((chord *) curmudelaobj->object)->notes) ||  ((chord *) curmudelaobj->object)->is_tied))
     {
       store_for_undo_change (si, curmudelaobj);
       ((chord *) curmudelaobj->object)->is_tied ^= 1;
