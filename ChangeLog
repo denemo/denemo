@@ -1,3 +1,42 @@
+2014-10-31 Release 1.2.0
+        Palette Shortcuts
+            Execute Palette Commands from Keyboard
+            Label is typed in
+            Label truncation allowed
+            Switch active palette
+            Works even on hidden palettes
+        Automatic Cues
+            Install Reference to Cued Part
+            Automatically detects difference in clef
+            Changes are automatically reflected in cue
+        Fret Diagrams
+            Can be placed in any score
+            Can be embedded in text
+            Can be re-positioned by dragging
+        Accidental Styles
+            16 styles available
+            Apply across entire score
+        Lyrics Improvements
+            Choose Font Face
+            Choose Font Size
+        Chord Chart Improvements
+            Interface for Customized Chord Symbols
+            Page size and measures per line control
+            One-off arbitrary chord symbol creation
+            Tailored shortcuts for fast keyboard entry.
+        MIDI information on double-click
+            Timing information
+            Volume (velocity) information.
+        Default Font Faces
+            Choose from system installed fonts
+            Titles, Lyrics etc
+            Chord Names and other sans serif text
+            Mono-spaced font
+        General Improvements
+            More checks for user errors
+            Better flow of notes into new measures.
+
+
 2014-07-15 Release 1.1.8
 Spanners
 
