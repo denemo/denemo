@@ -8,7 +8,7 @@
         <action>ArtificialHarmonic</action>
         <after>ChangeNotehead</after>
         <_label>Artificial Harmonic</_label>
-        <_tooltip>Places a diamond shape notehead at the interval given above the cursor.</_tooltip>
+        <_tooltip>Places a diamond shape notehead at the cursor. Invoke this command with the cursor above the note to be fingered/fretted to notate an artificial harmonic.</_tooltip>
       </row>
     </map>
   </merge>
