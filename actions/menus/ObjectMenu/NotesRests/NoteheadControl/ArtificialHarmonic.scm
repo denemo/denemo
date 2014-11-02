@@ -27,7 +27,7 @@
 		(if (Singlenote?)
 			  (begin
 			  	 (d-AddNoteToChord)
-				  (d-DirectivePut-note-postfix tag "\\harmonic")
+				  (d-DirectivePut-note-postfix tag "\\harmonic ")
 				  (d-DirectivePut-note-override tag DENEMO_OVERRIDE_GRAPHIC)
 				  (d-DirectivePut-note-gx tag -10)
 				  (d-DirectivePut-note-graphic tag "\n\nemmentaler\n36"))))))
