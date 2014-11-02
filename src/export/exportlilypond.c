@@ -1167,7 +1167,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                           case DENEMO_NORMAL_NOTEHEAD:
                             if (!is_normalnotehead)
                               {
-                                g_string_append_printf (ret, "\n" TAB "\\revert NoteHead #'style ");
+                               // g_string_append_printf (ret, "\n" TAB "\\revert NoteHead #'style ");
                                 is_normalnotehead = !is_normalnotehead;
                               }
                             break;
