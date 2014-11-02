@@ -1404,6 +1404,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleSegno.scm
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleSegno.xml
 actions/menus/ObjectMenu/NotesRests/MIDI/InsertMarkedMidi.scm
 actions/menus/ObjectMenu/NotesRests/MIDI/InsertMarkedMidi.xml
+actions/menus/ObjectMenu/NotesRests/NoteheadControl/ArtificialHarmonic.scm
+actions/menus/ObjectMenu/NotesRests/NoteheadControl/ArtificialHarmonic.xml
 actions/menus/ObjectMenu/NotesRests/NoteheadControl/IndividualNoteheadSize.scm
 actions/menus/ObjectMenu/NotesRests/NoteheadControl/IndividualNoteheadSize.xml
 actions/menus/ObjectMenu/NotesRests/NoteheadControl/NeoMensuralNotehead.scm
@@ -1728,6 +1730,8 @@ actions/menus/ObjectMenu/StaffMenu/CreateCuesForStaff.scm
 actions/menus/ObjectMenu/StaffMenu/CreateCuesForStaff.xml
 actions/menus/ObjectMenu/StaffMenu/CrossStaffArpeggio.scm
 actions/menus/ObjectMenu/StaffMenu/CrossStaffArpeggio.xml
+actions/menus/ObjectMenu/StaffMenu/DeleteFromCursorToEnd.scm
+actions/menus/ObjectMenu/StaffMenu/DeleteFromCursorToEnd.xml
 actions/menus/ObjectMenu/StaffMenu/FillEmptyMeasures.scm
 actions/menus/ObjectMenu/StaffMenu/FillEmptyMeasures.xml
 actions/menus/ObjectMenu/StaffMenu/FixSlursInStaff.scm

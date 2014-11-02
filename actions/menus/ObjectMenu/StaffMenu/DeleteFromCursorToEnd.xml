@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>DeleteFromCursorToEnd</action>
+        <after>StaffDeleteEmptyMeasures</after>
+        <_label>Delete Measures From Cursor</_label>
+        <_tooltip>Deletes all measures from the cursor to the end, either in one or all staffs.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

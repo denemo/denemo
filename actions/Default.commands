@@ -7057,6 +7057,20 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Space Above</_label>
         <_tooltip>Inserts blank space above the movement.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>DeleteFromCursorToEnd</action>
+        <after>StaffDeleteEmptyMeasures</after>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <_label>Delete Measures From Cursor</_label>
+        <_tooltip>Deletes all measures from the cursor to the end, either in one or all staffs.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ArtificialHarmonic</action>
+        <after>ChangeNotehead</after>
+        <menupath>/ObjectMenu/NotesRests/NoteheadControl</menupath>
+        <_label>Artificial Harmonic</_label>
+        <_tooltip>Places a diamond shape notehead at the interval given above the cursor.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
