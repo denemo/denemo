@@ -7071,6 +7071,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Artificial Harmonic</_label>
         <_tooltip>Places a diamond shape notehead at the cursor. Invoke this command with the cursor above the note to be fingered/fretted to notate an artificial harmonic.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>Caesura</action>
+        <after>BreathMark</after>
+        <menupath>/ObjectMenu/Directives/Markings</menupath>
+        <_label>Caesura</_label>
+        <_tooltip>Prints a caesura (pause) at the cursor position.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -696,6 +696,8 @@ actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm
 actions/menus/ObjectMenu/Directives/Markings/BeatChange.xml
 actions/menus/ObjectMenu/Directives/Markings/BreathMark.scm
 actions/menus/ObjectMenu/Directives/Markings/BreathMark.xml
+actions/menus/ObjectMenu/Directives/Markings/Caesura.scm
+actions/menus/ObjectMenu/Directives/Markings/Caesura.xml
 actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm
 actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.xml
 actions/menus/ObjectMenu/Directives/Markings/DynamicText.scm
