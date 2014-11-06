@@ -5,10 +5,10 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row type="scheme">
-        <after>OpenSecondTimeBar</after>
+        <after>OpenNthTimeBar</after>
         <action>EndVolta</action>
-        <_label>End 1st/2nd ... Time Bar</_label>
-        <_tooltip>Ends a volta, that is a n'th time bar</_tooltip>
+        <_label>End Volta (1st, 2nd ... Time Bar)</_label>
+        <_tooltip>Ends a volta, that is a n'th time bar; without this the opening of a first (Nth) time bar will not be printed.</_tooltip>
       </row>
     </map>
   </merge>
