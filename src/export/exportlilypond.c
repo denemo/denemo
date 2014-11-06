@@ -413,7 +413,6 @@ static void
 output_figured_bass (GString * figures, chord * pchord)
 {
   static gboolean continuation = FALSE;
-  gboolean continuation_finishing = FALSE;
   static GString *last_figure;  // for continuations
   gint duration = internaltomuduration (pchord->baseduration);
   gint numdots = pchord->numdots;
@@ -477,14 +476,11 @@ output_figured_bass (GString * figures, chord * pchord)
         }
     }
 
-
-
-
   if (*figstr == '~')
     {
       if (!continuation)
         {
-          figures = g_string_append (figures, " \\bassFigureExtendersOn ");
+          figures = g_string_append (figures, "\\bassFigureExtendersOn ");
           continuation = TRUE;
         }
       if (last_figure->len)
@@ -494,7 +490,12 @@ output_figured_bass (GString * figures, chord * pchord)
         }
     }
   else
-    figures = g_string_append (figures, "<");
+    {
+        if (continuation)
+            figures = g_string_append (figures, "\\bassFigureExtendersOff <");
+        else
+            figures = g_string_append (figures, "<");
+    }
 
   /* multiple figures are separated by a FIGURES_SEP char,
      output these at subdivisions of the duration */
@@ -515,22 +516,14 @@ output_figured_bass (GString * figures, chord * pchord)
     case 1:
       if (*figstr != '~')
         {
-
+         if (continuation)
+                  continuation = FALSE;
           figures = g_string_append (figures, figstr);
-          if (continuation)
-            {
-              continuation_finishing = TRUE;
-              figures = g_string_append (figures, " \\! ");
-            }
           g_string_assign (last_figure, figstr);
         }
       figures = g_string_append (figures, ">");
       APPEND_DUR (figures, duration, numdots);
-      if (continuation_finishing)
-        {
-          figures = g_string_append (figures, "\\bassFigureExtendersOff ");
-          continuation = FALSE;
-        }
+ 
       break;
       /* Each group of figures is assigned a duration to
          achieve a normal looking output */
