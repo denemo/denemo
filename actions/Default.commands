@@ -5073,13 +5073,7 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <_label>Insert 1st &amp; 2nd Time Bars</_label>
         <_tooltip>Inserts first and second time bars each with a whole measure rest. You can then edit this to suit your music, e.g by inserting extra bars, deleting the repeat start etc.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>EndVolta</action>
-        <after>OpenNthTimeBar</after>
-        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
-        <_label>End Volta (1st, 2nd ... Time Bar)</_label>
-        <_tooltip>Ends a volta, that is a n'th time bar; without this the opening of a first (Nth) time bar will not be printed.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>EndSecondTimeBar</action>
         <after>SecondTimeBar</after>
@@ -5476,6 +5470,13 @@ for second and subsequent systems</_tooltip>
         <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Start an Nth Time Bar</_label>
         <_tooltip>Start passage to be played on one or more of the repeats as indicated by the text given by the user (e.g. 3 for third time bar). Finish the passage by placing the End ... time bar command.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>EndVolta</action>
+        <after>OpenNthTimeBar</after>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
+        <_label>End Volta (1st, 2nd ... Time Bar)</_label>
+        <_tooltip>Ends a volta, that is a n'th time bar; without this the opening of a first (Nth) time bar will not be printed.</_tooltip>
       </row>
       <row type="scheme">
         <action>StartDownStems</action>
