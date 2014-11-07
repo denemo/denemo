@@ -2,7 +2,7 @@
 (let ((tag "InstallCue")(params InstallCue::params)(cuename #f)(clef (d-GetPrevailingClef)))
     (define (get-cuenames theclef)
         (define cuenames '())
-        (define this-movement (d-GetMovement))
+        (define this-movement (number->string (d-GetMovement)))
         (define this-staff (d-GetStaff))
         (define transpose #f)
         (if (d-Directive-score? "GlobalTranspose")
@@ -15,16 +15,17 @@
             (if (not (= this-staff (d-GetStaff)))
             (set! cuenames (cons 
                 (cons (d-StaffProperties "query=denemo_name")           
-                        (if (d-Directive-score? "GlobalTranspose")
+                        (cons (if (d-Directive-score? "GlobalTranspose")
                             (begin
                                 (if transpose
                                   (if (equal? clef theclef)
-                                     (string-append "\\transposedCueDuring #\"" (d-StaffProperties "query=denemo_name") " Mvmnt " (number->string (d-GetMovement)) "\" #1 " transpose " {")
-                                     (string-append "\\transposedCueDuringWithClef #\"" (d-StaffProperties "query=denemo_name") " Mvmnt " (number->string (d-GetMovement)) "\"#1 " transpose " #\"" (string-downcase clef 0 1) "\" {"))))
+                                     (string-append "\\transposedCueDuring #\"" (d-StaffProperties "query=denemo_name") " Mvmnt " this-movement "\" #1 " transpose " {")
+                                     (string-append "\\transposedCueDuringWithClef #\"" (d-StaffProperties "query=denemo_name") " Mvmnt " this-movement "\"#1 " transpose " #\"" (string-downcase clef 0 1) "\" {"))))
                             (begin
                                (if (equal? clef theclef)    
-                                 (string-append "\\cueDuring #\"" (d-StaffProperties "query=denemo_name") " Mvmnt " (number->string (d-GetMovement)) "\"#1 {")
-                                 (string-append "\\cueDuringWithClef #\"" (d-StaffProperties "query=denemo_name") " Mvmnt " (number->string (d-GetMovement)) "\"#1 #\"" (string-downcase clef 0 1) "\" {")))))
+                                 (string-append "\\cueDuring #\"" (d-StaffProperties "query=denemo_name") " Mvmnt " this-movement "\"#1 {")
+                                 (string-append "\\cueDuringWithClef #\"" (d-StaffProperties "query=denemo_name") " Mvmnt " this-movement "\"#1 #\"" (string-downcase clef 0 1) "\" {"))))
+                            (string-append "\\addQuote \"" (d-StaffProperties "query=denemo_name") " Mvmnt " this-movement "\" \\"(d-GetVoiceIdentifier) "\n")))
                                  cuenames)))        
             (if (d-MoveToStaffDown)
                 (loop (1+ count))))
@@ -61,9 +62,10 @@ as this will not typeset."))))
                 (set! cuename (RadioBoxMenuList cuename))
                 (if cuename
                 (begin
+                    (d-DirectivePut-score-prefix (cdr cuename) (cdr cuename))
                     (d-Directive-standalone tag)            
                     (d-DirectivePut-standalone-minpixels tag 30)
-                    (d-DirectivePut-standalone-postfix tag cuename)
+                    (d-DirectivePut-standalone-postfix tag (car cuename))
                     (d-DirectivePut-standalone-display tag (_ "Start Cue"))
                       (d-DirectivePut-standalone-graphic "InstallCue" "
 [

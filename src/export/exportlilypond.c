@@ -2608,7 +2608,7 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
                 }
                 
                 
-            g_string_append_printf (staffdefinitions, "\n\\addQuote \"%s Mvmnt %d\" \\%s%s\n", curstaffstruct->denemo_name->str, movement_count, movement_name->str, voice_name->str);    
+           // g_string_append_printf (staffdefinitions, "\n\\addQuote \"%s Mvmnt %d\" \\%s%s\n", curstaffstruct->denemo_name->str, movement_count, movement_name->str, voice_name->str);    
             }
         }                       /*end for staff loop */
 

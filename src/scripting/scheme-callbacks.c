@@ -2395,6 +2395,22 @@ scheme_get_staff (void)
 }
 
 SCM
+scheme_get_voice_identifier (void)
+{
+    gint snum = Denemo.project->movement->currentstaffnum;
+    gint mnum = g_list_index (Denemo.project->movements, Denemo.project->movement) + 1;
+    GString *voice_ident = g_string_new ("");
+    GString *name = g_string_new ("");
+    g_string_printf (name, "Mvmnt%dVoice%d", mnum, snum);
+    set_lily_name (name, voice_ident);
+    SCM ret = scm_from_locale_string (voice_ident->str);
+    g_string_free (name, TRUE);
+    g_string_free (voice_ident, TRUE);
+    return ret;
+}
+
+
+SCM
 scheme_get_measure (void)
 {
   gint num = Denemo.project->movement->currentmeasurenum;
