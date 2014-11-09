@@ -94,6 +94,8 @@ gboolean delete_chordnote (DenemoProject * gui);
 
 gboolean insert_chordnote (DenemoProject * gui);
 
+gboolean insert_or_delete_chordnote (gint enshift);
+
 void incrementenshift (DenemoProject * gui, gint direction);
 
 void change_stem_directive (DenemoMovement * si, enum stemdirections amount);

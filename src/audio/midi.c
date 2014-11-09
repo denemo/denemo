@@ -404,15 +404,15 @@ action_note_into_score (gint mid_c_offset, gint enshift, gint octave)
 }
 
 static void
-add_note_to_chord (gint mid_c_offset, gint enshift, gint octave)
+add_or_delete_note_to_chord (gint mid_c_offset, gint enshift, gint octave)
 {
   DenemoProject *gui = Denemo.project;
+  DenemoObject *curObj;
   gui->last_source = INPUTMIDI;
   gui->movement->cursor_y = gui->movement->staffletter_y = mid_c_offset;
   gui->movement->cursor_y += 7 * octave;
-  insert_chordnote (gui);
-  // shiftcursor(gui, mid_c_offset);
-  setenshift (gui->movement, enshift);
+  if(insert_or_delete_chordnote (enshift))
+    setenshift (gui->movement, enshift);
   displayhelper (gui);
 }
 
@@ -478,7 +478,7 @@ do_one_note (gint mid_c_offset, gint enshift, gint notenum)
   if ((Denemo.keyboard_state & ADDING_MASK) && (Denemo.keyboard_state & CHORD_MASK))
     {
 
-      add_note_to_chord (mid_c_offset, enshift, notenum);
+      add_or_delete_note_to_chord (mid_c_offset, enshift, notenum);
     }
   else
     {

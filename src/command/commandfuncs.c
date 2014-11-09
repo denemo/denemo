@@ -1891,7 +1891,32 @@ insert_chordnote (DenemoProject * gui)
     insert_note_following_pattern (gui);
   return TRUE;
 }
-
+/**
+ * Insert chord note at y cursor position or delete one if already present
+ * return TRUE if inserted else FALSE
+ */
+gboolean
+insert_or_delete_chordnote (gint enshift)
+{
+  DenemoProject *gui = Denemo.project;
+  DenemoObject *curObj;
+  gboolean remove = FALSE;
+  if (gui->movement->currentobject && (curObj = Denemo.project->movement->currentobject->data) && (curObj->type == CHORD))
+     {
+      GList *node;
+      for (node = ((chord *) curObj->object)->notes; node; node=node->next)
+        {
+            note *thenote = (note*)node->data;
+            if((thenote->mid_c_offset == gui->movement->cursor_y) && (thenote->enshift == enshift))
+               remove = TRUE;
+        }
+     notechange (gui->movement, remove);
+    }
+  else
+    insert_note_following_pattern (gui);
+    
+  return !remove;
+}
 /**
  * Helper function that contains calls to all the display 
  * update functions
