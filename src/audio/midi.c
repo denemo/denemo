@@ -779,7 +779,7 @@ process_midi_event (gchar * buf)
                   else
                     {
                       Denemo.keyboard_state &= ~(CHORD_MASK | ADDING_MASK);
-                      next_editable_note ();
+                      //next_editable_note (); this causes a double advance...
                     }
                   set_midi_in_status ();
                   displayhelper (Denemo.project);
