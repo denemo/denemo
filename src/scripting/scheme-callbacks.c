@@ -4865,11 +4865,21 @@ SCM
 scheme_put_midi (SCM scm)
 {
   gchar buf[3];
-  gint midi = scm_to_int (scm);
-
-  buf[0] = midi & 0xFF;
-  buf[1] = (midi >> 8) & 0xFF;
-  buf[2] = (midi >> 16) & 0xFF;
+  gint midi;
+  if (scm_is_list(scm))
+    {
+    buf[0] = scm_to_int (scm_list_ref (scm, scm_from_int(0)));
+    buf[1] = scm_to_int (scm_list_ref (scm, scm_from_int(1)));
+    buf[2] = scm_to_int (scm_list_ref (scm, scm_from_int(2)));
+    midi = TRUE;
+    } else
+    {
+    midi = scm_to_int (scm);
+    buf[0] = midi & 0xFF;
+    buf[1] = (midi >> 8) & 0xFF;
+    buf[2] = (midi >> 16) & 0xFF;
+    }
+ 
   //g_debug("got %x\nbreaks as %x %x %x\n", midi&0xFFFFFF, buf[0], buf[1], buf[2]);
   if (midi)
     {
