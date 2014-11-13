@@ -5073,7 +5073,6 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <_label>Insert 1st &amp; 2nd Time Bars</_label>
         <_tooltip>Inserts first and second time bars each with a whole measure rest. You can then edit this to suit your music, e.g by inserting extra bars, deleting the repeat start etc.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>EndSecondTimeBar</action>
         <after>SecondTimeBar</after>

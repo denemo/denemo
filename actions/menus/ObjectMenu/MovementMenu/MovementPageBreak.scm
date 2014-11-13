@@ -4,7 +4,9 @@
 	(Inserted  (_ "Page Break Inserted before Movement Title"))
 	 (TitledPiece "TitledPiece"))
    (if (d-Directive-movementcontrol? TitledPiece)
-	(let ((title (d-DirectiveGet-movementcontrol-display TitledPiece)))
+	(let ((title (d-DirectiveGet-movementcontrol-data TitledPiece)))
+		(if (not title)
+			(set! title (d-DirectiveGet-movementcontrol-display TitledPiece)))
 		 (d-DirectiveDelete-header tag)
 		 (d-DirectiveDelete-movementcontrol TitledPiece) ;; to put page break before title
 		 (if (d-Directive-movementcontrol? tag)
@@ -17,6 +19,7 @@
 			  (d-DirectivePut-movementcontrol-display tag "Page Break before Movement")
 			  (d-DirectivePut-movementcontrol-prefix  tag "\n\\pageBreak\n")))
 		(d-DirectivePut-movementcontrol-display TitledPiece title)
+		(d-DirectivePut-movementcontrol-data TitledPiece title)
 		(d-DirectivePut-movementcontrol-prefix  TitledPiece (string-append "\\titledPiece \\markup \"" title "\"\n"))
 		(d-DirectivePut-movementcontrol-override TitledPiece (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC)))
 	(let ()
