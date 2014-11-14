@@ -1298,7 +1298,7 @@ set_midi_in_status (void)
       else if ((Denemo.keyboard_state == (GDK_SHIFT_MASK)) || (Denemo.keyboard_state == (GDK_LOCK_MASK)))
         text = g_strconcat ("<span foreground=\"#008080\" size=\"larger\">", _("Listening to Pitches"), "</span>", NULL);
       else if ((Denemo.keyboard_state & CHORD_MASK))
-        text = g_strconcat ("<span foreground=\"#000000\">", _("Adding to a Chord"), "</span>", NULL);
+        text = g_strconcat ("<span foreground=\"#000000\">", _("Editing a Chord"), "</span>", NULL);
       else if ((Denemo.keyboard_state & ADDING_MASK))
         text = g_strconcat ("<span foreground=\"#000000\">", _("Starting a Chord"), "</span>", NULL);
       else

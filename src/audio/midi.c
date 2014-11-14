@@ -734,8 +734,12 @@ process_midi_event (gchar * buf)
   if (command == MIDI_CONTROL_CHANGE && (notenumber == 0x40))
     {
       if (velocity == 0x7F)
-        //PEDAL DOWN
-        Denemo.keyboard_state |= ADDING_MASK;
+        {//PEDAL DOWN
+        if (Denemo.project->movement->cursor_appending)
+            Denemo.keyboard_state |= ADDING_MASK;
+        else
+            Denemo.keyboard_state |= CHORD_MASK | ADDING_MASK;
+        }
       else
         {
           Denemo.keyboard_state &= ~(CHORD_MASK | ADDING_MASK);
@@ -774,7 +778,10 @@ process_midi_event (gchar * buf)
                 {               //Foot Pedal
                   if (velocity == 0x7F)
                     {
-                      Denemo.keyboard_state |= ADDING_MASK;
+                    if (Denemo.project->movement->cursor_appending)
+                        Denemo.keyboard_state |= ADDING_MASK;
+                    else
+                        Denemo.keyboard_state |= CHORD_MASK | ADDING_MASK;
                     }
                   else
                     {
