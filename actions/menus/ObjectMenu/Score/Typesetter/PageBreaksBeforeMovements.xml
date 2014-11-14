@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>PageBreaksBeforeMovements</action>
+        <after>DenemoBar</after>
+        <_label>Page Breaks (On/Off)</_label>
+        <_tooltip>Movements will start on a new page (Off/On)</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

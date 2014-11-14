@@ -1,8 +1,15 @@
 ;;; MovementPageBreak
 (let ((tag "MovementPageBreak") 
+	(params  MovementPageBreak::params)
 	(Removed    (_ "Page Break Removed before Movement Title"))
 	(Inserted  (_ "Page Break Inserted before Movement Title"))
 	 (TitledPiece "TitledPiece"))
+ (if (equal? params "edit")
+ 	(set! params #f))
+ (if (eq? params #t) ;;; force a page break by deleting any existing one
+ 	(begin
+ 		(set! params #f)
+ 		(d-DirectiveDelete-movementcontrol tag)))
    (if (d-Directive-movementcontrol? TitledPiece)
 	(let ((title (d-DirectiveGet-movementcontrol-data TitledPiece)))
 		(if (not title)
@@ -23,7 +30,7 @@
 		(d-DirectivePut-movementcontrol-prefix  TitledPiece (string-append "\\titledPiece \\markup \"" title "\"\n"))
 		(d-DirectivePut-movementcontrol-override TitledPiece (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC)))
 	(let ()
-		(if (and (not MovementPageBreak::params) (d-Directive-header? tag))
+		(if (and (not params) (d-Directive-header? tag))
    			 (begin
    			 	(TimedNotice Removed)
    			 	(d-DirectiveDelete-header tag))
