@@ -168,5 +168,6 @@ void toggle_tie (GtkAction * action, DenemoScriptParam * param);
 gint get_prevailing_duration (void);
 void dnm_inserttuplet (DenemoProject * gui, tuplet_type type);
 gboolean next_editable_note (void);
+gboolean next_insert_or_editable_note (void);
 gboolean insert_marked_midi_note (void);
 #endif /*COMMANDFUNCSH */

@@ -1218,7 +1218,31 @@ next_editable_note (void)
   return ret;
 }
 
-
+/******** advances the cursor to the next note,  stopping
+ at empty measures and at appending position if any. The cursor is left after last note if no more notes */
+gboolean
+next_insert_or_editable_note (void)
+{
+ gboolean ret;
+  if (Denemo.project->movement->currentobject && (Denemo.project->movement->currentobject->next == NULL))
+    {
+    ret = FALSE;
+    }
+  else 
+    {
+  
+    ret = to_note_direction (TRUE, TRUE);
+    if ((!ret) && Denemo.project->movement->currentobject == NULL)
+        {
+          to_note_direction (FALSE, TRUE);
+        }
+    }
+  if (!ret)
+    movecursorright (NULL, NULL);
+  else
+    write_status(Denemo.project);
+  return ret;
+}
 gboolean
 cursor_to_next_object (gboolean within_measure, gboolean stopping)
 {

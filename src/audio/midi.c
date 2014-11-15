@@ -643,7 +643,7 @@ midiaction (gint notenum)
             {
               if (gui->movement->cursor_appending) {
                 do_one_note (enote.mid_c_offset, enote.enshift, enote.octave);
-                next_editable_note ();//if we have gone back from an appending position after a non-chord we need this
+                next_insert_or_editable_note();//next_editable_note ();//if we have gone back from an appending position after a non-chord we need this
                             }
               else
                 gdk_beep ();
@@ -660,7 +660,7 @@ midiaction (gint notenum)
       else
         {                       // no current object
           do_one_note (enote.mid_c_offset, enote.enshift, enote.octave);
-          next_editable_note ();//if we have gone back from an empty measure we need this.
+          next_insert_or_editable_note();//next_editable_note ();//if we have gone back from an empty measure we need this.
         }
     }
   else
@@ -743,7 +743,7 @@ process_midi_event (gchar * buf)
       else
         {
           Denemo.keyboard_state &= ~(CHORD_MASK | ADDING_MASK);
-          next_editable_note ();
+          next_insert_or_editable_note();//next_insert_or_editable_note ();
         }
       set_midi_in_status ();
       displayhelper (Denemo.project);
