@@ -2873,7 +2873,10 @@ parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoProject * gui, ImportTyp
   si->currentobject = (objnode *) g_list_nth (si->currentmeasure->data, si->cursor_x);
 
   if (!si->currentobject)
-    si->cursor_appending = TRUE;
+    {
+     si->cursor_appending = TRUE;
+     si->currentobject = g_list_last (si->currentmeasure->data);
+    }
   else
     si->cursor_appending = FALSE;
   // si->leftmeasurenum = si->currentstaffnum = si->currentmeasurenum = 1;
