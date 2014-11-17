@@ -46,7 +46,7 @@
 
 
   (define (dangerous-grace?) 
-    (let loop ()
+    (let loop () (disp "have " (d-IsGrace) " " (d-GetMeasureNumber)  "\n")
       (if (not (and (d-IsGrace) (not (d-GetNonprinting)) last-object))
         (begin  
           (set! last-object (not (Music?)))
@@ -75,11 +75,11 @@
   (define (action-staff action)
     (d-MoveToBeginning)
     (action)
-    (if (d-MoveToMeasureRight)
-      (action)))
+    (while (d-MoveToMeasureRight)
+       (action)))
       
   (define (action-movement action)
-    (action-staff action)
+    (action-staff action)(disp "Did " (d-GetStaff) "\n")
     (while (MoveDownStaffOrVoice)
       (action-staff action)))
     
