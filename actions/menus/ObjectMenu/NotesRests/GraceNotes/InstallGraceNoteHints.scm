@@ -1,5 +1,5 @@
 ;;InsertGraceNoteHints
-(let ((last-object 'none))
+(let ((last-object 'none) (notice #f))
    (define (clean-measure)
     (let loop ()
       (if (and (Rest?) (d-IsGrace))
@@ -46,7 +46,7 @@
 
 
   (define (dangerous-grace?) 
-    (let loop () (disp "have " (d-IsGrace) " " (d-GetMeasureNumber)  "\n")
+    (let loop ()
       (if (not (and (d-IsGrace) (not (d-GetNonprinting)) last-object))
         (begin  
           (set! last-object (not (Music?)))
@@ -59,7 +59,7 @@
     (set! last-object 'beginning)
     (if (dangerous-grace?)
       (let ((start-tick (d-GetStartTick)) (grace (get-grace)))
-        
+        (set! notice (_ "Grace note hints installed"))
         (d-PushPosition)
         (while (MoveUpStaffOrVoice))
         (while (d-PrevObjectInMeasure)) ;;if it doesn't go up a staff we may not be at the start.
@@ -79,7 +79,7 @@
        (action)))
       
   (define (action-movement action)
-    (action-staff action)(disp "Did " (d-GetStaff) "\n")
+    (action-staff action)
     (while (MoveDownStaffOrVoice)
       (action-staff action)))
     
@@ -90,4 +90,6 @@
   (action-movement clean-measure)
   (while (MoveUpStaffOrVoice))
   (action-movement fix-measure)
+  (if notice
+  	(TimedNotice notice))
   (d-PopPosition))
