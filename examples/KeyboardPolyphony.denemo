@@ -176,6 +176,13 @@ Note that the double length bars are counted as two in the bar numbering.
 \pointAndClickOff
 </prefix>
       </directive>
+      <directive>
+        <tag>IgnoreClashingNoteColumns</tag>
+        <prefix>\layout {\override NoteColumn #'ignore-collision = ##t }
+</prefix>
+        <display>Ignore Clashing Columns</display>
+        <override>4</override>
+      </directive>
     </score-directives>
   </lilycontrol>
   <movement-number>1</movement-number>
