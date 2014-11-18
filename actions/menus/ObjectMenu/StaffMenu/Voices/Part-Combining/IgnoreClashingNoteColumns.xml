@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>IgnoreClashingNoteColumns</action>
+        <after>PartCombineApart</after>
+        <_label>Clashing Note Column Warnings (Off/On)</_label>
+        <_tooltip>Turns warnings from the LilyPond typesetter about clashing note columns off or on. These can be harmless but can cause a warning to check the score.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
