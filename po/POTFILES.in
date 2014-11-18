@@ -1860,6 +1860,8 @@ actions/menus/ObjectMenu/StaffMenu/Voices/NewVoice.scm
 actions/menus/ObjectMenu/StaffMenu/Voices/NewVoice.xml
 actions/menus/ObjectMenu/StaffMenu/Voices/NoteColumnShift.scm
 actions/menus/ObjectMenu/StaffMenu/Voices/NoteColumnShift.xml
+actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/IgnoreClashingNoteColumns.scm
+actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/IgnoreClashingNoteColumns.xml
 actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineApart.scm
 actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineApart.xml
 actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineAutomatic.scm
