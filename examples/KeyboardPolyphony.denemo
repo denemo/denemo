@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="7">
-  <scheme>;;;IgnoreClashingNoteColumns
-(let ((tag "IgnoreClashingNoteColumns"))
-	(if (d-Directive-score? tag)
-		(begin
-			(d-DirectiveDelete-score tag)
-			(d-InfoDialog (_ "Clashing Note Columns will generate a warning from the LilyPond typesetter")))
-		(begin
-			(d-DirectivePut-score-prefix tag "\\layout {\\override NoteColumn #'ignore-collision = ##t }\n")
-			(d-DirectivePut-score-display tag (_ "Ignore Clashing Columns"))
-			(d-DirectivePut-score-override tag 4)))
-	(d-SetSaved #f))</scheme>
   <scoreheader-directives>
     <directive>
       <tag>Title</tag>
@@ -81,7 +70,7 @@ tocTitle = "Contents."
     <papersize>a4</papersize>
     <fontsize>18</fontsize>
     <orientation>1</orientation>
-    <total-edit-time>0</total-edit-time>
+    <total-edit-time>9</total-edit-time>
     <score-directives>
       <directive>
         <tag>ScoreBlockProlog</tag>
@@ -184,6 +173,7 @@ Note that the double length bars are counted as two in the bar numbering.
         <override>4</override>
       </directive>
     </score-directives>
+    <total-editing-time>9</total-editing-time>
   </lilycontrol>
   <movement-number>1</movement-number>
   <movement>
