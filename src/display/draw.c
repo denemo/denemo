@@ -798,6 +798,10 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
             } 
       if (curmeasure->data)
         {
+            
+            if (extra_ticks == -itp->tickspermeasure)
+                extra_ticks = 0;//allow empty measures
+            
           if (extra_ticks > 0)
                 cairo_set_source_rgba (cr, 1.0, 0.6, 0.6, OPACITY);
           else if ((extra_ticks < 0)/* && curmeasure->next*/)
