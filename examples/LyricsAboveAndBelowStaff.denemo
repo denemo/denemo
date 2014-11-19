@@ -117,18 +117,19 @@ page-limit-inter-system-space-factor = 1.2
 &gt;&gt;
 
 \header {
-title = "Untitled"
+title = "Edit This Title in the LilyPond Window"
 
 }
 
 } %End of Movement
+
 </custom_scoreblock>
   <movement-number>1</movement-number>
   <movement>
     <edit-info>
-      <staffno>1</staffno>
+      <staffno>3</staffno>
       <measureno>1</measureno>
-      <cursorposition>9</cursorposition>
+      <cursorposition>4</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -367,42 +368,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id24">
-              <duration base="eighth"></duration>
-              <notes>
-                <note id="id25">
-                  <middle-c-offset>8</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id26">
-              <duration base="eighth"></duration>
-              <notes>
-                <note id="id27">
-                  <middle-c-offset>8</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id28">
-              <duration base="eighth"></duration>
-              <notes>
-                <note id="id29">
-                  <middle-c-offset>8</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id30">
-              <duration base="eighth"></duration>
-              <notes>
-                <note id="id31">
-                  <middle-c-offset>8</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
+            <rest show="true" id="id24">
+              <duration base="half"></duration>
+            </rest>
           </measure>
         </measures>
       </voice>
-      <voice id="id32">
+      <voice id="id25">
         <voice-info>
           <voice-name>Tenor</voice-name>
           <first-measure-number>1</first-measure-number>
@@ -434,7 +406,7 @@ Serif
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
           <verses>
-            <verse>Ten- or Ly- rics</verse>
+            <verse>Ten- - - or Ly- - -  rics</verse>
           </verses>
           <staff-directives>
             <directive>
@@ -468,66 +440,66 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <chord show="true" id="id33">
+            <chord show="true" id="id26">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id34">
+                <note id="id27">
                   <middle-c-offset>1</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id35">
+            <chord show="true" id="id28">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id36">
+                <note id="id29">
                   <middle-c-offset>1</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id37">
+            <chord show="true" id="id30">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id38">
+                <note id="id31">
                   <middle-c-offset>1</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id39">
+            <chord show="true" id="id32">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id40">
+                <note id="id33">
                   <middle-c-offset>1</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id41">
+            <chord show="true" id="id34">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id42">
+                <note id="id35">
                   <middle-c-offset>1</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id43">
+            <chord show="true" id="id36">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id44">
+                <note id="id37">
                   <middle-c-offset>1</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id45">
+            <chord show="true" id="id38">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id46">
+                <note id="id39">
                   <middle-c-offset>1</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id47">
+            <chord show="true" id="id40">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id48">
+                <note id="id41">
                   <middle-c-offset>1</middle-c-offset>
                 </note>
               </notes>
@@ -535,7 +507,7 @@ Serif
           </measure>
         </measures>
       </voice>
-      <voice id="id49">
+      <voice id="id42">
         <voice-info>
           <voice-name>Bass</voice-name>
           <first-measure-number>1</first-measure-number>
@@ -596,54 +568,25 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <chord show="true" id="id50">
+            <chord show="true" id="id43">
               <duration base="quarter"></duration>
               <notes>
-                <note id="id51">
+                <note id="id44">
                   <middle-c-offset>1</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id52">
+            <chord show="true" id="id45">
               <duration base="quarter"></duration>
               <notes>
-                <note id="id53">
+                <note id="id46">
                   <middle-c-offset>1</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id54">
-              <duration base="eighth"></duration>
-              <notes>
-                <note id="id55">
-                  <middle-c-offset>1</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id56">
-              <duration base="eighth"></duration>
-              <notes>
-                <note id="id57">
-                  <middle-c-offset>1</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id58">
-              <duration base="eighth"></duration>
-              <notes>
-                <note id="id59">
-                  <middle-c-offset>1</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id60">
-              <duration base="eighth"></duration>
-              <notes>
-                <note id="id61">
-                  <middle-c-offset>1</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
+            <rest show="false" id="id47">
+              <duration base="half"></duration>
+            </rest>
           </measure>
         </measures>
       </voice>
