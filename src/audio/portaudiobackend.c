@@ -87,6 +87,52 @@ seconds_to_nframes (double seconds)
 
 #define MAX_MESSAGE_LENGTH (255)        //Allow single sysex blocks, ie 0xF0, length, data...0xF7  where length is one byte.
 
+static void record_audio(float ** buffers, unsigned long frames_per_buffer){
+  // Recording audio out - only one channel is saved at the moment, so source audio (which is dumped in the second channel) is not recorded.
+  if (Denemo.prefs.maxrecordingtime <= 0)
+    return;
+  static FILE *fp = NULL;
+  if (Denemo.project && Denemo.project->audio_recording)
+    {
+      static guint recorded_frames;
+      if (fp == NULL)
+        {
+          const gchar *filename = recorded_audio_filename ();
+          fp = fopen (filename, "wb");
+          recorded_frames = 0;
+          if (fp == NULL)
+            g_warning ("Could not open denemo-output");
+          else
+            g_info ("Opened output file %s", filename);
+        }
+      if (fp)
+        {
+          if (recorded_frames / 44100 < Denemo.prefs.maxrecordingtime)
+            {
+              fwrite (buffers[0], sizeof (float), frames_per_buffer, fp);
+              recorded_frames += frames_per_buffer;
+            }
+          else
+            {               //only warn once, don't spew out warnings...
+              if (recorded_frames < G_MAXINT)
+                {
+                  recorded_frames = G_MAXINT;
+                  g_warning ("Recording length exceeded preference (%d seconds); use the Change Preferences dialog to alter this", Denemo.prefs.maxrecordingtime);
+                }
+            }
+        }
+    }
+  else
+    {
+      if (fp)
+        {
+          fclose (fp);
+          fp = NULL;
+          g_message ("File closed samples are raw data, Little Endian (? or architecture dependent), mono");
+        }
+    }
+}
+
 static int
 stream_callback (const void *input_buffer, void *output_buffer, unsigned long frames_per_buffer, const PaStreamCallbackTimeInfo * time_info, PaStreamCallbackFlags status_flags, void *user_data)
 {
@@ -122,7 +168,7 @@ stream_callback (const void *input_buffer, void *output_buffer, unsigned long fr
 
   double until_time = nframes_to_seconds (playback_frame + frames_per_buffer);
 #ifdef _HAVE_RUBBERBAND_  
-gint available = rubberband_available(rubberband);
+  gint available = rubberband_available(rubberband);
 if((!rubberband_active) || (available < (gint)frames_per_buffer)) {
 #endif
 
@@ -167,51 +213,9 @@ if((!rubberband_active) || (available < (gint)frames_per_buffer)) {
 #ifdef _HAVE_FLUIDSYNTH_
     }
 #endif //_HAVE_FLUIDSYNTH_
-// Recording audio out - only one channel is saved at the moment, so source audio (which is dumped in the second channel) is not recorded.
-  if (Denemo.prefs.maxrecordingtime)
-    {
-      static FILE *fp = NULL;
-      if (Denemo.project && Denemo.project->audio_recording)
-        {
-          static guint recorded_frames;
-          if (fp == NULL)
-            {
-              const gchar *filename = recorded_audio_filename ();
-              fp = fopen (filename, "wb");
-              recorded_frames = 0;
-              if (fp == NULL)
-                g_warning ("Could not open denemo-output");
-              else
-                g_info ("Opened output file %s", filename);
-            }
-          if (fp)
-            {
-              if (recorded_frames / 44100 < Denemo.prefs.maxrecordingtime)
-                {
-                  fwrite (buffers[0], sizeof (float), frames_per_buffer, fp);
-                  recorded_frames += frames_per_buffer;
-                }
-              else
-                {               //only warn once, don't spew out warnings...
-                  if (recorded_frames < G_MAXINT)
-                    {
-                      recorded_frames = G_MAXINT;
-                      g_warning ("Recording length exceeded preference (%d seconds); use the Change Preferences dialog to alter this", Denemo.prefs.maxrecordingtime);
-                    }
-                }
-            }
-        }
-      else
-        {
-          if (fp)
-            {
-              fclose (fp);
-              fp = NULL;
-              g_message ("File closed samples are raw data, Little Endian (? or architecture dependent), mono");
-            }
-        }
-    }
 
+  // This is probably a bad idea to do heavy work in an audio callback
+  record_audio(buffers, frames_per_buffer);
   return paContinue;
 }
 

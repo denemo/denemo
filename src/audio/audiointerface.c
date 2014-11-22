@@ -115,8 +115,7 @@ initialize_audio (DenemoPrefs * config)
 {
   char const *driver = config->audio_driver->str;
 
-
-  g_message ("Audio driver is '%s' %d", driver, strcmp (driver, "portaudio"));
+  g_message ("Audio driver is '%s'", driver);
 
   if (strcmp (driver, "jack") == 0)
     {
@@ -247,29 +246,22 @@ audio_initialize (DenemoPrefs * config)
 , 0
 #endif
 );
-  if (initialize_audio (config))
+  if (initialize_audio (config) || initialize_midi(config))
     {
-      goto err;
-    }
-  if (initialize_midi (config))
-    {
-      goto err;
+      audio_shutdown ();
+      return -1;
     }
 
   queue_thread = g_thread_create_full (queue_thread_func, NULL, 262144, TRUE, FALSE, G_THREAD_PRIORITY_NORMAL, NULL);
 
   if (queue_thread == NULL)
     {
-      goto err;
+      audio_shutdown();
+      return -1;
     }
 
   return 0;
-
-err:
-  audio_shutdown ();
-  return -1;
 }
-
 
 static int
 destroy (backend_type_t backend)

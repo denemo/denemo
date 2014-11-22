@@ -52,11 +52,11 @@ process_midi (PtTimestamp timestamp, void *user_data)
     }
 
   PmEvent event;
-
+  int r;
   while (Pm_Poll (input_stream) == TRUE)
     {
 
-      int r = Pm_Read (input_stream, &event, 1);
+      r = Pm_Read (input_stream, &event, 1);
 
       // we should only ever get one event.
       // if we get a sysex, just skip it.
