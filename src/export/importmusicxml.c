@@ -1173,6 +1173,9 @@ mxmlinput (gchar * filename)
   xmlDocPtr doc = NULL;
   xmlNsPtr ns;
   xmlNodePtr rootElem;
+  gboolean spillover = Denemo.prefs.spillover;
+  Denemo.prefs.spillover = FALSE;
+  
   /* ignore blanks between nodes that appear as "text" */
   xmlKeepBlanksDefault (0);
   /* Try to parse the file. */
@@ -1181,6 +1184,7 @@ mxmlinput (gchar * filename)
   if (doc == NULL)
     {
       g_warning ("Could not read MusicXML file %s", filename);
+      Denemo.prefs.spillover = spillover;
       return -1;
     }
 
@@ -1223,6 +1227,7 @@ mxmlinput (gchar * filename)
 #endif
   call_out_to_guile (script->str);
   g_string_free (script, TRUE);
+  Denemo.prefs.spillover = spillover;
   return ret;
 }
 
