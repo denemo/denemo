@@ -398,10 +398,41 @@ transform_coords (double *x, double *y)
   // *x += ((double)line_num * gui->movement->widthtoworkwith / ((int)(1/gui->movement->system_height))) - 1.0* (line_num?(double)LEFT_MARGIN:0.0);
 }
 
-
+typedef enum DragDirection { DRAG_DIRECTION_NONE = 0, DRAG_DIRECTION_UP, DRAG_DIRECTION_DOWN, DRAG_DIRECTION_LEFT, DRAG_DIRECTION_RIGHT} DragDirection;
+static enum DragDirection dragging_selection = DRAG_DIRECTION_NONE; //dragging to left or right outside window.
+static gint selection_timer_id;
+static void extend_selection (DragDirection direction)
+{
+   switch (direction) {
+       case DRAG_DIRECTION_RIGHT:
+        cursorright (NULL, NULL);
+        break;
+      case DRAG_DIRECTION_LEFT:
+        cursorleft (NULL, NULL);
+        break;
+      case DRAG_DIRECTION_UP:
+        staffup (NULL, NULL);
+        move_viewport_up (Denemo.project);
+        break;
+      case DRAG_DIRECTION_DOWN:
+        staffdown (NULL, NULL);
+        move_viewport_down (Denemo.project);
+        break;
+    }
+        
+    gtk_widget_queue_draw(Denemo.scorearea);
+}
 gint
 scorearea_leave_event (GtkWidget * widget, GdkEventCrossing * event)
 {
+    gint allocated_height = get_widget_height (Denemo.scorearea);
+    gint allocated_width = get_widget_width (Denemo.scorearea);
+  if (event->state & GDK_BUTTON1_MASK)
+    {
+       dragging_selection = (event->x>=allocated_width)?DRAG_DIRECTION_RIGHT:(event->x < 0)?DRAG_DIRECTION_LEFT:(event->y < 0)? DRAG_DIRECTION_UP : DRAG_DIRECTION_DOWN;
+       last_event_x = event->x_root;
+       last_event_y = event->y_root;
+    }
   gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR)); //FIXME? does this take time/hog memory
   return FALSE;                 //allow other handlers (specifically the pitch entry one)
 }
@@ -409,6 +440,7 @@ scorearea_leave_event (GtkWidget * widget, GdkEventCrossing * event)
 gint
 scorearea_enter_event (GtkWidget * widget, GdkEventCrossing * event)
 {
+  dragging_selection = DRAG_DIRECTION_NONE;
   if(Denemo.keyboard_state_locked) return FALSE;
 //g_debug("start the enter with ks = %x and state %x\n", Denemo.keyboard_state, event->state);
   if (event->state & GDK_CONTROL_MASK)
@@ -446,7 +478,27 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     return FALSE;
   gint allocated_height = get_widget_height (Denemo.scorearea);
   gint line_height = allocated_height * gui->movement->system_height;
-  
+  if(dragging_selection)
+    {
+          gint incrx, incry;
+          incrx=incry=0;
+          if(((gint)((last_event_x - event->x_root)/gui->movement->zoom)) != 0)
+            {
+                incrx = -(last_event_x - event->x_root)/gui->movement->zoom;
+                last_event_x = event->x_root;
+            }
+          if( ((gint)((last_event_y - event->y_root)/gui->movement->zoom)) != 0)
+            {
+                incry = -(last_event_y - event->y_root)/gui->movement->zoom;
+                last_event_y = event->y_root;
+            }    
+        if((dragging_selection==DRAG_DIRECTION_RIGHT) && (incrx > 1)
+            || ((dragging_selection==DRAG_DIRECTION_LEFT) && (incrx < -1))
+            || ((dragging_selection==DRAG_DIRECTION_UP) && (incry < 0))
+            || ((dragging_selection==DRAG_DIRECTION_DOWN) && (incry > 0)))
+            extend_selection(dragging_selection);
+    return TRUE;
+    }
   if (event->y < 0)
     event->y = 0.0;
   gint line_num = ((int) event->y) / line_height;
