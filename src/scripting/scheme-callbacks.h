@@ -85,6 +85,7 @@ SCM scheme_is_appending (void);
 SCM scheme_shift_cursor (SCM);
 SCM scheme_get_movement (void);
 SCM scheme_get_voice_identifier (void);
+SCM scheme_staff_hidden (SCM set);
 SCM scheme_get_staff (void);
 SCM scheme_get_measure (void);
 SCM scheme_set_object_display_width (SCM);

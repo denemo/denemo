@@ -93,6 +93,7 @@ get_click_height (DenemoProject * gui, gdouble y)
     {
       //g_debug("before extra space %d\n", extra_space);
       staff = (DenemoStaff *) curstaff->data;
+      if (staff->hidden) continue;
       if (staff->voicecontrol & DENEMO_PRIMARY)
         extra_space += (staff->space_above) + space_below;
       if (curstaff == gui->movement->currentstaff)
@@ -167,7 +168,7 @@ staff_at (gint y, DenemoMovement * si)
       DenemoStaff *staff = (DenemoStaff *) curstaff->data;
 
       count++;
-      if (staff->voicecontrol & DENEMO_PRIMARY)
+      if ((!staff->hidden) && (staff->voicecontrol & DENEMO_PRIMARY))
         space += (staff)->space_above + (staff)->space_below + si->staffspace;
       //g_debug("y %d and space %d count = %d\n",y,space, count);
     }

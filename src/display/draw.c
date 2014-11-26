@@ -1337,9 +1337,13 @@ draw_score (cairo_t * cr)
     cairo_translate (cr, 0.5, 0.5);
  
   /* Draw each staff */
-  for (itp.staffnum = si->top_staff, curstaff = g_list_nth (si->thescore, si->top_staff - 1), (y += si->staffspace / 4); curstaff && itp.staffnum <= si->bottom_staff; itp.staffnum++)
+  for (itp.staffnum = si->top_staff, curstaff = g_list_nth (si->thescore, si->top_staff - 1), (y += si->staffspace / 4); curstaff && itp.staffnum <= si->bottom_staff;  curstaff = curstaff->next, itp.staffnum++)
     {
       DenemoStaff *staff = (DenemoStaff *) curstaff->data;
+      if (staff->hidden) {
+          if(cr) if (si->currentstaffnum == itp.staffnum) drawtext_cr (cr, _("Current staff is hidden!"), 2.0, 100.0, 48.0);
+          continue;
+      }
       itp.verse = verse_get_current_view (staff);
       GdkPixbuf *StaffDirectivesPixbuf = (si->currentstaffnum == itp.staffnum) ? StaffPixbuf : StaffPixbufSmall;
       if (si->currentstaffnum == itp.staffnum)
@@ -1577,7 +1581,7 @@ draw_score (cairo_t * cr)
             }
           y += (si->staffspace + staff->space_below);
         }
-      curstaff = curstaff->next;
+     
     }                           // for all the staffs
 
   //g_debug("Right most time %f\n", si->rightmost_time);
@@ -1621,7 +1625,9 @@ draw_callback (cairo_t * cr)
  }
 #endif
   /* Clear with an appropriate background color. */
-  if (Denemo.project->input_source != INPUTKEYBOARD && Denemo.project->input_source != INPUTMIDI && (Denemo.prefs.overlays || (Denemo.project->input_source == INPUTAUDIO)) && pitch_entry_active (gui))
+  if (((DenemoStaff*)Denemo.project->movement->currentstaff->data)->hidden)
+    cairo_set_source_rgb (cr, 1, 0.8, 0.8);
+  else if (Denemo.project->input_source != INPUTKEYBOARD && Denemo.project->input_source != INPUTMIDI && (Denemo.prefs.overlays || (Denemo.project->input_source == INPUTAUDIO)) && pitch_entry_active (gui))
     {
       GdkColor col;
       gdk_color_parse ("lightblue", &col);
@@ -1636,16 +1642,14 @@ draw_callback (cairo_t * cr)
       else
         cairo_set_source_rgb (cr, ((0xFF0000 & Denemo.color) >> 16) / 255.0, ((0xFF00 & Denemo.color) >> 8) / 255.0, ((0xFF & Denemo.color)) / 255.0);
     }
+
   else
     {
       cairo_set_source_rgb (cr, 0.8, 0.8, 0.8); //gray background when key strokes are not being received.
     }
   cairo_paint (cr);
-
   /* Draw the score. */
   draw_score (cr);
-
-
   return TRUE;
 }
 

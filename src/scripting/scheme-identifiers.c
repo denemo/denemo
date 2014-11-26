@@ -135,6 +135,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Returns the movement number counting from 1", DENEMO_SCHEME_PREFIX "GetMovement", scheme_get_movement);
   install_scm_function (0, "Returns the LilyPond identifier for the current voice", DENEMO_SCHEME_PREFIX "GetVoiceIdentifier", scheme_get_voice_identifier);
   install_scm_function (0, "Returns the staff/voice number counting from 1", DENEMO_SCHEME_PREFIX "GetStaff", scheme_get_staff);
+  install_scm_function (0, "With parameter #t or #f makes the staff hidden/visible in the display, returns the hidden status. Typesetting is unaffected", DENEMO_SCHEME_PREFIX "StaffHidden", scheme_staff_hidden);
   install_scm_function (0, "Returns the measure number counting from 1", DENEMO_SCHEME_PREFIX "GetMeasure", scheme_get_measure);
   install_scm_function (0, "Sets the display width of the object at the cursor to the value passed (in pixels)", DENEMO_SCHEME_PREFIX "SetObjectDisplayWidth", scheme_set_object_display_width);
   install_scm_function (0, "Returns the cursor horizontal position in current measure.\n 1 = first position in measure, n+1 is appending position where n is the number of objects in current measure", DENEMO_SCHEME_PREFIX "GetHorizontalPosition", scheme_get_horizontal_position);

@@ -2395,6 +2395,16 @@ scheme_get_staff (void)
 }
 
 SCM
+scheme_staff_hidden (SCM set)
+{
+  DenemoProject *gui = Denemo.project;
+  DenemoStaff *staff = (DenemoStaff *) gui->movement->currentstaff->data;
+  if (scm_is_bool (set))
+    staff->hidden = scm_is_true (set);
+  return SCM_BOOL (staff->hidden);
+}
+
+SCM
 scheme_get_voice_identifier (void)
 {
     gint snum = Denemo.project->movement->currentstaffnum;

@@ -311,6 +311,7 @@ typedef struct
   gboolean hasfigures; /**<TRUE if the staff has had figures attached. Only one staff should have this set */
   gboolean hasfakechords; /**<TRUE if the staff has had chord symbols attached. Only one staff should have this set */
   DenemoVoice voicecontrol; /**< either controls whether this staff is displayed and printed separately or as a voice */
+  gboolean hidden; /**< should this staff appear in the display? */
   measurenode ** is_parasite; /**< points to address of host staff's measures 
                  field if measures are owned by another 
                  staff */
