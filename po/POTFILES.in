@@ -489,6 +489,10 @@ actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementEnd.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementEnd.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/ToggleCursorHighlight.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/ToggleCursorHighlight.xml
+actions/menus/MainMenu/NavigationMenu/Cursor/VisibleStaffDown.scm
+actions/menus/MainMenu/NavigationMenu/Cursor/VisibleStaffDown.xml
+actions/menus/MainMenu/NavigationMenu/Cursor/VisibleStaffUp.scm
+actions/menus/MainMenu/NavigationMenu/Cursor/VisibleStaffUp.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/WrapToNextStaff.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/WrapToNextStaff.xml
 actions/menus/MainMenu/NavigationMenu/DenemoLink.scm
@@ -1736,6 +1740,14 @@ actions/menus/ObjectMenu/StaffMenu/CrossStaffArpeggio.scm
 actions/menus/ObjectMenu/StaffMenu/CrossStaffArpeggio.xml
 actions/menus/ObjectMenu/StaffMenu/DeleteFromCursorToEnd.scm
 actions/menus/ObjectMenu/StaffMenu/DeleteFromCursorToEnd.xml
+actions/menus/ObjectMenu/StaffMenu/DisplayEffects/HideNotSelectedStaffs.scm
+actions/menus/ObjectMenu/StaffMenu/DisplayEffects/HideNotSelectedStaffs.xml
+actions/menus/ObjectMenu/StaffMenu/DisplayEffects/HideSelectedStaffs.scm
+actions/menus/ObjectMenu/StaffMenu/DisplayEffects/HideSelectedStaffs.xml
+actions/menus/ObjectMenu/StaffMenu/DisplayEffects/ToggleCurrentStaffDisplay.scm
+actions/menus/ObjectMenu/StaffMenu/DisplayEffects/ToggleCurrentStaffDisplay.xml
+actions/menus/ObjectMenu/StaffMenu/DisplayEffects/ToggleDisplayAllStaffs.scm
+actions/menus/ObjectMenu/StaffMenu/DisplayEffects/ToggleDisplayAllStaffs.xml
 actions/menus/ObjectMenu/StaffMenu/FillEmptyMeasures.scm
 actions/menus/ObjectMenu/StaffMenu/FillEmptyMeasures.xml
 actions/menus/ObjectMenu/StaffMenu/FixSlursInStaff.scm
