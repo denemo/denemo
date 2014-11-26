@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ToggleCurrentStaffDisplay</action>
+        <after>TinyStaffAllMovements</after>
+        <_label>Staff Hidden (Off/On)</_label>
+        <_tooltip>Shows/Hides the current staff in the Denemo Display. Does not affect the typesetting.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

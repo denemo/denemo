@@ -7093,6 +7093,48 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Clashing Note Column Warnings (Off/On)</_label>
         <_tooltip>Turns warnings from the LilyPond typesetter about clashing note columns off or on. These can be harmless but can cause a warning to check the score.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ToggleCurrentStaffDisplay</action>
+        <after>TinyStaffAllMovements</after>
+        <menupath>/ObjectMenu/StaffMenu/DisplayEffects</menupath>
+        <_label>Staff Hidden (Off/On)</_label>
+        <_tooltip>Shows/Hides the current staff in the Denemo Display. Does not affect the typesetting.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ToggleDisplayAllStaffs</action>
+        <after>ToggleCurrentStaffDisplay</after>
+        <menupath>/ObjectMenu/StaffMenu/DisplayEffects</menupath>
+        <_label>Display All (Other) Staffs (Off/On)</_label>
+        <_tooltip>If the current staff is hidden show all other staffs else hide all other staffs.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>HideNotSelectedStaffs</action>
+        <after>ToggleDisplayAllStaffs</after>
+        <menupath>/ObjectMenu/StaffMenu/DisplayEffects</menupath>
+        <_label>Hide Non-Selected Staffs.</_label>
+        <_tooltip>Hides staffs that are not selected in the Denemo Display. Does not affect the typesetting.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>HideSelectedStaffs</action>
+        <after>HideNotSelectedStaffs</after>
+        <menupath>/ObjectMenu/StaffMenu/DisplayEffects</menupath>
+        <_label>Hides Selected Staffs</_label>
+        <_tooltip>Hides the selected staffs in the Denemo Display. Does not affect the Typesetting.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>VisibleStaffUp</action>
+        <after>MoveToStaffUp</after>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
+        <_label>Move to Visible Staff Up</_label>
+        <_tooltip>Moves to the next staff or voice up skipping ones that are hidden in the display.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>VisibleStaffDown</action>
+        <after>MoveToStaffDown</after>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
+        <_label>Move to Visible Staff Down</_label>
+        <_tooltip>Moves to the next staff or voice down skipping ones that are hidden in the display.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
