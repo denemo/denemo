@@ -1340,9 +1340,18 @@ draw_score (cairo_t * cr)
   for (itp.staffnum = si->top_staff, curstaff = g_list_nth (si->thescore, si->top_staff - 1), (y += si->staffspace / 4); curstaff && itp.staffnum <= si->bottom_staff;  curstaff = curstaff->next, itp.staffnum++)
     {
       DenemoStaff *staff = (DenemoStaff *) curstaff->data;
-      if (staff->hidden) {
-          if(cr) if (si->currentstaffnum == itp.staffnum) drawtext_cr (cr, _("Current staff is hidden!"), 2.0, 100.0, 48.0);
-          continue;
+      if(cr) if (staff->hidden) 
+      {
+        gboolean current =  (si->currentstaffnum == itp.staffnum);
+        if (current)
+            drawtext_cr (cr, _("Current staff is hidden!"), 2.0, 120.0, 48.0);
+        cairo_save (cr);
+        cairo_set_source_rgba (cr, 0.0, 0.5, 0.5, current?1.0:0.5);
+        cairo_rectangle (cr, 0, y - 35, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom, 1 + 4*current); 
+        cairo_set_source_rgb (cr, 0.7, 0.0, 0.0);
+        cairo_fill (cr);
+        cairo_restore (cr);    
+        continue;
       }
       itp.verse = verse_get_current_view (staff);
       GdkPixbuf *StaffDirectivesPixbuf = (si->currentstaffnum == itp.staffnum) ? StaffPixbuf : StaffPixbufSmall;
