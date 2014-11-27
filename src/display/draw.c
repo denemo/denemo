@@ -1343,14 +1343,14 @@ draw_score (cairo_t * cr)
       if(cr) if (staff->hidden) 
       {
         gboolean current =  (si->currentstaffnum == itp.staffnum);
-        if (current)
-            drawtext_cr (cr, _("Current staff is hidden!"), 2.0, 120.0, 48.0);
+
         cairo_save (cr);
         cairo_set_source_rgba (cr, 0.0, 0.5, 0.5, current?1.0:0.5);
-        cairo_rectangle (cr, 0, y - 35, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom, 1 + 4*current); 
-        cairo_set_source_rgb (cr, 0.7, 0.0, 0.0);
+        cairo_rectangle (cr, 0, itp.staffnum == si->top_staff? 5 : y - 35, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom, 1 + 8*current); 
         cairo_fill (cr);
-        cairo_restore (cr);    
+        cairo_restore (cr);  
+        if (current)
+            drawtext_cr (cr, _("Current staff is hidden - do not edit!"), 20.0, 100.0, 48.0);
         continue;
       }
       itp.verse = verse_get_current_view (staff);
