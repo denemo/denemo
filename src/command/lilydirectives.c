@@ -1355,10 +1355,22 @@ button_callback (GtkWidget * widget, GdkEventButton * event, DenemoDirective * d
                       gint idx = lookup_command_from_name (Denemo.map, name);
                       if (idx > 0)
                         {
+                          gpointer fn = (widget != NULL) ? g_object_get_data (G_OBJECT (widget), "fn") : NULL;
+                            
                           gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
                           if (confirm (label, _("Repeat the command?\n(Hold Shift for advanced edit)")))
-                            if(shift_held_down())
-                                text_edit_directive (directive, "unknown");
+                            if(shift_held_down()) 
+                                { 
+                                GList **directives = (GList **) g_object_get_data (G_OBJECT (widget), "directives-pointer");
+                                gboolean delete = !text_edit_directive (directive, fn);
+                                if (delete)
+                                    {
+                                    if (directives)
+                                        delete_directive (directives, directive->tag->str);
+                                      else
+                                        g_warning ("Could not get directives list to delete from");
+                                    }
+                                }
                             else
                                 gtk_action_activate (action);
                         }
@@ -1375,7 +1387,7 @@ button_callback (GtkWidget * widget, GdkEventButton * event, DenemoDirective * d
                               if (directives)
                                 delete_directive (directives, directive->tag->str);
                               else
-                                g_warning (_("Could not get directives list to delete from"));
+                                g_warning ("Could not get directives list to delete from");
                             }
                         }
                     }
@@ -2445,8 +2457,6 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
                                                    NULL);
   gtk_dialog_add_button (GTK_DIALOG (dialog), _("Delete Directive"), GTK_RESPONSE_REJECT);
   gtk_dialog_add_button (GTK_DIALOG (dialog), _("Create Script"), CREATE_SCRIPT);
-
-
 
   GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
