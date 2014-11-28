@@ -4,8 +4,8 @@
         (let ((bold #f)(italic #f)(fontsize "0")(value (d-GetUserInput (_ "Filled Title Line") prompt current)))
             (if value
                 (begin
-                    (set! bold (RadioBoxMenu (cons (_ "Bold") "\\bold ") (cons (_ "Normal") "")))
-                    (set! italic (RadioBoxMenu (cons (_ "Italic") "\\italic ") (cons (_ "Upright") "")))
+                    (set! bold (RadioBoxMenu (cons (_ "Normal") "") (cons (_ "Bold") "\\bold ")))
+                    (set! italic (RadioBoxMenu (cons (_ "Upright") "") (cons (_ "Italic") "\\italic ")))
                     (set! fontsize (d-GetUserInput (_ "Font Magnification") (_ "Give font magnification required (+/-)") fontsize))
                     (if (and bold italic (string? fontsize) (string->number fontsize))
                         (begin
