@@ -4177,6 +4177,34 @@ GET_NTH_TAG (layout);
 GET_NTH_TAG (movementcontrol);
 #undef GET_NTH_TAG
 
+#define PRIORITIZE_TAG(what)\
+ SCM scheme_##what##_directive_prioritize_tag(SCM name) {\
+  gchar *tag;\
+  if(!scm_is_string(name))\
+     return SCM_BOOL_F;\
+    tag = scm_to_locale_string (name);\
+  extern gboolean prioritize_##what##_tag (gchar *name);\
+  gboolean val = prioritize_##what##_tag (tag);\
+  if(val) return name;\
+  return SCM_BOOL_F;\
+}
+PRIORITIZE_TAG (chord);
+PRIORITIZE_TAG (note);
+PRIORITIZE_TAG (staff);
+PRIORITIZE_TAG (voice);
+PRIORITIZE_TAG (score);
+PRIORITIZE_TAG (clef);
+PRIORITIZE_TAG (timesig);
+PRIORITIZE_TAG (tuplet);
+PRIORITIZE_TAG (stemdirective);
+PRIORITIZE_TAG (keysig);
+PRIORITIZE_TAG (scoreheader);
+PRIORITIZE_TAG (header);
+PRIORITIZE_TAG (paper);
+PRIORITIZE_TAG (layout);
+PRIORITIZE_TAG (movementcontrol);
+#undef PRIORITIZE_TAG
+
 
 //only retrieve directives when cursor is actually on the note
 SCM scheme_directive_get_nth_tag_strict_note(SCM index) {

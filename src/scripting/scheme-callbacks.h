@@ -368,6 +368,22 @@ SCM scheme_movementcontrol_directive_get_nth_tag (SCM);
 SCM scheme_directive_get_nth_tag_strict_note (SCM);
 SCM scheme_directive_get_for_tag_strict_note (SCM);
 
+SCM scheme_chord_directive_prioritize_tag (SCM);
+SCM scheme_note_directive_prioritize_tag (SCM);
+SCM scheme_staff_directive_prioritize_tag (SCM);
+SCM scheme_voice_directive_prioritize_tag (SCM);
+SCM scheme_score_directive_prioritize_tag (SCM);
+SCM scheme_clef_directive_prioritize_tag (SCM);
+SCM scheme_timesig_directive_prioritize_tag (SCM);
+SCM scheme_tuplet_directive_prioritize_tag (SCM);
+SCM scheme_stemdirective_directive_prioritize_tag (SCM);
+SCM scheme_keysig_directive_prioritize_tag (SCM);
+SCM scheme_scoreheader_directive_prioritize_tag (SCM);
+SCM scheme_header_directive_prioritize_tag (SCM);
+SCM scheme_paper_directive_prioritize_tag (SCM);
+SCM scheme_layout_directive_prioritize_tag (SCM);
+SCM scheme_movementcontrol_directive_prioritize_tag (SCM);
+
 
 SCM scheme_delete_note_directive (SCM);
 SCM scheme_activate_note_directive (SCM);

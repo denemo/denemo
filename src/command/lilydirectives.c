@@ -3448,3 +3448,47 @@ DenemoDirective *get_next_directive_at_cursor (void)
     }
     return directive;
 }
+
+static GList *move_to_front (GList *directives, gchar *tag)
+{
+    GList *el;
+    gpointer data = NULL;
+    for (el = directives;el;el=el->next)
+    {
+        DenemoDirective *directive = el->data;
+        if (!(g_strcmp0 (tag, (gchar*) directive->tag->str)))
+            {
+                data = el->data;
+                directives = g_list_remove (directives, data);
+                break;
+            }
+    }
+    if(data)
+        return g_list_prepend (directives, data);
+    return NULL;
+}
+#define REORDER_TAG(what, name)\
+gboolean prioritize_##what##_tag (gchar *tag) {\
+  what *current = get_##what();\
+  if(current==NULL) return FALSE;\
+  GList *g = move_to_front (current->name, tag);\
+  if(g==NULL) return FALSE;\
+  current->name = g;\
+  return TRUE;}
+
+REORDER_TAG (note, directives);
+REORDER_TAG (chord, directives);
+REORDER_TAG (staff, staff_directives);
+REORDER_TAG (voice, voice_directives);
+REORDER_TAG (score, directives);
+REORDER_TAG (clef, directives);
+REORDER_TAG (timesig, directives);
+REORDER_TAG (tuplet, directives);
+REORDER_TAG (stemdirective, directives);
+REORDER_TAG (keysig, directives);
+REORDER_TAG (scoreheader, directives);
+REORDER_TAG (header, directives);
+REORDER_TAG (paper, directives);
+REORDER_TAG (layout, directives);
+REORDER_TAG (movementcontrol, directives);
+#undef REORDER_TAG

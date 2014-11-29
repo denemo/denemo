@@ -338,6 +338,24 @@ create_scheme_identfiers (void)
   INSTALL_GET_NTH_TAG (layout);
   INSTALL_GET_NTH_TAG (movementcontrol);
 #undef INSTALL_GET_NTH_TAG
+#define INSTALL_PRIORITIZE_TAG(what)\
+  install_scm_function (1, "Takes a tag. The "#what" directive with that tag if it exists becomes the first to be processed; else returns #f if none", DENEMO_SCHEME_PREFIX"DirectivePrioritizeTag"  "-" #what, scheme_##what##_directive_prioritize_tag);
+  INSTALL_PRIORITIZE_TAG (chord);
+  INSTALL_PRIORITIZE_TAG (note);
+  INSTALL_PRIORITIZE_TAG (staff);
+  INSTALL_PRIORITIZE_TAG (voice);
+  INSTALL_PRIORITIZE_TAG (score);
+  INSTALL_PRIORITIZE_TAG (clef);
+  INSTALL_PRIORITIZE_TAG (timesig);
+  INSTALL_PRIORITIZE_TAG (tuplet);
+  INSTALL_PRIORITIZE_TAG (stemdirective);
+  INSTALL_PRIORITIZE_TAG (keysig);
+  INSTALL_PRIORITIZE_TAG (scoreheader);
+  INSTALL_PRIORITIZE_TAG (header);
+  INSTALL_PRIORITIZE_TAG (paper);
+  INSTALL_PRIORITIZE_TAG (layout);
+  INSTALL_PRIORITIZE_TAG (movementcontrol);
+#undef INSTALL_PRIORITIZE_TAG
 
   install_scm_function (1, "Takes a number n. Returns the tag of the nth note directive if it exists at the cursor height else returns #f if none", DENEMO_SCHEME_PREFIX"DirectiveGetNthTagStrictNote", scheme_directive_get_nth_tag_strict_note);
   install_scm_function (1, "Takes a tag and returns #t if a note directive exists with that tag at the cursor height, with no argument returns the first tag on the note at cursor height, else returns #f", DENEMO_SCHEME_PREFIX"DirectiveGetForTagStrictNote", scheme_directive_get_for_tag_strict_note);
