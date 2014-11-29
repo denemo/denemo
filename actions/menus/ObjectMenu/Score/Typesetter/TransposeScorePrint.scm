@@ -25,8 +25,10 @@
               (case choice
          			 ((global)      
          			 	 (d-DirectivePut-score-override global-tag  DENEMO_OVERRIDE_AFFIX)
+         			 	 (d-DirectivePrioritizeTag-score global-tag)
          			 	 (d-DirectivePut-score-prefix global-tag   (string-append     "\nDenemoGlobalTranspose = #(define-music-function (parser location arg)(ly:music?) #{\\transpose "
-         			 Transpose::Interval "#arg #})\n")) (d-DirectivePut-score-postfix tag  "\\DenemoGlobalTranspose "))
+         			 Transpose::Interval "#arg #})\n"))
+         			        (d-DirectivePut-score-postfix tag  "\\DenemoGlobalTranspose "))
   	  			(else
   	  			    	 (d-DirectivePut-score-postfix tag (string-append  "\\transpose " Transpose::Interval " "))))
 	  (set! text (string-append  "Print transposed:  " Transpose::Interval " ")) 

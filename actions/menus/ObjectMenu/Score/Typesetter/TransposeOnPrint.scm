@@ -2,7 +2,7 @@
 (define-once Transpose::Interval #f)
 (let ((transpose "Transpose")(cancel "Cancel") 
 	(instruction (_ "⬅Edit the interval and click Transpose button above"))
-	(action (RadioBoxMenu (cons (_ "Transpose Score") "TransposeScorePrint") (cons (_ "Transpsose Staff") "TransposeStaffPrint"))))
+	(action (RadioBoxMenu (cons (_ "Transpose Score") "TransposeScorePrint") (cons (_ "Transpose Staff") "TransposeStaffPrint"))))
 	(if action
 	    (begin
 	    (d-NewWindow)
