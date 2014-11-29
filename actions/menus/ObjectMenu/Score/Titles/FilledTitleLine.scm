@@ -1,16 +1,22 @@
 ;;;FilledTitleLine
 (let* ((tag "FilledTitleLine")(params FilledTitleLine::params)(first #f)(second #f)(third #f)(data (d-DirectiveGet-score-data tag)))
     (define (get-element prompt current)
-        (let ((bold #f)(italic #f)(fontsize "0")(value (d-GetUserInput (_ "Filled Title Line") prompt current)))
+        (define spacer (cdr current))
+        (set! current (car current))
+        (if spacer
+            (begin
+                (set! spacer (d-GetUserInput (_ "Space Above") (_ "Extra space above this line: ") spacer))
+                 (if (or (not spacer) (not (string->number spacer)))
+                                (set! spacer "0"))))
+        (let ((value (d-GetUserInputWithSnippets (_ "Text") prompt current)))
             (if value
-                (begin
-                    (set! bold (RadioBoxMenu (cons (_ "Normal") "") (cons (_ "Bold") "\\bold ")))
-                    (set! italic (RadioBoxMenu (cons (_ "Upright") "") (cons (_ "Italic") "\\italic ")))
-                    (set! fontsize (d-GetUserInput (_ "Font Magnification") (_ "Give font magnification required (+/-)") fontsize))
-                    (if (and bold italic (string? fontsize) (string->number fontsize))
-                        (begin
-                            (cons value (string-append bold italic "\\fontsize #" fontsize " {" value "} ")))
-                        #f))
+                (let ((stripped #f))
+                    (set! value (car value))
+                    (set! stripped (string-copy value))
+                    (string-for-each-index (lambda (i) (string-set! stripped i (if (equal? (string-ref stripped i) #\x00A7) #\space (string-ref stripped i)))) stripped)
+                    (if spacer
+                        (set! stripped (string-append "\\vspace #" spacer " " stripped)))
+                    (list value spacer stripped))
                 #f)))
     (if data
         (begin
@@ -19,22 +25,27 @@
             (set! second (assq-ref data 'second))
             (set! third (assq-ref data 'third)))
         (begin
-            (set! first "v.1")
-            (set! second "MyTitle")
-            (set! third "MyComposer")))
-    (set! first (get-element (_ "Give text to appear at the left") first))
+            (set! first (cons "v.1" "0"))
+            (set! second (cons "MyTitle" #f))
+            (set! third (cons "MyComposer" #f))))
+     (if (string? first) ;backward compatibility
+                (begin
+                    (set! first (cons first "0"))
+                    (set! second (cons second #f))
+                    (set! third (cons third #f))))
+    (set! first (get-element (_ "Give text to appear at the left\nLilyPond syntax can be included.") first))
     (if first
         (begin
-                (set! second (get-element (_ "Give text to appear in the center") second))
+                (set! second (get-element (_ "Give text to appear in the center\nLilyPond syntax can be included.") second))
                 (if second
                     (begin
-                        (set! third (get-element (_ "Give text to appear at the right") third))
+                        (set! third (get-element (_ "Give text to appear at the right\nLilyPond syntax can be included.") third))
                         (if third
                             (let ((data '()))
-                                (set! data (assq-set! data 'first (car first)))
-                                (set! data (assq-set! data 'second (car second)))
-                                (set! data (assq-set! data 'third (car third)))
+                                (set! data (assq-set! data 'first (cons (car first) (cadr first))))
+                                (set! data (assq-set! data 'second (cons (car second) (cadr second))))
+                                (set! data (assq-set! data 'third (cons (car third) (cadr third))))
                                 (d-SetSaved #f)
                                 (d-DirectivePut-score-data tag (format #f "'~s" data))
                                 (d-DirectivePut-score-override tag  DENEMO_OVERRIDE_AFFIX)
-                                (d-DirectivePut-score-prefix tag  (string-append "\\markup \\fill-line {\\line{" (cdr first) "}\\line{" (cdr second) "}\\line{" (cdr third) "}}")))))))))
+                                (d-DirectivePut-score-prefix tag  (string-append "\\markup \\fill-line {\\line{" (caddr first) "}\\line{" (caddr second) "}\\line{" (caddr third) "}}")))))))))
