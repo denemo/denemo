@@ -115,7 +115,7 @@ void set_movement_selector (DenemoProject *gui)
       button = gtk_button_new_with_label("");
       if (g->data == gui->movement)
         {
-            gchar *text = g_strdup_printf("<span foreground=\"blue\"><i><b>%d</b></i></span>", i);
+            gchar *text = g_strdup_printf("<span foreground=\"%s\"><i><b>%d</b></i></span>", movementcontrol_directive_get_tag ("HideMovement")?"red":"blue", i);
             GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));
             gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
             gtk_label_set_markup (GTK_LABEL (label_widget), text);
