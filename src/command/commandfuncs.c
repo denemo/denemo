@@ -1518,6 +1518,42 @@ shiftcursor (DenemoProject * gui, gint note_value)
             {                   /* single-note chord - change the note */
               gint dclef = find_prevailing_clef (gui->movement);
               modify_note (thechord, mid_c_offset, gui->movement->curmeasureaccs[note_value], dclef);
+              //if tied modify the tied notes too
+              if(thechord->is_tied)
+                {
+                  objnode *nextobj = gui->movement->currentobject;
+                  measurenode *current = gui->movement->currentmeasure;
+                  while (1)
+                    {
+                  
+                      if(nextobj)
+                        {
+                          DenemoObject *thenextobj= (DenemoObject *) nextobj->data;
+                              
+                          if (thenextobj->type == CHORD)  
+                            {
+                                DenemoMovement *si = Denemo.project->movement;
+                                chord *next = thenextobj->object;
+                                modify_note (next, mid_c_offset, gui->movement->curmeasureaccs[note_value], dclef);
+                                calculatebeamsandstemdirs (current->data, &(si->curmeasureclef), &(si->cursortime1), &(si->cursortime2), &(si->curmeasure_stem_directive));
+                                if(next->is_tied)
+                                 if(nextobj->next==NULL)
+                                    {
+                                      current = current->next;
+                                      if(current && current->data)
+                                        {
+                                           nextobj = current->data;
+                                           continue;
+                                        }
+                                    }
+                                 nextobj = nextobj->next;
+                                 if(nextobj)
+                                    continue;
+                            }
+                        }
+                    break;
+                    }
+                }
             }
           gui->movement->undo_guard--;
           score_status (gui, TRUE);
@@ -1991,7 +2027,43 @@ incrementenshift (DenemoProject * gui, gint direction)
       shiftpitch (curmudelaobj, si->cursor_y, direction > 0);
       showwhichaccidentals ((objnode *) si->currentmeasure->data, si->curmeasurekey, si->curmeasureaccs);
       find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1, si->cursortime2);
-
+      
+      
+      //if tied ...
+            chord *next = curmudelaobj->object;
+            if (next->is_tied) {
+                 objnode *nextobj = gui->movement->currentobject->next;
+                  measurenode *current = gui->movement->currentmeasure;
+                  while (1)
+                    {
+                  
+                      if(nextobj)
+                        {
+                          DenemoObject *thenextobj= (DenemoObject *) nextobj->data;
+                              
+                          if (thenextobj->type == CHORD)  
+                            {
+                                chord *next = thenextobj->object;
+                                shiftpitch (thenextobj, si->cursor_y, direction > 0);
+                                if(next->is_tied)
+                                 if(nextobj->next==NULL)
+                                    {
+                                      current = current->next;
+                                      if(current && current->data)
+                                        {
+                                           nextobj = current->data;
+                                           continue;
+                                        }
+                                    }
+                                 nextobj = nextobj->next;
+                                 if(nextobj)
+                                    continue;
+                            }
+                        }
+                    break;
+                    }
+            
+        }
       if (Denemo.project->last_source == INPUTKEYBOARD)
         {
           DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
