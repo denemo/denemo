@@ -3995,7 +3995,7 @@ accidentals are usually printed over the note.</_tooltip>
         <after>ScoreIndent</after>
         <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Hide Empty Staffs (Off/On)</_label>
-        <_tooltip>Controls whether staffs containing only rests are printed.</_tooltip>
+        <_tooltip>Controls whether staffs containing only rests are printed. All staffs are printed on the first system (line) thereafter any staff that has only rests for a entire system is dropped. Use this in large scores to fit more systems per page.</_tooltip>
       </row>
       <row type="scheme">
         <action>HideOssia</action>
