@@ -7135,6 +7135,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Move to Visible Staff Down</_label>
         <_tooltip>Moves to the next staff or voice down skipping ones that are hidden in the display.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>DuplicateOrMergeMovements</action>
+        <after>DeleteMovement</after>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <_label>Duplicate or Merge</_label>
+        <_tooltip>Offers choice to duplicate the current movement or merge this movement with the previous one.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

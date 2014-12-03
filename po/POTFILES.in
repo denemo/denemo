@@ -943,6 +943,8 @@ actions/menus/ObjectMenu/MovementMenu/CreateIntro.scm
 actions/menus/ObjectMenu/MovementMenu/CreateIntro.xml
 actions/menus/ObjectMenu/MovementMenu/Custos.scm
 actions/menus/ObjectMenu/MovementMenu/Custos.xml
+actions/menus/ObjectMenu/MovementMenu/DuplicateOrMergeMovements.scm
+actions/menus/ObjectMenu/MovementMenu/DuplicateOrMergeMovements.xml
 actions/menus/ObjectMenu/MovementMenu/EvenOutStaffLengths.scm
 actions/menus/ObjectMenu/MovementMenu/EvenOutStaffLengths.xml
 actions/menus/ObjectMenu/MovementMenu/HideBarlines.scm
