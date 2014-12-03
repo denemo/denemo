@@ -7142,6 +7142,20 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Duplicate or Merge</_label>
         <_tooltip>Offers choice to duplicate the current movement or merge this movement with the previous one.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>PushCursorPosition</action>
+        <after>SearchBookmark</after>
+        <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
+        <_label>Store Position</_label>
+        <_tooltip>Stores the current cursor position for returning to later.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>PopCursorPosition</action>
+        <after>PushCursorPosition</after>
+        <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
+        <_label>Move to Stored Position</_label>
+        <_tooltip>Moves the cursor to the last stored position. You can store a sequence of positions and then return to them in one by one (a stack of positions).</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

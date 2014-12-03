@@ -464,8 +464,12 @@ actions/menus/MainMenu/NavigationMenu/Bookmarks/BookmarkNonPrinting.scm
 actions/menus/MainMenu/NavigationMenu/Bookmarks/BookmarkNonPrinting.xml
 actions/menus/MainMenu/NavigationMenu/Bookmarks/NextBookmark.scm
 actions/menus/MainMenu/NavigationMenu/Bookmarks/NextBookmark.xml
+actions/menus/MainMenu/NavigationMenu/Bookmarks/PopCursorPosition.scm
+actions/menus/MainMenu/NavigationMenu/Bookmarks/PopCursorPosition.xml
 actions/menus/MainMenu/NavigationMenu/Bookmarks/PrevBookmark.scm
 actions/menus/MainMenu/NavigationMenu/Bookmarks/PrevBookmark.xml
+actions/menus/MainMenu/NavigationMenu/Bookmarks/PushCursorPosition.scm
+actions/menus/MainMenu/NavigationMenu/Bookmarks/PushCursorPosition.xml
 actions/menus/MainMenu/NavigationMenu/Bookmarks/RehearsalMark.scm
 actions/menus/MainMenu/NavigationMenu/Bookmarks/RehearsalMark.xml
 actions/menus/MainMenu/NavigationMenu/Bookmarks/SearchBookmark.scm

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>PopCursorPosition</action>
+        <after>PushCursorPosition</after>
+        <_label>Move to Stored Position</_label>
+        <_tooltip>Moves the cursor to the last stored position. You can store a sequence of positions and then return to them in one by one (a stack of positions).</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
