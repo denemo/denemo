@@ -213,13 +213,13 @@ key_from_string (GString * scheme_string, gint * tokey, gint * isminor)
   gchar *upper = g_ascii_strup (scheme_string->str, scheme_string->len);
   gint UNSET = G_MININT;
   gint length = 0;
-  *isminor = (g_strstr_len (upper, scheme_string->len, "MINOR")) ? 1 : 0;
+  *isminor = (g_strstr_len (upper, -1, "MINOR")) ? 1 : 0;
   //g_debug("upper %s, scheme %s\n", upper, scheme_string->str);
 
   gchar **keystosearch = (*isminor ? uminorkeys : umajorkeys);
   gint i;
   for (*tokey = UNSET, i = 0; i < 15; i++)
-    if (g_str_has_prefix (upper, keystosearch[i]))
+    if (g_strstr_len (upper, -1, keystosearch[i]))
       {
         if (strlen (keystosearch[i]) > length)
           {
