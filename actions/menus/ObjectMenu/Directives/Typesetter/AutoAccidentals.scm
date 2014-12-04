@@ -12,6 +12,4 @@
 				(if choice
 					(begin
 						(d-SetSaved #f)
-        					(StandAloneDirectiveProto (cons tag (string-append "
-        	#(set-accidental-style '" choice " 'Score)        	
-"))     #t #f choice    20          ))))))
+        					(d-DirectivePut-layout-postfix tag (string-append "\\accidentalStyle Score." choice "\n")))))))
