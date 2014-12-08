@@ -283,6 +283,22 @@ overdraw_print (cairo_t * cr)
       cairo_move_to (cr, 50, 80);
       cairo_show_text (cr, explanation);
     }
+    {
+        DenemoScoreblock *sb = selected_scoreblock ();
+        if (sb)
+            {
+                if (g_list_find (Denemo.project->standard_scoreblocks, sb) == NULL)
+                    {
+                    cairo_set_source_rgba (cr, 0.5, 0.7, 0.25, 0.3);
+                    cairo_set_font_size (cr, 20.0);
+                    cairo_move_to (cr, 50, 30 + (get_print_status()->invalid?80:0));
+                    cairo_show_text (cr, _("(Custom Score Layout)"));
+                    cairo_set_font_size (cr, 18.0);
+                    cairo_move_to (cr, 50, 50 + (get_print_status()->invalid?80:0));
+                    cairo_show_text (cr, _("See View->Score Layout to delete."));
+                    }
+            }
+    }
   if (get_print_status()->updating_id && (get_print_status()->background != STATE_NONE))
     {
       cairo_set_source_rgba (cr, 0.5, 0.0, 0.5, 0.3);
@@ -295,6 +311,9 @@ overdraw_print (cairo_t * cr)
       else if (get_print_status()->typeset_type == TYPESET_EXCERPT)
         cairo_show_text (cr, _("Excerpt Only"));
     }
+    
+    
+
 
   cairo_restore (cr);
 
