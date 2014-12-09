@@ -253,7 +253,7 @@ insert_section (GString ** str, gchar * markname, gchar * name, GtkTextIter * it
   return objanc;
 }
 
-#define FAKECHORD_SEP " |/t"      /*  | to separate chord symbols */
+#define FAKECHORD_SEP " |\t"      /*  | to separate chord symbols */
 
 #define FIGURES_SEP "|"
 /* a separator for groups of figured bass figures on one note
