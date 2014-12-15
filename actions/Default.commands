@@ -2225,6 +2225,13 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>Draw the barlines only between the staves but not inside.</_tooltip>
       </row>
       <row type="scheme">
+        <action>Ornament</action>
+        <after>BreathMark</after>
+        <menupath>/ObjectMenu/Directives/Markings/Ornaments</menupath>
+        <_label>Insert/Edit Ornament</_label>
+        <_tooltip>Select an ornament to insert as an object at the cursor (it will be typeset on the following note), or edit the ornament already present. Ornament here includes accidentals to be placed over or under other ornaments, as well as multiple ornaments stacked on one note/chord.</_tooltip>
+      </row>
+      <row type="scheme">
         <action>NoBarline</action>
         <after>ClosingBarline</after>
         <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
@@ -7155,6 +7162,13 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
         <_label>Move to Stored Position</_label>
         <_tooltip>Moves the cursor to the last stored position. You can store a sequence of positions and then return to them in one by one (a stack of positions).</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>DeleteMeasuresBeforeCursor</action>
+        <after>DeleteFromCursorToEnd</after>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <_label>Delete Measures Before Cursor</_label>
+        <_tooltip>Deletes all the measures before the measure containing the cursor, either current staff or all staffs as chosen by user.</_tooltip>
       </row>
     </map>
   </merge>
