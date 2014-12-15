@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>Ornament</action>
+        <after>BreathMark</after>
+        <_label>Insert/Edit Ornament</_label>
+        <_tooltip>Select an ornament to insert as an object at the cursor (it will be typeset on the following note), or edit the ornament already present. Ornament here includes accidentals to be placed over or under other ornaments, as well as multiple ornaments stacked on one note/chord.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
