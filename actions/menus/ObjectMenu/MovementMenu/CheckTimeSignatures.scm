@@ -1,5 +1,6 @@
 ;;;CheckTimeSignatures
  (define CheckTimeSignatures::return #f)
+ (define-once CheckScore::error-position #f)
  (let ()
     (define position (GetPosition))
     (define (check-down timesig)
@@ -36,10 +37,11 @@
                             (loop))))
         (if (d-MoveToStaffDown)
             (outer-loop)))
-    (if CheckTimeSignatures::params
-        (apply d-GoToPosition position)
+    (if (not CheckTimeSignatures::params) ;;; interactive when #f
         (begin
             (if CheckTimeSignatures::return
-                (d-WarningDialog CheckTimeSignatures::return)
+                (begin
+                    (apply d-GoToPosition CheckScore::error-position)
+                    (d-WarningDialog CheckTimeSignatures::return))
                 (d-InfoDialog (_ "No problem detected with time signature changes"))))))
                             

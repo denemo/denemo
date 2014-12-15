@@ -67,10 +67,11 @@
             (if (not CheckScore::return)
                 (begin
                     (set! CheckScore::error-position #f)
-                    (set! CheckScore::return (_ "No problem detected in this score")))
-            (if CheckScore::error-position
-                (apply d-GoToPosition CheckScore::error-position))
-            (d-InfoDialog CheckScore::return)))
+                    (d-InfoDialog  (_ "No problem detected in this score")))
+            (begin
+                (if CheckScore::error-position
+                    (apply d-GoToPosition CheckScore::error-position))
+                (d-InfoDialog CheckScore::return))))
         (disp "Error location " CheckScore::error-position "\n"))
  
                    

@@ -7,7 +7,10 @@
 ;SplitAll set to #f allows user to decide whether to split across barlines; set to #t, splits always.
 ;TupletScaleFactor: e.g. if we're inside a triplet, scale durations by 2/3
 ;IgnoreDurationError set if a measure is marked as having an allowable duration discrepancy, marking is done with a directive of tag "!"
+
 (define ReBar::return #f)
+(define-once CheckScore::error-position #f)
+
 (let ( (Input1 #f) (Input2 #f) (InitialTimeSig 1) (ScanAllStaffs #f) (TupletScaleFactor 1)  
 (SplitAll #f)(IgnoreDurationError #f))
     
