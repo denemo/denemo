@@ -1,6 +1,7 @@
 ;;;;;;;;;CheckScore
 (define CheckScore::return #f)
 (define-once CheckScore::ignore 0)
+(define-once CheckScore::error-position #f)
 (if CheckScore::params
     (set! CheckScore::ignore CheckScore::params))
 (if (d-Directive-score? "CriticalCommentsAmended")
@@ -38,17 +39,19 @@
                            
      (if (not CheckScore::return)                      
                (begin
-               		(d-CheckTimeSignatures #t)
-               		(set! CheckScore::return CheckTimeSignatures::return)))            
+                    (d-CheckTimeSignatures #t)
+                    (set! CheckScore::return CheckTimeSignatures::return)))            
                            
     (if (not CheckScore::return)
-          (let staff ()
-            (d-ReBar #t)
-            (set! CheckScore::return ReBar::return)
-            (if (not CheckScore::return)
-                (begin 
-                    (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
-                    (staff))))))
+          (begin
+            (while (d-MoveToStaffUp))  
+              (let staff ()
+                (d-ReBar 'noninteractive)
+                (set! CheckScore::return ReBar::return)
+                (if (not CheckScore::return)
+                    (begin 
+                        (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
+                        (staff)))))))
                     
     (if (not CheckScore::return)
         (begin
@@ -62,7 +65,12 @@
 (if (not CheckScore::params);; interactive
         (begin
             (if (not CheckScore::return)
+                (begin
+                    (set! CheckScore::error-position #f)
                     (set! CheckScore::return (_ "No problem detected in this score")))
+            (if CheckScore::error-position
+                (apply d-GoToPosition CheckScore::error-position))
             (d-InfoDialog CheckScore::return)))
+        (disp "Error location " CheckScore::error-position "\n"))
  
                    

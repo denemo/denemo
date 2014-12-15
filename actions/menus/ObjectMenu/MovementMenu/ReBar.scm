@@ -153,109 +153,116 @@
 )
 
 
-;Now here's the function:
+;Now here's the function, it returns #f if there is a problem in a measure in the current staff that is not fixed else returns true
 
 (define (AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?) ;;set Pad? to #t if we should add blanks to underfull bars. 
-(let ( (Counter 0) (Excess 0) (LeftOver 0)(Inquiry #f))
-    ;Counter keeps track of the duration of the notes of the bar as we proceed chord by chord.  
-    
-    ;Debugger can be useful for bug-fixing
-    (define (Debugger)
-        (begin (d-RefreshDisplay)
-        (if (not (d-GetUserInput "Debug Message" 
-            (string-append "Counter:" (number->string Counter) "\nTupletScaleFactor:" (number->string TupletScaleFactor) "\nTimeSig:" (number->string
-                TimeSig)
-             ) "Hit OK when ready" ) ) (#f) ) 
-    ))
-    
-    (define (GetTimeSigChange)
-        (d-RefreshDisplay);;forces the cached data about the time signature at the cursor to be updated (sigh)
-        (set! TimeSig (string->number (d-InsertTimeSig "query=timesigname") ))
-    );GetTimeSig
-    
-
+    (let ( (Counter 0) (Excess 0) (LeftOver 0)(Inquiry #f))
+        ;Counter keeps track of the duration of the notes of the bar as we proceed chord by chord.  
         
-    (define (NextBreakInMeasure) ;move to next object in measure, skipping objects of no duration, return #t if we found something with nonzero duration
-        (let ((GNB 0)(Moved #f))
-            (while 
-                (and 
-                    (d-NextObjectInMeasure) 
-                    (set! Moved #t) ;make sure we know we moved
-                    (equal? (GetNoteBeat) 0)    ;do this so we don't run GetNoteBeat twice on same object (it could mess up counts?)
+        ;Debugger can be useful for bug-fixing
+        (define (Debugger)
+            (begin (d-RefreshDisplay)
+            (if (not (d-GetUserInput "Debug Message" 
+                (string-append "Counter:" (number->string Counter) "\nTupletScaleFactor:" (number->string TupletScaleFactor) "\nTimeSig:" (number->string
+                    TimeSig)
+                 ) "Hit OK when ready" ) ) (#f) ) 
+        ))
+        
+        (define (GetTimeSigChange)
+            (d-RefreshDisplay);;forces the cached data about the time signature at the cursor to be updated (sigh)
+            (set! TimeSig (string->number (d-InsertTimeSig "query=timesigname") ))
+        );GetTimeSig
+        
 
-                )
-            )
-            (and Moved (not (equal? (GetNoteBeat) 0)))  ;return #t if we Moved and found something with nonzero duration
-        )
-    )
-    
-    (define (GetNoteBeat )  ;get duration of a note as a fraction of a whole note, e.g. dotted quarter = 3/8
-        (let ((note 0) (len 0 ) (DotIndex 0) (NumDots 0) (NoteBeat 0))
-            (begin
-            (if (equal? (d-GetType) "TIMESIG") 
-                (if (equal? Counter 0) ;encountering a TimeSig change mid-measure requires user intervention
-                    (GetTimeSigChange)
-                    (begin
-                        (d-InfoDialog "This time signature change is in the middle of the bar.\n
-                        Please run the command again after you've fixed this.")
-                        (set! NoteBeat #f) ;this should halt the script after it's returned.
+            
+        (define (NextBreakInMeasure) ;move to next object in measure, skipping objects of no duration, return #t if we found something with nonzero duration
+            (let ((GNB 0)(Moved #f))
+                (while 
+                    (and 
+                        (d-NextObjectInMeasure) 
+                        (set! Moved #t) ;make sure we know we moved
+                        (equal? (GetNoteBeat) 0)    ;do this so we don't run GetNoteBeat twice on same object (it could mess up counts?)
+
                     )
                 )
+                (and Moved (not (equal? (GetNoteBeat) 0)))  ;return #t if we Moved and found something with nonzero duration
             )
-            
-            (if (equal? (d-GetType) "LILYDIRECTIVE")
+        )
+        
+        (define (GetNoteBeat )  ;get duration of a note as a fraction of a whole note, e.g. dotted quarter = 3/8
+            (let ((note 0) (len 0 ) (DotIndex 0) (NumDots 0) (NoteBeat 0))
                 (begin
-                    (set! NoteBeat (/ (d-GetDurationInTicks) 1536))
-                    (set! IgnoreDurationError (d-Directive-standalone? "!"))) ;;This tag tells Denemo to ignore duration errors in this measure.
-            )
-            (if (equal? (d-GetType) "CHORD" ) 
-                (if (not (d-ToggleGrace "query="))  ;if it's not a grace, continue; otherwise, leave it as 0.                   
-                        (set! NoteBeat (/ (d-GetDurationInTicks) 1536))                 
+                (if (equal? (d-GetType) "TIMESIG") 
+                    (if (equal? Counter 0) ;encountering a TimeSig change mid-measure requires user intervention
+                        (GetTimeSigChange)
+                        (begin
+                            (d-InfoDialog "This time signature change is in the middle of the bar.\n
+                            Please run the command again after you've fixed this.")
+                            (set! NoteBeat #f) ;this should halt the script after it's returned.
+                        )
+                    )
                 )
-            ) 
-             NoteBeat   ;return NoteBeat
-            )
-        )
-    );GetNoteBeat
-    (define (R-StartTuplet TupletFactor)    ;note: doesn't modify TupletScaleFactor.
-        (begin
-            (d-StartTriplet)
-            (if (boolean? (d-GetTuplet))
-            (d-MoveCursorLeft))
-            (d-SetTuplet  (number->string TupletFactor ) )
-            (d-MoveCursorRight)
-        )
-    )
-
-    (define (LoopThroughBar)   ;stops once we've met or surpassed the measure size, or run out of new notes.
-        (if (and (< Counter TimeSig) (d-NextObjectInMeasure) )  ;as long as the Counter is less than a full bar, and there's more stuff to process...
-            (begin
-                (set! Counter (+ Counter (GetNoteBeat)) )   ;we increment the Counter,
-                (LoopThroughBar)    ;and keep going until done with the bar.
                 
+                (if (equal? (d-GetType) "LILYDIRECTIVE")
+                    (begin
+                        (set! NoteBeat (/ (d-GetDurationInTicks) 1536))
+                        (set! IgnoreDurationError (d-Directive-standalone? "!"))) ;;This tag tells Denemo to ignore duration errors in this measure.
+                )
+                (if (equal? (d-GetType) "CHORD" ) 
+                    (if (not (d-ToggleGrace "query="))  ;if it's not a grace, continue; otherwise, leave it as 0.                   
+                            (set! NoteBeat (/ (d-GetDurationInTicks) 1536))                 
+                    )
+                ) 
+                 NoteBeat   ;return NoteBeat
+                )
+            )
+        );GetNoteBeat
+        (define (R-StartTuplet TupletFactor)    ;note: doesn't modify TupletScaleFactor.
+            (begin
+                (d-StartTriplet)
+                (if (boolean? (d-GetTuplet))
+                (d-MoveCursorLeft))
+                (d-SetTuplet  (number->string TupletFactor ) )
+                (d-MoveCursorRight)
             )
         )
-    )
-    ;here's the actual algorithm
-     (set! IgnoreDurationError #f)
-    (while (d-PrevObjectInMeasure)) ;go to beginning of measure
-    (set! Counter (+ Counter (GetNoteBeat)) );read the first note in to get started...NOTE: if GetNoteBeat= #f this will terminate execution.
-    (LoopThroughBar)    ;then loop through the rest of the bar until counter equals or overshoots the measure size in TimeSig,
-                    ; or the measure's done being processed
-       ; (disp "check Counter " Counter " and time sig " TimeSig "and " IgnoreDurationError " ok")
-        ;;ticks have granularity of 1 so we cannot accept a 1 discrepancy as meaning anything once we have reached a certain number of ticks - how many I am not sure, but try 383, fails with septuplet, try 255
-    (if (and (None?) (not Pad?))
-        (set! Counter TimeSig))
-    (if IgnoreDurationError
-        (begin
-           
-            (set! Counter TimeSig)))
-    (let ((top (numerator Counter)) (bottom (denominator Counter)))
-        ;(disp "We have top " top " bottom " bottom " div "  (/ (1+ top) bottom) " ok")
-        (if  (and (> top 254) (equal? TimeSig (/ (1+ top) bottom)))
-            (set! Counter (/ (1+ top) bottom))))
-;(disp "Set Counter " Counter "\n")          
-          (if (< Counter TimeSig) ;if measure too small, (going back first)
+
+        (define (LoopThroughBar)   ;stops once we've met or surpassed the measure size, or run out of new notes.
+            (if (and (< Counter TimeSig) (d-NextObjectInMeasure) )  ;as long as the Counter is less than a full bar, and there's more stuff to process...
+                (begin
+                    (set! Counter (+ Counter (GetNoteBeat)) )   ;we increment the Counter,
+                    (LoopThroughBar)    ;and keep going until done with the bar.
+                    
+                )
+            )
+            (set! CheckScore::error-position (GetPosition))
+        )
+        ;here's the actual algorithm
+        (set! IgnoreDurationError #f)
+        (while (d-PrevObjectInMeasure)) ;go to beginning of measure
+        (set! Counter (+ Counter (GetNoteBeat)) );read the first note in to get started...NOTE: if GetNoteBeat= #f this will terminate execution.
+        (LoopThroughBar)    ;then loop through the rest of the bar until counter equals or overshoots the measure size in TimeSig,
+                        ; or the measure's done being processed
+            ;(disp "check Counter " Counter " and time sig " TimeSig "and " IgnoreDurationError " ok")
+            ;;ticks have granularity of 1 so we cannot accept a 1 discrepancy as meaning anything once we have reached a certain number of ticks - how many I am not sure, but try 383, fails with septuplet, try 255
+        (if (and (None?) (not Pad?))
+            (set! Counter TimeSig))
+            
+         (if (= Counter 0)
+                (set! Counter TimeSig));;;allow empty measures
+            
+            
+        (if IgnoreDurationError
+            (begin
+                (set! Counter TimeSig)))
+                
+        (let ((top (numerator Counter)) (bottom (denominator Counter)))
+            ;(disp "We have top " top " bottom " bottom " div "  (/ (1+ top) bottom) " ok")
+            (if  (and (> top 254) (equal? TimeSig (/ (1+ top) bottom)))
+                (set! Counter (/ (1+ top) bottom))))
+                
+                    ;(disp "Set Counter " Counter "\n")          
+        (if (< Counter TimeSig) ;if measure too small, (going back first)
             (if Pad?    ; and the user wants us to pad,
                 (begin
                     (if (not (or (equal? (d-GetType) "None") (equal? (d-GetType) "Appending"))) 
@@ -285,14 +292,9 @@
                             #f  ;if we're not supposed to pad or merge/split, stop here.  This measure had prob's
                         )
                         #t      ;otherwise, staff is good.
-                    )
-                    
-                )
-            
-            )
-            ;if it wasn't too small...
-
-            (if (and (not IgnoreDurationError)  (equal? Counter TimeSig)) ; and if measure is exactly full now... or we are counting it as
+                    )))
+                    ;if it wasn't too small...
+            (if (and (not IgnoreDurationError)  (equal? Counter TimeSig)) ; and if measure is exactly full now (and not just because we are ignoring the duration error)
                 (if (NextBreakInMeasure) ;see if there's extra stuff that has duration,
                     (if MergeAndSplit?  ;if there IS and we're supposed to merge/split...
                         (begin
@@ -308,7 +310,7 @@
                         (if (not (None?))
                             (d-MoveCursorRight))
                         (if (not (= TupletScaleFactor 1)) (d-EndTuplet)) ;if need be, end the tuplet in this bar, then restart it in next
-        
+
                         (if (d-MoveToMeasureRight) ;if there's another measure...
                             (begin 
 
@@ -319,7 +321,7 @@
                         )
                     )
                 )
-
+                    ;;;measure not exact or we are ignoring the duration error
                 (if (and MergeAndSplit? (> Counter TimeSig)) ; if the measure is overfull, see if want to split.
                     (begin
                         (set! Excess (- Counter TimeSig)) ;this is how much of that note to put in next measure,                        
@@ -363,11 +365,10 @@
                             )
                         )                   
                     )
-                    
-                    IgnoreDurationError  ;just return false if they don't want to Merge/Split, unless it is ignored
+                    ;;; measure is not exact and merging is not asked for
+                    IgnoreDurationError  ;just return #f as they don't want to Merge/Split, unless it is to be ignored
                 )
             )
-            
         )
     )
 ) ;define AuditThisStaff

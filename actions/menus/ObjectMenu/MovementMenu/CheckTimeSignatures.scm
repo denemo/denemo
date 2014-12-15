@@ -8,9 +8,11 @@
         (while (d-MoveToStaffUp))
         (let loop ()
             (if (not (and (Timesignature?) (equal? timesig (d-GetPrevailingTimesig))))
-                (set! result (_ "Time Signature does not match"))
+                (begin
+                    (set! result (_ "Time Signature does not match"))
+                    (set! CheckScore::error-position (GetPosition)))
                 (if  (d-MoveToStaffDown)
-                	(loop))))
+                    (loop))))
         (d-PopPosition)
         result)
         
