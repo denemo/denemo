@@ -962,7 +962,7 @@
                         (ChordOrnament tag (string-append "\\" name)   params   name)
 (if (not (d-Directive-score? (string-append "Allow\n" name)))
     (begin
-        (d-LilyPondDefinition (cons name (string-append "\\tweak outside-staff-priority #50 -\\markup {\\epsfile #X #2 #\"" filename "\""   "}" )))
+        (d-LilyPondDefinition (cons name (string-append "\\markup {\\epsfile #X #2 #\"" filename "\""   "}" )))
         (d-DirectivePut-score-data (string-append "Allow\n" name) (string-append "(list \"" name "\" \"" filename  "\" \"2\")"))))))
  
 ;;;;;;;;;
