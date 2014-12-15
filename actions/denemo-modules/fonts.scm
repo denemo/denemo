@@ -67,6 +67,7 @@
 ;;;
 (define DENEMO_SHARP "")
 (define DENEMO_FLAT "")
+(define DENEMO_NATURAL "")
 
 (define LG-Staccato (string-append "\n" DENEMO_STACCATO "\nemmentaler"))
 (define LG-Staccatissimo (string-append "\n" DENEMO_STACCATISSIMO "\nemmentaler"))
@@ -115,5 +116,6 @@
 (define LG-Varcoda (string-append "\n" DENEMO_VARCODA "\nemmentaler"))
 (define LG-Sharp (string-append "\n" DENEMO_SHARP "\nemmentaler"))
 (define LG-Flat (string-append "\n" DENEMO_FLAT "\nemmentaler"))
+(define LG-Natural (string-append "\n" DENEMO_NATURAL "\nemmentaler"))
 
 
