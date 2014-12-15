@@ -596,10 +596,10 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
           (if (not (or (equal? current-direction "^") (equal? current-direction "-") (equal? current-direction "_")))
             (set! current-direction "-"))
                     (case (car option)
-              ((padding) (string-append " " current-direction "\\tweak #'padding #" (cdr option)))
+                            ((padding) (string-append " " current-direction "\\tweak #'padding #" (cdr option)  " -" ))
                             ((direction) (cdr option))
                             ((offsetx) (string-append " " current-direction "\\tweak #'X-offset #'" (cdr option)))
-                            ((offsety)  (string-append " " current-direction "\\tweak #'Y-offset #'" (cdr option)))))
+                            ((offsety)  (string-append " " current-direction "\\tweak #'Y-offset #'" (cdr option) " -"  )))) ;;assumes y-offset is last
     (define (direction-edit)
         (let ((choice #f))
         (set! choice (d-GetOption  (string-append (_ "Up") stop (_ "Down") stop (_ "Auto") stop)))
@@ -623,10 +623,10 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
                                     (begin
                                         (d-SetSaved #f)
                                         (set! current-direction (substring (string-trim (d-DirectiveGet-chord-postfix tag)) 0 1))
-                                        (d-DirectivePut-chord-postfix tag (string-append  (string-join (map set-option params)) " " lilypond " ")))
+                                        (d-DirectivePut-chord-postfix tag (string-append  (string-join (map-in-order set-option params))  lilypond " ")))
                                     (d-WarningDialog "Cannot complete operation - cursor moved or bad parameter list")))
             (begin  ;;;no parameters, toggle annotation off/on
-                    (ToggleChordDirective tag graphic lilypond DENEMO_OVERRIDE_ABOVE display)))))
+                    (ToggleChordDirective tag graphic (string-append "-" lilypond) DENEMO_OVERRIDE_ABOVE display)))))
                                             
 (define* (ChordOrnament tag lilypond params graphic #:optional display)
        (ChordAnnotation tag lilypond params graphic display))  
