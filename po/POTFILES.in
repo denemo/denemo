@@ -724,6 +724,10 @@ actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm
 actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.xml
 actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm
 actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.xml
+actions/menus/ObjectMenu/Directives/Markings/Ornaments/Agrement.scm
+actions/menus/ObjectMenu/Directives/Markings/Ornaments/Agrement.xml
+actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm
+actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.xml
 actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm
 actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.xml
 actions/menus/ObjectMenu/Directives/Markings/Spanning/BeamingOff.scm
@@ -1746,6 +1750,8 @@ actions/menus/ObjectMenu/StaffMenu/CrossStaffArpeggio.scm
 actions/menus/ObjectMenu/StaffMenu/CrossStaffArpeggio.xml
 actions/menus/ObjectMenu/StaffMenu/DeleteFromCursorToEnd.scm
 actions/menus/ObjectMenu/StaffMenu/DeleteFromCursorToEnd.xml
+actions/menus/ObjectMenu/StaffMenu/DeleteMeasuresBeforeCursor.scm
+actions/menus/ObjectMenu/StaffMenu/DeleteMeasuresBeforeCursor.xml
 actions/menus/ObjectMenu/StaffMenu/DisplayEffects/HideNotSelectedStaffs.scm
 actions/menus/ObjectMenu/StaffMenu/DisplayEffects/HideNotSelectedStaffs.xml
 actions/menus/ObjectMenu/StaffMenu/DisplayEffects/HideSelectedStaffs.scm

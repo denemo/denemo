@@ -957,13 +957,16 @@
                 
                 
 ;;;;;;;;;;
-(define (ToggleOrnament name params)
-(let ((tag (string-append "Toggle" (string-upcase name 0  1)))(filename (scheme-escape (string-append DENEMO_GRAPHICS_DIR name ".eps"))))
-                        (ChordOrnament tag (string-append "\\" name)   params   name)
-(if (not (d-Directive-score? (string-append "Allow\n" name)))
-    (begin
+(define (AllowOrnament name)
+    (let ((filename (scheme-escape (string-append DENEMO_GRAPHICS_DIR name ".eps"))))
         (d-LilyPondDefinition (cons name (string-append "\\markup {\\epsfile #X #2 #\"" filename "\""   "}" )))
-        (d-DirectivePut-score-data (string-append "Allow\n" name) (string-append "(list \"" name "\" \"" filename  "\" \"2\")"))))))
+        (d-DirectivePut-score-data (string-append "Allow\n" name) (string-append "(list \"" name "\" \"" filename  "\" \"2\")"))))
+(define (ToggleOrnament name params)
+    (let ((tag (string-append "Toggle" (string-upcase name 0  1))))
+        (ChordOrnament tag (string-append "\\" name)   params   name)
+    (if (not (d-Directive-score? (string-append "Allow\n" name)))
+        (AllowOrnament name))))
+   
  
 ;;;;;;;;;
 (define (GetDefinitionDirectives)

@@ -7170,6 +7170,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Delete Measures Before Cursor</_label>
         <_tooltip>Deletes all the measures before the measure containing the cursor, either current staff or all staffs as chosen by user.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>Agrement</action>
+        <after>Ornament</after>
+        <menupath>/ObjectMenu/Directives/Markings/Ornaments</menupath>
+        <_label>Agrements</_label>
+        <_tooltip>Insert a (French) agrement on the note at the cursor.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
