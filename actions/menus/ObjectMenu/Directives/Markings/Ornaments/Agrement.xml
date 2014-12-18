@@ -7,8 +7,8 @@
       <row type="scheme">
         <action>Agrement</action>
         <after>Ornament</after>
-        <_label>Agrements</_label>
-        <_tooltip>Insert a (French) agrement on the note at the cursor.</_tooltip>
+        <_label>Agréments</_label>
+        <_tooltip>Insert a (French 18th c) agrément on the note at the cursor.</_tooltip>
       </row>
     </map>
   </merge>
