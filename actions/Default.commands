@@ -7174,8 +7174,15 @@ and others in the LilyPond documentation.</_tooltip>
         <action>Agrement</action>
         <after>Ornament</after>
         <menupath>/ObjectMenu/Directives/Markings/Ornaments</menupath>
-        <_label>Agrements</_label>
-        <_tooltip>Insert a (French) agrement on the note at the cursor.</_tooltip>
+        <_label>Agréments</_label>
+        <_tooltip>Insert a (French 18th c) agrément on the note at the cursor.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>DynamicsExtraSpace</action>
+        <after>DecrescendoTextSpanner</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
+        <_label>Extra Spacing</_label>
+        <_tooltip>Music is spaced out by the extra amount given to avoid dynamic markings colliding.</_tooltip>
       </row>
     </map>
   </merge>
