@@ -138,9 +138,7 @@
                             
             (d-DirectivePut-standalone-minpixels tag 20)
             (d-DirectivePut-standalone-gx tag 20)
-           ; (d-DirectivePut-standalone-gy tag (+ (if (equal? direction "_") 60 0) (- (string->number priority) 30)))        
             (d-DirectivePut-standalone-gy tag  (if (equal? direction "_") (+ 60 (- (string->number priority) 30))  (- -30 (string->number priority))))   
-            ;(disp "From priority= " priority " direction= " direction " get gy= "  (+ (if (equal? direction "_") 60 0) (- (string->number priority) 30)))       
             
             (d-DirectivePut-standalone-prefix tag (string-append "<>-\\tweak outside-staff-priority " priority))
             (set! data (assq-set! '() 'priority priority))
