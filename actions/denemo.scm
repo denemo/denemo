@@ -997,3 +997,31 @@
         (if definitions
                 (RadioBoxMenuList definitions)
                 #f)))
+
+;;; get the (lilypond internal) step and accidental for a lilypond syntax note name
+(define (GetStep note)
+    (let ((step #f))
+        (case (string-ref note 0)
+            ((#\c) (set! step 0))
+            ((#\d) (set! step 1))
+            ((#\e) (set! step 2))
+            ((#\f) (set! step 3))
+            ((#\g) (set! step 4))
+            ((#\a) (set! step 5))
+            ((#\b) (set! step 6)))
+       step))
+(define (GetAccidental note)
+    (define NATURAL 0)
+    (define FLAT (/ -1 2))
+    (define SHARP (/ 1 2))
+    (define DOUBLE-FLAT -1)
+    (define DOUBLE-SHARP 1)
+    (if (string-contains note "isis")
+        DOUBLE-SHARP
+        (if (string-contains note "eses")
+            DOUBLE-FLAT
+            (if (string-contains note "is")
+                SHARP
+                (if (string-contains note "es")
+                    FLAT
+                    NATURAL)))))

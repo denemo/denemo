@@ -7184,6 +7184,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Extra Spacing</_label>
         <_tooltip>Music is spaced out by the extra amount given to avoid dynamic markings colliding.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>BassInversionSequence</action>
+        <after>AddBassInversion</after>
+        <menupath>/ObjectMenu/ChordMenu</menupath>
+        <_label>Bass Sequence</_label>
+        <_tooltip>Typesets a sequence of bass inversion notes.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

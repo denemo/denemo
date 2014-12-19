@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>BassInversionSequence</action>
+        <after>AddBassInversion</after>
+        <_label>Bass Sequence</_label>
+        <_tooltip>Typesets a sequence of bass inversion notes.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

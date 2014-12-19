@@ -2,6 +2,46 @@
 (define-once Transpose::Interval "c ees")
 
 (let ((text #f) (global-tag "GlobalTranspose")(tag "TransposeOnPrint"))
+(define (get-step note)
+    (let ((step #f))
+        (case (string-ref note 0)
+            ((#\c) (set! step 0))
+            ((#\d) (set! step 1))
+            ((#\e) (set! step 2))
+            ((#\f) (set! step 3))
+            ((#\g) (set! step 4))
+            ((#\a) (set! step 5))
+            ((#\b) (set! step 6)))
+       step))
+(define (get-accidental note)
+    (define NATURAL 0)
+    (define FLAT (/ -1 2))
+    (define SHARP (/ 1 2))
+    (define DOUBLE-FLAT -1)
+    (define DOUBLE-SHARP 1)
+    (if (string-contains note "isis")
+        DOUBLE-SHARP
+        (if (string-contains note "eses")
+            DOUBLE-FLAT
+            (if (string-contains note "is")
+                SHARP
+                (if (string-contains note "es")
+                    DOUBLE-FLAT
+                    NATURAL)))))
+(define (step-diff base note)
+    (define step1 (get-step base))
+    (define step2 (get-step note))
+    (set! step1 (- step2 step1))
+    (while (< step1 0)
+        (set! step1 (+ step1 7)))
+    step1)
+    
+(define (acc-diff base note)
+    (define acc1 (get-accidental base))
+    (define acc2 (get-accidental note))
+    (/ (- acc2 acc1) 2))
+    
+
 (if (and TransposeScorePrint::params (not (equal?  TransposeScorePrint::params "edit")))
     (set! Transpose::Interval TransposeScorePrint::params)
     (set! Transpose::Interval (d-GetUserInput (_ "Set Transpose Interval") (_ "Give Interval to transpose by as two note names, 
@@ -16,22 +56,27 @@
     e.g. d e means a tone higher.
     ") Transpose::Interval)))
 (if Transpose::Interval
-  (let ((choice (RadioBoxMenu
+  (let ((base #f)(note (string-tokenize Transpose::Interval)) (choice (RadioBoxMenu
                      (cons "Global (includes quoted music)"   'global)   
                         (cons "Main Score Only" 'score))))
               (d-DirectiveDelete-score "TransposeScorePrint") ;;;get rid of old style transpose directive      
-               (d-DirectiveDelete-score tag)
-               (d-DirectiveDelete-score global-tag)
+              (d-DirectiveDelete-score tag)
+              (d-DirectiveDelete-score global-tag)
+              (set! base (car note))
+              (set! note (cadr note))
               (case choice
-         			 ((global)      
-         			 	 (d-DirectivePut-score-override global-tag  DENEMO_OVERRIDE_AFFIX)
-         			 	 (d-DirectivePrioritizeTag-score global-tag)
-         			 	 (d-DirectivePut-score-prefix global-tag   (string-append     "\nDenemoGlobalTranspose = #(define-music-function (parser location arg)(ly:music?) #{\\transpose "
-         			 Transpose::Interval "#arg #})\n"))
-         			        (d-DirectivePut-score-postfix tag  "\\DenemoGlobalTranspose "))
-  	  			(else
-  	  			    	 (d-DirectivePut-score-postfix tag (string-append  "\\transpose " Transpose::Interval " "))))
-	  (set! text (string-append  "Print transposed:  " Transpose::Interval " ")) 
-	  (d-DirectivePut-score-display tag text)
-	  (d-DirectivePut-score-override tag DENEMO_OVERRIDE_GRAPHIC)
-	  (d-SetSaved #f))))
+                     ((global)      
+                         (d-DirectivePut-score-override global-tag  DENEMO_OVERRIDE_AFFIX)
+                         (d-DirectivePrioritizeTag-score global-tag)
+                         (d-DirectivePut-score-prefix global-tag   (string-append 
+                                "#(define DenemoTransposeStep " (number->string (step-diff base note)) ")\n"
+                                "#(define DenemoTransposeAccidental " (number->string (acc-diff base note)) ")\n"
+                                "\nDenemoGlobalTranspose = #(define-music-function (parser location arg)(ly:music?) #{\\transpose "
+                     Transpose::Interval "#arg #})\n"))
+                            (d-DirectivePut-score-postfix tag  "\\DenemoGlobalTranspose "))
+                (else
+                         (d-DirectivePut-score-postfix tag (string-append  "\\transpose " Transpose::Interval " "))))
+      (set! text (string-append  "Print transposed:  " Transpose::Interval " ")) 
+      (d-DirectivePut-score-display tag text)
+      (d-DirectivePut-score-override tag DENEMO_OVERRIDE_GRAPHIC)
+      (d-SetSaved #f))))
