@@ -2462,7 +2462,7 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
 //    change this script to have DENEMO_OVERRIDE_AFFIX set and then move all others to the score layout section
 
     //Default value for barline = barline check
-    gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, "\nCompactChordSymbols = {}\nDenemoGlobalTranspose = #(define-music-function (parser location arg)(ly:music?) #{\\transpose c c #arg #})\nAutoBarline = {}\nAutoEndMovementBarline = \\bar \"|.\"\n", -1, INEDITABLE, NULL, NULL);
+    gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, "\nCompactChordSymbols = {}\n#(define DenemoTransposeStep 0)\n#(define DenemoTransposeAccidental 0)\nDenemoGlobalTranspose = #(define-music-function (parser location arg)(ly:music?) #{\\transpose c c #arg #})\ntitledPiece = {}\nAutoBarline = {}\nAutoEndMovementBarline = \\bar \"|.\"\n", -1, INEDITABLE, NULL, NULL);
     GList *g = gui->lilycontrol.directives;
     /* num is not needed, as at the moment we can never get this location from LilyPond */
     for (; g; g = g->next)
