@@ -182,6 +182,8 @@ if HAVE_EVINCE
   denemo_SOURCES += \
     source/source.c \
     source/source.h \
+    source/proof.c \
+    source/proof.h \
     printview/printview.h \
     printview/printview.c
 endif

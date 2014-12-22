@@ -116,7 +116,10 @@ supported_file_extensions(gchar* format){
     exts = g_list_append(exts, "*.pdf");
     exts = g_list_append(exts, "*.PDF");
   }
-
+  if(g_strcmp0 ("proof", format) == 0){
+    exts = g_list_append(exts, "*.pdf");
+    exts = g_list_append(exts, "*.PDF");
+  }
   return exts;
 }
 
@@ -353,7 +356,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
 #else
           // a .pdf file for transcribing from, does not affect the current score.
           g_signal_handlers_unblock_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
-          return !open_source (filename, 0, 0, 0);
+          return type==PROOFREAD? (!open_proofread_file(filename)) : !open_source (filename, 0, 0, 0);
 #endif
         }
     g_message("Opening file %s", filename);
@@ -901,6 +904,11 @@ gint
 open_source_file (void)
 {
   return file_open_dialog ("Open", "evince", PDF_FORMAT, 0, 0, NULL);
+}
+gint
+open_proof_file (void)
+{
+  return file_open_dialog ("Open", "proof", PDF_FORMAT, 0, PROOFREAD, NULL);
 }
 
 /**

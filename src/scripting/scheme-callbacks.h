@@ -301,6 +301,7 @@ SCM scheme_edit_graphics (SCM, SCM);
 SCM scheme_open_source (SCM);
 SCM scheme_export_recorded_audio (void);
 SCM scheme_open_source_file (SCM);
+SCM scheme_open_proofread_file (SCM);
 SCM scheme_open_source_audio_file (SCM);
 SCM scheme_close_source_audio (SCM);
 SCM scheme_start_audio_play (SCM);

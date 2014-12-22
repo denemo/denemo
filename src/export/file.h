@@ -53,4 +53,5 @@ gchar *file_dialog (gchar * message, gboolean type, gchar * location);
 
 gint lyinput (gchar * filename);
 gint open_source_file (void);
+gint open_proof_file (void);
 #endif /*FILE_H */

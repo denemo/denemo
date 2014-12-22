@@ -1394,6 +1394,13 @@ scheme_open_source_file (SCM optional)
     return SCM_BOOL_T;
   return SCM_BOOL_F;
 }
+SCM
+scheme_open_proofread_file (SCM optional)
+{
+  if (open_proof_file ())
+    return SCM_BOOL_T;
+  return SCM_BOOL_F;
+}
 
 SCM
 scheme_export_recorded_audio (void)
