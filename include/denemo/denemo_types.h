@@ -618,7 +618,8 @@ typedef enum
   REPLACE_SCORE,
   ADD_STAFFS,
   ADD_MOVEMENTS,
-  GUIDED_IMPORT
+  GUIDED_IMPORT,
+  PROOFREAD
 } ImportType;
 
 typedef enum 
