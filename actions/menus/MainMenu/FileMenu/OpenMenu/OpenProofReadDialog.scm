@@ -1,0 +1,2 @@
+;;;OpenProofReadDialog
+(d-OpenProofReadFile)
