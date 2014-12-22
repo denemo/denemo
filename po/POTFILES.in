@@ -167,6 +167,8 @@ src/scripting/scheme-callbacks.c
 src/scripting/scheme-callbacks.h
 src/scripting/scheme-identifiers.c
 src/scripting/scheme-identifiers.h
+src/source/proof.c
+src/source/proof.h
 src/source/sourceaudio.c
 src/source/sourceaudio.h
 src/source/source.c
@@ -370,6 +372,8 @@ actions/menus/MainMenu/FileMenu/OpenMenu/OpenAudio.scm
 actions/menus/MainMenu/FileMenu/OpenMenu/OpenAudio.xml
 actions/menus/MainMenu/FileMenu/OpenMenu/OpenMyDefaultTemplate.scm
 actions/menus/MainMenu/FileMenu/OpenMenu/OpenMyDefaultTemplate.xml
+actions/menus/MainMenu/FileMenu/OpenMenu/OpenProofReadDialog.scm
+actions/menus/MainMenu/FileMenu/OpenMenu/OpenProofReadDialog.xml
 actions/menus/MainMenu/FileMenu/OpenMenu/OpenSourceDialog.scm
 actions/menus/MainMenu/FileMenu/OpenMenu/OpenSourceDialog.xml
 actions/menus/MainMenu/FileMenu/PrintMenu/CheckAndPrint.scm
