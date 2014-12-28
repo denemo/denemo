@@ -366,6 +366,7 @@ SCM scheme_paper_directive_get_nth_tag (SCM);
 SCM scheme_layout_directive_get_nth_tag (SCM);
 SCM scheme_movementcontrol_directive_get_nth_tag (SCM);
 
+SCM scheme_edit_system_directive (void);
 SCM scheme_directive_get_nth_tag_strict_note (SCM);
 SCM scheme_directive_get_for_tag_strict_note (SCM);
 

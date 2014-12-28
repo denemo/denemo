@@ -357,6 +357,7 @@ create_scheme_identfiers (void)
   INSTALL_PRIORITIZE_TAG (movementcontrol);
 #undef INSTALL_PRIORITIZE_TAG
 
+  install_scm_function (0, "Offers a list of Score-wide or Movement-wide directives for editing\n", DENEMO_SCHEME_PREFIX"EditSystemDirective", scheme_edit_system_directive);
   install_scm_function (1, "Takes a number n. Returns the tag of the nth note directive if it exists at the cursor height else returns #f if none", DENEMO_SCHEME_PREFIX"DirectiveGetNthTagStrictNote", scheme_directive_get_nth_tag_strict_note);
   install_scm_function (1, "Takes a tag and returns #t if a note directive exists with that tag at the cursor height, with no argument returns the first tag on the note at cursor height, else returns #f", DENEMO_SCHEME_PREFIX"DirectiveGetForTagStrictNote", scheme_directive_get_for_tag_strict_note);
 

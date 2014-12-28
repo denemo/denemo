@@ -2746,7 +2746,68 @@ delete_chord_or_note_directive (GtkAction * action, DenemoScriptParam * param)
     warningdialog (_("Operation cancelled"));
 }
 
+static GList *all_directives = NULL;
+static GList *directive_types = NULL;
+static void
+append_directives (DenemoDirective *direc, gchar *type)
+{
+    all_directives = g_list_append (all_directives, direc);
+    directive_types = g_list_append (directive_types, type);g_print("tag %s\n", direc->tag->str);
+}
 
+static gint
+select_system_directive (void)
+{ 
+    
+    g_list_foreach (Denemo.project->lilycontrol.directives, (GFunc)append_directives, "lilycontrol");
+    g_list_foreach (Denemo.project->scoreheader.directives, (GFunc)append_directives, "scoreheader");
+    g_list_foreach (Denemo.project->paper.directives, (GFunc)append_directives, "paper");
+    g_list_foreach (Denemo.project->movement->header.directives, (GFunc)append_directives, "header");
+    g_list_foreach (Denemo.project->movement->layout.directives, (GFunc)append_directives, "layout");
+    g_list_foreach (Denemo.project->movement->movementcontrol.directives, (GFunc)append_directives, "movementcontrol");
+    if(all_directives)
+        {
+            DenemoDirective *d;
+            d = select_directive (_("Select a score or movement directive for advanced (low-level) edit.\nNote: these directives can be edited normally using Edit Directives in the Score or Movement menus."), all_directives);
+            if (d)
+                return g_list_index (all_directives, d);
+        }
+    return -1;
+}
+void edit_system_directive (void)
+{
+    gint index = select_system_directive ();   
+    if(index >= 0) 
+        {
+            gchar *type =  g_list_nth_data (directive_types, index);
+            DenemoDirective *directive = g_list_nth_data (all_directives, index);
+            gboolean delete = !text_edit_directive (directive, type);
+            if (delete)
+                {
+                    GList **directives = NULL;
+                    if (!strcmp(type, "lilycontrol"))
+                        directives = &Denemo.project->lilycontrol.directives;
+                    else if (!strcmp(type, "scoreheader"))
+                        directives = &Denemo.project->scoreheader.directives;
+                    else if (!strcmp(type, "paper"))
+                        directives = &Denemo.project->paper.directives;
+                    else if (!strcmp(type, "header"))
+                        directives = &Denemo.project->movement->header.directives;
+                    else if (!strcmp(type, "layout"))
+                        directives = &Denemo.project->movement->layout.directives;
+                    else if (!strcmp(type, "movementcontrol"))
+                        directives = &Denemo.project->movement->movementcontrol.directives;
+                    if (directives)
+                            delete_directive (directives, directive->tag->str);
+                    else
+                            g_warning ("Could not get directives list to delete from");
+                }
+        }
+    g_list_free (all_directives);
+    g_list_free (directive_types);
+    all_directives = NULL;
+    directive_types = NULL;
+}
 
 static DenemoDirective *
 select_score_directive (void)
@@ -2755,7 +2816,6 @@ select_score_directive (void)
     return NULL;
   return select_directive (_("Select a score directive - use Shift for advanced edit"), Denemo.project->lilycontrol.directives);
 }
-
 static DenemoDirective *
 select_scoreheader_directive (void)
 {

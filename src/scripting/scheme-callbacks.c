@@ -4213,6 +4213,12 @@ PRIORITIZE_TAG (movementcontrol);
 #undef PRIORITIZE_TAG
 
 
+SCM scheme_edit_system_directive (void)
+{
+    edit_system_directive ();
+    return SCM_BOOL_T;
+}
+
 //only retrieve directives when cursor is actually on the note
 SCM scheme_directive_get_nth_tag_strict_note(SCM index) {
   gint n;

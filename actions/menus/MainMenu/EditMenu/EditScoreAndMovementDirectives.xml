@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>EditScoreAndMovementDirectives</action>
+        <after>ResumeEdit</after>
+        <_label>Edit Score/Movement Directives</_label>
+        <_tooltip>Collects together all the Score Directives and the Movement Directives for the current movement and allows advanced (low-level) edit of any of them. This is a convenience command if you do not know the directive you are looking for.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
