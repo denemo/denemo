@@ -7,7 +7,7 @@
       <row type="scheme">
         <after>Import-Midi</after>
         <action>Import-Lilypond</action>
-        <_label>Import Lilypond</_label>
+        <_label>Import Lilypond (Limited)</_label>
         <_tooltip>Try to Import a Lilypond File</_tooltip>
       </row>
     </map>

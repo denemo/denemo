@@ -7,8 +7,8 @@
       <row type="scheme">
         <after>ImportMusicXml</after>
         <action>Import-Midi</action>
-        <_label>Import Midi</_label>
-        <_tooltip>Try to Imports a Midi File</_tooltip>
+        <_label>Import Midi (Limited)</_label>
+        <_tooltip>Try to Import a Midi File</_tooltip>
       </row>
     </map>
   </merge>
