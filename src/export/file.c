@@ -1223,7 +1223,7 @@ file_savepartswrapper (GtkAction * action, DenemoScriptParam * param)
 
 
 static void
-selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar * text, G_GNUC_UNUSED gpointer data)
+lilypond_selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar * text, G_GNUC_UNUSED gpointer data)
 {
   if (!text)
     {
@@ -1278,7 +1278,7 @@ paste_clipboard (GtkAction * action, DenemoScriptParam * param)
       return;
     }
   GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-  gtk_clipboard_request_text (clipboard, (GtkClipboardTextReceivedFunc) selection_received, NULL);
+  gtk_clipboard_request_text (clipboard, (GtkClipboardTextReceivedFunc) lilypond_selection_received, NULL);
 
 }
 
