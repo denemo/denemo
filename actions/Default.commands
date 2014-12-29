@@ -7205,6 +7205,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Edit Score/Movement Directives</_label>
         <_tooltip>Collects together all the Score Directives and the Movement Directives for the current movement and allows advanced (low-level) edit of any of them. This is a convenience command if you do not know the directive you are looking for.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>Comment</action>
+        <after>InsertStandaloneDirective</after>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <_label>Insert Comment</_label>
+        <_tooltip>Inserts a comment at the cursor position. The music typesetting is unaffected.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
