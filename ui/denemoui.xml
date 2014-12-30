@@ -126,6 +126,7 @@
 
       
       <menuitem action="PasteClipboard"/>
+      <menuitem action="PasteComment"/>
 
       <separator/>
       <menuitem action="EditObject"/>

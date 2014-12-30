@@ -46,6 +46,7 @@ void export_pdf_action (GtkAction * action, DenemoScriptParam * param);
 void export_png_action (GtkAction * action, DenemoScriptParam * param);
 void export_midi_action (GtkAction * action, DenemoScriptParam * param);
 void paste_clipboard (GtkAction * action, DenemoScriptParam * param);
+void paste_comment (GtkAction * action, DenemoScriptParam * param);
 void openrecent (GtkWidget * widget, gchar * filename);
 gint open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, ImportType type);
 

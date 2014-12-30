@@ -321,6 +321,7 @@ struct name_and_function denemo_commands[] = {
   {"GTK_STOCK_CUT", "Cut the music selected to the Denemo clipboard", N_("Cut"), "cutwrapper", N_("Cut")},
   {"GTK_STOCK_PASTE", "Paste the Denemo clipboard into the score where the cursor is positioned", N_("Paste"), "pastewrapper", N_("Paste")},
   {"GTK_STOCK_PASTE", "Paste LilyPond notes from the text clipboard\\nThis will import music written as LilyPond syntax\\nYou open the LilyPond file in a texteditor, copy the stretch of notes (control-c command in your texteditor usually) and then use this command.", "PasteClipboard", "paste_clipboard", N_("Paste LilyPond notes")},
+  {"GTK_STOCK_PASTE", "Paste the text clipboard as a comment inserted at the cursor.", "PasteComment", "paste_comment", N_("Paste a Comment")},
   {"GTK_STOCK_PROPERTIES", "Change built-in properties of the current score. This will start up a dialog window", N_("ScoreProperties"), "score_properties_dialog", N_("Score Properties")},
   {NULL, "Save the selected music. Not sure if this is working", N_("SaveSelection"), "saveselwrapper", N_("Save Selection")},
   {"GTK_STOCK_PREFERENCES", "Set and save your preferences for how Denemo operates on startup.\\nAdvanced users can edit .denemo-XXXX/denemorc for missing ones", N_("Preferences"), "preferences_change", N_("Change Preferences")},

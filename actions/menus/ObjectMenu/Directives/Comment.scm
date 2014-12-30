@@ -15,6 +15,11 @@
 					(begin
 						(if (not (equal? (_ "y") (d-GetUserInput (_ "Cursor has Moved") (_ "Insert comment at new position of cursor?")  (_ "y"))))
 						(apply d-GoToPosition position))))
+				(d-Directive-standalone tag)
+				(d-DirectivePut-standalone-minpixels tag 30)	
+				(d-DirectivePut-standalone-graphic tag "\nC\nDenemo\n24")		
 				(d-DirectivePut-standalone-override tag DENEMO_OVERRIDE_EDITOR)
-				(d-DirectivePut-standalone-display tag current))))
-
+				(d-DirectivePut-standalone-display tag current)
+				(d-SetSaved #f)
+				(d-RefreshDisplay))))
+				

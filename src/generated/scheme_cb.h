@@ -727,6 +727,9 @@ SCM scheme_Paste (SCM optional) {
 SCM scheme_PasteClipboard (SCM optional) {
   return scheme_call_callback(optional, paste_clipboard);
 }
+SCM scheme_PasteComment (SCM optional) {
+  return scheme_call_callback(optional, paste_comment);
+}
 SCM scheme_ScoreProperties (SCM optional) {
   return scheme_call_callback(optional, score_properties_dialog);
 }

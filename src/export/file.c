@@ -1283,6 +1283,25 @@ paste_clipboard (GtkAction * action, DenemoScriptParam * param)
 }
 
 static void
+comment_selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar * text, G_GNUC_UNUSED gpointer data)
+{
+ gchar *comment;
+  if (!text)
+    {
+      warningdialog (_("No selection text available"));
+      return;
+    }
+    comment = g_strdup_printf ("(d-Comment \"%s\")(d-InfoDialog (string-append \"%s\" \"%s\"))", g_strescape(text, NULL), _("Inserted:\n"), g_strescape(text, NULL));
+    call_out_to_guile (comment);
+    g_free (comment);
+}
+void
+paste_comment (GtkAction * action, DenemoScriptParam * param)
+{
+  GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+  gtk_clipboard_request_text (clipboard, (GtkClipboardTextReceivedFunc) comment_selection_received, NULL);
+}
+static void
 export_interface(GtkAction* action, DenemoScriptParam* param, gint format_id){
   GET_1PARAM(action, param, filename);
   if (filename==NULL)

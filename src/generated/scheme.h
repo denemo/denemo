@@ -727,6 +727,9 @@ install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Paste", scheme_Paste);
 /*PasteClipboard paste_clipboard*/
 SCM scheme_PasteClipboard(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "PasteClipboard", scheme_PasteClipboard);
+/*PasteComment paste_comment*/
+SCM scheme_PasteComment(SCM optional);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "PasteComment", scheme_PasteComment);
 /*ScoreProperties score_properties_dialog*/
 SCM scheme_ScoreProperties(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ScoreProperties", scheme_ScoreProperties);

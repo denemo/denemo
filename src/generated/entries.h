@@ -260,6 +260,7 @@
 {"Cut", GTK_STOCK_CUT, N_("Cut"), "",N_("Cut the music selected to the Denemo clipboard"),G_CALLBACK (cutwrapper)},
 {"Paste", GTK_STOCK_PASTE, N_("Paste"), "",N_("Paste the Denemo clipboard into the score where the cursor is positioned"),G_CALLBACK (pastewrapper)},
 {"PasteClipboard", GTK_STOCK_PASTE, N_("Paste LilyPond notes"), "",N_("Paste LilyPond notes from the text clipboard\nThis will import music written as LilyPond syntax\nYou open the LilyPond file in a texteditor, copy the stretch of notes (control-c command in your texteditor usually) and then use this command."),G_CALLBACK (paste_clipboard)},
+{"PasteComment", GTK_STOCK_PASTE, N_("Paste a Comment"), "",N_("Paste the text clipboard as a comment inserted at the cursor."),G_CALLBACK (paste_comment)},
 {"ScoreProperties", GTK_STOCK_PROPERTIES, N_("Score Properties"), "",N_("Change built-in properties of the current score. This will start up a dialog window"),G_CALLBACK (score_properties_dialog)},
 {"SaveSelection", NULL, N_("Save Selection"), "",N_("Save the selected music. Not sure if this is working"),G_CALLBACK (saveselwrapper)},
 {"Preferences", GTK_STOCK_PREFERENCES, N_("Change Preferences"), "",N_("Set and save your preferences for how Denemo operates on startup.\nAdvanced users can edit .denemo-XXXX/denemorc for missing ones"),G_CALLBACK (preferences_change)},

@@ -66,14 +66,14 @@ get_view (gchar * filename)
   view = (EvView *) ev_view_new ();
   EvDocumentModel *model = ev_document_model_new_with_document (doc);
   ev_view_set_model (view, model);
-  GtkWidget *top_vbox = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_widget_set_tooltip_text (top_vbox, _("To locate a note in the Denemo Display click on the note head."));
+  GtkWidget *top_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_widget_set_tooltip_text (top_window, _("Click on an annotation, select and copy the text to the clipboard (right click - copy). Then click on the notehead that the annotation refers to. This will insert a comment in the score. Transfer all the annotations in this way before editing the score, then use EditSimilar command to move from one comment to the next, stopping and editing the score as suggested by the comment."));
 
-  gtk_window_set_title (GTK_WINDOW (top_vbox), g_strdup_printf ("Denemo - Proof-Read File: %s", filename));
-  gtk_window_set_default_size (GTK_WINDOW (top_vbox), 600, 750);
+  gtk_window_set_title (GTK_WINDOW (top_window), g_strdup_printf ("Denemo - Proof-Read File: %s", filename));
+  gtk_window_set_default_size (GTK_WINDOW (top_window), 600, 750);
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   GtkWidget *main_hbox = gtk_hbox_new (FALSE, 1);
-  gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
+  gtk_container_add (GTK_CONTAINER (top_window), main_vbox);
   gtk_box_pack_start (GTK_BOX (main_vbox), main_hbox, FALSE, TRUE, 0);
   GtkWidget *button = gtk_button_new_with_label ("Next");
   g_signal_connect (button, "clicked", G_CALLBACK (next_page), (gpointer) view);
@@ -87,8 +87,8 @@ get_view (gchar * filename)
   GtkWidget *score_and_scroll_hbox = gtk_scrolled_window_new (NULL, NULL);
   gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_hbox, TRUE, TRUE, 0);
   gtk_container_add (GTK_CONTAINER (score_and_scroll_hbox), GTK_WIDGET (view));
-
-  gtk_widget_show_all (top_vbox);
+  gtk_widget_show_all (top_window);
+  gtk_window_present (GTK_WINDOW (top_window)); //this doesn't appear to work...
 
   return view;
 }
@@ -122,8 +122,11 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
         {
           DenemoTarget old_target = Denemo.project->movement->target;
           gboolean ObjectLocated = goto_lilypond_position (atoi (vec[2]), atoi (vec[3]));     //sets si->target
-          if (!ObjectLocated)
+          if (ObjectLocated)
             {
+            paste_comment (NULL, NULL);
+            }
+           else {
             g_debug ("Object not located\n");
             }
         }

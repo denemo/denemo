@@ -241,6 +241,7 @@ register_command("Copy", _("Copy"), _("Copy the music selected to the Denemo cli
 register_command("Cut", _("Cut"), _("Cut the music selected to the Denemo clipboard"), cutwrapper);
 register_command("Paste", _("Paste"), _("Paste the Denemo clipboard into the score where the cursor is positioned"), pastewrapper);
 register_command("PasteClipboard", _("Paste LilyPond notes"), _("Paste LilyPond notes from the text clipboard\nThis will import music written as LilyPond syntax\nYou open the LilyPond file in a texteditor, copy the stretch of notes (control-c command in your texteditor usually) and then use this command."), paste_clipboard);
+register_command("PasteComment", _("Paste a Comment"), _("Paste the text clipboard as a comment inserted at the cursor."), paste_comment);
 register_command("ScoreProperties", _("Score Properties"), _("Change built-in properties of the current score. This will start up a dialog window"), score_properties_dialog);
 register_command("SaveSelection", _("Save Selection"), _("Save the selected music. Not sure if this is working"), saveselwrapper);
 register_command("Preferences", _("Change Preferences"), _("Set and save your preferences for how Denemo operates on startup.\nAdvanced users can edit .denemo-XXXX/denemorc for missing ones"), preferences_change);
