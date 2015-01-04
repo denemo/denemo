@@ -181,27 +181,12 @@ get_view (gchar * filename)
         current_page = annotated_pages = NULL;
     }
   view = (EvView *) ev_view_new ();
-  EvDocumentModel *model = ev_document_model_new_with_document (doc); 
-  ev_document_model_set_sizing_mode (model, 0 /*EV_SIZING_FIT_PAGE*/);
- #if 0  
- These are missing from header????                                
-EV_SIZING_FIT_PAGE
-         
-
-EV_SIZING_BEST_FIT
-         
-
-EV_SIZING_FIT_WIDTH
-         
-
-EV_SIZING_FREE
-         
-
-EV_SIZING_AUTOMATIC
+  EvDocumentModel *model = ev_document_model_new_with_document (doc);
+#ifndef EV_SIZING_FIT_PAGE
+#define EV_SIZING_FIT_PAGE EV_SIZING_BEST_FIT
 #endif
-
+  ev_document_model_set_sizing_mode (model, EV_SIZING_FIT_PAGE);
   ev_document_model_set_continuous (model, FALSE);
-                                  
   ev_view_set_model (view, model);
   
   if (find_annotated_pages (model))
