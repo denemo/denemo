@@ -832,7 +832,7 @@ update_preview_cb (GtkFileChooser * file_chooser, gpointer data)
 
   gtk_image_set_from_pixbuf (GTK_IMAGE (preview), pixbuf);
   if (pixbuf)
-    gdk_pixbuf_unref (pixbuf);
+    g_object_unref (pixbuf);
 
   gtk_file_chooser_set_preview_widget_active (file_chooser, have_preview);
 #endif
@@ -1283,7 +1283,7 @@ paste_clipboard (GtkAction * action, DenemoScriptParam * param)
 }
 
 static void
-comment_selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar * text, G_GNUC_UNUSED gpointer data)
+comment_selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar * text)
 {
  gchar *comment;
   if (!text)
@@ -1298,8 +1298,13 @@ comment_selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar 
 void
 paste_comment (GtkAction * action, DenemoScriptParam * param)
 {
-  GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
-  gtk_clipboard_request_text (clipboard, (GtkClipboardTextReceivedFunc) comment_selection_received, NULL);
+    if(param && param->string && param->string->len)
+        comment_selection_received (NULL, param->string->str);
+    else 
+        {
+        GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+        gtk_clipboard_request_text (clipboard, (GtkClipboardTextReceivedFunc) comment_selection_received, NULL);
+        }
 }
 static void
 export_interface(GtkAction* action, DenemoScriptParam* param, gint format_id){
