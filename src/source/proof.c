@@ -58,7 +58,7 @@ action_for_link (EvView * view, EvLinkAction * obj, EvDocumentModel *model)
                 g_string_free (param.string, TRUE);
             }
            else {
-                warningdialog (_("Object not located or no annotation on page\n"));
+                warningdialog (_("Object not located, no annotation on page, or empty annotation.\n"));
             }
         }
     }

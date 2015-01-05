@@ -1286,13 +1286,25 @@ static void
 comment_selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar * text)
 {
  gchar *comment;
-  if (!text)
+ GString *exceptions = g_string_new ("");
+ gint i;
+ for (i=0x1;i<0x10;i++)
+    g_string_append_printf (exceptions, "%c", i);
+  for (i=0x7F;i<0x100;i++)
+    g_string_append_printf (exceptions, "%c", i);
+    
+  if ((!text) || (*text == 0))
     {
       warningdialog (_("No selection text available"));
       return;
     }
-    comment = g_strdup_printf ("(d-Comment \"%s\")(d-InfoDialog (string-append \"%s\" \"%s\"))", g_strescape(text, NULL), _("Inserted:\n"), g_strescape(text, NULL));
+    gchar *escaped = g_strescape(text, exceptions->str);
+    gchar *info = g_strconcat(_("Inserted:\n"), escaped, NULL);
+    comment = g_strdup_printf ("(d-Comment \"%s\")(d-InfoDialog \"%s\")", escaped, info);
     call_out_to_guile (comment);
+    g_string_free (exceptions, TRUE);
+    g_free (escaped);
+    g_free (info);
     g_free (comment);
 }
 void
