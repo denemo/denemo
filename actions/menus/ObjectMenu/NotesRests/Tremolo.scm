@@ -21,4 +21,5 @@
           		(d-DirectivePut-chord-display "Tremolo" stripes)
    			(d-DirectivePut-chord-postfix "Tremolo" dur))
 	 	 (command))
+(d-SetSaved #f)
 (d-RefreshDisplay))))
