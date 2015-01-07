@@ -7224,6 +7224,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Hide/Show Fingering</_label>
         <_tooltip>Hides/Shows the fingering on the note at the cursor height in the typeset score.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ToggleFingeringVisibilityInScore</action>
+        <after>DeactivateTimeSignatureStencil</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Fingerings (Off/On)</_label>
+        <_tooltip>Turns on/off visibilty of fingerings on typesetting for whole score.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

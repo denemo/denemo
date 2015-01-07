@@ -307,3 +307,62 @@
       (if (d-NextMovement)
       (loop))))
   (d-PopPosition))
+
+;Apply the passed script to each staff of a movement
+(define (ForAllStaffs script)
+  (d-PushPosition)
+  (d-GoToPosition #f 1 1 1)
+  (let loop ()
+    (begin
+      (eval-string script)
+      (if (d-MoveToStaffDown)
+      (loop))))
+  (d-PopPosition))
+  
+;Execute the passed procedure on each movement of a score
+(define (ForAllMovementsExecute proc)
+  (d-PushPosition)
+  (d-GoToPosition 1 1 1 1)
+  (let loop ()
+    (begin
+      (proc)
+      (if (d-NextMovement)
+      (loop))))
+  (d-PopPosition))
+    
+;Execute the passed procedure on each staff of a movement
+(define (ForAllStaffsExecute proc)
+  (d-PushPosition)
+  (d-GoToPosition #f 1 1 1)
+  (let loop ()
+    (begin
+      (proc)
+      (if (d-MoveToStaffDown)
+      (loop))))
+  (d-PopPosition))
+  
+;Execute the passed procedure on each object of a staff
+(define (ForAllObjectsInStaffExecute proc)
+  (d-PushPosition)
+  (d-GoToPosition #f #f 1 1)
+  (let loop ()
+    (begin
+      (proc)
+      (if (d-NextObject)
+      (loop))))
+  (d-PopPosition))
+  
+;Execute the passed procedure on each object of a score
+(define (ForAllObjectsInScoreExecute proc)
+    (ForAllMovementsExecute (lambda () 
+        (ForAllStaffsExecute (lambda () 
+            (ForAllObjectsInStaffExecute (lambda () 
+                (proc))))))))
+
+;Execute the passed procedure on each note in at the cursor
+(define (ForAllNotesInChordExecute proc) 
+  (if (d-CursorToNthNoteHeight 1)
+    (begin
+        (proc)
+        (while (d-CursorToNextNoteHeight)
+            (proc)))))

@@ -1740,6 +1740,8 @@ actions/menus/ObjectMenu/Score/Typesetter/SystemSystemPadding.scm
 actions/menus/ObjectMenu/Score/Typesetter/SystemSystemPadding.xml
 actions/menus/ObjectMenu/Score/Typesetter/ToggleCurveControl.scm
 actions/menus/ObjectMenu/Score/Typesetter/ToggleCurveControl.xml
+actions/menus/ObjectMenu/Score/Typesetter/ToggleFingeringVisibilityInScore.scm
+actions/menus/ObjectMenu/Score/Typesetter/ToggleFingeringVisibilityInScore.xml
 actions/menus/ObjectMenu/Score/Typesetter/ToggleWysiwygMarks.scm
 actions/menus/ObjectMenu/Score/Typesetter/ToggleWysiwygMarks.xml
 actions/menus/ObjectMenu/Score/Typesetter/TransposeOctaveUp.scm
