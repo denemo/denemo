@@ -1369,6 +1369,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger5.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger5.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/FingeringSwap.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/FingeringSwap.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/ToggleFingeringVisibility.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/ToggleFingeringVisibility.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/TweakFingeringPosition.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/TweakFingeringPosition.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/RHFinger.scm

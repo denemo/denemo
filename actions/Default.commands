@@ -1247,6 +1247,11 @@ This will import music written as LilyPond syntax
 You open the LilyPond file in a texteditor, copy the stretch of notes (control-c command in your texteditor usually) and then use this command.</_tooltip>
       </row>
       <row type="builtin">
+        <action>PasteComment</action>
+        <_label>Paste a Comment</_label>
+        <_tooltip>Paste the text clipboard as a comment inserted at the cursor.</_tooltip>
+      </row>
+      <row type="builtin">
         <action>ScoreProperties</action>
         <_label>Score Properties</_label>
         <_tooltip>Change built-in properties of the current score. This will start up a dialog window</_tooltip>
@@ -7211,6 +7216,13 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/Directives</menupath>
         <_label>Insert Comment</_label>
         <_tooltip>Inserts a comment at the cursor position. The music typesetting is unaffected.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ToggleFingeringVisibility</action>
+        <after>TweakFingeringPosition</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
+        <_label>Hide/Show Fingering</_label>
+        <_tooltip>Hides/Shows the fingering on the note at the cursor height in the typeset score.</_tooltip>
       </row>
     </map>
   </merge>

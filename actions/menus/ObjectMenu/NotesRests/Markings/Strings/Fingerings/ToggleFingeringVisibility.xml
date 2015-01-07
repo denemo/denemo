@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ToggleFingeringVisibility</action>
+        <after>TweakFingeringPosition</after>
+        <_label>Hide/Show Fingering</_label>
+        <_tooltip>Hides/Shows the fingering on the note at the cursor height in the typeset score.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

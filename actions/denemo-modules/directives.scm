@@ -264,3 +264,17 @@
                     ((all) (d-ForAllLayouts))
                     ((default) (d-OnlyForLayout (cons (d-GetLayoutName) (d-GetLayoutId))))
                     ((only) (d-OnlyForLayout   (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId))))))
+
+;;; Toggle the DENEMO_OVERRIDE_HIDDEN override of the directive at the cursor
+(define (ToggleHidden type tag) ;;; eg (ToggleHidden "note" "Fingering")
+    (if (eval-string (string-append "(d-Directive-" type "? \"" tag "\")"))
+
+        (let ((override (eval-string (string-append "(d-DirectiveGet-" type "-override " "\"" tag "\")"))))
+            (eval-string (string-append "(d-DirectivePut-" type "-override " "\"" tag "\" " "(logxor DENEMO_OVERRIDE_HIDDEN " (number->string override) "))")))
+        #f))
+
+    
+            
+
+
+
