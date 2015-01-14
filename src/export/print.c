@@ -495,10 +495,14 @@ generate_lilypond (gchar * lilyfile, gboolean part_only, gboolean all_movements)
 static void
 run_lilypond_for_pdf (gchar * filename, gchar * lilyfile)
 {
+    static gchar *include = NULL;
+    if(!include)
+        include = g_strdup_printf ("--include=%s", get_system_dir (DENEMO_DIR_LILYPOND_INCLUDE));
   /*arguments to pass to lilypond to create a pdf for printing */
   gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
     "--pdf",
+    include,
     "-o",
     filename,
     lilyfile,

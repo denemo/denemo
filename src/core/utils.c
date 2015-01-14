@@ -2735,6 +2735,7 @@ get_local_dir(DenemoDirectory dir)
     case DENEMO_DIR_PIXMAPS:    return PIXMAPS_DIR;
     case DENEMO_DIR_FONTS:      return FONTS_DIR;
     case DENEMO_DIR_LOCALE:     return LOCALE_DIR;
+    case DENEMO_DIR_LILYPOND_INCLUDE:     return LILYPOND_INCLUDE_DIR;
     default:         return NULL;
   }
 }
@@ -2748,6 +2749,7 @@ get_system_dir(DenemoDirectory dir)
     case DENEMO_DIR_UI:
     case DENEMO_DIR_SOUNDFONTS:
     case DENEMO_DIR_FONTS:
+    case DENEMO_DIR_LILYPOND_INCLUDE:
       return g_build_filename(get_system_data_dir (), get_local_dir(dir), NULL);
     case DENEMO_DIR_PIXMAPS:
       return g_build_filename(get_system_data_dir (), PIXMAPS_DIR, NULL);
