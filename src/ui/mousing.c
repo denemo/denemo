@@ -169,7 +169,7 @@ staff_at (gint y, DenemoMovement * si)
 
       count++;
       if ((!staff->hidden) && (staff->voicecontrol & DENEMO_PRIMARY))
-        space += (staff)->space_above + (staff)->space_below + si->staffspace;
+        space += staff->space_above + staff->space_below + si->staffspace + (staff->verse_views ? LYRICS_HEIGHT : 0);
       //g_debug("y %d and space %d count = %d\n",y,space, count);
     }
 
