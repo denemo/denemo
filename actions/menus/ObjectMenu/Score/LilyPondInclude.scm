@@ -7,7 +7,7 @@
     (d-DirectivePut-score-override tag (logior DENEMO_OVERRIDE_AFFIX DENEMO_OVERRIDE_DYNAMIC))
     (let ((prefix ""))
         (define (do-append str)
-            (set! prefix (string-append prefix "\\include \"" DENEMO_LILYPOND_DIR "/" str "\"\n")))
+            (set! prefix (string-append prefix "\\include \"" str "\"\n")))
         (for-each do-append (eval-string (d-DirectiveGet-score-data tag)))
         (d-DirectivePut-score-prefix tag prefix)))
      
