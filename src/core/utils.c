@@ -2799,6 +2799,7 @@ get_executable_dir ()
  *  - in the executable parent directory
  *  - in the user directory
  *  - in the system directory
+ *  - in the system fonts directory
  **/
 gchar*
 find_denemo_file (DenemoDirectory dir, gchar* filename)
@@ -2809,7 +2810,7 @@ find_denemo_file (DenemoDirectory dir, gchar* filename)
   dirs = g_list_append(dirs, g_build_filename(get_executable_dir (), "..", get_local_dir (dir), NULL));
   dirs = g_list_append(dirs, g_build_filename(get_user_data_dir (TRUE), get_local_dir (dir), NULL));
   dirs = g_list_append(dirs, g_strdup(get_system_dir(dir)));
- 
+  dirs = g_list_append(dirs, g_build_filename(get_executable_dir (), "..", "share","fonts","truetype","denemo", NULL));
   return find_path_for_file (filename, dirs);
 }
 
