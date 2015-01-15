@@ -7231,6 +7231,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Fingerings (Off/On)</_label>
         <_tooltip>Turns on/off visibilty of fingerings on typesetting for whole score.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>SplitMovementAtCursor</action>
+        <after>DuplicateOrMergeMovements</after>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <_label>Split Movement</_label>
+        <_tooltip>Splits the movement at the cursor. Place the cursor after any time signature or key signature change that applies to the split-off movement.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

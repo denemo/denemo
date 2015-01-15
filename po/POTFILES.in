@@ -1007,6 +1007,8 @@ actions/menus/ObjectMenu/MovementMenu/ReBar.scm
 actions/menus/ObjectMenu/MovementMenu/ReBar.xml
 actions/menus/ObjectMenu/MovementMenu/SetMovementTempo.scm
 actions/menus/ObjectMenu/MovementMenu/SetMovementTempo.xml
+actions/menus/ObjectMenu/MovementMenu/SplitMovementAtCursor.scm
+actions/menus/ObjectMenu/MovementMenu/SplitMovementAtCursor.xml
 actions/menus/ObjectMenu/MovementMenu/SwitchMensuralBarlines.scm
 actions/menus/ObjectMenu/MovementMenu/SwitchMensuralBarlines.xml
 actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm
