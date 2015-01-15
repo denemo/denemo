@@ -6,25 +6,28 @@
   <scoreheader-directives>
     <directive>
       <tag>ScoreTagline</tag>
-      <postfix>tagline=""
+      <postfix>tagline =  \markup { \with-url #'"scheme:(d-ScoreTagline)"  ""}
+
 </postfix>
-      <override>32</override>
     </directive>
   </scoreheader-directives>
   <paper-directives>
     <directive>
       <tag>PrintAllHeaders</tag>
-      <postfix>print-all-headers = ##t
+      <postfix>
+print-all-headers = ##t
 </postfix>
       <override>32</override>
     </directive>
-    <directive>
-      <tag>LimitInterSystemSpace</tag>
-      <postfix>
-page-limit-inter-system-space = ##t
-page-limit-inter-system-space-factor = 1.2</postfix>
-    </directive>
   </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>20</fontsize>
