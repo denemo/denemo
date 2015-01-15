@@ -1735,7 +1735,7 @@ create_misc_scorewide (GtkWidget * inner_vbox)
   DenemoProject *gui = Denemo.project;
 
 
-  gchar *lily = g_strdup_printf ("#(set-default-paper-size \"%s%s\")\n", gui->lilycontrol.papersize->str, gui->lilycontrol.orientation ? "" : " 'landscape");
+  gchar *lily = g_strdup_printf ("#(set-default-paper-size \"%s\"%s)\n", gui->lilycontrol.papersize->str, gui->lilycontrol.orientation ? "" : " 'landscape");
   create_element (inner_vbox, gtk_button_new_with_label (_("paper size")), lily);
   lily = g_strdup_printf ("#(set-global-staff-size %s)\n", gui->lilycontrol.staffsize->str);
   create_element (inner_vbox, gtk_button_new_with_label (_("Global staff size")), lily);
