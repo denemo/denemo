@@ -97,7 +97,7 @@ add_font_file (gchar * fontname)
 {
 #ifdef G_OS_WIN32
   if (0 == AddFontResource (fontname))
-    g_warning("Failed to add font file %s.", fontpath);
+    g_warning("Failed to add font file %s.", fontname);
   SendMessage (HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
 #endif
   if(FcConfigAppFontAddFile (NULL, (FcChar8*) fontname) == FcFalse)
