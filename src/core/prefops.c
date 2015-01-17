@@ -25,6 +25,23 @@
 static gint readxmlprefsFile (gchar * filename);
 
 
+#define ret (&Denemo.prefs)
+static void set_default_lilypond_path (void)
+{
+#ifdef G_OS_WIN32
+  ret->lilypath = g_string_new (g_build_filename (get_system_bin_dir (), "lilypond-windows.exe", NULL));       //We don't assume the file assoc works - we are installing this anyway to a known place,the option  neither lilypond-windows.exe nor the -dgui option are used
+#else /* !G_OS_WIN32 */
+ #ifdef _GUB_BUILD_
+   #ifdef _MACH_O_
+     ret->lilypath = g_string_new (getenv("LILYPOND_PATH"));
+   #else
+     ret->lilypath = g_string_new (g_build_filename (get_system_bin_dir (), "lilypond", NULL));
+   #endif
+ #else
+  ret->lilypath = g_string_new ("lilypond");
+ #endif
+#endif /* !G_OS_WIN32 */
+}
 /**
  * Initialise user preferences to reasonable defaults 
  * read global denemorc file
@@ -34,7 +51,6 @@ static gint readxmlprefsFile (gchar * filename);
 void
 initprefs ()
 {
-#define ret (&Denemo.prefs)
   gchar *dotdenemo = (gchar *) get_user_data_dir (TRUE);
   gchar *localrc = dotdenemo ? g_build_filename (dotdenemo, PREFS_FILE, NULL) : NULL;
     if(Denemo.old_user_data_dir) {
@@ -57,24 +73,13 @@ initprefs ()
 #ifdef G_OS_WIN32
   ret->browser = g_string_new ("");     //use file association
   ret->graphicseditor = g_string_new (g_build_filename (get_system_bin_dir (), "..\\..\\..\\Inkscape\\inkscape.exe", NULL));       //the likely place for Inkscape to be installed, as we are not shipping it yet.
-  ret->lilypath = g_string_new (g_build_filename (get_system_bin_dir (), "lilypond-windows.exe", NULL));       //We don't assume the file assoc works - we are installing this anyway to a known place,the option  neither lilypond-windows.exe nor the -dgui option are used
   ret->imageviewer = g_string_new ("");
 #else /* !G_OS_WIN32 */
   ret->browser = g_string_new ("firefox");
   ret->graphicseditor = g_string_new ("inkscape");
- #ifdef _GUB_BUILD_
-   #ifdef _MACH_O_
-     ret->lilypath = g_string_new (getenv("LILYPOND_PATH"));
-   #else
-     ret->lilypath = g_string_new (g_build_filename (get_system_bin_dir (), "lilypond", NULL));
-   #endif
- #else
-  ret->lilypath = g_string_new ("lilypond");
- #endif
-  
   ret->imageviewer = g_string_new ("eog");
 #endif /* !G_OS_WIN32 */
-
+  set_default_lilypond_path ();
   ret->profile = g_string_new ("Default");
   ret->denemopath = g_string_new (g_get_home_dir ());
   ret->lilyversion = g_string_new (""); //meaning use installed LilyPond version
@@ -163,7 +168,13 @@ initprefs ()
         writeXMLPrefs (ret);
     }
   g_free (localrc);
+  
+  
+  if(ret->lilypath && !g_file_test (ret->lilypath->str, G_FILE_TEST_EXISTS))
+    set_default_lilypond_path ();
+    //FIXME if ret->lilypath still does not exist prepare to issue warning to user once the GUI is available.
 #undef ret
+
 
 }
 
