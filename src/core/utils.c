@@ -84,7 +84,8 @@ void
 add_font_directory (gchar * fontpath)
 {
 #ifdef G_OS_WIN32
-  AddFontResource (fontpath);
+  if (0 == AddFontResource (fontpath))
+  SendMessage (HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
 #endif
   if(FcConfigAppFontAddDir (NULL, (FcChar8*) fontpath) == FcFalse)
     g_warning("Failed to add font dir %s.", fontpath);
@@ -94,7 +95,8 @@ void
 add_font_file (gchar * fontname)
 {
 #ifdef G_OS_WIN32
-  AddFontResource (fontname);
+  if (0 == AddFontResource (fontname))
+    SendMessage (HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
 #endif
   if(FcConfigAppFontAddFile (NULL, (FcChar8*) fontname) == FcFalse)
     g_warning("Failed to add font file %s.", fontname);
