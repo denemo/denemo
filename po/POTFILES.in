@@ -1941,7 +1941,7 @@ actions/menus/ObjectMenu/TimeSig/TimesigWithBeatStructure.xml
 actions/menus/ObjectMenu/TimeSig/TwoTimeSignatures.scm
 actions/menus/ObjectMenu/TimeSig/TwoTimeSignatures.xml
 actions/multilex.scm
-actions/mxml2ly2denemo/import_nwctext.scm
+actions/nwc2denemo/import_nwctext.scm
 actions/palettes.xml
 actions/silex.scm
 actions/Simple.scm
