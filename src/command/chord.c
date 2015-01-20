@@ -208,7 +208,14 @@ FIXME repeated calls to calculateheight
 void
 modify_note (chord * thechord, gint mid_c_offset, gint enshift, gint dclef)
 {
-  note *thenote = (note *) (thechord->notes->data);
+  note *thenote;
+  if(thechord->notes == NULL)
+    {
+        g_critical ("modify_note called with rest");
+        gdk_beep();
+        return;
+    }
+  thenote = (note *) (thechord->notes->data);
   thenote->mid_c_offset = mid_c_offset;
   thenote->enshift = enshift;
   thenote->y = calculateheight (mid_c_offset, dclef);

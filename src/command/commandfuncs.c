@@ -1517,9 +1517,9 @@ shiftcursor (DenemoProject * gui, gint note_value)
           else
             {                   /* single-note chord - change the note */
               gint dclef = find_prevailing_clef (gui->movement);
-              modify_note (thechord, mid_c_offset, gui->movement->curmeasureaccs[note_value], dclef);
-              //if tied modify the tied notes too
-              if(thechord->is_tied)
+              if(!thechord->is_tied)
+                modify_note (thechord, mid_c_offset, gui->movement->curmeasureaccs[note_value], dclef);
+              else //if tied modify the tied note(s) too
                 {
                   objnode *nextobj = gui->movement->currentobject;
                   measurenode *current = gui->movement->currentmeasure;
@@ -1537,18 +1537,20 @@ shiftcursor (DenemoProject * gui, gint note_value)
                                 modify_note (next, mid_c_offset, gui->movement->curmeasureaccs[note_value], dclef);
                                 calculatebeamsandstemdirs (current->data, &(si->curmeasureclef), &(si->cursortime1), &(si->cursortime2), &(si->curmeasure_stem_directive));
                                 if(next->is_tied)
-                                 if(nextobj->next==NULL)
                                     {
-                                      current = current->next;
-                                      if(current && current->data)
-                                        {
-                                           nextobj = current->data;
-                                           continue;
-                                        }
-                                    }
-                                 nextobj = nextobj->next;
-                                 if(nextobj)
-                                    continue;
+                                        if(nextobj->next==NULL)
+                                            {
+                                              current = current->next;
+                                              if(current && current->data)
+                                                {
+                                                   nextobj = current->data;
+                                                   continue;
+                                                }
+                                            }
+                                         nextobj = nextobj->next;
+                                         if(nextobj)
+                                            continue;
+                                    }    
                             }
                         }
                     break;
