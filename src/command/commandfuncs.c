@@ -2033,36 +2033,45 @@ incrementenshift (DenemoProject * gui, gint direction)
       
       //if tied ...
             chord *next = curmudelaobj->object;
-            if (next->is_tied) {
+            if (next->is_tied) 
+                {
                  objnode *nextobj = gui->movement->currentobject->next;
                   measurenode *current = gui->movement->currentmeasure;
-                  while (1)
-                    {
-                  
-                      if(nextobj)
+                  if(nextobj==NULL)
                         {
-                          DenemoObject *thenextobj= (DenemoObject *) nextobj->data;
-                              
-                          if (thenextobj->type == CHORD)  
+                          current = current->next;
+                          if(current && current->data)
                             {
-                                chord *next = thenextobj->object;
-                                shiftpitch (thenextobj, si->cursor_y, direction > 0);
-                                if(next->is_tied)
-                                 if(nextobj->next==NULL)
+                               nextobj = current->data;
+                           }
+                       }
+                  while (nextobj)
+                    {
+                      DenemoObject *thenextobj= (DenemoObject *) nextobj->data;
+                          
+                      if (thenextobj->type == CHORD)  
+                        {
+                            chord *next = thenextobj->object;
+                            shiftpitch (thenextobj, si->cursor_y, direction > 0);
+                            if(next->is_tied)
+                             {
+                                if(nextobj->next==NULL)
+                                {
+                                  current = current->next;
+                                  if(current && current->data)
                                     {
-                                      current = current->next;
-                                      if(current && current->data)
-                                        {
-                                           nextobj = current->data;
-                                           continue;
-                                        }
+                                       nextobj = current->data;
+                                       continue;
                                     }
-                                 nextobj = nextobj->next;
-                                 if(nextobj)
-                                    continue;
+                                }
+                                nextobj = nextobj->next;
+                                continue;
                             }
+                            else
+                            break;
                         }
-                    break;
+                    
+                        break;
                     }
             
         }
