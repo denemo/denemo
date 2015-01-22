@@ -2053,6 +2053,7 @@ incrementenshift (DenemoProject * gui, gint direction)
                         {
                             chord *next = thenextobj->object;
                             shiftpitch (thenextobj, si->cursor_y, direction > 0);
+                            showwhichaccidentals ((objnode *) current->data, si->curmeasurekey, si->curmeasureaccs);
                             if(next->is_tied)
                              {
                                 if(nextobj->next==NULL)
