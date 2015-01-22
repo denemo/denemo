@@ -7238,6 +7238,20 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Split Movement</_label>
         <_tooltip>Splits the movement at the cursor. Place the cursor after any time signature or key signature change that applies to the split-off movement.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ToggleNonprintingSelection</action>
+        <after>EditScoreAndMovementDirectives</after>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <_label>Selection Non-printing (Off/On)</_label>
+        <_tooltip>Sets/Unsets all objects in the selection to be non-printing.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>Dottify2</action>
+        <after>Dottify</after>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
+        <_label>Dottify2</_label>
+        <_tooltip>As Dottify command but dotted rhythm created is dotted note plus two notes of a quarter the duration. Total duration is unchanged.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -281,6 +281,8 @@ actions/menus/MainMenu/EditMenu/Select/SelectStaff.scm
 actions/menus/MainMenu/EditMenu/Select/SelectStaff.xml
 actions/menus/MainMenu/EditMenu/ShowLastChange.scm
 actions/menus/MainMenu/EditMenu/ShowLastChange.xml
+actions/menus/MainMenu/EditMenu/ToggleNonprintingSelection.scm
+actions/menus/MainMenu/EditMenu/ToggleNonprintingSelection.xml
 actions/menus/MainMenu/Educational/AuralTraining/Chord-Comparison/DiminishedOrAugmented.scm
 actions/menus/MainMenu/Educational/AuralTraining/Chord-Comparison/DiminishedOrAugmented.xml
 actions/menus/MainMenu/Educational/AuralTraining/Chord-Comparison/DiminishedOrMinor.scm
@@ -1118,6 +1120,8 @@ actions/menus/ObjectMenu/NotesRests/ChangeDuration/DottedRhythm.scm
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/DottedRhythmSlurred.scm
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/DottedRhythmSlurred.xml
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/DottedRhythm.xml
+actions/menus/ObjectMenu/NotesRests/ChangeDuration/Dottify2.scm
+actions/menus/ObjectMenu/NotesRests/ChangeDuration/Dottify2.xml
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/Dottify.scm
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/Dottify.xml
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/init.scm
