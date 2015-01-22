@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ToggleNonprintingSelection</action>
+        <after>EditScoreAndMovementDirectives</after>
+        <_label>Selection Non-printing (Off/On)</_label>
+        <_tooltip>Sets/Unsets all objects in the selection to be non-printing.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
