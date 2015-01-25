@@ -1,6 +1,6 @@
 ;;;;;ChordChartStaff
-(let ((tag "ChordChartStaff")
-        (choice (RadioBoxMenu (cons (_ "Compact Chord Chart") 'compact) (cons (_ "Paper Chord Chart") 'new) (cons (_ "Convert Staff") 'convert) (cons (_ "Customizable Chord Chart") 'custom) (cons (_ "Cancel") 'cancel))))
+(let ((tag "ChordChartStaff") (params ChordChartStaff::params)(choice #f))
+
     (define (create-chart compact)
      (if (and ChordStaff::params (d-Directive-voice? tag))
                 (begin (d-InfoDialog "Use the Staffs/Voices Chord Chart command to turn off the typesetting of chord names for this staff"))
@@ -120,7 +120,10 @@ system-system-spacing =
                                         (ToggleDirective "keysig" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX)
                                         (ToggleDirective "timesig" "postfix" (cons tag "") "\n" DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_GRAPHIC)
                                         (d-DirectivePut-timesig-display tag (d-GetPrevailingTimesig)))))))
-
+                               
+  (if params
+        (set! choice params)
+        (set! choice (RadioBoxMenu (cons (_ "Compact Chord Chart") 'compact) (cons (_ "Paper Chord Chart") 'new) (cons (_ "Convert Staff") 'convert) (cons (_ "Customizable Chord Chart") 'custom) (cons (_ "Cancel") 'cancel))))
     (case choice
     
         ((cancel)
