@@ -3648,13 +3648,6 @@ First it removes notes until just a non-printing rest remains, then deletes that
         <_tooltip>End a phrasing slur on the current note.</_tooltip>
       </row>
       <row type="scheme">
-        <action>SmallFontEnd</action>
-        <after>SmallFontStart</after>
-        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
-        <_label>End Small Size</_label>
-        <_tooltip>Printing resumes normal size music.</_tooltip>
-      </row>
-      <row type="scheme">
         <action>EvenOutStaffLengths</action>
         <after>ReBar</after>
         <menupath>/ObjectMenu/MovementMenu</menupath>
@@ -5358,9 +5351,16 @@ for second and subsequent systems</_tooltip>
       </row>
       <row type="scheme">
         <action>SmallFontStart</action>
-        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
         <_label>Small Size</_label>
         <_tooltip>Music after this is printed in a small size.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SmallFontEnd</action>
+        <after>SmallFontStart</after>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
+        <_label>End Small Size</_label>
+        <_tooltip>Printing resumes normal size music.</_tooltip>
       </row>
       <row type="scheme">
         <action>SmallerStaff</action>
@@ -5449,13 +5449,6 @@ for second and subsequent systems</_tooltip>
         <_tooltip>Instructs the LilyPond engraver to start a beam here. (Print effect only)</_tooltip>
       </row>
       <row type="scheme">
-        <action>BeamingOn</action>
-        <after>BeamingOff</after>
-        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
-        <_label>Start Beaming</_label>
-        <_tooltip>(Print) Start automatic beaming at this point in score. (Used after turning beaming off).</_tooltip>
-      </row>
-      <row type="scheme">
         <action>CadenzaOn</action>
         <after>Tempo</after>
         <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
@@ -5517,9 +5510,16 @@ for second and subsequent systems</_tooltip>
       <row type="scheme">
         <action>BeamingOff</action>
         <after>PageBreak</after>
-        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
         <_label>Stop Beaming</_label>
         <_tooltip>(Print)Stop automatic beaming from current position in score.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>BeamingOn</action>
+        <after>BeamingOff</after>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
+        <_label>Start Beaming</_label>
+        <_tooltip>(Print) Start automatic beaming at this point in score. (Used after turning beaming off).</_tooltip>
       </row>
       <row type="scheme">
         <action>ToggleStopped</action>
@@ -7251,6 +7251,20 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
         <_label>Dottify2</_label>
         <_tooltip>As Dottify command but dotted rhythm created is dotted note plus two notes of a quarter the duration. Total duration is unchanged.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>StartTrillSpan</action>
+        <after>SustainOn</after>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
+        <_label>Start Trill</_label>
+        <_tooltip>Starts a spanning trill from the note at the cursor.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>StopTrillSpan</action>
+        <after>StartTrillSpan</after>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
+        <_label>Stop Trill</_label>
+        <_tooltip>Ends a previously started trill at the next note.</_tooltip>
       </row>
     </map>
   </merge>
