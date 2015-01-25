@@ -742,10 +742,6 @@ actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm
 actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.xml
 actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm
 actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.xml
-actions/menus/ObjectMenu/Directives/Markings/Spanning/BeamingOff.scm
-actions/menus/ObjectMenu/Directives/Markings/Spanning/BeamingOff.xml
-actions/menus/ObjectMenu/Directives/Markings/Spanning/BeamingOn.scm
-actions/menus/ObjectMenu/Directives/Markings/Spanning/BeamingOn.xml
 actions/menus/ObjectMenu/Directives/Markings/Spanning/CadenzaOn.scm
 actions/menus/ObjectMenu/Directives/Markings/Spanning/CadenzaOn.xml
 actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.scm
@@ -760,10 +756,10 @@ actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenSecondTimeBar.scm
 actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenSecondTimeBar.xml
 actions/menus/ObjectMenu/Directives/Markings/Spanning/Ottava.scm
 actions/menus/ObjectMenu/Directives/Markings/Spanning/Ottava.xml
-actions/menus/ObjectMenu/Directives/Markings/Spanning/SmallFontEnd.scm
-actions/menus/ObjectMenu/Directives/Markings/Spanning/SmallFontEnd.xml
-actions/menus/ObjectMenu/Directives/Markings/Spanning/SmallFontStart.scm
-actions/menus/ObjectMenu/Directives/Markings/Spanning/SmallFontStart.xml
+actions/menus/ObjectMenu/Directives/Markings/Spanning/StartTrillSpan.scm
+actions/menus/ObjectMenu/Directives/Markings/Spanning/StartTrillSpan.xml
+actions/menus/ObjectMenu/Directives/Markings/Spanning/StopTrillSpan.scm
+actions/menus/ObjectMenu/Directives/Markings/Spanning/StopTrillSpan.xml
 actions/menus/ObjectMenu/Directives/Markings/Spanning/SustainOff.scm
 actions/menus/ObjectMenu/Directives/Markings/Spanning/SustainOff.xml
 actions/menus/ObjectMenu/Directives/Markings/Spanning/SustainOn.scm
@@ -831,6 +827,10 @@ actions/menus/ObjectMenu/Directives/PrintLayout/StaffSpacer.scm
 actions/menus/ObjectMenu/Directives/PrintLayout/StaffSpacer.xml
 actions/menus/ObjectMenu/Directives/Typesetter/AutoAccidentals.scm
 actions/menus/ObjectMenu/Directives/Typesetter/AutoAccidentals.xml
+actions/menus/ObjectMenu/Directives/Typesetter/BeamingOff.scm
+actions/menus/ObjectMenu/Directives/Typesetter/BeamingOff.xml
+actions/menus/ObjectMenu/Directives/Typesetter/BeamingOn.scm
+actions/menus/ObjectMenu/Directives/Typesetter/BeamingOn.xml
 actions/menus/ObjectMenu/Directives/Typesetter/ChordSymbols/ColorChordSymbol.scm
 actions/menus/ObjectMenu/Directives/Typesetter/ChordSymbols/ColorChordSymbol.xml
 actions/menus/ObjectMenu/Directives/Typesetter/DynamicUp.scm
@@ -853,6 +853,10 @@ actions/menus/ObjectMenu/Directives/Typesetter/SetBarNumber.scm
 actions/menus/ObjectMenu/Directives/Typesetter/SetBarNumber.xml
 actions/menus/ObjectMenu/Directives/Typesetter/ShiftNext.scm
 actions/menus/ObjectMenu/Directives/Typesetter/ShiftNext.xml
+actions/menus/ObjectMenu/Directives/Typesetter/SmallFontEnd.scm
+actions/menus/ObjectMenu/Directives/Typesetter/SmallFontEnd.xml
+actions/menus/ObjectMenu/Directives/Typesetter/SmallFontStart.scm
+actions/menus/ObjectMenu/Directives/Typesetter/SmallFontStart.xml
 actions/menus/ObjectMenu/Directives/Typesetter/StartStaff.scm
 actions/menus/ObjectMenu/Directives/Typesetter/StartStaff.xml
 actions/menus/ObjectMenu/Directives/Typesetter/StopStaff.scm

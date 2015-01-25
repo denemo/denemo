@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>StopTrillSpan</action>
+        <after>StartTrillSpan</after>
+        <_label>Stop Trill</_label>
+        <_tooltip>Ends a previously started trill at the next note.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
