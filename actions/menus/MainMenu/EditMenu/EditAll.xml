@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>EditAll</action>
+        <after>ResumeEdit</after>
+        <_label>Edit All of Type</_label>
+        <_tooltip>Edits/Deletes all objects of the last searched for type this and all succeeding movements.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

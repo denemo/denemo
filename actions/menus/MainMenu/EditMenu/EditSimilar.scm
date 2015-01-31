@@ -1,6 +1,6 @@
 ;;EditSimilar
 (define-once EditSimilar::last #f)   
-(let ((target #f) (continuations (if (eq? EditSimilar::params 'once) (begin (set! EditSimilar::params #f) #f) #t)))
+(let ((target #f) (continuations (if (eq? EditSimilar::params 'once) (begin (set! EditSimilar::params #f) #f) 'menu)))
    (define (get-tag-list get-command) ;;;get-command is d-DirectiveGetNthTag-note
     (let loop ((tags '())(n 0))
         (define tag #f)
@@ -30,7 +30,8 @@
             ((eval command (current-module)) "edit")
             (default-action tag))))
   (define (edit)
-        (define choice #f)
+        (define choice (if (eq? continuations 'menu) #f continuations))
+        (if (not choice)
         (if continuations 
             (set! choice (RadioBoxMenu
                   (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " Directives"))   'continue)   
@@ -43,7 +44,7 @@
                   (cons (_ "Edit") 'edit)
                   (cons (_ "Delete")   'delete)   
                   (cons (_ "Execute Scheme") 'execute)
-                  (cons (_ "Advanced") 'advanced))))
+                  (cons (_ "Advanced") 'advanced)))))
 
           (case choice
             ((delete) (d-DirectiveDelete-standalone target))
@@ -54,7 +55,8 @@
             ((#f)  (set! target #f))))
 
   (define (edit-note)
-        (define choice #f)
+        (define choice (if (eq? continuations 'menu) #f continuations))
+        (if (not choice)
         (if continuations 
             (set! choice (RadioBoxMenu
                   (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Noteheads"))   'continue)   
@@ -67,7 +69,7 @@
                   (cons (_ "Edit") 'edit)
                   (cons (_ "Delete")   'delete)   
                   (cons (_ "Execute Scheme") 'execute)
-                  (cons (_ "Advanced") 'advanced))))
+                  (cons (_ "Advanced") 'advanced)))))
           (case choice
             ((delete) (d-DirectiveDelete-note target))
             ((edit) (edit-tag target d-DirectiveTextEdit-note))
@@ -78,7 +80,8 @@
             (d-CursorUp))
 
   (define (edit-chord)
-        (define choice #f)
+        (define choice (if (eq? continuations 'menu) #f continuations))
+        (if (not choice)
         (if continuations 
             (set! choice (RadioBoxMenu
                   (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Chords/Notes/Rests"))   'continue)   
@@ -91,7 +94,7 @@
                   (cons  (string-append (_ "Edit ")  "\""target"\"" (_ " Directive") (_ " on this Chord/Note/Rest"))  'edit)
                   (cons (_ "Delete")   'delete)   
                   (cons (_ "Execute Scheme") 'execute)
-                  (cons (_ "Advanced") 'advanced))))
+                  (cons (_ "Advanced") 'advanced)))))
         (case choice
             ((delete) (d-DirectiveDelete-chord target))
             ((edit) (edit-tag target d-DirectiveTextEdit-chord))
@@ -102,7 +105,8 @@
             
             
   (define (edit-nonprinting)
-        (define choice #f)
+        (define choice (if (eq? continuations 'menu) #f continuations))
+        (if (not choice)
         (if continuations 
             (set! choice (RadioBoxMenu
               (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " Objects"))   'continue)   
@@ -111,14 +115,15 @@
               (cons (_ "Stop") 'stop)))
             (set! choice (RadioBoxMenu
                   (cons (_ "Change to Printing")   'switch)
-                  (cons (_ "Execute Scheme") 'execute))))              
+                  (cons (_ "Execute Scheme") 'execute)))))              
         (case choice
             ((switch) (if (d-Directive-chord? DenemoWholeMeasureRestTag) (DenemoWholeMeasureRestCommand 'printing)) (d-SetNonprinting #f))
             ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))
   (define (edit-slurstart)
-        (define choice #f)
+        (define choice (if (eq? continuations 'menu) #f continuations))
+        (if (not choice)
         (if continuations 
             (set! choice (RadioBoxMenu
               (cons (_ "Continue seeking slur start positions")   'continue)   
@@ -127,7 +132,7 @@
               (cons (_ "Stop") 'stop)))
             (set! choice (RadioBoxMenu
               (cons (_ "Delete Slur")   'delete)
-              (cons (_ "Execute Scheme") 'execute))))
+              (cons (_ "Execute Scheme") 'execute)))))
           
         (case choice
             ((delete) (d-DeleteSlur))
@@ -135,7 +140,8 @@
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))
     (define (edit-slurend)
-        (define choice #f)
+        (define choice (if (eq? continuations 'menu) #f continuations))
+        (if (not choice)
         (if continuations 
             (set! choice (RadioBoxMenu
               (cons (_ "Continue seeking slur end positions")   'continue)   
@@ -144,7 +150,7 @@
               (cons (_ "Stop") 'stop)))
             (set! choice (RadioBoxMenu
               (cons (_ "Delete Slur")   'delete)
-              (cons (_ "Execute Scheme") 'execute))))
+              (cons (_ "Execute Scheme") 'execute)))))
         (case choice
             ((delete) (d-DeleteSlur))
             ((stop) (set! target #f)(set! continuations #f))
@@ -153,7 +159,8 @@
             
             
     (define (edit-tied)
-        (define choice #f)
+        (define choice (if (eq? continuations 'menu) #f continuations))
+        (if (not choice)
         (if continuations 
             (set! choice (RadioBoxMenu
               (cons (_ "Continue seeking tied notes")   'continue)   
@@ -162,7 +169,7 @@
               (cons (_ "Stop") 'stop)))
             (set! choice (RadioBoxMenu
               (cons (_ "Delete Tie")   'delete)
-              (cons (_ "Execute Scheme") 'execute))))
+              (cons (_ "Execute Scheme") 'execute)))))
         (case choice
             ((delete) (d-ToggleTie))
             ((stop) (set! target #f)(set! continuations #f))
@@ -170,35 +177,38 @@
             ((#f)  (set! target #f))))
              
     (define (edit-tupletstart)
-        (define choice #f)
+        (define choice (if (eq? continuations 'menu) #f continuations))
+        (if (not choice)
         (if continuations 
             (set! choice (RadioBoxMenu
               (cons (_ "Continue seeking tuplet start objects")   'continue)   
               (cons (_ "Execute Scheme") 'execute)
               (cons (_ "Stop") 'stop)))
             (set! choice (RadioBoxMenu
-              (cons (_ "Execute Scheme") 'execute))))
+              (cons (_ "Execute Scheme") 'execute)))))
         (case choice
             ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))            
             
     (define (edit-tupletend)
-        (define choice #f)
+        (define choice (if (eq? continuations 'menu) #f continuations))
+        (if (not choice)
         (if continuations 
             (set! choice (RadioBoxMenu
               (cons (_ "Continue seeking tuplet end objects")   'continue)   
               (cons (_ "Execute Scheme") 'execute)
               (cons (_ "Stop") 'stop)))
             (set! choice (RadioBoxMenu
-              (cons (_ "Execute Scheme") 'execute))))
+              (cons (_ "Execute Scheme") 'execute)))))
         (case choice
             ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
             ((#f)  (set! target #f))))
             
     (define (edit-timesig)
-        (define choice #f)
+        (define choice (if (eq? continuations 'menu) #f continuations))
+        (if (not choice)
         (if continuations 
             (set! choice (RadioBoxMenu
               (cons (_ "Continue seeking time signature change objects")   'continue)   
@@ -207,7 +217,7 @@
               (cons (_ "Stop") 'stop)))
              (set! choice (RadioBoxMenu
               (cons (_ "Edit") 'edit)
-              (cons (_ "Execute Scheme") 'execute))))
+              (cons (_ "Execute Scheme") 'execute)))))
          
           
         (case choice
@@ -217,7 +227,8 @@
             ((#f)  (set! target #f))))    
             
     (define (edit-clef)
-        (define choice #f)
+        (define choice (if (eq? continuations 'menu) #f continuations))
+        (if (not choice)
         (if continuations 
             (set! choice (RadioBoxMenu
               (cons (_ "Continue seeking clef change objects")   'continue)   
@@ -226,7 +237,7 @@
               (cons (_ "Stop") 'stop)))
             (set! choice (RadioBoxMenu
               (cons (_ "Edit") 'edit)
-              (cons (_ "Execute Scheme") 'execute))))
+              (cons (_ "Execute Scheme") 'execute)))))
         (case choice
             ((stop) (set! target #f)(set! continuations #f))
             ((edit) (d-InsertClef)) ;;;better - offer  invisibility etc
@@ -234,7 +245,8 @@
             ((#f)  (set! target #f))))                     
             
     (define (edit-keysig)
-        (define choice #f)
+        (define choice (if (eq? continuations 'menu) #f continuations))
+        (if (not choice)
         (if continuations 
             (set! choice (RadioBoxMenu
               (cons (_ "Continue seeking key signature change objects")   'continue)   
@@ -245,7 +257,7 @@
             (set! choice (RadioBoxMenu
               (cons (_ "Sharpen") 'sharpen)
               (cons (_ "Flatten") 'flatten)
-              (cons (_ "Execute Scheme") 'execute))))
+              (cons (_ "Execute Scheme") 'execute)))))
         (case choice
             ((stop) (set! target #f)(set! continuations #f))
             ((sharpen) (begin (d-SharpenKeysig)(edit-keysig)))
@@ -254,7 +266,8 @@
             ((#f)  (set! target #f)))) 
             
     (define (edit-stemdirection)
-        (define choice #f)
+        (define choice (if (eq? continuations 'menu) #f continuations))
+        (if (not choice)
         (if continuations 
             (set! choice (RadioBoxMenu
               (cons (_ "Continue seeking stem direction change objects")   'continue)   
@@ -263,7 +276,7 @@
               (cons (_ "Stop") 'stop)))
             (set! choice (RadioBoxMenu
               (cons (_ "Edit") 'edit)
-              (cons (_ "Execute Scheme") 'execute))))
+              (cons (_ "Execute Scheme") 'execute)))))
          (case choice
             ((stop) (set! target #f)(set! continuations #f))
             ((edit) (d-VoiceSetting)) ;;;offer other options
@@ -271,7 +284,8 @@
             ((#f)  (set! target #f))))              
             
      (define (edit-timesigdir)
-        (define choice #f)
+        (define choice (if (eq? continuations 'menu) #f continuations))
+        (if (not choice)
         (if continuations 
             (set! choice (RadioBoxMenu
                   (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Time Signature Change Objects"))   'continue)   
@@ -284,7 +298,7 @@
                   (cons (_ "Edit") 'edit)
                   (cons (_ "Delete")   'delete)   
                   (cons (_ "Execute Scheme") 'execute)
-                  (cons (_ "Advanced") 'advanced))))
+                  (cons (_ "Advanced") 'advanced)))))
                   
         (case choice
             ((delete) (d-DirectiveDelete-timesig target))
@@ -296,7 +310,8 @@
             
               
      (define (edit-clefdir)
-        (define choice #f)
+        (define choice (if (eq? continuations 'menu) #f continuations))
+        (if (not choice)
         (if continuations 
             (set! choice (RadioBoxMenu
                   (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Clef Change Objects"))   'continue)   
@@ -309,7 +324,7 @@
                   (cons (_ "Edit") 'edit)
                   (cons (_ "Delete")   'delete)   
                   (cons (_ "Execute Scheme") 'execute)
-                  (cons (_ "Advanced") 'advanced))))
+                  (cons (_ "Advanced") 'advanced)))))
         (case choice
             ((delete) (d-DirectiveDelete-clef target))
             ((edit) (edit-tag target d-DirectiveTextEdit-clef))
@@ -319,7 +334,8 @@
             ((#f)  (set! target #f))))               
             
      (define (edit-keysigdir)
-        (define choice #f)
+        (define choice (if (eq? continuations 'menu) #f continuations))
+        (if (not choice)
         (if continuations 
             (set! choice (RadioBoxMenu
                   (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Key Change Objects"))   'continue)   
@@ -332,7 +348,7 @@
                   (cons (_ "Edit") 'edit)
                   (cons (_ "Delete")   'delete)   
                   (cons (_ "Execute Scheme") 'execute)
-                  (cons (_ "Advanced") 'advanced))))
+                  (cons (_ "Advanced") 'advanced)))))
         (case choice
             ((delete) (d-DirectiveDelete-keysig target))
             ((edit) (edit-tag target d-DirectiveTextEdit-keysig))
@@ -342,7 +358,8 @@
             ((#f)  (set! target #f))))   
               
      (define (edit-voicedir)
-        (define choice #f)
+        (define choice (if (eq? continuations 'menu) #f continuations))
+        (if (not choice)
         (if continuations 
             (set! choice (RadioBoxMenu
                   (cons (string-append (_ "Continue Seeking ") "\""target"\"" (_ " on Voice Change objects"))   'continue)   
@@ -355,20 +372,34 @@
                   (cons (_ "Edit") 'edit)
                   (cons (_ "Delete")   'delete)   
                   (cons (_ "Execute Scheme") 'execute)
-                  (cons (_ "Advanced") 'advanced))))
+                  (cons (_ "Advanced") 'advanced)))))
+                  
         (case choice
             ((delete) (d-DirectiveDelete-stemdirective target))
             ((edit) (edit-tag target d-DirectiveTextEdit-stemdirective))
             ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
-            ((advanced) (d-DirectiveTextEdit-stendirective target))
+            ((advanced) (d-DirectiveTextEdit-stemdirective target))
             ((#f)  (set! target #f))))   
                           
                                     
              
 ;;; the actual procedure
   (let ((type #f))
-  
+   (case EditSimilar::params
+                    ((menu)
+                        (set! continuations 'menu)
+                        (set! EditSimilar::params #f))
+                    ((execute delete)
+                              (if EditSimilar::last
+                                        (begin
+                                            (set! continuations EditSimilar::params)
+                                            (set! EditSimilar::params 'continue))
+                                        (begin
+                                            (d-WarningDialog (_ "Must choose type of object to be edited/deleted"))
+                                            (set! continuations 'menu)
+                                            (set! EditSimilar::params #f)))))
+
     (if (eq? EditSimilar::params 'continue)
         (if EditSimilar::last
             (begin
@@ -581,7 +612,7 @@
                           (while (and continuations  (FindNextObjectAllColumns (lambda () (d-Directive-keysig? target))))
                               (edit-keysigdir)))            
             ((voicedir)
-                          (edit-voicedir)
+                          (if (eq? continuations 'menu) (edit-voicedir))
                           (while (and continuations  (FindNextObjectAllColumns (lambda () (d-Directive-stemdirective? target))))
                               (edit-voicedir)))            
                         
@@ -600,13 +631,15 @@
                
     (if continuations
         (let ((choice #f))
-            (set! choice (RadioBoxMenu
-                (cons (_ "Wrap to beginning") 'wrap)
-                (if (LastMovement?)
-                    (if (FirstMovement?)
-                        (cons (_ "Stop") 'stop)
-                        (cons (_ "Wrap to first movement") 'first))
-                    (cons (_ "Wrap to next movement") 'wrapmovement))))
+            (if (eq? continuations 'menu)
+                (set! choice (RadioBoxMenu
+                    (cons (_ "Wrap to beginning") 'wrap)
+                    (if (LastMovement?)
+                        (if (FirstMovement?)
+                            (cons (_ "Stop") 'stop)
+                            (cons (_ "Wrap to first movement") 'first))
+                        (cons (_ "Wrap to next movement") 'wrapmovement))))
+                (set! choice 'wrapmovement))
 
             (case choice
                 ((wrap) 
@@ -620,5 +653,7 @@
                         (if (d-NextMovement)
                                 (begin
                                     (d-MoveToBeginning)
-                                    (d-EditSimilar (cons target type)))))
+                                    (if (or (eq? continuations 'execute) (eq? continuations 'delete))
+                                        (d-EditSimilar continuations)
+                                        (d-EditSimilar (cons target type))))))
                 (else (TimedNotice (_ "Finished"))))))))

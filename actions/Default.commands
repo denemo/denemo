@@ -6439,8 +6439,8 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <after>ParenthesizeNote</after>
         <menupath>/ObjectMenu/NotesRests</menupath>
         <_label>Displace Horizontally</_label>
-        <_tooltip>Shifts the next note, chord or rest and its markings horizontally by the amount given when typesetting.
-Use this to refine the positioning, but be aware that notes in other staffs will not be affected.</_tooltip>
+        <_tooltip>Shifts the next note, chord or rest and its markings horizontally by the amount given.
+Use this to refine the positioning, but be aware that notes in other staffs will not be affected. For polyphony, see NoteColumnShift under the Voices menu instead.</_tooltip>
       </row>
       <row type="scheme">
         <action>FretBoards</action>
@@ -7265,6 +7265,13 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Stop Trill</_label>
         <_tooltip>Ends a previously started trill at the next note.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>EditAll</action>
+        <after>ResumeEdit</after>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <_label>Edit All of Type</_label>
+        <_tooltip>Edits/Deletes all objects of the last searched for type this and all succeeding movements.</_tooltip>
       </row>
     </map>
   </merge>

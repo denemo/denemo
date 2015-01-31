@@ -247,6 +247,8 @@ actions/menus/MainMenu/EditMenu/Delete/RemoveSchemeInit.scm
 actions/menus/MainMenu/EditMenu/Delete/RemoveSchemeInit.xml
 actions/menus/MainMenu/EditMenu/Delete/StagedDelete.scm
 actions/menus/MainMenu/EditMenu/Delete/StagedDelete.xml
+actions/menus/MainMenu/EditMenu/EditAll.scm
+actions/menus/MainMenu/EditMenu/EditAll.xml
 actions/menus/MainMenu/EditMenu/EditScoreAndMovementDirectives.scm
 actions/menus/MainMenu/EditMenu/EditScoreAndMovementDirectives.xml
 actions/menus/MainMenu/EditMenu/EditSimilar.scm
