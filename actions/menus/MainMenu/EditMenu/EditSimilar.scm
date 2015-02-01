@@ -633,12 +633,12 @@
         (let ((choice #f))
             (if (eq? continuations 'menu)
                 (set! choice (RadioBoxMenu
-                    (cons (_ "Wrap to beginning") 'wrap)
                     (if (LastMovement?)
                         (if (FirstMovement?)
                             (cons (_ "Stop") 'stop)
                             (cons (_ "Wrap to first movement") 'first))
-                        (cons (_ "Wrap to next movement") 'wrapmovement))))
+                        (cons (_ "Wrap to next movement") 'wrapmovement))
+                     (cons (_ "Wrap to beginning") 'wrap)))
                 (set! choice 'wrapmovement))
 
             (case choice
