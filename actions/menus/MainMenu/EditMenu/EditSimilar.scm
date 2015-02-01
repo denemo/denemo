@@ -47,7 +47,7 @@
                   (cons (_ "Advanced") 'advanced)))))
 
           (case choice
-            ((delete) (d-DirectiveDelete-standalone target))
+            ((delete) (d-DirectiveDelete-standalone target)(d-MoveCursorLeft))
             ((edit) (d-EditObject))
             ((stop) (set! target #f)(set! continuations #f))
             ((execute) (d-ExecuteScheme))
@@ -643,16 +643,16 @@
 
             (case choice
                 ((wrap) 
-                    (d-MoveToBeginning)
+                    (d-MoveToMovementBeginning)
                     (d-EditSimilar (cons target type)))
                  ((first) 
                     (while (d-PreviousMovement))
-                    (d-MoveToBeginning)
+                    (d-MoveToMovementBeginning)
                     (d-EditSimilar (cons target type)))
                 ((wrapmovement) 
                         (if (d-NextMovement)
                                 (begin
-                                    (d-MoveToBeginning)
+                                    (d-MoveToMovementBeginning)
                                     (if (or (eq? continuations 'execute) (eq? continuations 'delete))
                                         (d-EditSimilar continuations)
                                         (d-EditSimilar (cons target type))))))
