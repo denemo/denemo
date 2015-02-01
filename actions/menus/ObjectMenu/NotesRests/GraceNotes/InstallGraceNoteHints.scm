@@ -1,5 +1,8 @@
-;;InsertGraceNoteHints
+;;InsertGraceNoteHints FIX FOR EMPTY MEASURES
 (let ((last-object 'none) (notice #f))
+  (define (GetStartTick)
+  	(define tick (d-GetStartTick))
+  	(if tick tick 0))
    (define (clean-measure)
     (let loop ()
       (if (and (Rest?) (d-IsGrace))
@@ -25,7 +28,7 @@
     (define ret #t)
     (d-PushPosition)
     (let loop ()
-        (if (= start-tick (d-GetStartTick))
+        (if (= start-tick (GetStartTick))
           (if (d-IsGrace)
             (set! ret #f)
             (if (d-NextObjectInMeasure)
@@ -37,10 +40,10 @@
           
   (define (ensure-grace start-tick grace)
     (let loop () 
-      (if (and (> start-tick (d-GetStartTick)) (d-NextObjectInMeasure))
+      (if (and (> start-tick (GetStartTick)) (d-NextObjectInMeasure))
         (loop)
         (begin
-          (if (= (d-GetStartTick) start-tick)
+          (if (= (GetStartTick) start-tick)
             (if (no-grace-at-tick start-tick)
                   (eval-string grace)))))))
 
@@ -58,7 +61,7 @@
   (define (fix-measure)
     (set! last-object 'beginning)
     (if (dangerous-grace?)
-      (let ((start-tick (d-GetStartTick)) (grace (get-grace)))
+      (let ((start-tick (GetStartTick)) (grace (get-grace)))
         (set! notice (_ "Grace note hints installed"))
         (d-PushPosition)
         (while (MoveUpStaffOrVoice))
@@ -93,3 +96,4 @@
   (if notice
   	(TimedNotice notice))
   (d-PopPosition))
+  ;;;;;;;;;;;;;;;;;;;;;;
