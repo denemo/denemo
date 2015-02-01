@@ -416,7 +416,8 @@
             ((standalone)
                 (set! type 'standalone)
                 (set! target (car EditSimilar::params))
-                (FindNextObjectAllColumns (lambda () (d-Directive-standalone? target))))
+                (if (not (d-Directive-standalone? target))
+                    (FindNextObjectAllColumns (lambda () (d-Directive-standalone? target)))))
   
             ((note)
                 (set! type 'note)
