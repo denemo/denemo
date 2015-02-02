@@ -1,3 +1,31 @@
+2015-02-02 Release 1.2.2
+    More mouse selection support
+        Extend an already made selection by dragging
+        Dragging selection now scrolls as needed
+
+    Large (Deep) Score Support
+        Hide staffs in the Display
+        Display only selected staffs, e.g. woodwind section
+        Use for deep scores, e.g. full orchestra.
+        Navigation commands available
+    Improved Ornamentation Interface
+        Place accidentals above and/or below ornament
+        Stack ornaments.
+        Quick and easy WYSIWYG dragging.
+    Support for Proof-Reading
+        Add PDF Annotations to Denemo typeset Score
+        Open the proof-read score in Denemo
+        Locate proof reading marks
+        Transfer proof read comments to the Denemo score
+    Edit/Delete all of one type of object
+    Chord Chart Bass Inversion Sequences
+    Support for editing from MIDI controller
+    Artificial Harmonics
+    Caesura
+    Arbitrary text for N’th time bars
+    Intelligent tied notes edits
+    Duplicate, Split or Merge Movements
+
 2014-10-31 Release 1.2.0
         Palette Shortcuts
             Execute Palette Commands from Keyboard
