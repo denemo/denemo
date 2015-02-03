@@ -183,7 +183,8 @@ figure_insert (GtkAction * action, DenemoScriptParam * param)
   DenemoMovement *si = gui->movement;
   static struct callbackdata cbdata;
   DenemoObject *curObj = (DenemoObject *) si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
-
+  if (curObj==NULL) return;
+  if (curObj->type != CHORD) return;
   if (curObj && curObj->type == CHORD && ((chord *) curObj->object)->figure)
     PreValue = ((GString *) ((chord *) curObj->object)->figure)->str;
 
