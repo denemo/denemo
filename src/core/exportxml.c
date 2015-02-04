@@ -765,8 +765,7 @@ exportXML (gchar * thefilename, DenemoProject * gui)
 
   if (gui->lilycontrol.directives)
     newDirectivesElem (parentElem, ns, gui->lilycontrol.directives, "score-directives");
-  if (gui->total_edit_time)
-    newXMLIntChild (parentElem, ns, (xmlChar *)"total-editing-time", gui->total_edit_time);
+
   GList *custom;
   for (custom = g_list_last (gui->custom_scoreblocks); custom; custom = custom->prev)
     {
