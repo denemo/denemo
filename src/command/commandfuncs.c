@@ -1238,7 +1238,11 @@ next_insert_or_editable_note (void)
         }
     }
   if (!ret)
-    movecursorright (NULL, NULL);
+    {
+        movecursorright (NULL, NULL);
+        if (Denemo.project->movement->currentobject == NULL)
+            movecursorleft (NULL, NULL);
+    }
   else
     write_status(Denemo.project);
   return ret;
