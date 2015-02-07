@@ -101,6 +101,7 @@ initprefs ()
   ret->persistence = TRUE;
   ret->learning = TRUE;
   ret->immediateplayback = TRUE;
+  ret->measureswitchsound = 72;
   ret->manualtypeset = FALSE;
   ret->typesetrefresh = 10;
   ret->typesettype = TYPESET_ALL_MOVEMENTS;
@@ -304,6 +305,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
         READXMLENTRY (temperament)
         READBOOLXMLENTRY (createclones)
         READBOOLXMLENTRY (immediateplayback)
+        READINTXMLENTRY (measureswitchsound)
         READBOOLXMLENTRY (manualtypeset)
         READINTXMLENTRY (typesetrefresh)
         READINTXMLENTRY (typesettype)
@@ -419,6 +421,7 @@ get_int_pref (gchar * prefname)
 {
   if (*prefname == 0)
     return 0;
+  GETINTPREF (measureswitchsound)
   GETINTPREF (typesettype)
     GETINTPREF (typesetrefresh)
     GETINTPREF (firstmeasure) GETINTPREF (firststaff) GETINTPREF (lastmeasure) GETINTPREF (laststaff) GETINTPREF (pitchspellingchannel) GETINTPREF (pitchspellingprogram) GETINTPREF (mode) GETINTPREF (resolution) GETINTPREF (animation_steps) GETINTPREF (tooltip_timeout) GETINTPREF (tooltip_browse_timeout) GETINTPREF (tooltip_browse_timeout) GETINTPREF (portaudio_sample_rate) GETINTPREF (portaudio_period_size) GETINTPREF (zoom) GETINTPREF (dynamic_compression) GETINTPREF (system_height) return 0;
@@ -687,6 +690,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
     WRITEBOOLXMLENTRY (createclones)
     WRITEBOOLXMLENTRY (spillover)
     WRITEBOOLXMLENTRY (immediateplayback)
+    WRITEINTXMLENTRY (measureswitchsound)
     WRITEBOOLXMLENTRY (manualtypeset)
     WRITEINTXMLENTRY (typesetrefresh)
     WRITEINTXMLENTRY (typesettype)

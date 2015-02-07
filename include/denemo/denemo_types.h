@@ -431,6 +431,7 @@ typedef struct DenemoPrefs
   gint lastmeasure;/**< last measure to typeset relative to the cursor when not manual typset */
   gint laststaff;/**< last staff to typeset relative to the cursor when not manual typset */
   gboolean immediateplayback; /**< This options sends audio directly to synth as notes are being entered */
+  gint measureswitchsound; /**< MIDI key to play on cursor move to new measure */
   gint pitchspellingchannel; /**< channel to use for feedback when entering extreme intervals via MIDI in, that may indicate an enharmonic error, 0 means no pitch spelling*/
   gint pitchspellingprogram; /**< program to set pitchspellingchannel to on startup */
   gboolean startmidiin; /**< try to start midi in on startup */

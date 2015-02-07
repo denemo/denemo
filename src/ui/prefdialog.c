@@ -46,6 +46,7 @@ struct callbackdata
   DenemoPrefs *prefs;
   GtkWidget *lilypath;
   GtkWidget *immediateplayback;
+  GtkWidget *measureswitchsound;
   GtkWidget *spillover;
   GtkWidget *manualtypeset;
   GtkWidget *typesetrefresh;
@@ -262,6 +263,7 @@ set_preferences (struct callbackdata *cbdata)
     ASSIGNINT (zoom)
     ASSIGNINT (system_height)
     ASSIGNBOOLEAN (immediateplayback)
+    ASSIGNINT (measureswitchsound)
     ASSIGNBOOLEAN (spillover)
     ASSIGNBOOLEAN (manualtypeset)
     ASSIGNINT (typesetrefresh)
@@ -602,6 +604,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
 
 
   BOOLEANENTRY (_("Play back entered notes immediately"), immediateplayback);
+  INTENTRY_LIMITS (_("MIDI key sound on measure end"), measureswitchsound, 0, 127);
   INTENTRY_LIMITS (_("Pitch Spelling Channel"), pitchspellingchannel, 0, 15);
   INTENTRY_LIMITS (_("Pitch Spelling Program"), pitchspellingprogram, 0, 127);
 
