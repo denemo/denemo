@@ -7273,6 +7273,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Edit All of Type</_label>
         <_tooltip>Edits/Deletes all objects of the last searched for type this and all succeeding movements.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>TypesetOnlyClef</action>
+        <after>DisplayOnlyClef</after>
+        <menupath>/ObjectMenu/ClefMenu</menupath>
+        <_label>Typeset Only Clef</_label>
+        <_tooltip>Inserts a clef that affects only the typesetting, not the display. Use this for music transposed on typesetting (avoiding too many ledger lines in the display, making it hard to read). Also useful to enter music in a familiar clef which you want to be printed in a less familiar one (e.g. enter music in treble or bass clef music to be printed for viola).</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
