@@ -292,6 +292,7 @@ dnm_clone_object (DenemoObject * orig)
   if(ret){
     ret->lilypond = NULL;
     ret->midi_events = NULL;
+    ret->isinvisible = orig->isinvisible;
   }
   return ret;
 }
