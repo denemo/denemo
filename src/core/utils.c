@@ -2624,7 +2624,9 @@ initialize_keystroke_help (void)
       gtk_window_set_keep_above (GTK_WINDOW (KeyStrokes), TRUE);
       gtk_window_set_accept_focus (GTK_WINDOW (KeyStrokes), FALSE);
       KeyStrokeLabel = gtk_label_new ("");
+      //gtk_label_set_line_wrap (KeyStrokeLabel, TRUE);
       KeyStrokeHelp = gtk_label_new ("");
+      gtk_label_set_line_wrap (KeyStrokeHelp, TRUE);
       GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
       gtk_container_add (GTK_CONTAINER (KeyStrokes), vbox);
       gtk_box_pack_start (GTK_BOX (vbox), KeyStrokeLabel, FALSE, TRUE, 0);
