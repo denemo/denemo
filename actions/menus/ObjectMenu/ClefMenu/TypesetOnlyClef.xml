@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>DisplayOnlyClef</after>
+        <action>TypesetOnlyClef</action>
+        <_label>Typeset Only Clef</_label>
+        <_tooltip>Inserts a clef that affects only the typesetting, not the display. Use this for music transposed on typesetting (avoiding too many ledger lines in the display, making it hard to read). Also useful to enter music in a familiar clef which you want to be printed in a less familiar one (e.g. enter music in treble or bass clef music to be printed for viola).</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
