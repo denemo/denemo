@@ -6,8 +6,7 @@
   <scoreheader-directives>
     <directive>
       <tag>ScoreTagline</tag>
-      <postfix>tagline =  \markup { \with-url #'"scheme:(d-ScoreTagline)"  ""}
-
+      <postfix>tagline=""
 </postfix>
     </directive>
   </scoreheader-directives>
@@ -18,6 +17,12 @@
 print-all-headers = ##t
 </postfix>
       <override>32</override>
+    </directive>
+    <directive>
+      <tag>LimitInterSystemSpace</tag>
+      <postfix>
+page-limit-inter-system-space = ##t
+page-limit-inter-system-space-factor = 1.2</postfix>
     </directive>
   </paper-directives>
   <thumbnail>

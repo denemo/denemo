@@ -48,7 +48,6 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         <override>4</override>
       </directive>
     </score-directives>
-    <total-editing-time>95</total-editing-time>
   </lilycontrol>
   <movement-number>1</movement-number>
   <movement>

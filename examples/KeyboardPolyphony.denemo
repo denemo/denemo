@@ -173,7 +173,6 @@ Note that the double length bars are counted as two in the bar numbering.
         <override>4</override>
       </directive>
     </score-directives>
-    <total-editing-time>9</total-editing-time>
   </lilycontrol>
   <movement-number>1</movement-number>
   <movement>
