@@ -8,6 +8,7 @@
 
 #include "config.h"
 #include <denemo/denemo.h>
+#include <gtksourceview/gtksource.h>
 #include "core/utils.h"
 #include <stdlib.h>
 #include <string.h>
@@ -206,7 +207,8 @@ insert_section (GString ** str, gchar * markname, gchar * name, GtkTextIter * it
   gtk_text_buffer_apply_tag_by_name (Denemo.textbuffer, INEDITABLE, &back, iter);
   if (name == NULL)
     gtk_text_buffer_apply_tag_by_name (Denemo.textbuffer, "system_invisible", &back, iter);
-  gtk_text_buffer_insert (Denemo.textbuffer, iter, "\n", -1);
+  gtk_text_buffer_insert (Denemo.textbuffer, iter, "\n", -1);//THE NEWLINE is needed to give something for the section to contain to which the attribute is then applied, but it causes problems as well...
+  
   GtkTextChildAnchor *endanc = gtk_text_buffer_create_child_anchor (Denemo.textbuffer, iter);
   back = *iter;
   (void) gtk_text_iter_backward_char (&back);
@@ -2159,12 +2161,10 @@ refresh_lily_cb (GtkAction * action, DenemoProject * gui)
       GtkTextMark *cursor = gtk_text_buffer_get_insert (Denemo.textbuffer);
       gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, cursor);
       gint offset = gtk_text_iter_get_offset (&iter);
-      //g_print("Offset %d for %p\n", offset, Denemo.textbuffer);
       output_score_to_buffer (gui, TRUE, NULL);
+      //restore the cursor position
       gtk_text_buffer_get_iter_at_offset (Denemo.textbuffer, &iter, offset);
       gtk_text_buffer_place_cursor (Denemo.textbuffer, &iter);
-      // gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(Denemo.textview), gtk_text_buffer_get_insert(Denemo.textbuffer));
-      //gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW (Denemo.textview), gtk_text_buffer_get_insert (Denemo.textbuffer), 0.0, TRUE, 0.5, 0.5);
     }
   else
     output_score_to_buffer (gui, TRUE, NULL);
@@ -2493,7 +2493,7 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
     insert_scoreblock_section (gui, scoreblock_tag, sb);
     gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, gtk_text_buffer_get_mark (Denemo.textbuffer, scoreblock_tag));
     if (sb->text_only)
-      insert_editable (&sb->lilypond, (sb->lilypond)->str, &iter, gui, 0, 0, 0, 0, 0, 0, 0, 0);
+      insert_editable (&sb->lilypond, g_strchomp((sb->lilypond)->str), &iter, gui, 0, 0, 0, 0, 0, 0, 0, 0); //without strchomp a newline is appended each refresh.
     else
       gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, (sb->lilypond)->str, -1, INEDITABLE, NULL);
   }
@@ -2695,8 +2695,9 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
 static void
 export_lilypond (gchar * thefilename, DenemoProject * gui, gboolean all_movements, gchar * partname)
 {
-  GtkTextIter startiter, enditer;
-
+  GtkTextIter startiter, enditer, iter;
+  gint offset;
+  offset = get_cursor_offset ();
   output_score_to_buffer (gui, all_movements, partname);
   GString *filename = g_string_new (thefilename);
   if (filename)
@@ -2721,6 +2722,9 @@ export_lilypond (gchar * thefilename, DenemoProject * gui, gboolean all_movement
       fclose (fp);
       g_string_free (filename, TRUE);
     }
+    //restore the insertion point
+    gtk_text_buffer_get_iter_at_offset (Denemo.textbuffer, &iter, offset);
+    gtk_text_buffer_place_cursor (Denemo.textbuffer, &iter);
 }
 
 void
