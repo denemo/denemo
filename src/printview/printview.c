@@ -8,6 +8,7 @@
 #include "core/view.h"
 #include "command/scorelayout.h"
 #include "command/lilydirectives.h"
+#include "export/exportlilypond.h"
 static gint changecount = -1;   //changecount when the printfile was last created FIXME multiple tabs are muddled
 static gchar *thumbnailsdirN = NULL;
 static gchar *thumbnailsdirL = NULL;
@@ -2050,7 +2051,7 @@ typeset_control (gpointer data)
           restore_selection (Denemo.project->movement);
         }
       Denemo.project->movement->markstaffnum = markstaff;
-      return;
+      goto END;
     }
   else
     {                           //data is NULL, repeat last typeset
@@ -2058,7 +2059,7 @@ typeset_control (gpointer data)
         {
           ((void (*)()) last_data) ();
           Denemo.project->movement->markstaffnum = markstaff;
-          return;
+          goto END;
         }
       else if (last_script->len)
         {
@@ -2068,14 +2069,23 @@ typeset_control (gpointer data)
           g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
 
           Denemo.project->movement->markstaffnum = markstaff;
-          return;
+          goto END;
         }
       Denemo.project->movement->markstaffnum = markstaff;
 
-      return;
+      goto END;
     }
   last_data = data;
   Denemo.project->movement->markstaffnum = markstaff;
+  
+  END:
+  //bring view back to show cursor
+  if (Denemo.textview)
+    gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW (Denemo.textview),
+                              gtk_text_buffer_get_insert (Denemo.textbuffer),
+                              0.0,
+                             TRUE, 0.5, 0.5);
+
 }
 
 //Callback for the command PrintView
