@@ -1892,25 +1892,24 @@ outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint
       (void)gtk_text_iter_backward_char(&back);\
       gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, INEDITABLE, &back, &iter);\
       gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, "system_invisible", &back, &iter);\
-    open_braces += brace_count( ((lilydirective *) curobj->object)->what->str);\
-    gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter,  ((lilydirective *) curobj->object)->what->str, -1, "bold", NULL); \
-    g_free(curobj->lilypond);\
-    curobj->lilypond = g_strdup(((lilydirective *) curobj->object)->what->str);\
-    GtkTextChildAnchor *endanc  = gtk_text_buffer_create_child_anchor (Denemo.textbuffer, &iter);\
+    open_braces += brace_count( directive->what->str);\
+    gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter,  directive->what->str, -1, "bold", NULL); \
+        GtkTextChildAnchor *endanc  = gtk_text_buffer_create_child_anchor (Denemo.textbuffer, &iter);\
     back = iter;\
     (void)gtk_text_iter_backward_char(&back);\
     gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, INEDITABLE, &back, &iter);\
     gtk_text_buffer_apply_tag_by_name(Denemo.textbuffer, "system_invisible", &back, &iter);\
     g_object_set_data(G_OBJECT(objanc), "end", (gpointer)endanc);\
-    g_object_set_data(G_OBJECT(objanc), GSTRINGP, (gpointer)&((lilydirective *) curobj->object)->what);\
+    g_object_set_data(G_OBJECT(objanc), GSTRINGP, (gpointer)&directive->what);\
     gui->anchors = g_list_prepend(gui->anchors, objanc);\
   }
 
+g_free(curobj->lilypond);
 
                       OUTPUT_LILY (prefix);
                       gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, " ", -1, INEDITABLE, HIGHLIGHT, NULL);
                       OUTPUT_LILY (postfix);
-
+    curobj->lilypond = g_strconcat(directive->prefix?directive->prefix->str : "", directive->postfix? directive->postfix->str:"", NULL);
 #undef OUTPUT_LILY
 
 
