@@ -416,7 +416,7 @@ convert_to_lilypond_callback (GtkWidget * widget, DenemoScoreblock * sb)
 }
 
 static void
-delete_custom_scoreblock_callback (GtkWidget * widget, DenemoScoreblock * sb)
+delete_custom_scoreblock_callback (GtkWidget * dummy, DenemoScoreblock * sb)
 {
   Denemo.project->custom_scoreblocks = g_list_remove (Denemo.project->custom_scoreblocks, sb);
   gtk_widget_destroy (sb->widget); 
@@ -2864,6 +2864,23 @@ create_custom_scoreblock (gchar * layout_name, gboolean force)
         }
     }
   return NULL;
+}
+
+
+gboolean delete_custom_scoreblock (gchar * layout_name)
+{
+  GList *g;
+ 
+  for (g = Denemo.project->custom_scoreblocks; g; g = g->next)
+    {
+      DenemoScoreblock *sb = (DenemoScoreblock *) g->data;
+      if (!strcmp (layout_name, sb->name))
+        {
+            delete_custom_scoreblock_callback (NULL, sb);
+            return TRUE;
+        }
+    }
+  return FALSE;
 }
 
 DenemoScoreblock *

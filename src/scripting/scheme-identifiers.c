@@ -1122,7 +1122,8 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Snapshots the current movement putting it in the undo queue returns #f if no snapshot was taken because of a guard", DENEMO_SCHEME_PREFIX "TakeSnapshot", scheme_take_snapshot);
 
   install_scm_function (0, "Creates the default layout.", DENEMO_SCHEME_PREFIX "SelectDefaultLayout", scheme_select_default_layout);
-  install_scm_function (1, "Creates a custom layout from the currently selected (standard) layout if the score layouts window is open. Uses the passed name for the new layout. Returns #f if nothing happened. An additional parameter #t can force creation of the layout while score layout window is closed.", DENEMO_SCHEME_PREFIX "CreateLayout", scheme_create_layout);
+  install_scm_function (1, "Creates a custom layout from the currently selected (standard). Uses the passed name for the new layout. Returns #f if nothing happened.", DENEMO_SCHEME_PREFIX "CreateLayout", scheme_create_layout);
+  install_scm_function (1, "Deletes a custom layout of the passed name. Returns #f if no layout with passed name.", DENEMO_SCHEME_PREFIX "DeleteLayout", scheme_delete_layout);
   install_scm_function (0, "Returns the id of the currently selected score layout (see View->Score Layout). Returns #f if no layout is selected.", DENEMO_SCHEME_PREFIX "GetLayoutId", scheme_get_layout_id);
   install_scm_function (0, "Returns the id of a score layout for typesetting the part for the current staff. Returns #f if not a primary voice.", DENEMO_SCHEME_PREFIX "GetCurrentStaffLayoutId", scheme_get_current_staff_layout_id);
   install_scm_function (0, "Selects the score layout with the passed id. Returns #f if there is no such layout.", DENEMO_SCHEME_PREFIX "SelectLayoutId", scheme_select_layout_id);

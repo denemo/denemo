@@ -1110,17 +1110,25 @@ scheme_exit (SCM optional)
 }
 
 SCM
-scheme_create_layout (SCM name, SCM force)
+scheme_create_layout (SCM name)
 {
   if (scm_is_string (name))
     {
       gchar *layout_name = scm_to_locale_string (name);
-      if (create_custom_scoreblock (layout_name, scm_is_true (force)))
-        return SCM_BOOL_T;
+      return scm_from_bool (create_custom_scoreblock (layout_name, TRUE));
     }
   return SCM_BOOL_F;
 }
-
+SCM
+scheme_delete_layout (SCM name)
+{
+  if (scm_is_string (name))
+    {
+      gchar *layout_name = scm_to_locale_string (name);
+      return scm_from_bool (delete_custom_scoreblock (layout_name));
+    }
+  return SCM_BOOL_F;
+}
 SCM
 scheme_lilypond_for_part (void)
 {
