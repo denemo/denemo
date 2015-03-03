@@ -5,6 +5,8 @@
         (define this-movement (number->string (d-GetMovement)))
         (define this-staff (d-GetStaff))
         (define transpose #f)
+        (define (unique-staff-name)
+            (string-append (d-StaffProperties "query=denemo_name") (number->string (d-GetStaff))))
         (if (d-Directive-score? "GlobalTranspose")
                 (set! transpose  (d-GetUserInput (_ "Transpose Cue") (_ "Give note (in LilyPond notation) that  middle C should transpose to\nin this cue:") "c'")))
 
@@ -14,18 +16,18 @@
             (define clef (d-GetPrevailingClef))
             (if (not (= this-staff (d-GetStaff)))
             (set! cuenames (cons 
-                (cons (d-StaffProperties "query=denemo_name")           
+                (cons (unique-staff-name)           
                         (cons (if (d-Directive-score? "GlobalTranspose")
                             (begin
                                 (if transpose
                                   (if (equal? clef theclef)
-                                     (string-append "\\transposedCueDuring #\"" (d-StaffProperties "query=denemo_name") " Mvmnt " this-movement "\" #1 " transpose " {")
-                                     (string-append "\\transposedCueDuringWithClef #\"" (d-StaffProperties "query=denemo_name") " Mvmnt " this-movement "\"#1 " transpose " #\"" (string-downcase clef 0 1) "\" {"))))
+                                     (string-append "\\transposedCueDuring #\"" (unique-staff-name) " Mvmnt " this-movement "\" #1 " transpose " {")
+                                     (string-append "\\transposedCueDuringWithClef #\"" (unique-staff-name) " Mvmnt " this-movement "\"#1 " transpose " #\"" (string-downcase clef 0 1) "\" {"))))
                             (begin
                                (if (equal? clef theclef)    
-                                 (string-append "\\cueDuring #\"" (d-StaffProperties "query=denemo_name") " Mvmnt " this-movement "\"#1 {")
-                                 (string-append "\\cueDuringWithClef #\"" (d-StaffProperties "query=denemo_name") " Mvmnt " this-movement "\"#1 #\"" (string-downcase clef 0 1) "\" {"))))
-                            (string-append "\\addQuote \"" (d-StaffProperties "query=denemo_name") " Mvmnt " this-movement "\" \\"(d-GetVoiceIdentifier) "\n")))
+                                 (string-append "\\cueDuring #\"" (unique-staff-name) " Mvmnt " this-movement "\"#1 {")
+                                 (string-append "\\cueDuringWithClef #\"" (unique-staff-name) " Mvmnt " this-movement "\"#1 #\"" (string-downcase clef 0 1) "\" {"))))
+                            (string-append "\\addQuote \"" (unique-staff-name) " Mvmnt " this-movement "\" \\"(d-GetVoiceIdentifier) "\n")))
                                  cuenames)))        
             (if (d-MoveToStaffDown)
                 (loop (1+ count))))
