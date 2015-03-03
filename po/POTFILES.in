@@ -358,6 +358,8 @@ actions/menus/MainMenu/Educational/Note-Reading/StepSkipOrSame.scm
 actions/menus/MainMenu/Educational/Note-Reading/StepSkipOrSame.xml
 actions/menus/MainMenu/Educational/Note-Reading/UpDownOrSame.scm
 actions/menus/MainMenu/Educational/Note-Reading/UpDownOrSame.xml
+actions/menus/MainMenu/FileMenu/DisplayEditingTime.scm
+actions/menus/MainMenu/FileMenu/DisplayEditingTime.xml
 actions/menus/MainMenu/FileMenu/Export/ExportAudio.scm
 actions/menus/MainMenu/FileMenu/Export/ExportAudio.xml
 actions/menus/MainMenu/FileMenu/Export/QuickLilyPondExport.scm
@@ -402,6 +404,8 @@ actions/menus/MainMenu/FileMenu/PrintMenu/PrintTwoReduced.scm
 actions/menus/MainMenu/FileMenu/PrintMenu/PrintTwoReduced.xml
 actions/menus/MainMenu/FileMenu/PrintMenu/PrintWithAmbitus.scm
 actions/menus/MainMenu/FileMenu/PrintMenu/PrintWithAmbitus.xml
+actions/menus/MainMenu/FileMenu/SetThumbnail.scm
+actions/menus/MainMenu/FileMenu/SetThumbnail.xml
 actions/menus/MainMenu/HelpMenu/HelpAllFeatures.scm
 actions/menus/MainMenu/HelpMenu/HelpAllFeatures.xml
 actions/menus/MainMenu/HelpMenu/HelpForReturnKey.scm
@@ -1615,12 +1619,8 @@ actions/menus/ObjectMenu/NotesRests/Tuplets/Tripletize.scm
 actions/menus/ObjectMenu/NotesRests/Tuplets/TripletizeSlurred.scm
 actions/menus/ObjectMenu/NotesRests/Tuplets/TripletizeSlurred.xml
 actions/menus/ObjectMenu/NotesRests/Tuplets/Tripletize.xml
-actions/menus/ObjectMenu/Score/AccompanistsScore.scm
-actions/menus/ObjectMenu/Score/AccompanistsScore.xml
 actions/menus/ObjectMenu/Score/CheckScore.scm
 actions/menus/ObjectMenu/Score/CheckScore.xml
-actions/menus/ObjectMenu/Score/DisplayEditingTime.scm
-actions/menus/ObjectMenu/Score/DisplayEditingTime.xml
 actions/menus/ObjectMenu/Score/EditProlog.scm
 actions/menus/ObjectMenu/Score/EditProlog.xml
 actions/menus/ObjectMenu/Score/LilyPondDefinition.scm
@@ -1637,10 +1637,6 @@ actions/menus/ObjectMenu/Score/ScoreHeader.scm
 actions/menus/ObjectMenu/Score/ScoreHeader.xml
 actions/menus/ObjectMenu/Score/ScoreProlog.scm
 actions/menus/ObjectMenu/Score/ScoreProlog.xml
-actions/menus/ObjectMenu/Score/SetThumbnail.scm
-actions/menus/ObjectMenu/Score/SetThumbnail.xml
-actions/menus/ObjectMenu/Score/StaccatoStaccatissimo.scm
-actions/menus/ObjectMenu/Score/StaccatoStaccatissimo.xml
 actions/menus/ObjectMenu/Score/Titles/BookTitles/BookArranger.scm
 actions/menus/ObjectMenu/Score/Titles/BookTitles/BookArranger.xml
 actions/menus/ObjectMenu/Score/Titles/BookTitles/BookComposer.scm
@@ -1700,10 +1696,10 @@ actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitle.scm
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitle.xml
 actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm
 actions/menus/ObjectMenu/Score/Titles/TaglineLink.xml
-actions/menus/ObjectMenu/Score/TrillIsPlus.scm
-actions/menus/ObjectMenu/Score/TrillIsPlus.xml
 actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm
 actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.xml
+actions/menus/ObjectMenu/Score/Typesetter/AccompanistsScore.scm
+actions/menus/ObjectMenu/Score/Typesetter/AccompanistsScore.xml
 actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm
 actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.xml
 actions/menus/ObjectMenu/Score/Typesetter/DeactivateTimeSignatureStencil.scm
@@ -1748,6 +1744,8 @@ actions/menus/ObjectMenu/Score/Typesetter/SetMargin.scm
 actions/menus/ObjectMenu/Score/Typesetter/SetMargin.xml
 actions/menus/ObjectMenu/Score/Typesetter/SetPageSize.scm
 actions/menus/ObjectMenu/Score/Typesetter/SetPageSize.xml
+actions/menus/ObjectMenu/Score/Typesetter/StaccatoStaccatissimo.scm
+actions/menus/ObjectMenu/Score/Typesetter/StaccatoStaccatissimo.xml
 actions/menus/ObjectMenu/Score/Typesetter/SystemsPerPage.scm
 actions/menus/ObjectMenu/Score/Typesetter/SystemsPerPage.xml
 actions/menus/ObjectMenu/Score/Typesetter/SystemSystemPadding.scm
@@ -1764,6 +1762,8 @@ actions/menus/ObjectMenu/Score/Typesetter/TransposeOnPrint.scm
 actions/menus/ObjectMenu/Score/Typesetter/TransposeOnPrint.xml
 actions/menus/ObjectMenu/Score/Typesetter/TransposeScorePrint.scm
 actions/menus/ObjectMenu/Score/Typesetter/TransposeScorePrint.xml
+actions/menus/ObjectMenu/Score/Typesetter/TrillIsPlus.scm
+actions/menus/ObjectMenu/Score/Typesetter/TrillIsPlus.xml
 actions/menus/ObjectMenu/StaffMenu/CaptureScore/CaptureMeasuresForStaff.scm
 actions/menus/ObjectMenu/StaffMenu/CaptureScore/CaptureMeasuresForStaff.xml
 actions/menus/ObjectMenu/StaffMenu/CaptureScore/DeleteCapturedMeasureForStaff.scm
