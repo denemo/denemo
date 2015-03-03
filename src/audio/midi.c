@@ -572,7 +572,7 @@ get_previous (enharmonic * enote)
 
 /*  take an action for the passed note. Enter/edit/check the score following the mode and keyboard state. */
 static gint
-midiaction (gint notenum)
+midiaction (gint notenum) 
 {
 
   DenemoProject *gui = Denemo.project;
@@ -641,10 +641,14 @@ midiaction (gint notenum)
             }
           else //there is a current object that is not a chord
             {
-              if (gui->movement->cursor_appending) {
-                do_one_note (enote.mid_c_offset, enote.enshift, enote.octave);
-                next_insert_or_editable_note();//next_editable_note ();//if we have gone back from an appending position after a non-chord we need this
-                            }
+              if (gui->movement->cursor_appending) 
+                {              
+                    gboolean was_appending = Denemo.project->movement->cursor_appending;
+                    do_one_note (enote.mid_c_offset, enote.enshift, enote.octave);
+                    next_insert_or_editable_note();
+                    if(was_appending)
+                        next_editable_note ();
+                }
               else
                 gdk_beep ();
             }
