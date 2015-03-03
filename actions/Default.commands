@@ -5248,11 +5248,17 @@ to the notes of the current chord.</_tooltip>
       </row>
       <row type="scheme">
         <action>TrillIsPlus</action>
-        <after>LilyPondDefinition</after>
-        <menupath>/ObjectMenu/Score</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Set Trill Style as +</_label>
         <_tooltip>Prints trills with the common 18th c. notation: a plus sign.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>StaccatoStaccatissimo</action>
+        <after>TrillIsPlus</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Staccato as '</_label>
+        <_tooltip>Typesets staccato in 18th c. style, similar to modern stacattissimo. Applies to whole score.</_tooltip>
+      </row>      
       <row type="scheme">
         <action>SetTuningAllStaffs</action>
         <after>SetTuningStaff</after>
@@ -6258,15 +6264,14 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
       </row>
       <row type="scheme">
         <action>SetThumbnail</action>
-        <after>ScoreProlog</after>
-        <menupath>/ObjectMenu/Score</menupath>
+        <menupath>/MainMenu/FileMenu</menupath>
         <_label>Set Thumbnail from Selection</_label>
-        <_tooltip>Sets the thumbnail to the section made in the first movement.</_tooltip>
+        <_tooltip>Sets the thumbnail for opening this file to the selection. (The selection must be in the first movement).</_tooltip>
       </row>
       <row type="scheme">
         <action>AccompanistsScore</action>
-        <menupath>/ObjectMenu/Score</menupath>
-        <_label>(Print) Accompanist's Score</_label>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Accompanist's Score (Off/On)</_label>
         <_tooltip>Sets/Unsets the top staff of each movement to a tiny font, with the lower staffs - the accompaniment - at the normal font. Print effect only.</_tooltip>
       </row>
       <row type="scheme">
@@ -6364,13 +6369,7 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Advanced Edit</_label>
         <_tooltip>Edits a Denemo Directive at the lowest level. Advanced users only!</_tooltip>
       </row>
-      <row type="scheme">
-        <action>StaccatoStaccatissimo</action>
-        <after>TrillIsPlus</after>
-        <menupath>/ObjectMenu/Score</menupath>
-        <_label>Staccato as '</_label>
-        <_tooltip>Typesets staccato in 18th c. style, similar to modern stacattissimo. Applies to whole score.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>FillEmptyMeasures</action>
         <after>StaffMultiMeasureRests</after>
@@ -6535,8 +6534,7 @@ Use this to refine the positioning, but be aware that notes in other staffs will
       </row>
       <row type="scheme">
         <action>DisplayEditingTime</action>
-        <after>CheckScore</after>
-        <menupath>/ObjectMenu/Score</menupath>
+        <menupath>/MainMenu/FileMenu</menupath>
         <_label>Time Spent Editing</_label>
         <_tooltip>Prints out the cumulative time spent editing this score.\nThe time counts any period between starting to edit and saving to disk\nThe time is accumulated over different editing sessions.</_tooltip>
       </row>

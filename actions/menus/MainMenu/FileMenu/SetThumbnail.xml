@@ -8,7 +8,7 @@
         <after>ScoreProlog</after>
         <action>SetThumbnail</action>
         <_label>Set Thumbnail from Selection</_label>
-        <_tooltip>Sets the thumbnail to the section made in the first movement.</_tooltip>
+        <_tooltip>Sets the thumbnail for opening this file to the selection. (The selection must be in the first movement).</_tooltip>
       </row>
     </map>
   </merge>
