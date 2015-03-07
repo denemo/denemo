@@ -32,7 +32,7 @@
                     (if text
                         (begin
                             (d-DirectivePut-chord-prefix tag  (string-append
-                                "\\set crescendoText = \\markup {\\italic { " text "}}\\set crescendoSpanner = #'text "))
+                                "\\once\\set crescendoText = \\markup {\\italic { " text "}}\\once\\set crescendoSpanner = #'text "))
 
                             (d-DirectivePut-chord-postfix tag "\\<")
                             (d-DirectivePut-chord-override tag DENEMO_OVERRIDE_AFFIX)
