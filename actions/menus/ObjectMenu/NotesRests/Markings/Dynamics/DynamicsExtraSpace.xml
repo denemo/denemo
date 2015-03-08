@@ -8,7 +8,7 @@
         <action>DynamicsExtraSpace</action>
         <after>DecrescendoTextSpanner</after>
         <_label>Extra Spacing</_label>
-        <_tooltip>Music is spaced out by the extra amount given to avoid dynamic markings colliding.</_tooltip>
+        <_tooltip>Music is spaced out by the extra amount given to avoid textual dynamic markings colliding. Not for hairpins.</_tooltip>
       </row>
     </map>
   </merge>

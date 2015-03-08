@@ -7185,7 +7185,7 @@ and others in the LilyPond documentation.</_tooltip>
         <after>DecrescendoTextSpanner</after>
         <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
         <_label>Extra Spacing</_label>
-        <_tooltip>Music is spaced out by the extra amount given to avoid dynamic markings colliding.</_tooltip>
+        <_tooltip>Music is spaced out by the extra amount given to avoid textual dynamic markings colliding. Not for hairpins.</_tooltip>
       </row>
       <row type="scheme">
         <action>BassInversionSequence</action>
