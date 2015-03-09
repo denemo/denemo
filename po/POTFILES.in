@@ -678,6 +678,8 @@ actions/menus/ObjectMenu/ClefMenu/SetDisplayClef.scm
 actions/menus/ObjectMenu/ClefMenu/SetDisplayClef.xml
 actions/menus/ObjectMenu/ClefMenu/TypesetOnlyClef.scm
 actions/menus/ObjectMenu/ClefMenu/TypesetOnlyClef.xml
+actions/menus/ObjectMenu/Directives/CheckDirectivePairs.scm
+actions/menus/ObjectMenu/Directives/CheckDirectivePairs.xml
 actions/menus/ObjectMenu/Directives/Comment.scm
 actions/menus/ObjectMenu/Directives/Comment.xml
 actions/menus/ObjectMenu/Directives/Conditional-Directives/ChooseCondition.scm
