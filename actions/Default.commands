@@ -5258,7 +5258,7 @@ to the notes of the current chord.</_tooltip>
         <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Staccato as '</_label>
         <_tooltip>Typesets staccato in 18th c. style, similar to modern stacattissimo. Applies to whole score.</_tooltip>
-      </row>      
+      </row>
       <row type="scheme">
         <action>SetTuningAllStaffs</action>
         <after>SetTuningStaff</after>
@@ -6369,7 +6369,6 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
         <_label>Advanced Edit</_label>
         <_tooltip>Edits a Denemo Directive at the lowest level. Advanced users only!</_tooltip>
       </row>
-
       <row type="scheme">
         <action>FillEmptyMeasures</action>
         <after>StaffMultiMeasureRests</after>
@@ -7277,6 +7276,13 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/ClefMenu</menupath>
         <_label>Typeset Only Clef</_label>
         <_tooltip>Inserts a clef that affects only the typesetting, not the display. Use this for music transposed on typesetting (avoiding too many ledger lines in the display, making it hard to read). Also useful to enter music in a familiar clef which you want to be printed in a less familiar one (e.g. enter music in treble or bass clef music to be printed for viola).</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>CheckDirectivePairs</action>
+        <after>Comment</after>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <_label>Check Paired Directives</_label>
+        <_tooltip>Checks that paired directives match from the cursor to the end of the staff.</_tooltip>
       </row>
     </map>
   </merge>

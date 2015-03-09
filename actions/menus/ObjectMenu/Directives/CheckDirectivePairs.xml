@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>CheckDirectivePairs</action>
+        <after>Comment</after>
+        <_label>Check Paired Directives</_label>
+        <_tooltip>Checks that paired directives match from the cursor to the end of the staff.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -15,10 +15,14 @@
   (let staff ()
     (d-FixSlursInStaff)     
     (d-CheckTiesInStaff 'noninteractive)
-    (set! CheckScore::return CheckTiesInStaff::return)
-    (if (not CheckTiesInStaff::return)
+    (if CheckTiesInStaff::return
+            (set! CheckScore::return CheckTiesInStaff::return))
+    (d-CheckDirectivePairs 'noninteractive)
+    (if CheckDirectivePairs::return
+            (set! CheckScore::return CheckDirectivePairs::return))
+    (if (not CheckScore::return)
         (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
-        (staff))))
+            (staff))))
   (if (not CheckScore::return)
       (begin
         (while (d-MoveToStaffUp))   
@@ -68,10 +72,10 @@
                 (begin
                     (set! CheckScore::error-position #f)
                     (d-InfoDialog  (_ "No problem detected in this score")))
-            (begin
-                (if CheckScore::error-position
-                    (apply d-GoToPosition CheckScore::error-position))
-                (d-InfoDialog CheckScore::return))))
+                (begin
+                    (if CheckScore::error-position
+                        (apply d-GoToPosition CheckScore::error-position))
+                    (d-InfoDialog CheckScore::return))))
         (disp "Error location " CheckScore::error-position "\n"))
  
                    
