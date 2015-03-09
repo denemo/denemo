@@ -8,16 +8,16 @@
       (let loop ()
         (if (and (d-IsTied) (Singlenote?))
           (let ((note (d-GetNote)))
-                    (if (and (d-NextChord) (Singlenote?))
+                    (if (and (d-NextNote) (Singlenote?))
                         (let ((nextnote (d-GetNote)))
                             (if (or (equal? note nextnote) (positive? CheckScore::ignore))
                                 (begin
                                     (if (positive? CheckScore::ignore)
                                             (set! CheckScore::ignore (1- CheckScore::ignore)))
-                                   (if (d-NextChord)
+                                   (if (d-NextNote)
                                     (loop)))
                                 (begin
-                                	(set! position (GetPosition))                    
+                                    (set! position (GetPosition))                    
                                     (set! CheckTiesInStaff::return (_ "Tied notes not the same"))
                                     (set! ok #f))))
                         (if (Singlenote?)
@@ -27,10 +27,10 @@
                                         (set! CheckScore::ignore (1- CheckScore::ignore))
                                         (loop))
                                     (begin  
-                                    	(set! position (GetPosition))                    
+                                        (set! position (GetPosition))                    
                                         (set! CheckTiesInStaff::return "No note to tie to")
                                         (set! ok #f))))))))
-            (if (and ok (d-NextChord))
+            (if (and ok (d-NextNote))
                 (loop)))
   
         (if CheckTiesInStaff::return
