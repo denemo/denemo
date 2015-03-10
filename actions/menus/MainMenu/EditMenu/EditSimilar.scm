@@ -45,7 +45,6 @@
                   (cons (_ "Delete")   'delete)   
                   (cons (_ "Execute Scheme") 'execute)
                   (cons (_ "Advanced") 'advanced)))))
-
           (case choice
             ((delete) (d-DirectiveDelete-standalone target)(d-MoveCursorLeft))
             ((edit) (d-EditObject))
@@ -357,7 +356,7 @@
             ((advanced) (d-DirectiveTextEdit-keysig target))
             ((#f)  (set! target #f))))   
               
-     (define (edit-voicedir)
+     (define (edit-stemdirectiondir)
         (define choice (if (eq? continuations 'menu) #f continuations))
         (if (not choice)
         (if continuations 
@@ -382,8 +381,7 @@
             ((advanced) (d-DirectiveTextEdit-stemdirective target))
             ((#f)  (set! target #f))))   
                           
-                                    
-             
+
 ;;; the actual procedure
   (let ((type #f))
    (case EditSimilar::params
@@ -399,7 +397,6 @@
                                             (d-WarningDialog (_ "Must choose type of object to be edited/deleted"))
                                             (set! continuations 'menu)
                                             (set! EditSimilar::params #f)))))
-
     (if (eq? EditSimilar::params 'continue)
         (if EditSimilar::last
             (begin
@@ -486,8 +483,8 @@
                 (if (not (Clef?))
                 (FindNextObjectAllColumns (lambda () (Clef?)))))                       
                 
-              ((voicedir) 
-                (set! type 'voicedir)
+              ((stemdirectiondir) 
+                (set! type 'stemdirectiondir)
                 (set! target (car EditSimilar::params))
                 (if (not (d-Directive-stemdirective? target))
                 (FindNextObjectAllColumns (lambda () (d-Directive-stemdirective? target)))))                
@@ -512,7 +509,7 @@
              (else
                 (disp "Not handling " EditSimilar::params " yet.")
                 (set! EditSimilar::params #f))))
-                 
+                
     (if (not type)
         (begin
             (set! target (d-DirectiveGetTag-standalone))
@@ -546,21 +543,21 @@
                                                                     (set! type 'keysig)
                                                                     (if (StemDirective?)
                                                                         (set! type 'stemdirection)
-                                                                        (if (d-Directive-timesig? target)
+                                                                        (if (and (Timesignature?) (d-Directive-timesig? target))
                                                                             (set! type 'timesigdir)
-                                                                            (if (d-Directive-keysig? target)
+                                                                            (if (and (Keysignature?) (d-Directive-keysig? target))
                                                                                 (set! type 'keysigdir)
-                                                                                (if (d-Directive-stemdirective? target)
-                                                                                    (set! type 'voicedir)
-                                                                                    (if (d-Directive-clef? target)
+                                                                                (if (and (StemDirective?) (d-Directive-stemdirective? target))
+                                                                                    (set! type 'stemdirectiondir)
+                                                                                    (if (and (Clef?) (d-Directive-clef? target))
                                                                                         (set! type 'clefdir))))))))))))))))))))))
-                                                            
+                                                                            
                                                             
                                                             
                                                           
                                                             
     (set! EditSimilar::last (cons type target))
-                            
+
     (case type
              ((standalone)
                           (edit)
@@ -622,20 +619,20 @@
                               (edit-stemdirection)))                                                                                                                       
             ((timesigdir)
                           (edit-timesigdir)
-                          (while (and continuations  (FindNextObjectAllColumns (lambda () (d-Directive-timesig? target))))
+                          (while (and continuations  (FindNextObjectAllColumns (lambda () (and (Timesignature?) (d-Directive-timesig? target)))))
                               (edit-timesigdir)))            
             ((keysigdir)
                           (edit-keysigdir)
-                          (while (and continuations  (FindNextObjectAllColumns (lambda () (d-Directive-keysig? target))))
+                          (while (and continuations  (FindNextObjectAllColumns (lambda () (and (Keysignature?) (d-Directive-keysig? target)))))
                               (edit-keysigdir)))            
-            ((voicedir)
-                          (if (eq? continuations 'menu) (edit-voicedir))
-                          (while (and continuations  (FindNextObjectAllColumns (lambda () (d-Directive-stemdirective? target))))
-                              (edit-voicedir)))            
+            ((stemdirectiondir)
+                          (if (eq? continuations 'menu) (edit-stemdirectiondir))
+                          (while (and continuations  (FindNextObjectAllColumns (lambda () (and (StemDirective?) (d-Directive-stemdirective? target)))))
+                              (edit-stemdirectiondir)))            
                         
             ((clefdir)
                           (edit-clefdir)
-                          (while (and continuations  (FindNextObjectAllColumns (lambda () (d-Directive-clef? target))))
+                          (while (and continuations  (FindNextObjectAllColumns (lambda () (and (Clef?) (d-Directive-clef? target)))))
                               (edit-clefdir)))            
                               
                                                        
