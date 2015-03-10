@@ -2344,8 +2344,8 @@ static gboolean dialog_realize (GtkWidget *dialog) {
 
 /* run a dialog for the user to select a string from the NULL separated strings, str
  return NULL if user cancels.*/
-gchar *
-get_option (gchar * str, gint length)
+static gchar *
+get_option_recursive (gchar * str, gint length, gboolean more)
 {
   gchar *response = NULL;
   GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select from List (or Cancel)",
@@ -2377,6 +2377,15 @@ get_option (gchar * str, gint length)
       g_signal_connect (G_OBJECT (widget), "toggled", G_CALLBACK (option_choice), &response);
       gtk_container_add (GTK_CONTAINER (vbox), widget);
     }
+    
+   if(more)
+        { 
+            opt = _("More...");
+            widget = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (widget1), opt);
+            g_object_set_data (G_OBJECT (widget), "choice", (gpointer) opt);
+            g_signal_connect (G_OBJECT (widget), "toggled", G_CALLBACK (option_choice), &response);
+            gtk_container_add (GTK_CONTAINER (vbox), widget);   
+        }
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_REJECT)
@@ -2388,6 +2397,35 @@ get_option (gchar * str, gint length)
   gtk_widget_destroy (dialog);
   return response;
 }
+#define MAX_ITEMS (Denemo.prefs.max_menu_size)
+gchar *get_option (gchar * str, gint length)
+{
+  gchar *opt;
+  gint i;
+  for (opt = str, i = 0; (opt - str) < length; i++, opt += strlen (opt) + 1)
+        {
+        if (i < MAX_ITEMS)
+            continue;
+        else
+            {
+                gchar *response = get_option_recursive (str, opt-str, TRUE);
+                if(response && (!strcmp (response, _("More..."))))
+                    { 
+                        length -= (opt - str);
+                        str = opt;
+                        i = 0;
+                        continue;
+                    }
+                else return response;
+            }
+        }
+ if ((opt - str) >= length)
+    return get_option_recursive (str, length, FALSE);
+ return NULL;
+}
+
+
+
 
 /* output text to the console window */
 void

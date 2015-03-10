@@ -122,6 +122,7 @@ struct callbackdata
 
   GtkWidget *display_refresh;
   GtkWidget *animation_steps;
+  GtkWidget *max_menu_size;
   GtkWidget *tooltip_timeout;
   GtkWidget *tooltip_browse_timeout;
   GtkWidget *tooltip_browse_mode_timeout;
@@ -248,6 +249,7 @@ set_preferences (struct callbackdata *cbdata)
 #endif
     ASSIGNDOUBLE (display_refresh)
     ASSIGNINT (animation_steps)
+    ASSIGNINT (max_menu_size)
     ASSIGNINT (tooltip_timeout)
     ASSIGNINT (tooltip_browse_timeout)
     ASSIGNINT (tooltip_browse_mode_timeout)
@@ -552,7 +554,8 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
    */
   NEWPAGE (_("Externals"));
 
-  TEXTENTRY (_("Path to Lilypond"), lilypath)  TEXTENTRY (_("File/Internet Browser"), browser) TEXTENTRY (_("Image Viewer"), imageviewer) TEXTENTRY (_("Graphics Editor"), graphicseditor) TEXTENTRY (_("Default Font Specification"), fontspec) TEXTENTRY (_("Default Save Path"), denemopath) BOOLEANENTRY (_("Update the command set on startup"), autoupdate);
+  TEXTENTRY (_("Path to Lilypond"), lilypath)  TEXTENTRY (_("File/Internet Browser"), browser) TEXTENTRY (_("Image Viewer"), imageviewer) TEXTENTRY (_("Graphics Editor"), graphicseditor)
+  TEXTENTRY (_("Default Save Path"), denemopath) BOOLEANENTRY (_("Update the command set on startup"), autoupdate);
   /*
    * Misc Menu
    */
@@ -572,6 +575,9 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
    */
   NEWPAGE (_("Miscellaneous"));
   BOOLEANENTRY (_("Re-use last settings on startup"), persistence);
+  TEXTENTRY (_("Default Font Specification"), fontspec);
+  INTENTRY_LIMITS (_("Page Turn Steps"), max_menu_size, 8, 100);
+
   DOUBLEENTRY_LIMITS (_("Playback Display Refresh"), display_refresh, 0.001, 0.5, 0.002);
   INTENTRY_LIMITS (_("Page Turn Steps"), animation_steps, 1, 200);
 

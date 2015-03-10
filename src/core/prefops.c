@@ -88,6 +88,7 @@ initprefs ()
   ret->resolution = 300;
   ret->display_refresh = 0.01;
   ret->animation_steps = 10;
+  ret->max_menu_size = 16;
   ret->tooltip_timeout = 1000;
   ret->tooltip_browse_timeout = 700;
   ret->tooltip_browse_mode_timeout = 1000;
@@ -330,6 +331,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
         READINTXMLENTRY (resolution)
         READDOUBLEXMLENTRY (display_refresh)
         READINTXMLENTRY (animation_steps)
+        READINTXMLENTRY (max_menu_size)
         READINTXMLENTRY (tooltip_timeout)
         READINTXMLENTRY (tooltip_browse_timeout)
         READINTXMLENTRY (tooltip_browse_mode_timeout)
@@ -421,10 +423,28 @@ get_int_pref (gchar * prefname)
 {
   if (*prefname == 0)
     return 0;
-  GETINTPREF (measureswitchsound)
-  GETINTPREF (typesettype)
+    GETINTPREF (measureswitchsound)
+    GETINTPREF (typesettype)
     GETINTPREF (typesetrefresh)
-    GETINTPREF (firstmeasure) GETINTPREF (firststaff) GETINTPREF (lastmeasure) GETINTPREF (laststaff) GETINTPREF (pitchspellingchannel) GETINTPREF (pitchspellingprogram) GETINTPREF (mode) GETINTPREF (resolution) GETINTPREF (animation_steps) GETINTPREF (tooltip_timeout) GETINTPREF (tooltip_browse_timeout) GETINTPREF (tooltip_browse_timeout) GETINTPREF (portaudio_sample_rate) GETINTPREF (portaudio_period_size) GETINTPREF (zoom) GETINTPREF (dynamic_compression) GETINTPREF (system_height) return 0;
+    GETINTPREF (firstmeasure)
+    GETINTPREF (firststaff)
+    GETINTPREF (lastmeasure)
+    GETINTPREF (laststaff)
+    GETINTPREF (pitchspellingchannel)
+    GETINTPREF (pitchspellingprogram)
+    GETINTPREF (mode)
+    GETINTPREF (resolution)
+    GETINTPREF (animation_steps)
+    GETINTPREF (max_menu_size)
+    GETINTPREF (tooltip_timeout)
+    GETINTPREF (tooltip_browse_timeout)
+    GETINTPREF (tooltip_browse_timeout)
+    GETINTPREF (portaudio_sample_rate)
+    GETINTPREF (portaudio_period_size)
+    GETINTPREF (zoom)
+    GETINTPREF (dynamic_compression)
+    GETINTPREF (system_height)
+return 0;
 }
 
 #undef GETINTPREF
@@ -715,6 +735,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
     WRITEINTXMLENTRY (resolution)
     WRITEDOUBLEXMLENTRY (display_refresh)
     WRITEINTXMLENTRY (animation_steps)
+    WRITEINTXMLENTRY (max_menu_size)
     WRITEINTXMLENTRY (tooltip_timeout)
     WRITEINTXMLENTRY (tooltip_browse_timeout)
     WRITEINTXMLENTRY (tooltip_browse_mode_timeout)

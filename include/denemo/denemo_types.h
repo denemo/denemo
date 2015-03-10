@@ -500,6 +500,7 @@ typedef struct DenemoPrefs
 
   gint dynamic_compression;/**< percent compression of dynamic range desired when listening to MIDI-in */
   gdouble display_refresh;/**< time in ms between refresh of display during playback */
+  gint max_menu_size;/** < maximum number of menu entries allowed */
   gint animation_steps;/** < number of steps to use animating the page turns during playback */
   gint tooltip_timeout;/** < timeout before a tooltip appears */
   gint tooltip_browse_timeout;/** < timeout before a tooltip appears in tooltip browse mode */
