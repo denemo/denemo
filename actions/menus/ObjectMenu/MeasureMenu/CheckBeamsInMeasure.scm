@@ -12,7 +12,7 @@
   (define start '())
     (while (d-PrevObjectInMeasure))
   (let loop ()
-    (disp "loop" start "\n")
+    ;(disp "loop" start "\n")
     (if (hasBeamStart?)
       (begin
         (if (< (d-GetNoteBaseDuration) 3)

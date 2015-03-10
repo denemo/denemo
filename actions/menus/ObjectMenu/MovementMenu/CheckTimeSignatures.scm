@@ -26,6 +26,7 @@
                         (let ((timesig (d-GetPrevailingTimesig)))
                             (if (d-PrevObjectInMeasure)
                                 (begin
+                                    (set! CheckScore::error-position (GetPosition))
                                     (set! CheckTimeSignatures::return (_ "Time Signature not at start of measure")))
                                 (begin
                                     (set! result (check-down timesig))
