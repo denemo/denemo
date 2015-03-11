@@ -3417,6 +3417,7 @@ gchar *get_nth_strict_note_tag(gint n)
       GList *g = g_list_nth(current->directives, n);
       if(g==NULL) return NULL;
       DenemoDirective *directive = (DenemoDirective *)g->data;
+      if (directive->tag==NULL) directive->tag = g_string_new (UNKNOWN_TAG);
       return directive->tag->str;
   }
 
