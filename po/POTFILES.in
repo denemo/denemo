@@ -1708,6 +1708,8 @@ actions/menus/ObjectMenu/Score/Typesetter/DeactivateTimeSignatureStencil.scm
 actions/menus/ObjectMenu/Score/Typesetter/DeactivateTimeSignatureStencil.xml
 actions/menus/ObjectMenu/Score/Typesetter/DenemoBar.scm
 actions/menus/ObjectMenu/Score/Typesetter/DenemoBar.xml
+actions/menus/ObjectMenu/Score/Typesetter/FirstPageNumber.scm
+actions/menus/ObjectMenu/Score/Typesetter/FirstPageNumber.xml
 actions/menus/ObjectMenu/Score/Typesetter/HideEmptyStaffs.scm
 actions/menus/ObjectMenu/Score/Typesetter/HideEmptyStaffs.xml
 actions/menus/ObjectMenu/Score/Typesetter/LimitInterSystemSpace.scm
@@ -1728,6 +1730,8 @@ actions/menus/ObjectMenu/Score/Typesetter/PaperSize.scm
 actions/menus/ObjectMenu/Score/Typesetter/PaperSize.xml
 actions/menus/ObjectMenu/Score/Typesetter/PointAndClick.scm
 actions/menus/ObjectMenu/Score/Typesetter/PointAndClick.xml
+actions/menus/ObjectMenu/Score/Typesetter/PrintFirstPageNumber.scm
+actions/menus/ObjectMenu/Score/Typesetter/PrintFirstPageNumber.xml
 actions/menus/ObjectMenu/Score/Typesetter/ProportionalNotation.scm
 actions/menus/ObjectMenu/Score/Typesetter/ProportionalNotation.xml
 actions/menus/ObjectMenu/Score/Typesetter/RaggedBottom.scm
