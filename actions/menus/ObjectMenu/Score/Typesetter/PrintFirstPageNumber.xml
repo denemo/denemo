@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>FirstPageNumber</after>
+        <action>PrintFirstPageNumber</action>
+        <_label>Print First Page Number (Off/On)</_label>
+        <_tooltip>Control if the first page number is typeset.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

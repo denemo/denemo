@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>SetPageSize</after>
+        <action>FirstPageNumber</action>
+        <_label>Set/Unset First Page Number</_label>
+        <_tooltip>Allows setting the first page number.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

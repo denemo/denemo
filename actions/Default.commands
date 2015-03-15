@@ -7284,6 +7284,20 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Check Paired Directives</_label>
         <_tooltip>Checks that paired directives match from the cursor to the end of the staff.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>FirstPageNumber</action>
+        <after>SetPageSize</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Set/Unset First Page Number</_label>
+        <_tooltip>Allows setting the first page number.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>PrintFirstPageNumber</action>
+        <after>FirstPageNumber</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Print First Page Number (Off/On)</_label>
+        <_tooltip>Control if the first page number is typeset.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
