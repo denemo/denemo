@@ -9,6 +9,7 @@
 #include "config.h"
 #include <denemo/denemo.h>
 #include <gtksourceview/gtksourceview.h>
+#include <gtksourceview/gtksourcebuffer.h>
 #include "core/utils.h"
 #include <stdlib.h>
 #include <string.h>
