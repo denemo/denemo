@@ -8,7 +8,7 @@
 
 #include "config.h"
 #include <denemo/denemo.h>
-#include <gtksourceview/gtksource.h>
+#include <gtksourceview/gtksourceview.h>
 #include "core/utils.h"
 #include <stdlib.h>
 #include <string.h>
@@ -2850,7 +2850,7 @@ populate_called (G_GNUC_UNUSED GtkWidget * view, GtkMenuShell * menu)
 {
   DenemoProject *gui = Denemo.project;
   //g_debug("populate called with %p\n", menu);
-  gtk_container_foreach (menu, gtk_widget_destroy, NULL);
+  gtk_container_foreach (GTK_CONTAINER (menu), (GtkCallback) (gtk_widget_destroy), NULL);
   prepend_menu_item (menu, gui, _("Find Current Object"), (gpointer) place_cursor_cb, _("Move the text cursor in this window to the object that the Denemo cursor is on"));
   prepend_menu_item (menu, gui, _("Insert LilyPond Text"), (gpointer) insert_lilypond_directive, _("Insert LilyPond text at the cursor position.\nWarning! Shift click to position Denemo cursor first"));
 #ifdef USE_EVINCE  
@@ -3178,7 +3178,7 @@ init_lilypond_buffer(void){
 
 
   Denemo.textbuffer = (GtkTextBuffer *)gtk_source_buffer_new (tagtable);
-  gtk_source_buffer_set_highlight_syntax (Denemo.textbuffer, TRUE);
+  gtk_source_buffer_set_highlight_syntax (GTK_SOURCE_BUFFER (Denemo.textbuffer), TRUE);
 }
 
 void
@@ -3210,9 +3210,9 @@ create_lilywindow (void)
   
   gtk_paned_set_position (GTK_PANED (top_pane), 500);
   gtk_widget_show_all (top_pane);
-  gtk_source_view_set_show_line_numbers (view, TRUE);
-  gtk_source_view_set_highlight_current_line (view, TRUE);
-  gtk_source_view_set_show_line_marks (view, TRUE);
+  gtk_source_view_set_show_line_numbers (GTK_SOURCE_VIEW (view), TRUE);
+  gtk_source_view_set_highlight_current_line (GTK_SOURCE_VIEW (view), TRUE);
+  gtk_source_view_set_show_line_marks (GTK_SOURCE_VIEW (view), TRUE);
   Denemo.textview = (GtkTextView *) view;
 
 
