@@ -1824,6 +1824,7 @@ command_hidden_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRend
 }
 
 static gboolean search_tooltip=1;//implemented as searching substrings in tooltip, could be a level of match, for number of words present in tooltip & label
+static gint fuzzy = 0; //number of mis-matched words to allow
 static gint last_row=-1;//implemented as last found idx
 static gboolean
 search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar * key, GtkTreeIter * iter, G_GNUC_UNUSED gpointer search_data)
@@ -1832,39 +1833,63 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
   gchar *lookin;
   gchar *name;
   gboolean notfound;
+  static gchar *last_key;
+  static gchar **search_strings;
+  static gint number_of_search_terms;
+  if (*key == 0)
+    return TRUE;
+  if ((!last_key) || strcmp (key, last_key))
+    {
+
+     if(search_strings)
+        g_strfreev (search_strings);
+     search_strings = g_strsplit (key, " ", -1);
+     gchar **p;
+     number_of_search_terms = 0;
+    for (p = search_strings;*p && **p;p++)
+        {gchar *c = *p;
+        *p = g_utf8_casefold (*p, -1);
+        g_free (c);
+        number_of_search_terms++;
+        }
+     g_free (last_key);
+     last_key = g_strdup(key);   
+    }
   if(search_tooltip)
    gtk_tree_model_get (model, iter, COL_TOOLTIP, &lookin, -1);
   else
    gtk_tree_model_get (model, iter, COL_LABEL, &lookin, -1);
-  gchar *this, *that;
+  gchar *this;
   this = g_utf8_casefold (lookin, -1);
-  that =  g_utf8_casefold (key, -1);
   
   GtkTreePath *path = gtk_tree_model_get_path (model, iter);
   gchar *thepath = path?gtk_tree_path_to_string (path):NULL;
   gint rownum = thepath?atoi (thepath):0;
   gtk_tree_path_free(path);
   g_free(thepath);
-  if(search_tooltip)
-      {   
-          gtk_tree_model_get (model, iter, COL_NAME, &name, -1);
-          //const gint idx = rownum;//lookup_command_from_name(Denemo.map, name);//= lookup_action_from_name (name);
-          notfound = (NULL == g_strstr_len (this, -1, that));
-          if((!notfound) && (rownum <= last_row))
-            notfound = TRUE;
-          if(!notfound) 
-                last_row = rownum;
-      } 
+  
+  gtk_tree_model_get (model, iter, COL_NAME, &name, -1);
+  //const gint idx = rownum;//lookup_command_from_name(Denemo.map, name);//= lookup_action_from_name (name);
+  gchar **p;
+  gint matches = 0;
+  for (p = search_strings;*p && **p;p++)
+    {
+        if (g_strstr_len (this, -1, *p))
+            matches++;
+    }
+  //notfound = (matches <= number_of_search_terms/2);
+  if (number_of_search_terms > 1)
+    notfound = (matches + fuzzy < number_of_search_terms);
   else
-      {  
-        notfound = !g_str_has_prefix (this, that);
-        if((!notfound) && (rownum <= last_row))
-            notfound = TRUE;
-        if(!notfound) 
-                last_row = rownum;
-      }
+    notfound = !matches;
+
+  if ((!notfound) && (rownum <= last_row))
+    notfound = TRUE;
+  if (!notfound) 
+        last_row = rownum;
+
   g_free(this);
-  g_free(that);
+  
   //g_free (lookin); The doc says that name should be freed, but two calls in succession yield the same pointer.
   return notfound;
 }
@@ -1911,7 +1936,10 @@ static void toggle_tooltip_search (void)
 {
     search_tooltip = !search_tooltip;
 }
-
+static void toggle_fuzzy (void)
+{
+    fuzzy = !fuzzy;
+}
 static void selection_changed (GtkTreeSelection *selection, GtkTreeModel* model) {
     GtkTreeIter iter = { 0, NULL, NULL, NULL };
     const gchar *command_name;
@@ -2057,7 +2085,11 @@ keymap_get_command_view (keymap * the_keymap, GtkWidget *SearchEntry, GtkWidget 
   gtk_widget_set_can_focus (toggle, FALSE);
   g_signal_connect(G_OBJECT(toggle), "toggled", G_CALLBACK(toggle_tooltip_search), NULL);
   gtk_box_pack_end (GTK_BOX (hbox), toggle, FALSE, TRUE, 0);
-  
+  toggle = gtk_check_button_new_with_label (_("Fuzzy Search"));
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(toggle), FALSE);
+  gtk_widget_set_can_focus (toggle, FALSE);
+  g_signal_connect(G_OBJECT(toggle), "toggled", G_CALLBACK(toggle_fuzzy), NULL);
+  gtk_box_pack_end (GTK_BOX (hbox), toggle, FALSE, TRUE, 0);
   g_signal_connect_swapped (G_OBJECT (SearchNext), "clicked", G_CALLBACK (search_next), SearchEntry);
   
   gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
