@@ -28,7 +28,8 @@
 #include "core/prefops.h"
 #include "command/select.h"
 #include "core/utils.h"
-#include "audio/playback.h"
+#include "audio/audiointerface.h"
+//#include "audio/playback.h"
 #include "core/keyboard.h"
 #include "export/file.h"
 #include "core/view.h"
@@ -1823,13 +1824,11 @@ command_hidden_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRend
   g_object_set (renderer, "active", row->hidden, NULL);
 }
 
-static gboolean search_tooltip=1;//implemented as searching substrings in tooltip, could be a level of match, for number of words present in tooltip & label
 static gint fuzzy = 0; //number of mis-matched words to allow
 static gint last_row=-1;//implemented as last found idx
 static gboolean
 search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar * key, GtkTreeIter * iter, G_GNUC_UNUSED gpointer search_data)
 {
-
   gchar *lookin;
   gchar *name;
   gboolean notfound;
@@ -1855,10 +1854,11 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
      g_free (last_key);
      last_key = g_strdup(key);   
     }
-  if(search_tooltip)
-   gtk_tree_model_get (model, iter, COL_TOOLTIP, &lookin, -1);
-  else
-   gtk_tree_model_get (model, iter, COL_LABEL, &lookin, -1);
+  gchar *tooltip; 
+   gtk_tree_model_get (model, iter, COL_TOOLTIP, &tooltip, -1);
+  gchar *label;
+   gtk_tree_model_get (model, iter, COL_LABEL, &label, -1);
+  lookin = g_strconcat (tooltip, label, NULL);
   gchar *this;
   this = g_utf8_casefold (lookin, -1);
   
@@ -1886,11 +1886,14 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
   if ((!notfound) && (rownum <= last_row))
     notfound = TRUE;
   if (!notfound) 
-        last_row = rownum;
-
+        {
+         last_row = rownum;
+         if (Denemo.prefs.immediateplayback)
+            play_note (DEFAULT_BACKEND, 0, 9, 67, 300, 127);
+     }
   g_free(this);
   
-  //g_free (lookin); The doc says that name should be freed, but two calls in succession yield the same pointer.
+  g_free (lookin);
   return notfound;
 }
 
@@ -1932,10 +1935,6 @@ search_next (GtkWidget *SearchEntry)
   gtk_widget_grab_focus (SearchEntry);
 }
 
-static void toggle_tooltip_search (void)
-{
-    search_tooltip = !search_tooltip;
-}
 static void toggle_fuzzy (void)
 {
     fuzzy = !fuzzy;
@@ -2080,14 +2079,7 @@ keymap_get_command_view (keymap * the_keymap, GtkWidget *SearchEntry, GtkWidget 
   
   gtk_box_pack_start (GTK_BOX (hbox), SearchNext, FALSE, TRUE, 0);
 
-  GtkWidget *toggle = gtk_check_button_new_with_label (_("Search in tooltip"));
-  gtk_widget_set_tooltip_text (toggle, _("Search in the tooltip of the command for the words typed\n(else search the label)"));
-
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(toggle), TRUE);
-  gtk_widget_set_can_focus (toggle, FALSE);
-  g_signal_connect(G_OBJECT(toggle), "toggled", G_CALLBACK(toggle_tooltip_search), NULL);
-  gtk_box_pack_end (GTK_BOX (hbox), toggle, FALSE, TRUE, 0);
-  toggle = gtk_check_button_new_with_label (_("Fuzzy Search"));
+  GtkWidget *toggle = gtk_check_button_new_with_label (_("Fuzzy Search"));
   gtk_widget_set_tooltip_text (toggle, _("Allow one non-matching word in the search."));
 
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(toggle), FALSE);
