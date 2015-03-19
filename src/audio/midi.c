@@ -642,12 +642,16 @@ midiaction (gint notenum)
           else //there is a current object that is not a chord
             {
               if (gui->movement->cursor_appending) 
-                {              
-                    gboolean was_appending = Denemo.project->movement->cursor_appending;
+                {
                     do_one_note (enote.mid_c_offset, enote.enshift, enote.octave);
                     next_insert_or_editable_note();
-                    if(was_appending)
-                        next_editable_note ();
+                    //in some circumstance this fails to advance to the next editable note, the following checks for that.
+                    if (Denemo.project->movement->currentobject)
+                        {
+                            curObj = Denemo.project->movement->currentobject->data;
+                            if(!curObj->isinvisible)
+                               next_editable_note ();
+                        }
                 }
               else
                 gdk_beep ();
