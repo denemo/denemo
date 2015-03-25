@@ -1769,7 +1769,7 @@ display_current_object (void)
                 if (thenote && gui->movement->cursor_y==thenote->mid_c_offset)
                   {
   
-                                        g_string_append_printf (selection, _("Within the chord the cursor is on the note %s \n"),
+                    g_string_append_printf (selection, _("Within the chord the cursor is on the note %s \n"),
                                             mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
                     if (thenote->directives)
                       {
@@ -1932,11 +1932,13 @@ display_current_object (void)
           GtkWidget *label = gtk_label_new ("");
           warning = g_string_prepend (warning, _("<span font-desc=\"30\">Warning</span> "));
           gtk_label_set_markup (GTK_LABEL (label), warning->str);
+          gtk_label_set_line_wrap (GTK_LABEL(label), TRUE);
           gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
         }
       if (selection->len)
         {
           GtkWidget *label = gtk_label_new (selection->str);
+          gtk_label_set_line_wrap (GTK_LABEL(label), TRUE);
           gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
         }
       g_string_free (warning, TRUE);
