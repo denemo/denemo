@@ -1523,7 +1523,7 @@ shiftcursor (DenemoProject * gui, gint note_value)
               gint dclef = find_prevailing_clef (gui->movement);
               if(!thechord->is_tied)
                 modify_note (thechord, mid_c_offset, gui->movement->curmeasureaccs[note_value], dclef);
-              else //if tied modify the tied note(s) too
+              else //if tied modify the tied note(s) too, FIXME but this breaks the UNDO mechanism, see store_for_undo_change (gui->movement, theobj) above 
                 {
                   objnode *nextobj = gui->movement->currentobject;
                   measurenode *current = gui->movement->currentmeasure;
@@ -1538,7 +1538,7 @@ shiftcursor (DenemoProject * gui, gint note_value)
                             {
                                 DenemoMovement *si = Denemo.project->movement;
                                 chord *next = thenextobj->object;
-                                modify_note (next, mid_c_offset, gui->movement->curmeasureaccs[note_value], dclef);
+                                modify_note (next, mid_c_offset, gui->movement->curmeasureaccs[note_value], dclef); 
                                 calculatebeamsandstemdirs (current->data, &(si->curmeasureclef), &(si->cursortime1), &(si->cursortime2), &(si->curmeasure_stem_directive));
                                 if(next->is_tied)
                                     {
