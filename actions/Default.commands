@@ -7298,6 +7298,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Print First Page Number (Off/On)</_label>
         <_tooltip>Control if the first page number is typeset.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ScoreRehearsalMarkFormat</action>
+        <after>ReduceSystemSpacing</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>(Print) Format of rehearsal marks</_label>
+        <_tooltip>Select the format of rehearsal marks (alphabetic, numeric, boxed, etc.)</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

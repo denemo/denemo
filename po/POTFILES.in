@@ -1742,6 +1742,8 @@ actions/menus/ObjectMenu/Score/Typesetter/ReduceSystemSpacing.scm
 actions/menus/ObjectMenu/Score/Typesetter/ReduceSystemSpacing.xml
 actions/menus/ObjectMenu/Score/Typesetter/ScoreIndent.scm
 actions/menus/ObjectMenu/Score/Typesetter/ScoreIndent.xml
+actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm
+actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.xml
 actions/menus/ObjectMenu/Score/Typesetter/SetFontSize.scm
 actions/menus/ObjectMenu/Score/Typesetter/SetFontSize.xml
 actions/menus/ObjectMenu/Score/Typesetter/SetFonts.scm
