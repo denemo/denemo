@@ -24,6 +24,7 @@
 		(command)
 		(d-ToggleGrace)
 		(d-StartBeam)
+		(d-RefreshDisplay)
 		(command)
 		(d-ToggleGrace)
 		(d-EndBeam)
