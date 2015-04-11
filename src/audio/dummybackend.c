@@ -36,6 +36,7 @@ process_thread_func (gpointer data)
 {
   GMutex *mutex = g_mutex_new ();
 gint64 end_time = g_get_monotonic_time () +  (PLAYBACK_INTERVAL * G_TIME_SPAN_SECOND)/1000000;
+g_mutex_lock (mutex);
   for (;;)
     {
       // FIXME: GTimeVals are not monotonic
@@ -81,9 +82,9 @@ gint64 end_time = g_get_monotonic_time () +  (PLAYBACK_INTERVAL * G_TIME_SPAN_SE
             {
               // do nothing. this is the dummy backend after all
             }
- 
-          }
+        }
     }
+  g_mutex_unlock (mutex);
   g_mutex_free (mutex);
   return NULL;
 }
