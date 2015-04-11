@@ -440,11 +440,8 @@ queue_thread_func (gpointer data)
     {
       if (!g_atomic_int_get (&signalled))
         {
-          GTimeVal timeval;
-          g_get_current_time (&timeval);
-          g_time_val_add (&timeval, QUEUE_TIMEOUT);
-
-          g_cond_timed_wait (queue_cond, queue_mutex, &timeval);
+          gint64 end_time = g_get_monotonic_time () +  (QUEUE_TIMEOUT * G_TIME_SPAN_SECOND)/1000000;
+          g_cond_wait_until (queue_cond, queue_mutex, end_time);
           signalled = FALSE;
         }
 

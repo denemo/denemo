@@ -35,15 +35,11 @@ static gpointer
 process_thread_func (gpointer data)
 {
   GMutex *mutex = g_mutex_new ();
-gint64 end_time = g_get_monotonic_time () +  (PLAYBACK_INTERVAL * G_TIME_SPAN_SECOND)/1000000;
-g_mutex_lock (mutex);
+  gint64 end_time;
+  g_mutex_lock (mutex);
   for (;;)
     {
-      // FIXME: GTimeVals are not monotonic
-     // GTimeVal timeval;
-     // g_get_current_time (&timeval);
-     // g_time_val_add (&timeval, PLAYBACK_INTERVAL);
-
+      end_time = g_get_monotonic_time () +  (PLAYBACK_INTERVAL * G_TIME_SPAN_SECOND)/1000000;
       g_cond_wait_until (process_cond, mutex, end_time);
 
       if (g_atomic_int_get (&quit_thread))
