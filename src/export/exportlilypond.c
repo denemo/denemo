@@ -1081,12 +1081,8 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
               if (pchord->is_grace & GRACED_NOTE)
                 g_string_append_printf (ret, "\\grace {");
               else
-                g_string_append_printf (ret, "\\acciaccatura {");
-              if (figures->len)
-                g_string_append_printf (figures, "\\grace {");
-              if (fakechords->len)
-                g_string_append_printf (fakechords, "\\grace {");
-            }
+                g_string_append_printf (ret, "\\acciaccatura {");             
+                            }
         /* prefix is before duration unless AFFIX override is set */
         directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, !lily_override, lily_for_obj, TARGET_CHORD, movement_count, measurenum, voice_count, objnum, 0);
 
@@ -1971,19 +1967,11 @@ g_free(curobj->lilypond);
                       chord *pchord = (chord *) curobj->object;
 
 
-                      if (curstaffstruct->hasfigures)
+                      if (curstaffstruct->hasfigures && !pchord->is_grace)
                         output_figured_bass (figures, pchord);
 
-                      if (curstaffstruct->hasfakechords)
+                      if (curstaffstruct->hasfakechords && !pchord->is_grace)
                         output_fakechord (fakechords, pchord);
-                      if ((pchord->is_grace & ENDGRACE))
-                        {
-                          if (figures->len)
-                            g_string_append_printf (figures, "}");
-                          if (fakechords->len)
-                            g_string_append_printf (fakechords, "}");
-                        }
-
                       /* end of figures and chord symbols */
                     }           // if CHORD
                     else if(curobj->type == LILYDIRECTIVE)
