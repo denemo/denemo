@@ -393,7 +393,7 @@ get_obj_for_end_time (smf_t * smf, gdouble time)
  */
 static void
 action_note_into_score (gint mid_c_offset, gint enshift, gint octave)
-{
+{//g_print ("action note into score\n");
   DenemoProject *gui = Denemo.project;
   gui->last_source = INPUTMIDI;
   gui->movement->cursor_y = gui->movement->staffletter_y = mid_c_offset;
@@ -405,7 +405,7 @@ action_note_into_score (gint mid_c_offset, gint enshift, gint octave)
 
 static void
 add_or_delete_note_to_chord (gint mid_c_offset, gint enshift, gint octave)
-{
+{//g_print ("add or delete note to chord\n");
   DenemoProject *gui = Denemo.project;
   DenemoObject *curObj;
   gui->last_source = INPUTMIDI;
@@ -474,7 +474,7 @@ record_midi (gchar * buf, gdouble time)
 
 static void
 do_one_note (gint mid_c_offset, gint enshift, gint notenum)
-{
+{//g_print("do one note Adding mask %x, Chord mask %x\n", (Denemo.keyboard_state & ADDING_MASK) , (Denemo.keyboard_state & CHORD_MASK));
   if ((Denemo.keyboard_state & ADDING_MASK) && (Denemo.keyboard_state & CHORD_MASK))
     {
 
@@ -507,7 +507,7 @@ do_one_note (gint mid_c_offset, gint enshift, gint notenum)
             PopPosition (NULL, NULL);// go to where we started, as there are no non-printing notes
         }          
        else
-                PopPosition (NULL, NULL);// go to where we started, as there are no non-printing notes      
+            PopPosition (NULL, NULL);// go to where we started, as there are no non-printing notes   
       action_note_into_score (mid_c_offset, enshift, notenum);
       
       if (Denemo.keyboard_state & ADDING_MASK)
@@ -570,6 +570,13 @@ get_previous (enharmonic * enote)
 }
 
 
+static gboolean at_nonprinting (void) 
+{
+  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->movement->currentstaff->data;  
+  DenemoObject *curObj = Denemo.project->movement->currentobject->data;
+  return (curObj->type == CHORD && curObj->isinvisible);
+}
+
 /*  take an action for the passed note. Enter/edit/check the score following the mode and keyboard state. */
 static gint
 midiaction (gint notenum) 
@@ -583,7 +590,7 @@ midiaction (gint notenum)
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->movement->currentstaff->data;
   enharmonic enote, prevenote;
   gboolean have_previous;
-  //g_debug("Keyboard state %x, mask %x %x %x\n", Denemo.keyboard_state, CHECKING_MASK, GDK_CONTROL_MASK, GDK_MOD2_MASK);
+  //g_print("midiaction Adding mask %x, Chord mask %x\n", (Denemo.keyboard_state & ADDING_MASK) , (Denemo.keyboard_state & CHORD_MASK));
   notenum2enharmonic (notenum, &enote.mid_c_offset, &enote.enshift, &enote.octave);
   if (Denemo.project->movement->cursor_appending)
     have_previous = get_current (&prevenote);
@@ -610,8 +617,6 @@ midiaction (gint notenum)
                   is_tied = thechord->is_tied;
 
 //#define check_midi_note(a,b,c,d) ((a->mid_c_offset==b)&&(a->enshift==c))?playnote(a,curstaffstruct->midi_channel):gdk_beep();
-
-                  //g_debug("check %d %d %d %d %d\n", a->mid_c_offset, a->enshift, b, c, d);
                   if ((Denemo.keyboard_state & CHECKING_MASK) && thechord->notes)
                     {
                       //later - find note nearest cursor and
@@ -743,7 +748,7 @@ process_midi_event (gchar * buf)
     {
       if (velocity == 0x7F)
         {//PEDAL DOWN
-        if (Denemo.project->movement->cursor_appending)
+        if (Denemo.project->movement->cursor_appending || at_nonprinting ())
             Denemo.keyboard_state |= ADDING_MASK;
         else
             Denemo.keyboard_state |= CHORD_MASK | ADDING_MASK;
@@ -786,7 +791,7 @@ process_midi_event (gchar * buf)
                 {               //Foot Pedal
                   if (velocity == 0x7F)
                     {
-                    if (Denemo.project->movement->cursor_appending)
+                    if ((Denemo.project->movement->cursor_appending) || at_nonprinting ())
                         Denemo.keyboard_state |= ADDING_MASK;
                     else
                         Denemo.keyboard_state |= CHORD_MASK | ADDING_MASK;
