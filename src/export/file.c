@@ -246,7 +246,10 @@ openrecent (G_GNUC_UNUSED GtkWidget * widget, gchar * filename)
 static void
 set_gui_tabname (DenemoProject * gui, gchar * filename)
 {
-  g_string_assign (gui->tabname, filename);
+    if(gui->tabname==NULL)
+       gui->tabname = g_string_new (filename);
+    else
+        g_string_assign (gui->tabname, filename);
   if(!Denemo.non_interactive)
     set_title_bar (gui);
 }
@@ -385,6 +388,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
       else
         {
           g_string_assign (gui->filename, "");
+          set_gui_tabname (gui, "");
         }
       //if (Denemo.printarea)
       //  g_object_set_data (G_OBJECT (Denemo.printarea), "printviewupdate", (gpointer) G_MAXUINT);
