@@ -343,7 +343,9 @@ handle_midi_event_callback (gpointer data)
   midi_event_t *ev = (midi_event_t *) data;
 
   // TODO: handle backend type and port
-  g_main_context_invoke (NULL, (GSourceFunc)do_handle_midi_event, g_strdup(ev->data));
+  gchar *evdata = g_malloc (sizeof (ev->data));
+  memcpy (evdata, ev->data, sizeof (ev->data));
+  g_main_context_invoke (NULL, (GSourceFunc)do_handle_midi_event, evdata);
 
   g_free (ev);
 
