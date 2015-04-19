@@ -35,7 +35,7 @@ msgstr ""
 "Project-Id-Version: denemo 1.2.1-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2015-02-08 08:50+0000\n"
-"PO-Revision-Date: 2015-04-12 21:00+0200\n"
+"PO-Revision-Date: 2015-04-18 21:00+0200\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -1044,36 +1044,36 @@ msgstr ""
 
 #: ../src/command/scorelayout.c:952
 msgid "Edit this element for this layout"
-msgstr ""
+msgstr "Rediger dette element for dette layout"
 
 #: ../src/command/scorelayout.c:956
 msgid "Move this element upwards for this score layout"
-msgstr ""
+msgstr "Flyt dette element op for dette partitiurlayout"
 
 #: ../src/command/scorelayout.c:960
 msgid "Move this element downwards for this score layout"
-msgstr ""
+msgstr "Flyt dette element ned for dette partitiurlayout"
 
 #: ../src/command/scorelayout.c:964
 msgid "Remove this element from this layout"
-msgstr ""
+msgstr "Fjern dette element fra dette layout"
 
 #: ../src/command/scorelayout.c:986 ../actions/denemo-modules/wysiwyg.scm:548
 #: ../actions/menus/ObjectMenu/Directives/PrintLayout/PageBreak.xml.h:1
 msgid "Page Break"
-msgstr ""
+msgstr "Sideskift"
 
 #: ../src/command/scorelayout.c:987
 msgid "This forces a new page, useful for avoiding page turns\n"
-msgstr ""
+msgstr "Dette laver en ny side, nyttig til at undgå sidevendinger\n"
 
 #: ../src/command/scorelayout.c:998
 msgid "Blank Page"
-msgstr ""
+msgstr "Tom side"
 
 #: ../src/command/scorelayout.c:999
 msgid "This prints a page intentionally left blank, useful for avoiding page turns\n"
-msgstr ""
+msgstr "Udskriver en tom side med vilje, nyttig til at undgå sidevendinger\n"
 
 #: ../src/command/scorelayout.c:1011
 msgid ""
@@ -1082,128 +1082,138 @@ msgid ""
 "Simple titles are not placed here, but appear in a header block at the end of the movement.\n"
 "For other possible uses, see LilyPond manual."
 msgstr ""
+"Her kan du indsætte dine egne titler etc. kun for dette layout.\n"
+"For bogtitler bruges \\titledPiece \\markup »mitnavn«\n"
+"Simple titler placeres ikke her, men fremgår i en teksthovedblok i slutningen af satsen.\n"
+"For anden brug, se LilyPond-manualen."
 
 #: ../src/command/scorelayout.c:1023
 msgid "Create Page Break"
-msgstr ""
+msgstr "Opret sideombrydning"
 
 #: ../src/command/scorelayout.c:1024
 msgid ""
 "This inserts a page break, useful for avoiding page turns\n"
 "Move it before the title (using the up arrow) once created!"
 msgstr ""
+"Indsætter en sideombrydning, nyttig til at undgå sidevendinger\n"
+"Flyt den før titlen (via op-pilen) når oprettet!"
 
 #: ../src/command/scorelayout.c:1028
 msgid "Create Blank Page"
-msgstr ""
+msgstr "Opret tom side"
 
 #: ../src/command/scorelayout.c:1029
 msgid "This inserts a page intentionally left blank, useful for avoiding page turns when printing on both sides of the paper"
-msgstr ""
+msgstr "Indsætter en tom side med vilje, nyttig til at undgå sidevendinger når der udskrives på begge sider af papiret"
 
 #: ../src/command/scorelayout.c:1034
 msgid "This creates a LilyPond comment which you can then edit to give titles etc for this movment, applying just to this layout."
-msgstr ""
+msgstr "Opretter en LilyPond-kommentar, som du kan redigere for at få titler etc. for denne sats, som kun æglder for dette layout."
 
 #: ../src/command/scorelayout.c:1085
 msgid "Movement Titles, Page Breaks etc"
-msgstr ""
+msgstr "Satstitler, sideskift etc."
 
 #: ../src/command/scorelayout.c:1086
 msgid "In here are settings for the movement title, page breaks before the movement etc"
-msgstr ""
+msgstr "Her er indstillinger for satstitlen, sideskift før satsen etc."
 
 #: ../src/command/scorelayout.c:1095
 msgid "Create Titles for Movement"
-msgstr ""
+msgstr "Opret titler for sats"
 
 #: ../src/command/scorelayout.c:1097
 msgid "Set book titles for this movement in the score"
-msgstr ""
+msgstr "Angiv bogtitler for denne sats i partituren"
 
 #: ../src/command/scorelayout.c:1100
 msgid "Create for Custom Layout"
-msgstr ""
+msgstr "Opret for tilpasset layout"
 
 #: ../src/command/scorelayout.c:1101
 msgid "Create page breaks, blank pages ...for this layout"
-msgstr ""
+msgstr "Opret sideskift, tomme sider ... for dette layout"
 
 #: ../src/command/scorelayout.c:1339
 msgid "This brace connects together several staffs - you can delete it for a customized layout."
-msgstr ""
+msgstr "Denne akkolade forbinder flere nodesystemer - du kan slette den for et tilpasset layout."
 
 #: ../src/command/scorelayout.c:1357
 msgid "Remove this staff brace from these staffs for a customized layout."
-msgstr ""
+msgstr "Fjern denne nodesystemakkolade fra disse nodesystemer for et tilpasset layout."
 
 #: ../src/command/scorelayout.c:1364
 msgid "Extend this staff group upwards for customized layout."
-msgstr ""
+msgstr "Udvid denne nodesystemgruppe op for tilpasset layout."
 
 #: ../src/command/scorelayout.c:1368
 msgid "Extend this staff group downwards for customized layout."
-msgstr ""
+msgstr "Udvide denne nodesystemgruppe ned for tilpasset layout."
 
 #: ../src/command/scorelayout.c:1471
 msgid ""
 "This shows the clef in the Denemo score - the actual clef printed may be modified by Directives attached to it.\n"
 "You can edit the clef for a custom layout - do this on the first voice on the staff."
 msgstr ""
+"Dette viser nøglen i Denemopartituren - den faktiske nøgle udskrevet kan ændres af vedhæftede direktiver.\n"
+"Du kan redigere nøglen for et tilpasset layout - gør dette for den første stemme på nodesystemet."
 
 #: ../src/command/scorelayout.c:1475
 msgid "Move this staff (with all its voices) above the preceding staff."
-msgstr ""
+msgstr "Flyt dette nodesystem (med alle dets stemmer) over det foregående nodesystem."
 
 #: ../src/command/scorelayout.c:1479
 msgid "Move this staff (with all its voices) after the following staff."
-msgstr ""
+msgstr "Flyt dette nodesystem (med alle dets stemmer) til efter det følgende nodesystem."
 
 #: ../src/command/scorelayout.c:1484
 msgid "Remove this staff (with all its voices) for customized layout."
-msgstr ""
+msgstr "Fjern dette nodesystem (med alle dets stemmer) for tilpasset layout."
 
 #. things like transpose whole score etc
 #: ../src/command/scorelayout.c:1520 ../src/command/scorelayout.c:1549
 msgid "The Staff"
-msgstr ""
+msgstr "Nodesystemet"
 
 #: ../src/command/scorelayout.c:1520
 msgid "The Staffs"
-msgstr ""
+msgstr "Nodesystemerne"
 
 #: ../src/command/scorelayout.c:1522
 msgid "This holds the staffs below which are the voices with the music."
-msgstr ""
+msgstr "Indeholder nodesystemerne nedenfor som er stemmerne med musikken."
 
 #. the reason these are outside the staff frame is it makes them appear above the staff
 #: ../src/command/scorelayout.c:1540
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordStaff.xml.h:1
 msgid "Chord Symbols"
-msgstr ""
+msgstr "Akkordsymboler"
 
 #: ../src/command/scorelayout.c:1549
 #, c-format
 msgid "Staff %d"
-msgstr ""
+msgstr "Nodesystem %d"
 
 #: ../src/command/scorelayout.c:1557
 msgid ""
 "Click for a menu to position the Denemo cursor on this staff\n"
 "or to alter this staff for a customized layout"
 msgstr ""
+"Klik for en menu for at placere Denemomarkøren på dette nodesystem\n"
+"eller for at ændre dette nodesystem til et tilpasset layout."
 
 #: ../src/command/scorelayout.c:1561
 msgid "Move Denemo Cursor to this staff"
-msgstr ""
+msgstr "Flyt Denemomarkør til dette nodesystem"
 
 #: ../src/command/scorelayout.c:1562
 msgid "This will move the Denemo Cursor to the start of this staff in this movement"
-msgstr ""
+msgstr "Vil flytte Denemomarkøren til begyndelsen af dette nodesytem i denne sats"
 
 #: ../src/command/scorelayout.c:1568
 msgid "Edit Staff Properties"
-msgstr ""
+msgstr "Rediger nodesystemets egenskaber"
 
 #: ../src/command/scorelayout.c:1569
 msgid ""
@@ -1211,19 +1221,22 @@ msgid ""
 "Take care only alter the obvious bits, such as instrument name etc\n"
 "Injudicious deletion of the LilyPond typesetting characters {<<# etc can make the layout unreadable by the LilyPond typesetter. Just delete the layout if you get stuck."
 msgstr ""
+"Rediger egenskaberne for nodesystemet for at tilpasse dette layout\n"
+"Vær omhyggelig med kun at ændre de indlysende dele, såsom instrumentnavn etc.\n"
+"Utilsigtet sletning af LilyPonds opsætningstegn {<<# etc. kan gøre layoutet ulæseligt af LilyPond-opsætteren. Du kan bare slette layoutet hvis du sidder fast."
 
 #. probably a bad idea, the menu includes inserting clef changes at the cursor...
 #: ../src/command/scorelayout.c:1577 ../src/ui/clefdialog.c:136
 msgid "Set Clef"
-msgstr ""
+msgstr "Angiv nøgle"
 
 #: ../src/command/scorelayout.c:1581
 msgid "Set the initial clef for this staff in the score"
-msgstr ""
+msgstr "Angiv startnøglen for dette nodesytem i partituren"
 
 #: ../src/command/scorelayout.c:1583
 msgid "Set Staff Group Start/End"
-msgstr ""
+msgstr "Angiv nodesystemgruppens start/slut"
 
 #: ../src/command/scorelayout.c:1586
 msgid ""
@@ -1231,107 +1244,112 @@ msgid ""
 "This is editing the score, not just customizing a layout.\n"
 "Refresh the layout view (see under Options for this Layout button at the top) once you have made the changes."
 msgstr ""
+"Parenteserne { og [ der binder nodesystemer sammen kan angives her. Angiv start på et nodesytem og slut på et senere nodesystem.\n"
+"Redigerer partituren, tilpasser ikke bare et layout.\n"
+"Opdater layoutvisningen (se under Indstillinger for denne layoutknap øverst) når du har lavet ændringerne."
 
 #: ../src/command/scorelayout.c:1614 ../src/generated/entries.h:211
 msgid "Voices"
-msgstr ""
+msgstr "Stemmer"
 
 #: ../src/command/scorelayout.c:1614
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:9
 msgid "Voice"
-msgstr ""
+msgstr "Stemme"
 
 #: ../src/command/scorelayout.c:1616
 msgid "This holds the voice(s) of the staff - the clef, time signature, key signature and music are all here"
-msgstr ""
+msgstr "Indholder stemmerne i nodesystemet - nøglen, tidssignatur, nøglesignatur og musik er altsammen her."
 
 #: ../src/command/scorelayout.c:1715 ../src/command/scorelayout.c:1869
 #, c-format
 msgid "Movement %d"
-msgstr ""
+msgstr "Sats %d"
 
 #: ../src/command/scorelayout.c:1739
 msgid "paper size"
-msgstr ""
+msgstr "papirstørrelse"
 
 #: ../src/command/scorelayout.c:1741
 msgid "Global staff size"
-msgstr ""
+msgstr "Global nodesystemstørrelse"
 
 #: ../src/command/scorelayout.c:1742
 msgid "Paper Block"
-msgstr ""
+msgstr "Papirblok"
 
 #: ../src/command/scorelayout.c:1743
 msgid "Settings for whole score: includes overall staff size, paper size ...\n"
-msgstr ""
+msgstr "Indstillinger for hele partituren: inkluderer samlet nodesytemstørrelse, papirstørrelse ...\n"
 
 #: ../src/command/scorelayout.c:1749
 msgid "the paper block contents"
-msgstr ""
+msgstr "papirblokindholdet"
 
 #: ../src/command/scorelayout.c:1759
 msgid "Score Titles"
-msgstr ""
+msgstr "Partiturtitler"
 
 #: ../src/command/scorelayout.c:1762
 msgid ""
 "Titles, layout settings, preferences etc for the whole score.\n"
 "Includes main title, composer, date, instrumentation, tagline"
 msgstr ""
+"Titler, layoutindstillinger, præferencer etc. for hele partituren.\n"
+"Inkluderer hovedtitlen, komponist, dato, instrumentation, kort beskrivelse"
 
 #: ../src/command/scorelayout.c:1770
 msgid "Default tagline"
-msgstr ""
+msgstr "Standardslogan"
 
 #: ../src/command/scorelayout.c:1792
 msgid "Score Directives"
-msgstr ""
+msgstr "Partiturdirektiver"
 
 #: ../src/command/scorelayout.c:1793
 msgid "Includes the indent before first measure, LilyPond include files ..."
-msgstr ""
+msgstr "Inkluderer indrykningen før den første takt, LilyPond-inkluderingsfiler ..."
 
 #: ../src/command/scorelayout.c:1816
 msgid "Score-wide Settings."
-msgstr ""
+msgstr "Generelle partiturindstillinger."
 
 #: ../src/command/scorelayout.c:1817
 msgid "Setting the score title, composer, headers and footers for this layout"
-msgstr ""
+msgstr "Angivelse af partiturtitel, komponist, teksthoveder og fodnoter for dette layout"
 
 #: ../src/command/scorelayout.c:1822
 msgid "Create Book Titles"
-msgstr ""
+msgstr "Opret bogtitler"
 
 #: ../src/command/scorelayout.c:1825
 msgid "Set book titles for the score"
-msgstr ""
+msgstr "Angiv bogtifler for denne partitur"
 
 #: ../src/command/scorelayout.c:1869 ../src/core/utils.c:2044
 #: ../src/printview/printview.c:2443
 msgid "Movement"
-msgstr ""
+msgstr "Sats"
 
 #: ../src/command/scorelayout.c:1871
 msgid "This contains the layout of the movement- the movement title, and the actual music itself"
-msgstr ""
+msgstr "Indeholder layoutet for sats- satstitlen og den faktiske musik"
 
 #: ../src/command/scorelayout.c:1880
 msgid "Delete this movement from the score layout"
-msgstr ""
+msgstr "Slet denne sats fra dette partiturlayout"
 
 #: ../src/command/scorelayout.c:1899
 msgid "Header block"
-msgstr ""
+msgstr "Teksthovedblok"
 
 #: ../src/command/scorelayout.c:1920
 msgid "Layout block"
-msgstr ""
+msgstr "Layoutblok"
 
 #: ../src/command/scorelayout.c:1941
 msgid "Movement Epilog"
-msgstr ""
+msgstr "Satsepilog"
 
 #: ../src/command/scorelayout.c:2305
 msgid ""
@@ -1342,6 +1360,12 @@ msgid ""
 "Standard layouts are created by invoking the standard print commands - print, print part, print movement etc.\n"
 "These standard layouts provide a convenient starting point for your customized layouts.<b>Note 1</b>Custom layouts are not saved for further graphical editing, only the typesetting commands are saved, so, unless you are familiar with LilyPond do all your work on the layout in one session.<b>Note 2</b>The first comment in the LilyPond text of the layout holds the name of the layout. If you change it any conditional directives that are for the layout will need refreshing"
 msgstr ""
+"Dette er et partiturlayout - de brune knapper påvirker selve partituren, ikke kun dette layout.\n"
+"De andre knapper vil tilpasse layoutet\n"
+"Du kan have flere layout og bruge dem til at udskrive forskellige versioner af din partitur.\n"
+"Når tilpasset f.eks. ved at tilføje sideskift, slette bestemte dele etc. vil layoutet blive gemet med din partitiur og kan bruges til at udskrive fra selv om du kahr lavet korrektioner til musikken.\n"
+"Standardlayout oprettes ved at starte de normale udskriv-kommandoer - udskriv, udskriv del, udskriv sats etc.\n"
+"Disse standardlayout tilbyder et nemt udgangspunkt for dine tilpasssede layout.<b>Note 1</b>Tilpassede layout gemmes ikke for yderligere grafisk redigering, kun opsætningskommandoerne gemmes, så, med mindre du er bekendt med LilyPond bør du udføre alt dit arbejde på layoutet i en session.<b>Note 2</b>Den første kommentar i LilyPond-teksten for layoutet indeholder navnet for layoutet. Hvis du ændrer det, vil eventuelle betingede direktiver for layoutet kræve en opdatering."
 
 #: ../src/command/scorelayout.c:2803
 msgid ""
@@ -1350,6 +1374,10 @@ msgid ""
 "(for example if you have made structural changes to the score\n"
 "not reflected in this layout)."
 msgstr ""
+"LilyPond-teksten for dette layout kan redigeres i LilyPond-fremvisningsvinduet.\n"
+"Du kan roligt slette dette layout, hvis du ikke længere skal bruge det\n"
+"(for eksempel hvis du har lavet strukturelle ændringer til partituren,\n"
+"som ikke er reflekteret i dette layout)."
 
 #: ../src/command/scorelayout.c:2811
 msgid ""
@@ -1358,33 +1386,37 @@ msgid ""
 "Use the View → LilyPond window to do this.\n"
 "Otherwise you can delete it and create a new one from a standard layout."
 msgstr ""
+"Dette er et tilpasset layout, som er blevet transformeret til instruktioner for LilyPond-musikopsætteren.\n"
+"Dette er formen som tilpassede layout gemmes i, for en Denemopartitur, på disken - den grafiske grænseflade er ikke længere tilgængelig. Du kan dog stadig redigere layoutet hvis du er omhyggelig (og kender til LilyPond).\n"
+"Brug Vis → LilyPond-vinduet.\n"
+"Ellers kan du slette layoutet og oprette et nyt fra et standardlayout."
 
 #: ../src/command/scorelayout.c:2836
 msgid "Custom Scoreblock"
-msgstr ""
+msgstr "Tilpasse partiturblok"
 
 #: ../src/command/scorelayout.c:2927
 msgid "Typesets this layout"
-msgstr ""
+msgstr "Opsætter dette layout"
 
 #: ../src/command/staff.c:290
 #, c-format
 msgid "poly voice %d"
-msgstr ""
+msgstr "polystemme %d"
 
 #: ../src/command/staff.c:292 ../src/core/view.c:679
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm:20
 msgid "Unnamed"
-msgstr ""
+msgstr "Unavngivet"
 
 #: ../src/command/staff.c:294
 #, c-format
 msgid "voice %d"
-msgstr ""
+msgstr "stemme %d"
 
 #: ../src/command/staff.c:395
 msgid "You will need to alter/delete the matching staff; Proceed?"
-msgstr ""
+msgstr "Du skal ændre/slette det matchende nodesystem; fortsæt?"
 
 #: ../src/command/staff.c:459
 msgid ""
@@ -1393,43 +1425,48 @@ msgid ""
 "See Staff->properties->context\n"
 "You will not be able to print with miss-matched contexts."
 msgstr ""
+"Det slettede nodesystem havde en start/slut-kontekst; hvis du stadig har nodesystemet med den matchende slut/start-kontekst\n"
+" så bør du fjerne det (eller dets kontekst) nu.\n"
+"Se Nodesystem->egenskaber->kontekst\n"
+"Du vil ikke kunne udskrive de fejlmatchede kontekster."
 
 #: ../src/core/external.c:71
 #, c-format
 msgid "Could not parse command line: %s"
-msgstr ""
+msgstr "Kunne ikke fortolke kommandolinje: %s"
 
 #: ../src/core/graphicseditor.c:48
 msgid "Graphics File"
-msgstr ""
+msgstr "Grafikfil"
 
 #: ../src/core/importxml.c:2558 ../src/core/importxml.c:2562
 msgid "Obsolete form, use earlier Denemo version to convert"
-msgstr ""
+msgstr "Forældet form, brug tidligere Denemoversion for at konvertere"
 
 #: ../src/core/importxml.c:3038
 msgid "Custom prolog is no longer supported. Use score directive prefix instead"
-msgstr ""
+msgstr "Tilpasset prolog er ikke længere understøttet. Brug præfiks for partiturdirektiv i stedet for"
 
 #: ../src/core/importxml.c:3106
 msgid "Erroneous call"
-msgstr ""
+msgstr "Fejlramt kald"
 
 #: ../src/core/kbd-custom.c:103
 msgid "No name"
-msgstr ""
+msgstr "Intet navn"
 
 #: ../src/core/kbd-custom.c:104
 msgid "No label"
-msgstr ""
+msgstr "Ingen etiket"
 
+# hvad står der her (på engelsk)?
 #: ../src/core/kbd-custom.c:105
 msgid "No indication what this done beyond the name and label"
-msgstr ""
+msgstr "Ingen indikation om hvad dette gjorde udover navnet og etiket"
 
 #: ../src/core/kbd-custom.c:749
 msgid "This should not happen..."
-msgstr ""
+msgstr "Dette bør ikke ske ..."
 
 #: ../src/core/kbd-custom.c:826
 msgid ""
@@ -1443,26 +1480,37 @@ msgid ""
 "This list is in alphabetical order by name.\n"
 "----------------\n"
 msgstr ""
+"List over alle genvejstaster\n"
+"Genvejstastens navn angives først \n"
+"F.eks. er »0« genvejsnavnet for tal-tasten med tallet nul.\n"
+"(et »,« adskiller de to navne hvis det er en totast-genvej)\n"
+"Så kommer etiketten som den fremgår af menuen\n"
+"og endelig værktøjfiffet.\n"
+"Du kan søge i værktøjsfif i kommandocenteret for at lokalisere kommandoen. Se Vis->Kommandocenter.\n"
+"Denne liste er lavet i alfabetisk navnerækkefølge.\n"
+"----------------\n"
 
 #: ../src/core/kbd-custom.c:833
 msgid "Shortcut key name: "
-msgstr ""
+msgstr "Genvejstastens navn: "
 
 #: ../src/core/kbd-custom.c:837
 msgid ""
 "\n"
 "End of shortcuts\n"
 msgstr ""
+"\n"
+"Ikke flere genvejstaster\n"
 
 #: ../src/core/kbd-custom.c:1292
 #, c-format
 msgid "The Command %s Responds to the Shortcut %s"
-msgstr ""
+msgstr "Kommandoen %s svarer til genvejstasten %s"
 
 #: ../src/core/kbd-custom.c:1293 ../src/core/view.c:2215
 #, c-format
 msgid "Lose the shortcut %s for this?"
-msgstr ""
+msgstr "Mist genvejstasten %s for dette?"
 
 #: ../src/core/kbd-custom.c:1308
 #, c-format
@@ -1471,62 +1519,65 @@ msgid ""
 "If you wish to re-assign it you will need to remove those first.\n"
 "Open the View->Command Center to find and remove the shortcuts."
 msgstr ""
+"Tasten %s er det første tastetryk for en totast-genvej.\n"
+"Hvis du ønsker at ændre den, så skal du først fjerne den.\n"
+"Åbn Vis->Kommandocenter til at finde og fjerne genvejene."
 
 #: ../src/core/kbd-custom.c:1554
 msgid "Could not create .denemo/actions for your customized commands"
-msgstr ""
+msgstr "Kunne ikke oprette .denemo/actions for dine tilpassede kommandoer"
 
 #: ../src/core/kbd-custom.c:1601
 msgid "Key Map Loading"
-msgstr ""
+msgstr "Indlæsning af tasters kortlægning"
 
 #: ../src/core/kbd-custom.c:1601
 msgid "Load Shortcuts only?"
-msgstr ""
+msgstr "Indlæs kun genveje?"
 
 #: ../src/core/kbd-custom.c:1623
 msgid "Cannot access your local .denemo"
-msgstr ""
+msgstr "Kan ikke tilgå din lokale .denemo"
 
 #: ../src/core/kbd-custom.c:1635
 msgid "Installation error"
-msgstr ""
+msgstr "Installationsfejl"
 
 #: ../src/core/kbd-custom.c:1723 ../src/core/view.c:3164
 #: ../src/generated/entries.h:268 ../src/generated/register_commands.h:248
 msgid "Save Command Set"
-msgstr ""
+msgstr "Gem kommandosæt"
 
 #: ../src/core/kbd-custom.c:1985
 msgid "Command"
-msgstr ""
+msgstr "Kommando"
 
 #: ../src/core/kbd-custom.c:1995
 msgid "Commands"
-msgstr ""
+msgstr "Kommandoer"
 
 #: ../src/core/kbd-custom.c:2003 ../src/generated/entries.h:208
 msgid "Hidden"
-msgstr ""
+msgstr "Skjul"
 
 #: ../src/core/kbd-custom.c:2014
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:27
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:27
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.scm:25
 msgid "Deleted"
-msgstr ""
+msgstr "Slettet"
 
 #: ../src/core/kbd-custom.c:2049
 msgid "Search"
-msgstr ""
+msgstr "Søg"
 
 #: ../src/core/kbd-custom.c:2055
 msgid "Search in tooltip"
-msgstr ""
+msgstr "Søg i værktøjsfif"
 
 #: ../src/core/kbd-custom.c:2119
 msgid "Built-in, see file denemoui.xml for position"
-msgstr ""
+msgstr "Indbygget, se filen denemoui.xml for placering"
 
 #: ../src/core/kbd-custom.c:2211
 #, c-format
@@ -1535,131 +1586,136 @@ msgid ""
 "Location: %s\n"
 "Internal Name: %s"
 msgstr ""
+"%s\n"
+"Placering: %s\n"
+"Internt navn: %s"
 
 #: ../src/core/kbd-custom.c:2235 ../src/generated/entries.h:333
 #: ../src/generated/register_commands.h:308
 msgid "Shortcuts"
-msgstr ""
+msgstr "Genveje"
 
 #: ../src/core/keyboard.c:142
 msgid ""
 "Menu:\n"
 "named \""
 msgstr ""
+"Menu:\n"
+"navngivet »"
 
 #: ../src/core/keyboard.c:142
 msgid "\" located at "
-msgstr ""
+msgstr "« placeret ved "
 
 #: ../src/core/keyboard.c:142
 msgid " in the menu system"
-msgstr ""
+msgstr " i menusystemet"
 
 #: ../src/core/keymapio.c:280
 msgid "There is no support for loading whole folders of commands yet, sorry"
-msgstr ""
+msgstr "Der er ingen understøttelse for indlæsning af hele kommandomapper endnu, beklager"
 
 #: ../src/core/keymapio.c:411
 msgid "Return"
-msgstr ""
+msgstr "Retur"
 
 #: ../src/core/keymapio.c:746
 #, c-format
 msgid "Unable to locate the script %s"
-msgstr ""
+msgstr "Kan ikke lokalisere skirptet %s"
 
 #: ../src/core/keymapio.c:758
 #, c-format
 msgid "Unable to load the script %s"
-msgstr ""
+msgstr "Kunne ikke indlæse skriptet %s"
 
 #: ../src/core/main.c:75
 #, c-format
 msgid "Parent: child exited, pid = %d, exit status = %d\n"
-msgstr ""
+msgstr "Overproces: underproces afsluttet, pid = %d, afslut-status = %d\n"
 
 #: ../src/core/main.c:81
 #, c-format
 msgid "Parent: child terminated by signal %d, pid = %d\n"
-msgstr ""
+msgstr "Overproces: underproces termineret af signal %d, pid = %d\n"
 
 #: ../src/core/main.c:87
 #, c-format
 msgid "Parent: child stopped by signal %d, pid = %d\n"
-msgstr ""
+msgstr "Overproces: underproces stoppet af signal %d, pid = %d\n"
 
 #: ../src/core/main.c:91
 #, c-format
 msgid "Parent: child exited magically, pid = %d\n"
-msgstr ""
+msgstr "Overproces: underproces afsluttedes på magisk vis, pid = %d\n"
 
 #: ../src/core/main.c:140
 msgid "Process scheme commands in pathtofile on file open"
-msgstr ""
+msgstr "Behandl skemakommandoer i stitilfil (pathtofile) ved åbning af fil"
 
 #: ../src/core/main.c:140
 msgid "path"
-msgstr ""
+msgstr "sti"
 
 #: ../src/core/main.c:141
 msgid "Process scheme commands from system file on file open"
-msgstr ""
+msgstr "Behandl skemakommandoer fra sytemfil ved åbning af fil"
 
 #: ../src/core/main.c:141
 msgid "file"
-msgstr ""
+msgstr "fil"
 
 #: ../src/core/main.c:142
 msgid "Process the scheme on startup"
-msgstr ""
+msgstr "Behandl skemaet ved opstart"
 
 #: ../src/core/main.c:142
 msgid "scheme"
-msgstr ""
+msgstr "skema"
 
 #: ../src/core/main.c:143
 msgid "Abort on scheme errors"
-msgstr ""
+msgstr "Afbryd ved skemafejl"
 
 #: ../src/core/main.c:144
 msgid "Don't log any message"
-msgstr ""
+msgstr "Log ikke beskeder"
 
 #: ../src/core/main.c:145
 msgid "Display every messages"
-msgstr ""
+msgstr "Vis alle beskeder"
 
 #: ../src/core/main.c:146
 msgid "Launch Denemo without GUI"
-msgstr ""
+msgstr "Start Denemo uden grafisk brugerflade"
 
 #: ../src/core/main.c:147
 msgid "Print version information and exit"
-msgstr ""
+msgstr "Vis versionsinformation og afslut"
 
 #: ../src/core/main.c:148
 msgid "Audio driver options"
-msgstr ""
+msgstr "Lyddriverens indstillinger"
 
 #: ../src/core/main.c:148 ../src/core/main.c:149
 msgid "options"
-msgstr ""
+msgstr "indstillinger"
 
 #: ../src/core/main.c:149
 msgid "Midi driver options"
-msgstr ""
+msgstr "Midi-driverens indstillinger"
 
 #: ../src/core/main.c:150
 msgid "[FILE]..."
-msgstr ""
+msgstr "[FIL] ..."
 
 #: ../src/core/main.c:153
 msgid " "
-msgstr ""
+msgstr " "
 
 #: ../src/core/main.c:154 ../src/core/main.c:174
 msgid "GNU Denemo version"
-msgstr ""
+msgstr "GNU Denemo-version"
 
 #: ../src/core/main.c:155
 msgid ""
@@ -1667,127 +1723,139 @@ msgid ""
 "It uses GNU Lilypond for music typesetting.\n"
 "Denemo is part of the GNU project."
 msgstr ""
+"Denemo er et grafisk redigeringsprogram til musiknotation.\n"
+"Programmet bruger GNU Lilypoond til musikopsætning.\n"
+"Denemo er en del af GNU-projektet."
 
 #: ../src/core/main.c:158
 msgid ""
 "Report bugs to http://www.denemo.org\n"
 "GNU Denemo, a free and open music notation editor"
 msgstr ""
+"Rapporter fejl til http://www.denemo.org\n"
+"GNU Denemo, et frit og åbent redigeringsprogram til musiknotation"
 
 #: ../src/core/main.c:175
 msgid "Gtk version"
-msgstr ""
+msgstr "Gtk-version"
 
 #: ../src/core/main.c:176
 msgid "© 1999-2005, 2009 Matthew Hiller, Adam Tee, and others, 2010-2013 Richard Shann, Jeremiah Benham, Nils Gey and others.\n"
-msgstr ""
+msgstr "© 1999-2005, 2009 Matthew Hiller, Adam Tee og andre, 2010-2013 Richard Shann, Jeremiah Benham, Nils Gey og andre.\n"
 
 #: ../src/core/main.c:177
 msgid "This program is provided with absolutely NO WARRANTY; see the file COPYING for details.\n"
-msgstr ""
+msgstr "Dette program tilbydes uden nogen form for GARANTI; se filen COPYING for detaljer.\n"
 
 #: ../src/core/main.c:178
 msgid "This software may be redistributed and modified under the terms of the GNU General Public License; again, see the file COPYING for details.\n"
-msgstr ""
+msgstr "Dette program kan videredistribueres og ændres under betingelserne i GNU General Public License; igen, se filen COPYING for detaljer.\n"
 
 #: ../src/core/main.c:232
 msgid "You may need to set GUILE_LOAD_PATH to the directory where you have ice9 installed\n"
-msgstr ""
+msgstr "Du skal eventuelt have sat GUILE_LOAD_PATH til mappen, hvor du har ice9 installeret\n"
 
 #: ../src/core/main.c:442
 msgid "Could not start graphical interface."
-msgstr ""
+msgstr "Kunne ikke starte den grafiske grænseflade."
 
 #: ../src/core/prefops.c:57
 msgid "Denemo Upgrade"
-msgstr ""
+msgstr "Denemoopgradering"
 
 #: ../src/core/prefops.c:57
 msgid "Re-use your old preferences, palettes and shortcuts?"
-msgstr ""
+msgstr "Genbrug dine gamle præferencer, paletter og genveje?"
 
 #: ../src/core/utils.c:65
 msgid "Could not create .denemo for you personal settings"
-msgstr ""
+msgstr "Kunne ikke oprette .denemo til dine personlige indstillinger"
 
 #. FIXME this is only a hint; perhaps we should embed the progress bar in the status line...
 #: ../src/core/utils.c:280
 msgid "Progress"
-msgstr ""
+msgstr "Status"
 
+# engelsk fejl typsetting -> typesetting
 #: ../src/core/utils.c:281
 msgid ""
 "This indicates the the LilyPond typsetter is still working on setting the Denemo score. This can take a long time, particularly for polyphony where voices must not collide. You can continue editing while the typsetting is taking place.\n"
 "Kill this window if you want to re-start the typesetting e.g. after fixing a mistake you just spotted."
 msgstr ""
+"Indikerer at LilyPonds opsætter stadig arbejder på opsætning af Denemopartituren. Dette kan tage lang tid, specielt for polyfoni, hvor stemmer ikke må kollidere. Du kan fortsat redigere mens opsætningen foregår.\n"
+"Dræb dette vindue hvis du ønsker at genstarte opsætningen f.eks. efter rettelse af en fejl du lige har opdaget."
 
 #: ../src/core/utils.c:1480 ../src/export/file.c:202
 msgid "(Untitled)"
-msgstr ""
+msgstr "(Unavngivet)"
 
 #: ../src/core/utils.c:1511
 msgid "Error"
-msgstr ""
+msgstr "Fejl"
 
 #: ../src/core/utils.c:1683
 #, c-format
 msgid "Directive for command: \"%s\"\n"
-msgstr ""
+msgstr "Direktiv for kommando: »%s«\n"
 
 #: ../src/core/utils.c:1685
 #, c-format
 msgid "Directive tagged: \"%s\"\n"
-msgstr ""
+msgstr "Direktiv mærket: »%s«\n"
 
 #: ../src/core/utils.c:1687 ../src/core/utils.c:1898
 #, c-format
 msgid "Menu location for this command: \"%s\"\n"
-msgstr ""
+msgstr "Menuplacering for denne kommando: »%s«\n"
 
 #: ../src/core/utils.c:1689
 #, c-format
 msgid "LilyPond inserted in prefix to this object is \"%s\"\n"
-msgstr ""
+msgstr "LilyPond indsat i præfiks for dette objeket er »%s«\n"
 
 #: ../src/core/utils.c:1691
 #, c-format
 msgid "LilyPond inserted in postfix to this object is \"%s\"\n"
-msgstr ""
+msgstr "LilyPond indsat i postfix for dette objekt er »%s«\n"
 
 #: ../src/core/utils.c:1693
 #, c-format
 msgid ""
 "The help for the command that created this directive is:\n"
 "\"%s\"\n"
-msgstr ""
+msgstr "Hjælpen til kommandoen som oprettede dette direktiv er:<n»%s«\n"
 
 #: ../src/core/utils.c:1725
 msgid "The cursor is in the appending position after "
-msgstr ""
+msgstr "Markøren er i den tilføjende position efter "
 
 #: ../src/core/utils.c:1725
 msgid "The cursor is on "
-msgstr ""
+msgstr "Markøren er på "
 
 #: ../src/core/utils.c:1736
 msgid "a chord.\n"
-msgstr ""
+msgstr "en akkort.\n"
 
 #: ../src/core/utils.c:1740
 msgid "a one-note chord.\n"
-msgstr ""
+msgstr "en en-node akkord.\n"
 
 #: ../src/core/utils.c:1743
 msgid ""
 "A slur starts from here.\n"
 "There should be a matching end slur later.\n"
 msgstr ""
+"En legatobue starter herfra.\n"
+"Der skal være en matchende slutlegatobue senere.\n"
 
 #: ../src/core/utils.c:1745
 msgid ""
 "A slur ends here\n"
 "There should be a matching start slur earlier.\n"
 msgstr ""
+"En legatobue slutter her\n"
+"Der skal være en matchende startlegatobue tidligere.\n"
 
 #: ../src/core/utils.c:1747
 msgid ""
