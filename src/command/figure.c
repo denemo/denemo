@@ -195,7 +195,7 @@ figure_insert (GtkAction * action, DenemoScriptParam * param)
       gint i;
       if (!strcmp (values->str, "query"))
         {
-          if (PreValue && *PreValue && *PreValue != '_')
+          if (PreValue && *PreValue && strcmp (PreValue, "_"))
             {                   //there is a figure, other than the "no figure" sign
               param->status = TRUE;
               g_string_assign (param->string, PreValue);
