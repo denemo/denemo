@@ -668,66 +668,97 @@ In addition commands can be placed in palettes, and you can have any number of t
 
           <tbody>
             <row>
-              <entry>Score View</entry>
+              <entry>Hide/Show Menus</entry>
 
-              <entry>Shows the score in panorama format for editing. The printed score will generally look different.</entry>
+              <entry>Three ways of showing the Denemo display area are supported. With/without the menus and as a multiline page. This cycles through the three displays.</entry>
             </row>
 
             <row>
-              <entry>Print View</entry>
+              <entry>Typeset Music</entry>
 
-              <entry>Shows the score as engraved by the LilyPond typesetter. You cannot edit in this window, but you can drag items to indicate how you want an item edited.</entry>
+              <entry>Shows the score as engraved by the LilyPond typesetter. You cannot edit in this window, but you can position the cursor in the display and drag some items to indicate how you want an item edited.</entry>
             </row>
             <row>
-              <entry>Lyrics View</entry>
+              <entry>Command Center</entry>
+
+              <entry>Search for commands by entering likely words, set up one or two key shortcuts, load customized shortcuts or commands ...</entry>
+            </row>   
+            <row>
+              <entry>Score Layout</entry>
+
+              <entry>Show the score layouts associated with this score. The score layout is the final section of the LilyPond syntax that describes how to layout the staffs, voices, lyrics, titles etc.</entry>
+            </row>              
+            <row>
+              <entry>Lyrics</entry>
 
               <entry>Shows any lyrics for the current staff/voice. Each verse has its own tab, when selected the lyric placement shows in the Denemo display, so you can adjust by typing in the lyrics view window</entry>
             </row>
 
             <row>
-              <entry>Rhythms Patterns</entry>
+              <entry>Snippets</entry>
 
-              <entry>Allows custom rhythm patterns. Enter rhythms by setting up patterns and then overlay the rhythms with pitches via MIDI or microphone</entry>
+              <entry>Shows a menu bar with snippets - custom rhythm patterns. Enter snippets by selecting patterns and then use them as the an extended version of the prevailing duration, or insert them and overlay the inserted rhythms with pitches via keyboard, MIDI-keyboard or microphone</entry>
             </row>
 
             <row>
-              <entry>Note and Rest Entry</entry>
+              <entry>Tools</entry>
 
-              <entry>Notes and rests buttons – the highlighted button is current duration – click a button to enter a note/rest, or to edit the note under the cursor in edit mode</entry>
+              <entry>The conventional icons for Open, Print etc</entry>
             </row>
 
             <row>
-              <entry>Articulation Palette</entry>
+              <entry>Playback Controls</entry>
 
-              <entry>A (limited) palette of expression marks etc to apply to notes. More are in the menu system under Markings.</entry>
+              <entry>When checked a set of playback/record controls are placed above the display</entry>
+            </row>
+            <row>
+              <entry>Midi In Control</entry>
+
+              <entry>When checked a set of controls for a connected MIDI keyboard are placed above the display</entry>
             </row>
 
             <row>
               <entry>Score Titles, Controls etc</entry>
 
-              <entry>If this is checked any Titles, indent settings etc applying to the score can be shown as buttons at the top of the score. They must be created with their graphic field set for this.</entry>
+              <entry>If this is checked any Titles, indent settings etc applying to the score can be shown as buttons above the display. They must be created with their graphic field set for this.</entry>
             </row>
 
               
             <row>
-              <entry>Menu of Objects</entry>
+              <entry>Object Menu</entry>
 
-              <entry>Menu of all the Denemo commands listed under type of object</entry>
+              <entry>Menus of all the Denemo commands listed under type of object from Score down to individual notes and directives.</entry>
             </row>
 
 
             <row>
-              <entry>Show LilyPond</entry>
+              <entry>LilyPond</entry>
 
-              <entry>Pops up a window for customizing the LilyPond</entry>
+              <entry>Pops up a window for customizing the syntax that Denemo generates for the LilyPond engraver to typeset</entry>
             </row>
 
             <row>
-              <entry>Show Scheme Script</entry>
+              <entry>Scheme Script</entry>
 
-              <entry>Pops up a window for showing scripts written in scheme to control Denemo</entry>
+              <entry>Pops up a window for showing scripts written in Scheme. These can be executed or saved as new commands. Sequences of commands can be recorded here.</entry>
             </row>
 
+            <row>
+              <entry>Score</entry>
+
+              <entry>This hides/shows the main Denemo display.</entry>
+            </row>
+            <row>
+              <entry>Palettes</entry>
+
+              <entry>Gives access to palettes of buttons that can be arraged to make commands available via mouse or keyboard (via the Activate Palette Button command).</entry>
+            </row>
+            
+            <row>
+              <entry>Display Zoom</entry>
+
+              <entry>Zoom the main Denemo display (usually done with ctrl-mouse wheel).</entry>
+            </row>
           </tbody>
         </tgroup>
       </informaltable>
