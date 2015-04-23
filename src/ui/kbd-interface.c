@@ -368,7 +368,7 @@ static  keyboard_dialog_data cbdata;
 
 GtkWidget *get_command_view(void)
 {
-return  cbdata.command_view;
+return  GTK_WIDGET(cbdata.command_view);
 }
 
 void
@@ -658,3 +658,4 @@ configure_keyboard_dialog (GtkAction * action, DenemoScriptParam * param)
 {
   configure_keyboard_dialog_init_idx (action, -1);
 }
+

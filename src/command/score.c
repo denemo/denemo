@@ -130,17 +130,17 @@ void set_movement_selector (DenemoProject *gui)
             if((last<num_movements) && (i==last))
                 more = "+...";
             gchar *text = g_strdup_printf("%d%s", i, more);
-            gtk_button_set_label (button, text);
+            gtk_button_set_label (GTK_BUTTON (button), text);
             g_free(text);
             text = g_strdup_printf(_("Click to switch to movement number %d"), i);
-            gtk_widget_set_tooltip_text (button, text);
+            gtk_widget_set_tooltip_text (GTK_WIDGET (button), text);
             g_free(text);
         }
         
         
         gtk_widget_set_can_focus (button, FALSE);
         gtk_widget_show(button);
-        g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (select_movement), (gpointer) i);
+        g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (select_movement), GINT_TO_POINTER(i));
         gtk_box_pack_start (GTK_BOX(gui->movements_selector), button,  FALSE, TRUE, 0);
     }
     if(i==2) 
@@ -779,7 +779,7 @@ clone_movement (DenemoMovement * si)
       newscore->lyricsbox = NULL;
       thestaff->verse_views = extract_verses (srcStaff->verse_views);
       //FIXME: thestaff->verses should probably be cloned too
-      GtkTextView* verse_view = verse_get_current_view (srcStaff);
+      GtkTextView* verse_view = (GtkTextView*) verse_get_current_view (srcStaff);
       if (verse_view)
         verse_set_current (thestaff, verse_get_current (srcStaff));
 
@@ -914,3 +914,4 @@ deletescore (GtkWidget * widget, DenemoProject * gui)
     force_lily_refresh (gui);
   }
 }
+

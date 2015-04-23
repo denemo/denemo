@@ -3195,7 +3195,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
       g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (load_command_from_location), (gpointer) filepath);
     }
 
-  if (!is_action_name_builtin(func_name))
+  if (!is_action_name_builtin((gchar*)func_name))
     {
       gchar *scheme = get_scheme_from_idx (idx);
       if (!scheme)
@@ -4715,7 +4715,7 @@ create_window (void)
     GtkWidget *scorearea_topbox = gtk_vbox_new (FALSE, 1);
     //gtk_container_add (GTK_CONTAINER (main_vbox), scorearea_topbox);
     gtk_box_pack_start (GTK_BOX (main_vbox), outer_pane, TRUE, TRUE, 0);   
-    gtk_paned_pack1 (outer_pane, scorearea_topbox, TRUE, FALSE);
+    gtk_paned_pack1 (GTK_PANED (outer_pane), scorearea_topbox, TRUE, FALSE);
     GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
     //gtk_container_add (GTK_CONTAINER (scorearea_topbox), score_and_scroll_hbox);
     gtk_box_pack_start (GTK_BOX (scorearea_topbox), score_and_scroll_hbox, TRUE, TRUE, 0);   
@@ -5155,3 +5155,4 @@ newtab (void)
     project->input_source = INPUTMIDI;
 
 }                               /* end of newtab creating a new DenemoProject holding one musical score */
+

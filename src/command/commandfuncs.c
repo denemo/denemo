@@ -1907,7 +1907,7 @@ notechange (DenemoMovement * si, gboolean remove)
         if(inserting_midi)
             {
             DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;
-            ret = addtone (curmudelaobj,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, si->cursorclef);
+            ret = (gboolean) (intptr_t) addtone (curmudelaobj,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, si->cursorclef);
             si->marked_onset = si->marked_onset->next;
             }
         else 

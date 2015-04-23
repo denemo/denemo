@@ -30,7 +30,7 @@
 #include "core/binreloc.h"
 #endif
 #include "audio/pitchentry.h"
-
+#include "command/measure.h"
 #ifdef _MACH_O_
 #include <mach-o/dyld.h>
 #endif
@@ -300,7 +300,7 @@ progressbar (gchar * msg, gpointer callback)
     g_signal_connect (G_OBJECT (pdata->window), "delete-event", G_CALLBACK (callback /*call_stop_lilypond*/), (gpointer)&progressing);
   else
     g_signal_connect (G_OBJECT (pdata->window), "delete-event", G_CALLBACK (progressbar_stop), NULL);
-  return pdata->window;
+  return (GtkWindow*) pdata->window;
 }
 
 void
@@ -1029,7 +1029,7 @@ printmeasure (measurenode * mnode)
       fprintf (stderr, "Empty measure\n");
       return;
     }
-  printobjs (measure_first_obj_node (mnode));
+  printobjs ((objnode*)measure_first_obj_node (mnode));
 }
 
 G_GNUC_UNUSED void
@@ -2395,7 +2395,7 @@ get_option_recursive (gchar * str, gint length, gboolean more)
       response = NULL;
     }
   g_debug ("Returning contents of response is %s\n", response);
-  gtk_window_get_position (dialog, &root_x, &root_y);
+  gtk_window_get_position (GTK_WINDOW(dialog), &root_x, &root_y);
   gtk_widget_destroy (dialog);
   return response;
 }
@@ -2666,7 +2666,7 @@ initialize_keystroke_help (void)
       KeyStrokeLabel = gtk_label_new ("");
       //gtk_label_set_line_wrap (KeyStrokeLabel, TRUE);
       KeyStrokeHelp = gtk_label_new ("");
-      gtk_label_set_line_wrap (KeyStrokeHelp, TRUE);
+      gtk_label_set_line_wrap (GTK_LABEL(KeyStrokeHelp), TRUE);
       GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
       gtk_container_add (GTK_CONTAINER (KeyStrokes), vbox);
       gtk_box_pack_start (GTK_BOX (vbox), KeyStrokeLabel, FALSE, TRUE, 0);

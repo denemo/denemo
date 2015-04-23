@@ -492,9 +492,9 @@ reset_lyrics (DenemoStaff * staff, gint count)
 
   if (DummyVerse == NULL)
     DummyVerse = gtk_text_view_new ();
-  GtkTextView* verse_view = verse_get_current_view (staff);
+  GtkTextView* verse_view = (GtkTextView*) verse_get_current_view (staff);
   if (staff && verse_view)
-    lyric_iterator (verse_view, count);
+    lyric_iterator (GTK_WIDGET(verse_view), count);
   else
     lyric_iterator (DummyVerse, count);
 }
@@ -561,9 +561,9 @@ select_lyrics (void)
 gchar *
 get_lyrics_for_current_verse (DenemoStaff * thestaff)
 {
-  GtkTextView* verse_view = verse_get_current_view (thestaff);
+  GtkTextView* verse_view = (GtkTextView*) verse_get_current_view (thestaff);
   if (verse_view)
-    return get_text_from_view (verse_view);
+    return get_text_from_view (GTK_WIDGET(verse_view));
   else
     return NULL;
 }
@@ -571,7 +571,7 @@ get_lyrics_for_current_verse (DenemoStaff * thestaff)
 gboolean
 append_lyrics_for_current_verse (DenemoStaff * thestaff, gchar * text)
 {
-  GtkTextView* verse_view = verse_get_current_view (thestaff);
+  GtkTextView* verse_view = (GtkTextView*) verse_get_current_view (thestaff);
   if (verse_view)
   {
     GtkTextIter iter;
@@ -587,7 +587,7 @@ append_lyrics_for_current_verse (DenemoStaff * thestaff, gchar * text)
 gboolean
 put_lyrics_for_current_verse (DenemoStaff * thestaff, gchar * text)
 {
-  GtkTextView* verse_view = verse_get_current_view (thestaff);
+  GtkTextView* verse_view = (GtkTextView*) verse_get_current_view (thestaff);
   if (verse_view)
   {
     GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (verse_view);
@@ -619,3 +619,4 @@ get_lyrics_for_verse_num (gint number)
   }
   return NULL;
 }
+

@@ -2738,7 +2738,7 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoProject * gui)
     {
       DenemoStaff *staff = (DenemoStaff *) si->currentstaff->data;
       add_verse_to_staff (si, staff);
-      GtkTextView* verse_view = verse_get_current_view (staff);
+      GtkTextView* verse_view = (GtkTextView*) verse_get_current_view (staff);
       gtk_text_buffer_set_text (gtk_text_view_get_buffer (verse_view), Lyric->str, Lyric->len);
       //g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (verse_view)), "changed", G_CALLBACK (lyric_changed_cb), NULL);
       //allow save on backward compatibility files... gtk_text_buffer_set_modified(gtk_text_view_get_buffer(verse_view), FALSE);
@@ -3143,3 +3143,4 @@ cleanup:
   set_movement_selector (gui);
   return ret;
 }
+

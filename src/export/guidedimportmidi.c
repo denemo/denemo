@@ -165,19 +165,19 @@ donoteoff (const smf_event_t * event)
  * Process note on command 
  */
 static void
-donoteon (const smf_event_t * event)
+donoteon (smf_event_t * event)
 {
     DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
     note->timing = event->time_seconds * Denemo.project->movement->recording->samplerate;
     notenum2enharmonic (noteon_key(event), &(note->mid_c_offset), &(note->enshift), &(note->octave));
-    note->event = event;
+    note->event = (struct smf_event_t *)event;
     Denemo.project->movement->recording->notes = g_list_append (Denemo.project->movement->recording->notes, note);
 }
 
 
 
 static void
-decode_midi_event (const smf_event_t * event)
+decode_midi_event (smf_event_t * event)
 {
   gint channel;
   gchar note[5];
@@ -246,7 +246,7 @@ static void ensure_smf (void) {
           if(smf_from_file)
           {
               assert(track->user_pointer>0);
-              track->track_number = track->user_pointer;
+              track->track_number = GPOINTER_TO_INT(track->user_pointer);
           }
          else
             track->track_number = 1;
@@ -357,7 +357,7 @@ readtrack (gint track)
          else
             ((smf_track_t *)Denemo.project->movement->recorded_midi_track)->smf = smf;
       }
-      selected_track->user_pointer = (void *)track;
+      selected_track->user_pointer = GINT_TO_POINTER(track);
       Denemo.project->movement->recorded_midi_track = selected_track;
       compute_midi_note_durations (); //fills Denemo.project->movement->recording->notes with the note durations
       ((smf_track_t *)Denemo.project->movement->recorded_midi_track)->smf = NULL; // we detach this track from smf, so it can be attached to the playback smf; we cannot use smf while this is done, as it thinks it still owns the track.      
@@ -489,3 +489,4 @@ gboolean midi_is_from_file (void)
 {
     return smf_from_file;   
 }
+

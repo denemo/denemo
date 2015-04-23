@@ -118,9 +118,9 @@ static void create_menus (DenemoStaff *dest)
   GtkMenu *ms = dest->staffmenu, *mv = dest->voicemenu;
   GList *g;
   for (g=dest->staff_directives;g;g=g->next)
-    widget_for_directive_menu (g->data, staff_directive_put_graphic,ms);
+    widget_for_directive_menu (g->data, (void (*)())staff_directive_put_graphic,ms);
   for (g=dest->voice_directives;g;g=g->next)
-    widget_for_directive_menu (g->data, voice_directive_put_graphic, mv);
+    widget_for_directive_menu (g->data, (void (*)())voice_directive_put_graphic, mv);
 }
 
 /* copies a staff without its music data to another staff */

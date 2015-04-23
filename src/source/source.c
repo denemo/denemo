@@ -298,7 +298,7 @@ source_position (gint * x, gint * y, gint * width, gint * height, gint * scale)
     return FALSE;
   EvView *view = ((fileview *) theviews->data)->view;
   GtkWindow *top = (GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (view));
-  if(gtk_widget_get_visible(top))
+  if(gtk_widget_get_visible(GTK_WIDGET(top)))
   {
           gtk_window_get_position (top, x, y);
           gtk_window_get_size (top, width, height);

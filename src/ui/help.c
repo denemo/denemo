@@ -105,10 +105,10 @@ browse_manual (GtkAction * action, DenemoScriptParam * param)
 void display_shortcuts (void)
 {
   GtkWidget *window =  gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  GtkTextView *text_view = gtk_text_view_new ();
+  GtkTextView *text_view = (GtkTextView*)gtk_text_view_new ();
   gtk_text_view_set_editable (GTK_TEXT_VIEW (text_view), FALSE);
   GtkWidget *scrolled_text_view = gtk_scrolled_window_new (NULL, NULL);
-  gtk_container_add (GTK_CONTAINER (scrolled_text_view), text_view);
+  gtk_container_add (GTK_CONTAINER (scrolled_text_view), GTK_WIDGET(text_view));
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_text_view), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_widget_set_size_request (GTK_WIDGET (scrolled_text_view), 150, 300);
   gtk_container_add (GTK_CONTAINER (window), scrolled_text_view);
