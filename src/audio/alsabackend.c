@@ -163,8 +163,7 @@ alsa_seq_initialize (DenemoPrefs * config)
 
   process_cond = g_cond_new ();
 
-  process_thread = g_thread_create_full (process_thread_func, NULL, 262144, TRUE, FALSE, G_THREAD_PRIORITY_NORMAL, NULL);
-
+  process_thread =  g_thread_try_new ("ALSA process", process_thread_func, NULL, NULL);
 
   return 0;
 }

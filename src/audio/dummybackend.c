@@ -92,7 +92,7 @@ start_process_thread ()
   if (!process_thread)
     {
       process_cond = g_cond_new ();
-      process_thread = g_thread_create_full (process_thread_func, NULL, 262144, TRUE, FALSE, G_THREAD_PRIORITY_NORMAL, NULL);
+      process_thread = g_thread_try_new ("Dummy process", process_thread_func, NULL, NULL);
     }
 }
 

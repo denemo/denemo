@@ -252,7 +252,7 @@ audio_initialize (DenemoPrefs * config)
       return -1;
     }
 
-  queue_thread = g_thread_create_full (queue_thread_func, NULL, 262144, TRUE, FALSE, G_THREAD_PRIORITY_NORMAL, NULL);
+  queue_thread = g_thread_try_new ("Queue Thread", queue_thread_func, NULL, NULL);
 
   if (queue_thread == NULL)
     {

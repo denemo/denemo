@@ -173,7 +173,7 @@ process_command_line (int argc, char **argv, gboolean gtkstatus)
     gchar *message = g_strconcat (
     _("GNU Denemo version"), " ", VERSION, "\n",
     _("Gtk version") , " %u.%u.%u\n",
-    _("© 1999-2005, 2009 Matthew Hiller, Adam Tee, and others, 2010-2013 Richard Shann, Jeremiah Benham, Nils Gey and others.\n"),
+    _("© 1999-2005, 2009 Matthew Hiller, Adam Tee, and others, 2010-2015 Richard Shann, Jeremiah Benham, Nils Gey and others.\n"),
     _("This program is provided with absolutely NO WARRANTY; see the file COPYING for details.\n"),
     _("This software may be redistributed and modified under the terms of the GNU General Public License; again, see the file COPYING for details.\n"),
     NULL);
@@ -281,7 +281,7 @@ init_environment()
   gchar *fontpath = NULL;
   fontpath = find_denemo_file(DENEMO_DIR_FONTS, "feta.ttf");
   if(fontpath)
-	  add_font_file (fontpath);
+      add_font_file (fontpath);
   else
     g_critical("Could not find feta.ttf");
   g_free(fontpath);
@@ -295,7 +295,7 @@ init_environment()
 
   fontpath = find_denemo_file(DENEMO_DIR_FONTS,  "emmentaler.ttf");
   if(fontpath)
-	 add_font_file (fontpath);
+     add_font_file (fontpath);
   else
     g_critical("Could not find emmentaler.ttf");
   g_free(fontpath);
@@ -306,43 +306,43 @@ init_environment()
 
 //check  .denemo-xxx directory already exists set Denemo.old_user_data_dir to it if so.
 static void check_if_upgrade (void) {
-	if(get_user_data_dir (FALSE)==NULL) {
-		guint32 ver_maj, ver_min, ver_mic, sofar=0;
-		guint32 this_maj, this_min, this_mic, this_ver;
-		guint32 foundmaj=0, foundmin=0, foundmic=0;
-		const gchar *name;
-		sscanf (PACKAGE_VERSION, "%u.%u.%u", &this_maj, &this_min, &this_mic);
-		this_ver = (this_maj<<16) + (this_min<<8) + this_mic;//allows for version numbers up to 256
-		GDir *dir = g_dir_open (g_get_home_dir (), 0, NULL);
-		if(dir==NULL) 
-			{
-			g_warning ("Cannot find home directory");
-			return;
-			}		
-		while ((name = g_dir_read_name (dir))) {
-			gchar *filename = g_build_filename (g_get_home_dir (), name, NULL);
-			if(g_file_test (filename, G_FILE_TEST_IS_DIR)) {
-				guint32 val;
-				ver_maj=ver_min=ver_mic=0;
-				sscanf (name, ".denemo-%u.%u.%u", &ver_maj, &ver_min, &ver_mic);
-				//g_debug (" %u %u %u\n", ver_maj, ver_min, ver_mic);
-				val = (ver_maj<<16) + (ver_min<<8) + ver_mic;
-				if(val) g_debug("name %s", name);
-				if (val>this_ver) {
-					g_warning ("Downgrade of Denemo version. Ignoring");
-					return;
-				}
-			g_free(filename);
-			if(val>sofar)
-				sofar = val;	
-			}
-		}
-		if(sofar) {
-			gchar *old_dot_denemo = g_strdup_printf (".denemo-%u.%u.%u", (unsigned)(sofar>>16), (unsigned)((sofar>>8)&0xFF), (unsigned)(sofar&0xFF));
-			Denemo.old_user_data_dir = g_build_filename (g_get_home_dir (), old_dot_denemo, NULL);
-			g_free(old_dot_denemo);
-		}
-	}
+    if(get_user_data_dir (FALSE)==NULL) {
+        guint32 ver_maj, ver_min, ver_mic, sofar=0;
+        guint32 this_maj, this_min, this_mic, this_ver;
+        guint32 foundmaj=0, foundmin=0, foundmic=0;
+        const gchar *name;
+        sscanf (PACKAGE_VERSION, "%u.%u.%u", &this_maj, &this_min, &this_mic);
+        this_ver = (this_maj<<16) + (this_min<<8) + this_mic;//allows for version numbers up to 256
+        GDir *dir = g_dir_open (g_get_home_dir (), 0, NULL);
+        if(dir==NULL) 
+            {
+            g_warning ("Cannot find home directory");
+            return;
+            }       
+        while ((name = g_dir_read_name (dir))) {
+            gchar *filename = g_build_filename (g_get_home_dir (), name, NULL);
+            if(g_file_test (filename, G_FILE_TEST_IS_DIR)) {
+                guint32 val;
+                ver_maj=ver_min=ver_mic=0;
+                sscanf (name, ".denemo-%u.%u.%u", &ver_maj, &ver_min, &ver_mic);
+                //g_debug (" %u %u %u\n", ver_maj, ver_min, ver_mic);
+                val = (ver_maj<<16) + (ver_min<<8) + ver_mic;
+                if(val) g_debug("name %s", name);
+                if (val>this_ver) {
+                    g_warning ("Downgrade of Denemo version. Ignoring");
+                    return;
+                }
+            g_free(filename);
+            if(val>sofar)
+                sofar = val;    
+            }
+        }
+        if(sofar) {
+            gchar *old_dot_denemo = g_strdup_printf (".denemo-%u.%u.%u", (unsigned)(sofar>>16), (unsigned)((sofar>>8)&0xFF), (unsigned)(sofar&0xFF));
+            Denemo.old_user_data_dir = g_build_filename (g_get_home_dir (), old_dot_denemo, NULL);
+            g_free(old_dot_denemo);
+        }
+    }
 }
 
 /* main_log_handler:
@@ -443,8 +443,8 @@ main (int argc, char *argv[])
 
   files = process_command_line (argc, argv, gtk_status);
   
-  if (!g_thread_supported ())
-      g_thread_init (NULL);
+  //if (!g_thread_supported ())
+  //    g_thread_init (NULL);
 
   if(!Denemo.non_interactive){
     gdk_threads_init ();
