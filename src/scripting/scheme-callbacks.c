@@ -273,7 +273,7 @@ static gboolean check_character (GtkWidget *entry, GdkEventKey *event, GtkWidget
     return TRUE;
     }
   if (event->keyval == GDK_KEY_Return) {
-    gtk_dialog_response (dialog, GTK_RESPONSE_ACCEPT);
+    gtk_dialog_response (GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
     return TRUE;
     }
   return FALSE;  
@@ -2602,7 +2602,7 @@ scheme_put_whole_measure_rests (void)
   DenemoProject *gui = Denemo.project;
   SCM scm;
   if (!Denemo.project || !(Denemo.project->movement))
-    return SCM_MAKINUM (0);
+    return scm_from_int (0);
   else
     {
       gint numerator = gui->movement->cursortime1;    // staff->timesig.time1;
@@ -2614,7 +2614,7 @@ scheme_put_whole_measure_rests (void)
         numerator = 2 * numerator / 3;
       gint length = (numerator * 4) / denominator;
       gchar *str = NULL;
-      scm = SCM_MAKINUM (1);
+      scm = scm_from_int (1);
       switch (length)
         {
         case 1:                // e.g.  2/8 timesig
@@ -2625,18 +2625,18 @@ scheme_put_whole_measure_rests (void)
           break;
         case 3:                // e.g. 9/8 timesig
           str = g_strdup_printf ("(d-InsertRest0)(d-InsertRest3)(d-MoveCursorLeft)(d-MoveCursorLeft)");
-          scm = SCM_MAKINUM (2);
+          scm = scm_from_int (2);
           break;
         case 4:
           str = g_strdup_printf ("(d-InsertRest0)(d-MoveCursorLeft)%s", dot ? "(d-AddDot)" : "");
           break;
         case 8:
           str = g_strdup_printf ("(d-InsertRest0)(d-InsertRest0)(d-MoveCursorLeft)%s", dot ? "(d-AddDot)" : "");
-          scm = SCM_MAKINUM (2);
+          scm = scm_from_int (2);
           break;
         default:
           g_warning ("Not implemented %d %s", length, dot ? "dotted" : "");
-          scm = SCM_MAKINUM (0);
+          scm = scm_from_int (0);
           break;
         }
       if (str)

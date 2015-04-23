@@ -77,8 +77,11 @@ extern "C" {
 //so this is not needed. static GtkWidget *vbox_setter (gboolean homogeneous, gint spacing) {GtkWidget *ret = gtk_box_new(GTK_ORIENTATION_VERTICAL, spacing);gtk_box_set_homogeneous (ret, homogeneous);return ret;}
 #define gtk_vbox_new(homogeneous, spacing) gtk_box_new(GTK_ORIENTATION_VERTICAL, spacing)
 #define gtk_hbox_new(homogeneous, spacing) gtk_box_new(GTK_ORIENTATION_HORIZONTAL, spacing)
+#define gtk_hscale_new(adj) gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, adj)
+#define gtk_hscrollbar_new(adj) gtk_scrollbar_new(GTK_ORIENTATION_HORIZONTAL, adj)
+#define gtk_vscrollbar_new(adj) gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL, adj)
+#define g_strcasecmp g_ascii_strcasecmp
 #endif
-
 
 #define DEFAULT_KEYMAP "Default"
 #define DEFAULT_KEYBINDINGS "Default.shortcuts"

@@ -495,10 +495,15 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   gtk_widget_show (field);\
   cbdata.field = field;
 
+#if GTK_MAJOR_VERSION == 2
 #define SEPARATOR()\
   separator = gtk_hseparator_new();\
-  gtk_box_pack_start (GTK_BOX (VBOX), separator, FALSE, TRUE, 4);\
-
+  gtk_box_pack_start (GTK_BOX (VBOX), separator, FALSE, TRUE, 4);
+#else
+#define SEPARATOR()\
+  separator = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);\
+  gtk_box_pack_start (GTK_BOX (VBOX), separator, FALSE, TRUE, 4);
+#endif
   /*
    * Note entry settings
    */

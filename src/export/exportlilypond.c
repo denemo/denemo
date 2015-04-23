@@ -3182,8 +3182,11 @@ create_lilywindow (void)
   gtk_window_set_default_size (GTK_WINDOW (Denemo.textwindow), 800, 600);
   gtk_window_set_title (GTK_WINDOW (Denemo.textwindow), "LilyPond Text - Denemo");
   g_signal_connect (G_OBJECT (Denemo.textwindow), "delete-event", G_CALLBACK (lilywindow_closed), NULL);
-
+#if GTK_MAJOR_VERSION == 2
   GtkWidget *top_pane = (GtkWidget*)gtk_vpaned_new ();
+#else
+  GtkWidget *top_pane = (GtkWidget*)gtk_paned_new (GTK_ORIENTATION_VERTICAL);
+#endif
   GtkWidget *vbox = (GtkWidget*)gtk_vbox_new (FALSE, 8);
   
   gtk_paned_add2 (GTK_PANED (top_pane), vbox);//gtk_container_add (GTK_CONTAINER (Denemo.textwindow), top_pane);
