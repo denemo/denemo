@@ -51,8 +51,12 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
   When in the appending position the cursor shows as a large blue or red rectangle on a note-position. Blue indicates a note can be appended at that point without overflowing the measure. Red indicates that the measure is already full. When the cursor is a smaller green rectangle it indicates that you are not in the appending position: you can edit the note/object at the cursor or insert before it. The vertical blue line indicates the insertion point.
 </note>
  </para>
-     <para>You can find more shortcuts by exploring the menu system - e.g. under the Notes/Rests menu the Select Duration submenu gives Remove Dot with the shortcut Control-period shown next to the command.
+ <para>You can find more shortcuts by exploring the menu system - e.g. under the Notes/Rests menu the Select Duration submenu gives Remove Dot with the shortcut Control-period shown next to the command.
  Alternatively, a list is available in the Help menu. There are thousands of commands in Denemo, so get to know the Command Center where you can search for commands by key words such as slur, ossia, beam, Da Capo, cresc. etc etc).
+ </para>
+ <para>
+     Initially, Denemo starts with tooltips popping up almost everywhere. When they become too annoying you can tame them with Help-&gt;Turn Excessive Tooltips (Off/On), 
+     and you can further delay the remaining tooltips appearing via Edit-&gt;Change Preferences.
  </para>
 
 
@@ -145,7 +149,17 @@ If the interval between the notes played is augmented or diminished it is played
 alerted to possible pitch spelling errors (e.g. inputting A-sharp for B-flat). By holding down the Control key a score can be checked by playing the notes - the cursor only advances if the right note is played, and the Shift key can be held down to route the MIDI keyboard straight to the output (e.g. to check a phrase before playing it in). There is a button in the MIDI-in Controls to do this too. The Pitch Bend controller can be used to set the range of sharps and flats to be used, and the modulation controller can be used to mark sections of the music. With the MIDI controller set as Input source (Input menu) the duration keys create pure durations (notes colored yellow/brown) - you can enter as much of the rhythm as you wish, and then play the notes on top.
 </para>
  </sect2>
-    <para>Denemo is used via the computer keyboard, MIDI controller or playing in via a musical instrument. Quite a few mouse operations are also included by default. Clicking on the score will select items, and the status bar at the bottom will describe the item clicked. Right-clicking on items in the score allows you to edit any special attributes, (called Directives, see <xref linkend="DenemoDirectives" />), that they may have. Clicking on the initial clef, key or timesignature lets you edit these, clicking to the right or left of the measures visible moves you forwards and backwards in the score.  Selections can be made by dragging with the mouse from one note to another. And right-clicking any menu item gets help and the opportunity to set a shortcuts for the menu item. Furthermore, scripts are available in the menu system that give the mouse further uses.</para>
+ <sect2>
+    <para>Denemo is used via the computer keyboard, MIDI controller or playing in via a musical instrument.
+     Clicking on a musical item in the score moves the cursor to it,
+      and the status bar at the bottom will describe the item clicked. 
+      Double-clicking the item will describe it in more detail.
+      Right-clicking on items in the score allows you perform the most common edits on it.
+        Clicking on the initial clef, key or timesignature lets you edit these,
+         clicking to the right or left of the measures visible moves you forwards and backwards in the score.
+           Selections can be made by dragging with the mouse from one note to another or off to one side (the window then scrolls). 
+           And right-clicking any menu item gets help and the opportunity to set a shortcuts for the menu item.</para>
+            </sect2>
  </sect1>
   <sect1>
     <title>Overall View of Denemo</title>
@@ -155,13 +169,18 @@ alerted to possible pitch spelling errors (e.g. inputting A-sharp for B-flat). B
     The unit of work in Denemo is a musical score, which can be saved in a single file (with .denemo suffix). This is represented on the screen by a "tab". If you have several tabs open at once they appear just above the music in the main window, and you can switch between them by clicking on the tab.
  </para>
     <para>
-    One score may contain several movements, which you can move between, insert and delete with the Movements menu. A movement is a continuous piece of music with titles etc.
+    One score may contain several movements, which you can move between (PgUp, PgDown), insert duplicate, merge and delete with the Movements menu. 
+    A movement is a continuous piece of music with titles etc.
 <note>
-  When you have more than one movement numbered buttons appear in the score title bar for you to navigate by. The first thing on the status bar after any pending accidental is the movement number. 
+  When you have more than one movement numbered buttons appear in the score title bar for you to navigate by. 
+  The first thing on the status bar after any pending accidental is the movement number. 
 </note>
  </para>
     <para>
-    Within a movement there are staffs (arranged vertically) and within the staffs Denemo Objects. These can be notes, chords and Denemo Directives (see  <xref linkend="DenemoDirectives" />). The notes and chords are displayed in conventional format (though not fully typeset). The Denemo Directives are used for most things that are not chords or notes: Metronome marks, repeat barlines etc are good examples. They can also be attached to chords, individual notes in a chord, to a staff as a whole and to the score as a whole; in this case the directive can be thought of as an attribute of the object it is attached to. Each Denemo Directive carries its own display method. For example the Close Repeat barline appears as a Denemo Object in the converional music notation, while a Directive attached to a staff (e.g. Smaller Staff) may appear in a menu under a tools icon to the right of the staff. In the case of "Smaller Staff" the directive directs the LilyPond typesetter to make the staff smaller, and it can be edited from the menu under the tools icon to the left of the clef. Another tools icon appears if directives are attached to voices within a staff, again to the left of the clef, below the staff one.
+    Within a movement there are staffs (arranged vertically) and within the staffs Denemo Objects. These can be notes, chords, key changes, time signature changes
+     and Denemo Directives (see  <xref linkend="DenemoDirectives" />). The notes and chords are displayed in conventional format (though not fully typeset). 
+     The Denemo Directives are used for most things that are not chords or notes etc: Metronome marks, repeat barlines etc are good examples. 
+     They can also be attached to chords, individual notes in a chord, to a staff as a whole and to the score as a whole; in this case the directive can be thought of as an attribute of the object it is attached to. Each Denemo Directive carries its own display method. For example the Close Repeat barline appears as a Denemo Object in the input display, while a Directive attached to a staff (e.g. Instrument Name, or Smaller Staff Size) may appear in a menu under a tools icon to the right of the staff. In the case of "Smaller Staff" the directive directs the LilyPond typesetter to make the staff smaller, and it can be edited from the menu under the tools icon to the left of the clef. Another tools icon appears if directives are attached to voices within a staff, again to the left of the clef, below the staff one.
 </para>
     <para>
     If there is more than one voice on a staff it is best displayed on a separate staff in the Denemo Display, for ease of editing - the clef is drawn pale and there is no timesignature for such extra voices so it is easy to understand what is going on. The Print Preview window as usual shows the final typeset appearance.
@@ -619,10 +638,11 @@ Also available by right-clicking is creating new actions - often by modifying on
    
     <sect2>
       <title>Playback</title>
-            <para>This menu has been expanded, so the following only covers some of the possibilities.</para>
-
-      <para>Use the Playback menu to start playback of your score. Denemo lets
-      you hear your score, using an internal synthesizer.</para>
+           <note> <para>This menu has been expanded, so the following only covers some of the possibilities.</para>
+            </note>
+      <para>Use the Playback menu to listen to your score. Denemo lets
+      you hear your score, using an internal synthesizer. Playing of sections of the music and looping is possible as well as recording the audio output
+       (mixed with anything you play on your MIDI keyboard if you have recording set in the MIDI controls)</para>
 
       <informaltable>
         <tgroup cols="2">
@@ -655,7 +675,8 @@ Also available by right-clicking is creating new actions - often by modifying on
 
     <sect2>
       <title>Help</title>
-            <para>This menu has been expanded, so the following only covers some of the possibilities.</para>
+           <note> <para>This menu has been expanded, so the following only covers some of the possibilities.</para>
+            </note>
 
       <para>Use the Help menu to get help using Denemo.</para>
 
@@ -718,15 +739,7 @@ Also available by right-clicking is creating new actions - often by modifying on
 
               <entry>Creates a new document.</entry>
             </row>
-        <row>
-              <entry><mediaobject>
-                  <imageobject>
-                    <imagedata fileref="images/scorewizard.png" />
-                  </imageobject>
-                </mediaobject></entry>
-
-              <entry>Creates a new document using the score wizard.</entry>
-            </row>
+ 
         
         <row>
               <entry><mediaobject>
@@ -846,8 +859,8 @@ Also available by right-clicking is creating new actions - often by modifying on
                 </mediaobject>
                             <para>This panel has been expanded, so the following only covers some of the possibilities.</para>
 
-      <para>Use this panel to control playback of the current movement. It has  the following controls:</para>
-
+      <note><para>Use this panel to control playback of the current movement. It has  the following controls:</para>
+        </note>
       <informaltable>
         <tgroup cols="2">
           <thead>
@@ -1034,8 +1047,8 @@ Also available by right-clicking is creating new actions - often by modifying on
                     <imagedata fileref="images/midiincontrols.png" />
                   </imageobject>
                 </mediaobject>
-                            <para>This panel has been expanded, so the following only covers some of the possibilities.</para>
-
+        <note><para>Use this panel to control playback of the current movement. It has  the following controls:</para>
+        </note>
       <para>Use this panel to control MIDI input to the current movement. It has  the following controls:</para>
 
       <informaltable>
@@ -1196,6 +1209,22 @@ Also available by right-clicking is creating new actions - often by modifying on
      Right-clicking on a palette button allows you to edit the button or the entire palette. 
      You can dock the palette in the main display, arrange it as a column, line or block and much more.
    </para> 
+ </sect1>     
+ <sect1>
+    <title>The Command Center</title>
+    <para>
+     In the View menu you can show the Command Center. This has a list of all the Denemo commands, hidden or not, with their shortcut(s).
+     The box at the top left gives full details of the currently selected command and its location in the menu system.
+     Below that is a search box for finding any command you need by matching words in its description or label.
+     </para>
+     <para>
+     The search starts as you type in the first letter of any key words you want, so check after each letter to see if you have found the command you need. 
+     To search for further commands matching your keywords press the arrow next to the search box.
+   </para> 
+   <para>The command center is also where you can set one-key shortcuts such as Ctrl-x and
+    two-key shortcuts such as Shift-a followed by Shift-a (which is written as A,A next to the command).
+    You can also lookup which command responds to a given shortcut, and execute the selected command here.</para>
+      <para>In addition you can save and load whole sets of shortcuts and commands.</para>
  </sect1>     
      
      
@@ -1785,6 +1814,7 @@ When you delete a LilyPond directive textually you have to move the cursor to st
       <para>The standard keybinding for entering a note in a chord is the Insert key, Del,Del deletes. This enters the note at the cursor position, use - and = to flatten/sharpen the note before you enter it (avoiding hearing both notes if you flatten/sharpen afterwards).
        There are also commands to enter a named note Alt-a, Alt-b... are the standard shortcuts for this.
        Spacer rests have shortcuts too, but on Windows machines you will need to reclaim the "Windows" Mod-4 key from Microsoft or re-define the shortcuts.</para>
+       
     </sect2>
 
     <sect2>
@@ -1792,35 +1822,13 @@ When you delete a LilyPond directive textually you have to move the cursor to st
 
       <para></para>
     </sect2>
-
-    <sect2>
-      <title>Inserting LilyPond Directives</title>
-
-      <para><productname>Denemo</productname> allow you to insert LilyPond directives between notes, prefixing and postfixing the individual notes of a chord or the whole chord itself and at the start of each staff in a score and at the start of each score. This means that the score can be tailored to a great extent without ever resorting to editing LilyPond files themselves. (Re-loading from an edited LilyPond file is generally unsuccessful). These LilyPond directives are now just a special case of DenemoDirectives - see discussion elsewhere.
-</para> 
-<para>
-To put a LilyPond directive on an individual note of a chord, put the cursor on that note and invoke 
-</para> 
-<step>
-Other-&gt;AttachLilyToNote
-</step> 
-<para> 
-To put a LilyPond directive between chords, place the cursor at the insertion point, and invoke 
-<step>
-Other-&gt;InsertLilyPond
-</step> 
- Such a LilyPond insert can be locked, which means you will be warned if you try to delete it while you are deleting notes.
-</para>
-<para>
-When you have inserted a LilyPond directive a green bar is printed at that point below the staff. In addition if you specify some display text it will be shown. If the LilyPond inserted is text to be printed above staff the notation ^text can be used. Denemo will show this text above the staff. Likewise, _text will cause text to be printed under the staff. If you wish to annotate your music use %text, which Denemo will print, but LilyPond will not (a newline character is automatically inserted for you to ensure this happens). LilyPond attached to chords or notes shows the display text only. The status bar also shows some of the information.
-</para>
-    </sect2>
   </sect1>
 
     <sect2 revision="0.76">
-      <title>Note and Rest Entry Toolbar</title>
+      <title>Note and Rest Entry Palettes</title>
 
-      <para>This toolbar can be used to enter notes using the mouse. It also shows what the prevailing duration is, that is what duration of note will be inserted when you press a note name key.</para>
+      <para>On starting Denemo for the very first time a series of palettes are placed to the right of the main window with buttons to insert and change notes.
+            For more serious use these just waste space, so by right clicking on them and choosing Edit this Palette they can be hidden.</para>
     </sect2>
 
   <sect1>
