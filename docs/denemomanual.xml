@@ -641,7 +641,8 @@ Also available by right-clicking is creating new actions - often by modifying on
            <note> <para>This menu has been expanded, so the following only covers some of the possibilities.</para>
             </note>
       <para>Use the Playback menu to listen to your score. Denemo lets
-      you hear your score, using an internal synthesizer. Playing of sections of the music and looping is possible as well as recording the audio output
+      you hear your score, using an internal synthesizer. Playing of sections of the music and looping is possible (including editing as the music loops, so that you can listen to different possibilities)
+      as well as recording the audio output
        (mixed with anything you play on your MIDI keyboard if you have recording set in the MIDI controls)</para>
 
       <informaltable>
@@ -1408,7 +1409,8 @@ The Audio Input button introduces a special entry mode where the pitches you pla
 
           <procedure>
             <step>
-              <para>Navigate to <guimenu>File</guimenu>, <guisubmenu>New From
+              <para>Navigate to <guimenu>File</guimenu>, <guisubmenu>Open</guisubmenu>
+              <guisubmenu>
               Template</guisubmenu>, The <interface>Open</interface> dialog
               box appears.</para>
             </step>
@@ -1431,54 +1433,7 @@ The Audio Input button introduces a special entry mode where the pitches you pla
           </note>
         </sect4>
 
-        <sect4>
-          <title>Using Shortcuts to Setup Scores</title>
-
-          <para>Inserting attributes with shortcut keys is an effective way to
-          quickly customize a template.</para>
-
-          <procedure>
-            <step>
-              <para>Navigate to the Staff you want to change an attribute
-              using one of these shortcuts:<itemizedlist>
-                  <listitem>
-              <!--  <para>Type @StaffDown@ to move down one staff</para> -->
-              <para>Select Staffs/Voices-\>StaffDown to move down one staff</para>
-                  </listitem>
-
-                  <listitem>
-              <!-- <para>Type @StaffUp@ to move up one staff</para> -->
-              <para>Select Staffs/Voices-\>StaffUp to move up one staff</para>
-                  </listitem>
-                </itemizedlist></para>
-            </step>
-          </procedure>
-        </sect4>
-
-        <sect4>
-          <title>Using Templates to Setup Scores</title>
-
-          <para>Denemo Comes with a wide range of prebuilt templates for
-          standard vocal and instrumental scores. If you have a custom score
-          setup you use over and over create a score layout using the Setup
-          Wizard and save it as a template.</para>
-
-          <procedure>
-            <step>
-            <para>Click on File-\>New From Template, The <interfacename>
-              Open</interfacename> Dialog box appears displaying the currently
-              available Templates.</para>
-            </step>
-
-            <step>
-              <para>Double click on the template name in the righthand pane.
-              The template loads in the Main Denemo Window.<note>
-                  <para>The currently active staff will be black. All other
-                  staves will be yellow, until they are active.</para>
-                </note></para>
-            </step>
-          </procedure>
-        </sect4>
+       
  
   </sect1>
 
@@ -1523,10 +1478,13 @@ If you place this in (home directory)/.denemo-x.x.x/actions/denemo.scm then it w
 <sect2>
      <title>Adding Your Own Features </title>
    <para>
-You can also get Denemo to remember a frequently used sequence of actions - it can be installed in the menu system and given a keyboard shortcut just like any other command. </para>
-  <para> To do this you right-click and choose Show Scheme Script. (You do not have to understand what a Scheme Script is to use this!). In the little window that pops up set Record Scheme Script and then do the set of steps you wish Denemo to remember, <emphasis>using the menu items, not keyboard, for each step</emphasis>.
+You can also get Denemo to record a frequently used sequence of actions - it can be installed in the menu system and given a keyboard shortcut just like any other command. </para>
+  <para> To do this choose View-&gt;Scheme Script. (You do not have to understand what a Scheme Script is to use this!). In the window that pops up check Record Scheme Script and then do the set of steps you wish Denemo to record.
   </para> 
- <para>As a simple example, suppose you wanted a command to delete the next note (there are commands to delete the previous note and the current note, so why not?). You would enter some notes, put on Record Scheme Script and then from the menu Cursor select Cursor Right (to move on to the note to be deleted), and with the Notes/Rests->Delete->Delete Object menu item you would delete the note. (Each time you use a menu item you will see a new command entered into the Scheme window). Now turn off Record Scheme Script and you can experiment with your new command by pressing Execute in the Scheme Script window. To save this new command for future use, you right click on a menu item (in the menu where you would like the command to appear) and choose "Save Script as New Menu Item", this will ask you to make up a name for your new command as well as a label for the menu item etc.
+ <para>As a simple example, suppose you wanted a command to delete the next note (there are commands to delete the previous note and the current note, so why not?). You would enter some notes, put on Record Scheme Script and then move the cursor right two steps and delete the previous note (with Backspace if that is your shortcut).
+  (Each time you use a menu item you will see a new command entered into the Scheme window). Now turn off Record Scheme Script and you can experiment with your new command by pressing Execute in the Scheme Script window. 
+ To save this new command for future use, you right click on a menu item (in the menu where you would like the command to appear) 
+ and choose "Save Script as New Menu Item", this will ask you to make up a name for your new command as well as a label for the menu item etc.
 
  </para>  
 <para> You can save the command in your default sequence of commands (via Edit->Customize Commands...->Manage Command Set->Save as Default Command Set). If not you will be asked if you want to save your new commands when you exit. Otherwise you can re-load via the More->My Commands menu item.</para> 
