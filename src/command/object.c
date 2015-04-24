@@ -149,6 +149,7 @@ clone_directive (DenemoDirective * directive)
   CLONE (graphic_name);
   CLONE (grob);
   CLONE (midibytes);
+  CLONE (data);
 #undef CLONE
   if (directive->graphic)
     {
