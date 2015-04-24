@@ -672,7 +672,7 @@ void register_command_row(keymap* the_keymap, command_row* command){
     //insert the command name in the index reference
     g_hash_table_insert (the_keymap->idx_from_name, g_strdup (command->name), idx);
 
-    g_debug ("Inserting command %i: %s %s %s %p", *idx, command->name, command->label, command->tooltip, command->callback);
+    //g_debug ("Inserting command %i: %s %s %s %p", *idx, command->name, command->label, command->tooltip, command->callback);
   }
 }
 
@@ -1504,7 +1504,7 @@ execute_callback_from_name (const gchar * command_name)
 }
 
 //prints info on the data of the keymap relative to a command
-void
+G_GNUC_UNUSED void
 dump_command_info (keymap * the_keymap, gint command_id)
 {
   gchar *cur_binding;

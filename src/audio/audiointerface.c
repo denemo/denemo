@@ -559,7 +559,7 @@ update_playback_time (backend_timebase_prio_t prio, double new_time)
       // queue thread wakes up on its own
       if (!try_signal_queue ())
         {
-          g_debug ("Couldn't signal playback time update to queue");
+          ;//this is continuously emitted by windows which has debug on. g_debug ("Couldn't signal playback time update to queue");
         }
     }
 }
