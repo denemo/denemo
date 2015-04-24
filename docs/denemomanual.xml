@@ -1892,7 +1892,30 @@ When you delete a LilyPond directive textually you have to move the cursor to st
 
       <para>To enter figures choose Notes/Rests->Markings->Figured Bass. There are some shortcuts that enable all the work to be done with the numeric keypad. A brief summary is given by right clicking the option. The conventions are described in the LilyPond docs.</para>
     </sect2>
-    
+
+    <sect2>
+      <title>Fret Diagrams</title>
+
+      <para>
+          Fret Diagrams can be placed on the score using the command Fret Diagram in the ObjectMenu->Directives->Markings menu
+          In addition by assigning a Denemo staff to display as fret diagrams, chords can be entered
+          in standard notation  which will then be dislayed as fret diagrams. 
+          See ObjectMenu->StaffMenu->StaffPropertiesMenu->FretDiagrams for this.
+      </para>
+    </sect2>
+     <sect2>
+      <title>Tablature</title>
+
+      <para>
+          Music can be displayed in tablature - the default is for standard guitar tuning but others can be set.
+          The menus to explore are
+            <itemizedlist>
+            <listitem>ObjectMenu->StaffMenu->StaffPropertiesMenu->Tablature</listitem>
+            <listitem>ObjectMenu->Directives->Typesetter->Tablature</listitem>
+            </itemizedlist>
+          It is possible to display the same music as both notation and tablature, and example of how to do this will be found under File->Open->Open Example.
+      </para>
+    </sect2>      
     <sect2>
       <title>Entering Chord Symbols</title>
 
