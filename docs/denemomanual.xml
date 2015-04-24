@@ -1391,7 +1391,8 @@ be edited in the LilyPond view.
             Prior to that it is a pure rhythm and will play back as a drum beat and will print as a space.
         </para>
         <para>
-            When not appending music, you need to use the shift key to insert a new note, or set the caps lock. So Shift-a,Shift-a inserts the note A etc. Plain "a" edits the note at the cursor to be an A.  Likewise with the numeric keypad the Shift key can be used to insert a note duration, while the plain number keys edit the duration of the note at the cursor. (If you do not have a numeric keypad, you have to use Shift-0,1, etc to do insertion of a duration).
+            When not appending music, you need to use the shift key to insert a new note, or set the caps lock. So Shift-a,Shift-a inserts the note A etc. Plain "a" edits the note at the cursor to be an A.  Likewise with the numeric keypad the Shift key can be used to edit a note duration, while the plain number keys insert the duration of the note at the cursor. 
+            (If you do not have a numeric keypad, you have to use the number keys - best to plug in an additional USB keyboard with numeric keypad, they are very cheap nowadays).
         </para>
     </sect3>
     <sect3>
@@ -1854,8 +1855,13 @@ When you delete a LilyPond directive textually you have to move the cursor to st
       <title>Single Staff Polyphony</title>
         
       <para>Use the Staffs/Voices->Voices menu for placing more than one voice on a staff. You can set the initial voice number from this menu 
-      (voices 1 and 3 are stem up with slurs and ties etc adjusting to suit, voices 2 and 4 are stem down). Directives can be placed in the music to change voice, see Directives->Typesetter->Voices menu.</para>
-
+      (voices 1 and 3 are stem up with slurs and ties etc adjusting to suit, voices 2 and 4 are stem down). 
+      Directives can be placed in the music to change voice, see Directives->Typesetter->Voices menu.
+      </para>
+    <para>
+        You will also need spacer rests for voices that are silent, and commands to displace rests vertically and horizontally (see Notes/Rests-&gt;Rest Insertion menu),
+        and commands from the Voices menu under the Staffs/Voices and Directives-&gt;Typesetter menus.
+    </para>
     </sect2>
 
 
@@ -1884,7 +1890,7 @@ When you delete a LilyPond directive textually you have to move the cursor to st
     </sect2>
 
    <sect2 revision="0.70">
-      <title>Musical Score that Do Things!</title>
+      <title>Musical Scores that Do Things!</title>
 <para>
 By saving a Denemo score with a script defined (in the script window) you can create music lessons, automatic midi player ... the possibilities are (literally) endless. When you open such a score, the script is run - it can take user input and manipulate the score, or do other actions as your fancy takes you.
 </para>
@@ -1896,29 +1902,25 @@ There is a special score init.denemo that is run on startup. By editing this you
     <para>On starting the scheme script ~/.denemo-(version number)/actions/denemo.scm is executed (where ~ means your home directory and version number is 1.1.2 or later).
     A denemo file called init.denemo is/was loaded, but this is deprecated.
 </para>
-    <para>In addition, on startup a set of keyboard and mouse shortcuts, and a selection of optional menu items are loaded. Other sets are available via the Edit->Customize Commands ...->Manage Command Set dialog.
-<note>
-You should exit and re-start Denemo after creating a new command set to be sure of getting your keybindings to work.
-</note>
-<note>
-The "Score Titles, Controls etc" checkbox is undocumented, unfortunately.
-What it does is to show/hide a button bar where Titles and such can be displayed.
-The menu items you need are under Score->Titles etc
-and Movement->Titles etc. When you set a title, composer, etc the Titles etc button bar will become populated.
-</note>
-<note>
-The Playback Controls are undocumented, unfortunately. Mostly obvious commands, the left/right arrows move the start and end playback point forwards and backwards, while the up/down arrows set the start and end playback points to the current cursor position.
-See the links from the features list "To-do List" on the website.
-</note>
+    <para>
+        In addition, on startup a set of keyboard and mouse shortcuts, 
+        and a selection of optional menu items are loaded. Other sets are available via the Edit->Customize Commands ...->Manage Command Set dialog.
 
-</para>
+        <note>
+        The "Score Titles, Controls etc" checkbox is undocumented, unfortunately.
+        What it does is to show/hide a button bar where Titles and such can be displayed.
+        The menu items you need are under Score->Titles etc
+        and Movement->Titles etc. When you set a title, composer, etc the Titles etc button bar will become populated.
+        </note>
+
+    </para>
  </sect2>
   </sect1>
 
   <sect1>
     <title><productname>Denemo</productname> Command Line Options</title>
 
-    <para><productname>Denemo</productname> --help shows the options for opening particular files at startup.</para>
+    <para><productname>Denemo</productname> --help shows the options at startup.</para>
   </sect1>
   
   <sect1 id="DenemoDirectivesTechnical">
