@@ -1211,7 +1211,7 @@ Also available by right-clicking is creating new actions - often by modifying on
      You can dock the palette in the main display, arrange it as a column, line or block and much more.
    </para> 
  </sect1>     
- <sect1>
+ <sect1 id="CommandCenter">
     <title>The Command Center</title>
     <para>
      In the View menu you can show the Command Center. This has a list of all the Denemo commands, hidden or not, with their shortcut(s).
@@ -1444,8 +1444,8 @@ be edited in the LilyPond view.
 <sect1>
 <title>Using a Proof-Read PDF</title>
 <para>If you send the PDF output of your score to someone to proof-read they can make PDF annotations to it.
-        In the File-&gt;Open menu choose Open Proof Read PDF to open a proof-read PDF. It will open at the first annotation, 
-        by clicking on the note the annotation applies the annotation is transferred as a comment into the score before the note chosen.
+        In the File-&gt;Open menu choose Open Proof Read PDF to open a proof-read PDF. It will open at the first annotation, and,
+        by clicking on the note the annotation applies to, the annotation is transferred as a comment into the score before the note chosen.
         When you have done all the annotations on the first page advance to the next page with annotations using the button "Next".
         </para><para>
         There are limitations - the PDF must be created from your score with point-and-click (the default) and you must not alter the score
@@ -1519,18 +1519,30 @@ be edited in the LilyPond view.
 
     <sect1 id="customizingDenemo">
       <title>Adding Key/Mouse Shortcuts</title>
+      <para><productname>Denemo</productname> allows you to choose which keys activate which commands (shortcuts). 
+      It also allows you to choose Mouse press/release gestures (in combination with keys such as Shift, NumLock, CapsLock etc).
+    </para>
+    <para>See <xref linkend="CommandCenter"/> for setting shortcuts. The following method can also be used.
+    To choose a shortcut for a menu item, select the item (it becomes highlighted) and press the key that you want to become the shortcut.
+    For mouse shortcuts right-click the menu item and choose the Create Mouse Shortcut, to change the pointer shape during mouse operations invoke the Command Center with the Edit Shortcuts option. 
+    The Set Mouse Shortcut Dialog requires you to set which button and action you want to use and then to hold/lock the keyboard modifier while clicking on the big button. 
+    The setting you have chosen is shown, and you click ok to accept it. 
+    <note>Mouse Shortcuts are tricky to set - you are able to control what happens on mouse button press and release, which can be used to do things like drag notes
+    up and down. But they are tricky to set up!</note>
+ </para>
 
-      <para><productname>Denemo</productname> allows you to choose which keys activate which commands. It also allows you to choose Mouse press/release gestures (in combination with keys such as Shift, NumLock, CapsLock etc).
  <para>
- To choose a shortcut for a menu item, right-click on the item and choose the Create Mouse Shortcut, or the Edit Shortcuts option. The Set Mouse Shortcut Dialog requires you to set which button and action you want to use and then to hold/lock the keyboard modifier while clicking on the big button. The setting you have chosen is shown, and you click ok to accept it.
+    If your choice of keyboard shortcut already belongs to another command, you are warned about this, and given the chance to change your mind or steal the shortcut. 
+    Also, you can choose whether to distinguish between keypresses with, say the NumLock down and those without or to ignore it. 
+    If the NumLock is set but no command for that key specifically requires it then the setting of NumLock is ignored and the keypress is treated as if the NumLock was off.
  </para>
  <para>
- To set a keyboard shortcut, and to delete any sort of shortcut, use the Edit Shortcuts menu item. This dialog also allows you to choose a cursor to show while certain mouse actions are underway.
+ The menu item that activates the command shows the shortcuts that exist in bright blue lettering. 
+ PrsL-CapsLoc, for example, is the Press action on the Left mouse key while the CapsLock light is on.  
+ In the default command set this is linked to the BeginSlur command, so that together with the RlsL-CapsLoc for the release of the left mouse button, 
+ you can "draw" slurs by using the mouse. Similarly, Shift with left mouse button (MveL-Shift) is set to allow you to drag notes up and down the staff. 
+ (This is using Command MoveNoteToCursor).
  </para>
- <para>
-If your choice of keyboard shortcut already belongs to another command, you are warned about this, and given the chance to change your mind or steal the shortcut. Also, you can choose whether to distinguish between keypresses with, say the NumLock down and those without or to ignore it. If the NumLock is set but no command for that key specifically requires it then the setting of NumLock is ignored and the keypress is treated as if the NumLock was off.
- </para>
- The menu item that activates the command shows the shortcuts that exist in bright blue lettering. PrsL-CapsLoc, for example, is the Press action on the Left mouse key while the CapsLock light is on.  In the default command set this is linked to the BeginSlur command, so that together with the RlsL-CapsLoc for the release of the left mouse button, you can "draw" slurs by using the mouse. Similarly, Shift with left mouse button (MveL-Shift) is set to allow you to drag notes up and down the staff. (This is using Command MoveNoteToCursor, which is found under Notes/Rests/Edit/Edit Note/To Cursor)</para>
     </sect1>
 
 
