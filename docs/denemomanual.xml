@@ -858,10 +858,9 @@ Also available by right-clicking is creating new actions - often by modifying on
                     <imagedata fileref="images/playbackcontrols.png" />
                   </imageobject>
                 </mediaobject>
-                            <para>This panel has been expanded, so the following only covers some of the possibilities.</para>
-
-      <note><para>Use this panel to control playback of the current movement. It has  the following controls:</para>
+        <note> <para>This panel has been expanded, so the following only covers some of the possibilities.</para>
         </note>
+      <para>Use this panel to control playback of the current movement. It has  the following controls:</para>
       <informaltable>
         <tgroup cols="2">
           <thead>
@@ -1048,7 +1047,7 @@ Also available by right-clicking is creating new actions - often by modifying on
                     <imagedata fileref="images/midiincontrols.png" />
                   </imageobject>
                 </mediaobject>
-        <note><para>Use this panel to control playback of the current movement. It has  the following controls:</para>
+        <note><para>This panel has been extended, the following is a rough guide.</para>
         </note>
       <para>Use this panel to control MIDI input to the current movement. It has  the following controls:</para>
 
@@ -1099,11 +1098,7 @@ Also available by right-clicking is creating new actions - often by modifying on
         <entry>Switch to Play Along Playback</entry>
               <entry>With this set, when you press Play the music will not advance past the cursor until you play the note. (Mute the current staff to prevent double sounding of notes)</entry>
             </row>
-       
-          
-          
-       
-       
+ 
           </tbody>
         </tgroup>
       </informaltable>
