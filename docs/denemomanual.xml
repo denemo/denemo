@@ -1264,7 +1264,14 @@ The score layout can only be edited graphically when first created. Once re-load
 be edited in the LilyPond view.
 </note>
   </sect1>
-
+ <sect1>
+        <title>Score and Movement Button Bars</title>
+         <para>The "Score Titles, Controls etc" checkbox is undocumented, unfortunately.
+        What it does is to show/hide button bars where Titles for the Score and for the current Movement can be displayed.
+        In addition other score-wide settings create buttons on the score titles bar and movement wide settings on the movement titles bar.
+        The menu items you need are under Score->Titles etc
+        and Movement->Titles etc. When you set a title, composer, etc the Titles etc button bar will become populated. </para>
+  </sect1>
   <sect1>
       <title>A Survey of the Input Methods</title>
     <sect2>
@@ -1936,12 +1943,7 @@ There is a special score init.denemo that is run on startup. By editing this you
         In addition, on startup a set of keyboard and mouse shortcuts, 
         and a selection of optional menu items are loaded. Other sets are available via the Edit->Customize Commands ...->Manage Command Set dialog.
 
-        <note>
-        The "Score Titles, Controls etc" checkbox is undocumented, unfortunately.
-        What it does is to show/hide a button bar where Titles and such can be displayed.
-        The menu items you need are under Score->Titles etc
-        and Movement->Titles etc. When you set a title, composer, etc the Titles etc button bar will become populated.
-        </note>
+ 
 
     </para>
  </sect2>
