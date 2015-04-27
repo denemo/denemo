@@ -1266,11 +1266,12 @@ be edited in the LilyPond view.
   </sect1>
  <sect1>
         <title>Score and Movement Button Bars</title>
-         <para>The "Score Titles, Controls etc" checkbox is undocumented, unfortunately.
-        What it does is to show/hide button bars where Titles for the Score and for the current Movement can be displayed.
+         <para>The View->Titles, Buttons etc" checkbox makes two horizontal button bars visible (if they have buttons on them).
+        What they the buttons show are titles/composer etc for the score and for the current movement. The score button bar holds the movement indicator buttons for scores
+        that have several movements - you can click on one of these to move quickly to a different movement.
         In addition other score-wide settings create buttons on the score titles bar and movement wide settings on the movement titles bar.
-        The menu items you need are under Score->Titles etc
-        and Movement->Titles etc. When you set a title, composer, etc the Titles etc button bar will become populated. </para>
+        The menu items that populate these are under Score->Titles etc
+        and Movement->Titles etc and other menus. </para>
   </sect1>
   <sect1>
       <title>A Survey of the Input Methods</title>
