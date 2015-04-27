@@ -43,10 +43,15 @@ void
 executeScript (void)
 {
   gchar *text = Denemo.project->script;
-  g_debug ("Calling script %s\n", text);
-  stage_undo (Denemo.project->movement, ACTION_STAGE_END);        //undo is a queue so this is the end :)
-  (void) call_out_to_guile (text);
-  stage_undo (Denemo.project->movement, ACTION_STAGE_START);
+  if(text && *text)
+    {
+    g_debug ("Calling script %s\n", text);
+    stage_undo (Denemo.project->movement, ACTION_STAGE_END);        //undo is a queue so this is the end :)
+    (void) call_out_to_guile (text);
+    stage_undo (Denemo.project->movement, ACTION_STAGE_START);
+    }   
+    else
+        g_warning ("Trying to execute empty scheme script");
 }
 
 
