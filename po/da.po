@@ -7,6 +7,8 @@
 # alteration -> alteration
 # argument -> argument (bedre med parameter?)
 # beam -> bjælke
+# brace -> akkolade
+# chord -> akkord
 # clef -> nøgle
 # deprecate -> foræld/forældet (måske afskriv/afskrevet/misbillig)
 # duration -> længde
@@ -16,6 +18,7 @@
 # ligature -> fraseringsbue
 # measure -> takt
 # movement -> sats
+# page breaks -> sideskift
 # parameter -> parameter
 # rest -> pause
 # score -> partitur
@@ -27,6 +30,7 @@
 # staff -> nodesystem
 # stem -> nodehals
 # stray -> malplaceret
+# tagline ->  kort beskrivelse (slogan (?), måske bare beskrivelse (kort beskrivelse))
 # tie -> bindebue
 # tuplet -> irregulær nodeværdi
 #
@@ -35,7 +39,7 @@ msgstr ""
 "Project-Id-Version: denemo 1.2.1-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2015-02-08 08:50+0000\n"
-"PO-Revision-Date: 2015-04-18 21:00+0200\n"
+"PO-Revision-Date: 2015-04-29 21:00+0200\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -993,7 +997,7 @@ msgstr "Nøgle-, tids- og toneart-signaturer vedhæftet til andre stemmer ignore
 
 #: ../src/command/scorelayout.c:794
 msgid "Music for "
-msgstr "Musike for "
+msgstr "Musik for "
 
 #: ../src/command/scorelayout.c:796
 msgid ""
@@ -1862,85 +1866,87 @@ msgid ""
 "This is tied to the following note or chord.\n"
 "The following note or chord should have the same pitch\n"
 msgstr ""
+"Den er forbundet med den følgende node eller akkord.\n"
+"Den følgende node eller akkord skal have den samme tonehøjde\n"
 
 #: ../src/core/utils.c:1749
 msgid "This note begins a crescendo. Use the Right Click → Dynamics menu to control this.\n"
-msgstr ""
+msgstr "Denne node starter en crescendo. Brug højreklik → Dynamisk menu for at kontrollere dette.\n"
 
 #: ../src/core/utils.c:1751
 msgid "This note ends a crescendo. Use the Right Click → Dynamics menu to control this.\n"
-msgstr ""
+msgstr "Denne node afslutter en crescendo. Brug højreklik → Dynamisk menu for at kontrollere dette.\n"
 
 #: ../src/core/utils.c:1753
 msgid "This note begins a diminuendo. Use the Right Click → Dynamics menu to control this.\n"
-msgstr ""
+msgstr "Denne node starter en diminuendo. Brug højreklik → Dynamisk menu for at kontrollere dette.\n"
 
 #: ../src/core/utils.c:1755
 msgid "This note ends a diminuendo. Use the Right Click → Dynamics menu to control this.\n"
-msgstr ""
+msgstr "Denne node afslutter en diminuendo. Brug højreklik → Dynamisk menu for at kontrollere dette.\n"
 
 #: ../src/core/utils.c:1758
 msgid "This is an acciaccatura note\n"
-msgstr ""
+msgstr "Dette er en forslagsnode (kort ubetonet)\n"
 
 #: ../src/core/utils.c:1761
 msgid "This is an appoggiatura note\n"
-msgstr ""
+msgstr "Dette er en forslagsnode (langt betonet)\n"
 
 #: ../src/core/utils.c:1763
 msgid "This note denotes a rhythm - use a MIDI keyboard to add pitches by playing.\n"
-msgstr ""
+msgstr "Denne node betegner en rytme - brug et MIDI-tastatur for at tilføje tonehøjder ved at spille.\n"
 
 #: ../src/core/utils.c:1772
 #, c-format
 msgid "Within the chord the cursor is on the note %s \n"
-msgstr ""
+msgstr "Inden i akkorden er markøren på noden %s \n"
 
 #: ../src/core/utils.c:1776
 msgid "Attached to this note:"
-msgstr ""
+msgstr "Vedhæftet til denne node:"
 
 #: ../src/core/utils.c:1781
 msgid "This rhythm has extra notes added to it, delete them and use the foot-pedal or Alt key to enter chords with the MIDI controller.\n"
-msgstr ""
+msgstr "Denne rytme har ekstra noder vedhæftet, slet dem og brug fodpedalen eller Alt-tasten til at indtaste akkorder med MIDI-controlleren.\n"
 
 #: ../src/core/utils.c:1786
 msgid "a rest.\n"
-msgstr ""
+msgstr "en pause.\n"
 
 #: ../src/core/utils.c:1788
 msgid "This rest has a slur start on it, use the Right Click  → Slurs menu to remove it\n"
-msgstr ""
+msgstr "Denne pause har en legatobuestart på sig, brug højreklik → legatobuemenu for at fjerne den\n"
 
 #: ../src/core/utils.c:1790
 msgid "This rest has a slur end on it, use the Right Click → Slurs menu to remove it\n"
-msgstr ""
+msgstr "Denne pause har en legatobueslut på sig, brug højreklik → legatobuemenu for at fjerne den\n"
 
 #: ../src/core/utils.c:1792
 msgid "This rest has a tie starting on it, use the Right Click  → Tied Note to remove it\n"
-msgstr ""
+msgstr "Denne pause har en bindebue der starter på sig, brug højreklik → Bundet node for at fjerne den\n"
 
 #: ../src/core/utils.c:1796
 msgid "This rest will not print, just act as a spacer.\n"
-msgstr ""
+msgstr "Denne pause ville udskrive, fungerer kun som et mellemrum.\n"
 
 #: ../src/core/utils.c:1798
 msgid "This rest has the grace attribute set: this can be used to avoid a bug in the print view.\n"
-msgstr ""
+msgstr "Denne pause har forslagsattributten angivet: Dette kan bruges til at undgå en fejl i forhåndsvisningen.\n"
 
 #: ../src/core/utils.c:1802
 msgid "Attached to the chord:"
-msgstr ""
+msgstr "Vedhæftet akkorden:"
 
 #: ../src/core/utils.c:1805
 #, c-format
 msgid "This starts %d/384 quarter notes into the measure and lasts %d/384 quarter notes.\n"
-msgstr ""
+msgstr "Denne starter %d/384 4.-delsnoder inde i takten og varer %d/384 4.-delsnoder.\n"
 
 #: ../src/core/utils.c:1807
 #, c-format
 msgid "The LilyPond syntax generated is: %s\n"
-msgstr ""
+msgstr "Den oprettede LilyPond-syntaks: %s\n"
 
 #: ../src/core/utils.c:1813
 #, c-format
@@ -1949,10 +1955,13 @@ msgid ""
 "Meaning %d notes will take the time of %d notes\n"
 "until an End Tuplet object.\n"
 msgstr ""
+" et start irregulært nodeværdi-objekt\n"
+"Betyder at %d noder vil vare %d noder\n"
+"indtil et slut irregulært nodeværdi-objekt.\n"
 
 #: ../src/core/utils.c:1816
 msgid "Attached to the Start Tuplet:"
-msgstr ""
+msgstr "Vedhæftet til start irregulær nodeværdi:"
 
 #: ../src/core/utils.c:1823
 #, c-format
@@ -1960,32 +1969,34 @@ msgid ""
 "an End Tuplet object\n"
 "Note: the Start Tuplet must be in the same measure.\n"
 msgstr ""
+"et slut irregulær nodeværdi-objekt\n"
+"Bemærk: Start irregulær nodeværdi skal være i den samme takt.\n"
 
 #: ../src/core/utils.c:1826
 msgid "Attached to the End Tuplet:"
-msgstr ""
+msgstr "Vedhæftet til slut irregulær nodeværdi:"
 
 #: ../src/core/utils.c:1834
 #, c-format
 msgid "a Clef Change object.\n"
-msgstr ""
+msgstr "et nøgleændringsobjekt.\n"
 
 #: ../src/core/utils.c:1837
 msgid "Attached to the Clef Change:"
-msgstr ""
+msgstr "Vedhæftet til nøgleændringen:"
 
 #: ../src/core/utils.c:1841
 msgid "This clef change is non-printing, it just affects the display.\n"
-msgstr ""
+msgstr "Denne nøgleændring udskrives ikke, den påvriker kun visningen.\n"
 
 #: ../src/core/utils.c:1848
 #, c-format
 msgid "a Time Signature Change object.\n"
-msgstr ""
+msgstr "et taktartændringsobjekt.\n"
 
 #: ../src/core/utils.c:1851
 msgid "Attached to the Time Signature Change:"
-msgstr ""
+msgstr "Vedhæftet til taktartændringen:"
 
 #: ../src/core/utils.c:1855
 #, c-format
@@ -1993,41 +2004,43 @@ msgid ""
 "A Time Signature Change should be the first object in a measure\n"
 "unless you are trying to do something unusual"
 msgstr ""
+"En taktartændring skal være det første objekt i en takt\n"
+"med mindre du forsøger at udføre noget usædvanligt"
 
 #: ../src/core/utils.c:1861
 #, c-format
 msgid "a Key Signature Change object.\n"
-msgstr ""
+msgstr "et toneartsangivelsesændringsobjekt.\n"
 
 #: ../src/core/utils.c:1864
 msgid "Attached to the Key Signature Change:"
-msgstr ""
+msgstr "Vedhæftet til toneartsangivelsesændringen:"
 
 #: ../src/core/utils.c:1872
 #, c-format
 msgid "a Stem Directive, the notes after the cursor %s"
-msgstr ""
+msgstr "et nodehalsdirektiv, noderne efter markøren %s"
 
 #: ../src/core/utils.c:1872
 msgid "will have stems downwards"
-msgstr ""
+msgstr "vil have nodehalse nedad"
 
 #: ../src/core/utils.c:1872
 msgid "will have stems upwards"
-msgstr ""
+msgstr "vil have nodehalse opad"
 
 #: ../src/core/utils.c:1872
 msgid "will have stems up or down as needed"
-msgstr ""
+msgstr "vil have nodehalse op eller ned som krævet"
 
 #: ../src/core/utils.c:1875
 msgid "Attached to the Stemming Change:"
-msgstr ""
+msgstr "Vedhæftet til nodehalsændringen:"
 
 #: ../src/core/utils.c:1890 ../src/core/utils.c:1892
 #, c-format
 msgid "a Denemo Directive: (%s)"
-msgstr ""
+msgstr "et Denemodirketiv: (%s)"
 
 #: ../src/core/utils.c:1894
 #, c-format
@@ -2035,28 +2048,34 @@ msgid ""
 "\n"
 "The help for the command that created this directive is \"%s\""
 msgstr ""
+"\n"
+"Hjælpen til denne kommando som oprettede dette direktiv er »%s«"
 
 #: ../src/core/utils.c:1896
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: ../src/core/utils.c:1896
 msgid ""
 "\n"
 "Not all layouts\n"
 msgstr ""
+"\n"
+"Ikke alle layout\n"
 
 #: ../src/core/utils.c:1896
 msgid ""
 "\n"
 "Only for one Layout\n"
 msgstr ""
+"\n"
+"Kun for et layout\n"
 
 #: ../src/core/utils.c:1900
 #, c-format
 msgid "The LilyPond text inserted is %s%s\n"
-msgstr ""
+msgstr "LilyPond-teksten indsat er %s%s\n"
 
 #: ../src/core/utils.c:1905
 msgid ""
@@ -2064,161 +2083,164 @@ msgid ""
 "You may need a closing double bar line -\n"
 "see Directives → Markings → Inserting Barlines"
 msgstr ""
+"Dette direktiv er i slutningen af musikken\n"
+"Du skal måske bruge en afsluttende dobbelt bjælkelinje -\n"
+"se Direktiver → Markeringer → Indsættelse af bjælkelinjer"
 
 #: ../src/core/utils.c:1912
 msgid "The cursor is on an unknown object type. Please report how this happened!"
-msgstr ""
+msgstr "Markøren er en ukendt objekttype. Fortæl venligst hvordan det skete!"
 
 #: ../src/core/utils.c:1924
 #, c-format
 msgid "MIDI information: time %d minutes %1.2f seconds "
-msgstr ""
+msgstr "MIDI-information: tid %d minutter %1.2f sekunder "
 
 #: ../src/core/utils.c:1927
 #, c-format
 msgid "velocity %d\n"
-msgstr ""
+msgstr "hastighed %d\n"
 
 #: ../src/core/utils.c:1933
 msgid "<span font-desc=\"30\">Warning</span> "
-msgstr ""
+msgstr "<span font-desc=\"30\">Advarsel</span> "
 
 #: ../src/core/utils.c:1986
 msgid "Chord "
-msgstr ""
+msgstr "Akkord "
 
 #: ../src/core/utils.c:1986
 msgid "Note "
-msgstr ""
+msgstr "Node "
 
 #: ../src/core/utils.c:1986
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureRest.scm:11
 msgid "Rest "
-msgstr ""
+msgstr "Pause "
 
 #: ../src/core/utils.c:1986
 msgid ", begin slur"
-msgstr ""
+msgstr ", start legatobue"
 
 #: ../src/core/utils.c:1986
 msgid ", end slur"
-msgstr ""
+msgstr ", afslut legatobue"
 
 #: ../src/core/utils.c:1986
 msgid ", tied"
-msgstr ""
+msgstr ", forbudne"
 
 #: ../src/core/utils.c:1986
 msgid ", begin cresc."
-msgstr ""
+msgstr ", start cresc."
 
 #: ../src/core/utils.c:1986
 msgid ", end cresc."
-msgstr ""
+msgstr ", afslut cresc."
 
 #: ../src/core/utils.c:1986
 msgid ", begin dim."
-msgstr ""
+msgstr ", start dim."
 
 #: ../src/core/utils.c:1986
 msgid ", end dim."
-msgstr ""
+msgstr ", afslut dim."
 
 #: ../src/core/utils.c:1986
 msgid ", grace note"
-msgstr ""
+msgstr ", forslagstone"
 
 #: ../src/core/utils.c:2010
 #, c-format
 msgid "Tuplet %d/%d"
-msgstr ""
+msgstr "Irregulær nodeværdi %d/%d"
 
 #: ../src/core/utils.c:2013
 #, c-format
 msgid "End tuplet"
-msgstr ""
+msgstr "Afslut irregulær nodeværdi"
 
 #: ../src/core/utils.c:2016
 #, c-format
 msgid "Clef change"
-msgstr ""
+msgstr "Nøgleændring"
 
 #: ../src/core/utils.c:2019
 #, c-format
 msgid "Time signature change"
-msgstr ""
+msgstr "Taktartændring"
 
 #: ../src/core/utils.c:2022
 #, c-format
 msgid "Key signature change"
-msgstr ""
+msgstr "Toneartsangivelsesændring"
 
 #: ../src/core/utils.c:2025
 #, c-format
 msgid "Stem directive: %s"
-msgstr ""
+msgstr "Nodehalsdirektiv: %s"
 
 #: ../src/core/utils.c:2025
 msgid "stem down"
-msgstr ""
+msgstr "nodehals ned"
 
 #: ../src/core/utils.c:2025
 msgid "stem up"
-msgstr ""
+msgstr "nodehals op"
 
 #: ../src/core/utils.c:2025
 msgid "normal stemming"
-msgstr ""
+msgstr "normale nodehalse"
 
 #: ../src/core/utils.c:2028
 #, c-format
 msgid "Dynamic: %s"
-msgstr ""
+msgstr "Dynamisk: %s"
 
 #: ../src/core/utils.c:2034
 #, c-format
 msgid "Directive:(%.20s) %.20s%.50s"
-msgstr ""
+msgstr "Direktiv:(%.20s) %.20s%.50s"
 
 #: ../src/core/utils.c:2034
 msgid "Unknown Tag"
-msgstr ""
+msgstr "Ukendt mærke"
 
 #: ../src/core/utils.c:2034
 msgid "Not all layouts"
-msgstr ""
+msgstr "Ikke alle layout"
 
 #: ../src/core/utils.c:2034
 msgid "Only for one Layout"
-msgstr ""
+msgstr "Kun for et layout"
 
 #: ../src/core/utils.c:2038
 #, c-format
 msgid "Cursor on an unknown object"
-msgstr ""
+msgstr "Markør er et ukendt objekt"
 
 #: ../src/core/utils.c:2042
 #, c-format
 msgid "Cursor not on any object"
-msgstr ""
+msgstr "Markør er ikke på alle objekter"
 
 #: ../src/core/utils.c:2075
 #, c-format
 msgid "%d min %.2f sec %.2f %.2f"
-msgstr ""
+msgstr "%d min. %.2f sek. %.2f %.2f"
 
 #: ../src/core/utils.c:2077
 #, c-format
 msgid " Staff %d Measure %d Position %d %s"
-msgstr ""
+msgstr " Nodesystem %d takt %d position %d %s"
 
 #: ../src/core/utils.c:2077
 msgid "Appending"
-msgstr ""
+msgstr "Tilføjende"
 
 #: ../src/core/utils.c:2077
 msgid "Not Appending"
-msgstr ""
+msgstr "Ikke tilføjende"
 
 #: ../src/core/utils.c:2542
 #, c-format
