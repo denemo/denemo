@@ -1123,7 +1123,7 @@ install_pre_movement_widgets (GtkWidget * vbox, DenemoMovement * si)
 static void
 popup_score_titles_menu (GtkWidget * button)
 {
-  GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/Score/Titles/Book Titles");
+  GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/Score/Titles/BookTitles");
   if (get_standard_scoreblock (button))
     {
       if (menuitem)
