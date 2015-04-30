@@ -2442,7 +2442,7 @@ mouse_shortcut_dialog (ModifierAction * info)
   g_signal_connect (G_OBJECT (widget2), "toggled", G_CALLBACK (button_move_callback), &info->gesture);
   gtk_box_pack_start (GTK_BOX (vbox2), widget2, FALSE, TRUE, 0);
 
-  widget = gtk_button_new_with_label (_("Hold Modifier Keys, Engage Caps or Num Lock\nand click here to set shorcut."));
+  widget = gtk_button_new_with_label (_("Hold Modifier Keys, Engage Caps or Num Lock\nand click here to set shortcut."));
   g_signal_connect (G_OBJECT (widget), "button-release-event", G_CALLBACK (button_modifier_callback), info);
   gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
 
