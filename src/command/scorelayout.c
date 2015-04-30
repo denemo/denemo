@@ -1062,7 +1062,7 @@ popup_movement_menu (GtkWidget * w, GtkWidget * vbox)
 static void
 popup_movement_titles_menu (GtkWidget * button)
 {
-  GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/MovementMenu/Titles/Book Titles");
+  GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/MovementMenu/Titles/BookTitles");
   if (get_standard_scoreblock (button))
     {
       if (menuitem)
