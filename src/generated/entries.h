@@ -15,7 +15,7 @@
 {"StaffUp", NULL, N_("Staff Up"), "",N_("Moves the cursor to the staff above, extending selection if any"),G_CALLBACK (staffup)},
 {"StaffDown", NULL, N_("Staff Down"), "",N_("Moves the cursor to the staff below, extending selection if any"),G_CALLBACK (staffdown)},
 {"MoveToStaffUp", NULL, N_("Move to Staff Up"), "",N_("Moves the cursor to the staff above without altering selection. On the top staff it adds space above the staffs."),G_CALLBACK (movetostaffup)},
-{"MoveToStaffDown", NULL, N_("Move to Staff Down"), "",N_("Moves the cursor to the staff below  without altering selection"),G_CALLBACK (movetostaffdown)},
+{"MoveToStaffDown", NULL, N_("Move to Staff Down"), "",N_("Moves the cursor to the staff below without altering selection"),G_CALLBACK (movetostaffdown)},
 {"MeasureLeft", NULL, N_("Measure Left"), "",N_("Moves the cursor to the first object in the next measure, extending selection if any"),G_CALLBACK (measureleft)},
 {"MeasureRight", NULL, N_("Measure Right"), "",N_("Moves the cursor to the first object in the previous measure, extending selection if any"),G_CALLBACK (measureright)},
 {"MoveToMeasureLeft", NULL, N_("Move to Measure Left"), "",N_("Moves the cursor to the first object in the next measure leaving selection, if any, unchanged"),G_CALLBACK (movetomeasureleft)},

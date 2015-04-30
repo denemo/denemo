@@ -4494,7 +4494,7 @@ create_window (void)
 
     //create_playbutton(inner,NULL, pb_forward, GTK_STOCK_MEDIA_FORWARD);
 
-    create_playbutton (inner, _("Loop"), pb_loop, NULL, _("The music between the red and green bars is played in a loop.\nYou can edit the music while it is playing\nmonitoring your changes."));
+    create_playbutton (inner, _("Loop"), pb_loop, NULL, _("The music between the red and green bars is played in a loop.\nYou can edit the music while it is playing\n(so that you can continously listen as you try alternatives)."));
 
    // midiconductbutton = create_playbutton (inner, _("Conductor"), pb_conduct, NULL, _("With the mouse conductor once you press play the playback progresses as you move the mouse around\nWith this you can speed up and slow down the playback to listen in detail to a certain passage\n"));
 
@@ -4651,7 +4651,7 @@ create_window (void)
       deletebutton = create_playbutton (hbox, "Delete", pb_midi_delete, NULL, _("Delete the MIDI recording you have made."));
 
       convertbutton = create_playbutton (hbox, "Convert", pb_midi_convert, NULL, _("Convert the MIDI recording you have made to notation."));
-      midirecordbutton = create_playbutton (hbox, NULL, pb_record, GTK_STOCK_MEDIA_RECORD, _("Starts playing and simultaneously records from MIDI in.\nOnce a recording is made it is played back with the score when you press Play.\nIt can be deleted with the Delete button or converted to notation with Convert\n.A MIDI recording is not saved with the Denemo score."));
+      midirecordbutton = create_playbutton (hbox, NULL, pb_record, GTK_STOCK_MEDIA_RECORD, _("Starts playing and simultaneously records from MIDI in.\nOnce a recording is made it is played back with the score when you press Play.\nIt can be deleted with the Delete button or converted to notation with the Convert button.\nA MIDI recording is not saved with the Denemo score."));
 
       gtk_widget_show_all (Denemo.midi_in_control);
       gtk_widget_show_all (Denemo.playback_control);
@@ -4698,7 +4698,7 @@ create_window (void)
     if (Denemo.prefs.newbie)
       gtk_widget_set_tooltip_text (Denemo.scorearea, _("This is the Denemo Display for the music you have entered."
                                                        " See the print view window for the typeset appearance. "
-                                                       " The blue lozenge is the Denemo Cursor - it turns red when when the bar is full or green if you are inserting in a bar."
+                                                       " The blue lozenge is the Denemo Cursor - it turns red when when the bar is full or green if you are inserting in a bar. "
                                                        "Overfull/Underfull bars are colored red/blue,"
                                                        " use the Upbeat (Anacrusis, Pickup) command if that is intentional."
                                                        "\nYou can switch to a menu-less view or a page-view using the Esc key." 
