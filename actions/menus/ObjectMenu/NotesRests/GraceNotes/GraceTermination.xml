@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>GraceTermination</action>
+        <after>UnGraceAfter</after>
+        <_label>Termination</_label>
+        <_tooltip>Appends two grace notes, slurred to current note. Follow with a duration key to set duration of grace notes to be appended.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

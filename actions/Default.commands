@@ -7305,6 +7305,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>(Print) Format of rehearsal marks</_label>
         <_tooltip>Select the format of rehearsal marks (alphabetic, numeric, boxed, etc.)</_tooltip>
       </row>
+      <row type="scheme">
+        <action>GraceTermination</action>
+        <after>UnGraceAfter</after>
+        <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
+        <_label>Termination</_label>
+        <_tooltip>Appends two grace notes, slurred to current note. Follow with a duration key to set duration of grace notes to be appended.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -1211,6 +1211,8 @@ actions/menus/ObjectMenu/NotesRests/GraceNotes/GraceAfter.scm
 actions/menus/ObjectMenu/NotesRests/GraceNotes/GraceAfter.xml
 actions/menus/ObjectMenu/NotesRests/GraceNotes/GraceNoteSwitcher.scm
 actions/menus/ObjectMenu/NotesRests/GraceNotes/GraceNoteSwitcher.xml
+actions/menus/ObjectMenu/NotesRests/GraceNotes/GraceTermination.scm
+actions/menus/ObjectMenu/NotesRests/GraceNotes/GraceTermination.xml
 actions/menus/ObjectMenu/NotesRests/GraceNotes/InsertTwoGraceNotesBeamed.scm
 actions/menus/ObjectMenu/NotesRests/GraceNotes/InsertTwoGraceNotesBeamed.xml
 actions/menus/ObjectMenu/NotesRests/GraceNotes/InstallGraceNoteHints.scm
