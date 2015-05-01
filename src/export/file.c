@@ -845,6 +845,10 @@ update_preview_cb (GtkFileChooser * file_chooser, gpointer data)
 static gboolean
 file_open_dialog(gchar* message, gchar* format, FileFormatNames save_type, DenemoSaveType template, ImportType type, gchar* filename){
   gboolean ret = -1;
+   if(filename && (!g_file_test(filename, G_FILE_TEST_EXISTS)) && (!g_path_is_absolute (filename)) && file_selection_path)
+            filename = g_build_filename (file_selection_path, filename, NULL);//memory leak
+  
+  
   if(filename && !g_file_test(filename, G_FILE_TEST_IS_DIR))
     return (open_for_real(filename, Denemo.project, template, type));
   
