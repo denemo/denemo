@@ -1578,7 +1578,7 @@ You can also get Denemo to record a frequently used sequence of actions - it can
   <para> To do this choose View-&gt;Scheme Script. (You do not have to understand what a Scheme Script is to use this!). In the window that pops up check Record Scheme Script and then do the set of steps you wish Denemo to record.
   </para> 
  <para>As a simple example, suppose you wanted a command to delete the next note (there are commands to delete the previous note and the current note, so why not?). You would enter some notes, put on Record Scheme Script and then move the cursor right two steps and delete the previous note (with Backspace if that is your shortcut).
-  (Each time you use a menu item you will see a new command entered into the Scheme window). Now turn off Record Scheme Script and you can experiment with your new command by pressing Execute in the Scheme Script window. 
+  (Each time you use a command you will see the Scheme syntax for that command entered into the Scheme window). Now turn off Record Scheme Script and you can experiment with your new command by pressing Execute in the Scheme Script window. 
  To save this new command for future use, you right click on a menu item (in the menu where you would like the command to appear) 
  and choose "Save Script as New Menu Item", this will ask you to make up a name for your new command as well as a label for the menu item etc.
 
@@ -1586,9 +1586,9 @@ You can also get Denemo to record a frequently used sequence of actions - it can
 <para> You can save the command in your default sequence of commands (via Edit->Customize Commands...->Manage Command Set->Save as Default Command Set). If not you will be asked if you want to save your new commands when you exit. Otherwise you can re-load via the More->My Commands menu item.</para> 
 </sect2>
 <sect2>
-     <title>An even easier way</title>
+     <title>Another way ...</title>
    <para>
-   There is an even easier way of adding your own favorite LilyPond tweaks, which is by modifying a tweak that has already been done. This can be done by using the text-edit dialog on an existing Denemo Directive (usually found under the Advanced button provided by an edit script). Here you can see the actual LilyPond text that will be inserted, and there is a button to create a script to generate whatever you choose to enter. You can also enter the name of graphic images (.png files) that are to be used to represent your item in the display, and say where it should be positioned.
+   There is another way of adding your own favorite LilyPond tweaks, which is by modifying a tweak that has already been done. This can be done by using the text-edit dialog on an existing Denemo Directive (usually found under the Advanced button provided by an edit script). Here you can see the actual LilyPond text that will be inserted, and there is a button to create a script to generate whatever you choose to enter. You can also enter the name of graphic images (.png files) that are to be used to represent your item in the display, and say where it should be positioned.
   </para>
    <para>
 Once you have created the script, it can be saved in the menu system by right clicking on an item in the menu where you want to place the command, and choosing "Save Script as New Menu Item" as above.
@@ -1613,7 +1613,7 @@ which is inserting the LilyPond directive "\mark \default" which inserts the def
  </para>
  
  <para> 
- More ambitious programmers will need to know all the commands available. Besides the complete Denemo command set (the list is given in the Command Management window) there are the following additional Scheme procedures defined.
+ More ambitious programmers will need to know all the commands available. Besides the complete Denemo command set (the list is given in the Command Center window) there are the following additional Scheme procedures defined.
  </para>
 </sect2>
 <itemizedlist>
@@ -1699,9 +1699,10 @@ d-Chordize Ensure that even a single note is treated as a chord - needed for som
 </itemizedlist>
 
   <para>
-  Standard Denemo commands that pop up dialogs will work as usual if no argument is passed to them from Scheme. In general if a string consisting of strings of the form "name=value\0" is passed these will be used and no popup will occur. The field "name" will be given the value "value". The \0 is a NULL character that separates the assignment strings. As a shorthand if there is only one value being passed you can just pass the value. The names of the fields depend on the action being called. So for example
+  Standard Denemo commands that pop up dialogs will work as usual if no argument is passed to them from Scheme. In general if a string consisting of strings of the form "name=value" is passed these will be used and no popup will occur. The field "name" will be given the value "value". The \0 is a NULL character that separates the assignment strings. 
+  As a shorthand if there is only one value being passed you can just pass the value. The names of the fields depend on the action being called. So for example
 <example id="schemecalls">
-(d-Open "filename=myfile.denemo\0")
+(d-Open "filename=myfile.denemo")
 </example>
 will open the file "myfile.denemo".
   </para>
