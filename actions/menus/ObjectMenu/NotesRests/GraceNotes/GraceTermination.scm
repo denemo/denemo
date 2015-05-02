@@ -1,3 +1,5 @@
+;;;GraceTermination
+(d-PushClipboard)
 (d-InsertTwoGraceNotesBeamed)
 (d-MoveCursorLeft)
 (d-SetMark)
@@ -13,3 +15,4 @@
 (d-ExtendSlur)
 (d-MoveCursorRight)
 (d-MoveCursorRight)
+(d-PopClipboard)
