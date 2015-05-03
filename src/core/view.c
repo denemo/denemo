@@ -1537,12 +1537,12 @@ activate_rhythm_pattern (GtkToolButton * toolbutton, RhythmPattern * r)
   select_rhythm_pattern (r);
   if ((Denemo.project->mode & INPUTEDIT))
     {
-      if (Denemo.project->input_source == INPUTMIDI)
-        {
-          insert_note_following_pattern (Denemo.project);
-          ((DenemoObject *) Denemo.project->movement->currentobject->data)->isinvisible = TRUE;
-        }
-      else
+     // if (Denemo.project->input_source == INPUTMIDI)
+      //  {
+      //    insert_note_following_pattern (Denemo.project);
+       //   ((DenemoObject *) Denemo.project->movement->currentobject->data)->isinvisible = TRUE;
+     //   }
+    //  else
         insert_clipboard (r->clipboard);
     }
 }
