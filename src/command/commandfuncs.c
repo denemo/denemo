@@ -1577,8 +1577,9 @@ void
 insert_rhythm_pattern (GtkAction* action, DenemoScriptParam* param)
 {
   if (Denemo.project->currhythm == NULL)
-    return;
-  insert_clipboard (((RhythmPattern *) Denemo.project->currhythm->data)->clipboard);
+    call_out_to_guile("(d-InsertNthSnippet)");
+  else
+    insert_clipboard (((RhythmPattern *) Denemo.project->currhythm->data)->clipboard);
 
 }
 
