@@ -253,6 +253,8 @@ actions/menus/MainMenu/EditMenu/EditScoreAndMovementDirectives.scm
 actions/menus/MainMenu/EditMenu/EditScoreAndMovementDirectives.xml
 actions/menus/MainMenu/EditMenu/EditSimilar.scm
 actions/menus/MainMenu/EditMenu/EditSimilar.xml
+actions/menus/MainMenu/EditMenu/InsertNthSnippet.scm
+actions/menus/MainMenu/EditMenu/InsertNthSnippet.xml
 actions/menus/MainMenu/EditMenu/KeyBindings/StartEmacs2KeyShortcut.scm
 actions/menus/MainMenu/EditMenu/KeyBindings/StartEmacs2KeyShortcut.xml
 actions/menus/MainMenu/EditMenu/PasteReplaceSelection.scm
