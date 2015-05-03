@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>InsertNthSnippet</action>
+        <after>PasteReplaceSelection</after>
+        <_label>Insert Nth Snippet</_label>
+        <_tooltip>Pastes the Nth snippet into the score at the cursor position. Follow with the number 1,2,... of the snippet to be inserted</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

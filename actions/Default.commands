@@ -7312,6 +7312,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Termination</_label>
         <_tooltip>Appends two grace notes, slurred to current note. Follow with a duration key to set duration of grace notes to be appended.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>InsertNthSnippet</action>
+        <after>PasteReplaceSelection</after>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <_label>Insert Nth Snippet</_label>
+        <_tooltip>Pastes the Nth snippet into the score at the cursor position. Follow with the number 1,2,... of the snippet to be inserted</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
