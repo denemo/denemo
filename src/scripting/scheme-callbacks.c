@@ -6072,7 +6072,7 @@ scheme_select_snippet (SCM number)
 }
 
 SCM
-scheme_insert_snippet (SCM number)
+scheme_insert_snippet (SCM number, SCM select)
 {
   if (scm_is_integer (number))
     {
@@ -6083,9 +6083,12 @@ scheme_insert_snippet (SCM number)
           RhythmPattern *r = g->data;
           if (r)
             {
-
-              select_rhythm_pattern (r);
-              insert_note_following_pattern (Denemo.project);
+                if(scm_is_true(select)) {
+                    select_rhythm_pattern (r);
+                    insert_note_following_pattern (Denemo.project);
+                } else {
+                    insert_nth_rhythm (position-1);
+                }
 
               return SCM_BOOL_T;
             }

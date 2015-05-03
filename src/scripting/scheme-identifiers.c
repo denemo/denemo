@@ -233,7 +233,7 @@ create_scheme_identfiers (void)
 
   install_scm_function (0, "Selects music Snippet from passed id Returns #f if not possible", DENEMO_SCHEME_PREFIX "SelectSnippet", scheme_select_snippet);
 
-  install_scm_function (0, "Inserts music Snippet from passed id Returns #f if not possible", DENEMO_SCHEME_PREFIX "InsertSnippet", scheme_insert_snippet);
+  install_scm_function (1, "Inserts music Snippet from passed id Returns #f if not possible, a second boolean parameter determines if the snippet becomes selected. ", DENEMO_SCHEME_PREFIX "InsertSnippet", scheme_insert_snippet);
 
 
 

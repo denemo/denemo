@@ -155,7 +155,7 @@ SCM scheme_next_note (SCM);
 SCM scheme_prev_note (SCM);
 SCM scheme_create_snippet_from_object (SCM);
 SCM scheme_select_snippet (SCM);
-SCM scheme_insert_snippet (SCM);
+SCM scheme_insert_snippet (SCM, SCM);
 SCM scheme_next_standalone_directive (SCM);
 SCM scheme_prev_standalone_directive (SCM);
 SCM scheme_next_standalone_directive_in_measure (SCM);

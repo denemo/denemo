@@ -1547,6 +1547,17 @@ activate_rhythm_pattern (GtkToolButton * toolbutton, RhythmPattern * r)
     }
 }
 
+gboolean insert_nth_rhythm (gint n) {
+    
+    gint nr = g_list_length (Denemo.project->rhythms);
+    if (n>=0 && n<nr)
+       {
+            insert_clipboard (((RhythmPattern*)(g_list_nth (Denemo.project->rhythms, n))->data)->clipboard);
+            return TRUE;
+        }
+    return FALSE;
+}
+static void null_action () {}
 
 /* duration_code(gpointer function)
  * return an ascii code to indicate what duration (if any) function gives.
@@ -1574,7 +1585,19 @@ modifier_code (gpointer fn)
   return fn == (gpointer) triplet_start ? '~' :
     fn == (gpointer) tuplet_end ? '|' :
     fn == (gpointer) add_dot_key ? '.' :
-    fn == (gpointer) toggle_begin_slur ? '(' : fn == (gpointer) toggle_end_slur ? ')' : fn == (gpointer) insert_rest_0key ? 'r' : fn == (gpointer) insert_rest_1key ? 's' : fn == (gpointer) insert_rest_2key ? 't' : fn == (gpointer) insert_rest_3key ? 'u' : fn == (gpointer) insert_rest_4key ? 'v' : fn == (gpointer) insert_rest_5key ? 'w' : fn == (gpointer) insert_rest_6key ? 'x' : fn == (gpointer) insert_rest_7key ? 'y' : fn == (gpointer) insert_rest_8key ? 'z' : 0;
+    fn == (gpointer) toggle_begin_slur ? '(' :
+     fn == (gpointer) toggle_end_slur ? ')' :
+      fn == (gpointer) insert_rest_0key ? 'r' :
+       fn == (gpointer) insert_rest_1key ? 's' :
+        fn == (gpointer) insert_rest_2key ? 't' :
+         fn == (gpointer) insert_rest_3key ? 'u' :
+          fn == (gpointer) insert_rest_4key ? 'v' :
+           fn == (gpointer) insert_rest_5key ? 'w' :
+            fn == (gpointer) insert_rest_6key ? 'x' :
+             fn == (gpointer) insert_rest_7key ? 'y' :
+              fn == (gpointer) insert_rest_8key ? 'z' :
+              fn == (gpointer) null_action ? 'S' :
+               0;
 }
 
 gboolean
@@ -1941,6 +1964,11 @@ create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
                       }
                       break;
                     default:
+                        {
+                            fn = null_action;
+                            add_to_pattern (&pattern, 'S');
+                            append_rhythm (r, fn);
+                        }
                       //g_warning("ignoring %d", obj->type);
                       break;
                     }           /* end of switch obj type */
