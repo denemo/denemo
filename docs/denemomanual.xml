@@ -1616,24 +1616,47 @@ which is inserting the LilyPond directive "\mark \default" which inserts the def
  More ambitious programmers will need to know all the commands available. Besides the complete Denemo command set (the list is given in the Command Center window) there are the following additional Scheme procedures defined.
  </para>
 </sect2>
+
+<sect2>
+<subtitle>Commands Getting User Input</subtitle>
+<para>All these commands are invoked from scheme as (d-<emphasis>Command</emphasis> <emphasis>args...</emphasis>)</para>
+<itemizedlist>
+<listitem>GetChar returns a string containing a single character from the user (blocks waiting for a keypress)
+</listitem>
+<listitem>GetKeypress returns a string representing a keypress from the user (blocks waiting for a keypress) (e.g. Up for the up arrow key etc.)
+</listitem>
+<listitem>GetCommand returns a string containing the command name for the user's keypress (blocks waiting for a keypress)
+</listitem>
+<listitem>GetCommandFromUser
+</listitem>
+<listitem>GetUserInput takes three strings, displays and returns the user's response as a string.
+</listitem>
+<listitem>RadioBoxMenu takes an arbitrary number of arguments, each argument is a pair, presents a menu of the first items in the pairs and returns the second item as chosen.
+</listitem>
+<listitem>RadioBoxMenuList like RadioBoxMenu but takes a list
+</listitem>
+<listitem>GetUserInput takes three arguments (title, prompt, suggested value) and returns the string typed by the user in the pop-up dialog or #f if Cancelled.
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2>
+<subtitle>Commands Getting Information about Object at Cursor</subtitle>
+<itemizedlist>
+<listitem>GetType returns a scheme string indicating the type of the current object</listitem>
+<listitem>GetNoteName returns  a scheme string, giving the note name a-g of the current note</listitem>
+<listitem>GetNote returns  a scheme string, the note name, accidental and octave of the current note (LilyPond notation)</listitem>
+<listitem>GetNotes returns  a scheme string, the notes of a chord separated by NULL characters</listitem>
+</itemizedlist>
+</sect2>
+<subtitle>To be sorted and added to ...</subtitle>
+
 <itemizedlist>
 <listitem>d-InitializeScript deprecated - init.scm is now run automatically. (parameter: action-name) runs a script init.scm in the menupath attached to the action whose name is given. Used by commands that need a time-consuming initialization step which can be skipped on subsequent calls.
-</listitem>
-
-<listitem>d-GetType returns a scheme string indicating the type of the current object
-</listitem>
-<listitem>d-GetNoteName returns  a scheme string, giving the note name a-g of the current note
-</listitem>
-<listitem>d-GetNote returns  a scheme string, the note name, accidental and octave of the current note (LilyPond notation)
-</listitem>
-<listitem>d-GetNotes returns  a scheme string, the notes of a chord separated by NULL characters
 </listitem>
 <listitem>d-PutNoteName takes a string argument, a note in LilyPond notation. Changes the note at the cursor. Not for use with multi-note chords.
 </listitem>
 <listitem>d-DiatonicShift Deprecated.
 </listitem>
-
-
 <listitem>d-NextObject moves cursor to next object, returning TRUE if current object has changed
 </listitem>
 <listitem>d-NextChord as d-NextObject, but skipping non-chord objects. chords includes rests and chords with 1 or more notes.
@@ -1661,14 +1684,7 @@ which is inserting the LilyPond directive "\mark \default" which inserts the def
 </listitem>
 
 
-<listitem>d-GetChar returns a string containing a single character from the user (blocks waiting for a keypress)
-</listitem>
-<listitem>d-GetKeypress returns a string representing a keypress from the user (blocks waiting for a keypress) (e.g. Up for the up arrow key etc.)
-</listitem>
-<listitem>d-GetCommand returns a string containing the command name for the user's keypress (blocks waiting for a keypress)
-</listitem>
-<listitem>d-GetUserInput takes three strings, displays and returns the user's response as a string.
-</listitem>
+
 <listitem>
 d-GetMidi
 </listitem>
