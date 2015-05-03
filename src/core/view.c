@@ -1820,26 +1820,16 @@ create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
 
   if (!singleton)
     {
-      staffnode *curstaff;
-      measurenode *curmeasure;
-      gint i = si->selection.firststaffmarked;
-      attach_clipboard (r);
+      if (si->markstaffnum)    /* Indicator that there's a selection.  */
+        attach_clipboard (r);
 
       if (project->lilysync != project->changecount)
         refresh_lily_cb (NULL, Denemo.project);
-
-      curstaff = g_list_nth (si->thescore, i - 1);
-      if (curstaff && i <= si->selection.laststaffmarked)
+      if (r->clipboard)
         {
-          int j, k;
           objnode *curobj;
-          /* Measure loop.  */
-          if (si->markstaffnum)    /* Indicator that there's a selection.  */
-          for (j = si->selection.firstmeasuremarked, k = si->selection.firstobjmarked, curmeasure = g_list_nth (staff_first_measure_node (curstaff), j - 1); curmeasure && j <= si->selection.lastmeasuremarked; curmeasure = curmeasure->next, j++)
-            {
-              for (curobj = g_list_nth ((objnode *) curmeasure->data, k);
-                   /* cursor_x is 0-indexed */
-                   curobj && (j < si->selection.lastmeasuremarked || k <= si->selection.lastobjmarked); curobj = curobj->next, k++)
+          
+              for (curobj = (objnode *) ((GList *)r->clipboard)->data; curobj; curobj = curobj->next)
                 {
                   gpointer fn;
                   DenemoObject *obj = (DenemoObject *) curobj->data;
@@ -1944,6 +1934,7 @@ create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
                             add_to_pattern (&pattern, modifier_code (fn));
                             append_rhythm (r, fn);
                           }     /* end of rests */
+                          gint i;
                         for (i = ch->numdots; i; i--)
                           {
                             fn = add_dot_key;
@@ -1977,9 +1968,8 @@ create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
                   if (obj->lilypond)
                     g_string_append (lily_string, obj->lilypond);
                 }               /* End object loop */
-              k = 0;            //in the new measure start collecting objects from start
-            }                   /* End measure loop */
-        }                       //if the first staff selected is present in the staff list. This should always be the case
+             
+        }                       //if r->clip
 
       if ((strlen (pattern) == 0))
         {                       // no selection
