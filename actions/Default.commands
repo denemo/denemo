@@ -1011,7 +1011,7 @@ the end point of the selection is unaltered</_tooltip>
       <row type="builtin">
         <action>InsertRhythm</action>
         <_label>Insert Snippet</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
+        <_tooltip>Inserts the current music snippet, or if none is selected prompts for a number 1,2... for the snippet to insert.</_tooltip>
       </row>
       <row type="builtin">
         <action>NextRhythm</action>

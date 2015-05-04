@@ -195,7 +195,7 @@ register_command("ToggleGrace", _("Grace Note Off/On"), _("Makes the note at the
 register_command("ToggleAcciaccatura", _("Acciaccatura Off/On"), _("Makes the note at the cursor an acciaccatura grace note, if it is one, makes it normal"), toggle_acciaccatura);
 register_command("ForceCaution", _("Force Cautionary Accidental"), _("Give a cautionary accidental to the note at the cursor"), force_cautionary);
 register_command("ChangePitch", _("Change Pitch"), _("Changes the pitch of the note at the cursor to the cursor height"), change_pitch);
-register_command("InsertRhythm", _("Insert Snippet"), _("No Tooltip yet"), insert_rhythm_pattern);
+register_command("InsertRhythm", _("Insert Snippet"), _("Inserts the current music snippet, or if none is selected prompts for a number 1,2... for the snippet to insert."), insert_rhythm_pattern);
 register_command("NextRhythm", _("Next Snippet"), _("Make next snippet\nthe current snippet.\nNotes entered will follow the rhythmic pattern of this snippet"), nextrhythm);
 register_command("AppendMeasureAllStaffs", _("Append Measure All Staffs"), _("Appends a blank measure to every staff in this movement"), append_measure_score);
 register_command("ExecuteScheme", _("Execute Scheme"), _("Execute the scheme code from the scripting window"), execute_scheme);

@@ -247,7 +247,7 @@ struct name_and_function denemo_commands[] = {
 
   {NULL, "Changes the pitch of the note at the cursor to the cursor height", N_("ChangePitch"), "change_pitch", N_("Change Pitch")},
 
-  {NULL, "No Tooltip yet", N_("InsertRhythm"), "insert_rhythm_pattern", N_("Insert Snippet")},
+  {NULL, "Inserts the current music snippet, or if none is selected prompts for a number 1,2... for the snippet to insert.", N_("InsertRhythm"), "insert_rhythm_pattern", N_("Insert Snippet")},
   {NULL, "Make next snippet\\nthe current snippet.\\nNotes entered will follow the rhythmic pattern of this snippet", N_("NextRhythm"), "nextrhythm", N_("Next Snippet")},
   {NULL, "Appends a blank measure to every staff in this movement", N_("AppendMeasureAllStaffs"), "append_measure_score", N_("Append Measure All Staffs")},
 

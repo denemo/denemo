@@ -1576,11 +1576,16 @@ shiftcursor (DenemoProject * gui, gint note_value)
 void
 insert_rhythm_pattern (GtkAction* action, DenemoScriptParam* param)
 {
+    
+  if (Denemo.project->rhythms==NULL)
+    { 
+        g_warning("No snippets");
+        return;
+    }
   if (Denemo.project->currhythm == NULL)
     call_out_to_guile("(d-InsertNthSnippet)");
   else
     insert_clipboard (((RhythmPattern *) Denemo.project->currhythm->data)->clipboard);
-
 }
 
 void
