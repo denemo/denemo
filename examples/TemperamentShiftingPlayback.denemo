@@ -3045,7 +3045,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure>
             <chord show="true" id="id667">
               <duration base="quarter"></duration>
-              <tie to="id669"></tie>
+              <tie></tie>
               <notes>
                 <note id="id668">
                   <middle-c-offset>9</middle-c-offset>
@@ -3091,7 +3091,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               <duration base="quarter">
                 <dots>1</dots>
               </duration>
-              <tie to="id679"></tie>
+              <tie></tie>
               <notes>
                 <note id="id678">
                   <middle-c-offset>8</middle-c-offset>
@@ -3127,7 +3127,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure>
             <chord show="true" id="id685">
               <duration base="quarter"></duration>
-              <tie to="id687"></tie>
+              <tie></tie>
               <notes>
                 <note id="id686">
                   <middle-c-offset>9</middle-c-offset>
@@ -3899,7 +3899,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               <duration base="quarter">
                 <dots>1</dots>
               </duration>
-              <tie to="id850"></tie>
+              <tie></tie>
               <notes>
                 <note id="id849">
                   <middle-c-offset>11</middle-c-offset>
@@ -4823,7 +4823,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 <dots>1</dots>
               </duration>
               <figure>_</figure>
-              <tie to="id1048"></tie>
+              <tie></tie>
               <notes>
                 <note id="id1047">
                   <middle-c-offset>-7</middle-c-offset>
@@ -4880,7 +4880,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 <dots>1</dots>
               </duration>
               <figure>_</figure>
-              <tie to="id1058"></tie>
+              <tie></tie>
               <notes>
                 <note id="id1057">
                   <middle-c-offset>-6</middle-c-offset>
@@ -4936,7 +4936,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 <dots>1</dots>
               </duration>
               <figure>_</figure>
-              <tie to="id1068"></tie>
+              <tie></tie>
               <notes>
                 <note id="id1067">
                   <middle-c-offset>-7</middle-c-offset>
@@ -5159,7 +5159,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 <dots>1</dots>
               </duration>
               <figure>_</figure>
-              <tie to="id1111"></tie>
+              <tie></tie>
               <notes>
                 <note id="id1110">
                   <middle-c-offset>-7</middle-c-offset>
@@ -5284,7 +5284,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 <dots>1</dots>
               </duration>
               <figure>6</figure>
-              <tie to="id1136"></tie>
+              <tie></tie>
               <notes>
                 <note id="id1135">
                   <middle-c-offset>-4</middle-c-offset>

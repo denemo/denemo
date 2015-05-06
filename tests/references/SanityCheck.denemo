@@ -159,7 +159,7 @@ Serif
             </chord>
             <chord show="true" id="id12">
               <duration base="quarter"></duration>
-              <tie to="id14"></tie>
+              <tie></tie>
               <notes>
                 <note id="id13">
                   <middle-c-offset>1</middle-c-offset>
@@ -246,127 +246,127 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <tuplet-start id="id19">
+            <tuplet-start>
               <multiplier>
                 <numerator>2</numerator>
                 <denominator>3</denominator>
               </multiplier>
             </tuplet-start>
-            <chord show="true" id="id20">
+            <chord show="true" id="id19">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id21">
+                <note id="id20">
                   <middle-c-offset>5</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id22">
+            <chord show="true" id="id21">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id23">
+                <note id="id22">
                   <middle-c-offset>6</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id24">
+            <chord show="true" id="id23">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id25">
+                <note id="id24">
                   <middle-c-offset>7</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <tuplet-end tuplet="id19"></tuplet-end>
-            <chord show="true" id="id26">
+            <tuplet-end></tuplet-end>
+            <chord show="true" id="id25">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id27">
+                <note id="id26">
                   <middle-c-offset>8</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id28">
+            <chord show="true" id="id27">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id29">
+                <note id="id28">
                   <middle-c-offset>9</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id30">
+            <chord show="true" id="id29">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id31">
+                <note id="id30">
                   <middle-c-offset>8</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id32">
+            <chord show="true" id="id31">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id33">
+                <note id="id32">
                   <middle-c-offset>9</middle-c-offset>
                 </note>
               </notes>
             </chord>
           </measure>
           <measure>
-            <chord show="true" id="id34">
+            <chord show="true" id="id33">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id35">
+                <note id="id34">
                   <middle-c-offset>10</middle-c-offset>
                   <accidental name="sharp" show="true"></accidental>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id36">
+            <chord show="true" id="id35">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id37">
+                <note id="id36">
                   <middle-c-offset>9</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id38">
+            <chord show="true" id="id37">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id39">
+                <note id="id38">
                   <middle-c-offset>8</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id40">
+            <chord show="true" id="id39">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id41">
+                <note id="id40">
                   <middle-c-offset>7</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id42">
+            <chord show="true" id="id41">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id43">
+                <note id="id42">
                   <middle-c-offset>6</middle-c-offset>
                   <accidental name="flat" show="true"></accidental>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id44">
+            <chord show="true" id="id43">
               <duration base="eighth"></duration>
               <notes>
-                <note id="id45">
+                <note id="id44">
                   <middle-c-offset>5</middle-c-offset>
                 </note>
               </notes>
             </chord>
           </measure>
           <measure>
-            <chord show="true" id="id46">
+            <chord show="true" id="id45">
               <duration base="half"></duration>
               <notes>
-                <note id="id47">
+                <note id="id46">
                   <middle-c-offset>6</middle-c-offset>
                   <accidental name="natural" show="true"></accidental>
                   <directives>
@@ -378,26 +378,26 @@ Serif
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id48">
+            <chord show="true" id="id47">
               <duration base="quarter"></duration>
-              <tie to="id50"></tie>
+              <tie></tie>
               <notes>
-                <note id="id49">
+                <note id="id48">
                   <middle-c-offset>4</middle-c-offset>
                 </note>
               </notes>
             </chord>
           </measure>
           <measure>
-            <chord show="true" id="id50">
+            <chord show="true" id="id49">
               <duration base="quarter"></duration>
               <notes>
-                <note id="id51">
+                <note id="id50">
                   <middle-c-offset>4</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id52">
+            <chord show="true" id="id51">
               <duration base="half"></duration>
               <directives>
                 <directive>
@@ -410,7 +410,7 @@ emmentaler</graphic_name>
                 </directive>
               </directives>
               <notes>
-                <note id="id53">
+                <note id="id52">
                   <middle-c-offset>4</middle-c-offset>
                 </note>
               </notes>
@@ -418,7 +418,7 @@ emmentaler</graphic_name>
           </measure>
         </measures>
       </voice>
-      <voice id="id54">
+      <voice id="id53">
         <voice-info>
           <voice-name>voice 2</voice-name>
           <first-measure-number>1</first-measure-number>
@@ -452,18 +452,18 @@ emmentaler</graphic_name>
         </voice-props>
         <measures>
           <measure>
-            <chord show="true" id="id55">
+            <chord show="true" id="id54">
               <duration base="half"></duration>
               <notes>
-                <note id="id56">
+                <note id="id55">
                   <middle-c-offset>-2</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id57">
+            <chord show="true" id="id56">
               <duration base="quarter"></duration>
               <notes>
-                <note id="id58">
+                <note id="id57">
                   <middle-c-offset>-1</middle-c-offset>
                   <accidental name="flat" show="false"></accidental>
                 </note>
@@ -471,53 +471,53 @@ emmentaler</graphic_name>
             </chord>
           </measure>
           <measure>
-            <chord show="true" id="id59">
+            <chord show="true" id="id58">
               <duration base="quarter"></duration>
               <notes>
-                <note id="id60">
+                <note id="id59">
                   <middle-c-offset>0</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id61">
+            <chord show="true" id="id60">
               <duration base="quarter"></duration>
               <notes>
-                <note id="id62">
+                <note id="id61">
                   <middle-c-offset>1</middle-c-offset>
                 </note>
               </notes>
             </chord>
-            <chord show="true" id="id63">
+            <chord show="true" id="id62">
               <duration base="quarter"></duration>
-              <tie to="id65"></tie>
+              <tie></tie>
               <notes>
-                <note id="id64">
+                <note id="id63">
                   <middle-c-offset>2</middle-c-offset>
                 </note>
               </notes>
             </chord>
           </measure>
           <measure>
-            <chord show="true" id="id65">
+            <chord show="true" id="id64">
               <duration base="quarter"></duration>
               <notes>
-                <note id="id66">
+                <note id="id65">
                   <middle-c-offset>2</middle-c-offset>
                 </note>
               </notes>
             </chord>
             <clef name="bass" show="true"></clef>
-            <chord show="true" id="id67">
+            <chord show="true" id="id66">
               <duration base="half"></duration>
               <notes>
-                <note id="id68">
+                <note id="id67">
                   <middle-c-offset>-3</middle-c-offset>
                 </note>
               </notes>
             </chord>
           </measure>
           <measure>
-            <chord show="true" id="id69">
+            <chord show="true" id="id68">
               <duration base="half">
                 <dots>1</dots>
               </duration>
@@ -532,7 +532,7 @@ emmentaler</graphic_name>
                 </directive>
               </directives>
               <notes>
-                <note id="id70">
+                <note id="id69">
                   <middle-c-offset>-3</middle-c-offset>
                 </note>
               </notes>

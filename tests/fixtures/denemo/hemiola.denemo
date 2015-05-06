@@ -348,7 +348,7 @@ Serif
                   <display>]</display>
                 </directive>
               </directives>
-              <tie to="id27"></tie>
+              <tie></tie>
               <notes>
                 <note id="id26">
                   <middle-c-offset>6</middle-c-offset>

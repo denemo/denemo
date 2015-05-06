@@ -63,12 +63,6 @@ transposedCueDuringWithClef  =
         <prefix>\addQuote "Treble II2 Mvmnt 1" \MvmntIVoiceII
 </prefix>
       </directive>
-      <directive>
-        <tag>\addQuote "Treble II2 Mvmnt 2" \MvmntIIVoiceII
-</tag>
-        <prefix>\addQuote "Treble II2 Mvmnt 2" \MvmntIIVoiceII
-</prefix>
-      </directive>
     </score-directives>
   </lilycontrol>
   <movement-number>1</movement-number>
@@ -734,7 +728,7 @@ transposedCueDuringWithClef  =
             </chord>
             <chord show="true" id="id122">
               <duration base="eighth"></duration>
-              <tie to="id124"></tie>
+              <tie></tie>
               <notes>
                 <note id="id123">
                   <middle-c-offset>11</middle-c-offset>
@@ -1450,7 +1444,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id272">
               <duration base="eighth"></duration>
-              <tie to="id274"></tie>
+              <tie></tie>
               <notes>
                 <note id="id273">
                   <middle-c-offset>10</middle-c-offset>

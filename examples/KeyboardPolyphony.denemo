@@ -684,7 +684,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id85">
               <duration base="half"></duration>
-              <tie to="id87"></tie>
+              <tie></tie>
               <notes>
                 <note id="id86">
                   <middle-c-offset>4</middle-c-offset>
@@ -720,7 +720,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id93">
               <duration base="quarter"></duration>
-              <tie to="id95"></tie>
+              <tie></tie>
               <notes>
                 <note id="id94">
                   <middle-c-offset>1</middle-c-offset>
@@ -990,7 +990,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id154">
               <duration base="eighth"></duration>
-              <tie to="id156"></tie>
+              <tie></tie>
               <notes>
                 <note id="id155">
                   <middle-c-offset>0</middle-c-offset>
@@ -999,7 +999,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id156">
               <duration base="quarter"></duration>
-              <tie to="id158"></tie>
+              <tie></tie>
               <notes>
                 <note id="id157">
                   <middle-c-offset>0</middle-c-offset>
@@ -2691,7 +2691,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id538">
               <duration base="half"></duration>
-              <tie to="id540"></tie>
+              <tie></tie>
               <notes>
                 <note id="id539">
                   <middle-c-offset>6</middle-c-offset>
@@ -3334,7 +3334,7 @@ emmentaler</graphic_name>
           <measure>
             <chord show="true" id="id684">
               <duration base="half"></duration>
-              <tie to="id686"></tie>
+              <tie></tie>
               <notes>
                 <note id="id685">
                   <middle-c-offset>7</middle-c-offset>
@@ -3842,7 +3842,7 @@ emmentaler</graphic_name>
           <measure>
             <chord show="true" id="id804">
               <duration base="half"></duration>
-              <tie to="id806"></tie>
+              <tie></tie>
               <notes>
                 <note id="id805">
                   <middle-c-offset>5</middle-c-offset>
@@ -4151,7 +4151,7 @@ emmentaler</graphic_name>
           <measure>
             <chord show="true" id="id878">
               <duration base="half"></duration>
-              <tie to="id880"></tie>
+              <tie></tie>
               <notes>
                 <note id="id879">
                   <middle-c-offset>7</middle-c-offset>
@@ -5287,7 +5287,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id1136">
               <duration base="quarter"></duration>
-              <tie to="id1138"></tie>
+              <tie></tie>
               <notes>
                 <note id="id1137">
                   <middle-c-offset>4</middle-c-offset>
@@ -5356,7 +5356,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id1152">
               <duration base="half"></duration>
-              <tie to="id1154"></tie>
+              <tie></tie>
               <notes>
                 <note id="id1153">
                   <middle-c-offset>5</middle-c-offset>
@@ -8936,7 +8936,7 @@ Serif
             </stem-directive>
             <chord show="true" id="id1943">
               <duration base="half"></duration>
-              <tie to="id1945"></tie>
+              <tie></tie>
               <notes>
                 <note id="id1944">
                   <middle-c-offset>3</middle-c-offset>
@@ -9366,7 +9366,7 @@ Serif
             </chord>
             <chord show="true" id="id1990">
               <duration base="half"></duration>
-              <tie to="id1992"></tie>
+              <tie></tie>
               <notes>
                 <note id="id1991">
                   <middle-c-offset>1</middle-c-offset>
@@ -9469,7 +9469,7 @@ Serif
           <measure>
             <chord show="true" id="id2014">
               <duration base="whole"></duration>
-              <tie to="id2016"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2015">
                   <middle-c-offset>0</middle-c-offset>
@@ -9532,7 +9532,7 @@ Serif
             </chord>
             <chord show="true" id="id2028">
               <duration base="half"></duration>
-              <tie to="id2030"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2029">
                   <middle-c-offset>-2</middle-c-offset>
@@ -10795,7 +10795,7 @@ Serif
             </chord>
             <chord show="true" id="id2299">
               <duration base="half"></duration>
-              <tie to="id2301"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2300">
                   <middle-c-offset>2</middle-c-offset>
@@ -10898,7 +10898,7 @@ Serif
             </chord>
             <chord show="true" id="id2314">
               <duration base="half"></duration>
-              <tie to="id2316"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2315">
                   <middle-c-offset>2</middle-c-offset>
@@ -10943,7 +10943,7 @@ Serif
             </chord>
             <chord show="true" id="id2324">
               <duration base="half"></duration>
-              <tie to="id2326"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2325">
                   <middle-c-offset>2</middle-c-offset>
@@ -11660,7 +11660,7 @@ Serif
             </chord>
             <chord show="true" id="id2463">
               <duration base="quarter"></duration>
-              <tie to="id2465"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2464">
                   <middle-c-offset>0</middle-c-offset>
@@ -11940,7 +11940,7 @@ Serif
             </chord>
             <chord show="true" id="id2520">
               <duration base="half"></duration>
-              <tie to="id2522"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2521">
                   <middle-c-offset>1</middle-c-offset>
@@ -12073,7 +12073,7 @@ Serif
             </chord>
             <chord show="true" id="id2551">
               <duration base="quarter"></duration>
-              <tie to="id2553"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2552">
                   <middle-c-offset>0</middle-c-offset>
@@ -12246,7 +12246,7 @@ Serif
             </chord>
             <chord show="true" id="id2590">
               <duration base="half"></duration>
-              <tie to="id2592"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2591">
                   <middle-c-offset>1</middle-c-offset>
@@ -12315,7 +12315,7 @@ Serif
             </chord>
             <chord show="true" id="id2606">
               <duration base="half"></duration>
-              <tie to="id2608"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2607">
                   <middle-c-offset>1</middle-c-offset>
@@ -12342,7 +12342,7 @@ Serif
             </chord>
             <chord show="true" id="id2612">
               <duration base="half"></duration>
-              <tie to="id2614"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2613">
                   <middle-c-offset>0</middle-c-offset>
@@ -13166,7 +13166,7 @@ Serif
             </chord>
             <chord show="true" id="id2748">
               <duration base="half"></duration>
-              <tie to="id2750"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2749">
                   <middle-c-offset>-3</middle-c-offset>
@@ -13698,7 +13698,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id2868">
               <duration base="half"></duration>
-              <tie to="id2870"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2869">
                   <middle-c-offset>-3</middle-c-offset>
@@ -14122,7 +14122,7 @@ Serif
             </chord>
             <chord show="true" id="id2949">
               <duration base="half"></duration>
-              <tie to="id2951"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2950">
                   <middle-c-offset>0</middle-c-offset>
@@ -14354,7 +14354,7 @@ Serif
             </chord>
             <chord show="true" id="id3000">
               <duration base="half"></duration>
-              <tie to="id3002"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3001">
                   <middle-c-offset>1</middle-c-offset>
@@ -14984,7 +14984,7 @@ Serif
             </chord>
             <chord show="true" id="id3127">
               <duration base="quarter"></duration>
-              <tie to="id3129"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3128">
                   <middle-c-offset>1</middle-c-offset>
@@ -15344,7 +15344,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id3198">
               <duration base="quarter"></duration>
-              <tie to="id3200"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3199">
                   <middle-c-offset>-3</middle-c-offset>
@@ -15371,7 +15371,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id3204">
               <duration base="quarter"></duration>
-              <tie to="id3206"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3205">
                   <middle-c-offset>-5</middle-c-offset>
@@ -15653,7 +15653,7 @@ Serif
             </chord>
             <chord show="true" id="id3261">
               <duration base="quarter"></duration>
-              <tie to="id3263"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3262">
                   <middle-c-offset>-3</middle-c-offset>
@@ -15753,7 +15753,7 @@ Serif
             </chord>
             <chord show="true" id="id3283">
               <duration base="half"></duration>
-              <tie to="id3285"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3284">
                   <middle-c-offset>-3</middle-c-offset>
@@ -16240,7 +16240,7 @@ Serif
             </chord>
             <chord show="true" id="id3375">
               <duration base="quarter"></duration>
-              <tie to="id3377"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3376">
                   <middle-c-offset>-3</middle-c-offset>
@@ -16674,7 +16674,7 @@ Serif
             </chord>
             <chord show="true" id="id3443">
               <duration base="half"></duration>
-              <tie to="id3445"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3444">
                   <middle-c-offset>-7</middle-c-offset>
@@ -16970,7 +16970,7 @@ Serif
             </chord>
             <chord show="true" id="id3508">
               <duration base="half"></duration>
-              <tie to="id3510"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3509">
                   <middle-c-offset>-7</middle-c-offset>
@@ -17443,7 +17443,7 @@ Serif
             </chord>
             <chord show="true" id="id3608">
               <duration base="half"></duration>
-              <tie to="id3610"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3609">
                   <middle-c-offset>-4</middle-c-offset>
@@ -17507,7 +17507,7 @@ Serif
             </chord>
             <chord show="true" id="id3622">
               <duration base="half"></duration>
-              <tie to="id3624"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3623">
                   <middle-c-offset>-7</middle-c-offset>
@@ -17846,7 +17846,7 @@ Serif
             </chord>
             <chord show="true" id="id3696">
               <duration base="eighth"></duration>
-              <tie to="id3698"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3697">
                   <middle-c-offset>-9</middle-c-offset>
@@ -18224,7 +18224,7 @@ Serif
             </chord>
             <chord show="true" id="id3778">
               <duration base="half"></duration>
-              <tie to="id3780"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3779">
                   <middle-c-offset>0</middle-c-offset>
@@ -18306,7 +18306,7 @@ Serif
             </chord>
             <chord show="true" id="id3796">
               <duration base="half"></duration>
-              <tie to="id3798"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3797">
                   <middle-c-offset>-4</middle-c-offset>
@@ -18370,7 +18370,7 @@ Serif
             </chord>
             <chord show="true" id="id3810">
               <duration base="half"></duration>
-              <tie to="id3812"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3811">
                   <middle-c-offset>-7</middle-c-offset>
@@ -20743,7 +20743,7 @@ Serif
           <measure>
             <chord show="true" id="id4313">
               <duration base="half"></duration>
-              <tie to="id4316"></tie>
+              <tie></tie>
               <notes>
                 <note id="id4314">
                   <middle-c-offset>0</middle-c-offset>
@@ -22765,7 +22765,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id4771">
               <duration base="quarter"></duration>
-              <tie to="id4773"></tie>
+              <tie></tie>
               <notes>
                 <note id="id4772">
                   <middle-c-offset>5</middle-c-offset>
@@ -23369,7 +23369,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id4899">
               <duration base="quarter"></duration>
-              <tie to="id4901"></tie>
+              <tie></tie>
               <notes>
                 <note id="id4900">
                   <middle-c-offset>5</middle-c-offset>
@@ -24053,7 +24053,7 @@ Serif
             </chord>
             <chord show="true" id="id5023">
               <duration base="quarter"></duration>
-              <tie to="id5025"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5024">
                   <middle-c-offset>-1</middle-c-offset>
@@ -24671,7 +24671,7 @@ Serif
             </chord>
             <chord show="true" id="id5164">
               <duration base="half"></duration>
-              <tie to="id5166"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5165">
                   <middle-c-offset>0</middle-c-offset>
@@ -24698,7 +24698,7 @@ Serif
             </chord>
             <chord show="true" id="id5170">
               <duration base="quarter"></duration>
-              <tie to="id5172"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5171">
                   <middle-c-offset>2</middle-c-offset>
@@ -24715,7 +24715,7 @@ Serif
             </chord>
             <chord show="true" id="id5174">
               <duration base="quarter"></duration>
-              <tie to="id5176"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5175">
                   <middle-c-offset>1</middle-c-offset>
@@ -25052,7 +25052,7 @@ Serif
             </chord>
             <chord show="true" id="id5252">
               <duration base="half"></duration>
-              <tie to="id5254"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5253">
                   <middle-c-offset>0</middle-c-offset>
@@ -25079,7 +25079,7 @@ Serif
             </chord>
             <chord show="true" id="id5258">
               <duration base="quarter"></duration>
-              <tie to="id5260"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5259">
                   <middle-c-offset>2</middle-c-offset>
@@ -25096,7 +25096,7 @@ Serif
             </chord>
             <chord show="true" id="id5262">
               <duration base="quarter"></duration>
-              <tie to="id5264"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5263">
                   <middle-c-offset>1</middle-c-offset>
@@ -25157,7 +25157,7 @@ Serif
             </chord>
             <chord show="true" id="id5276">
               <duration base="quarter"></duration>
-              <tie to="id5278"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5277">
                   <middle-c-offset>0</middle-c-offset>
@@ -25679,7 +25679,7 @@ emmentaler</graphic_name>
             </rest>
             <chord show="true" id="id5351">
               <duration base="quarter"></duration>
-              <tie to="id5353"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5352">
                   <middle-c-offset>-2</middle-c-offset>
@@ -25688,7 +25688,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id5353">
               <duration base="half"></duration>
-              <tie to="id5355"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5354">
                   <middle-c-offset>-2</middle-c-offset>
@@ -25737,7 +25737,7 @@ emmentaler</graphic_name>
             </rest>
             <chord show="true" id="id5364">
               <duration base="quarter"></duration>
-              <tie to="id5366"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5365">
                   <middle-c-offset>-3</middle-c-offset>
@@ -25756,7 +25756,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id5368">
               <duration base="quarter"></duration>
-              <tie to="id5370"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5369">
                   <middle-c-offset>-2</middle-c-offset>
@@ -25816,7 +25816,7 @@ emmentaler</graphic_name>
             </rest>
             <chord show="true" id="id5383">
               <duration base="quarter"></duration>
-              <tie to="id5385"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5384">
                   <middle-c-offset>-2</middle-c-offset>
@@ -25948,7 +25948,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id5404">
               <duration base="quarter"></duration>
-              <tie to="id5406"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5405">
                   <middle-c-offset>-3</middle-c-offset>
@@ -25967,7 +25967,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id5408">
               <duration base="quarter"></duration>
-              <tie to="id5410"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5409">
                   <middle-c-offset>-2</middle-c-offset>
@@ -26065,7 +26065,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id5425">
               <duration base="quarter"></duration>
-              <tie to="id5427"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5426">
                   <middle-c-offset>-2</middle-c-offset>
@@ -26136,7 +26136,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id5441">
               <duration base="quarter"></duration>
-              <tie to="id5443"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5442">
                   <middle-c-offset>-3</middle-c-offset>
@@ -26295,7 +26295,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id5475">
               <duration base="quarter"></duration>
-              <tie to="id5477"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5476">
                   <middle-c-offset>-4</middle-c-offset>
@@ -26545,7 +26545,7 @@ Serif
           <measure>
             <chord show="true" id="id5506">
               <duration base="half"></duration>
-              <tie to="id5508"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5507">
                   <middle-c-offset>-3</middle-c-offset>
@@ -27012,7 +27012,7 @@ emmentaler</graphic_name>
             </chord>
             <chord show="true" id="id5611">
               <duration base="half"></duration>
-              <tie to="id5613"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5612">
                   <middle-c-offset>-2</middle-c-offset>
@@ -27425,7 +27425,7 @@ Serif
             </chord>
             <chord show="true" id="id5691">
               <duration base="quarter"></duration>
-              <tie to="id5693"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5692">
                   <middle-c-offset>-3</middle-c-offset>
@@ -27570,7 +27570,7 @@ Serif
             </chord>
             <chord show="true" id="id5724">
               <duration base="quarter"></duration>
-              <tie to="id5726"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5725">
                   <middle-c-offset>-4</middle-c-offset>
@@ -28201,7 +28201,7 @@ Serif
             </rest>
             <chord show="true" id="id5834">
               <duration base="quarter"></duration>
-              <tie to="id5836"></tie>
+              <tie></tie>
               <notes>
                 <note id="id5835">
                   <middle-c-offset>-10</middle-c-offset>
@@ -28921,7 +28921,7 @@ Serif
             </chord>
             <chord show="true" id="id6007">
               <duration base="quarter"></duration>
-              <tie to="id6009"></tie>
+              <tie></tie>
               <notes>
                 <note id="id6008">
                   <middle-c-offset>-12</middle-c-offset>
@@ -28994,7 +28994,7 @@ Serif
             </chord>
             <chord show="true" id="id6023">
               <duration base="quarter"></duration>
-              <tie to="id6025"></tie>
+              <tie></tie>
               <notes>
                 <note id="id6024">
                   <middle-c-offset>-5</middle-c-offset>
@@ -29172,7 +29172,7 @@ Serif
             </chord>
             <chord show="true" id="id6064">
               <duration base="quarter"></duration>
-              <tie to="id6067"></tie>
+              <tie></tie>
               <notes>
                 <note id="id6065">
                   <middle-c-offset>-12</middle-c-offset>
@@ -29251,7 +29251,7 @@ Serif
             </chord>
             <chord show="true" id="id6082">
               <duration base="quarter"></duration>
-              <tie to="id6084"></tie>
+              <tie></tie>
               <notes>
                 <note id="id6083">
                   <middle-c-offset>-5</middle-c-offset>
@@ -29765,7 +29765,7 @@ Serif
             </chord>
             <chord show="true" id="id6202">
               <duration base="quarter"></duration>
-              <tie to="id6204"></tie>
+              <tie></tie>
               <notes>
                 <note id="id6203">
                   <middle-c-offset>-11</middle-c-offset>
@@ -30136,7 +30136,7 @@ Serif
             </chord>
             <chord show="true" id="id6288">
               <duration base="quarter"></duration>
-              <tie to="id6290"></tie>
+              <tie></tie>
               <notes>
                 <note id="id6289">
                   <middle-c-offset>-11</middle-c-offset>

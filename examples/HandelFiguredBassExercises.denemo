@@ -6925,7 +6925,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id1427">
               <duration base="half"></duration>
-              <tie to="id1431"></tie>
+              <tie></tie>
               <notes>
                 <note id="id1428">
                   <middle-c-offset>1</middle-c-offset>
@@ -8379,7 +8379,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id1743">
               <duration base="quarter"></duration>
-              <tie to="id1747"></tie>
+              <tie></tie>
               <notes>
                 <note id="id1744">
                   <middle-c-offset>2</middle-c-offset>
@@ -8474,7 +8474,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id1767">
               <duration base="quarter"></duration>
-              <tie to="id1771"></tie>
+              <tie></tie>
               <notes>
                 <note id="id1768">
                   <middle-c-offset>1</middle-c-offset>
@@ -12372,7 +12372,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure>
             <chord show="true" id="id2608">
               <duration base="quarter"></duration>
-              <tie to="id2612"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2609">
                   <middle-c-offset>2</middle-c-offset>
@@ -12911,7 +12911,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure>
             <chord show="true" id="id2729">
               <duration base="half"></duration>
-              <tie to="id2731"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2730">
                   <middle-c-offset>-4</middle-c-offset>
@@ -12991,7 +12991,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <chord show="true" id="id2745">
               <duration base="quarter"></duration>
               <figure>3</figure>
-              <tie to="id2747"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2746">
                   <middle-c-offset>-2</middle-c-offset>
@@ -13394,7 +13394,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <chord show="true" id="id2827">
               <duration base="quarter"></duration>
               <figure>3</figure>
-              <tie to="id2829"></tie>
+              <tie></tie>
               <notes>
                 <note id="id2828">
                   <middle-c-offset>-4</middle-c-offset>
@@ -14523,7 +14523,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <chord show="true" id="id3079">
               <duration base="quarter"></duration>
               <figure>3</figure>
-              <tie to="id3081"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3080">
                   <middle-c-offset>-2</middle-c-offset>
@@ -14582,7 +14582,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <chord show="true" id="id3091">
               <duration base="quarter"></duration>
               <figure>6  |  5</figure>
-              <tie to="id3093"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3092">
                   <middle-c-offset>-5</middle-c-offset>
@@ -14661,7 +14661,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <chord show="true" id="id3107">
               <duration base="quarter"></duration>
               <figure>6</figure>
-              <tie to="id3109"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3108">
                   <middle-c-offset>-2</middle-c-offset>
@@ -14758,7 +14758,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <chord show="true" id="id3127">
               <duration base="quarter"></duration>
               <figure>3</figure>
-              <tie to="id3129"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3128">
                   <middle-c-offset>1</middle-c-offset>
@@ -14779,7 +14779,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <chord show="true" id="id3131">
               <duration base="quarter"></duration>
               <figure>6</figure>
-              <tie to="id3133"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3132">
                   <middle-c-offset>0</middle-c-offset>
@@ -14829,7 +14829,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <chord show="true" id="id3141">
               <duration base="quarter"></duration>
               <figure>3</figure>
-              <tie to="id3143"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3142">
                   <middle-c-offset>-2</middle-c-offset>
@@ -14848,7 +14848,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <chord show="true" id="id3145">
               <duration base="quarter"></duration>
               <figure>6  |  5</figure>
-              <tie to="id3147"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3146">
                   <middle-c-offset>-3</middle-c-offset>
@@ -14869,7 +14869,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <chord show="true" id="id3149">
               <duration base="quarter"></duration>
               <figure>6</figure>
-              <tie to="id3151"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3150">
                   <middle-c-offset>-4</middle-c-offset>
@@ -14890,7 +14890,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <chord show="true" id="id3153">
               <duration base="quarter"></duration>
               <figure>6  |  5</figure>
-              <tie to="id3155"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3154">
                   <middle-c-offset>-5</middle-c-offset>
@@ -14911,7 +14911,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <chord show="true" id="id3157">
               <duration base="quarter"></duration>
               <figure>6  |  5</figure>
-              <tie to="id3159"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3158">
                   <middle-c-offset>-6</middle-c-offset>
@@ -15874,7 +15874,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <chord show="true" id="id3361">
               <duration base="quarter"></duration>
               <figure>3</figure>
-              <tie to="id3363"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3362">
                   <middle-c-offset>-2</middle-c-offset>
@@ -16262,7 +16262,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure>
             <chord show="true" id="id3426">
               <duration base="quarter"></duration>
-              <tie to="id3430"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3427">
                   <middle-c-offset>2</middle-c-offset>
@@ -16913,7 +16913,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure>
             <chord show="true" id="id3585">
               <duration base="half"></duration>
-              <tie to="id3589"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3586">
                   <middle-c-offset>2</middle-c-offset>
@@ -17008,7 +17008,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id3608">
               <duration base="quarter"></duration>
-              <tie to="id3612"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3609">
                   <middle-c-offset>-1</middle-c-offset>
@@ -17223,7 +17223,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure>
             <chord show="true" id="id3660">
               <duration base="half"></duration>
-              <tie to="id3664"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3661">
                   <middle-c-offset>2</middle-c-offset>
@@ -17422,7 +17422,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <chord show="true" id="id3693">
               <duration base="quarter"></duration>
               <figure>6  |  5</figure>
-              <tie to="id3695"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3694">
                   <middle-c-offset>-2</middle-c-offset>
@@ -17912,7 +17912,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <chord show="true" id="id3791">
               <duration base="quarter"></duration>
               <figure>3</figure>
-              <tie to="id3793"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3792">
                   <middle-c-offset>-1</middle-c-offset>
@@ -18291,7 +18291,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id3860">
               <duration base="quarter"></duration>
-              <tie to="id3864"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3861">
                   <middle-c-offset>2</middle-c-offset>
@@ -18403,7 +18403,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure>
             <chord show="true" id="id3888">
               <duration base="quarter"></duration>
-              <tie to="id3892"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3889">
                   <middle-c-offset>0</middle-c-offset>
@@ -18451,7 +18451,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id3900">
               <duration base="quarter"></duration>
-              <tie to="id3904"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3901">
                   <middle-c-offset>2</middle-c-offset>
@@ -18525,7 +18525,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure>
             <chord show="true" id="id3918">
               <duration base="quarter"></duration>
-              <tie to="id3922"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3919">
                   <middle-c-offset>3</middle-c-offset>
@@ -18669,7 +18669,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id3955">
               <duration base="quarter"></duration>
-              <tie to="id3959"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3956">
                   <middle-c-offset>1</middle-c-offset>
@@ -18702,7 +18702,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure>
             <chord show="true" id="id3963">
               <duration base="quarter"></duration>
-              <tie to="id3967"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3964">
                   <middle-c-offset>0</middle-c-offset>
@@ -18733,7 +18733,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id3971">
               <duration base="quarter"></duration>
-              <tie to="id3975"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3972">
                   <middle-c-offset>0</middle-c-offset>
@@ -18768,7 +18768,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure>
             <chord show="true" id="id3979">
               <duration base="quarter"></duration>
-              <tie to="id3983"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3980">
                   <middle-c-offset>2</middle-c-offset>
@@ -18802,7 +18802,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id3987">
               <duration base="quarter"></duration>
-              <tie to="id3991"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3988">
                   <middle-c-offset>0</middle-c-offset>
@@ -18835,7 +18835,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure>
             <chord show="true" id="id3995">
               <duration base="quarter"></duration>
-              <tie to="id3999"></tie>
+              <tie></tie>
               <notes>
                 <note id="id3996">
                   <middle-c-offset>0</middle-c-offset>
@@ -18866,7 +18866,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id4003">
               <duration base="quarter"></duration>
-              <tie to="id4007"></tie>
+              <tie></tie>
               <notes>
                 <note id="id4004">
                   <middle-c-offset>0</middle-c-offset>
@@ -20121,7 +20121,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id4240">
               <duration base="quarter"></duration>
-              <tie to="id4244"></tie>
+              <tie></tie>
               <notes>
                 <note id="id4241">
                   <middle-c-offset>-1</middle-c-offset>
@@ -21318,7 +21318,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id4468">
               <duration base="quarter"></duration>
-              <tie to="id4472"></tie>
+              <tie></tie>
               <notes>
                 <note id="id4469">
                   <middle-c-offset>1</middle-c-offset>
@@ -21479,7 +21479,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id4504">
               <duration base="quarter"></duration>
-              <tie to="id4507"></tie>
+              <tie></tie>
               <notes>
                 <note id="id4505">
                   <middle-c-offset>0</middle-c-offset>
@@ -21623,7 +21623,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id4538">
               <duration base="quarter"></duration>
-              <tie to="id4542"></tie>
+              <tie></tie>
               <notes>
                 <note id="id4539">
                   <middle-c-offset>0</middle-c-offset>
@@ -21853,7 +21853,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id4587">
               <duration base="quarter"></duration>
-              <tie to="id4591"></tie>
+              <tie></tie>
               <notes>
                 <note id="id4588">
                   <middle-c-offset>0</middle-c-offset>
@@ -21948,7 +21948,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure>
             <chord show="true" id="id4607">
               <duration base="quarter"></duration>
-              <tie to="id4611"></tie>
+              <tie></tie>
               <notes>
                 <note id="id4608">
                   <middle-c-offset>0</middle-c-offset>
@@ -22013,7 +22013,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id4620">
               <duration base="quarter"></duration>
-              <tie to="id4624"></tie>
+              <tie></tie>
               <notes>
                 <note id="id4621">
                   <middle-c-offset>0</middle-c-offset>
@@ -22416,7 +22416,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <chord show="true" id="id4695">
               <duration base="quarter"></duration>
               <figure>_+</figure>
-              <tie to="id4697"></tie>
+              <tie></tie>
               <notes>
                 <note id="id4696">
                   <middle-c-offset>0</middle-c-offset>
@@ -23009,7 +23009,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id4810">
               <duration base="quarter"></duration>
-              <tie to="id4814"></tie>
+              <tie></tie>
               <notes>
                 <note id="id4811">
                   <middle-c-offset>-2</middle-c-offset>
@@ -23281,7 +23281,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <chord show="true" id="id4870">
               <duration base="quarter"></duration>
-              <tie to="id4874"></tie>
+              <tie></tie>
               <notes>
                 <note id="id4871">
                   <middle-c-offset>-1</middle-c-offset>
