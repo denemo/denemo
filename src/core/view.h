@@ -129,7 +129,7 @@ gboolean pb_record (gchar *callback);
 void pb_conduct (GtkWidget * button);
 void install_button_for_pattern (RhythmPattern * r, gchar * thelabel);
 gboolean append_rhythm (RhythmPattern * r, gpointer fn);
-gint insert_pattern_in_toolbar (RhythmPattern * r);
+gint insert_pattern_in_toolbar (RhythmPattern * r, gboolean highlight);
 void select_rhythm_pattern (RhythmPattern * r);
 
 void toggle_toolbar (GtkAction * action, gpointer param);
@@ -148,4 +148,5 @@ void create_rhythm_cb (GtkAction * action, DenemoScriptParam* param);
 void delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param);
 void midi_in_adjust (gint value);
 gboolean insert_nth_rhythm (gint n);
+void create_rhythm (RhythmPattern *r, gboolean from_selection);
 #endif

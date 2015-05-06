@@ -1653,14 +1653,6 @@ append_rhythm (RhythmPattern * r, gpointer fn)
 
 
 static void
-add_to_pattern (gchar ** p, gchar c)
-{
-  gchar *temp = g_strdup_printf ("%s%c", *p, c);        //FIXME this should be done with a GString in the caller.
-  g_free (*p);
-  *p = temp;
-}
-
-static void
 remove_breaks (GList * clip)
 {
   for (; clip; clip = clip->next)
@@ -1679,7 +1671,8 @@ static void
 attach_clipboard (RhythmPattern * r)
 {
   DenemoProject *project = Denemo.project;
-  DenemoMovement *si = project->movement;
+  DenemoMovement *si;
+  if (project->movement) si = project->movement;
   if (si->markstaffnum)
     {
       push_clipboard ();
@@ -1693,7 +1686,7 @@ attach_clipboard (RhythmPattern * r)
 
 
 gint
-insert_pattern_in_toolbar (RhythmPattern * r)
+insert_pattern_in_toolbar (RhythmPattern * r, gboolean highlight)
 {
   if(Denemo.non_interactive)
     return -1;
@@ -1706,14 +1699,17 @@ insert_pattern_in_toolbar (RhythmPattern * r)
   GtkWidget *toolbar = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
   gtk_toolbar_insert (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (r->button), -1);
   gtk_widget_show_all (GTK_WIDGET (r->button));
-  project->rstep = r->rsteps;
-  project->cstep = r->clipboard->data;
-  project->rhythms = g_list_append (project->rhythms, r);
 
-  if (project->currhythm)
-    unhighlight_rhythm ((RhythmPattern *) project->currhythm->data);
-  project->currhythm = g_list_last (project->rhythms);
-  highlight_rhythm ((RhythmPattern *) project->currhythm->data);
+  project->rhythms = g_list_append (project->rhythms, r);
+  if (highlight)
+    {
+        project->rstep = r->rsteps;
+        project->cstep = r->clipboard->data;
+        if (project->currhythm)
+        unhighlight_rhythm ((RhythmPattern *) project->currhythm->data);
+        project->currhythm = g_list_last (project->rhythms);
+        highlight_rhythm ((RhythmPattern *) project->currhythm->data);
+  }
   g_signal_connect (G_OBJECT (r->button), "clicked", G_CALLBACK (activate_rhythm_pattern), (gpointer) r);
   return g_list_length (project->rhythms);  //the index of the newly added snippet
 }
@@ -1730,336 +1726,330 @@ install_button_for_pattern (RhythmPattern * r, gchar * thelabel)
   r->button = button;
 }
 
-
-/* create_rhythm_cb
-   This is overloaded for use as a callback (ACTION is a GtkAction) and
-   as a call to set up the "singleton rhythms", 
-   (rhythm patterns that are just one note or rest, used for
-   ordinary note entry).
-   if ACTION is a GtkAction*
-        create a rhythm pattern from the current selection
-        the rhythm is put in project->
-        a button is created in "/RhythmToolbar"
-        and the pattern is added to project->rhythms 
-         with the first step of it put in project->rstep
-    add a clipboard with the selected music to the created rhythm pattern.
-   if ACTION is one of the insert_chord_xkey insert_rest_xkey)
-   functions
-        a button is created in the /EntryToolbar (if not already present)
-   
-
-*/
-void
-create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
-{
-  DenemoProject *project = Denemo.project;
-  gboolean singleton = FALSE;   // set TRUE if action is one of the insert_... functions.
-  gboolean already_done = FALSE;        // a singleton which has already been installed globally
-  gboolean default_rhythm = FALSE;
-  DenemoMovement *si = project->movement;
-  RhythmPattern *r = (RhythmPattern *) g_malloc0 (sizeof (RhythmPattern));
-  GString *lily_string = g_string_new ("");
-  gchar *pattern = NULL;
-  if (action == (gpointer) insert_chord_0key)
-    pattern = g_strdup ("0");
-  if (action == (gpointer) insert_chord_1key)
-    pattern = g_strdup ("1");
-  if (action == (gpointer) insert_chord_2key)
-    pattern = g_strdup ("2"), default_rhythm = TRUE;
-  if (action == (gpointer) insert_chord_3key)
-    pattern = g_strdup ("3");
-  if (action == (gpointer) insert_chord_4key)
-    pattern = g_strdup ("4");
-  if (action == (gpointer) insert_chord_5key)
-    pattern = g_strdup ("5");
-  if (action == (gpointer) insert_chord_6key)
-    pattern = g_strdup ("6");
-  if (action == (gpointer) insert_chord_7key)
-    pattern = g_strdup ("7");
-  if (action == (gpointer) insert_chord_8key)
-    pattern = g_strdup ("8");
-
-  if (action == (gpointer) insert_rest_0key)
-    pattern = g_strdup ("r");
-  if (action == (gpointer) insert_rest_1key)
-    pattern = g_strdup ("s");
-  if (action == (gpointer) insert_rest_2key)
-    pattern = g_strdup ("t");
-  if (action == (gpointer) insert_rest_3key)
-    pattern = g_strdup ("u");
-  if (action == (gpointer) insert_rest_4key)
-    pattern = g_strdup ("v");
-  if (action == (gpointer) insert_rest_5key)
-    pattern = g_strdup ("w");
-  if (action == (gpointer) insert_rest_6key)
-    pattern = g_strdup ("x");
-  if (action == (gpointer) insert_rest_7key)
-    pattern = g_strdup ("y");
-  if (action == (gpointer) insert_rest_8key)
-    pattern = g_strdup ("z");
-  if (pattern)
-    {                           /* if we already have it globally we don't need it again
-                                   note we never delete the singleton rhythms */
-      if (Denemo.singleton_rhythms[(unsigned int) *pattern])
-        {
-          g_free (r);
-          r = Denemo.singleton_rhythms[(unsigned int) *pattern];
-          already_done = TRUE;
-        }
-      else
-        {
-          Denemo.singleton_rhythms[(unsigned int) *pattern] = r;
-          already_done = FALSE;
-        }
-      singleton = TRUE;
-    }
-  else
-    pattern = g_strdup ("");
-  if (!already_done)
-    install_button_for_pattern (r, NULL);
-
-  if (!singleton)
+/*
+ * curobj is a list of DenemoObject, 
+ * creates a RhythmPattern 
+ * and the ASCII pattern that is used by the caller to generate a label on the snippet button and a set of highlighted labels for each step of the rhythm pattern.
+ * accumulates the lilypond field of the rhythm pattern from the lilypond fields of the objects
+ */
+static void create_rhythm_and_pattern (GList *curobj, RhythmPattern* r, GString *pattern)  {
+  if(r->lilypond==NULL)
+        r->lilypond = g_string_new("");
+  for (; curobj; curobj = curobj->next)
     {
-      if (si->markstaffnum)    /* Indicator that there's a selection.  */
-        attach_clipboard (r);
-
-      if (project->lilysync != project->changecount)
-        refresh_lily_cb (NULL, Denemo.project);
-      if (r->clipboard)
+      gpointer fn;
+      DenemoObject *obj = (DenemoObject *) curobj->data;
+      switch (obj->type)
         {
-          objnode *curobj;
-          
-              for (curobj = (objnode *) ((GList *)r->clipboard)->data; curobj; curobj = curobj->next)
-                {
-                  gpointer fn;
-                  DenemoObject *obj = (DenemoObject *) curobj->data;
-                  switch (obj->type)
-                    {
-                    case TUPCLOSE:
-                      fn = (gpointer) tuplet_end;
-                      add_to_pattern (&pattern, '|');
-                      append_rhythm (r, fn);
-                      break;
-                    case TUPOPEN:
-                      switch (((tupopen *) obj->object)->denominator)
-                        {
-                        case 3:
-                          fn = (gpointer) triplet_start;
-                          add_to_pattern (&pattern, '~');
-                          break;
-                        default:       // need to create start_xxxtuplet() functions to go with triplet_start(), then they can go here.
-                          fn = NULL;
-                        }
-                      append_rhythm (r, fn);
-                      break;
-                    case CHORD:
-                      {
-                        chord *ch = (chord *) obj->object;
+        case TUPCLOSE:
+          fn = (gpointer) tuplet_end;
+          g_string_append_c (pattern, '|');
+          append_rhythm (r, fn);
+          break;
+        case TUPOPEN:
+          switch (((tupopen *) obj->object)->denominator)
+            {
+            case 3:
+              fn = (gpointer) triplet_start;
+              g_string_append_c (pattern, '~');
+              break;
+            default:       // need to create start_xxxtuplet() functions to go with triplet_start(), then they can go here.
+              fn = NULL;
+            }
+          append_rhythm (r, fn);
+          break;
+        case CHORD:
+          {
+            chord *ch = (chord *) obj->object;
 
-                        if (ch->notes)
-                          {
-                            switch (ch->baseduration)
-                              {
-                              case 0:
-                                fn = insert_chord_0key;
-                                break;
-                              case 1:
-                                fn = insert_chord_1key;
-                                break;
-                              case 2:
-                                fn = insert_chord_2key;
-                                break;
-                              case 3:
-                                fn = insert_chord_3key;
-                                break;
-                              case 4:
-                                fn = insert_chord_4key;
-                                break;
-                              case 5:
-                                fn = insert_chord_5key;
-                                break;
-                              case 6:
-                                fn = insert_chord_6key;
-                                break;
-                              case 7:
-                                fn = insert_chord_7key;
-                                break;
-                              case 8:
-                                fn = insert_chord_8key;
-                                break;
-                              default:
-                                g_warning ("Handling unknown type of chord as whole note");
-                                fn = insert_chord_0key;
-                                break;
-                              }
-                            add_to_pattern (&pattern, duration_code (fn));
-                            append_rhythm (r, fn);
-                          }
-                        else
-                          {     /* a rest */
-                            switch (ch->baseduration)
-                              {
-                              case 0:
-                                fn = insert_rest_0key;
-                                break;
-                              case 1:
-                                fn = insert_rest_1key;
-                                break;
-                              case 2:
-                                fn = insert_rest_2key;
-                                break;
-                              case 3:
-                                fn = insert_rest_3key;
-                                break;
-                              case 4:
-                                fn = insert_rest_4key;
-                                break;
-                              case 5:
-                                fn = insert_rest_5key;
-                                break;
-                              case 6:
-                                fn = insert_rest_6key;
-                                break;
-                              case 7:
-                                fn = insert_rest_7key;
-                                break;
-                              case 8:
-                                fn = insert_rest_8key;
-                                break;
-                              default:
-                                g_warning ("Handling unknown type of rest as whole note rest");
-                                fn = insert_rest_0key;
-                                break;
-                              }
-                            add_to_pattern (&pattern, modifier_code (fn));
-                            append_rhythm (r, fn);
-                          }     /* end of rests */
-                          gint i;
-                        for (i = ch->numdots; i; i--)
-                          {
-                            fn = add_dot_key;
-                            add_to_pattern (&pattern, modifier_code (fn));
-                            append_rhythm (r, fn);
-                          }
-                        if (ch->slur_begin_p)
-                          {
-                            fn = (gpointer) toggle_begin_slur;
-                            add_to_pattern (&pattern, '(');
-                            append_rhythm (r, fn);
-                          }
-                        if (ch->slur_end_p)
-                          {
-                            fn = (gpointer) toggle_end_slur;
-                            add_to_pattern (&pattern, ')');
-                            append_rhythm (r, fn);
-                          }
-                      }
-                      break;
-                    default:
-                        {
-                            fn = null_action;
-                            add_to_pattern (&pattern, 'S');
-                            append_rhythm (r, fn);
-                        }
-                      //g_warning("ignoring %d", obj->type);
-                      break;
-                    }           /* end of switch obj type */
-                  //g_debug("Number of rhythms %d\n", g_list_length(r->rsteps));
-                  if (obj->lilypond)
-                    g_string_append (lily_string, obj->lilypond);
-                }               /* End object loop */
-             
-        }                       //if r->clip
-
-      if ((strlen (pattern) == 0))
-        {                       // no selection
-          warningdialog (_("No selection to create a music snippet from\nSee Edit → Select menu for selecting music to snip"));
-          gtk_widget_destroy (GTK_WIDGET (r->button));
-          g_free (pattern);
-          g_free (r);
-          return;
-        }
-    }
-  else
-    {                           // singleton
-      if (!already_done)
-        append_rhythm (r, action);
-    }
-
-  r->lilypond = g_string_free (lily_string, FALSE);
-  if (!already_done)
-    {
-      gchar *labelstr;
-      if (pattern)
-        {
-          labelstr = music_font (pattern);
-        }
-      else
-        return;                 //FIXME memory leak of r - well pattern is never NULL
-      //g_debug("rsteps is %p entry is %s, %s\n", r->rsteps, pattern, labelstr);
-      GtkWidget *label = gtk_tool_button_get_label_widget (r->button);
-      gtk_label_set_markup (GTK_LABEL (label), labelstr);
-      g_free (labelstr);
-    }
-
-  if (!singleton)
-    {
-      /* fill the r->rsteps with icons for each step, singletons have NULL icon */
+            if (ch->notes)
+              {
+                switch (ch->baseduration)
+                  {
+                  case 0:
+                    fn = insert_chord_0key;
+                    break;
+                  case 1:
+                    fn = insert_chord_1key;
+                    break;
+                  case 2:
+                    fn = insert_chord_2key;
+                    break;
+                  case 3:
+                    fn = insert_chord_3key;
+                    break;
+                  case 4:
+                    fn = insert_chord_4key;
+                    break;
+                  case 5:
+                    fn = insert_chord_5key;
+                    break;
+                  case 6:
+                    fn = insert_chord_6key;
+                    break;
+                  case 7:
+                    fn = insert_chord_7key;
+                    break;
+                  case 8:
+                    fn = insert_chord_8key;
+                    break;
+                  default:
+                    g_warning ("Handling unknown type of chord as whole note");
+                    fn = insert_chord_0key;
+                    break;
+                  }
+                g_string_append_c (pattern, duration_code (fn));
+                append_rhythm (r, fn);
+              }
+            else
+              {     /* a rest */
+                switch (ch->baseduration)
+                  {
+                  case 0:
+                    fn = insert_rest_0key;
+                    break;
+                  case 1:
+                    fn = insert_rest_1key;
+                    break;
+                  case 2:
+                    fn = insert_rest_2key;
+                    break;
+                  case 3:
+                    fn = insert_rest_3key;
+                    break;
+                  case 4:
+                    fn = insert_rest_4key;
+                    break;
+                  case 5:
+                    fn = insert_rest_5key;
+                    break;
+                  case 6:
+                    fn = insert_rest_6key;
+                    break;
+                  case 7:
+                    fn = insert_rest_7key;
+                    break;
+                  case 8:
+                    fn = insert_rest_8key;
+                    break;
+                  default:
+                    g_warning ("Handling unknown type of rest as whole note rest");
+                    fn = insert_rest_0key;
+                    break;
+                  }
+                g_string_append_c (pattern, modifier_code (fn));
+                append_rhythm (r, fn);
+              }     /* end of rests */
+              gint i;
+            for (i = ch->numdots; i; i--)
+              {
+                fn = add_dot_key;
+                g_string_append_c (pattern, modifier_code (fn));
+                append_rhythm (r, fn);
+              }
+            if (ch->slur_begin_p)
+              {
+                fn = (gpointer) toggle_begin_slur;
+                g_string_append_c (pattern, '(');
+                append_rhythm (r, fn);
+              }
+            if (ch->slur_end_p)
+              {
+                fn = (gpointer) toggle_end_slur;
+                g_string_append_c (pattern, ')');
+                append_rhythm (r, fn);
+              }
+          }
+          break;
+        default:
+            {
+                fn = null_action;
+                g_string_append_c (pattern, 'S');
+                append_rhythm (r, fn);
+            }
+          //g_warning("ignoring %d", obj->type);
+          break;
+        }           /* end of switch obj type */
+      //g_debug("Number of rhythms %d\n", g_list_length(r->rsteps));
+      if (obj->lilypond)
+        g_string_append (r->lilypond, obj->lilypond);
+    }               /* End object loop */
+}
+//create values for r->steps from the pattern
+void fill_in_steps (RhythmPattern* r, GString *pattern)  {
+      /* fill the r->rsteps with icons for each step */
       GList *g;
       RhythmElement *el;
       gint i;
       for (g = r->rsteps, i = 0; g; g = g->next, i++)
         {
           el = (RhythmElement *) g->data;
-          if (i == 0 && (*(pattern) < '0' || *(pattern) > '8') && g->next)
+          if (i == 0 && (*(pattern->str) < '0' || *(pattern->str) > '8') && g->next)
             g = g->next;        // pattern does not start with a note, so we skip to the second element, unless there are no notes
-          while (*(pattern + i) && (*(pattern + i) < '0' || *(pattern + i) > '8'))
+          while (*(pattern->str + i) && (*(pattern->str + i) < '0' || *(pattern->str + i) > '8'))
             i++;
-          if (*(pattern + i))
+          if (*(pattern->str + i))
             {
-              *(pattern + i) += HIGHLIGHT_OFFSET;
-              el->icon = music_font (pattern);
-              *(pattern + i) -= HIGHLIGHT_OFFSET;
+              *(pattern->str + i) += HIGHLIGHT_OFFSET;
+              el->icon = music_font (pattern->str);
+              *(pattern->str + i) -= HIGHLIGHT_OFFSET;
             }
-          //g_debug("el->icon = %s step %d pattern %s\n", el->icon, i, pattern);
+          //g_debug("el->icon = %s step %d pattern->str %s\n", el->icon, i, pattern->str);
         }
     }
-  if (!already_done)
+//create a rhythm pattern (aka snippet) from r->clipboard or the selection
+//put the rhythm pattern in the Denemo.project and on the snippets toolbar
+//highlight the created rhythm if from the selection    
+void create_rhythm (RhythmPattern *r, gboolean from_selection) {
+    GString *pattern = g_string_new("");
+    install_button_for_pattern (r, NULL);
+    if (from_selection)
+        attach_clipboard (r);
+
+    if (r->clipboard)
+      create_rhythm_and_pattern ( (GList *)((GList *)r->clipboard)->data, r, pattern);
+
+    
+    gchar *labelstr;
+    labelstr = music_font (pattern->str);
+    GtkWidget *label = gtk_tool_button_get_label_widget (r->button);
+    gtk_label_set_markup (GTK_LABEL (label), labelstr);
+    g_free (labelstr);
+    fill_in_steps (r, pattern);
     if (r->rsteps)
-      {
-        /* make the list circular */
-        r->rsteps->prev = g_list_last (r->rsteps);
-        g_list_last (r->rsteps)->next = r->rsteps;
-      }
-  if (r->rsteps == NULL)
     {
-      gtk_widget_destroy (GTK_WIDGET (r->button));
-      g_free (r);
-      r = NULL;
+    /* make the list circular */
+    r->rsteps->prev = g_list_last (r->rsteps);
+    g_list_last (r->rsteps)->next = r->rsteps;
     }
-  else
-    {
-      if (singleton)
+    insert_pattern_in_toolbar (r, from_selection);
+    if(!from_selection)
+        unhighlight_rhythm (r);
+    g_string_free (pattern, TRUE); 
+}    
+    
+/* create_rhythm_cb
+        - create a rhythm pattern from the current selection
+        - clipboard field is pointed to the selected objects
+        - a button is created in "/RhythmToolbar"
+        - and the pattern is added to project->rhythms 
+        - with the first step of it put in project->rstep
+        - the rhythm becomes the prevailing_rhythm, setting cstep
+
+*/
+void
+create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
+{
+    DenemoProject *project = Denemo.project;
+
+    DenemoMovement *si = project->movement;
+    RhythmPattern *r;
+
+    if (!si->markstaffnum)    /* Indicator that there's a selection.  */
         {
-          if (default_rhythm)
-            {
-              project->prevailing_rhythm = r;
-              project->rstep = r->rsteps;
-              project->cstep = NULL;
-              highlight_rhythm (r);
-              //g_debug("prevailing rhythm is %p\n",r);
-            }
+        warningdialog (_("No selection to create a music snippet from\nSee Edit → Select menu for selecting music to snip"));
+        return;
+        }   
+    
+    r = (RhythmPattern *) g_malloc0 (sizeof (RhythmPattern));
+
+    
+    if (project->lilysync != project->changecount)
+        refresh_lily_cb (NULL, Denemo.project);/* ensure lilypond syntax attached to objects in selection */
+    create_rhythm (r, TRUE);
+
+}
+// create a rhythm pattern for a standard duration note or rest action is the insert_chord or rest for the appropriate duration.
+void
+create_singleton_rhythm (gpointer action)
+{
+  DenemoProject *project = Denemo.project;
+  gboolean already_done = FALSE;        // a singleton which has already been installed globally, that is a new tab is being opened.
+  gboolean default_rhythm = FALSE;
+  DenemoMovement *si = project->movement;
+  RhythmPattern *r = (RhythmPattern *) g_malloc0 (sizeof (RhythmPattern));
+  GString *pattern = g_string_new("");
+  if (action == (gpointer) insert_chord_0key)
+    pattern = g_string_assign (pattern, "0");
+  if (action == (gpointer) insert_chord_1key)
+    pattern = g_string_assign (pattern, "1");
+  if (action == (gpointer) insert_chord_2key)
+    pattern = g_string_assign (pattern, "2"), default_rhythm = TRUE;
+  if (action == (gpointer) insert_chord_3key)
+    pattern = g_string_assign (pattern, "3");
+  if (action == (gpointer) insert_chord_4key)
+    pattern = g_string_assign (pattern, "4");
+  if (action == (gpointer) insert_chord_5key)
+    pattern = g_string_assign (pattern, "5");
+  if (action == (gpointer) insert_chord_6key)
+    pattern = g_string_assign (pattern, "6");
+  if (action == (gpointer) insert_chord_7key)
+    pattern = g_string_assign (pattern, "7");
+  if (action == (gpointer) insert_chord_8key)
+    pattern = g_string_assign (pattern, "8");
+
+  if (action == (gpointer) insert_rest_0key)
+    pattern = g_string_assign (pattern, "r");
+  if (action == (gpointer) insert_rest_1key)
+    pattern = g_string_assign (pattern, "s");
+  if (action == (gpointer) insert_rest_2key)
+    pattern = g_string_assign (pattern, "t");
+  if (action == (gpointer) insert_rest_3key)
+    pattern = g_string_assign (pattern, "u");
+  if (action == (gpointer) insert_rest_4key)
+    pattern = g_string_assign (pattern, "v");
+  if (action == (gpointer) insert_rest_5key)
+    pattern = g_string_assign (pattern, "w");
+  if (action == (gpointer) insert_rest_6key)
+    pattern = g_string_assign (pattern, "x");
+  if (action == (gpointer) insert_rest_7key)
+    pattern = g_string_assign (pattern, "y");
+  if (action == (gpointer) insert_rest_8key)
+    pattern = g_string_assign (pattern, "z");
+  if (pattern->len<=0)
+    {
+        g_warning ("Bad call to create_singleton_rhythm");
+        return;
+    }
+    /* if we already have it globally we don't need it again
+                                   note we never delete the singleton rhythms */
+      if (Denemo.singleton_rhythms[(unsigned int) *pattern->str])
+        {
+          g_free (r);
+          r = Denemo.singleton_rhythms[(unsigned int) *pattern->str];
+          already_done = TRUE;
         }
       else
-        {                       //not singleton
-          insert_pattern_in_toolbar (r);
-
+        {
+          Denemo.singleton_rhythms[(unsigned int) *pattern->str] = r;
+          already_done = FALSE;
         }
-    }
-  if (pattern)
-    g_free (pattern);
-}
+      if (!already_done)
+        append_rhythm (r, action);
 
+
+    if (!already_done)
+        {
+          gchar *labelstr;
+          labelstr = music_font (pattern->str);
+          g_free (labelstr);
+
+        /* make the list circular */
+            r->rsteps->prev = g_list_last (r->rsteps);
+            g_list_last (r->rsteps)->next = r->rsteps;
+        }
+    if (default_rhythm)
+        {
+          project->prevailing_rhythm = r;
+          project->rstep = r->rsteps;
+          project->cstep = NULL;
+          highlight_rhythm (r);
+          //g_debug("prevailing rhythm is %p\n",r);
+        }
+
+    if (pattern)
+    g_string_free (pattern, TRUE);
+}
 
 
 static void
@@ -3295,7 +3285,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
 static void
 color_rhythm_button (RhythmPattern * r, const gchar * color)
 {
-  if (r == NULL)
+  if ((r == NULL) || (r->button == NULL))
     return;
   GdkColor thecolor;
   gdk_color_parse (color, &thecolor);
@@ -5122,26 +5112,26 @@ newtab (void)
   gtk_widget_grab_focus (Denemo.scorearea);
 
 
-  create_rhythm_cb ((gpointer) insert_chord_0key, NULL);
-  create_rhythm_cb ((gpointer) insert_chord_1key, NULL);
-  create_rhythm_cb ((gpointer) insert_chord_2key, NULL);
-  create_rhythm_cb ((gpointer) insert_chord_3key, NULL);
-  create_rhythm_cb ((gpointer) insert_chord_4key, NULL);
-  create_rhythm_cb ((gpointer) insert_chord_5key, NULL);
-  create_rhythm_cb ((gpointer) insert_chord_6key, NULL);
-  create_rhythm_cb ((gpointer) insert_chord_7key, NULL);
-  create_rhythm_cb ((gpointer) insert_chord_8key, NULL);
+  create_singleton_rhythm ((gpointer) insert_chord_0key);
+  create_singleton_rhythm ((gpointer) insert_chord_1key);
+  create_singleton_rhythm ((gpointer) insert_chord_2key);
+  create_singleton_rhythm ((gpointer) insert_chord_3key);
+  create_singleton_rhythm ((gpointer) insert_chord_4key);
+  create_singleton_rhythm ((gpointer) insert_chord_5key);
+  create_singleton_rhythm ((gpointer) insert_chord_6key);
+  create_singleton_rhythm ((gpointer) insert_chord_7key);
+  create_singleton_rhythm ((gpointer) insert_chord_8key);
 
 
-  create_rhythm_cb ((gpointer) insert_rest_0key, NULL);
-  create_rhythm_cb ((gpointer) insert_rest_1key, NULL);
-  create_rhythm_cb ((gpointer) insert_rest_2key, NULL);
-  create_rhythm_cb ((gpointer) insert_rest_3key, NULL);
-  create_rhythm_cb ((gpointer) insert_rest_4key, NULL);
-  create_rhythm_cb ((gpointer) insert_rest_5key, NULL);
-  create_rhythm_cb ((gpointer) insert_rest_6key, NULL);
-  create_rhythm_cb ((gpointer) insert_rest_7key, NULL);
-  create_rhythm_cb ((gpointer) insert_rest_8key, NULL);
+  create_singleton_rhythm ((gpointer) insert_rest_0key);
+  create_singleton_rhythm ((gpointer) insert_rest_1key);
+  create_singleton_rhythm ((gpointer) insert_rest_2key);
+  create_singleton_rhythm ((gpointer) insert_rest_3key);
+  create_singleton_rhythm ((gpointer) insert_rest_4key);
+  create_singleton_rhythm ((gpointer) insert_rest_5key);
+  create_singleton_rhythm ((gpointer) insert_rest_6key);
+  create_singleton_rhythm ((gpointer) insert_rest_7key);
+  create_singleton_rhythm ((gpointer) insert_rest_8key);
 
   //Denemo.project->mode = Denemo.prefs.mode;
 
