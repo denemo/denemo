@@ -290,10 +290,13 @@ dnm_clone_object (DenemoObject * orig)
           break;
         }
     }
-  if(ret){
-    ret->lilypond = NULL;
-    ret->midi_events = NULL;
-    ret->isinvisible = orig->isinvisible;
+    if(ret){
+        if (orig->lilypond)
+            ret->lilypond = g_strdup (orig->lilypond);
+        else
+            ret->lilypond = NULL;
+        ret->midi_events = NULL;
+        ret->isinvisible = orig->isinvisible;
   }
   return ret;
 }
