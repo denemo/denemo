@@ -3372,7 +3372,7 @@ paste_snippet_lilypond (GtkWidget * button)
       if (r)
         {
           const gchar *clefname = get_prevailing_clef_as_lilypond (), *keysigname = get_prevailing_keysig_as_lilypond (), *timesigname = get_prevailing_timesig_as_lilypond ();
-          gchar *text = g_strdup_printf ("§\\raise #0.5 \\score{\n\\DenemoGlobalTranspose {{%s}{%s}{%s}%s}\\layout{indent=0.0}\n}§", clefname, keysigname, timesigname, r->lilypond);
+          gchar *text = g_strdup_printf ("§\\raise #0.5 \\score{\n\\DenemoGlobalTranspose {{%s}{%s}{%s}%s}\\layout{indent=0.0}\n}§", clefname, keysigname, timesigname, r->lilypond?r->lilypond->str:"");
           gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1 /*gint len */ );
           g_free (text);
         }
@@ -6036,7 +6036,7 @@ scheme_create_snippet_from_object (SCM name)
           r->name = str;
           r->rsteps = g_list_append (NULL, relement);
           r->rsteps->prev = r->rsteps->next = r->rsteps;        //make list circular
-          SCM ret = scm_from_int (insert_pattern_in_toolbar (r));
+          SCM ret = scm_from_int (insert_pattern_in_toolbar (r, TRUE));
           update_scheme_snippet_ids ();
           if (str)
             free (str);

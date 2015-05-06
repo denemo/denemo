@@ -641,6 +641,7 @@ newXMLNoteHead (xmlNodePtr parent, xmlNsPtr ns, enum headtype noteHeadType)
   return noteHeadElem;
 }
 
+
 static void
 outputSources (xmlNodePtr mvmntElem, xmlNsPtr ns, GList * sources)
 {
@@ -684,6 +685,358 @@ set_invisible (xmlNodePtr objElem, DenemoObject * curObj)
     xmlSetProp (objElem, (xmlChar *) "show", (xmlChar *) "true");
 }
 
+static void 
+parseObjects (xmlNodePtr measureElem, xmlNsPtr ns, GList *curObjNode)
+    {
+    xmlNodePtr parentElem, curElem, objElem;
+  
+  DenemoObject *curObj;
+  GList *curNoteNode;
+  note *curNote;
+  gchar *durationType;
+  gchar *chordXMLID, *noteXMLID;
+  
+      for (; curObjNode != NULL; curObjNode = curObjNode->next)
+        {
+          curObj = (DenemoObject *) curObjNode->data;
+
+          switch (curObj->type)
+            {
+            case CHORD:
+              {
+                chord *thechord = (chord *) curObj->object;
+
+
+                /* Output the root element, "rest" or "chord". */
+
+                if ((thechord)->notes == NULL)
+                  {
+                    objElem = xmlNewChild (measureElem, ns, (xmlChar *) "rest", NULL);
+
+                  }
+                else
+                  objElem = xmlNewChild (measureElem, ns, (xmlChar *) "chord", NULL);
+                set_invisible (objElem, curObj);
+
+
+                chordXMLID = getXMLID (curObj);
+                xmlSetProp (objElem, (xmlChar *) "id", (xmlChar *) chordXMLID);
+
+                if (thechord->is_grace & GRACED_NOTE)
+                  xmlSetProp (objElem, (xmlChar *) "grace", (xmlChar *) "true");
+                else if (thechord->is_grace & ACCIACCATURA)
+                  xmlSetProp (objElem, (xmlChar *) "grace", (xmlChar *) "acciaccatura");
+
+                /* Output the duration. */
+
+                determineDuration ((thechord)->baseduration, &durationType);
+                parentElem = xmlNewChild (objElem, ns, (xmlChar *) "duration", NULL);
+                xmlSetProp (parentElem, (xmlChar *) "base", (xmlChar *) durationType);
+                if ((thechord)->numdots != 0)
+                  newXMLIntChild (parentElem, ns, (xmlChar *) "dots", (thechord)->numdots);
+
+
+                if ((thechord)->chordize)
+                  newXMLIntChild (objElem, ns, (xmlChar *) "chordize", TRUE);
+
+                /*Output Lyric */
+                if ((thechord)->lyric)
+                  {
+                    parentElem = xmlNewTextChild (objElem, ns, (xmlChar *) "lyric", (xmlChar *) (thechord)->lyric->str);
+                    if ((thechord)->is_syllable)
+                      xmlSetProp (parentElem, (xmlChar *) "extend", (xmlChar *) "true");
+                    else
+                      xmlSetProp (parentElem, (xmlChar *) "extend", (xmlChar *) "false");
+
+                    if ((thechord)->center_lyric)
+                      xmlSetProp (parentElem, (xmlChar *) "center", (xmlChar *) "true");
+                    else
+                      xmlSetProp (parentElem, (xmlChar *) "center", (xmlChar *) "false");
+
+                  }
+                /*Output Figured Bass */
+                if ((thechord)->figure)
+                  {
+                    //DenemoObject *mud = (DenemoObject *) ((GList *) ((thechord)->figure)->data);
+                    //chord *mych = (chord *) mud->object;
+
+                    parentElem = xmlNewTextChild (objElem, ns, (xmlChar *) "figure", (xmlChar *) ((GString *) (thechord)->figure)->str);
+
+                    // printf("\nfigure in exportxml == %s\n", ((GString *) (thechord)->figure)->str);
+                  }
+                //(thechord)->is_figure = FALSE;
+                //     parentElem = xmlNewChild (objElem, ns, (xmlChar *) "figure",
+                //                              (GString *) mych->figure);
+
+                /*Output Fakechords */
+                if ((thechord)->fakechord && ((GString *) (thechord)->fakechord)->len)
+                  {
+
+                    GString *temp = g_string_new ("");
+                    temp = g_string_append (temp, ((GString *) (thechord)->fakechord)->str);
+
+                    parentElem = xmlNewTextChild (objElem, ns, (xmlChar *) "fakechord", (xmlChar *) ((GString *) temp)->str);
+                  }
+
+
+
+                /* Output the DenemoDirectives on the chord */
+                if ((thechord)->directives)
+                  {
+                    newDirectivesElem (objElem, ns, (thechord)->directives, "directives");
+                  }
+                if (thechord->baseduration < 0)
+                  newXMLIntChild (objElem, ns, (xmlChar *) "ticks", -thechord->baseduration);
+
+
+                /*
+                 *  Output Dynamic which is now part of note 
+                 *
+                 */
+                if ((thechord)->dynamics)
+                  {
+                    GString *string = (GString *) (thechord)->dynamics->data;
+                    parentElem = xmlNewChild (objElem, ns, (xmlChar *) "dynamic", NULL);
+                    xmlSetProp (parentElem, (xmlChar *) "name", (xmlChar *) string->str);
+                  }
+                /*
+                 * If this is the end of a slur, terminate the previous
+                 * <slur> element.
+                 */
+
+                if ((thechord)->slur_end_p)
+                  {
+                   newXMLIntChild (objElem, ns, (xmlChar *) "slur-end", 1);
+                  }
+
+              
+
+                if ((thechord)->crescendo_end_p)
+                  {
+                    newXMLIntChild (objElem, ns, (xmlChar *) "cresc-end", 1);
+                  }
+
+                
+
+                if ((thechord)->diminuendo_end_p)
+                  {
+                    newXMLIntChild (objElem, ns, (xmlChar *) "dim-end", 1);
+                  }
+
+              
+                if ((thechord)->slur_begin_p)
+                  {
+                     newXMLIntChild (objElem, ns, (xmlChar *) "slur-begin", 1);
+                  }
+
+              
+                if ((thechord)->crescendo_begin_p)
+                  {
+                    newXMLIntChild (objElem, ns, (xmlChar *) "cresc-begin", 1);
+                  }
+
+               
+
+                if ((thechord)->diminuendo_begin_p)
+                  {
+                   newXMLIntChild (objElem, ns, (xmlChar *) "dim-begin", 1);
+                  }
+
+
+
+                /* Output a <tie> element if this chord is tied. */
+
+                if ((thechord)->is_tied)
+                  {
+                    xmlNewChild (objElem, ns, (xmlChar *) "tie", NULL);
+                  }
+
+
+
+
+                /* Output all the notes, if this isn't a rest. */
+
+                if ((thechord)->notes != NULL)
+                  {
+                    parentElem = xmlNewChild (objElem, ns, (xmlChar *) "notes", NULL);
+                    for (curNoteNode = (thechord)->notes; curNoteNode != NULL; curNoteNode = curNoteNode->next)
+                      {
+                        curNote = (note *) curNoteNode->data;
+                        curElem = xmlNewChild (parentElem, ns, (xmlChar *) "note", NULL);
+                        noteXMLID = getXMLID (curNote);
+                        xmlSetProp (curElem, (xmlChar *) "id", (xmlChar *) noteXMLID);
+                        newXMLIntChild (curElem, ns, (xmlChar *) "middle-c-offset", curNote->mid_c_offset);
+                        if (curNote->enshift != 0 || curNote->showaccidental)
+                          {
+                            newXMLAccidental (curElem, ns, curNote->enshift, curNote->showaccidental);
+                          }
+                        if (curNote->noteheadtype != DENEMO_NORMAL_NOTEHEAD)
+                          {
+                            newXMLNoteHead (curElem, ns, curNote->noteheadtype);
+                          }
+
+                        if (curNote->directives)
+                          {
+                            newDirectivesElem (curElem, ns, curNote->directives, "directives");
+
+                          }
+
+                      }
+                  }
+              }
+              break;
+
+            case TUPOPEN:
+              {
+                tuplet *theob = (tuplet *) curObj->object;
+                objElem = xmlNewChild (measureElem, ns, (xmlChar *) "tuplet-start", NULL);
+               
+                newXMLFraction (xmlNewChild (objElem, ns, (xmlChar *) "multiplier", NULL), ns, ((tupopen *) curObj->object)->numerator, ((tupopen *) curObj->object)->denominator);
+                if (theob->directives)
+                  {
+                    newDirectivesElem (objElem, ns, theob->directives, "directives");
+
+                  }
+              }
+              break;
+
+            case TUPCLOSE:
+              {
+                tuplet *theob = (tuplet *) curObj->object;
+                objElem = xmlNewChild (measureElem, ns, (xmlChar *) "tuplet-end", NULL);
+               
+                if (theob->directives)
+                  {
+                    newDirectivesElem (objElem, ns, theob->directives, "directives");
+
+                  }
+              }
+              break;
+
+            case CLEF:
+              objElem = newXMLClef (measureElem, ns, ((clef *) curObj->object));
+              set_invisible (objElem, curObj);
+              break;
+
+            case TIMESIG:
+              objElem = newXMLTimeSignature (measureElem, ns, (timesig *) curObj->object);
+              break;
+
+            case KEYSIG:
+              objElem = newXMLKeySignature (measureElem, ns, ((keysig *) curObj->object));
+              break;
+
+            case STEMDIRECTIVE:
+              {
+                stemdirective *theob = (stemdirective *) curObj->object;
+                objElem = newXMLStemDirective (measureElem, ns, theob);
+
+              }
+              break;
+
+            case GRACE_START:
+              //obsolete
+              break;
+
+            case GRACE_END:
+              //obsolete
+              break;
+            case LYRIC:
+              objElem = xmlNewTextChild (measureElem, ns, (xmlChar *) "lyric", (xmlChar *) ((lyric *) curObj->object)->lyrics->str);
+
+              if (((lyric *) curObj->object)->is_syllable)
+                xmlSetProp (objElem, (xmlChar *) "extend", (xmlChar *) "true");
+              else
+                xmlSetProp (objElem, (xmlChar *) "extend", (xmlChar *) "false");
+
+              if (((lyric *) curObj->object)->center_lyric)
+                xmlSetProp (objElem, (xmlChar *) "center", (xmlChar *) "true");
+              else
+                xmlSetProp (objElem, (xmlChar *) "center", (xmlChar *) "false");
+
+              break;
+            case LILYDIRECTIVE:
+              //FIXME this should really have been the tag saved here, but for backwards compatibility we use the postfix string.
+              if (((lilydirective *) curObj->object)->postfix && ((lilydirective *) curObj->object)->postfix->len)
+                objElem = xmlNewTextChild (measureElem, ns, (xmlChar *) "lily-directive", (xmlChar *) ((lilydirective *) curObj->object)->postfix->str);
+              else
+                objElem = xmlNewTextChild (measureElem, ns, (xmlChar *) "lily-directive", (xmlChar *) " ");
+
+              if (((lilydirective *) curObj->object)->locked)
+                xmlSetProp (objElem, (xmlChar *) "locked", (xmlChar *) "true");
+
+    #define SETSTRING_PROP(field)\
+    if(((lilydirective *) curObj->object)->field && ((lilydirective *) curObj->object)->field->len)\
+    xmlSetProp (objElem, (xmlChar *) #field,\
+          (xmlChar *) (((lilydirective *) curObj->object)->field->str));
+
+              SETSTRING_PROP (tag);
+              SETSTRING_PROP (display);
+              SETSTRING_PROP (midibytes);
+              SETSTRING_PROP (grob);
+              SETSTRING_PROP (data);
+              SETSTRING_PROP (graphic_name);
+              SETSTRING_PROP (prefix);  //postfix done above, for backward compatibility
+    #undef SETSTRING_PROP
+
+    #define SETINT_PROP(x)\
+    if(((lilydirective *) curObj->object)->x) newXMLIntProp (objElem, (xmlChar *) #x, \
+           (((lilydirective *) curObj->object)->x));
+              SETINT_PROP (x);
+              SETINT_PROP (y);
+              SETINT_PROP (tx);
+              SETINT_PROP (ty);
+              SETINT_PROP (gx);
+              SETINT_PROP (gy);
+              SETINT_PROP (minpixels);
+              SETINT_PROP (override);
+    #undef SETINT_PROP
+              if (curObj->durinticks)
+                newXMLIntProp (objElem, (xmlChar*) "ticks", curObj->durinticks);
+              break;
+            case BARLINE:
+            case MEASUREBREAK:
+              g_warning ("Cannot yet handle DenemoObjects of type %d", curObj->type);
+              break;
+            default:
+              /* FIXME: First try handlers. */
+              g_warning ("Got a DenemoObject of unknown type %d", curObj->type);
+              break;
+            }           /* end switch on object type */
+        }               /* end for each object in curObjNode */
+    }
+static void
+newClipboardElem (xmlNodePtr curElem, xmlNsPtr ns, GList *objects )
+{
+  GList *g;
+  xmlNodePtr objectsElem = xmlNewChild (curElem, ns, (xmlChar *) "objects", NULL);
+      for(g=objects;g;g=g->next)
+        {
+            parseObjects (objectsElem, ns, g->data);
+    }
+}
+
+
+static void
+newRhythmElem (xmlNodePtr curElem, xmlNsPtr ns, RhythmPattern* r )
+{
+  xmlNodePtr rhythmElem = xmlNewChild (curElem, ns, (xmlChar *) "rhythm", NULL);
+  xmlSetProp (rhythmElem, (xmlChar *) "lilypond", (xmlChar *) (r->lilypond?r->lilypond->str:""));
+  newClipboardElem (rhythmElem, ns, r->clipboard);
+}
+
+
+static void
+newRhythmsElem (xmlNodePtr curElem, xmlNsPtr ns, GList *rhythms)
+{
+  xmlNodePtr rhythmsElem;
+  rhythmsElem = xmlNewChild (curElem, ns, (xmlChar *) "rhythms", NULL);
+  for (; rhythms; rhythms = rhythms->next)
+    {
+      RhythmPattern* r = (RhythmPattern*) rhythms->data;
+      newRhythmElem (rhythmsElem, ns, r);
+    }
+}
 
 /**
  * Export the given score (from measure start to measure end) as a "native"
@@ -696,23 +1049,16 @@ exportXML (gchar * thefilename, DenemoProject * gui)
   GString *filename = g_string_new (thefilename);
   xmlDocPtr doc;
   xmlNodePtr scoreElem, mvmntElem, stavesElem, voicesElem, voiceElem;
-  xmlNodePtr measuresElem, measureElem, objElem, prevTieElem;
+  xmlNodePtr measuresElem, measureElem;
   xmlNodePtr curElem, parentElem;
   xmlNsPtr ns;
   staffnode *curStaff;
   DenemoStaff *curStaffStruct;
   gchar *staffXMLID = 0, *voiceXMLID;
-  gchar *lastBeamStartXMLID, *chordXMLID, *noteXMLID;
-  gchar *lastTupletStartXMLID;
+
   //gchar *clefname, *baseKeyName, *accidental;
   measurenode *curMeasure;
-  objnode *curObjNode;
-  DenemoObject *curObj;
-  GList *curNoteNode;
-  note *curNote;
 
-  //gint numerator, denominator;
-  gchar *durationType;
   static gchar *version_string;
   if (version_string == NULL)
     version_string = g_strdup_printf ("%d", CURRENT_XML_VERSION);
@@ -749,6 +1095,9 @@ exportXML (gchar * thefilename, DenemoProject * gui)
 
   newSourceFileElem (scoreElem, ns, gui);
 
+  if(gui->rhythms)
+    newRhythmsElem (scoreElem, ns, gui->rhythms);
+    
   /* lilycontrol for the whole musical score */
 
 
@@ -859,12 +1208,12 @@ exportXML (gchar * thefilename, DenemoProject * gui)
       for (curStaff = si->thescore; curStaff != NULL; curStaff = curStaff->next)
         {
           curStaffStruct = (DenemoStaff *) curStaff->data;
-          
-          /* Initialize voice-wide variables. */
+ 
+            /* Initialize voice-wide variables. */
 
-          prevTieElem = NULL;
-          lastBeamStartXMLID = NULL;
-          lastTupletStartXMLID = NULL;
+
+              
+
 
           /*
            * If this is a primary voice, find the ID of its staff, which applies
@@ -921,339 +1270,9 @@ exportXML (gchar * thefilename, DenemoProject * gui)
             {
 
               measureElem = xmlNewChild (measuresElem, ns, (xmlChar *) "measure", NULL);
+              parseObjects (measureElem, ns, (objnode *) curMeasure->data);
 
-              for (curObjNode = (objnode *) curMeasure->data; curObjNode != NULL; curObjNode = curObjNode->next)
-                {
-                  curObj = (DenemoObject *) curObjNode->data;
 
-                  switch (curObj->type)
-                    {
-                    case CHORD:
-                      {
-                        chord *thechord = (chord *) curObj->object;
-
-
-                        /* Output the root element, "rest" or "chord". */
-
-                        if ((thechord)->notes == NULL)
-                          {
-                            objElem = xmlNewChild (measureElem, ns, (xmlChar *) "rest", NULL);
-
-                          }
-                        else
-                          objElem = xmlNewChild (measureElem, ns, (xmlChar *) "chord", NULL);
-                        set_invisible (objElem, curObj);
-
-
-                        chordXMLID = getXMLID (curObj);
-                        xmlSetProp (objElem, (xmlChar *) "id", (xmlChar *) chordXMLID);
-
-                        if (thechord->is_grace & GRACED_NOTE)
-                          xmlSetProp (objElem, (xmlChar *) "grace", (xmlChar *) "true");
-                        else if (thechord->is_grace & ACCIACCATURA)
-                          xmlSetProp (objElem, (xmlChar *) "grace", (xmlChar *) "acciaccatura");
-
-                        /* Output the duration. */
-
-                        determineDuration ((thechord)->baseduration, &durationType);
-                        parentElem = xmlNewChild (objElem, ns, (xmlChar *) "duration", NULL);
-                        xmlSetProp (parentElem, (xmlChar *) "base", (xmlChar *) durationType);
-                        if ((thechord)->numdots != 0)
-                          newXMLIntChild (parentElem, ns, (xmlChar *) "dots", (thechord)->numdots);
-
-
-                        if ((thechord)->chordize)
-                          newXMLIntChild (objElem, ns, (xmlChar *) "chordize", TRUE);
-
-                        /*Output Lyric */
-                        if ((thechord)->lyric)
-                          {
-                            parentElem = xmlNewTextChild (objElem, ns, (xmlChar *) "lyric", (xmlChar *) (thechord)->lyric->str);
-                            if ((thechord)->is_syllable)
-                              xmlSetProp (parentElem, (xmlChar *) "extend", (xmlChar *) "true");
-                            else
-                              xmlSetProp (parentElem, (xmlChar *) "extend", (xmlChar *) "false");
-
-                            if ((thechord)->center_lyric)
-                              xmlSetProp (parentElem, (xmlChar *) "center", (xmlChar *) "true");
-                            else
-                              xmlSetProp (parentElem, (xmlChar *) "center", (xmlChar *) "false");
-
-                          }
-                        /*Output Figured Bass */
-                        if ((thechord)->figure)
-                          {
-                            //DenemoObject *mud = (DenemoObject *) ((GList *) ((thechord)->figure)->data);
-                            //chord *mych = (chord *) mud->object;
-
-                            parentElem = xmlNewTextChild (objElem, ns, (xmlChar *) "figure", (xmlChar *) ((GString *) (thechord)->figure)->str);
-
-                            // printf("\nfigure in exportxml == %s\n", ((GString *) (thechord)->figure)->str);
-                          }
-                        //(thechord)->is_figure = FALSE;
-                        //     parentElem = xmlNewChild (objElem, ns, (xmlChar *) "figure",
-                        //                              (GString *) mych->figure);
-
-                        /*Output Fakechords */
-                        if ((thechord)->fakechord && ((GString *) (thechord)->fakechord)->len)
-                          {
-
-                            GString *temp = g_string_new ("");
-                            temp = g_string_append (temp, ((GString *) (thechord)->fakechord)->str);
-
-                            parentElem = xmlNewTextChild (objElem, ns, (xmlChar *) "fakechord", (xmlChar *) ((GString *) temp)->str);
-                          }
-
-
-
-                        /* Output the DenemoDirectives on the chord */
-                        if ((thechord)->directives)
-                          {
-                            newDirectivesElem (objElem, ns, (thechord)->directives, "directives");
-                          }
-                        if (thechord->baseduration < 0)
-                          newXMLIntChild (objElem, ns, (xmlChar *) "ticks", -thechord->baseduration);
-
-
-                        /*
-                         *  Output Dynamic which is now part of note 
-                         *
-                         */
-                        if ((thechord)->dynamics)
-                          {
-                            GString *string = (GString *) (thechord)->dynamics->data;
-                            parentElem = xmlNewChild (objElem, ns, (xmlChar *) "dynamic", NULL);
-                            xmlSetProp (parentElem, (xmlChar *) "name", (xmlChar *) string->str);
-                          }
-                        /*
-                         * If this is the end of a slur, terminate the previous
-                         * <slur> element.
-                         */
-
-                        if ((thechord)->slur_end_p)
-                          {
-                           newXMLIntChild (objElem, ns, (xmlChar *) "slur-end", 1);
-                          }
-
-                      
-
-                        if ((thechord)->crescendo_end_p)
-                          {
-                            newXMLIntChild (objElem, ns, (xmlChar *) "cresc-end", 1);
-                          }
-
-                        
-
-                        if ((thechord)->diminuendo_end_p)
-                          {
-                            newXMLIntChild (objElem, ns, (xmlChar *) "dim-end", 1);
-                          }
-
-                      
-                        if ((thechord)->slur_begin_p)
-                          {
-                             newXMLIntChild (objElem, ns, (xmlChar *) "slur-begin", 1);
-                          }
-
-                      
-                        if ((thechord)->crescendo_begin_p)
-                          {
-                            newXMLIntChild (objElem, ns, (xmlChar *) "cresc-begin", 1);
-                          }
-
-                       
-
-                        if ((thechord)->diminuendo_begin_p)
-                          {
-                           newXMLIntChild (objElem, ns, (xmlChar *) "dim-begin", 1);
-                          }
-
-                        /*
-                         * If the previous chord was tied, fill in the <tie>
-                         * element to point to this one.
-                         */
-
-                        if (prevTieElem != NULL)
-                          {
-                            xmlSetProp (prevTieElem, (xmlChar *) "to", (xmlChar *) chordXMLID);
-                            prevTieElem = NULL;
-                          }
-
-                        /* Output a <tie> element if this chord is tied. */
-
-                        if ((thechord)->is_tied)
-                          {
-                            prevTieElem = xmlNewChild (objElem, ns, (xmlChar *) "tie", NULL);
-                          }
-
-
-
-
-                        /* Output all the notes, if this isn't a rest. */
-
-                        if ((thechord)->notes != NULL)
-                          {
-                            parentElem = xmlNewChild (objElem, ns, (xmlChar *) "notes", NULL);
-                            for (curNoteNode = (thechord)->notes; curNoteNode != NULL; curNoteNode = curNoteNode->next)
-                              {
-                                curNote = (note *) curNoteNode->data;
-                                curElem = xmlNewChild (parentElem, ns, (xmlChar *) "note", NULL);
-                                noteXMLID = getXMLID (curNote);
-                                xmlSetProp (curElem, (xmlChar *) "id", (xmlChar *) noteXMLID);
-                                newXMLIntChild (curElem, ns, (xmlChar *) "middle-c-offset", curNote->mid_c_offset);
-                                if (curNote->enshift != 0 || curNote->showaccidental)
-                                  {
-                                    newXMLAccidental (curElem, ns, curNote->enshift, curNote->showaccidental);
-                                  }
-                                if (curNote->noteheadtype != DENEMO_NORMAL_NOTEHEAD)
-                                  {
-                                    newXMLNoteHead (curElem, ns, curNote->noteheadtype);
-                                  }
-
-                                if (curNote->directives)
-                                  {
-                                    newDirectivesElem (curElem, ns, curNote->directives, "directives");
-
-                                  }
-
-                              }
-                          }
-                      }
-                      break;
-
-                    case TUPOPEN:
-                      {
-                        tuplet *theob = (tuplet *) curObj->object;
-                        objElem = xmlNewChild (measureElem, ns, (xmlChar *) "tuplet-start", NULL);
-                        /*
-                         * not true? FIXME: This code does not yet handle nested tuplets.  For
-                         *        that, we'd need a stack of "tuplet-start" IDs
-                         *        instead of just a single "last ID."
-                         */
-
-                        lastTupletStartXMLID = getXMLID (curObj);
-                        xmlSetProp (objElem, (xmlChar *) "id", (xmlChar *) lastTupletStartXMLID);
-                        newXMLFraction (xmlNewChild (objElem, ns, (xmlChar *) "multiplier", NULL), ns, ((tupopen *) curObj->object)->numerator, ((tupopen *) curObj->object)->denominator);
-                        if (theob->directives)
-                          {
-                            newDirectivesElem (objElem, ns, theob->directives, "directives");
-
-                          }
-                      }
-                      break;
-
-                    case TUPCLOSE:
-                      {
-                        tuplet *theob = (tuplet *) curObj->object;
-                        objElem = xmlNewChild (measureElem, ns, (xmlChar *) "tuplet-end", NULL);
-                        if (lastTupletStartXMLID == NULL)
-                          {
-                            g_warning ("Encountered nested tuplets or tuplet end " "without start");
-                          }
-                        else
-                          {
-                            xmlSetProp (objElem, (xmlChar *) "tuplet", (xmlChar *) lastTupletStartXMLID);
-                            lastTupletStartXMLID = NULL;
-                          }
-                        if (theob->directives)
-                          {
-                            newDirectivesElem (objElem, ns, theob->directives, "directives");
-
-                          }
-                      }
-                      break;
-
-                    case CLEF:
-                      objElem = newXMLClef (measureElem, ns, ((clef *) curObj->object));
-                      set_invisible (objElem, curObj);
-                      break;
-
-                    case TIMESIG:
-                      objElem = newXMLTimeSignature (measureElem, ns, (timesig *) curObj->object);
-                      break;
-
-                    case KEYSIG:
-                      objElem = newXMLKeySignature (measureElem, ns, ((keysig *) curObj->object));
-                      break;
-
-                    case STEMDIRECTIVE:
-                      {
-                        stemdirective *theob = (stemdirective *) curObj->object;
-                        objElem = newXMLStemDirective (measureElem, ns, theob);
-
-                      }
-                      break;
-
-                    case GRACE_START:
-                      //obsolete
-                      break;
-
-                    case GRACE_END:
-                      //obsolete
-                      break;
-                    case LYRIC:
-                      objElem = xmlNewTextChild (measureElem, ns, (xmlChar *) "lyric", (xmlChar *) ((lyric *) curObj->object)->lyrics->str);
-
-                      if (((lyric *) curObj->object)->is_syllable)
-                        xmlSetProp (objElem, (xmlChar *) "extend", (xmlChar *) "true");
-                      else
-                        xmlSetProp (objElem, (xmlChar *) "extend", (xmlChar *) "false");
-
-                      if (((lyric *) curObj->object)->center_lyric)
-                        xmlSetProp (objElem, (xmlChar *) "center", (xmlChar *) "true");
-                      else
-                        xmlSetProp (objElem, (xmlChar *) "center", (xmlChar *) "false");
-
-                      break;
-                    case LILYDIRECTIVE:
-                      //FIXME this should really have been the tag saved here, but for backwards compatibility we use the postfix string.
-                      if (((lilydirective *) curObj->object)->postfix && ((lilydirective *) curObj->object)->postfix->len)
-                        objElem = xmlNewTextChild (measureElem, ns, (xmlChar *) "lily-directive", (xmlChar *) ((lilydirective *) curObj->object)->postfix->str);
-                      else
-                        objElem = xmlNewTextChild (measureElem, ns, (xmlChar *) "lily-directive", (xmlChar *) " ");
-
-                      if (((lilydirective *) curObj->object)->locked)
-                        xmlSetProp (objElem, (xmlChar *) "locked", (xmlChar *) "true");
-
-#define SETSTRING_PROP(field)\
-          if(((lilydirective *) curObj->object)->field && ((lilydirective *) curObj->object)->field->len)\
-            xmlSetProp (objElem, (xmlChar *) #field,\
-                  (xmlChar *) (((lilydirective *) curObj->object)->field->str));
-
-                      SETSTRING_PROP (tag);
-                      SETSTRING_PROP (display);
-                      SETSTRING_PROP (midibytes);
-                      SETSTRING_PROP (grob);
-                      SETSTRING_PROP (data);
-                      SETSTRING_PROP (graphic_name);
-                      SETSTRING_PROP (prefix);  //postfix done above, for backward compatibility
-#undef SETSTRING_PROP
-
-#define SETINT_PROP(x)\
-            if(((lilydirective *) curObj->object)->x) newXMLIntProp (objElem, (xmlChar *) #x, \
-                   (((lilydirective *) curObj->object)->x));
-                      SETINT_PROP (x);
-                      SETINT_PROP (y);
-                      SETINT_PROP (tx);
-                      SETINT_PROP (ty);
-                      SETINT_PROP (gx);
-                      SETINT_PROP (gy);
-                      SETINT_PROP (minpixels);
-                      SETINT_PROP (override);
-#undef SETINT_PROP
-                      if (curObj->durinticks)
-                        newXMLIntProp (objElem, (xmlChar*) "ticks", curObj->durinticks);
-                      break;
-                    case BARLINE:
-                    case MEASUREBREAK:
-                      g_warning ("Cannot yet handle DenemoObjects of type %d", curObj->type);
-                      break;
-                    default:
-                      /* FIXME: First try handlers. */
-                      g_warning ("Got a DenemoObject of unknown type %d", curObj->type);
-                      break;
-                    }           /* end switch on object type */
-                }               /* end for each object in measure */
 
 
             }                   /* end for each measure in voice */
@@ -1261,7 +1280,6 @@ exportXML (gchar * thefilename, DenemoProject * gui)
           /* Clean up voice-specific variables. */
 
           
-          g_free (lastBeamStartXMLID);
         }                       /* end for each voice in score */
     }                           // for each movement
   /* Save the file. */

@@ -174,11 +174,11 @@ getXMLIntChild (xmlNodePtr elem)
  * not, return NULL.
  */
 static xmlNodePtr
-getXMLChild (xmlNodePtr parentElem, gchar * childElemName, xmlNsPtr childNs)
+getXMLChild (xmlNodePtr parentElem, gchar * childElemName)
 {
   xmlNodePtr childElem;
 
-  FOREACH_CHILD_ELEM (childElem, parentElem) if (ELEM_NAME_EQ (childElem, childElemName) && childElem->ns == childNs)
+  FOREACH_CHILD_ELEM (childElem, parentElem) if (ELEM_NAME_EQ (childElem, childElemName))
     return childElem;
 
   return NULL;
@@ -411,7 +411,7 @@ parseWidgetDirectives (xmlNodePtr parentElem, gpointer fn, GtkMenu * menu, GList
  * Return the numerator and denominator from the given XML fraction.
  */
 static gint
-parseFraction (xmlNodePtr parentElem, xmlNsPtr ns, gint * numerator, gint * denominator)
+parseFraction (xmlNodePtr parentElem, gint * numerator, gint * denominator)
 {
   xmlNodePtr childElem;
   gboolean gotNumerator = FALSE, gotDenominator = FALSE;
@@ -419,7 +419,7 @@ parseFraction (xmlNodePtr parentElem, xmlNsPtr ns, gint * numerator, gint * deno
 
   FOREACH_CHILD_ELEM (childElem, parentElem)
   {
-    if (childElem->ns == ns)
+   
       {
         if (ELEM_NAME_EQ (childElem, "numerator"))
           {
@@ -456,10 +456,7 @@ parseFraction (xmlNodePtr parentElem, xmlNsPtr ns, gint * numerator, gint * deno
               }
           }
       }
-    else
-      {
-        ILLEGAL_ELEM (parentElem->name, childElem);
-      }
+   
   }
 
   if (!gotNumerator)
@@ -675,7 +672,7 @@ parseKeySignature (xmlNodePtr keySigElem, keysig * keysig)
  * given number of sharps plus whether it's minor or not).
  */
 static void
-parseTimeSignature (xmlNodePtr timeSigElem, xmlNsPtr ns, timesig * timesig)
+parseTimeSignature (xmlNodePtr timeSigElem, timesig * timesig)
 {
   xmlNodePtr childElem;
   gboolean successful = FALSE;
@@ -687,7 +684,7 @@ parseTimeSignature (xmlNodePtr timeSigElem, xmlNsPtr ns, timesig * timesig)
 
     if (ELEM_NAME_EQ (childElem, "simple-time-signature"))
       {
-        if (parseFraction (childElem, ns, numerator, denominator) != 0)
+        if (parseFraction (childElem, numerator, denominator) != 0)
           g_warning ("Could not parse <simple-time-signature>; " "defaulting to 4/4");
         else
           successful = TRUE;
@@ -776,7 +773,7 @@ parseFakechord (xmlNodePtr fakechordElem, DenemoObject * curobj)
  * given chord.
  */
 static void
-parseNote (xmlNodePtr noteElem, xmlNsPtr ns, DenemoObject * chordObj, gint currentClef)
+parseNote (xmlNodePtr noteElem, DenemoObject * chordObj, gint currentClef)
 {
   xmlNodePtr childElem;
   gint middleCOffset = 0, accidental = 0, noteHeadType = DENEMO_NORMAL_NOTEHEAD;
@@ -785,7 +782,7 @@ parseNote (xmlNodePtr noteElem, xmlNsPtr ns, DenemoObject * chordObj, gint curre
 
   FOREACH_CHILD_ELEM (childElem, noteElem)
   {
-    if (childElem->ns == ns)
+   
       {
         if (ELEM_NAME_EQ (childElem, "middle-c-offset"))
           {
@@ -885,7 +882,7 @@ parseNote (xmlNodePtr noteElem, xmlNsPtr ns, DenemoObject * chordObj, gint curre
  * or rest.
  */
 static DenemoObject *
-parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoMovement * si)
+parseBaseChord (xmlNodePtr chordElem)
 {
   xmlNodePtr durationElem, dotsElem;
   xmlNodePtr childElem;
@@ -915,7 +912,7 @@ parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoMovement * si)
    * First, in order to actually create a chord object, we must figure out the
    * Denemo duration and number of dots from the XML duration.
    */
-  durationElem = getXMLChild (chordElem, "duration", ns);
+  durationElem = getXMLChild (chordElem, "duration");
   if (durationElem == NULL)
     {
       g_warning ("No duration found in chord; defaulting to quarter note");
@@ -952,7 +949,7 @@ parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoMovement * si)
           g_free (durationType);
 
           successful = TRUE;
-          dotsElem = getXMLChild (durationElem, "dots", ns);
+          dotsElem = getXMLChild (durationElem, "dots");
           if (dotsElem != NULL)
             {
               numDots = getXMLIntChild (dotsElem);
@@ -977,7 +974,7 @@ parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoMovement * si)
 
   FOREACH_CHILD_ELEM (childElem, chordElem)
   {
-    if (childElem->ns == ns)
+    
       {
         if (ELEM_NAME_EQ (childElem, "directives"))
           {
@@ -988,12 +985,12 @@ parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoMovement * si)
         else if (ELEM_NAME_EQ (childElem, "figure"))
           {
             parseFigure (childElem, chordObj);
-            si->has_figures = (gpointer) TRUE;
+            //si->has_figures = (gpointer) TRUE;
           }
         else if (ELEM_NAME_EQ (childElem, "fakechord"))
           {
             parseFakechord (childElem, chordObj);
-            si->has_fakechords = (gpointer) TRUE;
+           // si->has_fakechords = (gpointer) TRUE;
           }
       }
   }
@@ -1008,12 +1005,12 @@ parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoMovement * si)
  * Parse the given <rest> element and return a chord-type DenemoObject.
  */
 static DenemoObject *
-parseRest (xmlNodePtr restElem, xmlNsPtr ns, DenemoMovement * si)
+parseRest (xmlNodePtr restElem)
 {
   DenemoObject *chordObj;
   xmlNodePtr childElem;
 
-  chordObj = parseBaseChord (restElem, ns, si);
+  chordObj = parseBaseChord (restElem);
   FOREACH_CHILD_ELEM (childElem, restElem)
   {
     if (ELEM_NAME_EQ (childElem, "ticks"))
@@ -1102,49 +1099,14 @@ parseAudio (xmlNodePtr parentElem, DenemoMovement * si)
  * @return the new DenemoObject
  */
 static DenemoObject *
-parseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoMovement * si, gint currentClef, GList ** slurEndChordElems, GList ** crescEndChordElems, GList ** diminEndChordElems, xmlNodePtr * notesElem)
+parseChord (xmlNodePtr chordElem, gint currentClef)
 {
-  DenemoObject *chordObj = parseBaseChord (chordElem, ns, si);
+  DenemoObject *chordObj = parseBaseChord (chordElem);
   xmlNodePtr childElem, grandchildElem;
-  xmlNodePtr slurEndElem, crescEndElem, diminEndElem;
-  gchar *slurEndXMLID, *crescEndXMLID, *diminEndXMLID;
-  GList *thisSlurListNode, *thisCrescListNode, *thisDiminListNode;
-
-  *notesElem = NULL;
-
-  /* Check to see if this is the end of a slur. */
-
-  thisSlurListNode = g_list_find (*slurEndChordElems, chordElem);
-  if (thisSlurListNode != NULL)
-    {
-      ((chord *) chordObj->object)->slur_end_p = TRUE;
-      *slurEndChordElems = g_list_remove_link (*slurEndChordElems, thisSlurListNode);
-      g_list_free_1 (thisSlurListNode);
-    }
-
-  /* Check to see if this is the end of a crescendo. */
-
-  thisCrescListNode = g_list_find (*crescEndChordElems, chordElem);
-  if (thisCrescListNode != NULL)
-    {
-      ((chord *) chordObj->object)->crescendo_end_p = TRUE;
-      *crescEndChordElems = g_list_remove_link (*crescEndChordElems, thisCrescListNode);
-      g_list_free_1 (thisCrescListNode);
-    }
-
-  /* Check to see if this is the end of a diminuendo. */
-
-  thisDiminListNode = g_list_find (*diminEndChordElems, chordElem);
-  if (thisDiminListNode != NULL)
-    {
-      ((chord *) chordObj->object)->diminuendo_end_p = TRUE;
-      *diminEndChordElems = g_list_remove_link (*diminEndChordElems, thisDiminListNode);
-      g_list_free_1 (thisDiminListNode);
-    }
 
   FOREACH_CHILD_ELEM (childElem, chordElem)
   {
-    if (childElem->ns == ns)
+   
       {
         if (ELEM_NAME_EQ (childElem, "duration"))
           {
@@ -1192,147 +1154,24 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoMovement * si, gint current
           }
         else if (ELEM_NAME_EQ (childElem, "slurs"))
           {
-            FOREACH_CHILD_ELEM (grandchildElem, childElem)
-            {
-              if (grandchildElem->ns == ns && ELEM_NAME_EQ (grandchildElem, "slur"))
-                {
-                  /*
-                   * Prepend the slur's end element to the list that we're
-                   * keeping.
-                   */
-
-                  slurEndXMLID = (gchar *) xmlGetProp (grandchildElem, (xmlChar *) "to");
-                  if (slurEndXMLID == NULL)
-                    {
-                      g_warning ("No \"to\" attribute on <slur> element; " "ignoring");
-                    }
-                  else
-                    {
-                      slurEndElem = lookupXMLID (slurEndXMLID);
-                      if (slurEndElem == NULL)
-                        {
-                          g_warning ("Chord is slurred to nonexistent " "chord with ID \"%s\"", slurEndXMLID);
-                        }
-                      else if (!ELEM_NAME_EQ (slurEndElem, "chord"))
-                        {
-                          g_warning ("Chord is slurred to non-chord " "element with tag name \"%s\" and ID " "\"%s\"", slurEndElem->name, slurEndXMLID);
-                        }
-                      else if (slurEndElem == chordElem)
-                        {
-                          g_warning ("Can't slur a chord to itself");
-                        }
-                      else
-                        {
-                          ((chord *) chordObj->object)->slur_begin_p = TRUE;
-                          *slurEndChordElems = g_list_prepend (*slurEndChordElems, slurEndElem);
-                        }
-                      g_free (slurEndXMLID);
-                    }
-                }
-              else
-                {
-                  ILLEGAL_ELEM ("slurs", grandchildElem);
-                }
-            }
+          
           }
         else if (ELEM_NAME_EQ (childElem, "crescendos"))
           {
-            FOREACH_CHILD_ELEM (grandchildElem, childElem)
-            {
-              if (grandchildElem->ns == ns && ELEM_NAME_EQ (grandchildElem, "crescendo"))
-                {
-                  /*
-                   * Prepend the crescendo's end element to the list that we're
-                   * keeping.
-                   */
-
-                  crescEndXMLID = (gchar *) xmlGetProp (grandchildElem, (xmlChar *) "to");
-                  if (crescEndXMLID == NULL)
-                    {
-                      g_warning ("No \"to\" attribute on <crescendo> element; " "ignoring");
-                    }
-                  else
-                    {
-                      crescEndElem = lookupXMLID (crescEndXMLID);
-                      if (crescEndElem == NULL)
-                        {
-                          g_warning ("Chord has crescendo to nonexistent " "chord with ID \"%s\"", crescEndXMLID);
-                        }
-                      else if (!ELEM_NAME_EQ (crescEndElem, "chord"))
-                        {
-                          g_warning ("Chord has crescendo to non-chord " "element with tag name \"%s\" and ID " "\"%s\"", crescEndElem->name, crescEndXMLID);
-                        }
-                      else if (crescEndElem == chordElem)
-                        {
-                          g_warning ("Can't crescendo on one chord");
-                        }
-                      else
-                        {
-                          ((chord *) chordObj->object)->crescendo_begin_p = TRUE;
-                          *crescEndChordElems = g_list_prepend (*crescEndChordElems, crescEndElem);
-                        }
-                      g_free (crescEndXMLID);
-                    }
-                }
-              else
-                {
-                  ILLEGAL_ELEM ("crescendos", grandchildElem);
-                }
-            }
+            
           }
         else if (ELEM_NAME_EQ (childElem, "diminuendos"))
           {
-            FOREACH_CHILD_ELEM (grandchildElem, childElem)
-            {
-              if (grandchildElem->ns == ns && ELEM_NAME_EQ (grandchildElem, "diminuendo"))
-                {
-                  /*
-                   * Prepend the diminuendo's end element to the list that we're
-                   * keeping.
-                   */
-
-                  diminEndXMLID = (gchar *) xmlGetProp (grandchildElem, (xmlChar *) "to");
-                  if (diminEndXMLID == NULL)
-                    {
-                      g_warning ("No \"to\" attribute on <diminuendo> element; " "ignoring");
-                    }
-                  else
-                    {
-                      diminEndElem = lookupXMLID (diminEndXMLID);
-                      if (diminEndElem == NULL)
-                        {
-                          g_warning ("Chord has diminuendo to nonexistent " "chord with ID \"%s\"", diminEndXMLID);
-                        }
-                      else if (!ELEM_NAME_EQ (diminEndElem, "chord"))
-                        {
-                          g_warning ("Chord has diminuendo to non-chord " "element with tag name \"%s\" and ID " "\"%s\"", diminEndElem->name, diminEndXMLID);
-                        }
-                      else if (diminEndElem == chordElem)
-                        {
-                          g_warning ("Can't diminuendo on one chord");
-                        }
-                      else
-                        {
-                          ((chord *) chordObj->object)->diminuendo_begin_p = TRUE;
-                          *diminEndChordElems = g_list_prepend (*diminEndChordElems, diminEndElem);
-                        }
-                      g_free (diminEndXMLID);
-                    }
-                }
-              else
-                {
-                  ILLEGAL_ELEM ("diminuendos", grandchildElem);
-                }
-            }
+            
           }
         else if (ELEM_NAME_EQ (childElem, "notes"))
           {
-            *notesElem = childElem;
+            
             FOREACH_CHILD_ELEM (grandchildElem, childElem)
             {
-              if (grandchildElem->ns == ns && ELEM_NAME_EQ (grandchildElem, "note"))
+              if ( ELEM_NAME_EQ (grandchildElem, "note"))
                 {
-                  parseNote (grandchildElem, ns, chordObj, currentClef);
+                  parseNote (grandchildElem, chordObj, currentClef);
                 }
               else
                 {
@@ -1345,22 +1184,7 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoMovement * si, gint current
             parseLyric (childElem);
           }
 
-
-        //Support for old files 0.8.2 only
-#define DO_DIREC(field) else if (ELEM_NAME_EQ (childElem, #field))\
-      {\
-        if( ((chord *) chordObj->object)->directives == NULL) {\
-          DenemoDirective *directive =  (DenemoDirective*)g_malloc0(sizeof(DenemoDirective));\
-      ((chord *) chordObj->object)->directives = g_list_append(NULL, directive) ;\
-      }\
-        ((DenemoDirective*) (((chord *) chordObj->object)->directives)->data)->field = \
-         g_string_new((gchar *)xmlNodeListGetString (childElem->doc,\
-         childElem->xmlChildrenNode, 1));\
-      }
-        DO_DIREC (prefix) DO_DIREC (postfix) DO_DIREC (display) DO_DIREC (midibytes)
-#undef DO_DIREC
-          // End 0.8.2 support
-          else if (ELEM_NAME_EQ (childElem, "chordize"))
+        else if (ELEM_NAME_EQ (childElem, "chordize"))
           {
             ((chord *) chordObj->object)->chordize = TRUE;
           }
@@ -1382,11 +1206,6 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoMovement * si, gint current
             ILLEGAL_ELEM ("chord", childElem);
           }
       }                         /* end if childElem->ns == ns */
-
-    /*
-     * No need to handle other namespaces here, the generic DenemoObject
-     * code will do it for us.
-     */
 
   }                             /* end for each childElem in scoreElem */
 
@@ -1524,10 +1343,10 @@ parseStemDirective (xmlNodePtr stemDirectiveElem, stemdirective * stem)
  * @return the new DenemoObject
  */
 static void
-parseTupletStart (xmlNodePtr tupletStartElem, xmlNsPtr ns, tuplet * tup)
+parseTupletStart (xmlNodePtr tupletStartElem, tuplet * tup)
 {
   xmlNodePtr childElem;
-  xmlNodePtr multiplierElem = getXMLChild (tupletStartElem, "multiplier", ns);
+  xmlNodePtr multiplierElem = getXMLChild (tupletStartElem, "multiplier");
   gboolean successful = FALSE;
   gint numerator, denominator;
 
@@ -1537,7 +1356,7 @@ parseTupletStart (xmlNodePtr tupletStartElem, xmlNsPtr ns, tuplet * tup)
     }
   else
     {
-      if (parseFraction (multiplierElem, ns, &numerator, &denominator) == 0)
+      if (parseFraction (multiplierElem, &numerator, &denominator) == 0)
         {
           successful = TRUE;
         }
@@ -1646,7 +1465,6 @@ parseSourceFileElem (xmlNodePtr sElem, DenemoProject * gui)
 
 }
 
-
 /**
  * Parse the given <setup-info> element into the given score.
  * @param editInfoElem the XML node to process
@@ -1656,14 +1474,14 @@ parseSourceFileElem (xmlNodePtr sElem, DenemoProject * gui)
  * @return 0 on succes, -1 on failure
  */
 static gint
-parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoProject * gui)
+parseSetupInfo (xmlNodePtr editInfoElem, DenemoProject * gui)
 {
   xmlNodePtr childElem;
   gchar *tmp;
 
   FOREACH_CHILD_ELEM (childElem, editInfoElem)
   {
-    if (childElem->ns == ns)
+   
       {
         if (ELEM_NAME_EQ (childElem, "lilyversion"))
           {
@@ -1743,12 +1561,12 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoProject * gui)
  * @return 0 on success, -1 on failure
  */
 static gint
-parseEditInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoMovement * si)
+parseEditInfo (xmlNodePtr editInfoElem, DenemoMovement * si)
 {
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, editInfoElem)
   {
-    if (childElem->ns == ns)
+   
       {
         if (ELEM_NAME_EQ (childElem, "staffno"))
           {
@@ -1831,7 +1649,7 @@ parseEditInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoMovement * si)
  * @return 0 on success, -1 on failure
  */
 static gint
-parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoMovement * si)
+parseScoreInfo (xmlNodePtr scoreInfoElem, DenemoMovement * si)
 {
   xmlNodePtr childElem, grandchildElem;
   gint bpm;
@@ -1841,13 +1659,13 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoMovement * si)
 
   FOREACH_CHILD_ELEM (childElem, scoreInfoElem)
   {
-    if (childElem->ns == ns)
+    
       {
         if (ELEM_NAME_EQ (childElem, "tempo"))
           {
             FOREACH_CHILD_ELEM (grandchildElem, childElem)
             {
-              if (grandchildElem->ns == ns)
+              
                 {
                   if (ELEM_NAME_EQ (grandchildElem, "duration"))
                     {
@@ -1871,10 +1689,7 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoMovement * si)
                       ILLEGAL_ELEM ("tempo", grandchildElem);
                     }
                 }
-              else
-                {
-                  ILLEGAL_ELEM ("tempo", grandchildElem);
-                }
+             
             }
           }
         else if (ELEM_NAME_EQ (childElem, "title"))
@@ -1966,11 +1781,7 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoMovement * si)
 
 
       }
-    else
-      {
-        /* FIXME: Change this so that other namespaces are handled here. */
-        ILLEGAL_ELEM ("score-info", childElem);
-      }
+   
   }
 
   return 0;
@@ -1986,19 +1797,19 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoMovement * si)
  * @return 0 on success, -1 on failure
  */
 static gint
-parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoMovement * si)
+parseStaff (xmlNodePtr staffElem, DenemoMovement * si)
 {
   xmlNodePtr staffInfoElem, childElem;
   DenemoStaff *curStaff = (DenemoStaff *) si->currentprimarystaff->data;
 
-  staffInfoElem = getXMLChild (staffElem, "staff-info", ns);
+  staffInfoElem = getXMLChild (staffElem, "staff-info");
   //RETURN_IF_ELEM_NOT_FOUND ("staff", staffInfoElem, "staff-info");
   if (staffInfoElem == NULL)
     return 0;
 //rest is backward compatibility only
   FOREACH_CHILD_ELEM (childElem, staffInfoElem)
   {
-    if (childElem->ns == ns)
+    
       {
         if (ELEM_NAME_EQ (childElem, "number-of-lines"))
           {
@@ -2164,11 +1975,7 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoMovement * si)
             ILLEGAL_ELEM ("staff-info", childElem);
           }
       }
-    else
-      {
-        /* FIXME: Handle other namespaces here. */
-        ILLEGAL_ELEM ("staff-info", childElem);
-      }
+   
   }
 
   return 0;
@@ -2298,14 +2105,14 @@ parseVoiceProps (xmlNodePtr voicePropElem, DenemoMovement * si)
  * @return 0 on success, -1 on failure
  */
 static gint
-parseVoiceInfo (xmlNodePtr voiceInfoElem, xmlNsPtr ns, DenemoMovement * si)
+parseVoiceInfo (xmlNodePtr voiceInfoElem, DenemoMovement * si)
 {
   xmlNodePtr childElem;
   gchar *voiceName;
 
   FOREACH_CHILD_ELEM (childElem, voiceInfoElem)
   {
-    if (childElem->ns == ns)
+    
       {
         if (ELEM_NAME_EQ (childElem, "voice-name"))
           {
@@ -2327,11 +2134,7 @@ parseVoiceInfo (xmlNodePtr voiceInfoElem, xmlNsPtr ns, DenemoMovement * si)
             ILLEGAL_ELEM ("voice-info", childElem);
           }
       }
-    else
-      {
-        /* FIXME: Handle other namespaces here. */
-        ILLEGAL_ELEM ("voice-info", childElem);
-      }
+    
   }
 
   return 0;
@@ -2348,15 +2151,14 @@ parseVoiceInfo (xmlNodePtr voiceInfoElem, xmlNsPtr ns, DenemoMovement * si)
  * @return 0 on success, -1 on failure
  */
 static gint
-parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, xmlNsPtr ns, DenemoMovement * si)
+parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, DenemoMovement * si)
 {
   DenemoStaff *curVoice = (DenemoStaff *) si->currentstaff->data;
   xmlNodePtr childElem, staffElem;
   gchar *staffXMLID;
-
   FOREACH_CHILD_ELEM (childElem, initVoiceParamsElem)
   {
-    if (childElem->ns == ns)
+   
       {
         if (ELEM_NAME_EQ (childElem, "staff-ref"))
           {
@@ -2398,7 +2200,7 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, xmlNsPtr ns, DenemoMovemen
 
                     si->currentprimarystaff = si->currentstaff;
 
-                    if (parseStaff (staffElem, ns, si) != 0)
+                    if (parseStaff (staffElem, si) != 0)
                       return -1;
 
                   }
@@ -2418,7 +2220,7 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, xmlNsPtr ns, DenemoMovemen
           }
         else if (ELEM_NAME_EQ (childElem, "time-signature"))
           {
-            parseTimeSignature (childElem, ns, &curVoice->timesig);
+            parseTimeSignature (childElem, &curVoice->timesig);
           }
 
         else if (ELEM_NAME_EQ (childElem, "sources"))
@@ -2432,17 +2234,142 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, xmlNsPtr ns, DenemoMovemen
             ILLEGAL_ELEM ("initial-voice-params", childElem);
           }
       }
-    else
-      {
-        /* FIXME: Handle other namespaces here. */
-        ILLEGAL_ELEM ("initial-voice-params", childElem);
-      }
+    
   }
 
   return 0;
 }
+static GList *parseMeasure (xmlNodePtr measureElem, gint currentClef, gboolean *hasfigures, gboolean *hasfakechords)
+{
+    DenemoObject *curObj;
+    
+    GList *thelist = NULL;
+    xmlNodePtr objElem;
+    FOREACH_CHILD_ELEM (objElem, measureElem)
+    {
+      curObj = NULL;
+
+      
+        {
+          if (ELEM_NAME_EQ (objElem, "barline"))
+            {
+              /* FIXME */
+              g_warning ("barline is obsolete element");
+            }
 
 
+          else if (ELEM_NAME_EQ (objElem, "beam-end"))
+            {
+
+            }
+          else if (ELEM_NAME_EQ (objElem, "beam-start"))
+            {
+
+            }
+          else if (ELEM_NAME_EQ (objElem, "chord"))
+            {
+              curObj = parseChord (objElem, currentClef);
+              /* old format files will not have has... fields of staff explicit
+                 so for backwards compatibility we reconstruct it here */
+              if (((chord *) curObj->object)->figure)
+                *hasfigures = TRUE;
+              if (((chord *) curObj->object)->fakechord)
+                *hasfakechords = TRUE;
+
+              
+            }
+          else if (ELEM_NAME_EQ (objElem, "clef"))
+            {
+              curObj = clef_new (DENEMO_TREBLE_CLEF);
+              parseClef (objElem, curObj->object);
+              gchar *showProp = (gchar *) xmlGetProp (objElem, (xmlChar *) "show");
+              if (showProp)
+                curObj->isinvisible = !strcmp (showProp, "false");
+              currentClef = ((clef *) curObj->object)->type;
+            }
+          else if (ELEM_NAME_EQ (objElem, "lyric"))
+            {
+              /*gchar *text = (gchar *)xmlNodeListGetString
+                 (objElem->doc, 
+                 objElem->xmlChildrenNode,
+                 1); */
+              /*curObj = lyric_new(text,0,); */
+
+            }
+          else if (ELEM_NAME_EQ (objElem, "lily-directive"))
+            {
+              curObj = parseLilyDir (objElem);
+            }
+          else if (ELEM_NAME_EQ (objElem, "grace-end"))
+            {
+              g_warning (_("Obsolete form, use earlier Denemo version to convert"));        //curObj = newgraceend ();
+            }
+          else if (ELEM_NAME_EQ (objElem, "grace-start"))
+            {
+              g_warning (_("Obsolete form, use earlier Denemo version to convert"));        //curObj = parseGraceStart (objElem, si);
+            }
+          else if (ELEM_NAME_EQ (objElem, "key-signature"))
+            {
+              curObj = dnm_newkeyobj (0, 0, 0);
+              parseKeySignature (objElem, curObj->object);
+              initkeyaccs (((keysig *) curObj->object)->accs, ((keysig *) curObj->object)->number);
+            }
+          else if (ELEM_NAME_EQ (objElem, "measure-break"))
+            {
+              /* FIXME */
+              g_warning ("Cannot yet handle <measure-break> elements");
+            }
+          else if (ELEM_NAME_EQ (objElem, "rest"))
+            {
+              curObj = parseRest (objElem);
+            }
+          else if (ELEM_NAME_EQ (objElem, "stem-directive"))
+            {
+              curObj = dnm_stem_directive_new (DENEMO_STEMBOTH);
+              parseStemDirective (objElem, curObj->object);
+            }
+          else if (ELEM_NAME_EQ (objElem, "time-signature"))
+            {
+              curObj = dnm_newtimesigobj (4, 4);
+              parseTimeSignature (objElem, curObj->object);
+            }
+          else if (ELEM_NAME_EQ (objElem, "tuplet-end"))
+            {
+              curObj = tuplet_close_new ();
+              parseTupletEnd (objElem, curObj->object);
+            }
+          else if (ELEM_NAME_EQ (objElem, "tuplet-start"))
+            {
+              curObj = tuplet_open_new (4, 4);
+              parseTupletStart (objElem, curObj->object);
+            }
+          else
+            {
+              ILLEGAL_ELEM ("measure", objElem);
+            }
+
+          if (curObj != NULL)
+            {
+              /*
+               * FIXME: Appending is very inefficient!  But we can't
+               *        prepend then reverse when we're done because
+               *        the import handler callbacks expect the data
+               *        structures to be in the right order.  Instead,
+               *        we should manually keep track of the end of
+               *        the list (si->currentobject?) and append to
+               *        that.
+               */
+              thelist = g_list_append (thelist, curObj);
+              //g_debug("Element type lily %d\n", curObj->type==LILYDIRECTIVE);
+
+            }
+        }                   /* end if objElem is in the right namespace */
+     
+    }                       /* end foreach objElem in childElem */
+    
+  return thelist;  
+
+}
 /**
  * Parse the given <measures> element into the voice in the given score.
  * @param measuresElem the XML node to process
@@ -2452,19 +2379,18 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, xmlNsPtr ns, DenemoMovemen
  * @return 0 on success, -1 on failure
  */
 static gint
-parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoMovement * si)
+parseMeasures (xmlNodePtr measuresElem, DenemoMovement * si)
 {
-  xmlNodePtr childElem, objElem, notesElem = NULL;
-  DenemoObject *curObj;
-  gboolean startedBeam = FALSE;
-  gint currentClef = ((DenemoStaff *) si->currentstaff->data)->clef.type;
+  xmlNodePtr childElem, objElem;
+
+  
   GList *slurEndChordElems = NULL;
   GList *crescEndChordElems = NULL;
   GList *diminEndChordElems = NULL;
 
   FOREACH_CHILD_ELEM (childElem, measuresElem)
   {
-    if (ELEM_NAME_EQ (childElem, "measure") && (childElem->ns == ns))
+    if (ELEM_NAME_EQ (childElem, "measure"))
       {
         if (si->currentmeasure == NULL)
           {
@@ -2472,180 +2398,10 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoMovement * si)
             si->currentmeasure = dnm_addmeasures (si, si->currentmeasurenum - 1, 1, FALSE);
             g_debug ("ImportXML Adding Measure \n currentmeasurenum %d", si->currentmeasurenum);
           }
+          gint currentClef = ((DenemoStaff *) si->currentstaff->data)->clef.type;
+        si->currentmeasure->data = parseMeasure (childElem, currentClef, 
+            &((DenemoStaff *) si->currentstaff->data)->hasfigures, &((DenemoStaff *) si->currentstaff->data)->hasfakechords);
 
-        FOREACH_CHILD_ELEM (objElem, childElem)
-        {
-          curObj = NULL;
-          notesElem = NULL;
-
-          if (objElem->ns == ns)
-            {
-              if (ELEM_NAME_EQ (objElem, "barline"))
-                {
-                  /* FIXME */
-                  g_warning ("Cannot yet handle <barline> elements");
-                }
-
-
-              else if (ELEM_NAME_EQ (objElem, "beam-end"))
-                {
-#if 0
-                  /* Ignore beam attribute for now. */
-                  if (prevChord == NULL)
-                    {
-                      g_warning ("Received <beam-end> without chord " "before it");
-                    }
-                  else
-                    {
-                      prevChord->isstart_beamgroup = FALSE;
-                      prevChord->isend_beamgroup = TRUE;
-                    }
-#endif
-                }
-              else if (ELEM_NAME_EQ (objElem, "beam-start"))
-                {
-#if 0
-                  /* Ignore ID for now. */
-                  startedBeam = TRUE;
-#endif
-                }
-              else if (ELEM_NAME_EQ (objElem, "chord"))
-                {
-                  curObj = parseChord (objElem, ns, si, currentClef, &slurEndChordElems, &crescEndChordElems, &diminEndChordElems, &notesElem);
-                  /* old format files will not have has... fields of staff explicit
-                     so for backwards compatibility we reconstruct it here */
-                  if (((chord *) curObj->object)->figure)
-                    ((DenemoStaff *) si->currentstaff->data)->hasfigures = TRUE;
-                  if (((chord *) curObj->object)->fakechord)
-                    ((DenemoStaff *) si->currentstaff->data)->hasfakechords = TRUE;
-
-                  if (startedBeam)
-                    {
-                      curObj->isstart_beamgroup = TRUE;
-                      curObj->isend_beamgroup = FALSE;
-                      startedBeam = FALSE;
-                    }
-                }
-              else if (ELEM_NAME_EQ (objElem, "clef"))
-                {
-                  curObj = clef_new (DENEMO_TREBLE_CLEF);
-                  parseClef (objElem, curObj->object);
-                  gchar *showProp = (gchar *) xmlGetProp (objElem, (xmlChar *) "show");
-                  if (showProp)
-                    curObj->isinvisible = !strcmp (showProp, "false");
-                  currentClef = ((clef *) curObj->object)->type;
-                }
-              else if (ELEM_NAME_EQ (objElem, "lyric"))
-                {
-                  /*gchar *text = (gchar *)xmlNodeListGetString
-                     (objElem->doc, 
-                     objElem->xmlChildrenNode,
-                     1); */
-                  /*curObj = lyric_new(text,0,); */
-
-                }
-              else if (ELEM_NAME_EQ (objElem, "lily-directive"))
-                {
-                  curObj = parseLilyDir (objElem);
-                }
-
-              /* else if (ELEM_NAME_EQ (objElem, "dynamic"))
-                 {
-                 curObj = parseDynamic (objElem, ns, si);
-                 } */
-              else if (ELEM_NAME_EQ (objElem, "grace-end"))
-                {
-                  g_warning (_("Obsolete form, use earlier Denemo version to convert"));        //curObj = newgraceend ();
-                }
-              else if (ELEM_NAME_EQ (objElem, "grace-start"))
-                {
-                  g_warning (_("Obsolete form, use earlier Denemo version to convert"));        //curObj = parseGraceStart (objElem, ns, si);
-                }
-              else if (ELEM_NAME_EQ (objElem, "key-signature"))
-                {
-#if 1
-                  curObj = dnm_newkeyobj (0, 0, 0);
-                  parseKeySignature (objElem, curObj->object);
-
-                  initkeyaccs (((keysig *) curObj->object)->accs, ((keysig *) curObj->object)->number);
-                  //dnm_setinitialkeysig(((keysig *) curObj->object), keySig, isMinor);
-#else
-                  //warningdialog(_("Dodgy code"));
-                  parseKeySignature (objElem, &keySig, &isMinor);
-                  //curObj = dnm_newkeyobj (keySig, isMinor, 0);
-                  //initkeyaccs (((keysig *) curObj->object)->accs, keySig);
-                  dnm_setinitialkeysig ((DenemoStaff *) si->currentstaff->data, keySig, isMinor);
-#endif
-                }
-              else if (ELEM_NAME_EQ (objElem, "measure-break"))
-                {
-                  /* FIXME */
-                  g_warning ("Cannot yet handle <measure-break> elements");
-                }
-              else if (ELEM_NAME_EQ (objElem, "rest"))
-                {
-                  curObj = parseRest (objElem, ns, si);
-                  if (curObj)
-                    {
-                      if (startedBeam)
-                        {
-                          curObj->isstart_beamgroup = TRUE;
-                          curObj->isend_beamgroup = FALSE;
-                          startedBeam = FALSE;
-                        }
-                    }
-                }
-              else if (ELEM_NAME_EQ (objElem, "stem-directive"))
-                {
-                  curObj = dnm_stem_directive_new (DENEMO_STEMBOTH);
-                  parseStemDirective (objElem, curObj->object);
-                }
-              else if (ELEM_NAME_EQ (objElem, "time-signature"))
-                {
-                  curObj = dnm_newtimesigobj (4, 4);
-                  parseTimeSignature (objElem, ns, curObj->object);
-                }
-              else if (ELEM_NAME_EQ (objElem, "tuplet-end"))
-                {
-                  curObj = tuplet_close_new ();
-                  parseTupletEnd (objElem, curObj->object);
-                }
-              else if (ELEM_NAME_EQ (objElem, "tuplet-start"))
-                {
-                  curObj = tuplet_open_new (4, 4);
-                  parseTupletStart (objElem, ns, curObj->object);
-                }
-              else
-                {
-                  ILLEGAL_ELEM ("measure", objElem);
-                }
-
-              if (curObj != NULL)
-                {
-                  /*
-                   * FIXME: Appending is very inefficient!  But we can't
-                   *        prepend then reverse when we're done because
-                   *        the import handler callbacks expect the data
-                   *        structures to be in the right order.  Instead,
-                   *        we should manually keep track of the end of
-                   *        the list (si->currentobject?) and append to
-                   *        that.
-                   */
-                  si->currentmeasure->data = g_list_append ((objnode *) si->currentmeasure->data, curObj);
-                  //g_debug("Element type lily %d\n", curObj->type==LILYDIRECTIVE);
-
-                  /*
-                   * FIXME: Loop through notesElem to search for
-                   * subelements of <note> that are in other namespaces.
-                   */
-                }
-            }                   /* end if objElem is in the right namespace */
-          else
-            {
-              /* FIXME: Handle other namespaces here. */
-              ILLEGAL_ELEM ("measure", objElem);
-            }
-        }                       /* end foreach objElem in childElem */
         si->currentmeasurenum++;
         si->currentmeasure = si->currentmeasure->next;
       }                         /* end if childElem is a <measure> */
@@ -2699,7 +2455,7 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoMovement * si)
  * @return 0 on success, -1 on failure
  */
 static gint
-parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoProject * gui)
+parseVoice (xmlNodePtr voiceElem, DenemoProject * gui)
 {
   DenemoMovement *si = gui->movement;
   xmlNodePtr childElem;
@@ -2715,24 +2471,24 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoProject * gui)
 
   /* Parse the child elements. */
 
-  childElem = getXMLChild (voiceElem, "voice-info", ns);
+  childElem = getXMLChild (voiceElem, "voice-info");
   RETURN_IF_ELEM_NOT_FOUND ("voice", childElem, "voice-info");
-  if (parseVoiceInfo (childElem, ns, si) != 0)
+  if (parseVoiceInfo (childElem, si) != 0)
     return -1;
 
-  childElem = getXMLChild (voiceElem, "initial-voice-params", ns);
+  childElem = getXMLChild (voiceElem, "initial-voice-params");
   RETURN_IF_ELEM_NOT_FOUND ("voice", childElem, "initial-voice-params");
-  if (parseInitVoiceParams (childElem, ns, si) != 0)
+  if (parseInitVoiceParams (childElem, si) != 0)
     return -1;
 
-  childElem = getXMLChild (voiceElem, "voice-props", ns);
+  childElem = getXMLChild (voiceElem, "voice-props");
   if (childElem)                //older files will not have this
     if (parseVoiceProps (childElem, si) != 0)
       return -1;
 
-  childElem = getXMLChild (voiceElem, "measures", ns);
+  childElem = getXMLChild (voiceElem, "measures");
   RETURN_IF_ELEM_NOT_FOUND ("voice", childElem, "measures");
-  if (parseMeasures (childElem, ns, si) != 0)
+  if (parseMeasures (childElem, si) != 0)
     return -1;
   if (Lyric->len)
     {
@@ -2762,44 +2518,44 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoProject * gui)
  * @return 0 on success ,-1 on failure
  */
 static gint
-parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoProject * gui, ImportType type)
+parseScore (xmlNodePtr scoreElem, DenemoProject * gui, ImportType type)
 {
   DenemoMovement *si = gui->movement;
   xmlNodePtr childElem, voiceElem;
 
 
-  childElem = getXMLChild (scoreElem, "edit-info", ns);
+  childElem = getXMLChild (scoreElem, "edit-info");
 
   if (childElem != 0)
-    parseEditInfo (childElem, ns, si);
+    parseEditInfo (childElem, si);
 
-  childElem = getXMLChild (scoreElem, "header-directives", ns);
+  childElem = getXMLChild (scoreElem, "header-directives");
   if (childElem != 0)
     si->header.directives = parseWidgetDirectives (childElem, (gpointer) header_directive_put_graphic, NULL, &(si->header.directives));
 
-  childElem = getXMLChild (scoreElem, "layout-directives", ns);
+  childElem = getXMLChild (scoreElem, "layout-directives");
   if (childElem != 0)
     si->layout.directives = parseWidgetDirectives (childElem, (gpointer) layout_directive_put_graphic, NULL, &(si->layout.directives));
 
-  childElem = getXMLChild (scoreElem, "movementcontrol-directives", ns);
+  childElem = getXMLChild (scoreElem, "movementcontrol-directives");
   if (childElem != 0)
     si->movementcontrol.directives = parseWidgetDirectives (childElem, (gpointer) movementcontrol_directive_put_graphic, NULL, &(si->movementcontrol.directives));
 
-  childElem = getXMLChild (scoreElem, "sources", ns);
+  childElem = getXMLChild (scoreElem, "sources");
   if (childElem != 0)
     si->sources = parseSources (childElem); //puts the pixbufs after decode_base64 into a GList* at this location
 
-  childElem = getXMLChild (scoreElem, "audio", ns);
+  childElem = getXMLChild (scoreElem, "audio");
   if (childElem != 0)
     {
       si->recording = (DenemoRecording *) g_malloc (sizeof (DenemoRecording));
       parseAudio (childElem, si);
     }
 
-  childElem = getXMLChild (scoreElem, "score-info", ns);
+  childElem = getXMLChild (scoreElem, "score-info");
   RETURN_IF_ELEM_NOT_FOUND ("score", childElem, "score-info");
   if (type == REPLACE_SCORE)
-    if (parseScoreInfo (childElem, ns, si) != 0)
+    if (parseScoreInfo (childElem, si) != 0)
       return -1;
 
   /*
@@ -2808,27 +2564,18 @@ parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoProject * gui, ImportType t
    *       namespaces that are children of <staff-info>.
    */
 
-  childElem = getXMLChild (scoreElem, "voices", ns);
+  childElem = getXMLChild (scoreElem, "voices");
   RETURN_IF_ELEM_NOT_FOUND ("score", childElem, "voices");
   FOREACH_CHILD_ELEM (voiceElem, childElem)
   {
-    if (ELEM_NAME_EQ (voiceElem, "voice") && (voiceElem->ns == ns))
+    if (ELEM_NAME_EQ (voiceElem, "voice"))
       {
-        if (parseVoice (voiceElem, ns, gui) != 0)
+        if (parseVoice (voiceElem, gui) != 0)
           return -1;
       }
     else
       {
         ILLEGAL_ELEM ("voices", voiceElem);
-      }
-  }
-
-  FOREACH_CHILD_ELEM (childElem, scoreElem)
-  {
-    if (childElem->ns != ns)
-      {
-        /* FIXME: Handle other namespaces here! */
-        ILLEGAL_ELEM ("score", childElem);
       }
   }
 
@@ -2838,7 +2585,7 @@ parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoProject * gui, ImportType t
 
 /* parse the movement (ie DenemoMovement) from childElem */
 static gint
-parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoProject * gui, ImportType type)
+parseMovement (xmlNodePtr childElem, DenemoProject * gui, ImportType type)
 {
   int ret = 0;
 
@@ -2847,7 +2594,7 @@ parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoProject * gui, ImportTyp
     gui->movements = g_list_append (gui->movements, gui->movement);
   si->currentstaffnum = 0;
   sPrevStaffElem = NULL;
-  ret = parseScore (childElem, ns, gui, type);
+  ret = parseScore (childElem, gui, type);
   sPrevStaffElem = NULL;
   staffnode *curstaff;
   if (si->thescore == NULL)
@@ -2888,8 +2635,51 @@ parseMovement (xmlNodePtr childElem, xmlNsPtr ns, DenemoProject * gui, ImportTyp
 }
 
 
-
-
+static void
+parseRhythmElem (xmlNodePtr sElem, RhythmPattern* r)
+{
+    xmlNodePtr childElem;
+    r->lilypond = g_string_new (xmlGetProp (sElem, "lilypond"));
+    childElem = getXMLChild (sElem, "objects");
+    if (childElem) {
+     gboolean dummy1, dummy2;
+     r->clipboard = g_list_append (NULL, parseMeasure(childElem, 1, &dummy1, &dummy2));
+     create_rhythm (r, FALSE);//unhighlight!!!
+    }
+}
+/**
+ * Parse the rhythms (music snippets)
+ * @param sElem the XML node to process
+ * @param gui to attach rhythms to
+ * 
+ * @return 
+ */
+static void
+parseRhythmsElem (xmlNodePtr sElem, DenemoProject * gui)
+{
+  xmlNodePtr childElem;
+  FOREACH_CHILD_ELEM (childElem, sElem)
+  {
+    if (ELEM_NAME_EQ (childElem, "rhythm")) 
+        {
+        RhythmPattern* r = (RhythmPattern*)g_malloc(sizeof(RhythmPattern));
+        
+        parseRhythmElem (childElem, r);
+        //gui->rhythms = g_list_append (gui->rhythms, r);//well a bit more than this ...
+          g_print("NOT IMPLEMENTED ");//parseRhythm (xmlNodePtr childElem, gui);
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+      }
+    }
+}
 
 
 /**
@@ -2981,7 +2771,7 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
           FOREACH_CHILD_ELEM (childElem, rootElem)
           {
             if (ELEM_NAME_EQ (childElem, "movement"))
-              ret |= parseMovement (childElem, ns, gui, type);
+              ret |= parseMovement (childElem, gui, type);
             else
               continue;
             //g_debug("parsed more staffs breaking now\n");
@@ -2993,12 +2783,12 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
           {
             if (ELEM_NAME_EQ (childElem, "lilycontrol") || ELEM_NAME_EQ (childElem, "custom_scoreblock") || ELEM_NAME_EQ (childElem, "visible_scoreblock") || ELEM_NAME_EQ (childElem, "scoreheader-directives") || ELEM_NAME_EQ (childElem, "paper-directives"))
               {
-                continue;       /* do not change the header when adding movements parseScoreInfo(childElem, ns, gui); */
+                continue;       /* do not change the header when adding movements parseScoreInfo(childElem, gui); */
               }
             else if (ELEM_NAME_EQ (childElem, "movement"))
               {
                 point_to_empty_movement (gui);
-                ret |= parseMovement (childElem, ns, gui, type);
+                ret |= parseMovement (childElem, gui, type);
                 //g_debug("parsed movement\n");
               }
             else
@@ -3040,7 +2830,7 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
               }
             else if (ELEM_NAME_EQ (childElem, "lilycontrol"))
               {
-                parseSetupInfo (childElem, ns, gui);
+                parseSetupInfo (childElem, gui);
               }
             else if (ELEM_NAME_EQ (childElem, "thumbnail"))
               {
@@ -3049,6 +2839,10 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
             else if (ELEM_NAME_EQ (childElem, "sourcefile"))
               {
                 parseSourceFileElem (childElem, gui);
+              }
+            else if (ELEM_NAME_EQ (childElem, "rhythms"))
+              {
+                parseRhythmsElem (childElem, gui);
               }
             else if (ELEM_NAME_EQ (childElem, "scoreheader-directives"))
               {
@@ -3090,13 +2884,11 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
             else if (ELEM_NAME_EQ (childElem, "movement"))
               {
                 point_to_empty_movement (gui);
-                ret |= parseMovement (childElem, ns, gui, type);
+                ret |= parseMovement (childElem, gui, type);
               }
             else
               {
-                g_warning ("unrecognized element in score %s - abandoning file", childElem->name);
-                point_to_empty_movement (gui);
-                ret |= parseMovement (childElem, ns, gui, type);
+                g_warning ("unrecognized element in score name:\"%s\" - ignoring", childElem->name);
               }
             if (gui->movement && gui->movement->lyricsbox)
               gtk_widget_hide (gui->movement->lyricsbox);

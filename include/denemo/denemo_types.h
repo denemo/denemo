@@ -1047,7 +1047,7 @@ typedef struct RhythmPattern
   GtkToolButton *button; /**< the button on the rhythm toolbar which invokes this rhythm */
   GList *clipboard;/**< a Denemo clipboard, used to create this patttern. */
   gchar *name;/**< a user-facing name for this pattern */
-  gchar *lilypond; /**< LilyPond syntax for this pattern */
+  GString *lilypond; /**< LilyPond syntax for this pattern, used to paste snippets into markup */
 } RhythmPattern;
 
 
