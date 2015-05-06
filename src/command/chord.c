@@ -265,8 +265,8 @@ new_note (gint mid_c_offset, gint enshift, gint dclef)
 note *
 addtone (DenemoObject * thechord, gint mid_c_offset, gint enshift, gint dclef)
 {
-  note *newnote = new_note (mid_c_offset, Denemo.project->movement->pending_enshift + enshift, dclef);
-  Denemo.project->movement->pending_enshift = 0;
+  note *newnote = new_note (mid_c_offset, (Denemo.project->movement?Denemo.project->movement->pending_enshift:0) + enshift, dclef);
+  if(Denemo.project->movement) Denemo.project->movement->pending_enshift = 0;
   ((chord *) thechord->object)->notes = g_list_insert_sorted (((chord *) thechord->object)->notes, newnote, insertcomparefunc);
   if (mid_c_offset > ((chord *) thechord->object)->highestpitch)
     {
