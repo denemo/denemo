@@ -2121,6 +2121,20 @@ confirm (gchar * primary, gchar * secondary)
   return r;
 }
 
+gboolean
+choose_option (gchar *title, gchar * primary, gchar * secondary)
+{
+  GtkWidget *dialog;
+  gboolean r;
+  dialog = gtk_dialog_new_with_buttons (title, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), 
+                                                      primary, GTK_RESPONSE_ACCEPT, secondary, GTK_RESPONSE_REJECT, NULL);
+  //g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
+  r = (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT);
+  gtk_widget_destroy (dialog);
+  return r; 
+}
+
+
 /* free a GString and the string it holds, and set the pointer to it to NULL */
 void
 nullify_gstring (GString ** s)

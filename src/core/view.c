@@ -3503,12 +3503,25 @@ static delete_snippet (RhythmPattern *r)
     }
   update_scheme_snippet_ids ();
 }
+
+static void delete_all_rhythms (void)
+{
+  DenemoProject *project = Denemo.project;
+  GList *g;
+  for (g = project->rhythms;g;g=project->rhythms)
+    {
+        delete_snippet (g->data);
+    }
+}
+
+
 /*
  * delete a rhythmic pattern and its button
  * 
  */
 void
 delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
+
 {
   DenemoProject *project = Denemo.project;
   if ((project->mode & (INPUTEDIT)) == 0)
@@ -3519,8 +3532,10 @@ delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
   delete_snippet(r);
 }
 
-
-
+void enquire_rhythms (void) {
+if (Denemo.project->rhythms && choose_option (_("Music Snippets Can be Kept"), _("Drop Music Snippets"), _("Keep Music Snippets")))
+    delete_all_rhythms ();
+}
 /*
  * workaround for glib<2.10
  */

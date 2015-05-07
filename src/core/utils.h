@@ -139,6 +139,7 @@ void set_title_bar (DenemoProject * gui);
 void score_status (DenemoProject * gui, gboolean change);
 void write_status (DenemoProject * gui);
 gboolean confirm (gchar * primary, gchar * secondary);
+gboolean choose_option (gchar *title, gchar * primary, gchar * secondary);
 void nullify_gstring (GString ** s);
 gchar *choose_file (gchar *title, gchar *startdir, GList *extensions);
 gchar *string_dialog_entry (DenemoProject * gui, gchar * title, gchar * instruction, gchar * initial_value);

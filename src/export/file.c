@@ -848,13 +848,14 @@ file_open_dialog(gchar* message, gchar* format, FileFormatNames save_type, Denem
    if(filename && (!g_file_test(filename, G_FILE_TEST_EXISTS)) && (!g_path_is_absolute (filename)) && file_selection_path)
             filename = g_build_filename (file_selection_path, filename, NULL);//memory leak
   
-  
+  enquire_rhythms ();
   if(filename && !g_file_test(filename, G_FILE_TEST_IS_DIR))
     return (open_for_real(filename, Denemo.project, template, type));
   
   GtkWidget *file_selection;
   GtkFileFilter *filter;
   gint i;
+  
   
   file_selection = gtk_file_chooser_dialog_new (_(message),
                         GTK_WINDOW (Denemo.window),
@@ -894,6 +895,8 @@ file_open_dialog(gchar* message, gchar* format, FileFormatNames save_type, Denem
       g_free (name);
     }
   gtk_widget_destroy (file_selection);
+  
+  
   return ret;
 }
 
@@ -1146,6 +1149,7 @@ file_newwrapper (GtkAction * action, DenemoScriptParam * param)
     {
       if (confirmbox (gui))
         {
+          enquire_rhythms ();
           deletescore (NULL, gui);
         }
       else
@@ -1157,6 +1161,7 @@ file_newwrapper (GtkAction * action, DenemoScriptParam * param)
     }
   else
     {
+      enquire_rhythms ();
       deletescore (NULL, gui);
     }
   deleteSchemeText ();
