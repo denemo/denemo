@@ -1,36 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="7">
-  <scheme>;;;;;;;;;;;;;;; SetBreve
-(if (and (defined? 'Snippet::Breve) (&gt; Snippet::Breve 0))
-    (d-SelectSnippet Snippet::Breve)
-(begin
-(d-PushPosition)
-(d-InsertMeasureBefore)
-(d-Insert0)
-(d-DirectivePut-chord-graphic "Breve" "noteheads_sM1neomensural")
-(d-DirectivePut-chord-override "Breve" DENEMO_OVERRIDE_GRAPHIC)
-(d-DirectivePut-chord-prefix "Breve" "\\breve ")
-(d-SetDurationInTicks (* 2 1536))
-(d-CreateSnippetFromObject "Breve")
-(d-DeleteMeasure)
-(d-PopPosition)))
-;;;;;;;;;;;;;;; SetLonga
-(if (and (defined? 'Snippet::Longa) (&gt; Snippet::Longa 0))
-    (d-SelectSnippet Snippet::Longa)
-(begin
-(d-PushPosition)
-(d-InsertMeasureBefore)
-(d-Insert0)
-(d-DirectivePut-chord-graphic "Longa" "noteheads_sM2neomensural")
-(d-DirectivePut-chord-override "Longa" DENEMO_OVERRIDE_GRAPHIC)
-(d-DirectivePut-chord-prefix "Longa" "\\longa ")
-(d-SetDurationInTicks (* 2 1536))
-(d-CreateSnippetFromObject "Longa")
-(d-DeleteMeasure)
-(d-PopPosition)))
+  <scoreheader-directives>
+    <directive>
+      <tag>ScoreTitle</tag>
+      <postfix>title =  \markup { \with-url #'"scheme:(d-ScoreTitle)"  "Click Title"}
 
-</scheme>
+</postfix>
+      <display>Click Title</display>
+      <data>Click Title</data>
+      <override>36</override>
+    </directive>
+  </scoreheader-directives>
   <paper-directives>
+    <directive>
+      <tag>PrintAllHeaders</tag>
+      <postfix>
+print-all-headers = ##t
+</postfix>
+    </directive>
     <directive>
       <tag>LimitInterSystemSpace</tag>
       <postfix>
@@ -38,11 +25,89 @@ page-limit-inter-system-space = ##t
 page-limit-inter-system-space-factor = 1.2</postfix>
     </directive>
   </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
+  <rhythms>
+    <rhythm lilypond=" \once \override NoteHead #'style = #'neomensural c' \breve " nickname="Breve">
+      <objects>
+        <chord show="false" id="id0">
+          <duration base="whole"></duration>
+          <directives>
+            <directive>
+              <tag>Duration</tag>
+              <prefix>\breve </prefix>
+              <graphic_name>
+
+emmentaler</graphic_name>
+              <override>6</override>
+            </directive>
+            <directive>
+              <tag>NoteHead</tag>
+              <prefix>\once \override NoteHead #'style = #'neomensural </prefix>
+              <display>nm</display>
+              <override>16</override>
+            </directive>
+          </directives>
+          <ticks>3072</ticks>
+          <notes>
+            <note id="id1">
+              <middle-c-offset>0</middle-c-offset>
+            </note>
+          </notes>
+        </chord>
+      </objects>
+    </rhythm>
+    <rhythm lilypond=" \once \override NoteHead #'style = #'neomensural c' \longa " nickname="Longa">
+      <objects>
+        <chord show="false" id="id2">
+          <duration base="whole"></duration>
+          <directives>
+            <directive>
+              <tag>Duration</tag>
+              <prefix>\longa </prefix>
+              <graphic_name>
+
+emmentaler</graphic_name>
+              <override>6</override>
+            </directive>
+            <directive>
+              <tag>NoteHead</tag>
+              <prefix>\once \override NoteHead #'style = #'neomensural </prefix>
+              <display>nm</display>
+              <override>16</override>
+            </directive>
+          </directives>
+          <ticks>6144</ticks>
+          <notes>
+            <note id="id3">
+              <middle-c-offset>0</middle-c-offset>
+            </note>
+          </notes>
+        </chord>
+      </objects>
+    </rhythm>
+  </rhythms>
   <lilycontrol>
     <papersize>a4</papersize>
-    <fontsize>20</fontsize>
+    <fontsize>18</fontsize>
     <orientation>1</orientation>
     <total-edit-time>0</total-edit-time>
+    <score-directives>
+      <directive>
+        <tag>ScoreIndent</tag>
+        <prefix>\layout {indent = 12.6}
+</prefix>
+        <display>indent=12.6</display>
+        <data>12.6</data>
+        <override>4</override>
+      </directive>
+    </score-directives>
   </lilycontrol>
   <movement-number>1</movement-number>
   <movement>
@@ -53,9 +118,17 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
-      <page-zoom>100</page-zoom>
-      <page-system-height>100</page-system-height>
+      <page-zoom>0</page-zoom>
+      <page-system-height>0</page-system-height>
     </edit-info>
+    <header-directives>
+      <directive>
+        <tag>SuppressTitleRepeats</tag>
+        <postfix>title = ##f
+instrument = ##f
+</postfix>
+      </directive>
+    </header-directives>
     <score-info>
       <tempo>
         <duration>
@@ -66,16 +139,16 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       </tempo>
     </score-info>
     <staves>
-      <staff id="id0"></staff>
+      <staff id="id4"></staff>
     </staves>
     <voices>
-      <voice id="id1">
+      <voice id="id5">
         <voice-info>
-          <voice-name>voice 1</voice-name>
+          <voice-name>Unnamed</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id0"></staff-ref>
+          <staff-ref staff="id4"></staff-ref>
           <clef name="treble"></clef>
           <key-signature>
             <modal-key-signature note-name="C" mode="major"></modal-key-signature>
@@ -93,13 +166,22 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <transpose>0</transpose>
           <instrument></instrument>
           <device-port>NONE</device-port>
-          <volume>65</volume>
+          <volume>127</volume>
           <override_volume>0</override_volume>
           <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+                    (if choice (choice)))    " \transparent {"Unnamed" }}</postfix>
+              <display>Unnamed</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
         </voice-props>
         <measures>
           <measure></measure>
