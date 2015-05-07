@@ -2640,11 +2640,13 @@ parseRhythmElem (xmlNodePtr sElem, RhythmPattern* r)
 {
     xmlNodePtr childElem;
     r->lilypond = g_string_new (xmlGetProp (sElem, "lilypond"));
+    gchar *nick = xmlGetProp (sElem, "nickname");
+    if (nick && *nick) r->nickname = g_string_new (nick);
     childElem = getXMLChild (sElem, "objects");
     if (childElem) {
      gboolean dummy1, dummy2;
      r->clipboard = g_list_append (NULL, parseMeasure(childElem, 1, &dummy1, &dummy2));
-     create_rhythm (r, FALSE);//unhighlight!!!
+     create_rhythm (r, FALSE);
     }
 }
 /**
@@ -2662,21 +2664,8 @@ parseRhythmsElem (xmlNodePtr sElem, DenemoProject * gui)
   {
     if (ELEM_NAME_EQ (childElem, "rhythm")) 
         {
-        RhythmPattern* r = (RhythmPattern*)g_malloc(sizeof(RhythmPattern));
-        
+        RhythmPattern* r = (RhythmPattern*)g_malloc0(sizeof(RhythmPattern));
         parseRhythmElem (childElem, r);
-        //gui->rhythms = g_list_append (gui->rhythms, r);//well a bit more than this ...
-          g_print("NOT IMPLEMENTED ");//parseRhythm (xmlNodePtr childElem, gui);
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
       }
     }
 }

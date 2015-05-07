@@ -484,7 +484,8 @@
   </toolbar>
   <toolbar name="RhythmToolBar">
     <toolitem action="CreateRhythm"/>
-    <toolitem action="DeleteRhythm"/>
+    <!-- <toolitem action="DeleteRhythm"/>-->
+
   </toolbar>
 
 

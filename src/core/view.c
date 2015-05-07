@@ -1491,9 +1491,22 @@ pb_midi_convert (GtkWidget * button)
 
   g_info ("Finished midi convert");
 }
+#define CURRP ((RhythmPattern *)project->currhythm->data)
+#define LABEL_WIDGET_OF_TOOLBUTTON(a) (gtk_tool_button_get_label_widget((a)))
 
-
-
+void set_rhythm_label (RhythmPattern * r, gchar *text)
+{
+     DenemoProject *project = Denemo.project;
+    GtkWidget *label = LABEL_WIDGET_OF_TOOLBUTTON (CURRP->button);
+    gchar *labelstr;
+    if (r->nickname && r->nickname->len)
+    labelstr = g_strconcat (text,"\n",r->nickname->str, NULL);
+    else
+    labelstr = g_strdup (text);
+    //g_debug("markup is %s\n", ((RhythmElement*)g->data)->icon);
+    gtk_label_set_markup (GTK_LABEL (label), labelstr);
+    g_free (labelstr); 
+}
 
 /**
  * Rhythm callback select rhythm
@@ -1503,7 +1516,7 @@ void
 select_rhythm_pattern (RhythmPattern * r)
 {
   DenemoProject *project = Denemo.project;
-#define CURRP ((RhythmPattern *)project->currhythm->data)
+
 
   if (project->currhythm && (CURRP != r))
     {                           //Change the highlighting
@@ -1522,29 +1535,56 @@ select_rhythm_pattern (RhythmPattern * r)
       gchar *text = ((RhythmElement *) project->rstep->data)->icon;
       if (text)
         {
-          GtkWidget *label = LABEL (CURRP->button);
-          //g_debug("markup is %s\n", ((RhythmElement*)g->data)->icon);
-          gtk_label_set_markup (GTK_LABEL (label), text);
+         set_rhythm_label (r, text);
         }
       highlight_rhythm (CURRP);
     }
 #undef CURRP
 }
-
-static void
-activate_rhythm_pattern (GtkToolButton * toolbutton, RhythmPattern * r)
+#undef LABEL_WIDGET_OF_TOOLBUTTON
+static void insert_and_select_snippet (RhythmPattern * r)
 {
   select_rhythm_pattern (r);
   if ((Denemo.project->mode & INPUTEDIT))
     {
-     // if (Denemo.project->input_source == INPUTMIDI)
-      //  {
-      //    insert_note_following_pattern (Denemo.project);
-       //   ((DenemoObject *) Denemo.project->movement->currentobject->data)->isinvisible = TRUE;
-     //   }
-    //  else
         insert_clipboard (r->clipboard);
-    }
+    }   
+}
+static void insert_snippet (RhythmPattern * r)
+{
+ 
+  if ((Denemo.project->mode & INPUTEDIT))
+    {
+        insert_clipboard (r->clipboard);
+    }   
+}
+static delete_snippet (RhythmPattern *r);
+static void rename_snippet (RhythmPattern *r);
+
+static void
+activate_rhythm_pattern (GtkToolButton * toolbutton, RhythmPattern * r)
+{
+   GtkWidget *menu = gtk_menu_new ();
+    GtkWidget *item = gtk_menu_item_new_with_label (_("Select Snippet"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (select_rhythm_pattern),r);
+
+    item = gtk_menu_item_new_with_label (_("Insert Snippet at Cursor"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (insert_snippet), r);
+        item = gtk_menu_item_new_with_label (_("Re-label Snippet"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (rename_snippet), r);
+
+    item = gtk_menu_item_new_with_label (_("Insert and Select"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (select_rhythm_pattern), r);
+    
+     item = gtk_menu_item_new_with_label (_("Delete Snippet"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (delete_snippet), r);
+    gtk_widget_show_all (menu);
+    gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());   
 }
 
 gboolean insert_nth_rhythm (gint n) {
@@ -1725,7 +1765,24 @@ install_button_for_pattern (RhythmPattern * r, gchar * thelabel)
   gtk_tool_button_set_label_widget (button, label);
   r->button = button;
 }
-
+static GString *shorten_string (gchar *str) {
+    GString *ret = g_string_new("");
+    for(;*str;str++)
+        {
+         switch (*str) {
+             case '\n':
+             case '\t':
+             case ' ':
+             continue;
+             default:
+                g_string_append_c (ret, *str);
+             
+         }
+       if(ret->len > 8) break;
+      }
+    return ret;
+}
+        
 /*
  * curobj is a list of DenemoObject, 
  * creates a RhythmPattern 
@@ -1861,6 +1918,27 @@ static void create_rhythm_and_pattern (GList *curobj, RhythmPattern* r, GString 
               }
           }
           break;
+        case LILYDIRECTIVE:
+            {
+                DenemoDirective *direc = (DenemoDirective *)obj->object;
+                fn = (gpointer) null_action;
+                if((curobj->prev==NULL)&&(curobj->next==NULL) && (r->nickname==NULL))
+                    {
+                        if(direc->display)
+                            r->nickname = shorten_string (direc->display->str);
+                        else
+                        if(direc->graphic_name)
+                            r->nickname = shorten_string (direc->graphic_name->str);
+                        else
+                            if(direc->postfix)
+                            r->nickname = shorten_string (direc->prefix->str);
+                        else 
+                            r->nickname = g_string_new ("S");
+                    } 
+                g_string_append_c (pattern, 'S');
+                append_rhythm (r, fn);
+            }
+          break;
         default:
             {
                 fn = null_action;
@@ -1897,6 +1975,26 @@ void fill_in_steps (RhythmPattern* r, GString *pattern)  {
           //g_debug("el->icon = %s step %d pattern->str %s\n", el->icon, i, pattern->str);
         }
     }
+    
+    
+static void rename_rhythm (RhythmPattern *r, gchar *name)
+{ 
+  GtkWidget *label = gtk_tool_button_get_label_widget (r->button);
+  if (r->nickname == NULL)
+    r->nickname = g_string_new (r->name);
+  if(name==NULL)
+    name = string_dialog_entry (Denemo.project, _("Rename Music Snippet"), _("Give new label for snippet"), r->nickname->str);
+  if(name && *name)
+    {
+        g_string_assign (r->nickname, name);
+        gtk_label_set_markup (GTK_LABEL (label), r->nickname->str);
+    }
+}    
+
+static void rename_snippet (RhythmPattern *r)
+{
+   rename_rhythm (r, NULL); 
+}    
 //create a rhythm pattern (aka snippet) from r->clipboard or the selection
 //put the rhythm pattern in the Denemo.project and on the snippets toolbar
 //highlight the created rhythm if from the selection    
@@ -1908,8 +2006,6 @@ void create_rhythm (RhythmPattern *r, gboolean from_selection) {
 
     if (r->clipboard)
       create_rhythm_and_pattern ( (GList *)((GList *)r->clipboard)->data, r, pattern);
-
-    
     gchar *labelstr;
     labelstr = music_font (pattern->str);
     GtkWidget *label = gtk_tool_button_get_label_widget (r->button);
@@ -1923,10 +2019,13 @@ void create_rhythm (RhythmPattern *r, gboolean from_selection) {
     g_list_last (r->rsteps)->next = r->rsteps;
     }
     insert_pattern_in_toolbar (r, from_selection);
+    if(r->nickname)
+        rename_rhythm (r, r->nickname->str);
     if(!from_selection)
         unhighlight_rhythm (r);
     g_string_free (pattern, TRUE); 
-}    
+}
+
     
 /* create_rhythm_cb
         - create a rhythm pattern from the current selection
@@ -3365,21 +3464,9 @@ highlight_duration (DenemoProject * project, gint dur)
 
 
 
-
-/*
- * delete a rhythmic pattern and its button
- * 
- */
-void
-delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
+static delete_snippet (RhythmPattern *r)
 {
   DenemoProject *project = Denemo.project;
-  if ((project->mode & (INPUTEDIT)) == 0)
-    return;
-  if (project->currhythm == NULL)
-    return;
-  RhythmPattern *r = (RhythmPattern *) project->currhythm->data;
-
   free_clipboard (r->clipboard);
   r->clipboard = NULL;
   if (r->name)
@@ -3399,7 +3486,7 @@ delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
   g_list_free (r->rsteps);
   g_free (r);
   //g_debug("length %d\n", g_list_length(project->rhythms));
-  project->rhythms = g_list_remove (project->rhythms, project->currhythm->data);
+  project->rhythms = g_list_remove (project->rhythms, r);//project->currhythm->data);
   //g_debug("length %d %p\n", g_list_length(project->rhythms), project->rhythms);
   project->currhythm = g_list_last (project->rhythms);
 
@@ -3415,6 +3502,21 @@ delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
       project->cstep = ((RhythmPattern *) project->currhythm->data)->clipboard->data;
     }
   update_scheme_snippet_ids ();
+}
+/*
+ * delete a rhythmic pattern and its button
+ * 
+ */
+void
+delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
+{
+  DenemoProject *project = Denemo.project;
+  if ((project->mode & (INPUTEDIT)) == 0)
+    return;
+  if (project->currhythm == NULL)
+    return;
+  RhythmPattern *r = (RhythmPattern *) project->currhythm->data;
+  delete_snippet(r);
 }
 
 

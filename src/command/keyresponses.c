@@ -814,18 +814,18 @@ deletepreviousobject (GtkAction* action, DenemoScriptParam *param)
 #define g  (Denemo.project->rstep)
       if ((Denemo.project->mode & (INPUTEDIT) && g))
         {
-#define CURRP ((RhythmPattern *)Denemo.project->currhythm->data)
+          
           g = g->prev;          /* list is circular - should we stop at beginning? */
           if (Denemo.project->cstep)
             {
-              Denemo.project->cstep = Denemo.project->cstep->prev ? Denemo.project->cstep->prev : g_list_last (CURRP->clipboard)->data;
+              RhythmPattern *cursnip = (RhythmPattern *)Denemo.project->currhythm->data;
+              Denemo.project->cstep = Denemo.project->cstep->prev ? Denemo.project->cstep->prev : g_list_last (cursnip->clipboard)->data;
             }
           if (((RhythmElement *) g->data)->icon)
             {
-              GtkWidget *label = LABEL (CURRP->button);
-              gtk_label_set_markup (GTK_LABEL (label), ((RhythmElement *) g->data)->icon);
+                RhythmPattern *cursnip = (RhythmPattern *)Denemo.project->currhythm->data;
+                set_rhythm_label (cursnip, ((RhythmElement *) g->data)->icon);
             }
-#undef CURRP
 #undef g
         }
 

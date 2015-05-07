@@ -64,22 +64,14 @@ nextrhythm (GtkAction* action, DenemoScriptParam* param)
   g = ((RhythmPattern *) Denemo.project->currhythm->data)->rsteps;
 
 
-#define CURRP ((RhythmPattern *)Denemo.project->currhythm->data)
-
-  Denemo.project->cstep = (CURRP->clipboard)->data;
+  RhythmPattern *cursnip = ((RhythmPattern *)Denemo.project->currhythm->data);
+  Denemo.project->cstep = (cursnip->clipboard)->data;
   if (((RhythmElement *) g->data)->icon)
     {
-      GtkWidget *label = LABEL (CURRP->button);
-      //g_debug("markup is %s\n", ((RhythmElement*)g->data)->icon);
-      gtk_label_set_markup (GTK_LABEL (label), ((RhythmElement *) g->data)->icon);
+        set_rhythm_label (cursnip, ((RhythmElement *) g->data)->icon);
     }
-#if 0
-  gtk_widget_set_state (GTK_WIDGET (((RhythmPattern *) gui->currhythm->data)->button), GTK_STATE_PRELIGHT);
-#else
+
   highlight_rhythm ((RhythmPattern *) Denemo.project->currhythm->data);
-#endif
-  //g_debug("selected active\n");
-#undef CURRP
 #undef g
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
@@ -1438,17 +1430,14 @@ insert_note_following_pattern (DenemoProject * gui)
           displayhelper (gui);
         }
 
-#define CURRP ((RhythmPattern *)gui->currhythm->data)
       if (((RhythmElement *) g->data)->icon)
         {                       /* singletons do not have icon */
-          GtkWidget *label = LABEL (CURRP->button);
-          //g_debug("Markup is %s\n", ((RhythmElement*)g->data)->icon);
-          gtk_label_set_markup (GTK_LABEL (label), ((RhythmElement *) g->data)->icon);
+          RhythmPattern *cursnip = gui->currhythm->data;
+          set_rhythm_label (cursnip, ((RhythmElement *) g->data)->icon);
         }
       gui->mode = mode;
       score_status (gui, TRUE);
     }
-#undef CURRP
 #undef g
 }
 

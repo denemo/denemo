@@ -1022,6 +1022,9 @@ newRhythmElem (xmlNodePtr curElem, xmlNsPtr ns, RhythmPattern* r )
 {
   xmlNodePtr rhythmElem = xmlNewChild (curElem, ns, (xmlChar *) "rhythm", NULL);
   xmlSetProp (rhythmElem, (xmlChar *) "lilypond", (xmlChar *) (r->lilypond?r->lilypond->str:""));
+  if (r->nickname)
+    xmlSetProp (rhythmElem, (xmlChar *) "nickname", (xmlChar *) (r->nickname->str));
+
   newClipboardElem (rhythmElem, ns, r->clipboard);
 }
 
