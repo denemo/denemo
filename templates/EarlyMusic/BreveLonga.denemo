@@ -34,9 +34,43 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <last-obj>2147483647</last-obj>
   </thumbnail>
   <rhythms>
+    <rhythm lilypond=" r\breve " nickname="Breve Rest">
+      <objects>
+        <rest show="true" id="id0">
+          <duration base="whole"></duration>
+          <directives>
+            <directive>
+              <tag>Duration</tag>
+              <prefix>\breve </prefix>
+              <graphic_name>rests_M1neomensural</graphic_name>
+              <override>6</override>
+            </directive>
+          </directives>
+          <ticks>3072</ticks>
+        </rest>
+      </objects>
+    </rhythm>
+    <rhythm lilypond=" r\longa " nickname="Longa Rest">
+      <objects>
+        <rest show="true" id="id1">
+          <duration base="whole"></duration>
+          <directives>
+            <directive>
+              <tag>Duration</tag>
+              <prefix>\longa </prefix>
+              <graphic_name>
+
+emmentaler</graphic_name>
+              <override>6</override>
+            </directive>
+          </directives>
+          <ticks>6144</ticks>
+        </rest>
+      </objects>
+    </rhythm>
     <rhythm lilypond=" \once \override NoteHead #'style = #'neomensural c' \breve " nickname="Breve">
       <objects>
-        <chord show="false" id="id0">
+        <chord show="false" id="id2">
           <duration base="whole"></duration>
           <directives>
             <directive>
@@ -56,7 +90,7 @@ emmentaler</graphic_name>
           </directives>
           <ticks>3072</ticks>
           <notes>
-            <note id="id1">
+            <note id="id3">
               <middle-c-offset>0</middle-c-offset>
             </note>
           </notes>
@@ -65,7 +99,7 @@ emmentaler</graphic_name>
     </rhythm>
     <rhythm lilypond=" \once \override NoteHead #'style = #'neomensural c' \longa " nickname="Longa">
       <objects>
-        <chord show="false" id="id2">
+        <chord show="false" id="id4">
           <duration base="whole"></duration>
           <directives>
             <directive>
@@ -85,7 +119,7 @@ emmentaler</graphic_name>
           </directives>
           <ticks>6144</ticks>
           <notes>
-            <note id="id3">
+            <note id="id5">
               <middle-c-offset>0</middle-c-offset>
             </note>
           </notes>
@@ -118,8 +152,8 @@ emmentaler</graphic_name>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
-      <page-zoom>0</page-zoom>
-      <page-system-height>0</page-system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
     </edit-info>
     <header-directives>
       <directive>
@@ -139,16 +173,16 @@ instrument = ##f
       </tempo>
     </score-info>
     <staves>
-      <staff id="id4"></staff>
+      <staff id="id6"></staff>
     </staves>
     <voices>
-      <voice id="id5">
+      <voice id="id7">
         <voice-info>
           <voice-name>Unnamed</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id4"></staff-ref>
+          <staff-ref staff="id6"></staff-ref>
           <clef name="treble"></clef>
           <key-signature>
             <modal-key-signature note-name="C" mode="major"></modal-key-signature>
