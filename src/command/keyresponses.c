@@ -799,6 +799,9 @@ remove_tone_key (GtkAction* action, DenemoScriptParam *param)
   return delete_chordnote (Denemo.project);
 }
 
+// Note this function is RECURSIVE.
+// deletes the object before the cursor. If the measure is empty it moves to the end of the previous measure and calls itself.
+// after deleting an object it backs-up on any rhythm pattern being followed.
 void
 deletepreviousobject (GtkAction* action, DenemoScriptParam *param)
 {
@@ -811,22 +814,20 @@ deletepreviousobject (GtkAction* action, DenemoScriptParam *param)
       /* And delete */
       deleteobject (NULL, NULL);
       /* if you are following a rhythmic pattern then backup the pattern */
-#define g  (Denemo.project->rstep)
-      if ((Denemo.project->mode & (INPUTEDIT) && g))
+      if ((Denemo.project->mode & (INPUTEDIT) && Denemo.project->rstep))
         {
           
-          g = g->prev;          /* list is circular - should we stop at beginning? */
+          Denemo.project->rstep = Denemo.project->rstep->prev;          /* rstep list of elements is circular */
           if (Denemo.project->cstep)
             {
               RhythmPattern *cursnip = (RhythmPattern *)Denemo.project->currhythm->data;
-              Denemo.project->cstep = Denemo.project->cstep->prev ? Denemo.project->cstep->prev : g_list_last (cursnip->clipboard)->data;
+              Denemo.project->cstep = Denemo.project->cstep->prev ? Denemo.project->cstep->prev : g_list_last (Denemo.project->cstep);// cstep list of DenemoObjects is not circular
             }
-          if (((RhythmElement *) g->data)->icon)
+          if (((RhythmElement *) Denemo.project->rstep->data)->icon)
             {
                 RhythmPattern *cursnip = (RhythmPattern *)Denemo.project->currhythm->data;
-                set_rhythm_label (cursnip, ((RhythmElement *) g->data)->icon);
+                set_rhythm_label (cursnip, ((RhythmElement *) Denemo.project->rstep->data)->icon);
             }
-#undef g
         }
 
     }
@@ -852,7 +853,7 @@ deletepreviousobject (GtkAction* action, DenemoScriptParam *param)
           if (Denemo.project->movement->currentobject)
             {
               movecursorright (NULL, NULL);
-              deletepreviousobject (NULL, NULL);
+              deletepreviousobject (NULL, NULL);//RECURSIVE!!
             }
         }
     }
