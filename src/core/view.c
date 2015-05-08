@@ -1565,7 +1565,7 @@ static void
 activate_rhythm_pattern (GtkToolButton * toolbutton, RhythmPattern * r)
 {
    GtkWidget *menu = gtk_menu_new ();
-    GtkWidget *item = gtk_menu_item_new_with_label (_("Select Snippet"));
+    GtkWidget *item = gtk_menu_item_new_with_label (_("Select and Reset Snippet"));
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
     g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (select_rhythm_pattern),r);
 
@@ -1578,7 +1578,7 @@ activate_rhythm_pattern (GtkToolButton * toolbutton, RhythmPattern * r)
 
     item = gtk_menu_item_new_with_label (_("Insert and Select"));
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (select_rhythm_pattern), r);
+    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (insert_and_select_snippet), r);
     
      item = gtk_menu_item_new_with_label (_("Delete Snippet"));
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
@@ -2059,8 +2059,8 @@ create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
 
 }
 // create a rhythm pattern for a standard duration note or rest action is the insert_chord or rest for the appropriate duration.
-void
-create_singleton_rhythm (gpointer action)
+static void
+create_singleton_rhythm (gpointer insert_fn)
 {
   DenemoProject *project = Denemo.project;
   gboolean already_done = FALSE;        // a singleton which has already been installed globally, that is a new tab is being opened.
@@ -2068,50 +2068,51 @@ create_singleton_rhythm (gpointer action)
   DenemoMovement *si = project->movement;
   RhythmPattern *r = (RhythmPattern *) g_malloc0 (sizeof (RhythmPattern));
   GString *pattern = g_string_new("");
-  if (action == (gpointer) insert_chord_0key)
+  if (insert_fn == (gpointer) insert_chord_0key)
     pattern = g_string_assign (pattern, "0");
-  if (action == (gpointer) insert_chord_1key)
+  if (insert_fn == (gpointer) insert_chord_1key)
     pattern = g_string_assign (pattern, "1");
-  if (action == (gpointer) insert_chord_2key)
+  if (insert_fn == (gpointer) insert_chord_2key)
     pattern = g_string_assign (pattern, "2"), default_rhythm = TRUE;
-  if (action == (gpointer) insert_chord_3key)
+  if (insert_fn == (gpointer) insert_chord_3key)
     pattern = g_string_assign (pattern, "3");
-  if (action == (gpointer) insert_chord_4key)
+  if (insert_fn == (gpointer) insert_chord_4key)
     pattern = g_string_assign (pattern, "4");
-  if (action == (gpointer) insert_chord_5key)
+  if (insert_fn == (gpointer) insert_chord_5key)
     pattern = g_string_assign (pattern, "5");
-  if (action == (gpointer) insert_chord_6key)
+  if (insert_fn == (gpointer) insert_chord_6key)
     pattern = g_string_assign (pattern, "6");
-  if (action == (gpointer) insert_chord_7key)
+  if (insert_fn == (gpointer) insert_chord_7key)
     pattern = g_string_assign (pattern, "7");
-  if (action == (gpointer) insert_chord_8key)
+  if (insert_fn == (gpointer) insert_chord_8key)
     pattern = g_string_assign (pattern, "8");
 
-  if (action == (gpointer) insert_rest_0key)
+  if (insert_fn == (gpointer) insert_rest_0key)
     pattern = g_string_assign (pattern, "r");
-  if (action == (gpointer) insert_rest_1key)
+  if (insert_fn == (gpointer) insert_rest_1key)
     pattern = g_string_assign (pattern, "s");
-  if (action == (gpointer) insert_rest_2key)
+  if (insert_fn == (gpointer) insert_rest_2key)
     pattern = g_string_assign (pattern, "t");
-  if (action == (gpointer) insert_rest_3key)
+  if (insert_fn == (gpointer) insert_rest_3key)
     pattern = g_string_assign (pattern, "u");
-  if (action == (gpointer) insert_rest_4key)
+  if (insert_fn == (gpointer) insert_rest_4key)
     pattern = g_string_assign (pattern, "v");
-  if (action == (gpointer) insert_rest_5key)
+  if (insert_fn == (gpointer) insert_rest_5key)
     pattern = g_string_assign (pattern, "w");
-  if (action == (gpointer) insert_rest_6key)
+  if (insert_fn == (gpointer) insert_rest_6key)
     pattern = g_string_assign (pattern, "x");
-  if (action == (gpointer) insert_rest_7key)
+  if (insert_fn == (gpointer) insert_rest_7key)
     pattern = g_string_assign (pattern, "y");
-  if (action == (gpointer) insert_rest_8key)
+  if (insert_fn == (gpointer) insert_rest_8key)
     pattern = g_string_assign (pattern, "z");
   if (pattern->len<=0)
     {
-        g_warning ("Bad call to create_singleton_rhythm");
+        g_critical ("Bad call to create_singleton_rhythm");
+        g_string_free (pattern, TRUE);
         return;
     }
     /* if we already have it globally we don't need it again
-                                   note we never delete the singleton rhythms */
+        note we never delete the singleton rhythms */
       if (Denemo.singleton_rhythms[(unsigned int) *pattern->str])
         {
           g_free (r);
@@ -2123,13 +2124,11 @@ create_singleton_rhythm (gpointer action)
           Denemo.singleton_rhythms[(unsigned int) *pattern->str] = r;
           already_done = FALSE;
         }
-      if (!already_done)
-        append_rhythm (r, action);
-
 
     if (!already_done)
         {
           gchar *labelstr;
+          append_rhythm (r, insert_fn);
           labelstr = music_font (pattern->str);
           g_free (labelstr);
 
@@ -2145,8 +2144,6 @@ create_singleton_rhythm (gpointer action)
           highlight_rhythm (r);
           //g_debug("prevailing rhythm is %p\n",r);
         }
-
-    if (pattern)
     g_string_free (pattern, TRUE);
 }
 
