@@ -811,13 +811,15 @@ deletepreviousobject (GtkAction* action, DenemoScriptParam *param)
     {
       /* Then move the cursor back */
       movecursorleft (NULL, NULL);
+      DenemoObject *curObj = (DenemoObject*)Denemo.project->movement->currentobject->data;
+      gboolean anote = (curObj->type == CHORD) && ((chord*)curObj->object)->notes;
       /* And delete */
       deleteobject (NULL, NULL);
       /* if you are following a rhythmic pattern then backup the pattern */
       if ((Denemo.project->mode & (INPUTEDIT) && Denemo.project->rstep))
         {
-          
-          Denemo.project->rstep = Denemo.project->rstep->prev;          /* rstep list of elements is circular */
+          if (anote)
+            Denemo.project->rstep = Denemo.project->rstep->prev;          /* rstep list of elements is circular */
           if (Denemo.project->cstep)
             {
               RhythmPattern *cursnip = (RhythmPattern *)Denemo.project->currhythm->data;

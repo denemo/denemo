@@ -1916,6 +1916,7 @@ static void create_rhythm_and_pattern (GList *curobj, RhythmPattern* r, GString 
                 g_string_append_c (pattern, ')');
                 append_rhythm (r, fn);
               }
+              //FIXME other built-ins here - cresc endcresc ...
           }
           break;
         case LILYDIRECTIVE:
@@ -1953,7 +1954,7 @@ static void create_rhythm_and_pattern (GList *curobj, RhythmPattern* r, GString 
         g_string_append (r->lilypond, obj->lilypond);
     }               /* End object loop */
 }
-//create values for r->steps from the pattern
+//create values for icon field of the r->steps from the pattern
 void fill_in_steps (RhythmPattern* r, GString *pattern)  {
       /* fill the r->rsteps with icons for each step */
       GList *g;
@@ -1963,7 +1964,7 @@ void fill_in_steps (RhythmPattern* r, GString *pattern)  {
         {
           el = (RhythmElement *) g->data;
           if (i == 0 && (*(pattern->str) < '0' || *(pattern->str) > '8') && g->next)
-            g = g->next;        // pattern does not start with a note, so we skip to the second element, unless there are no notes
+            g = g->next;        // pattern does not start with a note (0 to 8), so we skip to the second element, unless there are no notes
           while (*(pattern->str + i) && (*(pattern->str + i) < '0' || *(pattern->str + i) > '8'))
             i++;
           if (*(pattern->str + i))

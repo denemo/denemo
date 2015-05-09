@@ -1379,8 +1379,8 @@ prev_object_is_rhythm (DenemoProject * gui)
 void
 insert_note_following_pattern (DenemoProject * gui)
 {
-#define g  (gui->rstep)
-  if ((gui->mode & (INPUTEDIT | INPUTINSERT)) && g)
+
+  if ((gui->mode & (INPUTEDIT | INPUTINSERT)) && gui->rstep)
     {
       GList *h;
       gint mode = gui->mode;
@@ -1406,22 +1406,22 @@ insert_note_following_pattern (DenemoProject * gui)
                   thechord->lowestpitch = thechord->highestpitch = thechord->sum_mid_c_offset = thenote->mid_c_offset;
                   clipobj->isinvisible = FALSE;
                   note_inserted = TRUE;
-                }
+               
 
-              g = g->next;
+                  gui->rstep = gui->rstep->next;
+               }
               insertion_point_for_type (gui->movement, ((DenemoObject *) objs->data)->type);
 
               insert_object (clipobj);
             }
-
+            //g_assert (g_list_first(gui->cstep) == (((RhythmPattern *) gui->currhythm->data)->clipboard)->data);
           gui->cstep = (objs ? objs : (((RhythmPattern *) gui->currhythm->data)->clipboard)->data);
         }
       else
         {
-
           insertion_point (gui->movement);
           gui->movement->cursoroffend = FALSE;
-          h = ((RhythmElement *) g->data)->functions;
+          h = ((RhythmElement *) gui->rstep->data)->functions;
 #if GTK_MAJOR_VERSION==3
           ((GSourceFunc) h->data) (gui);
 #else
@@ -1430,15 +1430,16 @@ insert_note_following_pattern (DenemoProject * gui)
           displayhelper (gui);
         }
 
-      if (((RhythmElement *) g->data)->icon)
+      if (((RhythmElement *) gui->rstep->data)->icon)
         {                       /* singletons do not have icon */
           RhythmPattern *cursnip = gui->currhythm->data;
-          set_rhythm_label (cursnip, ((RhythmElement *) g->data)->icon);
+          set_rhythm_label (cursnip, ((RhythmElement *) gui->rstep->data)->icon);
         }
+
       gui->mode = mode;
       score_status (gui, TRUE);
     }
-#undef g
+
 }
 
 /* get duration of next element in current rhythm pattern  */
@@ -1608,7 +1609,6 @@ insertion_point (DenemoMovement * si)
   //update_drawing_cache ();;
 
   gboolean next_measure;
-
   /* First, check to see if the insertion'll cause the cursor to
    * jump to the next measure. (Denemo will implicitly create it
    * if it doesn't exist already.) */
