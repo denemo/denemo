@@ -825,10 +825,10 @@ deletepreviousobject (GtkAction* action, DenemoScriptParam *param)
               RhythmPattern *cursnip = (RhythmPattern *)Denemo.project->currhythm->data;
               Denemo.project->cstep = Denemo.project->cstep->prev ? Denemo.project->cstep->prev : g_list_last (Denemo.project->cstep);// cstep list of DenemoObjects is not circular
             }
-          if (((RhythmElement *) Denemo.project->rstep->data)->icon)
+          if (((RhythmElement *) Denemo.project->rstep->data)->highlightlabel)
             {
                 RhythmPattern *cursnip = (RhythmPattern *)Denemo.project->currhythm->data;
-                set_rhythm_label (cursnip, ((RhythmElement *) Denemo.project->rstep->data)->icon);
+                set_rhythm_label (cursnip, ((RhythmElement *) Denemo.project->rstep->data)->highlightlabel);
             }
         }
 

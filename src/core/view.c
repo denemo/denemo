@@ -1532,7 +1532,7 @@ select_rhythm_pattern (RhythmPattern * r)
       project->rstep = r->rsteps;
       project->cstep = r->clipboard->data;
 
-      gchar *text = ((RhythmElement *) project->rstep->data)->icon;
+      gchar *text = ((RhythmElement *) project->rstep->data)->highlightlabel;
       if (text)
         {
          set_rhythm_label (r, text);
@@ -1954,9 +1954,9 @@ static void create_rhythm_and_pattern (GList *curobj, RhythmPattern* r, GString 
         g_string_append (r->lilypond, obj->lilypond);
     }               /* End object loop */
 }
-//create values for icon field of the r->steps from the pattern
+//create values for highlightlabel field of the r->steps from the pattern
 void fill_in_steps (RhythmPattern* r, GString *pattern)  {
-      /* fill the r->rsteps with icons for each step */
+      /* fill the r->rsteps with highlightlabels for each step */
       GList *g;
       RhythmElement *el;
       gint i;
@@ -1970,10 +1970,10 @@ void fill_in_steps (RhythmPattern* r, GString *pattern)  {
           if (*(pattern->str + i))
             {
               *(pattern->str + i) += HIGHLIGHT_OFFSET;
-              el->icon = music_font (pattern->str);
+              el->highlightlabel = music_font (pattern->str);
               *(pattern->str + i) -= HIGHLIGHT_OFFSET;
             }
-          //g_debug("el->icon = %s step %d pattern->str %s\n", el->icon, i, pattern->str);
+          //g_debug("el->highlightlabel = %s step %d pattern->str %s\n", el->highlightlabel, i, pattern->str);
         }
     }
     

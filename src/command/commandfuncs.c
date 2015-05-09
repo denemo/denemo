@@ -66,9 +66,9 @@ nextrhythm (GtkAction* action, DenemoScriptParam* param)
 
   RhythmPattern *cursnip = ((RhythmPattern *)Denemo.project->currhythm->data);
   Denemo.project->cstep = (cursnip->clipboard)->data;
-  if (((RhythmElement *) g->data)->icon)
+  if (((RhythmElement *) g->data)->highlightlabel)
     {
-        set_rhythm_label (cursnip, ((RhythmElement *) g->data)->icon);
+        set_rhythm_label (cursnip, ((RhythmElement *) g->data)->highlightlabel);
     }
 
   highlight_rhythm ((RhythmPattern *) Denemo.project->currhythm->data);
@@ -1430,10 +1430,10 @@ insert_note_following_pattern (DenemoProject * gui)
           displayhelper (gui);
         }
 
-      if (((RhythmElement *) gui->rstep->data)->icon)
-        {                       /* singletons do not have icon */
+      if (((RhythmElement *) gui->rstep->data)->highlightlabel)
+        {                       /* singletons do not have highlightlabel */
           RhythmPattern *cursnip = gui->currhythm->data;
-          set_rhythm_label (cursnip, ((RhythmElement *) gui->rstep->data)->icon);
+          set_rhythm_label (cursnip, ((RhythmElement *) gui->rstep->data)->highlightlabel);
         }
 
       gui->mode = mode;

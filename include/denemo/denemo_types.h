@@ -1019,9 +1019,9 @@ typedef struct DenemoProject
   guint layout_sync;/**< value of changecount when the layout structure of the score was last changed, used to detect if a DenemoScoreblock is out of date */
   /* support for rhythm patterns */
   GList *rhythms;/**< list of RhythmPattern s */
-  GList *currhythm; /**< currently in use element of rhythms */
+  GList *currhythm; /**< a pointer into rhythms, whose data is the RhythmPattern being followed */
   GList *cstep; /**< step within RhythmPattern->clipboard, the current element of the current rhythm pattern represented by the clipboard */
-  GList *rstep; /**< OBSOLETE step within RhythmPattern->rsteps, the current element of the current rhythm pattern */
+  GList *rstep; /**< step within the circular list RhythmPattern->rsteps, the step that will be used for the next entered pitch */
 
   struct RhythmPattern *prevailing_rhythm; /**< one of singleton_rhythms used for entering notes */
 
@@ -1044,8 +1044,8 @@ typedef struct DenemoProject
 typedef struct RhythmPattern
 {
   GList *rsteps; /**< the data are RhythmElements */
-  GtkToolButton *button; /**< the button on the rhythm toolbar which invokes this rhythm */
-  GList *clipboard;/**< a Denemo clipboard, used to create this patttern. */
+  GtkToolButton *button; /**< the button on the rhythm toolbar which invokes this rhythm. Its label is set to the highlightlabel field of the currently in use rstep */
+  GList *clipboard;/**< a Denemo clipboard, used to create this patttern. FIXME as with the DenemoClipboard there is a redundant layer: the data element of this field is the GList* of DenemoObjects */
   gchar *name;/**< a user-facing name for this pattern */
   GString *nickname;/**< a custom user name for this pattern */
   GString *lilypond; /**< LilyPond syntax for this pattern, used to paste snippets into markup */
@@ -1061,7 +1061,7 @@ typedef struct RhythmElement
 {
   GList* functions; /**< data in list are functions to be called including modifiers 
               eg insert_chord_3key, add dot, slur ...  */
-  gpointer icon; /**< a string, but displayed in music font, which labels the button when this RhythmElement is
+  gpointer highlightlabel; /**< a string, but displayed in music font, which labels the button when this RhythmElement is
           the current one*/
   RhythmPattern *rhythm_pattern;/**< the rhythm pattern which this element belongs to */
 } RhythmElement;
