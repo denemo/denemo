@@ -28,10 +28,10 @@ gint headwidths[3] = { WHOLEHEAD_WIDTH, HALFHEAD_WIDTH, NOTEHEAD_WIDTH
 static void
 draw_dots (cairo_t * cr, gint xstart, gint ystart, gint numdots)
 {
-  xstart += 4;
+  xstart += 5;
   for (; numdots; numdots--, xstart += 6)
     {
-      cairo_arc (cr, xstart, ystart, 1.5, 0.0, 2 * M_PI);
+      cairo_arc (cr, xstart, ystart, 2.5, 0.0, 2 * M_PI);
       cairo_fill (cr);
     }
 }
