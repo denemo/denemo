@@ -247,9 +247,11 @@
           (begin
             (d-SetSaved #f)
             (if fontname
-              (d-DirectivePut-chord-graphic tag fontname))
+                (begin
+                    (d-DirectivePut-chord-gx tag 7)
+                    (d-DirectivePut-chord-graphic tag fontname)))
             (if display
-              (d-DirectivePut-chord-display tag display))
+                (d-DirectivePut-chord-display tag display))
             (d-DirectivePut-chord-postfix tag lilypond)
             (if override
           (d-DirectivePut-chord-override tag override)))))
