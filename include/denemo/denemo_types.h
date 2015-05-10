@@ -1020,8 +1020,10 @@ typedef struct DenemoProject
   /* support for rhythm patterns */
   GList *rhythms;/**< list of RhythmPattern s */
   GList *currhythm; /**< a pointer into rhythms, whose data is the RhythmPattern being followed */
-  GList *cstep; /**< step within RhythmPattern->clipboard, the current element of the current rhythm pattern represented by the clipboard */
-  GList *rstep; /**< step within the circular list RhythmPattern->rsteps, the step that will be used for the next entered pitch */
+  GList *cstep; /**< step within RhythmPattern->clipboard, the a GList* holding the current DenemoObject of the current rhythm pattern in its clipboard
+                        the data field of cstep holds a DenemoObject*. Several of these csteps correspond to a single rstep if the objects are not pitched (ie not of type CHORD with at least one note) */
+  GList *rstep; /**< step within the circular list RhythmPattern->rsteps, the step that will be used for the next entered pitch
+                     when applying pitches to the pattern non pitched DenemoObjects on the clipboard are emitted at each step, moving cstep on for each object.*/
 
   struct RhythmPattern *prevailing_rhythm; /**< one of singleton_rhythms used for entering notes */
 
