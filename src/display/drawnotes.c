@@ -332,7 +332,11 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
                     {
                       if (directive->override & DENEMO_OVERRIDE_ABOVE)
                         {
-                          gint posy = MIN (y - 16 + thechord.highesty - count + directive->gy + directive->graphic->height / 2, y - 8);
+                          gint posy ;
+                          if(thechord.highesty<0)
+                             posy = y - 14 + thechord.highesty - count + directive->gy + directive->graphic->height / 2;
+                        else
+                             posy = y + 1 - count - STAFF_HEIGHT/2 + directive->gy + directive->graphic->height / 2;
                           drawbitmapinverse_cr (cr, directive->graphic, xx + directive->gx - directive->graphic->width / 2, posy, FALSE);
                         }
                       else
