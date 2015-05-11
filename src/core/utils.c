@@ -1695,6 +1695,16 @@ append_directives_information (GString * selection, GList * directives)
   while (directives->next && (directives = directives->next));
 }
 
+static void append_lilypond (DenemoObject *curObj, GString *selection)
+    {
+        DenemoProject *gui = Denemo.project;
+        if( gui->lilysync != gui->changecount)
+            refresh_lily_cb (NULL, gui);
+        if(curObj->lilypond)
+            g_string_append_printf (selection, _("The LilyPond syntax generated is: %s\n"), curObj->lilypond);
+        else
+            g_string_append_printf (selection, _("This object does not affect the music typesetting, (no LilyPond syntax is generated)\n"));
+    }
 void
 display_current_object (void)
 {
@@ -1803,8 +1813,7 @@ display_current_object (void)
               append_directives_information (selection, thechord->directives);
                         }
           g_string_append_printf (selection, _("This starts %d/384 quarter notes into the measure and lasts %d/384 quarter notes.\n"), curObj->starttick, curObj->durinticks);
-            if(curObj->lilypond && (gui->lilysync == gui->changecount))
-                          g_string_append_printf (selection, _("The LilyPond syntax generated is: %s\n"), curObj->lilypond);
+           append_lilypond (curObj, selection);
 
           }
           break;
@@ -1816,7 +1825,8 @@ display_current_object (void)
                                 selection = g_string_append (selection, _("Attached to the Start Tuplet:"));
                                 append_directives_information (selection, thetup->directives);
                             }
-                    }
+             append_lilypond (curObj, selection);
+          }
           break;
         case TUPCLOSE:
           { tuplet *thetup = ((tuplet *) curObj->object);
@@ -1826,6 +1836,7 @@ display_current_object (void)
                                 selection = g_string_append (selection, _("Attached to the End Tuplet:"));
                                 append_directives_information (selection, thetup->directives);
                             }
+            append_lilypond (curObj, selection);
           }
           break;
         case CLEF:
@@ -1839,6 +1850,7 @@ display_current_object (void)
                             }
             if (curObj->isinvisible)
                            selection = g_string_append (selection, _("This clef change is non-printing, it just affects the display.\n"));
+            append_lilypond (curObj, selection);
 
           }
           break;
@@ -1850,7 +1862,8 @@ display_current_object (void)
                             {
                                 selection = g_string_append (selection, _("Attached to the Time Signature Change:"));
                                 append_directives_information (selection, thetime->directives);
-                            }           
+                            }   
+            append_lilypond (curObj, selection);
             if (gui->movement->currentobject->prev)
               g_string_append_printf (warning, _("A Time Signature Change should be the first object in a measure\n" "unless you are trying to do something unusual"));
           }
@@ -1859,12 +1872,13 @@ display_current_object (void)
           {
                         keysig *thekey = ((keysig *) curObj->object);
             g_string_append_printf (selection, _("a Key Signature Change object.\n"));
-                        if (thekey->directives) 
-                            {
-                                selection = g_string_append (selection, _("Attached to the Key Signature Change:"));
-                                append_directives_information (selection, thekey->directives);
-                            }
-          }
+            if (thekey->directives) 
+                {
+                    selection = g_string_append (selection, _("Attached to the Key Signature Change:"));
+                    append_directives_information (selection, thekey->directives);
+                }
+            append_lilypond (curObj, selection);
+            }
           break;
         case STEMDIRECTIVE:
           {
@@ -1875,6 +1889,7 @@ display_current_object (void)
                                 selection = g_string_append (selection, _("Attached to the Stemming Change:"));
                                 append_directives_information (selection, thestem->directives);
                             }
+            append_lilypond (curObj, selection);
           }
           break;
         case LILYDIRECTIVE:
