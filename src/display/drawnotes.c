@@ -462,7 +462,7 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
               else
                 arcwidth = mwidth - mudelaitem->x + SPACE_FOR_BARLINE;
 
-              cairo_set_line_width (cr, 1.0);
+              cairo_set_line_width (cr, 2.0);
               cairo_move_to (cr, xx + headwidths[noteheadtype] / 2, y + thechord.highesty - 13);
               cairo_rel_curve_to (cr, arcwidth / 3, -8, arcwidth * 2 / 3, -8, arcwidth, 0);
               cairo_stroke (cr);
@@ -536,7 +536,7 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
                 arcwidth = nextmuditem->x - mudelaitem->x;
               else
                 arcwidth = mwidth - mudelaitem->x + SPACE_FOR_BARLINE;
-              cairo_set_line_width (cr, 1.0);
+              cairo_set_line_width (cr, 2.0);
               cairo_move_to (cr, xx + headwidths[noteheadtype] / 2, y + thechord.highesty - 13);
               cairo_rel_curve_to (cr, arcwidth / 3, -8, arcwidth * 2 / 3, -8, arcwidth, 0);
               cairo_stroke (cr);
