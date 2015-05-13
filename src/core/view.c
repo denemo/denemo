@@ -553,42 +553,21 @@ load_files(gchar** files)
 }
 
 static void
-crash_recovery_check()
+autosave_recovery_check(void)
 {
-  gchar *crash_file = g_build_filename (get_user_data_dir (TRUE), "crashrecovery.denemo", NULL);
-  if (g_file_test (crash_file, G_FILE_TEST_EXISTS))
+  gchar *autosave_file;
+  if (!Denemo.project->autosavename)
+        return;
+  autosave_file = Denemo.project->autosavename->str;
+  if (g_file_test (autosave_file, G_FILE_TEST_EXISTS))
     {
-      GtkWidget *dialog = gtk_dialog_new_with_buttons (NULL,
-                                                       NULL,
-                                                       GTK_DIALOG_DESTROY_WITH_PARENT,
-                                                       GTK_STOCK_YES,
-                                                       GTK_RESPONSE_ACCEPT,
-                                                       GTK_STOCK_DELETE,
-                                                       GTK_RESPONSE_REJECT,
-                                                       NULL);
-      GtkWidget *label = gtk_label_new ("Denemo crashed, The open file has been recovered\n" "do you want to continue editing your work?");
-
-      GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-      gtk_container_add (GTK_CONTAINER (content_area), label);
-
-      gtk_widget_show_all (dialog);
-      gint result = gtk_dialog_run (GTK_DIALOG (dialog));
-      g_debug ("Dialog result is %d\n", result);
-
-      switch (result)
+     
+        if ( choose_option (_("Denemo was terminated abnormally"), _("Open auto-saved file"), _("Delete auto-saved file")))
         {
-        case GTK_RESPONSE_ACCEPT:
-          open_for_real (crash_file, Denemo.project, TRUE, REPLACE_SCORE);
-          score_status (Denemo.project, TRUE);
-          g_remove (crash_file);
-          break;
-        case GTK_RESPONSE_CANCEL:
-          break;
-        case GTK_RESPONSE_REJECT:
-          g_remove (crash_file);
-          break;
+            open_for_real (autosave_file, Denemo.project, TRUE, REPLACE_SCORE);
+            score_status (Denemo.project, TRUE);
         }
-      gtk_widget_destroy (dialog);
+        g_remove (autosave_file);
     }
 }
 
@@ -692,7 +671,7 @@ inner_main (void *files)
     
     gtk_key_snooper_install ((GtkKeySnoopFunc) dnm_key_snooper, NULL);
     
-    crash_recovery_check();
+    autosave_recovery_check();
     
     score_status (Denemo.project, FALSE);
     
@@ -1025,6 +1004,8 @@ close_gui_with_check (GtkAction * action, DenemoScriptParam* param)
       writeHistory ();
       writeXMLPrefs (&Denemo.prefs);
       writePalettes ();
+      if(project->autosavename)
+        g_remove (project->autosavename->str);
 #ifdef G_OS_WIN32
       CoUninitialize ();
       g_message ("Windows - Exiting without shutting down audio");
@@ -5265,7 +5246,7 @@ newtab (void)
         }
       else
         {
-          Denemo.autosaveid = g_timeout_add (Denemo.prefs.autosave_timeout * 1000 * 60, (GSourceFunc) auto_save_document_timeout, Denemo.project);
+          Denemo.autosaveid = g_timeout_add_seconds (Denemo.prefs.autosave_timeout, (GSourceFunc) auto_save_document_timeout, Denemo.project);
         }
     }
 

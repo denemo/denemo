@@ -604,19 +604,10 @@ init_score (DenemoMovement * si, DenemoProject * gui)
   si->savebuffer = NULL;
 
   if (gui->filename == NULL)
-    {
       gui->filename = g_string_new ("");
-      gui->autosavename = g_string_new (dir);
-      gui->autosavename = g_string_append (gui->autosavename, "/autosave.denemo");
-    }
+  gui->autosavename = g_string_new (g_build_filename (dir, "autosave.denemo", NULL));
   if (gui->tabname == NULL)
     gui->tabname = g_string_new ("");
-  si->curlilynode = 0;          /* the node of the lily parse tree on display in 
-                                   textwindow */
-  si->lily_file = 0;            /* root of lily file parse, see lilyparser.y etc  */
-
-
-
 
   /* Undo/redo initialisation */
   si->undodata = g_queue_new ();

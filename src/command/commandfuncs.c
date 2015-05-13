@@ -2932,7 +2932,7 @@ toggle_end_diminuendo (GtkAction* action, DenemoScriptParam * param)
  * Autosave timeout function - saves the current score after the current
  * timeout has expired
  * @param si pointer to the scoreinfo structure
- * @return none
+ * @return TRUE for timer to continue FALSE if the DenemoProject has vanished.
  */
 gboolean
 auto_save_document_timeout (DenemoProject * gui)
@@ -2943,27 +2943,17 @@ auto_save_document_timeout (DenemoProject * gui)
       //do not do this, it causes denemo to hang. warningdialog (_("Timer left running"));
       return FALSE;             /* turns off the timer */
     }
+  if (!gui->notsaved)
+    return TRUE; // wait until project has been modified.
   DenemoMovement *si = gui->movement;
+  
   g_message ("Autosaving");
   if (!gui->autosavename)
     {
       g_warning ("gui->autosavename not set");
-      /*gui->autosavename = g_string_new (dir); */
-      gui->autosavename = g_string_new (get_user_data_dir (TRUE));
-      if (si->lily_file)
-        gui->autosavename = g_string_append (gui->autosavename, "/autosave.ly");
-      else
-        gui->autosavename = g_string_append (gui->autosavename, "/autosave.denemo");
+        return FALSE;
     }
   //g_debug ("Auto save file name %s\n", gui->autosavename->str);
-  if (si->lily_file)
-    {
-      exportlilypond (gui->autosavename->str, gui, TRUE);
-    }
-  else
-    {
-      exportXML (gui->autosavename->str, gui);
-    }
-
+  exportXML (gui->autosavename->str, gui);
   return TRUE;
 }

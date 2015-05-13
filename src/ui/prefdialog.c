@@ -598,12 +598,12 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autosave), Denemo.prefs.autosave);
   gtk_box_pack_start (GTK_BOX (hbox), autosave, FALSE, FALSE, 0);
 
-  autosave_timeout = gtk_spin_button_new_with_range (1, 50, 1.0);
+  autosave_timeout = gtk_spin_button_new_with_range (1, 600, 1.0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (autosave_timeout), Denemo.prefs.autosave_timeout);
   gtk_widget_set_sensitive (autosave_timeout, Denemo.prefs.autosave);
   gtk_box_pack_start (GTK_BOX (hbox), autosave_timeout, FALSE, FALSE, 0);
   g_debug ("autosave %p\n", autosave);
-  label = gtk_label_new (_("minute(s)"));
+  label = gtk_label_new (_("second(s)"));
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
   g_signal_connect (G_OBJECT (autosave), "toggled", G_CALLBACK (toggle_autosave), autosave_timeout);
 
@@ -619,7 +619,6 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   INTENTRY_LIMITS (_("Pitch Spelling Channel"), pitchspellingchannel, 0, 15);
   INTENTRY_LIMITS (_("Pitch Spelling Program"), pitchspellingprogram, 0, 127);
 
-  BOOLEANENTRY (_("Rhythm Entry for MIDI in"), startmidiin);
 
   INTENTRY_LIMITS (_("% MIDI-in Dynamic Compression"), dynamic_compression, 1, 100);
 
@@ -693,6 +692,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
 
   NEWPAGE (_("MIDI"));
 
+  BOOLEANENTRY (_("Rhythm Entry for MIDI in"), startmidiin);
   COMBOBOX (_("MIDI backend"), midi_driver, cbdata.midi_driver_option_list, driver, FALSE);
   g_signal_connect (G_OBJECT (GTK_COMBO_BOX (midi_driver)), "changed", G_CALLBACK (midi_audio_tab_update), &audio_cbdata);
   /*

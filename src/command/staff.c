@@ -207,11 +207,7 @@ staff_new (DenemoProject * project, enum newstaffcallbackaction action, DenemoCo
   measurenode *themeasures = NULL;      /* Initial set of measures in staff */
   gint numstaffs = g_list_length (movement->thescore);
   gint i, addat = 1;
-  if (movement->lily_file){
-    g_free (staff);
-    return NULL;          /* no code for this yet - just edit textually */
-  }
-  g_debug ("newstaff: Num staffs %d", numstaffs);
+  //g_debug ("newstaff: Num staffs %d", numstaffs);
   if (numstaffs == 0)
     {
       action = INITIAL;
