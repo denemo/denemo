@@ -830,12 +830,8 @@ typedef struct DenemoTarget {
  
 typedef struct DenemoMovement
 {
-  gboolean readonly; /**< Indicates if the file is readonly or not */
-  GList *curlilynode; /**< the node of the lily parse tree on display 
-             in textwindow */
-  GList *lily_file; /**< root of lily file parse, see lilyparser.y etc  */
+  gboolean readonly; /**< Indicates if the file is readonly or not (NOT USED)*/
 
- 
   gint leftmeasurenum; /**< start at 1 */
   gint rightmeasurenum;/**< start at 1 */
   gint top_staff;
