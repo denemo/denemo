@@ -1006,6 +1006,10 @@ close_gui_with_check (GtkAction * action, DenemoScriptParam* param)
       writePalettes ();
       if(project->autosavename)
         g_remove (project->autosavename->str);
+/* It would be nice to delete the print directory to avoid filling up /tmp, however this fails on Unix at least for an unknown reason.
+      gint result = g_remove (locateprintdir ());
+      g_print("Removed %s %s\n", locateprintdir(), result==0?"successfully":"not gone");
+*/
 #ifdef G_OS_WIN32
       CoUninitialize ();
       g_message ("Windows - Exiting without shutting down audio");
