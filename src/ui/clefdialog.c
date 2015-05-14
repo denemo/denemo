@@ -179,8 +179,10 @@ clef_change (DenemoProject * gui, actiontype action)
         {
           if (gui->movement->currentobject && ((DenemoObject *) gui->movement->currentobject->data)->type == CLEF)
             deleteobject (NULL, NULL);
-          object_insert (gui, clef_new (clef));
-
+            DenemoObject *newclef = clef_new (clef);
+          object_insert (gui, newclef);
+         if(newclef->isinvisible) //clefs added to voices are display only, unless user chooses otherwise.
+            newclef->isinvisible = choose_option (_("Clef Visibility"), _("Non-printing Clef"), _("Clef should be typeset"));
         }
       score_status (gui, TRUE);
       displayhelper (gui);
