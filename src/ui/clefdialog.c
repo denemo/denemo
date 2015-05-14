@@ -182,7 +182,7 @@ clef_change (DenemoProject * gui, actiontype action)
             DenemoObject *newclef = clef_new (clef);
           object_insert (gui, newclef);
          if(newclef->isinvisible) //clefs added to voices are display only, unless user chooses otherwise.
-            newclef->isinvisible = choose_option (_("Clef Visibility"), _("Non-printing Clef"), _("Clef should be typeset"));
+            newclef->isinvisible = choose_option (_("Choose Clef Visibility"), _("Affects display only"), _("Clef should be typeset"));
         }
       score_status (gui, TRUE);
       displayhelper (gui);
