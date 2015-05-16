@@ -22,7 +22,6 @@
 #include "core/utils.h"
 #include <evince-view.h>
 
-#define HELP_TEXT _("To insert a link at the Denemo cursor position to a point in this document\nright-click on the point.\nLater you will be able to re-open the document at that point by right clicking on the link in the Denemo display.")
 
 typedef struct fileview
 {
@@ -104,14 +103,9 @@ draw_event (EvView * widget, GdkEventExpose * event)
 static gint
 button_press (EvView * view, GdkEventButton * event)
 {
-  if (event->button == 1) {
-      infodialog (HELP_TEXT);
-  if (theviews == NULL)
-    return FALSE;
-    EvView *view = ((fileview *) theviews->data)->view;
-    GtkWidget *top_vbox = gtk_widget_get_toplevel (GTK_WIDGET (view));
-    gtk_widget_set_tooltip_text (top_vbox, "");
-    }
+  if (event->button == 1)
+      infodialog (_("To insert a link at the Denemo cursor position to a point in this document\nright-click on the point.\nLater you will be able to re-open the document at that point by right clicking on the link in the Denemo display.")
+);
   else
     {
       gint x, y, page;
@@ -202,7 +196,7 @@ get_view (gchar * filename)
 
   ev_view_set_model (view, model);
   GtkWidget *top_vbox = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_widget_set_tooltip_text (top_vbox, HELP_TEXT);
+  // use a dialog when the user clicks instead  gtk_widget_set_tooltip_text (top_vbox, HELP_TEXT);
 
   gtk_window_set_title (GTK_WINDOW (top_vbox), g_strdup_printf ("Denemo - Source File: %s", filename));
 

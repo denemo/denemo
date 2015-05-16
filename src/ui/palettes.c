@@ -190,7 +190,9 @@ static GtkWidget *get_palette_menu(DenemoPalette *pal) {
 
 static void get_script_for_button (GtkWidget *button) {
     gchar *script = g_object_get_data (G_OBJECT(button), "script");
-    appendSchemeText (script);
+    appendSchemeText (script); 
+    gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view));
+    if(!sensitive) activate_action ("/MainMenu/ViewMenu/ToggleScript");
 }
 
 static void put_script_for_button (GtkWidget *button) {
@@ -307,6 +309,7 @@ static void duplicate_button (GtkWidget *button) {
 static void popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
   GtkWidget *menu = gtk_menu_new ();
   GtkWidget *item;
+  gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view));//some menu items should be insensitive if the Scheme window is not visible
 
   item = gtk_menu_item_new_with_label (_("Edit Label"));
   gtk_widget_set_tooltip_text (item, _("Edit the label of this button"));
@@ -335,13 +338,14 @@ static void popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (remove_button), (gpointer) button);
   
-  item = gtk_menu_item_new_with_label (_("Get Script"));
+  item = gtk_menu_item_new_with_label (_("Get Script into Scheme Window"));
   gtk_widget_set_tooltip_text (item, _("Places the script that this button executes into the Scheme window"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (get_script_for_button), (gpointer) button);
   
-  item = gtk_menu_item_new_with_label (_("Put Script"));
+  item = gtk_menu_item_new_with_label (_("Save Script from Scheme Window"));
   gtk_widget_set_tooltip_text (item, _("Uses the script in the Scheme Window as the one that this button executes when clicked"));
+  gtk_widget_set_sensitive (item, sensitive);
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (put_script_for_button), (gpointer) button);
  

@@ -105,6 +105,7 @@ appendSchemeText (gchar * text)
     GtkTextIter enditer;
     GtkTextBuffer *buffer = gtk_text_view_get_buffer ((GtkTextView *) (Denemo.script_view));
     gtk_text_buffer_get_end_iter (buffer, &enditer);
+    while (g_ascii_isspace (*text)) text++;
     gtk_text_buffer_insert (buffer, &enditer, text, -1);
   }
 

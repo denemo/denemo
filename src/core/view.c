@@ -2167,7 +2167,9 @@ toggle_record_script (GtkAction * action, gpointer param)
 static void
 appendSchemeText_cb (GtkWidget * widget, gchar * text)
 {
+  gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view));
   appendSchemeText (text);
+  if(!sensitive) activate_action ("/MainMenu/ViewMenu/ToggleScript");
 }
 
 
@@ -2281,42 +2283,7 @@ subst_illegals (gchar * myname)
 
 
 
-typedef struct ModifierAction
-{
-  GtkAction *action;
-  gint modnum;                  /* GdkModifierType number 0...12 */
-  mouse_gesture gesture;        /* if this is for press move or release */
-  gboolean left;                /* if this is for left or right mouse button */
-} ModifierAction;
 
-
-// info->action is the action for which the mouse shortcut is to be set
-static void
-setMouseAction (ModifierAction * info)
-{
-  GString *modname = mouse_shortcut_name (info->modnum, info->gesture, info->left);
-  gint command_idx = lookup_command_for_keybinding_name (Denemo.map, modname->str);
-  GtkAction *current_action = NULL;
-  gchar *title = NULL;
-  gchar *prompt = NULL;
-  if (command_idx >= 0)
-    {
-      current_action = (GtkAction *) lookup_action_from_idx (Denemo.map, command_idx);
-      title = g_strdup_printf (_("The Command %s Responds to this Shortcut"), lookup_name_from_idx (Denemo.map, command_idx));
-      prompt = g_strdup_printf (_("Lose the shortcut %s for this?"), modname->str);
-    }
-  if (current_action == NULL || confirm (title, prompt))
-    {
-      remove_keybinding_from_name (Denemo.map, modname->str);   //by_name 
-      const gchar *name = gtk_action_get_name (info->action);
-      command_idx = lookup_command_from_name (Denemo.map, name);
-      if (command_idx >= 0)
-        add_named_binding_to_idx (Denemo.map, modname->str, command_idx, POS_LAST);
-    }
-  g_free (title);
-  g_free (prompt);
-  g_string_free (modname, TRUE);
-}
 
 static void
 placeOnButtonBar (GtkWidget * widget, GtkAction * action)
@@ -2430,135 +2397,6 @@ append_scheme_call (gchar * func)
 
 
 
-
-static void
-button_choice_callback (GtkWidget * w, gboolean * left)
-{
-  g_debug ("left at %p is %d\n", left, *left);
-  *left = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-  g_debug ("left at %p is now %d\n", left, *left);
-}
-
-static void
-button_move_callback (GtkWidget * w, mouse_gesture * g)
-{
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
-    *g = GESTURE_MOVE;
-  //g_debug("move %d\n", *g);
-}
-
-static void
-button_press_callback (GtkWidget * w, mouse_gesture * g)
-{
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
-    *g = GESTURE_PRESS;
-  //g_debug("press  %d\n", *g);
-}
-
-static void
-button_release_callback (GtkWidget * w, mouse_gesture * g)
-{
-  if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
-    *g = GESTURE_RELEASE;
-  //g_debug("release %d \n", *g);
-}
-
-
-
-static void
-button_modifier_callback (GtkWidget * w, GdkEventButton * event, ModifierAction * ma)
-{
-  ma->modnum = event->state;
-  // show_type(w, "button mod callback: ");
-  GString *str = g_string_new ("Keyboard:");
-  append_modifier_name (str, ma->modnum);
-  if (!ma->modnum)
-    g_string_assign (str, _("No keyboard modifier keys\nPress with modifier key to change"));
-  else
-    g_string_append (str, _("\nPress with modifier key to change"));
-  gtk_button_set_label (GTK_BUTTON (w), str->str);
-  g_string_free (str, TRUE);
-}
-
-static void
-mouse_shortcut_dialog (ModifierAction * info)
-{
-  GtkWidget *dialog = gtk_dialog_new_with_buttons (_("Set Mouse Shortcut"),
-                                                   GTK_WINDOW (Denemo.window),
-                                                   (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
-                                                   GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-                                                   GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-                                                   NULL);
-
-
-  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-
-  GtkWidget *hbox = gtk_hbox_new (FALSE, 1);
-  GtkWidget *vbox = gtk_vbox_new (FALSE, 1);
-  gtk_container_add (GTK_CONTAINER (content_area), hbox);
-  gtk_container_add (GTK_CONTAINER (hbox), vbox);
-
-  gchar *name = (gchar *) gtk_action_get_name (info->action);
-  gchar *prompt = g_strdup_printf (_("Setting mouse shortcut for %s"), name);
-  GtkWidget *label = gtk_label_new (prompt);
-  g_free (prompt);
-  gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
-  GtkWidget *frame = gtk_frame_new (_("Choose the mouse button"));
-  gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
-  gtk_container_add (GTK_CONTAINER (vbox), frame);
-  GtkWidget *vbox2 = gtk_vbox_new (FALSE, 8);
-  gtk_container_add (GTK_CONTAINER (frame), vbox2);
-
-  info->left = TRUE;
-  GtkWidget *widget = gtk_radio_button_new_with_label (NULL, _("Left"));
-  g_signal_connect (G_OBJECT (widget), "toggled", G_CALLBACK (button_choice_callback), &info->left);
-  gtk_box_pack_start (GTK_BOX (vbox2), widget, FALSE, TRUE, 0);
-  GtkWidget *widget2 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (widget), _("Right"));
-  gtk_box_pack_start (GTK_BOX (vbox2), widget2, FALSE, TRUE, 0);
-
-
-  frame = gtk_frame_new (_("Choose mouse action"));
-  gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
-  gtk_container_add (GTK_CONTAINER (vbox), frame);
-  vbox2 = gtk_vbox_new (FALSE, 8);
-  gtk_container_add (GTK_CONTAINER (frame), vbox2);
-  info->gesture = GESTURE_PRESS;
-  widget = gtk_radio_button_new_with_label (NULL, _("Press Button"));
-  g_signal_connect (G_OBJECT (widget), "toggled", G_CALLBACK (button_press_callback), &info->gesture);
-  gtk_box_pack_start (GTK_BOX (vbox2), widget, FALSE, TRUE, 0);
-  widget2 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (widget), _("Release Button"));
-  g_signal_connect (G_OBJECT (widget2), "toggled", G_CALLBACK (button_release_callback), &info->gesture);
-  gtk_box_pack_start (GTK_BOX (vbox2), widget2, FALSE, TRUE, 0);
-  widget2 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (widget), _("Drag"));
-  g_signal_connect (G_OBJECT (widget2), "toggled", G_CALLBACK (button_move_callback), &info->gesture);
-  gtk_box_pack_start (GTK_BOX (vbox2), widget2, FALSE, TRUE, 0);
-
-  widget = gtk_button_new_with_label (_("Hold Modifier Keys, Engage Caps or Num Lock\nand click here to set shortcut."));
-  g_signal_connect (G_OBJECT (widget), "button-release-event", G_CALLBACK (button_modifier_callback), info);
-  gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
-
-  gtk_container_add (GTK_CONTAINER (vbox), hbox);
-
-  gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-  gtk_widget_show_all (dialog);
-  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
-    {
-      setMouseAction (info);
-      Denemo.accelerator_status = TRUE;
-    }
-  gtk_widget_destroy (dialog);
-}
-
-static void
-createMouseShortcut (GtkWidget * menu, GtkAction * action)
-{
-  static ModifierAction info;
-  info.action = action;
-  info.gesture = GESTURE_PRESS;
-  info.modnum = 0;
-  info.left = TRUE;
-  mouse_shortcut_dialog (&info);
-}
 
 /* get init.scm for the current path into the scheme text editor.
 */
@@ -3222,10 +3060,11 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
   if (event->button != 3)
     return FALSE;
 
-
+  gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view));//some buttons should be insensitive if the Scheme window is not visible
   GtkWidget *menu = gtk_menu_new ();
   gchar *labeltext = g_strdup_printf ("Help for %s", func_name);
   GtkWidget *item = gtk_menu_item_new_with_label (labeltext);
+  
   g_free (labeltext);
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (popup_help), (gpointer) action);
@@ -3239,17 +3078,17 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
 
   /* "drag" menu item onto button bar */
 
-  item = gtk_menu_item_new_with_label (_("Place Command on the Title Bar"));
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-  g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (placeOnButtonBar), action);
+  //item = gtk_menu_item_new_with_label (_("Place Command on the Title Bar"));
+  //gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  //g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (placeOnButtonBar), action);
 
 
   if (idx != -1)
     {
-      item = gtk_menu_item_new_with_label (_("Create Mouse Shortcut"));
-      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-      g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (createMouseShortcut), action);
-      item = gtk_menu_item_new_with_label (_("Edit Shortcuts\nSet Mouse Pointers\nHide/Delete Menu Item"));
+      //item = gtk_menu_item_new_with_label (_("Create Mouse Shortcut"));
+      //gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+      //g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (createMouseShortcut), action);
+      item = gtk_menu_item_new_with_label (_("Open Command Center\non this command"));
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (configure_keyboard_idx), GINT_TO_POINTER (idx));
       item = gtk_menu_item_new_with_label (_("Save Command Set"));
@@ -3293,13 +3132,17 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
         g_warning ("Could not get script for %s", gtk_action_get_name (action));
       else
         {
-          item = gtk_menu_item_new_with_label (_("Get Script"));
+          item = gtk_menu_item_new_with_label (_("Get Script into Scheme Window"));
           gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
           g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (appendSchemeText_cb), scheme);
         }
-      item = gtk_menu_item_new_with_label (_("Save Script"));
-      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-      g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (saveMenuItem), action);
+      {
+            
+            item = gtk_menu_item_new_with_label (_("Save Script from Scheme Window"));
+            gtk_widget_set_sensitive (item, sensitive);
+            gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+            g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (saveMenuItem), action);
+      }
       if (Denemo.project->xbm)
         {
           //item = gtk_menu_item_new_with_label (_("Save Graphic"));
@@ -3318,8 +3161,6 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
 #endif
     }
 
-  {
-    gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view));
     item = gtk_menu_item_new_with_label (_("Save Script as New Menu Item"));
     gtk_widget_set_sensitive (item, sensitive);
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
@@ -3330,10 +3171,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
     //g_debug("using %p %s for %d %s %s\n", insertion_point, insertion_point, idx, myposition, func_name);
     g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (insertScript), insertion_point);
 
-
-
     /* options for getting/putting init.scm */
-
     item = gtk_menu_item_new_with_label (_("Get Initialization Script for this Menu"));
     gtk_widget_set_sensitive (item, sensitive);
 
@@ -3346,19 +3184,8 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
     g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (put_initialization_script), myposition);
 
-  }
-
-  /* a check item for showing script window */
-  item = gtk_check_menu_item_new_with_label (_("Show Current Script"));
-  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view)));
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-  //FIXME the next statement triggers a warning that ToggleScript is not a registered denemo commad - correct, since we do not make the toggles available as commands since using such a command would make the check boxes out of step, instead we install function that activate the menuitem.
-  gtk_activatable_set_related_action (GTK_ACTIVATABLE (item), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"));
-  //gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), item);
-
   gtk_widget_show_all (menu);
   gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
-  // configure_keyboard_dialog_init_idx (action, project, idx);
   return TRUE;
 }
 
