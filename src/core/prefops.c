@@ -296,8 +296,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
             }
         }
 
-      READBOOLXMLENTRY (autosave)
-        
+ 
         READXMLENTRY (imageviewer)
         READXMLENTRY (profile)
         READXMLENTRY (username)
@@ -305,6 +304,13 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
         READXMLENTRY (denemopath)
         READXMLENTRY (temperament)
         READBOOLXMLENTRY (createclones)
+        
+        
+        READBOOLXMLENTRY (autosave)
+        READINTXMLENTRY (autosave_timeout)
+        READINTXMLENTRY (maxhistory)
+        
+        
         READBOOLXMLENTRY (immediateplayback)
         READINTXMLENTRY (measureswitchsound)
         READBOOLXMLENTRY (manualtypeset)
@@ -675,7 +681,15 @@ writeXMLPrefs (DenemoPrefs * prefs)
          (xmlChar *) prefs->field);}
 
 
-  WRITEXMLENTRY (lilypath) WRITEXMLENTRY (graphicseditor) WRITEXMLENTRY (fontspec) WRITEXMLENTRY (imageviewer) WRITEXMLENTRY (profile) WRITEXMLENTRY (username) WRITEXMLENTRY (password) WRITEXMLENTRY (denemopath) WRITEXMLENTRY (temperament)
+  WRITEXMLENTRY (lilypath)
+   WRITEXMLENTRY (graphicseditor) 
+  WRITEXMLENTRY (fontspec)
+   WRITEXMLENTRY (imageviewer)
+    WRITEXMLENTRY (profile) 
+    WRITEXMLENTRY (username)
+     WRITEXMLENTRY (password)
+      WRITEXMLENTRY (denemopath)
+       WRITEXMLENTRY (temperament)
 #define WRITEINTXMLENTRY(field){ \
     gchar *def = g_strdup("Holds the interger value of the user's " #field " preference");\
     gint value = prefs->field;\
@@ -729,7 +743,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
     WRITEBOOLXMLENTRY (applytoselection)
     WRITEBOOLXMLENTRY (quickshortcuts)
     WRITEBOOLXMLENTRY (startmidiin)
-    WRITEINTXMLENTRY (mode)
+    WRITEINTXMLENTRY  (mode)
     WRITEBOOLXMLENTRY (strictshortcuts)
     WRITEBOOLXMLENTRY (menunavigation)
     WRITEINTXMLENTRY (resolution)
