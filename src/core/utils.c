@@ -1910,12 +1910,21 @@ display_current_object (void)
 
            g_string_append_printf (selection, _("%s"), directive->x ? _("\nNot all layouts\n") : directive->y ? _("\nOnly for one Layout\n"): "\n");
            if(menupath)
-                        g_string_append_printf (selection, _("Menu location for this command: \"%s\"\n"), menupath);
-                        
-                        g_string_append_printf (selection, _("The LilyPond text inserted is %s%s\n"),  
-                            directive->prefix?directive->prefix->str:"",
-                            directive->postfix?directive->postfix->str:"");
-                        
+                g_string_append_printf (selection, _("Menu location for this command: \"%s\"\n"), menupath);
+            
+            {
+               gchar *text =  g_strconcat(directive->prefix?directive->prefix->str:"",
+                            directive->postfix?directive->postfix->str:"", NULL);
+               g_strchug (text); //does not allocate memory
+               if (*text)             
+                g_string_append_printf (selection, _("The LilyPond text inserted is %s%s\n"),  
+                           directive->prefix?directive->prefix->str:"",
+                            directive->postfix?directive->postfix->str:"");//puts the whitespace back
+            else
+                g_string_append_printf (selection, _("This object does not affect the printed output (no LilyPond syntax is generated for the typesetter)\n"));//well this ignores possible effect of whitespace...
+            g_free (text);
+            
+            }
            if (gui->movement->currentobject->next == NULL && (gui->movement->currentmeasure->next == NULL))
               g_string_assign (warning, _("This Directive is at the end of the music" 
                 "\nYou may need a closing double bar line -\n" 
