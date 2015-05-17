@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: denemo-1.2.1-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2015-02-08 08:50+0000\n"
-"PO-Revision-Date: 2015-04-25 23:32+0200\n"
+"PO-Revision-Date: 2015-05-16 19:34+0200\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "Language: cs\n"
@@ -22861,7 +22861,7 @@ msgstr "Číselné taktové označení"
 
 #: ../actions/menus/ObjectMenu/TimeSig/NumericTimeSig.xml.h:2
 msgid "Typesets common and cut time numerically rather than the traditional C and C cut."
-msgstr ""
+msgstr "Vysází čtyřčtvrťový takt/rytmus (sudý takt - půlový nebo celý) a dvoupůlový rytmus, s dvěma dobami v taktu, číselně spíše než tradiční C a \"C cut\""
 
 #: ../actions/menus/ObjectMenu/TimeSig/SingleDigitTimeSig.xml.h:1
 msgid "(Print) Single Digit (On/Off)"
@@ -23309,15 +23309,15 @@ msgstr "Vytvořit notové zápisy hudby"
 
 #: ../denemo.appdata.xml.in.h:2
 msgid "Denemo is a music notation program that lets you rapidly enter notation. Music can be typed in at the PC-Keyboard, or played in via MIDI controller. The typesetting is done in the background by LilyPond while you work, and is generally flawless publication quality. Any final tweaks to can be done on the final typeset score with the mouse if needed. This represents an enormous practical improvement over the most programs which require you to re-position colliding notation constantly as you enter the music."
-msgstr ""
+msgstr "Denemo je hudební notační program, který vám umožní rychlé zadávání not. Noty lze zapisovat pomocí klávesnice počítače, nebo hrát přes ovladač MIDI. Sazba se po dobu vaší práce odehrává na pozadí za použití LilyPondu a obecně je provedena v bezvadné jakosti vhodné pro vydání. Veškeré závěrečné doladění se dá udělat při konečném vysázení notového zápisu, je-li to potřeba, myší. To představuje nesmírné skutečné zlepšení oproti většině programů, které od vás ustavičně žádají přemísťování střetávajících se not, zatímco zadáváte noty."
 
 #: ../denemo.appdata.xml.in.h:3
 msgid "Unique to Denemo are methods to enter music in a musical, rather than mechanical, manner. You play in a phrase or two of the music using the number keys to indicate the note durations. Audible feedback lets you hear what you have entered; playing the phrase a second time on a real instrument adds the pitches to the rhythm. Again, Denemo gives you audible feedback so that you don’t enter E-flat when you meant D-sharp etc."
-msgstr ""
+msgstr "Pro Denemo jsou jedinečnými postupy pro zadávání not hudebním spíše než strojovým způsobem. Zahrajete úsek nebo dva not pomocí číselných kláves, abyste vyjádřili dobu trvání not. Slyšitelná zpětná vazba vás nechá si poslechnout, co jste zadali. Když úsek zahrajete podruhé na skutečném nástroji, do rytmu přidáte výšky tónů. Opět, Denemo vám dává slyšitelnou zpětnou vazbu, takže nezadáte Es, když zamýšlíte Dis atd."
 
 #: ../denemo.appdata.xml.in.h:4
 msgid "Another great feature is the ability to put links in the score to the original source document that you transcribed from. Clicking on such a link opens the document for you and highlights the bar you are looking at. You can use this to continue work from where you left off, or for looking back at the source to check a doubtful bar."
-msgstr ""
+msgstr "Další skvělým rysem je schopnost vložit do not odkazy na původní zdrojový dokument, který jste přepsal. Po klepnutí na takový odkaz se vám otevře dokument a zvýrazní se takt, na který se díváte. Toto můžete použít k pokračování v práci tam, kde jste přestali, nebo na ohlédnutí se zpět na zdroj, abyste prověřili nejistý takt."
 
 #~ msgid "Could not get directives list to delete from"
 #~ msgstr "Nepodařilo se získat seznam obsahující příkazy k smazání"

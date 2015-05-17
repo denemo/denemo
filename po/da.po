@@ -8,16 +8,22 @@
 # alteration -> alteration
 # appoggiatura - forslag (langt betonet)
 # argument -> argument (bedre med parameter?)
+# augmented -> forstørret (mus., set i Rød ordbog).
+#              Selv om denstoredanske.dk har "augmentation" som opslagsord, 
+#              synes jeg forstørret er fint.
 # beam -> bjælke
 # brace -> akkolade
 # chord -> akkord
+# cautionary accidental -> hjælpefortegn
 # clef -> nøgle
 # deprecate -> foræld/forældet (måske afskriv/afskrevet/misbillig)
 # duplet -> duol
 # duration -> længde (tid i ordlisten)
-# figured bass - generalbas
+# figured bass -> generalbas
+# flatten -> sætte b for
 # glyph -> skrifttegn
 # grace note -> forslagstone (siger ordlisten; men er det forslagsnode?)
+# hint -> hint (bemærk kan også være fif, hvis det ikke er typografi)
 # key -> toneart   (men hvad så med signaturer er det også tonearter her??? signaturer bruges også ved tid)
 # key signature - toneartsangivelse, faste fortegn
 # ligature -> fraseringsbue
@@ -29,8 +35,9 @@
 # pitch -> tonehøjde
 # quarter note -> 4.-delsnode
 # rest -> pause
-# score -> partitur
+# score -> partitur (husk partitureT)
 # signatur -> signatur (se key)
+# sharpen -> sætte kryds for
 # skip -> hop eller udelad
 # slur -> legatobue
 # snippet -> kodestykke (kodestump?)
@@ -42,16 +49,18 @@
 # tagline ->  kort beskrivelse (slogan (?), måske bare beskrivelse (kort beskrivelse))
 # tie -> bindebue
 # time signature - taktart
+# treble -> diskant, g-nøgle
 # triplet -> triol
 # tuplet -> irregulær nodeværdi
 # upbeat -> optakt
+# Wholenote -> helnode
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: denemo 1.2.1-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2015-02-08 08:50+0000\n"
-"PO-Revision-Date: 2015-05-01 21:02+0200\n"
+"PO-Revision-Date: 2015-05-14 21:02+0200\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -70,11 +79,11 @@ msgstr "Går ikke ud af den forrige MIDI-optagelsesløkke"
 
 #: ../src/audio/pitchentry.c:1401
 msgid "flatten "
-msgstr "gør fladere "
+msgstr "sætte b for "
 
 #: ../src/audio/pitchentry.c:1410
 msgid "sharpen"
-msgstr "gør skarpere"
+msgstr "sætte kryds for "
 
 #: ../src/audio/pitchentry.c:1431
 msgid "Set the musical temperament (tuning) to be used for playback."
@@ -204,7 +213,7 @@ msgstr "Vælg nodehovedtype"
 #: ../src/command/commandfuncs.c:458
 #, c-format
 msgid "This movement is now number %d in the score"
-msgstr "Denne sats er nu nummer %d i partituren"
+msgstr "Denne sats er nu nummer %d i partituret"
 
 #: ../src/command/commandfuncs.c:464
 msgid "There is no previous movement to swap with"
@@ -796,7 +805,7 @@ msgstr "Standardlayout for partitur"
 #: ../src/command/scorelayout.c:207 ../src/command/scorelayout.c:1074
 #: ../src/command/scorelayout.c:1135
 msgid "This button is for changing the score itself, it will not affect this custom layout"
-msgstr "Denne knap er for ændring af selve partituren, den vil ikke påvirke dette tilpassede layout"
+msgstr "Denne knap er for ændring af selve partituret, den vil ikke påvirke dette tilpassede layout"
 
 #: ../src/command/scorelayout.c:343
 msgid "New Score Layout"
@@ -824,7 +833,7 @@ msgid ""
 "Any new staffs added to the score will not appear in it unless you edit it."
 msgstr ""
 "Dette layout vil blive brugt i stedet for standarden, med mindre at du sletter det.\n"
-"Eventuelle nye nodesystemer tilføjer til partituren vil ikke fremgå i den medmindre, at du redigerer den."
+"Eventuelle nye nodesystemer tilføjer til partituret vil ikke fremgå i den medmindre, at du redigerer den."
 
 #: ../src/command/scorelayout.c:568
 msgid "Actions for this Layout"
@@ -836,7 +845,7 @@ msgstr "Opsæt"
 
 #: ../src/command/scorelayout.c:573
 msgid "Typeset the score using this layout to determine which movements, parts, titles, page breaks etc should be used"
-msgstr "Opsæt partituren via dette layout for at bestemme hvilke sats, stemmer, titler, sideombrydninger etc. der skal bruges"
+msgstr "Opsæt partituret via dette layout for at bestemme hvilke sats, stemmer, titler, sideombrydninger etc. der skal bruges"
 
 #: ../src/command/scorelayout.c:582
 msgid "Edit LilyPond Text of Layout"
@@ -1064,11 +1073,11 @@ msgstr "Rediger dette element for dette layout"
 
 #: ../src/command/scorelayout.c:956
 msgid "Move this element upwards for this score layout"
-msgstr "Flyt dette element op for dette partitiurlayout"
+msgstr "Flyt dette element op for dette partiturlayout"
 
 #: ../src/command/scorelayout.c:960
 msgid "Move this element downwards for this score layout"
-msgstr "Flyt dette element ned for dette partitiurlayout"
+msgstr "Flyt dette element ned for dette partiturlayout"
 
 #: ../src/command/scorelayout.c:964
 msgid "Remove this element from this layout"
@@ -1141,7 +1150,7 @@ msgstr "Opret titler for sats"
 
 #: ../src/command/scorelayout.c:1097
 msgid "Set book titles for this movement in the score"
-msgstr "Angiv bogtitler for denne sats i partituren"
+msgstr "Angiv bogtitler for denne sats i partituret"
 
 #: ../src/command/scorelayout.c:1100
 msgid "Create for Custom Layout"
@@ -1172,7 +1181,7 @@ msgid ""
 "This shows the clef in the Denemo score - the actual clef printed may be modified by Directives attached to it.\n"
 "You can edit the clef for a custom layout - do this on the first voice on the staff."
 msgstr ""
-"Dette viser nøglen i Denemopartituren - den faktiske nøgle udskrevet kan ændres af vedhæftede direktiver.\n"
+"Dette viser nøglen i Denemopartituret - den faktiske nøgle udskrevet kan ændres af vedhæftede direktiver.\n"
 "Du kan redigere nøglen for et tilpasset layout - gør dette for den første stemme på nodesystemet."
 
 #: ../src/command/scorelayout.c:1475
@@ -1225,7 +1234,7 @@ msgstr "Flyt Denemomarkør til dette nodesystem"
 
 #: ../src/command/scorelayout.c:1562
 msgid "This will move the Denemo Cursor to the start of this staff in this movement"
-msgstr "Vil flytte Denemomarkøren til begyndelsen af dette nodesytem i denne sats"
+msgstr "Vil flytte Denemomarkøren til begyndelsen af dette nodesystem i denne sats"
 
 #: ../src/command/scorelayout.c:1568
 msgid "Edit Staff Properties"
@@ -1248,7 +1257,7 @@ msgstr "Angiv nøgle"
 
 #: ../src/command/scorelayout.c:1581
 msgid "Set the initial clef for this staff in the score"
-msgstr "Angiv startnøglen for dette nodesytem i partituren"
+msgstr "Angiv startnøglen for dette nodesystem i partituret"
 
 #: ../src/command/scorelayout.c:1583
 msgid "Set Staff Group Start/End"
@@ -1260,8 +1269,8 @@ msgid ""
 "This is editing the score, not just customizing a layout.\n"
 "Refresh the layout view (see under Options for this Layout button at the top) once you have made the changes."
 msgstr ""
-"Parenteserne { og [ der binder nodesystemer sammen kan angives her. Angiv start på et nodesytem og slut på et senere nodesystem.\n"
-"Redigerer partituren, tilpasser ikke bare et layout.\n"
+"Parenteserne { og [ der binder nodesystemer sammen kan angives her. Angiv start på et nodesystem og slut på et senere nodesystem.\n"
+"Redigerer partituret, tilpasser ikke bare et layout.\n"
 "Opdater layoutvisningen (se under Indstillinger for denne layoutknap øverst) når du har lavet ændringerne."
 
 #: ../src/command/scorelayout.c:1614 ../src/generated/entries.h:211
@@ -1296,7 +1305,7 @@ msgstr "Papirblok"
 
 #: ../src/command/scorelayout.c:1743
 msgid "Settings for whole score: includes overall staff size, paper size ...\n"
-msgstr "Indstillinger for hele partituren: inkluderer samlet nodesytemstørrelse, papirstørrelse ...\n"
+msgstr "Indstillinger for hele partituret: inkluderer samlet nodesystemstørrelse, papirstørrelse ...\n"
 
 #: ../src/command/scorelayout.c:1749
 msgid "the paper block contents"
@@ -1311,7 +1320,7 @@ msgid ""
 "Titles, layout settings, preferences etc for the whole score.\n"
 "Includes main title, composer, date, instrumentation, tagline"
 msgstr ""
-"Titler, layoutindstillinger, præferencer etc. for hele partituren.\n"
+"Titler, layoutindstillinger, præferencer etc. for hele partituret.\n"
 "Inkluderer hovedtitlen, komponist, dato, instrumentation, kort beskrivelse"
 
 #: ../src/command/scorelayout.c:1770
@@ -1376,10 +1385,10 @@ msgid ""
 "Standard layouts are created by invoking the standard print commands - print, print part, print movement etc.\n"
 "These standard layouts provide a convenient starting point for your customized layouts.<b>Note 1</b>Custom layouts are not saved for further graphical editing, only the typesetting commands are saved, so, unless you are familiar with LilyPond do all your work on the layout in one session.<b>Note 2</b>The first comment in the LilyPond text of the layout holds the name of the layout. If you change it any conditional directives that are for the layout will need refreshing"
 msgstr ""
-"Dette er et partiturlayout - de brune knapper påvirker selve partituren, ikke kun dette layout.\n"
+"Dette er et partiturlayout - de brune knapper påvirker selve partituret, ikke kun dette layout.\n"
 "De andre knapper vil tilpasse layoutet\n"
 "Du kan have flere layout og bruge dem til at udskrive forskellige versioner af din partitur.\n"
-"Når tilpasset f.eks. ved at tilføje sideskift, slette bestemte dele etc. vil layoutet blive gemet med din partitiur og kan bruges til at udskrive fra selv om du kahr lavet korrektioner til musikken.\n"
+"Når tilpasset f.eks. ved at tilføje sideskift, slette bestemte dele etc. vil layoutet blive gemt med din partitur og kan bruges til at udskrive fra selv om du har lavet korrektioner til musikken.\n"
 "Standardlayout oprettes ved at starte de normale udskriv-kommandoer - udskriv, udskriv del, udskriv sats etc.\n"
 "Disse standardlayout tilbyder et nemt udgangspunkt for dine tilpasssede layout.<b>Note 1</b>Tilpassede layout gemmes ikke for yderligere grafisk redigering, kun opsætningskommandoerne gemmes, så, med mindre du er bekendt med LilyPond bør du udføre alt dit arbejde på layoutet i en session.<b>Note 2</b>Den første kommentar i LilyPond-teksten for layoutet indeholder navnet for layoutet. Hvis du ændrer det, vil eventuelle betingede direktiver for layoutet kræve en opdatering."
 
@@ -1392,7 +1401,7 @@ msgid ""
 msgstr ""
 "LilyPond-teksten for dette layout kan redigeres i LilyPond-fremvisningsvinduet.\n"
 "Du kan roligt slette dette layout, hvis du ikke længere skal bruge det\n"
-"(for eksempel hvis du har lavet strukturelle ændringer til partituren,\n"
+"(for eksempel hvis du har lavet strukturelle ændringer til partituret,\n"
 "som ikke er reflekteret i dette layout)."
 
 #: ../src/command/scorelayout.c:2811
@@ -1675,7 +1684,7 @@ msgstr "sti"
 
 #: ../src/core/main.c:141
 msgid "Process scheme commands from system file on file open"
-msgstr "Behandl skemakommandoer fra sytemfil ved åbning af fil"
+msgstr "Behandl skemakommandoer fra systemfil ved åbning af fil"
 
 #: ../src/core/main.c:141
 msgid "file"
@@ -1798,7 +1807,7 @@ msgid ""
 "This indicates the the LilyPond typsetter is still working on setting the Denemo score. This can take a long time, particularly for polyphony where voices must not collide. You can continue editing while the typsetting is taking place.\n"
 "Kill this window if you want to re-start the typesetting e.g. after fixing a mistake you just spotted."
 msgstr ""
-"Indikerer at LilyPonds opsætter stadig arbejder på opsætning af Denemopartituren. Dette kan tage lang tid, specielt for polyfoni, hvor stemmer ikke må kollidere. Du kan fortsat redigere mens opsætningen foregår.\n"
+"Indikerer at LilyPonds opsætter stadig arbejder på opsætning af Denemopartituret. Dette kan tage lang tid, specielt for polyfoni, hvor stemmer ikke må kollidere. Du kan fortsat redigere mens opsætningen foregår.\n"
 "Dræb dette vindue hvis du ønsker at genstarte opsætningen f.eks. efter rettelse af en fejl du lige har opdaget."
 
 #: ../src/core/utils.c:1480 ../src/export/file.c:202
@@ -2376,7 +2385,7 @@ msgstr "Lytter til tonehøjder"
 
 #: ../src/core/view.c:1301
 msgid "Editing a Chord"
-msgstr "Redigering af en akkord"
+msgstr "Redigering af akkord"
 
 #: ../src/core/view.c:1303
 msgid "Starting a Chord"
@@ -2408,11 +2417,11 @@ msgstr "Stop afspilning først"
 
 #: ../src/core/view.c:1375
 msgid "Cannot mix audio and MIDI recordings"
-msgstr "Kan ikke blande lyd- og MIDI-optagelser"
+msgstr "Kan ikke mikse lyd- og MIDI-optagelser"
 
 #: ../src/core/view.c:1381
 msgid "Cannot mix MIDI recordings with imported MIDI - delete imported MIDI first"
-msgstr "Kan ikke blande MIDI-optagelser med importeret MIDI - slet importeret MIDI først"
+msgstr "Kan ikke mikse MIDI-optagelser med importeret MIDI - slet importeret MIDI først"
 
 #: ../src/core/view.c:1385
 msgid "MIDI Recording"
@@ -3051,7 +3060,7 @@ msgstr "Lydstyrkesænkning"
 
 #: ../src/core/view.c:4557
 msgid "Reduce the volume of the source audio relative to the volume of the score"
-msgstr "Sænk lydstyrken for lydkilden relativ til lydstyrken for partituren"
+msgstr "Sænk lydstyrken for lydkilden relativ til lydstyrken for partituret"
 
 #: ../src/core/view.c:4571
 msgid "Audio Volume Boost"
@@ -3059,7 +3068,7 @@ msgstr "Lydstyrkeøgning"
 
 #: ../src/core/view.c:4572
 msgid "Boost the volume of the source audio relative to the volume of the score"
-msgstr "Øg lydstyrken for lydkilden relativ til lydstyrken for partituren"
+msgstr "Øg lydstyrken for lydkilden relativ til lydstyrken for partituret"
 
 #: ../src/core/view.c:4584
 msgid "Audio Lead In "
@@ -3076,11 +3085,11 @@ msgstr ""
 #. Speed
 #: ../src/core/view.c:4599
 msgid "Slowdown:"
-msgstr "Opbremsning:"
+msgstr "Sæt hastigheden ned:"
 
 #: ../src/core/view.c:4609
 msgid "Slow down the audio output maintaining the pitch"
-msgstr "Bremser lydudgangen ned mens tonehøjden bevares"
+msgstr "Sætter hastigheden ned for lyden, mens tonehøjden bevares"
 
 #: ../src/core/view.c:4621
 msgid "Controls for managing input from a MIDI controller (e.g. keyboard) attached to the computer. You may need to select your MIDI device first using MainMenu → Edit → Change Preferences → MIDI looking for MIDI in devices (turn your device on first). When you have a MIDI controller durations are inserted without any pitch (they appear in brown) playing on the controller puts the pitches onto the durations. The Shift and Control and ALT keys can also be used for listening without entering notes, checking pitches entered and entering chords. The foot pedal can also be used for chords. Release the ALT key and re-press to start a new chord - timing is unimportant, play the chord fast or slow."
@@ -3117,11 +3126,11 @@ msgid ""
 ".A MIDI recording is not saved with the Denemo score."
 msgstr ""
 "Starter afspilning og samtidige optagelser fra MIDI-ind.\n"
-"Når en optagelse er lavet så afspilles den med partituren når du trykker\n"
+"Når en optagelse er lavet så afspilles den med partituret når du trykker\n"
 "Afspil.\n"
 "Den kan slettes med Sletteknappen (Delete) eller konverteres til notation\n"
 "med Konverter.\n"
-"En MIDI-optagelse gemmes ikke med Denemopartituren."
+"En MIDI-optagelse gemmes ikke med Denemopartituret."
 
 # engelsk fejl. manglende mellemrum efter .
 #: ../src/core/view.c:4699
@@ -3148,7 +3157,7 @@ msgid ""
 "When the first key of a two-key shortcut is pressed the possible continuations are shown here."
 msgstr ""
 "Denne bjælke viser:\n"
-"Igangværende ♯- eller ♭-tegn (hvis den næste node indtastet vil blev skærpet eller fladet ud)\n"
+"Igangværende ♯- eller ♭-tegn (om den næste node indtastet vil sætte kryds for eller sætte b for)\n"
 "Satsantallet\n"
 "Beskrivelse af objektet ved Denemo-markøren\n"
 "Position og status (tilføjer eller indsætter) for markøren.\n"
@@ -3248,7 +3257,7 @@ msgid ""
 "This scorelayout is purely for continuous typesetting, and will change as you edit the score.\n"
 "To get a real score layout turn off continuous typesetting in the Print View and typeset using Part, Movement or Typeset (Default Layout) buttons."
 msgstr ""
-"Dette partiturlayout er kun for fortsættende opsætning, og vil ændre sig efterhånden som du redigerer partituren.\n"
+"Dette partiturlayout er kun for fortsættende opsætning, og vil ændre sig efterhånden som du redigerer partituret.\n"
 "For at få et reelt partiturlayout så sluk for fortsættende opsætning i Udskrivningsvisningen og opsæt via stemme-, sats- eller opsætningsknapper (standardlayout)."
 
 #: ../src/export/exportlilypond.c:154 ../src/export/exportlilypond.c:163
@@ -3279,7 +3288,7 @@ msgstr "%% LilyPond-fil oprettet af Denemoversion "
 
 #: ../src/export/exportlilypond.c:2097
 msgid "The score has been altered so that this LilyPond text is out of date - ignoring request"
-msgstr "Partituren er blevet ændret så at denne LilyPond-tekst er forældet - ignorerer anmodning"
+msgstr "Partituret er blevet ændret så at denne LilyPond-tekst er forældet - ignorerer anmodning"
 
 #: ../src/export/exportlilypond.c:2423
 msgid "No textbuffer"
@@ -3376,7 +3385,7 @@ msgstr "Luk uden at gemme"
 #: ../src/export/file.c:202
 #, c-format
 msgid "The score %s has unsaved changes"
-msgstr "Partituren %s har ugemte ændringer"
+msgstr "Partituret %s har ugemte ændringer"
 
 #: ../src/export/file.c:203
 msgid "Save changes?"
@@ -3666,7 +3675,7 @@ msgstr "Flytter markøren til nodesystemet nedenfor uden at ændre markering"
 
 #: ../src/generated/entries.h:19 ../src/generated/register_commands.h:18
 msgid "Measure Left"
-msgstr "Takt venstre"
+msgstr "Venstre takt"
 
 #: ../src/generated/entries.h:19 ../src/generated/register_commands.h:18
 msgid "Moves the cursor to the first object in the next measure, extending selection if any"
@@ -3674,7 +3683,7 @@ msgstr "Flytter markøren til det første objekt i den næste takt, udvider en e
 
 #: ../src/generated/entries.h:20 ../src/generated/register_commands.h:19
 msgid "Measure Right"
-msgstr "Takt højre"
+msgstr "Højre takt"
 
 #: ../src/generated/entries.h:20 ../src/generated/register_commands.h:19
 msgid "Moves the cursor to the first object in the previous measure, extending selection if any"
@@ -3682,7 +3691,7 @@ msgstr "Flytter markøren til det første objekt i den forrige takt, udvider en 
 
 #: ../src/generated/entries.h:21 ../src/generated/register_commands.h:20
 msgid "Move to Measure Left"
-msgstr "Flyt til takt venstre"
+msgstr "Flyt til venstre takt"
 
 #: ../src/generated/entries.h:21 ../src/generated/register_commands.h:20
 msgid "Moves the cursor to the first object in the next measure leaving selection, if any, unchanged"
@@ -3690,7 +3699,7 @@ msgstr "Flytter markøren til det første objekt i den næste takt, efterlader m
 
 #: ../src/generated/entries.h:22 ../src/generated/register_commands.h:21
 msgid "Move to Measure Right"
-msgstr "Flyt til takt højre"
+msgstr "Flyt til højre takt"
 
 #: ../src/generated/entries.h:22 ../src/generated/register_commands.h:21
 msgid "Moves the cursor to the first object in the previous measure leaving selection, if any, unchanged"
@@ -3706,7 +3715,7 @@ msgid ""
 "If the cursor is in the appending position, appends a note using the prevailing duration."
 msgstr ""
 "Ændrer noden markøren er på til noden A.\n"
-"Hvis markøren er i tilføjelsesposition tilføjes en node via den fremherskende længde."
+"Hvis markøren er i tilføjelsesposition tilføjes en node af den forudgående nodes længde."
 
 #: ../src/generated/entries.h:24 ../src/generated/register_commands.h:23
 msgid "Change/Append B"
@@ -3718,7 +3727,7 @@ msgid ""
 "If the cursor is in the appending position, appends a note using the prevailing duration."
 msgstr ""
 "Ændrer noden markøren er på til noden H.\n"
-"Hvis markøren er i tilføjelsesposition tilføjes en node via den fremherskende længde."
+"Hvis markøren er i tilføjelsesposition tilføjes en node af den forudgående nodes længde."
 
 #: ../src/generated/entries.h:25 ../src/generated/register_commands.h:24
 msgid "Change/Append C"
@@ -3730,7 +3739,7 @@ msgid ""
 "If the cursor is in the appending position, appends a note using the prevailing duration."
 msgstr ""
 "Ændrer noden markøren er på til noden C.\n"
-"Hvis markøren er i tilføjelsesposition tilføjes en node via den fremherskende længde."
+"Hvis markøren er i tilføjelsesposition tilføjes en nodeaf den forudgående nodes længde."
 
 #: ../src/generated/entries.h:26 ../src/generated/register_commands.h:25
 msgid "Change/Append D"
@@ -3742,7 +3751,7 @@ msgid ""
 "If the cursor is in the appending position, appends a note using the prevailing duration."
 msgstr ""
 "Ændrer noden markøren er på til noden D.\n"
-"Hvis markøren er i tilføjelsesposition tilføjes en node via den fremherskende længde."
+"Hvis markøren er i tilføjelsesposition tilføjes en node af den forudgående nodes længde."
 
 #: ../src/generated/entries.h:27 ../src/generated/register_commands.h:26
 msgid "Change/Append E"
@@ -3754,7 +3763,7 @@ msgid ""
 "If the cursor is in the appending position, appends a note using the prevailing duration."
 msgstr ""
 "Ændrer noden markøren er på til noden E.\n"
-"Hvis markøren er i tilføjelsesposition tilføjes en node via den fremherskende længde."
+"Hvis markøren er i tilføjelsesposition tilføjes en node af den forudgående nodes længde."
 
 #: ../src/generated/entries.h:28 ../src/generated/register_commands.h:27
 msgid "Change/Append F"
@@ -3766,7 +3775,7 @@ msgid ""
 "If the cursor is in the appending position, appends a note using the prevailing duration."
 msgstr ""
 "Ændrer noden markøren er på til noden F.\n"
-"Hvis markøren er i tilføjelsesposition tilføjes en node via den fremherskende længde."
+"Hvis markøren er i tilføjelsesposition tilføjes en node af den forudgående nodes længde."
 
 #: ../src/generated/entries.h:29 ../src/generated/register_commands.h:28
 msgid "Change/Append G"
@@ -3778,7 +3787,7 @@ msgid ""
 "If the cursor is in the appending position, appends a note using the prevailing duration."
 msgstr ""
 "Ændrer noden markøren er på til noden G.\n"
-"Hvis markøren er i tilføjelsesposition tilføjes en node via den fremherskende længde."
+"Hvis markøren er i tilføjelsesposition tilføjes en node af den forudgående nodes længde."
 
 #: ../src/generated/entries.h:30 ../src/generated/register_commands.h:29
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/JumpUpOctave.xml.h:1
@@ -3806,7 +3815,7 @@ msgstr "Ændrer noden ved markøren til en oktav lavere"
 #  http://en.wikipedia.org/wiki/Whole_tone_scale
 #: ../src/generated/entries.h:32 ../src/generated/register_commands.h:31
 msgid "WholeNote"
-msgstr "Heltone"
+msgstr "Helnode"
 
 #: ../src/generated/entries.h:32 ../src/generated/register_commands.h:31
 msgid "Insert 𝅝"
@@ -3814,7 +3823,7 @@ msgstr "Indsæt 𝅝"
 
 #: ../src/generated/entries.h:33 ../src/generated/register_commands.h:32
 msgid "HalfNote"
-msgstr "Halvtone"
+msgstr "Halvnode"
 
 #: ../src/generated/entries.h:33 ../src/generated/register_commands.h:32
 msgid "Insert 𝅗𝅥"
@@ -3822,7 +3831,7 @@ msgstr "Indsæt 𝅗𝅥"
 
 #: ../src/generated/entries.h:34 ../src/generated/register_commands.h:33
 msgid "QuarterNote"
-msgstr "4.-delsnode"
+msgstr "Fjerdedelsnode"
 
 #: ../src/generated/entries.h:34 ../src/generated/register_commands.h:33
 msgid "Insert 𝅘𝅥"
@@ -3830,7 +3839,7 @@ msgstr "Indsæt 𝅘𝅥"
 
 #: ../src/generated/entries.h:35 ../src/generated/register_commands.h:34
 msgid "EighthNote"
-msgstr "8.-delsnode"
+msgstr "Ottendedelsnode"
 
 #: ../src/generated/entries.h:35 ../src/generated/register_commands.h:34
 msgid "Insert 𝅘𝅥𝅮"
@@ -3838,7 +3847,7 @@ msgstr "Indsæt 𝅘𝅥𝅮"
 
 #: ../src/generated/entries.h:36 ../src/generated/register_commands.h:35
 msgid "SixteenthNote"
-msgstr "16.-delsnode"
+msgstr "Sekstendedelsnode"
 
 #: ../src/generated/entries.h:36 ../src/generated/register_commands.h:35
 msgid "Insert 𝅘𝅥𝅯"
@@ -3846,7 +3855,7 @@ msgstr "Indsæt 𝅘𝅥𝅯"
 
 #: ../src/generated/entries.h:37 ../src/generated/register_commands.h:36
 msgid "ThirtysecondNote"
-msgstr "32.-delsnode"
+msgstr "Toogtredivedelsnode"
 
 #: ../src/generated/entries.h:37 ../src/generated/register_commands.h:36
 msgid "Insert 𝅘𝅥𝅰"
@@ -3854,7 +3863,7 @@ msgstr "Indsæt 𝅘𝅥𝅰"
 
 #: ../src/generated/entries.h:38 ../src/generated/register_commands.h:37
 msgid "SixtyfourthNote"
-msgstr "64.-delsnode"
+msgstr "Fireogtredstyvendedelsnode"
 
 #: ../src/generated/entries.h:38 ../src/generated/register_commands.h:37
 msgid "Insert 𝅘𝅥𝅱"
@@ -3862,7 +3871,7 @@ msgstr "Indsæt 𝅘𝅥𝅱"
 
 #: ../src/generated/entries.h:39 ../src/generated/register_commands.h:38
 msgid "OneHundredTwentyEighthNote"
-msgstr "128.-delsnode"
+msgstr "Hundredeotteogtyvendedelsnode"
 
 #: ../src/generated/entries.h:39 ../src/generated/register_commands.h:38
 msgid "Insert 𝅘𝅥𝅲"
@@ -3870,7 +3879,7 @@ msgstr "Indsæt 𝅘𝅥𝅲"
 
 #: ../src/generated/entries.h:40 ../src/generated/register_commands.h:39
 msgid "TwoHundredFiftySixthNote"
-msgstr "256.-delsnode"
+msgstr "Tohundredeseksoghalvtredsdelsnode"
 
 #: ../src/generated/entries.h:40 ../src/generated/register_commands.h:39
 msgid "Insert 𝅥"
@@ -3945,7 +3954,7 @@ msgstr "Indsæt en 𝄻 taktpause"
 
 #: ../src/generated/entries.h:48 ../src/generated/register_commands.h:47
 msgid "Insert a non-printing 𝄻 rest"
-msgstr "Indsæt en ikkeudskrivende 𝄻 pause"
+msgstr "Indsæt en ikke udskrevet 𝄻 pause"
 
 #: ../src/generated/entries.h:49 ../src/generated/register_commands.h:48
 msgid "Insert a 𝄼 Spacer"
@@ -3953,7 +3962,7 @@ msgstr "Indsæt en 𝄼 taktpause"
 
 #: ../src/generated/entries.h:49 ../src/generated/register_commands.h:48
 msgid "Insert a non-printing 𝄼 rest"
-msgstr "Indsæt en ikkeudskrivende 𝄼 pause"
+msgstr "Indsæt en ikke udskrevet 𝄼 pause"
 
 #: ../src/generated/entries.h:50 ../src/generated/register_commands.h:49
 msgid "Insert a 𝄽 Spacer"
@@ -3961,7 +3970,7 @@ msgstr "Indsæt en 𝄽 taktpause"
 
 #: ../src/generated/entries.h:50 ../src/generated/register_commands.h:49
 msgid "Insert a non-printing 𝄽 rest"
-msgstr "Indsæt en ikkeudskrivende 𝄽 pause"
+msgstr "Indsæt en ikke udskrevet 𝄽 pause"
 
 #: ../src/generated/entries.h:51 ../src/generated/register_commands.h:50
 msgid "Insert a 𝄾 Spacer"
@@ -3969,7 +3978,7 @@ msgstr "Indsæt en 𝄾 taktpause"
 
 #: ../src/generated/entries.h:51 ../src/generated/register_commands.h:50
 msgid "Insert a non-printing 𝄾 rest"
-msgstr "Indsæt en ikkeudskrivende 𝄾 pause"
+msgstr "Indsæt en ikke udskrevet 𝄾 pause"
 
 #: ../src/generated/entries.h:52 ../src/generated/register_commands.h:51
 msgid "Insert a 𝄿 Spacer"
@@ -3977,7 +3986,7 @@ msgstr "Indsæt en 𝄿 taktpause"
 
 #: ../src/generated/entries.h:52 ../src/generated/register_commands.h:51
 msgid "Insert a non-printing 𝄿 rest"
-msgstr "Indsæt en ikkeudskrivende 𝄿 pause"
+msgstr "Indsæt en ikke udskrevet 𝄿 pause"
 
 #: ../src/generated/entries.h:53 ../src/generated/register_commands.h:52
 msgid "Insert a 𝅀 Spacer"
@@ -3985,7 +3994,7 @@ msgstr "Indsæt en 𝅀 taktpause"
 
 #: ../src/generated/entries.h:53 ../src/generated/register_commands.h:52
 msgid "Insert a non-printing 𝅀 rest"
-msgstr "Indsæt en ikkeudskrivende 𝅀 pause"
+msgstr "Indsæt en ikke udskrevet 𝅀 pause"
 
 #: ../src/generated/entries.h:54 ../src/generated/register_commands.h:53
 msgid "Insert a 𝅁 Spacer"
@@ -4001,7 +4010,7 @@ msgstr "Indsæt en 𝅂 taktpause"
 
 #: ../src/generated/entries.h:55 ../src/generated/register_commands.h:54
 msgid "Insert a non-printing 𝅂 rest"
-msgstr "Indsæt en ikkeudskrivende 𝅂 pause"
+msgstr "Indsæt en ikke udskrevet 𝅂 pause"
 
 #: ../src/generated/entries.h:56 ../src/generated/register_commands.h:55
 msgid "Insert a 𝅃 Spacer"
@@ -4009,7 +4018,7 @@ msgstr "Indsæt en 𝅃 taktpause"
 
 #: ../src/generated/entries.h:56 ../src/generated/register_commands.h:55
 msgid "Insert a non-printing 𝅃 rest"
-msgstr "Indsæt en ikkeudskrivende 𝅃 pause"
+msgstr "Indsæt en ikke udskrevet 𝅃 pause"
 
 #: ../src/generated/entries.h:57 ../src/generated/entries.h:342
 #: ../src/generated/register_commands.h:56
@@ -4193,15 +4202,15 @@ msgstr "Indsæt triol"
 
 #: ../src/generated/entries.h:60 ../src/generated/register_commands.h:59
 msgid "Inserts a Start Triplet object and an End Tuplet object and places the cursor between these two"
-msgstr "Indsætter et starttriol-objekt og et slut irregulært nodeværdi-objekt og placerer markøren mellem disse to"
+msgstr "Indsætter et start triol-objekt og et slut irregulært nodeværdi-objekt og placerer markøren mellem disse to"
 
 #: ../src/generated/entries.h:61 ../src/generated/register_commands.h:60
 msgid "Start Triplet"
-msgstr "Starttriol"
+msgstr "Start triol"
 
 #: ../src/generated/entries.h:61 ../src/generated/register_commands.h:60
 msgid "Inserts an Start Triplet object, which makes the notes following take 2/3 of their written duration. Later in this measure there should be an End Tuplet object."
-msgstr "Indsætter et starttriol-objekt, som gør at de følgende noder bruger 2/3 af deres skrevne længde. Senere i denne takt skal der være et slut irregulært nodeværdi-objekt."
+msgstr "Indsætter et start triol-objekt, som gør at de følgende noder bruger 2/3 af deres skrevne længde. Senere i denne takt skal der være et slut irregulært nodeværdi-objekt."
 
 #: ../src/generated/entries.h:62 ../src/generated/register_commands.h:61
 msgid "End Tuplet"
@@ -4209,7 +4218,7 @@ msgstr "Slut irregulær nodeværdi"
 
 #: ../src/generated/entries.h:62 ../src/generated/register_commands.h:61
 msgid "Inserts an End Tuplet object, which terminates a tuplet started earlier in this measure."
-msgstr "Indsætter et slut irregulær nodeværdi-objekt, osm afslutter en irregulær nodeværdi startet tidligere i denne takt"
+msgstr "Indsætter en afsluttende irregulær nodeværdi, som afslutter den irregulære nodeværdi startet tidligere i denne takt"
 
 #: ../src/generated/entries.h:63 ../src/generated/register_commands.h:62
 msgid "Insert Quadruplet"
@@ -4251,25 +4260,25 @@ msgstr "Fjern en node fra den nuværende akkord, baseret på markørpositionen"
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:253
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:258
 msgid "Sharpen"
-msgstr "Skærp"
+msgstr "Sætte kryds for"
 
 #: ../src/generated/entries.h:69 ../src/generated/register_commands.h:68
 msgid "Sharpen the note at the cursor"
-msgstr "Skærp noden ved markøren"
+msgstr "Sætte kryds for noden ved markøren"
 
 #: ../src/generated/entries.h:70 ../src/generated/register_commands.h:69
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:254
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:259
 msgid "Flatten"
-msgstr "Fladgør"
+msgstr "Sætte b for"
 
 #: ../src/generated/entries.h:70 ../src/generated/register_commands.h:69
 msgid "Flatten the note at the cursor"
-msgstr "Fladgør noden ved markøren"
+msgstr "Sætte b for noden ved markøren"
 
 #: ../src/generated/entries.h:71 ../src/generated/register_commands.h:70
 msgid "Sharpen Next Note"
-msgstr "Skærp næste node"
+msgstr "Sætte kryds for næste node"
 
 #: ../src/generated/entries.h:71 ../src/generated/register_commands.h:70
 msgid "Increases the sharpness of the next entered note. The status bar shows the current state."
@@ -4277,7 +4286,7 @@ msgstr "Øger skarpheden for den næste indtastede node. Statusbjælken viser de
 
 #: ../src/generated/entries.h:72 ../src/generated/register_commands.h:71
 msgid "Flatten Next Note"
-msgstr "Fladgør næste node"
+msgstr "Sætte b for næste node"
 
 #: ../src/generated/entries.h:72 ../src/generated/register_commands.h:71
 msgid "Increases the flatness of the next entered note. The status bar shows the current state."
@@ -4375,7 +4384,7 @@ msgstr "Indsæt en blank takt før den nuværende (i nuværende nodesystem)"
 
 #: ../src/generated/entries.h:84 ../src/generated/register_commands.h:83
 msgid "Staff Insert Measure After"
-msgstr "Nodesytem indsæt takt efter"
+msgstr "Nodesystem indsæt takt efter"
 
 #: ../src/generated/entries.h:84 ../src/generated/register_commands.h:83
 msgid "Insert a blank measure in current staff after the current measure"
@@ -4423,437 +4432,439 @@ msgstr ""
 
 #: ../src/generated/entries.h:92 ../src/generated/register_commands.h:91
 msgid "New Treble Clef"
-msgstr ""
+msgstr "Ny g-nøgle"
 
 #: ../src/generated/entries.h:93 ../src/generated/register_commands.h:92
 msgid "New Bass Clef"
-msgstr ""
+msgstr "Ny basnøgle"
 
 #: ../src/generated/entries.h:94 ../src/generated/register_commands.h:93
 msgid "New G8 Clef"
-msgstr ""
+msgstr "Ny G8-nøgle"
 
 #: ../src/generated/entries.h:95 ../src/generated/register_commands.h:94
 msgid "New Alto Clef"
-msgstr ""
+msgstr "Ny altonøgle"
 
 #: ../src/generated/entries.h:96 ../src/generated/register_commands.h:95
 msgid "New Tenor Clef"
-msgstr ""
+msgstr "Ny tenornøgle"
 
 #: ../src/generated/entries.h:97 ../src/generated/register_commands.h:96
 msgid "New Soprano Clef"
-msgstr ""
+msgstr "Ny sopranonøgle"
 
 #: ../src/generated/entries.h:98 ../src/generated/register_commands.h:97
 msgid "Set Treble Clef"
-msgstr ""
+msgstr "Angiv g-nøgle"
 
 #: ../src/generated/entries.h:99 ../src/generated/register_commands.h:98
 msgid "Set Bass Clef"
-msgstr ""
+msgstr "Angiv basnøgle"
 
 #: ../src/generated/entries.h:100 ../src/generated/register_commands.h:99
 msgid "Set G8 Clef"
-msgstr ""
+msgstr "Angiv G8-nøgle"
 
 #: ../src/generated/entries.h:101 ../src/generated/register_commands.h:100
 msgid "Set Alto Clef"
-msgstr ""
+msgstr "Angiv altonøgle"
 
 #: ../src/generated/entries.h:102 ../src/generated/register_commands.h:101
 msgid "Set Tenor Clef"
-msgstr ""
+msgstr "Angiv tenornøgle"
 
 #: ../src/generated/entries.h:103 ../src/generated/register_commands.h:102
 msgid "Set Soprano Clef"
-msgstr ""
+msgstr "Angiv sopranonøgle"
 
 #: ../src/generated/entries.h:104 ../src/generated/register_commands.h:103
 msgid "Insert 2/2 Time"
-msgstr ""
+msgstr "Indsæt 2/2 takt"
 
 #: ../src/generated/entries.h:105 ../src/generated/register_commands.h:104
 msgid "Insert 3/2 Time"
-msgstr ""
+msgstr "Indsæt 3/2 takt"
 
 #: ../src/generated/entries.h:106 ../src/generated/register_commands.h:105
 msgid "Insert 4/2 Time"
-msgstr ""
+msgstr "Indsæt 4/2 takt"
 
 #: ../src/generated/entries.h:107 ../src/generated/register_commands.h:106
 msgid "Insert 4/4 Time"
-msgstr ""
+msgstr "Indsæt 4/4 takt"
 
 #: ../src/generated/entries.h:108 ../src/generated/register_commands.h:107
 msgid "Insert 3/4 Time"
-msgstr ""
+msgstr "Indsæt 3/4 takt"
 
 #: ../src/generated/entries.h:109 ../src/generated/register_commands.h:108
 msgid "Insert 2/4 Time"
-msgstr ""
+msgstr "Indsæt 2/4 takt"
 
 #: ../src/generated/entries.h:110 ../src/generated/register_commands.h:109
 msgid "Insert 6/4 Time"
-msgstr ""
+msgstr "Indsæt 6/4 takt"
 
 #: ../src/generated/entries.h:111 ../src/generated/register_commands.h:110
 msgid "Insert 3/8 Time"
-msgstr ""
+msgstr "Indsæt 3/8 takt"
 
 #: ../src/generated/entries.h:112 ../src/generated/register_commands.h:111
 msgid "Insert 6/8 Time"
-msgstr ""
+msgstr "Indsæt 6/8 takt"
 
 #: ../src/generated/entries.h:113 ../src/generated/register_commands.h:112
 msgid "Insert 12/8 Time"
-msgstr ""
+msgstr "Indsæt 12/8 takt"
 
 #: ../src/generated/entries.h:114 ../src/generated/register_commands.h:113
 msgid "Insert 9/8 Time"
-msgstr ""
+msgstr "Indsæt 9/8 takt"
 
 #: ../src/generated/entries.h:115 ../src/generated/register_commands.h:114
 msgid "Set 2/2 Time"
-msgstr ""
+msgstr "Angiv 2/2 takt"
 
 #: ../src/generated/entries.h:116 ../src/generated/register_commands.h:115
 msgid "Set 3/2 Time"
-msgstr ""
+msgstr "Angiv 3/2 takt"
 
 #: ../src/generated/entries.h:117 ../src/generated/register_commands.h:116
 msgid "Set 4/2 Time"
-msgstr ""
+msgstr "Angiv 4/2 takt"
 
 #: ../src/generated/entries.h:118 ../src/generated/register_commands.h:117
 msgid "Set 4/4 Time"
-msgstr ""
+msgstr "Angiv 4/4 takt"
 
 #: ../src/generated/entries.h:119 ../src/generated/register_commands.h:118
 msgid "Set 3/4 Time"
-msgstr ""
+msgstr "Angiv 3/4 takt"
 
 #: ../src/generated/entries.h:120 ../src/generated/register_commands.h:119
 msgid "Set 2/4 Time"
-msgstr ""
+msgstr "Angiv 2/4 takt"
 
 #: ../src/generated/entries.h:121 ../src/generated/register_commands.h:120
 msgid "Set 6/4 Time"
-msgstr ""
+msgstr "Angiv 6/4 takt"
 
 #: ../src/generated/entries.h:122 ../src/generated/register_commands.h:121
 msgid "Set 3/8 Time"
-msgstr ""
+msgstr "Angiv 3/8 takt"
 
 #: ../src/generated/entries.h:123 ../src/generated/register_commands.h:122
 msgid "Set 6/8 Time"
-msgstr ""
+msgstr "Angiv 6/8 takt"
 
 #: ../src/generated/entries.h:124 ../src/generated/register_commands.h:123
 msgid "Set 12/8 Time"
-msgstr ""
+msgstr "Angiv 12/8 takt"
 
 #: ../src/generated/entries.h:125 ../src/generated/register_commands.h:124
 msgid "Set 9/8 Time"
-msgstr ""
+msgstr "Angiv 9/8 takt"
 
 #: ../src/generated/entries.h:126 ../src/generated/register_commands.h:125
 msgid "Insert Cmaj"
-msgstr ""
+msgstr "Indsæt Cmaj"
 
 #: ../src/generated/entries.h:127 ../src/generated/register_commands.h:126
 msgid "Insert Gmaj"
-msgstr ""
+msgstr "Indsæt Gmaj"
 
 #: ../src/generated/entries.h:128 ../src/generated/register_commands.h:127
 msgid "Insert Dmaj"
-msgstr ""
+msgstr "Indsæt Dmaj"
 
 #: ../src/generated/entries.h:129 ../src/generated/register_commands.h:128
 msgid "Insert Amaj"
-msgstr ""
+msgstr "Indsæt Amaj"
 
 #: ../src/generated/entries.h:130 ../src/generated/register_commands.h:129
 msgid "Insert Emaj"
-msgstr ""
+msgstr "Indsæt Emaj"
 
 #: ../src/generated/entries.h:131 ../src/generated/register_commands.h:130
 msgid "Insert Bmaj"
-msgstr ""
+msgstr "Indsæt Hmaj"
 
 #: ../src/generated/entries.h:132 ../src/generated/register_commands.h:131
 msgid "Insert F# Major"
-msgstr ""
+msgstr "Indsæt F#-dur"
 
 #: ../src/generated/entries.h:133 ../src/generated/register_commands.h:132
 msgid "Insert C# Major"
-msgstr ""
+msgstr "Indsæt C#-dur"
 
 #: ../src/generated/entries.h:134 ../src/generated/register_commands.h:133
 msgid "Insert F Major"
-msgstr ""
+msgstr "Indsæt F-dur"
 
 #: ../src/generated/entries.h:135 ../src/generated/register_commands.h:134
 msgid "Insert Bb Major"
-msgstr ""
+msgstr "Indsæt Hh-dur"
 
 #: ../src/generated/entries.h:136 ../src/generated/register_commands.h:135
 msgid "Insert Eb Major"
-msgstr ""
+msgstr "Indsæt Eh-dur"
 
 #: ../src/generated/entries.h:137 ../src/generated/register_commands.h:136
 msgid "Insert Ab Major"
-msgstr ""
+msgstr "Indsæt Ah-dur"
 
 #: ../src/generated/entries.h:138 ../src/generated/register_commands.h:137
 msgid "Insert Db Major"
-msgstr ""
+msgstr "Indsæt Dh-dur"
 
 #: ../src/generated/entries.h:139 ../src/generated/register_commands.h:138
 msgid "Insert Gb Major"
-msgstr ""
+msgstr "Indsæt Gh-dur"
 
 #: ../src/generated/entries.h:140 ../src/generated/register_commands.h:139
 msgid "Insert Cb Major"
-msgstr ""
+msgstr "Indsæt Ch-dur"
 
 #: ../src/generated/entries.h:141 ../src/generated/register_commands.h:140
 msgid "Insert A Minor"
-msgstr ""
+msgstr "Indsæt A-mol"
 
 #: ../src/generated/entries.h:142 ../src/generated/register_commands.h:141
 msgid "Insert E Minor"
-msgstr ""
+msgstr "Indsæt E-mol"
 
 #: ../src/generated/entries.h:143 ../src/generated/register_commands.h:142
 msgid "Insert B Minor"
-msgstr ""
+msgstr "Indsæt H-mol"
 
 #: ../src/generated/entries.h:144 ../src/generated/register_commands.h:143
 msgid "Insert F# Minor"
-msgstr ""
+msgstr "Indsæt F#-mol"
 
 #: ../src/generated/entries.h:145 ../src/generated/register_commands.h:144
 msgid "Insert C# Minor"
-msgstr ""
+msgstr "Indsæt C#-mol"
 
 #: ../src/generated/entries.h:146 ../src/generated/register_commands.h:145
 msgid "Insert G# Minor"
-msgstr ""
+msgstr "Indsæt G#-mol"
 
 #: ../src/generated/entries.h:147 ../src/generated/register_commands.h:146
 msgid "Insert D# Minor"
-msgstr ""
+msgstr "Indsæt D#-mol"
 
 #: ../src/generated/entries.h:148 ../src/generated/register_commands.h:147
 msgid "Insert A# Minor"
-msgstr ""
+msgstr "Indsæt A#-mol"
 
 #: ../src/generated/entries.h:149 ../src/generated/register_commands.h:148
 msgid "Insert D Minor"
-msgstr ""
+msgstr "Indsæt D-mol"
 
 #: ../src/generated/entries.h:150 ../src/generated/register_commands.h:149
 msgid "Insert G Minor"
-msgstr ""
+msgstr "Indsæt G-mol"
 
 #: ../src/generated/entries.h:151 ../src/generated/register_commands.h:150
 msgid "Insert C Minor"
-msgstr ""
+msgstr "Indsæt C-mol"
 
 #: ../src/generated/entries.h:152 ../src/generated/register_commands.h:151
 msgid "Insert F Minor"
-msgstr ""
+msgstr "Indsæt F-mol"
 
 #: ../src/generated/entries.h:153 ../src/generated/register_commands.h:152
 msgid "Insert Bb Minor"
-msgstr ""
+msgstr "Indsæt Hh-mol"
 
 #: ../src/generated/entries.h:154 ../src/generated/register_commands.h:153
 msgid "Insert Eb Minor"
-msgstr ""
+msgstr "Indsæt Eh-mol"
 
 #: ../src/generated/entries.h:155 ../src/generated/register_commands.h:154
 msgid "Insert Ab Minor"
-msgstr ""
+msgstr "Indsæt Ah-mol"
 
 #: ../src/generated/entries.h:156 ../src/generated/register_commands.h:155
 msgid "Set Initial Keysig to C Major"
-msgstr ""
+msgstr "Angiv oprindelig toneart til C-dur"
 
 #: ../src/generated/entries.h:157 ../src/generated/register_commands.h:156
 msgid "Set Initial Keysig to G Major"
-msgstr ""
+msgstr "Angiv oprindelig toneart til G-dur"
 
 #: ../src/generated/entries.h:158 ../src/generated/register_commands.h:157
 msgid "Set D Major as Initial Keysig"
-msgstr ""
+msgstr "Angiv D-dur som oprindelige toneart"
 
 #: ../src/generated/entries.h:159 ../src/generated/register_commands.h:158
 msgid "Set A Major as Initial Keysig"
-msgstr ""
+msgstr "Angiv A-dur som oprindelig toneart"
 
 #: ../src/generated/entries.h:160 ../src/generated/register_commands.h:159
 msgid "Set E Major as Initial Keysig"
-msgstr ""
+msgstr "Angiv E-dur som oprindelige toneart"
 
 #: ../src/generated/entries.h:161 ../src/generated/register_commands.h:160
 msgid "Set B Major as Initial Keysig"
-msgstr ""
+msgstr "Angiv B-dur som oprindelige toneart"
 
 #: ../src/generated/entries.h:162 ../src/generated/register_commands.h:161
 msgid "Set F# Major as Initial Keysig"
-msgstr ""
+msgstr "Angiv F#-dur som oprindelig toneart"
 
 #: ../src/generated/entries.h:163 ../src/generated/register_commands.h:162
 msgid "Set C# Major as Initial Keysig"
-msgstr ""
+msgstr "Angiv C#-dur som oprindelig toneart"
 
 #: ../src/generated/entries.h:164 ../src/generated/register_commands.h:163
 msgid "Set F Major as Initial Keysig"
-msgstr ""
+msgstr "Angiv F-dur som oprindelig toneart"
 
 #: ../src/generated/entries.h:165 ../src/generated/register_commands.h:164
 msgid "Set Bb Major as Initial Keysig"
-msgstr ""
+msgstr "Angiv Hh-dur som oprindelig toneart"
 
 #: ../src/generated/entries.h:166 ../src/generated/register_commands.h:165
 msgid "Set Eb Major as Initial Keysig"
-msgstr ""
+msgstr "Angiv Eh-dur som oprindelig toneart"
 
 #: ../src/generated/entries.h:167 ../src/generated/register_commands.h:166
 msgid "Set Ab Major as Initial Keysig"
-msgstr ""
+msgstr "Angiv Ah-dur som oprindelig toneart"
 
 #: ../src/generated/entries.h:168 ../src/generated/register_commands.h:167
 msgid "Set Db Major as Initial Keysig"
-msgstr ""
+msgstr "Angiv Dh-dur som oprindelig toneart"
 
 #: ../src/generated/entries.h:169 ../src/generated/register_commands.h:168
 msgid "Set Gb Major as Initial Keysig"
-msgstr ""
+msgstr "Angiv Gh-dur som oprindelig toneart"
 
 #: ../src/generated/entries.h:170 ../src/generated/register_commands.h:169
 msgid "Set Cb Major as Initial Keysig"
-msgstr ""
+msgstr "Angiv Ch-dur som oprindelig toneart"
 
 #: ../src/generated/entries.h:171 ../src/generated/register_commands.h:170
 msgid "Set A Minor as Initial Keysig"
-msgstr ""
+msgstr "Angiv A-mol som oprindelige toneart"
 
 #: ../src/generated/entries.h:172 ../src/generated/register_commands.h:171
 msgid "Set E Minor as Initial Keysig"
-msgstr ""
+msgstr "Angiv E-mol som oprindelig toneart"
 
 #: ../src/generated/entries.h:173 ../src/generated/register_commands.h:172
 msgid "Set B Minor as Initial Keysig"
-msgstr ""
+msgstr "Angiv B-mol som oprindelig toneart"
 
 #: ../src/generated/entries.h:174 ../src/generated/register_commands.h:173
 msgid "Set F# Minor as Initial Keysig"
-msgstr ""
+msgstr "Angiv F#-mol som oprindelig toneart"
 
 #: ../src/generated/entries.h:175 ../src/generated/register_commands.h:174
 msgid "Set C# Minor as Initial Keysig"
-msgstr ""
+msgstr "Angiv C#-mol som oprindelig toneart"
 
 #: ../src/generated/entries.h:176 ../src/generated/register_commands.h:175
 msgid "Set G# Minor as Initial Keysig"
-msgstr ""
+msgstr "Angiv G#-mol som oprindelig toneart"
 
 #: ../src/generated/entries.h:177 ../src/generated/register_commands.h:176
 msgid "Set D# Minor as Initial Keysig"
-msgstr ""
+msgstr "Angiv D#-mol som oprindelig toneart"
 
 #: ../src/generated/entries.h:178 ../src/generated/register_commands.h:177
 msgid "Set A# Minor as Initial Keysig"
-msgstr ""
+msgstr "Angiv A#-mol som oprindelig toneart"
 
 #: ../src/generated/entries.h:179 ../src/generated/register_commands.h:178
 msgid "Set D Minor as Initial Keysig"
-msgstr ""
+msgstr "Angiv D-mol som oprindelig toneart"
 
 #: ../src/generated/entries.h:180 ../src/generated/register_commands.h:179
 msgid "Set G Minor as Initial Keysig"
-msgstr ""
+msgstr "Angiv G-mol som oprindelig toneart"
 
 #: ../src/generated/entries.h:181 ../src/generated/register_commands.h:180
 msgid "Set C Minor as Initial Keysig"
-msgstr ""
+msgstr "Angiv C-mol som oprindelig toneart"
 
 #: ../src/generated/entries.h:182 ../src/generated/register_commands.h:181
 msgid "Set F Minor as Initial Keysig"
-msgstr ""
+msgstr "Angiv F-mol som oprindelig toneart"
 
 #: ../src/generated/entries.h:183 ../src/generated/register_commands.h:182
 msgid "Set Bb Minor as Initial Keysig"
-msgstr ""
+msgstr "Angiv Hh-mol som oprindelig toneart"
 
 #: ../src/generated/entries.h:184 ../src/generated/register_commands.h:183
 msgid "Set Eb Minor as Initial Keysig"
-msgstr ""
+msgstr "Angiv Eh-mol som oprindelig toneart"
 
 #: ../src/generated/entries.h:185 ../src/generated/register_commands.h:184
 msgid "Set Ab Minor as Initial Keysig"
-msgstr ""
+msgstr "Angiv Ah-mol som oprindelig toneart"
 
 #: ../src/generated/entries.h:186 ../src/generated/register_commands.h:185
 msgid "Set Mark"
-msgstr ""
+msgstr "Angiv mærke"
 
 #: ../src/generated/entries.h:186 ../src/generated/register_commands.h:185
 msgid ""
 "Sets the start point for a selection,\n"
 "the end point of the selection is unaltered"
 msgstr ""
+"Angiver startpunktet for en markering,\n"
+"slutpunktet for markeringen er uændret"
 
 #: ../src/generated/entries.h:187 ../src/generated/register_commands.h:186
 msgid "Unset Mark"
-msgstr ""
+msgstr "Fjern mærke"
 
 #: ../src/generated/entries.h:187 ../src/generated/register_commands.h:186
 msgid "Gets rid of the selection."
-msgstr ""
+msgstr "Fjerner markeringen."
 
 #: ../src/generated/entries.h:188 ../src/generated/register_commands.h:187
 msgid "Set Point"
-msgstr ""
+msgstr "Angiv punkt"
 
 #: ../src/generated/entries.h:188 ../src/generated/register_commands.h:187
 msgid "Extends the selection to the current cursor position"
-msgstr ""
+msgstr "Udvider markeringen til den nuværende markørposition"
 
 #: ../src/generated/entries.h:189 ../src/generated/register_commands.h:188
 msgid "Begin Slur (Off/On)"
-msgstr ""
+msgstr "Begynd legatobue (deaktiveret/aktiveret)"
 
 #: ../src/generated/entries.h:189 ../src/generated/register_commands.h:188
 msgid "Insert/delete begin slur on this note"
-msgstr ""
+msgstr "Indsæt/slet begynd legatobue på denne node"
 
 #: ../src/generated/entries.h:190 ../src/generated/register_commands.h:189
 msgid "End Slur (Off/On)"
-msgstr ""
+msgstr "Afslut legatobue (deaktiveret/aktiveret)"
 
 #: ../src/generated/entries.h:190 ../src/generated/register_commands.h:189
 msgid "Insert/delete end slur on this note"
-msgstr ""
+msgstr "Indsæt/slet afslut legatobue på denne node"
 
 #: ../src/generated/entries.h:191 ../src/generated/register_commands.h:190
 msgid "Start Crescendo (Off/On)"
-msgstr ""
+msgstr "Start crescendo (deaktiveret/aktiveret)"
 
 #: ../src/generated/entries.h:191 ../src/generated/register_commands.h:190
 msgid "Marks/Unmarks the chord or note at the cursor as the start of a crescendo."
-msgstr ""
+msgstr "Markerer/afmarkerer akkorden eller noden ved markøren som starten på en crescendo."
 
 #: ../src/generated/entries.h:192 ../src/generated/register_commands.h:191
 msgid "End Crescendo (Off/On)"
-msgstr ""
+msgstr "Afslut crescendo (deaktiveret/aktiveret)"
 
 #: ../src/generated/entries.h:192 ../src/generated/register_commands.h:191
 msgid "Marks/Unmarks the chord or note at the cursor as the end of a crescendo."
-msgstr ""
+msgstr "Markerer/afmarkerer akkorden eller noden ved markøren som slutningen på en crescendo."
 
 #: ../src/generated/entries.h:193 ../src/generated/register_commands.h:192
 msgid "Start Diminuendo (Off/On)"
@@ -4889,15 +4900,15 @@ msgstr ""
 
 #: ../src/generated/entries.h:197 ../src/generated/register_commands.h:196
 msgid "Force Cautionary Accidental"
-msgstr ""
+msgstr "Fremtving hjælpefortegn"
 
 #: ../src/generated/entries.h:197 ../src/generated/register_commands.h:196
 msgid "Give a cautionary accidental to the note at the cursor"
-msgstr ""
+msgstr "Giv et hjælpefortegn til noden ved markøren"
 
 #: ../src/generated/entries.h:198 ../src/generated/register_commands.h:197
 msgid "Change Pitch"
-msgstr ""
+msgstr "Ændr tonehøjde"
 
 #: ../src/generated/entries.h:198 ../src/generated/register_commands.h:197
 msgid "Changes the pitch of the note at the cursor to the cursor height"
@@ -5039,7 +5050,7 @@ msgid ""
 "Commands that apply to the current staff."
 msgstr ""
 "Menu:\n"
-"Kommandoer som manipulerer nodesytemer og stemmer på nodesystemer.\n"
+"Kommandoer som manipulerer nodesystemer og stemmer på nodesystemer.\n"
 "Kommandoer som anvendes på det nuværende nodesystem."
 
 #: ../src/generated/entries.h:210 ../src/ui/staffpropdialog.c:219
@@ -5081,7 +5092,7 @@ msgid ""
 msgstr ""
 "Menu:\n"
 "Kommandoer som anvender den nuværende sats i din partitur.\n"
-"Sats i en partitur kan være sange i en sangbog etc.\n"
+"Sats i et partitur kan være sange i en sangbog etc.\n"
 "Alle slags fortsættende musik."
 
 #. if upbeat is present
@@ -5244,11 +5255,11 @@ msgstr "Gem"
 
 #: ../src/generated/entries.h:229 ../src/generated/register_commands.h:214
 msgid "Save the score. The score is saved to disk in XML format."
-msgstr "Gem partituren. Partituren gemmes til disk i XML-format."
+msgstr "Gem partituret. Partituret gemmes til disk i XML-format."
 
 #: ../src/generated/entries.h:230 ../src/generated/register_commands.h:215
 msgid "Save the score under a new name"
-msgstr "Gem partituren under et nyt navn"
+msgstr "Gem partituret under et nyt navn"
 
 #: ../src/generated/entries.h:231 ../src/generated/register_commands.h:216
 msgid "Create Copy"
@@ -5256,7 +5267,7 @@ msgstr "Opret kopi"
 
 #: ../src/generated/entries.h:231 ../src/generated/register_commands.h:216
 msgid "Save a copy of the score"
-msgstr "Gem en kopi af partituren"
+msgstr "Gem en kopi af partituret"
 
 #: ../src/generated/entries.h:232 ../src/generated/register_commands.h:217
 msgid "Open Template"
@@ -5264,7 +5275,7 @@ msgstr "Åbn skabelon"
 
 #: ../src/generated/entries.h:232 ../src/generated/register_commands.h:217
 msgid "Start a new score from a built-in template file"
-msgstr "Start en ny partitur fra en indbygget skabelonfil"
+msgstr "Start et nyt partitur fra en indbygget skabelonfil"
 
 #: ../src/generated/entries.h:233 ../src/generated/register_commands.h:218
 msgid "Open Example"
@@ -5272,7 +5283,7 @@ msgstr "Åbn eksempel"
 
 #: ../src/generated/entries.h:233 ../src/generated/register_commands.h:218
 msgid "Start a new score from a built-in example"
-msgstr "Start en ny partitur fra et indbygget eksempel"
+msgstr "Start et nyt partitur fra et indbygget eksempel"
 
 #: ../src/generated/entries.h:234 ../src/generated/register_commands.h:219
 msgid "Open Custom Template"
@@ -5280,7 +5291,7 @@ msgstr "Åbn tilpasset skabelon"
 
 #: ../src/generated/entries.h:234 ../src/generated/register_commands.h:219
 msgid "Start a new score from one of your own template files"
-msgstr "Start en ny partitiur fra en af dine egne skabelonfiler"
+msgstr "Start et nyt partitur fra en af dine egne skabelonfiler"
 
 #: ../src/generated/entries.h:235 ../src/generated/register_commands.h:220
 msgid "Save Template"
@@ -5288,7 +5299,7 @@ msgstr "Gem skabelon"
 
 #: ../src/generated/entries.h:235 ../src/generated/register_commands.h:220
 msgid "Save the score as a template for re-use as a starting point for new scores"
-msgstr "Gem partitiuren som en skabelon til genbrug som udgangspunkt for nye partiturer"
+msgstr "Gem partituret som en skabelon til genbrug som udgangspunkt for nye partiturer"
 
 #: ../src/generated/entries.h:236 ../src/generated/register_commands.h:221
 msgid "New Tab"
@@ -5331,9 +5342,9 @@ msgid ""
 "The score is saved to disk in XML format."
 msgstr ""
 "Menu:\n"
-"Gem partituren\n"
-"Udover at gemme til senere brug, så kan du gemme partituren for brug som en skabelon i fremtidige arbejder, eller gemme\n"
-"under et nyt navn etc. Partituren gemmes til disken i XML-format."
+"Gem partituret\n"
+"Udover at gemme til senere brug, så kan du gemme partituret for brug som en skabelon i fremtidige arbejder, eller gemme\n"
+"under et nyt navn etc. Partituret gemmes til disken i XML-format."
 
 #: ../src/generated/entries.h:241 ../src/generated/register_commands.h:225
 msgid "Save Parts"
@@ -5349,7 +5360,7 @@ msgstr "Eksporter LilyPond"
 
 #: ../src/generated/entries.h:242 ../src/generated/register_commands.h:226
 msgid "Export the score as a lilypond file"
-msgstr "Eksporter partituren som en LilyPond-fil"
+msgstr "Eksporter partituret som en LilyPond-fil"
 
 #: ../src/generated/entries.h:243 ../src/generated/register_commands.h:227
 msgid "Export PDF"
@@ -5357,7 +5368,7 @@ msgstr "Eksporter PDF"
 
 #: ../src/generated/entries.h:243 ../src/generated/register_commands.h:227
 msgid "Export the score as a PDF document file"
-msgstr "Eksporter partituren som en PDF-dokumentfil"
+msgstr "Eksporter partituret som en PDF-dokumentfil"
 
 #: ../src/generated/entries.h:244 ../src/generated/register_commands.h:228
 msgid "Export Score as PNG"
@@ -5365,7 +5376,7 @@ msgstr "Eksporter partitur som PNG"
 
 #: ../src/generated/entries.h:244 ../src/generated/register_commands.h:228
 msgid "Export the score as a PNG image file"
-msgstr "Eksporter partituren som en PNG-billefil"
+msgstr "Eksporter partituret som en PNG-billefil"
 
 #: ../src/generated/entries.h:245 ../src/generated/register_commands.h:229
 msgid "Export MIDI"
@@ -5373,7 +5384,7 @@ msgstr "Eksporter MIDI"
 
 #: ../src/generated/entries.h:245 ../src/generated/register_commands.h:229
 msgid "Export the score as a MIDI file"
-msgstr "Eksporter partituren som en MIDI-fil"
+msgstr "Eksporter partituret som en MIDI-fil"
 
 #: ../src/generated/entries.h:246 ../src/generated/entries.h:251
 #: ../src/generated/register_commands.h:234 ../src/printview/printview.c:2426
@@ -5507,15 +5518,15 @@ msgstr ""
 
 #: ../src/generated/entries.h:261 ../src/generated/register_commands.h:242
 msgid "Paste"
-msgstr ""
+msgstr "Indsæt"
 
 #: ../src/generated/entries.h:261 ../src/generated/register_commands.h:242
 msgid "Paste the Denemo clipboard into the score where the cursor is positioned"
-msgstr ""
+msgstr "Indsæt Denemo-udklipsholderen i partituret hvor markøren er positioneret"
 
 #: ../src/generated/entries.h:262 ../src/generated/register_commands.h:243
 msgid "Paste LilyPond notes"
-msgstr ""
+msgstr "Indsæt LilyPond-noder"
 
 #: ../src/generated/entries.h:262 ../src/generated/register_commands.h:243
 msgid ""
@@ -5526,7 +5537,7 @@ msgstr ""
 
 #: ../src/generated/entries.h:263 ../src/generated/register_commands.h:244
 msgid "Paste a Comment"
-msgstr ""
+msgstr "Indsæt en kommentar"
 
 #: ../src/generated/entries.h:263 ../src/generated/register_commands.h:244
 msgid "Paste the text clipboard as a comment inserted at the cursor."
@@ -5591,115 +5602,115 @@ msgstr ""
 
 #: ../src/generated/entries.h:271 ../src/generated/register_commands.h:251
 msgid "Split Voices"
-msgstr ""
+msgstr "Opdel stemmer"
 
 #: ../src/generated/entries.h:271 ../src/generated/register_commands.h:251
 msgid "Split off the next voice as a separate staff"
-msgstr ""
+msgstr "Opdel den næste stemme som et separat nodesystem"
 
 #: ../src/generated/entries.h:272 ../src/generated/register_commands.h:252
 msgid "Join Voices"
-msgstr ""
+msgstr "Foren stemmer"
 
 #: ../src/generated/entries.h:272 ../src/generated/register_commands.h:252
 msgid "Merge this staff as a voice on the previous staff"
-msgstr ""
+msgstr "Sammenføj dette nodesystem som en stemme på det forrige nodesystem"
 
 #: ../src/generated/entries.h:273 ../src/generated/register_commands.h:253
 msgid "Swap Movements"
-msgstr ""
+msgstr "Skift satser"
 
 #: ../src/generated/entries.h:273 ../src/generated/register_commands.h:253
 msgid "Swap this movement with the one before"
-msgstr ""
+msgstr "Ombyt denne sats med den før"
 
 #: ../src/generated/entries.h:274 ../src/generated/register_commands.h:254
 msgid "Voice Up"
-msgstr ""
+msgstr "Stemme op"
 
 #: ../src/generated/entries.h:274 ../src/generated/register_commands.h:254
 msgid "Go to the higher numbered voice on staff, extending selection if any"
-msgstr ""
+msgstr "Gå til den højere nummererede stemme i nodesystemet, udvid en eventuel markering"
 
 #: ../src/generated/entries.h:275 ../src/generated/register_commands.h:255
 msgid "Voice Down"
-msgstr ""
+msgstr "Stemme ned"
 
 #: ../src/generated/entries.h:275 ../src/generated/register_commands.h:255
 msgid "Go to the lower numbered voice on this staff, extending selection if any"
-msgstr ""
+msgstr "Gå til den lavere nummerede stemme i dette nodesystem, udvid en eventuel markering"
 
 #: ../src/generated/entries.h:276 ../src/generated/register_commands.h:256
 msgid "Move to Voice Up"
-msgstr ""
+msgstr "Flyt til stemme op"
 
 #: ../src/generated/entries.h:276 ../src/generated/register_commands.h:256
 msgid "Go to the higher numbered voice on staff without altering selection"
-msgstr ""
+msgstr "Gå til højere nummereret stemme i nodesytem uden at ændre markeringen"
 
 #: ../src/generated/entries.h:277 ../src/generated/register_commands.h:257
 msgid "Move to Voice Down"
-msgstr ""
+msgstr "Flyt til stemme ned"
 
 #: ../src/generated/entries.h:277 ../src/generated/register_commands.h:257
 msgid "Go to the lower numbered voice on this staff without altering selection"
-msgstr ""
+msgstr "Gå til lavere nummereret  stemme i dette nodesystem uden at ændre markering"
 
 #: ../src/generated/entries.h:278 ../src/generated/register_commands.h:258
 msgid "Add Staff Before"
-msgstr ""
+msgstr "Tilføj nodesystem før"
 
 #: ../src/generated/entries.h:278 ../src/generated/register_commands.h:258
 msgid "Inserts a new staff before the current staff"
-msgstr ""
+msgstr "Indsætter et nyt nodesystem før det nuværende nodesystem"
 
 #: ../src/generated/entries.h:279 ../src/generated/register_commands.h:259
 msgid "Add Staff After"
-msgstr ""
+msgstr "Tilføj nodesystem efter"
 
 #: ../src/generated/entries.h:279 ../src/generated/register_commands.h:259
 msgid "Inserts/Adds a new staff after the current staff"
-msgstr ""
+msgstr "Indsætter/tilføjer et nyt nodesystem efter det nuværende nodesystem"
 
 #: ../src/generated/entries.h:280 ../src/generated/register_commands.h:260
 msgid "Add Initial Staff"
-msgstr ""
+msgstr "Tilføj oprindelig nodesystem"
 
 #: ../src/generated/entries.h:280 ../src/generated/register_commands.h:260
 msgid "Inserts a new staff at the top of the score"
-msgstr ""
+msgstr "Indsætter et nyt nodesystem i toppen af partituret"
 
 #: ../src/generated/entries.h:281 ../src/generated/register_commands.h:261
 msgid "Add Last Staff"
-msgstr ""
+msgstr "Tilføj sidste nodesystem"
 
 #: ../src/generated/entries.h:281 ../src/generated/register_commands.h:261
 msgid "Inserts a new staff at the end of the score"
-msgstr ""
+msgstr "Indsætter et nyt nodesystem i slutningen af partituret"
 
 #: ../src/generated/entries.h:282 ../src/generated/register_commands.h:262
 msgid "Delete Staff Before"
-msgstr ""
+msgstr "Slet nodesystem før"
 
 #: ../src/generated/entries.h:282 ../src/generated/register_commands.h:262
 msgid "Deletes the staff before the current staff"
-msgstr ""
+msgstr "Sletter nodesystemet før det nuværende nodesystem"
 
 #: ../src/generated/entries.h:283 ../src/generated/register_commands.h:263
 msgid "Delete Current Staff"
-msgstr ""
+msgstr "Slet nuværende nodesystem"
 
 #: ../src/generated/entries.h:283 ../src/generated/register_commands.h:263
 msgid "Deletes the current staff"
-msgstr ""
+msgstr "Sletter det nuværende nodesystem"
 
 #: ../src/generated/entries.h:284 ../src/generated/register_commands.h:264
 msgid "Delete Staff After"
-msgstr ""
+msgstr "Slet nodesystem efter"
 
 #: ../src/generated/entries.h:284 ../src/generated/register_commands.h:264
 msgid "Deletes the staff after the current staff"
-msgstr ""
+msgstr "Sletter nodesystemet efter det nuværende nodesystem"
 
 #: ../src/generated/entries.h:285 ../src/generated/register_commands.h:265
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/NewVoice.xml.h:1
@@ -5765,7 +5776,7 @@ msgid ""
 msgstr ""
 "Menu:\n"
 "Angiv tonearten eller indsæt en ændring af tonearten\n"
-"Skærp eller fladgør en toneart eller\n"
+"Sætte kryds for eller sætte b for en toneart eller\n"
 "skjul den ved udskrivning"
 
 #: ../src/generated/entries.h:292 ../src/generated/register_commands.h:269
@@ -5835,7 +5846,7 @@ msgstr "Automatisk nodehalsopbyning"
 
 #: ../src/generated/entries.h:298 ../src/generated/register_commands.h:274
 msgid "Inserts a stem neutral object. After this automatic stem directions are active. You can click on this tag and use Sharpen/StemUp etc commands to change stem direction"
-msgstr "Indsætter et nodehals neutralt objekt. Herefter er automatiske nodehalsdirektiver aktive. Du kan klikke på dette mærke og bruge Skærp/NodehalsOp-kommandoer etc. for at ændre nodehalsretning"
+msgstr "Indsætter et nodehals neutralt objekt. Herefter er automatiske nodehalsdirektiver aktive. Du kan klikke på dette mærke og bruge Sætte kryds for/NodehalsOp-kommandoer etc. for at ændre nodehalsretning"
 
 #: ../src/generated/entries.h:299 ../src/generated/register_commands.h:275
 msgid "Add Lyric Verse"
@@ -5860,11 +5871,11 @@ msgstr "Indsæt/rediger generalbas"
 #: ../src/generated/entries.h:301 ../src/generated/register_commands.h:277
 #: ../actions/palettes.xml.h:134
 msgid "Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation"
-msgstr ""
+msgstr "Tilføj en generalbas til den nuværende node. Brug tegnet | til at opdele varigheden af en node for at få flere generalbasser på en node. Se Lilypond-dokumentationen for anden notation"
 
 #: ../src/generated/entries.h:302 ../src/generated/register_commands.h:278
 msgid "Delete Figures"
-msgstr ""
+msgstr "Slet generalbasser"
 
 #: ../src/generated/entries.h:302 ../src/generated/register_commands.h:278
 msgid "Delete the figured bass on the current staff"
@@ -5872,15 +5883,15 @@ msgstr "Slet generalbassen på det nuværende nodesystem "
 
 #: ../src/generated/entries.h:303 ../src/generated/register_commands.h:279
 msgid "Delete Chord Symbols"
-msgstr ""
+msgstr "Slet akkordsymboler"
 
 #: ../src/generated/entries.h:303 ../src/generated/register_commands.h:279
 msgid "Delete the chord symbols on the current staff"
-msgstr ""
+msgstr "Slet akkordsymbolerne på det nuværende nodesystem"
 
 #: ../src/generated/entries.h:304 ../src/generated/register_commands.h:280
 msgid "Hide Figures (Print)"
-msgstr ""
+msgstr "Skjul generalbasser (udskrivning)"
 
 #: ../src/generated/entries.h:304 ../src/generated/register_commands.h:280
 msgid "Hide the figured bass on the current staff on printing"
@@ -5888,7 +5899,7 @@ msgstr "Skjul generalbassen på det nuværende nodesystem ved udskrivning"
 
 #: ../src/generated/entries.h:305 ../src/generated/register_commands.h:281
 msgid "Show Figures (Print)"
-msgstr ""
+msgstr "Vis generalbasser (udskrivning)"
 
 #: ../src/generated/entries.h:305 ../src/generated/register_commands.h:281
 msgid "Show the figured bass on the current staff on printing"
@@ -5900,7 +5911,7 @@ msgstr "Rediger akkordsymboler"
 
 #: ../src/generated/entries.h:306 ../src/generated/register_commands.h:282
 msgid "Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation"
-msgstr ""
+msgstr "Tillad at akkordsymboler tilføjes til den nuværende node. E.G.cis:dim7 for c-sæt kryds for formindsket 7. Se Lilypond-dokumentationen for notation"
 
 #: ../src/generated/entries.h:307 ../src/generated/register_commands.h:283
 msgid "Edit Object"
@@ -5944,140 +5955,140 @@ msgstr "Rediger eventuelle direktiver vedhæftet partitur."
 
 #: ../src/generated/entries.h:312 ../src/generated/register_commands.h:288
 msgid "Edit Movement Directives"
-msgstr ""
+msgstr "Rediger sats-direktiver"
 
 #: ../src/generated/entries.h:312 ../src/generated/register_commands.h:288
 msgid "Edit any directives attached to movement."
-msgstr ""
+msgstr "Rediger eventuelle direktiver vedhæftet sats."
 
 #: ../src/generated/entries.h:313 ../src/generated/register_commands.h:289
 msgid "Edit Clef Directives"
-msgstr ""
+msgstr "Rediger nøgledirektiver"
 
 #: ../src/generated/entries.h:313 ../src/generated/register_commands.h:289
 msgid "Edit any directives attached to clef."
-msgstr ""
+msgstr "Rediger eventuelle direktiver vedhæftet til nøglen."
 
 #: ../src/generated/entries.h:314 ../src/generated/register_commands.h:290
 msgid "Edit Time Signature Directives"
-msgstr ""
+msgstr "Rediger taktartdirektiver"
 
 #: ../src/generated/entries.h:314 ../src/generated/register_commands.h:290
 msgid "Edit any directives attached to time signature."
-msgstr ""
+msgstr "Rediger eventuelle direktiver vedhæftet taktart."
 
 #: ../src/generated/entries.h:315 ../src/generated/register_commands.h:291
 msgid "Edit Key Signature Directives"
-msgstr ""
+msgstr "Rediger toneartsangivelsesdirektiver"
 
 #: ../src/generated/entries.h:315 ../src/generated/register_commands.h:291
 msgid "Edit any directives attached to key signature."
-msgstr ""
+msgstr "Rediger eventuelle direktiver vedhæftet toneartsangivelse."
 
 #: ../src/generated/entries.h:316 ../src/generated/register_commands.h:292
 msgid "Delete a Directive"
-msgstr ""
+msgstr "Slet et direktiv"
 
 #: ../src/generated/entries.h:316 ../src/generated/register_commands.h:292
 msgid "Delete a directive attached to chord/note at cursor."
-msgstr ""
+msgstr "Slet et direktiv vedhæftet til akkord/node ved markøren."
 
 #: ../src/generated/entries.h:317 ../src/generated/register_commands.h:293
 msgid "Attach Lilypond to Note"
-msgstr ""
+msgstr "Vedhæft Lilypond til node"
 
 #: ../src/generated/entries.h:317 ../src/generated/register_commands.h:293
 msgid "Attach or edit attached LilyPond text to the note at the cursor. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation."
-msgstr ""
+msgstr "Vedhæft eller rediger vedhæftet LilyPond-tekst til noden ved markøren. Dette kan bruges til guitarfingersætning, hjælpefortegn og meget mere. Se LilyPond-dokumentationen."
 
 #: ../src/generated/entries.h:318 ../src/generated/register_commands.h:294
 msgid "Attach Lilypond to Chord"
-msgstr ""
+msgstr "Vedhæft Lilypond til akkord"
 
 #: ../src/generated/entries.h:318 ../src/generated/register_commands.h:294
 msgid "Attach or edit attached LilyPond text to the chord at the cursor. This can be used for attaching and placing text and much more. See LilyPond documentation."
-msgstr ""
+msgstr "Vedhæft eller rediger vedhæftet LilyPond-tekst til akkorden ved markøren. Dette kan bruges til at vedhæfte og placere tekst samt meget andet. Se LilyPond-dokumentationen."
 
 #: ../src/generated/entries.h:319 ../src/generated/entries.h:365
 msgid "Navigation"
-msgstr ""
+msgstr "Navigation"
 
 #: ../src/generated/entries.h:319
 msgid "Moving the cursor within the current movement, setting bookmarks, seeking things in the score"
-msgstr ""
+msgstr "Flyt markøren inden for den nuværende sats, angiv bogmørker, søg i partituret"
 
 #: ../src/generated/entries.h:320 ../src/generated/register_commands.h:295
 msgid "Go to Measure"
-msgstr ""
+msgstr "Gå til takt"
 
 #: ../src/generated/entries.h:320 ../src/generated/register_commands.h:295
 msgid "Opens a dialog for going to a numbered measure"
-msgstr ""
+msgstr "Åbner en dialog så man kan gå til en nummereret takt"
 
 #: ../src/generated/entries.h:321 ../src/generated/register_commands.h:296
 msgid "Go to Beginning"
-msgstr ""
+msgstr "Gå til begyndelsen"
 
 #: ../src/generated/entries.h:321 ../src/generated/register_commands.h:296
 msgid "Cursor to start of staff/voice, extending selection if any"
-msgstr ""
+msgstr "Markør til at starte nodesystem/stemme, udvid eventuel markering"
 
 #: ../src/generated/entries.h:322 ../src/generated/register_commands.h:297
 msgid "Go to End"
-msgstr ""
+msgstr "Gå til slut"
 
 #: ../src/generated/entries.h:322 ../src/generated/register_commands.h:297
 msgid "Cursor to end of staff/voice, extending selection if any"
-msgstr ""
+msgstr "Markør til at afslutte nodesystem/stemme, udvide eventuel markering"
 
 #: ../src/generated/entries.h:323 ../src/generated/register_commands.h:298
 msgid "Move to Staff/Voice Beginning"
-msgstr ""
+msgstr "Flyt til nodesystem/stemme-begyndelse"
 
 #: ../src/generated/entries.h:323 ../src/generated/register_commands.h:298
 msgid "Cursor to start of staff/voice, without extending selection if any"
-msgstr ""
+msgstr "Markør til at starte nodesystem/stemme, uden at udvide eventuel markering"
 
 #: ../src/generated/entries.h:324 ../src/generated/register_commands.h:299
 msgid "Move to Staff/Voice End"
-msgstr ""
+msgstr "Flyt til nodesystem/stemme-slutning"
 
 #: ../src/generated/entries.h:324 ../src/generated/register_commands.h:299
 msgid "Cursor to end of staff/voice, without extending selection if any"
-msgstr ""
+msgstr "Markør til slutning af nodesystem/stemme, uden at udvide eventuel markering"
 
 #: ../src/generated/entries.h:325 ../src/generated/register_commands.h:300
 msgid "Next Movement"
-msgstr ""
+msgstr "Næste sats"
 
 #: ../src/generated/entries.h:325 ../src/generated/register_commands.h:300
 msgid "Go to the next movement"
-msgstr ""
+msgstr "Gå til den næste sats"
 
 #: ../src/generated/entries.h:326 ../src/generated/register_commands.h:301
 msgid "Previous Movement"
-msgstr ""
+msgstr "Forrige sats"
 
 #: ../src/generated/entries.h:326 ../src/generated/register_commands.h:301
 msgid "Go to the previous movement"
-msgstr ""
+msgstr "Gå til forrige sats"
 
 #: ../src/generated/entries.h:327 ../src/generated/register_commands.h:302
 msgid "Delete Movement"
-msgstr ""
+msgstr "Slet sats"
 
 #: ../src/generated/entries.h:327 ../src/generated/register_commands.h:302
 msgid "Delete the current movement"
-msgstr ""
+msgstr "Slet den nuværende sats"
 
 #: ../src/generated/entries.h:328 ../src/generated/register_commands.h:303
 #: ../actions/menus/MainMenu/PlaybackMenu/Audio/AudioPlay.xml.h:1
 msgid "Play"
-msgstr ""
+msgstr "Afspil"
 
 #: ../src/generated/entries.h:328 ../src/generated/register_commands.h:303
 msgid "Playback from start marker to end marker (Set these markers in the playback controls)"
-msgstr ""
+msgstr "Afspil fra startmarkøren til slutmarkøren (angiv disse markører under afspilningskontrollen)"
 
 #: ../src/generated/entries.h:329 ../src/generated/register_commands.h:304
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:41
@@ -6099,39 +6110,39 @@ msgstr ""
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:369
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:655
 msgid "Stop"
-msgstr ""
+msgstr "Stop"
 
 #: ../src/generated/entries.h:329 ../src/generated/register_commands.h:304
 msgid "Stop Playback"
-msgstr ""
+msgstr "Stop afspilning"
 
 #: ../src/generated/entries.h:330 ../src/generated/register_commands.h:305
 msgid "Playback Properties"
-msgstr ""
+msgstr "Egenskaber for afspilning"
 
 #: ../src/generated/entries.h:330 ../src/generated/register_commands.h:305
 msgid "Allows you to specify properties used in playing back (midi)"
-msgstr ""
+msgstr "Giver dig mulighed for at specificere egenskaber brugt under afspilning (midi)"
 
 #: ../src/generated/entries.h:331 ../src/generated/register_commands.h:306
 msgid "Browse Manual"
-msgstr ""
+msgstr "Gennemse manual"
 
 #: ../src/generated/entries.h:331 ../src/generated/register_commands.h:306
 msgid "Opens a browser on the user manual"
-msgstr ""
+msgstr "Åbner en browser med brugermanualen"
 
 #: ../src/generated/entries.h:332 ../src/generated/register_commands.h:307
 msgid "About"
-msgstr ""
+msgstr "Om"
 
 #: ../src/generated/entries.h:332 ../src/generated/register_commands.h:307
 msgid "Gives the version number etc of this program"
-msgstr ""
+msgstr "Viser versionsnummeret etc. for dette program"
 
 #: ../src/generated/entries.h:333 ../src/generated/register_commands.h:308
 msgid "Gives a list of shortcuts currently available. Explains how to set them too."
-msgstr ""
+msgstr "Viser en liste med tilgængelige genveje. Forklarer også hvordan de angives."
 
 #: ../src/generated/entries.h:334
 #: ../actions/menus/ObjectMenu/Directives/Markings/DynamicText.scm:12
@@ -6139,59 +6150,63 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/Directives/Markings/DynamicText.scm:42
 #: ../actions/menus/ObjectMenu/Directives/Markings/DynamicText.scm:51
 msgid "More"
-msgstr ""
+msgstr "Mere"
 
 #: ../src/generated/entries.h:334
 msgid "Allows choosing extra commands/menu items from disk"
-msgstr ""
+msgstr "Giver mulighed for at vælge ekstra kommandoer/menupunkter fra disk"
 
 #: ../src/generated/entries.h:335 ../src/generated/register_commands.h:309
 msgid "More Commands"
-msgstr ""
+msgstr "Flere kommandoer"
 
 #: ../src/generated/entries.h:335 ../src/generated/register_commands.h:309
 msgid "Allows choosing standard extra commands/menu items"
-msgstr ""
+msgstr "Giver mulighed for at vælge ekstra kommandoer/menupunkter"
 
 #: ../src/generated/entries.h:336 ../src/generated/register_commands.h:310
 msgid "My Commands"
-msgstr ""
+msgstr "Mine kommandoer"
 
 #: ../src/generated/entries.h:336 ../src/generated/register_commands.h:310
 msgid "Allows choosing extra commands/menu items from your own collection of extras"
-msgstr ""
+msgstr "Giver mulighed for at vælge ekstra kommandoer/menupunkter fra din egen samling"
 
 #: ../src/generated/entries.h:337 ../src/generated/register_commands.h:311
 msgid "Update Commands from Internet"
-msgstr ""
+msgstr "Opdater kommandoer fra internettet"
 
 #: ../src/generated/entries.h:337 ../src/generated/register_commands.h:311
 msgid ""
 "Refreshes the set of commands available from Denemo.org.\n"
 "Use More Commands after this has finished"
 msgstr ""
+"Opdaterer kommandosættet tilgængeligt fra Denemo.org.\n"
+"Brug flere kommandoer efter dette er afsluttet"
 
 #: ../src/generated/entries.h:338
 msgid "Open Recent"
-msgstr ""
+msgstr "Åbn seneste"
 
 #: ../src/generated/entries.h:338
 msgid "Open previously used files"
-msgstr ""
+msgstr "Åbn de seneste anvendte filer"
 
 #: ../src/generated/entries.h:339
 msgid "Import File"
-msgstr ""
+msgstr "Importer fil"
 
 #: ../src/generated/entries.h:339
 msgid ""
 "Menu:\n"
 "Import the supported file formats"
 msgstr ""
+"Menu:\n"
+"Importer de understøttede filformater"
 
 #: ../src/generated/entries.h:340
 msgid "Export As"
-msgstr ""
+msgstr "Eksporter som"
 
 #: ../src/generated/entries.h:340
 msgid ""
@@ -6199,76 +6214,85 @@ msgid ""
 "Export the music to another file format.\n"
 "These file formats will not support all the features of the score."
 msgstr ""
+"Menu:\n"
+"Eksporter musikken til et andet filformat.\n"
+"Disse filformater vil ikke understøtte alle funktioner for partituret."
 
 #: ../src/generated/entries.h:341 ../src/generated/register_commands.h:312
 msgid "Toggle Edit Mode"
-msgstr ""
+msgstr "Skift redigeringstilstand"
 
 #: ../src/generated/entries.h:341 ../src/generated/register_commands.h:312
 msgid "Toggle between current mode and edit mode"
-msgstr ""
+msgstr "Skift mellem nuværende tilstand og redigeringstilstand"
 
 #: ../src/generated/entries.h:342 ../src/generated/register_commands.h:313
 msgid "Toggle between note entry and rest entry"
-msgstr ""
+msgstr "Skift mellem nodeindtastning og pauseindtastning"
 
 #: ../src/generated/entries.h:343 ../src/generated/register_commands.h:314
 msgid "Toggle Audible Feedback"
-msgstr ""
+msgstr "Skift til hørbar tilbagemelding"
 
 #: ../src/generated/entries.h:343 ../src/generated/register_commands.h:314
 msgid "Toggle audible feedback on/off"
-msgstr ""
+msgstr "Skift hørbar tilbagemelding aktiveret/deaktiveret"
 
 #: ../src/generated/entries.h:344 ../src/generated/register_commands.h:315
 msgid "Clear the list of pitches that overlay the notes"
-msgstr ""
+msgstr "Ryd listen af tonehøjder som dækker noderne"
 
 #: ../src/generated/entries.h:345 ../src/generated/register_commands.h:316
 msgid "Create Snippet"
-msgstr ""
+msgstr "Opret kodestykke"
 
 #: ../src/generated/entries.h:345 ../src/generated/register_commands.h:316
 msgid "Copy selection as music snippet or rhythm pattern for notes to follow as they are entered"
-msgstr ""
+msgstr "Kopier markering som musikkodestykke eller rytmemønster for efterfølgende noder efterhånden som de indtastes"
 
 #: ../src/generated/entries.h:346 ../src/generated/register_commands.h:317
 msgid "Delete Snippet"
-msgstr ""
+msgstr "Slet kodestykke"
 
 #: ../src/generated/entries.h:346 ../src/generated/register_commands.h:317
 msgid "Delete the selected music snippet/rhythm pattern"
-msgstr ""
+msgstr "Slet det valgte musikkodestykke- og musikrytme-mønster"
 
 #: ../src/generated/entries.h:347
 msgid "Classic Mode"
-msgstr ""
+msgstr "Klassisk tilstand"
 
 #: ../src/generated/entries.h:347
 msgid ""
 "Menu:\n"
 "Moving the cursor and inserting notes or rests there"
 msgstr ""
+"Menu:\n"
+"Flytning af markøren og indsættelse af noder eller pauser der"
 
 #: ../src/generated/entries.h:348
 msgid "Select Note"
-msgstr ""
+msgstr "vælg node"
 
 #: ../src/generated/entries.h:348
 msgid ""
 "Menu:\n"
 "Moving the cursor to the nearest ..."
 msgstr ""
+"Menu:\n"
+"Flyt markøren til den nærmeste ..."
 
 #: ../src/generated/entries.h:349
 msgid ""
 "Menu:\n"
 "Commands for notes: inserting, deleting, etc."
 msgstr ""
+"Menu:\n"
+"Kommandoer for noder: indsættelse, sletning etc."
 
 #: ../src/generated/entries.h:350
 msgid "Stem Direction"
-msgstr ""
+msgstr "Nodehalsretning"
 
 #: ../src/generated/entries.h:350
 msgid ""
@@ -7268,7 +7292,7 @@ msgstr ""
 
 #: ../src/generated/register_commands.h:328
 msgid "Insert C"
-msgstr ""
+msgstr "Indsæt C"
 
 #: ../src/generated/register_commands.h:328
 msgid ""
@@ -7276,10 +7300,13 @@ msgid ""
 "Cursor determines which octave\n"
 "Note is inserted in the prevailing rhythm"
 msgstr ""
+"Indsætter node C før noden ved markøren\n"
+"Markør bestemmer hvilken oktav\n"
+"Node indsættes i den fremherskende rytme"
 
 #: ../src/generated/register_commands.h:329
 msgid "Insert C After"
-msgstr ""
+msgstr "Indsæt C efter"
 
 #: ../src/generated/register_commands.h:329
 msgid ""
@@ -7287,38 +7314,45 @@ msgid ""
 "Cursor determines which octave\n"
 "Note is inserted in the prevailing rhythm"
 msgstr ""
+"Indsætter node C efter node ved markør\n"
+"Markør bestemmer hvilken oktav\n"
+"Node indsættes i den fremherskende rytme"
 
 #: ../src/generated/register_commands.h:330
 msgid "Add C"
-msgstr ""
+msgstr "Tilføj C"
 
 #: ../src/generated/register_commands.h:330
 msgid ""
 "Adds note C to the chord at cursor\n"
 "Cursor height determines which octave"
 msgstr ""
+"Tilføjer node C til akkorden ved markøren\n"
+"Markørhøjde bestemmer hvilken oktav"
 
 #: ../src/generated/register_commands.h:331
 msgid "Change to C"
-msgstr ""
+msgstr "Ændr til C"
 
 #: ../src/generated/register_commands.h:331
 msgid ""
 "Changes note at cursor to nearest note C\n"
 "Rhythm is unchanged"
 msgstr ""
+"Ændrer node ved markrøen til nærmeste node C\n"
+"Rytme er uændret"
 
 #: ../src/generated/register_commands.h:332
 msgid "Move to C"
-msgstr ""
+msgstr "Flyt til C"
 
 #: ../src/generated/register_commands.h:332
 msgid "Moves cursor to nearest note C"
-msgstr ""
+msgstr "Flytter markør til nærmeste node C"
 
 #: ../src/generated/register_commands.h:333
 msgid "Insert D"
-msgstr ""
+msgstr "Indsæt D"
 
 #: ../src/generated/register_commands.h:333
 msgid ""
@@ -7974,15 +8008,15 @@ msgstr ""
 
 #: ../src/printview/printview.c:1104 ../src/printview/printview.c:1134
 msgid "PDF creation"
-msgstr ""
+msgstr "PDF-oprettelse"
 
 #: ../src/printview/printview.c:1112
 msgid "PDF files"
-msgstr ""
+msgstr "PDF-filer"
 
 #: ../src/printview/printview.c:1134
 msgid "File Exists, overwrite?"
-msgstr ""
+msgstr "Findes findes, overskriv?"
 
 #: ../src/printview/printview.c:1138
 #, c-format
@@ -7990,39 +8024,41 @@ msgid ""
 "Errno %d:\n"
 "Could not copy %s to %s. Perhaps because some other process is using the destination file. Try again with a new location\n"
 msgstr ""
+"Errno %d:\n"
+"Kunne ikke kopiere %s til %s. Måske bruger en anden proces destinationsfilen. Prøv igen med en ny placering\n"
 
 #: ../src/printview/printview.c:1304
 msgid "Slur Angle/Position"
-msgstr ""
+msgstr "Legatobuevinkel/-position"
 
 #: ../src/printview/printview.c:1304
 msgid "Repeat Slur Positioning Hint?"
-msgstr ""
+msgstr "Gentag legatobuepositioneringshint?"
 
 #: ../src/printview/printview.c:1315
 msgid "Slur Shape"
-msgstr ""
+msgstr "Legatobueform"
 
 #: ../src/printview/printview.c:1315
 msgid "Repeat Shaping Slur?"
-msgstr ""
+msgstr "Gentag formning af legatobue?"
 
 #: ../src/printview/printview.c:1333
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/TieShape.xml.h:1
 msgid "Tie Shape"
-msgstr ""
+msgstr "Bindebueform"
 
 #: ../src/printview/printview.c:1333
 msgid "Repeat Shaping Tie?"
-msgstr ""
+msgstr "Gentag formning af bindebue"
 
 #: ../src/printview/printview.c:1572
 msgid "Operation Cancelled"
-msgstr ""
+msgstr "Operation afbrudt"
 
 #: ../src/printview/printview.c:1589
 msgid "Do not know what to repeat"
-msgstr ""
+msgstr "Ved ikke hvad der skal gentages"
 
 #: ../src/printview/printview.c:1601
 msgid ""
@@ -8033,7 +8069,7 @@ msgstr ""
 
 #: ../src/printview/printview.c:1619
 msgid "Apply"
-msgstr ""
+msgstr "Anvend"
 
 #. DeleteFromCursorToEnd
 #. DeleteMeasuresBeforeCursor
@@ -8044,19 +8080,19 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:126
 #: ../actions/Simple.scm:12
 msgid "Cancel"
-msgstr ""
+msgstr "Afbryd"
 
 #: ../src/printview/printview.c:1630
 msgid "Help for Tweaks"
-msgstr ""
+msgstr "Hjælp for optimeringer"
 
 #: ../src/printview/printview.c:1631
 msgid "This window can be used to tweak the typesetting that LilyPond does in the case that it is not optimal"
-msgstr ""
+msgstr "Dette vindue kan bruges til at optimere opsætningen, som LilyPond udfører, i tilfældet af at den ikke er optimal"
 
 #: ../src/printview/printview.c:1635
 msgid "Red dots and crosses (Off/On)"
-msgstr ""
+msgstr "Rød punktummer og kryds (deaktiveret/aktiveret)"
 
 #: ../src/printview/printview.c:1636
 msgid ""
@@ -8067,62 +8103,62 @@ msgstr ""
 
 #: ../src/printview/printview.c:1640
 msgid "Score Size"
-msgstr ""
+msgstr "Partiturstørrelse"
 
 #. never true
 #: ../src/printview/printview.c:1646
 msgid "Repeat"
-msgstr ""
+msgstr "Gentat"
 
 #: ../src/printview/printview.c:2290
 msgid "Measures before cursor:"
-msgstr ""
+msgstr "Takter før markør_"
 
 #: ../src/printview/printview.c:2299
 msgid "Measures after cursor:"
-msgstr ""
+msgstr "Takter efter markør:"
 
 #: ../src/printview/printview.c:2310
 msgid "Staffs before cursor:"
-msgstr ""
+msgstr "Nodesystemer før markør:"
 
 #: ../src/printview/printview.c:2318
 msgid "Staffs after cursor:"
-msgstr ""
+msgstr "Nodesystemer efter markør:"
 
 #. hbox = gtk_hbox_new (FALSE, 1);
 #. gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 #: ../src/printview/printview.c:2333
 msgid "All Movements"
-msgstr ""
+msgstr "Alle satser"
 
 #: ../src/printview/printview.c:2335
 msgid "If checked the current layout is re-typeset at every change"
-msgstr ""
+msgstr "Hvis afkrydes bliver det nuværende layout genopsat ved hver ændring"
 
 #: ../src/printview/printview.c:2340
 msgid "If checked the current movement is re-typeset at every change"
-msgstr ""
+msgstr "Hvis afkrydes bliver den nuværende sats genopsat ved hver ændring"
 
 #: ../src/printview/printview.c:2344
 msgid "Cursor Context"
-msgstr ""
+msgstr "Markørkontekst"
 
 #: ../src/printview/printview.c:2346
 msgid "If checked the range around the current cursor position is re-typeset at every change or when the cursor moves out of range."
-msgstr ""
+msgstr "Hvis afkrydes bliver intervallet omkring den nuværende markørposition genopsat ved hver ændring eller når markøren flytter sig uden for rækkevidde."
 
 #: ../src/printview/printview.c:2372
 msgid "Set background updates on/off."
-msgstr ""
+msgstr "Angiv baggrundsopdateringer til aktiveret/deaktiveret."
 
 #: ../src/printview/printview.c:2376
 msgid "Range"
-msgstr ""
+msgstr "Rækkevidde"
 
 #: ../src/printview/printview.c:2377
 msgid "Set how much of the score to re-draw."
-msgstr ""
+msgstr "Angiv hvor meget af partituret som skal gentegnes."
 
 #: ../src/printview/printview.c:2395
 msgid "Set background updater on/off. This controls if typesetting is re-done after each change to the music. The amount of the score to be re-typeset can be set via this button."
@@ -8130,35 +8166,35 @@ msgstr ""
 
 #: ../src/printview/printview.c:2427
 msgid "Pops up a Print dialog. From this you can send your typeset score to a printer or to a PDF file."
-msgstr ""
+msgstr "Viser en udskrivningsdialog. Fra denne kan du sende din opsætning af partituret til en printer eller til en PDF-fil."
 
 #: ../src/printview/printview.c:2431
 msgid "PDF"
-msgstr ""
+msgstr "Pdf"
 
 #: ../src/printview/printview.c:2432
 msgid "Exports a pdf file for this layout"
-msgstr ""
+msgstr "Eksporterer en pdf-fil for dette layout"
 
 #: ../src/printview/printview.c:2438
 msgid "Typesets the music using the one of the created layouts. See View → Score Layouts to see the layouts you have created."
-msgstr ""
+msgstr "Opsætter musikken via et af det oprettede layout. Se Vis → Partiturlayout for de layout du har oprettet."
 
 #: ../src/printview/printview.c:2444
 msgid "Typesets the music from the current movement. This creates a score layout comprising one movement."
-msgstr ""
+msgstr "Opsætter musikke fra den nuværende sats. Dette opretter et partiturlayout, der består af en sats."
 
 #: ../src/printview/printview.c:2448
 msgid "Part"
-msgstr ""
+msgstr "Del"
 
 #: ../src/printview/printview.c:2449
 msgid "Typesets the music from the current part for all movements. A part is all the music with the same staff-name. This creates a score layout with one part, all movements."
-msgstr ""
+msgstr "Opsætter musikken fra den nuværende del for alle satser. En del er al musikke med det samme nodesystemnavn. Dette opretter et partiturlayout med en del, alle satser."
 
 #: ../src/printview/printview.c:2454
 msgid "Re-issues the last print command. Use this after modifying the file to repeat the typesetting."
-msgstr ""
+msgstr "Genudsender den sidste udskrivningskommando. Brug denne efter ændring af filen for at gentage opsætningen."
 
 #: ../src/printview/printview.c:2465
 msgid "Duplex"
@@ -8166,29 +8202,29 @@ msgstr ""
 
 #: ../src/printview/printview.c:2466
 msgid "Shows pages side by side, so you can see page turns for back-to-back printing\n"
-msgstr ""
+msgstr "Viser sider ved siden af hinanden, så kan se sideskift for bag til bag-udskrivning\n"
 
 #: ../src/printview/printview.c:2470
 msgid "Next"
-msgstr ""
+msgstr "Næste"
 
 #: ../src/printview/printview.c:2471
 msgid "Move to the next page - you can also scroll with the scroll-wheel, and zoom with control-wheel"
-msgstr ""
+msgstr "Flyt til den næste side - du kan også rulle med rullehjulet, og zoome med kontrolhjulet"
 
 #: ../src/printview/printview.c:2474
 msgid "Previous"
-msgstr ""
+msgstr "Forrige"
 
 #: ../src/printview/printview.c:2475
 msgid "Move to the previous page - you can also scroll with the scroll-wheel, and zoom with control-wheel"
-msgstr ""
+msgstr "Flyt til forrige side - du kan også rulle med rullehjulet, og zoome med kontrolhjulet"
 
 #. if(!Denemo.prefs.manualtypeset)
 #. gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
 #: ../src/printview/printview.c:2483
 msgid "Denemo Print View"
-msgstr ""
+msgstr "Denemos udskriftsvisning"
 
 #: ../src/printview/printview.c:2505
 msgid ""
@@ -8203,22 +8239,24 @@ msgid ""
 "Use <Tab> to switch palette\n"
 "<Return>to activate"
 msgstr ""
+"Brug <Tab> for at skifte palet\n"
+"<Retur>for at aktivere"
 
 #: ../src/scripting/scheme-callbacks.c:335
 msgid "Key in (part of) label"
-msgstr ""
+msgstr "Toneart i (del af) etiket"
 
 #: ../src/scripting/scheme-callbacks.c:346
 msgid "No such label"
-msgstr ""
+msgstr "Ingen sådan etiket"
 
 #: ../src/scripting/scheme-callbacks.c:890
 msgid "Destroying Customized Buttons"
-msgstr ""
+msgstr "Ødelægger tilpassede knapper"
 
 #: ../src/scripting/scheme-callbacks.c:890
 msgid "Remove buttons and other customized scheme on startup?"
-msgstr ""
+msgstr "Fjern knapper og anden tilpasset Scheme ved opstart? "
 
 #: ../src/scripting/scheme-callbacks.c:1286
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:62
@@ -8226,27 +8264,27 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:115
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:64
 msgid "Choose File"
-msgstr ""
+msgstr "Vælg fil"
 
 #: ../src/scripting/scheme-callbacks.c:3451
 msgid "Font Magnification"
-msgstr ""
+msgstr "Skriftforstørrelse"
 
 #: ../src/scripting/scheme-callbacks.c:3451
 msgid "Give a relative font size +/- "
-msgstr ""
+msgstr "Angiv en relativ skriftstørrelse +/- "
 
 #: ../src/scripting/scheme-callbacks.c:3517
 msgid "Input Required"
-msgstr ""
+msgstr "Inddata krævet"
 
 #: ../src/scripting/scheme-callbacks.c:3523
 msgid "Give input: "
-msgstr ""
+msgstr "Angiv inddata: "
 
 #: ../src/scripting/scheme-callbacks.c:3532
 msgid "Paste Current Snippet"
-msgstr ""
+msgstr "Indsæt nuværende stykke"
 
 #: ../src/scripting/scheme-callbacks.c:3533
 msgid ""
@@ -8345,23 +8383,23 @@ msgstr ""
 #: ../src/scripting/scheme-callbacks.c:3649
 #: ../src/scripting/scheme-callbacks.c:3705
 msgid "Choose Font"
-msgstr ""
+msgstr "Vælg skrifttype"
 
 #: ../src/scripting/scheme-callbacks.c:3743
 msgid "Script error, wrong parameter type to d-InfoDialog"
-msgstr ""
+msgstr "Skriptfejl, forkert parametertype for d-InfoDialog"
 
 #: ../src/scripting/scheme-callbacks.c:4006
 msgid "Already in a padding dialog"
-msgstr ""
+msgstr "Allerede i en fylddialog"
 
 #: ../src/source/proof.c:40
 msgid "Cannot do location when only a range of music is typeset. Turn off continuous typesetting or set the range to All Movements"
-msgstr ""
+msgstr "Kan ikke udføre placering når kun et interval af musik er opsat. Sluk for fortsættende opsætning eller angiv området til Alle satser"
 
 #: ../src/source/proof.c:61
 msgid "Object not located, no annotation on page, or empty annotation.\n"
-msgstr ""
+msgstr "Objekt er ikke lokaliseret, ingen annotation på side, eller tom annotation.\n"
 
 #: ../src/source/proof.c:166
 msgid "For each annotation on the page click on the (nearby) notehead or rest etc that the annotation refers to. This will insert a comment in the score. Transfer all the annotations in this way before editing the score, otherwise the locations will not match. You can use the EditSimilar (Ctrl-e,e and Ctrl-e,r) command to move from one comment to the next, stopping and editing the score as suggested by the comment."
@@ -8381,23 +8419,23 @@ msgstr ""
 
 #: ../src/source/sourceaudio.c:78 ../src/source/sourceaudio.c:487
 msgid "Analysing Audio"
-msgstr ""
+msgstr "Analyserer lyd"
 
 #: ../src/source/sourceaudio.c:230 ../src/source/sourceaudio.c:589
 msgid "Audio is not stereo - expect bad things!"
-msgstr ""
+msgstr "Lyd er ikke stereo - forvent slemme ting!"
 
 #: ../src/source/sourceaudio.c:232 ../src/source/sourceaudio.c:591
 msgid "Audio does not have 44100 sample rate: this could be bad"
-msgstr ""
+msgstr "Lyd har ikke en 441000 lydhastighed: det kan være slemt"
 
 #: ../src/source/sourceaudio.c:393 ../src/source/sourceaudio.c:752
 msgid "Open Audio Source File"
-msgstr ""
+msgstr "Åbn lydkildefil"
 
 #: ../src/source/sourceaudio.c:411 ../src/source/sourceaudio.c:770
 msgid "Could not load the audio file. Note only stereo with sample rate 44100 are supported at present. Use Audacity or similar to convert."
-msgstr ""
+msgstr "Kunne ikke indlæse lydfilen. Bemærk at kun stereo med lydhastigheden 44100 er understøttet i øjeblikket. Brug Audacity eller lignende for at konvertere."
 
 #: ../src/source/source.c:197
 msgid ""
@@ -8405,65 +8443,68 @@ msgid ""
 "right-click on the place in this document.\n"
 "Later you will be able to re-open the document at this place by right clicking on the link in the Denemo display."
 msgstr ""
+"For at placere en henvisning ved Denemos markørposition på et sted i dette dokument\n"
+"så højreklik på stedet i dette dokument.\n"
+"Senere vil du kunne genåbne dokumentet på dette sted ved at højreklikke på henvisningen i Denemoskærmen."
 
 #. ClefChooser
 #: ../src/ui/clefdialog.c:35
 #: ../actions/menus/ObjectMenu/ClefMenu/ClefChooser.scm:2
 msgid "Treble"
-msgstr ""
+msgstr "G-nøgle"
 
 #: ../src/ui/clefdialog.c:36
 #: ../actions/menus/ObjectMenu/ClefMenu/ClefChooser.scm:3
 msgid "Bass"
-msgstr ""
+msgstr "Bas"
 
 #: ../src/ui/clefdialog.c:37
 #: ../actions/menus/ObjectMenu/ClefMenu/ClefChooser.scm:4
 msgid "Alto"
-msgstr ""
+msgstr "Alto"
 
 #: ../src/ui/clefdialog.c:38
 msgid "Treble Octava bassa"
-msgstr ""
+msgstr "G-nøgle octava bassa"
 
 #: ../src/ui/clefdialog.c:39
 #: ../actions/menus/ObjectMenu/ClefMenu/ClefChooser.scm:5
 msgid "Tenor"
-msgstr ""
+msgstr "Tenor"
 
 #: ../src/ui/clefdialog.c:40
 #: ../actions/menus/ObjectMenu/ClefMenu/ClefChooser.scm:8
 msgid "Soprano"
-msgstr ""
+msgstr "Soprano"
 
 #: ../src/ui/clefdialog.c:41
 msgid "Bass Octava bassa"
-msgstr ""
+msgstr "Bas Octava bassa"
 
 #: ../src/ui/clefdialog.c:42
 #: ../actions/menus/ObjectMenu/ClefMenu/ClefChooser.scm:9
 msgid "French"
-msgstr ""
+msgstr "Fransk"
 
 #: ../src/ui/clefdialog.c:136
 msgid "Insert clef change"
-msgstr ""
+msgstr "Indsæt nøgleændring"
 
 #: ../src/ui/clefdialog.c:141
 msgid "Select desired clef"
-msgstr ""
+msgstr "Vælg ønsket nøgle"
 
 #: ../src/ui/help.c:28
 msgid "GNU Denemo"
-msgstr ""
+msgstr "GNU Denemo"
 
 #: ../src/ui/help.c:29
 msgid "Free and Open Music Notation Editor"
-msgstr ""
+msgstr "Fri og åben musiknotationsprogram"
 
 #: ../src/ui/help.c:32
 msgid "Denemo Website"
-msgstr ""
+msgstr "Denemos hjemmeside"
 
 #: ../src/ui/help.c:33
 msgid ""
@@ -8475,20 +8516,27 @@ msgid ""
 "General Public License and is provided with absolutely\n"
 "NO WARRANTY; see the file COPYING for details."
 msgstr ""
+"(c) 1999 - 2010 Matthew Hiller, Adam Tee og andre.\n"
+"\n"
+"http://www.denemo.org\n"
+"\n"
+"Dette program er udgivet under betingelserne i GNU\n"
+"General Public License og tilbydes med absolut\n"
+"INGEN GARANTI; se filen COPYING for detaljer."
 
 #: ../src/ui/help.c:75
 #, c-format
 msgid "Could not find %s in the path"
-msgstr ""
+msgstr "Kunne ikke finde %s i stien"
 
 #: ../src/ui/help.c:77
 msgid "Please edit the chosen browser in the preferences."
-msgstr ""
+msgstr "Rediger venligst den valgte browser under præferencerne."
 
 #: ../src/ui/help.c:95
 #, c-format
 msgid "Could not execute specified web browser: %s"
-msgstr ""
+msgstr "Kunne ikke køre specificeret internetbrowser: %s"
 
 #: ../src/ui/kbd-interface.c:83
 #, c-format
@@ -8725,7 +8773,7 @@ msgstr ""
 
 #: ../src/ui/mousing.c:807
 msgid "Double Click."
-msgstr ""
+msgstr "Dobbeltklik."
 
 #: ../src/ui/mousing.c:807
 msgid "This gives information about the object at the cursor. Click on a notehead for information about a note in a chord."
@@ -8765,11 +8813,11 @@ msgstr ""
 
 #: ../src/ui/mousing.c:852
 msgid "Sharpen Keysignature?"
-msgstr ""
+msgstr "Sætte kryds for toneartsangivelse?"
 
 #: ../src/ui/mousing.c:858
 msgid "Left Click on red."
-msgstr ""
+msgstr "Venstreklik på rød."
 
 #: ../src/ui/mousing.c:858
 msgid "This adds one flat."
@@ -8777,39 +8825,39 @@ msgstr ""
 
 #: ../src/ui/mousing.c:860
 msgid "Flatten Keysignature?"
-msgstr ""
+msgstr "Sæt b for toneartsangivelse"
 
 #: ../src/ui/mousing.c:867
 msgid "Right Click on key."
-msgstr ""
+msgstr "Højreklik på toneart."
 
 #: ../src/ui/mousing.c:867
 msgid "This pops up the key signature menu."
-msgstr ""
+msgstr "Dette viser menuen for toneartsangivelse."
 
 #: ../src/ui/mousing.c:876
 msgid "Click on Time."
-msgstr ""
+msgstr "Klik på taktart."
 
 #: ../src/ui/mousing.c:876
 msgid "This pops up the time signature menu."
-msgstr ""
+msgstr "Dette viser taktart-menuen."
 
 #: ../src/ui/mousing.c:893
 msgid "Click on Staff Directives."
-msgstr ""
+msgstr "Klik på nodeystemdirektiver."
 
 #: ../src/ui/mousing.c:893
 msgid "This pops up the staff directives menu for editing"
-msgstr ""
+msgstr "Dette viser nodesystem-direktivmenuen for redigering"
 
 #: ../src/ui/mousing.c:902
 msgid "Click on Voice Directives."
-msgstr ""
+msgstr "Klik på stemmedirektiver."
 
 #: ../src/ui/mousing.c:902
 msgid "This pops up the voice directives menu for editing"
-msgstr ""
+msgstr "Dette viser stemme-direktivmenuen for redigering"
 
 #: ../src/ui/mousing.c:923
 msgid "Right Click Appending."
@@ -8821,7 +8869,7 @@ msgstr ""
 
 #: ../src/ui/mousing.c:933
 msgid "Control-Right Click."
-msgstr ""
+msgstr "Control-højreklik."
 
 #: ../src/ui/mousing.c:933
 msgid "This pops up menu for inserting barlines and many other sorts of objects"
@@ -8829,7 +8877,7 @@ msgstr ""
 
 #: ../src/ui/mousing.c:941
 msgid "Shift-Right Click."
-msgstr ""
+msgstr "Skift-højreklik."
 
 #: ../src/ui/mousing.c:941
 msgid "This allows editing the directives/attributes of the object at the cursor"
@@ -8837,7 +8885,7 @@ msgstr ""
 
 #: ../src/ui/mousing.c:956
 msgid "Control-Shift-Drag."
-msgstr ""
+msgstr "Control-skift-træk."
 
 #: ../src/ui/mousing.c:956
 msgid ""
@@ -8866,11 +8914,11 @@ msgstr ""
 
 #: ../src/ui/mousing.c:1042
 msgid "Ctrl + Mouse Wheel Up"
-msgstr ""
+msgstr "Ctrl + musehjul op"
 
 #: ../src/ui/mousing.c:1051
 msgid "Shift + Mouse Wheel Up"
-msgstr ""
+msgstr "Skift + musehjul op"
 
 #: ../src/ui/mousing.c:1060
 msgid "Unshifted + Mouse Wheel Up"
@@ -8878,11 +8926,11 @@ msgstr ""
 
 #: ../src/ui/mousing.c:1078
 msgid "Ctrl + Mouse Wheel Down"
-msgstr ""
+msgstr "Ctrl + musehjul ned"
 
 #: ../src/ui/mousing.c:1090
 msgid "Shift + Mouse Wheel Down"
-msgstr ""
+msgstr "Skift + musehjul ned"
 
 #: ../src/ui/mousing.c:1098
 msgid "Unshifted + Mouse Wheel Down"
@@ -8890,23 +8938,23 @@ msgstr ""
 
 #: ../src/ui/mwidthdialog.c:61
 msgid "Set minimum measure width"
-msgstr ""
+msgstr "Angiv minimum for taktbredde"
 
 #: ../src/ui/mwidthdialog.c:68
 msgid "Enter width (in pixels) of measures:"
-msgstr ""
+msgstr "Indtast bredde (i blledpunkter) for taktbredde:"
 
 #: ../src/ui/palettes.c:60 ../src/ui/palettes.c:183
 msgid "Destroy All Palettes"
-msgstr ""
+msgstr "Ødelæg alle paletter"
 
 #: ../src/ui/palettes.c:60
 msgid "Get rid of all palettes permanently?"
-msgstr ""
+msgstr "Fjern alle paletter permanent?"
 
 #: ../src/ui/palettes.c:86
 msgid "To edit this palette, dock/undock, hide etc, right click on a button and choose Edit Palette."
-msgstr ""
+msgstr "For at redigere denne palet, dok/fjern dok, skjul etc., højreklik på en knap og vælg Rediger palet."
 
 #: ../src/ui/palettes.c:131
 msgid "Give Limit"
@@ -8916,23 +8964,23 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/Void.scm:5
 #: ../actions/menus/ObjectMenu/StaffMenu/Ossia/HideOssia.scm:8
 msgid "Hide"
-msgstr ""
+msgstr "Skjul"
 
 #: ../src/ui/palettes.c:146
 msgid "Make Horizontal"
-msgstr ""
+msgstr "Arranger vandret"
 
 #: ../src/ui/palettes.c:147
 msgid "Arrange the buttons extending horizontally"
-msgstr ""
+msgstr "Arranger knapperne vandret"
 
 #: ../src/ui/palettes.c:152
 msgid "Make Vertical"
-msgstr ""
+msgstr "Arranger lodret"
 
 #: ../src/ui/palettes.c:153
 msgid "Arrange the buttons extending vertically"
-msgstr ""
+msgstr "Arranger knapperne lodret"
 
 #: ../src/ui/palettes.c:159
 msgid "Vertical Limit"
@@ -8952,52 +9000,52 @@ msgstr ""
 
 #: ../src/ui/palettes.c:165
 msgid "Undock"
-msgstr ""
+msgstr "Fjern dok"
 
 #: ../src/ui/palettes.c:165
 msgid "Dock"
-msgstr ""
+msgstr "Dok"
 
 #: ../src/ui/palettes.c:166
 msgid "Dock this palette in the main display"
-msgstr ""
+msgstr "Dok denne palet i hovedskærmen"
 
 #: ../src/ui/palettes.c:166
 msgid "Undock this palette from the main display"
-msgstr ""
+msgstr "Fjern dok for denne palet fra hovedskærmen"
 
 #: ../src/ui/palettes.c:171
 msgid "Hide All Docked"
-msgstr ""
+msgstr "Skjul alle dokkede"
 
 #: ../src/ui/palettes.c:172
 msgid "Hide all the docked palettes"
-msgstr ""
+msgstr "Skjul alle dokkede paletter"
 
 #: ../src/ui/palettes.c:177
 msgid "Hide All Palettes"
-msgstr ""
+msgstr "Skjul alle paletter"
 
 #: ../src/ui/palettes.c:178
 msgid "Hide all the palettes"
-msgstr ""
+msgstr "Skjul alle paletterne"
 
 #: ../src/ui/palettes.c:184
 msgid "Destroy all the palettes - this will save time at startup, and shorten the palette menu."
-msgstr ""
+msgstr "Ødelæg alle paletter - dette vil spare tid ved opstart, for forkorte paletmenuen."
 
 #: ../src/ui/palettes.c:197
 #, c-format
 msgid "Overwrite script for button \"%s\"?"
-msgstr ""
+msgstr "Overskriv skript for knap »%s«?"
 
 #: ../src/ui/palettes.c:198
 msgid "Re-write Script"
-msgstr ""
+msgstr "Genskriv skript"
 
 #: ../src/ui/palettes.c:242
 msgid "Write Label"
-msgstr ""
+msgstr "Skriv etiket"
 
 #: ../src/ui/palettes.c:242
 msgid "Write a label for this button"
@@ -9005,15 +9053,15 @@ msgstr ""
 
 #: ../src/ui/palettes.c:263
 msgid "Write Tooltip"
-msgstr ""
+msgstr "Skriv værktøjsfif"
 
 #: ../src/ui/palettes.c:263
 msgid "Write a tooltip for this button"
-msgstr ""
+msgstr "Skriv et værktøjsfif for denne kanp"
 
 #: ../src/ui/palettes.c:303
 msgid "Duplicate Button"
-msgstr ""
+msgstr "Dupliker knap"
 
 #: ../src/ui/palettes.c:311
 msgid "Edit Label"
@@ -9281,7 +9329,7 @@ msgstr "Automatisk opsætning"
 
 #: ../src/ui/prefdialog.c:563
 msgid "Manually update the typeset score"
-msgstr "Manuelt opdatere opsætningspartituren"
+msgstr "Manuelt opdatere opsætningspartituret"
 
 #: ../src/ui/prefdialog.c:564
 msgid "Rate of re-typeset in ms"
@@ -9312,189 +9360,191 @@ msgstr ""
 #.
 #: ../src/ui/prefdialog.c:573
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Diverse"
 
 #: ../src/ui/prefdialog.c:574
 msgid "Re-use last settings on startup"
-msgstr ""
+msgstr "Genbrug sidst anvendt opsætning ved opstart"
 
 #: ../src/ui/prefdialog.c:575
 msgid "Playback Display Refresh"
-msgstr ""
+msgstr "Afspil skærmopdatering"
 
 #: ../src/ui/prefdialog.c:576
 msgid "Page Turn Steps"
-msgstr ""
+msgstr "Sideskifttrin"
 
 #: ../src/ui/prefdialog.c:580
 msgid "Excerpt Resolution"
-msgstr ""
+msgstr "Uddrag af opløsning"
 
 #: ../src/ui/prefdialog.c:581
 msgid "Enable Thumbnails"
-msgstr ""
+msgstr "Aktiver miniaturebilleder"
 
 #: ../src/ui/prefdialog.c:582
 msgid "Max recent files"
-msgstr ""
+msgstr "Maks. seneste filer"
 
 #: ../src/ui/prefdialog.c:582
 msgid "User Name"
-msgstr ""
+msgstr "Brugernavn"
 
 #: ../src/ui/prefdialog.c:582
 msgid "Password for Denemo.org"
-msgstr ""
+msgstr "Adgangskode for Denemo.org"
 
 #: ../src/ui/prefdialog.c:586
 msgid "Autosave every"
-msgstr ""
+msgstr "Gem automatisk hver"
 
 #: ../src/ui/prefdialog.c:595
 msgid "minute(s)"
-msgstr ""
+msgstr "minut"
 
 #: ../src/ui/prefdialog.c:599
 msgid "Autosave Parts"
-msgstr ""
+msgstr "Gem automatisk dele"
 
 #: ../src/ui/prefdialog.c:603
 msgid "Audio"
-msgstr ""
+msgstr "Lyd"
 
 #: ../src/ui/prefdialog.c:606
 msgid "Play back entered notes immediately"
-msgstr ""
+msgstr "Afspil indtastede noder med det samme"
 
 #: ../src/ui/prefdialog.c:607
 msgid "MIDI key sound on measure end"
-msgstr ""
+msgstr "MIDI-tastlyd ved taktslut"
 
 #: ../src/ui/prefdialog.c:608
 msgid "Pitch Spelling Channel"
-msgstr ""
+msgstr "Tonehøjdestavningskanal"
 
 #: ../src/ui/prefdialog.c:609
 msgid "Pitch Spelling Program"
-msgstr ""
+msgstr "Tonehøjdestaveprogram"
 
 #: ../src/ui/prefdialog.c:611
 msgid "Rhythm Entry for MIDI in"
-msgstr ""
+msgstr "Rytmeindgang for MIDI-ind"
 
 #: ../src/ui/prefdialog.c:613
 msgid "% MIDI-in Dynamic Compression"
-msgstr ""
+msgstr "%s MIDI-ind dynamisk komprimering"
 
 #: ../src/ui/prefdialog.c:639
 msgid "Connect to port (left)"
-msgstr ""
+msgstr "Forbind til port (venstre)"
 
 #: ../src/ui/prefdialog.c:640
 msgid "Connect to port (right)"
-msgstr ""
+msgstr "Forbind til port (højre)"
 
 #: ../src/ui/prefdialog.c:664 ../src/ui/prefdialog.c:723
 msgid "Output device"
-msgstr ""
+msgstr "Udgangsenhed"
 
 #: ../src/ui/prefdialog.c:667
 msgid "Sample rate"
-msgstr ""
+msgstr "Lydprøve"
 
 #: ../src/ui/prefdialog.c:668
 msgid "Period size"
-msgstr ""
+msgstr "Punktumstørrelse"
 
 #: ../src/ui/prefdialog.c:669
 msgid "Maximum Recording Time (Secs)"
-msgstr ""
+msgstr "Maks. optagelsestid (sek.)"
 
 #: ../src/ui/prefdialog.c:685
 msgid "MIDI backend"
-msgstr ""
+msgstr "MIDI-motor"
 
 #: ../src/ui/prefdialog.c:699
 msgid "Connect input to port"
-msgstr ""
+msgstr "Forbind indgang til port"
 
 #: ../src/ui/prefdialog.c:700
 msgid "Connect output to port"
-msgstr ""
+msgstr "Forbind udgang til port"
 
 #: ../src/ui/prefdialog.c:722
 msgid "Input device"
-msgstr ""
+msgstr "Indgangsenhed"
 
 #.
 #. * FluidSynth settings
 #.
 #: ../src/ui/prefdialog.c:740
 msgid "Soundfont"
-msgstr ""
+msgstr "Soundfont"
 
 #: ../src/ui/prefdialog.c:742
 msgid "Choose Soundfont"
-msgstr ""
+msgstr "Vælg Soundfont"
 
 #: ../src/ui/prefdialog.c:749
 msgid "Enable Reverb on soundfont"
-msgstr ""
+msgstr "Aktiver rumklang på soundfont"
 
 #: ../src/ui/prefdialog.c:749
 msgid "Enable Chorus on soundfont"
-msgstr ""
+msgstr "Aktiver omkvæd på soundfont"
 
 #: ../src/ui/prefdialog.c:788
 msgid "Any changes to MIDI or AUDIO will not be effected until re-starting Denemo"
-msgstr ""
+msgstr "Eventuelle ændringer til MIDI eller LYD vil ikke blive påvirket før Denemo er genstartet"
 
 #: ../src/ui/prefdialog.c:789
 msgid "Audio/MIDI Subsystem"
-msgstr ""
+msgstr "Lyd/MIDI-undersystem"
 
 #: ../src/ui/prefdialog.c:789
 msgid "Attempt to re-start the audio subsystem now?"
-msgstr ""
+msgstr "Forsøg at genstarte lydundersystemet nu?"
 
 #: ../src/ui/scoreprops.c:58
 msgid "Custom LilyPond Score Block"
-msgstr ""
+msgstr "Tilpasset LilyPond-partiturblok"
 
 #: ../src/ui/scoreprops.c:58
 msgid ""
 "You will need to edit the LilyPond text to copy these edits from the standard scoreblock.\n"
 "It might be easier to edit your custom scoreblock directly. Abandon?"
 msgstr ""
+"Du skal redigere LilyPOnd-teksten for at kopiere disse redigeringer fra standardpartiturblokken.\n"
+"Den kan være nemmere at rediere din tilpassede partiturblok direkte. Fortryd?"
 
 #: ../src/ui/scoreprops.c:130
 msgid "Score properties"
-msgstr ""
+msgstr "Partituregenskaber"
 
 #: ../src/ui/scoreprops.c:142
 msgid "Display Layout"
-msgstr ""
+msgstr "Skærmlayout"
 
 #: ../src/ui/scoreprops.c:147
 msgid "Measure width (pixels):"
-msgstr ""
+msgstr "Satsbredde (billedpunkter):"
 
 #: ../src/ui/scoreprops.c:155
 msgid "Staff spacing (pixels):"
-msgstr ""
+msgstr "Nodesystem-mellemrum (billedpunkter):"
 
 #: ../src/ui/scoreprops.c:164 ../src/ui/scoreprops.c:183
 msgid "Paper Size"
-msgstr ""
+msgstr "Papirstørrelse"
 
 #: ../src/ui/scoreprops.c:203 ../actions/denemo-modules/wysiwyg.scm:478
 #: ../actions/menus/ObjectMenu/Lyrics/LyricFontSize.scm:3
 msgid "Font Size"
-msgstr ""
+msgstr "Skriftstørrelse"
 
 #: ../src/ui/scoreprops.c:209
 msgid "Lilypond Version"
-msgstr ""
+msgstr "Lilypond-version"
 
 #: ../src/ui/scoreprops.c:215
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PaperSize.scm:5
@@ -9601,15 +9651,15 @@ msgstr "Erstat"
 #. no code for this yet - just edit textually
 #: ../src/ui/timedialog.c:228
 msgid "Change initial time signature"
-msgstr ""
+msgstr "Ændr oprindelig taktart"
 
 #: ../src/ui/timedialog.c:228
 msgid "Insert time signature change"
-msgstr ""
+msgstr "Indsæt taktart-ændring"
 
 #: ../src/ui/timedialog.c:236
 msgid "Enter desired time signature:"
-msgstr ""
+msgstr "Indtast ønskede taktart:"
 
 #: ../src/ui/timedialog.c:254
 msgid "Current Staff Only"
@@ -9637,15 +9687,16 @@ msgstr "Nævner"
 
 #: ../actions/denemo-modules/directives.scm:24
 msgid "Modifying the LilyPond Text"
-msgstr "Ændirng af LilyPond-teksten"
+msgstr "Ændring af LilyPond-teksten"
 
+# Engelsk fejl, hvad står der her?
 #: ../actions/denemo-modules/directives.scm:24
 msgid "Give LilyPond to be issued"
 msgstr ""
 
 #: ../actions/denemo-modules/directives.scm:29
 msgid "This directive currently creates no LilyPond via its postfix field, use the Advanced Edit instead"
-msgstr ""
+msgstr "Dette direktiv opretter i øjeblikket ingen LilyPond via dets postfix-felt, brug Avanceret Redigering i stedet for"
 
 #: ../actions/denemo-modules/directives.scm:31
 msgid "Help "
@@ -9753,61 +9804,63 @@ msgstr ""
 
 #: ../actions/denemo-modules/wysiwyg.scm:354
 msgid "Tie Re-shaped"
-msgstr ""
+msgstr "Bindebues nye form"
 
 #: ../actions/denemo-modules/wysiwyg.scm:363
 msgid ""
 "Now click on the control point at the left end of the tie\n"
 "Control points are marked by red crosses"
 msgstr ""
+"Klik nu på kontrolpunktet til venstre for bindebuen\n"
+"Kontrolpunkter er markeret som røde kryds"
 
 #: ../actions/denemo-modules/wysiwyg.scm:364
 msgid "Now click second control point of the tie, the next red cross to the right"
-msgstr ""
+msgstr "Klik nu på det andet kontrolpunkt for bindebuden, det næste røde kryds mod højre"
 
 #: ../actions/denemo-modules/wysiwyg.scm:365
 msgid "Now click third control point of the tie, the next red cross to the right"
-msgstr ""
+msgstr "Klik nu på det tredje kontrolpunkt for bindebuen, det næste røde kryds mod højre"
 
 #: ../actions/denemo-modules/wysiwyg.scm:366
 msgid "Now click last control point at the end of the tie, the last red cross to the right"
-msgstr ""
+msgstr "Klik nu på det sidste kontrolpunkt i slutningen af bindebuen, det sidste røde kryds mod højre"
 
 #: ../actions/denemo-modules/wysiwyg.scm:383
 msgid "Restore Default Slur Shape/Position"
-msgstr ""
+msgstr "Gendan standardlegatobues form/position"
 
 #: ../actions/denemo-modules/wysiwyg.scm:383
 msgid "Removes your customization of this slur"
-msgstr ""
+msgstr "Fjerne dine tilpasninger af denne legatobue"
 
 #: ../actions/denemo-modules/wysiwyg.scm:384
 msgid "Restore Default Tie Shape/Position"
-msgstr ""
+msgstr "Gendan standard standardbindebuens form/position"
 
 #: ../actions/denemo-modules/wysiwyg.scm:384
 msgid "Removes your customization of this tie"
-msgstr ""
+msgstr "Fjerner dine tilpasninger af denne bindebue"
 
 #: ../actions/denemo-modules/wysiwyg.scm:389
 msgid "Hint Slur Position"
-msgstr ""
+msgstr "Hint legatobueposition"
 
 #: ../actions/denemo-modules/wysiwyg.scm:389
 msgid "Edit Slur Shape"
-msgstr ""
+msgstr "Rediger legatobueform"
 
 #: ../actions/denemo-modules/wysiwyg.scm:397
 msgid "First click on the notehead of the note where the slur starts"
-msgstr ""
+msgstr "Klik først på nodehovedet for noden hvor legatobuen begynder"
 
 #: ../actions/denemo-modules/wysiwyg.scm:403
 msgid "Not a slur start - cancelled"
-msgstr ""
+msgstr "Ikke en legatobuestart - afbrudt"
 
 #: ../actions/denemo-modules/wysiwyg.scm:410
 msgid "Edit Tie Shape"
-msgstr ""
+msgstr "Rediger bindebueform"
 
 #: ../actions/denemo-modules/wysiwyg.scm:438
 msgid ""
@@ -9824,11 +9877,11 @@ msgstr ""
 
 #: ../actions/denemo-modules/wysiwyg.scm:444
 msgid "Now click on the position desired for the object"
-msgstr ""
+msgstr "Klik nu på den ønskede position for objektet"
 
 #: ../actions/denemo-modules/wysiwyg.scm:448
 msgid "Re-positioned"
-msgstr ""
+msgstr "Ny position"
 
 #: ../actions/denemo-modules/wysiwyg.scm:454
 #: ../actions/denemo-modules/wysiwyg.scm:605
@@ -9862,16 +9915,16 @@ msgstr "Auto"
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm:18
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm:30
 msgid "Padding"
-msgstr ""
+msgstr "Fyld"
 
 #: ../actions/denemo-modules/wysiwyg.scm:465
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm:18
 msgid "Give amount of padding required around this item (in staff spaces)"
-msgstr ""
+msgstr "Angiv fyldmængde krævet omkring dette pnkt (i nodesystemplads)"
 
 #: ../actions/denemo-modules/wysiwyg.scm:478
 msgid "Give relative font size: "
-msgstr ""
+msgstr "Angiv relativ skriftstørrelse: "
 
 #: ../actions/denemo-modules/wysiwyg.scm:515
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:7
@@ -9919,67 +9972,67 @@ msgstr "To bjælker højre (deaktiveret/aktiveret)"
 
 #: ../actions/denemo-modules/wysiwyg.scm:555
 msgid "Put just two beams to the right or undo a previous invocation of this command"
-msgstr ""
+msgstr "Placer netop to bjælker til højre eller fortryd en tidligere påkaldelse af denne kommando"
 
 #: ../actions/denemo-modules/wysiwyg.scm:556
 msgid "Two Beams Left (Off/On)"
-msgstr ""
+msgstr "To bjælker til venstre (deaktiveret/aktiveret)"
 
 #: ../actions/denemo-modules/wysiwyg.scm:556
 msgid "Put just two beams to the left or undo a previous invocation of this command"
-msgstr ""
+msgstr "Placer netop to bjælker til venstre eller fortryd en tidligere påkaldelse af denne kommando"
 
 #: ../actions/denemo-modules/wysiwyg.scm:561
 msgid "One Beam Right (Off/On)"
-msgstr ""
+msgstr "En bjælke til højre (deaktiveret/aktiveret)"
 
 #: ../actions/denemo-modules/wysiwyg.scm:561
 msgid "Put just one beam to the right or undo a previous invocation of this command"
-msgstr ""
+msgstr "Placer netop en bjælke til højre eller fortryd en tidligere påkaldelse af denne kommando"
 
 #: ../actions/denemo-modules/wysiwyg.scm:562
 msgid "One Beam Left (Off/On)"
-msgstr ""
+msgstr "En bjælke til venstre (deaktiveret/aktiveret)"
 
 #: ../actions/denemo-modules/wysiwyg.scm:562
 msgid "Put just one beam to the left or undo a previous invocation of this command"
-msgstr ""
+msgstr "Placer netop en bjælke til venstre eller fortryd en tidligere påkaldelse af denne kommando"
 
 #: ../actions/denemo-modules/wysiwyg.scm:563
 msgid "Chop to One Beam"
-msgstr ""
+msgstr "Hug til en bjælke"
 
 #: ../actions/denemo-modules/wysiwyg.scm:563
 msgid "Reduce the beaming between this and the next note to just one beam"
-msgstr ""
+msgstr "Reducer bjælkeantallet mellem denne og den næste node til netop en bjælke"
 
 #: ../actions/denemo-modules/wysiwyg.scm:568
 msgid "Chop Gap in Beam"
-msgstr ""
+msgstr "Hug hul i bjælke"
 
 #: ../actions/denemo-modules/wysiwyg.scm:568
 msgid "Remove the beaming between this and the next note"
-msgstr ""
+msgstr "Fjern bjælkerne mellem denne og den næste node"
 
 #: ../actions/denemo-modules/wysiwyg.scm:569
 msgid "No Beam (Off/On)"
-msgstr ""
+msgstr "Ingen bjælke (deaktiveret/aktiveret)"
 
 #: ../actions/denemo-modules/wysiwyg.scm:569
 msgid "Leave note/chord un-beamed or undo a previous invocation of this command"
-msgstr ""
+msgstr "Efterlad node/akkord uden bjælker eller fortryd en tidligere påkaldelse af denne kommando"
 
 #: ../actions/denemo-modules/wysiwyg.scm:570
 msgid "Change beam angle/position"
-msgstr ""
+msgstr "Ændr bjælkevinkel/-position"
 
 #: ../actions/denemo-modules/wysiwyg.scm:570
 msgid "Allows you to drag the ends of the beam"
-msgstr ""
+msgstr "Gør at du kan trække enderne af bjælkerne"
 
 #: ../actions/denemo-modules/wysiwyg.scm:574
 msgid "Hint Slur Angle/Position"
-msgstr ""
+msgstr "Hint legatobuevinkel/postion"
 
 #: ../actions/denemo-modules/wysiwyg.scm:574
 msgid "Allows you to drag the ends of the slur"
@@ -10456,63 +10509,63 @@ msgstr ""
 
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectColumn.xml.h:2
 msgid "Selects the whole column"
-msgstr ""
+msgstr "Vælger hele kolonnen"
 
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectionToEmptyMeasure.xml.h:1
 msgid "Selection to Next Empty Measure"
-msgstr ""
+msgstr "Markering til næste tomme takt"
 
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectionToEmptyMeasure.xml.h:2
 msgid "Creates a selection to the next empty measure in the current staff"
-msgstr ""
+msgstr "Opretter en markering til den næste tomme takt i det nuværende nodesystem"
 
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectLeft.xml.h:1
 msgid "Select Left"
-msgstr ""
+msgstr "Vælg mod venstre"
 
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectLeft.xml.h:2
 msgid "Create a selection, move cursor left."
-msgstr ""
+msgstr "Opret en markering, flyt markør mod venstre."
 
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectMeasure.xml.h:1
 msgid "Select Measure"
-msgstr ""
+msgstr "Vælg takt"
 
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectMeasure.xml.h:2
 msgid "Create a selection for the entire current measure"
-msgstr ""
+msgstr "Opret en markering for hele den nuværende takt"
 
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectRight.xml.h:1
 msgid "Select Right"
-msgstr ""
+msgstr "Vælg mod højre"
 
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectRight.xml.h:2
 msgid "Create a selection, move the cursor right."
-msgstr ""
+msgstr "Opret en markering, flyt markøren til højre."
 
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectStaff.xml.h:1
 msgid "Select Staff"
-msgstr ""
+msgstr "Vælg nodesystem"
 
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectStaff.xml.h:2
 msgid "Selects the whole staff"
-msgstr ""
+msgstr "Vælger hele nodesystemet"
 
 #: ../actions/menus/MainMenu/EditMenu/ShowLastChange.scm:4
 msgid "The last change was:\n"
-msgstr ""
+msgstr "Den sidste ændring var:\n"
 
 #: ../actions/menus/MainMenu/EditMenu/ShowLastChange.scm:5
 msgid "No change recorded in Undo stack"
-msgstr ""
+msgstr "Ingen ændring registreret i genskab-stak"
 
 #: ../actions/menus/MainMenu/EditMenu/ShowLastChange.xml.h:1
 msgid "Show Last Change"
-msgstr ""
+msgstr "Vis sidste ædndring"
 
 #: ../actions/menus/MainMenu/EditMenu/ShowLastChange.xml.h:2
 msgid "Shows the last change recorded on the Undo stack."
-msgstr ""
+msgstr "Viser den sidste ændring registreret i genskab-stakken."
 
 #: ../actions/menus/MainMenu/EditMenu/ToggleNonprintingSelection.xml.h:1
 msgid "Selection Non-printing (Off/On)"
@@ -10524,19 +10577,19 @@ msgstr ""
 
 #: ../actions/menus/MainMenu/Educational/AuralTraining/Chord-Comparison/DiminishedOrAugmented.xml.h:1
 msgid "DiminishedAugmented"
-msgstr ""
+msgstr "FormindsketForstørret"
 
 #: ../actions/menus/MainMenu/Educational/AuralTraining/Chord-Comparison/DiminishedOrAugmented.xml.h:2
 msgid "Determine if the chord sounded is Diminished or Augmented"
-msgstr ""
+msgstr "Bestem om akkordlyden er formindsket eller forstørret"
 
 #: ../actions/menus/MainMenu/Educational/AuralTraining/Chord-Comparison/DiminishedOrMinor.xml.h:1
 msgid "DiminishedMinor"
-msgstr ""
+msgstr "FormindsketMol"
 
 #: ../actions/menus/MainMenu/Educational/AuralTraining/Chord-Comparison/DiminishedOrMinor.xml.h:2
 msgid "Determine if the chord sounded is Diminished or Minor"
-msgstr ""
+msgstr "Bestem om akkordlyden er formindsket eller mol"
 
 #: ../actions/menus/MainMenu/Educational/AuralTraining/Chord-Comparison/HalfDiminished7OrDiminshed7.xml.h:1
 msgid "HalfDiminshed7Diminished7"
@@ -11208,7 +11261,7 @@ msgstr ""
 
 #: ../actions/menus/MainMenu/InputMenu/MIDI/ChordsOverBass.xml.h:2
 msgid "Place the cursor on a bass note and invoke this command. It creates a treble staff above and for each note in the bass staff, as you play it, it switches to the treble staff and allows you to enter a chord. Use the Pitch Bend wheel to stop/start the process. Hold a chord while moving to the next bass note to extend the chord over more than one bass note."
-msgstr ""
+msgstr "Placer markøren på en bas-node og start denne kommando. Den oprettet et g-nøglenodesystem over og for hver node i bas-nodesystemet, når du spiller den, så skifter den til g-nøglenodesystemet og du kan indtaste en akkord. Brug tonehøjdebøjningen til at stoppe/starte processen. Hold en akkord mens du flytter til den næste bas-node for at udvide akkorden over mere end en bas-node."
 
 #: ../actions/menus/MainMenu/InputMenu/MIDI/FiguredBassFilterOn.xml.h:1
 msgid "Figured Bass Filter On"
@@ -11844,21 +11897,21 @@ msgstr ""
 #: ../actions/menus/MainMenu/ViewMenu/Zoom/ZoomIn~.xml.h:1
 #: ../actions/menus/MainMenu/ViewMenu/Zoom/ZoomIn.xml.h:1
 msgid "Zoom In"
-msgstr ""
+msgstr "Zoom ind"
 
 #: ../actions/menus/MainMenu/ViewMenu/Zoom/ZoomOut.xml.h:1
 msgid "Zoom Out"
-msgstr ""
+msgstr "Zoom ud"
 
 #: ../actions/menus/MainMenu/ViewMenu/Zoom/ZoomReset.xml.h:2
 #, no-c-format
 msgid "Zoom to 100%"
-msgstr ""
+msgstr "Zoom til 100 %"
 
 #: ../actions/menus/MainMenu/ViewMenu/Zoom/ZoomReset.xml.h:4
 #, no-c-format
 msgid "Zoom to 100%, restore the original size"
-msgstr ""
+msgstr "Zoom til 100 %, gendan den oprindelige størrelse"
 
 #: ../actions/menus/ObjectMenu/ChordMenu/AddAboveBase/AddLowestUpAugmented4.xml.h:1
 msgid "Add Augmented 4th above base"
@@ -11974,7 +12027,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/ChordMenu/AddBassInversion.scm:15
 msgid "Add Bass Note"
-msgstr ""
+msgstr "Tilføj bas-node"
 
 #: ../actions/menus/ObjectMenu/ChordMenu/AddBassInversion.scm:15
 msgid ""
@@ -12262,19 +12315,19 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/ClefMenu/ClefChooser.scm:6
 msgid "Treble Octava Bassa"
-msgstr ""
+msgstr "G-nøgle Octava Bassa"
 
 #: ../actions/menus/ObjectMenu/ClefMenu/ClefChooser.scm:7
 msgid "Bass Octava Bassa"
-msgstr ""
+msgstr "Bas Octava Bassa"
 
 #: ../actions/menus/ObjectMenu/ClefMenu/ClefChooser.scm:10
 msgid "Drum"
-msgstr ""
+msgstr "Tromme"
 
 #: ../actions/menus/ObjectMenu/ClefMenu/ClefChooser.scm:17
 msgid "Custom Clef"
-msgstr ""
+msgstr "Tilpasset nøgle"
 
 #: ../actions/menus/ObjectMenu/ClefMenu/ClefChooser.scm:17
 msgid "Give LilyPond syntax for clef name"
@@ -12315,39 +12368,39 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/ClefMenu/SetDisplayClef.xml.h:2
 msgid "Inserts a clef that affects only the display, not the printed form. Use this if, after a Change Staff, the staff the voice will be on is in a different clef (avoiding too many ledger lines in the display, making it hard to read). Also useful to display in a familiar clef music which you want to be printed in a less familiar one (e.g. display in treble or bass clef music to be printed for viola)."
-msgstr ""
+msgstr "Indsætter en nøgle som kun påvirker visningen, ikke det udskrevne. Brug denne hvis, efter et ændringsnodesystem, nodesystemet stemmen vil være på er en anden nøgle (undgå for mange hovedbogslinjer i visningen, hvilket gør det svært at læse). også nyttig at vise i en velkendt nøglemusik, som du ønsker bliver trykt i et mindre velkendt en (f.eks visning i g-nøgle- eller bas-nøglemusik, der skal udskrives for bratsch)."
 
 #: ../actions/menus/ObjectMenu/Directives/Comment.scm:7
 msgid "Comment is currently set to: \n"
-msgstr ""
+msgstr "Kommentar er i øjeblikket angivet til: \n"
 
 #: ../actions/menus/ObjectMenu/Directives/Comment.scm:11
 #: ../actions/menus/ObjectMenu/Directives/Comment.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/ChordComment.scm:5
 msgid "Insert Comment"
-msgstr ""
+msgstr "Indsæt kommentar"
 
 #: ../actions/menus/ObjectMenu/Directives/Comment.scm:11
 msgid "Give comment text "
-msgstr ""
+msgstr "Angiv kommentartekst "
 
 #: ../actions/menus/ObjectMenu/Directives/Comment.scm:16
 #: ../actions/menus/ObjectMenu/Directives/CriticalComment.scm:18
 #: ../actions/menus/ObjectMenu/NotesRests/ChordComment.scm:10
 msgid "Cursor has Moved"
-msgstr ""
+msgstr "Markør har flyttet sig"
 
 #: ../actions/menus/ObjectMenu/Directives/Comment.scm:16
 msgid "Insert comment at new position of cursor?"
-msgstr ""
+msgstr "Indsæt kommentar på ny postion for markøren?"
 
 #: ../actions/menus/ObjectMenu/Directives/Comment.xml.h:2
 msgid "Inserts a comment at the cursor position. The music typesetting is unaffected."
-msgstr ""
+msgstr "Indsætter en kommentar ved markørpositionen. Musikopsætningen er upåvirket."
 
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ChooseCondition.xml.h:1
 msgid "Choose Condition"
-msgstr ""
+msgstr "Vælg betingelse"
 
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ChooseCondition.xml.h:2
 msgid "Gives a menu for choosing whether the directive at the cursor should apply to the current part only or the default score or all layouts,"
@@ -12443,11 +12496,11 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/InsertStandaloneDirective.scm:6
 msgid "New LilyPond Directive"
-msgstr ""
+msgstr "Nyt LilyPond-direktiv"
 
 #: ../actions/menus/ObjectMenu/Directives/InsertStandaloneDirective.xml.h:1
 msgid "Insert/Edit Lilypond"
-msgstr ""
+msgstr "Indsæt/rediger LilyPond"
 
 #: ../actions/menus/ObjectMenu/Directives/InsertStandaloneDirective.xml.h:2
 msgid "Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas."
@@ -12465,15 +12518,15 @@ msgstr ""
 #. 0
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/ChooseBarline.xml.h:1
 msgid "Choose Barline"
-msgstr ""
+msgstr "Vælg bjælkelinje"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/ChooseBarline.xml.h:2
 msgid "Choose a barline"
-msgstr ""
+msgstr "Vælg en bjælkelinje"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/ClosingBarline.xml.h:1
 msgid "Closing Barline"
-msgstr ""
+msgstr "Lukker bjælkelinje"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/ClosingBarline.xml.h:2
 #: ../actions/palettes.xml.h:111
@@ -12533,7 +12586,7 @@ msgstr ""
 #. Half Barline
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/HalfBarline.xml.h:1
 msgid "Half Barline"
-msgstr ""
+msgstr "Halv bjælkelinje"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/HalfBarline.xml.h:2
 msgid "Insert a barline with only half of its original size"
@@ -12693,15 +12746,15 @@ msgstr ""
 #. in case the user pressed Escape do nothing
 #: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm:16
 msgid "left"
-msgstr ""
+msgstr "venstre"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm:16
 msgid "center"
-msgstr ""
+msgstr "center"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm:16
 msgid "right"
-msgstr ""
+msgstr "højre"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.xml.h:1
 msgid "Add Text/Rehearsal/Bookmark"
@@ -12815,7 +12868,7 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:53
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:54
 msgid "Offsets"
-msgstr ""
+msgstr "Forskydninger"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:86
 msgid "Give Number of Strings "
@@ -13008,43 +13061,43 @@ msgstr "kryds.skråstregskråstreg.nodehalsnodehalsnodehals"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:31
 msgid "natural"
-msgstr ""
+msgstr "naturlig"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:32
 msgid "natural.arrowup"
-msgstr ""
+msgstr "naturlig.pilop"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:33
 msgid "natural.arrowdown"
-msgstr ""
+msgstr "naturlig.pilned"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:34
 msgid "natural.arrowboth"
-msgstr ""
+msgstr "naturlig.pilbegge"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:35
 msgid "flat"
-msgstr ""
+msgstr "flad"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:36
 msgid "flat.arrowup"
-msgstr ""
+msgstr "flad.pilop"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:37
 msgid "flat.arrowdown"
-msgstr ""
+msgstr "flad.pilned"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:38
 msgid "flat.arrowboth"
-msgstr ""
+msgstr "flad.pilbegge"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:39
 msgid "flat.slash"
-msgstr ""
+msgstr "flad.skråstreg"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:40
 msgid "flat.slashslash"
-msgstr ""
+msgstr "flad.skråstregskråstreg"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:41
 msgid "mirroredflat.flat"
@@ -13206,15 +13259,15 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:84
 msgid "more scripts"
-msgstr ""
+msgstr "flere skripter"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:85
 msgid "open"
-msgstr ""
+msgstr "åben"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:86
 msgid "halfopen"
-msgstr ""
+msgstr "halvåben"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:87
 msgid "halfopenvertical"
@@ -13378,7 +13431,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:128
 msgid "snappizzicato"
-msgstr ""
+msgstr "snappizzicato"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:130
 msgid "ictus"
@@ -16095,7 +16148,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/SetBarNumber.scm:6
 msgid "BarNumber = "
-msgstr ""
+msgstr "BjælkeNummer = "
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/SetBarNumber.xml.h:1
 msgid "(Print) Set Bar Number"
@@ -16134,7 +16187,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/SmallFontEnd.xml.h:1
 msgid "End Small Size"
-msgstr ""
+msgstr "Afslut lille størrelse"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/SmallFontEnd.xml.h:2
 msgid "Printing resumes normal size music."
@@ -16196,7 +16249,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/Tablature/TabFull.scm:16
 msgid "This Directive can only be added in a Tab Staff. See Staff menu."
-msgstr ""
+msgstr "Dette direktiv kan kun tilføjes i et tabulatornodesystem. Se nodesystemmenu."
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/Tablature/TabFull.xml.h:1
 msgid "Full Tab Notation On"
@@ -16374,15 +16427,15 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Key/FlattenInitialKeysigs.xml.h:2
 msgid "Flattens the inital key signature by one degree on all staffs/voices."
-msgstr ""
+msgstr "Sætter b for den oprindelige toneartsangivelse med en grad for alle nodesystemer/stemmer."
 
 #: ../actions/menus/ObjectMenu/Key/FlattenKeysig.xml.h:1
 msgid "♭"
-msgstr ""
+msgstr "♭"
 
 #: ../actions/menus/ObjectMenu/Key/FlattenKeysig.xml.h:2
 msgid "Flattens the key signature by one degree. If no key signature at the cursor, operates on the initial key signature."
-msgstr ""
+msgstr "Sætter b for toneartsangivelsen med en grad. Hvis der ingen toneartsangivelse er ved markøren opereres der på den oprindelige toneartsangivelse."
 
 #: ../actions/menus/ObjectMenu/Key/HideKeysig.xml.h:2
 msgid "On printing, omit the key signature change at the cursor, or the initial key signature if the cursor is not on a key signature change."
@@ -16394,15 +16447,15 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Key/SharpenInitialKeysigs.xml.h:2
 msgid "Sharpens the inital key signature by one degree on all staffs/voices."
-msgstr ""
+msgstr "Sætter kryds for den oprindelige toneartsangivelse med en grad for alle nodesystemer/stemmer."
 
 #: ../actions/menus/ObjectMenu/Key/SharpenKeysig.xml.h:1
 msgid "♯"
-msgstr ""
+msgstr "♯"
 
 #: ../actions/menus/ObjectMenu/Key/SharpenKeysig.xml.h:2
 msgid "Sharpens the key signature by one degree. If no key signature at cursor, sharpens the initial key signature."
-msgstr ""
+msgstr "Sætter kryds for toneartsangivelsen med en grad. Hvis der ingen toneartsangivelse er ved markøren, sættes kryds for den oprindelige toneartsangivelse"
 
 #: ../actions/menus/ObjectMenu/Lyrics/EditLyricAtCursor.scm:2
 msgid "No verse has been created for this staff. Use Add Lyric Verse in Lyrics menu."
@@ -17873,7 +17926,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur7.xml.h:1
 msgid "⏜ 𝅘𝅥𝅲"
-msgstr ""
+msgstr "⏜ 𝅘𝅥𝅲"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/Slur7.xml.h:2
 msgid "Inserts a 𝅘𝅥𝅲 and slurs to it, extending previous slur."
@@ -17881,7 +17934,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/SlurBreve.xml.h:1
 msgid "⏜ 𝅜"
-msgstr ""
+msgstr "⏜ 𝅜"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/SlurBreve.xml.h:2
 msgid "Inserts a 𝅜 and slurs to it, extending previous slur."
@@ -17889,7 +17942,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/SlurLonga.xml.h:1
 msgid "⏜ 𝅛"
-msgstr ""
+msgstr "⏜ 𝅛"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurs/SlurLonga.xml.h:2
 msgid "Inserts a 𝅛 and slurs to it, extending previous slur."
@@ -17901,12 +17954,12 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/CautionaryAccidental.xml.h:1
 msgid "Cautionary Accidental"
-msgstr ""
+msgstr "Hjælpefortegn"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/CautionaryAccidental.xml.h:2
 #: ../actions/palettes.xml.h:67
 msgid "Forces the accidental on the note to be printed."
-msgstr ""
+msgstr "Fremtving at hjælpefortegn på noden udskrives."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/ChangeNoteEnharmonicDown.xml.h:1
 msgid "Change Note Enharmonic -"
@@ -17934,11 +17987,11 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/FlattenNote.xml.h:1
 msgid "Flatten or Append Flattened"
-msgstr ""
+msgstr "Sæt b for eller tilføj sat b for"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/FlattenNote.xml.h:2
 msgid "Flatten note at cursor, or if appending flatten next note entered."
-msgstr ""
+msgstr "Sæt b for node ved markør, eller hvis tilføjende sæt be for næste node indtastet."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/HideAccidental.xml.h:1
 msgid "Hide Accidental"
@@ -17971,11 +18024,11 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/SharpenNote.xml.h:1
 msgid "Sharpen or Append Sharpened"
-msgstr ""
+msgstr "Sæt kryds for eller tilføj sat kryds for"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/SharpenNote.xml.h:2
 msgid "Sharpens the note at the cursor, or if appending sharpen next entered note."
-msgstr ""
+msgstr "Sætter kryds for noden ved markøren, eller ved tilføjende sæt kryds for næste indtastet node."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/SuggestFlat.xml.h:1
 msgid "Suggest Flat"
@@ -18053,16 +18106,16 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/InstallGraceNoteHints.scm:65
 msgid "Grace note hints installed"
-msgstr ""
+msgstr "Forslagstonehintninger installeret"
 
 #.
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/InstallGraceNoteHints.xml.h:1
 msgid "Install Grace Note Hints"
-msgstr ""
+msgstr "Installer forslagstonehintninger"
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/InstallGraceNoteHints.xml.h:2
 msgid "Where a grace note occurs at a boundary the LilyPond typesetter requires extra hints about positioning. This command installs them for the whole movement. It is usually run in the Check Score routine."
-msgstr ""
+msgstr "Når en forslagstone fremstår ved en grænse, så kræver LilyPond-opsætteren ekstra hintninger omkring positionering. Denne kommando installerer dem for hele satsen. Den køres normalt i Kontroller partitur-rutinen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/MakeGrace.xml.h:1
 msgid "Grace/UnGrace"
@@ -19212,11 +19265,11 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.xml.h:1
 msgid "Arbitrary Text"
-msgstr ""
+msgstr "Arbitrær tekst"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.xml.h:2
 msgid "Prints your text above the music at this point"
-msgstr ""
+msgstr "Udskriver din tekst over musikke på dette punkt"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleCoda.xml.h:1
 msgid "Coda (Off/On)"
@@ -19257,6 +19310,8 @@ msgid ""
 "This note will typeset with a diamond notehead, to indicate a harmonic\n"
 "You can sharpen or flatten this note using the standard commands."
 msgstr ""
+"Denne node vil blive opsat med et diamantnodehoved, for at indikere en flageolettone\n"
+"Du kan sætte kryds for eller sætte b for denne node via standardkommandoerne."
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ArtificialHarmonic.xml.h:1
 msgid "Artificial Harmonic"
@@ -19292,7 +19347,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadSizes/NormalSizeNotehead.xml.h:1
 msgid "(Print) Normal Size"
-msgstr ""
+msgstr "(Udskriv) normal størrelse"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadSizes/NormalSizeNotehead.xml.h:2
 msgid "Prints out note heads in normal size"
@@ -19448,11 +19503,11 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.scm:92
 msgid "Recalculate"
-msgstr ""
+msgstr "Genberegn"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.scm:92
 msgid "Un-group"
-msgstr ""
+msgstr "Fjern gruppering"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.scm:95
 msgid ""
@@ -19484,12 +19539,12 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureSpacer.xml.h:1
 msgid "Insert Whole Measure Spacer"
-msgstr "Indsæt taktpause for heltakt"
+msgstr "Indsæt pause for hele takten"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureSpacer.xml.h:2
 #: ../actions/palettes.xml.h:180
 msgid "Inserts a non-printing whole measure after the current measure with a directive to omit the barline. This gives a one measure spacer."
-msgstr "Indsætter en ikkeudskrivende heltakt efter den nuværende takt med et direktiv om at udelade bjælkelinjen. Dette giver en takts taktpause."
+msgstr "Indsætter en ikke udskrevet heltakt efter den nuværende takt med et direktiv om at udelade bjælkelinjen. Dette giver en takts taktpause."
 
 #: ../actions/menus/ObjectMenu/NotesRests/SelectDuration/SetBreve.xml.h:2
 msgid "Sets Prevailing Duration to Breve"
@@ -19540,7 +19595,7 @@ msgstr "Sletter legatobuen som inkluderer den nuværende markørposition."
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/EndPhrasingSlur.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ToggleEndPhrasingSlur.xml.h:1
 msgid "End Phrasing Slur"
-msgstr "Slut frasering legatobue"
+msgstr "Afslut frasering legatobue"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/EndPhrasingSlur.xml.h:2
 msgid "Ends a phrasing slur (which can have slurs within it)"
@@ -19581,43 +19636,43 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurDown.xml.h:1
 msgid "Slur Down"
-msgstr ""
+msgstr "Legatobue ned"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurDown.xml.h:2
 msgid "Prints slur below"
-msgstr ""
+msgstr "Udskriver legatobue nedenfor"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurNeutral.xml.h:1
 msgid "Auto Slur Directions"
-msgstr ""
+msgstr "Automatiske legatobueretninger"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurNeutral.xml.h:2
 msgid "Prints slurs as normal"
-msgstr ""
+msgstr "Udskriver legatobuer som normalt"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurThree.xml.h:1
 msgid "Slur with Next Two Notes"
-msgstr ""
+msgstr "Legatobuer med de næste to noder"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurThree.xml.h:2
 msgid "Slur over next two notes."
-msgstr ""
+msgstr "Legatobuer over de næste to noder."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurTwo.xml.h:1
 msgid "Slur with Next Note"
-msgstr ""
+msgstr "Legatobue med næste node"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurTwo.xml.h:2
 msgid "Creates a slur from current note to next note."
-msgstr ""
+msgstr "Opretter en legatobue fra nuværende node til næste node."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurUp.xml.h:1
 msgid "Slur Up"
-msgstr ""
+msgstr "Legatobue op"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurUp.xml.h:2
 msgid "Prints slurs up"
-msgstr ""
+msgstr "Udskriver legatobuer op"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/TextInsideSlur.scm:5
 msgid "This makes the next text marking on a note etc move inside the slur."
@@ -19757,7 +19812,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieFlatter.scm:10
 msgid "Give extra to flatten by (+/-):"
-msgstr ""
+msgstr "Giv ekstra til sæt b for med (+/-):"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieFlatter.xml.h:1
 msgid "Flatter/More Curved"
@@ -19805,11 +19860,11 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/TieShape.scm:5
 msgid "Flatten/Bend More"
-msgstr ""
+msgstr "Sæt b for/bøje yderligere "
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/TieShape.scm:6
 msgid "Raise/Lower"
-msgstr ""
+msgstr "Hæv/sænk"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/TieShape.xml.h:2
 #: ../actions/palettes.xml.h:155
@@ -21891,7 +21946,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/CreatePartsFromTop.xml.h:1
 msgid "Create Parts (Treble First)"
-msgstr ""
+msgstr "Opret dele (g-nøgle først)"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/CreatePartsFromTop.xml.h:2
 msgid "Creates a set of parts extracting the highest part first."
@@ -22405,27 +22460,27 @@ msgstr ""
 
 #: ../actions/palettes.xml.h:41
 msgid "Insert &#x1D13B; rest"
-msgstr ""
+msgstr "Indsæt &#x1D13B; pause"
 
 #: ../actions/palettes.xml.h:42
 msgid "Insert &#x1D13C; rest"
-msgstr ""
+msgstr "Indsæt &#x1D13C; pause"
 
 #: ../actions/palettes.xml.h:43
 msgid "Insert &#x1D13D; rest"
-msgstr ""
+msgstr "Indsæt &#x1D13D; pause"
 
 #: ../actions/palettes.xml.h:44
 msgid "Insert &#x1D13E; rest"
-msgstr ""
+msgstr "Indsæt &#x1D13E; pause"
 
 #: ../actions/palettes.xml.h:45
 msgid "Insert &#x1D13F; rest"
-msgstr ""
+msgstr "Indsæt &#x1D13F; pause"
 
 #: ../actions/palettes.xml.h:46
 msgid "Insert &#x1D140; rest"
-msgstr ""
+msgstr "Indsæt &#x1D140; pause"
 
 #: ../actions/palettes.xml.h:47
 msgid "Dot, double dot or undot the note at the cursor"
@@ -22493,11 +22548,11 @@ msgstr ""
 
 #: ../actions/palettes.xml.h:69
 msgid "Sharpen the note at the cursor or next entered note if the cursor is in the appending position"
-msgstr ""
+msgstr "Sæt kryds for noden ved markøren eller næste indtastet node hvis markøren er i tilføjende position"
 
 #: ../actions/palettes.xml.h:70
 msgid "Flatten the note at the cursor or next entered note if the cursor is in the appending position"
-msgstr ""
+msgstr "Sæt b for noden ved markøren eller næste indtastet node hvis markøren er i den tilføjende position"
 
 #: ../actions/palettes.xml.h:77
 msgid "Stringed Instruments"
@@ -22609,11 +22664,11 @@ msgstr ""
 
 #: ../actions/palettes.xml.h:172
 msgid "Use in appending position to flatten the bass note of the next chord (extra to what it would be)."
-msgstr ""
+msgstr "Brug i tilføjende position til at sætte b for basnoden for den næste akkord (udover hvad det ellers ville være)."
 
 #: ../actions/palettes.xml.h:173
 msgid "Use in appending position to sharpen the bass note of the next chord (extra to what it would be)."
-msgstr ""
+msgstr "Brug i tilføjende postition til sæt kryds for bas-noden for den næste akkord (udover hvad det ellers ville være)."
 
 #: ../actions/palettes.xml.h:174
 msgid "Set the prevailing duration to &#x1D15D; (subsequent chords entered will have this duration)"
@@ -22649,7 +22704,7 @@ msgstr ""
 
 #: ../actions/palettes.xml.h:185
 msgid "Inserts the chord at the cursor. Cursor height gives bass note. Use pending sharpen/flatten command for sharp/flat bass note."
-msgstr ""
+msgstr "Indsætter akkorden ved markøren. Markørhøjde giver bas-node. Brug igangværende sætte kryds for/sætte b for-kommando for sæt kryds for/sæt b for-basnode."
 
 #: ../actions/palettes.xml.h:186
 msgid "Inserts the chord at the cursor."
@@ -22657,7 +22712,7 @@ msgstr "Indsætter akkorden ved markøren."
 
 #: ../actions/palettes.xml.h:187
 msgid "Inserts a chord at the cursor. Cursor height gives bass note. Use pending sharpen/flatten command for sharp/flat bass note."
-msgstr "Indsætter en akkord ved markøren. Markørhøjde giver bas-node. Brug afvendte skærp/fladgør kommando for skarp/flad bas-node."
+msgstr "Indsætter en akkord ved markøren. Markørhøjde giver bas-node. Brug igangværende sætte kryds for/sætte b for-kommando for sæt kryds for/sæt b for-basnode."
 
 #: ../actions/palettes.xml.h:188
 msgid "Attaches an arbitrary chord symbol at the cursor - use for chords not listed."
@@ -22677,7 +22732,7 @@ msgstr "Opret musikpartiturer"
 
 #: ../denemo.appdata.xml.in.h:2
 msgid "Denemo is a music notation program that lets you rapidly enter notation. Music can be typed in at the PC-Keyboard, or played in via MIDI controller. The typesetting is done in the background by LilyPond while you work, and is generally flawless publication quality. Any final tweaks to can be done on the final typeset score with the mouse if needed. This represents an enormous practical improvement over the most programs which require you to re-position colliding notation constantly as you enter the music."
-msgstr "Denemo er et musiknotationsprogram, som hurtigt lader dig indtaste notation. Musik kan indtastes med pc-tastaturet, eller spilles ind via en MIDI-controller. Opsætningen gøres i baggrunden af LilyPond mens du arbejder, og er generelt i perfekt udgivelseskvalitet. Eventuelle rettelser kan udføres på den endelige opsætningspartitur med musen. Dette repræsenterer en enorm praktisk forbedring i forhold til de fleste andre programmer, som kræver at du genindstiller kolliderende notation konstant, mens du indtaster musikken."
+msgstr "Denemo er et musiknotationsprogram, som hurtigt lader dig indtaste notation. Musik kan indtastes med pc-tastaturet, eller spilles ind via en MIDI-controller. Opsætningen gøres i baggrunden af LilyPond mens du arbejder, og er generelt i perfekt udgivelseskvalitet. Eventuelle rettelser kan udføres på den endelige opsætningspartitur med musen. Dette repræsenterer en enorm praktisk forbedring i forhold til de fleste andre programmer, som kræver, at du genindstiller kolliderende notation konstant, mens du indtaster musikken."
 
 #: ../denemo.appdata.xml.in.h:3
 msgid "Unique to Denemo are methods to enter music in a musical, rather than mechanical, manner. You play in a phrase or two of the music using the number keys to indicate the note durations. Audible feedback lets you hear what you have entered; playing the phrase a second time on a real instrument adds the pitches to the rhythm. Again, Denemo gives you audible feedback so that you don’t enter E-flat when you meant D-sharp etc."
@@ -22685,4 +22740,4 @@ msgstr "Unik for Denemo er metoder til at indtaste musikken i en musikalsk, frem
 
 #: ../denemo.appdata.xml.in.h:4
 msgid "Another great feature is the ability to put links in the score to the original source document that you transcribed from. Clicking on such a link opens the document for you and highlights the bar you are looking at. You can use this to continue work from where you left off, or for looking back at the source to check a doubtful bar."
-msgstr "En anden god funktion er muligheden for at placere henvisninger i partituren til det oprindelige kildedokument, som du har transkriberet fra. Et klik på sådan en henvisning åbner dokumentet for dig og fremhæver bjælken du kigger på. Du kan bruge dette til at fortsætte arbejdet hvor du forlod det sidst, eller til at kigge tilbage i kilden for at kontrollere en tvivlsom bjælke."
+msgstr "En anden god funktion er muligheden for at placere henvisninger i partituret til det oprindelige kildedokument, som du har transkriberet fra. Et klik på sådan en henvisning åbner dokumentet for dig og fremhæver bjælken du kigger på. Du kan bruge dette til at fortsætte arbejdet hvor du forlod det sidst, eller til at kigge tilbage i kilden for at kontrollere en tvivlsom bjælke."
