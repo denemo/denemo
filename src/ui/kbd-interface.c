@@ -642,14 +642,17 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
     
   frame = gtk_frame_new (_("Help for Selected Command"));
   gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
+  gtk_widget_set_size_request (frame, -1, 200);
   gtk_box_pack_start (GTK_BOX (vbox), frame, TRUE, TRUE, 0);
   text_view = gtk_text_view_new ();
   gtk_text_view_set_editable (GTK_TEXT_VIEW (text_view), FALSE);
+  gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (text_view), GTK_WRAP_WORD);
   scrolled_text_view = gtk_scrolled_window_new (NULL, NULL);
   gtk_container_add (GTK_CONTAINER (scrolled_text_view), text_view);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_text_view), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_container_add (GTK_CONTAINER (frame), scrolled_text_view);
-
+  
+  
 
   {
   GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 8);
