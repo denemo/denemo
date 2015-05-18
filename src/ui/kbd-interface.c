@@ -610,7 +610,7 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
     SearchNext = gtk_button_new_with_label ("→");
     gtk_widget_set_tooltip_text (SearchEntry, _("Type search text here. Either the start of a command label,\nor part of the text of a tooltip (if the tooltips flag is set).\nThe search is case insensitive."));
     gtk_widget_set_tooltip_text (SearchNext, _("Search for the next matching command"));
-}   
+    }   //The actual searching is done in kbd-custom.c by passing in the globals SearchEntry and SearchNext, ugh!
   //getting a binding view and a command view and connecting the change of
   //command selection the the change of the model displayed by the binding view
   binding_view = keymap_get_binding_view ();
@@ -666,11 +666,7 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
     gtk_box_pack_start (GTK_BOX (inner_vbox), delbutton, FALSE, TRUE, 0);
 }
   }
-  //lookbutton = gtk_button_new_from_stock (GTK_STOCK_FIND);
-  // gtk_table_attach (GTK_TABLE (table), lookbutton, 5, 6, 5, 6,
-//                  (GtkAttachOptions) (GTK_FILL),
-//                  (GtkAttachOptions) (0), 0, 0);
-
+ 
   vbox = gtk_vbox_new (FALSE, 8);
   gtk_box_pack_end (GTK_BOX (outer_hbox), vbox, FALSE, TRUE, 0);
   
