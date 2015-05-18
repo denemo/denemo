@@ -42,15 +42,11 @@
       </row>
       <row>
         <action>StaffUp</action>
-        <hidden>true</hidden>
-        <bind>Shft+Page_Up</bind>
-        <bind>Ctrl+Shft+Page_Up</bind>
+        <bind>Shft+Up</bind>
       </row>
       <row>
         <action>StaffDown</action>
-        <hidden>true</hidden>
-        <bind>Ctrl+Shft+Page_Down</bind>
-        <bind>Shft+Page_Down</bind>
+        <bind>Shft+Down</bind>
       </row>
       <row>
         <action>MoveToStaffUp</action>
@@ -360,12 +356,10 @@
       <row>
         <action>GoToBeginning</action>
         <bind>Shft+Home</bind>
-        <bind>home</bind>
       </row>
       <row>
         <action>GoToEnd</action>
         <bind>Shft+End</bind>
-        <bind>end</bind>
       </row>
       <row>
         <action>MoveToBeginning</action>

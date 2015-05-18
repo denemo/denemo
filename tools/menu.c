@@ -1,10 +1,10 @@
 struct name_and_function denemo_commands[] = {
 
-  {NULL, "Moves the cursor one object left, altering the selection if any", N_("CursorLeft"), "cursorleft", N_("Cursor Left")},
+  {NULL, "Moves the cursor one object left, altering the selection if any", N_("CursorLeft"), "cursorleft", N_("Selection Cursor Left")},
   {NULL, "Moves the cursor one object left, without altering the selection", N_("MoveCursorLeft"), "movecursorleft", N_("Move Cursor Left")},
   {NULL, "Moves the cursor one scale step down", N_("CursorDown"), "cursordown", N_("Cursor Down")},
   {NULL, "Moves the cursor one scale step up", N_("CursorUp"), "cursorup", N_("Cursor Up")},
-  {NULL, "Moves the cursor one object right, altering the selection if any", N_("CursorRight"), "cursorright", N_("Cursor Right")},
+  {NULL, "Moves the cursor one object right, altering the selection if any", N_("CursorRight"), "cursorright", N_("Selection Cursor Right")},
   {NULL, "Moves the cursor one object right, without altering the selection", N_("MoveCursorRight"), "movecursorright", N_("Move Cursor Right")},
 
   {NULL, "Moves the cursor to the Mark without altering the selection", N_("GoToMark"), "goto_mark", N_("To Mark")},
@@ -23,8 +23,8 @@ struct name_and_function denemo_commands[] = {
   {NULL, "Hides/Shows menus, panes etc. The ones shown are those checked in the view menu.", N_("ToggleReduceToDrawingArea"), "ToggleReduceToDrawingArea", N_("Hide/Show Menus")},
 
 
-  {NULL, "Moves the cursor to the staff above, extending selection if any", N_("StaffUp"), "staffup", N_("Staff Up")},
-  {NULL, "Moves the cursor to the staff below, extending selection if any", N_("StaffDown"), "staffdown", N_("Staff Down")},
+  {NULL, "Moves the cursor to the staff above, extending selection if any", N_("StaffUp"), "staffup", N_("Selection Staff Up")},
+  {NULL, "Moves the cursor to the staff below, extending selection if any", N_("StaffDown"), "staffdown", N_("Selection Staff Down")},
 
   {NULL, "Moves the cursor to the staff above without altering selection. On the top staff it adds space above the staffs.", N_("MoveToStaffUp"), "movetostaffup", N_("Move to Staff Up")},
   {NULL, "Moves the cursor to the staff below without altering selection", N_("MoveToStaffDown"), "movetostaffdown", N_("Move to Staff Down")},
@@ -333,8 +333,8 @@ struct name_and_function denemo_commands[] = {
   {NULL, "Split off the next voice as a separate staff", N_("SplitVoices"), "splitstaffs", N_("Split Voices")},
   {NULL, "Merge this staff as a voice on the previous staff", N_("JoinVoices"), "joinstaffs", N_("Join Voices")},
   {NULL, "Swap this movement with the one before", N_("SwapMovements"), "swapmovements", N_("Swap Movements")},
-  {NULL, "Go to the higher numbered voice on staff, extending selection if any", N_("VoiceUp"), "voiceup", N_("Voice Up")},
-  {NULL, "Go to the lower numbered voice on this staff, extending selection if any", N_("VoiceDown"), "voicedown", N_("Voice Down")},
+  {NULL, "Go to the higher numbered voice on staff, extending selection if any", N_("VoiceUp"), "voiceup", N_("Selection Voice Up")},
+  {NULL, "Go to the lower numbered voice on this staff, extending selection if any", N_("VoiceDown"), "voicedown", N_("Selection Voice Down")},
 
   {NULL, "Go to the higher numbered voice on staff without altering selection", N_("MoveToVoiceUp"), "movetovoiceup", N_("Move to Voice Up")},
   {NULL, "Go to the lower numbered voice on this staff without altering selection", N_("MoveToVoiceDown"), "movetovoicedown", N_("Move to Voice Down")},

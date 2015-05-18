@@ -16,7 +16,7 @@
       </cursors>
       <row type="builtin">
         <action>CursorLeft</action>
-        <_label>Cursor Left</_label>
+        <_label>Selection Cursor Left</_label>
         <_tooltip>Moves the cursor one object left, altering the selection if any</_tooltip>
       </row>
       <row type="builtin">
@@ -36,7 +36,7 @@
       </row>
       <row type="builtin">
         <action>CursorRight</action>
-        <_label>Cursor Right</_label>
+        <_label>Selection Cursor Right</_label>
         <_tooltip>Moves the cursor one object right, altering the selection if any</_tooltip>
       </row>
       <row type="builtin">
@@ -81,12 +81,12 @@
       </row>
       <row type="builtin">
         <action>StaffUp</action>
-        <_label>Staff Up</_label>
+        <_label>Selection Staff Up</_label>
         <_tooltip>Moves the cursor to the staff above, extending selection if any</_tooltip>
       </row>
       <row type="builtin">
         <action>StaffDown</action>
-        <_label>Staff Down</_label>
+        <_label>Selection Staff Down</_label>
         <_tooltip>Moves the cursor to the staff below, extending selection if any</_tooltip>
       </row>
       <row type="builtin">
@@ -101,12 +101,12 @@
       </row>
       <row type="builtin">
         <action>MeasureLeft</action>
-        <_label>Measure Left</_label>
+        <_label>Selection Measure Left</_label>
         <_tooltip>Moves the cursor to the first object in the next measure, extending selection if any</_tooltip>
       </row>
       <row type="builtin">
         <action>MeasureRight</action>
-        <_label>Measure Right</_label>
+        <_label>Selection Measure Right</_label>
         <_tooltip>Moves the cursor to the first object in the previous measure, extending selection if any</_tooltip>
       </row>
       <row type="builtin">
@@ -1301,12 +1301,12 @@ these may need re-making.</_tooltip>
       </row>
       <row type="builtin">
         <action>VoiceUp</action>
-        <_label>Voice Up</_label>
+        <_label>Selection Voice Up</_label>
         <_tooltip>Go to the higher numbered voice on staff, extending selection if any</_tooltip>
       </row>
       <row type="builtin">
         <action>VoiceDown</action>
-        <_label>Voice Down</_label>
+        <_label>Selection Voice Down</_label>
         <_tooltip>Go to the lower numbered voice on this staff, extending selection if any</_tooltip>
       </row>
       <row type="builtin">
@@ -5184,7 +5184,7 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <after>SelectRight</after>
         <menupath>/MainMenu/EditMenu/Select</menupath>
         <_label>Select Left</_label>
-        <_tooltip>Create a selection, move cursor left.</_tooltip>
+        <_tooltip>Move cursor left, selecting the object moved to.</_tooltip>
       </row>
       <row type="scheme">
         <action>SelectMeasure</action>
@@ -5197,7 +5197,7 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <action>SelectRight</action>
         <menupath>/MainMenu/EditMenu/Select</menupath>
         <_label>Select Right</_label>
-        <_tooltip>Create a selection, move the cursor right.</_tooltip>
+        <_tooltip>Move cursor right, selecting the object moved to.</_tooltip>
       </row>
       <row type="scheme">
         <action>SelectStaff</action>

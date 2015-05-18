@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>SelectRight</action>
         <_label>Select Right</_label>
-        <_tooltip>Create a selection, move the cursor right.</_tooltip>
+        <_tooltip>Move cursor right, selecting the object moved to.</_tooltip>
       </row>
     </map>
   </merge>

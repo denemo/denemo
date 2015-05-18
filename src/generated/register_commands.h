@@ -1,8 +1,8 @@
-register_command("CursorLeft", _("Cursor Left"), _("Moves the cursor one object left, altering the selection if any"), cursorleft);
+register_command("CursorLeft", _("Selection Cursor Left"), _("Moves the cursor one object left, altering the selection if any"), cursorleft);
 register_command("MoveCursorLeft", _("Move Cursor Left"), _("Moves the cursor one object left, without altering the selection"), movecursorleft);
 register_command("CursorDown", _("Cursor Down"), _("Moves the cursor one scale step down"), cursordown);
 register_command("CursorUp", _("Cursor Up"), _("Moves the cursor one scale step up"), cursorup);
-register_command("CursorRight", _("Cursor Right"), _("Moves the cursor one object right, altering the selection if any"), cursorright);
+register_command("CursorRight", _("Selection Cursor Right"), _("Moves the cursor one object right, altering the selection if any"), cursorright);
 register_command("MoveCursorRight", _("Move Cursor Right"), _("Moves the cursor one object right, without altering the selection"), movecursorright);
 register_command("GoToMark", _("To Mark"), _("Moves the cursor to the Mark without altering the selection"), goto_mark);
 register_command("SwapPointAndMark", _("Swap Ends of Selection"), _("Swaps the active end of the selection"), swap_point_and_mark);
@@ -11,12 +11,12 @@ register_command("PushPosition", _("Push Position"), _("Pushes the current curso
 register_command("PopPosition", _("Pop Position"), _("Pops a position from the stack of cursor positions, moving the cursor there"), PopPosition);
 register_command("PopPushPosition", _("Pop and Push Position"), _("Pops a position from the stack of cursor positions, pushes the current position, then moves the cursor to the popped position"), PopPushPosition);
 register_command("ToggleReduceToDrawingArea", _("Hide/Show Menus"), _("Hides/Shows menus, panes etc. The ones shown are those checked in the view menu."), ToggleReduceToDrawingArea);
-register_command("StaffUp", _("Staff Up"), _("Moves the cursor to the staff above, extending selection if any"), staffup);
-register_command("StaffDown", _("Staff Down"), _("Moves the cursor to the staff below, extending selection if any"), staffdown);
+register_command("StaffUp", _("Selection Staff Up"), _("Moves the cursor to the staff above, extending selection if any"), staffup);
+register_command("StaffDown", _("Selection Staff Down"), _("Moves the cursor to the staff below, extending selection if any"), staffdown);
 register_command("MoveToStaffUp", _("Move to Staff Up"), _("Moves the cursor to the staff above without altering selection. On the top staff it adds space above the staffs."), movetostaffup);
 register_command("MoveToStaffDown", _("Move to Staff Down"), _("Moves the cursor to the staff below  without altering selection"), movetostaffdown);
-register_command("MeasureLeft", _("Measure Left"), _("Moves the cursor to the first object in the next measure, extending selection if any"), measureleft);
-register_command("MeasureRight", _("Measure Right"), _("Moves the cursor to the first object in the previous measure, extending selection if any"), measureright);
+register_command("MeasureLeft", _("Selection Measure Left"), _("Moves the cursor to the first object in the next measure, extending selection if any"), measureleft);
+register_command("MeasureRight", _("Selection Measure Right"), _("Moves the cursor to the first object in the previous measure, extending selection if any"), measureright);
 register_command("MoveToMeasureLeft", _("Move to Measure Left"), _("Moves the cursor to the first object in the next measure leaving selection, if any, unchanged"), movetomeasureleft);
 register_command("MoveToMeasureRight", _("Move to Measure Right"), _("Moves the cursor to the first object in the previous measure leaving selection, if any, unchanged"), movetomeasureright);
 register_command("A", _("Change/Append A"), _("Changes the note the cursor is on to the note A.\nIf the cursor is in the appending position, appends a note using the prevailing duration."), go_to_A_key);
@@ -251,8 +251,8 @@ register_command("SwapStaffs", _("Swap Staffs"), _("Swap this staff with the one
 register_command("SplitVoices", _("Split Voices"), _("Split off the next voice as a separate staff"), splitstaffs);
 register_command("JoinVoices", _("Join Voices"), _("Merge this staff as a voice on the previous staff"), joinstaffs);
 register_command("SwapMovements", _("Swap Movements"), _("Swap this movement with the one before"), swapmovements);
-register_command("VoiceUp", _("Voice Up"), _("Go to the higher numbered voice on staff, extending selection if any"), voiceup);
-register_command("VoiceDown", _("Voice Down"), _("Go to the lower numbered voice on this staff, extending selection if any"), voicedown);
+register_command("VoiceUp", _("Selection Voice Up"), _("Go to the higher numbered voice on staff, extending selection if any"), voiceup);
+register_command("VoiceDown", _("Selection Voice Down"), _("Go to the lower numbered voice on this staff, extending selection if any"), voicedown);
 register_command("MoveToVoiceUp", _("Move to Voice Up"), _("Go to the higher numbered voice on staff without altering selection"), movetovoiceup);
 register_command("MoveToVoiceDown", _("Move to Voice Down"), _("Go to the lower numbered voice on this staff without altering selection"), movetovoicedown);
 register_command("AddBefore", _("Add Staff Before"), _("Inserts a new staff before the current staff"), staff_new_before);
