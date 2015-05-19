@@ -9,13 +9,10 @@
 DenemoObject *
 clef_new (enum clefs type)
 {
-  DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-  gboolean invisible = (thestaff->voicecontrol & DENEMO_SECONDARY);
   DenemoObject *ret;
   clef *newclef = (clef *) g_malloc (sizeof (clef));
   ret = (DenemoObject *) g_malloc (sizeof (DenemoObject));
   ret->type = CLEF;
-  ret->isinvisible = invisible;
   newclef->type = type;
   ret->object = newclef;
   set_basic_numticks (ret);
