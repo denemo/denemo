@@ -780,7 +780,7 @@ close_project (void)
   free_movements (Denemo.project);
 
   DenemoProject *oldproject = Denemo.project;
-  //gtk_widget_destroy (Denemo.page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
+  gtk_widget_destroy (Denemo.page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
   gint index = g_list_index (Denemo.projects, oldproject);
   gtk_notebook_remove_page (GTK_NOTEBOOK (Denemo.notebook), index);
   g_message ("Closing project %d", index);
@@ -4089,7 +4089,15 @@ dnm_key_snooper (GtkWidget * grab_widget, GdkEventKey * event)
   //else we let the event be processed by other functions
   return FALSE;
 }
+   
+static  void visible_rhythm_buttons (GList *rhythms, gboolean on) 
+    {
+    GList *g;
+    for (g=rhythms;g;g=g->next)
+    on?gtk_widget_show (((RhythmPattern*)(g->data))->button):
+    gtk_widget_hide (((RhythmPattern*)(g->data))->button);
 
+    }
 
 static void
 switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
@@ -4118,6 +4126,8 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
     activate_action ("/MainMenu/ViewMenu/" ToggleScoreLayout_STRING);
 
   unhighlight_rhythm (Denemo.project->prevailing_rhythm);
+  
+    visible_rhythm_buttons (Denemo.project->rhythms, FALSE);
 
   Denemo.project = project = (DenemoProject *) (g->data);
   //g_debug("switch page\n");
@@ -4128,6 +4138,10 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
       gtk_widget_hide (Denemo.project->buttonboxes);
       activate_action ("/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
     }
+
+ 
+  visible_rhythm_buttons (Denemo.project->rhythms, TRUE);
+
 
   set_title_bar (Denemo.project);
   highlight_rhythm (Denemo.project->prevailing_rhythm);
@@ -4968,7 +4982,8 @@ newtab (void)
     activate_action ("/MainMenu/ViewMenu/" ToggleScoreLayout_STRING);
   if (Denemo.project && gtk_widget_get_visible (Denemo.textwindow))
     activate_action ("/MainMenu/ViewMenu/" ToggleLilyText_STRING);
-
+  if (Denemo.project)
+    visible_rhythm_buttons (Denemo.project->rhythms, FALSE);
   DenemoProject* project = new_project(FALSE);
   project->score_layout = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (project->score_layout), "Score Layout");
@@ -4987,23 +5002,14 @@ newtab (void)
   gtk_widget_set_can_focus (project->buttonboxes, FALSE);
   gtk_widget_set_can_focus (project->buttonbox, FALSE);
 
-
-
-
-
-
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (top_vbox), main_vbox, TRUE, TRUE, 0);
-  gint pagenum =                //gtk_notebook_append_page (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL);
-    gtk_notebook_insert_page_menu (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL, NULL, -1); //puts top_vbox inside Denemo.notebook
-  /*(GtkNotebook *notebook,
-     GtkWidget *child,
-     GtkWidget *tab_label,
-     GtkWidget *menu_label,
-     gint position); */
+  gint pagenum = 
+  gtk_notebook_insert_page_menu (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL, NULL, -1); //puts top_vbox inside Denemo.notebook
+ 
   gtk_notebook_popup_enable (GTK_NOTEBOOK (Denemo.notebook));
 
-  Denemo.page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (Denemo.notebook), pagenum);    //note Denemo.page is redundant, it is set to the last page created and it is never unset even when that page is deleted - it is only used by the selection paste routine.
+  Denemo.page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (Denemo.notebook), pagenum);    //note Denemo.page is suspect, it is set to the last page created and it is never unset even when that page is deleted - it is only used by the selection paste routine.
   gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), pagenum);
 
   Denemo.project = project;
