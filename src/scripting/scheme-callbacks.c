@@ -1628,7 +1628,9 @@ scheme_movement_tempo (SCM bpm)
       name = scm_to_locale_string (bpm);
       if (name)
         {
-          si->tempo = atof (name);
+          gdouble tempo =  atof (name);
+          si->tempo = tempo;
+          set_master_tempo (si, si->master_tempo);
           free (name);
         }
     }
