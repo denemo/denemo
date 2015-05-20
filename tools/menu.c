@@ -266,6 +266,7 @@ struct name_and_function denemo_commands[] = {
 
   {NULL, "Menu:\\nCommands that manipulate Staffs and voices on staffs.\\nCommands that apply to the current staff.", N_("StaffMenu"), NULL, "Staffs/Voices"},
   {NULL, "Menu:\\nCommands for properties of the current staff.", N_("StaffPropertiesMenu"), NULL, "Staff Properties"},
+  {NULL, "Menu:\\nCommands for properties of the current movement.", N_("MovementPropertiesMenu"), NULL, "Movement Properties"},
   {NULL, "Menu:\\nThings that manipulate Voices, that is separately stemmed and beamed parts that will be typeset on the same staff.\\nKeep them displayed on separate staffs for editing purposes at least.\\nThe typesetter will amalgamate them for you.\\nSee also commands for hiding rests and moving notes and rests to avoid collisions in the Notes/Rests menu", N_("Voices"), NULL, "Voices"},
   {NULL, "Menu:\\nCommands that apply to the current movement in your score.\\nMovements in a score could be songs in a song book etc\\nAny piece of continuous music.", N_("MovementMenu"), NULL, "Movements"},
   {NULL, "Menu:\\nInformation and help for Denemo", N_("HelpMenu"), NULL, "Help"},

@@ -2213,14 +2213,13 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>HideBarlines</action>
-        <after>HideMovement</after>
-        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
         <_label>(Print) Hide Barlines</_label>
         <_tooltip>Omits barlines when printing.</_tooltip>
       </row>
       <row type="scheme">
         <action>HideMovement</action>
-        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
         <_label>(Print) Hide/Un-hide Movement</_label>
         <_tooltip>Stops the current movement from being typeset. At least one movement must be typeset.</_tooltip>
       </row>
@@ -2232,7 +2231,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>SwitchMensuralBarlines</action>
-        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
         <_label>(Print) Mensural Barlines (On/Off)</_label>
         <_tooltip>Draw the barlines only between the staves but not inside.</_tooltip>
       </row>
@@ -2792,7 +2791,7 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
       <row type="scheme">
         <action>MovementNoteheadsBaroque</action>
         <after>MovementNoteheadsDefault</after>
-        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles</menupath>
         <_label>Baroque</_label>
         <_tooltip>Baroque note head style for the current movement.</_tooltip>
       </row>
@@ -3317,7 +3316,7 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
       <row type="scheme">
         <action>MovementNoteheadsCross</action>
         <after>MovementNoteheadsDiamond</after>
-        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles</menupath>
         <_label>Cross</_label>
         <_tooltip>Cross note head style for the current movement.</_tooltip>
       </row>
@@ -3349,7 +3348,7 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
       <row type="scheme">
         <action>Custos</action>
         <after>MovementPageBreak</after>
-        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
         <_label>Custos (On/Off)</_label>
         <_tooltip>Prints a custos at the end of each line for the current movement. Repeat command to turn custos off.</_tooltip>
       </row>
@@ -3388,7 +3387,7 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
       </row>
       <row type="scheme">
         <action>MovementNoteheadsDefault</action>
-        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles</menupath>
         <_label>Default</_label>
         <_tooltip>Default note head style for the current movement.</_tooltip>
       </row>
@@ -3442,7 +3441,7 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
       <row type="scheme">
         <action>MovementNoteheadsDelete</action>
         <after>MovementNoteheadsSlash</after>
-        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles</menupath>
         <_label>Delete Movement Notehead Settings</_label>
         <_tooltip>Delete note head style of this movement. Reset to whatever Score or Lilypond has set as default.</_tooltip>
       </row>
@@ -3504,7 +3503,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
       <row type="scheme">
         <action>MovementNoteheadsDiamond</action>
         <after>MovementNoteheadsHarmonic-mixed</after>
-        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles</menupath>
         <_label>Diamond</_label>
         <_tooltip>Diamond note head style for the current movement.</_tooltip>
       </row>
@@ -3929,7 +3928,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>MovementNoteheadsHarmonic</action>
         <after>MovementNoteheadsPetrucci</after>
-        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles</menupath>
         <_label>Harmonic</_label>
         <_tooltip>Harmonic note head style for the current movement.</_tooltip>
       </row>
@@ -3950,16 +3949,16 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>MovementNoteheadsHarmonic-black</action>
         <after>MovementNoteheadsHarmonic</after>
-        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles</menupath>
         <_label>Harmonic-black</_label>
         <_tooltip>Harmonic-black note head style for the current movement.</_tooltip>
       </row>
       <row type="scheme">
         <action>MovementNoteheadsHarmonic-mixed</action>
         <after>MovementNoteheadsHarmonic-black</after>
-        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
-        <_label>Harmonic-black</_label>
-        <_tooltip>Harmonic-black note head style for the current movement.</_tooltip>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles</menupath>
+        <_label>Harmonic-mixed</_label>
+        <_tooltip>Harmonic-mixed note head style for the current movement.</_tooltip>
       </row>
       <row type="scheme">
         <action>Chapter</action>
@@ -4414,7 +4413,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>MovementNoteheadsMensural</action>
         <after>MovementNoteheadsNeomensural</after>
-        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles</menupath>
         <_label>Mensural</_label>
         <_tooltip>Mensural note head style for the current movement.</_tooltip>
       </row>
@@ -4541,7 +4540,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>MovementNoteheadsNeomensural</action>
         <after>MovementNoteheadsBaroque</after>
-        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles</menupath>
         <_label>Neomensural</_label>
         <_tooltip>Neomensural note head style for the current movement.</_tooltip>
       </row>
@@ -4796,7 +4795,7 @@ accidentals are usually printed over the note.</_tooltip>
       </row>
       <row type="scheme">
         <action>MovementPageBreak</action>
-        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
         <_label>Page Break Before</_label>
         <_tooltip>Prints this movement starting on a new page</_tooltip>
       </row>
@@ -4835,7 +4834,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>MovementNoteheadsPetrucci</action>
         <after>MovementNoteheadsMensural</after>
-        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles</menupath>
         <_label>Petrucci</_label>
         <_tooltip>Petrucci note head style for the current movement.</_tooltip>
       </row>
@@ -5352,7 +5351,7 @@ for second and subsequent systems</_tooltip>
       <row type="scheme">
         <action>MovementNoteheadsSlash</action>
         <after>MovementNoteheadsXcircle</after>
-        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles</menupath>
         <_label>Slash</_label>
         <_tooltip>Slash note head style for the current movement.</_tooltip>
       </row>
@@ -6038,7 +6037,7 @@ Note you can also delay tooltips, indefinitely if you wish, via the preferences 
       <row type="scheme">
         <action>MovementNoteheadsXcircle</action>
         <after>MovementNoteheadsCross</after>
-        <menupath>/ObjectMenu/MovementMenu/NoteHeadStyles</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles</menupath>
         <_label>Xcircle</_label>
         <_tooltip>Xcircle note head style for the current movement.</_tooltip>
       </row>
