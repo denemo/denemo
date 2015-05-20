@@ -699,6 +699,10 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>DeleteStaff</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>CloseReopenRepeat</action>
         <hidden>true</hidden>
       </row>

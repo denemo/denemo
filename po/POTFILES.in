@@ -1790,6 +1790,8 @@ actions/menus/ObjectMenu/StaffMenu/CreateCuesForStaff.scm
 actions/menus/ObjectMenu/StaffMenu/CreateCuesForStaff.xml
 actions/menus/ObjectMenu/StaffMenu/CrossStaffArpeggio.scm
 actions/menus/ObjectMenu/StaffMenu/CrossStaffArpeggio.xml
+actions/menus/ObjectMenu/StaffMenu/DeleteCurrentStaff.scm
+actions/menus/ObjectMenu/StaffMenu/DeleteCurrentStaff.xml
 actions/menus/ObjectMenu/StaffMenu/DeleteFromCursorToEnd.scm
 actions/menus/ObjectMenu/StaffMenu/DeleteFromCursorToEnd.xml
 actions/menus/ObjectMenu/StaffMenu/DeleteMeasuresBeforeCursor.scm
