@@ -2037,8 +2037,16 @@ select_directive (gchar * instr, GList * directives)
 
 
   GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
-  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-  gtk_container_add (GTK_CONTAINER (content_area), vbox);
+  GtkWidget *content_area;
+  if(g_list_length(directives)>Denemo.prefs.max_menu_size) //this doesn't avoid menu running off screen but allows the user to cancel in that case
+    {
+    content_area = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
+    gtk_box_pack_start (GTK_BOX (content_area), vbox, FALSE, TRUE, 0);
+    } else
+    {
+    content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+    gtk_container_add (GTK_CONTAINER (content_area), vbox);
+    }   
 
   DenemoDirective *response = NULL;
 
@@ -2056,7 +2064,7 @@ select_directive (gchar * instr, GList * directives)
   GtkWidget *widget;
   widget = gtk_label_new (instr);
   gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
-  count = pack_buttons (vbox, directives, &response);
+  count = pack_buttons (vbox, directives, &response); 
 
   if (count > 0)
     {
