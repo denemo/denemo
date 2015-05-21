@@ -581,7 +581,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   NEWPAGE (_("Miscellaneous"));
   BOOLEANENTRY (_("Re-use last settings on startup"), persistence);
   TEXTENTRY (_("Default Font Specification"), fontspec);
-  INTENTRY_LIMITS (_("Page Turn Steps"), max_menu_size, 8, 100);
+  INTENTRY_LIMITS (_("Maximum Menu Size"), max_menu_size, 4, 100);
 
   DOUBLEENTRY_LIMITS (_("Playback Display Refresh"), display_refresh, 0.001, 0.5, 0.002);
   INTENTRY_LIMITS (_("Page Turn Steps"), animation_steps, 1, 200);
