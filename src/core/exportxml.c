@@ -1153,7 +1153,7 @@ exportXML (gchar * thefilename, DenemoProject * gui)
       newXMLIntChild (parentElem, ns, (xmlChar *) "cursorposition", MAX(0, si->cursor_x));
       newXMLIntChild (parentElem, ns, (xmlChar *) "tonalcenter", get_enharmonic_position ());
 
-      newXMLIntChild (parentElem, ns, (xmlChar *) "zoom", (int) (100 * si->zoom));
+      newXMLIntChild (parentElem, ns, (xmlChar *) "zoom", (int) (0.5 + 100 * si->zoom));
       newXMLIntChild (parentElem, ns, (xmlChar *) "system-height", (int) (100 * si->system_height));
 
       newXMLIntChild (parentElem, ns, (xmlChar *) "page-zoom", (int) (100 * si->page_zoom));
