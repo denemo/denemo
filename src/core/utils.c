@@ -1482,7 +1482,19 @@ set_title_bar (DenemoProject * gui)
   gtk_window_set_title (GTK_WINDOW (Denemo.window), title);
   gchar *base = g_path_get_basename (title);
   gint index = g_list_index (Denemo.projects, gui);
+  if(index < 0)
+    {
+       g_critical ("project is %p is not in list of projects, first tab is  %p\n", gui, Denemo.projects->data);
+       return;
+        
+    }
   GtkWidget *page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (Denemo.notebook), index);
+  if (page==NULL)
+    {
+       g_critical ("Bad page, passed project is %p, first tab is  %p\n", gui, Denemo.projects->data);
+       return;
+        
+    }
   gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (Denemo.notebook), page, base);
 
   gtk_notebook_set_menu_label_text (GTK_NOTEBOOK (Denemo.notebook), page, base);

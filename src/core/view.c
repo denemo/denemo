@@ -780,7 +780,10 @@ close_project (void)
   free_movements (Denemo.project);
 
   DenemoProject *oldproject = Denemo.project;
-  gtk_widget_destroy (Denemo.page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
+ /*
+  *      gtk_widget_destroy (Denemo.page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
+  * this widget destroy causes critical errors - the sequence of New, New Tab, (return to first tab), Close, New shows the effect.
+  */
   gint index = g_list_index (Denemo.projects, oldproject);
   gtk_notebook_remove_page (GTK_NOTEBOOK (Denemo.notebook), index);
   g_message ("Closing project %d", index);
