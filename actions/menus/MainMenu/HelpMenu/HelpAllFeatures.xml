@@ -7,8 +7,8 @@
       <row type="scheme">
         <after>Help</after>
         <action>HelpAllFeatures</action>
-        <_label>Help for All Features</_label>
-        <_tooltip>Opens a score with examples of many things you can create with Denemo with Explanations attached. Click on the explanations in the Print View window.</_tooltip>
+        <_label>Browse Feature-Packed Score</_label>
+        <_tooltip>Opens a score with examples of many things you can create with Denemo with Explanations attached. Click on the explanations in the Print View window. Or copy and paste useful objects to your score.</_tooltip>
       </row>
     </map>
   </merge>
