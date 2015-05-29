@@ -841,14 +841,28 @@ update_preview_cb (GtkFileChooser * file_chooser, gpointer data)
   gtk_file_chooser_set_preview_widget_active (file_chooser, have_preview);
 #endif
 }
-
+static void delete_all_rhythms (void)
+{
+  DenemoProject *project = Denemo.project;
+  GList *g;
+  for (g = project->rhythms;g;g=project->rhythms)
+    {
+        delete_rhythm_pattern (g->data);
+    }
+}
+static void enquire_rhythms (void) {
+if (Denemo.project->rhythms && choose_option (_("Music Snippets Can be Kept"), _("Drop Music Snippets"), _("Keep Music Snippets")))
+    delete_all_rhythms ();
+}
 static gboolean
 file_open_dialog(gchar* message, gchar* format, FileFormatNames save_type, DenemoSaveType template, ImportType type, gchar* filename){
   gboolean ret = -1;
    if(filename && (!g_file_test(filename, G_FILE_TEST_EXISTS)) && (!g_path_is_absolute (filename)) && file_selection_path)
             filename = g_build_filename (file_selection_path, filename, NULL);//memory leak
-  
-  enquire_rhythms ();
+  if(Denemo.non_interactive)
+    delete_all_rhythms ();
+  else
+    enquire_rhythms ();
   if(filename && !g_file_test(filename, G_FILE_TEST_IS_DIR))
     return (open_for_real(filename, Denemo.project, template, type));
   
@@ -1160,8 +1174,10 @@ file_newwrapper (GtkAction * action, DenemoScriptParam * param)
         }
     }
   else
-    {
-      enquire_rhythms ();
+    {  if(Denemo.non_interactive)
+            delete_all_rhythms ();
+        else
+            enquire_rhythms ();
       deletescore (NULL, gui);
     }
   deleteSchemeText ();

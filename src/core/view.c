@@ -1546,7 +1546,7 @@ static void insert_snippet (RhythmPattern * r)
         insert_clipboard (r->clipboard);
     }   
 }
-static delete_snippet (RhythmPattern *r);
+
 static void rename_snippet (RhythmPattern *r);
 
 static void
@@ -1570,7 +1570,7 @@ activate_rhythm_pattern (GtkToolButton * toolbutton, RhythmPattern * r)
     
      item = gtk_menu_item_new_with_label (_("Delete Snippet"));
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (delete_snippet), r);
+    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (delete_rhythm_pattern), r);
     gtk_widget_show_all (menu);
     gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());   
 }
@@ -3277,7 +3277,7 @@ highlight_duration (DenemoProject * project, gint dur)
 
 
 
-static delete_snippet (RhythmPattern *r)
+void delete_rhythm_pattern (RhythmPattern *r)
 {
   DenemoProject *project = Denemo.project;
   free_clipboard (r->clipboard);
@@ -3317,15 +3317,7 @@ static delete_snippet (RhythmPattern *r)
   update_scheme_snippet_ids ();
 }
 
-static void delete_all_rhythms (void)
-{
-  DenemoProject *project = Denemo.project;
-  GList *g;
-  for (g = project->rhythms;g;g=project->rhythms)
-    {
-        delete_snippet (g->data);
-    }
-}
+
 
 
 /*
@@ -3342,13 +3334,10 @@ delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
   if (project->currhythm == NULL)
     return;
   RhythmPattern *r = (RhythmPattern *) project->currhythm->data;
-  delete_snippet(r);
+  delete_rhythm_pattern (r);
 }
 
-void enquire_rhythms (void) {
-if (Denemo.project->rhythms && choose_option (_("Music Snippets Can be Kept"), _("Drop Music Snippets"), _("Keep Music Snippets")))
-    delete_all_rhythms ();
-}
+
 /*
  * workaround for glib<2.10
  */
