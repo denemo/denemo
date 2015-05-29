@@ -1339,13 +1339,6 @@ these may need re-making.</_tooltip>
         <_label>Add Last Staff</_label>
         <_tooltip>Inserts a new staff at the end of the score</_tooltip>
       </row>
-      <row type="scheme">
-        <action>DeleteCurrentStaff</action>
-        <after>DeleteStaff</after>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
-        <_label>Delete Current Staff</_label>
-        <_tooltip>Deletes current staff (if the action is confirmed by the user).</_tooltip>
-      </row>
       <row type="builtin">
         <action>DeleteBefore</action>
         <_label>Delete Staff Before</_label>
@@ -2104,6 +2097,13 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <action>Set8</action>
         <_label>Set Prevailing Duration to 𝅥</_label>
         <_tooltip>Set the prevailing duration to 𝅥 (subsequent notes entered will have this duration)</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>DeleteCurrentStaff</action>
+        <after>DeleteStaff</after>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <_label>Delete Current Staff</_label>
+        <_tooltip>Deletes current staff (if the action is confirmed by the user).</_tooltip>
       </row>
       <row type="scheme">
         <action>SlurLonga</action>
@@ -7325,7 +7325,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Insert Nth Snippet</_label>
         <_tooltip>Pastes the Nth snippet into the score at the cursor position. Follow with the number 1,2,... of the snippet to be inserted</_tooltip>
       </row>
-
+      <row type="scheme">
+        <action>ConvertIncorrectSlursToTies</action>
+        <after>ToggleNoteDownTie</after>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
+        <_label>Convert Incorrect Slurs to Ties</_label>
+        <_tooltip>Corrects for the slur/tie error common in imported scores. Scans entire score for pairs of identical notes slurred together as a pair. Changes these to a tied note. Do not use in the unusual case of identical notes slurred (e.g. across strings).</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

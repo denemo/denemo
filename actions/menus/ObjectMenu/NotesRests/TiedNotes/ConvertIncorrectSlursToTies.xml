@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ConvertIncorrectSlursToTies</action>
+        <after>ToggleNoteDownTie</after>
+        <_label>Convert Incorrect Slurs to Ties</_label>
+        <_tooltip>Corrects for the slur/tie error common in imported scores. Scans entire score for pairs of identical notes slurred together as a pair. Changes these to a tied note. Do not use in the unusual case of identical notes slurred (e.g. across strings).</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1554,6 +1554,8 @@ actions/menus/ObjectMenu/NotesRests/StemControl/StartDownStems.scm
 actions/menus/ObjectMenu/NotesRests/StemControl/StartDownStems.xml
 actions/menus/ObjectMenu/NotesRests/StemControl/StartUpStems.scm
 actions/menus/ObjectMenu/NotesRests/StemControl/StartUpStems.xml
+actions/menus/ObjectMenu/NotesRests/TiedNotes/ConvertIncorrectSlursToTies.scm
+actions/menus/ObjectMenu/NotesRests/TiedNotes/ConvertIncorrectSlursToTies.xml
 actions/menus/ObjectMenu/NotesRests/TiedNotes/InsertTiedNoteDuration.scm
 actions/menus/ObjectMenu/NotesRests/TiedNotes/InsertTiedNoteDuration.xml
 actions/menus/ObjectMenu/NotesRests/TiedNotes/LaissezVibrer.scm
