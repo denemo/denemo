@@ -448,7 +448,7 @@ main (int argc, char *argv[])
 
   if(!Denemo.non_interactive){
     //gdk_threads_init ();
-    gdk_threads_enter ();
+  //  gdk_threads_enter ();
   }
 //#ifdef G_OS_WIN32
 //  /* workaround necessary for compilation on Cygwin */
@@ -468,8 +468,8 @@ main (int argc, char *argv[])
   //register_stock_items ();
   scm_with_guile (inner_main, files);
   
-  if(!Denemo.non_interactive)
-    gdk_threads_leave ();
+ // if(!Denemo.non_interactive)
+  //  gdk_threads_leave ();
 
   return 0;
 }
