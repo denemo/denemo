@@ -447,7 +447,7 @@ main (int argc, char *argv[])
   //    g_thread_init (NULL);
 
   if(!Denemo.non_interactive){
-    gdk_threads_init ();
+    //gdk_threads_init ();
     gdk_threads_enter ();
   }
 //#ifdef G_OS_WIN32
