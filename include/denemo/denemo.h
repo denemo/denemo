@@ -81,6 +81,12 @@ extern "C" {
 #define gtk_hscrollbar_new(adj) gtk_scrollbar_new(GTK_ORIENTATION_HORIZONTAL, adj)
 #define gtk_vscrollbar_new(adj) gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL, adj)
 #define g_strcasecmp g_ascii_strcasecmp
+
+
+#define g_idle_add gdk_threads_add_idle
+#define g_timeout_add gdk_threads_add_timeout
+#define g_timeout_add_full gdk_threads_add_timeout_full
+#define g_idle_add_full gdk_threads_add_idle_full
 #endif
 
 #define DEFAULT_KEYMAP "Default"
