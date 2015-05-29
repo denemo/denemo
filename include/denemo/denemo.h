@@ -85,6 +85,8 @@ extern "C" {
 
 #define g_idle_add gdk_threads_add_idle
 #define g_timeout_add gdk_threads_add_timeout
+#define g_timeout_add_seconds gdk_threads_add_timeout_seconds
+
 #define g_timeout_add_full gdk_threads_add_timeout_full
 #define g_idle_add_full gdk_threads_add_idle_full
 #endif
