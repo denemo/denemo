@@ -779,7 +779,6 @@ parseNote (xmlNodePtr noteElem, DenemoObject * chordObj, gint currentClef)
   gint middleCOffset = 0, accidental = 0, noteHeadType = DENEMO_NORMAL_NOTEHEAD;
   gchar *accidentalName, *showAccidentalProp, *noteHeadName;
   GList *directives = NULL;
-
   FOREACH_CHILD_ELEM (childElem, noteElem)
   {
    
@@ -2239,7 +2238,7 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, DenemoMovement * si)
 
   return 0;
 }
-static GList *parseMeasure (xmlNodePtr measureElem, gint currentClef, gboolean *hasfigures, gboolean *hasfakechords)
+static GList *parseMeasure (xmlNodePtr measureElem, gint *pcurrentClef, gboolean *hasfigures, gboolean *hasfakechords)
 {
     DenemoObject *curObj;
     
@@ -2268,7 +2267,7 @@ static GList *parseMeasure (xmlNodePtr measureElem, gint currentClef, gboolean *
             }
           else if (ELEM_NAME_EQ (objElem, "chord"))
             {
-              curObj = parseChord (objElem, currentClef);
+              curObj = parseChord (objElem, *pcurrentClef);
               /* old format files will not have has... fields of staff explicit
                  so for backwards compatibility we reconstruct it here */
               if (((chord *) curObj->object)->figure)
@@ -2285,7 +2284,7 @@ static GList *parseMeasure (xmlNodePtr measureElem, gint currentClef, gboolean *
               gchar *showProp = (gchar *) xmlGetProp (objElem, (xmlChar *) "show");
               if (showProp)
                 curObj->isinvisible = !strcmp (showProp, "false");
-              currentClef = ((clef *) curObj->object)->type;
+              *pcurrentClef = ((clef *) curObj->object)->type;
             }
           else if (ELEM_NAME_EQ (objElem, "lyric"))
             {
@@ -2382,7 +2381,7 @@ static gint
 parseMeasures (xmlNodePtr measuresElem, DenemoMovement * si)
 {
   xmlNodePtr childElem, objElem;
-
+  gint currentClef = ((DenemoStaff *) si->currentstaff->data)->clef.type;
   
   GList *slurEndChordElems = NULL;
   GList *crescEndChordElems = NULL;
@@ -2398,8 +2397,8 @@ parseMeasures (xmlNodePtr measuresElem, DenemoMovement * si)
             si->currentmeasure = dnm_addmeasures (si, si->currentmeasurenum - 1, 1, FALSE);
             g_debug ("ImportXML Adding Measure \n currentmeasurenum %d", si->currentmeasurenum);
           }
-          gint currentClef = ((DenemoStaff *) si->currentstaff->data)->clef.type;
-        si->currentmeasure->data = parseMeasure (childElem, currentClef, 
+          
+        si->currentmeasure->data = parseMeasure (childElem, &currentClef, 
             &((DenemoStaff *) si->currentstaff->data)->hasfigures, &((DenemoStaff *) si->currentstaff->data)->hasfakechords);
 
         si->currentmeasurenum++;
@@ -2645,7 +2644,8 @@ parseRhythmElem (xmlNodePtr sElem, RhythmPattern* r)
     childElem = getXMLChild (sElem, "objects");
     if (childElem) {
      gboolean dummy1, dummy2;
-     r->clipboard = g_list_append (NULL, parseMeasure(childElem, 1, &dummy1, &dummy2));
+     gint currentClef = DENEMO_TREBLE_CLEF;
+     r->clipboard = g_list_append (NULL, parseMeasure(childElem, &currentClef, &dummy1, &dummy2));
      create_rhythm (r, FALSE);
     }
 }
