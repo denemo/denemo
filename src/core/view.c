@@ -2131,7 +2131,6 @@ create_singleton_rhythm (gpointer insert_fn)
           project->rstep = r->rsteps;
           project->cstep = NULL;
           highlight_rhythm (r);
-          //g_debug("prevailing rhythm is %p\n",r);
         }
     g_string_free (pattern, TRUE);
 }
@@ -3305,8 +3304,7 @@ void delete_rhythm_pattern (RhythmPattern *r)
 
   if (project->currhythm == NULL)
     {
-      project->rstep = NULL;
-      project->cstep = NULL;
+      create_singleton_rhythm ((gpointer) insert_chord_2key);//to re-set the default rhythm which is 1/4 note 
     }
   else
     {
