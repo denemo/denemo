@@ -797,7 +797,7 @@ close_project (void)
         index = 0;
 
       Denemo.project = g_list_nth_data (Denemo.projects, index);
-      //g_debug("Setting the first piece as your score\n");
+      g_message ("Selecting score (tab) %d\n", index);
       gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), index);
     }
   else
