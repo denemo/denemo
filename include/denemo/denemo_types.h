@@ -621,6 +621,7 @@ typedef enum
   ADD_STAFFS,
   ADD_MOVEMENTS,
   GUIDED_IMPORT,
+  SOURCE_PDF,
   PROOFREAD
 } ImportType;
 
