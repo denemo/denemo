@@ -1612,7 +1612,7 @@ draw_callback (cairo_t * cr)
   DenemoProject *gui = Denemo.project;
 
   //g_debug("expose\n");
-  if ((!Denemo.project->movement) || (!Denemo.project->movement->currentmeasure))
+  if ((!Denemo.project) || (!Denemo.project->movement) || (!Denemo.project->movement->currentmeasure))
     {
       g_warning ("Cannot draw!");
       return TRUE;
