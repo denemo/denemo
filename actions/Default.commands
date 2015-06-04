@@ -3066,7 +3066,7 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <after>PianoStaffStart</after>
         <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
         <_label>Brace End</_label>
-        <_tooltip>Ends the innermost brace in multi-stave system.</_tooltip>
+        <_tooltip>Add or remove end of staff group marks, or move them to an adjacent staff.</_tooltip>
       </row>
       <row type="scheme">
         <action>PianoStaffName</action>

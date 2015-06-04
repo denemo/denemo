@@ -8,7 +8,7 @@
         <after>ChoirStaffStart</after>
         <action>BraceEnd</action>
         <_label>Brace End</_label>
-        <_tooltip>Ends the innermost brace in multi-stave system.</_tooltip>
+        <_tooltip>Add or remove end of staff group marks, or move them to an adjacent staff.</_tooltip>
       </row>
     </map>
   </merge>
