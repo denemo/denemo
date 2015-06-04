@@ -14,6 +14,14 @@ page-limit-inter-system-space = ##t
 page-limit-inter-system-space-factor = 1.2</postfix>
     </directive>
   </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>16</fontsize>
@@ -50,7 +58,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
   <movement-number>1</movement-number>
   <movement>
     <edit-info>
-      <staffno>4</staffno>
+      <staffno>1</staffno>
       <measureno>1</measureno>
       <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
@@ -118,6 +126,13 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               <postfix>\set Staff.shortInstrumentName = "Vln I"</postfix>
               <display>Vln I</display>
               <override>36</override>
+            </directive>
+            <directive>
+              <tag>GroupStaffStart</tag>
+              <prefix> \new StaffGroup &lt;&lt;
+</prefix>
+              <display>Group Staff Start</display>
+              <override>52</override>
             </directive>
           </staff-directives>
         </voice-props>
@@ -268,6 +283,14 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               <postfix>\set Staff.shortInstrumentName = "Cello"</postfix>
               <display>Cello</display>
               <override>36</override>
+            </directive>
+            <directive>
+              <tag>BraceEnd</tag>
+              <postfix> &gt;&gt;%Brace End
+</postfix>
+              <display>Brace End</display>
+              <data>1</data>
+              <override>52</override>
             </directive>
           </staff-directives>
         </voice-props>

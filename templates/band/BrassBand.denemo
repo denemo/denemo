@@ -274,12 +274,11 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
 
 }
 
-} %End of Movement
-</custom_scoreblock>
+} %End of Movement</custom_scoreblock>
   <movement-number>1</movement-number>
   <movement>
     <edit-info>
-      <staffno>1</staffno>
+      <staffno>2</staffno>
       <measureno>1</measureno>
       <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
@@ -361,18 +360,18 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <hasfakechords>0</hasfakechords>
           <staff-directives>
             <directive>
-              <tag>ContextGroupStaff</tag>
-              <prefix> \new StaffGroup &lt;&lt;
-</prefix>
-              <display>ContextGroupStaff</display>
-              <override>20</override>
-            </directive>
-            <directive>
               <tag>InstrumentName</tag>
               <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
 				(if choice (choice)))    " "Soprano Cornet" }</postfix>
               <display>Soprano Cornet</display>
               <override>4</override>
+            </directive>
+            <directive>
+              <tag>GroupStaffStart</tag>
+              <prefix> \new StaffGroup &lt;&lt;
+</prefix>
+              <display>Group Staff Start</display>
+              <override>52</override>
             </directive>
           </staff-directives>
         </voice-props>
@@ -1179,18 +1178,19 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "U
           <hasfakechords>0</hasfakechords>
           <staff-directives>
             <directive>
-              <tag>ContextGroupStaff</tag>
-              <postfix>&gt;&gt;
-</postfix>
-              <display>ContextGroupStaff</display>
-              <override>20</override>
-            </directive>
-            <directive>
               <tag>InstrumentName</tag>
               <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 19 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
 				(if choice (choice)))    " "Percussion" }</postfix>
               <display>Percussion</display>
               <override>4</override>
+            </directive>
+            <directive>
+              <tag>BraceEnd</tag>
+              <postfix> &gt;&gt;%Brace End
+</postfix>
+              <display>Brace End</display>
+              <data>1</data>
+              <override>52</override>
             </directive>
           </staff-directives>
           <clef-directives>

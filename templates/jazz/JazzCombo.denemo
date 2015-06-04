@@ -23,7 +23,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
   <movement-number>1</movement-number>
   <movement>
     <edit-info>
-      <staffno>9</staffno>
+      <staffno>6</staffno>
       <measureno>1</measureno>
       <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
@@ -86,10 +86,11 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <hasfakechords>0</hasfakechords>
           <staff-directives>
             <directive>
-              <tag>ContextGroupStaff</tag>
+              <tag>GroupStaffStart</tag>
               <prefix> \new StaffGroup &lt;&lt;
 </prefix>
-              <override>16</override>
+              <display>Group Staff Start</display>
+              <override>52</override>
             </directive>
           </staff-directives>
         </voice-props>
@@ -274,10 +275,11 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <hasfakechords>0</hasfakechords>
           <staff-directives>
             <directive>
-              <tag>ContextPianoStaff</tag>
+              <tag>PianoStaffStart</tag>
               <prefix> \new PianoStaff &lt;&lt;
 </prefix>
-              <override>16</override>
+              <display>Piano Staff Start</display>
+              <override>52</override>
             </directive>
           </staff-directives>
         </voice-props>
@@ -318,10 +320,12 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <hasfakechords>0</hasfakechords>
           <staff-directives>
             <directive>
-              <tag>ContextPianoStaff</tag>
-              <postfix>&gt;&gt;
+              <tag>BraceEnd</tag>
+              <postfix> &gt;&gt;%Brace End
 </postfix>
-              <override>16</override>
+              <display>Brace End</display>
+              <data>1</data>
+              <override>52</override>
             </directive>
           </staff-directives>
         </voice-props>
@@ -398,10 +402,12 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <hasfakechords>0</hasfakechords>
           <staff-directives>
             <directive>
-              <tag>ContextGroupStaff</tag>
-              <postfix>&gt;&gt;
+              <tag>BraceEnd</tag>
+              <postfix> &gt;&gt;%Brace End
 </postfix>
-              <override>16</override>
+              <display>Brace End</display>
+              <data>1</data>
+              <override>52</override>
             </directive>
           </staff-directives>
         </voice-props>

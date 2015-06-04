@@ -174,12 +174,12 @@ Note that the double length bars are counted as two in the bar numbering.
       </directive>
     </score-directives>
   </lilycontrol>
-  <movement-number>1</movement-number>
+  <movement-number>3</movement-number>
   <movement>
     <edit-info>
-      <staffno>1</staffno>
-      <measureno>133</measureno>
-      <cursorposition>0</cursorposition>
+      <staffno>5</staffno>
+      <measureno>130</measureno>
+      <cursorposition>1</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>81</zoom>
       <system-height>100</system-height>
@@ -260,11 +260,11 @@ Note that the double length bars are counted as two in the bar numbering.
           <hasfakechords>0</hasfakechords>
           <staff-directives>
             <directive>
-              <tag>ContextPianoStaff</tag>
+              <tag>PianoStaffStart</tag>
               <prefix> \new PianoStaff &lt;&lt;
 </prefix>
-              <display>ContextPianoStaff</display>
-              <override>20</override>
+              <display>Piano Staff Start</display>
+              <override>52</override>
             </directive>
           </staff-directives>
         </voice-props>
@@ -16625,17 +16625,18 @@ Serif
           <hasfakechords>0</hasfakechords>
           <staff-directives>
             <directive>
-              <tag>ContextPianoStaff</tag>
-              <postfix> &gt;&gt;
-</postfix>
-              <display>ContextPianoStaff</display>
-              <override>20</override>
-            </directive>
-            <directive>
               <tag>BarNumbers</tag>
               <postfix>\context Score \applyContext #(set-bar-number-visibility 4000)</postfix>
               <display>BarNumbers</display>
               <override>4</override>
+            </directive>
+            <directive>
+              <tag>BraceEnd</tag>
+              <postfix> &gt;&gt;%Brace End
+</postfix>
+              <display>Brace End</display>
+              <data>1</data>
+              <override>52</override>
             </directive>
           </staff-directives>
         </voice-props>
@@ -20626,7 +20627,7 @@ Sans
   </movement>
   <movement>
     <edit-info>
-      <staffno>4</staffno>
+      <staffno>1</staffno>
       <measureno>1</measureno>
       <cursorposition>1</cursorposition>
       <tonalcenter>0</tonalcenter>
@@ -20690,11 +20691,11 @@ Sans
           <hasfakechords>0</hasfakechords>
           <staff-directives>
             <directive>
-              <tag>ContextPianoStaff</tag>
+              <tag>PianoStaffStart</tag>
               <prefix> \new PianoStaff &lt;&lt;
 </prefix>
-              <display>ContextPianoStaff</display>
-              <override>20</override>
+              <display>Piano Staff Start</display>
+              <override>52</override>
             </directive>
           </staff-directives>
         </voice-props>
@@ -28043,17 +28044,18 @@ Denemo
           <hasfakechords>0</hasfakechords>
           <staff-directives>
             <directive>
-              <tag>ContextPianoStaff</tag>
-              <postfix> &gt;&gt;
-</postfix>
-              <display>ContextPianoStaff</display>
-              <override>20</override>
-            </directive>
-            <directive>
               <tag>BarNumbers</tag>
               <postfix>\context Score \applyContext #(set-bar-number-visibility 4000)</postfix>
               <display>BarNumbers</display>
               <override>4</override>
+            </directive>
+            <directive>
+              <tag>BraceEnd</tag>
+              <postfix> &gt;&gt;%Brace End
+</postfix>
+              <display>Brace End</display>
+              <data>1</data>
+              <override>52</override>
             </directive>
           </staff-directives>
         </voice-props>
@@ -30270,9 +30272,9 @@ Denemo
   </movement>
   <movement>
     <edit-info>
-      <staffno>4</staffno>
+      <staffno>2</staffno>
       <measureno>1</measureno>
-      <cursorposition>0</cursorposition>
+      <cursorposition>1</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
