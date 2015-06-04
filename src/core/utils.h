@@ -25,8 +25,8 @@
 #define STAFF_HEIGHT (LINE_SPACE * (NO_OF_LINES - 1))
 #define LYRICS_HEIGHT (STAFF_HEIGHT/2)
 #define MID_STAFF_HEIGHT 2*LINE_SPACE
-#define LEFT_MARGIN 20
-#define KEY_MARGIN (LEFT_MARGIN+35)
+/*#define LEFT_MARGIN 20 now variable for braces to take space */
+//#define KEY_MARGIN (LEFT_MARGIN+35)
 #define SPACE_FOR_TIME 35
 #define RIGHT_MARGIN 20
 #define SPACE_FOR_BARLINE 10

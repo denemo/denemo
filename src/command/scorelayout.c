@@ -1182,35 +1182,41 @@ install_scoreblock_overrides (GtkWidget * vbox, DenemoProject * gui, DenemoMovem
     }
   return vbox;
 }
+
+gboolean draw_staff_brace_h (cairo_t *cr, gboolean curly, gint x, gint y, gint height)
+{
+  cairo_set_source_rgb (cr, 0, 0, 0);
+  if (!curly)
+    {
+      drawfetachar_cr (cr, 0xD8, x, y);
+      cairo_rectangle (cr, x, y+2.0, 3, height - 22.0);
+      cairo_fill (cr);
+      cairo_rectangle (cr, x + 5.0, y + 1.0, 1, height - 21.0);
+      cairo_fill (cr);
+      drawfetachar_cr (cr, 0xD9, x, y + height - 15.0);
+    }
+  else
+    {
+      //cairo_translate (cr, 0, 10.0);
+      cairo_translate (cr, x-5, y + 2);
+      cairo_scale (cr, 1.0, height / 100.0);
+      cairo_append_path (cr, &piano_brace_path);
+      cairo_fill (cr);
+    }
+  return TRUE;  
+}
+
+
 static gboolean
 draw_staff_brace (GtkWidget * w, cairo_t *cr, gchar * context)
 {
   GtkAllocation allocation;
   gtk_widget_get_allocation (w, &allocation);
   gint height = allocation.height;
- 
   cairo_set_source_rgb (cr, 0.9, 0.9, 0.9);
   cairo_paint (cr);
-
-  cairo_set_source_rgb (cr, 0, 0, 0);
-  if ((!strcmp (context, "ContextChoirStaff")) || (!strcmp (context, "ContextGroupStaff")))
-    {
-      drawfetachar_cr (cr, 0xD8, 5.0, 8.0);
-      cairo_rectangle (cr, 5.0, 10.0, 3, height - 22.0);
-      cairo_fill (cr);
-      cairo_rectangle (cr, 10.0, 9.0, 1, height - 21.0);
-      cairo_fill (cr);
-      drawfetachar_cr (cr, 0xD9, 5.0, height - 15.0);
-    }
-  else
-    {
-      cairo_translate (cr, 0, 10.0);
-      cairo_scale (cr, 1.0, height / 110.0);
-      cairo_append_path (cr, &piano_brace_path);
-      cairo_fill (cr);
-    }
-
-  return TRUE;
+  gboolean curly = !((!strcmp (context, "ChoirStaffStart")) || (!strcmp (context, "GroupStaffStart")));
+  return draw_staff_brace_h (cr, curly, 5, 8, height*0.9);
 
 }
 static gboolean
@@ -1391,7 +1397,12 @@ install_staff_group_end (GtkWidget * vbox, GList * directives, gint * nesting)
               if (*nesting)
                 {
                   add_lilypond (gtk_widget_get_parent (vbox), NULL, g_strdup (directive->postfix->str));
-                  (*nesting)--;
+                  gint number_of_ends =  1;
+                  if(directive->data)
+                    number_of_ends = atoi (directive->data->str);
+                  if (number_of_ends<0 || (number_of_ends>10)) number_of_ends = 1;//sanity check on data in directive
+                  
+                  (*nesting) -=  number_of_ends;
                   vbox = gtk_widget_get_parent (gtk_widget_get_parent (gtk_widget_get_parent (vbox)));
                 }
               else

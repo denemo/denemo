@@ -822,7 +822,11 @@ typedef struct DenemoTarget {
   gint objnum;
 } DenemoTarget;
 
-
+typedef struct DenemoBrace {
+    gint startstaff, endstaff;//count from 1
+    int starty, endy;
+    gboolean curly;
+} DenemoBrace;
 /*
  *  DenemoScore structure representing a single movement of a piece of music.
  *  A movement corresponds with a single \score{} block in the LilyPond language
@@ -964,8 +968,10 @@ typedef struct DenemoProject
   gint lefts[DENEMO_MAX_SYSTEMS];/**< an array to hold the leftmeasurenum of each system in the last-drawn score, used for determining the mouse position on the music */
   gint rights[DENEMO_MAX_SYSTEMS];/**< an array to hold the rightmeasurenum of each system in the last-drawn score, used for determining the mouse position on the music */
   gint scales[DENEMO_MAX_SYSTEMS];/**< an array to hold the percent horizontal scaling of each system in the last-drawn score, used for determining the mouse position on the music */
-
-
+  gint leftmargin;
+  #define BASIC_LEFT_MARGIN (20) /**< margin in display for staff/voice tools */
+  GList *braces;
+  #define BRACEWIDTH (20) /**< width of each brace in display */
   GtkWidget *buttonboxes;/**< box for boxes showing directives */
   GtkWidget *buttonbox;/**< box for buttons accessing DenemoDirectives attached to the whole score */
   GtkWidget *movements_selector; /**< box for buttons to select movements */

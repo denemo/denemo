@@ -14,7 +14,7 @@ void region_playhead ();
 void initialize_playhead ();
 
 gint scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event);
-
+extern gint LEFT_MARGIN;
 #if GTK_MAJOR_VERSION == 3
 gint scorearea_draw_event (GtkWidget * widget, cairo_t * cr);
 #else

@@ -188,7 +188,8 @@ staff_at (gint y, DenemoMovement * si)
 static void
 get_placement_from_coordinates (struct placement_info *pi, gdouble x, gdouble y, gint leftmeasurenum, gint rightmeasurenum, gint scale)
 {
-  DenemoMovement *si = Denemo.project->movement;
+  DenemoProject *gui = Denemo.project;
+  DenemoMovement *si = gui->movement;
   GList *mwidthiterator = g_list_nth (si->measurewidths,
                                       leftmeasurenum - 1);
   objnode *obj_iterator;
@@ -206,7 +207,7 @@ get_placement_from_coordinates (struct placement_info *pi, gdouble x, gdouble y,
   pi->measure_number = leftmeasurenum;
   if (scale)
     x_to_explain = (x_to_explain * scale) / 100;
-  x_to_explain -= (KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME);
+  x_to_explain -= ((gui->leftmargin+35) + si->maxkeywidth + SPACE_FOR_TIME);
 
   //g_debug("Explaining %d\n", x_to_explain);
   while (x_to_explain > GPOINTER_TO_INT (mwidthiterator->data) && pi->measure_number < rightmeasurenum)
@@ -399,7 +400,7 @@ transform_coords (double *x, double *y)
   *y -= line_num * line_height;
   *x /= gui->movement->zoom;
   *y /= gui->movement->zoom;
-  // *x += ((double)line_num * gui->movement->widthtoworkwith / ((int)(1/gui->movement->system_height))) - 1.0* (line_num?(double)LEFT_MARGIN:0.0);
+  // *x += ((double)line_num * gui->movement->widthtoworkwith / ((int)(1/gui->movement->system_height))) - 1.0* (line_num?(double)gui->leftmargin:0.0);
 }
 
 static void extend_selection (DragDirection direction)
@@ -697,7 +698,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
             if (event->type==GDK_2BUTTON_PRESS) 
                 {   
                     gui->movement->marked_onset_position = (gint)event->x/gui->movement->zoom;
-                    if(gui->movement->marked_onset_position < KEY_MARGIN + SPACE_FOR_TIME + gui->movement->maxkeywidth) {
+                    if(gui->movement->marked_onset_position < (gui->leftmargin+35) + SPACE_FOR_TIME + gui->movement->maxkeywidth) {
                          if (Denemo.prefs.learning)
                             MouseGestureShow(_("Double Click Note Onset"), _("This represents detected note onsets which occur\nbefore the start of the score.\nIf they are just noise,\nor if you are working on just a portion of the audio that is ok.\nOtherwise drag with left mouse button to synchronize\nwith the start of the score."),
           MouseGesture);
@@ -745,7 +746,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   change_staff (gui->movement, pi.staff_number, pi.the_staff);
 
 
-  if (left && (gui->movement->leftmeasurenum > 1) && (event->x < KEY_MARGIN + SPACE_FOR_TIME + key) && (event->x > LEFT_MARGIN))
+  if (left && (gui->movement->leftmeasurenum > 1) && (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + key) && (event->x > gui->leftmargin))
     {
       if (Denemo.prefs.learning)
         MouseGestureShow(_("Press Left."), _("This moved the cursor to the measure offscreen left. The display is shifted to place that measure on screen."),
@@ -820,9 +821,9 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
             }
 
   gint offset = (gint) get_click_height (gui, event->y);
-  if ((((DenemoStaff *) gui->movement->currentstaff->data)->voicecontrol == DENEMO_PRIMARY) && (gui->movement->leftmeasurenum == 1) && (event->x > LEFT_MARGIN))
+  if ((((DenemoStaff *) gui->movement->currentstaff->data)->voicecontrol == DENEMO_PRIMARY) && (gui->movement->leftmeasurenum == 1) && (event->x > gui->leftmargin))
     {
-      if (event->x < KEY_MARGIN - cmajor)
+      if (event->x < (gui->leftmargin+35) - cmajor)
         {
         if (offset<-10)
             {  
@@ -840,7 +841,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
             }
           return TRUE;
         }
-      else if (event->x < KEY_MARGIN + key + cmajor)
+      else if (event->x < (gui->leftmargin+35) + key + cmajor)
         {
           if (left)
             {
@@ -870,7 +871,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
             }
           return TRUE;
         }
-      else if (event->x < KEY_MARGIN + SPACE_FOR_TIME + key)
+      else if (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + key)
         {
           if (Denemo.prefs.learning)
             MouseGestureShow(_("Click on Time."), _("This pops up the time signature menu."),
@@ -880,8 +881,39 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
         }
     }
 
-  if (event->x < LEFT_MARGIN)
+  if (event->x < gui->leftmargin)
     {
+       if (gui->braces)
+        {
+                gint width = BRACEWIDTH * g_list_length (gui->braces);
+                //gint count = (gui->leftmargin - event->x)/BRACEWIDTH;
+                if ((gui->leftmargin - event->x) < width)
+                {
+                    gint count = 1 + (width - gui->leftmargin + event->x)/BRACEWIDTH;
+                    
+                    
+                    if ((count>0) && (count <= g_list_length (gui->braces)))
+                        {
+                            DenemoBrace *brace = (DenemoBrace*)g_list_nth_data (gui->braces, count-1);
+                            gint choice = choose_option (_("Editing Staff Groups (Braces)"), _("Edit Start Brace"), _("Edit End Brace"));
+                            gint staffnum = choice?brace->startstaff:brace->endstaff;
+                            //g_print ("Count is %d for start at %d\n", count, staffnum);
+                            GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/StaffMenu/StaffGroupings");
+                            goto_movement_staff_obj (NULL, -1, staffnum, 1, 0);
+                            if (menuitem)
+                                if (choice)
+                                    gtk_menu_popup (GTK_MENU (gtk_menu_item_get_submenu (GTK_MENU_ITEM (menuitem))), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
+                                else
+                                    call_out_to_guile ("(d-BraceEnd)");
+                            //note this returns as soon as the menu is popped up, so we can't go back to the original position.
+                            
+                        }
+                    
+                    return TRUE;
+                }
+                
+        }
+        
       if (pi.staff_number == gui->movement->currentstaffnum)
         {
           gint offset = (gint) get_click_height (gui, event->y);

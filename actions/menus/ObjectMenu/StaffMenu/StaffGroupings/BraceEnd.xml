@@ -6,9 +6,9 @@
     <map>
       <row type="scheme">
         <after>ChoirStaffStart</after>
-        <action>ChoirStaffEnd</action>
-        <_label>ChoirStaff End</_label>
-        <_tooltip>Stop ChoirStaff multi-stave system.</_tooltip>
+        <action>BraceEnd</action>
+        <_label>Brace End</_label>
+        <_tooltip>Ends the innermost brace in multi-stave system.</_tooltip>
       </row>
     </map>
   </merge>

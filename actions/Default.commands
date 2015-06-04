@@ -3035,32 +3035,19 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
       </row>
       <row type="scheme">
         <action>ChoirStaffStart</action>
-        <after>PianoStaffEnd</after>
         <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
         <_label>ChoirStaff Start</_label>
         <_tooltip>Start grouping single staves together in order to form multi-stave systems. In a ChoirStaff, the group starts with a bracket, but bar lines are not connected. </_tooltip>
       </row>
-      <row type="scheme">
-        <action>ChoirStaffEnd</action>
-        <after>ChoirStaffStart</after>
-        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
-        <_label>ChoirStaff End</_label>
-        <_tooltip>Stop ChoirStaff multi-stave system.</_tooltip>
-      </row>
+     
       <row type="scheme">
         <action>GrandStaffStart</action>
-        <after>ChoirStaffEnd</after>
+        <after>ChoirStaffStart</after>
         <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
         <_label>GrandStaff Start</_label>
         <_tooltip>Start grouping single staves together in order to form multi-stave systems. In a GrandStaff, the group begins with a brace, and bar lines are connected between the staves.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>GrandStaffEnd</action>
-        <after>GrandStaffStart</after>
-        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
-        <_label>GrandStaff End</_label>
-        <_tooltip>Stop GrandStaff multi-stave system.</_tooltip>
-      </row>
+      
       <row type="scheme">
         <action>GroupStaffStart</action>
         <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
@@ -3068,12 +3055,33 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <_tooltip>Start grouping single staves together in order to form multi-stave systems. In the StaffGroup context, the group is started with a bracket and bar lines are drawn through all the staves.</_tooltip>
       </row>
       <row type="scheme">
-        <action>GroupStaffEnd</action>
+        <action>PianoStaffStart</action>
         <after>GroupStaffStart</after>
         <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
-        <_label>GroupStaff End</_label>
-        <_tooltip>Stop GroupStaff multi-stave system.</_tooltip>
+        <_label>PianoStaff Start</_label>
+        <_tooltip>Start grouping single staves together in order to form multi-stave systems. The PianoStaff is identical to a GrandStaff, except that it supports printing the instrument name directly.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>BraceEnd</action>
+        <after>PianoStaffStart</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
+        <_label>Brace End</_label>
+        <_tooltip>Ends the innermost brace in multi-stave system.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>PianoStaffName</action>
+        <after>PianoStaffEnd</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
+        <_label>Piano Staff Name</_label>
+        <_tooltip>Prints the name given at the start of the Piano staff which must be where the cursor is. Remove instrument names on the individual staffs by setting them blank.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>DeleteStaffGroupings</action>
+        <after>PianoStaffName</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
+        <_label>Delete all staff contexts</_label>
+        <_tooltip>Clear the staff from all groupings</_tooltip>
+      </row>      
       <row type="scheme">
         <action>ChooseBarline</action>
         <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
@@ -3451,34 +3459,7 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <_label>Delete Selected Objects</_label>
         <_tooltip>Delete all selected objects and leave empty measures behind</_tooltip>
       </row>
-      <row type="scheme">
-        <action>PianoStaffStart</action>
-        <after>GroupStaffEnd</after>
-        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
-        <_label>PianoStaff Start</_label>
-        <_tooltip>Start grouping single staves together in order to form multi-stave systems. The PianoStaff is identical to a GrandStaff, except that it supports printing the instrument name directly.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>PianoStaffEnd</action>
-        <after>PianoStaffStart</after>
-        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
-        <_label>PianoStaff End</_label>
-        <_tooltip>Stop PianoStaff multi-stave system.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>PianoStaffName</action>
-        <after>PianoStaffEnd</after>
-        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
-        <_label>Piano Staff Name</_label>
-        <_tooltip>Prints the name given at the start of the Piano staff which must be where the cursor is. Remove instrument names on the individual staffs by setting them blank.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>DeleteStaffGroupings</action>
-        <after>PianoStaffName</after>
-        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
-        <_label>Delete all staff contexts</_label>
-        <_tooltip>Clear the staff from all groupings</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>StagedDelete</action>
         <after>DeletePreviousObject</after>

@@ -33,6 +33,8 @@ static GdkPixbuf *StaffPixbuf, *StaffPixbufSmall, *StaffGoBack, *StaffGoForward;
 static DenemoObject *Startobj, *Endobj;
 static gboolean layout_needed = TRUE;   //Set FALSE when further call to draw_score(NULL) is not needed.
 static GList *MidiDrawObject;/* a chord used for drawing MIDI recorded notes on the score */
+
+
 void
 initialize_playhead (void)
 {
@@ -870,7 +872,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
   DenemoStaff *thestaff = (DenemoStaff *) curstaff->data;
   gboolean repeat = FALSE;
   DenemoMovement *si = gui->movement;
-  gint x = KEY_MARGIN, i;
+  gint x = (gui->leftmargin+35), i;
 
   // if(si->marked_onset_position)
     //g_debug("repeat"),repeat = TRUE;//we set up the marked onset with this, then need to repeat to draw it
@@ -889,7 +891,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
         {
           DenemoStaff *prev = (DenemoStaff *) (curstaff->prev->data);
           cairo_set_source_rgb (cr, 0, 0, 0);
-          cairo_rectangle (cr, LEFT_MARGIN, y - STAFF_HEIGHT - prev->space_below - thestaff->space_above, 2, 2 * STAFF_HEIGHT + prev->space_below + thestaff->space_above);
+          cairo_rectangle (cr, gui->leftmargin, y - STAFF_HEIGHT - prev->space_below - thestaff->space_above, 2, 2 * STAFF_HEIGHT + prev->space_below + thestaff->space_above);
           cairo_fill (cr);
         }
       if (curstaff->next)
@@ -897,7 +899,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
           DenemoStaff *next = (DenemoStaff *) (curstaff->next->data);
           //cairo_save(cr);
           cairo_set_source_rgb (cr, 0, 0, 0);
-          cairo_rectangle (cr, LEFT_MARGIN, y, 2, 2 * STAFF_HEIGHT + next->space_above + thestaff->space_below);
+          cairo_rectangle (cr, gui->leftmargin, y, 2, 2 * STAFF_HEIGHT + next->space_above + thestaff->space_below);
           cairo_fill (cr);
         }
 
@@ -911,12 +913,12 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
     {                           //not a continuation
       itp->clef = thestaff->leftmost_clefcontext;
       if (cr && !(thestaff->voicecontrol & DENEMO_SECONDARY))
-        draw_clef (cr, LEFT_MARGIN, y, itp->clef);
+        draw_clef (cr, gui->leftmargin, y, itp->clef);
       else if (cr)
         {
           cairo_save (cr);
           cairo_set_source_rgb (cr, 231.0 / 255, 215.0 / 255, 39.0 / 255);      //thecolor = &yellow;
-          draw_clef (cr, LEFT_MARGIN, y, itp->clef);
+          draw_clef (cr, gui->leftmargin, y, itp->clef);
           cairo_restore (cr);
         }
 
@@ -947,7 +949,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
   else
     {                           // a continuation line
       if (cr && !(thestaff->voicecontrol & DENEMO_SECONDARY))
-        draw_clef (cr, LEFT_MARGIN, y, itp->clef);
+        draw_clef (cr, gui->leftmargin, y, itp->clef);
       if (cr && !(thestaff->voicecontrol & DENEMO_SECONDARY))
         draw_key (cr, x, y, itp->key, 0, itp->clef->type, TRUE, thestaff->leftmost_keysig);
       x += si->maxkeywidth;
@@ -970,18 +972,18 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
           
            if (si->leftmeasurenum == 1)//make a button of it if measure 1 is leftmost 
              {
-              drawnormaltext_cr (cr, thestaff->denemo_name->str, 20 /*KEY_MARGIN */ , y - staffname_offset + 10); 
+              drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin /*KEY_MARGIN */ , y - staffname_offset + 10); 
               cairo_save (cr);
               cairo_set_source_rgba (cr, 0.2, 0.8, 0.4, 0.4);
-              cairo_rectangle (cr, 20, y - staffname_offset - 0, 30, 12);
+              cairo_rectangle (cr, gui->leftmargin, y - staffname_offset - 0, 30, 12);
               cairo_fill (cr);
               cairo_set_source_rgba (cr, 0.0, 0.8, 0.0, 1);
-              cairo_rectangle (cr, 20, y - staffname_offset - 0, 30, 12);
+              cairo_rectangle (cr, gui->leftmargin, y - staffname_offset - 0, 30, 12);
               cairo_stroke (cr);
               cairo_restore(cr);
              }
             else
-              drawnormaltext_cr (cr, thestaff->denemo_name->str, 10 /*KEY_MARGIN */ , y - staffname_offset + 10); 
+              drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 10); 
              
         }
       else
@@ -1051,7 +1053,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
   while ((!itp->line_end) && itp->measurenum <= nummeasures)
     {
 
-      if (x + GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE > (int) (get_widget_width (Denemo.scorearea) / gui->movement->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)))
+      if (x + GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE > (int) (get_widget_width (Denemo.scorearea) / gui->movement->zoom - (RIGHT_MARGIN + (gui->leftmargin+35) + si->maxkeywidth + SPACE_FOR_TIME)))
         itp->line_end = TRUE;
 
       itp->last_gap = 0;
@@ -1167,7 +1169,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
       for (i = 1; i <= thestaff->no_of_lines; i++)
         {
           gint yy = y + 2 * LINE_SPACE + ((i % 2) ? (1) : (-1)) * (i / 2) * LINE_SPACE;
-          cairo_move_to (cr, LEFT_MARGIN, yy);
+          cairo_move_to (cr, gui->leftmargin, yy);
           cairo_line_to (cr, (x * 100 / (*itp->scale)) - HALF_BARLINE_SPACE, yy);
         }
       cairo_stroke (cr);
@@ -1279,6 +1281,7 @@ schedule_draw (gint * flip_count)
   return TRUE;
 }
 
+
 /**
  * This actually draws the score, staff-by-staff 
  * @param cr cairo context to draw with.
@@ -1315,7 +1318,6 @@ draw_score (cairo_t * cr)
   itp.recordednote = si->recording?si->recording->notes:NULL;
   itp.currentframe = (get_playback_time()/get_playback_speed())*(si->recording?si->recording->samplerate:SAMPLERATE);
   itp.allow_duration_error = FALSE;
-  y = 0;
 
   if (gui->movement->smf)
     {
@@ -1335,7 +1337,91 @@ draw_score (cairo_t * cr)
     cairo_scale (cr, gui->movement->zoom, gui->movement->zoom);
   if (cr)
     cairo_translate (cr, 0.5, 0.5);
+  
+ if (cr && (si->leftmeasurenum == 1))
+  {
+    GList *h, *g;
+    gint count;
+    y = 20;
+    g_list_free_full (gui->braces, g_free);
+    gui->braces = NULL;
+    for (curstaff = si->thescore, count = 1;curstaff;curstaff=curstaff->next, count++)
+        {
+        DenemoStaff* staff = (DenemoStaff*)curstaff->data;
+        gchar *context;
+        
+          for (g = staff->staff_directives; g; g = g->next)
+            {
+              DenemoDirective *directive = g->data;
+              if (directive->override & DENEMO_OVERRIDE_AFFIX)
+                {
+                    context =  directive->tag->str;
+                   if (g_str_has_suffix (context, "Start"))
+                    {
+                       DenemoBrace *brace = (DenemoBrace *) g_malloc0 (sizeof(DenemoBrace));
+                       brace->starty = y + staff->space_above;
+                       brace->curly = g_strrstr (context, "Piano") || g_strrstr (context, "Grand");
+                       brace->startstaff = count;
+                       gui->braces = g_list_prepend (gui->braces, brace);
+                   }
+                   else if (g_str_has_suffix (context, "End"))
+                    {
+                    gint number_of_ends = 1;
+                    if(directive->data)
+                        number_of_ends = atoi (directive->data->str);
+                    if (number_of_ends<0 || (number_of_ends>10)) number_of_ends = 1;//sanity check on data in directive
+                    while (number_of_ends--)
+                        for (h=gui->braces;h;h=h->next)
+                            {
+                                DenemoBrace *brace = (DenemoBrace *) h->data;
+                                if (brace->endstaff)
+                                    continue;
+                                brace->endstaff = count;
+                                brace->endy = y + staff->space_above + staff->space_below + 2*STAFF_HEIGHT;
+                                break;
+                            }
+                    }
+                }
+            }
+        y += staff->space_above +staff->space_below + 2*STAFF_HEIGHT + 15;
+        }
+   
+   // terminate all un-ended braces
  
+    for(g=gui->braces;g;g=g->next)
+          {
+              DenemoBrace *brace = (DenemoBrace *) g->data;
+              if (brace->endstaff == 0) {
+                brace->endstaff = count-1;// g_print ("Unended staff terminated at staff %d with %d; ", count-1, y);
+                brace->endy = y; //bottom staff value;
+              }
+          } 
+    gint off_screen = 0;
+    gui->leftmargin = BASIC_LEFT_MARGIN + BRACEWIDTH*g_list_length (gui->braces);
+    if(gui->braces) 
+        {
+        for (count=1, curstaff = si->thescore;curstaff && (count<si->top_staff);curstaff=curstaff->next, count++)
+            {
+            DenemoStaff* staff = (DenemoStaff*)curstaff->data;
+            off_screen += staff->space_above + staff->space_below + 2*STAFF_HEIGHT;
+        }
+       
+    }
+    extern gboolean draw_staff_brace_h (cairo_t *cr, gboolean curly, gint x, gint y, gint height);
+    //draw all braces
+    for(count=1, g=gui->braces;g;g=g->next, count++) {
+            DenemoBrace *brace = (DenemoBrace *) g->data;
+            cairo_save (cr);
+            draw_staff_brace_h (cr, brace->curly, (count*BRACEWIDTH),  (5 + brace->starty - off_screen), 
+                 (brace->endy-brace->starty));
+            cairo_restore (cr);
+    }
+ }
+ else gui->leftmargin = 20;
+
+  
+  y = 0;
+  
   /* Draw each staff */
   for (itp.staffnum = si->top_staff, curstaff = g_list_nth (si->thescore, si->top_staff - 1), (y += si->staffspace / 4); curstaff && itp.staffnum <= si->bottom_staff;  curstaff = curstaff->next, itp.staffnum++)
     {
@@ -1378,7 +1464,7 @@ draw_score (cairo_t * cr)
           {
             cairo_save (cr);
             cairo_set_source_rgb (cr, 0.5, 0.5, 1.0);
-            cairo_rectangle (cr, 0, y, LEFT_MARGIN, STAFF_HEIGHT /*staff edit */ );
+            cairo_rectangle (cr, 0, y, 20/*BASIC LEFT_MARGIN*/, STAFF_HEIGHT /*staff edit */ );
             cairo_fill (cr);
             cairo_restore (cr);
 
@@ -1429,26 +1515,26 @@ draw_score (cairo_t * cr)
                 cairo_save (cr);
 
                 cairo_set_source_rgb (cr, 0.7, 0.7, 0.7);
-                cairo_rectangle (cr, LEFT_MARGIN, y, KEY_MARGIN - LEFT_MARGIN - cmajor, STAFF_HEIGHT);  /*clef edit */
+                cairo_rectangle (cr, gui->leftmargin, y, (gui->leftmargin+35) - gui->leftmargin - cmajor, STAFF_HEIGHT);  /*clef edit */
 
-                cairo_rectangle (cr, KEY_MARGIN + key + cmajor, y, SPACE_FOR_TIME - cmajor, STAFF_HEIGHT);      /*timesig edit */
+                cairo_rectangle (cr, (gui->leftmargin+35) + key + cmajor, y, SPACE_FOR_TIME - cmajor, STAFF_HEIGHT);      /*timesig edit */
                 cairo_fill (cr);
 
                 cairo_set_source_rgb (cr, 0.5, 0.5, 1.0);
-                cairo_rectangle (cr, KEY_MARGIN - cmajor, y, key + 2 * cmajor, STAFF_HEIGHT / 2);       /*keysig sharpen edit */
+                cairo_rectangle (cr, (gui->leftmargin+35) - cmajor, y, key + 2 * cmajor, STAFF_HEIGHT / 2);       /*keysig sharpen edit */
                 cairo_fill (cr);
                 cairo_set_source_rgb (cr, 0, 0, 1);
                 cairo_set_line_width (cr, 3);
-                cairo_rectangle (cr, KEY_MARGIN - cmajor, y, key + 2 * cmajor, STAFF_HEIGHT / 2);      
+                cairo_rectangle (cr, (gui->leftmargin+35) - cmajor, y, key + 2 * cmajor, STAFF_HEIGHT / 2);      
                 cairo_stroke (cr);
 
                 
                 cairo_set_source_rgb (cr, 1, 0.5, 0.5);
-                cairo_rectangle (cr, KEY_MARGIN - cmajor, y + STAFF_HEIGHT / 2, key + 2 * cmajor, STAFF_HEIGHT / 2);    /*keysig flatten edit */
+                cairo_rectangle (cr, (gui->leftmargin+35) - cmajor, y + STAFF_HEIGHT / 2, key + 2 * cmajor, STAFF_HEIGHT / 2);    /*keysig flatten edit */
                 cairo_fill (cr);
                 cairo_set_source_rgb (cr, 1, 0, 0);
                 cairo_set_line_width (cr, 3);
-                cairo_rectangle (cr, KEY_MARGIN - cmajor, y + STAFF_HEIGHT / 2, key + 2 * cmajor, STAFF_HEIGHT / 2);    
+                cairo_rectangle (cr, (gui->leftmargin+35) - cmajor, y + STAFF_HEIGHT / 2, key + 2 * cmajor, STAFF_HEIGHT / 2);    
                 cairo_stroke (cr);
 
                 

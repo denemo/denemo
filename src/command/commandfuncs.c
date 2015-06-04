@@ -196,12 +196,12 @@ set_width_to_work_with (DenemoProject * gui)
       DenemoMovement *si = ((DenemoMovement *) g->data);
 
 #if 0
-      si->widthtoworkwith = (double) (Denemo.scorearea->allocation.width * ((int) (1 / si->system_height)) / si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME));
+      si->widthtoworkwith = (double) (Denemo.scorearea->allocation.width * ((int) (1 / si->system_height)) / si->zoom - (RIGHT_MARGIN + (gui->leftmargin+35) + si->maxkeywidth + SPACE_FOR_TIME));
 #else
       //the total line length for drawing DenemoObjects onto the screen
       // this length will be divided amongst the systems (line).
       // This length is in "pixels", the Denemo unit of display, which corresponds to a screen pixel when zoom ==1.0
-      si->widthtoworkwith = (gint) ((get_widget_width (Denemo.scorearea) / si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)) * ((int) (1 / si->system_height)));
+      si->widthtoworkwith = (gint) ((get_widget_width (Denemo.scorearea) / si->zoom - (RIGHT_MARGIN + (gui->leftmargin+35) + si->maxkeywidth + SPACE_FOR_TIME)) * ((int) (1 / si->system_height)));
 #endif
 
 
