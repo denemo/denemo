@@ -1407,12 +1407,11 @@ draw_score (cairo_t * cr)
         }
        
     }
-    extern gboolean draw_staff_brace_h (cairo_t *cr, gboolean curly, gint x, gint y, gint height);
     //draw all braces
     for(count=1, g=gui->braces;g;g=g->next, count++) {
             DenemoBrace *brace = (DenemoBrace *) g->data;
             cairo_save (cr);
-            draw_staff_brace_h (cr, brace->curly, (count*BRACEWIDTH),  (5 + brace->starty - off_screen), 
+            draw_staff_brace (cr, brace->curly, (count*BRACEWIDTH),  (5 + brace->starty - off_screen), 
                  (brace->endy-brace->starty));
             cairo_restore (cr);
     }
