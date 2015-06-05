@@ -903,9 +903,14 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                             if (menuitem)
                                 if (choice)
                                     gtk_menu_popup (GTK_MENU (gtk_menu_item_get_submenu (GTK_MENU_ITEM (menuitem))), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
-                                else
-                                    call_out_to_guile ("(d-BraceEnd)");
-                            //note this returns as soon as the menu is popped up, so we can't go back to the original position.
+                                else 
+                                {
+                                    if (staff_directive_get_tag ("BraceEnd"))
+                                        call_out_to_guile ("(d-BraceEnd)");
+                                    else
+                                        warningdialog (_( "This staff grouping has no End Brace so it finishes on the lowest staff. Use the Staffs/Voices->Staff Groupings menu to place an End Brace on the desired staff"));
+                                }
+                            //note the popup returns as soon as the menu is popped up, so we can't go back to the original position.
                             
                         }
                     
