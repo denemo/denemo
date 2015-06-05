@@ -642,7 +642,7 @@ void draw_staff_brace (cairo_t *cr, gboolean curly, gint x, gint y, gint height)
       cairo_append_path (cr, &piano_brace_path);
       cairo_fill (cr);
     }
-  return TRUE;  
+  return;  
 }
 
 /**
