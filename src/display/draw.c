@@ -1377,7 +1377,7 @@ draw_score (cairo_t * cr)
                                 if (brace->endstaff)
                                     continue;
                                 brace->endstaff = count;
-                                brace->endy = y + staff->space_above + staff->space_below + 2*STAFF_HEIGHT;
+                                brace->endy = y + staff->space_above + 2*STAFF_HEIGHT;
                                 break;
                             }
                     }
