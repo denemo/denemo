@@ -1097,7 +1097,7 @@ draw_staff_brace_for_layout (GtkWidget * w, cairo_t *cr, gchar * context)
   cairo_set_source_rgb (cr, 0.9, 0.9, 0.9);
   cairo_paint (cr);
   gboolean curly = !((!strcmp (context, "ChoirStaffStart")) || (!strcmp (context, "GroupStaffStart")));
-  draw_staff_brace (cr, curly, 5, 8, height*0.9);
+  draw_staff_brace (cr, curly, 5, 8, height*0.9 - 15);
   return TRUE;
 }
 static gboolean

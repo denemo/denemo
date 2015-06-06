@@ -628,11 +628,11 @@ void draw_staff_brace (cairo_t *cr, gboolean curly, gint x, gint y, gint height)
   if (!curly)
     {
       drawfetachar_cr (cr, 0xD8, x, y);
-      cairo_rectangle (cr, x, y+2.0, 3, height - 22.0);
+      cairo_rectangle (cr, x, y+2.0, 3, height - 4.0);
       cairo_fill (cr);
-      cairo_rectangle (cr, x + 5.0, y + 1.0, 1, height - 21.0);
+      cairo_rectangle (cr, x + 5.0, y + 1.0, 1, height - 2.0);
       cairo_fill (cr);
-      drawfetachar_cr (cr, 0xD9, x, y + height - 15.0);
+      drawfetachar_cr (cr, 0xD9, x, y + height);
     }
   else
     {

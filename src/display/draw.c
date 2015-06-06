@@ -1342,7 +1342,7 @@ draw_score (cairo_t * cr)
   {
     GList *h, *g;
     gint count;
-    y = 20;
+    y = si->staffspace / 4;
     g_list_free_full (gui->braces, g_free);
     gui->braces = NULL;
     for (curstaff = si->thescore, count = 1;curstaff;curstaff=curstaff->next, count++)
@@ -1359,7 +1359,7 @@ draw_score (cairo_t * cr)
                    if (g_str_has_suffix (context, "Start"))
                     {
                        DenemoBrace *brace = (DenemoBrace *) g_malloc0 (sizeof(DenemoBrace));
-                       brace->starty = y + staff->space_above;
+                       brace->starty = y + staff->space_above; //g_print ("brace start %d |", brace->starty);
                        brace->curly = g_strrstr (context, "Piano") || g_strrstr (context, "Grand");
                        brace->startstaff = count;
                        gui->braces = g_list_prepend (gui->braces, brace);
@@ -1377,13 +1377,13 @@ draw_score (cairo_t * cr)
                                 if (brace->endstaff)
                                     continue;
                                 brace->endstaff = count;
-                                brace->endy = y + staff->space_above + 2*STAFF_HEIGHT;
+                                brace->endy = y + staff->space_above + si->staffspace/4;//g_print ("Brace end %d||", brace->endy);
                                 break;
                             }
                     }
                 }
             }
-        y += staff->space_above +staff->space_below + 2*STAFF_HEIGHT + 15;
+        y += staff->space_above +staff->space_below + si->staffspace;
         }
    
    // terminate all un-ended braces
@@ -1403,7 +1403,8 @@ draw_score (cairo_t * cr)
         for (count=1, curstaff = si->thescore;curstaff && (count<si->top_staff);curstaff=curstaff->next, count++)
             {
             DenemoStaff* staff = (DenemoStaff*)curstaff->data;
-            off_screen += staff->space_above + staff->space_below + 2*STAFF_HEIGHT;
+            if(count==1) off_screen = si->staffspace / 4;
+            off_screen += staff->space_above + staff->space_below + si->staffspace;
         }
        
     }
@@ -1411,8 +1412,8 @@ draw_score (cairo_t * cr)
     for(count=1, g=gui->braces;g;g=g->next, count++) {
             DenemoBrace *brace = (DenemoBrace *) g->data;
             cairo_save (cr);
-            draw_staff_brace (cr, brace->curly, (count*BRACEWIDTH),  (5 + brace->starty - off_screen), 
-                 (brace->endy-brace->starty));
+            draw_staff_brace (cr, brace->curly, (count*BRACEWIDTH),  (brace->starty - off_screen), 
+                 (brace->endy-brace->starty) + (off_screen?40:15));
             cairo_restore (cr);
     }
  }
@@ -1447,7 +1448,7 @@ draw_score (cairo_t * cr)
       if (curstaff && staff->voicecontrol & DENEMO_PRIMARY)
         y += staff->space_above;
 
-      //g_debug("Incrementing vertically %d\n", y);
+      //g_print("Incrementing vertically %d\n", y);
       itp.space_above = staff->space_above;
       gint top_y = (si->staffspace / 4) + itp.space_above;
 
