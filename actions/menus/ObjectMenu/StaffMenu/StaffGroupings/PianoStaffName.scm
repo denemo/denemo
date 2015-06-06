@@ -1,5 +1,5 @@
 ;;;PianoStaffName
-(let ((tag "ContextPianoStaff") (name "Piano"))
+(let ((tag "PianoStaffStart") (name "Piano"))
 	(if (d-DirectiveGet-staff-prefix tag)
 		(begin
 		    (set! name (d-GetUserInput (_ "Instrument Name") (_ "Give name of instrument for staff group starting here:") name))
