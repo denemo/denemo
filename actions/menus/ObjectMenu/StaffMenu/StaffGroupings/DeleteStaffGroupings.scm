@@ -2,4 +2,9 @@
 (d-DirectiveDelete-staff "PianoStaffStart")
 (d-DirectiveDelete-staff "ChoirStaffStart")
 (d-DirectiveDelete-staff "GrandStaffStart")
-(while (d-DirectiveDelete-staff "BraceEnd"))
+(d-DirectiveDelete-staff "BraceEnd")
+;;;legacy tags
+(d-DirectiveDelete-staff "ContextGrandStaff")
+(d-DirectiveDelete-staff "ContextGroupStaff")
+(d-DirectiveDelete-staff "ContextPianoStaff")
+(d-DirectiveDelete-staff "ContextChoirStaff")
