@@ -35,8 +35,10 @@
 
     (if FirstError
         (set! CheckBraces::Return   (format #f "~a~a" (_ "Too few staff braces open at staff number ") FirstError))
-        (if (not (zero? excess))
-            (set! CheckBraces::Return   (_ "More staff braces started than are ended."))))
+        (if (> excess 0)
+            (set! CheckBraces::Return   (_ "More staff braces started than are ended."))
+            (if (< excess 0)
+            	(set! CheckBraces::Return   (_ "More staff braces ended than are started.")))))
 
     (if (not params)
         (begin
