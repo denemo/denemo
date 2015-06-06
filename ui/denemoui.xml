@@ -223,9 +223,9 @@
       </menu>
       <menu action="InsertStaff">
         <menuitem action="AddBefore"/>
-    <menuitem action="AddAfter"/>
+        <menuitem action="AddAfter"/>
         <menuitem action="AddInitial"/>
-    <menuitem action="AddLast"/>    
+        <menuitem action="AddLast"/>    
       </menu>
       <menuitem action="DeleteStaff"/>
     
@@ -234,13 +234,17 @@
       <menuitem action="MoveToStaffDown"/> 
       <separator/>    
       <menu action="Voices">
-    <menuitem action="EditVoiceDirective"/>
+        <menuitem action="EditVoiceDirective"/>
         <menuitem action="MoveToVoiceUp"/>
-    <menuitem action="MoveToVoiceDown"/> 
+        <menuitem action="MoveToVoiceDown"/> 
         <menuitem action="SplitVoices"/>
         <menuitem action="JoinVoices"/>
       </menu>
       <separator/>
+        <menu action="DisplayEffects">
+            <menuitem action="TallerStaffs"/>
+            <menuitem action="ShorterStaffs"/>
+        </menu>
     </menu>
 
     <menu action="ClefMenu">
