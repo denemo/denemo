@@ -7,8 +7,8 @@
         (d-DirectivePut-staff-override tag (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_AFFIX DENEMO_OVERRIDE_TAGEDIT)))
     (set! number (d-DirectiveGet-staff-data tag))   
     (if number
-        (set! choice (RadioBoxMenu (cons (_ "Add an End Brace Marker") 'add) 
-                                (cons (_ "Delete an End Brace Marker") 'delete)   
+        (set! choice (RadioBoxMenu (cons (string-append (_ "Add an End Brace Marker") " (" number "->" (number->string (+ (string->number number) 1)) ")") 'add) 
+                                (cons (string-append (_ "Delete an End Brace Marker") " (" number "->" (number->string (- (string->number number) 1)) ")") 'delete)   
                                 (cons (_ "Move End Brace Marker Up") 'up) 
                                 (cons (_ "Move End Brace MarkerDown") 'down) 
                                 
