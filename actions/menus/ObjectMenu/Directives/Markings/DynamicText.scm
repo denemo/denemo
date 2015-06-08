@@ -15,7 +15,7 @@
         (firstmenu choices (cdr thelist)))
     (set! choice (d-GetOption (string-append choices (_ "More") stop)))))
    (if (equal? params "edit")
-   	(set! params #f))
+    (set! params #f))
   (if (d-Directive-standalone? tag)
     (set! replace #t))
    (d-PushPosition)
@@ -68,8 +68,10 @@
                         (set! LilyString (string-append  " $(make-dynamic-script (markup #:normal-text #:bold #:italic \"" choice "\")) " )))))
             (if (equal? level "") 
               (begin
-                        (set! level (d-GetUserInput (_ "Dynamic setting") (_ "Enter loudness level (0-127):") "63" ) ) 
-                        (let ( (a 0)) 
+                    (if params
+                        (set! level "63")
+                        (set! level (d-GetUserInput (_ "Dynamic setting") (_ "Enter loudness level (0-127):") "63" )))
+                    (let ( (a 0)) 
                             (set! a (string->number level) )    
                             (if (or (boolean? a) (> a 127) (< a 0) )(set! level #f) )))))
         (begin
