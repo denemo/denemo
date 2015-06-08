@@ -29,8 +29,7 @@
 //#define GDK_KEY_BackSpace GDK_BackSpace
 //#endif
 
-static DenemoDirective *get_movementcontrol_directive (gchar * tag);
-static DenemoDirective *get_score_directive (gchar * tag);
+
 static gboolean text_edit_directive (DenemoDirective * directive, gchar * what);
 
 static GHashTable *action_scripts;
@@ -808,7 +807,7 @@ get_movementcontrol (void)
   return &Denemo.project->movement->movementcontrol;
 }
 
-static DenemoDirective *
+DenemoDirective *
 get_movementcontrol_directive (gchar * tag)
 {
   movementcontrol *curmovementcontrol = get_movementcontrol ();
@@ -911,7 +910,7 @@ delete_object_directive (gchar * tag)
   return delete_directive (&curObj->directives, tag);
 }
 
-static DenemoDirective *
+DenemoDirective *
 get_score_directive (gchar * tag)
 {
 

@@ -42,6 +42,10 @@ void standalone_directive (GtkAction * action, DenemoScriptParam * param);
 void put_standalone_directive (gchar *tag, gint pixelwidth);
 void delete_chord_or_note_directive (GtkAction * action, DenemoScriptParam * param);
 
+
+DenemoDirective *get_movementcontrol_directive (gchar * tag);
+DenemoDirective *get_score_directive (gchar * tag); /* others missing here???, note, chord directives for example */
+
 gchar *get_nth_strict_note_tag (gint index);
 const gchar *strict_note_directive_get_tag (gchar *tag);
 
@@ -74,11 +78,31 @@ DECL_GET_FIELD (chord, prefix)
 DECL_GET_FIELD (chord, postfix)
 DECL_GET_FIELD (chord, display)
 DECL_GET_FIELD (chord, grob)
-DECL_PUT_FIELD (chord, prefix) DECL_PUT_FIELD (chord, postfix) DECL_PUT_FIELD (chord, display) DECL_PUT_FIELD (chord, grob) DECL_GET_FIELD (standalone, prefix) DECL_GET_FIELD (standalone, postfix) DECL_GET_FIELD (standalone, display) DECL_PUT_FIELD (standalone, prefix) DECL_PUT_FIELD (standalone, postfix) DECL_PUT_FIELD (standalone, display) DECL_PUT_FIELD (standalone, grob) DECL_GET_INT (note, minpixels) DECL_GET_INT (chord, minpixels) DECL_GET_INT (standalone, minpixels)
+DECL_PUT_FIELD (chord, prefix) 
+DECL_PUT_FIELD (chord, postfix) 
+DECL_PUT_FIELD (chord, display) 
+DECL_PUT_FIELD (chord, grob) 
+DECL_GET_FIELD (standalone, prefix) 
+DECL_GET_FIELD (standalone, postfix) 
+DECL_GET_FIELD (standalone, display) 
+DECL_PUT_FIELD (standalone, prefix) 
+DECL_PUT_FIELD (standalone, postfix) 
+DECL_PUT_FIELD (standalone, display) 
+DECL_PUT_FIELD (standalone, grob) DECL_GET_INT (note, minpixels) DECL_GET_INT (chord, minpixels) DECL_GET_INT (standalone, minpixels)
   // block to copy
-  DECL_PUT_GRAPHIC (clef) DECL_GET_FIELD (clef, prefix) DECL_GET_FIELD (clef, postfix) DECL_GET_FIELD (clef, display) DECL_PUT_FIELD (clef, prefix) DECL_PUT_FIELD (clef, postfix) DECL_PUT_FIELD (clef, display)
+DECL_PUT_GRAPHIC (clef) 
+DECL_GET_FIELD (clef, prefix) 
+DECL_GET_FIELD (clef, postfix) 
+DECL_GET_FIELD (clef, display) 
+DECL_PUT_FIELD (clef, prefix) 
+DECL_PUT_FIELD (clef, postfix) 
+DECL_PUT_FIELD (clef, display)
   // end of block to copy
-  DECL_PUT_FIELD (header, postfix) DECL_PUT_FIELD (header, display) DECL_PUT_FIELD (paper, postfix) DECL_PUT_FIELD (scoreheader, postfix) DECL_PUT_GRAPHIC (score) DECL_PUT_GRAPHIC (staff) DECL_PUT_GRAPHIC (voice) DECL_PUT_GRAPHIC (scoreheader) DECL_PUT_GRAPHIC (header) DECL_PUT_GRAPHIC (paper) DECL_PUT_GRAPHIC (layout) DECL_PUT_GRAPHIC (movementcontrol)
+  
+DECL_PUT_FIELD (header, postfix) 
+DECL_PUT_FIELD (header, display) 
+DECL_PUT_FIELD (paper, postfix) 
+DECL_PUT_FIELD (scoreheader, postfix) DECL_PUT_GRAPHIC (score) DECL_PUT_GRAPHIC (staff) DECL_PUT_GRAPHIC (voice) DECL_PUT_GRAPHIC (scoreheader) DECL_PUT_GRAPHIC (header) DECL_PUT_GRAPHIC (paper) DECL_PUT_GRAPHIC (layout) DECL_PUT_GRAPHIC (movementcontrol)
   //FIXME x,y,tx,ty,gx,gy
 DECL_PUT_FIELD(staff, prefix)
 DECL_PUT_INT(staff, override)

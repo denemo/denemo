@@ -4229,6 +4229,31 @@ SCM scheme_edit_system_directive (void)
     return SCM_BOOL_T;
 }
 
+SCM scheme_display_directive_text_editor (SCM type, SCM tagname) {
+    if(scm_is_string (type) && scm_is_string (tagname)) 
+        {
+            gchar *what = scm_to_locale_string (type);
+            gchar *tag = scm_to_locale_string (tagname);
+            DenemoDirective *directive;
+            if (!strcmp (what, "score"))
+                directive = get_score_directive (tag);
+            else 
+                directive = get_movementcontrol_directive (tag); //others - note, chord ...
+            
+        if (directive && directive->override & DENEMO_OVERRIDE_EDITOR)
+            {
+            GtkWidget *texteditor = (GtkWidget *) g_object_get_data (G_OBJECT (directive->widget), DENEMO_TEXTEDITOR_TAG);
+            if (texteditor)
+                {
+                gtk_widget_show_all (gtk_widget_get_toplevel (texteditor));
+                gtk_window_present (GTK_WINDOW (gtk_widget_get_toplevel (texteditor)));
+                }
+                return SCM_BOOL_T;
+            }
+        }
+    return SCM_BOOL_F;
+}   
+
 //only retrieve directives when cursor is actually on the note
 SCM scheme_directive_get_nth_tag_strict_note(SCM index) {
   gint n;
