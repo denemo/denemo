@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="7">
+  <scoreheader-directives>
+    <directive>
+      <tag>ScoreTitle</tag>
+      <postfix>title =  \markup { \with-url #'"scheme:(d-ScoreTitle)"  "Click Title"}
+
+</postfix>
+      <display>Click Title</display>
+      <data>Click Title</data>
+      <override>36</override>
+    </directive>
+  </scoreheader-directives>
   <paper-directives>
+    <directive>
+      <tag>PrintAllHeaders</tag>
+      <postfix>
+print-all-headers = ##t
+</postfix>
+    </directive>
     <directive>
       <tag>LimitInterSystemSpace</tag>
       <postfix>
@@ -18,20 +35,24 @@ page-limit-inter-system-space-factor = 1.2</postfix>
   </thumbnail>
   <lilycontrol>
     <papersize>a4</papersize>
-    <fontsize>16</fontsize>
+    <fontsize>18</fontsize>
     <orientation>1</orientation>
     <total-edit-time>0</total-edit-time>
     <score-directives>
       <directive>
-        <tag>UnknownScoreTag</tag>
-        <postfix>\transpose c c</postfix>
+        <tag>ScoreIndent</tag>
+        <prefix>\layout {indent = 7.2}
+</prefix>
+        <display>indent=7.2</display>
+        <data>7.2</data>
+        <override>4</override>
       </directive>
     </score-directives>
   </lilycontrol>
   <movement-number>1</movement-number>
   <movement>
     <edit-info>
-      <staffno>5</staffno>
+      <staffno>4</staffno>
       <measureno>1</measureno>
       <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
@@ -39,15 +60,13 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
       <page-system-height>100</page-system-height>
-      <measure-width>480</measure-width>
     </edit-info>
     <header-directives>
       <directive>
-        <tag>ScoreTitle</tag>
-        <postfix>title = "Untitled"
+        <tag>SuppressTitleRepeats</tag>
+        <postfix>title = ##f
+instrument = ##f
 </postfix>
-        <display>Score Title: Untitled</display>
-        <override>36</override>
       </directive>
     </header-directives>
     <score-info>
@@ -56,7 +75,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <numerator>1</numerator>
           <denominator>4</denominator>
         </duration>
-        <bpm>60</bpm>
+        <bpm>120</bpm>
       </tempo>
     </score-info>
     <staves>
@@ -90,25 +109,35 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument>violin</instrument>
+          <instrument></instrument>
           <device-port>NONE</device-port>
-          <volume>65</volume>
+          <volume>127</volume>
           <override_volume>0</override_volume>
           <mute>0</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
-          <verses>
-            <verse></verse>
-          </verses>
           <staff-directives>
             <directive>
-              <tag>ContextChoirStaff</tag>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+                    (if choice (choice)))    " "Soprano" }</postfix>
+              <display>Soprano</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ChoirStaffStart</tag>
               <prefix> \new ChoirStaff &lt;&lt;
 </prefix>
-              <display>ContextChoirStaff</display>
-              <override>20</override>
+              <display>Choir Staff Start</display>
+              <override>52</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "Sop"</postfix>
+              <display>Sop</display>
+              <override>4</override>
             </directive>
           </staff-directives>
         </voice-props>
@@ -138,18 +167,30 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument>acoustic grand</instrument>
+          <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
           <override_volume>0</override_volume>
           <mute>0</mute>
           <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
+          <midi_channel>3</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
-          <verses>
-            <verse></verse>
-          </verses>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 2 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+                    (if choice (choice)))    " "Alto" }</postfix>
+              <display>Alto</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "Alt"</postfix>
+              <display>Alt</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
         </voice-props>
         <measures>
           <measure></measure>
@@ -177,18 +218,30 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument>viola</instrument>
+          <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
           <override_volume>0</override_volume>
           <mute>0</mute>
           <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
+          <midi_channel>4</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
-          <verses>
-            <verse></verse>
-          </verses>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 3 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+                    (if choice (choice)))    " "Tenor" }</postfix>
+              <display>Tenor</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "Ten"</postfix>
+              <display>Ten</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
         </voice-props>
         <measures>
           <measure></measure>
@@ -216,25 +269,36 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument>cello</instrument>
+          <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
           <override_volume>0</override_volume>
           <mute>0</mute>
           <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
+          <midi_channel>5</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
-          <verses>
-            <verse></verse>
-          </verses>
           <staff-directives>
             <directive>
-              <tag>ContextChoirStaff</tag>
-              <postfix> &gt;&gt;
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 4 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+                    (if choice (choice)))    " "Bass" }</postfix>
+              <display>Bass</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>BraceEnd</tag>
+              <postfix> &gt;&gt;%Brace End
 </postfix>
-              <display>ContextChoirStaff</display>
-              <override>20</override>
+              <display>Brace End</display>
+              <data>1</data>
+              <override>52</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "Bass"</postfix>
+              <display>Bass</display>
+              <override>4</override>
             </directive>
           </staff-directives>
         </voice-props>
@@ -244,7 +308,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       </voice>
       <voice id="id10">
         <voice-info>
-          <voice-name>Piano RH</voice-name>
+          <voice-name>RH</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -264,22 +328,22 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument>acoustic grand</instrument>
+          <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
           <override_volume>0</override_volume>
           <mute>0</mute>
           <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
+          <midi_channel>1</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
           <staff-directives>
             <directive>
-              <tag>ContextPianoStaff</tag>
+              <tag>PianoStaffStart</tag>
               <prefix> \new PianoStaff &lt;&lt;
 </prefix>
-              <display>ContextPianoStaff</display>
-              <override>20</override>
+              <display>Piano Staff Start</display>
+              <override>52</override>
             </directive>
           </staff-directives>
         </voice-props>
@@ -289,7 +353,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       </voice>
       <voice id="id11">
         <voice-info>
-          <voice-name>Piano LH</voice-name>
+          <voice-name>LH</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -309,22 +373,23 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument>acoustic grand</instrument>
+          <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
           <override_volume>0</override_volume>
           <mute>0</mute>
           <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
+          <midi_channel>2</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
           <staff-directives>
             <directive>
-              <tag>ContextPianoStaff</tag>
-              <postfix> &gt;&gt;
+              <tag>BraceEnd</tag>
+              <postfix> &gt;&gt;%Brace End
 </postfix>
-              <display>ContextPianoStaff</display>
-              <override>20</override>
+              <display>Brace End</display>
+              <data>1</data>
+              <override>52</override>
             </directive>
           </staff-directives>
         </voice-props>
