@@ -172,6 +172,7 @@ parse_key (GString ** scripts, gint numvoices, gint measurenum, xmlNodePtr rootE
         g_string_append_printf (scripts[i + 1], "(d-InitialKey \"C major\")(d-IncrementKeysig %d)", fifths);
       else
         g_string_append_printf (scripts[i + 1], "(d-InsertKey \"C major\")(d-IncrementKeysig %d)", fifths);
+ g_free (mode);
 }
 
 static void
@@ -211,6 +212,7 @@ parse_clef (GString ** scripts, gint division, gint * voice_timings, gint voicen
               g_string_append_printf (scripts[i + 1], "(d-InsertClef \"%s\")", clef);
         }
     }
+    g_free (sign);
 }
 
 static const gchar *
@@ -744,7 +746,12 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
         str = g_strdup_printf ("(d-StartTuplet \"%d/%d\")", *normal_notes, *actual_notes);
       //str = g_strdup_printf("\n;not end tuplet and entered with normal timings %d  \n(d-StartTuplet \"%d/%d\")", in_chord, *normal_notes, *actual_notes);
       else
-        str = g_strdup ("\n;Changed timings\n(d-EndTuplet)");
+        {
+        if (*normal_notes==1 && *actual_notes==1)
+            str = g_strdup_printf ("\n;Leaving tuplet timing\n(d-EndTuplet)");
+        else
+            str = g_strdup_printf ("\n;Changed timings\n(d-EndTuplet)(d-StartTuplet \"%d/%d\")", *normal_notes, *actual_notes);
+        }
       g_string_append (scripts[voicenum], str);
       g_free (str);
     }
@@ -759,6 +766,8 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
   if (!(in_chord || is_grace))
     *division = *division + duration;
   *current_voice = voicenum;
+  g_free (step);
+  g_free (type);
   return g_string_free (ret, FALSE);
 }
 
@@ -841,6 +850,7 @@ parse_barline (xmlNodePtr rootElem, GString ** scripts, gint numvoices)
   if (text)
     for (i = 0; i < numvoices; i++)
       g_string_append (scripts[i + 1], text);
+ g_free (style);
 }
 
 
@@ -906,7 +916,11 @@ parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
             placement = "-";
         //if(pending==NULL)
          //   pending = "";
-        pending = g_strdup_printf ("(StandaloneText \"TextAnnotation\" \"%s\" \"%s\" \"%s\")(GoToMeasureEnd)", words/*g_strescape(words, NULL)*/, placement, font_style);
+         gchar *thewords = escape_scheme (words);
+        pending = g_strdup_printf ("(StandaloneText \"TextAnnotation\" \"%s\" \"%s\" \"%s\")(GoToMeasureEnd)", /*words g_strescape(words, NULL)*/ escape_scheme (words), placement, font_style);
+        g_free (thewords);
+        g_free (words);
+        
       }
       
       
@@ -1148,21 +1162,22 @@ parse_part (xmlNodePtr rootElem)
 static void
 parse_identification (xmlNodePtr rootElem, GString *script)
 {
-  
+  gchar *title = NULL;
   xmlNodePtr childElem;
    FOREACH_CHILD_ELEM (childElem, rootElem)
   {
     if (ELEM_NAME_EQ (childElem, "creator"))
         {
-            gchar *title = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            title = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
             g_string_append_printf (script, "(d-BookComposer \"%s\")", title);
         }    
     if (ELEM_NAME_EQ (childElem, "rights"))
         {
-            gchar *title = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            title = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
             g_string_append_printf (script, "(d-BookCopyright \"%s\")", title);
         } 
   }
+  g_free (title);
 }
 
 gint
@@ -1190,7 +1205,7 @@ mxmlinput (gchar * filename)
 
   rootElem = xmlDocGetRootElement (doc);
   xmlNodePtr childElem;
-  GString *script = g_string_new (";Score\n\n(d-MasterVolume 0) (d-StaffProperties \"denemo_name=voice 1\")");
+  GString *script = g_string_new (";Score\n\n(d-MasterVolume 0) (d-IncreaseGuard) (d-StaffProperties \"denemo_name=voice 1\")");
   gint part_count = 1;
   InitialVoiceNum = 0;
   if (Warnings == NULL)
@@ -1204,6 +1219,7 @@ mxmlinput (gchar * filename)
             gchar *title = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
             if(title)
                 g_string_append_printf (script, "(d-BookTitle \"%s\")", escape_scheme(title));
+            g_free (title);
         }
      if (ELEM_NAME_EQ (childElem, "identification"))   {
             parse_identification (childElem, script);
@@ -1214,13 +1230,13 @@ mxmlinput (gchar * filename)
         g_string_append (script, parse_part (childElem));
       }
   }
-  g_string_append (script, "(d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)(d-MoveToBeginning)(if (and (not (None?))(UnderfullMeasure?))(d-Upbeat))");
-#ifdef DEVELOPER
+  g_string_append (script, "(d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)(d-MoveToBeginning)(if (and (not (None?))(UnderfullMeasure?))(d-Upbeat))   (d-DecreaseGuard)  ");
+#ifndef DEVELOPER
   {
     FILE *fp = fopen ("/home/rshann/junk.scm", "w");
     if (fp)
       {
-        fprintf (fp, ";Parser not yet finished:\n %s", script->str);
+        fprintf (fp, ";Parser not yet finished upbeat bug present:\n %s", script->str);
         fclose (fp);
       }
   }
