@@ -733,7 +733,7 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
 
   if (((*current_voice != voicenum) && !(((initial_actual_notes) == 1) && (initial_normal_notes == 1))))
     {                           /* an unterminated tuplet in the last voice *///g_assert(*current_voice>0);
-      g_string_append (scripts[*current_voice], "(d-EndTuplet)");
+      g_string_append (scripts[*current_voice], "\n;Voice terminated during a tuplet\n(d-EndTuplet)");
 
       initial_actual_notes = 1;
       initial_normal_notes = 1;
@@ -1231,7 +1231,7 @@ mxmlinput (gchar * filename)
       }
   }
   g_string_append (script, "(d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)(d-MoveToBeginning)(if (and (not (None?))(UnderfullMeasure?))(d-Upbeat))   (d-DecreaseGuard)  ");
-#ifndef DEVELOPER
+#ifdef DEVELOPER
   {
     FILE *fp = fopen ("/home/rshann/junk.scm", "w");
     if (fp)
