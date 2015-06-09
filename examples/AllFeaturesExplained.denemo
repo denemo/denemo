@@ -68,7 +68,7 @@ print-all-headers = ##t
       </directive>
     </score-directives>
   </lilycontrol>
-  <movement-number>1</movement-number>
+  <movement-number>2</movement-number>
   <movement>
     <edit-info>
       <staffno>1</staffno>
@@ -500,9 +500,9 @@ Alternatively in the Notes/Rests-&gt;Beaming menu.\")"             ⬆Explanatio
   </movement>
   <movement>
     <edit-info>
-      <staffno>2</staffno>
+      <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>11</cursorposition>
+      <cursorposition>4</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -570,17 +570,17 @@ Alternatively in the Notes/Rests-&gt;Beaming menu.\")"             ⬆Explanatio
               <override>4</override>
             </directive>
             <directive>
-              <tag>ContextPianoStaff</tag>
+              <tag>PianoStaffStart</tag>
               <prefix> \new PianoStaff &lt;&lt;
 </prefix>
-              <display>ContextPianoStaff</display>
-              <override>20</override>
+              <display>Piano Staff Start</display>
+              <override>52</override>
             </directive>
           </staff-directives>
         </voice-props>
         <measures>
           <measure>
-            <lily-directive tag="TextAnnotation&#10;Explanation ⬊" display="Explanation" grob="Text" prefix="&lt;&gt;-\tweak #'extra-offset #'( -26 . -2 )" minpixels="30">-\markup {    \with-url #'"scheme:(d-InfoDialog \"The braces are created using Staff-&gt;Staff Groupings command. Put the cursor on the upper staff and click Piano Group Start then on the lower and use Piano Group End. Or use a template.\")"             "Explanation  &gt; "}</lily-directive>
+            <lily-directive tag="TextAnnotation&#10;Explanation ⬊" display="Explanation" grob="Text" prefix="&lt;&gt;-\tweak #'extra-offset #'( -26 . -2 )" minpixels="30">-\markup {    \with-url #'"scheme:(d-InfoDialog \"The braces are created using Staff-&gt;Staff Groupings command. Or add a complete piano staff using Staff-&gt;Add Staff-&gt;Add Piano Staff. Or use a template.\")"             "Explanation  &gt; "}</lily-directive>
             <chord show="true" id="id77">
               <duration base="half"></duration>
               <notes>
@@ -641,11 +641,12 @@ The input Denemo Display gives you an indicator of what you have done. If you wa
               <override>4</override>
             </directive>
             <directive>
-              <tag>ContextPianoStaff</tag>
-              <postfix> &gt;&gt;
+              <tag>BraceEnd</tag>
+              <postfix> &gt;&gt;%Brace End
 </postfix>
-              <display>ContextPianoStaff</display>
-              <override>20</override>
+              <display>Brace End</display>
+              <data>1</data>
+              <override>52</override>
             </directive>
           </staff-directives>
         </voice-props>
