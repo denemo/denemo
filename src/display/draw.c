@@ -495,7 +495,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 
         if (cr)
           if (thechord->slur_end_p)
-            draw_slur (cr, &(itp->slur_stack), x + mudelaitem->x, y);
+            draw_slur (cr, &(itp->slur_stack), x + mudelaitem->x + 5/*half note head??? */, y);
         if (thechord->slur_begin_p)
           itp->slur_stack = push_slur_stack (itp->slur_stack, x + mudelaitem->x);
 

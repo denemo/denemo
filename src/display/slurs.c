@@ -78,8 +78,8 @@ draw_slur_end (cairo_t * cr, gint x, gint y)
 {
 
   cairo_set_line_width (cr, 1.0);
-  cairo_move_to (cr, x, y - 15);
-  cairo_rel_line_to (cr, -8, -4);
+  cairo_move_to (cr, x + 5, y - 15);
+  cairo_rel_line_to (cr, -9, -4);
   cairo_stroke (cr);
 
 }
