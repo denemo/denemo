@@ -850,7 +850,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                   if (Denemo.prefs.learning)
                     MouseGestureShow(_("Left Click on blue."), _("This adds one sharp."),
                       MouseGesture);
-                if (pi.nextmeasure || confirm (_("Initial Key Signature Change"), _("Sharpen Keysignature?")))
+                if ((gui->movement->currentmeasure->next==NULL)  || confirm (_("Initial Key Signature Change"), _("Sharpen Keysignature?")))
                   call_out_to_guile ("(d-SharpenInitialKeysigs)");
                 }
               else if (offset > 0 && (offset < STAFF_HEIGHT))
@@ -858,7 +858,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                   if (Denemo.prefs.learning)
                     MouseGestureShow(_("Left Click on red."), _("This adds one flat."),
                       MouseGesture);
-                  if (pi.nextmeasure || confirm (_("Initial Key Signature Change"), _("Flatten Keysignature?")))
+                  if ((gui->movement->currentmeasure->next==NULL) || confirm (_("Initial Key Signature Change"), _("Flatten Keysignature?")))
                     call_out_to_guile ("(d-FlattenInitialKeysigs)");
                 }
             }
