@@ -1,0 +1,6623 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\date{}
+\pagenumbering{roman}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Denemo User Manual
+\end_layout
+
+\begin_layout Author
+Richard Shann
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset CommandInset href
+LatexCommand href
+name "richard@rshann.plus.com"
+target "richard@rshann.plus.com"
+type "mailto:"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+This Manual is released under the 
+\begin_inset CommandInset href
+LatexCommand href
+name "Creative Commons Attribution-Share Alike 3.0 Unported"
+target "http://creativecommons.org/licenses/by-sa/3.0"
+
+\end_inset
+
+ license.
+\end_layout
+
+\begin_layout Standard
+\align center
+Copyright © 2009, 2010, 2011, 2012, 2013, 2014, 2015 Denemo Project
+\end_layout
+
+\begin_layout Standard
+\align center
+Denemo 1 Updates for version 1.2.4
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Getting Started
+\end_layout
+
+\begin_layout Section*
+Introduction 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+(Temporarily) pull the pagenumbering command out before HTML export.
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagenumbering{arabic} 
+\backslash
+setcounter{page}{1} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Denemo lets you create musical scores.
+ You can type music in using the keyboard or play it in using a MIDI contoller
+ or the microphone input.
+ You can edit your music - the input display window shows you what you are
+ working on in music notation - and you can playback to check how it sounds.
+ The Print View window shows the final printed score and typeset to the
+ highest standards used in the music publishing industry - thanks to the
+ Lilypond music typesetting program.
+\end_layout
+
+\begin_layout Standard
+This separation of the final typesetting window from the input display avoids
+ the constant dragging about of overlapping notation which is typical of
+ music notation programs.
+ Nevertheless, if you do wish to tweak the appearance dragging and re-positionin
+g of notation is possible on the final typeset display.
+\end_layout
+
+\begin_layout Section
+Input Methods
+\end_layout
+
+\begin_layout Standard
+Most people will start with playing around with Denemo via the pc keyboard.
+ By default, keys 
+\family typewriter
+a-g
+\family default
+ represent the note names and 
+\family typewriter
+0-6
+\family default
+ the different durations (whole note, half note etc).
+ When the cursor is appending (blue) pressing key 
+\family typewriter
+0
+\family default
+ will insert a whole note at the cursor.
+ Pressing the 
+\family typewriter
+a
+\family default
+ key will append the nearest A.
+ If the duration of the next note is the same you can simply type the note
+ name, it will use the last entered duration.
+ There are keypresses (+/-, and plus/minus on the numeric keypad) to set
+ sharp/flat/double-sharp/double-flat for the next entered note and to sharpen
+ or flatten.
+ Use +/- with the shift key to sharpen or flatten an existing note.
+ Likewise, Shift with a number key edits the duration of a note.
+ 
+\end_layout
+
+\begin_layout Standard
+When the cursor is moved on to a note (with the arrow key or mouse) the
+ cursor turns green and then 
+\family typewriter
+a
+\family default
+-
+\family typewriter
+g
+\family default
+ edits the note name.
+ To insert a note before a note at the cursor use a double strike 
+\family typewriter
+A
+\family default
+,
+\family typewriter
+A-G
+\family default
+,
+\family typewriter
+G
+\family default
+.
+ When the cursor is green the keys
+\family typewriter
+ 0-6
+\family default
+ change the duration of the note, while Shift-
+\family typewriter
+0-6
+\family default
+ insert a note before the cursor.
+ (If you use the numeric keypad you can use 
+\family typewriter
+Shift-KP 0-6
+\family default
+ for this).
+ The arrow keys move the cursor around, the period key adds a dot while
+ 
+\family typewriter
+Alt-a-g
+\family default
+ add notes to the chord at the cursor.
+ 
+\family typewriter
+Ins
+\family default
+ inserts a note in a chord whether the cursor is on (green) or after (blue)
+ a note, a double 
+\family typewriter
+Del
+\family default
+, 
+\family typewriter
+Del
+\family default
+ removes it.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+When in the appending position the cursor shows as a large blue or red rectangle
+ on a note-position.
+ Blue indicates a note can be appended at that point without overflowing
+ the measure.
+ Red indicates that the measure is already full.
+ When the cursor is a smaller green rectangle it indicates that you are
+ not in the appending position: you can edit the note/object at the cursor
+ or insert before it.
+ The vertical blue line indicates the insertion point.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For a more detailed description of Denemo's various input methods, see 
+\begin_inset CommandInset ref
+LatexCommand nameref
+reference "sec:A-Survey-of-Input-Methods"
+
+\end_inset
+
+.
+ You can find more shortcuts by exploring the menu system - e.g.
+ under the Notes/Rests menu the Select Duration submenu gives Remove Dot
+ with the shortcut Control-period shown next to the command.
+ 
+\end_layout
+
+\begin_layout Standard
+Alternatively, a list is available in the Help menu.
+ There are thousands of commands in Denemo, so get to know the Command Center
+ where you can search for commands by key words such as slur, ossia, beam,
+ Da Capo, cresc.
+ etc.
+\end_layout
+
+\begin_layout Standard
+Initially, Denemo starts with tooltips popping up almost everywhere.
+ When they become too annoying you can tame them with Help->Turn Excessive
+ Tooltips (Off/On), and you can further delay the remaining tooltips appearing
+ via Edit->Change Preferences.
+\end_layout
+
+\begin_layout Subsection
+Some Common Keyboard Shortcuts
+\end_layout
+
+\begin_layout Standard
+Here are a few of the keyboard shortcuts that are commonly used in Denemo.
+\end_layout
+
+\begin_layout Itemize
+Letters 
+\family typewriter
+a-g
+\family default
+ edit the note at the cursor to be A-G, if the cursor is in the appending
+ position then notes are added.
+ Letters 
+\family typewriter
+A-G
+\family default
+ (either 
+\family typewriter
+CapsLock
+\family default
+ or 
+\family typewriter
+Shift
+\family default
+) insert a note at the cursor.
+ 
+\end_layout
+
+\begin_layout Itemize
+Numbers 
+\family typewriter
+0-6
+\family default
+ are used to refer to the note durations Whole Note ...
+ 64th Note.
+ They insert a duration at the cursor, which you then give a pitch to with
+ a note name.
+ With the shift key held (or the CapsLock on) 
+\family typewriter
+0-6
+\family default
+ edits the duration of the note at the cursor.
+ The corresponding Numeric Keypad keys can be used instead.
+\end_layout
+
+\begin_layout Itemize
+The period (
+\family typewriter
+.
+\family default
+) dots a note, 
+\family typewriter
+Ctrl-.
+
+\family default
+ removes a dot.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+Alt-0-6
+\family default
+ inserts a rest.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+Alt-a-g
+\family default
+ Add notes to a chord.
+ Or position the cursor and use 
+\family typewriter
+Insert
+\family default
+ to add a note, 
+\family typewriter
+Ctrl-Insert
+\family default
+ to remove it.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+7
+\family default
+ starts a slur, 
+\family typewriter
+8
+\family default
+ extends it, while 
+\family typewriter
+9
+\family default
+ reduces it.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+Shift-/
+\family default
+ inserts a cautionary accidental.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+Esc
+\family default
+ switches between various views of the music which can allow more music
+ on the screen at once.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+TAB
+\family default
+ alternately inserts a start or stop triplet marker.
+\end_layout
+
+\begin_layout Itemize
+Multiply (
+\family typewriter
+*
+\family default
+ on the numeric keypad) ties/unties the note at the cursor.
+\end_layout
+
+\begin_layout Itemize
+Divide (
+\family typewriter
+/
+\family default
+ on the numeric keypad) sets/usets the note at the cursor as a grace note.
+\end_layout
+
+\begin_layout Itemize
+Add/Subtract (
+\family typewriter
++/-
+\family default
+ on the numeric keypad) sharpens/flattens the note at the cursor.
+\end_layout
+
+\begin_layout Standard
+Two-key shortcuts are also available such as "
+\family typewriter
+B
+\family default
+,
+\family typewriter
+s
+\family default
+" for start repeat barline and "
+\family typewriter
+B
+\family default
+,
+\family typewriter
+e
+\family default
+" for end repeat barline.
+ 
+\end_layout
+
+\begin_layout Subsection
+Some Common Mouse Shortcuts
+\end_layout
+
+\begin_layout Standard
+Here are a few of the mouse shortcuts that are commonly used in Denemo (keyboard
+s may vary, for control, shift, alt etc modifiers).
+ Note that under the Input menu is an option to turn on more mouse-friendly
+ buttons, this is the default for Windows users.
+\end_layout
+
+\begin_layout Itemize
+Scroll Wheel pans up/down to bring staffs out of view into the window.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+Shift
+\family default
+ Key and Scroll Wheel pans the score left/right.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+Control
+\family default
+ Key and Scroll Wheel zooms.
+\end_layout
+
+\begin_layout Itemize
+Right-button click edits at the cursor.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+Shift
+\family default
+-right-button click edits things attached to the object at the cursor.
+\end_layout
+
+\begin_layout Itemize
+Double click left-button describes the object clicked on.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+Ctrl-Shift
+\family default
+ left-button drag allow you to move stuff in the display if it is cluttered.
+ Typesettting is not affected.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+Ctrl-Shift
+\family default
+ Key and Right mouse button gives the menu of directives to insert at the
+ cursor.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+Shift
+\family default
+ Key and Left mouse button drags notes up and down.
+\end_layout
+
+\begin_layout Subsection
+Some Common Uses of MIDI in
+\end_layout
+
+\begin_layout Standard
+The MIDI keyboard too can be customized to perform different actions.
+ Usually, playing notes adds or edits the score (like hitting note names
+ at the pc-keyboard).
+ With the sustain pedal pressed chords are generated (the Alt key can be
+ used for this too).
+ If the interval between the notes played is augmented or diminished it
+ is played on a different channel, so that you are alerted to possible pitch
+ spelling errors (e.g.
+ inputting A-sharp for B-flat).
+ By holding down the 
+\family typewriter
+Ctrl
+\family default
+ key a score can be checked by playing the notes - the cursor only advances
+ if the correct note is played, and the 
+\family typewriter
+Shift
+\family default
+ key can be held down to route the MIDI keyboard straight to the output
+ (e.g.
+ to check a phrase before playing it in).
+ There is a button in the MIDI-in Controls to do this too.
+ The Pitch Bend controller can be used to set the range of sharps and flats
+ to be used, and the modulation controller can be used to mark sections
+ of the music.
+ With the MIDI controller set as Input source (Input menu) the duration
+ keys create pure durations (notes colored yellow/brown) - you can enter
+ as much of the rhythm as you wish, and then play the notes on top.
+\end_layout
+
+\begin_layout Standard
+Denemo is used via the computer keyboard, MIDI controller or playing in
+ via a musical instrument.
+ Clicking on a musical item in the score moves the cursor to it, and the
+ status bar at the bottom will describe the item clicked.
+ Double-clicking the item will describe it in more detail.
+ Right-clicking on items in the score allows you perform the most common
+ edits on it.Clicking on the initial clef, key or timesignature lets you
+ edit these, clicking to the right or left of the measures visible moves
+ you forwards and backwards in the score.
+ Selections can be made by dragging with the mouse from one note to another
+ or off to one side (the window then scrolls).
+ And right-clicking any menu item gets help and the opportunity to set a
+ shortcuts for the menu item.
+\end_layout
+
+\begin_layout Subsection
+Note and Rest Entry Palettes
+\end_layout
+
+\begin_layout Standard
+On starting Denemo for the very first time a series of palettes are placed
+ near the main window with buttons to insert and change notes.
+ For more serious use these just waste space, so by right clicking on them
+ and choosing Edit this Palette they can be hidden.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Using Denemo
+\end_layout
+
+\begin_layout Section
+General Concepts
+\end_layout
+
+\begin_layout Standard
+The unit of work in Denemo is a musical score, which can be saved in a single
+ file (with .denemo suffix).
+ This is represented on the screen by a "tab".
+ If you have several tabs open at once they appear just above the music
+ in the main window, and you can switch between them by clicking on the
+ tab.
+\end_layout
+
+\begin_layout Standard
+One score may contain several movements, which you can move between (
+\family typewriter
+PgUp
+\family default
+, 
+\family typewriter
+PgDown
+\family default
+), insert duplicate, merge and delete with the Movements menu.
+ A movement is a continuous piece of music with titles etc.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+When you have more than one movement numbered buttons appear in the score
+ title bar for you to navigate by.
+ The first thing on the status bar after any pending accidental is the movement
+ number.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Within a movement there are staffs (arranged vertically) and within the
+ staffs Denemo Objects.
+ These can be notes, chords, key changes, time signature changes and Denemo
+ Directives (see 
+\begin_inset CommandInset ref
+LatexCommand nameref
+reference "sec:Denemo-Directives"
+
+\end_inset
+
+).
+ The notes and chords are displayed in conventional format (though not fully
+ typeset).
+ The Denemo Directives are used for most things that are not chords or notes
+ etc: Metronome marks, repeat barlines etc are good examples.
+ They can also be attached to chords, individual notes in a chord, to a
+ staff as a whole and to the score as a whole; in this case the directive
+ can be thought of as an attribute of the object it is attached to.
+ Each Denemo Directive carries its own display method.
+ For example the Close Repeat barline appears as a Denemo Object in the
+ input display, while a Directive attached to a staff (e.g.
+ Instrument Name, or Smaller Staff Size) may appear in a menu under a tools
+ icon to the right of the staff.
+ In the case of "Smaller Staff" the directive directs the LilyPond typesetter
+ to make the staff smaller, and it can be edited from the menu under the
+ tools icon to the left of the clef.
+ Another tools icon appears if directives are attached to voices within
+ a staff, again to the left of the clef, below the staff one.
+\end_layout
+
+\begin_layout Standard
+If there is more than one voice on a staff it is best displayed on a separate
+ staff in the Denemo Display, for ease of editing - the clef is drawn pale
+ and there is no timesignature for such extra voices so it is easy to understand
+ what is going on.
+ The Print Preview window as usual shows the final typeset appearance.
+\end_layout
+
+\begin_layout Standard
+In the Denemo display a cursor shows where the next note will be entered/edited.
+ It is red for an over-full bar, blue for appending into an under-full one
+ and green when editing (i.e.
+ on an already entered object).
+\end_layout
+
+\begin_layout Standard
+There are two sorts of titles.
+ Book titles have a separate title page with titles for individual movements
+ which can be listed in an automatically generated table of contents.
+ Simple titles give a Title and (optionally) movement titles on the same
+ page.
+ Comments can be place on chords in the score and these can be automatically
+ collected into an appendix.
+\end_layout
+
+\begin_layout Standard
+When a file is loaded it opens at the point where you left off editing it.
+ The position and size of the window is restored as well as the position
+ and size of the source pdf you are transcribing from.
+\end_layout
+
+\begin_layout Section
+Denemo Input Window
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+(Need new screenshots)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Denemo Main Window
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename images/denemomain.png
+	lyxscale 80
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The main window has menus and toolbars at the top, and palettes at top and
+ right hand side.
+ Which menus and palettes are shown are selected via the View menu.
+ At the bottom is a status line showing which movement you are in and what
+ sort of object the cursor is on.
+ If there are any MIDI filters that active they will be noted at the right
+ in the status bar.
+ The small colored rectangle is the Denemo Cursor, which shows where notes
+ etc will be added/edited next - the insertion point is marked as a blue
+ vertical bar.
+ Selected music is indicated by a green background.
+\end_layout
+
+\begin_layout Standard
+In between is where the music input is displayed, the Denemo Display area.
+ When zoomed out you see just the few measures you are working on.
+ By dragging the red bar at the bottom of the score upwards you get space
+ for more of the music.
+ If you have many staffs they may not all fit: you can still drag the red
+ bar upwards to see several lines of just one or two staffs for instance.
+ If you need more room you can hide the menus (using the View Menu), and
+ arrange a "page view" of the input music - useful when using playback.
+\end_layout
+
+\begin_layout Standard
+The menus in Denemo are unusual: they not only let you do some particular
+ action, but also each menu item lets add the command to a palette, enquire
+ what the action does in more detail and set keyboard/mouse shortcuts for
+ the action.
+ A single keystroke can be set as a shortcut simply by pressing the key
+ while the menu item is selected.
+ All the extra functionality of menu items can be accessed by right-clicking
+ the menu item, while the usual left click is for executing the action itself.
+ The menus can always be torn off for working with particular items (e.g.
+ working with different movements or with measures, dynamics etc.).
+ When you place a commands in a palette, and you can choose or create any
+ number of these, free-floating or docked in the main display.
+ Also available by right-clicking is creating new actions - often by modifying
+ ones that are already there - using the Scheme scripting window.
+\end_layout
+
+\begin_layout Subsection
+The Main Menubar
+\end_layout
+
+\begin_layout Standard
+The Main Menubar has menus for overall control of the program.
+ It contains the following submenus:
+\end_layout
+
+\begin_layout Itemize
+File
+\end_layout
+
+\begin_layout Itemize
+Navigation
+\end_layout
+
+\begin_layout Itemize
+Edit
+\end_layout
+
+\begin_layout Itemize
+View
+\end_layout
+
+\begin_layout Itemize
+Input
+\end_layout
+
+\begin_layout Itemize
+Playback
+\end_layout
+
+\begin_layout Itemize
+More
+\end_layout
+
+\begin_layout Itemize
+Educational
+\end_layout
+
+\begin_layout Itemize
+Help
+\end_layout
+
+\begin_layout Subsubsection
+File
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+This menu has been re-organized and much expanded, so the following is only
+ a rough guide.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Use the 
+\series bold
+File
+\series default
+ menu to perform global operations related to storing and retrieving from
+ file systems.
+ The File menu contains the following Menu Items:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="20" columns="2">
+<features islongtable="true" longtabularalignment="center">
+<column alignment="left" valignment="top" width="30text%">
+<column alignment="left" valignment="top" width="70text%">
+<row endhead="true" endfirsthead="true">
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Menu Item
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+New
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create score from scratch.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Open
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Open an existing Denemo file
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Add Movements
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Open an existing Denemo file and append the movements from it to the current
+ score
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Add Staffs 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Open an existing Denemo file and append the staffs from the (first) movement
+ of it to the staffs in the current movement.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Open Recent
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Open a file recently edited.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Open Standard Template
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create score from a stock template.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Open from Gallery
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create score from an example in the Gallery.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Open Custom Template
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create score from a template you have saved.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+New Window
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Open another instance of Denemo.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Open in New
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Open an existing Denemo filein a new tab (or "page") so that both can be
+ used at once.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Save
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Save the current file.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Save As
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Save the current file with a new name.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Save Parts
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Saves a set of parts (staves) in LilyPond format.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Export PDF
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Run LilyPond on the current file to create a PDF.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Print
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Displays the score in a pdf view, from which it can be printed.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Print Excerpt
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Displays only the selection in image viewer, from which it can be saved.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Print Current Part
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Displays one part taken from the score in a pdf view, from which it can
+ be printed.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Close
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Close the current score but keep other Denemo scores open.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Quit
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Close the current scores and exitDenemo.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Edit
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+This menu has been expanded, so the following only covers some of the possibilit
+ies.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Use the Edit menu to access common editing commands.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="12" columns="2">
+<features islongtable="true" longtabularalignment="center">
+<column alignment="left" valignment="top" width="30text%">
+<column alignment="left" valignment="top" width="70text%">
+<row endhead="true" endfirsthead="true">
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Menu Item
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Undo
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Undo the pitch and rhythm just added.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Redo
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Redo the pitch and rhythm just added.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Select
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Menu items for selecting music in the score.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cut
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Copy the selected notation to the clipboard and deletethe selection.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Copy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Copy the selected notation to the clipboard.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Paste
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Paste the copied notation at the cursor point.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Paste LilyPond Notes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Paste text as LilyPond notes.
+ Open a .ly file in a text editor, copy some notes and then execute this
+ command to capture them into Denemo.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Edit Object
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A general interface to editing whatever is at the cursor, especially Directives
+ attached to notes/chords.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Change Preferences
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Set external programs (LilyPond, Browser, Graphics Editor etc.), autosave
+ interval etc.
+ These values will be remembered when you re-start the program
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Commands Behavior
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Quick Settings checkbox
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+One touch setting of keyboad shortcuts
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+View
+\end_layout
+
+\begin_layout Standard
+Use the View menu to toggle toolbars and palettes used with the mouse.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="17" columns="2">
+<features islongtable="true" longtabularalignment="center">
+<column alignment="left" valignment="top" width="30text%">
+<column alignment="left" valignment="top" width="70text%">
+<row endhead="true" endfirsthead="true">
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Menu Item
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Hide/Show Menus
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Three ways of showing the Denemo display area are supported.
+ With/without the menus and as a multiline page.
+ This cycles through the three displays.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Typeset Music
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Shows the score as engraved by the LilyPond typesetter.
+ You cannot edit in this window, but you can position the cursor in the
+ display and drag some items to indicate how you want an item edited.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Command Center
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Search for commands by entering likely words, set up one or two key shortcuts,
+ load customized shortcuts or commands ...
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Score Layout
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Show the score layouts associated with this score.
+ The score layout is the final section of the LilyPond syntax that describes
+ how to layout the staffs, voices, lyrics, titles etc.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Lyrics
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Shows any lyrics for the current staff/voice.
+ Each verse has its own tab, when selected the lyric placement shows in
+ the Denemo display, so you can adjust by typing in the lyrics view window
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Snippets
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Shows a menu bar with snippets - custom rhythm patterns.
+ Enter snippets by selecting patterns and then use them as the an extended
+ version of the prevailing duration, or insert them and overlay the inserted
+ rhythms with pitches via keyboard, MIDI-keyboard or microphone
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tools
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The conventional icons for Open, Print etc
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Playback Controls
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+When checked a set of playback/record controls are placed above the display
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Midi In Control
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+When checked a set of controls for a connected MIDI keyboard are placed
+ above the display
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Score Titles, Controls etc
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+If this is checked any Titles, indent settings etc applying to the score
+ can be shown as buttons above the display.
+ They must be created with their graphic field set for this.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Object Menu
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Menus of all the Denemo commands listed under type of object from Score
+ down to individual notes and directives.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LilyPond
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pops up a window for customizing the syntax that Denemo generates for the
+ LilyPond engraver to typeset
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Scheme Script
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pops up a window for showing scripts written in Scheme.
+ These can be executed or saved as new commands.
+ Sequences of commands can be recorded here.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Score
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+This hides/shows the main Denemo display.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Palettes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gives access to palettes of buttons that can be arraged to make commands
+ available via mouse or keyboard (via the Activate Palette Button command).
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Display Zoom
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zoom the main Denemo display (usually done with ctrl-mouse wheel).
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Input
+\end_layout
+
+\begin_layout Standard
+Choose whether to use external sources (Audio from the Mic input or MIDI)
+ for Denemo.
+ To use these you may need to review the settings in Edit->Prefs first.
+\end_layout
+
+\begin_layout Standard
+Here too there are commands to change the way the inputs (keyboard, mouse
+ and MID) behave.
+\end_layout
+
+\begin_layout Subsubsection
+More
+\end_layout
+
+\begin_layout Standard
+Add commands to Denemo.
+ Extra commands are available (those which not everyone will want) via this
+ menu.
+ More Commands gives commands shipped with Denemo, while My Commands gives
+ ones that you have created locally.
+ Note that the extra commands can also be loaded at the menu where you are
+ looking for them (you right-click on a menu item, and if there are more
+ commands for that menu the More Commands for this Menu item will show),
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Playback
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+This menu has been expanded, so the following only covers some of the possibilit
+ies.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Use the Playback menu to listen to your score.
+ Denemo lets you hear your score, using an internal synthesizer.
+ Playing of sections of the music and looping is possible (including editing
+ as the music loops, so that you can listen to different possibilities)
+ as well as recording the audio output (mixed with anything you play on
+ your MIDI keyboard if you have recording set in the MIDI controls)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="30text%">
+<column alignment="left" valignment="top">
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Menu Item
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Play
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Plays from the start marker to the end marker
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Stop
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Stops the playback
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Help
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+This menu has been expanded, so the following only covers some of the possibilit
+ies.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Use the Help menu to get help using Denemo.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="30text%">
+<column alignment="left" valignment="top">
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Menu Item
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Help
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Launch a browser to view this manual.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Chat to Other Users
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Connects you to a site with other users to give advice.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+About
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+View Denemo version information.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Toolbar
+\end_layout
+
+\begin_layout Standard
+Use the Toolbar to access common Denemo commands via a mouse click.
+ The Toolbar contains the following icons:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="12" columns="2">
+<features islongtable="true" longtabularalignment="center">
+<column alignment="center" valignment="top">
+<column alignment="left" valignment="top" width="80text%">
+<row endhead="true" endfirsthead="true">
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Icon
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/new.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Creates a new document.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/open.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Opens the Open File dialog box.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/save.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Saves the current file
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/print.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Runs LilyPond to convert the current file to PDF and sends it to the printer
+ for printing
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/undo.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Undoes the last action.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/redo.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Redoes the previous undo action.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/cut.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cuts the current selection to the clipboard.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/copy.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Copies the selected notation to the clipboard.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/paste.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pastes the current clipboard item at the cursor position.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/gotobegin.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Jumps to the first measure of the movement.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/gotoend.png
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Jumps to the last measure of the movement.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Playback Controls
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/playbackcontrols.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+This panel has been expanded, so the following only covers some of the possibili
+ties.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Use this panel to control playback of the current movement.
+ It has the following controls:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="22" columns="2">
+<features islongtable="true" longtabularalignment="center">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top" width="80text%">
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Icon
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Runs DenemoFirst script.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Runs DenemoGoBack script.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Moves the start playback position backwards.
+ Runs DenemoGoBack script.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sets start playback position to cursor.
+ Runs DenemoStartToCursor script.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Moves the start playback position forwards.
+ Runs DenemoNext script.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Runs DenemoRewind script.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Runs DenemoStop script.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Runs DenemoPlay script.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Starts playing back while recording from MIDI-in.(Runs DenemoRecord scriptto
+ do this).
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Moves the end playback position backwards.Runs DenemoGoForward script.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sets the end playback position to the cursor.Runs DenemoEndToCursor script.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Moves the end playback position forwards.
+ Runs DenemoLast script.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Loop
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Runs DenemoLoop script.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Conductor
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+When you press Play the music advances past the cursor only while the mouse
+ is moving.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reset
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Internal Synth only.
+ Performs a reset on the synth.
+ Also resets the start/end play positions to whole piece (the visual display
+ shows just a red bar at the start)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Panic
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Jack only.
+ Emits jack panic.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Set from Selection
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sets the selection to be the start/end.
+ Note first use in a session is buggy.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tempo
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+For movements with a single tempo this tempo is changed for rest of the
+ playback.
+ If the movement has an embedded MIDI tempo change, the change will be altered
+ proportionally.
+ The movement tempo setting itself is not altered - you are just altering
+ the playback.(See next button or Movements->MIDI Tempo for setting that)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Set Tempo
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sets the overall tempo of the movement to the value fixed by the Tempo slider
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Volume
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Reduces the current volume by the % set.
+ Again, this applies only to playback and proportionally affects embedded
+ dynamics.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Set
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Calls the DenemoSetPlaybackIntervalToSelection script.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Midi In Controls
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+This panel has been extended, the following is a rough guide.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Use this panel to control MIDI input to the current movement.
+ It has the following controls:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="30text%">
+<column alignment="left" valignment="top" width="70text%">
+<row endhead="true" endfirsthead="true">
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Icon
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sets the end sharps and flats to use.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MIDI->Score
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Directs the MIDI in to the score or to a MIDI recorder.
+ The MIDI recorder is active when Record button is pressed.
+ When you wish to return to score editing, this button re-directs MIDI-in
+ to the score.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Delete
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Deletes your MIDI recording.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Convert
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Converts your MIDI recording to Notation.
+ (
+\emph on
+Not yet at all practical!
+\emph default
+)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MIDI Status
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tells you how MIDI in will be treated.
+ Press Control/Shift/Alt keys to modify or click and select Listening to
+ input MIDI, Checking notes in the score against input MIDI or Appending/Editing
+ at the cursor.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Switch to Play Along Playback
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+When you press Play with this option set, the music will not advance past
+ the cursor until you play the note.
+ (Mute the current staff to prevent double sounding of notes)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Object Menu
+\end_layout
+
+\begin_layout Standard
+The object menus give you actions (such as insert, delete ...) ordered by the
+ objects (notes, staffs, measures ...) that they act on.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="12" columns="2">
+<features islongtable="true" longtabularalignment="center">
+<column alignment="left" valignment="top" width="30text%">
+<column alignment="left" valignment="top" width="70text%">
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Menu Item
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Score
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Settings that apply to the whole score.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Movements
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Insert/remove navigate, change the properties of movements.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Staffs/Voices
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Insert/remove, navigate, swap, change the properties of staffs or voices
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Clefs
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Insert, change or set the initial clef.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Keys
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Insert a change or set the initial key.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time Signatures
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Insert a change or set the initial time signature.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Measures
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Insert/remove navigate measures.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Chords
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Insert/remove notes from a chord.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Notes/Rests
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Menu items for inserting/changing/deleting note and rests, beaming, ties,
+ slurs, setting the notehead style, grace notes, triplets, transposing,
+ markings (e.g.
+ hairpins) attached to notes and more 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Directives
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+These are objects inserted between the notes of a score to place marks or
+ start/stop spanning effects such as textual cresc.
+ dim., cadenzas, ottava, chord symbols, figured basses, fret diagrams and
+ more.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row endhead="true" endfirsthead="true">
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Lyrics
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Create and delete lyrics.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Score
+\end_layout
+
+\begin_layout Standard
+In the score properties dialog things that affect the whole piece can be
+ set.
+ In the score properties dialog you can include directives to apply to all
+ the movements.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+When a file is loaded it opens with the cursor at the last saved position.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Adding Markings
+\end_layout
+
+\begin_layout Standard
+Dynamics, Slurs, Trills, Tempo Indications etc are in the Notes/Rests menu
+ (if attached to a note or chord) or Directives menu (if standalone objects)
+ 
+\end_layout
+
+\begin_layout Standard
+You can collect together your favorite ones, either by assigning shortcuts,
+ or creating a palette of favorite commands which just invoke the action
+ you use.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Palettes
+\end_layout
+
+\begin_layout Standard
+In the View menu you can select palettes of commands to use.
+ Palette items can be invoked from the keyboard (see the Edit Menu) or by
+ clicking on them.
+ Right-clicking on a palette button allows you to edit the button or the
+ entire palette.
+ You can dock the palette in the main display, arrange it as a column, line
+ or block and much more.
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:The-Command-Center"
+
+\end_inset
+
+The Command Center
+\end_layout
+
+\begin_layout Standard
+In the View menu you can show the Command Center.
+ This has a list of all the Denemo commands, hidden or not, with their shortcut(
+s).
+ The box at the top left gives full details of the currently selected command
+ and its location in the menu system.
+ Below that is a search box for finding any command you need by matching
+ words in its description or label.
+\end_layout
+
+\begin_layout Standard
+The search starts as you type in the first letter of any key words you want,
+ so check after each letter to see if you have found the command you need.
+ To search for further commands matching your keywords press the arrow next
+ to the search box.
+ 
+\end_layout
+
+\begin_layout Standard
+The command center is also where you can set one-key shortcuts such as 
+\family typewriter
+Ctrl-x
+\family default
+ and two-key shortcuts such as 
+\family typewriter
+Shift-a
+\family default
+ followed by 
+\family typewriter
+Shift-a
+\family default
+ (which is written as 
+\family typewriter
+A
+\family default
+,
+\family typewriter
+A
+\family default
+ next to the command).
+ You can also lookup which command responds to a given shortcut, and execute
+ the selected command here.
+\end_layout
+
+\begin_layout Standard
+In addition you can save and load whole sets of shortcuts and commands.
+ 
+\end_layout
+
+\begin_layout Section
+Music Snippets
+\end_layout
+
+\begin_layout Subsection
+Overview
+\end_layout
+
+\begin_layout Standard
+Music snippets are short selections from a voice which can be stored on
+ the Snippet tool bar.
+ They have two main uses: they can act as a repository of 
+\begin_inset Quotes eld
+\end_inset
+
+motifs
+\begin_inset Quotes erd
+\end_inset
+
+ which can be inserted (
+\family typewriter
+Ctrl-Space
+\family default
+) at the cursor, and they can be used as an extension to the 
+\begin_inset Quotes eld
+\end_inset
+
+prevailing duration
+\begin_inset Quotes erd
+\end_inset
+
+ idea.
+ In the second use, by selecting a snippet as you enter pitches the durations
+ are assigned from the next step in the snippet.
+ The first case is especially useful when entering a complex rhythm which
+ is repeated many times in the piece.
+ In all cases the snippet can contain all sorts of attributes and markings,
+ slurs, beaming indications, ornaments etc, and these will then all be entered
+ with a single keypress or as you add pitches.
+\end_layout
+
+\begin_layout Subsection
+Basic Use
+\end_layout
+
+\begin_layout Standard
+The Snippet tool bar has only one button initially: 
+\begin_inset Quotes eld
+\end_inset
+
+Create
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This button lets you create a snippet from the current selection.
+ The selection should be a contiguous selection of objects in a single voice.
+ Once created the snippet appears on the snippet tool bar as a button -
+ the label is generated to indicate the content, and this label can be further
+ edited by clicking on the button and choosing 
+\begin_inset Quotes eld
+\end_inset
+
+Edit Label
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+The Print View Window
+\end_layout
+
+\begin_layout Standard
+The print view window is shown by checking View->Print View.
+ At the top are buttons to turn continuous typesetting off or on, and to
+ select Full score or Parts.
+ The mouse scroll buttons enable vertical panning and with Control pressed,
+ zooming.
+ Use Ctrl+Shft for finer control zoom.
+ Right click for help with tweaking beam angles, slurs etc.
+\end_layout
+
+\begin_layout Standard
+Right clicking in this pane also allows you to drag offsets to apply to
+ items that LilyPond has positioned badly.
+ Slurs and beaming can be altered here, and page or line breaks added.
+ Or you can select an amount of padding to apply to some object.
+ This is generally a better way of indicating that it is too close to something
+ else, since other objects will move away from it as needed - that is, if
+ you later edit something it will behave more intelligently.
+\end_layout
+
+\begin_layout Section
+The Score Layouts Window
+\end_layout
+
+\begin_layout Standard
+The score layouts window is shown by checking View->Score Layout.
+ 
+\end_layout
+
+\begin_layout Standard
+You can use layouts to print the music in different ways.
+ For example, one layout may have the score transposed, or be for just two
+ parts printed together.
+\end_layout
+
+\begin_layout Standard
+You can customize any layout in this window - positioning lyrics above the
+ staff rather than below for example, or setting the staff groupings.
+\end_layout
+
+\begin_layout Standard
+You can make Denemo Directives conditional on the score layout, so that
+ for example a page break only applies when printing the full score, or
+ is just for printing one part.
+ In this way if, for example, one part does not need separate first and
+ second time bars, then these can be marked as not being for that layout.
+ See Directives->Conditional Directives for setting this.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+The score layout can only be edited graphically when first created.
+ Once re-loaded from disk it is reduced to its LilyPond text form and can
+ then only be edited in the LilyPond view.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Score and Movement Button Bars
+\end_layout
+
+\begin_layout Standard
+The View->Titles, Buttons etc" checkbox makes two horizontal button bars
+ visible (if they have buttons on them).
+ What they the buttons show are titles/composer etc for the score and for
+ the current movement.
+ The score button bar holds the movement indicator buttons for scores that
+ have several movements - you can click on one of these to move quickly
+ to a different movement.
+ In addition other score-wide settings create buttons on the score titles
+ bar and movement wide settings on the movement titles bar.
+ The menu items that populate these are under Score->Titles etc., and Movement->T
+itles etc and other menus.
+ 
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:A-Survey-of-Input-Methods"
+
+\end_inset
+
+A Survey of the Input Methods
+\end_layout
+
+\begin_layout Subsection
+Introduction
+\end_layout
+
+\begin_layout Standard
+Denemo allows you to explore all the actions (insert/delete/edit/navigate...)
+ using the menus.
+ So, for example, inserting notes can be found under Notes/Rests while inserting
+ a Staff comes under Staffs/Voices.
+ When you have found the action you need hovering over the item will give
+ an explanation of what it does.
+ The keyboard or mouse shortcut to use for the command is in blue on the
+ right.
+ You can set the keyboard shortcut just by pressing the desired key while
+ the menu item is selected.
+ You can right click on the menu item to set a a two-key keyboard shortcut
+ or mouse shortcut to activate the action.
+ In addition you can customize the mouse actions to initiate commands, and
+ set the cursor that will show while certain mouse conditions apply.
+\end_layout
+
+\begin_layout Standard
+Denemo offers several ways of entering music: typing at the keyboard, playing
+ in via a MIDI keyboard (controller), playing in acoustically using a microphone
+ or choosing items from the menu system.
+ 
+\end_layout
+
+\begin_layout Standard
+Using the menus for everything would be very slow, but next to each menu
+ item is the keypress that you can use instead.
+ If there is no keypress shown, and you want to use that item often, then
+ right click on the menu item and you can set a key combination for that
+ menu action.
+ Right clicking is also useful for getting a description of what the menu
+ action is.
+ 
+\end_layout
+
+\begin_layout Standard
+Typing at the keyboard can be very fast, if you forget which keypress you
+ need you can consult the menu system to find out.
+ This method is good for touch typists.
+\end_layout
+
+\begin_layout Standard
+For entering a lot of already written-out music, playing the music in via
+ a MIDI keyboard or microphone can offer the fastest and most musical method.
+\end_layout
+
+\begin_layout Standard
+One way to do this is enter the music as pure rhythms, ignoring the note
+ names.
+ The durations show as yellow/brown notes.
+ Each duration sounds its own pitch and length as you enter the durations.
+ As you start each measure the bell will sound so that you can keep your
+ eyes on the score you are copying without needing to look up and check
+ that you haven't miss-typed.
+ If you are a reading musician you will find that you tap in the rhythm
+ rhythmically which helps to keep your place in the piece you are entering.
+ 
+\end_layout
+
+\begin_layout Standard
+Once you have entered the rhythms for one or two measures you play the notes
+ via MIDI - they automatically fill in the rhythm for you.
+ When you play notes in via MIDI they give their pitches to the rhythm you
+ have notated.
+ By this means you can enter a piece of music in the time taken to play
+ it twice - once to give the rhythm and once to give the pitches.
+ If the piece modulates strongly you may need to shift the set of accidentals
+ used to match the score.
+ If entering pitches via a mic you need to navigate to the start point,
+ but this isn't needed for MIDI in.
+\end_layout
+
+\begin_layout Subsection
+Playing Notes into Denemo - MIDI
+\end_layout
+
+\begin_layout Standard
+Denemo can take pitches directly from MIDI input.
+ Select Input->Midi Input.
+ The control panel allows you to choose the enharmonic range, the default
+ centers around the initial key signature (e.g.
+ E-flat to G-sharp for C-major).
+ If you enter a diminished or augmented interval the note will be played
+ in a separate MIDI channel which can be used to alert you to pitch-spelling
+ mistakes (e.g.
+ entering A-flat when G-sharp was meant, you will get a lot more augmented
+ and dimished intervals if you have the enharmonic range set wrongly for
+ your piece).
+ Under Input->MIDI are various "MIDI filters" that allow you to control
+ how the MIDI input is used: with none active the behavior is as if you
+ had entered the notes using the pc-keyboard, but with the following advantages
+ 
+\end_layout
+
+\begin_layout Itemize
+The octave, accidental and note name are all entered in one press of the
+ MIDI key.
+ The cursor automatically advances so you can continue to play in notes.
+\end_layout
+
+\begin_layout Itemize
+The duration keys enter the yellow/brown duration-only notes, when you play
+ a MIDI key the cursor automatically moves to the first of these.
+\end_layout
+
+\begin_layout Itemize
+Holding down the 
+\family typewriter
+Alt
+\family default
+ key (or sustain pedal) lets you enter chords.
+\end_layout
+
+\begin_layout Itemize
+Holding down the 
+\family typewriter
+Ctrl
+\family default
+ key lets you check the pitches of a piece already entered.
+ The cursor only advances if the note played is the one at the cursor.
+\end_layout
+
+\begin_layout Itemize
+Holding down the 
+\family typewriter
+Shift
+\family default
+ key lets you listen to the MIDI keyboard without affecting the score.
+\end_layout
+
+\begin_layout Itemize
+The problem of entering the wrong enharmonic is largely avoided by Denemo's
+ simple pitch-spelling strategy.
+ The more extreme intervals are played in a separate MIDI channel so that
+ if, for example you enter F - A-sharp it sounds quite distinct from F -
+ B-flat.
+\end_layout
+
+\begin_layout Standard
+The MIDI filters are scheme scripts, so they can be tailored to do whatever
+ you wish.
+ One example is a filter that enables you to enter Figured Bass figures
+ by playing the notes corresponding to the figures while holding down the
+ bass note.
+ Another is the "AngryDelete" filter.
+ With this filter on notes are entered normally with the cursor advancing
+ automatically, but if you make a mistake and press the wrong note just
+ hit the next one much louder and it will make the correction for you! MIDI
+ filters are found under Input -> MIDI
+\end_layout
+
+\begin_layout Subsection
+Playing Notes into Denemo - Audio (Souncard Mic Input)
+\end_layout
+
+\begin_layout Standard
+Denemo can listen for, and detect the pitch of notes on the mic input of
+ the computer; it doesn't attempt to guess the rhythm - such systems do
+ not work well - but you will find that playing the notes in time will help
+ you to play them in, as well as make playing them in a musical experience
+ rather than a chore.
+\end_layout
+
+\begin_layout Standard
+Playing the notes in can be much quicker than using the keyboard since the
+ note octave and accidental are all given just by playing the note.
+ If you are able to play a musical instrument then this will probably be
+ much faster for you than typing note names, octave shifts and accidentals
+ at the computer keyboard.
+ Using the headphones out of an electronic keyboard avoids "noises-off"
+ interfering with the pitch detection.
+ Many microphones and pickups benefit from some pre-amplification - it is
+ worth getting the level right before you begin.
+\end_layout
+
+\begin_layout Standard
+When you select the Input->Audio on the Main Menu the Pitch Recognition
+ window pops up.
+ While the mouse pointer is inside the score drawing area the score is sensitive
+ to pitches heard via the microphone input.
+ The background colour of the score changes to show that the notes will
+ be entered into the score.
+ 
+\end_layout
+
+\begin_layout Standard
+There are two ways of using the pitch entry - Overlay mode (default) and
+ Insert mode.
+ The button marked Insert causes notes to be entered into the current measure
+ in the prevailing rhythm - the mode is set to Insert for this.
+ The button marked Overlays overlays the notes already present with the
+ pitches you sound.
+ There is a third button, marked Tuning, which is a state-of-the art musical
+ instrument tuner.
+\end_layout
+
+\begin_layout Standard
+Music is entered into the measure which holds the cursor.
+ If you are overlaying a rhythm already entered, then the first un-overlayed
+ note in the measure is overlayed by the note detected.
+ You can delete the overlay using the regular delete keys, or clear them
+ altogether if you want to start over in a measure.
+ If you are in Insert mode then the notes detected will be inserted at the
+ cursor position.
+\end_layout
+
+\begin_layout Standard
+Use the enharmonic shift to select whether Bb or A# should be entered when
+ you enter the given pitch - you can usefully go as far as B# and Fb.
+\end_layout
+
+\begin_layout Standard
+Use the transpose control to shift up or down by octaves.
+\end_layout
+
+\begin_layout Standard
+Most of the other settings would require study of the Aubio documentation
+ to understand, but the one marked threshold may be useful to make the detection
+ less sensitive to ambient noises if using a microphone with an acoustic
+ instrument.
+\end_layout
+
+\begin_layout Standard
+The best set-up is to plug the headphones-out socket of an electronic keyboard
+ into the mic input, and choose a piano setting on the electronic keyboard.
+\end_layout
+
+\begin_layout Standard
+If you don't have any musical instrument that you can plug directly into
+ the mic in, then you can use an acoustic instrument with a microphone,
+ in which case move your microphone closer or further from your instrument
+ to get reliable detection.
+ Too close and you get double detections, too far and you get missed ones.
+ To check for good detection open a piece of music, set Overlay mode and
+ put the cursor in the first measure and play the piece in – the notes should
+ all turn blue if you have perfect detection.
+ It is worth while getting perfect detection – more than one or two miss-detects
+ per piece of music and you may want to use the Insert rather than the Overlay
+ method.
+\end_layout
+
+\begin_layout Standard
+The Audio Input button introduces a special entry mode where the pitches
+ you play in will overlay the rhythm, appearing as blue notes.
+ You can delete any wrong pitches using the usual delete keys, without deleting
+ the rhythm.
+ In fact if you have an "interloper" (an extra spurious note) you can delete
+ it and the other pitches will all move along to their correct places.
+\end_layout
+
+\begin_layout Standard
+Another method of playing music in acoustically doesn't involve entering
+ the rhythm separately.
+ For this select Input->Audio and then choose Insert instead of Overlays
+ on the Pitch Recognition Panel that pops up.
+ With Insert the sounded notes are entered as in the prevailing rhythm.
+ The same applies if you have MIDI - by choosing a rhythm (e.g.
+ half-note, quarter-note, or a custom rhythm pattern) and playing in the
+ pitches you can enter the music into a blank score.
+\end_layout
+
+\begin_layout Subsection
+Using the Denemo From the PC keyboard
+\end_layout
+
+\begin_layout Subsubsection
+Note Entry
+\end_layout
+
+\begin_layout Standard
+Basic Note entry is to type a number key 
+\family typewriter
+0-6
+\family default
+ for the duration of the note followed by a letter key 
+\family typewriter
+a-g
+\family default
+ for the note name.
+ (The shorter duration notes are available, but the keys 
+\family typewriter
+7
+\family default
+,
+\family typewriter
+8
+\family default
+,
+\family typewriter
+9
+\family default
+ are used for starting and extending/reducing slurs).
+ If the duration is the same as the last entered note then just the note
+ name is needed.
+ The duration can be dotted with the period key, and the octave adjusted
+ with comma (for down) or apostrophe (for up).
+\end_layout
+
+\begin_layout Standard
+When you append music by pressing a duration key with a MIDI controller
+ active, you get a brown note, indicating a duration which has not been
+ given a pitch.
+ Once you have pressed a note-name it becomes that note printed in black.
+ Prior to that it is a pure rhythm and will play back as a drum beat and
+ will print as a space.
+\end_layout
+
+\begin_layout Standard
+When not appending music, you need to use the 
+\family typewriter
+shift
+\family default
+ key to insert a new note, or set the 
+\family typewriter
+Caps Lock
+\family default
+.
+ So 
+\family typewriter
+Shift-a
+\family default
+,
+\family typewriter
+Shift-a
+\family default
+ inserts the note A etc.
+ Plain 
+\family typewriter
+a
+\family default
+ edits the note at the cursor to be an A.
+ Likewise with the numeric keypad the 
+\family typewriter
+Shift
+\family default
+ key can be used to edit a note duration, while the plain number keys insert
+ the duration of the note at the cursor.
+ (If you do not have a numeric keypad, you have to use the number keys -
+ best to plug in an additional USB keyboard with numeric keypad, they are
+ very cheap nowadays).
+\end_layout
+
+\begin_layout Subsubsection
+Chord Entry
+\end_layout
+
+\begin_layout Standard
+The standard keybinding for entering a note in a chord is the 
+\family typewriter
+Insert
+\family default
+ key, 
+\family typewriter
+Del
+\family default
+,
+\family typewriter
+Del
+\family default
+ deletes.
+ This enters the note at the cursor position, use 
+\family typewriter
+-
+\family default
+ and 
+\family typewriter
++
+\family default
+ to flatten/sharpen the note before you enter it (avoiding hearing both
+ notes if you flatten/sharpen afterwards).
+ There are also commands to enter a named note 
+\family typewriter
+Alt-a
+\family default
+, 
+\family typewriter
+Alt-b
+\family default
+...
+ are the standard shortcuts for this.
+ Spacer rests have shortcuts too, but on Windows machines you will need
+ to reclaim the 
+\family typewriter
+Windows
+\family default
+ Mod-4 key from Microsoft or re-define the shortcuts.
+\end_layout
+
+\begin_layout Section
+Transcribing from Facsimile or Hand-written Score
+\end_layout
+
+\begin_layout Subsection
+Opening Source PDF
+\end_layout
+
+\begin_layout Standard
+In the File->Open menu is an option for opening a PDF containing music to
+ be transcribed from.
+ The PDF is opened in a Source View window.
+ Right-click in this window at the point that your transcription will start.
+ This will create a link in your score at the cursor, which can be clicked
+ on to open the source view window with the blue highlight marker on that
+ point in the score.
+ (Depending on the position of the top of the page you may need to scroll
+ the Source View window up or down to bring it into view).
+ When you re-open the score to check or edit at some point you can click
+ on a nearby link and the source file will be opened and the position highlighte
+d once again.
+\end_layout
+
+\begin_layout Subsection
+Taking Snapshots of a Facsimile
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+This feature is now largely redundant as the above method will usually be
+ easier
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is particularly useful for difficult-to-read scores.
+ Each measure of the original can be captured as an image and stored along
+ with the Denemo measure that is your transcription.
+ This makes the transcribing process much easier as you can glance at your
+ original without losing your place in a large messy manuscript.
+ Capturing the images of the measures is done using a screenshot type of
+ process - you need to have the original visible on the screen so you can
+ indicate the extent of each measure.
+\end_layout
+
+\begin_layout Standard
+First display the original score or part on the screen using your pdf viewer
+ or other image display software.
+ Then, in Denemo, choose one of the Capture Measures commands.
+ For a Full score you can capture all the parts at once - choose Movement->Captu
+re Score->Capture Measures (Score).
+ If you have parts use Staff->Capture Score->Capture Measures (One Staff).
+\end_layout
+
+\begin_layout Standard
+Now you can continuously enter measures by left clicking at each measure.
+ You can adjust the start position of the measure (which is normally the
+ end of the last one) by right-clicking.
+ As you enter a measure image a Denemo measure is entered into the score
+ and the image placed underneath it.
+ To stop entering images press a key on the keyboard.
+ There are also commands to delete an erroneous measure-image and to insert
+ a new one - N.B.
+ when you delete the image for a measure all the other measures shift along
+ by one, so they are under the wrong bars until you insert a new screenshot
+ for the measure.
+\end_layout
+
+\begin_layout Standard
+Now you can transcribe the music straight from the images directly under
+ the measure you have selected.
+ LaManina.denemo is an example: the original print made in Venice is quite
+ difficult to decipher and has a couple of errors.
+ In this Denemo file each measure for each part can be seen directly beneath
+ the transcription.
+ You will notice that in places the original measure was split across two
+ lines; at the moment there is no mechanism for joining up the two halves,
+ so instead the following measure has an image containing the remainder
+ of the measure plus the next measure.
+\end_layout
+
+\begin_layout Subsection
+Using a Proof-Read PDF
+\end_layout
+
+\begin_layout Standard
+If you send the PDF output of your score to someone to proof-read they can
+ make PDF annotations to it.
+ In the File->Open menu choose Open Proof Read PDF to open a proof-read
+ PDF.
+ It will open at the first annotation, and, by clicking on the note the
+ annotation applies to, the annotation is transferred as a comment into
+ the score before the note chosen.
+ When you have done all the annotations on the first page advance to the
+ next page with annotations using the button "Next".
+\end_layout
+
+\begin_layout Standard
+There are limitations - the PDF must be created from your score with point-and-c
+lick (the default) and you must not alter the score in a way that would
+ invalidate the point-and-click.
+ (Basically, don't edit again until the proof-reading is done, always good
+ practice!) Also, enter the annotations in order from the start and don't
+ edit before you have entered all the annotations, as this could invalidate
+ the point-and-click.
+\end_layout
+
+\begin_layout Section
+Score Setup
+\end_layout
+
+\begin_layout Standard
+Denemo provides different ways to set up scores: 
+\end_layout
+
+\begin_layout Itemize
+Create template with the special name "default.denemo".
+ If this is placed at the top level of your templates directory (that is
+ ~/.denemo/templates/default.denemo), then it will be opened each time you
+ start a new score.
+ 
+\end_layout
+
+\begin_layout Itemize
+Create an init.denemo score with everything you want to start up with, and
+ any actions you want to be taken before you begin.
+ This will be opened when you first start Denemo (that is once per Denemo
+ session).
+ See 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sub:Musical-Scores-that-Do-Things"
+
+\end_inset
+
+ for details on what actions you can have Denemo perform before you start.
+\end_layout
+
+\begin_layout Itemize
+Use a Template
+\end_layout
+
+\begin_layout Itemize
+Use shortcut keys to add staves and set attributes
+\end_layout
+
+\begin_layout Itemize
+Use Menus
+\end_layout
+
+\begin_layout Subsection
+Using Templates to Setup Scores
+\end_layout
+
+\begin_layout Standard
+Denemo comes with a few preinstalled templates.
+ You can also create your own templates as well, in fact you can use any
+ Denemo file as a template, just open it using File->Open->Open Custom Template.
+ (The only difference is that, opened this way, the score is a new i.e.
+ untitled score)
+\end_layout
+
+\begin_layout Enumerate
+Navigate to File, Open Template.
+ The Open dialog box appears.
+\end_layout
+
+\begin_layout Enumerate
+Double click on a template name from the list of templates.
+ The dialog box closes and the template appears.
+\end_layout
+
+\begin_layout Enumerate
+Adjust the clef, key and time signatures as needed.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Advanced Topics
+\end_layout
+
+\begin_layout Section
+Customizing Denemo
+\end_layout
+
+\begin_layout Subsection
+Adding and Editing Key/Mouse Shortcuts
+\end_layout
+
+\begin_layout Standard
+Denemo allows you to choose which keys activate which commands (shortcuts).
+ It also allows you to choose Mouse press/release gestures (in combination
+ with keys such as 
+\family typewriter
+Shift
+\family default
+, 
+\family typewriter
+NumLock
+\family default
+, 
+\family typewriter
+CapsLock
+\family default
+ etc).
+\end_layout
+
+\begin_layout Standard
+See 
+\begin_inset CommandInset ref
+LatexCommand nameref
+reference "sub:The-Command-Center"
+
+\end_inset
+
+ for setting shortcuts.
+ The following method can also be used.
+ To choose a shortcut for a menu item, select the item (it becomes highlighted)
+ and press the key that you want to become the shortcut.
+ For mouse shortcuts, right-click the menu item and choose the Create Mouse
+ Shortcut, to change the pointer shape during mouse operations invoke the
+ Command Center with the Edit Shortcuts option.
+ The Set Mouse Shortcut Dialog requires you to set which button and action
+ you want to use and then to hold/lock the keyboard modifier while clicking
+ on the big button.
+ The setting you have chosen is shown, and you click ok to accept it.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Mouse Shortcuts are tricky to set - you are able to control what happens
+ on mouse button press and release, which can be used to do things like
+ drag notes up and down.
+ But they are tricky to set up!
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If your choice of keyboard shortcut already belongs to another command,
+ you are warned about this, and given the chance to change your mind or
+ steal the shortcut.
+ Also, you can choose whether to distinguish between keypresses with, say
+ the 
+\family typewriter
+NumLock
+\family default
+ down and those without or to ignore it.
+ If the 
+\family typewriter
+NumLock
+\family default
+ is set but no command for that key specifically requires it then the setting
+ of 
+\family typewriter
+NumLock
+\family default
+ is ignored and the keypress is treated as if the 
+\family typewriter
+NumLock
+\family default
+ was off.
+\end_layout
+
+\begin_layout Standard
+The menu item that activates the command shows the shortcuts that exist
+ in bright blue lettering.
+ PrsL-
+\family typewriter
+CapsLoc
+\family default
+, for example, is the Press action on the Left mouse key while the 
+\family typewriter
+CapsLock
+\family default
+ light is on.
+ In the default command set this is linked to the BeginSlur command, so
+ that together with the RlsL-
+\family typewriter
+CapsLoc
+\family default
+ for the release of the left mouse button, you can "draw" slurs by using
+ the mouse.
+ Similarly, 
+\family typewriter
+Shift
+\family default
+ with left mouse button (MveL-
+\family typewriter
+Shift
+\family default
+) is set to allow you to drag notes up and down the staff.
+ (This is using Command MoveNoteToCursor).
+\end_layout
+
+\begin_layout Subsection
+More Commands
+\end_layout
+
+\begin_layout Subsubsection*
+Adding More Features 
+\end_layout
+
+\begin_layout Standard
+It is possible to add more commands to the set that Denemo ships with.
+ Some of these are shipped with Denemo, but not added automatically so as
+ to keep the menu sizes manageable.
+ Generally, you right-click to find more menu items to add; once added you
+ can set a keyboard/mouse shortcut and keep the command in your default
+ setup.
+ Scheme to be executed at startup can be placed in the denemo.scm file.
+\end_layout
+
+\begin_layout Paragraph
+An example - quicker dynamics selection
+\end_layout
+
+\begin_layout Standard
+It can be slow to choose dynamics (
+\family typewriter
+Ctrl-D
+\family default
+) because the list is quite long to move down (or move to the mouse).
+ You can define a list of the dynamics you actually want to be readily available
+ as for example: (define DenemoDynamicList '(("f" "127" "Forte") ("p" "127"
+ "Piano"))) This makes forte available just by pressing Return and piano
+ available by pressing down arrow Return.
+ (The others via More of course).
+ If you place this in (home directory)/.denemo-x.x.x/actions/denemo.scm then
+ it will be defined when you start Denemo.
+\end_layout
+
+\begin_layout Subsubsection
+Recording a Denemo Macro 
+\end_layout
+
+\begin_layout Standard
+You can also get Denemo to record a frequently used sequence of actions
+ - it can be installed in the menu system and given a keyboard shortcut
+ just like any other command.
+ 
+\end_layout
+
+\begin_layout Standard
+To do this choose View->Scheme Script.
+ (You do not have to understand what a Scheme Script is to use this!).
+ In the window that pops up check Record Scheme Script and then do the set
+ of steps you wish Denemo to record.
+\end_layout
+
+\begin_layout Standard
+As a simple example, suppose you wanted a command to delete the next note
+ (there are commands to delete the previous note and the current note, so
+ why not?).
+ You would enter some notes, put on Record Scheme Script and then move the
+ cursor right two steps and delete the previous note (with Backspace if
+ that is your shortcut).
+ (Each time you use a command you will see the Scheme syntax for that command
+ entered into the Scheme window).
+ Now turn off Record Scheme Script and you can experiment with your new
+ command by pressing Execute in the Scheme Script window.
+ To save this new command for future use, you right click on a menu item
+ (in the menu where you would like the command to appear) and choose "Save
+ Script as New Menu Item", this will ask you to make up a name for your
+ new command as well as a label for the menu item etc.
+\end_layout
+
+\begin_layout Standard
+You can save the command in your default sequence of commands (via Edit->Customi
+ze Commands...->Manage Command Set->Save as Default Command Set).
+ If not you will be asked if you want to save your new commands when you
+ exit.
+ Otherwise you can re-load via the More->My Commands menu item.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Editing a LilyPond Tweak
+\end_layout
+
+\begin_layout Standard
+There is another way of adding your own favorite LilyPond tweaks, which
+ is by modifying a tweak that has already been done.
+ This can be done by using the text-edit dialog on an existing Denemo Directive
+ (usually found under the Advanced button provided by an edit script).
+ Here you can see the actual LilyPond text that will be inserted, and there
+ is a button to create a script to generate whatever you choose to enter.
+ You can also enter the name of graphic images (.png files) that are to be
+ used to represent your item in the display, and say where it should be
+ positioned.
+\end_layout
+
+\begin_layout Standard
+Once you have created the script, it can be saved in the menu system by
+ right clicking on an item in the menu where you want to place the command,
+ and choosing "Save Script as New Menu Item" as above.
+\end_layout
+
+\begin_layout Subsubsection
+Writing Scheme Scripts 
+\end_layout
+
+\begin_layout Standard
+If you are a programmer you will have guessed that you can edit the Scheme
+ Script window to create any command you want.
+ Even if you are not familiar with Scheme you may find that you can adapt
+ other scripts to do what you want.
+\end_layout
+
+\begin_layout Standard
+A good example of this is a script to insert a particular LilyPond directive
+ into the score.
+ This is all that many scripts do: it is easy to see the piece of LilyPond
+ in the Scheme Script window, and by changing it you can create a new command.
+\end_layout
+
+\begin_layout Standard
+For example, from the More menu select the command /menus/ObjectMenu/Instruments
+/Orchestral/RehearsalMark (the files are laid out in folders/directories
+ in the same way as the menu system itself).
+ Then choose Get Script from the right click menu.
+ With this command its script is appended to the Scheme Script window.
+ Here you can see the part that says
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{verbatim}
+\end_layout
+
+\begin_layout Plain Layout
+
+(d-DirectivePut-standalone-postfix "RehearsalMark" " 
+\backslash
+
+\backslash
+mark 
+\backslash
+
+\backslash
+default" )
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{verbatim}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+which is inserting the LilyPond directive "
+\backslash
+mark 
+\backslash
+default" which inserts the default rehearsal mark.
+ (The extra backslashes are needed to tell Scheme that you literally mean
+ a 
+\backslash
+ sign).
+ You can change this to insert any other LilyPond that you need - always
+ doubling the 
+\backslash
+ signs.
+ The you can save as a new menu item, or use Save Script to customize the
+ script you started with.
+\end_layout
+
+\begin_layout Standard
+More ambitious programmers will need to know all the commands available.
+ Besides the complete Denemo command set (the list is given in the Command
+ Center window) there are the following additional Scheme procedures defined.
+\end_layout
+
+\begin_layout Paragraph
+Commands Getting User Input
+\end_layout
+
+\begin_layout Standard
+All these commands are invoked from scheme as (d-Command args...)
+\end_layout
+
+\begin_layout Itemize
+GetChar returns a string containing a single character from the user (blocks
+ waiting for a keypress)
+\end_layout
+
+\begin_layout Itemize
+GetKeypress returns a string representing a keypress from the user (blocks
+ waiting for a keypress) (e.g.
+ Up for the up arrow key etc.)
+\end_layout
+
+\begin_layout Itemize
+GetCommand returns a string containing the command name for the user's keypress
+ (blocks waiting for a keypress)
+\end_layout
+
+\begin_layout Itemize
+GetCommandFromUser
+\end_layout
+
+\begin_layout Itemize
+GetUserInput takes three strings, displays and returns the user's response
+ as a string.
+\end_layout
+
+\begin_layout Itemize
+RadioBoxMenu takes an arbitrary number of arguments, each argument is a
+ pair, presents a menu of the first items in the pairs and returns the second
+ item as chosen.
+\end_layout
+
+\begin_layout Itemize
+RadioBoxMenuList like RadioBoxMenu but takes a list
+\end_layout
+
+\begin_layout Itemize
+GetUserInput takes three arguments (title, prompt, suggested value) and
+ returns the string typed by the user in the pop-up dialog or #f if Cancelled.
+\end_layout
+
+\begin_layout Paragraph
+Commands Getting Information about Object at Cursor
+\end_layout
+
+\begin_layout Itemize
+GetType returns a scheme string indicating the type of the current object
+\end_layout
+
+\begin_layout Itemize
+GetNoteName returns a scheme string, giving the note name a-g of the current
+ note
+\end_layout
+
+\begin_layout Itemize
+GetNote returns a scheme string, the note name, accidental and octave of
+ the current note (LilyPond notation)
+\end_layout
+
+\begin_layout Itemize
+GetNotes returns a scheme string, the notes of a chord separated by NULL
+ characters
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+To be sorted and added to ...
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+d-InitializeScript deprecated - init.scm is now run automatically.
+ (parameter: action-name) runs a script init.scm in the menupath attached
+ to the action whose name is given.
+ Used by commands that need a time-consuming initialization step which can
+ be skipped on subsequent calls.
+\end_layout
+
+\begin_layout Itemize
+d-PutNoteName takes a string argument, a note in LilyPond notation.
+ Changes the note at the cursor.
+ Not for use with multi-note chords.
+\end_layout
+
+\begin_layout Itemize
+d-DiatonicShift Deprecated.
+\end_layout
+
+\begin_layout Itemize
+d-NextObject moves cursor to next object, returning TRUE if current object
+ has changed
+\end_layout
+
+\begin_layout Itemize
+d-NextChord as d-NextObject, but skipping non-chord objects.
+ chords includes rests and chords with 1 or more notes.
+\end_layout
+
+\begin_layout Itemize
+d-NextNote as d-NextChord but skipping rests (i.e.
+ chords with 0 notes).
+\end_layout
+
+\begin_layout Itemize
+d-NextStandaloneDirective as NextObject, stopping on a standalone directive.
+ Using d-DirectiveGet-standalone tag a directive of a particular tag can
+ be found.
+\end_layout
+
+\begin_layout Itemize
+(d-Directive-type? optional-tag) where type is one of score, scoreheader,
+ movementcontrol, header, paper, layout, clef, timesig, keysig, staff, voice,
+ standalone, chord or note.This returns #t if the cursor is on a directive
+ of type (with tag optional-tag if optional-tag is present) else #f
+\end_layout
+
+\begin_layout Itemize
+(d-DirectivePut-standalone? tag) inserts a standalone directive with the
+ given tag at the current cursor position and places the cursor on it.
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveGetTag-type) where type is one of score, scoreheader, movementcontro
+l, header, paper, layout, clef, timesig, keysig, staff, voice, standalone,
+ chord or note.
+ This returns the tag if the cursor is on a directive of type else #f
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveGetTagForTag-type tag) returns the tag passed in if the cursor
+ is on directive of type with that tag, else it returns the tag of the first
+ directive of type that is present at the cursor, else #f
+\end_layout
+
+\begin_layout Itemize
+d-WarningDialog Pass a string argument to pop up a warning.
+\end_layout
+
+\begin_layout Itemize
+d-GetOption (parameter string of options).
+ Takes a null separated set of options and pops up a dialog offering them
+ to the user.
+ Returns the one chosen or #f if the user cancels.
+\end_layout
+
+\begin_layout Itemize
+d-GetMidi
+\end_layout
+
+\begin_layout Itemize
+d-PutMidi
+\end_layout
+
+\begin_layout Itemize
+d-PlayMidiKey
+\end_layout
+
+\begin_layout Itemize
+d-BassFigure
+\end_layout
+
+\begin_layout Itemize
+d-GetNoteAsMidi 
+\end_layout
+
+\begin_layout Itemize
+d-RefreshDisplay
+\end_layout
+
+\begin_layout Itemize
+d-InputFilterNames sets the status bar
+\end_layout
+
+\begin_layout Itemize
+d-Chordize Ensure that even a single note is treated as a chord - needed
+ for some LilyPond constructs (e.g.
+ fingerings)
+\end_layout
+
+\begin_layout Standard
+Standard Denemo commands that pop up dialogs will work as usual if no argument
+ is passed to them from Scheme.
+ In general if a string consisting of strings of the form "name=value" is
+ passed these will be used and no popup will occur.
+ The field "name" will be given the value "value".
+ The 
+\backslash
+0 is a NULL character that separates the assignment strings.
+ As a shorthand if there is only one value being passed you can just pass
+ the value.
+ The names of the fields depend on the action being called.
+ So for example:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{verbatim}
+\end_layout
+
+\begin_layout Plain Layout
+
+(d-Open "filename=myfile.denemo")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{verbatim}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+will open the file "myfile.denemo".
+\end_layout
+
+\begin_layout Standard
+This feature is being rolled out, and currently works for:
+\end_layout
+
+\begin_layout Itemize
+d-InsertLilyDirective (directive, display.
+ minpixels) (deprecated function)
+\end_layout
+
+\begin_layout Itemize
+d-AttachLilyToChord (prefix, postfix, display) deprecated see d-DirectiveGet-cho
+rd-* and d-DirectivePut-chord-* below
+\end_layout
+
+\begin_layout Itemize
+d-AttachLilyToNote (prefix, postfix, display) deprecated see d-DirectiveGet-note
+* and Put below
+\end_layout
+
+\begin_layout Itemize
+d-StaffProperties understands a couple of property=value settings
+\end_layout
+
+\begin_layout Itemize
+d-InitialClef
+\end_layout
+
+\begin_layout Itemize
+d-InsertClef
+\end_layout
+
+\begin_layout Itemize
+d-InitialKey 
+\end_layout
+
+\begin_layout Itemize
+d-InsertKey
+\end_layout
+
+\begin_layout Itemize
+d-Open filename
+\end_layout
+
+\begin_layout Itemize
+d-ScoreProperties (fontsize= size of font to be used for score)
+\end_layout
+
+\begin_layout Subsubsection
+Denemo Directives
+\end_layout
+
+\begin_layout Standard
+Denemo directives are things like special barlines, rehearsal marks that
+ appear amongst the notes, as well things like trills that are attached
+ to notes and modifications to other things in the score to give them a
+ different appearance or behavior.
+ If they are objects in their own right ("Standalone Directives"), like
+ the first time bar marker then they appear betwen notes and the cursor
+ can be placed on them.
+ If they are attached to other things (such as a page break attached to
+ a movement) then they are modified with the command used to create them.
+\end_layout
+
+\begin_layout Standard
+Double clicking on Standalone Directives, gives information about the directive,
+ while right-clicking will edit it.
+\end_layout
+
+\begin_layout Subsection
+LilyPond Editing
+\end_layout
+
+\begin_layout Paragraph
+Introduction
+\end_layout
+
+\begin_layout Standard
+From version 0.7.8 we have the ability to edit the LilyPond output within
+ Denemo.
+ This approach immediately makes Denemo able to do many more things (e.g.
+ multiple verses for songs) with the music still editable from within Denemo.
+ The gallery of examples and the standard templates contain examples which
+ you can use.
+\end_layout
+
+\begin_layout Standard
+These can be used without knowing the LilyPond language (provided a suitable
+ template or example file exists).
+ Alternatively, with a general idea of how a LilyPond file works tweaks
+ from the LilyPond documentation can be inserted into the LilyPond output
+ and stored with the Denemo, leaving open the possibility of further editing
+ of the notes within Denemo without the need to re-apply tweaks or keep
+ separate LilyPond files.
+\end_layout
+
+\begin_layout Subsubsection
+Using the LilyPond Window
+\end_layout
+
+\begin_layout Standard
+Under the View menu is a Show LilyPond item which pops up a window with
+ the LilyPond output in it.
+ The text is interspersed with buttons which enable you to hide or show
+ the various sections or to create custom versions.
+ The text in bold can be altered and the alterations are kept in the Denemo
+ file.
+\end_layout
+
+\begin_layout Standard
+The two windows are kept in sync, so you can move back and forth between
+ editing textually and editing in Denemo.
+\end_layout
+
+\begin_layout Standard
+Right clicking on the text gives a menu for actions on the LilyPond text.
+ LilyPond text can be inserted between notes, and the final section (the
+ score layout) can be turned into editable text (see Score Layout).
+ There is one for moving the cursor to the LilyPond text for the current
+ Denemo object.
+ Moving the cursor in the text window with the arrow keys causes the Denemo
+ window cursor to move in synchronism.
+\end_layout
+
+\begin_layout Standard
+This menu also includes a Print command that operates on the visible LilyPond
+ text in the window.
+ This means you can open specific custom score layouts and print from them,
+ or even make a temporary edit for just one print.
+ If you save the score with custom layouts then these are remembered.
+ So when you reload and the custom score layout will be printed.
+\end_layout
+
+\begin_layout Paragraph
+Detail
+\end_layout
+
+\begin_layout Standard
+Several custom layouts can be kept, selecting them in the Score Layout view
+ enables the same Denemo file to print a variety of things from the same
+ music input.
+ 
+\end_layout
+
+\begin_layout Standard
+For example, a full score or a set of parts, or several voices on group
+ of staffs or even a piano reduction.
+ 
+\end_layout
+
+\begin_layout Standard
+The various Voices/Staffs for the different Movements are separated by buttons.
+ These are labelled by enumerating the movements and staffs in order, so
+ the first voice in the first movement has the music defined as "MvmntIVoiceIMus
+ic" and so on.
+ Within these music blocks you can insert arbitrary LilyPond text between
+ notes, (the insertion points are marked by grey blocks) and the text inserted
+ will appear as a LilyPond directives in the main Denemo window.
+ 
+\end_layout
+
+\begin_layout Standard
+The main Denemo window also moves its cursor to correspond with where you
+ are editing.
+ (It should of course move the cursor immediately you click on a point in
+ the music, but, as yet, it only moves the cursor when you press a key just
+ before the note name - one of the arrow keys will do).
+\end_layout
+
+\begin_layout Standard
+Custom layout blocks can be created by right-clicking on the Standard score
+ layout and selecting create custom score layout.
+ The Score Layout window allows creation of customized layouts via a GUI.
+ If you print a single part from all movements, you get the standard scoreblock
+ for this and can add it to your custom score block so that a single print
+ command prints, e.g.
+ both a full score and parts.
+ Using the 
+\backslash
+book {} block you can put these into separate files (stored in the folder
+ .denemo in your home folder).
+\end_layout
+
+\begin_layout Standard
+The music defined by MvmntIVoiceIMusic is then used in the score blocks
+ at the end of the LilyPond window, by the expression 
+\backslash
+MvmntIVoiceIMusic.
+ This means that the same music can be output in several different ways,
+ so that the same Denemo file can contain custom score blocks to output
+ the music as a Piano Score with several voices or separate parts, for example.
+\end_layout
+
+\begin_layout Standard
+The definitions for MvmntIVoiceIMusic actually look like this:
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+MvmntIVoiceIProlog = {
+\backslash
+MvmntIVoiceITimeSig 
+\backslash
+MvmntIVoiceIKeySig 
+\backslash
+MvmntIVoiceIClef} 
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+MvmntIVoiceIMusic = {
+\backslash
+MvmntIVoiceIProlog 
+\backslash
+MvmntIVoiceI}
+\end_layout
+
+\begin_layout Standard
+Where 
+\backslash
+MvmntIVoiceI is the actual block of notes you have written, while the other
+ definitions hold the time signature, clef etc.
+ By using these, you can print the same music with different clefs, still
+ maintaining the ability to edit the notes in Denemo.
+\end_layout
+
+\begin_layout Standard
+Note that the normal Denemo Print commands are still operate as they do
+ if you never look at the LilyPond window.
+ What happens is that if you select the Print Current Part menu item then
+ this creates a tailored standard scoreblock for that part.
+ However, if you use the File->Print command then it prints the first custom
+ scoreblock that is open (visible) (or the standard scoreblock if you do
+ not have any custom scoreblocks).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Clicking (as opposed to using the arrow keys) in the LilyPond text does
+ not move the cursor in the Denemo window.
+ When you delete a LilyPond directive textually you have to move the cursor
+ to start re-inserting it.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+More Features
+\end_layout
+
+\begin_layout Subsubsection
+Piano Staffs, Orchestral Scores etc
+\end_layout
+
+\begin_layout Standard
+A piano staff can be added using the Staff->Add Staff menu.
+ In addition, piano staffs, and staff groups such as choir staff can be
+ created using the Staff Groupings menu under the staff menu.
+ You can set a piano staff within a staff group by setting successively
+ the StartPiano and StartGroup contexts on a single staff, or more generally
+ setting StartPiano, EndPiano on adjacent staffs within a staff group.
+\end_layout
+
+\begin_layout Subsection
+Single Staff Polyphony
+\end_layout
+
+\begin_layout Standard
+Use the Staffs/Voices->Voices menu for placing more than one voice on a
+ staff.
+ You can set the initial voice number from this menu (voices 1 and 3 are
+ stem up with slurs and ties etc adjusting to suit, voices 2 and 4 are stem
+ down).
+ Directives can be placed in the music to change voice, see Directives->Typesett
+er->Voices menu.
+\end_layout
+
+\begin_layout Standard
+You will also need spacer rests for voices that are silent, and commands
+ to displace rests vertically and horizontally (see Notes/Rests->Rest Insertion
+ menu), and commands from the Voices menu under the Staffs/Voices and Directives
+->Typesetter menus.
+\end_layout
+
+\begin_layout Subsection
+Entering Vocal Music
+\end_layout
+
+\begin_layout Standard
+Choose Lyrics->Add Verse.
+ You need to have the Lyrics View visible (see View menu).
+ Each verse has a separate tab, with the current verse for the current staff
+ being visible at any one time.
+ Stanza numbers can be entered as well as font-changing commands.
+ Use 
+\family typewriter
+--
+\family default
+ to extend syllables over more notes (see LilyPond documentation).
+\end_layout
+
+\begin_layout Subsection
+Entering Figured Bass
+\end_layout
+
+\begin_layout Standard
+To enter figures choose Notes/Rests->Markings->Figured Bass.
+ There are some shortcuts that enable all the work to be done with the numeric
+ keypad.
+ A brief summary is given by right clicking the option.
+ The conventions are described in the LilyPond docs.
+\end_layout
+
+\begin_layout Subsection
+Fret Diagrams
+\end_layout
+
+\begin_layout Standard
+Fret Diagrams can be placed on the score using the command Fret Diagram
+ in the ObjectMenu->Directives->Markings menu In addition by assigning a
+ Denemo staff to display as fret diagrams, chords can be entered in standard
+ notation which will then be dislayed as fret diagrams.
+ See ObjectMenu->StaffMenu->StaffPropertiesMenu->FretDiagrams for this.
+\end_layout
+
+\begin_layout Subsection
+Tablature
+\end_layout
+
+\begin_layout Standard
+Music can be displayed in tablature - the default is for standard guitar
+ tuning but others can be set.
+ The menus to explore are:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+ObjectMenu->StaffMenu->StaffPropertiesMenu->Tablature
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+ObjectMenu->Directives->Typesetter->Tablature
+\end_layout
+
+\begin_layout Standard
+It is possible to display the same music as both notation and tablature,
+ and example of how to do this will be found under File->Open->Open Example.
+\end_layout
+
+\begin_layout Subsection
+Entering Chord Symbols
+\end_layout
+
+\begin_layout Standard
+To enter chord symbols choose Notes/Rests->Markings->Chord Symbols.
+ A brief summary is given by right clicking the option.
+ The conventions are described in the LilyPond docs.
+\end_layout
+
+\begin_layout Standard
+Chord Charts can also be created - see the Chord Charts palette for these.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+I don't see a section about the Chord Charts pallete.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Musical-Scores-that-Do-Things"
+
+\end_inset
+
+Musical Scores that Do Things!
+\end_layout
+
+\begin_layout Standard
+By saving a Denemo score with a script defined (in the script window) you
+ can create music lessons, automatic midi player...
+ the possibilities are endless.
+ When you open such a score, the script is run - it can take user input
+ and manipulate the score, or do other actions as your fancy takes you.
+\end_layout
+
+\begin_layout Standard
+There is a special score init.denemo that is run on startup.
+ By editing this you can startup with whatever template and whatever actions
+ you wish to be performed.
+ If you set it to do something that quits Denemo, you may need to delete
+ the file before using Denemo normally again.
+ Your local init.denemo is stored in the directory .denemo/actions in your
+ home directory.To create it put the script you want in the script window
+ and use SaveAs selecting ~/.denemo/actions/init.denemo as your file to save
+ to.
+\end_layout
+
+\begin_layout Subsubsection
+What Happens at Startup
+\end_layout
+
+\begin_layout Standard
+On starting the scheme script ~/.denemo-(version number)/actions/denemo.scm
+ is executed (where ~ means your home directory and version number is 1.1.2
+ or later).
+\end_layout
+
+\begin_layout Standard
+A denemo file called init.denemo is/was loaded, but this is deprecated.
+\end_layout
+
+\begin_layout Standard
+In addition, on startup a set of keyboard and mouse shortcuts, and a selection
+ of optional menu items are loaded.
+ Other sets are available via the Edit->Customize Commands ...->Manage Command
+ Set dialog.
+\end_layout
+
+\begin_layout Subsection
+Starting Denemo - Command Line Options
+\end_layout
+
+\begin_layout Standard
+Denemo --help shows the options at startup.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Technical Reference - Denemo Directives
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Denemo-Directives"
+
+\end_inset
+
+Denemo Directives
+\end_layout
+
+\begin_layout Standard
+Denemo Directives give attributes to objects that are not built-in but can
+ be changed by the user.
+\end_layout
+
+\begin_layout Standard
+Denemo Directives can be attached at almost every level of a Denemo score
+ and can modify the behavior of the element concerned.
+ They contain fields to describe how the element's properties should be
+ modified, either in the display or in the printing.
+ Elements, such as clefs notes etc have their own built-in display and print
+ properties; Denemo Directives allow you (or scripts you invoke) to modify
+ them for many more purposes than the built-in set allows.
+ This means Denemo can grow - you can add features - without getting a new
+ version.
+\end_layout
+
+\begin_layout Standard
+For example the drum clef is not built-in to Denemo.
+ Instead a directive attached to the clef has a field (graphic) set to an
+ image of the drum clef, and another field (postfix) set to the LilyPond
+ syntax for a drum clef, while another field (override) is set to indicate
+ that these values should replace the normal ones, rather than adding to
+ them.
+\end_layout
+
+\begin_layout Standard
+The elements that can be modified in this way are the following:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+score: the LilyPond fields (prefix and postfix) are placed at the start
+ of the score and just before each movement.
+ The display field is shown at the top of the display.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+scoreheader: Attached to the score.
+ The postfix field is put inside a 
+\backslash
+header{} block at the start of the score.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+movementcontrol: Attached to a movement.
+ The prefix field is placed before the movements 
+\backslash
+score{} block, the postfix after it.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+header: Attached to a movement.
+ As scoreheader but for 
+\backslash
+header[] blocks inside the movement's score block.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+paper: Attached to the score.
+ The postfix is placed inside a 
+\backslash
+paper{} block.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+layout: Attached to a movement.
+ The postfix is placed inside a 
+\backslash
+layout{} block in the movement's scoreblock.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+clef: Attached to a clef or clef change.
+ The graphic holds the displayed icon, gx,gy its position.
+ The postfix field is put into the music at the point where the clef is
+ found, replacing the normal text if the override is set.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+timesig: Attached to a time signature or time signature change.
+ The graphic holds the displayed icon, gx,gy its position.
+ The postfix field is put into the music at the point where the time signature
+ is found, replacing the normal text if the override is set.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+keysig: as timesig but for key signatures.
+ (e.g.
+ used to supress keysignatures in drum clef).
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+staff: The postfix field modifies the whole staff context, with the display
+ field printed at the start of the staff
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+voice: The postfix field modifies the voice context, with the display field
+ printed at the start of the staff containing the voice
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+standalone: A directive not attached to an music element - it comes with
+ the music and is used for things like repeat bars etc.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+chord: The prefix field is emitted before the LilyPond for the chord and
+ the postfix after it.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+note: The prefix field is emitted before the LilyPond for the note and the
+ postfix after it.
+ Examples are fingerings attached to notes etc.
+ Again the display and graphic fields a placed in the display positioned
+ relative to the note via the coordinate fields gx, gy (for the graphic)
+ and tx, ty for the display text.
+\end_layout
+
+\begin_layout Standard
+The Directives are sufficiently important to have their own commands.
+\end_layout
+
+\begin_layout Standard
+d-DirectivePut-type-field where type is one of score, scoreheader, movementcontr
+ol, header, paper, layout, clef, timesig, keysig, staff, voice, standalone,
+ chord or note and field is one of display, tx, ty, gx, gy, graphic, prefix,
+ postfix, override, midibytes.
+ These commands take two arguments, a tag (string) and a value to set.
+ For example:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{verbatim}
+\end_layout
+
+\begin_layout Plain Layout
+
+(d-DirectivePut-note-postfix "LHFinger" "3")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{verbatim}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+will put the fingering 3 on (after) the note at the cursor.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+d-DirectiveGet-type-field type is one of score, scoreheader, movementcontrol,
+ header, paper, layout, clef, timesig, keysig, staff, voice, standalone,
+ chord or note and field is one of display, tx, ty, gx, gy, graphic, prefix,
+ postfix, override, midibytes.
+ This function returns the value in the field or #f if there is no directive
+ with the given tag at the cursor.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+d-DirectiveDelete-type type is one of score, scoreheader, movementcontrol,
+ header, paper, layout, clef, timesig, keysig, staff, voice, standalone,
+ chord or note.
+ This function returns #t or #f if a directive with the given tag was deleted.
+\end_layout
+
+\begin_layout Subsection
+The Directive Fields
+\end_layout
+
+\begin_layout Standard
+The fields of the Denemo Directive can control the Denemo Display and the
+ LilyPond output.
+\end_layout
+
+\begin_layout Standard
+The fields in d-DirectiveGet/Put have the following meanings:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+postfix - A fragment of LilyPond to be output (after the LilyPond for any
+ object the directive is attached to).
+ 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+prefix - A fragment of LilyPond to be output (before the LilyPond for any
+ object the directive is attached to).
+ 
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+display - text to be shown in the Denemo Display
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+tx,ty - where to show the text in the Denemo Display
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+graphic - For directives that are in the music this is a .png image to be
+ shown in the Denemo Display (the directory bitmaps holds these).
+ The graphic can be saved for a command using the right-click -> Save Graphic
+ command, after selecting a portion of the print preview as the image required.
+ For directives attached to the score, movement etc the string set here
+ will be displayed on the button in the button box for that sort of directive
+ (see Show Score Titles etc in view menu for showing this button box).
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+gx,gy - where to show thegraphic in the Denemo Display
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+minpixels - how much space to leave for this item in the Denemo Display
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+override - Contains bits to determine whether the LilyPond contained in
+ the Directive (postfix and/or prefix fields) should override the normal
+ LilyPond output, and whether the Graphic should replace the normal Denemo
+ display for the item.
+ A further tranche of bits controls MIDI output for the directive, which
+ can override the normal MIDI interpretation of the music and provide additional
+ information not explicit in the music notation (e.g.
+ the tempo of an Adagio marking).
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+midibytes - a string of numbers (in hexadecimal format) whose interpretation
+ is given by the MIDI bits in the override field
+\end_layout
+
+\begin_layout Standard
+The override field contains the following bits:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+DENEMO_OVERRIDE_LILYPOND: override the LilyPond output normally used at
+ this point, rather than adding to the normal output.
+ The text used is in the prefix and postfix fields.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+DENEMO_OVERRIDE_GRAPHIC: overrides what Denemo would normally show in the
+ display with the image named in the graphic field of the directive
+\end_layout
+
+\begin_layout Standard
+The MIDI bits in the override field are as follows
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+DENEMO_OVERRIDE_VOLUME: the MIDI velocity to use
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+DENEMO_OVERRIDE_DURATION: affects the duration of a note.
+ not yet implemented
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+DENEMO_OVERRIDE_REPEAT: indicates that an earlier passage should be repeated
+ (from a directive of the same tag).
+ not yet implemented
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+DENEMO_OVERRIDE_CHANNEL: midibytes field gives the MIDI channel to use (?
+ implemented?)
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+DENEMO_OVERRIDE_TEMPO: midibytes field gives the tempo to use.
+\end_layout
+
+\begin_layout Standard
+The interpretation of these flags is modified by the following flags:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+DENEMO_OVERRIDE_ONCE: the value in midibytes is to be used just for the
+ item the directive is attached to.
+ not yet implemented
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+DENEMO_OVERRIDE_STEP: the value in midibytes is to be used from this point
+ on
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+DENEMO_OVERRIDE_RAMP: the value in midibytes is to be used as a starting
+ value, a corresponding directive (i.e.
+ with the same tag) gives the findal value, values are then interpolated
+ between these.
+ not yet implemented
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+DENEMO_OVERRIDE_RELATIVE: value in midibytes is used relative to the current
+ value (otherwise it is an absolute value; e.g.
+ an absolute velocity etc)
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+DENEMO_OVERRIDE_PERCENT: value in midibytes is interpreted as percentage
+ value.
+ not yet implemented
+\end_layout
+
+\begin_layout Standard
+These flags are combined together to get the combination required for the
+ directive using the scheme procedure called logior.
+\end_layout
+
+\begin_layout Standard
+Here is an example, making a step-change in volume of 0x40 in the MIDI output,
+ and printing "più mosso" in the output score 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{verbatim}
+\end_layout
+
+\begin_layout Plain Layout
+
+;;;;;;;;;; piu mosso
+\end_layout
+
+\begin_layout Plain Layout
+
+(d-DirectivePut-standalone-minpixels "StepTempo" 20)
+\end_layout
+
+\begin_layout Plain Layout
+
+(d-CursorLeft)
+\end_layout
+
+\begin_layout Plain Layout
+
+(d-DirectivePut-standalone-override "StepTempo" (logior DENEMO_OVERRIDE_TEMPO
+ DENEMO_OVERRIDE_STEP DENEMO_OVERRIDE_RELATIVE))
+\end_layout
+
+\begin_layout Plain Layout
+
+(d-DirectivePut-standalone-midibytes "StepTempo" "40")
+\end_layout
+
+\begin_layout Plain Layout
+
+(d-DirectivePut-standalone-display "StepTempo" "piu mosso")
+\end_layout
+
+\begin_layout Plain Layout
+
+(d-DirectivePut-standalone-postfix "StepTempo" "^
+\backslash
+
+\backslash
+markup {
+\backslash
+
+\backslash
+bold 
+\backslash
+
+\backslash
+italic 
+\backslash
+"più mosso
+\backslash
+"}")
+\end_layout
+
+\begin_layout Plain Layout
+
+(d-RefreshDisplay)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{verbatim}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+In this example the directive is a standalone directive.
+ MIDI commands are being extended to apply to chords and notes.
+ Implementation of the commands for Voices, Movements, Score etc are not
+ yet done.
+\end_layout
+
+\begin_layout Subsection
+Directive Edit Scripts
+\end_layout
+
+\begin_layout Paragraph
+Introduction
+\end_layout
+
+\begin_layout Standard
+Score and movement directives can define a value for their graphic - a button
+ then appears at the top of the score which can be used to edit the directive.
+ Likewise Staff and Voice directives show as a properties icon before the
+ staff to which they apply (staff directives above, voice directives below).
+ Clicking on these lets you edit the directive.
+\end_layout
+
+\begin_layout Standard
+The command EditDirective can be used when the cursor is on a Denemo Directive
+ object, or an object with a Denemo Directive attached to it.
+ What happens then is determined by a script named after the "tag", or name
+ of the directive.
+ For example the command RehearsalMark creates a Directive with tag "RehearsalMa
+rk" and EditDirective runs a script called RehearsalMark.scm.
+\end_layout
+
+\begin_layout Standard
+There is also a low-level editing dialog which is invoked if no editing
+ script exists or directly from scheme using (d-DirectiveTextEdit-* tagname).
+ This allows you to edit and delete a directive directly.
+ The other directive editing commands are EditScoreDirective EditMovementDirecti
+ve EditStaffDirective EditVoiceDirective EditClefDirective EditKeysigDirective
+ EditTimesigDirective for directives attached to the relevant objects.
+\end_layout
+
+\begin_layout Standard
+The low level edit of directives from scheme uses the following command:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{verbatim}
+\end_layout
+
+\begin_layout Plain Layout
+
+(d-DirectiveTextEdit-<field> <tagname>)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{verbatim}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Where <tagname> specifies the directive to be edited and <field> is one
+ of score, scoreheader, movementcontrol, header, paper, layout, clef, timesig,
+ keysig, staff, voice, standalone, chord or note.
+\end_layout
+
+\begin_layout Standard
+For example,
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{verbatim}
+\end_layout
+
+\begin_layout Plain Layout
+
+(d-DirectiveTextEdit-paper "PrintAllHeaders") 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{verbatim}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+gives low-level access to the directive setting the print all headers command
+ in the paper block of the LilyPond output.
+\end_layout
+
+\begin_layout Subsubsection
+Initialization Scripts
+\end_layout
+
+\begin_layout Standard
+Each menu can have an initialization script, which can contain procedures
+ that would be too time consuming to define every time they are needed.
+ These scripts are guaranteed to be run before any menu item is activated
+ within the menu.
+ They can be read/written using the right click menu on any scripted menu
+ item.
+\end_layout
+
+\begin_layout Subsubsection
+Edit Scripts
+\end_layout
+
+\begin_layout Standard
+Each directive has a tag field, so that it can be recognized by the scripts
+ that manipulate it.
+ In particular for each tag there can be an edit script, for editing a directive
+ of that tag.
+ 
+\end_layout
+
+\begin_layout Standard
+Edit scripts are kept in a directory actions/editscripts parallel with the
+ directory actions/menus where the commands themselves are kept.
+ 
+\end_layout
+
+\begin_layout Standard
+You can read and write edit scripts by using the low level editing dialog
+ on a directive with the tag you are writing for.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+The low level editing dialog is the one that is presented if there is no
+ edit script.
+ Edit scripts can themselves give access to this dialog by including an
+ option cue-Advanced which calls (d-DirectiveTextEdit-field tag) for the
+ appropriate field and tag.
+ For an example see the edit script for Instruments -> Orchestra -> RehearsalMar
+k.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+They have available functions to enable editing of directives which are
+ defined in actions//denemo.scm executed at startup.
+ The functions and variables for script editing are:
+\end_layout
+
+\begin_layout Itemize
+d-GetOption followed by a nul separated list of options, offers the options
+ to the user and returns one, or #f if the user cancels.
+\end_layout
+
+\begin_layout Itemize
+Extra-Offset tag type context.
+ Takes three string options: tag is the name of the directive to be edited,
+ which must be the name of a LilyPond object, type is the type of directive
+ (note, chord, standalone, staff, voice or score), context is the LilyPond
+ context of the object.
+ Only tag is required.
+ Shifts the object in the LilyPond output.
+\end_layout
+
+\begin_layout Itemize
+SetPadding tag type context.
+ As Extra-Offset, it sets the space left around the item in the LilyPond
+ engraving process.
+\end_layout
+
+\begin_layout Itemize
+SetRelativeFontSize tag type context.
+ As Extra-Offset, it shifts the font size of the following text in the LilyPond
+ engraving process.
+\end_layout
+
+\begin_layout Itemize
+CreateButton tag label this is just a convenience function to put a button
+ with the passed in label onto a button box at the top of the screen.
+ Scripts can attach actions to such tagged buttons.
+\end_layout
+
+\begin_layout Itemize
+d-SetDirectiveTagActionScript tag scheme-actions.
+ This command sets scheme-actions as the actions to be performed when the
+ button of the given tag is clicked.
+ The default action is to run any editscript associated with tag, and if
+ none to run the d-DirectiveTextEdit-score on the directive that displays
+ the button.
+\end_layout
+
+\begin_layout Itemize
+d-DirectiveGetForTag-field tag.
+ Useful variables defined:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+(define stop "
+\backslash
+0")
+\end_layout
+
+\begin_layout Itemize
+(define cue-Advanced "Advanced")
+\end_layout
+
+\begin_layout Itemize
+(define cue-PlaceAbove "Place above staff")
+\end_layout
+
+\begin_layout Itemize
+(define cue-PlaceBelow "Place below staff")
+\end_layout
+
+\begin_layout Itemize
+(define cue-SetRelativeFontSize "Set Relative Font Size")
+\end_layout
+
+\begin_layout Itemize
+(define cue-OffsetPositionAll "Offset Position (All)")
+\end_layout
+
+\begin_layout Itemize
+(define cue-OffsetPositionOne "Offset Position (One)")
+\end_layout
+
+\begin_layout Itemize
+(define cue-EditText "Edit Text")
+\end_layout
+
+\begin_layout Itemize
+(define cue-SetPadding "Set Padding")
+\end_layout
+
+\begin_layout Itemize
+(define cue-Delete "Delete")
+\end_layout
+
+\end_deeper
+\begin_layout Part
+\start_of_appendix
+Obtaining and Installing Denemo
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename images/osicons.jpg
+	width 30text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Denemo is available from the Downloads page of the Denemo website 
+\begin_inset CommandInset href
+LatexCommand href
+name "http://denemo.org"
+target "http://denemo.org"
+
+\end_inset
+
+, where more up-to-date information will be found.
+\end_layout
+
+\begin_layout Standard
+Denemo is available from a variety of sources for different distributions.
+ The latest stable release (tar.gz and .deb formats) is available for download
+ from 
+\begin_inset CommandInset href
+LatexCommand href
+name "http://denemo.org/downloads-page/"
+target "http://denemo.org/downloads-page/"
+
+\end_inset
+
+.
+ You can install Denemo from the Debian unstable repositories, using the
+ command apt-get install denemo.
+ Builds for Macintosh are available from the Gnu-Darwin project.
+ The Denemo development branch can be downloaded using anonymous CVS or
+ Git.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Anonymous Git checkout:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{verbatim}
+\end_layout
+
+\begin_layout Plain Layout
+
+git clone git://git.savannah.gnu.org/denemo.git
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{verbatim}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Anonymous CVS checkout: 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{verbatim}
+\end_layout
+
+\begin_layout Plain Layout
+
+cvs -d:pserver:anonymous@pserver.git.sv.gnu.org:/denemo.git co -d denemo master
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{verbatim}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+\noindent
+Dependencies
+\end_layout
+
+\begin_layout Standard
+To build Denemo from a source package, pleas see the website for an up-to-date
+ list of dependencies.
+ Remember to install the development packages as well (check your distribution
+ for the specific package name):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+For Debian Users: Type apt-cache showsrc denemo at a command line to determine
+ what are the package names for Denemo dependencies.
+ Type apt-get build-dep denemo to build the dependent files or use apt-get
+ to install the packages individually by copying and pasting their names
+ to the command line.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Installing Denemo from Source Code
+\end_layout
+
+\begin_layout Standard
+Denemo is available in a variety of formats.
+ The current stable release is available either as source code or in binary
+ format.
+ The Development branch of Denemo is available as a GIT source tree.
+\end_layout
+
+\begin_layout Subsection
+To install from source code:
+\end_layout
+
+\begin_layout Enumerate
+Open a terminal window.
+\end_layout
+
+\begin_layout Enumerate
+Change directory to the directory to which you downloaded the Denemo source
+ package.
+\end_layout
+
+\begin_layout Enumerate
+Uncompress the source package using standard Linux tools (tar and gunzip).
+\end_layout
+
+\begin_layout Enumerate
+Change directory to the uncompressed source directory.
+\end_layout
+
+\begin_layout Subsection
+Generating a Configure Script
+\end_layout
+
+\begin_layout Standard
+Git does not come with a Configure script; generate one by typing and pressing
+ Enter after the line:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{verbatim}
+\end_layout
+
+\begin_layout Plain Layout
+
+./autogen.sh
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{verbatim}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+To build from source, press Enter after each line:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{verbatim}
+\end_layout
+
+\begin_layout Plain Layout
+
+./configure
+\end_layout
+
+\begin_layout Plain Layout
+
+make
+\end_layout
+
+\begin_layout Plain Layout
+
+make install
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{verbatim}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+If you are not logged in as root user, for the last step type su and your
+ root password, or alternately type sudo make install.
+\end_layout
+
+\end_body
+\end_document
