@@ -1,4 +1,4 @@
-#LyX 2.1 created this file. For more info see http://www.lyx.org/
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
 \lyxformat 413
 \begin_document
 \begin_header
@@ -22,6 +22,7 @@
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
+
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -104,7 +105,7 @@ Copyright © 2009, 2010, 2011, 2012, 2013, 2014, 2015 Denemo Project
 
 \begin_layout Standard
 \align center
-Denemo 1 Updates for version 1.2.4
+Updates for version 1.2.4
 \end_layout
 
 \begin_layout Standard
@@ -178,8 +179,12 @@ Denemo lets you create musical scores.
 This separation of the final typesetting window from the input display avoids
  the constant dragging about of overlapping notation which is typical of
  music notation programs.
+ It also means you are less likely to input a slur when you mean a tie,
+ or a whole note rest when you mean a whole measure rest, for example -
+ these often look similar in the typeset and are easily confused, but Denemo's
+ input display makes clear the distinction.
  Nevertheless, if you do wish to tweak the appearance dragging and re-positionin
-g of notation is possible on the final typeset display.
+g of some notation is possible on the final typeset display.
 \end_layout
 
 \begin_layout Section
@@ -320,7 +325,7 @@ reference "sec:A-Survey-of-Input-Methods"
 .
  You can find more shortcuts by exploring the menu system - e.g.
  under the Notes/Rests menu the Select Duration submenu gives Remove Dot
- with the shortcut Control-period shown next to the command.
+ with the shortcut Control-period shown in blue next to the command.
  
 \end_layout
 
@@ -397,7 +402,8 @@ The period (
 Ctrl-.
 
 \family default
- removes a dot.
+ removes a dot, on the numeric keypad Decimal (.) cycles through dotted,
+ double-dotted, no-dot.
 \end_layout
 
 \begin_layout Itemize
@@ -2115,7 +2121,7 @@ Use the Playback menu to listen to your score.
 <lyxtabular version="3" rows="3" columns="2">
 <features tabularvalignment="middle">
 <column alignment="left" valignment="top" width="30text%">
-<column alignment="left" valignment="top">
+<column alignment="left" valignment="top" width="0">
 <row>
 <cell alignment="left" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
@@ -2224,7 +2230,7 @@ Use the Help menu to get help using Denemo.
 <lyxtabular version="3" rows="4" columns="2">
 <features tabularvalignment="middle">
 <column alignment="left" valignment="top" width="30text%">
-<column alignment="left" valignment="top">
+<column alignment="left" valignment="top" width="0">
 <row>
 <cell alignment="left" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
@@ -2329,7 +2335,7 @@ Use the Toolbar to access common Denemo commands via a mouse click.
 \begin_inset Tabular
 <lyxtabular version="3" rows="12" columns="2">
 <features islongtable="true" longtabularalignment="center">
-<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="0">
 <column alignment="left" valignment="top" width="80text%">
 <row endhead="true" endfirsthead="true">
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
@@ -2684,7 +2690,7 @@ Use this panel to control playback of the current movement.
 \begin_inset Tabular
 <lyxtabular version="3" rows="22" columns="2">
 <features islongtable="true" longtabularalignment="center">
-<column alignment="left" valignment="top">
+<column alignment="left" valignment="top" width="0">
 <column alignment="left" valignment="top" width="80text%">
 <row>
 <cell alignment="left" valignment="top" bottomline="true" usebox="none">
@@ -3470,7 +3476,7 @@ Clefs
 \begin_inset Text
 
 \begin_layout Plain Layout
-Insert, change or set the initial clef.
+Insert, change or set the clef.
 \end_layout
 
 \end_inset
@@ -3490,7 +3496,7 @@ Keys
 \begin_inset Text
 
 \begin_layout Plain Layout
-Insert a change or set the initial key.
+Insert a change or set the key.
 \end_layout
 
 \end_inset
@@ -3510,7 +3516,7 @@ Time Signatures
 \begin_inset Text
 
 \begin_layout Plain Layout
-Insert a change or set the initial time signature.
+Insert a change or set the time signature.
 \end_layout
 
 \end_inset
@@ -3551,6 +3557,7 @@ Chords
 
 \begin_layout Plain Layout
 Insert/remove notes from a chord.
+ Note that Chord Symbols are markings on notes (see Notes/Rests menu)
 \end_layout
 
 \end_inset
@@ -3595,8 +3602,7 @@ Directives
 \begin_layout Plain Layout
 These are objects inserted between the notes of a score to place marks or
  start/stop spanning effects such as textual cresc.
- dim., cadenzas, ottava, chord symbols, figured basses, fret diagrams and
- more.
+ dim., cadenzas, ottava, fret diagrams and more.
 \end_layout
 
 \end_inset
@@ -3685,6 +3691,25 @@ Palettes
 \end_layout
 
 \begin_layout Standard
+Palettes are collections of commands which can be executed by clicking with
+ the mouse or typing 
+\family typewriter
+p
+\family default
+ followed by (part of) the label of the button followed by the 
+\family typewriter
+Enter 
+\emph on
+or
+\emph default
+ Return
+\family default
+ key.
+ (The palette must be selected - you can do this while typing the label
+ or by using a button).
+\end_layout
+
+\begin_layout Standard
 In the View menu you can select palettes of commands to use.
  Palette items can be invoked from the keyboard (see the Edit Menu) or by
  clicking on them.
@@ -3692,6 +3717,15 @@ In the View menu you can select palettes of commands to use.
  entire palette.
  You can dock the palette in the main display, arrange it as a column, line
  or block and much more.
+\end_layout
+
+\begin_layout Standard
+You should make palettes your best friend - when you find a command in the
+ menu system that you need right click on it and choose Add to Palette.
+ This way you will build up one or more collections of commands that you
+ need.
+ By right clicking on a palette button you can choose a name for the command
+ that suits you, and even make special notes about its use in the tooltip.
 \end_layout
 
 \begin_layout Subsubsection
@@ -3712,6 +3746,15 @@ s).
  and its location in the menu system.
  Below that is a search box for finding any command you need by matching
  words in its description or label.
+ By choosing 
+\begin_inset Quotes eld
+\end_inset
+
+Fuzzy
+\begin_inset Quotes erd
+\end_inset
+
+ you will make the search less strict - one word could be missing.
 \end_layout
 
 \begin_layout Standard
@@ -3821,6 +3864,30 @@ Edit Label
 \end_inset
 
 .
+ Other options on clicking a snippet button are to insert the snippet, to
+ select the snippet (in which case as you enter pitches they follow the
+ rhythm of the snippet, including any slurs, trills, or articulations that
+ are in the snippet) etc.
+ 
+\family typewriter
+Ctrl-Space 
+\family default
+inserts the selected snippet or (if none is selected) inserts the snippet
+ that you specify by number.
+ Shift-Space selects the next snippet (or first if none selected), to unselect
+ a snippet choose a duration (0, 1...) to be used instead for entering pitches.
+\end_layout
+
+\begin_layout Standard
+In the insertion case, you may have two or three snippets that apply to
+ a given score - special bits of text that appear over notes for example
+ - and you can insert them using Ctrl-Space, 1 (or 2 or 3 ...) as needed.
+\end_layout
+
+\begin_layout Standard
+In the pattern-following case you will be selecting snippets using Shift-Space
+ and then playing in notes (and backing up using backspace in case of error
+ - the pattern backs up for you).
 \end_layout
 
 \begin_layout Section
@@ -3908,8 +3975,8 @@ Score and Movement Button Bars
 \begin_layout Standard
 The View->Titles, Buttons etc" checkbox makes two horizontal button bars
  visible (if they have buttons on them).
- What they the buttons show are titles/composer etc for the score and for
- the current movement.
+ What the buttons show are titles/composer etc for the score and for the
+ current movement.
  The score button bar holds the movement indicator buttons for scores that
  have several movements - you can click on one of these to move quickly
  to a different movement.
@@ -4103,7 +4170,7 @@ Playing the notes in can be much quicker than using the keyboard since the
  If you are able to play a musical instrument then this will probably be
  much faster for you than typing note names, octave shifts and accidentals
  at the computer keyboard.
- Using the headphones out of an electronic keyboard avoids "noises-off"
+ Using the headphones-out of an electronic keyboard avoids "noises-off"
  interfering with the pitch detection.
  Many microphones and pickups benefit from some pre-amplification - it is
  worth getting the level right before you begin.
@@ -5477,7 +5544,7 @@ To enter chord symbols choose Notes/Rests->Markings->Chord Symbols.
 \end_layout
 
 \begin_layout Standard
-Chord Charts can also be created - see the Chord Charts palette for these.
+Chord Charts can also be created - there is a Chord Charts palette for these.
 \begin_inset Note Note
 status open
 
