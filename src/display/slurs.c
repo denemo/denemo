@@ -8,6 +8,7 @@
 
 #include <denemo/denemo.h>
 #include "core/utils.h"              /* Includes <gdk.h> */
+#include <math.h>
 
 GSList *
 push_slur_stack (GSList * slur_stack, gint x)
@@ -46,6 +47,7 @@ draw_slur (cairo_t * cr, GSList ** slur_stack, gint x2, gint y)
   gint x1 = top_slur_stack (*slur_stack);
   if (x1 != -1)
     {
+      x1 += 6;//over note head
       *slur_stack = pop_slur_stack (*slur_stack);
 
       cairo_set_line_width (cr, 1.0);
@@ -65,21 +67,19 @@ draw_slur (cairo_t * cr, GSList ** slur_stack, gint x2, gint y)
 void
 draw_slur_start (cairo_t * cr, gint x, gint y)
 {
-
-  cairo_set_line_width (cr, 1.0);
-  cairo_move_to (cr, x, y - 15);
-  cairo_rel_line_to (cr, 8, -4);
-  cairo_stroke (cr);
-
+  cairo_save (cr);
+  cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 0.3);
+  cairo_arc (cr, x + 6, y - 15, 4, 0.0, 2 * M_PI);
+  cairo_fill (cr);
+  cairo_restore (cr);
 }
 
 void
 draw_slur_end (cairo_t * cr, gint x, gint y)
 {
-
-  cairo_set_line_width (cr, 1.0);
-  cairo_move_to (cr, x + 5, y - 15);
-  cairo_rel_line_to (cr, -9, -4);
-  cairo_stroke (cr);
-
+  cairo_save (cr);
+  cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 0.3);
+  cairo_arc (cr, x + 5, y - 16, 4, 0.0, 2 * M_PI);
+  cairo_fill (cr);
+  cairo_restore (cr);
 }
