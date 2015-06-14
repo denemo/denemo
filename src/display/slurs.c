@@ -68,8 +68,11 @@ void
 draw_slur_start (cairo_t * cr, gint x, gint y)
 {
   cairo_save (cr);
-  cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 0.3);
-  cairo_arc (cr, x + 6, y - 15, 4, 0.0, 2 * M_PI);
+  cairo_set_source_rgba (cr, 0.1, 0.9, 0.1, 0.8);
+  cairo_translate (cr, x+6, y - 15);
+  cairo_rotate (cr, -M_PI / 3.0);
+  cairo_scale (cr, 0.7, -0.7);
+  drawfetachar_cr (cr, 0xD8, 0, 0);
   cairo_fill (cr);
   cairo_restore (cr);
 }
@@ -78,8 +81,12 @@ void
 draw_slur_end (cairo_t * cr, gint x, gint y)
 {
   cairo_save (cr);
-  cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 0.3);
-  cairo_arc (cr, x + 5, y - 16, 4, 0.0, 2 * M_PI);
+  cairo_set_source_rgba (cr, 0.9, 0.1, 0.1, 0.8);
+   cairo_translate (cr, x+5, y - 15);
+  cairo_rotate (cr, -M_PI / 1.5);
+  cairo_scale (cr, 0.7, -0.7);
+  drawfetachar_cr (cr, 0xD9, 0, 0);
+  //cairo_arc (cr, x + 5, y - 16, 4, 0.0, 2 * M_PI);
   cairo_fill (cr);
   cairo_restore (cr);
 }
