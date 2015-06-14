@@ -11,21 +11,28 @@
 #include <math.h>
 
 GSList *
-push_slur_stack (GSList * slur_stack, gint x)
+push_slur_stack (GSList * slur_stack, gint x, gint y)
 {
-  slur_stack = g_slist_prepend (slur_stack, GINT_TO_POINTER (x));
+  slur_stack = g_slist_prepend (slur_stack, GINT_TO_POINTER ((x&0xFFFF)+(y<<16)));
   return slur_stack;
 }
 
-gint
-top_slur_stack (GSList * slur_stack)
+static gint
+top_slur_stack_x (GSList * slur_stack)
 {
   if (slur_stack)
-    return GPOINTER_TO_INT (slur_stack->data);
+    return 0xFFFF & GPOINTER_TO_INT (slur_stack->data);
   else
     return -1;
 }
-
+static gint
+top_slur_stack_y (GSList * slur_stack)
+{
+  if (slur_stack)
+    return  (GPOINTER_TO_INT (slur_stack->data))>>16;
+  else
+    return -1;
+}
 GSList *
 pop_slur_stack (GSList * slur_stack)
 {
@@ -42,17 +49,21 @@ pop_slur_stack (GSList * slur_stack)
 }
 
 void
-draw_slur (cairo_t * cr, GSList ** slur_stack, gint x2, gint y)
+draw_slur (cairo_t * cr, GSList ** slur_stack, gint x2, gint y, gint y2)
 {
-  gint x1 = top_slur_stack (*slur_stack);
+  gint x1 = top_slur_stack_x (*slur_stack);
+  gint y1 = top_slur_stack_y (*slur_stack);
+  gint dir = (y1+y2>40?-1:1);
+  
+  
   if (x1 != -1)
     {
       x1 += 6;//over note head
       *slur_stack = pop_slur_stack (*slur_stack);
 
       cairo_set_line_width (cr, 1.0);
-      cairo_move_to (cr, x1, y - 15);
-      cairo_rel_curve_to (cr, (x2 - x1) / 3, -8, (x2 - x1) * 2 / 3, -8, (x2 - x1), 0);
+      cairo_move_to (cr, x1, y1 + y - 12 * dir);         
+      cairo_rel_curve_to (cr, (x2 - x1) / 3, (y2 - y1 - 5* dir)*1/3 -8 * dir, (x2 - x1) * 2 / 3, (y2 - y1 - 5* dir)*2/3 - 8* dir, (x2 - x1), y2 - y1 - 5* dir);
       cairo_stroke (cr);
     }
   else

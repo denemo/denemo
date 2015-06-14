@@ -495,9 +495,9 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 
         if (cr)
           if (thechord->slur_end_p)
-            draw_slur (cr, &(itp->slur_stack), x + mudelaitem->x + 5/*half note head??? */, y);
+            draw_slur (cr, &(itp->slur_stack), x + mudelaitem->x + 5/*half note head??? */, y, thechord->highesty);
         if (thechord->slur_begin_p)
-          itp->slur_stack = push_slur_stack (itp->slur_stack, x + mudelaitem->x);
+          itp->slur_stack = push_slur_stack (itp->slur_stack, x + mudelaitem->x, thechord->highesty);
 
         if (thechord->crescendo_begin_p)
           {
@@ -1549,7 +1549,7 @@ draw_score (cairo_t * cr)
           if (count < 0)
             {
               count = -count;
-              itp.slur_stack = push_slur_stack (itp.slur_stack, 0);
+              itp.slur_stack = push_slur_stack (itp.slur_stack, 0, 0);
             }
           reset_lyrics (staff, count);
         }
