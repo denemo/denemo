@@ -243,7 +243,7 @@ static void edit_label_for_button (GtkWidget *button) {
         label = gtk_button_get_label (GTK_BUTTON(button));
     gchar *newlabel = string_dialog_entry (Denemo.project, _("Write Label"), _("Write a label for this button"), (gchar*)label);
     
-    if(newlabel) {
+    if(newlabel && *newlabel) {
         gchar *icon = find_denemo_file (DENEMO_DIR_PIXMAPS, newlabel);
         if(icon) {
             set_image_for_button (button, newlabel);
