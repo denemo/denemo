@@ -3,6 +3,7 @@
         (x-offset #f)
         (y-offset #f)
         (prefix "<>")
+        (direction #f)
         (dimensions "")
         (dim #f)
         (data #f))
@@ -12,6 +13,7 @@
         (set! data (eval-string data))
         (set! data '()))
     (set! dim (assq-ref data 'dimensions))    
+    (set! direction (assq-ref data 'direction))    
     (set! current (assq-ref data 'text))
     (set! scale (assq-ref data 'scale))
     (set! x-offset (assq-ref data 'x-offset))
@@ -21,6 +23,8 @@
     	(begin
     		(if  (assq-ref params 'dimensions)
     			(set! dim  (assq-ref params 'dimensions)))
+    		(if  (assq-ref params 'direction)
+    			(set! dim  (assq-ref params 'direction)))
    		(if  (assq-ref params 'text)
     			(set! current  (assq-ref params 'text)))
    		(if  (assq-ref params 'scale)
@@ -33,23 +37,28 @@
 
     (if (not scale)
         (set! scale "1"))
+  
     (if (and  (d-Directive-standalone? tag) current)
         (set! prefix (d-DirectiveGet-standalone-prefix tag)))
     (if (equal? "edit" params)
         (let ((choice (RadioBoxMenu (cons (_ "Edit Text") #f) 
         (cons (_ "Edit Space Occupied") 'space)
         (cons (_ "Edit Size") 'scale)
-         (cons (_ "Edit Position") 'position))))
+        (cons (_ "Up/Down") 'position)
+         (cons (_ "Edit Position") 'offset))))
             (case choice
               ((scale) 
               	(set! params #f))
+              	((position) 
+              	    (set! direction (GetLilyPondDirection))
+                     (set! params #f))
                 ((space) 
                     (begin
                     	(set! params #f)
                         (set! dim (d-GetUserInput (_ "Space Occupied by Text/Music") (_ "Give space:\n(0 prevents dragging position\nBlank for natural size.)") dim)))
                         (if (not (and dim (string->number dim) (>= (string->number dim) 0)))
                                     (set! dim #f)))
-                ((position) 
+                ((offset) 
                     (set! x-offset (d-GetUserInput (_ "Offsets")  (_ "Give horizontal displacement required") x-offset))
                     (set! y-offset (d-GetUserInput (_ "Offsets")  (_ "Give vertical displacement required") y-offset))      
                     (if (not (and x-offset (string->number x-offset) y-offset (string->number y-offset)))
@@ -60,8 +69,6 @@
 
     (if (and y-offset x-offset)
         (set! prefix (string-append "<>-\\tweak #'extra-offset #'(" x-offset " . " y-offset ") ")))        
-        
-         
 
     (if dim
         (set! dimensions (string-append "\\with-dimensions #'(-" dim " . " dim ") #'(-" dim " . " dim ")")))
@@ -71,6 +78,8 @@
                 
     (if (not dimensions)
                 (set! dimensions ""))
+     (if (not direction)
+        (set! direction "^"))      
     (if (not text)
         (set! text (d-GetUserInputWithSnippets (_ "Text") (_ "Give text to appear with following note/chord:\nThe characters \\, \", §, { and } have a special meaning in the text,\nthe backslash \\ starts some LilyPond sytax, the others must be paired.\nTo apply italic or bold to a group of words enclose them in {}, e.g. \\bold {These words are bold}.\nOther markup commands \\super, \\tiny etc, see LilyPond documentation.") current)))
     (if text 
@@ -86,7 +95,7 @@
             (if dim 
                 (set! data (assq-set! data 'dimensions dim))
                 (set! data (assq-remove! data 'dimensions)))
- 
+ 	   (set! data (assq-set! data 'direction direction))
             (if x-offset
              (set! data (assq-set! data 'x-offset x-offset)))
             (if y-offset
@@ -96,7 +105,7 @@
                 (d-DirectivePut-standalone tag))
             (d-DirectivePut-standalone-data tag (format #f "'~s" data))
             (d-DirectivePut-standalone-display tag text)
-            (d-DirectivePut-standalone-postfix tag (string-append "^\\markup"dimensions"\\scale #'(" scale " . " scale ")\\column{" markup "}"))
+            (d-DirectivePut-standalone-postfix tag (string-append direction "\\markup"dimensions"\\scale #'(" scale " . " scale ")\\column{" markup "}"))
             (d-DirectivePut-standalone-prefix tag prefix)
             (d-DirectivePut-standalone-minpixels tag 30)
             (d-RefreshDisplay)
