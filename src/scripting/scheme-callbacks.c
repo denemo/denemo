@@ -3597,7 +3597,14 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
   g_signal_connect (button, "clicked", G_CALLBACK (insert_font_mag), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
-  gchar *text = string_dialog_editor_with_widget_opt (Denemo.project, title, instruction, initial_value, hbox, (modal == SCM_UNDEFINED) || scm_is_true (modal));
+  gchar *text;
+  if ((modal == SCM_UNDEFINED))
+            text = string_dialog_editor_with_widget_opt (Denemo.project, title, instruction, initial_value, hbox, TRUE);
+  else  
+   if (scm_is_false (modal))
+            text = string_dialog_editor_with_widget_opt (Denemo.project, title, instruction, initial_value, hbox, FALSE);
+  else
+    text = g_strdup (initial_value); //anything else, just format the passed in string
   if (text)
     {
       gchar *lilypond = create_lilypond_from_text (text);
