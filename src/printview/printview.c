@@ -2136,13 +2136,12 @@ page_display (G_GNUC_UNUSED GtkWidget * button, gint page_increment)
 }
 
 static void
-dual_page (G_GNUC_UNUSED GtkWidget * button)
+dual_page (GtkWidget * button)
 {
   GError *err = NULL;
+  gboolean duplex = g_object_get_data (G_OBJECT (Denemo.printarea), "Duplex");
+  gtk_button_set_label (button, duplex? _("Duplex"):_("Single"));
   g_object_set_data (G_OBJECT (Denemo.printarea), "Duplex", GINT_TO_POINTER (!g_object_get_data (G_OBJECT (Denemo.printarea), "Duplex")));
-//refresh...
-//  EvDocumentModel  *model = ev_view_get_model((EvView*)Denemo.printarea);
-//  ev_document_model_set_dual_page (model, (gboolean)g_object_get_data(G_OBJECT(Denemo.printarea), "Duplex"));
   set_printarea (&err);
 }
 
