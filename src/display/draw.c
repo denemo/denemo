@@ -481,12 +481,17 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
           if (cr)
             draw_fakechord (cr, x + mudelaitem->x, y - 45, mudelaitem);
 
-        if (si->currentstaffnum == itp->staffnum && itp->verse && thechord->notes && !itp->slur_stack && !thechord->is_tied)
+        if (si->currentstaffnum == itp->staffnum && itp->verse && thechord->notes)
           {
-            gchar *syllable = (gchar *) next_syllable ();
-            if (cr)
-              if (syllable)
-                draw_lyric (cr, x + mudelaitem->x, y + itp->in_lowy, syllable);
+            static gboolean last_tied = FALSE;
+            if ((!last_tied) && (!itp->slur_stack) && (!thechord->is_tied))
+              {
+                gchar *syllable = (gchar *) next_syllable ();
+                if (cr)
+                  if (syllable)
+                    draw_lyric (cr, x + mudelaitem->x, y + itp->in_lowy, syllable);
+              }
+            last_tied = thechord->slur_end_p && thechord->is_tied;
           }
 
         if (cr)
