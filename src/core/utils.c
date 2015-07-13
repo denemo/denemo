@@ -2358,8 +2358,8 @@ string_dialog_entry_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar 
   GtkWidget *dialog;
   GtkWidget *entry;
   GtkWidget *label;
-  gchar *entry_string;
-  GString *string;
+  gchar *entry_string = NULL;
+  //GString *string;
   entry = gtk_entry_new ();
 
   dialog = modal ? gtk_dialog_new_with_buttons (wlabel, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL) : gtk_dialog_new_with_buttons (wlabel, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
@@ -2378,8 +2378,6 @@ string_dialog_entry_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar 
 
   gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
-  //gtk_widget_grab_focus (entry);
-  //gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
@@ -2389,14 +2387,19 @@ string_dialog_entry_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar 
       gtk_widget_grab_focus (entry);
       if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
         {
-          entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
-          string = g_string_new (entry_string);
-          gtk_widget_destroy (dialog);
-          return g_string_free (string, FALSE);
+            gchar *string = NULL;
+            if (GTK_DIALOG (dialog))
+                {
+                entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
+                string = g_strdup (entry_string);
+                gtk_widget_destroy (dialog);
+                }
+              return string;
         }
       else
         {
-          gtk_widget_destroy (dialog);
+          if (GTK_DIALOG (dialog))
+            gtk_widget_destroy (dialog);
           return NULL;
         }
       return NULL;
