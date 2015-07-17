@@ -37,7 +37,7 @@ print-all-headers = ##t
     <papersize>a4</papersize>
     <fontsize>20</fontsize>
     <orientation>1</orientation>
-    <total-edit-time>13179</total-edit-time>
+    <total-edit-time>13186</total-edit-time>
     <score-directives>
       <directive>
         <tag>ScoreIndent</tag>
@@ -2172,8 +2172,8 @@ Denemo
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>5</measureno>
-      <cursorposition>2</cursorposition>
+      <measureno>4</measureno>
+      <cursorposition>3</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -2240,15 +2240,6 @@ instrument = ##f
           <midi_channel>5</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>ContextPianoStaff</tag>
-              <postfix> &gt;&gt;
-</postfix>
-              <display>Piano Staff End</display>
-              <override>52</override>
-            </directive>
-          </staff-directives>
         </voice-props>
         <measures>
           <measure>
@@ -2458,8 +2449,8 @@ instrument = ##f
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
-      <page-zoom>0</page-zoom>
-      <page-system-height>0</page-system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
     </edit-info>
     <header-directives>
       <directive>
