@@ -1813,20 +1813,24 @@ append_directives_information (GString * selection, GList * directives)
       const gchar *label = get_label_for_command (directive->tag->str);
       const gchar *menupath = get_menu_path_for_command (directive->tag->str);
       const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
+      g_string_append (selection, "\n<span foreground=\"blue\"weight=\"bold\">---------------------------------------------------------</span>\n");
       if(label)
-                g_string_append_printf (selection, _("Directive for command: \"%s\"\n"), label);
+                g_string_append_printf (selection, _("Directive for command: <span weight=\"bold\">\"%s\"</span>\n"), g_markup_escape_text(label, -1));
       else
-                g_string_append_printf (selection, _("Directive tagged: \"%s\"\n"), directive->tag->str);
-            if(menupath)
-                g_string_append_printf (selection, _("Menu location for this command: \"%s\"\n"), menupath);
-      if(directive->prefix)
-                 g_string_append_printf (selection, _("LilyPond inserted in prefix to this object is \"%s\"\n"), directive->prefix->str);
-            if(directive->postfix)
-                 g_string_append_printf (selection, _("LilyPond inserted in postfix to this object is \"%s\"\n"), directive->postfix->str);
+                g_string_append_printf (selection, _("Directive tagged: <span foreground=\"red\"weight=\"bold\">\"%s\"</span>\n"), g_markup_escape_text(directive->tag->str, -1));
+      if(menupath)
+                g_string_append_printf (selection, _("Menu location for this command: <span style=\"italic\" weight=\"bold\">\"%s\"</span>\n"), g_markup_escape_text(menupath, -1));
       if(tooltip)
-        g_string_append_printf (selection, _("The help for the command that created this directive is:\n\"%s\"\n"), tooltip);
+        g_string_append_printf (selection, _("The help for the command that created this directive is:\n<big>\"%s\"</big>\n"), g_markup_escape_text(tooltip, -1));               
+      if(directive->prefix)
+                 g_string_append_printf (selection, _("LilyPond inserted in prefix to this object is <tt>\"%s\"</tt>\n"), g_markup_escape_text(directive->prefix->str, -1));
+      if(directive->postfix)
+                 g_string_append_printf (selection, _("LilyPond inserted in postfix to this object is <tt>\"%s\"</tt>\n"), g_markup_escape_text(directive->postfix->str, -1));
+
+     g_string_append (selection, "<span foreground=\"blue\"weight=\"bold\">---------------------------------------------------------</span>");
     }
   while (directives->next && (directives = directives->next));
+  g_string_append (selection, "\n");
 }
 
 static void append_lilypond (DenemoObject *curObj, GString *selection)
@@ -1835,10 +1839,27 @@ static void append_lilypond (DenemoObject *curObj, GString *selection)
         if( gui->lilysync != gui->changecount)
             refresh_lily_cb (NULL, gui);
         if(curObj->lilypond)
-            g_string_append_printf (selection, _("The LilyPond syntax generated is: %s\n"), curObj->lilypond);
+            g_string_append_printf (selection, _("The LilyPond syntax generated is: <tt>%s</tt>\n"), g_markup_escape_text(curObj->lilypond, -1));
         else
             g_string_append_printf (selection, _("This object does not affect the music typesetting, (no LilyPond syntax is generated)\n"));
     }
+    
+    int gcd(int n, int m)
+{
+static int gcd, remainder;
+ 
+while (n != 0)
+{
+remainder = m % n;
+m = n;
+n = remainder;
+}
+ 
+gcd = m;
+ 
+return gcd;
+}//end gcd function
+
 void
 display_current_object (void)
 {
@@ -1942,13 +1963,27 @@ display_current_object (void)
                   warning = g_string_append (warning, _("This rest has the grace attribute set: this can be used to avoid a bug in the print view.\n"));
 
               }
-            if (thechord->directives) {
+            if (thechord->directives) 
+                            {
                             selection = g_string_append (selection, _("Attached to the chord:"));
-              append_directives_information (selection, thechord->directives);
-                        }
-          g_string_append_printf (selection, _("This starts %d/384 quarter notes into the measure and lasts %d/384 quarter notes.\n"), curObj->starttick, curObj->durinticks);
+                            append_directives_information (selection, thechord->directives);
+                            }
+           gint gcd_s = gcd (curObj->starttick, 384);
+           gint gcd_d = gcd (curObj->durinticks, 384);
+           if (gcd_s == 384)
+            {
+                if (gcd_d == 384)
+                 g_string_append_printf (selection, _("This object starts %d 𝅘𝅥  's into the measure and lasts %d 𝅘𝅥 's.\n"), curObj->starttick/384, curObj->durinticks/384);
+                else
+                g_string_append_printf (selection, _("This object starts %d 𝅘𝅥  's into the measure and lasts %d/%d 𝅘𝅥 's.\n"), curObj->starttick/384, curObj->durinticks/gcd_d, 384/gcd_d);
+            } else 
+            {
+                if (gcd_d == 384)
+                    g_string_append_printf (selection, _("This object starts %d/%d 𝅘𝅥  's into the measure and lasts %d 𝅘𝅥 's.\n"), curObj->starttick/gcd_s, 384/gcd_s, curObj->durinticks);
+                else
+                    g_string_append_printf (selection, _("This object starts %d/%d 𝅘𝅥  's into the measure and lasts %d/%d 𝅘𝅥 's.\n"), curObj->starttick/gcd_s, 384/gcd_s, curObj->durinticks/gcd_d, 384/gcd_d);
+            }
            append_lilypond (curObj, selection);
-
           }
           break;
         case TUPOPEN:
@@ -2031,29 +2066,29 @@ display_current_object (void)
             DenemoDirective *directive = (DenemoDirective *) curObj->object;
             if(directive->tag==NULL)
                             directive->tag = g_string_new("<Unknown Tag>");//shouldn't happen
-            const gchar *label = get_label_for_command(directive->tag->str);
-            const gchar *menupath = get_menu_path_for_command(directive->tag->str);
+            const gchar *label = get_label_for_command (directive->tag->str);
+            const gchar *menupath = get_menu_path_for_command (directive->tag->str);
             const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
 
             if(label)
-               g_string_append_printf (selection, _("a Denemo Directive: (%s)"), label);
+               g_string_append_printf (selection, _("a Denemo Directive: <span weight=\"bold\">%s</span>\n"), g_markup_escape_text(label, -1));
             else
-                            g_string_append_printf (selection, _("a Denemo Directive: (%s)"), directive->tag->str);
+                g_string_append_printf (selection, _("a Denemo Directive tagged: <span foreground=\"red\"weight=\"bold\">%s</span>\n"), g_markup_escape_text(directive->tag->str, -1));
             if(tooltip)
-                g_string_append_printf (selection, _("\nThe help for the command that created this directive is \"%s\""), tooltip);
+                g_string_append_printf (selection, _("\nThe help for the command that created this directive is\n<big>\"%s\"</big>"), g_markup_escape_text(tooltip, -1));
 
            g_string_append_printf (selection, _("%s"), directive->x ? _("\nNot all layouts\n") : directive->y ? _("\nOnly for one Layout\n"): "\n");
            if(menupath)
-                g_string_append_printf (selection, _("Menu location for this command: \"%s\"\n"), menupath);
+                g_string_append_printf (selection, _("Menu location for this command: <span style=\"italic\" weight=\"bold\">\"%s\"</span>\n"), g_markup_escape_text(menupath, -1));
             
             {
                gchar *text =  g_strconcat(directive->prefix?directive->prefix->str:"",
                             directive->postfix?directive->postfix->str:"", NULL);
                g_strchug (text); //does not allocate memory
                if (*text)             
-                g_string_append_printf (selection, _("The LilyPond text inserted is %s%s\n"),  
-                           directive->prefix?directive->prefix->str:"",
-                            directive->postfix?directive->postfix->str:"");//puts the whitespace back
+                g_string_append_printf (selection, _("The LilyPond text inserted is <tt>%s%s</tt>\n"),  
+                           directive->prefix?g_markup_escape_text(directive->prefix->str, -1):"",
+                            directive->postfix?g_markup_escape_text(directive->postfix->str, -1):"");//puts the whitespace back
             else
                 g_string_append_printf (selection, _("This object does not affect the printed output (no LilyPond syntax is generated for the typesetter)\n"));//well this ignores possible effect of whitespace...
             g_free (text);
@@ -2095,7 +2130,8 @@ display_current_object (void)
         }
       if (selection->len)
         {
-          GtkWidget *label = gtk_label_new (selection->str);
+          GtkWidget *label = gtk_label_new ("");
+          gtk_label_set_markup (GTK_LABEL (label), selection->str);
           gtk_label_set_line_wrap (GTK_LABEL(label), TRUE);
           gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
         }
