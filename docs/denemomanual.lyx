@@ -105,7 +105,7 @@ Copyright © 2009, 2010, 2011, 2012, 2013, 2014, 2015 Denemo Project
 
 \begin_layout Standard
 \align center
-Updates for version 1.2.4
+Updates for version 1.3
 \end_layout
 
 \begin_layout Standard
@@ -141,7 +141,7 @@ Introduction
 status open
 
 \begin_layout Plain Layout
-(Temporarily) pull the pagenumbering command out before HTML export.
+(Temporarily) delete this pagenumbering command out before HTML export.
 \end_layout
 
 \end_inset
@@ -3912,6 +3912,59 @@ Right clicking in this pane also allows you to drag offsets to apply to
  This is generally a better way of indicating that it is too close to something
  else, since other objects will move away from it as needed - that is, if
  you later edit something it will behave more intelligently.
+\end_layout
+
+\begin_layout Section
+The Object Inspector
+\end_layout
+
+\begin_layout Standard
+The Object Inspector is shown by clicking View->Object Inspector, or just
+ double-clicking on an object in the Denemo Display.
+ It gives comprehensive information about the object at the cursor.
+ This includes directives like ornaments, dynamic markings, fingerings that
+ may be attached to the object.
+ The inspector is sensitive to which note of a chord the cursor is on, so
+ that things like fingerings (which can vary from note to note within a
+ chord) are displayed individually as you move the cursor up and down a
+ chord.
+\end_layout
+
+\begin_layout Standard
+For many directives full information about which command created the directive
+ and where it is to be found in the menu system is given, and the description
+ of the command's behavior.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Some older commands don't have full information but the tag associated with
+ the directive will usually help in tracking it down.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Object Inspector automatically updates itself as you move the cursor
+ around.
+ Use the window controls on the Object Inspector's title bar to dismiss
+ the window.
 \end_layout
 
 \begin_layout Section
