@@ -575,6 +575,8 @@ actions/menus/MainMenu/PlaybackMenu/ToggleImmediatePlayback.scm
 actions/menus/MainMenu/PlaybackMenu/ToggleImmediatePlayback.xml
 actions/menus/MainMenu/PlaybackMenu/TogglePlayAlongPlayback.scm
 actions/menus/MainMenu/PlaybackMenu/TogglePlayAlongPlayback.xml
+actions/menus/MainMenu/ViewMenu/DisplayCurrentObject.scm
+actions/menus/MainMenu/ViewMenu/DisplayCurrentObject.xml
 actions/menus/MainMenu/ViewMenu/Palettes/ChoosePalette.scm
 actions/menus/MainMenu/ViewMenu/Palettes/ChoosePalette.xml
 actions/menus/MainMenu/ViewMenu/Palettes/UnhidePalettes.scm
