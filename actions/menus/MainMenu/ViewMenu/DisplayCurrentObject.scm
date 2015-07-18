@@ -1,0 +1,2 @@
+;;;;DisplayCurrentObject
+    (d-DisplayObject)

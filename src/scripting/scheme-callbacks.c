@@ -873,7 +873,16 @@ scheme_debug_object (SCM optional)
   g_debug ("*************\nType = %d\nbasic_durinticks = %d\ndurinticks - %d\nstarttickofnextnote = %d\n***********\n", curObj->type, curObj->basic_durinticks, curObj->durinticks, curObj->starttickofnextnote);
   return SCM_BOOL (TRUE);
 }
+SCM
+scheme_display_object (void)
+{
+  DenemoObject *curObj;
 
+  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data))
+    return SCM_BOOL (FALSE);
+  display_current_object ();
+  return SCM_BOOL (TRUE);
+}
 SCM
 scheme_get_editing_time (void)
 {

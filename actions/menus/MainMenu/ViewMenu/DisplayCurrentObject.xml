@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>DisplayCurrentObject</action>
+        <_label>Object Inspector</_label>
+        <_tooltip>Pops up a window which displays the object at the cursor, including anything attached to it.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

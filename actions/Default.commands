@@ -3039,7 +3039,6 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <_label>ChoirStaff Start</_label>
         <_tooltip>Start grouping single staves together in order to form multi-stave systems. In a ChoirStaff, the group starts with a bracket, but bar lines are not connected. </_tooltip>
       </row>
-     
       <row type="scheme">
         <action>GrandStaffStart</action>
         <after>ChoirStaffStart</after>
@@ -3047,7 +3046,6 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <_label>GrandStaff Start</_label>
         <_tooltip>Start grouping single staves together in order to form multi-stave systems. In a GrandStaff, the group begins with a brace, and bar lines are connected between the staves.</_tooltip>
       </row>
-      
       <row type="scheme">
         <action>GroupStaffStart</action>
         <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
@@ -3081,7 +3079,7 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
         <_label>Delete all staff contexts</_label>
         <_tooltip>Clear the staff from all groupings</_tooltip>
-      </row>      
+      </row>
       <row type="scheme">
         <action>ChooseBarline</action>
         <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
@@ -3459,7 +3457,6 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <_label>Delete Selected Objects</_label>
         <_tooltip>Delete all selected objects and leave empty measures behind</_tooltip>
       </row>
-
       <row type="scheme">
         <action>StagedDelete</action>
         <after>DeletePreviousObject</after>
@@ -7312,6 +7309,12 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
         <_label>Convert Incorrect Slurs to Ties</_label>
         <_tooltip>Corrects for the slur/tie error common in imported scores. Scans entire score for pairs of identical notes slurred together as a pair. Changes these to a tied note. Do not use in the unusual case of identical notes slurred (e.g. across strings).</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>DisplayCurrentObject</action>
+        <menupath>/MainMenu/ViewMenu</menupath>
+        <_label>Object Inspector</_label>
+        <_tooltip>Pops up a window which displays the object at the cursor, including anything attached to it.</_tooltip>
       </row>
     </map>
   </merge>
