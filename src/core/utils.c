@@ -1794,7 +1794,7 @@ DenemoProject *gui = Denemo.project;
     return NULL;
 }
 
-/* display full information about the object at the cursor */
+/* drop display full information about the object at the cursor */
 GtkWidget *ObjectInfo = NULL;
 static gboolean
 drop_object_info (void)
@@ -1803,7 +1803,14 @@ drop_object_info (void)
     gtk_widget_hide (ObjectInfo);
   return TRUE;
 }
-
+/* display full information about the object at the cursor if Inspector is open*/
+static gboolean
+update_object_info (void)
+{
+  if (ObjectInfo)
+    display_current_object ();
+  return TRUE;
+}
 static void
 append_directives_information (GString * selection, GList * directives)
 {
@@ -1893,6 +1900,7 @@ display_current_object (void)
   if (ObjectInfo == NULL)
     {
       ObjectInfo = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+      gtk_window_set_title (GTK_WINDOW (ObjectInfo), _("Denemo Object Inspector"));
       g_signal_connect (G_OBJECT (ObjectInfo), "delete-event", G_CALLBACK (drop_object_info), NULL);
       gtk_window_set_keep_above (GTK_WINDOW (ObjectInfo), TRUE);
       gtk_window_set_accept_focus (GTK_WINDOW (ObjectInfo), FALSE);
@@ -2338,7 +2346,7 @@ write_status (DenemoProject * gui)
   
   gtk_label_set_text (GTK_LABEL (Denemo.statuslabel), status->str);
   g_string_free (status, TRUE);
-  drop_object_info ();
+  update_object_info ();
 }
 
 void
