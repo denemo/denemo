@@ -1876,21 +1876,17 @@ static void append_lilypond (DenemoObject *curObj, GString *selection)
             g_string_append_printf (selection, _("This object does not affect the music typesetting, (no LilyPond syntax is generated)\n"));
     }
     
-    int gcd(int n, int m)
+static gint gcd384 (gint n)
 {
-static int gcd, remainder;
- 
-while (n != 0)
-{
-remainder = m % n;
-m = n;
-n = remainder;
+    gint remainder, m = 384;
+    while (n != 0)
+    {
+        remainder = m % n;
+        m = n;
+        n = remainder;
+    }
+    return m;
 }
- 
-gcd = m;
- 
-return gcd;
-}//end gcd function
 
 void
 display_current_object (void)
@@ -2005,8 +2001,8 @@ display_current_object (void)
                             selection = g_string_append (selection, _("Attached to the chord:"));
                             append_directives_information (selection, thechord->directives);
                             }
-           gint gcd_s = gcd (curObj->starttick, 384);
-           gint gcd_d = gcd (curObj->durinticks, 384);
+           gint gcd_s = gcd384 (curObj->starttick);
+           gint gcd_d = gcd384 (curObj->durinticks);
            if (gcd_s == 384)
             {
                 if (gcd_d == 384)
