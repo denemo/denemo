@@ -37,14 +37,14 @@ print-all-headers = ##t
     <papersize>a4</papersize>
     <fontsize>20</fontsize>
     <orientation>1</orientation>
-    <total-edit-time>13329</total-edit-time>
+    <total-edit-time>13918</total-edit-time>
     <score-directives>
       <directive>
         <tag>ScoreIndent</tag>
-        <prefix>\layout {indent = 25}
+        <prefix>\layout {indent = 26.0}
 </prefix>
-        <display>indent=25</display>
-        <data>25</data>
+        <display>indent=26.0</display>
+        <data>26.0</data>
         <override>4</override>
       </directive>
       <directive>
@@ -68,12 +68,12 @@ print-all-headers = ##t
       </directive>
     </score-directives>
   </lilycontrol>
-  <movement-number>7</movement-number>
+  <movement-number>5</movement-number>
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>2</measureno>
-      <cursorposition>0</cursorposition>
+      <measureno>4</measureno>
+      <cursorposition>12</cursorposition>
       <tonalcenter>2</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -508,7 +508,7 @@ Alternatively in the Notes/Rests-&gt;Beaming menu.\")"             ⬆Explanatio
     <edit-info>
       <staffno>2</staffno>
       <measureno>1</measureno>
-      <cursorposition>8</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>2</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -732,7 +732,7 @@ The input Denemo Display gives you an indicator of what you have done. If you wa
     <edit-info>
       <staffno>1</staffno>
       <measureno>5</measureno>
-      <cursorposition>0</cursorposition>
+      <cursorposition>5</cursorposition>
       <tonalcenter>2</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -995,8 +995,8 @@ Usually the shortcut is Shift-B,s for this.\")"             ⬉Explanation }</li
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>1</measureno>
-      <cursorposition>0</cursorposition>
+      <measureno>8</measureno>
+      <cursorposition>4</cursorposition>
       <tonalcenter>2</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -1346,11 +1346,11 @@ Denemo
   </movement>
   <movement>
     <edit-info>
-      <staffno>3</staffno>
-      <measureno>2</measureno>
-      <cursorposition>2</cursorposition>
+      <staffno>2</staffno>
+      <measureno>3</measureno>
+      <cursorposition>0</cursorposition>
       <tonalcenter>2</tonalcenter>
-      <zoom>100</zoom>
+      <zoom>56</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
       <page-system-height>100</page-system-height>
@@ -1364,10 +1364,10 @@ instrument = ##f
       </directive>
       <directive>
         <tag>MovementTitle</tag>
-        <postfix>subtitle = \markup { \with-url #'"scheme:(d-GoToPosition 5 1 1 1)(d-MovementTitle)" "Dynamics"}
+        <postfix>subtitle = \markup { \with-url #'"scheme:(d-GoToPosition 5 1 1 1)(d-MovementTitle)" "Dynamics, Braces, Instrument Names"}
 </postfix>
-        <display>Dynamics</display>
-        <data>Dynamics</data>
+        <display>Dynamics, ...</display>
+        <data>Dynamics, Braces, Instrument Names</data>
         <override>36</override>
       </directive>
     </header-directives>
@@ -1391,7 +1391,7 @@ instrument = ##f
     <voices>
       <voice id="id166">
         <voice-info>
-          <voice-name>unnamed</voice-name>
+          <voice-name>Basset Horn 1</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -1424,8 +1424,16 @@ instrument = ##f
             <directive>
               <tag>InstrumentName</tag>
               <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 5 1 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
-                    (if choice (choice)))    " "" }</postfix>
+                    (if choice (choice)))    " "Basset Horn 1" }</postfix>
+              <display>Basset Horn 1</display>
               <override>4</override>
+            </directive>
+            <directive>
+              <tag>GroupStaffStart</tag>
+              <prefix> \new StaffGroup &lt;&lt;
+</prefix>
+              <display>Group Staff Start</display>
+              <override>52</override>
             </directive>
           </staff-directives>
         </voice-props>
@@ -1540,7 +1548,7 @@ instrument = ##f
       </voice>
       <voice id="id191">
         <voice-info>
-          <voice-name>voice 2</voice-name>
+          <voice-name>Basset Horn 2</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -1569,6 +1577,15 @@ instrument = ##f
           <midi_channel>1</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 5 2 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+                    (if choice (choice)))    " "Basset Horn 2" }</postfix>
+              <display>Basset Horn 2</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
         </voice-props>
         <measures>
           <measure>
@@ -1900,8 +1917,15 @@ Denemo
           <hasfakechords>0</hasfakechords>
           <staff-directives>
             <directive>
+              <tag>PianoStaffStart</tag>
+              <prefix> \new PianoStaff &lt;&lt;
+</prefix>
+              <display>Piano Staff Start</display>
+              <override>52</override>
+            </directive>
+            <directive>
               <tag>ContextPianoStaff</tag>
-              <prefix> \new PianoStaff &lt;&lt; \set PianoStaff.instrumentName = #"Piano"  
+              <prefix> \new PianoStaff &lt;&lt; \set PianoStaff.instrumentName = #"Clavichord"  
 </prefix>
               <display>ContextPianoStaff</display>
               <override>20</override>
@@ -2132,10 +2156,12 @@ Denemo
           <hasfakechords>0</hasfakechords>
           <staff-directives>
             <directive>
-              <tag>ContextPianoStaff</tag>
-              <postfix> &gt;&gt;
+              <tag>BraceEnd</tag>
+              <postfix> &gt;&gt;%Brace End
+ &gt;&gt;%Brace End
 </postfix>
-              <display>Piano Staff End</display>
+              <display>Brace End</display>
+              <data>2</data>
               <override>52</override>
             </directive>
           </staff-directives>
@@ -2178,8 +2204,8 @@ Denemo
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>3</measureno>
-      <cursorposition>1</cursorposition>
+      <measureno>7</measureno>
+      <cursorposition>0</cursorposition>
       <tonalcenter>2</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -2217,7 +2243,7 @@ instrument = ##f
     <voices>
       <voice id="id273">
         <voice-info>
-          <voice-name>LH</voice-name>
+          <voice-name>Cello</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -2246,6 +2272,15 @@ instrument = ##f
           <midi_channel>5</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 6 1 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+                    (if choice (choice)))    " "Cello" }</postfix>
+              <display>Cello</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
         </voice-props>
         <measures>
           <measure>
@@ -2528,7 +2563,7 @@ Denemo
     <edit-info>
       <staffno>1</staffno>
       <measureno>3</measureno>
-      <cursorposition>0</cursorposition>
+      <cursorposition>1</cursorposition>
       <tonalcenter>2</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -2558,7 +2593,7 @@ instrument = ##f
     <voices>
       <voice id="id321">
         <voice-info>
-          <voice-name>LH</voice-name>
+          <voice-name>Viola</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -2719,9 +2754,9 @@ emmentaler</graphic_name>
   </movement>
   <movement>
     <edit-info>
-      <staffno>2</staffno>
+      <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>5</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>2</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -2760,7 +2795,7 @@ instrument = ##f
     <voices>
       <voice id="id343">
         <voice-info>
-          <voice-name>LH</voice-name>
+          <voice-name>voice 1</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
