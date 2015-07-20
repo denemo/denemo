@@ -670,13 +670,14 @@ inner_main (void *files)
     load_preferences ();
     
     gtk_key_snooper_install ((GtkKeySnoopFunc) dnm_key_snooper, NULL);
+    score_status (Denemo.project, FALSE);
     if (Denemo.scheme_commands){
         g_debug("Executing '%s'", Denemo.scheme_commands);
         call_out_to_guile (Denemo.scheme_commands);
     } else
         autosave_recovery_check();
     
-    score_status (Denemo.project, FALSE);
+
     
     if (Denemo.prefs.fontspec->len)
       {
