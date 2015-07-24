@@ -8,7 +8,7 @@
         <after>Tremolo</after>
         <action>ReplaceChord</action>
         <_label>Replace LilyPond</_label>
-        <_tooltip>Suppresses the normal LilyPond typetting for the current note/chord/rest replacing it with syntax provided by user.</_tooltip>
+        <_tooltip>Suppresses the normal LilyPond typesetting for the current note/chord/rest replacing it with syntax provided by user.</_tooltip>
       </row>
     </map>
   </merge>

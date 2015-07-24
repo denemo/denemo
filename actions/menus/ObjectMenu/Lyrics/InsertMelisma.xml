@@ -9,7 +9,7 @@
         <after>InsertStanzaNumber</after>
         <_label>Melismata</_label>
         <_tooltip>Inserts a double hyphen or double underscore in the lyrics at the cursor position. 
-Use double hyphen between syllables and double undescore between words which are sung over many notes (a melisma). 
+Use double hyphen between syllables and double underscore between words which are sung over many notes (a melisma). 
 Hyphens/extender lines will be typeset to continue the syllable/word under the notes.</_tooltip>     
     </row>
     </map>

@@ -107,7 +107,7 @@ struct name_and_function denemo_commands[] = {
   {NULL, "Reduce the dotting of the chord note or rest at the cursor.", N_("RemoveDot"), "remove_dot_key", N_("Remove Dot")},
 
   {NULL, "Inserts a duplicate of the current note, tied", N_("InsertTiedNote"), "tie_notes_key", "Tied note"},
-  {NULL, "Ties/unties the note at the cursorm. The following note should be the same pitch.", N_("ToggleTie"), "toggle_tie", "Tie (Off/On)"},
+  {NULL, "Ties/unties the note at the cursor. The following note should be the same pitch.", N_("ToggleTie"), "toggle_tie", "Tie (Off/On)"},
 
   {NULL, "Delete the object at the cursor", N_("DeleteObject"), "deleteobject", N_("Delete Object")},
   {NULL, "Delete to the left of the cursor.", N_("DeletePreviousObject"), "deletepreviousobject", N_("Delete Previous Object")},
@@ -240,7 +240,7 @@ struct name_and_function denemo_commands[] = {
   {NULL, "Marks/Unmarks the chord or note at the cursor as the end of a crescendo.", N_("ToggleEndCrescendo"), "toggle_end_crescendo", N_("End Crescendo (Off/On)")},
   {NULL, "Marks/Unmarks the chord or note at the cursor as the start of a diminuendo.", N_("ToggleStartDiminuendo"), "toggle_start_diminuendo", N_("Start Diminuendo (Off/On)")},
   {NULL, "Marks/Unmarks the chord or note at the cursor as the end of a diminuendo.", N_("ToggleEndDiminuendo"), "toggle_end_diminuendo", N_("End Diminuendo (Off/On)")},
-  {NULL, "Makes the note at the cursor an appogiatura grace note, if it is one, makes it normal", N_("ToggleGrace"), "toggle_grace", N_("Grace Note Off/On")},
+  {NULL, "Makes the note at the cursor an appoggiatura grace note, if it is one, makes it normal", N_("ToggleGrace"), "toggle_grace", N_("Grace Note Off/On")},
   {NULL, "Makes the note at the cursor an acciaccatura grace note, if it is one, makes it normal", N_("ToggleAcciaccatura"), "toggle_acciaccatura", N_("Acciaccatura Off/On")},
 
   {NULL, "Give a cautionary accidental to the note at the cursor", N_("ForceCaution"), "force_cautionary", N_("Force Cautionary Accidental")},

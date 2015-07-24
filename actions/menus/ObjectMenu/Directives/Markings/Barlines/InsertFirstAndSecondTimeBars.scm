@@ -10,5 +10,5 @@
         (d-InsertWholeMeasureRest)
         (d-EndVolta)
         (d-RepeatStart))
-    (d-WarningDialog (_ "Only for apending to music - use the individual first and second time bar commands to insert within music.")))
+    (d-WarningDialog (_ "Only for appending to music - use the individual first and second time bar commands to insert within music.")))
 (d-PopPosition)

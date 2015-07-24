@@ -18,4 +18,4 @@
             (d-MuteStaff #t)
             (d-PopPosition)
             (d-MoveToStaffDown)))
-    (d-InfoDialog (_ "This staff is purely for holding cresc. dim hairpins and dynamic markings so that they can be positioned (using dummy notes or spacers) and will align with each other. Create this between the staffs for a piano work or on any staff where alignment of hairpins and dynamic marks is needed.\nWARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typeetting!\nIt must have the same staff name as the staff it should appear on.")))
+    (d-InfoDialog (_ "This staff is purely for holding cresc. dim hairpins and dynamic markings so that they can be positioned (using dummy notes or spacers) and will align with each other. Create this between the staffs for a piano work or on any staff where alignment of hairpins and dynamic marks is needed.\nWARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!\nIt must have the same staff name as the staff it should appear on.")))

@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>TransposeStaffPrint</action>
         <_label>(Print) Transpose</_label>
-        <_tooltip>Prints this staff (only) transposed. This is in addtion to any score-wide transposition</_tooltip>
+        <_tooltip>Prints this staff (only) transposed. This is in addition to any score-wide transposition</_tooltip>
       </row>
     </map>
   </merge>

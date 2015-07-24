@@ -9,7 +9,7 @@
         <action>DynamicsVoice</action>
         <_label>Add Staff for Dynamics</_label>
         <_tooltip>This staff is purely for holding cresc. dim hairpins and dynamic markings so that they can be positioned (using dummy notes or spacers) and will align with each other. Create this between the staffs for a piano work or on any staff where alignment of hairpins and dynamic marks is needed.
-WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typeetting!")))
+WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!")))
 </_tooltip>
       </row>
     </map>

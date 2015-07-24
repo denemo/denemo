@@ -8,7 +8,7 @@
         <after>ReloadDrumHash</after>
         <action>ConvertDrum2GmSingleSelection</action>
         <_label>Convert GM-Drum to User-Drum</_label>
-        <_tooltip>Converts between the midi-drum notation and a user-drum notation. The user can set his/her drummap in a template in ~/.denemo/templates or choose any other copy he made of the template file to have drummaps for different drummers avaible.</_tooltip>
+        <_tooltip>Converts between the midi-drum notation and a user-drum notation. The user can set his/her drummap in a template in ~/.denemo/templates or choose any other copy he made of the template file to have drummaps for different drummers available.</_tooltip>
       </row>
     </map>
   </merge>

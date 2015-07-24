@@ -7,8 +7,8 @@
       <row type="scheme">
         <after>Major7Minor7OrDominant7</after>
         <action>HalfDiminished7OrDiminshed7</action>
-        <_label>HalfDiminshed7Diminished7</_label>
-        <_tooltip>Determine if the type of diminshed chord sounded</_tooltip>
+        <_label>HalfDiminished7Diminished7</_label>
+        <_tooltip>Determine the type of diminished chord sounded</_tooltip>
       </row>
     </map>
   </merge>

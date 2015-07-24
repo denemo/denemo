@@ -8,7 +8,7 @@
         <action>ToggleFingeringVisibilityInScore</action>
         <after>DeactivateTimeSignatureStencil</after>
         <_label>Fingerings (Off/On)</_label>
-        <_tooltip>Turns on/off visibilty of fingerings on typesetting for whole score.</_tooltip>
+        <_tooltip>Turns on/off visibility of fingerings on typesetting for whole score.</_tooltip>
       </row>
     </map>
   </merge>
