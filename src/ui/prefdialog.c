@@ -129,7 +129,8 @@ struct callbackdata
   GtkWidget *profile;
   GtkWidget *midiplayer;
   GtkWidget *graphicseditor;
-  GtkWidget *fontspec;
+  GtkWidget *fontname;
+  GtkWidget *fontsize;
   GtkWidget *denemopath;
   GtkWidget *temperament;
   GtkWidget *strictshortcuts;
@@ -215,7 +216,18 @@ set_preferences (struct callbackdata *cbdata)
    g_string_assign (prefs->field,\
     (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
 
-  ASSIGNTEXT (lilypath) ASSIGNTEXT (browser) ASSIGNTEXT (imageviewer) ASSIGNTEXT (graphicseditor) ASSIGNTEXT (username) ASSIGNTEXT (password) ASSIGNTEXT (profile) ASSIGNTEXT (fontspec) ASSIGNTEXT (denemopath) gchar const *text = (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->audio_driver));
+  ASSIGNTEXT (lilypath) 
+  ASSIGNTEXT (browser)
+  ASSIGNTEXT (imageviewer)
+  ASSIGNTEXT (graphicseditor)
+  ASSIGNTEXT (username)
+  ASSIGNTEXT (password)
+  ASSIGNTEXT (profile)
+  ASSIGNTEXT (fontname)
+  ASSIGNINT (fontsize)
+  ASSIGNTEXT (denemopath) 
+  
+  gchar const *text = (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->audio_driver));
   GList *item = g_list_find_custom (cbdata->audio_driver_option_list, text, (GCompareFunc) strcmp);
   gint index = g_list_position (cbdata->audio_driver_option_list, item);
   if (index < 0)
@@ -541,8 +553,8 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   NEWPAGE (_("Command Behavior"));
   TEXTENTRY (_("Profile"), profile)
     //  TEXTENTRY(_("Strict"), strictshortcuts)
-    BOOLEANENTRY (_("Apply commands to selection if present"), applytoselection);
-     BOOLEANENTRY (_("Spill notes over into next measure"), spillover);
+  BOOLEANENTRY (_("Apply commands to selection if present"), applytoselection);
+  BOOLEANENTRY (_("Spill notes over into next measure"), spillover);
   BOOLEANENTRY (_("Allow Quick Setting of Shortcuts"), quickshortcuts);
 
 
@@ -559,8 +571,12 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
    */
   NEWPAGE (_("Externals"));
 
-  TEXTENTRY (_("Path to Lilypond"), lilypath)  TEXTENTRY (_("File/Internet Browser"), browser) TEXTENTRY (_("Image Viewer"), imageviewer) TEXTENTRY (_("Graphics Editor"), graphicseditor)
-  TEXTENTRY (_("Default Save Path"), denemopath) BOOLEANENTRY (_("Update the command set on startup"), autoupdate);
+  TEXTENTRY (_("Path to Lilypond"), lilypath) 
+  TEXTENTRY (_("File/Internet Browser"), browser) 
+  TEXTENTRY (_("Image Viewer"), imageviewer) 
+  TEXTENTRY (_("Graphics Editor"), graphicseditor)
+  TEXTENTRY (_("Default Save Path"), denemopath) 
+  BOOLEANENTRY (_("Update the command set on startup"), autoupdate);
   /*
    * Misc Menu
    */
@@ -580,7 +596,8 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
    */
   NEWPAGE (_("Miscellaneous"));
   BOOLEANENTRY (_("Re-use last settings on startup"), persistence);
-  TEXTENTRY (_("Default Font Specification"), fontspec);
+  TEXTENTRY (_("Default Font Name (Denemo)"), fontname);
+  INTENTRY_LIMITS (_("Default Font Size"), fontsize, 4, 48);
   INTENTRY_LIMITS (_("Maximum Menu Size"), max_menu_size, 4, 100);
 
   DOUBLEENTRY_LIMITS (_("Playback Display Refresh"), display_refresh, 0.001, 0.5, 0.002);
@@ -590,7 +607,9 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
 
   INTENTRY_LIMITS (_("Excerpt Resolution"), resolution, 72, 600);
   BOOLEANENTRY (_("Enable Thumbnails"), enable_thumbnails);
-  INTENTRY (_("Max recent files"), maxhistory) TEXTENTRY (_("User Name"), username) PASSWORDENTRY (_("Password for Denemo.org"), password)
+  INTENTRY (_("Max recent files"), maxhistory) 
+  TEXTENTRY (_("User Name"), username) 
+  //PASSWORDENTRY (_("Password for Denemo.org"), password)
 
   hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);

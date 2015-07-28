@@ -68,7 +68,8 @@ initprefs ()
   ret->username = g_string_new (name ? name : "DenemoUser");
   ret->password = g_string_new ("");
 
-  ret->fontspec = g_string_new ("Denemo 9");
+  ret->fontname = g_string_new ("Denemo");
+  ret->fontsize = 9;
 
 #ifdef G_OS_WIN32
   ret->browser = g_string_new ("");     //use file association
@@ -265,7 +266,10 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
             }
         }
 
-      READXMLENTRY (graphicseditor) READXMLENTRY (fontspec) READXMLENTRY (browser)
+      READXMLENTRY (graphicseditor) 
+      READXMLENTRY (fontname) 
+      READINTXMLENTRY (fontsize) 
+      READXMLENTRY (browser)
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "autosavetimeout"))
         {
           xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
@@ -680,16 +684,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
     xmlNewChild (child, NULL, (xmlChar *) #field,\
          (xmlChar *) prefs->field);}
 
-
-  WRITEXMLENTRY (lilypath)
-   WRITEXMLENTRY (graphicseditor) 
-  WRITEXMLENTRY (fontspec)
-   WRITEXMLENTRY (imageviewer)
-    WRITEXMLENTRY (profile) 
-    WRITEXMLENTRY (username)
-     WRITEXMLENTRY (password)
-      WRITEXMLENTRY (denemopath)
-       WRITEXMLENTRY (temperament)
 #define WRITEINTXMLENTRY(field){ \
     gchar *def = g_strdup("Holds the interger value of the user's " #field " preference");\
     gint value = prefs->field;\
@@ -717,6 +711,19 @@ writeXMLPrefs (DenemoPrefs * prefs)
     g_free(def);\
   newXMLIntChild (child, (xmlChar *) #field,\
           prefs->field);}
+          
+
+
+    WRITEXMLENTRY (lilypath)
+    WRITEXMLENTRY (graphicseditor) 
+    WRITEXMLENTRY (fontname)
+    WRITEINTXMLENTRY (fontsize)
+    WRITEXMLENTRY (imageviewer)
+    WRITEXMLENTRY (profile) 
+    WRITEXMLENTRY (username)
+    WRITEXMLENTRY (password)
+    WRITEXMLENTRY (denemopath)
+    WRITEXMLENTRY (temperament)          
     WRITEBOOLXMLENTRY (autosave)
     WRITEINTXMLENTRY (autosave_timeout)
     WRITEINTXMLENTRY (maxhistory)

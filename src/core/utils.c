@@ -1993,7 +1993,7 @@ display_current_object (void)
                 if (curObj->isinvisible)
                   selection = g_string_append (selection, _("This rest will not print, just act as a spacer.\n"));
                 if (thechord->is_grace && curObj->isinvisible)
-                  warning = g_string_append (warning, _("This rest has the grace attribute set: this can be used to avoid a bug in the print view.\n"));
+                  warning = g_string_append (warning, _("This rest has the grace attribute set: these objects are usually inserted automatically to match real grace notes in other parts, this helps the music typesetter place the grace note correctly in the Print View.\n"));
 
               }
             if (thechord->directives) 

@@ -679,10 +679,12 @@ inner_main (void *files)
     
 
     
-    if (Denemo.prefs.fontspec->len)
+    if (Denemo.prefs.fontname->len && Denemo.prefs.fontsize)
       {
+        gchar *fontspec = g_strdup_printf ("%s %d", Denemo.prefs.fontname->str, Denemo.prefs.fontsize);
         GtkSettings *settings = gtk_settings_get_default ();
-        gtk_settings_set_string_property (settings, "gtk-font-name", Denemo.prefs.fontspec->str, "denemo");
+        gtk_settings_set_string_property (settings, "gtk-font-name", fontspec, "denemo");
+        g_free (fontspec);
       }
 
     gtk_main ();
@@ -4088,8 +4090,8 @@ static  void visible_rhythm_buttons (GList *rhythms, gboolean on)
     {
     GList *g;
     for (g=rhythms;g;g=g->next)
-    on?gtk_widget_show (((RhythmPattern*)(g->data))->button):
-    gtk_widget_hide (((RhythmPattern*)(g->data))->button);
+    on?gtk_widget_show (GTK_WIDGET(((RhythmPattern*)(g->data))->button)):
+    gtk_widget_hide (GTK_WIDGET(((RhythmPattern*)(g->data))->button));
 
     }
 
