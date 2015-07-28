@@ -2012,7 +2012,7 @@ display_current_object (void)
             } else 
             {
                 if (gcd_d == 384)
-                    g_string_append_printf (selection, _("This %s starts %d/%d 𝅘𝅥  's into the measure and lasts %d 𝅘𝅥 's.\n"), type, curObj->starttick/gcd_s, 384/gcd_s, curObj->durinticks);
+                    g_string_append_printf (selection, _("This %s starts %d/%d 𝅘𝅥  's into the measure and lasts %d 𝅘𝅥 's.\n"), type, curObj->starttick/gcd_s, 384/gcd_s, curObj->durinticks/384);
                 else
                     g_string_append_printf (selection, _("This %s starts %d/%d 𝅘𝅥  's into the measure and lasts %d/%d 𝅘𝅥 's.\n"), type, curObj->starttick/gcd_s, 384/gcd_s, curObj->durinticks/gcd_d, 384/gcd_d);
             }
@@ -2162,22 +2162,22 @@ display_current_object (void)
             g_string_append (selection, _("The cursor is on an unknown object type. Please report how this happened!"));
           }
           break;
-        }
+        } //end switch curObj type
         
-         if (curObj->midi_events)
-            {
-              smf_event_t *event = (smf_event_t *) curObj->midi_events->data;
-              gdouble time = event->time_seconds;
-              gint minutes = time / 60.0;
-              gdouble seconds = time - 60 * minutes;
-              char *buf = event->midi_buffer;
-              g_string_append_printf (selection, _("MIDI information: time %d minutes %1.2f seconds "), minutes, seconds);
-              #define velocity ((*(buf+2))&0x7F)
-              if ((*buf & 0xf0) == 0x90)
-                g_string_append_printf (selection, _("velocity %d\n"), buf[2]);
-          }
+        if (curObj->midi_events)
+        {
+          smf_event_t *event = (smf_event_t *) curObj->midi_events->data;
+          gdouble time = event->time_seconds;
+          gint minutes = time / 60.0;
+          gdouble seconds = time - 60 * minutes;
+          char *buf = event->midi_buffer;
+          g_string_append_printf (selection, _("MIDI information: time %d minutes %1.2f seconds "), minutes, seconds);
+          #define velocity ((*(buf+2))&0x7F)
+          if ((*buf & 0xf0) == 0x90)
+            g_string_append_printf (selection, _("velocity %d\n"), buf[2]);
+        }
 
-      if (warning->len)
+        if (warning->len)
         {
           GtkWidget *label = gtk_label_new ("");
           warning = g_string_prepend (warning, _("<span font-desc=\"30\">Warning</span> "));
@@ -2185,7 +2185,7 @@ display_current_object (void)
           gtk_label_set_line_wrap (GTK_LABEL(label), TRUE);
           gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
         }
-      if (selection->len)
+        if (selection->len)
         {
           GtkWidget *label = gtk_label_new ("");
           gtk_label_set_markup (GTK_LABEL (label), selection->str);
