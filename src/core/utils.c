@@ -1795,7 +1795,7 @@ DenemoProject *gui = Denemo.project;
 }
 
 /* drop display full information about the object at the cursor */
-GtkWidget *ObjectInfo = NULL;
+static GtkWidget *ObjectInfo = NULL;
 static gboolean
 drop_object_info (void)
 {
@@ -2188,6 +2188,20 @@ display_current_object (void)
         if (selection->len)
         {
           GtkWidget *label = gtk_label_new ("");
+          gtk_label_set_selectable (GTK_LABEL(label), TRUE);
+         
+         /*
+              making the text selectable unfortunately results in the label text being selected at the start
+              the following code would undo that, but selection-bound cannot be written to, so it does not work.
+              int start, end;
+              gtk_label_get_selection_bounds (GTK_LABEL(label), &start, &end);
+              GValue value = { 0 };
+              g_value_init (&value, G_TYPE_INT);
+              g_value_set_int (&value, end);
+              g_object_set_property (G_OBJECT (label), "selection-bound", &value);
+            *this also does not work:
+              g_signal_emit_by_name (GTK_LABEL(label), "move-cursor", GTK_MOVEMENT_BUFFER_ENDS, -1, FALSE);
+          */
           gtk_label_set_markup (GTK_LABEL (label), selection->str);
           gtk_label_set_line_wrap (GTK_LABEL(label), TRUE);
           gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
