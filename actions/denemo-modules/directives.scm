@@ -58,7 +58,6 @@
     (if (pair? tag)
         (begin (set! dis (cdr tag)) (set! tag (car tag)))
         (set! dis tag))
-    (d-SetSaved #f)
     ((eval-string proc-put) tag content)
     (if (member DENEMO_OVERRIDE_GRAPHIC overrides) ; If DENEMO_OVERRIDE_GRAPHIC is there just go on
         ((eval-string proc-ovr) tag (apply logior overrides))
@@ -66,6 +65,7 @@
             ((eval-string proc-ovr) tag (apply logior (append (list DENEMO_OVERRIDE_GRAPHIC) overrides)))
             ((eval-string proc-ovr) tag (apply logior overrides)))) ; not a staff, everythings ok without DENEMO_OVERRIDE_GRAPHIC
     ((eval-string proc-dis) tag dis)
+    (d-SetSaved #f)
     #t)
 
 (define (EditStaffDirective tag)        
@@ -245,7 +245,7 @@
     (if (d-Directive-chord? tag)
           (d-DirectiveDelete-chord tag)
           (begin
-            (d-SetSaved #f)
+           
             (if fontname
                 (begin
                     (d-DirectivePut-chord-gx tag 7)
@@ -254,7 +254,8 @@
                 (d-DirectivePut-chord-display tag display))
             (d-DirectivePut-chord-postfix tag lilypond)
             (if override
-          (d-DirectivePut-chord-override tag override)))))
+          (d-DirectivePut-chord-override tag override))
+           (d-SetSaved #f))))
 
 (define (SetDirectiveConditional)
 (define choice #f)
