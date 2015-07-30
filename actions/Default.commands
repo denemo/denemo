@@ -4624,13 +4624,7 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Null Operation</_label>
         <_tooltip>Does absolutely nothing. Use to "blank" a shortcut.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>JumpDownOctave</action>
-        <after>JumpUpOctave</after>
-        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
-        <_label>Octave Down</_label>
-        <_tooltip>Moves cursor down an octave.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>ShiftRealOctaveDown</action>
         <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
@@ -4643,6 +4637,13 @@ accidentals are usually printed over the note.</_tooltip>
         <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Octave Up</_label>
         <_tooltip>Moves cursor up one octave.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>JumpDownOctave</action>
+        <after>JumpUpOctave</after>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
+        <_label>Octave Down</_label>
+        <_tooltip>Moves cursor down an octave.</_tooltip>
       </row>
       <row type="scheme">
         <action>ShiftRealOctaveUp</action>
