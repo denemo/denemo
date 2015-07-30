@@ -1343,6 +1343,7 @@ cursorup (GtkAction* action, DenemoScriptParam * param)
   //g_debug ("Cursor Y Position %d\n", gui->movement->cursor_y);
   if(!Denemo.non_interactive)
     gtk_widget_queue_draw(Denemo.scorearea);
+  update_object_info ();
 }
 
 /**

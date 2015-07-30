@@ -1804,7 +1804,7 @@ drop_object_info (void)
   return TRUE;
 }
 /* display full information about the object at the cursor if Inspector is open*/
-static gboolean
+void
 update_object_info (void)
 {
   if (ObjectInfo && gtk_widget_get_visible (ObjectInfo))
