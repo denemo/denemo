@@ -53,46 +53,45 @@
     <menu action="NavigationMenu">
       <menu action="Bookmarks">
       </menu>
-      <menu action="Cursor">
-    <menuitem action="MoveCursorLeft"/>
-    <menuitem action="CursorDown"/>
-    <menuitem action="CursorUp"/>
-    <menuitem action="MoveCursorRight"/>
-    <separator/>
-    <menu action="CursorToNote">
-      <menuitem action="MoveToA"/>
-      <menuitem action="MoveToB"/>
-      <menuitem action="MoveToC"/>
-      <menuitem action="MoveToD"/>
-      <menuitem action="MoveToE"/>
-      <menuitem action="MoveToF"/>
-      <menuitem action="MoveToG"/>
-    </menu>
-    
-    <separator/>
-    <menuitem action="MoveToStaffUp"/>
-    <menuitem action="MoveToStaffDown"/>
+    <menu action="Cursor">
+        <menuitem action="MoveCursorLeft"/>
+        <menuitem action="CursorDown"/>
+        <menuitem action="CursorUp"/>
+        <menuitem action="MoveCursorRight"/>
+        <separator/>
+        <menu action="CursorToNote">
+          <menuitem action="MoveToA"/>
+          <menuitem action="MoveToB"/>
+          <menuitem action="MoveToC"/>
+          <menuitem action="MoveToD"/>
+          <menuitem action="MoveToE"/>
+          <menuitem action="MoveToF"/>
+          <menuitem action="MoveToG"/>
+        </menu>
 
+        <separator/>
+        <menuitem action="MoveToStaffUp"/>
+        <menuitem action="MoveToStaffDown"/>
         <menuitem action="MoveToVoiceUp"/>
-    <menuitem action="MoveToVoiceDown"/>
-    <separator/>
-    <menuitem action="MeasureLeft"/>
-    <menuitem action="MeasureRight"/>
-    <menuitem action="GoToMeasure"/>
-    <menuitem action="MoveToBeginning"/>
-    <menuitem action="MoveToEnd"/>
+        <menuitem action="MoveToVoiceDown"/>
+        <separator/>
+        <menuitem action="MeasureLeft"/>
+        <menuitem action="MeasureRight"/>
+        <menuitem action="GoToMeasure"/>
+        <menuitem action="MoveToBeginning"/>
+        <menuitem action="MoveToEnd"/>
 
-    <menuitem action="GoToMark"/>
+        <menuitem action="GoToMark"/>
 
-    <separator/>
-    
-    <menuitem action="PushPosition"/>
-    <menuitem action="PopPosition"/>
-    <menuitem action="PopPushPosition"/>
-      </menu> 
-      
-      
-    </menu>
+        <separator/>
+
+        <menuitem action="PushPosition"/>
+        <menuitem action="PopPosition"/>
+        <menuitem action="PopPushPosition"/>
+          </menu> 
+          
+          
+        </menu>
 
 
     <menu action="EditMenu">
@@ -300,41 +299,41 @@
     </menu>
 
     <menu action="NotesRests">  
-      <menu action="EditNote">
-    <menuitem action="A"/>
-    <menuitem action="B"/>
-    <menuitem action="C"/>
-    <menuitem action="D"/>
-    <menuitem action="E"/>
-    <menuitem action="F"/>
-    <menuitem action="G"/>
+        <menu action="EditNote">
+        <menuitem action="A"/>
+        <menuitem action="B"/>
+        <menuitem action="C"/>
+        <menuitem action="D"/>
+        <menuitem action="E"/>
+        <menuitem action="F"/>
+        <menuitem action="G"/>
         <menuitem action="InsertTiedNote"/>
-    <menuitem action="OctaveUp"/>
+        <menuitem action="OctaveUp"/>
         <menuitem action="OctaveDown"/>
-    <menuitem action="Sharpen"/>
-    <menuitem action="Flatten"/>
-      </menu>
-      <menu action="InsertNote">
-    <menuitem action="PendingSharpen"/>
-    <menuitem action="PendingFlatten"/>
-    <menuitem action="InsertA"/>
-    <menuitem action="InsertB"/>
-    <menuitem action="InsertC"/>
-    <menuitem action="InsertD"/>
-    <menuitem action="InsertE"/>
-    <menuitem action="InsertF"/>
-    <menuitem action="InsertG"/>
-    <menu action="InsertDuration">
-      <menuitem action="Insert0"/>
-      <menuitem action="Insert1"/>
-      <menuitem action="Insert2"/>
-      <menuitem action="Insert3"/>
-      <menuitem action="Insert4"/>
-      <menuitem action="Insert5"/>
-      <menuitem action="Insert6"/>
-      <menuitem action="Insert7"/>     
+        <menuitem action="Sharpen"/>
+        <menuitem action="Flatten"/>
+    </menu>
+    <menu action="InsertNote">
+        <menuitem action="PendingSharpen"/>
+        <menuitem action="PendingFlatten"/>
+        <menuitem action="InsertA"/>
+        <menuitem action="InsertB"/>
+        <menuitem action="InsertC"/>
+        <menuitem action="InsertD"/>
+        <menuitem action="InsertE"/>
+        <menuitem action="InsertF"/>
+        <menuitem action="InsertG"/>
+        <menu action="InsertDuration">
+        <menuitem action="Insert0"/>
+        <menuitem action="Insert1"/>
+        <menuitem action="Insert2"/>
+        <menuitem action="Insert3"/>
+        <menuitem action="Insert4"/>
+        <menuitem action="Insert5"/>
+        <menuitem action="Insert6"/>
+        <menuitem action="Insert7"/>     
         </menu>
-      </menu>
+    </menu>
       <menu action="EditDuration">
     <menuitem action="0"/>
     <menuitem action="1"/>
