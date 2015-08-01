@@ -6,12 +6,12 @@
                      (cons (_ "Replace Current Staff?")   'replace)
                      (cons (_ "Keep Current Staff") #f))))              
     (d-AddAfter)
-    (d-StaffProperties (_ "RH"))
+    (d-StaffProperties (_ "Piano"))
     (d-PianoStaffStart)
     (d-PianoStaffName)
     (d-AddAfter)
     (d-InitialClef "Bass")
-    (d-StaffProperties (_ "LH"))
+    (d-StaffProperties (_ "Piano"))
     (d-BraceEnd)
     (if del
         (begin
