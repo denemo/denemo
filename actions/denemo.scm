@@ -228,8 +228,8 @@
 ;;;;;;;;;; SetHeaderField sets a field in the movement header
 ;;;;;;;;;; the directive created is tagged Score or Movement depending on the field
 
-(define* (SetHeaderField field #:optional (title #f) (escape #t) (movement #f) (space #f))
-  (let ((current "") (thematch #f) (tag "") (type "") (fieldname "")(extra-space "0")(data #f))
+(define* (SetHeaderField field #:optional (title #f) (escape #t) (movement #f)(extra-space "0")(bold #f)(italic #f)(fontsize #f))
+  (let ((current "") (thematch #f) (tag "") (type "") (fieldname "")(data #f))
     (if (or (equal? field "subtitle") (equal? field "subsubtitle") (equal? field "piece"))
      (begin
        (set! type "Movement")
@@ -253,6 +253,8 @@
         (begin
             (set! data (eval-string current))
             (set! extra-space (assq-ref data 'extra-space))
+            (set! bold (assq-ref data 'bold))
+            (set! fontsize (assq-ref data 'fontsize))
             (set! current (assq-ref data 'title)))
         (set! data '()))
     
@@ -264,11 +266,24 @@
     (if (not title)
             (set! title (d-GetUserInput (string-append type " " fieldname)
                     (string-append "Give a name for the " fieldname " of the " type) current #f)))
-    (if (not space)
-        (set! extra-space (d-GetUserInput (string-append type " " fieldname) 
-            (string-append "Extra space above the " fieldname " of the " type) extra-space #f))
-        (set! extra-space space))
-    (disp "We have " title " and " extra-space "\n\n")        
+  (if (and title fontsize)
+    (begin
+       (set! bold (RadioBoxMenu (cons (_ "Bold") " ") (cons (_ "Normal") " \\normal-text ")))
+       (if (not bold) (set! bold ""))
+       (set! italic (RadioBoxMenu  (cons (_ "Upright") "") (cons (_ "Italic") " \\italic ")))
+       (if (not italic) (set! italic ""))
+       (set! extra-space (d-GetUserInput (string-append "Score " field) 
+                        (_ "Extra space above (0):") extra-space #f))
+       (if not extra-space (set! extra-space "0"))
+
+       (set! fontsize (d-GetUserInput (_ "Font Magnification") (_ "Give font magnification required (+/-) 0 ") fontsize))
+       (if (not fontsize)
+            (set! fontsize "0")))
+    (begin
+        (set! bold "")
+        (set! italic "")
+        (set! fontsize "0")))
+              
     (if title
       (begin
                 (d-SetSaved #f)
@@ -276,18 +291,21 @@
                     (d-DirectiveDelete-header tag)
                     (let ((movement (number->string (d-GetMovement))))
                         (set! data (assq-set! data 'title title))
+                        (set! data (assq-set! data 'bold bold))
+                        (set! data (assq-set! data 'italic italic))
+                        (set! data (assq-set! data 'fontsize fontsize))
                         (set! data (assq-set! data 'extra-space extra-space))
                         (if escape (set! title (scheme-escape title )))
                         (d-DirectivePut-header-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
                         (d-DirectivePut-header-data tag (format #f "'~s" data))
                         
                         (d-DirectivePut-header-display tag (DenemoAbbreviatedString title))
-                        (d-DirectivePut-header-postfix tag (string-append field " = \\markup {\\vspace #'" extra-space " \\with-url #'\"scheme:(d-GoToPosition " movement " 1 1 1)(d-" type fieldname ")\" "  "\"" title "\"}\n")))))
+                        (d-DirectivePut-header-postfix tag (string-append field " = \\markup {\\vspace #'" extra-space " \\fontsize #'" fontsize italic bold  " \\with-url #'\"scheme:(d-GoToPosition " movement " 1 1 1)(d-" type fieldname ")\" "  "\"" title "\"}\n")))))
         (disp "Cancelled\n"))))
 
 ; SetScoreHeaderField sets a field in the score header
-(define* (SetScoreHeaderField field  #:optional (title #f) (escape #t) (full-title #f) (space #f))
-(let ((current "") (tag "")(extra-space "0")(data #f))
+(define* (SetScoreHeaderField field  #:optional (title #f) (escape #t) (full-title #f) (extra-space "0")(bold #f)(italic #f)(fontsize #f))
+(let ((current "") (tag "")(data #f))
   (set! tag (string-append "Score" (string-capitalize field)))
   (set! current (d-DirectiveGet-scoreheader-data tag))
       ;;;old versions have a string, new versions an alist beginning 'right paren ie ' 0x28 in Unicode.
@@ -295,6 +313,8 @@
         (begin
             (set! data (eval-string current))
             (set! extra-space (assq-ref data 'extra-space))
+            (set! bold (assq-ref data 'bold))
+            (set! fontsize (assq-ref data 'fontsize))
             (set! current (assq-ref data 'title)))
         (set! data '()))
         
@@ -305,11 +325,25 @@
   (if (not title)
       (set! title  (d-GetUserInput (string-append "Score " field) 
                   (_ "Give a name applying to the whole score") current #f)))
-  (if (not space)
-        (set! extra-space (d-GetUserInput (string-append "Score " field) 
-                        (_ "Extra space above:") extra-space #f))
-        (set! extra-space space))
-    (disp "We have " title " and " extra-space "\n\n")        
+ 
+    ;;;if we have a pre-existing title ask about details, if the user hasn't cancelled the title
+  (if (and title fontsize)
+    (begin
+       (set! bold (RadioBoxMenu (cons (_ "Bold") " ") (cons (_ "Normal") " \\normal-text ")))
+       (if (not bold) (set! bold ""))
+       (set! italic (RadioBoxMenu(cons (_ "Upright") "") (cons (_ "Italic") " \\italic ")))
+       (if (not italic) (set! italic ""))
+       (set! extra-space (d-GetUserInput (string-append "Score " field) 
+                        (_ "Extra space above (0):") extra-space #f))
+       (if not extra-space (set! extra-space "0"))
+       (set! fontsize (d-GetUserInput (_ "Font Magnification") (_ "Give font magnification required (+/-) 0 ") fontsize))
+       (if (not fontsize)
+            (set! fontsize "0")))
+    (begin
+        (set! bold "")
+        (set! italic "")
+        (set! fontsize "0")))
+     
   (if title
     (begin
       (d-SetSaved #f)      
@@ -318,12 +352,16 @@
                     (d-DirectivePut-scoreheader-override tag 0)
                     (begin
                             (set! data (assq-set! data 'title title))
+                            (set! data (assq-set! data 'bold bold))
+                            (set! data (assq-set! data 'italic italic))
+                            (set! data (assq-set! data 'fontsize fontsize))
                             (set! data (assq-set! data 'extra-space extra-space))
+
                             (d-DirectivePut-scoreheader-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
                             (d-DirectivePut-scoreheader-data tag (format #f "'~s" data))
                             (d-DirectivePut-scoreheader-display tag (DenemoAbbreviatedString title))))
             (if (not full-title)
-                (set! full-title (string-append " \\markup {\\vspace #'" extra-space " \\with-url #'\"scheme:(d-" tag ")\"  "  "\"" title "\"}\n")))
+                (set! full-title (string-append " \\markup {\\vspace #'" extra-space " \\fontsize #'" fontsize italic bold " \\with-url #'\"scheme:(d-" tag ")\"  "  "\"" title "\"}\n")))
             (d-DirectivePut-scoreheader-postfix tag (string-append field " = " full-title "\n"))))))
 
 (define (CreateButton tag label)
