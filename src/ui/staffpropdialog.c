@@ -91,8 +91,7 @@ set_properties (struct callbackdata *cbdata)
   canonicalize_denemo_name ((gchar *) gtk_entry_get_text (GTK_ENTRY (cbdata->denemo_name)), staffstruct->denemo_name);
   set_lily_name (staffstruct->denemo_name, staffstruct->lily_name);
 
-  /* !!!! Insert advisory function for detecting colliding staff names
-   * here */
+
   //g_debug("first %d\t", staffstruct->space_above);
   ASSIGNNUMBER (space_above);
   //g_debug("then %d\t", staffstruct->space_above);
@@ -307,7 +306,7 @@ staff_properties_change (void)
 #endif
   /* Display appearance tab */
   NEWPAGE ("Display Appearance");
-  TEXTENTRY ("Staff name:", denemo_name);
+  TEXTENTRY ("Part name:", denemo_name);
   //gtk_widget_grab_focus (entrywidget);
   INTENTRY_LIMITS ("Space above:", space_above, 0, MAXEXTRASPACE);
   INTENTRY_LIMITS ("Space below:", space_below, 0, MAXEXTRASPACE);
