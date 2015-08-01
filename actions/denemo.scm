@@ -228,8 +228,8 @@
 ;;;;;;;;;; SetHeaderField sets a field in the movement header
 ;;;;;;;;;; the directive created is tagged Score or Movement depending on the field
 
-(define* (SetHeaderField field #:optional (title #f) (escape #t) (movement #f))
-  (let ((current "") (thematch #f) (tag "") (type "") (fieldname ""))
+(define* (SetHeaderField field #:optional (title #f) (escape #t) (movement #f) (space #f))
+  (let ((current "") (thematch #f) (tag "") (type "") (fieldname "")(extra-space "0")(data #f))
     (if (or (equal? field "subtitle") (equal? field "subsubtitle") (equal? field "piece"))
      (begin
        (set! type "Movement")
@@ -245,7 +245,17 @@
      (if movement
         (set! type "Movement"))
     (set! tag (string-append type fieldname)) 
+    
+    
     (set! current (d-DirectiveGet-header-data tag))
+    ;;;old versions have a string, new versions an alist beginning 'right paren ie ' 0x28 in Unicode.
+    (if (and current (> (string-length current)) (eq? (string-ref current 0) #\') (eq? (string-ref current 1) #\x28))
+        (begin
+            (set! data (eval-string current))
+            (set! extra-space (assq-ref data 'extra-space))
+            (set! current (assq-ref data 'title)))
+        (set! data '()))
+    
     (if (not current)
         (set! current (d-DirectiveGet-header-display tag)))
     (if (not current)
@@ -254,25 +264,40 @@
     (if (not title)
             (set! title (d-GetUserInput (string-append type " " fieldname)
                     (string-append "Give a name for the " fieldname " of the " type) current #f)))
+    (if (not space)
+        (set! extra-space (d-GetUserInput (string-append type " " fieldname) 
+            (string-append "Extra space above the " fieldname " of the " type) extra-space #f))
+        (set! extra-space space))
+    (disp "We have " title " and " extra-space "\n\n")        
     (if title
       (begin
                 (d-SetSaved #f)
                 (if (string-null? title)
                     (d-DirectiveDelete-header tag)
                     (let ((movement (number->string (d-GetMovement))))
+                        (set! data (assq-set! data 'title title))
+                        (set! data (assq-set! data 'extra-space extra-space))
                         (if escape (set! title (scheme-escape title )))
-                            (d-DirectivePut-header-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
-                            (d-DirectivePut-header-data tag title)
-                            
-                            (d-DirectivePut-header-display tag (DenemoAbbreviatedString title))
-                            (d-DirectivePut-header-postfix tag (string-append field " = \\markup { \\with-url #'\"scheme:(d-GoToPosition " movement " 1 1 1)(d-" type fieldname ")\" "  "\"" title "\"}\n")))))
-            (disp "Cancelled\n"))))
+                        (d-DirectivePut-header-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
+                        (d-DirectivePut-header-data tag (format #f "'~s" data))
+                        
+                        (d-DirectivePut-header-display tag (DenemoAbbreviatedString title))
+                        (d-DirectivePut-header-postfix tag (string-append field " = \\markup {\\vspace #'" extra-space " \\with-url #'\"scheme:(d-GoToPosition " movement " 1 1 1)(d-" type fieldname ")\" "  "\"" title "\"}\n")))))
+        (disp "Cancelled\n"))))
 
 ; SetScoreHeaderField sets a field in the score header
-(define* (SetScoreHeaderField field  #:optional (title #f) (escape #t) (full-title #f))
-(let ((current "") (tag ""))
+(define* (SetScoreHeaderField field  #:optional (title #f) (escape #t) (full-title #f) (space #f))
+(let ((current "") (tag "")(extra-space "0")(data #f))
   (set! tag (string-append "Score" (string-capitalize field)))
   (set! current (d-DirectiveGet-scoreheader-data tag))
+      ;;;old versions have a string, new versions an alist beginning 'right paren ie ' 0x28 in Unicode.
+  (if (and current (> (string-length current)) (eq? (string-ref current 0) #\') (eq? (string-ref current 1) #\x28))
+        (begin
+            (set! data (eval-string current))
+            (set! extra-space (assq-ref data 'extra-space))
+            (set! current (assq-ref data 'title)))
+        (set! data '()))
+        
   (if (not current)
         (set! current (d-DirectiveGet-scoreheader-display tag)))
   (if (not current)
@@ -280,6 +305,11 @@
   (if (not title)
       (set! title  (d-GetUserInput (string-append "Score " field) 
                   (_ "Give a name applying to the whole score") current #f)))
+  (if (not space)
+        (set! extra-space (d-GetUserInput (string-append "Score " field) 
+                        (_ "Extra space above:") extra-space #f))
+        (set! extra-space space))
+    (disp "We have " title " and " extra-space "\n\n")        
   (if title
     (begin
       (d-SetSaved #f)      
@@ -287,11 +317,13 @@
             (if (string-null? title)
                     (d-DirectivePut-scoreheader-override tag 0)
                     (begin
+                            (set! data (assq-set! data 'title title))
+                            (set! data (assq-set! data 'extra-space extra-space))
                             (d-DirectivePut-scoreheader-override tag (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))
-                            (d-DirectivePut-scoreheader-data tag title)
+                            (d-DirectivePut-scoreheader-data tag (format #f "'~s" data))
                             (d-DirectivePut-scoreheader-display tag (DenemoAbbreviatedString title))))
             (if (not full-title)
-                (set! full-title (string-append " \\markup { \\with-url #'\"scheme:(d-" tag ")\"  "  "\"" title "\"}\n")))
+                (set! full-title (string-append " \\markup {\\vspace #'" extra-space " \\with-url #'\"scheme:(d-" tag ")\"  "  "\"" title "\"}\n")))
             (d-DirectivePut-scoreheader-postfix tag (string-append field " = " full-title "\n"))))))
 
 (define (CreateButton tag label)
