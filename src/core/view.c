@@ -4778,8 +4778,8 @@ new_score_cb (GtkAction * action, DenemoScriptParam * param)
   file_newwrapper (action, param);
   if (param->status)
     {
-      call_out_to_guile ("(d-InstrumentName  (_ \"Unnamed\"))");
-      call_out_to_guile ("(d-ScoreTitle (_ \"Click Title\"))");
+      //call_out_to_guile ("(d-InstrumentName  (_ \"Unnamed\"))");
+     // call_out_to_guile ("(d-ScoreTitle (_ \"Click Title\"))");
       denemo_scheme_init ();
     }
 }
