@@ -1809,7 +1809,6 @@ update_object_info (void)
 {
   if (ObjectInfo && gtk_widget_get_visible (ObjectInfo))
     display_current_object ();
-  return TRUE;
 }
 static void
 append_directives_information (GString * selection, GList * directives)
