@@ -6,7 +6,7 @@
     
     (if data
         (set! current data)
-        (set! current "-0.5"))
+        (set! current "-2"))
     (set! size (d-GetUserInput (_ "Notehead Font Magnification") (_  "Give size required: ") current))
     (if size
         (begin
