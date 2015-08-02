@@ -7,8 +7,8 @@
       <row type="scheme">
         <after>BreathMark</after>
         <action>BeatChange</action>
-        <_label>BeatChange</_label>
-        <_tooltip>Changes beat</_tooltip>
+        <_label>Beat Change (e.g. 𝅗𝅥 = 𝅘𝅥 .) </_label>
+        <_tooltip>Insert a change of beat at the cursor position. The playback tempo is adjusted to match.</_tooltip>
       </row>
     </map>
   </merge>

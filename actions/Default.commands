@@ -6526,8 +6526,8 @@ Use this to refine the positioning, but be aware that notes in other staffs will
         <action>BeatChange</action>
         <after>BreathMark</after>
         <menupath>/ObjectMenu/Directives/Markings</menupath>
-        <_label>BeatChange</_label>
-        <_tooltip>Changes beat</_tooltip>
+        <_label>Beat Change (e.g. 𝅗𝅥 = 𝅘𝅥 .) </_label>
+        <_tooltip>Insert a change of beat at the cursor position. The playback tempo is adjusted to match.</_tooltip>
       </row>
       <row type="scheme">
         <action>RepeatTie</action>
