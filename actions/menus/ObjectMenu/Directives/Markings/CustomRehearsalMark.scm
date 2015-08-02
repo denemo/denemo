@@ -10,8 +10,8 @@
                     (set! value (eval-string value))
                     (set! value (assq-ref value 'value))))))
     (if (not value)
-        (set! value "X"))
-    (set! value (d-GetUserInputWithSnippets (_ "Custom Rehearsal/Text Mark") (_ "Give text to use for mark") value))
+        (set! value "ral."))
+    (set! value (d-GetUserInputWithSnippets (_ "Text or Custom Rehearsal Mark") (_ "Give text to use for Mark") value))
     (if value   ;in case the user pressed Escape do nothing    
         (let ((text (cdr value))(data (car value))(position (RadioBoxMenu (cons (_ "left") "left") (cons (_ "center") "center") (cons (_ "right") "right")))) 
           (d-Directive-standalone tag)

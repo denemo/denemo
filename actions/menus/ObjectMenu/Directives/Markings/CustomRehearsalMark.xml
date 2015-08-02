@@ -7,8 +7,8 @@
       <row type="scheme">
         <action>CustomRehearsalMark</action>
         <after>RehearsalMark</after>
-        <_label>Add Text/Rehearsal/Bookmark</_label>
-        <_tooltip>Inserts an arbitrary mark in the score at the cursor. Any size, font, effect can be chosen. The text position can be dragged in the print view if needed.</_tooltip>
+        <_label>Add Mark (Text/Rehearsal/Book)</_label>
+        <_tooltip>Inserts a Mark in the score at the cursor. Marks can be placed in each part and will appear only once in the score (provided they occur at the same moment in each part). Any size, font, effect can be chosen. The text position can be dragged in the print view if needed.</_tooltip>
       </row>
     </map>
   </merge>
