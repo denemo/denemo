@@ -2170,10 +2170,12 @@ display_current_object (void)
           gint minutes = time / 60.0;
           gdouble seconds = time - 60 * minutes;
           char *buf = event->midi_buffer;
-          g_string_append_printf (selection, _("MIDI information: time %d minutes %1.2f seconds "), minutes, seconds);
+          g_string_append_printf (selection, _("Playback timing: %d minutes %1.2f seconds"), minutes, seconds);
           #define velocity ((*(buf+2))&0x7F)
           if ((*buf & 0xf0) == 0x90)
-            g_string_append_printf (selection, _("velocity %d\n"), buf[2]);
+            g_string_append_printf (selection, _(", Loudness %1.1f%%\n"), (100.0/127) * buf[2]);
+          else
+            g_string_append (selection, _(".\n"));
         }
 
         if (warning->len)
