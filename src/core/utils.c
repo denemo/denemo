@@ -2091,10 +2091,10 @@ display_current_object (void)
           {
             stemdirective *thestem = ((stemdirective *) curObj->object);
             //type = _("stem direction change object");
-            g_string_append_printf (selection, _("a Stem Directive, the notes after the cursor %s"), ((stemdirective *) curObj->object)->type == DENEMO_STEMDOWN ? _("will have stems downwards") : ((stemdirective *) curObj->object)->type == DENEMO_STEMUP ? _("will have stems upwards") : _("will have stems up or down as needed"));
+            g_string_append_printf (selection, _("a Stem Direction Control Object. The notes after the cursor %s"), ((stemdirective *) curObj->object)->type == DENEMO_STEMDOWN ? _("will have stems downwards.") : ((stemdirective *) curObj->object)->type == DENEMO_STEMUP ? _("will have stems upwards.") : _("will have stems up or down as needed."));
                         if (thestem->directives) 
                             {
-                                selection = g_string_append (selection, _("Attached to the Stemming Change:"));
+                                selection = g_string_append (selection, _("\nAttached to the Stemming Change:"));
                                 append_directives_information (selection, thestem->directives);
                             }
             append_lilypond (curObj, selection);
@@ -2173,7 +2173,7 @@ display_current_object (void)
           g_string_append_printf (selection, _("Playback timing: %d minutes %1.2f seconds"), minutes, seconds);
           #define velocity ((*(buf+2))&0x7F)
           if ((*buf & 0xf0) == 0x90)
-            g_string_append_printf (selection, _(", Loudness: %1.1f%%\n"), (100.0/127) * buf[2]);
+            g_string_append_printf (selection, _(", Volume: %1.1f%%\n"), (100.0/127) * buf[2]);
           else
             g_string_append (selection, _(".\n"));
         }
