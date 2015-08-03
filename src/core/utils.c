@@ -2173,7 +2173,7 @@ display_current_object (void)
           g_string_append_printf (selection, _("Playback timing: %d minutes %1.2f seconds"), minutes, seconds);
           #define velocity ((*(buf+2))&0x7F)
           if ((*buf & 0xf0) == 0x90)
-            g_string_append_printf (selection, _(", Loudness %1.1f%%\n"), (100.0/127) * buf[2]);
+            g_string_append_printf (selection, _(", Loudness: %1.1f%%\n"), (100.0/127) * buf[2]);
           else
             g_string_append (selection, _(".\n"));
         }
