@@ -1,5 +1,6 @@
-;;;PlayAllAtCursor	
+;;;PlayAllAtCursor  
 (DenemoSetPlaybackStart)
-(d-NextObject)
+(if (not (d-NextObject))
+    (d-MoveCursorRight))
 (DenemoSetPlaybackEnd)
 (d-Play)
