@@ -1,0 +1,15 @@
+;;;;;; Fingering
+(let ((tag "Fingering") (num "0"))
+    (set! num (d-GetUserInput (_ "Fingering") (_ "Give finger number" )"1"))
+    (if (and num (string->number num))
+        (begin 
+            (d-DirectivePut-note-display tag num)
+            (d-DirectivePut-note-postfix tag  (string-append "-" num " "))
+            ;;(d-DirectivePut-note-minpixels tag 20)
+            (d-DirectivePut-note-tx tag 10)
+            (d-Chordize #t))
+         (let ((confirm (d-GetUserInput (_ "Fingering") (_ "Delete this fingering?") (_ "y"))))
+             (if (and confirm (equal? confirm (_ "y")))
+                (d-DirectiveDelete-note tag))))
+    (d-SetSaved #f)
+    (d-RefreshDisplay))
