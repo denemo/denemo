@@ -2658,9 +2658,13 @@ edit_directive (DenemoDirective * directive, gchar * what)
           g_string_free (param.string, TRUE);
         }
       else
-        {
-          ret = (text_edit_directive (directive, what) || !confirm (_("Directive Delete"), _("Are you sure you want to delete the directive?")));
-          score_status (Denemo.project, TRUE);
+        { if (what || shift_held_down())
+            {
+                ret = (text_edit_directive (directive, what) || !confirm (_("Directive Delete"), _("Are you sure you want to delete the directive?")));
+                score_status (Denemo.project, TRUE);
+            } 
+        else
+            edit_object();
         }
       return ret;
     }
