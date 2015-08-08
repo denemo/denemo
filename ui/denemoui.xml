@@ -509,10 +509,7 @@
     <menuitem action="InitialTimeSig"/>
     <menuitem action="EditTimesigDirective"/>
   </popup>
-  <popup name="ClefEditPopup">
-    <menuitem action="InsertClef"/>
-    <menuitem action="DeleteObject"/>
-  </popup>
+
   <popup action="ScorePopup">
     <menuitem action="ScoreProperties"/>
     <menuitem action="EditScoreDirective"/>     
@@ -523,7 +520,11 @@
     <menuitem action="EditStaffDirective"/>
     <menuitem action="EditVoiceDirective"/>
    </popup>
-
+  <popup name="ClefEditPopup">
+    <menuitem action="EditCursorObject"/>  
+    <menuitem action="InsertClef"/>
+    <menuitem action="DeleteObject"/>
+  </popup>
   <popup name="KeyEditPopup">
     <menuitem action="EditCursorObject"/>  
     <menuitem action="InsertKey"/>
