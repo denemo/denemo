@@ -104,8 +104,13 @@ static gint
 button_press (EvView * view, GdkEventButton * event)
 {
   if (event->button == 1)
-      infodialog (_("To insert a link at the Denemo cursor position to a point in this document\nright-click on the point.\nLater you will be able to re-open the document at that point by right clicking on the link in the Denemo display.")
-);
+    {static gboolean done_once = FALSE;
+        if(!done_once)
+            {
+                done_once = TRUE;
+                infodialog (_("To insert a link at the Denemo cursor position to a point in this document\nright-click on the point.\nLater you will be able to re-open the document at that point by right clicking on the link in the Denemo display."));
+            }
+    }
   else
     {
       gint x, y, page;
