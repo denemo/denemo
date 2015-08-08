@@ -280,7 +280,10 @@ register_command("DeleteChordSymbols", _("Delete Chord Symbols"), _("Delete the 
 register_command("HideFiguredBass", _("Hide Figures (Print)"), _("Hide the figured bass on the current staff on printing"), hide_figured_bass);
 register_command("ShowFiguredBass", _("Show Figures (Print)"), _("Show the figured bass on the current staff on printing"), show_figured_bass);
 register_command("EditChords", _("Edit Chord Symbols"), _("Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation"), fakechord_insert);
-register_command("EditObject", _("Edit Object"), _("Edit the object at the cursor."), edit_object);
+
+register_command("EditObject", _("Edit at Cursor"), _("Edit in the context of the object at the cursor."), edit_object_type);
+register_command("EditCursorObject", _("Run Object Editor"), _("Opens a dialog to edit the object at the cursor."), edit_object);
+
 register_command("EditDirective", _("Edit Directives"), _("Edit any directives attached to chord/note at cursor."), edit_object_directive);
 register_command("EditStaffDirective", _("Edit Staff Directives"), _("Edit any directives attached to staff."), edit_staff_directive);
 register_command("EditVoiceDirective", _("Edit Voice Directives"), _("Edit any directives attached to voice."), edit_voice_directive);

@@ -9,7 +9,11 @@
 
 #include <denemo/denemo.h>
 
+DenemoObject *get_object (void);
+
 void freeobject (DenemoObject * mudobj);
+
+void edit_object (void);
 
 void initkeyaccs (gint * accs, gint number);
 

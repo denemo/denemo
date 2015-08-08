@@ -1446,8 +1446,8 @@ these may need re-making.</_tooltip>
       </row>
       <row type="builtin">
         <action>EditObject</action>
-        <_label>Edit Object</_label>
-        <_tooltip>Edit the object at the cursor.</_tooltip>
+        <_label>Edit at Cursor</_label>
+        <_tooltip>Edit in the context of the object at the cursor.</_tooltip>
       </row>
       <row type="builtin">
         <action>EditDirective</action>
@@ -3469,7 +3469,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
         <action>IntelligentDelete</action>
         <after>StagedDelete</after>
         <menupath>/MainMenu/EditMenu/Delete</menupath>
-        <_label>Delete</_label>
+        <_label>Delete Selection/Object/Empty Measure</_label>
         <_tooltip>Deletes a single object at the cursor, an empty measure or the complete selection.</_tooltip>
       </row>
       <row type="scheme">
@@ -3722,6 +3722,12 @@ accidentals are usually printed over the note.</_tooltip>
         <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
         <_label>Fine (end). (Off/On)</_label>
         <_tooltip>Prints the musical instruction "fine", in italics.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>Fingering</action>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
+        <_label>Set Finger</_label>
+        <_tooltip>Attaches a fingering to the note at the cursor. Blank deletes the fingering.</_tooltip>
       </row>
       <row type="scheme">
         <action>Finger0</action>
@@ -4624,7 +4630,6 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Null Operation</_label>
         <_tooltip>Does absolutely nothing. Use to "blank" a shortcut.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>ShiftRealOctaveDown</action>
         <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
@@ -7317,6 +7322,7 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Object Inspector</_label>
         <_tooltip>Pops up a window which displays the object at the cursor, including anything attached to it.</_tooltip>
       </row>
+
     </map>
   </merge>
 </Denemo>

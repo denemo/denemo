@@ -24,7 +24,15 @@ void widget_for_voice_directive (DenemoDirective * directive, GtkMenu * menu);
 void widget_for_movementcontrol_directive (DenemoDirective * directive);
 void widget_for_header_directive (DenemoDirective * directive);
 void widget_for_layout_directive (DenemoDirective * directive);
+gboolean text_edit_chord_directive (gchar * tag);
 gboolean text_edit_note_directive (gchar * tag);
+gboolean text_edit_clef_directive (gchar * tag);
+gboolean text_edit_timesig_directive (gchar * tag);
+gboolean text_edit_tuplet_directive (gchar * tag);
+gboolean text_edit_stemdirective_directive (gchar * tag);
+gboolean text_edit_keysig_directive (gchar * tag);
+gboolean text_edit_standalone_directive (gchar * tag);
+
 void set_action_script_for_tag (gchar * tag, gchar * script);
 gchar *get_action_script (gchar * name);
 void edit_object_directive (GtkAction * action, DenemoScriptParam * param);
@@ -35,13 +43,13 @@ void edit_staff_directive (GtkAction * action, DenemoScriptParam * param);
 void edit_voice_directive (GtkAction * action, DenemoScriptParam * param);
 void edit_score_directive (GtkAction * action, DenemoScriptParam * param);
 void edit_movement_directive (GtkAction * action, DenemoScriptParam * param);
-void edit_object (GtkAction * action, DenemoScriptParam * param);       //FIXME move to ???
+void edit_object_type (GtkAction * action, DenemoScriptParam * param);       //FIXME move to ???
 void note_directive (GtkAction * action, DenemoScriptParam * param);
 void chord_directive (GtkAction * action, DenemoScriptParam * param);
 void standalone_directive (GtkAction * action, DenemoScriptParam * param);
 void put_standalone_directive (gchar *tag, gint pixelwidth);
 void delete_chord_or_note_directive (GtkAction * action, DenemoScriptParam * param);
-
+gchar *get_editscript_filename (gchar * tag);
 
 DenemoDirective *get_movementcontrol_directive (gchar * tag);
 DenemoDirective *get_score_directive (gchar * tag); /* others missing here???, note, chord directives for example */

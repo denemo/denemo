@@ -96,6 +96,7 @@
 
     <menu action="EditMenu">
       <menu action="Delete">
+        <menuitem action="DeleteObject"/>
         <menuitem action="DeletePreviousObject"/>
         <menuitem action="ClearOverlay"/>
       </menu>
@@ -128,6 +129,7 @@
       <menuitem action="PasteComment"/>
 
       <separator/>
+      <menuitem action="EditCursorObject"/>
       <menuitem action="EditObject"/>
       <separator/>
       <menuitem action="Preferences"/>
@@ -523,35 +525,36 @@
    </popup>
 
   <popup name="KeyEditPopup">
+    <menuitem action="EditCursorObject"/>  
     <menuitem action="InsertKey"/>
     <menuitem action="EditKeysigDirective"/>
     <menuitem action="DeleteObject"/>
   </popup>
   <popup name="TimeEditPopup">
+    <menuitem action="EditCursorObject"/>  
     <menuitem action="InsertTimeSig"/>
     <menuitem action="EditTimesigDirective"/>
     <menuitem action="DeleteObject"/>
   </popup>
   <popup name="TupletPopup">
+    <menuitem action="EditCursorObject"/>
     <menuitem action="DeleteObject"/>
   </popup>
   <popup name="NoteEditPopupDirectives">
-    <menu action="EditDirectivesMenu">
-            <menuitem action="EditDirective"/>
-            <menuitem action="DeleteDirective"/>
-    </menu>
+
+    <menuitem action="EditCursorObject"/>
     <menu action="ChangeNote">
-                <menuitem action="ChangeToA"/>
-                <menuitem action="ChangeToB"/>
-                <menuitem action="ChangeToC"/>
-                <menuitem action="ChangeToD"/>
-                <menuitem action="ChangeToE"/>
-                <menuitem action="ChangeToF"/>
-                <menuitem action="ChangeToG"/>
-                <menuitem action="Sharpen"/>
-                <menuitem action="Flatten"/>
-                <menuitem action="OctaveUp"/>
-                <menuitem action="OctaveDown"/> 
+        <menuitem action="ChangeToA"/>
+        <menuitem action="ChangeToB"/>
+        <menuitem action="ChangeToC"/>
+        <menuitem action="ChangeToD"/>
+        <menuitem action="ChangeToE"/>
+        <menuitem action="ChangeToF"/>
+        <menuitem action="ChangeToG"/>
+        <menuitem action="Sharpen"/>
+        <menuitem action="Flatten"/>
+        <menuitem action="OctaveUp"/>
+        <menuitem action="OctaveDown"/> 
     </menu>
     <menu action="ChangeDuration">
             <menuitem action="Change0"/>

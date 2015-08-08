@@ -21,6 +21,7 @@
 #include "export/print.h"
 #include "core/kbd-custom.h"
 #include "core/view.h"
+#include "command/object.h"
 #include <signal.h>             /*for SIGTERM */
 
 #include "config.h"
@@ -1826,7 +1827,7 @@ append_directives_information (GString * selection, GList * directives)
       if(!first)
         g_string_append (selection, "\n<span foreground=\"blue\"weight=\"bold\">---------------------------------------------------------</span>\n");
       else
-         g_string_append (selection, "\n");   
+         g_string_append (selection, "\n<span foreground=\"green\"weight=\"bold\">---------------------------------------------------------</span>\n");
       first = FALSE;
       if(label)
                 g_string_append_printf (selection, _("Directive for command: <span weight=\"bold\">\"%s\"</span>\n"), label_e);
@@ -1897,8 +1898,8 @@ display_current_object (void)
       ObjectInfo = gtk_window_new (GTK_WINDOW_TOPLEVEL);
       gtk_window_set_title (GTK_WINDOW (ObjectInfo), _("Denemo Object Inspector"));
       g_signal_connect (G_OBJECT (ObjectInfo), "delete-event", G_CALLBACK (drop_object_info), NULL);
-      gtk_window_set_keep_above (GTK_WINDOW (ObjectInfo), TRUE);
-      gtk_window_set_accept_focus (GTK_WINDOW (ObjectInfo), FALSE);
+     // gtk_window_set_keep_above (GTK_WINDOW (ObjectInfo), TRUE);
+     gtk_window_set_accept_focus (GTK_WINDOW (ObjectInfo), FALSE);
     }
   else
     {
@@ -1916,6 +1917,11 @@ display_current_object (void)
   else
     {
       DenemoObject *curObj = gui->movement->currentobject->data;
+    GtkWidget *edit_button = gtk_button_new_with_label (_("Edit"));
+    g_signal_connect (edit_button, "clicked", G_CALLBACK (edit_object), NULL);
+    gtk_box_pack_start (GTK_BOX (vbox), edit_button, FALSE, TRUE, 0);
+      
+      
       GString *selection = g_string_new (gui->movement->cursor_appending ? _("The cursor is in the appending position after ") : _("The cursor is on "));
       GString *warning = g_string_new ("");
       switch (curObj->type)
@@ -1965,7 +1971,7 @@ display_current_object (void)
                 if (thenote && gui->movement->cursor_y==thenote->mid_c_offset)
                   {
   
-                    g_string_append_printf (selection, _("Within the chord the cursor is on the note %s \n"),
+                    g_string_append_printf (selection, _("Within the chord the cursor is on the note |%s| \n"),
                                             mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
                     if (thenote->directives)
                       {
@@ -2021,7 +2027,7 @@ display_current_object (void)
         case TUPOPEN:
           { tuplet *thetup = ((tuplet *) curObj->object);
             //type = _("start tuplet marker");
-            g_string_append_printf (selection, _(" a Start Tuplet object\n""Meaning %d notes will take the time of %d notes\n" "until an End Tuplet object.\n"), thetup->denominator, thetup->numerator);
+            g_string_append_printf (selection, _(" a Start Tuplet object\n""Meaning %d notes will take the time of %d notes\n" "until an End Tuplet object.\nSee the Notes/Rests → Tuplets for control over how tuplets print\n"), thetup->denominator, thetup->numerator);
                         if (thetup->directives) 
                             {
                                 selection = g_string_append (selection, _("Attached to the Start Tuplet:"));
@@ -2211,6 +2217,7 @@ display_current_object (void)
       g_string_free (selection, TRUE);
     }
   gtk_widget_show_all (ObjectInfo);
+  gtk_window_present (GTK_WINDOW (ObjectInfo));
 }
 
 /****************
@@ -2982,9 +2989,9 @@ find_dir_for_file(gchar* filename, GList* dirs)
     {
       path = g_build_filename (curdir->data, filename, NULL);
       if(g_file_test (path, G_FILE_TEST_EXISTS))
-          dir = g_strdup(curdir->data);
-      else
-        g_free(path);
+          dir = g_strdup(curdir->data); //even though found, the loop is continued to clear the list of dirs
+     // else here causes a memory leak as path is not used hereafter
+      g_free(path);
     }
     g_free(curdir->data);
   }

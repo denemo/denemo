@@ -6,7 +6,7 @@
     <map>
       <row type="scheme">
         <action>IntelligentDelete</action>
-        <_label>Delete Selection</_label>
+        <_label>Delete Selection/Object/Empty Measure</_label>
         <_tooltip>Deletes a single object at the cursor, an empty measure or the complete selection.</_tooltip>
       </row>
     </map>

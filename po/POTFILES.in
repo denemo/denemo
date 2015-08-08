@@ -1393,8 +1393,10 @@ actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger4.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger4.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger5.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger5.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Fingering.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/FingeringSwap.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/FingeringSwap.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Fingering.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/ToggleFingeringVisibility.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/ToggleFingeringVisibility.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/TweakFingeringPosition.scm

@@ -374,7 +374,8 @@ struct name_and_function denemo_commands[] = {
   {NULL, "Show the figured bass on the current staff on printing", N_("ShowFiguredBass"), "show_figured_bass", "Show Figures (Print)"},
   {NULL, "Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation", N_("EditChords"), "fakechord_insert", N_("Edit Chord Symbols")},
 
-  {NULL, "Edit the object at the cursor.", N_("EditObject"), "edit_object", N_("Edit Object")},
+  {NULL, "Edit in the context of the object at the cursor.", N_("EditObject"), "edit_object_type", N_("Edit at Cursor")},
+  {NULL, "Opens a dialog to edit the object at the cursor.", N_("EditCursorObject"), "edit_object", N_("Run Object Editor")},
 
   {NULL, "Edit any directives attached to chord/note at cursor.", N_("EditDirective"), "edit_object_directive", N_("Edit Directives")},
   {NULL, "Edit any directives attached to staff.", N_("EditStaffDirective"), "edit_staff_directive", N_("Edit Staff Directives")},

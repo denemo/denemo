@@ -149,4 +149,5 @@ void delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param);
 void midi_in_adjust (gint value);
 gboolean insert_nth_rhythm (gint n);
 void create_rhythm (RhythmPattern *r, gboolean from_selection);
+GError *execute_script_file (gchar * filename);
 #endif

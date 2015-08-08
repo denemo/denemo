@@ -14,7 +14,8 @@
 
 (if directiveText
   (begin
-    (d-StartTriplet)
+    (if (not (d-GetTuplet))
+        (d-StartTriplet))
     (if (not (d-GetTuplet))
       (d-MoveCursorLeft))
     (d-SetTuplet  directiveText)

@@ -199,13 +199,7 @@ new_directive (gchar * tag)
 }
 
 
-static DenemoObject *
-get_object (void)
-{
-  DenemoProject *gui = Denemo.project;
-  DenemoMovement *si = gui->movement;
-  return (DenemoObject *) si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
-}
+
 
 typedef enum attach_type
 { ATTACH_NOTE, ATTACH_CHORD } attach_type;
@@ -1276,17 +1270,17 @@ GET_INT_FIELD_FUNC (voice, gy) GET_INT_FIELD_FUNC (standalone, override) GET_INT
   /* width and height of graphic (if any), read only */
   GET_INT_GRAPHIC_FIELD_FUNC (note, width)
 GET_INT_GRAPHIC_FIELD_FUNC (chord, width) GET_INT_GRAPHIC_FIELD_FUNC (staff, width) GET_INT_GRAPHIC_FIELD_FUNC (voice, width) GET_INT_GRAPHIC_FIELD_FUNC (standalone, width) GET_INT_GRAPHIC_FIELD_FUNC (score, width) GET_INT_GRAPHIC_FIELD_FUNC (note, height) GET_INT_GRAPHIC_FIELD_FUNC (chord, height) GET_INT_GRAPHIC_FIELD_FUNC (staff, height) GET_INT_GRAPHIC_FIELD_FUNC (voice, height) GET_INT_GRAPHIC_FIELD_FUNC (standalone, height) GET_INT_GRAPHIC_FIELD_FUNC (score, height)
+
+
 /* return a full path to an editscript for directive or NULL if there is none */
 
-static gchar *
+gchar *
 get_editscript_filename (gchar * tag)
 {
   gchar *basename = g_strconcat (tag, ".scm", NULL);
-  gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "editscripts", basename, NULL);
   GList* dirs = NULL;
-  dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "editscripts", basename, NULL));
-  dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "editscripts", basename, NULL));
-  dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "editscripts", basename, NULL));
+  dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (FALSE), COMMANDS_DIR, "editscripts", NULL));
+  dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "editscripts", NULL));
   return find_path_for_file(basename, dirs);
 }
 
@@ -2091,18 +2085,18 @@ user_select_directive_at_cursor (gchar ** what, GList *** pdirectives, DenemoDir
     return;                     //FIXME is this needed???? a return will be done anyway
 
   {
-    gchar *instr = _("Select a directive attached to the tuplet marker");
     tuplet *curtuplet = get_tuplet ();
     if (curtuplet && curtuplet->directives)
       {
+        gchar *instr = get_object()->type==TUPOPEN? _("Select a directive attached to the tuplet start object"):
+                    _("Select a directive attached to the tuplet end object");
         *pdirectives = &curtuplet->directives;
         *what = "tuplet";
         *pdirective = select_directive (instr, **pdirectives);
       }
-
   }
   {
-    gchar *instr = _("Select a directive attached to the stemdir marker");
+    gchar *instr = _("Select a directive attached to the stem control object");
     stemdirective *curstemdir = get_stemdirective ();
     if (curstemdir && curstemdir->directives)
       {
@@ -2212,9 +2206,9 @@ unpopulate_menu (GtkWidget * menu)
   return FALSE;
 }
 
-
+// edit the object at the cursor based on its type
 void
-edit_object (GtkAction * action, DenemoScriptParam * param)
+edit_object_type (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoObject *obj = get_object ();
   if (obj == NULL)
@@ -2244,19 +2238,10 @@ edit_object (GtkAction * action, DenemoScriptParam * param)
       return;
     case CHORD:
       {
-        gboolean found = FALSE;
-        GList *directives = ((chord *) obj->object)->directives;
-        if (directives)
-          found = TRUE;
-        note *curnote = findnote (obj, Denemo.project->movement->cursor_y);
-        if (curnote && (curnote->mid_c_offset == Denemo.project->movement->cursor_y))
-          directives = curnote->directives;
-        if (directives)
-          found = TRUE;
-        if (found)
+      
           popup_menu ("/NoteEditPopupDirectives");
-        else
-          popup_menu ("/NoteEditPopup");
+       
+          
       }
       return;
 
@@ -2271,23 +2256,22 @@ edit_object (GtkAction * action, DenemoScriptParam * param)
           }
         else
           {
-            infodialog (_("Nothing to edit on this stem directive - use controls in Staffs → Voices menu"));
+            infodialog (_("Nothing to edit on this stem direction control object - use controls in Staffs → Voices menu"));
           }
       }
       return;
     case TUPOPEN:
       popup_menu ("/TupletPopup");
-      infodialog (_("This marks the start of a tuplet (that is triplets etc) - after the notes there should be a corresponding end of tuplet object.\nSee the Notes/Rests → Tuplets for control over how tuplets print"));
       return;
     case TUPCLOSE:
-      popup_menu ("/TupletPopup");
-      infodialog (_("This marks the end of a tuplet (that is triplets etc) - it should come in the same measure as the tuplet start marker.\nSee the Notes/Rests → Tuplets for control over how tuplets print"));
+      infodialog (_("This marks the end of a tuplet (that is triplets etc) - it should come in the same measure as the tuplet start marker."));
       return;
     default:
       warningdialog (_("No method for editing this type of object"));
       return;
     }
 }
+
 
 static gboolean
 set_gstring (GtkWidget * widget, GdkEventKey * event, GString * gstr)
@@ -2462,6 +2446,8 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
                                                    GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
                                                    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                                                    NULL);
+  gtk_window_set_title (GTK_WINDOW (dialog), _("Denemo Object Editor"));
+
   gtk_dialog_add_button (GTK_DIALOG (dialog), _("Delete Directive"), GTK_RESPONSE_REJECT);
   gtk_dialog_add_button (GTK_DIALOG (dialog), _("Create Script"), CREATE_SCRIPT);
 

@@ -845,8 +845,13 @@ SCM scheme_EditChords (SCM optional) {
   return scheme_call_callback(optional, fakechord_insert);
 }
 SCM scheme_EditObject (SCM optional) {
+  return scheme_call_callback(optional, edit_object_type);
+}
+
+SCM scheme_EditCursorObject (SCM optional) {
   return scheme_call_callback(optional, edit_object);
 }
+
 SCM scheme_EditDirective (SCM optional) {
   return scheme_call_callback(optional, edit_object_directive);
 }
