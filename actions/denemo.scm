@@ -248,8 +248,8 @@
     
     
     (set! current (d-DirectiveGet-header-data tag))
-    ;;;old versions have a string, new versions an alist beginning 'right paren ie ' 0x28 in Unicode.
-    (if (and current (> (string-length current)) (eq? (string-ref current 0) #\') (eq? (string-ref current 1) #\x28))
+    ;;;old versions have a string, new versions an alist beginning 'right paren ie ' 0x28 in Unicode 50 octal.
+    (if (and current (> (string-length current)) (eq? (string-ref current 0) #\') (eq? (string-ref current 1) #\50))
         (begin
             (set! data (eval-string current))
             (set! extra-space (assq-ref data 'extra-space))
@@ -308,8 +308,8 @@
 (let ((current "") (tag "")(data #f))
   (set! tag (string-append "Score" (string-capitalize field)))
   (set! current (d-DirectiveGet-scoreheader-data tag))
-      ;;;old versions have a string, new versions an alist beginning 'right paren ie ' 0x28 in Unicode.
-  (if (and current (> (string-length current)) (eq? (string-ref current 0) #\') (eq? (string-ref current 1) #\x28))
+      ;;;old versions have a string, new versions an alist beginning 'right paren ie ' 0x28 in Unicode 50 octal.
+  (if (and current (> (string-length current)) (eq? (string-ref current 0) #\') (eq? (string-ref current 1) #\50))
         (begin
             (set! data (eval-string current))
             (set! extra-space (assq-ref data 'extra-space))
