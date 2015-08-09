@@ -172,12 +172,12 @@ process_command_line (int argc, char **argv, gboolean gtkstatus)
   {
     gchar *message = g_strconcat (
     _("GNU Denemo version"), " ", VERSION, "\n",
-    _("Gtk version") , " %u.%u.%u\n",
+    _("Gtk versions") , " runtime: %u.%u.%u, compiled against: %u.%u.%u, \n", 
     _("© 1999-2005, 2009 Matthew Hiller, Adam Tee, and others, 2010-2015 Richard Shann, Jeremiah Benham, Nils Gey and others.\n"),
     _("This program is provided with absolutely NO WARRANTY; see the file COPYING for details.\n"),
     _("This software may be redistributed and modified under the terms of the GNU General Public License; again, see the file COPYING for details.\n"),
     NULL);
-    g_print(message, gtk_major_version, gtk_minor_version, gtk_micro_version);
+    g_print(message, gtk_major_version, gtk_minor_version, gtk_micro_version, GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION);
     g_free(message);
     exit(EXIT_SUCCESS);
   }
