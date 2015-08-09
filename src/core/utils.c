@@ -2217,7 +2217,13 @@ display_current_object (void)
       g_string_free (selection, TRUE);
     }
   gtk_widget_show_all (ObjectInfo);
+#ifdef G_OS_WIN32
+//on windows, the ObjectInfo window takes the focus regardless of having told it not to, so it is up to the user to bring the inspector to the front.
+  gtk_window_set_keep_above (GTK_WINDOW (ObjectInfo), TRUE);
+
+#else
   gtk_window_present (GTK_WINDOW (ObjectInfo));
+#endif
 }
 
 /****************
