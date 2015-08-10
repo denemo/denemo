@@ -106,21 +106,26 @@ call_edit_on_action (GtkWidget *button)
 {
    DenemoScriptParam param;
    GtkAction *action = (GtkAction*)g_object_get_data (G_OBJECT (button), "action");
+   GList *currentobject = Denemo.project->movement->currentobject;
    param.string = g_string_new ("edit");
     g_debug ("Script can look for params \"edit\" - a string to catch this");
     activate_script (action, &param);
     g_string_free (param.string, TRUE);  
    gtk_widget_destroy (gtk_widget_get_toplevel (button));
-   edit_object();   
+   if (currentobject == Denemo.project->movement->currentobject)
+    edit_object();   
 }
 
 static void execute_editscript (GtkWidget *button, gchar *filename)
 {
  GError *error = (GError *) execute_script_file (filename);
+ GList *currentobject = Denemo.project->movement->currentobject;
+
  if (error)
     g_warning ("%s", error->message);
  gtk_widget_destroy (gtk_widget_get_toplevel (button));
- edit_object();
+ if (currentobject == Denemo.project->movement->currentobject)
+    edit_object();
 }
 typedef enum {
   EDIT_CHORD,
@@ -137,17 +142,23 @@ typedef enum {
 
 static void general_edit_popup (GtkWidget *button, EditObjectType type)
 {
-    popup_menu ("/NoteEditPopup");
-    gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
+
+#ifdef G_OS_WIN32
+//the popup does not work on windows...
+#else
+ if (type == EDIT_CHORD)
+            popup_menu ("/NoteEditPopup");
+ else
+#endif
+ infodialog (_("To add or remove built-in attributes right click on the object in the display window"));
+       
+ gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
 }
 
 static void
 place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
 {
     GList *directives = *pdirectives;
-    GdkRGBA color;
-    color.red = color.green = color.blue = color.alpha = 1.0;
-    gtk_widget_override_background_color (vbox, 0, &color);
     for (; directives;directives = directives->next)
         {
             DenemoDirective *directive = directives->data;
@@ -162,9 +173,9 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
             GtkWidget *expander = gtk_expander_new (label);
             gtk_expander_set_expanded (GTK_EXPANDER(expander), TRUE);
             gtk_widget_set_sensitive (expander, TRUE);
-            gtk_container_set_border_width (GTK_CONTAINER (expander),10);
+            gtk_container_set_border_width (GTK_CONTAINER (expander), 0);
             gtk_box_pack_start (GTK_BOX (vbox), expander, FALSE, TRUE, 0);
-            GtkWidget *inner_box = gtk_vbox_new (FALSE, 8);
+            GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
             gtk_container_add (GTK_CONTAINER (expander), inner_box);
 
             if (filename)
@@ -226,8 +237,12 @@ place_chord_attributes (GtkWidget *vbox, chord *thechord)
     gtk_expander_set_expanded (GTK_EXPANDER(expander), TRUE);
     gtk_widget_set_sensitive (expander, TRUE);
     gtk_container_set_border_width (GTK_CONTAINER (expander),10);
+    GdkRGBA color;
+    color.blue = 0.8;
+    color.green = color.red = 0.1; color.alpha = 1;
+    gtk_widget_override_color (expander, GTK_STATE_FLAG_NORMAL, &color);
     gtk_box_pack_start (GTK_BOX (vbox), expander, FALSE, TRUE, 0);
-    GtkWidget *inner_box = gtk_vbox_new (FALSE, 8);
+    GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
     gtk_container_add (GTK_CONTAINER (expander), inner_box);
     if (thechord->slur_begin_p)
           {
@@ -302,11 +317,11 @@ edit_object (void)
     GtkWidget *editwin = gtk_window_new (GTK_WINDOW_TOPLEVEL); 
     GdkRGBA color;
     color.red = color.green = color.blue = color.alpha = 1.0;
-    gtk_widget_override_background_color (editwin, 0, &color);
+    gtk_widget_override_background_color (editwin, GTK_STATE_FLAG_NORMAL, &color);
     gtk_window_set_modal (GTK_WINDOW (editwin), TRUE);
     gtk_window_set_title (GTK_WINDOW (editwin), _("Denemo Object Editor"));
     gtk_window_set_keep_above (GTK_WINDOW (editwin), TRUE);
-    GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
+    GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
     gtk_container_add (GTK_CONTAINER (editwin), vbox);
     GtkWidget *close_button = gtk_button_new_with_label (_("Close"));
     g_signal_connect_swapped (close_button, "clicked", G_CALLBACK (update_and_close), editwin);
@@ -316,6 +331,24 @@ edit_object (void)
         case CHORD:
           {
             chord *thechord = ((chord *) curObj->object);
+            if (thechord->directives) 
+                {
+                GtkWidget *frame = gtk_frame_new (thechord->notes? _("Attached to the chord:"):
+                                                                   _("Attached to the rest:"));
+                gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
+                GdkRGBA color;
+                color.red = 0.8;
+                color.green = color.blue = 0.1; color.alpha = 1;
+                gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+                gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
+                GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
+                color.green = 0.8;
+                color.red = color.blue = 0.1; color.alpha = 1;
+                gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
+                gtk_container_add (GTK_CONTAINER (frame), inner_box);
+                place_directives (inner_box, &thechord->directives, EDIT_CHORD);
+                }
+                
             if (thechord->notes)
               {
                 place_chord_attributes (vbox, thechord);
@@ -328,9 +361,18 @@ edit_object (void)
                     if (thenote->directives)
                       {
                         GtkWidget *frame = gtk_frame_new (text->str);
+                        gtk_container_set_border_width (GTK_CONTAINER (frame), 20);
                         gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
+                        GdkRGBA color;
+                        color.red = 0.8;
+                        color.green = color.blue = 0.1; color.alpha = 1;
+                        gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
                         gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
-                        GtkWidget *inner_box = gtk_vbox_new (FALSE, 8);
+                        GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
+                        color.green = 0.8;
+                        color.red = color.blue = 0.1; color.alpha = 1;
+                        gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
+
                         gtk_container_add (GTK_CONTAINER (frame), inner_box);
                         place_directives (inner_box, &thenote->directives, EDIT_NOTE);
                       }
@@ -342,7 +384,6 @@ edit_object (void)
                         gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
                     }
             }
-
             else
               {
                 //type = _("rest");
@@ -350,16 +391,16 @@ edit_object (void)
     
               }
              
-            if (thechord->directives) 
-                {
-                GtkWidget *frame = gtk_frame_new (_("Attached to the chord:"));
-                gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
-                gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
-                GtkWidget *inner_box = gtk_vbox_new (FALSE, 8);
-                gtk_container_add (GTK_CONTAINER (frame), inner_box);
-                place_directives (inner_box, &thechord->directives, EDIT_CHORD);
-                }
+
             {
+            GtkWidget *separator = 
+#if GTK_MAJOR_VERSION == 2
+            gtk_hseparator_new ();
+#else                
+            gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
+#endif                   
+            gtk_box_pack_start (GTK_BOX (vbox), separator, FALSE, TRUE, 0);
+             
             GtkWidget *button = gtk_button_new_with_label (_("Add/Remove attributes"));
             g_signal_connect (button, "clicked", G_CALLBACK (general_edit_popup), EDIT_CHORD);
             gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
@@ -376,13 +417,16 @@ edit_object (void)
             if (thetup->directives) 
                 {
                 GtkWidget *frame = gtk_frame_new (_("Attached to the tuplet start:"));
+                                GdkRGBA color;
+                color.red = 0.8;
+                color.green = color.blue = 0.1; color.alpha = 1;
+                gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
                 gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
                 gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
                 GtkWidget *inner_box = gtk_vbox_new (FALSE, 8);
                 gtk_container_add (GTK_CONTAINER (frame), inner_box);
                 place_directives (inner_box, &thetup->directives, EDIT_TUPLET_START);
                 }
-           
           }
           break;
         case TUPCLOSE:
@@ -391,6 +435,10 @@ edit_object (void)
             if (thetup->directives) 
                 {
                 GtkWidget *frame = gtk_frame_new (_("Attached to the tuplet end:"));
+                                GdkRGBA color;
+                color.red = 0.8;
+                color.green = color.blue = 0.1; color.alpha = 1;
+                gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
                 gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
                 gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
                 GtkWidget *inner_box = gtk_vbox_new (FALSE, 8);
@@ -408,6 +456,10 @@ edit_object (void)
             if (theclef->directives) 
                 {
                 GtkWidget *frame = gtk_frame_new (_("Attached to the clef change object:"));
+                                GdkRGBA color;
+                color.red = 0.8;
+                color.green = color.blue = 0.1; color.alpha = 1;
+                gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
                 gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
                 gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
                 GtkWidget *inner_box = gtk_vbox_new (FALSE, 8);
@@ -420,8 +472,6 @@ edit_object (void)
                 g_signal_connect (button, "clicked", G_CALLBACK (set_false), &curObj->isinvisible);
                 gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
                 }
-            
-
           }
           break;
 
@@ -432,6 +482,10 @@ edit_object (void)
             if (thetime->directives) 
                 { 
                 GtkWidget *frame = gtk_frame_new (_("Attached to the time signature change object:"));
+                                GdkRGBA color;
+                color.red = 0.8;
+                color.green = color.blue = 0.1; color.alpha = 1;
+                gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
                 gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
                 gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
                 GtkWidget *inner_box = gtk_vbox_new (FALSE, 8);
@@ -448,6 +502,10 @@ edit_object (void)
             if (thekey->directives) 
                 {                 
                 GtkWidget *frame = gtk_frame_new (_("Attached to the key signature change object:"));
+                                GdkRGBA color;
+                color.red = 0.8;
+                color.green = color.blue = 0.1; color.alpha = 1;
+                gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
                 gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
                 gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
                 GtkWidget *inner_box = gtk_vbox_new (FALSE, 8);
@@ -464,7 +522,11 @@ edit_object (void)
             //type = _("stem direction change object");
             if (thestem->directives) 
                              {                 
-                GtkWidget *frame = gtk_frame_new (_("Attached to the stemmingchange object:"));
+                GtkWidget *frame = gtk_frame_new (_("Attached to the stemming change object:"));
+                                GdkRGBA color;
+                color.red = 0.8;
+                color.green = color.blue = 0.1; color.alpha = 1;
+                gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
                 gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
                 gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
                 GtkWidget *inner_box = gtk_vbox_new (FALSE, 8);
@@ -482,30 +544,42 @@ edit_object (void)
             GtkAction *action = lookup_action_from_name (directive->tag->str);
             gchar *name = label?(gchar*)label:directive->tag->str;
             gchar *filename = get_editscript_filename (directive->tag->str);
+            GtkWidget *frame = gtk_frame_new ( _("Standalone Denemo Directive:"));
+            gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
+            GdkRGBA color;
+            color.red = 0.5;
+            color.green = 0.5; color.blue = 0.1; color.alpha = 1;
+            gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+            gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
+            GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
+            color.green = 0.8;
+            color.red = 0.8; color.blue = 0.1; color.alpha = 1;
+            gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
+            gtk_container_add (GTK_CONTAINER (frame), inner_box);
+                
              if (filename)
                 {
                 gchar *thelabel = g_strconcat ( _("Edit "), name, NULL);
                 GtkWidget *button = gtk_button_new_with_label (thelabel);
                 g_signal_connect (button, "clicked", G_CALLBACK (execute_editscript), filename);
                 g_signal_connect_swapped (button, "destroy", G_CALLBACK (g_free), filename);
-                gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);   
+                gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);   
                 g_free(thelabel);
                 }  
-            else if (action)
+            else if (action) 
                 {
                 gchar *thelabel = g_strconcat ( _("Re-run command "), name, NULL);
                 GtkWidget *button = gtk_button_new_with_label (thelabel);
                 g_object_set_data (G_OBJECT(button), "action", (gpointer)action);
                 g_signal_connect (button, "clicked", G_CALLBACK (call_edit_on_action), NULL);
-                gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);                       
+                gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);                       
                 g_free(thelabel);  
                 }
-
             GtkWidget *button = gtk_button_new_with_label (_("Advanced (low-level) edit"));
             g_object_set_data (G_OBJECT(button), "directives", NULL);
             g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
             g_signal_connect (button, "clicked", G_CALLBACK (advanced_edit_type_directive), text_edit_standalone_directive);
-            gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
+            gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);
             }
             break;
             
@@ -513,9 +587,9 @@ edit_object (void)
             g_critical ("Type not done");
             break;
     }
-  if(g_list_length ( gtk_container_get_children (vbox)) == 1)
+  if(g_list_length ( gtk_container_get_children (GTK_CONTAINER(vbox))) == 1)
     {//just the close button
-        warningdialog ("Nothing editable on this object");
+        warningdialog ("Nothing editable on this object\nYou can add attributes to the object at the cursor by right-clicking on it.");
         gtk_widget_destroy (editwin);
     }
     else
