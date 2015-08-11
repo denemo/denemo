@@ -618,7 +618,7 @@ void
 printpng_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, GList * filelist)
 {
   gchar *pngfile = g_strconcat((gchar *) get_printfile_pathbasename (), ".png", NULL);
-  gchar *message = g_strdup_printf(_("A PNG file has been created at: %s\nIf you have an external viewer available (see Edit → Change Preferences → Externals → Image Viewer)\nthen it will be displayed with that program."), pngfile);
+  gchar *message = _("A PNG file has been created");
   g_debug ("printpng_finished\n");
   g_list_foreach (filelist, (GFunc) rm_temp_files, FALSE);
   g_list_free (filelist);
@@ -626,7 +626,6 @@ printpng_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, GList * fi
   get_print_status()->printpid = GPID_NONE;
   progressbar_stop ();
   infodialog (message);
-  g_free(message);
   g_free(pngfile);
 }
 
