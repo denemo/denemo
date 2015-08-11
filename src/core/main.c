@@ -192,7 +192,7 @@ process_command_line (int argc, char **argv, gboolean gtkstatus)
     g_string_ascii_down (Denemo.prefs.midi_driver);
 
 #ifdef HAVE_SIGCHLD
-  signal (SIGCHLD, sigchld_handler);
+  //signal (SIGCHLD, sigchld_handler);
 #endif
 
   //Set command line mode if gtk could not be initialized
