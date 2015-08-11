@@ -582,7 +582,13 @@ static void general_edit_popup (GtkWidget *button, EditObjectType type)
 #endif
  infodialog (_("To add or remove built-in attributes right click on the object in the display window"));
        
- gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
+    gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
+    gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR)); 
+    if(ObjectInfo)
+        gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), gdk_cursor_new (GDK_LEFT_PTR));
+    if(Denemo.printarea)
+        gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), gdk_cursor_new (GDK_LEFT_PTR));
+ 
 }
 
 static void
