@@ -9,6 +9,7 @@
 #include "core/kbd-custom.h"
 #include "command/staff.h"
 #include "core/utils.h"
+#include "command/object.h"
 #include "command/select.h"
 #include "command/lilydirectives.h"
 #include "command/lyric.h"

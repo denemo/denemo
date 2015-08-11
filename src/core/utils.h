@@ -296,8 +296,7 @@ void KeyStrokeDecline (gchar * first_keypress);
 void KeyStrokeShow (gchar * str, gint command_idx, DenemoShortcutType type);
 void MouseGestureShow (gchar *str, gchar *help, DenemoShortcutType type);
 void KeyPlusMouseGestureShow(gchar *str, gint command_idx);
-void display_current_object(void);
-void update_object_info (void);
+
 note *
 findnote (DenemoObject * curObj, gint cursory);
 note *

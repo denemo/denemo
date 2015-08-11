@@ -5,6 +5,7 @@
 #include "command/grace.h"
 #include "command/scorelayout.h"
 #include "core/utils.h"
+#include "command/object.h"
 #include "core/view.h"
 #include "core/graphicseditor.h"
 #include "core/http.h"

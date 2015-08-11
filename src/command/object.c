@@ -75,6 +75,436 @@ freeobject (DenemoObject * mudobj)
       break;
     }
 }
+/* drop display full information about the object at the cursor */
+static GtkWidget *ObjectInfo = NULL;
+static gboolean
+drop_object_info (void)
+{
+  if (ObjectInfo)
+    gtk_widget_hide (ObjectInfo);
+  return TRUE;
+}
+/* display full information about the object at the cursor if Inspector is open*/
+void
+update_object_info (void)
+{
+  if (ObjectInfo && gtk_widget_get_visible (ObjectInfo))
+    display_current_object ();
+}
+static void
+append_directives_information (GString * selection, GList * directives)
+{
+    gboolean first = TRUE;
+  do
+    {
+      DenemoDirective *directive = directives->data;
+      const gchar *label = get_label_for_command (directive->tag->str);
+      const gchar *menupath = get_menu_path_for_command (directive->tag->str);
+      const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
+      if(directive->tag==NULL)
+            directive->tag = g_string_new("<Unknown Tag>");//shouldn't happen
+      gchar *label_e = label? g_markup_escape_text(label, -1): g_markup_escape_text(directive->tag->str, -1);
+      if(!first)
+        g_string_append (selection, "\n<span foreground=\"blue\"weight=\"bold\">---------------------------------------------------------</span>\n");
+      else
+         g_string_append (selection, "\n<span foreground=\"green\"weight=\"bold\">---------------------------------------------------------</span>\n");
+      first = FALSE;
+      if(label)
+                g_string_append_printf (selection, _("Directive for command: <span weight=\"bold\">\"%s\"</span>\n"), label_e);
+      else
+                g_string_append_printf (selection, _("Directive tagged: <span foreground=\"red\"weight=\"bold\">\"%s\"</span>\n"), label_e);
+      g_free (label_e);
+      if(menupath)
+        {
+            gchar *menupath_e = g_markup_escape_text(menupath, -1);
+            g_string_append_printf (selection, _("Menu location for this command: <span style=\"italic\" weight=\"bold\">\"%s\"</span>\n"), menupath_e);
+            g_free (menupath_e);
+        }
+      if(tooltip)
+        {
+            gchar * tooltip_e = g_markup_escape_text(tooltip, -1);
+            g_string_append_printf (selection, _("The help for the command that created this directive is:\n<big>\"%s\"</big>\n"), tooltip_e);
+            g_free (tooltip_e);
+        }    
+      if(directive->prefix)
+        {
+            gchar *lily = g_markup_escape_text(directive->prefix->str, -1);
+            g_string_append_printf (selection, _("LilyPond inserted in prefix to this object is <tt>\"%s\"</tt>\n"), lily);
+            g_free (lily);
+        }
+      if(directive->postfix)
+        {
+            gchar *lily = g_markup_escape_text(directive->postfix->str, -1);
+            g_string_append_printf (selection, _("LilyPond inserted in postfix to this object is <tt>\"%s\"</tt>\n"), lily);
+            g_free (lily);
+        }
+     if(!directives->next)
+        g_string_append (selection, "<span foreground=\"blue\"weight=\"bold\">---------------------------------------------------------</span>");
+    }
+  while (directives->next && (directives = directives->next));
+  g_string_append (selection, "\n");
+}
+
+static void append_lilypond (DenemoObject *curObj, GString *selection)
+    {
+        DenemoProject *gui = Denemo.project;
+        if( gui->lilysync != gui->changecount)
+            refresh_lily_cb (NULL, gui); //if(curObj->lilypond)g_print ("lili |%s|\n", curObj->lilypond);
+        if(curObj->lilypond && *curObj->lilypond)
+            g_string_append_printf (selection, _("The LilyPond syntax generated is: <tt>\"%s\"</tt>\n"), g_markup_escape_text(curObj->lilypond, -1));
+        else
+            g_string_append_printf (selection, _("This object does not affect the music typesetting, (no LilyPond syntax is generated)\n"));
+    }
+    
+static gint gcd384 (gint n)
+{
+    gint remainder, m = 384;
+    while (n != 0)
+    {
+        remainder = m % n;
+        m = n;
+        n = remainder;
+    }
+    return m;
+}
+
+void
+display_current_object (void)
+{
+  DenemoProject *gui = Denemo.project;
+  gchar *type = "object";
+  if (ObjectInfo == NULL)
+    {
+      ObjectInfo = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+      gtk_window_set_title (GTK_WINDOW (ObjectInfo), _("Denemo Object Inspector"));
+      g_signal_connect (G_OBJECT (ObjectInfo), "delete-event", G_CALLBACK (drop_object_info), NULL);
+     // gtk_window_set_keep_above (GTK_WINDOW (ObjectInfo), TRUE);
+     gtk_window_set_accept_focus (GTK_WINDOW (ObjectInfo), FALSE);
+    }
+  else
+    {
+      gtk_widget_destroy (gtk_bin_get_child (GTK_BIN (ObjectInfo)));
+    }
+
+  GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
+  gtk_container_add (GTK_CONTAINER (ObjectInfo), vbox);
+
+  if (gui->movement->currentobject == NULL)
+    {
+      GtkWidget *label = gtk_label_new ("The cursor is in an empty measure.\n" "As a special case this will be typeset as a non-printing whole measure rest.\n" "Note that if you put anything at all in this measure\n" "you must insert a real whole measure rest if that is what you want.");
+      gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
+    }
+  else
+    {
+      DenemoObject *curObj = gui->movement->currentobject->data;
+    GtkWidget *edit_button = gtk_button_new_with_label (_("Edit"));
+    g_signal_connect (edit_button, "clicked", G_CALLBACK (edit_object), NULL);
+    gtk_box_pack_start (GTK_BOX (vbox), edit_button, FALSE, TRUE, 0);
+      
+      
+      GString *selection = g_string_new (gui->movement->cursor_appending ? _("The cursor is in the appending position after ") : _("The cursor is on "));
+      GString *warning = g_string_new ("");
+      switch (curObj->type)
+        {
+        case CHORD:
+          {
+            chord *thechord = ((chord *) curObj->object);
+            if (thechord->notes)
+              {
+                if (thechord->notes->next)
+                  {
+                    type = _("chord");
+                    selection = g_string_append (selection, _("a chord.\n"));
+                  }
+                else
+                  {
+                    type = _("note");
+                    selection = g_string_append (selection, _("a one-note chord.\n"));
+                  }
+                if (thechord->slur_begin_p)
+                  selection = g_string_append (selection, _("A slur starts from here.\n" "There should be a matching end slur later.\n"));
+                if (thechord->slur_end_p)
+                  selection = g_string_append (selection, _("A slur ends here\n" "There should be a matching start slur earlier.\n"));
+                if (thechord->is_tied)
+                  selection = g_string_append (selection, _("This is tied to the following note or chord.\n" "The following note or chord should have the same pitch\n"));
+                 if (thechord->crescendo_begin_p)
+                  selection = g_string_append (selection, _("This note begins a crescendo. Use the Right Click → Dynamics menu to control this.\n"));
+                 if (thechord->crescendo_end_p)
+                  selection = g_string_append (selection, _("This note ends a crescendo. Use the Right Click → Dynamics menu to control this.\n"));
+                if (thechord->diminuendo_begin_p)
+                  selection = g_string_append (selection, _("This note begins a diminuendo. Use the Right Click → Dynamics menu to control this.\n"));
+                 if (thechord->diminuendo_end_p)
+                  selection = g_string_append (selection, _("This note ends a diminuendo. Use the Right Click → Dynamics menu to control this.\n"));
+                  
+                if (thechord->is_grace && !(thechord->is_grace & GRACED_NOTE))
+                  selection = g_string_append (selection, _("This is an acciaccatura note\n"));    
+                  
+                if (thechord->is_grace & GRACED_NOTE)
+                  selection = g_string_append (selection, _("This is an appoggiatura note\n"));
+                if (curObj->isinvisible)
+                  selection = g_string_append (selection, _("This note denotes a rhythm - use a MIDI keyboard to add pitches by playing.\n"));
+
+
+
+
+                note *thenote = findnote (curObj, gui->movement->cursor_y);
+                if (thenote && gui->movement->cursor_y==thenote->mid_c_offset)
+                  {
+  
+                    g_string_append_printf (selection, _("Within the chord the cursor is on the note |%s| \n"),
+                                            mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
+                    if (thenote->directives)
+                      {
+                        selection = g_string_append (selection, _("Attached to this note:"));
+                        append_directives_information (selection, thenote->directives);
+                      }
+                  }
+                if ((thechord->notes->next) && curObj->isinvisible)
+                        warning = g_string_append (warning, _("This rhythm has extra notes added to it, delete them and use the foot-pedal or Alt key to enter chords with the MIDI controller.\n"));
+
+              }
+            else
+              {
+                type = _("rest");
+                selection = g_string_append (selection, _("a rest.\n"));
+                if (thechord->slur_begin_p)
+                  warning = g_string_append (warning, _("This rest has a slur start on it, use the Right Click  → Slurs menu to remove it\n"));
+                if (thechord->slur_end_p)
+                  warning = g_string_append (warning, _("This rest has a slur end on it, use the Right Click → Slurs menu to remove it\n"));
+                if (thechord->is_tied)
+                  warning = g_string_append (warning, _("This rest has a tie starting on it, use the Right Click  → Tied Note to remove it\n"));
+
+                  
+                if (curObj->isinvisible)
+                  selection = g_string_append (selection, _("This rest will not print, just act as a spacer.\n"));
+                if (thechord->is_grace && curObj->isinvisible)
+                  warning = g_string_append (warning, _("This rest has the grace attribute set: these objects are usually inserted automatically to match real grace notes in other parts, this helps the music typesetter place the grace note correctly in the Print View.\n"));
+
+              }
+            if (thechord->directives) 
+                            {
+                            selection = g_string_append (selection, _("Attached to the chord:"));
+                            append_directives_information (selection, thechord->directives);
+                            }
+           gint gcd_s = gcd384 (curObj->starttick);
+           gint gcd_d = gcd384 (curObj->durinticks);
+           if (gcd_s == 384)
+            {
+                if (gcd_d == 384)
+                 g_string_append_printf (selection, _("This %s starts %d 𝅘𝅥  's into the measure and lasts %d 𝅘𝅥 's.\n"), type, curObj->starttick/384, curObj->durinticks/384);
+                else
+                g_string_append_printf (selection, _("This %s starts %d 𝅘𝅥  's into the measure and lasts %d/%d 𝅘𝅥 's.\n"), type, curObj->starttick/384, curObj->durinticks/gcd_d, 384/gcd_d);
+            } else 
+            {
+                if (gcd_d == 384)
+                    g_string_append_printf (selection, _("This %s starts %d/%d 𝅘𝅥  's into the measure and lasts %d 𝅘𝅥 's.\n"), type, curObj->starttick/gcd_s, 384/gcd_s, curObj->durinticks/384);
+                else
+                    g_string_append_printf (selection, _("This %s starts %d/%d 𝅘𝅥  's into the measure and lasts %d/%d 𝅘𝅥 's.\n"), type, curObj->starttick/gcd_s, 384/gcd_s, curObj->durinticks/gcd_d, 384/gcd_d);
+            }
+           append_lilypond (curObj, selection);
+          }
+          break;
+        case TUPOPEN:
+          { tuplet *thetup = ((tuplet *) curObj->object);
+            //type = _("start tuplet marker");
+            g_string_append_printf (selection, _(" a Start Tuplet object\n""Meaning %d notes will take the time of %d notes\n" "until an End Tuplet object.\nSee the Notes/Rests → Tuplets for control over how tuplets print\n"), thetup->denominator, thetup->numerator);
+                        if (thetup->directives) 
+                            {
+                                selection = g_string_append (selection, _("Attached to the Start Tuplet:"));
+                                append_directives_information (selection, thetup->directives);
+                            }
+             append_lilypond (curObj, selection);
+          }
+          break;
+        case TUPCLOSE:
+          { tuplet *thetup = ((tuplet *) curObj->object);
+            //type = _("end tuplet marker");
+            g_string_append_printf (selection, _("an End Tuplet object\n" "Note: the Start Tuplet must be in the same measure.\n"));
+            if (thetup->directives) 
+                            {
+                                selection = g_string_append (selection, _("Attached to the End Tuplet:"));
+                                append_directives_information (selection, thetup->directives);
+                            }
+            append_lilypond (curObj, selection);
+          }
+          break;
+        case CLEF:
+          {
+            clef *theclef = ((clef *) curObj->object);
+            //type = _("clef change object");
+            g_string_append_printf (selection, _("a Clef Change object.\n"));   
+            if (theclef->directives) 
+                            {
+                                selection = g_string_append (selection, _("Attached to the Clef Change:"));
+                                append_directives_information (selection, theclef->directives);
+                            }
+            if (curObj->isinvisible)
+                           selection = g_string_append (selection, _("This clef change is non-printing, it just affects the display.\n"));
+            append_lilypond (curObj, selection);
+
+          }
+          break;
+        case TIMESIG:
+          {
+            timesig *thetime = ((timesig *) curObj->object);
+            //type = _("time signature change object");
+            g_string_append_printf (selection, _("a Time Signature Change object.\n"));
+                        if (thetime->directives) 
+                            {
+                                selection = g_string_append (selection, _("Attached to the Time Signature Change:"));
+                                append_directives_information (selection, thetime->directives);
+                            }   
+            append_lilypond (curObj, selection);
+            if (gui->movement->currentobject->prev)
+              g_string_append_printf (warning, _("A Time Signature Change should be the first object in a measure\n" "unless you are trying to do something unusual"));
+          }
+          break;
+        case KEYSIG:
+          {
+            keysig *thekey = ((keysig *) curObj->object);
+            //type = _("key signature change object");
+
+            g_string_append_printf (selection, _("a Key Signature Change object.\n"));
+            if (thekey->directives) 
+                {
+                    selection = g_string_append (selection, _("Attached to the Key Signature Change:"));
+                    append_directives_information (selection, thekey->directives);
+                }
+            append_lilypond (curObj, selection);
+            }
+          break;
+        case STEMDIRECTIVE:
+          {
+            stemdirective *thestem = ((stemdirective *) curObj->object);
+            //type = _("stem direction change object");
+            g_string_append_printf (selection, _("a Stem Direction Control Object. The notes after the cursor %s"), ((stemdirective *) curObj->object)->type == DENEMO_STEMDOWN ? _("will have stems downwards.") : ((stemdirective *) curObj->object)->type == DENEMO_STEMUP ? _("will have stems upwards.") : _("will have stems up or down as needed."));
+                        if (thestem->directives) 
+                            {
+                                selection = g_string_append (selection, _("\nAttached to the Stemming Change:"));
+                                append_directives_information (selection, thestem->directives);
+                            }
+            append_lilypond (curObj, selection);
+          }
+          break;
+        case LILYDIRECTIVE:
+          {
+            DenemoDirective *directive = (DenemoDirective *) curObj->object;
+            //type = _("Denemo directive object");
+
+            if(directive->tag==NULL)
+                            directive->tag = g_string_new("<Unknown Tag>");//shouldn't happen
+            const gchar *label = get_label_for_command (directive->tag->str);
+            const gchar *menupath = get_menu_path_for_command (directive->tag->str);
+            const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
+            gchar *label_e = label? g_markup_escape_text(label, -1): g_markup_escape_text(directive->tag->str, -1);
+            if(label)
+               g_string_append_printf (selection, _("a Denemo Directive: <span weight=\"bold\">%s</span>\n"), label_e);
+            else
+                g_string_append_printf (selection, _("a Denemo Directive tagged: <span foreground=\"red\"weight=\"bold\">%s</span>\n"), label_e);
+            g_free (label_e);
+            if(tooltip)
+                {
+                    gchar *tooltip_e = g_markup_escape_text(tooltip, -1);
+                    g_string_append_printf (selection, _("\nThe help for the command that created this directive is\n<big>\"%s\"</big>"), tooltip_e);
+                    g_free (tooltip_e);
+                }
+
+           g_string_append_printf (selection, _("%s"), directive->x ? _("\nNot all layouts\n") : directive->y ? _("\nOnly for one Layout\n"): "\n");
+           if(menupath)
+                {
+                    gchar *menupath_e = g_markup_escape_text(menupath, -1);
+                    g_string_append_printf (selection, _("Menu location for this command: <span style=\"italic\" weight=\"bold\">\"%s\"</span>\n"), menupath_e);
+                    g_free (menupath_e);
+                }
+            
+            {
+               gchar *text =  g_strconcat(directive->prefix?directive->prefix->str:"",
+                            directive->postfix?directive->postfix->str:"", NULL);
+               g_strchug (text); //does not allocate memory
+               if (*text)   
+                {
+                gchar *lily1 = directive->prefix?g_markup_escape_text(directive->prefix->str, -1):g_strdup("");
+                gchar *lily2 = directive->postfix?g_markup_escape_text(directive->postfix->str, -1):g_strdup("");
+                
+                g_string_append_printf (selection, _("The LilyPond text inserted is <tt>%s%s</tt>\n"),  
+                          lily1,lily2);//puts the whitespace back
+                g_free (lily1);
+                g_free (lily2);
+                }
+            else
+                g_string_append_printf (selection, _("This object does not affect the printed output (no LilyPond syntax is generated for the typesetter)\n"));//well this ignores possible effect of whitespace...
+            g_free (text);
+            
+            }
+           if (gui->movement->currentobject->next == NULL && (gui->movement->currentmeasure->next == NULL))
+              g_string_assign (warning, _("This Directive is at the end of the music" 
+                "\nYou may need a closing double bar line -\n" 
+                "see Directives → Markings → Inserting Barlines"));
+          }
+          break;
+        default:
+          {
+            g_string_append (selection, _("The cursor is on an unknown object type. Please report how this happened!"));
+          }
+          break;
+        } //end switch curObj type
+        
+        if (curObj->midi_events)
+        {
+          smf_event_t *event = (smf_event_t *) curObj->midi_events->data;
+          gdouble time = event->time_seconds;
+          gint minutes = time / 60.0;
+          gdouble seconds = time - 60 * minutes;
+          char *buf = event->midi_buffer;
+          g_string_append_printf (selection, _("Playback timing: %d minutes %1.2f seconds"), minutes, seconds);
+          #define velocity ((*(buf+2))&0x7F)
+          if ((*buf & 0xf0) == 0x90)
+            g_string_append_printf (selection, _(", Volume: %1.1f%%\n"), (100.0/127) * buf[2]);
+          else
+            g_string_append (selection, _(".\n"));
+        }
+
+        if (warning->len)
+        {
+          GtkWidget *label = gtk_label_new ("");
+          warning = g_string_prepend (warning, _("<span font-desc=\"30\">Warning</span> "));
+          gtk_label_set_markup (GTK_LABEL (label), warning->str);
+          gtk_label_set_line_wrap (GTK_LABEL(label), TRUE);
+          gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
+        }
+        if (selection->len)
+        {
+          GtkWidget *label = gtk_label_new ("");
+          gtk_label_set_selectable (GTK_LABEL(label), TRUE);
+         
+         /*
+              making the text selectable unfortunately results in the label text being selected at the start
+              the following code would undo that, but selection-bound cannot be written to, so it does not work.
+              int start, end;
+              gtk_label_get_selection_bounds (GTK_LABEL(label), &start, &end);
+              GValue value = { 0 };
+              g_value_init (&value, G_TYPE_INT);
+              g_value_set_int (&value, end);
+              g_object_set_property (G_OBJECT (label), "selection-bound", &value);
+            *this also does not work:
+              g_signal_emit_by_name (GTK_LABEL(label), "move-cursor", GTK_MOVEMENT_BUFFER_ENDS, -1, FALSE);
+          */
+          gtk_label_set_markup (GTK_LABEL (label), selection->str);
+          gtk_label_set_line_wrap (GTK_LABEL(label), TRUE);
+          gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
+        }
+      g_string_free (warning, TRUE);
+      g_string_free (selection, TRUE);
+    }
+  gtk_widget_show_all (ObjectInfo);
+#ifdef G_OS_WIN32
+//on windows, the ObjectInfo window takes the focus regardless of having told it not to, so it is up to the user to bring the inspector to the front.
+  gtk_window_set_keep_above (GTK_WINDOW (ObjectInfo), TRUE);
+
+#else
+  gtk_window_present (GTK_WINDOW (ObjectInfo));
+#endif
+}
 
 static void 
 set_false (GtkWidget *button, gboolean *bool)

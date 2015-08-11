@@ -13,6 +13,10 @@ DenemoObject *get_object (void);
 
 void freeobject (DenemoObject * mudobj);
 
+void display_current_object(void);
+
+void update_object_info (void);
+
 void edit_object (void);
 
 void initkeyaccs (gint * accs, gint number);
