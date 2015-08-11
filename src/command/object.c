@@ -619,7 +619,7 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
                 }  
             else if (action)
                 {
-                gchar *thelabel = g_strconcat (_("Re-run command "), name, NULL);
+                gchar *thelabel = g_strconcat (_("Edit command "), name, NULL);
                 GtkWidget *button = gtk_button_new_with_label (thelabel);
                 g_object_set_data (G_OBJECT(button), "action", (gpointer)action);
                 g_signal_connect (button, "clicked", G_CALLBACK (call_edit_on_action), NULL);
@@ -732,7 +732,10 @@ static void update_and_close (GtkWidget *editwin)
     update_object_info ();
     gtk_widget_destroy (editwin);
     gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR)); 
-
+    if(ObjectInfo)
+        gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), gdk_cursor_new (GDK_LEFT_PTR));
+     if(Denemo.printarea)
+        gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), gdk_cursor_new (GDK_LEFT_PTR));
 }
 // edit the specific object at the cursor
 void
@@ -998,7 +1001,7 @@ edit_object (void)
                 }  
             else if (action) 
                 {
-                gchar *thelabel = g_strconcat ( _("Re-run command "), name, NULL);
+                gchar *thelabel = g_strconcat ( _("Edit command "), name, NULL);
                 GtkWidget *button = gtk_button_new_with_label (thelabel);
                 g_object_set_data (G_OBJECT(button), "action", (gpointer)action);
                 g_signal_connect (button, "clicked", G_CALLBACK (call_edit_on_action), NULL);
@@ -1026,8 +1029,13 @@ edit_object (void)
     {
       gtk_widget_show_all (editwin);
       gtk_window_present (GTK_WINDOW (editwin));
-      gdk_window_set_cursor (gtk_widget_get_window (editwin), gdk_cursor_new (GDK_HAND2)); 
+      gdk_window_set_cursor (gtk_widget_get_window (editwin), gdk_cursor_new (GDK_RIGHT_PTR)); 
       gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_X_CURSOR));
+      if(ObjectInfo)
+        gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), gdk_cursor_new (GDK_X_CURSOR));
+     if(Denemo.printarea)
+        gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), gdk_cursor_new (GDK_X_CURSOR));
+
     }
 }
 
