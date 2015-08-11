@@ -167,7 +167,16 @@ static gint gcd384 (gint n)
     }
     return m;
 }
-
+static void move_to_next_note (GtkWidget *editwin)
+{
+if(!cursor_to_next_note_height())
+    cursor_to_nth_note_height (0);
+if (editwin)
+   {
+    gtk_widget_destroy (editwin);
+    edit_object();
+    }
+}
 void
 display_current_object (void)
 {
@@ -211,6 +220,9 @@ display_current_object (void)
             chord *thechord = ((chord *) curObj->object);
             if (thechord->notes)
               {
+                GtkWidget *button = gtk_button_new_with_label (_("Explore next note in chord"));
+                g_signal_connect_swapped (button, "clicked", G_CALLBACK (move_to_next_note), NULL);
+                gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
                 if (thechord->notes->next)
                   {
                     type = _("chord");
@@ -743,6 +755,8 @@ static void update_and_close (GtkWidget *editwin)
      if(Denemo.printarea)
         gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), gdk_cursor_new (GDK_LEFT_PTR));
 }
+
+
 // edit the specific object at the cursor
 void
 edit_object (void)
@@ -792,6 +806,12 @@ edit_object (void)
               {
                 place_chord_attributes (vbox, thechord);
                 note *thenote = findnote (curObj, Denemo.project->movement->cursor_y);
+                if ( (!thenote) || thechord->notes->next)
+                    {
+                    GtkWidget *button = gtk_button_new_with_label (_("Edit next note in chord"));
+                    g_signal_connect_swapped (button, "clicked", G_CALLBACK (move_to_next_note), editwin);
+                    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
+                    }
                 if (thenote && Denemo.project->movement->cursor_y==thenote->mid_c_offset)
                   {
                     GString *text = g_string_new ("");
