@@ -167,6 +167,15 @@ static gint gcd384 (gint n)
     }
     return m;
 }
+static void reset_cursors (void)
+{
+    gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR)); 
+    if(ObjectInfo)
+        gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), gdk_cursor_new (GDK_LEFT_PTR));
+    if(Denemo.printarea)
+        gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), gdk_cursor_new (GDK_LEFT_PTR));    
+}
+
 static void move_to_next_note (GtkWidget *editwin)
 {
 if(!cursor_to_next_note_height())
@@ -174,6 +183,7 @@ if(!cursor_to_next_note_height())
 if (editwin)
    {
     gtk_widget_destroy (editwin);
+    reset_cursors ();
     edit_object();
     }
 }
@@ -205,7 +215,18 @@ display_current_object (void)
     }
   else
     {
-      DenemoObject *curObj = gui->movement->currentobject->data;
+    DenemoObject *curObj = gui->movement->currentobject->data;
+    
+    if (curObj->type==CHORD)
+       {
+            chord *thechord = ((chord *) curObj->object);
+            if (thechord->notes)
+              {
+                GtkWidget *button = gtk_button_new_with_label (_("Explore next note in chord"));
+                g_signal_connect_swapped (button, "clicked", G_CALLBACK (move_to_next_note), NULL);
+                gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
+            }
+        }
     GtkWidget *edit_button = gtk_button_new_with_label (_("Edit"));
     g_signal_connect (edit_button, "clicked", G_CALLBACK (edit_object), NULL);
     gtk_box_pack_start (GTK_BOX (vbox), edit_button, FALSE, TRUE, 0);
@@ -220,9 +241,6 @@ display_current_object (void)
             chord *thechord = ((chord *) curObj->object);
             if (thechord->notes)
               {
-                GtkWidget *button = gtk_button_new_with_label (_("Explore next note in chord"));
-                g_signal_connect_swapped (button, "clicked", G_CALLBACK (move_to_next_note), NULL);
-                gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
                 if (thechord->notes->next)
                   {
                     type = _("chord");
@@ -263,7 +281,7 @@ display_current_object (void)
                 if (thenote && gui->movement->cursor_y==thenote->mid_c_offset)
                   {
   
-                    g_string_append_printf (selection, _("Within the chord the cursor is on the note |%s| \n"),
+                    g_string_append_printf (selection, _("<b>Within the chord the cursor is on the note |%s| </b>\n"),
                                             mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
                     if (thenote->directives)
                       {
@@ -543,6 +561,7 @@ static void advanced_edit_type_directive (GtkWidget *button, gpointer fn)
         }   
     
 }
+
 static void
 call_edit_on_action (GtkWidget *button)
 {
@@ -555,7 +574,9 @@ call_edit_on_action (GtkWidget *button)
     g_string_free (param.string, TRUE);  
    gtk_widget_destroy (gtk_widget_get_toplevel (button));
    if (currentobject == Denemo.project->movement->currentobject)
-    edit_object();   
+    edit_object();
+   else 
+    reset_cursors (); 
 }
 
 static void execute_editscript (GtkWidget *button, gchar *filename)
@@ -568,6 +589,8 @@ static void execute_editscript (GtkWidget *button, gchar *filename)
  gtk_widget_destroy (gtk_widget_get_toplevel (button));
  if (currentobject == Denemo.project->movement->currentobject)
     edit_object();
+ else
+    reset_cursors ();
 }
 typedef enum {
   EDIT_CHORD,
@@ -582,6 +605,7 @@ typedef enum {
   
 } EditObjectType;
 
+
 static void general_edit_popup (GtkWidget *button, EditObjectType type)
 {
 
@@ -595,11 +619,7 @@ static void general_edit_popup (GtkWidget *button, EditObjectType type)
  infodialog (_("To add or remove built-in attributes right click on the object in the display window"));
        
     gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
-    gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR)); 
-    if(ObjectInfo)
-        gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), gdk_cursor_new (GDK_LEFT_PTR));
-    if(Denemo.printarea)
-        gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), gdk_cursor_new (GDK_LEFT_PTR));
+    reset_cursors ();
  
 }
 
@@ -749,11 +769,7 @@ static void update_and_close (GtkWidget *editwin)
 {
     update_object_info ();
     gtk_widget_destroy (editwin);
-    gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR)); 
-    if(ObjectInfo)
-        gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), gdk_cursor_new (GDK_LEFT_PTR));
-     if(Denemo.printarea)
-        gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), gdk_cursor_new (GDK_LEFT_PTR));
+    reset_cursors ();
 }
 
 
@@ -808,23 +824,24 @@ edit_object (void)
                 note *thenote = findnote (curObj, Denemo.project->movement->cursor_y);
                 if ( (!thenote) || thechord->notes->next)
                     {
-                    GtkWidget *button = gtk_button_new_with_label (_("Edit next note in chord"));
+                    GtkWidget *button = gtk_button_new_with_label (_("Next note in chord"));
                     g_signal_connect_swapped (button, "clicked", G_CALLBACK (move_to_next_note), editwin);
                     gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
                     }
                 if (thenote && Denemo.project->movement->cursor_y==thenote->mid_c_offset)
                   {
                     GString *text = g_string_new ("");
-                    g_string_append_printf (text, _("Attached to Note |%s|"),
-                                            mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
+                    
                     if (thenote->directives)
                       {
+                        g_string_append_printf (text, _("Attached to Note |%s|"),
+                                            mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
                         GtkWidget *frame = gtk_frame_new (text->str);
                         gtk_container_set_border_width (GTK_CONTAINER (frame), 20);
                         gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
                         GdkRGBA color;
-                        color.red = 0.8;
-                        color.green = color.blue = 0.1; color.alpha = 1;
+                        color.green = 0.7;
+                        color.red = color.blue = 0.2; color.alpha = 1;
                         gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
                         gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
                         GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
@@ -834,7 +851,23 @@ edit_object (void)
 
                         gtk_container_add (GTK_CONTAINER (frame), inner_box);
                         place_directives (inner_box, &thenote->directives, EDIT_NOTE);
+                      } 
+                    else
+                      {
+                        g_string_append_printf (text, _("Nothing attached to Note |%s|"),
+                                            mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
+                        GtkWidget *frame = gtk_frame_new (text->str);
+                        gtk_container_set_border_width (GTK_CONTAINER (frame), 20);
+                        gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
+                        GdkRGBA color;
+                        color.red = 0.8;
+                        color.green = color.blue = 0.1; color.alpha = 1;
+                        gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+                        gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
                       }
+                      
+                      g_string_free (text, TRUE);
+                      
                   }
                 if ((thechord->notes->next) && curObj->isinvisible)
                     {
