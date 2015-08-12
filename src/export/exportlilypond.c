@@ -691,7 +691,35 @@ output_fakechord (GString * fakechord, chord * pchord)
   char *str;                    /* pointer into the figure string fig_str */
   gint num_groups = 1;          /* number of groups of figures */
   gchar *extension;
+  gchar *duration_string = NULL;        //whole measure rests etc
+
   fakechord = g_string_append (fakechord, " ");
+  
+    if (duration < 0)
+    {
+      gchar *lily = get_postfix (pchord->directives);
+      if (lily)
+        {
+          duration_string = g_strrstr (lily, "R1*");
+          if (!duration_string)
+            {
+              g_warning ("duration is special but cannot find R1* - output in fakechord");
+              duration_string = g_strdup ("R1*4/4");
+            }
+        }
+      else
+        {
+          g_warning ("duration is special but no directives to account for it - output in fakechord");
+          duration_string = g_strdup ("R1*4/4");
+        }
+      duration_string++;        //the duration, after the  R
+      g_string_append_printf(fakechord, "%s%s", "s", duration_string);
+      return;
+    }
+  
+  
+  
+  
   if (pchord->fakechord == NULL || (((GString *) ((chord *) pchord->fakechord))->len) == 0)
     fig_str = g_string_new ("s");       /* the no-fakechord figure */
   else
