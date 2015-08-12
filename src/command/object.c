@@ -273,7 +273,11 @@ display_current_object (void)
                   selection = g_string_append (selection, _("This is an appoggiatura note\n"));
                 if (curObj->isinvisible)
                   selection = g_string_append (selection, _("This note denotes a rhythm - use a MIDI keyboard to add pitches by playing.\n"));
+                if (thechord->fakechord)
+                    g_string_append_printf (selection, _("A Chord Symbol \"%s\" is attached to this note.\n"), ((GString *)thechord->fakechord)->str);
 
+                if (thechord->figure)
+                    g_string_append_printf (selection, _("A Bass Figure \"%s\" is attached to this note.\n"), ((GString *)thechord->figure)->str);
 
 
 
@@ -772,6 +776,12 @@ static void update_and_close (GtkWidget *editwin)
     reset_cursors ();
 }
 
+static void run_script (GtkWidget *button, gchar *script)
+{
+    call_out_to_guile (script);
+    gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
+    reset_cursors ();
+}
 
 // edit the specific object at the cursor
 void
@@ -882,7 +892,19 @@ edit_object (void)
                 place_chord_attributes (vbox, thechord);
     
               }
-             
+              if (thechord->fakechord)
+                {
+                    GtkWidget *button = gtk_button_new_with_label (_("Edit Chord Symbol"));
+                    g_signal_connect (button, "clicked", G_CALLBACK (run_script), "(d-EditChords)");
+                    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
+                }
+
+            if (thechord->figure)
+                {
+                    GtkWidget *button = gtk_button_new_with_label (_("Edit Bass Figure"));
+                    g_signal_connect (button, "clicked", G_CALLBACK (run_script), "(d-EditFiguredBass)");
+                    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
+                }
 
             {
             GtkWidget *separator = 
