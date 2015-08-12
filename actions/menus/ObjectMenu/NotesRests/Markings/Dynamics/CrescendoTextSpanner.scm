@@ -1,6 +1,6 @@
 ;;;CrescendoTextSpanner
 (if (Music?)
-    (let ((tag "CrescendoTextSpanner")(params CrescendoTextSpanner::params)(text "poco"))
+    (let ((tag "CrescendoTextSpanner")(params CrescendoTextSpanner::params)(text (_ "\\bold cresc. (or poco if continuing the cresc.)")))
     (if (equal? params "edit")
             (set! params (RadioBoxMenu (cons (_ "Edit") 'edit)  (cons (_ "Delete") 'delete) (cons (_ "Advanced") 'advanced))))    
  
@@ -28,7 +28,7 @@
                 (begin
                     (if (and (string? params) (not (equal? params "edit")))
                         (set! text params)
-                        (set! text (d-GetUserInput (_ "Crescendo Text Spanner") (_ "Give text ") text)))
+                        (set! text (d-GetUserInput (_ "Crescendo Text Spanner") (_ "Give text for start or continuation") text)))
                     (if text
                         (begin
                             (d-DirectivePut-chord-prefix tag  (string-append

@@ -6609,14 +6609,14 @@ to adjust its position if needed.</_tooltip>
         <after>Cresc</after>
         <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
         <_label>Crescendo Text Spanner</_label>
-        <_tooltip>Prints text to start or continue a crescendo extending over a passage. Use for cresc. poco a poco, for example. Terminate with End Crescendo marking or a dynamic mark. LilyPond markup, such as \\bold can be used.</_tooltip>
+        <_tooltip>Prints text to start or continue a crescendo extending over a passage. Use for cresc. poco a poco, for example. Terminate with End Crescendo marking or a dynamic mark, else nothing will be printed. LilyPond markup, such as \\bold can be used.</_tooltip>
       </row>
       <row type="scheme">
         <action>DecrescendoTextSpanner</action>
         <after>Dim</after>
         <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
         <_label>Diminuendo Text Spanner</_label>
-        <_tooltip>Prints text to start or continue a diminuendo extending over a passage. Use for cresc. poco a poco, for example. Terminate with End Crescendo marking or a dynamic mark. LilyPond markup, such as \\bold can be used.</_tooltip>
+        <_tooltip>Prints text to start or continue a diminuendo extending over a passage. Use for dim. poco a poco, for example. Terminate with End Diminuendo marking or a dynamic mark, else nothing will be printed. LilyPond markup, such as \\bold can be used.</_tooltip>
       </row>
       <row type="scheme">
         <action>TextSpanStart</action>
