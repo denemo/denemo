@@ -989,7 +989,8 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
              }
             else
               drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 10); 
-             
+            if(si->has_fakechords)  drawnormaltext_cr (cr, _("Chord Symbols"), gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 20 + 2 * STAFF_HEIGHT); 
+            if(si->has_figures)  drawnormaltext_cr (cr, _("Figured Bass"), gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 20 + 2 * STAFF_HEIGHT); 
         }
       else
         {

@@ -1856,6 +1856,8 @@ parseStaff (xmlNodePtr staffElem, DenemoMovement * si)
         else if (ELEM_NAME_EQ (childElem, "hasfakechords"))
           {
             curStaff->hasfakechords = getXMLIntChild (childElem);
+            if (curStaff->hasfakechords)
+              si->has_fakechords = (gpointer) TRUE;
 
           }
         else if (ELEM_NAME_EQ (childElem, "haslyrics"))
@@ -2050,7 +2052,8 @@ parseVoiceProps (xmlNodePtr voicePropElem, DenemoMovement * si)
     else if (ELEM_NAME_EQ (childElem, "hasfakechords"))
       {
         curStaff->hasfakechords = getXMLIntChild (childElem);
-
+        if (curStaff->hasfakechords)
+            si->has_fakechords = (gpointer) TRUE;
       }
     else if (ELEM_NAME_EQ (childElem, "verses"))
       {

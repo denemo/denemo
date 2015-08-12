@@ -175,6 +175,8 @@ delete_fakechords (GtkAction * action, DenemoScriptParam * param)
   if (confirm (_("Chord Symbol Deletion"), _("Delete all Chord Symbols from this staff?")))
     {
       thestaff->hasfakechords = FALSE;
+      gui->movement->has_fakechords = FALSE;
+
       score_status (gui, TRUE);
       measurenode *curmeasure;
       for (curmeasure = thestaff->measures; curmeasure; curmeasure = curmeasure->next)

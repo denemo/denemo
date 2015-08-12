@@ -119,6 +119,7 @@ delete_figured_bass (GtkAction * action, DenemoScriptParam * param)
   if (confirm ("Figured Bass Deletion", "Delete all figured bass markings from this staff?"))
     {
       thestaff->hasfigures = FALSE;
+      gui->movement->has_figures = FALSE;
       score_status (gui, TRUE);
       measurenode *curmeasure;
       for (curmeasure = thestaff->measures; curmeasure; curmeasure = curmeasure->next)
