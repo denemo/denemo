@@ -8,7 +8,7 @@
         <after>OpenSecondTimeBar</after>
         <action>OpenNthTimeBar</action>
         <_label>Start an Nth Time Bar</_label>
-        <_tooltip>Start passage to be played on one or more of the repeats as indicated by the text given by the user (e.g. 3 for third time bar). Finish the passage by placing the End ... time bar command.</_tooltip>
+        <_tooltip>Start passage to be played on one or more of the repeats as indicated by the text given by the user (e.g. 3 for third time bar). Finish the passage using the End Volta command.</_tooltip>
       </row>
     </map>
   </merge>

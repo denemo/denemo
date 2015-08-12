@@ -8,8 +8,7 @@
         <action>CrescendoTextSpanner</action>
         <after>Cresc</after>
         <_label>Crescendo Text Spanner</_label>
-        <_tooltip>Prints text to start or continue a crescendo.
-Use for cresc. poco a poco, for example. Terminate with End Crescendo marking.</_tooltip>
+        <_tooltip>Prints text to start or continue a crescendo extending over a passage. Use for cresc. poco a poco, for example. Terminate with End Crescendo marking or a dynamic mark. LilyPond markup, such as \\bold can be used.</_tooltip>
       </row>
     </map>
   </merge>

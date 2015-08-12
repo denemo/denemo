@@ -8,7 +8,7 @@
         <after>ClosingBarline</after>
         <action>OpenFirstTimeBar</action>
         <_label>Start a First Time Bar</_label>
-        <_tooltip>(Print) start a first time bar, must be followed by EndVolta.</_tooltip>
+        <_tooltip>(Print) start (a) first time bar(s), use the End Volta command at the end of the first time bar(s)</_tooltip>
       </row>
     </map>
   </merge>

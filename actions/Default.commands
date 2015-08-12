@@ -5456,21 +5456,21 @@ for second and subsequent systems</_tooltip>
         <after>ClosingBarline</after>
         <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Start a First Time Bar</_label>
-        <_tooltip>(Print) start a first time bar, must be followed by EndVolta.</_tooltip>
+        <_tooltip>(Print) start (a) first time bar(s), use the End Volta command at the end of the first time bar(s)</_tooltip>
       </row>
       <row type="scheme">
         <action>OpenSecondTimeBar</action>
         <after>OpenFirstTimeBar</after>
         <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Start a Second Time Bar</_label>
-        <_tooltip>(Print) start a second time bar, must be followed by EndVolta</_tooltip>
+        <_tooltip>(Print) start (a) second time bar(s), use the End Volta command at the end of the first time bar(s)</_tooltip>
       </row>
       <row type="scheme">
         <action>OpenNthTimeBar</action>
         <after>OpenSecondTimeBar</after>
         <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Start an Nth Time Bar</_label>
-        <_tooltip>Start passage to be played on one or more of the repeats as indicated by the text given by the user (e.g. 3 for third time bar). Finish the passage by placing the End ... time bar command.</_tooltip>
+        <_tooltip>Start passage to be played on one or more of the repeats as indicated by the text given by the user (e.g. 3 for third time bar). Finish the passage using the End Volta command.</_tooltip>
       </row>
       <row type="scheme">
         <action>EndVolta</action>
@@ -6609,16 +6609,14 @@ to adjust its position if needed.</_tooltip>
         <after>Cresc</after>
         <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
         <_label>Crescendo Text Spanner</_label>
-        <_tooltip>Prints text to start or continue a crescendo. Use for cresc. poco a poco, for example.
-Terminate with End Crescendo marking.</_tooltip>
+        <_tooltip>Prints text to start or continue a crescendo extending over a passage. Use for cresc. poco a poco, for example. Terminate with End Crescendo marking or a dynamic mark. LilyPond markup, such as \\bold can be used.</_tooltip>
       </row>
       <row type="scheme">
         <action>DecrescendoTextSpanner</action>
         <after>Dim</after>
         <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
         <_label>Diminuendo Text Spanner</_label>
-        <_tooltip>Prints text to start or continue a diminuendo.
-Use for dim. poco a poco, for example. Terminate with End Diminuendo marking.</_tooltip>
+        <_tooltip>Prints text to start or continue a diminuendo extending over a passage. Use for cresc. poco a poco, for example. Terminate with End Crescendo marking or a dynamic mark. LilyPond markup, such as \\bold can be used.</_tooltip>
       </row>
       <row type="scheme">
         <action>TextSpanStart</action>
