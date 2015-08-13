@@ -569,6 +569,15 @@
             <menuitem action="AddDot"/>
             <menuitem action="RemoveDot"/>
     </menu>
+    <menu action="ChordNoteMenu">
+            <menuitem action="AddA"/>
+            <menuitem action="AddB"/>
+            <menuitem action="AddC"/>
+            <menuitem action="AddD"/>
+            <menuitem action="AddE"/>
+            <menuitem action="AddF"/>
+            <menuitem action="AddG"/>
+    </menu>
     <menu action="InsertDuration">
         <menuitem action="Insert0"/>
         <menuitem action="Insert1"/>
@@ -579,7 +588,7 @@
         <menuitem action="Insert6"/>
         <menuitem action="Insert7"/>     
     </menu>
-
+    <menuitem action="RemoveNoteFromChord"/>
     <menu action="Slurs">
             <menuitem action="ToggleBeginSlur"/>
             <menuitem action="ToggleEndSlur"/>
@@ -619,6 +628,15 @@
                 <menuitem action="AddDot"/>
                 <menuitem action="RemoveDot"/>
      </menu>
+    <menu action="ChordNoteMenu">
+            <menuitem action="AddA"/>
+            <menuitem action="AddB"/>
+            <menuitem action="AddC"/>
+            <menuitem action="AddD"/>
+            <menuitem action="AddE"/>
+            <menuitem action="AddF"/>
+            <menuitem action="AddG"/>
+    </menu>
      <menu action="InsertDuration">
             <menuitem action="Insert0"/>
             <menuitem action="Insert1"/>
@@ -629,6 +647,7 @@
             <menuitem action="Insert6"/>
             <menuitem action="Insert7"/>     
     </menu>
+    <menuitem action="RemoveNoteFromChord"/>
     <menu action="Slurs">
                 <menuitem action="ToggleBeginSlur"/>
                 <menuitem action="ToggleEndSlur"/>
