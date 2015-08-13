@@ -243,7 +243,11 @@ display_current_object (void)
             chord *thechord = ((chord *) curObj->object);
             if (thechord->notes)
               {
-                GtkWidget *button = gtk_button_new_with_label (_("Explore next note in chord"));
+                note *thenote = findnote (curObj, Denemo.project->movement->cursor_y);
+                GtkWidget *button = gtk_button_new_with_label (_("Inspect next note in chord"));
+                gtk_widget_set_sensitive (button, 
+                    ( (!thenote) || thechord->notes->next || (Denemo.project->movement->cursor_y!=thenote->mid_c_offset)));
+                   
                 g_signal_connect_swapped (button, "clicked", G_CALLBACK (move_to_next_note), NULL);
                 gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
             }
@@ -922,7 +926,7 @@ edit_object (void)
                       g_string_free (text, TRUE);
                       
                   }
-                if ((thechord->notes->next) && curObj->isinvisible)
+                if ((thechord->notes) && curObj->isinvisible)
                     {
                         GtkWidget *button = gtk_button_new_with_label (_("Assign Pitch to Rhythm"));
                         g_signal_connect (button, "clicked", G_CALLBACK (set_false), &curObj->isinvisible);
