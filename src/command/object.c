@@ -187,6 +187,27 @@ if (editwin)
     edit_object();
     }
 }
+
+static void go_left(GtkWidget *editwin)
+{
+cursor_to_prev_object (FALSE, FALSE);
+if (editwin)
+   {
+    gtk_widget_destroy (editwin);
+    reset_cursors ();
+    edit_object();
+    }
+}
+static void go_right(GtkWidget *editwin)
+{
+cursor_to_next_object (FALSE, FALSE);
+if (editwin)
+   {
+    gtk_widget_destroy (editwin);
+    reset_cursors ();
+    edit_object();
+    }
+}
 void
 display_current_object (void)
 {
@@ -661,7 +682,7 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
                 }  
             else if (action)
                 {
-                gchar *thelabel = g_strconcat (_("Edit command "), name, NULL);
+                gchar *thelabel = g_strconcat (_("Edit command: "), name, NULL);
                 GtkWidget *button = gtk_button_new_with_label (thelabel);
                 g_object_set_data (G_OBJECT(button), "action", (gpointer)action);
                 g_signal_connect (button, "clicked", G_CALLBACK (call_edit_on_action), NULL);
@@ -783,6 +804,7 @@ static void run_script (GtkWidget *button, gchar *script)
     reset_cursors ();
 }
 
+
 // edit the specific object at the cursor
 void
 edit_object (void)
@@ -804,7 +826,30 @@ edit_object (void)
     gtk_container_add (GTK_CONTAINER (editwin), vbox);
     GtkWidget *close_button = gtk_button_new_with_label (_("Close"));
     g_signal_connect_swapped (close_button, "clicked", G_CALLBACK (update_and_close), editwin);
+    
+    g_signal_connect (G_OBJECT (editwin), "destroy", G_CALLBACK (reset_cursors), NULL);
     gtk_box_pack_start (GTK_BOX (vbox), close_button, FALSE, TRUE, 0);
+    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
+
+    GtkWidget *button = gtk_button_new_with_label (_("⬅ Previous Object"));
+    g_signal_connect_swapped (button, "clicked", G_CALLBACK (go_left), editwin);
+    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+    if (!cursor_to_prev_object (FALSE, FALSE))
+        gtk_widget_set_sensitive (button, FALSE);
+    else
+        cursor_to_next_object (FALSE, FALSE);
+    GtkWidget *note_up_button = gtk_button_new_with_label (_("Next note in chord"));
+    g_signal_connect_swapped (note_up_button, "clicked", G_CALLBACK (move_to_next_note), editwin);
+    gtk_box_pack_start (GTK_BOX (hbox), note_up_button, FALSE, TRUE, 0);
+    
+    button = gtk_button_new_with_label (_("Next Object ➡"));
+    g_signal_connect_swapped (button, "clicked", G_CALLBACK (go_right), editwin);
+    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+    if (!cursor_to_next_object (FALSE, FALSE))
+        gtk_widget_set_sensitive (button, FALSE);
+     else
+        cursor_to_prev_object (FALSE, FALSE);
     switch (curObj->type)
     {
         case CHORD:
@@ -832,11 +877,9 @@ edit_object (void)
               {
                 place_chord_attributes (vbox, thechord);
                 note *thenote = findnote (curObj, Denemo.project->movement->cursor_y);
-                if ( (!thenote) || thechord->notes->next)
+                if ( (!thenote) || thechord->notes->next || (Denemo.project->movement->cursor_y!=thenote->mid_c_offset))
                     {
-                    GtkWidget *button = gtk_button_new_with_label (_("Next note in chord"));
-                    g_signal_connect_swapped (button, "clicked", G_CALLBACK (move_to_next_note), editwin);
-                    gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
+                        note_up_button = NULL; // a tricksy bit of code this: the button is already packed in the vbox, by setting this NULL we stop it being set insensitive as it must be for all other cases.
                     }
                 if (thenote && Denemo.project->movement->cursor_y==thenote->mid_c_offset)
                   {
@@ -1082,7 +1125,7 @@ edit_object (void)
                 }  
             else if (action) 
                 {
-                gchar *thelabel = g_strconcat ( _("Edit command "), name, NULL);
+                gchar *thelabel = g_strconcat ( _("Edit command: "), name, NULL);
                 GtkWidget *button = gtk_button_new_with_label (thelabel);
                 g_object_set_data (G_OBJECT(button), "action", (gpointer)action);
                 g_signal_connect (button, "clicked", G_CALLBACK (call_edit_on_action), NULL);
@@ -1108,6 +1151,8 @@ edit_object (void)
     }
     else
     {
+      if (note_up_button)
+            gtk_widget_set_sensitive (note_up_button, FALSE);
       gtk_widget_show_all (editwin);
       gtk_window_present (GTK_WINDOW (editwin));
       gdk_window_set_cursor (gtk_widget_get_window (editwin), gdk_cursor_new (GDK_RIGHT_PTR)); 
