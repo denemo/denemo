@@ -1,7 +1,14 @@
 ;;;Caesura
 (let ((tag "Caesura"))
  (if (d-Directive-standalone? tag)
-	(d-DirectiveDelete-standalone tag)
+	 (let ((choice (RadioBoxMenu 
+                (cons (_ "Object Inspector") 'help) 
+                (cons (_ "Delete") 'delete))))
+            (case choice
+                ((help)
+                   (d-DisplayCurrentObject))
+                  ((delete)
+                    (d-DirectiveDelete-standalone tag))))  
 	(begin
 		(if (d-MoveCursorLeft)
 			(if (d-Directive-standalone? tag)
