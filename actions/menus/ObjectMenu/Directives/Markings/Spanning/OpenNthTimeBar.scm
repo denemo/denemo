@@ -16,60 +16,82 @@
                 (set! bold (assq-ref data 'bold))
                 (set! italic (assq-ref data 'italic))
                 (set! text (assq-ref data 'text))))
+    (if (equal? params "edit")
+        (let ((choice (RadioBoxMenu 
+                (cons (_ "Help") 'help) 
+                (cons (_ "1st Time Bar") 'first) 
+                (cons (_ "2nd Time Bar") 'second) 
+                (cons (_ "Arbitrary Text") 'nth))))
+            (case choice
+                    ((help)
+                    (set! params 'finished)
+                    (d-InfoDialog (_ "This marks the start of one or more measures to be played on one or more of the repeats. There must be a later End Volta mark else nothing prints"))
+                    )
+                ((first)
+                    (d-DirectiveDelete-standalone tag)
+                    (d-OpenFirstTimeBar #f)
+                    (set! params 'finished))
+                ((second)
+                    (d-DirectiveDelete-standalone tag)
+                    (d-OpenSecondTimeBar #f)
+                    (set! params 'finished))
+                ((nth) (d-DirectiveDelete-standalone tag))
+                (else (set! params 'finished)))))
         
     (if (equal? params "edit")
-        (let ((choice (RadioBoxMenu (cons (_ "Help") 'help) 
+        (let ((choice (RadioBoxMenu 
                 (cons (_ "Edit Text") 'text) 
                 (cons (_ "Set/Unset Bold") 'bold)
                 (cons (_ "Set/Unset Italic") 'italic)
                 (cons (_ "Edit Size") 'size))))
             (case choice
-                ((help)
-                    (d-InfoDialog (_ "This marks the start of one or more measures to be played on one or more of the repeats. There must be a later End Volta mark else nothing prints"))
-                    )
+                
                 ((text)
+                    (if (not text) (set! text "3 & 4"))
                     (set! text (d-GetUserInput (_ "Nth Time Bar Text") (_ "Give text: ") text))
                    )
                 ((size)
+                    (if (not size) (set! size "1.3"))
                     (set! size (d-GetUserInput (_ "Nth Time Bar Text") (_ "Give size: ") size)))
                 ((bold)
                     (set! bold (not bold)))
                 ((italic)
-                    (set! italic (not italic))))
-            (set! params 'finished)))
-            
-
-    (if (or (not params) (not text))
-         (set! text (d-GetUserInput (_ "Nth Time Bar Text") (_ "Give text: ") text)))
-    (if text
+                    (set! italic (not italic))))))
+    (if (not (eq? params 'finished))
         (begin
-            (set! data (assq-set! '() 'text text))
-            (if size
-                (set! data (assq-set! data 'size size)))
-            (if bold
-                (set! data (assq-set! data 'bold bold)))
-            (if italic
-                (set! data (assq-set! data 'italic italic)))
+            (if (or (not params) (not text))
+                 (begin
+                    (if (not text) (set! text "3 & 4"))
+                    (set! text (d-GetUserInput (_ "Nth Time Bar Text") (_ "Give text: ") text))))
+            (if text
+                (begin
+                    (set! data (assq-set! '() 'text text))
+                    (if size
+                        (set! data (assq-set! data 'size size)))
+                    (if bold
+                        (set! data (assq-set! data 'bold bold)))
+                    (if italic
+                        (set! data (assq-set! data 'italic italic)))
 
-        
-            (d-Directive-standalone tag)
-            (d-DirectivePut-standalone-data tag (format #f "'~s" data))
-            (if (not size)
-                (set! size "1.5"))
-            (d-DirectivePut-standalone-minpixels  tag 50)
-            (d-DirectivePut-standalone-postfix tag (string-append "
-            \\set Score.repeatCommands = #(list (list 'volta (make-scale-markup '(" size " . " size ")" 
-                (if bold "(make-bold-markup" "")
-                (if italic "(make-italic-markup" "")
-                 "(make-text-markup \"" text "\")"
-                 (if bold ")" "")
-                 (if italic ")" "")
-                 ")))"))
+                
+                    (d-Directive-standalone tag)
+                    (d-DirectivePut-standalone-data tag (format #f "'~s" data))
+                    (if (not size)
+                        (set! size "1.5"))
+                    (d-DirectivePut-standalone-minpixels  tag 50)
+                    (d-DirectivePut-standalone-postfix tag (string-append "
+                    \\set Score.repeatCommands = #(list (list 'volta (make-scale-markup '(" size " . " size ")" 
+                        (if bold "(make-bold-markup" "")
+                        (if italic "(make-italic-markup" "")
+                         "(make-text-markup \"" text "\")"
+                         (if bold ")" "")
+                         (if italic ")" "")
+                         ")))"))
 
-            (d-DirectivePut-standalone-gx  tag 8)
-            (d-DirectivePut-standalone-gy  tag -40)
-            (d-DirectivePut-standalone-graphic tag "NthTimeBar")
-            (d-DirectivePut-standalone-display tag text)
-            (d-MoveCursorRight)
-            (d-RefreshDisplay)
-            (d-SetSaved #f))))
+                    (d-DirectivePut-standalone-gx  tag 8)
+                    (d-DirectivePut-standalone-gy  tag -40)
+                    (d-DirectivePut-standalone-graphic tag "NthTimeBar")
+                    (d-DirectivePut-standalone-display tag text)
+                    (d-MoveCursorRight)
+                    (d-RefreshDisplay)
+                    (d-SetSaved #f))))))

@@ -10,13 +10,19 @@
     (set! Performance::timings (list-tail Performance::timings 1))
     (d-Play "(Performance::play)"))))
     
-(let ((beginning (GetPosition))(position #f)(s1 #f)(e1 #f)(s2 #f)(e2 #f)(fine #f)(segno #f)(segno-position #f)(timing 0.0))
+(let ((beginning (GetPosition))(position #f)(s1 #f)(e1 #f)(s2 #f)(e2 #f)(fine #f)(segno #f)(segno-position #f)(timing 0.0)(first-time #f))
   (set! s1 (cons 0.0 beginning))
   (while (d-NextObject)
     (if (d-GetMidiOffTime)
       (set! timing (d-GetMidiOffTime)))
     ;(disp "MIDI off time " timing " ok")
     (set! position (GetPosition))
+    (set! first-time (d-DirectiveGet-standalone-data "OpenNthTimeBar"))
+    (if first-time
+        (begin
+            (set! first-time (eval-string first-time))
+            (set! first-time (assq-ref first-time 'volta))))
+    (disp "first time is " first-time "\n\n")
     (cond
       ((Music?)
           (if (d-Directive-chord? "DCAlFine")
@@ -67,9 +73,9 @@
           )
       ((d-Directive-standalone? "RepeatStart")
           (set! s2 (cons timing (GetPosition))))
-      ((d-Directive-standalone? "Volta1")
+      ((and first-time (= first-time 1))
         (set! e2 timing)
-        (disp "Midi 2 repeat to " e2 " ok")
+        ;(disp "Midi 2 repeat to " e2 " ok")
         (if (not s2)
           (set! s2 (cons 0.0 beginning)))
           )
