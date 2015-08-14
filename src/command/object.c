@@ -244,7 +244,8 @@ display_current_object (void)
             if (thechord->notes)
               {
                 note *thenote = findnote (curObj, Denemo.project->movement->cursor_y);
-                GtkWidget *button = gtk_button_new_with_label (_("Inspect next note in chord"));
+                GtkWidget *button = gtk_button_new_with_label (
+                    thechord->notes->next?_("Inspect next note in chord"):_("Inspect the note"));
                 gtk_widget_set_sensitive (button, 
                     ( (!thenote) || thechord->notes->next || (Denemo.project->movement->cursor_y!=thenote->mid_c_offset)));
                    
@@ -881,6 +882,8 @@ edit_object (void)
               {
                 place_chord_attributes (vbox, thechord);
                 note *thenote = findnote (curObj, Denemo.project->movement->cursor_y);
+                if (!thechord->notes->next)
+                    gtk_button_set_label (GTK_BUTTON (note_up_button), _("Edit the note"));
                 if ( (!thenote) || thechord->notes->next || (Denemo.project->movement->cursor_y!=thenote->mid_c_offset))
                     {
                         note_up_button = NULL; // a tricksy bit of code this: the button is already packed in the vbox, by setting this NULL we stop it being set insensitive as it must be for all other cases.
