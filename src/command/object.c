@@ -735,11 +735,11 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
             }
             GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
             gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, TRUE, 0);
-           
+            GdkRGBA color;
             gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
             GtkWidget *button = gtk_button_new_with_label (_("Delete"));
             GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
-            GdkRGBA color;
+            
             color.red = 1.0; color.green = color.blue = 0.0; color.alpha = 1.0;
             gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
             g_object_set_data (G_OBJECT(button), "directives", (gpointer)pdirectives);
