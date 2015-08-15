@@ -591,6 +591,17 @@ static void advanced_edit_type_directive (GtkWidget *button, gpointer fn)
         }   
     
 }
+static void delete_directive (GtkWidget *button, gpointer fn)
+{
+    DenemoDirective *directive = (DenemoDirective*) g_object_get_data (G_OBJECT(button), "directive");
+    GList **directives = (GList **)g_object_get_data (G_OBJECT(button), "directives");
+    if(directives) 
+        *directives = g_list_remove (*directives, directive);
+    else
+        dnm_deleteobject (Denemo.project->movement);
+    gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
+    score_status(Denemo.project, TRUE);    
+}
 
 static void
 call_edit_on_action (GtkWidget *button)
@@ -695,7 +706,7 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
                 g_free(thelabel);  
                 }
 
-            GtkWidget *button = gtk_button_new_with_label (_("Advanced"));
+
             fn_type *func;
             switch (type) {
                 case EDIT_NOTE:
@@ -722,10 +733,26 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
                         break;
                 
             }
+            GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+            gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, TRUE, 0);
+           
+            gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
+            GtkWidget *button = gtk_button_new_with_label (_("Delete"));
+            GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
+            GdkRGBA color;
+            color.red = 1.0; color.green = color.blue = 0.0; color.alpha = 1.0;
+            gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+            g_object_set_data (G_OBJECT(button), "directives", (gpointer)pdirectives);
+            g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
+            g_signal_connect (button, "clicked", G_CALLBACK (delete_directive), func);
+            gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 30);
+
+            button = gtk_button_new_with_label (_("Advanced"));
+            
             g_object_set_data (G_OBJECT(button), "directives", (gpointer)pdirectives);
             g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
             g_signal_connect (button, "clicked", G_CALLBACK (advanced_edit_type_directive), func);
-            gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);
+            gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
         }
 }
 static void
@@ -742,6 +769,10 @@ place_chord_attributes (GtkWidget *vbox, chord *thechord)
     gtk_box_pack_start (GTK_BOX (vbox), expander, FALSE, TRUE, 0);
     GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
     gtk_container_add (GTK_CONTAINER (expander), inner_box);
+    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, TRUE, 0);
+    inner_box = gtk_vbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (hbox), inner_box, FALSE, TRUE, 30);
     if (thechord->slur_begin_p)
           {
             GtkWidget *button = gtk_button_new_with_label (_("Remove slur start"));
