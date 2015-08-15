@@ -1,7 +1,9 @@
 ;;;TimesigWithBeatStructure
-(let ((tag "BeatStructure") (beat #f) (divisions #f))
-	(d-InsertTimeSig)
-	(d-MoveCursorLeft)
+(let ((tag "TimesigWithBeatStructure") (beat #f) (divisions #f))
+   (if (not (d-Directive-timesig? tag))
+	(begin
+		(d-InsertTimeSig)
+		(d-MoveCursorLeft)))
 	(set! beat (d-GetUserInput (_ "Beat Structure") (_ "Give beat:\n(smallest note that beams can split at\ne.g. 1/8 for eighth notes.)") "1/16"))
 	(if beat
 		(begin
