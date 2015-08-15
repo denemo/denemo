@@ -871,10 +871,10 @@ edit_object (void)
     GtkWidget *button = gtk_button_new_with_label (_("⬅ Previous Object"));
     g_signal_connect_swapped (button, "clicked", G_CALLBACK (go_left), editwin);
     gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+    push_position ();
     if (!cursor_to_prev_object (FALSE, FALSE))
         gtk_widget_set_sensitive (button, FALSE);
-    else
-        cursor_to_next_object (FALSE, FALSE);
+    pop_position ();
     GtkWidget *note_up_button = gtk_button_new_with_label (_("Next note in chord"));
     g_signal_connect_swapped (note_up_button, "clicked", G_CALLBACK (move_to_next_note), editwin);
     gtk_box_pack_start (GTK_BOX (hbox), note_up_button, FALSE, TRUE, 0);
@@ -882,10 +882,10 @@ edit_object (void)
     button = gtk_button_new_with_label (_("Next Object ➡"));
     g_signal_connect_swapped (button, "clicked", G_CALLBACK (go_right), editwin);
     gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+    push_position ();
     if (!cursor_to_next_object (FALSE, FALSE))
         gtk_widget_set_sensitive (button, FALSE);
-     else
-        cursor_to_prev_object (FALSE, FALSE);
+    pop_position ();
     switch (curObj->type)
     {
         case CHORD:
