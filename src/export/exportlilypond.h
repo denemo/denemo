@@ -9,7 +9,12 @@
 
 #include <gtk/gtk.h>
 #include <stdio.h>
+
+//real TAB causes mismatch between LilyPond error columns and Gtks
 #define TAB "        "
+
+#define LILYPOND_SYMBOL_DEFINITIONS \
+    "\nCompactChordSymbols = {}\n#(define DenemoTransposeStep 0)\n#(define DenemoTransposeAccidental 0)\nDenemoGlobalTranspose = #(define-music-function (parser location arg)(ly:music?) #{\\transpose c c #arg #})\ntitledPiece = {}\nAutoBarline = {}\nAutoEndMovementBarline = \\bar \"|.\"\n"
 void create_lilywindow (void);
 void exportlilypond (gchar * thefilename, DenemoProject * gui, gboolean all_movements);
 
