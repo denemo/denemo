@@ -3397,9 +3397,8 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
     }
   else
     initial_value = strdup (" ");
- GString *text = g_string_new(""), *lilypond=g_string_new("");   
- g_print ("Calling with modal %d format=%d\n",  !scm_is_false (modal), (!scm_is_false (modal)) && (modal != SCM_UNDEFINED));
-    gboolean ok = get_user_markup (text, lilypond, title, instruction, initial_value, !scm_is_false (modal), (!scm_is_false (modal)) && (modal != SCM_UNDEFINED));
+  GString *text = g_string_new(""), *lilypond=g_string_new("");   
+  gboolean ok = get_user_markup (text, lilypond, title, instruction, initial_value, !scm_is_false (modal), (!scm_is_false (modal)) && (modal != SCM_UNDEFINED));
 
  if (ok)
     {
