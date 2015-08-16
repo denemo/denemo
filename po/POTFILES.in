@@ -181,6 +181,8 @@ src/ui/kbd-interface.c
 src/ui/kbd-interface.h
 src/ui/keysigdialog.c
 src/ui/keysigdialog.h
+src/ui/markup.c
+src/ui/markup.h
 src/ui/mousing.c
 src/ui/mousing.h
 src/ui/moveviewport.c

@@ -168,8 +168,10 @@ denemo_SOURCES = \
   ui/texteditors.h \
   ui/timedialog.c \
   ui/tomeasuredialog.c \
-  ui/tupletdialog.c
-
+  ui/tupletdialog.c \
+  ui/markup.c \
+  ui/markup.h
+  
 nodist_denemo_SOURCES = pathconfig.h
 
 if WITH_X11
