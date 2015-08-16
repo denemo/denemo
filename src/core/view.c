@@ -5025,7 +5025,7 @@ newtab (void)
 #endif
 
 #ifdef USE_EVINCE  
-  install_printpreview (main_vbox);
+  install_printpreview (NULL);
 #endif
   
   //FIXME populate_opened_recent_menu (project);

@@ -2485,8 +2485,8 @@ install_printpreview (GtkWidget * top_vbox)
   g_signal_connect (button, "clicked", G_CALLBACK (page_display), (gpointer) - 1);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
-
-  top_vbox = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  if (top_vbox == NULL)
+    top_vbox = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   // if(!Denemo.prefs.manualtypeset)
   //      gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
   gtk_window_set_title (GTK_WINDOW (top_vbox), _("Denemo Print View"));
