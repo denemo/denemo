@@ -318,7 +318,7 @@ process_lilypond_errors (gchar * filename)
       else
         {
           set_lily_error (0, 0);
-          warningdialog (epoint);
+          g_warning (epoint);
         }
     }
   else
@@ -542,7 +542,31 @@ create_pdf (gboolean part_only, gboolean all_movements)
   run_lilypond_for_pdf (filename, lilyfile);
 }
 
-
+void create_pdf_for_lilypond (gchar *lilypond)
+{
+         if (get_print_status()->printpid != GPID_NONE)
+    {
+      if (confirm (_("Already Typesetting"), _("Abandon this typeset?")))
+        {
+          if (get_print_status()->printpid != GPID_NONE)        //It could have died while the user was making up their mind...
+            kill_process (get_print_status()->printpid);
+          get_print_status()->printpid = GPID_NONE;
+        }
+      else
+        {
+          warningdialog (_("Cancelled"));
+          
+          return;
+        }
+    }
+  advance_printname ();
+  gchar *filename = get_print_status()->printbasename[get_print_status()->cycle];
+  gchar *lilyfile = get_print_status()->printname_ly[get_print_status()->cycle];
+  g_remove (lilyfile); 
+  g_file_set_contents (lilyfile, lilypond, -1, NULL);
+  run_lilypond_for_pdf (filename, lilyfile);  
+  g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
+}
 /** 
  * Dialog function used to select measure range 
  *
