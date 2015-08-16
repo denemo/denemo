@@ -5775,7 +5775,7 @@ before and after the LilyPond syntax.
         <action>Tremolo</action>
         <menupath>/ObjectMenu/NotesRests</menupath>
         <_label>Tremolo</_label>
-        <_tooltip>Follow with a duration key for the subdivisions required: prints the note at the cursor with the tremolo marking.</_tooltip>
+        <_tooltip>Prints the note at the cursor with the tremolo marking for the subdivisions specified.</_tooltip>
       </row>
       <row type="scheme">
         <action>ToggleTrill</action>
