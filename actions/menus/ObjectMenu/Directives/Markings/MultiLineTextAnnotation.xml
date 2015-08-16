@@ -8,10 +8,7 @@
         <after>TextAnnotation</after>
         <action>MultiLineTextAnnotation</action>
         <_label>Multi-line Text and Music</_label>
-        <_tooltip>Inserts multi-line text object which can include music snippets. 
-The snippets are surrounded by section markers "§" to distinguish them
-from ordinary text. These must come in pairs, 
-before and after the LilyPond syntax. </_tooltip>
+        <_tooltip>Inserts multi-line text object which can include music snippets, Fret Diagrams and Note Names/Chord Symbols. LilyPond Markup can be used and a preview button is available to check the syntax. </_tooltip>
       </row>
     </map>
   </merge>

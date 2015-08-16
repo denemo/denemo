@@ -6759,10 +6759,7 @@ then this will replace the standard ornament throughout the score.</_tooltip>
         <after>TextAnnotation</after>
         <menupath>/ObjectMenu/Directives/Markings</menupath>
         <_label>Multi-line Text and Music</_label>
-        <_tooltip>Inserts multi-line text object which can include music snippets. 
-The snippets are surrounded by section markers "§" to distinguish them
-from ordinary text. These must come in pairs, 
-before and after the LilyPond syntax. </_tooltip>
+        <_tooltip>Inserts multi-line text object which can include music snippets, Fret Diagrams and Note Names/Chord Symbols. LilyPond Markup can be used and a preview button is available to check the syntax. </_tooltip>
       </row>
       <row type="scheme">
         <action>DynamicUp</action>
@@ -6797,7 +6794,7 @@ before and after the LilyPond syntax. </_tooltip>
         <after>RehearsalMark</after>
         <menupath>/ObjectMenu/Directives/Markings</menupath>
         <_label>Add Mark (Text/Rehearsal/Book)</_label>
-        <_tooltip>Inserts a Mark in the score at the cursor. Marks can be placed in each part and will appear only once in the score (provided they occur at the same moment in each part). Any size, font, effect can be chosen. The text position can be dragged in the print view if needed.</_tooltip>
+        <_tooltip>Inserts a Mark in the score at the cursor. Marks can be placed in each part and will appear only once in the score (provided they occur at the same moment in each part). Any size, font, effect can be chosen. A preview button allows you to check the appearance/syntax used. The text position can be dragged in the print view if needed.</_tooltip>
       </row>
       <row type="scheme">
         <action>CustomBarline</action>
