@@ -1761,13 +1761,15 @@ findnote_strict (DenemoObject * curObj, gint cursory)
   return NULL;
 }
 
-/* get a fret diagram for the chord at the cursor */
+/* get a fret diagram for the chord at the cursor or before the cursor if not on the chord  */
 gchar *get_fretdiagram_as_markup (void)
 {
 DenemoProject *gui = Denemo.project;
    DenemoObject *curObj;
       if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
         return NULL;
+      if(curObj->type != CHORD && Denemo.project->movement->currentobject->next)
+        curObj = Denemo.project->movement->currentobject->next->data;
       if (gui->lilysync != gui->changecount)
         refresh_lily_cb (NULL, Denemo.project);
       if (curObj->lilypond)
@@ -1778,14 +1780,16 @@ DenemoProject *gui = Denemo.project;
     return NULL;
 }
 
-/* get a chord symbol for the chord at the cursor */
+/* get a chord symbol for the chord at the cursor or before the cursor if not on the chord */
 gchar *get_fakechord_as_markup (void)
 {
 DenemoProject *gui = Denemo.project;
    DenemoObject *curObj;
       if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
         return NULL;
-      if (gui->lilysync != gui->changecount)
+      if((curObj->type != CHORD) && Denemo.project->movement->currentobject->next)
+        curObj = Denemo.project->movement->currentobject->next->data;
+      if (gui->lilysync != gui->changecount)        
         refresh_lily_cb (NULL, Denemo.project);
       if (curObj->lilypond)
         {
@@ -2117,7 +2121,7 @@ string_dialog_entry_with_widget (DenemoProject * gui, gchar * wlabel, gchar * di
 
 /* as string_dialog_entry_with_widget() but gives a text editor instead of a single line editor */
 gchar *
-string_dialog_editor_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar * direction, gchar * PreValue, GtkWidget * widget, gboolean modal)
+string_dialog_editor_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar * direction, gchar * PreValue, GtkWidget * widget, gboolean modal, gpointer keypress_callback)
 {
   GtkWidget *dialog;
   GtkWidget *textview;
@@ -2129,6 +2133,8 @@ string_dialog_editor_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   dialog = modal ? gtk_dialog_new_with_buttons (wlabel, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL) : gtk_dialog_new_with_buttons (wlabel, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
+  if(keypress_callback)
+    g_signal_connect (G_OBJECT (textview), "key-press-event", G_CALLBACK (keypress_callback), textbuffer);
 
   label = gtk_label_new (direction);
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -2188,9 +2194,9 @@ string_dialog_editor_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar
 }
 
 gchar *
-string_dialog_editor_with_widget (DenemoProject * gui, gchar * wlabel, gchar * direction, gchar * PreValue, GtkWidget * widget)
+string_dialog_editor_with_widget (DenemoProject * gui, gchar * wlabel, gchar * direction, gchar * PreValue, GtkWidget * widget, gpointer keypress_callback)
 {
-  return string_dialog_editor_with_widget_opt (gui, wlabel, direction, PreValue, widget, TRUE);
+  return string_dialog_editor_with_widget_opt (gui, wlabel, direction, PreValue, widget, TRUE, keypress_callback);
 }
 
 static gboolean

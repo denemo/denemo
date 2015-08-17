@@ -809,7 +809,7 @@ prefix_edit_callback (GtkWidget * widget, GtkWidget * frame)
   if (g)
     {
       gchar *lily = (gchar *) g->data;
-      gchar *newval = string_dialog_editor_with_widget (Denemo.project, _("Edit LilyPond"), _("Edit this using LilyPond syntax\nThe editing applies just to this score layout"), lily ? lily : "", NULL);
+      gchar *newval = string_dialog_editor_with_widget (Denemo.project, _("Edit LilyPond"), _("Edit this using LilyPond syntax\nThe editing applies just to this score layout"), lily ? lily : "", NULL, NULL);
       if (newval)
         {
           edit_lilypond_prefix (frame, lily, newval);
