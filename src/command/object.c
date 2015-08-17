@@ -191,6 +191,11 @@ if (editwin)
 static void go_left(GtkWidget *editwin)
 {
 cursor_to_prev_object (FALSE, FALSE);
+if(Denemo.project->movement->currentobject == NULL)
+    {
+        cursor_to_next_object (FALSE, FALSE);
+        warningdialog (_("Preceding measures are empty"));
+    }
 if (editwin)
    {
     gtk_widget_destroy (editwin);
@@ -201,6 +206,11 @@ if (editwin)
 static void go_right(GtkWidget *editwin)
 {
 cursor_to_next_object (FALSE, FALSE);
+if(Denemo.project->movement->currentobject == NULL)
+    {
+      cursor_to_prev_object (FALSE, FALSE);
+      warningdialog (_("Subsequent measures are empty"));
+    }
 if (editwin)
    {
     gtk_widget_destroy (editwin);
@@ -845,6 +855,7 @@ static void run_script (GtkWidget *button, gchar *script)
 void
 edit_object (void)
 {
+    DenemoMovement *si = Denemo.project->movement;
     DenemoObject *curObj = get_object ();
     if (curObj == NULL)
     {
@@ -871,10 +882,10 @@ edit_object (void)
     GtkWidget *button = gtk_button_new_with_label (_("⬅ Previous Object"));
     g_signal_connect_swapped (button, "clicked", G_CALLBACK (go_left), editwin);
     gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-    push_position ();
-    if (!cursor_to_prev_object (FALSE, FALSE))
+    
+    if ((!si->currentobject->prev)&&(!si->currentmeasure->prev))
         gtk_widget_set_sensitive (button, FALSE);
-    pop_position ();
+
     GtkWidget *note_up_button = gtk_button_new_with_label (_("Next note in chord"));
     g_signal_connect_swapped (note_up_button, "clicked", G_CALLBACK (move_to_next_note), editwin);
     gtk_box_pack_start (GTK_BOX (hbox), note_up_button, FALSE, TRUE, 0);
@@ -882,10 +893,10 @@ edit_object (void)
     button = gtk_button_new_with_label (_("Next Object ➡"));
     g_signal_connect_swapped (button, "clicked", G_CALLBACK (go_right), editwin);
     gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-    push_position ();
-    if (!cursor_to_next_object (FALSE, FALSE))
+    
+    if ((!si->currentobject->next) && (!si->currentmeasure->next))
         gtk_widget_set_sensitive (button, FALSE);
-    pop_position ();
+    
     switch (curObj->type)
     {
         case CHORD:
