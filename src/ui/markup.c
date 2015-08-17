@@ -11,7 +11,8 @@
 #include "core/view.h"
 #include "scripting/scheme-callbacks.h"
 
-#define SECTION_UTF8_STRING "§"
+#define SECTION_UTF8_STRING ""
+#define PILCROW_UTF8_STRING "¶"
 
 
 static gchar *
@@ -20,33 +21,23 @@ create_lilypond_from_text (gchar * orig)
   gchar *text = g_strdup (orig);
   GString *ret = g_string_new ("\\line\\large{");
   g_debug ("looking at %s\n", text);
-  gunichar section = g_utf8_get_char (SECTION_UTF8_STRING);
-  gunichar lf = g_utf8_get_char ("\n");
-  gchar *next, *this;
-  gboolean in_section = FALSE;
+  gunichar section = g_utf8_get_char (PILCROW_UTF8_STRING);
+  gchar *this;
   for(this = text;*this;this = g_utf8_next_char (this))
     {
         gunichar thechar = g_utf8_get_char (this);
+        if (thechar == SECTION_UTF8_STRING) continue;//don't show old paragraph marks used in previous version.
         if (thechar == section)
             {
-                in_section = !in_section;
-            } else if ((!in_section) && (*this == '\n'))
-            {
               g_string_append (ret, "}\\line\\large{");
-            } else {
+            } else 
+            {
                 g_string_append_printf (ret, "%c", *this);
             }
     }
   g_string_append (ret, "}\n");
   g_free (text);
-  if(in_section) 
-    {
-        g_warning ("Unbalanced § marks");
-        g_string_free (ret, TRUE);
-        return g_strdup ("%{error %}");
-    }
-  else
-    return g_string_free (ret, FALSE);
+  return g_string_free (ret, FALSE);
 }
 static void
 paste_snippet_lilypond (GtkWidget * button)
@@ -60,7 +51,7 @@ paste_snippet_lilypond (GtkWidget * button)
       if (r)
         {
           const gchar *clefname = get_prevailing_clef_as_lilypond (), *keysigname = get_prevailing_keysig_as_lilypond (), *timesigname = get_prevailing_timesig_as_lilypond ();
-          gchar *text = g_strdup_printf ("§\\raise #0.5 \\score{\n\\DenemoGlobalTranspose {{%s}{%s}{%s}%s}\\layout{indent=0.0}\n}§", clefname, keysigname, timesigname, r->lilypond?r->lilypond->str:"");
+          gchar *text = g_strdup_printf ("\\raise #0.5 \\score{\n\\DenemoGlobalTranspose {{%s}{%s}{%s}%s}\\layout{indent=0.0}\n}", clefname, keysigname, timesigname, r->lilypond?r->lilypond->str:"");
           gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1 /*gint len */ );
           g_free (text);
         }
@@ -83,7 +74,7 @@ paste_current_lilypond_as_fakechord (GtkWidget * button)
       gchar *text = get_fakechord_as_markup ();
       if(text)
         {
-            gchar *insert = g_strdup_printf("§%s§", text);   
+            gchar *insert = g_strdup_printf("%s", text);   
             gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), insert, -1 /*gint len */ );
             g_free (text);
             g_free (insert);
@@ -107,7 +98,7 @@ paste_current_lilypond_as_fretdiagram (GtkWidget * button)
       gchar *text = get_fretdiagram_as_markup ();
       if(text)
         {
-            gchar *insert = g_strdup_printf("§%s§", text);   
+            gchar *insert = g_strdup_printf("%s", text);   
             gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), insert, -1 /*gint len */ );
             g_free (text);
             g_free (insert);
@@ -146,7 +137,7 @@ insert_font_mag (GtkWidget * button)
   gchar *text = string_dialog_entry (gui, _( "Font Magnification"), _("Give a relative font size +/- "), "-2");
   if (text && *text && atoi(text))
     {
-        gchar *out = g_strdup_printf ("§\\fontsize #%s §", text);
+        gchar *out = g_strdup_printf ("\\fontsize #%s ", text);
       if (textbuffer)
               gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), out, -1);
        else
@@ -176,6 +167,22 @@ preview_markup (GtkWidget * button)
     g_free (lilypond);
 }
 
+static gboolean keypress_callback (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event, GtkTextBuffer *textbuffer)
+{
+  DenemoProject *gui = Denemo.project;
+  GtkTextIter cursor;
+  if (event->keyval == GDK_KEY_Return)
+    {
+  //gchar *key = g_strdup_printf ("%c", gdk_keyval_to_unicode (event->keyval));
+  gtk_text_buffer_get_iter_at_mark (textbuffer, &cursor, gtk_text_buffer_get_insert (textbuffer));
+  gtk_text_buffer_insert (textbuffer, &cursor, "\n""¶", -1);
+  //g_print ("Got %s\n", key);
+ // g_free (key);
+  return TRUE;
+}
+  return FALSE; //pass it on to the standard handler.
+ } 
+
 gchar *get_user_markup (GString *user_text, GString *marked_up_text, gchar* title, char *instruction, gchar *initial_value, gboolean modal, gboolean format_only)
 {
   implement_show_print_view (FALSE);
@@ -195,11 +202,11 @@ gchar *get_user_markup (GString *user_text, GString *marked_up_text, gchar* titl
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
   
   
-  button = gtk_button_new_with_label (_("Paste Chord Symbol"));
-  gtk_widget_set_tooltip_text (button, _("Pastes the note or chord at the cursor as a Chord Symbol\n"
+  button = gtk_button_new_with_label (_("Paste Note Nmae/Chord Symbol"));
+  gtk_widget_set_tooltip_text (button, _("Pastes the note or chord at the cursor as a Note Name/Chord Symbol\n"
     "The music appears here in the LilyPond typesetter syntax between two markers (§).\n"
-    "It will print as chord name/symbol in the sentence you are writing, transposed according to the global transposition set.\n"
-    "This is not just for chords, use this to reference a note name.\n"));
+    "It will print as note name/chord symbol in the sentence you are writing, transposed according to the global transposition set.\n"
+    "Use, for example, to specify the key of a piece.\n"));
 
   g_signal_connect (button, "clicked", G_CALLBACK (paste_current_lilypond_as_fakechord), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
@@ -215,22 +222,22 @@ gchar *get_user_markup (GString *user_text, GString *marked_up_text, gchar* titl
 
   button = gtk_button_new_with_label (_("Bold"));
   gtk_widget_set_tooltip_text (button, _("Inserts markup to make the following text bold. Enclose the words to be bold in {}. \nNote that the section markers (§) must come in pairs"));
-  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "§\\bold §");
+  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "\\bold ");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
   
   button = gtk_button_new_with_label (_("Italic"));
   gtk_widget_set_tooltip_text (button, _("Inserts markup to make the following text italic. Enclose the words to be bold in {}.\nNote that the section markers (§) must come in pairs"));
-  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "§\\italic §");
+  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "\\italic ");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label (_("“"));
   gtk_widget_set_tooltip_text (button, _("Inserts code for open quotes - leave a space after this code. Note that this is not the \" character which is used for grouping words and must be paired or LilyPond will not typeset the music."));
-  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "§\\char ##x201C §");
+  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "\\char ##x201C ");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label (_("”"));
   gtk_widget_set_tooltip_text (button, _("Inserts code for close quotes - leave a space after this code. Note that this is not the \" character which is used for grouping words and must be paired or LilyPond will not typeset the music."));
-  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "§\\char ##x201D §");
+  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "\\char ##x201D ");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label (_("size"));
@@ -246,7 +253,7 @@ gchar *get_user_markup (GString *user_text, GString *marked_up_text, gchar* titl
     if(format_only)
         text = g_strdup (initial_value); //anything else, just format the passed in string
     else
-        text = string_dialog_editor_with_widget_opt (Denemo.project, title, instruction, initial_value, hbox, modal);    
+        text = string_dialog_editor_with_widget_opt (Denemo.project, title, instruction, initial_value, hbox, modal, keypress_callback);    
     
  if (text)
     {
