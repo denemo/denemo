@@ -564,6 +564,7 @@ void create_pdf_for_lilypond (gchar *lilypond)
   gchar *lilyfile = get_print_status()->printname_ly[get_print_status()->cycle];
   g_remove (lilyfile); 
   g_file_set_contents (lilyfile, lilypond, -1, NULL);
+  get_print_status()->invalid = 0;
   run_lilypond_for_pdf (filename, lilyfile);  
   g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
 }
