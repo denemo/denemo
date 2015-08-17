@@ -18,7 +18,7 @@
           (d-DirectivePut-standalone-display tag data)
           (d-DirectivePut-standalone-graphic tag "RehearsalMark")
           (d-DirectivePut-standalone-gx tag 15)
-          (d-DirectivePut-standalone-postfix tag  (string-append  " \\once \\override Score.RehearsalMark #'self-alignment-X = #" position " \\mark \\markup {" text "}" ) )
+          (d-DirectivePut-standalone-postfix tag  (string-append  " \\once \\override Score.RehearsalMark #'self-alignment-X = #" position " \\mark \\markup \\column {" text "}" ) )
           (d-DirectivePut-standalone-grob  tag  "RehearsalMark")
           (d-DirectivePut-standalone-minpixels  tag  30)
           (d-DirectivePut-standalone-data tag (format #f "'~s" (assq-set! '() 'value data)))
