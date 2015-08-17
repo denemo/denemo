@@ -13,7 +13,7 @@
         (if (string? text)
             (set! text (d-GetUserInputWithSnippets #f #f text 'format))
             (set! text (d-GetUserInputWithSnippets (_ "Text") 
-                (_ "Give text to appear with following note/chord:\nThe characters \\, \", §, { and } have a special meaning in the text,\nthe backslash \\ starts some LilyPond syntax, the others must be paired. New lines will be observed unless they come between § ... § characters.\nTo apply italic or bold to a group of words enclose them in {}, e.g. \\bold {These words are bold}.\nOther markup commands \\super, \\tiny etc, see LilyPond documentation.") 
+                (_ "Give text to appear with following note/chord - use the Preview button to see how it will print.\nThe characters \\, \", ¶, { and } have a special meaning in the text,\nNew lines will be started from the ¶ character. The backslash \\ starts some LilyPond syntax, the others must be paired. \nTo apply italic or bold to a group of words enclose them in {} or double quotes, e.g. \\bold {These words are bold}.\nOther markup commands \\super, \\tiny etc, see LilyPond documentation.") 
                 (if text (car text) "")))))
     (define (get-scale)
                     (if (not scale)
