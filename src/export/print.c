@@ -318,7 +318,7 @@ process_lilypond_errors (gchar * filename)
       else
         {
           set_lily_error (0, 0);
-          g_warning (epoint);
+          g_warning ("%s", epoint);
         }
     }
   else
