@@ -1432,11 +1432,11 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
           g_string_append_printf (ret, "%s%s", prestem_string, poststem_string);
         else
           {
-            g_string_append_printf (ret, "%s\\times %d/%d %s{", prestem_string, ((tupopen *) curobj->object)->numerator, ((tupopen *) curobj->object)->denominator, poststem_string);
+            g_string_append_printf (ret, "%s\\tuplet %d/%d %s{", prestem_string, ((tupopen *) curobj->object)->denominator, ((tupopen *) curobj->object)->numerator, poststem_string);
             if (figures->len)
-              g_string_append_printf (figures, " \\times %d/%d {", ((tupopen *) curobj->object)->numerator, ((tupopen *) curobj->object)->denominator);
+              g_string_append_printf (figures, " \\tuplet %d/%d {", ((tupopen *) curobj->object)->denominator, ((tupopen *) curobj->object)->numerator);
             if (fakechords->len)
-              g_string_append_printf (fakechords, " \\times %d/%d {", ((tupopen *) curobj->object)->numerator, ((tupopen *) curobj->object)->denominator);
+              g_string_append_printf (fakechords, " \\tuplet %d/%d {", ((tupopen *) curobj->object)->denominator, ((tupopen *) curobj->object)->numerator);
           }
       }
       break;
