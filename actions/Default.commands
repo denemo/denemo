@@ -2879,34 +2879,6 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <_tooltip>Identify Scale Notes that are sounded</_tooltip>
       </row>
       <row type="scheme">
-        <action>CaptureMeasures</action>
-        <after>SwapMovements</after>
-        <menupath>/ObjectMenu/MovementMenu/CaptureScore</menupath>
-        <_label>Capture Measures (Score)</_label>
-        <_tooltip>Creates blank measures one for each measure captured as a screenshot from a source score. Display the source score using any program. Click on opposite corners of each measure in turn to capture that measure as an image into Denemo. Right-click or scroll-wheel to switch corners to adjust. Press any key to finish. This command is for capturing in score form; to underlay each part with its own source measure use CaptureMeasuresPartPerStaff </_tooltip>
-      </row>
-      <row type="scheme">
-        <action>CaptureMeasuresForStaff</action>
-        <after>CheckTiesInStaff</after>
-        <menupath>/ObjectMenu/StaffMenu/CaptureScore</menupath>
-        <_label>Capture Measures (one staff)</_label>
-        <_tooltip>Creates blank measures one for each measure captured as a screenshot from one of a set of parts. Display the source score on the screen using any program. Click on opposite corners of each measure in turn to capture that measure as an image into Denemo. Right-click or scroll-wheel to switch corners to adjust. Press any key to finish. This command is for capturing in parts form; to capture in full score use  CaptureMeasures command</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>InsertCaptureMeasure</action>
-        <after>CaptureMeasures</after>
-        <menupath>/ObjectMenu/MovementMenu/CaptureScore</menupath>
-        <_label>Capture and Insert One Measure</_label>
-        <_tooltip>Capture the image of a single measure (as screenshot) inserting at the current measure.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>InsertCaptureMeasureForStaff</action>
-        <after>CaptureMeasuresForStaff</after>
-        <menupath>/ObjectMenu/StaffMenu/CaptureScore</menupath>
-        <_label>Capture and Insert One Measure</_label>
-        <_tooltip>Capture the image of a single measure (as screenshot) inserting at the current measure in the current staff.</_tooltip>
-      </row>
-      <row type="scheme">
         <action>CautionaryAccidental</action>
         <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <_label>Cautionary Accidental</_label>
@@ -3410,20 +3382,6 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
         <_label>Delete Beaming Directive</_label>
         <_tooltip>Deletes a ] or [ (end or start beam) directive on the current chord.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>DeleteCapturedMeasure</action>
-        <after>CaptureMeasures</after>
-        <menupath>/ObjectMenu/MovementMenu/CaptureScore</menupath>
-        <_label>Delete Captured Measure</_label>
-        <_tooltip>Deletes the captured image of the source measure for the current measure.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>DeleteCapturedMeasureForStaff</action>
-        <after>CaptureMeasuresForStaff</after>
-        <menupath>/ObjectMenu/StaffMenu/CaptureScore</menupath>
-        <_label>Delete Captured Measure.</_label>
-        <_tooltip>Deletes the captured measure image for the current measure of the current staff.</_tooltip>
       </row>
       <row type="scheme">
         <action>DeleteEmptyMeasures</action>
