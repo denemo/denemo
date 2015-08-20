@@ -1056,6 +1056,8 @@ actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNotehead
 actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsXcircle.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/SwitchMensuralBarlines.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/SwitchMensuralBarlines.xml
+actions/menus/ObjectMenu/MovementMenu/Typesetter/TinyStaffAllMovements.scm
+actions/menus/ObjectMenu/MovementMenu/Typesetter/TinyStaffAllMovements.xml
 actions/menus/ObjectMenu/NotationMagick/GenerateRhythmFromString/NotationMagick-InsertReversedStringAsBinaryRhythm.scm
 actions/menus/ObjectMenu/NotationMagick/GenerateRhythmFromString/NotationMagick-InsertReversedStringAsBinaryRhythm.xml
 actions/menus/ObjectMenu/NotationMagick/GenerateRhythmFromString/NotationMagick-InsertReversedStringAsReversedBinaryRhythm.scm
@@ -1902,8 +1904,6 @@ actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TinyStaff.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TinyStaff.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.xml
-actions/menus/ObjectMenu/StaffMenu/TinyStaffAllMovements.scm
-actions/menus/ObjectMenu/StaffMenu/TinyStaffAllMovements.xml
 actions/menus/ObjectMenu/StaffMenu/Voices/CreatePartsFromTop.scm
 actions/menus/ObjectMenu/StaffMenu/Voices/CreatePartsFromTop.xml
 actions/menus/ObjectMenu/StaffMenu/Voices/CreateParts.scm
