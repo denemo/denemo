@@ -3549,9 +3549,12 @@ scheme_warningdialog (SCM msg)
 }
 
 SCM
-scheme_infodialog (SCM msg)
+scheme_infodialog (SCM msg, SCM noblock)
 {
   char *title;
+  gboolean modal = FALSE;
+  if (scm_is_false (noblock))
+    modal = TRUE;
   if (scm_is_string (msg))
     {
       title = scm_to_locale_string (msg);
@@ -3562,25 +3565,30 @@ scheme_infodialog (SCM msg)
       title = strdup (_("Script error, wrong parameter type to d-InfoDialog"));
       msg = SCM_BOOL (FALSE);
     }
-  static GtkWidget *dialog;
-
-  if (dialog)
+  if (modal)
     {
-      gtk_widget_show (dialog);
-      gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), title);
-    }
-  else
+    infowarningdialog (title, FALSE);
+    }  else
     {
-      dialog = infodialog (title);
-      g_signal_connect (dialog, "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
-    }
-  if (*title)
-    {
-      gtk_widget_show (dialog);
-    }
-  else
-    {
-      gtk_widget_hide (dialog);
+    static GtkWidget *dialog;
+      if (dialog)
+        {
+          gtk_widget_show (dialog);
+          gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), title);
+        }
+      else
+        {
+          dialog = infodialog (title);
+          g_signal_connect (dialog, "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+        }
+      if (*title)
+        {
+          gtk_widget_show (dialog);
+        }
+      else
+        {
+          gtk_widget_hide (dialog);
+        }
     }
   if (title)
     free (title);

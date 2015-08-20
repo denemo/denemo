@@ -281,7 +281,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Allows the user to select a font returns a string describing the font. Takes an optional title.", DENEMO_SCHEME_PREFIX "SelectFont", scheme_select_font);
   install_scm_function (0, "Allows the user to select a color returns a list of r g b values between 0-255.\nTakes an optional title.", DENEMO_SCHEME_PREFIX "SelectColor", scheme_select_color);
   install_scm_function (0, "Takes a message as a string. Pops up the message for the user to take note of as a warning", DENEMO_SCHEME_PREFIX "WarningDialog", scheme_warningdialog);
-  install_scm_function (0, "Takes a message as a string. Pops up the message for the user to take note of as a informative message", DENEMO_SCHEME_PREFIX "InfoDialog", scheme_infodialog);
+  install_scm_function (1, "Takes a message as a string and boolean noblock parameter. Pops up the message for the user to take note of as a informative message, blocks if noblock is #f", DENEMO_SCHEME_PREFIX "InfoDialog", scheme_infodialog);
   install_scm_function (0, "Takes a message as a string. Pops up the message inside of a pulsing progressbar", DENEMO_SCHEME_PREFIX "ProgressBar", scheme_progressbar);
   install_scm_function (0, "If running, Stops the ProgressBar.", DENEMO_SCHEME_PREFIX "ProgressBarStop", scheme_progressbar_stop);
   install_scm_function (0, "Typesets the score. Takes a script which will be called when Refresh is performed on the typeset window.", DENEMO_SCHEME_PREFIX "TypesetForScript", scheme_typeset_for_script);

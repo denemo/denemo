@@ -632,12 +632,15 @@ call_edit_on_action (GtkWidget *button)
 
 static void execute_editscript (GtkWidget *button, gchar *filename)
 {
- GError *error = (GError *) execute_script_file (filename);
+ gchar *keep = g_strdup (filename);
+ gtk_widget_destroy (gtk_widget_get_toplevel (button));
+ GError *error = (GError *) execute_script_file (keep);
+ g_free (keep);
  GList *currentobject = Denemo.project->movement->currentobject;
 
  if (error)
     g_warning ("%s", error->message);
- gtk_widget_destroy (gtk_widget_get_toplevel (button));
+ 
  if (currentobject == Denemo.project->movement->currentobject)
     edit_object();
  else
