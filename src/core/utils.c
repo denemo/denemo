@@ -273,6 +273,26 @@ warningmessage (gchar * msg)
 }
 
 /**
+ * Pops up an info or warning dialog and blocks until it is dismissed
+ *  @param msg warning message to display
+ *  @param info TRUE if informational only
+ * @return none
+ */
+void
+infowarningdialog (gchar * msg, gboolean info)
+{
+  if(Denemo.non_interactive)
+    g_warning("%s", msg);
+  else{
+    GtkWidget *dialog;
+    dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window), GTK_DIALOG_DESTROY_WITH_PARENT, info?GTK_MESSAGE_INFO  :GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE, "%s", msg);
+    gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
+    gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
+    gtk_dialog_run (GTK_DIALOG (dialog));
+    gtk_widget_destroy (dialog);
+  }
+}
+/**
  * Pops up a warning dialog and blocks until it is dismissed
  *  @param msg warning message to display
  * @return none
@@ -280,24 +300,14 @@ warningmessage (gchar * msg)
 void
 warningdialog (gchar * msg)
 {
-  if(Denemo.non_interactive)
-    g_warning("%s", msg);
-
-  else{
-    GtkWidget *dialog;
-    dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE, "%s", msg);
-    gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
-    gtk_dialog_run (GTK_DIALOG (dialog));
-    gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
-    gtk_widget_destroy (dialog);
-  }
+ infowarningdialog (msg, FALSE);
 }
 
 /**
  * Displays information message to screen, not blocking.
  * User can destroy window when no longer needed.
  * @param msg message to display
- * @return none
+ * @return dialog
  */
 GtkWidget *
 infodialog (gchar * msg)

@@ -111,7 +111,7 @@ void popup_menu (gchar * name);
 void warningmessage (gchar * msg);
 
 void warningdialog (gchar * msg);
-
+void infowarningdialog (gchar * msg, gboolean info);
 GtkWidget *infodialog (gchar * msg);
 
 GtkWindow *progressbar (gchar * msg, gpointer callback);
