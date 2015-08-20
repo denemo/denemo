@@ -503,9 +503,10 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
                                     (set! menu (cons  (cons "Set Font Size"  alter-font-size)  menu))
                                     (set! menu (cons  (cons "Alter Text"  alter-text)  menu))))
                          
+                          (set! menu (cons (cons (_ "Object Editor") d-EditCursorObject) menu))
+                          (set! menu (cons (cons (_ "Object Inspector") d-DisplayCurrentObject) menu))
                          
-                         
-                         (set! choice (d-PopupMenu menu))
+                          (set! choice (d-PopupMenu menu))
                           (if choice
                                 (choice)
                                 (disp "cancelled")))))
@@ -516,7 +517,10 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
                                 ;;; FIXME the value is relative to the centre line of the staff, this gets relative to the tr sign.
                                 ;;;need to use d-GetNewTarget to find the notehead position, then use its mid_c_offset to get the centre line value
                                 ;;; beaming does this
-                           
+                                                   
+                                (set! menu (cons (cons (_ "Object Editor") d-EditCursorObject) menu))
+                                (set! menu (cons (cons (_ "Object Inspector") d-DisplayCurrentObject) menu))
+
                                 
                                 (set! choice (d-PopupMenu menu))
                                 (if choice
@@ -583,7 +587,10 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
                                             (if (d-Directive-chord? "Tie")                                      
                                                 (set! menu (cons (cons RestoreTiePrompt 
                                                                                                     remove-tie-shaping) menu )))))                                                             
-                                                                                                    
+                                                             
+                                    (set! menu (cons (cons (_ "Object Editor") d-EditCursorObject) menu))
+                                    (set! menu (cons (cons (_ "Object Inspector") d-DisplayCurrentObject) menu))
+                                                                
                                     (set! choice (d-PopupMenu menu))
                                     (if choice
                                         (choice)
