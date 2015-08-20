@@ -509,9 +509,12 @@ scheme_get_target_info (void)
 
   if (si->target.type == TARGET_NOTE) {
     DenemoObject *obj = si->currentobject->data;
-    chord *thechord = ((chord *) ((DenemoObject *) obj->object));
-    if(thechord->figure)
-      grob = scm_from_locale_string ("BassFigure");
+    if (obj->type == CHORD)
+        {
+        chord *thechord = ((chord *) ((DenemoObject *) obj->object));
+        if(thechord->figure)
+        grob = scm_from_locale_string ("BassFigure");
+        }
   }
 
             
@@ -521,15 +524,21 @@ scheme_get_target_info (void)
       DenemoObject *obj = si->currentobject->data;
       if (si->target.type == TARGET_CHORD)
         {
-          GList *directives = ((chord *) ((DenemoObject *) obj->object))->directives;
-          if (directives)
-            {
-              directive = (DenemoDirective *) g_list_nth_data (directives, si->target.directivenum - 1);
-            }
+            if (obj->type == CHORD)
+                {
+                  GList *directives = ((chord *) ((DenemoObject *) obj->object))->directives;
+                  if (directives)
+                    {
+                      directive = (DenemoDirective *) g_list_nth_data (directives, si->target.directivenum - 1);
+                    }
+                }
         }
       else if (si->target.type == TARGET_NOTE)
         {
-          directive = get_note_directive_number (si->target.directivenum);
+            if (obj->type == CHORD)
+                {
+                    directive = get_note_directive_number (si->target.directivenum);
+                }
         }
       else if (si->target.type == TARGET_OBJECT)
         {
