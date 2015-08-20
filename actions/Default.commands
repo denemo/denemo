@@ -5655,7 +5655,7 @@ before and after the LilyPond syntax.
       <row type="scheme">
         <action>TinyStaffAllMovements</action>
         <after>TinyStaff</after>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
         <_label>Tiny Staff in All Movements</_label>
         <_tooltip>Gets a staff number 1 ... n from user and makes that staff tiny in all movements.</_tooltip>
       </row>
