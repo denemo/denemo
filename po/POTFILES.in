@@ -225,6 +225,7 @@ actions/editscripts/ContextPianoStaff.scm
 actions/editscripts/D.C.AlFine.scm
 actions/editscripts/LHFinger.scm
 actions/editscripts/Mute.scm
+actions/editscripts/Slur.scm
 actions/editscripts/StaffSize.scm
 actions/editscripts/StringNum.scm
 actions/editscripts/UnknownScoreTag.scm
