@@ -32,7 +32,7 @@
 \spacing single
 \use_hyperref false
 \papersize default
-\use_geometry false
+\use_geometry true
 \use_amsmath 1
 \use_esint 1
 \use_mhchem 1
@@ -47,6 +47,13 @@
 \shortcut idx
 \color #008000
 \end_index
+\leftmargin 5mm
+\topmargin 5mm
+\rightmargin 5mm
+\bottommargin 5mm
+\headheight 5mm
+\headsep 5mm
+\footskip 5mm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -788,7 +795,7 @@ When a file is loaded it opens at the point where you left off editing it.
 \end_layout
 
 \begin_layout Section
-Denemo Input Window
+Denemo Main Window
 \begin_inset Note Note
 status open
 
@@ -972,7 +979,11 @@ View
 \end_layout
 
 \begin_layout Standard
-Use the View menu to toggle toolbars and palettes used with the mouse.
+Use the 
+\series bold
+View
+\series default
+ menu to toggle toolbars and palettes used with the mouse.
 \end_layout
 
 \begin_layout Standard
@@ -1358,8 +1369,12 @@ Input
 \end_layout
 
 \begin_layout Standard
-Choose whether to use external sources (Audio from the Mic input or MIDI)
- for Denemo.
+Use the 
+\series bold
+Input
+\series default
+ menu to select external sources (Audio from the Mic input or MIDI) for
+ inputting notes to Denemo.
  To use these you should review the settings in Edit->Change Preferences
  MIDI and audio tabs first - change the setting for the backend from 
 \begin_inset Quotes eld
@@ -1382,7 +1397,11 @@ More
 \end_layout
 
 \begin_layout Standard
-Add commands to Denemo.
+Use the 
+\series bold
+More
+\series default
+ menu add commands to Denemo.
  Extra commands are available (those which not everyone will want) via this
  menu.
  More Commands gives commands shipped with Denemo, while My Commands gives
@@ -1398,7 +1417,11 @@ Playback
 \end_layout
 
 \begin_layout Standard
-Use the Playback menu to listen to the current movement.
+Use the 
+\series bold
+Playback
+\series default
+ menu to listen to the current movement.
  Denemo lets you hear your score, using an internal synthesizer.
  There are commands to play through the all the notes or to observe repeats
  or to play just the chord or notes at the cursor and to play at a shifted
@@ -1414,7 +1437,11 @@ Help
 \end_layout
 
 \begin_layout Standard
-Use the Help menu to get help using Denemo.
+Use the 
+\series bold
+Help
+\series default
+ menu to get help using Denemo.
  A list of the shortcuts is available (including any you have set yourself),
  a feature-packed score can be loaded, the excessive help can be tamed,
  and your browser can be launched on the Denemo chat room for asking questions
@@ -1808,21 +1835,33 @@ The Enharmonic Selection control lets you determine what accidental will
 \end_layout
 
 \begin_layout Standard
-[Appending/Editing] button: This shows how MIDI in will be treated.
+[
+\series bold
+Appending/Editing
+\series default
+] button: This shows how MIDI in will be treated.
  Press Control/Shift/Alt keys to modify or click and select Listening to
  input MIDI, Checking notes in the score against input MIDI or Appending/Editing
  at the cursor.
 \end_layout
 
 \begin_layout Standard
-[Switch to Play Along Playback] button: When you press Play with this option
- set, the music will not advance past the cursor until you play the note.
+[
+\series bold
+Switch to Play Along Playback
+\series default
+] button: When you press Play with this option set, the music will not advance
+ past the cursor until you play the note.
  (Mute the current staff to prevent double sounding of notes)
 \end_layout
 
 \begin_layout Standard
-The record button allows you to record from your MIDI keyboard while the
- score is playing back.
+The [
+\series bold
+record
+\series default
+] button allows you to record from your MIDI keyboard while the score is
+ playing back.
  (Press MIDI record the Play).
  The MIDI recording will be played back with the score, and can be converted
  to notation or deleted.
@@ -1843,17 +1882,22 @@ reference "sub:The-Command-Center"
 
 \end_inset
 
-Command Center.
+.
+\end_layout
+
+\begin_layout Standard
+These are the menus on the Object Menu Bar with a brief description of what
+ they hold.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="13" columns="2">
-<features islongtable="true" longtabularalignment="center">
-<column alignment="left" valignment="top" width="30text%">
-<column alignment="left" valignment="top" width="70text%">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
 <row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1864,7 +1908,7 @@ Menu Item
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1877,7 +1921,7 @@ Description
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1886,7 +1930,7 @@ Score
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1897,7 +1941,7 @@ Settings that apply to the whole score.
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1906,7 +1950,7 @@ Movements
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1917,7 +1961,7 @@ Insert/remove navigate, change the properties of movements.
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1926,7 +1970,7 @@ Staffs/Voices
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1939,7 +1983,7 @@ Insert/remove, navigate, swap, change the properties of staffs or voices.
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1948,18 +1992,18 @@ Clefs
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Insert, change or set the initial clef.
+Insert clef change or set the initial clef.
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1968,18 +2012,18 @@ Keys
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Insert a change or set the initial key.
+Insert a key change or set the initial key
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1988,18 +2032,19 @@ Time Signatures
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Insert a change or set the time signature, control the typeset appearance.
+Insert a change of time signature or set the initial time signature, control
+ the typeset appearance.
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2008,7 +2053,7 @@ Measures
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2019,7 +2064,7 @@ Insert/remove navigate measures.
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2028,11 +2073,11 @@ Chords
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Insert/remove notes from a chord.
+Insert/remove/alter notes of a chord.
  Note that Chord Symbols can created markings on notes (see Notes/Rests
  menu) or as a way of displaying chords entered on a staff (see Staff/Voices
  menu)
@@ -2042,7 +2087,7 @@ Insert/remove notes from a chord.
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2051,7 +2096,7 @@ Notes/Rests
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2065,7 +2110,7 @@ Menu items for inserting/changing/deleting note and rests, beaming, ties,
 </cell>
 </row>
 <row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2074,7 +2119,7 @@ Directives
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2086,8 +2131,8 @@ These are objects inserted between the notes of a score to place marks or
 \end_inset
 </cell>
 </row>
-<row endhead="true" endfirsthead="true">
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2096,18 +2141,18 @@ Notation Magick
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Create and manipulate music auto-magick-ally
+Create and manipulate music auto-magick-ally.
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row endhead="true" endfirsthead="true">
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2116,7 +2161,7 @@ Lyrics
 
 \end_inset
 </cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2138,16 +2183,31 @@ Object Menus
 \end_layout
 
 \begin_layout Standard
-Dynamics, Slurs, Trills, Tempo Indications etc are in the Notes/Rests menu
- (if attached to a note or chord) or Directives menu (if standalone objects)
- 
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Note: Dynamics, Slurs, Trills, Tempo Indications etc are in the Notes/Rests
+ menu (if attached to a note or chord) or Directives menu (if standalone
+ objects) .
+ The advantage of attaching them to a note is that they can be moved around
+ as a unit, but the standalone objects are generally easier to drag in the
+ Print View should that be needed.
 \end_layout
 
-\begin_layout Standard
-You can collect together your favorite ones, either by assigning shortcuts,
- or creating a palette of favorite commands which just invoke the action
- you use.
- 
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -2198,10 +2258,6 @@ Graphic title pages can also be created.
  
 \end_layout
 
-\begin_layout Paragraph
-Adding Markings
-\end_layout
-
 \begin_layout Subsubsection
 Movements Menu
 \end_layout
@@ -2224,7 +2280,59 @@ Staff/Voices Menu
 \end_layout
 
 \begin_layout Standard
+Things such as the music crossing to another staff, or Ossia staffs are
+ contained here, along with commands for deleting parts of the staff, setting
+ up multi-measure rests for a whole staff, muting the staff during playback
+\end_layout
 
+\begin_layout Subsubsection*
+The Staff Properties Submenu
+\end_layout
+
+\begin_layout Standard
+This covers such things as the type of staff (e.g.
+ Normal Notation, Tablature, Chord Symbols, Fret Diagrams) as well as the
+ staff appearance and the playback instrument, instrument name or ambitus
+ to be typeset at the start of the staff and more.
+\end_layout
+
+\begin_layout Subsubsection*
+The Voices Submenu
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Voices
+\emph default
+ in Denemo are like staffs but are typeset on the preceding staff to achieve
+ single-staff polyphony.
+ The Denemo Display is normally set to display any extra voices on a separate
+ staff so as to make it easy to work with - the voices have their clef displayed
+ in yellow and do not show a key signature as these are supplied by the
+ main staff (or 
+\begin_inset Quotes eld
+\end_inset
+
+primary voice
+\begin_inset Quotes erd
+\end_inset
+
+).
+ Voices will also normally be assigned to voice numbers 1,2,3,4 using the
+ Initial Voice commands in this menu (this controls the stemming, slur positions
+ etc).
+ Voices can change their voice number during the music - the commands for
+ this are in the Directives->Typesettter->Voices menu as they insert stem
+ change objects in between the notes.
+\end_layout
+
+\begin_layout Subsubsection*
+The Staff Groupings (Braces) Submenu
+\end_layout
+
+\begin_layout Standard
+The braces at the start of each system are controlled from here.
 \end_layout
 
 \begin_layout Subsubsection
@@ -2257,6 +2365,61 @@ Directives
 
 \begin_layout Subsubsection
 Lyrics 
+\end_layout
+
+\begin_layout Standard
+To add lyrics to a staff move the cursor onto the staff and choose Add Lyric
+ Verse.
+ You need to have the Lyrics View visible (see View menu).
+ Each verse has a separate tab, with the current verse for the current staff
+ being visible at any one time.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+This means that you will see the lyrics for the current staff disappear
+ from the Display Window when you switch staffs, which can be disconcerting,
+ but saves space in the display.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Stanza numbers can be entered as well as font-changing commands.
+ Use 
+\family typewriter
+Melismata
+\family default
+ command to extend syllables over more notes.
+ The lyrics menu also contains a command 
+\begin_inset Quotes eld
+\end_inset
+
+Edit Lyric at Cursor
+\begin_inset Quotes erd
+\end_inset
+
+ ( Ctrl-l, Ctrl-l) which finds the place in the lyrics corresponding to
+ the cursor position allowing you to edit the syllable that underlies the
+ current note.
+ Verses can be typeset in columns at the end by using command Typeset Verses
+ at End which invokes the external Inkscape (or other) editor.
 \end_layout
 
 \begin_layout Subsubsection
@@ -2419,7 +2582,7 @@ prevailing duration
 \end_layout
 
 \begin_layout Subsubsection
-Basic Use
+Details
 \end_layout
 
 \begin_layout Standard
@@ -2752,7 +2915,7 @@ reference "sec:Object-Editor"
 
 \end_inset
 
-Object Editor.
+.
 \end_layout
 
 \begin_layout Standard
@@ -2780,7 +2943,7 @@ reference "sec:The-Object-Inspector"
 
 \end_inset
 
-Object Inspector.
+.
 \end_layout
 
 \begin_layout Standard
@@ -2791,7 +2954,7 @@ modal,
 that is you cannot interact with Denemo outside of the editor until you
  have dismissed it.
  To warn you of this the pointer turns to an X if you try to interact with
- the Denemo Display when the Object Editor is still open.
+ the Denemo Input Display when the Object Editor is still open.
  Buttons are provided to move on to editing the next (or previous) object.
 \end_layout
 
@@ -3041,7 +3204,7 @@ The MIDI filters are scheme scripts, so they can be tailored to do whatever
 \end_layout
 
 \begin_layout Subsection
-Playing Notes into Denemo - Audio (Souncard Mic Input)
+Playing Notes into Denemo - Audio (Soundcard Mic Input)
 \end_layout
 
 \begin_layout Standard
@@ -3231,6 +3394,35 @@ Shift
  very cheap nowadays).
 \end_layout
 
+\begin_layout Standard
+Rests are entered with 
+\family typewriter
+Alt-0 Alt-1 ...
+\end_layout
+
+\begin_layout Standard
+Spacer rests (that is non-printing rests as seen in keyboard polyphony)
+ have shortcuts too 
+\family typewriter
+Mod4-0
+\family default
+ etc, where 
+\family typewriter
+Mod4
+\family default
+ is the key with a flag on it.
+ However, on Windows machines you will need to reclaim the 
+\family typewriter
+Windows
+\family default
+ Mod-4 key from Microsoft or re-define the shortcuts, e.g.
+ to 
+\family typewriter
+Shift-Alt-0
+\family default
+ etc.
+\end_layout
+
 \begin_layout Subsubsection
 Chord Entry
 \end_layout
@@ -3242,14 +3434,18 @@ Insert
 \family default
  key, 
 \family typewriter
-Del
+Ctrl-Insert
+\family default
+ or
+\family typewriter
+ Del
 \family default
 ,
 \family typewriter
 Del
 \family default
  deletes.
- This enters the note at the cursor position, use 
+ The is inserted at the cursor height, use 
 \family typewriter
 -
 \family default
@@ -3269,113 +3465,42 @@ Alt-b
 \family default
 ...
  are the standard shortcuts for this.
- Spacer rests have shortcuts too, but on Windows machines you will need
- to reclaim the 
-\family typewriter
-Windows
-\family default
- Mod-4 key from Microsoft or re-define the shortcuts.
+ 
 \end_layout
 
 \begin_layout Section
 Transcribing from Facsimile or Hand-written Score
 \end_layout
 
-\begin_layout Subsection
-Opening Source PDF
+\begin_layout Standard
+If you have a PDF of music you wish to transcribe with Denemo you can display
+ it within Denemo and create links between the source material and your
+ transcrition.
+ This means that when you later review your work you can quickly locate
+ which point in the original manuscript belongs to which point in your transcrip
+tion
 \end_layout
 
 \begin_layout Standard
-In the File->Open menu is an option for opening a PDF containing music to
- be transcribed from.
+Select the File->Open menu and the item Open a Source for Transcribing.
+ Select the PDF containing the music to be transcribed from.
  The PDF is opened in a Source View window.
  Right-click in this window at the point that your transcription will start.
- This will create a link in your score at the cursor, which can be clicked
- on to open the source view window with the blue highlight marker on that
- point in the score.
+ This will create a link - a Denemo Directive Object - in your score at
+ the Denemo cursor position, shown as arrow icon.
+ If you later use a right-click on this Denemo Directive the source file
+ will be re-opened with the blue highlight marker on that point in the score.
  (Depending on the position of the top of the page you may need to scroll
  the Source View window up or down to bring it into view).
- When you re-open the score to check or edit at some point you can click
+\end_layout
+
+\begin_layout Standard
+When you re-open the score to check or edit at some point you can click
  on a nearby link and the source file will be opened and the position highlighte
 d once again.
 \end_layout
 
-\begin_layout Subsection
-Taking Snapshots of a Facsimile
-\end_layout
-
-\begin_layout Standard
-\begin_inset Box Shadowbox
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status open
-
-\begin_layout Plain Layout
-This feature is now largely redundant as the above method will usually be
- easier
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-This is particularly useful for difficult-to-read scores.
- Each measure of the original can be captured as an image and stored along
- with the Denemo measure that is your transcription.
- This makes the transcribing process much easier as you can glance at your
- original without losing your place in a large messy manuscript.
- Capturing the images of the measures is done using a screenshot type of
- process - you need to have the original visible on the screen so you can
- indicate the extent of each measure.
-\end_layout
-
-\begin_layout Standard
-First display the original score or part on the screen using your pdf viewer
- or other image display software.
- Then, in Denemo, choose one of the Capture Measures commands.
- For a Full score you can capture all the parts at once - choose Movement->Captu
-re Score->Capture Measures (Score).
- If you have parts use Staff->Capture Score->Capture Measures (One Staff).
-\end_layout
-
-\begin_layout Standard
-Now you can continuously enter measures by left clicking at each measure.
- You can adjust the start position of the measure (which is normally the
- end of the last one) by right-clicking.
- As you enter a measure image a Denemo measure is entered into the score
- and the image placed underneath it.
- To stop entering images press a key on the keyboard.
- There are also commands to delete an erroneous measure-image and to insert
- a new one - N.B.
- when you delete the image for a measure all the other measures shift along
- by one, so they are under the wrong bars until you insert a new screenshot
- for the measure.
-\end_layout
-
-\begin_layout Standard
-Now you can transcribe the music straight from the images directly under
- the measure you have selected.
- LaManina.denemo is an example: the original print made in Venice is quite
- difficult to decipher and has a couple of errors.
- In this Denemo file each measure for each part can be seen directly beneath
- the transcription.
- You will notice that in places the original measure was split across two
- lines; at the moment there is no mechanism for joining up the two halves,
- so instead the following measure has an image containing the remainder
- of the measure plus the next measure.
-\end_layout
-
-\begin_layout Subsection
+\begin_layout Section
 Using a Proof-Read PDF
 \end_layout
 
@@ -4356,23 +4481,6 @@ You will also need spacer rests for voices that are silent, and commands
 \end_layout
 
 \begin_layout Subsection
-Entering Vocal Music
-\end_layout
-
-\begin_layout Standard
-Choose Lyrics->Add Verse.
- You need to have the Lyrics View visible (see View menu).
- Each verse has a separate tab, with the current verse for the current staff
- being visible at any one time.
- Stanza numbers can be entered as well as font-changing commands.
- Use 
-\family typewriter
---
-\family default
- to extend syllables over more notes (see LilyPond documentation).
-\end_layout
-
-\begin_layout Subsection
 Entering Figured Bass
 \end_layout
 
@@ -4428,7 +4536,14 @@ Entering Chord Symbols
 \begin_layout Standard
 To enter chord symbols choose Notes/Rests->Markings->Chord Symbols.
  A brief summary is given by right clicking the option.
- The conventions are described in the LilyPond docs.
+ The conventions are described in the LilyPond documentation.
+\end_layout
+
+\begin_layout Standard
+An alternative is to set a staff to display not the chords in regular notation
+ but the chord symbol that represents the chord.
+ These can then be arranged above or below the melody or other representation
+ of the piece.
 \end_layout
 
 \begin_layout Standard
@@ -4437,7 +4552,7 @@ Chord Charts can also be created - there is a Chord Charts palette for these.
 status open
 
 \begin_layout Plain Layout
-I don't see a section about the Chord Charts pallete.
+I don't see a section about the Chord Charts palette.
 \end_layout
 
 \end_inset
