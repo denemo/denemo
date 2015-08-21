@@ -474,7 +474,8 @@ queue_thread_func (gpointer data)
           g_static_mutex_lock (&smfmutex);
           while ((event = get_smf_event (until_time)))
             {
-              write_event_to_queue (AUDIO_BACKEND, event);
+              write_event_to_queue (AUDIO_BACKEND, event);//g_print ("queue gets 0x%hhX 0x%hhX 0x%hhX\n", *(event->midi_buffer+0), *(event->midi_buffer+1), *(event->midi_buffer+2));
+
               write_event_to_queue (MIDI_BACKEND, event);
             }
           g_static_mutex_unlock (&smfmutex);
@@ -643,7 +644,8 @@ play_midi_event (backend_type_t backend, int port, unsigned char *buffer)
     }
 #endif
   *ev = i;
-  memcpy (ev + 1, buffer, i);
+  memcpy (ev + 1, buffer, i);//g_print (" midibytes 0x%hhX 0x%hhX 0x%hhX\n", *(buffer+0), *(buffer+1), *(buffer+2));
+
   return event_queue_write_immediate (get_event_queue (backend), ev, i + 1);
 }
 
