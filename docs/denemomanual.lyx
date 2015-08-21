@@ -3840,7 +3840,7 @@ Once you have created the script, it can be saved in the menu system by
  and choosing "Save Script as New Menu Item" as above.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Section
 Writing Scheme Scripts 
 \end_layout
 
@@ -3933,7 +3933,7 @@ More ambitious programmers will need to know all the commands available.
  Center window) there are the following additional Scheme procedures defined.
 \end_layout
 
-\begin_layout Paragraph
+\begin_layout Subsection
 Commands Getting User Input
 \end_layout
 
@@ -4002,6 +4002,255 @@ GetNote returns a scheme string, the note name, accidental and octave of
 \begin_layout Itemize
 GetNotes returns a scheme string, the notes of a chord separated by NULL
  characters
+\end_layout
+
+\begin_layout Subsection
+Predicates
+\end_layout
+
+\begin_layout Itemize
+Music?  
+\end_layout
+
+\begin_layout Itemize
+Note?  
+\end_layout
+
+\begin_layout Itemize
+Rest?  
+\end_layout
+
+\begin_layout Itemize
+Chord?  
+\end_layout
+
+\begin_layout Itemize
+Singlenote?  
+\end_layout
+
+\begin_layout Itemize
+Directive?  
+\end_layout
+
+\begin_layout Itemize
+Timesignature?  
+\end_layout
+
+\begin_layout Itemize
+Keysignature?  
+\end_layout
+
+\begin_layout Itemize
+Clef?  
+\end_layout
+
+\begin_layout Itemize
+Tupletmarker?  
+\end_layout
+
+\begin_layout Itemize
+TupletOpen?  
+\end_layout
+
+\begin_layout Itemize
+TupletClose?  
+\end_layout
+
+\begin_layout Itemize
+StemDirective?  
+\end_layout
+
+\begin_layout Itemize
+None?  
+\end_layout
+
+\begin_layout Itemize
+MovementEmpty?
+\end_layout
+
+\begin_layout Itemize
+MeasureEnd? 
+\end_layout
+
+\begin_layout Itemize
+MeasureBeginning?
+\end_layout
+
+\begin_layout Itemize
+LastMovement?
+\end_layout
+
+\begin_layout Itemize
+FirstMovement?
+\end_layout
+
+\begin_layout Subsection
+Iterators
+\end_layout
+
+\begin_layout Standard
+The parameters are either a string (script) which will be evaluated after
+ moving the cursor to step of the iteration or a scheme procedure (a thunk).
+\end_layout
+
+\begin_layout Itemize
+(ForAllMovements script) 
+\end_layout
+
+\begin_layout Itemize
+(ForAllStaffs script) 
+\end_layout
+
+\begin_layout Itemize
+(ForAllMovementsExecute proc) 
+\end_layout
+
+\begin_layout Itemize
+(ForAllStaffsExecute proc) 
+\end_layout
+
+\begin_layout Itemize
+(ForAllObjectsInStaffExecute proc) 
+\end_layout
+
+\begin_layout Itemize
+(ForAllObjectsInScoreExecute proc) 
+\end_layout
+
+\begin_layout Itemize
+(ForAllNotesInChordExecute proc) 
+\end_layout
+
+\begin_layout Subsection
+Message Bar
+\end_layout
+
+\begin_layout Standard
+These commands put a message on the status bar to the right hand side.
+ They are defined in actions/denemo-modules/helpsystem.scm.
+ Help messages are pushed paired with a symbol (e.g.
+ (cons ('mytag 
+\begin_inset Quotes eld
+\end_inset
+
+mymessage
+\begin_inset Quotes erd
+\end_inset
+
+))) and can simply be Popped or removed using the tag.
+\end_layout
+
+\begin_layout Itemize
+(Help::Push pair) 
+\end_layout
+
+\begin_layout Itemize
+(Help::Pop)
+\end_layout
+
+\begin_layout Itemize
+(Help::RemoveTag tag) ; Remove all messages with this 'tag symbol 
+\end_layout
+
+\begin_layout Itemize
+(Help::ClearQueue) ; Clear the entire queue 
+\end_layout
+
+\begin_layout Itemize
+(Help::UpdateWriteStatus) 
+\end_layout
+
+\begin_layout Subsection
+Move and Search
+\end_layout
+
+\begin_layout Itemize
+(FindNextObjectAllStaffs test?)
+\end_layout
+
+\begin_layout Itemize
+(PrevDirectiveOfTag tag) 
+\end_layout
+
+\begin_layout Itemize
+(NextDirectiveOfTag tag) 
+\end_layout
+
+\begin_layout Itemize
+(NextDirectiveOfTagInMeasure tag) 
+\end_layout
+
+\begin_layout Itemize
+(PrevDirectiveOfTagInMeasure tag) 
+\end_layout
+
+\begin_layout Itemize
+(GoToMeasureEnd) 
+\end_layout
+
+\begin_layout Itemize
+(GoToMeasureBeginning) 
+\end_layout
+
+\begin_layout Itemize
+(MoveToColumnStart) 
+\end_layout
+
+\begin_layout Itemize
+(MoveToColumnEnd) 
+\end_layout
+
+\begin_layout Itemize
+GetPosition ;use result with (apply d-GoToPosition position)) to go to the
+ position gotten
+\end_layout
+
+\begin_layout Itemize
+(PositionEqual? position1 position2) 
+\end_layout
+
+\begin_layout Itemize
+(Probe test moveinstruction) 
+\end_layout
+
+\begin_layout Itemize
+(ProbePosition test movement staff measure horizontalposition) 
+\end_layout
+
+\begin_layout Itemize
+(ProbePreviousMeasure test) 
+\end_layout
+
+\begin_layout Itemize
+(ProbeNextMeasure test) 
+\end_layout
+
+\begin_layout Itemize
+(ProbeNextObject test) 
+\end_layout
+
+\begin_layout Itemize
+(ProbePreviousObject test) 
+\end_layout
+
+\begin_layout Itemize
+(ProbeNextNote test) 
+\end_layout
+
+\begin_layout Itemize
+(ProbePreviousNote test) 
+\end_layout
+
+\begin_layout Itemize
+(MoveDownStaffOrVoice) 
+\end_layout
+
+\begin_layout Itemize
+(MoveUpStaffOrVoice) 
+\end_layout
+
+\begin_layout Subsection
+More ...
 \end_layout
 
 \begin_layout Standard
