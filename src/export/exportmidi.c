@@ -235,11 +235,11 @@ static smf_event_t *
 midi_change_event (int type, int chan, int val)
 {
   smf_event_t *event = smf_event_new ();
-  guchar *buffer = malloc (2);
-  event->midi_buffer = buffer;
+  guchar *buf = malloc (2);
+  event->midi_buffer = buf;
   event->midi_buffer_length = 2;
-  *buffer++ = type | chan;
-  *buffer++ = val;
+  *buf++ = type | chan;
+  *buf++ = val;
   return event;
 }
 
@@ -251,8 +251,8 @@ static smf_event_t *
 midi_timesig (int upper, int lower)
 {
   smf_event_t *event = smf_event_new ();
-  guchar *buffer = malloc (7);
-  event->midi_buffer = buffer;
+  guchar *buf = malloc (7);
+  event->midi_buffer = buf;
   event->midi_buffer_length = 7;
   div_t n;
   int click = 24;
@@ -263,8 +263,8 @@ midi_timesig (int upper, int lower)
       click = 24 * ((float) n.quot + (float) n.rem);
     }
 
-  *buffer++ = 0xff, *buffer++ = 0x58, *buffer++ = 4;
-  *buffer++ = upper, *buffer++ = twolog (lower), *buffer++ = click, *buffer++ = 8;
+  *buf++ = 0xff, *buf++ = 0x58, *buf++ = 4;
+  *buf++ = upper, *buf++ = twolog (lower), *buf++ = click, *buf++ = 8;
   return event;
 }
 
@@ -276,14 +276,14 @@ static smf_event_t *
 midi_keysig (gint key, gint isminor)
 {
   smf_event_t *event = smf_event_new ();
-  guchar *buffer = malloc (5);
-  event->midi_buffer = buffer;
+  guchar *buf = malloc (5);
+  event->midi_buffer = buf;
   event->midi_buffer_length = 5;
-  *buffer++ = 0xff;
-  *buffer++ = 0x59;
-  *buffer++ = 2;
-  *buffer++ = key;
-  *buffer++ = isminor;
+  *buf++ = 0xff;
+  *buf++ = 0x59;
+  *buf++ = 2;
+  *buf++ = key;
+  *buf++ = isminor;
   return event;
 }
 
@@ -296,19 +296,19 @@ midi_tempo (long tempo)
 {
   long midi_tempo;
   smf_event_t *event = smf_event_new ();
-  guchar *buffer = malloc (6);
-  event->midi_buffer = buffer;
+  guchar *buf = malloc (6);
+  event->midi_buffer = buf;
   event->midi_buffer_length = 6;
   if (tempo == 0)
     {
       tempo = 1;
     }
-  *buffer++ = 0xff;
-  *buffer++ = 0x51;
-  *buffer++ = 3;
+  *buf++ = 0xff;
+  *buf++ = 0x51;
+  *buf++ = 3;
   midi_tempo = 60000000 / tempo;
-  *buffer++ = (midi_tempo >> 16) & 255;
-  *buffer++ = (midi_tempo >> 8) & 255/*, (midi_tempo >> 0) & 255*/;
+  *buf++ = (midi_tempo >> 16) & 255;
+  *buf++ = (midi_tempo >> 8) & 255/*, (midi_tempo >> 0) & 255*/;
   return event;
 }
 
@@ -718,11 +718,10 @@ put_event (gchar * buffer, gint numbytes, GList ** midi_events, smf_track_t * tr
   smf_event_t *event = NULL;
   if (numbytes && is_status_byte (buffer[0]))
     event = smf_event_new_from_pointer (buffer, numbytes);
-  if (event && smf_event_is_valid (event))
+ if (event && smf_event_is_valid (event))
     {
       smf_track_add_event_delta_pulses (track, event, 0);
       *midi_events = g_list_append (*midi_events, event);
-      //g_debug("Added %x\n", event->midi_buffer[0]);
     }
   g_free (buffer);
   return event;
@@ -765,37 +764,27 @@ substitute_midi_values (gchar * str, gint channel, gint volume)
 static gchar *
 directive_get_midi_buffer (DenemoDirective * directive, gint * pnumbytes, gint channel, gint volume)
 {
+    *pnumbytes = 0;
   if (directive->midibytes)
     {
       gchar *bytes;
       bytes = substitute_midi_values (directive->midibytes->str, channel, volume);
-      //g_debug("Got %s as midi bytes\n", bytes);
+      //g_print("Got %s as midi bytes\n", bytes);
       char *next;
       gint i, numbytes;
-      errno = 0;
-      for (i = 0, next = bytes; *next; next++)
+    for (i = 0, next = bytes; *next; i++)
         {
-          if (errno)
-            {
-              g_warning ("Bytes %s bad format for MIDI", bytes);
-              return NULL;
-            }
-          i++;
-          if (*next == 0)
-            break;
+          strtol (next, &next, 0);
         }
-      if (errno)
-        return NULL;
-      numbytes = i;
-      gchar *buffer = (gchar *) g_malloc0 (numbytes);
-      for (i = 0, next = bytes; i < numbytes; i++, next++)
+      gchar *buf = (gchar *) g_malloc0 (i);
+      for (i=0, next = bytes; *next; i++)
         {
-          buffer[i] = (char) strtol (next, &next, 0);
-          //g_debug("byte %x\n", buffer[i]);
+          buf[i] = (char) strtol (next, &next, 0);
+          //g_print("byte %x\n", buf[i]);
         }
-      *pnumbytes = numbytes;
+      *pnumbytes = i;
       g_free (bytes);
-      return buffer;
+      return buf;
     }
   return NULL;
 }
@@ -1096,10 +1085,10 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
               gint numbytes;
               directive = (DenemoDirective *) g->data;
               gint midi_override = directive_get_midi_override (directive);
-              gchar *buffer = directive_get_midi_buffer (directive, &numbytes, midi_channel, cur_volume);
+              gchar *buf = directive_get_midi_buffer (directive, &numbytes, midi_channel, cur_volume);
               if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
-                if (buffer)
-                  if (NULL == put_event (buffer, numbytes, &curstaffstruct->midi_events, track))
+                if (buf)
+                  if (NULL == put_event (buf, numbytes, &curstaffstruct->midi_events, track))
                     g_warning ("Invalid midi bytes in staff directive");
             }
         }
@@ -1117,10 +1106,10 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                   gint numbytes;
                   directive = (DenemoDirective *) g->data;
                   gint midi_override = directive_get_midi_override (directive);
-                  gchar *buffer = directive_get_midi_buffer (directive, &numbytes, midi_channel, cur_volume);
+                  gchar *buf = directive_get_midi_buffer (directive, &numbytes, midi_channel, cur_volume);
                   if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
-                    if (buffer)
-                      if (NULL == put_event (buffer, numbytes, &Denemo.project->midi_events, track))
+                    if (buf)
+                      if (NULL == put_event (buf, numbytes, &Denemo.project->midi_events, track))
                         g_warning ("Invalid midi bytes in score directive");
                 }
             }
@@ -1134,10 +1123,10 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                   gint numbytes;
                   directive = (DenemoDirective *) g->data;
                   gint midi_override = directive_get_midi_override (directive);
-                  gchar *buffer = directive_get_midi_buffer (directive, &numbytes, midi_channel, cur_volume);
+                  gchar *buf = directive_get_midi_buffer (directive, &numbytes, midi_channel, cur_volume);
                   if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
-                    if (buffer)
-                      if (NULL == put_event (buffer, numbytes, &Denemo.project->movement->midi_events, track))
+                    if (buf)
+                      if (NULL == put_event (buf, numbytes, &Denemo.project->movement->midi_events, track))
                         g_warning ("Invalid midi bytes in movement directive");
                 }
             }
@@ -1218,7 +1207,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                         {
                           gint numbytes;
                           directive = (DenemoDirective *) g->data;
-                          gchar *buffer = directive_get_midi_buffer (directive, &numbytes, midi_channel, cur_volume);
+                          gchar *buf = directive_get_midi_buffer (directive, &numbytes, midi_channel, cur_volume);
                           gint midi_override = directive_get_midi_override (directive);
                           gint midi_interpretation = directive_get_midi_interpretation (directive);
                           gint midi_action = directive_get_midi_action (directive);
@@ -1252,9 +1241,9 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                               //etc                           
                             default:
                               if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
-                                if (buffer)
+                                if (buf)
                                   {
-                                    if (NULL == put_event (buffer, numbytes, &curobj->midi_events, track))
+                                    if (NULL == put_event (buf, numbytes, &curobj->midi_events, track))
                                       g_warning ("Invalid midi bytes in chord directive");
                                   }
                               break;
@@ -1646,7 +1635,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                     if (!(((DenemoDirective *) curobj->object)->override & DENEMO_OVERRIDE_HIDDEN))
                       {
                         gint numbytes;
-                        gchar *buffer = directive_get_midi_buffer (curobj->object, &numbytes, midi_channel, cur_volume);
+                        gchar *buf = directive_get_midi_buffer (curobj->object, &numbytes, midi_channel, cur_volume);
                         gint midi_override = directive_get_midi_override (curobj->object);
                         gint midi_interpretation = directive_get_midi_interpretation (curobj->object);
                         gint midi_action = directive_get_midi_action (curobj->object);
@@ -1682,9 +1671,9 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
                             break;
                           default:
                             if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
-                              if (buffer)
-                                {
-                                  if (NULL == put_event (buffer, numbytes, &curobj->midi_events, track))
+                              if (buf)
+                                {g_print ("putting numbytes %d", numbytes);
+                                  if (NULL == put_event (buf, numbytes, &curobj->midi_events, track))
                                     g_warning ("Directive has invalid MIDI bytes");
                                 }
                             break;
@@ -1758,6 +1747,14 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
       else
         break;
     }
+#if 0
+{
+  smf_event_t *event;
+  while ((event=smf_get_next_event (smf)))
+    g_print ("generated 0x%hhX 0x%hhX 0x%hhX\n", *(event->midi_buffer+0), *(event->midi_buffer+1), *(event->midi_buffer+2));   
+}
+#endif
+
 
   /********
    * Done!
