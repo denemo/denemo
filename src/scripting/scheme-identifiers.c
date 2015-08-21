@@ -271,7 +271,7 @@ create_scheme_identfiers (void)
 
   install_scm_function (5, "Takes a palette name, label, tooltip and script", DENEMO_SCHEME_PREFIX "CreatePaletteButton", scheme_create_palette_button);
   install_scm_function (4, "Takes a palette name, boolean, and limit", DENEMO_SCHEME_PREFIX "SetPaletteShape", scheme_set_palette_shape);
-  install_scm_function (0, "Hides/Un-hides a palette. Pass a palette name (or #t to choose a palette) otherwise shows all palettes that are not hidden.", DENEMO_SCHEME_PREFIX "ShowPalettes", scheme_show_palettes);
+  install_scm_function (1, "Hides/Un-hides a palette. Pass a palette name (or #t to choose a palette) with second parameter #f hides the palette otherwise show.", DENEMO_SCHEME_PREFIX "ShowPalettes", scheme_show_palettes);
   install_scm_function (0, "Returns the current palette name. The palette status is not changed - it may be hidden. Pass a palette name to become the current palette or pass #t to choose a palette as the current palette.", DENEMO_SCHEME_PREFIX "SelectPalette", scheme_select_palette);
   install_scm_function (0, "Allows the user to type a label to activate a palette button.", DENEMO_SCHEME_PREFIX "ActivatePaletteButton", scheme_activate_palette_button);
 

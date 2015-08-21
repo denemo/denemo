@@ -161,7 +161,7 @@ scheme_set_palette_shape (SCM palette, SCM horizontal, SCM limit)
  return SCM_BOOL_F;
 }
 SCM
-scheme_show_palettes (SCM option) 
+scheme_show_palettes (SCM option, SCM show) 
 {
     if(scm_is_true (option)) 
         {
@@ -177,11 +177,15 @@ scheme_show_palettes (SCM option)
                 }
                 if(pal)
                 {
-                    gtk_widget_show (gtk_widget_get_parent(pal->box));
-                    //if(gtk_widget_get_visible (pal->box))
-                    //  gtk_widget_hide (pal->box);
-                    //else
-                        gtk_widget_show_all (pal->box);
+                    if (!scm_is_false (show))
+                        {
+                         gtk_widget_show (gtk_widget_get_parent(pal->box));
+                         gtk_widget_show_all (pal->box);
+                        } else
+                        {
+                        gtk_widget_hide (pal->box);
+                        gtk_widget_hide (gtk_widget_get_parent(pal->box));
+                        }
                     return SCM_BOOL_T;
                 }
                 else
@@ -214,8 +218,15 @@ scheme_show_palettes (SCM option)
             for (g=Denemo.palettes;g;g=g->next)
                 {
                 DenemoPalette *pal = (DenemoPalette *) g->data;
-                gtk_widget_show (gtk_widget_get_parent(pal->box));
-                gtk_widget_show_all (pal->box);
+                    if (!scm_is_false (show))
+                        {
+                        gtk_widget_show (gtk_widget_get_parent(pal->box));
+                        gtk_widget_show_all (pal->box);
+                        } else
+                        {
+                          gtk_widget_hide (pal->box);  
+                          gtk_widget_hide (gtk_widget_get_parent(pal->box));     
+                        }
                 }   
             return SCM_BOOL_T;
             } else
