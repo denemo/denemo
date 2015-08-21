@@ -1,6 +1,6 @@
 ;;MouseInsertion
 (d-AddKeybinding "InsertOneNote" "PrsL-Shift")
-(d-AddKeybinding "AddNoteToChord" "PrsL-Shift-Control")
+(d-AddKeybinding "AddNoteToChord" "PrsL-Shift-Alt")
 (d-AddKeybinding "StagedDelete" "PrsL-Control")
 
 (d-CreatePaletteButton  "Select Duration" "𝅝" "Selects 𝅝 as the duration for inserting notes or rests"  "(d-Set0)")
@@ -32,7 +32,7 @@
 
 
 (if DenemoPref_newbie
-    (d-InfoDialog (_ "To insert notes hold down shift key while left-clicking the mouse. To add to a chord hold down Control key as well, to delete hold down Control key while clicking.
+    (d-InfoDialog (_ "To insert notes hold down Shift key while left-clicking the mouse. To add to a chord hold down Shift and Alt, to delete hold down Control.
     Or use keys a,b,c,d,e,f,g, 0,1,2,3,4 (with Shift, Control or Alt).
-    Or use palettes. To hide palettes right-click on them (saves space).
+    Or use palettes. To hide palettes right-click on a button and choose Edit Palette (saves space).
     To cut out excessive messages like this use Help menu ->Turn Excessive Tooltips Off/On.")))

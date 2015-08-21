@@ -165,6 +165,7 @@
       <row>
         <action>AddNoteToChord</action>
         <bind>Insert</bind>
+        <bind>PrsL-Shft-Alt</bind>
       </row>
       <row>
         <action>RemoveNoteFromChord</action>

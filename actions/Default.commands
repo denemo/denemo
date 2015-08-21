@@ -1450,6 +1450,11 @@ these may need re-making.</_tooltip>
         <_tooltip>Edit in the context of the object at the cursor.</_tooltip>
       </row>
       <row type="builtin">
+        <action>EditCursorObject</action>
+        <_label>Run Object Editor</_label>
+        <_tooltip>Opens a dialog to edit the object at the cursor.</_tooltip>
+      </row>
+      <row type="builtin">
         <action>EditDirective</action>
         <_label>Edit Directives</_label>
         <_tooltip>Edit any directives attached to chord/note at cursor.</_tooltip>
@@ -5780,8 +5785,8 @@ before and after the LilyPond syntax.
         <after>HelpForReturnKey</after>
         <menupath>/MainMenu/HelpMenu</menupath>
         <_label>Turn Excessive Tooltips (Off/On)</_label>
-        <_tooltip>Sets your status as a newbie on or off. This affects the tooltips.
-Note you can also delay tooltips, indefinitely if you wish, via the preferences dialog. See Edit-&gt;Change Preferences-&gt;Command Behaviour</_tooltip>
+        <_tooltip>Sets your status as a newbie on or off. This affects the tooltips and palettes.
+    Note you can also independently delay tooltips, indefinitely if you wish, via the preferences dialog. See Edit-&gt;Change Preferences-&gt;Command Behavior</_tooltip>
       </row>
       <row type="scheme">
         <action>NotationMagick-TwelveToneRow</action>
@@ -6752,7 +6757,7 @@ then this will replace the standard ornament throughout the score.</_tooltip>
         <after>RehearsalMark</after>
         <menupath>/ObjectMenu/Directives/Markings</menupath>
         <_label>Add Mark (Text/Rehearsal/Book)</_label>
-        <_tooltip>Inserts a Mark in the score at the cursor. Marks can be placed in each part and will appear only once in the score (provided they occur at the same moment in each part). Any size, font, effect can be chosen. A preview button allows you to check the appearance/syntax used. The text position can be dragged in the print view if needed.</_tooltip>
+        <_tooltip>Inserts a Mark in the score at the cursor. Marks can be placed in each part and will appear only once (above the top part) in the score (provided they occur at the same moment in each part). Any size, font, effect can be chosen. A preview button allows you to check the appearance/syntax used. The text position can be dragged in the print view if needed.</_tooltip>
       </row>
       <row type="scheme">
         <action>CustomBarline</action>
@@ -7275,7 +7280,6 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Object Inspector</_label>
         <_tooltip>Pops up a window which displays the object at the cursor, including anything attached to it.</_tooltip>
       </row>
-
     </map>
   </merge>
 </Denemo>
