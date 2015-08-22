@@ -63,9 +63,11 @@ set_properties (struct callbackdata *cbdata)
   DenemoStaff *staffstruct = cbdata->staffstruct;
 #if GTK_MAJOR_VERSION==3
 #define ASSIGNTEXT(field) \
-  if(cbdata->field)\
-    g_string_assign (staffstruct->field,\
-    gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->field)))
+  if(cbdata->field) {\
+    gchar *text=gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->field));\
+    if (text)\
+        g_string_assign (staffstruct->field,text);\
+    }
 #else
 #define ASSIGNTEXT(field) \
   if(cbdata->field)\
@@ -304,13 +306,17 @@ staff_properties_change (void)
   gtk_container_add (GTK_CONTAINER(hbox), field);   \
   cbdata.field = GTK_COMBO (field)->entry;
 #endif
+  /* Print appearance tab */
+  NEWPAGE (_("Typeset Appearance"));
+  TEXTENTRY (_("Part name:"), denemo_name);
+  gtk_widget_set_tooltip_text (hbox, _( "All staffs with the same part name will be typeset with the Print Part command. Use a blank part name for staffs that should be printed with every part."));
+  INTENTRY_LIMITS (_("Number of Staff Lines:"), no_of_lines, 1, 5);
+
   /* Display appearance tab */
   NEWPAGE ("Display Appearance");
-  TEXTENTRY ("Part name:", denemo_name);
   //gtk_widget_grab_focus (entrywidget);
-  INTENTRY_LIMITS ("Space above:", space_above, 0, MAXEXTRASPACE);
-  INTENTRY_LIMITS ("Space below:", space_below, 0, MAXEXTRASPACE);
-  INTENTRY_LIMITS ("Number of Lines:", no_of_lines, 1, 5);
+  INTENTRY_LIMITS (_("Space above:"), space_above, 0, MAXEXTRASPACE);
+  INTENTRY_LIMITS (_("Space below:"), space_below, 0, MAXEXTRASPACE);
 
 
   /* MIDI tab */
@@ -322,7 +328,7 @@ staff_properties_change (void)
   // BOOLEANENTRY("Override MIDI Channel/Program", midi_prognum_override);  
   INTENTRY_LIMITS_1 (_("Channel:"), midi_channel, 1, 16);
   INTENTRY_LIMITS_1 (_("Program:"), midi_prognum, 1, 128);
-  g_debug ("chan prog %d %d\n", staffstruct->midi_channel, staffstruct->midi_prognum);
+ // g_debug ("chan prog %d %d\n", staffstruct->midi_channel, staffstruct->midi_prognum);
 
   // FIXME
 //  GList *md = device_manager_DevicePort_list();
