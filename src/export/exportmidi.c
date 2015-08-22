@@ -764,7 +764,8 @@ substitute_midi_values (gchar * str, gint channel, gint volume)
 static gchar *
 directive_get_midi_buffer (DenemoDirective * directive, gint * pnumbytes, gint channel, gint volume)
 {
-    *pnumbytes = 0;
+   errno = 0;
+  *pnumbytes = 0;
   if (directive->midibytes)
     {
       gchar *bytes;
@@ -774,7 +775,13 @@ directive_get_midi_buffer (DenemoDirective * directive, gint * pnumbytes, gint c
       gint i, numbytes;
     for (i = 0, next = bytes; *next; i++)
         {
+            gchar *last = next;
           strtol (next, &next, 0);
+          if(errno || (last==next))
+            {
+                g_free(bytes);
+                return NULL;
+            }
         }
       gchar *buf = (gchar *) g_malloc0 (i);
       for (i=0, next = bytes; *next; i++)
