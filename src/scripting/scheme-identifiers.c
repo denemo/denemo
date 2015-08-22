@@ -374,7 +374,7 @@ create_scheme_identfiers (void)
   INSTALL_EDIT (staff);
   INSTALL_EDIT (voice);
   INSTALL_EDIT (score);
-  install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DirectiveTextEdit-standalone", scheme_text_edit_standalone_directive);
+  install_scm_function (0, "Start a low-level edit of the standalone directive at the cursor", DENEMO_SCHEME_PREFIX "DirectiveTextEdit-standalone", scheme_text_edit_standalone_directive);
 
   install_scm_function (1, NULL, DENEMO_SCHEME_PREFIX "DirectiveDelete-object", scheme_delete_object_directive);
 
@@ -997,7 +997,7 @@ create_scheme_identfiers (void)
   /* test with (display (d-DirectiveGet-note-minpixels "LHfinger")) after attaching a LH finger directive */
 
   /* test with (display (d-DirectiveGet-note-display "LHfinger")) after attaching a LH finger directive */
-  install_scm_function (1, NULL, DENEMO_SCHEME_PREFIX "PutTextClipboard", scheme_put_text_clipboard);
+  install_scm_function (1, "The passed string is placed on the system clipboard", DENEMO_SCHEME_PREFIX "PutTextClipboard", scheme_put_text_clipboard);
 
   install_scm_function (0, "Asks the user for a user name which is returned", DENEMO_SCHEME_PREFIX "GetUserName", scheme_get_username);
   install_scm_function (0, "Asks the user for a password which is returned", DENEMO_SCHEME_PREFIX "GetPassword", scheme_get_password);
@@ -1039,8 +1039,8 @@ create_scheme_identfiers (void)
   install_scm_function (1, "Takes and int as MIDI data and sends it directly to the MIDI out backend", DENEMO_SCHEME_PREFIX "OutputMidi", scheme_output_midi);
 
 
-  install_scm_function (1, NULL, DENEMO_SCHEME_PREFIX "OutputMidiBytes", scheme_output_midi_bytes);
-  install_scm_function (1, NULL, DENEMO_SCHEME_PREFIX "PlayMidiKey", scheme_play_midikey);
+  install_scm_function (1, "Takes a string of space-separated bytes. The $ char stands for the current channel. Sends the passed bytes to the MIDI out", DENEMO_SCHEME_PREFIX "OutputMidiBytes", scheme_output_midi_bytes);
+  install_scm_function (1, "Deprecated - takes an integer which is decomposed into a MIDI note played for 100ms", DENEMO_SCHEME_PREFIX "PlayMidiKey", scheme_play_midikey);
   install_scm_function (1, "Takes a midi note key and plays it with next rhythm effect", DENEMO_SCHEME_PREFIX "PendingMidi", scheme_pending_midi);
   install_scm_function (4, "Takes midi key number, volume 0-255, duration in ms and channel 0-15 and plays the note on midi out.", DENEMO_SCHEME_PREFIX "PlayMidiNote", scheme_play_midi_note);
 
