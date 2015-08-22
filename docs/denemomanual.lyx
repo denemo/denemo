@@ -3981,8 +3981,16 @@ GetUserInput takes three arguments (title, prompt, suggested value) and
  returns the string typed by the user in the pop-up dialog or #f if Cancelled.
 \end_layout
 
-\begin_layout Paragraph
+\begin_layout Subsection
 Commands Getting Information about Object at Cursor
+\end_layout
+
+\begin_layout Standard
+All these commands are invoked from scheme as (d-
+\noun on
+Command
+\noun default
+)
 \end_layout
 
 \begin_layout Itemize
@@ -3996,16 +4004,20 @@ GetNoteName returns a scheme string, giving the note name a-g of the current
 
 \begin_layout Itemize
 GetNote returns a scheme string, the note name, accidental and octave of
- the current note (LilyPond notation)
+ the current note (in LilyPond notation)
 \end_layout
 
 \begin_layout Itemize
-GetNotes returns a scheme string, the notes of a chord separated by NULL
- characters
+GetNotes returns a scheme string, the notes of a chord separated by spaces
+ (in LilyPond notation)
 \end_layout
 
 \begin_layout Subsection
 Predicates
+\end_layout
+
+\begin_layout Standard
+Testing what is true at the cursor position
 \end_layout
 
 \begin_layout Itemize
@@ -4254,11 +4266,1838 @@ More ...
 \end_layout
 
 \begin_layout Standard
+This is a comprehensive listing of Scheme commands that are built-in but
+ not including those in the menus.
+ Call these via (d-HideMenus 
+\series bold
+\emph on
+params
+\series default
+\emph default
+ ...) 
+\end_layout
+
+\begin_layout Itemize
+HideMenus.
+ Hides all the menus
+\end_layout
+
+\begin_layout Itemize
+HideButtons.
+ Hides Score buttons or shows them if passed #f
+\end_layout
+
+\begin_layout Itemize
+DestroyButtons.
+ Removes Score buttons
+\end_layout
+
+\begin_layout Itemize
+HideWindow.
+ Hides the Denemo.project or shows it if passed #f
+\end_layout
+
+\begin_layout Itemize
+ScriptCallback.
+ Takes the the name of a scripted command.
+ Runs the script stored for that command.
+ Scripts which invoke other scripted commands use this (implicitly?) 
+\end_layout
+
+\begin_layout Itemize
+GetOption.
+ create a dialog with the options & return the one chosen, of #f if the
+ user cancels
+\end_layout
+
+\begin_layout Itemize
+GetTextSelection.
+ Returns the text on the clipboard
+\end_layout
+
+\begin_layout Itemize
+GetPadding.
+ Returns the padding that has been set by dragging in the Print view window
+\end_layout
+
+\begin_layout Itemize
+GetRelativeFontSize.
+ Deprecated - gets an integer from the user via a dialog
+\end_layout
+
+\begin_layout Itemize
+InitializeScript.
+ Takes a command name.
+ called by a script if it requires initialization the initialization script
+ is expected to be in init.scm in the menupath of the command passed in.
+\end_layout
+
+\begin_layout Itemize
+LoadCommand.
+ pass in a path (from below menus) to a command script.
+ Loads the command from .denemo or system if it can be found.
+ It is used at startup in .denemo files like ReadingNoteNames.denemo which
+ executes (d-LoadCommand 
+\backslash
+"MainMenu/Educational/ReadingNoteNames
+\backslash
+") to ensure that the command it needs is in the command set.
+\end_layout
+
+\begin_layout Itemize
+ActivateMenuItem.
+ Takes a string, a menu path (from below menus).
+ It executes the command for that menu item.
+ Returns #f for no menu item.
+\end_layout
+
+\begin_layout Itemize
+LocateDotDenemo.
+ Returns the directory holding the user's preferences
+\end_layout
+
+\begin_layout Itemize
+GetType.
+ Returns the name of the type of object at the cursor
+\end_layout
+
+\begin_layout Itemize
+GetLilyPond.
+ Returns the lilypond typesetting text for object at the cursor or #f if
+ the object has not yet been typeset
+\end_layout
+
+\begin_layout Itemize
+GetTuplet.
+ Returns a string numerator/denominator for a tuplet open object or #f if
+ cursor not on a tuplet open
+\end_layout
+
+\begin_layout Itemize
+SetTuplet.
+ Set passed string as numerator/denominator for a tuplet open at cursor
+\end_layout
+
+\begin_layout Itemize
+SetBackground.
+ Set passed 24 bit number as RGB color of background.
+\end_layout
+
+\begin_layout Itemize
+GetClipObjType.
+ Takes a staff number m and a object number n.
+ Returns the type of object at the (m, n)th position on the Denemo Clipboard
+ or #f if none.
+\end_layout
+
+\begin_layout Itemize
+GetClipObjects.
+ Takes a staff number m, Returns the number of objects in the mth staff
+ on the Denemo Clipboard or #f if none.
+\end_layout
+
+\begin_layout Itemize
+PutClipObj.
+ Takes a staff number m and a object number n.
+ Inserts the (m, n)th Denemo Object from Denemo Clipboard into the staff
+ at the cursor position
+\end_layout
+
+\begin_layout Itemize
+ClearClipboard.
+ Clears the Denemo Music Clipboard
+\end_layout
+
+\begin_layout Itemize
+GetStaffsInClipboard.
+ Gives the number of staffs in the Denemo Music Clipboard
+\end_layout
+
+\begin_layout Itemize
+GetMeasuresInStaff.
+ Gives the number of measures in the current staff
+\end_layout
+
+\begin_layout Itemize
+GetStaffsInMovement.
+ Gives the number of staffs in the current movement
+\end_layout
+
+\begin_layout Itemize
+StaffToVoice.
+ Makes the current staff a voice belonging to the staff above
+\end_layout
+
+\begin_layout Itemize
+VoiceToStaff.
+ Makes the current voice a independent staff
+\end_layout
+
+\begin_layout Itemize
+IsVoice.
+ Returns #f if the current staff is not a voice else true
+\end_layout
+
+\begin_layout Itemize
+AdjustXes.
+ Adjusts the horizontal (x-) positioning of notes etc after paste
+\end_layout
+
+\begin_layout Itemize
+HighlightCursor.
+ Turn highlighting of cursor off/on returning #t, or given a boolean parameter
+ sets the highlighting returning the previous value
+\end_layout
+
+\begin_layout Itemize
+GetNonprinting.
+ Returns #t if there is an object at the cursor which has any printing behavior
+ it may have overridden
+\end_layout
+
+\begin_layout Itemize
+SetNonprinting.
+ Sets the Non Printing attribute of a chord (or note/rest) at the cursor.
+ For a rest this makes a non printing rest, for a note it makes it ia pure
+ rhythm (which will not print, but can be assigned pitch, e.g.
+ via a MIDI keyboard.
+ Pass in #f to unset the attribute
+\end_layout
+
+\begin_layout Itemize
+IsGrace.
+ Returns #t if there is a grace note/chord at cursor, else #f
+\end_layout
+
+\begin_layout Itemize
+IsTied.
+ Returns #t if there is a tied note/chord at cursor, else #f
+\end_layout
+
+\begin_layout Itemize
+IsSlurStart.
+ Returns #t if there is a chord with slur starting at cursor, else #f
+\end_layout
+
+\begin_layout Itemize
+IsSlurEnd.
+ Returns #t if there is a chord with slur ending at cursor, else #f
+\end_layout
+
+\begin_layout Itemize
+IsCrescStart.
+ Returns #t if there is a chord with crescendo starting at cursor, else
+ #f
+\end_layout
+
+\begin_layout Itemize
+IsCrescEnd.
+ Returns #t if there is a chord with crescendo ending at cursor, else #f
+\end_layout
+
+\begin_layout Itemize
+IsDimStart.
+ Returns #t if there is a chord with diminuendo starting at cursor, else
+ #f
+\end_layout
+
+\begin_layout Itemize
+IsDimEnd.
+ Returns #t if there is a chord with diminuendo ending at cursor, else #f
+\end_layout
+
+\begin_layout Itemize
+IsInSelection.
+ Returns #t if the cursor is in the selection area, else #f
+\end_layout
+
+\begin_layout Itemize
+HasSelection.
+ Returns #t if there is a selection, else #f
+\end_layout
+
+\begin_layout Itemize
+IsAppending.
+ Returns #t if the cursor is in the appending position, else #f
+\end_layout
+
+\begin_layout Itemize
+ShiftCursor.
+ Shifts the cursor up or down by the integer amount passed in
+\end_layout
+
+\begin_layout Itemize
+GetMovement.
+ Returns the movement number counting from 1
+\end_layout
+
+\begin_layout Itemize
+GetVoiceIdentifier.
+ Returns the LilyPond identifier for the current voice
+\end_layout
+
+\begin_layout Itemize
+GetStaff.
+ Returns the staff/voice number counting from 1
+\end_layout
+
+\begin_layout Itemize
+StaffHidden.
+ With parameter #t or #f makes the staff hidden/visible in the display,
+ returns the hidden status.
+ Typesetting is unaffected
+\end_layout
+
+\begin_layout Itemize
+GetMeasure.
+ Returns the measure number counting from 1
+\end_layout
+
+\begin_layout Itemize
+SetObjectDisplayWidth.
+ Sets the display width of the object at the cursor to the value passed
+ (in pixels)
+\end_layout
+
+\begin_layout Itemize
+GetHorizontalPosition.
+ Returns the cursor horizontal position in current measure.
+\backslash
+n 1 = first position in measure, n+1 is appending position where n is the
+ number of objects in current measure
+\end_layout
+
+\begin_layout Itemize
+GetCursorNote.
+ Returns the note name for the line or space where the cursor is
+\end_layout
+
+\begin_layout Itemize
+GetCursorNoteWithOctave.
+ Returns the note name and octave in LilyPond notation for the line or space
+ where the cursor is
+\end_layout
+
+\begin_layout Itemize
+DebugObject.
+ Prints out information about the object at the cursor
+\end_layout
+
+\begin_layout Itemize
+DisplayObject.
+ Displays information about the object at the cursor position.
+\end_layout
+
+\begin_layout Itemize
+GetEditingTime.
+ Prints out the cumulative time spent editing this score.
+\backslash
+nThe time counts any period between starting to edit and saving to disk
+\backslash
+nThe time is accumulated over different editing sessions.
+\end_layout
+
+\begin_layout Itemize
+DestroySchemeInit.
+ Remove the user's customized buttons and other scheme startup stuff created
+ by the user in actions/denemo.scm
+\end_layout
+
+\begin_layout Itemize
+GetNoteName.
+ Returns the name of the (highest) note in any chord at the cursor position,
+ or #f if none
+\end_layout
+
+\begin_layout Itemize
+InsertRest.
+ Insert a rest at the cursor in the prevailing duration, or if given a integer,
+ in that duration, setting the prevailing duration.
+ If MIDI in is active, the cursor stays on the rest after inserting it,
+ else it moves right.
+\end_layout
+
+\begin_layout Itemize
+PutWholeMeasureRests.
+ Insert rests at the cursor to the value of the one whole measure in the
+ key signature and return the number of rests inserted
+\end_layout
+
+\begin_layout Itemize
+GetNote.
+ Takes optional integer parameter n = 1..., returns LilyPond representation
+ of the nth note of the chord at the cursor counting from the lowest, or
+ #f if none
+\end_layout
+
+\begin_layout Itemize
+GetNoteFromTop.
+ Takes optional integer parameter n = 1..., returns LilyPond representation
+ of the nth note of the chord at the cursor counting from the highest, or
+ #f if none
+\end_layout
+
+\begin_layout Itemize
+GetNoteFromTopAsMidi.
+ Takes optional integer parameter n = 1..., returns MIDI key for the nth note
+ of the chord at the cursor counting from the highest, or #f if none
+\end_layout
+
+\begin_layout Itemize
+GetNotes.
+ Returns a space separated string of LilyPond notes for the chord at the
+ cursor position or #f if none
+\end_layout
+
+\begin_layout Itemize
+GetNoteAtCursor.
+ Returns LilyPond note at the cursor position or #f if none
+\end_layout
+
+\begin_layout Itemize
+GetDots.
+ Returns the number of dots on the note at the cursor, or #f if no note
+\end_layout
+
+\begin_layout Itemize
+GetNoteBaseDuration.
+ Returns the base duration of the note at the cursor number=0, 1, 2 for
+ whole half quarter note etc, or #f if none
+\end_layout
+
+\begin_layout Itemize
+GetNoteDuration.
+ Returns the duration in LilyPond syntax of the note at the cursor, or #f
+ if none
+\end_layout
+
+\begin_layout Itemize
+GetOnsetTime.
+ Returns start time for the object at the cursor, or #f if it has not been
+ calculated
+\end_layout
+
+\begin_layout Itemize
+SetDurationInTicks.
+ Takes an integer, Sets the number of ticks (PPQN) for the object at the
+ cursor, returns #f if none; if the object is a chord it is set undotted
+\end_layout
+
+\begin_layout Itemize
+GetRecordedMidiTempo.
+ Takes an index, returns the time in seconds, time signature and tempo in
+ seconds per quarter note of the index'th MIDI tempo event in the recorded
+ MIDI stream.
+\end_layout
+
+\begin_layout Itemize
+GetImportedMidiTrack.
+ Takes an track number 1,2 ..., makes that MIDI track of the loaded MIDI stream
+ the current recorded track.
+\end_layout
+
+\begin_layout Itemize
+DeleteImportedMidi.
+ Delete the current imported/recorded MIDI track fails if playing, returning
+ #f.
+\end_layout
+
+\begin_layout Itemize
+GetCurrentMidiTrack.
+ Returns the MIDI track number of the current imported track.
+\end_layout
+
+\begin_layout Itemize
+GetImportedMidiTracks.
+ Returns the number of MIDI tracks of the loaded/recorded MIDI.
+\end_layout
+
+\begin_layout Itemize
+GetRecordedMidiDuration.
+ Returns the duration in seconds of the recorded MIDI track or #f if none
+\end_layout
+
+\begin_layout Itemize
+GetDurationInTicks.
+ Returns the number of ticks (PPQN) for the object at the cursor, or #f
+ if none
+\end_layout
+
+\begin_layout Itemize
+GetBaseDurationInTicks.
+ Returns the number of ticks (PPQN) for the chord without dots or tuplet
+ effects at the cursor, or #f if not a chord.
+ The value is -ve for special durations (i.e.
+ non-standard notes)
+\end_layout
+
+\begin_layout Itemize
+GetEndTick.
+ Returns the tick count (PPQN) for the end of the object at the cursor,
+ or #f if none
+\end_layout
+
+\begin_layout Itemize
+GetStartTick.
+ Returns the tick count (PPQN) for the start of the object at the cursor,
+ or #f if none
+\end_layout
+
+\begin_layout Itemize
+GetMeasureNumber.
+ Returns the measure number at cursor position.
+\end_layout
+
+\begin_layout Itemize
+CursorToNote.
+ Takes LilyPond note name string.
+ Moves the cursor to the line or space
+\end_layout
+
+\begin_layout Itemize
+CursorToNthNoteHeight.
+ Takes a number 1 ...
+ n.
+ Moves the cursor to the nth note from the bottom of the chord at the cursor,
+ returning #f if it fails.
+\end_layout
+
+\begin_layout Itemize
+CursorToNextNoteHeight.
+ Moves the cursor up to the next higher note of the chord at the cursor,
+ returning #f if it fails.
+\end_layout
+
+\begin_layout Itemize
+GetPrevailingKeysig.
+ Returns the prevailing key signature at the cursor
+\end_layout
+
+\begin_layout Itemize
+GetPrevailingTimesig.
+ Returns the prevailing time signature at the cursor
+\end_layout
+
+\begin_layout Itemize
+GetPrevailingClef.
+ Returns the prevailing clef at the cursor.
+ Note that non-builtin clefs like drum are not handled yet.
+\end_layout
+
+\begin_layout Itemize
+GetPrevailingClefAsLilyPond.
+ Returns the LilyPond typesetting syntax for prevailing clef at the cursor.
+\end_layout
+
+\begin_layout Itemize
+GetPrevailingKeysigAsLilyPond.
+ Returns the LilyPond typesetting syntax for prevailing key signature at
+ the cursor.
+\end_layout
+
+\begin_layout Itemize
+GetPrevailingTimesigAsLilyPond.
+ Returns the LilyPond typesetting syntax for prevailing time signature at
+ the cursor.
+\end_layout
+
+\begin_layout Itemize
+GetPrevailingDuration.
+ Returns the prevailing duration, ie duration which will be used for the
+ next inserted note, with a parameter 0 ...
+ 8 sets the prevailing duration.
+\end_layout
+
+\begin_layout Itemize
+IncrementInitialKeysig.
+ Makes the initial keysig sharper/flatter
+\end_layout
+
+\begin_layout Itemize
+IncrementKeysig.
+ Makes the keysig sharper/flatter, affects keysig change when cursor is
+ on one or appending after one, otherwise affects initial keysig
+\end_layout
+
+\begin_layout Itemize
+AddMovement.
+ Appends a new movement without copying staff structure.
+\end_layout
+
+\begin_layout Itemize
+ChangeChordNotes.
+ Takes a string of LilyPond note names.
+ Replaces the notes of the chord at the cursor with these notes, preserving
+ other attributes
+\end_layout
+
+\begin_layout Itemize
+PutNoteName.
+ Takes a LilyPond note name, and changes the note at the cursor to that
+ note
+\end_layout
+
+\begin_layout Itemize
+SetAccidental.
+ Takes a LilyPond note name, changes the note at the cursor to have the
+ accidental passed in either LilyPond string or integer -2..+2.
+ Returns #f if cursor is not on a note position.
+ 
+\end_layout
+
+\begin_layout Itemize
+PutRest.
+ Inserts a rest at the cursor; either passed in duration or if none passed
+ the prevailing duration.
+\end_layout
+
+\begin_layout Itemize
+PutNote.
+ Inserts a note at the cursor; either passed in duration or if none passed
+ the prevailing duration.
+\end_layout
+
+\begin_layout Itemize
+InsertNoteInChord.
+ Takes a LilyPond note name, and adds that note to the chord
+\end_layout
+
+\begin_layout Itemize
+DiatonicShift.
+ Moves the note at the cursor by the number of diatonic steps passed in
+\end_layout
+
+\begin_layout Itemize
+NextObject.
+ Moves the cursor to the right returning #t if this was possible
+\end_layout
+
+\begin_layout Itemize
+PrevObject.
+ Moves the cursor to the left returning #t if the cursor moved
+\end_layout
+
+\begin_layout Itemize
+NextObjectInMeasure.
+ Moves the cursor to the next object in the current measure, returning #f
+ if there were no more objects to the left in the current measure
+\end_layout
+
+\begin_layout Itemize
+PrevObjectInMeasure.
+ Moves the cursor to the previous object in the current measure, returning
+ #f if the cursor was on the first object
+\end_layout
+
+\begin_layout Itemize
+NextSelectedObject.
+ Moves the cursor to the next object in the selection.
+ Returns #t if the cursor moved
+\end_layout
+
+\begin_layout Itemize
+PrevSelectedObject.
+ Moves the cursor to the previous object in the selection.
+ Returns #t if the cursor moved
+\end_layout
+
+\begin_layout Itemize
+NextChord.
+ Moves the cursor the the next object of type CHORD in the current staff.
+ Returns #f if the cursor did not move
+\end_layout
+
+\begin_layout Itemize
+PrevChord.
+ Moves the cursor the the previous object of type CHORD in the current staff.
+ Returns #f if the cursor did not move
+\end_layout
+
+\begin_layout Itemize
+NextChordInMeasure.
+ Moves the cursor the the next object of type CHORD in the current measure.
+ Returns #f if the cursor did not move
+\end_layout
+
+\begin_layout Itemize
+PrevChordInMeasure.
+ Moves the cursor the the previous object of type CHORD in the current measure.
+ Returns #f if the cursor did not move
+\end_layout
+
+\begin_layout Itemize
+NextNote.
+ Moves the cursor the next object of type CHORD which is not a rest in the
+ current staff.
+ Returns #f if the cursor did not move
+\end_layout
+
+\begin_layout Itemize
+PrevNote.
+ Moves the cursor the previous object of type CHORD which is not a rest
+ in the current staff.
+ Returns #f if the cursor did not move
+\end_layout
+
+\begin_layout Itemize
+CreateSnippetFromObject.
+ Creates a music Snippet comprising the object at the cursor Returns #f
+ if not possible, otherwise an identifier for that snippet
+\end_layout
+
+\begin_layout Itemize
+SelectSnippet.
+ Selects music Snippet from passed id Returns #f if not possible
+\end_layout
+
+\begin_layout Itemize
+InsertSnippet.
+ Inserts music Snippet from passed id Returns #f if not possible, a second
+ boolean parameter determines if the snippet becomes selected.
+ 
+\end_layout
+
+\begin_layout Itemize
+NextStandaloneDirective.
+ Moves the cursor the next object that is a Denemo Directive in the current
+ staff.
+ Returns #f if the cursor did not move
+\end_layout
+
+\begin_layout Itemize
+PrevStandaloneDirective.
+ Moves the cursor the previous object that is a Denemo Directive in the
+ current staff.
+ Returns #f if the cursor did not move
+\end_layout
+
+\begin_layout Itemize
+NextStandaloneDirectiveInMeasure.
+ Moves the cursor within the current measure to the next object that is
+ a Denemo Directive in the current staff.
+ Returns #f if the cursor did not move
+\end_layout
+
+\begin_layout Itemize
+PrevStandaloneDirectiveInMeasure.
+ Moves the cursor within the current measure to the previous object that
+ is a Denemo Directive in the current staff.
+ Returns #f if the cursor did not move
+\end_layout
+
+\begin_layout Itemize
+Chordize.
+ Enforces the treatment of the note at the cursor as a chord in LilyPond
+\end_layout
+
+\begin_layout Itemize
+SetPrefs.
+ Takes xml representation of a preference and adds it to the Denemo preferences
+\end_layout
+
+\begin_layout Itemize
+GetBooleanPref.
+ Takes string name of a boolean-valued preference and returns the current
+ value.
+ Non-existent prefs return #f, ensure that the preference name is correct
+ before using.
+\end_layout
+
+\begin_layout Itemize
+GetIntPref.
+ Takes string name of an int-valued preference and returns the current value.
+ Non-existent prefs return #f
+\end_layout
+
+\begin_layout Itemize
+GetStringPref.
+ Takes string name of a string-valued preference and returns the current
+ value.
+ Non-existent prefs return #f
+\end_layout
+
+\begin_layout Itemize
+AttachQuitCallback.
+ Takes a script as a string, which will be stored.
+ All the callbacks are called when the musical score is closed
+\end_layout
+
+\begin_layout Itemize
+DetachQuitCallback.
+ Removes a callback from the current musical score
+\end_layout
+
+\begin_layout Itemize
+GetInputSource.
+ Returns DENEMO_INPUTMIDI, DENEMO_INPUTKEYBOARD, DENEMO_INPUTAUDIO depending
+ on the source of input to Denemo.
+\end_layout
+
+\begin_layout Itemize
+PopupMenu.
+ Pops up a menu given by the list of pairs in the argument.
+ Each pair should be a label string and an expression, the expression for
+ the chosen label is returned.
+ Alternatively the label string can be replaced by a pair of strings, label
+ .
+ tooltip.
+ The third syntax is just a list of string labels, the chosen string is
+ returned.
+\end_layout
+
+\begin_layout Itemize
+GetTargetInfo.
+ Returns a list of the target type and grob (if a directive).
+ Target is set by clicking on the typeset version of the score at a link
+ that LilyPond has inserted.
+\end_layout
+
+\begin_layout Itemize
+GetNewTarget.
+ Interactively sets a target (a click on a LilyPond link in the printview
+ window) from the user 
+\end_layout
+
+\begin_layout Itemize
+GetNewPoint.
+ Interactively sets a point in the printview window from the user
+\end_layout
+
+\begin_layout Itemize
+GetReferencePoint.
+ Interactively sets a reference point (a click on a point in the printview
+ window) from the user showing a cross hairs prompt 
+\end_layout
+
+\begin_layout Itemize
+GetOffset.
+ Interactively gets an offset from the user in the print view window.
+ The offset is from the last clicked object in the print view window.
+ Returns pair of numbers x is positive to the right, y is positive upwards.
+\end_layout
+
+\begin_layout Itemize
+GetControlPoint.
+ Interactively sets a control point for a curve in the print view window.
+ Takes one parameter the number 1-4 of the control point to set.
+\end_layout
+
+\begin_layout Itemize
+GetCurve.
+ Interactively gets a curve from the user in the print view window.
+ Returns a list of pairs of numbers, the control points of the curve.
+\end_layout
+
+\begin_layout Itemize
+GetPositions.
+ Interactively gets two positions from the user in the print view window.
+ Returns pair of pairs numbers.
+\end_layout
+
+\begin_layout Itemize
+HTTP.
+ Takes 4 parameters and makes http transaction with www.denemo.org
+\end_layout
+
+\begin_layout Itemize
+GoToPosition.
+ Move to given Movement, voice measure and object position.
+ Takes 4 parameters integers starting from 1, use #f for no change.
+ Returns #f if it fails
+\end_layout
+
+\begin_layout Itemize
+CreatePaletteButton.
+ Takes a palette name, label, tooltip and script
+\end_layout
+
+\begin_layout Itemize
+SetPaletteShape.
+ Takes a palette name, boolean, and limit
+\end_layout
+
+\begin_layout Itemize
+ShowPalettes.
+ Hides/Un-hides a palette.
+ Pass a palette name (or #t to choose a palette) with second parameter #f
+ hides the palette otherwise show.
+\end_layout
+
+\begin_layout Itemize
+SelectPalette.
+ Returns the current palette name.
+ The palette status is not changed - it may be hidden.
+ Pass a palette name to become the current palette or pass #t to choose
+ a palette as the current palette.
+\end_layout
+
+\begin_layout Itemize
+ActivatePaletteButton.
+ Allows the user to type a label to activate a palette button.
+\end_layout
+
+\begin_layout Itemize
+GetUserInput.
+ Takes up to three strings, title, prompt and initial value.
+ Shows these to the user and returns the user's string.
+ Fourth parameter makes the dialog not block waiting for input
+\end_layout
+
+\begin_layout Itemize
+GetUserInputWithSnippets.
+ Takes up to three strings, title, prompt and initial value.
+ Shows these to the user with a text editor for the user to return a string.
+ Buttons are present to insert snippets which are bracketed with section
+ characters.
+ Fourth parameter makes the dialog not block waiting for input.
+ Returns a pair comprising the user's text and formatted LilyPond syntax.
+\end_layout
+
+\begin_layout Itemize
+SelectFont.
+ Allows the user to select a font returns a string describing the font.
+ Takes an optional title.
+\end_layout
+
+\begin_layout Itemize
+SelectColor.
+ Allows the user to select a color returns a list of r g b values between
+ 0-255.
+\backslash
+nTakes an optional title.
+\end_layout
+
+\begin_layout Itemize
+WarningDialog.
+ Takes a message as a string.
+ Pops up the message for the user to take note of as a warning
+\end_layout
+
+\begin_layout Itemize
+InfoDialog.
+ Takes a message as a string and boolean noblock parameter.
+ Pops up the message for the user to take note of as a informative message,
+ blocks if noblock is #f
+\end_layout
+
+\begin_layout Itemize
+ProgressBar.
+ Takes a message as a string.
+ Pops up the message inside of a pulsing progressbar
+\end_layout
+
+\begin_layout Itemize
+ProgressBarStop.
+ If running, Stops the ProgressBar.
+\end_layout
+
+\begin_layout Itemize
+TypesetForScript.
+ Typesets the score.
+ Takes a script which will be called when Refresh is performed on the typeset
+ window.
+\end_layout
+
+\begin_layout Itemize
+PrintTypesetPDF.
+ Prints from the PDF file generated by TypesetForScript.
+\end_layout
+
+\begin_layout Itemize
+GetChar.
+ Intercepts the next keypress and returns a string containing the character.
+ Returns #f if keyboard interception was not possible.
+\end_layout
+
+\begin_layout Itemize
+GetKeypress.
+ Intercepts the next keypress and returns a string containing the name of
+ the keypress (the shortcut name).
+ Returns #f if keyboard interception was not possible.
+\end_layout
+
+\begin_layout Itemize
+GetCommandKeypress.
+ Returns the last keypress that successfully invoked a command 
+\end_layout
+
+\begin_layout Itemize
+GetCommand.
+ Intercepts the next keypress and returns the name of the command invoked,
+ before invoking the command.
+ Returns #f if the keypress is not a shortcut for any command
+\end_layout
+
+\begin_layout Itemize
+GetCommandFromUser.
+ Intercepts the next keyboard shortcut and returns the name of the command
+ invoked, before invoking the command.
+ Returns #f if the keypress(es) are not a shortcut for any command
+\end_layout
+
+\begin_layout Itemize
+LockDirective.
+ Locks the standalone directive at the cursor so that it runs its delete
+ action when deleted.
+ The tag should be the name of a command that responds to the delete parameter.
+\end_layout
+
+\begin_layout Itemize
+SetDirectiveTagActionScript.
+ Sets an 
+\backslash
+"action script
+\backslash
+" on the directive of the given tag
+\end_layout
+
+\begin_layout Itemize
+PutStandaloneDirective.
+ Inserts a Denemo Directive of the given tag, even if one already exists
+ at the cursor, a pixel width can be passed as well
+\end_layout
+
+\begin_layout Itemize
+DirectiveChangeTag.
+ Changes the tag of the Denemo Directive at the cursor
+\end_layout
+
+\begin_layout Itemize
+DirectiveTextEdit-standalone.
+ Start a low-level edit of the standalone directive at the cursor
+\end_layout
+
+\begin_layout Itemize
+PutTextClipboard.
+ The passed string is placed on the system clipboard
+\end_layout
+
+\begin_layout Itemize
+GetUserName.
+ Asks the user for a user name which is returned
+\end_layout
+
+\begin_layout Itemize
+GetPassword.
+ Asks the user for a password which is returned
+\end_layout
+
+\begin_layout Itemize
+GetKeyboardState.
+ Returns an integer value, a set of bitfields representing the keyboard
+ state, e.g.
+ GDK_SHIFT_MASK etc
+\end_layout
+
+\begin_layout Itemize
+SetMidiThru.
+ Routes the MIDI in to MIDI out if it is not intercepted by d-GetMidi
+\end_layout
+
+\begin_layout Itemize
+GetRecordedMidiOnTick.
+ Returns the ticks of the next event on the recorded MIDI track -ve if it
+ is a NOTEOFF or #f if none.
+ Advances to the next note.
+\end_layout
+
+\begin_layout Itemize
+GetNoteForMidiKey.
+ Returns the LilyPond representation of the passed MIDI key number, using
+ the current enharmonic set.
+\end_layout
+
+\begin_layout Itemize
+GetRecordedMidiNote.
+ Returns the ticks of the next event on the recorded MIDI track -ve if it
+ is a NOTEOFF or #f if none
+\end_layout
+
+\begin_layout Itemize
+RewindRecordedMidi.
+ Rewinds the recorded MIDI track returns #f if no MIDI track recorded
+\end_layout
+
+\begin_layout Itemize
+GetMidi.
+ Intercepts a MIDI event and returns it as a 4 byte number
+\end_layout
+
+\begin_layout Itemize
+SetMidiCapture.
+ Takes one bool parameter - MIDI events will be captured/not captured depending
+ on the value passed in, returns previous value.
+\end_layout
+
+\begin_layout Itemize
+TogglePlayAlong.
+ Switches to playalong playback.
+ When playing or recording playback will not advance beyond the cursor position
+ unless then mouse is moved or the next note is played in via MIDI in.
+\end_layout
+
+\begin_layout Itemize
+ToggleConduct.
+ Switches to mouse conducting playback.
+ Playback will not advance beyond the cursor position unless then mouse
+ is moved in the drawing area.
+\end_layout
+
+\begin_layout Itemize
+MidiRecord.
+ Starts playback and synchronously records from MIDI in.
+ any script passed in is run at the end of the recording.
+ The recording will play back with future play until deleted.
+ The recording is not saved with the score - convert to notation first,
+\end_layout
+
+\begin_layout Itemize
+ComputeMidiNoteDurations.
+ Computes durationss for recorded/imported MIDI notes based on tempo and
+ timing of note off from previous note off or start.
+\end_layout
+
+\begin_layout Itemize
+GetMarkedMidiNote.
+ Gets the marked recorded midi note as LilyPond
+\end_layout
+
+\begin_layout Itemize
+GetMarkedMidiNoteSeconds.
+ Gets the time in seconds of marked recorded midi note or #f if none
+\end_layout
+
+\begin_layout Itemize
+AdvanceMarkedMidi.
+ Advances the marked recorded midi note can take an integer for number of
+ steps to advance, or #f to clear the mark.
+ Returns #f if no more marks.
+\end_layout
+
+\begin_layout Itemize
+InsertMarkedMidiNote.
+ Inserts the marked recorded or imported MIDI note using the duration guessed
+ from the note length.
+ Returns #f if nothing marked.
+\end_layout
+
+\begin_layout Itemize
+CreateTimebase.
+ Generates the MIDI timings for the music of the current movement.
+ Returns TRUE if the MIDI was re-computed else FALSE (call was unnecessary).
+\end_layout
+
+\begin_layout Itemize
+PutMidi.
+ Takes and int as MIDI data and simulates a midi event, avoiding capturing
+ of midi by scripts.
+ Value 0 is special and is received by scripts.
+\end_layout
+
+\begin_layout Itemize
+OutputMidi.
+ Takes and int as MIDI data and sends it directly to the MIDI out backend
+\end_layout
+
+\begin_layout Itemize
+OutputMidiBytes.
+ Takes a string of space-separated bytes.
+ The $ char stands for the current channel.
+ Sends the passed bytes to the MIDI out
+\end_layout
+
+\begin_layout Itemize
+PlayMidiKey.
+ Deprecated - takes an integer which is decomposed into a MIDI note played
+ for 100ms
+\end_layout
+
+\begin_layout Itemize
+PendingMidi.
+ Takes a midi note key and plays it with next rhythm effect
+\end_layout
+
+\begin_layout Itemize
+PlayMidiNote.
+ Takes midi key number, volume 0-255, duration in ms and channel 0-15 and
+ plays the note on midi out.
+\end_layout
+
+\begin_layout Itemize
+OneShotTimer.
+ Takes duration and executable scheme script.
+ Executes the passed scheme code after the passed duration milliseconds
+\end_layout
+
+\begin_layout Itemize
+Timer.
+ Takes a duration and scheme script, starts a timer that tries to execute
+ the script after every duration ms.
+ It returns a timer id which must be passed back to destroy the timer
+\end_layout
+
+\begin_layout Itemize
+KillTimer.
+ Takes a timer id and destroys the timer
+\end_layout
+
+\begin_layout Itemize
+HasFigures.
+ Returns #f if the current staff has no figures (or will not print out figured
+ bass.
+ See d-ShowFiguredBass)
+\end_layout
+
+\begin_layout Itemize
+BassFigure.
+ Returns a string for the bass figure for the two MIDI keys passed in
+\end_layout
+
+\begin_layout Itemize
+SpellCheckMidiChord.
+ returns #t if the passed list of MIDI keys fails the pitch spellcheck
+\end_layout
+
+\begin_layout Itemize
+GetCursorNoteAsMidi.
+ Gets the MIDI key number for the note-position where the cursor is
+\end_layout
+
+\begin_layout Itemize
+GetNoteAsMidi.
+ Returns the MIDI key number for the note at the cursor, or 0 if none
+\end_layout
+
+\begin_layout Itemize
+RefreshDisplay.
+ Re-draws the Denemo display, which can have side effects on the data
+\end_layout
+
+\begin_layout Itemize
+SetSaved.
+ Sets the status of the current musical score to saved, or unsaved if passed
+ #f
+\end_layout
+
+\begin_layout Itemize
+GetSaved.
+ Gets the saved status of the current musical score
+\end_layout
+
+\begin_layout Itemize
+MarkStatus.
+ Returns #f if mark is not set
+\end_layout
+
+\begin_layout Itemize
+GetHelp.
+ Takes a command name and returns the tooltip or #f if none
+\end_layout
+
+\begin_layout Itemize
+LoadKeybindings.
+ Takes a file name, loads keybindings from actions/menus returns #f if it
+ fails
+\end_layout
+
+\begin_layout Itemize
+SaveKeybindings.
+ Takes a file name, saves keybindings from actions/menus returns #f if it
+ fails
+\end_layout
+
+\begin_layout Itemize
+ClearKeybindings.
+ Clears all keybindings returns #t
+\end_layout
+
+\begin_layout Itemize
+LoadCommandset.
+ Takes a file name for xml format commandset, loads commands, returns #f
+ if it fails
+\end_layout
+
+\begin_layout Itemize
+Zoom.
+ Takes a double or string and scales the display; return #f for invalid
+ value else the value set.
+ With no parameter returns the current value.
+ 
+\end_layout
+
+\begin_layout Itemize
+MasterTempo.
+ Takes a double or string and scales the tempo; returns the tempo set.
+ With no parameter returns the current master tempo 
+\end_layout
+
+\begin_layout Itemize
+MovementTempo.
+ Takes an integer or string number of beats (quarter notes) per minute as
+ the tempo for the current movement; returns the tempo set 
+\end_layout
+
+\begin_layout Itemize
+MasterVolume.
+ Takes a double or string and scales the volume; returns the volume set
+ 
+\end_layout
+
+\begin_layout Itemize
+StaffMasterVolume.
+ Takes a double 0-1 and sets the staff master volume for the current staff,
+ returns the value.
+\backslash
+nWith no parameter returns the current value or zero if staff is muted.
+\backslash
+nPass #f to mute the current staff and #t to unmute, leaving master volume
+ unchanged.
+\end_layout
+
+\begin_layout Itemize
+SetEnharmonicPosition.
+ Takes a integer sets the enharmonic range to use 0 = E-flat to G-sharp
+ 
+\end_layout
+
+\begin_layout Itemize
+GetMidiTuning.
+ Return a string of tuning bytes (offsets from 64) for MIDI tuning message
+\end_layout
+
+\begin_layout Itemize
+GetFlattest.
+ Return name of flattest degree of current temperament
+\end_layout
+
+\begin_layout Itemize
+GetSharpest.
+ Return name of sharpest degree of current temperament
+\end_layout
+
+\begin_layout Itemize
+GetTemperament.
+ Return name of current temperament
+\end_layout
+
+\begin_layout Itemize
+RewindMidi.
+ Rewind the MIDI generated for the current movement.
+ Given a time in seconds it tries to rewind to there.
+\end_layout
+
+\begin_layout Itemize
+NextMidiNotes.
+ Takes an interval, returns a pair, a list of the next note-on events that
+ occur within that interval and the time of these events.
+\end_layout
+
+\begin_layout Itemize
+RestartPlay.
+ Restart midi play, cancelling any pause
+\end_layout
+
+\begin_layout Itemize
+GetMidiOnTime.
+ Return a number, the midi time in seconds for the start of the object at
+ the cursor; return #f if none 
+\end_layout
+
+\begin_layout Itemize
+GetMidiOffTime.
+ Return a number, the midi time in seconds for the end of the object at
+ the cursor; return #f if none 
+\end_layout
+
+\begin_layout Itemize
+MidiInListening.
+ Set the MIDI in controller to listening mode.
+ All signals are directed straight to the output.
+ 
+\end_layout
+
+\begin_layout Itemize
+MidiInChecking.
+ Set the MIDI in controller to checking mode.
+ The cursor will advance and the note sounded only if it is the (lowest)
+ note at the cursor.
+ 
+\end_layout
+
+\begin_layout Itemize
+MidiInAppendEdit.
+ Set the MIDI in controller to append/edit mode.
+ The MIDI key sounded will be inserted in score, or appended if in appending
+ position.
+ MIDI signals can be filtered by scheme scripts in this mode.
+ 
+\end_layout
+
+\begin_layout Itemize
+SetPlaybackInterval.
+ Set start and/or end time for playback to the passed numbers/strings in
+ seconds.
+ Use #t if a value is not to be changed.
+ Returns #f for bad parameters 
+\end_layout
+
+\begin_layout Itemize
+AdjustPlaybackStart.
+ Adjust start time for playback by passed number of seconds.
+ Returns #f for bad parameter 
+\end_layout
+
+\begin_layout Itemize
+AdjustPlaybackEnd.
+ Adjust end time for playback by passed number of seconds.
+ Returns #f for bad parameter 
+\end_layout
+
+\begin_layout Itemize
+UserScreenshot.
+ Takes a parameter #t or #f and optional position: Get a screenshot from
+ the user and append or insert it in a list (one per measure) either applying
+ across the staffs or to the current staff.
+\end_layout
+
+\begin_layout Itemize
+DeleteScreenshot.
+ Takes a parameter #t or #f: Delete a screenshot for the current measure,
+ either across staffs or for current staff.
+\end_layout
+
+\begin_layout Itemize
+PushClipboard.
+ Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard
+ to retrieve it.
+\end_layout
+
+\begin_layout Itemize
+PopClipboard.
+ Pops the Denemo clipboard (cut/copy buffer) from a stack created by d-PushClipb
+oard.
+ Returs #f if nothing on stack, else #t.
+\end_layout
+
+\begin_layout Itemize
+DeleteSelection.
+ Deletes all objects in the selection Returns #f if no selection else #t.
+\end_layout
+
+\begin_layout Itemize
+SetThumbnailSelection.
+ Sets the selection to be used for a thumbnail.
+ Returns #f if no selection or selection not in first movement else #t.
+\end_layout
+
+\begin_layout Itemize
+CreateThumbnail.
+ Creates a thumbnail for the current score.
+ With no argument it waits for the thumbnail to complete, freezing any display.
+ With #t it generates the thumbnail asynchrously.
+ It does not report on completion.
+\end_layout
+
+\begin_layout Itemize
+Exit.
+ Exits Denemo without saving history, prefs etc.
+\end_layout
+
+\begin_layout Itemize
+TakeSnapshot.
+ Snapshots the current movement putting it in the undo queue returns #f
+ if no snapshot was taken because of a guard
+\end_layout
+
+\begin_layout Itemize
+SelectDefaultLayout.
+ Creates the default layout.
+\end_layout
+
+\begin_layout Itemize
+CreateLayout.
+ Creates a custom layout from the currently selected (standard).
+ Uses the passed name for the new layout.
+ Returns #f if nothing happened.
+\end_layout
+
+\begin_layout Itemize
+DeleteLayout.
+ Deletes a custom layout of the passed name.
+ Returns #f if no layout with passed name.
+\end_layout
+
+\begin_layout Itemize
+GetLayoutId.
+ Returns the id of the currently selected score layout (see View->Score
+ Layout).
+ Returns #f if no layout is selected.
+\end_layout
+
+\begin_layout Itemize
+GetCurrentStaffLayoutId.
+ Returns the id of a score layout for typesetting the part for the current
+ staff.
+ Returns #f if not a primary voice.
+\end_layout
+
+\begin_layout Itemize
+SelectLayoutId.
+ Selects the score layout with the passed id.
+ Returns #f if there is no such layout.
+\end_layout
+
+\begin_layout Itemize
+LilyPondForPart.
+ Generates LilyPond layout for the current part (ie staffs with the name
+ of the staff with the cursor), all movements and staffs with that staff
+ name are generated.
+\end_layout
+
+\begin_layout Itemize
+TypesetPart.
+ Typesets the current part (ie the staff with the cursor), all movements
+ and staffs with that staff name are typeset.
+\end_layout
+
+\begin_layout Itemize
+ReduceLayoutToLilyPond.
+ Converts the current score layout to editable LilyPond text.
+ After this the score layout is only affected by editing the LilyPond syntax.
+\end_layout
+
+\begin_layout Itemize
+GetLayoutName.
+ Returns the name of the currently selected score layout (see View->Score
+ Layout).
+ Returns #f if no layout is selected.
+\end_layout
+
+\begin_layout Itemize
+SelectNextLayout.
+ Selects the next score layout.
+ If the current layout is the last, returns #f otherwise #t.
+\end_layout
+
+\begin_layout Itemize
+SelectFirstLayout.
+ Selects the first score layout.
+\end_layout
+
+\begin_layout Itemize
+SelectNextCustomLayout.
+ Selects the next custom score layout.
+ If the current layout is the last, returns #f otherwise #t.
+\end_layout
+
+\begin_layout Itemize
+SelectFirstCustomLayout.
+ Selects the first custom score layout.
+\end_layout
+
+\begin_layout Itemize
+GetFilename.
+ Returns the full path to the currently opened Denemo score or #f if it
+ does not have a disk file yet.
+\end_layout
+
+\begin_layout Itemize
+PathFromFilename.
+ Returns the directory component of the passed filename.
+\end_layout
+
+\begin_layout Itemize
+FileExists.
+ Returns the #t if file passed in exists.
+\end_layout
+
+\begin_layout Itemize
+FilenameFromPath.
+ Returns the filename component of the passed path.
+\end_layout
+
+\begin_layout Itemize
+ChooseFile.
+ Gives dialog to choose a file.
+ Takes a title, start directory and list of extensions.
+ Returns a string or #f if user cancesl
+\end_layout
+
+\begin_layout Itemize
+OpenSource.
+ Follows a link to a source file of form string 
+\backslash
+"filename:x:y:page
+\backslash
+".
+ It opens the file and places a marker there.
+ 
+\end_layout
+
+\begin_layout Itemize
+EditGraphics.
+ Takes an optional filename and optional new name.
+ Opens an encapsulated postscript file for editing.
+ Returns the filename (without extension) if successful.
+\backslash
+nStarts the graphics editor on the passed in filename or one from a dialog.
+\backslash
+nThe returned .eps file may not exist when this procedure returns, an editor
+ is open on it.
+ With no filename parameter allows the user to choose,
+\backslash
+ncopying to the project directory or the users graphics templates (if a
+ new name is given)
+\end_layout
+
+\begin_layout Itemize
+OpenProofReadFile.
+ Opens a PDF file previously generated by Denemo which has proof reading
+ annotations.
+ The notes in the file can be clicked on to locate the music in the Denemo
+ display
+\end_layout
+
+\begin_layout Itemize
+ExportRecordedAudio.
+ Converts the recorded audio to user chosen audio file.
+\end_layout
+
+\begin_layout Itemize
+OpenSourceFile.
+ Opens a source file for transcribing from.
+ Links to this source file can be placed by shift-clicking on its contents
+\end_layout
+
+\begin_layout Itemize
+OpenSourceAudioFile.
+ Opens a source audio file for transcribing from.
+ Returns the number of seconds of audio successfully opened or #f if failed.
+ 
+\end_layout
+
+\begin_layout Itemize
+CloseSourceAudio.
+ Closes a source audio attached to the current movement.
+\end_layout
+
+\begin_layout Itemize
+StartAudioPlay.
+ Plays audio allowing timings to be entered via keypresses if passed #t
+ as parameter.
+ 
+\end_layout
+
+\begin_layout Itemize
+StopAudioPlay.
+ Stops audio playback
+\end_layout
+
+\begin_layout Itemize
+SetAudioLeadIn.
+ Takes a number of seconds to be used as lead-in for audio.
+ If negative clips that much from the start of the audio.
+ 
+\end_layout
+
+\begin_layout Itemize
+AudioIsPlaying.
+ returns #f if audio is not playing else #t
+\end_layout
+
+\begin_layout Itemize
+NextAudioTiming.
+ Returns the next in the list of timings registered by the user during audio
+ play.
+\end_layout
+
+\begin_layout Itemize
+IncreaseGuard.
+ Stop collecting undo information.
+ Call DecreaseGuard when finished.
+ Returns #f if already guarded, #t if this call is stopping the undo collection
+\end_layout
+
+\begin_layout Itemize
+DecreaseGuard.
+ Drop one guard against collecting undo information.
+ Returns #t if there are no more guards 
+\backslash
+n(undo information will be collected) 
+\backslash
+nor #f if there are still guards in place.
+\end_layout
+
+\begin_layout Itemize
+Undo.
+ Undoes the actions performed by the script so far, starts another undo
+ stage for the subsequent actions of the script.
+ Note this command has the same name as the built-in Undo command, to override
+ it when called from a script.
+ Returns #t
+\end_layout
+
+\begin_layout Itemize
+NewWindow.
+ Creates a new tab.
+ Note this command has the same name as the built-in NewWindow command,
+ to override it when called from a script.
+ Returns #t
+\end_layout
+
+\begin_layout Itemize
+StageForUndo.
+ Undo normally undoes all the actions performed by a script.
+ This puts a stage at the point in a script where it is called, so that
+ a user-invoked undo will stop at this point, continuing when a further
+ undo is invoked.
+ Returns #t
+\end_layout
+
+\begin_layout Itemize
+GetLastChange.
+ return a string giving the latest step available for Undo
+\end_layout
+
+\begin_layout Itemize
+GetMenuPath.
+ Takes a command name and returns the menu path to that command or #f if
+ none
+\end_layout
+
+\begin_layout Itemize
+GetChecksum.
+ Takes a string and returns a string representing an MD5 checksum for the
+ passed string.
+\end_layout
+
+\begin_layout Itemize
+SetNewbie.
+ Sets the newbie status to the passed value
+\end_layout
+
+\begin_layout Itemize
+GetVerse.
+ Gets the current verse of the current staff or #f if none, with an integer
+ parameter, gets the nth verse
+\end_layout
+
+\begin_layout Itemize
+SynchronizeLyricCursor.
+ Moves the lyric cursor to match the current Denemo Cursor position, switching
+ the keyboard input to the lyrics pane
+\end_layout
+
+\begin_layout Itemize
+InsertTextInVerse.
+ Inserts passed text at the lyric cursor in the lyrics pane, returns #f
+ if no verse at cursor
+\end_layout
+
+\begin_layout Itemize
+PutVerse.
+ Puts the passed string as the current verse of the current staff
+\end_layout
+
+\begin_layout Itemize
+AppendToVerse.
+ Appends the passed string to the current verse of the current staff
+\end_layout
+
+\begin_layout Itemize
+GetId.
+ Takes a command name and returns and id for it or #f if no command of that
+ name exists
+\end_layout
+
+\begin_layout Itemize
+AddKeybinding.
+ Takes a command name or command id and binding name and sets that binding
+ on that command returns the command id that previously had the binding
+ or #f if none
+\end_layout
+
+\begin_layout Itemize
+GetLabel.
+ Takes a command name and returns the label for the menu item that executes
+ the command or #f if none
+\end_layout
+
+\begin_layout Itemize
+GetMenuPosition.
+ Takes a non-built-in command name and returns position in the menu system
+ for he command or #f if none
+\end_layout
+
+\begin_layout Itemize
+GetLilyVersion.
+ Returns the installed LilyPond version
+\end_layout
+
+\begin_layout Itemize
+CheckLilyVersion.
+ Returns a boolean if the installed version of LilyPond is greater than
+ or equal to the passed in version string
+\end_layout
+
+\begin_layout Itemize
+InputFilterNames.
+ Takes a string putting it on the scheme-controlled status bar as a list
+ of active filters
+\end_layout
+
+\begin_layout Itemize
+WriteStatus.
+ Takes a string putting the scheme controlled status bar; with no argument
+ it hides this status bar
+\end_layout
+
+\begin_layout Itemize
+Debug.
+ Display a debug message
+\end_layout
+
+\begin_layout Itemize
+Info.
+ Display an info message
+\end_layout
+
+\begin_layout Itemize
+Message.
+ Display a regular message
+\end_layout
+
+\begin_layout Itemize
+Warning.
+ Display a warning message
+\end_layout
+
+\begin_layout Itemize
+Critical.
+ Display a critical message
+\end_layout
+
+\begin_layout Itemize
+Error.
+ Display an error message and abort
+\end_layout
+
+\begin_layout Subsection
+...
+ and More
+\end_layout
+
+\begin_layout Standard
+This is a hand-made list most of which already appear in the comprehensive
+ list above, but with hand-written comments.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Note Note
 status open
 
 \begin_layout Plain Layout
-To be sorted and added to ...
+To be merged with the above ...
 \end_layout
 
 \end_inset
@@ -4267,21 +6106,9 @@ To be sorted and added to ...
 \end_layout
 
 \begin_layout Itemize
-d-InitializeScript deprecated - init.scm is now run automatically.
- (parameter: action-name) runs a script init.scm in the menupath attached
- to the action whose name is given.
- Used by commands that need a time-consuming initialization step which can
- be skipped on subsequent calls.
-\end_layout
-
-\begin_layout Itemize
 d-PutNoteName takes a string argument, a note in LilyPond notation.
  Changes the note at the cursor.
  Not for use with multi-note chords.
-\end_layout
-
-\begin_layout Itemize
-d-DiatonicShift Deprecated.
 \end_layout
 
 \begin_layout Itemize
@@ -4313,7 +6140,7 @@ d-NextStandaloneDirective as NextObject, stopping on a standalone directive.
 \end_layout
 
 \begin_layout Itemize
-(d-DirectivePut-standalone? tag) inserts a standalone directive with the
+(d-DirectivePut-standalone tag) inserts a standalone directive with the
  given tag at the current cursor position and places the cursor on it.
 \end_layout
 
