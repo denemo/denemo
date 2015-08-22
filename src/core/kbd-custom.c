@@ -1600,14 +1600,14 @@ load_keymap_dialog_location (gchar * location)
   gchar *filename = file_dialog ("Load Command Set", TRUE, location);
   if (filename)
     if(confirm (_("Key Map Loading"), _("Load Shortcuts only?")))  
-        {g_print("Starting filename %s\n", filename);
+        {//g_print("Starting filename %s\n", filename);
             if(g_str_has_suffix (filename, ".commands"))
                 {
                     *(filename+strlen(filename)-strlen(".commands")) = 0;
                     
                 filename = g_strdup_printf ("%s.shortcuts", filename);
             }
-            g_print("Doing filename %s\n", filename);
+           //g_print("Doing filename %s\n", filename);
             load_xml_keybindings (filename);
         }
     else
@@ -1820,7 +1820,7 @@ command_hidden_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRend
   gtk_tree_model_get (model, iter, COL_NAME, &name, -1);
   gint id = lookup_command_from_name (Denemo.map, name);
   keymap_get_command_row (Denemo.map, &row, id);
- // g_print("command_hidden_data_function called");
+ // ("command_hidden_data_function called");
   g_object_set (renderer, "active", row->hidden, NULL);
 }
 
@@ -1830,7 +1830,6 @@ static gboolean
 search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar * key, GtkTreeIter * iter, G_GNUC_UNUSED gpointer search_data)
 {
   gchar *lookin;
-  gchar *name;
   gboolean notfound;
   static gchar *last_key;
   static gchar **search_strings;
@@ -1858,7 +1857,11 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
    gtk_tree_model_get (model, iter, COL_TOOLTIP, &tooltip, -1);
   gchar *label;
    gtk_tree_model_get (model, iter, COL_LABEL, &label, -1);
-  lookin = g_strconcat (tooltip, label, NULL);
+  gchar *name;
+   gtk_tree_model_get (model, iter, COL_NAME, &name, -1);
+    
+   
+  lookin = g_strconcat (tooltip, " ", label," ", name, NULL); 
   gchar *this;
   this = g_utf8_casefold (lookin, -1);
   
@@ -1868,14 +1871,14 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
   gtk_tree_path_free(path);
   g_free(thepath);
   
-  gtk_tree_model_get (model, iter, COL_NAME, &name, -1);
+  //gtk_tree_model_get (model, iter, COL_NAME, &name, -1);
   //const gint idx = rownum;//lookup_command_from_name(Denemo.map, name);//= lookup_action_from_name (name);
   gchar **p;
   gint matches = 0;
   for (p = search_strings;*p && **p;p++)
     {
         if (g_strstr_len (this, -1, *p))
-            matches++;
+            matches++;//g_print ("%s in %s matches %d\n", this, *p, matches);
     }
   //notfound = (matches <= number_of_search_terms/2);
   if (number_of_search_terms > 1)
