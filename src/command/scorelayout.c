@@ -1422,9 +1422,9 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
     {
       DenemoStaff *staff = g->data;
       DenemoStaff *nextstaff = g->next ? g->next->data : NULL;
-      if (partname && strcmp (partname, staff->lily_name->str))
+      if ( (*(staff->lily_name->str)) && (partname && strcmp (partname, staff->lily_name->str))) // empty partname means include with all parts.
         continue;
-      if (partname == NULL)     //Don't attempt staff groups for single part
+      //if (partname == NULL)     //Don't attempt staff groups for single part parts can be multi-staff e.g. piano
         vbox = install_staff_group_start (pstaffs, vbox, staff->staff_directives, &staff_group_nesting);
 
       if (staff->hasfakechords)
