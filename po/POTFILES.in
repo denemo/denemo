@@ -1823,6 +1823,8 @@ actions/menus/ObjectMenu/StaffMenu/InsertStaff/CouleStaff.scm
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/CouleStaff.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/DynamicsStaff.scm
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/DynamicsStaff.xml
+actions/menus/ObjectMenu/StaffMenu/InsertStaff/MarksStaff.scm
+actions/menus/ObjectMenu/StaffMenu/InsertStaff/MarksStaff.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/LoadMidiTrack.scm

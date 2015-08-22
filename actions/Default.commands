@@ -2654,6 +2654,13 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>Adds two staff braced together for keyboard instrument.</_tooltip>
       </row>
       <row type="scheme">
+        <action>MarksStaff</action>
+        <after>PianoStaff</after>
+        <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
+        <_label>Add Staff for Marks</_label>
+        <_tooltip> This staff is purely for holding marks that should appear once at the top of the system - avoiding having to put the marks in each part. It must have a blank part name, so that it is typeset with every part. The marks should be spaced using either dummy notes or spacers.\nWARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!</_tooltip>
+      </row>
+      <row type="scheme">
         <action>RehearsalMark</action>
         <menupath>/ObjectMenu/Directives/Markings</menupath>
         <_label>Add Rehearsal/Bookmark</_label>
@@ -2668,7 +2675,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>DynamicsStaff</action>
-        <after>PianoStaff</after>
+        <after>MarksStaff</after>
         <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
         <_label>Add a Staff for Dynamics</_label>
         <_tooltip>This staff is purely for holding cresc. dim hairpins and dynamic markings so that they can be positioned (using dummy notes or spacers) and will align with each other. Create this between the staffs for a piano work or on any staff where alignment of hairpins and dynamic marks is needed.
