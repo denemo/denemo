@@ -274,20 +274,18 @@ staff_new (DenemoProject * project, enum newstaffcallbackaction action, DenemoCo
    * was done to begin with */
 
   staff->measures = themeasures;
-  staff->denemo_name = g_string_new (NULL);
-  staff->lily_name = g_string_new (NULL);
+  staff->denemo_name = g_string_new ("");
+  staff->lily_name = g_string_new ("");
 
   //staff->staff_prolog = NULL;
   // staff->lyrics_prolog = NULL;
   //staff->figures_prolog = NULL;
   //staff->fakechords_prolog = NULL;
   staff->context = context;
-  if (action == NEWVOICE)
-    g_string_sprintf (staff->denemo_name, _("poly voice %d"), numstaffs + 1);
-  else if (action == INITIAL)
-    g_string_sprintf (staff->denemo_name, _("Unnamed"));
+  if (action == INITIAL)
+    g_string_sprintf (staff->denemo_name, _("Part 1"));
   else
-    g_string_sprintf (staff->denemo_name, _("voice %d"), numstaffs + 1);
+    g_string_sprintf (staff->denemo_name, _("Part %d"), numstaffs + 1);
   set_lily_name (staff->denemo_name, staff->lily_name);
   staff->midi_instrument = g_string_new ("");
   staff->device_port = g_string_new ("NONE");
