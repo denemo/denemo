@@ -1807,6 +1807,8 @@ actions/menus/ObjectMenu/StaffMenu/DeleteFromCursorToEnd.scm
 actions/menus/ObjectMenu/StaffMenu/DeleteFromCursorToEnd.xml
 actions/menus/ObjectMenu/StaffMenu/DeleteMeasuresBeforeCursor.scm
 actions/menus/ObjectMenu/StaffMenu/DeleteMeasuresBeforeCursor.xml
+actions/menus/ObjectMenu/StaffMenu/DeleteTextAnnotationsFromCursor.scm
+actions/menus/ObjectMenu/StaffMenu/DeleteTextAnnotationsFromCursor.xml
 actions/menus/ObjectMenu/StaffMenu/DisplayEffects/HideNotSelectedStaffs.scm
 actions/menus/ObjectMenu/StaffMenu/DisplayEffects/HideNotSelectedStaffs.xml
 actions/menus/ObjectMenu/StaffMenu/DisplayEffects/HideSelectedStaffs.scm
