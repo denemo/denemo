@@ -7287,6 +7287,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Object Inspector</_label>
         <_tooltip>Pops up a window which displays the object at the cursor, including anything attached to it.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>DeleteTextAnnotationsFromCursor</action>
+        <after>DeleteFromCursorToEnd</after>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <_label>Delete Text Annotations</_label>
+        <_tooltip>Deletes standalone text annotations from the cursor to the end of the staff.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
