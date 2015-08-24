@@ -612,9 +612,10 @@ static void delete_directive (GtkWidget *button, gpointer fn)
     gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
     score_status(Denemo.project, TRUE);    
 }
+typedef enum SCORE_OR_MOVEMENT { SCORE = 1, MOVEMENT = 2} SCORE_OR_MOVEMENT;
 
 static void
-call_edit_on_action (GtkWidget *button, gboolean score_edit)
+call_edit_on_action (GtkWidget *button, SCORE_OR_MOVEMENT score_edit)
 {
    DenemoScriptParam param;
    GtkAction *action = (GtkAction*)g_object_get_data (G_OBJECT (button), "action");
@@ -624,10 +625,20 @@ call_edit_on_action (GtkWidget *button, gboolean score_edit)
     activate_script (action, &param);
     g_string_free (param.string, TRUE);  
    gtk_widget_destroy (gtk_widget_get_toplevel (button));
-   if (!score_edit && (currentobject == Denemo.project->movement->currentobject))
-    edit_object();
-   else 
-    reset_cursors (); 
+   if (score_edit)
+    {
+        if (score_edit==SCORE)
+            edit_score_properties ();
+        else
+            edit_movement_properties ();
+        
+    } else
+    {
+       if (!score_edit && (currentobject == Denemo.project->movement->currentobject))
+        edit_object();
+       else 
+        reset_cursors (); 
+    }
 }
 
 static void execute_editscript (GtkWidget *button, gchar *filename)
@@ -1233,7 +1244,7 @@ if (editwin)
    {
     gtk_widget_destroy (editwin);
     reset_cursors ();
-    edit_score_properties();
+    edit_movement_properties();
     }
 }
 static void go_next(GtkWidget *editwin)
@@ -1243,7 +1254,7 @@ if (editwin)
    {
     gtk_widget_destroy (editwin);
     reset_cursors ();
-    edit_score_properties();
+    edit_movement_properties();
     }
 }
 typedef gboolean fn2_type (DenemoDirective*);
@@ -1267,7 +1278,8 @@ static void delete_score_directive (GtkWidget *button)
     gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
     score_status(Denemo.project, TRUE);    
 }
-static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox)
+
+static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, SCORE_OR_MOVEMENT score_or_movement)
 {
     GList *g;
      for (g=*pdirectives;g;g=g->next)
@@ -1286,7 +1298,7 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox)
                     text = g_strdup ( _("Denemo Directive:"));
                 frame = gtk_frame_new (text);
                 g_free(text);
-                gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
+                //gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
                 GdkRGBA color;
                 color.red = 0.5;
                 color.green = 0.5; color.blue = 0.1; color.alpha = 1;
@@ -1312,7 +1324,7 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox)
                     gchar *thelabel = g_strconcat ( _("Edit command: "), name, NULL);
                     button = gtk_button_new_with_label (thelabel);
                     g_object_set_data (G_OBJECT(button), "action", (gpointer)action);
-                    g_signal_connect (button, "clicked", G_CALLBACK (call_edit_on_action), GINT_TO_POINTER(TRUE));
+                    g_signal_connect (button, "clicked", G_CALLBACK (call_edit_on_action), GINT_TO_POINTER(score_or_movement));
                     gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);                       
                     g_free(thelabel);  
                     }
@@ -1368,14 +1380,15 @@ edit_score_and_movement_properties (gboolean show_score)
 {
     GtkWidget *editscorewin = gtk_window_new (GTK_WINDOW_TOPLEVEL); 
     GdkRGBA color;
+    gint window_height = 800;
     color.red = color.green = color.blue = color.alpha = 1.0;
     gtk_widget_override_background_color (editscorewin, GTK_STATE_FLAG_NORMAL, &color);
     gtk_window_set_modal (GTK_WINDOW (editscorewin), TRUE);
     gtk_window_set_title (GTK_WINDOW (editscorewin), _("Score and Movemnt Properties Editor"));
     gtk_window_set_keep_above (GTK_WINDOW (editscorewin), TRUE);
-    gtk_window_set_default_size (GTK_WINDOW (editscorewin), 400, 600);
-
-
+    gtk_window_set_default_size (GTK_WINDOW (editscorewin), 400, window_height);
+    
+    
     GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
     gtk_container_add (GTK_CONTAINER (editscorewin), vbox);   
     GtkWidget *close_button = gtk_button_new_with_label (_("Close"));
@@ -1385,7 +1398,9 @@ edit_score_and_movement_properties (gboolean show_score)
     gtk_box_pack_start (GTK_BOX (vbox), close_button, FALSE, TRUE, 0);
 
     GtkWidget *button;
-
+    GtkWidget *pane;
+    pane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
+    gtk_box_pack_start (GTK_BOX (vbox), pane, TRUE, TRUE, 0);
     GtkWidget *expander = gtk_expander_new (_("Score Properties"));
     gtk_expander_set_expanded (GTK_EXPANDER(expander), show_score);
     gtk_widget_set_sensitive (expander, TRUE);
@@ -1393,7 +1408,16 @@ edit_score_and_movement_properties (gboolean show_score)
     color.green = 0.8;
     color.blue = color.red = 0.1; color.alpha = 1;
     gtk_widget_override_color (expander, GTK_STATE_FLAG_NORMAL, &color);
-    gtk_box_pack_start (GTK_BOX (vbox), expander, TRUE, TRUE, 0);
+   // gtk_box_pack_start (GTK_BOX (vbox), expander, TRUE, TRUE, 0);
+   
+   GtkWidget *frame = gtk_frame_new (NULL);
+   //gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
+
+   
+   
+    gtk_paned_add1 (GTK_PANED(pane), frame);
+    
+    gtk_container_add (GTK_CONTAINER (frame), expander);
     
     GtkWidget *scrolled_window = gtk_scrolled_window_new (NULL, NULL);
     gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
@@ -1405,9 +1429,9 @@ edit_score_and_movement_properties (gboolean show_score)
     g_signal_connect (button, "clicked", G_CALLBACK (score_properties_dialog), NULL);
     gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);
    
-    place_buttons_for_directives ((GList**)&Denemo.project->lilycontrol.directives, inner_box);
-    place_buttons_for_directives ((GList**)&Denemo.project->scoreheader, inner_box);
-    place_buttons_for_directives ((GList**)&Denemo.project->paper, inner_box);
+    place_buttons_for_directives ((GList**)&Denemo.project->lilycontrol.directives, inner_box, SCORE);
+    place_buttons_for_directives ((GList**)&Denemo.project->scoreheader, inner_box, SCORE);
+    place_buttons_for_directives ((GList**)&Denemo.project->paper, inner_box, SCORE);
     
 
     
@@ -1420,7 +1444,17 @@ edit_score_and_movement_properties (gboolean show_score)
     color.blue = 0.8;
     color.green = color.red = 0.1; color.alpha = 1;
     gtk_widget_override_color (expander, GTK_STATE_FLAG_NORMAL, &color);
-    gtk_box_pack_start (GTK_BOX (vbox), expander, TRUE, TRUE, 0);
+    //gtk_box_pack_start (GTK_BOX (vbox), expander, TRUE, TRUE, 0);
+    
+    
+    
+    
+    
+    frame = gtk_frame_new (NULL);
+    //gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
+
+    gtk_paned_add2 (GTK_PANED(pane), frame);
+    gtk_container_add (GTK_CONTAINER (frame), expander);
      
     scrolled_window = gtk_scrolled_window_new (NULL, NULL);
     gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
@@ -1444,9 +1478,13 @@ edit_score_and_movement_properties (gboolean show_score)
         gtk_widget_set_sensitive (button, FALSE);
  
  
-    place_buttons_for_directives ((GList**)&Denemo.project->movement->movementcontrol, inner_box);
-    place_buttons_for_directives ((GList**)&Denemo.project->movement->header, inner_box);
-    place_buttons_for_directives ((GList**)&Denemo.project->movement->layout, inner_box);
+    place_buttons_for_directives ((GList**)&Denemo.project->movement->movementcontrol, inner_box, MOVEMENT);
+    place_buttons_for_directives ((GList**)&Denemo.project->movement->header, inner_box, MOVEMENT);
+    place_buttons_for_directives ((GList**)&Denemo.project->movement->layout, inner_box, MOVEMENT);
+ 
+   gtk_paned_set_position (GTK_PANED(pane), show_score? window_height-50 : 50);
+ 
+ 
  
   if(g_list_length ( gtk_container_get_children (GTK_CONTAINER(vbox))) == 1)
     {//just the close button
