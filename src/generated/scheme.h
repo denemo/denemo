@@ -851,6 +851,12 @@ install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditObject", scheme_EditObj
 /*EditCursorObject edit_object*/
 SCM scheme_EditCursorObject(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditCursorObject", scheme_EditCursorObject);
+/*EditScoreProperties edit_score_properties*/
+SCM scheme_EditScoreProperties(SCM optional);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditScoreProperties", scheme_EditScoreProperties);
+/*EditScoreAndMovement edit_score_properties*/
+SCM scheme_EditMovementProperties(SCM optional);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditMovementProperties", scheme_EditMovementProperties);
 
 
 

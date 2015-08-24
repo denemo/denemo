@@ -308,6 +308,8 @@
 
 {"EditObject", NULL, N_("Edit at Cursor"), "",N_("Edit in the context of the object at the cursor."),G_CALLBACK (edit_object_type)},
 {"EditCursorObject", NULL, N_("Run Object Editor"), "",N_("Opens a dialog to edit the object at the cursor."),G_CALLBACK (edit_object)},
+{"EditScoreProperties", NULL, N_("Score Properties Editor"), "",N_("Opens a dialog to score properties."),G_CALLBACK (edit_score_properties)},
+{"EditMovementProperties", NULL, N_("Movement Properties Editor"), "",N_("Opens a dialog to edit the current movement properties."),G_CALLBACK (edit_movement_properties)},
 
 {"EditDirective", NULL, N_("Edit Directives"), "",N_("Edit any directives attached to chord/note at cursor."),G_CALLBACK (edit_object_directive)},
 {"EditStaffDirective", NULL, N_("Edit Staff Directives"), "",N_("Edit any directives attached to staff."),G_CALLBACK (edit_staff_directive)},

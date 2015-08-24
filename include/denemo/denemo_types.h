@@ -745,7 +745,7 @@ typedef struct DenemoScoreblock {
   gboolean text_only;/**< TRUE if only the lilypond text exists for this widget - no widget structure to be refreshed */
 } DenemoScoreblock;
 
-
+//these typdefs are needed to make the macros that install all the directive functions work
 typedef struct header
 {
   GList *directives;

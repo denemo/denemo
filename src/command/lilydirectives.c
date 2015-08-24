@@ -2592,11 +2592,15 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
       loadGraphicItem (directive->graphic_name->str, (DenemoGraphic **) & directive->graphic);
     }
   gtk_widget_destroy (dialog);
-  if (response == CREATE_SCRIPT)
+  if (what && (response == CREATE_SCRIPT))
     create_script (directive, what);    //g_debug("(d-DirectivePut-%s \"%s\")\n", what, directive->tag->str);
   return ret;
 }
-
+gboolean low_level_directive_edit (DenemoDirective *directive)
+{
+  return text_edit_directive (directive, NULL);  
+    
+}
 #define TEXT_EDIT_IF(what)\
   if(fn == (void(*)())what##_directive_put_graphic)\
     return text_edit_directive(directive, #what);
@@ -2623,6 +2627,9 @@ text_edit_directive_by_fn (DenemoDirective * directive, gpointer fn)
 }
 
 #undef TEXT_EDIT_IF
+
+
+
 /* allow edit of a directive, either via script or textually if no script exists 
    return FALSE if user confirms a request to delete the directive
 */

@@ -197,11 +197,13 @@
 
   <menubar name="ObjectMenu">
     <menu action="Score">
+      <menuitem action="EditScoreProperties"/>
       <menuitem action="ScoreProperties"/>
       <menuitem action="EditScoreDirective"/>
     </menu>
 
     <menu action="MovementMenu">
+      <menuitem action="EditMovementProperties"/>
       <menuitem action="EditMovementDirective"/>
       <menu action="InsertMovement">
         <menuitem action="NewMovement"/>

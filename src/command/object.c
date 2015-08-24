@@ -614,7 +614,7 @@ static void delete_directive (GtkWidget *button, gpointer fn)
 }
 
 static void
-call_edit_on_action (GtkWidget *button)
+call_edit_on_action (GtkWidget *button, gboolean score_edit)
 {
    DenemoScriptParam param;
    GtkAction *action = (GtkAction*)g_object_get_data (G_OBJECT (button), "action");
@@ -624,7 +624,7 @@ call_edit_on_action (GtkWidget *button)
     activate_script (action, &param);
     g_string_free (param.string, TRUE);  
    gtk_widget_destroy (gtk_widget_get_toplevel (button));
-   if (currentobject == Denemo.project->movement->currentobject)
+   if (!score_edit && (currentobject == Denemo.project->movement->currentobject))
     edit_object();
    else 
     reset_cursors (); 
@@ -749,7 +749,7 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
             GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
             gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, TRUE, 0);
             GdkRGBA color;
-            gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
+            //gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
             GtkWidget *button = gtk_button_new_with_label (_("Delete"));
             GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
             
@@ -852,7 +852,6 @@ static void run_script (GtkWidget *button, gchar *script)
     gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
     reset_cursors ();
 }
-
 
 // edit the specific object at the cursor
 void
@@ -1216,6 +1215,275 @@ edit_object (void)
 
     }
 }
+
+
+
+
+
+
+static void score_update_and_close (GtkWidget *editwin)
+{
+    gtk_widget_destroy (editwin);
+    reset_cursors ();
+}
+static void go_previous(GtkWidget *editwin)
+{
+prev_movement (NULL, NULL);//FIXME pass in a DenemoParam * to get status
+if (editwin)
+   {
+    gtk_widget_destroy (editwin);
+    reset_cursors ();
+    edit_score_properties();
+    }
+}
+static void go_next(GtkWidget *editwin)
+{
+next_movement (NULL, NULL);//FIXME pass in a DenemoParam * to get status
+if (editwin)
+   {
+    gtk_widget_destroy (editwin);
+    reset_cursors ();
+    edit_score_properties();
+    }
+}
+typedef gboolean fn2_type (DenemoDirective*);
+static void low_level_edit_type_directive (GtkWidget *button, gpointer fn)
+{
+    DenemoDirective *directive = (DenemoDirective*) g_object_get_data (G_OBJECT(button), "directive");
+    GList **directives = (GList **)g_object_get_data (G_OBJECT(button), "directives");
+    if (!( ((fn2_type *)fn) (directive)))
+        {
+            if(directives) 
+                *directives = g_list_remove (*directives, directive);
+            gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
+            score_status(Denemo.project, TRUE);
+        }
+}
+static void delete_score_directive (GtkWidget *button)
+{
+    DenemoDirective *directive = (DenemoDirective*) g_object_get_data (G_OBJECT(button), "directive");
+    GList **directives = (GList **)g_object_get_data (G_OBJECT(button), "directives");
+    *directives = g_list_remove (*directives, directive);
+    gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
+    score_status(Denemo.project, TRUE);    
+}
+static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox)
+{
+    GList *g;
+     for (g=*pdirectives;g;g=g->next)
+      {
+         DenemoDirective *directive = g->data;       
+                const gchar *label = get_label_for_command (directive->tag->str);
+                GtkAction *action = lookup_action_from_name (directive->tag->str);
+                gchar *name = label?(gchar*)label:directive->tag->str;
+                const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
+                gchar *filename = get_editscript_filename (directive->tag->str);
+                 GtkWidget *frame;
+                 gchar *text;
+                if (label == NULL)
+                    text = g_strdup_printf("%s%s", _("Denemo Directive tagged:"), name);
+                else
+                    text = g_strdup ( _("Denemo Directive:"));
+                frame = gtk_frame_new (text);
+                g_free(text);
+                gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
+                GdkRGBA color;
+                color.red = 0.5;
+                color.green = 0.5; color.blue = 0.1; color.alpha = 1;
+                gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+                gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
+                GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
+                color.green = 0.8;
+                color.red = 0.8; color.blue = 0.1; color.alpha = 1;
+                gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
+                gtk_container_add (GTK_CONTAINER (frame), inner_box);
+                GtkWidget *button;    
+                 if (filename)
+                    {
+                    gchar *thelabel = g_strconcat ( _("Edit "), name, NULL);
+                    button = gtk_button_new_with_label (thelabel);
+                    g_signal_connect (button, "clicked", G_CALLBACK (execute_editscript), filename);
+                    g_signal_connect_swapped (button, "destroy", G_CALLBACK (g_free), filename);
+                    gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);   
+                    g_free(thelabel);
+                    }  
+                else if (action) 
+                    {
+                    gchar *thelabel = g_strconcat ( _("Edit command: "), name, NULL);
+                    button = gtk_button_new_with_label (thelabel);
+                    g_object_set_data (G_OBJECT(button), "action", (gpointer)action);
+                    g_signal_connect (button, "clicked", G_CALLBACK (call_edit_on_action), GINT_TO_POINTER(TRUE));
+                    gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);                       
+                    g_free(thelabel);  
+                    }
+                    if (tooltip)
+                        gtk_widget_set_tooltip_text (button, tooltip);
+    #if 0                    
+            {
+           gchar *text =  g_strconcat(directive->prefix?directive->prefix->str:"",
+                        directive->postfix?directive->postfix->str:"", NULL);
+           g_strchug (text); //does not allocate memory
+           if (*text)   
+            {
+            gchar *lily1 = directive->prefix?g_markup_escape_text(directive->prefix->str, -1):g_strdup("");
+            gchar *lily2 = directive->postfix?g_markup_escape_text(directive->postfix->str, -1):g_strdup("");
+            
+            g_string_append_printf (selection, _("The LilyPond text inserted is <tt>%s%s</tt>\n"),  
+                      lily1,lily2);//puts the whitespace back
+            g_free (lily1);
+            g_free (lily2);
+            }
+        else
+            g_string_append_printf (selection, _("This object does not affect the printed output (no LilyPond syntax is generated for the typesetter)\n"));//well this ignores possible effect of whitespace...
+         g_free (text);
+
+        }
+    #endif
+        
+            GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+            gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, TRUE, 0);
+            
+            button = gtk_button_new_with_label (_("Delete"));
+            GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
+            
+            color.red = 1.0; color.green = color.blue = 0.0; color.alpha = 1.0;
+            gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+            g_object_set_data (G_OBJECT(button), "directives", (gpointer)pdirectives);
+            g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
+            g_signal_connect (button, "clicked", G_CALLBACK (delete_score_directive), NULL);
+            gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 30);
+    
+            button = gtk_button_new_with_label (_("Advanced (low-level) edit"));
+            g_object_set_data (G_OBJECT(button), "directives", pdirectives);
+            g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
+            g_signal_connect (button, "clicked", G_CALLBACK (low_level_edit_type_directive), low_level_directive_edit);
+            gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+        
+    }
+}
+
+
+static void
+edit_score_and_movement_properties (gboolean show_score)
+{
+    GtkWidget *editscorewin = gtk_window_new (GTK_WINDOW_TOPLEVEL); 
+    GdkRGBA color;
+    color.red = color.green = color.blue = color.alpha = 1.0;
+    gtk_widget_override_background_color (editscorewin, GTK_STATE_FLAG_NORMAL, &color);
+    gtk_window_set_modal (GTK_WINDOW (editscorewin), TRUE);
+    gtk_window_set_title (GTK_WINDOW (editscorewin), _("Score and Movemnt Properties Editor"));
+    gtk_window_set_keep_above (GTK_WINDOW (editscorewin), TRUE);
+    gtk_window_set_default_size (GTK_WINDOW (editscorewin), 400, 600);
+
+
+    GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
+    gtk_container_add (GTK_CONTAINER (editscorewin), vbox);   
+    GtkWidget *close_button = gtk_button_new_with_label (_("Close"));
+    g_signal_connect_swapped (close_button, "clicked", G_CALLBACK (score_update_and_close), editscorewin);
+    
+    g_signal_connect (G_OBJECT (editscorewin), "destroy", G_CALLBACK (reset_cursors), NULL);
+    gtk_box_pack_start (GTK_BOX (vbox), close_button, FALSE, TRUE, 0);
+
+    GtkWidget *button;
+
+    GtkWidget *expander = gtk_expander_new (_("Score Properties"));
+    gtk_expander_set_expanded (GTK_EXPANDER(expander), show_score);
+    gtk_widget_set_sensitive (expander, TRUE);
+    gtk_container_set_border_width (GTK_CONTAINER (expander),10);
+    color.green = 0.8;
+    color.blue = color.red = 0.1; color.alpha = 1;
+    gtk_widget_override_color (expander, GTK_STATE_FLAG_NORMAL, &color);
+    gtk_box_pack_start (GTK_BOX (vbox), expander, TRUE, TRUE, 0);
+    
+    GtkWidget *scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+    gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
+    
+    GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
+    gtk_scrolled_window_add_with_viewport  (GTK_SCROLLED_WINDOW(scrolled_window),  inner_box);
+
+    button = gtk_button_new_with_label (_("Edit Built-in Score Properties"));
+    g_signal_connect (button, "clicked", G_CALLBACK (score_properties_dialog), NULL);
+    gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);
+   
+    place_buttons_for_directives ((GList**)&Denemo.project->lilycontrol.directives, inner_box);
+    place_buttons_for_directives ((GList**)&Denemo.project->scoreheader, inner_box);
+    place_buttons_for_directives ((GList**)&Denemo.project->paper, inner_box);
+    
+
+    
+    gchar *mnum = g_strdup_printf ("%s %d %s", _("Movement"), Denemo.project->movement->currentmovementnum, _("Properties"));
+    expander = gtk_expander_new (mnum);
+    g_free(mnum);
+    gtk_expander_set_expanded (GTK_EXPANDER(expander), !show_score);
+    gtk_widget_set_sensitive (expander, TRUE);
+    gtk_container_set_border_width (GTK_CONTAINER (expander),10);
+    color.blue = 0.8;
+    color.green = color.red = 0.1; color.alpha = 1;
+    gtk_widget_override_color (expander, GTK_STATE_FLAG_NORMAL, &color);
+    gtk_box_pack_start (GTK_BOX (vbox), expander, TRUE, TRUE, 0);
+     
+    scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+    gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
+    inner_box = gtk_vbox_new (FALSE, 0);
+    gtk_scrolled_window_add_with_viewport  (GTK_SCROLLED_WINDOW(scrolled_window),  inner_box);
+     
+    GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, TRUE, 0);
+
+    button = gtk_button_new_with_label (_("⬅ Previous Movement"));
+    g_signal_connect_swapped (button, "clicked", G_CALLBACK (go_previous), editscorewin);
+    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+    
+    if ( Denemo.project->movement->currentmovementnum == 1)
+        gtk_widget_set_sensitive (button, FALSE);
+    
+    button = gtk_button_new_with_label (_("Next Movement ➡"));
+    g_signal_connect_swapped (button, "clicked", G_CALLBACK (go_next), editscorewin);
+    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+    if (g_list_length(Denemo.project->movements) == Denemo.project->movement->currentmovementnum)
+        gtk_widget_set_sensitive (button, FALSE);
+ 
+ 
+    place_buttons_for_directives ((GList**)&Denemo.project->movement->movementcontrol, inner_box);
+    place_buttons_for_directives ((GList**)&Denemo.project->movement->header, inner_box);
+    place_buttons_for_directives ((GList**)&Denemo.project->movement->layout, inner_box);
+ 
+  if(g_list_length ( gtk_container_get_children (GTK_CONTAINER(vbox))) == 1)
+    {//just the close button
+        warningdialog ("No properties have been set on the current score.");
+        gtk_widget_destroy (editscorewin);
+    }
+    else
+    {
+      gtk_widget_show_all (editscorewin);
+      gtk_window_present (GTK_WINDOW (editscorewin));
+      gdk_window_set_cursor (gtk_widget_get_window (editscorewin), gdk_cursor_new (GDK_RIGHT_PTR)); 
+      gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_X_CURSOR));
+      if(ObjectInfo)
+        gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), gdk_cursor_new (GDK_X_CURSOR));
+     if(Denemo.printarea)
+        gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), gdk_cursor_new (GDK_X_CURSOR));
+
+    }
+ 
+}
+
+
+void edit_score_properties (void)
+{
+    edit_score_and_movement_properties (TRUE);
+}
+
+void edit_movement_properties (void)
+{
+    edit_score_and_movement_properties (FALSE);
+}
+
+
+
+
+
+
 
 void
 set_modeaccs (gint * accs, gint number, gint mode)

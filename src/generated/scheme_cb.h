@@ -852,9 +852,17 @@ SCM scheme_EditCursorObject (SCM optional) {
   return scheme_call_callback(optional, edit_object);
 }
 
+SCM scheme_EditScoreProperties (SCM optional) {
+  return scheme_call_callback(optional, edit_score_properties);
+}
+
+SCM scheme_EditMovementProperties (SCM optional) {
+  return scheme_call_callback(optional, edit_movement_properties);
+}
 SCM scheme_EditDirective (SCM optional) {
   return scheme_call_callback(optional, edit_object_directive);
 }
+
 SCM scheme_EditStaffDirective (SCM optional) {
   return scheme_call_callback(optional, edit_staff_directive);
 }

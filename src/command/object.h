@@ -18,7 +18,10 @@ void display_current_object(void);
 void update_object_info (void);
 
 void edit_object (void);
-
+void
+edit_score_properties (void);
+void
+edit_movement_properties (void);
 void initkeyaccs (gint * accs, gint number);
 
 //void dnm_setinitialkeysig (DenemoStaff * curstaff, gint tokey, gint type);
