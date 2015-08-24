@@ -1,2 +1,2 @@
-  (d-DirectivePut-score-postfix "DeactivateTimeSigStencil"  "\\override Score.TimeSignature #'stencil = ##f
+(d-DirectivePut-score-postfix "DeactivateTimeSignatureStencil"  "\\override Score.TimeSignature #'stencil = ##f
   ")
