@@ -339,7 +339,7 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>StaffProperties</action>
+        <action>EditStaffProperties</action>
         <bind>Alt+Return</bind>
       </row>
       <row>
