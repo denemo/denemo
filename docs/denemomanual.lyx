@@ -3148,6 +3148,12 @@ name of command
 \end_layout
 
 \begin_layout Standard
+If the staff has properties attached to the key signature or time signature
+ then these are included after those attached to the staff itself.
+ As before the command that generated them can be run in edit mode.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Box Shadowbox
 position "t"
 hor_pos "c"
