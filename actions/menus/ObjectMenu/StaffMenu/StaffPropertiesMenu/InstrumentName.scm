@@ -1,5 +1,7 @@
 ;;;InstrumentName
 (let ((tag  "InstrumentName") (current "") (thematch "") (indent "0.0") (size 16.0) (nextmovement #f) (staff (number->string (d-GetStaff))))
+(if (equal? InstrumentName::params "edit")
+    (set! InstrumentName::params #f))
   (if InstrumentName::params
     (set! current InstrumentName::params)
     (begin
