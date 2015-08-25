@@ -174,9 +174,12 @@ set_visibility_for_action (GtkAction * action, gboolean visible)
       const gchar* name = gtk_action_get_name(action);
       gint id = lookup_command_from_name (Denemo.map, name);
       if(id < 0)
-        g_error("Invalid command name:'%s' id:'%i'", name, id);
-      keymap_get_command_row (Denemo.map, &row, id);
-      row->hidden = !visible;
+        g_warning("Invalid command name:'%s' id:'%i'", name, id);
+      else 
+      {
+        keymap_get_command_row (Denemo.map, &row, id);
+        row->hidden = !visible;
+        }
     }
 
 }
