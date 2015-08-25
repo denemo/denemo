@@ -265,7 +265,7 @@
                     
     (if (not title)
             (set! title (d-GetUserInput (string-append type " " fieldname)
-                    (string-append "Give a name for the " fieldname " of the " type) current #f)))
+                    (string-append "Give a name for the " fieldname " of the " type) current #t)))
   (if (and title fontsize)
     (begin
        (set! bold (RadioBoxMenu (cons (_ "Bold") " ") (cons (_ "Normal") " \\normal-text ")))
@@ -273,7 +273,7 @@
        (set! italic (RadioBoxMenu  (cons (_ "Upright") "") (cons (_ "Italic") " \\italic ")))
        (if (not italic) (set! italic ""))
        (set! extra-space (d-GetUserInput (string-append "Score " field) 
-                        (_ "Extra space above (0):") extra-space #f))
+                        (_ "Extra space above (0):") extra-space #t))
        (if not extra-space (set! extra-space "0"))
 
        (set! fontsize (d-GetUserInput (_ "Font Magnification") (_ "Give font magnification required (+/-) 0 ") fontsize))
@@ -324,7 +324,7 @@
       (set! current ""))
   (if (not title)
       (set! title  (d-GetUserInput (string-append "Score " field) 
-                  (_ "Give a name applying to the whole score") current #f)))
+                  (_ "Give a name applying to the whole score") current #t)))
  
     ;;;if we have a pre-existing title ask about details, if the user hasn't cancelled the title
   (if (and title fontsize)
@@ -334,7 +334,7 @@
        (set! italic (RadioBoxMenu(cons (_ "Upright") "") (cons (_ "Italic") " \\italic ")))
        (if (not italic) (set! italic ""))
        (set! extra-space (d-GetUserInput (string-append "Score " field) 
-                        (_ "Extra space above (0):") extra-space #f))
+                        (_ "Extra space above (0):") extra-space #t))
        (if not extra-space (set! extra-space "0"))
        (set! fontsize (d-GetUserInput (_ "Font Magnification") (_ "Give font magnification required (+/-) 0 ") fontsize))
        (if (not fontsize)
