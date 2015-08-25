@@ -112,7 +112,7 @@ Copyright © 2009, 2010, 2011, 2012, 2013, 2014, 2015 Denemo Project
 
 \begin_layout Standard
 \align center
-Updates for version 1.3
+Updates for version 2.0
 \end_layout
 
 \begin_layout Standard
@@ -2980,6 +2980,24 @@ that is you cannot interact with Denemo outside of the editor until you
  To warn you of this the pointer turns to an X if you try to interact with
  the Denemo Input Display when the Object Editor is still open.
  Buttons are provided to move on to editing the next (or previous) object.
+ For each Denemo Directive (either standalone or attached to the chord or
+ note) there is a button 
+\begin_inset Quotes eld
+\end_inset
+
+Edit command: <
+\emph on
+name of command
+\emph default
+>
+\begin_inset Quotes erd
+\end_inset
+
+ - the tooltip of this button gives the help text of the command that created
+ it.
+ This button will run the command in edit mode.
+ There are also buttons to do a low-level edit (Advanced) or to delete the
+ directive.
 \end_layout
 
 \begin_layout Standard
@@ -3021,7 +3039,7 @@ The built-in staff properties can be edited using the button at the top.
 
 Edit command: <
 \emph on
-name or command
+name of command
 \emph default
 >
 \begin_inset Quotes erd
@@ -3117,7 +3135,7 @@ The built-in staff properties can be edited using the button at the top.
 
 Edit command: <
 \emph on
-name or command
+name of command
 \emph default
 >
 \begin_inset Quotes erd
@@ -4591,18 +4609,23 @@ More ...
 \begin_layout Standard
 This is a comprehensive listing of Scheme commands that are built-in but
  not including those in the menus.
- Call these via (d-HideMenus 
+ Call these via (d-
+\emph on
+<command>
+\emph default
+ 
 \series bold
 \emph on
 params
 \series default
 \emph default
- ...) 
+ ...), e.g.
+ (d-GetNote 2) gets the second note from the bottom in a chord.
 \end_layout
 
 \begin_layout Itemize
 HideMenus.
- Hides all the menus
+ Hides all the menus or shows them if passed #f
 \end_layout
 
 \begin_layout Itemize
@@ -6625,27 +6648,6 @@ d-Open filename
 d-ScoreProperties (fontsize= size of font to be used for score)
 \end_layout
 
-\begin_layout Subsubsection
-Denemo Directives
-\end_layout
-
-\begin_layout Standard
-Denemo directives are things like special barlines, rehearsal marks that
- appear amongst the notes, as well things like trills that are attached
- to notes and modifications to other things in the score to give them a
- different appearance or behavior.
- If they are objects in their own right ("Standalone Directives"), like
- the first time bar marker then they appear betwen notes and the cursor
- can be placed on them.
- If they are attached to other things (such as a page break attached to
- a movement) then they are modified with the command used to create them.
-\end_layout
-
-\begin_layout Standard
-Double clicking on Standalone Directives, gives information about the directive,
- while right-clicking will edit it.
-\end_layout
-
 \begin_layout Subsection
 LilyPond Editing
 \end_layout
@@ -6911,6 +6913,8 @@ Starting Denemo - Command Line Options
 
 \begin_layout Standard
 Denemo --help shows the options at startup.
+ You can open a specific score, execute a scheme script (from a file or
+ on the command line) and more.
 \end_layout
 
 \begin_layout Standard
