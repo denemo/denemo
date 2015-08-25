@@ -3398,6 +3398,21 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
 {
   char *title, *instruction, *initial_value;
   SCM scm;
+  gboolean ismodal=FALSE, format=FALSE;
+  if (scm_is_string (modal))
+    {
+        char *arg = scm_to_locale_string (modal);
+        if (!strcmp (arg, "format"))
+            ismodal = format = TRUE;
+        else if (!strcmp (arg, "modal"))
+            ismodal = TRUE, format = FALSE;
+            //g_print ("setting from  %s %d %d\n", arg, ismodal, format);
+        free (arg);
+    }
+  else
+    {
+    ismodal = !scm_is_false (modal), format = (!scm_is_false (modal)) && (modal != SCM_UNDEFINED);
+    }
   if (scm_is_string (label))
     {
       title = scm_to_locale_string (label);
@@ -3417,8 +3432,8 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
     }
   else
     initial_value = strdup (" ");
-  GString *text = g_string_new(""), *lilypond=g_string_new("");   
-  gboolean ok = get_user_markup (text, lilypond, title, instruction, initial_value, !scm_is_false (modal), (!scm_is_false (modal)) && (modal != SCM_UNDEFINED));
+  GString *text = g_string_new(""), *lilypond=g_string_new("");  // g_print ("Called with %d %d\n", ismodal, format);
+  gboolean ok = get_user_markup (text, lilypond, title, instruction, initial_value, ismodal, format);
 
  if (ok)
     {
