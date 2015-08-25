@@ -188,7 +188,7 @@ gchar *get_user_markup (GString *user_text, GString *marked_up_text, gchar* titl
   implement_show_print_view (FALSE);
   GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
   GtkWidget *button = gtk_button_new_with_label (_("Paste Current Snippet"));
-  gtk_widget_set_tooltip_text (button, _("Pastes the music captured in the currently selected Snippet into the text at the cursor.\nThe music appears here in the LilyPond typesetter syntax between two markers (§).\nIt will print as typeset music embedded in the sentence you are writing.\nYou can edit the syntax, taking care to leave the markers in position. If you delete one marker be sure to delete the other.\n"));
+  gtk_widget_set_tooltip_text (button, _("Pastes the music captured in the currently selected Snippet into the text at the cursor.\nThe music appears here in the LilyPond syntax.\nIt will print as typeset music embedded in the sentence you are writing.\nYou can edit the syntax following the LilyPond syntax.\n"));
 
   g_signal_connect (button, "clicked", G_CALLBACK (paste_snippet_lilypond), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
@@ -202,9 +202,9 @@ gchar *get_user_markup (GString *user_text, GString *marked_up_text, gchar* titl
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
   
   
-  button = gtk_button_new_with_label (_("Paste Note Nmae/Chord Symbol"));
+  button = gtk_button_new_with_label (_("Paste Note Name/Chord Symbol"));
   gtk_widget_set_tooltip_text (button, _("Pastes the note or chord at the cursor as a Note Name/Chord Symbol\n"
-    "The music appears here in the LilyPond typesetter syntax between two markers (§).\n"
+    "The music appears here in the LilyPond syntax.\n"
     "It will print as note name/chord symbol in the sentence you are writing, transposed according to the global transposition set.\n"
     "Use, for example, to specify the key of a piece.\n"));
 
@@ -213,7 +213,7 @@ gchar *get_user_markup (GString *user_text, GString *marked_up_text, gchar* titl
 
   button = gtk_button_new_with_label (_("Paste Fret Diagram"));
   gtk_widget_set_tooltip_text (button, _("Pastes the chord at the cursor as a Fret Diagram\n"
-    "The music appears here in the LilyPond typesetter syntax between two markers (§).\n"
+    "The music appears here in the LilyPond syntax.\n"
     "It will print as fret diagram in the sentence you are writing, transposed according to the global transposition set.\n"));
 
   g_signal_connect (button, "clicked", G_CALLBACK (paste_current_lilypond_as_fretdiagram), NULL);
@@ -221,22 +221,22 @@ gchar *get_user_markup (GString *user_text, GString *marked_up_text, gchar* titl
   
 
   button = gtk_button_new_with_label (_("Bold"));
-  gtk_widget_set_tooltip_text (button, _("Inserts markup to make the following text bold. Enclose the words to be bold in {}. \nNote that the section markers (§) must come in pairs"));
+  gtk_widget_set_tooltip_text (button, _("Inserts markup to make the following text bold. Enclose the passage to be bold in {}."));
   g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "\\bold ");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
   
   button = gtk_button_new_with_label (_("Italic"));
-  gtk_widget_set_tooltip_text (button, _("Inserts markup to make the following text italic. Enclose the words to be bold in {}.\nNote that the section markers (§) must come in pairs"));
+  gtk_widget_set_tooltip_text (button, _("Inserts markup to make the following text italic. Enclose the passage to be italic in {}."));
   g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "\\italic ");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label (_("“"));
-  gtk_widget_set_tooltip_text (button, _("Inserts code for open quotes - leave a space after this code. Note that this is not the \" character which is used for grouping words and must be paired or LilyPond will not typeset the music."));
+  gtk_widget_set_tooltip_text (button, _("Inserts code for open quotes - leave a space after this code. Note that this is not the \" character which is used for grouping words not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."));
   g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "\\char ##x201C ");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label (_("”"));
-  gtk_widget_set_tooltip_text (button, _("Inserts code for close quotes - leave a space after this code. Note that this is not the \" character which is used for grouping words and must be paired or LilyPond will not typeset the music."));
+  gtk_widget_set_tooltip_text (button, _("Inserts code for close quotes - leave a space after this code. Note that this is not the \" character which is used for grouping words  not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."));
   g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "\\char ##x201D ");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
