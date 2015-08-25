@@ -844,7 +844,6 @@ install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ShowFiguredBass", scheme_Sh
 /*EditChords fakechord_insert*/
 SCM scheme_EditChords(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditChords", scheme_EditChords);
-
 /*EditObject edit_object_type*/
 SCM scheme_EditObject(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditObject", scheme_EditObject);
@@ -854,12 +853,15 @@ install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditCursorObject", scheme_E
 /*EditScoreProperties edit_score_properties*/
 SCM scheme_EditScoreProperties(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditScoreProperties", scheme_EditScoreProperties);
-/*EditScoreAndMovement edit_score_properties*/
+/*EditMovementProperties edit_movement_properties*/
 SCM scheme_EditMovementProperties(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditMovementProperties", scheme_EditMovementProperties);
-
-
-
+/*EditStaffProperties edit_staff_properties*/
+SCM scheme_EditStaffProperties(SCM optional);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditStaffProperties", scheme_EditStaffProperties);
+/*EditVoiceProperties edit_voice_properties*/
+SCM scheme_EditVoiceProperties(SCM optional);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditVoiceProperties", scheme_EditVoiceProperties);
 /*EditDirective edit_object_directive*/
 SCM scheme_EditDirective(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditDirective", scheme_EditDirective);

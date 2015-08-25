@@ -218,6 +218,7 @@
 
     <menu action="StaffMenu">
       <menu action="StaffPropertiesMenu">
+                <menuitem action="EditStaffProperties"/>
                 <menuitem action="StaffProperties"/>
                 <menuitem action="EditStaffDirective"/>
       </menu>
@@ -234,6 +235,7 @@
       <menuitem action="MoveToStaffDown"/> 
       <separator/>    
       <menu action="Voices">
+        <menuitem action="EditVoiceProperties"/>
         <menuitem action="EditVoiceDirective"/>
         <menuitem action="MoveToVoiceUp"/>
         <menuitem action="MoveToVoiceDown"/> 
@@ -515,6 +517,8 @@
   </popup>
 
   <popup action="StaffMenuPopup">
+    <menuitem action="EditStaffProperties"/>
+
     <menuitem action="StaffProperties"/>
     <menuitem action="EditStaffDirective"/>
     <menuitem action="EditVoiceDirective"/>

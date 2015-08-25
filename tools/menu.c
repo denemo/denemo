@@ -378,6 +378,8 @@ struct name_and_function denemo_commands[] = {
   {NULL, "Opens a dialog to edit the object at the cursor.", N_("EditCursorObject"), "edit_object", N_("Run Object Editor")},
   {NULL, "Opens a dialog to edit the score properties.", N_("EditScoreProperties"), "edit_score_properties", N_("Score Properties Editor")},
   {NULL, "Opens a dialog to edit the movement properties.", N_("EditMovementProperties"), "edit_movement_properties", N_("Movement Properties Editor")},
+  {NULL, "Opens a dialog to edit the current staff properties.", N_("EditStaffProperties"), "edit_staff_properties", N_("Staff Properties Editor")},
+  {NULL, "Opens a dialog to edit the voice properties of the current staff.", N_("EditVoiceProperties"), "edit_voice_properties", N_("Voice Properties Editor")},
 
   {NULL, "Edit any directives attached to chord/note at cursor.", N_("EditDirective"), "edit_object_directive", N_("Edit Directives")},
   {NULL, "Edit any directives attached to staff.", N_("EditStaffDirective"), "edit_staff_directive", N_("Edit Staff Directives")},
