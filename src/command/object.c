@@ -1284,7 +1284,10 @@ static void delete_score_directive (GtkWidget *button)
     gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
     score_status(Denemo.project, TRUE);    
 }
-
+void display_help(gchar *help)
+    {
+       infowarningdialog (help, TRUE); 
+    }
 static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, DIRECTIVE_TYPE score_or_movement)
 {
     GList *g;
@@ -1336,27 +1339,6 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
                     }
                     if (tooltip)
                         gtk_widget_set_tooltip_text (button, tooltip);
-    #if 0                    
-            {
-           gchar *text =  g_strconcat(directive->prefix?directive->prefix->str:"",
-                        directive->postfix?directive->postfix->str:"", NULL);
-           g_strchug (text); //does not allocate memory
-           if (*text)   
-            {
-            gchar *lily1 = directive->prefix?g_markup_escape_text(directive->prefix->str, -1):g_strdup("");
-            gchar *lily2 = directive->postfix?g_markup_escape_text(directive->postfix->str, -1):g_strdup("");
-            
-            g_string_append_printf (selection, _("The LilyPond text inserted is <tt>%s%s</tt>\n"),  
-                      lily1,lily2);//puts the whitespace back
-            g_free (lily1);
-            g_free (lily2);
-            }
-        else
-            g_string_append_printf (selection, _("This object does not affect the printed output (no LilyPond syntax is generated for the typesetter)\n"));//well this ignores possible effect of whitespace...
-         g_free (text);
-
-        }
-    #endif
         
             GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
             gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, TRUE, 0);
@@ -1374,8 +1356,19 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
             button = gtk_button_new_with_label (_("Advanced (low-level) edit"));
             g_object_set_data (G_OBJECT(button), "directives", pdirectives);
             g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
-            g_signal_connect (button, "clicked", G_CALLBACK (low_level_edit_type_directive), low_level_directive_edit);
+            g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (low_level_edit_type_directive), low_level_directive_edit);
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+            
+            if (tooltip)
+            {
+                button = gtk_button_new_with_label (_("Help"));
+                color.red = 0.0; color.green = 0.7,  color.blue = 0.3; color.alpha = 1.0;
+                gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+                g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (display_help), tooltip);
+                gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+            }
+            
+            
         
     }
 }
