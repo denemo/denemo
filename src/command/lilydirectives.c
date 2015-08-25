@@ -1558,12 +1558,14 @@ widget_for_directive_menu (DenemoDirective * directive, void fn (), GtkMenu * me
         {
 #if 0
 voice and staff directives no longer have these popup menus, instead the staff voice editor is used.
+however, at least the rest of this code expects a valid GtkWidget...
+#endif
           //g_debug("Doing the staff or voice case");
           directive->widget = GTK_WIDGET (gtk_menu_item_new_with_label (value));        //WARNING _with_label is important
           attach_textedit_widget (directive);
           g_signal_connect (G_OBJECT (directive->widget), "button-release-event", G_CALLBACK (button_callback), directive);
           gtk_menu_shell_append (GTK_MENU_SHELL (menu), GTK_WIDGET (directive->widget));
-#endif
+
         }
       else if (box)
         {
