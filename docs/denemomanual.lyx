@@ -721,8 +721,9 @@ When you have more than one movement numbered buttons appear in the score
 \end_layout
 
 \begin_layout Standard
-Within a movement there are staffs (arranged vertically) and within the
- staffs Denemo Objects.
+Within a movement there are staffs (arranged vertically).
+ Each Denemo Staff has in turn a Denemo Voice and within the voice are the
+ Denemo Objects.
  These can be notes, chords, key changes, time signature changes and Denemo
  Directives (see 
 \begin_inset CommandInset ref
@@ -732,23 +733,45 @@ reference "sec:Denemo-Directives"
 \end_inset
 
 ).
- The notes and chords are displayed in conventional format (though not fully
+ The staff properties include things like the number of lines (usually 5)
+ while the voice properties include the default direction of the stems.
+\end_layout
+
+\begin_layout Standard
+The notes and chords are displayed in conventional format (though not fully
  typeset).
  The Denemo Directives are used for most things that are not chords or notes
  etc: Metronome marks, repeat barlines etc are good examples.
  They can also be attached to chords, individual notes in a chord, to a
  staff as a whole and to the score as a whole; in this case the directive
  can be thought of as an attribute of the object it is attached to.
- Each Denemo Directive carries its own display method.
+ 
+\end_layout
+
+\begin_layout Standard
+Each Denemo Directive carries its own display method.
  For example the Close Repeat barline appears as a Denemo Object in the
  input display, while a Directive attached to a staff (e.g.
- Instrument Name, or Smaller Staff Size) may appear in a menu under a tools
- icon to the right of the staff.
- In the case of "Smaller Staff" the directive directs the LilyPond typesetter
- to make the staff smaller, and it can be edited from the menu under the
- tools icon to the left of the clef.
- Another tools icon appears if directives are attached to voices within
+ Instrument Name, or Smaller Staff Size) will display a 
+\begin_inset Quotes eld
+\end_inset
+
+tools
+\begin_inset Quotes erd
+\end_inset
+
+ button to the right of the staff.
+ Another tools button appears if directives are attached to the voice within
  a staff, again to the left of the clef, below the staff one.
+ Clicking these tools buttons allows you to edit the staff/voice properties
+ using the staff/voice editor.
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:The-Staff-and"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -757,6 +780,7 @@ If there is more than one voice on a staff it is best displayed on a separate
  and there is no timesignature for such extra voices so it is easy to understand
  what is going on.
  The Print Preview window as usual shows the final typeset appearance.
+ The staff in this case is a dummy, any properties set on it would be ignored.
 \end_layout
 
 \begin_layout Standard
@@ -2426,7 +2450,7 @@ Edit Lyric at Cursor
 Notation Magick Menu
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Palettes
 \end_layout
 
@@ -2472,7 +2496,7 @@ You should make palettes your best friend - when you find a command in the
  that suits you, and even make special notes about its use in the tooltip.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:The-Command-Center"
@@ -2540,11 +2564,11 @@ In addition you can save and load whole sets of shortcuts and commands.
  
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Music Snippets
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 Overview
 \end_layout
 
@@ -2581,7 +2605,7 @@ prevailing duration
  with a single keypress or as you add pitches.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 Details
 \end_layout
 
@@ -2963,6 +2987,197 @@ As with the Object Inspector the Object Editor is sensitive to the cursor
  height, with the same navigation control to move through the notes of a
  chord so as to allow editing the detail of each note.
  
+\end_layout
+
+\begin_layout Section
+The Score and Movement Properties Editor
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:The-Score-and"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The score and movement editors allow you to edit global properties of the
+ score or current movement.
+ Use the Score menu to launch the editor with the Score properties expanded
+ fully and the Movement menu to launch it with the Movement properties expanded
+ - they are combined in a single window to make it easy to switch between
+ them.
+ Drag the separator if you need to switch between them.
+ On the Movement Editor pane there are buttons to change movement, so you
+ can continue editing without re-starting the editor.
+\end_layout
+
+\begin_layout Standard
+The built-in staff properties can be edited using the button at the top.
+ For each Denemo Directive attached to the staff or voice there is a button
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Edit command: <
+\emph on
+name or command
+\emph default
+>
+\begin_inset Quotes erd
+\end_inset
+
+ - the tooltip of this button gives the help text of the command that created
+ it.
+ This button will run the command in edit mode.
+ There are also buttons to do a low-level edit or to delete the directive.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Some older commands do not have edit facilities.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As with the Object Editor
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Object-Editor"
+
+\end_inset
+
+, this editor is 
+\emph on
+modal.
+\end_layout
+
+\begin_layout Section
+The Staff and Voice Properties Editor
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:The-Staff-and"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+When a Staff or the Voice on the staff has been modified in a global fashion
+ this is indicated by 
+\begin_inset Quotes eld
+\end_inset
+
+tools
+\begin_inset Quotes erd
+\end_inset
+
+ icons at the start of the staff - the upper one for the staff and the lower
+ one for the voice on the staff.
+\end_layout
+
+\begin_layout Standard
+Clicking on these opens the Staff and Voice Properties Editor.
+ As with the Score and Movement Properties editor these are combined as
+ two panes in one window - often you won't be sure if the property is one
+ set on the Staff or the Voice belonging to the staff, so this makes it
+ easy to look at both.
+ Drag the separator if you need to switch between them.
+ 
+\end_layout
+
+\begin_layout Standard
+You can also launch the Staff Properties Editor from the Staff menu.
+\end_layout
+
+\begin_layout Standard
+The built-in staff properties can be edited using the button at the top.
+ For each Denemo Directive attached to the staff or voice there is a button
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Edit command: <
+\emph on
+name or command
+\emph default
+>
+\begin_inset Quotes erd
+\end_inset
+
+ - the tooltip of this button gives the help text of the command that created
+ it.
+ This button will run the command in edit mode.
+ There are also buttons to do a low-level edit or to delete the directive.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Some older commands do not have edit facilities.
+\end_layout
+
+\begin_layout Plain Layout
+Note that if there are additional voices on a staff these are usually displayed
+ on a separate staff for ease of editing.
+ Only the voice properties should be set on such a 
+\begin_inset Quotes eld
+\end_inset
+
+staff
+\begin_inset Quotes erd
+\end_inset
+
+, the staff properties will be ignored (since the voice will be typeset
+ on the staff above).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As with the Object Editor
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Object-Editor"
+
+\end_inset
+
+, this editor is 
+\emph on
+modal.
 \end_layout
 
 \begin_layout Section
@@ -3593,6 +3808,114 @@ Double click on a template name from the list of templates.
 
 \begin_layout Enumerate
 Adjust the clef, key and time signatures as needed.
+\end_layout
+
+\begin_layout Section
+More Features
+\end_layout
+
+\begin_layout Subsection
+Piano Staffs, Orchestral Scores etc
+\end_layout
+
+\begin_layout Standard
+A piano staff can be added using the Staff->Add Staff menu.
+ In addition, piano staffs, and staff groups such as choir staff can be
+ created using the Staff Groupings menu under the staff menu.
+ You can set a piano staff within a staff group by setting successively
+ the StartPiano and StartGroup contexts on a single staff, or more generally
+ setting StartPiano, EndPiano on adjacent staffs within a staff group.
+\end_layout
+
+\begin_layout Subsection
+Single Staff Polyphony
+\end_layout
+
+\begin_layout Standard
+Use the Staffs/Voices->Voices menu for placing more than one voice on a
+ staff.
+ You can set the initial voice number from this menu (voices 1 and 3 are
+ stem up with slurs and ties etc adjusting to suit, voices 2 and 4 are stem
+ down).
+ Directives can be placed in the music to change voice, see Directives->Typesett
+er->Voices menu.
+\end_layout
+
+\begin_layout Standard
+You will also need spacer rests for voices that are silent, and commands
+ to displace rests vertically and horizontally (see Notes/Rests->Rest Insertion
+ menu), and commands from the Voices menu under the Staffs/Voices and Directives
+->Typesetter menus.
+\end_layout
+
+\begin_layout Subsection
+Entering Figured Bass
+\end_layout
+
+\begin_layout Standard
+To enter figures choose Notes/Rests->Markings->Figured Bass.
+ There are some shortcuts that enable all the work to be done with the numeric
+ keypad.
+ A brief summary is given by right clicking the option.
+ The conventions are described in the LilyPond docs.
+\end_layout
+
+\begin_layout Subsection
+Fret Diagrams
+\end_layout
+
+\begin_layout Standard
+Fret Diagrams can be placed on the score using the command Fret Diagram
+ in the ObjectMenu->Directives->Markings menu In addition by assigning a
+ Denemo staff to display as fret diagrams, chords can be entered in standard
+ notation which will then be dislayed as fret diagrams.
+ See ObjectMenu->StaffMenu->StaffPropertiesMenu->FretDiagrams for this.
+\end_layout
+
+\begin_layout Subsection
+Tablature
+\end_layout
+
+\begin_layout Standard
+Music can be displayed in tablature - the default is for standard guitar
+ tuning but others can be set.
+ The menus to explore are:
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+ObjectMenu->StaffMenu->StaffPropertiesMenu->Tablature
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+ObjectMenu->Directives->Typesetter->Tablature
+\end_layout
+
+\begin_layout Standard
+It is possible to display the same music as both notation and tablature,
+ and example of how to do this will be found under File->Open->Open Example.
+\end_layout
+
+\begin_layout Subsection
+Entering Chord Symbols
+\end_layout
+
+\begin_layout Standard
+To enter chord symbols choose Notes/Rests->Markings->Chord Symbols.
+ A brief summary is given by right clicking the option.
+ The conventions are described in the LilyPond documentation.
+\end_layout
+
+\begin_layout Standard
+An alternative is to set a staff to display not the chords in regular notation
+ but the chord symbol that represents the chord.
+ These can then be arranged above or below the melody or other representation
+ of the piece.
+\end_layout
+
+\begin_layout Standard
+Chord Charts can also be created - there is a Chord Charts palette for these.
 \end_layout
 
 \begin_layout Standard
@@ -6518,112 +6841,7 @@ Clicking (as opposed to using the arrow keys) in the LilyPond text does
 
 \end_layout
 
-\begin_layout Subsection
-More Features
-\end_layout
-
-\begin_layout Subsubsection
-Piano Staffs, Orchestral Scores etc
-\end_layout
-
 \begin_layout Standard
-A piano staff can be added using the Staff->Add Staff menu.
- In addition, piano staffs, and staff groups such as choir staff can be
- created using the Staff Groupings menu under the staff menu.
- You can set a piano staff within a staff group by setting successively
- the StartPiano and StartGroup contexts on a single staff, or more generally
- setting StartPiano, EndPiano on adjacent staffs within a staff group.
-\end_layout
-
-\begin_layout Subsection
-Single Staff Polyphony
-\end_layout
-
-\begin_layout Standard
-Use the Staffs/Voices->Voices menu for placing more than one voice on a
- staff.
- You can set the initial voice number from this menu (voices 1 and 3 are
- stem up with slurs and ties etc adjusting to suit, voices 2 and 4 are stem
- down).
- Directives can be placed in the music to change voice, see Directives->Typesett
-er->Voices menu.
-\end_layout
-
-\begin_layout Standard
-You will also need spacer rests for voices that are silent, and commands
- to displace rests vertically and horizontally (see Notes/Rests->Rest Insertion
- menu), and commands from the Voices menu under the Staffs/Voices and Directives
-->Typesetter menus.
-\end_layout
-
-\begin_layout Subsection
-Entering Figured Bass
-\end_layout
-
-\begin_layout Standard
-To enter figures choose Notes/Rests->Markings->Figured Bass.
- There are some shortcuts that enable all the work to be done with the numeric
- keypad.
- A brief summary is given by right clicking the option.
- The conventions are described in the LilyPond docs.
-\end_layout
-
-\begin_layout Subsection
-Fret Diagrams
-\end_layout
-
-\begin_layout Standard
-Fret Diagrams can be placed on the score using the command Fret Diagram
- in the ObjectMenu->Directives->Markings menu In addition by assigning a
- Denemo staff to display as fret diagrams, chords can be entered in standard
- notation which will then be dislayed as fret diagrams.
- See ObjectMenu->StaffMenu->StaffPropertiesMenu->FretDiagrams for this.
-\end_layout
-
-\begin_layout Subsection
-Tablature
-\end_layout
-
-\begin_layout Standard
-Music can be displayed in tablature - the default is for standard guitar
- tuning but others can be set.
- The menus to explore are:
-\end_layout
-
-\begin_layout Labeling
-\labelwidthstring 00.00.0000
-ObjectMenu->StaffMenu->StaffPropertiesMenu->Tablature
-\end_layout
-
-\begin_layout Labeling
-\labelwidthstring 00.00.0000
-ObjectMenu->Directives->Typesetter->Tablature
-\end_layout
-
-\begin_layout Standard
-It is possible to display the same music as both notation and tablature,
- and example of how to do this will be found under File->Open->Open Example.
-\end_layout
-
-\begin_layout Subsection
-Entering Chord Symbols
-\end_layout
-
-\begin_layout Standard
-To enter chord symbols choose Notes/Rests->Markings->Chord Symbols.
- A brief summary is given by right clicking the option.
- The conventions are described in the LilyPond documentation.
-\end_layout
-
-\begin_layout Standard
-An alternative is to set a staff to display not the chords in regular notation
- but the chord symbol that represents the chord.
- These can then be arranged above or below the melody or other representation
- of the piece.
-\end_layout
-
-\begin_layout Standard
-Chord Charts can also be created - there is a Chord Charts palette for these.
 \begin_inset Note Note
 status open
 
