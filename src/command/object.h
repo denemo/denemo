@@ -22,6 +22,11 @@ void
 edit_score_properties (void);
 void
 edit_movement_properties (void);
+
+void edit_staff_properties (void);
+
+void edit_voice_properties (void);
+
 void initkeyaccs (gint * accs, gint number);
 
 //void dnm_setinitialkeysig (DenemoStaff * curstaff, gint tokey, gint type);
