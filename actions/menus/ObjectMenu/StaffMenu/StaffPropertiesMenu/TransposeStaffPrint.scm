@@ -1,9 +1,9 @@
- ;;;;;;;;;;; TransposeStaffPrint
+;;;;;;;;;;; TransposeStaffPrint
 
 (define-once Transpose::Interval "c ees")
 
 (let ((lily #f) (text #f)(params TransposeStaffPrint::params))
-	(if (and params  (not (equal? params "Edit")))
+	(if (and params  (not (equal? params "edit")))
 		(set!  Transpose::Interval params)
       	 	(set! Transpose::Interval (d-GetUserInput (_ "Set Transpose Interval") (_ "Give Interval to transpose by
 e.g. c ees means up minor third.
