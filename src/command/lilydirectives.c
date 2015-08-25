@@ -1556,11 +1556,14 @@ widget_for_directive_menu (DenemoDirective * directive, void fn (), GtkMenu * me
 
       if ((fn == (void (*)()) staff_directive_put_graphic) || (fn == (void (*)()) voice_directive_put_graphic))
         {
+#if 0
+voice and staff directives no longer have these popup menus, instead the staff voice editor is used.
           //g_debug("Doing the staff or voice case");
           directive->widget = GTK_WIDGET (gtk_menu_item_new_with_label (value));        //WARNING _with_label is important
           attach_textedit_widget (directive);
           g_signal_connect (G_OBJECT (directive->widget), "button-release-event", G_CALLBACK (button_callback), directive);
           gtk_menu_shell_append (GTK_MENU_SHELL (menu), GTK_WIDGET (directive->widget));
+#endif
         }
       else if (box)
         {
@@ -2772,7 +2775,7 @@ select_system_directive (void)
     if(all_directives)
         {
             DenemoDirective *d;
-            d = select_directive (_("Select a score or movement directive for advanced (low-level) edit.\nNote: these directives can be edited normally using Edit Directives in the Score or Movement menus."), all_directives);
+            d = select_directive (_("Select a score or movement directive for advanced (low-level) edit.\nNote: these directives can be edited normally using Score/Movement Properties Editor from the Score or Movement menus."), all_directives);
             if (d)
                 return g_list_index (all_directives, d);
         }
