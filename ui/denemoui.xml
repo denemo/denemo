@@ -504,10 +504,12 @@
   </popup>
   <popup name="InitialKeyEditPopup">
     <menuitem action="InitialKey"/>
+    <menuitem action="EditStaffProperties"/>
     <menuitem action="EditKeysigDirective"/>
   </popup>
   <popup name="InitialTimeEditPopup">
     <menuitem action="InitialTimeSig"/>
+    <menuitem action="EditStaffProperties"/>
     <menuitem action="EditTimesigDirective"/>
   </popup>
 

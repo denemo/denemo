@@ -612,7 +612,7 @@ static void delete_directive (GtkWidget *button, gpointer fn)
     gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
     score_status(Denemo.project, TRUE);    
 }
-typedef enum DIRECTIVE_TYPE {DIRECTIVE_OBJECT = 0,  DIRECTIVE_SCORE = 1, DIRECTIVE_MOVEMENT = 2, DIRECTIVE_STAFF = 3, DIRECTIVE_VOICE = 4} DIRECTIVE_TYPE;
+typedef enum DIRECTIVE_TYPE {DIRECTIVE_OBJECT = 0,  DIRECTIVE_SCORE = 1, DIRECTIVE_MOVEMENT = 2, DIRECTIVE_STAFF = 3, DIRECTIVE_VOICE = 4, DIRECTIVE_KEYSIG = 5, DIRECTIVE_TIMESIG = 6} DIRECTIVE_TYPE;
 
 static void
 call_edit_on_action (GtkWidget *button, DIRECTIVE_TYPE score_edit)
@@ -633,10 +633,10 @@ call_edit_on_action (GtkWidget *button, DIRECTIVE_TYPE score_edit)
         if (score_edit==DIRECTIVE_MOVEMENT)
             edit_movement_properties ();
         else
-        if (score_edit==DIRECTIVE_STAFF)
-            edit_staff_properties ();
-        else
+        if (score_edit==DIRECTIVE_VOICE)
             edit_voice_properties ();
+        else
+            edit_staff_properties ();//also for KEYSIG AND TIMESIG
         
     } else
     {
@@ -1576,7 +1576,18 @@ edit_staff_and_voice_properties (gboolean show_staff)
     DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
     
     place_buttons_for_directives ((GList**)&thestaff->staff_directives, inner_box, DIRECTIVE_STAFF);
-
+     if(thestaff->keysig.directives)
+        {
+        GtkWidget *label = gtk_label_new (_("Key Signature Directives"));
+        gtk_box_pack_start (GTK_BOX (inner_box), label, FALSE, TRUE, 0);
+        place_buttons_for_directives ((GList**)&(thestaff->keysig.directives), inner_box, DIRECTIVE_KEYSIG);
+        }
+    if(thestaff->timesig.directives)
+        {
+        GtkWidget *label = gtk_label_new (_("Time Signature Directives"));
+        gtk_box_pack_start (GTK_BOX (inner_box), label, FALSE, TRUE, 0);
+        place_buttons_for_directives ((GList**)&(thestaff->timesig.directives), inner_box, DIRECTIVE_TIMESIG);
+        }
     expander = gtk_expander_new (_("Voice Properties"));
 
     gtk_expander_set_expanded (GTK_EXPANDER(expander), !show_staff);
@@ -1615,7 +1626,7 @@ edit_staff_and_voice_properties (gboolean show_staff)
  
  
     place_buttons_for_directives ((GList**)&thestaff->voice_directives, inner_box, DIRECTIVE_VOICE);
-   
+
  
    gtk_paned_set_position (GTK_PANED(pane), show_staff? window_height-50 : 50);
  
