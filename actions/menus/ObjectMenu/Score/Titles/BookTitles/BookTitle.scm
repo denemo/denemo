@@ -1,10 +1,12 @@
 ;;BookTitle
 (let ((tag "TopMargin"))
+   (if (equal? BookTitle::params "edit")
+   	(set! BookTitle::params #f))
         (if BookTitle::params
                 (BookTitles::Do "Title" "title" BookTitle::params  #f)
                 (let ((space (d-DirectiveGet-score-data tag)))
                     (if (not space)
-                        (set! space "6"))
+                        (set! space "0"))
                     (set! space (d-GetUserInput (_ "Space Above Title") (_ "Give amount of space at top of title page") space))
                     (if (string? space)
                         (begin
