@@ -2879,7 +2879,13 @@ The Object Inspector is shown by clicking View->Object Inspector, or just
  It gives comprehensive information about the object at the cursor.
  This includes directives like ornaments, dynamic markings, fingerings that
  may be attached to the object.
- The Object Inspector is sensitive to which note of a chord the cursor is
+ For objects like notes and rests which start at a particular musical moment
+ it also describes at what moment in the measure the note begins and what
+ its duration is.
+\end_layout
+
+\begin_layout Standard
+The Object Inspector is sensitive to which note of a chord the cursor is
  on, so that things like fingerings (which can vary from note to note within
  a chord) are displayed individually as you move the cursor up and down
  a chord.
@@ -2927,8 +2933,8 @@ Some older commands don't have full information but the tag associated with
 
 \begin_layout Standard
 The Object Inspector automatically updates itself as you move the cursor
- around.
- 
+ around, so you can leave it open and click on various objects to find out
+ what they are and which command generated them (and so how to modify them).
 \end_layout
 
 \begin_layout Standard
@@ -2939,7 +2945,8 @@ reference "sec:Object-Editor"
 
 \end_inset
 
-.
+ on the current object, which allows you to modify or delete the property
+ you are interested in.
 \end_layout
 
 \begin_layout Standard
@@ -4478,6 +4485,126 @@ The parameters are either a string (script) which will be evaluated after
 
 \begin_layout Itemize
 (ForAllNotesInChordExecute proc) 
+\end_layout
+
+\begin_layout Subsection
+Directives
+\end_layout
+
+\begin_layout Itemize
+(EditStandaloneDirective tag display)
+\end_layout
+
+\begin_layout Itemize
+(EditLilyPond)
+\end_layout
+
+\begin_layout Itemize
+(AttachDirective type field tag content .
+ overrides)
+\end_layout
+
+\begin_layout Itemize
+(EditStaffDirective tag) 
+\end_layout
+
+\begin_layout Itemize
+(ToggleDirective type field tag content .
+ overrides) ; four strings and an arbitrary number of tags (numbers) for
+ overrides.
+\end_layout
+
+\begin_layout Itemize
+(d-DirectivePut-standalone tag)
+\end_layout
+
+\begin_layout Itemize
+(d-Directive-standalone tag)
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveGetTag-standalone)
+\end_layout
+
+\begin_layout Itemize
+(d-DirectivePut-score tag)
+\end_layout
+
+\begin_layout Itemize
+(d-Directive-score tag)
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveGetTag-chord)
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveGetTag-note)
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveGetTag-score)
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveGetTag-scoreheader)
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveGetTag-movementcontrol)
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveGetTag-header)
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveGetTag-paper)
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveGetTag-layout)
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveGetTag-staff)
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveGetTag-voice)
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveGetTag-clef)
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveGetTag-keysig)
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveGetTag-timesig)
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveGetTag-stemdirective)
+\end_layout
+
+\begin_layout Itemize
+(d-DirectiveDelete-standalone Tag)
+\end_layout
+
+\begin_layout Itemize
+(SetDirectiveConditional)
+\end_layout
+
+\begin_layout Itemize
+(ToggleHidden type tag) ;;; eg (ToggleHidden "note" "Fingering")
+\end_layout
+
+\begin_layout Itemize
+(ManageSystemDirective params present? put-proc get-proc del-proc tag title
+ prompt value test deletion-info)
 \end_layout
 
 \begin_layout Subsection
