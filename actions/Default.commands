@@ -4985,9 +4985,9 @@ or three systems per page, for example orchestral scores.</_tooltip>
       </row>
       <row type="scheme">
         <action>ReduceSystemSpacing</action>
-        <menupath>/ObjectMenu/Score/Typesetter</menupath>
-        <_label>Reduce Space Between Systems</_label>
-        <_tooltip>Reduces the gap between the systems of staffs on a page.</_tooltip>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
+        <_label>Reduce Space Between Systems (On/Off)</_label>
+        <_tooltip>Reduces the gap between the systems of staffs on a page for the current movement.</_tooltip>
       </row>
       <row type="scheme">
         <action>RefreshDynamicDirectives</action>
