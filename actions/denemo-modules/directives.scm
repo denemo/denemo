@@ -96,7 +96,7 @@
         (begin  ((eval-string proc-del) tag)
                 (d-SetSaved #f)
                 #f)
-    (apply AttachDirective type field (cons tag dis) content overrides)))
+        (apply AttachDirective type field (cons tag dis) content overrides)))
       
 
 ; d-DirectivePut-standalone a convenience function for standalone directives
@@ -125,6 +125,31 @@
       (d-DirectivePut-score tag))
 
 
+;;procedure for creating/updating a directive attached to the the score expects the parameters a test for the directive already present a procedure for putting the directive one for deleting it a tag then two fields for getting a new value a default value a proc for testing the validity of the value and information to give the user when the directive is deleted.
+(define (ManageSystemDirective  params present? put-proc get-proc del-proc tag title prompt  value test  deletion-info)
+    (if (number? params)
+        (begin
+            (put-proc (number->string params)))
+        (begin
+            (if (present? tag)
+                (let ((choice (RadioBoxMenu (cons (_ "Edit") 'edit) (cons (_ "Delete") 'delete))))
+                    (case choice
+                        ((delete)
+                            (d-SetSaved #f)
+                            (del-proc tag)
+                            (set! params 'cancel)
+                            (d-InfoDialog deletion-info #f)) ;#f => modal
+                        ((edit)
+                            (set! params (get-proc))
+                            (if (test params)
+                                (begin
+                                    (set! value params)
+                                    (set! params #f))
+                                (set! params 'cancel))))))
+                     (if (not (eq? params 'cancel))
+                (let ((value (d-GetUserInput title prompt value)))
+                    (if (test value)
+                        (put-proc value)))))))
 
   
 
