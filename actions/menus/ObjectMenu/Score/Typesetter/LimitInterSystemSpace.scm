@@ -1,22 +1,17 @@
 ;;;LimitInterSystemSpace
-(define (LimitInterSystemSpace::set value)
-	(d-DirectivePut-paper-postfix "LimitInterSystemSpace" (string-append "
-page-limit-inter-system-space = ##t
-page-limit-inter-system-space-factor = " value)))
-(if (equal? LimitInterSystemSpace::params "edit")
-	(begin
-		(set! LimitInterSystemSpace::params #f)
-		(d-DirectiveDelete-paper "LimitInterSystemSpace")))
-(if LimitInterSystemSpace::params
-	(begin
-		(LimitInterSystemSpace::set (number->string LimitInterSystemSpace::params)))
-	(if (d-Directive-paper? "LimitInterSystemSpace")
-		(begin
-			(d-DirectiveDelete-paper "LimitInterSystemSpace")
-			(d-InfoDialog (_ "Limit on space between systems removed")))
-		(let ((value
-		(d-GetUserInput (_ "Spacing Between Systems") (_ "Give spacing limit (1=no extra space)") "1.2")))
-		(disp "value is " value "\n")
-		(if (and (string? value) (string->number value))
-		 (LimitInterSystemSpace::set  value)))))		
-(d-SetSaved #f) 
+(let* ((tag "LimitInterSystemSpace") (params LimitInterSystemSpace::params) (value "1.2")
+    (lilypond-proc  (lambda (pvalue) (d-DirectivePut-paper-data tag pvalue) (d-DirectivePut-paper-postfix tag (string-append "\npage-limit-inter-system-space = ##t\npage-limit-inter-system-space-factor = " pvalue)))))
+    (if (number? params)
+        (set! value (number->string params)))
+    (ManageSystemDirective params 
+                           d-Directive-paper? 
+                           lilypond-proc
+                           (lambda () (d-DirectiveGet-paper-data  tag))
+                           d-DirectiveDelete-paper 
+                           tag 
+                           (_ "Spacing Between Systems") 
+                           (_ "Give spacing limit (1=no extra space)") 
+                           value 
+                           (lambda (value) (and value (string->number value)))
+                           (_ "Customized spacing limit removed")))
+    
