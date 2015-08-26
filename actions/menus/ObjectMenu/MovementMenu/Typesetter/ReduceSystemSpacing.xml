@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>NormalBeamEndings</after>
+        <action>ReduceSystemSpacing</action>
+        <_label>Reduce Space Between Systems (On/Off)</_label>
+        <_tooltip>Reduces the gap between the systems of staffs on a page for the current movement.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
