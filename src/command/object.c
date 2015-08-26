@@ -1364,7 +1364,7 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
                 button = gtk_button_new_with_label (_("Help"));
                 color.red = 0.0; color.green = 0.7,  color.blue = 0.3; color.alpha = 1.0;
                 gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
-                g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (display_help), tooltip);
+                g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (display_help), (gpointer)tooltip);
                 gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
             }
             
