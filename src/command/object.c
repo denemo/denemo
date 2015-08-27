@@ -98,6 +98,8 @@ append_directives_information (GString * selection, GList * directives)
   do
     {
       DenemoDirective *directive = directives->data;
+      if(directive->tag==NULL)
+            directive->tag = g_string_new("<Unknown Tag>");//shouldn't happen
       const gchar *label = get_label_for_command (directive->tag->str);
       const gchar *menupath = get_menu_path_for_command (directive->tag->str);
       const gchar *tooltip = get_tooltip_for_command (directive->tag->str);

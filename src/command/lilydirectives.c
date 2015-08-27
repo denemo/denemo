@@ -238,7 +238,13 @@ attach_directive (attach_type attach, gchar * postfix, gchar * prefix, gchar * d
         warningdialog (_("You must put the cursor on a note to attach LilyPond to the note"));  //FIXME find a note and ask
       return;
     }
-
+  if (tag==NULL)
+    {
+        if (attach==ATTACH_CHORD)
+            tag = "AttachChord";
+        else
+         tag = "AttachNote";
+    }
   // setup directive to be data from thechord->directives or curnote->directives which has matching tag, or first if tag is NULL.
   DenemoDirective *directive = NULL;
   switch (attach)
