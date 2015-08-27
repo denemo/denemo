@@ -765,13 +765,6 @@ tools
  a staff, again to the left of the clef, below the staff one.
  Clicking these tools buttons allows you to edit the staff/voice properties
  using the staff/voice editor.
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:The-Staff-and"
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -3843,6 +3836,113 @@ Adjust the clef, key and time signatures as needed.
 
 \begin_layout Section
 More Features
+\end_layout
+
+\begin_layout Subsection
+Transposition
+\end_layout
+
+\begin_layout Standard
+Denemo has much better transposition facilities than the common music notation
+ programs such as Sibelius, Finale and Musescore.
+ If you have used those programs you are probably thinking 
+\begin_inset Quotes eld
+\end_inset
+
+I need to transpose this music
+\begin_inset Quotes erd
+\end_inset
+
+, meaning you are going to change all the notes and chords you have entered
+ along with the key signatures.
+ You 
+\series bold
+can 
+\series default
+do this in Denemo (see Physical Transposition
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Physical-Transposition"
+
+\end_inset
+
+) but usually it is far better just to say that you want score to be typeset
+ in the new key.
+ This takes care of everything in one go - even footnotes that refer to
+ the pitches of notes in the music will transpose (unless you have entered
+ them as fixed values).
+ And your input music stays looking just as you entered it - essential if
+ you have to look back and compare with a source for instance.
+\end_layout
+
+\begin_layout Standard
+The commands to tranpose a score are in the Score->Typesetter menu.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Transpose on Print
+\begin_inset Quotes erd
+\end_inset
+
+ is a graphical user interface - you get presented with a new tab containing
+ two notes - clicking the Transpose button will transpose so that the first
+ pitch will be typeset as the second one.
+ The initial values a C and E♭ (up a minor third) so by typing G this would
+ become up a fifth.
+ The first note could be changed as well, if you know that D should become
+ F♯, for example, then you can make those the two notes.
+\end_layout
+
+\begin_layout Standard
+The other command is quicker but more technical - (Print) Transposed lets
+ you type in the names of the two notes.
+ The technical bit is how you specify sharp and flat and which octave.
+ To specify sharp the note is followed by 
+\begin_inset Quotes eld
+\end_inset
+
+is
+\begin_inset Quotes erd
+\end_inset
+
+, for flat 
+\begin_inset Quotes eld
+\end_inset
+
+es
+\begin_inset Quotes erd
+\end_inset
+
+ (these are actually the Dutch names!).
+ Octaves are indicated by ' for up and , for down, so for example c c,,
+ would mean transpose two octaves down.
+\end_layout
+
+\begin_layout Subsubsection
+Physical Transposition
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Physical-Transposition"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the case where you have changed your mind and want the actual notes you
+ have entered to be altered the commands to do this are in the Notes/Rests->Tran
+spose menu.
+ The most general of the commands are Arbitrary Transpose Down and Arbitrary
+ Transpose Up.
+ These allow you to describe the interval you want to transpose the music
+ by e.g.
+ m7 for a minor seventh, d5 for diminished 5th.
+ Alternatively you can use two pitches to describe the interval as in the
+ previous section.
+ Note that these commands work on the note/chord at the cursor or the selection;
+ any key signatures will need changing separately if needed.
 \end_layout
 
 \begin_layout Subsection
