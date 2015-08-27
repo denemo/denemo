@@ -4735,6 +4735,12 @@ Directives
  prompt value test deletion-info)
 \end_layout
 
+\begin_layout Itemize
+(EditForStandaloneToggle tag) provides the editing options for a standalone
+ directive that can only be toggled off/on.
+ 
+\end_layout
+
 \begin_layout Subsection
 Message Bar
 \end_layout
