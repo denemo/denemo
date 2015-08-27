@@ -1,8 +1,9 @@
- ;;; ParenthesizeChord
- (if (d-Directive-chord? "Parenthesize")
- 	(d-DirectiveDelete-chord  "Parenthesize")
+;;; ParenthesizeChord
+(let ((tag "ParenthesizeChord"))
+ (if (d-Directive-chord? tag)
+ 	(d-DirectiveDelete-chord  tag)
  	(begin
-		(d-DirectivePut-chord-prefix "Parenthesize" "\\parenthesize ")
-		(d-DirectivePut-chord-override "Parenthesize" DENEMO_OVERRIDE_AFFIX)
-		(d-DirectivePut-chord-display "Parenthesize" "()")))
-(d-SetSaved #f)
+		(d-DirectivePut-chord-prefix tag "\\parenthesize ")
+		(d-DirectivePut-chord-override tag DENEMO_OVERRIDE_AFFIX)
+		(d-DirectivePut-chord-display tag "()")))
+(d-SetSaved #f))
