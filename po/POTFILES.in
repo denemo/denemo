@@ -1025,6 +1025,8 @@ actions/menus/ObjectMenu/MovementMenu/Typesetter/Custos.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/Custos.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/HideBarlines.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/HideBarlines.xml
+actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffs.scm
+actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffs.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/HideMovement.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/HideMovement.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementPageBreak.scm
@@ -1055,6 +1057,8 @@ actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNotehead
 actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsSlash.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsXcircle.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsXcircle.xml
+actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.scm
+actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/SwitchMensuralBarlines.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/SwitchMensuralBarlines.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/TinyStaffAllMovements.scm
@@ -1725,8 +1729,6 @@ actions/menus/ObjectMenu/Score/Typesetter/DenemoBar.scm
 actions/menus/ObjectMenu/Score/Typesetter/DenemoBar.xml
 actions/menus/ObjectMenu/Score/Typesetter/FirstPageNumber.scm
 actions/menus/ObjectMenu/Score/Typesetter/FirstPageNumber.xml
-actions/menus/ObjectMenu/Score/Typesetter/HideEmptyStaffs.scm
-actions/menus/ObjectMenu/Score/Typesetter/HideEmptyStaffs.xml
 actions/menus/ObjectMenu/Score/Typesetter/LimitInterSystemSpace.scm
 actions/menus/ObjectMenu/Score/Typesetter/LimitInterSystemSpace.xml
 actions/menus/ObjectMenu/Score/Typesetter/MeasuresPerLine.scm
@@ -1753,8 +1755,6 @@ actions/menus/ObjectMenu/Score/Typesetter/RaggedBottom.scm
 actions/menus/ObjectMenu/Score/Typesetter/RaggedBottom.xml
 actions/menus/ObjectMenu/Score/Typesetter/RaggedLast.scm
 actions/menus/ObjectMenu/Score/Typesetter/RaggedLast.xml
-actions/menus/ObjectMenu/Score/Typesetter/ReduceSystemSpacing.scm
-actions/menus/ObjectMenu/Score/Typesetter/ReduceSystemSpacing.xml
 actions/menus/ObjectMenu/Score/Typesetter/ScoreIndent.scm
 actions/menus/ObjectMenu/Score/Typesetter/ScoreIndent.xml
 actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm
