@@ -85,18 +85,18 @@
      ((d-Directive-standalone? MMRtag)
         (if (equal? (d-DirectiveGet-standalone-postfix MMRtag) "%{ grouped rest %}")
             (begin
-                (d-InfoDialog (_ "This whole measure rest is grouped with adjacent ones to form a multi-measure rest.\nThe first of the group should be the multi-measure rest itself.")))
+                (d-InfoDialog (_ "This whole measure rest is grouped with adjacent ones to form a multi-measure rest.\nThe first of the group should be the multi-measure rest itself. Place the cursor on that object to do editing.") #f))
             (begin
                 (if (not (equal? MultiMeasureRests::params "edit"))
                     (re-calculate)
                     (let ((choice (d-PopupMenu (list (cons (_ "Help") 'help) (cons (_ "Recalculate") 'recalculate) (cons (_ "Un-group") 'ungroup)))))
                     
                         (cond ((equal? choice 'help)
-                                (d-InfoDialog (_ "This represents a number of whole measure rests.\nThe following measure rests are grouped with this one when typeset on their own. In full score they are typeset separately to match the other parts.\nIf you add further grouped whole measure rests, this Directive will need re-calculating.\nThe check score routine that is run before printing will do this for you.")))
+                                (d-InfoDialog (_ "This represents a number of whole measure rests.\nThe following measure rests are grouped with this one when typeset on their own. In full score they are typeset separately to match the other parts.\nIf you add further grouped whole measure rests, this Directive will need re-calculating.\nThe check score routine that is run before printing will do this for you.") #f))
                             ((equal? choice 'recalculate)
                                 (re-calculate))
                             ((equal? choice 'ungroup)
                                 (ungroup))))))))
-        (else (d-InfoDialog (_ "Invoke this command with the cursor on the first whole measure rest to be grouped")))))
+        (else (d-InfoDialog (_ "Invoke this command with the cursor on the first whole measure rest to be grouped") #f))))
  
 
