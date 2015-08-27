@@ -2224,7 +2224,7 @@ edit_object_type (GtkAction * action, DenemoScriptParam * param)
   switch (obj->type)
     {
     case LILYDIRECTIVE:
-      edit_object_directive (action, param);
+      edit_object_directive (NULL, NULL);
       return;
     case CLEF:
       {
