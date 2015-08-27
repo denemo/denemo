@@ -2450,10 +2450,12 @@ Palettes
 \begin_layout Standard
 Palettes are collections of commands arranged as a column, row or grid of
  buttons either in a separate window or docked in the Main Window.
+ 
 \end_layout
 
 \begin_layout Standard
-These commands can be executed by clicking with the mouse or typing 
+The buttons are not just for mouse users - palette buttons can be executed
+ by clicking with the mouse or typing 
 \family typewriter
 p
 \family default
@@ -2471,9 +2473,14 @@ or
 \end_layout
 
 \begin_layout Standard
+To make full use of the keyboard for executing commands from your palettes
+ you should edit the labels so that they are easy to type & memorable.
+ Put the shorter ones first as you do not need to type all of the label,
+ just enough to select the right button.
+\end_layout
+
+\begin_layout Standard
 In the View menu you can select palettes of commands to use.
- Palette items can be invoked from the keyboard (see the Edit Menu) or by
- clicking on them.
  Right-clicking on a palette button allows you to edit the button or the
  entire palette.
  You can dock the palette in the main display, arrange it as a column, line
@@ -2485,7 +2492,7 @@ You should make palettes your best friend - when you find a command in the
  menu system that you need right click on it and choose Add to Palette.
  This way you will build up one or more collections of commands that you
  need.
- By right clicking on a palette button you can choose a name for the command
+ By right clicking on a palette button you can choose a label for the command
  that suits you, and even make special notes about its use in the tooltip.
 \end_layout
 
@@ -3782,6 +3789,39 @@ Create template with the special name "default.denemo".
 \end_layout
 
 \begin_layout Itemize
+Use a Template or Custom Template (See File->Open menu)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Create template and save it with the special name "default.denemo" using
+ File->Save->Save Template.
+ This will placed at the top level of your templates directory (that is
+ ~/.denemo/templates/default.denemo), then it will be opened with 
+\family typewriter
+Ctrl-n
+\family default
+ the 
+\begin_inset Quotes eld
+\end_inset
+
+Open Default Template
+\begin_inset Quotes erd
+\end_inset
+
+ command.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Use shortcut keys to add staves and set attributes.
+\end_layout
+
+\begin_layout Itemize
+Use Menus.
+\end_layout
+
+\begin_layout Itemize
 Create an init.denemo score with everything you want to start up with, and
  any actions you want to be taken before you begin.
  This will be opened when you first start Denemo (that is once per Denemo
@@ -3794,18 +3834,6 @@ reference "sub:Musical-Scores-that-Do-Things"
 \end_inset
 
  for details on what actions you can have Denemo perform before you start.
-\end_layout
-
-\begin_layout Itemize
-Use a Template
-\end_layout
-
-\begin_layout Itemize
-Use shortcut keys to add staves and set attributes
-\end_layout
-
-\begin_layout Itemize
-Use Menus
 \end_layout
 
 \begin_layout Subsection
