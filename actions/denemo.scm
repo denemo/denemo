@@ -168,8 +168,8 @@
                     (set! offsety (d-GetUserInput (_ "Offset Position") (_ "Amount (+/-) to nudge in vertical direction") offsetx))
                     (if offsety
                         (cons offsetx offsety)
-                        #f)
-                #f))))
+                        #f))
+                #f)))
 
 ;;;;;;;;;;;;;;;; Double-Stroke for sequencing keypresses. By Nils Gey June 2010
 ;One parameter for the GUI-version or help window. This is the version that appears if someone clicks on the menu version.
