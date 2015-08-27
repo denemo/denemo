@@ -97,8 +97,25 @@
                 (d-SetSaved #f)
                 #f)
         (apply AttachDirective type field (cons tag dis) content overrides)))
-      
 
+;;;;;;provides the editing options for a standalone directive that can only be toggled off/on.      
+(define (EditForStandaloneToggle tag)
+    (let ((choice (RadioBoxMenu 
+         (cons (_ "Help") 'help)
+         (cons (_ "Edit Similar") 'similar) 
+         (cons (_ "Object Inspector") 'inspect) 
+         (cons (_ "Delete") 'delete))))
+            (case choice
+                ((similar) (d-EditSimilar))
+                ((help) (let ((thehelp (d-GetHelp tag)))
+                                (if (string? thehelp)
+                                    (d-InfoDialog thehelp #f)
+                                    (d-InfoDialog (_ "No help!")))))
+                ((inspect)
+                   (d-DisplayCurrentObject))
+                  ((delete)
+                    (d-DirectiveDelete-standalone tag)))))
+                      
 ; d-DirectivePut-standalone a convenience function for standalone directives
 (define (d-DirectivePut-standalone tag)
   (d-DirectivePut-standalone-minpixels tag 0)
