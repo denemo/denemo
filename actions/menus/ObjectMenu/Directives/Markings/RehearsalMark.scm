@@ -21,7 +21,7 @@
         ((nudge)
             (let ((amount (GetNudge)))
                 (if amount
-                    (TweakRelativeOffset tag (car amount) (cdr amount))
+                    (TweakOffset tag tag (car amount) (cdr amount));;(TweakRelativeOffset tag (car amount) (cdr amount))
                     (d-WarningDialog (_ "Operation cancelled")))))
         ((restore)
              (d-DirectivePut-standalone-prefix tag "")
