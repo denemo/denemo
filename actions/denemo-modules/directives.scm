@@ -132,8 +132,14 @@
             (put-proc (number->string params)))
         (begin
             (if (present? tag)
-                (let ((choice (RadioBoxMenu (cons (_ "Edit") 'edit) (cons (_ "Delete") 'delete))))
+                (let ((choice (RadioBoxMenu (cons (_ "Help") 'help) (cons (_ "Edit") 'edit) (cons (_ "Delete") 'delete))))
                     (case choice
+                        ((help)
+                            (let ((thehelp (d-GetHelp tag)))
+                                (set! params 'cancel)
+                                (if (string? thehelp)
+                                    (d-InfoDialog thehelp #f)
+                                    (d-InfoDialog (_ "No help!")))))
                         ((delete)
                             (d-SetSaved #f)
                             (del-proc tag)
