@@ -241,9 +241,9 @@ attach_directive (attach_type attach, gchar * postfix, gchar * prefix, gchar * d
   if (tag==NULL)
     {
         if (attach==ATTACH_CHORD)
-            tag = "AttachChord";
+            tag = "AttachLilyToChord";
         else
-         tag = "AttachNote";
+         tag = "AttachLilyToNote";
     }
   // setup directive to be data from thechord->directives or curnote->directives which has matching tag, or first if tag is NULL.
   DenemoDirective *directive = NULL;
@@ -439,36 +439,6 @@ get_standalone_directive (gchar * tag)
     }
   return NULL;
 }
-
-
-/**
- * callback for AttachLilyToNote (command name is historical)
- * note_directive DenemoDirective attach to chord.  The DenemoDirective is tagged with TAG
- * and attached the note below cursor in current chord
- * if one tagged with TAG already exists, it edits it with the passed values. 
- * Only postfix, prefix and display can be set with this call (for backward compatibility)
- */
-void
-note_directive (GtkAction * action, DenemoScriptParam * param)
-{
-  GET_4PARAMS (action, param, postfix, display, prefix, tag);
-  attach_directive (ATTACH_NOTE, postfix, prefix, display, tag, action != NULL);
-}
-
-/**
- * callback for AttachLilyToChord (command name is historical)
- * chord_directive DenemoDirective attach to chord.  The DenemoDirective is tagged with TAG
- * and attached the current chord
- * if one tagged with TAG already exists, it edits it with the passed values. 
- * Only postfix, prefix and display can be set with this call (for backward compatibility)
- */
-void
-chord_directive (GtkAction * action, DenemoScriptParam * param)
-{
-  GET_4PARAMS (action, param, postfix, display, prefix, tag);
-  attach_directive (ATTACH_CHORD, postfix, prefix, display, tag, action != NULL);
-}
-
 
 
 static DenemoObject *

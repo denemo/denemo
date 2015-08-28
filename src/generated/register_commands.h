@@ -295,8 +295,6 @@ register_command("EditClefDirective", _("Edit Clef Directives"), _("Edit any dir
 register_command("EditTimesigDirective", _("Edit Time Signature Directives"), _("Edit any directives attached to time signature."), edit_timesig_directive);
 register_command("EditKeysigDirective", _("Edit Key Signature Directives"), _("Edit any directives attached to key signature."), edit_keysig_directive);
 register_command("DeleteDirective", _("Delete a Directive"), _("Delete a directive attached to chord/note at cursor."), delete_chord_or_note_directive);
-register_command("AttachLilyToNote", _("Attach Lilypond to Note"), _("Attach or edit attached LilyPond text to the note at the cursor. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation."), note_directive);
-register_command("AttachLilyToChord", _("Attach Lilypond to Chord"), _("Attach or edit attached LilyPond text to the chord at the cursor. This can be used for attaching and placing text and much more. See LilyPond documentation."), chord_directive);
 register_command("GoToMeasure", _("Go to Measure"), _("Opens a dialog for going to a numbered measure"), tomeasurenum);
 register_command("GoToBeginning", _("Go to Beginning"), _("Cursor to start of staff/voice, extending selection if any"), tohome);
 register_command("GoToEnd", _("Go to End"), _("Cursor to end of staff/voice, extending selection if any"), toend);

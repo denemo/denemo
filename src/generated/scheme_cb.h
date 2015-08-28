@@ -889,12 +889,6 @@ SCM scheme_EditKeysigDirective (SCM optional) {
 SCM scheme_DeleteDirective (SCM optional) {
   return scheme_call_callback(optional, delete_chord_or_note_directive);
 }
-SCM scheme_AttachLilyToNote (SCM optional) {
-  return scheme_call_callback(optional, note_directive);
-}
-SCM scheme_AttachLilyToChord (SCM optional) {
-  return scheme_call_callback(optional, chord_directive);
-}
 SCM scheme_GoToMeasure (SCM optional) {
   return scheme_call_callback(optional, tomeasurenum);
 }

@@ -1455,6 +1455,26 @@ these may need re-making.</_tooltip>
         <_tooltip>Opens a dialog to edit the object at the cursor.</_tooltip>
       </row>
       <row type="builtin">
+        <action>EditScoreProperties</action>
+        <_label>Score Properties Editor</_label>
+        <_tooltip>Opens a dialog to edit the score properties.</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>EditMovementProperties</action>
+        <_label>Movement Properties Editor</_label>
+        <_tooltip>Opens a dialog to edit the movement properties.</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>EditStaffProperties</action>
+        <_label>Staff Properties Editor</_label>
+        <_tooltip>Opens a dialog to edit the current staff properties.</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>EditVoiceProperties</action>
+        <_label>Voice Properties Editor</_label>
+        <_tooltip>Opens a dialog to edit the voice properties of the current staff.</_tooltip>
+      </row>
+      <row type="builtin">
         <action>EditDirective</action>
         <_label>Edit Directives</_label>
         <_tooltip>Edit any directives attached to chord/note at cursor.</_tooltip>
@@ -3401,18 +3421,6 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <_label>Delete Empty Measures</_label>
         <_tooltip>Deletes all empty measures from the cursor until the next music.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>DeleteLilyPondOnChord</action>
-        <menupath>/ObjectMenu/ChordMenu/Directives</menupath>
-        <_label>Delete LilyPond on Chord</_label>
-        <_tooltip>Deletes the LilyPond attached to the chord at the cursor.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>DeleteLilyPondOnNote</action>
-        <menupath>/ObjectMenu/NotesRests/Directives</menupath>
-        <_label>Delete LilyPond on Note</_label>
-        <_tooltip>Deletes the LilyPond attached to the note where the cursor is.</_tooltip>
       </row>
       <row type="scheme">
         <action>MovementNoteheadsDelete</action>
@@ -7293,6 +7301,18 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/StaffMenu</menupath>
         <_label>Delete Text Annotations</_label>
         <_tooltip>Deletes standalone text annotations from the cursor to the end of the staff.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>InsertNoteDirective</action>
+        <menupath>/ObjectMenu/NotesRests/Directives</menupath>
+        <_label>Attach/Edit LilyPond to Note</_label>
+        <_tooltip>Inserts LilyPond syntax you give before and after the note at the cursor height, also allows editing/deleting.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>InsertChordDirective</action>
+        <menupath>/ObjectMenu/ChordMenu/Directives</menupath>
+        <_label>Attach/Edit LilyPond to Chord</_label>
+        <_tooltip>Inserts LilyPond syntax you give before and after the chord at the cursor, also allows editing/deleting.</_tooltip>
       </row>
     </map>
   </merge>

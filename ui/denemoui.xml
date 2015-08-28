@@ -297,7 +297,6 @@
             <menuitem action="AddNoteToChord"/>
             <menuitem action="RemoveNoteFromChord"/>
         <menu action="Directives">
-            <menuitem action="AttachLilyToChord"/>
         </menu>
     </menu>
 
@@ -449,7 +448,6 @@
 
       </menu>
       <menu action="Directives">
-    <menuitem action="AttachLilyToNote"/>
       </menu>
     </menu>  <!-- notes/rests object menu -->
 

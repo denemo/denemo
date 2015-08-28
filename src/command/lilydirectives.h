@@ -53,8 +53,6 @@ void edit_object_type (GtkAction * action, DenemoScriptParam * param);       //F
 gboolean low_level_directive_edit (DenemoDirective *directive);
 
 
-void note_directive (GtkAction * action, DenemoScriptParam * param);
-void chord_directive (GtkAction * action, DenemoScriptParam * param);
 void standalone_directive (GtkAction * action, DenemoScriptParam * param);
 void put_standalone_directive (gchar *tag, gint pixelwidth);
 void delete_chord_or_note_directive (GtkAction * action, DenemoScriptParam * param);

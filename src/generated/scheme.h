@@ -889,12 +889,6 @@ install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "EditKeysigDirective", schem
 /*DeleteDirective delete_chord_or_note_directive*/
 SCM scheme_DeleteDirective(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "DeleteDirective", scheme_DeleteDirective);
-/*AttachLilyToNote note_directive*/
-SCM scheme_AttachLilyToNote(SCM optional);
-install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AttachLilyToNote", scheme_AttachLilyToNote);
-/*AttachLilyToChord chord_directive*/
-SCM scheme_AttachLilyToChord(SCM optional);
-install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "AttachLilyToChord", scheme_AttachLilyToChord);
 /*GoToMeasure tomeasurenum*/
 SCM scheme_GoToMeasure(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "GoToMeasure", scheme_GoToMeasure);
