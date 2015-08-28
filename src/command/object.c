@@ -265,7 +265,7 @@ display_current_object (void)
                 gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
             }
         }
-    GtkWidget *edit_button = gtk_button_new_with_label (_("Edit"));
+    GtkWidget *edit_button = gtk_button_new_with_label (_("Edit (or Create Button for creating more)"));
     g_signal_connect (edit_button, "clicked", G_CALLBACK (edit_object), NULL);
     gtk_box_pack_start (GTK_BOX (vbox), edit_button, FALSE, TRUE, 0);
       
@@ -603,6 +603,26 @@ static void advanced_edit_type_directive (GtkWidget *button, gpointer fn)
         }   
     
 }
+
+static void  create_palette_button_for_directive (GtkWidget *button, gchar *what)
+{
+    DenemoDirective *directive = (DenemoDirective*) g_object_get_data (G_OBJECT(button), "directive");
+    DenemoPalette *pal = NULL;
+    gchar *script = get_script_for_directive (directive, what);
+    gchar *name = choose_palette_by_name (TRUE, FALSE);
+    if (name)
+        pal = create_palette (name, FALSE, TRUE);
+    if(pal) {
+        gboolean success = palette_add_button (pal, directive->tag->str, "No help", script);
+        gtk_widget_show_all (gtk_widget_get_parent(pal->box));
+        gtk_widget_destroy (gtk_widget_get_toplevel (button));
+        reset_cursors ();
+    }
+    g_free (script);
+    
+}
+
+
 static void delete_directive (GtkWidget *button, gpointer fn)
 {
     DenemoDirective *directive = (DenemoDirective*) g_object_get_data (G_OBJECT(button), "directive");
@@ -665,8 +685,10 @@ static void execute_editscript (GtkWidget *button, gchar *filename)
  else
     reset_cursors ();
 }
+
+/* linked to type_str[] array!!! */
 typedef enum {
-  EDIT_CHORD,
+  EDIT_CHORD = 0,
   EDIT_NOTE,
   EDIT_TUPLET_START,
   EDIT_TUPLET_END,
@@ -678,7 +700,18 @@ typedef enum {
   
 } EditObjectType;
 
-
+static gchar *type_str [] =
+{
+ "chord",
+  "note",
+  "tuplet",
+  "tuplet",
+  "clef",
+  "keysig",
+  "timesig",
+  "stemdirective",
+  "standalone",      
+};
 static void general_edit_popup (GtkWidget *button, EditObjectType type)
 {
 
@@ -721,7 +754,7 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
 
             if (filename)
                 {
-                gchar *thelabel = g_strconcat (_("Edit "), name, NULL);
+                gchar *thelabel = g_strconcat (_("Edit (or Create Button for creating more) "), name, NULL);
                 GtkWidget *button = gtk_button_new_with_label (thelabel);
                 g_signal_connect (button, "clicked", G_CALLBACK (execute_editscript), filename);
                 g_signal_connect_swapped (button, "destroy", G_CALLBACK (g_free), filename);
@@ -778,9 +811,15 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
             g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
             g_signal_connect (button, "clicked", G_CALLBACK (delete_directive), func);
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 30);
-
-            button = gtk_button_new_with_label (_("Advanced"));
             
+            button = gtk_button_new_with_label (_("Create Button"));
+            gtk_widget_set_tooltip_text (button, _( "Make a palette button for installing this attribute elsewhere."));
+            g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
+            g_signal_connect (button, "clicked", G_CALLBACK (create_palette_button_for_directive), (gpointer)(type_str[type]));
+            gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+            
+            button = gtk_button_new_with_label (_("Advanced"));
+            gtk_widget_set_tooltip_text (button, _( "Examine/Edit this directive at a low-level"));
             g_object_set_data (G_OBJECT(button), "directives", (gpointer)pdirectives);
             g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
             g_signal_connect (button, "clicked", G_CALLBACK (advanced_edit_type_directive), func);
@@ -872,6 +911,13 @@ static void run_script (GtkWidget *button, gchar *script)
     reset_cursors ();
 }
 
+static void delete_standalone (GtkWidget *button)
+{
+    dnm_deleteobject (Denemo.project->movement);
+    gtk_widget_destroy (gtk_widget_get_toplevel (button));
+    score_status(Denemo.project, TRUE);
+    reset_cursors (); 
+}
 // edit the specific object at the cursor
 void
 edit_object (void)
@@ -1186,7 +1232,7 @@ edit_object (void)
                 
              if (filename)
                 {
-                gchar *thelabel = g_strconcat ( _("Edit "), name, NULL);
+                gchar *thelabel = g_strconcat ( _("Edit (or Create Button for creating more) "), name, NULL);
                 GtkWidget *button = gtk_button_new_with_label (thelabel);
                 g_signal_connect (button, "clicked", G_CALLBACK (execute_editscript), filename);
                 g_signal_connect_swapped (button, "destroy", G_CALLBACK (g_free), filename);
@@ -1202,11 +1248,32 @@ edit_object (void)
                 gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);                       
                 g_free(thelabel);  
                 }
-            GtkWidget *button = gtk_button_new_with_label (_("Advanced (low-level) edit"));
-            g_object_set_data (G_OBJECT(button), "directives", NULL);
-            g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
-            g_signal_connect (button, "clicked", G_CALLBACK (advanced_edit_type_directive), text_edit_standalone_directive);
-            gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);
+            {
+                GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+                gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, TRUE, 0);
+                
+                
+                button = gtk_button_new_with_label (_("Delete"));
+                GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
+                
+                color.red = 1.0; color.green = color.blue = 0.0; color.alpha = 1.0;
+                gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+                g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
+                g_signal_connect (button, "clicked", G_CALLBACK (delete_standalone), NULL);
+                gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 30);
+                
+                button = gtk_button_new_with_label (_("Create Button"));
+                gtk_widget_set_tooltip_text (button, _( "Make a palette button for inserting this object elsewhere."));
+                g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
+                g_signal_connect (button, "clicked", G_CALLBACK (create_palette_button_for_directive), "standalone");
+                gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+                
+                button = gtk_button_new_with_label (_("Advanced"));
+                g_object_set_data (G_OBJECT(button), "directives", NULL);
+                g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
+                g_signal_connect (button, "clicked", G_CALLBACK (advanced_edit_type_directive), text_edit_standalone_directive);
+                gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+            }
             }
             break;
             
@@ -1290,7 +1357,7 @@ void display_help(gchar *help)
     {
        infowarningdialog (help, TRUE); 
     }
-static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, DIRECTIVE_TYPE score_or_movement)
+static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, DIRECTIVE_TYPE score_or_movement, gchar *field)
 {
     GList *g;
      for (g=*pdirectives;g;g=g->next)
@@ -1323,7 +1390,7 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
                 GtkWidget *button;    
                  if (filename)
                     {
-                    gchar *thelabel = g_strconcat ( _("Edit "), name, NULL);
+                    gchar *thelabel = g_strconcat ( _("Edit (or Create Button for creating more) "), name, NULL);
                     button = gtk_button_new_with_label (thelabel);
                     g_signal_connect (button, "clicked", G_CALLBACK (execute_editscript), filename);
                     g_signal_connect_swapped (button, "destroy", G_CALLBACK (g_free), filename);
@@ -1354,8 +1421,16 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
             g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
             g_signal_connect (button, "clicked", G_CALLBACK (delete_score_directive), NULL);
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 30);
+            
+            
+            button = gtk_button_new_with_label (_("Create Button"));
+            gtk_widget_set_tooltip_text (button, _( "Make a palette button for installing this attribute elsewhere."));
+            g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
+            g_signal_connect (button, "clicked", G_CALLBACK (create_palette_button_for_directive), (gpointer)(field));
+            gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
     
-            button = gtk_button_new_with_label (_("Advanced (low-level) edit"));
+    
+            button = gtk_button_new_with_label (_("Advanced"));
             g_object_set_data (G_OBJECT(button), "directives", pdirectives);
             g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
             g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (low_level_edit_type_directive), low_level_directive_edit);
@@ -1430,9 +1505,9 @@ edit_score_and_movement_properties (gboolean show_score)
     g_signal_connect (button, "clicked", G_CALLBACK (score_properties_dialog), NULL);
     gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);
    
-    place_buttons_for_directives ((GList**)&Denemo.project->lilycontrol.directives, inner_box, DIRECTIVE_SCORE);
-    place_buttons_for_directives ((GList**)&Denemo.project->scoreheader, inner_box, DIRECTIVE_SCORE);
-    place_buttons_for_directives ((GList**)&Denemo.project->paper, inner_box, DIRECTIVE_SCORE);
+    place_buttons_for_directives ((GList**)&Denemo.project->lilycontrol.directives, inner_box, DIRECTIVE_SCORE, "lilycontrol");
+    place_buttons_for_directives ((GList**)&Denemo.project->scoreheader, inner_box, DIRECTIVE_SCORE, "scoreheader");
+    place_buttons_for_directives ((GList**)&Denemo.project->paper, inner_box, DIRECTIVE_SCORE, "paper");
     
 
     
@@ -1474,9 +1549,9 @@ edit_score_and_movement_properties (gboolean show_score)
         gtk_widget_set_sensitive (button, FALSE);
  
  
-    place_buttons_for_directives ((GList**)&Denemo.project->movement->movementcontrol, inner_box, DIRECTIVE_MOVEMENT);
-    place_buttons_for_directives ((GList**)&Denemo.project->movement->header, inner_box, DIRECTIVE_MOVEMENT);
-    place_buttons_for_directives ((GList**)&Denemo.project->movement->layout, inner_box, DIRECTIVE_MOVEMENT);
+    place_buttons_for_directives ((GList**)&Denemo.project->movement->movementcontrol, inner_box, DIRECTIVE_MOVEMENT, "movementcontrol");
+    place_buttons_for_directives ((GList**)&Denemo.project->movement->header, inner_box, DIRECTIVE_MOVEMENT, "header");
+    place_buttons_for_directives ((GList**)&Denemo.project->movement->layout, inner_box, DIRECTIVE_MOVEMENT, "paper");
  
    gtk_paned_set_position (GTK_PANED(pane), show_score? window_height-50 : 50);
  
@@ -1570,18 +1645,18 @@ edit_staff_and_voice_properties (gboolean show_staff)
     gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);
     DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
     
-    place_buttons_for_directives ((GList**)&thestaff->staff_directives, inner_box, DIRECTIVE_STAFF);
+    place_buttons_for_directives ((GList**)&thestaff->staff_directives, inner_box, DIRECTIVE_STAFF, "staff");
      if(thestaff->keysig.directives)
         {
         GtkWidget *label = gtk_label_new (_("Key Signature Directives"));
         gtk_box_pack_start (GTK_BOX (inner_box), label, FALSE, TRUE, 0);
-        place_buttons_for_directives ((GList**)&(thestaff->keysig.directives), inner_box, DIRECTIVE_KEYSIG);
+        place_buttons_for_directives ((GList**)&(thestaff->keysig.directives), inner_box, DIRECTIVE_KEYSIG, "keysig");
         }
     if(thestaff->timesig.directives)
         {
         GtkWidget *label = gtk_label_new (_("Time Signature Directives"));
         gtk_box_pack_start (GTK_BOX (inner_box), label, FALSE, TRUE, 0);
-        place_buttons_for_directives ((GList**)&(thestaff->timesig.directives), inner_box, DIRECTIVE_TIMESIG);
+        place_buttons_for_directives ((GList**)&(thestaff->timesig.directives), inner_box, DIRECTIVE_TIMESIG, "timesig");
         }
     expander = gtk_expander_new (_("Voice Properties"));
 
@@ -1620,7 +1695,7 @@ edit_staff_and_voice_properties (gboolean show_staff)
         gtk_widget_set_sensitive (button, FALSE);
  
  
-    place_buttons_for_directives ((GList**)&thestaff->voice_directives, inner_box, DIRECTIVE_VOICE);
+    place_buttons_for_directives ((GList**)&thestaff->voice_directives, inner_box, DIRECTIVE_VOICE, "voice");
 
  
    gtk_paned_set_position (GTK_PANED(pane), show_staff? window_height-50 : 50);

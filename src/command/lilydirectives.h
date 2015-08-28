@@ -71,6 +71,8 @@ gboolean delete_note_directive (gchar * tag);
 gboolean delete_staff_directive (gchar * tag);
 gboolean delete_voice_directive (gchar * tag);
 
+gchar *get_script_for_directive (DenemoDirective* directive, gchar * what);
+
 #define DECL_PUT_FIELD(what, field) gboolean what##_directive_put_##field(gchar *tag, gchar *value);
 #define DECL_GET_FIELD(what, field) gchar *what##_directive_get_##field(gchar *tag);
 #define DECL_GET_INT(what, field) gint what##_directive_get_##field(gchar *tag);

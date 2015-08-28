@@ -486,7 +486,14 @@ DenemoPalette *create_palette (gchar *name, gboolean docked, gboolean rows) {
     {
         pal = new_palette (name, TRUE);
         pal->window =  gtk_window_new (GTK_WINDOW_TOPLEVEL);
-        gtk_window_set_title (GTK_WINDOW (pal->window), pal->name);     
+        gtk_window_set_title (GTK_WINDOW (pal->window), pal->name);    
+        if(!docked)
+            {
+             gtk_window_set_default_size (GTK_WINDOW (pal->window), 200, 100);//try and get folk to notice it!
+             gtk_window_present (GTK_WINDOW (pal->window));
+             gtk_window_set_keep_above  (GTK_WINDOW (pal->window), TRUE);
+         }
+ 
         g_signal_connect (G_OBJECT (pal->window), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
         pal->rows = rows;
         if(docked) 
@@ -551,7 +558,7 @@ gchar *choose_palette_by_name (gboolean allow_custom, gboolean non_showing)
   selected_palette_name = NULL;
   if(Denemo.palettes) {
   if(allow_custom) {
-    item = gtk_menu_item_new_with_label (_("Custom"));
+    item = gtk_menu_item_new_with_label (_("Create Custom Palette"));
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
     }
     //g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (user_palette_name), NULL);

@@ -2290,33 +2290,40 @@ quote_scheme (gchar * s)
   return g_string_free (dest, FALSE);
 }
 
-static void
-create_script (DenemoDirective * directive, gchar * what)
-{
-  GString *scheme = g_string_new (directive->tag->str);
-  g_string_prepend (scheme, ";;;");
-  g_string_append (scheme, "\n");
+gchar *get_script_for_directive (DenemoDirective* directive, gchar * what)
+ {
+  GString *scheme = g_string_new ("");
+  g_string_append_printf (scheme, ";;;%s\n(let ((tag \"%s\"))\n", directive->tag->str, directive->tag->str);
   if (what == NULL)
-    {
       what = "standalone";
-      g_string_append_printf (scheme, "(d-Directive-standalone \"%s\")\n", directive->tag->str);
-    }
+
+  if (!strcmp (what, "standalone"))
+      g_string_append (scheme, "(d-Directive-standalone tag)\n");
 #define ADD_TEXT(field)\
 if(directive->field && directive->field->len)\
   {gchar *quote = quote_scheme(directive->field->str);\
-   g_string_append_printf(scheme, "(d-DirectivePut-%s-%s \"%s\" \"%s\")\n",\
-       what, #field, directive->tag->str, quote);\
+   g_string_append_printf(scheme, "(d-DirectivePut-%s-%s tag \"%s\")\n",\
+       what, #field, quote);\
    g_free(quote);}
   ADD_TEXT (prefix);
   ADD_TEXT (postfix);
   ADD_TEXT (display);
-  ADD_TEXT (graphic_name);
+  ADD_TEXT (grob);
   ADD_TEXT (midibytes);
+  ADD_TEXT (data);
+ //graphic_name is exceptional, the graphic field is filled in from it
+if(directive->graphic_name && directive->graphic_name->len)
+  {
+    gchar *quote = quote_scheme(directive->graphic_name->str);
+    g_string_append_printf(scheme, "(d-DirectivePut-%s-graphic tag \"%s\")\n",
+       what, quote);
+    g_free(quote);
+   }
 #undef ADD_TEXT
 #define ADD_INTTEXT(field)\
 if(directive->field)\
-  g_string_append_printf(scheme, "(d-DirectivePut-%s-%s \"%s\" %d)\n",\
-       what, #field, directive->tag->str, directive->field);
+  g_string_append_printf(scheme, "(d-DirectivePut-%s-%s tag %d)\n",\
+       what, #field, directive->field);
   ADD_INTTEXT (minpixels);
   ADD_INTTEXT (override);
   ADD_INTTEXT (x);
@@ -2327,11 +2334,18 @@ if(directive->field)\
   ADD_INTTEXT (gy);
 
 #undef ADD_INTTEXT
-  g_string_append (scheme, "(d-SetSaved #f)(d-RefreshDisplay)\n;;;End of scheme script");
+  g_string_append (scheme, "(d-SetSaved #f)(d-RefreshDisplay))\n;;;End of scheme script");
   // quote_scheme(scheme);
   //g_debug("Scheme is %s\n", scheme->str);
-  appendSchemeText (scheme->str);
-  g_string_free (scheme, TRUE);
+   return g_string_free (scheme, FALSE);    
+}
+  
+static void
+create_script (DenemoDirective * directive, gchar * what)
+{
+  gchar *scheme = get_script_for_directive (directive, what);
+  appendSchemeText (scheme);
+  g_free (scheme);
 }
 
 
