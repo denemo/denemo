@@ -59,15 +59,16 @@
         
     (if (equal? "edit" params)
         (let ((choice (RadioBoxMenu (cons (_ "Edit Text") 'text) 
-        (cons (_ "Edit Space Occupied") 'space)
-        (cons (_ "Edit Size") 'scale)
-        (cons (_ "Up/Down") 'position)
-         (cons (_ "Edit Position") 'offset))))
+                (cons (_ "Edit Space Occupied") 'space)
+                (cons (_ "Edit Size") 'scale)
+                (cons (_ "Up/Down") 'position)
+                (cons (_ "Edit Position") 'offset)
+                (cons (_ "Edit Others") 'more)
+                (cons (_ "Delete") 'delete))))
             (set! params #f)
             (case choice
               ((text)
                 (set! params 'finished)
-                ;;;(set! text (d-GetUserInputWithSnippets #f #f text 'format))
                 (get-text))
               ((scale) 
                 (set! params 'finished)
@@ -88,60 +89,68 @@
                     (if (not (and x-offset (string->number x-offset) y-offset (string->number y-offset)))
                         (begin
                             (set! x-offset #f)
-                            (set! y-offset #f)))))))
-
-    (if (and y-offset x-offset)
-        (set! prefix (string-append "<>-\\tweak #'extra-offset #'(" x-offset " . " y-offset ") ")))        
-
-    (if dim
-        (set! dimensions (string-append "\\with-dimensions #'(-" dim " . " dim ") #'(-" dim " . " dim ")")))
-                
-    (if (not dimensions)
-                (set! dimensions ""))
-     (if (not direction)
-        (set! direction "^"))      
-    (if (string? text)
+                            (set! y-offset #f))))
+                            
+             ((more)
+                    (set! params 'abort)
+                    (d-EditSimilar))
+            ((delete)
+                  (set! params 'abort)
+                (d-DirectiveDelete-standalone tag)))))
+    (if (not (eq? params 'abort))
         (begin
-            (set! params 'finished)
-            (set! text (cons text ""))
-            (get-text)))
-    (if (not (eq? params 'finished))
-        (get-text))
-            
-    (if text 
-       (begin
-            (if (not scale)
-                (get-scale))
+            (if (and y-offset x-offset)
+                (set! prefix (string-append "<>-\\tweak #'extra-offset #'(" x-offset " . " y-offset ") ")))        
 
-            (if (not scale) 
-                (set! scale "1"))
-            (set! markup (cdr text))
-            (set! text (car text))
-            (set! data (assq-set! data 'text text))
-            (set! data (assq-set! data 'scale scale))
-            (if dim 
-                (set! data (assq-set! data 'dimensions dim))
-                (set! data (assq-remove! data 'dimensions)))
-       (set! data (assq-set! data 'direction direction))
-            (if x-offset
-             (set! data (assq-set! data 'x-offset x-offset)))
-            (if y-offset
-             (set! data (assq-set! data 'y-offset y-offset)))
-                       
-            (if (not (d-Directive-standalone? tag))
-                (d-DirectivePut-standalone tag))
-            (d-DirectivePut-standalone-data tag (format #f "'~s" data))
-            (d-DirectivePut-standalone-display tag text)
-            (d-DirectivePut-standalone-postfix tag (string-append direction "\\markup"dimensions"\\scale #'(" scale " . " scale ")\\column{" markup "}"))
-            (d-DirectivePut-standalone-prefix tag prefix)
-            (d-DirectivePut-standalone-minpixels tag 30)
-            (d-RefreshDisplay)
-            (d-SetSaved #f))
-        (begin
-            (if (not params)
-                (let ((confirm (d-GetUserInput (d-DirectiveGet-standalone-display tag) (_ "Delete this text?") (_ "y"))))
-                 (if (and confirm (equal? confirm (_ "y")))
-                    (begin
-                        (d-DirectiveDelete-standalone tag)
-                        (d-SetSaved #f))
-                    (d-InfoDialog (_ "Cancelled"))))))))
+            (if dim
+                (set! dimensions (string-append "\\with-dimensions #'(-" dim " . " dim ") #'(-" dim " . " dim ")")))
+                        
+            (if (not dimensions)
+                        (set! dimensions ""))
+             (if (not direction)
+                (set! direction "^"))      
+            (if (string? text)
+                (begin
+                    (set! params 'finished)
+                    (set! text (cons text ""))
+                    (get-text)))
+            (if (not (eq? params 'finished))
+                (get-text))
+                    
+            (if text 
+               (begin
+                    (if (not scale)
+                        (get-scale))
+
+                    (if (not scale) 
+                        (set! scale "1"))
+                    (set! markup (cdr text))
+                    (set! text (car text))
+                    (set! data (assq-set! data 'text text))
+                    (set! data (assq-set! data 'scale scale))
+                    (if dim 
+                        (set! data (assq-set! data 'dimensions dim))
+                        (set! data (assq-remove! data 'dimensions)))
+                    (set! data (assq-set! data 'direction direction))
+                    (if x-offset
+                     (set! data (assq-set! data 'x-offset x-offset)))
+                    (if y-offset
+                     (set! data (assq-set! data 'y-offset y-offset)))
+                               
+                    (if (not (d-Directive-standalone? tag))
+                        (d-DirectivePut-standalone tag))
+                    (d-DirectivePut-standalone-data tag (format #f "'~s" data))
+                    (d-DirectivePut-standalone-display tag text)
+                    (d-DirectivePut-standalone-postfix tag (string-append direction "\\markup"dimensions"\\scale #'(" scale " . " scale ")\\column{" markup "}"))
+                    (d-DirectivePut-standalone-prefix tag prefix)
+                    (d-DirectivePut-standalone-minpixels tag 30)
+                    (d-RefreshDisplay)
+                    (d-SetSaved #f))
+                (begin
+                    (if (not params)
+                        (let ((confirm (d-GetUserInput (d-DirectiveGet-standalone-display tag) (_ "Delete this text?") (_ "y"))))
+                         (if (and confirm (equal? confirm (_ "y")))
+                            (begin
+                                (d-DirectiveDelete-standalone tag)
+                                (d-SetSaved #f))
+                            (d-InfoDialog (_ "Cancelled"))))))))))

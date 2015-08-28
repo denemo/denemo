@@ -673,6 +673,8 @@ actions/menus/ObjectMenu/ChordMenu/CompactChordScale.scm
 actions/menus/ObjectMenu/ChordMenu/CompactChordScale.xml
 actions/menus/ObjectMenu/ChordMenu/Directives/DeleteLilyPondOnChord.scm
 actions/menus/ObjectMenu/ChordMenu/Directives/DeleteLilyPondOnChord.xml
+actions/menus/ObjectMenu/ChordMenu/Directives/InsertChordDirective.scm
+actions/menus/ObjectMenu/ChordMenu/Directives/InsertChordDirective.xml
 actions/menus/ObjectMenu/ChordMenu/HideLilyPond.scm
 actions/menus/ObjectMenu/ChordMenu/HideLilyPond.xml
 actions/menus/ObjectMenu/ChordMenu/ParenthesizeChord.scm
@@ -1163,6 +1165,8 @@ actions/menus/ObjectMenu/NotesRests/ChordComment.scm
 actions/menus/ObjectMenu/NotesRests/ChordComment.xml
 actions/menus/ObjectMenu/NotesRests/Directives/DeleteLilyPondOnNote.scm
 actions/menus/ObjectMenu/NotesRests/Directives/DeleteLilyPondOnNote.xml
+actions/menus/ObjectMenu/NotesRests/Directives/InsertNoteDirective.scm
+actions/menus/ObjectMenu/NotesRests/Directives/InsertNoteDirective.xml
 actions/menus/ObjectMenu/NotesRests/DisplaceHorizontally.scm
 actions/menus/ObjectMenu/NotesRests/DisplaceHorizontally.xml
 actions/menus/ObjectMenu/NotesRests/EditDuration/Breve.scm
