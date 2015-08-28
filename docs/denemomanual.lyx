@@ -2445,6 +2445,13 @@ Notation Magick Menu
 
 \begin_layout Section
 Palettes
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Palettes"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2494,6 +2501,22 @@ You should make palettes your best friend - when you find a command in the
  need.
  By right clicking on a palette button you can choose a label for the command
  that suits you, and even make special notes about its use in the tooltip.
+\end_layout
+
+\begin_layout Standard
+Palette buttons can also be created directly from objects so that you can
+ create more of them in your score; if you run Help->Open Feature Packed
+ Score and find the type of object or attribute you need there then you
+ can run the Object Editor on it and create a palette button for installing
+ the same thing in your own score.
+ See the Object Editor
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Object-Editor"
+
+\end_inset
+
+ for more details.
 \end_layout
 
 \begin_layout Section
@@ -2966,8 +2989,9 @@ name "sec:Object-Editor"
 \end_layout
 
 \begin_layout Standard
-The Object Editor allows you to edit the current Denemo Object.
- It can be launched from the Edit Menu or from the 
+The Object Editor allows you to edit the current Denemo Object and also
+ to create palette buttons for generating such objects.It can be launched
+ from the Edit Menu or from the 
 \begin_inset CommandInset ref
 LatexCommand nameref
 reference "sec:The-Object-Inspector"
@@ -2975,6 +2999,10 @@ reference "sec:The-Object-Inspector"
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Subsection
+Editing Objects and their properties.
 \end_layout
 
 \begin_layout Standard
@@ -3012,6 +3040,29 @@ As with the Object Inspector the Object Editor is sensitive to the cursor
  height, with the same navigation control to move through the notes of a
  chord so as to allow editing the detail of each note.
  
+\end_layout
+
+\begin_layout Subsection
+Creating Palette Buttons for Objects and Properties.
+\end_layout
+
+\begin_layout Standard
+The Object Editor also has a button for creating a Palette Button for the
+ Denemo Directive that it edits.
+ This means that for any specific attribute you want to re-use you can create
+ a button that will install exactly that Denemo Directive at the cursor.
+ This means that even if you do not know how a particular effect was generated
+ you can create a palette button to use the effect in your own score.
+ The Open->Open Example scores provide useful examples of things you may
+ need.
+ See the section on Palettes
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Palettes"
+
+\end_inset
+
+ for more about palettes.
 \end_layout
 
 \begin_layout Section
