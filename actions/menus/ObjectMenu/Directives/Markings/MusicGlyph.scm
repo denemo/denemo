@@ -645,8 +645,6 @@
 (if choice
     (begin
         (StandAloneDirectiveProto (cons tag (string-append "^\\markup {\\musicglyph #\"" choice "\"} ")) #f #f choice)
-        (d-DirectivePut-standalone-prefix tag "<>"))
-    ))
-    
-  ;;;  (d-DirectivePut-standalone-postfix tag (string-append "<>^\\markup {  \\musicglyph #\"" choice "\"} "))))
-    
+        (d-DirectivePut-standalone-prefix tag "<>")
+   	 (d-SetSaved #f))))
+   
