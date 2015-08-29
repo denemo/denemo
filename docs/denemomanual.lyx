@@ -3047,12 +3047,48 @@ Creating Palette Buttons for Objects and Properties.
 \end_layout
 
 \begin_layout Standard
-The Object Editor also has a button for creating a Palette Button for the
+The Object Editor also has buttons for creating Palette Buttons for the
  Denemo Directive that it edits.
- This means that for any specific attribute you want to re-use you can create
+ There are two of these: one button would run the command that created the
+ attribute/object the other will instantiate a duplicate - a clone - of
+ the attribute/object.
+\end_layout
+
+\begin_layout Subsubsection
+Create Button for Command
+\end_layout
+
+\begin_layout Standard
+This creates a palette button to run the command that created the Denemo
+ Directive you have Object Editor open on.
+ You are asked which palette you want to place the button in, and can create
+ a new, custom, palette at that stage.
+\end_layout
+
+\begin_layout Standard
+For example, if you use this on the Arranger attribute of a score you will
+ get a button that runs the command Arranger (which is found in Score->Titles...).
+ That button would then ask you to fill in the name of the arranger.
+ Compare this with the next button, where you will create a button that
+ will install a clone of Arranger attribute that you have on this score
+ - the arranger will be already filled in, saving you having to enter your
+ own name each time you create a new score.
+\end_layout
+
+\begin_layout Subsubsection
+Create Button for Clone
+\end_layout
+
+\begin_layout Standard
+This creates a button which when clicked will insert a duplicate of the
+ Denemo Directive that the Object Editor is looking at.
+\end_layout
+
+\begin_layout Standard
+This means that for any specific attribute you want to re-use you can create
  a button that will install exactly that Denemo Directive at the cursor.
- This means that even if you do not know how a particular effect was generated
- you can create a palette button to use the effect in your own score.
+ So, even if you do not know how a particular effect was generated, you
+ can create a palette button to use the effect in your own score.
  The Open->Open Example scores provide useful examples of things you may
  need.
  See the section on Palettes
@@ -3063,6 +3099,12 @@ reference "sec:Palettes"
 \end_inset
 
  for more about palettes.
+\end_layout
+
+\begin_layout Standard
+This button is particularly useful for things like your copyright notice
+ which stays the same from score to score - you just need a clone to install
+ on a new score.
 \end_layout
 
 \begin_layout Section
