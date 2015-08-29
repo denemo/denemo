@@ -12,6 +12,7 @@
       <postfix>
 page-limit-inter-system-space = ##t
 page-limit-inter-system-space-factor = 1.2</postfix>
+      <data>1.2</data>
     </directive>
   </paper-directives>
   <thumbnail>
