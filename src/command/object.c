@@ -103,6 +103,8 @@ append_directives_information (GString * selection, GList * directives)
       const gchar *label = get_label_for_command (directive->tag->str);
       const gchar *menupath = get_menu_path_for_command (directive->tag->str);
       const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
+      if (tooltip == NULL) tooltip = _("No tooltip");
+
       if(directive->tag==NULL)
             directive->tag = g_string_new("<Unknown Tag>");//shouldn't happen
       gchar *label_e = label? g_markup_escape_text(label, -1): g_markup_escape_text(directive->tag->str, -1);
@@ -265,7 +267,7 @@ display_current_object (void)
                 gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
             }
         }
-    GtkWidget *edit_button = gtk_button_new_with_label (_("Edit (or Create Button for creating more)"));
+    GtkWidget *edit_button = gtk_button_new_with_label (_("Run the Object Editor"));
     g_signal_connect (edit_button, "clicked", G_CALLBACK (edit_object), NULL);
     gtk_box_pack_start (GTK_BOX (vbox), edit_button, FALSE, TRUE, 0);
       
@@ -468,6 +470,7 @@ display_current_object (void)
             const gchar *label = get_label_for_command (directive->tag->str);
             const gchar *menupath = get_menu_path_for_command (directive->tag->str);
             const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
+            if (tooltip == NULL) tooltip = _("No tooltip");
             gchar *label_e = label? g_markup_escape_text(label, -1): g_markup_escape_text(directive->tag->str, -1);
             if(label)
                g_string_append_printf (selection, _("a Denemo Directive: <span weight=\"bold\">%s</span>\n"), label_e);
@@ -613,7 +616,9 @@ static void  create_palette_button_for_directive (GtkWidget *button, gchar *what
     if (name)
         pal = create_palette (name, FALSE, TRUE);
     if(pal) {
-        gboolean success = palette_add_button (pal, directive->tag->str, "No help", script);
+        gchar *button_name = g_strdup_printf (_( "Clone %s"), directive->tag->str);
+        gboolean success = palette_add_button (pal, button_name, _("Creates a cloned Denemo Directive"), script);
+        g_free (button_name);
         gtk_widget_show_all (gtk_widget_get_parent(pal->box));
         gtk_widget_destroy (gtk_widget_get_toplevel (button));
         reset_cursors ();
@@ -621,7 +626,22 @@ static void  create_palette_button_for_directive (GtkWidget *button, gchar *what
     g_free (script);
     
 }
-
+static void  create_palette_button_for_command (GtkWidget *button, gchar *tooltip)
+{
+    DenemoDirective *directive = (DenemoDirective*) g_object_get_data (G_OBJECT(button), "directive");
+    DenemoPalette *pal = NULL;
+    gchar *script = g_strdup_printf ("(d-%s)", directive->tag->str);
+    gchar *name = choose_palette_by_name (TRUE, FALSE);
+    if (name)
+        pal = create_palette (name, FALSE, TRUE);
+    if(pal) {
+        gboolean success = palette_add_button (pal, directive->tag->str, tooltip, script);
+        gtk_widget_show_all (gtk_widget_get_parent(pal->box));
+        gtk_widget_destroy (gtk_widget_get_toplevel (button));
+        reset_cursors ();
+    }
+    g_free (script);
+}
 
 static void delete_directive (GtkWidget *button, gpointer fn)
 {
@@ -728,7 +748,10 @@ static void general_edit_popup (GtkWidget *button, EditObjectType type)
     reset_cursors ();
  
 }
-
+static void display_help(gchar *help)
+    {
+       infowarningdialog (help, TRUE); 
+    }
 static void
 place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
 {
@@ -739,6 +762,7 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
             const gchar *label = get_label_for_command (directive->tag->str);
             GtkAction *action = lookup_action_from_name (directive->tag->str);
             gchar *name = label?(gchar*)label:directive->tag->str;
+            const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
 
             gchar *filename = get_editscript_filename (directive->tag->str);
 
@@ -754,7 +778,7 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
 
             if (filename)
                 {
-                gchar *thelabel = g_strconcat (_("Edit (or Create Button for creating more) "), name, NULL);
+                gchar *thelabel = g_strconcat (_("Run the Object Editor"), name, NULL);
                 GtkWidget *button = gtk_button_new_with_label (thelabel);
                 g_signal_connect (button, "clicked", G_CALLBACK (execute_editscript), filename);
                 g_signal_connect_swapped (button, "destroy", G_CALLBACK (g_free), filename);
@@ -763,8 +787,9 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
                 }  
             else if (action)
                 {
-                gchar *thelabel = g_strconcat (_("Edit command: "), name, NULL);
+                gchar *thelabel = g_strconcat (_("Execute command: "), name, NULL);
                 GtkWidget *button = gtk_button_new_with_label (thelabel);
+                gtk_widget_set_tooltip_text (button, _("Re-run the command to edit the Denemo Directive"));
                 g_object_set_data (G_OBJECT(button), "action", (gpointer)action);
                 g_signal_connect (button, "clicked", G_CALLBACK (call_edit_on_action), NULL);
                 gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);                       
@@ -812,7 +837,25 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
             g_signal_connect (button, "clicked", G_CALLBACK (delete_directive), func);
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 30);
             
-            button = gtk_button_new_with_label (_("Create Button"));
+            if (tooltip)
+                {
+                    button = gtk_button_new_with_label (_("Help"));
+                    color.red = 0.0; color.green = 0.7,  color.blue = 0.3; color.alpha = 1.0;
+                    gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+                    g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (display_help), (gpointer)tooltip);
+                    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+                }            
+            if (tooltip == NULL) tooltip = _("No tooltip");
+
+            if (action) {
+                button = gtk_button_new_with_label (_("Create Button for Command"));
+                gtk_widget_set_tooltip_text (button, _( "Make a palette button for running the command that created this attribute."));
+                g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
+                g_signal_connect (button, "clicked", G_CALLBACK (create_palette_button_for_command), (gpointer)tooltip);
+                gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);   
+            }
+            
+            button = gtk_button_new_with_label (_("Create Button for Clone"));
             gtk_widget_set_tooltip_text (button, _( "Make a palette button for installing this attribute elsewhere."));
             g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
             g_signal_connect (button, "clicked", G_CALLBACK (create_palette_button_for_directive), (gpointer)(type_str[type]));
@@ -1216,6 +1259,7 @@ edit_object (void)
             const gchar *label = get_label_for_command (directive->tag->str);
             GtkAction *action = lookup_action_from_name (directive->tag->str);
             gchar *name = label?(gchar*)label:directive->tag->str;
+            const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
             gchar *filename = get_editscript_filename (directive->tag->str);
             GtkWidget *frame = gtk_frame_new ( _("Standalone Denemo Directive:"));
             gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
@@ -1232,7 +1276,7 @@ edit_object (void)
                 
              if (filename)
                 {
-                gchar *thelabel = g_strconcat ( _("Edit (or Create Button for creating more) "), name, NULL);
+                gchar *thelabel = g_strconcat ( _("Run the Object Editor"), name, NULL);
                 GtkWidget *button = gtk_button_new_with_label (thelabel);
                 g_signal_connect (button, "clicked", G_CALLBACK (execute_editscript), filename);
                 g_signal_connect_swapped (button, "destroy", G_CALLBACK (g_free), filename);
@@ -1241,8 +1285,10 @@ edit_object (void)
                 }  
             else if (action) 
                 {
-                gchar *thelabel = g_strconcat ( _("Edit command: "), name, NULL);
+                gchar *thelabel = g_strconcat ( _("Execute command: "), name, NULL);
                 GtkWidget *button = gtk_button_new_with_label (thelabel);
+                gtk_widget_set_tooltip_text (button, _("Re-run the command to edit the Denemo Directive"));
+
                 g_object_set_data (G_OBJECT(button), "action", (gpointer)action);
                 g_signal_connect (button, "clicked", G_CALLBACK (call_edit_on_action), NULL);
                 gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);                       
@@ -1262,8 +1308,25 @@ edit_object (void)
                 g_signal_connect (button, "clicked", G_CALLBACK (delete_standalone), NULL);
                 gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 30);
                 
-                button = gtk_button_new_with_label (_("Create Button"));
-                gtk_widget_set_tooltip_text (button, _( "Make a palette button for inserting this object elsewhere."));
+                if (tooltip)
+                    {
+                        button = gtk_button_new_with_label (_("Help"));
+                        color.red = 0.0; color.green = 0.7,  color.blue = 0.3; color.alpha = 1.0;
+                        gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+                        g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (display_help), (gpointer)tooltip);
+                        gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+                    }
+                if (tooltip == NULL) tooltip = _("No tooltip");
+            
+                if (action) {
+                            button = gtk_button_new_with_label (_("Create Button for Command"));
+                            gtk_widget_set_tooltip_text (button, _( "Make a palette button for running the command that created inserted this object."));
+                            g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
+                            g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (create_palette_button_for_command), (gpointer)tooltip);
+                            gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);   
+                            }
+                button = gtk_button_new_with_label (_("Create Button for Clone"));
+                gtk_widget_set_tooltip_text (button, _( "Make a palette button for inserting a clone of this object elsewhere."));
                 g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
                 g_signal_connect (button, "clicked", G_CALLBACK (create_palette_button_for_directive), "standalone");
                 gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
@@ -1353,61 +1416,60 @@ static void delete_score_directive (GtkWidget *button)
     gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
     score_status(Denemo.project, TRUE);    
 }
-void display_help(gchar *help)
-    {
-       infowarningdialog (help, TRUE); 
-    }
+
 static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, DIRECTIVE_TYPE score_or_movement, gchar *field)
 {
     GList *g;
      for (g=*pdirectives;g;g=g->next)
       {
-         DenemoDirective *directive = g->data;       
-                const gchar *label = get_label_for_command (directive->tag->str);
-                GtkAction *action = lookup_action_from_name (directive->tag->str);
-                gchar *name = label?(gchar*)label:directive->tag->str;
-                const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
-                gchar *filename = get_editscript_filename (directive->tag->str);
-                 GtkWidget *frame;
-                 gchar *text;
-                if (label == NULL)
-                    text = g_strdup_printf("%s%s", _("Denemo Directive tagged:"), name);
-                else
-                    text = g_strdup ( _("Denemo Directive:"));
-                frame = gtk_frame_new (text);
-                g_free(text);
-                //gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
-                GdkRGBA color;
-                color.red = 0.5;
-                color.green = 0.5; color.blue = 0.1; color.alpha = 1;
-                gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
-                gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
-                GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
-                color.green = 0.8;
-                color.red = 0.8; color.blue = 0.1; color.alpha = 1;
-                gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
-                gtk_container_add (GTK_CONTAINER (frame), inner_box);
-                GtkWidget *button;    
-                 if (filename)
-                    {
-                    gchar *thelabel = g_strconcat ( _("Edit (or Create Button for creating more) "), name, NULL);
-                    button = gtk_button_new_with_label (thelabel);
-                    g_signal_connect (button, "clicked", G_CALLBACK (execute_editscript), filename);
-                    g_signal_connect_swapped (button, "destroy", G_CALLBACK (g_free), filename);
-                    gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);   
-                    g_free(thelabel);
-                    }  
-                else if (action) 
-                    {
-                    gchar *thelabel = g_strconcat ( _("Edit command: "), name, NULL);
-                    button = gtk_button_new_with_label (thelabel);
-                    g_object_set_data (G_OBJECT(button), "action", (gpointer)action);
-                    g_signal_connect (button, "clicked", G_CALLBACK (call_edit_on_action), GINT_TO_POINTER(score_or_movement));
-                    gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);                       
-                    g_free(thelabel);  
-                    }
-                    if (tooltip)
-                        gtk_widget_set_tooltip_text (button, tooltip);
+            DenemoDirective *directive = g->data;       
+            const gchar *label = get_label_for_command (directive->tag->str);
+            GtkAction *action = lookup_action_from_name (directive->tag->str);
+            gchar *name = label?(gchar*)label:directive->tag->str;
+            const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
+            gchar *filename = get_editscript_filename (directive->tag->str);
+             GtkWidget *frame;
+             gchar *text;
+            if (label == NULL)
+                text = g_strdup_printf("%s%s", _("Denemo Directive tagged:"), name);
+            else
+                text = g_strdup ( _("Denemo Directive:"));
+            frame = gtk_frame_new (text);
+            g_free(text);
+            //gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
+            GdkRGBA color;
+            color.red = 0.5;
+            color.green = 0.5; color.blue = 0.1; color.alpha = 1;
+            gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+            gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
+            GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
+            color.green = 0.8;
+            color.red = 0.8; color.blue = 0.1; color.alpha = 1;
+            gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
+            gtk_container_add (GTK_CONTAINER (frame), inner_box);
+            GtkWidget *button;    
+             if (filename)
+                {
+                gchar *thelabel = g_strconcat ( _("Run the Object Editor"), name, NULL);
+                button = gtk_button_new_with_label (thelabel);
+                g_signal_connect (button, "clicked", G_CALLBACK (execute_editscript), filename);
+                g_signal_connect_swapped (button, "destroy", G_CALLBACK (g_free), filename);
+                gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);   
+                g_free(thelabel);
+                }  
+            else if (action) 
+                {
+                gchar *thelabel = g_strconcat ( _("Execute command: "), name, NULL);
+                button = gtk_button_new_with_label (thelabel);
+                gtk_widget_set_tooltip_text (button, _("Re-run the command to edit the Denemo Directive"));
+
+                g_object_set_data (G_OBJECT(button), "action", (gpointer)action);
+                g_signal_connect (button, "clicked", G_CALLBACK (call_edit_on_action), GINT_TO_POINTER(score_or_movement));
+                gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);                       
+                g_free(thelabel);  
+                }
+            if (tooltip)
+                    gtk_widget_set_tooltip_text (button, tooltip);
         
             GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
             gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, TRUE, 0);
@@ -1422,9 +1484,25 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
             g_signal_connect (button, "clicked", G_CALLBACK (delete_score_directive), NULL);
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 30);
             
-            
-            button = gtk_button_new_with_label (_("Create Button"));
-            gtk_widget_set_tooltip_text (button, _( "Make a palette button for installing this attribute elsewhere."));
+             if (tooltip)
+            {
+                button = gtk_button_new_with_label (_("Help"));
+                color.red = 0.0; color.green = 0.7,  color.blue = 0.3; color.alpha = 1.0;
+                gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+                g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (display_help), (gpointer)tooltip);
+                gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+            }
+            if (tooltip == NULL) tooltip = _("No tooltip");
+
+            if (action) {
+                button = gtk_button_new_with_label (_("Create Button for Command"));
+            gtk_widget_set_tooltip_text (button, _( "Make a palette button for running the command that created this attribute."));
+            g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
+            g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (create_palette_button_for_command), (gpointer)tooltip);
+            gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);   
+            }
+            button = gtk_button_new_with_label (_("Create Button for Clone"));
+            gtk_widget_set_tooltip_text (button, _( "Make a palette button for installing a clone of this attribute elsewhere."));
             g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
             g_signal_connect (button, "clicked", G_CALLBACK (create_palette_button_for_directive), (gpointer)(field));
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
@@ -1436,14 +1514,7 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
             g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (low_level_edit_type_directive), low_level_directive_edit);
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
             
-            if (tooltip)
-            {
-                button = gtk_button_new_with_label (_("Help"));
-                color.red = 0.0; color.green = 0.7,  color.blue = 0.3; color.alpha = 1.0;
-                gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
-                g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (display_help), (gpointer)tooltip);
-                gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-            }
+           
             
             
         
@@ -1462,7 +1533,7 @@ edit_score_and_movement_properties (gboolean show_score)
     gtk_window_set_modal (GTK_WINDOW (editscorewin), TRUE);
     gtk_window_set_title (GTK_WINDOW (editscorewin), _("Score and Movement Properties Editor"));
     gtk_window_set_keep_above (GTK_WINDOW (editscorewin), TRUE);
-    gtk_window_set_default_size (GTK_WINDOW (editscorewin), 400, window_height);
+    gtk_window_set_default_size (GTK_WINDOW (editscorewin), 600, window_height);
     
     
     GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
