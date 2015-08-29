@@ -233,6 +233,7 @@ display_current_object (void)
       gtk_window_set_title (GTK_WINDOW (ObjectInfo), _("Denemo Object Inspector"));
       g_signal_connect (G_OBJECT (ObjectInfo), "delete-event", G_CALLBACK (drop_object_info), NULL);
      // gtk_window_set_keep_above (GTK_WINDOW (ObjectInfo), TRUE);
+     gtk_window_set_default_size (GTK_WINDOW (ObjectInfo), 400, 400);
      gtk_window_set_accept_focus (GTK_WINDOW (ObjectInfo), FALSE);
     }
   else
@@ -549,6 +550,10 @@ display_current_object (void)
         }
         if (selection->len)
         {
+          GtkWidget *scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+          gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 0);
+          GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
+          gtk_scrolled_window_add_with_viewport  (GTK_SCROLLED_WINDOW(scrolled_window),  inner_box);
           GtkWidget *label = gtk_label_new ("");
           gtk_label_set_selectable (GTK_LABEL(label), TRUE);
          
@@ -566,7 +571,7 @@ display_current_object (void)
           */
           gtk_label_set_markup (GTK_LABEL (label), selection->str);
           gtk_label_set_line_wrap (GTK_LABEL(label), TRUE);
-          gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
+          gtk_box_pack_start (GTK_BOX (inner_box), label, TRUE, TRUE, 0);
         }
       g_string_free (warning, TRUE);
       g_string_free (selection, TRUE);
@@ -617,14 +622,20 @@ static void  create_palette_button_for_directive (GtkWidget *button, gchar *what
         pal = create_palette (name, FALSE, TRUE);
     if(pal) {
         gchar *button_name = g_strdup_printf (_( "Clone %s"), directive->tag->str);
-        gboolean success = palette_add_button (pal, button_name, _("Creates a cloned Denemo Directive"), script);
+        gchar *label = string_dialog_entry (Denemo.project, _("Palette Button Creation"), _("Give a (unique) name for the button"), button_name);
+        if (label)
+            {
+                if (!palette_add_button (pal, label, _("Creates a cloned Denemo Directive"), script))
+                    warningdialog (_("Could not create a button of that name in that palette"));
+            } else
+            warningdialog (_("Cancelled"));
+        g_free (label);    
         g_free (button_name);
         gtk_widget_show_all (gtk_widget_get_parent(pal->box));
         gtk_widget_destroy (gtk_widget_get_toplevel (button));
         reset_cursors ();
     }
     g_free (script);
-    
 }
 static void  create_palette_button_for_command (GtkWidget *button, gchar *tooltip)
 {
