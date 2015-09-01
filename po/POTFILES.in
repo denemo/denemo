@@ -218,6 +218,7 @@ actions/denemo-modules/selection.scm
 actions/denemo-modules/types.scm
 actions/denemo-modules/wysiwyg.scm
 actions/denemo.scm
+actions/editscripts/Beam.scm
 actions/editscripts/ContextChoirStaff.scm
 actions/editscripts/ContextGrandStaff.scm
 actions/editscripts/ContextGroupStaff.scm
