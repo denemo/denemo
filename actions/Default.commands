@@ -1520,16 +1520,6 @@ these may need re-making.</_tooltip>
         <_tooltip>Delete a directive attached to chord/note at cursor.</_tooltip>
       </row>
       <row type="builtin">
-        <action>AttachLilyToNote</action>
-        <_label>Attach Lilypond to Note</_label>
-        <_tooltip>Attach or edit attached LilyPond text to the note at the cursor. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation.</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>AttachLilyToChord</action>
-        <_label>Attach Lilypond to Chord</_label>
-        <_tooltip>Attach or edit attached LilyPond text to the chord at the cursor. This can be used for attaching and placing text and much more. See LilyPond documentation.</_tooltip>
-      </row>
-      <row type="builtin">
         <action>GoToMeasure</action>
         <_label>Go to Measure</_label>
         <_tooltip>Opens a dialog for going to a numbered measure</_tooltip>
@@ -7313,6 +7303,13 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/ChordMenu/Directives</menupath>
         <_label>Attach/Edit LilyPond to Chord</_label>
         <_tooltip>Inserts LilyPond syntax you give before and after the chord at the cursor, also allows editing/deleting.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SetBeamExceptions</action>
+        <after>HideMovement</after>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
+        <_label>Set Beaming Rules</_label>
+        <_tooltip>Sets the rules to be used for beaming from the current selection. Indicate the beaming desired using the manual beam commands [ and ] and include time signatures and tuplets as needed.</_tooltip>
       </row>
     </map>
   </merge>
