@@ -789,7 +789,7 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
 
             if (filename)
                 {
-                gchar *thelabel = g_strconcat (_("Run the Object Editor"), name, NULL);
+                gchar *thelabel = g_strconcat (_("Run the Edit Script for "), name, NULL);
                 GtkWidget *button = gtk_button_new_with_label (thelabel);
                 g_signal_connect (button, "clicked", G_CALLBACK (execute_editscript), filename);
                 g_signal_connect_swapped (button, "destroy", G_CALLBACK (g_free), filename);
@@ -1287,7 +1287,7 @@ edit_object (void)
                 
              if (filename)
                 {
-                gchar *thelabel = g_strconcat ( _("Run the Object Editor"), name, NULL);
+                gchar *thelabel = g_strconcat ( _("Run the Edit Script for "), name, NULL);
                 GtkWidget *button = gtk_button_new_with_label (thelabel);
                 g_signal_connect (button, "clicked", G_CALLBACK (execute_editscript), filename);
                 g_signal_connect_swapped (button, "destroy", G_CALLBACK (g_free), filename);
@@ -1461,7 +1461,7 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
             GtkWidget *button;    
              if (filename)
                 {
-                gchar *thelabel = g_strconcat ( _("Run the Object Editor"), name, NULL);
+                gchar *thelabel = g_strconcat ( _("Run the Edit Script for "), name, NULL);
                 button = gtk_button_new_with_label (thelabel);
                 g_signal_connect (button, "clicked", G_CALLBACK (execute_editscript), filename);
                 g_signal_connect_swapped (button, "destroy", G_CALLBACK (g_free), filename);
