@@ -1062,8 +1062,6 @@ actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNotehead
 actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsXcircle.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.xml
-actions/menus/ObjectMenu/MovementMenu/Typesetter/SetBeamExceptions.scm
-actions/menus/ObjectMenu/MovementMenu/Typesetter/SetBeamExceptions.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/SwitchMensuralBarlines.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/SwitchMensuralBarlines.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/TinyStaffAllMovements.scm
@@ -1766,6 +1764,8 @@ actions/menus/ObjectMenu/Score/Typesetter/ScoreIndent.scm
 actions/menus/ObjectMenu/Score/Typesetter/ScoreIndent.xml
 actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm
 actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.xml
+actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm
+actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.xml
 actions/menus/ObjectMenu/Score/Typesetter/SetFontSize.scm
 actions/menus/ObjectMenu/Score/Typesetter/SetFontSize.xml
 actions/menus/ObjectMenu/Score/Typesetter/SetFonts.scm
