@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SetBeamExceptions</action>
+        <_label>Set Beaming Rules</_label>
+        <_tooltip>Sets the rules to be used for beaming. With no selection gets the beat for beams to be divided for the prevailing time signature at the cursor. If a there is a selection this will set exceptions to the regular rule. In this case indicate the beaming desired using the manual beam commands [ and ].</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
