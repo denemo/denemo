@@ -22,7 +22,7 @@
             (d-GoToPosition #f staffPosition #f 1)
             (if (d-IsInSelection)
                 #t
-                (begin (apply d-GoToPosition rememberPosition) #f))) ; something went wrong. 
+                (d-GoToSelectionStart))) ; single staff selection, not at start of bar 
         #f)) ; no selection at all. 
 
 ;Next object in selection for all staffs
@@ -32,7 +32,7 @@
         (if (d-NextSelectedObject)
           #t ; found one. End
            (if (d-MoveToStaffDown) ; no selected item left in the current staff. check one down.
-                (if (MoveToSelectionBeginningInThisStaff) 
+                (if (and (d-IsInSelection) (MoveToSelectionBeginningInThisStaff)) 
                     #t ; found a selection in the lower staff
                     (begin (apply d-GoToPosition lastposition ) #f)) ; reset cursor to the last known selection position and end.
                   #f)) ; no staff below
