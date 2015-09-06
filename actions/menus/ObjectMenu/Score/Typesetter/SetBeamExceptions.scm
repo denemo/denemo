@@ -2,8 +2,10 @@
 (let ((tag "SetBeamExceptions")
     (exceptions #f)(data #f)
         (timeSignatureFraction #f) 
+        (beatStructure #f) 
         (baseMomentFraction #f)
         (DefaulttimeSignatureFraction #f) 
+        (DefaultbeatStructure #f) 
         (DefaultbaseMomentFraction #f))
     (define (set-exceptions)
             (d-SetSaved #f)
@@ -14,20 +16,28 @@
                            (value (cdr alist)))
                     (define notes (assoc-ref value 'notes))
                     (define baseMomentFraction (assoc-ref value 'baseMomentFraction))
+                    (define beatStructure (assoc-ref value 'beatStructure))
                     (define timeSignatureFraction (assoc-ref value 'timeSignatureFraction))
+                    (if (> (string-length notes) 0)
+                        (set! notes (string-append "\\beamExceptions {" notes "}\n"))
+                        (set! notes "#'()\n"))
+                    
                     (set! prefix (string-append prefix "\\layout {
     \\overrideTimeSignatureSettings "
                             timeSignatureFraction
                             " " baseMomentFraction
-                            " #'()   \\beamExceptions {" notes "}\n}\n"))))
+                             " #'("  beatStructure  ") " notes "}\n"))))
                 (for-each do-append (eval-string (d-DirectiveGet-score-data tag)))
                 (d-DirectivePut-score-prefix tag prefix)))                       
 
     (define (timesig val)
-            (let ((index (string-index val #\/)))
+            (let* ((index (string-index val #\/))
+                    (numerator (string->number (substring val 0 index)))
+                    (denominator (string->number (substring val (+ index 1)))))
                   (set! DefaulttimeSignatureFraction val)
                   (set! DefaultbaseMomentFraction (string-append "1/" (substring val (+ index 1))))
-                 (cons (string->number (substring val 0 index)) (string->number (substring val (+ index 1))))))
+                  (set! DefaultbeatStructure (DenemoDefaultBeatStructure numerator))
+                  (cons numerator denominator)))
 
    
      (define (get-lilypond)
@@ -59,7 +69,7 @@
     (if data
             (set! data (eval-string data))
             (set! data '()))
-    (get-exceptions)
+    (get-exceptions) 
     (if exceptions
         (let ((value (assoc-ref data (car exceptions))))
                 (if value
@@ -70,7 +80,9 @@
                         (set! baseMomentFraction (assoc-ref value 'baseMomentFraction))
                         (if (not baseMomentFraction)
                              (set! value (assoc-set! value 'baseMomentFraction DefaultbaseMomentFraction)))
-                             
+                        (if (not beatStructure)
+                             (set! value (assoc-set! value 'beatStructure DefaultbeatStructure)))
+                               
                         (set! timeSignatureFraction (assoc-ref value 'timeSignatureFraction))
                         (if (not timeSignatureFraction)
                              (set! value (assoc-set! value 'timeSignatureFraction DefaulttimeSignatureFraction)))
@@ -99,10 +111,13 @@
                     (begin
                         (if (not baseMomentFraction)
                              (set! baseMomentFraction DefaultbaseMomentFraction))
+                        (if (not beatStructure)
+                             (set! beatStructure DefaultbeatStructure))
                         (if (not timeSignatureFraction)
                              (set! timeSignatureFraction DefaulttimeSignatureFraction))
                         (set! value (assoc-set! value 'notes (cdr exceptions)))
                         (set! value (assoc-set! value 'baseMomentFraction baseMomentFraction))
+                        (set! value (assoc-set! value 'beatStructure beatStructure))
                         (set! value (assoc-set! value 'timeSignatureFraction timeSignatureFraction))
                         (set! data (assoc-set! data (car exceptions) value))   
                         (set-exceptions))))
@@ -113,11 +128,14 @@
                                                 
               (case choice
                             ((set) 
-                                (let ((value '()))
-                                    (set! baseMomentFraction (d-GetUserInput (_ "Give beat") (_ "(1/8 for 𝅘𝅥𝅮  etc)" DefaultbaseMomentFraction)))
+                                (let ((value '()) (numbeats #f))
+                                    (set! baseMomentFraction (d-GetUserInput (_ "Give beat") (_ "(1/8 for 𝅘𝅥𝅮  etc)") DefaultbaseMomentFraction))
+                                    (set! numbeats (* (car time) (/ (/ 1 (cdr time)) (string->number baseMomentFraction))))
+                                    (set! beatStructure (d-GetUserInput (_ "Beat Structure") (string-append (_ "Give groupings for ") (number->string numbeats) (_ " beats: ")) (DenemoDefaultBeatStructure numbeats)))
                                     (set! value (assoc-set! value 'baseMomentFraction baseMomentFraction))
-                                    (set! value (assoc-set! value 'timeSignatureFraction timeSignatureFraction))
-                                    (set! value (assoc-set! value 'notes '()))
+                                    (set! value (assoc-set! value 'beatStructure beatStructure))
+                                    (set! value (assoc-set! value 'timeSignatureFraction DefaulttimeSignatureFraction))
+                                    (set! value (assoc-set! value 'notes ""))
                                     (set! data (assoc-set! data (format #f "~s" time) value))  
                                     (set-exceptions)))
                              ((delete)
