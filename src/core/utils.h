@@ -265,7 +265,7 @@ if(!action && param){\
       param_name1=values?values->str:NULL;\
 }
 
-gchar *get_option (gchar * str, gint length);
+gchar *get_option (gchar *title, gchar * str, gint length);
 void console_output (gchar * text);
 
 gint get_override (GList * g);

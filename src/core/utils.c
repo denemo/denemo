@@ -2243,10 +2243,12 @@ static gboolean dialog_realize (GtkWidget *dialog) {
 /* run a dialog for the user to select a string from the NULL separated strings, str
  return NULL if user cancels.*/
 static gchar *
-get_option_recursive (gchar * str, gint length, gboolean more)
+get_option_recursive (gchar *title, gchar * str, gint length, gboolean more)
 {
   gchar *response = NULL;
-  GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select from List (or Cancel)",
+  if (title==NULL)
+    title = _("Select from List (or Cancel)");
+  GtkWidget *dialog = gtk_dialog_new_with_buttons ( title,
                                                    GTK_WINDOW (Denemo.window),
                                                    (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
                                                    GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
@@ -2296,7 +2298,7 @@ get_option_recursive (gchar * str, gint length, gboolean more)
   return response;
 }
 #define MAX_ITEMS (Denemo.prefs.max_menu_size)
-gchar *get_option (gchar * str, gint length)
+gchar *get_option (gchar *title, gchar * str, gint length)
 {
   gchar *opt;
   gint i;
@@ -2306,7 +2308,7 @@ gchar *get_option (gchar * str, gint length)
             continue;
         else
             {
-                gchar *response = get_option_recursive (str, opt-str, TRUE);
+                gchar *response = get_option_recursive (title, str, opt-str, TRUE);
                 if(response && (!strcmp (response, _("More..."))))
                     { 
                         length -= (opt - str);
@@ -2318,7 +2320,7 @@ gchar *get_option (gchar * str, gint length)
             }
         }
  if ((opt - str) >= length)
-    return get_option_recursive (str, length, FALSE);
+    return get_option_recursive (title, str, length, FALSE);
  return NULL;
 }
 

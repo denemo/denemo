@@ -3906,16 +3906,20 @@ scheme_get_padding (void)
    the user cancels
 */
 SCM
-scheme_get_option (SCM options)
+scheme_get_option (SCM options, SCM title)
 {
   gchar *response = NULL;
   size_t length;
+  gchar *thetitle = NULL;
   //gchar *str=NULL;
+  if (scm_is_string (title))
+    thetitle = scm_to_locale_string (title);
+  
   if (scm_is_string (options))
     {
       char *str_unterm;
       str_unterm = scm_to_locale_stringn (options, &length);
-      response = get_option (str_unterm, length);       //returns NULL or a pointer to a location in str_unterm
+      response = get_option (thetitle, str_unterm, length);       //returns NULL or a pointer to a location in str_unterm
       //g_debug("Got %p holding %s\n", response, response);
       if (response)
         response = g_strdup (response);

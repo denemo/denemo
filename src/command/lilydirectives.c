@@ -3080,7 +3080,7 @@ edit_score_directive (GtkAction * action, DenemoScriptParam * param)
 
   if (strlen (options->str) != options->len)
     {
-      option = get_option (options->str, options->len);
+      option = get_option (NULL, options->str, options->len);
       if (option == NULL)
         {
           g_string_free (options, TRUE);
@@ -3139,7 +3139,7 @@ edit_movement_directive (GtkAction * action, DenemoScriptParam * param)
 
   if (strlen (options->str) != options->len)
     {
-      option = get_option (options->str, options->len);
+      option = get_option (NULL, options->str, options->len);
       if (option == NULL)
         {
           g_string_free (options, TRUE);
