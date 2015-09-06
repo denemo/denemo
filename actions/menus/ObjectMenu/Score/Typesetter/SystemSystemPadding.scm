@@ -13,7 +13,7 @@ system-system-spacing #'padding = #" value "\n")))
 		(SystemSystemPadding::set (number->string  SystemSystemPadding::params)))
   (begin
     (if (not value)
-      (set! value "1.2"))
+      (set! value "5"))
 		(set! value (d-GetUserInput (_ "Padding Between Systems") (_ "Give extra padding (1=no extra space, staff units)") value))))
 (disp "value is " value "\n")
 (if (and (string? value) (string->number value))
