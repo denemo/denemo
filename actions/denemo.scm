@@ -1104,3 +1104,16 @@
                 (if (string-contains note "es")
                     FLAT
                     NATURAL)))))
+;;;;;;;
+(define (DenemoDefaultBeatStructure beats)
+  (define bs "")
+  (if (zero? (remainder beats 3))
+    (begin
+        (set! beats (number->string (/ beats 3)))
+        (set! bs (string-append beats " " beats " " beats)))
+    (if (zero? (remainder beats 2))
+        (begin
+            (set! beats (number->string (/ beats 2)))
+            (set! bs (string-append beats " " beats)))
+        (set! bs (string-append (number->string (/ (- beats 1) 2)) " " (number->string (- beats (/ (- beats 1) 2)))))))
+    bs)
