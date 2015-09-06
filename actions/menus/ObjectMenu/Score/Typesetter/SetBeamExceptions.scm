@@ -129,15 +129,25 @@
               (case choice
                             ((set) 
                                 (let ((value '()) (numbeats #f))
-                                    (set! baseMomentFraction (d-GetUserInput (_ "Give beat") (_ "(1/8 for 𝅘𝅥𝅮  etc)") DefaultbaseMomentFraction))
-                                    (set! numbeats (* (car time) (/ (/ 1 (cdr time)) (string->number baseMomentFraction))))
-                                    (set! beatStructure (d-GetUserInput (_ "Beat Structure") (string-append (_ "Give groupings for ") (number->string numbeats) (_ " beats: ")) (DenemoDefaultBeatStructure numbeats)))
-                                    (set! value (assoc-set! value 'baseMomentFraction baseMomentFraction))
-                                    (set! value (assoc-set! value 'beatStructure beatStructure))
-                                    (set! value (assoc-set! value 'timeSignatureFraction DefaulttimeSignatureFraction))
-                                    (set! value (assoc-set! value 'notes ""))
-                                    (set! data (assoc-set! data (format #f "~s" time) value))  
-                                    (set-exceptions)))
+                                    (let loop ()
+                                        (set! baseMomentFraction (DenemoGetDuration (_ "Give beat")))
+                                        (if baseMomentFraction
+                                            (begin
+                                                (set! numbeats (* (car time) (/ (/ 1 (cdr time)) (string->number baseMomentFraction))))
+                                                (if (not (integer? numbeats))
+                                                    (begin
+                                                        (d-WarningDialog (_ "Chosen duration does not fit time signature"))
+                                                        (loop))))))
+                                    (if baseMomentFraction
+                                        (begin
+                                            (set! beatStructure (d-GetUserInput (_ "Beat Structure") (string-append (_ "Give groupings for ") (number->string numbeats) (_ " beats: ")) (DenemoDefaultBeatStructure numbeats)))
+                                            (set! value (assoc-set! value 'baseMomentFraction baseMomentFraction))
+                                            (set! value (assoc-set! value 'beatStructure beatStructure))
+                                            (set! value (assoc-set! value 'timeSignatureFraction DefaulttimeSignatureFraction))
+                                            (set! value (assoc-set! value 'notes ""))
+                                            (set! data (assoc-set! data (format #f "~s" time) value))  
+                                            (set-exceptions))
+                                        (d-InfoDialog (_ "Cancelled")))))
                              ((delete)
                                 (set! data (assoc-remove! data (format #f "~s" time)))
                                 (set-exceptions))

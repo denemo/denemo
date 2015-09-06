@@ -13,9 +13,16 @@
         (d-MoveCursorLeft)))
         
     (set! time (timesig (d-GetPrevailingTimesig)))
-    (set! beat (d-GetUserInput (_ "Beat Structure") (_ "Give beat:\n(smallest note that beams can split at\ne.g. 1/8 for eighth notes.)") DefaultbaseMomentFraction))
-    
-    (if (and beat (string->number beat))
+    (let loop ()
+        (set! beat (DenemoGetDuration (_ "Give beat:\n(smallest note that beams can split at)")))
+                                            (if beat
+                                                (begin
+                                                    (set! divisions (* (car time) (/ (/ 1 (cdr time)) (string->number beat))))
+                                                    (if (not (integer? divisions))
+                                                        (begin
+                                                            (d-WarningDialog (_ "Chosen duration does not fit time signature"))
+                                                            (loop))))))
+    (if beat
         (begin
             (set! divisions (* (car time) (/ (/ 1 (cdr time)) (string->number beat))))
             (set! divisions (d-GetUserInput (_ "Beat Structure")
@@ -27,4 +34,5 @@
                     (d-SetSaved #f)
                     (d-DirectivePut-timesig-prefix tag (string-append "\\overrideTimeSignatureSettings " (d-GetPrevailingTimesig) " " beat " #'(" divisions ") #'()"))
                     (d-DirectivePut-timesig-gy tag -10)
-                    (d-DirectivePut-timesig-graphic tag (string-append "\n" divisions "\nDenemo\n12")))))))
+                    (d-DirectivePut-timesig-graphic tag (string-append "\n" divisions "\nDenemo\n12")))))
+        (d-InfoDialog (_ "Cancelled"))))

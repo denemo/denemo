@@ -862,9 +862,21 @@
              answer
              (cdr (list-ref  parameters (list-index (lambda (x) (equal?  answer (car x))) parameters))))
         #f))        
-        
 (define (RadioBoxMenu . parameters)
     (RadioBoxMenuList parameters))
+
+(define (TitledRadioBoxMenuList title parameters)
+   (define answer #f)
+    (define radiostring #f)
+    (if (string? (car parameters))
+        (set! radiostring (string-append (string-join parameters stop) stop))
+        (set! radiostring (string-append (string-join (map (lambda (x) (car x)) parameters) stop) stop)))
+    (set! answer (d-GetOption radiostring title))
+    (if answer
+        (if (string? (car parameters))
+             answer
+             (cdr (list-ref  parameters (list-index (lambda (x) (equal?  answer (car x))) parameters))))
+        #f))   
 
 
 ;Protofunction for all transpose and shift related commands
@@ -1117,3 +1129,16 @@
             (set! bs (string-append beats " " beats)))
         (set! bs (string-append (number->string (/ (- beats 1) 2)) " " (number->string (- beats (/ (- beats 1) 2)))))))
     bs)
+
+;;;
+(define (DenemoGetDuration title)
+    (TitledRadioBoxMenuList title
+        (list (cons "𝅝" "1/1")
+        (cons "𝅗𝅥" "1/2")
+        (cons "𝅘𝅥" "1/4")
+        (cons "𝅘𝅥𝅮" "1/8") 
+        (cons "𝅘𝅥𝅯" "1/16")
+        (cons "𝅘𝅥𝅱" "1/32")
+        (cons "𝅘𝅥𝅱" "1/64")
+        (cons "𝅘𝅥𝅱" "1/128"))))
+                            
