@@ -2275,6 +2275,24 @@ Graphic title pages can also be created.
  
 \end_layout
 
+\begin_layout Subsubsection*
+Typesetter Submenu
+\end_layout
+
+\begin_layout Standard
+Here such things as the overall font size to typeset the score, the rules
+ for spacing system, any global transposition etc can be set.
+\end_layout
+
+\begin_layout Standard
+The beaming rules can be set both in general (invoke Set Beaming Rules without
+ a selection) or with exceptions (by invoking with a selection that has
+ been beamed manually using the [ and ] commands from the Notes/Rests->Beaming
+ menu).
+ Use this latter for example to break up very short notes that would otherwise
+ be beamed together while leaving the longer durations as normal.
+\end_layout
+
 \begin_layout Subsubsection
 Movements Menu
 \end_layout
@@ -2340,7 +2358,7 @@ primary voice
  Initial Voice commands in this menu (this controls the stemming, slur positions
  etc).
  Voices can change their voice number during the music - the commands for
- this are in the Directives->Typesettter->Voices menu as they insert stem
+ this are in the Directives->Typesetter->Voices menu as they insert stem
  change objects in between the notes.
 \end_layout
 
@@ -2364,6 +2382,13 @@ Keys Menu
 Time Signatures Menu
 \end_layout
 
+\begin_layout Standard
+Besides basic time signatures various variants (numeric, single digit ...)
+ are here.
+ There is also beaming control applying just to the current passage (for
+ beaming rules for the whole score see the Score->Typesetter menu).
+\end_layout
+
 \begin_layout Subsubsection
 Measures Menu
 \end_layout
@@ -2376,8 +2401,170 @@ Chords Menu
 Notes/Rests 
 \end_layout
 
+\begin_layout Standard
+This covers inserting, deleting and modifying notes in pitch, duration and
+ appearance and all sorts of things that are attached to note objects such
+ as slurs, phrasing slurs, ties, beaming controls, ornaments (trill, turn
+ ...), grace notes, articulations (staccato, tenuto ...), fingerings, textual
+ markings, cresc.
+ and dim.
+ (both hairpins and extended cresc.
+ --- poco --- a --- poco style) chord symbols (
+\begin_inset Quotes eld
+\end_inset
+
+fakechords
+\begin_inset Quotes erd
+\end_inset
+
+), figured bass.
+ Dynamic markings such as 
+\emph on
+f 
+\emph default
+and
+\emph on
+ p 
+\emph default
+are separate objects (see Directives->Markings->Dynamics).
+ 
+\end_layout
+
+\begin_layout Standard
+Also here is the tuplet menu, for groups of notes that have a duration that
+ is a fraction of the written duration, such as triplets.
+ These actually insert tuplet start and end objects, before and after the
+ notes concerned so, strictly speaking they should come in a separate miscellane
+ous objects category.
+ As usual, the most useful commands have shortcuts already - Tab starts/stops
+ a triplet alternately (so you can press it once, enter the notes and press
+ it again to finish the triplet).
+ And Keypad 7, Keypad 7 turns the note entered into a triplet of notes (with
+ Control as well they are slurred).
+ This is set as a two-key shortcut so that you can type it in as a triplet
+ rhythm: e.g.
+ the three keypresses 4, KP_7, KP_7 will give a triplet of three 1/16th
+ notes.
+\end_layout
+
+\begin_layout Subsubsection*
+The Append/Edit Note Submenu
+\end_layout
+
+\begin_layout Standard
+So called because in appending position the note names a, b, c ...
+ append a note while when the cursor is on an note it edits the note to
+ have the note-name indicated.
+ The other note edit commands here are shifting up and down an octave, sharpenin
+g or flattening.
+ Cautionary and reminder accidentals are here too - to set the style of
+ accidentals (e.g.
+ if they are repeated in various circumstances) see the Score->Typesetter
+ menu.
+\end_layout
+
+\begin_layout Subsubsection*
+The Note Insertion Submenu
+\end_layout
+
+\begin_layout Standard
+This menu has commands for inserting notes at (i.e.
+ before the object at) the cursor position.
+ The double key press A, A inserts the note A in the prevailing duration
+ (more commonly people press a duration key 0, 1, ...
+ followed by a note name).
+\end_layout
+
+\begin_layout Standard
+If you enter a note and then sharpen you will hear both note and sharpened
+ note - to avoid this use the 
+\begin_inset Quotes eld
+\end_inset
+
+Sharpen Next Note
+\begin_inset Quotes erd
+\end_inset
+
+ command (likewise for flatten, use twice for double-sharp,flat) the default
+ key presses are '=' and '-' for these.
+\end_layout
+
+\begin_layout Subsubsection*
+The Append/Insert Duration Submenu
+\end_layout
+
+\begin_layout Standard
+So called because the commands 0, 1, 2 ...
+ append a note when the cursor is in the appending position or enter a note
+ if the cursor is on an object.
+ If you have a MIDI keyboard (and it is designated in the preferences under
+ the MIDI tab) then the note will be purely rhythmic (yellow/brown) playing
+ a pitch will turn it into a real note.
+ Here is the command for entering a snippet (which can be a complete rhythmic
+ pattern) as well as Breve and Longa for early music.
+\end_layout
+
+\begin_layout Standard
+There are also a set of comands for appending notes which will be slurred
+ from previous notes (Control-0, etc) which means that you can enter slurs
+ as you enter the rhythm of a bar without extra key presses (which would
+ otherwise break the rhythm of your entry).
+\end_layout
+
+\begin_layout Subsubsection*
+The Edit Duration Submenu
+\end_layout
+
+\begin_layout Standard
+Here are the commands for changing the duration of the note/rest/chord at
+ the cursor as well as doubling or dividing the note at the cursor.
+\end_layout
+
+\begin_layout Standard
+Besides commands for dotting notes there are commands for turning the note
+ at the cursor into a dotted rhythm of two notes and for entering a dotted
+ rhythm with two key presses (so as to keep in rhythm - e.g.
+ 3, KP_9 gives dotted 1/8 note, 1/16th note, and the corresponding slurred
+ one with Control).
+\end_layout
+
+\begin_layout Subsubsection*
+The Rest Insertion Submenu
+\end_layout
+
+\begin_layout Standard
+Besides inserting rests (Alt-0 etc) you can insert non-printing rests (where
+ voices are silent) and move rests out of the way in polyphonic situations
+ where LilyPond doesn't do what you want.
+ Whole measure rests and multi-measure rests are here too with control over
+ their numbering.
+\end_layout
+
+\begin_layout Subsubsection*
+The Select Duration Submenu
+\end_layout
+
+\begin_layout Standard
+The commands to explicitly set the prevailing duration are here (though
+ usually this is set by inserting a duration) and, more importantly the
+ command to select a snippet as the prevailing duration (Shift+ Space) after
+ which entered notes follow the pattern of the snippet.
+\end_layout
+
 \begin_layout Subsubsection
 Directives 
+\end_layout
+
+\begin_layout Standard
+This covers all the things that aren't notes but sit in between them.
+ The most useful for regular music notation are barlines, dynamic markings,
+ tempo marks, rehearsal marks etc in the Markings submenu.
+ There is an enormous collection of stuff here though.
+ One general feature is the Conditional Directives which can be used to
+ restrict a directive to a particular type of score layout (e.g.
+ only to be used when printing a part, or a full score).
+ This can be used, for example, to prevent a cue being printed on the full
+ score (as it is only relevant when printing the part).
 \end_layout
 
 \begin_layout Subsubsection
