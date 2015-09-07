@@ -2228,7 +2228,7 @@ Note: Dynamics, Slurs, Trills, Tempo Indications etc are in the Notes/Rests
 \end_layout
 
 \begin_layout Subsubsection
-ScoreMenu
+Score Menu
 \end_layout
 
 \begin_layout Standard
@@ -2245,13 +2245,22 @@ The Score Properties command gives access to some built-in properties that
 \end_layout
 
 \begin_layout Standard
-With Edit Directives you can edit directives that apply to all the movements,
- most of the rest of the commands create these Denemo Directives attaching
- them to the score under several categories (layout, paper, header etc).
+The Score Properties Editor command runs the 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:The-Score-and"
+
+\end_inset
+
+Score and Movement Properties Editor, open on the Score Editor pane.
+\end_layout
+
+\begin_layout Subsubsection*
+Titles Submenu
 \end_layout
 
 \begin_layout Standard
-Titles submenu: There are two sorts of titles.
+There are two sorts of titles.
  Book titles have a separate title page with titles for individual movements
  which can be listed in an automatically generated table of contents.
  Simple titles give a Title and (optionally) movement titles on the same
@@ -2260,9 +2269,16 @@ Titles submenu: There are two sorts of titles.
 \end_layout
 
 \begin_layout Standard
-Comments (critical comments) can be place on chords in the score and these
- can be automatically collected into an appendix using the Book Titles->Epilog
- submenu.
+Comments (
+\begin_inset Quotes eld
+\end_inset
+
+Critical Comments
+\begin_inset Quotes erd
+\end_inset
+
+) can be placed on chords/notes/rests in the score and these can be automaticall
+y collected into an appendix using the Book Titles->Epilog submenu.
 \end_layout
 
 \begin_layout Standard
@@ -2281,7 +2297,8 @@ Typesetter Submenu
 
 \begin_layout Standard
 Here such things as the overall font size to typeset the score, the rules
- for spacing system, any global transposition etc can be set.
+ for spacing system, any global transposition, control of page numbering
+ etc can be set.
 \end_layout
 
 \begin_layout Standard
@@ -2289,7 +2306,7 @@ The beaming rules can be set both in general (invoke Set Beaming Rules without
  a selection) or with exceptions (by invoking with a selection that has
  been beamed manually using the [ and ] commands from the Notes/Rests->Beaming
  menu).
- Use this latter for example to break up very short notes that would otherwise
+ Use this latter to break up very short notes, for example, that would otherwise
  be beamed together while leaving the longer durations as normal.
 \end_layout
 
@@ -2307,7 +2324,26 @@ As with the Score Menu there may be Denemo Directives attached to the movement
 \end_layout
 
 \begin_layout Standard
-Various score checking routines work at movement level from this menu.
+Various score checking routines work at movement level from this menu and
+ a command to re-bar the movment (or a staff or part of a staff) is also
+ here as 
+\begin_inset Quotes eld
+\end_inset
+
+Adjust the Measure Lengths
+\begin_inset Quotes erd
+\end_inset
+
+ - this can also be used just to check that the Denemo 
+\begin_inset Quotes eld
+\end_inset
+
+measures
+\begin_inset Quotes erd
+\end_inset
+
+ correspond with the actual typeset measures (which always follow the durations/
+time signatures).
 \end_layout
 
 \begin_layout Subsubsection
@@ -2317,7 +2353,8 @@ Staff/Voices Menu
 \begin_layout Standard
 Things such as the music crossing to another staff, or Ossia staffs are
  contained here, along with commands for deleting parts of the staff, setting
- up multi-measure rests for a whole staff, muting the staff during playback
+ up multi-measure rests for a whole staff, muting the staff during playback,
+ 
 \end_layout
 
 \begin_layout Subsubsection*
@@ -2363,19 +2400,62 @@ primary voice
 \end_layout
 
 \begin_layout Subsubsection*
+The Display Effects Submenu
+\end_layout
+
+\begin_layout Standard
+Here you can choose to hide staffs from the display so that you can see
+ distantly placed staffs side by side (e.g.
+ in large orchestral scores).
+ If you are using this and navigating with the keyboard you will want to
+ reset the key shortcuts for staff navigation commands to use variants that
+ skip over the hidden staffs.
+\end_layout
+
+\begin_layout Standard
+You can also give more/less room in the display to the staffs.
+\end_layout
+
+\begin_layout Subsubsection*
 The Staff Groupings (Braces) Submenu
 \end_layout
 
 \begin_layout Standard
 The braces at the start of each system are controlled from here.
+ The order that you add the braces determines which are outside which.
+ The braces are displayed to the left of the staff and can be edited/checked
+ there with the mouse.
 \end_layout
 
 \begin_layout Subsubsection
 Clefs Menu
 \end_layout
 
+\begin_layout Standard
+All sorts of clefs can be selected - the Set Initial and Clef Change commands
+ give access to standard clefs.
+ The Clef Chooser command lets you set more exotic clefs such as Drum clef
+ and even things like the Gregorian chant C clef using the LilyPond syntax
+ (e.g.
+ vaticana-do3).
+\end_layout
+
+\begin_layout Standard
+Typeset-only and Display-only clefs enable you to work with a voice which
+ is being typeset on a different staff, while keeping the music in the staff
+ you wish to see it in or for entering music in a familiar staff which is
+ to be typeset in an unfamiliar one.
+\end_layout
+
 \begin_layout Subsubsection
 Keys Menu
+\end_layout
+
+\begin_layout Standard
+Setting the initial key or a key signature change or to sharpen or flatten
+ the key signature at the cursor.
+ You can also click on the key signature itself to sharpen/flatten.
+ The key signature can be hidden when typeset.
 \end_layout
 
 \begin_layout Subsubsection
@@ -2393,8 +2473,26 @@ Besides basic time signatures various variants (numeric, single digit ...)
 Measures Menu
 \end_layout
 
+\begin_layout Standard
+Besides commands to insert/delete/navigate/merge/split measures (in one
+ or all staffs) this menu includes commands to set an upbeat (anacrusis,
+ pickup) measure at the start, or a short measure (e.g.
+ during partial first & second time bars).
+\end_layout
+
+\begin_layout Standard
+The whole measure repeat sign is here and some commands to check the measure
+ for errors or to widen or narrow the measure in the display.
+\end_layout
+
 \begin_layout Subsubsection
 Chords Menu
+\end_layout
+
+\begin_layout Standard
+Here are commands to add notes to a chord either at the cursor, by note
+ name or at an interval above the bass.
+ Whole chords can have their enharmonic spelling changed up or down.
 \end_layout
 
 \begin_layout Subsubsection
@@ -2619,15 +2717,21 @@ Edit Lyric at Cursor
 \begin_inset Quotes erd
 \end_inset
 
- ( Ctrl-l, Ctrl-l) which finds the place in the lyrics corresponding to
- the cursor position allowing you to edit the syllable that underlies the
- current note.
+ (Ctrl-l, Ctrl-l) which finds the place in the lyrics corresponding to the
+ cursor position allowing you to edit the syllable that underlies the current
+ note.
  Verses can be typeset in columns at the end by using command Typeset Verses
  at End which invokes the external Inkscape (or other) editor.
 \end_layout
 
 \begin_layout Subsubsection
 Notation Magick Menu
+\end_layout
+
+\begin_layout Standard
+This is a menu for generating random notes, reflecting, reversing, shuffling
+ notes etc - the sort of things computers can do with music easily but humans
+ find more difficult.
 \end_layout
 
 \begin_layout Section
@@ -3497,7 +3601,8 @@ The Score Layouts Window
 
 \begin_layout Standard
 The score layouts window is shown by checking View->Score Layout.
- 
+ Layouts are created when you typeset music - for example from the Print
+ Window Typeset, Part or Movement buttons, or from the Print menu.
 \end_layout
 
 \begin_layout Standard
@@ -3509,6 +3614,8 @@ You can use layouts to print the music in different ways.
 \begin_layout Standard
 You can customize any layout in this window - positioning lyrics above the
  staff rather than below for example, or setting the staff groupings.
+ If you have customized the Default Layout you will need to use the Typeset
+ button in the Print View to create a new Default Layout.
 \end_layout
 
 \begin_layout Standard

@@ -128,10 +128,13 @@ Table of Contents
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection-3.6.1">Subsubsection 3.6.1: ScoreMenu</a>
+<a class="Link" href="#toc-Subsubsection-3.6.1">Subsubsection 3.6.1: Score Menu</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection--1">Subsubsection: Typesetter Submenu</a>
+<a class="Link" href="#toc-Subsubsection--1">Subsubsection: Titles Submenu</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection--2">Subsubsection: Typesetter Submenu</a>
 </div>
 <div class="toc">
 <a class="Link" href="#toc-Subsubsection-3.6.2">Subsubsection 3.6.2: Movements Menu</a>
@@ -140,13 +143,16 @@ Table of Contents
 <a class="Link" href="#toc-Subsubsection-3.6.3">Subsubsection 3.6.3: Staff/Voices Menu</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection--2">Subsubsection: The Staff Properties Submenu</a>
+<a class="Link" href="#toc-Subsubsection--3">Subsubsection: The Staff Properties Submenu</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection--3">Subsubsection: The Voices Submenu</a>
+<a class="Link" href="#toc-Subsubsection--4">Subsubsection: The Voices Submenu</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection--4">Subsubsection: The Staff Groupings (Braces) Submenu</a>
+<a class="Link" href="#toc-Subsubsection--5">Subsubsection: The Display Effects Submenu</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection--6">Subsubsection: The Staff Groupings (Braces) Submenu</a>
 </div>
 <div class="toc">
 <a class="Link" href="#toc-Subsubsection-3.6.4">Subsubsection 3.6.4: Clefs Menu</a>
@@ -167,22 +173,22 @@ Table of Contents
 <a class="Link" href="#toc-Subsubsection-3.6.9">Subsubsection 3.6.9: Notes/Rests </a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection--5">Subsubsection: The Append/Edit Note Submenu</a>
+<a class="Link" href="#toc-Subsubsection--7">Subsubsection: The Append/Edit Note Submenu</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection--6">Subsubsection: The Note Insertion Submenu</a>
+<a class="Link" href="#toc-Subsubsection--8">Subsubsection: The Note Insertion Submenu</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection--7">Subsubsection: The Append/Insert Duration Submenu</a>
+<a class="Link" href="#toc-Subsubsection--9">Subsubsection: The Append/Insert Duration Submenu</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection--8">Subsubsection: The Edit Duration Submenu</a>
+<a class="Link" href="#toc-Subsubsection--10">Subsubsection: The Edit Duration Submenu</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection--9">Subsubsection: The Rest Insertion Submenu</a>
+<a class="Link" href="#toc-Subsubsection--11">Subsubsection: The Rest Insertion Submenu</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection--10">Subsubsection: The Select Duration Submenu</a>
+<a class="Link" href="#toc-Subsubsection--12">Subsubsection: The Select Duration Submenu</a>
 </div>
 <div class="toc">
 <a class="Link" href="#toc-Subsubsection-3.6.10">Subsubsection 3.6.10: Directives </a>
@@ -356,7 +362,7 @@ Table of Contents
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection--11">Subsubsection: Adding More Features </a>
+<a class="Link" href="#toc-Subsubsection--13">Subsubsection: Adding More Features </a>
 </div>
 <div class="toc">
 <a class="Link" href="#toc-Subsubsection-19.2.1">Subsubsection 19.2.1: Recording a Denemo Macro </a>
@@ -1210,7 +1216,7 @@ Note: Dynamics, Slurs, Trills, Tempo Indications etc are in the Notes/Rests menu
 
 </div>
 <h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-3.6.1">3.6.1</a> ScoreMenu
+<a class="toc" name="toc-Subsubsection-3.6.1">3.6.1</a> Score Menu
 </h3>
 <div class="Unindented">
 The score menu lets you control things that apply to all the movements of the current score. Also here is the Check Score command which should be your first port of call if your score will not typeset.
@@ -1219,13 +1225,16 @@ The score menu lets you control things that apply to all the movements of the cu
 The Score Properties command gives access to some built-in properties that affect the whole piece - paper size and display apperance. 
 </div>
 <div class="Indented">
-With Edit Directives you can edit directives that apply to all the movements, most of the rest of the commands create these Denemo Directives attaching them to the score under several categories (layout, paper, header etc).
+The Score Properties Editor command runs the <a class="Reference" href="#sec:The-Score-and">10↓</a>Score and Movement Properties Editor, open on the Score Editor pane.
+</div>
+<h3 class="Subsubsection-">
+<a class="toc" name="toc-Subsubsection--1"></a>Titles Submenu
+</h3>
+<div class="Unindented">
+There are two sorts of titles. Book titles have a separate title page with titles for individual movements which can be listed in an automatically generated table of contents. Simple titles give a Title and (optionally) movement titles on the same page. 
 </div>
 <div class="Indented">
-Titles submenu: There are two sorts of titles. Book titles have a separate title page with titles for individual movements which can be listed in an automatically generated table of contents. Simple titles give a Title and (optionally) movement titles on the same page. 
-</div>
-<div class="Indented">
-Comments (critical comments) can be place on chords in the score and these can be automatically collected into an appendix using the Book Titles-&gt;Epilog submenu.
+Comments (&ldquo;Critical Comments&rdquo;) can be placed on chords/notes/rests in the score and these can be automatically collected into an appendix using the Book Titles-&gt;Epilog submenu.
 </div>
 <div class="Indented">
 A Table of Contents can be automatically generated from the movement titles by setting Book Titles-&gt;Table of Contents Title.
@@ -1234,13 +1243,13 @@ A Table of Contents can be automatically generated from the movement titles by s
 Graphic title pages can also be created. 
 </div>
 <h3 class="Subsubsection-">
-<a class="toc" name="toc-Subsubsection--1"></a>Typesetter Submenu
+<a class="toc" name="toc-Subsubsection--2"></a>Typesetter Submenu
 </h3>
 <div class="Unindented">
-Here such things as the overall font size to typeset the score, the rules for spacing system, any global transposition etc can be set.
+Here such things as the overall font size to typeset the score, the rules for spacing system, any global transposition, control of page numbering etc can be set.
 </div>
 <div class="Indented">
-The beaming rules can be set both in general (invoke Set Beaming Rules without a selection) or with exceptions (by invoking with a selection that has been beamed manually using the [ and ] commands from the Notes/Rests-&gt;Beaming menu). Use this latter for example to break up very short notes that would otherwise be beamed together while leaving the longer durations as normal.
+The beaming rules can be set both in general (invoke Set Beaming Rules without a selection) or with exceptions (by invoking with a selection that has been beamed manually using the [ and ] commands from the Notes/Rests-&gt;Beaming menu). Use this latter to break up very short notes, for example, that would otherwise be beamed together while leaving the longer durations as normal.
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-3.6.2">3.6.2</a> Movements Menu
@@ -1249,38 +1258,56 @@ The beaming rules can be set both in general (invoke Set Beaming Rules without a
 As with the Score Menu there may be Denemo Directives attached to the movement - e.g titles to be placed at the head of the movement will have a Denemo Directive associated with them. Other controls that can be applied on a per-movement basis include the barline and notehead style, printing of a custos at line ends, the indent before the first system (which can also be set on the score-wide basis).
 </div>
 <div class="Indented">
-Various score checking routines work at movement level from this menu.
+Various score checking routines work at movement level from this menu and a command to re-bar the movment (or a staff or part of a staff) is also here as &ldquo;Adjust the Measure Lengths&rdquo; - this can also be used just to check that the Denemo &ldquo;measures&rdquo; correspond with the actual typeset measures (which always follow the durations/time signatures).
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-3.6.3">3.6.3</a> Staff/Voices Menu
 </h3>
 <div class="Unindented">
-Things such as the music crossing to another staff, or Ossia staffs are contained here, along with commands for deleting parts of the staff, setting up multi-measure rests for a whole staff, muting the staff during playback
+Things such as the music crossing to another staff, or Ossia staffs are contained here, along with commands for deleting parts of the staff, setting up multi-measure rests for a whole staff, muting the staff during playback, 
 </div>
 <h3 class="Subsubsection-">
-<a class="toc" name="toc-Subsubsection--2"></a>The Staff Properties Submenu
+<a class="toc" name="toc-Subsubsection--3"></a>The Staff Properties Submenu
 </h3>
 <div class="Unindented">
 This covers such things as the type of staff (e.g. Normal Notation, Tablature, Chord Symbols, Fret Diagrams) as well as the staff appearance and the playback instrument, instrument name or ambitus to be typeset at the start of the staff and more.
 </div>
 <h3 class="Subsubsection-">
-<a class="toc" name="toc-Subsubsection--3"></a>The Voices Submenu
+<a class="toc" name="toc-Subsubsection--4"></a>The Voices Submenu
 </h3>
 <div class="Unindented">
 <i>Voices</i> in Denemo are like staffs but are typeset on the preceding staff to achieve single-staff polyphony. The Denemo Display is normally set to display any extra voices on a separate staff so as to make it easy to work with - the voices have their clef displayed in yellow and do not show a key signature as these are supplied by the main staff (or &ldquo;primary voice&rdquo;). Voices will also normally be assigned to voice numbers 1,2,3,4 using the Initial Voice commands in this menu (this controls the stemming, slur positions etc). Voices can change their voice number during the music - the commands for this are in the Directives-&gt;Typesetter-&gt;Voices menu as they insert stem change objects in between the notes.
 </div>
 <h3 class="Subsubsection-">
-<a class="toc" name="toc-Subsubsection--4"></a>The Staff Groupings (Braces) Submenu
+<a class="toc" name="toc-Subsubsection--5"></a>The Display Effects Submenu
 </h3>
 <div class="Unindented">
-The braces at the start of each system are controlled from here.
+Here you can choose to hide staffs from the display so that you can see distantly placed staffs side by side (e.g. in large orchestral scores). If you are using this and navigating with the keyboard you will want to reset the key shortcuts for staff navigation commands to use variants that skip over the hidden staffs.
+</div>
+<div class="Indented">
+You can also give more/less room in the display to the staffs.
+</div>
+<h3 class="Subsubsection-">
+<a class="toc" name="toc-Subsubsection--6"></a>The Staff Groupings (Braces) Submenu
+</h3>
+<div class="Unindented">
+The braces at the start of each system are controlled from here. The order that you add the braces determines which are outside which. The braces are displayed to the left of the staff and can be edited/checked there with the mouse.
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-3.6.4">3.6.4</a> Clefs Menu
 </h3>
+<div class="Unindented">
+All sorts of clefs can be selected - the Set Initial and Clef Change commands give access to standard clefs. The Clef Chooser command lets you set more exotic clefs such as Drum clef and even things like the Gregorian chant C clef using the LilyPond syntax (e.g. vaticana-do3).
+</div>
+<div class="Indented">
+Typeset-only and Display-only clefs enable you to work with a voice which is being typeset on a different staff, while keeping the music in the staff you wish to see it in or for entering music in a familiar staff which is to be typeset in an unfamiliar one.
+</div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-3.6.5">3.6.5</a> Keys Menu
 </h3>
+<div class="Unindented">
+Setting the initial key or a key signature change or to sharpen or flatten the key signature at the cursor. You can also click on the key signature itself to sharpen/flatten. The key signature can be hidden when typeset.
+</div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-3.6.6">3.6.6</a> Time Signatures Menu
 </h3>
@@ -1290,9 +1317,18 @@ Besides basic time signatures various variants (numeric, single digit ...) are h
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-3.6.7">3.6.7</a> Measures Menu
 </h3>
+<div class="Unindented">
+Besides commands to insert/delete/navigate/merge/split measures (in one or all staffs) this menu includes commands to set an upbeat (anacrusis, pickup) measure at the start, or a short measure (e.g. during partial first &amp; second time bars).
+</div>
+<div class="Indented">
+The whole measure repeat sign is here and some commands to check the measure for errors or to widen or narrow the measure in the display.
+</div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-3.6.8">3.6.8</a> Chords Menu
 </h3>
+<div class="Unindented">
+Here are commands to add notes to a chord either at the cursor, by note name or at an interval above the bass. Whole chords can have their enharmonic spelling changed up or down.
+</div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-3.6.9">3.6.9</a> Notes/Rests 
 </h3>
@@ -1303,13 +1339,13 @@ This covers inserting, deleting and modifying notes in pitch, duration and appea
 Also here is the tuplet menu, for groups of notes that have a duration that is a fraction of the written duration, such as triplets. These actually insert tuplet start and end objects, before and after the notes concerned so, strictly speaking they should come in a separate miscellaneous objects category. As usual, the most useful commands have shortcuts already - Tab starts/stops a triplet alternately (so you can press it once, enter the notes and press it again to finish the triplet). And Keypad 7, Keypad 7 turns the note entered into a triplet of notes (with Control as well they are slurred). This is set as a two-key shortcut so that you can type it in as a triplet rhythm: e.g. the three keypresses 4, KP_7, KP_7 will give a triplet of three 1/16th notes.
 </div>
 <h3 class="Subsubsection-">
-<a class="toc" name="toc-Subsubsection--5"></a>The Append/Edit Note Submenu
+<a class="toc" name="toc-Subsubsection--7"></a>The Append/Edit Note Submenu
 </h3>
 <div class="Unindented">
 So called because in appending position the note names a, b, c ... append a note while when the cursor is on an note it edits the note to have the note-name indicated. The other note edit commands here are shifting up and down an octave, sharpening or flattening. Cautionary and reminder accidentals are here too - to set the style of accidentals (e.g. if they are repeated in various circumstances) see the Score-&gt;Typesetter menu.
 </div>
 <h3 class="Subsubsection-">
-<a class="toc" name="toc-Subsubsection--6"></a>The Note Insertion Submenu
+<a class="toc" name="toc-Subsubsection--8"></a>The Note Insertion Submenu
 </h3>
 <div class="Unindented">
 This menu has commands for inserting notes at (i.e. before the object at) the cursor position. The double key press A, A inserts the note A in the prevailing duration (more commonly people press a duration key 0, 1, ... followed by a note name).
@@ -1318,7 +1354,7 @@ This menu has commands for inserting notes at (i.e. before the object at) the cu
 If you enter a note and then sharpen you will hear both note and sharpened note - to avoid this use the &ldquo;Sharpen Next Note&rdquo; command (likewise for flatten, use twice for double-sharp,flat) the default key presses are ’=’ and ’-’ for these.
 </div>
 <h3 class="Subsubsection-">
-<a class="toc" name="toc-Subsubsection--7"></a>The Append/Insert Duration Submenu
+<a class="toc" name="toc-Subsubsection--9"></a>The Append/Insert Duration Submenu
 </h3>
 <div class="Unindented">
 So called because the commands 0, 1, 2 ... append a note when the cursor is in the appending position or enter a note if the cursor is on an object. If you have a MIDI keyboard (and it is designated in the preferences under the MIDI tab) then the note will be purely rhythmic (yellow/brown) playing a pitch will turn it into a real note. Here is the command for entering a snippet (which can be a complete rhythmic pattern) as well as Breve and Longa for early music.
@@ -1327,7 +1363,7 @@ So called because the commands 0, 1, 2 ... append a note when the cursor is in t
 There are also a set of comands for appending notes which will be slurred from previous notes (Control-0, etc) which means that you can enter slurs as you enter the rhythm of a bar without extra key presses (which would otherwise break the rhythm of your entry).
 </div>
 <h3 class="Subsubsection-">
-<a class="toc" name="toc-Subsubsection--8"></a>The Edit Duration Submenu
+<a class="toc" name="toc-Subsubsection--10"></a>The Edit Duration Submenu
 </h3>
 <div class="Unindented">
 Here are the commands for changing the duration of the note/rest/chord at the cursor as well as doubling or dividing the note at the cursor.
@@ -1336,13 +1372,13 @@ Here are the commands for changing the duration of the note/rest/chord at the cu
 Besides commands for dotting notes there are commands for turning the note at the cursor into a dotted rhythm of two notes and for entering a dotted rhythm with two key presses (so as to keep in rhythm - e.g. 3, KP_9 gives dotted 1/8 note, 1/16th note, and the corresponding slurred one with Control).
 </div>
 <h3 class="Subsubsection-">
-<a class="toc" name="toc-Subsubsection--9"></a>The Rest Insertion Submenu
+<a class="toc" name="toc-Subsubsection--11"></a>The Rest Insertion Submenu
 </h3>
 <div class="Unindented">
 Besides inserting rests (Alt-0 etc) you can insert non-printing rests (where voices are silent) and move rests out of the way in polyphonic situations where LilyPond doesn’t do what you want. Whole measure rests and multi-measure rests are here too with control over their numbering.
 </div>
 <h3 class="Subsubsection-">
-<a class="toc" name="toc-Subsubsection--10"></a>The Select Duration Submenu
+<a class="toc" name="toc-Subsubsection--12"></a>The Select Duration Submenu
 </h3>
 <div class="Unindented">
 The commands to explicitly set the prevailing duration are here (though usually this is set by inserting a duration) and, more importantly the command to select a snippet as the prevailing duration (Shift+ Space) after which entered notes follow the pattern of the snippet.
@@ -1366,11 +1402,14 @@ This means that you will see the lyrics for the current staff disappear from the
 
 </div>
 <div class="Indented">
-Stanza numbers can be entered as well as font-changing commands. Use <tt>Melismata</tt> command to extend syllables over more notes. The lyrics menu also contains a command &ldquo;Edit Lyric at Cursor&rdquo; ( Ctrl-l, Ctrl-l) which finds the place in the lyrics corresponding to the cursor position allowing you to edit the syllable that underlies the current note. Verses can be typeset in columns at the end by using command Typeset Verses at End which invokes the external Inkscape (or other) editor.
+Stanza numbers can be entered as well as font-changing commands. Use <tt>Melismata</tt> command to extend syllables over more notes. The lyrics menu also contains a command &ldquo;Edit Lyric at Cursor&rdquo; (Ctrl-l, Ctrl-l) which finds the place in the lyrics corresponding to the cursor position allowing you to edit the syllable that underlies the current note. Verses can be typeset in columns at the end by using command Typeset Verses at End which invokes the external Inkscape (or other) editor.
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-3.6.12">3.6.12</a> Notation Magick Menu
 </h3>
+<div class="Unindented">
+This is a menu for generating random notes, reflecting, reversing, shuffling notes etc - the sort of things computers can do with music easily but humans find more difficult.
+</div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-4">4</a> Palettes<a class="Label" name="sec:Palettes"> </a>
 </h1>
@@ -1627,13 +1666,13 @@ As with the Object Editor<a class="Reference" href="#sec:Object-Editor">9↑</a>
 <a class="toc" name="toc-Section-12">12</a> The Score Layouts Window
 </h1>
 <div class="Unindented">
-The score layouts window is shown by checking View-&gt;Score Layout. 
+The score layouts window is shown by checking View-&gt;Score Layout. Layouts are created when you typeset music - for example from the Print Window Typeset, Part or Movement buttons, or from the Print menu.
 </div>
 <div class="Indented">
 You can use layouts to print the music in different ways. For example, one layout may have the score transposed, or be for just two parts printed together.
 </div>
 <div class="Indented">
-You can customize any layout in this window - positioning lyrics above the staff rather than below for example, or setting the staff groupings.
+You can customize any layout in this window - positioning lyrics above the staff rather than below for example, or setting the staff groupings. If you have customized the Default Layout you will need to use the Typeset button in the Print View to create a new Default Layout.
 </div>
 <div class="Indented">
 You can make Denemo Directives conditional on the score layout, so that for example a page break only applies when printing the full score, or is just for printing one part. In this way if, for example, one part does not need separate first and second time bars, then these can be marked as not being for that layout. See Directives-&gt;Conditional Directives for setting this.
@@ -1953,7 +1992,7 @@ The menu item that activates the command shows the shortcuts that exist in brigh
 <a class="toc" name="toc-Subsection-19.2">19.2</a> More Commands
 </h2>
 <h3 class="Subsubsection-">
-<a class="toc" name="toc-Subsubsection--11"></a>Adding More Features 
+<a class="toc" name="toc-Subsubsection--13"></a>Adding More Features 
 </h3>
 <div class="Unindented">
 It is possible to add more commands to the set that Denemo ships with. Some of these are shipped with Denemo, but not added automatically so as to keep the menu sizes manageable. Generally, you right-click to find more menu items to add; once added you can set a keyboard/mouse shortcut and keep the command in your default setup. Scheme to be executed at startup can be placed in the denemo.scm file.
@@ -3945,7 +3984,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-09-07T15:08:02.866396</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-09-07T18:29:37.746381</span>
 </div>
 </div>
 </body>
