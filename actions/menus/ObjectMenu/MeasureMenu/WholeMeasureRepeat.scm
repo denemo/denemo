@@ -22,6 +22,7 @@ Denemo
 	(d-WholeMeasureRest)
 	 (d-DirectivePut-chord-gx "WholeMeasureRest" 40)
 	 (d-DirectivePut-chord-gy "WholeMeasureRest" 15)
+	 (d-DirectivePut-chord-display "WholeMeasureRest" (_ "Measure Repeat"))
 	(d-DirectivePut-chord-graphic "WholeMeasureRest" "
 𝄎
 Denemo
