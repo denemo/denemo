@@ -358,8 +358,10 @@ customize_scoreblock (DenemoScoreblock * sb, gchar * name)
       gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
       Denemo.project->custom_scoreblocks = g_list_append (Denemo.project->custom_scoreblocks, newsb);
       Denemo.project->layout_id = 0;
-
-
+      gchar *new_name = g_strdup_printf ("%%%s\n", newsb->name);
+      g_string_prepend (newsb->lilypond, new_name);
+      g_free (new_name);
+      g_string_append_printf (newsb->lilypond, "\n\\header{DenemoLayoutName = \"%s\"}\n", newsb->name);
       score_status (Denemo.project, TRUE);
     }
   else if (name_scoreblock (sb, name))
