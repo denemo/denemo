@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>InsertBeamingRule</action>
+        <_label>Beaming Rule Change</_label>
+        <_tooltip>Inserts a (hidden) time signature with rules to be used for beaming. With no selection gets the beat for beams to be divided for the prevailing time signature at the cursor. If a there is a selection this will be used as the set of rules. In this case indicate the beaming desired using the manual beam commands [ and ], giving all the beaming rules wanted using several measures if needed (no other rules are used). Repeat with different selections to add further rules.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

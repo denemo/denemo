@@ -1,6 +1,13 @@
 ;;;SetBeamExceptions
 (let ((tag "SetBeamExceptions")
-    (exceptions #f)(data #f)
+        (params SetBeamExceptions::params)
+        (DeleteProc d-DirectiveDelete-score)
+        (GetData d-DirectiveGet-score-data)
+        (PutData d-DirectivePut-score-data)
+        (PutProc d-DirectivePut-score-prefix)
+        (layout "\\layout")
+        (exceptions #f)
+        (data #f)
         (timeSignatureFraction #f) 
         (beatStructure #f) 
         (baseMomentFraction #f)
@@ -9,7 +16,7 @@
         (DefaultbaseMomentFraction #f))
     (define (set-exceptions)
             (d-SetSaved #f)
-            (d-DirectivePut-score-data tag (format #f "'~s" data))
+            (PutData tag (format #f "'~s" data))
             (let ((prefix ""))
                 (define (do-append alist)
                     (let ((time (car alist))
@@ -22,13 +29,13 @@
                         (set! notes (string-append "\\beamExceptions {" notes "}\n"))
                         (set! notes "#'()\n"))
                     
-                    (set! prefix (string-append prefix "\\layout {
+                    (set! prefix (string-append prefix layout "{
     \\overrideTimeSignatureSettings "
                             timeSignatureFraction
                             " " baseMomentFraction
                              " #'("  beatStructure  ") " notes "}\n"))))
-                (for-each do-append (eval-string (d-DirectiveGet-score-data tag)))
-                (d-DirectivePut-score-prefix tag prefix)))                       
+                (for-each do-append (eval-string (GetData tag)))
+                (PutProc tag prefix)))                       
 
     (define (timesig val)
             (let* ((index (string-index val #\/))
@@ -49,7 +56,8 @@
                                 lily))
                     #f))
      (define (get-exceptions)
-           (if (MoveToSelectionBeginningInThisStaff)
+        (d-PushPosition)
+        (if (MoveToSelectionBeginningInThisStaff)
                 (let ((time #f)(measure (d-GetMeasure)))
                     (set! time (format #f "~s" (timesig (d-GetPrevailingTimesig))))
                     (set! exceptions (get-lilypond))
@@ -62,14 +70,30 @@
                                                 (set! exceptions (string-append exceptions " | ")))
                                              (set! exceptions (string-append exceptions (get-lilypond)))
                                              (loop (d-GetMeasure)))))
-                                (set! exceptions (cons time exceptions)))))))
-                        
-;;;;;;;;;routine starts here                        
-    (set! data (d-DirectiveGet-score-data tag))
+                                (set! exceptions (cons time exceptions))))))
+        (d-PopPosition))
+        
+                       
+;;;;;;;;;routine starts here   
+    (if (equal? params "edit")
+        (begin
+            ;(d-WarningDialog "Not implemented")
+            (set! params #f)
+            (exit)))
+    (if params
+        (begin
+            (set! tag (assoc-ref params 'tag))
+            (set! layout (assoc-ref params 'layout))
+            (set! DeleteProc (assoc-ref params 'delete))
+            (set! GetData (assoc-ref params 'get))
+            (set! PutData (assoc-ref params 'put))
+            (set! PutProc (assoc-ref params 'proc))))
+        
+    (set! data (GetData tag))
     (if data
             (set! data (eval-string data))
             (set! data '()))
-    (get-exceptions) 
+    (get-exceptions) (disp "exceptions found " exceptions "\n\n")
     (if exceptions
         (let ((value (assoc-ref data (car exceptions))))
                 (if value
@@ -96,16 +120,19 @@
                                                 
                                         (set! value (assoc-set! value 'notes this)))
                                         (set! data (assoc-set! data (car exceptions) value))   
-                                        (set-exceptions))
+                                        (set-exceptions)
+                                        (d-InfoDialog (_ "Beaming Rules added from the selection")))
                             ((replace)
                             
                                         (set! value (assoc-set! value 'notes (cdr exceptions)))
                                         (set! data (assoc-set! data (car exceptions) value))  
-                                        (set-exceptions))
+                                        (set-exceptions)
+                                        (d-InfoDialog (_ "Beaming Rules replaced with ones from the selection")))
                             ((delete)
                                 (d-SetSaved #f)
                                 (set! data (assoc-remove! data (car exceptions)))
-                                (set-exceptions))
+                                (set-exceptions)
+                                (d-InfoDialog (_ "Beaming Rules added from the selections have been dropped")))
                             (else
                                 (d-InfoDialog (_ "Cancelled")))))
                     (begin
@@ -120,7 +147,8 @@
                         (set! value (assoc-set! value 'beatStructure beatStructure))
                         (set! value (assoc-set! value 'timeSignatureFraction timeSignatureFraction))
                         (set! data (assoc-set! data (car exceptions) value))   
-                        (set-exceptions))))
+                        (set-exceptions)
+                        (d-InfoDialog (_ "Beaming Rules replaced with ones from the selection")))))
            (let*    ((time  (timesig (d-GetPrevailingTimesig)))
                     (choice (RadioBoxMenu (cons (string-append (_ "Set Beaming rule for ") DefaulttimeSignatureFraction)  'set)
                                                 (cons (string-append (_ "Delete Beaming rule for ") DefaulttimeSignatureFraction)  'delete)
@@ -154,7 +182,7 @@
                         
                             ((deleteAll)
                                 (d-SetSaved #f)
-                                (d-DirectiveDelete-score tag))
+                                (DeleteProc tag))
                             (else
                                 (d-WarningDialog (_ "Cancelled")))))))
                                 
