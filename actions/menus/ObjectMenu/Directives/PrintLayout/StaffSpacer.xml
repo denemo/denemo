@@ -7,8 +7,8 @@
       <row type="scheme">
        
         <action>StaffSpacer</action>
-        <_label>Staff Spacer</_label>
-        <_tooltip>Forces extra space between this staff and the adjacent one at this point in the score.</_tooltip>
+         <_label>Staff/System/Titles Spacer</_label>
+        <_tooltip>Forces extra space between this staff and the adjacent one at this point in the score. If in the top staff of a system, forces the systems apart in the line at the cursor. If in the top staff on the top line gives more room below the titles.</_tooltip>
       </row>
     </map>
   </merge>
