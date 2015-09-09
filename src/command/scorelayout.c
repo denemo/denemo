@@ -507,6 +507,11 @@ get_options_button (DenemoScoreblock * sb, gboolean custom)
       gtk_widget_set_tooltip_text (button, _("Discard this customized score layout."));
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
       g_signal_connect (button, "clicked", G_CALLBACK (delete_custom_scoreblock_callback), sb);
+      
+      button = gtk_button_new_with_label (_("Create Default Score Layout"));
+      gtk_widget_set_tooltip_text (button, _("Creates the Default Score Layout"));
+      gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+      g_signal_connect (button, "clicked", G_CALLBACK (create_default_scoreblock), NULL);
     }
   else
     {
