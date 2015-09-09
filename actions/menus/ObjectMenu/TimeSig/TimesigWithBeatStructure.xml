@@ -7,8 +7,8 @@
       <row type="scheme">
         <after>InsertTimeSig</after>
         <action>TimesigWithBeatStructure</action>
-        <_label>Time Signature with Beat Structure</_label>
-        <_tooltip>Inserts a time signature with indication for how to beam the notes. Insert at beginning of staff in order to replace the initial time signature.</_tooltip>
+         <_label>Time Signature with Beaming Rule</_label>
+         <_tooltip>Inserts a time signature with indication for how to beam the notes. Insert at beginning of staff in order to replace the initial time signature.</_tooltip>
       </row>
     </map>
   </merge>
