@@ -1032,6 +1032,8 @@ actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffs.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffs.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/HideMovement.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/HideMovement.xml
+actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementBeamingRules.scm
+actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementBeamingRules.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementPageBreak.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementPageBreak.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsBaroque.scm
@@ -1972,6 +1974,8 @@ actions/menus/ObjectMenu/TimeSig/ChordChartTimeSignature.scm
 actions/menus/ObjectMenu/TimeSig/ChordChartTimeSignature.xml
 actions/menus/ObjectMenu/TimeSig/HideTimesig.scm
 actions/menus/ObjectMenu/TimeSig/HideTimesig.xml
+actions/menus/ObjectMenu/TimeSig/InsertBeamingRule.scm
+actions/menus/ObjectMenu/TimeSig/InsertBeamingRule.xml
 actions/menus/ObjectMenu/TimeSig/NumericTimeSig.scm
 actions/menus/ObjectMenu/TimeSig/NumericTimeSig.xml
 actions/menus/ObjectMenu/TimeSig/SingleDigitTimeSig.scm
