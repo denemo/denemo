@@ -5652,7 +5652,7 @@ before and after the LilyPond syntax.
         <action>TimesigWithBeatStructure</action>
         <after>InsertTimeSig</after>
         <menupath>/ObjectMenu/TimeSig</menupath>
-        <_label>Time Signature with Beat Structure</_label>
+        <_label>Time Signature with Beaming Rule</_label>
         <_tooltip>Inserts a time signature with indication for how to beam the notes. Insert at beginning of staff in order to replace the initial time signature.</_tooltip>
       </row>
       <row type="scheme">
