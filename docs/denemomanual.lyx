@@ -2466,7 +2466,8 @@ Time Signatures Menu
 Besides basic time signatures various variants (numeric, single digit ...)
  are here.
  There is also beaming control applying just to the current passage (for
- beaming rules for the whole score see the Score->Typesetter menu).
+ beaming rules for the whole score see the Score->Typesetter menu or for
+ the whole movement Movement->Typesetter menu).
 \end_layout
 
 \begin_layout Subsubsection
@@ -3616,15 +3617,6 @@ You can customize any layout in this window - positioning lyrics above the
  staff rather than below for example, or setting the staff groupings.
  If you have customized the Default Layout you will need to use the Typeset
  button in the Print View to create a new Default Layout.
-\end_layout
-
-\begin_layout Standard
-You can make Denemo Directives conditional on the score layout, so that
- for example a page break only applies when printing the full score, or
- is just for printing one part.
- In this way if, for example, one part does not need separate first and
- second time bars, then these can be marked as not being for that layout.
- See Directives->Conditional Directives for setting this.
 \end_layout
 
 \begin_layout Standard
