@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>GoToEmptyMeasure</after>
+        <action>CheckForIncompleteMeasures</action>
+        <_label>Check for Irregular Measures</_label>
+        <_tooltip>Checks each Denemo measure in the current movement for complete number of beats. Unless you explicitly set otherwise, on typesetting the notes will be re-distributed to the correct measures, which can lead to strange effects.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
