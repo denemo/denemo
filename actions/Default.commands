@@ -3021,11 +3021,16 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <_tooltip>Checks that start/end tuplets match in the current measure.</_tooltip>
       </row>
       <row type="scheme">
-        <action>CheckForIncompleteMeasures</action>
-        <after>GoToEmptyMeasure</after>
+        <action>SearchPattern</action>
         <menupath>/MainMenu/NavigationMenu/Seek</menupath>
+        <_label>Search Rhythmic Pattern</_label>
+        <_tooltip>With a selection, searches from the cursor for the next occurrence of the rhythmic patterm of the selection. With no selection, continues the previous search. When a match is found it offers to continue, stop or execute the script in the Scheme Window.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>CheckForIncompleteMeasures</action>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
         <_label>Check for Irregular Measures</_label>
-        <_tooltip>Checks each measure for complete number of beats, ignoring Anacrusis and ShortMeasure ones. Stops at anything bad.</_tooltip>
+        <_tooltip>Checks each Denemo measure in the current movement for complete number of beats. Unless you explicitly set otherwise, on typesetting the notes will be re-distributed to the correct measures, which can lead to strange effects.</_tooltip>
       </row>
       <row type="scheme">
         <action>ChoirStaffStart</action>

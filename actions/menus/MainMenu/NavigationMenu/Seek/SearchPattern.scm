@@ -1,0 +1,78 @@
+;;;SearchPattern
+(define-once SearchPattern::pattern '())
+(define-once SearchPattern::MatchEnd #f)
+(let ((params SearchPattern::params) (pattern '()))
+   (if (d-GoToMark)
+        (let ((choice 
+            (if (not (null? SearchPattern::pattern))
+                (RadioBoxMenu (cons (_ "New search pattern from selection") 'new)
+                                    (cons (_ "Resume previous search") 'resume))
+                'new)))
+            (case choice
+                ((new)
+                    (while (and (d-IsInSelection) (not (Appending?)))
+                        (if (Music?)
+                             (set!  pattern (cons (d-GetDurationInTicks) pattern)))
+                        (d-MoveCursorRight))
+                    (set! pattern (reverse pattern))
+                    (set!  SearchPattern::pattern pattern))
+                ((resume)
+                    (set! pattern  SearchPattern::pattern))
+                (else
+                    (set! SearchPattern::pattern '()))))
+        (set! pattern  SearchPattern::pattern))
+    (set! SearchPattern::MatchEnd #f)
+    (d-UnsetMark)
+    (if (null? pattern)
+        (d-WarningDialog (_ "Make a selection to search for"))
+        (while (d-MoveCursorRight)
+            (let ((outer-position #f))
+                (let loop ((index 0))
+                    (while (and (not (Music?)) (d-MoveCursorRight))
+                        #f)
+                    (if (= index 0)
+                        (set! outer-position (GetPosition)))
+                    (let inner-loop ()
+                        (define position (GetPosition))
+                        (if (Music?) 
+                            (begin
+                                (if (= (list-ref pattern index) (d-GetDurationInTicks))
+                                    (if (< index (1- (length pattern)))
+                                        (begin
+                                            (if (d-MoveCursorRight)
+                                                (loop (1+ index))))
+                                        (begin 
+                                            (set! SearchPattern::MatchEnd (GetPosition))
+                                            (apply d-GoToPosition outer-position)
+                                            (d-MoveCursorLeft)
+                                            (break)))
+                                    (begin 
+                                        (apply d-GoToPosition outer-position)
+                                        (if  (d-MoveCursorRight)   
+                                            (loop 0)))))
+                            (if (d-MoveCursorRight)
+                                (inner-loop))))))))
+    (if SearchPattern::MatchEnd
+        (let ((choice (RadioBoxMenu 
+            (cons (_ "Continue") 'continue)
+            (cons (_ "Execute Scheme") 'execute)
+            (cons (_ "Stop") 'stop))))
+            (d-MoveCursorRight)     
+            (case choice
+                    ((continue)
+                        (apply d-GoToPosition SearchPattern::MatchEnd)
+                        (d-SearchPattern))
+                     ((execute) (d-ExecuteScheme))))
+        (let ((choice (RadioBoxMenu 
+            (cons (_ "Wrap to start of staff") 'staff)
+            (cons (_ "Wrap to next staff") 'below)
+            (cons (_ "Stop") 'stop))))
+            (case choice
+                ((staff)
+                    (d-MoveToBeginning)
+                    (d-SearchPattern 'continue))
+                ((below)
+                    (if (d-WrapToNextStaff)
+                        (begin
+                            (d-MoveToBeginning)
+                             (d-SearchPattern 'continue))))))))

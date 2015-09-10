@@ -531,8 +531,6 @@ actions/menus/MainMenu/NavigationMenu/MIDI/PreviousNoteOnset.scm
 actions/menus/MainMenu/NavigationMenu/MIDI/PreviousNoteOnset.xml
 actions/menus/MainMenu/NavigationMenu/MIDI/UnmarkNoteOnset.scm
 actions/menus/MainMenu/NavigationMenu/MIDI/UnmarkNoteOnset.xml
-actions/menus/MainMenu/NavigationMenu/Seek/CheckForIncompleteMeasures.scm
-actions/menus/MainMenu/NavigationMenu/Seek/CheckForIncompleteMeasures.xml
 actions/menus/MainMenu/NavigationMenu/Seek/FindEditPoint.scm
 actions/menus/MainMenu/NavigationMenu/Seek/FindEditPoint.xml
 actions/menus/MainMenu/NavigationMenu/Seek/FindNextLowerNote.scm
@@ -549,6 +547,8 @@ actions/menus/MainMenu/NavigationMenu/Seek/MoveToPreviousEmptyMeasure.scm
 actions/menus/MainMenu/NavigationMenu/Seek/MoveToPreviousEmptyMeasure.xml
 actions/menus/MainMenu/NavigationMenu/Seek/NextHigher.scm
 actions/menus/MainMenu/NavigationMenu/Seek/NextHigher.xml
+actions/menus/MainMenu/NavigationMenu/Seek/SearchPattern.scm
+actions/menus/MainMenu/NavigationMenu/Seek/SearchPattern.xml
 actions/menus/MainMenu/PlaybackMenu/Audio/AudioPlay.scm
 actions/menus/MainMenu/PlaybackMenu/Audio/AudioPlay.xml
 actions/menus/MainMenu/PlaybackMenu/Audio/CloseSourceAudioFile.scm
@@ -981,6 +981,8 @@ actions/menus/ObjectMenu/MovementMenu/CaptureScore/DeleteCapturedMeasure.scm
 actions/menus/ObjectMenu/MovementMenu/CaptureScore/DeleteCapturedMeasure.xml
 actions/menus/ObjectMenu/MovementMenu/CaptureScore/InsertCaptureMeasure.scm
 actions/menus/ObjectMenu/MovementMenu/CaptureScore/InsertCaptureMeasure.xml
+actions/menus/ObjectMenu/MovementMenu/CheckForIncompleteMeasures.scm
+actions/menus/ObjectMenu/MovementMenu/CheckForIncompleteMeasures.xml
 actions/menus/ObjectMenu/MovementMenu/CheckTimeSignatures.scm
 actions/menus/ObjectMenu/MovementMenu/CheckTimeSignatures.xml
 actions/menus/ObjectMenu/MovementMenu/CreateIntro.scm
