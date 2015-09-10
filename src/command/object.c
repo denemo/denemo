@@ -1564,7 +1564,11 @@ edit_score_and_movement_properties (gboolean show_score)
 
     GtkWidget *button;
     GtkWidget *pane;
+#if GTK_MAJOR_VERSION == 2
+    pane = gtk_vpaned_new ();
+#else                                                       
     pane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
+#endif
     gtk_box_pack_start (GTK_BOX (vbox), pane, TRUE, TRUE, 0);
     GtkWidget *expander = gtk_expander_new (_("Score Properties"));
     gtk_expander_set_expanded (GTK_EXPANDER(expander), show_score);
@@ -1703,7 +1707,11 @@ edit_staff_and_voice_properties (gboolean show_staff)
 
     GtkWidget *button;
     GtkWidget *pane;
+#if GTK_MAJOR_VERSION == 2
+    pane = gtk_vpaned_new ();
+#else                                                       
     pane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
+#endif
     gtk_box_pack_start (GTK_BOX (vbox), pane, TRUE, TRUE, 0);
     GtkWidget *expander = gtk_expander_new (_("Staff Properties"));
     gtk_expander_set_expanded (GTK_EXPANDER(expander), show_staff);
