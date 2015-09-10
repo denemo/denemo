@@ -176,7 +176,7 @@ static void reset_cursors (void)
     gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR)); 
     if(ObjectInfo)
         gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), gdk_cursor_new (GDK_LEFT_PTR));
-    if(Denemo.printarea)
+    if(Denemo.printarea && gtk_widget_get_window (Denemo.printarea))
         gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), gdk_cursor_new (GDK_LEFT_PTR));    
 }
 
@@ -768,10 +768,10 @@ static void display_help(gchar *help)
 #define GdkRGBA GdkColor
 #define gtk_widget_override_color gtk_widget_modify_fg
 #define gtk_widget_override_background_color gtk_widget_modify_bg
-
+#define GTK_STATE_FLAG_NORMAL (0)
 static void get_color (GdkColor *color, gdouble r, gdouble g, gdouble b, gdouble a) {
     gchar *col = g_strdup_printf ( "#%02x%02x%02x", (gint)(r*254),(gint)(g*254),(gint)(b*254));
-    gdk_color_parse (col, color);g_print ("%s/t", col);
+    gdk_color_parse (col, color);
     g_free(col);
 }
 #else
@@ -1377,7 +1377,7 @@ edit_object (void)
       gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_X_CURSOR));
       if(ObjectInfo)
         gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), gdk_cursor_new (GDK_X_CURSOR));
-     if(Denemo.printarea)
+     if(Denemo.printarea && gtk_widget_get_window (Denemo.printarea))
         gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), gdk_cursor_new (GDK_X_CURSOR));
 
     }
@@ -1659,7 +1659,7 @@ edit_score_and_movement_properties (gboolean show_score)
       gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_X_CURSOR));
       if(ObjectInfo)
         gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), gdk_cursor_new (GDK_X_CURSOR));
-     if(Denemo.printarea)
+     if(Denemo.printarea && gtk_widget_get_window (Denemo.printarea))
         gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), gdk_cursor_new (GDK_X_CURSOR));
 
     }
@@ -1802,7 +1802,7 @@ edit_staff_and_voice_properties (gboolean show_staff)
       gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_X_CURSOR));
       if(ObjectInfo)
         gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), gdk_cursor_new (GDK_X_CURSOR));
-     if(Denemo.printarea)
+     if(Denemo.printarea && gtk_widget_get_window (Denemo.printarea))
         gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), gdk_cursor_new (GDK_X_CURSOR));
 
     }
