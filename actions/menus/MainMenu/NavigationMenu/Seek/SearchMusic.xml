@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SearchMusic</action>
+        <after>SearchPattern</after>
+        <_label>Search Note Sequence</_label>
+        <_tooltip>With a selection, searches from the cursor for the next occurrence of the notes of the selection. With no selection, continues the previous search. When a match (ignoring rests and duration) is found it offers to continue, stop or execute the script in the Scheme Window.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

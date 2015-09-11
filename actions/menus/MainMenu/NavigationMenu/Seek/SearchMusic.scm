@@ -1,0 +1,83 @@
+;;;SearchMusic
+(define-once SearchMusic::pattern '())
+(define-once SearchMusic::MatchEnd #f)
+(let ((params SearchMusic::params) (pattern '()))
+   (if (d-GoToMark)
+        (let ((choice 
+            (if (not (null? SearchMusic::pattern))
+                (RadioBoxMenu (cons (_ "New search music from selection") 'new)
+                                    (cons (_ "Resume previous music search") 'resume))
+                'new)))
+            (case choice
+                ((new)
+                    (let loop () 
+                        (if (d-IsInSelection)
+                            (if (Note?)
+                                (begin
+                                    (set!  pattern (cons (d-GetNote) pattern))
+                                    (if (d-NextObject)
+                                                (loop)))
+                                (if (d-NextObject)
+                                            (loop)))))
+                    (set! pattern (reverse pattern))
+                    (set!  SearchMusic::pattern pattern))
+                ((resume)
+                    (set! pattern  SearchMusic::pattern))
+                (else
+                    (set! SearchMusic::pattern '()))))
+        (set! pattern  SearchMusic::pattern))
+    (set! SearchMusic::MatchEnd #f)
+    (d-UnsetMark)
+    (if (null? pattern)
+        (d-WarningDialog (_ "Make a selection to search for"))
+        (while (d-NextObject)
+            (let ((outer-position #f))
+                (let loop ((index 0))
+                    (while (and (not (Note?)) (d-NextObject))
+                        #f)
+                    (if (= index 0)
+                        (set! outer-position (GetPosition)))
+                    (let inner-loop ()
+                        (define position (GetPosition))
+                        (if (Note?) 
+                            (begin
+                                (if (equal? (list-ref pattern index) (d-GetNote))
+                                    (if (< index (1- (length pattern)))
+                                        (begin
+                                            (if (d-NextObject)
+                                                (loop (1+ index))))
+                                        (begin 
+                                            (set! SearchMusic::MatchEnd (GetPosition))
+                                            (apply d-GoToPosition outer-position)
+                                            (d-MoveCursorLeft)
+                                            (break)))
+                                    (begin 
+                                        (apply d-GoToPosition outer-position)
+                                        (if  (d-NextObject)   
+                                            (loop 0)))))
+                            (if (d-NextObject)
+                                (inner-loop))))))))
+    (if SearchMusic::MatchEnd
+        (let ((choice (RadioBoxMenu 
+            (cons (_ "Continue") 'continue)
+            (cons (_ "Execute Scheme") 'execute)
+            (cons (_ "Stop") 'stop))))
+            (d-NextObject)     
+            (case choice
+                    ((continue)
+                        (apply d-GoToPosition SearchMusic::MatchEnd)
+                        (d-SearchMusic))
+                     ((execute) (d-ExecuteScheme))))
+        (let ((choice (RadioBoxMenu 
+            (cons (_ "Wrap to start of staff") 'staff)
+            (cons (_ "Wrap to next staff") 'below)
+            (cons (_ "Stop") 'stop))))
+            (case choice
+                ((staff)
+                    (d-MoveToBeginning)
+                    (d-SearchMusic 'continue))
+                ((below)
+                    (if (d-WrapToNextStaff)
+                        (begin
+                            (d-MoveToBeginning)
+                             (d-SearchMusic 'continue))))))))

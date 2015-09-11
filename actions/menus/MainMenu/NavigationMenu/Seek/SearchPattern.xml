@@ -6,7 +6,6 @@
     <map>
       <row type="scheme">
         <action>SearchPattern</action>
-        <after>CheckForIncompleteMeasures</after>
         <_label>Search Rhythmic Pattern</_label>
         <_tooltip>With a selection, searches from the cursor for the next occurrence of the rhythmic patterm of the selection. With no selection, continues the previous search. When a match is found it offers to continue, stop or execute the script in the Scheme Window.</_tooltip>
       </row>

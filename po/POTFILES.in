@@ -547,6 +547,8 @@ actions/menus/MainMenu/NavigationMenu/Seek/MoveToPreviousEmptyMeasure.scm
 actions/menus/MainMenu/NavigationMenu/Seek/MoveToPreviousEmptyMeasure.xml
 actions/menus/MainMenu/NavigationMenu/Seek/NextHigher.scm
 actions/menus/MainMenu/NavigationMenu/Seek/NextHigher.xml
+actions/menus/MainMenu/NavigationMenu/Seek/SearchMusic.scm
+actions/menus/MainMenu/NavigationMenu/Seek/SearchMusic.xml
 actions/menus/MainMenu/NavigationMenu/Seek/SearchPattern.scm
 actions/menus/MainMenu/NavigationMenu/Seek/SearchPattern.xml
 actions/menus/MainMenu/PlaybackMenu/Audio/AudioPlay.scm
