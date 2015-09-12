@@ -7327,6 +7327,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Beaming Rules</_label>
         <_tooltip>Add/Replace rules to be used for beaming in the current movement. With no selection gets the beat for beams to be divided for the prevailing time signature at the cursor. If a there is a selection this will be used as the set of rules. In this case indicate the beaming desired using the manual beam commands [ and ], giving all the beaming rules wanted using several measures if needed (no other rules are used). Repeat with different selections to add further rules.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ChooseNotehead</action>
+        <after>ChangeNotehead</after>
+        <menupath>/ObjectMenu/NotesRests/NoteheadControl</menupath>
+        <_label>Choose Notehead</_label>
+        <_tooltip>(Print) Gives a choice between all the notehead types available.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

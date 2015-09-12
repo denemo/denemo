@@ -1484,6 +1484,8 @@ actions/menus/ObjectMenu/NotesRests/MIDI/InsertMarkedMidi.scm
 actions/menus/ObjectMenu/NotesRests/MIDI/InsertMarkedMidi.xml
 actions/menus/ObjectMenu/NotesRests/NoteheadControl/ArtificialHarmonic.scm
 actions/menus/ObjectMenu/NotesRests/NoteheadControl/ArtificialHarmonic.xml
+actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.scm
+actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.xml
 actions/menus/ObjectMenu/NotesRests/NoteheadControl/IndividualNoteheadSize.scm
 actions/menus/ObjectMenu/NotesRests/NoteheadControl/IndividualNoteheadSize.xml
 actions/menus/ObjectMenu/NotesRests/NoteheadControl/NeoMensuralNotehead.scm
