@@ -8,7 +8,7 @@
         <after>TextAnnotation</after>
         <action>StandaloneFootnote</action>
         <_label>Insert Footnote</_label>
-        <_tooltip>Inserts a footnote at the cursor position.</_tooltip>
+        <_tooltip>Inserts a footnote at the cursor position as a standalone object. WARNING does not appear if followed by a chord, single notes only!</_tooltip>
       </row>
     </map>
   </merge>

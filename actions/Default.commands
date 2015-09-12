@@ -6051,13 +6051,6 @@ before and after the LilyPond syntax.
         <_tooltip>Sharpens the inital key signature by one degree on all staffs/voices.</_tooltip>
       </row>
       <row type="scheme">
-        <action>StandaloneFootnote</action>
-        <after>TextAnnotation</after>
-        <menupath>/ObjectMenu/Directives/Markings</menupath>
-        <_label>Insert Footnote</_label>
-        <_tooltip>Inserts a footnote at the cursor position.</_tooltip>
-      </row>
-      <row type="scheme">
         <action>NewStructuredStaff</action>
         <after>NewStaffBefore</after>
         <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
