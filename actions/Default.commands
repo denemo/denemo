@@ -3340,7 +3340,7 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
       </row>
       <row type="scheme">
         <action>ToggleCursorHighlight</action>
-        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/ViewMenu</menupath>
         <_label>Cursor Highlighting (Off/On)</_label>
         <_tooltip>Shows up the position of the cursor more clearly (off/on)</_tooltip>
       </row>

@@ -511,8 +511,6 @@ actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementBeginning.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementBeginning.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementEnd.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementEnd.xml
-actions/menus/MainMenu/NavigationMenu/Cursor/ToggleCursorHighlight.scm
-actions/menus/MainMenu/NavigationMenu/Cursor/ToggleCursorHighlight.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/VisibleStaffDown.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/VisibleStaffDown.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/VisibleStaffUp.scm
@@ -587,6 +585,8 @@ actions/menus/MainMenu/ViewMenu/Palettes/ChoosePalette.scm
 actions/menus/MainMenu/ViewMenu/Palettes/ChoosePalette.xml
 actions/menus/MainMenu/ViewMenu/Palettes/UnhidePalettes.scm
 actions/menus/MainMenu/ViewMenu/Palettes/UnhidePalettes.xml
+actions/menus/MainMenu/ViewMenu/ToggleCursorHighlight.scm
+actions/menus/MainMenu/ViewMenu/ToggleCursorHighlight.xml
 actions/menus/MainMenu/ViewMenu/Zoom/ZoomDialog.scm
 actions/menus/MainMenu/ViewMenu/Zoom/ZoomDialog.xml
 actions/menus/MainMenu/ViewMenu/Zoom/ZoomIn~.scm
