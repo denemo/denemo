@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>LineBreak</action>
         <_label>Line Break</_label>
-        <_tooltip>(Print) Start a new line (i.e. system) at this measure.</_tooltip>
+        <_tooltip>(Print) Start a new line (i.e. system) at this measure. This will be ignored if it breaks a beam or tuplet. Use Allow Line Break to break mid-measure.</_tooltip>
       </row>
     </map>
   </merge>
