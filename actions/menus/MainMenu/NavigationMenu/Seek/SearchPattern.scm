@@ -15,7 +15,7 @@
                             (begin
                                 (if (Music?)
                                     (begin
-                                        (set!  pattern (cons (d-GetDurationInTicks) pattern))
+                                        (set!  pattern (cons (cons (d-GetNote) (if (d-IsTied) (- 0 (d-GetDurationInTicks))(d-GetDurationInTicks))) pattern))
                                         (if (d-NextObject)
                                             (loop)))
                                     (if (d-NextObject)
@@ -41,20 +41,21 @@
                     (let inner-loop ()
                         (define position (GetPosition))
                         (if (Music?) 
-                            (begin
-                                (if (= (list-ref pattern index) (d-GetDurationInTicks))
+                            (let ((step (list-ref pattern index)))
+                                (if (and (equal? (if (car step) #t #f) (if (d-GetNote) #t #f)) (= (cdr step) (if (d-IsTied) (- 0 (d-GetDurationInTicks))(d-GetDurationInTicks))))
                                     (if (< index (1- (length pattern)))
                                         (begin
-                                            (if (d-MoveCursorRight)
+                                            (if (d-NextObject)
                                                 (loop (1+ index))))
                                         (begin 
                                             (set! SearchPattern::MatchEnd (GetPosition))
                                             (apply d-GoToPosition outer-position)
-                                            (d-MoveCursorLeft)
+                                            (if (> (length pattern) 1)
+                                                (d-MoveCursorLeft))
                                             (set! continuing #f)))
                                     (begin 
                                         (apply d-GoToPosition outer-position)
-                                        (if  (d-MoveCursorRight)   
+                                        (if  (d-NextObject)   
                                             (loop 0)))))
                             (if (and continuing (d-NextObject))
                                 (inner-loop))))))
@@ -65,10 +66,13 @@
             (cons (_ "Continue") 'continue)
             (cons (_ "Execute Scheme") 'execute)
             (cons (_ "Stop") 'stop))))
-            (d-MoveCursorRight)     
+            (if (> (length pattern) 1)
+                (d-MoveCursorRight))     
             (case choice
                     ((continue)
                         (apply d-GoToPosition SearchPattern::MatchEnd)
+                        (if (= 1 (length SearchPattern::pattern))
+                            (d-NextObject))
                         (d-SearchPattern))
                      ((execute) (d-ExecuteScheme))))
         (let ((choice (RadioBoxMenu 
