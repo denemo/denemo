@@ -946,6 +946,70 @@ File
 \end_layout
 
 \begin_layout Subsubsection
+Navigation
+\end_layout
+
+\begin_layout Standard
+This has the commands for moving the cursor around the score, bookmarks,
+ and seeking places in the score by content (
+\begin_inset Quotes eld
+\end_inset
+
+seach
+\begin_inset Quotes erd
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Subsubsection*
+Bookmarks
+\end_layout
+
+\begin_layout Standard
+The commands cover finding the next/previous bookmark and moving to a bookmark
+ by name.
+\end_layout
+
+\begin_layout Subsubsection*
+Cursor
+\end_layout
+
+\begin_layout Standard
+This includes moving the cursor by measure, staff, and within a chord.
+ There are moves that skip staffs that are hidden in the display and ones
+ that skip over voices on a staff to move to the next staff.
+\end_layout
+
+\begin_layout Subsubsection*
+Seek
+\end_layout
+
+\begin_layout Standard
+This has a commands to search for rhythmic patterns, note sequences, empty
+ measures, next higher/lower note, empty measures ...
+ The search facility includes the equivalent of 
+\begin_inset Quotes eld
+\end_inset
+
+search and replace
+\begin_inset Quotes erd
+\end_inset
+
+: by recording a sequence of edits in the Scheme Window, the searched for
+ items can be edited by choosing the Execute Scheme option when found.
+\end_layout
+
+\begin_layout Subsubsection*
+MIDI
+\end_layout
+
+\begin_layout Standard
+These are commands to move along the note onsets in an imported MIDI file
+ (guided MIDI import).
+\end_layout
+
+\begin_layout Subsubsection
 Edit
 \end_layout
 
@@ -1005,7 +1069,7 @@ View
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="17" columns="2">
+<lyxtabular version="3" rows="19" columns="2">
 <features islongtable="true" longtabularalignment="center">
 <column alignment="left" valignment="top" width="30text%">
 <column alignment="left" valignment="top" width="70text%">
@@ -1334,6 +1398,26 @@ This hides/shows the main Denemo display.
 </cell>
 </row>
 <row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cursor Highlighting (Off/On)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The cursor flashes, and in the multi-line page view it is circled
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
 <cell alignment="left" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
@@ -1369,6 +1453,33 @@ Display Zoom
 
 \begin_layout Plain Layout
 Zoom the main Denemo display (usually done with ctrl-mouse wheel).
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Object Inspector
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Opens the Object Inspector
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:The-Object-Inspector"
+
+\end_inset
+
+ on the current object.
 \end_layout
 
 \end_inset
@@ -2651,7 +2762,14 @@ The commands to explicitly set the prevailing duration are here (though
 \end_layout
 
 \begin_layout Subsubsection
-Directives 
+Directives
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Directives"
+
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Standard
@@ -2659,8 +2777,12 @@ This covers all the things that aren't notes but sit in between them.
  The most useful for regular music notation are barlines, dynamic markings,
  tempo marks, rehearsal marks etc in the Markings submenu.
  There is an enormous collection of stuff here though.
- One general feature is the Conditional Directives which can be used to
- restrict a directive to a particular type of score layout (e.g.
+ 
+\end_layout
+
+\begin_layout Standard
+One general feature is the Conditional Directives which can be used to restrict
+ a directive to a particular type of score layout (e.g.
  only to be used when printing a part, or a full score).
  This can be used, for example, to prevent a cue being printed on the full
  score (as it is only relevant when printing the part).
@@ -3615,8 +3737,21 @@ You can use layouts to print the music in different ways.
 \begin_layout Standard
 You can customize any layout in this window - positioning lyrics above the
  staff rather than below for example, or setting the staff groupings.
- If you have customized the Default Layout you will need to use the Typeset
- button in the Print View to create a new Default Layout.
+ 
+\end_layout
+
+\begin_layout Standard
+Although all score layouts have access to the same music to arrange on the
+ score the music can contain features that are exclusive to a one layout
+ or exclude one layout, via Conditional Directives placed in the music.
+ See the section on Denemo Directives
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Directives"
+
+\end_inset
+
+for more details.
 \end_layout
 
 \begin_layout Standard
