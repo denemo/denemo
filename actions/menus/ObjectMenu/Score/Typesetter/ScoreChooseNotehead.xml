@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ScoreChooseNotehead</action>
+        <after>AccidentalStyle</after>
+        <_label>Set Notehead Style</_label>
+        <_tooltip>Sets the type of notehead to be used score-wide.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

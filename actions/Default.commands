@@ -5911,12 +5911,6 @@ before and after the LilyPond syntax.
         <_tooltip>Turns on horizontal displacements of notes where needed.</_tooltip>
       </row>
       <row type="scheme">
-        <action>NormalBeamEndings</action>
-        <menupath>/ObjectMenu/Score/Typesetter</menupath>
-        <_label>Use Normal Beam Endings</_label>
-        <_tooltip>Ends beams in the expected places (print).</_tooltip>
-      </row>
-      <row type="scheme">
         <action>VoicesDoublestroke</action>
         <menupath>/ObjectMenu/Directives/Typesetter/Voices</menupath>
         <_label>Voice Preset</_label>
@@ -7333,6 +7327,13 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/NotesRests/NoteheadControl</menupath>
         <_label>Choose Notehead</_label>
         <_tooltip>(Print) Gives a choice between all the notehead types available.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ScoreChooseNotehead</action>
+        <after>AccidentalStyle</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Set Notehead Style</_label>
+        <_tooltip>Sets the type of notehead to be used score-wide.</_tooltip>
       </row>
     </map>
   </merge>
