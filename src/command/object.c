@@ -326,8 +326,8 @@ display_current_object (void)
                 if (thenote && gui->movement->cursor_y==thenote->mid_c_offset)
                   {
   
-                    g_string_append_printf (selection, _("<b>Within the chord the cursor is on the note |%s| </b>\n"),
-                                            mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
+                    g_string_append_printf (selection, _("<b>Within the chord the cursor is on the note %s </b>\n"),
+                                            pretty_name(mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift)));
                     if (thenote->directives)
                       {
                         selection = g_string_append (selection, _("Attached to this note:"));
@@ -1074,8 +1074,8 @@ edit_object (void)
                     
                     if (thenote->directives)
                       {
-                        g_string_append_printf (text, _("Attached to Note |%s|"),
-                                            mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
+                        g_string_append_printf (text, _("Attached to Note %s"),
+                                            pretty_name (mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift)));
                         GtkWidget *frame = gtk_frame_new (text->str);
                         gtk_container_set_border_width (GTK_CONTAINER (frame), 20);
                         gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
@@ -1092,8 +1092,8 @@ edit_object (void)
                       } 
                     else
                       {
-                        g_string_append_printf (text, _("Nothing attached to Note |%s|"),
-                                            mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
+                        g_string_append_printf (text, _("Nothing attached to Note %s"),
+                                            pretty_name (mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift)));
                         GtkWidget *frame = gtk_frame_new (text->str);
                         gtk_container_set_border_width (GTK_CONTAINER (frame), 20);
                         gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);

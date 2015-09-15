@@ -656,6 +656,36 @@ void draw_staff_brace (cairo_t *cr, gboolean curly, gint x, gint y, gint height)
   return;  
 }
 
+gchar *pretty_name (gchar *lilynote) //display 𝄪𝄫♯♭♮ with note name
+{
+ gchar *natural = "C♮";
+ gchar *sharp = "C♯";
+ gchar *flat = "C♭";
+ gchar *double_sharp = "C𝄪";
+ gchar *double_flat = "C𝄫";
+ gchar *answer = natural;
+ if(*(lilynote+1)==0)
+    answer = natural;
+    else if (*(lilynote+1) == 'i')
+        {
+            if (*(lilynote+3) == 'i')
+                answer = double_sharp;
+            else
+                answer = sharp;
+        }
+        else if (*(lilynote+1) == 'e')
+            {
+                if (*(lilynote+3) == 'e')
+                    answer = double_flat;
+                else
+                    answer = flat;
+            }
+  *answer = toupper (*lilynote);
+  return answer;  
+}
+
+
+
 /**
  * Utility function to set the number of ticks used by the given object
  * if it is within a given tuplet

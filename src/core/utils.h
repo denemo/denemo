@@ -76,6 +76,8 @@ void draw_staff_brace (cairo_t *cr, gboolean curly, gint x, gint y, gint height)
 
 gint draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean at_cursor);
 
+gchar *pretty_name (gchar *lilynote);
+
 /* Gives space after a note or rest */
 
 gint space_after (gint numticks, gint wholenotewidth);
