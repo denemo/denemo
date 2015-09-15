@@ -680,10 +680,18 @@ gchar *pretty_name (gchar *lilynote) //display 𝄪𝄫♯♭♮ with note name
                 else
                     answer = flat;
             }
-  *answer = toupper (*lilynote);
+#if 0 
+//why is my compiler core dumping on this? or when optimised, leaving *answer unaltered?       
+  *answer =  toupper(*lilynote);
+#else
+static gchar buf[20];
+    gchar *temp = g_strdup_printf ("%c%s", toupper(*lilynote), answer+1);
+    g_stpcpy (buf, temp);
+    g_free(temp);
+    answer = buf;
+#endif  
   return answer;  
 }
-
 
 
 /**
