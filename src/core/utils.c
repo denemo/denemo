@@ -658,12 +658,21 @@ void draw_staff_brace (cairo_t *cr, gboolean curly, gint x, gint y, gint height)
 
 gchar *pretty_name (gchar *lilynote) //display 𝄪𝄫♯♭♮ with note name
 {
- gchar *natural = "C♮";
- gchar *sharp = "C♯";
- gchar *flat = "C♭";
- gchar *double_sharp = "C𝄪";
- gchar *double_flat = "C𝄫";
- gchar *answer = natural;
+ static gchar *natural = NULL;
+ static gchar *sharp;
+ static gchar *flat;
+ static gchar *double_sharp;
+ static gchar *double_flat;
+ gchar *answer;
+ if (!natural)
+    {
+        natural = g_strdup ("C♮");
+        sharp = g_strdup ("C♯");
+        flat = g_strdup ("C♭");
+        double_sharp = g_strdup ("C𝄪");
+        double_flat = g_strdup ("C𝄫");
+    }
+ answer = natural;
  if(*(lilynote+1)==0)
     answer = natural;
     else if (*(lilynote+1) == 'i')
@@ -679,17 +688,8 @@ gchar *pretty_name (gchar *lilynote) //display 𝄪𝄫♯♭♮ with note name
                     answer = double_flat;
                 else
                     answer = flat;
-            }
-#if 0 
-//why is my compiler core dumping on this? or when optimised, leaving *answer unaltered?       
+            }   
   *answer =  toupper(*lilynote);
-#else
-static gchar buf[20];
-    gchar *temp = g_strdup_printf ("%c%s", toupper(*lilynote), answer+1);
-    g_stpcpy (buf, temp);
-    g_free(temp);
-    answer = buf;
-#endif  
   return answer;  
 }
 
