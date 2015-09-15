@@ -17,6 +17,7 @@
 #include "export/guidedimportmidi.h"
 #include "export/print.h"
 #include "export/exportmidi.h"
+#include "ui/markup.h"
 
 
 SCM 
