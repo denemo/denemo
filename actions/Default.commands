@@ -1600,12 +1600,6 @@ these may need re-making.</_tooltip>
         <_tooltip>Allows choosing extra commands/menu items from your own collection of extras</_tooltip>
       </row>
       <row type="builtin">
-        <action>FetchCommands</action>
-        <_label>Update Commands from Internet</_label>
-        <_tooltip>Refreshes the set of commands available from Denemo.org.
-Use More Commands after this has finished</_tooltip>
-      </row>
-      <row type="builtin">
         <action>ToggleEdit</action>
         <_label>Toggle Edit Mode</_label>
         <_tooltip>Toggle between current mode and edit mode</_tooltip>
@@ -4602,12 +4596,6 @@ accidentals are usually printed over the note.</_tooltip>
         <menupath>/ObjectMenu/NotationMagick/SingleRandomNote</menupath>
         <_label>Note from Pool</_label>
         <_tooltip>Inserts one note from a user-specified pool of notes in Lilypond syntax</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>NoOp</action>
-        <menupath>/MainMenu/MoreMenu</menupath>
-        <_label>Null Operation</_label>
-        <_tooltip>Does absolutely nothing. Use to "blank" a shortcut.</_tooltip>
       </row>
       <row type="scheme">
         <action>ShiftRealOctaveDown</action>
