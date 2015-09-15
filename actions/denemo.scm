@@ -719,8 +719,8 @@
         )
       (else #f)))
 
-(define Pitchbend::commandUp "(d-CursorRight)")
-(define Pitchbend::commandDown "(d-CursorLeft)")
+(define Pitchbend::commandUp #f)
+(define Pitchbend::commandDown #f)
 (define  Pitchbend::timer 0)
 (define (MIDI-shortcut::pitchbend value)
   ;(format #t "pitch bend value ~a\n" value)
