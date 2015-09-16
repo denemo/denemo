@@ -1145,7 +1145,12 @@ copy_pdf (void)
                     }
                   else
                     {
-                      g_debug ("I have copied %s to %s (default was %s)\n", get_print_status()->printname_pdf[get_print_status()->cycle], filename, outname);
+                      gchar *uri = g_strconcat ("file://", filename, NULL);
+                      if (strcmp(uri, get_output_uri_from_scoreblock ()))
+                        score_status (Denemo.project, TRUE);
+                      set_current_scoreblock_uri (uri);
+                     
+                      //g_print ("I have copied %s to %s (default was %s) uri %s\n", get_print_status()->printname_pdf[get_print_status()->cycle], filename, outname, uri);
                     }
                   g_free (contents);
                 }
@@ -2140,7 +2145,7 @@ dual_page (GtkWidget * button)
 {
   GError *err = NULL;
   gboolean duplex = g_object_get_data (G_OBJECT (Denemo.printarea), "Duplex");
-  gtk_button_set_label (button, duplex? _("Duplex"):_("Single"));
+  gtk_button_set_label (GTK_BUTTON (button), duplex? _("Duplex"):_("Single"));
   g_object_set_data (G_OBJECT (Denemo.printarea), "Duplex", GINT_TO_POINTER (!g_object_get_data (G_OBJECT (Denemo.printarea), "Duplex")));
   set_printarea (&err);
 }
