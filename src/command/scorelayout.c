@@ -2054,7 +2054,10 @@ set_current_scoreblock_uri (gchar * uri)
 {
   DenemoScoreblock *sb = selected_scoreblock ();
   if (sb)
-    sb->uri = uri;
+    {
+        g_free (sb->uri);
+        sb->uri = uri;
+    }
 }
 
 //Returns the next scoreblock in the score layout notebook, or NULL if it is the last

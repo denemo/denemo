@@ -50,7 +50,10 @@ printop_done (EvPrintOperation * printop, G_GNUC_UNUSED GtkPrintOperationResult 
   *psettings = ev_print_operation_get_print_settings (printop);
   g_object_ref (*psettings);
   //g_debug("Came away with uri %s\n", gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI));
-  set_current_scoreblock_uri (g_strdup (gtk_print_settings_get (*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI)));
+  gchar* uri = g_strdup (gtk_print_settings_get (*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI));
+  gchar* unesc = g_uri_unescape_string (uri,NULL);
+  g_free (uri);
+  set_current_scoreblock_uri (unesc);
   if (get_print_status()->background & STATE_PAUSED)
     {
       if (Denemo.prefs.typesetrefresh)
@@ -2144,7 +2147,7 @@ static void
 dual_page (GtkWidget * button)
 {
   GError *err = NULL;
-  gboolean duplex = g_object_get_data (G_OBJECT (Denemo.printarea), "Duplex");
+  gboolean duplex = GPOINTER_TO_INT(g_object_get_data (G_OBJECT (Denemo.printarea), "Duplex"));
   gtk_button_set_label (GTK_BUTTON (button), duplex? _("Duplex"):_("Single"));
   g_object_set_data (G_OBJECT (Denemo.printarea), "Duplex", GINT_TO_POINTER (!g_object_get_data (G_OBJECT (Denemo.printarea), "Duplex")));
   set_printarea (&err);
