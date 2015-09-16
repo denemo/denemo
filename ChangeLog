@@ -1,3 +1,84 @@
+2015-09-16 Release 2.0
+    Object Inspector
+        Full details of current object nicely formatted
+        Includes all attachments to the current object
+        Tracks the cursor
+        Available from the Print View
+    Object Editor
+        Edit built in attributes
+        Edit attached features
+        Available from Inspector or by right click.
+        Create Palette Buttons for instantiating the current attached features
+    Score and Movement Properties Editor
+        Edit global properties of the Score
+        Edit global properties of the Movement
+        Switch between movements to edit properties
+        Create Palette Buttons for instantiating the current score or movement property
+    Staff and Voice Properties Editor
+        Edit global properties of the Staff
+        Edit global properties of the Voice
+        Create Palette Buttons for instantiating the current staff or voice property
+    Search and Replace
+        Search for rhythmic patterns
+        Edit at found pattern and continue
+        Search for note sequences
+        Wrap to staff start/next staff
+        Resume search
+    Titles
+        Control of bold, italic and fontsize
+        Control of spacing
+    Beaming Rules
+        Create scorewide beaming rules
+        Rules for multiple time signatures
+        Regular rules with exceptions done by example.
+    Preview of Text/Music/Fret Diagram/Chord Symbol Markup
+        Check the appearance before re-typesetting the score
+    Notehead Styles
+        Complete set of notehead styles
+        Set on individual notes or score-wide
+    Improved MIDI output
+        Sustain Pedal effect
+    Bug Fixes
+        MIDI message lengths corrected for custom messages
+    User Manual
+        Many new sections added
+
+2015-07-21 Release 1.2.4
+    Command Search Improved
+        Search for commands containing key words
+        Fuzzy search
+        Search command help text and label
+
+    New Commands
+        Choose format of rehearsal marks
+            Plain, boxed or circled
+            Alphabetic or Numeric
+        Controls for page numbering
+
+    Music Snippets
+        Saved with the score
+        Use extended to all objects
+        Command for insertion from keyboard
+        Re-labelling of snippets
+
+    Staff Groups (Braces)
+        Graphically displayed
+        Click to edit the start or end
+
+    Updated Manual
+        New sections on Command Center, Tablature, Fret Diagrams …
+
+    Autosave
+        Auto-saved versions detected on start up
+        Save rate in granularity of seconds
+
+    Bug Fixes
+        Fix over long menus
+        Menu of searchable objects avoid spurious items
+        Improved Check Score routine
+            more errors detected
+            error position indicated in all cases
+
 2015-02-02 Release 1.2.2
     More mouse selection support
         Extend an already made selection by dragging
