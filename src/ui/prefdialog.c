@@ -409,6 +409,10 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
 
   //gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  GtkWidget *warning_message = gtk_label_new ("");
+  use_markup (warning_message);
+  gtk_label_set_markup (GTK_LABEL (warning_message), _("<span foreground=\"red\"weight=\"bold\">A few options may require re-start of Denemo!</span>"));
+  gtk_container_add (GTK_CONTAINER (content_area), warning_message);
   notebook = gtk_notebook_new ();
   gtk_container_add (GTK_CONTAINER (content_area), notebook);
 #define VBOX main_vbox
@@ -539,14 +543,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   //xgettext:no-c-format
   INTENTRY_LIMITS (_("% of display height per system"), system_height, 1, 100);
 
-  /*
-   * Pitch Entry Parameters
-   */
-  NEWPAGE (_("Pitch Entry"));
-
-  TEXTENTRY (_("Temperament"), temperament) BOOLEANENTRY (_("Use Overlays"), overlays);
-  BOOLEANENTRY (_("Continuous Entry"), continuous);
-
+ 
   /*
    * Preferences to do with commands
    */
@@ -778,6 +775,19 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
 
   BOOLEANENTRY (_("Enable Reverb on soundfont"), fluidsynth_reverb) BOOLEANENTRY (_("Enable Chorus on soundfont"), fluidsynth_chorus)
 #endif
+
+ /*
+   * Pitch Entry Parameters
+   */
+  NEWPAGE (_("Pitch Entry"));
+
+  TEXTENTRY (_("Temperament"), temperament) BOOLEANENTRY (_("Use Overlays"), overlays);
+  BOOLEANENTRY (_("Continuous Entry"), continuous);
+
+
+
+
+
     gtk_widget_show_all (dialog);
 
   audio_cbdata.dialog = dialog;
