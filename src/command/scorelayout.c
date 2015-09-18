@@ -1002,7 +1002,7 @@ popup_movement_titles_menu (GtkWidget * button)
  *
  */
 static void
-install_pre_movement_widgets (GtkWidget * vbox, DenemoMovement * si)
+install_pre_movement_widgets (GtkWidget * vbox, DenemoMovement * si, gboolean standard)
 {
   GtkWidget *frame = gtk_frame_new (NULL);
   gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
@@ -1015,12 +1015,16 @@ install_pre_movement_widgets (GtkWidget * vbox, DenemoMovement * si)
 
   GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (inner_vbox), inner_hbox, FALSE, TRUE, 0);
-
-  GtkWidget *button = gtk_button_new_with_label (_("Create Titles for Movement"));
-  mark_as_non_custom (button);
-  gtk_widget_set_tooltip_text (button, _("Set book titles for this movement in the score"));
-  g_signal_connect (button, "clicked", G_CALLBACK (popup_movement_titles_menu), NULL);
-  gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);
+  GtkWidget *button;
+  if(standard)
+    {
+      button = gtk_button_new_with_label (_("Create Titles for Movement"));
+      mark_as_non_custom (button);
+      gtk_widget_set_tooltip_text (button, _("Set book titles for this movement in the score"));
+      g_signal_connect (button, "clicked", G_CALLBACK (popup_movement_titles_menu), NULL);
+      gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);
+    }
+  
   button = gtk_button_new_with_label (_("Create for Custom Layout"));
   gtk_widget_set_tooltip_text (button, _("Create page breaks, blank pages ...for this layout"));
   g_signal_connect (button, "clicked", G_CALLBACK (popup_movement_menu), inner_vbox);
@@ -1413,7 +1417,7 @@ popup_initial_clef_menu (GtkWidget * button)
 */
 
 static GtkWidget *
-get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gint movementnum, gboolean last_movement)
+get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gint movementnum, gboolean last_movement, gboolean standard)
 {
   DenemoProject *gui = Denemo.project;
   gint staff_group_nesting = 0; //to check on loose staff group markers
@@ -1484,20 +1488,14 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
 
       gtk_widget_show_all (menu);
       g_signal_connect (button, "clicked", G_CALLBACK (popup), menu);
-#if 0
-//probably a bad idea, the menu includes inserting clef changes at the cursor...
-      button = gtk_button_new_with_label (_("Set Clef"));
-      g_signal_connect (button, "clicked", G_CALLBACK (popup_initial_clef_menu), NULL);
-      mark_as_non_custom (button);
-      gtk_box_pack_start (GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
-      gtk_widget_set_tooltip_text (button, _("Set the initial clef for this staff in the score"));
-#endif
-      button = gtk_button_new_with_label (_("Set Staff Group Start/End"));
-      mark_as_non_custom (button);
-      gtk_box_pack_start (GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
-      gtk_widget_set_tooltip_text (button, _("The braces { and [ binding staffs together can be set here. Set the start on one staff and the end on a later staff.\nThis is editing the score, not just customizing a layout.\nRefresh the layout view (see under Options for this Layout button at the top) once you have made the changes."));
-      g_signal_connect (button, "button-press-event", G_CALLBACK (staff_groups_menu), GINT_TO_POINTER (get_location (movementnum, voice_count)));
-
+      if (standard)
+        {
+          button = gtk_button_new_with_label (_("Set Staff Group Start/End"));
+          mark_as_non_custom (button);
+          gtk_box_pack_start (GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
+          gtk_widget_set_tooltip_text (button, _("The braces { and [ binding staffs together can be set here. Set the start on one staff and the end on a later staff.\nThis is editing the score, not just customizing a layout.\nRefresh the layout view (see under Options for this Layout button at the top) once you have made the changes."));
+          g_signal_connect (button, "button-press-event", G_CALLBACK (staff_groups_menu), GINT_TO_POINTER (get_location (movementnum, voice_count)));
+        }
       *pstaffs = g_list_append (*pstaffs, frame);
       g_signal_connect (G_OBJECT (frame), "destroy", G_CALLBACK (remove_from_staff_list), pstaffs);
 
@@ -1743,7 +1741,7 @@ create_scorewide_block (GtkWidget * vbox)
   create_misc_scorewide (inner_box);
 }
 static           
-void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScoreblock ** psb, gchar *partname, gint movement_num, gboolean last)
+void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScoreblock ** psb, gchar *partname, gint movement_num, gboolean last, gboolean standard)
           {
           DenemoProject *gui = Denemo.project;
           gchar *label_text = gui->movements->next ? g_strdup_printf (_("Movement %d"), movement_num) : g_strdup (_("Movement"));
@@ -1755,18 +1753,21 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
 
           GtkWidget *frame_box = gtk_vbox_new (FALSE, 8);
           gtk_container_add (GTK_CONTAINER (movement_frame), frame_box);
-  
+          GtkWidget *remove_box = gtk_hbox_new (FLASE, 8);
+          gtk_box_pack_start (GTK_BOX (frame_box), remove_box, FALSE, FALSE, 0);
           GtkWidget *w = gtk_button_new_with_label ("Remove Movement");
           gtk_widget_set_tooltip_text (w, _("Remove this movement from the score layout"));
           g_signal_connect_swapped (w, "clicked", G_CALLBACK (remove_element), frame_box); //grandparent
-          gtk_box_pack_start (GTK_BOX (frame_box), w, FALSE, FALSE, 0);
+          gtk_box_pack_start (GTK_BOX (remove_box), w, FALSE, FALSE, 0);
+         // GtkWidget *dummy = gtk_label_new (" dummy ");
+          //gtk_box_pack_start (GTK_BOX (frame_box), dummy, TRUE, TRUE, 0);
 
           GtkWidget *outer_hbox = gtk_hbox_new (FALSE, 8);
           gtk_box_pack_start (GTK_BOX (frame_box), outer_hbox, FALSE, TRUE, 0);
 
           GtkWidget *movement_vbox = gtk_vbox_new (FALSE, 8);
           gtk_box_pack_start (GTK_BOX (outer_hbox), movement_vbox, FALSE, TRUE, 0);
-          install_pre_movement_widgets (movement_vbox, si);
+          install_pre_movement_widgets (movement_vbox, si, standard);
           GtkWidget *frame = gtk_frame_new (NULL);
           add_lilypond (frame, g_strdup ("\n\\score { %Start of Movement\n"), g_strdup ("\n} %End of Movement\n"));
           gtk_box_pack_start (GTK_BOX (movement_vbox), frame, FALSE, TRUE, 0);
@@ -1774,7 +1775,7 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
           gtk_container_add (GTK_CONTAINER (frame), outer_vbox);
           GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
 
-          gtk_box_pack_start (GTK_BOX (hbox), get_movement_widget (&(*psb)->staff_list, partname, si, movement_num, last), FALSE, TRUE, 0);
+          gtk_box_pack_start (GTK_BOX (hbox), get_movement_widget (&(*psb)->staff_list, partname, si, movement_num, last, standard), FALSE, TRUE, 0);
           gtk_box_pack_start (GTK_BOX (outer_vbox), hbox, FALSE, TRUE, 0);
           if (si->header.directives)
             {
@@ -1845,7 +1846,7 @@ static void install_duplicate_movement (DenemoScoreblock ** psb, gint movement)
     GtkWidget *vbox = gtk_bin_get_child (GTK_BIN (gtk_bin_get_child (GTK_BIN ((*psb)->widget))));
     DenemoMovement *si = g_list_nth_data (Denemo.project->movements, movement - 1);
     if (si)
-        install_movement_widget (si, vbox, psb, partname, movement, TRUE);
+        install_movement_widget (si, vbox, psb, partname, movement, TRUE, FALSE);
 }
 static void install_duplicate_movement_callback (DenemoScoreblock *sb)
 {
@@ -1919,7 +1920,7 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
       if (movement == 0 /*all movements */  || (movement == movement_num) /*this movement */ )
         {
           DenemoMovement *si = (DenemoMovement *) g->data;
-          install_movement_widget (si, vbox, psb, partname, movement_num, !(gboolean) GPOINTER_TO_INT (g->next));
+          install_movement_widget (si, vbox, psb, partname, movement_num, !(gboolean) GPOINTER_TO_INT (g->next), TRUE);
 
         }                       //if movement is wanted
     }                           //for all movements
