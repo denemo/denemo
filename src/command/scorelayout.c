@@ -1462,11 +1462,11 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
           g_signal_connect (G_OBJECT (chords), "destroy", G_CALLBACK (remove_from_staff_list), pstaffs);
         }
 
-      label_text = (si->thescore->next == NULL) ? g_strdup (_("The Staff")) : g_strdup_printf (_("Staff %d"), staff_count);
+      label_text = (si->thescore->next == NULL) ? g_strdup (_("Staff Menu")) : g_strdup_printf (_("Staff %d Menu"), staff_count);
       GtkWidget *frame = gtk_frame_new (NULL);
 
       GtkWidget *staff_hbox = gtk_hbox_new (FALSE, 8);
-      gtk_frame_set_label_widget (GTK_FRAME (frame), staff_hbox);
+      //gtk_frame_set_label_widget (GTK_FRAME (frame), staff_hbox); !!!!! setting the label widget it's position looks odd because no frame is visible
       GtkWidget *button = gtk_button_new_with_label (label_text);
       g_free (label_text);
       gtk_box_pack_start (GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
@@ -1488,7 +1488,7 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
 
       gtk_widget_show_all (menu);
       g_signal_connect (button, "clicked", G_CALLBACK (popup), menu);
-      if (standard)
+      if (standard && (si->thescore->next != NULL))
         {
           button = gtk_button_new_with_label (_("Set Staff Group Start/End"));
           mark_as_non_custom (button);
@@ -1517,8 +1517,15 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
 
       gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
 
+      GtkWidget *outer_vbox = gtk_vbox_new (FALSE, 8);
+      gtk_container_add (GTK_CONTAINER (frame), outer_vbox);
+      
+      
+      gtk_box_pack_start (GTK_BOX (outer_vbox), staff_hbox, FALSE, TRUE, 0);
+
       GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
-      gtk_container_add (GTK_CONTAINER (frame), hbox);
+      gtk_box_pack_end (GTK_BOX (outer_vbox), hbox, FALSE, TRUE, 0);
+      //gtk_container_add (GTK_CONTAINER (frame), hbox);
       add_staff_widget (staff, hbox);
 
       label_text = (nextstaff && nextstaff->voicecontrol & DENEMO_SECONDARY) ? _("Voices") : _("Voice");
@@ -1744,8 +1751,9 @@ static
 void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScoreblock ** psb, gchar *partname, gint movement_num, gboolean last, gboolean standard)
           {
           DenemoProject *gui = Denemo.project;
-          gchar *label_text = gui->movements->next ? g_strdup_printf (_("Movement %d"), movement_num) : g_strdup (_("Movement"));
+          gchar *label_text = gui->movements->next ? g_strdup_printf (_("<b>Movement %d</b>"), movement_num) : g_strdup (_("Movement"));
           GtkWidget *movement_frame = gtk_expander_new (label_text);
+          gtk_label_set_use_markup (GTK_LABEL (gtk_expander_get_label_widget (GTK_EXPANDER(movement_frame))), TRUE);
           gtk_widget_set_tooltip_text (movement_frame, _("This contains the layout of the movement- the movement title, and the actual music itself"));
           gtk_expander_set_expanded (GTK_EXPANDER (movement_frame), si == gui->movement);
           g_free (label_text);
@@ -1755,10 +1763,11 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
           gtk_container_add (GTK_CONTAINER (movement_frame), frame_box);
           GtkWidget *remove_box = gtk_hbox_new (FLASE, 8);
           gtk_box_pack_start (GTK_BOX (frame_box), remove_box, FALSE, FALSE, 0);
-          GtkWidget *w = gtk_button_new_with_label ("Remove Movement");
+          GtkWidget *w = gtk_button_new_with_label ("<span foreground=\"red\">Remove Movement</span>");
+          gtk_label_set_use_markup (GTK_LABEL (gtk_bin_get_child (GTK_BIN(w))), TRUE);
           gtk_widget_set_tooltip_text (w, _("Remove this movement from the score layout"));
           g_signal_connect_swapped (w, "clicked", G_CALLBACK (remove_element), frame_box); //grandparent
-          gtk_box_pack_start (GTK_BOX (remove_box), w, FALSE, FALSE, 0);
+          gtk_box_pack_start (GTK_BOX (remove_box), w, FALSE, FALSE, 14);
          // GtkWidget *dummy = gtk_label_new (" dummy ");
           //gtk_box_pack_start (GTK_BOX (frame_box), dummy, TRUE, TRUE, 0);
 
@@ -1766,7 +1775,7 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
           gtk_box_pack_start (GTK_BOX (frame_box), outer_hbox, FALSE, TRUE, 0);
 
           GtkWidget *movement_vbox = gtk_vbox_new (FALSE, 8);
-          gtk_box_pack_start (GTK_BOX (outer_hbox), movement_vbox, FALSE, TRUE, 0);
+          gtk_box_pack_start (GTK_BOX (outer_hbox), movement_vbox, FALSE, TRUE, 10);
           install_pre_movement_widgets (movement_vbox, si, standard);
           GtkWidget *frame = gtk_frame_new (NULL);
           add_lilypond (frame, g_strdup ("\n\\score { %Start of Movement\n"), g_strdup ("\n} %End of Movement\n"));
