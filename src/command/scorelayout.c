@@ -516,18 +516,15 @@ get_options_button (DenemoScoreblock * sb, gboolean custom)
       
     if (!sb->text_only)
        {
-          button = gtk_button_new_with_label (_("Duplicate Movement"));
-          gtk_widget_set_tooltip_text (button, _("Creates additional movement cloned from the currently open one"));
+          button = gtk_button_new_with_label (_("Append Current Movement"));
+          gtk_widget_set_tooltip_text (button, _("Typesets the current movement at the end of this layout. Select the movement you wish to append to the layout in the Denemo Display first."));
           gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
           g_signal_connect_swapped (button, "clicked", G_CALLBACK (install_duplicate_movement_callback), sb);
 
           button = gtk_button_new_with_label (_("Re-order Movement"));
-          gtk_widget_set_tooltip_text (button, _("Moves movement 1 to end"));
+          gtk_widget_set_tooltip_text (button, _("Moves the first expanded movement in this layout to the end"));
           gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
           g_signal_connect_swapped (button, "clicked", G_CALLBACK (reorder_movement_callback), sb);
-          
-          
-          
         }
     }
   else
