@@ -2195,7 +2195,7 @@ retypeset (void)
     {
       if (get_print_status()->typeset_type == TYPESET_ALL_MOVEMENTS)
         {
-          if (changecount != Denemo.project->changecount)
+          if ((changecount != Denemo.project->changecount) || (Denemo.project->lilysync != Denemo.project->changecount))
             {
               get_print_status()->background = STATE_ON;
               typeset_control ("(d-Info \"This is called when hitting the refresh button while in continuous re-typeset\")(d-PrintView)");
@@ -2203,7 +2203,7 @@ retypeset (void)
               changecount = Denemo.project->changecount;
             }
         }
-      else if ((changecount != Denemo.project->changecount) || (si->currentmovementnum != movementnum) || ((get_print_status()->typeset_type == TYPESET_EXCERPT) && (si->currentmeasurenum < firstmeasure || si->currentmeasurenum > lastmeasure || si->currentstaffnum < firststaff || si->currentstaffnum > laststaff)))
+      else if ((changecount != Denemo.project->changecount) || (Denemo.project->lilysync != Denemo.project->changecount) || (si->currentmovementnum != movementnum) || ((get_print_status()->typeset_type == TYPESET_EXCERPT) && (si->currentmeasurenum < firstmeasure || si->currentmeasurenum > lastmeasure || si->currentstaffnum < firststaff || si->currentstaffnum > laststaff)))
         {
           firstmeasure = si->currentmeasurenum - get_print_status()->first_measure;
           if (firstmeasure < 0)
