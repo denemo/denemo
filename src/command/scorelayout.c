@@ -1745,7 +1745,7 @@ create_scorewide_block (GtkWidget * vbox)
 static           
 void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScoreblock ** psb, gchar *partname, gint movement_num, gboolean last)
           {
-             DenemoProject *gui = Denemo.project;
+          DenemoProject *gui = Denemo.project;
           gchar *label_text = gui->movements->next ? g_strdup_printf (_("Movement %d"), movement_num) : g_strdup (_("Movement"));
           GtkWidget *movement_frame = gtk_expander_new (label_text);
           gtk_widget_set_tooltip_text (movement_frame, _("This contains the layout of the movement- the movement title, and the actual music itself"));
@@ -1753,14 +1753,16 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
           g_free (label_text);
           gtk_box_pack_start (GTK_BOX (vbox), movement_frame, FALSE, TRUE, 0);
 
+          GtkWidget *frame_box = gtk_vbox_new (FALSE, 8);
+          gtk_container_add (GTK_CONTAINER (movement_frame), frame_box);
+  
+          GtkWidget *w = gtk_button_new_with_label ("Remove Movement");
+          gtk_widget_set_tooltip_text (w, _("Remove this movement from the score layout"));
+          g_signal_connect_swapped (w, "clicked", G_CALLBACK (remove_element), frame_box); //grandparent
+          gtk_box_pack_start (GTK_BOX (frame_box), w, FALSE, FALSE, 0);
+
           GtkWidget *outer_hbox = gtk_hbox_new (FALSE, 8);
-          gtk_container_add (GTK_CONTAINER (movement_frame), outer_hbox);
-
-          GtkWidget *w = gtk_button_new_with_label ("X");
-          gtk_widget_set_tooltip_text (w, _("Delete this movement from the score layout"));
-          g_signal_connect (w, "clicked", G_CALLBACK (remove_element), NULL);
-          gtk_box_pack_end (GTK_BOX (outer_hbox), w, FALSE, TRUE, 0);
-
+          gtk_box_pack_start (GTK_BOX (frame_box), outer_hbox, FALSE, TRUE, 0);
 
           GtkWidget *movement_vbox = gtk_vbox_new (FALSE, 8);
           gtk_box_pack_start (GTK_BOX (outer_hbox), movement_vbox, FALSE, TRUE, 0);
