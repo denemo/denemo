@@ -1876,7 +1876,7 @@ static void reorder_movement (DenemoScoreblock * psb)
     warningdialog (_("No movement is expanded - don't know which movement to move"));
 }
 
-static reorder_movement_callback (DenemoScoreblock * psb)
+static void reorder_movement_callback (DenemoScoreblock * psb)
 {
     reorder_movement (psb);
     score_status (Denemo.project, TRUE);
