@@ -38,7 +38,8 @@ static void create_standard_scoreblock (DenemoScoreblock ** psb, gint movement, 
 static void recreate_standard_scoreblock (DenemoScoreblock ** psb);
 static DenemoScoreblock *get_standard_scoreblock (GtkWidget * widget);
 static GtkWidget *get_options_button (DenemoScoreblock * sb, gboolean custom);
-
+static void install_duplicate_movement_callback (DenemoScoreblock *sb);
+static void reorder_movement_callback (DenemoScoreblock * psb);
 
 static gint layout_sync;
 
@@ -512,6 +513,22 @@ get_options_button (DenemoScoreblock * sb, gboolean custom)
       gtk_widget_set_tooltip_text (button, _("Creates the Default Score Layout"));
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
       g_signal_connect (button, "clicked", G_CALLBACK (create_default_scoreblock), NULL);
+      
+    if (!sb->text_only)
+       {
+          button = gtk_button_new_with_label (_("Duplicate Movement"));
+          gtk_widget_set_tooltip_text (button, _("Creates additional movement cloned from the currently open one"));
+          gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+          g_signal_connect_swapped (button, "clicked", G_CALLBACK (install_duplicate_movement_callback), sb);
+
+          button = gtk_button_new_with_label (_("Re-order Movement"));
+          gtk_widget_set_tooltip_text (button, _("Moves movement 1 to end"));
+          gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+          g_signal_connect_swapped (button, "clicked", G_CALLBACK (reorder_movement_callback), sb);
+          
+          
+          
+        }
     }
   else
     {
@@ -1408,7 +1425,6 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
   GtkWidget *ret = gtk_frame_new (NULL);
   GString *start = g_string_new ("");
   set_initiate_scoreblock (si, start);  // ie << possibly overridden
-
   add_lilypond (ret, g_string_free (start, FALSE), g_strdup ("\n>>\n"));
 
   GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
@@ -1729,42 +1745,10 @@ create_scorewide_block (GtkWidget * vbox)
   create_score_directives (inner_box);
   create_misc_scorewide (inner_box);
 }
-
-//populates the scoreblock *psb with the movement or movements for partname from the current score Denemo.project
-static void
-set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname)
-{
-  DenemoProject *gui = Denemo.project;
-  (*psb)->staff_list = NULL;    //list of staff frames in order they appear in scoreblock
-
-#if 0
-  (*psb)->widget = gtk_frame_new (NULL);
-#else
-  (*psb)->widget = gtk_scrolled_window_new (NULL, NULL);
-#endif
-
-
-  (*psb)->visible = FALSE;      //will be set true when/if tab is selected
-  if (partname)
-    (*psb)->partname = g_strdup (partname);
-  (*psb)->movement = movement;
-  layout_sync = (*psb)->layout_sync = gui->layout_sync;
-
-
-  GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
-  gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW ((*psb)->widget), vbox);
-  GtkWidget *options = get_options_button (*psb, FALSE);
-  gtk_box_pack_start (GTK_BOX (vbox), options, FALSE, FALSE, 0);
-  //now create a hierarchy of widgets representing the score
-  create_scorewide_block (vbox);
-
-  GList *g;
-  gint movement_num = 1;
-  for (g = gui->movements; g; g = g->next, movement_num++)
-    {
-      if (movement == 0 /*all movements */  || (movement == movement_num) /*this movement */ )
-        {
-          DenemoMovement *si = (DenemoMovement *) g->data;
+static           
+void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScoreblock ** psb, gchar *partname, gint movement_num, gboolean last)
+          {
+             DenemoProject *gui = Denemo.project;
           gchar *label_text = gui->movements->next ? g_strdup_printf (_("Movement %d"), movement_num) : g_strdup (_("Movement"));
           GtkWidget *movement_frame = gtk_expander_new (label_text);
           gtk_widget_set_tooltip_text (movement_frame, _("This contains the layout of the movement- the movement title, and the actual music itself"));
@@ -1791,7 +1775,7 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
           gtk_container_add (GTK_CONTAINER (frame), outer_vbox);
           GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
 
-          gtk_box_pack_start (GTK_BOX (hbox), get_movement_widget (&(*psb)->staff_list, partname, si, movement_num, !(gboolean) GPOINTER_TO_INT (g->next)), FALSE, TRUE, 0);
+          gtk_box_pack_start (GTK_BOX (hbox), get_movement_widget (&(*psb)->staff_list, partname, si, movement_num, last), FALSE, TRUE, 0);
           gtk_box_pack_start (GTK_BOX (outer_vbox), hbox, FALSE, TRUE, 0);
           if (si->header.directives)
             {
@@ -1854,6 +1838,90 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
                     }
                 }
             }
+        }
+static void install_duplicate_movement (DenemoScoreblock ** psb, gint movement)
+{
+    gchar *partname = NULL;
+    //show_type  (gtk_bin_get_child (gtk_bin_get_child ((*psb)->widget)), "Type of widget ");
+    GtkWidget *vbox = gtk_bin_get_child (GTK_BIN (gtk_bin_get_child (GTK_BIN ((*psb)->widget))));
+    DenemoMovement *si = g_list_nth_data (Denemo.project->movements, movement - 1);
+    if (si)
+        install_movement_widget (si, vbox, psb, partname, movement, TRUE);
+}
+static void install_duplicate_movement_callback (DenemoScoreblock *sb)
+{
+    install_duplicate_movement (&sb, Denemo.project->movement->currentmovementnum);
+    score_status (Denemo.project, TRUE);
+    gtk_widget_show_all (sb->widget);
+}
+
+static void reorder_movement (DenemoScoreblock * psb)
+{
+    //show_type  (gtk_bin_get_child (gtk_bin_get_child ((*psb)->widget)), "Type of widget ");
+    GtkWidget *vbox = gtk_bin_get_child (GTK_BIN (gtk_bin_get_child (GTK_BIN (psb->widget))));
+    GList *children = gtk_container_get_children (GTK_CONTAINER(vbox));
+    //show_type  ( g_list_nth_data (children, movement)     , "Type of widget ");
+    for ( ;children; children=children->next)
+        {
+        if( GTK_IS_EXPANDER (children->data) && gtk_expander_get_expanded (children->data))
+            {
+                if (children->next == NULL)
+                    warningdialog (_( "The currently expanded movement is already at the end"));
+                else
+                    gtk_box_reorder_child (GTK_BOX(vbox), children->data, -1);//-1 = to end
+                g_list_free (children);
+                return;
+            }
+        }
+    warningdialog (_("No movement is expanded - don't know which movement to move"));
+}
+
+static reorder_movement_callback (DenemoScoreblock * psb)
+{
+    reorder_movement (psb);
+    score_status (Denemo.project, TRUE);
+
+}
+
+ //find the one that is expanded FIXME
+
+//populates the scoreblock *psb with the movement or movements for partname from the current score Denemo.project
+static void
+set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname)
+{
+  DenemoProject *gui = Denemo.project;
+  (*psb)->staff_list = NULL;    //list of staff frames in order they appear in scoreblock
+
+#if 0
+  (*psb)->widget = gtk_frame_new (NULL);
+#else
+  (*psb)->widget = gtk_scrolled_window_new (NULL, NULL);
+#endif
+
+
+  (*psb)->visible = FALSE;      //will be set true when/if tab is selected
+  if (partname)
+    (*psb)->partname = g_strdup (partname);
+  (*psb)->movement = movement;
+  layout_sync = (*psb)->layout_sync = gui->layout_sync;
+
+
+  GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
+  gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW ((*psb)->widget), vbox);
+  GtkWidget *options = get_options_button (*psb, FALSE);
+  gtk_box_pack_start (GTK_BOX (vbox), options, FALSE, FALSE, 0);
+  //now create a hierarchy of widgets representing the score
+  create_scorewide_block (vbox);
+
+  GList *g;
+  gint movement_num = 1;
+  for (g = gui->movements; g; g = g->next, movement_num++)
+    {
+      if (movement == 0 /*all movements */  || (movement == movement_num) /*this movement */ )
+        {
+          DenemoMovement *si = (DenemoMovement *) g->data;
+          install_movement_widget (si, vbox, psb, partname, movement_num, !(gboolean) GPOINTER_TO_INT (g->next));
+
         }                       //if movement is wanted
     }                           //for all movements
 
