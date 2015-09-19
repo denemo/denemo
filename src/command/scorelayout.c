@@ -517,12 +517,12 @@ get_options_button (DenemoScoreblock * sb, gboolean custom)
     if (!sb->text_only)
        {
           button = gtk_button_new_with_label (_("Append Current Movement"));
-          gtk_widget_set_tooltip_text (button, _("Typesets the current movement at the end of this layout. Select the movement you wish to append to the layout in the Denemo Display first."));
+          gtk_widget_set_tooltip_text (button, _("Typesets the current movement at the end of this layout. Select the movement you wish to append to the layout in the Denemo Display first. The same movement can be placed multiple times in the layout, with individual edits as needed."));
           gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
           g_signal_connect_swapped (button, "clicked", G_CALLBACK (install_duplicate_movement_callback), sb);
 
           button = gtk_button_new_with_label (_("Re-order Movement"));
-          gtk_widget_set_tooltip_text (button, _("Moves the first expanded movement in this layout to the end"));
+          gtk_widget_set_tooltip_text (button, _("Moves the first expanded movement in this layout to the end.\nThis does not alter the score, just this layout. To re-order the actual movements of the score see the Movements menu."));
           gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
           g_signal_connect_swapped (button, "clicked", G_CALLBACK (reorder_movement_callback), sb);
         }
@@ -2281,7 +2281,7 @@ create_standard_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * part
   gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), (*psb)->widget, label);
   gtk_widget_set_tooltip_markup ((*psb)->widget,
                                  _
-                                 ("This is a score layout - the brown buttons affect the score itself, not just the layout.\nThe other buttons will customize the layout\nYou can have several layouts and use them to print different versions of your score.\nOnce customized e.g. by adding page breaks, deleting certain parts etc the layout will be saved with your score and can be used for printing from even though you may have made corrections to the music.\nStandard layouts are created by invoking the standard print commands - print, print part, print movement etc.\nThese standard layouts provide a convenient starting point for your customized layouts.<b>Note 1</b>Custom layouts are not saved for further graphical editing, only the typesetting commands are saved, so, unless you are familiar with LilyPond do all your work on the layout in one session.<b>Note 2</b>The first comment in the LilyPond text of the layout holds the name of the layout. If you change it any conditional directives that are for the layout will need refreshing"));
+                                 ("This is a score layout - the buttons mostly customize the layout\nYou can have several layouts and use them to print different versions of your score.\nOnce customized e.g. by adding page breaks, deleting certain parts etc the layout will be saved with your score and can be used for printing from even though you may have made corrections to the music.\nStandard layouts are created by invoking the standard print commands - print, print part, print movement etc.\nThese standard layouts provide a convenient starting point for your customized layouts.<b>Note 1</b>Custom layouts are not saved for further graphical editing, only the typesetting commands are saved, so, unless you are familiar with LilyPond do all your work on the layout in one session.<b>Note 2</b>The first comment in the LilyPond text of the layout holds the name of the layout. If you change it any conditional directives that are for the layout will need refreshing"));
   gtk_widget_show_all (notebook);
 }
 
