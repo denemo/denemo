@@ -681,7 +681,7 @@ static void get_voice_list (GtkWidget *button, GtkWidget *frame)
                 g_string_append_printf (options, format_string, mvmnt, staffnum);
                 }
         }
-    gchar *choice = get_option (_("Choose Music to subsitute"), options->str, options->len);
+    gchar *choice = get_option (_("Choose Music to Subsitute"), options->str, options->len);
     if (choice)
         {
         sscanf (choice, format_string, &mvmnt, &staffnum);
