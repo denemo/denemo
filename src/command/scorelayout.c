@@ -362,7 +362,7 @@ customize_scoreblock (DenemoScoreblock * sb, gchar * name)
       gchar *new_name = g_strdup_printf ("%%%s\n", newsb->name);
       g_string_prepend (newsb->lilypond, new_name);
       g_free (new_name);
-      g_string_append_printf (newsb->lilypond, "\n\\header{DenemoLayoutName = \"%s\"}\n", newsb->name);
+      g_string_append_printf (newsb->lilypond, "\n\\header {DenemoLayoutName = \"%s\"}\n", newsb->name);
       score_status (Denemo.project, TRUE);
     }
   else if (name_scoreblock (sb, name))
@@ -1129,7 +1129,7 @@ install_scoreblock_overrides (GtkWidget * vbox, DenemoProject * gui, DenemoMovem
           gtk_frame_set_label_widget (GTK_FRAME (frame), button);
           gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
           gchar *lily = g_strdup_printf ("\n<< %s\n<< ", start);
-          add_lilypond (frame, lily, g_strdup ("\n>>\n>>"));
+          add_lilypond (frame, lily, g_strdup ("\n          >>\n>>"));
 
           GtkWidget *menu = gtk_menu_new ();
           GtkWidget *menuitem = gtk_menu_item_new_with_label ("Edit");
@@ -1465,7 +1465,7 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
   GtkWidget *ret = gtk_frame_new (NULL);
   GString *start = g_string_new ("");
   set_initiate_scoreblock (si, start);  // ie << possibly overridden
-  add_lilypond (ret, g_string_free (start, FALSE), g_strdup ("\n>>\n"));
+  add_lilypond (ret, g_string_free (start, FALSE), g_strdup ("\n          >>\n"));
 
   GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (ret), vbox);
@@ -1697,7 +1697,7 @@ create_misc_scorewide (GtkWidget * inner_vbox)
   create_element (inner_vbox, gtk_button_new_with_label (_("Global staff size")), lily);
   GtkWidget *expander = gtk_expander_new (_("Paper Block"));
   gtk_widget_set_tooltip_text (expander, _("Settings for whole score: includes overall staff size, paper size ...\n"));
-  add_lilypond (expander, g_strdup ("\\paper {\n"), g_strdup ("\n}\n"));
+  add_lilypond (expander, g_strdup ("\\paper {\n"), g_strdup ("\n       }\n"));
   gtk_box_pack_start (GTK_BOX (inner_vbox), expander, FALSE, TRUE, 0);
   GtkWidget *paper_box = gtk_vbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (expander), paper_box);
@@ -1714,7 +1714,7 @@ create_scoreheader_directives (GtkWidget * vbox)
   gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
   GtkWidget *top_expander = gtk_expander_new (_("Score Titles"));
   gtk_expander_set_expanded (GTK_EXPANDER (top_expander), TRUE);
-  add_lilypond (top_expander, g_strdup ("\n\\header {\n"), g_strdup ("\n}\n"));
+  add_lilypond (top_expander, g_strdup ("\n\\header {\n"), g_strdup ("\n        }\n"));
   gtk_widget_set_tooltip_text (top_expander, _("Titles, layout settings, preferences etc for the whole score.\nIncludes main title, composer, date, instrumentation, tagline"));
   gtk_container_add (GTK_CONTAINER (frame), top_expander);
   GtkWidget *header_box = gtk_vbox_new (FALSE, 8);
@@ -1817,7 +1817,7 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
           gtk_box_pack_start (GTK_BOX (outer_hbox), movement_vbox, FALSE, TRUE, 10);
           install_pre_movement_widgets (movement_vbox, si, standard);
           GtkWidget *frame = gtk_frame_new (NULL);
-          add_lilypond (frame, g_strdup ("\n\\score { %Start of Movement\n"), g_strdup ("\n} %End of Movement\n"));
+          add_lilypond (frame, g_strdup ("\n\\score { %Start of Movement\n"), g_strdup ("\n       } %End of Movement\n"));
           gtk_box_pack_start (GTK_BOX (movement_vbox), frame, FALSE, TRUE, 0);
           GtkWidget *outer_vbox = gtk_vbox_new (FALSE, 8);
           gtk_container_add (GTK_CONTAINER (frame), outer_vbox);
@@ -1829,7 +1829,7 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
             {
               GtkWidget *frame = gtk_frame_new (_("Header block"));
               gtk_box_pack_start (GTK_BOX (outer_vbox), frame, FALSE, TRUE, 0);
-              add_lilypond (frame, g_strdup ("\n\\header {\n"), g_strdup ("\n}\n"));
+              add_lilypond (frame, g_strdup ("\n\\header {\n"), g_strdup ("\n        }\n"));
               GtkWidget *innerbox = gtk_vbox_new (FALSE, 8);
               gtk_container_add (GTK_CONTAINER (frame), innerbox);
               GList *g;
@@ -2452,7 +2452,7 @@ selection_layout (void)
       sb->lilypond = g_string_new ("");
     }
 
-  g_string_assign (sb->lilypond, "\n\\score { %Start of Selection from current movement\n");
+  g_string_assign (sb->lilypond, "\n\\score\n{ %Start of Selection from current movement\n");
   set_initiate_scoreblock (si, sb->lilypond);   // ie << possibly overridden
 
   GList *g;                     //things like transpose whole score etc
@@ -2466,8 +2466,8 @@ selection_layout (void)
       gchar *start = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
       if (start)
         {
-          g_string_append_printf (sb->lilypond, "\n<< %s\n<< ", start);
-          g_string_prepend (movement_tail, "\n>>\n>>");
+          g_string_append_printf (sb->lilypond, "\n << %s\n  << ", start);
+          g_string_prepend (movement_tail, "\n >>\n  >>");
         }
     }
   gint voice_count;
@@ -2538,7 +2538,7 @@ GString *voice_tail = g_string_new ("");
     }                           // end of for each staff Now loop back for all the staffs in firststaffnum -  laststaffnum
   g_string_append (sb->lilypond, movement_tail->str);
   g_string_free (movement_tail, TRUE);
-  g_string_append (sb->lilypond, "\n>>\n");
+  g_string_append (sb->lilypond, "\n          >>\n");
   g_string_append_printf (sb->lilypond, "\n\\header {\n");
 
   for (g = si->header.directives; g; g = g->next)

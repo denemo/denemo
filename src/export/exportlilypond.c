@@ -1409,7 +1409,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
         if (override)
           g_string_append_printf (ret, "%s", timesig_string);
         else
-          g_string_append_printf (ret, "%s\\time %d/%d%s", timesig_prestring, ((timesig *) curobj->object)->time1, ((timesig *) curobj->object)->time2, timesig_string);
+          g_string_append_printf (ret, "%s\\time %d/%d%s ", timesig_prestring, ((timesig *) curobj->object)->time1, ((timesig *) curobj->object)->time2, timesig_string);
       }
       cur_stime1 = ((timesig *) curobj->object)->time1;
       cur_stime2 = ((timesig *) curobj->object)->time2;
@@ -1672,7 +1672,7 @@ get_lilypond_for_timesig (timesig * time)
     return timesig_string;
   }
 
-  gchar *ret = g_strdup_printf ("{%s \\time %d/%d %s}\n", time_prefix, time->time1,
+  gchar *ret = g_strdup_printf (" %s \\time %d/%d %s ", time_prefix, time->time1,
                                 time->time2, timesig_string);
   g_free (timesig_string);
   g_free (time_prefix);
@@ -1692,7 +1692,7 @@ get_lilypond_for_keysig (struct keysig * key)
     return keysig_string;
   }
   determinekey (key->isminor ? key->number + 3 : key->number, &keyname);
-  gchar *ret = g_strdup_printf ("{%s \\key %s%s\n%s", key_prefix, keyname, (key->isminor) ? " \\minor}" : " \\major}", keysig_string);
+  gchar *ret = g_strdup_printf (" %s \\key %s%s %s", key_prefix, keyname, (key->isminor) ? " \\minor " : " \\major ", keysig_string);
   g_free (keysig_string);
   g_free (key_prefix);
   return ret;
@@ -1728,7 +1728,7 @@ get_lilypond_for_clef (clef * theclef)
     return clef_postfix_insert;
 
   }
-  gchar *ret = g_strdup_printf ("%s \\clef %s %s\n", clef_prefix, clefname, clef_postfix_insert);
+  gchar *ret = g_strdup_printf ("%s \\clef %s %s ", clef_prefix, clefname, clef_postfix_insert);
   g_free (clef_postfix_insert);
   g_free (clef_prefix);
   return ret;
@@ -2289,7 +2289,7 @@ void
 set_initiate_scoreblock (DenemoMovement * si, GString * scoreblock)
 {
   gchar *movement_prolog = get_postfix (si->movementcontrol.directives);
-  g_string_append_printf (scoreblock, "%s", get_lily_override (si->movementcontrol.directives) ? movement_prolog : " <<\n");
+  g_string_append_printf (scoreblock, "%s", get_lily_override (si->movementcontrol.directives) ? movement_prolog : "          <<\n");
   g_free (movement_prolog);
 }
 
@@ -2355,7 +2355,7 @@ set_voice_termination (GString * str, DenemoStaff * curstaffstruct)
     }
   else
     {
-      g_string_assign (str, TAB TAB "} %End of voice\n");
+      g_string_assign (str,  "\n" TAB  TAB TAB "} %End of voice\n");
     }
 }
 
@@ -2370,7 +2370,7 @@ set_staff_termination (GString * str, DenemoStaff * curstaffstruct)
     }
   else
     {
-      g_string_assign (str, TAB TAB "\n>>\n%End of Staff\n");
+      g_string_assign (str,  "\n" TAB  TAB TAB ">> %End of Staff\n");
     }
 }
 
