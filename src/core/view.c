@@ -4983,7 +4983,7 @@ newtab (void)
   DenemoProject* project = new_project(FALSE);
   project->score_layout = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (project->score_layout), "Score Layout");
-  gtk_window_set_default_size (GTK_WINDOW (project->score_layout), 400, 800);
+  gtk_window_set_default_size (GTK_WINDOW (project->score_layout), 1000, 600);
   g_signal_connect (G_OBJECT (project->score_layout), "delete-event", G_CALLBACK (hide_score_layout_on_delete), NULL);
   /* Initialize the project */
 
