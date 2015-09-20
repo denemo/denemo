@@ -1480,14 +1480,14 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
   vbox = gtk_vbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (topexpander), vbox);
 
-  GList *g;
+  GList *g; 
   for (voice_count = 1, staff_count = 1, g = si->thescore; g; g = g->next, voice_count++, staff_count++)
     {
       DenemoStaff *staff = g->data;
       DenemoStaff *nextstaff = g->next ? g->next->data : NULL;
       if ( (*(staff->lily_name->str)) && (partname && strcmp (partname, staff->lily_name->str))) // empty partname means include with all parts.
         continue;
-      //if (partname == NULL)     //Don't attempt staff groups for single part parts can be multi-staff e.g. piano
+      //if (partname == NULL) Don't omit staff groups start for single part, since parts can be multi-staff e.g. piano, it will be closed at the end if the part doesn't include the close
         vbox = install_staff_group_start (pstaffs, vbox, staff->staff_directives, &staff_group_nesting);
 
       if (staff->hasfakechords)
@@ -1604,7 +1604,7 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
               voice_count--;
             }
         }
-      if (partname == NULL)
+      if (partname == NULL) //Have to omit all end braces for part layouts, since the part may not include all the start braces for them.
         vbox = install_staff_group_end (vbox, staff->staff_directives, &staff_group_nesting);
       if (g == NULL)
         break;
@@ -1619,8 +1619,13 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
 
       for (; staff_group_nesting; staff_group_nesting--)
         {
-          g_warning ("Staff group start without end - terminating it");
-          add_lilypond (vbox, NULL, g_strdup (" >>%Missing staff group end inserted here\n"));
+            if (partname == NULL)
+                {
+                    g_warning ("Staff group start without end - terminating it");
+                    add_lilypond (vbox, NULL, g_strdup (" >>%Missing staff group end inserted here\n"));
+                } else
+                    add_lilypond (vbox, NULL, g_strdup (" >>%Closing staff group end for part layout\n"));
+
         }
     }
   return ret;
@@ -2404,7 +2409,7 @@ select_default_scoreblock (void)
     }
 }
 
-void
+static void
 selection_install_voice (DenemoStaff * staff, gint movementnum, gint voice_count, GString * lilypond, GString * tail, GString * voice_tail)
 {
   gchar *voicetag = get_voicetag (movementnum, voice_count);
