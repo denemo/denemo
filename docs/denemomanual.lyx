@@ -955,7 +955,7 @@ This has the commands for moving the cursor around the score, bookmarks,
 \begin_inset Quotes eld
 \end_inset
 
-seach
+search
 \begin_inset Quotes erd
 \end_inset
 
@@ -1940,7 +1940,8 @@ The master tempo and volume can be set, which will be overridden by tempo
 Recording the audio output is also possible as well as real-time slow down
  of the audio playing back (not to be confused with simply setting a slower
  tempo!).
- This last is used when transcribing from audio
+ This last is used when transcribing from audio (See File->Open->Open Source
+ Audio).
 \end_layout
 
 \begin_layout Subsection
@@ -3799,6 +3800,144 @@ itles etc and other menus.
 \end_layout
 
 \begin_layout Section
+Style, Layout, Titling
+\end_layout
+
+\begin_layout Standard
+This section covers where to find commands for titles, page numbering, table
+ of contents, critical commentary, page size and so on.
+\end_layout
+
+\begin_layout Standard
+TBC
+\end_layout
+
+\begin_layout Section
+Musical Elements - everything on and around the notes.
+\end_layout
+
+\begin_layout Standard
+In this section the commands available for the various musical elements
+ are described and their arrangement in the menu system is described.
+\end_layout
+
+\begin_layout Subsection
+Beaming
+\end_layout
+
+\begin_layout Standard
+Commands to control beaming are available for individual notes, whole passages
+ of notes and entire scores.
+ Mostly the default beaming will be what you want.
+ An exception is the beaming in 3/4 time which can look like 6/8 when beamed
+ in the traditional manner.
+ Use Object Menu->Time Signature->Beam at Half Measure to alter the default.
+\end_layout
+
+\begin_layout Standard
+Individual beam control commands are located in Notes/Rests->Beaming; these
+ include commands to provide partial breaks in the beaming.
+\end_layout
+
+\begin_layout Standard
+Setting beaming for the whole score can be done using ObjectMenu->Score->Typeset
+ter->Set Beaming Rules.
+ Either the general rule can be given, or Beam Exceptions can be set from
+ the selection.
+ To use the latter, set up a measure or measures with the beaming manually
+ set using the Individual beam controls and then select the passage and
+ invoke Set Beaming Rules.
+\end_layout
+
+\begin_layout Standard
+Setting beaming for a passage can be done with ObjectMenu->Time Signatures->Set
+ Beaming Rule.
+ In addition, at a time signature change a beaming rule can be set using
+ ObjectMenu->Time Signatures->Time Signature with Beaming Rule.
+\end_layout
+
+\begin_layout Standard
+After automatic beaming has been turned off use ObjectMenu->Directives->Typesett
+er->Start Beaming to insert a directive re-starting automatic beaming at
+ the cursor.
+ The Cadenza On/Off commands turn on/off automatic beaming (as well as the
+ timing control).
+\end_layout
+
+\begin_layout Subsection
+Barlines
+\end_layout
+
+\begin_layout Standard
+The important thing to know about barlines in Denemo is that they are not
+ just graphical marks on paper - e.g.
+ you cannot put a repeat end barline followed by a repeat start barline
+ and expect both to print - instead you must use a repeat-end-start barline.
+ This is because you are telling Denemo about the music, not about how to
+ draw it - the repeat-end-start barline is drawn completely differently
+ if it occurs at the end of a line, for instance.
+\end_layout
+
+\begin_layout Standard
+Another useful thing to understand is that the 
+\begin_inset Quotes eld
+\end_inset
+
+barlines
+\begin_inset Quotes erd
+\end_inset
+
+ that appear in the Denemo display are not really barlines at all, just
+ a convenient breaking up of the music into 
+\begin_inset Quotes eld
+\end_inset
+
+chunks
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Normally, of course, you will use one chunk per measure so they 
+\emph on
+will
+\emph default
+ correspond with the typeset barlines.
+\end_layout
+
+\begin_layout Subsection
+Ties and Slurs
+\end_layout
+
+\begin_layout Standard
+...
+ and phrasing slurs.
+\end_layout
+
+\begin_layout Subsection
+Triplets and Friends
+\end_layout
+
+\begin_layout Subsection
+Grace Notes
+\end_layout
+
+\begin_layout Subsection
+Ornaments
+\end_layout
+
+\begin_layout Subsection
+Dynamics
+\end_layout
+
+\begin_layout Subsection
+Tempo Markings
+\end_layout
+
+\begin_layout Subsection
+Text
+\end_layout
+
+\begin_layout Section
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:A-Survey-of-Input-Methods"
@@ -3823,27 +3962,15 @@ Denemo allows you to explore all the actions (insert/delete/edit/navigate...)
  right.
  You can set the keyboard shortcut just by pressing the desired key while
  the menu item is selected.
- You can right click on the menu item to set a a two-key keyboard shortcut
- or mouse shortcut to activate the action.
- In addition you can customize the mouse actions to initiate commands, and
- set the cursor that will show while certain mouse conditions apply.
+ You can right click on the menu item to set a a two-key keyboard shortcut.
+ This means that you can tailor Denemo to allow you to use your preferred
+ method of entering notes.
 \end_layout
 
 \begin_layout Standard
-Denemo offers several ways of entering music: typing at the keyboard, playing
- in via a MIDI keyboard (controller), playing in acoustically using a microphone
- or choosing items from the menu system.
- 
-\end_layout
-
-\begin_layout Standard
-Using the menus for everything would be very slow, but next to each menu
- item is the keypress that you can use instead.
- If there is no keypress shown, and you want to use that item often, then
- right click on the menu item and you can set a key combination for that
- menu action.
- Right clicking is also useful for getting a description of what the menu
- action is.
+By default, Denemo offers several ways of entering music: typing at the
+ keyboard, playing in via a MIDI keyboard (controller), playing in acoustically
+ using a microphone or choosing items from the menu system.
  
 \end_layout
 
@@ -3856,32 +3983,6 @@ Typing at the keyboard can be very fast, if you forget which keypress you
 \begin_layout Standard
 For entering a lot of already written-out music, playing the music in via
  a MIDI keyboard or microphone can offer the fastest and most musical method.
-\end_layout
-
-\begin_layout Standard
-One way to do this is enter the music as pure rhythms, ignoring the note
- names.
- The durations show as yellow/brown notes.
- Each duration sounds its own pitch and length as you enter the durations.
- As you start each measure the bell will sound so that you can keep your
- eyes on the score you are copying without needing to look up and check
- that you haven't miss-typed.
- If you are a reading musician you will find that you tap in the rhythm
- rhythmically which helps to keep your place in the piece you are entering.
- 
-\end_layout
-
-\begin_layout Standard
-Once you have entered the rhythms for one or two measures you play the notes
- via MIDI - they automatically fill in the rhythm for you.
- When you play notes in via MIDI they give their pitches to the rhythm you
- have notated.
- By this means you can enter a piece of music in the time taken to play
- it twice - once to give the rhythm and once to give the pitches.
- If the piece modulates strongly you may need to shift the set of accidentals
- used to match the score.
- If entering pitches via a mic you need to navigate to the start point,
- but this isn't needed for MIDI in.
 \end_layout
 
 \begin_layout Subsection
@@ -3900,9 +4001,41 @@ Denemo can take pitches directly from MIDI input.
  entering A-flat when G-sharp was meant, you will get a lot more augmented
  and dimished intervals if you have the enharmonic range set wrongly for
  your piece).
- Under Input->MIDI are various "MIDI filters" that allow you to control
- how the MIDI input is used: with none active the behavior is as if you
- had entered the notes using the pc-keyboard, but with the following advantages
+ 
+\end_layout
+
+\begin_layout Standard
+The best way to use the MIDI keyboard is enter the music firstly as pure
+ rhythms using the pc-keyboard, ignoring the note names.
+ The durations show as yellow/brown notes.
+ Each duration makes a distinctive sound as you enter the durations.
+ As you start each measure a sound is made so that you can keep your eyes
+ on the score you are copying from, without needing to look up and check
+ that you haven't miss-typed.
+ If you are a reading musician you will find that you tap in the rhythm
+ rhythmically which helps to keep your place in the piece you are entering.
+ 
+\end_layout
+
+\begin_layout Standard
+Once you have entered the rhythms for one or more measures you can play
+ the notes via MIDI - the cursor automatically goes to the start of the
+ rhythms you have entered.
+ As you play notes in via MIDI they give their pitches to the rhythm you
+ have notated.
+ By this means you can enter a piece of music in the time taken to play
+ it twice - once to give the rhythm and once to give the pitches.
+ If the piece modulates strongly you may need to shift the set of accidentals
+ used to match the score, the pitch spelling facility will alert you to
+ this.
+ (If entering pitches via a mic you need to navigate to the start point,
+ but this isn't needed for MIDI in).
+\end_layout
+
+\begin_layout Standard
+Under Input->MIDI are various "MIDI filters" that allow you to control how
+ the MIDI input is used: with none active the behavior is as if you had
+ entered the notes using the pc-keyboard, but with the following advantages
  
 \end_layout
 
