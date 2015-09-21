@@ -1196,7 +1196,7 @@ remove_context (GtkWidget * button, GtkWidget * parent)
   GList *g;
   for (g = staff_list; g; g = g->next)
     {
-      show_type (g->data, "The staff frame is ");
+      //show_type (g->data, "The staff frame is ");
       gtk_widget_reparent (g->data,     //frame
                            gtk_widget_get_parent (gtk_widget_get_parent (parent)));
     }
@@ -1208,7 +1208,7 @@ remove_context (GtkWidget * button, GtkWidget * parent)
     // without it deleting an top level brace leaving lower ones fails.
     for (g=g_object_get_data (G_OBJECT(parent), "postfix");g;g=g->next)
         {
-            g_print ("Next postfix %s\n", g->data); // take one >>%Brace End\n off here and if anything left attach to topw, topw will be expander if nothing left else, vbox.
+           // g_print ("Next postfix %s\n", g->data); // take one >>%Brace End\n off here and if anything left attach to topw, topw will be expander if nothing left else, vbox.
         gchar *c = g->data;
         while (*(c++));
         c--;c--;c--; 
