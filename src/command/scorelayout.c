@@ -517,7 +517,7 @@ get_options_button (DenemoScoreblock * sb, gboolean custom)
     if (!sb->text_only)
        {
           button = gtk_button_new_with_label (_("Append Current Movement"));
-          gtk_widget_set_tooltip_text (button, _("Typesets the current movement at the end of this layout. Select the movement you wish to append to the layout in the Denemo Display first. The same movement can be placed multiple times in the layout, with individual edits as needed."));
+          gtk_widget_set_tooltip_text (button, _("Appends the current movement at the end of this layout. Select the movement you wish to append to the layout in the Denemo Display first. The same movement can be placed multiple times in the layout, with individual edits as needed."));
           gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
           g_signal_connect_swapped (button, "clicked", G_CALLBACK (install_duplicate_movement_callback), sb);
 
@@ -1599,13 +1599,18 @@ install_staff_with_voices (GList ** pstaffs, GtkWidget **pvbox, gchar *partname,
 }
 
 static void
-append_staff (GtkWidget *button, GList ** pstaffs)
+append_staff (GtkWidget *widget, GList ** pstaffs)
 {
+    if (!clone_scoreblock_if_needed (widget))
+     return TRUE;
     gint staff_group_nesting = 0;
-    gint voice_count = 0;
-    GtkWidget *vbox = gtk_widget_get_parent (button);
+    gint voice_count = Denemo.project->movement->currentstaffnum;
+    gint movementnum = 1;
+    if (Denemo.project->movements)
+        movementnum = 1 + g_list_index (Denemo.project->movements, Denemo.project->movement);
+    GtkWidget *vbox = gtk_widget_get_parent (widget);
     install_staff_with_voices (pstaffs, &vbox, NULL, &Denemo.project->movement->currentstaff, 
-                    &voice_count, 1, 1, &staff_group_nesting, FALSE);
+                    &voice_count, Denemo.project->movement->currentstaffnum , movementnum  , &staff_group_nesting, FALSE);
     gtk_widget_show_all (vbox);
     Denemo.project->lilysync = G_MAXUINT;
 }     
@@ -1633,9 +1638,11 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
   gtk_box_pack_start (GTK_BOX (vbox), topexpander, FALSE, TRUE, 0);
   vbox = gtk_vbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (topexpander), vbox);
-  //GtkWidget *addbutton = gtk_button_new_with_label (_ ("Append Staff"));
-  //gtk_box_pack_start (GTK_BOX(vbox), addbutton, FALSE, TRUE, 0);
-  //g_signal_connect (G_OBJECT(addbutton), "clicked", G_CALLBACK (append_staff), pstaffs);
+  GtkWidget *addbutton = gtk_button_new_with_label (_ ("Append Current Staff"));
+  gtk_widget_set_tooltip_text (addbutton, _("Appends the current staff (the one where the cursor is in the Denemo Display) to this layout. The same staff can be placed at multiple positions in the layout with individual edits in each."));
+
+  gtk_box_pack_start (GTK_BOX(vbox), addbutton, FALSE, TRUE, 0);
+  g_signal_connect (G_OBJECT(addbutton), "clicked", G_CALLBACK (append_staff), pstaffs);
     
   GList *g; 
   for (voice_count = 1, staff_count = 1, g = si->thescore; g; g = g->next, voice_count++, staff_count++)
