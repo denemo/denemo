@@ -1449,7 +1449,7 @@ add_staff_widget (DenemoStaff * staff, GtkWidget * hbox)
   gtk_widget_set_tooltip_text (button, _("Remove this staff (with all its voices) for customized layout."));
 
   gtk_box_pack_end (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-  g_signal_connect (button, "clicked", G_CALLBACK (remove_parent_element), NULL);
+  g_signal_connect_swapped (button, "clicked", G_CALLBACK (remove_parent_element), hbox);
 }
 
 /* UNUSED
