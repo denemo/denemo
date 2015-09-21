@@ -2236,14 +2236,21 @@ keymap_change_binding_view_on_command_selection (GtkTreeSelection * selection, G
 
   if (tooltip)
     {
-      gchar *plain;
+      gchar *plain = NULL;
       gchar *menupath = get_menu_position (row->menupath);
       const gchar *label = get_menu_label (name);
-      gchar *text = g_strdup_printf (_( "Command: %s\n%s\nLocation: %s\nInternal Name: %s"), label, tooltip, menupath, gtk_action_get_name(action));
-      pango_parse_markup (text, -1, 0, NULL, &plain, 0, NULL);//strip out any markup
-      g_free(text);
-      gtk_text_buffer_set_text (text_buffer, plain, -1);
+      pango_parse_markup (tooltip, -1, 0, NULL, &plain, 0, NULL);//strip out any markup
+      gchar *text = NULL;
+      if (plain)
+        text = g_strdup_printf (_( "Command: %s\n%s\nLocation: %s\nInternal Name: %s"), label, plain, menupath, gtk_action_get_name(action));
       g_free (plain);
+      
+      if (text)
+        gtk_text_buffer_set_text (text_buffer, text, -1);
+      else
+        gtk_text_buffer_set_text (text_buffer, "Internal Problem", -1);
+        
+      g_free(text);
       g_free(menupath);
     }
   //perform the selection
