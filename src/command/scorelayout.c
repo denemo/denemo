@@ -1602,7 +1602,7 @@ static void
 append_staff (GtkWidget *widget, GList ** pstaffs)
 {
     if (!clone_scoreblock_if_needed (widget))
-     return TRUE;
+     return;
     gint staff_group_nesting = 0;
     gint voice_count = Denemo.project->movement->currentstaffnum;
     gint movementnum = 1;
