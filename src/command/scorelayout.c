@@ -1182,12 +1182,42 @@ show_type (GtkWidget * widget, gchar * message)
   g_message ("%s%s", message, widget ? g_type_name (G_TYPE_FROM_INSTANCE (widget)) : "NULL widget");
 }
 
-
+static void delete_brace (gchar *postfix)
+{
+    gchar *c = g_strrstr (postfix, ">>%");
+    if(c && c>postfix) { 
+            *c = 0;
+            return;
+        }
+            
+#if 0    
+    gchar *c = postfix;
+    while (*(c++));
+        c--;c--;c--; 
+        if(c != postfix)
+            while (*(c--) != '\n');
+            c++;
+            if(*c=='\n')
+                *c=0;
+#endif
+}
+static void remove_brace_end (GtkWidget *vbox)
+{
+ show_type (vbox, "new vbox ??? ")  ; 
+  GList *g  = g_object_get_data (G_OBJECT(vbox), "postfix");
+  for ( ;g;g=g->next)
+        {
+           g_print ("Next postfix %s\n", g->data); 
+           delete_brace (g->data);
+           g_print ("transformed to %s\n", g->data);
+        }
+}
 static gboolean
 remove_context (GtkWidget * button, GtkWidget * parent)
 {
   if (!clone_scoreblock_if_needed (parent))
     return TRUE;
+     show_type (parent, "parent ");
   GList *children = gtk_container_get_children (GTK_CONTAINER (parent));
   //show_type (g_list_last (children)->data, "vbox type is");
   //show_type (gtk_widget_get_parent (gtk_widget_get_parent (parent)), "Reparenting on ");
@@ -1203,20 +1233,13 @@ remove_context (GtkWidget * button, GtkWidget * parent)
     
     GtkWidget *topw = gtk_widget_get_parent (gtk_widget_get_parent (gtk_widget_get_parent (parent)));
     //show_type (topw, "new vbox parent ");g_print ("parent %p, grandparent %p, great-grp %p\n", parent, gtk_widget_get_parent (parent), topw);
-   // if (g_object_get_data (parent, "postfix")==NULL)
-    //    remove_brace_end (parent); this does not yet exist, it needs to search down the hierarchy for the vbox with the brace end markers and remove one
-    // without it deleting an top level brace leaving lower ones fails.
+   
+    if (g_object_get_data (G_OBJECT(parent), "postfix")==NULL)
+       remove_brace_end (gtk_bin_get_child (g_list_last(staff_list)->data));  // without it deleting a top level brace leaving lower ones fails.
+     else
     for (g=g_object_get_data (G_OBJECT(parent), "postfix");g;g=g->next)
         {
-           // g_print ("Next postfix %s\n", g->data); // take one >>%Brace End\n off here and if anything left attach to topw, topw will be expander if nothing left else, vbox.
-        gchar *c = g->data;
-        while (*(c++));
-        c--;c--;c--; 
-        if(c != g->data)
-            while (*(c--) != '\n');
-            c++;
-            if(*c=='\n')
-                *c=0;
+         delete_brace (g->data);
          if (GTK_IS_BOX (topw))
             add_lilypond (topw, NULL, g_strdup (g->data));
         }
