@@ -34,6 +34,7 @@ DenemoScoreblock *create_custom_scoreblock (gchar * layout_name, gboolean force)
 DenemoScoreblock *create_custom_lilypond_scoreblock (void);
 void select_default_scoreblock (void);
 DenemoScoreblock *selected_scoreblock (void);
+gboolean current_scoreblock_is_custom (void);
 guint selected_layout_id (void);
 DenemoScoreblock *get_next_scoreblock (void);
 DenemoScoreblock *get_first_scoreblock (void);

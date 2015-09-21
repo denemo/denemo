@@ -1103,8 +1103,9 @@ popup_score_titles_menu (GtkWidget * button)
 }
 
 
-/* install widgets for the score directives.
- * 
+/* install widgets for the postfix field of score directives (lilycontrol.directives) which are not hidden and which are not OVERRIDE_AFFIX - 
+ * the prefix is done in create_score_directives.
+ * Ones with OVERRIDE_AFFIX are done in set_default_scoreblock()
  */
 static GtkWidget *
 install_scoreblock_overrides (GtkWidget * vbox, DenemoProject * gui, DenemoMovement * si, gboolean last_movement)
@@ -1188,8 +1189,8 @@ remove_context (GtkWidget * button, GtkWidget * parent)
   if (!clone_scoreblock_if_needed (parent))
     return TRUE;
   GList *children = gtk_container_get_children (GTK_CONTAINER (parent));
-  show_type (g_list_last (children)->data, "vbox type is");
-  show_type (gtk_widget_get_parent (gtk_widget_get_parent (parent)), "Reparenting on ");
+  //show_type (g_list_last (children)->data, "vbox type is");
+  //show_type (gtk_widget_get_parent (gtk_widget_get_parent (parent)), "Reparenting on ");
   GtkWidget *vbox = g_list_last (children)->data;
   GList *staff_list = gtk_container_get_children (GTK_CONTAINER (vbox));
   GList *g;
@@ -1198,9 +1199,28 @@ remove_context (GtkWidget * button, GtkWidget * parent)
       show_type (g->data, "The staff frame is ");
       gtk_widget_reparent (g->data,     //frame
                            gtk_widget_get_parent (gtk_widget_get_parent (parent)));
-//now position correctly
-
     }
+    
+    GtkWidget *topw = gtk_widget_get_parent (gtk_widget_get_parent (gtk_widget_get_parent (parent)));
+    //show_type (topw, "new vbox parent ");g_print ("parent %p, grandparent %p, great-grp %p\n", parent, gtk_widget_get_parent (parent), topw);
+   // if (g_object_get_data (parent, "postfix")==NULL)
+    //    remove_brace_end (parent); this does not yet exist, it needs to search down the hierarchy for the vbox with the brace end markers and remove one
+    // without it deleting an top level brace leaving lower ones fails.
+    for (g=g_object_get_data (G_OBJECT(parent), "postfix");g;g=g->next)
+        {
+            g_print ("Next postfix %s\n", g->data); // take one >>%Brace End\n off here and if anything left attach to topw, topw will be expander if nothing left else, vbox.
+        gchar *c = g->data;
+        while (*(c++));
+        c--;c--;c--; 
+        if(c != g->data)
+            while (*(c--) != '\n');
+            c++;
+            if(*c=='\n')
+                *c=0;
+         if (GTK_IS_BOX (topw))
+            add_lilypond (topw, NULL, g_strdup (g->data));
+        }
+  Denemo.project->lilysync = G_MAXUINT;
   gtk_widget_destroy (gtk_widget_get_parent (parent));
   return TRUE;
 }
@@ -1308,18 +1328,6 @@ install_staff_group_start (GList ** pstaffs, GtkWidget * vbox, GList * directive
               gtk_widget_set_tooltip_text (button, _("Remove this staff brace from these staffs for a customized layout."));
               g_signal_connect (button, "clicked", G_CALLBACK (remove_context), hbox);
               gtk_box_pack_start (GTK_BOX (controls), button, FALSE, TRUE, 0);
-
-#if 0
-//these aren't working - perhaps instead create brown buttons that work on the staff groups of the score???
-              button = gtk_button_new_with_label ("⬆");
-              gtk_widget_set_tooltip_text (button, _("Extend this staff group upwards for customized layout."));
-              g_signal_connect (button, "clicked", G_CALLBACK (move_context_up), frame);
-              gtk_box_pack_start (GTK_BOX (controls), button, FALSE, TRUE, 0);
-              button = gtk_button_new_with_label ("⬇");
-              gtk_widget_set_tooltip_text (button, _("Extend this staff group downwards for customized layout."));
-              g_signal_connect (button, "clicked", G_CALLBACK (move_context_down), frame);
-              gtk_box_pack_start (GTK_BOX (controls), button, FALSE, TRUE, 0);
-#endif
               vbox = gtk_vbox_new (FALSE, 8);   //this vbox will be passed back so that the staffs can be put inside this staff group frame.
               gtk_box_pack_end (GTK_BOX (hbox), vbox, FALSE, TRUE, 0);
             }
@@ -1341,6 +1349,7 @@ install_staff_group_end (GtkWidget * vbox, GList * directives, gint * nesting)
             {
               if (*nesting)
                 {
+                    //show_type (gtk_widget_get_parent (vbox), "Adding beam ends to type: "); g_print ("Specifically %s to %p\n", directive->postfix->str, gtk_widget_get_parent (vbox));
                   add_lilypond (gtk_widget_get_parent (vbox), NULL, g_strdup (directive->postfix->str));
                   gint number_of_ends =  1;
                   if(directive->data)
@@ -1454,54 +1463,33 @@ popup_initial_clef_menu (GtkWidget * button)
     g_warning ("No such menu path");
 }
 */
-
-static GtkWidget *
-get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gint movementnum, gboolean last_movement, gboolean standard)
-{
-  DenemoProject *gui = Denemo.project;
-  gint staff_group_nesting = 0; //to check on loose staff group markers
-  gint voice_count;             //a count of voices from the very top of the score (ie DenemoStaffs in thescore)
-  gint staff_count;             //a count of staffs excluding voices from top of score
-  GtkWidget *ret = gtk_frame_new (NULL);
-  GString *start = g_string_new ("");
-  set_initiate_scoreblock (si, start);  // ie << possibly overridden
-  add_lilypond (ret, g_string_free (start, FALSE), g_strdup ("\n          >>\n"));
-
-  GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
-  gtk_container_add (GTK_CONTAINER (ret), vbox);
-
-  vbox = install_scoreblock_overrides (vbox, gui, si, last_movement);   //things like transpose whole score etc
-
-  gchar *label_text = (si->thescore->next == NULL) ? _("The Staff") : _("The Staffs");
-  GtkWidget *topexpander = gtk_expander_new (label_text);
-  gtk_widget_set_tooltip_text (topexpander, _("This holds the staffs below which are the voices with the music."));
-  gtk_expander_set_expanded (GTK_EXPANDER (topexpander), si == Denemo.project->movement);
-  gtk_box_pack_start (GTK_BOX (vbox), topexpander, FALSE, TRUE, 0);
-  vbox = gtk_vbox_new (FALSE, 8);
-  gtk_container_add (GTK_CONTAINER (topexpander), vbox);
-
-  GList *g; 
-  for (voice_count = 1, staff_count = 1, g = si->thescore; g; g = g->next, voice_count++, staff_count++)
-    {
+        
+static void
+install_staff_with_voices (GList ** pstaffs, GtkWidget **pvbox, gchar *partname, GList **pstafflist, 
+    gint *pvoice_count, gint staff_count, gint movementnum, gint *pstaff_group_nesting, gboolean standard)
+      {
+        DenemoMovement *si = Denemo.project->movement;
+      GList *g = *pstafflist; 
+      GtkWidget *vbox = *pvbox;   
       DenemoStaff *staff = g->data;
       DenemoStaff *nextstaff = g->next ? g->next->data : NULL;
-      if ( (*(staff->lily_name->str)) && (partname && strcmp (partname, staff->lily_name->str))) // empty partname means include with all parts.
-        continue;
+
+
       //if (partname == NULL) Don't omit staff groups start for single part, since parts can be multi-staff e.g. piano, it will be closed at the end if the part doesn't include the close
-        vbox = install_staff_group_start (pstaffs, vbox, staff->staff_directives, &staff_group_nesting);
+        vbox = install_staff_group_start (pstaffs, vbox, staff->staff_directives, pstaff_group_nesting);
 
       if (staff->hasfakechords)
         {                       //the reason these are outside the staff frame is it makes them appear above the staff
           GtkWidget *chords = gtk_label_new (_("Chord Symbols"));
           gchar *text = g_strdup_printf ("\n" TAB TAB "\\new ChordNames \\chordmode { \\%sChords }\n",
-                                         get_voicename (movementnum, voice_count));
+                                         get_voicename (movementnum, (*pvoice_count)));
           add_lilypond (chords, text, NULL);
           gtk_box_pack_start (GTK_BOX (vbox), chords, FALSE, TRUE, 0);
           *pstaffs = g_list_append (*pstaffs, chords);
           g_signal_connect (G_OBJECT (chords), "destroy", G_CALLBACK (remove_from_staff_list), pstaffs);
         }
 
-      label_text = (si->thescore->next == NULL) ? g_strdup (_("Staff Menu")) : g_strdup_printf (_("Staff %d Menu"), staff_count);
+      gchar *label_text = (si->thescore->next == NULL) ? g_strdup (_("Staff Menu")) : g_strdup_printf (_("Staff %d Menu"), staff_count);
       GtkWidget *frame = gtk_frame_new (NULL);
 
       GtkWidget *staff_hbox = gtk_hbox_new (FALSE, 8);
@@ -1515,7 +1503,7 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
       GtkWidget *menu = gtk_menu_new ();
       GtkWidget *menuitem = gtk_menu_item_new_with_label (_("Move Denemo Cursor to this staff"));
       gtk_widget_set_tooltip_text (menuitem, _("This will move the Denemo Cursor to the start of this staff in this movement"));
-      g_signal_connect (G_OBJECT (menuitem), "activate", G_CALLBACK (navigate_to_location), GINT_TO_POINTER (get_location (movementnum, voice_count)));
+      g_signal_connect (G_OBJECT (menuitem), "activate", G_CALLBACK (navigate_to_location), GINT_TO_POINTER (get_location (movementnum, (*pvoice_count))));
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
 
 
@@ -1533,7 +1521,7 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
           mark_as_non_custom (button);
           gtk_box_pack_start (GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
           gtk_widget_set_tooltip_text (button, _("The braces { and [ binding staffs together can be set here. Set the start on one staff and the end on a later staff.\nThis is editing the score, not just customizing a layout.\nRefresh the layout view (see under Options for this Layout button at the top) once you have made the changes."));
-          g_signal_connect (button, "button-press-event", G_CALLBACK (staff_groups_menu), GINT_TO_POINTER (get_location (movementnum, voice_count)));
+          g_signal_connect (button, "button-press-event", G_CALLBACK (staff_groups_menu), GINT_TO_POINTER (get_location (movementnum, (*pvoice_count))));
         }
       *pstaffs = g_list_append (*pstaffs, frame);
       g_signal_connect (G_OBJECT (frame), "destroy", G_CALLBACK (remove_from_staff_list), pstaffs);
@@ -1579,34 +1567,85 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
         {
           GtkWidget *voice = gtk_label_new ("Bass figures");
           gchar *text = g_strdup_printf ("\n" TAB TAB "\\context Staff \\with {implicitBassFigures = #'(0) } \\%sBassFiguresLine %%End of bass figures\n",
-                                         get_voicename (movementnum, voice_count));
+                                         get_voicename (movementnum, (*pvoice_count)));
           add_lilypond (voice, text, NULL);
           gtk_box_pack_start (GTK_BOX (voices_vbox), voice, FALSE, TRUE, 0);
         }
 
-      install_voice (staff, movementnum, voice_count, voices_vbox);     //Primary voice
-      do_verses (staff, vbox, movementnum, voice_count);
+      install_voice (staff, movementnum, (*pvoice_count), voices_vbox);     //Primary voice
+      do_verses (staff, vbox, movementnum, (*pvoice_count));
 
       if (nextstaff && (nextstaff->voicecontrol & DENEMO_SECONDARY))
         {
-          for (g = g->next, voice_count++; g && (((DenemoStaff *) g->data)->voicecontrol & DENEMO_SECONDARY); g = g->next, voice_count++)
+          for (g = g->next, (*pvoice_count)++; g && (((DenemoStaff *) g->data)->voicecontrol & DENEMO_SECONDARY); g = g->next, (*pvoice_count)++)
             {
 
               DenemoStaff *staff = g->data;
-              install_voice (staff, movementnum, voice_count, voices_vbox);
-              do_verses (staff, vbox, movementnum, voice_count);        //!!! these need *pstaffs = g_list_append(*pstaffs, voice); treatment too...
+              install_voice (staff, movementnum, (*pvoice_count), voices_vbox);
+              do_verses (staff, vbox, movementnum, (*pvoice_count));        //!!! these need *pstaffs = g_list_append(*pstaffs, voice); treatment too...
               if (partname == NULL)
-                vbox = install_staff_group_end (vbox, staff->staff_directives, &staff_group_nesting);
+                vbox = install_staff_group_end (vbox, staff->staff_directives, pstaff_group_nesting);
             }
           if (g != NULL)
             {
               g = g->prev;
-              voice_count--;
+              (*pvoice_count)--;
             }
         }
       if (partname == NULL) //Have to omit all end braces for part layouts, since the part may not include all the start braces for them.
-        vbox = install_staff_group_end (vbox, staff->staff_directives, &staff_group_nesting);
-      if (g == NULL)
+        vbox = install_staff_group_end (vbox, staff->staff_directives, pstaff_group_nesting);
+    *pstafflist = g;
+    *pvbox = vbox;
+}
+
+static void
+append_staff (GtkWidget *button, GList ** pstaffs)
+{
+    gint staff_group_nesting = 0;
+    gint voice_count = 0;
+    GtkWidget *vbox = gtk_widget_get_parent (button);
+    install_staff_with_voices (pstaffs, &vbox, NULL, &Denemo.project->movement->currentstaff, 
+                    &voice_count, 1, 1, &staff_group_nesting, FALSE);
+    gtk_widget_show_all (vbox);
+    Denemo.project->lilysync = G_MAXUINT;
+}     
+static GtkWidget *
+get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gint movementnum, gboolean last_movement, gboolean standard)
+{
+  DenemoProject *gui = Denemo.project;
+  gint staff_group_nesting = 0; //to check on loose staff group markers
+  gint voice_count;             //a count of voices from the very top of the score (ie DenemoStaffs in thescore)
+  gint staff_count;             //a count of staffs excluding voices from top of score
+  GtkWidget *ret = gtk_frame_new (NULL);
+  GString *start = g_string_new ("");
+  set_initiate_scoreblock (si, start);  // ie << possibly overridden
+  add_lilypond (ret, g_string_free (start, FALSE), g_strdup ("\n          >>\n"));
+
+  GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
+  gtk_container_add (GTK_CONTAINER (ret), vbox);
+
+  vbox = install_scoreblock_overrides (vbox, gui, si, last_movement);   //things like transpose whole score etc
+
+  gchar *label_text = (si->thescore->next == NULL) ? _("The Staff") : _("The Staffs");
+  GtkWidget *topexpander = gtk_expander_new (label_text);
+  gtk_widget_set_tooltip_text (topexpander, _("This holds the staffs below which are the voices with the music."));
+  gtk_expander_set_expanded (GTK_EXPANDER (topexpander), si == Denemo.project->movement);
+  gtk_box_pack_start (GTK_BOX (vbox), topexpander, FALSE, TRUE, 0);
+  vbox = gtk_vbox_new (FALSE, 8);
+  gtk_container_add (GTK_CONTAINER (topexpander), vbox);
+  //GtkWidget *addbutton = gtk_button_new_with_label (_ ("Append Staff"));
+  //gtk_box_pack_start (GTK_BOX(vbox), addbutton, FALSE, TRUE, 0);
+  //g_signal_connect (G_OBJECT(addbutton), "clicked", G_CALLBACK (append_staff), pstaffs);
+    
+  GList *g; 
+  for (voice_count = 1, staff_count = 1, g = si->thescore; g; g = g->next, voice_count++, staff_count++)
+    {
+    DenemoStaff *staff = g->data;
+    if ( (*(staff->lily_name->str)) && (partname && strcmp (partname, staff->lily_name->str))) // empty partname means include with all parts.
+        continue;
+     install_staff_with_voices (pstaffs, &vbox, partname, &g, &voice_count, staff_count/*sic*/, movementnum, &staff_group_nesting, standard);
+    
+     if (g == NULL)
         break;
     }                           //for each staff
 
@@ -1628,6 +1667,10 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
 
         }
     }
+    
+   
+    
+    
   return ret;
 }
 
@@ -1980,7 +2023,7 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
 
   for (g = gui->lilycontrol.directives; g; g = g->next)
     {
-      DenemoDirective *d = g->data;
+      DenemoDirective *d = g->data;//g_print("def %s %s\n", d->tag->str, d->postfix?d->postfix->str:"No postfix");
       if (d->override & DENEMO_OVERRIDE_HIDDEN)
         continue;
       if (!(d->override & DENEMO_OVERRIDE_AFFIX))
@@ -2094,7 +2137,21 @@ refresh_lilypond (DenemoScoreblock * sb)
   else
     g_warning ("No widget for scoreblock");
 }
-
+gboolean
+current_scoreblock_is_custom (void)
+{
+  GtkWidget *notebook = get_score_layout_notebook (Denemo.project);
+  gint pagenum = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
+  GtkWidget *page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), pagenum);
+  GList *g;
+  for (g = Denemo.project->custom_scoreblocks; g; g = g->next)
+    {
+      DenemoScoreblock *sb = ((DenemoScoreblock *) g->data);
+      if (sb->widget == page)
+         return TRUE;
+     }  
+return FALSE;
+}
 DenemoScoreblock *
 selected_scoreblock (void)
 {
