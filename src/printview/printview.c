@@ -1641,11 +1641,13 @@ popup_tweak_menu (void)
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (help_tweak), NULL);
 
-      item = gtk_menu_item_new_with_label (_("Red dots and crosses (Off/On)"));
-      gtk_widget_set_tooltip_markup (item, _("The exact positions of the graphical components of the score will be labelled with red dots\n" "and the control points for curves with red crosses for accurate tweaks\nTurn these off before printing!"));
-      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-      g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (toggle_lilypond_structure_markers), NULL);
-
+      if (!current_scoreblock_is_custom())
+        {
+          item = gtk_menu_item_new_with_label (_("Red dots and crosses (Off/On)"));
+          gtk_widget_set_tooltip_markup (item, _("The exact positions of the graphical components of the score will be labelled with red dots\n" "and the control points for curves with red crosses for accurate tweaks\nTurn these off before printing!"));
+          gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+          g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (toggle_lilypond_structure_markers), NULL);
+        }
       item = gtk_menu_item_new_with_label (_("Score Size"));
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (set_score_size), NULL);
