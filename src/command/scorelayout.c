@@ -1489,7 +1489,7 @@ popup_initial_clef_menu (GtkWidget * button)
         
 static void
 install_staff_with_voices (GList ** pstaffs, GtkWidget **pvbox, gchar *partname, GList **pstafflist, 
-    gint *pvoice_count, gint staff_count, gint movementnum, gint *pstaff_group_nesting, gboolean standard)
+    gint *pvoice_count, gint staff_count, gint movementnum, gint *pstaff_group_nesting, gboolean standard, gboolean append_only)
       {
         DenemoMovement *si = Denemo.project->movement;
       GList *g = *pstafflist; 
@@ -1499,6 +1499,7 @@ install_staff_with_voices (GList ** pstaffs, GtkWidget **pvbox, gchar *partname,
 
 
       //if (partname == NULL) Don't omit staff groups start for single part, since parts can be multi-staff e.g. piano, it will be closed at the end if the part doesn't include the close
+      if(!append_only)
         vbox = install_staff_group_start (pstaffs, vbox, staff->staff_directives, pstaff_group_nesting);
 
       if (staff->hasfakechords)
@@ -1633,7 +1634,7 @@ append_staff (GtkWidget *widget, GList ** pstaffs)
         movementnum = 1 + g_list_index (Denemo.project->movements, Denemo.project->movement);
     GtkWidget *vbox = gtk_widget_get_parent (widget);
     install_staff_with_voices (pstaffs, &vbox, NULL, &Denemo.project->movement->currentstaff, 
-                    &voice_count, Denemo.project->movement->currentstaffnum , movementnum  , &staff_group_nesting, FALSE);
+                    &voice_count, Denemo.project->movement->currentstaffnum, movementnum, &staff_group_nesting, FALSE, TRUE);
     gtk_widget_show_all (vbox);
     Denemo.project->lilysync = G_MAXUINT;
 }     
@@ -1673,7 +1674,7 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
     DenemoStaff *staff = g->data;
     if ( (*(staff->lily_name->str)) && (partname && strcmp (partname, staff->lily_name->str))) // empty partname means include with all parts.
         continue;
-     install_staff_with_voices (pstaffs, &vbox, partname, &g, &voice_count, staff_count/*sic*/, movementnum, &staff_group_nesting, standard);
+     install_staff_with_voices (pstaffs, &vbox, partname, &g, &voice_count, staff_count/*sic*/, movementnum, &staff_group_nesting, standard, FALSE);
     
      if (g == NULL)
         break;
