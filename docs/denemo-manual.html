@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2015-09-20"/>
+<meta name="create-date" content="2015-09-22"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -1600,7 +1600,13 @@ Part. Creates a Score Layout from the current Part and typesets that. A <i>part 
 Refresh. Repeats that last typeset command. For example, if Part was the last then it typesets the current part (which may be different from the one last typeset).
 </li>
 <li>
-Continuous/Manual. This both indicates the current mode of typesetting and acts as a menu for altering it and choosing how much to typeset in continuous mode. In continuous mode the score is re-typeset every time it is altered - choose the range if the score is large so that it refreshes quickly. For entering music rapidly set this to Manual, and re-typeset on demand.
+Continuous/Manual. This both indicates the current mode of typesetting and acts as a menu for altering it and choosing how much to typeset in continuous mode. In continuous mode the score is re-typeset every time it is altered - choose the range if the score is large so that it refreshes quickly. For entering music rapidly set this to Manual, and re-typeset on demand.<ul>
+<li>
+Range opens the range dialog. You can set the range by selecting &ldquo;All Movements&rdquo;, &ldquo;Current Movement&rdquo; or &ldquo;Cursor Context&rdquo;. In this last one you can select the number of bars before and after the cursor and the number of staffs above and below the cursor to typeset. Note that if you select too small a range the typesetting may be different, as the small amount of music will be spaced differently to appear well typeset.
+</li>
+
+</ul>
+
 </li>
 <li>
 Duplex. Changes the view to show how two-sided printing will work out for page turns.
@@ -1617,13 +1623,13 @@ Next, Previous. Navigate to the next/previous page of the score. You can scroll 
 The mouse scroll wheel enables vertical panning and with Shift horizontal panning. With Control pressed you can zoom the view, which is very important for re-shaping slurs. Right click for help with tweaking beam angles, slurs etc.
 </div>
 <div class="Indented">
-Right clicking in a blank area of the typeset view (normal cursor) gives a menu providing help and allowing you to typeset with the control points for curves and the location points of objects marked as red dots and crosses.
+Right clicking in a blank area of the typeset view (normal cursor) gives a menu providing help and allowing you to typeset with the control points for curves and the location points of objects marked as red dots and crosses. Be sure to turn off these red dots and crosses before printing or creating a customized score layout, as they are embedded in the score.
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-7.3">7.3</a> Editing in the Print View
 </h2>
 <div class="Unindented">
-Clicking on the typeset score can locate the place in the Denemo Display belonging to it. For this to work look for the &ldquo;hand&rdquo; pointer as you move the mouse over the typeset score. Use a big enough zoom factor to make this easy. The hand pointer indicates a place where if you click the Denemo Cursor will move to the Denemo Object that belongs to that feature.
+Clicking on the typeset score can locate the place in the Denemo Display belonging to it. For this to work look for the &ldquo;hand&rdquo; pointer as you move the mouse over the typeset score. Use a big enough zoom factor to make this easy. The hand pointer indicates a place where if you click the Denemo Cursor will move to the Denemo Object that belongs to that feature. The navigation works for noteheads, slurs, ties and various marks - some other things such as lyrics can’t be used to navigate - choose the note that the lyrics underlie to find the right place in the Denemo Display.
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-7.4">7.4</a> Editing Positions and Padding
@@ -1644,7 +1650,7 @@ With practice you can skip the use of the red dots and crosses as you can guess 
 <a class="toc" name="toc-Subsection-7.6">7.6</a> Adding Line or Page Breaks.
 </h2>
 <div class="Unindented">
-Page or line breaks added by right-clicking on a note at a barline and choosing from the menu. The click positions the Denemo Cursor and then the page or line break command is run just as if you were working directly in the Denemo Display.
+Page or line breaks added by right-clicking on a note at a barline and choosing from the menu. This works because right-click positions the Denemo Cursor at the note and then the page or line break command is run just as if you were working directly in the Denemo Display.
 </div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-8">8</a> The Object Inspector<a class="Label" name="sec:The-Object-Inspector"> </a>
@@ -1806,13 +1812,13 @@ TBC
 In this section the commands available for the various musical elements are described and their arrangement in the menu system is described.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-15.1">15.1</a> Beaming
+<a class="toc" name="toc-Subsection-15.1">15.1</a> Beamin<a class="Label" name="sub:Beaming"> </a>g
 </h2>
 <div class="Unindented">
 Commands to control beaming are available for individual notes, whole passages of notes and entire scores. Mostly the default beaming will be what you want. An exception is the beaming in 3/4 time which can look like 6/8 when beamed in the traditional manner. Use Object Menu-&gt;Time Signature-&gt;Beam at Half Measure to alter the default.
 </div>
 <div class="Indented">
-Individual beam control commands are located in Notes/Rests-&gt;Beaming; these include commands to provide partial breaks in the beaming.
+Individual beam control commands are located in Notes/Rests-&gt;Beaming. The start/stop beam shortcuts are usually [ and ]. Other commands include providing partial breaks in the beaming and stopping beaming on a note.
 </div>
 <div class="Indented">
 Setting beaming for the whole score can be done using ObjectMenu-&gt;Score-&gt;Typesetter-&gt;Set Beaming Rules. Either the general rule can be given, or Beam Exceptions can be set from the selection. To use the latter, set up a measure or measures with the beaming manually set using the Individual beam controls and then select the passage and invoke Set Beaming Rules.
@@ -1832,30 +1838,78 @@ The important thing to know about barlines in Denemo is that they are not just g
 <div class="Indented">
 Another useful thing to understand is that the &ldquo;barlines&rdquo; that appear in the Denemo display are not really barlines at all, just a convenient breaking up of the music into &ldquo;chunks&rdquo;. Normally, of course, you will use one chunk per measure so they <i>will</i> correspond with the typeset barlines.
 </div>
+<div class="Indented">
+There is a relationship between line/page breaks and barlines: you cannot have line/page breaks at any point in the music, there must be a barline there. However this can be a &ldquo;hidden&rdquo; barline, so that option is in the menu too.
+</div>
+<div class="Indented">
+One curious consequence of this is what happens if you contrive to input notes that are timed so that a note is always playing at every barline; normally you use tied notes for this, but if (by mistake) you leave one bar short in duration you can find that none of the following typeset bars start with a note, and the result is that the line cannot be broken - it extends off the right hand side of the page.
+</div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-15.3">15.3</a> Ties and Slurs
 </h2>
 <div class="Unindented">
-... and phrasing slurs.
+... and phrasing slurs. It is important to distinguish ties from slurs since they often look the same in the typeset music, but in some circumstances they are typeset differently - so you may think the music looks ok, and later after some editing, it looks wrong - you have hit a situation where the typesetting is distinguishes the two. To help with this Denemo shows distinguishes slurs with little green and red markers for the start/end, while the ties are heavier horizontal curves. If you import music from other notation programs they often confuse slurs and ties, so a command to fix these is in the Notes/Rests-&gt;Tied Notes menu. (In the unusual case of slurred notes of the same pitch - e.g. open string/stopped note on a violin - you would have to correct the error by hand).
+</div>
+<div class="Indented">
+Also in this menu are commands to tie individual notes in chords, to control the direction (up/down) of ties and to adjust the shape of ties which can be very tricky to position nicely in tight situations.
+</div>
+<div class="Indented">
+The commands for slurs are in the Notes/Rests-&gt;Slurs menu. The most useful have the shortcuts 7,8,9 to slur from the current note to the next note, to extend the slur and to reduce it. There are also commands to turn on/off a slur start or slur end, and these are also in the right-click menu on the notes in the Denemo Display.
+</div>
+<div class="Indented">
+When entering rhythms with the numeric keypad the slurs can be added without breaking rhythm by using the control key with the rhythm. So, for example, Ctrl-3 enters a 1/8 duration slurring from the previous note, or extending the slur. And Control keypad 9 (Ctrl-KP_9) creates a slurred dotted rhythm (corresponding to keypad 9 which creates a dotted rhythm based on the last entered duration) and similarly Ctrl-KP_7,Ctrl-KP_7 for entering a slurred triplet based on the current duration.
+</div>
+<div class="Indented">
+Phrasing slurs are slurs over the top of ordinary slurs, used in Romantic music and later. The display just shows where they start and end, the typesetter allows only one level of nesting slurs as that is all that is used in music. More would require a non-printing voice carrying the extra layers of slurs.
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-15.4">15.4</a> Triplets and Friends
 </h2>
+<div class="Unindented">
+Collectively called &ldquo;tuplets&rdquo; these are handled in Denemo by two markers, one beginning the tuplet which holds the timing change and the other a simple end tuplet marker. The Denemo Display only knows how to display tuplets that start and end in the same bar, but the typesetter is not restricted in that way. You can stop and re-start the tuplets at measure breaks so that the Denemo Display understands what you mean, and control the placement of tuplet numbering and tuplet brackets using the Tuplet Brackets and Tuplet Numbering commands in the same menu. The typeset can also cope with nested tuplets perfectly well, though the Denemo Display will be strange.
+</div>
+<div class="Indented">
+There are specific commands for the more common tuplets, and arbitrary tuplets can be started using the Arbitrary Tuplet command - you give the numbers to denote the fraction that the timing is changing by (e.g. triplets are 2/3 of the duration written so you give 2,3). If you wanted 7 notes in the time of 4 you would give 4, 7 so that the durations changed by 4/7, after seven 𝅘𝅥𝅮-notes you would have the equivalent of 4 𝅘𝅥𝅮-notes duration.
+</div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-15.5">15.5</a> Grace Notes
 </h2>
+<div class="Unindented">
+Both appogiature and acciacature are supported, as well as inserting pairs of beamed grace notes (other amounts of grace notes should be manually beamed see the section on beaming ). Grace notes are ignored in the playback.
+</div>
+<div class="Indented">
+<div class="Shadowbox" style="width: 100%;">
+Grace Notes present a peculiar problem to the LilyPond typesetter that Denemo uses. As they do not have any duration it gets into difficulties if there are other things (such as time signatures, double bars etc) going on at the same time. The problem arises when other parts are also sounding and they don’t have the same grace notes. There is a command in Denemo to work around this by installing &ldquo;grace note hints&rdquo; - these are dummy non-printing grace notes in the other parts. This is done automatically by the Check Score routine, so normally you don’t have to run it yourself, but it is in the Notes/Rests-&gt;Grace Notes menu. It is good to be aware of this however, as you will see these pale yellow rests that declare themselves to be grace notes in the music sometimes.
+</div>
+
+</div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-15.6">15.6</a> Ornaments
 </h2>
+<div class="Unindented">
+Notes/Rests-&gt;Markings-&gt;Ornaments for ornaments attached to notes/chords. Directives-&gt;Markings-&gt;Ornaments for customized ornaments which appear in the Denemo Display as separate objects before the note they decorate.
+</div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-15.7">15.7</a> Dynamics
 </h2>
+<div class="Unindented">
+Notes/Rests-&gt;Markings-&gt;Dynamics for dynamic spanners (cresc. dim. etc, both hairpins and textual). Directives-&gt;Markings-&gt;Dynamics (shortcut Ctrl-d) for dynamic marks (<i>p, sfz etc) </i>they appear as objects in the Denemo Display just before the note they relate to. These dynamics affect both typeset and playback.
+</div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-15.8">15.8</a> Tempo Markings
 </h2>
+<div class="Unindented">
+Directives-&gt;Markings-&gt;Tempi and Metronome Marks allows insertion of a tempo change (both typeset and playback). Change of beat (e.g. 𝅗𝅥 = 𝅘𝅥 .) is also in this menu.
+</div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-15.9">15.9</a> Text
 </h2>
+<div class="Unindented">
+The most general command here is Directives-&gt;Markings-&gt;Multi-line Text and Music. As the name implies, you can not only insert simple text but also control the italic, bold, superscript, font-size etc, as well as inserting actual notated music, fret-diagrams in the sentences. For simple use Textual Annotation command may suffice. There are also commands to insert fret diagrams etc and with all these commands right-click on the object allows editing for the position or content.
+</div>
+<div class="Indented">
+In the Directives-&gt;Markings-&gt;Spanning menu are commands that cause markings that span a passage of music, such as Cadenza and Piano Sustain pedal marks, ottava markings, and extended trill marks.
+</div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-16">16</a> <a class="Label" name="sec:A-Survey-of-Input-Methods"> </a>A Survey of the Input Methods
 </h1>
@@ -4151,7 +4205,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-09-20T08:45:59.020903</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-09-22T12:04:39.841553</span>
 </div>
 </div>
 </body>

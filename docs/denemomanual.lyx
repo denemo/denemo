@@ -3177,6 +3177,42 @@ Continuous/Manual.
  For entering music rapidly set this to Manual, and re-typeset on demand.
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Range opens the range dialog.
+ You can set the range by selecting 
+\begin_inset Quotes eld
+\end_inset
+
+All Movements
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+Current Movement
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+Cursor Context
+\begin_inset Quotes erd
+\end_inset
+
+.
+ In this last one you can select the number of bars before and after the
+ cursor and the number of staffs above and below the cursor to typeset.
+ Note that if you select too small a range the typesetting may be different,
+ as the small amount of music will be spaced differently to appear well
+ typeset.
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 Duplex.
  Changes the view to show how two-sided printing will work out for page
@@ -3212,6 +3248,8 @@ The mouse scroll wheel enables vertical panning and with Shift horizontal
 Right clicking in a blank area of the typeset view (normal cursor) gives
  a menu providing help and allowing you to typeset with the control points
  for curves and the location points of objects marked as red dots and crosses.
+ Be sure to turn off these red dots and crosses before printing or creating
+ a customized score layout, as they are embedded in the score.
 \end_layout
 
 \begin_layout Subsection
@@ -3233,6 +3271,9 @@ hand
  Use a big enough zoom factor to make this easy.
  The hand pointer indicates a place where if you click the Denemo Cursor
  will move to the Denemo Object that belongs to that feature.
+ The navigation works for noteheads, slurs, ties and various marks - some
+ other things such as lyrics can't be used to navigate - choose the note
+ that the lyrics underlie to find the right place in the Denemo Display.
 \end_layout
 
 \begin_layout Subsection
@@ -3296,8 +3337,9 @@ Adding Line or Page Breaks.
 \begin_layout Standard
 Page or line breaks added by right-clicking on a note at a barline and choosing
  from the menu.
- The click positions the Denemo Cursor and then the page or line break command
- is run just as if you were working directly in the Denemo Display.
+ This works because right-click positions the Denemo Cursor at the note
+ and then the page or line break command is run just as if you were working
+ directly in the Denemo Display.
 \end_layout
 
 \begin_layout Section
@@ -3822,7 +3864,14 @@ In this section the commands available for the various musical elements
 \end_layout
 
 \begin_layout Subsection
-Beaming
+Beamin
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Beaming"
+
+\end_inset
+
+g
 \end_layout
 
 \begin_layout Standard
@@ -3835,8 +3884,10 @@ Commands to control beaming are available for individual notes, whole passages
 \end_layout
 
 \begin_layout Standard
-Individual beam control commands are located in Notes/Rests->Beaming; these
- include commands to provide partial breaks in the beaming.
+Individual beam control commands are located in Notes/Rests->Beaming.
+ The start/stop beam shortcuts are usually [ and ].
+ Other commands include providing partial breaks in the beaming and stopping
+ beaming on a note.
 \end_layout
 
 \begin_layout Standard
@@ -3904,6 +3955,30 @@ will
  correspond with the typeset barlines.
 \end_layout
 
+\begin_layout Standard
+There is a relationship between line/page breaks and barlines: you cannot
+ have line/page breaks at any point in the music, there must be a barline
+ there.
+ However this can be a 
+\begin_inset Quotes eld
+\end_inset
+
+hidden
+\begin_inset Quotes erd
+\end_inset
+
+ barline, so that option is in the menu too.
+\end_layout
+
+\begin_layout Standard
+One curious consequence of this is what happens if you contrive to input
+ notes that are timed so that a note is always playing at every barline;
+ normally you use tied notes for this, but if (by mistake) you leave one
+ bar short in duration you can find that none of the following typeset bars
+ start with a note, and the result is that the line cannot be broken - it
+ extends off the right hand side of the page.
+\end_layout
+
 \begin_layout Subsection
 Ties and Slurs
 \end_layout
@@ -3911,30 +3986,199 @@ Ties and Slurs
 \begin_layout Standard
 ...
  and phrasing slurs.
+ It is important to distinguish ties from slurs since they often look the
+ same in the typeset music, but in some circumstances they are typeset different
+ly - so you may think the music looks ok, and later after some editing,
+ it looks wrong - you have hit a situation where the typesetting is distinguishe
+s the two.
+ To help with this Denemo shows distinguishes slurs with little green and
+ red markers for the start/end, while the ties are heavier horizontal curves.
+ If you import music from other notation programs they often confuse slurs
+ and ties, so a command to fix these is in the Notes/Rests->Tied Notes menu.
+ (In the unusual case of slurred notes of the same pitch - e.g.
+ open string/stopped note on a violin - you would have to correct the error
+ by hand).
+\end_layout
+
+\begin_layout Standard
+Also in this menu are commands to tie individual notes in chords, to control
+ the direction (up/down) of ties and to adjust the shape of ties which can
+ be very tricky to position nicely in tight situations.
+\end_layout
+
+\begin_layout Standard
+The commands for slurs are in the Notes/Rests->Slurs menu.
+ The most useful have the shortcuts 7,8,9 to slur from the current note
+ to the next note, to extend the slur and to reduce it.
+ There are also commands to turn on/off a slur start or slur end, and these
+ are also in the right-click menu on the notes in the Denemo Display.
+\end_layout
+
+\begin_layout Standard
+When entering rhythms with the numeric keypad the slurs can be added without
+ breaking rhythm by using the control key with the rhythm.
+ So, for example, Ctrl-3 enters a 1/8 duration slurring from the previous
+ note, or extending the slur.
+ And Control keypad 9 (Ctrl-KP_9) creates a slurred dotted rhythm (corresponding
+ to keypad 9 which creates a dotted rhythm based on the last entered duration)
+ and similarly Ctrl-KP_7,Ctrl-KP_7 for entering a slurred triplet based
+ on the current duration.
+\end_layout
+
+\begin_layout Standard
+Phrasing slurs are slurs over the top of ordinary slurs, used in Romantic
+ music and later.
+ The display just shows where they start and end, the typesetter allows
+ only one level of nesting slurs as that is all that is used in music.
+ More would require a non-printing voice carrying the extra layers of slurs.
 \end_layout
 
 \begin_layout Subsection
 Triplets and Friends
 \end_layout
 
+\begin_layout Standard
+Collectively called 
+\begin_inset Quotes eld
+\end_inset
+
+tuplets
+\begin_inset Quotes erd
+\end_inset
+
+ these are handled in Denemo by two markers, one beginning the tuplet which
+ holds the timing change and the other a simple end tuplet marker.
+ The Denemo Display only knows how to display tuplets that start and end
+ in the same bar, but the typesetter is not restricted in that way.
+ You can stop and re-start the tuplets at measure breaks so that the Denemo
+ Display understands what you mean, and control the placement of tuplet
+ numbering and tuplet brackets using the Tuplet Brackets and Tuplet Numbering
+ commands in the same menu.
+ The typeset can also cope with nested tuplets perfectly well, though the
+ Denemo Display will be strange.
+\end_layout
+
+\begin_layout Standard
+There are specific commands for the more common tuplets, and arbitrary tuplets
+ can be started using the Arbitrary Tuplet command - you give the numbers
+ to denote the fraction that the timing is changing by (e.g.
+ triplets are 2/3 of the duration written so you give 2,3).
+ If you wanted 7 notes in the time of 4 you would give 4, 7 so that the
+ durations changed by 4/7, after seven 𝅘𝅥𝅮-notes you would have the equivalent
+ of 4 𝅘𝅥𝅮-notes duration.
+\end_layout
+
 \begin_layout Subsection
 Grace Notes
+\end_layout
+
+\begin_layout Standard
+Both appogiature and acciacature are supported, as well as inserting pairs
+ of beamed grace notes (other amounts of grace notes should be manually
+ beamed see the section on beaming ).
+ Grace notes are ignored in the playback.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Grace Notes present a peculiar problem to the LilyPond typesetter that Denemo
+ uses.
+ As they do not have any duration it gets into difficulties if there are
+ other things (such as time signatures, double bars etc) going on at the
+ same time.
+ The problem arises when other parts are also sounding and they don't have
+ the same grace notes.
+ There is a command in Denemo to work around this by installing 
+\begin_inset Quotes eld
+\end_inset
+
+grace note hints
+\begin_inset Quotes erd
+\end_inset
+
+ - these are dummy non-printing grace notes in the other parts.
+ This is done automatically by the Check Score routine, so normally you
+ don't have to run it yourself, but it is in the Notes/Rests->Grace Notes
+ menu.
+ It is good to be aware of this however, as you will see these pale yellow
+ rests that declare themselves to be grace notes in the music sometimes.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
 Ornaments
 \end_layout
 
+\begin_layout Standard
+Notes/Rests->Markings->Ornaments for ornaments attached to notes/chords.
+ Directives->Markings->Ornaments for customized ornaments which appear in
+ the Denemo Display as separate objects before the note they decorate.
+\end_layout
+
 \begin_layout Subsection
 Dynamics
+\end_layout
+
+\begin_layout Standard
+Notes/Rests->Markings->Dynamics for dynamic spanners (cresc.
+ dim.
+ etc, both hairpins and textual).
+ Directives->Markings->Dynamics (shortcut Ctrl-d) for dynamic marks (
+\emph on
+p, sfz etc) 
+\emph default
+they appear as objects in the Denemo Display just before the note they relate
+ to.
+ These dynamics affect both typeset and playback.
 \end_layout
 
 \begin_layout Subsection
 Tempo Markings
 \end_layout
 
+\begin_layout Standard
+Directives->Markings->Tempi and Metronome Marks allows insertion of a tempo
+ change (both typeset and playback).
+ Change of beat (e.g.
+ 𝅗𝅥 = 𝅘𝅥 .) is also in this menu.
+\end_layout
+
 \begin_layout Subsection
 Text
+\end_layout
+
+\begin_layout Standard
+The most general command here is Directives->Markings->Multi-line Text and
+ Music.
+ As the name implies, you can not only insert simple text but also control
+ the italic, bold, superscript, font-size etc, as well as inserting actual
+ notated music, fret-diagrams in the sentences.
+ For simple use Textual Annotation command may suffice.
+ There are also commands to insert fret diagrams etc and with all these
+ commands right-click on the object allows editing for the position or content.
+\end_layout
+
+\begin_layout Standard
+In the Directives->Markings->Spanning menu are commands that cause markings
+ that span a passage of music, such as Cadenza and Piano Sustain pedal marks,
+ ottava markings, and extended trill marks.
 \end_layout
 
 \begin_layout Section
