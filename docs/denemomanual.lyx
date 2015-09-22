@@ -3864,14 +3864,14 @@ In this section the commands available for the various musical elements
 \end_layout
 
 \begin_layout Subsection
-Beamin
+Beaming
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Beaming"
 
 \end_inset
 
-g
+
 \end_layout
 
 \begin_layout Standard
@@ -4179,6 +4179,10 @@ The most general command here is Directives->Markings->Multi-line Text and
 In the Directives->Markings->Spanning menu are commands that cause markings
  that span a passage of music, such as Cadenza and Piano Sustain pedal marks,
  ottava markings, and extended trill marks.
+ Here also are 1st and 2nd (and nth) time bars, with shortcuts r,1 for starting
+ a first time bar, r,2 starting a second time bar and r,e for ending either.
+ The Nth time bar can be used to hold any text needed (i.e.
+ use this for a first time bar if the indication should be other that 1.).
 \end_layout
 
 \begin_layout Section
