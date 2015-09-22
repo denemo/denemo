@@ -2400,7 +2400,13 @@ A Table of Contents can be automatically generated from the movement titles
 
 \begin_layout Standard
 Graphic title pages can also be created.
- 
+ These can be created by invoking the Inkscape vector graphics editor from
+ within Denemo, or using it externally to create the title page.
+ A sample title page is included both as an encapsulated postcript (EPS)
+ file and as a scalable vector graphics (SVG) file.
+ The latter is the form to use for editing the page to suit your needs,
+ but it should also be saved as an EPS file as this is the format used to
+ include it in the typeset score.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -2458,6 +2464,21 @@ measures
 time signatures).
 \end_layout
 
+\begin_layout Standard
+Again there are titles menus for either simple or book titles, and for inserting
+ graphics between movements.
+ These can be used as decorative separators between movements or to insert
+ columns of verses at the end of songs (each song is a separate 
+\begin_inset Quotes eld
+\end_inset
+
+movement
+\begin_inset Quotes erd
+\end_inset
+
+).
+\end_layout
+
 \begin_layout Subsubsection
 Staff/Voices Menu
 \end_layout
@@ -2478,6 +2499,19 @@ This covers such things as the type of staff (e.g.
  Normal Notation, Tablature, Chord Symbols, Fret Diagrams) as well as the
  staff appearance and the playback instrument, instrument name or ambitus
  to be typeset at the start of the staff and more.
+\end_layout
+
+\begin_layout Subsubsection*
+The Add Staff Submenu
+\end_layout
+
+\begin_layout Standard
+This allows adding staffs to the current movement.
+ Piano staffs can be added as well as specialized sorts of staff for dynamics,
+ marks (so that they appear once for all layouts), and coulés (diagonal
+ lines positioned between thirds in some music).
+ The Add Structured Staff command duplicates the current staff with regard
+ to measures and time signature changes, ready for the insertion of music.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -2591,6 +2625,8 @@ Besides commands to insert/delete/navigate/merge/split measures (in one
  or all staffs) this menu includes commands to set an upbeat (anacrusis,
  pickup) measure at the start, or a short measure (e.g.
  during partial first & second time bars).
+ First and second time bars markers themselves are to be found in the Directives
+->Markings->Spanning menu.
 \end_layout
 
 \begin_layout Standard
@@ -3989,8 +4025,8 @@ Ties and Slurs
  It is important to distinguish ties from slurs since they often look the
  same in the typeset music, but in some circumstances they are typeset different
 ly - so you may think the music looks ok, and later after some editing,
- it looks wrong - you have hit a situation where the typesetting is distinguishe
-s the two.
+ it looks wrong - you have hit a situation where the typesetting distinguishes
+ the two.
  To help with this Denemo shows distinguishes slurs with little green and
  red markers for the start/end, while the ties are heavier horizontal curves.
  If you import music from other notation programs they often confuse slurs
@@ -4130,6 +4166,10 @@ Ornaments
 Notes/Rests->Markings->Ornaments for ornaments attached to notes/chords.
  Directives->Markings->Ornaments for customized ornaments which appear in
  the Denemo Display as separate objects before the note they decorate.
+ Besides all the standard ornaments, there are commands to stack accidental
+ signs above/below ornaments and to create customized ornaments, drawn using
+ an external vector graphics editor.
+ One set of custom-built ornaments for French harpsichord ornaments is provided.
 \end_layout
 
 \begin_layout Subsection
@@ -4147,6 +4187,23 @@ p, sfz etc)
 they appear as objects in the Denemo Display just before the note they relate
  to.
  These dynamics affect both typeset and playback.
+\end_layout
+
+\begin_layout Standard
+In some circumstances it is desirable to place dynamics in a separate 
+\emph on
+Dynamics Staff.
+ 
+\emph default
+This is often the case for the dynamics centered between piano staffs; it
+ ensure that hairpins align with each other and that other dynamic markings
+ are placed consistently.
+ It also allows for positioning of dynamics markings other than directly
+ on notes - they can be placed at slightly later or earlier times.
+ To do this notes of shorter duration are put in the dynamics staff and
+ the dynamic markings are attached to them.
+ The notes are just dummy notes to indicate the timing of the onset of the
+ dynamic attached.
 \end_layout
 
 \begin_layout Subsection
