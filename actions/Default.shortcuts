@@ -251,6 +251,10 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>ToggleGrace</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>InsertRhythm</action>
         <bind>Ctrl+space</bind>
       </row>
