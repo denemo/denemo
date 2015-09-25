@@ -41,6 +41,7 @@ static GtkWidget *get_options_button (DenemoScoreblock * sb, gboolean custom);
 static void install_duplicate_movement_callback (DenemoScoreblock *sb);
 static void reorder_movement_callback (DenemoScoreblock * psb);
 static gboolean edit_lilypond_prefix (GtkWidget * widget, gchar * oldval, gchar * newval);
+static void reload_scorewide_block (GtkWidget *frame);
 static gint layout_sync;
 
 
@@ -384,6 +385,8 @@ customize_scoreblock (DenemoScoreblock * sb, gchar * name)
   return TRUE;
 }
 
+#if 0
+//having buttons that affect the score itself is confusing
 /* go through the layout deleting score block elements that are marked standard as they are not needed for a custom scoreblock*/
 static void
 prune_layout (GtkWidget * layout)
@@ -401,12 +404,12 @@ prune_layout (GtkWidget * layout)
   if (g_object_get_data (G_OBJECT (layout), "standard"))
     gtk_widget_destroy (layout);
 }
-
+#endif
 static DenemoScoreblock *
 clone_scoreblock (DenemoScoreblock * sb, gchar * name)
 {
   gchar *partname = g_strdup (sb->partname);
-  prune_layout (sb->widget);
+  //prune_layout (sb->widget);
   GtkWidget *options = get_options_button (sb, TRUE);
   gtk_widget_show_all (options);
   GtkWidget *viewport = gtk_bin_get_child (GTK_BIN (sb->widget));
@@ -456,7 +459,8 @@ duplicate_lilypond_scoreblock_callback (GtkWidget * widget, DenemoScoreblock * s
 {
   customize_scoreblock (sb, NULL);
 }
-
+#if 0
+//having buttons that affect the score itself is confusing
 //Mark the passed widget as being for standard layouts only
 static void
 mark_as_non_custom (GtkWidget * button)
@@ -466,7 +470,7 @@ mark_as_non_custom (GtkWidget * button)
     gtk_widget_modify_bg (button, GTK_STATE_NORMAL, &color);
   g_object_set_data (G_OBJECT (button), "standard", (gpointer) 1);
 }
-
+#endif
 
 static GtkWidget *
 get_options_button (DenemoScoreblock * sb, gboolean custom)
@@ -1055,6 +1059,8 @@ install_pre_movement_widgets (GtkWidget * vbox, DenemoMovement * si, gboolean st
   GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (inner_vbox), inner_hbox, FALSE, TRUE, 0);
   GtkWidget *button;
+#if 0
+//having buttons that affect the score itself is confusing
   if(standard)
     {
       button = gtk_button_new_with_label (_("Create Titles for Movement"));
@@ -1063,6 +1069,7 @@ install_pre_movement_widgets (GtkWidget * vbox, DenemoMovement * si, gboolean st
       g_signal_connect (button, "clicked", G_CALLBACK (popup_movement_titles_menu), NULL);
       gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);
     }
+#endif
   
   button = gtk_button_new_with_label (_("Create for Custom Layout"));
   gtk_widget_set_tooltip_text (button, _("Create page breaks, blank pages ...for this layout"));
@@ -1539,6 +1546,8 @@ install_staff_with_voices (GList ** pstaffs, GtkWidget **pvbox, gchar *partname,
 
       gtk_widget_show_all (menu);
       g_signal_connect (button, "clicked", G_CALLBACK (popup), menu);
+#if 0
+//having buttons that affect the score itself is confusing
       if (standard && (si->thescore->next != NULL))
         {
           button = gtk_button_new_with_label (_("Set Staff Group Start/End"));
@@ -1547,6 +1556,7 @@ install_staff_with_voices (GList ** pstaffs, GtkWidget **pvbox, gchar *partname,
           gtk_widget_set_tooltip_text (button, _("The braces { and [ binding staffs together can be set here. Set the start on one staff and the end on a later staff.\nThis is editing the score, not just customizing a layout.\nRefresh the layout view (see under Options for this Layout button at the top) once you have made the changes."));
           g_signal_connect (button, "button-press-event", G_CALLBACK (staff_groups_menu), GINT_TO_POINTER (get_location (movementnum, (*pvoice_count))));
         }
+#endif
       *pstaffs = g_list_append (*pstaffs, frame);
       g_signal_connect (G_OBJECT (frame), "destroy", G_CALLBACK (remove_from_staff_list), pstaffs);
 
@@ -1842,29 +1852,61 @@ create_score_directives (GtkWidget * vbox)
     }
 }
 
-static void
-create_scorewide_block (GtkWidget * vbox)
+static void fill_scorewide_frame (GtkWidget *frame, GtkWidget *reload_button)
 {
-  GtkWidget *event_box = get_colored_event_box (vbox, "#BBFFCC");
-  GtkWidget *frame = gtk_frame_new (NULL);
-  gtk_container_add (GTK_CONTAINER (event_box), frame);
+
   GtkWidget *expander = gtk_expander_new (_("Score-wide Settings."));
   gtk_widget_set_tooltip_text (expander, _("Setting the score title, composer, headers and footers for this layout"));
   gtk_container_add (GTK_CONTAINER (frame), expander);
 
   GtkWidget *inner_box = gtk_vbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (expander), inner_box);
+  gtk_box_pack_start (GTK_BOX (inner_box), reload_button, FALSE, TRUE, 0);
+#if 0
+//having buttons that affect the score itself is confusing
   GtkWidget *button = gtk_button_new_with_label (_("Create Book Titles"));
   mark_as_non_custom (button);
-
   gtk_widget_set_tooltip_text (button, _("Set book titles for the score"));
   g_signal_connect (button, "clicked", G_CALLBACK (popup_score_titles_menu), NULL);
   gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);
+#endif
 
   create_scoreheader_directives (inner_box);
   create_score_directives (inner_box);
   create_misc_scorewide (inner_box);
 }
+
+static GtkWidget *get_reload_button (GtkWidget *frame)
+{
+  GtkWidget *reload_button = gtk_button_new_with_label (_("Reload Score-Wide Settings"));
+  gtk_widget_set_tooltip_text (reload_button, _("Reload the score wide settings for this layout from the current values in the score.\nDo this if you have made changes to the score titles etc which you wish to be used for this layout."));
+  g_signal_connect_swapped (reload_button, "clicked", G_CALLBACK (reload_scorewide_block), frame);
+   return reload_button; 
+}
+static void reload_scorewide_block (GtkWidget *frame)
+{
+  GtkWidget *event_box = gtk_widget_get_parent (frame);
+  GtkWidget *vbox = gtk_widget_get_parent (event_box);
+  gtk_widget_destroy (frame);
+  frame = gtk_frame_new (NULL);
+  GtkWidget *reload_button = get_reload_button (frame);
+  gtk_container_add (GTK_CONTAINER (event_box), frame);
+  fill_scorewide_frame (frame, reload_button);
+  gtk_widget_show_all (vbox);
+  Denemo.project->lilysync = G_MAXUINT;
+
+}
+static void
+create_scorewide_block (GtkWidget * vbox)
+{
+  GtkWidget *frame = gtk_frame_new (NULL);
+  GtkWidget *reload_button = get_reload_button (frame);
+  GtkWidget *event_box = get_colored_event_box (vbox, "#BBFFCC");// event_box is packed into vbox
+  gtk_container_add (GTK_CONTAINER (event_box), frame);
+  fill_scorewide_frame (frame, reload_button);
+  gtk_widget_show_all (vbox);
+}
+
 static           
 void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScoreblock ** psb, gchar *partname, gint movement_num, gboolean last, gboolean standard)
           {
@@ -2019,12 +2061,7 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
   DenemoProject *gui = Denemo.project;
   (*psb)->staff_list = NULL;    //list of staff frames in order they appear in scoreblock
 
-#if 0
-  (*psb)->widget = gtk_frame_new (NULL);
-#else
   (*psb)->widget = gtk_scrolled_window_new (NULL, NULL);
-#endif
-
 
   (*psb)->visible = FALSE;      //will be set true when/if tab is selected
   if (partname)
