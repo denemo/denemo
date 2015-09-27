@@ -83,8 +83,8 @@ Richard Shann
 \align center
 \begin_inset CommandInset href
 LatexCommand href
-name "richard@rshann.plus.com"
-target "richard@rshann.plus.com"
+name "Requests for help to: denemo-devel@gnu.org"
+target "denemo-devel@gnu.org"
 type "mailto:"
 
 \end_inset
@@ -872,10 +872,14 @@ In between is where the music input is displayed, the Denemo Display area.
  When zoomed out you see just the few measures you are working on.
  By dragging the red bar at the bottom of the score upwards you get space
  for more of the music.
- If you have many staffs they may not all fit: you can still drag the red
- bar upwards to see several lines of just one or two staffs for instance.
- You can hide staffs in the display if needed using the Staffs->Display
- Effects menu.
+ If you have many staffs they may not all fit: you can still scroll the
+ display to see several lines of just one or two staffs for instance.
+ 
+\end_layout
+
+\begin_layout Standard
+You can hide staffs in the display if needed using the Staffs->Display Effects
+ menu.
  If you need more room you can hide the menus (using the View Menu), and
  arrange a "page view" of the input music - useful when using playback.
 \end_layout
@@ -943,6 +947,89 @@ File
  wish to incorporate in your score.
  Another sort of source material can be loaded from here - audio files can
  be loaded for transcribing as well as MIDI files.
+\end_layout
+
+\begin_layout Standard
+The New command starts a new score, while New Tab creates an empty score
+ while leaving the current score open - a line of tabs appears at the top
+ of the display for switching between these.
+ Note that you do not have to have multiple scores open to copy and paste
+ between scores - opening a new score does not alter the clipboard.
+\end_layout
+
+\begin_layout Subsubsection*
+Open Submenu
+\end_layout
+
+\begin_layout Standard
+The Open command (Ctrl-o) opens a Denemo file for editing.
+ Open Template opens one of the templates provided with Denemo - this is
+ like open except the file once opened becomes untitled, forcing you to
+ give it a name on saving.
+ Open Example is similar, but here the scores are intended as examples of
+ how to do particular things - they can also serve as a place to copy and
+ paste from.
+ Open Custom Template opens the directory where templates you have created
+ with Save Template are stored.
+ If you create a template called Default.denemo then the command Open Default
+ Template will load it (Ctrl-n).
+ Add Staffs and Add Movements take staffs or movements from the Denemo file
+ chosen and add them to the current score.
+ Open inNew does a combination of New Tab and Open.
+\end_layout
+
+\begin_layout Standard
+Open Proof Read PDF is for adding proof reading annotations into your score,
+ see section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Using-a-Proof-Read"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Open Source for Transcribing allows you to open the source material you
+ are transcribing from so that links can be placed in your score to the
+ relevant place in that document.
+ For more details see the section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Transcribing-from-Facsimile"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Open recent gives access to a list of recently open scores (you can control
+ how many via the preferences).
+\end_layout
+
+\begin_layout Standard
+Open Source Audio loads an audio file creating empty measures with the audio
+ displayed as a series of note-onsets in a line at the top of the display.
+ The note-onsets can be dragged to achieve synchronization and tempo-matching
+ between the notated bars and the audio.
+ You can then add the notes (by ear) and play the two in sync to listen
+ for discrepancies.
+ This is best explained by the video demos (see 
+\begin_inset CommandInset href
+LatexCommand href
+target "www.denemo.org"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Open Source MIDI opens a MIDI file it comes with comprehensive instructions.
+ Note that many MIDI files are not suitable for transcription - MIDI describes
+ sounds, not notation.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1557,7 +1644,33 @@ Playback
 \end_layout
 
 \begin_layout Standard
-.
+Playback uses a pair of marks to decide where to start and stop playing.
+ These appear in the display as vertical green and red lines down through
+ the notes concerned.
+ These markers can be moved about by the arrow buttons on either side of
+ the play button in the Playback Controls 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Playback-Controls"
+
+\end_inset
+
+ and they are set for you by the Play from Cursor to End, Play Music at
+ Cursor, Performance and other commands in this menu.
+\end_layout
+
+\begin_layout Subsubsection
+Educational
+\end_layout
+
+\begin_layout Standard
+There are games and exercises to help learn notation and to improve your
+ recognition of intervals.
+ Mostly quite simple, but a more sophisticated example is a command that
+ loads Handel's figured bass exercises and allows you to try them out, recording
+ your playing and then reporting on any parallel intervals.
+ Teachers with an interest in programming can create further games using
+ the Scheme window and save them for use by their pupils.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1901,6 +2014,13 @@ Jumps to the last measure of the movement.
 
 \begin_layout Subsection
 Playback Controls
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Playback-Controls"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3029,7 +3149,7 @@ A
 A
 \family default
  next to the command).
- You can also lookup which command responds to a given shortcut, and execute
+ You can also look up which command responds to a given shortcut, and execute
  the selected command here.
 \end_layout
 
@@ -3884,10 +4004,39 @@ Style, Layout, Titling
 \begin_layout Standard
 This section covers where to find commands for titles, page numbering, table
  of contents, critical commentary, page size and so on.
+ The commands for stylistic directives are in the Score->Typesetter or Movements
+->Typesetter menus.
+ Here you find commands to set the accidental style (when should accidentals
+ be repeated?) and bar numbering styles, Rehearsal Mark style, page numbering
+ conventions, the fonts to use for the various elements of the score.
 \end_layout
 
 \begin_layout Standard
-TBC
+In this directory there are commands to control the number of systems per
+ page or bars per system - these would only be needed in exceptional circumstanc
+es.
+ There are also commands to control how systems are laid out on the page,
+ and on the last page (the Ragged * commands), and to control the margins.
+\end_layout
+
+\begin_layout Standard
+Notehead style for the whole score is here (see the Notes/Rests->Notehead
+ menu for individual notes) and a command for creating a custom barline
+ style which can then be used in the score.
+ 
+\end_layout
+
+\begin_layout Standard
+The command to instruct the typesetter to transpose the entire score is
+ here - two flavors, a quick text-based one or one that allows you to specify
+ the transposition you require by setting the pitches of two notes (from
+ and to pitches).
+\end_layout
+
+\begin_layout Standard
+Separate Titles menus are also found in the Score and Movements menus.
+ The Score->Titles->Book Titles also includes table of contents and critical
+ commentary control.
 \end_layout
 
 \begin_layout Section
@@ -4240,6 +4389,12 @@ In the Directives->Markings->Spanning menu are commands that cause markings
  a first time bar, r,2 starting a second time bar and r,e for ending either.
  The Nth time bar can be used to hold any text needed (i.e.
  use this for a first time bar if the indication should be other that 1.).
+\end_layout
+
+\begin_layout Standard
+The Directives->Markings subdirectory also holds the Rehearsal Marks commands.
+ These can be custom text or default, and can be used as bookmarks for navigatio
+n.
 \end_layout
 
 \begin_layout Section
@@ -4668,6 +4823,13 @@ Alt-b
 
 \begin_layout Section
 Transcribing from Facsimile or Hand-written Score
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Transcribing-from-Facsimile"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4698,8 +4860,46 @@ When you re-open the score to check or edit at some point you can click
 d once again.
 \end_layout
 
+\begin_layout Standard
+ 
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "80col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Note that when Denemo locates a position in the source PDF it always puts
+ the start of the page that holds the location at the top of the window.
+ Use the Previous/Next button to ensure you have the page start at the top
+ before using it to insert links.
+ Note also that the links refer to the page with the zoom value that obtains
+ when you create the link.
+ It will re-open with this same zoom factor, but if you change zoom the
+ links will not match until you zoom back.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Using a Proof-Read PDF
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Using-a-Proof-Read"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5027,6 +5227,8 @@ An alternative is to set a staff to display not the chords in regular notation
 
 \begin_layout Standard
 Chord Charts can also be created - there is a Chord Charts palette for these.
+ Compact chord charts require a patch to LilyPond - enquire on the mailing
+ list for this.
 \end_layout
 
 \begin_layout Standard
@@ -5075,47 +5277,10 @@ reference "sub:The-Command-Center"
 \end_inset
 
  for setting shortcuts.
- The following method can also be used.
+ The following quicker method can also be used for one-key shortcuts.
  To choose a shortcut for a menu item, select the item (it becomes highlighted)
  and press the key that you want to become the shortcut.
- For mouse shortcuts, right-click the menu item and choose the Create Mouse
- Shortcut, to change the pointer shape during mouse operations invoke the
- Command Center with the Edit Shortcuts option.
- The Set Mouse Shortcut Dialog requires you to set which button and action
- you want to use and then to hold/lock the keyboard modifier while clicking
- on the big button.
- The setting you have chosen is shown, and you click ok to accept it.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Box Shadowbox
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status open
-
-\begin_layout Plain Layout
-Mouse Shortcuts are tricky to set - you are able to control what happens
- on mouse button press and release, which can be used to do things like
- drag notes up and down.
- But they are tricky to set up!
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-If your choice of keyboard shortcut already belongs to another command,
+ If your choice of keyboard shortcut already belongs to another command,
  you are warned about this, and given the chance to change your mind or
  steal the shortcut.
  Also, you can choose whether to distinguish between keypresses with, say
@@ -5169,6 +5334,42 @@ Shift
 \family default
 ) is set to allow you to drag notes up and down the staff.
  (This is using Command MoveNoteToCursor).
+\end_layout
+
+\begin_layout Standard
+For mouse shortcuts and to change the pointer shape during mouse operations
+ invoke the Command Center with the right click on the menu item.
+ The Set Mouse Shortcut Dialog requires you to set which button and action
+ you want to use and then to hold/lock the keyboard modifier while clicking
+ on the big button.
+ The setting you have chosen is shown, and you click ok to accept it.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Mouse Shortcuts are tricky to set - you are able to control what happens
+ on mouse button press and release, which can be used to do things like
+ drag notes up and down.
+ But they are tricky to set up!
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -5260,7 +5461,14 @@ Editing a LilyPond Tweak
 There is another way of adding your own favorite LilyPond tweaks, which
  is by modifying a tweak that has already been done.
  This can be done by using the text-edit dialog on an existing Denemo Directive
- (usually found under the Advanced button provided by an edit script).
+ (usually found under the Advanced button provided in the Object Editor
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Object-Editor"
+
+\end_inset
+
+).
  Here you can see the actual LilyPond text that will be inserted, and there
  is a button to create a script to generate whatever you choose to enter.
  You can also enter the name of graphic images (.png files) that are to be
@@ -5272,6 +5480,15 @@ There is another way of adding your own favorite LilyPond tweaks, which
 Once you have created the script, it can be saved in the menu system by
  right clicking on an item in the menu where you want to place the command,
  and choosing "Save Script as New Menu Item" as above.
+ An alternative to creating a command in the menu system is to create a
+ palette button (see the Object Editor
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Object-Editor"
+
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Section
@@ -8235,7 +8452,7 @@ score{} block, the postfix after it.
 header: Attached to a movement.
  As scoreheader but for 
 \backslash
-header[] blocks inside the movement's score block.
+header{} blocks inside the movement's score block.
 \end_layout
 
 \begin_layout Labeling
@@ -8364,20 +8581,68 @@ will put the fingering 3 on (after) the note at the cursor.
 
 \begin_layout Labeling
 \labelwidthstring 00.00.0000
-d-DirectiveGet-type-field type is one of score, scoreheader, movementcontrol,
- header, paper, layout, clef, timesig, keysig, staff, voice, standalone,
- chord or note and field is one of display, tx, ty, gx, gy, graphic, prefix,
- postfix, override, midibytes.
+d-DirectiveGet-
+\emph on
+type-field
+\emph default
+ 
+\emph on
+type
+\emph default
+ is one of score, scoreheader, movementcontrol, header, paper, layout, clef,
+ timesig, keysig, staff, voice, standalone, chord or note and field is one
+ of display, tx, ty, gx, gy, graphic, prefix, postfix, override, midibytes.
  This function returns the value in the field or #f if there is no directive
  with the given tag at the cursor.
 \end_layout
 
 \begin_layout Labeling
 \labelwidthstring 00.00.0000
-d-DirectiveDelete-type type is one of score, scoreheader, movementcontrol,
- header, paper, layout, clef, timesig, keysig, staff, voice, standalone,
- chord or note.
+d-DirectiveDelete-
+\emph on
+type
+\emph default
+ 
+\emph on
+type
+\emph default
+ is one of score, scoreheader, movementcontrol, header, paper, layout, clef,
+ timesig, keysig, staff, voice, standalone, chord or note.
  This function returns #t or #f if a directive with the given tag was deleted.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+d-Directive-
+\emph on
+type
+\emph default
+? returns true if a directive with passed tag is present at cursor, with
+ no tag argument returns true if any such directive is present
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+d-DirectiveGetForTag-
+\emph on
+type
+\emph default
+ returns the tag for the directive at the cursor of 
+\emph on
+type
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+d-DirectiveGetNthTag-chord 
+\emph on
+index 
+\emph default
+Gets the index'th tag of 
+\emph on
+type
+\emph default
+ at the cursor, index starts at 0.
 \end_layout
 
 \begin_layout Subsection
@@ -8845,6 +9110,8 @@ They have available functions to enable editing of directives which are
 \begin_layout Itemize
 d-GetOption followed by a nul separated list of options, offers the options
  to the user and returns one, or #f if the user cancels.
+ More useful commands RadioBoxMenu and RadioBoxMenuList are built on this
+ for a nicer interface.
 \end_layout
 
 \begin_layout Itemize
