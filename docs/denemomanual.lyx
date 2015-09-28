@@ -3124,6 +3124,15 @@ The Command Center
 \end_layout
 
 \begin_layout Standard
+\begin_inset Graphics
+	filename images/CommandCenter.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 In the View menu you can show the Command Center.
  This has a list of all the Denemo commands, hidden or not, with their shortcut(
 s).
