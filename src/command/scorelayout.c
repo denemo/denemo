@@ -1921,7 +1921,7 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
 
           GtkWidget *frame_box = gtk_vbox_new (FALSE, 8);
           gtk_container_add (GTK_CONTAINER (movement_frame), frame_box);
-          GtkWidget *remove_box = gtk_hbox_new (FLASE, 8);
+          GtkWidget *remove_box = gtk_hbox_new (FALSE, 8);
           gtk_box_pack_start (GTK_BOX (frame_box), remove_box, FALSE, FALSE, 0);
           GtkWidget *w = gtk_button_new_with_label ("<span foreground=\"red\">Remove Movement</span>");
           gtk_label_set_use_markup (GTK_LABEL (gtk_bin_get_child (GTK_BIN(w))), TRUE);
