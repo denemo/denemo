@@ -880,8 +880,9 @@ In between is where the music input is displayed, the Denemo Display area.
 \begin_layout Standard
 You can hide staffs in the display if needed using the Staffs->Display Effects
  menu.
- If you need more room you can hide the menus (using the View Menu), and
- arrange a "page view" of the input music - useful when using playback.
+ If you need more room you can hide the menus (using the View Menu, shortcut
+ Esc key), and arrange a "page view" of the input music - useful when using
+ playback.
 \end_layout
 
 \begin_layout Subsection
@@ -2033,6 +2034,11 @@ name "sub:Playback-Controls"
 \end_layout
 
 \begin_layout Standard
+As with all controls and menu items you should hover over the buttons with
+ the mouse to get an explanation of what they do.
+\end_layout
+
+\begin_layout Standard
 The playback starts at the playback start marker (a line in green down the
  score in the Denemo Display) and stops at the playback end marker (a red
  line).
@@ -2069,6 +2075,15 @@ Midi In Controls
 \end_layout
 
 \begin_layout Standard
+\begin_inset Graphics
+	filename images/MidiInControls.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 These are the controls for a MIDI keyboard attached to the computer.
  You should set the MIDI Input Device to your device in the Preferences
  to be sure all features are working.
@@ -2077,8 +2092,14 @@ These are the controls for a MIDI keyboard attached to the computer.
 \begin_layout Standard
 The Enharmonic Selection control lets you determine what accidental will
  be used for the MIDI notes - e.g whether to enter C-sharp or D-flat.
- As you enter music if you enter an augmented or dimished interval a different
- instrument is used which helps you avoid pitch-spelling errors.
+ The buttons at each end change the enharmonic range sharper/flatter.
+ 
+\end_layout
+
+\begin_layout Standard
+As you enter music if you enter an augmented or dimished interval a different
+ instrument is used for the playback which helps you avoid pitch-spelling
+ errors.
  (See Edit->Change Preferences->Audio pitch spelling channel/program to
  turn this off/change instrument).
 \end_layout
@@ -2112,8 +2133,10 @@ record
 ] button allows you to record from your MIDI keyboard while the score is
  playing back.
  (Press MIDI record the Play).
- The MIDI recording will be played back with the score, and can be converted
- to notation or deleted.
+ Once you have made a recording Convert and Delete buttons appear.
+ If you press play the MIDI recording will be played back with the score,
+ once you are happy with it it can be converted to notation or if, you want
+ to try again, deleted.
 \end_layout
 
 \begin_layout Subsection
@@ -3272,6 +3295,15 @@ The Print View Window
 \end_layout
 
 \begin_layout Standard
+\begin_inset Graphics
+	filename images/PrintView.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 The print view window is shown by checking View->Print View.
  This view shows the typeset score as it will be printed on paper.
  It also allows you to locate the place in the Denemo Display belonging
@@ -3286,6 +3318,7 @@ The Buttons
 \begin_layout Itemize
 Print starts your system's print dialog to send the typeset score to a printer
  or file.
+ Windows print dialog has been reported to crash, if so use the PDF option.
 \end_layout
 
 \begin_layout Itemize
@@ -3321,7 +3354,8 @@ comprises all the staffs with the part name of the current staff.
 Refresh.
  Repeats that last typeset command.
  For example, if Part was the last then it typesets the current part (which
- may be different from the one last typeset).
+ may be different from the one last typeset if the cursor is in a different
+ part).
 \end_layout
 
 \begin_layout Itemize
@@ -3510,6 +3544,15 @@ name "sec:The-Object-Inspector"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Graphics
+	filename images/ObjectInspector.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 The Object Inspector is shown by clicking View->Object Inspector, or just
  double-clicking on an object in the Denemo Display.
  It gives comprehensive information about the object at the cursor.
@@ -3559,7 +3602,8 @@ status open
 
 \begin_layout Plain Layout
 Some older commands don't have full information but the tag associated with
- the directive will usually help in tracking it down.
+ the directive will help in tracking it down via the Command Center seach
+ facility.
 \end_layout
 
 \end_inset
@@ -3574,7 +3618,15 @@ The Object Inspector automatically updates itself as you move the cursor
 \end_layout
 
 \begin_layout Standard
-The Edit button will launch the 
+The 
+\begin_inset Quotes eld
+\end_inset
+
+Run the Object Editor
+\begin_inset Quotes erd
+\end_inset
+
+ button will launch the 
 \begin_inset CommandInset ref
 LatexCommand nameref
 reference "sec:Object-Editor"
@@ -3595,6 +3647,15 @@ Object Editor
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Object-Editor"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/ObjectEditor.png
 
 \end_inset
 
@@ -3732,6 +3793,15 @@ name "sec:The-Score-and"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Graphics
+	filename images/ScorePropsEditor.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 The score and movement editors allow you to edit global properties of the
  score or current movement.
  Use the Score menu to launch the editor with the Score properties expanded
@@ -3805,6 +3875,15 @@ The Staff and Voice Properties Editor
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:The-Staff-and"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/StaffVoicePropsEditor.png
 
 \end_inset
 
@@ -3922,6 +4001,15 @@ The Score Layouts Window
 \end_layout
 
 \begin_layout Standard
+\begin_inset Graphics
+	filename images/ScoreLayout.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 The score layouts window is shown by checking View->Score Layout.
  Layouts are created when you typeset music - for example from the Print
  Window Typeset, Part or Movement buttons, or from the Print menu.
@@ -3936,7 +4024,40 @@ You can use layouts to print the music in different ways.
 \begin_layout Standard
 You can customize any layout in this window - positioning lyrics above the
  staff rather than below for example, or setting the staff groupings.
- 
+ You can add any staff to any movement in the layout using the 
+\begin_inset Quotes eld
+\end_inset
+
+Append Current Staff
+\begin_inset Quotes erd
+\end_inset
+
+ button (place the cursor in the staff you wish to append).
+ The buttons marked X next to the staffs delete.
+ You can also append whole movements and re-arrange the order of the movements
+ using the additional buttons that appear once you have made the layout
+ a customized layout (use the 
+\begin_inset Quotes eld
+\end_inset
+
+Customize
+\begin_inset Quotes erd
+\end_inset
+
+ button).
+\end_layout
+
+\begin_layout Standard
+As well as appending staffs you can substitute the music for any specific
+ voice by clicking on the 
+\begin_inset Quotes eld
+\end_inset
+
+Substitute
+\begin_inset Quotes erd
+\end_inset
+
+ button that appears when you expand the voice details.
 \end_layout
 
 \begin_layout Standard
@@ -4249,8 +4370,8 @@ There are specific commands for the more common tuplets, and arbitrary tuplets
  to denote the fraction that the timing is changing by (e.g.
  triplets are 2/3 of the duration written so you give 2,3).
  If you wanted 7 notes in the time of 4 you would give 4, 7 so that the
- durations changed by 4/7, after seven 𝅘𝅥𝅮-notes you would have the equivalent
- of 4 𝅘𝅥𝅮-notes duration.
+ durations changed by 4/7, after seven 1/8-notes you would have the equivalent
+ of 4 1/8-notes duration.
 \end_layout
 
 \begin_layout Subsection
@@ -4362,8 +4483,7 @@ Tempo Markings
 \begin_layout Standard
 Directives->Markings->Tempi and Metronome Marks allows insertion of a tempo
  change (both typeset and playback).
- Change of beat (e.g.
- 𝅗𝅥 = 𝅘𝅥 .) is also in this menu.
+ Change of beat is also in this menu.
 \end_layout
 
 \begin_layout Subsection
@@ -4838,7 +4958,26 @@ If you have a PDF of music you wish to transcribe with Denemo you can display
  transcrition.
  This means that when you later review your work you can quickly locate
  which point in the original manuscript belongs to which point in your transcrip
-tion
+tion.
+ In the screenshot the Print View window is shown on the left with the facsimile
+ on the right.
+ The Print View is a Custom Layout showing the chords both as notation and
+ as chord symbols (as well as the original figures).
+ The blue marker shows the position of the link that was clicked on to open
+ the facsimile at the right place.
+ Note that the piece is also being typeset in a different key - that is
+ just another aspect of this custom layout.
+ Everything - including the chord symbols are automatically adjusted.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/SourceView.png
+	clip
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4861,7 +5000,6 @@ d once again.
 \end_layout
 
 \begin_layout Standard
- 
 \begin_inset Box Shadowbox
 position "t"
 hor_pos "c"
@@ -5213,7 +5351,10 @@ Entering Chord Symbols
 \end_layout
 
 \begin_layout Standard
-To enter chord symbols choose Notes/Rests->Markings->Chord Symbols.
+There are two quite different ways to enter chord symbols.
+ If the chord changes do not happen mid-way through notes then you can use
+ Notes/Rests->Markings->Chord Symbols to attach chord symbols to the notes
+ themselves.
  A brief summary is given by right clicking the option.
  The conventions are described in the LilyPond documentation.
 \end_layout
@@ -5221,8 +5362,14 @@ To enter chord symbols choose Notes/Rests->Markings->Chord Symbols.
 \begin_layout Standard
 An alternative is to set a staff to display not the chords in regular notation
  but the chord symbol that represents the chord.
- These can then be arranged above or below the melody or other representation
- of the piece.
+ Create a staff and use Staff->Staff Properties->Chord Symbols.
+ Then this case you enter actual chords which will be displayed as Chord
+ Symbols.
+ The duration of the chords will determine the positioning, enabling chord
+ changes mid-note.
+ The chord symbols can then be arranged above or below the melody or other
+ representation of the piece using Staffs->Swap Staffs or creating a custom
+ layout in the Score Layout window.
 \end_layout
 
 \begin_layout Standard

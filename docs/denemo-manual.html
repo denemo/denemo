@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2015-09-27"/>
+<meta name="create-date" content="2015-09-28"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -534,7 +534,7 @@ Table of Contents
 <a class="toc" name="toc-Part-I">Part I.</a> Getting Started
 </h1>
 <h1 class="Section-">
-<a class="toc" name="toc-Section--1"></a>Introduction  
+<a class="toc" name="toc-Section--1"></a>Introduction  <span class="unknown">\pagenumbering</span>arabic  
 </h1>
 <div class="Unindented">
 Denemo lets you create musical scores. You can type music in using the keyboard or play it in using a MIDI contoller or the microphone input. You can edit your music - the input display window shows you what you are working on in music notation - and you can playback to check how it sounds. The Print View window shows the final printed score, typeset to the highest standards used in the music publishing industry - thanks to the Lilypond music typesetting program.
@@ -721,7 +721,7 @@ When a file is loaded it opens at the point where you left off editing it. The p
 <div class="caption">
 Figure 1 Denemo Main Window
 </div>
-<img class="figure" src="images/denemomain.png" alt="figure images/denemomain.png" style="max-width: 1147px; max-height: 779px;"/>
+<img class="figure" src="images/denemomain.png" alt="figure images/denemomain.png" style="max-width: 1224px; max-height: 675px;"/>
 
 </div>
 
@@ -735,7 +735,7 @@ The main window has menus and toolbars at the top, and palettes at top and/or ri
 In between is where the music input is displayed, the Denemo Display area. When zoomed out you see just the few measures you are working on. By dragging the red bar at the bottom of the score upwards you get space for more of the music. If you have many staffs they may not all fit: you can still scroll the display to see several lines of just one or two staffs for instance. 
 </div>
 <div class="Indented">
-You can hide staffs in the display if needed using the Staffs-&gt;Display Effects menu. If you need more room you can hide the menus (using the View Menu), and arrange a "page view" of the input music - useful when using playback.
+You can hide staffs in the display if needed using the Staffs-&gt;Display Effects menu. If you need more room you can hide the menus (using the View Menu, shortcut Esc key), and arrange a "page view" of the input music - useful when using playback.
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-3.1">3.1</a> The Main Menubar
@@ -1181,8 +1181,11 @@ Jumps to the last measure of the movement.
 <a class="toc" name="toc-Subsection-3.3">3.3</a> Playback Controls<a class="Label" name="sub:Playback-Controls"> </a>
 </h2>
 <div class="Unindented">
-<img class="embedded" src="images/playbackcontrols.png" alt="figure images/playbackcontrols.png" style="max-width: 799px; max-height: 93px;"/>
+<img class="embedded" src="images/playbackcontrols.png" alt="figure images/playbackcontrols.png" style="max-width: 1128px; max-height: 128px;"/>
 
+</div>
+<div class="Indented">
+As with all controls and menu items you should hover over the buttons with the mouse to get an explanation of what they do.
 </div>
 <div class="Indented">
 The playback starts at the playback start marker (a line in green down the score in the Denemo Display) and stops at the playback end marker (a red line). These lines are not displayed all the time, just once the play has been used at least once. The start/end markers can be altered with the arrow keys on either side of the Play and Record buttons. The arrows to the left adjust the playback start, those to the right the playback end (hover over the arrows for details).
@@ -1200,10 +1203,17 @@ Recording the audio output is also possible as well as real-time slow down of th
 <a class="toc" name="toc-Subsection-3.4">3.4</a> Midi In Controls
 </h2>
 <div class="Unindented">
+<img class="embedded" src="images/MidiInControls.png" alt="figure images/MidiInControls.png" style="max-width: 612px; max-height: 142px;"/>
+
+</div>
+<div class="Indented">
 These are the controls for a MIDI keyboard attached to the computer. You should set the MIDI Input Device to your device in the Preferences to be sure all features are working.
 </div>
 <div class="Indented">
-The Enharmonic Selection control lets you determine what accidental will be used for the MIDI notes - e.g whether to enter C-sharp or D-flat. As you enter music if you enter an augmented or dimished interval a different instrument is used which helps you avoid pitch-spelling errors. (See Edit-&gt;Change Preferences-&gt;Audio pitch spelling channel/program to turn this off/change instrument).
+The Enharmonic Selection control lets you determine what accidental will be used for the MIDI notes - e.g whether to enter C-sharp or D-flat. The buttons at each end change the enharmonic range sharper/flatter. 
+</div>
+<div class="Indented">
+As you enter music if you enter an augmented or dimished interval a different instrument is used for the playback which helps you avoid pitch-spelling errors. (See Edit-&gt;Change Preferences-&gt;Audio pitch spelling channel/program to turn this off/change instrument).
 </div>
 <div class="Indented">
 [<b>Appending/Editing</b>] button: This shows how MIDI in will be treated. Press Control/Shift/Alt keys to modify or click and select Listening to input MIDI, Checking notes in the score against input MIDI or Appending/Editing at the cursor.
@@ -1212,7 +1222,7 @@ The Enharmonic Selection control lets you determine what accidental will be used
 [<b>Switch to Play Along Playback</b>] button: When you press Play with this option set, the music will not advance past the cursor until you play the note. (Mute the current staff to prevent double sounding of notes)
 </div>
 <div class="Indented">
-The [<b>record</b>] button allows you to record from your MIDI keyboard while the score is playing back. (Press MIDI record the Play). The MIDI recording will be played back with the score, and can be converted to notation or deleted.
+The [<b>record</b>] button allows you to record from your MIDI keyboard while the score is playing back. (Press MIDI record the Play). Once you have made a recording Convert and Delete buttons appear. If you press play the MIDI recording will be played back with the score, once you are happy with it it can be converted to notation or if, you want to try again, deleted.
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-3.5">3.5</a> Object Menu Bar
@@ -1626,6 +1636,10 @@ In the pattern-following case you will be selecting snippets using <tt>Shift-Spa
 <a class="toc" name="toc-Section-7">7</a> The Print View Window
 </h1>
 <div class="Unindented">
+<img class="embedded" src="images/PrintView.png" alt="figure images/PrintView.png" style="max-width: 745px; max-height: 925px;"/>
+
+</div>
+<div class="Indented">
 The print view window is shown by checking View-&gt;Print View. This view shows the typeset score as it will be printed on paper. It also allows you to locate the place in the Denemo Display belonging to a particular note or mark in the score, and allows some graphical editing of the score.
 </div>
 <h2 class="Subsection">
@@ -1633,7 +1647,7 @@ The print view window is shown by checking View-&gt;Print View. This view shows 
 </h2>
 <ul>
 <li>
-Print starts your system’s print dialog to send the typeset score to a printer or file.
+Print starts your system’s print dialog to send the typeset score to a printer or file. Windows print dialog has been reported to crash, if so use the PDF option.
 </li>
 <li>
 PDF to generate a PDF document from the score.
@@ -1648,7 +1662,7 @@ Movement. Creates a Score Layout comprising the current movement, and then types
 Part. Creates a Score Layout from the current Part and typesets that. A <i>part </i>comprises all the staffs with the part name of the current staff. (The part name of a staff is shown above the initial clef with a green patch on it).
 </li>
 <li>
-Refresh. Repeats that last typeset command. For example, if Part was the last then it typesets the current part (which may be different from the one last typeset).
+Refresh. Repeats that last typeset command. For example, if Part was the last then it typesets the current part (which may be different from the one last typeset if the cursor is in a different part).
 </li>
 <li>
 Continuous/Manual. This both indicates the current mode of typesetting and acts as a menu for altering it and choosing how much to typeset in continuous mode. In continuous mode the score is re-typeset every time it is altered - choose the range if the score is large so that it refreshes quickly. For entering music rapidly set this to Manual, and re-typeset on demand.<ul>
@@ -1707,6 +1721,10 @@ Page or line breaks added by right-clicking on a note at a barline and choosing 
 <a class="toc" name="toc-Section-8">8</a> The Object Inspector<a class="Label" name="sec:The-Object-Inspector"> </a>
 </h1>
 <div class="Unindented">
+<img class="embedded" src="images/ObjectInspector.png" alt="figure images/ObjectInspector.png" style="max-width: 688px; max-height: 432px;"/>
+
+</div>
+<div class="Indented">
 The Object Inspector is shown by clicking View-&gt;Object Inspector, or just double-clicking on an object in the Denemo Display. It gives comprehensive information about the object at the cursor. This includes directives like ornaments, dynamic markings, fingerings that may be attached to the object. For objects like notes and rests which start at a particular musical moment it also describes at what moment in the measure the note begins and what its duration is.
 </div>
 <div class="Indented">
@@ -1717,7 +1735,7 @@ For many directives full information about which command created the directive a
 </div>
 <div class="Indented">
 <div class="Shadowbox" style="width: 100%;">
-Some older commands don’t have full information but the tag associated with the directive will usually help in tracking it down.
+Some older commands don’t have full information but the tag associated with the directive will help in tracking it down via the Command Center seach facility.
 </div>
 
 </div>
@@ -1725,7 +1743,7 @@ Some older commands don’t have full information but the tag associated with th
 The Object Inspector automatically updates itself as you move the cursor around, so you can leave it open and click on various objects to find out what they are and which command generated them (and so how to modify them).
 </div>
 <div class="Indented">
-The Edit button will launch the <a class="Reference" href="#sec:Object-Editor">Object Editor↓</a> on the current object, which allows you to modify or delete the property you are interested in.
+The &ldquo;Run the Object Editor&rdquo; button will launch the <a class="Reference" href="#sec:Object-Editor">Object Editor↓</a> on the current object, which allows you to modify or delete the property you are interested in.
 </div>
 <div class="Indented">
 Use the window controls on the Object Inspector’s title bar to dismiss the window.
@@ -1734,6 +1752,10 @@ Use the window controls on the Object Inspector’s title bar to dismiss the win
 <a class="toc" name="toc-Section-9">9</a> Object Editor<a class="Label" name="sec:Object-Editor"> </a>
 </h1>
 <div class="Unindented">
+<img class="embedded" src="images/ObjectEditor.png" alt="figure images/ObjectEditor.png" style="max-width: 842px; max-height: 339px;"/>
+
+</div>
+<div class="Indented">
 The Object Editor allows you to edit the current Denemo Object and also to create palette buttons for generating such objects.It can be launched from the Edit Menu or from the <a class="Reference" href="#sec:The-Object-Inspector">The Object Inspector↑</a>.
 </div>
 <h2 class="Subsection">
@@ -1776,6 +1798,10 @@ This button is particularly useful for things like your copyright notice which s
 <a class="toc" name="toc-Section-10">10</a> The Score and Movement Properties Editor<a class="Label" name="sec:The-Score-and"> </a>
 </h1>
 <div class="Unindented">
+<img class="embedded" src="images/ScorePropsEditor.png" alt="figure images/ScorePropsEditor.png" style="max-width: 600px; max-height: 834px;"/>
+
+</div>
+<div class="Indented">
 The score and movement editors allow you to edit global properties of the score or current movement. Use the Score menu to launch the editor with the Score properties expanded fully and the Movement menu to launch it with the Movement properties expanded - they are combined in a single window to make it easy to switch between them. Drag the separator if you need to switch between them. On the Movement Editor pane there are buttons to change movement, so you can continue editing without re-starting the editor.
 </div>
 <div class="Indented">
@@ -1794,6 +1820,10 @@ As with the Object Editor<a class="Reference" href="#sec:Object-Editor">9↑</a>
 <a class="toc" name="toc-Section-11">11</a> The Staff and Voice Properties Editor<a class="Label" name="sec:The-Staff-and"> </a>
 </h1>
 <div class="Unindented">
+<img class="embedded" src="images/StaffVoicePropsEditor.png" alt="figure images/StaffVoicePropsEditor.png" style="max-width: 880px; max-height: 367px;"/>
+
+</div>
+<div class="Indented">
 When a Staff or the Voice on the staff has been modified in a global fashion this is indicated by &ldquo;tools&rdquo; icons at the start of the staff - the upper one for the staff and the lower one for the voice on the staff.
 </div>
 <div class="Indented">
@@ -1824,13 +1854,20 @@ As with the Object Editor<a class="Reference" href="#sec:Object-Editor">9↑</a>
 <a class="toc" name="toc-Section-12">12</a> The Score Layouts Window
 </h1>
 <div class="Unindented">
+<img class="embedded" src="images/ScoreLayout.png" alt="figure images/ScoreLayout.png" style="max-width: 682px; max-height: 904px;"/>
+
+</div>
+<div class="Indented">
 The score layouts window is shown by checking View-&gt;Score Layout. Layouts are created when you typeset music - for example from the Print Window Typeset, Part or Movement buttons, or from the Print menu.
 </div>
 <div class="Indented">
 You can use layouts to print the music in different ways. For example, one layout may have the score transposed, or be for just two parts printed together.
 </div>
 <div class="Indented">
-You can customize any layout in this window - positioning lyrics above the staff rather than below for example, or setting the staff groupings. 
+You can customize any layout in this window - positioning lyrics above the staff rather than below for example, or setting the staff groupings. You can add any staff to any movement in the layout using the &ldquo;Append Current Staff&rdquo; button (place the cursor in the staff you wish to append). The buttons marked X next to the staffs delete. You can also append whole movements and re-arrange the order of the movements using the additional buttons that appear once you have made the layout a customized layout (use the &ldquo;Customize&rdquo; button).
+</div>
+<div class="Indented">
+As well as appending staffs you can substitute the music for any specific voice by clicking on the &ldquo;Substitute&rdquo; button that appears when you expand the voice details.
 </div>
 <div class="Indented">
 Although all score layouts have access to the same music to arrange on the score the music can contain features that are exclusive to a one layout or exclude one layout, via Conditional Directives placed in the music. See the section on Denemo Directives<a class="Reference" href="#sub:Directives">3.6.10↑</a>for more details.
@@ -1929,7 +1966,7 @@ Phrasing slurs are slurs over the top of ordinary slurs, used in Romantic music 
 Collectively called &ldquo;tuplets&rdquo; these are handled in Denemo by two markers, one beginning the tuplet which holds the timing change and the other a simple end tuplet marker. The Denemo Display only knows how to display tuplets that start and end in the same bar, but the typesetter is not restricted in that way. You can stop and re-start the tuplets at measure breaks so that the Denemo Display understands what you mean, and control the placement of tuplet numbering and tuplet brackets using the Tuplet Brackets and Tuplet Numbering commands in the same menu. The typeset can also cope with nested tuplets perfectly well, though the Denemo Display will be strange.
 </div>
 <div class="Indented">
-There are specific commands for the more common tuplets, and arbitrary tuplets can be started using the Arbitrary Tuplet command - you give the numbers to denote the fraction that the timing is changing by (e.g. triplets are 2/3 of the duration written so you give 2,3). If you wanted 7 notes in the time of 4 you would give 4, 7 so that the durations changed by 4/7, after seven 𝅘𝅥𝅮-notes you would have the equivalent of 4 𝅘𝅥𝅮-notes duration.
+There are specific commands for the more common tuplets, and arbitrary tuplets can be started using the Arbitrary Tuplet command - you give the numbers to denote the fraction that the timing is changing by (e.g. triplets are 2/3 of the duration written so you give 2,3). If you wanted 7 notes in the time of 4 you would give 4, 7 so that the durations changed by 4/7, after seven 1/8-notes you would have the equivalent of 4 1/8-notes duration.
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-15.5">15.5</a> Grace Notes
@@ -1962,7 +1999,7 @@ In some circumstances it is desirable to place dynamics in a separate <i>Dynamic
 <a class="toc" name="toc-Subsection-15.8">15.8</a> Tempo Markings
 </h2>
 <div class="Unindented">
-Directives-&gt;Markings-&gt;Tempi and Metronome Marks allows insertion of a tempo change (both typeset and playback). Change of beat (e.g. 𝅗𝅥 = 𝅘𝅥 .) is also in this menu.
+Directives-&gt;Markings-&gt;Tempi and Metronome Marks allows insertion of a tempo change (both typeset and playback). Change of beat is also in this menu.
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-15.9">15.9</a> Text
@@ -2103,7 +2140,11 @@ The standard keybinding for entering a note in a chord is the <tt>Insert</tt> ke
 <a class="toc" name="toc-Section-17">17</a> Transcribing from Facsimile or Hand-written Score<a class="Label" name="sec:Transcribing-from-Facsimile"> </a>
 </h1>
 <div class="Unindented">
-If you have a PDF of music you wish to transcribe with Denemo you can display it within Denemo and create links between the source material and your transcrition. This means that when you later review your work you can quickly locate which point in the original manuscript belongs to which point in your transcription
+If you have a PDF of music you wish to transcribe with Denemo you can display it within Denemo and create links between the source material and your transcrition. This means that when you later review your work you can quickly locate which point in the original manuscript belongs to which point in your transcription. In the screenshot the Print View window is shown on the left with the facsimile on the right. The Print View is a Custom Layout showing the chords both as notation and as chord symbols (as well as the original figures). The blue marker shows the position of the link that was clicked on to open the facsimile at the right place. Note that the piece is also being typeset in a different key - that is just another aspect of this custom layout. Everything - including the chord symbols are automatically adjusted.
+</div>
+<div class="Indented">
+<img class="embedded" src="images/SourceView.png" alt="figure images/SourceView.png" style="max-width: 1610px; max-height: 674px;"/>
+
 </div>
 <div class="Indented">
 Select the File-&gt;Open menu and the item Open a Source for Transcribing. Select the PDF containing the music to be transcribed from. The PDF is opened in a Source View window. Right-click in this window at the point that your transcription will start. This will create a link - a Denemo Directive Object - in your score at the Denemo cursor position, shown as arrow icon. If you later use a right-click on this Denemo Directive the source file will be re-opened with the blue highlight marker on that point in the score. (Depending on the position of the top of the page you may need to scroll the Source View window up or down to bring it into view).
@@ -2112,7 +2153,7 @@ Select the File-&gt;Open menu and the item Open a Source for Transcribing. Selec
 When you re-open the score to check or edit at some point you can click on a nearby link and the source file will be opened and the position highlighted once again.
 </div>
 <div class="Indented">
- <div class="Shadowbox" style="width: 80%;">
+<div class="Shadowbox" style="width: 80%;">
 Note that when Denemo locates a position in the source PDF it always puts the start of the page that holds the location at the top of the window. Use the Previous/Next button to ensure you have the page start at the top before using it to insert links. Note also that the links refer to the page with the zoom value that obtains when you create the link. It will re-open with this same zoom factor, but if you change zoom the links will not match until you zoom back.
 </div>
 
@@ -2241,10 +2282,10 @@ It is possible to display the same music as both notation and tablature, and exa
 <a class="toc" name="toc-Subsection-20.7">20.7</a> Entering Chord Symbols
 </h2>
 <div class="Unindented">
-To enter chord symbols choose Notes/Rests-&gt;Markings-&gt;Chord Symbols. A brief summary is given by right clicking the option. The conventions are described in the LilyPond documentation.
+There are two quite different ways to enter chord symbols. If the chord changes do not happen mid-way through notes then you can use Notes/Rests-&gt;Markings-&gt;Chord Symbols to attach chord symbols to the notes themselves. A brief summary is given by right clicking the option. The conventions are described in the LilyPond documentation.
 </div>
 <div class="Indented">
-An alternative is to set a staff to display not the chords in regular notation but the chord symbol that represents the chord. These can then be arranged above or below the melody or other representation of the piece.
+An alternative is to set a staff to display not the chords in regular notation but the chord symbol that represents the chord. Create a staff and use Staff-&gt;Staff Properties-&gt;Chord Symbols. Then this case you enter actual chords which will be displayed as Chord Symbols. The duration of the chords will determine the positioning, enabling chord changes mid-note. The chord symbols can then be arranged above or below the melody or other representation of the piece using Staffs-&gt;Swap Staffs or creating a custom layout in the Score Layout window.
 </div>
 <div class="Indented">
 Chord Charts can also be created - there is a Chord Charts palette for these. Compact chord charts require a patch to LilyPond - enquire on the mailing list for this.
@@ -4286,7 +4327,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-09-27T15:02:35.417929</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-09-28T16:02:06.691822</span>
 </div>
 </div>
 </body>
