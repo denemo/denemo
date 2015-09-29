@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>TransposeOnPrint</action>
         <after>DeactivateTimeSignatureStencil</after>
-        <_label>Transpose on Print</_label>
+        <_label>Transpose on Print (Graphical Interface)</_label>
         <_tooltip>Gets an interval from the user: the entire score is transposed by this interval on typesetting - key signatures are transposed as well as notes and chord symbols.</_tooltip>
       </row>
     </map>

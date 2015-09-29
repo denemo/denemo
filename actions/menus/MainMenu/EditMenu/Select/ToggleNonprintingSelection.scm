@@ -4,6 +4,6 @@
 (let loop()
 	(if (d-IsInSelection)
 		(d-SetNonprinting (not (d-GetNonprinting))))
-	(if (d-MoveCursorRight)
+	(if (d-NextObject)
 		(loop)))
 (d-PopPosition)

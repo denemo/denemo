@@ -6,6 +6,9 @@
       <menuitem action="NewWindow"/>
       <separator/>
       <menu action="OpenMenu">
+        <menu action="OpenRecent">
+          <menuitem action="Browse"/>
+        </menu>
         <menuitem action="Open"/>
         <menuitem action="OpenTemplate"/>
         <menuitem action="OpenExample"/>
@@ -13,9 +16,6 @@
         <menuitem action="AddStaffs"/>
         <menuitem action="AddMovements"/>
         <menuitem action="OpenNewWindow"/>
-        <menu action="OpenRecent">
-          <menuitem action="Browse"/>
-        </menu>
       </menu>
       <menu action="Import">
     <!-- <menuitem action="ImportLilypond"/>
@@ -118,6 +118,8 @@
         <menuitem action="UnsetMark"/>
         <menuitem action="SwapPointAndMark"/>
       </menu>
+      <menuitem action="Preferences"/>
+      <separator/>
       <menuitem action="Cut"/>
       <menuitem action="Copy"/>
       <menuitem action="Paste"/>
@@ -132,7 +134,7 @@
       <menuitem action="EditCursorObject"/>
       <menuitem action="EditObject"/>
       <separator/>
-      <menuitem action="Preferences"/>
+      
       <menuitem action="QuickEdits"/>
       <separator/>    
       <menuitem action="ExecuteScheme"/>
@@ -456,9 +458,9 @@
     </menu>
 
     <menu action="Lyrics">
+      <menuitem action="ToggleLyricsView"/>
       <menuitem action="AddVerse"/>
       <menuitem action="DeleteVerse"/>
-      <menuitem action="ToggleLyricsView"/>
     </menu>
 
   </menubar>   

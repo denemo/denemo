@@ -7,8 +7,8 @@
       <row type="scheme">
         <after>SetFontSize</after>
         <action>TransposeScorePrint</action>
-        <_label>(Print) Transposed</_label>
-        <_tooltip>Prints the score transposed by the interval selected by SetTransposeIntervalFromSelection</_tooltip>
+        <_label>Transpose on Print (Text Input)</_label>
+        <_tooltip>Typesets the score transposed by the interval you give - key signatures are transposed as well as notes and chord symbols.</_tooltip>
       </row>
     </map>
   </merge>
