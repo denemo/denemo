@@ -1449,9 +1449,9 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
              GtkWidget *frame;
              gchar *text;
             if (label == NULL)
-                text = g_strdup_printf("%s%s", _("Denemo Directive tagged:"), name);
+                text = g_strdup_printf("%s%s", _("Denemo Directive tagged: "), name);
             else
-                text = g_strdup ( _("Denemo Directive:"));
+                text = g_strdup_printf ("%s%s", _("Denemo Directive: "), label);
             frame = gtk_frame_new (text);
             g_free(text);
             //gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
