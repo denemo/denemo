@@ -4012,6 +4012,7 @@ The Score Layouts Window
 \begin_layout Standard
 \begin_inset Graphics
 	filename images/ScoreLayout.png
+	scale 75
 
 \end_inset
 
@@ -4992,6 +4993,7 @@ tion.
 \begin_layout Standard
 \begin_inset Graphics
 	filename images/SourceView.png
+	scale 50
 	clip
 
 \end_inset
@@ -5395,13 +5397,6 @@ An alternative is to set a staff to display not the chords in regular notation
 Chord Charts can also be created - there is a Chord Charts palette for these.
  Compact chord charts require a patch to LilyPond - enquire on the mailing
  list for this.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage newpage
-\end_inset
-
-
 \end_layout
 
 \begin_layout Part
@@ -8519,13 +8514,6 @@ Denemo --help shows the options at startup.
  on the command line) and more.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Newpage newpage
-\end_inset
-
-
-\end_layout
-
 \begin_layout Part
 Technical Reference - Denemo Directives
 \end_layout
@@ -9369,17 +9357,6 @@ d-DirectiveGetForTag-field tag.
 \begin_layout Part
 \start_of_appendix
 Obtaining and Installing Denemo
-\end_layout
-
-\begin_layout Standard
-\align center
-\begin_inset Graphics
-	filename images/osicons.jpg
-	width 30text%
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
