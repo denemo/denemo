@@ -3448,7 +3448,7 @@ Right clicking in a blank area of the typeset view (normal cursor) gives
  a menu providing help and allowing you to typeset with the control points
  for curves and the location points of objects marked as red dots and crosses.
  Be sure to turn off these red dots and crosses before printing or creating
- a customized score layout, as they are embedded in the score.
+ a customized score layout, as they are embedded in the score and will print.
 \end_layout
 
 \begin_layout Subsection
@@ -4319,6 +4319,16 @@ ly - so you may think the music looks ok, and later after some editing,
 Also in this menu are commands to tie individual notes in chords, to control
  the direction (up/down) of ties and to adjust the shape of ties which can
  be very tricky to position nicely in tight situations.
+ Ties at repeats, where the tie goes to/comes from 
+\begin_inset Quotes eld
+\end_inset
+
+nothing
+\begin_inset Quotes erd
+\end_inset
+
+, are here too;they are called Laissez Vibrer and Repeat Tie.
+ (Laissez Vibrer has two uses, of course, but it is the same symbol).
 \end_layout
 
 \begin_layout Standard
