@@ -5285,6 +5285,51 @@ spose menu.
 \end_layout
 
 \begin_layout Subsection
+Search and 
+\begin_inset Quotes eld
+\end_inset
+
+Replace
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There are two categories of search available in Denemo.
+ The first is in Navigation->Seek menu and the other is in the Edit menu.
+\end_layout
+
+\begin_layout Standard
+In Navigation->Seek is the command to find a selected rhythmic pattern (Ctrl-f,
+ Ctrl-f) - that is to find a sequence of notes with the same rhythms as
+ those of the selection.
+ Once found the pattern can be edited, either manually or by executing a
+ series of steps recorded in the Scheme window (see section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Recording-a-Denemo"
+
+\end_inset
+
+).
+ There is also a command to find to find a sequence of selected notes.
+ In both these cases the search can be resumed by executing the command
+ with no selection.
+\end_layout
+
+\begin_layout Standard
+The second sort of seach is in the Edit menu.
+ Ctrl-e,e starts a search for objects of the type that the cursor is on,
+ while Ctrl-e, Ctrl-e offers all the types of object in the movement and
+ allows you to select which to search for.
+ Ctrl-e,r resumes the search.
+ When found the object can be manually edited, deleted or modified using
+ recorded commands as described above.
+\end_layout
+
+\begin_layout Subsection
 Piano Staffs, Orchestral Scores etc
 \end_layout
 
@@ -5328,6 +5373,16 @@ To enter figures choose Notes/Rests->Markings->Figured Bass.
  keypad.
  A brief summary is given by right clicking the option.
  The conventions are described in the LilyPond docs.
+\end_layout
+
+\begin_layout Standard
+There is also a MIDI filter for entering figured bass in the Input->MIDI
+ menu.
+ With this you play the bass note at the cursor and then the notes that
+ the figures are indicating; on releasing the bass note the figures are
+ entered for that bass note.
+ The footpedal allows a sequence of figures to be entered on one note and
+ also to enter extenders.
 \end_layout
 
 \begin_layout Subsection
@@ -5571,7 +5626,14 @@ Ctrl-D
 \end_layout
 
 \begin_layout Subsubsection
-Recording a Denemo Macro 
+Recording a Denemo Macro
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Recording-a-Denemo"
+
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Standard

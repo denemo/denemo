@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2015-09-29"/>
+<meta name="create-date" content="2015-09-30"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -386,22 +386,25 @@ Table of Contents
 </div>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-20.2">Subsection 20.2: Piano Staffs, Orchestral Scores etc</a>
+<a class="Link" href="#toc-Subsection-20.2">Subsection 20.2: Search and Replace</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-20.3">Subsection 20.3: Single Staff Polyphony</a>
+<a class="Link" href="#toc-Subsection-20.3">Subsection 20.3: Piano Staffs, Orchestral Scores etc</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-20.4">Subsection 20.4: Entering Figured Bass</a>
+<a class="Link" href="#toc-Subsection-20.4">Subsection 20.4: Single Staff Polyphony</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-20.5">Subsection 20.5: Fret Diagrams</a>
+<a class="Link" href="#toc-Subsection-20.5">Subsection 20.5: Entering Figured Bass</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-20.6">Subsection 20.6: Tablature</a>
+<a class="Link" href="#toc-Subsection-20.6">Subsection 20.6: Fret Diagrams</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-20.7">Subsection 20.7: Entering Chord Symbols</a>
+<a class="Link" href="#toc-Subsection-20.7">Subsection 20.7: Tablature</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-20.8">Subsection 20.8: Entering Chord Symbols</a>
 </div>
 </div>
 </div>
@@ -2241,13 +2244,25 @@ The other command is quicker but more technical - (Print) Transposed lets you ty
 In the case where you have changed your mind and want the actual notes you have entered to be altered the commands to do this are in the Notes/Rests-&gt;Transpose menu. The most general of the commands are Arbitrary Transpose Down and Arbitrary Transpose Up. These allow you to describe the interval you want to transpose the music by e.g. m7 for a minor seventh, d5 for diminished 5th. Alternatively you can use two pitches to describe the interval as in the previous section. Note that these commands work on the note/chord at the cursor or the selection; any key signatures will need changing separately if needed.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-20.2">20.2</a> Piano Staffs, Orchestral Scores etc
+<a class="toc" name="toc-Subsection-20.2">20.2</a> Search and &ldquo;Replace&rdquo;
+</h2>
+<div class="Unindented">
+There are two categories of search available in Denemo. The first is in Navigation-&gt;Seek menu and the other is in the Edit menu.
+</div>
+<div class="Indented">
+In Navigation-&gt;Seek is the command to find a selected rhythmic pattern (Ctrl-f, Ctrl-f) - that is to find a sequence of notes with the same rhythms as those of the selection. Once found the pattern can be edited, either manually or by executing a series of steps recorded in the Scheme window (see section <a class="Reference" href="#sub:Recording-a-Denemo">21.2.1↓</a>). There is also a command to find to find a sequence of selected notes. In both these cases the search can be resumed by executing the command with no selection.
+</div>
+<div class="Indented">
+The second sort of seach is in the Edit menu. Ctrl-e,e starts a search for objects of the type that the cursor is on, while Ctrl-e, Ctrl-e offers all the types of object in the movement and allows you to select which to search for. Ctrl-e,r resumes the search. When found the object can be manually edited, deleted or modified using recorded commands as described above.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-20.3">20.3</a> Piano Staffs, Orchestral Scores etc
 </h2>
 <div class="Unindented">
 A piano staff can be added using the Staff-&gt;Add Staff menu. In addition, piano staffs, and staff groups such as choir staff can be created using the Staff Groupings menu under the staff menu. You can set a piano staff within a staff group by setting successively the StartPiano and StartGroup contexts on a single staff, or more generally setting StartPiano, EndPiano on adjacent staffs within a staff group.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-20.3">20.3</a> Single Staff Polyphony
+<a class="toc" name="toc-Subsection-20.4">20.4</a> Single Staff Polyphony
 </h2>
 <div class="Unindented">
 Use the Staffs/Voices-&gt;Voices menu for placing more than one voice on a staff. You can set the initial voice number from this menu (voices 1 and 3 are stem up with slurs and ties etc adjusting to suit, voices 2 and 4 are stem down). Directives can be placed in the music to change voice, see Directives-&gt;Typesetter-&gt;Voices menu.
@@ -2256,19 +2271,22 @@ Use the Staffs/Voices-&gt;Voices menu for placing more than one voice on a staff
 You will also need spacer rests for voices that are silent, and commands to displace rests vertically and horizontally (see Notes/Rests-&gt;Rest Insertion menu), and commands from the Voices menu under the Staffs/Voices and Directives-&gt;Typesetter menus.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-20.4">20.4</a> Entering Figured Bass
+<a class="toc" name="toc-Subsection-20.5">20.5</a> Entering Figured Bass
 </h2>
 <div class="Unindented">
 To enter figures choose Notes/Rests-&gt;Markings-&gt;Figured Bass. There are some shortcuts that enable all the work to be done with the numeric keypad. A brief summary is given by right clicking the option. The conventions are described in the LilyPond docs.
 </div>
+<div class="Indented">
+There is also a MIDI filter for entering figured bass in the Input-&gt;MIDI menu. With this you play the bass note at the cursor and then the notes that the figures are indicating; on releasing the bass note the figures are entered for that bass note. The footpedal allows a sequence of figures to be entered on one note and also to enter extenders.
+</div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-20.5">20.5</a> Fret Diagrams
+<a class="toc" name="toc-Subsection-20.6">20.6</a> Fret Diagrams
 </h2>
 <div class="Unindented">
 Fret Diagrams can be placed on the score using the command Fret Diagram in the ObjectMenu-&gt;Directives-&gt;Markings menu In addition by assigning a Denemo staff to display as fret diagrams, chords can be entered in standard notation which will then be dislayed as fret diagrams. See ObjectMenu-&gt;StaffMenu-&gt;StaffPropertiesMenu-&gt;FretDiagrams for this.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-20.6">20.6</a> Tablature
+<a class="toc" name="toc-Subsection-20.7">20.7</a> Tablature
 </h2>
 <div class="Unindented">
 Music can be displayed in tablature - the default is for standard guitar tuning but others can be set. The menus to explore are:
@@ -2283,7 +2301,7 @@ ObjectMenu-&gt;Directives-&gt;Typesetter-&gt;Tablature
 It is possible to display the same music as both notation and tablature, and example of how to do this will be found under File-&gt;Open-&gt;Open Example.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-20.7">20.7</a> Entering Chord Symbols
+<a class="toc" name="toc-Subsection-20.8">20.8</a> Entering Chord Symbols
 </h2>
 <div class="Unindented">
 There are two quite different ways to enter chord symbols. If the chord changes do not happen mid-way through notes then you can use Notes/Rests-&gt;Markings-&gt;Chord Symbols to attach chord symbols to the notes themselves. A brief summary is given by right clicking the option. The conventions are described in the LilyPond documentation.
@@ -2337,7 +2355,7 @@ It is possible to add more commands to the set that Denemo ships with. Some of t
 It can be slow to choose dynamics (<tt>Ctrl-D</tt>) because the list is quite long to move down (or move to the mouse). You can define a list of the dynamics you actually want to be readily available as for example: (define DenemoDynamicList ’(("f" "127" "Forte") ("p" "127" "Piano"))) This makes forte available just by pressing Return and piano available by pressing down arrow Return. (The others via More of course). If you place this in (home directory)/.denemo-x.x.x/actions/denemo.scm then it will be defined when you start Denemo.
 </div>
 <h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-21.2.1">21.2.1</a> Recording a Denemo Macro 
+<a class="toc" name="toc-Subsubsection-21.2.1">21.2.1</a> Recording a Denemo Macro<a class="Label" name="sub:Recording-a-Denemo"> </a> 
 </h3>
 <div class="Unindented">
 You can also get Denemo to record a frequently used sequence of actions - it can be installed in the menu system and given a keyboard shortcut just like any other command. 
@@ -4314,7 +4332,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-09-29T14:42:33.376226</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-09-30T12:46:37.418319</span>
 </div>
 </div>
 </body>
