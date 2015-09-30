@@ -5637,23 +5637,56 @@ name "sub:Recording-a-Denemo"
 \end_layout
 
 \begin_layout Standard
-You can also get Denemo to record a frequently used sequence of actions
- - it can be installed in the menu system and given a keyboard shortcut
- just like any other command.
+You can record a frequently used sequence of actions into the Scheme window.
+ These can be used in search and replace operations or they can be installed
+ as a command in the menu system and given a keyboard shortcut or placed
+ in a palette.
  
 \end_layout
 
 \begin_layout Standard
 To do this choose View->Scheme Script.
- (You do not have to understand what a Scheme Script is to use this!).
- In the window that pops up check Record Scheme Script and then do the set
+ (You do not have to understand what a Scheme Script is to use this!) In
+ the window that pops up check Record Scheme Script and then do the set
  of steps you wish Denemo to record.
+ As you execute each command the Scheme window gets that command added to
+ it.
 \end_layout
 
 \begin_layout Standard
-As a simple example, suppose you wanted a command to delete the next note
- (there are commands to delete the previous note and the current note, so
- why not?).
+For example, suppose you wanted to place a trill on a particular note in
+ a certain rhythmic pattern that occurs frequently in a piece.
+ You would record the cursor moves and the Trill command needed to edit
+ the pattern concerned and then use the Search and 
+\begin_inset Quotes eld
+\end_inset
+
+Replace
+\begin_inset Quotes erd
+\end_inset
+
+ facility to seek the pattern you needed selecting 
+\begin_inset Quotes eld
+\end_inset
+
+Continue
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+Execute Scheme
+\begin_inset Quotes erd
+\end_inset
+
+ as each pattern is found.
+\end_layout
+
+\begin_layout Standard
+Or, suppose you wanted a command to delete the next note (there are commands
+ to delete the previous note and the current note, so why not?).
  You would enter some notes, put on Record Scheme Script and then move the
  cursor right two steps and delete the previous note (with Backspace if
  that is your shortcut).
@@ -5674,6 +5707,33 @@ ze Commands...->Manage Command Set->Save as Default Command Set).
  exit.
  Otherwise you can re-load via the More->My Commands menu item.
  
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Turn off the Record before starting the search and replace, otherwise the
+ search and replace command itself will be recorded.
+ Delete the recorded commands before saving your score, unless you want
+ it to be executed each time you open the score.
+ (See the section Musical Scores that do things!
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
