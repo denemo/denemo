@@ -4855,8 +4855,20 @@ accidentals are usually printed over the note.</_tooltip>
         <_tooltip>Prints the poet or lyricist name on title page</_tooltip>
       </row>
       <row type="scheme">
+        <action>TransposeOnPrint</action>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Transpose on Print (Graphical Interface)</_label>
+        <_tooltip>Gets an interval from the user: the entire score is transposed by this interval on typesetting - key signatures are transposed as well as notes and chord symbols.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>TransposeScorePrint</action>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Transpose on Print (Text Input)</_label>
+        <_tooltip>Typesets the score transposed by the interval you give - key signatures are transposed as well as notes and chord symbols.</_tooltip>
+      </row>      
+      
+      <row type="scheme">
         <action>PointAndClick</action>
-        <after>ScoreBlockProlog</after>
         <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Point and Click (Off/On)</_label>
         <_tooltip>When on, clicking on a note in the Print Preview window takes the cursor to that note. This works also for Rehearsal Marks and many other objects in the score. The only reason to turn it off is for export to PDF file via the Export menu. However, using print to file is a better way of doing this as then it is not needed.</_tooltip>
@@ -6270,19 +6282,7 @@ before and after the LilyPond syntax.
         <_label>Check and Print</_label>
         <_tooltip>Checks the score for errors, if none are found proceeds to typeset and print the current layout.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>TransposeOnPrint</action>
-        <menupath>/ObjectMenu/Score/Typesetter</menupath>
-        <_label>Transpose on Print (Graphical Interface)</_label>
-        <_tooltip>Gets an interval from the user: the entire score is transposed by this interval on typesetting - key signatures are transposed as well as notes and chord symbols.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>TransposeScorePrint</action>
-        <menupath>/ObjectMenu/Score/Typesetter</menupath>
-        <_label>Transpose on Print (Text Input)</_label>
-        <_tooltip>Typesets the score transposed by the interval you give - key signatures are transposed as well as notes and chord symbols.</_tooltip>
-      </row>      
-      
+
       <row type="scheme">
         <action>PartCombineChords</action>
         <after>InitialVoice</after>
