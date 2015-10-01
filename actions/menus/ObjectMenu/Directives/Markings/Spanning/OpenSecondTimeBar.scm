@@ -3,7 +3,7 @@
     (if (d-Directive-standalone? tag)
         (begin
             (begin
-            (d-OpenNthTimeBar "edit"))
+            (d-OpenNthTimeBar "edit")))
         (begin
             (d-Directive-standalone tag)
             (d-DirectivePut-standalone-minpixels tag 50)
