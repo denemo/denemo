@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2015-09-30"/>
+<meta name="create-date" content="2015-10-01"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -227,6 +227,50 @@ Table of Contents
 </div>
 <div class="toc">
 <a class="Link" href="#toc-Section-4">Section 4: Palettes</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.1">Subsection 4.1: Articulations Palette</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.2">Subsection 4.2: Barlines Palette</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.3">Subsection 4.3: Beaming Palette</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.4">Subsection 4.4: Chord Symbols Palette</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.5">Subsection 4.5: Custom Ornaments Palette</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.6">Subsection 4.6: Dynamics Palette</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.7">Subsection 4.7: Figured Bass Palette</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.8">Subsection 4.8: MIDI Import Palette</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.9">Subsection 4.9: Ornaments Palette</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.10">Subsection 4.10: Piano/Organ Notation Palette</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.11">Subsection 4.11: Polyphony Palette</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.12">Subsection 4.12: Repeats Palette</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.13">Subsection 4.13: Stringed Instruments Palette</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.14">Subsection 4.14: Tied Notes/Chords Palette</a>
+</div>
 </div>
 <div class="toc">
 <a class="Link" href="#toc-Section-5">Section 5: The Command Center</a>
@@ -1585,16 +1629,157 @@ Palettes are collections of commands arranged as a column, row or grid of button
 The buttons are not just for mouse users - palette buttons can be executed by clicking with the mouse or typing <tt>p</tt> followed by (part of) the label of the button followed by the <tt>Enter <i>or</i> Return</tt> key. (The palette must be selected - you can do this while typing the label or by using a button).
 </div>
 <div class="Indented">
-To make full use of the keyboard for executing commands from your palettes you should edit the labels so that they are easy to type &amp; memorable. Put the shorter ones first as you do not need to type all of the label, just enough to select the right button.
+To make full use of the keyboard for executing commands from your palettes you should edit the labels so that they are easy to type &amp; memorable. Put the shorter ones first as you do not need to type all of the label, just enough to select the needed button. Right-clicking on a palette button allows you to edit the button, changing the label or tooltip, duplicating the button (e.g. to create an edited version of its script) and more.
 </div>
 <div class="Indented">
-In the View menu you can select palettes of commands to use. Right-clicking on a palette button allows you to edit the button or the entire palette. You can dock the palette in the main display, arrange it as a column, line or block and much more.
+<img class="embedded" src="images/PaletteMenu.png" alt="figure images/PaletteMenu.png" style="max-width: 466px; max-height: 441px;"/>
+
+</div>
+<div class="Indented">
+You can also edit the palette itself by right clicking on any button and choosing the Edit this Palette submenu. You can make the palette fill up horizontally or vertically and restrict the number of columns/rows respectively. You can dock/undock palettes as well and hide palettes that are not needed.
+</div>
+<div class="Indented">
+In the View menu you can select palettes of commands to use. or the entire palette.
 </div>
 <div class="Indented">
 You should make palettes your best friend - when you find a command in the menu system that you need right click on it and choose Add to Palette. This way you will build up one or more collections of commands that you need. By right clicking on a palette button you can choose a label for the command that suits you, and even make special notes about its use in the tooltip.
 </div>
 <div class="Indented">
-Palette buttons can also be created directly from objects so that you can create more of them in your score; if you run Help-&gt;Open Feature Packed Score and find the type of object or attribute you need there then you can run the Object Editor on it and create a palette button for installing the same thing in your own score. See the Object Editor<a class="Reference" href="#sec:Object-Editor">9↓</a> for more details.
+Palette buttons can also be created directly from objects so that you can create more of them in your score; if you run Help-&gt;Open Feature Packed Score and find the type of object or attribute you need there then you can run the Object Editor on it and create a palette button for installing the same thing in your own score. See the Object Editor<a class="Reference" href="#sec:Object-Editor">9↓</a> for more details. And, of course, palette buttons can be created for any command in the menu system by right clicking and choosing Add to Palette.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.1">4.1</a> Articulations Palette
+</h2>
+<div class="Unindented">
+<img class="embedded" src="images/ArticulationsPalette.png" alt="figure images/ArticulationsPalette.png" style="max-width: 323px; max-height: 67px;"/>
+
+</div>
+<div class="Indented">
+These buttons turn on/off the articulation. Outside slur moves the articulation outside an enclosing slur.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.2">4.2</a> Barlines Palette
+</h2>
+<div class="Unindented">
+<img class="embedded" src="images/BarlinesPalette.png" alt="figure images/BarlinesPalette.png" style="max-width: 320px; max-height: 64px;"/>
+
+</div>
+<div class="Indented">
+These insert barlines - note only one barline can be at one moment in the music. The Custom button creates a new barline type, specifying the behavior in mid system, end of system, start of system and between staffs.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.3">4.3</a> Beaming Palette
+</h2>
+<div class="Unindented">
+<img class="embedded" src="images/BeamingPalette.png" alt="figure images/BeamingPalette.png" style="max-width: 435px; max-height: 102px;"/>
+
+</div>
+<div class="Indented">
+The ? button gives the overview for this palette. Rules can be set via a dialog with exceptions derived from the selection.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.4">4.4</a> Chord Symbols Palette
+</h2>
+<div class="Unindented">
+<img class="embedded" src="images/ChordSymbolsPalette.png" alt="figure images/ChordSymbolsPalette.png" style="max-width: 306px; max-height: 69px;"/>
+
+</div>
+<div class="Indented">
+The ? button gives the overview for this palette.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.5">4.5</a> Custom Ornaments Palette
+</h2>
+<div class="Unindented">
+<img class="embedded" src="images/CustomOrnamentsPalette.png" alt="figure images/CustomOrnamentsPalette.png" style="max-width: 329px; max-height: 68px;"/>
+
+</div>
+<div class="Indented">
+Custom ornaments can be created as encapsulated postscript files using the same methods as graphic title pages. If you have a vector graphics editor (e.g. inkscape) installed and in your Preferences (Externals tab, Graphics Editor) then you can edit from within Denemo. As usual hover over the buttons for instructions.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.6">4.6</a> Dynamics Palette
+</h2>
+<div class="Unindented">
+<img class="embedded" src="images/DynamicsPalette.png" alt="figure images/DynamicsPalette.png" style="max-width: 493px; max-height: 72px;"/>
+
+</div>
+<div class="Indented">
+The cresc - - - and dim - - - buttons start or continue textual crescendi/diminuendi - texts such as poco a poco can be inserted and the - - - can finish on a dynamic marking or an end cresc/dim marker.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.7">4.7</a> Figured Bass Palette
+</h2>
+<div class="Unindented">
+<img class="embedded" src="images/FiguredBassPalette.png" alt="figure images/FiguredBassPalette.png" style="max-width: 329px; max-height: 66px;"/>
+
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.8">4.8</a> MIDI Import Palette
+</h2>
+<div class="Unindented">
+<img class="embedded" src="images/MidiImportPalette.png" alt="figure images/MidiImportPalette.png" style="max-width: 578px; max-height: 133px;"/>
+
+</div>
+<div class="Indented">
+This palette is for guided MIDI import. The instructions are in the tooltips.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.9">4.9</a> Ornaments Palette
+</h2>
+<div class="Unindented">
+<img class="embedded" src="images/OrnamentsPalette.png" alt="figure images/OrnamentsPalette.png" style="max-width: 238px; max-height: 92px;"/>
+
+</div>
+<div class="Indented">
+Note that there is a separate custom ornaments palette.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.10">4.10</a> Piano/Organ Notation Palette
+</h2>
+<div class="Unindented">
+<img class="embedded" src="images/PianofortePalette.png" alt="figure images/PianofortePalette.png" style="max-width: 241px; max-height: 133px;"/>
+
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.11">4.11</a> Polyphony Palette
+</h2>
+<div class="Unindented">
+<img class="embedded" src="images/PolyphonyPalette.png" alt="figure images/PolyphonyPalette.png" style="max-width: 479px; max-height: 179px;"/>
+
+</div>
+<div class="Indented">
+These are the commands to control separate voices that appear on a single staff. The voices are best displayed on separate staffs in the Denemo display to ease the editing.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.12">4.12</a> Repeats Palette
+</h2>
+<div class="Unindented">
+<img class="embedded" src="images/RepeatsPalette.png" alt="figure images/RepeatsPalette.png" style="max-width: 260px; max-height: 200px;"/>
+
+</div>
+<div class="Indented">
+The Nth time repeat can be used to hold any needed text. If an repeat alternative is less than a bar the Short Measure command can be used, and the bar number adjusted if needed.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.13">4.13</a> Stringed Instruments Palette
+</h2>
+<div class="Unindented">
+<img class="embedded" src="images/StringedInstrumentsPalette.png" alt="figure images/StringedInstrumentsPalette.png" style="max-width: 304px; max-height: 192px;"/>
+
+</div>
+<div class="Indented">
+Here are commands for fingerings, string numbers etc. These are attached to individual notes (place the cursor on the note).
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.14">4.14</a> Tied Notes/Chords Palette
+</h2>
+<div class="Unindented">
+<img class="embedded" src="images/TiesPalette.png" alt="figure images/TiesPalette.png" style="max-width: 260px; max-height: 181px;"/>
+
+</div>
+<div class="Indented">
+Commands to insert ties on chords and individual notes, and to control their shape and direction are here.
 </div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-5">5</a> <a class="Label" name="sub:The-Command-Center"> </a>The Command Center
@@ -4341,7 +4526,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-09-30T12:59:38.417003</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-10-01T17:10:26.252299</span>
 </div>
 </div>
 </body>

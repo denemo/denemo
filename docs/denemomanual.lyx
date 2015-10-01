@@ -3077,15 +3077,32 @@ or
 To make full use of the keyboard for executing commands from your palettes
  you should edit the labels so that they are easy to type & memorable.
  Put the shorter ones first as you do not need to type all of the label,
- just enough to select the right button.
+ just enough to select the needed button.
+ Right-clicking on a palette button allows you to edit the button, changing
+ the label or tooltip, duplicating the button (e.g.
+ to create an edited version of its script) and more.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/PaletteMenu.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+You can also edit the palette itself by right clicking on any button and
+ choosing the Edit this Palette submenu.
+ You can make the palette fill up horizontally or vertically and restrict
+ the number of columns/rows respectively.
+ You can dock/undock palettes as well and hide palettes that are not needed.
 \end_layout
 
 \begin_layout Standard
 In the View menu you can select palettes of commands to use.
- Right-clicking on a palette button allows you to edit the button or the
- entire palette.
- You can dock the palette in the main display, arrange it as a column, line
- or block and much more.
+ or the entire palette.
 \end_layout
 
 \begin_layout Standard
@@ -3111,6 +3128,262 @@ reference "sec:Object-Editor"
 \end_inset
 
  for more details.
+ And, of course, palette buttons can be created for any command in the menu
+ system by right clicking and choosing Add to Palette.
+\end_layout
+
+\begin_layout Subsection
+Articulations Palette
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/ArticulationsPalette.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These buttons turn on/off the articulation.
+ Outside slur moves the articulation outside an enclosing slur.
+\end_layout
+
+\begin_layout Subsection
+Barlines Palette
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/BarlinesPalette.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These insert barlines - note only one barline can be at one moment in the
+ music.
+ The Custom button creates a new barline type, specifying the behavior in
+ mid system, end of system, start of system and between staffs.
+\end_layout
+
+\begin_layout Subsection
+Beaming Palette
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/BeamingPalette.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The ? button gives the overview for this palette.
+ Rules can be set via a dialog with exceptions derived from the selection.
+\end_layout
+
+\begin_layout Subsection
+Chord Symbols Palette
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/ChordSymbolsPalette.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The ? button gives the overview for this palette.
+\end_layout
+
+\begin_layout Subsection
+Custom Ornaments Palette
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/CustomOrnamentsPalette.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Custom ornaments can be created as encapsulated postscript files using the
+ same methods as graphic title pages.
+ If you have a vector graphics editor (e.g.
+ inkscape) installed and in your Preferences (Externals tab, Graphics Editor)
+ then you can edit from within Denemo.
+ As usual hover over the buttons for instructions.
+\end_layout
+
+\begin_layout Subsection
+Dynamics Palette
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/DynamicsPalette.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The cresc - - - and dim - - - buttons start or continue textual crescendi/diminu
+endi - texts such as poco a poco can be inserted and the - - - can finish
+ on a dynamic marking or an end cresc/dim marker.
+\end_layout
+
+\begin_layout Subsection
+Figured Bass Palette
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/FiguredBassPalette.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+MIDI Import Palette
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/MidiImportPalette.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This palette is for guided MIDI import.
+ The instructions are in the tooltips.
+\end_layout
+
+\begin_layout Subsection
+Ornaments Palette
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/OrnamentsPalette.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that there is a separate custom ornaments palette.
+\end_layout
+
+\begin_layout Subsection
+Piano/Organ Notation Palette
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/PianofortePalette.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Polyphony Palette
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/PolyphonyPalette.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These are the commands to control separate voices that appear on a single
+ staff.
+ The voices are best displayed on separate staffs in the Denemo display
+ to ease the editing.
+\end_layout
+
+\begin_layout Subsection
+Repeats Palette
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/RepeatsPalette.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Nth time repeat can be used to hold any needed text.
+ If an repeat alternative is less than a bar the Short Measure command can
+ be used, and the bar number adjusted if needed.
+\end_layout
+
+\begin_layout Subsection
+Stringed Instruments Palette
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/StringedInstrumentsPalette.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here are commands for fingerings, string numbers etc.
+ These are attached to individual notes (place the cursor on the note).
+\end_layout
+
+\begin_layout Subsection
+Tied Notes/Chords Palette
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/TiesPalette.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Commands to insert ties on chords and individual notes, and to control their
+ shape and direction are here.
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \begin_layout Section
