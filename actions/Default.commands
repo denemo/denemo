@@ -2747,12 +2747,6 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <_tooltip>Mark/Unmark the selected notes arpeggio</_tooltip>
       </row>
       <row type="scheme">
-        <action>ToggleArpeggio</action>
-        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <_label>Arpeggio (Off/On)</_label>
-        <_tooltip>Mark/Unmark chord with an arpeggio</_tooltip>
-      </row>
-      <row type="scheme">
         <action>BookArranger</action>
         <menupath>/ObjectMenu/Score/Titles/BookTitles</menupath>
         <_label>Arranger</_label>
@@ -5502,12 +5496,6 @@ for second and subsequent systems</_tooltip>
         <menupath>/ObjectMenu/Directives/Typesetter</menupath>
         <_label>Start Beaming</_label>
         <_tooltip>(Print) Start automatic beaming at this point in score. (Used after turning beaming off).</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>ToggleStopped</action>
-        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
-        <_label>Stopped  (Off/On)</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
       </row>
       <row type="scheme">
         <action>StoppedSelectionSwitcher</action>
