@@ -3587,6 +3587,7 @@ The Print View Window
 \begin_layout Standard
 \begin_inset Graphics
 	filename images/PrintView.png
+	scale 50
 
 \end_inset
 
