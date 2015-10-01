@@ -3086,6 +3086,7 @@ To make full use of the keyboard for executing commands from your palettes
 \begin_layout Standard
 \begin_inset Graphics
 	filename images/PaletteMenu.png
+	scale 60
 
 \end_inset
 
@@ -3132,6 +3133,12 @@ reference "sec:Object-Editor"
  system by right clicking and choosing Add to Palette.
 \end_layout
 
+\begin_layout Standard
+Changes you make to palettes are automatically saved when you end the session.
+ (They are stored in a file called palettes.xml, which can be edited directly
+ by the more techie-minded).
+\end_layout
+
 \begin_layout Subsection
 Articulations Palette
 \end_layout
@@ -3166,8 +3173,8 @@ Barlines Palette
 \begin_layout Standard
 These insert barlines - note only one barline can be at one moment in the
  music.
- The Custom button creates a new barline type, specifying the behavior in
- mid system, end of system, start of system and between staffs.
+ The Custom button creates a new barline type, specifying the appearance
+ in mid system, end of system, start of system and between staffs.
 \end_layout
 
 \begin_layout Subsection
@@ -3399,6 +3406,7 @@ The Command Center
 \begin_layout Standard
 \begin_inset Graphics
 	filename images/CommandCenter.png
+	scale 50
 
 \end_inset
 
