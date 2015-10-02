@@ -713,7 +713,7 @@ set_midi_capture (gboolean set)
 void
 adjust_midi_velocity (gchar * buf, gint percent)
 {
-  if (Denemo.prefs.dynamic_compression == 100)
+  if (Denemo.prefs.dynamic_compression == 99)
     {
       static gdouble times[0x7F];
       if (command == MIDI_NOTE_ON)
