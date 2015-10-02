@@ -886,6 +886,118 @@ You can hide staffs in the display if needed using the Staffs->Display Effects
 \end_layout
 
 \begin_layout Subsection
+The Denemo Display
+\end_layout
+
+\begin_layout Standard
+The area showing the input music is called the Denemo display.
+ It shows staffs and voices and the music interspersed with any Directives.
+ The default view has a single system stretching off the sides of the window
+ - the actual division into lines and pages for the typeset score is done
+ in the Print View
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:The-Print-View"
+
+\end_inset
+
+.
+ In order to see more of the music on the screen at one time there are three
+ changes to the default view you can make.
+ Firstly by pressing the Esc key you can switch between three views, two
+ of which have no menus taking up space.
+ At the bottom of any of these is a red line which can be dragged up to
+ split the display into separate lines.
+ Using this you can display more bars of music at the expense of seeing
+ more staffs for each system (the scrolling allows you to choose which staffs
+ to concentrate on).
+ As usual, this division into lines has nothing to do with the typeset view
+ - widening the window will change the positions of the 
+\begin_inset Quotes eld
+\end_inset
+
+line breaks
+\begin_inset Quotes erd
+\end_inset
+
+ but have no effect on the final typeset score.
+ Actual line breaks in the typeset are managed by commands in the Directives
+ menu.
+\end_layout
+
+\begin_layout Standard
+The second way of getting to see more of the music is simply to zoom the
+ Denemo Display (Ctrl-mouse wheel is best).
+ Again this is purely for the input display - you use commands in the Score
+ and Directives menu to control the size of staffs, titles etc.
+ in the final typeset score.
+\end_layout
+
+\begin_layout Standard
+Lastly with large (deep) scores - orchestral scores for instance - you may
+ want to hide staffs in the display while you work on others.
+ For example, you may want to hide all but the woodwind section.
+ The commands for this are in the Staffs menu - you may want to change the
+ keyboard shortcuts for navigating staffs (Ctrl-up arrow etc) to invoke
+ the staff moves that skip over hidden staffs in this case.
+\end_layout
+
+\begin_layout Subsubsection
+The Page View
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:The-Page-View"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The third of the three Denemo display modes that you get with the Esc key
+ is called the Page View - it is set up initially with a small zoom factor
+ and several systems showing.
+ In this view the cursor highlighting has a large green circle around the
+ cursor position and the display will animate during playback.
+ As the music starts playing the second system down the page the top of
+ the page is 
+\begin_inset Quotes eld
+\end_inset
+
+turned over
+\begin_inset Quotes erd
+\end_inset
+
+ so that, as you reach the bottom of the page your eye can move up to the
+ top of the page and follow the music on.
+ Once the music starts again at the top of the new page the rest of the
+ page is filled in replacing the old page.
+\end_layout
+
+\begin_layout Subsubsection
+Transition Animation
+\end_layout
+
+\begin_layout Standard
+One of the problems with moving about a score looking at the input music
+ is that it can be difficult to see quickly where the cursor has moved to.
+ An even more tricky situation arises when deleting empty measures - often
+ the next measure is empty too, so it can appear that nothing has happened,
+ it seems the command to delete a measure isn't working.
+ What has happened is that another empty measure has moved in from the left
+ and the display looks unchanged.
+\end_layout
+
+\begin_layout Standard
+To avoid these problems these transitions are animated - the measure coming
+ in from the left can be visually seen to shunt in from the side; similarly
+ staffs move up from below and the cursor arrives at its new position by
+ shrinking onto it.
+ All these animation effects (and the page animation of the previous section)
+ can be adjusted in the Preferences.
+\end_layout
+
+\begin_layout Subsection
 The Main Menubar
 \end_layout
 
@@ -1143,6 +1255,10 @@ p
 ).
 \end_layout
 
+\begin_layout Standard
+Here, too, you invoke editing the Preferences.
+\end_layout
+
 \begin_layout Subsubsection
 View
 \end_layout
@@ -1155,411 +1271,179 @@ View
  menu to toggle toolbars and palettes used with the mouse.
 \end_layout
 
+\begin_layout Subsubsection*
+Hide/Show Menus 
+\end_layout
+
 \begin_layout Standard
-\begin_inset Tabular
-<lyxtabular version="3" rows="19" columns="2">
-<features islongtable="true" longtabularalignment="center">
-<column alignment="left" valignment="top" width="30text%">
-<column alignment="left" valignment="top" width="70text%">
-<row endhead="true" endfirsthead="true">
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Menu Item
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Description
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Hide/Show Menus
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 Three ways of showing the Denemo display area are supported.
  With/without the menus and as a multiline page (actually, any page can
- be a multi-line page, but usually the third one is chosen for this.
+ be a multi-line page, but usually the third one is chosen for this).
  This command cycles through the three displays - usually the Escape key
  is the shortcut.
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Subsubsection*
 Typeset Music
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Shows the score as engraved by the LilyPond typesetter.
+\begin_layout Standard
+Shows the score as engraved by the LilyPond typesetter in the Print View
+ window.
  Some things such as the shape of slurs and position of marks can be edited
  here graphically.
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Subsubsection*
 Command Center
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Standard
 Search for commands by entering likely words, set up one key or two key
  shortcuts, load customized shortcuts or commands ...
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Subsubsection*
 Score Layout
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Standard
 Show the score layouts associated with this score.
  The score layout is the final section of the LilyPond syntax that describes
  how to layout the staffs, voices, lyrics, titles etc.
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Subsubsection*
 Lyrics
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Standard
 Shows any lyrics for the current staff/voice.
  Each verse has its own tab, when selected the lyric syllables are underlaid
  in the Denemo display, so you can adjust by typing in the lyrics view window
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Subsubsection*
 Snippets
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Standard
 Shows a menu bar with snippets - a selection of Denemo Objects used either
  for pasting or to define a rhythmic pattern to be followed when entering
  pitches.
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Subsubsection*
 Tools
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Standard
 The conventional icons for Open, Print etc
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Subsubsection*
 Playback Controls
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Standard
 When checked a set of playback/record controls are placed above the display
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Midi In Control
+\begin_layout Subsubsection*
+Midi In Controls
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Standard
 When checked a set of controls for a connected MIDI keyboard are placed
  above the display
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Subsubsection*
 Score Titles, Controls etc
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Standard
 If this is checked any Titles, indent settings etc applying to the score
  and movement can be shown as buttons above the display.
  They must be created with their graphic field set for this.
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Subsubsection*
 Object Menu
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Standard
 Menus of all the Denemo commands listed under type of object from Score
  down to the types of Denemo Objects.
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Subsubsection*
 LilyPond
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Standard
 Pops up a window for customizing the syntax that Denemo generates for the
  LilyPond engraver to typeset
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Subsubsection*
 Scheme Script
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Standard
 Pops up a window for showing scripts written in Scheme.
  These can be executed or saved as new commands.
  Sequences of commands can be recorded here.
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Subsubsection*
 Score
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Standard
 This hides/shows the main Denemo display.
+ This is probably useless for most people, but might help a very old slow
+ machine playback smoothly.
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Subsubsection*
 Cursor Highlighting (Off/On)
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
+\begin_layout Standard
+The cursor flashes, and in the page view
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:The-Page-View"
 
-\begin_layout Plain Layout
-The cursor flashes, and in the multi-line page view it is circled
+\end_inset
+
+ it is circled.
+ The rate of flash is set in the Preferences.
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Subsubsection*
 Palettes
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Standard
 Gives access to palettes of buttons that can be arraged to make commands
  available via mouse or keyboard (via the Activate Palette Button command).
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Subsubsection*
 Display Zoom
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Standard
 Zoom the main Denemo display (usually done with ctrl-mouse wheel).
 \end_layout
 
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Subsubsection*
 Object Inspector
 \end_layout
 
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
+\begin_layout Standard
 Opens the Object Inspector
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1568,16 +1452,6 @@ reference "sec:The-Object-Inspector"
 \end_inset
 
  on the current object.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsubsection
@@ -2070,8 +1944,30 @@ Recording the audio output is also possible as well as real-time slow down
  Audio).
 \end_layout
 
+\begin_layout Standard
+While playing back the note(s) being played are highlighted - the page view
+ mode
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:The-Page-View"
+
+\end_inset
+
+ of the Denemo Display is useful for letting you follow the music in the
+ input display.
+ You may need to adjust the window size and the division into systems (drag
+ the horizontal red divider) to get a good effect from this.
+\end_layout
+
 \begin_layout Subsection
 Midi In Controls
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Midi-In-Controls"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2140,7 +2036,7 @@ record
 \end_layout
 
 \begin_layout Subsection
-Object Menu Bar
+Object Menus
 \end_layout
 
 \begin_layout Standard
@@ -2155,303 +2051,6 @@ reference "sub:The-Command-Center"
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-These are the menus on the Object Menu Bar with a brief description of what
- they hold.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Tabular
-<lyxtabular version="3" rows="13" columns="2">
-<features tabularvalignment="middle">
-<column alignment="left" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
-<row>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Menu Item
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Description
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Score
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Settings that apply to the whole score.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Movements
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Insert/remove navigate, change the properties of movements.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Staffs/Voices
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Insert/remove, navigate, swap, change the properties of staffs or voices.
- (Voices in this context mean a staff of music that is typeset on the same
- staff as the preceding voice).
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Clefs
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Insert clef change or set the initial clef.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Keys
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Insert a key change or set the initial key
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Time Signatures
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Insert a change of time signature or set the initial time signature, control
- the typeset appearance.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Measures
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Insert/remove navigate measures.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Chords
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Insert/remove/alter notes of a chord.
- Note that Chord Symbols can created markings on notes (see Notes/Rests
- menu) or as a way of displaying chords entered on a staff (see Staff/Voices
- menu)
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Notes/Rests
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Menu items for inserting/changing/deleting note and rests, beaming, ties,
- slurs, setting the notehead style, grace notes, triplets, transposing,
- markings (e.g.
- hairpins) attached to notes and more 
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Directives
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-These are objects inserted between the notes of a score to place marks or
- start/stop spanning effects such as textual cresc.
- dim., cadenzas, ottava, fret diagrams and more.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Notation Magick
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Create and manipulate music auto-magick-ally.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Lyrics
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Create and lyric verses for the current staff.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
-Object Menus
 \end_layout
 
 \begin_layout Standard
@@ -3473,6 +3072,13 @@ In addition you can save and load whole sets of shortcuts and commands.
 
 \begin_layout Section
 Music Snippets
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Music-Snippets"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -3582,6 +3188,13 @@ Shift-Space
 
 \begin_layout Section
 The Print View Window
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:The-Print-View"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4289,6 +3902,13 @@ modal.
 
 \begin_layout Section
 The Score Layouts Window
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:The-Score-Layouts"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4392,11 +4012,329 @@ The score layout can only be edited graphically when first created.
 \end_layout
 
 \begin_layout Section
+Preferences Dialog
+\end_layout
+
+\begin_layout Standard
+Under the Edit menu is a command to invoke the preferences dialog.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/PreferencesDialog.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is arranged in tabs for the different aspects that you can set.
+\end_layout
+
+\begin_layout Subsection
+The View Tab
+\end_layout
+
+\begin_layout Standard
+The values set via the View menu are mostly 
+\emph on
+persistent 
+\emph default
+and so don't need to be set here, they can be set via the View menu.
+\end_layout
+
+\begin_layout Subsection
+The Command Tab
+\end_layout
+
+\begin_layout Standard
+Here are options for how commands should be treated.
+ The can apply to the note at the cursor or the whole selection.
+ A note entered that does not fit in the bar can be split or not.
+ Shortcuts can be set just by highlighting the command and pressing the
+ key, or not.
+ Menu navigation with arrow keys can be allowed (otherwise you would be
+ setting the arrow keys as shortcuts).
+ The Return key can be moved easily from command to command as a shortcut,
+ or not.
+ The 
+\begin_inset Quotes eld
+\end_inset
+
+newbie
+\begin_inset Quotes erd
+\end_inset
+
+ mode can be turned on - useful if you start to use a section of the program
+ that is new to you.
+ A window can be popped up to tell you which keypress you invoked.
+ And finally the timing of the tooltips as you hover and move from one menu
+ to another can be controlled.
+\end_layout
+
+\begin_layout Subsection
+The Externals Tab
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/ExternalsPref.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here you can set the paths to external programs that you can use from Denemo.
+ Binary packages have these set already, but if you wish to use a particular
+ version of LilyPond or some other program to browse the manual then you
+ will need to enter the name (preferably the full path) of the program concerned.
+\end_layout
+
+\begin_layout Standard
+You can also set the default location for saving your scores.
+ The update command set feature is not available at present.
+\end_layout
+
+\begin_layout Subsection
+The Auto-Typeset Tab
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/AutoTypeset.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This tab controls the continuous typesetting feature of the Print View
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:The-Print-View"
+
+\end_inset
+
+.
+ Most of these can be set via the Continuous/Manual button in the Print
+ View window, but here you can control how quickly Denemo checks for the
+ need for a new typeset.
+\end_layout
+
+\begin_layout Subsection
+The Miscellaneous Tab
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/MiscellaneousPref.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The font used by Denemo for menus and dialogs tooltips etc can be set here:
+ the default is a special font that makes it easy to read the musical signs
+ - most fonts create 1/2 and 1/4 notes that are not easy to distinguish
+ at a glance, the ones in the Denemo font are cartoon-like exagerations
+ that make it easy to see what is meant.
+ You can set the font size too - none of this affects the typeset score,
+ naturally.
+ Some menus that can become very large can be limited (a 
+\begin_inset Quotes eld
+\end_inset
+
+more
+\begin_inset Quotes erd
+\end_inset
+
+ button appears).
+\end_layout
+
+\begin_layout Standard
+The display animation controls are here - how quickly the display refreshes
+ and how page turns are done in the Page View
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:The-Page-View"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The excerpt resolution setting is to control the quality of the image created
+ by the Print Excerpt command (printing little bits of music for inclusion
+ in documents).
+\end_layout
+
+\begin_layout Standard
+Denemo can create thumbnails from the actual typeset music (done on closing
+ the session or by a command) - these are displayed by file browsers (not
+ on windows o/s though).
+\end_layout
+
+\begin_layout Standard
+Denemo keeps a list of scores you have visited recently - how many is controlled
+ here.
+ Use Open->Open Recent to choose one from the main menu.
+\end_layout
+
+\begin_layout Standard
+The user name is set for visiting the denemo chat room via the Help menu.
+\end_layout
+
+\begin_layout Standard
+The Autosave options guard against a power failure while you are working
+ - nowadays you can set the time very short without noticeably impacting
+ your work.
+\end_layout
+
+\begin_layout Subsection
+The Audio Tab
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/AudioPref.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This tab affects the sounds you will hear via a connected audio system.
+ The first section is for feedback when entering music.
+ If you are looking at a source manuscript while entering rhythms or notes
+ you will not want to look across at the input display to check that you
+ are still entering at the right part of the bar.
+ The sound effect that tells you a new bar is beginning is set via the first
+ field - it is one of the drum effects available in the default Denemo soundfont
+, number 72.
+ 
+\end_layout
+
+\begin_layout Standard
+There are settings for controlling the pitch spelling for MIDI in - augmented
+ and diminished intervals switch to this channel; if you hear this on an
+ interval that was not supposed to be augmented or diminished you are alerted
+ that you have the enharmonic range wrongly set for the piece.
+ You can set this to the instrument in use to avoid the effect.
+\end_layout
+
+\begin_layout Standard
+The Dynamic Compression affects the volume at which notes are played back
+ as you enter them from a MIDI keyboard - by compressing 100% you avoid
+ meaningless variations in volume - you are only entering notes, not giving
+ a moving performance, after all! Without this you will find some notes
+ are too quiet to be noticed and will think the note wasn't registered.
+ Note that the value 99 for dynamic compression is a 
+\begin_inset Quotes eld
+\end_inset
+
+magic
+\begin_inset Quotes erd
+\end_inset
+
+ value, it gives a slight after-touch effect, useful for percussive instruments
+ (disatrous for organs!) to avoid the clipped sound when the note terminates.
+\end_layout
+
+\begin_layout Standard
+The Audio Backend section changes where Denemo tries to send the output
+ sounds to - it can be difficult to match up the options to the hardware
+ (and o/s) settings you have.
+ After checking carefully that you have got speakers attached and that they
+ are working (e.g.
+ by running some other program) you should turn off all other programs that
+ may be hogging the audio out and then start up Denemo and only resort to
+ changing the settings here if you don't hear anything.
+ Be especially careful not to alter the Sample Rate and Period Size unless
+ you are an audio expert.
+\end_layout
+
+\begin_layout Standard
+The Maximum Recording Time is there to limit the amount of memory you gobble
+ up if you turn on the Record
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Playback-Controls"
+
+\end_inset
+
+ of the audio out.
+ 
+\end_layout
+
+\begin_layout Subsection
+The MIDI tab
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/MidiPref.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here are the controls for a connected MIDI controller (usually a keyboard
+ nowadays).
+ With Rhythm Entry checked you can type in unpitched rhythms and immediately
+ fill them in from the MIDI keyboard
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Playing-Notes-into"
+
+\end_inset
+
+.
+ The MIDI backend section lets you specify the controller you are using
+ - set this even if 
+\begin_inset Quotes eld
+\end_inset
+
+default
+\begin_inset Quotes erd
+\end_inset
+
+ works.
+ The MIDI output device is currently not used in Denemo.
+\end_layout
+
+\begin_layout Standard
+The soundfont is the set of sounds you hear - Denemo is shipped with a smallish
+ soundfont, but if you want something special then you can browse to the
+ .sf2 file using the Choose Soundfont button.
+\end_layout
+
+\begin_layout Standard
+The Pitch Entry tab is for acoustic entry of notes - this is largely replaced
+ by MIDI keyboard entry now that MIDI keyboards can be bought very cheaply.
+\end_layout
+
+\begin_layout Section
 Score and Movement Button Bars
 \end_layout
 
 \begin_layout Standard
-The View->Titles, Buttons etc" checkbox makes two horizontal button bars
+The View->Titles, Buttons etc checkbox makes two horizontal button bars
  visible (if they have buttons on them).
  What the buttons show are titles/composer etc for the score and for the
  current movement.
@@ -4722,7 +4660,8 @@ grace note hints
  don't have to run it yourself, but it is in the Notes/Rests->Grace Notes
  menu.
  It is good to be aware of this however, as you will see these pale yellow
- rests that declare themselves to be grace notes in the music sometimes.
+ rests that declare themselves to be grace notes in the input music display
+ sometimes.
 \end_layout
 
 \end_inset
@@ -4869,6 +4808,13 @@ For entering a lot of already written-out music, playing the music in via
 
 \begin_layout Subsection
 Playing Notes into Denemo - MIDI
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Playing-Notes-into"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
