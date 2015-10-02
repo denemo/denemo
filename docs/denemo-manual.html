@@ -1286,7 +1286,7 @@ Jumps to the last measure of the movement.
 <a class="toc" name="toc-Subsection-3.4">3.4</a> Playback Controls<a class="Label" name="sub:Playback-Controls"> </a>
 </h2>
 <div class="Unindented">
-<img class="embedded" src="images/playbackcontrols.png" alt="figure images/playbackcontrols.png" style="max-width: 1128px; max-height: 128px;"/>
+<img class="embedded" src="images/playbackcontrols.png" alt="figure images/playbackcontrols.png" style="width: 789px; max-width: 1128px; height: 89px; max-height: 128px;"/>
 
 </div>
 <div class="Indented">
@@ -1307,6 +1307,9 @@ Recording the audio output is also possible as well as real-time slow down of th
 <div class="Indented">
 While playing back the note(s) being played are highlighted - the page view mode<a class="Reference" href="#sub:The-Page-View">3.1.1↑</a> of the Denemo Display is useful for letting you follow the music in the input display. You may need to adjust the window size and the division into systems (drag the horizontal red divider) to get a good effect from this.
 </div>
+<div class="Indented">
+Playback is not restricted to modern equal temperament - the drop down menu allows you to choose from a variety of historic temperaments for playback.
+</div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-3.5">3.5</a> Midi In Controls<a class="Label" name="sub:Midi-In-Controls"> </a>
 </h2>
@@ -1321,7 +1324,7 @@ These are the controls for a MIDI keyboard attached to the computer. You should 
 The Enharmonic Selection control lets you determine what accidental will be used for the MIDI notes - e.g whether to enter C-sharp or D-flat. The buttons at each end change the enharmonic range sharper/flatter. 
 </div>
 <div class="Indented">
-As you enter music if you enter an augmented or dimished interval a different instrument is used for the playback which helps you avoid pitch-spelling errors. (See Edit-&gt;Change Preferences-&gt;Audio pitch spelling channel/program to turn this off/change instrument).
+As you enter music if you enter an augmented or dimished interval a different instrument is used for the playback which helps you avoid pitch-spelling errors. (See Edit-&gt;Change Preferences-&gt;Audio pitch spelling channel/program <a class="Reference" href="#sub:The-Audio-Tab">13.6↓</a> to turn this off/change instrument).
 </div>
 <div class="Indented">
 [<b>Appending/Editing</b>] button: This shows how MIDI in will be treated. Press Control/Shift/Alt keys to modify or click and select Listening to input MIDI, Checking notes in the score against input MIDI or Appending/Editing at the cursor.
@@ -1558,26 +1561,33 @@ This is a menu for generating random notes, reflecting, reversing, shuffling not
 Palettes are collections of commands arranged as a column, row or grid of buttons either in a separate window or docked in the Main Window. 
 </div>
 <div class="Indented">
-The buttons are not just for mouse users - palette buttons can be executed by clicking with the mouse or typing <tt>p</tt> followed by (part of) the label of the button followed by the <tt>Enter <i>or</i> Return</tt> key. (The palette must be selected - you can do this while typing the label or by using a button).
+The buttons are not just for mouse users - palette buttons can be executed by clicking with the mouse or typing <tt>p</tt> followed by (part of) the label of the button followed by the <tt>Enter <i>or</i> Return</tt> key. The entry for keying in a palette label looks like this:
 </div>
 <div class="Indented">
-To make full use of the keyboard for executing commands from your palettes you should edit the labels so that they are easy to type &amp; memorable. Put the shorter ones first as you do not need to type all of the label, just enough to select the needed button. Right-clicking on a palette button allows you to edit the button, changing the label or tooltip, duplicating the button (e.g. to create an edited version of its script) and more.
+<img class="embedded" src="images/PaletteEntry.png" alt="figure images/PaletteEntry.png" style="max-width: 204px; max-height: 133px;"/>
+
+</div>
+<div class="Indented">
+At the top is the name of the palette that is active, in this case the &ldquo;General&rdquo; palette. You can switch to a different palette with TAB - the palette does not have to be displayed on the screen, but if you type a label that does not exist it will be shown to remind you.
+</div>
+<div class="Indented">
+To make full use of the keyboard for executing commands from your palettes you should edit the labels so that they are easy to type &amp; memorable. Put the shorter ones first as you do not need to type all of the label, just enough to select the needed button. Right-clicking on a palette button allows you to edit the button, changing the label or tooltip, duplicating the button (e.g. to create an edited version of its script) and more, as in the following popup:
 </div>
 <div class="Indented">
 <img class="embedded" src="images/PaletteMenu.png" alt="figure images/PaletteMenu.png" style="width: 279px; max-width: 466px; height: 264px; max-height: 441px;"/>
 
 </div>
 <div class="Indented">
-You can also edit the palette itself by right clicking on any button and choosing the Edit this Palette submenu. You can make the palette fill up horizontally or vertically and restrict the number of columns/rows respectively. You can dock/undock palettes as well and hide palettes that are not needed.
+You can also edit the palette itself by right clicking on any button and choosing the Edit this Palette submenu (shown open above). You can make the palette fill up horizontally or vertically and restrict the number of columns/rows respectively. You can dock/undock palettes as well and hide palettes that are not needed (you can also hide undocked palettes by dismissing their window).
 </div>
 <div class="Indented">
-In the View menu you can select palettes of commands to use. or the entire palette.
+In the View menu you can select a palettes of commands to display or show all the palettes and then hide the ones you don’t want.
 </div>
 <div class="Indented">
-You should make palettes your best friend - when you find a command in the menu system that you need right click on it and choose Add to Palette. This way you will build up one or more collections of commands that you need. By right clicking on a palette button you can choose a label for the command that suits you, and even make special notes about its use in the tooltip.
+You should make palettes your best friend - when you find a command in the menu system that you need right click on it and choose Add to Palette. This way you will build up one or more collections of commands that you need. 
 </div>
 <div class="Indented">
-Palette buttons can also be created directly from objects so that you can create more of them in your score; if you run Help-&gt;Open Feature Packed Score and find the type of object or attribute you need there then you can run the Object Editor on it and create a palette button for installing the same thing in your own score. See the Object Editor<a class="Reference" href="#sec:Object-Editor">9↓</a> for more details. And, of course, palette buttons can be created for any command in the menu system by right clicking and choosing Add to Palette.
+Palette buttons can also be created directly from objects so that you can create more of them in your score; if you run Help-&gt;Open Feature Packed Score and find the type of object or attribute you need there then you can run the Object Editor on it and create a palette button for installing the same thing in your own score. See the Object Editor<a class="Reference" href="#sec:Object-Editor">9↓</a> for more details.
 </div>
 <div class="Indented">
 Changes you make to palettes are automatically saved when you end the session. (They are stored in a file called palettes.xml, which can be edited directly by the more techie-minded).
@@ -1590,7 +1600,7 @@ Changes you make to palettes are automatically saved when you end the session. (
 
 </div>
 <div class="Indented">
-These buttons turn on/off the articulation. Outside slur moves the articulation outside an enclosing slur.
+These buttons turn on/off the articulation. These will apply to the entire selection if you have one and you have the preference<a class="Reference" href="#sub:The-Command-Tab">13.2↓</a> for that set. Outside slur moves the articulation outside an enclosing slur.
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-4.2">4.2</a> Barlines Palette
@@ -2006,7 +2016,7 @@ The score layout can only be edited graphically when first created. Once re-load
 
 </div>
 <h1 class="Section">
-<a class="toc" name="toc-Section-13">13</a> Preferences Dialog
+<a class="toc" name="toc-Section-13">13</a> Preferences Dialog<a class="Label" name="sec:Preferences-Dialog"> </a>
 </h1>
 <div class="Unindented">
 Under the Edit menu is a command to invoke the preferences dialog.
@@ -2022,12 +2032,16 @@ This is arranged in tabs for the different aspects that you can set.
 <a class="toc" name="toc-Subsection-13.1">13.1</a> The View Tab
 </h2>
 <div class="Unindented">
-The values set via the View menu are mostly <i>persistent </i>and so don’t need to be set here, they can be set via the View menu.
+The values set via the View menu are mostly <i>persistent </i>and so don’t need to be set here, they can be set via the View menu. There is a setting in the miscellaneous tab for this persistence property.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-13.2">13.2</a> The Command Tab
+<a class="toc" name="toc-Subsection-13.2">13.2</a> The Command Tab<a class="Label" name="sub:The-Command-Tab"> </a>
 </h2>
 <div class="Unindented">
+<img class="embedded" src="images/CommandTab.png" alt="figure images/CommandTab.png" style="width: 557px; max-width: 697px; height: 415px; max-height: 519px;"/>
+
+</div>
+<div class="Indented">
 Here are options for how commands should be treated. The can apply to the note at the cursor or the whole selection. A note entered that does not fit in the bar can be split or not. Shortcuts can be set just by highlighting the command and pressing the key, or not. Menu navigation with arrow keys can be allowed (otherwise you would be setting the arrow keys as shortcuts). The Return key can be moved easily from command to command as a shortcut, or not. The &ldquo;newbie&rdquo; mode can be turned on - useful if you start to use a section of the program that is new to you. A window can be popped up to tell you which keypress you invoked. And finally the timing of the tooltips as you hover and move from one menu to another can be controlled.
 </div>
 <h2 class="Subsection">
@@ -2047,7 +2061,7 @@ You can also set the default location for saving your scores. The update command
 <a class="toc" name="toc-Subsection-13.4">13.4</a> The Auto-Typeset Tab
 </h2>
 <div class="Unindented">
-<img class="embedded" src="images/AutoTypeset.png" alt="figure images/AutoTypeset.png" style="width: 555px; max-width: 694px; height: 411px; max-height: 514px;"/>
+<img class="embedded" src="images/CommandTab.png" alt="figure images/CommandTab.png" style="max-width: 697px; max-height: 519px;"/>
 
 </div>
 <div class="Indented">
@@ -2082,7 +2096,7 @@ The user name is set for visiting the denemo chat room via the Help menu.
 The Autosave options guard against a power failure while you are working - nowadays you can set the time very short without noticeably impacting your work.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-13.6">13.6</a> The Audio Tab
+<a class="toc" name="toc-Subsection-13.6">13.6</a> The Audio Tab<a class="Label" name="sub:The-Audio-Tab"> </a>
 </h2>
 <div class="Unindented">
 <img class="embedded" src="images/AudioPref.png" alt="figure images/AudioPref.png" style="width: 556px; max-width: 695px; height: 412px; max-height: 516px;"/>
@@ -4575,7 +4589,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-10-02T14:46:31.195769</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-10-02T17:40:33.821967</span>
 </div>
 </div>
 </body>

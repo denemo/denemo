@@ -1901,6 +1901,7 @@ name "sub:Playback-Controls"
 \begin_layout Standard
 \begin_inset Graphics
 	filename images/playbackcontrols.png
+	scale 70
 
 \end_inset
 
@@ -1959,6 +1960,11 @@ reference "sub:The-Page-View"
  the horizontal red divider) to get a good effect from this.
 \end_layout
 
+\begin_layout Standard
+Playback is not restricted to modern equal temperament - the drop down menu
+ allows you to choose from a variety of historic temperaments for playback.
+\end_layout
+
 \begin_layout Subsection
 Midi In Controls
 \begin_inset CommandInset label
@@ -1996,8 +2002,14 @@ The Enharmonic Selection control lets you determine what accidental will
 As you enter music if you enter an augmented or dimished interval a different
  instrument is used for the playback which helps you avoid pitch-spelling
  errors.
- (See Edit->Change Preferences->Audio pitch spelling channel/program to
- turn this off/change instrument).
+ (See Edit->Change Preferences->Audio pitch spelling channel/program 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:The-Audio-Tab"
+
+\end_inset
+
+ to turn this off/change instrument).
 \end_layout
 
 \begin_layout Standard
@@ -2668,8 +2680,31 @@ or
  Return
 \family default
  key.
- (The palette must be selected - you can do this while typing the label
- or by using a button).
+ The entry for keying in a palette label looks like this:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/PaletteEntry.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+At the top is the name of the palette that is active, in this case the 
+\begin_inset Quotes eld
+\end_inset
+
+General
+\begin_inset Quotes erd
+\end_inset
+
+ palette.
+ You can switch to a different palette with TAB - the palette does not have
+ to be displayed on the screen, but if you type a label that does not exist
+ it will be shown to remind you.
 \end_layout
 
 \begin_layout Standard
@@ -2679,7 +2714,8 @@ To make full use of the keyboard for executing commands from your palettes
  just enough to select the needed button.
  Right-clicking on a palette button allows you to edit the button, changing
  the label or tooltip, duplicating the button (e.g.
- to create an edited version of its script) and more.
+ to create an edited version of its script) and more, as in the following
+ popup:
 \end_layout
 
 \begin_layout Standard
@@ -2694,15 +2730,16 @@ To make full use of the keyboard for executing commands from your palettes
 
 \begin_layout Standard
 You can also edit the palette itself by right clicking on any button and
- choosing the Edit this Palette submenu.
+ choosing the Edit this Palette submenu (shown open above).
  You can make the palette fill up horizontally or vertically and restrict
  the number of columns/rows respectively.
- You can dock/undock palettes as well and hide palettes that are not needed.
+ You can dock/undock palettes as well and hide palettes that are not needed
+ (you can also hide undocked palettes by dismissing their window).
 \end_layout
 
 \begin_layout Standard
-In the View menu you can select palettes of commands to use.
- or the entire palette.
+In the View menu you can select a palettes of commands to display or show
+ all the palettes and then hide the ones you don't want.
 \end_layout
 
 \begin_layout Standard
@@ -2710,8 +2747,7 @@ You should make palettes your best friend - when you find a command in the
  menu system that you need right click on it and choose Add to Palette.
  This way you will build up one or more collections of commands that you
  need.
- By right clicking on a palette button you can choose a label for the command
- that suits you, and even make special notes about its use in the tooltip.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -2728,8 +2764,6 @@ reference "sec:Object-Editor"
 \end_inset
 
  for more details.
- And, of course, palette buttons can be created for any command in the menu
- system by right clicking and choosing Add to Palette.
 \end_layout
 
 \begin_layout Standard
@@ -2753,6 +2787,15 @@ Articulations Palette
 
 \begin_layout Standard
 These buttons turn on/off the articulation.
+ These will apply to the entire selection if you have one and you have the
+ preference
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:The-Command-Tab"
+
+\end_inset
+
+ for that set.
  Outside slur moves the articulation outside an enclosing slur.
 \end_layout
 
@@ -4013,6 +4056,13 @@ The score layout can only be edited graphically when first created.
 
 \begin_layout Section
 Preferences Dialog
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Preferences-Dialog"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4043,10 +4093,32 @@ The values set via the View menu are mostly
 persistent 
 \emph default
 and so don't need to be set here, they can be set via the View menu.
+ There is a setting in the miscellaneous tab for this persistence property.
 \end_layout
 
 \begin_layout Subsection
 The Command Tab
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:The-Command-Tab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/CommandTab.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \begin_layout Standard
@@ -4106,8 +4178,7 @@ The Auto-Typeset Tab
 
 \begin_layout Standard
 \begin_inset Graphics
-	filename images/AutoTypeset.png
-	scale 80
+	filename images/CommandTab.png
 
 \end_inset
 
@@ -4203,6 +4274,13 @@ The Autosave options guard against a power failure while you are working
 
 \begin_layout Subsection
 The Audio Tab
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:The-Audio-Tab"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
