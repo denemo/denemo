@@ -120,6 +120,7 @@
     <button label="s?" _tooltip="Followed by a number, places string number on note." script="(d-StringNum)"/>
     <button label="&lt;i&gt;p i m&lt;/i&gt;" _tooltip="The given number as right hand fingering, using the conventional p,m,i indicators. Use Cancel to delete" script="(d-RHFinger)"/>
     <button label="RH" _tooltip="Asks for a finger number and typesets p,m,i as appropriate. Use cancel to delete." script="(d-RHFinger)"/>
+    <button label="Harmonic" _tooltip="Places a diamond shape notehead at the cursor. Invoke this command with the cursor above the note to be fingered/fretted to notate an artificial harmonic." script="(d-ArtificialHarmonic)"/>
   </palette>
   <palette _name="Polyphony" row-wise="1" limit="4" dock="0" hidden="1">
     <button label="V+" _tooltip="Adds a voice to the current staff, initially displayed on a staff of its own, for readability. It will print on the staff above, and can be displayed there using Join Voices command if desired." script="(d-NewVoice)"/>
@@ -155,7 +156,8 @@
     <button label="||" _tooltip="Insert a double barline at cursor position." script="(d-DoubleBarline)"/>
     <button label="|||" _tooltip="Inserts a closing barline (a double bar with last one thicker)." script="(d-ClosingBarline)"/>
     <button label="|x" _tooltip="Skips the printing of any automatic barline here - allows line break." script="(d-NoBarline)"/>
-    <button label="Choose Barline" _tooltip="Choose a barline " script="(d-ChooseBarline)"/>
+    <button label="Choose" _tooltip="Choose a barline " script="(d-ChooseBarline)"/>
+    <button label="Custom" _tooltip="Create a custom barline.&#10;These can be named, or can simply override a standard LilyPond bar line type.&#10;A bar line is defined by four forms, which describe 1) the appearance normally (during a line), &#10;2) appearance when the barline is at the beginning or &#10;3) end of a line , and &#10;4) what to show when joining staffs together as with a Piano Staff.&#10;Barline forms are made of characters including |,:,.,[,],:&#10;and others in the LilyPond documentation." script="(d-CustomBarline)"/>
   </palette>
   <palette _name="Repeats" row-wise="0" limit="2" dock="0" hidden="1">
     <button label="1&#xB0;" _tooltip="(Print) start a first time bar, must be followed by EndVolta." script="(d-OpenFirstTimeBar)"/>
@@ -166,6 +168,8 @@
     <button label="start |:" _tooltip="Insert a barline indicating the start of a repeated section." script="(d-RepeatStart)"/>
     <button label="end :|" _tooltip="Insert a barline indicating the end of a repeated section." script="(d-RepeatEnd)"/>
     <button label="e/s :||:" _tooltip="Inserts a barline ending one repeated section and starting another" script="(d-RepeatEndStart)"/>
+    <button label="Short Measure" _tooltip="Allow too few notes/rests in this measure. LilyPond will engrave this measure (in all staffs) with the short duration given by notes already present when this command was issued." script="(d-ShortMeasure)"/>
+    <button label="Set Bar Number" _tooltip="Enter a number to change the lilypond bar number. The printout will continue to count up from there." script="(d-SetBarNumber)"/>
   </palette>
   <palette _name="Beaming" row-wise="1" limit="2" dock="0" hidden="1">
     <button label="?" _tooltip="Help with beaming commands." script="(d-InfoDialog &#10;&quot;Beaming commands affect the printed score, not the Denemo display which uses a simple beaming method for quick note entry. You may find it easier to use the beaming commands directly on the typeset score - right click to select a beamed note and right click on the selection box to choose a beaming command.&quot;)"/>
@@ -181,6 +185,9 @@
     <button label="[3" _tooltip="Prints with just three beams linking to the left." script="(d-BeamLeftThree)"/>
     <button label="][x" _tooltip="(Print) Removes beam from current note" script="(d-NoBeam)"/>
     <button label="[n][m]..." _tooltip="Inserts a time signature with indication for how to beam the notes. Insert at beginning of staff in order to replace the initial time signature. Time Signature can be hidden on printing - see Time Signatures menu." script="(d-TimesigWithBeatStructure)"/>
+    <button label="Score-wide Rules" _tooltip="Sets the rules to be used for beaming. With no selection gets the beat for beams to be divided for the prevailing time signature at the cursor. If a there is a selection this will set exceptions to the regular rule. In this case indicate the beaming desired using the manual beam commands [ and ]." script="(d-SetBeamExceptions)"/>
+    <button label="Movement Rules" _tooltip="Add/Replace rules to be used for beaming in the current movement. With no selection gets the beat for beams to be divided for the prevailing time signature at the cursor. If a there is a selection this will be used as the set of rules. In this case indicate the beaming desired using the manual beam commands [ and ], giving all the beaming rules wanted using several measures if needed (no other rules are used). Repeat with different selections to add further rules." script="(d-MovementBeamingRules)"/>
+    <button label="Time Signature" _tooltip="Inserts a time signature with indication for how to beam the notes. Insert at beginning of staff in order to replace the initial time signature." script="(d-TimesigWithBeatStructure)"/>
   </palette>
   <palette _name="Figured Bass" row-wise="1" limit="1" dock="0" hidden="1">
     <button label="-&amp;gt;" _tooltip="Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation" script="(d-EditFiguredBass)"/>
@@ -193,8 +200,8 @@
   </palette>
   <palette _name="Chord Symbols or Fake Chords" row-wise="1" limit="1" dock="0" hidden="1">
     <button label="?" _tooltip="Help with chord symbol entry methods." script="(d-InfoDialog &#10;&quot;Chord Symbols (or \&quot;fake chords\&quot;) can be created in two ways. The first attaches a chord symbol to any note. You have to give the name of the chord required, e.g. C7.  This is ok if chord changes only occur on note starts. The other way is to create a voice specially for chords. You can then enter the actual chords as music notation and they will typeset as chord names.&quot;)"/>
-    <button label="Cdim G ..." _tooltip="Attach a chord symbol to the note at the cursor position. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation" script="(d-EditChords)"/>
-    <button label="Staff" _tooltip="The current staff becomes a chord symbol staff. The music on this staff will be typeset as chord symbols. Normally you will make this staff a voice on the melody staff, so that the chord symbols print on the melody staff." script="(d-ChordStaff)"/>
+    <button label="Attach by Name" _tooltip="Attach a chord symbol to the note at the cursor position. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation" script="(d-EditChords)"/>
+    <button label="Chord Symbol Staff" _tooltip="The current staff becomes a chord symbol staff. The music on this staff will be typeset as chord symbols. Normally you will make this staff a voice on the melody staff, so that the chord symbols print on the melody staff." script="(d-ChordStaff)"/>
   </palette>
   <palette _name="Midi Import" row-wise="1" limit="1" dock="0" hidden="1">
     <button label=" &#x2B05; MIDI" _tooltip="Opens a MIDI file for transcribing. Load each track in turn and insert the MIDI notes by playing the durations." script="(d-GuidedMidiImport)"/>
@@ -210,11 +217,17 @@
     <button label="&amp;gt;" _tooltip="Moves to the next MIDI note onset in the current recorded or imported MIDI track. Inserted durations will take their pitch from this note." script="(d-NextNoteOnset)"/>
     <button label="&#x2714;" _tooltip="Inserts the marked MIDI note from the current track, using the duration suggested. Use duration keys to insert the same note with a different duration." script="(d-InsertMarkedMidi)"/>
   </palette>
-  <palette _name="Ties" row-wise="1" limit="1" dock="0" hidden="1">
+  <palette _name="Ties" row-wise="1" limit="4" dock="0" hidden="1">
     <button label="&lt;span rise=&quot;4000&quot;&gt;&#x1D15F;&lt;/span&gt;&#x2B04;&lt;span rise=&quot;4000&quot;&gt;&#x1D15F;&lt;/span&gt;&#x2323;" _tooltip="Tie/Untie from the note/chord at the cursor - will be ignored by the LilyPond typesetter if next note is not at the same pitch" script="(d-ToggleTie)"/>
-    <button label="&#x2322;&#x2312;&#x23DD;" _tooltip="Gives a choice of modifications to make to the following tie." script="(d-TieShape)"/>
+    <button label="&#x2322;&#x2312;&#x23DD;" _tooltip="Gives a choice of shape modifications to make to the following tie." script="(d-TieShape)"/>
     <button label="&#x2323;&lt;span rise=&quot;4000&quot;&gt;&#x1D15F;&lt;/span&gt;" _tooltip="The note at the cursor ends a tie that has begun elsewhere, usually in a first time bar. That is it is a repeat of the tie ending." script="(d-RepeatTie)"/>
-    <button label="&#x2323;" _tooltip="Ties/unties the note at the cursor. The following note should be the same pitch." script="(d-ToggleTie)"/>
+    <button label="&lt;span rise=&quot;4000&quot;&gt;&#x1D15F;&lt;/span&gt;&#x2323;" _tooltip="Places a tie after the note at the cursor, tying to nothing. Use for laissez vibrer or when a tie comes at a final repeat." script="(d-LaissezVibrer)"/>
+    <button label="Up" _tooltip="Ties to next note, tie upwards, or removes tie." script="(d-ToggleTieUp)"/>
+    <button label="Down" _tooltip="Ties to the following note/chord with tie downwards." script="(d-ToggleTieDown)"/>
+    <button label="Note Auto" _tooltip="Ties the note at the cursor leaving other notes in the current chord unchanged." script="(d-ToggleNoteTie)"/>
+    <button label="Note Up" _tooltip="Ties the individual note in a chord the tie being above; repeat command to remove." script="(d-ToggleNoteUpTie)"/>
+    <button label="Note Down" _tooltip="Ties the individual note at the cursor the tie going down; repeat to remove." script="(d-ToggleNoteDownTie)"/>
+    <button label="Fix Slur/Tie" _tooltip="Corrects for the slur/tie error common in imported scores. Scans entire score for pairs of identical notes slurred together as a pair. Changes these to a tied note. Do not use in the unusual case of identical notes slurred (e.g. across strings)." script="(d-ConvertIncorrectSlursToTies)"/>
   </palette>
   <palette _name="Custom Ornaments" row-wise="1" limit="1" dock="0" hidden="1">
     <button label="Create/Load" _tooltip="Allows the user to create a customized ornament (or load one previously created)&#10;into this score's definitions. Ornament names should be start in lower case&#10;and have no numerals.&#10;If a standard ornament is used, e.g. trill,&#10;then this will replace the standard ornament throughout the score." script="(d-CustomOrnamentDefinition)"/>
