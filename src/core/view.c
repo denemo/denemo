@@ -1013,24 +1013,27 @@ close_gui_with_check (GtkAction * action, DenemoScriptParam* param)
       writeHistory ();
       writeXMLPrefs (&Denemo.prefs);
       writePalettes ();
-      if(project->autosavename)
-        g_remove (project->autosavename->str);
-/* It would be nice to delete the print directory to avoid filling up /tmp, however this fails on Unix at least for an unknown reason.
-      gint result = g_remove (locateprintdir ());
-      g_print("Removed %s %s\n", locateprintdir(), result==0?"successfully":"not gone");
-*/
-#ifdef G_OS_WIN32
-      CoUninitialize ();
-      g_message ("Windows - Exiting without shutting down audio");
-      if (project->input_source == INPUTMIDI)
+      project = Denemo.project;
+      if(project)
         {
-          if (confirm (_("MIDI Controller Active?"), _("Please turn off your MIDI keyboard\nif you have not already done so")))
-            _exit (0);          //audio shutdown can hang
-        }
-      else
-        _exit (0);
+          if(project->autosavename)
+            g_remove (project->autosavename->str);
+    /* It would be nice to delete the print directory to avoid filling up /tmp, however this fails on Unix at least for an unknown reason.
+          gint result = g_remove (locateprintdir ());
+          g_print("Removed %s %s\n", locateprintdir(), result==0?"successfully":"not gone");
+    */
+#ifdef G_OS_WIN32
+          CoUninitialize ();
+          g_message ("Windows - Exiting without shutting down audio");
+          if (project->input_source == INPUTMIDI)
+            {
+              if (confirm (_("MIDI Controller Active?"), _("Please turn off your MIDI keyboard\nif you have not already done so")))
+                _exit (0);          //audio shutdown can hang
+            }
+          else
+            _exit (0);
 #endif
-
+        }
       audio_shutdown ();
 
 
