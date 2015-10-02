@@ -1961,8 +1961,8 @@ reference "sub:The-Page-View"
 \end_layout
 
 \begin_layout Standard
-Playback is not restricted to modern equal temperament - the drop down menu
- allows you to choose from a variety of historic temperaments for playback.
+Playback is not restricted to equal temperament - the drop down menu allows
+ you to choose from a variety of historic temperaments for playback.
 \end_layout
 
 \begin_layout Subsection
@@ -2040,11 +2040,12 @@ record
 \series default
 ] button allows you to record from your MIDI keyboard while the score is
  playing back.
- (Press MIDI record the Play).
- Once you have made a recording Convert and Delete buttons appear.
- If you press play the MIDI recording will be played back with the score,
- once you are happy with it it can be converted to notation or if, you want
- to try again, deleted.
+ (Press MIDI record button then start playback).
+ Once the playback is stopped anything you have played on the MIDI keyboard
+ has been recorded and two buttons Convert and Delete will appear.
+ If you press start playback again (without record) the MIDI recording will
+ be played back with the score, once you are happy with it then it can be
+ converted to notation or if, you want to try again, deleted.
 \end_layout
 
 \begin_layout Subsection
