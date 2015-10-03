@@ -1042,6 +1042,10 @@
         <action>ActivatePaletteButtonByLabel</action>
         <bind>p</bind>
       </row>
+      <row>
+        <action>FillMeasure</action>
+        <bind>KP_8</bind>
+      </row>
     </map>
   </merge>
 </Denemo>
