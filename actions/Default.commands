@@ -15,12 +15,6 @@
         </cursor-binding>
       </cursors>
       <row type="builtin">
-        <action>Preferences</action>
-        <_label>Change Preferences</_label>
-        <_tooltip>Set and save your preferences for how Denemo operates on startup.
-Advanced users can edit .denemo-XXXX/denemorc for missing ones</_tooltip>
-      </row>
-      <row type="builtin">
         <action>CursorLeft</action>
         <_label>Selection Cursor Left</_label>
         <_tooltip>Moves the cursor one object left, altering the selection if any</_tooltip>
@@ -1268,7 +1262,12 @@ You open the LilyPond file in a texteditor, copy the stretch of notes (control-c
         <_label>Save Selection</_label>
         <_tooltip>Save the selected music. Not sure if this is working</_tooltip>
       </row>
-
+      <row type="builtin">
+        <action>Preferences</action>
+        <_label>Change Preferences</_label>
+        <_tooltip>Set and save your preferences for how Denemo operates on startup.
+Advanced users can edit .denemo-XXXX/denemorc for missing ones</_tooltip>
+      </row>
       <row type="builtin">
         <action>SaveAccels</action>
         <_label>Save Command Set</_label>
@@ -1561,25 +1560,6 @@ these may need re-making.</_tooltip>
         <_label>Delete Movement</_label>
         <_tooltip>Delete the current movement</_tooltip>
       </row>
-      <row type="scheme">
-        <action>MovementComposer</action>
-         <after>SwapMovements</after>
-        <menupath>/ObjectMenu/MovementMenu/Titles/SimpleTitles</menupath>
-        <_label>Composer</_label>
-        <_tooltip>Prints a composer name for current movement.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>HideMovement</action>
-        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
-        <_label>(Print) Hide/Un-hide Movement</_label>
-        <_tooltip>Stops the current movement from being typeset. At least one movement must be typeset.</_tooltip>
-      </row> 
-      <row type="scheme">
-        <action>HideBarlines</action>
-        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
-        <_label>(Print) Hide Barlines</_label>
-        <_tooltip>Omits barlines when printing.</_tooltip>
-      </row>
       <row type="builtin">
         <action>Play</action>
         <_label>Play</_label>
@@ -1619,6 +1599,12 @@ these may need re-making.</_tooltip>
         <action>MyCommands</action>
         <_label>My Commands</_label>
         <_tooltip>Allows choosing extra commands/menu items from your own collection of extras</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>FetchCommands</action>
+        <_label>Update Commands from Internet</_label>
+        <_tooltip>Refreshes the set of commands available from Denemo.org.
+Use More Commands after this has finished</_tooltip>
       </row>
       <row type="builtin">
         <action>ToggleEdit</action>
@@ -2129,6 +2115,25 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>Set the prevailing duration to 𝅥 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="scheme">
+        <action>MovementComposer</action>
+        <after>SwapMovements</after>
+        <menupath>/ObjectMenu/MovementMenu/Titles/SimpleTitles</menupath>
+        <_label>Composer</_label>
+        <_tooltip>Prints a composer name for current movement.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>HideMovement</action>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
+        <_label>(Print) Hide/Un-hide Movement</_label>
+        <_tooltip>Stops the current movement from being typeset. At least one movement must be typeset.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>HideBarlines</action>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
+        <_label>(Print) Hide Barlines</_label>
+        <_tooltip>Omits barlines when printing.</_tooltip>
+      </row>
+      <row type="scheme">
         <action>DeleteCurrentStaff</action>
         <after>DeleteStaff</after>
         <menupath>/ObjectMenu/StaffMenu</menupath>
@@ -2235,7 +2240,6 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_label>(Print) Hide</_label>
         <_tooltip>On printing, omit the time signature change at the cursor, or the initial time signature if the cursor is not on a time signature change.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>Hide</action>
         <menupath>/ObjectMenu/Directives/Typesetter</menupath>
@@ -2334,7 +2338,6 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_label>(Print) Transpose</_label>
         <_tooltip>Prints this staff (only) transposed. This is in addition to any score-wide transposition</_tooltip>
       </row>
-      
       <row type="scheme">
         <action>SetFontSize</action>
         <menupath>/ObjectMenu/Score/Typesetter/PrintLayout</menupath>
@@ -2905,7 +2908,6 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <_label>Change Enharmonic -</_label>
         <_tooltip>Switch through enharmonic variants of the same sounding note in the direction of lower diatonic base notes</_tooltip>
       </row>
-
       <row type="scheme">
         <action>ChangePrintDurationBreve</action>
         <after>ChangePrintDuration0</after>
@@ -2980,13 +2982,12 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <_label>Check Score</_label>
         <_tooltip>Checks score for wrong measure durations, unterminated tuplets, slurs, wrong ties etc.</_tooltip>
       </row>
-            <row type="scheme">
+      <row type="scheme">
         <action>RefreshDynamicDirectives</action>
         <menupath>/ObjectMenu/Score</menupath>
         <_label>Refresh Dynamic Directives</_label>
         <_tooltip>Re-runs any directives that may have become stale.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>CheckTupletsInMeasure</action>
         <after>SplitMeasure</after>
@@ -3160,7 +3161,6 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
       </row>
       <row type="scheme">
         <action>MvntComment</action>
-
         <menupath>/ObjectMenu/MovementMenu</menupath>
         <_label>Comment</_label>
         <_tooltip>Stores textual comments for this movement</_tooltip>
@@ -3177,7 +3177,6 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <_label>Composer</_label>
         <_tooltip>Prints a composer name on title page</_tooltip>
       </row>
-
       <row type="scheme">
         <action>ScoreComposer</action>
         <menupath>/ObjectMenu/Score/Titles/SimpleTitles</menupath>
@@ -3198,7 +3197,6 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <_label>Convert GM-Drum to User-Drum</_label>
         <_tooltip>Converts between the midi-drum notation and a user-drum notation. The user can set his/her drummap in a template in ~/.denemo/templates or choose any other copy he made of the template file to have drummaps for different drummers avaible.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>BookCopyright</action>
         <menupath>/ObjectMenu/Score/Titles/BookTitles</menupath>
@@ -3266,7 +3264,6 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <_label>Create Slurred, Dotted Rhythm</_label>
         <_tooltip>In appending position, dots the note or rest at the cursor and appends a note of half the duration so as to create a dotted rhythm. Slurs the two notes together.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>CreateTriplet</action>
         <after>ToggleTupletBracketsIfBeamed</after>
@@ -3294,26 +3291,20 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <_label>Mute</_label>
         <_tooltip>Mutes the current staff. Affects only playback.</_tooltip>
       </row>
-      
       <row type="scheme">
         <action>DeleteFromCursorToEnd</action>
         <after>StaffDeleteEmptyMeasures</after>
         <menupath>/ObjectMenu/StaffMenu</menupath>
         <_label>Delete Measures From Cursor</_label>
         <_tooltip>Deletes all measures from the cursor to the end, either in one or all staffs.</_tooltip>
-      </row>      
+      </row>
       <row type="scheme">
         <action>DeleteMeasuresBeforeCursor</action>
         <after>DeleteFromCursorToEnd</after>
         <menupath>/ObjectMenu/StaffMenu</menupath>
         <_label>Delete Measures Before Cursor</_label>
         <_tooltip>Deletes all the measures before the measure containing the cursor, either current staff or all staffs as chosen by user.</_tooltip>
-      </row>      
-      
-      
-      
-      
-      
+      </row>
       <row type="scheme">
         <action>CrossStaffArpeggio</action>
         <menupath>/ObjectMenu/StaffMenu</menupath>
@@ -4481,7 +4472,6 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Multi-Measure Rests</_label>
         <_tooltip>Groups of whole measure rests of two or more are changed to multi-measure rests for the whole staff.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>NeoMensuralNotehead</action>
         <after>ChangeNotehead</after>
@@ -4803,7 +4793,6 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Play All</_label>
         <_tooltip>Plays the current movement from the start, observing any mute objects placed in the staffs.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>DenemoPlayCursorToEnd</action>
         <menupath>/MainMenu/PlaybackMenu</menupath>
@@ -4859,8 +4848,7 @@ accidentals are usually printed over the note.</_tooltip>
         <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Transpose on Print (Text Input)</_label>
         <_tooltip>Typesets the score transposed by the interval you give - key signatures are transposed as well as notes and chord symbols.</_tooltip>
-      </row>      
-      
+      </row>
       <row type="scheme">
         <action>PointAndClick</action>
         <menupath>/ObjectMenu/Score/Typesetter</menupath>
@@ -5835,7 +5823,6 @@ before and after the LilyPond syntax.
         <_label>(Print) Don't Engrave Time Signatures</_label>
         <_tooltip>Deactivates the stencil for Time Signatures for the whole score, which prevents them from getting drawn and taking space. But the logic is still active.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>TypesetVersesAtEnd</action>
         <after>DeleteVerse</after>
@@ -6270,7 +6257,6 @@ before and after the LilyPond syntax.
         <_label>Check and Print</_label>
         <_tooltip>Checks the score for errors, if none are found proceeds to typeset and print the current layout.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>PartCombineChords</action>
         <after>InitialVoice</after>
@@ -6998,7 +6984,6 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Space Above</_label>
         <_tooltip>Inserts blank space above the movement.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>ArtificialHarmonic</action>
         <after>ChangeNotehead</after>
@@ -7090,7 +7075,6 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Move to Stored Position</_label>
         <_tooltip>Moves the cursor to the last stored position. You can store a sequence of positions and then return to them in one by one (a stack of positions).</_tooltip>
       </row>
-
       <row type="scheme">
         <action>Agrement</action>
         <after>Ornament</after>
@@ -7140,7 +7124,6 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Hide/Show Fingering</_label>
         <_tooltip>Hides/Shows the fingering on the note at the cursor height in the typeset score.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>SplitMovementAtCursor</action>
         <after>DuplicateOrMergeMovements</after>
@@ -7296,7 +7279,6 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Set Notehead Style</_label>
         <_tooltip>Sets the type of notehead to be used score-wide.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>ToggleFingeringVisibilityInScore</action>
         <after>DeactivateTimeSignatureStencil</after>
@@ -7315,7 +7297,14 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Typeset Red Dots (Off/On)</_label>
         <_tooltip>Typesets with red dots on the graphical objects. Use these for accurate tweaking of positions via clicking and dragging with mouse on final typeset score.</_tooltip>
-      </row>      
+      </row>
+      <row type="scheme">
+        <action>FillMeasure</action>
+        <after>DuplicateChord</after>
+        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
+        <_label>Fill Measure</_label>
+        <_tooltip>Duplicates the note/chord/rest at the cursor until the measure is full or over-full.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

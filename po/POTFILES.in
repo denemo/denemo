@@ -1245,6 +1245,8 @@ actions/menus/ObjectMenu/NotesRests/GraceNotes/UnGraceAfter.scm
 actions/menus/ObjectMenu/NotesRests/GraceNotes/UnGraceAfter.xml
 actions/menus/ObjectMenu/NotesRests/InsertNote/DuplicateChord.scm
 actions/menus/ObjectMenu/NotesRests/InsertNote/DuplicateChord.xml
+actions/menus/ObjectMenu/NotesRests/InsertNote/FillMeasure.scm
+actions/menus/ObjectMenu/NotesRests/InsertNote/FillMeasure.xml
 actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertBreve.scm
 actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertBreve.xml
 actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertLonga.scm
