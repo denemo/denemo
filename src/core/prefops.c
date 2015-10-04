@@ -150,6 +150,11 @@ initprefs ()
   ret->console_pane = FALSE;
   ret->lyrics_pane = TRUE;
   ret->visible_directive_buttons = TRUE;
+#ifdef _MACH_O_
+  ret->hide_windows = TRUE;
+#else
+  ret->hide_windows = FALSE;
+#endif
   ret->autoupdate = FALSE;
   ret->rhythm_palette = TRUE;
   ret->object_palette = TRUE;

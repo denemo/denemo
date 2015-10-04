@@ -2093,6 +2093,30 @@ gchar *choose_file (gchar *title, gchar *startdir, GList *extensions)
   return filename;  
 }
 
+
+static void 
+hide_windows (void) 
+{
+    if (Denemo.prefs.hide_windows)
+        {
+            if(Denemo.window)
+                gtk_widget_hide (Denemo.window);
+            if(Denemo.printarea)
+                gtk_widget_hide (gtk_widget_get_toplevel(Denemo.printarea));
+        }
+}
+static void 
+show_windows (void)
+{
+   if (Denemo.prefs.hide_windows)
+        {
+            if(Denemo.window)
+                gtk_widget_show (Denemo.window);
+             if(Denemo.printarea)
+                gtk_widget_show (gtk_widget_get_toplevel(Denemo.printarea));
+        }
+}
+
 /**
  * Pops up a dialog box that has a text entry box and ok/cancel buttons
  * title is a title for the box.
@@ -2147,6 +2171,8 @@ string_dialog_entry_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar 
   if (modal)
     {
       gtk_widget_grab_focus (entry);
+      hide_windows();
+ 
       if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
         {
             gchar *string = NULL;
@@ -2156,15 +2182,17 @@ string_dialog_entry_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar 
                 string = g_strdup (entry_string);
                 gtk_widget_destroy (dialog);
                 }
+               show_windows();
               return string;
         }
       else
         {
           if (GTK_DIALOG (dialog))
             gtk_widget_destroy (dialog);
-          return NULL;
+        
         }
-      return NULL;
+     show_windows();  
+     return NULL;
     }
   else
     {
@@ -2331,6 +2359,7 @@ get_option_recursive (gchar *title, gchar * str, gint length, gboolean more)
         }
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
+  hide_windows ();
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_REJECT)
     {
       response = NULL;
@@ -2338,6 +2367,7 @@ get_option_recursive (gchar *title, gchar * str, gint length, gboolean more)
   g_debug ("Returning contents of response is %s\n", response);
   gtk_window_get_position (GTK_WINDOW(dialog), &root_x, &root_y);
   gtk_widget_destroy (dialog);
+  show_windows ();
   return response;
 }
 #define MAX_ITEMS (Denemo.prefs.max_menu_size)
