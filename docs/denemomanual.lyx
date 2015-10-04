@@ -5051,6 +5051,35 @@ With this arrangement you can play in the rhythm of a piece in musical time
  lose your place.
 \end_layout
 
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Some computers don't respect the numeric keypad's keys - confusing the Enter
+ with the Return key for example, or treating Shift-2 as arrow-down.
+ Try the numlock key to see if you can persuade it to take you seriously,
+ or look into any key-mapping facility there may be with the machine.
+ And, beware! a separate standalone numeric keypad might seem like a good
+ idea but in fact they are a nuisance, besides being more expensive, as
+ they have things like a 000 key which emits three keypresses at your peril!
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Playing Notes into Denemo - Audio (Soundcard Mic Input)
 \end_layout
