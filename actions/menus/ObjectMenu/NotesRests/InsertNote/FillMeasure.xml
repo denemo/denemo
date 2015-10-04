@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>FillMeasure</action>
+        <after>DuplicateChord</after>
+        <_label>Fill Measure</_label>
+        <_tooltip>Duplicates the note/chord/rest at the cursor until the measure is full or over-full.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
