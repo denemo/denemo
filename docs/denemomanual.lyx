@@ -4990,17 +4990,65 @@ The problem of entering the wrong enharmonic is largely avoided by Denemo's
  B-flat.
 \end_layout
 
+\begin_layout Subsubsection
+The Numeric Keypad
+\end_layout
+
 \begin_layout Standard
-The MIDI filters are scheme scripts, so they can be tailored to do whatever
- you wish.
- One example is a filter that enables you to enter Figured Bass figures
- by playing the notes corresponding to the figures while holding down the
- bass note.
- Another is the "AngryDelete" filter.
- With this filter on notes are entered normally with the cursor advancing
- automatically, but if you make a mistake and press the wrong note just
- hit the next one much louder and it will make the correction for you! MIDI
- filters are found under Input -> MIDI
+The set of keys for entering numerical data that appear on full-sized keyboards
+ make a very useful tool for entering rhythms.
+ Even if you use a laptop without such a numeric keypad it is worth the
+ 5 or 6 dollars/euros/pounds that a separate USB keyboard costs nowadays
+ - it can be blu-tacked to your MIDI controller for easy access.
+\end_layout
+
+\begin_layout Standard
+The default key shortcuts for the numeric keypad are illustrated here:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/NumericKeypad.jpg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here I have actually stuck labels with the most used durations and over-drawn
+ an indication of the others.
+ (Keys 5 and 6 do the1/32 and 1/64th notes).
+ The keypad 7 does triplets with a double press (so that it makes three
+ presses for a triplet, e.g.
+ Key 4, Key 7, Key 7 for a triplet of 1/16th notes).
+ The dotted rhythm 
+\begin_inset Quotes eld
+\end_inset
+
+dottifies
+\begin_inset Quotes erd
+\end_inset
+
+ the current note whatever its duration is.
+ Likewise the grace note key turns the current note into a grace note and
+ the tie key turns tied status off/on for the current note.
+ Keypad 8 fills the rest of the bar with the current note or rest, while
+ Enter duplicates the current bar.
+ The enharmonic shifts can be pressed repeatedly to shift the set of accidentals
+ to be used sharp-wise of flat-wise, subsequent notes played in will be
+ taken from the new set, which is indicated on the status bar.
+ The duration keys, triplet key and dottify key can all be used with the
+ Control modifier to slur from the previous note.
+\end_layout
+
+\begin_layout Standard
+With this arrangement you can play in the rhythm of a piece in musical time
+ and then play once more with the MIDI keyboard to add the notes (chords
+ require the Alt key or foot pedal).
+ Before you are practiced in this use of the numeric keypad it is a good
+ idea to do just a bar or two, or a line or two at a time, so as not to
+ lose your place.
 \end_layout
 
 \begin_layout Subsection
@@ -6175,6 +6223,23 @@ More ambitious programmers will need to know all the commands available.
 \end_layout
 
 \begin_layout Subsection
+Midi Filters
+\end_layout
+
+\begin_layout Standard
+The MIDI filters are scheme scripts, so they can be tailored to do whatever
+ you wish.
+ One example is a filter that enables you to enter Figured Bass figures
+ by playing the notes corresponding to the figures while holding down the
+ bass note.
+ Another is the "AngryDelete" filter.
+ With this filter on notes are entered normally with the cursor advancing
+ automatically, but if you make a mistake and press the wrong note just
+ hit the next one much louder and it will make the correction for you! MIDI
+ filters are found under Input -> MIDI.
+\end_layout
+
+\begin_layout Subsection
 Commands Getting User Input
 \end_layout
 
@@ -6335,6 +6400,26 @@ LastMovement?
 
 \begin_layout Itemize
 FirstMovement?
+\end_layout
+
+\begin_layout Itemize
+EmptyMeasure?
+\end_layout
+
+\begin_layout Itemize
+UnderfullMeasure?
+\end_layout
+
+\begin_layout Itemize
+FullDurationMeasure?
+\end_layout
+
+\begin_layout Itemize
+OverfullMeasure?
+\end_layout
+
+\begin_layout Itemize
+MeasureComplete?
 \end_layout
 
 \begin_layout Subsection
@@ -6633,8 +6718,8 @@ More ...
 \end_layout
 
 \begin_layout Standard
-This is a comprehensive listing of Scheme commands that are built-in but
- not including those in the menus.
+This is a fairly comprehensive listing of Scheme commands that are built-in
+ but not including those in the menus.
  Call these via (d-
 \emph on
 <command>
@@ -6647,6 +6732,10 @@ params
 \emph default
  ...), e.g.
  (d-GetNote 2) gets the second note from the bottom in a chord.
+\end_layout
+
+\begin_layout Itemize
+GetStartTick
 \end_layout
 
 \begin_layout Itemize
@@ -8672,6 +8761,14 @@ d-Open filename
 
 \begin_layout Itemize
 d-ScoreProperties (fontsize= size of font to be used for score)
+\end_layout
+
+\begin_layout Itemize
+GetMeasureTicks
+\end_layout
+
+\begin_layout Itemize
+MeasureFillStatus
 \end_layout
 
 \begin_layout Subsection

@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2015-10-02"/>
+<meta name="create-date" content="2015-10-04"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -476,6 +476,11 @@ Table of Contents
 <div class="toc">
 <a class="Link" href="#toc-Subsection-17.2">Subsection 17.2: Playing Notes into Denemo - MIDI</a>
 </div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-17.2.1">Subsubsection 17.2.1: The Numeric Keypad</a>
+</div>
+</div>
 <div class="toc">
 <a class="Link" href="#toc-Subsection-17.3">Subsection 17.3: Playing Notes into Denemo - Audio (Soundcard Mic Input)</a>
 </div>
@@ -571,50 +576,53 @@ Table of Contents
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.1">Subsection 23.1: Commands Getting User Input</a>
+<a class="Link" href="#toc-Subsection-23.1">Subsection 23.1: Midi Filters</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.2">Subsection 23.2: Commands Getting Information about Object at Cursor</a>
+<a class="Link" href="#toc-Subsection-23.2">Subsection 23.2: Commands Getting User Input</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.3">Subsection 23.3: Predicates</a>
+<a class="Link" href="#toc-Subsection-23.3">Subsection 23.3: Commands Getting Information about Object at Cursor</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.4">Subsection 23.4: Iterators</a>
+<a class="Link" href="#toc-Subsection-23.4">Subsection 23.4: Predicates</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.5">Subsection 23.5: Directives</a>
+<a class="Link" href="#toc-Subsection-23.5">Subsection 23.5: Iterators</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.6">Subsection 23.6: Message Bar</a>
+<a class="Link" href="#toc-Subsection-23.6">Subsection 23.6: Directives</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.7">Subsection 23.7: Move and Search</a>
+<a class="Link" href="#toc-Subsection-23.7">Subsection 23.7: Message Bar</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.8">Subsection 23.8: More ...</a>
+<a class="Link" href="#toc-Subsection-23.8">Subsection 23.8: Move and Search</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.9">Subsection 23.9: ... and More</a>
+<a class="Link" href="#toc-Subsection-23.9">Subsection 23.9: More ...</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.10">Subsection 23.10: LilyPond Editing</a>
+<a class="Link" href="#toc-Subsection-23.10">Subsection 23.10: ... and More</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-23.11">Subsection 23.11: LilyPond Editing</a>
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection-23.10.1">Subsubsection 23.10.1: Using the LilyPond Window</a>
+<a class="Link" href="#toc-Subsubsection-23.11.1">Subsubsection 23.11.1: Using the LilyPond Window</a>
 </div>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.11">Subsection 23.11: Musical Scores that Do Things!</a>
+<a class="Link" href="#toc-Subsection-23.12">Subsection 23.12: Musical Scores that Do Things!</a>
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection-23.11.1">Subsubsection 23.11.1: What Happens at Startup</a>
+<a class="Link" href="#toc-Subsubsection-23.12.1">Subsubsection 23.12.1: What Happens at Startup</a>
 </div>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.12">Subsection 23.12: Starting Denemo - Command Line Options</a>
+<a class="Link" href="#toc-Subsection-23.13">Subsection 23.13: Starting Denemo - Command Line Options</a>
 </div>
 </div>
 </div>
@@ -2322,8 +2330,24 @@ The problem of entering the wrong enharmonic is largely avoided by Denemo’s si
 </li>
 
 </ul>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-17.2.1">17.2.1</a> The Numeric Keypad
+</h3>
 <div class="Unindented">
-The MIDI filters are scheme scripts, so they can be tailored to do whatever you wish. One example is a filter that enables you to enter Figured Bass figures by playing the notes corresponding to the figures while holding down the bass note. Another is the "AngryDelete" filter. With this filter on notes are entered normally with the cursor advancing automatically, but if you make a mistake and press the wrong note just hit the next one much louder and it will make the correction for you! MIDI filters are found under Input -&gt; MIDI
+The set of keys for entering numerical data that appear on full-sized keyboards make a very useful tool for entering rhythms. Even if you use a laptop without such a numeric keypad it is worth the 5 or 6 dollars/euros/pounds that a separate USB keyboard costs nowadays - it can be blu-tacked to your MIDI controller for easy access.
+</div>
+<div class="Indented">
+The default key shortcuts for the numeric keypad are illustrated here:
+</div>
+<div class="Indented">
+<img class="embedded" src="images/NumericKeypad.jpg" alt="figure images/NumericKeypad.jpg" style="max-width: 364px; max-height: 452px;"/>
+
+</div>
+<div class="Indented">
+Here I have actually stuck labels with the most used durations and over-drawn an indication of the others. (Keys 5 and 6 do the1/32 and 1/64th notes). The keypad 7 does triplets with a double press (so that it makes three presses for a triplet, e.g. Key 4, Key 7, Key 7 for a triplet of 1/16th notes). The dotted rhythm &ldquo;dottifies&rdquo; the current note whatever its duration is. Likewise the grace note key turns the current note into a grace note and the tie key turns tied status off/on for the current note. Keypad 8 fills the rest of the bar with the current note or rest, while Enter duplicates the current bar. The enharmonic shifts can be pressed repeatedly to shift the set of accidentals to be used sharp-wise of flat-wise, subsequent notes played in will be taken from the new set, which is indicated on the status bar. The duration keys, triplet key and dottify key can all be used with the Control modifier to slur from the previous note.
+</div>
+<div class="Indented">
+With this arrangement you can play in the rhythm of a piece in musical time and then play once more with the MIDI keyboard to add the notes (chords require the Alt key or foot pedal). Before you are practiced in this use of the numeric keypad it is a good idea to do just a bar or two, or a line or two at a time, so as not to lose your place.
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-17.3">17.3</a> Playing Notes into Denemo - Audio (Soundcard Mic Input)
@@ -2448,7 +2472,7 @@ Use shortcut keys to add staves and set attributes.
 Use Menus.
 </li>
 <li>
-Create an init.denemo score with everything you want to start up with, and any actions you want to be taken before you begin. This will be opened when you first start Denemo (that is once per Denemo session). See <a class="Reference" href="#sub:Musical-Scores-that-Do-Things">23.11 on page 1↓</a> for details on what actions you can have Denemo perform before you start.
+Create an init.denemo score with everything you want to start up with, and any actions you want to be taken before you begin. This will be opened when you first start Denemo (that is once per Denemo session). See <a class="Reference" href="#sub:Musical-Scores-that-Do-Things">23.12 on page 1↓</a> for details on what actions you can have Denemo perform before you start.
 </li>
 
 </ul>
@@ -2687,7 +2711,13 @@ which is inserting the LilyPond directive "\mark \default" which inserts the def
 More ambitious programmers will need to know all the commands available. Besides the complete Denemo command set (the list is given in the Command Center window) there are the following additional Scheme procedures defined.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.1">23.1</a> Commands Getting User Input
+<a class="toc" name="toc-Subsection-23.1">23.1</a> Midi Filters
+</h2>
+<div class="Unindented">
+The MIDI filters are scheme scripts, so they can be tailored to do whatever you wish. One example is a filter that enables you to enter Figured Bass figures by playing the notes corresponding to the figures while holding down the bass note. Another is the "AngryDelete" filter. With this filter on notes are entered normally with the cursor advancing automatically, but if you make a mistake and press the wrong note just hit the next one much louder and it will make the correction for you! MIDI filters are found under Input -&gt; MIDI.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-23.2">23.2</a> Commands Getting User Input
 </h2>
 <div class="Unindented">
 All these commands are invoked from scheme as (d-Command args...)
@@ -2720,7 +2750,7 @@ GetUserInput takes three arguments (title, prompt, suggested value) and returns 
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.2">23.2</a> Commands Getting Information about Object at Cursor
+<a class="toc" name="toc-Subsection-23.3">23.3</a> Commands Getting Information about Object at Cursor
 </h2>
 <div class="Unindented">
 All these commands are invoked from scheme as (d-<span class="versalitas">Command</span>)
@@ -2741,7 +2771,7 @@ GetNotes returns a scheme string, the notes of a chord separated by spaces (in L
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.3">23.3</a> Predicates
+<a class="toc" name="toc-Subsection-23.4">23.4</a> Predicates
 </h2>
 <div class="Unindented">
 Testing what is true at the cursor position
@@ -2804,10 +2834,25 @@ LastMovement?
 <li>
 FirstMovement?
 </li>
+<li>
+EmptyMeasure?
+</li>
+<li>
+UnderfullMeasure?
+</li>
+<li>
+FullDurationMeasure?
+</li>
+<li>
+OverfullMeasure?
+</li>
+<li>
+MeasureComplete?
+</li>
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.4">23.4</a> Iterators
+<a class="toc" name="toc-Subsection-23.5">23.5</a> Iterators
 </h2>
 <div class="Unindented">
 The parameters are either a string (script) which will be evaluated after moving the cursor to step of the iteration or a scheme procedure (a thunk).
@@ -2837,7 +2882,7 @@ The parameters are either a string (script) which will be evaluated after moving
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.5">23.5</a> Directives
+<a class="toc" name="toc-Subsection-23.6">23.6</a> Directives
 </h2>
 <ul>
 <li>
@@ -2930,7 +2975,7 @@ The parameters are either a string (script) which will be evaluated after moving
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.6">23.6</a> Message Bar
+<a class="toc" name="toc-Subsection-23.7">23.7</a> Message Bar
 </h2>
 <div class="Unindented">
 These commands put a message on the status bar to the right hand side. They are defined in actions/denemo-modules/helpsystem.scm. Help messages are pushed paired with a symbol (e.g. (cons (’mytag &ldquo;mymessage&rdquo;))) and can simply be Popped or removed using the tag.
@@ -2954,7 +2999,7 @@ These commands put a message on the status bar to the right hand side. They are 
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.7">23.7</a> Move and Search
+<a class="toc" name="toc-Subsection-23.8">23.8</a> Move and Search
 </h2>
 <ul>
 <li>
@@ -3023,12 +3068,15 @@ GetPosition ;use result with (apply d-GoToPosition position)) to go to the posit
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.8">23.8</a> More ...
+<a class="toc" name="toc-Subsection-23.9">23.9</a> More ...
 </h2>
 <div class="Unindented">
-This is a comprehensive listing of Scheme commands that are built-in but not including those in the menus. Call these via (d-<i>&lt;command&gt;</i> <b><i>params</i></b> ...), e.g. (d-GetNote 2) gets the second note from the bottom in a chord.
+This is a fairly comprehensive listing of Scheme commands that are built-in but not including those in the menus. Call these via (d-<i>&lt;command&gt;</i> <b><i>params</i></b> ...), e.g. (d-GetNote 2) gets the second note from the bottom in a chord.
 </div>
 <ul>
+<li>
+GetStartTick
+</li>
 <li>
 HideMenus. Hides all the menus or shows them if passed #f
 </li>
@@ -3920,7 +3968,7 @@ Error. Display an error message and abort
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.9">23.9</a> ... and More
+<a class="toc" name="toc-Subsection-23.10">23.10</a> ... and More
 </h2>
 <div class="Unindented">
 This is a hand-made list most of which already appear in the comprehensive list above, but with hand-written comments.
@@ -4034,10 +4082,16 @@ d-Open filename
 <li>
 d-ScoreProperties (fontsize= size of font to be used for score)
 </li>
+<li>
+GetMeasureTicks
+</li>
+<li>
+MeasureFillStatus
+</li>
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.10">23.10</a> LilyPond Editing
+<a class="toc" name="toc-Subsection-23.11">23.11</a> LilyPond Editing
 </h2>
 <div class="Paragraph">
 <a class="toc" name="toc-Paragraph-2"></a>Introduction
@@ -4049,7 +4103,7 @@ From version 0.7.8 we have the ability to edit the LilyPond output within Denemo
 These can be used without knowing the LilyPond language (provided a suitable template or example file exists). Alternatively, with a general idea of how a LilyPond file works tweaks from the LilyPond documentation can be inserted into the LilyPond output and stored with the Denemo, leaving open the possibility of further editing of the notes within Denemo without the need to re-apply tweaks or keep separate LilyPond files.
 </div>
 <h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-23.10.1">23.10.1</a> Using the LilyPond Window
+<a class="toc" name="toc-Subsubsection-23.11.1">23.11.1</a> Using the LilyPond Window
 </h3>
 <div class="Unindented">
 Under the View menu is a Show LilyPond item which pops up a window with the LilyPond output in it. The text is interspersed with buttons which enable you to hide or show the various sections or to create custom versions. The text in bold can be altered and the alterations are kept in the Denemo file.
@@ -4109,7 +4163,7 @@ Clicking (as opposed to using the arrow keys) in the LilyPond text does not move
 
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.11">23.11</a> <a class="Label" name="sub:Musical-Scores-that-Do-Things"> </a>Musical Scores that Do Things!
+<a class="toc" name="toc-Subsection-23.12">23.12</a> <a class="Label" name="sub:Musical-Scores-that-Do-Things"> </a>Musical Scores that Do Things!
 </h2>
 <div class="Unindented">
 By saving a Denemo score with a script defined (in the script window) you can create music lessons, automatic midi player... the possibilities are endless. When you open such a score, the script is run - it can take user input and manipulate the score, or do other actions as your fancy takes you.
@@ -4118,7 +4172,7 @@ By saving a Denemo score with a script defined (in the script window) you can cr
 There is a special score init.denemo that is run on startup. By editing this you can startup with whatever template and whatever actions you wish to be performed. If you set it to do something that quits Denemo, you may need to delete the file before using Denemo normally again. Your local init.denemo is stored in the directory .denemo/actions in your home directory.To create it put the script you want in the script window and use SaveAs selecting ~/.denemo/actions/init.denemo as your file to save to.
 </div>
 <h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-23.11.1">23.11.1</a> What Happens at Startup
+<a class="toc" name="toc-Subsubsection-23.12.1">23.12.1</a> What Happens at Startup
 </h3>
 <div class="Unindented">
 On starting the scheme script ~/.denemo-(version number)/actions/denemo.scm is executed (where ~ means your home directory and version number is 1.1.2 or later).
@@ -4130,7 +4184,7 @@ A denemo file called init.denemo is/was loaded, but this is deprecated.
 In addition, on startup a set of keyboard and mouse shortcuts, and a selection of optional menu items are loaded. Other sets are available via the Edit-&gt;Customize Commands ...-&gt;Manage Command Set dialog.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.12">23.12</a> Starting Denemo - Command Line Options
+<a class="toc" name="toc-Subsection-23.13">23.13</a> Starting Denemo - Command Line Options
 </h2>
 <div class="Unindented">
 Denemo --help shows the options at startup. You can open a specific score, execute a scheme script (from a file or on the command line) and more.
@@ -4589,7 +4643,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-10-02T21:12:24.107825</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-10-04T11:02:53.948056</span>
 </div>
 </div>
 </body>
