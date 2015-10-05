@@ -4,8 +4,10 @@
 # Walter Garcia-Fontes <walter.garcia@upf.edu>, 2014.
 # Alguns suggeriments de traducció:
 # bar - compàs, també barra quan refereix als límits dels compassos
+# barline - barra
 # beam - barrat
 # beat - pulsació
+# caesura - cesura
 # figured bass - baix continu
 # grob - Objecte gràfic (grob = graphic object)
 # key signature - armadura
@@ -25,7 +27,7 @@ msgstr ""
 "Project-Id-Version: denemo 1.2.3-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2015-06-06 17:24+0100\n"
-"PO-Revision-Date: 2015-06-08 17:15+0200\n"
+"PO-Revision-Date: 2015-09-03 19:56+0200\n"
 "Last-Translator: Walter Garcia-Fontes <walter.garcia@upf.edu>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "Language: ca\n"
@@ -1563,26 +1565,26 @@ msgid "Search"
 msgstr "Cerca"
 
 #: ../src/core/kbd-custom.c:2082
-#, fuzzy
 msgid "Fuzzy Search"
-msgstr "Cerca"
+msgstr "Cerca difusa"
 
 #: ../src/core/kbd-custom.c:2083
 msgid "Allow one non-matching word in the search."
-msgstr ""
+msgstr "Permet un paraula que no concordi a la cerca."
 
 #: ../src/core/kbd-custom.c:2147
 msgid "Built-in, see file denemoui.xml for position"
 msgstr "Integrat, vegeu el fitxer denemoui.xml per a la posició"
 
 #: ../src/core/kbd-custom.c:2239
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Command: %s\n"
 "%s\n"
 "Location: %s\n"
 "Internal Name: %s"
 msgstr ""
+"Ordre: %s\n"
 "%s\n"
 "Ubicació: %s\n"
 "Nom intern: %s"
@@ -1737,9 +1739,8 @@ msgid "Gtk version"
 msgstr "Versió del Gtk"
 
 #: ../src/core/main.c:176
-#, fuzzy
 msgid "© 1999-2005, 2009 Matthew Hiller, Adam Tee, and others, 2010-2015 Richard Shann, Jeremiah Benham, Nils Gey and others.\n"
-msgstr "© 1999-2005, 2009 Matthew Hiller, Adam Tee, i d'altres, 2010-2013 Richard Shann, Jeremiah Benham, Nils Gey i d'altres.\n"
+msgstr "© 1999-2005, 2009 Matthew Hiller, Adam Tee, i d'altres, 2010-2015 Richard Shann, Jeremiah Benham, Nils Gey i d'altres.\n"
 
 #: ../src/core/main.c:177
 msgid "This program is provided with absolutely NO WARRANTY; see the file COPYING for details.\n"
@@ -1775,12 +1776,11 @@ msgid "Progress"
 msgstr "Progrés"
 
 #: ../src/core/utils.c:379
-#, fuzzy
 msgid ""
 "This indicates the the LilyPond typesetter is still working on setting the Denemo score. This can take a long time, particularly for polyphony where voices must not collide. You can continue editing while the typesetting is taking place.\n"
 "Kill this window if you want to re-start the typesetting e.g. after fixing a mistake you just spotted."
 msgstr ""
-"Això indica qeu el gravador LilyPond està encara traballant en composar la partitura del Denemo. Això pot trigar un temps llarg, particularment per a la polifonia quan les veus no poden col·lisionar. Podeu continuar editant quan s'està realitzant la composició.\n"
+"Això indica que el gravador LilyPond està encara treballant en composar la partitura del Denemo. Això pot trigar un temps llarg, particularment per a la polifonia quan les veus no poden col·lisionar. Podeu continuar editant quan s'està realitzant la composició.\n"
 "Tanqueu aquesta finestra si voleu reiniciar la composició, per exemple després d'arreglar un error que acabeu de trobar."
 
 #: ../src/core/utils.c:1602 ../src/export/file.c:202
@@ -1833,7 +1833,7 @@ msgstr "La sintaxi LilyPond generada és %s\n"
 #: ../src/core/utils.c:1840
 #, c-format
 msgid "This object does not affect the music typesetting, (no LilyPond syntax is generated)\n"
-msgstr ""
+msgstr "Aquest objecte no afecta la composició tipogràfica de la música, (no es genera cap sintaxi LilyPond)\n"
 
 #: ../src/core/utils.c:1869
 msgid "The cursor is in the appending position after "
@@ -2081,7 +2081,7 @@ msgstr "El text del LilyPond que es va insertar és %s%s\n"
 #: ../src/core/utils.c:2058
 #, c-format
 msgid "This object does not affect the printed output (no LilyPond syntax is generated for the typesetter)\n"
-msgstr ""
+msgstr "Aquest objecte no afecta la sortida impresa (no es genera cap sintaxi LilyPond per al gravador)\n"
 
 #: ../src/core/utils.c:2063
 msgid ""
@@ -2249,9 +2249,8 @@ msgid "Not Appending"
 msgstr "No s'està annexant"
 
 #: ../src/core/utils.c:2557 ../src/core/utils.c:2586
-#, fuzzy
 msgid "More..."
-msgstr "Més"
+msgstr "Més..."
 
 #: ../src/core/utils.c:2754
 #, c-format
@@ -2326,17 +2325,15 @@ msgstr "Pulsació de tecla <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 
 #: ../src/core/view.c:565
 msgid "Denemo was terminated abnormally"
-msgstr ""
+msgstr "El Denemo s'ha tancat anormalment"
 
 #: ../src/core/view.c:565
-#, fuzzy
 msgid "Open auto-saved file"
-msgstr "Ha fallat el desament del fitxer"
+msgstr "Obre el fitxer autodesat"
 
 #: ../src/core/view.c:565
-#, fuzzy
 msgid "Delete auto-saved file"
-msgstr "Ha fallat el desament del fitxer"
+msgstr "Elimina el fitxer autodesat"
 
 #: ../src/core/view.c:701 ../src/export/file.c:1263 ../src/export/file.c:1331
 msgid "No selection text available"
@@ -2444,24 +2441,20 @@ msgstr ""
 "Vegeu la pestanya Edita → Canvia les preferències d'àudio/MIDI"
 
 #: ../src/core/view.c:1556
-#, fuzzy
 msgid "Select and Reset Snippet"
-msgstr "Elimina el fragment"
+msgstr "Selecciona i restableix el fragment"
 
 #: ../src/core/view.c:1560
-#, fuzzy
 msgid "Insert Snippet at Cursor"
-msgstr "Insereix al cursor"
+msgstr "Insereix el fragment al cursor"
 
 #: ../src/core/view.c:1563
-#, fuzzy
 msgid "Re-label Snippet"
-msgstr "Crea un fragment"
+msgstr "Re-etiqueta el fragment"
 
 #: ../src/core/view.c:1567
-#, fuzzy
 msgid "Insert and Select"
-msgstr "Insereix un siset"
+msgstr "Insereix i selecciona"
 
 #: ../src/core/view.c:1571 ../src/generated/entries.h:347
 #: ../src/generated/register_commands.h:317
@@ -2469,14 +2462,12 @@ msgid "Delete Snippet"
 msgstr "Elimina el fragment"
 
 #: ../src/core/view.c:1975
-#, fuzzy
 msgid "Rename Music Snippet"
-msgstr "Mostra els fragments de música"
+msgstr "Reanomena el fragment musical"
 
 #: ../src/core/view.c:1975
-#, fuzzy
 msgid "Give new label for snippet"
-msgstr "Doneu la mida relativa del tipus de lletra: "
+msgstr "Doneu una etiqueta nova al fragment"
 
 #: ../src/core/view.c:2038
 msgid ""
@@ -2625,14 +2616,16 @@ msgid ""
 "Open Command Center\n"
 "on this command"
 msgstr ""
+"Obre el centre d'ordres\n"
+"amb aquesta ordre"
 
 #: ../src/core/view.c:3137 ../src/ui/palettes.c:341
 msgid "Get Script into Scheme Window"
-msgstr ""
+msgstr "Posa l'script a la finestra de l'scheme"
 
 #: ../src/core/view.c:3143 ../src/ui/palettes.c:346
 msgid "Save Script from Scheme Window"
-msgstr ""
+msgstr "Desa l'script de la finestra de scheme"
 
 #. item = gtk_menu_item_new_with_label (_("Save Graphic"));
 #. GtkSettings* settings = gtk_settings_get_default();
@@ -2960,7 +2953,6 @@ msgid "Loop"
 msgstr "Bucle"
 
 #: ../src/core/view.c:4437
-#, fuzzy
 msgid ""
 "The music between the red and green bars is played in a loop.\n"
 "You can edit the music while it is playing\n"
@@ -2968,7 +2960,7 @@ msgid ""
 msgstr ""
 "La música entre les barres vermella i verda es reprodueix a un bucle.\n"
 "Podeu editar la música quan s'està reproduint\n"
-"controlant els vostres canvis."
+"(de manera que podeu escoltar contínuament quan proveu alternatives)."
 
 #: ../src/core/view.c:4443
 msgid "Panic"
@@ -3083,7 +3075,6 @@ msgid "Convert the MIDI recording you have made to notation."
 msgstr "Converteix la gravació MIDI que heu fet a notació."
 
 #: ../src/core/view.c:4594
-#, fuzzy
 msgid ""
 "Starts playing and simultaneously records from MIDI in.\n"
 "Once a recording is made it is played back with the score when you press Play.\n"
@@ -3091,12 +3082,11 @@ msgid ""
 "A MIDI recording is not saved with the Denemo score."
 msgstr ""
 "Comença a reproduir-se i simultàniament grava de l'entrada MIDI.\n"
-"Un cop que s'ha fet una gravació se reprodueix amb la partitura quan pulseu Reprodueix.\n"
-"Pot esborrar-se amb el botó Suprimeix o es pot convertir a notació amb Converteix\n"
-".Una gravació MIDI no es desa amb la partitura Denemo."
+"Un cop que s'ha fet una gravació es reprodueix amb la partitura quan polseu Reprodueix.\n"
+"Pot esborrar-se amb el botó Suprimeix o es pot convertir a notació amb Converteix.\n"
+"Una gravació MIDI no es desa amb la partitura Denemo."
 
 #: ../src/core/view.c:4639
-#, fuzzy
 msgid ""
 "This is the Denemo Display for the music you have entered. See the print view window for the typeset appearance.  The blue lozenge is the Denemo Cursor - it turns red when when the bar is full or green if you are inserting in a bar. Overfull/Underfull bars are colored red/blue, use the Upbeat (Anacrusis, Pickup) command if that is intentional.\n"
 "You can switch to a menu-less view or a page-view using the Esc key. For the paged view you drag the red bar up the page to set how many systems you want showing.For the paged view you will probably want a smaller zoom - use Control+scroll-wheel on your mouse to zoom the display.\n"
@@ -3104,9 +3094,9 @@ msgid ""
 "Shift-Right-click for more objects to insert."
 msgstr ""
 "Aquesta es la visualització del Denemo per a la música que heu creat. Vegeu la finestra de visualització d'impressió per veure l'aparença de la composició. La pastilla blava és el cursor del Denemo - es torna vermella quan la barra està plena o verda si esteu inserint a una barra. Les barres Excedides/Amb insuficiència es coloren vermell/blau, useu l'ordre Entrada (Anacrusi, Notes inicials) si això és intencional.\n"
-"Podeu canviar a una visualització sense menú o a una visualització de pàgina usant la tecla Esc. Per a la visualitza de pàgina arrossegueu la barra vermella cap amunt de la pàgina per establir quants pentagrames voleu mostrar. Per a la visualitza de pàgina probablement voldreu enfocament més petit - useu Control-roda de desplaçament del ratolí per enfocar  visualització.\n"
+"Podeu canviar a una visualització sense menú o a una visualització de pàgina usant la tecla Esc. Per a la visualització de pàgina arrossegueu la barra vermella mes a dalt de la pàgina per establir quants pentagrames voleu mostrar. Per a la visualització de pàgina probablement voldreu un enfocament més petit - useu Control-roda de desplaçament del ratolí per enfocar la visualització.\n"
 "Moltes ordres operen sobre l'objecte al curso del Denemo. Feu un clic amb el botó dret d'un objecte per obtenir un menú curt d'accions o establir el mode d'entrada del ratolí.\n"
-"Feu un clic amb Majúscules-Botó dret del ratolí per veure més  a inserir."
+"Feu un clic amb Majúscules-Botó dret del ratolí per veure més objectes a inserir."
 
 #: ../src/core/view.c:4710
 msgid ""
@@ -3364,17 +3354,15 @@ msgstr "Ha fallat la càrrega del fitxer %s usat recentment"
 
 #: ../src/export/file.c:340
 msgid "Music Snippets Can be Kept"
-msgstr ""
+msgstr "Els fragments de música es poden mantenir"
 
 #: ../src/export/file.c:340
-#, fuzzy
 msgid "Drop Music Snippets"
-msgstr "Mostra els fragments de música"
+msgstr "Deixa caure fragments de música"
 
 #: ../src/export/file.c:340
-#, fuzzy
 msgid "Keep Music Snippets"
-msgstr "Mostra els fragments de música"
+msgstr "Manté els fragments de música"
 
 #: ../src/export/file.c:515
 msgid "You have a Script defined"
@@ -3515,9 +3503,8 @@ msgstr "Ja s'està fent una impressió"
 
 #. ******* generated automatically from generate_source. See generate_source.c
 #: ../src/generated/entries.h:2 ../src/generated/register_commands.h:1
-#, fuzzy
 msgid "Selection Cursor Left"
-msgstr "Mou el cursor a l'esquerra"
+msgstr "Cursor de selecció a l'esquerra"
 
 #: ../src/generated/entries.h:2 ../src/generated/register_commands.h:1
 msgid "Moves the cursor one object left, altering the selection if any"
@@ -3548,9 +3535,8 @@ msgid "Moves the cursor one scale step up"
 msgstr "Mou el cursor un pas d'escala cap amunt"
 
 #: ../src/generated/entries.h:6 ../src/generated/register_commands.h:5
-#, fuzzy
 msgid "Selection Cursor Right"
-msgstr "Mou el cursor cap a la dreta"
+msgstr "Cursor de selecció a la dreta"
 
 #: ../src/generated/entries.h:6 ../src/generated/register_commands.h:5
 msgid "Moves the cursor one object right, altering the selection if any"
@@ -3621,18 +3607,16 @@ msgid "Hides/Shows menus, panes etc. The ones shown are those checked in the vie
 msgstr "Amaga/Mostra menús, subfinestres, etc. Es mostren els que estan marcats al menú de visualització."
 
 #: ../src/generated/entries.h:15 ../src/generated/register_commands.h:14
-#, fuzzy
 msgid "Selection Staff Up"
-msgstr "Selecciona el pentagrama"
+msgstr "Selecció de pentagrama cap a amunt"
 
 #: ../src/generated/entries.h:15 ../src/generated/register_commands.h:14
 msgid "Moves the cursor to the staff above, extending selection if any"
 msgstr "Mou el cursos al pentagrama de dalt, estenent la selecció si hi ha"
 
 #: ../src/generated/entries.h:16 ../src/generated/register_commands.h:15
-#, fuzzy
 msgid "Selection Staff Down"
-msgstr "Selecciona el pentagrama"
+msgstr "Selecció de pentagrama cap avall"
 
 #: ../src/generated/entries.h:16 ../src/generated/register_commands.h:15
 msgid "Moves the cursor to the staff below, extending selection if any"
@@ -3651,23 +3635,20 @@ msgid "Move to Staff Down"
 msgstr "Canvia al pentagrama de sota"
 
 #: ../src/generated/entries.h:18
-#, fuzzy
 msgid "Moves the cursor to the staff below without altering selection"
 msgstr "Mou el cursor al pentagrama de sota sense alterar la selecció"
 
 #: ../src/generated/entries.h:19 ../src/generated/register_commands.h:18
-#, fuzzy
 msgid "Selection Measure Left"
-msgstr "Selecciona el compàs"
+msgstr "Selecció de compàs a l'esquerra"
 
 #: ../src/generated/entries.h:19 ../src/generated/register_commands.h:18
 msgid "Moves the cursor to the first object in the next measure, extending selection if any"
 msgstr "Mou el cursor cap al primer objecte a la barra de compàs següent, estenent la selecció si hi ha"
 
 #: ../src/generated/entries.h:20 ../src/generated/register_commands.h:19
-#, fuzzy
 msgid "Selection Measure Right"
-msgstr "Mou-te a la barra de compàs a la dreta"
+msgstr "Selecció de compàs a la dreta"
 
 #: ../src/generated/entries.h:20 ../src/generated/register_commands.h:19
 msgid "Moves the cursor to the first object in the previous measure, extending selection if any"
@@ -5052,18 +5033,16 @@ msgstr ""
 "Ordres per a propietats de la partitura actual."
 
 #: ../src/generated/entries.h:211
-#, fuzzy
 msgid "Movement Properties"
-msgstr "Directives de moviment"
+msgstr "Propietats de moviment de moviment"
 
 #: ../src/generated/entries.h:211
-#, fuzzy
 msgid ""
 "Menu:\n"
 "Commands for properties of the current movement."
 msgstr ""
 "Menú:\n"
-"Ordres per a propietats de la partitura actual."
+"Ordres per a propietats del moviment actual."
 
 #: ../src/generated/entries.h:212
 msgid ""
@@ -5640,18 +5619,16 @@ msgid "Swap this movement with the one before"
 msgstr "Intercanvia aquest moviment amb l'anterior"
 
 #: ../src/generated/entries.h:275 ../src/generated/register_commands.h:254
-#, fuzzy
 msgid "Selection Voice Up"
-msgstr "Mou-te a la veu amunt"
+msgstr "Selecció de veus cap amunt"
 
 #: ../src/generated/entries.h:275 ../src/generated/register_commands.h:254
 msgid "Go to the higher numbered voice on staff, extending selection if any"
 msgstr "Ves a la veu amb numeració més alta al pentagrama, estenent la selecció si hi ha"
 
 #: ../src/generated/entries.h:276 ../src/generated/register_commands.h:255
-#, fuzzy
 msgid "Selection Voice Down"
-msgstr "Mou-te a la veu a baix"
+msgstr "Selecció de veus cap avall"
 
 #: ../src/generated/entries.h:276 ../src/generated/register_commands.h:255
 msgid "Go to the lower numbered voice on this staff, extending selection if any"
@@ -7389,7 +7366,7 @@ msgstr "Mou el cursor al pentagrama de sota sense alterar la selecció"
 
 #: ../src/generated/register_commands.h:198
 msgid "Inserts the current music snippet, or if none is selected prompts for a number 1,2... for the snippet to insert."
-msgstr ""
+msgstr "Inserta el fragment actual de música, o si no s'ha seleccionat cap es pregunta per un número 1, 2, ..., per indicar el fragment a insertar."
 
 #: ../src/generated/register_commands.h:318
 msgid "Insert A"
@@ -8792,7 +8769,6 @@ msgid "Could not load the audio file. Note only stereo with sample rate 44100 ar
 msgstr "No s'ha pogut carregar el fitxer d'àudio. Noteu que únicament s'admet actualment l'estèreo amb freqüència de mostratge< igual a 44100. Useu l'Audacity o similar per convertir."
 
 #: ../src/source/source.c:107
-#, fuzzy
 msgid ""
 "To insert a link at the Denemo cursor position to a point in this document\n"
 "right-click on the point.\n"
@@ -8856,15 +8832,15 @@ msgstr "Seleccioneu la clau desitjada"
 
 #: ../src/ui/clefdialog.c:185
 msgid "Choose Clef Visibility"
-msgstr ""
+msgstr "Escolliu la visibilitat de la clau"
 
 #: ../src/ui/clefdialog.c:185
 msgid "Affects display only"
-msgstr ""
+msgstr "Afecta sols la pantalla"
 
 #: ../src/ui/clefdialog.c:185
 msgid "Clef should be typeset"
-msgstr ""
+msgstr "S'hauria de gravar la clau"
 
 #: ../src/ui/help.c:28
 msgid "GNU Denemo"
@@ -9004,7 +8980,6 @@ msgid "Drag"
 msgstr "Arrossegueu"
 
 #: ../src/ui/kbd-interface.c:513
-#, fuzzy
 msgid ""
 "Hold Modifier Keys, Engage Caps or Num Lock\n"
 "and click here to set shortcut."
@@ -9121,7 +9096,6 @@ msgstr ""
 "Podeu crear una paleta nova, personalitzada, i podeu canviar l'etiqueta del botó que creeu fent un clic amb el botó dret del ratolí sobre ella."
 
 #: ../src/ui/kbd-interface.c:770
-#, fuzzy
 msgid "Set mouse shortcut"
 msgstr "Establiu la drecera de ratolí"
 
@@ -9324,22 +9298,20 @@ msgid "This pops up the time signature menu."
 msgstr "Això fa emergir el menú de la indicació del compàs."
 
 #: ../src/ui/mousing.c:898
-#, fuzzy
 msgid "Editing Staff Groups (Braces)"
-msgstr "Agrupament de pentagrames (Claudàtors) "
+msgstr "S'estan editant grups de pentagrames (claudàtors)"
 
 #: ../src/ui/mousing.c:898
-#, fuzzy
 msgid "Edit Start Brace"
-msgstr "Edita les directives de pentagrama"
+msgstr "Claudàtor d'inici d'edició"
 
 #: ../src/ui/mousing.c:898
 msgid "Edit End Brace"
-msgstr ""
+msgstr "Claudàtor de final d'edició"
 
 #: ../src/ui/mousing.c:911
 msgid "This staff grouping has no End Brace so it finishes on the lowest staff. Use the Staffs/Voices->Staff Groupings menu to place an End Brace on the desired staff"
-msgstr ""
+msgstr "Aquest agrupament de pentagrama no té un claudàtor de finalització de manera que finalitza al pentagrama de més a baix. Useu el menú Pentagrames/Veus->Agrupament de pentagrames per ubicar el claudàtor de finalització al pentagrama desitjat"
 
 #: ../src/ui/mousing.c:930
 msgid "Click on Staff Directives."
@@ -9870,9 +9842,8 @@ msgid "Default Font Specification"
 msgstr "Especificació predeterminada de tipus de lletra"
 
 #: ../src/ui/prefdialog.c:584
-#, fuzzy
 msgid "Maximum Menu Size"
-msgstr "Menú principal"
+msgstr "Mida màxima del menú"
 
 #: ../src/ui/prefdialog.c:586
 msgid "Playback Display Refresh"
@@ -9908,7 +9879,7 @@ msgstr "Desa automàticament cada"
 
 #: ../src/ui/prefdialog.c:606
 msgid "second(s)"
-msgstr ""
+msgstr "segon(s)"
 
 #: ../src/ui/prefdialog.c:610
 msgid "Autosave Parts"
@@ -10967,20 +10938,19 @@ msgstr "Cerca i edita les directives del Denemo començant amb la del cursor i o
 
 #: ../actions/menus/MainMenu/EditMenu/InsertNthSnippet.scm:3
 msgid "Type Snippet Number 1,2..."
-msgstr ""
+msgstr "Entreu el número de fragment 1,2..."
 
 #: ../actions/menus/MainMenu/EditMenu/InsertNthSnippet.scm:9
 msgid "To use this function correctly you need to give the number of the snippet to be inserted"
-msgstr ""
+msgstr "Per usar aquesta  funció correctament us cal donar un numero del fragment que s'ha d'insertar"
 
 #: ../actions/menus/MainMenu/EditMenu/InsertNthSnippet.xml.h:1
-#, fuzzy
 msgid "Insert Nth Snippet"
-msgstr "Insereix un fragment"
+msgstr "Insereix el fragment n-èssim"
 
 #: ../actions/menus/MainMenu/EditMenu/InsertNthSnippet.xml.h:2
 msgid "Pastes the Nth snippet into the score at the cursor position. Follow with the number 1,2,... of the snippet to be inserted"
-msgstr ""
+msgstr "Enganxa el fragment enèsim a la partitura a la posició del cursor. Continueu amb el número 1,2,... del fragment a inserir"
 
 #: ../actions/menus/MainMenu/EditMenu/KeyBindings/StartEmacs2KeyShortcut.xml.h:1
 msgid "Start Emacs 2-key Shortcut"
@@ -11070,7 +11040,7 @@ msgstr "Selecciona esquerre"
 
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectLeft.xml.h:2
 msgid "Move cursor left, selecting the object moved to."
-msgstr ""
+msgstr "Mou el cursor a l'esquerra, seleccionant l'objecte a què s'ha mogut."
 
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectMeasure.xml.h:1
 msgid "Select Measure"
@@ -11085,9 +11055,8 @@ msgid "Select Right"
 msgstr "Selecciona dret"
 
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectRight.xml.h:2
-#, fuzzy
 msgid "Move cursor right, selecting the object moved to."
-msgstr "Mou el cursor un objecte cap a la dreta, alterant la selecció si hi ha. "
+msgstr "Mou el cursor a la dreta, seleccionant l'objecte al qual s'ha mogut"
 
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectStaff.xml.h:1
 msgid "Select Staff"
@@ -11416,7 +11385,7 @@ msgstr "Temps empleat en les edicions"
 
 #: ../actions/menus/MainMenu/FileMenu/DisplayEditingTime.xml.h:2
 msgid "Prints out the cumulative time spent editing this score.\\nThe time counts any period between starting to edit and saving to disk\\nThe time is accumulated over different editing sessions."
-msgstr ""
+msgstr "Imprimeix el temps acumulat que s'ha emprat a editar aquesta partitura..\\nEl temps compta tots els períodes entre l'inici de l'edició i el desament al disc\\nEl temps s'acumula durant diferents sessions d'edició."
 
 #: ../actions/menus/MainMenu/FileMenu/Export/ExportAudio.xml.h:1
 msgid "Export Audio"
@@ -11668,42 +11637,43 @@ msgstr "Imprimeix la partitura imprimint el rang (ambitus) de cada part a 'inici
 
 #: ../actions/menus/MainMenu/FileMenu/SetThumbnail.scm:5
 msgid "Returning to the first Movement for thumbnail selection"
-msgstr ""
+msgstr "S'està retornant al primer moviment per a la selecció de la miniatura"
 
 #: ../actions/menus/MainMenu/FileMenu/SetThumbnail.scm:12
 msgid "Thumbnail Selection Complete"
-msgstr ""
+msgstr "S'ha completat la selecció de la miniatura"
 
 #: ../actions/menus/MainMenu/FileMenu/SetThumbnail.scm:12
 msgid "Create thumbnail now?"
-msgstr ""
+msgstr "Voleu crear una miniatura ara?"
 
 #: ../actions/menus/MainMenu/FileMenu/SetThumbnail.scm:15
 msgid ""
 "No Selection to set the thumbnail to\n"
 "Create a selection and re-run the command."
 msgstr ""
+"No hi ha una selecció per establir la miniatura a\n"
+"Creeu una selecció i torneu a executar l'ordre."
 
 #: ../actions/menus/MainMenu/FileMenu/SetThumbnail.scm:16
 msgid "Save the score before trying to set the thumbnail"
-msgstr ""
+msgstr "Deseu la partitura abans de intentar establir la miniatura"
 
 #: ../actions/menus/MainMenu/FileMenu/SetThumbnail.xml.h:1
 msgid "Set Thumbnail from Selection"
-msgstr ""
+msgstr "Establiu la miniatura a partir de la selecció"
 
 #: ../actions/menus/MainMenu/FileMenu/SetThumbnail.xml.h:2
 msgid "Sets the thumbnail for opening this file to the selection. (The selection must be in the first movement)."
-msgstr ""
+msgstr "Estableix la miniatura per obrir aquest fitxer a la selecció. (La selecció ha d'ésser-hi al primer moviment)."
 
 #: ../actions/menus/MainMenu/HelpMenu/HelpAllFeatures.xml.h:1
 msgid "Browse Feature-Packed Score"
-msgstr ""
+msgstr "Navegueu per la partitura amb moltes funcionalitats"
 
 #: ../actions/menus/MainMenu/HelpMenu/HelpAllFeatures.xml.h:2
-#, fuzzy
 msgid "Opens a score with examples of many things you can create with Denemo with Explanations attached. Click on the explanations in the Print View window. Or copy and paste useful objects to your score."
-msgstr "Obre una partitura amb exemples de moltes coses que podeu crear amb el Denemo amb explicacions annexes. Cliqueu sobre les explicacions a la finestra de Vista d'Impressió."
+msgstr "Obre una partitura amb exemples de moltes coses que podeu crear amb el Denemo amb explicacions annexes. Cliqueu sobre les explicacions a la finestra de Vista d'Impressió. O copieu i enganxeu objectes útils a la vostra partitura."
 
 #. HelpForReturnKey
 #: ../actions/menus/MainMenu/HelpMenu/HelpForReturnKey.scm:2
@@ -13009,37 +12979,32 @@ msgid "Inserts a clef that affects only the display, not the printed form. Use t
 msgstr "Insereix una clau que afecta únicament la visualització, no la forma impresa. Useu això si, després d'un canvi de clau, el pentagrama on apareix la veu està en una clau diferent (evitant massa línies addicionals a la pantalla, que seria difícil de llegir). També és útil per visualitzar amb una clau familiar una música que voleu imprimir en una clau menys familiar (per exemple per visualitzar en clau de sol o de fa una música a imprimir en clau de viola)."
 
 #: ../actions/menus/ObjectMenu/ClefMenu/TypesetOnlyClef.xml.h:1
-#, fuzzy
 msgid "Typeset Only Clef"
-msgstr "Clau sols per a la visualització"
+msgstr "Clau únicament per a impressió"
 
 #: ../actions/menus/ObjectMenu/ClefMenu/TypesetOnlyClef.xml.h:2
-#, fuzzy
 msgid "Inserts a clef that affects only the typesetting, not the display. Use this for music transposed on typesetting (avoiding too many ledger lines in the display, making it hard to read). Also useful to enter music in a familiar clef which you want to be printed in a less familiar one (e.g. enter music in treble or bass clef music to be printed for viola)."
-msgstr "Insereix una clau que afecta únicament la visualització, no la forma impresa. Useu això si, després d'un canvi de clau, el pentagrama on apareix la veu està en una clau diferent (evitant massa línies addicionals a la pantalla, que seria difícil de llegir). També és útil per visualitzar amb una clau familiar una música que voleu imprimir en una clau menys familiar (per exemple per visualitzar en clau de sol o de fa una música a imprimir en clau de viola)."
+msgstr "Insereix una clau que afecta únicament la impressió, no la visualització. Useu això per a música transposada a la impressió (evitant massa línies addicionals a la visualització, cosa que la fa difícil de llegir). És també útil per entrar música a una clau familiar que voleu imprimir en una clau menys familiar (per exemple entreu música en clau de sol o de fa que voleu imprimir par a la viola)."
 
 #: ../actions/menus/ObjectMenu/Directives/CheckDirectivePairs.scm:17
 msgid "Bad End Cue Marker"
-msgstr ""
+msgstr "Marcador incorrecte de final de cua"
 
 #: ../actions/menus/ObjectMenu/Directives/CheckDirectivePairs.scm:21
-#, fuzzy
 msgid "Bad Start Cue Marker"
-msgstr "Inicia les notes guia"
+msgstr "Marcador dolent d'inici de cua"
 
 #: ../actions/menus/ObjectMenu/Directives/CheckDirectivePairs.scm:32
 msgid "Start Cue without End Cue Marker"
-msgstr ""
+msgstr "Inicia una cua sense marcador de final de cua"
 
 #: ../actions/menus/ObjectMenu/Directives/CheckDirectivePairs.xml.h:1
-#, fuzzy
 msgid "Check Paired Directives"
-msgstr "Directives de la partitura"
+msgstr "Verifica les directives emparellades"
 
 #: ../actions/menus/ObjectMenu/Directives/CheckDirectivePairs.xml.h:2
-#, fuzzy
 msgid "Checks that paired directives match from the cursor to the end of the staff."
-msgstr "Esborra tots els compassos des del cursor fins al final, o bé en un pentagrama o en tots."
+msgstr "Verifica que les directives emparellades concorden des del cursor fins al final de la partitura."
 
 #: ../actions/menus/ObjectMenu/Directives/Comment.scm:7
 msgid "Comment is currently set to: \n"
@@ -13245,12 +13210,18 @@ msgid ""
 "It simply draws a barline at the point in question, if no other barline will be drawn.\n"
 "Use the Measures->Anacrusis (Upbeat) command for a short measure."
 msgstr ""
+"Advertiment: no useu aquesta ordre per crear una barra de ritme (o de pastilla).\n"
+"No afecta quines notes apareixen en cada compàs.\n"
+"Simplement dibuixa una barra al punt en qüestió, si no hi ha cap altra barra per dibuixar.\n"
+"Useu l'odre Compassos->Anacrusi (Ritme) per a un compàs curt."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/ForceBarline.scm:7
 msgid ""
 "This object instructs the LilyPond typesetter to draw a barline here.\n"
 "The timing is not altered, use a hidden time signature change or the short measure or anacrusis command to do that."
 msgstr ""
+"Aquest objecte instrueix al gravador LilyPond perquè dibuixi una barra aquí.\n"
+"No s'altera la temporalització, useu el canvi d'indicació de temps, el compàs curt o l'anacrusi per fer això."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/ForceBarline.xml.h:1
 msgid "Insert Barline"
@@ -13258,65 +13229,65 @@ msgstr "Insereix una barra"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/ForceBarline.xml.h:2
 msgid "Insert barline at cursor, Denemo's measure count is unaffected."
-msgstr ""
+msgstr "Insereix una barra al cursor, la comptabilitat de compassos del Denemo no es veu afectat."
 
 #. Half Barline
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/HalfBarline.xml.h:1
 msgid "Half Barline"
-msgstr ""
+msgstr "Mitja barra"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/HalfBarline.xml.h:2
 msgid "Insert a barline with only half of its original size"
-msgstr ""
+msgstr "Insereix una barra amb sols la meitat de la seva mida original"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/InsertFirstAndSecondTimeBars.scm:13
 msgid "Only for apending to music - use the individual first and second time bar commands to insert within music."
-msgstr ""
+msgstr "Sols per adjuntar a la música - useu les ordres individuals de barra de primer i segon cop per inserir-ho dins de la música."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/InsertFirstAndSecondTimeBars.xml.h:1
 msgid "Insert 1st &amp; 2nd Time Bars"
-msgstr ""
+msgstr "Insereix barres de 1er &amp: 2on cop"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/InsertFirstAndSecondTimeBars.xml.h:2
 #: ../actions/palettes.xml.h:117
 msgid "Inserts first and second time bars each with a whole measure rest. You can then edit this to suit your music, e.g by inserting extra bars, deleting the repeat start etc."
-msgstr ""
+msgstr "Insereix barres de primer i segon cop cadascuna amb un silenci de rodona. Després podeu editar això perquè s'ajusti a la vostra música, per exemple inserint barres extra, esborrant l'inici de repetició, etc."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/NoBarline.xml.h:1
 msgid "(Print) Omit Barline"
-msgstr ""
+msgstr "(Imprimeix) Omet Barra"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/NoBarline.xml.h:2
 #: ../actions/palettes.xml.h:112
 msgid "Skips the printing of any automatic barline here - allows line break."
-msgstr ""
+msgstr "Salta la impressió de totes les barres automàtiques aquí - permet un salt de línia."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/RepeatEndStart.xml.h:1
 msgid "Repeat End-Start"
-msgstr ""
+msgstr "Repeteix Final-Inici"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/RepeatEndStart.xml.h:2
 #: ../actions/palettes.xml.h:109
 msgid "Inserts a barline ending one repeated section and starting another"
-msgstr ""
+msgstr "Insereix una barra que finalitza una secció repetida i comença una altra"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/RepeatEnd.xml.h:1
 msgid "Repeat End Barline"
-msgstr ""
+msgstr "Barra final de repetició"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/RepeatEnd.xml.h:2
 #: ../actions/palettes.xml.h:108
 msgid "Insert a barline indicating the end of a repeated section."
-msgstr ""
+msgstr "Insereix una barra indicant el final d'una secció repetida."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/RepeatStart.xml.h:1
 msgid "Repeat Start Barline"
-msgstr ""
+msgstr "Barra inicial de repetició"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/RepeatStart.xml.h:2
 #: ../actions/palettes.xml.h:107
 msgid "Insert a barline indicating the start of a repeated section."
-msgstr ""
+msgstr "Insereix una barra indicant l'inici de una secció repetida."
 
 #. if BaseBeat is not specified, must query the user as to what should be the first beat unit:
 #. use old BPM if there. Bug: Only good for 4=...
@@ -13325,7 +13296,7 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:24
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:40
 msgid "Metronome Marking"
-msgstr ""
+msgstr "Marcador de metrònom"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:10
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:24
@@ -13333,6 +13304,8 @@ msgid ""
 "Give unit beat duration (e.g., 4. for dotted-quarter) \n"
 " or enter n for none:"
 msgstr ""
+"Doneu la duració unitària del ritme (per exemple 4. per a una negra amb punt)\n"
+" o entreu n per a cap:"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:12
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:26
@@ -13341,17 +13314,17 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:156
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:106
 msgid "n"
-msgstr ""
+msgstr "n"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:26
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:40
 msgid "Give number of these "
-msgstr ""
+msgstr "Doneu el nombre d'aquestes "
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:26
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:40
 msgid " beats per minute:"
-msgstr ""
+msgstr " pulsacions per minut:"
 
 #. let
 #. define GetBPM
@@ -13362,51 +13335,55 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:54
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:56
 msgid "Beat Change"
-msgstr ""
+msgstr "Canvi de pulsació"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:49
 msgid "Enter beat change as [beat1]=[beat2] with the beats in Lilypond syntax,"
-msgstr ""
+msgstr "Entreu el canvi de pulsació com a [pulsació1]=[pulsació2] amb les pulsacions amb sintaxi LilyPond,"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:50
 msgid ""
 "\n"
 "i.e. 4 for quarter, 4. for dotted quarter, etc."
 msgstr ""
+"\n"
+"per exemple 4 per a negra, 4. per a negra amb punt, etc."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:51
 msgid ""
 "\n"
 "Place immediately after a barline to center the beat change  over the barline."
 msgstr ""
+"\n"
+"Col·loqueu immediatament després de la barra per centrar el canvi de pulsació sobre la barra."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:55
 msgid "Enter text (if any) to appear before the [beat1]=[beat2]"
-msgstr ""
+msgstr "Entreu el text (si hi ha cap) que apareixerà abans de [pulsació1]=[pulsació2]"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:57
 msgid "Enter text (if any) to appear after  the [beat1]=[beat2]"
-msgstr ""
+msgstr "Entreu el text (si hi ha cap) que apareixerà desprès de [pulsació1]=[pulsació2]"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.xml.h:1
 msgid "BeatChange"
-msgstr ""
+msgstr "BeatChange"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.xml.h:2
 msgid "Changes beat"
-msgstr ""
+msgstr "Canvia la pulsació"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BreathMark.xml.h:1
 msgid "Breath Mark"
-msgstr ""
+msgstr "Marcador de respiració"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BreathMark.xml.h:2
 msgid "Inserts a Breath Mark"
-msgstr ""
+msgstr "Insereix un marcador de respiració"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Caesura.xml.h:1
 msgid "Caesura"
-msgstr ""
+msgstr "Cesura"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Caesura.xml.h:2
 msgid "Prints a caesura (pause) at the cursor position."
@@ -13414,7 +13391,7 @@ msgstr "Imprimeix una cesura (pausa) a la posició del cursor."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm:14
 msgid "Custom Rehearsal/Text Mark"
-msgstr ""
+msgstr "Marcador personalitzat de pràctica/text"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm:14
 msgid "Give text to use for mark"
@@ -13423,11 +13400,11 @@ msgstr "Doneu el text a usar per la marca"
 #. in case the user pressed Escape do nothing
 #: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm:16
 msgid "left"
-msgstr ""
+msgstr "esquerra"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm:16
 msgid "center"
-msgstr ""
+msgstr "centre"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm:16
 msgid "right"
@@ -13435,57 +13412,59 @@ msgstr "dreta"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.xml.h:1
 msgid "Add Text/Rehearsal/Bookmark"
-msgstr ""
+msgstr "Afegeix text/pràctica/marcador"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.xml.h:2
 msgid "Inserts an arbitrary mark in the score at the cursor. Any size, font, effect can be chosen. The text position can be dragged in the print view if needed."
-msgstr ""
+msgstr "Insereix una marca arbitrària a la partitura on està el cursor. Es pot escollir qualsevol mida, tipus de lletra o efecte. La posició del text es pot arrossegar a la finestra d'impressió si cal."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/DynamicText.scm:66
 msgid "Custom dynamic"
-msgstr ""
+msgstr "Dinàmica personalitzada"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/DynamicText.scm:66
 msgid "Enter dynamic text:"
-msgstr ""
+msgstr "Entreu el text de la dinàmica:"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/DynamicText.scm:71
 msgid "Dynamic setting"
-msgstr ""
+msgstr "Configuració de la dinàmica"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/DynamicText.scm:71
 msgid "Enter loudness level (0-127):"
-msgstr ""
+msgstr "Entreu el nivell del volum (0-127):"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/DynamicText.xml.h:2
 msgid "Choose dynamics and midi volume level."
-msgstr ""
+msgstr "Escolliu la dinàmica i el nivell de volum del midi."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeFermata.xml.h:1
 msgid "(Print) Standalone Fermata (for Barlines)"
-msgstr ""
+msgstr "(Imprimeix) fermata aïllada (per a barres)"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeFermata.xml.h:2
 msgid "Adds a standalone fermata which has no playback effect. Can be used to place a Fermata on a barline."
-msgstr ""
+msgstr "Afegeix una fermata aïllada que no té cap efecte de reproducció. Pot fer-se servir per col·locar una fermat a una barra."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeSegno.xml.h:1
 msgid "Standalone Segno (for barlines)"
-msgstr ""
+msgstr "Segno aïllat (per a barres)"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeSegno.xml.h:2
 msgid "Typesets a segno over the barline."
-msgstr ""
+msgstr "Grava un segno sobre la barra."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:14
 msgid "String: "
-msgstr ""
+msgstr "Corda: "
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:14
 msgid ""
 "Give Fret Number\n"
 "or o or x"
 msgstr ""
+"Doneu el número de trast\n"
+"o «o» o x"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:17
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:25
@@ -13495,19 +13474,19 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:86
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.xml.h:1
 msgid "Fret Diagram"
-msgstr ""
+msgstr "Diagrama de trastos"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:25
 msgid "Barre from string (or cancel for none) "
-msgstr ""
+msgstr "Barra des de la corda (o cancel·leu per a cap)"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:28
 msgid "Barre to string (or cancel for none) "
-msgstr ""
+msgstr "Barra a la corda (o cancel·leu per a cap)"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:31
 msgid "Barre at fret (or cancel for none) "
-msgstr ""
+msgstr "Barra al trast (o cancel·leu per a cap)"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:38
 msgid "Give size for diagram "
@@ -13515,7 +13494,7 @@ msgstr "Dóna la mida per al diagrama"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:56
 msgid "Edit Fret Diagram"
-msgstr ""
+msgstr "Edita el diagrama de trastos"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:56
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:40
@@ -13530,7 +13509,7 @@ msgstr "Edita la posició"
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:60
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:49
 msgid "Space Occupied by Text/Music"
-msgstr ""
+msgstr "Espai ocupat per text/música"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:60
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:49
@@ -13539,22 +13518,25 @@ msgid ""
 "(0 prevents dragging position\n"
 "Blank for natural size.)"
 msgstr ""
+"Doneu l'espai:\n"
+"(0 evita que s'arrossegui la posició\n"
+"En blanc per a la mida natural.)"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:65
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:66
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:53
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:54
 msgid "Offsets"
-msgstr ""
+msgstr "Òfsets"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:86
 msgid "Give Number of Strings "
-msgstr ""
+msgstr "Doneu el número de cordes"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.xml.h:2
 #: ../actions/palettes.xml.h:181
 msgid "Creates a dialog for you to enter a description of the fret diagram to be typeset at the cursor position."
-msgstr ""
+msgstr "Crea un diàleg perquè entreu una descripció del diagrama de trastos a gravar a la posició del cursor."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/InsertGraphic.xml.h:1
 msgid "Insert Graphic"
@@ -13562,31 +13544,31 @@ msgstr "Insereix el gràfic"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/InsertGraphic.xml.h:2
 msgid "Inserts a graphic in the music. This should be created as an encapsulated postscript file."
-msgstr ""
+msgstr "Insereix una gràfica a la música. Això s'hauria de crear com a un fitxer postscript encapsulat."
 
 #. want * 3/2 for dotted,*4 since midi uses quarters and divide by duration,
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:52
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:55
 msgid "BPM Printed"
-msgstr ""
+msgstr "S'ha imprimit el BPM"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:52
 msgid "BPM Not Printed"
-msgstr ""
+msgstr "No s'ha imprimit el BPM"
 
 #. begin
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:60
 msgid "Incorrect BPM syntax."
-msgstr ""
+msgstr "Sintaxi BPM incorrecta."
 
 #. this did not fire using d-PopUpMenu so changed to RadioBoxMenu
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.xml.h:1
 msgid "Tempi and Metronome Marks"
-msgstr ""
+msgstr "Marques de temps i metrònom"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.xml.h:2
 msgid "Insert tempi and/or metronome marks, printed or not, adjust playback tempo to suit"
-msgstr ""
+msgstr "Insereix marques de temps i/o metrònom, impresses o no, ajusta el tempo de reproducció perquè correspongui"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:41
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:25
@@ -13598,7 +13580,7 @@ msgstr "Edita la mida"
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.scm:6
 #: ../actions/menus/ObjectMenu/Score/Titles/FilledTitleLine.scm:11
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:75
 msgid ""
@@ -13608,29 +13590,34 @@ msgid ""
 "To apply italic or bold to a group of words enclose them in {}, e.g. \\bold {These words are bold}.\n"
 "Other markup commands \\super, \\tiny etc, see LilyPond documentation."
 msgstr ""
+"Doneu el text a aparèixer amb l'acord/nota següent:\n"
+"Els caràcters \\, \", §, { i } tenen un significat especial al text,\n"
+"la barra \\ comença alguna sintaxi LilyPond, les altres s'han d'emparellar.\n"
+"Per aplicar itàlica o negreta a un grup de paraules envolteu-les amb {}, per exemple \\bold{Aquestes paraules estan en negreta}.\n"
+"Per altres ordres de marcatge com ara \\super, \\tiny, etc., vegeu la documentació del Lilypond."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:79
 msgid "Scaling Text"
-msgstr ""
+msgstr "S'està escalant el text"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:79
 msgid "Give text size: "
-msgstr "Dóna la mida del text: "
+msgstr "Doneu la mida del text: "
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:106
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:30
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.scm:18
 msgid "Delete this text?"
-msgstr ""
+msgstr "Voleu esborrar aquest text?"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.xml.h:1
 msgid "Multi-line Text and Music"
-msgstr ""
+msgstr "Text i música multi-línia"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.xml.h:2
 msgid "Inserts multi-line text object which can include music snippets. The snippets are surrounded by section markers \"§\" to distinguish them from ordinary text. These must come in pairs, before and after the LilyPond syntax."
-msgstr ""
+msgstr "Insereix un objecte de text multi-línia que pot incloure fragments de música. Els fragments estan envoltat per marcadors de secció «§» per distingir-les el text ordinari. Han de posar-se en parelles, abans i després de la sintaxi LilyPond."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:5
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:532
@@ -13639,68 +13626,68 @@ msgstr "silencis"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:6
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:7
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:8
 msgid "0o"
-msgstr ""
+msgstr "0o"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:9
 msgid "1o"
-msgstr ""
+msgstr "1o"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:10
 msgid "M3"
-msgstr ""
+msgstr "M3"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:11
 msgid "M2"
-msgstr ""
+msgstr "M2"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:12
 msgid "M1"
-msgstr ""
+msgstr "M1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:13
 msgid "M1o"
-msgstr ""
+msgstr "M1o"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:14
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:15
 msgid "2classical"
-msgstr ""
+msgstr "2clàssic"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:16
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:17
 msgid "4"
-msgstr ""
+msgstr "4"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:18
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:19
 msgid "6"
-msgstr ""
+msgstr "6"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:20
 msgid "7"
-msgstr ""
+msgstr "7"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:22
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:577
 msgid "accidentals"
-msgstr ""
+msgstr "accidents"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:23
 msgid "sharp"
@@ -13708,47 +13695,47 @@ msgstr "sostingut"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:24
 msgid "sharp.arrowup"
-msgstr ""
+msgstr "sostingut.fletxacapamunt"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:25
 msgid "sharp.arrowdown"
-msgstr ""
+msgstr "sostingut.fletxacapavall"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:26
 msgid "sharp.arrowboth"
-msgstr ""
+msgstr "sostingut.fletxaambdós"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:27
 msgid "sharp.slashslash.stem"
-msgstr ""
+msgstr "sostingut.barrabarra.plica"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:28
 msgid "sharp.slashslashslash.stemstem"
-msgstr ""
+msgstr "sostingut.barrabarrabarra.plicaplica"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:29
 msgid "sharp.slashslashslash.stem"
-msgstr ""
+msgstr "sostingut.barrabarrabarra.plica"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:30
 msgid "sharp.slashslash.stemstemstem"
-msgstr ""
+msgstr "sostingut.barrabarra.plicaplicaplica"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:31
 msgid "natural"
-msgstr ""
+msgstr "natural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:32
 msgid "natural.arrowup"
-msgstr ""
+msgstr "natural.fletxacapamunt"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:33
 msgid "natural.arrowdown"
-msgstr ""
+msgstr "natural.fletxacapavall"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:34
 msgid "natural.arrowboth"
-msgstr ""
+msgstr "natural.fletxaambdós"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:35
 msgid "flat"
@@ -13756,35 +13743,35 @@ msgstr "bemoll"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:36
 msgid "flat.arrowup"
-msgstr ""
+msgstr "bemoll.fletxacapamunt"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:37
 msgid "flat.arrowdown"
-msgstr "bemoll.fletxa cap a baix"
+msgstr "bemoll.fletxacapavall"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:38
 msgid "flat.arrowboth"
-msgstr ""
+msgstr "bemoll.ambdós"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:39
 msgid "flat.slash"
-msgstr ""
+msgstr "bemoll.barra"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:40
 msgid "flat.slashslash"
-msgstr ""
+msgstr "bemoll.barrabarra"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:41
 msgid "mirroredflat.flat"
-msgstr ""
+msgstr "bemollemmirallat.sostingut"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:42
 msgid "mirroredflat"
-msgstr ""
+msgstr "emmirallatbemoll"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:43
 msgid "mirroredflat.backslash"
-msgstr ""
+msgstr "emmirallat.barra"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:44
 msgid "flatflat"
@@ -13792,60 +13779,60 @@ msgstr "bemollbemoll"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:45
 msgid "flatflat.slash"
-msgstr ""
+msgstr "bemollbemoll.barra"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:46
 msgid "doublesharp"
-msgstr ""
+msgstr "doble sostingut"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:47
 msgid "rightparen"
-msgstr ""
+msgstr "parèntesi dret"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:48
 msgid "leftparen"
-msgstr ""
+msgstr "parèntesi esquerre"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:50
 msgid "arrowheads"
-msgstr ""
+msgstr "caps de fletxa"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:51
 msgid "open.01"
-msgstr ""
+msgstr "open.01"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:52
 msgid "open.0M1"
-msgstr ""
+msgstr "open.0M1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:53
 msgid "open.11"
-msgstr ""
+msgstr "open.11"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:54
 msgid "open.1M1"
-msgstr ""
+msgstr "open.1M1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:55
 msgid "close.01"
-msgstr ""
+msgstr "close.01"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:56
 msgid "close.0M1"
-msgstr ""
+msgstr "close.0M1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:57
 msgid "close.11"
-msgstr ""
+msgstr "close.11"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:58
 msgid "close.1M1"
-msgstr ""
+msgstr "close.1M1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:60
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:614
 msgid "dots"
-msgstr ""
+msgstr "punts"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:61
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:241
@@ -13858,79 +13845,79 @@ msgstr "scripts"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:64
 msgid "ufermata"
-msgstr ""
+msgstr "ufermata"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:65
 msgid "dfermata"
-msgstr ""
+msgstr "dfermata"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:66
 msgid "ushortfermata"
-msgstr ""
+msgstr "ushortfermata"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:67
 msgid "dshortfermata"
-msgstr ""
+msgstr "dshortfermata"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:68
 msgid "ulongfermata"
-msgstr ""
+msgstr "ulongfermata"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:69
 msgid "dlongfermata"
-msgstr ""
+msgstr "dlongfermata"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:70
 msgid "uverylongfermata"
-msgstr ""
+msgstr "uverylongfermata"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:71
 msgid "dverylongfermata"
-msgstr ""
+msgstr "dverylongfermata"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:72
 msgid "thumb"
-msgstr ""
+msgstr "pulgar"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:73
 msgid "sforzato"
-msgstr ""
+msgstr "sforzato"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:74
 msgid "espr"
-msgstr ""
+msgstr "espr"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:75
 msgid "staccato"
-msgstr ""
+msgstr "staccato"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:76
 msgid "ustaccatissimo"
-msgstr ""
+msgstr "ustaccatissimo"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:77
 msgid "dstaccatissimo"
-msgstr ""
+msgstr "dstaccatissimo"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:78
 msgid "tenuto"
-msgstr ""
+msgstr "tenuto"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:79
 msgid "uportato"
-msgstr ""
+msgstr "uportato"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:80
 msgid "dportato"
-msgstr ""
+msgstr "dportato"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:81
 msgid "umarcato"
-msgstr ""
+msgstr "umarcato"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:82
 msgid "dmarcato"
-msgstr ""
+msgstr "dmarcato"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:84
 msgid "more scripts"
@@ -13938,31 +13925,31 @@ msgstr "més scripts"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:85
 msgid "open"
-msgstr ""
+msgstr "obert"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:86
 msgid "halfopen"
-msgstr ""
+msgstr "mig obert"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:87
 msgid "halfopenvertical"
-msgstr ""
+msgstr "migobertvertical"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:88
 msgid "stopped"
-msgstr ""
+msgstr "aturat"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:89
 msgid "upbow"
-msgstr ""
+msgstr "arquetcapamunt"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:90
 msgid "downbow"
-msgstr ""
+msgstr "arquetcapavall"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:91
 msgid "reverseturn"
-msgstr ""
+msgstr "retorninvers"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:92
 msgid "turn"
@@ -13970,43 +13957,43 @@ msgstr "retorn"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:93
 msgid "trill"
-msgstr ""
+msgstr "refilet"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:94
 msgid "upedalheel"
-msgstr ""
+msgstr "upedaltaló"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:95
 msgid "dpedalheel"
-msgstr ""
+msgstr "dpedaltaló"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:96
 msgid "upedaltoe"
-msgstr ""
+msgstr "upedalditdelpeu"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:97
 msgid "dpedaltoe"
-msgstr ""
+msgstr "dpedalditdelpeu"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:98
 msgid "flageolet"
-msgstr ""
+msgstr "flageolet"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:99
 msgid "segno"
-msgstr ""
+msgstr "segno"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:100
 msgid "varsegno"
-msgstr ""
+msgstr "varsegno"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:101
 msgid "coda"
-msgstr ""
+msgstr "coda"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:102
 msgid "varcoda"
-msgstr ""
+msgstr "varcoda"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:103
 msgid "rcomma"
@@ -14018,143 +14005,143 @@ msgstr "lcomma"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:105
 msgid "rvarcomma"
-msgstr ""
+msgstr "rvarcomma"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:106
 msgid "lvarcomma"
-msgstr ""
+msgstr "lvarcomma"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:108
 msgid "and more scripts"
-msgstr ""
+msgstr "i més scripts"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:109
 msgid "arpeggio"
-msgstr ""
+msgstr "arpegi"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:110
 msgid "trill_element"
-msgstr ""
+msgstr "trill_element"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:111
 msgid "arpeggio.arrow.M1"
-msgstr ""
+msgstr "arpeggio.arrow.M1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:112
 msgid "arpeggio.arrow.1"
-msgstr ""
+msgstr "arpeggio.arrow.1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:113
 msgid "trilelement"
-msgstr ""
+msgstr "trilelement"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:114
 msgid "prall"
-msgstr ""
+msgstr "mordent invertit"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:115
 msgid "mordent"
-msgstr ""
+msgstr "mordent"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:116
 msgid "prallprall"
-msgstr ""
+msgstr "prallprall"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:117
 msgid "prallmordent"
-msgstr ""
+msgstr "prallmordent"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:118
 msgid "upprall"
-msgstr ""
+msgstr "upprall"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:119
 msgid "upmordent"
-msgstr ""
+msgstr "upmordent"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:120
 msgid "pralldown"
-msgstr ""
+msgstr "mordentcapavall"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:121
 msgid "downprall"
-msgstr ""
+msgstr "capvallmordent"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:122
 msgid "downmordent"
-msgstr ""
+msgstr "capavallmordent"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:123
 msgid "prallup"
-msgstr ""
+msgstr "mordentcapamunt"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:124
 msgid "lineprall"
-msgstr ""
+msgstr "líniamordent"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:125
 msgid "caesura.curved"
-msgstr ""
+msgstr "cesura.corbada"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:126
 msgid "caesura.straight"
-msgstr ""
+msgstr "cesura.recta"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:127
 msgid "tickmark"
-msgstr ""
+msgstr "marca"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:128
 msgid "snappizzicato"
-msgstr ""
+msgstr "snappizzicato"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:130
 msgid "ictus"
-msgstr ""
+msgstr "ictus"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:131
 msgid "uaccentus"
-msgstr ""
+msgstr "uaccentus"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:132
 msgid "daccentus"
-msgstr ""
+msgstr "daccentus"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:133
 msgid "usemicirculus"
-msgstr ""
+msgstr "usemicirculus"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:134
 msgid "dsemicirculus"
-msgstr ""
+msgstr "dsemicirculus"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:135
 msgid "circulus"
-msgstr ""
+msgstr "circulus"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:136
 msgid "augmentum"
-msgstr ""
+msgstr "augmentum"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:137
 msgid "usignumcongruentiae"
-msgstr ""
+msgstr "usignumcongruentiae"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:138
 msgid "dsignumcongruentiae"
-msgstr ""
+msgstr "dsignumcongruentiae"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:139
 msgid "barline.kievan"
-msgstr ""
+msgstr "barra.kievan"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:142
 msgid "clefs"
-msgstr ""
+msgstr "claus"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:143
 msgid "C"
-msgstr ""
+msgstr "C"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:144
 msgid "C_change"
@@ -14163,7 +14150,7 @@ msgstr "C_change"
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:145
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/Tablature/MinimumFret.scm:12
 msgid "F"
-msgstr ""
+msgstr "F"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:146
 msgid "F_change"
@@ -14171,7 +14158,7 @@ msgstr "F_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:147
 msgid "G"
-msgstr ""
+msgstr "G"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:148
 msgid "G_change"
@@ -14179,15 +14166,15 @@ msgstr "G_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:149
 msgid "percussion"
-msgstr ""
+msgstr "percussió"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:150
 msgid "percussion_change"
-msgstr ""
+msgstr "percussion_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:151
 msgid "tab"
-msgstr ""
+msgstr "tab"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:152
 msgid "tab_change"
@@ -14200,111 +14187,111 @@ msgstr "més claus"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:155
 msgid "vaticana.do"
-msgstr ""
+msgstr "vaticana.do"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:156
 msgid "vaticana.do_change"
-msgstr ""
+msgstr "vaticana.do_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:157
 msgid "vaticana.fa"
-msgstr ""
+msgstr "vaticana.fa"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:158
 msgid "vaticana.fa_change"
-msgstr ""
+msgstr "vaticana.fa_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:159
 msgid "medicaea.do"
-msgstr ""
+msgstr "medicaea.do"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:160
 msgid "medicaea.do_change"
-msgstr ""
+msgstr "medicaea.do_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:161
 msgid "medicaea.fa"
-msgstr ""
+msgstr "medicaea.fa"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:162
 msgid "medicaea.fa_change"
-msgstr ""
+msgstr "medicaea.fa_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:163
 msgid "neomensural.c"
-msgstr ""
+msgstr "neomensural.c"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:164
 msgid "neomensural.c_change"
-msgstr ""
+msgstr "neomensural.c_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:165
 msgid "petrucci.c1"
-msgstr ""
+msgstr "petrucci.c1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:166
 msgid "petrucci.c1_change"
-msgstr ""
+msgstr "petrucci.c1_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:167
 msgid "petrucci.c2"
-msgstr ""
+msgstr "petrucci.c2"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:168
 msgid "petrucci.c2_change"
-msgstr ""
+msgstr "petrucci.c2_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:169
 msgid "petrucci.c3"
-msgstr ""
+msgstr "petrucci.c3"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:170
 msgid "petrucci.c3_change"
-msgstr ""
+msgstr "petrucci.c3_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:171
 msgid "petrucci.c4"
-msgstr ""
+msgstr "petrucci.c4"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:172
 msgid "petrucci.c4_change"
-msgstr ""
+msgstr "petrucci.c4_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:173
 msgid "petrucci.c5"
-msgstr ""
+msgstr "petrucci.c5"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:174
 msgid "petrucci.c5_change"
-msgstr ""
+msgstr "petrucci.c5_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:177
 msgid "mensural.c"
-msgstr ""
+msgstr "mensural.c"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:178
 msgid "mensural.c_change"
-msgstr ""
+msgstr "mensural.c_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:179
 msgid "blackmensural.c"
-msgstr ""
+msgstr "blackmensural.c"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:180
 msgid "blackmensural.c_change"
-msgstr ""
+msgstr "blackmensural.c_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:181
 msgid "petrucci.f"
-msgstr ""
+msgstr "petrucci.f"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:182
 msgid "petrucci.f_change"
-msgstr ""
+msgstr "petrucci.f_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:183
 msgid "mensural.f"
-msgstr ""
+msgstr "mensural.f"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:184
 msgid "mensural.f_change"
@@ -14312,195 +14299,195 @@ msgstr "mensural.f_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:185
 msgid "petrucci.g"
-msgstr ""
+msgstr "petrucci.g"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:186
 msgid "petrucci.g_change"
-msgstr ""
+msgstr "petrucci.g_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:187
 msgid "mensural.g"
-msgstr ""
+msgstr "mensural.g"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:188
 msgid "mensural.g_change"
-msgstr ""
+msgstr "mensural.g_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:189
 msgid "hufnagel.do"
-msgstr ""
+msgstr "hufnagel.do"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:190
 msgid "hufnagel.do_change"
-msgstr ""
+msgstr "hufnagel.do_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:191
 msgid "hufnagel.fa"
-msgstr ""
+msgstr "hufnagel.fa"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:192
 msgid "hufnagel.fa_change"
-msgstr ""
+msgstr "hufnagel.fa_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:193
 msgid "hufnagel.do.fa"
-msgstr ""
+msgstr "hufnagel.do.fa"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:194
 msgid "hufnagel.do.fa_change"
-msgstr ""
+msgstr "hufnagel.do.fa_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:195
 msgid "kievan.do"
-msgstr ""
+msgstr "kievan.do"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:196
 msgid "kievan.do_change"
-msgstr ""
+msgstr "kievan.do_change"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:198
 msgid "timesig"
-msgstr ""
+msgstr "indicador de temps"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:199
 msgid "C44"
-msgstr ""
+msgstr "C44"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:200
 msgid "C22"
-msgstr ""
+msgstr "C22"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:202
 msgid "mensural timesig"
-msgstr ""
+msgstr "indicador de temps mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:203
 msgid "mensural44"
-msgstr ""
+msgstr "mensural44"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:204
 msgid "mensural22"
-msgstr ""
+msgstr "mensural22"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:205
 msgid "mensural32"
-msgstr ""
+msgstr "mensural32"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:206
 msgid "mensural64"
-msgstr ""
+msgstr "mensural64"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:207
 msgid "mensural94"
-msgstr ""
+msgstr "mensural94"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:208
 msgid "mensural34"
-msgstr ""
+msgstr "mensural34"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:209
 msgid "mensural68"
-msgstr ""
+msgstr "mensural68"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:210
 msgid "mensural98"
-msgstr ""
+msgstr "mensural98"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:211
 msgid "mensural48"
-msgstr ""
+msgstr "mensural48"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:212
 msgid "mensural68alt"
-msgstr ""
+msgstr "mensural68alt"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:213
 msgid "mensural24"
-msgstr ""
+msgstr "mensural24"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:214
 msgid "neomensural44"
-msgstr ""
+msgstr "neomensural44"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:215
 msgid "neomensural22"
-msgstr ""
+msgstr "neomensural22"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:216
 msgid "neomensural32"
-msgstr ""
+msgstr "neomensural32"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:217
 msgid "neomensural64"
-msgstr ""
+msgstr "neomensural64"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:218
 msgid "neomensural94"
-msgstr ""
+msgstr "neomensural94"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:219
 msgid "neomensural34"
-msgstr ""
+msgstr "neomensural34"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:220
 msgid "neomensural68"
-msgstr ""
+msgstr "neomensural68"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:221
 msgid "neomensural98"
-msgstr ""
+msgstr "neomensural98"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:222
 msgid "neomensural48"
-msgstr ""
+msgstr "neomensural48"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:223
 msgid "neomensural68alt"
-msgstr ""
+msgstr "neomensural68alt"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:224
 msgid "neomensural24"
-msgstr ""
+msgstr "neomensural24"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:226
 msgid "pedal"
-msgstr ""
+msgstr "pedal"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:227
 msgid "*"
-msgstr ""
+msgstr "*"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:228
 msgid "M"
-msgstr ""
+msgstr "M"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:229
 msgid "."
-msgstr ""
+msgstr "."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:230
 msgid "P"
-msgstr ""
+msgstr "P"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:231
 msgid "d"
-msgstr ""
+msgstr "d"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:232
 msgid "e"
-msgstr ""
+msgstr "e"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:233
 msgid "Ped"
-msgstr ""
+msgstr "Ped"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:235
 msgid "brackettips"
-msgstr ""
+msgstr "suports"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:236
 msgid "up"
-msgstr ""
+msgstr "cap amunt"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:237
 msgid "down"
@@ -14512,43 +14499,43 @@ msgstr "acordió"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:240
 msgid "discant"
-msgstr ""
+msgstr "discant"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:242
 msgid "freebass"
-msgstr ""
+msgstr "baix lliure"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:243
 msgid "stdbass"
-msgstr ""
+msgstr "stdbass"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:244
 msgid "bayanbass"
-msgstr ""
+msgstr "bayanbass"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:245
 msgid "oldEE"
-msgstr ""
+msgstr "oldEE"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:246
 msgid "push"
-msgstr ""
+msgstr "empeny"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:247
 msgid "pull"
-msgstr ""
+msgstr "estira"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:249
 msgid "ties"
-msgstr ""
+msgstr "lligadures"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:250
 msgid "lyric.short"
-msgstr ""
+msgstr "lletra.curta"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:251
 msgid "lyric.default"
-msgstr ""
+msgstr "lletra.predeterminada"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:253
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:292
@@ -14557,15 +14544,15 @@ msgstr "caps de nota"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:254
 msgid "uM2"
-msgstr ""
+msgstr "uM2"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:255
 msgid "dM2"
-msgstr ""
+msgstr "dM2"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:256
 msgid "sM1"
-msgstr ""
+msgstr "sM1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:257
 msgid "sM1double"
@@ -14573,15 +14560,15 @@ msgstr "sM1double"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:258
 msgid "s0"
-msgstr ""
+msgstr "s0"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:259
 msgid "s1"
-msgstr ""
+msgstr "s1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:260
 msgid "s2"
-msgstr ""
+msgstr "s2"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:261
 msgid "s0diamond"
@@ -14597,35 +14584,35 @@ msgstr "s2diamond"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:264
 msgid "s0triangle"
-msgstr ""
+msgstr "s0triangle"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:265
 msgid "d1triangle"
-msgstr ""
+msgstr "d1triangle"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:266
 msgid "u1triangle"
-msgstr ""
+msgstr "u1triangle"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:267
 msgid "u2triangle"
-msgstr ""
+msgstr "u2triangle"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:268
 msgid "d2triangle"
-msgstr ""
+msgstr "d2triangle"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:269
 msgid "s0slash"
-msgstr ""
+msgstr "s0slash"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:270
 msgid "s1slash"
-msgstr ""
+msgstr "s1slash"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:271
 msgid "s2slash"
-msgstr ""
+msgstr "s2slash"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:272
 msgid "s0cross"
@@ -14641,247 +14628,247 @@ msgstr "s2cross"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:275
 msgid "s2xcircle"
-msgstr ""
+msgstr "s2xcircle"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:276
 msgid "s0do"
-msgstr ""
+msgstr "s0do"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:277
 msgid "d1do"
-msgstr ""
+msgstr "d1do"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:278
 msgid "u1do"
-msgstr ""
+msgstr "u1do"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:279
 msgid "d2do"
-msgstr ""
+msgstr "d2do"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:280
 msgid "u2do"
-msgstr ""
+msgstr "u2do"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:281
 msgid "s0doThin"
-msgstr ""
+msgstr "s0doThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:282
 msgid "d1doThin"
-msgstr ""
+msgstr "d1doThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:283
 msgid "u1doThin"
-msgstr ""
+msgstr "u1doThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:284
 msgid "d2doThin"
-msgstr ""
+msgstr "d2doThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:285
 msgid "u2doThin"
-msgstr ""
+msgstr "u2doThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:286
 msgid "s0re"
-msgstr ""
+msgstr "s0re"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:287
 msgid "u1re"
-msgstr ""
+msgstr "u1re"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:288
 msgid "d1re"
-msgstr ""
+msgstr "d1re"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:289
 msgid "u2re"
-msgstr ""
+msgstr "u2re"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:290
 msgid "d2re"
-msgstr ""
+msgstr "d2re"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:293
 msgid "s0reThin"
-msgstr ""
+msgstr "s0reThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:294
 msgid "u1reThin"
-msgstr ""
+msgstr "u1reThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:295
 msgid "d1reThin"
-msgstr ""
+msgstr "d1reThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:296
 msgid "u2reThin"
-msgstr ""
+msgstr "u2reThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:297
 msgid "d2reThin"
-msgstr ""
+msgstr "d2reThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:298
 msgid "s0mi"
-msgstr ""
+msgstr "s0mi"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:299
 msgid "s1mi"
-msgstr ""
+msgstr "s1mi"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:300
 msgid "s2mi"
-msgstr ""
+msgstr "s2mi"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:301
 msgid "s0miMirror"
-msgstr ""
+msgstr "s0miMirror"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:302
 msgid "s1miMirror"
-msgstr ""
+msgstr "s1miMirror"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:303
 msgid "s2miMirror"
-msgstr ""
+msgstr "s2miMirror"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:304
 msgid "s0miThin"
-msgstr ""
+msgstr "s0miThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:305
 msgid "s1miThin"
-msgstr ""
+msgstr "s1miThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:306
 msgid "s2miThin"
-msgstr ""
+msgstr "s2miThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:307
 msgid "u0fa"
-msgstr ""
+msgstr "u0fa"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:308
 msgid "d0fa"
-msgstr ""
+msgstr "d0fa"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:309
 msgid "u1fa"
-msgstr ""
+msgstr "u1fa"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:310
 msgid "d1fa"
-msgstr ""
+msgstr "d1fa"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:311
 msgid "u2fa"
-msgstr ""
+msgstr "u2fa"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:312
 msgid "d2fa"
-msgstr ""
+msgstr "d2fa"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:313
 msgid "u0faThin"
-msgstr ""
+msgstr "u0faThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:314
 msgid "d0faThin"
-msgstr ""
+msgstr "d0faThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:315
 msgid "u1faThin"
-msgstr ""
+msgstr "u1faThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:316
 msgid "d1faThin"
-msgstr ""
+msgstr "d1faThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:317
 msgid "u2faThin"
-msgstr ""
+msgstr "u2faThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:318
 msgid "d2faThin"
-msgstr ""
+msgstr "d2faThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:319
 msgid "s0sol"
-msgstr ""
+msgstr "s0sol"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:320
 msgid "s1sol"
-msgstr ""
+msgstr "s1sol"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:321
 msgid "s2sol"
-msgstr ""
+msgstr "s2sol"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:322
 msgid "s0la"
-msgstr ""
+msgstr "s0la"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:323
 msgid "s1la"
-msgstr ""
+msgstr "s1la"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:324
 msgid "s2la"
-msgstr ""
+msgstr "s2la"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:325
 msgid "s0laThin"
-msgstr ""
+msgstr "s0laThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:326
 msgid "s1laThin"
-msgstr ""
+msgstr "s1laThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:327
 msgid "s2laThin"
-msgstr ""
+msgstr "s2laThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:328
 msgid "s0ti"
-msgstr ""
+msgstr "s0ti"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:329
 msgid "u1ti"
-msgstr ""
+msgstr "u1ti"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:330
 msgid "d1ti"
-msgstr ""
+msgstr "d1ti"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:331
 msgid "u2ti"
-msgstr ""
+msgstr "u2ti"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:332
 msgid "d2ti"
-msgstr ""
+msgstr "d2ti"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:333
 msgid "s0tiThin"
-msgstr ""
+msgstr "s0tiThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:334
 msgid "u1tiThin"
-msgstr ""
+msgstr "u1tiThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:335
 msgid "d1tiThin"
-msgstr ""
+msgstr "d1tiThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:336
 msgid "u2tiThin"
-msgstr ""
+msgstr "u2tiThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:337
 msgid "d2tiThin"
-msgstr ""
+msgstr "d2tiThin"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:339
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:360
@@ -14890,143 +14877,143 @@ msgstr "Caps de nota funk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:340
 msgid "u0doFunk"
-msgstr ""
+msgstr "u0doFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:341
 msgid "d0doFunk"
-msgstr ""
+msgstr "d0doFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:342
 msgid "u1doFunk"
-msgstr ""
+msgstr "u1doFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:343
 msgid "d1doFunk"
-msgstr ""
+msgstr "d1doFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:344
 msgid "u2doFunk"
-msgstr ""
+msgstr "u2doFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:345
 msgid "d2doFunk"
-msgstr ""
+msgstr "d2doFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:346
 msgid "u0reFunk"
-msgstr ""
+msgstr "u0reFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:347
 msgid "d0reFunk"
-msgstr ""
+msgstr "d0reFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:348
 msgid "u1reFunk"
-msgstr ""
+msgstr "u1reFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:349
 msgid "d1reFunk"
-msgstr ""
+msgstr "d1reFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:350
 msgid "u2reFunk"
-msgstr ""
+msgstr "u2reFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:351
 msgid "d2reFunk"
-msgstr ""
+msgstr "d2reFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:352
 msgid "u0miFunk"
-msgstr ""
+msgstr "u0miFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:353
 msgid "d0miFunk"
-msgstr ""
+msgstr "d0miFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:354
 msgid "u1miFunk"
-msgstr ""
+msgstr "u1miFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:355
 msgid "d1miFunk"
-msgstr ""
+msgstr "d1miFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:356
 msgid "s2miFunk"
-msgstr ""
+msgstr "s2miFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:357
 msgid "u0faFunk"
-msgstr ""
+msgstr "u0faFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:358
 msgid "d0faFunk"
-msgstr ""
+msgstr "d0faFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:361
 msgid "u1faFunk"
-msgstr ""
+msgstr "u1faFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:362
 msgid "d1faFunk"
-msgstr ""
+msgstr "d1faFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:363
 msgid "u2faFunk"
-msgstr ""
+msgstr "u2faFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:364
 msgid "d2faFunk"
-msgstr ""
+msgstr "d2faFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:365
 msgid "s0solFunk"
-msgstr ""
+msgstr "s0solFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:366
 msgid "s1solFunk"
-msgstr ""
+msgstr "s1solFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:367
 msgid "s2solFunk"
-msgstr ""
+msgstr "s2solFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:368
 msgid "s0laFunk"
-msgstr ""
+msgstr "s0laFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:369
 msgid "s1laFunk"
-msgstr ""
+msgstr "s1laFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:370
 msgid "s2laFunk"
-msgstr ""
+msgstr "s2laFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:371
 msgid "u0tiFunk"
-msgstr ""
+msgstr "u0tiFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:372
 msgid "d0tiFunk"
-msgstr ""
+msgstr "d0tiFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:373
 msgid "u1tiFunk"
-msgstr ""
+msgstr "u1tiFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:374
 msgid "d1tiFunk"
-msgstr ""
+msgstr "d1tiFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:375
 msgid "u2tiFunk"
-msgstr ""
+msgstr "u2tiFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:376
 msgid "d2tiFunk"
-msgstr ""
+msgstr "d2tiFunk"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:378
 msgid "Walker noteheads"
@@ -15034,107 +15021,107 @@ msgstr "Caps de nota walker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:379
 msgid "s0doWalker"
-msgstr ""
+msgstr "s0doWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:380
 msgid "u1doWalker"
-msgstr ""
+msgstr "u1doWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:381
 msgid "d1doWalker"
-msgstr ""
+msgstr "d1doWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:382
 msgid "u2doWalker"
-msgstr ""
+msgstr "u2doWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:383
 msgid "d2doWalker"
-msgstr ""
+msgstr "d2doWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:384
 msgid "s0reWalker"
-msgstr ""
+msgstr "s0reWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:385
 msgid "u1reWalker"
-msgstr ""
+msgstr "u1reWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:386
 msgid "d1reWalker"
-msgstr ""
+msgstr "d1reWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:387
 msgid "u2reWalker"
-msgstr ""
+msgstr "u2reWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:388
 msgid "d2reWalker"
-msgstr ""
+msgstr "d2reWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:389
 msgid "s0miWalker"
-msgstr ""
+msgstr "s0miWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:390
 msgid "s1miWalker"
-msgstr ""
+msgstr "s1miWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:391
 msgid "s2miWalker"
-msgstr ""
+msgstr "s2miWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:392
 msgid "s0faWalker"
-msgstr ""
+msgstr "s0faWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:393
 msgid "u1faWalker"
-msgstr ""
+msgstr "u1faWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:394
 msgid "d1faWalker"
-msgstr ""
+msgstr "d1faWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:395
 msgid "u2faWalker"
-msgstr ""
+msgstr "u2faWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:396
 msgid "d2faWalker"
-msgstr ""
+msgstr "d2faWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:397
 msgid "s0laWalker"
-msgstr ""
+msgstr "s0laWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:398
 msgid "s1laWalker"
-msgstr ""
+msgstr "s1laWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:399
 msgid "s2laWalker"
-msgstr ""
+msgstr "s2laWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:400
 msgid "s0tiWalker"
-msgstr ""
+msgstr "s0tiWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:401
 msgid "u1tiWalker"
-msgstr ""
+msgstr "u1tiWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:402
 msgid "d1tiWalker"
-msgstr ""
+msgstr "d1tiWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:403
 msgid "u2tiWalker"
-msgstr ""
+msgstr "u2tiWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:404
 msgid "d2tiWalker"
-msgstr ""
+msgstr "d2tiWalker"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:406
 msgid "mensural noteheads"
@@ -15142,55 +15129,55 @@ msgstr "caps de nota mensurals"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:407
 msgid "uM3neomensural"
-msgstr ""
+msgstr "uM3neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:408
 msgid "dM3neomensural"
-msgstr ""
+msgstr "dM3neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:409
 msgid "uM2neomensural"
-msgstr ""
+msgstr "uM2neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:410
 msgid "dM2neomensural"
-msgstr ""
+msgstr "dM2neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:411
 msgid "sM1neomensural"
-msgstr ""
+msgstr "sM1neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:412
 msgid "urM3neomensural"
-msgstr ""
+msgstr "urM3neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:413
 msgid "drM3neomensural"
-msgstr ""
+msgstr "drM3neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:414
 msgid "urM2neomensural"
-msgstr ""
+msgstr "urM2neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:415
 msgid "drM2neomensural"
-msgstr ""
+msgstr "drM2neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:416
 msgid "srM1neomensural"
-msgstr ""
+msgstr "srM1neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:417
 msgid "s0neomensural"
-msgstr ""
+msgstr "s0neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:418
 msgid "s1neomensural"
-msgstr ""
+msgstr "s1neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:419
 msgid "s2neomensural"
-msgstr ""
+msgstr "s2neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:420
 msgid "s0harmonic"
@@ -15202,55 +15189,55 @@ msgstr "s2harmonic"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:422
 msgid "uM3mensural"
-msgstr ""
+msgstr "uM3mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:423
 msgid "dM3mensural"
-msgstr ""
+msgstr "dM3mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:424
 msgid "sM3ligmensural"
-msgstr ""
+msgstr "sM3ligmensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:425
 msgid "uM2mensural"
-msgstr ""
+msgstr "uM2mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:426
 msgid "dM2mensural"
-msgstr ""
+msgstr "dM2mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:427
 msgid "sM2ligmensural"
-msgstr ""
+msgstr "sM2ligmensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:428
 msgid "sM1mensural"
-msgstr ""
+msgstr "sM1mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:429
 msgid "urM3mensural"
-msgstr ""
+msgstr "urM3mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:430
 msgid "drM3mensural"
-msgstr ""
+msgstr "drM3mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:431
 msgid "srM3ligmensural"
-msgstr ""
+msgstr "srM3ligmensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:432
 msgid "urM2mensural"
-msgstr ""
+msgstr "urM2mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:433
 msgid "drM2mensural"
-msgstr ""
+msgstr "drM2mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:434
 msgid "srM2ligmensural"
-msgstr ""
+msgstr "srM2ligmensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:436
 msgid "more mensural noteheads"
@@ -15258,107 +15245,107 @@ msgstr "més caps de nota mensurals"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:437
 msgid "srM1mensural"
-msgstr ""
+msgstr "srM1mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:438
 msgid "uM3semimensural"
-msgstr ""
+msgstr "uM3semimensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:439
 msgid "dM3semimensural"
-msgstr ""
+msgstr "dM3semimensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:440
 msgid "sM3semiligmensural"
-msgstr ""
+msgstr "sM3semiligmensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:441
 msgid "uM2semimensural"
-msgstr ""
+msgstr "uM2semimensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:442
 msgid "dM2semimensural"
-msgstr ""
+msgstr "dM2semimensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:443
 msgid "sM2semiligmensural"
-msgstr ""
+msgstr "sM2semiligmensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:444
 msgid "sM1semimensural"
-msgstr ""
+msgstr "sM1semimensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:445
 msgid "urM3semimensural"
-msgstr ""
+msgstr "urM3semimensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:446
 msgid "drM3semimensural"
-msgstr ""
+msgstr "drM3semimensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:447
 msgid "srM3semiligmensural"
-msgstr ""
+msgstr "srM3semiligmensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:448
 msgid "urM2semimensural"
-msgstr ""
+msgstr "urM2semimensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:449
 msgid "drM2semimensural"
-msgstr ""
+msgstr "drM2semimensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:450
 msgid "srM2semiligmensural"
-msgstr ""
+msgstr "srM2semiligmensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:451
 msgid "srM1semimensural"
-msgstr ""
+msgstr "srM1semimensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:452
 msgid "uM3blackmensural"
-msgstr ""
+msgstr "uM3blackmensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:453
 msgid "dM3blackmensural"
-msgstr ""
+msgstr "dM3blackmensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:454
 msgid "sM3blackligmensural"
-msgstr ""
+msgstr "sM3blackligmensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:455
 msgid "uM2blackmensural"
-msgstr ""
+msgstr "uM2blackmensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:456
 msgid "dM2blackmensural"
-msgstr ""
+msgstr "dM2blackmensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:457
 msgid "sM2blackligmensural"
-msgstr ""
+msgstr "sM2blackligmensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:458
 msgid "sM1blackmensural"
-msgstr ""
+msgstr "sM1blackmensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:459
 msgid "s0mensural"
-msgstr ""
+msgstr "s0mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:460
 msgid "s1mensural"
-msgstr ""
+msgstr "s1mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:461
 msgid "s2mensural"
-msgstr ""
+msgstr "s2mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:462
 msgid "s0blackmensural"
-msgstr ""
+msgstr "s0blackmensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:464
 msgid "ancient noteheads"
@@ -15366,99 +15353,99 @@ msgstr "Caps de nota antics"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:465
 msgid "s0petrucci"
-msgstr ""
+msgstr "s0petrucci"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:466
 msgid "s1petrucci"
-msgstr ""
+msgstr "s1petrucci"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:467
 msgid "s2petrucci"
-msgstr ""
+msgstr "s2petrucci"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:468
 msgid "s0blackpetrucci"
-msgstr ""
+msgstr "s0blackpetrucci"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:469
 msgid "s1blackpetrucci"
-msgstr ""
+msgstr "s1blackpetrucci"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:470
 msgid "s2blackpetrucci"
-msgstr ""
+msgstr "s2blackpetrucci"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:471
 msgid "svaticana.punctum"
-msgstr ""
+msgstr "svaticana.punctum"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:472
 msgid "svaticana.punctum.cavum"
-msgstr ""
+msgstr "svaticana.punctum.cavum"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:473
 msgid "svaticana.linea.punctum"
-msgstr ""
+msgstr "svaticana.linea.punctum"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:474
 msgid "svaticana.linea.punctum.cavum"
-msgstr ""
+msgstr "svaticana.linea.punctum.cavum"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:475
 msgid "svaticana.inclinatum"
-msgstr ""
+msgstr "svaticana.inclinatum"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:476
 msgid "svaticana.lpes"
-msgstr ""
+msgstr "svaticana.lpes"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:477
 msgid "svaticana.vlpes"
-msgstr ""
+msgstr "svaticana.vlpes"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:478
 msgid "svaticana.upes"
-msgstr ""
+msgstr "svaticana.upes"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:479
 msgid "svaticana.vupes"
-msgstr ""
+msgstr "svaticana.vupes"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:480
 msgid "svaticana.plica"
-msgstr ""
+msgstr "svaticana.plica"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:481
 msgid "svaticana.vplica"
-msgstr ""
+msgstr "svaticana.vplica"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:482
 msgid "svaticana.epiphonus"
-msgstr ""
+msgstr "svaticana.epiphonus"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:483
 msgid "svaticana.vepiphonus"
-msgstr ""
+msgstr "svaticana.vepiphonus"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:484
 msgid "svaticana.reverse.plica"
-msgstr ""
+msgstr "svaticana.reverse.plica"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:485
 msgid "svaticana.reverse.vplica"
-msgstr ""
+msgstr "svaticana.reverse.vplica"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:486
 msgid "svaticana.inner.cephalicus"
-msgstr ""
+msgstr "svaticana.inner.cephalicus"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:487
 msgid "svaticana.cephalicus"
-msgstr ""
+msgstr "svaticana.cephalicus"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:488
 msgid "svaticana.quilisma"
-msgstr ""
+msgstr "svaticana.quilisma"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:490
 msgid "more ancient noteheads"
@@ -15466,59 +15453,59 @@ msgstr "Més caps de nota antics"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:491
 msgid "ssolesmes.incl.parvum"
-msgstr ""
+msgstr "ssolesmes.incl.parvum"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:492
 msgid "ssolesmes.auct.asc"
-msgstr ""
+msgstr "ssolesmes.auct.asc"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:493
 msgid "ssolesmes.auct.desc"
-msgstr ""
+msgstr "ssolesmes.auct.desc"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:494
 msgid "ssolesmes.incl.auctum"
-msgstr ""
+msgstr "ssolesmes.incl.auctum"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:495
 msgid "ssolesmes.stropha"
-msgstr ""
+msgstr "ssolesmes.stropha"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:496
 msgid "ssolesmes.stropha.aucta"
-msgstr ""
+msgstr "ssolesmes.stropha.aucta"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:497
 msgid "ssolesmes.oriscus"
-msgstr ""
+msgstr "ssolesmes.oriscus"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:498
 msgid "smedicaea.inclinatum"
-msgstr ""
+msgstr "smedicaea.inclinatum"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:499
 msgid "smedicaea.punctum"
-msgstr ""
+msgstr "smedicaea.punctum"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:500
 msgid "smedicaea.rvirga"
-msgstr ""
+msgstr "smedicaea.rvirga"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:501
 msgid "smedicaea.virga"
-msgstr ""
+msgstr "smedicaea.virga"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:502
 msgid "shufnagel.punctum"
-msgstr ""
+msgstr "shufnagel.punctum"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:503
 msgid "shufnagel.virga"
-msgstr ""
+msgstr "shufnagel.virga"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:504
 msgid "shufnagel.lpes"
-msgstr ""
+msgstr "shufnagel.lpes"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:506
 msgid "kievan noteheads"
@@ -15526,404 +15513,404 @@ msgstr "caps de nota kievan"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:507
 msgid "sM2kievan"
-msgstr ""
+msgstr "sM2kievan"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:508
 msgid "sM1kievan"
-msgstr ""
+msgstr "sM1kievan"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:509
 msgid "s0kievan"
-msgstr ""
+msgstr "s0kievan"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:510
 msgid "d2kievan"
-msgstr ""
+msgstr "d2kievan"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:511
 msgid "u2kievan"
-msgstr ""
+msgstr "u2kievan"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:512
 msgid "s1kievan"
-msgstr ""
+msgstr "s1kievan"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:513
 msgid "sr1kievan"
-msgstr ""
+msgstr "sr1kievan"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:514
 msgid "d3kievan"
-msgstr ""
+msgstr "d3kievan"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:515
 msgid "u3kievan"
-msgstr ""
+msgstr "u3kievan"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:518
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:587
 msgid "flags"
-msgstr ""
+msgstr "etiquetes"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:519
 msgid "u3"
-msgstr ""
+msgstr "u3"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:520
 msgid "u4"
-msgstr ""
+msgstr "u4"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:521
 msgid "u5"
-msgstr ""
+msgstr "u5"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:522
 msgid "u6"
-msgstr ""
+msgstr "u6"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:523
 msgid "u7"
-msgstr ""
+msgstr "u7"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:524
 msgid "d3"
-msgstr ""
+msgstr "d3"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:525
 msgid "d4"
-msgstr ""
+msgstr "d4"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:526
 msgid "d5"
-msgstr ""
+msgstr "d5"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:527
 msgid "d6"
-msgstr ""
+msgstr "d6"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:528
 msgid "d7"
-msgstr ""
+msgstr "d7"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:529
 msgid "ugrace"
-msgstr ""
+msgstr "gràciacapamunt"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:530
 msgid "dgrace"
-msgstr ""
+msgstr "gràciacapavall"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:533
 msgid "M3neomensural"
-msgstr ""
+msgstr "M3neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:534
 msgid "M2neomensural"
-msgstr ""
+msgstr "M2neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:535
 msgid "M1neomensural"
-msgstr ""
+msgstr "M1neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:536
 msgid "0neomensural"
-msgstr ""
+msgstr "0neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:537
 msgid "1neomensural"
-msgstr ""
+msgstr "1neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:538
 msgid "2neomensural"
-msgstr ""
+msgstr "2neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:539
 msgid "3neomensural"
-msgstr ""
+msgstr "3neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:540
 msgid "4neomensural"
-msgstr ""
+msgstr "4neomensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:541
 msgid "M3mensural"
-msgstr ""
+msgstr "M3mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:542
 msgid "M2mensural"
-msgstr ""
+msgstr "M2mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:543
 msgid "M1mensural"
-msgstr ""
+msgstr "M1mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:544
 msgid "0mensural"
-msgstr ""
+msgstr "0mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:545
 msgid "1mensural"
-msgstr ""
+msgstr "1mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:546
 msgid "2mensural"
-msgstr ""
+msgstr "2mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:547
 msgid "3mensural"
-msgstr ""
+msgstr "3mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:548
 msgid "4mensural"
-msgstr ""
+msgstr "4mensural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:551
 msgid "custodes"
-msgstr ""
+msgstr "custodes"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:552
 msgid "hufnagel.u0"
-msgstr ""
+msgstr "hufnagel.u0"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:553
 msgid "hufnagel.u1"
-msgstr ""
+msgstr "hufnagel.u1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:554
 msgid "hufnagel.u2"
-msgstr ""
+msgstr "hufnagel.u2"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:555
 msgid "hufnagel.d0"
-msgstr ""
+msgstr "hufnagel.d0"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:556
 msgid "hufnagel.d1"
-msgstr ""
+msgstr "hufnagel.d1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:557
 msgid "hufnagel.d2"
-msgstr ""
+msgstr "hufnagel.d2"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:558
 msgid "medicaea.u0"
-msgstr ""
+msgstr "medicaea.u0"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:559
 msgid "medicaea.u1"
-msgstr ""
+msgstr "medicaea.u1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:560
 msgid "medicaea.u2"
-msgstr ""
+msgstr "medicaea.u2"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:561
 msgid "medicaea.d0"
-msgstr ""
+msgstr "medicaea.d0"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:562
 msgid "medicaea.d1"
-msgstr ""
+msgstr "medicaea.d1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:563
 msgid "medicaea.d2"
-msgstr ""
+msgstr "medicaea.d2"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:564
 msgid "vaticana.u0"
-msgstr ""
+msgstr "vaticana.u0"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:565
 msgid "vaticana.u1"
-msgstr ""
+msgstr "vaticana.u1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:566
 msgid "vaticana.u2"
-msgstr ""
+msgstr "vaticana.u2"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:567
 msgid "vaticana.d0"
-msgstr ""
+msgstr "vaticana.d0"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:568
 msgid "vaticana.d1"
-msgstr ""
+msgstr "vaticana.d1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:569
 msgid "vaticana.d2"
-msgstr ""
+msgstr "vaticana.d2"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:570
 msgid "mensural.u0"
-msgstr ""
+msgstr "mensural.u0"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:571
 msgid "mensural.u1"
-msgstr ""
+msgstr "mensural.u1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:572
 msgid "mensural.u2"
-msgstr ""
+msgstr "mensural.u2"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:573
 msgid "mensural.d0"
-msgstr ""
+msgstr "mensural.d0"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:574
 msgid "mensural.d1"
-msgstr ""
+msgstr "mensural.d1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:575
 msgid "mensural.d2"
-msgstr ""
+msgstr "mensural.d2"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:578
 msgid "medicaeaM1"
-msgstr ""
+msgstr "medicaeaM1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:579
 msgid "vaticanaM1"
-msgstr ""
+msgstr "vaticanaM1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:580
 msgid "vaticana0"
-msgstr ""
+msgstr "vaticana0"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:581
 msgid "mensural1"
-msgstr ""
+msgstr "mensural1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:582
 msgid "mensuralM1"
-msgstr ""
+msgstr "mensuralM1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:583
 msgid "hufnagelM1"
-msgstr ""
+msgstr "hufnagelM1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:584
 msgid "kievan1"
-msgstr ""
+msgstr "kievan1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:585
 msgid "kievanM1"
-msgstr ""
+msgstr "kievanM1"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:588
 msgid "mensuralu03"
-msgstr ""
+msgstr "mensuralu03"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:589
 msgid "mensuralu13"
-msgstr ""
+msgstr "mensuralu13"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:590
 msgid "mensuralu23"
-msgstr ""
+msgstr "mensuralu23"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:591
 msgid "mensurald03"
-msgstr ""
+msgstr "mensurald03"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:592
 msgid "mensurald13"
-msgstr ""
+msgstr "mensurald13"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:593
 msgid "mensurald23"
-msgstr ""
+msgstr "mensurald23"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:594
 msgid "mensuralu04"
-msgstr ""
+msgstr "mensuralu04"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:595
 msgid "mensuralu14"
-msgstr ""
+msgstr "mensuralu14"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:596
 msgid "mensuralu24"
-msgstr ""
+msgstr "mensuralu24"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:597
 msgid "mensurald04"
-msgstr ""
+msgstr "mensurald04"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:598
 msgid "mensurald14"
-msgstr ""
+msgstr "mensurald14"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:599
 msgid "mensurald24"
-msgstr ""
+msgstr "mensurald24"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:600
 msgid "mensuralu05"
-msgstr ""
+msgstr "mensuralu05"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:601
 msgid "mensuralu15"
-msgstr ""
+msgstr "mensuralu15"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:602
 msgid "mensuralu25"
-msgstr ""
+msgstr "mensuralu25"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:603
 msgid "mensurald05"
-msgstr ""
+msgstr "mensurald05"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:604
 msgid "mensurald15"
-msgstr ""
+msgstr "mensurald15"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:605
 msgid "mensurald25"
-msgstr ""
+msgstr "mensurald25"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:606
 msgid "mensuralu06"
-msgstr ""
+msgstr "mensuralu06"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:607
 msgid "mensuralu16"
-msgstr ""
+msgstr "mensuralu16"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:608
 msgid "mensuralu26"
-msgstr ""
+msgstr "mensuralu26"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:609
 msgid "mensurald06"
-msgstr ""
+msgstr "mensurald06"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:610
 msgid "mensurald16"
-msgstr ""
+msgstr "mensurald16"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:611
 msgid "mensurald26"
-msgstr ""
+msgstr "mensurald26"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:615
 msgid "dotvaticana"
-msgstr ""
+msgstr "dotvaticana"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:616
 msgid "dotkievan"
-msgstr ""
+msgstr "dotkievan"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:619
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:620
 msgid "space"
-msgstr ""
+msgstr "espai"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:621
 msgid "plus"
-msgstr ""
+msgstr "més"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:622
 msgid "comma"
@@ -15931,15 +15918,15 @@ msgstr "coma"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:623
 msgid "hyphen"
-msgstr ""
+msgstr "guionet"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:624
 msgid "period"
-msgstr ""
+msgstr "punt"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:625
 msgid "zero"
-msgstr ""
+msgstr "zero"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:626
 msgid "one"
@@ -15951,15 +15938,15 @@ msgstr "dos"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:628
 msgid "three"
-msgstr ""
+msgstr "tres"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:629
 msgid "four"
-msgstr ""
+msgstr "quatre"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:630
 msgid "five"
-msgstr ""
+msgstr "cinc"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:631
 msgid "six"
@@ -15967,7 +15954,7 @@ msgstr "sis"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:632
 msgid "seven"
-msgstr ""
+msgstr "set"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:633
 msgid "eight"
@@ -15975,23 +15962,23 @@ msgstr "vuit"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:634
 msgid "nine"
-msgstr ""
+msgstr "nou"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:635
 msgid "f"
-msgstr ""
+msgstr "f"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:636
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:637
 msgid "p"
-msgstr ""
+msgstr "p"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:638
 msgid "r"
-msgstr ""
+msgstr "r"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:639
 msgid "s"
@@ -15999,16 +15986,16 @@ msgstr "s"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:640
 msgid "z"
-msgstr ""
+msgstr "z"
 
 #. (d-DirectivePut-standalone-postfix tag (string-append "<>^\\markup {  \\musicglyph #\"" choice "\"} "))))
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.xml.h:1
 msgid "Music Glyph"
-msgstr ""
+msgstr "Glif de música"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.xml.h:2
 msgid "Allows placing any musical glyph which can then be dragged in the final typeset view for fine control over positioning. The complete list of glyphs is in the LilyPond documentation. Note! Do not place this directive at the end of a staff as it will not be typeset, place it before the last note and then right-click on it in the typeset (print) view to adjust its position if needed."
-msgstr ""
+msgstr "Permet posar qualsevol glif musical que pot arrossegar-se després en la visualització final de la gravació per a un control fi del posicionament. La llista completa de glifs està a la documentació del LilyPond. Noteu! No poseu aquesta directiva al final d'una partitura ja que no es gravarà, poseu-la abans de l'última nota i després feu un clic amb el botó dret sobre ella en la finestra de gravació (impressió) per ajustar la seva posició si cal."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Agrement.xml.h:1
 msgid "Agréments"
@@ -16020,15 +16007,15 @@ msgstr "Insereix un agrément (del segle XVIII francès) a la nota al cursor."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:7
 msgid "Add Accidental/Ornament"
-msgstr ""
+msgstr "Afegeix un accident/ornamet"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:7
 msgid "Re-order Accidentals/Ornaments"
-msgstr ""
+msgstr "Reordena els accidents/ornaments"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:23
 msgid "No Note to apply ornament to"
-msgstr ""
+msgstr "No hi ha nota a la qual se li pugui aplicar l'ornament"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:26
 msgid "Further from Staff"
@@ -16040,16 +16027,16 @@ msgstr "Més a prop del pentagrama?"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:34
 msgid "Priority now "
-msgstr ""
+msgstr "Prioritat ara "
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:34
 msgid " you may need to repeat this command to get a suitable value to re-order this ornament with respect to other ornaments on the same note."
-msgstr ""
+msgstr " potser us cal repetir aquesta ordre per obtenir un valor adequat per reordenar aquest ornament respecte a altres ornaments a la mateixa nota."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:49
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:9
 msgid "Trill"
-msgstr ""
+msgstr "Refilet"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:50
 msgid "Sharp"
@@ -16061,32 +16048,32 @@ msgstr "Bemoll"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:52
 msgid "Natural"
-msgstr ""
+msgstr "Natural"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:53
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:12
 msgid "Mordent"
-msgstr ""
+msgstr "Mordent"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:54
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:10
 msgid "Turn"
-msgstr ""
+msgstr "Retorn"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:55
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:11
 msgid "Reverse Turn"
-msgstr ""
+msgstr "Retorn invertit"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:56
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:13
 msgid "Prall"
-msgstr ""
+msgstr "Mordent"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:57
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:14
 msgid "Up Prall"
-msgstr ""
+msgstr "Mordent cap amunt"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:58
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:15
@@ -16095,7 +16082,7 @@ msgstr "Mordent invertit (segle XVIII)"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:59
 msgid "Prall Up"
-msgstr ""
+msgstr "Mordent cap amunt"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:60
 msgid "Prall Down"
@@ -16103,7 +16090,7 @@ msgstr "Mordent invertit (segle XVIII)"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:61
 msgid "Prall Prall"
-msgstr ""
+msgstr "Mordent mordent"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:62
 msgid "Prall Mordent"
@@ -16111,11 +16098,11 @@ msgstr "Mordent Prall"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:63
 msgid "Up Mordent"
-msgstr ""
+msgstr "Cap amunt mordent"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:64
 msgid "Down Mordent"
-msgstr ""
+msgstr "Cap avall mordent"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:133
 msgid "Above Note"
@@ -16128,7 +16115,7 @@ msgstr "Sota la nota"
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:135
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:19
 msgid "Auto Position"
-msgstr ""
+msgstr "Auto posició"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.xml.h:1
 msgid "Insert/Edit Ornament"
@@ -16136,62 +16123,62 @@ msgstr "Insereix/Edita l'ornament"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.xml.h:2
 msgid "Select an ornament to insert as an object at the cursor (it will be typeset on the following note), or edit the ornament already present. Ornament here includes accidentals to be placed over or under other ornaments, as well as multiple ornaments stacked on one note/chord."
-msgstr ""
+msgstr "Seleccioneu un ornament per inserir com a un objecte al cursor (es gravarà a la pròxima nota), o editeu l'ornament que ja està present. L'ornament inclou aquí els accidents a posar a sobre o a sota d'altres ornaments, així com ornaments múltiples apilats sobre una nota/acord."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.xml.h:2
 msgid "Inserts a rehearsal mark in the score. The default is to typeset as the letters A, B, ... The display shows simply A for all bookmarks. This mark also acts as a Denemo bookmark which can be searched for."
-msgstr ""
+msgstr "Insereix una marca de pràctica a la partitura. De manera predeterminada es grava com les lletres A, B, ... La pantalla mostra simplement A per a tots els indicadors. Aquesta marca també actua com a un indicador Denemo que es pot buscar."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/CadenzaOn.xml.h:1
 msgid "Start Cadenza"
-msgstr ""
+msgstr "Inicia una cadenza"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/CadenzaOn.xml.h:2
 msgid "Turns off barlines etc for cadenza"
-msgstr ""
+msgstr "Deshabilita les barres etc per a una cadenza"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.xml.h:1
 msgid "End Volta (1st, 2nd ... Time Bar)"
-msgstr ""
+msgstr "Final de volta (1ra, 2na ... Barra de repetició)"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.xml.h:2
 msgid "Ends a volta, that is a n'th time bar; without this the opening of a first (Nth) time bar will not be printed."
-msgstr ""
+msgstr "Finalitza una volta, és a dir una barra de repetició enèssima; sense això l'obertura de una primera (enèssima) barra de repetició no s'imprimirà."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/FinishCadenza.xml.h:1
 msgid "End Cadenza"
-msgstr ""
+msgstr "Finalitza la cadenza"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/FinishCadenza.xml.h:2
 msgid "Returns to normal barlines etc after a cadenza"
-msgstr ""
+msgstr "Retorna a barres etc normals després d'una cadenza"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenFirstTimeBar.xml.h:1
 msgid "Start a First Time Bar"
-msgstr ""
+msgstr "Inicia una barra de primer cop"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenFirstTimeBar.xml.h:2
 #: ../actions/palettes.xml.h:114
 msgid "(Print) start a first time bar, must be followed by EndVolta."
-msgstr ""
+msgstr "(Imprimeix) inicia una barra de primer cop, ha de ser seguida per una EndVolta"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:23
 msgid "Set/Unset Bold"
-msgstr ""
+msgstr "Estableix/Cancel·la negreta"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:24
 msgid "Set/Unset Italic"
-msgstr ""
+msgstr "Estableix/cancel·la itàlica"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:28
 msgid "This marks the start of one or more measures to be played on one or more of the repeats. There must be a later End Volta mark else nothing prints"
-msgstr ""
+msgstr "Això marca l'inici d'un o més compassos a reproduir a una o més de les repeticions. Ha d'haver-hi un Final de Volta més tard o sinó no s'imprimirà res"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:31
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:34
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:43
 msgid "Nth Time Bar Text"
-msgstr ""
+msgstr "Text de barra de repetició enèssima"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:31
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:43
@@ -16204,7 +16191,7 @@ msgstr "Doneu la mida: "
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.xml.h:1
 msgid "Start an Nth Time Bar"
-msgstr ""
+msgstr "Inicia una barra de repetició enèssima"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.xml.h:2
 #: ../actions/palettes.xml.h:118
@@ -16242,9 +16229,8 @@ msgid "This marks the start of a trill extending over several notes. The leading
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/StartTrillSpan.scm:27
-#, fuzzy
 msgid "Cursor must be on the note where the trill is to start"
-msgstr "Primer cliqueu sobre el cap de nota de la nota on comença la lligadura d'expressió"
+msgstr "El cursor ha d'estar a la nota on ha d'iniciar-se el refilet"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/StartTrillSpan.xml.h:1
 msgid "Start Trill"
@@ -18767,9 +18753,8 @@ msgid "Transforms the current selected notes into grace notes."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/GraceTermination.xml.h:1
-#, fuzzy
 msgid "Termination"
-msgstr "Denominador"
+msgstr "Terminació"
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/GraceTermination.xml.h:2
 msgid "Appends two grace notes, slurred to current note. Follow with a duration key to set duration of grace notes to be appended."
@@ -21374,9 +21359,8 @@ msgstr ""
 
 #. AccompanistsScore
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccompanistsScore.xml.h:1
-#, fuzzy
 msgid "Accompanist's Score (Off/On)"
-msgstr "Imprimeix la partitura de l'acompanyant"
+msgstr "Partitura de l'acompanyant (Desactiva/Activa)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccompanistsScore.xml.h:2
 msgid "Sets/Unsets the top staff of each movement to a tiny font, with the lower staffs - the accompaniment - at the normal font. Print effect only."
@@ -21441,19 +21425,16 @@ msgid "Typesets the Denemo barlines, regardless of the timing."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/FirstPageNumber.scm:16
-#, fuzzy
 msgid "Default First Page Number"
-msgstr "Lema predeterminat"
+msgstr "Número predeterminat de la primera pàgina"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/FirstPageNumber.scm:18
-#, fuzzy
 msgid "First Page Number"
-msgstr "Número d'estrofa"
+msgstr "Primer número de pàgina"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/FirstPageNumber.scm:18
-#, fuzzy
 msgid "Give number for first page"
-msgstr "Dona un nom a la paleta: "
+msgstr "Doneu un número per a la primera pàgina"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/FirstPageNumber.xml.h:1
 msgid "Set/Unset First Page Number"
@@ -21628,9 +21609,8 @@ msgid "Page number will be printed on the first page"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintFirstPageNumber.xml.h:1
-#, fuzzy
 msgid "Print First Page Number (Off/On)"
-msgstr "Ornament pincé (Desactiva/Activa)"
+msgstr "Imprimeix el primer número de pàgina (Desactiva/Activa)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintFirstPageNumber.xml.h:2
 msgid "Control if the first page number is typeset."
@@ -21697,9 +21677,8 @@ msgid "alphabetic"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:4
-#, fuzzy
 msgid "Numeric"
-msgstr "Numerador"
+msgstr "Numèrica"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:5
 msgid "Boxed alphabetic"
@@ -22036,9 +22015,8 @@ msgid "(Print) Allow arpeggio sign to extend across staffs. Piano staffs obey th
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/DeleteCurrentStaff.xml.h:2
-#, fuzzy
 msgid "Deletes current staff (if the action is confirmed by the user)."
-msgstr "Compon la part actual (la que conté el cursor)."
+msgstr "Esborra la partitura actual (si l'acció es confirmada per l'usuari)."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/DeleteFromCursorToEnd.scm:2
 msgid "All Staffs - Delete all measures from cursor?"
@@ -22379,14 +22357,12 @@ msgid "Move End Brace Marker Up"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/BraceEnd.scm:13
-#, fuzzy
 msgid "Move End Brace MarkerDown"
-msgstr "Mou-te a la veu a baix"
+msgstr "Mou el claudàtor de tancament MarkerDown"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/BraceEnd.scm:34
-#, fuzzy
 msgid "No staff above"
-msgstr "No s'ha desat cap script"
+msgstr "No hi ha cap pentagrama a sobre"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/BraceEnd.scm:46
 msgid "No staff below"
