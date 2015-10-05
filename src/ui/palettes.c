@@ -118,7 +118,7 @@ static void toggle_rows (DenemoPalette *pal) {
 }
 static void toggle_dock (DenemoPalette *pal) {
     if(pal->docked)
-        gtk_widget_reparent (pal->box, pal->window);
+        gtk_widget_reparent (pal->box, pal->window), gtk_window_set_keep_above  (GTK_WINDOW (pal->window), TRUE);
     else
         pal->rows? gtk_widget_reparent (pal->box, Denemo.vpalettes):gtk_widget_reparent (pal->box, Denemo.hpalettes);
     pal->docked = !pal->docked;
