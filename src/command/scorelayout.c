@@ -743,14 +743,14 @@ create_voice_widget (DenemoStaff * staff, gchar * voicename, guint location)
     }
   gchar *music = g_strconcat (_("Music for "), name, NULL);
   w = gtk_button_new_with_label (music);
-  gtk_widget_set_tooltip_text (w, _("The actual notes live here. You can only edit these in the main Denemo display.\nHowever you can place conditional directives that are to be used only when using this layout. For example page breaks just for this layout can be placed at points in the music.\nClick here to move the Denemo cursor to the start of this music."));
+  gtk_widget_set_tooltip_text (w, _("Click here to move the Denemo cursor to the start of this music.\nThe actual notes live here. You can only edit these in the main Denemo display.\nHowever you can place conditional directives that are to be used only when using this layout. For example page breaks just for this layout can be placed at points in the music.\n"));
   g_signal_connect (G_OBJECT (w), "clicked", G_CALLBACK (navigate_to_location), GINT_TO_POINTER (location));
   g_free (music);
   add_lilypond (w, text, NULL);
   gtk_box_pack_start (GTK_BOX (ret), w, FALSE, TRUE, 0);
 
   GtkWidget *button = gtk_button_new_with_label (_("Substitute"));
-  gtk_widget_set_tooltip_text (button, _("Substitute the music of this staff/voice with the music of the current staff/voice.\nPace the cursor in the Denemo Display on the staff/voice whose music you want to use before clicking this button. The editing affects only this layout."));
+  gtk_widget_set_tooltip_text (button, _("Substitute the music of this staff/voice with the music of the current staff/voice.\nYou can click the \"Music for ...\" button to move the cursor in the Denemo Display onyo the staff/voice whose music you want to use before clicking this button to substitute the music. The editing affects only this layout."));
   g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (get_voice_list), w);//prefix_edit_callback), w);
   gtk_box_pack_start (GTK_BOX (ret), button, FALSE, TRUE, 0);
 
