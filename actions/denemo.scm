@@ -1062,7 +1062,7 @@
 ;;;;;;;;;
 (define (GetDefinitionDirectives)
     (define directives '())
-    (let loop ((count 1))
+    (let loop ((count 0))
         (define good-tag (d-DirectiveGetNthTag-score count))
         (if good-tag 
             (begin
