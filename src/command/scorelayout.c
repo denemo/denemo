@@ -750,7 +750,7 @@ create_voice_widget (DenemoStaff * staff, gchar * voicename, guint location)
   gtk_box_pack_start (GTK_BOX (ret), w, FALSE, TRUE, 0);
 
   GtkWidget *button = gtk_button_new_with_label (_("Substitute"));
-  gtk_widget_set_tooltip_text (button, _("Substitute the music of this staff/voice with the music of the current staff/voice.\nYou can click the \"Music for ...\" button to move the cursor in the Denemo Display onyo the staff/voice whose music you want to use before clicking this button to substitute the music. The editing affects only this layout."));
+  gtk_widget_set_tooltip_text (button, _("Substitute the music of this staff/voice with the music of the current staff/voice.\nYou can click the \"Music for ...\" button to move the cursor in the Denemo Display onto the staff/voice whose music you want to use before clicking this button to substitute the music. The editing affects only this layout."));
   g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (get_voice_list), w);//prefix_edit_callback), w);
   gtk_box_pack_start (GTK_BOX (ret), button, FALSE, TRUE, 0);
 
