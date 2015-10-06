@@ -670,40 +670,23 @@ static void get_voice_list (GtkWidget *button, GtkWidget *frame)
     if (!clone_scoreblock_if_needed (frame))
         return;
     GList *m;
-    gint mvmnt, staffnum;
-    GString *options = g_string_new ("");
-
-    gchar *format_string = _("Movement %d, Staff %d");
-    for (mvmnt=1, m=Denemo.project->movements;m;m=m->next, mvmnt++)
+    gint mvmnt = 1, staffnum = Denemo.project->movement->currentstaffnum;
+    if (Denemo.project->movements)
+        mvmnt = 1 + g_list_index (Denemo.project->movements, Denemo.project->movement);
+   
+    gchar *thename = g_strdup_printf ("\\Mvmnt%dVoice%d", mvmnt, staffnum);
+    GString *initial = g_string_new (thename);
+    g_free (thename);
+    GString *lily = g_string_new ("");
+    set_lily_name (initial, lily);
+    GList *g = g_object_get_data (G_OBJECT (frame), "prefix");
+    if (g)
         {
-            GList *g;
-            DenemoMovement *si = m->data;
-            for (staffnum=1, g=si->thescore;g;g=g->next, staffnum++)
-                {
-                if((mvmnt>1) || (staffnum>1))
-                    g_string_append_c (options, 0);
-                g_string_append_printf (options, format_string, mvmnt, staffnum);
-                }
+          gchar *oldlily = (gchar *) g->data;
+          edit_lilypond_prefix (frame, oldlily, g_strdup(lily->str));
+          score_status (Denemo.project, TRUE);
         }
-    gchar *choice = get_option (_("Choose Music to Subsitute"), options->str, options->len);
-    if (choice)
-        {
-        sscanf (choice, format_string, &mvmnt, &staffnum);
-        gchar *thename = g_strdup_printf ("\\Mvmnt%dVoice%d", mvmnt, staffnum);
-        GString *initial = g_string_new (thename);
-        g_free (thename);
-        GString *lily = g_string_new ("");
-        set_lily_name (initial, lily);
-        GList *g = g_object_get_data (G_OBJECT (frame), "prefix");
-        if (g)
-            {
-              gchar *oldlily = (gchar *) g->data;
-              edit_lilypond_prefix (frame, oldlily, lily->str);
-              score_status (Denemo.project, TRUE);
-            }
-        }
-
-       
+    g_string_free (lily, TRUE);
 }
 
 
@@ -767,14 +750,11 @@ create_voice_widget (DenemoStaff * staff, gchar * voicename, guint location)
   gtk_box_pack_start (GTK_BOX (ret), w, FALSE, TRUE, 0);
 
   GtkWidget *button = gtk_button_new_with_label (_("Substitute"));
-  gtk_widget_set_tooltip_text (button, _("Substitute the music of this staff with the music of another staff.\nFor example changing \\MvmntIVoiceI to \\MvmntIVoiceII will change the music from that of the first to the second staff. The editing affects only this layout."));
+  gtk_widget_set_tooltip_text (button, _("Substitute the music of this staff/voice with the music of the current staff/voice.\nPace the cursor in the Denemo Display on the staff/voice whose music you want to use before clicking this button. The editing affects only this layout."));
   g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (get_voice_list), w);//prefix_edit_callback), w);
   gtk_box_pack_start (GTK_BOX (ret), button, FALSE, TRUE, 0);
 
-
-
   return ret;
-
 }
 
 static GtkWidget *
