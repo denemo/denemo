@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<score xmlns="http://denemo.org/xmlns/Denemo" version="7">
+  <scoreheader-directives>
+    <directive>
+      <tag>ScoreTitles</tag>
+      <postfix>     dedication = \markup \with-url #'"scheme:(DenemoSetTitles \"ScoreTitles\" 'dedication #t)"  {dedication}
+     title = \markup \with-url #'"scheme:(DenemoSetTitles \"ScoreTitles\" 'title #t)"  {title}
+     subtitle = \markup \with-url #'"scheme:(DenemoSetTitles \"ScoreTitles\" 'subtitle #t)"  {subtitle}
+     subsubtitle = \markup \with-url #'"scheme:(DenemoSetTitles \"ScoreTitles\" 'subsubtitle #t)"  {subsubtitle}
+     instrument = \markup \with-url #'"scheme:(DenemoSetTitles \"ScoreTitles\" 'instrument #t)"  {instrument}
+     poet = \markup \with-url #'"scheme:(DenemoSetTitles \"ScoreTitles\" 'poet #t)"  {poet}
+     composer = \markup \with-url #'"scheme:(DenemoSetTitles \"ScoreTitles\" 'composer #t)"  {composer}
+     meter = \markup \with-url #'"scheme:(DenemoSetTitles \"ScoreTitles\" 'meter #t)"  {meter}
+     arranger = \markup \with-url #'"scheme:(DenemoSetTitles \"ScoreTitles\" 'arranger #t)"  {arranger}
+     tagline = \markup \with-url #'"scheme:(DenemoSetTitles \"ScoreTitles\" 'tagline #t)"  {tagline}
+     copyright = \markup \with-url #'"scheme:(DenemoSetTitles \"ScoreTitles\" 'copyright #t)"  {copyright}
+     piece = \markup \with-url #'"scheme:(DenemoSetTitles \"ScoreTitles\" 'piece #t)"  {piece}
+     opus = \markup \with-url #'"scheme:(DenemoSetTitles \"ScoreTitles\" 'opus #t)"  {opus}
+</postfix>
+      <display>Score Titles</display>
+      <data>'((opus . "opus") (piece . "piece") (copyright . "copyright") (tagline . "tagline") (arranger . "arranger") (meter . "meter") (composer . "composer") (poet . "poet") (instrument . "instrument") (subsubtitle . "subsubtitle") (subtitle . "subtitle") (title . "title") (dedication . "dedication"))</data>
+      <override>4</override>
+    </directive>
+  </scoreheader-directives>
+  <paper-directives>
+    <directive>
+      <tag>LimitInterSystemSpace</tag>
+      <postfix>
+page-limit-inter-system-space = ##t
+page-limit-inter-system-space-factor = 1.2</postfix>
+      <data>1.2</data>
+    </directive>
+    <directive>
+      <tag>PrintAllHeaders</tag>
+      <postfix>
+print-all-headers = ##t
+</postfix>
+    </directive>
+  </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
+  <lilycontrol>
+    <papersize>a4</papersize>
+    <fontsize>18</fontsize>
+    <orientation>1</orientation>
+    <total-edit-time>0</total-edit-time>
+  </lilycontrol>
+  <movement-number>1</movement-number>
+  <movement>
+    <edit-info>
+      <staffno>1</staffno>
+      <measureno>1</measureno>
+      <cursorposition>0</cursorposition>
+      <tonalcenter>0</tonalcenter>
+      <zoom>100</zoom>
+      <system-height>100</system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
+    </edit-info>
+    <header-directives>
+      <directive>
+        <tag>MovementTitles</tag>
+        <postfix>     dedication = \markup \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(DenemoSetTitles \"MovementTitles\" 'dedication #t)" {dedication - movement}
+     title = \markup \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(DenemoSetTitles \"MovementTitles\" 'title #t)" {title movement}
+     subtitle = \markup \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(DenemoSetTitles \"MovementTitles\" 'subtitle #t)" {subtitle - movement}
+     subsubtitle = \markup \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(DenemoSetTitles \"MovementTitles\" 'subsubtitle #t)" {subsubtitle - movement}
+     instrument = \markup \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(DenemoSetTitles \"MovementTitles\" 'instrument #t)" {instrument movement}
+     poet = \markup \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(DenemoSetTitles \"MovementTitles\" 'poet #t)" {poet movement}
+     composer = \markup \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(DenemoSetTitles \"MovementTitles\" 'composer #t)" {composer movement}
+     meter = \markup \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(DenemoSetTitles \"MovementTitles\" 'meter #t)" {meter movement}
+     arranger = \markup \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(DenemoSetTitles \"MovementTitles\" 'arranger #t)" {arranger movement}
+     tagline = ##f
+     copyright = ##f
+     piece = \markup \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(DenemoSetTitles \"MovementTitles\" 'piece #t)" {piece movement}
+     opus = \markup \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(DenemoSetTitles \"MovementTitles\" 'opus #t)" {opus movement}
+</postfix>
+        <display>Movement Titles</display>
+        <data>'((opus . "opus movement") (piece . "piece movement") (copyright . #f) (tagline . #f) (arranger . "arranger movement") (meter . "meter movement") (composer . "composer movement") (poet . "poet movement") (instrument . "instrument movement") (subsubtitle . "subsubtitle - movement") (subtitle . "subtitle - movement") (title . "title movement") (dedication . "dedication - movement"))</data>
+        <override>4</override>
+      </directive>
+    </header-directives>
+    <score-info>
+      <tempo>
+        <duration>
+          <numerator>1</numerator>
+          <denominator>4</denominator>
+        </duration>
+        <bpm>120</bpm>
+      </tempo>
+    </score-info>
+    <staves>
+      <staff id="id0"></staff>
+    </staves>
+    <voices>
+      <voice id="id1">
+        <voice-info>
+          <voice-name>Part 1</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
+        <measures>
+          <measure>
+            <lily-directive tag="MultiLineTextAnnotation" display="This shows all the simple titles available. &#10;¶You can use the fields to contain any information of course.&#10;¶Note that if you have not ever set a title&#10;¶ of any sort on a movement &#10;¶then the score-wide titles will be repeated" data="'((direction . &quot;^&quot;) (scale . &quot;1.3&quot;) (text . &quot;This shows all the simple titles available. \n¶You can use the fields to contain any information of course.\n¶Note that if you have not ever set a title\n¶ of any sort on a movement \n¶then the score-wide titles will be repeated&quot;))" prefix="&lt;&gt;" minpixels="30">^\markup\scale #'(1.3 . 1.3)\column{\line\large{This shows all the simple titles available. 
+}\line\large{You can use the fields to contain any information of course.
+}\line\large{Note that if you have not ever set a title
+}\line\large{ of any sort on a movement 
+}\line\large{then the score-wide titles will be repeated}
+}</lily-directive>
+          </measure>
+        </measures>
+      </voice>
+    </voices>
+  </movement>
+</score>
