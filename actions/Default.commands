@@ -2115,8 +2115,14 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>Set the prevailing duration to 𝅥 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="scheme">
+        <action>MovementTitles</action>
+        <after>MovementComposer</after>
+        <menupath>/ObjectMenu/MovementMenu/Titles/SimpleTitles</menupath>
+        <_label>Set Titles</_label>
+        <_tooltip>Set titles for this movement. The names of the various titles are just suggestions, any sort of title can be placed in any field. See the manual for the default positioning of each title.</_tooltip>
+      </row>
+      <row type="scheme">
         <action>MovementComposer</action>
-        <after>SwapMovements</after>
         <menupath>/ObjectMenu/MovementMenu/Titles/SimpleTitles</menupath>
         <_label>Composer</_label>
         <_tooltip>Prints a composer name for current movement.</_tooltip>
@@ -2754,6 +2760,12 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <menupath>/ObjectMenu/Score/Titles/BookTitles</menupath>
         <_label>Arranger</_label>
         <_tooltip>Prints the arranger name on title page</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ScoreTitles</action>
+        <menupath>/ObjectMenu/Score/Titles/SimpleTitles</menupath>
+        <_label>Set Titles</_label>
+        <_tooltip>Set titles for whole score.</_tooltip>
       </row>
       <row type="scheme">
         <action>ScoreArranger</action>
@@ -4708,12 +4720,6 @@ accidentals are usually printed over the note.</_tooltip>
         <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
         <_label>Open Source for Transcribing</_label>
         <_tooltip>Opens a dialog to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given bar can be re-displayed when reviewing the score.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>ScoreOpus</action>
-        <menupath>/ObjectMenu/Score/Titles/SimpleTitles</menupath>
-        <_label>Opus</_label>
-        <_tooltip>Name of the opus, flush-right below the arranger.</_tooltip>
       </row>
       <row type="scheme">
         <action>Ottava</action>

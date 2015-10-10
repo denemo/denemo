@@ -1025,6 +1025,8 @@ actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementPiece.xml
 actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementSubtitle.scm
 actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementSubtitle.xml
 actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementTitle.scm
+actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementTitles.scm
+actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementTitles.xml
 actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementTitle.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/Custos.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/Custos.xml
@@ -1716,10 +1718,6 @@ actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreInstrument.scm
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreInstrument.xml
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreMeter.scm
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreMeter.xml
-actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreOpus.scm
-actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreOpus.xml
-actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScorePiece.scm
-actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScorePiece.xml
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScorePoet.scm
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScorePoet.xml
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreSubsubtitle.scm
@@ -1727,6 +1725,8 @@ actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreSubsubtitle.xml
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreSubtitle.scm
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreSubtitle.xml
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitle.scm
+actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitles.scm
+actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitles.xml
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitle.xml
 actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm
 actions/menus/ObjectMenu/Score/Titles/TaglineLink.xml

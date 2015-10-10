@@ -1,5 +1,6 @@
-(SetHeaderField "composer" #f #f #t)
-(DenemoPrintAllHeaders)
-(d-SetSaved #f)
-
-        
+(if (d-Directive-header? "MovementComposer")
+    (begin
+        (SetHeaderField "composer")
+        (DenemoPrintAllHeaders)
+        (d-SetSaved #f))
+    (DenemoSetTitles "MovementTitles" 'composer #f))

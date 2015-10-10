@@ -1142,3 +1142,229 @@
         (cons "𝅘𝅥𝅱" "1/64")
         (cons "𝅘𝅥𝅱" "1/128"))))
                             
+;;
+(define (DenemoSetTitles tag param editing)
+    (let ((score (equal? tag "ScoreTitles"))
+        (data #f)
+        (dedication #f)
+        (title #f)
+        (subtitle #f)
+        (subsubtitle #f)
+        (instrument #f)
+        (poet #f)
+        (composer #f)
+        (meter #f)
+        (arranger #f)
+        (tagline #f)
+        (copyright #f)
+        (piece #f)
+        (opus #f))
+        (define (get-field field initial)
+            (if (not initial)
+                (set! initial field))
+            (if editing
+              (let ((response  (d-GetUserInputWithSnippets  (if score (_ "Score Titles")  (_ "Movement Titles")) (string-append (_ "Give ") field) initial)))
+                (if response
+                    (car response)
+                    #f))
+            (d-GetUserInput (if score (_ "Score Titles")  (_ "Movement Titles")) (string-append (_ "Give ") field) initial)))
+        (define (write-titles)
+            (let ((header ""))
+                (define (url type)
+                    (if score
+                            (string-append "\\with-url #'\"scheme:(DenemoSetTitles \\\"" tag "\\\" '" type " #t)\" ")
+                            (string-append "\\with-url #'\"scheme:(d-GoToPosition " (number->string (d-GetMovement)) " 1 1 1)(DenemoSetTitles \\\"" tag "\\\" '" type " #t)\"")))
+            
+                (if dedication
+                                (set! header (string-append header "     dedication = \\markup " (url "dedication") " {" dedication "}\n"))
+                                (set! header (string-append header "     dedication = ##f\n")))
+                (if title
+                                (set! header (string-append header "     title = \\markup " (url "title") " {" title "}\n"))
+                                (set! header (string-append header "     title = ##f\n")))
+                (if subtitle
+                                (set! header (string-append header "     subtitle = \\markup " (url "subtitle") " {" subtitle "}\n"))
+                                (set! header (string-append header "     subtitle = ##f\n")))
+                (if subsubtitle
+                                (set! header (string-append header "     subsubtitle = \\markup " (url "subsubtitle") " {" subsubtitle "}\n"))
+                                (set! header (string-append header "     subsubtitle = ##f\n")))
+                (if instrument
+                                (set! header (string-append header "     instrument = \\markup " (url "instrument") " {" instrument "}\n"))
+                                (set! header (string-append header "     instrument = ##f\n")))
+                (if poet
+                                (set! header (string-append header "     poet = \\markup " (url "poet") " {" poet "}\n"))
+                                (set! header (string-append header "     poet = ##f\n")))
+                (if composer
+                                (set! header (string-append header "     composer = \\markup " (url "composer") " {" composer "}\n"))
+                                (set! header (string-append header "     composer = ##f\n")))
+                (if meter
+                                (set! header (string-append header "     meter = \\markup " (url "meter") " {" meter "}\n"))
+                                (set! header (string-append header "     meter = ##f\n")))
+                (if arranger
+                                (set! header (string-append header "     arranger = \\markup " (url "arranger") " {" arranger "}\n"))
+                                (set! header (string-append header "     arranger = ##f\n")))
+                (if tagline
+                                (set! header (string-append header "     tagline = \\markup " (url "tagline") " {" tagline "}\n"))
+                                (set! header (string-append header "     tagline = ##f\n")))
+                (if copyright
+                                (set! header (string-append header "     copyright = \\markup " (url "copyright") " {" copyright "}\n"))
+                                (set! header (string-append header "     copyright = ##f\n")))
+                (if piece
+                                (set! header (string-append header "     piece = \\markup " (url "piece") " {" piece "}\n"))
+                                (set! header (string-append header "     piece = ##f\n")))
+                (if opus
+                                (set! header (string-append header "     opus = \\markup " (url "opus") " {" opus "}\n"))
+                                (set! header (string-append header "     opus = ##f\n")))
+                (d-SetSaved #f)
+                
+                (DenemoPrintAllHeaders);;; here to disable book titles.
+                (if (not (d-Directive-header? "MovementTitles"))
+                 (d-DirectiveDelete-paper "PrintAllHeaders"))
+             
+                (if score
+                    (begin
+                        (d-DirectivePut-scoreheader-postfix tag header)
+                        (d-DirectivePut-scoreheader-display tag (_ "Score Titles"))
+                        (d-DirectivePut-scoreheader-override tag DENEMO_OVERRIDE_GRAPHIC))
+                    (begin
+                        (d-DirectivePut-header-postfix tag header)
+                        (d-DirectivePut-header-display tag (_ "Movement Titles"))
+                        (d-DirectivePut-header-override tag DENEMO_OVERRIDE_GRAPHIC)))
+                ;;; if setting movement titles but no score titles are set then initialize score titles to #f
+                (if (and (not score) (not (d-Directive-scoreheader? "ScoreTitles")))
+                        (DenemoSetTitles "ScoreTitles" 'initialize #f))))
+                        
+;;; procedure starts here
+        (if score
+            (set! data (d-DirectiveGet-scoreheader-data tag))
+            (set! data (d-DirectiveGet-header-data tag)))
+        (if data 
+            (begin
+                (set! data (eval-string data))
+                (set! dedication (assq-ref data 'dedication))
+                (set! title (assq-ref data 'title))
+                (set! subtitle (assq-ref data 'subtitle))
+                (set! subsubtitle (assq-ref data 'subsubtitle))
+                (set! instrument (assq-ref data 'instrument))
+                (set! poet (assq-ref data 'poet))
+                (set! composer (assq-ref data 'composer))
+                (set! meter (assq-ref data 'meter))
+                (set! arranger (assq-ref data 'arranger))
+                (set! tagline (assq-ref data 'tagline))
+                (set! copyright (assq-ref data 'copyright))
+                (set! piece (assq-ref data 'piece))
+                (set! opus (assq-ref data 'opus))))
+        (if (not data)
+            (set! data '()))
+
+        (let ((choice (list 
+                (cons (_ "dedication") 'dedication)
+                (cons (_ "title") 'title)
+                (cons (_ "subtitle") 'subtitle)
+                (cons (_ "subsubtitle") 'subsubtitle)
+                (cons (_ "instrument") 'instrument)
+                (cons (_ "poet") 'poet)
+                (cons (_ "composer") 'composer)
+                (cons (_ "meter") 'meter)
+                (cons (_ "arranger") 'arranger))))
+                
+                
+                
+            (if score
+                (set! choice (append choice (list (cons (_ "tagline") 'tagline) (cons (_ "copyright") 'copyright))))
+                (set! choice (append choice (list (cons (_ "piece") 'piece) (cons (_ "opus") 'opus)))))
+
+           (if (d-Directive-scoreheader? "BookTitle")
+                (begin
+                    (set! param 'abort)
+                    (d-WarningDialog (_ "You have book titles created for this score.\nYou can delete them in the score and movement editor and then use simple titles."))))
+                
+            (if param
+                (set! choice param)
+                (set! choice (RadioBoxMenuList choice)))
+            (if (null? data)
+                (begin
+                    (if (or (d-DirectiveGet-scoreheader-postfix "ScoreTitle")
+                            (d-DirectiveGet-header-postfix "ScoreSubsubtitle")
+                            (d-DirectiveGet-header-postfix "ScoreSubtitle")
+                            (d-DirectiveGet-header-postfix "ScoreArranger")
+                            (d-DirectiveGet-header-postfix "ScoreComposer")
+                            (d-DirectiveGet-header-postfix "ScoreDedication")
+                            (d-DirectiveGet-scoreheader-postfix "ScoreInstrument")
+                            (d-DirectiveGet-header-postfix "ScorePoet")
+                            (d-DirectiveGet-header-postfix "ScorePiece")
+                            (d-DirectiveGet-header-postfix "ScoreOpus")
+                            (d-DirectiveGet-header-postfix "ScoreMeter")
+                            (d-DirectiveGet-header-postfix "ScoreTagline")
+                            (d-DirectiveGet-scoreheader-postfix "ScoreCopyright")
+                            (d-DirectiveGet-header-postfix "MovementTitle")
+                            (d-DirectiveGet-header-postfix "MovementSubtitle")
+                            (d-DirectiveGet-header-postfix "MovementPiece"))
+                        (begin
+                            (set! choice 'abort)
+                            (d-WarningDialog (_ "You have simple titles created by an earlier version of Denemo.\nYou can only edit these with 1.2.4 or earlier versions.\nYou can delete them in the score and movement editor and then re-instate them."))))))
+                
+ 
+            (case choice
+                ((dedication)
+                    (set! choice (get-field (_ "dedication") dedication))
+                    (if choice (set! dedication choice)))
+                ((title)
+                            (set! choice (get-field (_ "title") title))
+                    (if choice (set! title choice)))
+                ((subtitle)
+                            (set! choice (get-field (_ "subtitle") subtitle))
+                    (if choice (set! subtitle choice)))
+                ((subsubtitle)
+                            (set! choice (get-field (_ "subsubtitle") subsubtitle))
+                    (if choice (set! subsubtitle choice)))
+                ((instrument)
+                            (set! choice (get-field (_ "instrument") instrument))
+                    (if choice (set! instrument choice)))
+                ((poet)
+                            (set! choice (get-field (_ "poet") poet))
+                    (if choice (set! poet choice)))
+                ((composer)
+                            (set! choice (get-field (_ "composer") composer))
+                    (if choice (set! composer choice)))
+                ((meter)
+                            (set! choice (get-field (_ "meter") meter))
+                    (if choice (set! meter choice)))
+                ((arranger)
+                            (set! choice (get-field (_ "arranger") arranger))
+                    (if choice (set! arranger choice)))
+                ((tagline)
+                            (set! choice (get-field (_ "tagline") tagline))
+                    (if choice (set! tagline choice)))
+                ((copyright)
+                            (set! choice (get-field (_ "copyright") copyright))
+                    (if choice (set! copyright choice)))
+                ((piece)
+                            (set! choice (get-field (_ "piece") piece))
+                    (if choice (set! piece choice)))
+                ((opus)
+                            (set! choice (get-field (_ "opus") opus))
+                    (if choice (set! opus choice)))                
+                    
+                    )
+                    
+             
+             (if (not (eq? choice 'abort))
+                (begin
+                    (set! data (assq-set! data 'dedication dedication))
+                    (set! data (assq-set! data 'title title))
+                    (set! data (assq-set! data 'subtitle subtitle))
+                    (set! data (assq-set! data 'subsubtitle subsubtitle))
+                    (set! data (assq-set! data 'instrument instrument))
+                    (set! data (assq-set! data 'poet poet))
+                    (set! data (assq-set! data 'composer composer))
+                    (set! data (assq-set! data 'meter meter))
+                    (set! data (assq-set! data 'arranger arranger))
+                    (set! data (assq-set! data 'tagline tagline))
+                    (set! data (assq-set! data 'copyright copyright))
+                    (set! data (assq-set! data 'piece piece))
+                    (set! data (assq-set! data 'opus opus))
+                    (if score
+                        (d-DirectivePut-scoreheader-data tag (format #f "'~s" data))
+                        (d-DirectivePut-header-data tag (format #f "'~s" data)))
+                    (write-titles))))))
+                    

@@ -5,10 +5,9 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row type="scheme">
-        <after/>
-        <action>ScoreOpus</action>
-        <_label>Opus</_label>
-        <_tooltip>Name of the opus, flush-right below the arranger.</_tooltip>
+        <action>ScoreTitles</action>
+        <_label>Set Titles</_label>
+        <_tooltip>Set titles for whole score.</_tooltip>
       </row>
     </map>
   </merge>
