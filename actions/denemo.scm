@@ -448,8 +448,10 @@
     (d-Stop)
     (if (not (d-GetMidiOnTime))
         (d-RecreateTimebase))
+    (while (not (Music?))
+                (d-NextChord))
     (if (d-GetMidiOnTime)
-        (begin 
+        (begin
             (d-SetPlaybackInterval (d-GetMidiOnTime) #t)
             (d-RefreshDisplay)))))
 
