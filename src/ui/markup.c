@@ -151,6 +151,51 @@ insert_font_mag (GtkWidget * button)
  g_free (text);
 }
 static void
+insert_vert (GtkWidget * button)
+{
+  DenemoProject *gui = Denemo.project;
+  GtkWidget *hbox = gtk_widget_get_parent (button);
+  GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+  gchar *text = string_dialog_entry (gui, _( "Space Above"), _("Give space to leave above +/- "), "2");
+  if (text && *text && atoi(text))
+    {
+        gchar *out = g_strdup_printf ("\\vspace #%s ", text);
+      if (textbuffer)
+              gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), out, -1);
+       else
+        {
+          g_warning ("Denemo program error, widget hierarchy changed???");
+        }      
+     GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
+     gtk_widget_grab_focus (textview);
+     g_free (out);
+    }
+ g_free (text);
+}
+
+static void
+insert_horiz (GtkWidget * button)
+{
+  DenemoProject *gui = Denemo.project;
+  GtkWidget *hbox = gtk_widget_get_parent (button);
+  GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+  gchar *text = string_dialog_entry (gui, _( "Insert Space"), _("Give space to insert +/- "), "2");
+  if (text && *text && atoi(text))
+    {
+        gchar *out = g_strdup_printf ("\\hspace #%s ", text);
+      if (textbuffer)
+              gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), out, -1);
+       else
+        {
+          g_warning ("Denemo program error, widget hierarchy changed???");
+        }      
+     GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
+     gtk_widget_grab_focus (textview);
+     g_free (out);
+    }
+ g_free (text);
+}
+static void
 preview_markup (GtkWidget * button)
 {
     DenemoProject *gui = Denemo.project;
@@ -179,7 +224,13 @@ static gboolean keypress_callback (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * ev
   //g_print ("Got %s\n", key);
  // g_free (key);
   return TRUE;
-}
+   }
+  if ('#' == gdk_keyval_to_unicode (event->keyval))
+      {
+          gdk_beep();
+          g_warning ("The character # can only be used for scheme code, paste it in if needed");
+          return TRUE;
+      } 
   return FALSE; //pass it on to the standard handler.
  } 
 
@@ -244,8 +295,17 @@ gchar *get_user_markup (GString *user_text, GString *marked_up_text, gchar* titl
   gtk_widget_set_tooltip_text (button, _("Inserts code to change the relative font size."));
   g_signal_connect (button, "clicked", G_CALLBACK (insert_font_mag), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+    button = gtk_button_new_with_label ("⬆");
+  gtk_widget_set_tooltip_text (button, _("Inserts code to leave space above this line of text. Ineffective on the top line of standalone text, only titles"));
+  g_signal_connect (button, "clicked", G_CALLBACK (insert_vert), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+    button = gtk_button_new_with_label (_("⬌"));
+  gtk_widget_set_tooltip_text (button, _("Inserts code to insert space at the cursor."));
+  g_signal_connect (button, "clicked", G_CALLBACK (insert_horiz), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+  
   button = gtk_button_new_with_label (_("Preview"));
-  gtk_widget_set_tooltip_text (button, _("Shows what the text will look like when typeset in the Print View window."));
+  gtk_widget_set_tooltip_text (button, _("Shows what the text will look like when typeset in the Print View window. For score and movement titles the appearance is correct only relative to the default title."));
   g_signal_connect (button, "clicked", G_CALLBACK (preview_markup), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
