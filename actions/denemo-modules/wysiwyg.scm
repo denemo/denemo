@@ -62,8 +62,8 @@
         (set! oldy "0"))
     (set! offsetx (number->string (+ (string->number offsetx) (string->number oldx))))
     (set! offsety (number->string (+ (string->number offsety) (string->number oldy))))
-    (d-DirectivePut-standalone-prefix tag (string-append " <>-\\tweak #'extra-offset #'(" offsetx " . " offsety ")")) 
-    (if (list? data)
+    (d-DirectivePut-standalone-prefix tag (string-append " <>-\\tweak #'extra-offset #'(" offsetx " . " offsety ")"))
+    (if (pair? data)
         (begin
             (set! data (assq-set! data 'x-offset offsetx))
             (set! data (assq-set! data 'y-offset offsety))
