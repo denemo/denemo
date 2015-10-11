@@ -4859,7 +4859,7 @@ accidentals are usually printed over the note.</_tooltip>
         <action>PointAndClick</action>
         <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Point and Click (Off/On)</_label>
-        <_tooltip>When on, clicking on a note in the Print Preview window takes the cursor to that note. This works also for Rehearsal Marks and many other objects in the score. The only reason to turn it off is for export to PDF file via the Export menu. However, using print to file is a better way of doing this as then it is not needed.</_tooltip>
+        <_tooltip>When on, clicking on a note in the Print Preview window takes the cursor to that note. This works also for Rehearsal Marks and many other objects in the score. The only reason to turn it off is for export to PDF file via the Export menu or the PDF button in the Print View. However, using print to file is a better way of doing this (if your operating system supports it) as then it is not needed.</_tooltip>
       </row>
       <row type="scheme">
         <action>PortatoSelectionSwitcher</action>
