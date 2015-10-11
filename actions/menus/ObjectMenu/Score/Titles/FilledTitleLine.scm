@@ -13,7 +13,7 @@
                 (let ((stripped #f))
                     (set! value (car value))
                     (set! stripped (string-copy value))
-                    (string-for-each-index (lambda (i) (string-set! stripped i (if (equal? (string-ref stripped i) #\x00A7) #\space (string-ref stripped i)))) stripped)
+
                     (if spacer
                         (set! stripped (string-append "\\vspace #" spacer " " stripped)))
                     (list value spacer stripped))
