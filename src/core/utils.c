@@ -2014,7 +2014,7 @@ write_input_status (void)
 {
   if(Denemo.non_interactive)
     return;
-  gtk_label_set_markup (GTK_LABEL (Denemo.input_source), Denemo.input_filters->str);
+  gtk_label_set_markup (GTK_LABEL (Denemo.input_label), Denemo.input_filters->str);
 }
 
 /**

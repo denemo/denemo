@@ -2297,7 +2297,7 @@ scheme_input_filter_names (SCM filtername)
       if (name)
         {
           g_string_printf (Denemo.input_filters, "MIDI Input: %s", name);
-          gtk_widget_show (Denemo.input_source);
+          gtk_widget_show (Denemo.input_label);
           write_input_status ();
           free (name);
           return SCM_BOOL_T;
@@ -2305,7 +2305,7 @@ scheme_input_filter_names (SCM filtername)
     }
   else
     {
-      gtk_widget_hide (Denemo.input_source);
+      gtk_widget_hide (Denemo.input_label);
     }
   return SCM_BOOL_F;
 }
@@ -2323,7 +2323,7 @@ scheme_write_status (SCM filtername)
         {
 
           g_string_assign (Denemo.input_filters, name);
-          gtk_widget_show (Denemo.input_source);
+          gtk_widget_show (Denemo.input_label);
           write_input_status ();
           free (name);
           return SCM_BOOL_T;
@@ -2331,7 +2331,7 @@ scheme_write_status (SCM filtername)
     }
   else
     {
-      gtk_widget_hide (Denemo.input_source);
+      gtk_widget_hide (Denemo.input_label);
     }
   return SCM_BOOL_F;
 }

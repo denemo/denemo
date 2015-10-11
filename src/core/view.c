@@ -4727,11 +4727,11 @@ create_window (void)
   gtk_widget_show (Denemo.statuslabel);
   //Denemo.status_context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (Denemo.statusbar), "Denemo");
   //gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id, "Denemo");
-  Denemo.input_source = gtk_label_new (_("No MIDI filter"));
-  gtk_widget_set_tooltip_text (Denemo.input_source, _("This area shows which MIDI filters are active. It can also be used by commands to pass information to the user"));
-  gtk_widget_show (Denemo.input_source);
+  Denemo.input_label = gtk_label_new (_("No MIDI filter"));
+  gtk_widget_set_tooltip_text (Denemo.input_label, _("This area shows which MIDI filters are active. It can also be used by commands to pass information to the user"));
+  gtk_widget_show (Denemo.input_label);
   Denemo.input_filters = g_string_new ("");
-  gtk_paned_add2 (GTK_PANED (hbox), Denemo.input_source);
+  gtk_paned_add2 (GTK_PANED (hbox), Denemo.input_label);
   gtk_paned_set_position (GTK_PANED (hbox), 600);
   gtk_widget_show (hbox);
   // End of status bar stuff - note this is not working on Windows correctly.
