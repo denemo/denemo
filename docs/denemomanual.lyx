@@ -1521,7 +1521,11 @@ Playback
 \begin_layout Standard
 Playback uses a pair of marks to decide where to start and stop playing.
  These appear in the display as vertical green and red lines down through
- the notes concerned.
+ the notes concerned 
+\emph on
+when the playback control panel is visible
+\emph default
+.
  These markers can be moved about by the arrow buttons on either side of
  the play button in the Playback Controls 
 \begin_inset CommandInset ref
@@ -5199,53 +5203,101 @@ Note Entry
 \end_layout
 
 \begin_layout Standard
-Basic Note entry is to type a number key 
+The default keyboard shortcuts appends a note when you type a number key
+ 
 \family typewriter
 0-6
 \family default
- for the duration of the note followed by a letter key 
+ with the pitch taken from the cursor height and inserts a note when pressing
+ a letter key 
 \family typewriter
 a-g
 \family default
- for the note name.
- (The shorter duration notes are available, but the keys 
+.
+ This provides one way of entering notes - move the cursor up or down to
+ the note position and press a number key for the duration.
+ If the note is to be out-of-key then the 
 \family typewriter
-7
+equal 
 \family default
-,
+or 
 \family typewriter
-8
+minus 
 \family default
-,
-\family typewriter
-9
-\family default
- are used for starting and extending/reducing slurs).
- If the duration is the same as the last entered note then just the note
- name is needed.
- The duration can be dotted with the period key, and the octave adjusted
- with comma (for down) or apostrophe (for up).
+key can be used to sharpen/double-sharpen/flatten/double-flatten the next
+ note.
+ This method of note entry is probably not the most efficient however: in
+ the Input->PC Keyboard menu you can choose to make the number keys change
+ the prevailing duration without entering a note.
+ With that setting you can use the note names to append notes to the bar
+ only pressing the number keys if the duration changes.
+ The duration can be dotted/double dotted with the period key, and the octave
+ adjusted with comma (for down) or apostrophe (for up).
 \end_layout
 
 \begin_layout Standard
-When you append music by pressing a duration key with a MIDI controller
- active, you get a brown note, indicating a duration which has not been
- given a pitch.
- Once you have pressed a note-name it becomes that note printed in black.
- Prior to that it is a pure rhythm and will play back as a drum beat and
- will print as a space.
+Mixed mouse and keyboard strategies are possible too.
+ For example with one hand changing the prevailing duration via the keyboard
+ the other can click on the Insert Note buttons in the Note Insertion palette.
+\end_layout
+
+\begin_layout Subsubsection
+Chord Entry
 \end_layout
 
 \begin_layout Standard
-When not appending music, you need to use the 
+The standard keybinding for entering a note in a chord is the 
+\family typewriter
+Insert
+\family default
+ key, 
+\family typewriter
+Ctrl-Insert
+\family default
+ or
+\family typewriter
+ Del
+\family default
+,
+\family typewriter
+Del
+\family default
+ deletes.
+ The is inserted at the cursor height, use 
+\family typewriter
+-
+\family default
+ and 
+\family typewriter
++
+\family default
+ to flatten/sharpen the note before you enter it (avoiding hearing both
+ notes if you flatten/sharpen afterwards).
+ There are also commands to enter a named note 
+\family typewriter
+Alt-a
+\family default
+, 
+\family typewriter
+Alt-b
+\family default
+...
+ are the standard shortcuts for this.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Editing Music
+\end_layout
+
+\begin_layout Standard
+When not appending music, the letter keys change the note at the cursor
+ to that named note.
+ You need to use the 
 \family typewriter
 shift
 \family default
- key to insert a new note, or set the 
-\family typewriter
-Caps Lock
-\family default
-.
+ key to insert a new note.
  So 
 \family typewriter
 Shift-a
@@ -5297,52 +5349,26 @@ Windows
 \family typewriter
 Shift-Alt-0
 \family default
- etc.
-\end_layout
-
-\begin_layout Subsubsection
-Chord Entry
+ etc or 
+\family typewriter
+Ctrl-Alt-0
+\family default
+.
 \end_layout
 
 \begin_layout Standard
-The standard keybinding for entering a note in a chord is the 
+The 
 \family typewriter
-Insert
+Caps Lock 
 \family default
- key, 
-\family typewriter
-Ctrl-Insert
-\family default
- or
-\family typewriter
- Del
-\family default
-,
-\family typewriter
-Del
-\family default
- deletes.
- The is inserted at the cursor height, use 
-\family typewriter
--
-\family default
- and 
-\family typewriter
-+
-\family default
- to flatten/sharpen the note before you enter it (avoiding hearing both
- notes if you flatten/sharpen afterwards).
- There are also commands to enter a named note 
-\family typewriter
-Alt-a
-\family default
-, 
-\family typewriter
-Alt-b
-\family default
-...
- are the standard shortcuts for this.
- 
+can be a nuisance - you will sometimes have it turned on accidentally and
+ wonder why keypress are not working.
+ You 
+\emph on
+can 
+\emph default
+use it to achieve Shift-A, Shift-B ...
+ but it is probably best left alone.
 \end_layout
 
 \begin_layout Section
