@@ -67,6 +67,11 @@ capture_add_binding (GtkWidget * widget, GdkEventKey * event, gpointer user_data
   dnm_clean_event (event);
   modifiers = dnm_sanitize_key_state (event);
   gchar *name = dnm_accelerator_name (event->keyval, event->state);
+  if (!strcmp(name, "VoidSymbol"))
+    {
+        warningdialog (_("VoidSymbol not allowed"));
+        return TRUE;
+    }
   if (cbdata->two_key == 1)
     {
       gint command_idx = lookup_command_for_keybinding_name (Denemo.map, name);
