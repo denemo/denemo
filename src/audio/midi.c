@@ -689,6 +689,8 @@ midiaction (gint notenum)
             channel = Denemo.prefs.pitchspellingchannel;
 
           play_note (DEFAULT_BACKEND, 0 /*port */ , channel, notenum, 300 /*duration */ , 0);
+          if(Denemo.project->movement->currentobject->prev == NULL)
+                signal_measure_end();
         }
     }
 

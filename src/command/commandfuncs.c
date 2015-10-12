@@ -1771,8 +1771,6 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
                  gint duration_ms = 1000 * mudela_obj_new->durinticks * 60.0 / (si->tempo * MIDI_RESOLUTION);
                  g_debug("duration %d duration ms = %d\n", duration, duration_ms);
                  play_note (DEFAULT_BACKEND , curstaffstruct->midi_port , curstaffstruct->midi_channel, key, duration_ms, 127);
-                
-                
                 }
             else
                 rhythm_feedback (DEFAULT_BACKEND, duration, rest, FALSE);
@@ -1788,6 +1786,8 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
           if (Denemo.prefs.immediateplayback)
             {
               play_notes (DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, (chord *) mudela_obj_new->object);
+              if(si->currentobject->prev == NULL)
+                signal_measure_end();
             }
         }
     }
