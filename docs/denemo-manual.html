@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2015-10-11"/>
+<meta name="create-date" content="2015-10-12"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -434,6 +434,14 @@ Table of Contents
 <div class="toc">
 <a class="Link" href="#toc-Section-15">Section 15: Style, Layout, Titling</a>
 </div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsection-15.1">Subsection 15.1: Simple Titles</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-15.2">Subsection 15.2: Book Titles</a>
+</div>
+</div>
 <div class="toc">
 <a class="Link" href="#toc-Section-16">Section 16: Musical Elements - everything on and around the notes.</a>
 </div>
@@ -464,6 +472,20 @@ Table of Contents
 </div>
 <div class="toc">
 <a class="Link" href="#toc-Subsection-16.9">Subsection 16.9: Text</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-16.9.1">Subsubsection 16.9.1: Simple Text</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-16.9.2">Subsubsection 16.9.2: Multi-line Text and Music</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-16.9.3">Subsubsection 16.9.3: Text Spanning </a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-16.9.4">Subsubsection 16.9.4: Rehearsal Marks</a>
+</div>
 </div>
 </div>
 <div class="toc">
@@ -1401,7 +1423,7 @@ The beaming rules can be set both in general (invoke Set Beaming Rules without a
 As with the Score Menu there may be Denemo Directives attached to the movement - e.g titles to be placed at the head of the movement will have a Denemo Directive associated with them. Other controls that can be applied on a per-movement basis include the barline and notehead style, printing of a custos at line ends, the indent before the first system (which can also be set on the score-wide basis).
 </div>
 <div class="Indented">
-Various score checking routines work at movement level from this menu and a command to re-bar the movment (or a staff or part of a staff) is also here as &ldquo;Adjust the Measure Lengths&rdquo; - this can also be used just to check that the Denemo &ldquo;measures&rdquo; correspond with the actual typeset measures (which always follow the durations/time signatures).
+Various score checking routines work at movement level from this menu and a command to re-bar the movment (or a staff or part of a staff) is also here as &ldquo;Adjust the Measure Lengths&rdquo; - this can also be used just to check that the Denemo &ldquo;measures&rdquo; correspond with the actual typeset measures (which always follow the durations/time signatures) or to re-bar a staff or passage or movement if you have changed your mind or got out of step.
 </div>
 <div class="Indented">
 Again there are titles menus for either simple or book titles, and for inserting graphics between movements. These can be used as decorative separators between movements or to insert columns of verses at the end of songs (each song is a separate &ldquo;movement&rdquo;).
@@ -2166,7 +2188,49 @@ Notehead style for the whole score is here (see the Notes/Rests-&gt;Notehead men
 The command to instruct the typesetter to transpose the entire score is here - two flavors, a quick text-based one or one that allows you to specify the transposition you require by setting the pitches of two notes (from and to pitches).
 </div>
 <div class="Indented">
-Separate Titles menus are also found in the Score and Movements menus. The Score-&gt;Titles-&gt;Book Titles also includes table of contents and critical commentary control.
+Titles menus are found in the Score and Movements menus. There are two styles of titles, Book Titles and Simple Titles which shouldn’t be mixed.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-15.1">15.1</a> Simple Titles
+</h2>
+<div class="Unindented">
+Simple titles allow you to place fields of text around the music. In this example the fields have been named &ldquo;xxx movement&rdquo; when they have been set from the movement titles otherwise they have been set in the score titles menu.
+</div>
+<div class="Indented">
+<img class="embedded" src="images/SimpleTitles.png" alt="figure images/SimpleTitles.png" style="max-width: 569px; max-height: 378px;"/>
+
+</div>
+<div class="Indented">
+Each field can contain any text you need, with the Copyright field at the bottom of the first page, the Tagline field at the bottom of the last page and the Instrument field at the top of each page.
+</div>
+<div class="Indented">
+When you first set a title you just get a text box to write the title in. If you invoke the title again (e.g. click on it in the Print View) then you can extensively alter its appearance using the LilyPond markup language - buttons are provided so that you do not need to know the markup syntax. See the section <a class="Reference" href="#sub:Multi-line-Text-and">16.9.2↓</a> for the interface provided.
+</div>
+<div class="Indented">
+<div class="Shadowbox" style="width: 100%;">
+<div class="PlainVisible">
+If you have several movements without titles and then set a title for the score, that title will be repeated for each movement until you set at least one title field on the movements.<br/>
+When you preview the title with the preview button you see the title relative to the default settings for that title - in particular if that title is normally bold and you want to turn this off you will need to use \normal-text before the text to be un-boldened.
+</div>
+
+</div>
+
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-15.2">15.2</a> Book Titles
+</h2>
+<div class="Unindented">
+With Book Titles you get a title page with a border and then each movement can have titles of its own. 
+</div>
+<div class="Indented">
+<img class="embedded" src="images/BookTitles.png" alt="figure images/BookTitles.png" style="max-width: 698px; max-height: 980px;"/>
+
+</div>
+<div class="Indented">
+The music that appears on the title page can be selected from anywhere in the score, or omitted.
+</div>
+<div class="Indented">
+The Score-&gt;Titles-&gt;Book Titles menu also includes table of contents and critical commentary control.
 </div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-16">16</a> Musical Elements - everything on and around the notes.
@@ -2270,13 +2334,31 @@ Directives-&gt;Markings-&gt;Tempi and Metronome Marks allows insertion of a temp
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-16.9">16.9</a> Text
 </h2>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-16.9.1">16.9.1</a> Simple Text
+</h3>
 <div class="Unindented">
-The most general command here is Directives-&gt;Markings-&gt;Multi-line Text and Music. As the name implies, you can not only insert simple text but also control the italic, bold, superscript, font-size etc, as well as inserting actual notated music, fret-diagrams in the sentences. For simple use Textual Annotation command may suffice. There are also commands to insert fret diagrams etc and with all these commands right-click on the object allows editing for the position or content.
+For simple use Directives-&gt;Markings-&gt;Textual Annotation command may suffice. This allows you to place some text positioned above or below automatically or as you decide.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-16.9.2">16.9.2</a> Multi-line Text and Music<a class="Label" name="sub:Multi-line-Text-and"> </a>
+</h3>
+<div class="Unindented">
+The most general command is Directives-&gt;Markings-&gt;Multi-line Text and Music. As the name implies, you can not only insert simple text but also control the italic, bold, superscript, font-size etc, as well as inserting actual notated music, fret-diagrams in the sentences. These work by inserting &ldquo;markup&rdquo;, that is the text is interspersed with \bold, \italic etc to indicate what appearance is decided. A Preview button is provided so that you can see the effect of the markup. Buttons are provided to create effects such as bold, italic and the insertion of note names (so that things like B-minor in a title will transpose when the score is transposed) - these buttons remember the LilyPond markup language for you, so you don’t need to look it up. There are also commands to insert fret diagrams etc.
 </div>
 <div class="Indented">
+The text when it appears in the final typeset score can be edited via right-click for the position or content.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-16.9.3">16.9.3</a> Text Spanning 
+</h3>
+<div class="Unindented">
 In the Directives-&gt;Markings-&gt;Spanning menu are commands that cause markings that span a passage of music, such as Cadenza and Piano Sustain pedal marks, ottava markings, and extended trill marks. Here also are 1st and 2nd (and nth) time bars, with shortcuts r,1 for starting a first time bar, r,2 starting a second time bar and r,e for ending either. The Nth time bar can be used to hold any text needed (i.e. use this for a first time bar if the indication should be other that 1.).
 </div>
-<div class="Indented">
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-16.9.4">16.9.4</a> Rehearsal Marks
+</h3>
+<div class="Unindented">
 The Directives-&gt;Markings subdirectory also holds the Rehearsal Marks commands. These can be custom text or default, and can be used as bookmarks for navigation.
 </div>
 <h1 class="Section">
@@ -4658,7 +4740,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-10-11T19:05:15.632358</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-10-12T12:21:35.138054</span>
 </div>
 </div>
 </body>

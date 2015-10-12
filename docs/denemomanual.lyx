@@ -2220,7 +2220,8 @@ measures
 \end_inset
 
  correspond with the actual typeset measures (which always follow the durations/
-time signatures).
+time signatures) or to re-bar a staff or passage or movement if you have
+ changed your mind or got out of step.
 \end_layout
 
 \begin_layout Standard
@@ -4468,9 +4469,120 @@ The command to instruct the typesetter to transpose the entire score is
 \end_layout
 
 \begin_layout Standard
-Separate Titles menus are also found in the Score and Movements menus.
- The Score->Titles->Book Titles also includes table of contents and critical
- commentary control.
+Titles menus are found in the Score and Movements menus.
+ There are two styles of titles, Book Titles and Simple Titles which shouldn't
+ be mixed.
+\end_layout
+
+\begin_layout Subsection
+Simple Titles
+\end_layout
+
+\begin_layout Standard
+Simple titles allow you to place fields of text around the music.
+ In this example the fields have been named 
+\begin_inset Quotes eld
+\end_inset
+
+xxx movement
+\begin_inset Quotes erd
+\end_inset
+
+ when they have been set from the movement titles otherwise they have been
+ set in the score titles menu.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/SimpleTitles.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Each field can contain any text you need, with the Copyright field at the
+ bottom of the first page, the Tagline field at the bottom of the last page
+ and the Instrument field at the top of each page.
+\end_layout
+
+\begin_layout Standard
+When you first set a title you just get a text box to write the title in.
+ If you invoke the title again (e.g.
+ click on it in the Print View) then you can extensively alter its appearance
+ using the LilyPond markup language - buttons are provided so that you do
+ not need to know the markup syntax.
+ See the section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Multi-line-Text-and"
+
+\end_inset
+
+ for the interface provided.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+If you have several movements without titles and then set a title for the
+ score, that title will be repeated for each movement until you set at least
+ one title field on the movements.
+\end_layout
+
+\begin_layout Plain Layout
+When you preview the title with the preview button you see the title relative
+ to the default settings for that title - in particular if that title is
+ normally bold and you want to turn this off you will need to use 
+\backslash
+normal-text before the text to be un-boldened.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Book Titles
+\end_layout
+
+\begin_layout Standard
+With Book Titles you get a title page with a border and then each movement
+ can have titles of its own.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/BookTitles.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The music that appears on the title page can be selected from anywhere in
+ the score, or omitted.
+\end_layout
+
+\begin_layout Standard
+The Score->Titles->Book Titles menu also includes table of contents and
+ critical commentary control.
 \end_layout
 
 \begin_layout Section
@@ -4814,15 +4926,60 @@ Directives->Markings->Tempi and Metronome Marks allows insertion of a tempo
 Text
 \end_layout
 
+\begin_layout Subsubsection
+Simple Text
+\end_layout
+
 \begin_layout Standard
-The most general command here is Directives->Markings->Multi-line Text and
- Music.
+For simple use Directives->Markings->Textual Annotation command may suffice.
+ This allows you to place some text positioned above or below automatically
+ or as you decide.
+\end_layout
+
+\begin_layout Subsubsection
+Multi-line Text and Music
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Multi-line-Text-and"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The most general command is Directives->Markings->Multi-line Text and Music.
  As the name implies, you can not only insert simple text but also control
  the italic, bold, superscript, font-size etc, as well as inserting actual
  notated music, fret-diagrams in the sentences.
- For simple use Textual Annotation command may suffice.
- There are also commands to insert fret diagrams etc and with all these
- commands right-click on the object allows editing for the position or content.
+ These work by inserting 
+\begin_inset Quotes eld
+\end_inset
+
+markup
+\begin_inset Quotes erd
+\end_inset
+
+, that is the text is interspersed with 
+\backslash
+bold, 
+\backslash
+italic etc to indicate what appearance is decided.
+ A Preview button is provided so that you can see the effect of the markup.
+ Buttons are provided to create effects such as bold, italic and the insertion
+ of note names (so that things like B-minor in a title will transpose when
+ the score is transposed) - these buttons remember the LilyPond markup language
+ for you, so you don't need to look it up.
+ There are also commands to insert fret diagrams etc.
+\end_layout
+
+\begin_layout Standard
+The text when it appears in the final typeset score can be edited via right-clic
+k for the position or content.
+\end_layout
+
+\begin_layout Subsubsection
+Text Spanning 
 \end_layout
 
 \begin_layout Standard
@@ -4833,6 +4990,10 @@ In the Directives->Markings->Spanning menu are commands that cause markings
  a first time bar, r,2 starting a second time bar and r,e for ending either.
  The Nth time bar can be used to hold any text needed (i.e.
  use this for a first time bar if the indication should be other that 1.).
+\end_layout
+
+\begin_layout Subsubsection
+Rehearsal Marks
 \end_layout
 
 \begin_layout Standard
