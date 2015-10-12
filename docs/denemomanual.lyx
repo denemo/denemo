@@ -4307,8 +4307,8 @@ This tab affects the sounds you will hear via a connected audio system.
  are still entering at the right part of the bar.
  The sound effect that tells you a new bar is beginning is set via the first
  field - it is one of the drum effects available in the default Denemo soundfont
-, number 72.
- 
+, number 72, change this to 0 to turn it off, or other values for a more
+ discrete sound.
 \end_layout
 
 \begin_layout Standard
@@ -5027,7 +5027,7 @@ Denemo allows you to explore all the actions (insert/delete/edit/navigate...)
  right.
  You can set the keyboard shortcut just by pressing the desired key while
  the menu item is selected.
- You can right click on the menu item to set a a two-key keyboard shortcut.
+ You can right click on the menu item to set a two-key keyboard shortcut.
  This means that you can tailor Denemo to allow you to use your preferred
  method of entering notes.
 \end_layout
@@ -5048,6 +5048,13 @@ Typing at the keyboard can be very fast, if you forget which keypress you
 \begin_layout Standard
 For entering a lot of already written-out music, playing the music in via
  a MIDI keyboard or microphone can offer the fastest and most musical method.
+\end_layout
+
+\begin_layout Standard
+With all methods of note entry a measure start sound will be heard when
+ your note entry has moved to a new measure, which means you do not have
+ to look up to know that you have started a new measure as expected.
+ This measure start sound can be set to 0 in the preferences if unwanted.
 \end_layout
 
 \begin_layout Subsection

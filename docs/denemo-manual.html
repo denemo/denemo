@@ -702,7 +702,7 @@ Table of Contents
 <a class="toc" name="toc-Part-I">Part I.</a> Getting Started
 </h1>
 <h1 class="Section-">
-<a class="toc" name="toc-Section--1"></a>Introduction  
+<a class="toc" name="toc-Section--1"></a>Introduction  <span class="unknown">\pagenumbering</span>arabic 
 </h1>
 <div class="Unindented">
 Denemo lets you create musical scores. You can type music in using the keyboard or play it in using a MIDI contoller or the microphone input. You can edit your music - the input display window shows you what you are working on in music notation - and you can playback to check how it sounds. The Print View window shows the final printed score, typeset to the highest standards used in the music publishing industry - thanks to the Lilypond music typesetting program.
@@ -2136,7 +2136,7 @@ The Autosave options guard against a power failure while you are working - nowad
 
 </div>
 <div class="Indented">
-This tab affects the sounds you will hear via a connected audio system. The first section is for feedback when entering music. If you are looking at a source manuscript while entering rhythms or notes you will not want to look across at the input display to check that you are still entering at the right part of the bar. The sound effect that tells you a new bar is beginning is set via the first field - it is one of the drum effects available in the default Denemo soundfont, number 72. 
+This tab affects the sounds you will hear via a connected audio system. The first section is for feedback when entering music. If you are looking at a source manuscript while entering rhythms or notes you will not want to look across at the input display to check that you are still entering at the right part of the bar. The sound effect that tells you a new bar is beginning is set via the first field - it is one of the drum effects available in the default Denemo soundfont, number 72, change this to 0 to turn it off, or other values for a more discrete sound.
 </div>
 <div class="Indented">
 There are settings for controlling the pitch spelling for MIDI in - augmented and diminished intervals switch to this channel; if you hear this on an interval that was not supposed to be augmented or diminished you are alerted that you have the enharmonic range wrongly set for the piece. You can set this to the instrument in use to avoid the effect.
@@ -2368,7 +2368,7 @@ The Directives-&gt;Markings subdirectory also holds the Rehearsal Marks commands
 <a class="toc" name="toc-Subsection-17.1">17.1</a> Introduction
 </h2>
 <div class="Unindented">
-Denemo allows you to explore all the actions (insert/delete/edit/navigate...) using the menus. So, for example, inserting notes can be found under Notes/Rests while inserting a Staff comes under Staffs/Voices. When you have found the action you need hovering over the item will give an explanation of what it does. The keyboard or mouse shortcut to use for the command is in blue on the right. You can set the keyboard shortcut just by pressing the desired key while the menu item is selected. You can right click on the menu item to set a a two-key keyboard shortcut. This means that you can tailor Denemo to allow you to use your preferred method of entering notes.
+Denemo allows you to explore all the actions (insert/delete/edit/navigate...) using the menus. So, for example, inserting notes can be found under Notes/Rests while inserting a Staff comes under Staffs/Voices. When you have found the action you need hovering over the item will give an explanation of what it does. The keyboard or mouse shortcut to use for the command is in blue on the right. You can set the keyboard shortcut just by pressing the desired key while the menu item is selected. You can right click on the menu item to set a two-key keyboard shortcut. This means that you can tailor Denemo to allow you to use your preferred method of entering notes.
 </div>
 <div class="Indented">
 By default, Denemo offers several ways of entering music: typing at the keyboard, playing in via a MIDI keyboard (controller), playing in acoustically using a microphone or choosing items from the menu system. 
@@ -2378,6 +2378,9 @@ Typing at the keyboard can be very fast, if you forget which keypress you need y
 </div>
 <div class="Indented">
 For entering a lot of already written-out music, playing the music in via a MIDI keyboard or microphone can offer the fastest and most musical method.
+</div>
+<div class="Indented">
+With all methods of note entry a measure start sound will be heard when your note entry has moved to a new measure, which means you do not have to look up to know that you have started a new measure as expected. This measure start sound can be set to 0 in the preferences if unwanted.
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-17.2">17.2</a> Playing Notes into Denemo - MIDI<a class="Label" name="sub:Playing-Notes-into"> </a>
@@ -4740,7 +4743,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-10-12T12:21:35.138054</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-10-12T15:53:06.177341</span>
 </div>
 </div>
 </body>
