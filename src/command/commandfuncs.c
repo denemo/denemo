@@ -2245,6 +2245,7 @@ addmeasureafter (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
   score_status(Denemo.project, TRUE);
   // calcmarkboundaries (si);
   /* update_hscrollbar (si); */
+  displayhelper (Denemo.project);
 }
 
 /**
