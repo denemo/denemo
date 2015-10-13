@@ -4964,7 +4964,7 @@ markup
 \backslash
 bold, 
 \backslash
-italic etc to indicate what appearance is decided.
+italic etc to indicate what appearance is desired.
  A Preview button is provided so that you can see the effect of the markup.
  Buttons are provided to create effects such as bold, italic and the insertion
  of note names (so that things like B-minor in a title will transpose when
@@ -5017,17 +5017,10 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-Denemo allows you to explore all the actions (insert/delete/edit/navigate...)
- using the menus.
- So, for example, inserting notes can be found under Notes/Rests while inserting
- a Staff comes under Staffs/Voices.
- When you have found the action you need hovering over the item will give
- an explanation of what it does.
- The keyboard or mouse shortcut to use for the command is in blue on the
- right.
- You can set the keyboard shortcut just by pressing the desired key while
- the menu item is selected.
- You can right click on the menu item to set a two-key keyboard shortcut.
+You can set the keyboard shortcut for a command just by pressing the desired
+ key while the menu item is selected.
+ You can right click on the menu item and choose Open Command Center to
+ set a two-key keyboard shortcut.
  This means that you can tailor Denemo to allow you to use your preferred
  method of entering notes.
 \end_layout
