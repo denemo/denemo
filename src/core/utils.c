@@ -1841,12 +1841,11 @@ DenemoProject *gui = Denemo.project;
         refresh_lily_cb (NULL, Denemo.project);
       if (curObj->lilypond)
         {
-            gchar *text = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose \\new ChordNames {%s}\\layout{indent=0.0}\n}",  curObj->lilypond);
+            gchar *text = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose \\new ChordNames {\\override ChordName.font-family = #'roman \\override ChordName.font-size = #1.0 %s}\\layout{indent=0.0}\n}",  curObj->lilypond);
             return text;
         }  
     return NULL;
 }
-
 
 /****************
  * write the status bar
