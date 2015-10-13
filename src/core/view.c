@@ -778,6 +778,8 @@ close_project (void)
       g_source_remove (Denemo.autosaveid);
       Denemo.autosaveid = 0;
     }
+  if(Denemo.project->autosavename)
+            g_remove (Denemo.project->autosavename->str);
   if (Denemo.textwindow && gtk_widget_get_visible (Denemo.textwindow))
     {
       activate_action ("/MainMenu/ViewMenu/" ToggleLilyText_STRING);
@@ -1016,8 +1018,7 @@ close_gui_with_check (GtkAction * action, DenemoScriptParam* param)
       project = Denemo.project;
       if(project)
         {
-          if(project->autosavename)
-            g_remove (project->autosavename->str);
+
     /* It would be nice to delete the print directory to avoid filling up /tmp, however this fails on Unix at least for an unknown reason.
           gint result = g_remove (locateprintdir ());
           g_print("Removed %s %s\n", locateprintdir(), result==0?"successfully":"not gone");
