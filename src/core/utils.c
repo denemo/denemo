@@ -1822,14 +1822,14 @@ DenemoProject *gui = Denemo.project;
         refresh_lily_cb (NULL, Denemo.project);
       if (curObj->lilypond)
         {
-              gchar *text = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose \\new FretBoards {%s}\\layout{indent=0.0}\n}",  curObj->lilypond);
+              gchar *text = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose\n\\new FretBoards {%s}\n\\layout{indent=0.0}\n}",  curObj->lilypond);
               return text;
         }  
     return NULL;
 }
 
 /* get a chord symbol for the chord at the cursor or before the cursor if not on the chord */
-gchar *get_fakechord_as_markup (void)
+gchar *get_fakechord_as_markup (gchar *size, gchar *font)
 {
 DenemoProject *gui = Denemo.project;
    DenemoObject *curObj;
@@ -1841,7 +1841,7 @@ DenemoProject *gui = Denemo.project;
         refresh_lily_cb (NULL, Denemo.project);
       if (curObj->lilypond)
         {
-            gchar *text = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose \\new ChordNames {\\override ChordName.font-family = #'roman \\override ChordName.font-size = #1.0 %s}\\layout{indent=0.0}\n}",  curObj->lilypond);
+            gchar *text = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose\n\\new ChordNames {\n\\override ChordName.font-name = #'\"%s\"\n\\override ChordName.font-size = #%s %s}\n\\layout{indent=0.0}\n}\n", font, size, curObj->lilypond);
             return text;
         }  
     return NULL;

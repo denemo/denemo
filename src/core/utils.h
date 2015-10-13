@@ -159,7 +159,7 @@ void chord2lilybaseduration (struct chord *chordobject, GString * ret);
 void chord2lilyduration (struct chord *chordobject, GString * ret);
 void chord2lilynumdots (struct chord *chordobject, GString * ret);
 gchar *get_fretdiagram_as_markup (void);
-gchar *get_fakechord_as_markup (void);
+gchar *get_fakechord_as_markup (gchar *size, gchar *font);
 
 
 #define UTILS_H_PARAM_ASSIGN(param_name) if( (str = g_strstr_len(values->str+i,strlen(values->str+i), #param_name)))\

@@ -71,7 +71,13 @@ paste_current_lilypond_as_fakechord (GtkWidget * button)
   GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
   if (textbuffer)
     {
-      gchar *text = get_fakechord_as_markup ();
+    gchar *text = NULL;
+    gchar *size = string_dialog_entry (gui, _( "Note/Chord Name"), _("Give a relative font size +/- "), "4");
+    gchar *font = string_dialog_entry (gui, _( "Note/Chord Name"), _("Give a font name "), "Times Bold");
+    if (font && *font && size && *size)
+        text = get_fakechord_as_markup (size, font);
+      g_free (size);
+      g_free (font);
       if(text)
         {
             gchar *insert = g_strdup_printf("%s", text);   
@@ -135,7 +141,7 @@ insert_font_mag (GtkWidget * button)
   GtkWidget *hbox = gtk_widget_get_parent (button);
   GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
   gchar *text = string_dialog_entry (gui, _( "Font Magnification"), _("Give a relative font size +/- "), "-2");
-  if (text && *text && atoi(text))
+  if (text && *text)
     {
         gchar *out = g_strdup_printf ("\\fontsize #%s ", text);
       if (textbuffer)
@@ -157,7 +163,7 @@ insert_vert (GtkWidget * button)
   GtkWidget *hbox = gtk_widget_get_parent (button);
   GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
   gchar *text = string_dialog_entry (gui, _( "Space Above"), _("Give space to leave above +/- "), "2");
-  if (text && *text && atoi(text))
+  if (text && *text)
     {
         gchar *out = g_strdup_printf ("\\vspace #%s ", text);
       if (textbuffer)
@@ -180,7 +186,7 @@ insert_horiz (GtkWidget * button)
   GtkWidget *hbox = gtk_widget_get_parent (button);
   GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
   gchar *text = string_dialog_entry (gui, _( "Insert Space"), _("Give space to insert +/- "), "2");
-  if (text && *text && atoi(text))
+  if (text && *text)
     {
         gchar *out = g_strdup_printf ("\\hspace #%s ", text);
       if (textbuffer)
