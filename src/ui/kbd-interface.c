@@ -613,7 +613,7 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
    if(SearchEntry==NULL) {
     SearchEntry = gtk_entry_new ();
     SearchNext = gtk_button_new_with_label ("→");
-    gtk_widget_set_tooltip_text (SearchEntry, _("Type search text here. Enter words that might be in the command label,\nor part of the text of a tooltip or the internal name.\nThe search is case insensitive. It goes on to the next match each time you enter letter that doesn't match the current command so check at each keypress.\nWARNING! It searches on forwards even when you press backspace, so scroll back to the top and use the arrow button."));
+    gtk_widget_set_tooltip_text (SearchEntry, _("Type search text here. Enter words that might be in the command label,\nor part of the text of a tooltip or the internal name.\nThe search is case insensitive. It goes on to the next match each time you enter letter that doesn't match the current command so check at each keypress.\nThe search re-starts from the top when you delete a letter."));
     gtk_widget_set_tooltip_text (SearchNext, _("Search for the next matching command. Starts again at the top once it has reached the end."));
     }   //The actual searching is done in kbd-custom.c by passing in the globals SearchEntry and SearchNext, ugh!
   //getting a binding view and a command view and connecting the change of

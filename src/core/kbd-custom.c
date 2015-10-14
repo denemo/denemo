@@ -1834,6 +1834,7 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
   static gchar *last_key;
   static gchar **search_strings;
   static gint number_of_search_terms;
+  gboolean backspace = FALSE;
   if (*key == 0)
     return TRUE;
   if ((!last_key) || strcmp (key, last_key))
@@ -1850,9 +1851,12 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
         g_free (c);
         number_of_search_terms++;
         }
+    backspace = last_key && (strlen(key)<strlen(last_key));
      g_free (last_key);
      last_key = g_strdup(key);   
     }
+  if (backspace)
+    return FALSE;
   gchar *tooltip; 
    gtk_tree_model_get (model, iter, COL_TOOLTIP, &tooltip, -1);
   gchar *label;
