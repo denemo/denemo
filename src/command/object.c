@@ -1438,6 +1438,19 @@ static void delete_score_directive (GtkWidget *button)
 static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, DIRECTIVE_TYPE score_or_movement, gchar *field)
 {
     GList *g;
+    gchar *type = "";
+    if(!strcmp (field, "lilycontrol"))
+        type = _( "Score ");
+    else  if(!strcmp (field, "movementcontrol"))
+        type = _( "Movement ");
+    else  if(!strcmp (field, "scoreheader"))
+        type = _( "Score Header ");
+    else  if(!strcmp (field, "paper"))
+        type = _( "Paper ");
+    else  if(!strcmp (field, "header"))
+        type = _( "Movement Header ");
+    else  if(!strcmp (field, "layout"))
+        type = _( "Movement Layout ");           
      for (g=*pdirectives;g;g=g->next)
       {
             DenemoDirective *directive = g->data;       
@@ -1449,9 +1462,9 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
              GtkWidget *frame;
              gchar *text;
             if (label == NULL)
-                text = g_strdup_printf("%s%s", _("Denemo Directive tagged: "), name);
+                text = g_strdup_printf( _("Denemo %s Directive tagged: %s"), type, name);
             else
-                text = g_strdup_printf ("%s%s", _("Denemo Directive: "), label);
+                text = g_strdup_printf (_("Denemo %s Directive: %s"), type, label);
             frame = gtk_frame_new (text);
             g_free(text);
             //gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
@@ -1644,7 +1657,7 @@ edit_score_and_movement_properties (gboolean show_score)
  
     place_buttons_for_directives ((GList**)&Denemo.project->movement->movementcontrol, inner_box, DIRECTIVE_MOVEMENT, "movementcontrol");
     place_buttons_for_directives ((GList**)&Denemo.project->movement->header, inner_box, DIRECTIVE_MOVEMENT, "header");
-    place_buttons_for_directives ((GList**)&Denemo.project->movement->layout, inner_box, DIRECTIVE_MOVEMENT, "paper");
+    place_buttons_for_directives ((GList**)&Denemo.project->movement->layout, inner_box, DIRECTIVE_MOVEMENT, "layout");
  
    gtk_paned_set_position (GTK_PANED(pane), show_score? window_height-50 : 50);
  
