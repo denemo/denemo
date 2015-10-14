@@ -2663,7 +2663,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <after>PianoStaff</after>
         <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
         <_label>Add Staff for Marks</_label>
-        <_tooltip> This staff is purely for holding marks that should appear once at the top of the system - avoiding having to put the marks in each part. It must have a blank part name, so that it is typeset with every part. The marks should be spaced using either dummy notes or spacers.\nWARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!</_tooltip>
+        <_tooltip> This staff is purely for holding marks that should appear once at the top of the system - avoiding having to put the marks in each part. It must have a blank part name, so that it is typeset with every part. The marks should be spaced using either dummy notes or spacers. WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!</_tooltip>
       </row>
       <row type="scheme">
         <action>RehearsalMark</action>
@@ -2684,7 +2684,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
         <_label>Add a Staff for Dynamics</_label>
         <_tooltip>This staff is purely for holding cresc. dim hairpins and dynamic markings so that they can be positioned (using dummy notes or spacers) and will align with each other. Create this between the staffs for a piano work or on any staff where alignment of hairpins and dynamic marks is needed.
-WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typeetting!</_tooltip>
+WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!</_tooltip>
       </row>
       <row type="scheme">
         <action>ReBar</action>
@@ -6461,7 +6461,7 @@ Use this to refine the positioning, but be aware that notes in other staffs will
         <action>DisplayEditingTime</action>
         <menupath>/MainMenu/ViewMenu</menupath>
         <_label>Display Time Spent Editing</_label>
-        <_tooltip>Displays the cumulative time spent editing this score.\nThe time counts any period between starting to edit and saving to disk\nThe time is accumulated over different editing sessions.</_tooltip>
+        <_tooltip>Displays the cumulative time spent editing this score. The time counts any period between starting to edit and saving to disk. The time is accumulated over different editing sessions.</_tooltip>
       </row>
       <row type="scheme">
         <action>BeatChange</action>
