@@ -2939,14 +2939,14 @@ toggle_end_diminuendo (GtkAction* action, DenemoScriptParam * param)
  */
 gboolean
 auto_save_document_timeout (DenemoProject * gui)
-{
+{ static gint old_changecount;
   /* first check that this timer has not been left running after destruction of the gui */
   if (g_list_find (Denemo.projects, gui) == NULL)
     {
       //do not do this, it causes denemo to hang. warningdialog (_("Timer left running"));
       return FALSE;             /* turns off the timer */
     }
-  if (!gui->notsaved)
+  if ((!gui->notsaved) || (gui->changecount == old_changecount))
     return TRUE; // wait until project has been modified.
   DenemoMovement *si = gui->movement;
   
@@ -2956,6 +2956,7 @@ auto_save_document_timeout (DenemoProject * gui)
       g_warning ("gui->autosavename not set");
         return FALSE;
     }
+    old_changecount = gui->changecount;
   //g_debug ("Auto save file name %s\n", gui->autosavename->str);
   exportXML (gui->autosavename->str, gui);
   return TRUE;
