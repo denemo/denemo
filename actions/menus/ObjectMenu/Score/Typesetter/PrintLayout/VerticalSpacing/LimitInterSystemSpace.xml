@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>ScoreIndent</after>
+        <action>LimitInterSystemSpace</action>
+        <_label>Limit Space Between Systems</_label>
+        <_tooltip>Limits the extent to which the lines are spaced apart to fill the page.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

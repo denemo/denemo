@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>LimitInterSystemSpace</after>
+        <action>RaggedBottom</action>
+        <_label>Ragged Bottom</_label>
+        <_tooltip>This turns ragged bottom off/on. If set, systems will not spread vertically down the page. This does not
+affect the last page. This should be set for pieces that have only two
+or three systems per page, for example orchestral scores.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

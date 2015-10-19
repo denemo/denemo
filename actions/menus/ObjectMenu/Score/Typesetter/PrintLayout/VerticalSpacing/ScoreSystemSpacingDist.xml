@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ScoreSystemSpacingDist</action>
+        <_label>Movement to First System Spacing</_label>
+        <_tooltip>Set the distance between the last system of a movement and the first system of the movement that follows it, when no (title or top-level) markup exists between them.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

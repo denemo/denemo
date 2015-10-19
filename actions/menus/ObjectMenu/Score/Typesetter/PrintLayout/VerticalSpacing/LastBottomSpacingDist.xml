@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>LastBottomSpacingDist</action>
+        <_label>Last System to Bottom Spacing</_label>
+        <_tooltip>Set the distance from the last system or top-level markup on a page to the bottom of the printable area (i.e. the top of the bottom margin).</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
