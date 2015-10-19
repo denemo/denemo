@@ -1782,6 +1782,22 @@ actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SystemsPerPage.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SystemsPerPage.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SystemSystemPadding.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SystemSystemPadding.xml
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing/LastBottomSpacingDist.scm
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing/LastBottomSpacingDist.xml
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing/MarkupMarkupSpacingDist.scm
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing/MarkupMarkupSpacingDist.xml
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing/MarkupSystemSpacingDist.scm
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing/MarkupSystemSpacingDist.xml
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing/ScoreMarkupSpacingDist.scm
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing/ScoreMarkupSpacingDist.xml
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing/ScoreSystemSpacingDist.scm
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing/ScoreSystemSpacingDist.xml
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing/SystemSystemSpacingDist.scm
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing/SystemSystemSpacingDist.xml
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing/TopMarkupSpacingDist.scm
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing/TopMarkupSpacingDist.xml
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing/TopSystemSpacingDist.scm
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing/TopSystemSpacingDist.xml
 actions/menus/ObjectMenu/Score/Typesetter/ScoreChooseNotehead.scm
 actions/menus/ObjectMenu/Score/Typesetter/ScoreChooseNotehead.xml
 actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm

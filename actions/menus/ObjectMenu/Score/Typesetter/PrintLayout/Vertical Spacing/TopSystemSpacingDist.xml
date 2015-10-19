@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>TopSystemSpacingDist</action>
+        <_label>Top to System Spacing</_label>
+        <_tooltip>Set the distance from the top of the printable area (i.e. the bottom of the top margin) to the first system on a page, when there is no (title or top-level) markup between the two.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

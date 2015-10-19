@@ -2116,7 +2116,6 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>MovementTitles</action>
-        <after>MovementComposer</after>
         <menupath>/ObjectMenu/MovementMenu/Titles/SimpleTitles</menupath>
         <_label>Set Titles</_label>
         <_tooltip>Set titles for this movement. The names of the various titles are just suggestions, any sort of title can be placed in any field. See the manual for the default positioning of each title.</_tooltip>
@@ -2344,6 +2343,57 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_label>(Print) Transpose</_label>
         <_tooltip>Prints this staff (only) transposed. This is in addition to any score-wide transposition</_tooltip>
       </row>
+      <row type="scheme">
+        <action>MarkupSystemSpacingDist</action>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <_label>Markup to System Spacing</_label>
+        <_tooltip>Sets the basic distance between a (title or top-level) markup and the system that follows it.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ScoreMarkupSpacingDist</action>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <_label>Score to Title Spacing</_label>
+        <_tooltip>Set the distance between the last system of a score and the (title or top-level) markup that follows it.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SystemSystemSpacingDist</action>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <_label>System to System Spacing</_label>
+        <_tooltip>Set the distance between systems.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>MarkupMarkupSpacingDist</action>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <_label>Title to Title Spacing</_label>
+        <_tooltip>Set the distance between two (title or top-level) markups.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>TopSystemSpacingDist</action>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <_label>Top to System Spacing</_label>
+        <_tooltip>Set the distance from the top of the printable area (i.e. the bottom of the top margin) to the first system on a page, when there is no (title or top-level) markup between the two.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>LastBottomSpacingDist</action>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <_label>Last System to Bottom Spacing</_label>
+        <_tooltip>Set the distance from the last system or top-level markup on a page to the bottom of the printable area (i.e. the top of the bottom margin).</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ScoreSystemSpacingDist</action>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <_label>Movement to First System Spacing</_label>
+        <_tooltip>Set the distance between the last system of a movement and the first system of the movement that follows it, when no (title or top-level) markup exists between them.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>TopMarkupSpacingDist</action>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <_label>Top to Title Spacing</_label>
+        <_tooltip>Set the distance from the top of the printable area (i.e. the bottom of the top margin) to the first (title or top-level) markup on a page, when there is no system between the two.</_tooltip>
+      </row>      
+      
+      
+      
       <row type="scheme">
         <action>SetFontSize</action>
         <menupath>/ObjectMenu/Score/Typesetter/PrintLayout</menupath>
@@ -7308,6 +7358,7 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Fill Measure</_label>
         <_tooltip>Duplicates the note/chord/rest at the cursor until the measure is full or over-full.</_tooltip>
       </row>
+
     </map>
   </merge>
 </Denemo>
