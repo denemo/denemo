@@ -4306,7 +4306,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>LimitInterSystemSpace</action>
         <after>ScoreIndent</after>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
         <_label>Limit Space Between Systems</_label>
         <_tooltip>Limits the extent to which the lines are spaced apart to fill the page.</_tooltip>
       </row>
@@ -5028,7 +5028,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>RaggedBottom</action>
         <after>LimitInterSystemSpace</after>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
         <_label>Ragged Bottom</_label>
         <_tooltip>This turns ragged bottom off/on. If set, systems will not spread vertically down the page. This does not
 affect the last page. This should be set for pieces that have only two
@@ -5610,7 +5610,7 @@ for second and subsequent systems</_tooltip>
       <row type="scheme">
         <action>SystemSystemPadding</action>
         <after>ScoreIndent</after>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
         <_label>System to System Padding</_label>
         <_tooltip>Allows control over the padding between successive systems down the page. (A system is all the staffs representing the music at one time, sometimes called a "line" of music).</_tooltip>
       </row>
@@ -6798,7 +6798,7 @@ and others in the LilyPond documentation.</_tooltip>
       <row type="scheme">
         <action>RaggedLast</action>
         <after>RaggedBottom</after>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
         <_label>Ragged Last</_label>
         <_tooltip>When set the last line will not be stretched to fill the line.</_tooltip>
       </row>
@@ -6949,7 +6949,7 @@ and others in the LilyPond documentation.</_tooltip>
       <row type="scheme">
         <action>SystemsPerPage</action>
         <after>SystemSystemPadding</after>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
         <_label>Systems Per Page</_label>
         <_tooltip>Forces a specific number of systems (lines of music) per page.</_tooltip>
       </row>
