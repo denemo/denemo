@@ -523,7 +523,7 @@ struct name_and_function denemo_commands[] = {
   {NULL, "Menu:\\nMoving the Denemo cursor forwards/backwards to find useful places in the score", N_("Seek"), NULL, N_("Seek")},
   {NULL, "Menu:\\nVarious titling schemes, (main title, movement titles, composer etc) and adding table of contents, critical commentary", N_("Titles"), NULL, N_("Titles")},
   {NULL, "Menu:\\nCommands to affect the layout of the typeset score.", N_("PrintLayout"), NULL, N_("Print Layout")},
-  {NULL, "Menu:\\nCommands to affect the vertical spacing of the typeset score.", N_("Vertical Spacing"), NULL, N_("Vertical Spacing")},
+  {NULL, "Menu:\\nCommands to affect the vertical spacing of the typeset score.", N_("VerticalSpacing"), NULL, N_("Vertical Spacing")},
   {NULL, "Menu:\\nCommands to embed images taken from original manuscripts etc into the score (one for each measure)", N_("CaptureScore"), NULL, N_("Capture Score")},
   {NULL, "Menu:\\nCreating an Ossia staff, which appears with alternative interpretations for a bar or two on typesetting", N_("Ossia"), NULL, N_("Ossia")},
   {NULL, "Menu:\\nCommands for setting how often bar numbers appear in the typeset version of this staff", N_("Numbering"), NULL, N_("Bar Numbering")},

@@ -2345,49 +2345,49 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>MarkupSystemSpacingDist</action>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing</menupath>
         <_label>Markup to System Spacing</_label>
         <_tooltip>Sets the basic distance between a (title or top-level) markup and the system that follows it.</_tooltip>
       </row>
       <row type="scheme">
         <action>ScoreMarkupSpacingDist</action>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing</menupath>
         <_label>Score to Title Spacing</_label>
         <_tooltip>Set the distance between the last system of a score and the (title or top-level) markup that follows it.</_tooltip>
       </row>
       <row type="scheme">
         <action>SystemSystemSpacingDist</action>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing</menupath>
         <_label>System to System Spacing</_label>
         <_tooltip>Set the distance between systems.</_tooltip>
       </row>
       <row type="scheme">
         <action>MarkupMarkupSpacingDist</action>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing</menupath>
         <_label>Title to Title Spacing</_label>
         <_tooltip>Set the distance between two (title or top-level) markups.</_tooltip>
       </row>
       <row type="scheme">
         <action>TopSystemSpacingDist</action>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing</menupath>
         <_label>Top to System Spacing</_label>
         <_tooltip>Set the distance from the top of the printable area (i.e. the bottom of the top margin) to the first system on a page, when there is no (title or top-level) markup between the two.</_tooltip>
       </row>
       <row type="scheme">
         <action>LastBottomSpacingDist</action>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing</menupath>
         <_label>Last System to Bottom Spacing</_label>
         <_tooltip>Set the distance from the last system or top-level markup on a page to the bottom of the printable area (i.e. the top of the bottom margin).</_tooltip>
       </row>
       <row type="scheme">
         <action>ScoreSystemSpacingDist</action>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing</menupath>
         <_label>Movement to First System Spacing</_label>
         <_tooltip>Set the distance between the last system of a movement and the first system of the movement that follows it, when no (title or top-level) markup exists between them.</_tooltip>
       </row>
       <row type="scheme">
         <action>TopMarkupSpacingDist</action>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing</menupath>
         <_label>Top to Title Spacing</_label>
         <_tooltip>Set the distance from the top of the printable area (i.e. the bottom of the top margin) to the first (title or top-level) markup on a page, when there is no system between the two.</_tooltip>
       </row>      
@@ -4306,7 +4306,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>LimitInterSystemSpace</action>
         <after>ScoreIndent</after>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing</menupath>
         <_label>Limit Space Between Systems</_label>
         <_tooltip>Limits the extent to which the lines are spaced apart to fill the page.</_tooltip>
       </row>
@@ -5028,7 +5028,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>RaggedBottom</action>
         <after>LimitInterSystemSpace</after>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing</menupath>
         <_label>Ragged Bottom</_label>
         <_tooltip>This turns ragged bottom off/on. If set, systems will not spread vertically down the page. This does not
 affect the last page. This should be set for pieces that have only two
@@ -5610,7 +5610,7 @@ for second and subsequent systems</_tooltip>
       <row type="scheme">
         <action>SystemSystemPadding</action>
         <after>ScoreIndent</after>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing</menupath>
         <_label>System to System Padding</_label>
         <_tooltip>Allows control over the padding between successive systems down the page. (A system is all the staffs representing the music at one time, sometimes called a "line" of music).</_tooltip>
       </row>
@@ -6798,7 +6798,7 @@ and others in the LilyPond documentation.</_tooltip>
       <row type="scheme">
         <action>RaggedLast</action>
         <after>RaggedBottom</after>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing</menupath>
         <_label>Ragged Last</_label>
         <_tooltip>When set the last line will not be stretched to fill the line.</_tooltip>
       </row>
@@ -6949,7 +6949,7 @@ and others in the LilyPond documentation.</_tooltip>
       <row type="scheme">
         <action>SystemsPerPage</action>
         <after>SystemSystemPadding</after>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/Vertical Spacing</menupath>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing</menupath>
         <_label>Systems Per Page</_label>
         <_tooltip>Forces a specific number of systems (lines of music) per page.</_tooltip>
       </row>
