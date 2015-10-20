@@ -491,6 +491,7 @@ DenemoPalette *create_palette (gchar *name, gboolean docked, gboolean rows) {
             {
              gtk_window_set_default_size (GTK_WINDOW (pal->window), 200, 100);//try and get folk to notice it!
              gtk_window_present (GTK_WINDOW (pal->window));
+	     gtk_window_set_transient_for (GTK_WINDOW(pal->window), GTK_WINDOW(Denemo.window));
              gtk_window_set_keep_above  (GTK_WINDOW (pal->window), TRUE);
          }
  
