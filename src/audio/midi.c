@@ -574,8 +574,8 @@ static gboolean at_nonprinting (void)
 /*  take an action for the passed note. Enter/edit/check the score following the mode and keyboard state. */
 static gint
 midiaction (gint notenum) 
-{
-
+{ 
+  gboolean new_measure = Denemo.project->movement->cursoroffend;
   DenemoProject *gui = Denemo.project;
   if (gui == NULL)
     return TRUE;
@@ -657,7 +657,7 @@ midiaction (gint notenum)
             }
           if (gui->mode & INPUTRHYTHM)
             {
-              //g_debug("measure was %d now %d with appending %d\n", measure, gui->movement->currentmeasurenum, gui->movement->cursor_appending);
+              //g_print("measure was %d now %d with appending %d\n", measure, gui->movement->currentmeasurenum, gui->movement->cursor_appending);
               if (!beep && (measure != gui->movement->currentmeasurenum) && !gui->movement->cursor_appending)
                 beep = TRUE;
               else if (beep)
@@ -689,8 +689,8 @@ midiaction (gint notenum)
             channel = Denemo.prefs.pitchspellingchannel;
 
           play_note (DEFAULT_BACKEND, 0 /*port */ , channel, notenum, 300 /*duration */ , 0);
-          if(Denemo.project->movement->currentobject->prev == NULL)
-                signal_measure_end();
+          if(new_measure)
+            signal_measure_end();
         }
     }
 
