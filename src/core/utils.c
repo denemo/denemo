@@ -287,6 +287,7 @@ infowarningdialog (gchar * msg, gboolean info)
     GtkWidget *dialog;
     dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window), GTK_DIALOG_DESTROY_WITH_PARENT, info?GTK_MESSAGE_INFO  :GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE, "%s", msg);
     gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
+    gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
     gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
     gtk_dialog_run (GTK_DIALOG (dialog));
     gtk_widget_destroy (dialog);
@@ -323,6 +324,7 @@ infodialog (gchar * msg)
   gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE); //needed on windows because of a bug, not all text can be seen. 
 #endif
   g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_hide), dialog);
+  gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
   return dialog;
@@ -402,6 +404,7 @@ progressbar (gchar * msg, gpointer callback)
 
   pdata->timer = g_timeout_add (100, (GSourceFunc) progress_timeout, pdata);
 
+  gtk_window_set_transient_for (GTK_WINDOW(pdata->window), GTK_WINDOW(Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (pdata->window), TRUE);
   gtk_widget_show (pdata->window);
   /* If widget is destroyed stop the printing */
@@ -2044,6 +2047,7 @@ choose_option (gchar *title, gchar * primary, gchar * secondary)
                                                       primary, GTK_RESPONSE_ACCEPT, secondary, GTK_RESPONSE_REJECT, NULL);
   //g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
   gtk_window_set_urgency_hint (GTK_WINDOW (dialog), TRUE);
+  gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   r = (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT);
   gtk_widget_destroy (dialog);
@@ -2164,6 +2168,7 @@ string_dialog_entry_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar 
   gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
+  gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
 
@@ -2246,6 +2251,7 @@ string_dialog_editor_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar
 
 
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
+  gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
   gtk_widget_grab_focus (textview);
@@ -2356,6 +2362,7 @@ get_option_recursive (gchar *title, gchar * str, gint length, gboolean more)
             g_signal_connect (G_OBJECT (widget), "toggled", G_CALLBACK (option_choice), &response);
             gtk_container_add (GTK_CONTAINER (vbox), widget);   
         }
+  gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
   hide_windows ();
@@ -2631,6 +2638,7 @@ initialize_keystroke_help (void)
     {
       KeyStrokes = gtk_window_new (GTK_WINDOW_TOPLEVEL);
       g_signal_connect (G_OBJECT (KeyStrokes), "delete-event", G_CALLBACK (toggle_show_keystroke_preference), NULL);
+      gtk_window_set_transient_for (GTK_WINDOW(KeyStrokes), GTK_WINDOW(Denemo.window));
       gtk_window_set_keep_above (GTK_WINDOW (KeyStrokes), TRUE);
       gtk_window_set_accept_focus (GTK_WINDOW (KeyStrokes), FALSE);
       KeyStrokeLabel = gtk_label_new ("");

@@ -579,6 +579,7 @@ display_current_object (void)
   gtk_widget_show_all (ObjectInfo);
 #ifdef G_OS_WIN32
 //on windows, the ObjectInfo window takes the focus regardless of having told it not to, so it is up to the user to bring the inspector to the front.
+  gtk_window_set_transient_for (GTK_WINDOW(ObjectInfo), GTK_WINDOW(Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (ObjectInfo), TRUE);
 
 #else
@@ -1008,6 +1009,7 @@ edit_object (void)
     gtk_widget_override_background_color (editwin, GTK_STATE_FLAG_NORMAL, &color);
     gtk_window_set_modal (GTK_WINDOW (editwin), TRUE);
     gtk_window_set_title (GTK_WINDOW (editwin), _("Denemo Object Editor"));
+    gtk_window_set_transient_for (GTK_WINDOW(editwin), GTK_WINDOW(Denemo.window));
     gtk_window_set_keep_above (GTK_WINDOW (editwin), TRUE);
     GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
     gtk_container_add (GTK_CONTAINER (editwin), vbox);
@@ -1563,6 +1565,7 @@ edit_score_and_movement_properties (gboolean show_score)
     gtk_widget_override_background_color (editscorewin, GTK_STATE_FLAG_NORMAL, &color);
     gtk_window_set_modal (GTK_WINDOW (editscorewin), TRUE);
     gtk_window_set_title (GTK_WINDOW (editscorewin), _("Score and Movement Properties Editor"));
+    gtk_window_set_transient_for (GTK_WINDOW(editscorewin), GTK_WINDOW(Denemo.window));
     gtk_window_set_keep_above (GTK_WINDOW (editscorewin), TRUE);
     gtk_window_set_default_size (GTK_WINDOW (editscorewin), 600, window_height);
     
@@ -1706,6 +1709,7 @@ edit_staff_and_voice_properties (gboolean show_staff)
     gtk_widget_override_background_color (editstaffwin, GTK_STATE_FLAG_NORMAL, &color);
     gtk_window_set_modal (GTK_WINDOW (editstaffwin), TRUE);
     gtk_window_set_title (GTK_WINDOW (editstaffwin), _("Staff and Voice Properties Editor"));
+    gtk_window_set_transient_for (GTK_WINDOW(editstaffwin), GTK_WINDOW(Denemo.window));
     gtk_window_set_keep_above (GTK_WINDOW (editstaffwin), TRUE);
     gtk_window_set_default_size (GTK_WINDOW (editstaffwin), 400, window_height);
     
