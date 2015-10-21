@@ -275,8 +275,8 @@ assign_cursor (guint state, guint cursor_num)
   *cursor_state = state;
   //g_print("Storing cursor %d for state 0x%x in hash table %p\n", cursor_num, state, Denemo.map->cursors );  
   GdkCursor *cursor = gdk_cursor_new (cursor_num);
-  g_assert (cursor);
-  g_hash_table_insert (Denemo.map->cursors, cursor_state, cursor);
+  if (cursor)
+    g_hash_table_insert (Denemo.map->cursors, cursor_state, cursor);
 }
 
 void
