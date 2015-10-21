@@ -418,6 +418,7 @@
 {"Seek", NULL, N_("Seek"), "",N_("Menu:\nMoving the Denemo cursor forwards/backwards to find useful places in the score")},
 {"Titles", NULL, N_("Titles"), "",N_("Menu:\nVarious titling schemes, (main title, movement titles, composer etc) and adding table of contents, critical commentary")},
 {"PrintLayout", NULL, N_("Print Layout"), "",N_("Menu:\nCommands to affect the layout of the typeset score.")},
+{"VerticalSpacing", NULL, N_("Vertical Spacing"), "",N_("Menu:\nCommands to affect the vertical spacing of the typeset score.")},
 {"CaptureScore", NULL, N_("Capture Score"), "",N_("Menu:\nCommands to embed images taken from original manuscripts etc into the score (one for each measure)")},
 {"Ossia", NULL, N_("Ossia"), "",N_("Menu:\nCreating an Ossia staff, which appears with alternative interpretations for a bar or two on typesetting")},
 {"Numbering", NULL, N_("Bar Numbering"), "",N_("Menu:\nCommands for setting how often bar numbers appear in the typeset version of this staff")},

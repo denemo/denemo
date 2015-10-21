@@ -1381,3 +1381,15 @@
                         (d-DirectivePut-header-data tag (format #f "'~s" data)))
                     (write-titles))))))
                     
+;;;;;;;;;;;
+(define (DenemoSetVerticalSpacingDist tag type title default)
+    (let ((data (d-DirectiveGet-paper-data tag)))
+        (if (not data)
+            (set! data default))
+        (set! data (d-GetUserInput title (_ "Give Spacing:")  data))
+        (if (and data (string->number data))
+            (begin
+                (d-SetSaved #f)
+                (d-DirectivePut-paper-data tag data)
+                (d-DirectivePut-paper-postfix tag (string-append type ".basic-distance =  " data "\n"))))))
+                

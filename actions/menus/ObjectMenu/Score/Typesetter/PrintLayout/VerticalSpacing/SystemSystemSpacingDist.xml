@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SystemSystemSpacingDist</action>
+        <_label>System to System Spacing</_label>
+        <_tooltip>Set the distance between systems.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
