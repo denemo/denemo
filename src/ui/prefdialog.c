@@ -362,7 +362,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   GList *g;
   gint i;
   static struct callbackdata cbdata;
-  g_assert (gui != NULL);
+  //g_assert (gui != NULL);
 
 
   cbdata.audio_backend_list = NULL;

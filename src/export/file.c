@@ -561,9 +561,9 @@ static gint
 filesel_save (DenemoProject * gui, const gchar * file_name, gint format_id, DenemoSaveType template)
 {
   gint ret = 0;
-  g_assert (gui != NULL);
-  g_assert (file_name != NULL);
-  g_assert (format_id >= 0 && format_id < (int) G_N_ELEMENTS (supported_file_formats));
+  //g_assert (gui != NULL);
+  //g_assert (file_name != NULL);
+  //g_assert (format_id >= 0 && format_id < (int) G_N_ELEMENTS (supported_file_formats));
 
   // Append file extension if needed
   gchar *file = NULL;

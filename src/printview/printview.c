@@ -1936,47 +1936,7 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
 
 
   return TRUE;
-#if 0
-//This code for use later when dragging an object
-  g_debug ("get_wysiwyg_info()->selecting %d\n", get_wysiwyg_info()->selecting);
 
-  if (get_wysiwyg_info()->selecting)
-    {
-      get_wysiwyg_info()->near.x = event->x;
-      get_wysiwyg_info()->near.y = event->y;
-      gint width, height;
-      normalize ();
-
-      width = get_wysiwyg_info()->near.x - get_wysiwyg_info()->Mark.x;
-      height = get_wysiwyg_info()->near.y - get_wysiwyg_info()->Mark.y;
-      GtkIconFactory *icon_factory = gtk_icon_factory_new ();
-      if (marky + adjust_y < 0 || (get_wysiwyg_info()->Mark.y + adjust_y + height > gdk_pixbuf_get_height (Denemo.pixbuf)))
-        return TRUE;
-      GdkPixbuf *sub_pixbuf = gdk_pixbuf_new_subpixbuf (Denemo.pixbuf, get_wysiwyg_info()->Mark.x + adjust_x, get_wysiwyg_info()->Mark.y + adjust_y, width, height);
-
-      GdkPixbuf *alphapixbuf = gdk_pixbuf_add_alpha (sub_pixbuf, TRUE, 255, 255, 255);
-      GdkPixbuf *scaledpixbuf = gdk_pixbuf_scale_simple (alphapixbuf, width, height, GDK_INTERP_BILINEAR);
-      if (scaledpixbuf)
-        {
-          gchar *data = create_xbm_data_from_pixbuf (scaledpixbuf, 0, 0, width, height);
-
-          GtkIconSet *icon_set = gtk_icon_set_new_from_pixbuf (sub_pixbuf);
-          g_object_unref (sub_pixbuf);
-          gtk_icon_factory_add (icon_factory, "Save Graphic", icon_set);
-          gtk_icon_factory_add_default (icon_factory);
-          g_object_unref (alphapixbuf);
-          if (data)
-            {
-              if (Denemo.project->xbm)
-                g_free (Denemo.project->xbm);
-              Denemo.project->xbm = data;
-              Denemo.project->xbm_width = width;
-              Denemo.project->xbm_height = height;
-            }
-        }
-    }
-  get_wysiwyg_info()->selecting = FALSE;
-#endif
   return TRUE;
 }
 

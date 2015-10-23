@@ -92,7 +92,7 @@ if(duration >= (num*divisions)/den)\
 static gint
 insert_invisible_rest (GString * script, gint duration, gint divisions)
 {
-  g_assert (divisions);
+  //g_assert (divisions);
   if (duration == 0)
     return TRUE;
   //g_debug("invis rest  %d, %d\n",  duration, divisions);
