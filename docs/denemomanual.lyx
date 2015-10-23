@@ -3116,7 +3116,10 @@ A
 
 \begin_layout Standard
 In addition you can save and load whole sets of shortcuts and commands.
- 
+ If you have upgraded your version of Denemo and you have elected to keep
+ your customized commands etc then you should run the Load a Standard Command
+ Set choosing Default.commands, as some commands may have moved in the menu
+ system.
 \end_layout
 
 \begin_layout Section
@@ -6124,8 +6127,8 @@ Shift
 \end_layout
 
 \begin_layout Standard
-For mouse shortcuts and to change the pointer shape during mouse operations
- invoke the Command Center with the right click on the menu item.
+For mouse shortcuts invoke the Command Center with the right click on the
+ menu item.
  The Set Mouse Shortcut Dialog requires you to set which button and action
  you want to use and then to hold/lock the keyboard modifier while clicking
  on the big button.
