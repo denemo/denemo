@@ -186,7 +186,7 @@ DenemoStaff*
 staff_new (DenemoProject * project, enum newstaffcallbackaction action, DenemoContext context)
 {
   DenemoMovement *movement = project->movement;
-  if (movement == NULL) return;
+  if (movement == NULL) return NULL;
   take_snapshot ();
   DenemoStaff *staff = (DenemoStaff *) g_malloc (sizeof (DenemoStaff));
 
