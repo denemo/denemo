@@ -2151,7 +2151,7 @@ get_menu_label (gchar *name)
 gchar *get_menu_position (gchar *menupath)
  {
      if(menupath==NULL)
-        menupath = g_strdup_printf("%s", _("Not in menu system. Can be invoked from Scheme Window as (d-<Internal Name>)."));
+        menupath = g_strdup_printf("%s", _("Not in menu system. You can create a palette button for it using the Add to Palette button."));
      GString *position = g_string_new("");
      gchar *path = g_strdup(menupath/* + 1 skip over the initial delimeter*/);
      gchar *element = strtok (path, "/");
