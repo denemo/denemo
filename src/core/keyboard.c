@@ -269,12 +269,23 @@ create_command(command_row *command)
   }
   
   // we are not as yet re-writing tooltips etc on builtin commands
-  else if (command->hidden && !Denemo.non_interactive)
-  {
-    hide_action_of_name (command->name);
-    command->hidden = FALSE;
-    g_info ("Hiding Builtin %s\n", command->name);
-  }
+  else { //built-in
+    if(!Denemo.non_interactive)
+        {
+        action = lookup_action_from_name (command->name);
+        if(command->locations)
+            {
+                action = lookup_action_from_name (command->name);
+                command->menupath = (gchar *) command->locations->data;
+            }
+        }
+      if (command->hidden && !Denemo.non_interactive)
+          {
+            hide_action_of_name (command->name);
+            command->hidden = FALSE;
+            g_info ("Hiding Builtin %s\n", command->name);
+          }
+    }
 }
 
 /* if filename ends in /menus/.... hierarchy extract and return the tail

@@ -774,3 +774,95 @@ load_command_data (gint idx)
 
   return scheme;
 }
+
+#ifdef DEVELOPER
+//code to take denemoui.xml and Default.commands from the cwd and output a new version of Default.commands with builtin commands' menupaths inserted
+GString *contents = NULL;
+
+
+static void insert_path (gchar *name, gchar *path)
+{  
+ if(!contents)
+    {
+     GError* error = NULL;
+     gchar *temp;
+     g_file_get_contents ("Default.commands", &temp, NULL, &error);
+     if(error) exit (-1);
+     contents = g_string_new (temp);
+     //g_print ("contents %s\n", contents->str);
+    } 
+ name = g_strconcat ("<action>", name, "</action>", NULL);
+ gchar *found = g_strrstr (contents->str, name);
+ if(found)
+    {
+     path = g_strconcat ("<menupath>", path, "</menupath>\n", NULL);
+     contents = g_string_insert (contents, found - contents->str, path);
+    }
+}
+
+static void
+parseMenuItems (xmlDocPtr doc, xmlNodePtr cur, gchar *folder)
+{
+  for (cur = cur->xmlChildrenNode; cur != NULL; cur = cur->next)
+    {
+      if (0 == xmlStrcmp (cur->name, "menuitem"))
+        {
+          gchar *name = xmlGetProp (cur, "action");
+          insert_path (name, folder);
+        }
+     else if (0 == xmlStrcmp (cur->name, "menu"))
+        {
+         gchar *menufolder = g_strconcat (folder, "/", xmlGetProp (cur, "action"), NULL);
+         parseMenuItems (doc, cur, menufolder);
+        }
+    }
+}
+
+gint
+attach_menupaths (void)
+{
+    gchar * filename = "denemoui.xml";
+    gchar * commands = "Default.commands";
+  gint ret = -1;
+  xmlDocPtr doc;
+  //xmlNsPtr ns;
+  xmlNodePtr rootElem;
+  if (filename == NULL)
+    return ret;
+  if (!g_file_test (filename, G_FILE_TEST_EXISTS))
+    return ret;
+  doc = xmlParseFile (filename);
+  if (doc == NULL)
+    {
+      g_debug ("Could not read XML file %s", filename);
+      return ret;
+    }
+  rootElem = xmlDocGetRootElement (doc);
+  if (rootElem == NULL)
+    {
+      g_warning ("Empty Document");
+      xmlFreeDoc (doc);
+      return ret;
+    }
+  //g_debug ("RootElem %s\n", rootElem->name);
+  if (xmlStrcmp (rootElem->name, "ui"))
+    {
+      g_warning ("Document has wrong type");
+      xmlFreeDoc (doc);
+      return ret;
+    }
+ 
+  xmlNodePtr cur;
+ for (cur = rootElem->xmlChildrenNode; cur != NULL; cur = cur->next)
+    {
+      if ((0 == xmlStrcmp (cur->name, "menubar")))
+        {
+          gchar *folder = xmlGetProp (cur, "name");
+          parseMenuItems (doc, cur, folder);
+        }
+    }
+    g_print ("\n%s", contents->str);
+  xmlFreeDoc (doc);
+  return ret;
+}
+#endif
