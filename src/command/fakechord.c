@@ -62,25 +62,7 @@ apply_fakechord (chord * ch, gchar * fig)
  * Get the fakechords if it has one
  *
  */
-/* UNUSED
-static GString *
-get_fakechord (chord * ch)
-{
-  DenemoObject *mud;
-  chord *mych;
-  if (!ch->fakechord)
-    {
-      g_warning ("No fakechord attached to this note - useless to edit it!");
-      return NULL;
-    }
-  g_assert (!ch->is_fakechord);
-  mud = (DenemoObject *) (((GList *) ch->fakechord)->data);
-  g_assert (mud);
-  mych = (chord *) mud->object;
-  g_assert (mych);
-  return (GString *) mych->fakechord;
-}
-*/
+
 void
 separate_fakechord_elements (gchar * fakechord, DenemoObject * curObj)
 {

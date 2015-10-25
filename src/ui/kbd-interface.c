@@ -329,27 +329,7 @@ keyboard_modifier_callback (GtkWidget * w, GdkEventButton * event, ModifierPoint
   g_string_free (str, TRUE);
 }
 
-/* returns a cursor number in *number from the passed spinner widget
- FIXME what is cursor doing? */
-void
-set_cursor_number (GtkSpinButton * widget, gint * number)
-{
-  *number = gtk_spin_button_get_value_as_int (widget);
-  //static GdkCursor *cursor;
-  //  if(cursor)
-  //  g_object_unref(cursor);
-  /*cursor = */gdk_cursor_new (*number);
-  //gdk_window_set_cursor(widget->window, cursor);   
-}
 
-static void
-button_choice_callback (GtkWidget * w, gint * mask)
-{
-  gint choice = gtk_toggle_button_get_active ((GtkToggleButton *) w);
-  if (choice)
-    *mask = (intptr_t) g_object_get_data ((GObject *) w, "mask");
-  g_debug ("button choice %x\n", *mask);
-}
 
 
 static void
@@ -666,7 +646,12 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
   {
     GtkWidget *inner_vbox = gtk_vbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (inner_hbox), inner_vbox,  TRUE, TRUE, 0);
-  gtk_box_pack_start (GTK_BOX (inner_vbox), binding_view,  TRUE, TRUE, 0);
+  GtkWidget *label = gtk_label_new ("");
+  gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+  gtk_label_set_markup (GTK_LABEL (label), _("List of shortcuts\nfor <i>selected</i> command\nfrom table on left.\nSelect a shortcut\nto remove\nwith button below."));
+  
+  gtk_box_pack_start (GTK_BOX (inner_vbox), label,  TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (inner_vbox), binding_view,  FALSE, TRUE, 0);
   delbutton = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
     gtk_box_pack_start (GTK_BOX (inner_vbox), delbutton, FALSE, TRUE, 0);
 }
@@ -776,60 +761,6 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
   g_signal_connect_swapped (G_OBJECT (shortcut_button), "button-release-event", G_CALLBACK (createMouseShortcut_from_data), &cbdata);
   gtk_box_pack_end (GTK_BOX (vbox), shortcut_button, FALSE, TRUE, 0);
 
-  
-  frame = gtk_frame_new (_("Setting the Cursor Shape for Mouse Ops"));
-  gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
-  //gtk_container_add (GTK_CONTAINER (vbox), frame);
-  gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
-  GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
-  gtk_container_add (GTK_CONTAINER (frame), hbox);
-
-  vbox = gtk_vbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (hbox), vbox, FALSE, TRUE, 0);
-  
-  
-  GtkWidget *cursor_button = gtk_button_new_with_label (_("Cursor Shape 0.\nMouse Operation Right Drag.\nKeyboard: None."));
-  gtk_widget_set_tooltip_text (cursor_button, POINTER_PROMPT);
-  static ModifierPointerInfo info;
-  info.button_mask = GDK_BUTTON3_MASK;  //radio button for left, right none
-  g_signal_connect (G_OBJECT (cursor_button), "button-release-event", G_CALLBACK (keyboard_modifier_callback), &info);
-  gtk_box_pack_end (GTK_BOX (hbox), cursor_button, FALSE, TRUE, 0);
-  
-  
-
- 
-  
-  
-  
-  
-
-  GtkWidget *mouse_state = gtk_radio_button_new_with_label (NULL, _("Right Drag"));
-  gtk_box_pack_start (GTK_BOX (vbox), mouse_state, FALSE, TRUE, 0);
-  g_object_set_data ((GObject *) mouse_state, "mask", (gpointer) GDK_BUTTON3_MASK);
-  g_signal_connect (mouse_state, "toggled", (GCallback) button_choice_callback, &info.button_mask);
-  GtkWidget *mouse_state2 = gtk_radio_button_new_with_label_from_widget ((GtkRadioButton *) mouse_state, _("Mouse Move"));
-  g_signal_connect (mouse_state2, "toggled", (GCallback) button_choice_callback, &info.button_mask);
-  g_object_set_data ((GObject *) mouse_state2, "mask", 0);
-  gtk_box_pack_start (GTK_BOX (vbox), mouse_state2, FALSE, TRUE, 0);
-  mouse_state2 = gtk_radio_button_new_with_label_from_widget ((GtkRadioButton *) mouse_state, _("Left Drag"));
-  g_signal_connect (mouse_state2, "toggled", (GCallback) button_choice_callback, &info.button_mask);
-  g_object_set_data ((GObject *) mouse_state2, "mask", (gpointer) GDK_BUTTON1_MASK);
-  gtk_box_pack_start (GTK_BOX (vbox), mouse_state2, FALSE, TRUE, 0);
-
-  {
-  GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (vbox), inner_hbox, FALSE, TRUE, 0);
-  label = gtk_label_new (_("Cursor Shape #"));
-  gtk_box_pack_start (GTK_BOX (inner_hbox), label, FALSE, TRUE, 0);
-  GtkWidget *spinner_adj = (GtkWidget *) gtk_adjustment_new (info.cursor_number, 0.0, (gdouble) GDK_LAST_CURSOR - 1,
-                                                             1.0, 1.0, 1.0);
-  GtkWidget *spinner = gtk_spin_button_new ((GtkAdjustment *) spinner_adj, 1.0, 0);
-  gtk_box_pack_start (GTK_BOX (inner_hbox), spinner, TRUE, TRUE, 0);
-  g_signal_connect (G_OBJECT (spinner), "value-changed", G_CALLBACK (set_cursor_number), &info.cursor_number);
-  }
-
-  //FIXME here use gdk_cursor_get_image() to show the cursor selected.
-
 
   //Connecting signals
   g_signal_connect (addbutton, "clicked", G_CALLBACK (kbd_interface_add_binding), &cbdata);
@@ -845,12 +776,6 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
  
   gtk_widget_show_all (Denemo.command_manager);
   g_signal_connect (Denemo.command_manager, "delete-event", G_CALLBACK (keymap_cleanup_command_view), &cbdata);
-//!!!!  gtk_main(); not needed now??? but Denemo.command_manager needs setting to NULL if we actually allow destroy.
-
-  //When closing the dialog remove the signals that were associated to the
-  //dialog
- //FIXME is this needed??? keymap_cleanup_command_view (&cbdata);
- 
 }
 
 void

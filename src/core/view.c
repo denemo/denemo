@@ -2689,10 +2689,10 @@ create_xbm_data_from_pixbuf (GdkPixbuf * pixbuf, int lox, int loy, int hix, int 
   n_channels = gdk_pixbuf_get_n_channels (pixbuf);
 
 #ifdef DEBUG
-  g_assert (gdk_pixbuf_get_colorspace (pixbuf) == GDK_COLORSPACE_RGB);
-  g_assert (gdk_pixbuf_get_bits_per_sample (pixbuf) == 8);
-  g_assert (gdk_pixbuf_get_has_alpha (pixbuf));
-  g_assert (n_channels == 4);
+  //g_assert (gdk_pixbuf_get_colorspace (pixbuf) == GDK_COLORSPACE_RGB);
+  //g_assert (gdk_pixbuf_get_bits_per_sample (pixbuf) == 8);
+  //g_assert (gdk_pixbuf_get_has_alpha (pixbuf));
+  //g_assert (n_channels == 4);
 #endif
   width = hix - lox;
   height = hiy - loy;
@@ -2931,90 +2931,7 @@ saveGraphicItem (GtkWidget * widget, GtkAction * action)
     {
       guint width = Denemo.project->xbm_width;
       guint height = Denemo.project->xbm_height;
-
-
-      /*DenemoGraphic *bitmap = */ create_bitmap_from_data (Denemo.project->xbm, width, height);
-
-#if 0
-
-      //  GdkBitmap *bitmap = gdk_bitmap_create_from_data(NULL, Denemo.project->xbm, width, height);
-
-      static GdkColor white, black;
-      gboolean init = FALSE;
-      if (!init)
-        {
-          gdk_color_parse ("white", &white);
-          gdk_colormap_alloc_color (gdk_colormap_get_system (), &white, TRUE, TRUE);
-          gdk_color_parse ("black", &black);
-          gdk_colormap_alloc_color (gdk_colormap_get_system (), &black, TRUE, TRUE);
-        }
-      // GdkBitmap *bitmap = gdk_pixmap_create_from_data(NULL, Denemo.project->xbm, width, height, 1, &white, &black);
-      GdkBitmap *bitmap = gdk_pixmap_create_from_data (NULL, Denemo.project->xbm, width, height, 1, &black, &white);
-
-      g_debug ("pixmap create");
-
-#endif
-#if 0
-      //#if GTK_MAJOR_VERSION==3
-      //  GdkPixbuf *pixbuf1 = gdk_pixbuf_get_from_window (NULL,  bitmap, NULL, 0,0,0,0, width, height);
-      //#else
-      //FIXME  GdkPixbuf *pixbuf1 = gdk_pixbuf_get_from_drawable (NULL,  bitmap, NULL, 0,0,0,0, width, height);
-      //#endif
-      GdkPixbuf *pixbuf = gdk_pixbuf_add_alpha (pixbuf1, TRUE, 0, 0, 0);        // 255, 255, 255);
-
-      guchar *pixels;
-      gint n_channels = gdk_pixbuf_get_n_channels (pixbuf);
-      g_assert (gdk_pixbuf_get_colorspace (pixbuf) == GDK_COLORSPACE_RGB);
-      g_assert (gdk_pixbuf_get_bits_per_sample (pixbuf) == 8);
-      g_assert (gdk_pixbuf_get_has_alpha (pixbuf));
-      g_assert (n_channels == 4);
-      gint rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-      pixels = gdk_pixbuf_get_pixels (pixbuf);
-      int x, y, i;
-      for (i = 0, y = 0; y < height; y++)
-        {
-          for (x = 0; x < width; x++, i++)
-            {
-              gint set = !((pixels + y * rowstride + x * n_channels)[3] > 0);
-              (pixels + y * rowstride + x * n_channels)[0] = 0xFF * set;
-              (pixels + y * rowstride + x * n_channels)[1] = 0xFF * set;
-              (pixels + y * rowstride + x * n_channels)[2] = 0xFF * set;
-            }
-        }
-
-
-      gdk_pixbuf_save (pixbuf, filename, "png", &error, "compression", "2", NULL);
-
-
-#if 0
-      FILE *fp = fopen (filename, "wb");
-      if (fp)
-        {
-          guchar whi, wlo, hhi, hlo;
-          wlo = width & 0xFF;
-          whi = width >> 8;
-          hlo = height & 0xFF;
-          hhi = height >> 8;
-
-          fwrite (&wlo, 1, 1, fp);
-          fwrite (&whi, 1, 1, fp);
-
-          fwrite (&hlo, 1, 1, fp);
-          fwrite (&hhi, 1, 1, fp);
-
-          gint size = fwrite (Denemo.project->xbm, 1, height * ((width + 7) / 8) * 8, fp);
-          //g_debug("Wrote %d bytes for %d x %d\n", size, width, height);
-
-
-          g_free (msg);
-          msg = g_strdup_printf ("Saved graphic as file %s", filename);
-          infodialog (msg);
-          fclose (fp);
-        }
-      else
-        warningdialog ("Could not write file");
-#endif
-#endif
+      create_bitmap_from_data (Denemo.project->xbm, width, height);
     }
 
   g_free (pngname);

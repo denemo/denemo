@@ -125,7 +125,7 @@ score_properties_dialog (GtkAction * action, DenemoScriptParam * param)
   GtkWidget *staff_spacing;
   gint i;
   DenemoMovement *si = gui->movement;
-  g_assert (si != NULL);
+  //g_assert (si != NULL);
 
   dialog = gtk_dialog_new_with_buttons (_("Score properties"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 
