@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: denemo-1.2.5\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2015-09-13 09:50+0100\n"
-"PO-Revision-Date: 2015-10-25 10:05+0100\n"
+"PO-Revision-Date: 2015-10-25 21:43+0100\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "Language: cs\n"
@@ -1107,7 +1107,7 @@ msgstr "<span font-desc=\"30\">Varování</span> "
 #: ../src/command/object.c:624
 #, c-format
 msgid "Clone %s"
-msgstr "Klonovat %s"
+msgstr "Kopie %s"
 
 #: ../src/command/object.c:625
 msgid "Palette Button Creation"
@@ -1119,7 +1119,7 @@ msgstr "Zadat (jedinečný) popisek pro tlačítko"
 
 #: ../src/command/object.c:628
 msgid "Creates a cloned Denemo Directive"
-msgstr "Vytvořit klonovaný příkaz Denemo"
+msgstr "Vytvořit kopii příkazu Denemo"
 
 #: ../src/command/object.c:629
 msgid "Could not create a button of that name in that palette"
@@ -1222,25 +1222,17 @@ msgid "Create Button for Command"
 msgstr "Vytvořit tlačítko pro příkaz"
 
 #: ../src/command/object.c:883 ../src/command/object.c:1516
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "The help for the command that created this directive is \"%s\""
 msgid "Make a palette button for running the command that created this attribute."
-msgstr ""
-"\n"
-"Nápověda pro příkaz, který vytvořil tento příkaz je \"%s\""
+msgstr "Udělat tlačítko palety pro spuštění příkazu, který vytvořil tuto vlastnost."
 
 #: ../src/command/object.c:889 ../src/command/object.c:1346
 #: ../src/command/object.c:1521
-#, fuzzy
-#| msgid "Create Book Titles"
 msgid "Create Button for Clone"
-msgstr "Vytvořit názvy knih"
+msgstr "Vytvořit tlačítko pro udělání kopie"
 
 #: ../src/command/object.c:890
 msgid "Make a palette button for installing this attribute elsewhere."
-msgstr ""
+msgstr "Udělat tlačítko palety pro instalaci této vlastnosti jinde."
 
 #: ../src/command/object.c:895 ../src/command/object.c:1352
 #: ../src/command/object.c:1528 ../actions/denemo-modules/directives.scm:34
@@ -1284,206 +1276,155 @@ msgstr "Pokročilé"
 
 #: ../src/command/object.c:896
 msgid "Examine/Edit this directive at a low-level"
-msgstr ""
+msgstr "Prozkoumat/Upravit tento příkaz nízkoúrovňově"
 
 #: ../src/command/object.c:906
-#, fuzzy
-#| msgid "Built-in Staff Properties"
 msgid "Built-in Chord Attributes"
-msgstr "Vestavěné vlastnosti notové osnovy"
+msgstr "Vestavěné vlastnosti akordu"
 
 #: ../src/command/object.c:922
-#, fuzzy
-#| msgid "Remove from Palette"
 msgid "Remove slur start"
-msgstr "Odstranit z palety"
+msgstr "Odstranit začátek legatového obloučku"
 
 #: ../src/command/object.c:928
-#, fuzzy
-#| msgid "Remove note"
 msgid "Remove slur end"
-msgstr "Odstranit notu"
+msgstr "Odstranit konec legatového obloučku"
 
 #: ../src/command/object.c:934
-#, fuzzy
-#| msgid "Remove note"
 msgid "Remove tie"
-msgstr "Odstranit notu"
+msgstr "Odstranit ligaturu"
 
 #: ../src/command/object.c:940
 msgid "Remove Start cresc. marking"
-msgstr ""
+msgstr "Odstranit značku pro začátek crescenda"
 
 #: ../src/command/object.c:946
 msgid "Remove End cresc. marking"
-msgstr ""
+msgstr "Odstranit značku pro konec crescenda"
 
 #: ../src/command/object.c:952
-#, fuzzy
-#| msgid "Repeat Start Barline"
 msgid "Remove Start dim. marking"
-msgstr "Začáteční taktová čára pro opakování"
+msgstr "Odstranit značku pro začátek decrescenda"
 
 #: ../src/command/object.c:958
 msgid "Remove End dim. marking"
-msgstr ""
+msgstr "Odstranit značku pro konec decrescenda"
 
 #: ../src/command/object.c:965
-#, fuzzy
-#| msgid ", grace note"
 msgid "Un-grace the note"
-msgstr ", ozdoba"
+msgstr "Zrušit ozdobu noty"
 
 #: ../src/command/object.c:1014 ../src/command/object.c:1559
 #: ../src/command/object.c:1702
-#, fuzzy
-#| msgid "Close Score"
 msgid "Close"
-msgstr "Zavřít notový zápis"
+msgstr "Zavřít"
 
 #: ../src/command/object.c:1022
-#, fuzzy
-#| msgid "Delete Previous Object"
 msgid "⬅ Previous Object"
-msgstr "Smazat předchozí předmět"
+msgstr "⬅ Předchozí předmět"
 
 #: ../src/command/object.c:1029
-#, fuzzy
-#| msgid "a one-note chord.\n"
 msgid "Next note in chord"
-msgstr "akordu o jedné notě.\n"
+msgstr "Další nota v akordu"
 
 #: ../src/command/object.c:1033
-#, fuzzy
-#| msgid "Delete Object"
 msgid "Next Object ➡"
-msgstr "Smazat předmět"
+msgstr "Další předmět ➡"
 
 #: ../src/command/object.c:1048
-#, fuzzy
-#| msgid "Attached to the chord:"
 msgid "Attached to the rest:"
-msgstr "Připojeno k akordu:"
+msgstr "Připojeno k pomlce:"
 
 #: ../src/command/object.c:1066
-#, fuzzy
-#| msgid "Edit the file "
 msgid "Edit the note"
-msgstr "Upravit soubor "
+msgstr "Upravit notu"
 
 #: ../src/command/object.c:1077
-#, fuzzy, c-format
-#| msgid "Attach Tied Note"
+#, c-format
 msgid "Attached to Note |%s|"
-msgstr "Připojit svázanou notu"
+msgstr "Připojeno k notě |%s|"
 
 #: ../src/command/object.c:1095
 #, c-format
 msgid "Nothing attached to Note |%s|"
-msgstr ""
+msgstr "Nic není připojeno k notě |%s|"
 
 #: ../src/command/object.c:1111
 msgid "Assign Pitch to Rhythm"
-msgstr ""
+msgstr "Přidělit výšku tónu k rytmu"
 
 #: ../src/command/object.c:1124
-#, fuzzy
-#| msgid "Edit Chord Symbols"
 msgid "Edit Chord Symbol"
-msgstr "Upravit symboly akordů"
+msgstr "Upravit značku akordu"
 
 #: ../src/command/object.c:1131
-#, fuzzy
-#| msgid "Height of Bass Figure"
 msgid "Edit Bass Figure"
-msgstr "Výška čísla basu"
+msgstr "Upravit číslo basu"
 
 #: ../src/command/object.c:1145
-#, fuzzy
-#| msgid "Adds/Removes a trill to the note"
 msgid "Add/Remove attributes"
-msgstr "Přidá/Odstraní trylek z noty"
+msgstr "Přidat/Odstranit vlastnosti"
 
 #. type = _("start tuplet marker");
 #: ../src/command/object.c:1155
 msgid "Alter Tuplet Type"
-msgstr ""
+msgstr "Přidat typ rytmické notové skupiny"
 
 #: ../src/command/object.c:1160
-#, fuzzy
-#| msgid "Attached to the Start Tuplet:"
 msgid "Attached to the tuplet start:"
 msgstr "Připojeno k začátku rytmické notové skupiny:"
 
 #: ../src/command/object.c:1177
-#, fuzzy
-#| msgid "Attached to the Start Tuplet:"
 msgid "Attached to the tuplet end:"
-msgstr "Připojeno k začátku rytmické notové skupiny:"
+msgstr "Připojeno ke konci rytmické notové skupiny:"
 
 #: ../src/command/object.c:1197
-#, fuzzy
-#| msgid "Attached to the Clef Change:"
 msgid "Attached to the clef change object:"
-msgstr "Připojeno ke změně klíče:"
+msgstr "Připojeno k předmětu změny klíče:"
 
 #: ../src/command/object.c:1209
 msgid "Transform to printing clef"
-msgstr ""
+msgstr "Přeměnit na tiskový klíč"
 
 #: ../src/command/object.c:1222
-#, fuzzy
-#| msgid "Attached to the Time Signature Change:"
 msgid "Attached to the time signature change object:"
-msgstr "Připojeno ke změně taktového označení:"
+msgstr "Připojeno k předmětu změny taktového označení:"
 
 #: ../src/command/object.c:1241
-#, fuzzy
-#| msgid "Attached to the Key Signature Change:"
 msgid "Attached to the key signature change object:"
-msgstr "Připojeno ke změně předznamenání:"
+msgstr "Připojeno k předmětu změny předznamenání:"
 
 #: ../src/command/object.c:1261
-#, fuzzy
-#| msgid "Attached to the Stemming Change:"
 msgid "Attached to the stemming change object:"
-msgstr "Připojeno ke změně směrování nožiček:"
+msgstr "Připojeno k předmětu změny směrování nožiček:"
 
 #: ../src/command/object.c:1283
-#, fuzzy
-#| msgid "Standalone Directives"
 msgid "Standalone Denemo Directive:"
-msgstr "Samostatné příkazy"
+msgstr "Samostatný příkaz Denemo:"
 
 #: ../src/command/object.c:1341
 msgid "Make a palette button for running the command that created inserted this object."
-msgstr ""
+msgstr "Udělat tlačítko palety pro spuštění příkazu, který vytvořil vložení tohoto předmětu."
 
 #: ../src/command/object.c:1347
 msgid "Make a palette button for inserting a clone of this object elsewhere."
-msgstr ""
+msgstr "Udělat tlačítko palety pro vložení kopie tohoto předmětu jinde."
 
 #: ../src/command/object.c:1452
-#, fuzzy
-#| msgid "Directive tagged: \"%s\"\n"
 msgid "Denemo Directive tagged:"
-msgstr "Příkaz označen: \"%s\"\n"
+msgstr "Příkaz Denemo označen:"
 
 #: ../src/command/object.c:1454
-#, fuzzy
-#| msgid "a Denemo Directive: (%s)"
 msgid "Denemo Directive:"
-msgstr "příkaz Denemo: (%s)"
+msgstr "Příkaz Denemo:"
 
 #: ../src/command/object.c:1522
 msgid "Make a palette button for installing a clone of this attribute elsewhere."
-msgstr ""
+msgstr "Udělat tlačítko palety pro instalaci kopie této vlastnosti jinde."
 
 #: ../src/command/object.c:1552
-#, fuzzy
-#| msgid "Score Properties"
 msgid "Score and Movement Properties Editor"
-msgstr "Vlastnosti notového zápisu"
+msgstr "Editor vlastností notového zápisu a věty"
 
 #: ../src/command/object.c:1573 ../src/generated/entries.h:265
 #: ../src/generated/register_commands.h:245
@@ -1491,10 +1432,8 @@ msgid "Score Properties"
 msgstr "Vlastnosti notového zápisu"
 
 #: ../src/command/object.c:1597
-#, fuzzy
-#| msgid "Built-in Staff Properties"
 msgid "Edit Built-in Score Properties"
-msgstr "Vestavěné vlastnosti notové osnovy"
+msgstr "Upravit vestavěné vlastnosti notové osnovy"
 
 #: ../src/command/object.c:1607 ../src/command/scorelayout.c:1768
 #: ../src/core/utils.c:1923 ../src/printview/printview.c:2452
@@ -1502,28 +1441,20 @@ msgid "Movement"
 msgstr "Věta"
 
 #: ../src/command/object.c:1607
-#, fuzzy
-#| msgid "Staff Properties"
 msgid "Properties"
-msgstr "Vlastnosti notové osnovy"
+msgstr "Vlastnosti"
 
 #: ../src/command/object.c:1631
-#, fuzzy
-#| msgid "Previous Movement"
 msgid "⬅ Previous Movement"
-msgstr "Předchozí věta"
+msgstr "⬅ Předchozí věta"
 
 #: ../src/command/object.c:1638
-#, fuzzy
-#| msgid "Next Movement"
 msgid "Next Movement ➡"
-msgstr "Další věta"
+msgstr "Další věta ➡"
 
 #: ../src/command/object.c:1695
-#, fuzzy
-#| msgid "Staff Properties"
 msgid "Staff and Voice Properties Editor"
-msgstr "Vlastnosti notové osnovy"
+msgstr "Editor vlastností notové osnovy a hlasu"
 
 #: ../src/command/object.c:1716 ../src/generated/entries.h:210
 #: ../src/ui/staffpropdialog.c:220
@@ -1531,40 +1462,28 @@ msgid "Staff Properties"
 msgstr "Vlastnosti notové osnovy"
 
 #: ../src/command/object.c:1739
-#, fuzzy
-#| msgid "Built-in Staff Properties"
 msgid "Edit Built-in Staff Properties"
-msgstr "Vestavěné vlastnosti notové osnovy"
+msgstr "Upravit vestavěné vlastnosti notové osnovy"
 
 #: ../src/command/object.c:1747
-#, fuzzy
-#| msgid "Edit Key Signature Directives"
 msgid "Key Signature Directives"
-msgstr "Upravit příkazy pro předznamenání"
+msgstr "Příkazy pro předznamenání"
 
 #: ../src/command/object.c:1753
-#, fuzzy
-#| msgid "Edit Time Signature Directives"
 msgid "Time Signature Directives"
-msgstr "Upravit příkazy pro taktové označení"
+msgstr "Příkazy pro taktové označení"
 
 #: ../src/command/object.c:1757
-#, fuzzy
-#| msgid "Score Properties"
 msgid "Voice Properties"
-msgstr "Vlastnosti notového zápisu"
+msgstr "Vlastnosti pro hlas"
 
 #: ../src/command/object.c:1779
-#, fuzzy
-#| msgid "Space Above"
 msgid "Staff Above"
-msgstr "Mezera nad"
+msgstr "Notová osnova nad"
 
 #: ../src/command/object.c:1786
-#, fuzzy
-#| msgid "Staff Down"
 msgid "Staff Below"
-msgstr "Notová osnova dole"
+msgstr "Notová osnova pod"
 
 #: ../src/command/score.c:123
 #, c-format
@@ -1676,7 +1595,7 @@ msgstr "Sazba"
 
 #: ../src/command/scorelayout.c:478
 msgid "Typeset the score using this layout to determine which movements, parts, titles, page breaks etc should be used"
-msgstr "Sázejte notový zápis pomocí tohoto rozvržení pro určení, které věty, hlasy, názvy, zalomení stran atd. se mají použít"
+msgstr "Sázejte notový zápis pomocí tohoto rozvržení pro určení, které věty, party, názvy, zalomení stran atd. se mají použít"
 
 #: ../src/command/scorelayout.c:487
 msgid "Edit LilyPond Text of Layout"
@@ -1707,16 +1626,12 @@ msgid "Discard this customized score layout."
 msgstr "Zahodit vlastní rozvržení notového zápisu."
 
 #: ../src/command/scorelayout.c:511
-#, fuzzy
-#| msgid "Default Score Layout"
 msgid "Create Default Score Layout"
-msgstr "Výchozí rozvržení notového zápisu"
+msgstr "Vytvořit výchozí rozvržení notového zápisu"
 
 #: ../src/command/scorelayout.c:512
-#, fuzzy
-#| msgid "Default Score Layout"
 msgid "Creates the Default Score Layout"
-msgstr "Výchozí rozvržení notového zápisu"
+msgstr "Vytvoří výchozí rozvržení notového zápisu"
 
 #: ../src/command/scorelayout.c:518 ../src/printview/printview.c:2462
 msgid "Refresh"
@@ -2189,9 +2104,9 @@ msgstr ""
 "Toto je rozvržení notového zápisu - hnědá tlačítka ovlivňují i notový zápis, nikoli jen rozvržení.\n"
 "Ostatními tlačítky se rozvržení přizpůsobuje.\n"
 "Můžete mít několik rozvržení a použít je na tisk různých verzí vašeho notového zápisu.\n"
-"Jakmile je rozvržení přizpůsobeno, např. přidáním zalomení stran, smazáním určitých částí atd., rozvržení je uloženo společně s vaším notovým zápisem a lze je použít pro tisk, přestože snad byste udělali v notách opravy.\n"
-"Standardní rozvržení jsou vytvořena zavoláním běžných tiskových příkazů - pro tisk, tisk hlasu, tisk věty atd.\n"
-"Tato běžná rozvržení poskytují pohodlný výchozí bod pro vaše vlastní rozvržení. <b>Poznámka 1:</b>Vlastní rozvržení nejsou uložena pro další obrazovéupravování, ukládají se jen příkazy pro sazbu not, takže, dokud nejste dobře obeznámení s LilyPondem, dělejte všechnu práci na rozvržení v jednom sezení.<b>Poznámka 2:</b>První poznámka v LilyPondu drží text rozvržení, drží název rozvržení. Pokud ji změníte, všechny podmíněné příkazy, co jsou pro rozvržení, bude potřeba obnovit"
+"Jakmile je rozvržení přizpůsobeno, např. přidáním zalomení stran, smazáním určitých partů atd., rozvržení je uloženo společně s vaším notovým zápisem a lze je použít pro tisk, přestože snad byste udělali v notách opravy.\n"
+"Standardní rozvržení jsou vytvořena zavoláním běžných tiskových příkazů - pro tisk, tisk partu, tisk věty atd.\n"
+"Tato běžná rozvržení poskytují pohodlný výchozí bod pro vaše vlastní rozvržení. <b>Poznámka 1:</b>Vlastní rozvržení nejsou uložena pro další obrazové upravování, ukládají se jen příkazy pro sazbu not, takže, dokud nejste dobře obeznámení s LilyPondem, dělejte všechnu práci na rozvržení v jednom sezení.<b>Poznámka 2:</b>První poznámka v LilyPondu drží text rozvržení, drží název rozvržení. Pokud ji změníte, všechny podmíněné příkazy, co jsou pro rozvržení, bude potřeba obnovit"
 
 #: ../src/command/scorelayout.c:2702
 msgid ""
@@ -2226,16 +2141,13 @@ msgid "Typesets this layout"
 msgstr "Vysází toto rozvržení"
 
 #: ../src/command/staff.c:277
-#, fuzzy
-#| msgid "Part"
 msgid "Part 1"
-msgstr "Hlas"
+msgstr "Part"
 
 #: ../src/command/staff.c:279
-#, fuzzy, c-format
-#| msgid "Part"
+#, c-format
 msgid "Part %d"
-msgstr "Hlas"
+msgstr "Part %d"
 
 #: ../src/command/staff.c:380
 msgid "You will need to alter/delete the matching staff; Proceed?"
@@ -3617,7 +3529,7 @@ msgid ""
 msgstr ""
 "Když jste v režimu Přehrát zároveň s, při klepnutí na Přehrát se noty přehrávají, dokud přehrávání nedospěje k poloze ukazatele.\n"
 "Od toho místa dále musíte noty v poloze ukazatele zahrát, aby přehrávání postupovalo kupředu.\n"
-"Takže když ukazatel nastavíte na první notu hlasu, který chcete přehrávat, potom jakmile stisknete tlačítko pro přehrávání, můžete hrát zároveň s Denemem, přičemž Denemo dodá další hlasy a čeká na to, jestli nezahrajete špatnou notu."
+"Takže když ukazatel nastavíte na první notu partu, který chcete přehrávat, potom jakmile stisknete tlačítko pro přehrávání, můžete hrát zároveň s Denemem, přičemž Denemo dodá další party a čeká na to, jestli nezahrajete špatnou notu."
 
 #: ../src/core/view.c:4597
 msgid "Delete the MIDI recording you have made."
@@ -3783,7 +3695,7 @@ msgid ""
 "To get a real score layout turn off continuous typesetting in the Print View and typeset using Part, Movement or Typeset (Default Layout) buttons."
 msgstr ""
 "Toto rozvržení notového zápisu je čistě pro plynulou sazbu not a změní se, jakmile upravíte notový zápis.\n"
-"Abyste získal skutečný notový zápis, vypněte plynulou sazbu v pohledu na tisk a sázejte pomocí tlačítek Hlas, Věta nebo Sazba (výchozí rozvržení)."
+"Abyste získal skutečný notový zápis, vypněte plynulou sazbu v pohledu na tisk a sázejte pomocí tlačítek Part, Věta nebo Sazba (výchozí rozvržení)."
 
 #: ../src/export/exportlilypond.c:157 ../src/export/exportlilypond.c:166
 #, c-format
@@ -4058,7 +3970,7 @@ msgstr "Tento kus má několik vět"
 
 #: ../src/export/print.c:837
 msgid "Print this part from all of them?"
-msgstr "Vytisknout tento hlas ze všech?"
+msgstr "Vytisknout tento part ze všech?"
 
 #: ../src/export/print.c:857
 msgid "No selection to print"
@@ -5642,7 +5554,7 @@ msgid ""
 "The typesetter will amalgamate them for you.\n"
 "See also commands for hiding rests and moving notes and rests to avoid collisions in the Notes/Rests menu"
 msgstr ""
-"Nabídka: Věci, které ovládají hlasy, to znamená hlasy se samostatnými nožičkami a trámci, jež se budou sázet ve stejné osnově.\n"
+"Nabídka: Věci, které ovládají hlasy, to znamená party se samostatnými nožičkami a trámci, jež se budou sázet ve stejné osnově.\n"
 "Sazeč je pro vás spojí.\n"
 "Také se podívejte na příkazy pro skrývání pomlk a přesun not a pomlk kvůli vyhnutí se střetům v nabídce Noty/Pomlky"
 
@@ -5902,11 +5814,11 @@ msgstr ""
 
 #: ../src/generated/entries.h:242 ../src/generated/register_commands.h:225
 msgid "Save Parts"
-msgstr "Uložit části"
+msgstr "Uložit party"
 
 #: ../src/generated/entries.h:242 ../src/generated/register_commands.h:225
 msgid "Save Parts: each staff becomes a file in lilypond format"
-msgstr "Uložit části: Každá notová osnova je uložena ve vlastním souboru Lilypond"
+msgstr "Uložit party: Každá notová osnova je uložena ve vlastním souboru Lilypond"
 
 #: ../src/generated/entries.h:243 ../src/generated/register_commands.h:226
 msgid "Export Lilypond"
@@ -5954,7 +5866,7 @@ msgid ""
 msgstr ""
 "Nabídka:\n"
 "Příkazy pro sazbu a následný tisk not.\n"
-"Je možné vysázet hlas, větu, celý notový zápis nebo různě omezené notové zápisy.\n"
+"Je možné vysázet part, větu, celý notový zápis nebo různě omezené notové zápisy.\n"
 "Podívejte se také na zobrazení rozvržení notového zápisu kvůli dalším možnostem."
 
 #: ../src/generated/entries.h:248 ../src/generated/register_commands.h:230
@@ -6005,11 +5917,11 @@ msgstr "Vysází pomocí LilyPondu notový zápis a otevře tiskový dialog"
 
 #: ../src/generated/entries.h:253 ../src/generated/register_commands.h:235
 msgid "Print Part"
-msgstr "Vytisknout hlas"
+msgstr "Vytisknout part"
 
 #: ../src/generated/entries.h:253 ../src/generated/register_commands.h:235
 msgid "Typesets the current part (the one containing the cursor)."
-msgstr "Vysází nynější hlas (ten, který obsahuje ukazatel)."
+msgstr "Vysází nynější part (ten, který obsahuje ukazatel)."
 
 #: ../src/generated/entries.h:254 ../src/generated/register_commands.h:236
 msgid "Close Score"
@@ -6288,7 +6200,7 @@ msgstr "Přidat hlas"
 
 #: ../src/generated/entries.h:286 ../src/generated/register_commands.h:265
 msgid "Adds a new voice (part), to the current staff. It is tricky to switch between the voices. Suggest to use merge staffs"
-msgstr "Přidat nový hlas k nynější notové osnově. Změna mezi hlasy jeobtížná. Používejte \"Spojit hlasy\""
+msgstr "Přidat nový hlas (part) k nynější notové osnově. Změna mezi hlasy (party) je obtížná. Používejte \"Spojit osnovy\""
 
 #: ../src/generated/entries.h:287 ../src/generated/register_commands.h:266
 msgid "Built-in Staff Properties"
@@ -7821,7 +7733,7 @@ msgid ""
 "Mark the directive at the cursor as applying to just the current score layout, or to exclude the current layout. Use this for example to exclude redundant first and second time markings in parts which don't need them."
 msgstr ""
 "Nabídka:\n"
-"Označit příkaz v poloze ukazatele jako příkaz, který se používá jen na rozvržení nynějšího notového zápisu, nebo k vyloučení nynějšího rozvržení. Použijte to například na vyloučení nadbytečných označení pro první a druhé opakování v hlasech, které je nepotřebují."
+"Označit příkaz v poloze ukazatele jako příkaz, který se používá jen na rozvržení nynějšího notového zápisu, nebo k vyloučení nynějšího rozvržení. Použijte to například na vyloučení nadbytečných označení pro první a druhé opakování v partech, které je nepotřebují."
 
 #: ../src/generated/entries.h:431
 msgid "Single Random Note"
@@ -7957,7 +7869,7 @@ msgstr ""
 
 #: ../src/generated/entries.h:442
 msgid "Part-Combining"
-msgstr "Sloučení hlasů"
+msgstr "Sloučení partů"
 
 #: ../src/generated/entries.h:442
 msgid ""
@@ -9121,11 +9033,11 @@ msgstr "Vysází noty z nynější věty. Vytvoří rozvržení notového zápis
 
 #: ../src/printview/printview.c:2457
 msgid "Part"
-msgstr "Hlas"
+msgstr "Part"
 
 #: ../src/printview/printview.c:2458
 msgid "Typesets the music from the current part for all movements. A part is all the music with the same staff-name. This creates a score layout with one part, all movements."
-msgstr "Vysází noty z nynějšího hlasu pro všechny věty. Hlas jsou veškeré noty s týmž názvem osnovy. Vytvoří rozvržení notového zápisu s jedním hlasem, všemi větami."
+msgstr "Vysází noty z nynějšího partu pro všechny věty. Part jsou veškeré noty s týmž názvem osnovy. Vytvoří rozvržení notového zápisu s jedním hlasem, všemi větami."
 
 #: ../src/printview/printview.c:2463
 msgid "Re-issues the last print command. Use this after modifying the file to repeat the typesetting."
@@ -10570,7 +10482,7 @@ msgstr ""
 
 #: ../src/ui/prefdialog.c:629
 msgid "Autosave Parts"
-msgstr "Uložit hlasy"
+msgstr "Uložit party"
 
 #: ../src/ui/prefdialog.c:633
 msgid "Audio"
@@ -10731,10 +10643,8 @@ msgid "Typeset Appearance"
 msgstr "Sazeč"
 
 #: ../src/ui/staffpropdialog.c:311
-#, fuzzy
-#| msgid "Part Combine "
 msgid "Part name:"
-msgstr "Sloučení hlasů"
+msgstr "Název partu:"
 
 #: ../src/ui/staffpropdialog.c:312
 msgid "All staffs with the same part name will be typeset with the Print Part command. Use a blank part name for staffs that should be printed with every part."
@@ -10937,7 +10847,7 @@ msgstr ""
 
 #: ../actions/denemo-modules/directives.scm:311
 msgid "Only for the Layout for Part \""
-msgstr "Pouze pro rozvržení pro hlas \""
+msgstr "Pouze pro rozvržení pro part \""
 
 #: ../actions/denemo-modules/directives.scm:312
 msgid "Only for Layout \""
@@ -12183,11 +12093,11 @@ msgstr "Vyvede jako LilyPond do souboru pojmenovaného stejně jako soubor .dene
 
 #: ../actions/menus/MainMenu/FileMenu/Export/QuickLilyPondPart.scm:15
 msgid "The score has not been saved, so no name or location for the part is defined"
-msgstr "Notový zápis nebyl uložen, takže není stanoven žádný název nebo umístění pro tuto část"
+msgstr "Notový zápis nebyl uložen, takže není stanoven žádný název nebo umístění pro tento part"
 
 #: ../actions/menus/MainMenu/FileMenu/Export/QuickLilyPondPart.xml.h:1
 msgid "Quick LilyPond Part"
-msgstr "Rychlé vyvedení části LilyPondu"
+msgstr "Rychlé vyvedení partu LilyPondu"
 
 #: ../actions/menus/MainMenu/FileMenu/Export/QuickLilyPondPart.xml.h:2
 msgid "Writes a file containing the music of the current staff in LilyPond format. The filename is the current file name with staff number appended, and .ly."
@@ -12357,11 +12267,11 @@ msgstr "Vytiskne notový zápis za použití všech stanovených rozvržení not
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintBassPartWithoutFigures.xml.h:1
 msgid "Print Bass Part Omitting Figures"
-msgstr "Vytisknout basový hlas bez čísel"
+msgstr "Vytisknout basový part bez čísel"
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintBassPartWithoutFigures.xml.h:2
 msgid "Prints the Bass part omitting any figured bass figures."
-msgstr "Vytiskne basový hlas a vynechá čísla číslovaného basu."
+msgstr "Vytiskne basový part a vynechá čísla číslovaného basu."
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintPartWithTitlePage.scm:13
 msgid "No Book Title, see Score->Titles->Book Titles"
@@ -12369,11 +12279,11 @@ msgstr "Žádný název knihy. Podívejte se na Notový zápis → Názvy → N�
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintPartWithTitlePage.xml.h:1
 msgid "Print Part with Title Page"
-msgstr "Vytisknout hlas s názvem na straně s názvem"
+msgstr "Vytisknout part s názvem na straně s názvem"
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintPartWithTitlePage.xml.h:2
 msgid "Prints part with part name on title page"
-msgstr "Vytiskne hlas s názvem hlasu na straně s názvem"
+msgstr "Vytiskne part s názvem partu na straně s názvem"
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintScoreAndParts.scm:8
 msgid "Full Score"
@@ -12381,23 +12291,23 @@ msgstr "Celý notový zápis"
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintScoreAndParts.xml.h:1
 msgid "Print Score and Parts"
-msgstr "Vytisknout notový zápis a hlasy"
+msgstr "Vytisknout notový zápis a party"
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintScoreAndParts.xml.h:2
 msgid "Creates score layouts for the current layout (full score) and parts (named after instrument name). Set instrument names before use."
-msgstr "Vytvoří rozvržení notového zápisu pro nynější rozvržení (celý notový zápis) a hlasy (pojmenované podle názvu nástroje). Názvy nástrojů nastavte před použitím."
+msgstr "Vytvoří rozvržení notového zápisu pro nynější rozvržení (celý notový zápis) a party (pojmenované podle názvu nástroje). Názvy nástrojů nastavte před použitím."
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintThreeReduced.xml.h:1
 msgid "Print Three Parts as Cue for Accompanist"
-msgstr "Vytisknout tři hlasy jako nápovědu pro doprovod"
+msgstr "Vytisknout tři party jako nápovědu pro doprovod"
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintThreeReduced.xml.h:2
 msgid "Prints top three parts on one staff as cues."
-msgstr "Vytiskne horní tři hlasy v jedné osnově jako nápovědu."
+msgstr "Vytiskne horní tři party v jedné osnově jako nápovědu."
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintTwoReduced.xml.h:1
 msgid "Print Two Parts as Cue for Accompanist"
-msgstr "Vytisknout dva hlasy jako nápovědu pro doprovod"
+msgstr "Vytisknout dva party jako nápovědu pro doprovod"
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintTwoReduced.xml.h:2
 msgid "Prints the top two staffs on a single staff as cue."
@@ -12410,7 +12320,7 @@ msgstr "Vytisknout s dosahem (ambitem)"
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintWithAmbitus.xml.h:2
 msgid "Prints the score printing the range (ambitus) of each part at the start of the staff"
-msgstr "Vytiskne notový zápis s tónovým rozsahem (ambitem) každého hlasu na začátku osnovy"
+msgstr "Vytiskne notový zápis s tónovým rozsahem (ambitem) každého partu na začátku osnovy"
 
 #: ../actions/menus/MainMenu/FileMenu/SetThumbnail.scm:5
 msgid "Returning to the first Movement for thumbnail selection"
@@ -13938,7 +13848,7 @@ msgstr "Vybrat podmínku"
 
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ChooseCondition.xml.h:2
 msgid "Gives a menu for choosing whether the directive at the cursor should apply to the current part only or the default score or all layouts,"
-msgstr "Dává nabídku pro výběr toho, zda se má příkaz v poloze ukazatele použít jen na nynější hlas, nebo na výchozí notový zápis nebo všechna rozvržení."
+msgstr "Dává nabídku pro výběr toho, zda se má příkaz v poloze ukazatele použít jen na nynější part, nebo na výchozí notový zápis nebo všechna rozvržení."
 
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:11
 msgid ""
@@ -17680,7 +17590,7 @@ msgid ""
 "This marks the end of a cue - where notes from another part are printed.\n"
 "This marker can be cut and pasted to another position to alter the extent of the cue."
 msgstr ""
-"Toto označí konec nápovědy, kde jsou tištěny noty z dalšího hlasu.\n"
+"Toto označí konec nápovědy, kde jsou tištěny noty z dalšího partu.\n"
 "Tuto značku lze vyjmout a vložit v jiné poloze pro změnu rozsahu nápovědy."
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/InstallCue.scm:41
@@ -18178,7 +18088,7 @@ msgstr "Zadejte text, který není textem písně, k vložení"
 
 #: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.xml.h:2
 msgid "Inserts a stanza number (or other text that is not part of the lyrics) in the current verse at the cursor position."
-msgstr "Vloží číslo sloky Josef (nebo jiný text, který není částí textu písně) do nynější sloky v poloze ukazatele."
+msgstr "Vloží číslo sloky (nebo jiný text, který není částí textu písně) do nynější sloky v poloze ukazatele."
 
 #: ../actions/menus/ObjectMenu/Lyrics/LyricFont.scm:3
 msgid "Font Name"
@@ -18450,7 +18360,7 @@ msgstr "Zachytit takty (notový zápis)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/CaptureScore/CaptureMeasures.xml.h:2
 msgid "Creates blank measures one for each measure captured as a screenshot from a source score. Display the source score using any program. Click on opposite corners of each measure in turn to capture that measure as an image into Denemo. Right-click or scroll-wheel to switch corners to adjust. Press any key to finish. This command is for capturing in score form; to underlay each part with its own source measure use CaptureMeasuresPartPerStaff"
-msgstr "Vytvoří prázdné takty, jeden pro každý takt, zachycené jako snímek ze zdrojového notového zápisu. Zobrazte zdrojový notový zápis pomocí jakéhokoli programu. Klepněte do protilehlých rohů každého taktu, abyste tento takt zachytili jako obrázek do Denema. Klepněte pravým tlačítkem myši nebo točení kolečkem myši pro přepnutí rohů do režimu úprav. Stiskněte kteroukoli klávesu pro dokončení. Tento příkaz je pro zachytávání v podobě notového zápisu. K vypodložení každého hlasu jeho vlastním zdrojovým taktem použijte CaptureMeasuresPartPerStaff."
+msgstr "Vytvoří prázdné takty, jeden pro každý takt, zachycené jako snímek ze zdrojového notového zápisu. Zobrazte zdrojový notový zápis pomocí jakéhokoli programu. Klepněte do protilehlých rohů každého taktu, abyste tento takt zachytili jako obrázek do Denema. Klepněte pravým tlačítkem myši nebo točení kolečkem myši pro přepnutí rohů do režimu úprav. Stiskněte kteroukoli klávesu pro dokončení. Tento příkaz je pro zachytávání v podobě notového zápisu. K vypodložení každého partu jeho vlastním zdrojovým taktem použijte CaptureMeasuresPartPerStaff."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/CaptureScore/DeleteCapturedMeasure.xml.h:1
 msgid "Delete Captured Measure"
@@ -21429,7 +21339,7 @@ msgid ""
 "The check score routine that is run before printing will do this for you."
 msgstr ""
 "Tato představuje počet celotaktových pomlk.\n"
-"Následující taktové pomlky jsou s touto seskupeny při jejich sázení. V úplném notovém zápisu jsou sázeny odděleně, aby odpovídaly ostatním částem.\n"
+"Následující taktové pomlky jsou s touto seskupeny při jejich sázení. V úplném notovém zápisu jsou sázeny odděleně, aby odpovídaly ostatním partům.\n"
 "Pokud přidáte další seskupené celotaktové pomlky, bude tento příkaz potřeba přepočítat.\n"
 "Standardní postup na ověření notového zápisu, který je spouštěn před tiskem, to pro vás udělá."
 
@@ -21612,7 +21522,7 @@ msgstr "Začne (nebo smaže) legatový oblouček pod akordem v poloze ukazatele.
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ToggleBeginPhrasingSlur.xml.h:2
 msgid "Begin a phrasing slur on the current note. You can have normal slurs (partially) inside a phrasing slur."
-msgstr "Začít legatový oblouček na nynější notě.Můžete mít (částečně) normální legatové obloučky uvnitř frázovacích legatových obloučků."
+msgstr "Začít legatový oblouček na nynější notě. Můžete mít (částečně) normální legatové obloučky uvnitř frázovacích legatových obloučků."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ToggleBeginUpSlur.xml.h:1
 msgid "Begin Slur Up (Off/On)"
@@ -22253,7 +22163,7 @@ msgstr "Nástroje"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookInstrumentation.xml.h:2
 msgid "Prints the instrumentation on the title page. This can be edited for layouts that print just one part or section."
-msgstr "Vytiskne na straně s názvem nástroje (instrumentace). Toto lze upravit u rozvržení, jež tisknou pouze jeden hlas nebo výběr."
+msgstr "Vytiskne na straně s názvem nástroje (instrumentace). Toto lze upravit u rozvržení, jež tisknou pouze jeden part nebo výběr."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookPoet.scm:4
 msgid "Give name for poet/lyricist/librettist etc or blank out to delete: "
@@ -23340,7 +23250,7 @@ msgstr "Zachytit takty (jedna osnova)"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/CaptureScore/CaptureMeasuresForStaff.xml.h:2
 msgid "Creates blank measures one for each measure captured as a screenshot from one of a set of parts. Display the source score on the screen using any program. Click on opposite corners of each measure in turn to capture that measure as an image into Denemo. Right-click or scroll-wheel to switch corners to adjust. Press any key to finish. This command is for capturing in parts form; to capture in full score use CaptureMeasures command"
-msgstr "Vytvoří prázdné takty, jeden pro každý takt, zachycené jako snímek z jednoho ze souboru hlasů. Zobrazte zdrojový notový zápis na obrazovce pomocí jakéhokoli programu. Klepněte do protilehlých rohů každého taktu, abyste tento takt zachytili jako obrázek do Denema. Klepněte pravým tlačítkem myši nebo točení kolečkem myši pro přepnutí rohů do režimu úprav. Stiskněte kteroukoli klávesu pro dokončení. Tento příkaz je pro zachytávání v podobě hlasů. K zachytávání v celém notovém zápisu použijte příkaz CaptureMeasures."
+msgstr "Vytvoří prázdné takty, jeden pro každý takt, zachycené jako snímek z jednoho ze souboru partů. Zobrazte zdrojový notový zápis na obrazovce pomocí jakéhokoli programu. Klepněte do protilehlých rohů každého taktu, abyste tento takt zachytili jako obrázek do Denema. Klepněte pravým tlačítkem myši nebo točení kolečkem myši pro přepnutí rohů do režimu úprav. Stiskněte kteroukoli klávesu pro dokončení. Tento příkaz je pro zachytávání v podobě partů. K zachytávání v celém notovém zápisu použijte příkaz CaptureMeasures."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/CaptureScore/DeleteCapturedMeasureForStaff.xml.h:1
 msgid "Delete Captured Measure."
@@ -23504,7 +23414,7 @@ msgstr "Odstraní nesprávně umístěné značky začátků/konců legatových 
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/CouleStaff.scm:4
 msgid "This staff creates notes drawn as a diagonal line. Use these to create a coule between two notes another part."
-msgstr "Tato osnova vytvoří noty kreslené jako úhlopříčná čára. Použijte na vytvoření vázání (Coulés) mezi dvěma notami."
+msgstr "Tato osnova vytvoří noty kreslené jako úhlopříčná čára. Použijte na vytvoření vázání (Coulés) mezi dvěma notami jiného partu."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/CouleStaff.xml.h:1
 msgid "Add Staff for Coulés"
@@ -23548,10 +23458,8 @@ msgid ""
 msgstr "Tato osnova je určena čistě k tomu, aby držela sponky crescenda/decrescenda a značky dynamiky, aby se daly umístit (pomocí jakýchkoli not nebo prostorových vymezovačů), a byly zarovnány navzájem. Vytvořte mezi notovými osnovami pro klavír nebo na jakékoli osnově, kde je potřeba zarovnání sponek a značek pro dynamiku.VAROVÁNÍ: Neumísťujte do této osnovy změny klíčů nebo jiné prvky bez doby trvání. Mohlo by to při sazbě vést k vytvoření samostatné osnovy!"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MarksStaff.xml.h:1
-#, fuzzy
-#| msgid "Add Staff for Dynamics"
 msgid "Add Staff for Marks"
-msgstr "Přidat osnovu pro dynamiku"
+msgstr "Přidat osnovu pro značky"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MarksStaff.xml.h:2
 #, fuzzy
@@ -23974,7 +23882,7 @@ msgid ""
 "Give name of instrument/voice/part\n"
 "for current staff:"
 msgstr ""
-"Zadejte název nástroje/hlasu/hlasu skladby\n"
+"Zadejte název nástroje/hlasu/partu skladby\n"
 "pro nynější osnovu:"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm:37
@@ -24018,7 +23926,7 @@ msgstr "Menší osnova"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SmallerStaff.xml.h:2
 msgid "The current staff will print in a smaller size. Use this for the solo part above a piano accompaniment"
-msgstr "Nynější osnova se vytiskne v menší velikosti. Použijte pro sólovou část nad doprovodem klavíru"
+msgstr "Nynější osnova se vytiskne v menší velikosti. Použijte pro sólový part nad doprovodem klavíru"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/StaffComment.xml.h:2
 msgid "Saves textual comments for this staff"
@@ -24107,19 +24015,19 @@ msgstr "Vytisknout tuto osnovu (pouze) převedenou. Toto je doplněk k jakékoli
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/CreatePartsFromTop.xml.h:1
 msgid "Create Parts (Treble First)"
-msgstr "Vytvořit hlasy (nejprve soprán)"
+msgstr "Vytvořit party (nejprve soprán)"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/CreatePartsFromTop.xml.h:2
 msgid "Creates a set of parts extracting the highest part first."
-msgstr "Vytvoří soubor hlasů. Nejprve vytáhne nejvyšší hlas."
+msgstr "Vytvoří soubor partů. Nejprve vytáhne nejvyšší part."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/CreateParts.xml.h:1
 msgid "Create Parts"
-msgstr "Vytvořit hlasy"
+msgstr "Vytvořit party"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/CreateParts.xml.h:2
 msgid "Create three parts from the current staff."
-msgstr "Vytvořit z nynější notové osnovy tři hlasy."
+msgstr "Vytvořit z nynější notové osnovy tři party."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/InitialVoiceAuto.xml.h:1
 msgid "Initial Automatic Voice"
@@ -24263,17 +24171,17 @@ msgid ""
 "Use with the Part Combine command.\n"
 "You can delete the directive as any other object."
 msgstr ""
-"Tento příkaz přikáže sazeči LilyPondu, aby neslučoval noty z různých hlasů, když bylo nastaveno slučování hlasů.\n"
-"Použijte s příkazem Part Combine.\n"
+"Tento příkaz přikáže sazeči LilyPondu, aby neslučoval noty z různých hlasů, když bylo nastaveno slučování partů.\n"
+"Použijte s příkazem pro slučování partů.\n"
 "Příkaz můžete smazat jako kterýkoli jiný předmět."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineApart.xml.h:1
 msgid "Keep Voices Apart"
-msgstr "Zachovat hlasy samostatné"
+msgstr "Zachovat party samostatné"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineApart.xml.h:2
 msgid "When part combining, from this point the parts will be kept apart even though they could be combined."
-msgstr "Při slučování hlasů budou od tohoto bodu hlasy drženy samostatné, i když by je bylo lze sloučit."
+msgstr "Při slučování partů budou od tohoto bodu party drženy samostatné, i když by je bylo lze sloučit."
 
 #. partcombineAutomatic
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineAutomatic.scm:2
@@ -24282,8 +24190,8 @@ msgid ""
 "Use with the Part Combine command.\n"
 "You can delete the directive as any other object."
 msgstr ""
-"Tento příkaz přikáže sazeči LilyPondu, aby sloučil noty z různých hlasů pomocí sjednocení hlasů.\n"
-"Použijte s příkazem Part Combine.\n"
+"Tento příkaz přikáže sazeči LilyPondu, aby sloučil noty z různých partů pomocí sjednocení partů.\n"
+"Použijte s příkazem pro slučování partů.\n"
 "Příkaz můžete smazat jako kterýkoli jiný předmět."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineAutomatic.xml.h:1
@@ -24301,34 +24209,34 @@ msgid ""
 "Use with the Part Combine command.\n"
 "You can delete the directive as any other object."
 msgstr ""
-"Tento příkaz přikáže sazeči LilyPondu, aby sloučil noty z různých hlasů do akordů.\n"
-"Použijte s příkazem Part Combine.\n"
+"Tento příkaz přikáže sazeči LilyPondu, aby sloučil noty z různých partů do akordů.\n"
+"Použijte s příkazem pro slučování partů.\n"
 "Příkaz můžete smazat jako kterýkoli jiný předmět."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineChords.xml.h:1
 msgid "Part Combine Chords"
-msgstr "Sloučení akordů hlasů"
+msgstr "Sloučení akordů partů"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineChords.xml.h:2
 msgid "From the cursor onwards chords will be combined from the parts included in the part combine command."
-msgstr "Od ukazatele dále budou akordy slučovány z hlasů zahrnutých v příkazu pro slučování hlasů."
+msgstr "Od ukazatele dále budou akordy slučovány z partů zahrnutých v příkazu pro slučování partů."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombine.scm:9
 msgid "Parts are now uncombined"
-msgstr "Hlasy jsou nyní nesloučeny"
+msgstr "Party jsou nyní nesloučeny"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombine.scm:14
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombine.scm:18
 msgid "Part Combine "
-msgstr "Sloučení hlasů"
+msgstr "Sloučení partů"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombine.scm:25
 msgid "Can only part-combine two voices"
-msgstr "Může slučovat pouze dva hlasy"
+msgstr "Může slučovat pouze dva party"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombine.scm:31
 msgid "Only two voices can be part-combined"
-msgstr "Pouze dva hlasy mohou být sloučeny"
+msgstr "Pouze dva party mohou být sloučeny"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombine.scm:33
 msgid "Must be on a staff with two voices"
@@ -24340,7 +24248,7 @@ msgid ""
 "This directive instructs the LilyPond typesetter to combine notes from the voices as unison.\n"
 "Use with the Part Combine command.\n"
 "You can delete the directive as any other object."
-msgstr "Tento příkaz přikáže sazeči LilyPondu, aby sloučil noty z hlasů do souzvuku."
+msgstr "Tento příkaz přikáže sazeči LilyPondu, aby sloučil noty z partů do souzvuku."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineUnisono.xml.h:1
 msgid "Unisono"
@@ -24348,16 +24256,16 @@ msgstr "Unisono"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineUnisono.xml.h:2
 msgid "Combine parts as unison."
-msgstr "Sloučit hlasy jako souzvuk."
+msgstr "Sloučit party jako souzvuk."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombine.xml.h:1
 msgid "Part Combine Two Voices"
-msgstr "Hlas slučuje dva hlasy"
+msgstr "Part slučuje dva hlasy"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombine.xml.h:2
 #: ../actions/palettes.xml.h:94
 msgid "The two voices will be printed only once when they are the same, otherwise they will be printed as parts. (Off/On)"
-msgstr "Dva hlasy budou vytištěny jen jednou, jestliže jsou stejné. Jinak budou tištěny jako hlasy. (zapnuto/vypnuto)"
+msgstr "Dva hlasy budou vytištěny jen jednou, jestliže jsou stejné. Jinak budou tištěny jako party. (zapnuto/vypnuto)"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/SetCurrentStaffAsVoice.scm:4
 msgid "The current staff is already a voice"
@@ -24455,10 +24363,8 @@ msgstr "Při tisku vynechat změnu taktové označení v poloze ukazatele, nebo 
 
 #: ../actions/menus/ObjectMenu/TimeSig/InsertBeamingRule.scm:17
 #: ../actions/menus/ObjectMenu/TimeSig/TimesigWithBeatStructure.scm:15
-#, fuzzy
-#| msgid "Beaming"
 msgid "Beam"
-msgstr "Trámce"
+msgstr "Trámec"
 
 #: ../actions/menus/ObjectMenu/TimeSig/InsertBeamingRule.xml.h:1
 #, fuzzy
