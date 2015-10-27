@@ -596,8 +596,7 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
                                         (disp "cancelled"))))))))))  ;EditTarget end        
                                             
 ;;;; Toggles a postfix annotation on a chord, with editing for direction or offset
-(define* (ChordAnnotation tag lilypond params graphic #:optional display)
-  (define current-direction "^")
+(define* (ChordAnnotation tag lilypond params graphic #:optional display (current-direction "^"))
     (define (set-option option)
           (if (not (or (equal? current-direction "^") (equal? current-direction "-") (equal? current-direction "_")))
             (set! current-direction "-"))

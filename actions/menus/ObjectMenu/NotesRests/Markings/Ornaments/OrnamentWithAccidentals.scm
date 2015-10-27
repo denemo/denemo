@@ -2,8 +2,8 @@
 (let* ((tag "OrnamentWithAccidentals")  (params OrnamentWithAccidentals::params) (data  (d-DirectiveGet-chord-data tag)) (direction "-") 
     (ornament #f)(above #f)(below #f)
      (markup #f) (base-markup "\\tweak baseline-skip #1 ^\\markup {\\center-column {\\tiny  \\sharp \\musicglyph #\"scripts.turn\" \\tiny \\flat}}" ))
-    (define (get-accidental)
-        (RadioBoxMenu (cons "♯" "sharp") (cons "♭" "flat")   (cons "♮" "natural") (cons "-"   #f)            ))
+    (define (get-accidental prompt)
+        (RadioBoxMenu  (cons prompt   #f) (cons "♯" "sharp") (cons "♭" "flat")   (cons "♮" "natural")  ))
     (define (get-data)
         (set! ornament (RadioBoxMenu 
             (cons (_ "Trill")  "trill")   
@@ -17,8 +17,8 @@
         (if ornament
             (begin
                 (set! direction (RadioBoxMenu (cons (_ "Up") "^")    (cons (_ "Down") "_")   (cons (_ "Auto") "-")))
-                (set! above (get-accidental))
-                (set! below (get-accidental))
+                (set! above (get-accidental (_ "No accidental above")))
+                (set! below (get-accidental (_ "No accidental below")))
                 (if (eq? ornament 'custom)
                         (let ((data (GetDefinitionDataFromUser)))
                             (if data
@@ -79,7 +79,7 @@
                 (if (and (not (eq? params 'finished)) (get-data))
                     (begin
                         (set! base-markup markup)
-                        (ChordAnnotation tag  (string-append direction markup) #f #f "~"))
+                        (ChordAnnotation tag  markup #f #f "~" direction))
                     (set! params 'finished)))))
     (if (and (not (eq? params 'finished)) (d-Directive-chord? tag))
         (d-DirectivePut-chord-data tag (format #f "(list ~s ~s ~s ~s ~s)" direction above ornament below base-markup))))
