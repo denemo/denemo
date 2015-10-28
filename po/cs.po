@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: denemo-1.2.5\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2015-09-13 09:50+0100\n"
-"PO-Revision-Date: 2015-10-25 21:43+0100\n"
+"PO-Revision-Date: 2015-10-28 12:36+0100\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "Language: cs\n"
@@ -16976,10 +16976,8 @@ msgid "Select an ornament to insert as an object at the cursor (it will be types
 msgstr "Vybrat ozdobu k vložení jako předmět v poloze ukazatele (bude vysázena na následující notě), nebo upravit již přítomnou ozdobu. Ozdoba zde zahrnuje posuvky, které se mají umístit nad nebo pod jiné ozdoby, jakož i více ozdob naskládaných na jedné notě/akordu."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:9
-#, fuzzy
-#| msgid "Score Layout Options"
 msgid "More Editing Options"
-msgstr "Volby pro rozvržení notového zápisu"
+msgstr "Více voleb pro úpravy"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.xml.h:2
 msgid "Inserts a rehearsal mark in the score. The default is to typeset as the letters A, B, ... The display shows simply A for all bookmarks. This mark also acts as a Denemo bookmark which can be searched for."
@@ -16994,10 +16992,8 @@ msgid "Turns off barlines etc for cadenza"
 msgstr "Vypne taktové čáry atd. pro kadenci"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.scm:9
-#, fuzzy
-#| msgid "End Volta (1st, 2nd ... Time Bar)"
 msgid "This closes a 1st, 2nd, ... n'th time bar"
-msgstr "Ukončit voltu (první/druhé ... opakování volty)"
+msgstr "Toto zavře první, druhé, ... n-té opakování volty"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.xml.h:1
 msgid "End Volta (1st, 2nd ... Time Bar)"
@@ -17020,20 +17016,14 @@ msgid "Start a First Time Bar"
 msgstr "Začít první opakování"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenFirstTimeBar.xml.h:2
-#, fuzzy
-#| msgid "(Print) start a first time bar, must be followed by EndVolta."
 msgid "(Print) start (a) first time bar(s), use the End Volta command at the end of the first time bar(s)"
-msgstr "(Tisk) Začít první opakování. Musí být následováno EndVolta."
+msgstr "(Tisk) Začít první opakování. Použijte příkaz pro skončení opakování (End Volta) na konci prvního opakování."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:22
-#, fuzzy
-#| msgid "First Time Bar"
 msgid "1st Time Bar"
 msgstr "První opakování"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:23
-#, fuzzy
-#| msgid "Second Time Bar"
 msgid "2nd Time Bar"
 msgstr "Druhé opakování"
 
@@ -17074,20 +17064,16 @@ msgid "Start an Nth Time Bar"
 msgstr "Začít n-té opakování"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.xml.h:2
-#, fuzzy
-#| msgid "Start passage to be played on one or more of the repeats as indicated by the text given by the user (e.g. 3 for third time bar). Finish the passage by placing the End ... time bar command."
 msgid "Start passage to be played on one or more of the repeats as indicated by the text given by the user (e.g. 3 for third time bar). Finish the passage using the End Volta command."
-msgstr "Začít pasáž, která se má přehrát jednou nebo vícekrát, jak naznačeno textem zadaným uživatelem (např. 3, aby pasáž byla zopakována třikrát). Pasáž skončete umístěním příkazu pro skončení opakování End."
+msgstr "Začít pasáž, která se má přehrát jednou nebo vícekrát, jak naznačeno textem zadaným uživatelem (např. 3, aby pasáž byla zopakována třikrát). Pasáž skončete použitím příkazu pro skončení opakování (End Volta)."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenSecondTimeBar.xml.h:1
 msgid "Start a Second Time Bar"
 msgstr "Začít druhé opakování"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenSecondTimeBar.xml.h:2
-#, fuzzy
-#| msgid "(Print) start a second time bar, must be followed by EndVolta"
 msgid "(Print) start (a) second time bar(s), use the End Volta command at the end of the first time bar(s)"
-msgstr "(Tisk) Začít druhé opakování. Musí být následováno EndVolta"
+msgstr "(Tisk) Začít druhé opakování. Použijte příkaz pro skončení opakování (End Volta) na konci prvního opakování."
 
 #. OttavaStart
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/Ottava.scm:2
@@ -17111,10 +17097,8 @@ msgid "This marks the start of a trill extending over several notes. The leading
 msgstr "Toto označí začátek trylku trvajícího přes několik not. Pokud si to přejete, je možné \"tr\" na začátku vynechat."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/StartTrillSpan.scm:27
-#, fuzzy
-#| msgid "First click on the notehead of the note where the slur starts"
 msgid "Cursor must be on the note where the trill is to start"
-msgstr "Nejprve klepněte na notovou hlavičku noty, kde legatový oblouček začíná"
+msgstr "Ukazatel musí být na notě, kde má trylek začínat"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/StartTrillSpan.xml.h:1
 msgid "Start Trill"
@@ -17183,7 +17167,7 @@ msgstr "Vložit poznámku pod čarou"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/StandaloneFootnote.xml.h:2
 msgid "Inserts a footnote at the cursor position as a standalone object. WARNING does not appear if followed by a chord, single notes only!"
-msgstr ""
+msgstr "Vloží poznámku pod čarou v poloze ukazatele jako samostatný předmět. Varování: Neobjeví se, pokud je následováno akordem, jen jednotlivé noty!"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:12
 #: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm:5
