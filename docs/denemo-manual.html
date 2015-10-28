@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2015-10-22"/>
+<meta name="create-date" content="2015-10-28"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -359,16 +359,18 @@ Table of Contents
 <a class="Link" href="#toc-Subsection-7.2">Subsection 7.2: Mouse Controls</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-7.3">Subsection 7.3: Editing in the Print View</a>
+<a class="Link" href="#toc-Subsection-7.3">Subsection 7.3: Editing in the Print View - WYSIWYG</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-7.3.1">Subsubsection 7.3.1: Editing Positions and Padding</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-7.4">Subsection 7.4: Editing Positions and Padding</a>
+<a class="Link" href="#toc-Subsubsection-7.3.2">Subsubsection 7.3.2: Re-shaping Slurs and Ties</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-7.5">Subsection 7.5: Re-shaping Slurs and Ties</a>
+<a class="Link" href="#toc-Subsubsection-7.3.3">Subsubsection 7.3.3: Adding Line or Page Breaks.</a>
 </div>
-<div class="toc">
-<a class="Link" href="#toc-Subsection-7.6">Subsection 7.6: Adding Line or Page Breaks.</a>
 </div>
 </div>
 <div class="toc">
@@ -1763,7 +1765,7 @@ Commands to insert ties on chords and individual notes, and to control their sha
 <a class="toc" name="toc-Section-5">5</a> <a class="Label" name="sub:The-Command-Center"> </a>The Command Center
 </h1>
 <div class="Unindented">
-<img class="embedded" src="images/CommandCenter.png" alt="figure images/CommandCenter.png" style="width: 599px; max-width: 1198px; height: 372px; max-height: 744px;"/>
+<img class="embedded" src="images/CommandCenter.png" alt="figure images/CommandCenter.png" style="width: 602px; max-width: 1205px; height: 372px; max-height: 745px;"/>
 
 </div>
 <div class="Indented">
@@ -1861,29 +1863,38 @@ The mouse scroll wheel enables vertical panning and with Shift horizontal pannin
 Right clicking in a blank area of the typeset view (normal cursor) gives a menu providing help and allowing you to typeset with the control points for curves and the location points of objects marked as red dots and crosses. Be sure to turn off these red dots and crosses before printing or creating a customized score layout, as they are embedded in the score and will print.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-7.3">7.3</a> Editing in the Print View
+<a class="toc" name="toc-Subsection-7.3">7.3</a> Editing in the Print View - WYSIWYG
 </h2>
 <div class="Unindented">
 Clicking on the typeset score can locate the place in the Denemo Display belonging to it. For this to work look for the &ldquo;hand&rdquo; pointer as you move the mouse over the typeset score. Use a big enough zoom factor to make this easy. The hand pointer indicates a place where if you click the Denemo Cursor will move to the Denemo Object that belongs to that feature. The navigation works for noteheads, slurs, ties and various marks - some other things such as lyrics can’t be used to navigate - choose the note that the lyrics underlie to find the right place in the Denemo Display.
 </div>
-<h2 class="Subsection">
-<a class="toc" name="toc-Subsection-7.4">7.4</a> Editing Positions and Padding
-</h2>
-<div class="Unindented">
-Right clicking on objects in this pane allows you to drag items that LilyPond has positioned badly. Alternatively, you can select an amount of padding to apply to some objects so that they keep their distance from other items in the score. This is generally a better way of indicating that it is too close to something else, since other objects will move away from it as needed - that is, if you later edit something it will behave more intelligently.
+<div class="Indented">
+You can actually edit your input music using the mouse on the Print View window - something referred to as what-you-see-is-what-you-get (WYSIWYG), which is how the conventional music editors work all the time. But in doing this it will help if you keep in mind that the Denemo program does not know anything about what LilyPond has actually drawn in the Print View window - Denemo is just displaying the PDF file that LilyPond has created. The PDF file <i>does</i> contain links - the &ldquo;hand&rdquo; pointer - so it does &ldquo;know&rdquo; about where things are in the Denemo Display, but not the other way round. This means that to use wysiwyg features you have to tell Denemo more about what you are doing than you would expect.
 </div>
-<h2 class="Subsection">
-<a class="toc" name="toc-Subsection-7.5">7.5</a> Re-shaping Slurs and Ties
-</h2>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-7.3.1">7.3.1</a> Editing Positions and Padding
+</h3>
+<div class="Unindented">
+Right clicking on some objects in this pane allows you to edit them.Use this for the occasions when LilyPond has positioned things badly. 
+</div>
+<div class="Indented">
+The editing procedures depend on whether the object is attached to a note or appears between the notes in the Denemo Display. Depending on the object you can drag it to a better position or change whether it appears above or below the note its attached to. 
+</div>
+<div class="Indented">
+You can also select an amount of padding to apply to some objects so that they keep their distance from other items in the score. Adjusting the padding is generally a better way of indicating that something is too close to something else, since other objects will move away from it as needed and if you later edit the score it will behave more intelligently.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-7.3.2">7.3.2</a> Re-shaping Slurs and Ties
+</h3>
 <div class="Unindented">
 Slurs and beaming can also be altered here. When you right-click on a slur or tie the Denemo Cursor moves to the note where the slur starts and you are offered the chance to edit the shape of the curve. Choose a large zoom factor before you begin, and turn on the control points (red dots and crosses) as described <a class="Reference" href="#sub:Mouse-Controls">Mouse Controls↑</a>above. Then right click on the curve and choose Edit Shape. You have to click on the reference point first - this is on the center-line of the staff at the horizontal position of the notehead where the curve starts - this is marked with a red dot. Then you click and drag on the four &ldquo;control-points&rdquo; that define the shape of the curve. Once the shape looks good, right click in a blank area and click Apply. 
 </div>
 <div class="Indented">
 With practice you can skip the use of the red dots and crosses as you can guess where they would be.
 </div>
-<h2 class="Subsection">
-<a class="toc" name="toc-Subsection-7.6">7.6</a> Adding Line or Page Breaks.
-</h2>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-7.3.3">7.3.3</a> Adding Line or Page Breaks.
+</h3>
 <div class="Unindented">
 Page or line breaks added by right-clicking on a note at a barline and choosing from the menu. This works because right-click positions the Denemo Cursor at the note and then the page or line break command is run just as if you were working directly in the Denemo Display.
 </div>
@@ -4743,7 +4754,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-10-22T22:30:15.664429</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-10-28T11:17:11.460829</span>
 </div>
 </div>
 </body>

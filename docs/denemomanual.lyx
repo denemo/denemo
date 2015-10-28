@@ -3399,7 +3399,7 @@ Right clicking in a blank area of the typeset view (normal cursor) gives
 \end_layout
 
 \begin_layout Subsection
-Editing in the Print View
+Editing in the Print View - WYSIWYG
 \end_layout
 
 \begin_layout Standard
@@ -3422,21 +3422,66 @@ hand
  that the lyrics underlie to find the right place in the Denemo Display.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Standard
+You can actually edit your input music using the mouse on the Print View
+ window - something referred to as what-you-see-is-what-you-get (WYSIWYG),
+ which is how the conventional music editors work all the time.
+ But in doing this it will help if you keep in mind that the Denemo program
+ does not know anything about what LilyPond has actually drawn in the Print
+ View window - Denemo is just displaying the PDF file that LilyPond has
+ created.
+ The PDF file 
+\emph on
+does
+\emph default
+ contain links - the 
+\begin_inset Quotes eld
+\end_inset
+
+hand
+\begin_inset Quotes erd
+\end_inset
+
+ pointer - so it does 
+\begin_inset Quotes eld
+\end_inset
+
+know
+\begin_inset Quotes erd
+\end_inset
+
+ about where things are in the Denemo Display, but not the other way round.
+ This means that to use wysiwyg features you have to tell Denemo more about
+ what you are doing than you would expect.
+\end_layout
+
+\begin_layout Subsubsection
 Editing Positions and Padding
 \end_layout
 
 \begin_layout Standard
-Right clicking on objects in this pane allows you to drag items that LilyPond
- has positioned badly.
- Alternatively, you can select an amount of padding to apply to some objects
- so that they keep their distance from other items in the score.
- This is generally a better way of indicating that it is too close to something
- else, since other objects will move away from it as needed - that is, if
- you later edit something it will behave more intelligently.
+Right clicking on some objects in this pane allows you to edit them.Use this
+ for the occasions when LilyPond has positioned things badly.
+ 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Standard
+The editing procedures depend on whether the object is attached to a note
+ or appears between the notes in the Denemo Display.
+ Depending on the object you can drag it to a better position or change
+ whether it appears above or below the note its attached to.
+ 
+\end_layout
+
+\begin_layout Standard
+You can also select an amount of padding to apply to some objects so that
+ they keep their distance from other items in the score.
+ Adjusting the padding is generally a better way of indicating that something
+ is too close to something else, since other objects will move away from
+ it as needed and if you later edit the score it will behave more intelligently.
+\end_layout
+
+\begin_layout Subsubsection
 Re-shaping Slurs and Ties
 \end_layout
 
@@ -3476,7 +3521,7 @@ With practice you can skip the use of the red dots and crosses as you can
  guess where they would be.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Adding Line or Page Breaks.
 \end_layout
 
