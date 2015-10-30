@@ -11,7 +11,7 @@
 #include "core/view.h"
 #include "scripting/scheme-callbacks.h"
 
-#define SECTION_UTF8_STRING ""
+#define SECTION_UTF8_STRING "§"
 #define PILCROW_UTF8_STRING "¶"
 
 
@@ -26,7 +26,8 @@ create_lilypond_from_text (gchar * orig)
   for(this = text;*this;this = g_utf8_next_char (this))
     {
         gunichar thechar = g_utf8_get_char (this);
-        if (thechar == SECTION_UTF8_STRING) continue;//don't show old paragraph marks used in previous version.
+        if (thechar == g_utf8_get_char (SECTION_UTF8_STRING))
+            continue;//don't show old paragraph marks used in previous version.
         if (thechar == section)
             {
               g_string_append (ret, "}\\line\\large{");
