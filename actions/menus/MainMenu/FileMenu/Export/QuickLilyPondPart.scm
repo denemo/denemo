@@ -1,13 +1,17 @@
-;;;QuickLilyPondPart
 (d-PushPosition)
 (d-GoToBeginning)
-(let ((name  (d-Open "query=filename")))
+(let ((current "-1")(name  (d-Open "query=filename")))
     (if name
         (let* ((filename  (string-append (substring name 0 (- (string-length name) 7)) "-denemo-" (number->string (d-GetStaff)) ".ly"))   
                 (port (open-file filename "w")))
             (let loop ()
+		(define measure-number (d-GetMeasure))
                 (if port
-                    (begin 
+                    (begin
+			(if (not (equal? measure-number current))
+				(begin
+					(set! current measure-number)
+					(format port "%Measure ~A\n" measure-number)))
                         (format port "~A " (d-GetLilyPond))
                         (if (d-MoveCursorRight)
                             (loop)
