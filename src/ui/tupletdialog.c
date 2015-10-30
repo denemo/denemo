@@ -1,5 +1,6 @@
 #include "dialogs.h"
 #include <ctype.h>
+#include <stdlib.h>
 /* This is broken at the moment because the program doesn't pause
  * when the dialog is created. Fix me. */
 
