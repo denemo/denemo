@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <string.h>             /*for SIGTERM */
+#include <ctype.h>
 #include <math.h>
 #include <fontconfig/fontconfig.h>
 #include <gtk/gtk.h>

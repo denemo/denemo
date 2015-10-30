@@ -240,7 +240,7 @@ static gboolean keypress_callback (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * ev
   return FALSE; //pass it on to the standard handler.
  } 
 
-gchar *get_user_markup (GString *user_text, GString *marked_up_text, gchar* title, char *instruction, gchar *initial_value, gboolean modal, gboolean format_only)
+gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* title, char *instruction, gchar *initial_value, gboolean modal, gboolean format_only)
 {
   implement_show_print_view (FALSE);
   GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
