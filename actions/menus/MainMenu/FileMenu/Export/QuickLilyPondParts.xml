@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>QuickLilyPondParts</action>
+        <after>QuickLilyPondPart</after>
+        <_label>Quick LilyPond Parts</_label>
+        <_tooltip>Runs Quick LilyPond Part on all the staffs of the current movement.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,2 @@
+;;;QuickLilyPondPartsAllMovements
+(ForAllMovements "(d-QuickLilyPondParts)")

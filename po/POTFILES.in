@@ -368,7 +368,11 @@ actions/menus/MainMenu/FileMenu/Export/ExportAudio.scm
 actions/menus/MainMenu/FileMenu/Export/ExportAudio.xml
 actions/menus/MainMenu/FileMenu/Export/QuickLilyPondExport.scm
 actions/menus/MainMenu/FileMenu/Export/QuickLilyPondExport.xml
+actions/menus/MainMenu/FileMenu/Export/QuickLilyPondPartsAllMovements.scm
+actions/menus/MainMenu/FileMenu/Export/QuickLilyPondPartsAllMovements.xml
 actions/menus/MainMenu/FileMenu/Export/QuickLilyPondPart.scm
+actions/menus/MainMenu/FileMenu/Export/QuickLilyPondParts.scm
+actions/menus/MainMenu/FileMenu/Export/QuickLilyPondParts.xml
 actions/menus/MainMenu/FileMenu/Export/QuickLilyPondPart.xml
 actions/menus/MainMenu/FileMenu/Import/Import-Lilypond.scm
 actions/menus/MainMenu/FileMenu/Import/Import-Lilypond.xml

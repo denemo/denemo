@@ -5248,7 +5248,7 @@ accidentals are usually printed over the note.</_tooltip>
         <after>QuickLilyPondExport</after>
         <menupath>/MainMenu/FileMenu/Export</menupath>
         <_label>Quick LilyPond Part</_label>
-        <_tooltip>Writes a file containing the music of the current staff in LilyPond format. The filename is the current file name with staff number appended, and .ly.</_tooltip>
+        <_tooltip>Writes a file containing the music of the current staff in LilyPond format. The filename is the current file name with \"-denemo\" and the movement and staff numbers appended (and the .ly suffix).</_tooltip>
       </row>
       <row type="scheme">
         <action>RaggedBottom</action>
@@ -7582,6 +7582,20 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
         <_label>Fill Measure</_label>
         <_tooltip>Duplicates the note/chord/rest at the cursor until the measure is full or over-full.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>QuickLilyPondParts</action>
+        <after>QuickLilyPondPart</after>
+        <menupath>/MainMenu/FileMenu/Export</menupath>
+        <_label>Quick LilyPond Parts</_label>
+        <_tooltip>Runs Quick LilyPond Part on all the staffs of the current movement.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>QuickLilyPondPartsAllMovements</action>
+        <after>QuickLilyPondParts</after>
+        <menupath>/MainMenu/FileMenu/Export</menupath>
+        <_label>Quick LilyPond Parts All Movements</_label>
+        <_tooltip>Runs Quick LilyPond Parts on all movemnts.</_tooltip>
       </row>
     </map>
   </merge>
