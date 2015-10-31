@@ -24,7 +24,7 @@
 							(format port "~A " (d-GetLilyPond))
 							(format port "%Empty Measure\n")))
 							
-					(if (d-MoveCursorRight)
+					(if (d-NextObject)
 						(loop)
 						(close-port port)))))
         		(d-WarningDialog (_ "The score does not have a file name, so no file name for the output LilyPond file can be constructed. Save the score first."))))))
