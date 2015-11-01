@@ -16,16 +16,14 @@
 
 
 static gchar *
-create_lilypond_from_text (gchar * orig)
+create_lilypond_from_text (gchar * text)
 {
-  gchar *text = g_strdup (orig);
   GString *ret = g_string_new ("\\line\\large{");
-  g_debug ("looking at %s\n", text);
   gunichar section = g_utf8_get_char (PILCROW_UTF8_STRING);
-  gchar *this;
-  for(this = text;*this;this = g_utf8_next_char (this))
+  gchar *this; 
+  for(this = text;*this; this = g_utf8_next_char (this))
     {
-        gunichar thechar = g_utf8_get_char (this);
+        gunichar thechar = g_utf8_get_char (this); 
         if (thechar == g_utf8_get_char (SECTION_UTF8_STRING))
             continue;//don't show old paragraph marks used in previous version.
         if (thechar == section)
@@ -33,11 +31,10 @@ create_lilypond_from_text (gchar * orig)
               g_string_append (ret, "}\\line\\large{");
             } else 
             {
-                g_string_append_printf (ret, "%c", *this);
+                g_string_append_printf (ret, "%lc", thechar);
             }
     }
   g_string_append (ret, "}\n");
-  g_free (text);
   return g_string_free (ret, FALSE);
 }
 static void
@@ -212,7 +209,7 @@ preview_markup (GtkWidget * button)
     gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(textbuffer), &startiter);
     gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(textbuffer), &enditer);
     gchar *text = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(textbuffer), &startiter, &enditer, FALSE);
-    gchar *lilypond = create_lilypond_from_text (text);//g_print("At this point lilypond is <<<%s>>>\n\n\n", lilypond);
+    gchar *lilypond = create_lilypond_from_text (text);g_print("At this point lilypond is <<<%s>>>\ntext was %s\n\n", lilypond, text);
     gchar *syntax = g_strconcat (LILYPOND_SYMBOL_DEFINITIONS, " \\markup \\column {",lilypond," }", NULL);
     create_pdf_for_lilypond (syntax);
     g_free (syntax);
