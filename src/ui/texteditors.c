@@ -37,7 +37,34 @@ get_script_view_text (void)
   gtk_text_buffer_get_end_iter (buffer, &enditer);
   return gtk_text_buffer_get_text (buffer, &startiter, &enditer, FALSE);
 }
-
+/* create a palette button for the script that is in the Scheme script window */
+void
+createButton (void)
+{
+  gchar *text = Denemo.project->script;
+  if(text && *text)
+     {
+        DenemoPalette *pal = NULL;
+        gchar *name = choose_palette_by_name (TRUE, FALSE);
+        if (name)
+            pal = create_palette (name, FALSE, TRUE);
+        if(pal) {
+            gchar *button_name = _("My Script");
+            gchar *label = string_dialog_entry (Denemo.project, _("Palette Button Creation"), _("Give a (unique) name for the button"), button_name);
+            if (label)
+                {
+                    if (!palette_add_button (pal, label, _("Creates a button for the script"), text))
+                        warningdialog (_("Could not create a button of that name in that palette"));
+                }
+            else
+                warningdialog (_("Cancelled"));
+            g_free (label);
+            gtk_widget_show_all (gtk_widget_get_parent(pal->box));
+            }
+    }
+    else
+        g_warning (_("Empty scheme script"));
+}
 /* execute the script that is in the Scheme script window */
 void
 executeScript (void)
@@ -345,6 +372,7 @@ create_editor_window (void)
 
   GtkWidget *hbox = gtk_hbox_new (FALSE, 1);
   w = gtk_button_new_with_label ("CLI: ");
+  gtk_widget_set_tooltip_text (w, _( "A Scheme command line interface. Type an expression here and press Enter to evaluate and display the result in the terminal. (On windows, use denemo-console.exe to get a terminal)"));
   GtkWidget *button = w;
   //gtk_widget_set_can_default(w, TRUE);
   //GTK_WIDGET_SET_FLAGS(window, GTK_CAN_DEFAULT);
@@ -357,10 +385,19 @@ create_editor_window (void)
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
   g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (executeCLI), entry);
   g_signal_connect (G_OBJECT (entry), "key-press-event", G_CALLBACK (keypress), NULL);
-  w = gtk_button_new_with_label ("Execute Script");
-  g_signal_connect (G_OBJECT (w), "clicked", G_CALLBACK (executeScript), NULL);
-  gtk_box_pack_start (GTK_BOX (main_vbox), w, FALSE, FALSE, 0);
 
+  GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 1);
+  gtk_box_pack_start (GTK_BOX (main_vbox), inner_hbox, FALSE, TRUE, 0);
+
+  w = gtk_button_new_with_label (_("Execute Script"));
+  gtk_widget_set_tooltip_text (w, _("Executes the Scheme in the script window below. If an error is thrown this will give a message in the terminal."));
+  g_signal_connect (G_OBJECT (w), "clicked", G_CALLBACK (executeScript), NULL);
+  gtk_box_pack_start (GTK_BOX (inner_hbox), w, FALSE, FALSE, 0);
+
+  w = gtk_button_new_with_label (_("Create Button"));
+  gtk_widget_set_tooltip_text (w, _("Create a palette button for the Scheme in the script window below."));
+  g_signal_connect (G_OBJECT (w), "clicked", G_CALLBACK (createButton), NULL);
+  gtk_box_pack_start (GTK_BOX (inner_hbox), w, FALSE, FALSE, 0);
 
   menu = gtk_menu_new ();
 
@@ -401,7 +438,7 @@ create_editor_window (void)
   gtk_widget_show (menuBar);
   gtk_menu_shell_append (GTK_MENU_SHELL (menuBar), fileMenu);
 
-  GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 1);
+  inner_hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), inner_hbox, FALSE, FALSE, 0);
   GtkWidget *wid = gtk_check_button_new ();
   gtk_activatable_set_related_action (GTK_ACTIVATABLE (wid), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/HiddenMenu/RecordScript"));
