@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2015-10-28"/>
+<meta name="create-date" content="2015-11-03"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -603,34 +603,34 @@ Table of Contents
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.1">Subsection 23.1: Midi Filters</a>
+<a class="Link" href="#toc-Subsection-23.1">Subsection 23.1: Commands Getting User Input</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.2">Subsection 23.2: Commands Getting User Input</a>
+<a class="Link" href="#toc-Subsection-23.2">Subsection 23.2: Commands Getting Information about Object at Cursor</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.3">Subsection 23.3: Commands Getting Information about Object at Cursor</a>
+<a class="Link" href="#toc-Subsection-23.3">Subsection 23.3: Predicates</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.4">Subsection 23.4: Predicates</a>
+<a class="Link" href="#toc-Subsection-23.4">Subsection 23.4: Iterators</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.5">Subsection 23.5: Iterators</a>
+<a class="Link" href="#toc-Subsection-23.5">Subsection 23.5: Directives</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.6">Subsection 23.6: Directives</a>
+<a class="Link" href="#toc-Subsection-23.6">Subsection 23.6: Message Bar</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.7">Subsection 23.7: Message Bar</a>
+<a class="Link" href="#toc-Subsection-23.7">Subsection 23.7: Move and Search</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.8">Subsection 23.8: Move and Search</a>
+<a class="Link" href="#toc-Subsection-23.8">Subsection 23.8: More ...</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.9">Subsection 23.9: More ...</a>
+<a class="Link" href="#toc-Subsection-23.9">Subsection 23.9: ... and More</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-23.10">Subsection 23.10: ... and More</a>
+<a class="Link" href="#toc-Subsection-23.10">Subsection 23.10: Midi Filters</a>
 </div>
 <div class="toc">
 <a class="Link" href="#toc-Subsection-23.11">Subsection 23.11: LilyPond Editing</a>
@@ -2774,13 +2774,17 @@ Once you have created the script, it can be saved in the menu system by right cl
 <a class="toc" name="toc-Section-23">23</a> Writing Scheme Scripts 
 </h1>
 <div class="Unindented">
+<img class="embedded" src="images/SchemeWindow.png" alt="figure images/SchemeWindow.png" style="max-width: 464px; max-height: 376px;"/>
+
+</div>
+<div class="Indented">
 If you are a programmer you will have guessed that you can edit the Scheme Script window to create any command you want. Even if you are not familiar with Scheme you may find that you can adapt other scripts to do what you want.
 </div>
 <div class="Indented">
 A good example of this is a script to insert a particular LilyPond directive into the score. This is all that many scripts do: it is easy to see the piece of LilyPond in the Scheme Script window, and by changing it you can create a new command.
 </div>
 <div class="Indented">
-For example, from the More menu select the command /menus/ObjectMenu/Instruments/Orchestral/RehearsalMark (the files are laid out in folders/directories in the same way as the menu system itself). Then choose Get Script from the right click menu. With this command its script is appended to the Scheme Script window. Here you can see the part that says
+For example, from the More menu select the command /menus/ObjectMenu/Instruments/Orchestral/RehearsalMark (the files are laid out in folders/directories in the same way as the menu system itself). Then choose Get Script into Scheme Window from the right click menu. With this command its script is appended to the Scheme Script window. Here you can see the part that says
 </div>
 <div class="Indented">
 <span class="environment"><span class="arrayrow">
@@ -2816,19 +2820,13 @@ default")
 </span>
 </div>
 <div class="Indented">
-which is inserting the LilyPond directive "\mark \default" which inserts the default rehearsal mark. (The extra backslashes are needed to tell Scheme that you literally mean a \ sign). You can change this to insert any other LilyPond that you need - always doubling the \ signs. The you can save as a new menu item, or use Save Script to customize the script you started with.
+which is inserting the LilyPond directive "\mark \default" which inserts the default rehearsal mark. (The extra backslashes are needed to tell Scheme that you literally mean a \ sign). You can change this to insert any other LilyPond that you need - always doubling the \ signs. The you can save as a new menu item, a palette button, or use Save Script from Scheme Window to customize the command you started with.
 </div>
 <div class="Indented">
 More ambitious programmers will need to know all the commands available. Besides the complete Denemo command set (the list is given in the Command Center window) there are the following additional Scheme procedures defined.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.1">23.1</a> Midi Filters
-</h2>
-<div class="Unindented">
-The MIDI filters are scheme scripts, so they can be tailored to do whatever you wish. One example is a filter that enables you to enter Figured Bass figures by playing the notes corresponding to the figures while holding down the bass note. Another is the "AngryDelete" filter. With this filter on notes are entered normally with the cursor advancing automatically, but if you make a mistake and press the wrong note just hit the next one much louder and it will make the correction for you! MIDI filters are found under Input -&gt; MIDI.
-</div>
-<h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.2">23.2</a> Commands Getting User Input
+<a class="toc" name="toc-Subsection-23.1">23.1</a> Commands Getting User Input
 </h2>
 <div class="Unindented">
 All these commands are invoked from scheme as (d-Command args...)
@@ -2861,7 +2859,7 @@ GetUserInput takes three arguments (title, prompt, suggested value) and returns 
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.3">23.3</a> Commands Getting Information about Object at Cursor
+<a class="toc" name="toc-Subsection-23.2">23.2</a> Commands Getting Information about Object at Cursor
 </h2>
 <div class="Unindented">
 All these commands are invoked from scheme as (d-<span class="versalitas">Command</span>)
@@ -2882,7 +2880,7 @@ GetNotes returns a scheme string, the notes of a chord separated by spaces (in L
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.4">23.4</a> Predicates
+<a class="toc" name="toc-Subsection-23.3">23.3</a> Predicates
 </h2>
 <div class="Unindented">
 Testing what is true at the cursor position
@@ -2963,7 +2961,7 @@ MeasureComplete?
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.5">23.5</a> Iterators
+<a class="toc" name="toc-Subsection-23.4">23.4</a> Iterators
 </h2>
 <div class="Unindented">
 The parameters are either a string (script) which will be evaluated after moving the cursor to step of the iteration or a scheme procedure (a thunk).
@@ -2993,7 +2991,7 @@ The parameters are either a string (script) which will be evaluated after moving
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.6">23.6</a> Directives
+<a class="toc" name="toc-Subsection-23.5">23.5</a> Directives
 </h2>
 <ul>
 <li>
@@ -3086,7 +3084,7 @@ The parameters are either a string (script) which will be evaluated after moving
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.7">23.7</a> Message Bar
+<a class="toc" name="toc-Subsection-23.6">23.6</a> Message Bar
 </h2>
 <div class="Unindented">
 These commands put a message on the status bar to the right hand side. They are defined in actions/denemo-modules/helpsystem.scm. Help messages are pushed paired with a symbol (e.g. (cons (’mytag &ldquo;mymessage&rdquo;))) and can simply be Popped or removed using the tag.
@@ -3110,7 +3108,7 @@ These commands put a message on the status bar to the right hand side. They are 
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.8">23.8</a> Move and Search
+<a class="toc" name="toc-Subsection-23.7">23.7</a> Move and Search
 </h2>
 <ul>
 <li>
@@ -3179,7 +3177,7 @@ GetPosition ;use result with (apply d-GoToPosition position)) to go to the posit
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.9">23.9</a> More ...
+<a class="toc" name="toc-Subsection-23.8">23.8</a> More ...
 </h2>
 <div class="Unindented">
 This is a fairly comprehensive listing of Scheme commands that are built-in but not including those in the menus. Call these via (d-<i>&lt;command&gt;</i> <b><i>params</i></b> ...), e.g. (d-GetNote 2) gets the second note from the bottom in a chord.
@@ -4079,7 +4077,7 @@ Error. Display an error message and abort
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-23.10">23.10</a> ... and More
+<a class="toc" name="toc-Subsection-23.9">23.9</a> ... and More
 </h2>
 <div class="Unindented">
 This is a hand-made list most of which already appear in the comprehensive list above, but with hand-written comments.
@@ -4201,6 +4199,12 @@ MeasureFillStatus
 </li>
 
 </ul>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-23.10">23.10</a> Midi Filters
+</h2>
+<div class="Unindented">
+The MIDI filters are scheme scripts, so they can be tailored to do whatever you wish. One example is a filter that enables you to enter Figured Bass figures by playing the notes corresponding to the figures while holding down the bass note. Another is the "AngryDelete" filter. With this filter on notes are entered normally with the cursor advancing automatically, but if you make a mistake and press the wrong note just hit the next one much louder and it will make the correction for you! MIDI filters are found under Input -&gt; MIDI.
+</div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-23.11">23.11</a> LilyPond Editing
 </h2>
@@ -4754,7 +4758,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-10-28T11:17:11.460829</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-11-03T12:47:41.573669</span>
 </div>
 </div>
 </body>
