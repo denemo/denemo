@@ -30,6 +30,7 @@ gotobegin.png \
 ObjectEditor.png \
 PreferencesDialog.png \
 StaffVoicePropsEditor.png \
+SchemeWindow.png \
 CommandCenter.png \
 gotoend.png \
 ObjectInspector.png \

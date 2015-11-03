@@ -6398,6 +6398,15 @@ Writing Scheme Scripts
 \end_layout
 
 \begin_layout Standard
+\begin_inset Graphics
+	filename images/SchemeWindow.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 If you are a programmer you will have guessed that you can edit the Scheme
  Script window to create any command you want.
  Even if you are not familiar with Scheme you may find that you can adapt
@@ -6415,7 +6424,7 @@ A good example of this is a script to insert a particular LilyPond directive
 For example, from the More menu select the command /menus/ObjectMenu/Instruments
 /Orchestral/RehearsalMark (the files are laid out in folders/directories
  in the same way as the menu system itself).
- Then choose Get Script from the right click menu.
+ Then choose Get Script into Scheme Window from the right click menu.
  With this command its script is appended to the Scheme Script window.
  Here you can see the part that says
 \end_layout
@@ -6476,31 +6485,14 @@ default" which inserts the default rehearsal mark.
  doubling the 
 \backslash
  signs.
- The you can save as a new menu item, or use Save Script to customize the
- script you started with.
+ The you can save as a new menu item, a palette button, or use Save Script
+ from Scheme Window to customize the command you started with.
 \end_layout
 
 \begin_layout Standard
 More ambitious programmers will need to know all the commands available.
  Besides the complete Denemo command set (the list is given in the Command
  Center window) there are the following additional Scheme procedures defined.
-\end_layout
-
-\begin_layout Subsection
-Midi Filters
-\end_layout
-
-\begin_layout Standard
-The MIDI filters are scheme scripts, so they can be tailored to do whatever
- you wish.
- One example is a filter that enables you to enter Figured Bass figures
- by playing the notes corresponding to the figures while holding down the
- bass note.
- Another is the "AngryDelete" filter.
- With this filter on notes are entered normally with the cursor advancing
- automatically, but if you make a mistake and press the wrong note just
- hit the next one much louder and it will make the correction for you! MIDI
- filters are found under Input -> MIDI.
 \end_layout
 
 \begin_layout Subsection
@@ -9033,6 +9025,23 @@ GetMeasureTicks
 
 \begin_layout Itemize
 MeasureFillStatus
+\end_layout
+
+\begin_layout Subsection
+Midi Filters
+\end_layout
+
+\begin_layout Standard
+The MIDI filters are scheme scripts, so they can be tailored to do whatever
+ you wish.
+ One example is a filter that enables you to enter Figured Bass figures
+ by playing the notes corresponding to the figures while holding down the
+ bass note.
+ Another is the "AngryDelete" filter.
+ With this filter on notes are entered normally with the cursor advancing
+ automatically, but if you make a mistake and press the wrong note just
+ hit the next one much louder and it will make the correction for you! MIDI
+ filters are found under Input -> MIDI.
 \end_layout
 
 \begin_layout Subsection
