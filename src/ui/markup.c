@@ -240,7 +240,11 @@ static gboolean keypress_callback (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * ev
 
 gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* title, char *instruction, gchar *initial_value, gboolean modal, gboolean format_only)
 {
+#ifndef USE_EVINCE  
+          g_debug("This feature requires denemo to be built with evince");
+#else
   implement_show_print_view (FALSE);
+#endif
   GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
   GtkWidget *button = gtk_button_new_with_label (_("Paste Current Snippet"));
   gtk_widget_set_tooltip_text (button, _("Pastes the music captured in the currently selected Snippet into the text at the cursor.\nThe music appears here in the LilyPond syntax.\nIt will print as typeset music embedded in the sentence you are writing.\nYou can edit the syntax following the LilyPond syntax.\n"));
