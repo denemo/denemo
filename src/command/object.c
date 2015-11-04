@@ -1779,7 +1779,7 @@ edit_staff_and_voice_properties (gboolean show_staff)
 #endif
     gtk_box_pack_start (GTK_BOX (vbox), pane, TRUE, TRUE, 0);
     GtkWidget *expander = gtk_expander_new (_("Staff Properties"));
-    gtk_expander_set_expanded (GTK_EXPANDER(expander), show_staff);
+    gtk_expander_set_expanded (GTK_EXPANDER(expander), TRUE);
     gtk_widget_set_sensitive (expander, TRUE);
     gtk_container_set_border_width (GTK_CONTAINER (expander),10);
     get_color (&color, 0.1, 0.1, 0.8, 1.0);
@@ -1867,7 +1867,7 @@ edit_staff_and_voice_properties (gboolean show_staff)
  
     expander = gtk_expander_new (_("Voice Properties"));
 
-    gtk_expander_set_expanded (GTK_EXPANDER(expander), !show_staff);
+    gtk_expander_set_expanded (GTK_EXPANDER(expander),TRUE);
     gtk_widget_set_sensitive (expander, TRUE);
     gtk_container_set_border_width (GTK_CONTAINER (expander),10);
     get_color (&color, 0.1, 0.1, 0.8, 1.0);
@@ -1893,7 +1893,7 @@ edit_staff_and_voice_properties (gboolean show_staff)
     place_buttons_for_directives ((GList**)&thestaff->voice_directives, inner_box, DIRECTIVE_VOICE, "voice");
 
  
-   gtk_paned_set_position (GTK_PANED(pane), show_staff? window_height-50 : 50);
+    gtk_paned_set_position (GTK_PANED(pane), window_height/2);
  
  
  

@@ -936,7 +936,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
           gint offset = (gint) get_click_height (gui, event->y);
           if (offset < STAFF_HEIGHT / 2)
             {
-              if (((DenemoStaff *) gui->movement->currentstaff->data)->staff_directives)
+              if (((DenemoStaff *) gui->movement->currentstaff->data)->staff_directives, 1)
                 {
                   if (Denemo.prefs.learning)
                     MouseGestureShow(_("Click on Staff Directives."), _("This pops up the staff directives menu for editing"),
@@ -945,7 +945,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                 }
               return TRUE;
             }
-          else if (((DenemoStaff *) gui->movement->currentstaff->data)->voice_directives)
+          else if (((DenemoStaff *) gui->movement->currentstaff->data)->voice_directives, 1)
             {
               if (Denemo.prefs.learning)
                 MouseGestureShow(_("Click on Voice Directives."), _("This pops up the voice directives menu for editing"),

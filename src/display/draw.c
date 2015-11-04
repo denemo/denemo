@@ -1476,7 +1476,7 @@ draw_score (cairo_t * cr)
             cairo_fill (cr);
             cairo_restore (cr);
 
-            if (staff->staff_directives)
+            if (staff->staff_directives, 1)
               {
 
                 guint width = gdk_pixbuf_get_width (GDK_PIXBUF (StaffDirectivesPixbuf));
@@ -1494,7 +1494,7 @@ draw_score (cairo_t * cr)
                 cairo_restore (cr);
                 //gdk_draw_pixbuf(Denemo.pixmap, NULL, StaffDirectivesPixbuf,  0,0, 0,y, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
               }
-            if (staff->voice_directives)
+            if (staff->voice_directives, 0)
               {
 
                 guint width = gdk_pixbuf_get_width (GDK_PIXBUF (StaffDirectivesPixbuf));
