@@ -1033,8 +1033,12 @@ close_gui_with_check (GtkAction * action, DenemoScriptParam* param)
             }
           else
             _exit (0);
+
 #endif
         }
+    
+      g_print ("Exiting directly - may leave notes sounding on audio!");
+      _exit (0);
       audio_shutdown ();
 
 
