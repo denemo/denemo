@@ -5642,10 +5642,34 @@ SCM
 scheme_staff_to_voice (SCM optional)
 {
   SCM ret = SCM_BOOL_F;
-  if (Denemo.project->movement->currentstaff->prev && (((DenemoStaff *) Denemo.project->movement->currentstaff->data)->voicecontrol == DENEMO_PRIMARY))
+  DenemoStaff *current = ((DenemoStaff *) Denemo.project->movement->currentstaff->data);
+  if (Denemo.project->movement->currentstaff->prev && (current->voicecontrol == DENEMO_PRIMARY))
     {
-      ((DenemoStaff *) Denemo.project->movement->currentstaff->data)->voicecontrol |= DENEMO_SECONDARY;
+      current->voicecontrol |= DENEMO_SECONDARY;
       staff_set_current_primary (Denemo.project->movement);
+      DenemoStaff *primary = (DenemoStaff *) Denemo.project->movement->currentprimarystaff->data;
+      if ((current->timesig.time1 != primary->timesig.time1)
+        || (current->timesig.time2 != primary->timesig.time2))
+            {
+                warningdialog (_("Time Signatures do not match, will not make voice"));
+                current->voicecontrol = DENEMO_PRIMARY;
+                staff_set_current_primary (Denemo.project->movement);
+                return SCM_BOOL_F;
+            }
+      if ((current->keysig.number != primary->keysig.number)
+        || (current->keysig.isminor != primary->keysig.isminor)
+        || (current->keysig.mode != primary->keysig.mode))
+            {
+                warningdialog (_("Key Signatures do not match, will not make voice"));
+                current->voicecontrol = DENEMO_PRIMARY;
+                staff_set_current_primary (Denemo.project->movement);
+                return SCM_BOOL_F;
+            }
+            
+       if (current->clef.type != primary->clef.type)
+            {
+                warningdialog (_("This voice has a different clef from the staff it will be typeset on. This clef will be used for the display only."));
+            }        
       ret = SCM_BOOL_T;
       draw_score_area();
       score_status (Denemo.project, TRUE);
