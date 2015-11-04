@@ -18,7 +18,7 @@
 #include "core/view.h"
 #include "command/lilydirectives.h"
 #include <string.h>
-
+static void edit_staff_and_voice_properties (gboolean show_staff);
 void initkeyaccs (gint * accs, gint number);
 
 DenemoObject *
@@ -1735,7 +1735,18 @@ static void timesig_change_initial_cb (void)
     else
     timesig_change (Denemo.project, CHANGEINITIAL);
 }
-
+static void staff_above (GtkWidget *editstaffwin)
+{
+    movetostaffup (NULL, NULL);
+    gtk_widget_destroy (editstaffwin);
+    edit_staff_and_voice_properties (TRUE);
+}
+static void staff_below (GtkWidget *editstaffwin)
+{
+    movetostaffdown (NULL, NULL);
+    gtk_widget_destroy (editstaffwin);
+    edit_staff_and_voice_properties (TRUE);
+}
 static void
 edit_staff_and_voice_properties (gboolean show_staff)
 {
@@ -1808,8 +1819,36 @@ edit_staff_and_voice_properties (gboolean show_staff)
     g_signal_connect (button, "clicked", G_CALLBACK (keysig_change_initial_cb), NULL);
     gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);   
     
+    inner_hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (inner_box), inner_hbox, FALSE, TRUE, 0);
+    
+    
+    button = gtk_button_new_with_label (_("Staff Above"));
+    g_signal_connect_swapped (button, "clicked", G_CALLBACK (staff_above), editstaffwin);
+    gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);
+    
+    if ( Denemo.project->movement->currentstaffnum == 1)
+        gtk_widget_set_sensitive (button, FALSE);
+    
+    button = gtk_button_new_with_label (_("Staff Below"));
+    g_signal_connect_swapped (button, "clicked", G_CALLBACK (staff_below), editstaffwin);
+    gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);
+    if (g_list_length(Denemo.project->movement->thescore) == Denemo.project->movement->currentstaffnum)
+        gtk_widget_set_sensitive (button, FALSE);
+    
+    
+    
+    
     
     DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+    
+    
+  
+        
+        
+        
+        
+    
     
     place_buttons_for_directives ((GList**)&thestaff->staff_directives, inner_box, DIRECTIVE_STAFF, "staff");
      if(thestaff->keysig.directives)
@@ -1824,6 +1863,8 @@ edit_staff_and_voice_properties (gboolean show_staff)
         gtk_box_pack_start (GTK_BOX (inner_box), label, FALSE, TRUE, 0);
         place_buttons_for_directives ((GList**)&(thestaff->timesig.directives), inner_box, DIRECTIVE_TIMESIG, "timesig");
         }
+        
+ 
     expander = gtk_expander_new (_("Voice Properties"));
 
     gtk_expander_set_expanded (GTK_EXPANDER(expander), !show_staff);
@@ -1846,18 +1887,7 @@ edit_staff_and_voice_properties (gboolean show_staff)
     GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
     gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, TRUE, 0);
 
-    button = gtk_button_new_with_label (_("Staff Above"));
-    //g_signal_connect_swapped (button, "clicked", G_CALLBACK (staff_above), editstaffwin);
-    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-    
-    if ( Denemo.project->movement->currentstaffnum == 1)
-        gtk_widget_set_sensitive (button, FALSE);
-    
-    button = gtk_button_new_with_label (_("Staff Below"));
-    //g_signal_connect_swapped (button, "clicked", G_CALLBACK (staff_below), editstaffwin);
-    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-    if (g_list_length(Denemo.project->movement->thescore) == Denemo.project->movement->currentstaffnum)
-        gtk_widget_set_sensitive (button, FALSE);
+
  
  
     place_buttons_for_directives ((GList**)&thestaff->voice_directives, inner_box, DIRECTIVE_VOICE, "voice");
