@@ -65,8 +65,8 @@ staff_nth_measure_node (staffnode * thestaff, gint n)
 void
 staff_set_current_primary (DenemoMovement * movement)
 {
-  for (movement->currentprimarystaff = movement->currentstaff; !((DenemoStaff *) movement->currentprimarystaff->data)->voicecontrol & DENEMO_PRIMARY; movement->currentprimarystaff = movement->currentprimarystaff->prev)
-    ;
+  for (movement->currentprimarystaff = movement->currentstaff; movement->currentprimarystaff && (((DenemoStaff *) movement->currentprimarystaff->data)->voicecontrol & DENEMO_SECONDARY); movement->currentprimarystaff = movement->currentprimarystaff->prev)
+   ;
 }
 
 /**
