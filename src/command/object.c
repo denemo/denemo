@@ -1697,7 +1697,44 @@ void edit_movement_properties (void)
     edit_score_and_movement_properties (FALSE);
 }
 
+static void clef_change_initial_cb (void)
+{
+    DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+    if(thestaff->voicecontrol != DENEMO_PRIMARY)
+        warningdialog (_("The clef here only affects the display as this voice is typeset on the staff above"));
+    clef_change_initial (NULL, NULL);
+}
+static void keysig_change_initial_cb (void)
+{
+    DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+    if(thestaff->voicecontrol != DENEMO_PRIMARY)
+        {
+            //DenemoScriptParam param;
+           // param.string = g_string_new (get_prevailing_context (KEYSIG));
+           // key_change_initial (NULL, &param);
+           // g_string_append_printf (param.string, _("The key signature set on this voice is %s. It should match the staff it is typeset on."), param.string->str);
+           warningdialog (_("This voice should have the same key signature as the staff it appears on. Use the key signature menu commands to correct it if needed."));// warningdialog (param.string);
+           // g_string_free (param.string, TRUE);
+        }
+    else
+    key_change (NULL, CHANGEINITIAL);
+}
 
+static void timesig_change_initial_cb (void)
+{
+      DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+    if(thestaff->voicecontrol != DENEMO_PRIMARY)
+        {
+            //DenemoScriptParam param;
+           // param.string = g_string_new (get_prevailing_context (KEYSIG));
+           // key_change_initial (NULL, &param);
+           // g_string_append_printf (param.string, _("The key signature set on this voice is %s. It should match the staff it is typeset on."), param.string->str);
+           warningdialog (_("This voice should have the same time signature as the staff it appears on. Use the time signature menu commands to correct it if needed."));// warningdialog (param.string);
+           // g_string_free (param.string, TRUE);
+        }
+    else
+    timesig_change (Denemo.project, CHANGEINITIAL);
+}
 
 static void
 edit_staff_and_voice_properties (gboolean show_staff)
@@ -1752,10 +1789,26 @@ edit_staff_and_voice_properties (gboolean show_staff)
     
     GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
     gtk_scrolled_window_add_with_viewport  (GTK_SCROLLED_WINDOW(scrolled_window),  inner_box);
+    GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (inner_box), inner_hbox, FALSE, TRUE, 0);
 
     button = gtk_button_new_with_label (_("Edit Built-in Staff Properties"));
     g_signal_connect (button, "clicked", G_CALLBACK (staff_properties_change_cb), NULL);
-    gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);
+    
+    button = gtk_button_new_with_label (_("Initial Clef"));
+    g_signal_connect (button, "clicked", G_CALLBACK (clef_change_initial_cb), NULL);
+    gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);
+
+    button = gtk_button_new_with_label (_("Initial Time Signature"));
+    g_signal_connect (button, "clicked", G_CALLBACK (timesig_change_initial_cb), NULL);
+    gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);   
+
+    button = gtk_button_new_with_label (_("Initial Key Signature"));
+    g_signal_connect (button, "clicked", G_CALLBACK (keysig_change_initial_cb), NULL);
+    gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);   
+    
+    
     DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
     
     place_buttons_for_directives ((GList**)&thestaff->staff_directives, inner_box, DIRECTIVE_STAFF, "staff");

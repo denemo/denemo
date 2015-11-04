@@ -823,10 +823,14 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 
   gint offset = (gint) get_click_height (gui, event->y);
   
-   if ((((DenemoStaff *) gui->movement->currentstaff->data)->voicecontrol != DENEMO_PRIMARY) && (gui->movement->leftmeasurenum == 1) && (event->x > gui->leftmargin))
+   if ((((DenemoStaff *) gui->movement->currentstaff->data)->voicecontrol != DENEMO_PRIMARY) 
+        && (gui->movement->leftmeasurenum == 1) && (event->x > gui->leftmargin) 
+        && ((event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + key)))
     {
-          MouseGestureShow(_("Left on Voice"), _("The clef shown here affects the display only (as this voice is displayed on the staff above. You can change the display clef using the clef menu. Warning! you will get confused if you set the key signature or time signature of a voice different to the staff it is typeset on. Run the Staff/Voice property editor to adjust any inconsistencies."),
-                  MouseGesture);
+          infodialog(_("The clef shown here affects the display only (as this voice is displayed on the staff above)."
+          " You can change the display clef using the clef menu."
+          "\nWarning! you will get confused if you set the key signature or time signature of a voice different "
+          "to the staff it is typeset on. Run the Staff/Voice property editor to adjust any inconsistencies."));
   
     }
   if ((((DenemoStaff *) gui->movement->currentstaff->data)->voicecontrol == DENEMO_PRIMARY) && (gui->movement->leftmeasurenum == 1) && (event->x > gui->leftmargin))
