@@ -1657,7 +1657,9 @@ load_default_keymap_file ()
     files = g_list_append(NULL, g_build_filename (Denemo.old_user_data_dir, COMMANDS_DIR, user_keymap_file, NULL));
 
     if(!load_keymap_files (files))
-      g_warning ("Unable to former default keymap");
+      g_warning ("Unable to load former default keymap");
+    else
+         save_default_keymap_file ();
   }
   g_free(default_keymap_file);
   g_free (user_keymap_file);
