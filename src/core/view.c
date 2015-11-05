@@ -998,7 +998,7 @@ close_gui_with_check (GtkAction * action, DenemoScriptParam* param)
   Denemo.prefs.mode = Denemo.project->mode;
   if (action_callbacks (Denemo.project))
     return FALSE;               //Denemo.project may have been closed, depends on script callbacks;
-  if (Denemo.accelerator_status)
+  if (Denemo.accelerator_status || Denemo.old_user_data_dir)
       {
         if (confirm (_("You have made changes to the commands you have"), _("Do you want to save the changes?")))
           save_accels ();
