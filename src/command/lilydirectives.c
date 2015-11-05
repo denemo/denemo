@@ -2293,7 +2293,7 @@ quote_scheme (gchar * s)
 gchar *get_script_for_directive (DenemoDirective* directive, gchar * what)
  {
   GString *scheme = g_string_new ("");
-  g_string_append_printf (scheme, ";;;%s\n(let ((tag \"%s\"))\n", directive->tag->str, directive->tag->str);
+  g_string_append_printf (scheme, "(let ((tag \"%s\"))\n", directive->tag->str);
   if (what == NULL)
       what = "standalone";
 
