@@ -1697,43 +1697,39 @@ void edit_movement_properties (void)
     edit_score_and_movement_properties (FALSE);
 }
 
-static void clef_change_initial_cb (void)
+static void clef_change_initial_cb (GtkWidget *editstaffwin)
 {
     DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
     if(thestaff->voicecontrol != DENEMO_PRIMARY)
-        warningdialog (_("The clef here only affects the display as this voice is typeset on the staff above"));
+        warningdialog (_("The clef here only affects the display as this voice is typeset on the staff above.\nNormally you will want it set the same as the staff the notes will appear on.\nDismiss this warning and make any needed changes via the popup dialog coming next."));
     clef_change_initial (NULL, NULL);
 }
-static void keysig_change_initial_cb (void)
+static void keysig_change_info (void)
 {
     DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
     if(thestaff->voicecontrol != DENEMO_PRIMARY)
         {
-            //DenemoScriptParam param;
-           // param.string = g_string_new (get_prevailing_context (KEYSIG));
-           // key_change_initial (NULL, &param);
-           // g_string_append_printf (param.string, _("The key signature set on this voice is %s. It should match the staff it is typeset on."), param.string->str);
            warningdialog (_("This voice should have the same key signature as the staff it appears on. Use the key signature menu commands to correct it if needed."));// warningdialog (param.string);
-           // g_string_free (param.string, TRUE);
         }
     else
-    key_change (NULL, CHANGEINITIAL);
+        {
+        warningdialog (_("Change the keysignature by clicking on it, or via the Key Signatures menu (after closing this editor).")); //for some reason the change_key() call does not get the keyboard focus so we can't change the key here.
+        }
 }
 
-static void timesig_change_initial_cb (void)
+static void timesig_change_initial_cb (GtkWidget *editstaffwin)
 {
       DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
     if(thestaff->voicecontrol != DENEMO_PRIMARY)
         {
-            //DenemoScriptParam param;
-           // param.string = g_string_new (get_prevailing_context (KEYSIG));
-           // key_change_initial (NULL, &param);
-           // g_string_append_printf (param.string, _("The key signature set on this voice is %s. It should match the staff it is typeset on."), param.string->str);
-           warningdialog (_("This voice should have the same time signature as the staff it appears on. Use the time signature menu commands to correct it if needed."));// warningdialog (param.string);
-           // g_string_free (param.string, TRUE);
+        warningdialog (_("This voice should have the same time signature as the staff it appears on. Use the time signature menu commands to correct it if needed."));// warningdialog (param.string);
         }
     else
-    timesig_change (Denemo.project, CHANGEINITIAL);
+        {
+        timesig_change (Denemo.project, CHANGEINITIAL);
+        gtk_widget_destroy (editstaffwin);
+        edit_staff_and_voice_properties (TRUE);
+        }
 }
 static void staff_above (GtkWidget *editstaffwin)
 {
@@ -1747,6 +1743,13 @@ static void staff_below (GtkWidget *editstaffwin)
     gtk_widget_destroy (editstaffwin);
     edit_staff_and_voice_properties (TRUE);
 }
+
+static void change_staff_properties (GtkWidget *editstaffwin)
+{
+    staff_properties_change_cb (NULL, NULL);
+    gtk_widget_destroy (editstaffwin);
+    edit_staff_and_voice_properties (TRUE);        
+}
 static void
 edit_staff_and_voice_properties (gboolean show_staff)
 {
@@ -1759,7 +1762,7 @@ edit_staff_and_voice_properties (gboolean show_staff)
     gtk_window_set_title (GTK_WINDOW (editstaffwin), _("Staff and Voice Properties Editor"));
     gtk_window_set_transient_for (GTK_WINDOW(editstaffwin), GTK_WINDOW(Denemo.window));
     gtk_window_set_keep_above (GTK_WINDOW (editstaffwin), TRUE);
-    gtk_window_set_default_size (GTK_WINDOW (editstaffwin), 400, window_height);
+    gtk_window_set_default_size (GTK_WINDOW (editstaffwin), 600, window_height);
     
     
     GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
@@ -1800,29 +1803,9 @@ edit_staff_and_voice_properties (gboolean show_staff)
     
     GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
     gtk_scrolled_window_add_with_viewport  (GTK_SCROLLED_WINDOW(scrolled_window),  inner_box);
-    GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (inner_box), inner_hbox, FALSE, TRUE, 0);
-
-    button = gtk_button_new_with_label (_("Edit Built-in Staff Properties"));
-    g_signal_connect (button, "clicked", G_CALLBACK (staff_properties_change_cb), NULL);
-    gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);
-    
-    button = gtk_button_new_with_label (_("Initial Clef"));
-    g_signal_connect (button, "clicked", G_CALLBACK (clef_change_initial_cb), NULL);
-    gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);
-
-    button = gtk_button_new_with_label (_("Initial Time Signature"));
-    g_signal_connect (button, "clicked", G_CALLBACK (timesig_change_initial_cb), NULL);
-    gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);   
-
-    button = gtk_button_new_with_label (_("Initial Key Signature"));
-    g_signal_connect (button, "clicked", G_CALLBACK (keysig_change_initial_cb), NULL);
-    gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);   
-    
+    GtkWidget *inner_hbox;
     inner_hbox = gtk_hbox_new (FALSE, 0);
     gtk_box_pack_start (GTK_BOX (inner_box), inner_hbox, FALSE, TRUE, 0);
-    
-    
     button = gtk_button_new_with_label (_("Staff Above"));
     g_signal_connect_swapped (button, "clicked", G_CALLBACK (staff_above), editstaffwin);
     gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);
@@ -1835,19 +1818,40 @@ edit_staff_and_voice_properties (gboolean show_staff)
     gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);
     if (g_list_length(Denemo.project->movement->thescore) == Denemo.project->movement->currentstaffnum)
         gtk_widget_set_sensitive (button, FALSE);
+    DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;  
+     if(thestaff->voicecontrol != DENEMO_PRIMARY)
+    {
+        GtkWidget *label = gtk_label_new ("");
+        gtk_label_set_markup (GTK_LABEL (label), _("<b>This voice will be typeset on the staff above</b>"));
+        gtk_label_set_line_wrap (GTK_LABEL(label), TRUE);
+        gtk_box_pack_start (GTK_BOX (inner_box), label, FALSE, TRUE, 0);
+    }
+    inner_hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (inner_box), inner_hbox, FALSE, TRUE, 0);
+
+    button = gtk_button_new_with_label (_("Edit Built-in Staff Properties"));
+    g_signal_connect_swapped (button, "clicked", G_CALLBACK (change_staff_properties), editstaffwin);
+    gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);
+   
     
+    const gchar *theclef = get_clef_name (thestaff->clef.type);
+    gchar *text = g_strconcat (_("Clef: "), theclef, NULL);
+    button = gtk_button_new_with_label (text);
+    g_signal_connect_swapped (button, "clicked", G_CALLBACK (clef_change_initial_cb), editstaffwin);
+    gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);
+    g_free (text);
     
+    text = g_strdup_printf (_("Time: %d/%d"), thestaff->timesig.time1, thestaff->timesig.time2);
+    button = gtk_button_new_with_label (text);
+    g_signal_connect_swapped (button, "clicked", G_CALLBACK (timesig_change_initial_cb), editstaffwin);
+    gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);   
+    g_free (text);
     
-    
-    
-    DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-    
-    
-  
-        
-        
-        
-        
+    text = g_strdup_printf (_("Key: %s"), get_lilypond_for_keysig (&(thestaff->keysig)));
+    button = gtk_button_new_with_label (text);
+    g_signal_connect (button, "clicked", G_CALLBACK (keysig_change_info), NULL);
+    gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);   
+    g_free (text);
     
     
     place_buttons_for_directives ((GList**)&thestaff->staff_directives, inner_box, DIRECTIVE_STAFF, "staff");
