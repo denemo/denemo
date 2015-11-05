@@ -112,7 +112,7 @@ Copyright © 2009, 2010, 2011, 2012, 2013, 2014, 2015 Denemo Project
 
 \begin_layout Standard
 \align center
-Updates for version 2.0
+Updates for version 2.0.1
 \end_layout
 
 \begin_layout Standard
@@ -3892,8 +3892,7 @@ name "sec:The-Staff-and"
 \end_layout
 
 \begin_layout Standard
-When a Staff or the Voice on the staff has been modified in a global fashion
- this is indicated by 
+A 
 \begin_inset Quotes eld
 \end_inset
 
@@ -3901,27 +3900,37 @@ tools
 \begin_inset Quotes erd
 \end_inset
 
- icons at the start of the staff - the upper one for the staff and the lower
- one for the voice on the staff.
-\end_layout
-
-\begin_layout Standard
-Clicking on these opens the Staff and Voice Properties Editor.
+ icon is drawn at the start of the staff.
+ Clicking on this opens the Staff and Voice Properties Editor.
  As with the Score and Movement Properties editor these are combined as
  two panes in one window - often you won't be sure if the property is one
  set on the Staff or the Voice belonging to the staff, so this makes it
  easy to look at both.
- Drag the separator if you need to switch between them.
+ Drag the separator if you need to make more space for one of them.
  
 \end_layout
 
 \begin_layout Standard
-You can also launch the Staff Properties Editor from the Staff menu.
+You can also launch the Staff Properties Editor from the Staff menu, and
+ you can navigate the staffs while in the editor using Staff Above and Staff
+ below buttons.
 \end_layout
 
 \begin_layout Standard
-The built-in staff properties can be edited using the button at the top.
- For each Denemo Directive attached to the staff or voice there is a button
+The built-in staff properties can be edited using the next button - this
+ is a rather arbitrary collection of things that are not attached as Denemo
+ Directives, covering MIDI output for the staff, some typesetting controls
+ and display controls.
+ 
+\end_layout
+
+\begin_layout Standard
+There are also buttons to inspect/alter the initial clef, time signature
+ and key.
+\end_layout
+
+\begin_layout Standard
+For each Denemo Directive attached to the staff or voice there is a button
  
 \begin_inset Quotes eld
 \end_inset
@@ -3937,7 +3946,8 @@ name of command
  - the tooltip of this button gives the help text of the command that created
  it.
  This button will run the command in edit mode.
- There are also buttons to do a low-level edit or to delete the directive.
+ There are also buttons to create palette buttons, low-level edit or to
+ delete the directive as with the other editors.
 \end_layout
 
 \begin_layout Standard
