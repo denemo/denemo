@@ -194,6 +194,79 @@ This separation of the final typesetting window from the input display avoids
 g of some notation is possible on the final typeset display.
 \end_layout
 
+\begin_layout Subsubsection*
+Some Terminology
+\end_layout
+
+\begin_layout Standard
+Besides the terms well-known to musicians, music notation has some specialized
+ names and Denemo uses some terms with specific meanings which you should
+ know:
+\end_layout
+
+\begin_layout Itemize
+A
+\emph on
+ movement
+\emph default
+ is a continous stretch of music (all the measures following on from each
+ other) such as a song in a songbook, or a movement in a symphony.
+\end_layout
+
+\begin_layout Itemize
+A 
+\emph on
+score
+\emph default
+ is one or more movements usually interspersed with titles.
+\end_layout
+
+\begin_layout Itemize
+A 
+\emph on
+staff
+\emph default
+ has the usual meaning, but note that it may contain several lines of music
+ (voices).
+\end_layout
+
+\begin_layout Itemize
+A 
+\emph on
+system 
+\emph default
+is what might be called a 
+\begin_inset Quotes eld
+\end_inset
+
+line
+\begin_inset Quotes erd
+\end_inset
+
+ of the music, that is all the music (over several staffs) that sounds together
+ starting at the right-hand margin and ending at the left margin.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Staff Spaces
+\emph default
+ a unit of measurement: the distance between two staff lines.
+ Generally when you need to specify a distance in Denemo this is the unit
+ used.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset CommandInset href
+LatexCommand href
+target "http://lilypond.org/doc/v2.18/Documentation/music-glossary/index.html"
+
+\end_inset
+
+is a good guide especially for non-native speakers of English.
+\end_layout
+
 \begin_layout Section
 Input Methods
 \end_layout
@@ -724,8 +797,8 @@ When you have more than one movement numbered buttons appear in the score
 Within a movement there are staffs (arranged vertically).
  Each Denemo Staff has in turn a Denemo Voice and within the voice are the
  Denemo Objects.
- These can be notes, chords, key changes, time signature changes and Denemo
- Directives (see 
+ These can be notes, chords, key changes, time signature changes, voice
+ change objects and Denemo Directive objects (see 
 \begin_inset CommandInset ref
 LatexCommand nameref
 reference "sec:Denemo-Directives"
@@ -734,37 +807,61 @@ reference "sec:Denemo-Directives"
 
 ).
  The staff properties include things like the number of lines (usually 5)
- while the voice properties include the default direction of the stems.
+ the MIDI instrument sound for playback and the amount of space allotted
+ in the display for the staff.
 \end_layout
 
 \begin_layout Standard
 The notes and chords are displayed in conventional format (though not fully
  typeset).
- The Denemo Directives are used for most things that are not chords or notes
- etc: Metronome marks, repeat barlines etc are good examples.
- They can also be attached to chords, individual notes in a chord, to a
- staff as a whole and to the score as a whole; in this case the directive
- can be thought of as an attribute of the object it is attached to.
+ The position of Denemo Directive objects in the music is marked with a
  
-\end_layout
-
-\begin_layout Standard
-Each Denemo Directive carries its own display method.
- For example the Close Repeat barline appears as a Denemo Object in the
- input display, while a Directive attached to a staff (e.g.
- Instrument Name, or Smaller Staff Size) will display a 
 \begin_inset Quotes eld
 \end_inset
 
-tools
+stick and blob
 \begin_inset Quotes erd
 \end_inset
 
- button to the right of the staff.
- Another tools button appears if directives are attached to the voice within
- a staff, again to the left of the clef, below the staff one.
- Clicking these tools buttons allows you to edit the staff/voice properties
- using the staff/voice editor.
+ and it is accompanied either by a drawing (e.g.
+ of a double barline) and/or some text to describe it.
+ These are used for most things that are not chords or notes etc: Metronome
+ marks, repeat barlines etc are good examples.
+ In this example the caesura is a Denemo Directive object marked by the
+ stick and blob before the last note and drawn on the staff in an approximate
+ representation of its typeset appearance.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/DenemoDirectives.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Denemo Directives can also be attached to chords, individual notes in a
+ chord, to a staff, to a movement or to the score; in these cases the directive
+ can be thought of as an attribute of the object it is attached to.
+ In the above example the trill sign is attached to the second note and
+ this directive (and all other directives) can be inspected and edited using
+ the Object Inspector
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:The-Object-Inspector"
+
+\end_inset
+
+ and Object Editor 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Object-Editor"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -773,7 +870,8 @@ If there is more than one voice on a staff it is best displayed on a separate
  and there is no timesignature for such extra voices so it is easy to understand
  what is going on.
  The Print Preview window as usual shows the final typeset appearance.
- The staff in this case is a dummy, any properties set on it would be ignored.
+ The clef in this case only affects the display, and any time signature
+ or key signature set on it would also only affect the display.
 \end_layout
 
 \begin_layout Standard
@@ -921,8 +1019,8 @@ line breaks
 \end_inset
 
  but have no effect on the final typeset score.
- Actual line breaks in the typeset are managed by commands in the Directives
- menu.
+ Actual line breaks in the typeset are managed by the LilyPond typesetter
+ and can be overruled by commands in the Directives menu.
 \end_layout
 
 \begin_layout Standard
