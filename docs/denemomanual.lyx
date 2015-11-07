@@ -132,6 +132,7 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Standard
+le
 \begin_inset Newpage newpage
 \end_inset
 
@@ -244,7 +245,7 @@ line
 \end_inset
 
  of the music, that is all the music (over several staffs) that sounds together
- starting at the right-hand margin and ending at the left margin.
+ starting at the left-hand margin and ending at the right margin.
 \end_layout
 
 \begin_layout Itemize
