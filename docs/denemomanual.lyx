@@ -132,7 +132,6 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Standard
-le
 \begin_inset Newpage newpage
 \end_inset
 
@@ -836,6 +835,7 @@ stick and blob
 \begin_layout Standard
 \begin_inset Graphics
 	filename images/DenemoDirectives.png
+	scale 60
 
 \end_inset
 
@@ -847,8 +847,7 @@ Denemo Directives can also be attached to chords, individual notes in a
  chord, to a staff, to a movement or to the score; in these cases the directive
  can be thought of as an attribute of the object it is attached to.
  In the above example the trill sign is attached to the second note and
- this directive (and all other directives) can be inspected and edited using
- the Object Inspector
+ this directive can be inspected and edited using the Object Inspector
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:The-Object-Inspector"
@@ -859,6 +858,22 @@ reference "sec:The-Object-Inspector"
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Object-Editor"
+
+\end_inset
+
+.
+ Denemo Directives attached to the staff, movement or score can be inspected/edi
+ted too, using the relevant editors 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:The-Score-and"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:The-Staff-and"
 
 \end_inset
 
@@ -908,6 +923,13 @@ ng or docked in the main display.
 When a file is loaded it opens at the point where you left off editing it.
  The position and size of the window is restored as well as the position
  and size of the source pdf you are transcribing from.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -991,7 +1013,14 @@ The Denemo Display
 \begin_layout Standard
 The area showing the input music is called the Denemo display.
  It shows staffs and voices and the music interspersed with any Directives.
- The default view has a single system stretching off the sides of the window
+ The background is grayed out when the focus is elsewhere - click on the
+ display to start typing in notes.
+ The background is also colored when input from any attached MIDI keyboard
+ is not being used for appending/editing the score (as it is by default).
+\end_layout
+
+\begin_layout Standard
+The default view has a single system stretching off the sides of the window
  - the actual division into lines and pages for the typeset score is done
  in the Print View
 \begin_inset CommandInset ref
@@ -1526,7 +1555,7 @@ Palettes
 \end_layout
 
 \begin_layout Standard
-Gives access to palettes of buttons that can be arraged to make commands
+Gives access to palettes of buttons that can be arranged to make commands
  available via mouse or keyboard (via the Activate Palette Button command).
 \end_layout
 

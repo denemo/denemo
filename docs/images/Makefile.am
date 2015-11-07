@@ -47,5 +47,6 @@ undo.png \
 CustomOrnamentsPalette.png \
 MidiImportPalette.png \
 PaletteEntry.png \
+DenemoDirectives.png \
 RepeatsPalette.png
 

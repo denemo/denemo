@@ -703,7 +703,7 @@ Table of Contents
 
 </div>
 <div class="Unindented">
-le<p><br/>
+<p><br/>
 </p>
 
 </div>
@@ -711,7 +711,7 @@ le<p><br/>
 <a class="toc" name="toc-Part-I">Part I.</a> Getting Started
 </h1>
 <h1 class="Section-">
-<a class="toc" name="toc-Section--1"></a>Introduction  
+<a class="toc" name="toc-Section--1"></a>Introduction  <span class="unknown">\pagenumbering</span>arabic 
 </h1>
 <div class="Unindented">
 Denemo lets you create musical scores. You can type music in using the keyboard or play it in using a MIDI contoller or the microphone input. You can edit your music - the input display window shows you what you are working on in music notation - and you can playback to check how it sounds. The Print View window shows the final printed score, typeset to the highest standards used in the music publishing industry - thanks to the Lilypond music typesetting program.
@@ -902,11 +902,11 @@ Within a movement there are staffs (arranged vertically). Each Denemo Staff has 
 The notes and chords are displayed in conventional format (though not fully typeset). The position of Denemo Directive objects in the music is marked with a &ldquo;stick and blob&rdquo; and it is accompanied either by a drawing (e.g. of a double barline) and/or some text to describe it. These are used for most things that are not chords or notes etc: Metronome marks, repeat barlines etc are good examples. In this example the caesura is a Denemo Directive object marked by the stick and blob before the last note and drawn on the staff in an approximate representation of its typeset appearance.
 </div>
 <div class="Indented">
-<img class="embedded" src="images/DenemoDirectives.png" alt="figure images/DenemoDirectives.png" style="max-width: 674px; max-height: 728px;"/>
+<img class="embedded" src="images/DenemoDirectives.png" alt="figure images/DenemoDirectives.png" style="width: 404px; max-width: 674px; height: 436px; max-height: 728px;"/>
 
 </div>
 <div class="Indented">
-Denemo Directives can also be attached to chords, individual notes in a chord, to a staff, to a movement or to the score; in these cases the directive can be thought of as an attribute of the object it is attached to. In the above example the trill sign is attached to the second note and this directive (and all other directives) can be inspected and edited using the Object Inspector<a class="Reference" href="#sec:The-Object-Inspector">8↓</a> and Object Editor <a class="Reference" href="#sec:Object-Editor">9↓</a>.
+Denemo Directives can also be attached to chords, individual notes in a chord, to a staff, to a movement or to the score; in these cases the directive can be thought of as an attribute of the object it is attached to. In the above example the trill sign is attached to the second note and this directive can be inspected and edited using the Object Inspector<a class="Reference" href="#sec:The-Object-Inspector">8↓</a> and Object Editor <a class="Reference" href="#sec:Object-Editor">9↓</a>. Denemo Directives attached to the staff, movement or score can be inspected/edited too, using the relevant editors <a class="Reference" href="#sec:The-Score-and">10↓</a>, <a class="Reference" href="#sec:The-Staff-and">11↓</a>.
 </div>
 <div class="Indented">
 If there is more than one voice on a staff it is best displayed on a separate staff in the Denemo Display, for ease of editing - the clef is drawn pale and there is no timesignature for such extra voices so it is easy to understand what is going on. The Print Preview window as usual shows the final typeset appearance. The clef in this case only affects the display, and any time signature or key signature set on it would also only affect the display.
@@ -919,6 +919,11 @@ The menus in Denemo are unusual: they not only let you do some particular action
 </div>
 <div class="Indented">
 When a file is loaded it opens at the point where you left off editing it. The position and size of the window is restored as well as the position and size of the source pdf you are transcribing from.
+</div>
+<div class="Indented">
+<p><br/>
+</p>
+
 </div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-3">3</a> Denemo Main Window
@@ -949,7 +954,10 @@ You can hide staffs in the display if needed using the Staffs-&gt;Display Effect
 <a class="toc" name="toc-Subsection-3.1">3.1</a> The Denemo Display
 </h2>
 <div class="Unindented">
-The area showing the input music is called the Denemo display. It shows staffs and voices and the music interspersed with any Directives. The default view has a single system stretching off the sides of the window - the actual division into lines and pages for the typeset score is done in the Print View<a class="Reference" href="#sec:The-Print-View">7↓</a>. In order to see more of the music on the screen at one time there are three changes to the default view you can make. Firstly by pressing the Esc key you can switch between three views, two of which have no menus taking up space. At the bottom of any of these is a red line which can be dragged up to split the display into separate lines. Using this you can display more bars of music at the expense of seeing more staffs for each system (the scrolling allows you to choose which staffs to concentrate on). As usual, this division into lines has nothing to do with the typeset view - widening the window will change the positions of the &ldquo;line breaks&rdquo; but have no effect on the final typeset score. Actual line breaks in the typeset are managed by the LilyPond typesetter and can be overruled by commands in the Directives menu.
+The area showing the input music is called the Denemo display. It shows staffs and voices and the music interspersed with any Directives. The background is grayed out when the focus is elsewhere - click on the display to start typing in notes. The background is also colored when input from any attached MIDI keyboard is not being used for appending/editing the score (as it is by default).
+</div>
+<div class="Indented">
+The default view has a single system stretching off the sides of the window - the actual division into lines and pages for the typeset score is done in the Print View<a class="Reference" href="#sec:The-Print-View">7↓</a>. In order to see more of the music on the screen at one time there are three changes to the default view you can make. Firstly by pressing the Esc key you can switch between three views, two of which have no menus taking up space. At the bottom of any of these is a red line which can be dragged up to split the display into separate lines. Using this you can display more bars of music at the expense of seeing more staffs for each system (the scrolling allows you to choose which staffs to concentrate on). As usual, this division into lines has nothing to do with the typeset view - widening the window will change the positions of the &ldquo;line breaks&rdquo; but have no effect on the final typeset score. Actual line breaks in the typeset are managed by the LilyPond typesetter and can be overruled by commands in the Directives menu.
 </div>
 <div class="Indented">
 The second way of getting to see more of the music is simply to zoom the Denemo Display (Ctrl-mouse wheel is best). Again this is purely for the input display - you use commands in the Score and Directives menu to control the size of staffs, titles etc. in the final typeset score.
@@ -1183,7 +1191,7 @@ The cursor flashes, and in the page view<a class="Reference" href="#sub:The-Page
 <a class="toc" name="toc-Subsubsection--22"></a>Palettes
 </h3>
 <div class="Unindented">
-Gives access to palettes of buttons that can be arraged to make commands available via mouse or keyboard (via the Activate Palette Button command).
+Gives access to palettes of buttons that can be arranged to make commands available via mouse or keyboard (via the Activate Palette Button command).
 </div>
 <h3 class="Subsubsection-">
 <a class="toc" name="toc-Subsubsection--23"></a>Display Zoom
@@ -4799,7 +4807,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-11-07T14:29:57.208016</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.3 (2011-08-31)</a> on <span class="create-date">2015-11-07T15:16:05.382057</span>
 </div>
 </div>
 </body>
