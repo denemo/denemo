@@ -731,7 +731,7 @@ output_fakechord (GString * fakechord, chord * pchord)
     }
 
  num_groups = num_fakechords (fig_str->str);
-g_print("for %s num groups %d\n",fig_str->str, num_groups);
+//g_print("for %s num groups %d\n",fig_str->str, num_groups);
   switch (num_groups)
     {
     default:
