@@ -5,4 +5,4 @@
 (DenemoSetPlaybackEnd)
 (DenemoGoForward)
 (d-PopPosition)
-(d-Play)
+(d-OneShotTimer 500 "(d-Play)")
