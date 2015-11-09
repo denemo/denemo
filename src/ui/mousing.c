@@ -752,7 +752,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
       if (Denemo.prefs.learning)
         MouseGestureShow(_("Press Left."), _("This moved the cursor to the measure offscreen left. The display is shifted to place that measure on screen."),
           MouseGesture);
-      moveto_currentmeasurenum (gui, gui->movement->leftmeasurenum - 1);
+      set_currentmeasurenum (gui, gui->movement->leftmeasurenum - 1);
       write_status (gui);
       draw_score_area();
       return TRUE;
@@ -762,11 +762,11 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
       if ((pi.at_edge) && ((pi.the_obj==NULL) || ((pi.the_obj->next == NULL) && (pi.offend))))//crashed here with the_obj 0x131 !!!
         {
           if ((gui->movement->currentmeasurenum != gui->movement->rightmeasurenum) &&
-                (!moveto_currentmeasurenum (gui, gui->movement->rightmeasurenum + 1)))
-              moveto_currentmeasurenum (gui, gui->movement->rightmeasurenum);
+                (!set_currentmeasurenum (gui, gui->movement->rightmeasurenum + 1)))
+              set_currentmeasurenum (gui, gui->movement->rightmeasurenum);
           else if ((gui->movement->cursor_appending) &&
-                (!moveto_currentmeasurenum (gui, gui->movement->rightmeasurenum + 1)))
-              moveto_currentmeasurenum (gui, gui->movement->rightmeasurenum);
+                (!set_currentmeasurenum (gui, gui->movement->rightmeasurenum + 1)))
+              set_currentmeasurenum (gui, gui->movement->rightmeasurenum);
 
 
           
@@ -911,7 +911,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                             gint staffnum = choice?brace->startstaff:brace->endstaff;
                             //g_print ("Count is %d for start at %d\n", count, staffnum);
                             GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/StaffMenu/StaffGroupings");
-                            goto_movement_staff_obj (NULL, -1, staffnum, 1, 0);
+                            goto_movement_staff_obj (NULL, -1, staffnum, 1, 0, 0);
                             if (menuitem)
                                 if (choice)
                                     gtk_menu_popup (GTK_MENU (gtk_menu_item_get_submenu (GTK_MENU_ITEM (menuitem))), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);

@@ -24,7 +24,7 @@ void insert_movement_before (GtkAction * action, DenemoScriptParam * param);
 void insert_movement_after (GtkAction * action, DenemoScriptParam * param);
 void delete_movement (GtkAction * action, DenemoScriptParam * param);
 void movement_props_dialog (GtkAction * action, DenemoScriptParam * param);
-gboolean goto_movement_staff_obj (DenemoProject * gui, gint movementnum, gint staffnum, gint measurenum, gint objnum);
+gboolean goto_movement_staff_obj (DenemoProject * gui, gint movementnum, gint staffnum, gint measurenum, gint objnum, gint leftmeasurenum);
 
 void PopPosition (GtkAction * action, DenemoScriptParam * param);
 void PushPosition (GtkAction * action, DenemoScriptParam * param);

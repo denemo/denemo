@@ -2373,11 +2373,11 @@ scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object)
   return SCM_BOOL (result);
 #endif
   gint origmvt = g_list_index (Denemo.project->movements, Denemo.project->movement) + 1, origstaff = Denemo.project->movement->currentstaffnum, origmeas = Denemo.project->movement->currentmeasurenum, origpos = 1 + Denemo.project->movement->cursor_x;
-  goto_movement_staff_obj (NULL, movementnum, staffnum, measurenum, objectnum);
+  goto_movement_staff_obj (NULL, movementnum, staffnum, measurenum, objectnum, 0);
   if ((movementnum == g_list_index (Denemo.project->movements, Denemo.project->movement) + 1) && (staffnum == Denemo.project->movement->currentstaffnum) && (measurenum == Denemo.project->movement->currentmeasurenum) && (objectnum == 1 + Denemo.project->movement->cursor_x))
     return SCM_BOOL_T;
   else
-    goto_movement_staff_obj (NULL, origmvt, origstaff, origmeas, origpos);
+    goto_movement_staff_obj (NULL, origmvt, origstaff, origmeas, origpos, 0);
 
   return SCM_BOOL_F;
 }
@@ -5856,7 +5856,7 @@ scheme_next_chord (SCM optional)
   get_position (Denemo.project->movement, &pos);
   gboolean ret = cursor_to_next_chord ();
   if (!ret)
-    goto_movement_staff_obj (NULL, -1, pos.staff, pos.measure, pos.object);
+    goto_movement_staff_obj (NULL, -1, pos.staff, pos.measure, pos.object, pos.leftmeasurenum);
   return SCM_BOOL (ret);
 }
 
@@ -5867,7 +5867,7 @@ scheme_prev_chord (SCM optional)
   get_position (Denemo.project->movement, &pos);
   gboolean ret = cursor_to_prev_chord ();
   if (!ret)
-    goto_movement_staff_obj (NULL, -1, pos.staff, pos.measure, pos.object);
+    goto_movement_staff_obj (NULL, -1, pos.staff, pos.measure, pos.object, pos.leftmeasurenum);
   return SCM_BOOL (ret);
 }
 

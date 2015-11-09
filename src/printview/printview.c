@@ -926,7 +926,7 @@ get_positions (gdouble * neary, gdouble * fary, WwGrob grob)
       if (staffsize < 1)
         staffsize = 20.0;
       scale *= (staffsize / 4); //Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
-      goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object);  //the cursor to the slur-begin note.
+      goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object, get_wysiwyg_info()->pos.leftmeasurenum);  //the cursor to the slur-begin note.
       gdouble nearadjust = get_center_staff_offset ();
 
       *neary = -(get_wysiwyg_info()->nearpoint.y - get_wysiwyg_info()->near_i.y + nearadjust) / scale;
@@ -957,7 +957,7 @@ get_curve (gdouble * x1, gdouble * y1, gdouble * x2, gdouble * y2, gdouble * x3,
       if (staffsize < 1)
         staffsize = 20.0;
       scale *= (staffsize / 4); //Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
-      goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object);  //the cursor to the slur-begin note.
+      goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object, get_wysiwyg_info()->pos.leftmeasurenum);  //the cursor to the slur-begin note.
       //!!! is pos set up?
       g_debug ("Reference is %f %f %d %d\n", get_wysiwyg_info()->Reference.x, get_wysiwyg_info()->Reference.y, get_wysiwyg_info()->Curve.p4.x, get_wysiwyg_info()->Curve.p4.y);
       *x1 = (get_wysiwyg_info()->Curve.p1.x - get_wysiwyg_info()->Reference.x) / scale;
@@ -1555,7 +1555,7 @@ apply_tweak (void)
       if (staffsize < 1)
         staffsize = 20.0;
       scale *= (staffsize / 4); //Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
-      goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object);  //the cursor to the slur-begin note.
+      goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object, get_wysiwyg_info()->pos.leftmeasurenum);  //the cursor to the slur-begin note.
       gdouble nearadjust = get_center_staff_offset ();
 
       gdouble neary = -(get_wysiwyg_info()->nearpoint.y - get_wysiwyg_info()->near_i.y + nearadjust) / scale;
@@ -1563,7 +1563,7 @@ apply_tweak (void)
       //g_debug("near %d %d far %d %d\n", get_wysiwyg_info()->near.y, get_wysiwyg_info()->near_i.y, get_wysiwyg_info()->far.y, get_wysiwyg_info()->far_i.y);
       gchar *script = (get_wysiwyg_info()->grob == Slur) ? g_strdup_printf ("(SetSlurPositions \"%.1f\" \"%.1f\")", neary, fary) : g_strdup_printf ("(SetBeamPositions \"%.1f\" \"%.1f\")", neary, fary);
       //Move back to the correct place in the score
-      goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object);
+      goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object, get_wysiwyg_info()->pos.leftmeasurenum);
       call_out_to_guile (script);
       g_free (script);
       get_wysiwyg_info()->stage = STAGE_NONE;
@@ -1887,7 +1887,7 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
         }
       //g_debug("yadjust %f %f\n", nearadjust, faradjust);
       //here we move the cursor back to the beam/slur start
-      goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object);
+      goto_movement_staff_obj (NULL, -1, get_wysiwyg_info()->pos.staff, get_wysiwyg_info()->pos.measure, get_wysiwyg_info()->pos.object, get_wysiwyg_info()->pos.leftmeasurenum);
       gtk_widget_queue_draw (Denemo.printarea);
       gchar *msg = (get_wysiwyg_info()->grob == Slur) ? _("Now drag the begin/end markers to suggest slur position/angle\nRight click when done.") : _("Now drag the begin/end markers to set position/angle of beam\nRight click when done.");
 

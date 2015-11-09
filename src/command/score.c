@@ -66,7 +66,7 @@ point_to_new_movement (DenemoProject * gui)
 }
 
 static void select_movement (gint movementnum) {
-    goto_movement_staff_obj (NULL, movementnum, 0, 0, 0);
+    goto_movement_staff_obj (NULL, movementnum, 0, 0, 0, 0);
     set_movement_selector (Denemo.project);
     displayhelper (Denemo.project);
     write_status (Denemo.project);  
@@ -317,7 +317,7 @@ delete_movement (GtkAction * action, DenemoScriptParam* param)
 possible_gui is really a flag interactive or not
 */
 gboolean
-goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint staffnum, gint measurenum, gint objnum)
+goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint staffnum, gint measurenum, gint objnum, gint leftmeasurenum)
 {
   DenemoProject *gui;
   terminate_playback ();
@@ -354,7 +354,7 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
         warningdialog (_("No such voice"));
       return FALSE;
     }
-  if (!moveto_currentmeasurenum (gui, measurenum))
+  if (!moveto_currentmeasurenum (gui, measurenum, leftmeasurenum))
     {
       if (possible_gui)
         warningdialog (_("No such measure"));
@@ -377,7 +377,11 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
         return FALSE;
       gui->movement->cursor_appending = TRUE;
     }
-
+  if(leftmeasurenum)
+    {
+      gui->movement->leftmeasurenum = leftmeasurenum;
+      set_rightmeasurenum (gui->movement);
+    }
   write_status (gui);
   move_viewport_up (gui);
   move_viewport_down (gui);
@@ -397,7 +401,7 @@ PopPosition (GtkAction * action, DenemoScriptParam * param)
       param->status = FALSE;
       return;
     }
-  param->status = goto_movement_staff_obj (NULL, pos->movement, pos->staff, pos->measure, pos->object);
+  param->status = goto_movement_staff_obj (NULL, pos->movement, pos->staff, pos->measure, pos->object, pos->leftmeasurenum);
   if (param->status)
     {
       Denemo.project->movement->cursor_appending = pos->appending;
@@ -422,7 +426,7 @@ PopPushPosition (GtkAction * action, DenemoScriptParam * param)
   if (pos)
     {
       push_position ();
-      param->status = goto_movement_staff_obj (NULL, pos->movement, pos->staff, pos->measure, pos->object);
+      param->status = goto_movement_staff_obj (NULL, pos->movement, pos->staff, pos->measure, pos->object, pos->leftmeasurenum);
       if (param->status)
         {
           Denemo.project->movement->cursor_appending = pos->appending;

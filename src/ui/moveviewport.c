@@ -254,18 +254,18 @@ move_viewport_down (DenemoProject * gui)
  * if exists, making it the leftmost measure visible, extending selection or not
  *
  */
-gboolean
-goto_currentmeasurenum (DenemoProject * gui, gint dest, gboolean extend_selection)
+static gboolean
+goto_currentmeasurenum (DenemoProject * gui, gint dest, gint leftmeasurenum)
 {
   if ((dest > 0) && (dest <= (gint) (g_list_length (gui->movement->measurewidths))))
     {
       //gui->movement->leftmeasurenum = dest;
       gui->movement->currentmeasurenum = dest;
+      if(leftmeasurenum)
+        gui->movement->leftmeasurenum = leftmeasurenum;
       if ((dest < gui->movement->leftmeasurenum) || (dest > gui->movement->rightmeasurenum))
         center_viewport ();
       setcurrents (gui->movement);
-      if (extend_selection)
-        calcmarkboundaries (gui->movement);
       set_rightmeasurenum (gui->movement);
       find_leftmost_allcontexts (gui->movement);
       if(!Denemo.non_interactive)
@@ -278,7 +278,7 @@ goto_currentmeasurenum (DenemoProject * gui, gint dest, gboolean extend_selectio
 
 /**
  * Sets the si->currentmeasurenum to the given value
- * if exists, making it the leftmost measure visible
+ * if exists, making it centered in the viewport if not already in view.
  *
  */
 gboolean
@@ -289,13 +289,13 @@ set_currentmeasurenum (DenemoProject * gui, gint dest)
 
 /**
  * Sets the si->currentmeasurenum to the given value
- * if exists, making it the leftmost measure visible, leaving selection
+ * if exists, making it the leftmeasure the leftmost measure visible if possible otherwise centering on the viewport
  *
  */
 gboolean
-moveto_currentmeasurenum (DenemoProject * gui, gint dest)
+moveto_currentmeasurenum (DenemoProject * gui, gint dest, gint leftmeasurenum)
 {
-  return goto_currentmeasurenum (gui, dest, FALSE);
+  return goto_currentmeasurenum (gui, dest, leftmeasurenum);
 }
 
 

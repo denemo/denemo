@@ -2946,7 +2946,7 @@ goto_lilypond_position (gint line, gint column)
               return FALSE;
             }
           hide_lyrics();
-          if (!goto_movement_staff_obj (gui, movementnum, staffnum, measurenum, objnum))
+          if (!goto_movement_staff_obj (gui, movementnum, staffnum, measurenum, objnum, 0))
             {
                 show_lyrics ();
                 return FALSE;
@@ -3050,7 +3050,7 @@ lily_keypress (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event, gboolean after)
      // g_print("location %d %d %d %d\n", objnum, measurenum, staffnum, movementnum);
       if (movementnum < 1)
         return FALSE;
-      if (!goto_movement_staff_obj (gui, movementnum, staffnum, measurenum, objnum))
+      if (!goto_movement_staff_obj (gui, movementnum, staffnum, measurenum, objnum, 0))
         return FALSE;
       gchar *key = g_strdup_printf ("%c", gdk_keyval_to_unicode (event->keyval));
       GList *curobjnode = gui->movement->currentobject;

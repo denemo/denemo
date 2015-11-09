@@ -859,6 +859,7 @@ get_position (DenemoMovement * si, DenemoPosition * pos)
   pos->object = si->currentobject ? si->cursor_x + 1 : 0;
   pos->appending = si->cursor_appending;
   pos->offend = si->cursoroffend;
+  pos->leftmeasurenum = si->leftmeasurenum;
 }
 
 void

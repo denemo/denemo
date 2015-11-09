@@ -94,7 +94,7 @@ navigate_to_location (GtkWidget * w, guint location)
 {
   guint movementnum = location >> 16;
   guint staffnum = location & 0xFFFF;
-  goto_movement_staff_obj (NULL, movementnum, staffnum, 1, 0);
+  goto_movement_staff_obj (NULL, movementnum, staffnum, 1, 0, 0);
 }
 
 static void

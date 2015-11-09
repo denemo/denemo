@@ -33,7 +33,7 @@ void move_viewport_down (DenemoProject * si);
 
 gboolean set_currentmeasurenum (DenemoProject * si, gint dest);
 
-gboolean moveto_currentmeasurenum (DenemoProject * si, gint dest);
+gboolean moveto_currentmeasurenum (DenemoProject * si, gint dest, gint leftmeasurenum);
 
 void vertical_scroll (GtkAdjustment * adjust, gpointer dummy);
 

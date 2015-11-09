@@ -31,11 +31,11 @@ tomeasurenum (GtkAction * action, gpointer param)
         {
           measnum = atoi (((DenemoScriptParam *) param)->string->str);
           if (measnum > max_mesure)
-            moveto_currentmeasurenum (gui, max_mesure);
+            set_currentmeasurenum (gui, max_mesure);
           if (measnum <= 0)
-            moveto_currentmeasurenum (gui, 1);
+            set_currentmeasurenum (gui, 1);
           else
-            moveto_currentmeasurenum (gui, measnum);
+            set_currentmeasurenum (gui, measnum);
         }
     }
   else
@@ -63,7 +63,7 @@ tomeasurenum (GtkAction * action, gpointer param)
       if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
         {
           last_measure = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (measure));
-          moveto_currentmeasurenum (gui, last_measure);
+          set_currentmeasurenum (gui, last_measure);
         }
       gtk_widget_destroy (dialog);
     }
