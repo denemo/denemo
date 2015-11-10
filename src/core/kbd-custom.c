@@ -2221,12 +2221,14 @@ keymap_change_binding_view_on_command_selection (GtkTreeSelection * selection, G
   //getting the new model
   gtk_tree_model_get_iter (model, &iter, path);
   gchar* name;
+  gboolean hidden = FALSE;
   gtk_tree_model_get (model, &iter, 
                       COL_TYPE, &type, 
                       COL_TOOLTIP, &tooltip, 
                       COL_ROW, &row, 
                       COL_NAME, &name,
                       -1);
+                      hidden = row->hidden;
   action = gtk_action_group_get_action(Denemo.action_group, name);
   //getting the new command_id
   array = gtk_tree_path_get_indices (path);
@@ -2248,7 +2250,7 @@ keymap_change_binding_view_on_command_selection (GtkTreeSelection * selection, G
       pango_parse_markup (tooltip, -1, 0, NULL, &plain, 0, NULL);//strip out any markup
       gchar *text = NULL;
       if (plain)
-        text = g_strdup_printf (_( "Command: %s\n%s\nLocation: %s\nInternal Name: %s"), label, plain, menupath, gtk_action_get_name(action));
+        text = g_strdup_printf (_( "%sCommand: %s\n%s\nLocation: %s\nInternal Name: %s"), hidden?_("WARNING!!:\nThis command is hidden.\nMost likely you want to continue your search for a better command.\nHidden commands are either for LilyPond users or low-level interfaces for more user-friendly versions.\n"):"", label, plain, menupath, gtk_action_get_name(action));
       g_free (plain);
       
       if (text)
