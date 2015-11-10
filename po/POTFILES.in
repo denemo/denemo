@@ -748,6 +748,8 @@ actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm
 actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.xml
 actions/menus/ObjectMenu/Directives/Markings/DynamicText.scm
 actions/menus/ObjectMenu/Directives/Markings/DynamicText.xml
+actions/menus/ObjectMenu/Directives/Markings/FreeCoda.scm
+actions/menus/ObjectMenu/Directives/Markings/FreeCoda.xml
 actions/menus/ObjectMenu/Directives/Markings/FreeFermata.scm
 actions/menus/ObjectMenu/Directives/Markings/FreeFermata.xml
 actions/menus/ObjectMenu/Directives/Markings/FreeSegno.scm

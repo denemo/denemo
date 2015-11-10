@@ -7597,6 +7597,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Quick LilyPond Parts All Movements</_label>
         <_tooltip>Runs Quick LilyPond Parts on all movemnts.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>FreeCoda</action>
+        <after>FreeSegno</after>
+        <menupath>/ObjectMenu/Directives/Markings</menupath>
+        <_label>Standalone Coda (for barlines)</_label>
+        <_tooltip>Coda symbol attached to the net object, for example a barline. But shown between notes.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
