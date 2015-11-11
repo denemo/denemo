@@ -617,8 +617,16 @@ static void  create_palette_button_for_directive (GtkWidget *button, gchar *what
 {
     DenemoDirective *directive = (DenemoDirective*) g_object_get_data (G_OBJECT(button), "directive");
     DenemoPalette *pal = NULL;
-    gchar *script = get_script_for_directive (directive, what);
+    GString *script = g_string_new (get_script_for_directive (directive, what));
     gchar *name = choose_palette_by_name (TRUE, FALSE);
+    DenemoObject *curObj = get_object ();
+    if (curObj && curObj->type == CHORD)
+        {
+            chord *thechord = (chord *) curObj->object;
+            if (thechord->chordize)
+                g_string_append (script, "(d-Chordize #t)\n");
+        }
+            
     if (name)
         pal = create_palette (name, FALSE, TRUE);
     if(pal) {
@@ -626,7 +634,7 @@ static void  create_palette_button_for_directive (GtkWidget *button, gchar *what
         gchar *label = string_dialog_entry (Denemo.project, _("Palette Button Creation"), _("Give a (unique) name for the button"), button_name);
         if (label)
             {
-                if (!palette_add_button (pal, label, _("Creates a cloned Denemo Directive"), script))
+                if (!palette_add_button (pal, label, _("Creates a cloned Denemo Directive"), script->str))
                     warningdialog (_("Could not create a button of that name in that palette"));
             } else
             warningdialog (_("Cancelled"));
@@ -636,7 +644,7 @@ static void  create_palette_button_for_directive (GtkWidget *button, gchar *what
         gtk_widget_destroy (gtk_widget_get_toplevel (button));
         reset_cursors ();
     }
-    g_free (script);
+    g_string_free (script, TRUE);
 }
 static void  create_palette_button_for_command (GtkWidget *button, gchar *tooltip)
 {
