@@ -2334,7 +2334,7 @@ if(directive->field)\
   ADD_INTTEXT (gy);
 
 #undef ADD_INTTEXT
-  g_string_append (scheme, "(d-SetSaved #f)(d-RefreshDisplay))\n;;;End of scheme script");
+  g_string_append (scheme, "(d-SetSaved #f)(d-RefreshDisplay))\n");
   // quote_scheme(scheme);
   //g_debug("Scheme is %s\n", scheme->str);
    return g_string_free (scheme, FALSE);    
