@@ -601,6 +601,7 @@ static void advanced_edit_type_directive (GtkWidget *button, gpointer fn)
 {
     DenemoDirective *directive = (DenemoDirective*) g_object_get_data (G_OBJECT(button), "directive");
     GList **directives = (GList **)g_object_get_data (G_OBJECT(button), "directives");
+    gtk_widget_hide (gtk_widget_get_toplevel (button));
     if (!( ((fn_type *)fn) (directive->tag->str)))
         {
             if(directives) 
@@ -609,7 +610,9 @@ static void advanced_edit_type_directive (GtkWidget *button, gpointer fn)
                 dnm_deleteobject (Denemo.project->movement);
             gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
             score_status(Denemo.project, TRUE);
-        }   
+        }
+    else
+        gtk_widget_show (gtk_widget_get_toplevel (button));
     
 }
 
@@ -679,6 +682,7 @@ typedef enum DIRECTIVE_TYPE {DIRECTIVE_OBJECT = 0,  DIRECTIVE_SCORE = 1, DIRECTI
 static void
 call_edit_on_action (GtkWidget *button, DIRECTIVE_TYPE score_edit)
 {
+   gtk_widget_destroy (gtk_widget_get_toplevel (button));
    DenemoScriptParam param;
    GtkAction *action = (GtkAction*)g_object_get_data (G_OBJECT (button), "action");
    GList *currentobject = Denemo.project->movement->currentobject;
@@ -686,7 +690,7 @@ call_edit_on_action (GtkWidget *button, DIRECTIVE_TYPE score_edit)
    g_debug ("Script can look for params \"edit\" - a string to catch this");
    activate_script (action, &param);
    g_string_free (param.string, TRUE);  
-   gtk_widget_destroy (gtk_widget_get_toplevel (button));
+//   gtk_widget_destroy (gtk_widget_get_toplevel (button));
    if (score_edit)
     {
         if (score_edit==DIRECTIVE_SCORE)
@@ -1426,6 +1430,7 @@ if (editwin)
 typedef gboolean fn2_type (DenemoDirective*);
 static void low_level_edit_type_directive (GtkWidget *button, gpointer fn)
 {
+    gtk_widget_hide (gtk_widget_get_toplevel (button));
     DenemoDirective *directive = (DenemoDirective*) g_object_get_data (G_OBJECT(button), "directive");
     GList **directives = (GList **)g_object_get_data (G_OBJECT(button), "directives");
     if (!( ((fn2_type *)fn) (directive)))
@@ -1435,6 +1440,9 @@ static void low_level_edit_type_directive (GtkWidget *button, gpointer fn)
             gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
             score_status(Denemo.project, TRUE);
         }
+    else
+        gtk_widget_show (gtk_widget_get_toplevel (button));
+
 }
 static void delete_score_directive (GtkWidget *button)
 {
