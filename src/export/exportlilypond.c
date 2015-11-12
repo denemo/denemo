@@ -1137,6 +1137,27 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                         for (j = 0; j < numdots; j++)
                           g_string_append_printf (ret, ".");
                       }
+                      
+                   if (pchord->crescendo_begin_p)
+                      {
+                        NAVANC (TARGET_CRESC, 0);
+                        g_string_append_printf (ret, " \\cr");
+                        outputret;
+                      }
+                    if (pchord->diminuendo_begin_p)
+                      {
+                        NAVANC (TARGET_DIM, 0);
+                        g_string_append_printf (ret, " \\decr");
+                        outputret;
+                      }                      
+                    if (pchord->crescendo_end_p)
+                      g_string_append_printf (ret, " \\!");
+                    if (pchord->diminuendo_end_p)
+                      g_string_append_printf (ret, " \\!");
+                      
+                      
+                      
+                      
                   }
                 else
                   {             /* non printing rest */

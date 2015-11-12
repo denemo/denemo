@@ -1016,7 +1016,23 @@ parseRest (xmlNodePtr restElem)
       {
         chordObj->basic_durinticks = getXMLIntChild (childElem);
         ((chord *) chordObj->object)->baseduration = -chordObj->basic_durinticks;
-      }
+      }         
+      else if (ELEM_NAME_EQ (childElem, "cresc-begin"))
+          {         
+           ((chord *) chordObj->object)->crescendo_begin_p = TRUE;
+          }
+        else if (ELEM_NAME_EQ (childElem, "cresc-end"))
+          {         
+           ((chord *) chordObj->object)->crescendo_end_p = TRUE;
+          }  
+         else if (ELEM_NAME_EQ (childElem, "dim-begin"))
+          {         
+           ((chord *) chordObj->object)->diminuendo_begin_p = TRUE;
+          }
+        else if (ELEM_NAME_EQ (childElem, "dim-end"))
+          {         
+           ((chord *) chordObj->object)->diminuendo_end_p = TRUE;
+          }  
   }
   return chordObj;
 }
@@ -1105,7 +1121,7 @@ parseChord (xmlNodePtr chordElem, gint currentClef)
 
   FOREACH_CHILD_ELEM (childElem, chordElem)
   {
-   
+   g_print ("child %s\n", childElem->name);
       {
         if (ELEM_NAME_EQ (childElem, "duration"))
           {
