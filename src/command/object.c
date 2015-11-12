@@ -1768,8 +1768,8 @@ static void staff_below (GtkWidget *editstaffwin)
 
 static void change_staff_properties (GtkWidget *editstaffwin)
 {
-    staff_properties_change_cb (NULL, NULL);
     gtk_widget_destroy (editstaffwin);
+    staff_properties_change_cb (NULL, NULL);
     edit_staff_and_voice_properties (TRUE);        
 }
 static void
