@@ -712,7 +712,13 @@ call_edit_on_action (GtkWidget *button, DIRECTIVE_TYPE score_edit)
         reset_cursors (); 
     }
 }
-
+static void
+call_score_properties_dialog (GtkWidget *button)
+{
+       gtk_widget_hide (gtk_widget_get_toplevel (button));
+       score_properties_dialog (NULL, NULL);
+       gtk_widget_show (gtk_widget_get_toplevel (button));
+}
 static void execute_editscript (GtkWidget *button, gchar *filename)
 {
  gchar *keep = g_strdup (filename);
@@ -1627,7 +1633,7 @@ edit_score_and_movement_properties (gboolean show_score)
     gtk_scrolled_window_add_with_viewport  (GTK_SCROLLED_WINDOW(scrolled_window),  inner_box);
 
     button = gtk_button_new_with_label (_("Edit Built-in Score Properties"));
-    g_signal_connect (button, "clicked", G_CALLBACK (score_properties_dialog), NULL);
+    g_signal_connect (button, "clicked", G_CALLBACK (call_score_properties_dialog), NULL);
     gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);
    
     place_buttons_for_directives ((GList**)&Denemo.project->lilycontrol.directives, inner_box, DIRECTIVE_SCORE, "lilycontrol");
