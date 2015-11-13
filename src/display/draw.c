@@ -1372,6 +1372,7 @@ draw_score (cairo_t * cr)
         DenemoStaff* staff = (DenemoStaff*)curstaff->data;
         gchar *context;
         g_slist_free (itp.hairpin_stack);//clear any cresc or dim started but not finished; these can just be off-screen, they need not be in error.
+        itp.hairpin_stack = NULL;
           for (g = staff->staff_directives; g; g = g->next)
             {
               DenemoDirective *directive = g->data;
