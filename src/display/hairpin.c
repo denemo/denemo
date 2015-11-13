@@ -64,7 +64,7 @@ draw_hairpin (cairo_t * cr, GSList ** hairpin_stack, gint x2, gint y, gint dir)
   cairo_set_line_width (cr, 1.0);
   if (x1 > -1)
     {
-      *hairpin_stack = pop_hairpin_stack (*hairpin_stack);
+     
       if (x1 == x2)
         x2 += 5;
       if (dir)

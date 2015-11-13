@@ -506,42 +506,56 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
         if (thechord->slur_begin_p)
           itp->slur_stack = push_slur_stack (itp->slur_stack, x + mudelaitem->x, thechord->highesty);
 
+
+
+
         if (thechord->crescendo_begin_p)
           {
+           if (thechord->diminuendo_end_p)
+              {
+               if (top_hairpin_stack (itp->hairpin_stack) > -1)
+                  {
+                   if (cr) draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 0);
+                   //pop stack
+                   itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);
+                 }
+             }
             itp->hairpin_stack = push_hairpin_stack (itp->hairpin_stack, x + mudelaitem->x);
           }
         else if (thechord->diminuendo_begin_p)
           {
+            if (thechord->crescendo_end_p)
+              {
+                if (top_hairpin_stack (itp->hairpin_stack) > -1)
+                  {
+                   if (cr) draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 1);
+                   //pop stack
+                   itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);
+                 }
+              }
             itp->hairpin_stack = push_hairpin_stack (itp->hairpin_stack, x + mudelaitem->x);
           }
-
-        if (cr)
+       else
           {
             if (thechord->crescendo_end_p)
               {
-                if (top_hairpin_stack (itp->hairpin_stack) <= -1)
+                if (top_hairpin_stack (itp->hairpin_stack) > -1)
                   {
-#if 0
-                    //this is only the visible part of the cresc, the start may be off screen
-                    thechord->crescendo_end_p = FALSE;
-                    warningdialog (_("Crescendo end without a corresponding start\n" "removing the crescendo end"));
-#endif
-                  }
-                draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 1);
+                   if (cr) draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 1);
+                   //pop stack
+                   itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);
+                 }
               }
             else if (thechord->diminuendo_end_p)
               {
-                if (top_hairpin_stack (itp->hairpin_stack) <= -1)
+               if (top_hairpin_stack (itp->hairpin_stack) > -1)
                   {
-#if 0
-                    //this is only the visible part of the dim, the start may be off screen
-                    thechord->diminuendo_end_p = FALSE;
-                    warningdialog (_("Diminuendo end without a corresponding start\n" "removing the diminuendo end"));
-#endif
-                  }
-                draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 0);
+                   if (cr) draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 0);
+                   //pop stack
+                   itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);
+                 }
               }
-          }                     // if cr
+          }                     
 
 
 
@@ -1357,7 +1371,7 @@ draw_score (cairo_t * cr)
         {
         DenemoStaff* staff = (DenemoStaff*)curstaff->data;
         gchar *context;
-        
+        g_slist_free (itp.hairpin_stack);//clear any cresc or dim started but not finished; these can just be off-screen, they need not be in error.
           for (g = staff->staff_directives; g; g = g->next)
             {
               DenemoDirective *directive = g->data;
