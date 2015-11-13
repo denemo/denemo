@@ -513,12 +513,22 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
           {
            if (thechord->diminuendo_end_p)
               {
-               if (top_hairpin_stack (itp->hairpin_stack) > -1)
-                  {
-                   if (cr) draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 0);
+               if (top_hairpin_stack (itp->hairpin_stack) == -1)
+                    {
+                        itp->hairpin_stack = push_hairpin_stack (itp->hairpin_stack, -10);
+                    }
+              if (cr) draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 0);
                    //pop stack
-                   itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);
-                 }
+              itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);      
+             } else  if (thechord->crescendo_end_p)
+              {
+                if (top_hairpin_stack (itp->hairpin_stack) == -1)
+                  {
+                        itp->hairpin_stack = push_hairpin_stack (itp->hairpin_stack, -10);
+                  }
+                if (cr) draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 1);
+                   //pop stack
+                itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);
              }
             itp->hairpin_stack = push_hairpin_stack (itp->hairpin_stack, x + mudelaitem->x);
           }
@@ -526,39 +536,48 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
           {
             if (thechord->crescendo_end_p)
               {
-                if (top_hairpin_stack (itp->hairpin_stack) > -1)
+                if (top_hairpin_stack (itp->hairpin_stack) == -1)
                   {
-                   if (cr) draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 1);
+                        itp->hairpin_stack = push_hairpin_stack (itp->hairpin_stack, -10);
+                  }
+                if (cr) draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 1);
                    //pop stack
-                   itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);
-                 }
-              }
+                itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);
+             } else if (thechord->diminuendo_end_p)
+              {
+               if (top_hairpin_stack (itp->hairpin_stack) == -1)
+                    {
+                        itp->hairpin_stack = push_hairpin_stack (itp->hairpin_stack, -10);
+                    }
+              if (cr) draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 0);
+                   //pop stack
+              itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);      
+             } 
             itp->hairpin_stack = push_hairpin_stack (itp->hairpin_stack, x + mudelaitem->x);
           }
        else
           {
             if (thechord->crescendo_end_p)
               {
-                if (top_hairpin_stack (itp->hairpin_stack) > -1)
+                 if (top_hairpin_stack (itp->hairpin_stack) == -1)
                   {
-                   if (cr) draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 1);
+                        itp->hairpin_stack = push_hairpin_stack (itp->hairpin_stack, -10);
+                  }
+                if (cr) draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 1);
                    //pop stack
-                   itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);
-                 }
+                itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);
               }
             else if (thechord->diminuendo_end_p)
               {
-               if (top_hairpin_stack (itp->hairpin_stack) > -1)
-                  {
-                   if (cr) draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 0);
+               if (top_hairpin_stack (itp->hairpin_stack) == -1)
+                    {
+                        itp->hairpin_stack = push_hairpin_stack (itp->hairpin_stack, -10);
+                    }
+               if (cr) draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 0);
                    //pop stack
-                   itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);
-                 }
+               itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);       
               }
-          }                     
-
-
-
+          }
         /* notice the following does not check is_figure but checks if figure is not VOID) */
         //if (!thechord->is_figure && thechord->figure)
         if (cr)
@@ -1371,8 +1390,7 @@ draw_score (cairo_t * cr)
         {
         DenemoStaff* staff = (DenemoStaff*)curstaff->data;
         gchar *context;
-        g_slist_free (itp.hairpin_stack);//clear any cresc or dim started but not finished; these can just be off-screen, they need not be in error.
-        itp.hairpin_stack = NULL;
+
           for (g = staff->staff_directives; g; g = g->next)
             {
               DenemoDirective *directive = g->data;
@@ -1449,6 +1467,8 @@ draw_score (cairo_t * cr)
   for (itp.staffnum = si->top_staff, curstaff = g_list_nth (si->thescore, si->top_staff - 1), (y += si->staffspace / 4); curstaff && itp.staffnum <= si->bottom_staff;  curstaff = curstaff->next, itp.staffnum++)
     {
       DenemoStaff *staff = (DenemoStaff *) curstaff->data;
+      g_slist_free (itp.hairpin_stack);//clear any cresc or dim started but not finished; these can just be off-screen, they need not be in error.
+      itp.hairpin_stack = NULL;
       if(cr) if (staff->hidden) 
       {
         gboolean current =  (si->currentstaffnum == itp.staffnum);
