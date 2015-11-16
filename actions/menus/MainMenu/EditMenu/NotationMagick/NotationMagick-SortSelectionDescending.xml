@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>NotationMagick-SortSelectionAscending</after>
+        <action>NotationMagick-SortSelectionDescending</action>
+        <_label>Sort Selection (Descending)</_label>
+        <_tooltip>Sort all notes in the selection, descending order.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

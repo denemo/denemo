@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>NotationMagick-InsertNoteFromPool</action>
+        <_label>Note from Pool</_label>
+        <_tooltip>Inserts one note from a user-specified pool of notes in Lilypond syntax</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>NotationMagick-ReverseSelectedObjects</after>
+        <action>NotationMagick-MirrorSelectedObjects</action>
+        <_label>Mirror Selected Objects (Axis=Cursor)</_label>
+        <_tooltip>Mirror the selected notes. Axis is the cursor position.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

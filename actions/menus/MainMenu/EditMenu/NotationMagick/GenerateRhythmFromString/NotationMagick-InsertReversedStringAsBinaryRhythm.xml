@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <after>NotationMagick-InsertStringAsBinaryRhythm</after>
+        <action>NotationMagick-InsertReversedStringAsBinaryRhythm</action>
+        <_label>Insert Reversed String as Binary Rhythm</_label>
+        <_tooltip>Give a string to generate a rhythm out of its ascii chars in binary encoding. The string gets reversed before converting.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
