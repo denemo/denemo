@@ -1121,7 +1121,6 @@ parseChord (xmlNodePtr chordElem, gint currentClef)
 
   FOREACH_CHILD_ELEM (childElem, chordElem)
   {
-   g_print ("child %s\n", childElem->name);
       {
         if (ELEM_NAME_EQ (childElem, "duration"))
           {
