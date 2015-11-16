@@ -2797,7 +2797,7 @@ get_executable_dir ()
   if(dir == NULL)
   {
     char path[1024];
-
+    gint n;
 #ifdef G_OS_WIN32
     GetModuleFileNameW(NULL, path, MAX_PATH);
 
@@ -2806,8 +2806,12 @@ get_executable_dir ()
     _NSGetExecutablePath (path, &size);
 
 #else
-   readlink("/proc/self/exe", path, sizeof(path));
-
+   if ((n=readlink("/proc/self/exe", path, sizeof(path))) < 0)
+   {
+    perror("/proc/self/exe");
+    return NULL;
+   }
+   path[n] = 0;
 #endif
     dir = g_path_get_dirname(path);
   }
