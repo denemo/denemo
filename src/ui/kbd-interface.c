@@ -292,7 +292,15 @@ execute_current (keyboard_dialog_data *data)
 static void
 add_current_to_palette (keyboard_dialog_data *data)
 {
- place_action_in_palette (data->command_id, NULL);
+  GtkTreeModel *model;
+  GtkTreeSelection *selection;
+  GtkTreeIter iter;
+  gchar* cname = NULL;
+  selection = gtk_tree_view_get_selection (data->command_view);
+  gtk_tree_selection_get_selected (selection, &model, &iter);
+  gtk_tree_model_get (model, &iter, COL_NAME, &cname, -1);
+  gint command_idx = lookup_command_from_name (Denemo.map, cname);  
+  place_action_in_palette (command_idx, NULL);
 }
 
 
