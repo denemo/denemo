@@ -1387,6 +1387,12 @@ p
 Here, too, you invoke editing the Preferences.
 \end_layout
 
+\begin_layout Standard
+The NotationMagick submenu is for generating random notes, reflecting, reversing
+, shuffling notes etc - the sort of things computers can do with music easily
+ but humans find more difficult.
+\end_layout
+
 \begin_layout Subsubsection
 View
 \end_layout
@@ -2195,7 +2201,7 @@ reference "sub:The-Command-Center"
 
 \end_inset
 
-.
+Command Center.
 \end_layout
 
 \begin_layout Standard
@@ -2777,9 +2783,8 @@ Notation Magick Menu
 \end_layout
 
 \begin_layout Standard
-This is a menu for generating random notes, reflecting, reversing, shuffling
- notes etc - the sort of things computers can do with music easily but humans
- find more difficult.
+This has been moved to the Edit Menu.
+ 
 \end_layout
 
 \begin_layout Section
