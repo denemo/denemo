@@ -1,1 +1,0 @@
-(NotationMagick::ModifySelectedObjects Merge-shuffle-list)

@@ -1,1 +1,0 @@
-(NotationMagick::MirrorSelection (ANS::Ly2Ans (string->symbol (GetCursorNoteAsLilypond))))
