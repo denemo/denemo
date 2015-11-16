@@ -3395,7 +3395,7 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
       </row>
       <row type="scheme">
         <action>NotationMagick-RandomWithinClefRangeChromatic</action>
-        <menupath>/ObjectMenu/NotationMagick/SingleRandomNote</menupath>
+        <menupath>/MainMenu/EditMenu/NotationMagick/SingleRandomNote</menupath>
         <_label>Chromatic within Clef Range</_label>
         <_tooltip>Insert a random note within clef range. Full chromatic spectrum.</_tooltip>
       </row>
@@ -3738,7 +3738,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
       </row>
       <row type="scheme">
         <action>NotationMagick-RandomWithinClefRangeDiatonic</action>
-        <menupath>/ObjectMenu/NotationMagick/SingleRandomNote</menupath>
+        <menupath>/MainMenu/EditMenu/NotationMagick/SingleRandomNote</menupath>
         <_label>Diatonic within Clef Range</_label>
         <_tooltip>Insert a random note within clef range, only diatonic notes according to current keysignature.</_tooltip>
       </row>
@@ -4401,33 +4401,33 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>NotationMagick-InsertReversedStringAsBinaryRhythm</action>
         <after>NotationMagick-InsertStringAsBinaryRhythm</after>
-        <menupath>/ObjectMenu/NotationMagick/GenerateRhythmFromString</menupath>
+        <menupath>/MainMenu/EditMenu/NotationMagick/GenerateRhythmFromString</menupath>
         <_label>Insert Reversed String as Binary Rhythm</_label>
         <_tooltip>Give a string to generate a rhythm out of its ascii chars in binary encoding. The string gets reversed before converting.</_tooltip>
       </row>
       <row type="scheme">
         <action>NotationMagick-InsertReversedStringAsReversedBinaryRhythm</action>
         <after>NotationMagick-InsertStringAsReversedBinaryRhythm</after>
-        <menupath>/ObjectMenu/NotationMagick/GenerateRhythmFromString</menupath>
+        <menupath>/MainMenu/EditMenu/NotationMagick/GenerateRhythmFromString</menupath>
         <_label>Insert Reversed String as Reversed Binary Rhythm</_label>
         <_tooltip>Give a string to generate a rhythm out of its ascii chars in binary encoding. The string gets reversed before converting. The rhythm for each letter gets reversed before inserting.</_tooltip>
       </row>
       <row type="scheme">
         <action>NotationMagick-InsertPoolShuffled</action>
-        <menupath>/ObjectMenu/NotationMagick</menupath>
+        <menupath>/MainMenu/EditMenu/NotationMagick</menupath>
         <_label>Insert Shuffled Pool</_label>
         <_tooltip>Inserts all notes, shuffled, from a user-specified pool of notes in Lilypond syntax</_tooltip>
       </row>
       <row type="scheme">
         <action>NotationMagick-InsertStringAsBinaryRhythm</action>
-        <menupath>/ObjectMenu/NotationMagick/GenerateRhythmFromString</menupath>
+        <menupath>/MainMenu/EditMenu/NotationMagick/GenerateRhythmFromString</menupath>
         <_label>Insert String as Binary Rhythm</_label>
         <_tooltip>Give a string to generate a rhythm out of its ascii chars in binary encoding</_tooltip>
       </row>
       <row type="scheme">
         <action>NotationMagick-InsertStringAsReversedBinaryRhythm</action>
         <after>NotationMagick-InsertReversedStringAsBinaryRhythm</after>
-        <menupath>/ObjectMenu/NotationMagick/GenerateRhythmFromString</menupath>
+        <menupath>/MainMenu/EditMenu/NotationMagick/GenerateRhythmFromString</menupath>
         <_label>Insert String as Reversed Binary Rhythm</_label>
         <_tooltip>Give a string to generate a rhythm out of its ascii chars in binary encoding. The rhythm for each letter gets reversed before inserting.</_tooltip>
       </row>
@@ -4702,7 +4702,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>NotationMagick-MirrorSelectedObjects</action>
         <after>NotationMagick-ReverseSelectedObjects</after>
-        <menupath>/ObjectMenu/NotationMagick</menupath>
+        <menupath>/MainMenu/EditMenu/NotationMagick</menupath>
         <_label>Mirror Selected Objects (Axis=Cursor)</_label>
         <_tooltip>Mirror the selected notes. Axis is the cursor position.</_tooltip>
       </row>
@@ -4865,7 +4865,7 @@ accidentals are usually printed over the note.</_tooltip>
       </row>
       <row type="scheme">
         <action>NotationMagick-InsertNoteFromPool</action>
-        <menupath>/ObjectMenu/NotationMagick/SingleRandomNote</menupath>
+        <menupath>/MainMenu/EditMenu/NotationMagick/SingleRandomNote</menupath>
         <_label>Note from Pool</_label>
         <_tooltip>Inserts one note from a user-specified pool of notes in Lilypond syntax</_tooltip>
       </row>
@@ -5354,7 +5354,7 @@ or three systems per page, for example orchestral scores.</_tooltip>
       </row>
       <row type="scheme">
         <action>NotationMagick-ReverseSelectedObjects</action>
-        <menupath>/ObjectMenu/NotationMagick</menupath>
+        <menupath>/MainMenu/EditMenu/NotationMagick</menupath>
         <_label>Reverse Selected Objects</_label>
         <_tooltip>Revert selected objects</_tooltip>
       </row>
@@ -5570,7 +5570,7 @@ for second and subsequent systems</_tooltip>
       <row type="scheme">
         <action>NotationMagick-ShuffleSelectedObjects</action>
         <after>NotationMagick-MirrorSelectedObjects</after>
-        <menupath>/ObjectMenu/NotationMagick</menupath>
+        <menupath>/MainMenu/EditMenu/NotationMagick</menupath>
         <_label>Shuffle Selected Objects</_label>
         <_tooltip>Shuffle the selected objects</_tooltip>
       </row>
@@ -5622,14 +5622,14 @@ for second and subsequent systems</_tooltip>
       <row type="scheme">
         <action>NotationMagick-SortSelectionAscending</action>
         <after>NotationMagick-ShuffleSelectedObjects</after>
-        <menupath>/ObjectMenu/NotationMagick</menupath>
+        <menupath>/MainMenu/EditMenu/NotationMagick</menupath>
         <_label>Sort Selection (Ascending)</_label>
         <_tooltip>Sort all notes in the selection, ascending order.</_tooltip>
       </row>
       <row type="scheme">
         <action>NotationMagick-SortSelectionDescending</action>
         <after>NotationMagick-SortSelectionAscending</after>
-        <menupath>/ObjectMenu/NotationMagick</menupath>
+        <menupath>/MainMenu/EditMenu/NotationMagick</menupath>
         <_label>Sort Selection (Descending)</_label>
         <_tooltip>Sort all notes in the selection, descending order.</_tooltip>
       </row>
@@ -6066,7 +6066,7 @@ for second and subsequent systems</_tooltip>
       </row>
       <row type="scheme">
         <action>NotationMagick-TwelveToneRow</action>
-        <menupath>/ObjectMenu/NotationMagick</menupath>
+        <menupath>/MainMenu/EditMenu/NotationMagick</menupath>
         <_label>Twelve Tone Row</_label>
         <_tooltip>Generates twelve notes of the prevailing duration, each is unique so the whole chromatic range gets inserted in a random manner. </_tooltip>
       </row>
