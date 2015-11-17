@@ -1,4 +1,14 @@
-;;;TupletBracket
+;;;Ltoe
+(let ((tag "Ltoe"))
+	(if (d-Directive-chord? tag)
+		(d-DirectiveDelete-chord tag)
+		(begin
+			(d-DirectivePut-chord-postfix tag "^\\ltoe ")
+			(d-DirectivePut-chord-graphic tag "\n⌄\nDenemo 16")
+			(d-DirectivePut-chord-gy tag -60)
+			(d-DirectivePut-chord-gx tag -10)))
+	(d-SetSaved #f)
+	(d-RefreshDisplay));;;TupletBracket
 (let ((tag "TupletBrackets"))
  (if (d-Directive-standalone? tag)
 	(d-DirectiveDelete-standalone tag)
@@ -7,7 +17,7 @@
 			(if (d-Directive-standalone? tag)
 			  (d-DirectiveDelete-standalone tag)
 				(d-MoveCursorRight)))
-	(StandAloneDirectiveProto (cons tag "\\override TupletBracket #'bracket-visibility = #'if-no-beam") #f "\n[x\nDenemo\n24")
+	(StandAloneDirectiveProto (cons tag "\\override TupletBracket #'bracket-visibility = ##f") #f "\n[x\nDenemo\n24")
 	(d-DirectivePut-standalone-gy tag -44)
 	(d-DirectivePut-standalone-grob tag tag)
 	(d-MoveCursorRight)))
