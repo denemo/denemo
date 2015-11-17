@@ -2375,61 +2375,61 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>SlurLonga</action>
-        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurred</menupath>
         <_label> ⏜ 𝅛</_label>
         <_tooltip>Inserts a 𝅛 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>SlurBreve</action>
-        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurred</menupath>
         <_label> ⏜ 𝅜</_label>
         <_tooltip>Inserts a 𝅜 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>Slur0</action>
-        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurred</menupath>
         <_label> ⏜ 𝅝</_label>
         <_tooltip>Inserts a 𝅝 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>Slur1</action>
-        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurred</menupath>
         <_label> ⏜ 𝅗𝅥</_label>
         <_tooltip>Inserts a 𝅗𝅥 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>Slur2</action>
-        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurred</menupath>
         <_label> ⏜ 𝅘𝅥</_label>
         <_tooltip>Inserts a 𝅘𝅥 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>Slur3</action>
-        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurred</menupath>
         <_label> ⏜ 𝅘𝅥𝅮</_label>
         <_tooltip>Inserts a 𝅘𝅥𝅮 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>Slur4</action>
-        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurred</menupath>
         <_label> ⏜ 𝅘𝅥𝅯</_label>
         <_tooltip>Inserts a 𝅘𝅥𝅯 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>Slur5</action>
-        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurred</menupath>
         <_label> ⏜ 𝅘𝅥𝅰</_label>
         <_tooltip>Inserts a 𝅘𝅥𝅰 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>Slur6</action>
-        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurred</menupath>
         <_label> ⏜ 𝅘𝅥𝅱</_label>
         <_tooltip>Inserts a 𝅘𝅥𝅱 and slurs to it, extending previous slur.</_tooltip>
       </row>
       <row type="scheme">
         <action>Slur7</action>
-        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurs</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration/Slurred</menupath>
         <_label> ⏜ 𝅘𝅥𝅲</_label>
         <_tooltip>Inserts a 𝅘𝅥𝅲 and slurs to it, extending previous slur.</_tooltip>
       </row>
