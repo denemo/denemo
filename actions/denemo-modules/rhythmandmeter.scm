@@ -52,6 +52,13 @@
 
       (d-PopPosition)
       return))
+      
+;;;the tick count at the end of the object at the cursor
+(define (GetTickCount)
+    (let ((tick (d-GetEndTick)))
+        (if tick
+            tick
+            0)))
 
 (define (MeasureFillStatus)
 (define MaxTicks (* 1536 (GetPrevailingTimeSig #t) )) ; How many ticks are in a 100% filled measure?
@@ -63,8 +70,12 @@
     ((< MaxTicks ActualTicks) 2) ; >100% filled
     (else  (display "strange!")))) ; ?
     
+
 (define (EmptyMeasure?)
   (not (d-GetEndTick)))
+
+(define (ZeroDurationMeasure?)
+    (or (EmptyMeasure?) (= (d-GetEndTick) 0)))
   
 (define (UnderfullMeasure?)
   (or (EmptyMeasure?)
