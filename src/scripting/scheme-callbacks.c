@@ -4969,7 +4969,11 @@ scheme_put_note (SCM optional_duration)
   gint mode = Denemo.project->mode;
   Denemo.project->mode = 0;
   Denemo.prefs.spillover = 0;
-  dnm_insertchord (Denemo.project, duration, INPUTNORMAL, FALSE);
+  
+  if( scm_is_false (optional_duration))
+   dnm_insertchord (Denemo.project, duration, INPUTNORMAL | INPUTBLANK, FALSE);//pass #f for nonprinting note
+  else
+   dnm_insertchord (Denemo.project, duration, INPUTNORMAL, FALSE);
   Denemo.project->mode = mode;
   Denemo.prefs.spillover = spill;
   
