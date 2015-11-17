@@ -7604,6 +7604,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Standalone Coda (for barlines)</_label>
         <_tooltip>Coda symbol attached to the net object, for example a barline. But shown between notes.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>DuplicateRestNoteChord</action>
+        <after>DuplicateChord</after>
+        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
+        <_label>Duplicate Rest, Note, Chord</_label>
+        <_tooltip>Duplicates the rest, note or chord at or before the cursor.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
