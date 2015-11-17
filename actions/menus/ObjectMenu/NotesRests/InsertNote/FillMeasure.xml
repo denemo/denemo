@@ -8,7 +8,7 @@
         <action>FillMeasure</action>
         <after>DuplicateChord</after>
         <_label>Fill Measure</_label>
-        <_tooltip>Duplicates the note/chord/rest at the cursor until the measure is full or over-full.</_tooltip>
+        <_tooltip>Duplicates the note/chord/rest at or before the cursor until the measure is full or over-full. In a full measure duplicates the measure, in an empty measure insert the current duration.</_tooltip>
       </row>
     </map>
   </merge>
