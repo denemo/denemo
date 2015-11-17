@@ -1,2 +1,0 @@
-(d-Longa)
-(SlurToCurrentChord)
