@@ -587,10 +587,19 @@ display_current_object (void)
 #endif
 }
 
+static void show_window (GtkWidget *w) {
+    w = gtk_widget_get_toplevel (w);
+    gtk_widget_show (w);
+    gtk_window_present (GTK_WINDOW(w));
+    //g_print ("Window presented");
+}
+
 static void 
 set_false (GtkWidget *button, gboolean *bool)
 {
+    GtkWidget *w = gtk_widget_get_toplevel (button);
     gtk_widget_destroy (button);
+    show_window (w);
     if (*bool)
         score_status(Denemo.project, TRUE);
     *bool = FALSE;
@@ -612,7 +621,7 @@ static void advanced_edit_type_directive (GtkWidget *button, gpointer fn)
             score_status(Denemo.project, TRUE);
         }
     else
-        gtk_widget_show (gtk_widget_get_toplevel (button));
+        show_window (button);//gtk_widget_show (gtk_widget_get_toplevel (button));
     
 }
 
@@ -717,7 +726,7 @@ call_score_properties_dialog (GtkWidget *button)
 {
        gtk_widget_hide (gtk_widget_get_toplevel (button));
        score_properties_dialog (NULL, NULL);
-       gtk_widget_show (gtk_widget_get_toplevel (button));
+       show_window (button);//gtk_widget_show (gtk_widget_get_toplevel (button));
 }
 static void execute_editscript (GtkWidget *button, gchar *filename)
 {
@@ -1447,7 +1456,7 @@ static void low_level_edit_type_directive (GtkWidget *button, gpointer fn)
             score_status(Denemo.project, TRUE);
         }
     else
-        gtk_widget_show (gtk_widget_get_toplevel (button));
+        show_window (button);//gtk_widget_show (gtk_widget_get_toplevel (button));
 
 }
 static void delete_score_directive (GtkWidget *button)
