@@ -1,4 +1,4 @@
-#LyX 2.1 created this file. For more info see http://www.lyx.org/
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
 \lyxformat 413
 \begin_document
 \begin_header
@@ -22,6 +22,7 @@
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
+
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -602,7 +603,15 @@ B
 e
 \family default
 " for end repeat barline.
- 
+ An alternative set of shortcuts for 
+\family typewriter
+a-g 
+\family default
+and
+\family typewriter
+ 0-6 
+\family default
+is available via the Input menu.
 \end_layout
 
 \begin_layout Subsection
@@ -1111,17 +1120,17 @@ One of the problems with moving about a score looking at the input music
  An even more tricky situation arises when deleting empty measures - often
  the next measure is empty too, so it can appear that nothing has happened,
  it seems the command to delete a measure isn't working.
- What has happened is that another empty measure has moved in from the left
+ What has happened is that another empty measure has moved in from the right
  and the display looks unchanged.
 \end_layout
 
 \begin_layout Standard
 To avoid these problems these transitions are animated - the measure coming
- in from the left can be visually seen to shunt in from the side; similarly
+ in from the right can be visually seen to shunt in from the side; similarly
  staffs move up from below and the cursor arrives at its new position by
  shrinking onto it.
  All these animation effects (and the page animation of the previous section)
- can be adjusted in the Preferences.
+ can be turned off via View->Highlight Cursor.
 \end_layout
 
 \begin_layout Subsection
@@ -1714,7 +1723,7 @@ Use the Toolbar to access common Denemo commands via a mouse click.
 \begin_inset Tabular
 <lyxtabular version="3" rows="12" columns="2">
 <features islongtable="true" longtabularalignment="center">
-<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="0">
 <column alignment="left" valignment="top" width="80text%">
 <row endhead="true" endfirsthead="true">
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
