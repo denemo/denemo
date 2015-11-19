@@ -71,6 +71,13 @@ extern "C" {
 #define g_string_free(a, b) (((GString*)(a))->str)
 #endif
 
+#if ((GTK_MAJOR_VERSION == 3) && (GTK_MINOR_VERSION >= 10))
+#define denemo_widget_set_tooltip_text
+#else
+#define denemo_widget_set_tooltip_text gtk_widget_set_tooltip_text
+#endif
+
+
 #if GTK_MAJOR_VERSION == 2
 #else
 //we always have homogeneous FALSE which is the default

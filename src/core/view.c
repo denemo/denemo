@@ -4104,7 +4104,7 @@ proxy_connected (GtkUIManager * uimanager, GtkAction * action, GtkWidget * proxy
   gchar *tip = g_strconcat (tooltip, "\n------------------------------------------------------------------\n", additional_text, NULL);
   // unfortunately submenus seem not to be attached yet ... if((GTK_IS_IMAGE_MENU_ITEM(proxy)) && gtk_menu_item_get_submenu(proxy)) tip = g_strdup("test");
   // Denemo.map is not yet created either :(
-  gtk_widget_set_tooltip_text (proxy, tip);
+  denemo_widget_set_tooltip_text (proxy, tip);
   g_free (tip);
   if (GTK_IS_IMAGE_MENU_ITEM (proxy))
     {
