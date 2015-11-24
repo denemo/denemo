@@ -1408,7 +1408,10 @@ edit_object (void)
         gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), gdk_cursor_new (GDK_X_CURSOR));
      if(Denemo.printarea && gtk_widget_get_window (Denemo.printarea))
         gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), gdk_cursor_new (GDK_X_CURSOR));
-
+#ifdef G_OS_WIN32
+        if(ObjectInfo)
+            gtk_widget_hide (ObjectInfo);//windows doesn't handle order properly, so this can hide the object editor
+#endif
     }
 }
 
