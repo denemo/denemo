@@ -2275,8 +2275,8 @@ activate_script (GtkAction * action, DenemoScriptParam * param)
 
 /*pop up the help for passed command as info dialog
  */
-static void
-popup_help (GtkWidget * widget, GtkAction * action)
+void
+popup_help_for_action (GtkAction * action)
 {
   const gchar *name = gtk_action_get_name (action);
   gint idx = lookup_command_from_name (Denemo.map, name);
@@ -3000,7 +3000,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
   
   g_free (labeltext);
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-  g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (popup_help), (gpointer) action);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (popup_help_for_action), (gpointer) action);
 
  /* Place button in palette */
  if (idx != -1)

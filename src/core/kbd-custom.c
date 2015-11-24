@@ -1450,6 +1450,14 @@ keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event)
   //keymap, we give up
   if (idx == -1)
     return TRUE;
+//#if ((GTK_MAJOR_VERSION == 3) && (GTK_MINOR_VERSION >= 10))
+    //g_print ("event key %x\n", event->keyval);
+    if (event->keyval == 0xFFBE) //f1 key
+       {
+            popup_help_for_action (action);
+            return TRUE;
+       }
+//#endif 
   //Add the keybinding
   add_keybinding_to_idx (the_keymap, keyval, modifiers, idx, POS_FIRST);
   return TRUE;

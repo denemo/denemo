@@ -150,4 +150,6 @@ void midi_in_adjust (gint value);
 gboolean insert_nth_rhythm (gint n);
 void create_rhythm (RhythmPattern *r, gboolean from_selection);
 GError *execute_script_file (gchar * filename);
+void
+popup_help_for_action (GtkAction * action);
 #endif
