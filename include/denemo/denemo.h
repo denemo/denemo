@@ -74,6 +74,7 @@ extern "C" {
 #if ((GTK_MAJOR_VERSION == 3) && (GTK_MINOR_VERSION >= 10))
 #define denemo_widget_set_tooltip_text
 #define gtk_widget_set_tooltip_text
+#define gtk_widget_set_tooltip_markup
 #else
 #define denemo_widget_set_tooltip_text gtk_widget_set_tooltip_text
 #endif
