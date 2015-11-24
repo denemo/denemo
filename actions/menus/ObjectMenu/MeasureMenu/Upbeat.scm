@@ -28,6 +28,7 @@
 		(set! EndTick (d-GetEndTick))
 		; Cond what to do, only create Upbeat if the measure is not full, else give warning. 	
 		(cond 
+			((zero? EndTick) (warning))
  			((not EndTick) (warning)) ; empty
  			((< EndTick MaxTicks) (createUpbeat)) ; underful
  			((= MaxTicks EndTick) (warning))  ; 100% filled
