@@ -1309,13 +1309,13 @@ Once complete you can view and then send to your printer or to a file as a .pdf 
         <action>PrintMovement</action>
         <menupath>MainMenu/FileMenu/PrintMenu</menupath>
         <_label>Print Movement</_label>
-        <_tooltip>Typesets the current movement and opens a print dialogue</_tooltip>
+        <_tooltip>Typesets the current movement and opens a print dialog</_tooltip>
       </row>
       <row type="builtin">
         <action>Print</action>
         <menupath>MainMenu/FileMenu/PrintMenu</menupath>
         <_label>Print</_label>
-        <_tooltip>Typesets the score using LilyPond and opens a print dialogue</_tooltip>
+        <_tooltip>Typesets the score using LilyPond and opens a print dialog</_tooltip>
       </row>
       <row type="builtin">
         <action>PrintPart</action>
@@ -1691,7 +1691,7 @@ these may need re-making.</_tooltip>
         <action>GoToMeasure</action>
         <menupath>MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Go to Measure</_label>
-        <_tooltip>Opens a dialogue for going to a numbered measure</_tooltip>
+        <_tooltip>Opens a dialog for going to a numbered measure</_tooltip>
       </row>
       <row type="builtin">
         <action>GoToBeginning</action>
@@ -3015,14 +3015,14 @@ WARNING: Do not place clef changes or other non-duration items in this staff - i
         <after>ShiftRealDialogUp</after>
         <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
         <_label>Arbitrary transpose down</_label>
-        <_tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialogue.</_tooltip>
+        <_tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialog.</_tooltip>
       </row>
       <row type="scheme">
         <action>ShiftRealDialogUp</action>
         <after>ShiftRealHalfDown</after>
         <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
         <_label>Arbitrary transpose up</_label>
-        <_tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialogue.</_tooltip>
+        <_tooltip>Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialog.</_tooltip>
       </row>
       <row type="scheme">
         <action>ArpeggioSelectionSwitcher</action>
