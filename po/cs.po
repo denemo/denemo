@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: denemo-1.2.5\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2015-09-13 09:50+0100\n"
-"PO-Revision-Date: 2015-11-14 16:14+0100\n"
+"PO-Revision-Date: 2015-11-15 23:02+0100\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Language: cs_CZ\n"
 "X-Source-Language: C\n"
@@ -356,11 +356,11 @@ msgstr "Vybrat příkaz"
 
 #: ../src/command/lilydirectives.c:2072
 msgid "Select a directive attached to the tuplet start object"
-msgstr "Vybrat příkaz přidaný k předmětu začátku značky pro rytmickou notovou skupinu"
+msgstr "Vybrat příkaz přidaný k předmětu začátku značky pro nepravidelnou rytmickou skupinu"
 
 #: ../src/command/lilydirectives.c:2073
 msgid "Select a directive attached to the tuplet end object"
-msgstr "Vybrat příkaz přidaný k předmětu konce značky pro rytmickou notovou skupinu"
+msgstr "Vybrat příkaz přidaný k předmětu konce značky pro nepravidelnou rytmickou skupinu"
 
 #: ../src/command/lilydirectives.c:2080
 msgid "Select a directive attached to the stem control object"
@@ -391,7 +391,7 @@ msgstr "Nic k upravení na předmětu ovládání směru této nožičky - použ
 
 #: ../src/command/lilydirectives.c:2248
 msgid "This marks the end of a tuplet (that is triplets etc) - it should come in the same measure as the tuplet start marker."
-msgstr "Toto označí konec rytmické notové skupiny (trioly atd.) - měla by přijít ve stejném taktu jako značka pro začátek rytmické notové skupiny."
+msgstr "Toto označí konec nepravidelné rytmické skupiny (trioly atd.) - měla by přijít ve stejném taktu jako značka pro začátek nepravidelné rytmické skupiny."
 
 #: ../src/command/lilydirectives.c:2251
 msgid "No method for editing this type of object"
@@ -928,14 +928,14 @@ msgid ""
 "until an End Tuplet object.\n"
 "See the Notes/Rests → Tuplets for control over how tuplets print\n"
 msgstr ""
-"předmět začátku rytmické notové skupiny\n"
+"předmět začátku nepravidelné rytmické skupiny\n"
 "Znamená, že %d not získá čas %d not\n"
-"až po předmět konce rytmické notové skupiny.\n"
-"Podívejte se na Noty/Pomlky → Rytmické notové skupiny pro ovládání tisku rytmických notových skupin\n"
+"až po předmět konce nepravidelné rytmické skupiny.\n"
+"Podívejte se na Noty/Pomlky → Nepravidelné rytmické skupiny pro ovládání tisku nepravidelných rytmických skupin\n"
 
 #: ../src/command/object.c:388
 msgid "Attached to the Start Tuplet:"
-msgstr "Připojeno k začátku rytmické notové skupiny:"
+msgstr "Připojeno k začátku nepravidelné rytmické skupiny:"
 
 #. type = _("end tuplet marker");
 #: ../src/command/object.c:397
@@ -944,12 +944,12 @@ msgid ""
 "an End Tuplet object\n"
 "Note: the Start Tuplet must be in the same measure.\n"
 msgstr ""
-"předmět konce rytmické notové skupiny\n"
-"Poznámka: začátek rytmické notové skupiny musí být v tomtéž taktu.\n"
+"předmět konce nepravidelné rytmické skupiny\n"
+"Poznámka: začátek nepravidelné rytmické skupiny musí být v tomtéž taktu.\n"
 
 #: ../src/command/object.c:400
 msgid "Attached to the End Tuplet:"
-msgstr "Připojeno ke konci rytmické notové skupiny:"
+msgstr "Připojeno ke konci nepravidelné rytmické skupiny:"
 
 #. type = _("clef change object");
 #: ../src/command/object.c:410
@@ -1368,15 +1368,15 @@ msgstr "Přidat/Odstranit vlastnosti"
 #. type = _("start tuplet marker");
 #: ../src/command/object.c:1155
 msgid "Alter Tuplet Type"
-msgstr "Přidat typ rytmické notové skupiny"
+msgstr "Přidat typ nepravidelné rytmické skupiny"
 
 #: ../src/command/object.c:1160
 msgid "Attached to the tuplet start:"
-msgstr "Připojeno k začátku rytmické notové skupiny:"
+msgstr "Připojeno k začátku nepravidelné rytmické skupiny:"
 
 #: ../src/command/object.c:1177
 msgid "Attached to the tuplet end:"
-msgstr "Připojeno ke konci rytmické notové skupiny:"
+msgstr "Připojeno ke konci nepravidelné rytmické skupiny:"
 
 #: ../src/command/object.c:1197
 msgid "Attached to the clef change object:"
@@ -2585,7 +2585,7 @@ msgstr "Rytmická notová skupina %d/%d"
 #: ../src/core/utils.c:1892
 #, c-format
 msgid "End tuplet"
-msgstr "Skončit rytmickou notovou skupinu"
+msgstr "Skončit nepravidelnou rytmickou skupinu"
 
 #: ../src/core/utils.c:1895
 #, c-format
@@ -3523,7 +3523,7 @@ msgid ""
 "Shift-Right-click for more objects to insert."
 msgstr ""
 "Toto je zobrazení Denema pro vámi zadané noty. Podívejte se v okně s pohledem na tisk na vzhled sazby. (Neukazuje se to, jak noty budou vypadat vytištěné - skutečně dobré vysázení not, aniž byste museli udělat úpravy, je časově náročný úkol.) Modrý kosočtverec je ukazatel Denema - zčervená, když je takt plný, nebo zezelená, když něco přidáváte do taktu. Přeplněné nebo nenaplněné takty jsou zbarveny červeně/modře. Pokud je to záměr, použijte předtaktí.\n"
-"Můžete přepnout do pohledu s méně nabídkami nebo do pohledu na stranu pomocí klávesy Esc. U stránkového pohledu táhnete červeným proužkem na straně nahoru pro nastavení, kolik velkých osnov chcete ukázat. Pro stránkový pohled budete pravděpodobně chtít menší zvětšení. Použijte Ctrl+kolečko myši na změnu v přiblížení zobrazení.\n"
+"Můžete přepnout do pohledu s méně nabídkami nebo do pohledu na stranu pomocí klávesy Esc. U stránkového pohledu táhnete červeným proužkem na straně nahoru pro nastavení, kolik notových systémů chcete ukázat. Pro stránkový pohled budete pravděpodobně chtít menší zvětšení. Použijte Ctrl+kolečko myši na změnu v přiblížení zobrazení.\n"
 "Mnoho příkazů pracuje na předmětu v poloze ukazatele Denema. Klepněte pravým tlačítkem myši na předmět, abyste získal krátkou nabídku činností nebo nastavte režim zadávání myší.\n"
 "Použijte Shift+klepnutí pravým tlačítkem myši k vložení více předmětů."
 
@@ -4602,11 +4602,11 @@ msgstr "Vloží předmět začátku trioly, což povede k tomu, že noty, jež z
 
 #: ../src/generated/entries.h:62 ../src/generated/register_commands.h:61
 msgid "End Tuplet"
-msgstr "Skončit rytmickou notovou skupinu"
+msgstr "Skončit nepravidelnou rytmickou skupinu"
 
 #: ../src/generated/entries.h:62 ../src/generated/register_commands.h:61
 msgid "Inserts an End Tuplet object, which terminates a tuplet started earlier in this measure."
-msgstr "Vloží předmět konce rytmické notové skupiny, který ukončí rytmickou notovou skupinu, která začala dříve v tomto taktu."
+msgstr "Vloží předmět konce nepravidelné rytmické skupiny, který ukončí rytmickou notovou skupinu, která začala dříve v tomto taktu."
 
 #: ../src/generated/entries.h:63 ../src/generated/register_commands.h:62
 msgid "Insert Quadruplet"
@@ -10618,7 +10618,7 @@ msgstr "Jít na takt:"
 
 #: ../src/ui/tupletdialog.c:15
 msgid "Customize tuplet multiplier"
-msgstr "Upravit násobitele rytmické notové skupiny"
+msgstr "Upravit násobitele nepravidelné rytmické skupiny"
 
 #: ../src/ui/tupletdialog.c:20
 msgid "Numerator"
@@ -11165,11 +11165,11 @@ msgstr "Svázaná nota"
 
 #: ../actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.scm:63
 msgid "Tuplet Start"
-msgstr "Začátek rytmické notové skupiny"
+msgstr "Začátek nepravidelné rytmické skupiny"
 
 #: ../actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.scm:65
 msgid "Tuplet End"
-msgstr "Konec rytmické notové skupiny"
+msgstr "Konec nepravidelné rytmické skupiny"
 
 #: ../actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.scm:67
 msgid "Key Change"
@@ -11181,7 +11181,7 @@ msgstr "Směr nožiček"
 
 #: ../actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.scm:91
 msgid "Nothing in this movement can be searched for (no ties, slurs, time signature changes, tuplets, directives etc)."
-msgstr "V této větě se nedá nic hledat (žádné ligatury, legatové obloučky, změny taktových označení, žádné rytmické notové skupiny, příkazy atd.)"
+msgstr "V této větě se nedá nic hledat (žádné ligatury, legatové obloučky, změny taktových označení, žádné nepravidelné rytmické skupiny, příkazy atd.)"
 
 #: ../actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.xml.h:1
 msgid "Choose, Seek &amp; Edit"
@@ -11345,11 +11345,11 @@ msgstr "Smazat ligaturu"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:183
 msgid "Continue seeking tuplet start objects"
-msgstr "Pokračovat v hledání předmětů začátků rytmických notových skupin"
+msgstr "Pokračovat v hledání předmětů začátků nepravidelných rytmických skupin"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:198
 msgid "Continue seeking tuplet end objects"
-msgstr "Pokračovat v hledání předmětů konců rytmických notových skupin"
+msgstr "Pokračovat v hledání předmětů konců nepravidelných rytmických skupin"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:213
 msgid "Continue seeking time signature change objects"
@@ -13981,7 +13981,7 @@ msgstr "Přidat značku (text/zkouška/kniha)"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.xml.h:2
 msgid "Inserts a Mark in the score at the cursor. Marks can be placed in each part and will appear only once (above the top part) in the score (provided they occur at the same moment in each part). Any size, font, effect can be chosen. A preview button allows you to check the appearance/syntax used. The text position can be dragged in the print view if needed."
-msgstr ""
+msgstr "Vloží značku do notového zápisu v poloze ukazatele. Značky mohou být umístěny v každém partu a objeví se v notovém zápisu jen jednou (nad horním partem) (za předpokladu že se v témže okamžiku vyskytnou v každém partu). Lze vybrat jakoukoli velikost, písmo, efekt. Náhledové tlačítko umožňuje ověřit použitý vzhled/skladbu. Polohu textu je v případě, že je to potřeba, možné přetáhnout do pohledu na tisk."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/DynamicText.scm:66
 msgid "Custom dynamic"
@@ -14196,7 +14196,7 @@ msgstr "Víceřádkový text a noty"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.xml.h:2
 msgid "Inserts multi-line text object which can include music snippets, Fret Diagrams and Note Names/Chord Symbols. LilyPond Markup can be used and a preview button is available to check the syntax."
-msgstr ""
+msgstr "Vloží předmět víceřádkového textu, který může obsahovat úryvky not, nákresy hmatníku a názvy not/značky akordů. Lze použít značení LilyPond a náhledové tlačítko je dostupné pro ověření skladby."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:5
 #: ../actions/menus/ObjectMenu/Directives/Markings/MusicGlyph.scm:532
@@ -17141,7 +17141,7 @@ msgstr "Dovolí sazeči zalomení řádku v tomto bodě."
 
 #: ../actions/menus/ObjectMenu/Directives/PrintLayout/LineBreak.xml.h:2
 msgid "(Print) Start a new line (i.e. system) at this measure. This will be ignored if it breaks a beam or tuplet. Use Allow Line Break to break mid-measure."
-msgstr ""
+msgstr "(Tisk) Začít nový řádek (to jest notový systém) na tomto taktu. To se bude přehlížet, pokud to zalomí trámec nebo nepravidelnou rytmickou skupinu. Použijte Povolit zalomení řádku k zalomení uprostřed taktu."
 
 #: ../actions/menus/ObjectMenu/Directives/PrintLayout/NoLineBreak.xml.h:1
 msgid "No Line Break"
@@ -17173,11 +17173,11 @@ msgstr "Mezera pod osnovou"
 
 #: ../actions/menus/ObjectMenu/Directives/PrintLayout/StaffSpacer.xml.h:1
 msgid "Staff/System/Titles Spacer"
-msgstr "Vymezovač notové osnovy/velké osnovy/názvů"
+msgstr "Vymezovač notové osnovy/notového systému/názvů"
 
 #: ../actions/menus/ObjectMenu/Directives/PrintLayout/StaffSpacer.xml.h:2
 msgid "Forces extra space between this staff and the adjacent one at this point in the score. If in the top staff of a system, forces the systems apart in the line at the cursor. If in the top staff on the top line gives more room below the titles."
-msgstr ""
+msgstr "Vynutí s tomto místě v notovém zápisu prostor navíc mezi touto osnovou a sousední osnovou. Pokud v horní osnově notového systému, nutí notové systémy kousek dál v lince v poloze ukazatele. Pokud v horní osnově na horní lince, dá více prostoru pod názvy."
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/AutoAccidentals.scm:4
 msgid "This directive sets the style of typesetting for accidentals"
@@ -17787,8 +17787,6 @@ msgid "Melismata"
 msgstr "Melisma"
 
 #: ../actions/menus/ObjectMenu/Lyrics/InsertMelisma.xml.h:2
-#, fuzzy
-#| msgid "Inserts a double hyphen or double underscore in the lyrics at the cursor position. Use double hyphen between syllables and double undescore between words which are sung over many notes (a melisma). Hyphens/extender lines will be typeset to continue the syllable/word under the notes."
 msgid "Inserts a double hyphen or double underscore in the lyrics at the cursor position. Use double hyphen between syllables and double underscore between words which are sung over many notes (a melisma). Hyphens/extender lines will be typeset to continue the syllable/word under the notes."
 msgstr "Vloží do textu písně v poloze ukazatele dvojitý spojovník nebo dvojité podtržítko. Použijte dvojitý spojovník mezi slabikami a dvojité podtržítko mezi slovy, která jsou zpívána nad mnoha notami (melisma - řada tónů zpívaná na jednu slabiku textu). Čáry spojovníků/natahovačů budou sázeny pro pokračování slabiky/slova pod notami."
 
@@ -17902,23 +17900,23 @@ msgstr "Prověří nynější takt na chyby v trámcích."
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/CheckTupletsInMeasure.scm:26
 msgid "End Tuplet with no start"
-msgstr "Ukončit rytmickou notovou skupinu bez začátku"
+msgstr "Ukončit nepravidelnou rytmickou skupinu bez začátku"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/CheckTupletsInMeasure.scm:40
 msgid "Start Tuplet with no end"
-msgstr "Začít rytmickou notovou skupinu bez konce"
+msgstr "Začít nepravidelnou rytmickou skupinu bez konce"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/CheckTupletsInMeasure.scm:45
 msgid "All tuplets in measure are terminated"
-msgstr "Všechny rytmické notové skupiny v taktu jsou skončeny"
+msgstr "Všechny nepravidelné rytmické skupiny v taktu jsou skončeny"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/CheckTupletsInMeasure.xml.h:1
 msgid "Check Tuplets"
-msgstr "Ověřit rytmické notové skupiny"
+msgstr "Ověřit nepravidelné rytmické skupiny"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/CheckTupletsInMeasure.xml.h:2
 msgid "Checks that start/end tuplets match in the current measure."
-msgstr "Ověří, že začátek/konec rytmických notových skupin odpovídá v nynějším taktu."
+msgstr "Ověří, že začátek/konec nepravidelných rytmických skupin odpovídá v nynějším taktu."
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/DeleteEmptyMeasures.xml.h:1
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffDeleteEmptyMeasures.xml.h:1
@@ -18050,19 +18048,17 @@ msgid "Convert the current measure to a partial measure so that it is complete w
 msgstr "Převést nynější takt na neúplný takt, takže je úplný pouze s již vloženými dobami."
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/WholeMeasureRepeat.scm:25
-#, fuzzy
-#| msgid "Whole Measure Repeat"
 msgid "Measure Repeat"
-msgstr "Celotaktová pomlka"
+msgstr "Opakování taktu"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/WholeMeasureRepeat.xml.h:1
 msgid "Whole Measure Repeat"
-msgstr "Celotaktová pomlka"
+msgstr "Opakování celého taktu"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/WholeMeasureRepeat.xml.h:2
 #: ../actions/palettes.xml.h:169
 msgid "Inserts a whole measure repeat sign."
-msgstr "Vloží značku celotaktové pomlky."
+msgstr "Vloží značku opakování celého taktu."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/CaptureScore/CaptureMeasures.xml.h:1
 msgid "Capture Measures (Score)"
@@ -18090,16 +18086,12 @@ msgid "Capture the image of a single measure (as screenshot) inserting at the cu
 msgstr "Zachytit obrázek jednoho taktu (jako snímek) a vložit jej do nynějšího taktu."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/CheckForIncompleteMeasures.scm:14
-#, fuzzy
-#| msgid "Measures per line"
 msgid "All measures appear complete."
-msgstr "Taktů na řádek"
+msgstr "Všechny takty se objevují úplné."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/CheckForIncompleteMeasures.scm:16
-#, fuzzy
-#| msgid "Insert a rest with longa duration"
 msgid "This measure has the wrong duration."
-msgstr "Vložit pomlku s dobou trvání noty longa"
+msgstr "Tato pomlka má špatnou dobou trvání."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/CheckForIncompleteMeasures.xml.h:1
 msgid "Check for Irregular Measures"
@@ -18107,7 +18099,7 @@ msgstr "Prověřit na nepravidelné takty"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/CheckForIncompleteMeasures.xml.h:2
 msgid "Checks each Denemo measure in the current movement for complete number of beats. Unless you explicitly set otherwise, on typesetting the notes will be re-distributed to the correct measures, which can lead to strange effects."
-msgstr ""
+msgstr "Ověří, že každý takt Denemo v nynější větě má úplný počet dob. Dokud to přímo nenastavíte jinak, budou noty při sazbě přerozděleny do správných taktů, což může vést k divným následkům."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/CheckTimeSignatures.scm:13
 msgid "Time Signature does not match"
@@ -18189,10 +18181,8 @@ msgid "LilyPond After Movement"
 msgstr "LilyPond po větě"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/MarkupAtEnd.xml.h:2
-#, fuzzy
-#| msgid "Inserts the given Lilypond syntax after the current movement."
 msgid "Inserts the given Lilypond markup syntax after the current movement."
-msgstr "Vloží zadanou skladbu Lilypondu po nynější větě."
+msgstr "Vloží zadanou skladbu značení Lilypondu po nynější větě."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/MvntComment.scm:4
 #: ../actions/menus/ObjectMenu/Score/ScoreComment.scm:3
@@ -18221,10 +18211,8 @@ msgid "Give amount as decimal"
 msgstr "Zadat množství jako desetinné číslo"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/PrintLayout/Indent.scm:9
-#, fuzzy
-#| msgid "Indent"
 msgid "Indent= "
-msgstr "Odsadit"
+msgstr "Odsadit= "
 
 #: ../actions/menus/ObjectMenu/MovementMenu/PrintLayout/Indent.xml.h:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreIndent.xml.h:1
@@ -18233,14 +18221,14 @@ msgstr "Odsadit"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/PrintLayout/Indent.xml.h:2
 msgid "Alter the indent of the opening system for the current movement."
-msgstr "Změnit odsazení úvodní velké osnovy pro nynější větu skladby."
+msgstr "Změnit odsazení úvodního notového systému pro nynější větu skladby."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/ReBar.scm:25
 msgid ""
 "There are unclosed tuplets in this bar.\n"
 " Please fix - see CheckTuplets command."
 msgstr ""
-"V tomto taktu jsou neuzavřené rytmické notové skupiny.\n"
+"V tomto taktu jsou neuzavřené nepravidelné rytmické skupiny.\n"
 "Proveďte, prosím, opravu. Podívejte se na příkaz na ověření rytmických notových skupin."
 
 #. query the user: should we split the note, or let him/her do it?
@@ -18265,7 +18253,7 @@ msgid ""
 "This measure's discrepancy requires a tuplet.\n"
 "Please adjust manually and run this script again."
 msgstr ""
-"Nesrovnalost v tomto taktu si žádá rytmickou notovou skupinu.\n"
+"Nesrovnalost v tomto taktu si žádá nepravidelnou rytmickou skupinu.\n"
 "Upravte to, prosím, ručně, a spusťte skript znovu."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/ReBar.scm:386
@@ -18617,10 +18605,8 @@ msgid "Hide Empty Staffs (Off/On)"
 msgstr "Skrýt prázdné osnovy (zapnuto/vypnuto)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffs.xml.h:2
-#, fuzzy
-#| msgid "Controls whether staffs containing only rests are printed. All staffs are printed on the first system (line) thereafter any staff that has only rests for a entire system is dropped. Use this in large scores to fit more systems per page."
 msgid "Controls whether staffs containing only rests are printed in the current movement. All staffs are printed on the first system (line) thereafter any staff that has only rests for a entire system is dropped. Use this in large scores to fit more systems per page."
-msgstr "Řídí, zda jsou tištěny osnovy, které obsahují pouze pomlky. Všechny osnovy jsou tištěny na (řádku) první osnovy, a proto jsou všechny osnovy, které mají v celé osnově pouze pomlky, zahozeny. Použijte ve velkých notových zápisech, aby se na stránku vešlo více osnov."
+msgstr "Řídí, zda jsou v nynější větě tištěny osnovy, které obsahují pouze pomlky. Všechny osnovy jsou tištěny na (řádku) první osnovy, a proto jsou všechny osnovy, které mají v celé osnově pouze pomlky, zahozeny. Použijte ve velkých notových zápisech, aby se na stránku vešlo více osnov."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/HideMovement.scm:11
 msgid "Movement will be typeset normally"
@@ -18643,14 +18629,12 @@ msgid "Stops the current movement from being typeset. At least one movement must
 msgstr "Zajistí, že nynější věta nebude vysázena. Alespoň jedna věta musí být vysázena."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementBeamingRules.xml.h:1
-#, fuzzy
-#| msgid "Beaming"
 msgid "Beaming Rules"
-msgstr "Trámce"
+msgstr "Pravidla pro trámce"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementBeamingRules.xml.h:2
 msgid "Add/Replace rules to be used for beaming in the current movement. With no selection gets the beat for beams to be divided for the prevailing time signature at the cursor. If a there is a selection this will be used as the set of rules. In this case indicate the beaming desired using the manual beam commands [ and ], giving all the beaming rules wanted using several measures if needed (no other rules are used). Repeat with different selections to add further rules."
-msgstr ""
+msgstr "Přidat/Nahradit pravidla, která se použijí na trámce v nynější větě. Když není žádný výběr, rytmus pro trámce je rozdělen podle v poloze ukazatele převládajícího taktového označení. Pokud výběr je, použije se to jako soubor pravidel. V tomto případě se naznačují požadované trámce pomocí ručních příkazů pro trámce [ a ], dávají všechna hledaná pravidla pro trámce za použití několika taktů, je-li potřeba (nejsou používána žádná jiná pravidla). Opakujte s různými výběry pro přidání dalších pravidel."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementPageBreak.scm:4
 msgid "Page Break Removed before Movement Title"
@@ -18760,22 +18744,16 @@ msgid "Triangle note head style for the current movement."
 msgstr "Trojúhelníkový styl notové hlavičky pro nynější větu."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.scm:4
-#, fuzzy
-#| msgid "Default music spacing restored."
 msgid "Normal System Spacing is restored"
-msgstr "Výchozí rozestupy not obnoveny."
+msgstr "Normální rozestupy notového systému jsou obnoveny"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.xml.h:1
-#, fuzzy
-#| msgid "Reduce Space Between Systems"
 msgid "Reduce Space Between Systems (On/Off)"
-msgstr "Zmenšit mezeru mezi velkými osnovami"
+msgstr "Zmenšit mezeru mezi notovými systémy (zapnuto/vypnuto)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.xml.h:2
-#, fuzzy
-#| msgid "Reduces the gap between the systems of staffs on a page."
 msgid "Reduces the gap between the systems of staffs on a page for the current movement."
-msgstr "Zmenší mezeru mezi velkými osnovami osnov na straně."
+msgstr "Zmenší mezeru mezi notovými systémy osnov na straně pro nynější větu."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/SwitchMensuralBarlines.xml.h:1
 msgid "(Print) Mensural Barlines (On/Off)"
@@ -19226,14 +19204,12 @@ msgid "Deletes the LilyPond attached to the note where the cursor is."
 msgstr "Smaže příkaz LilyPond přidaný k notě v poloze ukazatele."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/InsertNoteDirective.xml.h:1
-#, fuzzy
-#| msgid "Attach LilyPond to Note"
 msgid "Attach/Edit LilyPond to Note"
-msgstr "Přidat Lilypond k notě"
+msgstr "Přidat/Upravit Lilypond k notě"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/InsertNoteDirective.xml.h:2
 msgid "Inserts LilyPond syntax you give before and after the note at the cursor height, also allows editing/deleting."
-msgstr ""
+msgstr "Vloží skladbu LilyPondu, kterou zadáte, před a za notu ve výšce ukazatele. Umožní také upravení/smazání."
 
 #. DisplaceRestHorizontally
 #: ../actions/menus/ObjectMenu/NotesRests/DisplaceHorizontally.scm:5
@@ -19480,14 +19456,12 @@ msgid "Transforms the current selected notes into grace notes."
 msgstr "Promění nyní vybrané noty na ozdoby."
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/GraceTermination.xml.h:1
-#, fuzzy
-#| msgid "Dedication"
 msgid "Termination"
-msgstr "Věnování"
+msgstr "Ukončení"
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/GraceTermination.xml.h:2
 msgid "Appends two grace notes, slurred to current note. Follow with a duration key to set duration of grace notes to be appended."
-msgstr ""
+msgstr "Připojí dvě ozdoby, spojené s nynější notou legatovým obloučkem. Následujte klíčem pro dobu trvání kvůli nastavení doby trvání not ozdob, které se připojí."
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/InsertTwoGraceNotesBeamed.scm:5
 msgid "Press a duration key to get two, beamed, grace notes"
@@ -19897,7 +19871,7 @@ msgstr "Vytvoří nahodilý text značky akordu pro notu základního tónu v po
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:3
 msgid "\\bold cresc. (or poco if continuing the cresc.)"
-msgstr ""
+msgstr "\\bold cresc. (nebo poco, pokud se pokračuje crescendem)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:13
 msgid "Sorry, this operation needs to be applied to the start of the crescendo."
@@ -19911,21 +19885,15 @@ msgstr "Roztažení textu crescenda"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:31
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:31
-#, fuzzy
-#| msgid "Give text for tagline"
 msgid "Give text for start or continuation"
-msgstr "Zadejte text hesla (motto)"
+msgstr "Zadejte text pro započetí nebo pokračování"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.xml.h:2
-#, fuzzy
-#| msgid "Prints text to start or continue a crescendo. Use for cresc. poco a poco, for example. Terminate with End Crescendo marking."
 msgid "Prints text to start or continue a crescendo extending over a passage. Use for cresc. poco a poco, for example. Terminate with End Crescendo marking or a dynamic mark, else nothing will be printed. LilyPond markup, such as \\\\bold can be used."
-msgstr "Vysází text pro započetí nebo pokračování crescenda. Použijte například pro cresc. poco a poco. Ukončete značkou pro skončení crescenda (End Crescendo)."
+msgstr "Vytiskne text pro započetí nebo pokračování crescenda táhnoucí se nad pasáží. Použijte například pro crescendo poco a poco. Ukončete značkou pro skončení crescenda (End Crescendo) nebo značkou dynamiky, jinak by se nic nevytisklo. Lze použít značení LilyPondu, jako například \\\\bold."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.scm:11
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.scm:11
-#, fuzzy
-#| msgid "Not yet implmented"
 msgid "Not yet implemented"
 msgstr "Ještě neuděláno"
 
@@ -19944,7 +19912,7 @@ msgstr "Začne textové cresc. (nebo smaže jedno již přítomné v poloze ukaz
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:3
 msgid "\\bold cresc. (or poco if continuing the dim.)"
-msgstr ""
+msgstr "\\bold cresc (nebo poco, pokud se pokračuje decrescendem)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:13
 msgid "Sorry, this operation needs to be applied to the start of the Decrescendo."
@@ -19959,10 +19927,8 @@ msgid "Diminuendo Text Spanner"
 msgstr "Roztažení textu diminuenda"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.xml.h:2
-#, fuzzy
-#| msgid "Prints text to start or continue a crescendo. Use for cresc. poco a poco, for example. Terminate with End Crescendo marking."
 msgid "Prints text to start or continue a crescendo extending over a passage. Use for cresc. poco a poco, for example. Terminate with End Diminuendo marking or a dynamic mark, else nothing will be printed. LilyPond markup, such as \\\\bold can be used."
-msgstr "Vysází text pro započetí nebo pokračování crescenda. Použijte například pro cresc. poco a poco. Ukončete značkou pro skončení crescenda (End Crescendo)."
+msgstr "Vytiskne text pro započetí nebo pokračování crescenda táhnoucí se nad pasáží. Použijte například pro crescendo poco a poco. Ukončete značkou pro skončení crescenda (End Decrescendo) nebo značkou dynamiky, jinak by se nic nevytisklo. Lze použít značení LilyPondu, jako například \\\\bold."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.scm:14
 msgid "dim. start deleted. The end diminuendo should also be deleted ..."
@@ -19989,10 +19955,8 @@ msgid "Extra Spacing"
 msgstr "Rozestup navíc"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DynamicsExtraSpace.xml.h:2
-#, fuzzy
-#| msgid "Music is spaced out by the extra amount given to avoid dynamic markings colliding."
 msgid "Music is spaced out by the extra amount given to avoid textual dynamic markings colliding. Not for hairpins."
-msgstr "Noty jsou rozestavěny podle množství navíc zadaného kvůli vyhnutí se střetu označení dynamiky."
+msgstr "Noty jsou rozestavěny podle množství navíc zadaného kvůli vyhnutí se střetu s textovým označením dynamiky. Ne pro sponky."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.scm:10
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.scm:3
@@ -20414,16 +20378,12 @@ msgid "Fingering"
 msgstr "Prstoklad"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Fingering.scm:3
-#, fuzzy
-#| msgid "Give finger number: "
 msgid "Give finger number"
-msgstr "Zadat číslo prstu: "
+msgstr "Zadat číslo prstu"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Fingering.scm:11
-#, fuzzy
-#| msgid "Delete this text?"
 msgid "Delete this fingering?"
-msgstr "Smazat tento text?"
+msgstr "Smazat tento prstoklad?"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/FingeringSwap.scm:2
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/FingeringSwap.scm:5
@@ -20444,16 +20404,12 @@ msgid "Prints two fingerings joined to indicate a change of fingering on one not
 msgstr "Vytiskne dva prstoklady spojené tak, aby naznačily změnu prstokladu na jedné notě."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Fingering.xml.h:1
-#, fuzzy
-#| msgid "Finger 0"
 msgid "Set Finger"
-msgstr "Prst 0"
+msgstr "Nastavit prst"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Fingering.xml.h:2
-#, fuzzy
-#| msgid "Changes the note at the cursor to an octave higher"
 msgid "Attaches a fingering to the note at the cursor. Blank deletes the fingering."
-msgstr "Změní notu v poloze ukazatele o oktávu výš"
+msgstr "Připojí prstoklad k notě v poloze ukazatele. Vynechané místo (mezera) smaže prstoklad."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/ToggleFingeringVisibility.scm:6
 msgid "No fingering on note at cursor"
@@ -20640,22 +20596,16 @@ msgstr "Pozn."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Footnote.scm:20
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Footnote.scm:23
-#, fuzzy
-#| msgid "Footnote"
 msgid "Footnote Mark"
-msgstr "Poznámka"
+msgstr "Značka pro poznámku"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Footnote.scm:20
-#, fuzzy
-#| msgid "Give horizontal shift required"
 msgid "Give horizontal offset for the marker"
-msgstr "Zadat požadovaný vodorovný posun"
+msgstr "Zadat vodorovný posun pro značku"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Footnote.scm:23
-#, fuzzy
-#| msgid "Give vertical shift required"
 msgid "Give vertical offset for the marker"
-msgstr "Zadat požadovaný svislý posun"
+msgstr "Zadat svislý posun pro značku"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Footnote.scm:65
 msgid "No note or chord at cursor to attach footnote to"
@@ -20671,7 +20621,7 @@ msgstr "Glissando"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Glissando.xml.h:2
 msgid "Inserts a glissando (portamento, slide), a line joining the notehead of this and the next note."
-msgstr ""
+msgstr "Vloží glissando (portamento, tóny zahrané vázaně), linku spojující notovou hlavičku této a další noty."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ParenthesizeNote.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/ParenthesizeNote.xml.h:1
@@ -20816,38 +20766,28 @@ msgid "Neo-mensural"
 msgstr "Neomenzurální"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.scm:10
-#, fuzzy
-#| msgid "Harmonic-black"
 msgid "Harmonic Black"
-msgstr "Harmonický-černý"
+msgstr "Alikvotní/Částkový tón černý"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.scm:11
-#, fuzzy
-#| msgid "Harmonic"
 msgid "Harmonic Mixed"
-msgstr "Alikvotní/částkový tón"
+msgstr "Alikvotní/Částkový tón smíšený"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.scm:14
-#, fuzzy
-#| msgid "s2xcircle"
 msgid "XCircle"
-msgstr "s2 kroužek"
+msgstr "X v kroužku"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.scm:18
-#, fuzzy
-#| msgid "Default"
 msgid "AltDefault"
-msgstr "Výchozí"
+msgstr "Alt Výchozí"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.xml.h:1
-#, fuzzy
-#| msgid "Change Notehead"
 msgid "Choose Notehead"
-msgstr "Změnit notovou hlavičkuo"
+msgstr "Vybrat notovou hlavičku"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.xml.h:2
 msgid "(Print) Gives a choice between all the notehead types available."
-msgstr ""
+msgstr "(Tisk) Dá na výběr mezi všemi dostupnými typy notových hlaviček"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/IndividualNoteheadSize.scm:10
 msgid "Notehead Font Magnification"
@@ -20956,8 +20896,6 @@ msgid "Replace LilyPond"
 msgstr "Nahradit Lilypond"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ReplaceChord.xml.h:2
-#, fuzzy
-#| msgid "Suppresses the normal LilyPond typetting for the current note/chord/rest replacing it with syntax provided by user."
 msgid "Suppresses the normal LilyPond typesetting for the current note/chord/rest replacing it with syntax provided by user."
 msgstr "Potlačí normální sazbu LilyPondu pro nynější notu/akord/pomlku. Nahradí ji skladbou poskytnutou uživatelem."
 
@@ -21022,16 +20960,12 @@ msgid "Grouped in mm rest"
 msgstr "Seskupeno ve vícetaktovou pomlku"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.scm:88
-#, fuzzy
-#| msgid ""
-#| "This whole measure rest is grouped with adjacent ones to form a multi-measure rest.\n"
-#| "The first of the group should be the multi-measure rest itself."
 msgid ""
 "This whole measure rest is grouped with adjacent ones to form a multi-measure rest.\n"
 "The first of the group should be the multi-measure rest itself. Place the cursor on that object to do editing."
 msgstr ""
 "Tato celotaktová pomlka je seskupena se sousední, aby vytvořila vícetaktovou pomlku.\n"
-"První ve skupině má být sama vícetaktovou pomlka."
+"První ve skupině má být sama vícetaktovou pomlka. Umístěte ukazatel na tento předmět pro dělání úprav."
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.scm:92
 msgid "Recalculate"
@@ -21318,11 +21252,11 @@ msgstr "Nožičky od teď na místě nahoru."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ConvertIncorrectSlursToTies.xml.h:1
 msgid "Convert Incorrect Slurs to Ties"
-msgstr ""
+msgstr "Převést nesprávné legatové obloučky na ligatury"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ConvertIncorrectSlursToTies.xml.h:2
 msgid "Corrects for the slur/tie error common in imported scores. Scans entire score for pairs of identical notes slurred together as a pair. Changes these to a tied note. Do not use in the unusual case of identical notes slurred (e.g. across strings)."
-msgstr ""
+msgstr "Opraví chybu v legatových obloučcích/ligaturách běžnou v zavedených notových zápisech. Prohledá celý notový zápis na dvojice nebo stejné noty spojené dohromady legatovým obloučkem do dvojice. Změní je na noty spojené ligaturou. Nepoužívejte v neobvyklém případě stejných not spojených legatem (např. napříč strunami)."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/InsertTiedNoteDuration.xml.h:1
 msgid "Attach Tied Note"
@@ -21547,23 +21481,23 @@ msgstr "Skloní tremolové lomítko dolů, místo aby směřovalo nahoru."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:19
 msgid "divide 𝅘𝅥𝅮 1/8"
-msgstr ""
+msgstr "rozdělit 𝅘𝅥𝅮 1/8"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:20
 msgid "divide𝅘𝅥𝅯 1/16"
-msgstr ""
+msgstr "rozdělit 𝅘𝅥𝅯 1/16"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:21
 msgid "divide 𝅘𝅥𝅱 1/32 "
-msgstr ""
+msgstr "rozdělit 𝅘𝅥𝅱 1/32 "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:22
 msgid "divide 𝅘𝅥𝅱 1/64"
-msgstr ""
+msgstr "rozdělit  1/64"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:23
 msgid "divide 𝅘𝅥𝅱 1/128"
-msgstr ""
+msgstr "rozdělit 𝅘𝅥𝅱 1/128"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TremoloUpward.xml.h:1
 msgid "Tremolo Upward"
@@ -21578,10 +21512,8 @@ msgid "Tremolo"
 msgstr "Tremolo"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tremolo.xml.h:2
-#, fuzzy
-#| msgid "Typeset the note at the cursor with no beam to the left."
 msgid "Prints the note at the cursor with the tremolo marking for the subdivisions specified."
-msgstr "Vysázet notu v poloze ukazatele s žádným trámcem doleva."
+msgstr "Vytiskne notu v poloze ukazatele se značením pro tremolo pro zadaná rozdělení na menší části."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CreateTripletSlurred.xml.h:1
 msgid "Create Slurred Triplet"
@@ -21601,15 +21533,15 @@ msgstr "Pokud je ovladač MIDI činný, vezme nynější notu a připojí k ní 
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/NoTupletNumbers.xml.h:1
 msgid "No Tuplet Numbers"
-msgstr "Žádná čísla u rytmických notových skupin"
+msgstr "Žádná čísla u nepravidelných rytmických skupin"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/NoTupletNumbers.xml.h:2
 msgid "Stop the printing of tuplet numbers from this point."
-msgstr "Od tohoto bodu zastavit tisk čísel u rytmických notových skupin."
+msgstr "Od tohoto bodu zastavit tisk čísel u nepravidelných rytmických skupin."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/StartTuplet.scm:7
 msgid "Enter tuplet numerator "
-msgstr "Zadejte čitatele rytmické notové skupiny "
+msgstr "Zadejte čitatele nepravidelné rytmické skupiny "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/StartTuplet.scm:8
 msgid ""
@@ -21623,7 +21555,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/StartTuplet.scm:11
 msgid "Enter tuplet denominator"
-msgstr "Zadejte jmenovatele rytmické notové skupiny"
+msgstr "Zadejte jmenovatele nepravidelné rytmické skupiny"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/StartTuplet.scm:11
 msgid "Enter the fraction's denominator:"
@@ -21631,11 +21563,11 @@ msgstr "Zadejte jmenovatele zlomku:"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/StartTuplet.xml.h:1
 msgid "Start Arbitrary Tuplet"
-msgstr "Začít libovolnou rytmickou notovou skupinu"
+msgstr "Začít libovolnou nepravidelnou rytmickou skupinu"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/StartTuplet.xml.h:2
 msgid "Asks for ratio of tuplet and then puts in a start for that. Use EndTuplet command after entering tuplet notes. Note that the Denemo display will not automatically group the tuplet, but it will print with expected beaming etc."
-msgstr "Zeptá se na poměr rytmické notové skupiny, a pak ji začne. Použijte příkaz EndTuplet po zadání not rytmické notové skupiny. Všimněte si, že zobrazení Denema automaticky rytmické notovou skupinu seskupovat nebude, ale bude tisknout s očekávaným trámcem atd."
+msgstr "Zeptá se na poměr nepravidelné rytmické skupiny, a pak ji začne. Použijte příkaz EndTuplet po zadání not nepravidelné rytmické skupiny. Všimněte si, že zobrazení Denema automaticky rytmické notovou skupinu seskupovat nebude, ale bude tisknout s očekávaným trámcem atd."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTripleting.xml.h:1
 msgid "Toggle Triplet Entry (Off/On)"
@@ -21643,31 +21575,31 @@ msgstr "Přepnout vkládání trioly (zapnuto/vypnuto)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTripleting.xml.h:2
 msgid "Inserts a start triplet or end tuplet alternately."
-msgstr "Vloží začátek trioly nebo případně konec rytmické notové skupiny."
+msgstr "Vloží začátek trioly nebo případně konec nepravidelné rytmické skupiny."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletBracketsIfBeamed.xml.h:1
 msgid "Tuplet Brackets (On/Off)"
-msgstr "Závorky rytmické notové skupiny (zapnuto/vypnuto)"
+msgstr "Závorky nepravidelné rytmické skupiny (zapnuto/vypnuto)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletBracketsIfBeamed.xml.h:2
 msgid "Turns tuplet brackets off/on for beamed notes (when printed)"
-msgstr "Zapne/Vypne závorky rytmických notových skupin pro noty s trámcem (při tisku)"
+msgstr "Zapne/Vypne závorky nepravidelných rytmických skupin pro noty s trámcem (při tisku)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletBrackets.xml.h:1
 msgid "Tuplet Brackets On/Off"
-msgstr "Závorky rytmických notových skupin (zapnuto/vypnuto)"
+msgstr "Závorky nepravidelných rytmických skupin (zapnuto/vypnuto)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletBrackets.xml.h:2
 msgid "Turns tuplet brackets off or on."
-msgstr "Zapne/Vypne závorky rytmické notové skupiny."
+msgstr "Zapne/Vypne závorky nepravidelné rytmické skupiny."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletNumbering.xml.h:1
 msgid "Tuplet Numbering On/Off"
-msgstr "Číslování rytmické notové skupiny (zapnuto/vypnuto)"
+msgstr "Číslování nepravidelné rytmické skupiny (zapnuto/vypnuto)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletNumbering.xml.h:2
 msgid "Control whether tuplet numbers will be printed over tuplets."
-msgstr "Řídit to, zda se budou čísla rytmických notových skupin tisknout nad rytmickými notovými skupinami."
+msgstr "Řídit to, zda se budou čísla nepravidelných rytmických skupin tisknout nad rytmickými notovými skupinami."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/Tripletize.scm:14
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TripletizeSlurred.scm:17
@@ -22254,10 +22186,8 @@ msgstr "Vyberte styl pro sazbu posuvek. Určí, zda jsou nebo nejsou posuvkyza u
 
 #. AccompanistsScore
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccompanistsScore.xml.h:1
-#, fuzzy
-#| msgid "Print Accompanist's Score"
 msgid "Accompanist's Score (Off/On)"
-msgstr "Tisk notového zápisu doprovodu"
+msgstr "Notový zápis doprovodu (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccompanistsScore.xml.h:2
 msgid "Sets/Unsets the top staff of each movement to a tiny font, with the lower staffs - the accompaniment - at the normal font. Print effect only."
@@ -22306,10 +22236,8 @@ msgid "Create a custom barline. These can be named, or can simply override a sta
 msgstr "Vytvořit vlastní taktovou čáru. Tyto čáry je možné pojmenovat, nebo lze jednoduše přepsat běžný typ taktové čáry LilyPondu. Taktová čára je vymezena čtyřmi tvary, které popisují 1) vzhled, jak je obvykle (v řádku), 2) vzhled, když je taktová čára na začátku, nebo 3) když je na konci řádku, a 4) co se má ukázat, když se osnovy spojí dohromady, jak je to v případě osnovy pro zápis klavíru. Tvary taktových čar jsou udělány ze znaků včetně |,:,.,[,],: a jiných v dokumentaci k LilyPondu."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/DeactivateTimeSignatureStencil.scm:12
-#, fuzzy
-#| msgid "Time Signature not at start of measure"
 msgid "Time Signatures will not be typeset for this score"
-msgstr "Taktové označení není na začátku taktu"
+msgstr "Taktová označení nebudou sázena pro tento notový zápis"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/DeactivateTimeSignatureStencil.xml.h:1
 msgid "(Print) Don't Engrave Time Signatures"
@@ -22328,34 +22256,28 @@ msgid "Typesets the Denemo barlines, regardless of the timing."
 msgstr "Vysází taktové čáry Denema, bez ohledu na načasování."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/FirstPageNumber.scm:16
-#, fuzzy
-#| msgid "Default tagline"
 msgid "Default First Page Number"
-msgstr "Výchozí heslo"
+msgstr "Výchozí číslo první strany"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/FirstPageNumber.scm:18
-#, fuzzy
-#| msgid "Stanza Number"
 msgid "First Page Number"
-msgstr "Číslo sloky"
+msgstr "Číslo první strany"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/FirstPageNumber.scm:18
-#, fuzzy
-#| msgid "Version number only on first page"
 msgid "Give number for first page"
-msgstr "Číslo verze pouze na první straně"
+msgstr "Zadat číslo pro první stranu"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/FirstPageNumber.xml.h:1
 msgid "Set/Unset First Page Number"
-msgstr ""
+msgstr "Nastavit/Zrušit nastavení čísla první strany"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/FirstPageNumber.xml.h:2
 msgid "Allows setting the first page number."
-msgstr ""
+msgstr "Umožní nastavit číslo první strany."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/LimitInterSystemSpace.scm:12
 msgid "Spacing Between Systems"
-msgstr "Odstup mezi velkými osnovami"
+msgstr "Odstup mezi notovými systémy"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/LimitInterSystemSpace.scm:13
 msgid "Give spacing limit (1=no extra space)"
@@ -22363,11 +22285,11 @@ msgstr "Udat omezení odstupu (1 = žádný prostor navíc)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/LimitInterSystemSpace.scm:16
 msgid "Customized spacing limit removed"
-msgstr ""
+msgstr "Vlastní omezení na prostor odstraněno"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/LimitInterSystemSpace.xml.h:1
 msgid "Limit Space Between Systems"
-msgstr "Omezit mezeru mezi velkými osnovami"
+msgstr "Omezit mezeru mezi notovými systémy"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/LimitInterSystemSpace.xml.h:2
 msgid "Limits the extent to which the lines are spaced apart to fill the page."
@@ -22504,26 +22426,20 @@ msgid "When on, clicking on a note in the Print Preview window takes the cursor 
 msgstr "Když je zapnuto, klepnutí na notu v okně s náhledem na tisk vezme ukazatel na tuto notu. To pracuje take pro zkušební (nácvikové) značky a mnohé další předměty v notovém zápisu. Jediným důvodem pro vypnutí této funkce je vyvedení do souboru PDF přes nabídku pro vyvedení. Tisk do souboru je však lepším způsobem, jak to udělat, jelikož pak to není potřeba."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintFirstPageNumber.scm:7
-#, fuzzy
-#| msgid "Version number only on first page"
 msgid "No number will be printed on the first page"
-msgstr "Číslo verze pouze na první straně"
+msgstr "Na první straně nebude vytištěno žádné číslo"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintFirstPageNumber.scm:11
-#, fuzzy
-#| msgid "Version number only on first page"
 msgid "Page number will be printed on the first page"
-msgstr "Číslo verze pouze na první straně"
+msgstr "Číslo verze bude vytištěno na první straně"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintFirstPageNumber.xml.h:1
-#, fuzzy
-#| msgid "Multi-Measure Rest Number (Off/On)"
 msgid "Print First Page Number (Off/On)"
-msgstr "Číslo vícetaktové pomlky (vypnuto/zapnuto)"
+msgstr "Vytisknout číslo první strany (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintFirstPageNumber.xml.h:2
 msgid "Control if the first page number is typeset."
-msgstr ""
+msgstr "Prověřit, zda je číslo první strany vysázeno."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ProportionalNotation.scm:6
 msgid "Proportional Notation"
@@ -22562,16 +22478,12 @@ msgid "When set the last line will not be stretched to fill the line."
 msgstr "Když je nastaveno, poslední řádek nebude roztažen, aby vyplnil řádek."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreChooseNotehead.xml.h:1
-#, fuzzy
-#| msgid "Set Notehead"
 msgid "Set Notehead Style"
-msgstr "Nastavit notovou hlavičku"
+msgstr "Nastavit styl notové hlavičky"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreChooseNotehead.xml.h:2
-#, fuzzy
-#| msgid "Change the type of notehead for the current note"
 msgid "Sets the type of notehead to be used score-wide."
-msgstr "Změnit typ notové hlavičky pro nynější notu"
+msgstr "Nastaví typ notové hlavičky, který se použije v celém notovém zápisu."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreIndent.scm:8
 msgid "Give amount in decimal"
@@ -22583,122 +22495,104 @@ msgstr "Odsazení ="
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreIndent.xml.h:2
 msgid "Indent the first system of every movement by the given amount."
-msgstr "Odsadit první velkou osnovu každé věty skladby o zadané množství."
+msgstr "Odsadit první notový systém každé věty skladby o zadané množství."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:3
 msgid "alphabetic"
-msgstr ""
+msgstr "Abecední"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:4
-#, fuzzy
-#| msgid "Numerator"
 msgid "Numeric"
-msgstr "Čitatel"
+msgstr "Číselný"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:5
 msgid "Boxed alphabetic"
-msgstr ""
+msgstr "Krabicovitý abecední"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:6
 msgid "Boxed numeric"
-msgstr ""
+msgstr "Krabicovitý číselný"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:7
 msgid "Circled alphabetic"
-msgstr ""
+msgstr "Kruhovitý abecední"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:8
 msgid "Circled numeric"
-msgstr ""
+msgstr "Kruhovitý číselný"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.xml.h:1
 msgid "(Print) Format of rehearsal marks"
-msgstr ""
+msgstr "(Tisk) Formát zkušební (nácvikové) značky"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.xml.h:2
 msgid "Select the format of rehearsal marks (alphabetic, numeric, boxed, etc.)"
-msgstr ""
+msgstr "Vybrat formát zkušebních (nácvikových) značek (abecední, číselná, krabicovitá atd.)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:100
 msgid "Add to current rules"
-msgstr ""
+msgstr "Přidat k nynějším pravidlům"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:101
-#, fuzzy
-#| msgid "Replace current graphic?"
 msgid "Replace current rules"
-msgstr "Nahradit nynější grafiku?"
+msgstr "Nahradit nynější pravidla"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:102
 msgid "Delete (and revert to default rules)"
-msgstr ""
+msgstr "Smazat (a vrátit se k výchozím pravidlům)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:124
-#, fuzzy
-#| msgid "Gets rid of the selection."
 msgid "Beaming Rules added from the selection"
-msgstr "Zbaví se výběru."
+msgstr "Pravidla pro trámce přidána z výběru"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:130
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:151
 msgid "Beaming Rules replaced with ones from the selection"
-msgstr ""
+msgstr "Pravidla pro trámce nahrazena pravidly z výběru"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:135
 msgid "Beaming Rules added from the selections have been dropped"
-msgstr ""
+msgstr "Pravidla pro trámce přidaná z výběrů byla vyhozena"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:153
-#, fuzzy
-#| msgid "Stop Beaming"
 msgid "Set Beaming rule for "
-msgstr "Zastavit trámce"
+msgstr "Nastavit pravidlo pro trámec pro "
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:154
-#, fuzzy
-#| msgid "Delete Beaming Directive"
 msgid "Delete Beaming rule for "
-msgstr "Smazat pokyn pro trámce"
+msgstr "Smazat pravidlo pro trámec pro "
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:155
 msgid "Delete All (and revert to default rules)"
-msgstr ""
+msgstr "Smazat vše (a vrátit se k výchozím pravidlům)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:161
-#, fuzzy
-#| msgid "Give text "
 msgid "Give beat"
-msgstr "Zadejte text "
+msgstr "Zadejte rytmus"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:167
-#, fuzzy
-#| msgid "Change initial time signature"
 msgid "Chosen duration does not fit time signature"
-msgstr "Změnit počáteční taktové označení"
+msgstr "Vybraná doba trvání neodpovídá taktovému označení"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:171
 msgid "Beat Structure"
-msgstr "Stavba taktu"
+msgstr "Stavba rytmu"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:171
-#, fuzzy
-#| msgid "Give string"
 msgid "Give groupings for "
-msgstr "Zadat řetězec"
+msgstr "Zadejte seskupení pro "
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:171
 msgid " beats: "
-msgstr ""
+msgstr " rytmy: "
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.xml.h:1
-#, fuzzy
-#| msgid "Stop Beaming"
 msgid "Set Beaming Rules"
-msgstr "Zastavit trámce"
+msgstr "Nastavit pravidla pro trámce"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.xml.h:2
 msgid "Sets the rules to be used for beaming. With no selection gets the beat for beams to be divided for the prevailing time signature at the cursor. If a there is a selection this will be used as the set of rules. In this case indicate the beaming desired using the manual beam commands [ and ], giving all the beaming rules wanted using several measures if needed (no other rules are used). Repeat with different selections to add further rules."
-msgstr ""
+msgstr "Nastaví pravidla, která se použijí na trámce. Když není žádný výběr, rytmus pro trámce je rozdělen podle v poloze ukazatele převládajícího taktového označení. Pokud výběr je, použije se to jako soubor pravidel. V tomto případě se naznačují požadované trámce pomocí ručních příkazů pro trámce [ a ], dávají všechna hledaná pravidla pro trámce za použití několika taktů, je-li potřeba (nejsou používána žádná jiná pravidla). Opakujte s různými výběry pro přidání dalších pravidel."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetFontSize.xml.h:1
 msgid "(Print)Set Overall Score Size"
@@ -22806,7 +22700,7 @@ msgstr "Vynutí určitý počet osnov (notových řádků) na stranu."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SystemSystemPadding.scm:17
 msgid "Padding Between Systems"
-msgstr "Vycpání mezi velkými osnovami"
+msgstr "Vycpání mezi notovými systémy"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SystemSystemPadding.scm:17
 msgid "Give extra padding (1=no extra space, staff units)"
@@ -22846,10 +22740,8 @@ msgid "Fingerings (Off/On)"
 msgstr "Prstoklad (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ToggleFingeringVisibilityInScore.xml.h:2
-#, fuzzy
-#| msgid "Turns on/off visibilty of fingerings on typesetting for whole score."
 msgid "Turns on/off visibility of fingerings on typesetting for whole score."
-msgstr "Vypne/Zapne viditelnost prstokladu při sazbě pro celý notový zápis."
+msgstr "Zapne/Vypne viditelnost prstokladu při sazbě pro celý notový zápis."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ToggleWysiwygMarks.scm:16
 msgid "Wysiwyg Marks On"
@@ -23028,10 +22920,8 @@ msgid "(Print) Allow arpeggio sign to extend across staffs. Piano staffs obey th
 msgstr "(Tisk) Dovolit značce pro arpeggio, aby se rozšířila přes osnovy. Klavírní osnovy toto poslouchají ve výchozím nastavení, jiné skupiny osnov potřebují, aby to pracovalo, zahrnout Span_arpeggio_engraver v prostředí notového zápisu."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/DeleteCurrentStaff.xml.h:2
-#, fuzzy
-#| msgid "Typesets the current part (the one containing the cursor)."
 msgid "Deletes current staff (if the action is confirmed by the user)."
-msgstr "Vysází nynější hlas (ten, který obsahuje ukazatel)."
+msgstr "Smaže nynější notovou osnovu (pokud je tento krok potvrzen uživatelem)."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/DeleteFromCursorToEnd.scm:2
 msgid "All Staffs - Delete all measures from cursor?"
@@ -23063,16 +22953,12 @@ msgid "Deletes all the measures before the measure containing the cursor, either
 msgstr "Smaže všechny takty před taktem obsahujícím ukazatel, buď v nynější osnově, nebo ve všech osnovách, podle výběru uživatele."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/DeleteTextAnnotationsFromCursor.xml.h:1
-#, fuzzy
-#| msgid "Text Annotation"
 msgid "Delete Text Annotations"
-msgstr "Textová poznámka"
+msgstr "Smazat textové poznámky"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/DeleteTextAnnotationsFromCursor.xml.h:2
-#, fuzzy
-#| msgid "Deletes all measures from the cursor to the end, either in one or all staffs."
 msgid "Deletes standalone text annotations from the cursor to the end of the staff."
-msgstr "Smaže všechny takty od ukazatele po konec, buď v jedné nebo ve všech osnovách."
+msgstr "Smaže samostatné textové poznámky od ukazatele po konec notové osnovy."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/DisplayEffects/HideNotSelectedStaffs.xml.h:1
 msgid "Hide Non-Selected Staffs."
@@ -23135,11 +23021,6 @@ msgid "Adds a voice to the current staff which typesets notes as a slanting line
 msgstr "Přidá hlas do nynější osnovy, který sází noty jako zešikmenou čáru - coulé). Hlavní hlas poskytne noty akordu, a tento poskytne coulé mezi nimi."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/DynamicsStaff.scm:21
-#, fuzzy
-#| msgid ""
-#| "This staff is purely for holding cresc. dim hairpins and dynamic markings so that they can be positioned (using dummy notes or spacers) and will align with each other. Create this between the staffs for a piano work or on any staff where alignment of hairpins and dynamic marks is needed.\n"
-#| "WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typeetting!\n"
-#| "It must have the same staff name as the staff it should appear on."
 msgid ""
 "This staff is purely for holding cresc. dim hairpins and dynamic markings so that they can be positioned (using dummy notes or spacers) and will align with each other. Create this between the staffs for a piano work or on any staff where alignment of hairpins and dynamic marks is needed.\n"
 "WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!\n"
@@ -23154,28 +23035,26 @@ msgid "Add Staff for Dynamics"
 msgstr "Přidat osnovu pro dynamiku"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/DynamicsStaff.xml.h:2
-#, fuzzy
-#| msgid "This staff is purely for holding cresc. dim hairpins and dynamic markings so that they can be positioned (using dummy notes or spacers) and will align with each other. Create this between the staffs for a piano work or on any staff where alignment of hairpins and dynamic marks is needed. WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typeetting!\")))"
 msgid "This staff is purely for holding cresc. dim hairpins and dynamic markings so that they can be positioned (using dummy notes or spacers) and will align with each other. Create this between the staffs for a piano work or on any staff where alignment of hairpins and dynamic marks is needed. WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!\")))"
 msgstr "Tato osnova je určena čistě k tomu, aby držela sponky crescenda/decrescenda a značky dynamiky, aby se daly umístit (pomocí jakýchkoli not nebo prostorových vymezovačů), a byly zarovnány navzájem. Vytvořte mezi notovými osnovami pro klavír nebo na jakékoli osnově, kde je potřeba zarovnání sponek a značek pro dynamiku.VAROVÁNÍ: Neumísťujte do této osnovy změny klíčů nebo jiné prvky bez doby trvání. Mohlo by to při sazbě vést k vytvoření samostatné osnovy!"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MarksStaff.scm:22
-#, fuzzy
-#| msgid "This staff is purely for holding cresc. dim hairpins and dynamic markings so that they can be positioned (using dummy notes or spacers) and will align with each other. Create this between the staffs for a piano work or on any staff where alignment of hairpins and dynamic marks is needed. WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typeetting!\")))"
 msgid ""
 "This staff is purely for holding marks that should appear once at the top of the system - avoiding having to put the marks in each part. It must have a blank part name, so that it is typeset with every part. The marks should be spaced using either dummy notes or spacers.\n"
 "WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!"
-msgstr "Tato osnova je určena čistě k tomu, aby držela sponky crescenda/decrescenda a značky dynamiky, aby se daly umístit (pomocí jakýchkoli not nebo prostorových vymezovačů), a byly zarovnány navzájem. Vytvořte mezi notovými osnovami pro klavír nebo na jakékoli osnově, kde je potřeba zarovnání sponek a značek pro dynamiku.VAROVÁNÍ: Neumísťujte do této osnovy změny klíčů nebo jiné prvky bez doby trvání. Mohlo by to při sazbě vést k vytvoření samostatné osnovy!"
+msgstr ""
+"Tato osnova je určena čistě k tomu, aby držela značky, které se mají objevit jednou nahoře notového systému - cílem je vyhnout se položení značek do každého partu. Název partu musí být prázdný, aby to bylo vysázeno s každým partem. Značky by měly být rozestavěny buď pomocí nastrčených not nebo prostorových vymezovačů)\n"
+"VAROVÁNÍ: Neumísťujte do této osnovy změny klíčů nebo jiné prvky bez doby trvání. Mohlo by to při sazbě vést k vytvoření samostatné osnovy!"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MarksStaff.xml.h:1
 msgid "Add Staff for Marks"
 msgstr "Přidat osnovu pro značky"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MarksStaff.xml.h:2
-#, fuzzy
-#| msgid "This staff is purely for holding cresc. dim hairpins and dynamic markings so that they can be positioned (using dummy notes or spacers) and will align with each other. Create this between the staffs for a piano work or on any staff where alignment of hairpins and dynamic marks is needed. WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typeetting!\")))"
 msgid "This staff is purely for holding marks that should appear once at the top of the system - avoiding having to put the marks in each part. It must have a blank part name, so that it is typeset with every part. The marks should be spaced using either dummy notes or spacers.\\nWARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!"
-msgstr "Tato osnova je určena čistě k tomu, aby držela sponky crescenda/decrescenda a značky dynamiky, aby se daly umístit (pomocí jakýchkoli not nebo prostorových vymezovačů), a byly zarovnány navzájem. Vytvořte mezi notovými osnovami pro klavír nebo na jakékoli osnově, kde je potřeba zarovnání sponek a značek pro dynamiku.VAROVÁNÍ: Neumísťujte do této osnovy změny klíčů nebo jiné prvky bez doby trvání. Mohlo by to při sazbě vést k vytvoření samostatné osnovy!"
+msgstr ""
+"Tato osnova je určena čistě k tomu, aby držela značky, které se mají objevit jednou nahoře notového systému - cílem je vyhnout se položení značek do každého partu. Název partu musí být prázdný, aby to bylo vysázeno s každým partem. Značky by měly být rozestavěny buď pomocí nastrčených not nebo prostorových vymezovačů)\n"
+"VAROVÁNÍ: Neumísťujte do této osnovy změny klíčů nebo jiné prvky bez doby trvání. Mohlo by to při sazbě vést k vytvoření samostatné osnovy!"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm:77
 msgid "Click Track Creation"
@@ -24530,8 +24409,8 @@ msgstr "Další skvělým rysem je schopnost vložit do not odkazy na původní 
 #~ "This marks the start of a tuplet (that is triplets etc) - after the notes there should be a corresponding end of tuplet object.\n"
 #~ "See the Notes/Rests → Tuplets for control over how tuplets print"
 #~ msgstr ""
-#~ "Toto označí začátek rytmické notové skupiny (trioly atd.) - po notách má být odpovídající konec předmětu rytmické notové skupiny.\n"
-#~ "Podívejte se na Noty/Pomlky → Rytmické notové skupiny na to, jak řídit tisk rytmických notových skupin"
+#~ "Toto označí začátek nepravidelné rytmické skupiny (trioly atd.) - po notách má být odpovídající konec předmětu nepravidelné rytmické skupiny.\n"
+#~ "Podívejte se na Noty/Pomlky → Rytmické notové skupiny na to, jak řídit tisk nepravidelných rytmických skupin"
 
 #~ msgid "poly voice %d"
 #~ msgstr "Vícehlas %d"
@@ -24645,7 +24524,7 @@ msgstr "Další skvělým rysem je schopnost vložit do not odkazy na původní 
 #~ msgstr "Vloží poznámku pod čarou v poloze ukazatele."
 
 #~ msgid "(Print) Start a new line (i.e. system) at this measure."
-#~ msgstr "(Tisk) Začít nový řádek (to jest velkou osnovu) na tomto taktu."
+#~ msgstr "(Tisk) Začít nový řádek (to jest notový systém) na tomto taktu."
 
 #~ msgid "Forces extra space between this staff and the adjacent one at this point in the score."
 #~ msgstr "Vynutí další mezeru mezi touto osnovou a sousední na tomto bodě v notové osnově."
@@ -24673,7 +24552,7 @@ msgstr "Další skvělým rysem je schopnost vložit do not odkazy na původní 
 #~ msgstr "(Tisk) Notový zápis doprovodu"
 
 #~ msgid "Limit on space between systems removed"
-#~ msgstr "Omezení na mezeru mezi velkými osnovami odstraněno"
+#~ msgstr "Omezení na mezeru mezi notovými systémy odstraněno"
 
 #~ msgid "RH"
 #~ msgstr "PR"
