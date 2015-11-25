@@ -289,6 +289,7 @@ typedef struct
    */
   gint no_of_lines; /**< Number of lines on the staff */
   gint transposition; /**< Determines if the notes are to be played back at pitch or not */
+  gint color; /**< color to display the staff */
 
   gint volume;  /**< Master Volume used to scale midi playback */
   gboolean override_volume; /**< when true staff plays full Volume always */

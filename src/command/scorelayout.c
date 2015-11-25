@@ -1544,8 +1544,8 @@ install_staff_with_voices (GList ** pstaffs, GtkWidget **pvbox, gchar *partname,
       set_staff_definition (staffprefix, staff, staff->denemo_name->str);
 
 
-      if (staff->no_of_lines != 5)
-        g_string_append_printf (staffprefix, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n", staff->no_of_lines);     //FIXME create_element
+     // if (staff->no_of_lines != 5) now done by a directive
+     //   g_string_append_printf (staffprefix, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n", staff->no_of_lines);     //FIXME create_element
 
       GString *stafftext = g_string_new ("");
       g_string_assign (stafftext, "");

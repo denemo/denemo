@@ -154,6 +154,7 @@ struct infotopass
   gint currentframe; //current frame of audio being played. (current time converted to frames (at si->recording->samplerate) and slowed down)
   gboolean highlight_next_note;//the last CHORD was the one before the currently playing one.
   gboolean allow_duration_error; //do not indicate errors in duration of measure
+  gdouble red, green, blue, alpha; //color of notes
 };
 
 /* count the number of syllables up to staff->leftmeasurenum */
@@ -302,7 +303,8 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
   if (cr)
     if (mudelaitem->type == CHORD && ((chord *) mudelaitem->object)->tone_node)
       cairo_set_source_rgb (cr, 231.0 / 255, 215.0 / 255, 39.0 / 255);  //thecolor = &yellow;
-
+  if(cr)
+    cairo_set_source_rgba (cr, itp->red, itp->green, itp->blue, itp->alpha);
   if (mudelaitem->midi_events)
     {
       itp->last_midi = mudelaitem->midi_events;
@@ -913,7 +915,10 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
   gboolean repeat = FALSE;
   DenemoMovement *si = gui->movement;
   gint x = (gui->leftmargin+35), i;
-
+    itp->red = (((thestaff->color)>>24)&0xFF)/255.0;
+    itp->green = (((thestaff->color)>>16)&0xFF)/255.0;
+    itp->blue = (((thestaff->color)>>8)&0xFF)/255.0;
+    itp->alpha = (0xFF ^ ((thestaff->color)&0xFF))/255.0;
   // if(si->marked_onset_position)
     //g_debug("repeat"),repeat = TRUE;//we set up the marked onset with this, then need to repeat to draw it
   //g_debug("drawing staff %d at %d\n", itp->staffnum, y);
@@ -947,8 +952,11 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
         cairo_set_source_rgb (cr, 0, 0, 0);
       else
         cairo_set_source_rgb (cr, 0.3, 0.3, 0.3);
-    }                           //if cr
+    }   //if cr
 
+ 
+
+    
   if (!itp->line_end)
     {                           //not a continuation
       itp->clef = thestaff->leftmost_clefcontext;

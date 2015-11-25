@@ -94,6 +94,8 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Gives the number of staffs in the Denemo Music Clipboard", DENEMO_SCHEME_PREFIX "GetStaffsInClipboard", scheme_get_staffs_in_clipboard);
 
   install_scm_function (0, "Gives the number of measures in the current staff", DENEMO_SCHEME_PREFIX "GetMeasuresInStaff", scheme_get_measures_in_staff);
+  install_scm_function (0, "Sets the number of lines for the current staff", DENEMO_SCHEME_PREFIX "SetLinesInStaff", scheme_set_lines_in_staff);
+  install_scm_function (0, "Sets the display color for the current staff", DENEMO_SCHEME_PREFIX "SetColorOfStaff", scheme_set_color_of_staff);
   install_scm_function (0, "Gives the number of staffs in the current movement", DENEMO_SCHEME_PREFIX "GetStaffsInMovement", scheme_get_staffs_in_movement);
 
   install_scm_function (0, "Makes the current staff a voice belonging to the staff above", DENEMO_SCHEME_PREFIX "StaffToVoice", scheme_staff_to_voice);

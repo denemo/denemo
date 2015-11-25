@@ -4301,11 +4301,13 @@ create_window (void)
 
   //menubar = gtk_item_factory_get_widget (item_factory, "<main>");
   Denemo.menubar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu"); // this triggers Lily... missing action
-  gtk_widget_set_tooltip_text (Denemo.menubar, _("This is the Main Menu bar, where menus for the mostly non-musical aspects (saving, printing, setting up input sources etc) are placed. See the Object Menu bar for the commands that edit music"));
+  if (Denemo.prefs.newbie)
+    gtk_widget_set_tooltip_text (Denemo.menubar, _("This is the Main Menu bar, where menus for the mostly non-musical aspects (saving, printing, setting up input sources etc) are placed. See the Object Menu bar for the commands that edit music"));
   gtk_box_pack_start (GTK_BOX (outer_main_vbox), Denemo.menubar, FALSE, TRUE, 0);
   gtk_widget_show (Denemo.menubar);
 
-  gtk_widget_set_tooltip_text (gtk_ui_manager_get_widget (ui_manager, "/ObjectMenu"), _("This is the Object Menu bar, where menus for the commands that edit music live. They are arranged in a hierarchy Score, Movement, Staff (which contains Voices) and then the things that go on a staff, notes, clefs etc. Directives covers everything else that you can put in amongst the notes to change the behavior from that point in the music."));
+  if (Denemo.prefs.newbie)
+    gtk_widget_set_tooltip_text (gtk_ui_manager_get_widget (ui_manager, "/ObjectMenu"), _("This is the Object Menu bar, where menus for the commands that edit music live. They are arranged in a hierarchy Score, Movement, Staff (which contains Voices) and then the things that go on a staff, notes, clefs etc. Directives covers everything else that you can put in amongst the notes to change the behavior from that point in the music."));
 
   gtk_widget_set_tooltip_markup (gtk_ui_manager_get_widget (ui_manager, "/RhythmToolBar"),
                                  _
@@ -4314,7 +4316,8 @@ create_window (void)
   toolbar = gtk_ui_manager_get_widget (ui_manager, "/ToolBar");
   // The user should be able to decide toolbar style.
   // But without gnome, there is no (ui) to set this option.
-  gtk_widget_set_tooltip_text (toolbar, _("This tool bar contains a few conventional commands. You can hide it (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu → Edit → Change Preferences → Display general toolbar"));
+  if (Denemo.prefs.newbie)
+    gtk_widget_set_tooltip_text (toolbar, _("This tool bar contains a few conventional commands. You can hide it (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu → Edit → Change Preferences → Display general toolbar"));
   gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_BOTH_HORIZ);
   gtk_box_pack_start (GTK_BOX (outer_main_vbox), toolbar, FALSE, TRUE, 0);
   gtk_widget_set_can_focus (toolbar, FALSE);

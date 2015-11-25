@@ -5642,6 +5642,36 @@ scheme_get_staffs_in_movement (SCM optional)
   gint num = g_list_length (Denemo.project->movement->thescore);
   return scm_from_int (num);
 }
+
+SCM
+scheme_set_lines_in_staff (SCM lines)
+{  
+    DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+   gint current = thestaff->no_of_lines;
+    if (scm_is_integer (lines))
+    {
+      gint value = scm_to_int (lines);
+      thestaff->no_of_lines = value;
+      displayhelper (Denemo.project);
+  }
+  
+  return scm_from_int (thestaff->no_of_lines);
+}
+
+SCM
+scheme_set_color_of_staff (SCM color)
+{  
+    DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+   gint current = thestaff->color;
+    if (scm_is_integer (color))
+    {
+      gint value = scm_to_ulong (color);
+      thestaff->color = value;
+      displayhelper (Denemo.project);
+  }
+  
+  return scm_from_ulong (thestaff->color);
+}
 SCM
 scheme_staff_to_voice (SCM optional)
 {

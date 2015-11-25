@@ -310,13 +310,13 @@ staff_properties_change (void)
   NEWPAGE (_("Typeset Appearance"));
   TEXTENTRY (_("Part name:"), denemo_name);
   gtk_widget_set_tooltip_text (hbox, _( "All staffs with the same part name will be typeset with the Print Part command. Use a blank part name for staffs that should be printed with every part."));
-  INTENTRY_LIMITS (_("Number of Staff Lines:"), no_of_lines, 1, 5);
-
+ 
   /* Display appearance tab */
   NEWPAGE ("Display Appearance");
   //gtk_widget_grab_focus (entrywidget);
   INTENTRY_LIMITS (_("Space above:"), space_above, 0, MAXEXTRASPACE);
   INTENTRY_LIMITS (_("Space below:"), space_below, 0, MAXEXTRASPACE);
+  INTENTRY_LIMITS (_("Number of Display Staff Lines:"), no_of_lines, 1, 5);
 
 
   /* MIDI tab */
