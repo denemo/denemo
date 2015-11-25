@@ -1934,6 +1934,8 @@ actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/NonPrintingStaff.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/NonPrintingStaff.xml
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffLines.scm
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffLines.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ShortInstrumentName.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ShortInstrumentName.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SmallerStaff.scm
