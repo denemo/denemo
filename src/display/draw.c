@@ -155,6 +155,8 @@ struct infotopass
   gboolean highlight_next_note;//the last CHORD was the one before the currently playing one.
   gboolean allow_duration_error; //do not indicate errors in duration of measure
   gdouble red, green, blue, alpha; //color of notes
+  gboolean range;
+  gint range_lo, range_hi;
 };
 
 /* count the number of syllables up to staff->leftmeasurenum */
@@ -318,7 +320,10 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
            {
             cairo_save (cr);
             //if staff->range and thechord->highesty staff->range_hi ...
-            cairo_set_source_rgba (cr, itp->red, itp->green, itp->blue, itp->alpha);
+            if (itp->range && ((thechord->highestpitch > itp->range_hi) || (thechord->lowestpitch < itp->range_lo)))
+                cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, 1.0);
+            else
+                cairo_set_source_rgba (cr, itp->red, itp->green, itp->blue, itp->alpha);
            }
         gint highest = draw_chord (cr, curobj, x + mudelaitem->x, y,
                                    GPOINTER_TO_INT (itp->mwidthiterator->data),
@@ -326,13 +331,10 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
         if(cr)
            {
             cairo_restore (cr);
-           }                            
-                                   
-                                   
+           }             
         if ((thechord->highesty) < itp->highy)
           itp->highy = thechord->highesty;
         itp->highy = MIN (itp->highy, highest);
-        //g_debug("highy %d\n", itp->highy);
         if ((thechord->lowesty) > itp->lowy + STAFF_HEIGHT)
           itp->lowy = thechord->lowesty - STAFF_HEIGHT;
  
@@ -929,6 +931,9 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
     itp->green = (((thestaff->color)>>16)&0xFF)/255.0;
     itp->blue = (((thestaff->color)>>8)&0xFF)/255.0;
     itp->alpha = (0xFF ^ ((thestaff->color)&0xFF))/255.0;
+    itp->range = thestaff->range;
+    itp->range_lo = thestaff->range_lo;
+    itp->range_hi = thestaff->range_hi;
   // if(si->marked_onset_position)
     //g_debug("repeat"),repeat = TRUE;//we set up the marked onset with this, then need to repeat to draw it
   //g_debug("drawing staff %d at %d\n", itp->staffnum, y);
