@@ -104,6 +104,7 @@ staff_copy_properties (DenemoStaff * src, DenemoStaff * dest)
 {
   dest->midi_instrument = g_string_new (src->midi_instrument->str);
   dest->space_above = src->space_above;
+  dest->space_shorten = src->space_shorten;
   dest->space_below = src->space_below;
   dest->no_of_lines = src->no_of_lines;
   dest->transposition = src->transposition;

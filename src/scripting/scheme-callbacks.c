@@ -5657,6 +5657,19 @@ scheme_set_lines_in_staff (SCM lines)
   
   return scm_from_int (thestaff->no_of_lines);
 }
+SCM
+scheme_shorten_staff_height (SCM shorten)
+{  
+    DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+   
+    if (scm_is_integer (shorten))
+    {
+      gint value = scm_to_int (shorten);
+      thestaff->space_shorten = value;
+      displayhelper (Denemo.project);
+  }
+  return scm_from_int (thestaff->space_shorten);
+}
 
 SCM
 scheme_set_color_of_staff (SCM color)

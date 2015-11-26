@@ -64,6 +64,7 @@ SCM scheme_clear_clipboard (SCM);
 SCM scheme_get_staffs_in_clipboard (SCM);
 SCM scheme_get_measures_in_staff (SCM);
 SCM scheme_set_lines_in_staff (SCM);
+SCM scheme_shorten_staff_height (SCM);
 SCM scheme_set_color_of_staff (SCM);
 SCM scheme_get_staffs_in_movement (SCM);
 SCM scheme_staff_to_voice (SCM);

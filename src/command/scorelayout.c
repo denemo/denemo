@@ -2597,8 +2597,8 @@ selection_layout (void)
       
       
       
-      if (staff->no_of_lines != 5)
-        g_string_append_printf (sb->lilypond, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n", staff->no_of_lines);    //FIXME create_element
+      //if (staff->no_of_lines != 5)
+      //  g_string_append_printf (sb->lilypond, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n", staff->no_of_lines);    //FIXME create_element
       GString *tail = g_string_new ("");
 GString *voice_tail = g_string_new ("");
       g_string_assign (stafftext, "");

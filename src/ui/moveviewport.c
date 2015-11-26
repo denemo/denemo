@@ -130,7 +130,7 @@ set_bottom_staff (DenemoProject * gui)
     {
       DenemoStaff *staff = staff_iterator->data;
       if(!staff->hidden)
-        space_left -= (staff->space_above + staff->space_below + gui->movement->staffspace);    //2*STAFF_HEIGHT);
+        space_left -= (staff->space_above -staff->space_shorten + staff->space_below + gui->movement->staffspace);    //2*STAFF_HEIGHT);
       to_next_primary_voice (&staff_number, &staff_iterator);
     }
   while (staff_iterator && space_left >= 0);

@@ -1725,8 +1725,13 @@ draw_score (cairo_t * cr)
             {
               y += LYRICS_HEIGHT;
             }
-          y += (si->staffspace + staff->space_below);
-        }
+        if (curstaff->next)
+        {
+          DenemoStaff *next = (DenemoStaff *) (curstaff->next->data);
+          y += (si->staffspace - next->space_shorten + staff->space_below);
+        } else
+         y += (si->staffspace + staff->space_below);
+      }
      
     }                           // for all the staffs
 

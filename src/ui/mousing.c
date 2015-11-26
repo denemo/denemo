@@ -85,21 +85,23 @@ get_click_height (DenemoProject * gui, gdouble y)
   DenemoStaff *staff;
   gint extra_space = 0;
   gint space_below = 0;
+  gint i;
   curstaff = g_list_nth (gui->movement->thescore, gui->movement->top_staff - 1);
 
   if (!(((DenemoStaff *) (gui->movement->currentstaff->data))->voicecontrol & DENEMO_PRIMARY))
     staffs_from_top--;
 
-  for (curstaff = g_list_nth (gui->movement->thescore, gui->movement->top_staff - 1); curstaff; curstaff = curstaff->next)
+  for (i=0, curstaff = g_list_nth (gui->movement->thescore, gui->movement->top_staff - 1); curstaff; i++, curstaff = curstaff->next)
     {
-      //g_debug("before extra space %d\n", extra_space);
       staff = (DenemoStaff *) curstaff->data;
+     // g_print("%d from top, staff %d extra space %d (next is %d %d  %d) previous space_below = %d)\n", i, gui->movement->currentstaffnum, extra_space, staff->space_above, staff->space_shorten, staff->space_below, space_below);
+
       if (staff->hidden) continue;
       if (staff->voicecontrol & DENEMO_PRIMARY)
-        extra_space += (staff->space_above) + space_below;
+        extra_space += (staff->space_above - (i?staff->space_shorten:0)
+          + space_below);
       if (curstaff == gui->movement->currentstaff)
         break;
-
       if (staff->voicecontrol & DENEMO_PRIMARY)
         {
 
@@ -107,11 +109,11 @@ get_click_height (DenemoProject * gui, gdouble y)
           staffs_from_top++;
         }
       space_below = MAX (space_below, ((staff->space_below) + (staff->verse_views ? LYRICS_HEIGHT : 0)));
-      //g_debug("after extra space %d space_below %d\n", extra_space, space_below);
+     // g_print("after extra space %d space_below %d\n", extra_space, space_below);
     }
 
   click_height = y - (gui->movement->staffspace * staffs_from_top + gui->movement->staffspace / 4 + extra_space);
-  //g_debug("top staff is %d total %d staffs from top is %d click %f\n", gui->movement->top_staff, extra_space, staffs_from_top, click_height);
+  //g_print("top staff is %d total %d staffs from top is %d click %f\n", gui->movement->top_staff, extra_space, staffs_from_top, click_height);
 
   return click_height;
 
@@ -170,7 +172,7 @@ staff_at (gint y, DenemoMovement * si)
 
       count++;
       if ((!staff->hidden) && (staff->voicecontrol & DENEMO_PRIMARY))
-        space += staff->space_above + staff->space_below + si->staffspace + (staff->verse_views ? LYRICS_HEIGHT : 0);
+        space += staff->space_above + staff->space_below - staff->space_shorten + si->staffspace + (staff->verse_views ? LYRICS_HEIGHT : 0);
       //g_debug("y %d and space %d count = %d\n",y,space, count);
     }
 

@@ -305,6 +305,7 @@ typedef struct
   gint midi_channel; /**< midi channel assigned to the staff voice */
   gint midi_port; /**< midi port assigned to the staff voice */ 
   gint space_above; /**< space above the staff used in the denemo gui */
+  gint space_shorten; /**< space by the staff is shorter in height because of few staff lines */
   gint space_below; /**< space below the staff used in the denemo gui */
   GList *verse_views;/**< a list of text editor widgets each containing a verse */
   GList *current_verse_view;/**< verse to be displayed */
