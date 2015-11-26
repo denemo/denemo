@@ -5647,7 +5647,6 @@ SCM
 scheme_set_lines_in_staff (SCM lines)
 {  
     DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-   gint current = thestaff->no_of_lines;
     if (scm_is_integer (lines))
     {
       gint value = scm_to_int (lines);
@@ -5657,6 +5656,31 @@ scheme_set_lines_in_staff (SCM lines)
   
   return scm_from_int (thestaff->no_of_lines);
 }
+static SCM
+set_staff_range (SCM setting, gboolean hi)
+{  
+ DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+ if (scm_is_integer (setting))
+    {
+      gint value = scm_to_int (setting);
+      *(hi?&thestaff->range_hi:&thestaff->range_lo) = value;
+      thestaff->range = TRUE;
+    }
+  if(thestaff->range)
+    return scm_from_int (hi?thestaff->range_hi:thestaff->range_lo);
+  return SCM_BOOL_F;
+}
+SCM
+scheme_set_staff_range_hi (SCM hi)
+{  
+  return set_staff_range (hi, TRUE);
+}
+SCM
+scheme_set_staff_range_lo (SCM lo)
+{  
+  return set_staff_range (lo, FALSE);
+}
+
 SCM
 scheme_shorten_staff_height (SCM shorten)
 {  
