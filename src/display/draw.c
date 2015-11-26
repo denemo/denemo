@@ -303,8 +303,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
   if (cr)
     if (mudelaitem->type == CHORD && ((chord *) mudelaitem->object)->tone_node)
       cairo_set_source_rgb (cr, 231.0 / 255, 215.0 / 255, 39.0 / 255);  //thecolor = &yellow;
-  if(cr)
-    cairo_set_source_rgba (cr, itp->red, itp->green, itp->blue, itp->alpha);
+
   if (mudelaitem->midi_events)
     {
       itp->last_midi = mudelaitem->midi_events;
@@ -315,10 +314,21 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
     case CHORD:
       {
         chord *thechord = ((chord *) mudelaitem->object);
-
+        if(cr)
+           {
+            cairo_save (cr);
+            //if staff->range and thechord->highesty staff->range_hi ...
+            cairo_set_source_rgba (cr, itp->red, itp->green, itp->blue, itp->alpha);
+           }
         gint highest = draw_chord (cr, curobj, x + mudelaitem->x, y,
                                    GPOINTER_TO_INT (itp->mwidthiterator->data),
                                    itp->curaccs, itp->mark, (si->currentobject == curobj));
+        if(cr)
+           {
+            cairo_restore (cr);
+           }                            
+                                   
+                                   
         if ((thechord->highesty) < itp->highy)
           itp->highy = thechord->highesty;
         itp->highy = MIN (itp->highy, highest);
@@ -475,7 +485,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                 }
             itp->recordednote = g;//Search onwards for future onsets. Only notes on top staff are used for display of onsets. 
 
-         } 
+         } //recording
           
 
         if (itp->tupletstart)
