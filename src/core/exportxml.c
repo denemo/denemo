@@ -579,6 +579,12 @@ newVoiceProps (xmlNodePtr parentElem, xmlNsPtr ns, DenemoStaff * curStaffStruct)
   newXMLIntChild (curElem, ns, (xmlChar *) "number-of-lines", curStaffStruct->no_of_lines);
   if (curStaffStruct->color)
     newXMLIntChild (curElem, ns, (xmlChar *) "staff-color", curStaffStruct->color);
+  if (curStaffStruct->range)
+    newXMLIntChild (curElem, ns, (xmlChar *) "staff-range-lo", curStaffStruct->range_lo);
+  if (curStaffStruct->range)
+    newXMLIntChild (curElem, ns, (xmlChar *) "staff-range-hi", curStaffStruct->range_hi);
+  if (curStaffStruct->range)
+    newXMLIntChild (curElem, ns, (xmlChar *) "staff-range", curStaffStruct->range);
   newXMLIntChild (curElem, ns, (xmlChar *) "voice-control", curStaffStruct->voicecontrol);
   newXMLIntChild (curElem, ns, (xmlChar *) "transpose", curStaffStruct->transposition);
   xmlNewChild (curElem, ns, (xmlChar *) "instrument", (xmlChar *) curStaffStruct->midi_instrument->str);

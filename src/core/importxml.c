@@ -1834,10 +1834,7 @@ parseStaff (xmlNodePtr staffElem, DenemoMovement * si)
                 curStaff->no_of_lines = 5;
               }
           }
-        else if (ELEM_NAME_EQ (childElem, "staff-color"))
-          {
-            curStaff->color = getXMLIntChild (childElem);
-          }
+
         else if (ELEM_NAME_EQ (childElem, "volume"))
           {
             curStaff->volume = getXMLIntChild (childElem);
@@ -2028,6 +2025,18 @@ parseVoiceProps (xmlNodePtr voicePropElem, DenemoMovement * si)
     else if (ELEM_NAME_EQ (childElem, "staff-color"))
       {
         curStaff->color = getXMLIntChild (childElem);
+      }
+    else if (ELEM_NAME_EQ (childElem, "staff-range"))
+      {
+        curStaff->range = getXMLIntChild (childElem);
+      }
+    else if (ELEM_NAME_EQ (childElem, "staff-range-lo"))
+      {
+        curStaff->range_lo = getXMLIntChild (childElem);
+      }
+    else if (ELEM_NAME_EQ (childElem, "staff-range-hi"))
+      {
+        curStaff->range_hi = getXMLIntChild (childElem);
       }
     else if (ELEM_NAME_EQ (childElem, "voice-control"))
       {
