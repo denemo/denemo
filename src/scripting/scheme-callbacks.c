@@ -5684,14 +5684,17 @@ SCM
 scheme_set_staff_range (void)
 {  
     DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-    DenemoObject *curobj = Denemo.project->movement->currentobject->data;
-    if(curobj->type==CHORD)
+    if(Denemo.project->movement->currentobject)
         {
-            chord *thechord = ((chord *) curobj->object);
-            thestaff->range_hi = thechord->highestpitch;
-            thestaff->range_lo = thechord->lowestpitch;
-            thestaff->range = TRUE;
-            return SCM_BOOL_T;
+        DenemoObject *curobj = Denemo.project->movement->currentobject->data;
+        if(curobj->type==CHORD)
+            {
+                chord *thechord = ((chord *) curobj->object);
+                thestaff->range_hi = thechord->highestpitch;
+                thestaff->range_lo = thechord->lowestpitch;
+                thestaff->range = TRUE;
+                return SCM_BOOL_T;
+            }
         }
     return SCM_BOOL_F;
 }
