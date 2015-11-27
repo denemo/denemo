@@ -882,8 +882,11 @@ file_open_dialog(gchar* message, gchar* format, FileFormatNames save_type, Denem
                         GTK_RESPONSE_REJECT,
                         GTK_STOCK_OPEN,
                         GTK_RESPONSE_ACCEPT, NULL);
-  /* Open the last visited directory, if any. */
-  set_current_folder(file_selection, template);
+  /* Open in passed in directory or the last visited directory, if any, or a default depending on template. */
+  if (filename && g_file_test(filename, G_FILE_TEST_IS_DIR))
+    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selection), filename);
+  else
+    set_current_folder(file_selection, template);
   
   filter = gtk_file_filter_new ();
   gtk_file_filter_set_name (filter, FORMAT_DESCRIPTION(save_type));

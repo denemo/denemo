@@ -278,6 +278,8 @@ define_scheme_constants (void)
     );
   gchar *filename = g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL);
   gchar *actions_dir = g_strdup_printf ("%s%c", filename, G_DIR_SEPARATOR);
+  gchar *templates_dir =  g_build_filename (get_system_data_dir (), "templates", NULL);
+  gchar *instruments_dir =  g_build_filename (get_system_data_dir (), "templates", "instruments", NULL);
   gchar *glyphs_dir = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "bitmaps", NULL);
   gchar *graphics_dir = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "graphics", NULL);
   glyphs_dir = g_strdup_printf ("%s%c", glyphs_dir, G_DIR_SEPARATOR);
@@ -287,6 +289,8 @@ define_scheme_constants (void)
 
   filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, NULL);
   gchar *local_actions_dir = g_strdup_printf ("%s%c", filename, G_DIR_SEPARATOR);
+  gchar *local_templates_dir =  g_build_filename (get_user_data_dir (TRUE), "templates", NULL);
+  gchar *local_instruments_dir =  g_build_filename (get_user_data_dir (TRUE), "templates", "instruments", NULL);
   if (filename)
     g_free (filename);
 
@@ -341,10 +345,14 @@ define_scheme_constants (void)
 
   DEF_SCHEME_STR ("DENEMO_VERSION", denemo_version, "Holds the denemo version major.minor.micro");
   DEF_SCHEME_STR ("DENEMO_ACTIONS_DIR", actions_dir, "Holds location of system-wide Denemo actions directory");
+  DEF_SCHEME_STR ("DENEMO_TEMPLATES_DIR", templates_dir, "Holds location of system-wide Denemo templates directory");
+  DEF_SCHEME_STR ("DENEMO_INSTRUMENTS_DIR", instruments_dir, "Holds location of system-wide Denemo instrument templates directory");
   DEF_SCHEME_STR ("DENEMO_GLYPHS_DIR", glyphs_dir, "Holds location of system-wide Denemo glyphs directory");
   DEF_SCHEME_STR ("DENEMO_GRAPHICS_DIR", graphics_dir, "Holds location of system-wide Denemo graphics directory");
   DEF_SCHEME_STR ("DENEMO_LILYPOND_DIR", g_build_filename (actions_dir, "lilypond", NULL), "Holds location of Denemo's system-wide  lilypond include files directory");
   DEF_SCHEME_STR ("DENEMO_LOCAL_ACTIONS_DIR", local_actions_dir, "Holds location of Denemo actions directory beneath your home directory");
+  DEF_SCHEME_STR ("DENEMO_LOCAL_TEMPLATES_DIR", local_templates_dir, "Holds location of Denemo templates directory beneath your home directory");
+  DEF_SCHEME_STR ("DENEMO_LOCAL_INSTRUMENTS_DIR", local_instruments_dir, "Holds location of Denemo instrument templates directory beneath your home directory");
   DEF_SCHEME_STR ("DENEMO_LOCAL_LILYPOND_DIR", g_build_filename (local_actions_dir, "lilypond", NULL), "Holds location of user lilypond include files directory");
   DEF_SCHEME_STR ("DENEMO_HOME_DIR", g_get_home_dir (), "Holds location of user home directory");
   {
