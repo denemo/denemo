@@ -98,6 +98,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Sets the number of lines for the current staff", DENEMO_SCHEME_PREFIX "SetLinesInStaff", scheme_set_lines_in_staff);
   install_scm_function (0, "Sets the highest note playable for the current staff", DENEMO_SCHEME_PREFIX "SetStaffRangeHi", scheme_set_staff_range_hi);
   install_scm_function (0, "Sets the lowest note playable for the current staff", DENEMO_SCHEME_PREFIX "SetStaffRangeLo", scheme_set_staff_range_lo);
+  install_scm_function (0, "Sets the range of notes playable for the current staff from the chord at the cursor.", DENEMO_SCHEME_PREFIX "SetStaffRange", scheme_set_staff_range);
   install_scm_function (0, "Sets the display color for the current staff", DENEMO_SCHEME_PREFIX "SetColorOfStaff", scheme_set_color_of_staff);
   install_scm_function (0, "Gives the number of staffs in the current movement", DENEMO_SCHEME_PREFIX "GetStaffsInMovement", scheme_get_staffs_in_movement);
 

@@ -5680,7 +5680,21 @@ scheme_set_staff_range_lo (SCM lo)
 {  
   return set_staff_range (lo, FALSE);
 }
-
+SCM
+scheme_set_staff_range (void)
+{  
+    DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+    DenemoObject *curobj = Denemo.project->movement->currentobject->data;
+    if(curobj->type==CHORD)
+        {
+            chord *thechord = ((chord *) curobj->object);
+            thestaff->range_hi = thechord->highestpitch;
+            thestaff->range_lo = thechord->lowestpitch;
+            thestaff->range = TRUE;
+            return SCM_BOOL_T;
+        }
+    return SCM_BOOL_F;
+}
 SCM
 scheme_shorten_staff_height (SCM shorten)
 {  
