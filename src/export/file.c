@@ -415,7 +415,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
         updatescoreinfo (gui);
       else
         {
-          if (gui->script)
+          if ((gui->script) && !(type == ADD_STAFFS || type == ADD_MOVEMENTS))
             {
               gui->has_script = TRUE;
               executeScript ();
