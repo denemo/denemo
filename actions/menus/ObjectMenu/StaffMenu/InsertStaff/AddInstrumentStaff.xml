@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>AddInstrumentStaff</action>
+        <after>PianoStaff</after>
+        <_label>Add Staff for Instrument</_label>
+        <_tooltip>Adds a staff at the bottom for the instrument selected from the templates/instruments directory. The name and range of the instrument is set with any transposition for playback if needed.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

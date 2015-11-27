@@ -1864,6 +1864,8 @@ actions/menus/ObjectMenu/StaffMenu/FillEmptyMeasures.scm
 actions/menus/ObjectMenu/StaffMenu/FillEmptyMeasures.xml
 actions/menus/ObjectMenu/StaffMenu/FixSlursInStaff.scm
 actions/menus/ObjectMenu/StaffMenu/FixSlursInStaff.xml
+actions/menus/ObjectMenu/StaffMenu/InsertStaff/AddInstrumentStaff.scm
+actions/menus/ObjectMenu/StaffMenu/InsertStaff/AddInstrumentStaff.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/CouleStaff.scm
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/CouleStaff.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/DynamicsStaff.scm

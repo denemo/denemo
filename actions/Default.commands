@@ -7625,6 +7625,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Set Staff Range</_label>
         <_tooltip>Sets the highest and lowest notes playable on the current staff to the highest and lowest pitches of the chord at the cursor.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>AddInstrumentStaff</action>
+        <after>PianoStaff</after>
+        <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
+        <_label>Add Staff for Instrument</_label>
+        <_tooltip>Adds a staff at the bottom for the instrument selected from the templates/instruments directory. The name and range of the instrument is set with any transposition for playback if needed.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
