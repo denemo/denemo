@@ -1936,6 +1936,8 @@ actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/NonPrintingStaff.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/NonPrintingStaff.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffLines.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffLines.xml
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffRangeFromChord.scm
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffRangeFromChord.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ShortInstrumentName.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ShortInstrumentName.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SmallerStaff.scm
