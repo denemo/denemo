@@ -2,8 +2,10 @@
 (let ((tag  "InstrumentName") (current "") (thematch "") (indent "0.0") (size 16.0) (nextmovement #f) (staff (number->string (d-GetStaff))))
 (if (equal? InstrumentName::params "edit")
     (set! InstrumentName::params #f))
-  (if InstrumentName::params
-    (set! current InstrumentName::params)
+  (if (string? InstrumentName::params)
+    (begin
+        (set! current InstrumentName::params)
+        (set! InstrumentName::params #f))
     (begin
         (if (d-NextMovement)
             (begin
@@ -15,7 +17,7 @@
             (set! current "Violin"))
             (set! current (d-GetUserInput (_ "InstrumentName") (_ "Give name of instrument/voice/part\nfor current staff:") current))))
 
-  (if current
+  (if (string? current)
      (let ((transparent-start "") (transparent-end "")(movement (number->string (d-GetMovement))))
         (d-DirectivePut-staff-display tag current)
         (d-DirectivePut-staff-override tag  DENEMO_OVERRIDE_GRAPHIC)
@@ -31,9 +33,8 @@
         (if (> (string-length current) 0)
                     (d-StaffProperties (string-append "denemo_name=" current))
                     (d-StaffProperties "denemo_name=unnamed"))
-        
-            ;;if this is the first of several movements, ask to set the rest.           
-        (if (equal? nextmovement 2)
+            ;;if this is the first of several movements, ask to set the rest if called directly           
+        (if (and (not InstrumentName::params) (equal? nextmovement 2))
                 (let ((do-all (d-GetUserInput (_ "Instrument Name") (_ "This sets the name in Movement 1\nSet this name for the same staff in other movements?") (_ "y"))))
                     (if (equal? do-all (_ "y"))
                         (let ((staffnum (d-GetStaff)))
