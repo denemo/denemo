@@ -180,7 +180,7 @@ syllable_count (void)
           if (obj->type == CHORD)
             {
               chord *thechord = ((chord *) obj->object);
-              if (thechord->notes && !in_slur)
+              if (thechord->notes && !in_slur && !find_directive (thechord->directives, "MoveRest"))
                 count++;
               if (thechord->slur_begin_p)
                 in_slur = TRUE;

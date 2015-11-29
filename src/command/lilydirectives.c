@@ -97,7 +97,7 @@ toggle_locked (GtkWidget * widget, gboolean * locked)
    DEPRECATED* interpreted as a number selecting which matching directive to return 
    * USE d-DirectiveGetNthTag-##what## instead.
    * */
-static DenemoDirective *
+DenemoDirective *
 find_directive (GList * directives, gchar * tag)
 {
   DenemoDirective *directive = NULL;

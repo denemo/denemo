@@ -1,7 +1,8 @@
 ;;;MoveRest
-(if (d-Directive-chord? "PolyphonicRest")
+(let ((tag "MoveRest"))
+(if (d-Directive-chord? tag)
     (begin
-        (d-DirectiveDelete-chord "PolyphonicRest")
+        (d-DirectiveDelete-chord tag)
         (d-StagedDelete)))
 (if (Rest?)
   (let* ((duration (string->number (d-GetNoteDuration)))(which (duration::lilypond->denemo duration )))
@@ -14,7 +15,7 @@
             (d-MoveCursorLeft)
             (d-MoveCursorLeft)
             (d-RefreshDisplay)))
-    (d-DirectivePut-chord-postfix "PolyphonicRest" "\\rest")
-    (d-DirectivePut-chord-graphic  "PolyphonicRest" (vector-ref Rests which))
-    (d-DirectivePut-chord-override "PolyphonicRest" (logior DENEMO_OVERRIDE_VOLUME DENEMO_OVERRIDE_GRAPHIC DENEMO_ALT_OVERRIDE))))
-(d-SetSaved #f)
+    (d-DirectivePut-chord-postfix tag "\\rest")
+    (d-DirectivePut-chord-graphic  tag (vector-ref Rests which))
+    (d-DirectivePut-chord-override tag (logior DENEMO_OVERRIDE_VOLUME DENEMO_OVERRIDE_GRAPHIC DENEMO_ALT_OVERRIDE))))
+(d-SetSaved #f))

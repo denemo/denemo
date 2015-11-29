@@ -59,7 +59,8 @@ void delete_chord_or_note_directive (GtkAction * action, DenemoScriptParam * par
 gchar *get_editscript_filename (gchar * tag);
 
 DenemoDirective *get_movementcontrol_directive (gchar * tag);
-DenemoDirective *get_score_directive (gchar * tag); /* others missing here???, note, chord directives for example */
+DenemoDirective *get_score_directive (gchar * tag); 
+DenemoDirective *find_directive (GList * directives, gchar * tag);
 
 gchar *get_nth_strict_note_tag (gint index);
 const gchar *strict_note_directive_get_tag (gchar *tag);
