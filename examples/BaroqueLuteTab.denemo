@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<score xmlns="http://denemo.org/xmlns/Denemo" version="7">
+  <paper-directives>
+    <directive>
+      <tag>LimitInterSystemSpace</tag>
+      <postfix>
+page-limit-inter-system-space = ##t
+page-limit-inter-system-space-factor = 1.2</postfix>
+      <data>1.2</data>
+    </directive>
+  </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
+  <lilycontrol>
+    <papersize>a4</papersize>
+    <fontsize>18</fontsize>
+    <orientation>1</orientation>
+    <total-edit-time>1528</total-edit-time>
+  </lilycontrol>
+  <custom_scoreblock>%Default Score Layout
+\header{DenemoLayoutName = "Default Score Layout"}
+
+\header {
+tagline = \markup {"" on \simple #(strftime "%x" (localtime (current-time)))}
+title = "Lute Tab Example"
+subtitle = "you must edit the View-&gt;LilyPond directly"
+subsubtitle = "to change titles etc"
+        }
+#(set-default-paper-size "a4")
+#(set-global-staff-size 18)
+\paper {
+
+page-limit-inter-system-space = ##t
+page-limit-inter-system-space-factor = 1.2
+       }
+\score {
+  &lt;&lt;
+    \new RhythmicStaff = "Rhythm" { \MvmntIVoiceI }
+    \new TabStaff = "High"
+    \with {
+      %instrumentName = \markup { \fontsize #18 c }
+      stringTunings = \stringTuning &lt;a, d f a d' f'&gt;
+      fretLabels = \markuplist { 
+        \column {  \vspace #.15 "a" }
+        "b"
+        \column {  \vspace #.15 "r" }
+        "d" % optional \rotate #90 "d" 
+        \column {  \vspace #.15 "e" }
+        "f" 
+        "g" 
+        "h" 
+        "i"
+        "k"
+      }
+      \override TabNoteHead.extra-offset = #'(0 . .15) 
+      \override VerticalAxisGroup.staff-staff-spacing = #'((padding . .5)) 
+      \override TimeSignature.style = #'single-digit
+      \override TimeSignature.X-offset = #-2
+      \override TimeSignature.font-size = #3
+      \revert TimeSignature.stencil
+    }   
+    &lt;&lt; 
+      %\once\override Score.RehearsalMark.direction = #DOWN
+      %\once\override Score.RehearsalMark.self-alignment-X = #LEFT
+      %\once\override Score.RehearsalMark.break-align-symbols = #'(clef)
+      %\mark\markup "ouranta."
+      \MvmntIVoiceII \\ \MvmntIVoiceIII 
+    &gt;&gt;
+    \new TabStaff = "Low"
+    \with {
+      \bar ""
+      \remove "Staff_symbol_engraver"
+      \override VerticalAxisGroup.staff-staff-spacing = #'(
+                            (basic-distance . 2)
+                            (padding . 2)) 
+      stringTunings = \stringTuning &lt;c,&gt;
+      fretLabels = \markuplist { 
+        "4" \null 
+        "///a" \null 
+        "//a" \null
+        "/a" 
+         \column { \vspace #.15 "a" }
+      }
+    }
+    \MvmntIVoiceIV
+  &gt;&gt;
+  \layout {
+    indent = 15
+    \context {
+      \RhythmicStaff
+      \remove "Staff_symbol_engraver"
+      \omit Clef                   	   
+      \omit TimeSignature            
+      \omit NoteHead
+      \override Stem.length = #6
+      fontSize = #-1
+      \override VerticalAxisGroup #'staff-staff-spacing =
+        #'((basic-distance . 4)
+           (minimum-distance . 3)
+           (padding . 1))
+      \stemUp 
+      \autoBeamOff 
+      \override Flag.stencil = #old-straight-flag
+      \override Stem.thickness = #1.0
+      \override Dots.extra-offset = #'(0 . 1)
+    }
+    \context {
+      \TabStaff
+      \omit Clef
+      tablatureFormat = #fret-letter-tablature-format
+    }
+  }
+}</custom_scoreblock>
+  <movement-number>1</movement-number>
+  <movement>
+    <edit-info>
+      <staffno>3</staffno>
+      <measureno>1</measureno>
+      <cursorposition>8</cursorposition>
+      <tonalcenter>0</tonalcenter>
+      <zoom>100</zoom>
+      <system-height>100</system-height>
+      <page-zoom>0</page-zoom>
+      <page-system-height>0</page-system-height>
+    </edit-info>
+    <score-info>
+      <tempo>
+        <duration>
+          <numerator>1</numerator>
+          <denominator>4</denominator>
+        </duration>
+        <bpm>120</bpm>
+      </tempo>
+    </score-info>
+    <staves>
+      <staff id="id0"></staff>
+      <staff id="id1"></staff>
+      <staff id="id2"></staff>
+      <staff id="id3"></staff>
+    </staves>
+    <voices>
+      <voice id="id4">
+        <voice-info>
+          <voice-name>Lute</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="alto">
+            <directives>
+              <directive>
+                <tag>RhythmStaff</tag>
+                <graphic_name>
+R
+Denemo
+48</graphic_name>
+                <gy>36</gy>
+                <override>5</override>
+              </directive>
+            </directives>
+          </clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+            <directives>
+              <directive>
+                <tag>RhythmStaff</tag>
+                <override>5</override>
+              </directive>
+            </directives>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+            <directives>
+              <directive>
+                <tag>RhythmStaff</tag>
+                <override>1</override>
+              </directive>
+            </directives>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>1</number-of-lines>
+          <staff-color>547414016</staff-color>
+          <staff-range-lo>0</staff-range-lo>
+          <staff-range-hi>0</staff-range-hi>
+          <staff-range>1</staff-range>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>1</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>4</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>RhythmStaff</tag>
+              <prefix> \new Voice &lt;&lt;
+</prefix>
+              <graphic_name>Rhythm</graphic_name>
+              <override>5</override>
+            </directive>
+          </staff-directives>
+          <voice-directives>
+            <directive>
+              <tag>InitialVoice</tag>
+              <display>Voice One</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>RhythmStaff</tag>
+              <override>5</override>
+            </directive>
+          </voice-directives>
+          <clef-directives>
+            <directive>
+              <tag>RhythmStaff</tag>
+              <graphic_name>
+R
+Denemo
+48</graphic_name>
+              <gy>36</gy>
+              <override>5</override>
+            </directive>
+          </clef-directives>
+        </voice-props>
+        <measures>
+          <measure>
+            <lily-directive locked="true" tag="MuteStaff" graphic_name="Speaker_Icon_Mute" gx="20" minpixels="50"> </lily-directive>
+            <stem-directive type="up">
+              <directives>
+                <directive>
+                  <tag>VoiceSetting</tag>
+                  <postfix>\voiceOne </postfix>
+                  <graphic_name>
+v1
+Serif
+24
+1
+1</graphic_name>
+                  <override>1</override>
+                </directive>
+              </directives>
+            </stem-directive>
+            <chord show="true" id="id5">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id6">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id7">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id8">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id9">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id10">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id11">
+              <duration base="sixteenth"></duration>
+              <notes>
+                <note id="id12">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id13">
+              <duration base="sixteenth"></duration>
+              <notes>
+                <note id="id14">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id15">
+              <duration base="sixteenth"></duration>
+              <notes>
+                <note id="id16">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id17">
+              <duration base="sixteenth"></duration>
+              <notes>
+                <note id="id18">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id19">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id20">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id21">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id22">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+          </measure>
+        </measures>
+      </voice>
+      <voice id="id23">
+        <voice-info>
+          <voice-name>Lute</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id1"></staff-ref>
+          <clef name="treble"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
+        <measures>
+          <measure>
+            <chord show="true" id="id24">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id25">
+                  <middle-c-offset>8</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id26">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id27">
+                  <middle-c-offset>9</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id28">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id29">
+                  <middle-c-offset>11</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id30">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id31">
+                  <middle-c-offset>12</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+          </measure>
+        </measures>
+      </voice>
+      <voice id="id32">
+        <voice-info>
+          <voice-name>Lute</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id2"></staff-ref>
+          <clef name="treble"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
+        <measures>
+          <measure>
+            <chord show="true" id="id33">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id34">
+                  <middle-c-offset>1</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id35">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id36">
+                  <middle-c-offset>2</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id37">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id38">
+                  <middle-c-offset>3</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id39">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id40">
+                  <middle-c-offset>4</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id41">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id42">
+                  <middle-c-offset>-2</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id43">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id44">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id45">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id46">
+                  <middle-c-offset>1</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id47">
+              <duration base="eighth"></duration>
+              <notes>
+                <note id="id48">
+                  <middle-c-offset>2</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+          </measure>
+        </measures>
+      </voice>
+      <voice id="id49">
+        <voice-info>
+          <voice-name>Lute</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id3"></staff-ref>
+          <clef name="treble"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>2</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
+        <measures>
+          <measure>
+            <chord show="true" id="id50">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id51">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id52">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id53">
+                  <middle-c-offset>1</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id54">
+              <duration base="half"></duration>
+              <notes>
+                <note id="id55">
+                  <middle-c-offset>-2</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+          </measure>
+        </measures>
+      </voice>
+    </voices>
+  </movement>
+</score>
