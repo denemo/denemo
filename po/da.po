@@ -17,6 +17,7 @@
 # beam -> bjælke (nodebjælke)
 # beat -> taktslag
 # brace -> akkolade
+# breath mark -> komma (symbol for vejrtrækning)
 # Caesura -> cæsur
 # chord -> akkord
 # chorus -> omkvæd (kun 1 streng med den her)
@@ -28,6 +29,7 @@
 # fingering -> fingersætning 
 # figured bass -> generalbas
 # flatten -> sætte b for
+# fret -> bånd
 # glyph -> skrifttegn
 # grace note ->  forslagsnode [forslagstone (siger ordlisten; men er det forslagsnode?)]
 # hint -> hint (bemærk kan også være fif, hvis det ikke er typografi)
@@ -40,11 +42,14 @@
 # note duration -> nodelængde
 # page breaks -> sideskift
 # parameter -> parameter
-# part -> stemme
+# part -> stemme (en funktion som indsætter et mellemrum som i en eller anden forstand svarer til en type pausesymbol.
+#                 Eller har jeg læst det forkert?; Is it correct understod that it is a function which inserts a kind
+#                 of white space; which somehow equals a kind of rests/pause symbol?
 # pitch -> tonehøjde
 # pool -> pulje
 # preset -> forvalgt, forudstilling (eller forvalg?)
 # quarter note -> 4.-delsnode
+# rehearsal mark > øvebogstav
 # rest -> pause
 # reverb -> rumklang  (kun 1 streng med den her)
 # score -> partitur (husk partitureT)
@@ -66,7 +71,7 @@
 # trill -> trille
 # triplet -> triol
 # tuplet -> irregulær nodeværdi
-# upbeat -> optakt
+# upbeat -> optakt ((in music) an unaccented beat preceding an accented beat.)
 # viola -> bratsch (kun 1 streng med den her)
 # Wholenote -> helnode
 #
@@ -75,7 +80,7 @@ msgstr ""
 "Project-Id-Version: denemo 1.2.5\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2015-09-13 09:50+0100\n"
-"PO-Revision-Date: 2015-10-03 21:02+0200\n"
+"PO-Revision-Date: 2015-11-29 21:02+0200\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -9498,6 +9503,9 @@ msgid ""
 "The music appears here in the LilyPond syntax.\n"
 "It will print as fret diagram in the sentence you are writing, transposed according to the global transposition set.\n"
 msgstr ""
+"Indsætter akkorden ved markøren som et bånddiagram (fret)\n"
+"Musikken fremgår her i LilyPond-syntaksen.\n"
+"Den vil blive udskrevet som et bånddiagram i sætningen du skriver, transponeret jævnfør det globale transpostionssæt.\n"
 
 #: ../src/ui/markup.c:223 ../actions/denemo.scm:271 ../actions/denemo.scm:332
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:12
@@ -12403,240 +12411,240 @@ msgstr ""
 
 #: ../actions/menus/MainMenu/NavigationMenu/Bookmarks/BookmarkNamed.xml.h:1
 msgid "Add Named Bookmark"
-msgstr ""
+msgstr "Tilføj navngivet bogmærke"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Bookmarks/BookmarkNamed.xml.h:2
 msgid "Adds a Denemo bookmark combined with a custom Lilypond Rehearsal Mark"
-msgstr ""
+msgstr "Tilføjer et Denemobogmærke kombineret med et tilpasset LilyPond-øvebogstav"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Bookmarks/BookmarkNonPrinting.xml.h:1
 msgid "Add Non-Printing Bookmark"
-msgstr ""
+msgstr "Tilføj ikkeudskrivende bogmærke"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Bookmarks/BookmarkNonPrinting.xml.h:2
 msgid "Adds a custom Denemo bookmark without Lilypond output."
-msgstr ""
+msgstr "Tilføjer et tilpaset Denemobogmærke uden LilyPond-uddata."
 
 #: ../actions/menus/MainMenu/NavigationMenu/Bookmarks/NextBookmark.xml.h:1
 msgid "Next Bookmark"
-msgstr ""
+msgstr "Næste bogmærke"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Bookmarks/NextBookmark.xml.h:2
 msgid "Seach forward for bookmarks in the current staff."
-msgstr ""
+msgstr "Søg fremad efter bogmærker i det nuværende nodesystem."
 
 #: ../actions/menus/MainMenu/NavigationMenu/Bookmarks/PopCursorPosition.scm:2
 msgid "No more positions are stored"
-msgstr ""
+msgstr "Ikke flere positioner er gemt"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Bookmarks/PopCursorPosition.xml.h:1
 msgid "Move to Stored Position"
-msgstr ""
+msgstr "Flyt til gemt position"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Bookmarks/PopCursorPosition.xml.h:2
 msgid "Moves the cursor to the last stored position. You can store a sequence of positions and then return to them in one by one (a stack of positions)."
-msgstr ""
+msgstr "Flytter markøren til den sidste gemte position. Du kan gemme en sekvens af positiner og så returnere til dem i en efter en (en stak af positioner)."
 
 #: ../actions/menus/MainMenu/NavigationMenu/Bookmarks/PrevBookmark.xml.h:1
 msgid "Prev Bookmark"
-msgstr ""
+msgstr "For. bogmærke"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Bookmarks/PrevBookmark.xml.h:2
 msgid "Seach backward for bookmarks in the current staff."
-msgstr ""
+msgstr "Søg baglæns for bogmærker i det nuværende nodesystem."
 
 #: ../actions/menus/MainMenu/NavigationMenu/Bookmarks/PushCursorPosition.xml.h:1
 msgid "Store Position"
-msgstr ""
+msgstr "Gem position"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Bookmarks/PushCursorPosition.xml.h:2
 msgid "Stores the current cursor position for returning to later."
-msgstr ""
+msgstr "Gemmer den nuværende markørposition for senere returnering."
 
 #: ../actions/menus/MainMenu/NavigationMenu/Bookmarks/RehearsalMark.xml.h:1
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.xml.h:1
 msgid "Add Rehearsal/Bookmark"
-msgstr ""
+msgstr "Tilføj øvebogstav/bogmærke"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Bookmarks/RehearsalMark.xml.h:2
 msgid "Adds a Denemo bookmark combined with a default Rehearsal Mark"
-msgstr ""
+msgstr "Tilføjer et Denemobogmærke kombineret med et standardøvebogstav"
 
 #. Object found
 #. no object even in the second round. Go to start position.
 #. user abort
 #: ../actions/menus/MainMenu/NavigationMenu/Bookmarks/SearchBookmark.xml.h:1
 msgid "Search Bookmark"
-msgstr ""
+msgstr "Søg bogmærke"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Bookmarks/SearchBookmark.xml.h:2
 msgid "Searches for a named Bookmark in the current staff."
-msgstr ""
+msgstr "Søger efter et navngivet bogmærke i det nuværende nodesystem."
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/CursorToHighestNote.xml.h:1
 msgid "Cursor to Highest Note"
-msgstr ""
+msgstr "Markør til højeste node"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/CursorToHighestNote.xml.h:2
 msgid "Moves the cursor to the highest note on current horizontal position (in a chord or on a single note)"
-msgstr ""
+msgstr "Flytter markøren til den højeste node på den nuværende vandrette position (i en akkord eller en enkel node)"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/CursorToLowestNote.xml.h:1
 msgid "Cursor to Lowest Note"
-msgstr ""
+msgstr "Markør til laveste node"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/CursorToLowestNote.xml.h:2
 msgid "Moves the cursor to the lowest note on current horizontal position (in a chord or on a single note)"
-msgstr ""
+msgstr "Flytter markøren til den laveste node på nuværende vandrette position (i en akkord eller på en enkel node)"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/JumpDownOctave.xml.h:2
 msgid "Moves cursor down an octave."
-msgstr ""
+msgstr "Flytter markør en oktav ned."
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/JumpLeft.xml.h:1
 msgid "JumpLeft"
-msgstr ""
+msgstr "GåVenstre"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/JumpLeft.xml.h:2
 msgid "Jumps to beginning of this measure or previous measure."
-msgstr ""
+msgstr "Går til begyndlesen af denne takt eller forrige takt."
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/JumpRight.xml.h:1
 msgid "JumpRight"
-msgstr ""
+msgstr "GåHøjre"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/JumpRight.xml.h:2
 msgid "Moves cursor to start of next bar or to end."
-msgstr ""
+msgstr "Flytter markør til begyndelsen af næste bjælke eller til slutningen."
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/JumpUpOctave.xml.h:2
 msgid "Moves cursor up one octave."
-msgstr ""
+msgstr "Flytter markør en oktav op."
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementBeginning.xml.h:1
 msgid "Move To Movement Beginning"
-msgstr ""
+msgstr "Flyt til satsbegyndelse"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementBeginning.xml.h:2
 msgid "Moves the cursor to the beginning of the movement without altering the selection"
-msgstr ""
+msgstr "Flytter markøren til begyndelsen af satsen uden at ændre markeringen"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementEnd.xml.h:1
 msgid "Move To Movement End"
-msgstr ""
+msgstr "Flyt til taktslut"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementEnd.xml.h:2
 msgid "Move the cursor to last measure, last staff without altering the selection."
-msgstr ""
+msgstr "Flyt markøren til den sidste takt, sidste nodesystem uden at ændre markeringen."
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/VisibleStaffDown.xml.h:1
 msgid "Move to Visible Staff Down"
-msgstr ""
+msgstr "Flyt til synligt nodesystem ned"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/VisibleStaffDown.xml.h:2
 msgid "Moves to the next staff or voice down skipping ones that are hidden in the display."
-msgstr ""
+msgstr "Flytter til det næste nodesystem eller stemme ned udeladende dem som er skjult i visningen."
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/VisibleStaffUp.xml.h:1
 msgid "Move to Visible Staff Up"
-msgstr ""
+msgstr "Flyt til synligt nodesystem op"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/VisibleStaffUp.xml.h:2
 msgid "Moves to the next staff or voice up skipping ones that are hidden in the display."
-msgstr ""
+msgstr "Flytter til det næste nodesystem eller stemme op udeladende dem som er skjult i visningen."
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/WrapToNextStaff.xml.h:1
 msgid "Next Staff, Wrapping"
-msgstr ""
+msgstr "Næste nodesystem, omslutter"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Cursor/WrapToNextStaff.xml.h:2
 msgid "Moves to the next staff, wrapping to the first staff when on the last staff."
-msgstr ""
+msgstr "Flytter til det næste nodesystem, omslutter til det første nodesystem når på det sidste nodesystem."
 
 #: ../actions/menus/MainMenu/NavigationMenu/DenemoLink.scm:6
 msgid "There is no link here, open the source document and click on it to place one."
-msgstr ""
+msgstr "Der er ingen henvisning her, åbn kildedokumentet og klik på det for at placere en."
 
 #: ../actions/menus/MainMenu/NavigationMenu/DenemoLink.xml.h:1
 msgid "Follow Link to Source"
-msgstr ""
+msgstr "Følg henvisning til kilde"
 
 #: ../actions/menus/MainMenu/NavigationMenu/DenemoLink.xml.h:2
 msgid "Follows the link at the cursor to a source document."
-msgstr ""
+msgstr "Følger henvisningen ved markøren til et kildedokument."
 
 #: ../actions/menus/MainMenu/NavigationMenu/MIDI/CursorToMarkedMidiNotePosition.xml.h:1
 msgid "Cursor to Marked Onset"
-msgstr ""
+msgstr "Markør til markeret debut"
 
 #: ../actions/menus/MainMenu/NavigationMenu/MIDI/CursorToMarkedMidiNotePosition.xml.h:2
 msgid "Moves the Denemo cursor to the note to which the marked MIDI note onset belongs."
-msgstr ""
+msgstr "Flytter Denemomarkøren til noden som den markerede MIDI-node debut tilhører."
 
 #: ../actions/menus/MainMenu/NavigationMenu/MIDI/FirstNoteOnset.scm:5
 #: ../actions/menus/MainMenu/NavigationMenu/MIDI/NextNoteOnset.scm:8
 #: ../actions/menus/MainMenu/NavigationMenu/MIDI/PreviousNoteOnset.scm:8
 #: ../actions/menus/MainMenu/NavigationMenu/MIDI/UnmarkNoteOnset.scm:5
 msgid "No MIDI file has been loaded"
-msgstr ""
+msgstr "Ingen MIDI-fil er blevet indlæst"
 
 #: ../actions/menus/MainMenu/NavigationMenu/MIDI/FirstNoteOnset.xml.h:1
 msgid "First Note Onset"
-msgstr ""
+msgstr "Første node debut"
 
 #: ../actions/menus/MainMenu/NavigationMenu/MIDI/FirstNoteOnset.xml.h:2
 #: ../actions/palettes.xml.h:150
 msgid "The first recorded or imported MIDI note onset in the current track becomes marked so that entered durations will be given its pitch."
-msgstr ""
+msgstr "Den første optaget eller importeret MIDI-nodedebut i det nuværende spor bliver markeret så de indtastede varigheder vil få dens tonehøjde."
 
 #: ../actions/menus/MainMenu/NavigationMenu/MIDI/NextNoteOnset.scm:7
 #: ../actions/menus/MainMenu/NavigationMenu/MIDI/PreviousNoteOnset.scm:7
 msgid "No Onset has been marked"
-msgstr ""
+msgstr "Ingen debut er blevet markeret"
 
 #: ../actions/menus/MainMenu/NavigationMenu/MIDI/NextNoteOnset.xml.h:1
 msgid "Next Note Onset"
-msgstr ""
+msgstr "Næste nodedebut"
 
 #: ../actions/menus/MainMenu/NavigationMenu/MIDI/NextNoteOnset.xml.h:2
 #: ../actions/palettes.xml.h:153
 msgid "Moves to the next MIDI note onset in the current recorded or imported MIDI track. Inserted durations will take their pitch from this note."
-msgstr ""
+msgstr "Flytter til den næste MIDI-nodedebut i det nuværende optaget eller importeret MIDI-spor. Indsatte varigheder vil bruge tonehøjden fra denne node."
 
 #: ../actions/menus/MainMenu/NavigationMenu/MIDI/PreviousNoteOnset.xml.h:1
 msgid "Previous Note Onset"
-msgstr ""
+msgstr "Forrige nodedebut"
 
 #: ../actions/menus/MainMenu/NavigationMenu/MIDI/PreviousNoteOnset.xml.h:2
 #: ../actions/palettes.xml.h:152
 msgid "Moves the marked MIDI note onset to the one before the current one."
-msgstr ""
+msgstr "Flytter den markerede MIDI-nodedebut til den før den nuværende."
 
 #: ../actions/menus/MainMenu/NavigationMenu/MIDI/UnmarkNoteOnset.xml.h:1
 msgid "Un-mark Note Onsets"
-msgstr ""
+msgstr "Fjern markering fra nodedebuter"
 
 #: ../actions/menus/MainMenu/NavigationMenu/MIDI/UnmarkNoteOnset.xml.h:2
 #: ../actions/palettes.xml.h:151
 msgid "Removes the mark from the MIDI note onset, so that inserting durations have their normal meaning."
-msgstr ""
+msgstr "Fjerner markeringen fra MIDI-nodedebuten, så at indsættelse af varigheder har deres normale betydning."
 
 #.
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/FindEditPoint.xml.h:1
 msgid "Find Edit Point"
-msgstr ""
+msgstr "Find slutpunkt"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/FindEditPoint.xml.h:2
 msgid "Searches backward for the start of non-printing notes."
-msgstr ""
+msgstr "Søger baglæns efter starten på ikkeudskrivende noder."
 
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/FindNextLowerNote.xml.h:1
 msgid "Next Lower"
-msgstr ""
+msgstr "Næste lavere"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/FindNextLowerNote.xml.h:2
 msgid "Moves cursor to next note that is lower than the cursor."
-msgstr ""
+msgstr "Flytter markør til næste node som er lavere end markøren."
 
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/FindNextSimilar.xml.h:1
 msgid "Find Next Similar"
@@ -12644,7 +12652,7 @@ msgstr "Find næste lignende"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/FindNextSimilar.xml.h:2
 msgid "Finds the next object similar to the one at the cursor."
-msgstr "Findet det næste objekt der svarer til det ved markøren."
+msgstr "Finder det næste objekt der svarer til det ved markøren."
 
 #.
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/FindNote.xml.h:1
@@ -12662,27 +12670,28 @@ msgstr "Gå til næste tomme takt"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/GoToEmptyMeasure.xml.h:2
 msgid "Move cursor to the next point in the current staff where the music ends."
-msgstr ""
+msgstr "Flyt markør til det næste punkt i det nuværende nodesystem hvor musikken slutter."
 
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/GoToMeasureEnd.xml.h:1
 msgid "Go To End of Measure"
-msgstr ""
+msgstr "Gå til slut på takt"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/MoveToPreviousEmptyMeasure.xml.h:1
 msgid "Move To Previous Empty Measure"
-msgstr ""
+msgstr "Flytter til forrige tomme takt"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/MoveToPreviousEmptyMeasure.xml.h:2
 msgid "Move the cursor left until it finds an empty measure or the staffs beginning"
-msgstr ""
+msgstr "Flyt markøren mod venstre indtil den finder en tom takt eller nodesystemets begyndelse"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/NextHigher.xml.h:1
 msgid "Next Higher"
-msgstr ""
+msgstr "Næste højere"
 
+# engelsk fejl posiiton (it vendt rundt)
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/NextHigher.xml.h:2
 msgid "Move cursor to next note higher than cursor posiiton"
-msgstr ""
+msgstr "Flyt markør til næste node højere end markørpositionen"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/SearchMusic.scm:8
 msgid "New search music from selection"
@@ -12705,16 +12714,16 @@ msgstr "Fortsæt"
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/SearchMusic.scm:72
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/SearchPattern.scm:79
 msgid "Wrap to start of staff"
-msgstr ""
+msgstr "Omslut til start på nodesystem"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/SearchMusic.scm:73
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/SearchPattern.scm:80
 msgid "Wrap to next staff"
-msgstr ""
+msgstr "Omslut til næste nodesystem"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/SearchMusic.xml.h:1
 msgid "Search Note Sequence"
-msgstr ""
+msgstr "Søg nodesekvens"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/SearchMusic.xml.h:2
 msgid "With a selection, searches from the cursor for the next occurrence of the notes of the selection. With no selection, continues the previous search. When a match (ignoring rests and duration) is found it offers to continue, stop or execute the script in the Scheme Window."
@@ -13485,7 +13494,7 @@ msgstr "Vælg betingelse"
 
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ChooseCondition.xml.h:2
 msgid "Gives a menu for choosing whether the directive at the cursor should apply to the current part only or the default score or all layouts,"
-msgstr ""
+msgstr "Viser en menu til at vælge om direktivet ved markøren kun skal gælde for den nuværende del eller standardpartituret eller alle layout,"
 
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:11
 msgid ""
@@ -13493,6 +13502,9 @@ msgid ""
 "You can place the \"Void\" Denemo Directive before the object you wish to omit\n"
 "and then make that directive conditional."
 msgstr ""
+"Markøren er ikke på et Denemodirektiv.\n"
+"Du kan placere Denemodirektivet »Void« før objektet du ønsker at udelade\n"
+"og så gøre direktivet betinget."
 
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.xml.h:1
 msgid "Reset for All Layouts"
@@ -13500,12 +13512,13 @@ msgstr "Nulstilling for alle layout"
 
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.xml.h:2
 msgid "Clears conditional behaviour of this layout. The Directive will apply to all score layouts."
-msgstr ""
+msgstr "Rydder betingelsesopførsel for dette layout. Direktivet vil gælde for alle partiturlayout."
 
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:5
 msgid "Not for "
 msgstr "Ikke for "
 
+# Engelsk fejl to mellemrum
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:13
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:17
 msgid ""
@@ -13513,6 +13526,9 @@ msgid ""
 "You can place the \"Void\"  Denemo Directive before the object you wish to omit\n"
 "and then make that directive conditional."
 msgstr ""
+"Markøren er ikke på et Denemodirektiv.\n"
+"Du kan placere Denenodirektivet »Void« før objektet du ønkser at udelade\n"
+"og så gøre direktivet betinget."
 
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.xml.h:1
 msgid "Ignore for Current Layout"
@@ -13520,7 +13536,7 @@ msgstr "Ignorer for nuværende layout"
 
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.xml.h:2
 msgid "The Denemo Directive at the cursor will be ignored when printing from the current score layout (See View-&gt;Score Layout)"
-msgstr ""
+msgstr "Denemodirektivet ved markøren vil blive ignoreret, når der udskrives fra det nuværende partiturlayout (Se Vis-&gt;Partiturlayout)"
 
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:9
 msgid "for "
@@ -13532,7 +13548,7 @@ msgstr "Eksklusiv for nuværende layout"
 
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.xml.h:2
 msgid "The Denemo Directive at the cursor will only apply to the current Score Layout (see View-&gt;Score Layout)"
-msgstr ""
+msgstr "Denemodirektivet ved markøren vil kun gælde for det nuværende partiturlayout (se Vis-&gt;Partiturlayout)"
 
 #: ../actions/menus/ObjectMenu/Directives/CriticalComment.scm:11
 #: ../actions/menus/ObjectMenu/Directives/CriticalComment.scm:27
@@ -13551,29 +13567,29 @@ msgstr "Anvend kommando for ny position for markøren?"
 
 #: ../actions/menus/ObjectMenu/Directives/CriticalComment.xml.h:2
 msgid "Adds a comment which can be printed in a critical commentary at the end of all the movements (see CriticalCommentary command to create this)."
-msgstr ""
+msgstr "Tilføjer en kommentar som kan udskrive i en kritisk kommentar i slutningen af alle satser (se kommandoen CriticalCommentary for at oprette denne)."
 
 #: ../actions/menus/ObjectMenu/Directives/EnableAccordion16v.xml.h:1
 msgid "Enable Accordion 16'"
-msgstr ""
+msgstr "Aktiver akkordion 16'"
 
 #: ../actions/menus/ObjectMenu/Directives/EnableAccordion16v.xml.h:2
 msgid "Defines the accordions shifts for this score. The command Menu of Objects to Insert will allow them to be inserted."
-msgstr ""
+msgstr "Definerer akkordionskift for dette partitur. Kommandoen menu af objekter at indsætte vil tilalde at de bliver indsat."
 
 #: ../actions/menus/ObjectMenu/Directives/InsertDefinedLilyPond.scm:18
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:32
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.scm:60
 msgid "No Definitions have been created for this score"
-msgstr ""
+msgstr "Ingen definitioner er blevet oprettet for dette partitur"
 
 #: ../actions/menus/ObjectMenu/Directives/InsertDefinedLilyPond.xml.h:1
 msgid "Menu of Objects to Insert"
-msgstr ""
+msgstr "Menu af objekter at indsætte"
 
 #: ../actions/menus/ObjectMenu/Directives/InsertDefinedLilyPond.xml.h:2
 msgid "Gives a menu of previously created LilyPondDefinition commands (see Score-&gt;LilyPond Definition menu for this)"
-msgstr ""
+msgstr "Viser en menu med tidligere oprettede LilyPondDefinition-kommanoder (se partitur-&gt;LilyPond-definitionsmenu for dette)"
 
 #: ../actions/menus/ObjectMenu/Directives/InsertStandaloneDirective.xml.h:1
 msgid "Insert/Edit Lilypond"
@@ -13581,7 +13597,7 @@ msgstr "Indsæt/rediger LilyPond"
 
 #: ../actions/menus/ObjectMenu/Directives/InsertStandaloneDirective.xml.h:2
 msgid "Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas."
-msgstr ""
+msgstr "Indsæt eller rediger et direktiv i musikopsætningsssproget LilyPond. Det kan bruges til ekstra mellemrum, transponering eller næsten alt. Se LilyPonds dokumentation for ideer."
 
 #. 1
 #. 2
@@ -13608,16 +13624,16 @@ msgstr "Lukker bjælkelinje"
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/ClosingBarline.xml.h:2
 #: ../actions/palettes.xml.h:112
 msgid "Inserts a closing barline (a double bar with last one thicker)."
-msgstr ""
+msgstr "Indsætter en lukkende bjælkelinje (en dobbelt linje hvor den sidste er tykkere)."
 
 #. End of scheme script
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/DottedBarline.xml.h:1
 msgid "Dotted Barline"
-msgstr ""
+msgstr "Punkteret bjælkelinje"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/DottedBarline.xml.h:2
 msgid "Prints dotted barline"
-msgstr ""
+msgstr "Udskriver punkteret bjælkelinje"
 
 #. DoubleBarline
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/DoubleBarline.xml.h:1
@@ -13627,15 +13643,15 @@ msgstr "Dobbeltbjælke"
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/DoubleBarline.xml.h:2
 #: ../actions/palettes.xml.h:111
 msgid "Insert a double barline at cursor position."
-msgstr ""
+msgstr "Indsætter en dobbelt bjælkelinje ved markørens position."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/DoubleBarRepeatStart.xml.h:1
 msgid "Double Bar Repeat Start"
-msgstr ""
+msgstr "Dobbelt bjælkes gentag start"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/DoubleBarRepeatStart.xml.h:2
 msgid "Prints a repeat start, with double bar on previous line if at a line break."
-msgstr ""
+msgstr "Udskriver en gentag start, med dobbelt bjælke på forrige linje hvis ved et linjeskift."
 
 #. ForceBarline
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/ForceBarline.scm:2
@@ -13645,20 +13661,26 @@ msgid ""
 "It simply draws a barline at the point in question, if no other barline will be drawn.\n"
 "Use the Measures->Anacrusis (Upbeat) command for a short measure."
 msgstr ""
+"Advarsel: Brug ikke denne kommando til at oprette en optaktbjælke (eller pickup).\n"
+"Det påvirker ikke hvilke noder der fremgår af hvilke takter.\n"
+"Det tegner alene en bjælkelinje ved punktet, hvis ingen andre bjælkelinjer tegnes.\n"
+"Brug kommandoen Takter->Optakt (upbeat) for en kort takt."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/ForceBarline.scm:7
 msgid ""
 "This object instructs the LilyPond typesetter to draw a barline here.\n"
 "The timing is not altered, use a hidden time signature change or the short measure or anacrusis command to do that."
 msgstr ""
+"Dette objekt instruerer LilyPond-opsætteren til at tegne en bjælkelinje her.\n"
+"Timingen ændres ikke, brug en skjult taktartændring eller den korte takt eller kommandoen optakt for at gøre dette."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/ForceBarline.xml.h:1
 msgid "Insert Barline"
-msgstr ""
+msgstr "Indsæt bjælkelinje"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/ForceBarline.xml.h:2
 msgid "Insert barline at cursor, Denemo's measure count is unaffected."
-msgstr ""
+msgstr "Indsæt bjælkelinje ved markøren, Denemos taktantal påvirkes ikke."
 
 #. Half Barline
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/HalfBarline.xml.h:1
@@ -13667,11 +13689,11 @@ msgstr "Halv bjælkelinje"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/HalfBarline.xml.h:2
 msgid "Insert a barline with only half of its original size"
-msgstr ""
+msgstr "Indsæt en bjælkelinje med halvdelen af dens oprindelige størrelse"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/InsertFirstAndSecondTimeBars.scm:13
 msgid "Only for appending to music - use the individual first and second time bar commands to insert within music."
-msgstr ""
+msgstr "Kun for tilføjelse til musik - brug den individuelle først og anden gangs bjælkekommandoer for at indsætte i musikken."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/InsertFirstAndSecondTimeBars.xml.h:1
 msgid "Insert 1st &amp; 2nd Time Bars"
@@ -13680,7 +13702,7 @@ msgstr "Indsæt 1. &amp; 2. tidsbjælker"
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/InsertFirstAndSecondTimeBars.xml.h:2
 #: ../actions/palettes.xml.h:118
 msgid "Inserts first and second time bars each with a whole measure rest. You can then edit this to suit your music, e.g by inserting extra bars, deleting the repeat start etc."
-msgstr ""
+msgstr "Indsætter første og anden gangs bjælker hver med en hel taktpause. Du kan så redigere dette så det pakker til din musik, f.eks. ved at indsætte ekstra bjælker, slette gentag start etc."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/NoBarline.xml.h:1
 msgid "(Print) Omit Barline"
@@ -13693,25 +13715,25 @@ msgstr "Springer udskrivningen af automatiske bjælkelinjer over her - tillader 
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/RepeatEndStart.xml.h:1
 msgid "Repeat End-Start"
-msgstr "Gentag Afslut-start"
+msgstr "Gentag afslut-start"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/RepeatEndStart.xml.h:2
 #: ../actions/palettes.xml.h:110
 msgid "Inserts a barline ending one repeated section and starting another"
-msgstr ""
+msgstr "Indsætter en bjælkelinje der afslutter en gentaget sektion og starter en anden"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/RepeatEnd.xml.h:1
 msgid "Repeat End Barline"
-msgstr "Gentag Afslut bjælkelinje"
+msgstr "Gentag afslut bjælkelinje"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/RepeatEnd.xml.h:2
 #: ../actions/palettes.xml.h:109
 msgid "Insert a barline indicating the end of a repeated section."
-msgstr ""
+msgstr "Indsætter en bjælkelinje der indikerer slutningen af en gentaget sektion."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/RepeatStart.xml.h:1
 msgid "Repeat Start Barline"
-msgstr ""
+msgstr "Gentag start bjælkelinje"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Barlines/RepeatStart.xml.h:2
 #: ../actions/palettes.xml.h:108
@@ -13725,13 +13747,15 @@ msgstr "Indsæt en bjælkelinje der indikerer starten af et gentaget afsnit."
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:24
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:40
 msgid "Metronome Marking"
-msgstr ""
+msgstr "Metronommarkering"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:10
 msgid ""
 "Give unit beat duration (e.g., 4. for 𝅘𝅥. ) \n"
 " or enter n for none:"
 msgstr ""
+"Angiv varighed for enhedsslag (f.eks. 4. for 𝅘𝅥. ) \n"
+" eller indtast n for ingen:"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:12
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:26
@@ -13740,7 +13764,7 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:156
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:106
 msgid "n"
-msgstr ""
+msgstr "n"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:26
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:40
@@ -13772,20 +13796,26 @@ msgid ""
 "\n"
 "i.e. 4 for 𝅘𝅥, 8. for dotted 𝅘𝅥𝅮, etc."
 msgstr ""
+"\n"
+"dvs. 4 for 𝅘𝅥, 8. for punkteret 𝅘𝅥𝅮, etc."
 
+# engelsk fejl to mellemrum
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:51
 msgid ""
 "\n"
 "Place immediately after a barline to center the beat change  over the barline."
 msgstr ""
+"\n"
+"Placer umiddelbart efter en bjælkelinje for at centrere slagændringen over bjælkelinjen."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:55
 msgid "Enter text (if any) to appear before the [beat1]=[beat2]"
-msgstr ""
+msgstr "Indtast tekst (hvis nogen) så den fremgår før [slag1]=[slag2]"
 
+# engelsk fejl to mellemrum
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.scm:57
 msgid "Enter text (if any) to appear after  the [beat1]=[beat2]"
-msgstr ""
+msgstr "Indtast tekst (hvis nogen) så den fremgår efter [slag1]=[slag2]"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BeatChange.xml.h:1
 msgid "Beat Change (e.g. 𝅗𝅥 = 𝅘𝅥 .)"
@@ -13797,11 +13827,11 @@ msgstr "Indsætter en ændring af slag per minut ved markørpositionen. Afspilni
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BreathMark.xml.h:1
 msgid "Breath Mark"
-msgstr ""
+msgstr "Komma"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/BreathMark.xml.h:2
 msgid "Inserts a Breath Mark"
-msgstr ""
+msgstr "Indsætter et komma"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Caesura.xml.h:1
 msgid "Caesura"
@@ -13813,7 +13843,7 @@ msgstr "Udskriver en cæsur (pause) ved markørpositionen."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm:14
 msgid "Text or Custom Rehearsal Mark"
-msgstr ""
+msgstr "Tekst eller tilpasset øvebogstav"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/CustomRehearsalMark.scm:14
 msgid "Give text to use for Mark"
@@ -13870,21 +13900,23 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeSegno.xml.h:1
 msgid "Standalone Segno (for barlines)"
-msgstr ""
+msgstr "Uafhængig segno (for bjælkelinjer)"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeSegno.xml.h:2
 msgid "Typesets a segno over the barline."
-msgstr ""
+msgstr "Opsæt en segno over bjælkelinjen."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:14
 msgid "String: "
-msgstr ""
+msgstr "Streng: "
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:14
 msgid ""
 "Give Fret Number\n"
 "or o or x"
 msgstr ""
+"Angiv Fret-nummer\n"
+"eller o eller x"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:17
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:25
@@ -13894,42 +13926,42 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:86
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.xml.h:1
 msgid "Fret Diagram"
-msgstr ""
+msgstr "Fret-diagram"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:25
 msgid "Barre from string (or cancel for none) "
-msgstr ""
+msgstr "Barre fra streng (eller afbryd for ingen) "
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:28
 msgid "Barre to string (or cancel for none) "
-msgstr ""
+msgstr "Barre til streng (eller afbryd for ingen)"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:31
 msgid "Barre at fret (or cancel for none) "
-msgstr ""
+msgstr "Barre ved fret (eller afbryd for ingen)"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:38
 msgid "Give size for diagram "
-msgstr ""
+msgstr "Angiv størrelse for diagram "
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:56
 msgid "Edit Fret Diagram"
-msgstr ""
+msgstr "Rediger fret-diagram"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:56
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:62
 msgid "Edit Space Occupied"
-msgstr ""
+msgstr "Rediger optaget plads"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:56
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:65
 msgid "Edit Position"
-msgstr ""
+msgstr "Rediger position"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:60
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:82
 msgid "Space Occupied by Text/Music"
-msgstr ""
+msgstr "Plads optaget af tekst/musik"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:60
 #: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:82
@@ -13938,6 +13970,9 @@ msgid ""
 "(0 prevents dragging position\n"
 "Blank for natural size.)"
 msgstr ""
+"Angiv plads:\n"
+"(0 forhindrer trækkende position\n"
+"Tom for naturlig størrelse.)"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:65
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:66
@@ -13948,20 +13983,20 @@ msgstr "Forskydninger"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:86
 msgid "Give Number of Strings "
-msgstr ""
+msgstr "Angiv antallet af strenge "
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.xml.h:2
 #: ../actions/palettes.xml.h:182
 msgid "Creates a dialog for you to enter a description of the fret diagram to be typeset at the cursor position."
-msgstr ""
+msgstr "Opretter en dialog hvor du kan indtaste en beskrivelse af fret-digrammet som skal opsættes ved markørpositionen."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/InsertGraphic.xml.h:1
 msgid "Insert Graphic"
-msgstr ""
+msgstr "indsæt grafik"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/InsertGraphic.xml.h:2
 msgid "Inserts a graphic in the music. This should be created as an encapsulated postscript file."
-msgstr ""
+msgstr "Indsætter grafik i musikken. Skal oprettes som en encapsulated postscript-fil."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:24
 msgid ""
@@ -13973,16 +14008,16 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:52
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:55
 msgid "BPM Printed"
-msgstr ""
+msgstr "BPM udskrevet"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:52
 msgid "BPM Not Printed"
-msgstr ""
+msgstr "BPM ikke udskrevet"
 
 #. begin
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.scm:60
 msgid "Incorrect BPM syntax."
-msgstr ""
+msgstr "Ukorrekt BPM-syntaks."
 
 #. this did not fire using d-PopUpMenu so changed to RadioBoxMenu
 #: ../actions/menus/ObjectMenu/Directives/Markings/MetronomeMark.xml.h:1
@@ -17306,7 +17341,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/SmallFontStart.xml.h:1
 msgid "Small Size"
-msgstr ""
+msgstr "Lille størrelse"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/SmallFontStart.xml.h:2
 msgid "Music after this is printed in a small size."
@@ -17322,11 +17357,11 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/StopStaff.xml.h:1
 msgid "(Print) Stop Drawing Staff"
-msgstr ""
+msgstr "(Udskriv) Stop tegning af nodesystem"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/StopStaff.xml.h:2
 msgid "Stop drawing the staff and barlines in Lilypond. Notes are still drawn."
-msgstr ""
+msgstr "Stop tegning af nodesystemet og bjælkelinjer i LilyPond. Noder tegnes stadig."
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/Tablature/MinimumFret.scm:6
 msgid "Minimum Fret Number"
@@ -17384,7 +17419,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/Transposition/OpenOctaveDown.xml.h:1
 msgid "(Print) Open { Octave Down"
-msgstr ""
+msgstr "(Udskriv) Åbn {-oktav ned"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/Transposition/OpenOctaveDown.xml.h:2
 msgid "Opens a block printing an octave lower: must be terminated with CloseLilyBlock"
@@ -17570,11 +17605,11 @@ msgstr "Sætter kryds for toneartsangivelsen med en grad. Hvis der ingen toneart
 
 #: ../actions/menus/ObjectMenu/Lyrics/EditLyricAtCursor.scm:2
 msgid "No verse has been created for this staff. Use Add Lyric Verse in Lyrics menu."
-msgstr ""
+msgstr "Intet vers er blevet oprettet for dette nodesytem. Brug Tilføj sangtekstvers i Sangtekstmenuen."
 
 #: ../actions/menus/ObjectMenu/Lyrics/EditLyricAtCursor.xml.h:1
 msgid "Edit Lyric at Cursor"
-msgstr ""
+msgstr "Rediger sangtekst ved markør"
 
 #: ../actions/menus/ObjectMenu/Lyrics/EditLyricAtCursor.xml.h:2
 msgid "Switches keyboard input to the lyrics pane, placing the cursor on the syllable that belongs to the cursor note."
@@ -17648,7 +17683,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Lyrics/LyricFontSize.xml.h:1
 msgid "Larger/Smaller Font Size"
-msgstr ""
+msgstr "Større/mindre skriftstørrelse"
 
 #: ../actions/menus/ObjectMenu/Lyrics/LyricFontSize.xml.h:2
 msgid "Inserts a code in the current lyric verse to change to larger or smaller font size. Keep this code on a separate line."
@@ -17765,15 +17800,15 @@ msgstr "Slette alle tomme takter fra markøren indtil næste musik."
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/IgnoreMeasureDurationError.scm:3
 msgid "This Directive tells Denemo not to signal an error if there are too many notes or rests after this point (or too few) for a complete measure."
-msgstr ""
+msgstr "Dette direktiv fortæller Denemo at der ikke skal signaleres en fejl, hvis der er for mange noder eller pause efter dette punkt (eller for få) for en fuldsætndig takt."
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/IgnoreMeasureDurationError.scm:11
 msgid "Partial Measure is Acceptable"
-msgstr ""
+msgstr "Delvis takt er acceptabel"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/IgnoreMeasureDurationError.scm:12
 msgid "Partial Measure"
-msgstr ""
+msgstr "Delvis takt"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/IgnoreMeasureDurationError.xml.h:1
 msgid "Ignore Measure Duration Error"
@@ -17817,7 +17852,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/Repeats/FirstTimeBar.xml.h:1
 msgid "First Time Bar"
-msgstr ""
+msgstr "Første tidsbjælke"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/Repeats/FirstTimeBar.xml.h:2
 msgid "Closes a repeated section and starts a first time bar (printing)"
@@ -17963,15 +17998,15 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/MovementMenu/CreateIntro.xml.h:1
 msgid "Create Intro"
-msgstr ""
+msgstr "Opret intro"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/CreateIntro.xml.h:2
 msgid "Creates a new staff with a bar for nothing (an intro of the right number of beats)"
-msgstr ""
+msgstr "Opretter et nyt nodesystem med en bjælke for intet (en intro med det korrekte antal slag)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/DuplicateOrMergeMovements.scm:5
 msgid "Duplicate Movement"
-msgstr ""
+msgstr "Dupliker sats"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/DuplicateOrMergeMovements.scm:5
 msgid "Merge with Previous Movement"
@@ -22198,15 +22233,15 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PointAndClick.xml.h:2
 msgid "When on, clicking on a note in the Print Preview window takes the cursor to that note. This works also for Rehearsal Marks and many other objects in the score. The only reason to turn it off is for export to PDF file via the Export menu. However, using print to file is a better way of doing this as then it is not needed."
-msgstr ""
+msgstr "Når aktiveret, vil klik på en node i vinduet Vis forhåndsvisning tage markøren til den node. Dette fungerer også for øvebogstaver og mange andre objekter i partituret. Den eneste grund til at deaktivere er for eksport til PDF-fil via Eksportmenuen. Det er dog bedre at bruge udskriv til fil, da det så ikke er krævet."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintFirstPageNumber.scm:7
 msgid "No number will be printed on the first page"
-msgstr ""
+msgstr "Ingen numre vil blive udskrevet på den første side"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintFirstPageNumber.scm:11
 msgid "Page number will be printed on the first page"
-msgstr ""
+msgstr "Sidenumre vil blive udskrevet på den første side"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintFirstPageNumber.xml.h:1
 msgid "Print First Page Number (Off/On)"
@@ -22214,27 +22249,27 @@ msgstr "Udskriv sidenummer på første side (deaktiveret/aktiveret)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintFirstPageNumber.xml.h:2
 msgid "Control if the first page number is typeset."
-msgstr ""
+msgstr "Kontrollerer om det første sidenummer er opsat."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ProportionalNotation.scm:6
 msgid "Proportional Notation"
-msgstr ""
+msgstr "Proportional notation"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ProportionalNotation.scm:6
 msgid "Give base duration: "
-msgstr ""
+msgstr "Angiv basisvarighed: "
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ProportionalNotation.scm:10
 msgid "Default music spacing restored."
-msgstr ""
+msgstr "Standard for musikmellemrum er gendannet."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ProportionalNotation.xml.h:1
 msgid "Proportional Note Spacing"
-msgstr ""
+msgstr "Proportionale nodemellemrum"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ProportionalNotation.xml.h:2
 msgid "Spaces notes in proportion to duration, based on the duration given."
-msgstr ""
+msgstr "Laver nodemellemrum i forhold til varighed, baseret på den angivne varighed."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/RaggedBottom.xml.h:1
 msgid "Ragged Bottom"
@@ -22298,15 +22333,15 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.xml.h:1
 msgid "(Print) Format of rehearsal marks"
-msgstr ""
+msgstr "(Udskriv) Format for øvebogstav"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.xml.h:2
 msgid "Select the format of rehearsal marks (alphabetic, numeric, boxed, etc.)"
-msgstr ""
+msgstr "Vælg formatet for øvebogstaver (alfabetisk, numerisk, boksopsat, etc.)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:100
 msgid "Add to current rules"
-msgstr ""
+msgstr "Tilføj til nuværende regler"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:101
 msgid "Replace current rules"
@@ -22977,15 +23012,15 @@ msgstr ""
 #. clears any extras in the staff-prolog
 #: ../actions/menus/ObjectMenu/StaffMenu/PrintEffects/ClearStaffProlog.xml.h:1
 msgid "Normal Staff"
-msgstr ""
+msgstr "Normalt nodesystem"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/PrintEffects/ClearStaffProlog.xml.h:2
 msgid "Deletes the extra staff prolog - restoring the normal staff settings."
-msgstr ""
+msgstr "Sletter den ekstra nodesystemprolog - gendanner den normale nodesystemopsætning."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/PrintEffects/TransposeStaffOutput.scm:7
 msgid "No Transposition Interval"
-msgstr ""
+msgstr "Intet transpotionsinterval"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/PrintEffects/TransposeStaffOutput.scm:7
 msgid ""
@@ -22993,22 +23028,25 @@ msgid ""
 "on the first of two notes which define\n"
 "the transposition required"
 msgstr ""
+"For at bruge denne funktion skal du placere markøren\n"
+"på de første to noder som definerer\n"
+"den krævede transpotion"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/PrintEffects/TransposeStaffOutput.scm:7
 msgid "Ok"
-msgstr ""
+msgstr "O.k."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/PrintEffects/TransposeStaffOutput.xml.h:1
 msgid "Transpose Output"
-msgstr ""
+msgstr "Transponer uddata"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/PrintEffects/TransposeStaffOutput.xml.h:2
 msgid "Transpose this staff in the print out. The cursor must be on the first of two notes that define the interval to use."
-msgstr ""
+msgstr "Transponer dette nodesystem i udskrivningen. Markøren skal være på den første af to noder, som definerer det anvendte interval."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/SimplifyTies.xml.h:1
 msgid "Simplify Ties"
-msgstr ""
+msgstr "Forenkl bindebuder"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/SimplifyTies.xml.h:2
 msgid "Converts tied notes to longer notes and removes spurious ties."
@@ -23016,20 +23054,20 @@ msgstr "Konverterer bindebuder til længere noder og fjerner overskydende buer."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffDeleteEmptyMeasures.xml.h:2
 msgid "Deletes any measures that are empty from the measure after the cursor to end of staff."
-msgstr ""
+msgstr "Sletter alle takter som er tomme fra takten efter markøren for at afslutte nodesystem."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/BraceEnd.scm:5
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/BraceEnd.xml.h:1
 msgid "Brace End"
-msgstr ""
+msgstr "Akkolade slut"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/BraceEnd.scm:10
 msgid "Add an End Brace Marker"
-msgstr ""
+msgstr "Tilføjer en slutakkolademarkør"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/BraceEnd.scm:11
 msgid "Delete an End Brace Marker"
-msgstr ""
+msgstr "Slet en slutakkolademarkør"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/BraceEnd.scm:12
 msgid "Move End Brace Marker Up"
@@ -23053,89 +23091,90 @@ msgstr "Tilføj eller fjern slut på nodesystem-gruppermarkeringer, eller flyt d
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/CheckBraces.scm:37
 msgid "Too few staff braces open at staff number "
-msgstr ""
+msgstr "For få nodesystemakkolader åbne ved nodesystemnummer "
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/CheckBraces.scm:39
 msgid "More staff braces started than are ended."
-msgstr ""
+msgstr "Flere nodesystemakkolader startet end afsluttet."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/CheckBraces.scm:41
 msgid "More staff braces ended than are started."
-msgstr ""
+msgstr "Flere nodesystemakkolader afsluttet end startet."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/CheckBraces.xml.h:1
 msgid "Check Braces"
-msgstr ""
+msgstr "Kontroller akkolader"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/CheckBraces.xml.h:2
 msgid "Checks the braces (staff groupings) for this movement."
-msgstr ""
+msgstr "Kontroller akkoladerne (nodesystemgrupperinger) for denne sats"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/ChoirStaffStart.xml.h:1
 msgid "ChoirStaff Start"
-msgstr ""
+msgstr "KorNodesystem start"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/ChoirStaffStart.xml.h:2
 msgid "Start grouping single staves together in order to form multi-stave systems. In a ChoirStaff, the group starts with a bracket, but bar lines are not connected."
-msgstr ""
+msgstr "Start med at gruppere enlige nodesystemer for at danne systemer med flere nodesystemer. I et KorNodesystem starter gruppen med en parentes, men bjælkelinjer er ikke forbundet."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/DeleteStaffGroupings.xml.h:1
 msgid "Delete all staff groupings"
-msgstr ""
+msgstr "Slet alle nodesystemgrupperinger"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/DeleteStaffGroupings.xml.h:2
 msgid "Clear the staff from all groupings"
-msgstr ""
+msgstr "Ryd nodesystemet fra alle grupperinger"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/GrandStaffStart.xml.h:1
 msgid "GrandStaff Start"
-msgstr ""
+msgstr "GrandNodesystem start"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/GrandStaffStart.xml.h:2
 msgid "Start grouping single staves together in order to form multi-stave systems. In a GrandStaff, the group begins with a brace, and bar lines are connected between the staves."
-msgstr ""
+msgstr "Start gruppering af enkelte nodesystemer for at danne systemer med flere nodesystemer. I et GrandNodesystem begynder grupppen med en akkolade, og bjælkelinjer er forbundet mellem nodesystemerne."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/GroupStaffStart.xml.h:1
 msgid "GroupStaff Start"
-msgstr ""
+msgstr "GruppeNodesystem start"
 
+# Engelsk fejl: er det GroupStaff eller StaffGroup
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/GroupStaffStart.xml.h:2
 msgid "Start grouping single staves together in order to form multi-stave systems. In the StaffGroup context, the group is started with a bracket and bar lines are drawn through all the staves."
-msgstr ""
+msgstr "Start gruppering af enkelte nodesystemer for at danne systemer med flere nodesystemer. I NodesystemGruppe-kontekst startes gruppen med en parentes og bjælkelinjer tegnes igennem alle nodesystemer."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/PianoStaffName.scm:5
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm:37
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.xml.h:1
 msgid "Instrument Name"
-msgstr ""
+msgstr "Instrumentnavn"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/PianoStaffName.scm:5
 msgid "Give name of instrument for staff group starting here:"
-msgstr ""
+msgstr "Angiv navn for instrumentet for nodesystemgruppe startende her:"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/PianoStaffName.xml.h:1
 msgid "Piano Staff Name"
-msgstr ""
+msgstr "Klavernodesystemnavn"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/PianoStaffName.xml.h:2
 msgid "Prints the name given at the start of the Piano staff which must be where the cursor is. Remove instrument names on the individual staffs by setting them blank."
-msgstr ""
+msgstr "Udskriver navnet angivet i begyndelsen af klavernodesystemet, som skal være hvor markøren er. Fjern instrumentnavne på de individuelle nodesystemer ved at angive dem som tomme."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/PianoStaffStart.xml.h:1
 msgid "PianoStaff Start"
-msgstr ""
+msgstr "KlaverNodesystem start"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/PianoStaffStart.xml.h:2
 msgid "Start grouping single staves together in order to form multi-stave systems. The PianoStaff is identical to a GrandStaff, except that it supports printing the instrument name directly."
-msgstr ""
+msgstr "Start gruppering af enkelte nodesystemer for at danne systemer med flere nodesystemer. KlaverNodesystem er identisk med GrandNodesystem med undtagelse af at det understøtter direkte udskrivning af instrumentnavnet."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffMultiMeasureRests.xml.h:2
 msgid "Groups of whole measure rests of two or more are changed to multi-measure rests for the whole staff."
-msgstr ""
+msgstr "Grupper af hele taktpauser for to eller flere ændres til flertaktspauser for hele nodesystemet."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Ambitus.xml.h:1
 msgid "(Print) Ambitus On/Off"
-msgstr ""
+msgstr "(Udskriv) Ambitus aktiveret/deaktiveret"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Ambitus.xml.h:2
 msgid "Toggle the ambitus engraver for this staff on or off"
@@ -23143,7 +23182,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:23
 msgid "Chord Chart"
-msgstr ""
+msgstr "Akkorddiagram"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:56
 msgid "Double"
@@ -23151,60 +23190,60 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:57
 msgid "RepeatStart"
-msgstr ""
+msgstr "GentagStart"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:58
 msgid "RepeatEnd"
-msgstr ""
+msgstr "GentagSlut"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:59
 msgid "RepeatEndFirstTime"
-msgstr ""
+msgstr "GentagSlutFørsteGang"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:117
 msgid "Compact Chord Chart Marker"
-msgstr ""
+msgstr "Kompakt akkorddiagrammarkør"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:126
 msgid "Compact Chord Chart"
-msgstr ""
+msgstr "Kompakt akkorddiagram"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:126
 msgid "Paper Chord Chart"
-msgstr ""
+msgstr "Papirakkorddiagram"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:126
 msgid "Convert Staff"
-msgstr ""
+msgstr "Konverter nodesystem"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:126
 msgid "Customizable Chord Chart"
-msgstr ""
+msgstr "Akkorddiagram kan tilpasses"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.xml.h:1
 msgid "Chord Chart Staff"
-msgstr ""
+msgstr "Akkordiagramnodesystem"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.xml.h:2
 #: ../actions/palettes.xml.h:165
 msgid "Prints Chord symbols separated by bar lines. Repeats, time signatures and text are also printed for this staff."
-msgstr ""
+msgstr "Udskriver akkordsymboler adskilt af bjælkelinjer. Gentagelser, taktarter og tekst udskrives også dette nodesystem."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordStaff.xml.h:2
 msgid "Typesets the music on this staff as chord symbols. Normally you will use this on a voice, so that the chord symbols print on the melody staff."
-msgstr ""
+msgstr "Opsætter musikke på dette nodesystem som akkordsymboler. Normalt vil du bruge dette på en stemme, så at akkordsymbolerne udskrives på melodinodesystemet."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/FretDiagrams/FretBoards.xml.h:1
 msgid "Fret Diagrams"
-msgstr ""
+msgstr "Bånddiagrammer"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/FretDiagrams/FretBoards.xml.h:2
 msgid "Chords on this staff will typeset as fret diagrams. The default is guitar."
-msgstr ""
+msgstr "Akkorder på dette nodesystem vil blive opsat som bånddiagrammer (fret). Standarden er guitar."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm:16
 msgid "InstrumentName"
-msgstr ""
+msgstr "InstrumentNavn"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm:16
 msgid ""
