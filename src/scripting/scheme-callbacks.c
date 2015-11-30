@@ -6022,6 +6022,7 @@ scheme_create_snippet_from_object (SCM name)
           RhythmElement *relement = (RhythmElement *) g_malloc0 (sizeof (RhythmElement));
           //relement->icon = str; was wrong, must be NULL for a singleton.
           r->name = str;
+          r->nickname = g_string_new (str);
           r->rsteps = g_list_append (NULL, relement);
           r->rsteps->prev = r->rsteps->next = r->rsteps;        //make list circular
           SCM ret = scm_from_int (insert_pattern_in_toolbar (r, TRUE));
