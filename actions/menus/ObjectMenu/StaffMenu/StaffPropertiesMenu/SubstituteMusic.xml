@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SubstituteMusic</action>
+        <after>NonPrintingStaff</after>
+        <_label>Substitute Music</_label>
+        <_tooltip>Typesets this staff with the music from another staff, ignoring any music entered on this staff. Use this, for example, to typeset both Fret Diagrams and Chord Symbols from the same music.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

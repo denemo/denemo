@@ -7639,6 +7639,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Chord Changes Only</_label>
         <_tooltip>From the cursor position on only chord changes are typeset (either Chord Symbols or Fret Diagrams), except at the beginning of the line.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>SubstituteMusic</action>
+        <after>NonPrintingStaff</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
+        <_label>Substitute Music</_label>
+        <_tooltip>Typesets this staff with the music from another staff, ignoring any music entered on this staff. Use this, for example, to typeset both Fret Diagrams and Chord Symbols from the same music.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
