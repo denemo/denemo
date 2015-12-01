@@ -11,6 +11,7 @@
         (d-DirectiveDelete-staff "InstrumentName")
         (ToggleDirective "voice" "prefix" tag "\\new ChordNames \n" DENEMO_OVERRIDE_LILYPOND DENEMO_OVERRIDE_GRAPHIC)
         (ToggleDirective "clef" "postfix" tag "\n" DENEMO_OVERRIDE_LILYPOND)
-        (if (d-Directive-clef? tag) (d-DirectivePut-clef-display tag "     X"))
+        (if (d-Directive-clef? tag) (d-DirectivePut-clef-display tag ""))
         (ToggleDirective "keysig" "postfix" tag "\n" DENEMO_OVERRIDE_LILYPOND  DENEMO_OVERRIDE_AFFIX)
+           (if (d-Directive-keysig? tag) (d-DirectivePut-keysig-display tag ""))
         (ToggleDirective "timesig" "postfix" tag "\n" DENEMO_OVERRIDE_LILYPOND))))

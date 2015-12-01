@@ -42,6 +42,6 @@
                                 (d-DirectivePut-clef-gy tag 36)
                                 (d-DirectivePut-clef-override tag (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND ))
                                 (d-DirectivePut-keysig-override tag  (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND))
-                                (d-DirectivePut-timesig-override tag DENEMO_OVERRIDE_LILYPOND)
+                                (d-DirectivePut-timesig-override tag  (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND))
                                 (d-SetSaved #f))))))))                  
 
