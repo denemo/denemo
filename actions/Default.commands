@@ -7643,7 +7643,7 @@ and others in the LilyPond documentation.</_tooltip>
         <action>SubstituteMusic</action>
         <after>NonPrintingStaff</after>
         <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
-        <_label>Substitute Music</_label>
+        <_label>Substitute Music (Off/On)</_label>
         <_tooltip>Typesets this staff with the music from another staff, ignoring any music entered on this staff. Use this, for example, to typeset both Fret Diagrams and Chord Symbols from the same music.</_tooltip>
       </row>
     </map>
