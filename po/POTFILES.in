@@ -1952,6 +1952,8 @@ actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/StaffOctaveUp.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/StaffOctaveUp.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/StaffSize.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/StaffSize.xml
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.scm
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Tablature/SetTabStrings.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Tablature/SetTabStrings.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Tablature/TabStaff.scm
