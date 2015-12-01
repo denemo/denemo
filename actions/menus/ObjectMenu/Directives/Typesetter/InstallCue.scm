@@ -6,7 +6,7 @@
         (define this-staff (d-GetStaff))
         (define transpose #f)
         (define (unique-staff-name)
-            (string-append (d-StaffProperties "query=denemo_name") (number->string (d-GetStaff))))
+            (string-append (d-StaffProperties "query=denemo_name") (_ " on Staff ")  (number->string (d-GetStaff))))
         (if (d-Directive-score? "GlobalTranspose")
                 (set! transpose  (d-GetUserInput (_ "Transpose Cue") (_ "Give note (in LilyPond notation) that  middle C should transpose to\nin this cue:") "c'")))
 
