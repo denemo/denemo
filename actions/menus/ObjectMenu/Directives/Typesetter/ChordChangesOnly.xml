@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ChordChangesOnly</action>
+        <after>RevertSpacing</after>
+        <_label>Chord Changes Only</_label>
+        <_tooltip>From the cursor position on only chord changes are typeset (either Chord Symbols or Fret Diagrams), except at the beginning of the line.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
