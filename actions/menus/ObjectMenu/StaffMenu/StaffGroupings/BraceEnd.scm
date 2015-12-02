@@ -49,4 +49,5 @@
                     (set! number (string->number number))
                     (set! number 0))
                 (write-brace-ends (+ number 1)))))
+(d-CheckBraces)
 (d-SetSaved #f)
