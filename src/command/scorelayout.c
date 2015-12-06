@@ -1968,6 +1968,29 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
                     }
                 }
             }
+            
+            if (si->movementcontrol.directives)
+                {
+                  GtkWidget *frame = gtk_frame_new (_("Movement Block"));
+                  gtk_box_pack_start (GTK_BOX (outer_vbox), frame, FALSE, TRUE, 0);
+                  GtkWidget *innerbox = gtk_vbox_new (FALSE, 8);
+                  gtk_container_add (GTK_CONTAINER (frame), innerbox);
+                  GList *g;
+                  for (g = si->movementcontrol.directives; g; g = g->next)
+                    {
+                      DenemoDirective *d = (DenemoDirective *) g->data;
+                      if (d->override & DENEMO_OVERRIDE_AFFIX && d->postfix)
+                        {
+                          gchar *text = label_for_directive (d);
+                          GtkWidget *label = gtk_label_new (text);
+                          g_free (text);
+                          create_element (innerbox, label, g_strdup (d->postfix->str));
+                        }
+                    }
+                }  
+            
+            
+            
           if (si->movementcontrol.directives)
             {
               GtkWidget *frame = gtk_frame_new (_("Movement Epilog"));
@@ -1978,6 +2001,11 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
               for (g = si->movementcontrol.directives; g; g = g->next)
                 {
                   DenemoDirective *d = (DenemoDirective *) g->data;
+                  if (d->override & DENEMO_OVERRIDE_AFFIX)
+                    continue;
+                  if (d->override & DENEMO_OVERRIDE_HIDDEN)
+                    continue;
+
                   if (d->postfix)
                     {
                       gchar *text = label_for_directive (d);
