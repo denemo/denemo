@@ -142,8 +142,8 @@ static gboolean
 overdraw_print (cairo_t * cr)
 {
   gint x, y;
-  get_window_position (&x, &y);
-  cairo_translate (cr, -x, -y);
+ // get_window_position (&x, &y);
+  //cairo_translate (cr, -x, -y);
   
   cairo_scale (cr, 5.61*TheScale, 5.61*TheScale);
   //cairo_scale (cr, 5.5, 5.5);
@@ -244,7 +244,7 @@ static Timing *get_svg_position(gchar *id, GList *ids)
             
             
         }
-    g_critical ("Failed to find a position in events.txt for %s\n", id);
+    g_warning ("Failed to find a position in events.txt for %s\n", id);
     return NULL;
 }
 
@@ -280,7 +280,7 @@ static void compute_timings (gchar *base, GList *ids)
                                 nextTempoMoment = moment;//g_print ("Next %s %.2f\n", type, nextTempo);
                                 nextTempo = nextTempo / 4;
                                 incomingTempo = TRUE;
-                                } else g_critical ("Malformed events file");
+                                } else g_warning ("Malformed events file");
                         }
                  else
                     {
@@ -316,7 +316,7 @@ static void compute_timings (gchar *base, GList *ids)
                                                 
                                     }
                                     else
-                                    g_critical ("Could not parse type %s\n", type);
+                                    g_warning ("Could not parse type %s\n", type);
                             }            
                                     
                         else if(!strcmp (type, "rest"))
@@ -351,7 +351,7 @@ static void compute_timings (gchar *base, GList *ids)
                                                 }
                                             
                                 } //rest
-                            else g_critical ("Don't know how to handle %s\n", type);
+                            else g_warning ("Don't know how to handle %s\n", type);
                             }
                             latestMoment = moment;
                         }// not tempo
@@ -418,10 +418,21 @@ static void
 set_playback_view (void)
 {
   GFile *file;
-  gchar *filename = get_print_status()->printname_svg[get_print_status()->cycle];
+  gchar *filename = g_strdup (get_print_status()->printname_svg[get_print_status()->cycle]);
   g_print("Output to %s\n", filename);
-  if (get_print_status()->invalid == 0)
+    if ((get_print_status()->invalid == 0) && !(g_file_test (filename, G_FILE_TEST_EXISTS))){
+      {
+          g_free (filename);
+          filename = g_strconcat (get_print_status()->printbasename[get_print_status()->cycle], "-page-2.svg", NULL);
+          g_print ("Failed, skipping title page to %s", filename);
+          get_print_status()->invalid = (g_file_test (filename, G_FILE_TEST_EXISTS)) ? 0 : 3;
+      }
+    }
+
+    if (get_print_status()->invalid == 0) 
     get_print_status()->invalid = (g_file_test (filename, G_FILE_TEST_EXISTS)) ? 0 : 3;
+
+
  if (get_print_status()->invalid == 0)
     {
      
@@ -439,6 +450,7 @@ set_playback_view (void)
         }
     }
     else g_warning ("get print status invalid %d\n", get_print_status()->invalid);
+    g_free (filename);
   return;
 }
 
@@ -634,11 +646,9 @@ display_svg (gdouble scale)
                              TRUE, 0.5, 0.5);
 
 }
-
+static gint Locationx, Locationy;
 static void find_object (GtkWidget *event_box, GdkEventButton *event)
 {
-     gint xwin, ywin;
-  get_window_position (&xwin, &ywin);g_print ("window pos %d, %d\n", xwin, ywin);
     gint x = event->x;
     gint y = event->y;
     g_print ("At %d %d\n", x, y);
@@ -646,17 +656,51 @@ static void find_object (GtkWidget *event_box, GdkEventButton *event)
     for (g = TheTimings; g;g=g->next)
         {
             Timing *timing = g->data;
-            if((x-timing->x*5.61*TheScale < PRINTMARKER) && (y-timing->y*5.61*TheScale < PRINTMARKER))
+            if((x-timing->x*5.61*TheScale < PRINTMARKER/(2)) && (y-timing->y*5.61*TheScale < PRINTMARKER/(2)))
                 {
                     g_print ("Found line %d column %d\n", timing->line, timing->col);
+                    Locationx = timing->col;
+                    Locationy = timing->line;
                     goto_lilypond_position (timing->line, timing->col);
+                    call_out_to_guile ("(DenemoSetPlaybackStart)");
+                    g_print ("Set Playback Start %d column %d\n", timing->line, timing->col);
                     return;
                     
                 }
-            g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*5.61*TheScale, timing->y*5.61*TheScale);
+            //g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*5.61*TheScale, timing->y*5.61*TheScale);
         }                    
 }
-
+static void start_play (GtkWidget *event_box, GdkEventButton *event)
+{
+    gint x = event->x;
+    gint y = event->y;
+    g_print ("At %d %d\n", x, y);
+    GList *g;
+    for (g = TheTimings; g;g=g->next)
+        {
+            Timing *timing = g->data;
+            if((x-timing->x*5.61*TheScale < PRINTMARKER/(2)) && (y-timing->y*5.61*TheScale < PRINTMARKER/(2)))
+                {
+                    
+                    if ((timing->col == Locationx) && (timing->line == Locationy))
+                        {
+                            call_out_to_guile ("(d-DenemoPlayCursorToEnd)");
+                            g_print ("Found same line %d column %d\n", timing->line, timing->col);
+                        }
+                    else
+                        {
+                            goto_lilypond_position (timing->line, timing->col);
+                            call_out_to_guile ("(if (not (d-NextChord)) (d-MoveCursorRight))(DenemoSetPlaybackEnd)");
+                            g_print ("Set playback end to %d column %d\n", timing->line, timing->col);
+                            call_out_to_guile ("(d-OneShotTimer 500 \"(d-Play)\")");
+                        }
+                    
+                    return;
+                    
+                }
+           // g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*5.61*TheScale, timing->y*5.61*TheScale);
+        }                    
+}
 void
 install_svgview (GtkWidget * top_vbox)
 {
@@ -705,6 +749,8 @@ install_svgview (GtkWidget * top_vbox)
     gtk_box_pack_start (GTK_BOX (hbox), event_box, FALSE, FALSE, 0);
     gtk_container_add (GTK_CONTAINER (event_box), Denemo.playbackview);
     g_signal_connect (G_OBJECT (event_box), "button_press_event", G_CALLBACK (find_object), NULL);
+    g_signal_connect (G_OBJECT (event_box), "button_release_event", G_CALLBACK (start_play), NULL);
+
   //  gtk_box_pack_start (GTK_BOX (hbox), Denemo.playbackview, FALSE, FALSE, 0);
   
   
