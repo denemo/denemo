@@ -163,6 +163,8 @@ src/generated/scheme_cb.h
 src/generated/scheme.h
 src/printview/printview.c
 src/printview/printview.h
+src/printview/svgview.c
+src/printview/svgview.h
 src/scripting/scheme-callbacks.c
 src/scripting/scheme-callbacks.h
 src/scripting/scheme-identifiers.c
