@@ -24,6 +24,7 @@
 #include "export/exportlilypond.h"
 #include "export/print.h"
 #include "printview/printview.h"
+#include "printview/svgview.h"
 #include "command/grace.h"
 #include "core/kbd-custom.h"
 #include "core/keyboard.h"
@@ -4964,7 +4965,7 @@ newtab (void)
 #ifdef USE_EVINCE  
   install_printpreview (NULL);
 #endif
-  
+  install_svgview (NULL);
   //FIXME populate_opened_recent_menu (project);
 
   /* create the first movement now because showing the window causes it to try to draw the scorearea

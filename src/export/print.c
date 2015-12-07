@@ -72,13 +72,17 @@ advance_printname ()
       get_print_status()->printbasename[0] = g_build_filename (locateprintdir (), "denemoprintA", NULL);
       get_print_status()->printbasename[1] = g_build_filename (locateprintdir (), "denemoprintB", NULL);
       get_print_status()->printname_pdf[0] = g_strconcat (get_print_status()->printbasename[0], ".pdf", NULL);
+      get_print_status()->printname_svg[0] = g_strconcat (get_print_status()->printbasename[0], ".svg", NULL);
       get_print_status()->printname_ly[0] = g_strconcat (get_print_status()->printbasename[0], ".ly", NULL);
       get_print_status()->printname_pdf[1] = g_strconcat (get_print_status()->printbasename[1], ".pdf", NULL);
+      get_print_status()->printname_svg[1] = g_strconcat (get_print_status()->printbasename[1], ".svg", NULL);
       get_print_status()->printname_ly[1] = g_strconcat (get_print_status()->printbasename[1], ".ly", NULL);
     }
 
   get_print_status()->cycle = !get_print_status()->cycle;
   /*gint success =*/ g_unlink (get_print_status()->printname_pdf[get_print_status()->cycle]);
+  g_unlink (get_print_status()->printname_svg[get_print_status()->cycle]);
+  
   //g_debug("Removed old pdf file %s %d\n",get_print_status()->printname_pdf[get_print_status()->cycle], success);
 }
 
@@ -510,7 +514,24 @@ run_lilypond_for_pdf (gchar * filename, gchar * lilyfile)
   };
   run_lilypond (arguments);
 }
-
+static void
+run_lilypond_for_svg (gchar * filename, gchar * lilyfile)
+{
+    static gchar *include = NULL;
+    if(!include)
+        include = g_strdup_printf ("--include=%s", get_system_dir (DENEMO_DIR_LILYPOND_INCLUDE));
+  /*arguments to pass to lilypond to create a svg for printing */
+  gchar *arguments[] = {
+    Denemo.prefs.lilypath->str,
+     "-dno-point-and-click", "-ddelete-intermediate-files", "-dbackend=svg",
+    include,
+    "-o",
+    filename,
+    lilyfile,
+    NULL
+  };
+  run_lilypond (arguments);
+}
 /*  create pdf of current score, optionally restricted to voices/staffs whose name match the current one.
  *  generate the lilypond text (on disk)
  *  Fork and run lilypond
@@ -540,6 +561,36 @@ create_pdf (gboolean part_only, gboolean all_movements)
   get_print_status()->invalid = 0;
   generate_lilypond (lilyfile, part_only, all_movements);
   run_lilypond_for_pdf (filename, lilyfile);
+}
+/*  create pdf of current score, optionally restricted to voices/staffs whose name match the current one.
+ *  generate the lilypond text (on disk)
+ *  Fork and run lilypond
+ */
+void
+create_svg (gboolean part_only, gboolean all_movements)
+{
+      if (get_print_status()->printpid != GPID_NONE)
+    {
+      if (confirm (_("Already Typesetting"), _("Abandon this typeset?")))
+        {
+          if (get_print_status()->printpid != GPID_NONE)        //It could have died while the user was making up their mind...
+            kill_process (get_print_status()->printpid);
+          get_print_status()->printpid = GPID_NONE;
+        }
+      else
+        {
+          warningdialog (_("Cancelled"));
+          
+          return;
+        }
+    }
+  advance_printname ();
+  gchar *filename = get_print_status()->printbasename[get_print_status()->cycle];
+  gchar *lilyfile = get_print_status()->printname_ly[get_print_status()->cycle];
+  g_remove (lilyfile);
+  get_print_status()->invalid = 0;
+  generate_lilypond (lilyfile, part_only, all_movements);
+  run_lilypond_for_svg (filename, lilyfile);
 }
 
 void create_pdf_for_lilypond (gchar *lilypond)

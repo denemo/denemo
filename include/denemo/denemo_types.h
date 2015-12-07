@@ -1111,6 +1111,8 @@ struct DenemoRoot
   GtkWidget *printvscrollbar;/**< scrollbar widget for printarea */
   GtkWidget *printhscrollbar;/**< scrollbar widget for printarea */
   GdkPixbuf *pixbuf;/**< print preview pixbuf */
+  GtkWidget *playbackview;/**< area holding svg typeset for animating playback */
+
   GtkWidget *textwindow; /**< LilyPond output window */
   GtkTextView *textview; /**< LilyPond output text view */
   GtkTextBuffer *textbuffer;   /**< buffer for LilyPond text */

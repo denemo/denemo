@@ -1783,6 +1783,9 @@ draw_callback (cairo_t * cr)
         update_vscrollbar (gui);
       }
   layout_needed = TRUE;
+  if(Denemo.project->movement->playingnow)
+    gtk_widget_queue_draw (Denemo.playbackview);
+  
 #if 0
  if( gui->movement->recording && (gui->movement->smfsync != gui->movement->changecount) && (!audio_is_playing())) 
  {

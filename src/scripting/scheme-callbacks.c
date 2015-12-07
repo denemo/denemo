@@ -3675,6 +3675,15 @@ scheme_print_typeset_pdf (void)
 #endif
 }
 
+SCM scheme_display_typeset_svg (SCM scaling)
+{
+    gdouble scale = 1.0;
+    if (scm_is_real (scaling))
+       scale = scm_to_double (scaling);
+    display_svg (scale);
+    return SCM_BOOL_T;
+}
+        
 SCM
 scheme_get_char (void)
 {
