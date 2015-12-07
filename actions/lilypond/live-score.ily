@@ -214,6 +214,13 @@ as an engraver for convenience."
 %%%% are notified about all notes and rests. We don't create any grobs or
 %%%% change any settings.
 
+#(define-markup-command (with-url layout props url arg)
+    (string? markup?)
+    ;;;(display url)
+    (interpret-markup layout props arg))
+    
+
+
 \layout {
  \override Score.NoteHead.id = #note-id
   \override Score.Rest.id = #rest-id
@@ -238,3 +245,4 @@ as an engraver for convenience."
   }
 }
 #(open-file  "events.txt" "w")
+pageBreak = {}

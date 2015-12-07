@@ -2,6 +2,7 @@
 (d-PushPosition)
 (DenemoSetPlaybackStart)
 (d-MoveToEnd)
+(d-MoveCursorRight)
 (DenemoSetPlaybackEnd)
 (DenemoGoForward)
 (d-PopPosition)
