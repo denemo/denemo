@@ -2862,3 +2862,14 @@ gchar *escape_scheme (gchar *input)
     return g_string_free(out, FALSE); 
 }
 
+gboolean shift_held_down(void) 
+    {
+        GdkModifierType mask;
+        GdkWindow *win = gtk_widget_get_window (Denemo.window);
+#if GTK_MAJOR_VERSION == 2
+        gdk_window_get_pointer (win, NULL, NULL, &mask);
+#else
+        gdk_window_get_device_position (win, gdk_device_manager_get_client_pointer (gdk_display_get_device_manager(gdk_display_get_default())) ,NULL, NULL, &mask);
+#endif        
+        return (mask & GDK_SHIFT_MASK);
+    }

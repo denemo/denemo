@@ -317,4 +317,5 @@ gchar* find_denemo_file (DenemoDirectory dir, gchar* filename);
 gchar *escape_scheme (gchar *input);
 gchar *time_spent_editing(void);
 void reset_editing_timer(void);
+gboolean shift_held_down(void);
 #endif /* UTILS_H */
