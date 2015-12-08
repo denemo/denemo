@@ -37,7 +37,7 @@ typedef struct Timing {
     gint col;
 } Timing;
 
-GList *TheTimings = NULL;
+GList *TheTimings = NULL, *LastTiming=NULL, *NextTiming=NULL;
 gdouble TheScale = 1.0; //Scale of score font size relative to 18pt
 /* Defines for making traversing XML trees easier */
 
@@ -157,36 +157,55 @@ static gboolean
 overdraw_print (cairo_t * cr)
 {
   gint x, y;
- // get_window_position (&x, &y);
-  //cairo_translate (cr, -x, -y);
-  
-  cairo_scale (cr, 5.61*TheScale, 5.61*TheScale);
-  //cairo_scale (cr, 5.5, 5.5);
-  
-      //cairo_set_source_rgba (cr, 0.5, 0.5, 1.0, 0.5);
-      //cairo_rectangle (cr, 100 - PRINTMARKER / 2, 100 - PRINTMARKER / 2, PRINTMARKER, PRINTMARKER);
-     //cairo_fill (cr);
-  cairo_set_source_rgba (cr, 0.9, 0.5, 1.0, 0.3);
-   if (Denemo.project->movement->playingnow)
+  gdouble last, next;
+  if (!Denemo.project->movement->playingnow)
+    return TRUE;
+  if (TheTimings == NULL)
+        return TRUE;
+  if (TheTimings->next == NULL)
+        return TRUE;
+  if (LastTiming == NULL)
         {
-        gdouble time = Denemo.project->movement->playhead;
-        gint width, height;
-        get_window_size (&width, &height);
-        GList *g;
-        gdouble last = 0.0;
-        for(g=TheTimings;g;g=g->next)
-            {
-              Timing *timing = (Timing*)g->data;//g_print ("%.2f %.2f %.2f\n", time, timing->time, last);
-            if(time > last -0.0001 && (time < timing->time))
-                    {
-                        cairo_rectangle (cr, timing->x  - (PRINTMARKER/5) /4 // /2
-                        , timing->y - (PRINTMARKER/5)/2, PRINTMARKER/5, PRINTMARKER/5);
-                        cairo_fill (cr);
-                        last = timing->time;
-                    }
-            }
-        } 
+            LastTiming = TheTimings;
+            NextTiming = TheTimings->next;
+        }        
+  cairo_scale (cr, 5.61*TheScale, 5.61*TheScale);
+  cairo_set_source_rgba (cr, 0.9, 0.5, 1.0, 0.3);
 
+    gdouble time = Denemo.project->movement->playhead;
+    GList *g;
+    last = ((Timing *)LastTiming->data)->time;
+    next = ((Timing *)NextTiming->data)->time;
+
+    if (time<last)
+        {
+            LastTiming = TheTimings;
+            NextTiming = TheTimings->next;
+        }
+    last = ((Timing *)LastTiming->data)->time;
+    next = ((Timing *)NextTiming->data)->time;    
+        
+    for(g=LastTiming;g && g->next;g=g->next)
+        {
+            
+            LastTiming = g;
+            last = ((Timing *)g->data)->time;
+            NextTiming = g->next;
+            next = ((Timing *)g->next->data)->time;
+           //g_print (" %f between %f %f time greater is %f %d so ",  time,  last, next, time - next + 0.01, (time > (next -0.01)));
+            if((time > (last -0.01)) && !(time > (next -0.01)))
+                    {//g_print ("draw for %.2f\n", last);
+                        cairo_rectangle (cr, ((Timing *)((LastTiming)->data))->x  - (PRINTMARKER/5)/4, ((Timing *)((LastTiming)->data))->y - (PRINTMARKER/5)/2, PRINTMARKER/5, PRINTMARKER/5);
+                        cairo_fill (cr);
+                        return TRUE;
+                    }
+
+        }
+    if(NextTiming)
+        {
+        cairo_rectangle (cr, ((Timing *)((NextTiming)->data))->x  - (PRINTMARKER/5)/4, ((Timing *)((NextTiming)->data))->y - (PRINTMARKER/5)/2, PRINTMARKER/5, PRINTMARKER/5);
+        cairo_fill (cr);
+        }        
   return TRUE;
 }
 static gboolean
@@ -268,8 +287,21 @@ static void add_note (Timing *t)
     TheTimings = g_list_append (TheTimings, (gpointer)t);
     g_print ("Added %.2f seconds (%.2f,%.2f)\n", t->time, t->x, t->y);
 }
+static void free_timings (void)
+{
+    GList *g;
+    for (g = TheTimings; g;g=g->next)
+        {
+            g_free(g->data);
+        }
+    g_list_free (TheTimings);
+    TheTimings = NULL;
+    LastTiming = NextTiming = NULL;
+}
+
 static void compute_timings (gchar *base, GList *ids)
 {
+    free_timings();
     gchar *events = g_build_filename (base, "events.txt", NULL);
     FILE *fp = fopen (events, "r");  
     g_print ("Collected %d ids\n", g_list_length (ids));
@@ -473,6 +505,7 @@ static void
 playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean print)
 {
   progressbar_stop ();
+
   g_spawn_close_pid (get_print_status()->printpid);
   g_print ("background %d\n", get_print_status()->background);
   if (get_print_status()->background == STATE_NONE)
@@ -510,46 +543,6 @@ initialize_typesetting (void)
   return call_out_to_guile ("(InitializeTypesetting)");
 }
 
-static gboolean
-typeset (gboolean force)
-{
-
-  if ((force) || (changecount != Denemo.project->changecount))
-    {
-      if (initialize_typesetting ())
-        {
-          g_warning ("InitializeTypesetting failed");
-          return FALSE;
-        }
-      DenemoProject *gui = Denemo.project;
-      gui->movement->markstaffnum = 0;   
-      gui->lilycontrol.excerpt = FALSE;
-      create_svg (FALSE, FALSE);
-      changecount = Denemo.project->changecount;
-      return TRUE;
-    }
-  return FALSE;
-}
-
-static gboolean
-typeset_movement (gboolean force)
-{
-
-  if ((force) || (changecount != Denemo.project->changecount))
-    {
-      if (initialize_typesetting ())
-        {
-          g_warning ("InitializeTypesetting failed");
-          return FALSE;
-        }
-      DenemoProject *gui = Denemo.project;
-      gui->movement->markstaffnum = 0;        //FIXME save and restore selection?    
-      gui->lilycontrol.excerpt = FALSE;
-      create_svg (FALSE, FALSE);
-      return TRUE;
-    }
-  return FALSE;
-}
 //A button could be placed in the playback view to create an svg file from the view...
 static void
 copy_svg (void)
@@ -620,54 +613,43 @@ copy_svg (void)
     }
 }
 
-static void
-create_movement_svg (void)
-{
-  return_on_windows_if_printing;
-  //start_busy_cursor ();
-  create_svg (FALSE, FALSE);
-  g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) playbackview_finished, (gpointer) (FALSE));
-}
-static void free_timings (void)
-{
-    GList *g;
-    for (g = TheTimings; g;g=g->next)
-        {
-            g_free(g->data);
-        }
-    g_list_free (TheTimings);
-    TheTimings = NULL;
-}
+
 
 
 
 //re-creates the svg image and displays it
-static void update_playback_view ()
+static void remake_playback_view ()
 {
-    free_timings();
+    if (Denemo.project->movement->markstaffnum)
+        Denemo.project->movement->markstaffnum = 0;//It can (and would otherwise) typeset just the selection - would that be useful?
     create_svg (FALSE, FALSE);//there is a typeset() function defined which does initialize_typesetting() ...
     g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) playbackview_finished, (gpointer) (FALSE));
 }
 
+//returns TRUE if a re-build has been kicked off.
+static gboolean update_playback_view (void)
+{
+    g_print ("Testing %d not equal %d \n", changecount, Denemo.project->changecount);
+ if (changecount != Denemo.project->changecount)
+        {
+        call_out_to_guile ("(d-PlaybackView)");//this installs the temporary directives to typeset svg and then
+        return TRUE;
+        }
+return FALSE;
+}
 //Typeset and svg and display in playbackview window. Scale is the font size relative to 18.0 pt.
 void
 display_svg (gdouble scale)
 {
-     if ((changecount != Denemo.project->changecount || Denemo.project->lilysync != Denemo.project->changecount))
-        {
-        TheScale = scale; 
-        update_playback_view ();
-        }
+    TheScale = scale; 
+    (void)remake_playback_view ();
       //bring print view back to show cursor
-          if (Denemo.textview)
-            gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW (Denemo.textview),
+    if (Denemo.textview)
+        gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW (Denemo.textview),
                                       gtk_text_buffer_get_insert (Denemo.textbuffer),
                                       0.0,
-                                     TRUE, 0.5, 0.5);
-
+                               TRUE, 0.5, 0.5);
 }
-
-
 
 
 static gint Locationx, Locationy;
@@ -677,6 +659,7 @@ static void find_object (GtkWidget *event_box, GdkEventButton *event)
     gint y = event->y;
     g_print ("At %d %d\n", x, y);
     GList *g;
+
     for (g = TheTimings; g;g=g->next)
         {
             Timing *timing = g->data;
@@ -698,7 +681,12 @@ static void start_play (GtkWidget *event_box, GdkEventButton *event)
 {
     gint x = event->x;
     gint y = event->y;
-    g_print ("At %d %d\n", x, y);
+    //g_print ("At %d %d\n", x, y);
+    if (update_playback_view ())
+        {
+            infodialog (_("Please wait while the Playback View is re-typeset"));
+            return;
+        }
     GList *g;
     for (g = TheTimings; g;g=g->next)
         {
@@ -733,6 +721,16 @@ hide_playback_on_delete (void)
   activate_action ("/MainMenu/ViewMenu/" TogglePlaybackView_STRING);
   return TRUE;
 }
+
+static void play_button (void)
+{
+   if (update_playback_view ())
+        {
+            infodialog (_("Please wait while the Playback View is re-typeset"));
+            return;
+        }
+    call_out_to_guile ("(d-Play)");
+}
 void
 install_svgview (GtkWidget * top_vbox)
 {
@@ -748,7 +746,7 @@ install_svgview (GtkWidget * top_vbox)
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, FALSE, 0);
 
   GtkWidget *button = (GtkWidget*)gtk_button_new_with_label (_("Play"));
-  g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (call_out_to_guile), "(d-Play)");
+  g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (play_button), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
   button = (GtkWidget*)gtk_button_new_with_label (_("Stop"));
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (call_out_to_guile), "(d-Stop)");
