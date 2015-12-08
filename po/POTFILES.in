@@ -603,6 +603,8 @@ actions/menus/MainMenu/PlaybackMenu/PlayAndRecordMidiIn.scm
 actions/menus/MainMenu/PlaybackMenu/PlayAndRecordMidiIn.xml
 actions/menus/MainMenu/PlaybackMenu/PlayAtCursor.scm
 actions/menus/MainMenu/PlaybackMenu/PlayAtCursor.xml
+actions/menus/MainMenu/PlaybackMenu/PlaybackView.scm
+actions/menus/MainMenu/PlaybackMenu/PlaybackView.xml
 actions/menus/MainMenu/PlaybackMenu/RecreateTimebase.scm
 actions/menus/MainMenu/PlaybackMenu/RecreateTimebase.xml
 actions/menus/MainMenu/PlaybackMenu/ToggleConduct.scm
