@@ -5,7 +5,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Utility markups
-\version "2.19.24"
+
 %% vertical space skip
 #(define-markup-command (vspace layout props amount) (number?)
   "This produces a invisible object taking vertical space."
@@ -232,7 +232,7 @@
        (set! odd-label-header-table
              (cons (list label text display-1st)
                    odd-label-header-table))
-       (collect-music-for-book
+       (collect-music-for-book parser
          (make-music 'Music
           'page-marker #t
           'page-label label)))))
@@ -242,7 +242,7 @@
        (set! even-label-header-table
              (cons (list label text display-1st)
                    even-label-header-table))
-       (collect-music-for-book
+       (collect-music-for-book parser
          (make-music 'Music
           'page-marker #t
           'page-label label))))))
@@ -262,23 +262,23 @@
 %%% Utilities for adding (no-)page breaks, toplevel markups
 %%%
 #(define (add-page-break parser)
-  (collect-music-for-book 
+  (collect-music-for-book parser 
    (make-music 'Music
            'page-marker #t
            'line-break-permission 'force
            'page-break-permission 'force)))
 
 #(define (add-no-page-break parser)
-  (collect-music-for-book 
+  (collect-music-for-book parser 
    (make-music 'Music
            'page-marker #t
            'page-break-permission 'forbid)))
 
 #(define (add-toplevel-markup parser text)
-  (collect-scores-for-book (list text)))
+  (collect-scores-for-book parser (list text)))
 
 #(define (add-toc-item parser markup-symbol text)
-  (collect-music-for-book
+  (collect-music-for-book parser
    (add-toc-item! markup-symbol text)))
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -298,7 +298,7 @@
           (format #f "~a-~a" major-number minor-number))))
 
 #(define-public (add-rehearsal-number parser)
-   (collect-scores-for-book
+   (collect-scores-for-book parser
     (list (markup #:huge #:bold (rehearsal-number)))))
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -310,50 +310,50 @@
 #(define *use-rehearsal-numbers* (make-parameter #f))
 
 useRehearsalNumbers =
-#(define-music-function (use-numbers) (boolean?)
+#(define-music-function (parser location use-numbers) (boolean?)
   (*use-rehearsal-numbers* use-numbers)
    (make-music 'Music 'void #t))
 
 bookTitle =
-#(define-music-function (title) (string?)
+#(define-music-function (parser location title) (string?)
    (*book-title* title)
    (make-music 'Music 'void #t))
 
 chapter =
-#(define-music-function (title) (string?)
+#(define-music-function (parser location title) (string?)
   (increase-rehearsal-major-number)
-  (add-page-break (*parser*))
-  (add-toc-item (*parser*) 'tocChapterMarkup title)
-  (add-even-page-header-text (*parser*) (string-upper-case (*book-title*)) #f)
-  (add-odd-page-header-text (*parser*) (string-upper-case title) #f)
-  (add-toplevel-markup (*parser*) (markup #:chapter-title (string-upper-case title)))
-  (add-no-page-break (*parser*))
+  (add-page-break parser)
+  (add-toc-item parser 'tocChapterMarkup title)
+  (add-even-page-header-text parser (string-upper-case (*book-title*)) #f)
+  (add-odd-page-header-text parser (string-upper-case title) #f)
+  (add-toplevel-markup parser (markup #:chapter-title (string-upper-case title)))
+  (add-no-page-break parser)
   (make-music 'Music 'void #t))
 
 section =
-#(define-music-function (title) (markup?)
-  (add-toc-item (*parser*) 'tocSectionMarkup title)
-  (add-toplevel-markup (*parser*) (markup #:section-title (string-upper-case title)))
-  (add-no-page-break (*parser*))
+#(define-music-function (parser location title) (markup?)
+  (add-toc-item parser 'tocSectionMarkup title)
+  (add-toplevel-markup parser (markup #:section-title (string-upper-case title)))
+  (add-no-page-break parser)
   (make-music 'Music 'void #t))
                         
 piece =
-#(define-music-function (title) (markup?)
-  (add-toc-item (*parser*) 'tocPieceMarkup title)
-  (add-no-page-break (*parser*))
+#(define-music-function (parser location title) (markup?)
+  (add-toc-item parser 'tocPieceMarkup title)
+  (add-no-page-break parser)
   (if (*use-rehearsal-numbers*)
-      (add-toplevel-markup (*parser*) (markup #:rehearsal-number (rehearsal-number))))
-  (add-no-page-break (*parser*))
+      (add-toplevel-markup parser (markup #:rehearsal-number (rehearsal-number))))
+  (add-no-page-break parser)
   (make-music 'Music 'void #t))
                         
 titledPiece =
-#(define-music-function (title) (markup?)
-  (add-toc-item (*parser*) 'tocPieceMarkup title)
+#(define-music-function (parser location title) (markup?)
+  (add-toc-item parser 'tocPieceMarkup title)
   (if (*use-rehearsal-numbers*)
-      (add-toplevel-markup (*parser*)
+      (add-toplevel-markup parser
         (markup #:piece-title-with-number (rehearsal-number) (string-upper-case title)))
-      (add-toplevel-markup (*parser*) (markup #:piece-title (string-upper-case title))))
-  (add-no-page-break (*parser*))
+      (add-toplevel-markup parser (markup #:piece-title (string-upper-case title))))
+  (add-no-page-break parser)
   (make-music 'Music 'void #t))
 
 #(define-markup-command (chapter-title layout props title) (markup?)
