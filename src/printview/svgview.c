@@ -22,8 +22,12 @@
 #include "command/scorelayout.h"
 #include "command/lilydirectives.h"
 #include "export/exportlilypond.h"
+#include "scripting/scheme-callbacks.h"
 #include <libxml/parser.h>
 #include <libxml/tree.h>
+
+
+static gint changecount = -1;   //changecount when the playback typeset was last created 
 
 typedef struct Timing {
     gdouble time;
@@ -90,8 +94,19 @@ getXMLIntChild (xmlNodePtr elem)
 
 
 
-static gint changecount = -1;   //changecount when the printfile was last created 
 
+
+//Ensures the playback view window is visible.
+static void
+show_playback_view (void)
+{
+    GtkWidget *w = gtk_widget_get_toplevel (Denemo.playbackview);
+    if (!gtk_widget_get_visible (w))
+        activate_action ("/MainMenu/ViewMenu/" TogglePlaybackView_STRING);
+    else
+        gtk_window_present (GTK_WINDOW (w));
+}
+        
 
 //draw a circle 
 static void
@@ -446,7 +461,7 @@ set_playback_view (void)
       if (!shown_once)
         {
           shown_once = TRUE;
-          gtk_window_present (GTK_WINDOW (gtk_widget_get_toplevel (Denemo.playbackview)));
+          show_playback_view ();
         }
     }
     else g_warning ("get print status invalid %d\n", get_print_status()->invalid);
@@ -474,27 +489,20 @@ playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboole
   get_print_status()->printpid = GPID_NONE;
   set_playback_view ();
   
-  
+  changecount = Denemo.project->changecount;
  //FIXME LOAD get_printfile_pathbasename ().midi into libsmf so that we play the LilyPond generated MIDI.
   
  // start_normal_cursor ();
 
-   if (Denemo.playbackview)
-    {
-     GtkWidget* printarea = gtk_widget_get_toplevel (Denemo.playbackview);
-     if (gtk_window_is_active (GTK_WINDOW (printarea)))
-        gtk_window_present (GTK_WINDOW (printarea));
-    }
+ //  if (Denemo.playbackview)
+ //   {
+ //    GtkWidget* printarea = gtk_widget_get_toplevel (Denemo.playbackview);
+  //   if (gtk_window_is_active (GTK_WINDOW (printarea)))
+ //       gtk_window_present (GTK_WINDOW (printarea));
+ //   }
 }
 
-void
-present_playback_view_window(void) {
- GtkWidget *w = gtk_widget_get_toplevel (Denemo.playbackview);
-  if (gtk_widget_get_visible (w))
-    gtk_window_present (GTK_WINDOW (w));
-  else
-    gtk_widget_show (w);
-}
+
 
 static gboolean
 initialize_typesetting (void)
@@ -630,22 +638,38 @@ static void free_timings (void)
     g_list_free (TheTimings);
     TheTimings = NULL;
 }
+
+
+
+//re-creates the svg image and displays it
+static void update_playback_view ()
+{
+    free_timings();
+    create_svg (FALSE, FALSE);//there is a typeset() function defined which does initialize_typesetting() ...
+    g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) playbackview_finished, (gpointer) (FALSE));
+}
+
+//Typeset and svg and display in playbackview window. Scale is the font size relative to 18.0 pt.
 void
 display_svg (gdouble scale)
 {
-    TheScale = scale;
- free_timings();
- // start_busy_cursor ();
-   create_svg (FALSE, FALSE);//there is a typeset() function defined which does initialize_typesetting() ...
-   g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) playbackview_finished, (gpointer) (FALSE));
-  //bring view back to show cursor
-  if (Denemo.textview)
-    gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW (Denemo.textview),
-                              gtk_text_buffer_get_insert (Denemo.textbuffer),
-                              0.0,
-                             TRUE, 0.5, 0.5);
+     if ((changecount != Denemo.project->changecount || Denemo.project->lilysync != Denemo.project->changecount))
+        {
+        TheScale = scale; 
+        update_playback_view ();
+        }
+      //bring print view back to show cursor
+          if (Denemo.textview)
+            gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW (Denemo.textview),
+                                      gtk_text_buffer_get_insert (Denemo.textbuffer),
+                                      0.0,
+                                     TRUE, 0.5, 0.5);
 
 }
+
+
+
+
 static gint Locationx, Locationy;
 static void find_object (GtkWidget *event_box, GdkEventButton *event)
 {
@@ -701,6 +725,14 @@ static void start_play (GtkWidget *event_box, GdkEventButton *event)
            // g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*5.61*TheScale, timing->y*5.61*TheScale);
         }                    
 }
+
+
+static gint
+hide_playback_on_delete (void)
+{
+  activate_action ("/MainMenu/ViewMenu/" TogglePlaybackView_STRING);
+  return TRUE;
+}
 void
 install_svgview (GtkWidget * top_vbox)
 {
@@ -728,8 +760,8 @@ install_svgview (GtkWidget * top_vbox)
   //      gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
   gtk_window_set_title (GTK_WINDOW (top_vbox), _("Denemo Playback View"));
   gtk_window_set_default_size (GTK_WINDOW (top_vbox), 600, 750);
-  g_signal_connect (G_OBJECT (top_vbox), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
-  //g_signal_connect (G_OBJECT (top_vbox), "delete-event", G_CALLBACK (hide_playbackview_on_delete), NULL);
+  //g_signal_connect (G_OBJECT (top_vbox), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+  g_signal_connect (G_OBJECT (top_vbox), "delete-event", G_CALLBACK (hide_playback_on_delete), NULL);
   gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
   GtkWidget *score_and_scroll_hbox = gtk_scrolled_window_new (NULL, NULL);
  

@@ -3700,7 +3700,22 @@ toggle_print_view (GtkAction * action, gpointer param)
     }
 #endif
 }
-
+/**
+ *  Function to toggle visibility of playback view pane of current project
+ *  
+ *  
+ */
+static void
+toggle_playback_view (GtkAction * action, gpointer param)
+{
+ if(Denemo.non_interactive)
+    return;
+  GtkWidget *w = gtk_widget_get_toplevel (Denemo.playbackview);
+  if (gtk_widget_get_visible (w))
+    gtk_widget_hide (w);
+  else
+      gtk_widget_show (w);
+}
 /**
  *  Function to toggle visibility of score layout window of current project
  *  
@@ -3898,6 +3913,10 @@ GtkToggleActionEntry toggle_menu_entries[] = {
 
   {TogglePrintView_STRING, NULL, N_("Typeset Music"), NULL, NULL,
    G_CALLBACK (toggle_print_view), FALSE}
+  ,
+
+  {TogglePlaybackView_STRING, NULL, N_("Playback"), NULL, NULL,
+   G_CALLBACK (toggle_playback_view), FALSE}
   ,
 
   {ToggleScoreLayout_STRING, NULL, N_("Score Layout"), NULL, NULL,

@@ -23,6 +23,7 @@
 #define ToggleLilyText_STRING  "ToggleLilyText"
 #define ToggleScript_STRING  "ToggleScript"
 #define TogglePrintView_STRING  "TogglePrintView"
+#define TogglePlaybackView_STRING  "TogglePlaybackView"
 #define ToggleScoreLayout_STRING  "ToggleScoreLayout"
 #define ToggleCommandManager_STRING  "ToggleCommandManager"
 #define ToggleLyricsView_STRING  "ToggleLyricsView"

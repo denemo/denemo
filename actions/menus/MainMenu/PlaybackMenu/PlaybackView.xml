@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>PlaybackView</action>
+        <after>Play</after>
+        <_label>Playback View</_label>
+        <_tooltip>Displays the music fully typeset on one long page (the Playback View). Click on a note to play from there or drag to loop play.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

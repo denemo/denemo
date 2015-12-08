@@ -7646,6 +7646,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Substitute Music (Off/On)</_label>
         <_tooltip>Typesets this staff with the music from another staff, ignoring any music entered on this staff. Use this, for example, to typeset both Fret Diagrams and Chord Symbols from the same music.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>PlaybackView</action>
+        <after>Play</after>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <_label>Playback View</_label>
+        <_tooltip>Displays the music fully typeset on one long page (the Playback View). Click on a note to play from there or drag to loop play.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
