@@ -28,6 +28,11 @@
 
 
 static gint changecount = -1;   //changecount when the playback typeset was last created 
+static gboolean RightButtonPressed = FALSE;
+static gboolean Dragging = FALSE;
+static gint RightButtonX, DragX;
+static gint RightButtonY, DragY;
+
 
 typedef struct Timing {
     gdouble time;
@@ -158,6 +163,19 @@ overdraw_print (cairo_t * cr)
 {
   gint x, y;
   gdouble last, next;
+  if (Dragging)
+    {   //g_print ("Dragging from %d %d to %d %d \n", RightButtonX, RightButtonY, DragX, DragY);
+        
+        cairo_set_source_rgba (cr, 0.8, 0.2, 0.4, 0.5);
+        cairo_set_line_width (cr, 5.0);
+        cairo_move_to (cr, (double)RightButtonX, (double)RightButtonY);
+        cairo_line_to (cr, (double)DragX, (double)DragY);
+        cairo_stroke (cr);
+        
+       return TRUE; 
+    }
+  cairo_scale (cr, 5.61*TheScale, 5.61*TheScale);
+ 
   if (!Denemo.project->movement->playingnow)
     return TRUE;
   if (TheTimings == NULL)
@@ -169,7 +187,7 @@ overdraw_print (cairo_t * cr)
             LastTiming = TheTimings;
             NextTiming = TheTimings->next;
         }        
-  cairo_scale (cr, 5.61*TheScale, 5.61*TheScale);
+  
   cairo_set_source_rgba (cr, 0.9, 0.5, 1.0, 0.3);
 
     gdouble time = Denemo.project->movement->playhead;
@@ -194,7 +212,7 @@ overdraw_print (cairo_t * cr)
             next = ((Timing *)g->next->data)->time;
            //g_print (" %f between %f %f time greater is %f %d so ",  time,  last, next, time - next + 0.01, (time > (next -0.01)));
             if((time > (last -0.01)) && !(time > (next -0.01)))
-                    {//g_print ("draw for %.2f\n", last);
+                    {  //g_print ("draw from %.2f\n", ((Timing *)((LastTiming)->data))->x);
                         cairo_rectangle (cr, ((Timing *)((LastTiming)->data))->x  - (PRINTMARKER/5)/4, ((Timing *)((LastTiming)->data))->y - (PRINTMARKER/5)/2, PRINTMARKER/5, PRINTMARKER/5);
                         cairo_fill (cr);
                         return TRUE;
@@ -266,11 +284,11 @@ static Timing *get_svg_position(gchar *id, GList *ids)
                   Timing *timing = (Timing *)g_malloc (sizeof(Timing));
                   if (2==sscanf ((gchar*)ids->data, "Note-%*d-%*d translate(%lf,%lf)%*s%*s", &timing->x, &timing->y))
                     {
-                        g_print ("Found Position %.2f %.2f\n", timing->x, timing->y);
+                        //g_print ("Found Position %.2f %.2f\n", timing->x, timing->y);
                         return timing;
                     } else if (2==sscanf ((gchar*)ids->data, "Rest-%*d-%*d translate(%lf,%lf)%*s%*s", &timing->x, &timing->y))
                     {
-                        g_print ("Found Position %.2f %.2f\n", timing->x, timing->y);
+                       //g_print ("Found Position %.2f %.2f\n", timing->x, timing->y);
                         return timing;
                     }
                     
@@ -285,7 +303,7 @@ static Timing *get_svg_position(gchar *id, GList *ids)
 static void add_note (Timing *t)
 {
     TheTimings = g_list_append (TheTimings, (gpointer)t);
-    g_print ("Added %.2f seconds (%.2f,%.2f)\n", t->time, t->x, t->y);
+    //g_print ("Added %.2f seconds (%.2f,%.2f)\n", t->time, t->x, t->y);
 }
 static void free_timings (void)
 {
@@ -304,7 +322,7 @@ static void compute_timings (gchar *base, GList *ids)
     free_timings();
     gchar *events = g_build_filename (base, "events.txt", NULL);
     FILE *fp = fopen (events, "r");  
-    g_print ("Collected %d ids\n", g_list_length (ids));
+    //g_print ("Collected %d ids\n", g_list_length (ids));
     if(fp)
         {
             gdouble moment, duration;
@@ -319,7 +337,7 @@ static void compute_timings (gchar *base, GList *ids)
             gboolean incomingTempo = FALSE;
             while (2 == fscanf (fp, "%lf%10s", &moment, type)) 
                 {
-                 g_print ("moment %.2f %s latestMoment %.2f\n", moment, type, latestMoment);
+                // g_print ("moment %.2f %s latestMoment %.2f\n", moment, type, latestMoment);
                   if (!strcmp (type, "tempo"))  
                         {
                             if (1 == fscanf (fp, "%lf", &nextTempo))
@@ -358,7 +376,7 @@ static void compute_timings (gchar *base, GList *ids)
                                                     timing->line = line;
                                                     timing->col = col;
                                                     timing->time = adjustedElapsedTime;
-                                                    add_note (timing);g_print ("AdjustedElapsed time %.2f note %d\n", adjustedElapsedTime, midi);
+                                                    add_note (timing);//g_print ("AdjustedElapsed time %.2f note %d\n", adjustedElapsedTime, midi);
                                                     }
                                                 
                                     }
@@ -394,7 +412,7 @@ static void compute_timings (gchar *base, GList *ids)
                                                 timing->line = line;
                                                 timing->col = col;
                                                 timing->time = adjustedElapsedTime;
-                                                add_note (timing);g_print ("AdjustedElapsed time %.2f rest \n", adjustedElapsedTime);
+                                                add_note (timing);//g_print ("AdjustedElapsed time %.2f rest \n", adjustedElapsedTime);
                                                 }
                                             
                                 } //rest
@@ -443,7 +461,7 @@ static GList * create_positions (gchar *filename)
                                 if (ELEM_NAME_EQ (greatgrandChildElem, "path"))
                                     {
                                         gchar *coords = xmlGetProp (greatgrandChildElem, (xmlChar *) "transform");
-                                        g_print ("ID %s has Coords %s\n", id, coords);
+                                        //g_print ("ID %s has Coords %s\n", id, coords);
                                         if (id && coords)
                                             {
                                             gchar *data = g_strconcat (id, coords, NULL);
@@ -458,7 +476,7 @@ static GList * create_positions (gchar *filename)
                 }
         }
     }
-    g_print ("Read %d ids from file %s\n", g_list_length (ret), filename);
+    //g_print ("Read %d ids from file %s\n", g_list_length (ret), filename);
   return ret;  
 }
 static void
@@ -466,23 +484,23 @@ set_playback_view (void)
 {
   GFile *file;
   gchar *filename = g_strdup (get_print_status()->printname_svg[get_print_status()->cycle]);
-  g_print("Output to %s\n", filename);
-    if ((get_print_status()->invalid == 0) && !(g_file_test (filename, G_FILE_TEST_EXISTS))){
+  //g_print("Output to %s\n", filename);
+  if (get_print_status()->invalid)
+    g_warning ("We got print status invalid %d\nTypeset may not be good.", get_print_status()->invalid);
+    if (!(g_file_test (filename, G_FILE_TEST_EXISTS))){
       {
           g_free (filename);
           filename = g_strconcat (get_print_status()->printbasename[get_print_status()->cycle], "-page-2.svg", NULL);
-          g_print ("Failed, skipping title page to %s", filename);
-          get_print_status()->invalid = (g_file_test (filename, G_FILE_TEST_EXISTS)) ? 0 : 3;
+          //g_print ("Failed, skipping title page to %s", filename);
       }
     }
 
-    if (get_print_status()->invalid == 0) 
+    //if (get_print_status()->invalid == 0) ignore errors as it may have typeset anyway.
     get_print_status()->invalid = (g_file_test (filename, G_FILE_TEST_EXISTS)) ? 0 : 3;
 
 
  if (get_print_status()->invalid == 0)
     {
-     
       compute_timings (g_path_get_dirname(filename), create_positions (filename)); 
       if(Denemo.playbackview)
         gtk_image_set_from_file (GTK_IMAGE (Denemo.playbackview), filename);
@@ -496,7 +514,6 @@ set_playback_view (void)
           show_playback_view ();
         }
     }
-    else g_warning ("get print status invalid %d\n", get_print_status()->invalid);
     g_free (filename);
   return;
 }
@@ -507,7 +524,7 @@ playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboole
   progressbar_stop ();
 
   g_spawn_close_pid (get_print_status()->printpid);
-  g_print ("background %d\n", get_print_status()->background);
+  //g_print ("background %d\n", get_print_status()->background);
   if (get_print_status()->background == STATE_NONE)
     {
       call_out_to_guile ("(FinalizeTypesetting)");
@@ -615,8 +632,6 @@ copy_svg (void)
 
 
 
-
-
 //re-creates the svg image and displays it
 static void remake_playback_view ()
 {
@@ -629,7 +644,7 @@ static void remake_playback_view ()
 //returns TRUE if a re-build has been kicked off.
 static gboolean update_playback_view (void)
 {
-    g_print ("Testing %d not equal %d \n", changecount, Denemo.project->changecount);
+    //g_print ("Testing %d not equal %d \n", changecount, Denemo.project->changecount);
  if (changecount != Denemo.project->changecount)
         {
         call_out_to_guile ("(d-PlaybackView)");//this installs the temporary directives to typeset svg and then
@@ -655,22 +670,26 @@ display_svg (gdouble scale)
 static gint Locationx, Locationy;
 static void find_object (GtkWidget *event_box, GdkEventButton *event)
 {
+    if (event->button == 3)
+        infodialog (_("The is the Playback View Window. Click on a note to play from that note to the end. Drag between two notes to play from the first to the last, shift drag to create a loop"));
     gint x = event->x;
     gint y = event->y;
-    g_print ("At %d %d\n", x, y);
+    //g_print ("At %d %d\n", x, y);
     GList *g;
-
+    RightButtonPressed = TRUE;
+    RightButtonX = x;
+    RightButtonY = y;
     for (g = TheTimings; g;g=g->next)
         {
             Timing *timing = g->data;
             if((x-timing->x*5.61*TheScale < PRINTMARKER/(2)) && (y-timing->y*5.61*TheScale < PRINTMARKER/(2)))
                 {
-                    g_print ("Found line %d column %d\n", timing->line, timing->col);
+                    //g_print ("Found line %d column %d\n", timing->line, timing->col);
                     Locationx = timing->col;
                     Locationy = timing->line;
                     goto_lilypond_position (timing->line, timing->col);
                     call_out_to_guile ("(DenemoSetPlaybackStart)");
-                    g_print ("Set Playback Start %d column %d\n", timing->line, timing->col);
+                    //g_print ("Set Playback Start %d column %d\n", timing->line, timing->col);
                     return;
                     
                 }
@@ -681,6 +700,9 @@ static void start_play (GtkWidget *event_box, GdkEventButton *event)
 {
     gint x = event->x;
     gint y = event->y;
+    RightButtonPressed = FALSE;
+    Dragging = FALSE;
+    gtk_widget_queue_draw (Denemo.playbackview);
     //g_print ("At %d %d\n", x, y);
     if (update_playback_view ())
         {
@@ -697,14 +719,17 @@ static void start_play (GtkWidget *event_box, GdkEventButton *event)
                     if ((timing->col == Locationx) && (timing->line == Locationy))
                         {
                             call_out_to_guile ("(d-DenemoPlayCursorToEnd)");
-                            g_print ("Found same line %d column %d\n", timing->line, timing->col);
+                            //g_print ("Found same line %d column %d\n", timing->line, timing->col);
                         }
                     else
                         {
                             goto_lilypond_position (timing->line, timing->col);
                             call_out_to_guile ("(if (not (d-NextChord)) (d-MoveCursorRight))(DenemoSetPlaybackEnd)");
-                            g_print ("Set playback end to %d column %d\n", timing->line, timing->col);
-                            call_out_to_guile ("(d-OneShotTimer 500 \"(d-Play)\")");
+                            //g_print ("Set playback end to %d column %d\n", timing->line, timing->col);
+                            if (shift_held_down())
+                                call_out_to_guile ("(d-OneShotTimer 500 \"(DenemoLoop)\")");
+                            else
+                                call_out_to_guile ("(d-OneShotTimer 500 \"(d-Play)\")");
                         }
                     
                     return;
@@ -731,6 +756,23 @@ static void play_button (void)
         }
     call_out_to_guile ("(d-Play)");
 }
+
+
+static gboolean
+motion_notify (GtkWidget * window, GdkEventMotion * event)
+{
+  if (RightButtonPressed)
+    {
+        Dragging = TRUE;
+        DragX = event->x;
+        DragY = event->y;
+        gtk_widget_queue_draw (Denemo.playbackview);
+    }
+  return TRUE;
+
+}
+
+
 void
 install_svgview (GtkWidget * top_vbox)
 {
@@ -749,7 +791,7 @@ install_svgview (GtkWidget * top_vbox)
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (play_button), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
   button = (GtkWidget*)gtk_button_new_with_label (_("Stop"));
-  g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (call_out_to_guile), "(d-Stop)");
+  g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (call_out_to_guile), "(DenemoStop)");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
   
   if (top_vbox == NULL)
@@ -780,6 +822,11 @@ install_svgview (GtkWidget * top_vbox)
     gtk_container_add (GTK_CONTAINER (event_box), Denemo.playbackview);
     g_signal_connect (G_OBJECT (event_box), "button_press_event", G_CALLBACK (find_object), NULL);
     g_signal_connect (G_OBJECT (event_box), "button_release_event", G_CALLBACK (start_play), NULL);
+
+
+
+
+  g_signal_connect (G_OBJECT (event_box), "motion-notify-event", G_CALLBACK (motion_notify), NULL);
 
   //  gtk_box_pack_start (GTK_BOX (hbox), Denemo.playbackview, FALSE, FALSE, 0);
   
