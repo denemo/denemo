@@ -1,4 +1,4 @@
-(let ((tag "Temp")(tag2 "Temp2")(saved (d-GetSaved)))
+(let ((params PlaybackView::params)(tag "Temp")(tag2 "Temp2")(saved (d-GetSaved)))
     (d-DirectivePut-score-override tag DENEMO_OVERRIDE_AFFIX)
     (d-DirectivePut-score-prefix tag "\n\\include \"live-score.ily\"\n")
     (d-DirectivePut-voice-postfix tag (string-append " \\set Score.tempoHideNote = ##t \\tempo 4=" (number->string (d-MovementTempo)) " "))
@@ -10,7 +10,7 @@
     ragged-bottom = ##t
     #(set! paper-alist (cons '(\"custom-size\" . (cons (* 20 cm) (* 100 cm))) paper-alist))
     #(set-paper-size \"custom-size\")")
-    (d-DisplayTypesetSvg (/ (string->number  (d-ScoreProperties "query=fontsize"))18.0))
+    (d-DisplayTypesetSvg (/ (string->number  (d-ScoreProperties "query=fontsize"))18.0) params)
     (d-DirectiveDelete-movementcontrol tag)
     (d-DirectiveDelete-paper tag)
     (d-DirectiveDelete-score tag)

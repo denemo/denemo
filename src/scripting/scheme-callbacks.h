@@ -202,7 +202,7 @@ SCM scheme_progressbar (SCM);
 SCM scheme_progressbar_stop (void);
 SCM scheme_typeset_for_script (SCM);
 SCM scheme_print_typeset_pdf (void);
-SCM scheme_display_typeset_svg (SCM scaling);
+SCM scheme_display_typeset_svg (SCM scaling, SCM part);
 SCM scheme_get_char (void);
 SCM scheme_get_keypress (void);
 SCM scheme_get_command_keypress (void);

@@ -507,8 +507,14 @@ set_playback_view (void)
       else
         Denemo.playbackview = gtk_image_new_from_file (filename);
 
+#ifdef G_OS_WIN32
+    GError *err = NULL;
+   GdkPixbuf *pb = gdk_pixbuf_new_from_file ( filename, &err);
+   g_print ("\n\nThe pixbuf load yielded %p with error %s\n\n", pb, err?err->message: "no error return");
+#endif
+
       static gboolean shown_once = FALSE;   //Make sure the user knows that the printarea is on screen
-      if (!shown_once)
+     // if (!shown_once)
         {
           shown_once = TRUE;
           show_playback_view ();
@@ -633,11 +639,12 @@ copy_svg (void)
 
 
 //re-creates the svg image and displays it
-static void remake_playback_view ()
+static void remake_playback_view (gboolean part)
 {
     if (Denemo.project->movement->markstaffnum)
         Denemo.project->movement->markstaffnum = 0;//It can (and would otherwise) typeset just the selection - would that be useful?
-    create_svg (FALSE, FALSE);//there is a typeset() function defined which does initialize_typesetting() ...
+    create_svg (part, FALSE);//there is a typeset() function defined which does initialize_typesetting() ...
+    g_print ("Denemo.playbackview is at %p, Denemo at %p", Denemo.playbackview, Denemo);
     g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) playbackview_finished, (gpointer) (FALSE));
 }
 
@@ -654,10 +661,10 @@ return FALSE;
 }
 //Typeset and svg and display in playbackview window. Scale is the font size relative to 18.0 pt.
 void
-display_svg (gdouble scale)
+display_svg (gdouble scale, gboolean part)
 {
     TheScale = scale; 
-    (void)remake_playback_view ();
+    (void)remake_playback_view (part);
       //bring print view back to show cursor
     if (Denemo.textview)
         gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW (Denemo.textview),
@@ -756,6 +763,16 @@ static void play_button (void)
         }
     call_out_to_guile ("(d-Play)");
 }
+static void part_button (void)
+{
+    call_out_to_guile ("(d-PlaybackView 'part)");//this installs the temporary directives to typeset svg and then
+
+}
+static void movement_button (void)
+{
+    call_out_to_guile ("(d-PlaybackView #f)");//this installs the temporary directives to typeset svg and then
+
+}
 
 
 static gboolean
@@ -793,7 +810,13 @@ install_svgview (GtkWidget * top_vbox)
   button = (GtkWidget*)gtk_button_new_with_label (_("Stop"));
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (call_out_to_guile), "(DenemoStop)");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-  
+  button = (GtkWidget*)gtk_button_new_with_label (_("Movement"));
+  g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (movement_button), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+   button = (GtkWidget*)gtk_button_new_with_label (_("Part"));
+  g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (part_button), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+    
   if (top_vbox == NULL)
     top_vbox = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   // if(!Denemo.prefs.manualtypeset)
@@ -813,6 +836,7 @@ install_svgview (GtkWidget * top_vbox)
   
   gchar *filename = get_print_status()->printname_svg[get_print_status()->cycle];
   Denemo.playbackview = (GtkWidget *) gtk_image_new_from_file (filename);
+
     // gtk_container_add (GTK_CONTAINER (score_and_scroll_hbox), Denemo.playbackview);
     //instead use an hbox to prevent the GtkImage widget expanding beyond the image size, which then causes positioning errors.
     hbox = gtk_hbox_new (FALSE, 1);

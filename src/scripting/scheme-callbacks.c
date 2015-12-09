@@ -18,7 +18,7 @@
 #include "export/print.h"
 #include "export/exportmidi.h"
 #include "ui/markup.h"
-
+#include "printview/svgview.h"
 
 SCM 
 scheme_call_callback (SCM optional, callback_function callback) {
@@ -3675,12 +3675,12 @@ scheme_print_typeset_pdf (void)
 #endif
 }
 
-SCM scheme_display_typeset_svg (SCM scaling)
+SCM scheme_display_typeset_svg (SCM scaling, SCM part)
 {
     gdouble scale = 1.0;
     if (scm_is_real (scaling))
        scale = scm_to_double (scaling);
-    display_svg (scale);
+    display_svg (scale, scm_is_true (part));
     return SCM_BOOL_T;
 }
         

@@ -3,5 +3,5 @@
 void
 install_svgview (GtkWidget * top_vbox);
 
-void display_svg (gdouble scale);
+void display_svg (gdouble scale, gboolean part);
 #endif
