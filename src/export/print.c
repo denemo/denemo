@@ -500,12 +500,16 @@ static void
 run_lilypond_for_pdf (gchar * filename, gchar * lilyfile)
 {
     static gchar *include = NULL;
-    if(!include)
-        include = g_strdup_printf ("--include=%s", get_system_dir (DENEMO_DIR_LILYPOND_INCLUDE));
+    static gchar *local_include = NULL;
+    if(!include) {
+        local_include = g_strdup_printf ("-I%s", g_build_filename(get_user_data_dir(TRUE), get_local_dir (DENEMO_DIR_LILYPOND_INCLUDE), NULL));
+        include = g_strdup_printf ("-I%s", get_system_dir (DENEMO_DIR_LILYPOND_INCLUDE));
+    }
   /*arguments to pass to lilypond to create a pdf for printing */
   gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
     "--pdf",
+    local_include,
     include,
     "-o",
     filename,
@@ -518,12 +522,16 @@ static void
 run_lilypond_for_svg (gchar * filename, gchar * lilyfile)
 {
     static gchar *include = NULL;
-    if(!include)
-        include = g_strdup_printf ("--include=%s", get_system_dir (DENEMO_DIR_LILYPOND_INCLUDE));
+    static gchar *local_include = NULL;
+    if(!include) {
+        local_include = g_strdup_printf ("-I%s", g_build_filename(get_user_data_dir(TRUE), get_local_dir (DENEMO_DIR_LILYPOND_INCLUDE), NULL));
+        include = g_strdup_printf ("-I%s", get_system_dir (DENEMO_DIR_LILYPOND_INCLUDE));
+    }
   /*arguments to pass to lilypond to create a svg for printing */
   gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
      "-dno-point-and-click", "-ddelete-intermediate-files", "-dbackend=svg",
+    local_include,
     include,
     "-o",
     filename,
