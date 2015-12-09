@@ -134,7 +134,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
                       keyval = 0;
                       if (Denemo.prefs.strictshortcuts)
                         dnm_accelerator_parse (gtk_binding, &keyval, &state);
-                      g_debug ("binding %s, keyval %d, state %d, Command Number %d", gtk_binding, keyval, state, command_number);
+                      //g_debug ("binding %s, keyval %d, state %d, Command Number %d", gtk_binding, keyval, state, command_number);
                       {
                         gchar *comma;
                         comma = strtok (gtk_binding, ",");
@@ -557,7 +557,7 @@ save_xml_keybindings (gchar * filename)
           child = xmlNewChild (parent, NULL, COMMANDXML_TAG_ROW, NULL);
 
           gchar *name = (gchar *) lookup_name_from_idx (the_keymap, i);
-          g_debug ("%s %s binding(s) \n", name, command_has_binding (i) ? "has" : "does not have");
+          //g_debug ("%s %s binding(s) \n", name, command_has_binding (i) ? "has" : "does not have");
           xmlNewTextChild (child, NULL, COMMANDXML_TAG_ACTION, (xmlChar *) name);
           if (row->hidden)
             xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, (xmlChar *) "true");
