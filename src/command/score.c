@@ -344,10 +344,9 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
       gui->movement = this->data;
       if(!Denemo.non_interactive)
         gtk_widget_show (gui->movement->buttonbox);
-    }
-    
-  set_movement_selector (gui);
-
+    set_movement_selector (gui);
+   }
+   
   if (!moveto_currentstaffnum (gui, staffnum))
     {
       if (possible_gui)
