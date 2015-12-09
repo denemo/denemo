@@ -25,7 +25,7 @@
 #include "scripting/scheme-callbacks.h"
 #include <libxml/parser.h>
 #include <libxml/tree.h>
-
+#include <librsvg/rsvg.h>
 
 static gint changecount = -1;   //changecount when the playback typeset was last created 
 static gboolean RightButtonPressed = FALSE;
@@ -502,15 +502,32 @@ set_playback_view (void)
  if (get_print_status()->invalid == 0)
     {
       compute_timings (g_path_get_dirname(filename), create_positions (filename)); 
-      if(Denemo.playbackview)
-        gtk_image_set_from_file (GTK_IMAGE (Denemo.playbackview), filename);
-      else
-        Denemo.playbackview = gtk_image_new_from_file (filename);
+
 
 #ifdef G_OS_WIN32
     GError *err = NULL;
-   GdkPixbuf *pb = gdk_pixbuf_new_from_file ( filename, &err);
-   g_print ("\n\nThe pixbuf load yielded %p with error %s\n\n", pb, err?err->message: "no error return");
+  // GdkPixbuf *pb = gdk_pixbuf_new_from_file ( filename, &err);
+  // g_print ("\n\nThe pixbuf load yielded %p with error %s\n\n", pb, err?err->message: "no error return");
+   
+    //gdk_pixbuf_new_from_file(icon, NULL); Works on GNU/Linux but not windows - pixbuf loader not working...
+    err = NULL;
+    //extern GdkPixbuf *  rsvg_pixbuf_from_file (gchar *name, GError **error);
+    GdkPixbuf *pb = rsvg_pixbuf_from_file (filename, &err);
+    if(pb)
+        {
+            if(Denemo.playbackview)
+                gtk_image_set_from_pixbuf (GTK_IMAGE (Denemo.playbackview), pb);
+            else
+                Denemo.playbackview = gtk_image_new_from_pixbuf (pb);
+                g_print ("Loaded via pixbuf");
+        } else
+        g_print ("\n\nThe rsvg pixbuf load yielded %p with error %s\n\n", pb, err?err->message: "no error return");
+   
+#else   
+      if(Denemo.playbackview)
+        gtk_image_set_from_file (GTK_IMAGE (Denemo.playbackview), filename);
+      else
+        Denemo.playbackview = gtk_image_new_from_file (filename);   
 #endif
 
       static gboolean shown_once = FALSE;   //Make sure the user knows that the printarea is on screen
