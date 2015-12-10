@@ -805,8 +805,11 @@ motion_notify (GtkWidget * window, GdkEventMotion * event)
   return TRUE;
 
 }
-
-
+static gint
+keypress_event (GtkWidget * widget, GdkEventKey * event)
+{
+    g_print ("Keypress event\n");
+}
 void
 install_svgview (GtkWidget * top_vbox)
 {
@@ -868,8 +871,11 @@ install_svgview (GtkWidget * top_vbox)
 
 
   g_signal_connect (G_OBJECT (event_box), "motion-notify-event", G_CALLBACK (motion_notify), NULL);
+  
+//these don't fire off  
+//gtk_widget_add_events (event_box, GDK_KEY_PRESS_MASK);
+//g_signal_connect (G_OBJECT (event_box), "key_press_event", G_CALLBACK (keypress_event), NULL);
 
-  //  gtk_box_pack_start (GTK_BOX (hbox), Denemo.playbackview, FALSE, FALSE, 0);
   
   
   

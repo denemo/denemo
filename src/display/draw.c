@@ -1790,7 +1790,7 @@ draw_callback (cairo_t * cr)
  if( gui->movement->recording && (gui->movement->smfsync != gui->movement->changecount) && (!audio_is_playing())) 
  {
      set_tempo ();
-     exportmidi (NULL, gui->movement, 0, 0);  
+     exportmidi (NULL, gui->movement);  
  }
 #endif
   /* Clear with an appropriate background color. */

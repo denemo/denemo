@@ -24,6 +24,7 @@
 #include "export/file.h"
 #include "command/commandfuncs.h"
 #include "command/processstaffname.h"
+#include "export/exportmidi.h"
 
 
 static smf_t *smf = NULL;
@@ -365,7 +366,7 @@ readtrack (gint track)
     }
    else
     ret = -1;
-  exportmidi (NULL, Denemo.project->movement, 0, 0);
+  exportmidi (NULL, Denemo.project->movement);
   return ret;
 }
 

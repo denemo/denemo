@@ -4894,7 +4894,7 @@ scheme_create_timebase (SCM optional)
   DenemoMovement *si = Denemo.project->movement;
   if (si->smfsync != si->changecount)
     {
-      exportmidi (NULL, si, 0, 0);
+      exportmidi (NULL, si);
       return SCM_BOOL_T;
     }
   return SCM_BOOL_F;

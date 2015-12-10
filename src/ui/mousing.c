@@ -19,6 +19,8 @@
 #include "display/draw.h"
 #include "core/view.h"
 #include "audio/audiointerface.h"
+#include "export/exportmidi.h"
+
 
 static gboolean lh_down;
 static gdouble last_event_x;
@@ -592,7 +594,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
         get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
         change /= pi.measure_number;
         update_tempo_widget ( change);
-        set_tempo (); exportmidi (NULL, gui->movement, 0, 0);  
+        set_tempo (); exportmidi (NULL, gui->movement);  
         gtk_widget_queue_draw(Denemo.scorearea);
         return TRUE; 
     }

@@ -544,7 +544,7 @@ save_in_format (gint format_id, DenemoProject * gui, gchar * filename)
       };
     case MIDI_FORMAT:
       {
-        exportmidi (file, gui->movement, 0, 0);
+        exportmidi (file, gui->movement);
         break;
       };
     default:

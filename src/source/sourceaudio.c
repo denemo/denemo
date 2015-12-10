@@ -233,7 +233,7 @@ open_source_audio (gchar * filename)
           //FIXME here generate a click track if the score is empty
           if (Denemo.project->movement->smfsync != Denemo.project->movement->changecount)
             {
-              exportmidi (NULL, Denemo.project->movement, 0, 0);  //generate a timebase
+              exportmidi (NULL, Denemo.project->movement);  //generate a timebase
             }
           generate_note_onsets ();
           draw_score_area();
@@ -592,7 +592,7 @@ open_source_audio (gchar * filename)
           //FIXME here generate a click track if the score is empty
           if (Denemo.project->movement->smfsync != Denemo.project->movement->changecount)
             {
-              exportmidi (NULL, Denemo.project->movement, 0, 0);  //generate a timebase
+              exportmidi (NULL, Denemo.project->movement);  //generate a timebase
             }
           generate_note_onsets ();
           draw_score_area();

@@ -46,7 +46,7 @@ set_tempo (void)
 
   Denemo.project->movement->master_tempo = 1.0;
   score_status (Denemo.project, TRUE);
-  exportmidi (NULL, Denemo.project->movement, 0, 0);
+  exportmidi (NULL, Denemo.project->movement);
 }
 
 

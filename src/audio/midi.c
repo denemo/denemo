@@ -300,7 +300,7 @@ generate_midi ()
 {
   if ((Denemo.project->movement->smf == NULL) || (Denemo.project->movement->smfsync != Denemo.project->movement->changecount))
     {
-      exportmidi (NULL, Denemo.project->movement, 0, 0);
+      exportmidi (NULL, Denemo.project->movement);
     }
 
   if (Denemo.project->movement->smf == NULL)

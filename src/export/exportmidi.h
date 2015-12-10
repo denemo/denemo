@@ -8,7 +8,7 @@
 #define EXPORTMIDI_H
 #include <gtk/gtk.h>
 
-gdouble exportmidi (gchar * filename, DenemoMovement * si, gint start, gint end);
+gdouble exportmidi (gchar * filename, DenemoMovement * si);
 
 gchar *substitute_midi_values (gchar * str, gint channel, gint volume);
 

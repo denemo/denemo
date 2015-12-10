@@ -943,7 +943,7 @@ static void save_smf_to_file (smf_t *smf, gchar *thefilename)
  * return the duration in seconds of the music stored
  */
 gdouble
-exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
+exportmidi (gchar * thefilename, DenemoMovement * si)
 {
   /* variables for reading and decoding the object list */
   smf_event_t *event = NULL;
@@ -1196,20 +1196,13 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
       slur_erase (note_status, &slur_status);
 
       /* set boundries */
-      if (!end)
-        last = g_list_length (curmeasure);
-      else
-        last = end;
-      if (start)
-        curmeasure = g_list_nth (curmeasure, start - 1);
+     
+      last = g_list_length (curmeasure);
+      
+
       /* iterate for over measures in track */
-      for (measurenum = MAX (start, 1); curmeasure && measurenum <= last; curmeasure = curmeasure->next, measurenum++)
+      for (measurenum = 1; curmeasure && measurenum <= last; curmeasure = curmeasure->next, measurenum++)
         {
-          //printf
-          //  ("\nMAX start,1, curmeasurenum, last in export midi is = %i, %i, %i\n",
-          //   MAX (start, 1), curmeasurenum, last);
-          //printf("\ncurmeasure && measurenum in export midi is = %i\n", (curmeasure && measurenum));
-          //printf("\ncurmeasurenum in export midi is = %i\n", curmeasurenum);
           /* start of measure */
           curmeasurenum++;
           measure_is_empty = 1;
@@ -1812,16 +1805,13 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
   load_smf (si, smf);
 
 
-  if (start || end)
-    return exportmidi (NULL, si, 0, 0); // recurse if we have not generated all the MIDI for si
-  else
-    {
-      if (si->start_time < 0.0)
-        si->start_time = 0.0;
-      if (si->end_time < 0.0)
-        si->end_time = smf_get_length_seconds (smf);
-      g_debug ("Start time %f end time %f\n", si->start_time, si->end_time);
-    }
+
+  if (si->start_time < 0.0)
+    si->start_time = 0.0;
+  if (si->end_time < 0.0)
+    si->end_time = smf_get_length_seconds (smf);
+  g_debug ("Start time %f end time %f\n", si->start_time, si->end_time);
+
   call_out_to_guile ("(FinalizeMidiGeneration)");
   return smf_get_length_seconds (smf);
 }
