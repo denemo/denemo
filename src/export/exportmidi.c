@@ -890,6 +890,46 @@ change_tempo (gint * tempo, gint midi_val, gint midi_interpretation, gint midi_a
     }
 }
 
+static void load_smf ( DenemoMovement *si, smf_t *smf)
+  {
+   
+    gboolean midi_track = FALSE;
+    
+
+    g_static_mutex_lock (&smfmutex);
+    if (Denemo.project->movement->recorded_midi_track)
+      {
+        if (si->smf && (((smf_track_t *) Denemo.project->movement->recorded_midi_track)->smf == si->smf))
+          {
+            smf_track_remove_from_smf (Denemo.project->movement->recorded_midi_track);
+            midi_track = TRUE;
+          }
+      }
+    free_midi_data (si);
+    si->smf = smf;
+    if (midi_track)
+      smf_add_track (smf, Denemo.project->movement->recorded_midi_track);
+
+
+    si->smfsync = si->changecount;
+    g_static_mutex_unlock (&smfmutex);
+  }
+  
+
+static void save_smf_to_file (smf_t *smf, gchar *thefilename)
+{
+  if (thefilename)
+    {
+      if (Denemo.project->movement->recorded_midi_track)
+        smf_add_track (smf, Denemo.project->movement->recorded_midi_track);
+      if(smf_save (smf, (const char *) thefilename))
+        g_debug("smf_save failed");
+      if (Denemo.project->movement->recorded_midi_track)
+        smf_track_remove_from_smf (Denemo.project->movement->recorded_midi_track);
+    }
+}
+
+  
 /*
  * the main midi output system (somewhat large)
  */
@@ -1766,38 +1806,11 @@ exportmidi (gchar * thefilename, DenemoMovement * si, gint start, gint end)
   /********
    * Done!
    ********/
-  if (thefilename)
-    {
-      if (Denemo.project->movement->recorded_midi_track)
-        smf_add_track (smf, Denemo.project->movement->recorded_midi_track);
-      if(smf_save (smf, (const char *) thefilename))
-        g_debug("smf_save failed");
-      if (Denemo.project->movement->recorded_midi_track)
-        smf_track_remove_from_smf (Denemo.project->movement->recorded_midi_track);
-    }
-  /* we are done */
-  {
-    gboolean midi_track = FALSE;
+   save_smf_to_file (smf, thefilename);
 
+  
+  load_smf (si, smf);
 
-    g_static_mutex_lock (&smfmutex);
-    if (Denemo.project->movement->recorded_midi_track)
-      {
-        if (si->smf && (((smf_track_t *) Denemo.project->movement->recorded_midi_track)->smf == si->smf))
-          {
-            smf_track_remove_from_smf (Denemo.project->movement->recorded_midi_track);
-            midi_track = TRUE;
-          }
-      }
-    free_midi_data (si);
-    si->smf = smf;
-    if (midi_track)
-      smf_add_track (smf, Denemo.project->movement->recorded_midi_track);
-
-
-    si->smfsync = si->changecount;
-    g_static_mutex_unlock (&smfmutex);
-  }
 
   if (start || end)
     return exportmidi (NULL, si, 0, 0); // recurse if we have not generated all the MIDI for si
