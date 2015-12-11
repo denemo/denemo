@@ -388,6 +388,26 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
   return TRUE;
 }
 
+
+/* get the object specified or NULL if there is none.
+*/
+DenemoObject *
+get_object_by_position (gint movementnum, gint staffnum, gint measurenum, gint objnum)
+{
+  DenemoProject *gui = Denemo.project;
+  GList *this = g_list_nth (gui->movements, movementnum - 1);
+  if (this == NULL) return NULL;    
+  DenemoMovement *movement = this->data;
+  this = g_list_nth (movement->thescore, staffnum);
+  if (this == NULL) return NULL;
+  DenemoStaff *thestaff = (DenemoStaff*)this->data;
+  this = g_list_nth (thestaff->measures, measurenum);
+  if (this==NULL) return NULL;
+  this = g_list_nth (this->data, objnum);
+  if (this==NULL) return NULL;
+   return this->data;
+}
+
 void
 PopPosition (GtkAction * action, DenemoScriptParam * param)
 {

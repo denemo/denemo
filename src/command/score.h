@@ -31,4 +31,5 @@ void PushPosition (GtkAction * action, DenemoScriptParam * param);
 void PopPushPosition (GtkAction * action, DenemoScriptParam * param);
 void reset_movement_numbers (DenemoProject * gui);
 void set_movement_selector (DenemoProject *gui);
+DenemoObject *get_object_by_position (gint movementnum, gint staffnum, gint measurenum, gint objnum);
 #endif
