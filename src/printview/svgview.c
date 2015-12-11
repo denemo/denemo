@@ -160,7 +160,7 @@ get_window_position (gint * x, gint * y)
 gboolean attach_midi_events (smf_t *smf)
 {
   if (TheTimings == NULL)
-        return;
+        return FALSE;
   GList *g;
   for (g=TheTimings;g;g=g->next)      
     {
@@ -170,7 +170,7 @@ gboolean attach_midi_events (smf_t *smf)
             {
             smf_event_t *event = smf_get_next_event (Denemo.project->movement->smf);
             if (event && obj)
-                    obj->midi_events = g_list_append (obj->midi_events, (gpointer)event);
+                    return FALSE; // set curObj->earliest_time to this->time and get latest time too. obj->midi_events = g_list_append (obj->midi_events, (gpointer)event);
             else
                 return FALSE;
             }
