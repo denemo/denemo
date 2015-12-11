@@ -929,6 +929,26 @@ static void save_smf_to_file (smf_t *smf, gchar *thefilename)
     }
 }
 
+gdouble load_lilypond_midi (gchar * outfile) {
+    gchar *midi_file = get_print_status()->printname_midi[get_print_status()->cycle];
+    smf_t *smf = smf_load (midi_file);
+    if (smf)
+        {
+        load_smf (Denemo.project->movement, smf);
+        // go through all DenemoObjects freeing curobj->midi_events and instead pointing to smf events from the new smf
+        // the midi_events is a list of smf_event_t from this smf. Safest is to free them all first. g_list_free
+        if (!attach_midi_events (smf))
+            {
+                g_warning ("Attaching midi to objects failed\n"); 
+            }
+        if (outfile)
+            save_smf_to_file (smf, outfile);
+        return smf_get_length_seconds (smf);
+    } else
+    {
+        g_warning ("midi file %s not loaded", midi_file);
+    } 
+}
   
 /*
  * the main midi output system (somewhat large)
@@ -945,6 +965,9 @@ static void save_smf_to_file (smf_t *smf, gchar *thefilename)
 gdouble
 exportmidi (gchar * thefilename, DenemoMovement * si)
 {
+    
+  if (si==NULL)
+        return load_lilypond_midi (thefilename);
   /* variables for reading and decoding the object list */
   smf_event_t *event = NULL;
   staffnode *curstaff;
