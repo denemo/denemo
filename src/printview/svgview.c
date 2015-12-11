@@ -22,6 +22,7 @@
 #include "command/scorelayout.h"
 #include "command/lilydirectives.h"
 #include "export/exportlilypond.h"
+#include "export/exportmidi.h"
 #include "scripting/scheme-callbacks.h"
 #include <libxml/parser.h>
 #include <libxml/tree.h>
@@ -156,6 +157,26 @@ get_window_position (gint * x, gint * y)
 #endif
 }
 
+gboolean attach_midi_events (smf_t *smf)
+{
+  if (TheTimings == NULL)
+        return;
+  GList *g;
+  for (g=TheTimings;g;g=g->next)      
+    {
+        Timing *this = (Timing *)g->data;
+        DenemoObject *obj = get_object_at_lilypond (this->line, this->col);
+        if (smf_seek_to_seconds (smf, this->time))
+            {
+            smf_event_t *event = smf_get_next_event (Denemo.project->movement->smf);
+            if (event && obj)
+                    obj->midi_events = g_list_append (obj->midi_events, (gpointer)event);
+            else
+                return FALSE;
+            }
+        }
+  return TRUE;
+}
 
 //over-draw the evince widget with padding etc ...
 static gboolean
@@ -190,13 +211,13 @@ overdraw_print (cairo_t * cr)
   
   cairo_set_source_rgba (cr, 0.9, 0.5, 1.0, 0.3);
 
-    gdouble time = Denemo.project->movement->playhead;
+    gdouble time = Denemo.project->movement->playhead; //g_print ("stops playing at bar 15 of Handel V4time %f\n", time);
     GList *g;
     last = ((Timing *)LastTiming->data)->time;
     next = ((Timing *)NextTiming->data)->time;
 
     if (time<last)
-        {
+        { //g_print ("\n\n\nResetting LastTiming\n");
             LastTiming = TheTimings;
             NextTiming = TheTimings->next;
         }
@@ -205,20 +226,22 @@ overdraw_print (cairo_t * cr)
         
     for(g=LastTiming;g && g->next;g=g->next)
         {
-            
             LastTiming = g;
             last = ((Timing *)g->data)->time;
             NextTiming = g->next;
             next = ((Timing *)g->next->data)->time;
-           //g_print (" %f between %f %f time greater is %f %d so ",  time,  last, next, time - next + 0.01, (time > (next -0.01)));
-            if((time > (last -0.01)) && !(time > (next -0.01)))
+           //g_print (" %f between %f %f Beyond is %f\n ",  time,  last, next, g->next->next?((Timing *)g->next->next->data)->time:-.999);
+            if (!(fabs(last-time)>0.01))
                     {  //g_print ("draw from %.2f\n", ((Timing *)((LastTiming)->data))->x);
                         cairo_rectangle (cr, ((Timing *)((LastTiming)->data))->x  - (PRINTMARKER/5)/4, ((Timing *)((LastTiming)->data))->y - (PRINTMARKER/5)/2, PRINTMARKER/5, PRINTMARKER/5);
                         cairo_fill (cr);
-                        return TRUE;
                     }
-
+            if (!(fabs(next-time)>0.01))
+                continue;
+            if (next > time)
+                return TRUE;
         }
+        
     if(NextTiming)
         {
         cairo_rectangle (cr, ((Timing *)((NextTiming)->data))->x  - (PRINTMARKER/5)/4, ((Timing *)((NextTiming)->data))->y - (PRINTMARKER/5)/2, PRINTMARKER/5, PRINTMARKER/5);
@@ -504,14 +527,9 @@ set_playback_view (void)
       compute_timings (g_path_get_dirname(filename), create_positions (filename)); 
 
 
-#ifdef G_OS_WIN32
+#if 1 //def G_OS_WIN32
     GError *err = NULL;
-  // GdkPixbuf *pb = gdk_pixbuf_new_from_file ( filename, &err);
-  // g_print ("\n\nThe pixbuf load yielded %p with error %s\n\n", pb, err?err->message: "no error return");
-   
-    //gdk_pixbuf_new_from_file(icon, NULL); Works on GNU/Linux but not windows - pixbuf loader not working...
     err = NULL;
-    //extern GdkPixbuf *  rsvg_pixbuf_from_file (gchar *name, GError **error);
     GdkPixbuf *pb = rsvg_pixbuf_from_file (filename, &err);
     if(pb)
         {
@@ -519,9 +537,9 @@ set_playback_view (void)
                 gtk_image_set_from_pixbuf (GTK_IMAGE (Denemo.playbackview), pb);
             else
                 Denemo.playbackview = gtk_image_new_from_pixbuf (pb);
-                g_print ("Loaded via pixbuf");
+                g_print ("Loaded %s via rsvg pixbuf loader", filename);
         } else
-        g_print ("\n\nThe rsvg pixbuf load yielded %p with error %s\n\n", pb, err?err->message: "no error return");
+        g_print ("\n\nThe rsvg pixbuf load gave error: %s\n\n", err?err->message: "no error return");
    
 #else   
       if(Denemo.playbackview)
@@ -563,16 +581,9 @@ playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboole
   set_playback_view ();
   
   changecount = Denemo.project->changecount;
- //FIXME LOAD get_printfile_pathbasename ().midi into libsmf so that we play the LilyPond generated MIDI.
-  
- // start_normal_cursor ();
-
- //  if (Denemo.playbackview)
- //   {
- //    GtkWidget* printarea = gtk_widget_get_toplevel (Denemo.playbackview);
-  //   if (gtk_window_is_active (GTK_WINDOW (printarea)))
- //       gtk_window_present (GTK_WINDOW (printarea));
- //   }
+#ifdef USE_LILYPOND_MIDI
+  load_lilypond_midi (NULL);
+#endif
 }
 
 
