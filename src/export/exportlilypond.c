@@ -2901,6 +2901,41 @@ populate_called (G_GNUC_UNUSED GtkWidget * view, GtkMenuShell * menu)
   return FALSE;
 }
 
+
+DenemoObject *get_object_at_lilypond (gint line, gint column)
+{
+  DenemoProject *gui = Denemo.project;
+  GtkTextIter enditer, iter;
+  gtk_text_buffer_get_end_iter (Denemo.textbuffer, &enditer);
+  gtk_text_buffer_get_start_iter (Denemo.textbuffer, &iter);
+  line--;
+  column++; //needed to avoid stepping back after anchor on directives
+  if (column > 0 && line > 0)
+    {
+      gtk_text_buffer_get_iter_at_line_offset (Denemo.textbuffer, &iter, line, 0);
+      gint maxcol = gtk_text_iter_get_chars_in_line (&iter);
+      gtk_text_iter_set_visible_line_offset (&iter, MIN (maxcol, column));
+      gtk_text_buffer_place_cursor (Denemo.textbuffer, &iter);
+      GtkTextChildAnchor *anchor = gtk_text_iter_get_child_anchor (&iter);
+      if (anchor && (g_object_get_data (G_OBJECT (anchor), MOVEMENTNUM) == NULL))
+        anchor = NULL;
+      while ((anchor == NULL) && gtk_text_iter_backward_char (&iter))
+        {
+          anchor = gtk_text_iter_get_child_anchor (&iter);
+          if (anchor && (g_object_get_data (G_OBJECT (anchor), MOVEMENTNUM) == NULL))
+            anchor = NULL; 
+        }
+      if (anchor)
+        {
+          gint objnum = (intptr_t) g_object_get_data (G_OBJECT (anchor), OBJECTNUM);
+          gint measurenum = (intptr_t) g_object_get_data (G_OBJECT (anchor), MEASURENUM);
+          gint staffnum = (intptr_t) g_object_get_data (G_OBJECT (anchor), STAFFNUM);
+          gint movementnum = (intptr_t) g_object_get_data (G_OBJECT (anchor), MOVEMENTNUM);
+          return get_object_by_position (movementnum, staffnum, measurenum, objnum);
+        }
+    }
+    return NULL;
+}
                                                       
 // moves cursor to position indicated by anchor found before line and column, and sets si->target to indicate type of construct there.
 gboolean

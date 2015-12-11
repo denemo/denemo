@@ -37,6 +37,7 @@ void delete_lily_cb (GtkAction * action, gpointer param);
 void set_lily_error (gint line, gint column);
 void highlight_lily_error ();
 gboolean goto_lilypond_position (gint line, gint column);
+DenemoObject *get_object_at_lilypond (gint line, gint col);
 
 
 void set_initiate_scoreblock (DenemoMovement * si, GString * scoreblock);
