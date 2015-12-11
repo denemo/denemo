@@ -52,6 +52,7 @@ typedef struct printstatus
   gchar *printbasename[2];
   gchar *printname_pdf[2];
   gchar *printname_svg[2];
+  gchar *printname_midi[2];
   gchar *printname_ly[2];
 } printstatus;
 
