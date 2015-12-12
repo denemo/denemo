@@ -42,6 +42,7 @@ typedef struct Timing {
     gdouble y;
     gint line;
     gint col;
+    DenemoObject *object;//the denemo object that corresponds to line, col
 } Timing;
 
 GList *TheTimings = NULL, *LastTiming=NULL, *NextTiming=NULL;
@@ -167,25 +168,37 @@ gboolean attach_timings (void)
     {
         Timing *this = (Timing *)g->data;
         DenemoObject *obj = get_object_at_lilypond (this->line, this->col);
-      
+      //g_print ("at %d %d\n", this->line, this->col);
             if (obj)
                {
                   obj->earliest_time = this->time;
-                  obj->latest_time = this->time + this->duration; 
+                  obj->latest_time = this->time + this->duration; //g_print ("Set %.2f %.2f\n", obj->earliest_time, obj->latest_time);
+                  this->object = obj;
                 }
             else
-                return FALSE;
+               return FALSE;
     }
     
   return TRUE;
 }
-
+DenemoObject *get_object_for_time (gdouble time, gboolean start)
+{
+    GList *g;
+    for (g=TheTimings;g;g=g->next)
+        {
+         Timing *this = (Timing *)g->data;
+         if ((start? this->object->earliest_time:this->object->latest_time) > time)
+            return this->object;
+            
+        }
+    return NULL;
+}
 //over-draw the evince widget with padding etc ...
 static gboolean
 overdraw_print (cairo_t * cr)
 {
   gint x, y;
-  gdouble last, next;
+  gdouble this, duration;
   if (Dragging)
     {   //g_print ("Dragging from %d %d to %d %d \n", RightButtonX, RightButtonY, DragX, DragY);
         
@@ -199,56 +212,43 @@ overdraw_print (cairo_t * cr)
     }
   cairo_scale (cr, 5.61*TheScale, 5.61*TheScale);
  
-  if (!Denemo.project->movement->playingnow)
-    return TRUE;
+ // if (!Denemo.project->movement->playingnow)
+ //   return TRUE;
   if (TheTimings == NULL)
         return TRUE;
-  if (TheTimings->next == NULL)
-        return TRUE;
+
   if (LastTiming == NULL)
         {
             LastTiming = TheTimings;
-            NextTiming = TheTimings->next;
         }        
   
-  cairo_set_source_rgba (cr, 0.9, 0.5, 1.0, 0.3);
+    cairo_set_source_rgba (cr, 0.9, 0.5, 1.0, 0.3);
 
-    gdouble time = Denemo.project->movement->playhead; //g_print ("stops playing at bar 15 of Handel V4time %f\n", time);
+    gdouble time = Denemo.project->movement->playhead;
     GList *g;
-    last = ((Timing *)LastTiming->data)->time;
-    next = ((Timing *)NextTiming->data)->time;
-
-    if (time<last)
+    this = ((Timing *)LastTiming->data)->time;
+    duration = ((Timing *)LastTiming->data)->duration;
+    if (time < (this-0.01))
         { //g_print ("\n\n\nResetting LastTiming\n");
             LastTiming = TheTimings;
-            NextTiming = TheTimings->next;
         }
-    last = ((Timing *)LastTiming->data)->time;
-    next = ((Timing *)NextTiming->data)->time;    
         
     for(g=LastTiming;g && g->next;g=g->next)
         {
-            LastTiming = g;
-            last = ((Timing *)g->data)->time;
-            NextTiming = g->next;
-            next = ((Timing *)g->next->data)->time;
-           //g_print (" %f between %f %f Beyond is %f\n ",  time,  last, next, g->next->next?((Timing *)g->next->next->data)->time:-.999);
-            if (!(fabs(last-time)>0.01))
-                    {  //g_print ("draw from %.2f\n", ((Timing *)((LastTiming)->data))->x);
-                        cairo_rectangle (cr, ((Timing *)((LastTiming)->data))->x  - (PRINTMARKER/5)/4, ((Timing *)((LastTiming)->data))->y - (PRINTMARKER/5)/2, PRINTMARKER/5, PRINTMARKER/5);
+           this = ((Timing *)g->data)->time;
+           duration = ((Timing *)g->data)->duration;
+           //g_print (" %f this = %f test time>this %d and this-end < time %d Durations is %f\n ",  time,  this, (time > (this - 0.01)), (this + duration < time), duration);
+           if (this + duration < time)
+                       continue;
+           if (time > (this - 0.01))
+                    {  //g_print ("draw note at %.2f\n", this );
+                        cairo_rectangle (cr, ((Timing *)((g)->data))->x  - (PRINTMARKER/5)/4, ((Timing *)((g)->data))->y - (PRINTMARKER/5)/2, PRINTMARKER/5, PRINTMARKER/5);
                         cairo_fill (cr);
                     }
-            if (!(fabs(next-time)>0.01))
-                continue;
-            if (next > time)
-                return TRUE;
+            else
+               return TRUE;
+            LastTiming = g;
         }
-        
-    if(NextTiming)
-        {
-        cairo_rectangle (cr, ((Timing *)((NextTiming)->data))->x  - (PRINTMARKER/5)/4, ((Timing *)((NextTiming)->data))->y - (PRINTMARKER/5)/2, PRINTMARKER/5, PRINTMARKER/5);
-        cairo_fill (cr);
-        }        
   return TRUE;
 }
 static gboolean
@@ -584,7 +584,7 @@ playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboole
   set_playback_view ();
   
   changecount = Denemo.project->changecount;
-#ifdef USE_LILYPOND_MIDI
+#ifndef USE_LILYPOND_MIDI
   load_lilypond_midi (NULL);
 #endif
 }
@@ -722,7 +722,7 @@ static void find_object (GtkWidget *event_box, GdkEventButton *event)
             Timing *timing = g->data;
             if((x-timing->x*5.61*TheScale < PRINTMARKER/(2)) && (y-timing->y*5.61*TheScale < PRINTMARKER/(2)))
                 {
-                    //g_print ("Found line %d column %d\n", timing->line, timing->col);
+                    g_print ("Found line %d column %d\n", timing->line, timing->col);
                     Locationx = timing->col;
                     Locationy = timing->line;
                     goto_lilypond_position (timing->line, timing->col);
@@ -733,6 +733,12 @@ static void find_object (GtkWidget *event_box, GdkEventButton *event)
                 }
             //g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*5.61*TheScale, timing->y*5.61*TheScale);
         }                    
+}
+
+static gboolean playback_redraw (void)
+{
+    gtk_widget_queue_draw (Denemo.playbackview);
+    return TRUE;
 }
 static void start_play (GtkWidget *event_box, GdkEventButton *event)
 {
@@ -770,11 +776,16 @@ static void start_play (GtkWidget *event_box, GdkEventButton *event)
                                 call_out_to_guile ("(d-OneShotTimer 500 \"(d-Play)\")");
                         }
                     
-                    return;
+                    break;
                     
                 }
            // g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*5.61*TheScale, timing->y*5.61*TheScale);
-        }                    
+        }
+       
+  static gint id; 
+  if (!id)
+    id = g_timeout_add  (10, (GSourceFunc)playback_redraw, NULL);
+
 }
 
 

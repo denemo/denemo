@@ -2930,7 +2930,7 @@ DenemoObject *get_object_at_lilypond (gint line, gint column)
           gint objnum = (intptr_t) g_object_get_data (G_OBJECT (anchor), OBJECTNUM);
           gint measurenum = (intptr_t) g_object_get_data (G_OBJECT (anchor), MEASURENUM);
           gint staffnum = (intptr_t) g_object_get_data (G_OBJECT (anchor), STAFFNUM);
-          gint movementnum = (intptr_t) g_object_get_data (G_OBJECT (anchor), MOVEMENTNUM);
+          gint movementnum = (intptr_t) g_object_get_data (G_OBJECT (anchor), MOVEMENTNUM);//g_print ("Getting object from %d, %d as measure %d obj %d\n", line, column, measurenum, objnum);
           return get_object_by_position (movementnum, staffnum, measurenum, objnum);
         }
     }

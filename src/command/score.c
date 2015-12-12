@@ -398,12 +398,12 @@ get_object_by_position (gint movementnum, gint staffnum, gint measurenum, gint o
   GList *this = g_list_nth (gui->movements, movementnum - 1);
   if (this == NULL) return NULL;    
   DenemoMovement *movement = this->data;
-  this = g_list_nth (movement->thescore, staffnum);
+  this = g_list_nth (movement->thescore, staffnum - 1);
   if (this == NULL) return NULL;
   DenemoStaff *thestaff = (DenemoStaff*)this->data;
-  this = g_list_nth (thestaff->measures, measurenum);
+  this = g_list_nth (thestaff->measures, measurenum -1);
   if (this==NULL) return NULL;
-  this = g_list_nth (this->data, objnum);
+  this = g_list_nth (this->data, objnum-1);
   if (this==NULL) return NULL;
    return this->data;
 }
