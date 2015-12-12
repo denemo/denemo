@@ -767,7 +767,6 @@ clone_movement (DenemoMovement * si)
 
       thestaff->denemo_name = g_string_new (srcStaff->denemo_name->str);
       thestaff->lily_name = g_string_new (srcStaff->lily_name->str);
-      thestaff->midi_events = NULL;     //cached data
 
       thestaff->staff_directives = clone_directives (srcStaff->staff_directives);
       {

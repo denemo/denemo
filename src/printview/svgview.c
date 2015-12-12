@@ -37,6 +37,7 @@ static gint RightButtonY, DragY;
 
 typedef struct Timing {
     gdouble time;
+    gdouble duration;
     gdouble x;
     gdouble y;
     gint line;
@@ -157,24 +158,25 @@ get_window_position (gint * x, gint * y)
 #endif
 }
 
-gboolean attach_midi_events (smf_t *smf)
+gboolean attach_timings (void)
 {
   if (TheTimings == NULL)
-        return;
+        return FALSE;
   GList *g;
   for (g=TheTimings;g;g=g->next)      
     {
         Timing *this = (Timing *)g->data;
         DenemoObject *obj = get_object_at_lilypond (this->line, this->col);
-        if (smf_seek_to_seconds (smf, this->time))
-            {
-            smf_event_t *event = smf_get_next_event (Denemo.project->movement->smf);
-            if (event && obj)
-                    obj->midi_events = g_list_append (obj->midi_events, (gpointer)event);
+      
+            if (obj)
+               {
+                  obj->earliest_time = this->time;
+                  obj->latest_time = this->time + this->duration; 
+                }
             else
                 return FALSE;
-            }
-        }
+    }
+    
   return TRUE;
 }
 
@@ -399,6 +401,7 @@ static void compute_timings (gchar *base, GList *ids)
                                                     timing->line = line;
                                                     timing->col = col;
                                                     timing->time = adjustedElapsedTime;
+                                                    timing->duration = duration;
                                                     add_note (timing);//g_print ("AdjustedElapsed time %.2f note %d\n", adjustedElapsedTime, midi);
                                                     }
                                                 
@@ -841,10 +844,10 @@ install_svgview (GtkWidget * top_vbox)
   button = (GtkWidget*)gtk_button_new_with_label (_("Stop"));
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (call_out_to_guile), "(DenemoStop)");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-  button = (GtkWidget*)gtk_button_new_with_label (_("Movement"));
+  button = (GtkWidget*)gtk_button_new_with_label (_("All Parts"));
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (movement_button), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-   button = (GtkWidget*)gtk_button_new_with_label (_("Part"));
+   button = (GtkWidget*)gtk_button_new_with_label (_("Current Part"));
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (part_button), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
     

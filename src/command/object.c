@@ -39,8 +39,6 @@ freeobject (DenemoObject * mudobj)
 {
   if (mudobj == NULL)
     return;
-  if (mudobj->midi_events)
-    g_list_free (mudobj->midi_events);  //do not free the data it belongs to libsmf
   if (mudobj->lilypond)
     g_free (mudobj->lilypond);
   switch (mudobj->type)
@@ -525,19 +523,13 @@ display_current_object (void)
           break;
         } //end switch curObj type
         
-        if (curObj->midi_events)
+        if (gui->movement->smfsync == gui->movement->changecount)
         {
-          smf_event_t *event = (smf_event_t *) curObj->midi_events->data;
-          gdouble time = event->time_seconds;
+         
+          gdouble time = curObj->earliest_time;
           gint minutes = time / 60.0;
           gdouble seconds = time - 60 * minutes;
-          char *buf = event->midi_buffer;
           g_string_append_printf (selection, _("Playback timing: %d minutes %1.2f seconds"), minutes, seconds);
-          #define velocity ((*(buf+2))&0x7F)
-          if ((*buf & 0xf0) == 0x90)
-            g_string_append_printf (selection, _(", Volume: %1.1f%%\n"), (100.0/127) * buf[2]);
-          else
-            g_string_append (selection, _(".\n"));
         }
 
         if (warning->len)
@@ -2199,7 +2191,7 @@ dnm_clone_object (DenemoObject * orig)
             ret->lilypond = g_strdup (orig->lilypond);
         else
             ret->lilypond = NULL;
-        ret->midi_events = NULL;
+        
         ret->isinvisible = orig->isinvisible;
   }
   return ret;

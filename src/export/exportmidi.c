@@ -713,7 +713,7 @@ is_status_byte(const unsigned char status)
    and frees buffer. Returns the event, or NULL if invalid buffer.
  */
 static smf_event_t *
-put_event (gchar * buffer, gint numbytes, GList ** midi_events, smf_track_t * track)
+put_event (gchar * buffer, gint numbytes,  smf_track_t * track)
 {
   smf_event_t *event = NULL;
   if (numbytes && is_status_byte (buffer[0]))
@@ -721,7 +721,6 @@ put_event (gchar * buffer, gint numbytes, GList ** midi_events, smf_track_t * tr
  if (event && smf_event_is_valid (event))
     {
       smf_track_add_event_delta_pulses (track, event, 0);
-      *midi_events = g_list_append (*midi_events, event);
     }
   g_free (buffer);
   return event;
@@ -935,11 +934,9 @@ gdouble load_lilypond_midi (gchar * outfile) {
     if (smf)
         {
         load_smf (Denemo.project->movement, smf);
-        // go through all DenemoObjects freeing curobj->midi_events and instead pointing to smf events from the new smf
-        // the midi_events is a list of smf_event_t from this smf. Safest is to free them all first. g_list_free
-        if (!attach_midi_events (smf))
+        if (!attach_timings ())
             {
-                g_warning ("Attaching midi to objects failed\n"); 
+                g_warning ("Attaching timings to objects failed\n"); 
             }
         if (outfile)
             save_smf_to_file (smf, outfile);
@@ -1158,7 +1155,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
               gchar *buf = directive_get_midi_buffer (directive, &numbytes, midi_channel, cur_volume);
               if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
                 if (buf)
-                  if (NULL == put_event (buf, numbytes, &curstaffstruct->midi_events, track))
+                  if (NULL == put_event (buf, numbytes, track))
                     g_warning ("Invalid midi bytes in staff directive");
             }
         }
@@ -1179,7 +1176,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                   gchar *buf = directive_get_midi_buffer (directive, &numbytes, midi_channel, cur_volume);
                   if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
                     if (buf)
-                      if (NULL == put_event (buf, numbytes, &Denemo.project->midi_events, track))
+                      if (NULL == put_event (buf, numbytes, track))
                         g_warning ("Invalid midi bytes in score directive");
                 }
             }
@@ -1196,7 +1193,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                   gchar *buf = directive_get_midi_buffer (directive, &numbytes, midi_channel, cur_volume);
                   if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
                     if (buf)
-                      if (NULL == put_event (buf, numbytes, &Denemo.project->movement->midi_events, track))
+                      if (NULL == put_event (buf, numbytes,  track))
                         g_warning ("Invalid midi bytes in movement directive");
                 }
             }
@@ -1236,9 +1233,6 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
           for (curobjnode = (objnode *) curmeasure->data; curobjnode; curobjnode = curobjnode->next)
             {
               curobj = (DenemoObject *) curobjnode->data;
-              if (curobj->midi_events)
-                g_list_free (curobj->midi_events);      //data belongs to libsmf
-              curobj->midi_events = NULL;
               curobj->earliest_time = ticks_read * 60.0 / (cur_tempo * MIDI_RESOLUTION);        //smf_get_length_seconds(smf);
 
 
@@ -1306,7 +1300,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                               if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
                                 if (buf)
                                   {
-                                    if (NULL == put_event (buf, numbytes, &curobj->midi_events, track))
+                                    if (NULL == put_event (buf, numbytes, track))
                                       g_warning ("Invalid midi bytes in chord directive");
                                   }
                               break;
@@ -1394,7 +1388,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                       //g_debug("Adding Dummy event for rest %d %d %d\n", duration, ticks_read, ticks_written); 
                       event = midi_meta_text (1 /* comment */ , "rest");
                       smf_track_add_event_delta_pulses (track, event, duration);
-                      curobj->midi_events = g_list_append (curobj->midi_events, event);
+                      
                       ticks_written += duration;
                       event->user_pointer = curobj;
                       //g_debug("rest of %f seconds at %f\n", duration/(double)MIDI_RESOLUTION, curobj->latest_time);
@@ -1498,7 +1492,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                               event = smf_event_new_from_bytes (MIDI_NOTE_ON | midi_channel, n,(curstaffstruct->mute)? 0: (override_volume ? 127 : (gint) (master_volume * cur_volume /*FIXME as above, mix */ )));
                               smf_track_add_event_delta_pulses (track, event, mididelta);
                               event->user_pointer = curobj;
-                              curobj->midi_events = g_list_append (curobj->midi_events, event);
+                              
                               curobj->earliest_time = event->time_seconds;
                               curobj->latest_time = curobj->earliest_time + duration * 60.0 / (cur_tempo * MIDI_RESOLUTION);
 
@@ -1512,8 +1506,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                               smf_track_add_event_delta_pulses (track, event, mididelta);
                               //g_debug("Note  off for track %x at delta (%d) %.1f for cur_tempo %d\n", track, mididelta, event->time_seconds, cur_tempo);
                               event->user_pointer = curobj;
-                              curobj->midi_events = g_list_append (curobj->midi_events, event);
-
+                              
                               curobj->latest_time = event->time_seconds;
                               curobj->earliest_time = curobj->latest_time - duration * 60.0 / (cur_tempo * MIDI_RESOLUTION);
                               //g_debug("event off lur kill %f\n", event->time_seconds);
@@ -1562,7 +1555,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                               //g_debug("Note  off for track %x at delta (%d) %.1f for cur_tempo %d\n", track, mididelta, event->time_seconds, cur_tempo);
                               //g_debug("smf length after %d %f mididelta %d", smf_get_length_pulses(smf), smf_get_length_seconds(smf),mididelta);
                               event->user_pointer = curobj;
-                              curobj->midi_events = g_list_append (curobj->midi_events, event);
+                              
                               curobj->latest_time = event->time_seconds;
                               curobj->earliest_time = curobj->latest_time - duration * 60.0 / (cur_tempo * MIDI_RESOLUTION);
                               //g_debug("event off %f mididelta %d duration %d for curobj->type = %d\n", event->time_seconds, mididelta, duration, curobj->type);
@@ -1607,7 +1600,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                   event = midi_timesig (timesigupper, timesiglower);
                   smf_track_add_event_delta_pulses (track, event, 0);
                   event->user_pointer = curobj;
-                  curobj->midi_events = g_list_append (curobj->midi_events, event);
+                  
                   curobj->earliest_time = curobj->latest_time = event->time_seconds;    //= smf_get_length_seconds(smf);
                   break;
 
@@ -1680,7 +1673,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                   event = midi_keysig ((((keysig *) curobj->object)->number), curstaffstruct->keysig.isminor);
                   smf_track_add_event_delta_pulses (track, event, 0);
                   event->user_pointer = curobj;
-                  curobj->midi_events = g_list_append (curobj->midi_events, event);
+                  
                   curobj->earliest_time = curobj->latest_time = event->time_seconds;    //= smf_get_length_seconds(smf);
                   break;
 
@@ -1736,7 +1729,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                             if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
                               if (buf)
                                 {g_print ("putting numbytes %d", numbytes);
-                                  if (NULL == put_event (buf, numbytes, &curobj->midi_events, track))
+                                  if (NULL == put_event (buf, numbytes, track))
                                     g_warning ("Directive has invalid MIDI bytes");
                                 }
                             break;

@@ -306,10 +306,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
     if (mudelaitem->type == CHORD && ((chord *) mudelaitem->object)->tone_node)
       cairo_set_source_rgb (cr, 231.0 / 255, 215.0 / 255, 39.0 / 255);  //thecolor = &yellow;
 
-  if (mudelaitem->midi_events)
-    {
-      itp->last_midi = mudelaitem->midi_events;
-    }
+
 
   switch (mudelaitem->type)
     {
