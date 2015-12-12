@@ -211,7 +211,8 @@ overdraw_print (cairo_t * cr)
        return TRUE; 
     }
   cairo_scale (cr, 5.61*TheScale, 5.61*TheScale);
- 
+  if(!audio_is_playing())
+    return TRUE;
  // if (!Denemo.project->movement->playingnow)
  //   return TRUE;
   if (TheTimings == NULL)
