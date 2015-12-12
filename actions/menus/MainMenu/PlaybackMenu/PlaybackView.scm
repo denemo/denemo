@@ -1,7 +1,27 @@
 (let ((params PlaybackView::params)(tag "Temp")(tag2 "Temp2")(saved (d-GetSaved)))
+    (define (no-tempo-at-start)
+        (define no-tempo #t)
+        (d-PushPosition)
+        (d-MoveToBeginning)
+      
+        (let loop ()
+          (if (Music?)
+            (set! no-tempo #t)
+            (if (d-Directive-standalone? "MetronomeMark")
+                (set! no-tempo #f)
+                (if (d-NextObjectInMeasure)
+                    (loop)
+                    (set! no-tempo #t)))))
+        (d-PopPosition)
+        (disp "Found no-tempo " no-tempo "\n\n")
+        no-tempo)
+
+
+
     (d-DirectivePut-score-override tag DENEMO_OVERRIDE_AFFIX)
     (d-DirectivePut-score-prefix tag "\n\\include \"live-score.ily\"\n")
-    (d-DirectivePut-voice-postfix tag (string-append " \\set Score.tempoHideNote = ##t \\tempo 4=" (number->string (d-MovementTempo)) " "))
+    (if (no-tempo-at-start)
+      (d-DirectivePut-voice-postfix tag (string-append " \\set Score.tempoHideNote = ##t \\tempo 4=" (number->string (d-MovementTempo)) " ")))
     (d-DirectivePut-score-prefix tag2 "\n\\header { tagline = #f }\n")
     (d-DirectivePut-score-postfix tag2 "  \\applyContext #(override-color-for-all-grobs (x11-color 'black)) ")
     (d-DirectivePut-movementcontrol-postfix tag "\n\\layout{}\\midi {}\n")

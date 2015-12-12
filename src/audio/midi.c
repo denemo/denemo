@@ -20,6 +20,7 @@
 #include "core/view.h"
 #include "audio/pitchentry.h"
 #include "audio/instrumentname.h"
+#include "printview/svgview.h"
 
 #include <glib.h>
 #include <math.h>
@@ -348,9 +349,8 @@ get_obj_for_start_time (smf_t * smf, gdouble time)
       g_debug("smf_seek_to_event failed");  //if (event) g_debug("sought for endObj %f found %f\n", time, event->time_seconds);
   if (event)
     return (DenemoObject *) (event->user_pointer);
-  return NULL;
+  return get_object_for_time (time, TRUE);
 }
-
 //finds the first note which comes OFF after the passed time
 DenemoObject *
 get_obj_for_end_time (smf_t * smf, gdouble time)
@@ -372,7 +372,8 @@ get_obj_for_end_time (smf_t * smf, gdouble time)
       g_debug("smf_seek_to_event failed");//if (event) g_debug("sought for startObj %f found %f\n", time, event->time_seconds);
   if (event)
     return (DenemoObject *) (event->user_pointer);
-  return NULL;
+  
+  return get_object_for_time (time, FALSE);
 }
 
 

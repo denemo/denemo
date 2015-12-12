@@ -1873,13 +1873,6 @@ write_status (DenemoProject * gui)
       DenemoObject *curObj = gui->movement->currentobject->data;
       if ((gui->movement->smfsync == gui->movement->changecount))
         {
-          if (curObj->midi_events)
-            {
-              smf_event_t *event = (smf_event_t *) curObj->midi_events->data;
-              gdouble time = event->time_seconds;
-              minutes = time / 60.0;
-              seconds = time - 60 * minutes;
-            }
           early = curObj->earliest_time, late = curObj->latest_time;
         }
 

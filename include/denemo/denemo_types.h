@@ -214,9 +214,8 @@ typedef struct
   gint durinticks; /**< Duration of object where 384 (PPQN) is a quarter note, includes any tuplet/grace note effects */
   gint starttick; /**< When the object occurs */ 
   gint starttickofnextnote; /**< When the next object occurs */
-  GList* midi_events;/**< data are the smf_event_ts that this object gives rise to */
-  gdouble earliest_time;/**< cached value of earliest time in midi_events, if no midi_events it holds time of preceding/following midi event   */
-  gdouble latest_time;/**< cached value of latest time in midi_events, if no midi_events it holds time of preceding/following midi event */
+  gdouble earliest_time;/**< time in seconds from start of movement for the start of the note/rest   */
+  gdouble latest_time;/**< time in seconds from start of movement for the end of the note/rest */
   /**< Allots extra space for accidentals or reverse-aligned notes if
    * the stem is down */
   gint space_before; /**< Used to specify how much space is needed before the object in display */
@@ -329,7 +328,7 @@ typedef struct
   GList *staff_directives;/**< List of DenemoDirective for the staff context, (only relevant for primary staff)*/
   GList *voice_directives;/**< List of DenemoDirective for the voice context */
 
-  GList *midi_events;/*< cache of midi events to be output at start of the track, after scorewide and movementwide ones created from staff_directives*/
+ 
 
 } DenemoStaff;
 
@@ -930,7 +929,7 @@ typedef struct DenemoMovement
   movementcontrol movementcontrol;/*< Directives for control of the whole movement */
   layout layout;/*< Directives for the layout block of the movement */
   header header;/*< Directives for the header block of the movement */
-  GList *midi_events;/*< midi_events to be output at start of first track, after scorewide ones */
+  
 
   guint changecount;
   /* Fields used for MIDI playback */
@@ -1005,8 +1004,8 @@ typedef struct DenemoProject
 
   scoreheader scoreheader;/*< Directives for the header block at the start of the score */
   paper paper;/*< Directives for the paper block of the score */
-  GList *midi_events;/*< midi_events to be output at start of first track of each movement */
-    gboolean has_script;/*< true if there is a script to be run on loading the DenemoProject from disk */
+  
+  gboolean has_script;/*< true if there is a script to be run on loading the DenemoProject from disk */
   GList *standard_scoreblocks; /**< List of automatically generated \score blocks for LilyPond output elements are DenemoScoreblock * */
   GList *custom_scoreblocks; /**< List of customized  \score blocks for LilyPond output, elements are DenemoScoreblock * */
   GtkWidget *score_layout; /**< The window in which custom_scoreblock widgets are placed */

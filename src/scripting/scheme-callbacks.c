@@ -1854,10 +1854,10 @@ scheme_get_midi_on_time (void)
 {
   if (!(Denemo.project->movement->currentobject))
     return SCM_BOOL_F;
-  DenemoObject *curobj = Denemo.project->movement->currentobject->data;
-  if (!curobj->midi_events)
-    return SCM_BOOL_F;
-  return scm_from_double (get_midi_on_time (curobj->midi_events));
+  DenemoObject *curObj = Denemo.project->movement->currentobject->data;
+  if ((Denemo.project->movement->smfsync == Denemo.project->movement->changecount))
+    return scm_from_double (curObj->earliest_time);
+  return SCM_BOOL_F;
 }
 
 SCM
@@ -1865,10 +1865,10 @@ scheme_get_midi_off_time (void)
 {
   if (!(Denemo.project->movement->currentobject))
     return SCM_BOOL_F;
-  DenemoObject *curobj = Denemo.project->movement->currentobject->data;
-  if (!curobj->midi_events)
-    return SCM_BOOL_F;
-  return scm_from_double (get_midi_off_time (curobj->midi_events));
+  DenemoObject *curObj = Denemo.project->movement->currentobject->data;
+  if ((Denemo.project->movement->smfsync == Denemo.project->movement->changecount))
+    return scm_from_double (curObj->latest_time);
+  return SCM_BOOL_F;
 }
 SCM
 scheme_midi_in_listening (void)
@@ -2771,12 +2771,7 @@ scheme_get_onset_time (void)
   if ((Denemo.project->movement->currentobject) && (curObj = Denemo.project->movement->currentobject->data))
     if ((gui->movement->smfsync == gui->movement->changecount))
       {
-        if (curObj->midi_events)
-          {
-            smf_event_t *event = (smf_event_t *) curObj->midi_events->data;
-            gdouble time = event->time_seconds;
-            return scm_from_double (time);
-          }
+        return scm_from_double (curObj->earliest_time); 
       }
   return SCM_BOOL_F;
 }
