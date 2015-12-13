@@ -143,6 +143,7 @@ initprefs ()
   ret->enable_thumbnails = TRUE;
   ret->autosave = TRUE;
   ret->autosave_timeout = 5;
+  ret->compression = 3;
   ret->maxhistory = 20;
   ret->midi_in_controls = FALSE;
   ret->playback_controls = FALSE;

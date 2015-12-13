@@ -473,6 +473,7 @@ typedef struct DenemoPrefs
   gint autosave_timeout;
   gboolean autoupdate;/**< update command set from denemo.org */
   gint maxhistory;/**< how long a history of used files to retain */
+  gint compression;/**< compression to be applied to .denemo files, suffix is unchanged */
   GString *browser; /**< Default browser string */
 
 

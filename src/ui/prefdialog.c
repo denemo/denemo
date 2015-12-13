@@ -81,6 +81,7 @@ struct callbackdata
 
 
   GtkWidget *autosave_timeout;
+  GtkWidget *compression;
   GtkWidget *maxhistory;
   GtkWidget *browser;
   GtkWidget *pdfviewer;
@@ -179,7 +180,7 @@ free_g_lists (struct callbackdata *cbdata)
 }
 
 /**
- * Callback to enable/disable the autosave entry when the auto save button is
+ * Callback to set autosave timeout
  * clicked
  */
 static void
@@ -188,7 +189,6 @@ toggle_autosave (GtkToggleButton * togglebutton, GtkWidget * autosave_timeout)
   g_debug ("autosave now %d\n", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (autosave_timeout)));
   gtk_widget_set_sensitive (autosave_timeout, gtk_toggle_button_get_active (togglebutton));
 }
-
 
 static void
 set_preferences (struct callbackdata *cbdata)
@@ -294,7 +294,10 @@ set_preferences (struct callbackdata *cbdata)
     ASSIGNBOOLEAN (return_key_is_special)
     ASSIGNBOOLEAN (newbie)
     ASSIGNBOOLEAN (learning)
-    ASSIGNBOOLEAN (startmidiin) ASSIGNBOOLEAN (applytoselection) ASSIGNBOOLEAN (quickshortcuts) ASSIGNBOOLEAN (autosave) ASSIGNINT (autosave_timeout) ASSIGNBOOLEAN (midi_in_controls) ASSIGNBOOLEAN (playback_controls) ASSIGNBOOLEAN (console_pane) ASSIGNBOOLEAN (lyrics_pane) ASSIGNBOOLEAN (visible_directive_buttons) ASSIGNBOOLEAN (autoupdate) ASSIGNBOOLEAN (toolbar) ASSIGNBOOLEAN (rhythm_palette) ASSIGNBOOLEAN (object_palette) ASSIGNBOOLEAN (saveparts)
+    ASSIGNBOOLEAN (startmidiin) ASSIGNBOOLEAN (applytoselection) ASSIGNBOOLEAN (quickshortcuts) ASSIGNBOOLEAN (autosave)
+     ASSIGNINT (autosave_timeout) 
+     ASSIGNINT (compression) 
+     ASSIGNBOOLEAN (midi_in_controls) ASSIGNBOOLEAN (playback_controls) ASSIGNBOOLEAN (console_pane) ASSIGNBOOLEAN (lyrics_pane) ASSIGNBOOLEAN (visible_directive_buttons) ASSIGNBOOLEAN (autoupdate) ASSIGNBOOLEAN (toolbar) ASSIGNBOOLEAN (rhythm_palette) ASSIGNBOOLEAN (object_palette) ASSIGNBOOLEAN (saveparts)
     //g_debug ("Timeout %d \n", prefs->autosave_timeout);
     if (midi_in_device_was_default && strcmp (prefs->portmidi_input_device->str, "default"))
     {
@@ -343,6 +346,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   GtkWidget *main_vbox;
   GtkWidget *autosave;
   GtkWidget *autosave_timeout;
+ 
   // GtkWidget *tooltip_timeout;
   //   GtkWidget *tooltip_browse_timeout;
   //    GtkWidget *tooltip_browse_mode_timeout;
@@ -607,6 +611,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   INTENTRY (_("Max recent files"), maxhistory) 
   TEXTENTRY (_("User Name"), username) 
   //PASSWORDENTRY (_("Password for Denemo.org"), password)
+  BOOLEANENTRY (_("Autosave Parts"), saveparts);
 
   hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
@@ -622,8 +627,11 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   label = gtk_label_new (_("second(s)"));
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
   g_signal_connect (G_OBJECT (autosave), "toggled", G_CALLBACK (toggle_autosave), autosave_timeout);
+  
+  INTENTRY_LIMITS (_("Compression"), compression, 0, 9);
 
-  BOOLEANENTRY (_("Autosave Parts"), saveparts);
+  
+  
 
   static struct audio_callback_data audio_cbdata;
 
