@@ -10,7 +10,7 @@
 
 gdouble exportmidi (gchar * filename, DenemoMovement * si);
 
-gdouble load_lilypond_midi (gchar * outfile);
+gdouble load_lilypond_midi (gchar * outfile, gboolean keep);
 
 gchar *substitute_midi_values (gchar * str, gint channel, gint volume);
 

@@ -33,7 +33,8 @@ static gboolean RightButtonPressed = FALSE;
 static gboolean Dragging = FALSE;
 static gint RightButtonX, DragX;
 static gint RightButtonY, DragY;
-
+static gdouble IntroTime = 10.0, ScrollRate = 10.0;
+static AllPartsTypeset = FALSE;
 
 typedef struct Timing {
     gdouble time;
@@ -463,46 +464,59 @@ static GList * create_positions (gchar *filename)
   xmlNodePtr rootElem;
   /* ignore blanks between nodes that appear as "text" */
   xmlKeepBlanksDefault (0);
-  /* Try to parse the file. */
-  doc = xmlParseFile (filename);
-  if (doc == NULL)
+  /* Try to parse the file(s). */
+  filename = g_strdup (filename); //we may modify it
+  while (g_file_test (filename, G_FILE_TEST_EXISTS))
     {
-      g_warning ("Could not read svg file %s", filename);
-     
-    }
-    else
-    {
-      rootElem = xmlDocGetRootElement (doc);
-      xmlNodePtr childElem;
-      FOREACH_CHILD_ELEM (childElem, rootElem)
-      {
-          if (ELEM_NAME_EQ (childElem, "g"))
-            { xmlNodePtr grandChildElem;
-              gchar *id = xmlGetProp (childElem, (xmlChar *) "id");
-                 FOREACH_CHILD_ELEM (grandChildElem, childElem)
-                   {
-                     if (ELEM_NAME_EQ (grandChildElem, "g"))   //grouping to set color to black
-                      { xmlNodePtr greatgrandChildElem;
-                        FOREACH_CHILD_ELEM (greatgrandChildElem, grandChildElem)
-                            {
-                                if (ELEM_NAME_EQ (greatgrandChildElem, "path"))
-                                    {
-                                        gchar *coords = xmlGetProp (greatgrandChildElem, (xmlChar *) "transform");
-                                        //g_print ("ID %s has Coords %s\n", id, coords);
-                                        if (id && coords)
-                                            {
-                                            gchar *data = g_strconcat (id, coords, NULL);
-                                            ret = g_list_append (ret, data);
-                                            xmlFree (id);
-                                            xmlFree (coords);
-                                            }
-                                    } else g_warning ("Found %s", greatgrandChildElem->name);
-                                }
+      doc = xmlParseFile (filename);
+      if (doc == NULL)
+        {
+          g_warning ("Could not read svg file %s", filename);
+         break;
+        }
+        else
+        {g_print ("Parsing %s\n", filename);
+          rootElem = xmlDocGetRootElement (doc);
+          xmlNodePtr childElem;
+          FOREACH_CHILD_ELEM (childElem, rootElem)
+          {
+              if (ELEM_NAME_EQ (childElem, "g"))
+                { xmlNodePtr grandChildElem;
+                  gchar *id = xmlGetProp (childElem, (xmlChar *) "id");
+                     FOREACH_CHILD_ELEM (grandChildElem, childElem)
+                       {
+                         if (ELEM_NAME_EQ (grandChildElem, "g"))   //grouping to set color to black
+                          { xmlNodePtr greatgrandChildElem;
+                            FOREACH_CHILD_ELEM (greatgrandChildElem, grandChildElem)
+                                {
+                                    if (ELEM_NAME_EQ (greatgrandChildElem, "path"))
+                                        {
+                                            gchar *coords = xmlGetProp (greatgrandChildElem, (xmlChar *) "transform");
+                                            //g_print ("ID %s has Coords %s\n", id, coords);
+                                            if (id && coords)
+                                                {
+                                                gchar *data = g_strconcat (id, coords, NULL);
+                                                ret = g_list_append (ret, data);
+                                                xmlFree (id);
+                                                xmlFree (coords);
+                                                }
+                                        } else g_warning ("Found %s", greatgrandChildElem->name);
+                                    }
+                            }
                         }
                     }
-                }
+            }
+              if (doc != NULL)
+            xmlFreeDoc (doc);
+
         }
+        //It may have spilt over into several svg files denemoprintA-page-1.svg etc
+       
+       gint num_pos = strlen (filename)-5;//"<n>.svg"
+       *(filename+num_pos) = *(filename+num_pos) + 1; //no attempt beyond 9 pages!
+       //FIXME check that mtime of this file is later than the last, or delete old svg's before starting.
     }
+    g_free (filename);
     //g_print ("Read %d ids from file %s\n", g_list_length (ret), filename);
   return ret;  
 }
@@ -511,13 +525,15 @@ set_playback_view (void)
 {
   GFile *file;
   gchar *filename = g_strdup (get_print_status()->printname_svg[get_print_status()->cycle]);
+  gboolean multipage = FALSE;
   //g_print("Output to %s\n", filename);
   if (get_print_status()->invalid)
     g_warning ("We got print status invalid %d\nTypeset may not be good.", get_print_status()->invalid);
     if (!(g_file_test (filename, G_FILE_TEST_EXISTS))){
       {
           g_free (filename);
-          filename = g_strconcat (get_print_status()->printbasename[get_print_status()->cycle], "-page-2.svg", NULL);
+          filename = g_strconcat (get_print_status()->printbasename[get_print_status()->cycle], "-page-1.svg", NULL);
+          multipage = TRUE;
           //g_print ("Failed, skipping title page to %s", filename);
       }
     }
@@ -529,7 +545,11 @@ set_playback_view (void)
  if (get_print_status()->invalid == 0)
     {
       compute_timings (g_path_get_dirname(filename), create_positions (filename)); 
-
+    if (multipage && confirm (_("Score too long"), _("Skip Title Page")))
+        {
+            gint num_pos = strlen (filename)-5;//"<n>.svg"
+           *(filename+num_pos) = '2';
+        }
 
 #if 1 //def G_OS_WIN32
     GError *err = NULL;
@@ -543,7 +563,7 @@ set_playback_view (void)
                 Denemo.playbackview = gtk_image_new_from_pixbuf (pb);
                 g_print ("Loaded %s via rsvg pixbuf loader", filename);
         } else
-        g_print ("\n\nThe rsvg pixbuf load gave error: %s\n\n", err?err->message: "no error return");
+        g_print ("\n\nThe rsvg pixbuf load of %s gave error: %s\n\n", filename, err?err->message: "no error return");
    
 #else   
       if(Denemo.playbackview)
@@ -585,9 +605,8 @@ playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboole
   set_playback_view ();
   
   changecount = Denemo.project->changecount;
-#ifndef USE_LILYPOND_MIDI
-  load_lilypond_midi (NULL);
-#endif
+  load_lilypond_midi (NULL, AllPartsTypeset);
+  AllPartsTypeset = FALSE;
 }
 
 
@@ -735,10 +754,32 @@ static void find_object (GtkWidget *event_box, GdkEventButton *event)
             //g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*5.61*TheScale, timing->y*5.61*TheScale);
         }                    
 }
-
-static gboolean playback_redraw (void)
+static void scroll_down (GtkAdjustment *adj, gint amount)
 {
-    gtk_widget_queue_draw (Denemo.playbackview);
+    if (amount>0)
+    {
+    gdouble value =  gtk_adjustment_get_value  (adj);
+   // g_print ("set to %.2f\n", value+amount);
+    gtk_adjustment_set_value (adj, value+amount);
+    }
+}
+
+static gboolean playback_redraw (GtkAdjustment *adj)
+{
+    static gdouble last_time;
+    if (audio_is_playing ())
+            {
+                gdouble time = Denemo.project->movement->playhead;
+                static gdouble waiting_time;
+                if (last_time < 0.0)
+                    waiting_time = time + IntroTime;
+                if (last_time > waiting_time)
+                    scroll_down (adj, (gint)((time -last_time)*ScrollRate));
+                last_time = time;
+                gtk_widget_queue_draw (Denemo.playbackview);
+            }
+    else
+        last_time = -1.0;
     return TRUE;
 }
 static void start_play (GtkWidget *event_box, GdkEventButton *event)
@@ -751,7 +792,7 @@ static void start_play (GtkWidget *event_box, GdkEventButton *event)
     //g_print ("At %d %d\n", x, y);
     if (update_playback_view ())
         {
-            infodialog (_("Please wait while the Playback View is re-typeset"));
+            warningdialog (_("Please wait while the Playback View is re-typeset"));
             return;
         }
     GList *g;
@@ -783,9 +824,7 @@ static void start_play (GtkWidget *event_box, GdkEventButton *event)
            // g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*5.61*TheScale, timing->y*5.61*TheScale);
         }
        
-  static gint id; 
-  if (!id)
-    id = g_timeout_add  (10, (GSourceFunc)playback_redraw, NULL);
+
 
 }
 
@@ -808,13 +847,14 @@ static void play_button (void)
 }
 static void part_button (void)
 {
+   
+    AllPartsTypeset = confirm ( _("MIDI Already Present"), _("Keep this music while typesetting current part?"));
     call_out_to_guile ("(d-PlaybackView 'part)");//this installs the temporary directives to typeset svg and then
 
 }
 static void movement_button (void)
-{
+{ 
     call_out_to_guile ("(d-PlaybackView #f)");//this installs the temporary directives to typeset svg and then
-
 }
 
 
@@ -831,6 +871,57 @@ motion_notify (GtkWidget * window, GdkEventMotion * event)
   return TRUE;
 
 }
+
+static void scroll_dialog (void)
+{
+  DenemoProject *gui = Denemo.project;
+  GtkWidget *dialog;
+  GtkWidget *label;
+  GtkWidget *hbox;
+
+  GtkWidget *intro;
+  GtkWidget *rate;
+  
+  dialog = gtk_dialog_new_with_buttons (_("Automatic Scrolling"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+
+  hbox = gtk_hbox_new (FALSE, 8);
+
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  gtk_container_add (GTK_CONTAINER (content_area), hbox);
+
+  //TODO calculate hightest number in seconds
+  gdouble max_end_time = 7200.0;
+  //g_list_length (((DenemoStaff *) (gui->movement->thescore->data))->measures);
+
+  label = gtk_label_new (_("Introduction Time"));
+  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
+
+  intro = gtk_spin_button_new_with_range (0.0, 30.0, 1.0);
+  gtk_box_pack_start (GTK_BOX (hbox), intro, TRUE, TRUE, 0);
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (intro), (gdouble) IntroTime);
+
+  label = gtk_label_new (_("Scroll Rate"));
+  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
+
+  rate = gtk_spin_button_new_with_range (0.0, 100, 1.0);
+  gtk_box_pack_start (GTK_BOX (hbox), rate, TRUE, TRUE, 0);
+
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (rate), (gdouble) ScrollRate);
+
+  gtk_widget_show (hbox);
+  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+  gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+  gtk_widget_show_all (dialog);
+
+  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+    {
+      IntroTime = gtk_spin_button_get_value (GTK_SPIN_BUTTON (intro));
+      ScrollRate = gtk_spin_button_get_value (GTK_SPIN_BUTTON (rate));
+    }
+  gtk_widget_destroy (dialog);
+}
+
+
 static gint
 keypress_event (GtkWidget * widget, GdkEventKey * event)
 {
@@ -862,7 +953,9 @@ install_svgview (GtkWidget * top_vbox)
    button = (GtkWidget*)gtk_button_new_with_label (_("Current Part"));
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (part_button), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-    
+    button = (GtkWidget*)gtk_button_new_with_label (_("Set Scrolling"));
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+  g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (scroll_dialog), NULL);  
   if (top_vbox == NULL)
     top_vbox = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   // if(!Denemo.prefs.manualtypeset)
@@ -874,6 +967,8 @@ install_svgview (GtkWidget * top_vbox)
   gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
   GtkWidget *score_and_scroll_hbox = gtk_scrolled_window_new (NULL, NULL);
  
+  
+  
 
   gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_hbox, TRUE, TRUE, 0);
   
@@ -917,4 +1012,7 @@ install_svgview (GtkWidget * top_vbox)
 #endif
   gtk_widget_show_all (main_vbox);
   gtk_widget_hide (top_vbox);
+  static gint id; 
+  if (!id)
+    id = g_timeout_add  (10, (GSourceFunc)playback_redraw, gtk_scrolled_window_get_vadjustment (score_and_scroll_hbox));
 }

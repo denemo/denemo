@@ -30,6 +30,7 @@
     ragged-bottom = ##t
     #(set! paper-alist (cons '(\"custom-size\" . (cons (* 20 cm) (* 100 cm))) paper-alist))
     #(set-paper-size \"custom-size\")")
+    (d-SetSaved saved)
     (d-DisplayTypesetSvg (/ (string->number  (d-ScoreProperties "query=fontsize"))18.0) params)
     (d-DirectiveDelete-movementcontrol tag)
     (d-DirectiveDelete-paper tag)

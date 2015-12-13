@@ -928,11 +928,17 @@ static void save_smf_to_file (smf_t *smf, gchar *thefilename)
     }
 }
 
-gdouble load_lilypond_midi (gchar * outfile) {
+gdouble load_lilypond_midi (gchar * outfile, gboolean keep) {
+    smf_t *saved = NULL;
     gchar *midi_file = get_print_status()->printname_midi[get_print_status()->cycle];
     smf_t *smf = smf_load (midi_file);
     if (smf)
         {
+        if (keep && Denemo.project->movement->smf)
+            {
+                    saved = Denemo.project->movement->smf;
+                    Denemo.project->movement->smf = NULL;
+            }
         load_smf (Denemo.project->movement, smf);
         if (!attach_timings ())
             {
@@ -940,6 +946,11 @@ gdouble load_lilypond_midi (gchar * outfile) {
             }
         if (outfile)
             save_smf_to_file (smf, outfile);
+         if (saved)
+            {
+                free_midi_data (Denemo.project->movement);
+                load_smf (Denemo.project->movement, saved); g_print ("Loaded %p\n", saved);
+            }
         return smf_get_length_seconds (smf);
     } else
     {
@@ -962,9 +973,6 @@ gdouble load_lilypond_midi (gchar * outfile) {
 gdouble
 exportmidi (gchar * thefilename, DenemoMovement * si)
 {
-    
-  if (si==NULL)
-        return load_lilypond_midi (thefilename);
   /* variables for reading and decoding the object list */
   smf_event_t *event = NULL;
   staffnode *curstaff;

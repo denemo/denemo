@@ -1854,9 +1854,11 @@ scheme_get_midi_on_time (void)
 {
   if (!(Denemo.project->movement->currentobject))
     return SCM_BOOL_F;
-  DenemoObject *curObj = Denemo.project->movement->currentobject->data;
-  if ((Denemo.project->movement->smfsync == Denemo.project->movement->changecount))
-    return scm_from_double (curObj->earliest_time);
+  GList *curObj = Denemo.project->movement->currentobject;
+  while (curObj && (((DenemoObject *)curObj->data)->type != CHORD))
+        curObj = curObj->next; //find first note/rest after the cursor
+  if (curObj && (Denemo.project->movement->smfsync == Denemo.project->movement->changecount))
+    return scm_from_double (((DenemoObject *)curObj->data)->earliest_time);
   return SCM_BOOL_F;
 }
 
@@ -1865,11 +1867,14 @@ scheme_get_midi_off_time (void)
 {
   if (!(Denemo.project->movement->currentobject))
     return SCM_BOOL_F;
-  DenemoObject *curObj = Denemo.project->movement->currentobject->data;
-  if ((Denemo.project->movement->smfsync == Denemo.project->movement->changecount))
-    return scm_from_double (curObj->latest_time);
+  GList *curObj = Denemo.project->movement->currentobject;
+  while (curObj && (((DenemoObject *)curObj->data)->type != CHORD))
+    curObj = curObj->prev; //find last note/rest before the cursor
+  if (curObj && (Denemo.project->movement->smfsync == Denemo.project->movement->changecount))
+    return scm_from_double (((DenemoObject *)curObj->data)->latest_time);
   return SCM_BOOL_F;
-}
+} 
+
 SCM
 scheme_midi_in_listening (void)
 {

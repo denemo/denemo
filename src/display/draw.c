@@ -1783,13 +1783,6 @@ draw_callback (cairo_t * cr)
   if(Denemo.project->movement->playingnow)
     gtk_widget_queue_draw (Denemo.playbackview);
   
-#if 0
- if( gui->movement->recording && (gui->movement->smfsync != gui->movement->changecount) && (!audio_is_playing())) 
- {
-     set_tempo ();
-     exportmidi (NULL, gui->movement);  
- }
-#endif
   /* Clear with an appropriate background color. */
   if (((DenemoStaff*)Denemo.project->movement->currentstaff->data)->hidden)
     cairo_set_source_rgb (cr, 1, 0.8, 0.8);
