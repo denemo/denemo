@@ -5,7 +5,7 @@
             (if value
                 value
                 (d-DirectiveGet-scoreheader-display tag))))
-    (d-LilyPondInclude "simplified-book-titling.ily")
+    (DenemoUseBookTitles)
     (if (equal? initial "edit")
         (eval-string (string-append "(d-" tag " #f)"))
         (let ((chapter (if help (get-current tag) initial))
