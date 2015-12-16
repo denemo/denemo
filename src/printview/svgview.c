@@ -34,8 +34,8 @@ static gboolean Dragging = FALSE;
 static gint RightButtonX, DragX;
 static gint RightButtonY, DragY;
 static gdouble IntroTime = 10.0, ScrollRate = 10.0;
-static AllPartsTypeset = FALSE;
-
+static gboolean AllPartsTypeset = FALSE;
+static gboolean PartOnly = FALSE;
 typedef struct Timing {
     gdouble time;
     gdouble duration;
@@ -188,6 +188,7 @@ DenemoObject *get_object_for_time (gdouble time, gboolean start)
     for (g=TheTimings;g;g=g->next)
         {
          Timing *this = (Timing *)g->data;
+         //g_print ("Seeking %.2f Timing %.2f to %.2f\n", time, this->object->earliest_time, this->object->latest_time);
          if ((start? this->object->earliest_time:this->object->latest_time) > time)
             return this->object;
             
@@ -200,6 +201,7 @@ overdraw_print (cairo_t * cr)
 {
   gint x, y;
   gdouble this, duration;
+  gboolean drew_rectangle = FALSE;
   if (Dragging)
     {   //g_print ("Dragging from %d %d to %d %d \n", RightButtonX, RightButtonY, DragX, DragY);
         
@@ -224,14 +226,14 @@ overdraw_print (cairo_t * cr)
             LastTiming = TheTimings;
         }        
   
-    cairo_set_source_rgba (cr, 0.9, 0.5, 1.0, 0.3);
+    cairo_set_source_rgba (cr, 0x6e/255.0, 0xb9/255.0, 0xd5/255.0, 0.3);//6eb9d5
 
     gdouble time = Denemo.project->movement->playhead;
     GList *g;
     this = ((Timing *)LastTiming->data)->time;
     duration = ((Timing *)LastTiming->data)->duration;
     if (time < (this-0.01))
-        { //g_print ("\n\n\nResetting LastTiming\n");
+        {// g_print ("\n\n\nResetting LastTiming at %.2f for %.2f\n", time, this);
             LastTiming = TheTimings;
         }
         
@@ -245,12 +247,15 @@ overdraw_print (cairo_t * cr)
            if (time > (this - 0.01))
                     {  //g_print ("draw note at %.2f\n", this );
                         cairo_rectangle (cr, ((Timing *)((g)->data))->x  - (PRINTMARKER/5)/4, ((Timing *)((g)->data))->y - (PRINTMARKER/5)/2, PRINTMARKER/5, PRINTMARKER/5);
-                        cairo_fill (cr);
+                        if(!drew_rectangle)
+                            LastTiming = g;
+                        drew_rectangle = TRUE;
                     }
             else
-               return TRUE;
-            LastTiming = g;
+               break;
         }
+  if (drew_rectangle)
+     cairo_fill (cr);
   return TRUE;
 }
 static gboolean
@@ -260,7 +265,7 @@ predraw_print (cairo_t * cr)
   get_window_size (&width, &height);
   get_window_position (&x, &y);
   cairo_translate (cr, -x, -y);
-  cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 1.0);
+  cairo_set_source_rgba (cr, 0xf1/255.0, 0xf4/255.0, 0x9d/255.0, 1.0);//cfdd36 f1f49d
   cairo_rectangle (cr, 0, 0.0, (gdouble)width, (gdouble)height);
   cairo_fill (cr);
   return FALSE;//propagate further
@@ -475,7 +480,7 @@ static GList * create_positions (gchar *filename)
          break;
         }
         else
-        {g_print ("Parsing %s\n", filename);
+        {//g_print ("Parsing %s\n", filename);
           rootElem = xmlDocGetRootElement (doc);
           xmlNodePtr childElem;
           FOREACH_CHILD_ELEM (childElem, rootElem)
@@ -511,7 +516,6 @@ static GList * create_positions (gchar *filename)
 
         }
         //It may have spilt over into several svg files denemoprintA-page-1.svg etc
-       
        gint num_pos = strlen (filename)-5;//"<n>.svg"
        *(filename+num_pos) = *(filename+num_pos) + 1; //no attempt beyond 9 pages!
        //FIXME check that mtime of this file is later than the last, or delete old svg's before starting.
@@ -520,36 +524,63 @@ static GList * create_positions (gchar *filename)
     //g_print ("Read %d ids from file %s\n", g_list_length (ret), filename);
   return ret;  
 }
-static void
+static gint get_number_of_pages (gchar *base)
+{
+    gint i;
+    for (i=1;i<10;i++)
+        {
+            gchar *filename = g_strdup_printf ("%s%s%d%s", get_print_status()->printbasename[get_print_status()->cycle], "-page-", i, ".svg");
+            if (!(g_file_test (filename, G_FILE_TEST_EXISTS)))
+                {
+                    g_free(filename);
+                    break;
+                }
+            //g_print ("Found %s\n", filename);
+            g_free (filename);
+        }
+   return i-1;         
+}
+static gboolean
 set_playback_view (void)
 {
+  static gboolean recursion = FALSE;
   GFile *file;
   gchar *filename = g_strdup (get_print_status()->printname_svg[get_print_status()->cycle]);
   gboolean multipage = FALSE;
-  //g_print("Output to %s\n", filename);
+  //g_print("Output to %s recursion is %d\n", filename, recursion);
   if (get_print_status()->invalid)
     g_warning ("We got print status invalid %d\nTypeset may not be good.", get_print_status()->invalid);
-    if (!(g_file_test (filename, G_FILE_TEST_EXISTS))){
+  if (!(g_file_test (filename, G_FILE_TEST_EXISTS)))
       {
           g_free (filename);
+          if (recursion) //recursion failed, give up
+            {
+                recursion = FALSE;
+                return FALSE;
+            }
           filename = g_strconcat (get_print_status()->printbasename[get_print_status()->cycle], "-page-1.svg", NULL);
-          multipage = TRUE;
-          //g_print ("Failed, skipping title page to %s", filename);
+          if (g_file_test (filename, G_FILE_TEST_EXISTS))
+                {
+                    g_free (filename); 
+                    gint num_pages = get_number_of_pages (get_print_status()->printbasename[get_print_status()->cycle]);
+                    gchar *scheme = g_strdup_printf ("%s%s%s%d%s", "(d-PlaybackView \"(list ", PartOnly?"#t":"#f", " \\\"20\\\" \\\"" , 100 * num_pages, "\\\")\")");
+                    //g_print ("Scheme created: %s for %d pages\n", scheme, num_pages);
+                    recursion = TRUE;
+                    call_out_to_guile (scheme);
+                    g_free (scheme);
+                    return FALSE;
+                }
+         g_free (filename);
+         return FALSE; // no svg at all
       }
-    }
-
+  recursion = FALSE;
     //if (get_print_status()->invalid == 0) ignore errors as it may have typeset anyway.
-    get_print_status()->invalid = (g_file_test (filename, G_FILE_TEST_EXISTS)) ? 0 : 3;
-
+  get_print_status()->invalid = (g_file_test (filename, G_FILE_TEST_EXISTS)) ? 0 : 3;
 
  if (get_print_status()->invalid == 0)
     {
-      compute_timings (g_path_get_dirname(filename), create_positions (filename)); 
-    if (multipage && confirm (_("Score too long"), _("Skip Title Page")))
-        {
-            gint num_pos = strlen (filename)-5;//"<n>.svg"
-           *(filename+num_pos) = '2';
-        }
+ 
+    compute_timings (g_path_get_dirname(filename), create_positions (filename)); 
 
 #if 1 //def G_OS_WIN32
     GError *err = NULL;
@@ -580,7 +611,7 @@ set_playback_view (void)
         }
     }
     g_free (filename);
-  return;
+  return TRUE;
 }
 
 static void
@@ -602,11 +633,13 @@ playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboole
       LilyPond_stderr = -1;
     }
   get_print_status()->printpid = GPID_NONE;
-  set_playback_view ();
+  if(set_playback_view ())
+    {
   
-  changecount = Denemo.project->changecount;
-  load_lilypond_midi (NULL, AllPartsTypeset);
-  AllPartsTypeset = FALSE;
+      changecount = Denemo.project->changecount;
+      load_lilypond_midi (NULL, AllPartsTypeset);
+      AllPartsTypeset = FALSE;
+  }
 }
 
 
@@ -687,13 +720,39 @@ copy_svg (void)
     }
 }
 
-
+void delete_svgs (void) {
+    gint cycle = get_print_status()->cycle;
+    cycle = !cycle;
+    if (!get_print_status()->printname_svg[cycle])
+        return;//not yet initialized
+    g_unlink ( get_print_status()->printname_svg[cycle]);
+    gint i;
+    for (i=1;i<10;i++)
+        {
+            gchar *filename = g_strdup_printf ("%s%s%d%s", get_print_status()->printbasename[cycle], "-page-", i, ".svg");
+            if (!g_file_test (filename, G_FILE_TEST_EXISTS))
+                {
+                 //g_print ("No file %s\n", filename);
+                 g_free (filename);
+                 break;
+             }
+            //g_print ("deleting %s\n", filename);
+            g_unlink (filename);
+#ifdef G_OS_WIN32
+    if (g_file_test (filename, G_FILE_TEST_EXISTS)) g_warning ("File %s deletion failed\n\n", filename)    
+#endif            
+            
+            g_free (filename);
+        }
+}
 
 //re-creates the svg image and displays it
 static void remake_playback_view (gboolean part)
 {
     if (Denemo.project->movement->markstaffnum)
         Denemo.project->movement->markstaffnum = 0;//It can (and would otherwise) typeset just the selection - would that be useful?
+    delete_svgs ();
+    set_continuous_typesetting (FALSE);
     create_svg (part, FALSE);//there is a typeset() function defined which does initialize_typesetting() ...
     g_print ("Denemo.playbackview is at %p, Denemo at %p", Denemo.playbackview, Denemo);
     g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) playbackview_finished, (gpointer) (FALSE));
@@ -705,7 +764,7 @@ static gboolean update_playback_view (void)
     //g_print ("Testing %d not equal %d \n", changecount, Denemo.project->changecount);
  if (changecount != Denemo.project->changecount)
         {
-        call_out_to_guile ("(d-PlaybackView)");//this installs the temporary directives to typeset svg and then
+        call_out_to_guile (PartOnly?"(d-PlaybackView 'part)":"(d-PlaybackView)");//this installs the temporary directives to typeset svg and then
         return TRUE;
         }
 return FALSE;
@@ -742,7 +801,7 @@ static void find_object (GtkWidget *event_box, GdkEventButton *event)
             Timing *timing = g->data;
             if((x-timing->x*5.61*TheScale < PRINTMARKER/(2)) && (y-timing->y*5.61*TheScale < PRINTMARKER/(2)))
                 {
-                    g_print ("Found line %d column %d\n", timing->line, timing->col);
+                    //g_print ("Found line %d column %d\n", timing->line, timing->col);
                     Locationx = timing->col;
                     Locationy = timing->line;
                     goto_lilypond_position (timing->line, timing->col);
@@ -792,7 +851,10 @@ static void start_play (GtkWidget *event_box, GdkEventButton *event)
     //g_print ("At %d %d\n", x, y);
     if (update_playback_view ())
         {
-            warningdialog (_("Please wait while the Playback View is re-typeset"));
+            if (continuous_typesetting ())
+               ;//warningdialog (_("1Please turn continuous typsetting off first"));
+            else
+                warningdialog (_("Please wait while the Playback View is re-typeset then re-try"));
             return;
         }
     GList *g;
@@ -812,6 +874,7 @@ static void start_play (GtkWidget *event_box, GdkEventButton *event)
                             goto_lilypond_position (timing->line, timing->col);
                             call_out_to_guile ("(if (not (d-NextChord)) (d-MoveCursorRight))(DenemoSetPlaybackEnd)");
                             //g_print ("Set playback end to %d column %d\n", timing->line, timing->col);
+                            Denemo.project->movement->smfsync = Denemo.project->movement->changecount;
                             if (shift_held_down())
                                 call_out_to_guile ("(d-OneShotTimer 500 \"(DenemoLoop)\")");
                             else
@@ -840,20 +903,26 @@ static void play_button (void)
 {
    if (update_playback_view ())
         {
-            infodialog (_("Please wait while the Playback View is re-typeset"));
+             if (continuous_typesetting ())
+                ;//warningdialog (_("2Please turn continuous typsetting off first"));
+            else
+                warningdialog (_("Please wait while the Playback View is re-typeset then re-try"));
             return;
         }
+    Denemo.project->movement->smfsync = Denemo.project->movement->changecount;
     call_out_to_guile ("(d-Play)");
 }
 static void part_button (void)
 {
-   
-    AllPartsTypeset = confirm ( _("MIDI Already Present"), _("Keep this music while typesetting current part?"));
+    PartOnly = TRUE;
+    if (Denemo.project->movement->smf)
+        AllPartsTypeset = confirm ( _("MIDI Already Present"), _("Keep this music while typesetting current part?"));
     call_out_to_guile ("(d-PlaybackView 'part)");//this installs the temporary directives to typeset svg and then
 
 }
 static void movement_button (void)
 { 
+    PartOnly = FALSE;
     call_out_to_guile ("(d-PlaybackView #f)");//this installs the temporary directives to typeset svg and then
 }
 
@@ -1014,5 +1083,5 @@ install_svgview (GtkWidget * top_vbox)
   gtk_widget_hide (top_vbox);
   static gint id; 
   if (!id)
-    id = g_timeout_add  (10, (GSourceFunc)playback_redraw, gtk_scrolled_window_get_vadjustment (score_and_scroll_hbox));
+    id = g_timeout_add  (50, (GSourceFunc)playback_redraw, gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW(score_and_scroll_hbox)));
 }
