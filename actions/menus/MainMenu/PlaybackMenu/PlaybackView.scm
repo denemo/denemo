@@ -1,4 +1,7 @@
-(let ((params PlaybackView::params)(tag "Temp")(tag2 "Temp2")(saved (d-GetSaved)))
+;;;PlaybackView
+(if (d-ContinuousTypesetting)
+  (d-WarningDialog (_ "Please turn continuous typsetting off first"))
+  (let ((params PlaybackView::params)(tag "Temp")(tag2 "Temp2")(booktitles #f)(data #f)(width "20")(height "100") (part #f)(changecount (d-Changecount))(saved (d-GetSaved)))
     (define (no-tempo-at-start)
         (define no-tempo #t)
         (d-PushPosition)
@@ -13,10 +16,20 @@
                     (loop)
                     (set! no-tempo #t)))))
         (d-PopPosition)
-        (disp "Found no-tempo " no-tempo "\n\n")
         no-tempo)
+;;;procedure starts here
+(disp "starting " changecount "\n\n")
+    (set! part (eq? params 'part))
+    (if (string? params) (set! params (eval-string params)))
+    (if (list? params)
+        (begin
+            (set! part (list-ref params 0))
+            (set! width (list-ref params 1))
+            (set! height (list-ref params 2))))
 
-
+    (set! booktitles (DenemoHasBookTitles))
+    (if booktitles
+        (DenemoHideBookTitles))
 
     (d-DirectivePut-score-override tag DENEMO_OVERRIDE_AFFIX)
     (d-DirectivePut-score-prefix tag "\n\\include \"live-score.ily\"\n")
@@ -26,17 +39,21 @@
     (d-DirectivePut-score-postfix tag2 "  \\applyContext #(override-color-for-all-grobs (x11-color 'black)) ")
     (d-DirectivePut-movementcontrol-postfix tag "\n\\layout{}\\midi {}\n")
     (d-DirectivePut-movementcontrol-override tag DENEMO_OVERRIDE_AFFIX)
-    (d-DirectivePut-paper-postfix tag "
+    (d-DirectivePut-paper-postfix tag (string-append "
     ragged-bottom = ##t
-    #(set! paper-alist (cons '(\"custom-size\" . (cons (* 20 cm) (* 100 cm))) paper-alist))
-    #(set-paper-size \"custom-size\")")
+    #(set! paper-alist (cons '(\"custom-size\" . (cons (* " width " cm) (* " height " cm))) paper-alist))
+    #(set-paper-size \"custom-size\")"))
     (d-SetSaved saved)
-    (d-DisplayTypesetSvg (/ (string->number  (d-ScoreProperties "query=fontsize"))18.0) params)
+    (d-Changecount changecount)
+    (d-DisplayTypesetSvg (/ (string->number  (d-ScoreProperties "query=fontsize"))18.0) part)
+        
     (d-DirectiveDelete-movementcontrol tag)
     (d-DirectiveDelete-paper tag)
     (d-DirectiveDelete-score tag)
     (d-DirectiveDelete-voice tag)
     (d-DirectiveDelete-score tag2)
     (d-DirectivePut-score-prefix tag2 "\n%\\header { tagline = #f }\n") ;;to keep the same line numbers we don't delete this line but comment it out
-    (d-SetSaved saved)
-    )
+    (if booktitles
+        (DenemoSetBookTitles))
+    (d-SetSaved saved)(disp "Resetting " changecount "\n\n")
+    (d-Changecount changecount)))
