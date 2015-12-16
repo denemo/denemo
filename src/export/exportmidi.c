@@ -891,7 +891,8 @@ change_tempo (gint * tempo, gint midi_val, gint midi_interpretation, gint midi_a
 
 static void load_smf ( DenemoMovement *si, smf_t *smf)
   {
-   
+    if (si->smf==smf)
+       return;
     gboolean midi_track = FALSE;
     
 
@@ -934,28 +935,20 @@ gdouble load_lilypond_midi (gchar * outfile, gboolean keep) {
     smf_t *smf = smf_load (midi_file);
     if (smf)
         {
-        if (keep && Denemo.project->movement->smf)
-            {
-                    saved = Denemo.project->movement->smf;
-                    Denemo.project->movement->smf = NULL;
-            }
-        load_smf (Denemo.project->movement, smf);
         if (!attach_timings ())
-            {
-                g_warning ("Attaching timings to objects failed\n"); 
-            }
+            g_warning ("Attaching timings to objects failed\n");              
         if (outfile)
-            save_smf_to_file (smf, outfile);
-         if (saved)
-            {
-                free_midi_data (Denemo.project->movement);
-                load_smf (Denemo.project->movement, saved); g_print ("Loaded %p\n", saved);
-            }
-        return smf_get_length_seconds (smf);
+            save_smf_to_file (smf, outfile);             
+        if (!keep )
+            load_smf (Denemo.project->movement, smf);
+        else 
+            smf_delete (smf);
+        return smf_get_length_seconds (Denemo.project->movement->smf);
     } else
     {
         g_warning ("midi file %s not loaded", midi_file);
-    } 
+    }
+    return 0.0;
 }
   
 /*
