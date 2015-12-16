@@ -3674,14 +3674,22 @@ scheme_print_typeset_pdf (void)
   return print_typeset_pdf ()? SCM_BOOL_F : SCM_BOOL_T;
 #endif
 }
-
+SCM scheme_continous_typsetting (void)
+{
+    return SCM_BOOL (continuous_typesetting());
+    
+}
 SCM scheme_display_typeset_svg (SCM scaling, SCM part)
 {
-    gdouble scale = 1.0;
-    if (scm_is_real (scaling))
-       scale = scm_to_double (scaling);
-    display_svg (scale, scm_is_true (part));
-    return SCM_BOOL_T;
+    if (!continuous_typesetting())
+    {
+        gdouble scale = 1.0;
+        if (scm_is_real (scaling))
+           scale = scm_to_double (scaling);
+        display_svg (scale, scm_is_true (part));
+        return SCM_BOOL_T;
+    } else
+        return SCM_BOOL_F;
 }
         
 SCM
@@ -5877,7 +5885,6 @@ scheme_refresh_display (SCM optional)
 SCM
 scheme_set_saved (SCM optional)
 {
-  //scm_is_bool(optional) &&
   if (scm_is_false (optional))
     score_status (Denemo.project, TRUE);
   else
@@ -5889,6 +5896,17 @@ SCM
 scheme_get_saved (SCM optional)
 {
   return SCM_BOOL (!Denemo.project->notsaved);
+}
+
+SCM
+scheme_changecount (SCM count)
+{
+    if(scm_is_integer (count))
+        {
+            Denemo.project->changecount = scm_to_int (count);
+        }
+  return scm_from_int (Denemo.project->changecount);
+
 }
 
 SCM
