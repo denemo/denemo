@@ -633,16 +633,21 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
-
-(define (DenemoPrintAllHeaders)
-    (d-LilyPondInclude (cons 'query "book-titling.ily"))
+(define (DenemoHasBookTitles)
+ (d-LilyPondInclude (cons 'query "book-titling.ily"))
     (if (not LilyPondInclude::return)
         (d-LilyPondInclude (cons 'query "simplified-book-titling.ily")))
-  (if LilyPondInclude::return
+  LilyPondInclude::return)
+(define (DenemoSetBookTitles)
+         (d-LilyPondInclude "simplified-book-titling.ily"))
+(define (DenemoHideBookTitles)
+    (d-LilyPondInclude (cons 'delete "book-titling.ily"))
+    (d-LilyPondInclude (cons 'delete "simplified-book-titling.ily")))
+(define (DenemoPrintAllHeaders)
+  (if (DenemoHasBookTitles)
     (begin
       (d-WarningDialog (_ "You had book titles for this score. These are being dropped. To re-instate them, re-set the title as a book title."))
-      (d-LilyPondInclude (cons 'delete "book-titling.ily"))
-      (d-LilyPondInclude (cons 'delete "simplified-book-titling.ily"))))
+      (DenemoHideBookTitles)))
   (d-DirectivePut-paper-postfix "PrintAllHeaders" "\nprint-all-headers = ##t\n"))
      
 (define* (SetQuarterCommaMeanTone #:optional (thestep 0))
