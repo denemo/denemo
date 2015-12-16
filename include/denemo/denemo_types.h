@@ -997,7 +997,7 @@ typedef struct DenemoProject
   GQueue *pending_midi;/**< a MIDI effect to be output with the next note */
   gboolean audio_recording;
   input_mode mode; /**< Input mode for Score */
-  GtkWidget *progressbar;
+ 
 
   GList *movements;   /**< a list of DenemoMovement, NULL if just one movement */
   DenemoMovement *movement;  /**< the (current)  movement in the musical score controlled by this project */
