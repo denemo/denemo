@@ -376,7 +376,7 @@ progressbar (gchar * msg, gpointer callback)
 
   GtkWidget *vbox;
   ProgressData *pdata = &progress_data;
-  if (pdata->progressing) return;
+  if (pdata->progressing) pdata->window;
   if (pdata->window == NULL)
     {
       if (callback && Denemo.prefs.progressbardecorations)
