@@ -424,9 +424,9 @@ open_pngviewer (G_GNUC_UNUSED GPid pid, gint status, gchar * filename)
   open_viewer (status, filename);
 }
 static gboolean
-call_stop_lilypond (GtkWidget * w, GdkEvent * event, gboolean *progressing)
+call_stop_lilypond (void)
 {
-  *progressing = FALSE;
+  progressbar_stop ();
   stop_lilypond ();
   return TRUE;
 }
