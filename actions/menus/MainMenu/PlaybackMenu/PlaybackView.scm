@@ -18,7 +18,7 @@
         (d-PopPosition)
         no-tempo)
 ;;;procedure starts here
-(disp "starting " changecount "\n\n")
+;(disp "starting " changecount "\n\n")
     (set! part (eq? params 'part))
     (if (string? params) (set! params (eval-string params)))
     (if (list? params)
@@ -55,5 +55,5 @@
     (d-DirectivePut-score-prefix tag2 "\n%\\header { tagline = #f }\n") ;;to keep the same line numbers we don't delete this line but comment it out
     (if booktitles
         (DenemoSetBookTitles))
-    (d-SetSaved saved)(disp "Resetting " changecount "\n\n")
+    (d-SetSaved saved);(disp "Resetting " changecount "\n\n")
     (d-Changecount changecount)))
