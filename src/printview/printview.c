@@ -2191,16 +2191,17 @@ retypeset (void)
     }
   return TRUE;                  //continue
 }
+GtkWidget *ContinuousUpdateButton = NULL;
 
 //turn the continuous update off and on
 static void
-toggle_updates (G_GNUC_UNUSED GtkWidget * menu_item, GtkWidget * button)
+toggle_updates (void)
 {
   if (get_print_status()->updating_id)
     {
       g_source_remove (get_print_status()->updating_id);
       get_print_status()->updating_id = 0;
-      gtk_button_set_label (GTK_BUTTON (button), MANUAL);
+      gtk_button_set_label (GTK_BUTTON (ContinuousUpdateButton), MANUAL);
       if (Denemo.prefs.persistence)
         Denemo.prefs.manualtypeset = TRUE;
       gtk_window_set_transient_for (GTK_WINDOW (gtk_widget_get_toplevel (Denemo.printarea)), NULL);
@@ -2211,12 +2212,17 @@ toggle_updates (G_GNUC_UNUSED GtkWidget * menu_item, GtkWidget * button)
         get_print_status()->updating_id = g_timeout_add (Denemo.prefs.typesetrefresh, (GSourceFunc) retypeset, NULL);
       else
         get_print_status()->updating_id = g_idle_add ((GSourceFunc) retypeset, NULL);
-      gtk_button_set_label (GTK_BUTTON (button), CONTINUOUS);
+      gtk_button_set_label (GTK_BUTTON (ContinuousUpdateButton), CONTINUOUS);
       if (Denemo.prefs.persistence)
         Denemo.prefs.manualtypeset = FALSE;
     }
 }
-
+void set_continuous_typesetting (gboolean on)
+{
+    gboolean current = get_print_status()->updating_id;
+    if ((current && !on) || ((!current) && on))
+     toggle_updates();
+}
 static void
 set_typeset_type (GtkWidget * radiobutton, GtkWidget *rangebox)
 {
@@ -2356,8 +2362,8 @@ get_updates_menu (GtkWidget * button)
       item = gtk_check_menu_item_new_with_label (CONTINUOUS);
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       gtk_widget_set_tooltip_text (item, _("Set background updates on/off."));
-      g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (toggle_updates), button);
-
+      g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (toggle_updates), NULL);
+      ContinuousUpdateButton = button;
       gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), !Denemo.prefs.manualtypeset);
       item = gtk_menu_item_new_with_label (_("Range"));
       gtk_widget_set_tooltip_text (item, _("Set how much of the score to re-draw."));
@@ -2535,5 +2541,5 @@ install_printpreview (GtkWidget * top_vbox)
 gboolean
 continuous_typesetting (void)
 {
-  return (get_print_status()->background == STATE_ON);
+  return (get_print_status()->updating_id);
 }

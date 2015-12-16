@@ -13,6 +13,7 @@ gboolean get_curve (gdouble * x1, gdouble * y1, gdouble * x2, gdouble * y2, gdou
 void present_print_view_window();
 void typeset_part (void);
 gboolean continuous_typesetting (void);
+void set_continuous_typesetting (gboolean setting);
 gboolean get_new_point (void);
 int check_lily_version (gchar * version);
 gboolean typeset_for_script (gchar * script);
