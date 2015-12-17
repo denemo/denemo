@@ -785,6 +785,8 @@ display_svg (gdouble scale, gboolean part)
 static gint Locationx, Locationy;
 static void find_object (GtkWidget *event_box, GdkEventButton *event)
 {
+    if (audio_is_playing ())
+        return;
     if (event->button == 3)
         infodialog (_("The is the Playback View Window. Click on a note to play from that note to the end. Drag between two notes to play from the first to the last, shift drag to create a loop"));
     gint x = event->x;
@@ -845,6 +847,12 @@ static void start_play (GtkWidget *event_box, GdkEventButton *event)
     gint y = event->y;
     RightButtonPressed = FALSE;
     Dragging = FALSE;
+     if (audio_is_playing ())
+        {
+            call_out_to_guile ("(DenemoStop)");
+            return;
+        }
+    
     gtk_widget_queue_draw (Denemo.playbackview);
     //g_print ("At %d %d\n", x, y);
     if (update_playback_view ())
