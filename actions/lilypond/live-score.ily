@@ -150,7 +150,7 @@ as an engraver for convenience."
         (print-line engraver
                "tempo"
                ; get length of quarter notes, in seconds
-               (/ (ly:event-property event 'metronome-count)
+               (* (ly:event-property event 'metronome-count)
                    (format-moment (ly:duration-length (ly:event-property
                                                        event
                                                        'tempo-unit)))))))

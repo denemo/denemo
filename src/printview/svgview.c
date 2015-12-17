@@ -375,7 +375,7 @@ static void compute_timings (gchar *base, GList *ids)
                             if (1 == fscanf (fp, "%lf", &nextTempo))
                                 {
                                 nextTempoMoment = moment;//g_print ("Next %s %.2f\n", type, nextTempo);
-                                nextTempo = nextTempo / 4;
+                                nextTempo = nextTempo;
                                 incomingTempo = TRUE;
                                 } else g_warning ("Malformed events file");
                         }
@@ -391,7 +391,7 @@ static void compute_timings (gchar *base, GList *ids)
                                             if (moment > nextTempoMoment)
                                                 {
                                                     tempo = nextTempo;//g_print (" tempo %.2f\n", tempo);
-                                                    timeCoef = (60 / tempo) * 4;//g_print (" timeCoef %.2f\n", timeCoef);
+                                                    timeCoef = (60 / tempo);//g_print (" timeCoef %.2f\n", timeCoef);
                                                     incomingTempo = FALSE;
                                                 }
                                         }
@@ -427,7 +427,7 @@ static void compute_timings (gchar *base, GList *ids)
                                             if (moment > nextTempoMoment)
                                                 {
                                                     tempo = nextTempo;//g_print (" tempo %.2f\n", tempo);
-                                                    timeCoef = (60 / tempo) * 4;//g_print (" timeCoef %.2f\n", timeCoef);
+                                                    timeCoef = (60 / tempo);//g_print (" timeCoef %.2f\n", timeCoef);
                                                     incomingTempo = FALSE;
                                                 }
                                         }
