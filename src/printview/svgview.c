@@ -244,7 +244,7 @@ overdraw_print (cairo_t * cr)
            //g_print (" %f this = %f test time>this %d and this-end < time %d Durations is %f\n ",  time,  this, (time > (this - 0.01)), (this + duration < time), duration);
            if (this + duration < time)
                        continue;
-           if (time > (this - 0.01))
+           if (time > (this - 0.1))
                     {  //g_print ("draw note at %.2f\n", this );
                         cairo_rectangle (cr, ((Timing *)((g)->data))->x  - (PRINTMARKER/5)/4, ((Timing *)((g)->data))->y - (PRINTMARKER/5)/2, PRINTMARKER/5, PRINTMARKER/5);
                         if(!drew_rectangle)
@@ -635,9 +635,9 @@ playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboole
   get_print_status()->printpid = GPID_NONE;
   if(set_playback_view ())
     {
-  
+      gdouble total_time;
       changecount = Denemo.project->changecount;
-      load_lilypond_midi (NULL, AllPartsTypeset);
+      total_time = load_lilypond_midi (NULL, AllPartsTypeset);//g_print ("MIDI file total time = %.2f\n", total_time);
       AllPartsTypeset = FALSE;
   }
 }
