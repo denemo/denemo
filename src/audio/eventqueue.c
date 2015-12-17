@@ -296,7 +296,7 @@ event_queue_read_output (event_queue_t * queue, unsigned char *event_buffer, siz
       //g_assert(event->midi_buffer_length <= 3);
 
       update_position (event);
-
+      adjust_midi_velocity ((gchar*)event->midi_buffer, 100 - Denemo.prefs.dynamic_compression);
       memcpy (event_buffer, event->midi_buffer, event->midi_buffer_length);
       *event_length = event->midi_buffer_length;
       *event_time = event->time_seconds;

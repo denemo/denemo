@@ -31,6 +31,7 @@ void generate_midi (void);
 gdouble get_time (void);
 gdouble get_playuntil (void);
 void adjust_midi_velocity (gchar * buf, gint percent);
+void add_after_touch (gchar * buf);
 void change_tuning (gdouble * cents);
 gdouble get_midi_on_time (GList * events);
 gdouble get_midi_off_time (GList * events);

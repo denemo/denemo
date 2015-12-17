@@ -89,6 +89,7 @@ struct callbackdata
   GtkWidget *username;
   GtkWidget *password;
   GtkWidget *dynamic_compression;
+  GtkWidget *damping;
 
   GtkWidget *zoom;
   GtkWidget *system_height;
@@ -273,6 +274,7 @@ set_preferences (struct callbackdata *cbdata)
     ASSIGNBOOLEAN (continuous)
     ASSIGNINT (resolution)
     ASSIGNINT (maxhistory)
+    ASSIGNBOOLEAN (damping)
     ASSIGNINT (dynamic_compression)
     ASSIGNINT (zoom)
     ASSIGNINT (system_height)
@@ -644,7 +646,8 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   INTENTRY_LIMITS (_("Pitch Spelling Program"), pitchspellingprogram, 0, 127);
 
 
-  INTENTRY_LIMITS (_("% MIDI-in Dynamic Compression"), dynamic_compression, 1, 100);
+  INTENTRY_LIMITS (_("% MIDI-in Dynamic Compression"), dynamic_compression, 0, 100);
+  BOOLEANENTRY (_("Avoid abrupt damping"), damping);
 
 
   GList *item = g_list_find_custom (cbdata.audio_backend_list, Denemo.prefs.audio_driver->str, (GCompareFunc) strcmp);

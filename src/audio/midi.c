@@ -716,9 +716,15 @@ set_midi_capture (gboolean set)
 void
 adjust_midi_velocity (gchar * buf, gint percent)
 {
-  if (Denemo.prefs.dynamic_compression == 99)
+  if ((command == MIDI_NOTE_ON) && buf[2])
+    buf[2] = 127 - (gint) ((127 - buf[2]) * percent / 100.0);
+}
+
+void add_after_touch (gchar * buf)
+{
+   if (Denemo.prefs.damping)
     {
-      static gdouble times[0x7F];
+      static gdouble times[0x7F]; //takes no account of channel, really only good for one channel.
       if (command == MIDI_NOTE_ON)
         {
           times[notenumber] = get_time ();
@@ -731,12 +737,8 @@ adjust_midi_velocity (gchar * buf, gint percent)
           buf[2] = 60 / exp ((get_time () - times[notenumber]) * 1);    //scale according to the time
           return;
         }
-    }
-
-  if (command == MIDI_NOTE_ON)
-    buf[2] = 127 - (gint) ((127 - buf[2]) * percent / 100.0);
+    } 
 }
-
 
 void
 process_midi_event (gchar * buf)
@@ -911,6 +913,7 @@ void
 play_adjusted_midi_event (gchar * buf)
 {
   adjust_midi_velocity (buf, 100 - Denemo.prefs.dynamic_compression);
+  add_after_touch (buf);
   adjust_midi_channel (buf);                                   
   //g_print ("play adj midibytes 0x%hhX 0x%hhX 0x%hhX\n", *(buf+0), *(buf+1), *(buf+2));
   play_midi_event (DEFAULT_BACKEND, 0, (guchar*) buf);

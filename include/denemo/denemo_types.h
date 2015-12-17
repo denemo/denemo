@@ -505,6 +505,7 @@ typedef struct DenemoPrefs
   gboolean fluidsynth_chorus; /**< Toggle if chorus is applied to fluidsynth */
 
   gint dynamic_compression;/**< percent compression of dynamic range desired when listening to MIDI-in */
+  gboolean damping;/**< when true notes are re-sounded when left off at a lower velocity depending on their duration */
   gdouble display_refresh;/**< time in ms between refresh of display during playback */
   gint max_menu_size;/** < maximum number of menu entries allowed */
   gint animation_steps;/** < number of steps to use animating the page turns during playback */

@@ -375,7 +375,6 @@ static void compute_timings (gchar *base, GList *ids)
                             if (1 == fscanf (fp, "%lf", &nextTempo))
                                 {
                                 nextTempoMoment = moment;//g_print ("Next %s %.2f\n", type, nextTempo);
-                                nextTempo = nextTempo;
                                 incomingTempo = TRUE;
                                 } else g_warning ("Malformed events file");
                         }
@@ -411,7 +410,6 @@ static void compute_timings (gchar *base, GList *ids)
                                                     timing->duration = duration;
                                                     add_note (timing);//g_print ("AdjustedElapsed time %.2f note %d\n", adjustedElapsedTime, midi);
                                                     }
-                                                
                                     }
                                     else
                                     g_warning ("Could not parse type %s\n", type);
