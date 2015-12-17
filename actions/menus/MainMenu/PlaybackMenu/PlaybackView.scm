@@ -1,7 +1,7 @@
 ;;;PlaybackView
 (if (d-ContinuousTypesetting)
   (d-WarningDialog (_ "Please turn continuous typsetting off first"))
-  (let ((params PlaybackView::params)(tag "Temp")(tag2 "Temp2")(booktitles #f)(data #f)(width "20")(height "100") (part #f)(changecount (d-Changecount))(saved (d-GetSaved)))
+  (let ((params PlaybackView::params)(tag "Temp")(tag2 "Temp2")(pagebreak (d-Directive-header? "MovementPageBreak"))(booktitles #f)(data #f)(width "20")(height "100") (part #f)(changecount (d-Changecount))(saved (d-GetSaved)))
     (define (no-tempo-at-start)
         (define no-tempo #t)
         (d-PushPosition)
@@ -30,7 +30,10 @@
     (set! booktitles (DenemoHasBookTitles))
     (if booktitles
         (DenemoHideBookTitles))
-
+    (if pagebreak
+        (begin
+            (set! pagebreak (d-DirectiveGet-header-override "MovementPageBreak"))
+            (d-DirectivePut-header-override "MovementPageBreak" DENEMO_OVERRIDE_HIDDEN)))
     (d-DirectivePut-score-override tag DENEMO_OVERRIDE_AFFIX)
     (d-DirectivePut-score-prefix tag "\n\\include \"live-score.ily\"\n")
     (if (no-tempo-at-start)
@@ -46,7 +49,9 @@
     (d-SetSaved saved)
     (d-Changecount changecount)
     (d-DisplayTypesetSvg (/ (string->number  (d-ScoreProperties "query=fontsize"))18.0) part)
-        
+     
+    (if pagebreak
+        (d-DirectivePut-header-override "MovementPageBreak" pagebreak))   
     (d-DirectiveDelete-movementcontrol tag)
     (d-DirectiveDelete-paper tag)
     (d-DirectiveDelete-score tag)
