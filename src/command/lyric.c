@@ -10,7 +10,7 @@
 #include "command/object.h"
 #include "command/staff.h"
 #include "core/utils.h"
-
+#include "command/score.h"
 static GtkWidget *DummyVerse;   /* a non-existent verse */
 
 GtkWidget*
@@ -139,7 +139,7 @@ get_pos_at_syllable_count (DenemoStaff * staff, gint num, DenemoPosition *pos)
   for (measurenum = 0; curmeasure && (count < num); measurenum++, curmeasure = curmeasure->next)
     {
       objnode *curobj;
-      for (objnum=0, measurenum=1, curobj = curmeasure->data; curobj && (count < num); objnum++, curobj = curobj->next)
+      for (objnum=0, curobj = curmeasure->data; curobj && (count < num); objnum++, curobj = curobj->next)
         {
           DenemoObject *obj = curobj->data;
 
@@ -157,7 +157,6 @@ get_pos_at_syllable_count (DenemoStaff * staff, gint num, DenemoPosition *pos)
             }
         }                       //for objs
     }                           //for measures
-
   pos->measure = measurenum;
   pos->object = objnum;
 }
@@ -239,7 +238,7 @@ synchronize_cursor(GtkWidget *textview)
   DenemoPosition pos;
   count = get_syllable_count (gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview)));
   get_pos_at_syllable_count (thestaff, count, &pos);
-  goto_movement_staff_obj (NULL, 0, Denemo.project->movement->currentstaffnum, pos.measure, pos.object);
+  goto_movement_staff_obj (NULL, 0, Denemo.project->movement->currentstaffnum, pos.measure, pos.object, 0 /* means ignore */);
 }
 
 static gboolean 
