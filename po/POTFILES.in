@@ -1669,6 +1669,8 @@ actions/menus/ObjectMenu/NotesRests/Tuplets/Tripletize.scm
 actions/menus/ObjectMenu/NotesRests/Tuplets/TripletizeSlurred.scm
 actions/menus/ObjectMenu/NotesRests/Tuplets/TripletizeSlurred.xml
 actions/menus/ObjectMenu/NotesRests/Tuplets/Tripletize.xml
+actions/menus/ObjectMenu/NotesRests/Tuplets/TupletBrackets.scm
+actions/menus/ObjectMenu/NotesRests/Tuplets/TupletBrackets.xml
 actions/menus/ObjectMenu/Score/CheckScore.scm
 actions/menus/ObjectMenu/Score/CheckScore.xml
 actions/menus/ObjectMenu/Score/EditProlog.scm

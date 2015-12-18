@@ -6040,8 +6040,8 @@ for second and subsequent systems</_tooltip>
         <action>ToggleTupletBracketsIfBeamed</action>
         <after>ToggleTupletNumbering</after>
         <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
-        <_label>Tuplet Brackets (On/Off)</_label>
-        <_tooltip>Turns tuplet brackets off/on for beamed notes (when printed)</_tooltip>
+        <_label>Tuplet Brackets if not Beamed</_label>
+        <_tooltip>Turns tuplet brackets off for beamed notes. Affects tuplets from the cursor onwards.</_tooltip>
       </row>
       <row type="scheme">
         <action>ToggleTupletNumbering</action>
@@ -7652,6 +7652,13 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/MainMenu/PlaybackMenu</menupath>
         <_label>Playback View</_label>
         <_tooltip>Displays the music fully typeset on one long page (the Playback View). Click on a note to play from there or drag to loop play.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>TupletBrackets</action>
+        <after>TripletizeSlurred</after>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
+        <_label>Tuplet Brackets</_label>
+        <_tooltip>Choose whether tuplets should have brackets. Affects tuplets from the cursor onwards.</_tooltip>
       </row>
     </map>
   </merge>
