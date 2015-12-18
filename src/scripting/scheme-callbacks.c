@@ -2768,18 +2768,6 @@ scheme_set_duration_in_ticks (SCM duration)
   return SCM_BOOL_F;
 }
 
-SCM
-scheme_get_onset_time (void)
-{
-  DenemoProject *gui = Denemo.project;
-  DenemoObject *curObj;
-  if ((Denemo.project->movement->currentobject) && (curObj = Denemo.project->movement->currentobject->data))
-    if ((gui->movement->smfsync == gui->movement->changecount))
-      {
-        return scm_from_double (curObj->earliest_time); 
-      }
-  return SCM_BOOL_F;
-}
 
 SCM
 scheme_get_recorded_midi_tempo (SCM index)

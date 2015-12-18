@@ -166,7 +166,6 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Returns the number of dots on the note at the cursor, or #f if no note", DENEMO_SCHEME_PREFIX "GetDots", scheme_get_dots);
   install_scm_function (0, "Returns the base duration of the note at the cursor number=0, 1, 2 for whole half quarter note etc, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteBaseDuration", scheme_get_note_base_duration);
   install_scm_function (0, "Returns the duration in LilyPond syntax of the note at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteDuration", scheme_get_note_duration);
-  install_scm_function (0, "Returns start time for the object at the cursor, or #f if it has not been calculated", DENEMO_SCHEME_PREFIX "GetOnsetTime", scheme_get_onset_time);
 
   install_scm_function (1, "Takes an integer, Sets the number of ticks (PPQN) for the object at the cursor, returns #f if none; if the object is a chord it is set undotted", DENEMO_SCHEME_PREFIX "SetDurationInTicks", scheme_set_duration_in_ticks);
   install_scm_function (1, "Takes an index, returns the time in seconds, time signature and tempo in seconds per quarter note of the index'th MIDI tempo event in the recorded MIDI stream.", DENEMO_SCHEME_PREFIX "GetRecordedMidiTempo", scheme_get_recorded_midi_tempo);

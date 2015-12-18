@@ -532,7 +532,8 @@
     (staffloop)))
   (d-PopPosition)
   offtime)
-  
+;;;
+(define d-GetOnsetTime d-GetMidiOnTime)  ;;;was a duplicate, not used by Denemo
 ; DenemoConvert
 (define (DenemoConvert)
 (define MidiNoteStarts (make-vector 256 #f))

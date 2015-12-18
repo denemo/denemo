@@ -114,7 +114,6 @@ SCM scheme_get_note_at_cursor (void);
 SCM scheme_get_dots (void);
 SCM scheme_get_note_base_duration (void);
 SCM scheme_get_note_duration (void);
-SCM scheme_get_onset_time (void);
 SCM scheme_get_recorded_midi_tempo (SCM index);
 SCM scheme_get_imported_midi_track (SCM index);
 SCM scheme_delete_imported_midi (void);
