@@ -737,7 +737,7 @@ void delete_svgs (void) {
             //g_print ("deleting %s\n", filename);
             g_unlink (filename);
 #ifdef G_OS_WIN32
-    if (g_file_test (filename, G_FILE_TEST_EXISTS)) g_warning ("File %s deletion failed\n\n", filename)    
+    if (g_file_test (filename, G_FILE_TEST_EXISTS)) g_warning ("File %s deletion failed\n\n", filename);    
 #endif            
             
             g_free (filename);
