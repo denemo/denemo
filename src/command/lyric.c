@@ -139,7 +139,7 @@ get_pos_at_syllable_count (DenemoStaff * staff, gint num, DenemoPosition *pos)
   for (measurenum = 0; curmeasure && (count < num); measurenum++, curmeasure = curmeasure->next)
     {
       objnode *curobj;
-      for (objnum=0, curobj = curmeasure->data; curobj && (count < num); objnum++, curobj = curobj->next)
+      for (objnum=0, measurenum=1, curobj = curmeasure->data; curobj && (count < num); objnum++, curobj = curobj->next)
         {
           DenemoObject *obj = curobj->data;
 
