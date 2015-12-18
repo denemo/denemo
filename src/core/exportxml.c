@@ -348,7 +348,8 @@ newVersesElem (xmlNodePtr curElem, xmlNsPtr ns, GList * verses, gchar * type)
   xmlNodePtr versesElem = xmlNewChild (curElem, ns, (xmlChar *) type, NULL);
   for (; verses; verses = verses->next)
     {
-      xmlNewTextChild (versesElem, ns, (xmlChar *) "verse", (xmlChar *) verses->data);
+     if (verses->data && *(xmlChar *)verses->data) //do not create empty verses
+        xmlNewTextChild (versesElem, ns, (xmlChar *) "verse", (xmlChar *) verses->data);
     }
 }
 
