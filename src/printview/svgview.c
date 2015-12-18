@@ -785,10 +785,13 @@ display_svg (gdouble scale, gboolean part)
 static gint Locationx, Locationy;
 static void find_object (GtkWidget *event_box, GdkEventButton *event)
 {
+    static gboolean seen = FALSE;
     if (audio_is_playing ())
         return;
-    if (event->button == 3)
-        infodialog (_("The is the Playback View Window. Click on a note to play from that note to the end. Drag between two notes to play from the first to the last, shift drag to create a loop"));
+    if (event->button == 3 && !seen) {
+        infodialog (_("The is the Playback View Window. Click on a note to play from that note to the end. Click again to stop play. Drag between two notes to play from the first to the last, shift drag to create a loop. Right click on a note to move the Denemo cursor to that note in the Denemo Display."));
+        seen = TRUE;
+    }
     gint x = event->x;
     gint y = event->y;
     //g_print ("At %d %d\n", x, y);
@@ -804,14 +807,22 @@ static void find_object (GtkWidget *event_box, GdkEventButton *event)
                     //g_print ("Found line %d column %d\n", timing->line, timing->col);
                     Locationx = timing->col;
                     Locationy = timing->line;
-                    goto_lilypond_position (timing->line, timing->col);
-                    call_out_to_guile ("(DenemoSetPlaybackStart)");
+                    gboolean found = goto_lilypond_position (timing->line, timing->col);
+                    if (event->button != 3)
+                        call_out_to_guile ("(DenemoSetPlaybackStart)");
+                     else
+                        {
+                            if (found)
+                                call_out_to_guile ("(d-PlayMidiNote 72 255 9 100)");
+                        }
                     //g_print ("Set Playback Start %d column %d\n", timing->line, timing->col);
                     return;
                     
                 }
             //g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*5.61*TheScale, timing->y*5.61*TheScale);
-        }                    
+        }
+        
+    call_out_to_guile ("(d-PlayMidiNote 30 255 9 100)");                    
 }
 static void scroll_down (GtkAdjustment *adj, gint amount)
 {
@@ -852,7 +863,8 @@ static void start_play (GtkWidget *event_box, GdkEventButton *event)
             call_out_to_guile ("(DenemoStop)");
             return;
         }
-    
+    if (event->button == 3)
+        return;
     gtk_widget_queue_draw (Denemo.playbackview);
     //g_print ("At %d %d\n", x, y);
     if (update_playback_view ())
@@ -905,6 +917,7 @@ hide_playback_on_delete (void)
   return TRUE;
 }
 
+
 static void play_button (void)
 {
    if (update_playback_view ())
@@ -916,7 +929,7 @@ static void play_button (void)
             return;
         }
     Denemo.project->movement->smfsync = Denemo.project->movement->changecount;
-    call_out_to_guile ("(d-Play)");
+    call_out_to_guile ("(d-Performance)");
 }
 static void part_button (void)
 {
@@ -1016,11 +1029,8 @@ install_svgview (GtkWidget * top_vbox)
   hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, FALSE, 0);
 
-  GtkWidget *button = (GtkWidget*)gtk_button_new_with_label (_("Play"));
+  GtkWidget *button = (GtkWidget*)gtk_button_new_with_label (_("Play/Stop"));
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (play_button), NULL);
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-  button = (GtkWidget*)gtk_button_new_with_label (_("Stop"));
-  g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (call_out_to_guile), "(DenemoStop)");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
   button = (GtkWidget*)gtk_button_new_with_label (_("All Parts"));
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (movement_button), NULL);

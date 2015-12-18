@@ -4497,7 +4497,7 @@ accidentals are usually printed over the note.</_tooltip>
         <action>MarkupAtEnd</action>
         <after>MovementPageBreak</after>
         <menupath>/ObjectMenu/MovementMenu</menupath>
-        <_label>LilyPond After Movement</_label>
+        <_label>Text after Movement</_label>
         <_tooltip>Inserts the given Lilypond syntax after the current movement.</_tooltip>
       </row>
       <row type="scheme">
@@ -5045,8 +5045,8 @@ accidentals are usually printed over the note.</_tooltip>
         <action>Performance</action>
         <after>Play</after>
         <menupath>/MainMenu/PlaybackMenu</menupath>
-        <_label>Performance</_label>
-        <_tooltip>Plays the current movement, observing repeats, Da Capo, fine and Dal Segno.</_tooltip>
+       <_label>Performance (Start/Stop)</_label>
+        <_tooltip>Plays the current movement, observing repeats, Da Capo, fine and Dal Segno. If playing stops the performance</_tooltip>
       </row>
       <row type="scheme">
         <action>MovementNoteheadsPetrucci</action>
