@@ -15,6 +15,6 @@
                 (set! data (assq-set! data 'text (car themarkup)))
                 (d-DirectivePut-movementcontrol-data tag (format #f "'~s" data))
                 (set! themarkup (cdr themarkup))
-                (d-DirectivePut-movementcontrol-postfix tag (string-append "\\markup " themarkup))
+                (d-DirectivePut-movementcontrol-postfix tag (string-append "\\markup \\column { " themarkup " }"))
                 (d-SetSaved #f))
             (d-InfoDialog "Cancelled")))

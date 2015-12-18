@@ -7,8 +7,8 @@
       <row type="scheme">
         <after>Play</after>
         <action>Performance</action>
-        <_label>Performance</_label>
-        <_tooltip>Plays the current movement, observing repeats, Da Capo, fine and Dal Segno.</_tooltip>
+        <_label>Performance (Start/Stop)</_label>
+        <_tooltip>Plays the current movement, observing repeats, Da Capo, fine and Dal Segno. If playing stops the performance</_tooltip>
       </row>
     </map>
   </merge>

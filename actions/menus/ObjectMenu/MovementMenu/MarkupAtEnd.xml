@@ -7,7 +7,7 @@
       <row type="scheme">
         <after>MovementPageBreak</after>
         <action>MarkupAtEnd</action>
-        <_label>LilyPond After Movement</_label>
+        <_label>Text after Movement</_label>
         <_tooltip>Inserts the given Lilypond markup syntax after the current movement.</_tooltip>
       </row>
     </map>
