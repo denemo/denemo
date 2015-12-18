@@ -1017,6 +1017,13 @@ close_gui_with_check (GtkAction * action, DenemoScriptParam* param)
     close_project ();
   else
     return FALSE;
+    
+    if (action) //called as Close not Quit
+        {
+            if (Denemo.projects == NULL)
+                newtab ();
+            return TRUE;
+        }
   if (Denemo.projects == NULL)
     {
 
