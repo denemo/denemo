@@ -792,6 +792,11 @@ static void find_object (GtkWidget *event_box, GdkEventButton *event)
         infodialog (_("The is the Playback View Window. Click on a note to play from that note to the end. Click again to stop play. Drag between two notes to play from the first to the last, shift drag to create a loop. Right click on a note to move the Denemo cursor to that note in the Denemo Display."));
         seen = TRUE;
     }
+    
+    if (get_wysiwyg_info()->stage != TypesetForPlaybackView)
+        warningdialog (_("Use the Print View or re-typeset"));
+
+    
     gint x = event->x;
     gint y = event->y;
     //g_print ("At %d %d\n", x, y);

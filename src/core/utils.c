@@ -1853,7 +1853,8 @@ write_status (DenemoProject * gui)
        {
            if (last_object != gui->movement->currentobject)
                 {
-                    get_wysiwyg_info()->stage = STAGE_NONE;//remove the mark in the printview window as the cursor has moved
+                    if(get_wysiwyg_info()->stage != TypesetForPlaybackView)
+                        get_wysiwyg_info()->stage = STAGE_NONE;//remove the mark in the printview window as the cursor has moved
                     get_wysiwyg_info()->Mark.width = 0;
                     gtk_widget_queue_draw (Denemo.printarea);
                 }

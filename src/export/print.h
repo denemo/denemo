@@ -89,6 +89,7 @@ typedef enum
   Dragging2,
   Dragging3,
   Dragging4,
+  TypesetForPlaybackView
 } WwStage;
 
 typedef enum

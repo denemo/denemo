@@ -564,6 +564,7 @@ create_pdf (gboolean part_only, gboolean all_movements)
           return;
         }
     }
+  get_wysiwyg_info()->stage = STAGE_NONE;
   advance_printname ();
   gchar *filename = get_print_status()->printbasename[get_print_status()->cycle];
   gchar *lilyfile = get_print_status()->printname_ly[get_print_status()->cycle];
@@ -594,6 +595,7 @@ create_svg (gboolean part_only, gboolean all_movements)
           return;
         }
     }
+  get_wysiwyg_info()->stage = TypesetForPlaybackView;
   advance_printname ();
   gchar *filename = get_print_status()->printbasename[get_print_status()->cycle];
   gchar *lilyfile = get_print_status()->printname_ly[get_print_status()->cycle];
@@ -623,6 +625,7 @@ void create_pdf_for_lilypond (gchar *lilypond)
           return;
         }
     }
+  get_wysiwyg_info()->stage = STAGE_NONE;
   advance_printname ();
   gchar *filename = get_print_status()->printbasename[get_print_status()->cycle];
   gchar *lilyfile = get_print_status()->printname_ly[get_print_status()->cycle];

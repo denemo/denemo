@@ -1215,6 +1215,13 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
 #ifdef G_OS_WIN32
   g_debug ("Signal from evince widget received %d %d\n", get_wysiwyg_info()->grob, get_wysiwyg_info()->stage);
 #endif
+
+ if (get_wysiwyg_info()->stage == TypesetForPlaybackView)
+    {
+        warningdialog (_("Use the Playback View or re-typeset"));
+      return TRUE;        
+    }
+
   //g_debug("Link action Mark at %f, %f\n", get_wysiwyg_info()->Mark.x, get_wysiwyg_info()->Mark.y);
   gchar *uri = (gchar *) ev_link_action_get_uri (obj);
   //g_debug("Stage %d\n", get_wysiwyg_info()->stage);
