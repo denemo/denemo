@@ -639,7 +639,7 @@
     (if (not LilyPondInclude::return)
         (d-LilyPondInclude (cons 'query "simplified-book-titling.ily")))
   LilyPondInclude::return)
-(define (DenemoSetBookTitles)
+(define (DenemoUseBookTitles)
          (d-LilyPondInclude "simplified-book-titling.ily"))
 (define (DenemoHideBookTitles)
     (d-LilyPondInclude (cons 'delete "book-titling.ily"))
