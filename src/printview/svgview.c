@@ -794,8 +794,10 @@ static void find_object (GtkWidget *event_box, GdkEventButton *event)
     }
     
     if (get_wysiwyg_info()->stage != TypesetForPlaybackView)
-        warningdialog (_("Use the Print View or re-typeset"));
-
+       {
+            warningdialog (_("Use the Print View or re-typeset"));
+            return;
+       }
     
     gint x = event->x;
     gint y = event->y;
