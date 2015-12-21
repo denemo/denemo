@@ -3721,7 +3721,13 @@ toggle_playback_view (GtkAction * action, gpointer param)
   if (gtk_widget_get_visible (w))
     gtk_widget_hide (w);
   else
+    {
       gtk_widget_show (w);
+      GtkImageType type = gtk_image_get_storage_type (GTK_IMAGE(Denemo.playbackview));
+    if (type == GTK_IMAGE_EMPTY)
+        call_out_to_guile ("(d-PlaybackView #f)");
+      
+    }
 }
 /**
  *  Function to toggle visibility of score layout window of current project
