@@ -583,6 +583,8 @@ set_playback_view (void)
 #if 1 //def G_OS_WIN32
     GError *err = NULL;
     err = NULL;
+    if (Denemo.prefs.dynamic_compression == 88)
+           filename = string_dialog_entry (Denemo.project, "Back Door SVG Load", "Give SVG full path:", locateprintdir());
     GdkPixbuf *pb = rsvg_pixbuf_from_file (filename, &err);
     if(pb)
         {
@@ -593,7 +595,7 @@ set_playback_view (void)
                 g_print ("Loaded %s via rsvg pixbuf loader", filename);
         } else
         g_print ("\n\nThe rsvg pixbuf load of %s gave error: %s\n\n", filename, err?err->message: "no error return");
-   
+
 #else   
       if(Denemo.playbackview)
         gtk_image_set_from_file (GTK_IMAGE (Denemo.playbackview), filename);
@@ -752,7 +754,7 @@ static void remake_playback_view (gboolean part)
     delete_svgs ();
     set_continuous_typesetting (FALSE);
     create_svg (part, FALSE);//there is a typeset() function defined which does initialize_typesetting() ...
-    g_print ("Denemo.playbackview is at %p, Denemo at %p", Denemo.playbackview, Denemo);
+    g_print ("Denemo.playbackview is at %p, Denemo at %p", Denemo.playbackview, &Denemo);
     g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) playbackview_finished, (gpointer) (FALSE));
 }
 
@@ -1068,8 +1070,8 @@ install_svgview (GtkWidget * top_vbox)
 
   
   
-  gchar *filename = get_print_status()->printname_svg[get_print_status()->cycle];
-  Denemo.playbackview = (GtkWidget *) gtk_image_new_from_file (filename);
+  
+  Denemo.playbackview = (GtkWidget *) gtk_image_new ();
 
     // gtk_container_add (GTK_CONTAINER (score_and_scroll_hbox), Denemo.playbackview);
     //instead use an hbox to prevent the GtkImage widget expanding beyond the image size, which then causes positioning errors.
