@@ -268,6 +268,10 @@ predraw_print (cairo_t * cr)
   cairo_set_source_rgba (cr, 0xf1/255.0, 0xf4/255.0, 0x9d/255.0, 1.0);//cfdd36 f1f49d
   cairo_rectangle (cr, 0, 0.0, (gdouble)width, (gdouble)height);
   cairo_fill (cr);
+  
+    cairo_set_source_rgba (cr, 0x50/255.0, 0x0/255.0, 0x60/255.0, 1.0);//this should have no effect ...
+
+  
   return FALSE;//propagate further
 }
 #if GTK_MAJOR_VERSION==3
