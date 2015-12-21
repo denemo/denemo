@@ -3210,7 +3210,7 @@ create_console (GtkWidget * box)
   if (Denemo.console)
     return;
   Denemo.console = gtk_text_view_new ();
-  GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
+  GtkWidget *sw = gtk_scrolled_window_new (gtk_adjustment_new (0,0,0,0,0,0), gtk_adjustment_new (0,0,0,0,0,0));
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_box_pack_start (GTK_BOX (box), sw, TRUE, TRUE, 0);
   gtk_container_add (GTK_CONTAINER (sw), Denemo.console);
@@ -3281,7 +3281,7 @@ create_lilywindow (void)
   create_console (vbox);
 
   GtkWidget *view = (GtkWidget *)gtk_source_view_new ();
-  GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
+  GtkWidget *sw = gtk_scrolled_window_new (gtk_adjustment_new (0,0,0,0,0,0), gtk_adjustment_new (0,0,0,0,0,0));
   gtk_widget_set_tooltip_text (sw, helptext);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_paned_add1 (GTK_PANED (top_pane), sw);

@@ -1630,7 +1630,8 @@ edit_score_and_movement_properties (gboolean show_score)
     
     gtk_container_add (GTK_CONTAINER (frame), expander);
     
-    GtkWidget *scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+    GtkWidget  *scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+ 
     gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
     
     GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);

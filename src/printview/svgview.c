@@ -1057,7 +1057,8 @@ install_svgview (GtkWidget * top_vbox)
   //g_signal_connect (G_OBJECT (top_vbox), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
   g_signal_connect (G_OBJECT (top_vbox), "delete-event", G_CALLBACK (hide_playback_on_delete), NULL);
   gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
-  GtkWidget *score_and_scroll_hbox = gtk_scrolled_window_new (NULL, NULL);
+ 
+  GtkWidget *score_and_scroll_hbox = gtk_scrolled_window_new (gtk_adjustment_new (0,0,0,0,0,0), gtk_adjustment_new (0,0,0,0,0,0));
  
   
   

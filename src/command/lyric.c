@@ -67,7 +67,7 @@ static GtkWidget *
 new_lyric_editor (void)
 {
   GtkWidget *view = gtk_text_view_new ();
-  GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
+  GtkWidget *sw = gtk_scrolled_window_new (gtk_adjustment_new (0,0,0,0,0,0), gtk_adjustment_new (0,0,0,0,0,0));
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   if (Denemo.prefs.newbie)
     gtk_widget_set_tooltip_text (sw, _("The text of a verse can be typed or pasted here. Press Esc to return to editing notes.\n"

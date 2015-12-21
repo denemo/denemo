@@ -444,7 +444,7 @@ create_editor_window (void)
   gtk_activatable_set_related_action (GTK_ACTIVATABLE (wid), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/HiddenMenu/RecordScript"));
   gtk_box_pack_start (GTK_BOX (inner_hbox), wid, FALSE, FALSE, 0);
   
-  GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
+  GtkWidget *sw = gtk_scrolled_window_new (gtk_adjustment_new (0,0,0,0,0,0), gtk_adjustment_new (0,0,0,0,0,0));
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   gtk_box_pack_start (GTK_BOX (main_vbox), sw, TRUE, TRUE, 0);

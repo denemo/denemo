@@ -211,7 +211,7 @@ get_view (gchar * filename)
   g_signal_connect (G_OBJECT (view), "external-link", G_CALLBACK (action_for_link), (gpointer)model);
   g_signal_connect (G_OBJECT (view), "button-press-event", G_CALLBACK (press), (gpointer)model);
 
-  GtkWidget *score_and_scroll_hbox = gtk_scrolled_window_new (NULL, NULL);
+  GtkWidget *score_and_scroll_hbox = gtk_scrolled_window_new (gtk_adjustment_new (0,0,0,0,0,0), gtk_adjustment_new (0,0,0,0,0,0));
   gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_hbox, TRUE, TRUE, 0);
   gtk_container_add (GTK_CONTAINER (score_and_scroll_hbox), GTK_WIDGET (view));
   gtk_widget_show_all (top_window);
