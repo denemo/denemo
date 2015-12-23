@@ -59,6 +59,6 @@
     (d-DirectiveDelete-score tag2)
     (d-DirectivePut-score-prefix tag2 "\n%\\header { tagline = #f }\n") ;;to keep the same line numbers we don't delete this line but comment it out
     (if booktitles
-        (DenemoSetBookTitles))
+        (DenemoUseBookTitles))
     (d-SetSaved saved);(disp "Resetting " changecount "\n\n")
     (d-Changecount changecount)))
