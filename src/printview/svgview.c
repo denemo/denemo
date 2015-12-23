@@ -545,29 +545,34 @@ static gint get_number_of_pages (gchar *base)
 static gboolean
 set_playback_view (void)
 {
-  static gboolean recursion = FALSE;
+  static gint num_pages = 0;
   GFile *file;
   gchar *filename = g_strdup (get_print_status()->printname_svg[get_print_status()->cycle]);
   gboolean multipage = FALSE;
-  //g_print("Output to %s recursion is %d\n", filename, recursion);
+  //g_print("Output to %s num_pages is %d\n", filename, num_pages);
   if (get_print_status()->invalid)
     g_warning ("We got print status invalid %d\nTypeset may not be good.", get_print_status()->invalid);
   if (!(g_file_test (filename, G_FILE_TEST_EXISTS)))
       {
           g_free (filename);
-          if (recursion) //recursion failed, give up
+          if (num_pages>0) //recursion failed, give up
             {
-                recursion = FALSE;
+                num_pages = 0;
+                g_warning ("Unable to get the right page length\n");
                 return FALSE;
             }
           filename = g_strconcat (get_print_status()->printbasename[get_print_status()->cycle], "-page-1.svg", NULL);
           if (g_file_test (filename, G_FILE_TEST_EXISTS))
                 {
                     g_free (filename); 
-                    gint num_pages = get_number_of_pages (get_print_status()->printbasename[get_print_status()->cycle]);
+                    num_pages = get_number_of_pages (get_print_status()->printbasename[get_print_status()->cycle]);
+                    if (num_pages<2)
+                        {
+                        g_warning ("Unable to determine number of pages\n");
+                        return FALSE;  
+                        }
                     gchar *scheme = g_strdup_printf ("%s%s%s%d%s", "(d-PlaybackView \"(list ", PartOnly?"#t":"#f", " \\\"20\\\" \\\"" , 100 * num_pages, "\\\")\")");
-                    //g_print ("Scheme created: %s for %d pages\n", scheme, num_pages);
-                    recursion = TRUE;
+                    g_print ("Scheme created: %s for %d pages\n", scheme, num_pages);
                     call_out_to_guile (scheme);
                     g_free (scheme);
                     return FALSE;
@@ -575,7 +580,9 @@ set_playback_view (void)
          g_free (filename);
          return FALSE; // no svg at all
       }
-  recursion = FALSE;
+    if (num_pages == 0)
+        num_pages = 1; //no recursion, so one page
+
     //if (get_print_status()->invalid == 0) ignore errors as it may have typeset anyway.
   get_print_status()->invalid = (g_file_test (filename, G_FILE_TEST_EXISTS)) ? 0 : 3;
 
@@ -589,9 +596,12 @@ set_playback_view (void)
     err = NULL;
     if (Denemo.prefs.dynamic_compression == 88)
            filename = string_dialog_entry (Denemo.project, "Back Door SVG Load", "Give SVG full path:", locateprintdir());
-    GdkPixbuf *pb = rsvg_pixbuf_from_file (filename, &err);
+    GdkPixbuf *pb = //rsvg_pixbuf_from_file (filename, &err);
+    rsvg_pixbuf_from_file_at_size (filename, 709, 3543 * num_pages, &err);
+                               
     if(pb)
         {
+            g_print ("Width %d\nHeight %d\n", gdk_pixbuf_get_width (pb), gdk_pixbuf_get_height (pb));//709, 7087 for two page, 709 by 3543 for single
             if(Denemo.playbackview)
                 gtk_image_set_from_pixbuf (GTK_IMAGE (Denemo.playbackview), pb);
             else
@@ -615,6 +625,7 @@ set_playback_view (void)
         }
     }
     g_free (filename);
+  num_pages = 0;
   return TRUE;
 }
 
