@@ -2069,7 +2069,7 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
   DenemoProject *gui = Denemo.project;
   (*psb)->staff_list = NULL;    //list of staff frames in order they appear in scoreblock
 
-  (*psb)->widget = gtk_scrolled_window_new (gtk_adjustment_new (0,0,0,0,0,0), gtk_adjustment_new (0,0,0,0,0,0));
+  (*psb)->widget = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
 
   (*psb)->visible = FALSE;      //will be set true when/if tab is selected
   if (partname)
@@ -2974,7 +2974,7 @@ get_scoreblock_for_lilypond (gchar * lily)
     GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
     gtk_text_buffer_set_text (textbuffer, text, -1);
 
-    GtkWidget *sw = gtk_scrolled_window_new (gtk_adjustment_new (0,0,0,0,0,0), gtk_adjustment_new (0,0,0,0,0,0));
+    GtkWidget *sw = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
     gtk_container_add (GTK_CONTAINER (sw), textview);
     gtk_box_pack_start (GTK_BOX (vbox), sw, TRUE, TRUE, 0);

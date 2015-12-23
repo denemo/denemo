@@ -2079,7 +2079,7 @@ keymap_get_command_view (keymap * the_keymap, GtkWidget *SearchEntry, GtkWidget 
 
 
   //setting up the scrolledwindow
-  res2 = GTK_SCROLLED_WINDOW (gtk_scrolled_window_new (gtk_adjustment_new (0,0,0,0,0,0), gtk_adjustment_new (0,0,0,0,0,0)));
+  res2 = GTK_SCROLLED_WINDOW (gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0)));
   gtk_container_add (GTK_CONTAINER (res2), GTK_WIDGET (res));
   gtk_scrolled_window_set_policy (res2, GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
 
@@ -2301,7 +2301,7 @@ keymap_get_binding_view ()
 
   gtk_tree_view_set_reorderable (res, TRUE);
   //setting up the scrolledwindow
-  res2 = GTK_SCROLLED_WINDOW (gtk_scrolled_window_new (gtk_adjustment_new (0,0,0,0,0,0), gtk_adjustment_new (0,0,0,0,0,0)));
+  res2 = GTK_SCROLLED_WINDOW (gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0)));
   gtk_container_add (GTK_CONTAINER (res2), GTK_WIDGET (res));
   gtk_scrolled_window_set_policy (res2, GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 

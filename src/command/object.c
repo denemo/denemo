@@ -542,7 +542,7 @@ display_current_object (void)
         }
         if (selection->len)
         {
-          GtkWidget *scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+          GtkWidget *scrolled_window = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
           gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 0);
           GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
           gtk_scrolled_window_add_with_viewport  (GTK_SCROLLED_WINDOW(scrolled_window),  inner_box);
@@ -1630,7 +1630,7 @@ edit_score_and_movement_properties (gboolean show_score)
     
     gtk_container_add (GTK_CONTAINER (frame), expander);
     
-    GtkWidget  *scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+    GtkWidget  *scrolled_window = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
  
     gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
     
@@ -1663,7 +1663,7 @@ edit_score_and_movement_properties (gboolean show_score)
     gtk_paned_add2 (GTK_PANED(pane), frame);
     gtk_container_add (GTK_CONTAINER (frame), expander);
      
-    scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+    scrolled_window = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
     gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
     inner_box = gtk_vbox_new (FALSE, 0);
     gtk_scrolled_window_add_with_viewport  (GTK_SCROLLED_WINDOW(scrolled_window),  inner_box);
@@ -1825,7 +1825,7 @@ edit_staff_and_voice_properties (gboolean show_staff)
     
     gtk_container_add (GTK_CONTAINER (frame), expander);
     
-    GtkWidget *scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+    GtkWidget *scrolled_window = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
     gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
     
     GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
@@ -1910,7 +1910,7 @@ edit_staff_and_voice_properties (gboolean show_staff)
     gtk_paned_add2 (GTK_PANED(pane), frame);
     gtk_container_add (GTK_CONTAINER (frame), expander);
      
-    scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+    scrolled_window = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
     gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
     inner_box = gtk_vbox_new (FALSE, 0);
     gtk_scrolled_window_add_with_viewport  (GTK_SCROLLED_WINDOW(scrolled_window),  inner_box);
