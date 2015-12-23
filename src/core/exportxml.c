@@ -352,22 +352,13 @@ newVersesElem (xmlNodePtr curElem, xmlNsPtr ns, GList * verses, gchar * type)
         xmlNewTextChild (versesElem, ns, (xmlChar *) "verse", (xmlChar *) verses->data);
     }
 }
-
-static void
-newDirectivesElem (xmlNodePtr objElem, xmlNsPtr ns, GList * g, gchar * type)
+static void newDirectiveElem (xmlNodePtr directivesElem, xmlNsPtr ns, gchar * type, DenemoDirective *directive) 
 {
-  xmlNodePtr directivesElem = NULL;
-  for (; g; g = g->next)
-    {
-      DenemoDirective *directive = (DenemoDirective *) g->data;
-
 /*      hhmmmm the set_action_script_for_tag is not modifying the directive - just associating a script with the tag. It is when we try to invoke the directive that we find there is an action script */
 /* We Decline to store any directive that has a tag for which an action script is defined in this run of denemo 
 *  this implies people need to be careful in the tags they use for action scripts*/
-      if (directive->tag && get_action_script (directive->tag->str))
-        continue;
-      if (directivesElem == NULL)
-        directivesElem = xmlNewChild (objElem, ns, (xmlChar *) type, NULL);
+ 
+
       xmlNodePtr directiveElem = xmlNewChild (directivesElem, ns, (xmlChar *) "directive", NULL);
 #define DO_DIREC(field)  if (directive->field \
                    && directive->field->len)\
@@ -395,6 +386,19 @@ newDirectivesElem (xmlNodePtr objElem, xmlNsPtr ns, GList * g, gchar * type)
 
 #undef DO_DIREC
 #undef DO_INTDIREC
+}
+
+static void
+newDirectivesElem (xmlNodePtr objElem, xmlNsPtr ns, GList * g, gchar * type)
+{
+  xmlNodePtr directivesElem = xmlNewChild (objElem, ns, (xmlChar *) type, NULL);
+
+  for (; g; g = g->next)
+    {
+      DenemoDirective *directive = (DenemoDirective *) g->data;
+      if (directive->tag && get_action_script (directive->tag->str))
+        continue;    
+      newDirectiveElem (directivesElem, ns, type, directive);
     }
 }
 
@@ -965,12 +969,16 @@ parseObjects (xmlNodePtr measureElem, xmlNsPtr ns, GList *curObjNode)
 
               break;
             case LILYDIRECTIVE:
+#if 1
               //FIXME this should really have been the tag saved here, but for backwards compatibility we use the postfix string.
               if (((lilydirective *) curObj->object)->postfix && ((lilydirective *) curObj->object)->postfix->len)
                 objElem = xmlNewTextChild (measureElem, ns, (xmlChar *) "lily-directive", (xmlChar *) ((lilydirective *) curObj->object)->postfix->str);
               else
                 objElem = xmlNewTextChild (measureElem, ns, (xmlChar *) "lily-directive", (xmlChar *) " ");
+#else
+                newDirectivesElem (
 
+#endif
               if (((lilydirective *) curObj->object)->locked)
                 xmlSetProp (objElem, (xmlChar *) "locked", (xmlChar *) "true");
 
