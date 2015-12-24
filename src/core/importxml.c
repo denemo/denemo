@@ -1235,74 +1235,77 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem)
   gchar *directive = (gchar *) xmlNodeListGetString (LilyDirectiveElem->doc,
                                                      LilyDirectiveElem->xmlChildrenNode,
                                                      1);
-
   DenemoObject *curobj = lily_directive_new (directive ? directive : " ");
   DenemoDirective *thedirective = (lilydirective *) curobj->object;
+  if (directive == NULL)
+    {
+     parseDirective (LilyDirectiveElem, thedirective);
+    } else 
+    { //backward compatibility
 
-  gchar *locked = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) "locked");
 
-  if (locked)
-    thedirective->locked = !strcmp (locked, "true");
-  g_free (locked);
+    #define GET_STR_FIELD(display)\
+      gchar *display = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) #display);\
+      if(display)\
+        ((lilydirective*)curobj->object)->display = g_string_new(display);\
+      g_free(display);
 
-#define GET_STR_FIELD(display)\
-  gchar *display = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) #display);\
-  if(display)\
-    ((lilydirective*)curobj->object)->display = g_string_new(display);\
-  g_free(display);
-
-  GET_STR_FIELD (tag);
-  GET_STR_FIELD (display);
-  GET_STR_FIELD (midibytes);
-  GET_STR_FIELD (grob);
-  GET_STR_FIELD (data);
-  GET_STR_FIELD (graphic_name);
-  GET_STR_FIELD (prefix);
-  if (thedirective->graphic_name && thedirective->graphic_name->len)
-    loadGraphicItem (thedirective->graphic_name->str, (DenemoGraphic **) & thedirective->graphic);
-    
-   if(version_number < 7) {
-       GString *lily = ((lilydirective*)curobj->object)->postfix;
-       //convert old style barlines to LilyPond 2.18 style
-       if(lily)
-       {
-        gchar *postfix = lily->str;
-        if (!g_strcmp0 ("\\bar \":|\"", postfix))
-            g_string_assign(lily, "\\bar \":|.\"");
-        else if (!g_strcmp0 (" \\bar \"|:\"", postfix))//Note there was a space in the old directive before \bar!
-            g_string_assign(lily, "\\bar \".|:\"");
-        else if (!g_strcmp0 ("\\bar \"|:\"", postfix))//for versions without the space
-            g_string_assign(lily, "\\bar \".|:\"");
-        else if (!g_strcmp0 (" \\bar \":|:\"", postfix)) //Note there was a space in (some versions of?) the old directive!
-            g_string_assign(lily, "\\bar \":..:\"");
-        else if (!g_strcmp0 ("\\bar \":|:\"", postfix))
-            g_string_assign(lily, "\\bar \":..:\"");
+      GET_STR_FIELD (tag);
+      GET_STR_FIELD (display);
+      GET_STR_FIELD (midibytes);
+      GET_STR_FIELD (grob);
+      GET_STR_FIELD (data);
+      GET_STR_FIELD (graphic_name);
+      GET_STR_FIELD (prefix);
+      if (thedirective->graphic_name && thedirective->graphic_name->len)
+        loadGraphicItem (thedirective->graphic_name->str, (DenemoGraphic **) & thedirective->graphic);
         
-       }
-   } 
-    
-    
-#define GET_INT_FIELD(x)\
-  gchar *x = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) #x);\
-  if(x)\
-    thedirective->x = atoi(x);\
-  g_free(x);
+       if(version_number < 7) {
+           GString *lily = ((lilydirective*)curobj->object)->postfix;
+           //convert old style barlines to LilyPond 2.18 style
+           if(lily)
+           {
+            gchar *postfix = lily->str;
+            if (!g_strcmp0 ("\\bar \":|\"", postfix))
+                g_string_assign(lily, "\\bar \":|.\"");
+            else if (!g_strcmp0 (" \\bar \"|:\"", postfix))//Note there was a space in the old directive before \bar!
+                g_string_assign(lily, "\\bar \".|:\"");
+            else if (!g_strcmp0 ("\\bar \"|:\"", postfix))//for versions without the space
+                g_string_assign(lily, "\\bar \".|:\"");
+            else if (!g_strcmp0 (" \\bar \":|:\"", postfix)) //Note there was a space in (some versions of?) the old directive!
+                g_string_assign(lily, "\\bar \":..:\"");
+            else if (!g_strcmp0 ("\\bar \":|:\"", postfix))
+                g_string_assign(lily, "\\bar \":..:\"");
+            
+           }
+       } 
+        
+        
+    #define GET_INT_FIELD(x)\
+      gchar *x = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) #x);\
+      if(x)\
+        thedirective->x = atoi(x);\
+      g_free(x);
 
-  GET_INT_FIELD (x);
-  GET_INT_FIELD (y);
-  GET_INT_FIELD (tx);
-  GET_INT_FIELD (ty);
-  GET_INT_FIELD (gx);
-  GET_INT_FIELD (gy);
-  GET_INT_FIELD (override);
-  UPDATE_OVERRIDE (thedirective);
-  GET_INT_FIELD (minpixels);
-  // curobj->minpixelsalloted = thedirective->minpixels?thedirective->minpixels:16;//FIXME setpixelmin
-  setpixelmin (curobj);
-  gchar *ticks = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) "ticks");
-  if (ticks)
+      GET_INT_FIELD (x);
+      GET_INT_FIELD (y);
+      GET_INT_FIELD (tx);
+      GET_INT_FIELD (ty);
+      GET_INT_FIELD (gx);
+      GET_INT_FIELD (gy);
+      GET_INT_FIELD (override);
+      UPDATE_OVERRIDE (thedirective);
+      GET_INT_FIELD (minpixels);
+    }// end of backward compatibility
+  
+    setpixelmin (curobj);
+    gchar *locked = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) "locked");
+    if (locked)
+    thedirective->locked = !strcmp (locked, "true");
+    g_free (locked);
+    gchar *ticks = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) "ticks");
+    if (ticks)
     curobj->durinticks = atoi (ticks);
-  //curobj->baseduration = - curobj->durinticks;
   return curobj;
 }
 

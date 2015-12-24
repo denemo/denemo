@@ -352,14 +352,14 @@ newVersesElem (xmlNodePtr curElem, xmlNsPtr ns, GList * verses, gchar * type)
         xmlNewTextChild (versesElem, ns, (xmlChar *) "verse", (xmlChar *) verses->data);
     }
 }
-static void newDirectiveElem (xmlNodePtr directivesElem, xmlNsPtr ns, gchar * type, DenemoDirective *directive) 
+static void newDirectiveElem (xmlNodePtr directiveElem, xmlNsPtr ns, DenemoDirective *directive) 
 {
 /*      hhmmmm the set_action_script_for_tag is not modifying the directive - just associating a script with the tag. It is when we try to invoke the directive that we find there is an action script */
 /* We Decline to store any directive that has a tag for which an action script is defined in this run of denemo 
 *  this implies people need to be careful in the tags they use for action scripts*/
  
 
-      xmlNodePtr directiveElem = xmlNewChild (directivesElem, ns, (xmlChar *) "directive", NULL);
+      
 #define DO_DIREC(field)  if (directive->field \
                    && directive->field->len)\
                       xmlNewTextChild (directiveElem, ns, (xmlChar *) #field,\
@@ -397,8 +397,9 @@ newDirectivesElem (xmlNodePtr objElem, xmlNsPtr ns, GList * g, gchar * type)
     {
       DenemoDirective *directive = (DenemoDirective *) g->data;
       if (directive->tag && get_action_script (directive->tag->str))
-        continue;    
-      newDirectiveElem (directivesElem, ns, type, directive);
+        continue;
+      xmlNodePtr directiveElem = xmlNewChild (directivesElem, ns, (xmlChar *) "directive", NULL);    
+      newDirectiveElem (directiveElem, ns, directive);
     }
 }
 
@@ -969,19 +970,21 @@ parseObjects (xmlNodePtr measureElem, xmlNsPtr ns, GList *curObjNode)
 
               break;
             case LILYDIRECTIVE:
-#if 1
+#ifdef OLDSTYLE_STANDALONE_SAVE
               //FIXME this should really have been the tag saved here, but for backwards compatibility we use the postfix string.
               if (((lilydirective *) curObj->object)->postfix && ((lilydirective *) curObj->object)->postfix->len)
                 objElem = xmlNewTextChild (measureElem, ns, (xmlChar *) "lily-directive", (xmlChar *) ((lilydirective *) curObj->object)->postfix->str);
               else
                 objElem = xmlNewTextChild (measureElem, ns, (xmlChar *) "lily-directive", (xmlChar *) " ");
 #else
-                newDirectivesElem (
+                objElem = xmlNewChild (measureElem, ns, (xmlChar *) "lily-directive", NULL);
+                newDirectiveElem (objElem, ns, (lilydirective *) curObj->object);
 
 #endif
               if (((lilydirective *) curObj->object)->locked)
                 xmlSetProp (objElem, (xmlChar *) "locked", (xmlChar *) "true");
 
+#ifdef OLDSTYLE_STANDALONE_SAVE
     #define SETSTRING_PROP(field)\
     if(((lilydirective *) curObj->object)->field && ((lilydirective *) curObj->object)->field->len)\
     xmlSetProp (objElem, (xmlChar *) #field,\
@@ -1008,6 +1011,10 @@ parseObjects (xmlNodePtr measureElem, xmlNsPtr ns, GList *curObjNode)
               SETINT_PROP (minpixels);
               SETINT_PROP (override);
     #undef SETINT_PROP
+#endif    
+    
+    
+    
               if (curObj->durinticks)
                 newXMLIntProp (objElem, (xmlChar*) "ticks", curObj->durinticks);
               break;
