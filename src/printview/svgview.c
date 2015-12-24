@@ -1055,13 +1055,17 @@ install_svgview (GtkWidget * top_vbox)
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (scroll_dialog), NULL);  
   if (top_vbox == NULL)
+    {
     top_vbox = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  // if(!Denemo.prefs.manualtypeset)
-  //      gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
-  gtk_window_set_title (GTK_WINDOW (top_vbox), _("Denemo Playback View"));
-  gtk_window_set_default_size (GTK_WINDOW (top_vbox), 600, 750);
-  //g_signal_connect (G_OBJECT (top_vbox), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
-  g_signal_connect (G_OBJECT (top_vbox), "delete-event", G_CALLBACK (hide_playback_on_delete), NULL);
+    // if(!Denemo.prefs.manualtypeset)
+    //      gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
+    gtk_window_set_title (GTK_WINDOW (top_vbox), _("Denemo Playback View"));
+    gtk_window_set_default_size (GTK_WINDOW (top_vbox), 600, 750);
+    //g_signal_connect (G_OBJECT (top_vbox), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+    g_signal_connect (G_OBJECT (top_vbox), "delete-event", G_CALLBACK (hide_playback_on_delete), NULL);
+    }
+  
+  
   gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
  
   GtkWidget *score_and_scroll_hbox = gtk_scrolled_window_new (gtk_adjustment_new (0,0,0,0,0,0), gtk_adjustment_new (0,0,0,0,0,0));
