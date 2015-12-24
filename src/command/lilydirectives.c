@@ -1376,7 +1376,7 @@ create_text_window (void)
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_container_add (GTK_CONTAINER (w), main_vbox);
 
-  GtkWidget *sw = gtk_scrolled_window_new (gtk_adjustment_new (0,0,0,0,0,0), gtk_adjustment_new (0,0,0,0,0,0));
+  GtkWidget *sw = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_box_pack_start (GTK_BOX (main_vbox), sw, TRUE, TRUE, 0);
   gtk_container_add (GTK_CONTAINER (sw), textview);
