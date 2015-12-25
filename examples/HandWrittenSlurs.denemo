@@ -96,8 +96,15 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         </voice-props>
         <measures>
           <measure>
-            <lily-directive tag="MultiLineTextAnnotation" display="Each of the slurs is slightly different, as if drawn by hand..." data="'((direction . &quot;^&quot;) (scale . &quot;1.5&quot;) (text . &quot;Each of the slurs is slightly different, as if drawn by hand...&quot;))" prefix="&lt;&gt;" minpixels="30">^\markup\scale #'(1.5 . 1.5)\column{\line\large{Each of the slurs is slightly different, as if drawn by hand...}
-}</lily-directive>
+            <lily-directive>
+              <tag>MultiLineTextAnnotation</tag>
+              <prefix>&lt;&gt;</prefix>
+              <postfix>^\markup\scale #'(1.5 . 1.5)\column{\line\large{Each of the slurs is slightly different, as if drawn by hand...}
+}</postfix>
+              <display>Each of the slurs is slightly different, as if drawn by hand...</display>
+              <data>'((direction . "^") (scale . "1.5") (text . "Each of the slurs is slightly different, as if drawn by hand..."))</data>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id2">
               <duration base="quarter"></duration>
               <slur-begin>1</slur-begin>

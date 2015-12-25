@@ -129,8 +129,20 @@ instrument = ##f
         </voice-props>
         <measures>
           <measure>
-            <lily-directive tag="RehearsalMark" display="        Stop One" tx="-10" ty="-13" minpixels="100"> </lily-directive>
-            <lily-directive locked="true" tag="MuteStaffDummy" gx="20" minpixels="50"> </lily-directive>
+            <lily-directive>
+              <tag>RehearsalMark</tag>
+              <postfix> </postfix>
+              <display>        Stop One</display>
+              <minpixels>100</minpixels>
+              <tx>-10</tx>
+              <ty>-13</ty>
+            </lily-directive>
+            <lily-directive locked="true">
+              <tag>MuteStaffDummy</tag>
+              <postfix> </postfix>
+              <minpixels>50</minpixels>
+              <gx>20</gx>
+            </lily-directive>
             <rest show="true" id="id3">
               <duration base="quarter"></duration>
             </rest>
@@ -180,8 +192,25 @@ instrument = ##f
         </voice-props>
         <measures>
           <measure>
-            <lily-directive tag="RehearsalMark" display="        Stop Two" tx="-10" ty="-12" minpixels="100"> </lily-directive>
-            <lily-directive locked="true" tag="MuteStaffDummy" graphic_name="&#10;Use Space Bar to change stops.&#10;Denemo&#10;24" gx="-93" gy="49" minpixels="50"> </lily-directive>
+            <lily-directive>
+              <tag>RehearsalMark</tag>
+              <postfix> </postfix>
+              <display>        Stop Two</display>
+              <minpixels>100</minpixels>
+              <tx>-10</tx>
+              <ty>-12</ty>
+            </lily-directive>
+            <lily-directive locked="true">
+              <tag>MuteStaffDummy</tag>
+              <postfix> </postfix>
+              <graphic_name>
+Use Space Bar to change stops.
+Denemo
+24</graphic_name>
+              <minpixels>50</minpixels>
+              <gx>-93</gx>
+              <gy>49</gy>
+            </lily-directive>
             <rest show="true" id="id5">
               <duration base="quarter"></duration>
             </rest>

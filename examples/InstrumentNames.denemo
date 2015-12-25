@@ -309,7 +309,13 @@ title = "Untitled"
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RepeatEndStart" graphic_name="RepeatEndStart" minpixels="30" override="4">\bar ":|:"</lily-directive>
+            <lily-directive>
+              <tag>RepeatEndStart</tag>
+              <postfix>\bar ":|:"</postfix>
+              <graphic_name>RepeatEndStart</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id31">
@@ -434,7 +440,13 @@ title = "Untitled"
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|."</lily-directive>
+            <lily-directive>
+              <tag>RepeatEnd</tag>
+              <postfix>\bar ":|."</postfix>
+              <graphic_name>RepeatEnd</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>
@@ -704,7 +716,13 @@ title = "Untitled"
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|."</lily-directive>
+            <lily-directive>
+              <tag>RepeatEnd</tag>
+              <postfix>\bar ":|."</postfix>
+              <graphic_name>RepeatEnd</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>
@@ -987,7 +1005,13 @@ title = "Untitled"
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|."</lily-directive>
+            <lily-directive>
+              <tag>RepeatEnd</tag>
+              <postfix>\bar ":|."</postfix>
+              <graphic_name>RepeatEnd</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>
@@ -1270,7 +1294,13 @@ title = "Untitled"
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|."</lily-directive>
+            <lily-directive>
+              <tag>RepeatEnd</tag>
+              <postfix>\bar ":|."</postfix>
+              <graphic_name>RepeatEnd</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>

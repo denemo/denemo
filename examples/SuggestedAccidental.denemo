@@ -107,7 +107,12 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="SuggestAccidentalOn" display="Suggest Accs" override="32">\set suggestAccidentals = ##t</lily-directive>
+            <lily-directive>
+              <tag>SuggestAccidentalOn</tag>
+              <postfix>\set suggestAccidentals = ##t</postfix>
+              <display>Suggest Accs</display>
+              <override>32</override>
+            </lily-directive>
             <chord show="true" id="id6">
               <duration base="quarter">
                 <dots>1</dots>
@@ -119,7 +124,12 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="Suggest Accidentals Off" display="Off Suggest Acc" override="32">\set suggestAccidentals = ##f</lily-directive>
+            <lily-directive>
+              <tag>Suggest Accidentals Off</tag>
+              <postfix>\set suggestAccidentals = ##f</postfix>
+              <display>Off Suggest Acc</display>
+              <override>32</override>
+            </lily-directive>
             <chord show="true" id="id8">
               <duration base="sixteenth"></duration>
               <notes>

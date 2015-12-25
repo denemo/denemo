@@ -173,6 +173,21 @@ Note that the double length bars are counted as two in the bar numbering.
         <display>Ignore Clashing Columns</display>
         <override>4</override>
       </directive>
+      <directive>
+        <tag>TopMargin</tag>
+        <prefix>#(define denemo-top-margin 0)
+</prefix>
+        <data>0</data>
+        <override>16</override>
+      </directive>
+      <directive>
+        <tag>LilyPondInclude</tag>
+        <prefix>\include "simplified-book-titling.ily"
+</prefix>
+        <display>Included LilyPond Files</display>
+        <data>'("simplified-book-titling.ily")</data>
+        <override>268435472</override>
+      </directive>
     </score-directives>
   </lilycontrol>
   <movement-number>3</movement-number>
@@ -294,7 +309,18 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id5">
@@ -333,7 +359,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id11">
@@ -378,7 +415,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id21">
@@ -602,7 +650,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id67">
@@ -692,7 +751,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id87">
@@ -946,7 +1016,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id149">
@@ -960,8 +1041,20 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="CriticalComment" display="The barlines separating the sections are all decorated with dots in the ms." minpixels="30" override="8"> </lily-directive>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>The barlines separating the sections are all decorated with dots in the ms.</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id152">
@@ -1025,7 +1118,16 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="PageBreak" graphic_name="&#10;⁋&#10;Denemo&#10;36" gy="-40" minpixels="10">\pageBreak</lily-directive>
+            <lily-directive>
+              <tag>PageBreak</tag>
+              <postfix>\pageBreak</postfix>
+              <graphic_name>
+⁋
+Denemo
+36</graphic_name>
+              <minpixels>10</minpixels>
+              <gy>-40</gy>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id162">
@@ -1345,7 +1447,11 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="b02eebfab501d37173a71616ead147dd" minpixels="1">%{%}</lily-directive>
+            <lily-directive>
+              <tag>b02eebfab501d37173a71616ead147dd</tag>
+              <postfix>%{%}</postfix>
+              <minpixels>1</minpixels>
+            </lily-directive>
             <chord show="true" id="id237">
               <duration base="eighth"></duration>
               <directives>
@@ -1364,7 +1470,11 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="b02eebfab501d37173a71616ead147dd" minpixels="1">%{%}</lily-directive>
+            <lily-directive>
+              <tag>b02eebfab501d37173a71616ead147dd</tag>
+              <postfix>%{%}</postfix>
+              <minpixels>1</minpixels>
+            </lily-directive>
             <chord show="true" id="id239">
               <duration base="eighth"></duration>
               <notes>
@@ -1853,11 +1963,27 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="PageBreak" display="page" minpixels="10">\pageBreak</lily-directive>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>PageBreak</tag>
+              <postfix>\pageBreak</postfix>
+              <display>page</display>
+              <minpixels>10</minpixels>
+            </lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id354">
               <duration base="whole"></duration>
               <directives>
@@ -1930,7 +2056,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id369">
@@ -1998,7 +2135,12 @@ emmentaler</graphic_name>
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id383">
               <duration base="half"></duration>
               <notes>
@@ -2305,7 +2447,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id454">
@@ -2595,7 +2748,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <rest show="false" id="id520">
@@ -2622,7 +2786,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id526">
@@ -2668,7 +2843,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id534">
@@ -2699,7 +2885,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id540">
@@ -2754,7 +2951,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id552">
@@ -2775,7 +2983,13 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id556">
@@ -2815,7 +3029,12 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="PageBreak" display="page" minpixels="10">\pageBreak</lily-directive>
+            <lily-directive>
+              <tag>PageBreak</tag>
+              <postfix>\pageBreak</postfix>
+              <display>page</display>
+              <minpixels>10</minpixels>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id562">
@@ -5024,8 +5243,23 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="PageBreak" graphic_name="&#10;⁋&#10;Denemo&#10;36" gy="-40" minpixels="10">\pageBreak</lily-directive>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>PageBreak</tag>
+              <postfix>\pageBreak</postfix>
+              <graphic_name>
+⁋
+Denemo
+36</graphic_name>
+              <minpixels>10</minpixels>
+              <gy>-40</gy>
+            </lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id1088">
@@ -5071,7 +5305,13 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="CriticalComment" display="B-flat is possible, however it is not indicated in ms nor in the lute versions." minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>B-flat is possible, however it is not indicated in ms nor in the lute versions.</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
             <chord show="true" id="id1094">
               <duration base="eighth"></duration>
               <directives>
@@ -5091,7 +5331,18 @@ Sans
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id1096">
@@ -5172,7 +5423,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id1112">
@@ -5275,7 +5537,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id1134">
@@ -5364,7 +5637,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id1154">
@@ -5650,7 +5934,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id1220">
@@ -5689,7 +5984,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id1228">
@@ -5736,7 +6042,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id1238">
@@ -5780,7 +6097,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id1247">
@@ -5834,7 +6162,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id1259">
@@ -5931,7 +6270,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id1281">
@@ -5952,7 +6302,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id1285">
@@ -5989,7 +6350,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id1293">
@@ -6010,7 +6382,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id1297">
@@ -6148,8 +6531,23 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="PageBreak" graphic_name="&#10;⁋&#10;Denemo&#10;36" gy="-40" minpixels="10">\pageBreak</lily-directive>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>PageBreak</tag>
+              <postfix>\pageBreak</postfix>
+              <graphic_name>
+⁋
+Denemo
+36</graphic_name>
+              <minpixels>10</minpixels>
+              <gy>-40</gy>
+            </lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <rest show="true" id="id1330">
@@ -8204,7 +8602,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="CriticalComment" display="The F-sharp is not reverted" minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>The F-sharp is not reverted</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
             <chord show="true" id="id1811">
               <duration base="sixteenth"></duration>
               <notes>
@@ -8704,7 +9108,12 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="89ac8cf99d3ad1172c2df814d3fa3c1d" display="Hide" minpixels="30">\once \override Score.TimeSignature #'stencil = ##f</lily-directive>
+            <lily-directive>
+              <tag>89ac8cf99d3ad1172c2df814d3fa3c1d</tag>
+              <postfix>\once \override Score.TimeSignature #'stencil = ##f</postfix>
+              <display>Hide</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <time-signature>
               <simple-time-signature>
                 <numerator>4</numerator>
@@ -8737,7 +9146,12 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id1933">
               <duration base="whole"></duration>
               <directives>
@@ -8767,8 +9181,23 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="PageBreak" graphic_name="&#10;⁋&#10;Denemo&#10;36" gy="-40" minpixels="10">\pageBreak</lily-directive>
-            <lily-directive tag="ClosingBarline" graphic_name="ClosingBarline" minpixels="30" override="4">\bar "|."</lily-directive>
+            <lily-directive>
+              <tag>PageBreak</tag>
+              <postfix>\pageBreak</postfix>
+              <graphic_name>
+⁋
+Denemo
+36</graphic_name>
+              <minpixels>10</minpixels>
+              <gy>-40</gy>
+            </lily-directive>
+            <lily-directive>
+              <tag>ClosingBarline</tag>
+              <postfix>\bar "|."</postfix>
+              <graphic_name>ClosingBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>
@@ -8994,7 +9423,12 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="ShiftForVoices" display="Shift" minpixels="30">\shiftOn</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOn</postfix>
+              <display>Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id1950">
               <duration base="eighth"></duration>
               <notes>
@@ -9011,7 +9445,12 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
           </measure>
           <measure></measure>
           <measure></measure>
@@ -9062,7 +9501,16 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <clef name="bass" show="false"></clef>
             <chord show="true" id="id1956">
               <duration base="quarter"></duration>
@@ -9091,7 +9539,16 @@ Serif
           </measure>
           <measure></measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <stem-directive type="up">
               <directives>
                 <directive>
@@ -9139,7 +9596,16 @@ Serif
           <measure></measure>
           <measure></measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <stem-directive type="down">
               <directives>
                 <directive>
@@ -9287,8 +9753,22 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id1973">
               <duration base="whole"></duration>
               <notes>
@@ -9302,7 +9782,16 @@ Serif
             <rest show="false" id="id1975">
               <duration base="whole"></duration>
             </rest>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id1976">
@@ -9649,7 +10138,16 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <stem-directive type="up">
               <directives>
                 <directive>
@@ -9665,7 +10163,12 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id2054">
               <duration base="half"></duration>
               <notes>
@@ -9745,7 +10248,16 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id2068">
               <duration base="half"></duration>
               <notes>
@@ -10517,7 +11029,12 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <clef name="bass" show="false"></clef>
             <stem-directive type="up">
               <directives>
@@ -10534,7 +11051,16 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id2246">
               <duration base="whole"></duration>
               <notes>
@@ -10594,7 +11120,12 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id2258">
               <duration base="whole"></duration>
               <notes>
@@ -10639,7 +11170,12 @@ Serif
             <rest show="true" id="id2266">
               <duration base="half"></duration>
             </rest>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id2267">
               <duration base="half"></duration>
               <notes>
@@ -10666,8 +11202,23 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
-            <lily-directive tag="CriticalComment" display="F-sharp in ms, but the parallel passages have f-natural" minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>F-sharp in ms, but the parallel passages have f-natural</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
             <chord show="true" id="id2269">
               <duration base="quarter">
                 <dots>1</dots>
@@ -10851,7 +11402,16 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id2308">
               <duration base="half">
                 <dots>1</dots>
@@ -10885,7 +11445,16 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id2312">
@@ -10977,7 +11546,18 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id2332">
@@ -11257,7 +11837,12 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="ShiftForVoices" display="Shift" minpixels="30">\shiftOn</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOn</postfix>
+              <display>Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id2393">
               <duration base="half">
                 <dots>1</dots>
@@ -11304,7 +11889,12 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id2403">
               <duration base="half"></duration>
               <notes>
@@ -11396,7 +11986,16 @@ Serif
           <measure></measure>
           <measure></measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <stem-directive type="up">
               <directives>
                 <directive>
@@ -11432,7 +12031,16 @@ Serif
             <rest show="false" id="id2421">
               <duration base="quarter"></duration>
             </rest>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <stem-directive type="down">
               <directives>
                 <directive>
@@ -11523,8 +12131,22 @@ Serif
             </rest>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <rest show="false" id="id2439">
               <duration base="whole"></duration>
             </rest>
@@ -11586,7 +12208,16 @@ emmentaler</graphic_name>
             </rest>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <stem-directive type="down">
               <directives>
                 <directive>
@@ -11694,7 +12325,16 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id2471">
               <duration base="whole"></duration>
               <notes>
@@ -11755,7 +12395,16 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id2477">
               <duration base="quarter"></duration>
               <notes>
@@ -12441,7 +13090,16 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <clef name="bass" show="false"></clef>
             <chord show="true" id="id2632">
               <duration base="whole"></duration>
@@ -12474,7 +13132,12 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id2639">
               <duration base="whole"></duration>
               <notes>
@@ -12485,8 +13148,26 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
-            <lily-directive tag="DisplaceRestHorizontally" graphic_name="&#10;⬌&#10;Denemo&#10;24" minpixels="30" override="4">\once \override Voice.Rest #'extra-offset = #'(1.5 . 0.0)</lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
+            <lily-directive>
+              <tag>DisplaceRestHorizontally</tag>
+              <postfix>\once \override Voice.Rest #'extra-offset = #'(1.5 . 0.0)</postfix>
+              <graphic_name>
+⬌
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
             <clef name="treble" show="false"></clef>
             <chord show="true" id="id2641">
               <duration base="half"></duration>
@@ -12516,7 +13197,16 @@ emmentaler</graphic_name>
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id2645">
               <duration base="half"></duration>
               <notes>
@@ -12545,8 +13235,26 @@ emmentaler</graphic_name>
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
-            <lily-directive tag="DisplaceRestHorizontally" graphic_name="&#10;⬌&#10;Denemo&#10;24" minpixels="30" override="4">\once \override Voice.Rest #'extra-offset = #'(1.5 . 0.0)</lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
+            <lily-directive>
+              <tag>DisplaceRestHorizontally</tag>
+              <postfix>\once \override Voice.Rest #'extra-offset = #'(1.5 . 0.0)</postfix>
+              <graphic_name>
+⬌
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
             <chord show="true" id="id2649">
               <duration base="half"></duration>
               <directives>
@@ -12576,8 +13284,22 @@ emmentaler</graphic_name>
           </measure>
           <measure></measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <clef name="bass" show="false"></clef>
             <chord show="true" id="id2653">
               <duration base="half">
@@ -12647,7 +13369,16 @@ emmentaler</graphic_name>
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <stem-directive type="down">
               <directives>
                 <directive>
@@ -12838,9 +13569,24 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <clef name="bass" show="false"></clef>
-            <lily-directive tag="CriticalComment" display="The rest of the movement is written to exploit the so-called \&quot;short octave\&quot; tuning. The keyboard appears to descend only to E, but the notes E. F-sharp and G-sharp are tuned to C, D, E respectively giving a full octave from C with only one accidental, B-flat. With this tuning, the left hand just \&quot;paddles\&quot; up and down, as if playing octaves but sounding alternating octaves and tenths." minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>The rest of the movement is written to exploit the so-called \"short octave\" tuning. The keyboard appears to descend only to E, but the notes E. F-sharp and G-sharp are tuned to C, D, E respectively giving a full octave from C with only one accidental, B-flat. With this tuning, the left hand just \"paddles\" up and down, as if playing octaves but sounding alternating octaves and tenths.</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
             <chord show="true" id="id2697">
               <duration base="half"></duration>
               <directives>
@@ -12869,7 +13615,12 @@ emmentaler</graphic_name>
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id2701">
               <duration base="half"></duration>
               <notes>
@@ -13010,7 +13761,16 @@ emmentaler</graphic_name>
           </measure>
           <measure>
             <clef name="treble" show="false"></clef>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id2731">
               <duration base="quarter"></duration>
               <directives>
@@ -13128,7 +13888,12 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id2740">
               <duration base="whole"></duration>
               <notes>
@@ -13988,7 +14753,12 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id2924">
               <duration base="half"></duration>
               <notes>
@@ -14019,7 +14789,12 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id2930">
               <duration base="whole"></duration>
               <notes>
@@ -14063,7 +14838,12 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id2936">
               <duration base="half"></duration>
               <notes>
@@ -14294,7 +15074,18 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <rest show="true" id="id2987">
@@ -14494,7 +15285,16 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <rest show="true" id="id3029">
               <duration base="half"></duration>
             </rest>
@@ -14546,14 +15346,33 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <rest show="false" id="id3041">
               <duration base="whole"></duration>
             </rest>
           </measure>
           <measure>
-            <lily-directive tag="ShiftForVoices" display="Shift" minpixels="30">\shiftOn</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOn</postfix>
+              <display>Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <stem-directive type="up">
               <directives>
                 <directive>
@@ -14681,7 +15500,16 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id3065">
               <duration base="half">
                 <dots>1</dots>
@@ -14743,7 +15571,16 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id3075">
               <duration base="quarter"></duration>
               <notes>
@@ -15020,7 +15857,16 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="DisplaceRestHorizontally" graphic_name="&#10;⬌&#10;Denemo&#10;24" minpixels="30" override="4">\once \override Voice.Rest #'extra-offset = #'(2.0 . 0.0)</lily-directive>
+            <lily-directive>
+              <tag>DisplaceRestHorizontally</tag>
+              <postfix>\once \override Voice.Rest #'extra-offset = #'(2.0 . 0.0)</postfix>
+              <graphic_name>
+⬌
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
             <chord show="true" id="id3135">
               <duration base="quarter"></duration>
               <directives>
@@ -15064,7 +15910,12 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id3143">
@@ -16010,7 +16861,12 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id3336">
               <duration base="whole"></duration>
               <notes>
@@ -16021,7 +16877,16 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id3338">
               <duration base="whole"></duration>
               <notes>
@@ -16032,7 +16897,16 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id3340">
               <duration base="whole"></duration>
               <notes>
@@ -16043,7 +16917,16 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id3342">
               <duration base="whole"></duration>
               <notes>
@@ -16069,7 +16952,16 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id3344">
               <duration base="eighth"></duration>
               <notes>
@@ -16104,7 +16996,12 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id3349">
               <duration base="half"></duration>
               <notes>
@@ -16291,7 +17188,16 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id3383">
               <duration base="half"></duration>
               <notes>
@@ -16362,7 +17268,16 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <stem-directive type="down">
               <directives>
                 <directive>
@@ -16391,7 +17306,12 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id3401">
               <duration base="half"></duration>
               <notes>
@@ -16658,7 +17578,12 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id3441">
               <duration base="half"></duration>
               <directives>
@@ -17189,7 +18114,12 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id3554">
               <duration base="half"></duration>
               <notes>
@@ -17198,7 +18128,12 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id3556">
               <duration base="half"></duration>
               <notes>
@@ -17255,7 +18190,12 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id3568">
               <duration base="whole"></duration>
               <notes>
@@ -17534,7 +18474,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="CriticalComment" display="The g-sharp is not normally available with the short octave tuning; it requires an instrument with so-called split sharps. In this case the front half of the accidental key plays E while the back half gives the g-sharp." minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>The g-sharp is not normally available with the short octave tuning; it requires an instrument with so-called split sharps. In this case the front half of the accidental key plays E while the back half gives the g-sharp.</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
             <chord show="true" id="id3628">
               <duration base="half"></duration>
               <notes>
@@ -17544,7 +18490,18 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id3630">
@@ -17805,7 +18762,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="CriticalComment" display="The notes d' e' f' d' e' are one degree higher in the ms" minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>The notes d' e' f' d' e' are one degree higher in the ms</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
             <chord show="true" id="id3686">
               <duration base="sixteenth"></duration>
               <notes>
@@ -17889,7 +18852,12 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id3706">
               <duration base="whole"></duration>
               <notes>
@@ -18939,7 +19907,12 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id3931">
               <duration base="whole"></duration>
               <notes>
@@ -20460,7 +21433,12 @@ Sans
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="ShiftForVoices" display="No Shift" minpixels="30">\shiftOff</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOff</postfix>
+              <display>No Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id4273">
               <duration base="half"></duration>
               <notes>
@@ -20879,7 +21857,18 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id4346">
@@ -21004,7 +21993,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id4374">
@@ -21367,7 +22362,13 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id4457">
@@ -21696,7 +22697,13 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id4531">
@@ -22292,7 +23299,13 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id4672">
@@ -22818,7 +23831,18 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="NoBarline" graphic_name="&#10;⋂&#10;Denemo&#10;24" gx="20" gy="-20" minpixels="30" override="4">\bar ""</lily-directive>
+            <lily-directive>
+              <tag>NoBarline</tag>
+              <postfix>\bar ""</postfix>
+              <graphic_name>
+⋂
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>-20</gy>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id4783">
@@ -22847,7 +23871,13 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id4789">
@@ -22902,7 +23932,13 @@ Sans
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="CriticalComment" display="The B-flat is conjectural" minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>The B-flat is conjectural</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
             <chord show="true" id="id4795">
               <duration base="quarter"></duration>
               <notes>
@@ -23513,8 +24549,20 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="CriticalComment" display="This final chord  may be just a notational flourish to mark the end of the piece,  since other pieces have such repeated final chords that are quite clearly not intended for performance." minpixels="30" override="8"> </lily-directive>
-            <lily-directive tag="ClosingBarline" graphic_name="ClosingBarline" minpixels="30" override="4">\bar "|."</lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>This final chord  may be just a notational flourish to mark the end of the piece,  since other pieces have such repeated final chords that are quite clearly not intended for performance.</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
+            <lily-directive>
+              <tag>ClosingBarline</tag>
+              <postfix>\bar "|."</postfix>
+              <graphic_name>ClosingBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>
@@ -23766,7 +24814,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure></measure>
           <measure></measure>
@@ -23850,7 +24904,12 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="ShiftForVoices" display="Shift" minpixels="30">\shiftOn</lily-directive>
+            <lily-directive>
+              <tag>ShiftForVoices</tag>
+              <postfix>\shiftOn</postfix>
+              <display>Shift</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id4980">
               <duration base="eighth"></duration>
               <notes>
@@ -23982,7 +25041,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id5007">
@@ -24292,7 +25357,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="CriticalComment" display="Last note is c' in ms" minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>Last note is c' in ms</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
             <chord show="true" id="id5079">
               <duration base="eighth"></duration>
               <notes>
@@ -24331,8 +25402,19 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
-            <lily-directive tag="PageBreak" display="page" minpixels="10">\pageBreak</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
+            <lily-directive>
+              <tag>PageBreak</tag>
+              <postfix>\pageBreak</postfix>
+              <display>page</display>
+              <minpixels>10</minpixels>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id5087">
@@ -24824,7 +25906,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure></measure>
           <measure></measure>
@@ -25269,8 +26357,19 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="PageBreak" display="page" minpixels="10">\pageBreak</lily-directive>
-            <lily-directive tag="ClosingBarline" graphic_name="ClosingBarline" minpixels="30" override="4">\bar "|."</lily-directive>
+            <lily-directive>
+              <tag>PageBreak</tag>
+              <postfix>\pageBreak</postfix>
+              <display>page</display>
+              <minpixels>10</minpixels>
+            </lily-directive>
+            <lily-directive>
+              <tag>ClosingBarline</tag>
+              <postfix>\bar "|."</postfix>
+              <graphic_name>ClosingBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>
@@ -25331,7 +26430,16 @@ Serif
             </rest>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id5294">
               <duration base="whole"></duration>
               <notes>
@@ -25343,7 +26451,16 @@ Serif
             <rest show="false" id="id5296">
               <duration base="half"></duration>
             </rest>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
           </measure>
           <measure></measure>
           <measure></measure>
@@ -25367,7 +26484,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure></measure>
           <measure></measure>
@@ -25421,7 +26544,16 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <rest show="true" id="id5308">
               <duration base="quarter"></duration>
             </rest>
@@ -25458,10 +26590,25 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <stem-directive type="down">
               <directives>
                 <directive>
@@ -25513,7 +26660,16 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <stem-directive type="up">
               <directives>
                 <directive>
@@ -25833,7 +26989,13 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="CriticalComment" display="Tie is missing in ms; it is also absent in the repeat, so perhaps the ommission is intended." minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>Tie is missing in ms; it is also absent in the repeat, so perhaps the ommission is intended.</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id5387">
@@ -25984,7 +27146,13 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="CriticalComment" display="The note a' is missing (see previous section)" minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>The note a' is missing (see previous section)</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
             <chord show="true" id="id5412">
               <duration base="quarter"></duration>
               <directives>
@@ -26082,7 +27250,13 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="CriticalComment" display="Tie is missing in ms (see before)" minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>Tie is missing in ms (see before)</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id5429">
@@ -26364,7 +27538,13 @@ emmentaler</graphic_name>
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="CriticalComment" display="The left hand figure is missing in ms." minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>The left hand figure is missing in ms.</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
             <rest show="true" id="id5489">
               <duration base="quarter"></duration>
               <directives>
@@ -26776,7 +27956,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <rest show="true" id="id5560">
@@ -26926,7 +28112,13 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id5592">
@@ -27076,7 +28268,13 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id5626">
@@ -27204,7 +28402,13 @@ emmentaler</graphic_name>
             <rest show="false" id="id5654">
               <duration base="half"></duration>
             </rest>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <rest show="true" id="id5655">
@@ -27263,7 +28467,16 @@ emmentaler</graphic_name>
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <stem-directive type="down">
               <directives>
                 <directive>
@@ -27306,7 +28519,16 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <stem-directive type="down">
               <directives>
                 <directive>
@@ -27500,7 +28722,13 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="CriticalComment" display="This is highly idiomatic writing for the short octave keyboard" minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>This is highly idiomatic writing for the short octave keyboard</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
             <chord show="true" id="id5708">
               <duration base="quarter"></duration>
               <notes>
@@ -27666,7 +28894,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <rest show="true" id="id5745">
@@ -27702,7 +28936,13 @@ Sans
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="CriticalComment" display="The B-flat is conjectural" minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>The B-flat is conjectural</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
             <chord show="true" id="id5751">
               <duration base="half"></duration>
               <notes>
@@ -27829,7 +29069,16 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 1&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 1" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 1" </postfix>
+              <graphic_name>
+⇒voice 1
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id5778">
               <duration base="eighth"></duration>
               <notes>
@@ -27846,7 +29095,16 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <stem-directive type="up">
               <directives>
                 <directive>
@@ -27888,7 +29146,16 @@ Serif
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 3&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 3" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 3" </postfix>
+              <graphic_name>
+⇒voice 3
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <stem-directive type="down">
               <directives>
                 <directive>
@@ -28320,7 +29587,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id5861">
@@ -28869,7 +30142,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id5995">
@@ -29111,7 +30390,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id6049">
@@ -29378,7 +30663,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id6111">
@@ -29689,7 +30980,13 @@ Serif
             <rest show="true" id="id6183">
               <duration base="quarter"></duration>
             </rest>
-            <lily-directive tag="CriticalComment" display="The note C is missing (see next section)" minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>The note C is missing (see next section)</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
             <chord show="true" id="id6184">
               <duration base="quarter"></duration>
               <notes>
@@ -29832,7 +31129,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" minpixels="30" override="4">\bar "||"</lily-directive>
+            <lily-directive>
+              <tag>DoubleBarline</tag>
+              <postfix>\bar "||"</postfix>
+              <graphic_name>DoubleBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id6217">
@@ -30273,9 +31576,9 @@ Denemo
   </movement>
   <movement>
     <edit-info>
-      <staffno>2</staffno>
-      <measureno>1</measureno>
-      <cursorposition>1</cursorposition>
+      <staffno>1</staffno>
+      <measureno>3</measureno>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -30352,7 +31655,13 @@ Denemo
         </voice-props>
         <measures>
           <measure>
-            <lily-directive tag="CriticalComment" display="From Georg Leopold Fuhrmann Testudo Gallo-Germanica (Nürnberg, 1615); transcriber unknown.  My thanks to Edgar Aichinger for help with this version." minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>From Georg Leopold Fuhrmann Testudo Gallo-Germanica (Nürnberg, 1615); transcriber unknown.  My thanks to Edgar Aichinger for help with this version.</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
           </measure>
           <measure></measure>
           <measure></measure>
@@ -32473,8 +33782,19 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="ClosingBarline" graphic_name="ClosingBarline" minpixels="30" override="4">\bar "|."</lily-directive>
-            <lily-directive tag="PageBreak" display="page" minpixels="10">\pageBreak</lily-directive>
+            <lily-directive>
+              <tag>ClosingBarline</tag>
+              <postfix>\bar "|."</postfix>
+              <graphic_name>ClosingBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
+            <lily-directive>
+              <tag>PageBreak</tag>
+              <postfix>\pageBreak</postfix>
+              <display>page</display>
+              <minpixels>10</minpixels>
+            </lily-directive>
           </measure>
         </measures>
       </voice>
@@ -34551,7 +35871,13 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="ClosingBarline" graphic_name="ClosingBarline" minpixels="30" override="4">\bar "|."</lily-directive>
+            <lily-directive>
+              <tag>ClosingBarline</tag>
+              <postfix>\bar "|."</postfix>
+              <graphic_name>ClosingBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>
@@ -34604,7 +35930,16 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 4&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 4" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 4" </postfix>
+              <graphic_name>
+⇒voice 4
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7370">
               <duration base="half"></duration>
               <notes>
@@ -34631,7 +35966,16 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 2&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 2" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 2" </postfix>
+              <graphic_name>
+⇒voice 2
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id7374">
@@ -34676,7 +36020,16 @@ emmentaler</graphic_name>
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 4&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 4" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 4" </postfix>
+              <graphic_name>
+⇒voice 4
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7384">
               <duration base="quarter"></duration>
               <notes>
@@ -34719,7 +36072,16 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 2&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 2" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 2" </postfix>
+              <graphic_name>
+⇒voice 2
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <clef name="bass" show="false"></clef>
             <chord show="true" id="id7394">
               <duration base="eighth"></duration>
@@ -34747,7 +36109,16 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 4&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 4" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 4" </postfix>
+              <graphic_name>
+⇒voice 4
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <clef name="treble" show="false"></clef>
             <chord show="true" id="id7400">
               <duration base="eighth"></duration>
@@ -35175,7 +36546,16 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 2&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 2" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 2" </postfix>
+              <graphic_name>
+⇒voice 2
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <clef name="bass" show="false"></clef>
             <chord show="true" id="id7502">
               <duration base="eighth"></duration>
@@ -35204,7 +36584,16 @@ emmentaler</graphic_name>
           </measure>
           <measure>
             <clef name="treble" show="false"></clef>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 4&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 4" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 4" </postfix>
+              <graphic_name>
+⇒voice 4
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7508">
               <duration base="sixteenth"></duration>
               <notes>
@@ -35352,7 +36741,16 @@ emmentaler</graphic_name>
               </notes>
             </chord>
             <clef name="bass" show="false"></clef>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 2&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 2" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 2" </postfix>
+              <graphic_name>
+⇒voice 2
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7544">
               <duration base="eighth"></duration>
               <notes>
@@ -35591,7 +36989,16 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 4&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 4" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 4" </postfix>
+              <graphic_name>
+⇒voice 4
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <clef name="treble" show="false"></clef>
             <chord show="true" id="id7600">
               <duration base="quarter"></duration>
@@ -36107,7 +37514,16 @@ emmentaler</graphic_name>
               </notes>
             </chord>
             <clef name="bass" show="false"></clef>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 2&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 2" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 2" </postfix>
+              <graphic_name>
+⇒voice 2
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7720">
               <duration base="quarter"></duration>
               <notes>
@@ -36186,7 +37602,16 @@ emmentaler</graphic_name>
               </notes>
             </chord>
             <clef name="treble" show="false"></clef>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 4&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 4" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 4" </postfix>
+              <graphic_name>
+⇒voice 4
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7738">
               <duration base="quarter"></duration>
               <notes>
@@ -36275,7 +37700,16 @@ emmentaler</graphic_name>
               </notes>
             </chord>
             <clef name="bass" show="false"></clef>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 2&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 2" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 2" </postfix>
+              <graphic_name>
+⇒voice 2
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7758">
               <duration base="quarter"></duration>
               <notes>
@@ -36285,7 +37719,16 @@ emmentaler</graphic_name>
               </notes>
             </chord>
             <clef name="treble" show="false"></clef>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 4&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 4" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 4" </postfix>
+              <graphic_name>
+⇒voice 4
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7760">
               <duration base="quarter"></duration>
               <notes>
@@ -36454,7 +37897,16 @@ emmentaler</graphic_name>
           </measure>
           <measure>
             <clef name="bass" show="false"></clef>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 2&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 2" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 2" </postfix>
+              <graphic_name>
+⇒voice 2
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7798">
               <duration base="quarter"></duration>
               <notes>
@@ -36464,7 +37916,16 @@ emmentaler</graphic_name>
               </notes>
             </chord>
             <clef name="treble" show="false"></clef>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 4&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 4" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 4" </postfix>
+              <graphic_name>
+⇒voice 4
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7800">
               <duration base="quarter"></duration>
               <notes>
@@ -36581,7 +38042,16 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 2&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 2" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 2" </postfix>
+              <graphic_name>
+⇒voice 2
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <clef name="bass" show="false"></clef>
             <chord show="true" id="id7828">
               <duration base="eighth"></duration>
@@ -36602,7 +38072,16 @@ emmentaler</graphic_name>
               </notes>
             </chord>
             <clef name="treble" show="false"></clef>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 4&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 4" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 4" </postfix>
+              <graphic_name>
+⇒voice 4
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7832">
               <duration base="eighth"></duration>
               <notes>
@@ -36711,7 +38190,16 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 2&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 2" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 2" </postfix>
+              <graphic_name>
+⇒voice 2
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7858">
               <duration base="eighth"></duration>
               <notes>
@@ -36728,7 +38216,16 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 4&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 4" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 4" </postfix>
+              <graphic_name>
+⇒voice 4
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7862">
               <duration base="eighth"></duration>
               <notes>
@@ -36787,7 +38284,16 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 2&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 2" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 2" </postfix>
+              <graphic_name>
+⇒voice 2
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7876">
               <duration base="eighth"></duration>
               <notes>
@@ -36796,7 +38302,16 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 4&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 4" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 4" </postfix>
+              <graphic_name>
+⇒voice 4
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7878">
               <duration base="quarter"></duration>
               <notes>
@@ -36902,7 +38417,16 @@ emmentaler</graphic_name>
               </notes>
             </chord>
             <clef name="bass" show="false"></clef>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 2&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 2" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 2" </postfix>
+              <graphic_name>
+⇒voice 2
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7902">
               <duration base="eighth"></duration>
               <notes>
@@ -36920,7 +38444,16 @@ emmentaler</graphic_name>
               </notes>
             </chord>
             <clef name="treble" show="false"></clef>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 4&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 4" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 4" </postfix>
+              <graphic_name>
+⇒voice 4
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7906">
               <duration base="quarter"></duration>
               <notes>
@@ -37077,7 +38610,16 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 2&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 2" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 2" </postfix>
+              <graphic_name>
+⇒voice 2
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <clef name="bass" show="false"></clef>
             <chord show="true" id="id7942">
               <duration base="eighth"></duration>
@@ -37088,7 +38630,16 @@ emmentaler</graphic_name>
               </notes>
             </chord>
             <clef name="treble" show="false"></clef>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 4&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 4" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 4" </postfix>
+              <graphic_name>
+⇒voice 4
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7944">
               <duration base="eighth"></duration>
               <notes>
@@ -37124,7 +38675,16 @@ emmentaler</graphic_name>
               </notes>
             </chord>
             <clef name="bass" show="false"></clef>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 2&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 2" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 2" </postfix>
+              <graphic_name>
+⇒voice 2
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7952">
               <duration base="eighth"></duration>
               <notes>
@@ -37218,7 +38778,16 @@ emmentaler</graphic_name>
               </notes>
             </chord>
             <clef name="treble" show="false"></clef>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 4&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 4" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 4" </postfix>
+              <graphic_name>
+⇒voice 4
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7974">
               <duration base="quarter"></duration>
               <notes>
@@ -37228,7 +38797,16 @@ emmentaler</graphic_name>
               </notes>
             </chord>
             <clef name="bass" show="false"></clef>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 2&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 2" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 2" </postfix>
+              <graphic_name>
+⇒voice 2
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7976">
               <duration base="eighth"></duration>
               <notes>
@@ -37249,7 +38827,16 @@ emmentaler</graphic_name>
           </measure>
           <measure>
             <clef name="treble" show="false"></clef>
-            <lily-directive tag="StaffChange" graphic_name="&#10;⇒voice 4&#10;Denemo&#10;12" gy="-1" minpixels="50">\change Staff="voice 4" </lily-directive>
+            <lily-directive>
+              <tag>StaffChange</tag>
+              <postfix>\change Staff="voice 4" </postfix>
+              <graphic_name>
+⇒voice 4
+Denemo
+12</graphic_name>
+              <minpixels>50</minpixels>
+              <gy>-1</gy>
+            </lily-directive>
             <chord show="true" id="id7980">
               <duration base="quarter"></duration>
               <notes>
@@ -37986,7 +39573,13 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="ClosingBarline" graphic_name="ClosingBarline" minpixels="30" override="4">\bar "|."</lily-directive>
+            <lily-directive>
+              <tag>ClosingBarline</tag>
+              <postfix>\bar "|."</postfix>
+              <graphic_name>ClosingBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>
@@ -38089,7 +39682,13 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="CriticalComment" display="Cambridge University Library MS Dd.5.78.3 (ca. 1600), f.65v; Dd.9.33 (ca. 1600), f.14v. Encoded and edited by Sarge Gerbode." minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>Cambridge University Library MS Dd.5.78.3 (ca. 1600), f.65v; Dd.9.33 (ca. 1600), f.14v. Encoded and edited by Sarge Gerbode.</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
             <chord show="true" id="id8163">
               <duration base="quarter"></duration>
               <notes>
@@ -38857,7 +40456,14 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RepeatEndStart" graphic_name="RepeatEndStart" gx="10" gy="-2" minpixels="50">\bar ":..:"</lily-directive>
+            <lily-directive>
+              <tag>RepeatEndStart</tag>
+              <postfix>\bar ":..:"</postfix>
+              <graphic_name>RepeatEndStart</graphic_name>
+              <minpixels>50</minpixels>
+              <gx>10</gx>
+              <gy>-2</gy>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id8363">
@@ -40092,7 +41698,13 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|."</lily-directive>
+            <lily-directive>
+              <tag>RepeatEnd</tag>
+              <postfix>\bar ":|."</postfix>
+              <graphic_name>RepeatEnd</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id8681">
@@ -41877,7 +43489,13 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|."</lily-directive>
+            <lily-directive>
+              <tag>RepeatEnd</tag>
+              <postfix>\bar ":|."</postfix>
+              <graphic_name>RepeatEnd</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>
@@ -41963,7 +43581,13 @@ emmentaler</graphic_name>
         </voice-props>
         <measures>
           <measure>
-            <lily-directive tag="CriticalComment" display="Cambridge University Library MS Dd.9.33 (C) (ca. 1600), f.15. Encoded and edited by Sarge Gerbode." minpixels="30" override="8"> </lily-directive>
+            <lily-directive>
+              <tag>CriticalComment</tag>
+              <postfix> </postfix>
+              <display>Cambridge University Library MS Dd.9.33 (C) (ca. 1600), f.15. Encoded and edited by Sarge Gerbode.</display>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
             <chord show="true" id="id9150">
               <duration base="quarter"></duration>
               <notes>
@@ -44218,7 +45842,13 @@ emmentaler</graphic_name>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="ClosingBarline" graphic_name="ClosingBarline" minpixels="30" override="4">\bar "|."</lily-directive>
+            <lily-directive>
+              <tag>ClosingBarline</tag>
+              <postfix>\bar "|."</postfix>
+              <graphic_name>ClosingBarline</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>

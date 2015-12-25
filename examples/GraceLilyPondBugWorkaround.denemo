@@ -151,7 +151,13 @@ a bug in LilyPond.
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|."</lily-directive>
+            <lily-directive>
+              <tag>RepeatEnd</tag>
+              <postfix>\bar ":|."</postfix>
+              <graphic_name>RepeatEnd</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id11" grace="true">
@@ -295,7 +301,13 @@ a bug in LilyPond.
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" minpixels="30" override="4">\bar ":|."</lily-directive>
+            <lily-directive>
+              <tag>RepeatEnd</tag>
+              <postfix>\bar ":|."</postfix>
+              <graphic_name>RepeatEnd</graphic_name>
+              <minpixels>30</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <rest show="false" id="id38" grace="true">

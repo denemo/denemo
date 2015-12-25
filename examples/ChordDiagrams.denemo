@@ -686,7 +686,13 @@ Eee -- i Eee -- i -- oh!</verse>
         </voice-props>
         <measures>
           <measure>
-            <lily-directive locked="true" tag="MuteStaff" graphic_name="Speaker_Icon" gx="20" minpixels="50"> </lily-directive>
+            <lily-directive locked="true">
+              <tag>MuteStaff</tag>
+              <postfix> </postfix>
+              <graphic_name>Speaker_Icon</graphic_name>
+              <minpixels>50</minpixels>
+              <gx>20</gx>
+            </lily-directive>
             <chord show="true" id="id114">
               <duration base="eighth"></duration>
               <notes>

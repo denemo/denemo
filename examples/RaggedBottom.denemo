@@ -116,7 +116,10 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive override="32">^"See Movements-&gt;properties-&gt;markup_before to see how this movement was fitted at top of page (ragged bottom)"</lily-directive>
+            <lily-directive>
+              <postfix>^"See Movements-&gt;properties-&gt;markup_before to see how this movement was fitted at top of page (ragged bottom)"</postfix>
+              <override>32</override>
+            </lily-directive>
             <chord show="true" id="id4">
               <duration base="quarter"></duration>
               <notes>

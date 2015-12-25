@@ -97,7 +97,15 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         </voice-props>
         <measures>
           <measure>
-            <lily-directive tag="Tempo" display="4=120" midibytes="120" ty="85" minpixels="10" override="135200">\tempo 4=120 </lily-directive>
+            <lily-directive>
+              <tag>Tempo</tag>
+              <postfix>\tempo 4=120 </postfix>
+              <display>4=120</display>
+              <midibytes>120</midibytes>
+              <minpixels>10</minpixels>
+              <ty>85</ty>
+              <override>135200</override>
+            </lily-directive>
             <chord show="true" id="id2">
               <duration base="quarter"></duration>
               <notes>
@@ -148,7 +156,15 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="Tempo" display="4=80" midibytes="80" ty="85" minpixels="10" override="135200">\tempo 4=80 </lily-directive>
+            <lily-directive>
+              <tag>Tempo</tag>
+              <postfix>\tempo 4=80 </postfix>
+              <display>4=80</display>
+              <midibytes>80</midibytes>
+              <minpixels>10</minpixels>
+              <ty>85</ty>
+              <override>135200</override>
+            </lily-directive>
             <chord show="true" id="id14">
               <duration base="quarter"></duration>
               <notes>

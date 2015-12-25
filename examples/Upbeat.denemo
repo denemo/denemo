@@ -21,7 +21,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <papersize>a4</papersize>
     <fontsize>16</fontsize>
     <orientation>1</orientation>
-    <total-edit-time>0</total-edit-time>
+    <total-edit-time>11</total-edit-time>
     <score-directives>
       <directive>
         <tag>UnknownScoreTag</tag>
@@ -40,8 +40,8 @@ Just right click on it to do this.
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>1</measureno>
-      <cursorposition>0</cursorposition>
+      <measureno>2</measureno>
+      <cursorposition>2</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -104,7 +104,19 @@ Just right click on it to do this.
         </voice-props>
         <measures>
           <measure>
-            <lily-directive tag="Upbeat" display="Upbeat" minpixels="30" override="512" ticks="1728">\partial 256*96 </lily-directive>
+            <lily-directive ticks="1728">
+              <tag>Upbeat</tag>
+              <postfix>\partial 256*96 </postfix>
+              <display>Upbeat</display>
+              <graphic_name>
+
+emmentaler
+62</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>20</gx>
+              <gy>15</gy>
+              <override>268435968</override>
+            </lily-directive>
             <chord show="true" id="id2">
               <duration base="eighth"></duration>
               <notes>
@@ -192,30 +204,6 @@ Just right click on it to do this.
               <notes>
                 <note id="id23">
                   <middle-c-offset>13</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id24">
-              <duration base="eighth"></duration>
-              <notes>
-                <note id="id25">
-                  <middle-c-offset>11</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id26">
-              <duration base="eighth"></duration>
-              <notes>
-                <note id="id27">
-                  <middle-c-offset>13</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id28">
-              <duration base="eighth"></duration>
-              <notes>
-                <note id="id29">
-                  <middle-c-offset>12</middle-c-offset>
                 </note>
               </notes>
             </chord>

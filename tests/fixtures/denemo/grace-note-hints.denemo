@@ -157,7 +157,13 @@ instrument = ##f
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RepeatEndStart" graphic_name="RepeatEndStart" minpixels="50" override="4">\bar ":..:"</lily-directive>
+            <lily-directive>
+              <tag>RepeatEndStart</tag>
+              <postfix>\bar ":..:"</postfix>
+              <graphic_name>RepeatEndStart</graphic_name>
+              <minpixels>50</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id11" grace="true">
@@ -270,7 +276,13 @@ instrument = ##f
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RepeatEndStart" graphic_name="RepeatEndStart" minpixels="50" override="4">\bar ":..:"</lily-directive>
+            <lily-directive>
+              <tag>RepeatEndStart</tag>
+              <postfix>\bar ":..:"</postfix>
+              <graphic_name>RepeatEndStart</graphic_name>
+              <minpixels>50</minpixels>
+              <override>4</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id28">

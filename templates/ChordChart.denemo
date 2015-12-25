@@ -599,10 +599,36 @@ chordNameExceptions = #(append
         </voice-props>
         <measures>
           <measure>
-            <lily-directive tag="MultiLineTextAnnotation" display="Delete this sample chord and these text markings and &#10;enter the chords for your song, customizing any chord&#10;symbols you wish to alter by editing the first movement." data="Delete this sample chord and these text markings and &#10;enter the chords for your song, customizing any chord&#10;symbols you wish to alter by editing the first movement." prefix="&lt;&gt;-\tweak #'extra-offset #'( -0.18 . -8.36 )" ty="79" minpixels="30">_\markup\scale #'(1 . 1)\column{\line\large{Delete this sample chord and these text markings and }\line\large{enter the chords for your song, customizing any chord}\line\large{symbols you wish to alter by editing the first movement.}
-}</lily-directive>
-            <lily-directive tag="MultiLineTextAnnotation" display="Sample Chord Only&#10;This, the second movement, is the actual chord chart.&#10;It will use as chord symbols the markup added to the&#10;corresponding chord types in the first movment." data="Delete this sample chord and these text markings and &#10;enter the chords for your song, customizing any chord&#10;symbols you wish to alter by editing the first movement." prefix="&lt;&gt;" tx="66" ty="-5" minpixels="30">^\markup\scale #'(1.5 . 1.5)\column{\line\large{Sample Chord Only}\line\large{This, the second movement, is the actual chord chart.}\line\large{It will use as chord symbols the markup added to the}\line\large{corresponding chord types in the first movment.}
-}</lily-directive>
+            <lily-directive>
+              <tag>MultiLineTextAnnotation</tag>
+              <prefix>&lt;&gt;-\tweak #'extra-offset #'( -0.18 . -8.36 )</prefix>
+              <postfix>_\markup\scale #'(1 . 1)\column{\line\large{Delete this sample chord and these text markings and }\line\large{enter the chords for your song, customizing any chord}\line\large{symbols you wish to alter by editing the first movement.}
+}</postfix>
+              <display>Delete this sample chord and these text markings and 
+enter the chords for your song, customizing any chord
+symbols you wish to alter by editing the first movement.</display>
+              <data>Delete this sample chord and these text markings and 
+enter the chords for your song, customizing any chord
+symbols you wish to alter by editing the first movement.</data>
+              <minpixels>30</minpixels>
+              <ty>79</ty>
+            </lily-directive>
+            <lily-directive>
+              <tag>MultiLineTextAnnotation</tag>
+              <prefix>&lt;&gt;</prefix>
+              <postfix>^\markup\scale #'(1.5 . 1.5)\column{\line\large{Sample Chord Only}\line\large{This, the second movement, is the actual chord chart.}\line\large{It will use as chord symbols the markup added to the}\line\large{corresponding chord types in the first movment.}
+}</postfix>
+              <display>Sample Chord Only
+This, the second movement, is the actual chord chart.
+It will use as chord symbols the markup added to the
+corresponding chord types in the first movment.</display>
+              <data>Delete this sample chord and these text markings and 
+enter the chords for your song, customizing any chord
+symbols you wish to alter by editing the first movement.</data>
+              <minpixels>30</minpixels>
+              <tx>66</tx>
+              <ty>-5</ty>
+            </lily-directive>
             <chord show="true" id="id54">
               <duration base="whole"></duration>
               <notes>

@@ -166,7 +166,18 @@ transposedCueDuringWithClef  =
         </voice-props>
         <measures>
           <measure>
-            <lily-directive tag="InstallCue" display="for TrebleRecorder" graphic_name="&#10;[&#10;Denemo 48" y="590638834" tx="-30" ty="60" minpixels="30">\cueDuring #"Treble II2 Mvmnt 1"#1 {</lily-directive>
+            <lily-directive>
+              <tag>InstallCue</tag>
+              <postfix>\cueDuring #"Treble II2 Mvmnt 1"#1 {</postfix>
+              <display>for TrebleRecorder</display>
+              <graphic_name>
+[
+Denemo 48</graphic_name>
+              <minpixels>30</minpixels>
+              <y>590638834</y>
+              <tx>-30</tx>
+              <ty>60</ty>
+            </lily-directive>
             <rest show="true" id="id4">
               <duration base="whole"></duration>
               <directives>
@@ -205,7 +216,18 @@ transposedCueDuringWithClef  =
               </directives>
               <ticks>1536</ticks>
             </rest>
-            <lily-directive tag="InstallCue" display="for TrebleRecorder" graphic_name="&#10;]&#10;Denemo 48" y="590638834" tx="-30" ty="60" minpixels="30">}</lily-directive>
+            <lily-directive>
+              <tag>InstallCue</tag>
+              <postfix>}</postfix>
+              <display>for TrebleRecorder</display>
+              <graphic_name>
+]
+Denemo 48</graphic_name>
+              <minpixels>30</minpixels>
+              <y>590638834</y>
+              <tx>-30</tx>
+              <ty>60</ty>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id6">

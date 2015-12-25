@@ -119,7 +119,13 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure></measure>
           <measure></measure>
           <measure>
-            <lily-directive tag="StartStaff" display="Show" ty="40" override="32">\startStaff </lily-directive>
+            <lily-directive>
+              <tag>StartStaff</tag>
+              <postfix>\startStaff </postfix>
+              <display>Show</display>
+              <ty>40</ty>
+              <override>32</override>
+            </lily-directive>
             <chord show="true" id="id3">
               <duration base="eighth"></duration>
               <notes>
@@ -184,7 +190,13 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="StopStaff" display="Hide" ty="40" override="32">\stopStaff </lily-directive>
+            <lily-directive>
+              <tag>StopStaff</tag>
+              <postfix>\stopStaff </postfix>
+              <display>Hide</display>
+              <ty>40</ty>
+              <override>32</override>
+            </lily-directive>
           </measure>
           <measure></measure>
         </measures>

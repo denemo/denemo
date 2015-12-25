@@ -233,7 +233,16 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="LineBreak" graphic_name="&#10;L&#10;Denemo&#10;36" gy="-40" minpixels="10">\break</lily-directive>
+            <lily-directive>
+              <tag>LineBreak</tag>
+              <postfix>\break</postfix>
+              <graphic_name>
+L
+Denemo
+36</graphic_name>
+              <minpixels>10</minpixels>
+              <gy>-40</gy>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id29">
@@ -358,8 +367,11 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="true" override="32">\bar ":|"
-</lily-directive>
+            <lily-directive locked="true">
+              <postfix>\bar ":|"
+</postfix>
+              <override>32</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>
@@ -621,8 +633,11 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive override="32">\bar ":|"
-</lily-directive>
+            <lily-directive>
+              <postfix>\bar ":|"
+</postfix>
+              <override>32</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>
@@ -660,7 +675,10 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         </voice-props>
         <measures>
           <measure>
-            <lily-directive override="32"> </lily-directive>
+            <lily-directive>
+              <postfix> </postfix>
+              <override>32</override>
+            </lily-directive>
             <chord show="true" id="id105">
               <duration base="half"></duration>
               <notes>
@@ -898,8 +916,11 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="true" override="32">\bar ":|"
-</lily-directive>
+            <lily-directive locked="true">
+              <postfix>\bar ":|"
+</postfix>
+              <override>32</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>
@@ -1174,8 +1195,11 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive override="32">\bar ":|"
-</lily-directive>
+            <lily-directive>
+              <postfix>\bar ":|"
+</postfix>
+              <override>32</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>

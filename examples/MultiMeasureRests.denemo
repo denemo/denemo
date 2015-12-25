@@ -22,42 +22,13 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <fontsize>16</fontsize>
     <orientation>1</orientation>
     <total-edit-time>0</total-edit-time>
-    <score-directives>
-      <directive>
-        <tag>UnknownScoreTag</tag>
-        <postfix>\transpose c c</postfix>
-      </directive>
-      <directive>
-        <tag>ScoreBlockProlog</tag>
-        <postfix>
-#(score-override-auto-beam-setting '(end * * 3 4) 1 4)
-#(score-override-auto-beam-setting '(end * * 3 4) 2 4)
-#(score-override-auto-beam-setting '(end * * 4 4) 1 4)
-#(score-override-auto-beam-setting '(end * * 4 4) 2 4)
-#(score-override-auto-beam-setting '(end * * 4 4) 3 4)
-#(score-override-auto-beam-setting '(end 1 16 2 2) 1 4)
-#(score-override-auto-beam-setting '(end 1 16 2 2) 2 4)
-#(score-override-auto-beam-setting '(end 1 16 2 2) 3 4)
-</postfix>
-        <display>
-#(score-override-auto-beam-setting '(end * * 3 4) 1 4)
-#(score-override-auto-beam-setting '(end * * 3 4) 2 4)
-#(score-override-auto-beam-setting '(end * * 4 4) 1 4)
-#(score-override-auto-beam-setting '(end * * 4 4) 2 4)
-#(score-override-auto-beam-setting '(end * * 4 4) 3 4)
-#(score-override-auto-beam-setting '(end 1 16 2 2) 1 4)
-#(score-override-auto-beam-setting '(end 1 16 2 2) 2 4)
-#(score-override-auto-beam-setting '(end 1 16 2 2) 3 4)
-</display>
-      </directive>
-    </score-directives>
   </lilycontrol>
   <movement-number>1</movement-number>
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>2</measureno>
-      <cursorposition>0</cursorposition>
+      <measureno>14</measureno>
+      <cursorposition>1</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -120,16 +91,58 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         </voice-props>
         <measures>
           <measure>
-            <lily-directive tag="MultiMeasureRests" display="Rest 4" graphic_name="MultiMeasureRests" ty="-28" gx="50" gy="-2" minpixels="50" ticks="2304">\set Score.skipBars = ##t R1*12/8*4</lily-directive>
+            <lily-directive ticks="2304">
+              <tag>MultiMeasureRests</tag>
+              <postfix>\set Score.skipBars = ##t R1*12/8*4</postfix>
+              <display>Rest 4</display>
+              <graphic_name>MultiMeasureRests</graphic_name>
+              <minpixels>50</minpixels>
+              <ty>-28</ty>
+              <gx>50</gx>
+              <gy>-2</gy>
+            </lily-directive>
           </measure>
           <measure>
-            <lily-directive tag="WholeMeasureRest" display="grouped&#10;as mm rest" graphic_name="BracketedWholeMeasureRest" tx="25" ty="-30" gx="50" gy="-2" override="1" ticks="2304">%{ grouped rest %}</lily-directive>
+            <lily-directive ticks="2304">
+              <tag>WholeMeasureRest</tag>
+              <postfix>%{ grouped rest %}</postfix>
+              <display>grouped
+as mm rest</display>
+              <graphic_name>BracketedWholeMeasureRest</graphic_name>
+              <tx>25</tx>
+              <ty>-30</ty>
+              <gx>50</gx>
+              <gy>-2</gy>
+              <override>1</override>
+            </lily-directive>
           </measure>
           <measure>
-            <lily-directive tag="WholeMeasureRest" display="grouped&#10;as mm rest" graphic_name="BracketedWholeMeasureRest" tx="25" ty="-30" gx="50" gy="-2" override="1" ticks="2304">%{ grouped rest %}</lily-directive>
+            <lily-directive ticks="2304">
+              <tag>WholeMeasureRest</tag>
+              <postfix>%{ grouped rest %}</postfix>
+              <display>grouped
+as mm rest</display>
+              <graphic_name>BracketedWholeMeasureRest</graphic_name>
+              <tx>25</tx>
+              <ty>-30</ty>
+              <gx>50</gx>
+              <gy>-2</gy>
+              <override>1</override>
+            </lily-directive>
           </measure>
           <measure>
-            <lily-directive tag="WholeMeasureRest" display="grouped&#10;as mm rest" graphic_name="BracketedWholeMeasureRest" tx="25" ty="-30" gx="50" gy="-2" override="1" ticks="2304">%{ grouped rest %}</lily-directive>
+            <lily-directive ticks="2304">
+              <tag>WholeMeasureRest</tag>
+              <postfix>%{ grouped rest %}</postfix>
+              <display>grouped
+as mm rest</display>
+              <graphic_name>BracketedWholeMeasureRest</graphic_name>
+              <tx>25</tx>
+              <ty>-30</ty>
+              <gx>50</gx>
+              <gy>-2</gy>
+              <override>1</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id2">
@@ -222,31 +235,128 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
           </measure>
           <measure>
-            <lily-directive tag="MultiMeasureRests" display="Rest 9" graphic_name="MultiMeasureRests" ty="-28" gx="50" gy="-2" minpixels="50" ticks="2304">\set Score.skipBars = ##t R1*12/8*9</lily-directive>
+            <lily-directive ticks="2304">
+              <tag>MultiMeasureRests</tag>
+              <postfix>\set Score.skipBars = ##t R1*12/8*9</postfix>
+              <display>Rest 9</display>
+              <graphic_name>MultiMeasureRests</graphic_name>
+              <minpixels>50</minpixels>
+              <ty>-28</ty>
+              <gx>50</gx>
+              <gy>-2</gy>
+            </lily-directive>
           </measure>
           <measure>
-            <lily-directive tag="WholeMeasureRest" display="grouped&#10;as mm rest" graphic_name="BracketedWholeMeasureRest" tx="25" ty="-30" gx="50" gy="-2" override="1" ticks="2304">%{ grouped rest %}</lily-directive>
+            <lily-directive ticks="2304">
+              <tag>WholeMeasureRest</tag>
+              <postfix>%{ grouped rest %}</postfix>
+              <display>grouped
+as mm rest</display>
+              <graphic_name>BracketedWholeMeasureRest</graphic_name>
+              <tx>25</tx>
+              <ty>-30</ty>
+              <gx>50</gx>
+              <gy>-2</gy>
+              <override>1</override>
+            </lily-directive>
           </measure>
           <measure>
-            <lily-directive tag="WholeMeasureRest" display="grouped&#10;as mm rest" graphic_name="BracketedWholeMeasureRest" tx="25" ty="-30" gx="50" gy="-2" override="1" ticks="2304">%{ grouped rest %}</lily-directive>
+            <lily-directive ticks="2304">
+              <tag>WholeMeasureRest</tag>
+              <postfix>%{ grouped rest %}</postfix>
+              <display>grouped
+as mm rest</display>
+              <graphic_name>BracketedWholeMeasureRest</graphic_name>
+              <tx>25</tx>
+              <ty>-30</ty>
+              <gx>50</gx>
+              <gy>-2</gy>
+              <override>1</override>
+            </lily-directive>
           </measure>
           <measure>
-            <lily-directive tag="WholeMeasureRest" display="grouped&#10;as mm rest" graphic_name="BracketedWholeMeasureRest" tx="25" ty="-30" gx="50" gy="-2" override="1" ticks="2304">%{ grouped rest %}</lily-directive>
+            <lily-directive ticks="2304">
+              <tag>WholeMeasureRest</tag>
+              <postfix>%{ grouped rest %}</postfix>
+              <display>grouped
+as mm rest</display>
+              <graphic_name>BracketedWholeMeasureRest</graphic_name>
+              <tx>25</tx>
+              <ty>-30</ty>
+              <gx>50</gx>
+              <gy>-2</gy>
+              <override>1</override>
+            </lily-directive>
           </measure>
           <measure>
-            <lily-directive tag="WholeMeasureRest" display="grouped&#10;as mm rest" graphic_name="BracketedWholeMeasureRest" tx="25" ty="-30" gx="50" gy="-2" override="1" ticks="2304">%{ grouped rest %}</lily-directive>
+            <lily-directive ticks="2304">
+              <tag>WholeMeasureRest</tag>
+              <postfix>%{ grouped rest %}</postfix>
+              <display>grouped
+as mm rest</display>
+              <graphic_name>BracketedWholeMeasureRest</graphic_name>
+              <tx>25</tx>
+              <ty>-30</ty>
+              <gx>50</gx>
+              <gy>-2</gy>
+              <override>1</override>
+            </lily-directive>
           </measure>
           <measure>
-            <lily-directive tag="WholeMeasureRest" display="grouped&#10;as mm rest" graphic_name="BracketedWholeMeasureRest" tx="25" ty="-30" gx="50" gy="-2" override="1" ticks="2304">%{ grouped rest %}</lily-directive>
+            <lily-directive ticks="2304">
+              <tag>WholeMeasureRest</tag>
+              <postfix>%{ grouped rest %}</postfix>
+              <display>grouped
+as mm rest</display>
+              <graphic_name>BracketedWholeMeasureRest</graphic_name>
+              <tx>25</tx>
+              <ty>-30</ty>
+              <gx>50</gx>
+              <gy>-2</gy>
+              <override>1</override>
+            </lily-directive>
           </measure>
           <measure>
-            <lily-directive tag="WholeMeasureRest" display="grouped&#10;as mm rest" graphic_name="BracketedWholeMeasureRest" tx="25" ty="-30" gx="50" gy="-2" override="1" ticks="2304">%{ grouped rest %}</lily-directive>
+            <lily-directive ticks="2304">
+              <tag>WholeMeasureRest</tag>
+              <postfix>%{ grouped rest %}</postfix>
+              <display>grouped
+as mm rest</display>
+              <graphic_name>BracketedWholeMeasureRest</graphic_name>
+              <tx>25</tx>
+              <ty>-30</ty>
+              <gx>50</gx>
+              <gy>-2</gy>
+              <override>1</override>
+            </lily-directive>
           </measure>
           <measure>
-            <lily-directive tag="WholeMeasureRest" display="grouped&#10;as mm rest" graphic_name="BracketedWholeMeasureRest" tx="25" ty="-30" gx="50" gy="-2" override="1" ticks="2304">%{ grouped rest %}</lily-directive>
+            <lily-directive ticks="2304">
+              <tag>WholeMeasureRest</tag>
+              <postfix>%{ grouped rest %}</postfix>
+              <display>grouped
+as mm rest</display>
+              <graphic_name>BracketedWholeMeasureRest</graphic_name>
+              <tx>25</tx>
+              <ty>-30</ty>
+              <gx>50</gx>
+              <gy>-2</gy>
+              <override>1</override>
+            </lily-directive>
           </measure>
           <measure>
-            <lily-directive tag="WholeMeasureRest" display="grouped&#10;as mm rest" graphic_name="BracketedWholeMeasureRest" tx="25" ty="-30" gx="50" gy="-2" override="1" ticks="2304">%{ grouped rest %}</lily-directive>
+            <lily-directive ticks="2304">
+              <tag>WholeMeasureRest</tag>
+              <postfix>%{ grouped rest %}</postfix>
+              <display>grouped
+as mm rest</display>
+              <graphic_name>BracketedWholeMeasureRest</graphic_name>
+              <tx>25</tx>
+              <ty>-30</ty>
+              <gx>50</gx>
+              <gy>-2</gy>
+              <override>1</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id24">

@@ -449,7 +449,11 @@ Serif
                 </directive>
               </directives>
             </stem-directive>
-            <lily-directive tag="!" minpixels="10"> </lily-directive>
+            <lily-directive>
+              <tag>!</tag>
+              <postfix> </postfix>
+              <minpixels>10</minpixels>
+            </lily-directive>
           </measure>
           <measure>
             <rest show="false" id="id36">
@@ -606,7 +610,12 @@ Serif
         </voice-props>
         <measures>
           <measure>
-            <lily-directive tag="!" display="Partial Measure" minpixels="30">%{Partial Measure is Acceptable%}</lily-directive>
+            <lily-directive>
+              <tag>!</tag>
+              <postfix>%{Partial Measure is Acceptable%}</postfix>
+              <display>Partial Measure</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id51">
               <duration base="quarter">
                 <dots>1</dots>

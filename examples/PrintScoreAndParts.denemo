@@ -26,305 +26,75 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <papersize>a4</papersize>
     <fontsize>24</fontsize>
     <orientation>1</orientation>
-    <total-edit-time>0</total-edit-time>
-    <score-directives>
-      <directive>
-        <tag>UnknownScoreTag</tag>
-        <postfix>\transpose c c</postfix>
-      </directive>
-    </score-directives>
+    <total-edit-time>725</total-edit-time>
   </lilycontrol>
-  <custom_scoreblock>%Four parts on Six Treble staffs
-\score {
+  <custom_scoreblock>%Four Staffs
+\header{DenemoLayoutName = "Four Staffs"}
 
-
-\transpose c g &lt;&lt; 
-
-\new Staff  {
-
-                 \MvmntIVoiceIMusic
-                }
-                
-\new Staff {
-                 \MvmntIVoiceIIMusic
-                }
-\new Staff {
-                \transpose c c, \MvmntIVoiceIIITimeSig \MvmntIVoiceIIIKeySig \clef treble \MvmntIVoiceIII
-                }
-
-\new Staff {
-                 \MvmntIVoiceIITimeSig \MvmntIVoiceIIKeySig  \clef "G_8" \MvmntIVoiceII
-                }
-                
-\new Staff {
-                \MvmntIVoiceIIITimeSig \MvmntIVoiceIIIKeySig \clef "G_8" \MvmntIVoiceIII
-                }
-                
-\new Staff {
-                \MvmntIVoiceIVTimeSig \MvmntIVoiceIVKeySig \clef "G_8" \MvmntIVoiceIV
-                }
-               
-&gt;&gt;
-        \layout {
-        }
-\header{
-        title = "Belle Qui Tiens Ma Vie"
-        breakbefore = ##f
-        }
-
-}
-
-</custom_scoreblock>
-  <custom_scoreblock>%Four parts on Four Treble staffs
-\score {
-\transpose c g &lt;&lt; 
-\new Staff  {
-\override Score.BarNumber #'Y-offset = #0.5
-\override Score.BarNumber #'X-offset = #0.5
-
-       \override Score.BarNumber 
-	    #'break-visibility = #end-of-line-invisible
-	\break
-                 \MvmntIVoiceIMusic
-                }
-                
-\new Staff {
-                 \MvmntIVoiceIIMusic
-                }
-                
-\new Staff {
-                \MvmntIVoiceIIITimeSig \MvmntIVoiceIIIKeySig \clef "G_8" \MvmntIVoiceIII
-                }
-                
-\new Staff {
-                \MvmntIVoiceIVTimeSig \MvmntIVoiceIVKeySig \clef "G_8" \MvmntIVoiceIV
-                }
-               
-&gt;&gt;
-        \layout {
-        }
-\header{
-        title = "Belle Qui Tiens Ma Vie"
-        breakbefore = ##f
-        }
-
-}
-
-</custom_scoreblock>
-  <custom_scoreblock>%Four parts on Two Treble staffs
-\score {
-\transpose c f &lt;&lt; 
-\new Staff &lt;&lt; {
-                \voiceOne \MvmntIVoiceIMusic
-                }
-                
-\new Voice {
-                \voiceTwo \MvmntIVoiceII
-                }
-                &gt;&gt;
-\new Staff &lt;&lt; {
-                \voiceOne \MvmntIVoiceIIITimeSig \MvmntIVoiceIIIKeySig \clef "G_8" \MvmntIVoiceIII
-                }
-                
-\new Voice {
-                \voiceTwo \MvmntIVoiceIV
-                }
-                &gt;&gt;
-&gt;&gt;
-        \layout {
-        }
-\header{
-        title = "Belle Qui Tien Ma Vie"
-        breakbefore = ##f
-        }
-
-}
-
-
-
-
-</custom_scoreblock>
-  <custom_scoreblock>%4 parts as separate parts
-\score {
-\transpose c g &lt;&lt; 
-\new Staff {
-        
-        \MvmntIVoiceIMusic
-                }
-        &gt;&gt;
-       \layout { 
+\header {
+tagline = \markup {"/home/rshann/git-denemo/denemo/examples/PrintScoreAndParts.denemo" on \simple #(strftime "%x" (localtime (current-time)))}
 
         }
-\header{
-        title = "Belle"
-       subtitle = "Descant 1"
-        breakbefore = ##f
-        }
-}
+#(set-default-paper-size "a4")
+#(set-global-staff-size 24)
+\paper {
+printallheaders = ##t
 
+page-limit-inter-system-space = ##t
+page-limit-inter-system-space-factor = 1.2
+       }
 
+\score { %Start of Movement
+          &lt;&lt;
 
+%Start of Staff
+\new Staff = "Part 1"  &lt;&lt; 
+ \new Voice = "VoiceIMvmntI"  { 
+  \clef treble    \key f \major    \time 2/4   \MvmntIVoiceI
+                        } %End of voice
 
+                        &gt;&gt; %End of Staff
 
+%Start of Staff
+\new Staff = "Part 2"  &lt;&lt; 
+ \new Voice = "VoiceIIMvmntI"  { 
+  \clef treble    \key f \major    \time 2/4   \MvmntIVoiceII
+                        } %End of voice
 
-\score {
-\transpose c g &lt;&lt;           
-\new Staff {
-        
-        \MvmntIVoiceIIMusic
-                }
-        &gt;&gt;
-       \layout { 
+                        &gt;&gt; %End of Staff
 
-        }
-\header{
-        title = "Belle"
-        subtitle = "Descant 2"
-        breakbefore = ##f
-        }
-}
+%Start of Staff
+\new Staff = "Part 3"  &lt;&lt; 
+ \new Voice = "VoiceIIIMvmntI"  { 
+  \clef bass    \key f \major    \time 2/4   \MvmntIVoiceIII
+                        } %End of voice
 
-\score {
-\transpose c g &lt;&lt;               
-\new Staff {
+                        &gt;&gt; %End of Staff
 
-        \MvmntIVoiceIIIKeySig  \MvmntIVoiceIIITimeSig  \clef "G_8"
-        \MvmntIVoiceIII
-                } 
-        &gt;&gt;    
-       \layout {
+%Start of Staff
+\new Staff = "Part 4"  &lt;&lt; 
+ \new Voice = "VoiceIVMvmntI"  { 
+  \clef bass    \key f \major    \time 2/4   \MvmntIVoiceIV
+                        } %End of voice
+
+                        &gt;&gt; %End of Staff
+
+          &gt;&gt;
+
+\header {
+title = "Belle"
+title = "Untitled"
 
         }
 
-\header{
-        title = "Belle"
-        subtitle = "Treble or Tenor 1"
-        breakbefore = ##f
-        }         
-}
-
-\score {
-\transpose c d &lt;&lt; 
-\new Staff {
-        
-         \MvmntIVoiceIVKeySig \MvmntIVoiceIVTimeSig  \clef "G_8"
-         \MvmntIVoiceIV
-                }
-           
-        &gt;&gt;
-        \layout {
-
-        }
-\header{
-        title = "Belle"
-        subtitle = "Tenor 2"
-        breakbefore = ##f
-        }
-
-}
-
-
-
-
-</custom_scoreblock>
-  <custom_scoreblock>%4 voices on 2 staffs
-\score {
-\transpose c c &lt;&lt; 
-\new Staff &lt;&lt; {
-        \set Staff.midiInstrument = "Alto Recorder"
-        \time 2/4
-        \key bes \major
-        \clef treble
-                \voiceOne \MvmntIAltoRecorder
-                }            
-\new Voice {
-        \set Staff.midiInstrument = "acoustic grand"
-        \time 2/4
-        \key bes \major
-        \clef treble
-               \voiceTwo \MvmntIAlto
-                }
-          &gt;&gt;      
-\new Staff &lt;&lt; {
-        \set Staff.midiInstrument = "acoustic grand"
-        \time 2/4
-        \key bes \major
-        \clef bass
-                \voiceOne \MvmntIVoiceIV
-                }               
-\new Voice {
-        \set Staff.midiInstrument = "acoustic grand"
-        \time 2/4
-        \key bes \major
-        \clef bass
-                \voiceTwo \MvmntIBassoon
-                }
-         &gt;&gt;     
-&gt;&gt;
-        \layout {
-        }
-\header{
-        title = "Belle"
-        breakbefore = ##f
-        }
-
-}
-
-
-
-</custom_scoreblock>
-  <custom_scoreblock>%4 parts on 4 staffs
-\score {
-\transpose c c &lt;&lt; 
-\new Staff {
-        \set Staff.midiInstrument = "Alto Recorder"
-        \time 2/4
-        \key bes \major
-        \clef treble
-        \MvmntIAltoRecorder
-                }            
-\new Staff {
-        \set Staff.midiInstrument = "acoustic grand"
-        \time 2/4
-        \key bes \major
-        \clef treble
-        \MvmntIAlto
-                }
-              
-\new Staff {
-        \set Staff.midiInstrument = "acoustic grand"
-        \time 2/4
-        \key bes \major
-        \clef bass
-        \MvmntIVoiceIV
-                }               
-\new Staff {
-        \set Staff.midiInstrument = "acoustic grand"
-        \time 2/4
-        \key bes \major
-        \clef bass
-         \MvmntIBassoon
-                }
-           
-&gt;&gt;
-        \layout {
-        }
-\header{
-        title = "Belle"
-        breakbefore = ##f
-        }
-
-}
-
-
-
+       } %End of Movement
 </custom_scoreblock>
   <movement-number>1</movement-number>
   <movement>
     <edit-info>
-      <staffno>4</staffno>
-      <measureno>1</measureno>
-      <cursorposition>0</cursorposition>
+      <staffno>2</staffno>
+      <measureno>2</measureno>
+      <cursorposition>1</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -362,7 +132,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <voices>
       <voice id="id2">
         <voice-info>
-          <voice-name>Alto Recorder</voice-name>
+          <voice-name>Part 1</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -387,13 +157,37 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <volume>65</volume>
           <override_volume>0</override_volume>
           <mute>0</mute>
-          <midi_prognum>0</midi_prognum>
+          <midi_prognum>75</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
         </voice-props>
         <measures>
           <measure>
+            <lily-directive>
+              <tag>Void</tag>
+              <postfix>\void </postfix>
+              <display>Not for Default Score Layout</display>
+              <minpixels>30</minpixels>
+              <x>2045988384</x>
+              <tx>-30</tx>
+              <ty>60</ty>
+            </lily-directive>
+            <stem-directive type="up">
+              <directives>
+                <directive>
+                  <tag>VoiceSetting</tag>
+                  <postfix>\voiceOne </postfix>
+                  <graphic_name>
+v1
+Serif
+24
+1
+1</graphic_name>
+                  <override>1</override>
+                </directive>
+              </directives>
+            </stem-directive>
             <chord show="true" id="id3">
               <duration base="half"></duration>
               <notes>
@@ -518,8 +312,11 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="true" override="32">\bar ":|:"
-</lily-directive>
+            <lily-directive locked="true">
+              <postfix>\bar ":|:"
+</postfix>
+              <override>32</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id29">
@@ -644,14 +441,21 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="true" override="32">\bar ":|"
-</lily-directive>
+            <lily-directive>
+              <tag>RepeatEnd</tag>
+              <postfix>\bar ":|."</postfix>
+              <display>\bar ":|."</display>
+              <graphic_name>RepeatEnd</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>10</gx>
+              <override>4</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>
       <voice id="id55">
         <voice-info>
-          <voice-name>alto</voice-name>
+          <voice-name>Part 2</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -669,7 +473,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         </initial-voice-params>
         <voice-props>
           <number-of-lines>5</number-of-lines>
-          <voice-control>2</voice-control>
+          <voice-control>3</voice-control>
           <transpose>0</transpose>
           <instrument></instrument>
           <device-port>NONE</device-port>
@@ -683,6 +487,30 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         </voice-props>
         <measures>
           <measure>
+            <lily-directive>
+              <tag>Void</tag>
+              <postfix>\void </postfix>
+              <display>Not for Default Score Layout</display>
+              <minpixels>30</minpixels>
+              <x>2045988384</x>
+              <tx>-30</tx>
+              <ty>60</ty>
+            </lily-directive>
+            <stem-directive type="down">
+              <directives>
+                <directive>
+                  <tag>VoiceSetting</tag>
+                  <postfix>\voiceFour</postfix>
+                  <graphic_name>
+v4
+Serif
+24
+1
+1</graphic_name>
+                  <override>1</override>
+                </directive>
+              </directives>
+            </stem-directive>
             <chord show="true" id="id56">
               <duration base="half"></duration>
               <notes>
@@ -802,8 +630,11 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="true" override="32">\bar ":|:"
-</lily-directive>
+            <lily-directive locked="true">
+              <postfix>\bar ":|:"
+</postfix>
+              <override>32</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id82">
@@ -909,14 +740,21 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="true" override="32">\bar ":|"
-</lily-directive>
+            <lily-directive>
+              <tag>RepeatEnd</tag>
+              <postfix>\bar ":|."</postfix>
+              <display>\bar ":|."</display>
+              <graphic_name>RepeatEnd</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>10</gx>
+              <override>4</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>
       <voice id="id104">
         <voice-info>
-          <voice-name>voice 4</voice-name>
+          <voice-name>Part 3</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -941,13 +779,37 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <volume>127</volume>
           <override_volume>0</override_volume>
           <mute>0</mute>
-          <midi_prognum>0</midi_prognum>
+          <midi_prognum>1</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
         </voice-props>
         <measures>
           <measure>
+            <lily-directive>
+              <tag>Void</tag>
+              <postfix>\void </postfix>
+              <display>Not for Default Score Layout</display>
+              <minpixels>30</minpixels>
+              <x>2045988384</x>
+              <tx>-30</tx>
+              <ty>60</ty>
+            </lily-directive>
+            <stem-directive type="up">
+              <directives>
+                <directive>
+                  <tag>VoiceSetting</tag>
+                  <postfix>\voiceThree</postfix>
+                  <graphic_name>
+v3
+Serif
+24
+1
+1</graphic_name>
+                  <override>1</override>
+                </directive>
+              </directives>
+            </stem-directive>
             <chord show="true" id="id105">
               <duration base="half"></duration>
               <notes>
@@ -1070,8 +932,11 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="true" override="32">\bar ":|:"
-</lily-directive>
+            <lily-directive locked="true">
+              <postfix>\bar ":|:"
+</postfix>
+              <override>32</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id131">
@@ -1187,14 +1052,21 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="true" override="32">\bar ":|"
-</lily-directive>
+            <lily-directive>
+              <tag>RepeatEnd</tag>
+              <postfix>\bar ":|."</postfix>
+              <display>\bar ":|."</display>
+              <graphic_name>RepeatEnd</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>10</gx>
+              <override>4</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>
       <voice id="id155">
         <voice-info>
-          <voice-name>Bassoon</voice-name>
+          <voice-name>Part 4</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -1212,7 +1084,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         </initial-voice-params>
         <voice-props>
           <number-of-lines>5</number-of-lines>
-          <voice-control>2</voice-control>
+          <voice-control>3</voice-control>
           <transpose>0</transpose>
           <instrument></instrument>
           <device-port>NONE</device-port>
@@ -1226,6 +1098,30 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         </voice-props>
         <measures>
           <measure>
+            <lily-directive>
+              <tag>Void</tag>
+              <postfix>\void </postfix>
+              <display>Not for Default Score Layout</display>
+              <minpixels>30</minpixels>
+              <x>2045988384</x>
+              <tx>-30</tx>
+              <ty>60</ty>
+            </lily-directive>
+            <stem-directive type="down">
+              <directives>
+                <directive>
+                  <tag>VoiceSetting</tag>
+                  <postfix>\voiceTwo</postfix>
+                  <graphic_name>
+v2
+Serif
+24
+1
+1</graphic_name>
+                  <override>1</override>
+                </directive>
+              </directives>
+            </stem-directive>
             <chord show="true" id="id156">
               <duration base="half"></duration>
               <notes>
@@ -1349,8 +1245,11 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="true" override="32">\bar ":|:"
-</lily-directive>
+            <lily-directive locked="true">
+              <postfix>\bar ":|:"
+</postfix>
+              <override>32</override>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id182">
@@ -1465,8 +1364,15 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="true" override="32">\bar ":|"
-</lily-directive>
+            <lily-directive>
+              <tag>RepeatEnd</tag>
+              <postfix>\bar ":|."</postfix>
+              <display>\bar ":|."</display>
+              <graphic_name>RepeatEnd</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>10</gx>
+              <override>4</override>
+            </lily-directive>
           </measure>
         </measures>
       </voice>

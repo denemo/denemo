@@ -97,7 +97,10 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         </voice-props>
         <measures>
           <measure>
-            <lily-directive override="32"> \once \override TextScript #'extra-offset = #'( 0.0 . -4.0 )</lily-directive>
+            <lily-directive>
+              <postfix> \once \override TextScript #'extra-offset = #'( 0.0 . -4.0 )</postfix>
+              <override>32</override>
+            </lily-directive>
             <chord show="true" id="id2">
               <duration base="quarter"></duration>
               <notes>
@@ -106,7 +109,11 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="&lt;Unknown Tag&gt;" override="32">_\markup {text moved down}</lily-directive>
+            <lily-directive>
+              <tag>&lt;Unknown Tag&gt;</tag>
+              <postfix>_\markup {text moved down}</postfix>
+              <override>32</override>
+            </lily-directive>
             <chord show="true" id="id4">
               <duration base="quarter"></duration>
               <notes>
@@ -152,7 +159,10 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </rest>
           </measure>
           <measure>
-            <lily-directive override="32"> \once \override TextScript #'extra-offset = #'( -4.0 . 0.0 )</lily-directive>
+            <lily-directive>
+              <postfix> \once \override TextScript #'extra-offset = #'( -4.0 . 0.0 )</postfix>
+              <override>32</override>
+            </lily-directive>
             <chord show="true" id="id11">
               <duration base="quarter"></duration>
               <notes>
@@ -161,7 +171,10 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive override="32">_\markup {text moved to left}</lily-directive>
+            <lily-directive>
+              <postfix>_\markup {text moved to left}</postfix>
+              <override>32</override>
+            </lily-directive>
             <chord show="true" id="id13">
               <duration base="quarter"></duration>
               <notes>
@@ -246,7 +259,11 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="&lt;Unknown Tag&gt;" override="32">_\markup \italic \bold {D.C. al fine}</lily-directive>
+            <lily-directive>
+              <tag>&lt;Unknown Tag&gt;</tag>
+              <postfix>_\markup \italic \bold {D.C. al fine}</postfix>
+              <override>32</override>
+            </lily-directive>
             <chord show="true" id="id33">
               <duration base="quarter"></duration>
               <notes>

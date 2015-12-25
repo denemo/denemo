@@ -238,7 +238,13 @@ Denemo
         </voice-props>
         <measures>
           <measure>
-            <lily-directive locked="true" tag="MuteStaff" graphic_name="Speaker_Icon_Mute" gx="20" minpixels="50"> </lily-directive>
+            <lily-directive locked="true">
+              <tag>MuteStaff</tag>
+              <postfix> </postfix>
+              <graphic_name>Speaker_Icon_Mute</graphic_name>
+              <minpixels>50</minpixels>
+              <gx>20</gx>
+            </lily-directive>
             <stem-directive type="up">
               <directives>
                 <directive>

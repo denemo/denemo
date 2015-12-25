@@ -129,7 +129,15 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RehearsalMark" grob="RehearsalMark" graphic_name="RehearsalMark" gx="14" gy="-35" minpixels="30"> \mark \default</lily-directive>
+            <lily-directive>
+              <tag>RehearsalMark</tag>
+              <postfix> \mark \default</postfix>
+              <grob>RehearsalMark</grob>
+              <graphic_name>RehearsalMark</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>14</gx>
+              <gy>-35</gy>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id10">
@@ -164,7 +172,15 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RehearsalMark" grob="RehearsalMark" graphic_name="RehearsalMark" gx="14" gy="-35" minpixels="30"> \mark \default</lily-directive>
+            <lily-directive>
+              <tag>RehearsalMark</tag>
+              <postfix> \mark \default</postfix>
+              <grob>RehearsalMark</grob>
+              <graphic_name>RehearsalMark</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>14</gx>
+              <gy>-35</gy>
+            </lily-directive>
           </measure>
           <measure>
             <chord show="true" id="id18">
@@ -217,7 +233,15 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                 </note>
               </notes>
             </chord>
-            <lily-directive tag="RehearsalMark" grob="RehearsalMark" graphic_name="RehearsalMark" gx="14" gy="-35" minpixels="30"> \mark \default</lily-directive>
+            <lily-directive>
+              <tag>RehearsalMark</tag>
+              <postfix> \mark \default</postfix>
+              <grob>RehearsalMark</grob>
+              <graphic_name>RehearsalMark</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>14</gx>
+              <gy>-35</gy>
+            </lily-directive>
             <chord show="true" id="id30">
               <duration base="quarter"></duration>
               <notes>

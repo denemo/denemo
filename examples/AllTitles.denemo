@@ -132,12 +132,23 @@ print-all-headers = ##t
         </voice-props>
         <measures>
           <measure>
-            <lily-directive tag="MultiLineTextAnnotation" display="This shows all the simple titles available. &#10;¶You can use the fields to contain any information of course.&#10;¶Note that if you have not ever set a title&#10;¶ of any sort on a movement &#10;¶then the score-wide titles will be repeated" data="'((direction . &quot;^&quot;) (scale . &quot;1.3&quot;) (text . &quot;This shows all the simple titles available. \n¶You can use the fields to contain any information of course.\n¶Note that if you have not ever set a title\n¶ of any sort on a movement \n¶then the score-wide titles will be repeated&quot;))" prefix="&lt;&gt;" minpixels="30">^\markup\scale #'(1.3 . 1.3)\column{\line\large{This shows all the simple titles available. 
+            <lily-directive>
+              <tag>MultiLineTextAnnotation</tag>
+              <prefix>&lt;&gt;</prefix>
+              <postfix>^\markup\scale #'(1.3 . 1.3)\column{\line\large{This shows all the simple titles available. 
 }\line\large{You can use the fields to contain any information of course.
 }\line\large{Note that if you have not ever set a title
 }\line\large{ of any sort on a movement 
 }\line\large{then the score-wide titles will be repeated}
-}</lily-directive>
+}</postfix>
+              <display>This shows all the simple titles available. 
+¶You can use the fields to contain any information of course.
+¶Note that if you have not ever set a title
+¶ of any sort on a movement 
+¶then the score-wide titles will be repeated</display>
+              <data>'((direction . "^") (scale . "1.3") (text . "This shows all the simple titles available. \n¶You can use the fields to contain any information of course.\n¶Note that if you have not ever set a title\n¶ of any sort on a movement \n¶then the score-wide titles will be repeated"))</data>
+              <minpixels>30</minpixels>
+            </lily-directive>
           </measure>
         </measures>
       </voice>
