@@ -341,8 +341,16 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         </voice-props>
         <measures>
           <measure>
-            <lily-directive tag="test" prefix="%{standalone prefix%}"> </lily-directive>
-            <lily-directive tag="test" prefix="%{standalone prefix%}">%{standalone postfix%}</lily-directive>
+            <lily-directive>
+              <tag>test</tag>
+              <prefix>%{standalone prefix%}</prefix>
+              <postfix> </postfix>
+            </lily-directive>
+            <lily-directive>
+              <tag>test</tag>
+              <prefix>%{standalone prefix%}</prefix>
+              <postfix>%{standalone postfix%}</postfix>
+            </lily-directive>
             <chord show="true" id="id7">
               <duration base="quarter"></duration>
               <directives>
