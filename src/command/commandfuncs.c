@@ -2490,7 +2490,7 @@ dnm_deleteobject (DenemoMovement * si)
       DenemoDirective *directive = (lilydirective *) curmudelaobj->object;
       DenemoScriptParam param;
       param.string = g_string_new ("delete");
-      GtkAction *action = lookup_action_from_name (directive->tag->str);
+      GtkAction *action = directive->tag?lookup_action_from_name (directive->tag->str):NULL;
       if (action && (Denemo.keyboard_state != GDK_MOD2_MASK /*NumLock */ ))
         {
           activate_script (action, &param);
