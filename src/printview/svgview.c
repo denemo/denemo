@@ -1079,26 +1079,27 @@ install_svgview (GtkWidget * top_vbox)
   
   gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
  
-  GtkWidget *score_and_scroll_hbox = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
+  GtkWidget *score_and_scroll_win = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
  
   
   
-
-  gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_hbox, TRUE, TRUE, 0);
-  
+ 
 
   
   
   
   Denemo.playbackview = (GtkWidget *) gtk_image_new ();
 
-    // gtk_container_add (GTK_CONTAINER (score_and_scroll_hbox), Denemo.playbackview);
+    // gtk_container_add (GTK_CONTAINER (score_and_scroll_win), Denemo.playbackview);
     //instead use an hbox to prevent the GtkImage widget expanding beyond the image size, which then causes positioning errors.
     hbox = gtk_hbox_new (FALSE, 1);
-    gtk_container_add (GTK_CONTAINER (score_and_scroll_hbox), hbox);
     GtkWidget *event_box = gtk_event_box_new ();
-    gtk_box_pack_start (GTK_BOX (hbox), event_box, FALSE, FALSE, 0);
-    gtk_container_add (GTK_CONTAINER (event_box), Denemo.playbackview);
+
+    gtk_box_pack_start (GTK_BOX (main_vbox), event_box, TRUE, TRUE, 0);
+    gtk_container_add (GTK_CONTAINER (event_box), score_and_scroll_win);
+    gtk_container_add (GTK_CONTAINER (score_and_scroll_win), hbox);
+    gtk_container_add (GTK_CONTAINER (hbox), Denemo.playbackview);
+
     g_signal_connect (G_OBJECT (event_box), "button_press_event", G_CALLBACK (find_object), NULL);
     g_signal_connect (G_OBJECT (event_box), "button_release_event", G_CALLBACK (start_play), NULL);
 
@@ -1115,7 +1116,7 @@ install_svgview (GtkWidget * top_vbox)
   
   
   if (Denemo.prefs.newbie)
-    gtk_widget_set_tooltip_markup (score_and_scroll_hbox,
+    gtk_widget_set_tooltip_markup (score_and_scroll_win,
                                    _("This window shows the typeset score as one long page. During playback the notes playing are highlighted"));
 #if GTK_MAJOR_VERSION != 2
   g_signal_connect_after (G_OBJECT (Denemo.playbackview), "draw", G_CALLBACK (playbackview_draw_event), NULL);
@@ -1128,5 +1129,5 @@ install_svgview (GtkWidget * top_vbox)
   gtk_widget_hide (top_vbox);
   static gint id; 
   if (!id)
-    id = g_timeout_add  (50, (GSourceFunc)playback_redraw, gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW(score_and_scroll_hbox)));
+    id = g_timeout_add  (50, (GSourceFunc)playback_redraw, gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW(score_and_scroll_win)));
 }
