@@ -4277,7 +4277,12 @@ create_window (void)
 
   Denemo.color = 0xFFFFFF;      //white background RGB values
 
-
+//FIXME this is where score_layout should be created.
+//score_layout should belong the Denemo.xxx not Denemo.project->xxx (so as to be like the others)
+#ifdef USE_EVINCE  
+  install_printpreview (NULL);
+#endif
+  install_svgview (NULL);
 
   outer_main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_container_set_border_width (GTK_CONTAINER (outer_main_vbox), 1);
@@ -4994,10 +4999,7 @@ newtab (void)
   gtk_widget_show (hbox);
 #endif
 
-#ifdef USE_EVINCE  
-  install_printpreview (NULL);
-#endif
-  install_svgview (NULL);
+
   //FIXME populate_opened_recent_menu (project);
 
   /* create the first movement now because showing the window causes it to try to draw the scorearea
