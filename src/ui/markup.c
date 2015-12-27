@@ -31,7 +31,11 @@ create_lilypond_from_text (gchar * text)
               g_string_append (ret, "}\\line\\large{");
             } else 
             {
-                g_string_append_printf (ret, "%lc", thechar);
+                gchar *end = g_utf8_offset_to_pointer  (this, 1);
+                gchar val = *end;
+                *end = '\0';
+                g_string_append_printf (ret, "%s", this);
+                *end = val;
             }
     }
   g_string_append (ret, "}\n");
