@@ -30,9 +30,10 @@
 
 static gint changecount = -1;   //changecount when the playback typeset was last created 
 static gboolean RightButtonPressed = FALSE;
+static gboolean LeftButtonPressed = FALSE;
 static gboolean Dragging = FALSE;
-static gint RightButtonX, DragX;
-static gint RightButtonY, DragY;
+static gint RightButtonX, LeftButtonX, DragX;
+static gint RightButtonY, LeftButtonY, DragY;
 static gdouble IntroTime = 10.0, ScrollRate = 10.0;
 static gboolean AllPartsTypeset = FALSE;
 static gboolean PartOnly = FALSE;
@@ -204,10 +205,12 @@ overdraw_print (cairo_t * cr)
   gboolean drew_rectangle = FALSE;
   if (Dragging)
     {   //g_print ("Dragging from %d %d to %d %d \n", RightButtonX, RightButtonY, DragX, DragY);
-        
-        cairo_set_source_rgba (cr, 0.8, 0.2, 0.4, 0.5);
+        if (RightButtonPressed)
+            cairo_set_source_rgba (cr, 0.2, 0.8, 0.8, 0.5);
+        else
+            cairo_set_source_rgba (cr, 0.8, 0.2, 0.4, 0.5);
         cairo_set_line_width (cr, 5.0);
-        cairo_move_to (cr, (double)RightButtonX, (double)RightButtonY);
+        cairo_move_to (cr, RightButtonPressed?(double)RightButtonX:(double)LeftButtonX, RightButtonPressed?(double)RightButtonY:(double)LeftButtonY);
         cairo_line_to (cr, (double)DragX, (double)DragY);
         cairo_stroke (cr);
         
@@ -800,7 +803,7 @@ display_svg (gdouble scale, gboolean part)
 
 
 static gint Locationx, Locationy;
-static void find_object (GtkWidget *event_box, GdkEventButton *event)
+static void button_press (GtkWidget *event_box, GdkEventButton *event)
 {
     static gboolean seen = FALSE;
     if (audio_is_playing ())
@@ -820,9 +823,20 @@ static void find_object (GtkWidget *event_box, GdkEventButton *event)
     gint y = event->y;
     //g_print ("At %d %d\n", x, y);
     GList *g;
-    RightButtonPressed = TRUE;
-    RightButtonX = x;
-    RightButtonY = y;
+    if (event->button == 3)
+        {
+            RightButtonPressed = TRUE;
+            RightButtonX = x;
+            RightButtonY = y;
+            
+        }
+    else
+        {
+            LeftButtonPressed = TRUE;
+            LeftButtonX = x;
+            LeftButtonY = y;
+        }
+
     for (g = TheTimings; g;g=g->next)
         {
             Timing *timing = g->data;
@@ -876,21 +890,25 @@ static gboolean playback_redraw (GtkAdjustment *adj)
         last_time = -1.0;
     return TRUE;
 }
-static void start_play (GtkWidget *event_box, GdkEventButton *event)
+static void button_release (GtkWidget *event_box, GdkEventButton *event)
 {
     gint x = event->x;
     gint y = event->y;
     RightButtonPressed = FALSE;
+    LeftButtonPressed = FALSE;
     Dragging = FALSE;
      if (audio_is_playing ())
         {
             call_out_to_guile ("(DenemoStop)");
             return;
         }
-    if (event->button == 3)
-        return;
+
     gtk_widget_queue_draw (Denemo.playbackview);
     //g_print ("At %d %d\n", x, y);
+    if (event->button == 3)
+        return;    
+    
+    
     if (update_playback_view ())
         {
             if (continuous_typesetting ())
@@ -973,7 +991,7 @@ static void movement_button (void)
 static gboolean
 motion_notify (GtkWidget * window, GdkEventMotion * event)
 {
-  if (RightButtonPressed)
+  if (RightButtonPressed || LeftButtonPressed)
     {
         Dragging = TRUE;
         DragX = event->x;
@@ -1097,17 +1115,19 @@ install_svgview (GtkWidget * top_vbox)
 
     gtk_box_pack_start (GTK_BOX (main_vbox), event_box, TRUE, TRUE, 0);
     gtk_container_add (GTK_CONTAINER (event_box), score_and_scroll_win);
+    
+#if ((GTK_MAJOR_VERSION==3)  && (GTK_MINOR_VERSION<8))  
+    gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW(score_and_scroll_win), hbox);
+#else    
     gtk_container_add (GTK_CONTAINER (score_and_scroll_win), hbox);
+#endif    
+    
     gtk_container_add (GTK_CONTAINER (hbox), Denemo.playbackview);
 
-    g_signal_connect (G_OBJECT (event_box), "button_press_event", G_CALLBACK (find_object), NULL);
-    g_signal_connect (G_OBJECT (event_box), "button_release_event", G_CALLBACK (start_play), NULL);
-
-
-
-
-  g_signal_connect (G_OBJECT (event_box), "motion-notify-event", G_CALLBACK (motion_notify), NULL);
-  
+    g_signal_connect (G_OBJECT (event_box), "button_press_event", G_CALLBACK (button_press), NULL);
+    g_signal_connect (G_OBJECT (event_box), "button_release_event", G_CALLBACK (button_release), NULL);
+    g_signal_connect (G_OBJECT (event_box), "motion-notify-event", G_CALLBACK (motion_notify), NULL);
+   
 //these don't fire off  
 //gtk_widget_add_events (event_box, GDK_KEY_PRESS_MASK);
 //g_signal_connect (G_OBJECT (event_box), "key_press_event", G_CALLBACK (keypress_event), NULL);
