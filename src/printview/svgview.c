@@ -1116,10 +1116,10 @@ install_svgview (GtkWidget * top_vbox)
     gtk_box_pack_start (GTK_BOX (main_vbox), event_box, TRUE, TRUE, 0);
     gtk_container_add (GTK_CONTAINER (event_box), score_and_scroll_win);
     
-#if ((GTK_MAJOR_VERSION==3)  && (GTK_MINOR_VERSION<8))  
-    gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW(score_and_scroll_win), hbox);
-#else    
+#if ((GTK_MAJOR_VERSION>=3)  && (GTK_MINOR_VERSION>8))  
     gtk_container_add (GTK_CONTAINER (score_and_scroll_win), hbox);
+#else   
+    gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW(score_and_scroll_win), hbox);
 #endif    
     
     gtk_container_add (GTK_CONTAINER (hbox), Denemo.playbackview);
