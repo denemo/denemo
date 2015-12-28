@@ -1098,32 +1098,21 @@ install_svgview (GtkWidget * top_vbox)
   gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
  
   GtkWidget *score_and_scroll_win = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
- 
-  
-  
- 
-
-  
-  
-  
   Denemo.playbackview = (GtkWidget *) gtk_image_new ();
 
     // gtk_container_add (GTK_CONTAINER (score_and_scroll_win), Denemo.playbackview);
     //instead use an hbox to prevent the GtkImage widget expanding beyond the image size, which then causes positioning errors.
     hbox = gtk_hbox_new (FALSE, 1);
-    GtkWidget *event_box = gtk_event_box_new ();
-
-    gtk_box_pack_start (GTK_BOX (main_vbox), event_box, TRUE, TRUE, 0);
-    gtk_container_add (GTK_CONTAINER (event_box), score_and_scroll_win);
-    
+    GtkWidget *event_box = gtk_event_box_new (); 
+    gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_win, TRUE, TRUE, 0);
 #if ((GTK_MAJOR_VERSION>=3)  && (GTK_MINOR_VERSION>8))  
     gtk_container_add (GTK_CONTAINER (score_and_scroll_win), hbox);
 #else   
     gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW(score_and_scroll_win), hbox);
 #endif    
+    gtk_box_pack_start (GTK_BOX (hbox), event_box, FALSE, FALSE, 0);
+    gtk_container_add (GTK_CONTAINER (event_box), Denemo.playbackview);
     
-    gtk_container_add (GTK_CONTAINER (hbox), Denemo.playbackview);
-
     g_signal_connect (G_OBJECT (event_box), "button_press_event", G_CALLBACK (button_press), NULL);
     g_signal_connect (G_OBJECT (event_box), "button_release_event", G_CALLBACK (button_release), NULL);
     g_signal_connect (G_OBJECT (event_box), "motion-notify-event", G_CALLBACK (motion_notify), NULL);
