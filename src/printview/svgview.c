@@ -33,10 +33,12 @@ static gboolean RightButtonPressed = FALSE;
 static gboolean LeftButtonPressed = FALSE;
 static gboolean Dragging = FALSE;
 static gint RightButtonX, LeftButtonX, DragX;
-static gint RightButtonY, LeftButtonY, DragY;
+static gint RightButtonY, LeftButtonY, DragY, LastY;
 static gdouble IntroTime = 10.0, ScrollRate = 10.0;
 static gboolean AllPartsTypeset = FALSE;
 static gboolean PartOnly = FALSE;
+static GtkAdjustment *VAdj = NULL;
+static gdouble ScrollTime = -1.0;
 typedef struct Timing {
     gdouble time;
     gdouble duration;
@@ -47,7 +49,7 @@ typedef struct Timing {
     DenemoObject *object;//the denemo object that corresponds to line, col
 } Timing;
 
-GList *TheTimings = NULL, *LastTiming=NULL, *NextTiming=NULL;
+GList *TheTimings = NULL, *LastTiming=NULL, *NextTiming=NULL, *ScrollPoints = NULL;
 gdouble TheScale = 1.0; //Scale of score font size relative to 18pt
 /* Defines for making traversing XML trees easier */
 
@@ -846,6 +848,14 @@ static void button_press (GtkWidget *event_box, GdkEventButton *event)
                     Locationx = timing->col;
                     Locationy = timing->line;
                     gboolean found = goto_lilypond_position (timing->line, timing->col);
+                    ScrollTime = timing->time;
+                    if (found)
+                        {
+                            Dragging = TRUE;
+                            DragX = x;
+                            DragY = y;
+                            LastY = event->y_root;
+                        }
                     if (event->button != 3)
                         call_out_to_guile ("(DenemoSetPlaybackStart)");
                      else
@@ -862,27 +872,86 @@ static void button_press (GtkWidget *event_box, GdkEventButton *event)
         
     call_out_to_guile ("(d-PlayMidiNote 30 255 9 100)");                    
 }
-static void scroll_down (GtkAdjustment *adj, gint amount)
+static void scroll_by (gdouble amount)
 {
-    if (amount>0)
-    {
-    gdouble value =  gtk_adjustment_get_value  (adj);
-   // g_print ("set to %.2f\n", value+amount);
-    gtk_adjustment_set_value (adj, value+amount);
-    }
+ 
+    gdouble value =  gtk_adjustment_get_value  (VAdj);
+   g_print ("set to %.2f from %.2f\n", value+amount, value);
+    gtk_adjustment_set_value (VAdj, value+amount);
 }
-
-static gboolean playback_redraw (GtkAdjustment *adj)
+static void scroll_to (gdouble amount)
+{
+    gtk_adjustment_set_value (VAdj, amount);
+}
+static gpointer encode (gdouble adjust, gdouble time)
+{
+    guint adj = (guint)adjust & 0xFFFF;
+    guint t = ((guint)(time*10))<<16;
+    return GINT_TO_POINTER (adj+t);
+}
+static void decode (guint val, gdouble *adjust, gdouble *time)
+{
+     *adjust = (gdouble)(val & 0xFFFF);
+    *time = (((val>>16) & 0xFFFF)/10.0);
+}
+static gboolean playback_redraw (void)
 {
     static gdouble last_time;
     if (audio_is_playing ())
             {
                 gdouble time = Denemo.project->movement->playhead;
-                static gdouble waiting_time;
-                if (last_time < 0.0)
-                    waiting_time = time + IntroTime;
-                if (last_time > waiting_time)
-                    scroll_down (adj, (gint)((time -last_time)*ScrollRate));
+                if (ScrollPoints)
+                    {
+                       GList *g, *start=NULL, *end=NULL;
+                       for (g=ScrollPoints;g;g=g->next)
+                            {
+                                gdouble adj, tm;
+                                decode (GPOINTER_TO_INT(g->data), &adj, &tm);
+                                //g_print ("%.2f %.2f\n", adj, tm);
+                                if(g->next)
+                                    {
+                                        if (time < tm)
+                                            {
+                                               scroll_to (adj * time/tm);//g_print ("case 1");
+                                               break;
+                                            } else
+                                            {
+                                                gdouble nextadj, nexttm;
+                                                decode (GPOINTER_TO_INT(g->next->data), &nextadj, &nexttm);
+                                                if (time > nexttm)
+                                                    continue;
+                                                scroll_to (nextadj + (adj - nextadj)*((nexttm-time)/(nexttm - tm)));//g_print ("case 2");
+                                                break;
+                                            }
+                                    }
+                                else
+                                    {
+                                        if (time >= tm)
+                                            {
+                                               break;   
+                                            }
+                                        if (g->prev)
+                                            { gdouble prevadj, prevtm;
+                                               decode (GPOINTER_TO_INT(g->prev->data), &prevadj, &prevtm); 
+                                               scroll_to (prevadj + (adj - prevadj)*((time-prevtm)/(tm - prevtm)));//g_print ("case 3");
+                                               break;
+                                            }
+                                        if (tm>0) 
+                                            {
+                                            scroll_to (adj * (time/tm));//g_print ("case 4");
+                                            }
+                                        break;
+                                    }
+                        }
+                    }
+                else 
+                    {
+                    static gdouble waiting_time;
+                    if (last_time < 0.0)
+                        waiting_time = time + IntroTime;
+                    if (last_time > waiting_time)
+                        scroll_by (((time -last_time)*ScrollRate));
+                    }
                 last_time = time;
                 gtk_widget_queue_draw (Denemo.playbackview);
             }
@@ -890,12 +959,32 @@ static gboolean playback_redraw (GtkAdjustment *adj)
         last_time = -1.0;
     return TRUE;
 }
+
+static void list_scroll_points (void) //debug only
+{
+   GList *g;
+   for (g=ScrollPoints;g;g=g->next)
+        {gdouble adj, tm;
+         decode (g->data, &adj, &tm);
+         g_print ("Scroll Point: %0.2f at time %0.2f\n", adj, tm);
+     }  
+    
+}
+
 static void button_release (GtkWidget *event_box, GdkEventButton *event)
 {
     gint x = event->x;
     gint y = event->y;
     RightButtonPressed = FALSE;
     LeftButtonPressed = FALSE;
+    
+    if (Dragging &&   (event->button == 3))
+        {
+            g_print ("Store %.2f %.2f\n", gtk_adjustment_get_value (VAdj), ScrollTime);
+            ScrollPoints = g_list_append (ScrollPoints, encode (gtk_adjustment_get_value (VAdj), ScrollTime));
+            list_scroll_points();
+        }
+
     Dragging = FALSE;
      if (audio_is_playing ())
         {
@@ -990,10 +1079,14 @@ static void movement_button (void)
 
 static gboolean
 motion_notify (GtkWidget * window, GdkEventMotion * event)
-{
+{//g_print ("Passed %.2f, %.2f\n", event->x, event->y);
+  if (Dragging && RightButtonPressed)
+    {
+        scroll_by (LastY - event->y_root);g_print ("\tLast %d %d\t", LastY,  (gint)event->y_root);
+        LastY = event->y_root;
+    }
   if (RightButtonPressed || LeftButtonPressed)
     {
-        Dragging = TRUE;
         DragX = event->x;
         DragY = event->y;
         gtk_widget_queue_draw (Denemo.playbackview);
@@ -1002,6 +1095,12 @@ motion_notify (GtkWidget * window, GdkEventMotion * event)
 
 }
 
+
+static void clear_scroll_points (void)
+{
+     g_list_free (ScrollPoints);
+     ScrollPoints = NULL;
+}
 static void scroll_dialog (void)
 {
   DenemoProject *gui = Denemo.project;
@@ -1037,6 +1136,12 @@ static void scroll_dialog (void)
   gtk_box_pack_start (GTK_BOX (hbox), rate, TRUE, TRUE, 0);
 
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (rate), (gdouble) ScrollRate);
+
+  GtkWidget *button = gtk_button_new_with_label (_("Clear Scroll Points"));
+  g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (clear_scroll_points), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+
+
 
   gtk_widget_show (hbox);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
@@ -1097,9 +1202,9 @@ install_svgview (GtkWidget * top_vbox)
   
   gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
  
-  GtkWidget *score_and_scroll_win = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
+  GtkWidget *score_and_scroll_win = gtk_scrolled_window_new (NULL, NULL);
   Denemo.playbackview = (GtkWidget *) gtk_image_new ();
-
+    VAdj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW(score_and_scroll_win));
     // gtk_container_add (GTK_CONTAINER (score_and_scroll_win), Denemo.playbackview);
     //instead use an hbox to prevent the GtkImage widget expanding beyond the image size, which then causes positioning errors.
     hbox = gtk_hbox_new (FALSE, 1);
@@ -1138,5 +1243,5 @@ install_svgview (GtkWidget * top_vbox)
   gtk_widget_hide (top_vbox);
   static gint id; 
   if (!id)
-    id = g_timeout_add  (50, (GSourceFunc)playback_redraw, gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW(score_and_scroll_win)));
+    id = g_timeout_add  (50, (GSourceFunc)playback_redraw, NULL);
 }
