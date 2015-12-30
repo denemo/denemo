@@ -39,7 +39,7 @@ StringedInstrumentsPalette.png \
 CommandTab.png \
 open.png \
 PrintView.png \
-Playbackview.png \
+PlaybackView.png \
 TiesPalette.png \
 copy.png \
 OrnamentsPalette.png \
