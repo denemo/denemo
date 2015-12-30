@@ -876,8 +876,8 @@ static void scroll_by (gdouble amount)
 {
  
     gdouble value =  gtk_adjustment_get_value  (VAdj);
-   g_print ("set to %.2f from %.2f\n", value+amount, value);
-    gtk_adjustment_set_value (VAdj, value+amount);
+   //g_print ("set to %.2f from %.2f\n", value+amount, value);
+    gtk_adjustment_set_value (VAdj, value+amount + 0.5);//0.5 helps prevent slow movements going ahead of the scroll ...
 }
 static void scroll_to (gdouble amount)
 {
@@ -900,62 +900,65 @@ static gboolean playback_redraw (void)
     if (audio_is_playing ())
             {
                 gdouble time = Denemo.project->movement->playhead;
-                if (ScrollPoints)
+                static gdouble waiting_time;
+                if (last_time < 0.0)
+                    waiting_time = time + IntroTime;
+                if (last_time > waiting_time)
                     {
-                       GList *g, *start=NULL, *end=NULL;
-                       for (g=ScrollPoints;g;g=g->next)
+                        if (ScrollPoints)
                             {
-                                gdouble adj, tm;
-                                decode (GPOINTER_TO_INT(g->data), &adj, &tm);
-                                //g_print ("%.2f %.2f\n", adj, tm);
-                                if(g->next)
+                               GList *g, *start=NULL, *end=NULL;
+                               for (g=ScrollPoints;g;g=g->next)
                                     {
-                                        if (time < tm)
+                                        gdouble adj, tm;
+                                        decode (GPOINTER_TO_INT(g->data), &adj, &tm);
+                                        //g_print ("%.2f %.2f\n", adj, tm);
+                                        if(g->next)
                                             {
-                                               scroll_to (adj * time/tm);//g_print ("case 1");
-                                               break;
-                                            } else
+                                                if (time < tm)
+                                                    {
+                                                        if ((g->prev==NULL) && (tm<waiting_time))
+                                                            scroll_to (adj*(time - waiting_time)/(tm - waiting_time));//,g_print ("case 0");
+                                                        else
+                                                            scroll_to (adj * time/tm);//,g_print ("case 1");
+                                                       break;
+                                                    } else
+                                                    {
+                                                        gdouble nextadj, nexttm;
+                                                        decode (GPOINTER_TO_INT(g->next->data), &nextadj, &nexttm);
+                                                        if (time > nexttm)
+                                                            continue;
+                                                        scroll_to (nextadj + (adj - nextadj)*((nexttm-time)/(nexttm - tm)));//,g_print ("case 2");
+                                                        break;
+                                                    }
+                                            }
+                                        else
                                             {
-                                                gdouble nextadj, nexttm;
-                                                decode (GPOINTER_TO_INT(g->next->data), &nextadj, &nexttm);
-                                                if (time > nexttm)
-                                                    continue;
-                                                scroll_to (nextadj + (adj - nextadj)*((nexttm-time)/(nexttm - tm)));//g_print ("case 2");
+                                                if (time >= tm)
+                                                    {
+                                                       break;   
+                                                    }
+                                                if (g->prev)
+                                                    { gdouble prevadj, prevtm;
+                                                       decode (GPOINTER_TO_INT(g->prev->data), &prevadj, &prevtm); 
+                                                       scroll_to (prevadj + (adj - prevadj)*((time-prevtm)/(tm - prevtm)));//,g_print ("case 3");
+                                                       break;
+                                                    }
+                                                if (tm>0) 
+                                                    {
+                                                    scroll_to (adj*(time - waiting_time)/(tm - waiting_time));//,g_print ("case 4");
+                                                    }
                                                 break;
                                             }
-                                    }
-                                else
-                                    {
-                                        if (time >= tm)
-                                            {
-                                               break;   
-                                            }
-                                        if (g->prev)
-                                            { gdouble prevadj, prevtm;
-                                               decode (GPOINTER_TO_INT(g->prev->data), &prevadj, &prevtm); 
-                                               scroll_to (prevadj + (adj - prevadj)*((time-prevtm)/(tm - prevtm)));//g_print ("case 3");
-                                               break;
-                                            }
-                                        if (tm>0) 
-                                            {
-                                            scroll_to (adj * (time/tm));//g_print ("case 4");
-                                            }
-                                        break;
-                                    }
-                        }
-                    }
-                else 
-                    {
-                    static gdouble waiting_time;
-                    if (last_time < 0.0)
-                        waiting_time = time + IntroTime;
-                    if (last_time > waiting_time)
-                        scroll_by (((time -last_time)*ScrollRate));
+                                }
+                            }
+                            else //no ScrollPoints
+                                scroll_by (((time -last_time)*ScrollRate));
                     }
                 last_time = time;
                 gtk_widget_queue_draw (Denemo.playbackview);
             }
-    else
+    else // audio not playing
         last_time = -1.0;
     return TRUE;
 }
@@ -1082,7 +1085,7 @@ motion_notify (GtkWidget * window, GdkEventMotion * event)
 {//g_print ("Passed %.2f, %.2f\n", event->x, event->y);
   if (Dragging && RightButtonPressed)
     {
-        scroll_by (LastY - event->y_root);g_print ("\tLast %d %d\t", LastY,  (gint)event->y_root);
+        scroll_by ((gdouble)(LastY - event->y_root));//g_print ("\tLast %d %d\t", LastY,  (gint)event->y_root);
         LastY = event->y_root;
     }
   if (RightButtonPressed || LeftButtonPressed)
