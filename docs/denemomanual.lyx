@@ -3703,6 +3703,73 @@ Page or line breaks added by right-clicking on a note at a barline and choosing
 \end_layout
 
 \begin_layout Section
+The Playback View
+\end_layout
+
+\begin_layout Standard
+This is a fully typeset view with full-featured MIDI playback.
+ The music is typeset on one long page and scrolls up as it plays.
+ As a bonus, a single part can be typeset in this view with the whole accompanim
+ent included in the playback - you can play from the part while hearing
+ the other instruments.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/PlaybackView.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Play/Stop button plays the whole piece with repeats, (that is the same
+ as the Performance command in the playback menu); if a performance is underway
+ it stops it.
+\end_layout
+
+\begin_layout Standard
+The All Parts button typesets the current movement for playback, generating
+ the MIDI at the same time.
+ The Current Part button does the same but just for the part that holds
+ the Denemo cursor in the Denemo Display - you are asked if you want to
+ keep the MIDI already generated - say yes if you wish to hear the other
+ parts while following just the current part as it plays back.
+\end_layout
+
+\begin_layout Standard
+Set Scrolling pops up a dialog to control automatic scrolling.
+\end_layout
+
+\begin_layout Standard
+For simple scrolling set an Intro Time (during which no scrolling happens)
+ and a rate for scrolling during the remainder of the piece.
+ Set the rate at 0 for no scrolling.
+\end_layout
+
+\begin_layout Standard
+For more sophisticated control right click on a note and drag it to the
+ position on the page you want it to be at when it is playing.
+ First right click at the start of the second system.
+ By doing this you are saying that this note should be at where it already
+ is when the music comes to this point, so this means that the music will
+ not scroll before that.
+\end_layout
+
+\begin_layout Standard
+Next right-drag the last note of the last visible system up and release
+ where it should be when playing.
+ By doing this you are saying that this note should be where you drop it
+ after dragging up.
+ Repeat this dragging if more music is still to scroll into view - choose
+ the top note of the last system that is completely visible and drag it
+ upwards.
+ Also right drag/click the note before a tempo change, so that a new scroll
+ speed will start from there.
+\end_layout
+
+\begin_layout Section
 The Object Inspector
 \begin_inset CommandInset label
 LatexCommand label
