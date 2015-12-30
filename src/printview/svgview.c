@@ -883,16 +883,19 @@ static void scroll_to (gdouble amount)
 {
     gtk_adjustment_set_value (VAdj, amount);
 }
-static gpointer encode (gdouble adjust, gdouble time)
+
+typedef struct ScrollPoint { gdouble time, adj;} ScrollPoint;
+static ScrollPoint *encode (gdouble adjust, gdouble time)
 {
-    guint adj = (guint)adjust & 0xFFFF;
-    guint t = ((guint)(time*10))<<16;
-    return GINT_TO_POINTER (adj+t);
+    ScrollPoint *sp = g_malloc (sizeof (ScrollPoint));
+    sp->adj = adjust;
+    sp->time = time;
+    return sp;
 }
-static void decode (guint val, gdouble *adjust, gdouble *time)
+static void decode (ScrollPoint * val, gdouble *adjust, gdouble *time)
 {
-     *adjust = (gdouble)(val & 0xFFFF);
-    *time = (((val>>16) & 0xFFFF)/10.0);
+     *adjust = val->adj;
+    *time = val->time;
 }
 static gboolean playback_redraw (void)
 {
@@ -903,58 +906,58 @@ static gboolean playback_redraw (void)
                 static gdouble waiting_time;
                 if (last_time < 0.0)
                     waiting_time = time + IntroTime;
-                if (last_time > waiting_time)
-                    {
-                        if (ScrollPoints)
-                            {
-                               GList *g, *start=NULL, *end=NULL;
-                               for (g=ScrollPoints;g;g=g->next)
-                                    {
-                                        gdouble adj, tm;
-                                        decode (GPOINTER_TO_INT(g->data), &adj, &tm);
-                                        //g_print ("%.2f %.2f\n", adj, tm);
-                                        if(g->next)
-                                            {
-                                                if (time < tm)
-                                                    {
-                                                        if ((g->prev==NULL) && (tm<waiting_time))
-                                                            scroll_to (adj*(time - waiting_time)/(tm - waiting_time));//,g_print ("case 0");
-                                                        else
-                                                            scroll_to (adj * time/tm);//,g_print ("case 1");
-                                                       break;
-                                                    } else
-                                                    {
-                                                        gdouble nextadj, nexttm;
-                                                        decode (GPOINTER_TO_INT(g->next->data), &nextadj, &nexttm);
-                                                        if (time > nexttm)
-                                                            continue;
-                                                        scroll_to (nextadj + (adj - nextadj)*((nexttm-time)/(nexttm - tm)));//,g_print ("case 2");
-                                                        break;
-                                                    }
-                                            }
-                                        else
-                                            {
-                                                if (time >= tm)
-                                                    {
-                                                       break;   
-                                                    }
-                                                if (g->prev)
-                                                    { gdouble prevadj, prevtm;
-                                                       decode (GPOINTER_TO_INT(g->prev->data), &prevadj, &prevtm); 
-                                                       scroll_to (prevadj + (adj - prevadj)*((time-prevtm)/(tm - prevtm)));//,g_print ("case 3");
-                                                       break;
-                                                    }
-                                                if (tm>0) 
-                                                    {
-                                                    scroll_to (adj*(time - waiting_time)/(tm - waiting_time));//,g_print ("case 4");
-                                                    }
-                                                break;
-                                            }
-                                }
+                    if (ScrollPoints)
+                        {
+                           GList *g, *start=NULL, *end=NULL;
+                           for (g=ScrollPoints;g;g=g->next)
+                                {
+                                    gdouble adj, tm;
+                                    decode ((g->data), &adj, &tm);
+                                    //g_print ("%.2f %.2f\n", adj, tm);
+                                    if(g->next)
+                                        {
+                                            if (time < tm)
+                                                {
+                                                    if ((g->prev==NULL) && (tm<waiting_time))
+                                                        scroll_to (adj*(time - waiting_time)/(tm - waiting_time));//,g_print ("case 0");
+                                                    else
+                                                        scroll_to (adj * time/tm);//,g_print ("case 1");
+                                                   break;
+                                                } else
+                                                {
+                                                    gdouble nextadj, nexttm;
+                                                    decode ((g->next->data), &nextadj, &nexttm);
+                                                    if (time > nexttm)
+                                                        continue;
+                                                    scroll_to (nextadj + (adj - nextadj)*((nexttm-time)/(nexttm - tm)));//,g_print ("case 2");
+                                                    break;
+                                                }
+                                        }
+                                    else
+                                        {
+                                            if (time >= tm)
+                                                {
+                                                   break;   
+                                                }
+                                            if (g->prev)
+                                                { gdouble prevadj, prevtm;
+                                                   decode ((g->prev->data), &prevadj, &prevtm); 
+                                                   scroll_to (prevadj + (adj - prevadj)*((time-prevtm)/(tm - prevtm)));//,g_print ("case 3");
+                                                   break;
+                                                }
+                                            if (tm>0) 
+                                                {
+                                                scroll_to (adj*(time - waiting_time)/(tm - waiting_time));//,g_print ("case 4");
+                                                }
+                                            break;
+                                        }
                             }
-                            else //no ScrollPoints
-                                scroll_by (((time -last_time)*ScrollRate));
-                    }
+                        }
+                        else //no ScrollPoints
+                            if (last_time > waiting_time)
+                                    {
+                                        scroll_by (((time -last_time)*ScrollRate));
+                                    }
                 last_time = time;
                 gtk_widget_queue_draw (Denemo.playbackview);
             }
@@ -1085,6 +1088,7 @@ motion_notify (GtkWidget * window, GdkEventMotion * event)
 {//g_print ("Passed %.2f, %.2f\n", event->x, event->y);
   if (Dragging && RightButtonPressed)
     {
+        event->x = DragX;
         scroll_by ((gdouble)(LastY - event->y_root));//g_print ("\tLast %d %d\t", LastY,  (gint)event->y_root);
         LastY = event->y_root;
     }
@@ -1101,7 +1105,7 @@ motion_notify (GtkWidget * window, GdkEventMotion * event)
 
 static void clear_scroll_points (void)
 {
-     g_list_free (ScrollPoints);
+     g_list_free_full (ScrollPoints, g_free);
      ScrollPoints = NULL;
 }
 static void scroll_dialog (void)
