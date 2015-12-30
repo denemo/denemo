@@ -39,6 +39,7 @@ static gboolean AllPartsTypeset = FALSE;
 static gboolean PartOnly = FALSE;
 static GtkAdjustment *VAdj = NULL;
 static gdouble ScrollTime = -1.0;
+static GtkWidget *ScrollPointsButton = NULL;
 typedef struct Timing {
     gdouble time;
     gdouble duration;
@@ -633,7 +634,13 @@ set_playback_view (void)
   num_pages = 0;
   return TRUE;
 }
-
+static void clear_scroll_points (GtkWidget *button)
+{
+     if (button)
+        gtk_widget_set_sensitive (button, FALSE);
+     g_list_free_full (ScrollPoints, g_free);
+     ScrollPoints = NULL;
+}
 static void
 playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean print)
 {
@@ -658,6 +665,8 @@ playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboole
       gdouble total_time;
       changecount = Denemo.project->changecount;
       total_time = load_lilypond_midi (NULL, AllPartsTypeset);//g_print ("MIDI file total time = %.2f\n", total_time);
+      if (ScrollPoints && confirm (_("Scroll Points Set"), _("Delete the current Scroll Points?")))
+        clear_scroll_points (NULL);
       AllPartsTypeset = FALSE;
   }
 }
@@ -902,6 +911,12 @@ static gboolean playback_redraw (void)
     static gdouble last_time;
     if (audio_is_playing ())
             {
+                if ((ScrollPoints==NULL)&&(ScrollRate<0.001))
+                    {
+                        gtk_widget_queue_draw (Denemo.playbackview);
+                        return TRUE;
+                    }
+                
                 gdouble time = Denemo.project->movement->playhead;
                 static gdouble waiting_time;
                 if (last_time < 0.0)
@@ -918,8 +933,8 @@ static gboolean playback_redraw (void)
                                         {
                                             if (time < tm)
                                                 {
-                                                    if ((g->prev==NULL) && (tm<waiting_time))
-                                                        scroll_to (adj*(time - waiting_time)/(tm - waiting_time));//,g_print ("case 0");
+                                                    if ((g->prev==NULL))
+                                                        scroll_to (adj*(time)/(tm));//,g_print ("case 0");
                                                     else
                                                         scroll_to (adj * time/tm);//,g_print ("case 1");
                                                    break;
@@ -1103,11 +1118,7 @@ motion_notify (GtkWidget * window, GdkEventMotion * event)
 }
 
 
-static void clear_scroll_points (void)
-{
-     g_list_free_full (ScrollPoints, g_free);
-     ScrollPoints = NULL;
-}
+
 static void scroll_dialog (void)
 {
   DenemoProject *gui = Denemo.project;
@@ -1145,10 +1156,10 @@ static void scroll_dialog (void)
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (rate), (gdouble) ScrollRate);
 
   GtkWidget *button = gtk_button_new_with_label (_("Clear Scroll Points"));
-  g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (clear_scroll_points), NULL);
+  g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (clear_scroll_points), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-
-
+  if(ScrollPoints==NULL)
+     gtk_widget_set_sensitive (button, FALSE);
 
   gtk_widget_show (hbox);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
