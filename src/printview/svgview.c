@@ -1144,9 +1144,7 @@ static void scroll_dialog (void)
   //TODO calculate hightest number in seconds
   gdouble max_end_time = 7200.0;
   //g_list_length (((DenemoStaff *) (gui->movement->thescore->data))->measures);
-  GtkWidget *button = gtk_button_new_with_label (_("Help"));
-  g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (help_scroll_points), NULL);
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+  GtkWidget *button;
   label = gtk_label_new (_("Introduction Time (secs)"));
   gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
 
@@ -1214,7 +1212,10 @@ install_svgview (GtkWidget * top_vbox)
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
     button = (GtkWidget*)gtk_button_new_with_label (_("Set Scrolling"));
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-  g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (scroll_dialog), NULL);  
+  g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (scroll_dialog), NULL); 
+  button = gtk_button_new_with_label (_("Help"));
+  g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (help_scroll_points), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0); 
   if (top_vbox == NULL)
     {
     top_vbox = gtk_window_new (GTK_WINDOW_TOPLEVEL);
