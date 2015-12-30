@@ -641,6 +641,11 @@ static void clear_scroll_points (GtkWidget *button)
      g_list_free_full (ScrollPoints, g_free);
      ScrollPoints = NULL;
 }
+
+static void help_scroll_points (void)
+{
+    infodialog (_("For simple scrolling set an Intro Time (during which no scrolling happens) and a rate for scrolling during the remainder of the piece. Set the rate at 0 for no scrolling. For more sophisticated control right click on a note and drag it to the position on the page you want it to be at when it is playing. First right click at the start of the second system (this means that the music will not scroll before that); then right-drag the last note of the last visible system up and release where it should be when playing. Repeat this dragging if more music is still to scroll into view. Also right drag/click the note before a tempo change, so that a new scroll speed will start from there."));
+}
 static void
 playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean print)
 {
@@ -1139,8 +1144,10 @@ static void scroll_dialog (void)
   //TODO calculate hightest number in seconds
   gdouble max_end_time = 7200.0;
   //g_list_length (((DenemoStaff *) (gui->movement->thescore->data))->measures);
-
-  label = gtk_label_new (_("Introduction Time"));
+  GtkWidget *button = gtk_button_new_with_label (_("Help"));
+  g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (help_scroll_points), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+  label = gtk_label_new (_("Introduction Time (secs)"));
   gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
 
   intro = gtk_spin_button_new_with_range (0.0, 30.0, 1.0);
@@ -1155,14 +1162,16 @@ static void scroll_dialog (void)
 
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (rate), (gdouble) ScrollRate);
 
-  GtkWidget *button = gtk_button_new_with_label (_("Clear Scroll Points"));
+  button = gtk_button_new_with_label (_("Clear Scroll Points"));
   g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (clear_scroll_points), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
   if(ScrollPoints==NULL)
      gtk_widget_set_sensitive (button, FALSE);
 
   gtk_widget_show (hbox);
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);      
+  gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
+  gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
 
