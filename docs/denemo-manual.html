@@ -396,6 +396,14 @@ Table of Contents
 <div class="toc">
 <a class="Link" href="#toc-Subsection-8.3">Subsection 8.3: Scrolling</a>
 </div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-8.3.1">Subsubsection 8.3.1: Simple Scrolling Control</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-8.3.2">Subsubsection 8.3.2: Scroll Points</a>
+</div>
+</div>
 </div>
 <div class="toc">
 <a class="Link" href="#toc-Section-9">Section 9: The Object Inspector</a>
@@ -1989,7 +1997,7 @@ Page or line breaks added by right-clicking on a note at a barline and choosing 
 <a class="toc" name="toc-Subsection-8.1">8.1</a> Introduction
 </h2>
 <div class="Unindented">
-This is a fully typeset view with full-featured MIDI playback. The music is typeset on one long page and scrolls up as it plays. As a bonus, a single part can be typeset in this view with the whole accompaniment included in the playback - you can play from the part while hearing the other instruments.
+This is a fully typeset view with full-featured MIDI playback. The music is typeset on one long page against a yellow background and scrolls up as it plays. As a bonus, a single part can be typeset in this view with the whole accompaniment included in the playback - you can play from the part while hearing the other instruments.
 </div>
 <div class="Indented">
 <img class="embedded" src="images/PlaybackView.png" alt="figure images/PlaybackView.png" style="width: 353px; max-width: 707px; height: 450px; max-height: 901px;"/>
@@ -2019,14 +2027,26 @@ If you alter the music then you need to re-typeset this view before you can play
 <div class="Unindented">
 Use the Set Scrolling button to choose how (or if) the pages scrolls down as you listen.
 </div>
-<div class="Indented">
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-8.3.1">8.3.1</a> Simple Scrolling Control
+</h3>
+<div class="Unindented">
 For simple scrolling click Set Scrolling and set an Intro Time (this is the time during which no scrolling happens - you would not want the topmost system to start moving off the top of the page before music on that line has played). Then set a rate for scrolling during the remainder of the piece. Set the rate at 0 for no scrolling.
 </div>
-<div class="Indented">
-For more sophisticated control right click on a note and drag it to the position on the page you want it to be at when it is playing. First right click at the start of the second system. By doing this you are saying that this note should be at where it already is when the music comes to this point, so this means that the music will not scroll before that.
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-8.3.2">8.3.2</a> Scroll Points
+</h3>
+<div class="Unindented">
+For more sophisticated control you can set <i>scroll points </i>on the movement. This is what <i>right </i>clicking does in the Playback view - when you <i>right </i>click on a note head or rest the music when playing will ensure that the page has scrolled so that the page has scrolled up to place that notehead where it was when you clicked. So working from the top <i>right </i>click on the first note of the second system (so that the scrolling does not start until after you have heard the first system play) and then scroll the page up (using the scroll bars) and click on the last note when it is in the position desired for end-of-play.
 </div>
 <div class="Indented">
-Next right-drag the last note of the last visible system up and release where it should be when playing. By doing this you are saying that this note should be where you drop it after dragging up. Repeat this dragging if more music is still to scroll into view - choose the top note of the last system that is completely visible and drag it upwards. Also right drag/click the note before a tempo change, so that a new scroll speed will start from there.
+If there are tempo changes, scroll the page to the desired position prior to the tempo change and click on the last note/rest before the tempo change. Always work from top to bottom of the movement. (Instead of clicking you can drag notes to the position you wish them to be in instead - it’s the same thing).
+</div>
+<div class="Indented">
+You may also need to set intermediate scroll points if the music has passages that effectively change tempo by having many more bars per system - just position the music for such passages and <i>right </i>click as with tempo changes.
+</div>
+<div class="Indented">
+Note that if you set scroll points on a movement these are remembered when you switch movements, and, though they do not count as an alteration to the score they <i>are </i>saved with your score. This means that once you have set up your score for practicing playing your part, Denemo will remember how you like it to scroll, provided you do save it after setting them. And you can do minor edits without unduly perturbing the scrolling that you set.
 </div>
 <div class="Indented">
 There is a button in this dialog to clear the scroll points that you have set if you wish to start over.
@@ -4918,7 +4938,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2015-12-31T12:16:59.157605</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2015-12-31T21:54:33.405138</span>
 </div>
 </div>
 </body>
