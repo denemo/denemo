@@ -57,8 +57,8 @@
     ") Transpose::Interval)))
 (if Transpose::Interval
   (let ((base #f)(note (string-tokenize Transpose::Interval)) (choice (RadioBoxMenu
-                     (cons "Global (includes quoted music)"   'global)   
-                        (cons "Main Score Only" 'score))))
+                     (cons "Global (includes quoted music)\n(and any layout)"   'global)   
+                        (cons "Main Score Only\n(overrides global for layout)" 'score))))
               (d-DirectiveDelete-score "TransposeScorePrint") ;;;get rid of old style transpose directive      
               (d-DirectiveDelete-score tag)
               (d-DirectiveDelete-score global-tag)
