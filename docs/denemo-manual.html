@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2015-12-30"/>
+<meta name="create-date" content="2015-12-31"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -388,10 +388,13 @@ Table of Contents
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsection-8.1">Subsection 8.1: MIDI Playback.</a>
+<a class="Link" href="#toc-Subsection-8.1">Subsection 8.1: Introduction</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-8.2">Subsection 8.2: Scrolling</a>
+<a class="Link" href="#toc-Subsection-8.2">Subsection 8.2: MIDI Playback.</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-8.3">Subsection 8.3: Scrolling</a>
 </div>
 </div>
 <div class="toc">
@@ -705,12 +708,21 @@ Table of Contents
 <a class="Link" href="#toc-Part-V">Part V: Obtaining and Installing Denemo</a>
 </div>
 <div class="tocindent">
-<div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsection-Z.1">Subsection Z.1: To install from source code:</a>
+<a class="Link" href="#toc-Appendix-A">Appendix A: Upgrading Denemo</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-Z.2">Subsection Z.2: Generating a Configure Script</a>
+<a class="Link" href="#toc-Appendix-B">Appendix B: Obtaining the Source</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Appendix-C">Appendix C: Installing Denemo from Source Code</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsection-C.1">Subsection C.1: To install from source code:</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-C.2">Subsection C.2: Generating a Configure Script</a>
 </div>
 </div>
 </div>
@@ -1247,10 +1259,10 @@ Use the <b>More</b> menu add commands to Denemo. Extra commands are available (t
 <a class="toc" name="toc-Subsubsection-3.2.7">3.2.7</a> Playback
 </h3>
 <div class="Unindented">
-Use the <b>Playback</b> menu to listen to the current movement. Denemo lets you hear your score, using an internal synthesizer. There are commands to play through the all the notes or to observe repeats or to play just the chord or notes at the cursor and to play at a shifted pitch.
+Use the <b>Playback</b> menu to listen to the current movement. Denemo lets you hear your score, using an internal synthesizer. There are commands to play through the all the notes or to observe repeats or to play just the chord or notes at the cursor and to play at a shifted pitch. The default playback is quick and simple rendering of the music - good for checking pitch and rhythm. For more sophisticated playback open the Playback View<a class="Reference" href="#sec:The-Playback-View">8↓</a> where the playback happens on a fully typeset score.
 </div>
 <div class="Indented">
-Playback uses a pair of marks to decide where to start and stop playing. These appear in the display as vertical green and red lines down through the notes concerned <i>when the playback control panel is visible</i>. These markers can be moved about by the arrow buttons on either side of the play button in the Playback Controls <a class="Reference" href="#sub:Playback-Controls">3.4↓</a> and they are set for you by the Play from Cursor to End, Play Music at Cursor, Performance and other commands in this menu. These commands can be used in conjunction with the Playback View as well - here you have a fully typeset score with the currently playing note highlighted.
+Playback uses a pair of marks to decide where to start and stop playing. These appear in the display as vertical green and red lines down through the notes concerned <i>when the playback control panel is visible</i>. These markers can be moved about by the arrow buttons on either side of the play button in the Playback Controls <a class="Reference" href="#sub:Playback-Controls">3.4↓</a> and they are set for you by the Play from Cursor to End, Play Music at Cursor, Performance and other commands in this menu.
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-3.2.8">3.2.8</a> Educational
@@ -1971,13 +1983,16 @@ With practice you can skip the use of the red dots and crosses as you can guess 
 Page or line breaks added by right-clicking on a note at a barline and choosing from the menu. This works because right-click positions the Denemo Cursor at the note and then the page or line break command is run just as if you were working directly in the Denemo Display.
 </div>
 <h1 class="Section">
-<a class="toc" name="toc-Section-8">8</a> The Playback View
+<a class="toc" name="toc-Section-8">8</a> The Playback View<a class="Label" name="sec:The-Playback-View"> </a>
 </h1>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-8.1">8.1</a> Introduction
+</h2>
 <div class="Unindented">
 This is a fully typeset view with full-featured MIDI playback. The music is typeset on one long page and scrolls up as it plays. As a bonus, a single part can be typeset in this view with the whole accompaniment included in the playback - you can play from the part while hearing the other instruments.
 </div>
 <div class="Indented">
-<img class="embedded" src="images/PlaybackView.png" alt="figure images/PlaybackView.png" style="max-width: 707px; max-height: 901px;"/>
+<img class="embedded" src="images/PlaybackView.png" alt="figure images/PlaybackView.png" style="width: 353px; max-width: 707px; height: 450px; max-height: 901px;"/>
 
 </div>
 <div class="Indented">
@@ -1990,22 +2005,31 @@ The All Parts button typesets the current movement for playback, generating the 
 Set Scrolling pops up a dialog to control automatic scrolling.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-8.1">8.1</a> MIDI Playback.
+<a class="toc" name="toc-Subsection-8.2">8.2</a> MIDI Playback.
 </h2>
 <div class="Unindented">
-The MIDI is generated by LilyPond and it has many more features than the simple MIDI generated by Denemo (that is just for checking the pitches are right). This is can still be controlled by the same commands in the Playback menu, but in addition you can start play from any point in the music just by clicking on a note in the Playback View. To play a section of the music click and drag to the end note desired. For a looping play hold the shift key while dragging.
+In the Playback View the MIDI is generated by LilyPond and has many more features than the simple MIDI generated by Denemo. This playback can still be controlled by the same commands in the Playback menu or the Playback Controls Panel, but in addition you can start play from any point in the music just by left-clicking on a note in the Playback View. To play a section of the music click and drag to the end note desired. For a looping play hold the shift key while dragging.
+</div>
+<div class="Indented">
+If you alter the music then you need to re-typeset this view before you can play.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-8.2">8.2</a> Scrolling
+<a class="toc" name="toc-Subsection-8.3">8.3</a> Scrolling
 </h2>
 <div class="Unindented">
-For simple scrolling click Set Scrolling. Set an Intro Time (this is the time during which no scrolling happens - you would not want the topmost system to start moving off the top of the page before music on that line has played). Then set a rate for scrolling during the remainder of the piece. Set the rate at 0 for no scrolling.
+Use the Set Scrolling button to choose how (or if) the pages scrolls down as you listen.
+</div>
+<div class="Indented">
+For simple scrolling click Set Scrolling and set an Intro Time (this is the time during which no scrolling happens - you would not want the topmost system to start moving off the top of the page before music on that line has played). Then set a rate for scrolling during the remainder of the piece. Set the rate at 0 for no scrolling.
 </div>
 <div class="Indented">
 For more sophisticated control right click on a note and drag it to the position on the page you want it to be at when it is playing. First right click at the start of the second system. By doing this you are saying that this note should be at where it already is when the music comes to this point, so this means that the music will not scroll before that.
 </div>
 <div class="Indented">
 Next right-drag the last note of the last visible system up and release where it should be when playing. By doing this you are saying that this note should be where you drop it after dragging up. Repeat this dragging if more music is still to scroll into view - choose the top note of the last system that is completely visible and drag it upwards. Also right drag/click the note before a tempo change, so that a new scroll speed will start from there.
+</div>
+<div class="Indented">
+There is a button in this dialog to clear the scroll points that you have set if you wish to start over.
 </div>
 <div class="Indented">
 <div class="Shadowbox" style="width: 100%;">
@@ -2015,7 +2039,7 @@ Note tempo changes must have a metronome mark to take effect in the Playback Vie
 </div>
 <div class="Indented">
 <div class="Shadowbox" style="width: 100%;">
-Note that currently text is generated with the wrong fonts in the Playback View.
+Note that currently text is generated with the wrong fonts in the Playback View - LilyPond bug.
 </div>
 
 </div>
@@ -4783,9 +4807,21 @@ d-DirectiveGetForTag-field tag. Useful variables defined:<ul>
 <a class="toc" name="toc-Part-V">Part V.</a> Obtaining and Installing Denemo
 </h1>
 <div class="Unindented">
-Denemo is available from the Downloads page of the Denemo website <a class="URL" href="http://denemo.org">http://denemo.org</a>, where more up-to-date information will be found.
+Denemo is available from the Downloads page of the Denemo website <a class="URL" href="http://denemo.org">http://denemo.org</a>, where more up-to-date information will be found. This is the preferred way of obtaining Denemo, as the various offerings from elsewhere are often either broken or out-of-date.
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Appendix-A">A</a> Upgrading Denemo
+</h1>
+<div class="Unindented">
+If you already have a version of Denemo then installing a new version brings with it the question of retaining your preferences, shortcuts etc. These are stored in a directory (&ldquo;folder&rdquo; in windows) in your home directory that is named after the Denemo version number. So for version number 2.0.0 the directory is called &ldquo;.denemo-2.0.0&rdquo;.
 </div>
 <div class="Indented">
+They are copied for you from the old directory to the new one if you ask for this on startup. If you forget to do this you can delete the new directory .denemo-2.0.2 (say) and when you start Denemo it will again ask if you want to keep your preferences from the earlier version.
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Appendix-B">B</a> Obtaining the Source
+</h1>
+<div class="Unindented">
 Denemo is available from a variety of sources for different distributions. The latest stable release (tar.gz and .deb formats) is available for download from <a class="URL" href="http://denemo.org/downloads-page/">http://denemo.org/downloads-page/</a>. You can install Denemo from the Debian unstable repositories, using the command apt-get install denemo. Builds for Macintosh are available from the Gnu-Darwin project. The Denemo development branch can be downloaded using anonymous CVS or Git.<br/>
 
 </div>
@@ -4825,14 +4861,14 @@ For Debian Users: Type apt-cache showsrc denemo at a command line to determine w
 </div>
 
 </div>
-<div class="Paragraph">
-<a class="toc" name="toc-Paragraph-6"></a>Installing Denemo from Source Code
-</div>
+<h1 class="Section">
+<a class="toc" name="toc-Appendix-C">C</a> Installing Denemo from Source Code
+</h1>
 <div class="Unindented">
 Denemo is available in a variety of formats. The current stable release is available either as source code or in binary format. The Development branch of Denemo is available as a GIT source tree.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-Z.1">Z.1</a> To install from source code:
+<a class="toc" name="toc-Subsection-C.1">C.1</a> To install from source code:
 </h2>
 <ol>
 <li>
@@ -4850,7 +4886,7 @@ Change directory to the uncompressed source directory.
 
 </ol>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-Z.2">Z.2</a> Generating a Configure Script
+<a class="toc" name="toc-Subsection-C.2">C.2</a> Generating a Configure Script
 </h2>
 <div class="Unindented">
 Git does not come with a Configure script; generate one by typing and pressing Enter after the line:
@@ -4882,7 +4918,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2015-12-30T18:58:29.808417</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2015-12-31T12:16:59.157605</span>
 </div>
 </div>
 </body>
