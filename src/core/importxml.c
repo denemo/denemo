@@ -1077,7 +1077,7 @@ parseSource (xmlNodePtr parentElem)
  * Parse the given sources element.
  * 
  * @param chordElem the XML node to process
- * @param sources the GList* to populate  */
+ * @param  GList  populated  */
 static GList *
 parseSources (xmlNodePtr parentElem)
 {
@@ -1086,7 +1086,33 @@ parseSources (xmlNodePtr parentElem)
   FOREACH_CHILD_ELEM (childElem, parentElem) sources = g_list_append (sources, parseSource (childElem));
   return sources;
 }
+DenemoScrollPoint *parseScrollPoint (xmlNodePtr parentElem)
+{   xmlNodePtr childElem;
+    DenemoScrollPoint *sp = (DenemoScrollPoint*)g_malloc (sizeof (DenemoScrollPoint));
+    FOREACH_CHILD_ELEM (childElem, parentElem)
+        {
+        if (ELEM_NAME_EQ (childElem, "time"))
+          sp->time = getXMLIntChild (childElem)/1000.0; 
+        if (ELEM_NAME_EQ (childElem, "adj"))
+          sp->adj = getXMLIntChild (childElem)/1000.0; 
+        }
+    return sp;
+}
 
+/**
+ * Parse the given Scroll Points element.
+ * 
+ * @param chordElem the XML node to process
+ * @return the GList*   populated   */
+static GList *
+parseScrollPoints (xmlNodePtr parentElem)
+{
+  GList *pts = NULL;
+  xmlNodePtr childElem;
+  FOREACH_CHILD_ELEM (childElem, parentElem) 
+    pts = g_list_append (pts, parseScrollPoint (childElem));
+  return pts;
+}
 static void
 parseAudio (xmlNodePtr parentElem, DenemoMovement * si)
 {
@@ -2594,6 +2620,11 @@ parseScore (xmlNodePtr scoreElem, DenemoProject * gui, ImportType type)
   if (type == REPLACE_SCORE)
     if (parseScoreInfo (childElem, si) != 0)
       return -1;
+      
+    childElem = getXMLChild (scoreElem, "scroll-points");   
+   if (childElem)
+        si->scroll_points = parseScrollPoints (childElem);
+      
 
   /*
    * Note: We don't currently care about <staves>, but we will need to

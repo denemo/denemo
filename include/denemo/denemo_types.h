@@ -835,6 +835,11 @@ typedef struct DenemoBrace {
     int starty, endy;
     gboolean curly;
 } DenemoBrace;
+
+typedef struct DenemoScrollPoint {
+     gdouble time, adj;
+} DenemoScrollPoint;
+
 /*
  *  DenemoScore structure representing a single movement of a piece of music.
  *  A movement corresponds with a single \score{} block in the LilyPond language
@@ -868,6 +873,7 @@ typedef struct DenemoMovement
   gdouble master_tempo;/**< the tempo used is this times the nominal tempo */
   gdouble tempo_change_time;/**< system time from which the master_tempo is to be used */
   gdouble rightmost_time; /**< MIDI time of rightmost visible object */
+  GList *scroll_points; /**< playback view scroll points for this movement */
 
   gdouble zoom;/**< zoom setting for this movement */
   gdouble preview_zoom; /**< zoom  of print preview pane */

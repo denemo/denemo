@@ -1064,6 +1064,26 @@ newRhythmsElem (xmlNodePtr curElem, xmlNsPtr ns, GList *rhythms)
       newRhythmElem (rhythmsElem, ns, r);
     }
 }
+static void
+newScrollPointElem (xmlNodePtr scrollElem, xmlNsPtr ns, DenemoScrollPoint *s)
+{
+  newXMLIntChild (scrollElem, ns, "time", (gint)(1000*(s->time)));
+  newXMLIntChild (scrollElem, ns, "adj", (gint)(1000*(s->adj)));
+}
+static void
+newScrollPointsElem (xmlNodePtr curElem, xmlNsPtr ns, GList *scroll_points)
+{
+  xmlNodePtr 
+  scrollElem = xmlNewChild (curElem, ns, (xmlChar *) "scroll-points", NULL);
+  for (; scroll_points; scroll_points = scroll_points->next)
+    {
+      DenemoScrollPoint *s = (DenemoScrollPoint*)scroll_points->data;
+      xmlNodePtr  child = xmlNewChild (scrollElem, ns, (xmlChar *) "scroll-point", NULL);
+      newScrollPointElem (child, ns, s);
+    }
+}
+
+
 
 /**
  * Export the given score (from measure start to measure end) as a "native"
@@ -1190,6 +1210,9 @@ exportXML (gchar * thefilename, DenemoProject * gui)
         newXMLIntChild (parentElem, ns, (xmlChar *) "page-height", si->page_height);
       if (si->measurewidth != DENEMO_INITIAL_MEASURE_WIDTH)
         newXMLIntChild (parentElem, ns, (xmlChar *) "measure-width", si->measurewidth);
+        
+        
+
 
       if (si->header.directives)
         {
@@ -1204,6 +1227,8 @@ exportXML (gchar * thefilename, DenemoProject * gui)
           newDirectivesElem (mvmntElem, ns, si->movementcontrol.directives, "movementcontrol-directives");
         }
 
+      if (si->scroll_points)
+        newScrollPointsElem (mvmntElem, ns, si->scroll_points);
       // output si->sources
       if (si->sources)
         outputSources (mvmntElem, ns, si->sources);

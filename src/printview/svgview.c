@@ -39,7 +39,6 @@ static gboolean AllPartsTypeset = FALSE;
 static gboolean PartOnly = FALSE;
 static GtkAdjustment *VAdj = NULL;
 static gdouble ScrollTime = -1.0;
-static GtkWidget *ScrollPointsButton = NULL;
 typedef struct Timing {
     gdouble time;
     gdouble duration;
@@ -50,7 +49,7 @@ typedef struct Timing {
     DenemoObject *object;//the denemo object that corresponds to line, col
 } Timing;
 
-GList *TheTimings = NULL, *LastTiming=NULL, *NextTiming=NULL, *ScrollPoints = NULL;
+GList *TheTimings = NULL, *LastTiming=NULL, *NextTiming=NULL;
 gdouble TheScale = 1.0; //Scale of score font size relative to 18pt
 /* Defines for making traversing XML trees easier */
 
@@ -638,13 +637,13 @@ static void clear_scroll_points (GtkWidget *button)
 {
      if (button)
         gtk_widget_set_sensitive (button, FALSE);
-     g_list_free_full (ScrollPoints, g_free);
-     ScrollPoints = NULL;
+     g_list_free_full (Denemo.project->movement->scroll_points, g_free);
+     Denemo.project->movement->scroll_points = NULL;
 }
 
 static void help_scroll_points (void)
 {
-    infodialog (_("For simple scrolling set an Intro Time (during which no scrolling happens) and a rate for scrolling during the remainder of the piece. Set the rate at 0 for no scrolling. For more sophisticated control right click on a note and drag it to the position on the page you want it to be at when it is playing. First right click at the start of the second system (this means that the music will not scroll before that); then right-drag the last note of the last visible system up and release where it should be when playing. Repeat this dragging if more music is still to scroll into view. Also right drag/click the note before a tempo change, so that a new scroll speed will start from there."));
+    infodialog (_("This the Playback View Window. Click on a note to play from that note to the end. Click again to stop play. Drag between two notes to play from the first to the last, shift drag to create a loop. Right click on a note to move the Denemo cursor to that note in the Denemo Display.\n For simple scrolling set an Intro Time (during which no scrolling happens) and a rate for scrolling during the remainder of the piece. Set the rate at 0 for no scrolling. For more sophisticated control right click on a note and drag it to the position on the page you want it to be at when it is playing. First right click at the start of the second system (this means that the music will not scroll before that); then right-drag the last note of the last visible system up and release where it should be when playing. Repeat this dragging if more music is still to scroll into view. Also right drag/click the note before a tempo change, so that a new scroll speed will start from there."));
 }
 static void
 playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean print)
@@ -670,7 +669,7 @@ playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboole
       gdouble total_time;
       changecount = Denemo.project->changecount;
       total_time = load_lilypond_midi (NULL, AllPartsTypeset);//g_print ("MIDI file total time = %.2f\n", total_time);
-      if (ScrollPoints && confirm (_("Scroll Points Set"), _("Delete the current Scroll Points?")))
+      if (Denemo.project->movement->scroll_points && confirm (_("Scroll Points Already Set"), _("Delete these current Scroll Points?")))
         clear_scroll_points (NULL);
       AllPartsTypeset = FALSE;
   }
@@ -821,13 +820,10 @@ display_svg (gdouble scale, gboolean part)
 static gint Locationx, Locationy;
 static void button_press (GtkWidget *event_box, GdkEventButton *event)
 {
-    static gboolean seen = FALSE;
+    
     if (audio_is_playing ())
         return;
-    if (event->button == 3 && !seen) {
-        infodialog (_("The is the Playback View Window. Click on a note to play from that note to the end. Click again to stop play. Drag between two notes to play from the first to the last, shift drag to create a loop. Right click on a note to move the Denemo cursor to that note in the Denemo Display."));
-        seen = TRUE;
-    }
+   
     
     if (get_wysiwyg_info()->stage != TypesetForPlaybackView)
        {
@@ -898,15 +894,15 @@ static void scroll_to (gdouble amount)
     gtk_adjustment_set_value (VAdj, amount);
 }
 
-typedef struct ScrollPoint { gdouble time, adj;} ScrollPoint;
-static ScrollPoint *encode (gdouble adjust, gdouble time)
+
+static DenemoScrollPoint *encode (gdouble adjust, gdouble time)
 {
-    ScrollPoint *sp = g_malloc (sizeof (ScrollPoint));
+    DenemoScrollPoint *sp = g_malloc (sizeof (DenemoScrollPoint));
     sp->adj = adjust;
     sp->time = time;
     return sp;
 }
-static void decode (ScrollPoint * val, gdouble *adjust, gdouble *time)
+static void decode (DenemoScrollPoint * val, gdouble *adjust, gdouble *time)
 {
      *adjust = val->adj;
     *time = val->time;
@@ -916,7 +912,7 @@ static gboolean playback_redraw (void)
     static gdouble last_time;
     if (audio_is_playing ())
             {
-                if ((ScrollPoints==NULL)&&(ScrollRate<0.001))
+                if ((Denemo.project->movement->scroll_points==NULL)&&(ScrollRate<0.001))
                     {
                         gtk_widget_queue_draw (Denemo.playbackview);
                         return TRUE;
@@ -926,10 +922,10 @@ static gboolean playback_redraw (void)
                 static gdouble waiting_time;
                 if (last_time < 0.0)
                     waiting_time = time + IntroTime;
-                    if (ScrollPoints)
+                    if (Denemo.project->movement->scroll_points)
                         {
                            GList *g, *start=NULL, *end=NULL;
-                           for (g=ScrollPoints;g;g=g->next)
+                           for (g=Denemo.project->movement->scroll_points;g;g=g->next)
                                 {
                                     gdouble adj, tm;
                                     decode ((g->data), &adj, &tm);
@@ -973,7 +969,7 @@ static gboolean playback_redraw (void)
                                         }
                             }
                         }
-                        else //no ScrollPoints
+                        else //no Denemo.project->movement->scroll_points
                             if (last_time > waiting_time)
                                     {
                                         scroll_by (((time -last_time)*ScrollRate));
@@ -989,7 +985,7 @@ static gboolean playback_redraw (void)
 static void list_scroll_points (void) //debug only
 {
    GList *g;
-   for (g=ScrollPoints;g;g=g->next)
+   for (g=Denemo.project->movement->scroll_points;g;g=g->next)
         {gdouble adj, tm;
          decode (g->data, &adj, &tm);
          g_print ("Scroll Point: %0.2f at time %0.2f\n", adj, tm);
@@ -1007,7 +1003,7 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
     if (Dragging &&   (event->button == 3))
         {
             g_print ("Store %.2f %.2f\n", gtk_adjustment_get_value (VAdj), ScrollTime);
-            ScrollPoints = g_list_append (ScrollPoints, encode (gtk_adjustment_get_value (VAdj), ScrollTime));
+            Denemo.project->movement->scroll_points = g_list_append (Denemo.project->movement->scroll_points, encode (gtk_adjustment_get_value (VAdj), ScrollTime));
             list_scroll_points();
         }
 
@@ -1163,7 +1159,7 @@ static void scroll_dialog (void)
   button = gtk_button_new_with_label (_("Clear Scroll Points"));
   g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (clear_scroll_points), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-  if(ScrollPoints==NULL)
+  if(Denemo.project->movement->scroll_points==NULL)
      gtk_widget_set_sensitive (button, FALSE);
 
   gtk_widget_show (hbox);
