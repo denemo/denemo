@@ -2776,7 +2776,10 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
   sscanf (version, "%d", &version_number);
   if (version_number > CURRENT_XML_VERSION)
     {
-      g_warning ("Denemo XML file version %d found, but we can only handle %d and lower", version_number, CURRENT_XML_VERSION);
+      gchar *text = g_strdup_printf ("Denemo file format version %d found, but this version of Denemo (%s) can only load denemo file version %d or lower. Update to a newer Denemo release.", version_number, PACKAGE_VERSION, CURRENT_XML_VERSION);
+       
+      warningdialog (text);
+      g_free (text);
       ret = -1;
       goto cleanup;
     }

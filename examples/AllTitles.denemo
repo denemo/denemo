@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<score xmlns="http://denemo.org/xmlns/Denemo" version="7">
+<score xmlns="http://denemo.org/xmlns/Denemo" version="8">
   <scoreheader-directives>
     <directive>
       <tag>ScoreTitles</tag>

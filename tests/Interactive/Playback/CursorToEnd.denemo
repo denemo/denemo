@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<score xmlns="http://denemo.org/xmlns/Denemo" version="7">
+<score xmlns="http://denemo.org/xmlns/Denemo" version="8">
   <scheme> (CreateButton "Test"  "&lt;span font_desc=\"36\"&gt;&lt;b&gt;Click to run test&lt;/b&gt;&lt;/span&gt;")
  (d-SetDirectiveTagActionScript "Test" "
  
