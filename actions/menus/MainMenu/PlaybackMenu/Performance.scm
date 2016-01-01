@@ -27,7 +27,7 @@
             (begin
                 (set! first-time (eval-string first-time))
                 (set! first-time (assq-ref first-time 'volta))))
-        (disp "first time is " first-time "\n\n")
+        ;;;(disp "first time is " first-time "\n\n")
         (cond
           ((Music?)
               (if (d-Directive-chord? "DCAlFine")
