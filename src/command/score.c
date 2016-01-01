@@ -325,7 +325,7 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
     gui = Denemo.project;
   else
     gui = possible_gui;
-  if (movementnum > 0)
+  if (movementnum > 0 && (movementnum != gui->movement->currentmovementnum))
     {
       GList *this = g_list_nth (gui->movements, movementnum - 1);
       if (this == NULL)
