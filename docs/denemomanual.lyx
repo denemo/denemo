@@ -3740,8 +3740,8 @@ To start play from a note just click on the notehead, click again to stop
  the playback to end.
  To loop-play hold the shift key down as you drag from the start to the
  end of the passage to be looped over.
- To position the Denemo cursor at a note or rest click on it and drag earlier
- in the music (you can't play backwards!).
+ To position the Denemo cursor at a note or rest click on it and drag to
+ a previous note in the same part (it won't try to play backwards!).
 \end_layout
 
 \begin_layout Standard
