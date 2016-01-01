@@ -39,6 +39,7 @@ static gboolean AllPartsTypeset = FALSE;
 static gboolean PartOnly = FALSE;
 static GtkAdjustment *VAdj = NULL;
 static gdouble ScrollTime = -1.0;
+static GtkWidget *ClearScrollPointsButton = NULL;
 typedef struct Timing {
     gdouble time;
     gdouble duration;
@@ -149,20 +150,6 @@ get_window_size (gint * w, gint * h)
     }
 }
 
-static void
-get_window_position (gint * x, gint * y)
-{
-    
-#if 0
-  GtkAdjustment *adjust = gtk_range_get_adjustment (GTK_RANGE (Denemo.printhscrollbar));
-  *x = (gint) gtk_adjustment_get_value (adjust);
-  adjust = gtk_range_get_adjustment (GTK_RANGE (Denemo.printvscrollbar));
-  *y = gtk_adjustment_get_value (adjust);
-#else
-  *x = *y = 0; //g_warning("Not calculating window scroll effects");
-#endif
-}
-
 gboolean attach_timings (void)
 {
   if (TheTimings == NULL)
@@ -266,17 +253,12 @@ overdraw_print (cairo_t * cr)
 static gboolean
 predraw_print (cairo_t * cr)
 {
-  gint x, y, width, height;
+  gint width, height;
   get_window_size (&width, &height);
-  get_window_position (&x, &y);
-  cairo_translate (cr, -x, -y);
   cairo_set_source_rgba (cr, 0xf1/255.0, 0xf4/255.0, 0x9d/255.0, 1.0);//cfdd36 f1f49d
   cairo_rectangle (cr, 0, 0.0, (gdouble)width, (gdouble)height);
   cairo_fill (cr);
-  
-    cairo_set_source_rgba (cr, 0x50/255.0, 0x0/255.0, 0x60/255.0, 1.0);//this should have no effect ...
-
-  
+  cairo_set_source_rgba (cr, 0x50/255.0, 0x0/255.0, 0x60/255.0, 1.0);//this should have no effect ...
   return FALSE;//propagate further
 }
 #if GTK_MAJOR_VERSION==3
@@ -512,7 +494,7 @@ static GList * create_positions (gchar *filename)
                                                 xmlFree (id);
                                                 xmlFree (coords);
                                                 }
-                                        } else g_warning ("Found %s", greatgrandChildElem->name);
+                                        } else g_debug ("create_positions: Found group containing %s - ignoring.", greatgrandChildElem->name);
                                     }
                             }
                         }
@@ -599,19 +581,19 @@ set_playback_view (void)
 #if 1 //def G_OS_WIN32
     GError *err = NULL;
     err = NULL;
-    if (Denemo.prefs.dynamic_compression == 88)
-           filename = string_dialog_entry (Denemo.project, "Back Door SVG Load", "Give SVG full path:", locateprintdir());
+    //if (Denemo.prefs.dynamic_compression == 88)
+     //      filename = string_dialog_entry (Denemo.project, "Back Door SVG Load", "Give SVG full path:", locateprintdir());
     GdkPixbuf *pb = //rsvg_pixbuf_from_file (filename, &err);
     rsvg_pixbuf_from_file_at_size (filename, 709, 3543 * num_pages, &err);
                                
     if(pb)
         {
-            g_print ("Width %d\nHeight %d\n", gdk_pixbuf_get_width (pb), gdk_pixbuf_get_height (pb));//709, 7087 for two page, 709 by 3543 for single
+            //g_print ("Width %d\nHeight %d\n", gdk_pixbuf_get_width (pb), gdk_pixbuf_get_height (pb)); 709, 7087 for two page, 709 by 3543 for single
             if(Denemo.playbackview)
                 gtk_image_set_from_pixbuf (GTK_IMAGE (Denemo.playbackview), pb);
             else
                 Denemo.playbackview = gtk_image_new_from_pixbuf (pb);
-                g_print ("Loaded %s via rsvg pixbuf loader", filename);
+            //g_print ("Loaded %s via rsvg pixbuf loader", filename);
         } else
         g_print ("\n\nThe rsvg pixbuf load of %s gave error: %s\n\n", filename, err?err->message: "no error return");
 
@@ -633,17 +615,17 @@ set_playback_view (void)
   num_pages = 0;
   return TRUE;
 }
-static void clear_scroll_points (GtkWidget *button)
+static void clear_scroll_points (void)
 {
-     if (button)
-        gtk_widget_set_sensitive (button, FALSE);
+     if (ClearScrollPointsButton)
+        gtk_widget_set_sensitive (ClearScrollPointsButton, FALSE);
      g_list_free_full (Denemo.project->movement->scroll_points, g_free);
      Denemo.project->movement->scroll_points = NULL;
 }
 
 static void help_scroll_points (void)
 {
-    infodialog (_("This the Playback View Window. Click on a note to play from that note to the end. Click again to stop play. Drag between two notes to play from the first to the last, shift drag to create a loop. Right click on a note to move the Denemo cursor to that note in the Denemo Display.\n For simple scrolling set an Intro Time (during which no scrolling happens) and a rate for scrolling during the remainder of the piece. Set the rate at 0 for no scrolling. For more sophisticated control right click on a note and drag it to the position on the page you want it to be at when it is playing. First right click at the start of the second system (this means that the music will not scroll before that); then right-drag the last note of the last visible system up and release where it should be when playing. Repeat this dragging if more music is still to scroll into view. Also right drag/click the note before a tempo change, so that a new scroll speed will start from there."));
+    infodialog (_("This the Playback View Window. Click on a note to play from that note to the end. Click again to stop play. Drag between two notes to play from the first to the last, shift drag to create a loop. Click on a note and drag earlier to position the Denemo cursor on that note in the Denemo Display.\n For simple scrolling set an Intro Time (during which no scrolling happens) and a rate for scrolling during the remainder of the piece. Set the rate at 0 for no scrolling. For more sophisticated control right click on a note when you have scrolled the page to the position you want it to be at when it is playing. First right click at the start of the second system (this means that the music will not scroll before that); then scroll to position the end and right click the first note of the last system of the piece. If there are changes of pace then right click on the note where this happens once you have scrolled the page. Enter all scroll points in playing order."));
 }
 static void
 playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean print)
@@ -669,8 +651,7 @@ playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboole
       gdouble total_time;
       changecount = Denemo.project->changecount;
       total_time = load_lilypond_midi (NULL, AllPartsTypeset);//g_print ("MIDI file total time = %.2f\n", total_time);
-      if (Denemo.project->movement->scroll_points && confirm (_("Scroll Points Already Set"), _("Delete these current Scroll Points?")))
-        clear_scroll_points (NULL);
+      Denemo.project->movement->smfsync = Denemo.project->movement->changecount;
       AllPartsTypeset = FALSE;
   }
 }
@@ -787,17 +768,20 @@ static void remake_playback_view (gboolean part)
     delete_svgs ();
     set_continuous_typesetting (FALSE);
     create_svg (part, FALSE);//there is a typeset() function defined which does initialize_typesetting() ...
-    g_print ("Denemo.playbackview is at %p, Denemo at %p", Denemo.playbackview, &Denemo);
+    //g_print ("Denemo.playbackview is at %p, Denemo at %p", Denemo.playbackview, &Denemo);
     g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) playbackview_finished, (gpointer) (FALSE));
 }
 
 //returns TRUE if a re-build has been kicked off.
 static gboolean update_playback_view (void)
 {
-    //g_print ("Testing %d not equal %d \n", changecount, Denemo.project->changecount);
- if (changecount != Denemo.project->changecount)
+    //g_print ("Testing %d not equal %d or %d not equal %d \n", changecount, Denemo.project->changecount, Denemo.project->movement->changecount, Denemo.project->movement->smfsync);
+ if ((changecount != Denemo.project->changecount) || (Denemo.project->movement->changecount != Denemo.project->movement->smfsync))
         {
+        set_tempo ();
         call_out_to_guile (PartOnly?"(d-PlaybackView 'part)":"(d-PlaybackView)");//this installs the temporary directives to typeset svg and then
+        Denemo.project->movement->smfsync = Denemo.project->movement->changecount;
+        changecount = Denemo.project->changecount;
         return TRUE;
         }
 return FALSE;
@@ -814,13 +798,15 @@ display_svg (gdouble scale, gboolean part)
                                       gtk_text_buffer_get_insert (Denemo.textbuffer),
                                       0.0,
                                TRUE, 0.5, 0.5);
+    if(Denemo.project->movement)
+        gtk_widget_set_sensitive (ClearScrollPointsButton, (Denemo.project->movement->scroll_points!=NULL));
 }
 
 
 static gint Locationx, Locationy;
 static void button_press (GtkWidget *event_box, GdkEventButton *event)
 {
-    
+    Locationx = Locationy = -1;
     if (audio_is_playing ())
         return;
    
@@ -854,13 +840,14 @@ static void button_press (GtkWidget *event_box, GdkEventButton *event)
             Timing *timing = g->data;
             if((x-timing->x*5.61*TheScale < PRINTMARKER/(2)) && (y-timing->y*5.61*TheScale < PRINTMARKER/(2)))
                 {
-                    //g_print ("Found line %d column %d\n", timing->line, timing->col);
-                    Locationx = timing->col;
-                    Locationy = timing->line;
+
                     gboolean found = goto_lilypond_position (timing->line, timing->col);
                     ScrollTime = timing->time;
                     if (found)
                         {
+                            //g_print ("Found line %d column %d\n", timing->line, timing->col);
+                            Locationx = timing->col;
+                            Locationy = timing->line;
                             Dragging = TRUE;
                             DragX = x;
                             DragY = y;
@@ -880,7 +867,7 @@ static void button_press (GtkWidget *event_box, GdkEventButton *event)
             //g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*5.61*TheScale, timing->y*5.61*TheScale);
         }
         
-    call_out_to_guile ("(d-PlayMidiNote 30 255 9 100)");                    
+    call_out_to_guile ("(d-PlayMidiNote 36 255 9 100)");                    
 }
 static void scroll_by (gdouble amount)
 {
@@ -1002,9 +989,11 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
     
     if (Dragging &&   (event->button == 3))
         {
-            g_print ("Store %.2f %.2f\n", gtk_adjustment_get_value (VAdj), ScrollTime);
+            //g_print ("Store %.2f %.2f\n", gtk_adjustment_get_value (VAdj), ScrollTime);
+            call_out_to_guile ("(d-PlayMidiNote 52 255 9 100)");    
             Denemo.project->movement->scroll_points = g_list_append (Denemo.project->movement->scroll_points, encode (gtk_adjustment_get_value (VAdj), ScrollTime));
-            list_scroll_points();
+            gtk_widget_set_sensitive (ClearScrollPointsButton, TRUE);
+            //list_scroll_points();
         }
 
     Dragging = FALSE;
@@ -1042,14 +1031,20 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
                         }
                     else
                         {
-                            goto_lilypond_position (timing->line, timing->col);
-                            call_out_to_guile ("(if (not (d-NextChord)) (d-MoveCursorRight))(DenemoSetPlaybackEnd)");
-                            //g_print ("Set playback end to %d column %d\n", timing->line, timing->col);
-                            Denemo.project->movement->smfsync = Denemo.project->movement->changecount;
-                            if (shift_held_down())
-                                call_out_to_guile ("(d-OneShotTimer 500 \"(DenemoLoop)\")");
-                            else
-                                call_out_to_guile ("(d-OneShotTimer 500 \"(d-Play)\")");
+                             if ( (timing->line > Locationy) || ((timing->line==Locationy)&&(timing->col>=Locationx)))
+                                {
+                                    gboolean found = goto_lilypond_position (timing->line, timing->col);g_print ("y %d Lefty %d\n", y, LeftButtonY);
+                                    
+                                    call_out_to_guile ("(if (not (d-NextChord)) (d-MoveCursorRight))(DenemoSetPlaybackEnd)");
+                                        //g_print ("Set playback end to %d column %d\n", timing->line, timing->col);
+                                    Denemo.project->movement->smfsync = Denemo.project->movement->changecount;
+                                    if (shift_held_down())
+                                        call_out_to_guile ("(d-OneShotTimer 500 \"(DenemoLoop)\")");
+                                    else
+                                        call_out_to_guile ("(d-OneShotTimer 500 \"(d-Play)\")");
+                                }
+                                else
+                                call_out_to_guile ("(d-PlayMidiNote 67 255 9 100)"); 
                         }
                     
                     break;
@@ -1057,11 +1052,7 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
                 }
            // g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*5.61*TheScale, timing->y*5.61*TheScale);
         }
-       
-
-
 }
-
 
 static gint
 hide_playback_on_delete (void)
@@ -1087,6 +1078,7 @@ static void play_button (void)
 static void part_button (void)
 {
     PartOnly = TRUE;
+    set_tempo ();
     if (Denemo.project->movement->smf)
         AllPartsTypeset = confirm ( _("MIDI Already Present"), _("Keep this music while typesetting current part?"));
     call_out_to_guile ("(d-PlaybackView 'part)");//this installs the temporary directives to typeset svg and then
@@ -1095,6 +1087,7 @@ static void part_button (void)
 static void movement_button (void)
 { 
     PartOnly = FALSE;
+    set_tempo ();
     call_out_to_guile ("(d-PlaybackView #f)");//this installs the temporary directives to typeset svg and then
 }
 
@@ -1156,11 +1149,7 @@ static void scroll_dialog (void)
 
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (rate), (gdouble) ScrollRate);
 
-  button = gtk_button_new_with_label (_("Clear Scroll Points"));
-  g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (clear_scroll_points), NULL);
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-  if(Denemo.project->movement->scroll_points==NULL)
-     gtk_widget_set_sensitive (button, FALSE);
+
 
   gtk_widget_show (hbox);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);      
@@ -1209,6 +1198,10 @@ install_svgview (GtkWidget * top_vbox)
     button = (GtkWidget*)gtk_button_new_with_label (_("Set Scrolling"));
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (scroll_dialog), NULL); 
+  ClearScrollPointsButton = gtk_button_new_with_label (_("Clear Scroll Points"));
+  g_signal_connect (G_OBJECT (ClearScrollPointsButton), "clicked", G_CALLBACK (clear_scroll_points), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), ClearScrollPointsButton, FALSE, FALSE, 0);
+
   button = gtk_button_new_with_label (_("Help"));
   g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (help_scroll_points), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0); 
