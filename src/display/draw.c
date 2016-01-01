@@ -56,8 +56,21 @@ set_start_and_end_objects_for_draw (void)
 {
   if (Denemo.project->movement->smf)
     {
-      Startobj = get_obj_for_end_time (Denemo.project->movement->smf, Denemo.project->movement->start_time/get_playback_speed() + 0.001);
-      Endobj = Denemo.project->movement->end_time < 0.0 ? NULL : get_obj_for_start_time (Denemo.project->movement->smf, Denemo.project->movement->end_time/get_playback_speed() - 0.001);
+      gdouble start = Denemo.project->movement->start_time;
+      gdouble end = Denemo.project->movement->end_time;
+      if ((end > 0.0) && (end < start))
+        {
+#ifdef SWAPPING_ENDS
+            Denemo.project->movement->start_time = end;
+            Denemo.project->movement->end_time = start;
+            start = Denemo.project->movement->start_time;
+            end = Denemo.project->movement->end_time;
+#else
+            Denemo.project->movement->end_time = -1.0;
+#endif
+        }
+      Startobj = get_obj_for_end_time (Denemo.project->movement->smf, start/get_playback_speed() + 0.001);
+      Endobj = Denemo.project->movement->end_time < 0.0 ? NULL : get_obj_for_start_time (Denemo.project->movement->smf, end/get_playback_speed() - 0.001);
     }
 }
 
