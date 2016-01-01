@@ -45,8 +45,8 @@ set_tempo (void)
   Denemo.project->movement->end_time /= tempo;
 
   Denemo.project->movement->master_tempo = 1.0;
-  score_status (Denemo.project, TRUE);
-  exportmidi (NULL, Denemo.project->movement);
+  //caller should call this:score_status (Denemo.project, TRUE);
+  // caller should call this: exportmidi (NULL, Denemo.project->movement);
 }
 
 
