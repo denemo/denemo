@@ -3734,6 +3734,17 @@ ent included in the playback - you can play from the part while hearing
 \end_layout
 
 \begin_layout Standard
+To start play from a note just click on the notehead, click again to stop
+ playback.
+ To play a short passage click on a notehead and drag to where you want
+ the playback to end.
+ To loop-play hold the shift key down as you drag from the start to the
+ end of the passage to be looped over.
+ To position the Denemo cursor at a note or rest click on it and drag earlier
+ in the music (you can't play backwards!).
+\end_layout
+
+\begin_layout Standard
 \begin_inset Graphics
 	filename images/PlaybackView.png
 	scale 50
@@ -3759,7 +3770,7 @@ The All Parts button typesets the current movement for playback, generating
 \end_layout
 
 \begin_layout Standard
-Set Scrolling pops up a dialog to control automatic scrolling.
+Set Scrolling pops up a dialog to control simple automatic scrolling.
 \end_layout
 
 \begin_layout Subsection
@@ -3822,17 +3833,18 @@ clicking does in the Playback view - when you
 \emph on
 right 
 \emph default
-click on a note head or rest the music when playing will ensure that the
- page has scrolled so that the page has scrolled up to place that notehead
- where it was when you clicked.
+click on a note head or rest Denemo will ensure that the page has scrolled
+ while playing so that notehead has arrived at where it was when you clicked.
  So working from the top 
 \emph on
 right 
 \emph default
 click on the first note of the second system (so that the scrolling does
  not start until after you have heard the first system play) and then scroll
- the page up (using the scroll bars) and click on the last note when it
- is in the position desired for end-of-play.
+ the page up (using the scroll bars) and click on the first note of the
+ last system once the page is in the position desired for end-of-play.
+ You hear a sound effect when the scroll point has been added to the list
+ of scroll points for this movement.
 \end_layout
 
 \begin_layout Standard
@@ -3845,8 +3857,8 @@ If there are tempo changes, scroll the page to the desired position prior
 
 \begin_layout Standard
 You may also need to set intermediate scroll points if the music has passages
- that effectively change tempo by having many more bars per system - just
- position the music for such passages and 
+ with a flurry of notes - just position the music for such passages and
+ 
 \emph on
 right 
 \emph default
