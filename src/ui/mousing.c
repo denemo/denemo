@@ -594,7 +594,9 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
         get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
         change /= pi.measure_number;
         update_tempo_widget ( change);
-        set_tempo (); exportmidi (NULL, gui->movement);  
+        set_tempo ();
+        score_status (Denemo.project, TRUE); 
+        exportmidi (NULL, gui->movement);  
         gtk_widget_queue_draw(Denemo.scorearea);
         return TRUE; 
     }
