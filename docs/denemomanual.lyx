@@ -339,9 +339,13 @@ G
 .
  When the cursor is green the keys
 \family typewriter
- 0-6
+ 
 \family default
- change the duration of the note, while Shift-
+Shift-
+\family typewriter
+20-6
+\family default
+ change the duration of the note, while 
 \family typewriter
 0-6
 \family default
@@ -691,14 +695,8 @@ Ctrl-Shift
 \family default
  Key and Right mouse button gives the menu of directives to insert at the
  cursor.
-\end_layout
+\backslash
 
-\begin_layout Itemize
-
-\family typewriter
-Shift
-\family default
- Key and Left mouse button drags notes up and down.
 \end_layout
 
 \begin_layout Subsection
@@ -3771,6 +3769,11 @@ The All Parts button typesets the current movement for playback, generating
 
 \begin_layout Standard
 Set Scrolling pops up a dialog to control simple automatic scrolling.
+ Clear Scroll Points clears the list of 
+\emph on
+scroll points 
+\emph default
+if present (see below).
 \end_layout
 
 \begin_layout Subsection
@@ -3881,8 +3884,8 @@ saved with your score.
 \end_layout
 
 \begin_layout Standard
-There is a button in this dialog to clear the scroll points that you have
- set if you wish to start over.
+Use the Clear Scroll Points button to delete the scroll points that you
+ have set if you wish to start over.
 \end_layout
 
 \begin_layout Standard
