@@ -6,38 +6,36 @@
     (define (check-down timesig)
         (define result #f)
         (d-PushPosition)
-        (while (d-MoveToStaffUp))
-        (let loop ()
-            (if (not (and (Timesignature?) (equal? timesig (d-GetPrevailingTimesig))))
+        (if (d-MoveToStaffDown)
+            (if (not (equal? timesig (d-GetPrevailingTimesig)))
                 (begin
-                    (set! result (_ "Time Signature does not match"))
-                    (set! CheckScore::error-position (GetPosition)))
-                (if  (d-MoveToStaffDown)
-                    (loop))))
+                    (set! result (string-append  (_ "Time Signature does not match ") timesig " : " (d-GetPrevailingTimesig)))
+                    (set! CheckScore::error-position (GetPosition)))))
         (d-PopPosition)
         result)
         
      (while (d-MoveToStaffUp))
-     (let outer-loop ()
+     (let outer-loop ((first #t))
          (d-MoveToBeginning)
-         (let loop ()
+         (let measure ()
                     (define result #f)
-                    (if (Timesignature?)
+                    (while (and (not result) (d-NextObjectInMeasure))
+                            (if (and (Timesignature?) (not (zero? (d-GetStartTick))))
+                                    (begin
+                                        (set! result #t)
+                                        (set! CheckScore::error-position (GetPosition))
+                                        (set! CheckTimeSignatures::return (_ "Time Signature not at start of measure")))))
+                                    
+                    (if (not result)
                         (let ((timesig (d-GetPrevailingTimesig)))
-                            (if (d-PrevObjectInMeasure)
-                                (begin
-                                    (set! CheckScore::error-position (GetPosition))
-                                    (set! CheckTimeSignatures::return (_ "Time Signature not at start of measure")))
                                 (begin
                                     (set! result (check-down timesig))
                                     (if result
                                         (set! CheckTimeSignatures::return result)
-                                        (if (d-MoveCursorRight)
-                                            (loop))))))
-                        (if (d-MoveCursorRight)
-                            (loop))))
+                                        (if (d-MoveToMeasureRight)
+                                            (measure)))))))
         (if (d-MoveToStaffDown)
-            (outer-loop)))
+            (outer-loop #f)))
     (if (not CheckTimeSignatures::params) ;;; interactive when #f
         (begin
             (if CheckTimeSignatures::return
@@ -45,4 +43,3 @@
                     (apply d-GoToPosition CheckScore::error-position)
                     (d-WarningDialog CheckTimeSignatures::return))
                 (d-InfoDialog (_ "No problem detected with time signature changes"))))))
-                            

@@ -1,4 +1,4 @@
-;;;;;;;;;CheckScore
+(ToggleDirective "layout" "postfix" "StaffStaffSpacing"  "\\context {  \\Score   \\override StaffGrouper.staff-staff-spacing.padding = #12 } ");;;;;;;;;CheckScore
 (define CheckScore::return #f)
 (define-once CheckScore::ignore 0)
 (define-once CheckScore::error-position #f)
@@ -11,7 +11,7 @@
 
 (let movement ()
   (d-EvenOutStaffLengths)
-  (d-InstallGraceNoteHints)
+  
   (let staff ()
     (d-FixSlursInStaff)     
     (d-CheckTiesInStaff 'noninteractive)
@@ -61,7 +61,9 @@
         (begin
             (d-CheckBraces 'noninteractive)
             (set! CheckScore::return CheckBraces::Return)))
-                        
+            
+    (if (not CheckScore::return)           
+       (d-InstallGraceNoteHints))               
                                         
     (if (and (not CheckScore::return) (d-NextMovement))
             (movement)))
