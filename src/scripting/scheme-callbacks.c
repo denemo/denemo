@@ -5868,6 +5868,13 @@ scheme_refresh_display (SCM optional)
   return SCM_BOOL (TRUE);
 }
 
+SCM
+scheme_refresh_cache (void)
+{
+  draw_score (NULL);
+  return SCM_BOOL (TRUE);
+}
+
 
 
 SCM

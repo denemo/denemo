@@ -249,6 +249,7 @@ SCM scheme_bass_figure (SCM bass, SCM harmony);
 SCM scheme_spell_check_midi_chord (SCM);
 SCM scheme_get_cursor_note_as_midi (SCM);
 SCM scheme_get_note_as_midi (void);
+SCM scheme_refresh_cache (void);
 SCM scheme_refresh_display (SCM);
 SCM scheme_set_saved (SCM);
 SCM scheme_changecount (SCM);

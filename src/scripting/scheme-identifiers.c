@@ -1064,7 +1064,8 @@ create_scheme_identfiers (void)
 
   install_scm_function (0, "Gets the MIDI key number for the note-position where the cursor is", DENEMO_SCHEME_PREFIX "GetCursorNoteAsMidi", scheme_get_cursor_note_as_midi);
   install_scm_function (0, "Returns the MIDI key number for the note at the cursor, or 0 if none", DENEMO_SCHEME_PREFIX "GetNoteAsMidi", scheme_get_note_as_midi);
-  install_scm_function (0, "Re-draws the Denemo display, which can have side effects on the data", DENEMO_SCHEME_PREFIX "RefreshDisplay", scheme_refresh_display);
+  install_scm_function (0, "Re-draws the Denemo display, which can have side effects on the data, updates status bar ... ", DENEMO_SCHEME_PREFIX "RefreshDisplay", scheme_refresh_display);
+  install_scm_function (0, "Computes cached values (normally done while drawing)", DENEMO_SCHEME_PREFIX "RefreshCache", scheme_refresh_cache);
   install_scm_function (0, "Sets the status of the current musical score to saved, or unsaved if passed #f", DENEMO_SCHEME_PREFIX "SetSaved", scheme_set_saved);
   install_scm_function (0, "Gets the saved status of the current musical score", DENEMO_SCHEME_PREFIX "GetSaved", scheme_get_saved);
   install_scm_function (0, "Sets/Gets the changecount of the current musical score", DENEMO_SCHEME_PREFIX "Changecount", scheme_changecount);
