@@ -818,9 +818,9 @@ do_verses (DenemoStaff * staff, GtkWidget * vbox, gint movementnum, gint voice_c
       g_free (label);
       gchar *lyrics = g_strdup_printf ("\n" TAB "\\new Lyrics = %s\n", versename /*e.g. MvmntIVoiceIVerseI */ );
       add_lilypond (voice, lyrics, NULL);       //FIXME the destroy of these widgets should free the string     
+      add_lilypond (voice, NULL, context_text);
 
       gtk_box_pack_start (GTK_BOX (vbox), voice, FALSE, TRUE, 0);       //has to go outside the staff
-      add_lilypond (vbox, NULL, context_text);
 
       g_free (versename);
     }
