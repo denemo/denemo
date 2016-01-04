@@ -90,9 +90,9 @@
   ;;(and (not (EmptyMeasure?)) 
  ;; (> (d-GetEndTick) (* 1536 (GetPrevailingTimeSig #t)))))
 
-(define (MeasureComplete?) (or (FullDurationMeasure?) 
-                   (d-Directive-standalone? "Anacrusis")
-                   (d-Directive-standalone? "ShortMeasure")))
+(define (MeasureComplete?)
+    (d-RefreshCache)
+    (FullDurationMeasure?))
                    
 ;;;;;;;;;;Duration Conversions between Denemo, Lilypond and Tick syntax.
 ;; A table of common values
