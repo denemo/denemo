@@ -391,7 +391,8 @@
     (set! MergeAndSplit (equal? Input1 (_ "Rebar-Merge underfull, split overfull bars")))
     (if Input1 (set! Input2  (d-GetOption (string-append  (_ "Entire Staff") stop (_ "This Point Onwards")  stop (_ "Entire Movement") stop ))) )
     (if (and Input1 Input2)  ;don't go if user cancelled
-        (let ((position #f))
+        (let ((position #f)(spillover (d-GetBooleanPref "spillover")))
+            (d-SetPrefs "<spillover>0</spillover>")
             (if (equal? Input2 (_ "Entire Movement")) (set! ScanAllStaffs #t))
             (set! position (GetPosition))   ;let's try to return cursor to here when done.
             (if ScanAllStaffs (while (d-MoveToStaffUp)))    ;Start at top staff, top voice
@@ -409,8 +410,11 @@
                 (set! ReBar::return AllOK)
                 (if AllOK 
                     (apply d-GoToPosition position) ;end where we began, unless there were problems.
-                    ))))))
-)   ;let
+                    ))
+            (if spillover (d-SetPrefs "<spillover>1</spillover>"))        
+                    
+                    
+                    )))))   ;let
 
 (if ReBar::params
     (begin ;; non-interactive

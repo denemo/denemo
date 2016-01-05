@@ -13,14 +13,14 @@
           (loop))))
 
   (define (get-grace)
-    (define str "(d-InsertBlankWholeNote)(d-ToggleGrace)")
+    (define str "(d-InsertBlankWholeNote)(d-MoveCursorLeft)(d-ToggleGrace)")
     (let ((duration (d-GetNoteBaseDuration)) )
      (set! str (string-append str "(d-Change" (number->string duration) ")(d-MoveCursorRight)")))
      (let loop ()
         (if (d-NextChordInMeasure)
           (if (d-IsGrace)
             (begin
-              (set! str (string-append str "(d-InsertBlankWholeNote)(d-ToggleGrace)" "(d-Change" (number->string (d-GetNoteBaseDuration)) ")(d-MoveCursorRight)"))
+              (set! str (string-append str "(d-InsertBlankWholeNote)(d-MoveCursorLeft)(d-ToggleGrace)" "(d-Change" (number->string (d-GetNoteBaseDuration)) ")(d-MoveCursorRight)"))
               (loop)))))
       str)
       
