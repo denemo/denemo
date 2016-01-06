@@ -1775,8 +1775,9 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
             else
                 rhythm_feedback (DEFAULT_BACKEND, duration, rest, FALSE);
         }
-      if (!was_appending)
-        movecursorleft (NULL, NULL);
+    //if (( (!rest) || ((!(mode & INPUTBLANK)) && (!(gui->mode & INPUTBLANK)))) && !was_appending)
+    // if (!was_appending)
+     //   movecursorleft (NULL, NULL);
     }
   else
     {
@@ -1790,6 +1791,8 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
                 signal_measure_end();
             }
         }
+   // if (((mode & INPUTBLANK) || (gui->mode & INPUTBLANK)) && !was_appending)
+    //    movecursorleft (NULL, NULL);
     }
 }
 

@@ -179,7 +179,7 @@ DenemoObject *get_object_for_time (gdouble time, gboolean start)
         {
          Timing *this = (Timing *)g->data;
          //g_print ("Seeking %.2f Timing %.2f to %.2f\n", time, this->object->earliest_time, this->object->latest_time);
-         if ((start? this->object->earliest_time:this->object->latest_time) > time)
+         if (this->object && ((start? this->object->earliest_time:this->object->latest_time) > time))
             return this->object;
             
         }
