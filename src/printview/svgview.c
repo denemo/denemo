@@ -174,6 +174,8 @@ gboolean attach_timings (void)
 }
 DenemoObject *get_object_for_time (gdouble time, gboolean start)
 {
+    if ((changecount != Denemo.project->changecount) || (Denemo.project->movement->changecount != Denemo.project->movement->smfsync))
+        return NULL;
     GList *g;
     for (g=TheTimings;g;g=g->next)
         {
