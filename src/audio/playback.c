@@ -92,7 +92,8 @@ stop_midi_playback (GtkAction * action, DenemoScriptParam* param)
   else
     set_playbutton (TRUE);
   midi_stop ();
-
+  if (Denemo.playbackview)
+    gtk_widget_queue_draw (Denemo.playbackview);
   draw_score_area();     //update playhead on screen
 }
 

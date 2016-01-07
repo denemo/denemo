@@ -123,10 +123,10 @@ show_playback_view (void)
 
 //draw a circle 
 static void
-place_spot (cairo_t * cr, gint x, gint y)
+place_spot (cairo_t * cr, gdouble x, gdouble y)
 {
   cairo_move_to (cr, x, y);
-  cairo_arc (cr, x, y, PRINTMARKER / 4, 0.0, 2 * M_PI);
+  cairo_arc (cr, x, y, PRINTMARKER / 6.0, 0.0, 2 * M_PI);
   cairo_fill (cr);
 }
 
@@ -207,9 +207,22 @@ overdraw_print (cairo_t * cr)
         
        return TRUE; 
     }
-  cairo_scale (cr, 5.61*TheScale, 5.61*TheScale);
+  cairo_scale (cr, TheScale, TheScale);
   if(!audio_is_playing())
+    {
+        GList *g;
+        cairo_set_source_rgba (cr, 0.5, 0.7, 0.2, 0.5);
+         //cairo_set_source_rgba (cr, 0.8, 0.2, 0.4, 0.5);
+         //cairo_rectangle (cr, 0 , 0, 10, 10);
+        for (g=Denemo.project->movement->scroll_points;g;g=g->next)
+            {
+                DenemoScrollPoint *sp = (DenemoScrollPoint*)g->data;
+                //g_print ("drawing at %.2f %.2f\n", (gdouble)sp->x  - (PRINTMARKER/5)/4, (gdouble)sp->y - (PRINTMARKER/5)/2);
+                place_spot (cr, (gdouble)sp->x, (gdouble)sp->y);
+            }
+        cairo_fill (cr);
     return TRUE;
+    }
  // if (!Denemo.project->movement->playingnow)
  //   return TRUE;
   if (TheTimings == NULL)
@@ -239,7 +252,7 @@ overdraw_print (cairo_t * cr)
            if (this + duration < time)
                        continue;
            if (time > (this - 0.1))
-                    {  //g_print ("draw note at %.2f\n", this );
+                    { // g_print ("draw note at %.2f %.2f\n", ((Timing *)((g)->data))->x  - (PRINTMARKER/5)/4, ((Timing *)((g)->data))->y - (PRINTMARKER/5)/2 );
                         cairo_rectangle (cr, ((Timing *)((g)->data))->x  - (PRINTMARKER/5)/4, ((Timing *)((g)->data))->y - (PRINTMARKER/5)/2, PRINTMARKER/5, PRINTMARKER/5);
                         if(!drew_rectangle)
                             LastTiming = g;
@@ -623,6 +636,7 @@ static void clear_scroll_points (void)
         gtk_widget_set_sensitive (ClearScrollPointsButton, FALSE);
      g_list_free_full (Denemo.project->movement->scroll_points, g_free);
      Denemo.project->movement->scroll_points = NULL;
+     gtk_widget_queue_draw (Denemo.playbackview);
 }
 
 static void help_scroll_points (void)
@@ -792,7 +806,7 @@ return FALSE;
 void
 display_svg (gdouble scale, gboolean part)
 {
-    TheScale = scale; 
+    TheScale = 5.61 * scale; //5.61 found by trial and error FIXME!
     (void)remake_playback_view (part);
       //bring print view back to show cursor
     if (Denemo.textview)
@@ -840,7 +854,7 @@ static void button_press (GtkWidget *event_box, GdkEventButton *event)
     for (g = TheTimings; g;g=g->next)
         {
             Timing *timing = g->data;
-            if((x-timing->x*5.61*TheScale < PRINTMARKER/(2)) && (y-timing->y*5.61*TheScale < PRINTMARKER/(2)))
+            if((x-timing->x*TheScale < PRINTMARKER/(2)) && (y-timing->y*TheScale < PRINTMARKER/(2)))
                 {
 
                     gboolean found = goto_lilypond_position (timing->line, timing->col);
@@ -866,7 +880,7 @@ static void button_press (GtkWidget *event_box, GdkEventButton *event)
                     return;
                     
                 }
-            //g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*5.61*TheScale, timing->y*5.61*TheScale);
+            //g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*TheScale, timing->y*TheScale);
         }
         
     call_out_to_guile ("(d-PlayMidiNote 36 255 9 100)");                    
@@ -884,11 +898,13 @@ static void scroll_to (gdouble amount)
 }
 
 
-static DenemoScrollPoint *encode (gdouble adjust, gdouble time)
+static DenemoScrollPoint *encode (gdouble adjust, gdouble time, gdouble x, gdouble y)
 {
     DenemoScrollPoint *sp = g_malloc (sizeof (DenemoScrollPoint));
     sp->adj = adjust;
     sp->time = time;
+    sp->x = x;
+    sp->y = y;
     return sp;
 }
 static void decode (DenemoScrollPoint * val, gdouble *adjust, gdouble *time)
@@ -993,7 +1009,7 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
         {
             //g_print ("Store %.2f %.2f\n", gtk_adjustment_get_value (VAdj), ScrollTime);
             call_out_to_guile ("(d-PlayMidiNote 52 255 9 100)");    
-            Denemo.project->movement->scroll_points = g_list_append (Denemo.project->movement->scroll_points, encode (gtk_adjustment_get_value (VAdj), ScrollTime));
+            Denemo.project->movement->scroll_points = g_list_append (Denemo.project->movement->scroll_points, encode (gtk_adjustment_get_value (VAdj), ScrollTime, x/(TheScale), y/(TheScale)));
             gtk_widget_set_sensitive (ClearScrollPointsButton, TRUE);
             //list_scroll_points();
         }
@@ -1014,7 +1030,7 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
     if (update_playback_view ())
         {
             if (continuous_typesetting ())
-               ;//warningdialog (_("1Please turn continuous typsetting off first"));
+               ;//warningdialog (_("Please turn continuous typsetting off first"));
             else
                 warningdialog (_("Please wait while the Playback View is re-typeset then re-try"));
             return;
@@ -1023,7 +1039,7 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
     for (g = TheTimings; g;g=g->next)
         {
             Timing *timing = g->data;
-            if((x-timing->x*5.61*TheScale < PRINTMARKER/(2)) && (y-timing->y*5.61*TheScale < PRINTMARKER/(2)))
+            if((x-timing->x*TheScale < PRINTMARKER/(2)) && (y-timing->y*TheScale < PRINTMARKER/(2)))
                 {
                     
                     if ((timing->col == Locationx) && (timing->line == Locationy))
@@ -1052,7 +1068,7 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
                     break;
                     
                 }
-           // g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*5.61*TheScale, timing->y*5.61*TheScale);
+           // g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*5.61*TheScale, timing->y*TheScale);
         }
 }
 

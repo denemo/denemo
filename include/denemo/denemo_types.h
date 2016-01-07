@@ -838,6 +838,7 @@ typedef struct DenemoBrace {
 
 typedef struct DenemoScrollPoint {
      gdouble time, adj;
+     gdouble x, y;
 } DenemoScrollPoint;
 
 /*
