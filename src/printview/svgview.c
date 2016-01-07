@@ -174,7 +174,7 @@ gboolean attach_timings (void)
 }
 DenemoObject *get_object_for_time (gdouble time, gboolean start)
 {
-    if ((changecount != Denemo.project->changecount) || (Denemo.project->movement->changecount != Denemo.project->movement->smfsync))
+    if ((changecount != Denemo.project->movement->changecount) || (Denemo.project->movement->changecount != Denemo.project->movement->smfsync))
         return NULL;
     GList *g;
     for (g=TheTimings;g;g=g->next)
@@ -651,7 +651,7 @@ playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboole
   if(set_playback_view ())
     {
       gdouble total_time;
-      changecount = Denemo.project->changecount;
+      changecount = Denemo.project->movement->changecount;
       total_time = load_lilypond_midi (NULL, AllPartsTypeset);//g_print ("MIDI file total time = %.2f\n", total_time);
       Denemo.project->movement->smfsync = Denemo.project->movement->changecount;
       AllPartsTypeset = FALSE;
@@ -778,12 +778,12 @@ static void remake_playback_view (gboolean part)
 static gboolean update_playback_view (void)
 {
     //g_print ("Testing %d not equal %d or %d not equal %d \n", changecount, Denemo.project->changecount, Denemo.project->movement->changecount, Denemo.project->movement->smfsync);
- if ((changecount != Denemo.project->changecount) || (Denemo.project->movement->changecount != Denemo.project->movement->smfsync))
+ if ((changecount != Denemo.project->movement->changecount) || (Denemo.project->movement->changecount != Denemo.project->movement->smfsync))
         {
         set_tempo ();
         call_out_to_guile (PartOnly?"(d-PlaybackView 'part)":"(d-PlaybackView)");//this installs the temporary directives to typeset svg and then
         Denemo.project->movement->smfsync = Denemo.project->movement->changecount;
-        changecount = Denemo.project->changecount;
+        changecount = Denemo.project->movement->changecount;
         return TRUE;
         }
 return FALSE;
