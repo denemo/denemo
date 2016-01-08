@@ -40,8 +40,9 @@
       (d-DirectivePut-voice-postfix tag (string-append " \\set Score.tempoHideNote = ##t \\tempo 4=" (number->string (d-MovementTempo)) " ")))
     (d-DirectivePut-score-prefix tag2 "\n\\header { tagline = #f }\n")
     (d-DirectivePut-score-postfix tag2 "  \\applyContext #(override-color-for-all-grobs (x11-color 'black)) ")
-    (d-DirectivePut-movementcontrol-postfix tag "\n\\layout{}\\midi {}\n")
+    (d-DirectivePut-movementcontrol-postfix tag "\n\\midi {}\n")
     (d-DirectivePut-movementcontrol-override tag DENEMO_OVERRIDE_AFFIX)
+    (d-DirectivePut-layout-postfix tag "%{For Performance View%}")
     (d-DirectivePut-paper-postfix tag (string-append "
     ragged-bottom = ##t
     #(set! paper-alist (cons '(\"custom-size\" . (cons (* " width " cm) (* " height " cm))) paper-alist))
