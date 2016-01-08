@@ -1996,10 +1996,9 @@ scheme_adjust_playback_end (SCM adj)
   if (scm_is_real (adj))
     {
       stop_midi_playback(NULL, NULL);
-      Denemo.project->movement->end_time += convert_and_adjust (adj);
-      if (Denemo.project->movement->end_time < 0.0)
-        Denemo.project->movement->end_time = 0.0;
-      else
+      if (Denemo.project->movement->end_time > 0)
+        Denemo.project->movement->end_time += convert_and_adjust (adj);
+      if (Denemo.project->movement->end_time > 0.0)
         ret = SCM_BOOL_T;
     }
   set_start_and_end_objects_for_draw ();
