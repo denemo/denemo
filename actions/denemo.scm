@@ -466,7 +466,7 @@
     (if (not (Music?))
         (d-NextChord))
     (set! time (d-GetMidiOffTime))
-    (if time
+    (if (and time (> time 0))
         (begin
             (d-SetPlaybackInterval #t time)
             (d-RefreshDisplay)))
