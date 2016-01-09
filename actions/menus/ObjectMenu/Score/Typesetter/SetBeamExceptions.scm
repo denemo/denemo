@@ -93,7 +93,8 @@
     (if data
             (set! data (eval-string data))
             (set! data '()))
-    (get-exceptions) (disp "exceptions found " exceptions "\n\n")
+    (if (d-CheckLilyVersion "2.19.25")
+        (get-exceptions)) 
     (if exceptions
         (let ((value (assoc-ref data (car exceptions))))
                 (if value

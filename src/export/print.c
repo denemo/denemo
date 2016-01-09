@@ -192,6 +192,9 @@ regex_parse_version_number (const gchar * str)
 gchar *
 get_lily_version_string (void)
 {
+    GString *ver = Denemo.project->lilycontrol.lilyversion;
+  if (ver && (ver->len > 1))
+    return ver->str;
   return INSTALLED_LILYPOND_VERSION;
 }
 
