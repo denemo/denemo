@@ -997,7 +997,29 @@ static void list_scroll_points (void) //debug only
      }  
     
 }
-
+static void toggle_scroll_point (gdouble adj, gdouble time, gdouble x, gdouble y)
+{
+    GList *g = Denemo.project->movement->scroll_points;
+    DenemoScrollPoint *sp = encode (adj, time, x, y);
+    for (;g;g=g->next)
+        {
+            DenemoScrollPoint *this = (DenemoScrollPoint*)g->data;
+            if (fabs(this->time - sp->time) < 0.1)
+                {
+                    g_free (sp);
+                    Denemo.project->movement->scroll_points = g_list_delete_link (Denemo.project->movement->scroll_points, g);
+                   
+                        return;
+                }
+            
+            if (this->time > sp->time)
+                {
+                    Denemo.project->movement->scroll_points = g_list_insert_before (Denemo.project->movement->scroll_points, g, sp);
+                    return;
+                }
+        }
+     Denemo.project->movement->scroll_points = g_list_append (Denemo.project->movement->scroll_points, sp);
+}
 static void button_release (GtkWidget *event_box, GdkEventButton *event)
 {
     gint x = event->x;
@@ -1009,8 +1031,8 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
         {
             //g_print ("Store %.2f %.2f\n", gtk_adjustment_get_value (VAdj), ScrollTime);
             call_out_to_guile ("(d-PlayMidiNote 52 255 9 100)");    
-            Denemo.project->movement->scroll_points = g_list_append (Denemo.project->movement->scroll_points, encode (gtk_adjustment_get_value (VAdj), ScrollTime, x/(TheScale), y/(TheScale)));
-            gtk_widget_set_sensitive (ClearScrollPointsButton, TRUE);
+            toggle_scroll_point (gtk_adjustment_get_value (VAdj), ScrollTime, x/(TheScale), y/(TheScale));
+            gtk_widget_set_sensitive (ClearScrollPointsButton, Denemo.project->movement->scroll_points);
             //list_scroll_points();
         }
 

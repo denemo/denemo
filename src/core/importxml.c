@@ -1095,6 +1095,10 @@ DenemoScrollPoint *parseScrollPoint (xmlNodePtr parentElem)
           sp->time = getXMLIntChild (childElem)/1000.0; 
         if (ELEM_NAME_EQ (childElem, "adj"))
           sp->adj = getXMLIntChild (childElem)/1000.0; 
+        if (ELEM_NAME_EQ (childElem, "x"))
+          sp->x = getXMLIntChild (childElem)/1000.0; 
+        if (ELEM_NAME_EQ (childElem, "y"))
+          sp->y = getXMLIntChild (childElem)/1000.0; 
         }
     return sp;
 }

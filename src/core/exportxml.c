@@ -1069,6 +1069,8 @@ newScrollPointElem (xmlNodePtr scrollElem, xmlNsPtr ns, DenemoScrollPoint *s)
 {
   newXMLIntChild (scrollElem, ns, "time", (gint)(1000*(s->time)));
   newXMLIntChild (scrollElem, ns, "adj", (gint)(1000*(s->adj)));
+  newXMLIntChild (scrollElem, ns, "x", (gint)(1000*(s->x)));
+  newXMLIntChild (scrollElem, ns, "y", (gint)(1000*(s->y)));
 }
 static void
 newScrollPointsElem (xmlNodePtr curElem, xmlNsPtr ns, GList *scroll_points)
