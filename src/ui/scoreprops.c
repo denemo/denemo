@@ -161,7 +161,7 @@ score_properties_dialog (GtkAction * action, DenemoScriptParam * param)
 
   papersetupcb *setup = (papersetupcb *) g_malloc0 (sizeof (papersetupcb));
   vbox = gtk_vbox_new (FALSE, 1);
-  label = gtk_label_new_with_mnemonic (_("Paper Size"));
+  label = gtk_label_new_with_mnemonic (_("Typesetter"));
   gtk_notebook_append_page (GTK_NOTEBOOK (notebook), vbox, label);
 
 #if GTK_MAJOR_VERSION==3
