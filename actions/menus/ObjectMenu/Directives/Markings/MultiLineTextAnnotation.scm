@@ -122,30 +122,30 @@
                     (if (not scale)
                         (get-scale))
 
-                    (if (not scale) 
-                        (set! scale "1"))
-                    (set! markup (cdr text))
-                    (set! text (car text))
-                    (set! data (assq-set! data 'text text))
-                    (set! data (assq-set! data 'scale scale))
-                    (if dim 
-                        (set! data (assq-set! data 'dimensions dim))
-                        (set! data (assq-remove! data 'dimensions)))
-                    (set! data (assq-set! data 'direction direction))
-                    (if x-offset
-                     (set! data (assq-set! data 'x-offset x-offset)))
-                    (if y-offset
-                     (set! data (assq-set! data 'y-offset y-offset)))
-                               
-                    (if (not (d-Directive-standalone? tag))
-                        (d-DirectivePut-standalone tag))
-                    (d-DirectivePut-standalone-data tag (format #f "'~s" data))
-                    (d-DirectivePut-standalone-display tag text)
-                    (d-DirectivePut-standalone-postfix tag (string-append direction "\\markup"dimensions"\\scale #'(" scale " . " scale ")\\column{" markup "}"))
-                    (d-DirectivePut-standalone-prefix tag prefix)
-                    (d-DirectivePut-standalone-minpixels tag 30)
-                    (d-RefreshDisplay)
-                    (d-SetSaved #f))
+                    (if scale
+                        (begin
+                            (set! markup (cdr text))
+                            (set! text (car text))
+                            (set! data (assq-set! data 'text text))
+                            (set! data (assq-set! data 'scale scale))
+                            (if dim 
+                                (set! data (assq-set! data 'dimensions dim))
+                                (set! data (assq-remove! data 'dimensions)))
+                            (set! data (assq-set! data 'direction direction))
+                            (if x-offset
+                             (set! data (assq-set! data 'x-offset x-offset)))
+                            (if y-offset
+                             (set! data (assq-set! data 'y-offset y-offset)))
+                                       
+                            (if (not (d-Directive-standalone? tag))
+                                (d-DirectivePut-standalone tag))
+                            (d-DirectivePut-standalone-data tag (format #f "'~s" data))
+                            (d-DirectivePut-standalone-display tag text)
+                            (d-DirectivePut-standalone-postfix tag (string-append direction "\\markup"dimensions"\\scale #'(" scale " . " scale ")\\column{" markup "}"))
+                            (d-DirectivePut-standalone-prefix tag prefix)
+                            (d-DirectivePut-standalone-minpixels tag 30)
+                            (d-RefreshDisplay)
+                            (d-SetSaved #f))))
                 (begin
                     (if (not params)
                         (let ((confirm (d-GetUserInput (d-DirectiveGet-standalone-display tag) (_ "Delete this text?") (_ "y"))))
