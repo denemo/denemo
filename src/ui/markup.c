@@ -13,8 +13,6 @@
 
 #define SECTION_UTF8_STRING "§"
 #define PILCROW_UTF8_STRING "¶"
-
-
 static gchar *
 create_lilypond_from_text (gchar * text)
 {
@@ -203,32 +201,42 @@ insert_horiz (GtkWidget * button)
     }
  g_free (text);
 }
-static void
-preview_markup (GtkWidget * button)
+
+
+static void preview_text (gchar *text)
 {
-    DenemoProject *gui = Denemo.project;
-    GtkWidget *hbox = gtk_widget_get_parent (button);
-    GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");     
-    GtkTextIter startiter, enditer;
-    gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(textbuffer), &startiter);
-    gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(textbuffer), &enditer);
-    gchar *text = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(textbuffer), &startiter, &enditer, FALSE);
     gchar *lilypond = create_lilypond_from_text (text);g_print("At this point lilypond is <<<%s>>>\ntext was %s\n\n", lilypond, text);
     gchar *syntax = g_strconcat (LILYPOND_SYMBOL_DEFINITIONS, " \\markup \\column {",lilypond," }", NULL);
     create_pdf_for_lilypond (syntax);
     g_free (syntax);
     g_free (lilypond);
 }
+static void run_preview (GtkWidget *textbuffer)
+{
+    GtkTextIter startiter, enditer;
+    gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(textbuffer), &startiter);
+    gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(textbuffer), &enditer);
+    gchar *text = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(textbuffer), &startiter, &enditer, FALSE);
+    preview_text (text);
+}
+static void
+preview_markup (GtkWidget * button)
+{
+    DenemoProject *gui = Denemo.project;g_print ("Preview...");
+    GtkWidget *hbox = gtk_widget_get_parent (button);
+    GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");   
+    run_preview (textbuffer);
+}
 
-static gboolean keypress_callback (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event, GtkTextBuffer *textbuffer)
+static gboolean keypress_callback (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event, GtkWidget *textbuffer)
 {
   DenemoProject *gui = Denemo.project;
   GtkTextIter cursor;
   if (event->keyval == GDK_KEY_Return)
     {
   //gchar *key = g_strdup_printf ("%c", gdk_keyval_to_unicode (event->keyval));
-  gtk_text_buffer_get_iter_at_mark (textbuffer, &cursor, gtk_text_buffer_get_insert (textbuffer));
-  gtk_text_buffer_insert (textbuffer, &cursor, "\n""¶", -1);
+  gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER(textbuffer), &cursor, gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(textbuffer)));
+  gtk_text_buffer_insert (GTK_TEXT_BUFFER(textbuffer), &cursor, "\n""¶", -1);
   //g_print ("Got %s\n", key);
  // g_free (key);
   return TRUE;
@@ -320,15 +328,14 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
   gtk_widget_set_tooltip_text (button, _("Shows what the text will look like when typeset in the Print View window. For score and movement titles the appearance is correct only relative to the default title."));
   g_signal_connect (button, "clicked", G_CALLBACK (preview_markup), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-
   gchar *text;
     if(format_only)
         text = g_strdup (initial_value); //anything else, just format the passed in string
     else
         text = string_dialog_editor_with_widget_opt (Denemo.project, title, instruction, initial_value, hbox, modal, keypress_callback);    
-    
  if (text)
     {
+      preview_text (text);
       gchar *lilypond = create_lilypond_from_text (text);
       g_string_assign (user_text, text);
       g_string_assign (marked_up_text, lilypond);
