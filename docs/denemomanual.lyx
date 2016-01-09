@@ -3840,14 +3840,15 @@ right
 \emph default
 click on a note head or rest Denemo will ensure that the page has scrolled
  while playing so that notehead has arrived at where it was when you clicked.
- So working from the top 
+ With the music in the right place on the page for it to start, 
 \emph on
 right 
 \emph default
 click on the first note of the second system (so that the scrolling does
  not start until after you have heard the first system play) and then scroll
- the page up (using the scroll bars) and click on the first note of the
- last system once the page is in the position desired for end-of-play.
+ the page up (using the mouse scroll wheel or the scroll bars) and click
+ on the first note of the last system once the page is in the position desired
+ for end-of-play.
  You hear a sound effect when the scroll point has been added to the list
  of scroll points for this movement and the place is marked with a green
  blob.
