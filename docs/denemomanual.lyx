@@ -3816,6 +3816,8 @@ For simple scrolling click Set Scrolling and set an Intro Time (this is
  has played).
  Then set a rate for scrolling during the remainder of the piece.
  Set the rate at 0 for no scrolling.
+ If it has scrolled too far you can scroll it back a bit while playing,
+ it will carry on at the rate set.
 \end_layout
 
 \begin_layout Subsubsection
@@ -3847,15 +3849,16 @@ click on the first note of the second system (so that the scrolling does
  the page up (using the scroll bars) and click on the first note of the
  last system once the page is in the position desired for end-of-play.
  You hear a sound effect when the scroll point has been added to the list
- of scroll points for this movement.
+ of scroll points for this movement and the place is marked with a green
+ blob.
 \end_layout
 
 \begin_layout Standard
 If there are tempo changes, scroll the page to the desired position prior
  to the tempo change and click on the last note/rest before the tempo change.
- Always work from top to bottom of the movement.
  (Instead of clicking you can drag notes to the position you wish them to
  be in instead - it's the same thing).
+ If you add a scroll point wrongly, just click it again to remove it.
 \end_layout
 
 \begin_layout Standard
@@ -3870,22 +3873,21 @@ click as with tempo changes.
 
 \begin_layout Standard
 Note that if you set scroll points on a movement these are remembered when
- you switch movements, and, though they do not count as an alteration to
- the score they 
+ you switch movements, and scroll points 
 \emph on
 are 
 \emph default
 saved with your score.
  This means that once you have set up your score for practicing playing
- your part, Denemo will remember how you like it to scroll, provided you
- do save it after setting them.
- And you can do minor edits without unduly perturbing the scrolling that
- you set.
+ your part, Denemo will remember how you like it to scroll.
+ Note also that you can do minor edits without unduly perturbing the scrolling
+ that you set.
 \end_layout
 
 \begin_layout Standard
-Use the Clear Scroll Points button to delete the scroll points that you
- have set if you wish to start over.
+Use the Clear Scroll Points button to delete all the scroll points that
+ you have set if you wish to start over or right click on an individual
+ scroll point to remove it.
 \end_layout
 
 \begin_layout Standard
@@ -3929,7 +3931,7 @@ status open
 
 \begin_layout Plain Layout
 Note that currently text is generated with the wrong fonts in the Playback
- View - LilyPond bug.
+ View - (thought to be a LilyPond bug).
 \end_layout
 
 \end_inset
