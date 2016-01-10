@@ -26,7 +26,7 @@
             (set! part (list-ref params 0))
             (set! width (list-ref params 1))
             (set! height (list-ref params 2))))
-
+(d-IncreaseGuard)
     (set! booktitles (DenemoHasBookTitles))
     (if booktitles
         (DenemoHideBookTitles))
@@ -62,4 +62,6 @@
     (if booktitles
         (DenemoUseBookTitles))
     (d-SetSaved saved);(disp "Resetting " changecount "\n\n")
-    (d-Changecount changecount)))
+    (d-Changecount changecount)
+(d-DecreaseGuard)    
+    ))
