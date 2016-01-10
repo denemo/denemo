@@ -621,6 +621,7 @@ midi_stop (void)
 #ifdef _HAVE_RUBBERBAND_  
   reset_rubberband_queue (AUDIO_BACKEND);
 #endif
+   gtk_widget_queue_draw (Denemo.playbackview);
 }
 
 

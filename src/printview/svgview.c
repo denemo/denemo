@@ -1035,6 +1035,7 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
             gtk_widget_set_sensitive (ClearScrollPointsButton, Denemo.project->movement->scroll_points);
             //list_scroll_points();
         }
+    gtk_widget_queue_draw (Denemo.playbackview);
 
     Dragging = FALSE;
      if (audio_is_playing ())
@@ -1043,7 +1044,6 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
             return;
         }
 
-    gtk_widget_queue_draw (Denemo.playbackview);
     //g_print ("At %d %d\n", x, y);
     if (event->button == 3)
         return;    
