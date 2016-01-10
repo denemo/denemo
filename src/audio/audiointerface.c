@@ -606,7 +606,7 @@ audio_play (void)
 }
 
 void
-midi_stop ()
+midi_stop (void)
 {
   g_message ("Stopping playback");
 
