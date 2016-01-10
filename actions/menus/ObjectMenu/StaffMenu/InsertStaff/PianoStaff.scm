@@ -1,4 +1,4 @@
-(d-SelectFirstCustomLayout);;;PianoStaff
+;;;PianoStaff
 (let ((name #f) (del (and (None?)
     (equal? (d-StaffProperties "query=denemo_name") "Unnamed"))))
     (if del
