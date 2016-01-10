@@ -547,7 +547,7 @@ static gint get_number_of_pages (gchar *base)
 static gboolean
 set_playback_view (void)
 {
-  static gint num_pages = 0;
+  static gint num_pages = 0; //although not directly recursive, this function does spawn off another lilypond typeset if it there are multiple svg pages created, when finished that calls this routine.
   GFile *file;
   gchar *filename = g_strdup (get_print_status()->printname_svg[get_print_status()->cycle]);
   gboolean multipage = FALSE;
@@ -598,8 +598,8 @@ set_playback_view (void)
     err = NULL;
     //if (Denemo.prefs.dynamic_compression == 88)
      //      filename = string_dialog_entry (Denemo.project, "Back Door SVG Load", "Give SVG full path:", locateprintdir());
-    GdkPixbuf *pb = //rsvg_pixbuf_from_file (filename, &err);
-    rsvg_pixbuf_from_file_at_size (filename, 709, 3543 * num_pages, &err);
+    GdkPixbuf *pb = rsvg_pixbuf_from_file (filename, &err);
+    //rsvg_pixbuf_from_file_at_size (filename, 709, 3543 * num_pages, &err);
                                
     if(pb)
         {
@@ -1251,7 +1251,7 @@ install_svgview (GtkWidget * top_vbox)
     // if(!Denemo.prefs.manualtypeset)
     //      gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
     gtk_window_set_title (GTK_WINDOW (top_vbox), _("Denemo Playback View"));
-    gtk_window_set_default_size (GTK_WINDOW (top_vbox), 600, 750);
+    gtk_window_set_default_size (GTK_WINDOW (top_vbox), 710, 850);
     //g_signal_connect (G_OBJECT (top_vbox), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
     g_signal_connect (G_OBJECT (top_vbox), "delete-event", G_CALLBACK (hide_playback_on_delete), NULL);
     }
