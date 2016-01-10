@@ -1,6 +1,8 @@
 ;;;PianoStaff
 (let ((name #f) (del (and (None?)
     (equal? (d-StaffProperties "query=denemo_name") "Unnamed"))))
+    (d-TakeSnapshot)
+    (d-IncreaseGuard)
     (if del
         (set! del (RadioBoxMenu
                      (cons (_ "Replace Current Staff?")   'replace)
@@ -17,5 +19,7 @@
         (begin
             (d-MoveToStaffUp)
             (d-MoveToStaffUp)
-            (d-DeleteStaff))))
+            (d-DeleteStaff)))
+    (d-DecreaseGuard))
+    
 
