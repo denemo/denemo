@@ -1942,6 +1942,8 @@ actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/FretDiagrams/FretBoards.s
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/FretDiagrams/FretBoards.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.xml
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/MidiInstrumentName.scm
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/MidiInstrumentName.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/NonPrintingStaff.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/NonPrintingStaff.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffLines.scm

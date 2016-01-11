@@ -5045,7 +5045,7 @@ accidentals are usually printed over the note.</_tooltip>
         <action>Performance</action>
         <after>Play</after>
         <menupath>/MainMenu/PlaybackMenu</menupath>
-       <_label>Performance (Start/Stop)</_label>
+        <_label>Performance (Start/Stop)</_label>
         <_tooltip>Plays the current movement, observing repeats, Da Capo, fine and Dal Segno. If playing stops the performance</_tooltip>
       </row>
       <row type="scheme">
@@ -7659,6 +7659,13 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
         <_label>Tuplet Brackets</_label>
         <_tooltip>Choose whether tuplets should have brackets. Affects tuplets from the cursor onwards.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>MidiInstrumentName</action>
+        <after>ShortInstrumentName</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
+        <_label>MIDI Instrument</_label>
+        <_tooltip>Sets the MIDI instrument for this staff for use in the Playback View</_tooltip>
       </row>
     </map>
   </merge>
