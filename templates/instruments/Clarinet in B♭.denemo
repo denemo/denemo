@@ -9,6 +9,14 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       <data>1.2</data>
     </directive>
   </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>18</fontsize>
@@ -90,6 +98,12 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
                     (if choice (choice)))    " "Clarinet in B♭" }</postfix>
               <display>Clarinet in B♭</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>MidiInstrumentName</tag>
+              <postfix>\set Staff.midiInstrument = #"clarinet" </postfix>
+              <display>clarinet</display>
               <override>4</override>
             </directive>
           </staff-directives>
