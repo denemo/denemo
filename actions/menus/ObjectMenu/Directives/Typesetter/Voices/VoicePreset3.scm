@@ -1,19 +1,14 @@
 ;;;VoicePreset3
-(if (string=? (d-GetType) "Appending")
-  (d-MoveCursorLeft))
-(if (string=? (d-GetType) "STEMDIRECTIVE")
-    (begin 
-    	(d-MoveCursorRight)
-    	(d-DeletePreviousObject)))
-(d-StartUpStems)
-(d-MoveCursorLeft)
-(d-DirectivePut-stemdirective-graphic "VoiceSetting" "
+(let ((tag "VoiceSetting"))
+(d-Directive-standalone tag)
+(d-DirectivePut-standalone-minpixels tag 30)
+(d-DirectivePut-standalone-graphic tag "
 v3
 Serif
 24
 1
 1")
-(d-DirectivePut-stemdirective-postfix "VoiceSetting" "\\voiceThree")
-(d-DirectivePut-stemdirective-override "VoiceSetting" DENEMO_OVERRIDE_LILYPOND)
+(d-DirectivePut-standalone-postfix "VoiceSetting" "\\voiceThree ")
 (d-MoveCursorRight)
-(d-RefreshDisplay)
+(d-SetSaved #f)
+(d-RefreshDisplay))

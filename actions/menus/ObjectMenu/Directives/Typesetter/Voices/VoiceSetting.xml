@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>VoiceSetting</action>
         <_label>Choose Voice</_label>
-        <_tooltip>The Voice 1,2,3,4 commands set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice command returns all the voice settings to the neutral default directions</_tooltip>
+        <_tooltip>The Voice 1,2,3,4 commands set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice command returns all the voice settings to the neutral default directions. The Denemo display shows automatic stem directions, use StemDown and StemUp commands if you wish to affect the display. </_tooltip>
       </row>
     </map>
   </merge>
