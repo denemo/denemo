@@ -87,13 +87,12 @@ title = "Untitled"
 
         }
 
-       } %End of Movement
-</custom_scoreblock>
+       } %End of Movement</custom_scoreblock>
   <movement-number>1</movement-number>
   <movement>
     <edit-info>
       <staffno>2</staffno>
-      <measureno>2</measureno>
+      <measureno>1</measureno>
       <cursorposition>1</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
@@ -165,29 +164,20 @@ title = "Untitled"
         <measures>
           <measure>
             <lily-directive>
-              <tag>Void</tag>
-              <postfix>\void </postfix>
-              <display>Not for Default Score Layout</display>
-              <minpixels>30</minpixels>
-              <x>2045988384</x>
-              <tx>-30</tx>
-              <ty>60</ty>
-            </lily-directive>
-            <stem-directive type="up">
-              <directives>
-                <directive>
-                  <tag>VoiceSetting</tag>
-                  <postfix>\voiceOne </postfix>
-                  <graphic_name>
+              <tag>VoiceSetting</tag>
+              <postfix>\voiceOne </postfix>
+              <display>Not for Four Staffs</display>
+              <graphic_name>
 v1
 Serif
 24
 1
 1</graphic_name>
-                  <override>1</override>
-                </directive>
-              </directives>
-            </stem-directive>
+              <minpixels>30</minpixels>
+              <x>1565123411</x>
+              <tx>-30</tx>
+              <ty>60</ty>
+            </lily-directive>
             <chord show="true" id="id3">
               <duration base="half"></duration>
               <notes>
@@ -488,29 +478,20 @@ Serif
         <measures>
           <measure>
             <lily-directive>
-              <tag>Void</tag>
-              <postfix>\void </postfix>
-              <display>Not for Default Score Layout</display>
-              <minpixels>30</minpixels>
-              <x>2045988384</x>
-              <tx>-30</tx>
-              <ty>60</ty>
-            </lily-directive>
-            <stem-directive type="down">
-              <directives>
-                <directive>
-                  <tag>VoiceSetting</tag>
-                  <postfix>\voiceFour</postfix>
-                  <graphic_name>
+              <tag>VoiceSetting</tag>
+              <postfix>\voiceFour </postfix>
+              <display>Not for Four Staffs</display>
+              <graphic_name>
 v4
 Serif
 24
 1
 1</graphic_name>
-                  <override>1</override>
-                </directive>
-              </directives>
-            </stem-directive>
+              <minpixels>30</minpixels>
+              <x>1565123411</x>
+              <tx>-30</tx>
+              <ty>60</ty>
+            </lily-directive>
             <chord show="true" id="id56">
               <duration base="half"></duration>
               <notes>
@@ -787,29 +768,20 @@ Serif
         <measures>
           <measure>
             <lily-directive>
-              <tag>Void</tag>
-              <postfix>\void </postfix>
-              <display>Not for Default Score Layout</display>
-              <minpixels>30</minpixels>
-              <x>2045988384</x>
-              <tx>-30</tx>
-              <ty>60</ty>
-            </lily-directive>
-            <stem-directive type="up">
-              <directives>
-                <directive>
-                  <tag>VoiceSetting</tag>
-                  <postfix>\voiceThree</postfix>
-                  <graphic_name>
+              <tag>VoiceSetting</tag>
+              <postfix>\voiceThree </postfix>
+              <display>Not for Four Staffs</display>
+              <graphic_name>
 v3
 Serif
 24
 1
 1</graphic_name>
-                  <override>1</override>
-                </directive>
-              </directives>
-            </stem-directive>
+              <minpixels>30</minpixels>
+              <x>1565123411</x>
+              <tx>-30</tx>
+              <ty>60</ty>
+            </lily-directive>
             <chord show="true" id="id105">
               <duration base="half"></duration>
               <notes>
@@ -1099,29 +1071,20 @@ Serif
         <measures>
           <measure>
             <lily-directive>
-              <tag>Void</tag>
-              <postfix>\void </postfix>
-              <display>Not for Default Score Layout</display>
-              <minpixels>30</minpixels>
-              <x>2045988384</x>
-              <tx>-30</tx>
-              <ty>60</ty>
-            </lily-directive>
-            <stem-directive type="down">
-              <directives>
-                <directive>
-                  <tag>VoiceSetting</tag>
-                  <postfix>\voiceTwo</postfix>
-                  <graphic_name>
+              <tag>VoiceSetting</tag>
+              <postfix>\voiceTwo </postfix>
+              <display>Not for Four Staffs</display>
+              <graphic_name>
 v2
 Serif
 24
 1
 1</graphic_name>
-                  <override>1</override>
-                </directive>
-              </directives>
-            </stem-directive>
+              <minpixels>30</minpixels>
+              <x>1565123411</x>
+              <tx>-30</tx>
+              <ty>60</ty>
+            </lily-directive>
             <chord show="true" id="id156">
               <duration base="half"></duration>
               <notes>
