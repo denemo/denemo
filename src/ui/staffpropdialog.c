@@ -104,6 +104,12 @@ set_properties (struct callbackdata *cbdata)
 
   /* set MIDI channel/prognum */
   ASSIGNTEXT (midi_instrument);
+  if(staffstruct->midi_instrument)
+    {
+        gchar *scheme = g_strdup_printf ("(d-MidiInstrumentName \"%s\")", staffstruct->midi_instrument->str);
+        call_out_to_guile (scheme);
+        g_free (scheme);
+    }
   ASSIGNTEXT (device_port);
   ASSIGNBOOLEAN (override_volume);
   ASSIGNNUMBER (volume);
