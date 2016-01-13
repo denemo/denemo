@@ -1437,7 +1437,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                             {
                               if (chordval.has_dynamic)
                                 {
-                                  g_debug ("\nThis chord has a dynamic marking attatched\n");
+                                  //g_debug ("\nThis chord has a dynamic marking attatched\n");
                                   GList *dynamic = g_list_first (chordval.dynamics);
                                   cur_volume = string_to_vol (((GString *) dynamic->data)->str, cur_volume);
                                 }
@@ -1497,7 +1497,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                               curobj->earliest_time = event->time_seconds;
                               curobj->latest_time = curobj->earliest_time + duration * 60.0 / (cur_tempo * MIDI_RESOLUTION);
 
-                              g_debug ("'%d len %d'", event->event_number, event->midi_buffer_length);
+                              //g_debug ("'%d len %d'", event->event_number, event->midi_buffer_length);
                               //printf ("volume = %i\n", (override_volume ? 0:mix));
                             }
                           else if (slur_kill_p (note_status, n))
@@ -1724,7 +1724,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                             break;
                           case DENEMO_OVERRIDE_DURATION:
                             theduration = midi_interpretation;
-                            g_debug ("Duration is %d", theduration);
+                            //g_debug ("Duration is %d", theduration);
                             break;
                           default:
                             if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
