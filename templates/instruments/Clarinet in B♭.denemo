@@ -21,7 +21,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <papersize>a4</papersize>
     <fontsize>18</fontsize>
     <orientation>1</orientation>
-    <total-edit-time>0</total-edit-time>
+    <total-edit-time>121</total-edit-time>
     <score-directives>
       <directive>
         <tag>ScoreIndent</tag>
@@ -30,6 +30,12 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         <display>indent=28.8</display>
         <data>28.8</data>
         <override>4</override>
+      </directive>
+      <directive>
+        <tag>Temp2</tag>
+        <prefix>
+%\header { tagline = #f }
+</prefix>
       </directive>
     </score-directives>
   </lilycontrol>
@@ -45,6 +51,12 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       <page-zoom>100</page-zoom>
       <page-system-height>100</page-system-height>
     </edit-info>
+    <layout-directives>
+      <directive>
+        <tag>Temp</tag>
+        <postfix>%{For Performance View%}</postfix>
+      </directive>
+    </layout-directives>
     <score-info>
       <tempo>
         <duration>
@@ -102,8 +114,9 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </directive>
             <directive>
               <tag>MidiInstrumentName</tag>
-              <postfix>\set Staff.midiInstrument = #"clarinet" </postfix>
-              <display>clarinet</display>
+              <postfix>
+\set Staff.midiInstrument = #"Clarinet" </postfix>
+              <display>Clarinet</display>
               <override>4</override>
             </directive>
           </staff-directives>
