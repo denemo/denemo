@@ -82,7 +82,7 @@ advance_printname ()
       get_print_status()->printname_pdf[1] = g_strconcat (get_print_status()->printbasename[1], ".pdf", NULL);
       get_print_status()->printname_svg[1] = g_strconcat (get_print_status()->printbasename[1], ".svg", NULL);
 #ifdef G_OS_WIN32
-      get_print_status()->printname_midi[0] = g_strconcat (get_print_status()->printbasename[1], ".mid", NULL);//LilyPond outputs .mid files for midi 
+      get_print_status()->printname_midi[1] = g_strconcat (get_print_status()->printbasename[1], ".mid", NULL);//LilyPond outputs .mid files for midi 
 #else      
       get_print_status()->printname_midi[1] = g_strconcat (get_print_status()->printbasename[1], ".midi", NULL);
 #endif
