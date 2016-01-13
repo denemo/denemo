@@ -24,6 +24,18 @@ static fluid_settings_t *settings = NULL;
 static fluid_synth_t *synth = NULL;
 static int sfont_id = -1;
 
+void reset_synth_channels (void)
+{
+  // select bank 0 and preset 0 in the soundfont we just loaded on channel 0
+  fluid_synth_program_select (synth, 0, sfont_id, 0, 0);
+  gint i;
+  for (i = 0; i < 16; i++)
+    fluid_synth_program_change (synth, i, 0);
+
+  if (Denemo.prefs.pitchspellingchannel)
+    fluid_synth_program_change (synth, Denemo.prefs.pitchspellingchannel, Denemo.prefs.pitchspellingprogram);
+  set_tuning ();
+}
 
 int
 fluidsynth_init (DenemoPrefs * config, unsigned int samplerate)
@@ -58,8 +70,8 @@ fluidsynth_init (DenemoPrefs * config, unsigned int samplerate)
     {
       g_debug ("Failed to load the user soundfont. Now trying the default soundfont.");
       gchar *default_soundfont = find_denemo_file(DENEMO_DIR_SOUNDFONTS, "A320U.sf2");
-	  if(default_soundfont)
-		sfont_id = fluid_synth_sfload (synth, default_soundfont, FALSE);
+      if(default_soundfont)
+        sfont_id = fluid_synth_sfload (synth, default_soundfont, FALSE);
       g_free (default_soundfont);
     }
   if (sfont_id == -1)
@@ -71,17 +83,7 @@ fluidsynth_init (DenemoPrefs * config, unsigned int samplerate)
     {
       g_message ("The default fluidsynth soundfont has been loaded");
     }
-
-  // select bank 0 and preset 0 in the soundfont we just loaded on channel 0
-  fluid_synth_program_select (synth, 0, sfont_id, 0, 0);
-
-  gint i;
-  for (i = 0; i < 16; i++)
-    fluid_synth_program_change (synth, i, 0);
-
-  if (Denemo.prefs.pitchspellingchannel)
-    fluid_synth_program_change (synth, Denemo.prefs.pitchspellingchannel, Denemo.prefs.pitchspellingprogram);
-  set_tuning ();
+ reset_synth_channels ();
 
   return 0;
 }

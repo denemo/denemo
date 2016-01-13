@@ -158,6 +158,7 @@ stream_callback (const void *input_buffer, void *output_buffer, unsigned long fr
   if (reset_audio)
     {
       fluidsynth_all_notes_off ();
+      reset_synth_channels ();
       reset_audio = FALSE;
       return paContinue;
     }

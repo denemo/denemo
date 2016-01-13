@@ -40,5 +40,5 @@ void fluidsynth_render_audio (unsigned int nframes, float *left_channel, float *
  * Select the soundfont to use for playback
  */
 void choose_sound_font (GtkWidget * widget, GtkWidget * fluidsynth_soundfont);
-
+void reset_synth_channels (void);
 #endif // FLUID_H
