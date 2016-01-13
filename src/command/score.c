@@ -66,7 +66,7 @@ point_to_new_movement (DenemoProject * gui)
 }
 
 static void select_movement (gint movementnum) {
-    goto_movement_staff_obj (NULL, movementnum, 0, 0, 0, 0);
+   gboolean ok = goto_movement_staff_obj (NULL, movementnum, 1, 1, 0, 0);// this was moving to the movement but failing on the staff num g_print ("ok is %d\n", ok);
     set_movement_selector (Denemo.project);
     displayhelper (Denemo.project);
     write_status (Denemo.project);  
@@ -168,7 +168,7 @@ new_movement (GtkAction * action, DenemoScriptParam * param, gboolean before)
   staff_set_current_primary (gui->movement);
   //gui->movements_selector = NULL;
   set_movement_selector (gui);
-  
+  goto_movement_staff_obj (NULL, -1, 1, 0, 0, 0);
   rewind_audio ();
   write_status (gui);
 }
@@ -274,6 +274,7 @@ delete_movement (GtkAction * action, DenemoScriptParam* param)
   DenemoProject *gui = Denemo.project;
   terminate_playback ();
   (void) signal_structural_change (gui);
+  
   GString *primary = g_string_new (""), *secondary = g_string_new ("");
   if (gui->movements == NULL || (g_list_length (gui->movements) == 1))
     {
@@ -282,6 +283,7 @@ delete_movement (GtkAction * action, DenemoScriptParam* param)
       if (confirm (primary->str, secondary->str))
         {
           gchar *name = g_strdup (gui->filename->str);
+          gui->movement->undo_guard = 1;  //no undo as that is per movement
           deletescore (NULL, gui);
           g_string_assign (gui->filename, name);
           g_free (name);
@@ -294,6 +296,7 @@ delete_movement (GtkAction * action, DenemoScriptParam* param)
       g_string_assign (secondary, _("Delete entire movement?"));
       if (confirm (primary->str, secondary->str))
         {
+          gui->movement->undo_guard = 1;  //no undo as that is per movement
           free_score (gui);
           DenemoMovement *si = gui->movement;
           GList *g = g_list_find (gui->movements, si)->next;
@@ -334,7 +337,7 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
             warningdialog (_("No such movement"));
           return FALSE;
         }
-         
+      panic_all (); //g_print ("Reset synth\n");
       if(!Denemo.non_interactive)
         {
         gtk_widget_hide (gui->movement->buttonbox);
@@ -663,19 +666,7 @@ delete_all_staffs (DenemoProject * gui)
 }
 
 
-static GList *
-extract_verses (GList * verses)
-{
-  //g_warning("extract_verses not tested!!!!!!!");
-  GList *ret = NULL;
-  GList *g;
-  for (g = verses; g; g = g->next)
-    {
-      GtkTextView *srcVerse = g->data;
-      ret = g_list_append (ret, get_text_from_view (GTK_WIDGET (srcVerse)));
-    }
-  return ret;
-}
+
 
 /**
  * FIXME there is a muddle here between DenemoMovement and DenemoProject
@@ -705,6 +696,98 @@ free_score (DenemoProject * gui)
   g_queue_free (gui->movement->redodata);
 }
 
+static GList *
+extract_verses (GList * verses)
+{
+  //g_warning("extract_verses not tested!!!!!!!");
+  GList *ret = NULL;
+  GList *g;
+  for (g = verses; g; g = g->next)
+    {
+      GtkTextView *srcVerse = g->data;
+      ret = g_list_append (ret, get_text_from_view (GTK_WIDGET (srcVerse)));
+    }
+  return ret;
+}
+
+static void clone_staff (DenemoStaff *srcStaff, DenemoStaff *thestaff)
+{
+ //   There are things like  
+ //   measurenode *measures; /**< This is a pointer to each measure in the staff */ actually a GList * of measures.
+// and nummeasures which must be fixed by the caller.
+    memcpy (thestaff, srcStaff, sizeof (DenemoStaff));
+    thestaff->staffmenu = thestaff->voicemenu = thestaff->sources = NULL; 
+    thestaff->denemo_name = g_string_new (srcStaff->denemo_name->str);
+    thestaff->lily_name = g_string_new (srcStaff->lily_name->str);
+    thestaff->midi_instrument = g_string_new (srcStaff->midi_instrument->str);
+    thestaff->device_port= g_string_new (srcStaff->device_port->str);
+    
+    
+    thestaff->clef.directives = clone_directives (srcStaff->clef.directives);
+    thestaff->keysig.directives = clone_directives (srcStaff->keysig.directives);
+    thestaff->timesig.directives = clone_directives (srcStaff->timesig.directives);
+
+    if (srcStaff->leftmost_clefcontext == &srcStaff->clef)
+    thestaff->leftmost_clefcontext = &thestaff->clef;
+    else{
+    // has to be fixed up after the measures are done..., so do the whole thing after???
+    //                                                         likewise keysig timesig
+    g_warning ("Not doing clef context yet...");
+    thestaff->leftmost_clefcontext = &thestaff->clef;
+    }
+
+    if (srcStaff->leftmost_timesig == &srcStaff->timesig)
+    thestaff->leftmost_timesig = &thestaff->timesig;
+    else{
+    // has to be fixed up after the measures are done..., so do the whole thing after???
+    //                                                         likewise keysig timesig
+    g_warning ("Not doing timesig context yet...");
+    thestaff->leftmost_timesig = &thestaff->timesig;
+    }
+
+    if (srcStaff->leftmost_keysig == &srcStaff->keysig)
+    thestaff->leftmost_keysig = &thestaff->keysig;
+    else{
+    // has to be fixed up after the measures are done..., so do the whole thing after???
+    //                                                         likewise keysig timesig
+    g_warning ("Not doing keysig context yet...");
+    thestaff->leftmost_keysig = &thestaff->keysig;
+    }
+
+
+    thestaff->denemo_name = g_string_new (srcStaff->denemo_name->str);
+    thestaff->lily_name = g_string_new (srcStaff->lily_name->str);
+
+    thestaff->staff_directives = clone_directives (srcStaff->staff_directives);
+    {
+    GList *direc;
+    for (direc = thestaff->staff_directives; direc; direc = direc->next)
+      {
+        DenemoDirective *directive = direc->data;
+        directive->widget = NULL;
+        //      widget_for_staff_directive(directive);
+      }
+    }
+    thestaff->voice_directives = clone_directives (srcStaff->voice_directives);
+    {
+    GList *direc;
+    for (direc = thestaff->voice_directives; direc; direc = direc->next)
+      {
+        DenemoDirective *directive = direc->data;
+        directive->widget = NULL;
+        //      widget_for_voice_directive(directive);
+      }
+    }
+
+    
+    thestaff->verse_views = extract_verses (srcStaff->verse_views);
+    //FIXME: thestaff->verses should probably be cloned too
+    GtkTextView* verse_view = (GtkTextView*) verse_get_current_view (srcStaff);
+    if (verse_view)
+    verse_set_current (thestaff, verse_get_current (srcStaff));
+}
+
+
 DenemoMovement *
 clone_movement (DenemoMovement * si)
 {
@@ -724,78 +807,12 @@ clone_movement (DenemoMovement * si)
 
   for (newscore->thescore = NULL, g = si->thescore; g; g = g->next)
     {
-      DenemoStaff *thestaff = (DenemoStaff *) g_malloc (sizeof (DenemoStaff));
+     
       DenemoStaff *srcStaff = (DenemoStaff *) g->data;
       // staff_copy(srcStaff, thestaff);!!!!!! does not copy e.g. no of lines ... need proper clone code.
-      memcpy (thestaff, srcStaff, sizeof (DenemoStaff));
-
-      thestaff->denemo_name = g_string_new (srcStaff->denemo_name->str);
-      thestaff->lily_name = g_string_new (srcStaff->lily_name->str);
-      thestaff->midi_instrument = g_string_new (srcStaff->midi_instrument->str);
-
-      thestaff->clef.directives = clone_directives (srcStaff->clef.directives);
-      thestaff->keysig.directives = clone_directives (srcStaff->keysig.directives);
-      thestaff->timesig.directives = clone_directives (srcStaff->timesig.directives);
-
-      if (srcStaff->leftmost_clefcontext == &srcStaff->clef)
-        thestaff->leftmost_clefcontext = &thestaff->clef;
-      else{
-        // has to be fixed up after the measures are done..., so do the whole thing after???
-        //                                                         likewise keysig timesig
-        g_warning ("Not doing clef context yet...");
-        thestaff->leftmost_clefcontext = &thestaff->clef;
-      }
-      
-      if (srcStaff->leftmost_timesig == &srcStaff->timesig)
-        thestaff->leftmost_timesig = &thestaff->timesig;
-      else{
-        // has to be fixed up after the measures are done..., so do the whole thing after???
-        //                                                         likewise keysig timesig
-        g_warning ("Not doing timesig context yet...");
-        thestaff->leftmost_timesig = &thestaff->timesig;
-      }
-      
-      if (srcStaff->leftmost_keysig == &srcStaff->keysig)
-        thestaff->leftmost_keysig = &thestaff->keysig;
-      else{
-        // has to be fixed up after the measures are done..., so do the whole thing after???
-        //                                                         likewise keysig timesig
-        g_warning ("Not doing keysig context yet...");
-        thestaff->leftmost_keysig = &thestaff->keysig;
-      }
-
-
-      thestaff->denemo_name = g_string_new (srcStaff->denemo_name->str);
-      thestaff->lily_name = g_string_new (srcStaff->lily_name->str);
-
-      thestaff->staff_directives = clone_directives (srcStaff->staff_directives);
-      {
-        GList *direc;
-        for (direc = thestaff->staff_directives; direc; direc = direc->next)
-          {
-            DenemoDirective *directive = direc->data;
-            directive->widget = NULL;
-            //      widget_for_staff_directive(directive);
-          }
-      }
-      thestaff->voice_directives = clone_directives (srcStaff->voice_directives);
-      {
-        GList *direc;
-        for (direc = thestaff->voice_directives; direc; direc = direc->next)
-          {
-            DenemoDirective *directive = direc->data;
-            directive->widget = NULL;
-            //      widget_for_voice_directive(directive);
-          }
-      }
-
+      DenemoStaff *thestaff = (DenemoStaff *)g_malloc(sizeof(DenemoStaff));
+      clone_staff (srcStaff, thestaff);
       newscore->lyricsbox = NULL;
-      thestaff->verse_views = extract_verses (srcStaff->verse_views);
-      //FIXME: thestaff->verses should probably be cloned too
-      GtkTextView* verse_view = (GtkTextView*) verse_get_current_view (srcStaff);
-      if (verse_view)
-        verse_set_current (thestaff, verse_get_current (srcStaff));
-
       newscore->thescore = g_list_append (newscore->thescore, thestaff);
       if (g == si->currentprimarystaff)
         newscore->currentprimarystaff = newscore->thescore;
@@ -814,14 +831,16 @@ clone_movement (DenemoMovement * si)
               DenemoObject *newobj = dnm_clone_object (theobj);
               newmeasure = g_list_append (newmeasure, newobj);
               if (i == si->currentobject)
-                                                                                                                                        /*g_print("current object %x\n", g_list_last(newmeasure)), */ newscore->currentobject = g_list_last (newmeasure);
-                                                                                                                                        //???
+                    /*g_print("current object %x\n", g_list_last(newmeasure)), */ 
+                newscore->currentobject = g_list_last (newmeasure);
+                        //???
             }
           thestaff->measures = g_list_append (thestaff->measures, newmeasure);
           if (h == si->currentmeasure)
-                                                                                                                                                /*g_print("current measure %x\n", g_list_last(thestaff->measures)), */ newscore->currentmeasure = g_list_last (thestaff->measures);
-                                                                                                                                                //???
-        }
+                    /*g_print("current measure %x\n", g_list_last(thestaff->measures)), */ 
+            newscore->currentmeasure = g_list_last (thestaff->measures);
+                    //???
+            }
     }
 
 
@@ -897,6 +916,7 @@ updatescoreinfo (DenemoProject * gui)
 void
 deletescore (GtkWidget * widget, DenemoProject * gui)
 {
+  panic_all (); //g_print ("Reset synth\n");
   free_movements (gui);
   score_status (gui, FALSE);
   if (gui->filename)
