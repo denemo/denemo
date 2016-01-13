@@ -26,7 +26,15 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <papersize>a4</papersize>
     <fontsize>24</fontsize>
     <orientation>1</orientation>
-    <total-edit-time>725</total-edit-time>
+    <total-edit-time>734</total-edit-time>
+    <score-directives>
+      <directive>
+        <tag>Temp2</tag>
+        <prefix>
+%\header { tagline = #f }
+</prefix>
+      </directive>
+    </score-directives>
   </lilycontrol>
   <custom_scoreblock>%Four Staffs
 \header{DenemoLayoutName = "Four Staffs"}
@@ -92,7 +100,7 @@ title = "Untitled"
   <movement>
     <edit-info>
       <staffno>2</staffno>
-      <measureno>1</measureno>
+      <measureno>8</measureno>
       <cursorposition>1</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
@@ -115,6 +123,12 @@ title = "Untitled"
         <override>36</override>
       </directive>
     </header-directives>
+    <layout-directives>
+      <directive>
+        <tag>Temp</tag>
+        <postfix>%{For Performance View%}</postfix>
+      </directive>
+    </layout-directives>
     <score-info>
       <tempo>
         <duration>
@@ -150,7 +164,7 @@ title = "Untitled"
         <voice-props>
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
-          <transpose>5</transpose>
+          <transpose>0</transpose>
           <instrument>Alto Recorder</instrument>
           <device-port>NONE</device-port>
           <volume>65</volume>
@@ -160,6 +174,22 @@ title = "Untitled"
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>MidiInstrumentName</tag>
+              <postfix>
+\set Staff.midiInstrument = #"Alto Recorder" </postfix>
+              <display>Alto Recorder</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ChoirStaffStart</tag>
+              <prefix> \new ChoirStaff &lt;&lt;
+</prefix>
+              <display>Choir Staff Start</display>
+              <override>52</override>
+            </directive>
+          </staff-directives>
         </voice-props>
         <measures>
           <measure>
@@ -302,10 +332,14 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="true">
-              <postfix>\bar ":|:"
-</postfix>
-              <override>32</override>
+            <lily-directive>
+              <tag>RepeatEndStart</tag>
+              <postfix>\bar ":..:"</postfix>
+              <display>\bar ":..:"</display>
+              <graphic_name>RepeatEndStart</graphic_name>
+              <minpixels>50</minpixels>
+              <gx>25</gx>
+              <override>4</override>
             </lily-directive>
           </measure>
           <measure>
@@ -474,6 +508,14 @@ Serif
           <midi_channel>1</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>MidiInstrumentName</tag>
+              <postfix>
+\set Staff.midiInstrument = #"" </postfix>
+              <override>4</override>
+            </directive>
+          </staff-directives>
         </voice-props>
         <measures>
           <measure>
@@ -611,10 +653,14 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="true">
-              <postfix>\bar ":|:"
-</postfix>
-              <override>32</override>
+            <lily-directive>
+              <tag>RepeatEndStart</tag>
+              <postfix>\bar ":..:"</postfix>
+              <display>\bar ":..:"</display>
+              <graphic_name>RepeatEndStart</graphic_name>
+              <minpixels>50</minpixels>
+              <gx>25</gx>
+              <override>4</override>
             </lily-directive>
           </measure>
           <measure>
@@ -904,10 +950,14 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="true">
-              <postfix>\bar ":|:"
-</postfix>
-              <override>32</override>
+            <lily-directive>
+              <tag>RepeatEndStart</tag>
+              <postfix>\bar ":..:"</postfix>
+              <display>\bar ":..:"</display>
+              <graphic_name>RepeatEndStart</graphic_name>
+              <minpixels>50</minpixels>
+              <gx>25</gx>
+              <override>4</override>
             </lily-directive>
           </measure>
           <measure>
@@ -1067,6 +1117,16 @@ Serif
           <midi_channel>3</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>BraceEnd</tag>
+              <postfix> &gt;&gt;%Brace End
+</postfix>
+              <display>Brace End</display>
+              <data>1</data>
+              <override>52</override>
+            </directive>
+          </staff-directives>
         </voice-props>
         <measures>
           <measure>
@@ -1208,10 +1268,14 @@ Serif
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="true">
-              <postfix>\bar ":|:"
-</postfix>
-              <override>32</override>
+            <lily-directive>
+              <tag>RepeatEndStart</tag>
+              <postfix>\bar ":..:"</postfix>
+              <display>\bar ":..:"</display>
+              <graphic_name>RepeatEndStart</graphic_name>
+              <minpixels>50</minpixels>
+              <gx>25</gx>
+              <override>4</override>
             </lily-directive>
           </measure>
           <measure>
