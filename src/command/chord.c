@@ -144,7 +144,7 @@ newchord (gint baseduration, gint numdots, int tied)
 
   set_basic_numticks (thechord);
 
-  g_debug ("Chord %d \n", ((chord *) (thechord->object))->baseduration);
+  //g_debug ("Chord %d \n", ((chord *) (thechord->object))->baseduration);
   return thechord;
 }
 
