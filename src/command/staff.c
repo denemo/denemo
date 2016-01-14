@@ -123,8 +123,15 @@ staff_copy (DenemoStaff * src, DenemoStaff * dest)
   dest->denemo_name = g_string_new (src->denemo_name->str);
   dest->lily_name = g_string_new (src->lily_name->str);
   dest->midi_instrument = g_string_new (src->midi_instrument->str);
+  
+  dest->no_of_lines = src->no_of_lines;
   dest->transposition = src->transposition;
-
+  dest->space_above = src->space_above; /**< space above the staff used in the denemo gui */
+  dest->space_shorten = src->space_shorten; /**< space by the staff is shorter in height because of few staff lines */
+  dest->space_below = src->space_below; /**< space below the staff used in the denemo gui */
+  dest->range = src->range;/**<TRUE if range_hi,lo should be observed. */
+  dest->range_hi = src->range_hi;/**< highest note playable by instrument, mid_c_offset */
+  dest->range_lo = src->range_lo;/**< lowest note playable by instrument, mid_c_offset */
   dest->volume = src->volume;
   dest->voicecontrol = src->voicecontrol;
   dest->clef.type = src->clef.type;
