@@ -123,6 +123,8 @@ staff_copy (DenemoStaff * src, DenemoStaff * dest)
   dest->denemo_name = g_string_new (src->denemo_name->str);
   dest->lily_name = g_string_new (src->lily_name->str);
   dest->midi_instrument = g_string_new (src->midi_instrument->str);
+  dest->midi_channel = src->midi_channel;
+  dest->midi_prognum = src->midi_prognum;
   
   dest->no_of_lines = src->no_of_lines;
   dest->transposition = src->transposition;

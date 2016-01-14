@@ -916,7 +916,7 @@ updatescoreinfo (DenemoProject * gui)
 void
 deletescore (GtkWidget * widget, DenemoProject * gui)
 {
-  panic_all (); //g_print ("Reset synth\n");
+  
   free_movements (gui);
   score_status (gui, FALSE);
   if (gui->filename)
@@ -946,5 +946,6 @@ deletescore (GtkWidget * widget, DenemoProject * gui)
     g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
     force_lily_refresh (gui);
   }
+  panic_all (); //g_print ("Reset synth after deletescore()\n");
 }
 
