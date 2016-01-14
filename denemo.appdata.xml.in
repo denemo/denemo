@@ -35,4 +35,15 @@
  </screenshots>
  <updatecontact>denemo-devel@gnu.org</updatecontact>
  <project_group>Denemo</project_group>
+ <keywords>
+    <keyword>Music</keyword>
+    <keyword>Notation</keyword>
+    <keyword>Score</keyword>
+    <keyword>Editor</keyword>
+    <keyword>Typesetter</keyword>
+    <keyword>LilyPond</keyword>
+    <keyword>Scorewriter</keyword>
+    <keyword>MIDI</keyword>
+    <keyword>Music</keyword>
+ </keywords>
 </application>
