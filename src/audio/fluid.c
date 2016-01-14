@@ -31,10 +31,19 @@ void reset_synth_channels (void)
   gint i;
   for (i = 0; i < 16; i++)
     fluid_synth_program_change (synth, i, 0);
-
-  if (Denemo.prefs.pitchspellingchannel)
-    fluid_synth_program_change (synth, Denemo.prefs.pitchspellingchannel, Denemo.prefs.pitchspellingprogram);
-  set_tuning ();
+  if (Denemo.project && Denemo.project->movement)
+    {
+    DenemoMovement *si = Denemo.project->movement;
+    GList *curstaff;
+    for (curstaff = si->thescore; curstaff; curstaff=curstaff->next)
+        {
+        DenemoStaff *curstaffstruct = (DenemoStaff *) curstaff->data;//g_print ("Reset staff program chan %d to prog %d\n", curstaffstruct->midi_channel, curstaffstruct->midi_prognum);
+        fluid_synth_program_change (synth, curstaffstruct->midi_channel, curstaffstruct->midi_prognum);
+        }
+    }
+    if (Denemo.prefs.pitchspellingchannel)
+        fluid_synth_program_change (synth, Denemo.prefs.pitchspellingchannel, Denemo.prefs.pitchspellingprogram);
+    set_tuning ();
 }
 
 int

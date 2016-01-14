@@ -4781,7 +4781,7 @@ new_project(gboolean new_movement)
     point_to_new_movement (project);
     project->movements = g_list_append (NULL, project->movement);
   }
-  
+
   return project;
 }
 
@@ -5063,6 +5063,6 @@ newtab (void)
     }
   if (have_midi () && Denemo.prefs.startmidiin)
     project->input_source = INPUTMIDI;
-
+  panic_all (); //g_print ("Reset synth as part of newtab()\n");
 }                               /* end of newtab creating a new DenemoProject holding one musical score */
 
