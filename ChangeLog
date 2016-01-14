@@ -1,3 +1,50 @@
+2016-01-14 Release 2.0.2
+
+    Playback View
+        Fully Typeset View
+        Click to Play
+        Drag to play selection
+        Shift-Drag to loop
+        Auto-scrolling
+            Simple Scrolling
+            Multiple Scroll Points (tempo changes etc)
+        Play from full score while scrolling a part
+        Fully-featured MIDI
+            Cresc. and Dim.
+            Articulations (staccato etc)
+            Grace Notes
+            Individual Tied Notes in Chords
+            Sustain Pedal … more
+    LilyPond Export
+        One file per part
+        Output divided into measure per line
+        Measure Number every 10th measure
+        All Staffs
+        All Movements
+    Staff/Voice Editor Improvements
+        Navigate to other staffs within editor
+        Visibility/editing of clef, key, time signatures
+        Guidance for voices typeset on one staff
+    Dynamics Lines
+        Display on single line
+        Distinctive coloring
+    Instrument Ranges
+        Out-of-range notes colored red
+        Easy one-click setting to chord
+    Instrument Templates
+        Add staffs pre-configured for chosen instrument
+        Name, range and transposition included
+    Substituting Music
+        Replace music of one staff with that of another
+        Use, e.g. to typeset Chord Symbols and Fret Diagrams from one set of chords
+    Fret Diagrams
+        Include pre-defined Mandolin and Ukulele
+        Default is guitar
+    Tablature
+        Include example for 18th c Lute
+    Bug Fixes
+        Ornament with Accidentals above and/or below fixed
+
 2015-09-16 Release 2.0
     Object Inspector
         Full details of current object nicely formatted
