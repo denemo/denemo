@@ -2659,11 +2659,13 @@ parseScore (xmlNodePtr scoreElem, DenemoProject * gui, ImportType type)
 static gint
 parseMovement (xmlNodePtr childElem, DenemoProject * gui, ImportType type)
 {
-  int ret = 0;
-
+  gint ret = 0;
+  gint previous_staffnum = 0;
   DenemoMovement *si = gui->movement;
   if (type != ADD_STAFFS)
     gui->movements = g_list_append (gui->movements, gui->movement);
+  else
+    previous_staffnum = g_list_length(si->thescore);
   si->currentstaffnum = 0;
   sPrevStaffElem = NULL;
   ret = parseScore (childElem, gui, type);
@@ -2674,8 +2676,15 @@ parseMovement (xmlNodePtr childElem, DenemoProject * gui, ImportType type)
       g_warning ("Bad Denemo file");
       return -1;
     }
+  if (previous_staffnum)
+    {
+        curstaff = g_list_nth (si->thescore, previous_staffnum);
+        for(;curstaff;curstaff=curstaff->next)
+            ((DenemoStaff *) curstaff->data)->midi_channel = ((previous_staffnum) < 9 ? (previous_staffnum) : previous_staffnum + 1) & 0xF;
+    }
   for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
     {
+    
       staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
       staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
     }
@@ -2703,6 +2712,7 @@ parseMovement (xmlNodePtr childElem, DenemoProject * gui, ImportType type)
   set_rightmeasurenum (gui->movement);
   set_bottom_staff (gui);
   set_width_to_work_with (gui);
+
   return ret;
 }
 
