@@ -233,11 +233,21 @@ parse_dir_and_run_complex_test(gchar* path, const gchar* extension)
   }
 
   GList* files = find_files_with_ext(path, extension);
+  // Ensure a unique test case path if called multiple times.
+  // Use the given path and extension and append a counter to the end.
+  gchar* test_case_path_fragment = g_strconcat("/integration/open-and-save-complex-file-", path, "-", extension, "-", NULL);
+  int test_case_path_counter = 1;
+  gchar string_counter[10];
   while(files){
     filename = g_build_filename(path, files->data, NULL);
-    g_test_add ("/integration/open-and-save-complex-file", gchar*, filename, setup, test_open_save_complex_file, teardown);
+    g_snprintf(string_counter, 9, "%d", test_case_path_counter);
+    gchar* test_case_path = g_strconcat(test_case_path_fragment, string_counter, NULL);
+    g_test_add (test_case_path, gchar*, filename, setup, test_open_save_complex_file, teardown);
+    g_free(test_case_path);
+    test_case_path_counter ++;
     files = g_list_next(files);
   }
+  g_free(test_case_path_fragment);
 }
 
 int
@@ -265,8 +275,8 @@ main (int argc, char *argv[])
 
   parse_dir_and_run_complex_test(example_dir, ".denemo");
   parse_dir_and_run_complex_test(fixtures_dir, ".denemo");
-  parse_dir_and_run_complex_test(fixtures_dir, ".mxml");
-  parse_dir_and_run_complex_test(fixtures_dir, ".scm");
+  // parse_dir_and_run_complex_test(fixtures_dir, ".mxml");
+  // parse_dir_and_run_complex_test(fixtures_dir, ".scm");
 
   return g_test_run ();
 }
