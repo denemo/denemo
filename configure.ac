@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script. 
 AC_INIT([denemo], [2.0.1], [denemo-devel@gnu.org])
 AC_CONFIG_SRCDIR([src/core/main.c])
-AM_INIT_AUTOMAKE([tar-pax foreign]) 
+AM_INIT_AUTOMAKE([tar-pax foreign dist-xz])
 dnl AC_CANONICAL_SYSTEM
 AC_CONFIG_HEADER(config.h)
 
