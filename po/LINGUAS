@@ -1,2 +1,13 @@
 # Set of available languages.
-de es fr sv it ja cs pl
+# Please keep the list sorted alphabetically.
+ca
+cs
+da
+de
+en_GB
+es
+fr
+it
+ja
+pl
+sv
