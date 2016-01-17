@@ -692,7 +692,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
          (xmlChar *) prefs->field);}
 
 #define WRITEINTXMLENTRY(field){ \
-    gchar *def = g_strdup("Holds the interger value of the user's " #field " preference");\
+    gchar *def = g_strdup("Holds the integer value of the user's " #field " preference");\
     gint value = prefs->field;\
     gchar *curname = g_strdup_printf("DenemoPref_%s", #field);\
     define_scheme_int_variable(curname, value, def);\
@@ -701,7 +701,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   newXMLIntChild (child, (xmlChar *) #field,\
           prefs->field);}
 #define WRITEDOUBLEXMLENTRY(field){ \
-    gchar *def = g_strdup("Holds the interger value of the user's " #field " preference");\
+    gchar *def = g_strdup("Holds the integer value of the user's " #field " preference");\
     gdouble value = prefs->field;\
     gchar *curname = g_strdup_printf("DenemoPref_%s", #field);\
     define_scheme_double_variable(curname, value, def);\

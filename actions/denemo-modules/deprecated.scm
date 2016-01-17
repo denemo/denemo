@@ -140,7 +140,7 @@
 		
 		;check if Login/Building the Cookie was correct
 		(if (string-ci=? CookieStringReturn "CookieError")
-			(display "\nAn error occured while performing the task. Thats why the result of your Upload-Command is: ")
+			(display "\nAn error occurred while performing the task. Thats why the result of your Upload-Command is: ")
 			(GetLicenseAndBuildString))
 		);;;; End of OverwritePage 
 		

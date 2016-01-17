@@ -1700,7 +1700,7 @@ Chord Charts
     fakechord.c
 
 2006-10-02  <jjbenham@chicagoguitar.com>
-    * fixed a problem with scorewizard that occured on ppc architecture
+    * fixed a problem with scorewizard that occurred on ppc architecture
 
 2006-09-29  <jjbenham@chicagoguitar.com>
     * scorewizard apply button is hiden until the last page now

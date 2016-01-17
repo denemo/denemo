@@ -1078,7 +1078,7 @@ free_chunk (DenemoUndoData * chunk)
       g_free (chunk);
       break;
     default:
-      g_warning ("Uknown type of undo data %d", chunk->action);
+      g_warning ("Unknown type of undo data %d", chunk->action);
     }
 }
 

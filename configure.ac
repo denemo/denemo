@@ -128,7 +128,7 @@ PKG_CHECK_MODULES(FONTCONFIG, fontconfig >= 2.2.0)
 CFLAGS="$CFLAGS $FONTCONFIG_CFLAGS"
 LIBS="$LIBS $FONTCONFIG_LIBS"
 
-dnl The following is needed fot g_thread_init 
+dnl The following is needed for g_thread_init
 PKG_CHECK_MODULES(GTHREAD, gthread-2.0 >= 2.21.0)
 CFLAGS="$CFLAGS $GTHREAD_LIBS"
 LIBS="$LIBS $GTHREAD_LIBS"
