@@ -27,6 +27,8 @@ void edit_staff_properties (void);
 
 void edit_voice_properties (void);
 
+void set_modeaccs (gint * accs, gint number, gint mode);
+
 void initkeyaccs (gint * accs, gint number);
 
 //void dnm_setinitialkeysig (DenemoStaff * curstaff, gint tokey, gint type);

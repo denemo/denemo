@@ -1,4 +1,7 @@
 #include "keysig.h"
+#include "command/commandfuncs.h"
+#include "command/object.h"
+#include "core/utils.h"
 
 /**
  * Create a new keysignature object
