@@ -866,9 +866,29 @@ closewrapper (GtkAction * action, DenemoScriptParam* param)
 {
   if(!Denemo.non_interactive){
     GList *display;
-
-
+    gint unsaved = 0;
     for (display = Denemo.projects; display != NULL; display = g_list_next (display))
+      {
+          DenemoProject *project = (DenemoProject *)display->data; 
+          if (project->notsaved)
+                unsaved++;
+      }
+    if (unsaved>1)
+        { GString *options = g_string_new ("");
+            g_string_append_printf(options,"%s%c%s", _("Ask me about each"),'\0', _("Close all without saving"));
+            gchar *title = g_strdup_printf (_("You have %d score(s) unsaved"), unsaved);
+            gchar * response = get_option (title, options->str, options->len);
+            if (response != options->str)
+                {
+                    for (display = Denemo.projects; display != NULL; display = g_list_next (display))
+                        {
+                            DenemoProject *project = (DenemoProject *)display->data; 
+                                project->notsaved = FALSE;
+                        }
+                }
+        }
+
+    for (display = Denemo.projects; display != NULL; display = Denemo.projects)
       {
         Denemo.project = (DenemoProject *) display->data;
         if (close_gui_with_check (NULL, NULL) == FALSE)
