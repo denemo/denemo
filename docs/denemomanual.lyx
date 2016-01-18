@@ -3906,7 +3906,34 @@ height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
-Note tempo changes must have a metronome mark to take effect in the Playback
+Note: When not playing from the beginning of a piece the instruments will
+ only be correct if the MIDI channel assigned to each staff has been left
+ at the default value (channel 1 for staff 1 etc with channel 10 skipped).
+ If you have deleted/swapped staffs you may need to reset the MIDI channel
+ values.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Note: Tempo changes must have a metronome mark to take effect in the Playback
  View.
  Repeat them in the part if you are just typesetting the part.
 \end_layout
@@ -3931,8 +3958,34 @@ height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
-Note that currently text is generated with the wrong fonts in the Playback
+Note: That currently text is generated with the wrong fonts in the Playback
  View - (thought to be a LilyPond bug).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Note: LilyPond Version 2.19.x is needed for some MIDI features (e.g.
+ staccato).
+ Use the Preferences dialog, Externals tab to change which version of LilyPond
+ Denemo uses.
 \end_layout
 
 \end_inset
