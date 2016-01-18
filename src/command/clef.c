@@ -1,4 +1,6 @@
 #include "command/clef.h"
+#include "command/commandfuncs.h"
+#include "core/utils.h"
 
 /**
  * Create a new clef object
