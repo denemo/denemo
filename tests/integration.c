@@ -166,7 +166,7 @@ static void
 test_open_save_complex_file(gpointer fixture, gconstpointer data)
 {
   const gchar* input = (const gchar*) data;
-  gchar* filename = basename(input);
+  gchar* filename = g_path_get_basename(input);
   gchar* base_name = get_basename(filename);
   gchar* extension = g_strrstr (input, ".") + 1;
   
@@ -214,6 +214,7 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
     }
   }
   g_remove(output);
+  g_free(filename);
 }
 
 /*******************************************************************************
