@@ -40,12 +40,13 @@ compare_denemo_files(gchar* fileA, gchar* fileB){
   gboolean equals = (g_strcmp0(contentA, contentB) == 0);
 
   if(!equals){
-    if (g_test_trap_fork (0, 0))
+    if (g_test_subprocess ())
       {
         //TODO: Dynamically find diff path if possible
         execl("/usr/bin/diff", "/usr/bin/diff", fileA, fileB, NULL);
         g_warn_if_reached ();
       }
+    g_test_trap_subprocess (NULL, 0, 0);
     g_test_trap_assert_passed ();
   }
   
@@ -117,11 +118,12 @@ test_open_blank_file(gpointer fixture, gconstpointer data)
 {
   gchar* input = g_build_filename(fixtures_dir, "denemo", "blank.denemo", NULL);
   g_test_print("Opening %s\n", input);
-  if (g_test_trap_fork (0, 0))
+  if (g_test_subprocess ())
     {
       execl(DENEMO, DENEMO, "-n", "-e", input, NULL);
       g_warn_if_reached ();
     }
+  g_test_trap_subprocess (NULL, 0, 0);
   g_test_trap_assert_passed ();
 }
 
@@ -137,21 +139,23 @@ test_open_save_blank_file(gpointer fixture, gconstpointer data)
   gchar* input_contents = NULL;
   gchar* output_contents = NULL;
 
-  if (g_test_trap_fork (0, 0))
+  if (g_test_subprocess ())
     {
       gchar* scheme = g_strdup_printf("(d-SaveAs \"%s\")(d-Quit)", output);
       execl(DENEMO, DENEMO, "-n", "-e", "-a", scheme, input, NULL);
       g_warn_if_reached ();
     }
+  g_test_trap_subprocess (NULL, 0, 0);
   g_test_trap_assert_passed ();
 
   g_assert(g_file_test(output, G_FILE_TEST_EXISTS));
 
-  if (g_test_trap_fork (0, 0))
+  if (g_test_subprocess ())
     {
       execl(DENEMO, DENEMO, "-n", "-e", output, NULL);
       g_warn_if_reached ();
     }
+  g_test_trap_subprocess (NULL, 0, 0);
   g_test_trap_assert_passed ();
   
   g_assert(compare_denemo_files(input, output));
@@ -166,7 +170,7 @@ static void
 test_open_save_complex_file(gpointer fixture, gconstpointer data)
 {
   const gchar* input = (const gchar*) data;
-  gchar* filename = basename(input);
+  gchar* filename = g_path_get_basename(input);
   gchar* base_name = get_basename(filename);
   gchar* extension = g_strrstr (input, ".") + 1;
   
@@ -175,7 +179,7 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
   const gchar* reference = g_build_filename(ref_dir, extension, output_filename, NULL);
  
   g_test_print("Opening %s\n", input);
-  if (g_test_trap_fork (0, 0))
+  if (g_test_subprocess ())
     {
       gchar* scheme = g_strdup_printf("(d-SaveAs \"%s\")(d-Quit)", output);
       if(g_strcmp0("scm", extension) == 0)
@@ -184,16 +188,18 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
         execl(DENEMO, DENEMO, "-n", "-e", "-a", scheme, input, NULL);
       g_warn_if_reached ();
     }
+  g_test_trap_subprocess (NULL, 0, 0);
   g_test_trap_assert_passed ();
 
   
   g_test_print("Finding and reopening %s\n", output);
   g_assert(g_file_test(output, G_FILE_TEST_EXISTS));
-  if (g_test_trap_fork (0, 0))
+  if (g_test_subprocess ())
   {
     execl(DENEMO, DENEMO, "-n", "-e", output, NULL);
     g_warn_if_reached ();
   }
+  g_test_trap_subprocess (NULL, 0, 0);
   g_test_trap_assert_passed ();
 
   
@@ -214,6 +220,7 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
     }
   }
   g_remove(output);
+  g_free(filename);
 }
 
 /*******************************************************************************
