@@ -293,11 +293,11 @@ set_properties (struct callbackdata *cbdata)
 static gboolean
 staff_properties_change (void)
 {
-  DenemoMovement *si;
-  DenemoProject *gui;
-
+  DenemoProject *gui = Denemo.project;
+  DenemoMovement *si = gui->movement;
+  DenemoStaff *staffstruct = (DenemoStaff *) si->currentstaff->data;
   gboolean result = FALSE;
-  DenemoStaff *staffstruct;
+  
   GtkWidget *dialog;
   GtkWidget *notebook;
   GtkWidget *label;
@@ -305,46 +305,35 @@ staff_properties_change (void)
   GtkWidget *hbox;
   GtkWidget *entrywidget;
   static GString *entrycontent;
-  GList *instrument_list = NULL;
+  static GList *instrument_list = NULL;
   static struct callbackdata cbdata;
   gint i;
-
-  if (!instrument_list)
+  if (instrument_list)
     {
-      gint i;
-      gchar *name;
-      gint preset = 0, bank = 0;
-      gint npresets = ParseSoundfont (Denemo.prefs.fluidsynth_soundfont->str, 0, NULL, NULL, NULL);
-      if (npresets)
-        {
-          gchar **array = g_malloc0 (128 * sizeof (gchar *));
-          for (i = 0; i < npresets - 1; i++)
-            {
-              (void) ParseSoundfont (NULL, i, &name, &preset, &bank);
-              if (bank == 0) {
-                   array[preset&0x7F] = g_strdup ((gchar *) name);
-              }
-            }
-          for (i = 0; i < 128; i++)
-            if(array[i])
-                instrument_list = g_list_append(instrument_list, array[i]); 
-          g_free (array);
-        }
+            g_list_free_full (instrument_list, g_free);
+            instrument_list = NULL;
     }
-
-
-
   {
-    gui = Denemo.project;
-    si = gui->movement;
-    staffstruct = (DenemoStaff *) si->currentstaff->data;
-    /*  if(staffstruct->staff_prolog && staffstruct->staff_prolog->len) { */
-/*  warningdialog(_("This staff has a custom prolog for the staff.\n" */
-/*            "You will need to make your edits in the LilyPond window\n" */
-/*            "to see them in the print-out.")); */
-/*       } */
+  gint i;
+  gchar *name;
+  gint preset = 0, bank = 0;
+  gint npresets = ParseSoundfont (Denemo.prefs.fluidsynth_soundfont->str, 0, NULL, NULL, NULL);
+  if (npresets)
+    {
+      gchar **array = g_malloc0 (128 * sizeof (gchar *));
+      for (i = 0; i < npresets - 1; i++)
+        {
+          (void) ParseSoundfont (NULL, i, &name, &preset, &bank);
+          if (bank == 0) {
+               array[preset&0x7F] = g_strdup ((gchar *) name);
+          }
+        }
+      for (i = 0; i < 128; i++)
+        if(array[i])
+            instrument_list = g_list_append(instrument_list, array[i]); 
+      g_free (array);
+    }
   }
-
 
   if (!entrycontent)
     {
