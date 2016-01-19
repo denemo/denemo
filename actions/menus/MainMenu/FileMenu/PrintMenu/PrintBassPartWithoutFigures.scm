@@ -1,15 +1,17 @@
-;;;PrintBassWithoutFigures
-(let ((saved (d-GetSaved)) (name "Unfigured Bass Part"))
-    (define (do-staff)
-       (d-ShowFiguredBass)
-        (if (d-HasFigures)
-            (d-HideFiguredBass)
-            (d-NonPrintingStaff)))
-    (define (undo-staff)
-       (d-ShowFiguredBass)
-        (if (d-HasFigures)
-            (d-ShowFiguredBass)
-            (d-NonPrintingStaff)))
-    (ForAllMovements "(ForAllStaffs \"(do-staff)\")")
-    (d-CreateLayout name))
-    (ForAllMovements "(ForAllStaffs \"(undo-staff)\")"))
+;;;PrintBassPartWithoutFigures
+(let ((saved (d-GetSaved)) (params PrintBassPartWithoutFigures::params))
+    (if params
+         (ForAllMovements "(ForAllStaffs \"
+                                            (d-ShowFiguredBass)
+                                            (if (d-HasFigures)
+                                                (d-ShowFiguredBass)
+                                                (d-NonPrintingStaff))
+                                        \")")
+        (begin
+            (ForAllMovements  "(ForAllStaffs \"
+                                                (d-ShowFiguredBass)
+                                                (if (d-HasFigures)
+                                                    (d-HideFiguredBass)
+                                                    (d-NonPrintingStaff)) 
+                                                \")")
+            (d-InfoWithHook (_ "Bass figures are hidden. After printing dismiss this dialog to restore them.") "(d-PrintBassPartWithoutFigures 'finish)"))))
