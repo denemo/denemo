@@ -286,6 +286,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Allows the user to select a font returns a string describing the font. Takes an optional title.", DENEMO_SCHEME_PREFIX "SelectFont", scheme_select_font);
   install_scm_function (0, "Allows the user to select a color returns a list of r g b values between 0-255.\nTakes an optional title.", DENEMO_SCHEME_PREFIX "SelectColor", scheme_select_color);
   install_scm_function (0, "Takes a message as a string. Pops up the message for the user to take note of as a warning", DENEMO_SCHEME_PREFIX "WarningDialog", scheme_warningdialog);
+  install_scm_function (1, "Takes a message as a string amd a script. Pops up the message for the user to take note of as a informative message, runs the script when dismissed.", DENEMO_SCHEME_PREFIX "InfoWithHook", scheme_info_with_hook);
   install_scm_function (1, "Takes a message as a string and boolean noblock parameter. Pops up the message for the user to take note of as a informative message, blocks if noblock is #f", DENEMO_SCHEME_PREFIX "InfoDialog", scheme_infodialog);
   install_scm_function (0, "Takes a message as a string. Pops up the message inside of a pulsing progressbar", DENEMO_SCHEME_PREFIX "ProgressBar", scheme_progressbar);
   install_scm_function (0, "If running, Stops the ProgressBar.", DENEMO_SCHEME_PREFIX "ProgressBarStop", scheme_progressbar_stop);

@@ -196,6 +196,7 @@ SCM scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM mo
 SCM scheme_select_font (SCM);
 SCM scheme_select_color (SCM);
 SCM scheme_warningdialog (SCM);
+SCM scheme_info_with_hook (SCM message, SCM script);
 SCM scheme_infodialog (SCM message, SCM noblock);
 SCM scheme_progressbar (SCM);
 SCM scheme_progressbar_stop (void);

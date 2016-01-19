@@ -3563,6 +3563,41 @@ scheme_warningdialog (SCM msg)
   return msg;
 }
 
+
+static void info_response (GtkWidget *dialog, gint reponse_id, gchar *script)
+{
+    if (script)
+        call_out_to_guile (script);
+    gtk_widget_destroy (dialog);
+}
+
+
+SCM
+scheme_info_with_hook (SCM title, SCM hook)
+{
+  GtkWidget *dialog;
+  gchar *msg = NULL, *script = NULL;
+  if (scm_is_string (hook))
+    script = scm_to_locale_string (hook);
+  if (scm_is_string (title))
+    msg = scm_to_locale_string (title);
+  if (msg)
+    {
+    dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, "%s", msg);
+#ifdef G_OS_WIN32
+  gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE); //needed on windows because of a bug, not all text can be seen. 
+#endif
+      g_signal_connect (dialog, "response", G_CALLBACK (info_response), script);
+      gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
+      gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
+      gtk_widget_show_all (dialog);
+      return SCM_BOOL_T;
+  }
+  return SCM_BOOL_F;
+}
+
+
+
 SCM
 scheme_infodialog (SCM msg, SCM noblock)
 {
