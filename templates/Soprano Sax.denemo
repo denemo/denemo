@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<score xmlns="http://denemo.org/xmlns/Denemo" version="8">
+  <lilycontrol>
+    <papersize>a4</papersize>
+    <fontsize>18</fontsize>
+    <orientation>1</orientation>
+    <total-edit-time>458</total-edit-time>
+    <score-directives>
+      <directive>
+        <tag>ScoreIndent</tag>
+        <prefix>\layout {indent = 30.6}
+</prefix>
+        <display>indent=30.6</display>
+        <data>30.6</data>
+        <override>4</override>
+      </directive>
+    </score-directives>
+  </lilycontrol>
+  <movement-number>1</movement-number>
+  <movement>
+    <edit-info>
+      <staffno>1</staffno>
+      <measureno>1</measureno>
+      <cursorposition>0</cursorposition>
+      <tonalcenter>0</tonalcenter>
+      <zoom>100</zoom>
+      <system-height>100</system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
+    </edit-info>
+    <score-info>
+      <tempo>
+        <duration>
+          <numerator>1</numerator>
+          <denominator>4</denominator>
+        </duration>
+        <bpm>120</bpm>
+      </tempo>
+    </score-info>
+    <staves>
+      <staff id="id0"></staff>
+    </staves>
+    <voices>
+      <voice id="id1">
+        <voice-info>
+          <voice-name>Soprano Sax in Bb</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <staff-range-lo>-1</staff-range-lo>
+          <staff-range-hi>18</staff-range-hi>
+          <staff-range>1</staff-range>
+          <voice-control>1</voice-control>
+          <transpose>-2</transpose>
+          <instrument>Soprano Sax</instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>64</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+                    (if choice (choice)))    " "Soprano Sax in Bb" }</postfix>
+              <display>Soprano Sax in Bb</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>MidiInstrumentName</tag>
+              <postfix>\set Staff.midiInstrument = #"soprano sax" </postfix>
+              <display>soprano Sax</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
+        <measures>
+          <measure></measure>
+        </measures>
+      </voice>
+    </voices>
+  </movement>
+</score>
