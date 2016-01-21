@@ -44,12 +44,11 @@ teardown(gpointer fixture, gconstpointer data)
 static void
 test_run_and_quit (gpointer fixture, gconstpointer data)
 {
-  if (g_test_subprocess ())
+  if (g_test_trap_fork (0, 0))
     {
       execl(DENEMO, DENEMO, "-n", "-e", "-a", "(d-Quit)", NULL);
       g_warn_if_reached ();
     }
-  g_test_trap_subprocess (NULL, 0, 0);
   g_test_trap_assert_passed ();
 }
 
@@ -59,12 +58,11 @@ test_run_and_quit (gpointer fixture, gconstpointer data)
 static void
 test_invalid_scheme(gpointer fixture, gconstpointer data)
 {
-  if (g_test_subprocess ())
+  if (g_test_trap_fork (0, 0))
     {
       execl(DENEMO, DENEMO, "-n", "--fatal-scheme-errors", "-a", "(d-InvalidSchemeFunction)(d-Quit)", NULL);
       g_warn_if_reached ();
     }
-  g_test_trap_subprocess (NULL, 0, 0);
   g_test_trap_assert_failed ();
 }
 
@@ -74,7 +72,7 @@ test_invalid_scheme(gpointer fixture, gconstpointer data)
 static void
 test_scheme_log(gpointer fixture, gconstpointer data)
 {
-  if (g_test_subprocess ())
+  if (g_test_trap_fork (0, 0))
     {
       execl(DENEMO, DENEMO, "-n", "-e", "--verbose", "-a",
             "(d-Debug \"This is debug\")"
@@ -86,7 +84,6 @@ test_scheme_log(gpointer fixture, gconstpointer data)
             NULL);
       g_warn_if_reached ();
     }
-  g_test_trap_subprocess (NULL, 0, 0);
   g_test_trap_assert_passed ();
 }
 
@@ -96,12 +93,11 @@ test_scheme_log(gpointer fixture, gconstpointer data)
 static void
 test_scheme_log_error(gpointer fixture, gconstpointer data)
 {
-  if (g_test_subprocess ())
+  if (g_test_trap_fork (0, 0))
     {
       execl(DENEMO, DENEMO, "-n", "--fatal-scheme-errors", "-a", "(d-Error \"This error is fatal\")(d-Quit)", NULL);
       g_warn_if_reached ();
     }
-  g_test_trap_subprocess (NULL, 0, 0);
   g_test_trap_assert_failed ();
 }
 
@@ -116,13 +112,12 @@ test_thumbnailer(gpointer fixture, gconstpointer data)
   gchar* input = g_build_filename(data_dir, "denemo", "blank.denemo", NULL);
   
   g_test_print("Running scheme: %s %s\n", scheme, input);
-  if (g_test_subprocess ())
+  if (g_test_trap_fork (0, 0))
     {
       execl(DENEMO, DENEMO, "-n", "-e", "-V", "-a", scheme, input, NULL);
       g_warn_if_reached ();
     }
 
-  g_test_trap_subprocess (NULL, 0, 0);
   g_test_trap_assert_passed ();
   g_assert(g_file_test(thumbnail, G_FILE_TEST_EXISTS));
   g_assert(g_remove(thumbnail) >= 0);
