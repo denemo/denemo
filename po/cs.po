@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: denemo-2.0.2-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2016-01-14 14:58+0000\n"
-"PO-Revision-Date: 2016-01-18 21:09+0100\n"
+"PO-Revision-Date: 2016-01-20 22:35+0100\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "Language: cs\n"
@@ -2425,12 +2425,7 @@ msgid "Not in menu system. You can create a palette button for it using the Add 
 msgstr "Není v nabídkovém systému. Můžete pro to vytvořit tlačítko palety pomocí tlačítka Přidat do palety."
 
 #: ../src/core/kbd-custom.c:2261
-#, fuzzy, c-format
-#| msgid ""
-#| "Command: %s\n"
-#| "%s\n"
-#| "Location: %s\n"
-#| "Internal Name: %s"
+#, c-format
 msgid ""
 "%sCommand: %s\n"
 "%s\n"
@@ -17846,10 +17841,8 @@ msgstr "Skryje předmět v poloze ukazatele pokynem LilyPondu. Nyní jen noty a 
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/InstallCue.scm:9
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.scm:16
-#, fuzzy
-#| msgid "Tiny Staff"
 msgid " on Staff "
-msgstr "Maličká osnova"
+msgstr " na osnově "
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/InstallCue.scm:11
 msgid "Transpose Cue"
@@ -18254,10 +18247,8 @@ msgid "Choose Voice"
 msgstr "Vybrat hlas"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/Voices/VoiceSetting.xml.h:2
-#, fuzzy
-#| msgid "The Voice 1,2,3,4 commands set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice command returns all the voice settings to the neutral default directions"
 msgid "The Voice 1,2,3,4 commands set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice command returns all the voice settings to the neutral default directions. The Denemo display shows automatic stem directions, use StemDown and StemUp commands if you wish to affect the display."
-msgstr "Příkazy pro hlas 1, 2, 3, 4 nastavují hlasy tak, aby první a třetí hlas měly nožičky nahoru, druhý a čtvrtý hlas měly nožičky dolů. Hlavičky not třetího a čtvrtého hlasu jsou vodorovně posunuty, a pomlky v příslušných hlasech jsou automaticky posunuty, aby se vyhnuly střetu. Příkaz pro automatický hlas vrací všechna nastavení hlasů k neutrálním výchozím směrům"
+msgstr "Příkazy pro hlas 1, 2, 3, 4 nastavují hlasy tak, aby první a třetí hlas měly nožičky nahoru, druhý a čtvrtý hlas měly nožičky dolů. Hlavičky not třetího a čtvrtého hlasu jsou vodorovně posunuty, a pomlky v příslušných hlasech jsou automaticky posunuty, aby se vyhnuly střetu. Příkaz pro automatický hlas vrací všechna nastavení hlasů k neutrálním výchozím směrům. Zobrazení Denema automaticky ukazuje směry nožiček. Pokud chcete zobrazení ovlivnit, použijte příkazy StemDown a StemUp."
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/Void.xml.h:1
 msgid "Hide Next"
@@ -18674,10 +18665,8 @@ msgid "Checks each Denemo measure in the current movement for complete number of
 msgstr "Ověří, že každý takt Denemo v nynější větě má úplný počet dob. Dokud to přímo nenastavíte jinak, budou noty při sazbě přerozděleny do správných taktů, což může vést k divným následkům."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/CheckTimeSignatures.scm:12
-#, fuzzy
-#| msgid "Time Signature does not match"
 msgid "Time Signature does not match "
-msgstr "Taktová označení neodpovídá"
+msgstr "Taktové označení neodpovídá "
 
 #: ../actions/menus/ObjectMenu/MovementMenu/CheckTimeSignatures.scm:27
 msgid "Time Signature not at start of measure"
@@ -18751,10 +18740,8 @@ msgid "Edit markup:"
 msgstr "Upravit značení:"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/MarkupAtEnd.xml.h:1
-#, fuzzy
-#| msgid "Next Movement"
 msgid "Text after Movement"
-msgstr "Další věta"
+msgstr "Text po větě"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/MarkupAtEnd.xml.h:2
 msgid "Inserts the given Lilypond markup syntax after the current movement."
@@ -19122,14 +19109,12 @@ msgstr "Vytiskne název zadaný pod názvem této věty."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementTitles.xml.h:1
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitles.xml.h:1
-#, fuzzy
-#| msgid "Score Titles"
 msgid "Set Titles"
-msgstr "Názvy notového zápisu"
+msgstr "Nastavit názvy"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementTitles.xml.h:2
 msgid "Set titles for this movement. The names of the various titles are just suggestions, any sort of title can be placed in any field. See the manual for the default positioning of each title."
-msgstr ""
+msgstr "Nastavit názvy pro tuto větu. Pojmenování různých názvů jsou pouze návrhy. Do kteréhokoli pole lze umístit jakýkoli druh názvu. Podívejte se do příručky, kde je vysvětleno umístění všech názvů."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementTitle.xml.h:2
 msgid "Prints the name given as a title above the current movement."
@@ -19985,26 +19970,20 @@ msgid "Duplicates the current note or chord at the cursor. Not for rests."
 msgstr "Zdvojit nynější notu nebo akord v poloze ukazatele. Není to pro pomlky."
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/DuplicateRestNoteChord.xml.h:1
-#, fuzzy
-#| msgid "Duplicate Note/Chord"
 msgid "Duplicate Rest, Note, Chord"
-msgstr "Zdvojit notu/akord"
+msgstr "Zdvojit pomlku, notu, akord"
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/DuplicateRestNoteChord.xml.h:2
-#, fuzzy
-#| msgid "Duplicates the current note or chord at the cursor. Not for rests."
 msgid "Duplicates the rest, note or chord at or before the cursor."
-msgstr "Zdvojit nynější notu nebo akord v poloze ukazatele. Není to pro pomlky."
+msgstr "Zdvojí pomlku, notu nebo akord v poloze ukazatele nebo před ukazatelem."
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/FillMeasure.xml.h:1
-#, fuzzy
-#| msgid "Fill Empty Measures"
 msgid "Fill Measure"
-msgstr "Vyplnit prázdné takty"
+msgstr "Vyplnit takt"
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/FillMeasure.xml.h:2
 msgid "Duplicates the note/chord/rest at or before the cursor until the measure is full or over-full. In a full measure duplicates the measure, in an empty measure insert the current duration."
-msgstr ""
+msgstr "Zdvojí pomlku, notu nebo akord v poloze ukazatele nebo před ukazatelem, dokud není takt naplněn nebo přeplněn. V plném taktu zdvojí takt, v prázdném taktu vloží nynější dobu trvání."
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertBreve.xml.h:2
 msgid "Insert Breve"
@@ -20651,16 +20630,12 @@ msgid "Custom"
 msgstr "Vlastní"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:20
-#, fuzzy
-#| msgid "accidentals"
 msgid "No accidental above"
-msgstr "posuvky"
+msgstr "Žádná posuvka nad"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:21
-#, fuzzy
-#| msgid "Accidental Below"
 msgid "No accidental below"
-msgstr "Posuvka pod"
+msgstr "Žádná posuvka pod"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.xml.h:1
 msgid "Ornament with Accidentals"
@@ -21000,7 +20975,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.xml.h:2
 msgid "Attaches multi-line text which can include music snippets, transposing note/chord names, fret-diagrams, with control over bold, italic font size and more. Double quotes and {} must be paired - check with the Preview button before okaying the markup. Newlines are triggered by the paragraph sign."
-msgstr ""
+msgstr "Připojí víceřádkový text, jenž může zahrnout úryvky not, transponující názvy not/akordů, nákresy hmatníků, s ovládáním velikosti tučného, kurzivního písma a mnohé další. Dvojité uvozovky a {} musí být ve dvojici. To před odsouhlasením značení tlačítkem OK ověřte tlačítkem pro náhled. Nové řádky jsou započnuty znakem pro odstavec."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Congruentia.xml.h:1
 msgid "Congruentia"
@@ -21115,10 +21090,8 @@ msgid "Prints a footnote at the bottom of the current page. The mark is placed a
 msgstr "Zobrazí poznámku v dolní části nynější strany. Značka je umístěna nad notou v poloze ukazatele."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Glissando.scm:4
-#, fuzzy
-#| msgid "Minimum pixel width"
 msgid "Minimum Length"
-msgstr "Nejmenší šířka v pixelech"
+msgstr "Nejmenší délka"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Glissando.scm:10
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Glissando.xml.h:1
@@ -21127,7 +21100,7 @@ msgstr "Glissando"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Glissando.scm:10
 msgid "Give minimum length for glissando line: "
-msgstr ""
+msgstr "Zadejte nejmenší délku pro linku glissanda: "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Glissando.xml.h:2
 msgid "Inserts a glissando (portamento, slide), a line joining the notehead of this and the next note."
@@ -22095,16 +22068,12 @@ msgid "Inserts a start triplet or end tuplet alternately."
 msgstr "Vloží začátek trioly nebo případně konec nepravidelné rytmické skupiny."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletBracketsIfBeamed.xml.h:1
-#, fuzzy
-#| msgid "Tuplet Brackets On/Off"
 msgid "Tuplet Brackets if not Beamed"
-msgstr "Závorky nepravidelných rytmických skupin (zapnuto/vypnuto)"
+msgstr "Závorky nepravidelných rytmických skupin, pokud nejsou opatřeny trámcem"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletBracketsIfBeamed.xml.h:2
-#, fuzzy
-#| msgid "Turns tuplet brackets off/on for beamed notes (when printed)"
 msgid "Turns tuplet brackets off for beamed notes. Affects tuplets from the cursor onwards."
-msgstr "Zapne/Vypne závorky nepravidelných rytmických skupin pro noty s trámcem (při tisku)"
+msgstr "Zapne/Vypne závorky nepravidelných rytmických skupin pro noty s trámcem. Ovlivní nepravidelné rytmické skupiny od ukazatele dále."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletBrackets.xml.h:1
 msgid "Tuplet Brackets On/Off"
@@ -22144,30 +22113,24 @@ msgid "Turns the note on or before the cursor into a triplet of notes with the s
 msgstr "Udělá z noty v poloze ukazatele nebo před ní triolu z not o téže celkové době trvání."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletBrackets.scm:3
-#, fuzzy
-#| msgid "brackettips"
 msgid "No Brackets"
-msgstr "Konce závorek"
+msgstr "Žádné závorky"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletBrackets.scm:4
 msgid "Always Brackets"
-msgstr ""
+msgstr "Vždy závorky"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletBrackets.scm:5
-#, fuzzy
-#| msgid "Score is not saved"
 msgid "Bracket if not beamed"
-msgstr "Notový zápis není uložen"
+msgstr "Závorka, pokud není trámec"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletBrackets.xml.h:1
-#, fuzzy
-#| msgid "Tuplet Brackets On/Off"
 msgid "Tuplet Brackets"
-msgstr "Závorky nepravidelných rytmických skupin (zapnuto/vypnuto)"
+msgstr "Závorky nepravidelných rytmických skupin"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletBrackets.xml.h:2
 msgid "Choose whether tuplets should have brackets. Affects tuplets from the cursor onwards."
-msgstr ""
+msgstr "Vybrat, zda mají mít nepravidelné rytmické skupiny závorky. Ovlivní nepravidelné rytmické skupiny od ukazatele dále."
 
 #: ../actions/menus/ObjectMenu/Score/CheckScore.scm:76
 msgid "No problem detected in this score"
@@ -23119,7 +23082,7 @@ msgstr "Odstup značení od notové osnovy"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/MarkupSystemSpacingDist.xml.h:2
 msgid "Sets the basic distance between a (title or top-level) markup and the system that follows it."
-msgstr ""
+msgstr "Nastaví základní vzdálenost mezi značením (název nebo značení na nejvyšší úrovni) a osnovou, která je následuje."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/RaggedBottom.xml.h:1
 msgid "Ragged Bottom"
@@ -23139,25 +23102,21 @@ msgstr "Když je nastaveno, poslední řádek nebude roztažen, aby vyplnil řá
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreMarkupSpacingDist.scm:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreMarkupSpacingDist.xml.h:1
-#, fuzzy
-#| msgid "Start New Spacing"
 msgid "Score to Title Spacing"
-msgstr "Začít nové rozestupy"
+msgstr "Odstup notového zápisu od názvu"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreMarkupSpacingDist.xml.h:2
 msgid "Set the distance between the last system of a score and the (title or top-level) markup that follows it."
-msgstr ""
+msgstr "Nastavit vzdálenost mezi poslední osnovou notového zápisu a značením (název nebo značení na nejvyšší úrovni), které ji následuje."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreSystemSpacingDist.scm:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreSystemSpacingDist.xml.h:1
-#, fuzzy
-#| msgid "System to System Padding"
 msgid "Movement to First System Spacing"
-msgstr "Vycpání od osnovy k osnově"
+msgstr "Odstup věty od první notové osnovy"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreSystemSpacingDist.xml.h:2
 msgid "Set the distance between the last system of a movement and the first system of the movement that follows it, when no (title or top-level) markup exists between them."
-msgstr ""
+msgstr "Nastavit vzdálenost mezi poslední osnovou věty a první osnovou věty, která ji následuje, když mezi nimi neexistuje žádné značení (název nebo značení na nejvyšší úrovni)."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemsPerPage.scm:5
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemsPerPage.scm:8
@@ -23191,10 +23150,8 @@ msgstr "Umožní ovládat vycpávku mezi na straně dolů po sobě jdoucími osn
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemSystemSpacingDist.scm:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemSystemSpacingDist.xml.h:1
-#, fuzzy
-#| msgid "System to System Padding"
 msgid "System to System Spacing"
-msgstr "Vycpání od osnovy k osnově"
+msgstr "Odstup osnovy od osnovy"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemSystemSpacingDist.xml.h:2
 #, fuzzy
