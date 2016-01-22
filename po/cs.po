@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: denemo-2.0.2-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2016-01-14 14:58+0000\n"
-"PO-Revision-Date: 2016-01-20 22:35+0100\n"
+"PO-Revision-Date: 2016-01-21 21:06+0100\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "Language: cs\n"
@@ -9104,6 +9104,8 @@ msgid ""
 "This the Playback View Window. Click on a note to play from that note to the end. Click again to stop play. Drag between two notes to play from the first to the last, shift drag to create a loop. Click on a note and drag earlier to position the Denemo cursor on that note in the Denemo Display.\n"
 " For simple scrolling set an Intro Time (during which no scrolling happens) and a rate for scrolling during the remainder of the piece. Set the rate at 0 for no scrolling. For more sophisticated control right click on a note when you have scrolled the page to the position you want it to be at when it is playing. First right click at the start of the second system (this means that the music will not scroll before that); then scroll to position the end and right click the first note of the last system of the piece. If there are changes of pace then right click on the note where this happens once you have scrolled the page. Enter all scroll points in playing order."
 msgstr ""
+"Toto je okno s pohledem na přehrávání. Klepněte na notu, aby se od ní přehrávalo až do konce. Znovu klepněte pro zastavení přehrávání. Táhněte mezi dvěma notami, aby se přehrávalo od první po poslední. Stiskněte při tažení klávesu Shift, aby se vytvořila smyčka. Klepněte na notu a táhněte dříve k poloze ukazatele Denema na této notě v zobrazení Denema.\n"
+" Pro jednoduché projíždění nastavte čas předehry (během něhož se neděje žádné projíždění) a rychlost projíždění během připomínky díla. Nastavte rychlost na 0, aby se neprojíždělo. Důmyslnějšího ovládání dosáhnete, poté co stránku posunete k místu, na němž chcete aby při přehrávání byla, když na notu klepnete pravým tlačítkem myši. Nejprve klepněte pravým tlačítkem myši na začátek druhého notového systému (to znamená, že noty se nebudou projíždět před tímto); pak projíždějte k umístění konce a klepněte pravým tlačítkem myši na první notu posledního notového systému díla. Pokud jsou přítomny změny tempa (rychlosti), klepněte pravým tlačítkem myši na notu, kde to nastává, jakmile jste projel stranu. Zadejte všechny posunovací body v pořadí, v jakém se přehrává."
 
 #: ../src/printview/svgview.c:694 ../src/printview/svgview.c:724
 msgid "SVG creation"
@@ -10367,7 +10369,7 @@ msgstr "% Zvětšení"
 #: ../src/ui/prefdialog.c:550
 #, no-c-format
 msgid "% of display height per system"
-msgstr "% výšky zobrazení na osnovu"
+msgstr "% výšky zobrazení na notový systém"
 
 #.
 #. * Preferences to do with commands
@@ -10675,11 +10677,11 @@ msgstr "Až do opětovného spuštění Denema nebudou ovlivněny žádné změn
 
 #: ../src/ui/prefdialog.c:840
 msgid "Audio/MIDI Subsystem"
-msgstr "Subsystém Zvuk/MIDI"
+msgstr "Podřízený systém Zvuk/MIDI"
 
 #: ../src/ui/prefdialog.c:840
 msgid "Attempt to re-start the audio subsystem now?"
-msgstr "Pokusit se o opětovné spuštění zvukového subsystému?"
+msgstr "Pokusit se o opětovné spuštění zvukového podřízeného systému?"
 
 #: ../src/ui/scoreprops.c:58
 msgid "Custom LilyPond Score Block"
@@ -14071,7 +14073,7 @@ msgstr "Vysázet jen klíč"
 
 #: ../actions/menus/ObjectMenu/ClefMenu/TypesetOnlyClef.xml.h:2
 msgid "Inserts a clef that affects only the typesetting, not the display. Use this for music transposed on typesetting (avoiding too many ledger lines in the display, making it hard to read). Also useful to enter music in a familiar clef which you want to be printed in a less familiar one (e.g. enter music in treble or bass clef music to be printed for viola)."
-msgstr "Vloží klíč, který ovlivní jen tištěnou podobu, ne zobrazení. Použijte pro noty transponované při sazbě (kvůli vyhnutí se příliš mnoha horních rámových příčných čar v zobrazení, jež vedou k horší čitelnosti). Také je to užitečné pro zobrazení ve srozumitelném klíči u not, které chcete vytisknout v méně srozumitelném klíči (např. zobrazení v notách se sopránem nebo basem, který se má vytisknout pro violu)"
+msgstr "Vloží klíč, který ovlivní jen tištěnou podobu, ne zobrazení. Použijte pro noty převedené (transponované) při sazbě (kvůli vyhnutí se příliš mnoha horních rámových příčných čar v zobrazení, jež vedou k horší čitelnosti). Také je to užitečné pro zobrazení ve srozumitelném klíči u not, které chcete vytisknout v méně srozumitelném klíči (např. zobrazení v notách se sopránem nebo basem, který se má vytisknout pro violu)"
 
 #: ../actions/menus/ObjectMenu/Directives/CheckDirectivePairs.scm:17
 msgid "Bad End Cue Marker"
@@ -19142,7 +19144,7 @@ msgstr "Při tisku vynechá taktové čáry."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffs.scm:9
 msgid "Empty Systems Hidden"
-msgstr "Prázdné osnovy skryty"
+msgstr "Prázdné notové systémy skryty"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffs.xml.h:1
 msgid "Hide Empty Staffs (Off/On)"
@@ -19150,7 +19152,7 @@ msgstr "Skrýt prázdné osnovy (zapnuto/vypnuto)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffs.xml.h:2
 msgid "Controls whether staffs containing only rests are printed in the current movement. All staffs are printed on the first system (line) thereafter any staff that has only rests for a entire system is dropped. Use this in large scores to fit more systems per page."
-msgstr "Řídí, zda jsou v nynější větě tištěny osnovy, které obsahují pouze pomlky. Všechny osnovy jsou tištěny na (řádku) první osnovy, a proto jsou všechny osnovy, které mají v celé osnově pouze pomlky, zahozeny. Použijte ve velkých notových zápisech, aby se na stránku vešlo více osnov."
+msgstr "Řídí, zda jsou v nynější větě tištěny osnovy, které obsahují pouze pomlky. Všechny osnovy jsou tištěny na (řádku) prvního notového systému, a proto jsou všechny osnovy, které mají v celém notovém systému pouze pomlky, zahozeny. Použijte ve velkých notových zápisech, aby se na stránku vešlo více notových systémů."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/HideMovement.scm:11
 msgid "Movement will be typeset normally"
@@ -19291,7 +19293,7 @@ msgstr "Trojúhelníkový styl notové hlavičky pro nynější větu."
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.scm:6
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreIndent.scm:8
 msgid "Choose indent of first system"
-msgstr "Vybrat odsazení první osnovy"
+msgstr "Vybrat odsazení prvního notového systému"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.scm:6
 msgid "Give amount as decimal"
@@ -23040,11 +23042,11 @@ msgstr "Nastavit velikost strany. Potlačí výchozí velikost strany nastavenou
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/LastBottomSpacingDist.scm:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/LastBottomSpacingDist.xml.h:1
 msgid "Last System to Bottom Spacing"
-msgstr "Odstup poslední osnovy od dolního okraje"
+msgstr "Odstup posledního notového systému od dolního okraje"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/LastBottomSpacingDist.xml.h:2
 msgid "Set the distance from the last system or top-level markup on a page to the bottom of the printable area (i.e. the top of the bottom margin)."
-msgstr "Nastavit vzdálenost poslední notové osnovy nebo značení na nejvyšší úrovni na straně od spodního okraje tisknutelné oblasti (to znamená vršek dolního okraje)"
+msgstr "Nastavit vzdálenost posledního notového systému nebo značení na nejvyšší úrovni na straně od spodního okraje tisknutelné oblasti (to znamená vršek dolního okraje)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/LimitInterSystemSpace.scm:12
 msgid "Spacing Between Systems"
@@ -23082,7 +23084,7 @@ msgstr "Odstup značení od notové osnovy"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/MarkupSystemSpacingDist.xml.h:2
 msgid "Sets the basic distance between a (title or top-level) markup and the system that follows it."
-msgstr "Nastaví základní vzdálenost mezi značením (název nebo značení na nejvyšší úrovni) a osnovou, která je následuje."
+msgstr "Nastaví základní vzdálenost mezi značením (název nebo značení na nejvyšší úrovni) a notovým systémem, který je následuje."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/RaggedBottom.xml.h:1
 msgid "Ragged Bottom"
@@ -23090,7 +23092,7 @@ msgstr "Nezarovnaná pata"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/RaggedBottom.xml.h:2
 msgid "This turns ragged bottom off/on. If set, systems will not spread vertically down the page. This does not affect the last page. This should be set for pieces that have only two or three systems per page, for example orchestral scores."
-msgstr "Toto zapne/vypne nezarovnanou spodní část. Je-li nastaveno, osnovy se nebudou šířit svisle dolů na straně. Neovlivňuje to poslední stranu. Mělo by se nastavovat u kusů, jež mají jen dvě nebo tři osnovy na straně, což jsou například notové zápisy pro orchestr."
+msgstr "Toto zapne/vypne nezarovnanou spodní část. Je-li nastaveno, notové systémy se nebudou šířit svisle dolů na straně. Neovlivňuje to poslední stranu. Mělo by se nastavovat u kusů, jež mají jen dvě nebo tři osnovy na straně, což jsou například notové zápisy pro orchestr."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/RaggedLast.xml.h:1
 msgid "Ragged Last"
@@ -23107,30 +23109,30 @@ msgstr "Odstup notového zápisu od názvu"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreMarkupSpacingDist.xml.h:2
 msgid "Set the distance between the last system of a score and the (title or top-level) markup that follows it."
-msgstr "Nastavit vzdálenost mezi poslední osnovou notového zápisu a značením (název nebo značení na nejvyšší úrovni), které ji následuje."
+msgstr "Nastavit vzdálenost mezi posledním notovým systémem notového zápisu a značením (název nebo značení na nejvyšší úrovni), které jej následuje."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreSystemSpacingDist.scm:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreSystemSpacingDist.xml.h:1
 msgid "Movement to First System Spacing"
-msgstr "Odstup věty od první notové osnovy"
+msgstr "Odstup věty od prvního notového systému"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreSystemSpacingDist.xml.h:2
 msgid "Set the distance between the last system of a movement and the first system of the movement that follows it, when no (title or top-level) markup exists between them."
-msgstr "Nastavit vzdálenost mezi poslední osnovou věty a první osnovou věty, která ji následuje, když mezi nimi neexistuje žádné značení (název nebo značení na nejvyšší úrovni)."
+msgstr "Nastavit vzdálenost mezi posledním notovým systémem a první osnovou věty, která jej následuje, když mezi nimi neexistuje žádné značení (název nebo značení na nejvyšší úrovni)."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemsPerPage.scm:5
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemsPerPage.scm:8
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemsPerPage.xml.h:1
 msgid "Systems Per Page"
-msgstr "Osnov na stranu"
+msgstr "Notových systémů na stranu"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemsPerPage.scm:5
 msgid "Give required systems (lines) per page: "
-msgstr "Zadat požadovaný počet osnov (řádků) na stranu: "
+msgstr "Zadat požadovaný počet notových systémů (řádků) na stranu: "
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemsPerPage.xml.h:2
 msgid "Forces a specific number of systems (lines of music) per page."
-msgstr "Vynutí určitý počet osnov (notových řádků) na stranu."
+msgstr "Vynutí určitý počet notových systémů (notových řádků) na stranu."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemSystemPadding.scm:17
 msgid "Padding Between Systems"
@@ -23138,48 +23140,42 @@ msgstr "Vycpání mezi notovými systémy"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemSystemPadding.scm:17
 msgid "Give extra padding (1=no extra space, staff units)"
-msgstr "Udat vycpání navíc (1 = žádný prostor navíc)"
+msgstr "Udat vycpání navíc (1 = žádný prostor navíc, jednotky osnovy)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemSystemPadding.xml.h:1
 msgid "System to System Padding"
-msgstr "Vycpání od osnovy k osnově"
+msgstr "Vycpání od notového systému k notovému systému"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemSystemPadding.xml.h:2
 msgid "Allows control over the padding between successive systems down the page. (A system is all the staffs representing the music at one time, sometimes called a \"line\" of music)."
-msgstr "Umožní ovládat vycpávku mezi na straně dolů po sobě jdoucími osnovami. (Osnovou jsou všechny osnovy představující noty současně. Někdy se jí říká hudební linie)."
+msgstr "Umožní ovládat vycpávku mezi na straně dolů po sobě jdoucími notovými systémy. (Notovým systémem jsou všechny osnovy představující noty současně. Někdy se mu říká notový řádek)."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemSystemSpacingDist.scm:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemSystemSpacingDist.xml.h:1
 msgid "System to System Spacing"
-msgstr "Odstup osnovy od osnovy"
+msgstr "Odstup od notového systému k notovému systému"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemSystemSpacingDist.xml.h:2
-#, fuzzy
-#| msgid "Limit on space between systems removed"
 msgid "Set the distance between systems."
-msgstr "Omezení na mezeru mezi notovými systémy odstraněno"
+msgstr "Nastavit vzdálenost mezi notovými systémy."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/TopMarkupSpacingDist.scm:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/TopMarkupSpacingDist.xml.h:1
-#, fuzzy
-#| msgid "Proportional Note Spacing"
 msgid "Top to Title Spacing"
-msgstr "Poměrné rozestupy not"
+msgstr "Odstup mezi začátkem a názvem"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/TopMarkupSpacingDist.xml.h:2
 msgid "Set the distance from the top of the printable area (i.e. the bottom of the top margin) to the first (title or top-level) markup on a page, when there is no system between the two."
-msgstr ""
+msgstr "Nastavit vzdálenost od začátku tisknutelné oblasti (to jest spodek horního okraje) k prvnímu značení (název nebo značení na nejvyšší úrovni) na straně, když mezi nimi není žádný notový systém."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/TopSystemSpacingDist.scm:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/TopSystemSpacingDist.xml.h:1
-#, fuzzy
-#| msgid "System to System Padding"
 msgid "Top to System Spacing"
-msgstr "Vycpání od osnovy k osnově"
+msgstr "Odstup mezi začátkem a notovým systémem"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/TopSystemSpacingDist.xml.h:2
 msgid "Set the distance from the top of the printable area (i.e. the bottom of the top margin) to the first system on a page, when there is no (title or top-level) markup between the two."
-msgstr ""
+msgstr "Nastavit vzdálenost od začátku tisknutelné oblasti (to jest spodek horního okraje) k prvnímu notovému systému na straně, když mezi nimi není žádné značení (název nebo značení na nejvyšší úrovni)."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreChooseNotehead.xml.h:1
 msgid "Set Notehead Style"
@@ -23380,10 +23376,8 @@ msgid "Transpose"
 msgstr "Převést"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/TransposeOnPrint.xml.h:1
-#, fuzzy
-#| msgid "Could not start graphical interface."
 msgid "Transpose on Print (Graphical Interface)"
-msgstr "Nepodařilo se spustit obrazové rozhraní"
+msgstr "Převést (transponovat) při tisku (obrazové rozhraní)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/TransposeOnPrint.xml.h:2
 msgid "Gets an interval from the user: the entire score is transposed by this interval on typesetting - key signatures are transposed as well as notes and chord symbols."
@@ -23421,16 +23415,12 @@ msgstr ""
 "    "
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/TransposeScorePrint.xml.h:1
-#, fuzzy
-#| msgid "Transpose on Print"
 msgid "Transpose on Print (Text Input)"
-msgstr "Převést při tisku"
+msgstr "Převést při tisku (textové zadání)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/TransposeScorePrint.xml.h:2
-#, fuzzy
-#| msgid "Gets an interval from the user: the entire score is transposed by this interval on typesetting - key signatures are transposed as well as notes and chord symbols."
 msgid "Typesets the score transposed by the interval you give - key signatures are transposed as well as notes and chord symbols."
-msgstr "Získá interval od uživatele: Celý notový zápis je při sázení převeden o tento interval - předznamenání jsou převedena stejně jako noty a značky akordů."
+msgstr "Vysází notový zápis převedený o vámi zadaný interval - předznamenání jsou převedena (transponována) stejně jako noty a značky akordů."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/TrillIsPlus.xml.h:1
 msgid "Set Trill Style as +"
@@ -23603,14 +23593,12 @@ msgid "Removes incorrectly placed slur start/end markers on current voice/staff.
 msgstr "Odstraní nesprávně umístěné značky začátků/konců legatových obloučků v nynějším hlase/osnově."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/AddInstrumentStaff.xml.h:1
-#, fuzzy
-#| msgid "Add Staff Before"
 msgid "Add Staff for Instrument"
-msgstr "Přidat notovou osnovu před"
+msgstr "Přidat notovou osnovu pro nástroj"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/AddInstrumentStaff.xml.h:2
 msgid "Adds a staff at the bottom for the instrument selected from the templates/instruments directory. The name and range of the instrument is set with any transposition for playback if needed."
-msgstr ""
+msgstr "Přidá dole notovou osnovu pro nástroj vybraný z adresáře s předlohami/nástroji. Název a rozsah nástroje je, pokud je to třeba, nastaven s jakoukoli transpozicí pro přehrávání."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/CouleStaff.scm:4
 msgid "This staff creates notes drawn as a diagonal line. Use these to create a coule between two notes another part."
@@ -23625,42 +23613,29 @@ msgid "Adds a voice to the current staff which typesets notes as a slanting line
 msgstr "Přidá hlas do nynější osnovy, který sází noty jako zešikmenou čáru - coulé). Hlavní hlas poskytne noty akordu, a tento poskytne coulé mezi nimi."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/DynamicsStaff.scm:30
-#, fuzzy
-#| msgid ""
-#| "This staff is purely for holding cresc. dim hairpins and dynamic markings so that they can be positioned (using dummy notes or spacers) and will align with each other. Create this between the staffs for a piano work or on any staff where alignment of hairpins and dynamic marks is needed.\n"
-#| "WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!\n"
-#| "It must have the same staff name as the staff it should appear on."
 msgid ""
 "This line (\"staff\") is for holding cresc. dim hairpins and dynamic markings so that they can be positioned (using dummy notes, colored blue) and will align with each other. Create this between the staffs for a piano work or on any staff where alignment of hairpins and dynamic marks is needed.\n"
 "WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!\n"
 "This Dynamics \"staff\" must have the same part name as the staff the dynamics should appear on."
 msgstr ""
-"Tato osnova je určena čistě k tomu, aby držela sponky crescenda/decrescenda a značky dynamiky, aby se daly umístit (pomocí jakýchkoli not nebo prostorových vymezovačů), a byly zarovnány navzájem. Vytvořte mezi notovými osnovami pro klavír nebo na jakékoli osnově, kde je potřeba zarovnání sponek a značek pro dynamiku.\n"
+"Tento řádek (tato notová osnova) je určen čistě k tomu, aby držel svorky crescenda/decrescenda a značky dynamiky, aby se daly umístit (pomocí předstíraných not obarvených na modro) a byly zarovnány navzájem. Vytvořte jej mezi notovými osnovami pro klavír nebo na jakékoli osnově, kde je potřeba zarovnání svorek a značek pro dynamiku.\n"
 "VAROVÁNÍ: Neumísťujte do této osnovy změny klíčů nebo jiné prvky bez doby trvání. Mohlo by to při sazbě vést k vytvoření samostatné osnovy!\n"
-"Musí to mít týž název osnovy jako má osnova, na níž se má objevit."
+"Tato notová osnova určená pro dynamiku musí mít týž název partu, jako má osnova, na níž se má dynamika objevit."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/DynamicsStaff.xml.h:1
 msgid "Add Staff for Dynamics"
 msgstr "Přidat osnovu pro dynamiku"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/DynamicsStaff.xml.h:2
-#, fuzzy
-#| msgid ""
-#| "This staff is purely for holding cresc. dim hairpins and dynamic markings so that they can be positioned (using dummy notes or spacers) and will align with each other. Create this between the staffs for a piano work or on any staff where alignment of hairpins and dynamic marks is needed.\n"
-#| "WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!\n"
-#| "It must have the same staff name as the staff it should appear on."
 msgid "\"This line (\\\"staff\\\") is for holding cresc. dim hairpins and dynamic markings so that they can be positioned (using dummy notes, colored blue) and will align with each other.\\nCreate this between the staffs for a piano work or on any staff where alignment of hairpins and dynamic marks is needed.\\nWARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!\\nThis Dynamics \\\"staff\\\" must have the same part name as the staff the dynamics should appear on.\""
-msgstr ""
-"Tato osnova je určena čistě k tomu, aby držela sponky crescenda/decrescenda a značky dynamiky, aby se daly umístit (pomocí jakýchkoli not nebo prostorových vymezovačů), a byly zarovnány navzájem. Vytvořte mezi notovými osnovami pro klavír nebo na jakékoli osnově, kde je potřeba zarovnání sponek a značek pro dynamiku.\n"
-"VAROVÁNÍ: Neumísťujte do této osnovy změny klíčů nebo jiné prvky bez doby trvání. Mohlo by to při sazbě vést k vytvoření samostatné osnovy!\n"
-"Musí to mít týž název osnovy jako má osnova, na níž se má objevit."
+msgstr "Tento řádek (\\\"staff\\\") je určen čistě k tomu, aby držel svorky crescenda/decrescenda a značky dynamiky, aby se daly umístit (pomocí předstíraných not obarvených na modro) a byly zarovnány navzájem.\\nVytvořte jej mezi notovými osnovami pro klavír nebo na jakékoli osnově, kde je potřeba zarovnání svorek a značek pro dynamiku.\\nVAROVÁNÍ: Neumísťujte do této osnovy změny klíčů nebo jiné prvky bez doby trvání. Mohlo by to při sazbě vést k vytvoření samostatné osnovy!\\nTato \\\"notová osnova\\\" určená pro dynamiku musí mít týž název partu, jako má osnova, na níž se má dynamika objevit."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MarksStaff.scm:22
 msgid ""
 "This staff is purely for holding marks that should appear once at the top of the system - avoiding having to put the marks in each part. It must have a blank part name, so that it is typeset with every part. The marks should be spaced using either dummy notes or spacers.\n"
 "WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!"
 msgstr ""
-"Tato osnova je určena čistě k tomu, aby držela značky, které se mají objevit jednou nahoře notového systému - cílem je vyhnout se položení značek do každého partu. Název partu musí být prázdný, aby to bylo vysázeno s každým partem. Značky by měly být rozestavěny buď pomocí nastrčených not nebo prostorových vymezovačů)\n"
+"Tato osnova je určena čistě k tomu, aby držela značky, které se mají objevit jednou nahoře notového systému - cílem je vyhnout se položení značek do každého partu. Název partu musí být prázdný, aby to bylo vysázeno s každým partem. Značky by měly být rozestavěny buď pomocí nastrčených not nebo prostorových vymezovačů).\n"
 "VAROVÁNÍ: Neumísťujte do této osnovy změny klíčů nebo jiné prvky bez doby trvání. Mohlo by to při sazbě vést k vytvoření samostatné osnovy!"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MarksStaff.xml.h:1
@@ -23670,7 +23645,7 @@ msgstr "Přidat osnovu pro značky"
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MarksStaff.xml.h:2
 msgid "This staff is purely for holding marks that should appear once at the top of the system - avoiding having to put the marks in each part. It must have a blank part name, so that it is typeset with every part. The marks should be spaced using either dummy notes or spacers.\\nWARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!"
 msgstr ""
-"Tato osnova je určena čistě k tomu, aby držela značky, které se mají objevit jednou nahoře notového systému - cílem je vyhnout se položení značek do každého partu. Název partu musí být prázdný, aby to bylo vysázeno s každým partem. Značky by měly být rozestavěny buď pomocí nastrčených not nebo prostorových vymezovačů)\n"
+"Tato osnova je určena čistě k tomu, aby držela značky, které se mají objevit jednou nahoře notového systému - cílem je vyhnout se položení značek do každého partu. Název partu musí být prázdný, aby to bylo vysázeno s každým partem. Značky by měly být rozestavěny buď pomocí nastrčených not nebo prostorových vymezovačů).\n"
 "VAROVÁNÍ: Neumísťujte do této osnovy změny klíčů nebo jiné prvky bez doby trvání. Mohlo by to při sazbě vést k vytvoření samostatné osnovy!"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm:77
@@ -23946,7 +23921,7 @@ msgstr "Začátek ChoirStaff"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/ChoirStaffStart.xml.h:2
 msgid "Start grouping single staves together in order to form multi-stave systems. In a ChoirStaff, the group starts with a bracket, but bar lines are not connected."
-msgstr "Začít seskupovat jednoduché notové osnovy dohromady, aby se vytvořila velká osnova z více notových osnov. V prostředí ChoirStaff skupina začíná závorkou, ale taktové čáry nejsou spojeny. "
+msgstr "Začít seskupovat jednoduché notové osnovy dohromady, aby se vytvořila velká osnova (notový systém) z více notových osnov. V prostředí ChoirStaff skupina začíná závorkou, ale taktové čáry nejsou spojeny. "
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/DeleteStaffGroupings.xml.h:1
 msgid "Delete all staff groupings"
@@ -23954,7 +23929,7 @@ msgstr "Smazat všechna seskupení osnov"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/DeleteStaffGroupings.xml.h:2
 msgid "Clear the staff from all groupings"
-msgstr "vyprázdnit osnovu od všech seskupení"
+msgstr "Vyprázdnit notovou osnovu od všech seskupení"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/GrandStaffStart.xml.h:1
 msgid "GrandStaff Start"
@@ -23962,7 +23937,7 @@ msgstr "Začátek GrandStaff"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/GrandStaffStart.xml.h:2
 msgid "Start grouping single staves together in order to form multi-stave systems. In a GrandStaff, the group begins with a brace, and bar lines are connected between the staves."
-msgstr "Začít seskupovat jednoduché notové osnovy dohromady, aby se vytvořila velká osnova z více notových osnov. V prostředí GrandStaff skupina začíná složenou závorkou, a taktové čáry jsou mezi osnovami spojeny."
+msgstr "Začít seskupovat jednoduché notové osnovy dohromady, aby se vytvořila velká osnova (notový systém) z více notových osnov. V prostředí GrandStaff skupina začíná složenou závorkou, a taktové čáry jsou mezi osnovami spojeny."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/GroupStaffStart.xml.h:1
 msgid "GroupStaff Start"
@@ -23970,7 +23945,7 @@ msgstr "Začátek GroupStaff"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/GroupStaffStart.xml.h:2
 msgid "Start grouping single staves together in order to form multi-stave systems. In the StaffGroup context, the group is started with a bracket and bar lines are drawn through all the staves."
-msgstr "Začít seskupovat jednoduché notové osnovy dohromady, aby se vytvořila velká osnova z více notových osnov. V prostředí GroupStaff skupina začíná závorkou a taktové čáry se kreslí přes všechny osnovy."
+msgstr "Začít seskupovat jednoduché notové osnovy dohromady, aby se vytvořila velká osnova (notový systém) z více notových osnov. V prostředí GroupStaff skupina začíná závorkou a taktové čáry se kreslí přes všechny osnovy."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/PianoStaffName.scm:5
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm:38
@@ -23980,7 +23955,7 @@ msgstr "Název nástroje"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/PianoStaffName.scm:5
 msgid "Give name of instrument for staff group starting here:"
-msgstr "Zadat název nástroje pro skupinu osnovy začínající zde:"
+msgstr "Zadejte název nástroje pro skupinu osnovy začínající zde:"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/PianoStaffName.xml.h:1
 msgid "Piano Staff Name"
@@ -23996,7 +23971,7 @@ msgstr "Začátek PianoStaff"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffGroupings/PianoStaffStart.xml.h:2
 msgid "Start grouping single staves together in order to form multi-stave systems. The PianoStaff is identical to a GrandStaff, except that it supports printing the instrument name directly."
-msgstr "Začít seskupovat jednoduché notové osnovy dohromady, aby se vytvořila velká osnova z více notových osnov. Prostředí PianoStaff je totožné s GroupStaff, kromě toho, že podporuje přímý tisk názvů nástrojů."
+msgstr "Začít seskupovat jednoduché notové osnovy dohromady, aby se vytvořila velká osnova (notový systém) z více notových osnov. Prostředí PianoStaff je totožné s GroupStaff, kromě toho, že podporuje přímý tisk názvů nástrojů."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffMultiMeasureRests.xml.h:2
 msgid "Groups of whole measure rests of two or more are changed to multi-measure rests for the whole staff."
@@ -24060,38 +24035,32 @@ msgid "Prints Chord symbols separated by bar lines. Repeats, time signatures and
 msgstr "Vytiskne značky akordů oddělené taktovými čarami. Opakování, taktová označení a text jsou pro tuto osnovu tisknuty také."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordStaff.xml.h:1
-#, fuzzy
-#| msgid "Chord Symbol Offset"
 msgid "Chord Symbols (Off/On)"
-msgstr "Posun značky akordu"
+msgstr "Značky akordů (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordStaff.xml.h:2
 msgid "Typesets the music on this staff as chord symbols (off/on)."
-msgstr ""
+msgstr "Vysází noty v této osnově jako akordické značky (vypnuto/zapnuto)."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/FretDiagrams/FretBoards.scm:5
 msgid "Guitar"
-msgstr ""
+msgstr "Kytara"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/FretDiagrams/FretBoards.scm:6
 msgid "Mandolin"
-msgstr ""
+msgstr "Mandolína"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/FretDiagrams/FretBoards.scm:7
 msgid "Ukulele"
-msgstr ""
+msgstr "Ukulele"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/FretDiagrams/FretBoards.xml.h:1
-#, fuzzy
-#| msgid "Fret Diagrams"
 msgid "Fret Diagrams (Off/On)"
-msgstr "Nákresy hmatníku"
+msgstr "Nákresy hmatníku (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/FretDiagrams/FretBoards.xml.h:2
-#, fuzzy
-#| msgid "Chords on this staff will typeset as fret diagrams. The default is guitar."
 msgid "Chords on this staff will typeset as fret diagrams (off/on). Choose from several instruments."
-msgstr "Akordy na této osnově budou sázeny jako nákresy hmatníku. Výchozím je kytarové znázornění."
+msgstr "Akordy na této notové osnově budou sázeny jako nákresy hmatníku (vypnuto/zapnuto). Vyberte z několika nástrojů."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm:18
 msgid "InstrumentName"
@@ -24118,32 +24087,20 @@ msgid "Print Instrument name before staff at start of score,"
 msgstr "Vytisknout název nástroje před notovou osnovu na začátku notového zápisu."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/MidiInstrumentName.scm:11
-#, fuzzy
-#| msgid "Instrument Name"
 msgid "MIDI Instrument Name"
-msgstr "Název nástroje"
+msgstr "Název nástroje MIDI"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/MidiInstrumentName.scm:11
-#, fuzzy
-#| msgid ""
-#| "Give name of instrument/voice/part\n"
-#| "for current staff:"
 msgid "Give name of MIDI instrument for current staff:"
-msgstr ""
-"Zadejte název nástroje/hlasu/partu skladby\n"
-"pro nynější osnovu:"
+msgstr "Zadejte název nástroje MIDI pro nynější notovou osnovu:"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/MidiInstrumentName.xml.h:1
-#, fuzzy
-#| msgid "MIDI Instrument:"
 msgid "MIDI Instrument"
-msgstr "Nástroj MIDI:"
+msgstr "Nástroj MIDI"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/MidiInstrumentName.xml.h:2
-#, fuzzy
-#| msgid "Set the initial clef for this staff in the score"
 msgid "Sets the MIDI instrument for this staff for use in the Playback View"
-msgstr "Nastavit začáteční klíč pro tuto osnovu v notovém zápisu"
+msgstr "Nastaví nástroj MIDI pro tuto osnovu pro použití v pohledu na přehrávání"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/NonPrintingStaff.xml.h:1
 msgid "Non Printing Staff"
@@ -24154,46 +24111,32 @@ msgid "Turns the on/off whether this staff will be typeset. The staff still disp
 msgstr "Zapne/Vypne to, zda bude tato notová osnova sázena. Notová osnova se stále zobrazuje normálně, ale bude odstraněna z okna s náhledem."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffLines.scm:3
-#, fuzzy
-#| msgid "Number of Staff Lines:"
 msgid "Staff Lines"
-msgstr "Počet linek osnovy:"
+msgstr "Linky notové osnovy"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffLines.scm:3
-#, fuzzy
-#| msgid ""
-#| "Give name of instrument/voice/part\n"
-#| "for current staff:"
 msgid "Give Number of Staff Lines for current staff"
-msgstr ""
-"Zadejte název nástroje/hlasu/partu skladby\n"
-"pro nynější osnovu:"
+msgstr "Zadejte počet linek notové osnovy pro nynější osnovu:"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffLines.xml.h:1
-#, fuzzy
-#| msgid "Set Staff Size"
 msgid "Set Staff Lines"
-msgstr "Nastavit velikost osnovy"
+msgstr "Nastavit linky notové osnovy"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffLines.xml.h:2
-#, fuzzy
-#| msgid "Deletes the staff before the current staff"
 msgid "Sets the number of lines for the current staff."
-msgstr "Smazat notovou osnovu před nynější notovou osnovou"
+msgstr "Nastaví počet linek notovou osnovu pro nynější notovou osnovu."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffRangeFromChord.scm:4
 msgid "The cursor must be on a chord with the highest note and lowest note set to the range desired."
-msgstr ""
+msgstr "Ukazatel musí být na akordu s nejvyšší a nejnižší notou nastavenou na požadovaný rozsah."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffRangeFromChord.xml.h:1
-#, fuzzy
-#| msgid "Set Staff Size"
 msgid "Set Staff Range"
-msgstr "Nastavit velikost osnovy"
+msgstr "Nastavit rozsah notové osnovy"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffRangeFromChord.xml.h:2
 msgid "Sets the highest and lowest notes playable on the current staff to the highest and lowest pitches of the chord at the cursor."
-msgstr ""
+msgstr "Nastaví nejvyšší a nejnižší notu hratelnou na nynější notové osnově na nejvyšší a nejnižší výšku tónu akordu v poloze ukazatele."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ShortInstrumentName.scm:11
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ShortInstrumentName.xml.h:1
@@ -24202,13 +24145,13 @@ msgstr "Krátký název nástroje"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ShortInstrumentName.scm:11
 msgid "Give Short Instrument Name:"
-msgstr "Zadat krátký název nástroje:"
+msgstr "Zadejte krátký název nástroje:"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ShortInstrumentName.xml.h:2
 msgid "Prints shortened form of instrument name before this staff for second and subsequent systems"
 msgstr ""
 "Vytiskne zkrácenou podobu názvu nástroje před touto notovou osnovu\n"
-"pro druhou a následující osnovy."
+"pro druhý a následující notové systémy."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SmallerStaff.xml.h:1
 msgid "Smaller Staff"
@@ -24247,20 +24190,16 @@ msgid "Sets the size of the staff on printing relative to the default 0. Value -
 msgstr "Nastaví velikost osnovy při tisku v poměru k výchozí 0. Při hodnotě -3 je malá, 3 je velká."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.scm:39
-#, fuzzy
-#| msgid "Substitute"
 msgid "Substituted Music"
-msgstr "Nahradit"
+msgstr "Nahrazené noty"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.xml.h:1
-#, fuzzy
-#| msgid "Stopped  (Off/On)"
 msgid "Substitute Music (Off/On)"
-msgstr "Udušeno/Zastaveno (zapnuto/vypnuto)"
+msgstr "Nahrazené noty (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.xml.h:2
 msgid "Typesets this staff with the music from another staff, ignoring any music entered on this staff. Use this, for example, to typeset both Fret Diagrams and Chord Symbols from the same music."
-msgstr ""
+msgstr "Vysází tuto notovou osnovu s notami z jiné notové osnovy. Přehlíží se všechny noty zadané v této osnově. Použijte například k vysázení nákresů hmatníku a značek akordů z těchže not."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Tablature/SetTabStrings.xml.h:1
 msgid "Set Open Strings"
@@ -24579,10 +24518,8 @@ msgid "The two voices will be printed only once when they are the same, otherwis
 msgstr "Dva hlasy budou vytištěny jen jednou, jestliže jsou stejné. Jinak budou tištěny jako party. (zapnuto/vypnuto)"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/SetCurrentStaffAsVoice.scm:4
-#, fuzzy
-#| msgid "The current staff is already a voice"
 msgid "Current staff is already a voice or not suitable"
-msgstr "Nynější osnova je již hlasem"
+msgstr "Nynější osnova je již hlasem nebo není vhodná"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/SetCurrentStaffAsVoice.xml.h:1
 msgid "Staff to Voice"
@@ -24813,10 +24750,8 @@ msgid "Adds a staff to be used purely for dynamic markings, insert after right h
 msgstr "Přidá osnovu, která se bude používat čistě pro značky dynamiky. Vloží se po klavírní osnově pro pravou ruku"
 
 #: ../actions/palettes.xml.h:30
-#, fuzzy
-#| msgid "Prints text to start or continue a crescendo extending over a passage. Use for cresc. poco a poco, for example. Terminate with End Diminuendo marking or a dynamic mark, else nothing will be printed. LilyPond markup, such as \\\\bold can be used."
 msgid "Prints text to start or continue a diminuendo extending over a passage. Use for dim. poco a poco, for example. Terminate with End Diminuendo marking or a dynamic mark, else nothing will be printed. LilyPond markup, such as \\\\bold can be used."
-msgstr "Vytiskne text pro započetí nebo pokračování crescenda táhnoucí se nad pasáží. Použijte například pro crescendo poco a poco. Ukončete značkou pro skončení crescenda (End Decrescendo) nebo značkou dynamiky, jinak by se nic nevytisklo. Lze použít značení LilyPondu, jako například \\\\bold."
+msgstr "Vytiskne text pro započetí nebo pokračování decrescenda táhnoucí se nad pasáží. Použijte například pro decrescendo poco a poco. Ukončete značkou pro skončení crescenda (End Decrescendo) nebo značkou dynamiky, jinak by se nic nevytisklo. Lze použít značení LilyPondu, jako například \\\\bold."
 
 #: ../actions/palettes.xml.h:32
 msgid "Pianoforte"
@@ -24967,10 +24902,8 @@ msgid "Select a voice for the music following the cursor position.&#10;The Voice
 msgstr "Vyberte hlas pro noty následující polohu ukazatele.&#10;Hlas 1, 2, 3, 4 nastavují hlasy tak, aby první a třetí hlas měly nožičky nahoru, druhý a čtvrtý hlas měly nožičky dolů. Hlavičky not třetího a čtvrtého hlasu jsou vodorovně posunuty, a pomlky v příslušných hlasech jsou automaticky posunuty, aby se vyhnuly střetu. Nastavení pro automatický hlas vrací všechna nastavení hlasů k neutrálním výchozím směrům"
 
 #: ../actions/palettes.xml.h:109
-#, fuzzy
-#| msgid "Choose which voice this staff will initially be set to. To change voice during music see the Directives-&gt;Voices menu."
 msgid "Choose which voice this staff will initially be set to. To change voice during music see the Directives->Voices menu."
-msgstr "Vybrat, na který  hlas bude tato osnova na začátku nastavena. Pro změnu hlasu během hudby se podívejte na nabídky Příkazy -&gt; Hlasy."
+msgstr "Vybrat, na který  hlas bude tato osnova na začátku nastavena. Pro změnu hlasu během hudby se podívejte na nabídku Příkazy->Hlasy."
 
 #: ../actions/palettes.xml.h:122
 msgid "Adds the > accent"
@@ -24981,8 +24914,6 @@ msgid "Barlines"
 msgstr "Taktové čáry"
 
 #: ../actions/palettes.xml.h:132
-#, fuzzy
-#| msgid "Choose a barline"
 msgid "Choose a barline "
 msgstr "Vybrat taktovou čáru "
 
@@ -25011,10 +24942,8 @@ msgid "Start passage to be played on one or more of the repeats as indicated by 
 msgstr "Začít pasáž, která se má přehrát jednou nebo vícekrát, jak naznačeno textem zadaným uživatelem (např. 3, aby pasáž byla zopakována třikrát). Pasáž skončete umístěním příkazu pro skončení opakování End."
 
 #: ../actions/palettes.xml.h:141
-#, fuzzy
-#| msgid "Enter a number to change the bar number in the typeset score. The printout will continue to count up from there."
 msgid "Enter a number to change the lilypond bar number. The printout will continue to count up from there."
-msgstr "Zadejte číslo pro změnu čísla taktu v notovém zápisu sazby. Výtisk bude v počítání pokračovat odtud."
+msgstr "Zadejte číslo pro změnu čísla taktu LilyPondu. Výtisk bude v počítání pokračovat odtud."
 
 #: ../actions/palettes.xml.h:143
 msgid "Help with beaming commands."
@@ -25025,10 +24954,8 @@ msgid "Inserts a time signature with indication for how to beam the notes. Inser
 msgstr "Vloží taktové označení s označením toho, jak spojovat noty. Vložit na začátku osnovy za účelem nahrazení počátečního taktového označení. Taktové označení je možné při tisku skrýt. Podívejte se na nabídku pro taktové označení."
 
 #: ../actions/palettes.xml.h:156
-#, fuzzy
-#| msgid "Sets the rules to be used for beaming. With no selection gets the beat for beams to be divided for the prevailing time signature at the cursor. If a there is a selection this will be used as the set of rules. In this case indicate the beaming desired using the manual beam commands [ and ], giving all the beaming rules wanted using several measures if needed (no other rules are used). Repeat with different selections to add further rules."
 msgid "Sets the rules to be used for beaming. With no selection gets the beat for beams to be divided for the prevailing time signature at the cursor. If a there is a selection this will set exceptions to the regular rule. In this case indicate the beaming desired using the manual beam commands [ and ]."
-msgstr "Nastaví pravidla, která se použijí na trámce. Když není žádný výběr, rytmus pro trámce je rozdělen podle v poloze ukazatele převládajícího taktového označení. Pokud výběr je, použije se to jako soubor pravidel. V tomto případě se naznačují požadované trámce pomocí ručních příkazů pro trámce [ a ], dávají všechna hledaná pravidla pro trámce za použití několika taktů, je-li potřeba (nejsou používána žádná jiná pravidla). Opakujte s různými výběry pro přidání dalších pravidel."
+msgstr "Nastaví pravidla, která se použijí na trámce. Když není žádný výběr, rytmus pro trámce je rozdělen podle v poloze ukazatele převládajícího taktového označení. Pokud výběr je, použije se to k nastavení výjimek k souboru pravidel. V tomto případě se naznačují požadované trámce pomocí ručních příkazů pro trámce [ a ]."
 
 #: ../actions/palettes.xml.h:167
 msgid "Chord Symbols or Fake Chords"
@@ -25059,10 +24986,8 @@ msgid "Ties"
 msgstr "Ligatury"
 
 #: ../actions/palettes.xml.h:184
-#, fuzzy
-#| msgid "Gives a choice of modifications to make to the following tie."
 msgid "Gives a choice of shape modifications to make to the following tie."
-msgstr "Dá možnost změn, které se dají udělat s následující ligaturou."
+msgstr "Dává možnost změn tvaru, které se dají udělat s následující ligaturou."
 
 #: ../actions/palettes.xml.h:193
 msgid "Custom Ornaments"
