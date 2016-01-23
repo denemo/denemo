@@ -3317,7 +3317,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <action>GroupStaffStart</action>
         <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
         <_label>GroupStaff Start</_label>
-        <_tooltip>Start grouping single staves together in order to form multi-stave systems. In the StaffGroup context, the group is started with a bracket and bar lines are drawn through all the staves.</_tooltip>
+        <_tooltip>Start grouping single staves together in order to form multi-stave systems. In the GroupStaff context, the group is started with a bracket and bar lines are drawn through all the staves.</_tooltip>
       </row>
       <row type="scheme">
         <action>PianoStaffStart</action>

@@ -8,7 +8,7 @@
         <after>FindNextLowerNote</after>
         <action>NextHigher</action>
         <_label>Next Higher</_label>
-        <_tooltip>Move cursor to next note higher than cursor posiiton</_tooltip>
+        <_tooltip>Move cursor to next note higher than cursor position</_tooltip>
       </row>
     </map>
   </merge>

@@ -8,7 +8,7 @@
         <after>PageBreak</after>
         <action>BeamingOff</action>
         <_label>Stop Beaming</_label>
-        <_tooltip>(Print)Stop automatic beaming from current position in score.</_tooltip>
+        <_tooltip>(Print) Stop automatic beaming from current position in score.</_tooltip>
       </row>
     </map>
   </merge>

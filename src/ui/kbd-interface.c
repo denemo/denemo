@@ -619,8 +619,8 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
     gtk_widget_set_tooltip_text (Denemo.command_manager,
                                  _
                                  ("This window allows you find and execute commands.\nOnce you have selected a command the box at the top gives information about that command,"
-                                 "\nwhile the panel to the side gives any shortcuts for the command"
-                                 "\nyou can add a selected command to a palette, or set single-key or two-key shortcuts."
+                                 "\nwhile the panel to the side gives any shortcuts for the command."
+                                 "\nYou can add a selected command to a palette, or set single-key or two-key shortcuts."
                                  "\nYou can also hide commands, so they don't appear in the menus.\n"
                                  "You can save the shortcuts as your default command set, or as a command set which you may wish to load in the future.\n"
                                  "This window is also where you can load such a stored command set."));

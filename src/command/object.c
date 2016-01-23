@@ -1359,7 +1359,7 @@ edit_object (void)
             
                 if (action) {
                             button = gtk_button_new_with_label (_("Create Button for Command"));
-                            gtk_widget_set_tooltip_text (button, _( "Make a palette button for running the command that created inserted this object."));
+                            gtk_widget_set_tooltip_text (button, _( "Make a palette button for running the command that created/inserted this object."));
                             g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
                             g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (create_palette_button_for_command), (gpointer)tooltip);
                             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);   

@@ -8,7 +8,7 @@
         (define (unique-staff-name)
             (string-append (d-StaffProperties "query=denemo_name") (_ " on Staff ")  (number->string (d-GetStaff))))
         (if (d-Directive-score? "GlobalTranspose")
-                (set! transpose  (d-GetUserInput (_ "Transpose Cue") (_ "Give note (in LilyPond notation) that  middle C should transpose to\nin this cue:") "c'")))
+                (set! transpose  (d-GetUserInput (_ "Transpose Cue") (_ "Give note (in LilyPond notation) that middle C should transpose to\nin this cue:") "c'")))
 
         (d-PushPosition)
         (while (d-MoveToStaffUp))

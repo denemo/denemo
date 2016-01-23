@@ -8,7 +8,7 @@
         <action>EditAll</action>
         <after>ResumeEdit</after>
         <_label>Edit All of Type</_label>
-        <_tooltip>Edits/Deletes all objects of the last searched for type this and all succeeding movements.</_tooltip>
+        <_tooltip>Resumes the last Seeking/Editing/Deleting operation. All objects of the type last searched for will be sought again, from the cursor onwards.</_tooltip>
       </row>
     </map>
   </merge>

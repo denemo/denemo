@@ -21,7 +21,7 @@
  (define (EditLilyPond)
     (define current (d-DirectiveGet-standalone-postfix tag))
     (if tag
-        (let ((text (d-GetUserInput (_ "Modifying the LilyPond Text") (_ "Give LilyPond to be issued") current)))
+        (let ((text (d-GetUserInput (_ "Modifying the LilyPond Text") (_ "Give LilyPond syntax to be emitted by this Denemo Directive") current)))
             (if text
                 (begin (d-DirectivePut-standalone-postfix tag text) 
                         (d-SetSaved #f))
