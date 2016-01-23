@@ -716,7 +716,8 @@ static void clone_staff (DenemoStaff *srcStaff, DenemoStaff *thestaff)
  //   measurenode *measures; /**< This is a pointer to each measure in the staff */ actually a GList * of measures.
 // and nummeasures which must be fixed by the caller.
     memcpy (thestaff, srcStaff, sizeof (DenemoStaff));
-    thestaff->staffmenu = thestaff->voicemenu = thestaff->sources = NULL; 
+    thestaff->staffmenu = thestaff->voicemenu = NULL;
+    thestaff->sources = NULL;
     thestaff->denemo_name = g_string_new (srcStaff->denemo_name->str);
     thestaff->lily_name = g_string_new (srcStaff->lily_name->str);
     thestaff->midi_instrument = g_string_new (srcStaff->midi_instrument->str);

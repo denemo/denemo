@@ -405,7 +405,7 @@ progressbar (gchar * msg, gpointer callback)
     g_signal_connect (G_OBJECT (pdata->window), "delete-event", G_CALLBACK (callback /*call_stop_lilypond*/), NULL);
   else
     g_signal_connect (G_OBJECT (pdata->window), "delete-event", G_CALLBACK (progressbar_stop), NULL);
-  return pdata->window;
+  return GTK_WINDOW (pdata->window);
 }
 
 void
