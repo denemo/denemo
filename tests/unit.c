@@ -22,7 +22,7 @@ setup(gpointer fixture, gconstpointer data)
 
   else{
     GDir* dir = g_dir_open(temp_dir, 0, NULL);
-    gchar* filename = NULL;
+    const gchar* filename = NULL;
     while (filename = g_dir_read_name(dir))
       g_remove (g_build_filename(temp_dir, filename, NULL));
   }
