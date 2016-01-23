@@ -702,6 +702,35 @@ typedef struct DenemoPosition { /**<Represents a position in a Score */
 } DenemoPosition;
 
 
+typedef enum
+{
+  STATE_NONE = 0,               //not a background typeset
+  STATE_OFF = 1 << 0,           //background typeset complete
+  STATE_ON = 1 << 1,            //background typeset in progress
+  STATE_PAUSED = 1 << 2         //background typesetting turned off to allow printing
+} background_state;
+
+
+
+typedef struct DenemoPrintInfo
+{
+  GPid printpid;
+  background_state background;
+  gint updating_id;             //id of idle callback
+  gint first_measure;
+  gint last_measure;
+  gint first_staff;
+  gint last_staff;
+  typeset_type typeset_type;
+  gint invalid;                 //set 1 if  lilypond reported problems or 2 if generating new pdf failed 
+  gint cycle;                   //alternate 0 1 to switch print file names
+  gchar *printbasename[2];
+  gchar *printname_pdf[2];
+  gchar *printname_svg[2];
+  gchar *printname_midi[2];
+  gchar *printname_ly[2];
+  gchar *error_file;
+} DenemoPrintInfo;
 /**
  * Contains data required for undo/redo operation 
  * Borrowed idea from GScore
@@ -1120,7 +1149,7 @@ struct DenemoRoot
   GtkWidget *printhscrollbar;/**< scrollbar widget for printarea */
   GdkPixbuf *pixbuf;/**< print preview pixbuf */
   GtkWidget *playbackview;/**< area holding svg typeset for animating playback */
-
+  DenemoPrintInfo *printstatus;/**< Information about the currenty typesetting activity */
   GtkWidget *textwindow; /**< LilyPond output window */
   GtkTextView *textview; /**< LilyPond output text view */
   GtkTextBuffer *textbuffer;   /**< buffer for LilyPond text */

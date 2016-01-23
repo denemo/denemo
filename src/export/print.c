@@ -52,11 +52,8 @@ GError *lily_err = NULL;
 
 GPid previewerpid = GPID_NONE;
 
-printstatus*
-get_print_status(){
-  static printstatus PrintStatus = { GPID_NONE, 0, 0, 4, 4, 4, 4, TYPESET_ALL_MOVEMENTS, 0, 0, {NULL, NULL} , {NULL, NULL}, {NULL, NULL} };
-  return &PrintStatus;
-}
+
+
 
 WysiwygInfo*
 get_wysiwyg_info(){
@@ -64,36 +61,44 @@ get_wysiwyg_info(){
   return &Ww;
 }
 
+void initialize_print_status (void)
+{
+  
+  Denemo.printstatus = (DenemoPrintInfo*)g_malloc0(sizeof (DenemoPrintInfo));
+  Denemo.printstatus->printpid = GPID_NONE;
+  Denemo.printstatus->typeset_type = TYPESET_ALL_MOVEMENTS;
+  Denemo.printstatus->printbasename[0] = g_build_filename (locateprintdir (), "denemoprintA", NULL);
+  Denemo.printstatus->printbasename[1] = g_build_filename (locateprintdir (), "denemoprintB", NULL);
+  Denemo.printstatus->printname_pdf[0] = g_strconcat (Denemo.printstatus->printbasename[0], ".pdf", NULL);
+  Denemo.printstatus->printname_svg[0] = g_strconcat (Denemo.printstatus->printbasename[0], ".svg", NULL);
+#ifdef G_OS_WIN32
+  Denemo.printstatus->printname_midi[0] = g_strconcat (Denemo.printstatus->printbasename[0], ".mid", NULL);//LilyPond outputs .mid files for midi 
+#else
+  Denemo.printstatus->printname_midi[0] = g_strconcat (Denemo.printstatus->printbasename[0], ".midi", NULL);
+#endif
+  Denemo.printstatus->printname_ly[0] = g_strconcat (Denemo.printstatus->printbasename[0], ".ly", NULL);
+  Denemo.printstatus->printname_pdf[1] = g_strconcat (Denemo.printstatus->printbasename[1], ".pdf", NULL);
+  Denemo.printstatus->printname_svg[1] = g_strconcat (Denemo.printstatus->printbasename[1], ".svg", NULL);
+#ifdef G_OS_WIN32
+  Denemo.printstatus->printname_midi[1] = g_strconcat (Denemo.printstatus->printbasename[1], ".mid", NULL);//LilyPond outputs .mid files for midi 
+#else      
+  Denemo.printstatus->printname_midi[1] = g_strconcat (Denemo.printstatus->printbasename[1], ".midi", NULL);
+#endif
+  Denemo.printstatus->printname_ly[1] = g_strconcat (Denemo.printstatus->printbasename[1], ".ly", NULL);
+  Denemo.printstatus->error_file = NULL;
+}   
+    
+
 static void
 advance_printname ()
 {
-  if (get_print_status()->printbasename[0] == NULL)
-    {
-      get_print_status()->printbasename[0] = g_build_filename (locateprintdir (), "denemoprintA", NULL);
-      get_print_status()->printbasename[1] = g_build_filename (locateprintdir (), "denemoprintB", NULL);
-      get_print_status()->printname_pdf[0] = g_strconcat (get_print_status()->printbasename[0], ".pdf", NULL);
-      get_print_status()->printname_svg[0] = g_strconcat (get_print_status()->printbasename[0], ".svg", NULL);
-#ifdef G_OS_WIN32
-      get_print_status()->printname_midi[0] = g_strconcat (get_print_status()->printbasename[0], ".mid", NULL);//LilyPond outputs .mid files for midi 
-#else
-      get_print_status()->printname_midi[0] = g_strconcat (get_print_status()->printbasename[0], ".midi", NULL);
-#endif
-      get_print_status()->printname_ly[0] = g_strconcat (get_print_status()->printbasename[0], ".ly", NULL);
-      get_print_status()->printname_pdf[1] = g_strconcat (get_print_status()->printbasename[1], ".pdf", NULL);
-      get_print_status()->printname_svg[1] = g_strconcat (get_print_status()->printbasename[1], ".svg", NULL);
-#ifdef G_OS_WIN32
-      get_print_status()->printname_midi[1] = g_strconcat (get_print_status()->printbasename[1], ".mid", NULL);//LilyPond outputs .mid files for midi 
-#else      
-      get_print_status()->printname_midi[1] = g_strconcat (get_print_status()->printbasename[1], ".midi", NULL);
-#endif
-      get_print_status()->printname_ly[1] = g_strconcat (get_print_status()->printbasename[1], ".ly", NULL);
-    }
-
-  get_print_status()->cycle = !get_print_status()->cycle;
-  /*gint success =*/ g_unlink (get_print_status()->printname_pdf[get_print_status()->cycle]);
-  g_unlink (get_print_status()->printname_svg[get_print_status()->cycle]);
+ 
+    
+  Denemo.printstatus->cycle = !Denemo.printstatus->cycle;
+  /*gint success =*/ g_unlink (Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle]);
+  g_unlink (Denemo.printstatus->printname_svg[Denemo.printstatus->cycle]);
   
-  //g_debug("Removed old pdf file %s %d\n",get_print_status()->printname_pdf[get_print_status()->cycle], success);
+  //g_debug("Removed old pdf file %s %d\n",Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle], success);
 }
 
 
@@ -216,9 +221,9 @@ check_lily_version (gchar * version)
 gchar *
 get_printfile_pathbasename (void)
 {
-  if (get_print_status()->printbasename[0] == NULL)
+  if (Denemo.printstatus->printbasename[0] == NULL)
     advance_printname ();
-  return get_print_status()->printbasename[get_print_status()->cycle];
+  return Denemo.printstatus->printbasename[Denemo.printstatus->cycle];
 }
 
 /* truncate epoint after 20 lines replacing the last three chars in that case with dots */
@@ -283,16 +288,70 @@ convert_ly (gchar * lilyfile)
     }
 }
 */
-                                                  
+
+/* look in message for :line:col: where line and col are integers and return point where found or NULL if none*/
+static gchar * get_error_point (gchar *bytes, gint *line, gint *col)
+{
+    gchar *epoint;
+    gchar *message = bytes;
+    while (*message)
+        {
+            while (*message && (*message!=':')) message++;
+            if (*message==':')
+                {
+                 epoint = message;
+                 *line = atoi (message+1);
+                 if (*line == 0)
+                    {
+                        message++;
+                        continue;
+                     }
+                 message++;
+                 while (*message && g_ascii_isdigit (*message)) message++;
+                 
+                 if (*message==':')
+                    {
+                     *col = atoi (message+1);
+                     if (*col == 0)
+                        {
+                            message++;
+                            continue;
+                        }
+                        
+                     message++;
+                     while (*message && g_ascii_isdigit (*message)) message++;  
+                     
+                     
+                     g_print ("%c", *message); 
+                     if (*message==':')
+                        {
+                            gchar *colon = epoint;
+                            *colon = 0;
+                            while ((epoint != bytes) && (*epoint != '\n')) epoint--;//FIXME is epoint now referring to the main file or some include file, line col will not work for an include file
+                            if(strcmp (Denemo.printstatus->printname_ly[Denemo.printstatus->cycle], epoint+1)) // error is in an include file
+                                Denemo.printstatus->error_file = g_strdup (epoint+1); 
+                            *colon = ':';
+                            return epoint;
+                        }
+                    }
+                    else {
+                        message++;g_print ("%c", *message);
+                        continue;
+                     }
+                }
+                else {
+                        message++;g_print ("%c", *message);
+                        continue;
+                     }
+        }
+    return NULL;
+}
 void
 process_lilypond_errors (gchar * filename)
 {
-  get_print_status()->invalid = 0;
+  Denemo.printstatus->invalid = 0;
   if (LilyPond_stderr == -1)
     return;
-  gchar *basename = g_path_get_basename (filename);
-  gchar *filename_colon = g_strdup_printf ("%s.ly%s", basename, ":");
-  g_free (basename);
   gchar *epoint = NULL;
 #define bufsize (100000)
   gchar *bytes = g_malloc0 (bufsize);
@@ -300,48 +359,36 @@ process_lilypond_errors (gchar * filename)
   close (LilyPond_stderr);
   LilyPond_stderr = -1;
 #undef bufsize
-
   if (numbytes == -1)
     {
-      g_free(filename_colon);
       g_free (bytes);
       return;
     }
   //g_print("\nLilyPond error messages\n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8>< %s \n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><\n", bytes);
-  epoint = g_strstr_len (bytes, strlen (bytes), filename_colon);
+  gint line, column;
+  epoint=get_error_point (bytes, &line, &column);
   if (epoint)
     {
-      gint line, column;
-      gint cnv = sscanf (epoint + strlen (filename_colon), "%d:%d", &line, &column);
       truncate_lines (epoint);  /* truncate epoint if it has too many lines */
-      if (cnv == 2)
+      line--;               /* make this 0 based */
+      if (line >= gtk_text_buffer_get_line_count (Denemo.textbuffer))
+        warningdialog (_("Spurious line number")), line = 0;
+      /* gchar *errmsg = g_strdup_printf("Error at line %d column %d %d", line,column, cnv); */
+      /*     warningdialog(errmsg); */
+      console_output (epoint);
+      if (Denemo.textbuffer)
         {
-          line--;               /* make this 0 based */
-          if (line >= gtk_text_buffer_get_line_count (Denemo.textbuffer))
-            warningdialog (_("Spurious line number")), line = 0;
-          /* gchar *errmsg = g_strdup_printf("Error at line %d column %d %d", line,column, cnv); */
-          /*     warningdialog(errmsg); */
-          console_output (epoint);
-          if (Denemo.textbuffer)
-            {
-              set_lily_error (line + 1, column);
-            }
-          goto_lilypond_position (line + 1, column);
-          get_print_status()->invalid = 2;      //print_is_valid = FALSE;
-          if (Denemo.printarea)
-            gtk_widget_queue_draw (Denemo.printarea);
-          // FIXME this causes a lock-up     warningdialog(_("Typesetter detected errors. Cursor is position on the error point.\nIf in doubt delete and re-enter the measure."));
+          set_lily_error (line + 1, column);
         }
-      else
-        {
-          set_lily_error (0, 0);
-          g_warning ("%s", epoint);
-        }
+      goto_lilypond_position (line + 1, column);
+      Denemo.printstatus->invalid = 2;      //print_is_valid = FALSE;
+      if (Denemo.printarea)
+        gtk_widget_queue_draw (Denemo.printarea);
+      // FIXME this causes a lock-up     warningdialog(_("Typesetter detected errors. Cursor is position on the error point.\nIf in doubt delete and re-enter the measure."));
     }
   else
     set_lily_error (0, 0); /* line 0 meaning no line */
   highlight_lily_error ();
-  g_free (filename_colon);
   if (lily_err != NULL)
     {
       if (*bytes)
@@ -358,14 +405,14 @@ process_lilypond_errors (gchar * filename)
 static void
 open_viewer (gint status, gchar * filename)
 {
-  if (get_print_status()->printpid == GPID_NONE)
+  if (Denemo.printstatus->printpid == GPID_NONE)
     return;
   GError *err = NULL;
   gchar *printfile;
   gchar **arguments;
   progressbar_stop ();
-  g_spawn_close_pid (get_print_status()->printpid);
-  get_print_status()->printpid = GPID_NONE;
+  g_spawn_close_pid (Denemo.printstatus->printpid);
+  Denemo.printstatus->printpid = GPID_NONE;
   //normal_cursor();
   process_lilypond_errors (filename);
 #ifndef G_OS_WIN32
@@ -446,7 +493,7 @@ static gint
 run_lilypond (gchar ** arguments)
 {
   gint error = 0;
-  if (get_print_status()->background == STATE_NONE)
+  if (Denemo.printstatus->background == STATE_NONE)
     progressbar (_("Denemo Typesetting"), call_stop_lilypond);
   if (lily_err)
     {
@@ -461,7 +508,7 @@ run_lilypond (gchar ** arguments)
                                                                G_SPAWN_SEARCH_PATH | G_SPAWN_DO_NOT_REAP_CHILD,
                                                                NULL,    /* child setup func */
                                                                NULL,    /* user data */
-                                                               &get_print_status()->printpid,
+                                                               &Denemo.printstatus->printpid,
                                                                NULL,
                                                                NULL,    /* stdout */
 #ifdef G_OS_WIN32
@@ -491,10 +538,10 @@ run_lilypond (gchar ** arguments)
 gboolean
 stop_lilypond ()
 {
-  if (get_print_status()->printpid != GPID_NONE)
+  if (Denemo.printstatus->printpid != GPID_NONE)
     {
-      kill_process (get_print_status()->printpid);
-      get_print_status()->printpid = GPID_NONE;
+      kill_process (Denemo.printstatus->printpid);
+      Denemo.printstatus->printpid = GPID_NONE;
     }
   return FALSE;                 //do not call again
 }
@@ -560,13 +607,13 @@ run_lilypond_for_svg (gchar * filename, gchar * lilyfile)
 void
 create_pdf (gboolean part_only, gboolean all_movements)
 {
-      if (get_print_status()->printpid != GPID_NONE)
+      if (Denemo.printstatus->printpid != GPID_NONE)
     {
       if (confirm (_("Already Typesetting"), _("Abandon this typeset?")))
         {
-          if (get_print_status()->printpid != GPID_NONE)        //It could have died while the user was making up their mind...
-            kill_process (get_print_status()->printpid);
-          get_print_status()->printpid = GPID_NONE;
+          if (Denemo.printstatus->printpid != GPID_NONE)        //It could have died while the user was making up their mind...
+            kill_process (Denemo.printstatus->printpid);
+          Denemo.printstatus->printpid = GPID_NONE;
         }
       else
         {
@@ -577,10 +624,11 @@ create_pdf (gboolean part_only, gboolean all_movements)
     }
   get_wysiwyg_info()->stage = STAGE_NONE;
   advance_printname ();
-  gchar *filename = get_print_status()->printbasename[get_print_status()->cycle];
-  gchar *lilyfile = get_print_status()->printname_ly[get_print_status()->cycle];
+  gchar *filename = Denemo.printstatus->printbasename[Denemo.printstatus->cycle];
+  gchar *lilyfile = Denemo.printstatus->printname_ly[Denemo.printstatus->cycle];
   g_remove (lilyfile);
-  get_print_status()->invalid = 0;
+  Denemo.printstatus->invalid = 0;
+  g_free (Denemo.printstatus->error_file);Denemo.printstatus->error_file = NULL;
   generate_lilypond (lilyfile, part_only, all_movements);
   run_lilypond_for_pdf (filename, lilyfile);
 }
@@ -591,13 +639,13 @@ create_pdf (gboolean part_only, gboolean all_movements)
 void
 create_svg (gboolean part_only, gboolean all_movements)
 {
-      if (get_print_status()->printpid != GPID_NONE)
+      if (Denemo.printstatus->printpid != GPID_NONE)
     {
       if (confirm (_("Already Typesetting"), _("Abandon this typeset?")))
         {
-          if (get_print_status()->printpid != GPID_NONE)        //It could have died while the user was making up their mind...
-            kill_process (get_print_status()->printpid);
-          get_print_status()->printpid = GPID_NONE;
+          if (Denemo.printstatus->printpid != GPID_NONE)        //It could have died while the user was making up their mind...
+            kill_process (Denemo.printstatus->printpid);
+          Denemo.printstatus->printpid = GPID_NONE;
         }
       else
         {
@@ -608,10 +656,11 @@ create_svg (gboolean part_only, gboolean all_movements)
     }
   get_wysiwyg_info()->stage = TypesetForPlaybackView;
   advance_printname ();
-  gchar *filename = get_print_status()->printbasename[get_print_status()->cycle];
-  gchar *lilyfile = get_print_status()->printname_ly[get_print_status()->cycle];
+  gchar *filename = Denemo.printstatus->printbasename[Denemo.printstatus->cycle];
+  gchar *lilyfile = Denemo.printstatus->printname_ly[Denemo.printstatus->cycle];
   g_remove (lilyfile);
-  get_print_status()->invalid = 0;
+  Denemo.printstatus->invalid = 0;
+  g_free (Denemo.printstatus->error_file);Denemo.printstatus->error_file = NULL;
   generate_lilypond (lilyfile, part_only, all_movements);
   run_lilypond_for_svg (filename, lilyfile);
 }
@@ -621,13 +670,13 @@ void create_pdf_for_lilypond (gchar *lilypond)
 #ifndef USE_EVINCE  
           g_debug("This feature requires denemo to be built with evince");
 #else
-         if (get_print_status()->printpid != GPID_NONE)
+         if (Denemo.printstatus->printpid != GPID_NONE)
     {
       if (confirm (_("Already Typesetting"), _("Abandon this typeset?")))
         {
-          if (get_print_status()->printpid != GPID_NONE)        //It could have died while the user was making up their mind...
-            kill_process (get_print_status()->printpid);
-          get_print_status()->printpid = GPID_NONE;
+          if (Denemo.printstatus->printpid != GPID_NONE)        //It could have died while the user was making up their mind...
+            kill_process (Denemo.printstatus->printpid);
+          Denemo.printstatus->printpid = GPID_NONE;
         }
       else
         {
@@ -638,13 +687,14 @@ void create_pdf_for_lilypond (gchar *lilypond)
     }
   get_wysiwyg_info()->stage = STAGE_NONE;
   advance_printname ();
-  gchar *filename = get_print_status()->printbasename[get_print_status()->cycle];
-  gchar *lilyfile = get_print_status()->printname_ly[get_print_status()->cycle];
+  gchar *filename = Denemo.printstatus->printbasename[Denemo.printstatus->cycle];
+  gchar *lilyfile = Denemo.printstatus->printname_ly[Denemo.printstatus->cycle];
   g_remove (lilyfile); 
   g_file_set_contents (lilyfile, lilypond, -1, NULL);
-  get_print_status()->invalid = 0;
+  Denemo.printstatus->invalid = 0;
+  g_free (Denemo.printstatus->error_file);Denemo.printstatus->error_file = NULL;
   run_lilypond_for_pdf (filename, lilyfile);  
-  g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
+  g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
 #endif
 }
 /** 
@@ -724,8 +774,8 @@ printpng_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, GList * fi
   g_debug ("printpng_finished\n");
   g_list_foreach (filelist, (GFunc) rm_temp_files, FALSE);
   g_list_free (filelist);
-  g_spawn_close_pid (get_print_status()->printpid);
-  get_print_status()->printpid = GPID_NONE;
+  g_spawn_close_pid (Denemo.printstatus->printpid);
+  Denemo.printstatus->printpid = GPID_NONE;
   progressbar_stop ();
   infodialog (_("Your PNG file has now been created"));
 }
@@ -738,8 +788,8 @@ printpdf_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, GList * fi
       g_list_foreach (filelist, (GFunc) rm_temp_files, FALSE);
       g_list_free (filelist);
     }
-  g_spawn_close_pid (get_print_status()->printpid);
-  get_print_status()->printpid = GPID_NONE;
+  g_spawn_close_pid (Denemo.printstatus->printpid);
+  Denemo.printstatus->printpid = GPID_NONE;
   progressbar_stop ();
   infodialog (_("Your PDF file has now been created"));
 }
@@ -817,7 +867,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui)
     {
       gint error = run_lilypond (arguments);
       if (!error)
-        g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) finish, (gchar *) filelist);
+        g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) finish, (gchar *) filelist);
 
       if(!g_file_test(output, G_FILE_TEST_EXISTS))
         g_critical("Lilypond has not generated %s", output);
@@ -891,12 +941,12 @@ export_pdf (gchar * filename, DenemoProject * gui)
   gint error = run_lilypond (arguments);
   if (error)
     {
-      g_spawn_close_pid (get_print_status()->printpid);
-      get_print_status()->printpid = GPID_NONE;
+      g_spawn_close_pid (Denemo.printstatus->printpid);
+      Denemo.printstatus->printpid = GPID_NONE;
       return;
     }
 
-  g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printpdf_finished, filelist);
+  g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) printpdf_finished, filelist);
 }
 
 /* callback to print current part (staff) of score */
@@ -917,7 +967,7 @@ printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam 
     create_pdf (TRUE, TRUE);
   else
     create_pdf (TRUE, FALSE);
-  g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (TRUE));
+  g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) printview_finished, (gpointer) (TRUE));
 #endif
 }
 
@@ -930,7 +980,7 @@ printselection_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptP
   if (Denemo.project->movement->markstaffnum) {
     present_print_view_window();
     create_pdf (FALSE, FALSE);
-    g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (TRUE));
+    g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) printview_finished, (gpointer) (TRUE));
   }
   else
     warningdialog (_("No selection to print"));

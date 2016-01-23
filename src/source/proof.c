@@ -35,7 +35,7 @@ action_for_link (EvView * view, EvLinkAction * obj, EvDocumentModel *model)
 {
     EvDocument *doc = ev_document_model_get_document (model);
  gchar *uri = (gchar *) ev_link_action_get_uri (obj);
- if(get_print_status()->updating_id &&  (get_print_status()->typeset_type != TYPESET_ALL_MOVEMENTS))
+ if(Denemo.printstatus->updating_id &&  (Denemo.printstatus->typeset_type != TYPESET_ALL_MOVEMENTS))
    {
     warningdialog (_("Cannot do location when only a range of music is typeset. Turn off continuous typesetting or set the range to All Movements"));
     return TRUE;

@@ -610,7 +610,7 @@ inner_main (void *files)
 
   initprefs ();
   init_lilypond_buffer();
-  
+  initialize_print_status ();
   //project Initializations
   if(!Denemo.non_interactive)
   {
@@ -618,7 +618,7 @@ inner_main (void *files)
 
     if (audio_initialize (&Denemo.prefs))
         g_error ("Failed to initialize audio or MIDI backends");
-
+    
     create_window ();
     installPalettes ();
 

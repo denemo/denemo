@@ -13,13 +13,13 @@
 #define CONTINUOUS _("Continuous")
 #ifdef G_OS_WIN32    
 #define  return_on_windows_if_printing \
-  if (get_print_status()->printpid != GPID_NONE)\
+  if (Denemo.printstatus->printpid != GPID_NONE)\
     {\
     warningdialog (_("Already doing a print"));\
     return;\
     }
 #define  return1_on_windows_if_printing \
-  if (get_print_status()->printpid != GPID_NONE)\
+  if (Denemo.printstatus->printpid != GPID_NONE)\
     {\
     warningdialog (_("Already doing a print"));\
     return 1;\
@@ -29,32 +29,6 @@
 #define  return1_on_windows_if_printing
 #endif  
 
-typedef enum
-{
-  STATE_NONE = 0,               //not a background typeset
-  STATE_OFF = 1 << 0,           //background typeset complete
-  STATE_ON = 1 << 1,            //background typeset in progress
-  STATE_PAUSED = 1 << 2         //background typesetting turned off to allow printing
-} background_state;
-
-typedef struct printstatus
-{
-  GPid printpid;
-  background_state background;
-  gint updating_id;             //id of idle callback
-  gint first_measure;
-  gint last_measure;
-  gint first_staff;
-  gint last_staff;
-  typeset_type typeset_type;
-  gint invalid;                 //set 1 if  lilypond reported problems or 2 if generating new pdf failed 
-  gint cycle;                   //alternate 0 1 to switch print file names
-  gchar *printbasename[2];
-  gchar *printname_pdf[2];
-  gchar *printname_svg[2];
-  gchar *printname_midi[2];
-  gchar *printname_ly[2];
-} printstatus;
 
 typedef struct WwRectangle
 {
@@ -139,7 +113,6 @@ GError *lily_err;
 GPid previewerpid;
 
 WysiwygInfo* get_wysiwyg_info();
-printstatus* get_print_status();
 void printall_cb (GtkAction * action, DenemoScriptParam * param);
 void printmovement_cb (GtkAction * action, DenemoScriptParam * param);
 void printpart_cb (GtkAction * action, DenemoScriptParam * param);

@@ -54,13 +54,13 @@ printop_done (EvPrintOperation * printop, G_GNUC_UNUSED GtkPrintOperationResult 
   gchar* unesc = g_uri_unescape_string (uri,NULL);
   g_free (uri);
   set_current_scoreblock_uri (unesc);
-  if (get_print_status()->background & STATE_PAUSED)
+  if (Denemo.printstatus->background & STATE_PAUSED)
     {
       if (Denemo.prefs.typesetrefresh)
-        get_print_status()->updating_id = g_timeout_add (Denemo.prefs.typesetrefresh, (GSourceFunc) retypeset, NULL);
+        Denemo.printstatus->updating_id = g_timeout_add (Denemo.prefs.typesetrefresh, (GSourceFunc) retypeset, NULL);
       else
-        get_print_status()->updating_id = g_idle_add ((GSourceFunc) retypeset, NULL);
-      get_print_status()->background &= ~STATE_PAUSED;
+        Denemo.printstatus->updating_id = g_idle_add ((GSourceFunc) retypeset, NULL);
+      Denemo.printstatus->background &= ~STATE_PAUSED;
     }
   call_out_to_guile ("(FinalizePrint)");
 }
@@ -69,7 +69,7 @@ static gboolean
 libevince_print (void)
 {
   GError *err = NULL;
-  gchar *filename = get_print_status()->printname_pdf[get_print_status()->cycle];
+  gchar *filename = Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle];
   if(filename==NULL) { 
       g_warning ("Typesetting not done? No output filename set.");
       return -1;
@@ -107,11 +107,11 @@ libevince_print (void)
       gtk_print_settings_set (settings, GTK_PRINT_SETTINGS_OUTPUT_URI, get_output_uri_from_scoreblock ());
       ev_print_operation_set_print_settings (printop, settings);
 
-      if (get_print_status()->updating_id)
+      if (Denemo.printstatus->updating_id)
         {
-          get_print_status()->background |= STATE_PAUSED;
-          g_source_remove (get_print_status()->updating_id);    //if this is not turned off the print preview thread hangs until it is.
-          get_print_status()->updating_id = 0;
+          Denemo.printstatus->background |= STATE_PAUSED;
+          g_source_remove (Denemo.printstatus->updating_id);    //if this is not turned off the print preview thread hangs until it is.
+          Denemo.printstatus->updating_id = 0;
         }
 
       ev_print_operation_run (printop, NULL);
@@ -243,7 +243,7 @@ static gboolean
 overdraw_print (cairo_t * cr)
 {
   gint x, y;
-
+  gint message_height = 50;
   get_window_position (&x, &y);
 
   // gint width, height;
@@ -261,10 +261,10 @@ overdraw_print (cairo_t * cr)
       cairo_rectangle (cr, get_wysiwyg_info()->Mark.x - PRINTMARKER / 2, get_wysiwyg_info()->Mark.y - PRINTMARKER / 2, PRINTMARKER, PRINTMARKER);
       cairo_fill (cr);
     }
-  if (get_print_status()->invalid /*!print_is_valid */ )
+  if (Denemo.printstatus->invalid /*!print_is_valid */ )
     {
-      gchar *headline, *explanation;
-      switch (get_print_status()->invalid)
+      gchar *headline, *explanation, *error_file = NULL;
+      switch (Denemo.printstatus->invalid)
         {
         case 1:
           headline = _("Possibly Invalid");
@@ -279,13 +279,27 @@ overdraw_print (cairo_t * cr)
           explanation = _("LilyPond could not typeset this score.");
           break;
         }
+      if (Denemo.printstatus->invalid)
+        error_file = Denemo.printstatus->error_file;
       cairo_set_source_rgba (cr, 0.5, 0.0, 0.0, 0.4);
       cairo_set_font_size (cr, 48.0);
-      cairo_move_to (cr, 50, 50);
+      cairo_move_to (cr, 50, message_height);
       cairo_show_text (cr, headline);
       cairo_set_font_size (cr, 18.0);
-      cairo_move_to (cr, 50, 80);
+      message_height += 30;
+      cairo_move_to (cr, 50, message_height);
       cairo_show_text (cr, explanation);
+      
+      if(error_file)
+        {
+            message_height += 20;
+            cairo_move_to (cr, 50, message_height);
+            cairo_show_text (cr, _("File causing error:")); 
+            message_height += 20;
+            cairo_move_to (cr, 50, message_height);
+            cairo_set_source_rgba (cr, 0.0, 0.0, 0.5, 0.4);
+            cairo_show_text (cr, error_file); 
+        }
     }
     {
         DenemoScoreblock *sb = selected_scoreblock ();
@@ -295,24 +309,26 @@ overdraw_print (cairo_t * cr)
                     {
                     cairo_set_source_rgba (cr, 0.5, 0.7, 0.25, 0.3);
                     cairo_set_font_size (cr, 20.0);
-                    cairo_move_to (cr, 50, 30 + (get_print_status()->invalid?80:0));
+                    message_height += 30;
+                    cairo_move_to (cr, 50, message_height);
                     cairo_show_text (cr, _("(Custom Score Layout)"));
                     cairo_set_font_size (cr, 18.0);
-                    cairo_move_to (cr, 50, 50 + (get_print_status()->invalid?80:0));
+                    message_height += 20;
+                    cairo_move_to (cr, 50, message_height);
                     cairo_show_text (cr, _("See View->Score Layout to delete."));
                     }
             }
     }
-  if (get_print_status()->updating_id && (get_print_status()->background != STATE_NONE))
+  if (Denemo.printstatus->updating_id && (Denemo.printstatus->background != STATE_NONE))
     {
       cairo_set_source_rgba (cr, 0.5, 0.0, 0.5, 0.3);
       cairo_set_font_size (cr, 64.0);
       cairo_move_to (cr, 0, 0);
       cairo_rotate (cr, M_PI / 4);
       cairo_move_to (cr, 200, 80);
-      if (get_print_status()->typeset_type == TYPESET_MOVEMENT)
+      if (Denemo.printstatus->typeset_type == TYPESET_MOVEMENT)
         cairo_show_text (cr, _("Current Movement"));
-      else if (get_print_status()->typeset_type == TYPESET_EXCERPT)
+      else if (Denemo.printstatus->typeset_type == TYPESET_EXCERPT)
         cairo_show_text (cr, _("Excerpt Only"));
     }
     
@@ -448,10 +464,10 @@ static void
 set_printarea (GError ** err)
 {
   GFile *file;
-  gchar *filename = get_print_status()->printname_pdf[get_print_status()->cycle];
+  gchar *filename = Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle];
   //g_debug("using %s\n", filename);
-  if (get_print_status()->invalid == 0)
-    get_print_status()->invalid = (g_file_test (filename, G_FILE_TEST_EXISTS)) ? 0 : 3;
+  if (Denemo.printstatus->invalid == 0)
+    Denemo.printstatus->invalid = (g_file_test (filename, G_FILE_TEST_EXISTS)) ? 0 : 3;
   file = g_file_new_for_commandline_arg (filename);
   //g_free(filename);
   gchar *uri = g_file_get_uri (file);
@@ -462,7 +478,7 @@ set_printarea (GError ** err)
   if (*err)
     {
       g_warning ("Trying to read the pdf file %s gave an error: %s", uri, (*err)->message);
-      get_print_status()->invalid = 3;
+      Denemo.printstatus->invalid = 3;
       gtk_widget_queue_draw (Denemo.printarea);
     }
   else
@@ -480,9 +496,9 @@ void
 printview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean print)
 {
   progressbar_stop ();
-  g_spawn_close_pid (get_print_status()->printpid);
-  //g_debug("background %d\n", get_print_status()->background);
-  if (get_print_status()->background == STATE_NONE)
+  g_spawn_close_pid (Denemo.printstatus->printpid);
+  //g_debug("background %d\n", Denemo.printstatus->background);
+  if (Denemo.printstatus->background == STATE_NONE)
     {
       call_out_to_guile ("(FinalizeTypesetting)");
       process_lilypond_errors ((gchar *) get_printfile_pathbasename ());
@@ -493,7 +509,7 @@ printview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean 
         close (LilyPond_stderr);
       LilyPond_stderr = -1;
     }
-  get_print_status()->printpid = GPID_NONE;
+  Denemo.printstatus->printpid = GPID_NONE;
   GError *err = NULL;
   set_printarea (&err);
   if (!err && print)
@@ -570,7 +586,7 @@ refresh_print_view (G_GNUC_UNUSED gboolean interactive)
 {
   start_busy_cursor ();
   if (typeset (FALSE))
-    g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
+    g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
   else
     start_normal_cursor ();
 }
@@ -583,12 +599,12 @@ print_from_print_view (gboolean all_movements)
   start_busy_cursor ();
   if (all_movements ? typeset (FALSE) : typeset_movement (FALSE))
     {
-      g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (TRUE));
+      g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) printview_finished, (gpointer) (TRUE));
     }
   else
     {
       start_normal_cursor ();
-      libevince_print ();       //printview_finished (get_print_status()->printpid, 0, TRUE);
+      libevince_print ();       //printview_finished (Denemo.printstatus->printpid, 0, TRUE);
     }
   if(!all_movements) 
     changecount = Denemo.project->changecount;
@@ -620,8 +636,8 @@ static void
 thumb_finished (gchar* thumbname)
 {
   GError *err = NULL;
-  g_spawn_close_pid (get_print_status()->printpid);
-  get_print_status()->printpid = GPID_NONE;
+  g_spawn_close_pid (Denemo.printstatus->printpid);
+  Denemo.printstatus->printpid = GPID_NONE;
   gchar *printname = get_thumb_printname ();
   gchar *printpng = g_strconcat (printname, ".png", NULL);
 
@@ -670,7 +686,7 @@ thumb_finished (gchar* thumbname)
       g_free (thumbpathL);
     }
   g_free (printname);
-  get_print_status()->printpid = GPID_NONE;
+  Denemo.printstatus->printpid = GPID_NONE;
   progressbar_stop ();
 }
 
@@ -710,7 +726,7 @@ create_thumbnail (gboolean async, gchar* thumbnail_path)
   gchar *thumbpathN = NULL;
   gchar *thumbname = NULL;
 
-  if (get_print_status()->printpid != GPID_NONE)
+  if (Denemo.printstatus->printpid != GPID_NONE)
     return FALSE;
 
   if (!Denemo.project->filename->len)
@@ -1087,7 +1103,7 @@ create_all_pdf (void)
 {
   start_busy_cursor ();
   create_pdf (FALSE, TRUE);
-  g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
+  g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
 }
 
 static void
@@ -1096,13 +1112,13 @@ create_full_score_pdf (void)
   start_busy_cursor ();
   create_default_scoreblock ();
   create_pdf (FALSE, TRUE);
-  g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
+  g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
 }
 
 static void
 copy_pdf (void)
 {
-  //copy file get_print_status()->printname_pdf[get_print_status()->cycle] to user pdf name 
+  //copy file Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle] to user pdf name 
   //use get_output_uri_from_scoreblock() as default name.
   //use a gtk_file_chooser like this:
   gchar *filename;
@@ -1139,7 +1155,7 @@ copy_pdf (void)
       gsize length;
     
         
-      if (g_file_get_contents (get_print_status()->printname_pdf[get_print_status()->cycle], &contents, &length, NULL))
+      if (g_file_get_contents (Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle], &contents, &length, NULL))
         {
             
             if ((!g_file_test (filename, G_FILE_TEST_EXISTS)) || confirm (_( "PDF creation"), _( "File Exists, overwrite?")))  
@@ -1148,7 +1164,7 @@ copy_pdf (void)
                     {
                       gchar *msg = g_strdup_printf (_("Errno %d:\nCould not copy %s to %s. Perhaps because some other process is using the destination file. Try again with a new location\n"),
                                                     errno,
-                                                    get_print_status()->printname_pdf[get_print_status()->cycle],
+                                                    Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle],
                                                     filename);
                       warningdialog (msg);
                       g_free (msg);
@@ -1160,7 +1176,7 @@ copy_pdf (void)
                         score_status (Denemo.project, TRUE);
                       set_current_scoreblock_uri (uri);
                      
-                      //g_print ("I have copied %s to %s (default was %s) uri %s\n", get_print_status()->printname_pdf[get_print_status()->cycle], filename, outname, uri);
+                      //g_print ("I have copied %s to %s (default was %s) uri %s\n", Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle], filename, outname, uri);
                     }
                   g_free (contents);
                 }
@@ -1177,7 +1193,7 @@ create_movement_pdf (void)
   return_on_windows_if_printing;
   start_busy_cursor ();
   create_pdf (FALSE, FALSE);
-  g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
+  g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
 }
 
 static void
@@ -1186,7 +1202,7 @@ create_part_pdf (void)
   return_on_windows_if_printing;
   start_busy_cursor ();
   create_pdf (TRUE, TRUE);
-  g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
+  g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
 }
 
 static gint
@@ -1954,7 +1970,7 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
   return TRUE;
 }
 
-// get_print_status()->mtime = file_get_mtime(filename); use in get_printfile_pathbasename
+// Denemo.printstatus->mtime = file_get_mtime(filename); use in get_printfile_pathbasename
 
 static void
 typeset_control (gpointer data)
@@ -1964,11 +1980,11 @@ typeset_control (gpointer data)
   gint markstaff = Denemo.project->movement->markstaffnum;
   Denemo.project->movement->markstaffnum = 0;
 
-  //g_debug("typeset control with %d : print view is %d\n",  Denemo.project->textwindow && gtk_widget_get_visible(Denemo.project->textwindow), get_print_status()->background==STATE_ON);
-//  if(Denemo.project->textwindow && gtk_widget_get_visible(Denemo.project->textwindow) && (get_print_status()->background==STATE_ON) && get_print_status()->typeset_type!=TYPESET_ALL_MOVEMENTS)
+  //g_debug("typeset control with %d : print view is %d\n",  Denemo.project->textwindow && gtk_widget_get_visible(Denemo.project->textwindow), Denemo.printstatus->background==STATE_ON);
+//  if(Denemo.project->textwindow && gtk_widget_get_visible(Denemo.project->textwindow) && (Denemo.printstatus->background==STATE_ON) && Denemo.printstatus->typeset_type!=TYPESET_ALL_MOVEMENTS)
 //                      return;
-  if (get_print_status()->background != STATE_ON)
-    get_print_status()->background = 0; //STATE_NONE
+  if (Denemo.printstatus->background != STATE_ON)
+    Denemo.printstatus->background = 0; //STATE_NONE
   if (last_script == NULL)
     last_script = g_string_new ("(d-PrintView)");
 
@@ -1982,37 +1998,37 @@ typeset_control (gpointer data)
     create_part_pdf ();
   else if (data != NULL)
     {
-      if (get_print_status()->background == STATE_ON)
+      if (Denemo.printstatus->background == STATE_ON)
         {
           save_selection (Denemo.project->movement);
-          if (get_print_status()->typeset_type == TYPESET_ALL_MOVEMENTS)
+          if (Denemo.printstatus->typeset_type == TYPESET_ALL_MOVEMENTS)
             {
               Denemo.project->movement->markstaffnum = 0;
               create_pdf (FALSE, TRUE);
             }
-          else if (get_print_status()->typeset_type == TYPESET_MOVEMENT)
+          else if (Denemo.printstatus->typeset_type == TYPESET_MOVEMENT)
             {
               Denemo.project->movement->markstaffnum = 0;
               create_pdf (FALSE, FALSE);
             }
           else
             {
-              gint value = Denemo.project->movement->currentstaffnum - get_print_status()->first_staff;
+              gint value = Denemo.project->movement->currentstaffnum - Denemo.printstatus->first_staff;
               if (value < 1)
                 value = 1;
               Denemo.project->movement->markstaffnum = Denemo.project->movement->selection.firststaffmarked = value;
 
-              value = Denemo.project->movement->currentstaffnum + get_print_status()->last_staff;
+              value = Denemo.project->movement->currentstaffnum + Denemo.printstatus->last_staff;
               if (value < 1)
                 value = 1;
               Denemo.project->movement->selection.laststaffmarked = value;
 
-              value = Denemo.project->movement->currentmeasurenum - get_print_status()->first_measure;
+              value = Denemo.project->movement->currentmeasurenum - Denemo.printstatus->first_measure;
               if (value < 1)
                 value = 1;
               Denemo.project->movement->selection.firstmeasuremarked = value;
 
-              value = Denemo.project->movement->currentmeasurenum + get_print_status()->last_measure;
+              value = Denemo.project->movement->currentmeasurenum + Denemo.printstatus->last_measure;
               if (value < 1)
                 value = 1;
               Denemo.project->movement->selection.lastmeasuremarked = value;
@@ -2029,8 +2045,8 @@ typeset_control (gpointer data)
         }
       g_string_assign (last_script, data);
       last_data = NULL;
-      g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
-      if (get_print_status()->background == STATE_ON)
+      g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
+      if (Denemo.printstatus->background == STATE_ON)
         {
           restore_selection (Denemo.project->movement);
         }
@@ -2050,7 +2066,7 @@ typeset_control (gpointer data)
 
           start_busy_cursor ();
           call_out_to_guile (last_script->str);
-          g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
+          g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
 
           Denemo.project->movement->markstaffnum = markstaff;
           goto END;
@@ -2167,32 +2183,32 @@ retypeset (void)
 {
   static gint firstmeasure, lastmeasure, firststaff, laststaff, movementnum;
   DenemoMovement *si = Denemo.project->movement;
-  if ((get_print_status()->printpid == GPID_NONE) && (gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.printarea))))
+  if ((Denemo.printstatus->printpid == GPID_NONE) && (gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.printarea))))
     {
-      if (get_print_status()->typeset_type == TYPESET_ALL_MOVEMENTS)
+      if (Denemo.printstatus->typeset_type == TYPESET_ALL_MOVEMENTS)
         {
           if ((changecount != Denemo.project->changecount) || (Denemo.project->lilysync != Denemo.project->changecount))
             {
-              get_print_status()->background = STATE_ON;
+              Denemo.printstatus->background = STATE_ON;
               typeset_control ("(d-Info \"This is called when hitting the refresh button while in continuous re-typeset\")(d-PrintView)");
-              get_print_status()->background = STATE_OFF;
+              Denemo.printstatus->background = STATE_OFF;
               changecount = Denemo.project->changecount;
             }
         }
-      else if ((changecount != Denemo.project->changecount) || (Denemo.project->lilysync != Denemo.project->changecount) || (si->currentmovementnum != movementnum) || ((get_print_status()->typeset_type == TYPESET_EXCERPT) && (si->currentmeasurenum < firstmeasure || si->currentmeasurenum > lastmeasure || si->currentstaffnum < firststaff || si->currentstaffnum > laststaff)))
+      else if ((changecount != Denemo.project->changecount) || (Denemo.project->lilysync != Denemo.project->changecount) || (si->currentmovementnum != movementnum) || ((Denemo.printstatus->typeset_type == TYPESET_EXCERPT) && (si->currentmeasurenum < firstmeasure || si->currentmeasurenum > lastmeasure || si->currentstaffnum < firststaff || si->currentstaffnum > laststaff)))
         {
-          firstmeasure = si->currentmeasurenum - get_print_status()->first_measure;
+          firstmeasure = si->currentmeasurenum - Denemo.printstatus->first_measure;
           if (firstmeasure < 0)
             firstmeasure = 0;
-          lastmeasure = si->currentmeasurenum + get_print_status()->last_measure;
-          firststaff = si->currentstaffnum - get_print_status()->first_staff;
+          lastmeasure = si->currentmeasurenum + Denemo.printstatus->last_measure;
+          firststaff = si->currentstaffnum - Denemo.printstatus->first_staff;
           if (firststaff < 0)
             firststaff = 0;
-          laststaff = si->currentstaffnum + get_print_status()->last_staff;
+          laststaff = si->currentstaffnum + Denemo.printstatus->last_staff;
           movementnum = si->currentmovementnum;
-          get_print_status()->background = STATE_ON;
+          Denemo.printstatus->background = STATE_ON;
           typeset_control ("(disp \"This is called when hitting the refresh button while in continuous re-typeset\")(d-PrintView)");
-          get_print_status()->background = STATE_OFF;
+          Denemo.printstatus->background = STATE_OFF;
           changecount = Denemo.project->changecount;
         }
     }
@@ -2204,10 +2220,10 @@ GtkWidget *ContinuousUpdateButton = NULL;
 static void
 toggle_updates (void)
 {
-  if (get_print_status()->updating_id)
+  if (Denemo.printstatus->updating_id)
     {
-      g_source_remove (get_print_status()->updating_id);
-      get_print_status()->updating_id = 0;
+      g_source_remove (Denemo.printstatus->updating_id);
+      Denemo.printstatus->updating_id = 0;
       gtk_button_set_label (GTK_BUTTON (ContinuousUpdateButton), MANUAL);
       if (Denemo.prefs.persistence)
         Denemo.prefs.manualtypeset = TRUE;
@@ -2216,9 +2232,9 @@ toggle_updates (void)
   else
     {
       if (Denemo.prefs.typesetrefresh)
-        get_print_status()->updating_id = g_timeout_add (Denemo.prefs.typesetrefresh, (GSourceFunc) retypeset, NULL);
+        Denemo.printstatus->updating_id = g_timeout_add (Denemo.prefs.typesetrefresh, (GSourceFunc) retypeset, NULL);
       else
-        get_print_status()->updating_id = g_idle_add ((GSourceFunc) retypeset, NULL);
+        Denemo.printstatus->updating_id = g_idle_add ((GSourceFunc) retypeset, NULL);
       gtk_button_set_label (GTK_BUTTON (ContinuousUpdateButton), CONTINUOUS);
       if (Denemo.prefs.persistence)
         Denemo.prefs.manualtypeset = FALSE;
@@ -2226,7 +2242,7 @@ toggle_updates (void)
 }
 void set_continuous_typesetting (gboolean on)
 {
-    gboolean current = get_print_status()->updating_id;
+    gboolean current = Denemo.printstatus->updating_id;
     if ((current && !on) || ((!current) && on))
      toggle_updates();
 }
@@ -2241,19 +2257,19 @@ set_typeset_type (GtkWidget * radiobutton, GtkWidget *rangebox)
       switch (index)
         {
         case 0:
-          get_print_status()->typeset_type = TYPESET_EXCERPT;
+          Denemo.printstatus->typeset_type = TYPESET_EXCERPT;
           gtk_widget_set_sensitive (rangebox, TRUE);
           break;
         case 1:
-          get_print_status()->typeset_type = TYPESET_MOVEMENT;
+          Denemo.printstatus->typeset_type = TYPESET_MOVEMENT;
           gtk_widget_set_sensitive (rangebox, FALSE);
           break;
         case 2:
-          get_print_status()->typeset_type = TYPESET_ALL_MOVEMENTS;
+          Denemo.printstatus->typeset_type = TYPESET_ALL_MOVEMENTS;
           gtk_widget_set_sensitive (rangebox, FALSE);
         }
       if (Denemo.prefs.persistence)
-        Denemo.prefs.typesettype = get_print_status()->typeset_type;
+        Denemo.prefs.typesettype = Denemo.printstatus->typeset_type;
     }
 }
 
@@ -2263,10 +2279,10 @@ value_change (GtkWidget * spinner, gint * value)
   *value = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spinner));
   if (Denemo.prefs.persistence)
     {
-      Denemo.prefs.firstmeasure = get_print_status()->first_measure;
-      Denemo.prefs.lastmeasure = get_print_status()->last_measure;
-      Denemo.prefs.firststaff = get_print_status()->first_staff;
-      Denemo.prefs.laststaff = get_print_status()->last_staff;
+      Denemo.prefs.firstmeasure = Denemo.printstatus->first_measure;
+      Denemo.prefs.lastmeasure = Denemo.printstatus->last_measure;
+      Denemo.prefs.firststaff = Denemo.printstatus->first_staff;
+      Denemo.prefs.laststaff = Denemo.printstatus->last_staff;
     }
 }
 
@@ -2289,8 +2305,8 @@ range_dialog (void)
       GtkWidget *label = gtk_label_new (_("Measures before cursor:"));
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 8);
       GtkWidget *spinner = gtk_spin_button_new_with_range (0, 1000, 1);
-      g_signal_connect (spinner, "value-changed", (GCallback) value_change, &get_print_status()->first_measure);
-      gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinner), get_print_status()->first_measure);
+      g_signal_connect (spinner, "value-changed", (GCallback) value_change, &Denemo.printstatus->first_measure);
+      gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinner), Denemo.printstatus->first_measure);
 
       gtk_box_pack_start (GTK_BOX (hbox), spinner, TRUE, TRUE, 0);
 
@@ -2298,8 +2314,8 @@ range_dialog (void)
       label = gtk_label_new (_("Measures after cursor:"));
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 8);
       spinner = gtk_spin_button_new_with_range (0, 1000, 1);
-      g_signal_connect (spinner, "value-changed", (GCallback) value_change, &get_print_status()->last_measure);
-      gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinner), get_print_status()->last_measure);
+      g_signal_connect (spinner, "value-changed", (GCallback) value_change, &Denemo.printstatus->last_measure);
+      gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinner), Denemo.printstatus->last_measure);
 
       gtk_box_pack_start (GTK_BOX (hbox), spinner, TRUE, TRUE, 0);
 
@@ -2309,16 +2325,16 @@ range_dialog (void)
       label = gtk_label_new (_("Staffs before cursor:"));
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 8);
       spinner = gtk_spin_button_new_with_range (0, 100, 1);
-      g_signal_connect (spinner, "value-changed", (GCallback) value_change, &get_print_status()->first_staff);
-      gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinner), get_print_status()->first_staff);
+      g_signal_connect (spinner, "value-changed", (GCallback) value_change, &Denemo.printstatus->first_staff);
+      gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinner), Denemo.printstatus->first_staff);
 
       gtk_box_pack_start (GTK_BOX (hbox), spinner, TRUE, TRUE, 0);
 
       label = gtk_label_new (_("Staffs after cursor:"));
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 8);
       spinner = gtk_spin_button_new_with_range (0, 100, 1);
-      g_signal_connect (spinner, "value-changed", (GCallback) value_change, &get_print_status()->last_staff);
-      gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinner), get_print_status()->last_staff);
+      g_signal_connect (spinner, "value-changed", (GCallback) value_change, &Denemo.printstatus->last_staff);
+      gtk_spin_button_set_value (GTK_SPIN_BUTTON (spinner), Denemo.printstatus->last_staff);
 
       gtk_box_pack_start (GTK_BOX (hbox), spinner, TRUE, TRUE, 0);
 
@@ -2411,11 +2427,11 @@ install_printpreview (GtkWidget * top_vbox)
 {
   if (Denemo.printarea)
     return;
-  get_print_status()->typeset_type = Denemo.prefs.typesettype;
-  get_print_status()->first_measure = Denemo.prefs.firstmeasure;
-  get_print_status()->last_measure = Denemo.prefs.lastmeasure;
-  get_print_status()->first_staff = Denemo.prefs.firststaff;
-  get_print_status()->last_staff = Denemo.prefs.laststaff;
+  Denemo.printstatus->typeset_type = Denemo.prefs.typesettype;
+  Denemo.printstatus->first_measure = Denemo.prefs.firstmeasure;
+  Denemo.printstatus->last_measure = Denemo.prefs.lastmeasure;
+  Denemo.printstatus->first_staff = Denemo.prefs.firststaff;
+  Denemo.printstatus->last_staff = Denemo.prefs.laststaff;
 
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   GtkWidget *main_hbox = gtk_hbox_new (FALSE, 1);
@@ -2548,5 +2564,5 @@ install_printpreview (GtkWidget * top_vbox)
 gboolean
 continuous_typesetting (void)
 {
-  return (get_print_status()->updating_id);
+  return (Denemo.printstatus->updating_id) && gtk_widget_get_visible (gtk_widget_get_toplevel(Denemo.printarea));
 }

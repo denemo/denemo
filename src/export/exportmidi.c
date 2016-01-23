@@ -931,7 +931,7 @@ static void save_smf_to_file (smf_t *smf, gchar *thefilename)
 
 gdouble load_lilypond_midi (gchar * outfile, gboolean keep) {
     smf_t *saved = NULL;
-    gchar *midi_file = get_print_status()->printname_midi[get_print_status()->cycle];
+    gchar *midi_file = Denemo.printstatus->printname_midi[Denemo.printstatus->cycle];
     smf_t *smf = smf_load (midi_file);
     if (smf)
         {

@@ -533,7 +533,7 @@ static gint get_number_of_pages (gchar *base)
     gint i;
     for (i=1;i<10;i++)
         {
-            gchar *filename = g_strdup_printf ("%s%s%d%s", get_print_status()->printbasename[get_print_status()->cycle], "-page-", i, ".svg");
+            gchar *filename = g_strdup_printf ("%s%s%d%s", Denemo.printstatus->printbasename[Denemo.printstatus->cycle], "-page-", i, ".svg");
             if (!(g_file_test (filename, G_FILE_TEST_EXISTS)))
                 {
                     g_free(filename);
@@ -549,11 +549,11 @@ set_playback_view (void)
 {
   static gint num_pages = 0; //although not directly recursive, this function does spawn off another lilypond typeset if it there are multiple svg pages created, when finished that calls this routine.
   GFile *file;
-  gchar *filename = g_strdup (get_print_status()->printname_svg[get_print_status()->cycle]);
+  gchar *filename = g_strdup (Denemo.printstatus->printname_svg[Denemo.printstatus->cycle]);
   gboolean multipage = FALSE;
   //g_print("Output to %s num_pages is %d\n", filename, num_pages);
-  if (get_print_status()->invalid)
-    g_warning ("We got print status invalid %d\nTypeset may not be good.", get_print_status()->invalid);
+  if (Denemo.printstatus->invalid)
+    g_warning ("We got print status invalid %d\nTypeset may not be good.", Denemo.printstatus->invalid);
   if (!(g_file_test (filename, G_FILE_TEST_EXISTS)))
       {
           g_free (filename);
@@ -563,11 +563,11 @@ set_playback_view (void)
                 g_warning ("Unable to get the right page length\n");
                 return FALSE;
             }
-          filename = g_strconcat (get_print_status()->printbasename[get_print_status()->cycle], "-page-1.svg", NULL);
+          filename = g_strconcat (Denemo.printstatus->printbasename[Denemo.printstatus->cycle], "-page-1.svg", NULL);
           if (g_file_test (filename, G_FILE_TEST_EXISTS))
                 {
                     g_free (filename); 
-                    num_pages = get_number_of_pages (get_print_status()->printbasename[get_print_status()->cycle]);
+                    num_pages = get_number_of_pages (Denemo.printstatus->printbasename[Denemo.printstatus->cycle]);
                     if (num_pages<2)
                         {
                         g_warning ("Unable to determine number of pages\n");
@@ -585,10 +585,10 @@ set_playback_view (void)
     if (num_pages == 0)
         num_pages = 1; //no recursion, so one page
 
-    //if (get_print_status()->invalid == 0) ignore errors as it may have typeset anyway.
-  get_print_status()->invalid = (g_file_test (filename, G_FILE_TEST_EXISTS)) ? 0 : 3;
+    //if (Denemo.printstatus->invalid == 0) ignore errors as it may have typeset anyway.
+  Denemo.printstatus->invalid = (g_file_test (filename, G_FILE_TEST_EXISTS)) ? 0 : 3;
 
- if (get_print_status()->invalid == 0)
+ if (Denemo.printstatus->invalid == 0)
     {
  
     compute_timings (g_path_get_dirname(filename), create_positions (filename)); 
@@ -648,9 +648,9 @@ playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboole
 {
   progressbar_stop ();
 
-  g_spawn_close_pid (get_print_status()->printpid);
-  //g_print ("background %d\n", get_print_status()->background);
-  if (get_print_status()->background == STATE_NONE)
+  g_spawn_close_pid (Denemo.printstatus->printpid);
+  //g_print ("background %d\n", Denemo.printstatus->background);
+  if (Denemo.printstatus->background == STATE_NONE)
     {
       call_out_to_guile ("(FinalizeTypesetting)");
       process_lilypond_errors ((gchar *) get_printfile_pathbasename ());
@@ -661,7 +661,7 @@ playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboole
         close (LilyPond_stderr);
       LilyPond_stderr = -1;
     }
-  get_print_status()->printpid = GPID_NONE;
+  Denemo.printstatus->printpid = GPID_NONE;
   if(set_playback_view ())
     {
       gdouble total_time;
@@ -718,7 +718,7 @@ copy_svg (void)
       gsize length;
     
         
-      if (g_file_get_contents (get_print_status()->printname_svg[get_print_status()->cycle], &contents, &length, NULL))
+      if (g_file_get_contents (Denemo.printstatus->printname_svg[Denemo.printstatus->cycle], &contents, &length, NULL))
         {
             
             if ((!g_file_test (filename, G_FILE_TEST_EXISTS)) || confirm (_( "SVG creation"), _( "File Exists, overwrite?")))  
@@ -727,7 +727,7 @@ copy_svg (void)
                     {
                       gchar *msg = g_strdup_printf (_("Errno %d:\nCould not copy %s to %s. Perhaps because some other process is using the destination file. Try again with a new location\n"),
                                                     errno,
-                                                    get_print_status()->printname_svg[get_print_status()->cycle],
+                                                    Denemo.printstatus->printname_svg[Denemo.printstatus->cycle],
                                                     filename);
                       warningdialog (msg);
                       g_free (msg);
@@ -739,7 +739,7 @@ copy_svg (void)
                         score_status (Denemo.project, TRUE);
                       set_current_scoreblock_uri (uri);
                      
-                      //g_print ("I have copied %s to %s (default was %s) uri %s\n", get_print_status()->printname_svg[get_print_status()->cycle], filename, outname, uri);
+                      //g_print ("I have copied %s to %s (default was %s) uri %s\n", Denemo.printstatus->printname_svg[Denemo.printstatus->cycle], filename, outname, uri);
                     }
                   g_free (contents);
                 }
@@ -751,15 +751,15 @@ copy_svg (void)
 }
 
 void delete_svgs (void) {
-    gint cycle = get_print_status()->cycle;
+    gint cycle = Denemo.printstatus->cycle;
     cycle = !cycle;
-    if (!get_print_status()->printname_svg[cycle])
+    if (!Denemo.printstatus->printname_svg[cycle])
         return;//not yet initialized
-    g_unlink ( get_print_status()->printname_svg[cycle]);
+    g_unlink ( Denemo.printstatus->printname_svg[cycle]);
     gint i;
     for (i=1;i<10;i++)
         {
-            gchar *filename = g_strdup_printf ("%s%s%d%s", get_print_status()->printbasename[cycle], "-page-", i, ".svg");
+            gchar *filename = g_strdup_printf ("%s%s%d%s", Denemo.printstatus->printbasename[cycle], "-page-", i, ".svg");
             if (!g_file_test (filename, G_FILE_TEST_EXISTS))
                 {
                  //g_print ("No file %s\n", filename);
@@ -785,7 +785,7 @@ static void remake_playback_view (gboolean part)
     set_continuous_typesetting (FALSE);
     create_svg (part, FALSE);//there is a typeset() function defined which does initialize_typesetting() ...
     //g_print ("Denemo.playbackview is at %p, Denemo at %p", Denemo.playbackview, &Denemo);
-    g_child_watch_add (get_print_status()->printpid, (GChildWatchFunc) playbackview_finished, (gpointer) (FALSE));
+    g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) playbackview_finished, (gpointer) (FALSE));
 }
 
 //returns TRUE if a re-build has been kicked off.
