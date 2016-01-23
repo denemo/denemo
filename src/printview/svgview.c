@@ -1032,7 +1032,7 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
             //g_print ("Store %.2f %.2f\n", gtk_adjustment_get_value (VAdj), ScrollTime);
             call_out_to_guile ("(d-PlayMidiNote 52 255 9 100)");    
             toggle_scroll_point (gtk_adjustment_get_value (VAdj), ScrollTime, x/(TheScale), y/(TheScale));
-            gtk_widget_set_sensitive (ClearScrollPointsButton, Denemo.project->movement->scroll_points);
+            gtk_widget_set_sensitive (ClearScrollPointsButton, (Denemo.project->movement->scroll_points != NULL));
             //list_scroll_points();
         }
     gtk_widget_queue_draw (Denemo.playbackview);
