@@ -415,7 +415,15 @@ open_viewer (gint status, gchar * filename)
   Denemo.printstatus->printpid = GPID_NONE;
   //normal_cursor();
   process_lilypond_errors (filename);
-#ifndef G_OS_WIN32
+  
+  {
+    GError* err = NULL;
+    status = g_spawn_check_exit_status (status, &err);
+    if(!status)
+        g_warning ("Lilypond did not end successfully: %s", err->message);
+  }         
+  
+#if 1 //ndef G_OS_WIN32
   //status check seems to fail on windows, and errors are not highlighted for windows.
   if (status)
     {
@@ -511,7 +519,7 @@ run_lilypond (gchar ** arguments)
                                                                &Denemo.printstatus->printpid,
                                                                NULL,
                                                                NULL,    /* stdout */
-#ifdef G_OS_WIN32
+#if 0 //ifdef G_OS_WIN32
                                                                NULL,
 #else
                                                                &LilyPond_stderr,        /* stderr */

@@ -493,9 +493,15 @@ set_printarea (GError ** err)
 }
 
 void
-printview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean print)
+printview_finished (G_GNUC_UNUSED GPid pid, gint status, gboolean print)
 {
   progressbar_stop ();
+  {
+    GError* err = NULL;
+    if(!g_spawn_check_exit_status (status, &err))
+        g_warning ("Lilypond did not end successfully: %s", err->message);
+  }                       
+       
   g_spawn_close_pid (Denemo.printstatus->printpid);
   //g_debug("background %d\n", Denemo.printstatus->background);
   if (Denemo.printstatus->background == STATE_NONE)
