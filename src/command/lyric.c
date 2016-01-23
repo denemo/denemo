@@ -11,6 +11,8 @@
 #include "command/staff.h"
 #include "core/utils.h"
 #include "command/score.h"
+#include "display/draw.h"
+#include "command/lilydirectives.h"
 static GtkWidget *DummyVerse;   /* a non-existent verse */
 
 GtkWidget*

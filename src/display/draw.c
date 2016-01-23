@@ -14,6 +14,7 @@
 #include "display/calculatepositions.h"
 #include "command/commandfuncs.h"
 #include "command/contexts.h"
+#include "command/lilydirectives.h"
 #include "display/draw.h"               /* Which includes gtk.h */
 #include "display/drawingprims.h"
 #include "display/slurs.h"

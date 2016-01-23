@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <glib.h>
+#include <glib/gstdio.h>
 #include "common.h"
 
 void

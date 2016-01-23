@@ -25,6 +25,7 @@
 #include "command/commandfuncs.h"
 #include "command/processstaffname.h"
 #include "export/exportmidi.h"
+#include "audio/pitchentry.h"
 
 
 static smf_t *smf = NULL;

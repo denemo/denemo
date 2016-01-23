@@ -1,4 +1,6 @@
 #include "timesig.h"
+#include "core/utils.h"
+#include "command/commandfuncs.h"
 
 /**
  * Create a new timesignature object

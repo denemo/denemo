@@ -39,7 +39,6 @@ void highlight_lily_error ();
 gboolean goto_lilypond_position (gint line, gint column);
 DenemoObject *get_object_at_lilypond (gint line, gint col);
 
-
 void set_initiate_scoreblock (DenemoMovement * si, GString * scoreblock);
 gchar *get_lilypond_for_clef (clef * theclef);
 gchar *get_lilypond_for_keysig (struct keysig *key);
@@ -52,5 +51,6 @@ void set_voice_termination (GString * str, DenemoStaff * curstaffstruct);
 void set_staff_termination (GString * str, DenemoStaff * curstaffstruct);
 void set_voice_definition (GString * str, DenemoStaff * curstaffstruct, gchar * denemo_name);
 void set_staff_definition (GString * str, DenemoStaff * curstaffstruct, gchar * denemo_name);
+gint get_cursor_offset (void);
 void init_lilypond_buffer(void);
 #endif

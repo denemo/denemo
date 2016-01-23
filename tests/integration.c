@@ -1,4 +1,5 @@
 #include <glib.h>
+#include <glib/gstdio.h>
 #include <unistd.h>
 #include <config.h>
 #include "common.h"

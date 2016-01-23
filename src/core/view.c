@@ -18,9 +18,11 @@
 #include <cairo.h>
 #include <cairo-svg.h>
 #include <librsvg/rsvg.h>
+#include <sndfile.h>
 
 #include "audio/playback.h"
 #include "audio/pitchentry.h"
+#include "audio/portaudiobackend.h"
 #include "export/exportlilypond.h"
 #include "export/print.h"
 #include "printview/printview.h"

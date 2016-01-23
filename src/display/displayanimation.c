@@ -17,6 +17,7 @@
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
 #include "display/displayanimation.h"
+#include "display/draw.h"
 
 #define TRANSITION_MS (20)
 static gint transition_steps = 0;

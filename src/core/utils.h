@@ -135,6 +135,8 @@ const gchar *get_system_font_dir(void);
 const gchar *get_executable_dir(void);
 /* get directory of current Denemo.project or home directory if untitled. User must free the returned string */
 gchar *get_project_dir(void);
+const gchar* get_local_dir(DenemoDirectory dir);
+gchar* get_system_dir(DenemoDirectory dir);
 void kill_process (GPid pid);
 
 gchar *music_font (gchar * str);
