@@ -67,7 +67,7 @@ load_keymap_files(GList* files)
     if(g_file_test(cur->data, G_FILE_TEST_EXISTS))
     {      
       if(!ret && load_xml_keymap(cur->data) == 0){
-        g_message("Loaded keymap %s", cur->data);
+        g_message("Loaded keymap %s", (char *) cur->data);
         ret = TRUE;
       }
       g_free(cur->data);
@@ -781,7 +781,7 @@ keymap_collect_bindings_in_row (gpointer key, gpointer value, GList **data)
   command_row *command = (command_row*) value;
   for (g = command->bindings; g; g=g->next)
     {
-        *data = g_list_prepend (*data, g_strdup_printf("\"%s\":\n     %s\n\"%s\"\n\n", g->data, command->label, command->tooltip));
+        *data = g_list_prepend (*data, g_strdup_printf("\"%s\":\n     %s\n\"%s\"\n\n", (char *) g->data, (char *) command->label, (char *) command->tooltip));
     }
 }
 
@@ -831,7 +831,7 @@ GString *keymap_get_bindings (keymap * the_keymap)
   GList *tofree = g;
   for(;g;g=g->next)
     {
-    g_string_append_printf (ret, "%s%s\n----------------\n", _("Shortcut key name: "), g->data);
+    g_string_append_printf (ret, "%s%s\n----------------\n", _("Shortcut key name: "), (char *) g->data);
     g_free(g->data);
     }
   g_list_free(tofree);
@@ -1532,7 +1532,7 @@ dump_command_info (keymap * the_keymap, gint command_id)
   cur = row->bindings;
   while(cur)
     {
-      g_debug ("\t%s (%d)\n", cur->data, lookup_command_for_keybinding_name (the_keymap, cur->data));
+      g_debug ("\t%s (%d)\n", (char *) cur->data, lookup_command_for_keybinding_name (the_keymap, cur->data));
       cur = g_list_next(cur);
     }
 }
