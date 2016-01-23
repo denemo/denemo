@@ -89,7 +89,7 @@ new_list_info (gint start_position, gint pixels)
 }
 
 G_GNUC_UNUSED
-static print_nonchords (GList *nonchords)
+static void print_nonchords (GList *nonchords)
 {
     GList *g;
     for (g=nonchords;g;g=g->next)

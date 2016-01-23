@@ -394,7 +394,7 @@ DenemoPalette *get_palette (gchar *name)
     return NULL;
 }
 
-static button_pressed (GtkWidget *button, GdkEventButton  *event, DenemoPalette *pal)
+static gboolean button_pressed (GtkWidget *button, GdkEventButton  *event, DenemoPalette *pal)
 { 
     Denemo.currentpalette = pal;
     if (event->button == 1)
