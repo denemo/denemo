@@ -112,7 +112,7 @@ static void
 test_thumbnailer(gpointer fixture, gconstpointer data)
 {
   gchar* thumbnail = g_build_filename(temp_dir, "thumbnail.png", NULL);
-  gchar* scheme = g_strdup_printf( "(d-CreateThumbnail #f \"%s\")(d-Exit)", thumbnail, temp_dir);
+  gchar* scheme = g_strdup_printf( "(d-CreateThumbnail #f \"%s\")(d-Exit)", thumbnail);
   gchar* input = g_build_filename(data_dir, "denemo", "blank.denemo", NULL);
   
   g_test_print("Running scheme: %s %s\n", scheme, input);
