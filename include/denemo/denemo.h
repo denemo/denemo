@@ -21,7 +21,9 @@ extern "C" {
 #ifndef gettext_noop
 # define gettext_noop(String) String
 #endif
-#define N_(String) gettext_noop (String)
+#ifndef N_
+# define N_(String) gettext_noop (String)
+#endif
 
 
 #include <glib.h>
