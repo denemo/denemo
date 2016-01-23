@@ -16,6 +16,7 @@
 #include "export/exportabc.h"
 #include "export/exportlilypond.h"
 #include "export/file.h"
+#include "export/guidedimportmidi.h"
 #include "ui/moveviewport.h"
 #include "command/staff.h"
 #include "command/score.h"
@@ -38,7 +39,9 @@
 #include <dirent.h>             /* filter and sort filenames */
 #include "source/source.h"
 #include "source/sourceaudio.h"
+#include "source/proof.h"
 #include "audio/pitchentry.h"
+#include "audio/audiointerface.h"
 
 static gint file_open (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename);
 static gint file_import_lilypond (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename);

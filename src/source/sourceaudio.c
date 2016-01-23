@@ -445,6 +445,7 @@ open_source_audio_file (void)
 #include <fcntl.h>
 #include <aubio/aubio.h>
 #include "core/utils.h"
+#include "core/view.h"
 #include "audio/midi.h"
 #include "source/sourceaudio.h"
 #include "command/keyresponses.h"

@@ -13,6 +13,7 @@
 #include "core/prefops.h"            //for get_user_data_dir()
 #include "export/file.h"
 #include "core/utils.h"
+#include "core/view.h"
 
 /* libxml includes: for libxml2 this should be <libxml.h> */
 #include <libxml/parser.h>

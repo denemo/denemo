@@ -17,7 +17,9 @@
 #include "core/kbd-custom.h"
 #include "core/prefops.h"
 #include "ui/mousing.h"
+#include "ui/palettes.h"
 #include "core/utils.h"
+#include "core/view.h"
 
 
 static gint

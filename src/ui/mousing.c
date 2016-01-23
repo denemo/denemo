@@ -16,6 +16,7 @@
 #include "ui/moveviewport.h"
 #include "ui/mousing.h"
 #include "audio/fluid.h"
+#include "audio/playback.h"
 #include "display/draw.h"
 #include "core/view.h"
 #include "audio/audiointerface.h"

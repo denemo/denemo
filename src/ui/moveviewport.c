@@ -12,6 +12,7 @@
 #include "command/staff.h"
 #include "core/utils.h"
 #include "display/displayanimation.h"
+#include "display/draw.h"
 #include "command/select.h"
 
 /**

@@ -8,6 +8,7 @@
 #include <string.h>
 #include <denemo/denemo.h>
 #include "core/utils.h"
+#include "core/view.h"
 #include "command/commandfuncs.h"
 #include "ui/dialogs.h"
 

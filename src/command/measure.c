@@ -17,6 +17,7 @@
 #include "core/utils.h"
 #include "command/select.h"
 #include "display/displayanimation.h"
+#include "command/commandfuncs.h"
 
 #define STEMDIFFERENCE 6
 #define HALFSTEMDIFFERENCE 3
