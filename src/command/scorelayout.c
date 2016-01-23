@@ -1194,9 +1194,9 @@ static void remove_brace_end (GtkWidget *vbox)
   GList *g  = g_object_get_data (G_OBJECT(vbox), "postfix");
   for ( ;g;g=g->next)
         {
-           g_print ("Next postfix %s\n", g->data); 
+           g_print ("Next postfix %s\n", (char *) g->data);
            delete_brace (g->data);
-           g_print ("transformed to %s\n", g->data);
+           g_print ("transformed to %s\n", (char *) g->data);
         }
 }
 static gboolean
