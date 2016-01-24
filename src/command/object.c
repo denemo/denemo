@@ -1479,7 +1479,7 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
         type = _( "Movement Header ");
     else  if(!strcmp (field, "layout"))
         type = _( "Movement Layout ");           
-     for (g=*pdirectives;g;g=g->next)
+    for (g = *pdirectives; g; g = g->next)
       {
             DenemoDirective *directive = g->data;       
             const gchar *label = get_label_for_command (directive->tag->str);
