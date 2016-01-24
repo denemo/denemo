@@ -13,7 +13,7 @@ tupletchangedialog (DenemoObject * theobj, GtkWidget * scorearea)
   GtkWidget *denominator;
   GString *entrycontent = NULL;
 
-  dialog = gtk_dialog_new_with_buttons (_("Customize tuplet multiplier"), NULL, (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_STOCK_CANCEL, NULL);
+  dialog = gtk_dialog_new_with_buttons (_("Customize tuplet multiplier"), NULL, (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), _("_OK"), GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_STOCK_CANCEL, NULL);
   if (!entrycontent)
     entrycontent = g_string_new (NULL);
 

@@ -1163,7 +1163,7 @@ static void scroll_dialog (void)
   GtkWidget *intro;
   GtkWidget *rate;
   
-  dialog = gtk_dialog_new_with_buttons (_("Automatic Scrolling"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_RESPONSE_REJECT, NULL);
+  dialog = gtk_dialog_new_with_buttons (_("Automatic Scrolling"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), _("_OK"), GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_RESPONSE_REJECT, NULL);
 
   hbox = gtk_hbox_new (FALSE, 8);
 

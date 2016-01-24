@@ -223,7 +223,7 @@ timesig_change (DenemoProject * gui, actiontype action)
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->movement->currentstaff->data;
 
   dialog = gtk_dialog_new_with_buttons (((action == CHANGEINITIAL) ? _("Change initial time signature") : _("Insert time signature change")), NULL,     /* parent window */
-                                        (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_STOCK_CANCEL, NULL);
+                                        (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), _("_OK"), GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_STOCK_CANCEL, NULL);
 
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 

@@ -458,7 +458,7 @@ mouse_shortcut_dialog (ModifierAction * info)
   GtkWidget *dialog = gtk_dialog_new_with_buttons (_("Set Mouse Shortcut"),
                                                    GTK_WINDOW (Denemo.window),
                                                    (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
-                                                   GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+                                                   _("_OK"), GTK_RESPONSE_ACCEPT,
                                                    _("_Cancel"), GTK_RESPONSE_REJECT,
                                                    NULL);
 

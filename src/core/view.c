@@ -3121,7 +3121,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
           // GtkSettings* settings = gtk_settings_get_default();
           // gtk_settings_set_long_property  (settings,"gtk-menu-images",(glong)TRUE, "XProperty");
           //item = gtk_image_menu_item_new_from_stock("Save Graphic", gtk_accel_group_new());
-          item = gtk_image_menu_item_new_from_stock (_("Save Graphic") /*GTK_STOCK_OK */ , NULL);
+          item = gtk_image_menu_item_new_from_stock (_("Save Graphic") /*_("_OK") */ , NULL);
 
           gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
           g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (saveGraphicItem), action);

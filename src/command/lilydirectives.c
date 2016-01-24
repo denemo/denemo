@@ -1992,7 +1992,7 @@ select_directive (gchar * instr, GList * directives)
   GtkWidget *dialog = gtk_dialog_new_with_buttons (_("Select Directive"),
                                                    GTK_WINDOW (Denemo.window),
                                                    (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
-                                                   GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+                                                   _("_OK"), GTK_RESPONSE_ACCEPT,
                                                    _("_Cancel"), GTK_RESPONSE_REJECT,
                                                    NULL);
 
@@ -2425,7 +2425,7 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
   GtkWidget *dialog = gtk_dialog_new_with_buttons (_("Low Level Denemo Directive Edit"),
                                                    GTK_WINDOW (Denemo.window),
                                                    (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
-                                                   GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+                                                   _("_OK"), GTK_RESPONSE_ACCEPT,
                                                    _("_Cancel"), GTK_RESPONSE_CANCEL,
                                                    NULL);
   gtk_window_set_title (GTK_WINDOW (dialog), _("Denemo Object Editor"));

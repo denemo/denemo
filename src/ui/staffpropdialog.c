@@ -340,7 +340,7 @@ staff_properties_change (void)
       entrycontent = g_string_new (NULL);
     }
 
-  dialog = gtk_dialog_new_with_buttons (_("Staff Properties"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_STOCK_CANCEL, NULL);
+  dialog = gtk_dialog_new_with_buttons (_("Staff Properties"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), _("_OK"), GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_STOCK_CANCEL, NULL);
   //gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
   notebook = gtk_notebook_new ();
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));

@@ -3915,7 +3915,7 @@ scheme_get_padding (void)
   GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select Padding in Print Window",
                                                    GTK_WINDOW (Denemo.window),
                                                    (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT),
-                                                   GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+                                                   _("_OK"), GTK_RESPONSE_ACCEPT,
                                                    _("_Cancel"), GTK_RESPONSE_REJECT,
                                                    NULL);
   g_object_set_data (G_OBJECT (Denemo.printarea), "pad-dialog", (gpointer) dialog);
