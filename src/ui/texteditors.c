@@ -275,7 +275,7 @@ load_scheme_from_file (GtkWidget * widget, GtkWidget * textview)
                                                    NULL /*GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.script_view),GTK_TEXT_WINDOW_WIDGET)) */ ,
                                                    GTK_FILE_CHOOSER_ACTION_OPEN,
                                                    _("_Cancel"), GTK_RESPONSE_CANCEL,
-                                                   GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
+                                                   _("_Open"), GTK_RESPONSE_OK, NULL);
 
   if (!save_scheme_dialog (buffer, textview))
     {

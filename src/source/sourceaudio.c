@@ -394,7 +394,7 @@ open_source_audio_file (void)
                                                    NULL,
                                                    GTK_FILE_CHOOSER_ACTION_OPEN,
                                                    _("_Cancel"), GTK_RESPONSE_CANCEL,
-                                                   GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+                                                   _("_Open"), GTK_RESPONSE_ACCEPT,
                                                    NULL);
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
@@ -754,7 +754,7 @@ open_source_audio_file (void)
                                                    NULL,
                                                    GTK_FILE_CHOOSER_ACTION_OPEN,
                                                    _("_Cancel"), GTK_RESPONSE_CANCEL,
-                                                   GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+                                                   _("_Open"), GTK_RESPONSE_ACCEPT,
                                                    NULL);
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {

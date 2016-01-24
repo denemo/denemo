@@ -822,7 +822,7 @@ file_dialog (gchar * message, gboolean type, gchar * location)
 {
   GtkWidget *file_selection;
   gchar *filename;
-  file_selection = gtk_file_chooser_dialog_new (message, GTK_WINDOW (Denemo.window), type ? GTK_FILE_CHOOSER_ACTION_OPEN : GTK_FILE_CHOOSER_ACTION_SAVE, _("_Cancel"), GTK_RESPONSE_REJECT, type ? GTK_STOCK_OPEN : _("_Save"), GTK_RESPONSE_ACCEPT, NULL);
+  file_selection = gtk_file_chooser_dialog_new (message, GTK_WINDOW (Denemo.window), type ? GTK_FILE_CHOOSER_ACTION_OPEN : GTK_FILE_CHOOSER_ACTION_SAVE, _("_Cancel"), GTK_RESPONSE_REJECT, type ? _("_Open") : _("_Save"), GTK_RESPONSE_ACCEPT, NULL);
 
   if (location)
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selection), location);
@@ -884,7 +884,7 @@ file_open_dialog(gchar* message, gchar* format, FileFormatNames save_type, Denem
                         GTK_FILE_CHOOSER_ACTION_OPEN,
                         _("_Cancel"),
                         GTK_RESPONSE_REJECT,
-                        GTK_STOCK_OPEN,
+                        _("_Open"),
                         GTK_RESPONSE_ACCEPT, NULL);
   /* Open in passed in directory or the last visited directory, if any, or a default depending on template. */
   if (filename && g_file_test(filename, G_FILE_TEST_IS_DIR))

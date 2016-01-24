@@ -2047,7 +2047,7 @@ gchar *choose_file (gchar *title, gchar *startdir, GList *extensions)
                                       NULL,
                                       GTK_FILE_CHOOSER_ACTION_OPEN,
                                       _("_Cancel"), GTK_RESPONSE_CANCEL,
-                                      GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+                                      _("_Open"), GTK_RESPONSE_ACCEPT,
                                       NULL);
   GtkFileFilter *filter = gtk_file_filter_new();
   GString *filter_description = g_string_new ("");
