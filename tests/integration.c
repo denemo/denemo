@@ -243,13 +243,11 @@ parse_dir_and_run_complex_test(gchar* path, const gchar* extension)
   GList* files = find_files_with_ext(path, extension);
   // Ensure a unique test case path if called multiple times.
   // Use the given path and extension and append a counter to the end.
-  gchar* test_case_path_fragment = g_strconcat("/integration/open-and-save-complex-file-", path, "-", extension, "-", NULL);
+  gchar* test_case_path_fragment = g_strconcat("/integration/open-and-save-complex-file-", path, "-", extension, NULL);
   int test_case_path_counter = 1;
-  gchar string_counter[10];
   while(files){
     filename = g_build_filename(path, files->data, NULL);
-    g_snprintf(string_counter, 9, "%d", test_case_path_counter);
-    gchar* test_case_path = g_strconcat(test_case_path_fragment, string_counter, NULL);
+    gchar* test_case_path = g_strdup_printf("%s-%d", test_case_path_fragment, test_case_path_counter);
     g_test_add (test_case_path, gchar*, filename, setup, test_open_save_complex_file, teardown);
     g_free(test_case_path);
     test_case_path_counter ++;
