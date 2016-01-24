@@ -208,7 +208,7 @@ choose_sound_font (GtkWidget * widget, GtkWidget * fluidsynth_soundfont)
   GtkWidget *sf;
   //GtkFileFilter *filter;
 
-  sf = gtk_file_chooser_dialog_new (_("Choose SoundFont File"), GTK_WINDOW (Denemo.window), GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
+  sf = gtk_file_chooser_dialog_new (_("Choose SoundFont File"), GTK_WINDOW (Denemo.window), GTK_FILE_CHOOSER_ACTION_OPEN, _("_Cancel"), GTK_RESPONSE_REJECT, GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
 
   //TODO Should we filter????
   //filter = gtk_file_filter_new ();

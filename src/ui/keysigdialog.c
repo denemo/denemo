@@ -353,7 +353,7 @@ key_change (DenemoProject * gui, actiontype action)
   GtkWidget *dialog;
   gboolean initial = action == CHANGEINITIAL ? TRUE : FALSE;
   /* GUI setup */
-  dialog = gtk_dialog_new_with_buttons (_("Key Signature Change"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+  dialog = gtk_dialog_new_with_buttons (_("Key Signature Change"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_RESPONSE_REJECT, NULL);
  // GtkWidget *okbutton = gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT);
   //gtk_widget_set_sensitive (okbutton, FALSE);
   if (action == CHANGEINITIAL)

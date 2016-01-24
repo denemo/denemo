@@ -118,7 +118,7 @@ PlaybackRangeDialog ()
   GtkWidget *from_time;
   GtkWidget *to_time;
 
-  dialog = gtk_dialog_new_with_buttons (_("Play range in seconds:"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+  dialog = gtk_dialog_new_with_buttons (_("Play range in seconds:"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_RESPONSE_REJECT, NULL);
 
   hbox = gtk_hbox_new (FALSE, 8);
 

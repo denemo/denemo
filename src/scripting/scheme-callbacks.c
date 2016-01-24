@@ -3916,7 +3916,7 @@ scheme_get_padding (void)
                                                    GTK_WINDOW (Denemo.window),
                                                    (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT),
                                                    GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-                                                   GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+                                                   _("_Cancel"), GTK_RESPONSE_REJECT,
                                                    NULL);
   g_object_set_data (G_OBJECT (Denemo.printarea), "pad-dialog", (gpointer) dialog);
   GtkWidget *vbox = gtk_vbox_new (FALSE, 8);

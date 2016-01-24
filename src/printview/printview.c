@@ -1137,7 +1137,7 @@ copy_pdf (void)
   GtkWidget *chooser = gtk_file_chooser_dialog_new (_("PDF creation"),
                                                     GTK_WINDOW (Denemo.window),
                                                     GTK_FILE_CHOOSER_ACTION_SAVE,
-                                                    GTK_STOCK_CANCEL,
+                                                    _("_Cancel"),
                                                     GTK_RESPONSE_REJECT,
                                                     GTK_STOCK_SAVE,
                                                     GTK_RESPONSE_ACCEPT, NULL);

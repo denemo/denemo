@@ -393,7 +393,7 @@ open_source_audio_file (void)
   GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open Audio Source File"),
                                                    NULL,
                                                    GTK_FILE_CHOOSER_ACTION_OPEN,
-                                                   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                                                   _("_Cancel"), GTK_RESPONSE_CANCEL,
                                                    GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
                                                    NULL);
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
@@ -753,7 +753,7 @@ open_source_audio_file (void)
   GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open Audio Source File"),
                                                    NULL,
                                                    GTK_FILE_CHOOSER_ACTION_OPEN,
-                                                   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                                                   _("_Cancel"), GTK_RESPONSE_CANCEL,
                                                    GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
                                                    NULL);
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)

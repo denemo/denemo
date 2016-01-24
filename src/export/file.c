@@ -161,9 +161,9 @@ confirm_save (DenemoProject * gui, gchar * primary, gchar * secondary)
   dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE, "%s", primary);
   (void) gtk_dialog_add_button ((GtkDialog *) dialog, _("Close without Saving"), GTK_RESPONSE_NO);
 
-  (void) gtk_dialog_add_button ((GtkDialog *) dialog, _(GTK_STOCK_CANCEL), GTK_RESPONSE_CANCEL);
+  (void) gtk_dialog_add_button ((GtkDialog *) dialog, _("_Cancel"), GTK_RESPONSE_CANCEL);
 
-  (void) gtk_dialog_add_button ((GtkDialog *) dialog, _(GTK_STOCK_SAVE_AS), GTK_RESPONSE_YES);
+  (void) gtk_dialog_add_button ((GtkDialog *) dialog, GTK_STOCK_SAVE_AS, GTK_RESPONSE_YES);
 
   gtk_dialog_set_default_response ((GtkDialog *) dialog, GTK_RESPONSE_YES);
 
@@ -822,7 +822,7 @@ file_dialog (gchar * message, gboolean type, gchar * location)
 {
   GtkWidget *file_selection;
   gchar *filename;
-  file_selection = gtk_file_chooser_dialog_new (message, GTK_WINDOW (Denemo.window), type ? GTK_FILE_CHOOSER_ACTION_OPEN : GTK_FILE_CHOOSER_ACTION_SAVE, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, type ? GTK_STOCK_OPEN : GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT, NULL);
+  file_selection = gtk_file_chooser_dialog_new (message, GTK_WINDOW (Denemo.window), type ? GTK_FILE_CHOOSER_ACTION_OPEN : GTK_FILE_CHOOSER_ACTION_SAVE, _("_Cancel"), GTK_RESPONSE_REJECT, type ? GTK_STOCK_OPEN : GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT, NULL);
 
   if (location)
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selection), location);
@@ -882,7 +882,7 @@ file_open_dialog(gchar* message, gchar* format, FileFormatNames save_type, Denem
   file_selection = gtk_file_chooser_dialog_new (_(message),
                         GTK_WINDOW (Denemo.window),
                         GTK_FILE_CHOOSER_ACTION_OPEN,
-                        GTK_STOCK_CANCEL,
+                        _("_Cancel"),
                         GTK_RESPONSE_REJECT,
                         GTK_STOCK_OPEN,
                         GTK_RESPONSE_ACCEPT, NULL);
@@ -1106,7 +1106,7 @@ file_dialog_response (GtkWidget * dialog, gint response_id, struct FileDialogDat
   file_selection = gtk_file_chooser_dialog_new (description,\
                         GTK_WINDOW (Denemo.window),\
                         GTK_FILE_CHOOSER_ACTION_SAVE,\
-                        GTK_STOCK_CANCEL,\
+                        _("_Cancel"),\
                         GTK_RESPONSE_REJECT,\
                         GTK_STOCK_SAVE,\
                         GTK_RESPONSE_ACCEPT, NULL);\
