@@ -2696,6 +2696,7 @@ get_icon_for_name (gchar * name, gchar * label)
                   g_free (pngname);
                   return NULL;
                 }
+            }
         }
     }
   GError *error = NULL;
