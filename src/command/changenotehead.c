@@ -104,7 +104,7 @@ set_notehead (GtkAction * action, DenemoScriptParam * param)
         }
     }
 
-  dialog = gtk_dialog_new_with_buttons (_("Change Notehead"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), _("_OK"), GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_STOCK_CANCEL, NULL);
+  dialog = gtk_dialog_new_with_buttons (_("Change Notehead"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), _("_OK"), GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_RESPONSE_REJECT, NULL);
 
 
   content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));

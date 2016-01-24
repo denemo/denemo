@@ -54,7 +54,7 @@ playback_properties_change (GtkAction * action, DenemoScriptParam* param)
 
   static struct callbackdata cbdata;
 
-  dialog = gtk_dialog_new_with_buttons (_("Playback properties"), NULL, (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), _("_OK"), GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_STOCK_CANCEL, NULL);
+  dialog = gtk_dialog_new_with_buttons (_("Playback properties"), NULL, (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), _("_OK"), GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_RESPONSE_REJECT, NULL);
 
   //gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
   notebook = gtk_notebook_new ();
