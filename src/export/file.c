@@ -163,7 +163,7 @@ confirm_save (DenemoProject * gui, gchar * primary, gchar * secondary)
 
   (void) gtk_dialog_add_button ((GtkDialog *) dialog, _("_Cancel"), GTK_RESPONSE_CANCEL);
 
-  (void) gtk_dialog_add_button ((GtkDialog *) dialog, GTK_STOCK_SAVE_AS, GTK_RESPONSE_YES);
+  (void) gtk_dialog_add_button ((GtkDialog *) dialog, _("Save _As"), GTK_RESPONSE_YES);
 
   gtk_dialog_set_default_response ((GtkDialog *) dialog, GTK_RESPONSE_YES);
 
