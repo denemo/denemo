@@ -1834,8 +1834,8 @@ command_hidden_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRend
   g_object_set (renderer, "active", row->hidden, NULL);
 }
 
-static gint fuzzy = 0; //number of mis-matched words to allow
-static gint last_row=-1;//implemented as last found idx
+static gint fuzzy = 0;          // number of mis-matched words to allow
+static gint last_row = -1;      // implemented as last found idx
 static gboolean
 search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar * key, GtkTreeIter * iter, G_GNUC_UNUSED gpointer search_data)
 {
