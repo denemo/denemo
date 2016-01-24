@@ -171,7 +171,7 @@ save_scheme_text_as (GtkWidget * widget, GtkWidget * textview)
                                                    NULL /*GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.script_view), GTK_TEXT_WINDOW_WIDGET)) */ ,
                                                    GTK_FILE_CHOOSER_ACTION_SAVE,
                                                    _("_Cancel"), GTK_RESPONSE_CANCEL,
-                                                   GTK_STOCK_SAVE, GTK_RESPONSE_OK, NULL);
+                                                   _("_Save"), GTK_RESPONSE_OK, NULL);
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
     {

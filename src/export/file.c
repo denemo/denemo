@@ -822,7 +822,7 @@ file_dialog (gchar * message, gboolean type, gchar * location)
 {
   GtkWidget *file_selection;
   gchar *filename;
-  file_selection = gtk_file_chooser_dialog_new (message, GTK_WINDOW (Denemo.window), type ? GTK_FILE_CHOOSER_ACTION_OPEN : GTK_FILE_CHOOSER_ACTION_SAVE, _("_Cancel"), GTK_RESPONSE_REJECT, type ? GTK_STOCK_OPEN : GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT, NULL);
+  file_selection = gtk_file_chooser_dialog_new (message, GTK_WINDOW (Denemo.window), type ? GTK_FILE_CHOOSER_ACTION_OPEN : GTK_FILE_CHOOSER_ACTION_SAVE, _("_Cancel"), GTK_RESPONSE_REJECT, type ? GTK_STOCK_OPEN : _("_Save"), GTK_RESPONSE_ACCEPT, NULL);
 
   if (location)
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selection), location);
@@ -1108,7 +1108,7 @@ file_dialog_response (GtkWidget * dialog, gint response_id, struct FileDialogDat
                         GTK_FILE_CHOOSER_ACTION_SAVE,\
                         _("_Cancel"),\
                         GTK_RESPONSE_REJECT,\
-                        GTK_STOCK_SAVE,\
+                        _("_Save"),\
                         GTK_RESPONSE_ACCEPT, NULL);\
   /*set default folder for saving */\
   set_current_folder(file_selection, template?SAVE_TEMPLATE:SAVE_NORMAL);\

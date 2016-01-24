@@ -1139,7 +1139,7 @@ copy_pdf (void)
                                                     GTK_FILE_CHOOSER_ACTION_SAVE,
                                                     _("_Cancel"),
                                                     GTK_RESPONSE_REJECT,
-                                                    GTK_STOCK_SAVE,
+                                                    _("_Save"),
                                                     GTK_RESPONSE_ACCEPT, NULL);
   GtkFileFilter *filter = gtk_file_filter_new();
   gtk_file_filter_set_name (filter, _("PDF files"));
