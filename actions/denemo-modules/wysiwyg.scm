@@ -613,7 +613,7 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
                     (set! choice (cond  ((equal? choice (_ "Up")) "^")
                                                             ((equal? choice (_ "Down")) "_")
                                                             ((equal? choice (_ "Auto")) "-")))
-                    (d-DirectivePut-chord-postfix tag (string-append  (string-append choice " " lilypond " ")))
+                    (d-DirectivePut-chord-postfix tag (string-append  (string-append (if (d-GetNonprinting) "<>" "") choice " " lilypond " ")))
                     (d-SetSaved #f)))))
     (if (and (d-Directive-chord? tag) (equal? params "edit"))
         (case (GetEditOption)
@@ -627,11 +627,15 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
                     (if (and (d-Directive-chord? tag) (list? params))
                                     (begin
                                         (d-SetSaved #f)
-                                        (set! current-direction (substring (string-trim (d-DirectiveGet-chord-postfix tag)) 0 1))
-                                        (d-DirectivePut-chord-postfix tag (string-append  (string-join (map-in-order set-option params))  lilypond " ")))
+                                         (if (d-GetNonprinting)
+                                            (set! current-direction (substring (string-trim (d-DirectiveGet-chord-postfix tag)) 0 1))
+                                            (set! current-direction (substring (string-trim (d-DirectiveGet-chord-postfix tag)) 3 4))) ;;;FIXME use scheme data field to store this, <>- etc
+                                            
+                                            
+                                        (d-DirectivePut-chord-postfix tag (string-append (if (d-GetNonprinting) "<>" "") (string-join (map-in-order set-option params))  lilypond " ")))
                                     (d-WarningDialog "Cannot complete operation - cursor moved or bad parameter list")))
             (begin  ;;;no parameters, toggle annotation off/on
-                    (ToggleChordDirective tag graphic (string-append "-" lilypond) DENEMO_OVERRIDE_ABOVE display)))))
+                    (ToggleChordDirective tag graphic (string-append  (if (d-GetNonprinting) "<>" "")  "-" lilypond) DENEMO_OVERRIDE_ABOVE display)))))
                                             
 (define* (ChordOrnament tag lilypond params graphic #:optional display)
        (ChordAnnotation tag lilypond params graphic display))  
