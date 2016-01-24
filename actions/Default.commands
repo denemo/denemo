@@ -1251,7 +1251,7 @@ Notes entered will follow the rhythmic pattern of this snippet</_tooltip>
         <action>NewMovement</action>
         <menupath>ObjectMenu/MovementMenu/InsertMovement</menupath>
         <_label>New Movement</_label>
-        <_tooltip>Create a new movement, usign any default template</_tooltip>
+        <_tooltip>Create a new movement, using any default template</_tooltip>
       </row>
       <row type="builtin">
         <action>SaveParts</action>

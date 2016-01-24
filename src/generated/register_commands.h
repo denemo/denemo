@@ -221,7 +221,7 @@ register_command("SaveTemplate", _("Save Template"), _("Save the score as a temp
 register_command("NewWindow", _("New Tab"), _("Create working area (tab with an empty score in it)"), newview);
 register_command("InsertMovementBefore", _("Insert Movement Before"), _("Insert a new movement before the current one"), insert_movement_before);
 register_command("InsertMovementAfter", _("Insert Movement After"), _("Insert a new movement after the current one"), insert_movement_after);
-register_command("NewMovement", _("New Movement"), _("Create a new movement, usign any default template"), append_new_movement);
+register_command("NewMovement", _("New Movement"), _("Create a new movement, using any default template"), append_new_movement);
 register_command("SaveParts", _("Save Parts"), _("Save Parts: each staff becomes a file in lilypond format"), file_savepartswrapper);
 register_command("ExportMUDELA", _("Export Lilypond"), _("Export the score as a lilypond file"), export_mudela_action);
 register_command("ExportPDF", _("Export PDF"), _("Export the score as a PDF document file"), export_pdf_action);
