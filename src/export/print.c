@@ -350,20 +350,16 @@ void
 process_lilypond_errors (gchar * filename)
 {
   Denemo.printstatus->invalid = 0;
-  if (LilyPond_stderr == -1)
-    return;
+  gchar *logfile = g_strconcat (filename, ".log", NULL);
   gchar *epoint = NULL;
-#define bufsize (100000)
-  gchar *bytes = g_malloc0 (bufsize);
-  gint numbytes = read (LilyPond_stderr, bytes, bufsize - 1);
-  close (LilyPond_stderr);
-  LilyPond_stderr = -1;
-#undef bufsize
-  if (numbytes == -1)
-    {
-      g_free (bytes);
-      return;
-    }
+
+  gchar *bytes;
+  gint numbytes = g_file_get_contents (logfile, &bytes, NULL, NULL);
+  g_free (logfile);
+  if (bytes)
+   numbytes=strlen (bytes);
+  else 
+    return;
   //g_print("\nLilyPond error messages\n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8>< %s \n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><\n", bytes);
   gint line, column;
   epoint=get_error_point (bytes, &line, &column);
@@ -519,11 +515,7 @@ run_lilypond (gchar ** arguments)
                                                                &Denemo.printstatus->printpid,
                                                                NULL,
                                                                NULL,    /* stdout */
-#if 0 //ifdef G_OS_WIN32
-                                                               NULL,
-#else
-                                                               &LilyPond_stderr,        /* stderr */
-#endif
+                                                               NULL, /* stderr */
                                                                &lily_err);
   if (lily_err)
     {
@@ -576,6 +568,8 @@ run_lilypond_for_pdf (gchar * filename, gchar * lilyfile)
   /*arguments to pass to lilypond to create a pdf for printing */
   gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
+    "-dgui",
+    "--loglevel=WARN",
     "--pdf",
     local_include,
     include,
@@ -598,6 +592,8 @@ run_lilypond_for_svg (gchar * filename, gchar * lilyfile)
   /*arguments to pass to lilypond to create a svg for printing */
   gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
+    "-dgui",
+    "--loglevel=WARN",
      "-dno-point-and-click", "-ddelete-intermediate-files", "-dbackend=svg",
     local_include,
     include,
@@ -858,6 +854,8 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui)
 
   gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
+    "-dgui",
+    "--loglevel=WARN",
     "--png",
     "-dbackend=eps",
     resolution,
@@ -937,6 +935,8 @@ export_pdf (gchar * filename, DenemoProject * gui)
   /* create arguments to pass to lilypond to create a pdf */
   gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
+    "-dgui",
+    "--loglevel=WARN",
     "--pdf",
     "-o",
     filename,
