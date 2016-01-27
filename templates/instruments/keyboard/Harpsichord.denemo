@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<score xmlns="http://denemo.org/xmlns/Denemo" version="8">
+  <lilycontrol>
+    <papersize>a4</papersize>
+    <fontsize>18</fontsize>
+    <orientation>1</orientation>
+    <total-edit-time>155</total-edit-time>
+    <score-directives>
+      <directive>
+        <tag>Temp2</tag>
+        <prefix>
+%\header { tagline = #f }
+</prefix>
+      </directive>
+    </score-directives>
+  </lilycontrol>
+  <movement-number>1</movement-number>
+  <movement>
+    <edit-info>
+      <staffno>1</staffno>
+      <measureno>1</measureno>
+      <cursorposition>0</cursorposition>
+      <tonalcenter>0</tonalcenter>
+      <zoom>100</zoom>
+      <system-height>100</system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
+    </edit-info>
+    <layout-directives>
+      <directive>
+        <tag>Temp</tag>
+        <postfix>%{For Performance View%}</postfix>
+      </directive>
+    </layout-directives>
+    <score-info>
+      <tempo>
+        <duration>
+          <numerator>1</numerator>
+          <denominator>4</denominator>
+        </duration>
+        <bpm>120</bpm>
+      </tempo>
+    </score-info>
+    <staves>
+      <staff id="id0"></staff>
+      <staff id="id1"></staff>
+    </staves>
+    <voices>
+      <voice id="id2">
+        <voice-info>
+          <voice-name>Harpsichord</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <staff-range-lo>-6</staff-range-lo>
+          <staff-range-hi>21</staff-range-hi>
+          <staff-range>1</staff-range>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument>Harpsichord</instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>6</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>PianoStaffStart</tag>
+              <prefix> \new PianoStaff &lt;&lt; \set PianoStaff.instrumentName = #"Harpsichord"  
+</prefix>
+              <display>PianoStaffStart</display>
+              <override>20</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
+        <measures>
+          <measure></measure>
+        </measures>
+      </voice>
+      <voice id="id3">
+        <voice-info>
+          <voice-name>Harpsichord</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id1"></staff-ref>
+          <clef name="bass"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <staff-range-lo>-14</staff-range-lo>
+          <staff-range-hi>6</staff-range-hi>
+          <staff-range>1</staff-range>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument>Harpsichord</instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>6</midi_prognum>
+          <midi_channel>2</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>BraceEnd</tag>
+              <postfix> &gt;&gt;%Brace End
+</postfix>
+              <display>Brace End</display>
+              <data>1</data>
+              <override>52</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
+        <measures>
+          <measure></measure>
+        </measures>
+      </voice>
+    </voices>
+  </movement>
+</score>
