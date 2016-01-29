@@ -614,13 +614,13 @@ inner_main (void *files)
   init_lilypond_buffer();
   initialize_print_status ();
   //project Initializations
+  if (audio_initialize (&Denemo.prefs))
+      g_error ("Failed to initialize audio or MIDI backends");
+
   if(!Denemo.non_interactive)
   {
     initialize_keystroke_help ();
 
-    if (audio_initialize (&Denemo.prefs))
-        g_error ("Failed to initialize audio or MIDI backends");
-    
     create_window ();
     installPalettes ();
 
