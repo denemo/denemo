@@ -136,6 +136,8 @@ static void set_limit (DenemoPalette *pal) {
         repack_palette (pal);
     } else g_warning("Cancelled %s", response);
 }
+
+
 static GtkWidget *get_palette_menu(DenemoPalette *pal) {
   GtkWidget *menu = gtk_menu_new ();
   GtkWidget *item = gtk_menu_item_new_with_label (_("Hide"));
@@ -145,6 +147,11 @@ static GtkWidget *get_palette_menu(DenemoPalette *pal) {
   {
     item = gtk_menu_item_new_with_label (_("Make Horizontal"));
     gtk_widget_set_tooltip_text (item, _("Arrange the buttons extending horizontally"));
+    //gtk_widget_add_events (item, GDK_ENTER_NOTIFY_MASK);
+    //g_signal_connect (item, "enter-notify-event", show_tooltip, _("Arrange the buttons extending horizontally"));
+    
+    
+    
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
     g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (toggle_rows), (gpointer) pal);
   } else
@@ -491,7 +498,7 @@ DenemoPalette *create_palette (gchar *name, gboolean docked, gboolean rows) {
             {
              gtk_window_set_default_size (GTK_WINDOW (pal->window), 200, 100);//try and get folk to notice it!
              gtk_window_present (GTK_WINDOW (pal->window));
-	     gtk_window_set_transient_for (GTK_WINDOW(pal->window), GTK_WINDOW(Denemo.window));
+         gtk_window_set_transient_for (GTK_WINDOW(pal->window), GTK_WINDOW(Denemo.window));
              gtk_window_set_keep_above  (GTK_WINDOW (pal->window), TRUE);
          }
  

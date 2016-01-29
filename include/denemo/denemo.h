@@ -74,9 +74,18 @@ extern "C" {
 #endif
 
 #if ((GTK_MAJOR_VERSION == 3) && (GTK_MINOR_VERSION >= 10))
-#define denemo_widget_set_tooltip_text
-#define gtk_widget_set_tooltip_text
-#define gtk_widget_set_tooltip_markup
+#define FAKE_TOOLTIPS 1
+#endif
+
+#ifdef FAKE_TOOLTIPS
+#define FAKE_TOOLTIPS_MASK  GDK_ENTER_NOTIFY_MASK //GDK_POINTER_MOTION_MASK
+#define FAKE_TOOLTIPS_SIGNAL "enter-notify-event" //"motion-notify-event"
+#define fake_put_tooltip(w, t) {gchar *tip = g_strdup(t);g_object_set_data(G_OBJECT(w), "tooltip", (gpointer)tip);gtk_widget_add_events (w, FAKE_TOOLTIPS_MASK);g_signal_connect_after (w, "destroy", G_CALLBACK(free_tooltip), tip);g_signal_connect (w, FAKE_TOOLTIPS_SIGNAL, G_CALLBACK (show_tooltip), tip);}
+#define denemo_widget_set_tooltip_text(w, t) {gtk_widget_add_events (w, FAKE_TOOLTIPS_MASK);g_signal_connect (w, FAKE_TOOLTIPS_SIGNAL, G_CALLBACK (show_tooltip), g_strdup(t));}
+#define gtk_widget_set_tooltip_markup(w, t) fake_put_tooltip(w, t)
+#define gtk_widget_set_tooltip_text(w, t) fake_put_tooltip(w, t)
+#define gtk_widget_get_tooltip_text(w) g_object_get_data (G_OBJECT(w), "tooltip")
+
 #else
 #define denemo_widget_set_tooltip_text gtk_widget_set_tooltip_text
 #endif
@@ -145,3 +154,4 @@ typedef enum{
 #endif
 
 #endif  /* #ifndef DENEMO_DATASTRUCTURES  */
+

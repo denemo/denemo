@@ -2503,6 +2503,52 @@ use_markup (GtkWidget * widget)
     }
 }
 
+#ifdef FAKE_TOOLTIPS
+ static GtkWidget *TooltipDialog = NULL;
+static gboolean not_wanted = TRUE;
+static gboolean not_wanted_in_this_session = FALSE;
+
+static gboolean no_longer_wanted (GtkWidget *w)
+{
+   not_wanted = TRUE; g_print ("Not wanted is now %d\n", not_wanted);
+   if(Denemo.prefs.newbie)
+    not_wanted_in_this_session = FALSE;
+   TooltipDialog = NULL;
+   return FALSE; 
+}
+gboolean show_tooltip (GtkWidget *w, GdkEvent *ev, gchar *text)
+{
+  static gchar *last_tooltip;
+  if (Denemo.prefs.newbie)
+    not_wanted_in_this_session = not_wanted = FALSE;
+  if (not_wanted)
+    return FALSE;
+  if (not_wanted_in_this_session)
+    return FALSE;
+  
+  if (text && (*text) && (last_tooltip != text))
+       {
+           if (TooltipDialog)
+                {
+                    gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (TooltipDialog), text);
+                    gtk_widget_show (TooltipDialog);
+                }
+                else
+                {
+                    TooltipDialog = infodialog (text);
+                    g_signal_connect (G_OBJECT (TooltipDialog), "delete-event", G_CALLBACK (no_longer_wanted), NULL);
+                }
+        }
+    last_tooltip = text;
+        
+    return FALSE;//allow normal response
+}
+void free_tooltip (GtkWidget *w, gchar *tooltip)
+{
+  //g_print ("Freeing tooltip\n");
+   g_free (tooltip); 
+}  
+#endif
 // Help for beginners using keyboard shortcuts
 static GtkWidget *KeyStrokes;
 static GtkWidget *KeyStrokeLabel;
