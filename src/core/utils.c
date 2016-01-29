@@ -2510,7 +2510,7 @@ static gboolean not_wanted_in_this_session = FALSE;
 
 static gboolean no_longer_wanted (GtkWidget *w)
 {
-   not_wanted = TRUE; g_print ("Not wanted is now %d\n", not_wanted);
+   not_wanted = TRUE;
    if(Denemo.prefs.newbie)
     not_wanted_in_this_session = FALSE;
    TooltipDialog = NULL;
