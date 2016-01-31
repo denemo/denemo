@@ -242,7 +242,14 @@ synchronize_cursor(GtkWidget *textview)
   get_pos_at_syllable_count (thestaff, count, &pos);
   goto_movement_staff_obj (NULL, 0, Denemo.project->movement->currentstaffnum, pos.measure, pos.object, 0 /* means ignore */);
 }
-
+static gboolean 
+keypress (GtkWidget *textview, GdkEventKey *event )
+{
+    guint keyval = event->keyval;
+    if (keyval == 0xFF63)
+     return TRUE;// ignore Ins, don't want to have overwrite mode 
+    return FALSE;
+}
 static gboolean 
 text_inserted_cb (GtkWidget *textview, GdkEventKey *event )
 {
@@ -265,6 +272,7 @@ text_inserted_cb (GtkWidget *textview, GdkEventKey *event )
     switch_back_to_main_window ();
     return TRUE;
   }
+
   return FALSE;
 }
 
@@ -370,6 +378,8 @@ add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
   GtkTextView* verse_view = (GtkTextView*)verse_get_current_view (staff);
   g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (verse_view)), "changed", G_CALLBACK (lyric_changed_cb), NULL);
   g_signal_connect (G_OBJECT(verse_view), "key-release-event",  G_CALLBACK (text_inserted_cb), NULL);
+  g_signal_connect (G_OBJECT(verse_view), "key-press-event",  G_CALLBACK (keypress), NULL);
+
   g_signal_connect (G_OBJECT(verse_view), "button-release-event",  G_CALLBACK (button_released_cb), NULL);
   g_signal_connect_after (G_OBJECT (verse_view), "populate-popup", G_CALLBACK (populate_called), NULL);
 #if GTK_MAJOR_VERSION==2
