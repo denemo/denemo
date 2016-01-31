@@ -44,7 +44,6 @@ static gboolean edit_lilypond_prefix (GtkWidget * widget, gchar * oldval, gchar 
 static void reload_scorewide_block (GtkWidget *frame);
 static gint layout_sync;
 
-
 // Reverses (reflects) bits in a 32-bit word.
 static guint32
 bit_reverse (guint32 x)
@@ -804,27 +803,26 @@ install_voice (DenemoStaff * staff, gint movementnum, gint voice_count, GtkWidge
 static void
 do_verses (DenemoStaff * staff, GtkWidget * vbox, gint movementnum, gint voice_count)
 {
-
   //FIXME do text of the verses get_text_from_view(GtkWidget *textview) where staff->verse_views->data is textview widget
   GList *g = staff->verse_views;
   gint versenum = 1;
-  for (versenum = 1; g; g = g->next, versenum++)
-    {
-      gchar *versename = get_versename (movementnum, voice_count, versenum);
-      gchar *context_text = g_strdup_printf ("\n" TAB "\\%s%s", versename, "Context\n");
-      //gchar *label = g_strconcat("Lyrics:", staff->denemo_name->str, NULL);
-      gchar *label = g_strdup_printf ("Verse %d: %s", versenum, staff->denemo_name->str);
-      GtkWidget *voice = create_lyric_widget (context_text, label);
-      g_free (label);
-      gchar *lyrics = g_strdup_printf ("\n" TAB "\\new Lyrics = %s\n", versename /*e.g. MvmntIVoiceIVerseI */ );
-      add_lilypond (voice, lyrics, NULL);       //FIXME the destroy of these widgets should free the string     
-      add_lilypond (voice, NULL, context_text);
+  if(!staff->hide_lyrics)
+      for (versenum = 1; g; g = g->next, versenum++)
+        {
+          gchar *versename = get_versename (movementnum, voice_count, versenum);
+          gchar *context_text = g_strdup_printf ("\n" TAB "\\%s%s", versename, "Context\n");
+          //gchar *label = g_strconcat("Lyrics:", staff->denemo_name->str, NULL);
+          gchar *label = g_strdup_printf ("Verse %d: %s", versenum, staff->denemo_name->str);
+          GtkWidget *voice = create_lyric_widget (context_text, label);
+          g_free (label);
+          gchar *lyrics = g_strdup_printf ("\n" TAB "\\new Lyrics = %s\n", versename /*e.g. MvmntIVoiceIVerseI */ );
+          add_lilypond (voice, lyrics, NULL);       //FIXME the destroy of these widgets should free the string     
+          add_lilypond (voice, NULL, context_text);
 
-      gtk_box_pack_start (GTK_BOX (vbox), voice, FALSE, TRUE, 0);       //has to go outside the staff
+          gtk_box_pack_start (GTK_BOX (vbox), voice, FALSE, TRUE, 0);       //has to go outside the staff
 
-      g_free (versename);
-    }
-
+          g_free (versename);
+        }
 }
 
 

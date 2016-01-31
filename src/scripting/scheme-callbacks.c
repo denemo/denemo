@@ -2249,6 +2249,14 @@ scheme_get_verse (SCM number)
   return SCM_BOOL_F;
 }
 SCM
+scheme_typeset_lyrics_for_staff (SCM on)
+{
+    DenemoStaff *staff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+    if (scm_is_bool (on))
+        staff->hide_lyrics = !scm_is_true (on);
+    return scm_from_bool (!staff->hide_lyrics);
+}
+SCM
 scheme_synchronize_lyric_cursor (void)
 {
     return SCM_BOOL(synchronize_lyric_cursor());
