@@ -1,3 +1,7 @@
 tools/cairo_svg2path.c
+tools/entries.h
 tools/generate_source.c
 tools/menu.c
+tools/register_commands.h
+tools/scheme_cb.h
+tools/scheme.h

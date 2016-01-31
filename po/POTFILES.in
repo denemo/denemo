@@ -136,6 +136,7 @@ src/display/hairpin.h
 src/display/notewidths.h
 src/display/slurs.c
 src/display/slurs.h
+src/entries.h
 src/export/audiofile.c
 src/export/audiofile.h
 src/export/exportabc.c
@@ -165,6 +166,9 @@ src/printview/printview.c
 src/printview/printview.h
 src/printview/svgview.c
 src/printview/svgview.h
+src/register_commands.h
+src/scheme_cb.h
+src/scheme.h
 src/scripting/scheme-callbacks.c
 src/scripting/scheme-callbacks.h
 src/scripting/scheme-identifiers.c
@@ -983,6 +987,8 @@ actions/menus/ObjectMenu/Lyrics/LyricFontSize.xml
 actions/menus/ObjectMenu/Lyrics/LyricFont.xml
 actions/menus/ObjectMenu/Lyrics/LyricVerseDynamic.scm
 actions/menus/ObjectMenu/Lyrics/LyricVerseDynamic.xml
+actions/menus/ObjectMenu/Lyrics/ToggleTypesetOfLyrics.scm
+actions/menus/ObjectMenu/Lyrics/ToggleTypesetOfLyrics.xml
 actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm
 actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.xml
 actions/menus/ObjectMenu/MeasureMenu/AddDuplicateMeasure.scm
