@@ -526,7 +526,7 @@ struct name_and_function denemo_commands[] = {
   {NULL, "Menu:\\nCommands to affect the vertical spacing of the typeset score.", N_("VerticalSpacing"), NULL, N_("Vertical Spacing")},
   {NULL, "Menu:\\nCommands to embed images taken from original manuscripts etc into the score (one for each measure).", N_("CaptureScore"), NULL, N_("Capture Score")},
   {NULL, "Menu:\\nCreating an Ossia staff, which appears with alternative interpretations for a bar or two on typesetting.", N_("Ossia"), NULL, N_("Ossia")},
-  {NULL, "Menu:\\nCommands for setting how often bar numbers appear in the typeset version of this staff.", N_("Numbering"), NULL, N_("Bar Numbering")},
+  {NULL, "Menu:\\nCommands for setting how often bar numbers appear in the typeset version of this staff.", N_("Numbering"), NULL, N_("Bar and Page Numbering")},
   {NULL, "Menu:\\nVarious sorts of brace linking the staffs together. These may be nested, see the Score Layout view for a display of the staff groups created.", N_("StaffGroupings"), NULL, N_("Staff Groupings (Braces)")},
   {NULL, "Menu:\\nAdding notes to the chord at the cursor at various intervals above base note.", N_("AddAboveBase"), NULL, N_("Add Note Above Base of Chord")},
   {NULL, "Menu:\\nAdding notes to the chord at the cursor at various intervals below the top-most note.", N_("AddBelowTop"), NULL, N_("Add Note Below Top of Chord")},
