@@ -7,14 +7,6 @@
     <total-edit-time>0</total-edit-time>
     <score-directives>
       <directive>
-        <tag>ScoreIndent</tag>
-        <prefix>\layout {indent = 28.8}
-</prefix>
-        <display>indent=28.8</display>
-        <data>28.8</data>
-        <override>4</override>
-      </directive>
-      <directive>
         <tag>Temp2</tag>
         <prefix>
 %\header { tagline = #f }
@@ -84,7 +76,7 @@
           <override_volume>0</override_volume>
           <mute>0</mute>
           <midi_prognum>24</midi_prognum>
-          <midi_channel>0</midi_channel>
+          <midi_channel>1</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
           <staff-directives>
@@ -97,8 +89,8 @@
             </directive>
             <directive>
               <tag>MidiInstrumentName</tag>
-              <postfix>\set Staff.midiInstrument = #"clarinet" </postfix>
-              <display>clarinet</display>
+              <postfix>\set Staff.midiInstrument = #"acoustic guitar (nylon)" </postfix>
+              <display>acoustic guitar (nylon)</display>
               <override>4</override>
             </directive>
           </staff-directives>
