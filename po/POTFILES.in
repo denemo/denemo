@@ -136,7 +136,6 @@ src/display/hairpin.h
 src/display/notewidths.h
 src/display/slurs.c
 src/display/slurs.h
-src/entries.h
 src/export/audiofile.c
 src/export/audiofile.h
 src/export/exportabc.c
@@ -166,9 +165,6 @@ src/printview/printview.c
 src/printview/printview.h
 src/printview/svgview.c
 src/printview/svgview.h
-src/register_commands.h
-src/scheme_cb.h
-src/scheme.h
 src/scripting/scheme-callbacks.c
 src/scripting/scheme-callbacks.h
 src/scripting/scheme-identifiers.c
