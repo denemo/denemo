@@ -9,6 +9,6 @@
                    (d-DisplayCurrentObject))
                   ((delete)
                     (d-DirectiveDelete-standalone tag))))  
-    (StandAloneDirectiveProto (cons tag "\\tweak break-visibility  #begin-of-line-invisible \\mark \\markup { \\musicglyph #\"scripts.segno\" } ") #t LG-Segno "" )))
+    (StandAloneDirectiveProto (cons tag "\\tweak break-visibility  #begin-of-line-invisible \\mark \\markup\\scale #'(0.75 . 0.75) { \\musicglyph #\"scripts.segno\" } ") #t LG-Segno "" )))
 
         

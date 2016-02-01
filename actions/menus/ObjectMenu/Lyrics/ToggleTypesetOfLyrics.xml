@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ToggleTypesetOfLyrics</action>
+        <after>LyricFontSize</after>
+        <_label>Typeset Lyrics (Off/On)</_label>
+        <_tooltip>Turns Off/On typesetting of lyrics for the entire score. The score will revert to typesetting verses when reloaded (except for any custom score layouts created) - the command does not count as a change in the score.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

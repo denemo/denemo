@@ -282,7 +282,7 @@ main (int argc, char *argv[])
   parse_dir_and_run_complex_test(example_dir, ".denemo");
   parse_dir_and_run_complex_test(fixtures_dir, ".denemo");
   // parse_dir_and_run_complex_test(fixtures_dir, ".mxml");
-  // parse_dir_and_run_complex_test(fixtures_dir, ".scm");
+  parse_dir_and_run_complex_test(fixtures_dir, ".scm");
 
   return g_test_run ();
 }

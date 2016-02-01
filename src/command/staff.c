@@ -87,7 +87,7 @@ staff_copy_bits (DenemoStaff * src, DenemoStaff * dest)
   dest->volume = 127;
   dest->no_of_lines = 5;
   dest->transposition = 0;
-
+  dest->hide_lyrics = src->hide_lyrics;
   dest->space_above = 0;
   dest->space_below = 0;
   dest->context = DENEMO_NONE;
@@ -108,6 +108,7 @@ staff_copy_properties (DenemoStaff * src, DenemoStaff * dest)
   dest->space_below = src->space_below;
   dest->no_of_lines = src->no_of_lines;
   dest->transposition = src->transposition;
+  dest->hide_lyrics = src->hide_lyrics;
 
   dest->volume = src->volume;
   dest->voicecontrol = DENEMO_SECONDARY;
@@ -125,6 +126,7 @@ staff_copy (DenemoStaff * src, DenemoStaff * dest)
   dest->midi_instrument = g_string_new (src->midi_instrument->str);
   dest->midi_channel = src->midi_channel;
   dest->midi_prognum = src->midi_prognum;
+  dest->hide_lyrics = src->hide_lyrics;
   
   dest->no_of_lines = src->no_of_lines;
   dest->transposition = src->transposition;

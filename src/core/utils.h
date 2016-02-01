@@ -310,6 +310,11 @@ findnote_strict (DenemoObject * curObj, gint cursory);
 #define get_tooltip_for_command(name) lookup_tooltip_from_idx(Denemo.map, lookup_command_from_name(Denemo.map, name))
 #define get_menu_path_for_command(name) lookup_menu_path_from_idx(Denemo.map, lookup_command_from_name(Denemo.map, name))
 
+#ifdef FAKE_TOOLTIPS
+gboolean show_tooltip(GtkWidget *w, GdkEvent *ev, gchar *text);
+void free_tooltip(GtkWidget *w, gchar *text);
+#endif
+
 void write_input_status();
 enum clefs cleftypefromname (gchar * str);
 gchar* find_dir_for_file(gchar* filename, GList* dirs);

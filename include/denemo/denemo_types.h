@@ -312,6 +312,7 @@ typedef struct
   GList *verse_views;/**< a list of text editor widgets each containing a verse */
   GList *current_verse_view;/**< verse to be displayed */
   GList *verses;/**< gchar of the verses, synchronized with GtkTextView buffers */
+  gboolean hide_lyrics; /**< true if lyrics should not be typeset */
   gboolean hasfigures; /**<TRUE if the staff has had figures attached. Only one staff should have this set */
   gboolean hasfakechords; /**<TRUE if the staff has had chord symbols attached. Only one staff should have this set */
   DenemoVoice voicecontrol; /**< either controls whether this staff is displayed and printed separately or as a voice */
@@ -957,6 +958,7 @@ typedef struct DenemoMovement
    * with its figures staff, if one is present */
   staff_info * has_figures;
   staff_info *has_fakechords;
+
   /* Now stuff that's used for marking areas */
   gint markstaffnum;
   gint markmeasurenum;

@@ -7667,6 +7667,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>MIDI Instrument</_label>
         <_tooltip>Sets the MIDI instrument for this staff for use in the Playback View</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ToggleTypesetOfLyrics</action>
+        <after>LyricFontSize</after>
+        <menupath>/ObjectMenu/Lyrics</menupath>
+        <_label>Typeset Lyrics (Off/On)</_label>
+        <_tooltip>Turns Off/On typesetting of lyrics for the entire score.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
