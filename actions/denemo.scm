@@ -1241,6 +1241,8 @@
                 (if (and (not score) (not (d-Directive-scoreheader? "ScoreTitles")))
                         (DenemoSetTitles "ScoreTitles" 'initialize #f))))
                         
+(define (form-pair name title)
+    (string-append "(cons '" name (if (string? title) (string-append " \"" (scheme-escape title) "\"") " #f") ")"))
 ;;; procedure starts here
         (if score
             (set! data (d-DirectiveGet-scoreheader-data tag))
@@ -1368,23 +1370,23 @@
                     
              
              (if (not (eq? choice 'abort))
-                (begin
-                    (set! data (assq-set! data 'dedication dedication))
-                    (set! data (assq-set! data 'title title))
-                    (set! data (assq-set! data 'subtitle subtitle))
-                    (set! data (assq-set! data 'subsubtitle subsubtitle))
-                    (set! data (assq-set! data 'instrument instrument))
-                    (set! data (assq-set! data 'poet poet))
-                    (set! data (assq-set! data 'composer composer))
-                    (set! data (assq-set! data 'meter meter))
-                    (set! data (assq-set! data 'arranger arranger))
-                    (set! data (assq-set! data 'tagline tagline))
-                    (set! data (assq-set! data 'copyright copyright))
-                    (set! data (assq-set! data 'piece piece))
-                    (set! data (assq-set! data 'opus opus))
+                (let ((thealist (string-append "(list " 
+                    (form-pair "dedication" dedication) 
+                    (form-pair "title" title)
+                    (form-pair "subtitle" subtitle)
+                    (form-pair "subsubtitle" subsubtitle)
+                    (form-pair "instrument" instrument)
+                    (form-pair "poet" poet)
+                    (form-pair "composer" composer)
+                    (form-pair "meter" meter)
+                    (form-pair "arranger" arranger)
+                    (form-pair "tagline" tagline)
+                    (form-pair "copyright" copyright)
+                    (form-pair "piece" piece)
+                    (form-pair "opus" opus) " '())")))
                     (if score
-                        (d-DirectivePut-scoreheader-data tag (format #f "'~s" data))
-                        (d-DirectivePut-header-data tag (format #f "'~s" data)))
+                        (d-DirectivePut-scoreheader-data tag thealist)
+                        (d-DirectivePut-header-data tag thealist))
                     (write-titles))))))
                     
 ;;;;;;;;;;;
