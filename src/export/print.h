@@ -113,6 +113,7 @@ GError *lily_err;
 GPid previewerpid;
 
 WysiwygInfo* get_wysiwyg_info();
+void initialize_print_status (void);
 void printall_cb (GtkAction * action, DenemoScriptParam * param);
 void printmovement_cb (GtkAction * action, DenemoScriptParam * param);
 void printpart_cb (GtkAction * action, DenemoScriptParam * param);

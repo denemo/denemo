@@ -26,6 +26,7 @@
 #include <aubio/aubio.h>
 #include "core/utils.h"
 #include "audio/midi.h"
+#include "export/exportmidi.h"
 #include "source/sourceaudio.h"
 #include "command/keyresponses.h"
 #include "audio/audiointerface.h"
@@ -447,6 +448,7 @@ open_source_audio_file (void)
 #include "core/utils.h"
 #include "core/view.h"
 #include "audio/midi.h"
+#include "export/exportmidi.h"
 #include "source/sourceaudio.h"
 #include "command/keyresponses.h"
 #include "audio/audiointerface.h"

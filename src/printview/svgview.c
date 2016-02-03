@@ -17,13 +17,17 @@
 
 #include <errno.h>
 #include <math.h>
+#include <glib/gstdio.h>
+#include "audio/playback.h"
 #include "export/print.h"
 #include "core/view.h"
 #include "command/scorelayout.h"
 #include "command/lilydirectives.h"
 #include "export/exportlilypond.h"
 #include "export/exportmidi.h"
+#include "printview/printview.h"
 #include "scripting/scheme-callbacks.h"
+#include "source/sourceaudio.h"
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <librsvg/rsvg.h>

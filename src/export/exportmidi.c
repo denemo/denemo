@@ -61,6 +61,7 @@
 #include "audio/instrumentname.h"
 #include "audio/audiointerface.h"
 #include "core/view.h"
+#include "printview/svgview.h"
 #include "smf.h"
 /* 
  * only for developers

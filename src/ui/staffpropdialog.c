@@ -14,6 +14,7 @@
 #include <denemo/denemo.h>
 #include "command/processstaffname.h"
 #include "command/staff.h"
+#include "core/view.h"
 #include "core/utils.h"
 #include "ui/dialogs.h"
 #include <stdlib.h>

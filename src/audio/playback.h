@@ -1,6 +1,7 @@
 #ifndef PLAYBACKH
 #define PLAYBACKH
 #include <gtk/gtk.h>
+#include "denemo/denemo_types.h"
 
 gchar *get_midi_audio_pointer (gchar * audio_device);
 
