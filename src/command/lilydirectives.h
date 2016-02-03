@@ -79,7 +79,21 @@ gchar *get_script_for_directive (DenemoDirective* directive, gchar * what);
 #define DECL_GET_INT(what, field) gint what##_directive_get_##field(gchar *tag);
 #define DECL_PUT_INT(what, field) gboolean what##_directive_put_##field(gchar *tag, gint value);
 
+#define DECL_GET_TAG_FUNC(what) gchar * what##_directive_get_tag(gchar * tag);
+#define DECL_TEXT_EDIT_DIRECTIVE(what) gboolean text_edit_##what##_directive(gchar * tag);
+
 #define DECL_PUT_GRAPHIC(what) gboolean what##_directive_put_graphic(gchar *tag, gchar *value);
+
+DECL_GET_TAG_FUNC (staff)
+DECL_GET_TAG_FUNC (movementcontrol)
+
+DECL_TEXT_EDIT_DIRECTIVE (header)
+DECL_TEXT_EDIT_DIRECTIVE (layout)
+DECL_TEXT_EDIT_DIRECTIVE (movementcontrol)
+DECL_TEXT_EDIT_DIRECTIVE (paper)
+DECL_TEXT_EDIT_DIRECTIVE (scoreheader)
+DECL_TEXT_EDIT_DIRECTIVE (staff)
+DECL_TEXT_EDIT_DIRECTIVE (voice)
 
 DECL_PUT_GRAPHIC (chord)
 DECL_PUT_GRAPHIC (note)
