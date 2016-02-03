@@ -8863,7 +8863,7 @@ PushClipboard.
 PopClipboard.
  Pops the Denemo clipboard (cut/copy buffer) from a stack created by d-PushClipb
 oard.
- Returs #f if nothing on stack, else #t.
+ Returns #f if nothing on stack, else #t.
 \end_layout
 
 \begin_layout Itemize
