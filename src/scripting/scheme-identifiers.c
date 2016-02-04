@@ -1121,7 +1121,7 @@ create_scheme_identfiers (void)
 #endif /*_WITH_X11_*/
   install_scm_function (0, "Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX "PushClipboard", scheme_push_clipboard);
 
-  install_scm_function (0, "Pops the Denemo clipboard (cut/copy buffer) from a stack created by d-PushClipboard. Returs #f if nothing on stack, else #t.", DENEMO_SCHEME_PREFIX "PopClipboard", scheme_pop_clipboard);
+  install_scm_function (0, "Pops the Denemo clipboard (cut/copy buffer) from a stack created by d-PushClipboard. Returns #f if nothing on stack, else #t.", DENEMO_SCHEME_PREFIX "PopClipboard", scheme_pop_clipboard);
 
   install_scm_function (0, "Deletes all objects in the selection Returns #f if no selection else #t.", DENEMO_SCHEME_PREFIX "DeleteSelection", scheme_delete_selection);
 
