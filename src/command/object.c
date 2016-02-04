@@ -621,6 +621,8 @@ static void  create_palette_button_for_directive (GtkWidget *button, gchar *what
 {
     DenemoDirective *directive = (DenemoDirective*) g_object_get_data (G_OBJECT(button), "directive");
     DenemoPalette *pal = NULL;
+    if(!strcmp (what, "lilycontrol"))
+        what = "score";
     GString *script = g_string_new (get_script_for_directive (directive, what));
     gchar *name = choose_palette_by_name (TRUE, FALSE);
     DenemoObject *curObj = get_object ();
