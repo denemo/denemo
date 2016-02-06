@@ -454,7 +454,7 @@ output_figured_bass (GString * figures, chord * pchord)
         }
       duration_string++;        //the duration, after the  R
     }
-#define APPEND_DUR(a, b, c) duration<0?g_string_append(figures, duration_string):append_duration(a,b,c)
+#define APPEND_DUR(a, b, c) duration<0?g_string_append(a, duration_string):append_duration(a,b,c)
 
 
   if (!last_figure)
@@ -714,8 +714,8 @@ output_fakechord (GString * fakechord, chord * pchord)
           duration_string = g_strdup ("R1*4/4");
         }
       duration_string++;        //the duration, after the  R
-      g_string_append_printf(fakechord, "%s%s", "s", duration_string);
-      return;
+      //g_string_append_printf(fakechord, "%s%s", "s", duration_string);
+     // return;
     }
   
   
@@ -740,7 +740,7 @@ output_fakechord (GString * fakechord, chord * pchord)
         extension = parse_extension (fig_str->str);
         for (c=fig_str->str;*c && *c!=':';c++)
             g_string_append_c (fakechord, *c);
-        append_duration (fakechord, duration, numdots);
+        APPEND_DUR (fakechord, duration, numdots);
         if (extension)
           g_string_append (fakechord, extension);
         break;
@@ -766,7 +766,7 @@ output_fakechord (GString * fakechord, chord * pchord)
         extension = parse_extension (str);
         for (c=str;*c && *c!=':';c++)
             g_string_append_c (fakechord, *c);
-        append_duration (fakechord, first_duration, 0);
+        APPEND_DUR (fakechord, first_duration, 0);
         if (extension)
           g_string_append (fakechord, extension);
         fakechord = g_string_append (fakechord, " ");
@@ -774,7 +774,7 @@ output_fakechord (GString * fakechord, chord * pchord)
         extension = parse_extension (str);
         for (c=str;*c && *c!=':';c++)
             g_string_append_c (fakechord, *c);
-        append_duration (fakechord, second_duration, 0);
+        APPEND_DUR (fakechord, second_duration, 0);
         if (extension)
           g_string_append (fakechord, extension);
         fakechord = g_string_append (fakechord, " ");
@@ -806,7 +806,7 @@ output_fakechord (GString * fakechord, chord * pchord)
         extension = parse_extension (str);
         for (c=str;*c && *c!=':';c++)
             g_string_append_c (fakechord, *c);
-        append_duration (fakechord, first_duration, 0);
+        APPEND_DUR (fakechord, first_duration, 0);
         if (extension)
           g_string_append (fakechord, extension);
         fakechord = g_string_append (fakechord, " ");
@@ -814,7 +814,7 @@ output_fakechord (GString * fakechord, chord * pchord)
         extension = parse_extension (str);
         for (c=str;*c && *c!=':';c++)
             g_string_append_c (fakechord, *c);
-        append_duration (fakechord, second_duration, 0);
+        APPEND_DUR (fakechord, second_duration, 0);
         if (extension)
           g_string_append (fakechord, extension);
         fakechord = g_string_append (fakechord, " ");
@@ -823,7 +823,7 @@ output_fakechord (GString * fakechord, chord * pchord)
         extension = parse_extension (str);
         for (c=str;*c && *c!=':';c++)
             g_string_append_c (fakechord, *c);
-        append_duration (fakechord, third_duration, 0);
+        APPEND_DUR (fakechord, third_duration, 0);
         if (extension)
           g_string_append (fakechord, extension);
         fakechord = g_string_append (fakechord, " ");
@@ -849,7 +849,7 @@ output_fakechord (GString * fakechord, chord * pchord)
         extension = parse_extension (str);
         for (c=str;*c && *c!=':';c++)
             g_string_append_c (fakechord, *c);
-        append_duration (fakechord, first_duration, 0);
+        APPEND_DUR (fakechord, first_duration, 0);
         if (extension)
           g_string_append (fakechord, extension);
         fakechord = g_string_append (fakechord, " ");
@@ -857,7 +857,7 @@ output_fakechord (GString * fakechord, chord * pchord)
         extension = parse_extension (str);
         for (c=str;*c && *c!=':';c++)
             g_string_append_c (fakechord, *c);
-        append_duration (fakechord, second_duration, 0);
+        APPEND_DUR (fakechord, second_duration, 0);
         if (extension)
           g_string_append (fakechord, extension);
         fakechord = g_string_append (fakechord, " ");
@@ -865,7 +865,7 @@ output_fakechord (GString * fakechord, chord * pchord)
         extension = parse_extension (str);
         for (c=str;*c && *c!=':';c++)
             g_string_append_c (fakechord, *c);
-        append_duration (fakechord, second_duration, 0);
+        APPEND_DUR (fakechord, second_duration, 0);
         if (extension)
           g_string_append (fakechord, extension); 
         fakechord = g_string_append (fakechord, " ");
@@ -873,7 +873,7 @@ output_fakechord (GString * fakechord, chord * pchord)
         extension = parse_extension (str);
         for (c=str;*c && *c!=':';c++)
             g_string_append_c (fakechord, *c);
-        append_duration (fakechord, second_duration, 0);
+        APPEND_DUR (fakechord, second_duration, 0);
         if (extension)
           g_string_append (fakechord, extension);
         g_free(thestr);
@@ -881,7 +881,7 @@ output_fakechord (GString * fakechord, chord * pchord)
       break;
     }
 }
-
+#undef APPEND_DUR
 /*
  * insert_editable()
  * Insert pair of invisble anchors and editable text between, adding the start anchor to the list in gui->anchors
