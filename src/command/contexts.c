@@ -63,8 +63,20 @@ find_context_of_object (DenemoMovement * si, DenemoObjType thetype)
 {
   objnode *curobj = si->currentobject;
   measurenode *curmeasure = si->currentmeasure;
-  if (curobj == NULL || curmeasure == NULL)
+  if (curmeasure == NULL)
     return NULL;
+  if (curobj == NULL)
+      while (curmeasure->prev)
+            {
+              curmeasure = curmeasure->prev;
+              curobj = measure_last_obj_node (curmeasure);
+              if (curobj)
+                break;
+            } 
+
+   if (curobj == NULL || curmeasure == NULL)
+    return NULL;
+
   while (curobj)
     {
       if (((DenemoObject *) curobj->data)->type == thetype)
