@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>InsertBreakInStaff</action>
+        <after>SplitMeasure</after>
+        <_label>Create Gap</_label>
+        <_tooltip>Creates a gap between the previous measure and the current one. The clef is re-instated after the gap. The gap size can be adjusted by inserting or deleting empty measures in between.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

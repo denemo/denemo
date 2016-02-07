@@ -7674,6 +7674,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Typeset Lyrics (Off/On)</_label>
         <_tooltip>Turns Off/On typesetting of lyrics for the entire score.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>InsertBreakInStaff</action>
+        <after>SplitMeasure</after>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <_label>Create Gap</_label>
+        <_tooltip>Creates a gap between the previous measure and the current one. The clef is re-instated after the gap. The gap size can be adjusted by inserting or deleting empty measures in between.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
