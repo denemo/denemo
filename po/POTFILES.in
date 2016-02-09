@@ -1112,6 +1112,8 @@ actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNotehead
 actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsXcircle.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.xml
+actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/RaggedRight.scm
+actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/RaggedRight.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/SwitchMensuralBarlines.scm
@@ -1683,6 +1685,8 @@ actions/menus/ObjectMenu/Score/LilyPondDefinition.scm
 actions/menus/ObjectMenu/Score/LilyPondDefinition.xml
 actions/menus/ObjectMenu/Score/LilyPondInclude.scm
 actions/menus/ObjectMenu/Score/LilyPondInclude.xml
+actions/menus/ObjectMenu/Score/MIDI/ExpandForPlayback.scm
+actions/menus/ObjectMenu/Score/MIDI/ExpandForPlayback.xml
 actions/menus/ObjectMenu/Score/RefreshDynamicDirectives.scm
 actions/menus/ObjectMenu/Score/RefreshDynamicDirectives.xml
 actions/menus/ObjectMenu/Score/ScoreBlockProlog.scm

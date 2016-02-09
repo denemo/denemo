@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>RaggedRight</action>
+        <after>Indent</after>
+        <_label>Ragged Right (On/Off)</_label>
+        <_tooltip>If the current movement has only one system it will be stretched to the right margin. Run the command again to turn this off.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -7681,6 +7681,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Create Gap</_label>
         <_tooltip>Creates a gap between the previous measure and the current one. The clef is re-instated after the gap. The gap size can be adjusted by inserting or deleting empty measures in between.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>RaggedRight</action>
+        <after>Indent</after>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter/PrintLayout</menupath>
+        <_label>Ragged Right (On/Off)</_label>
+        <_tooltip>If the current movement has only one system it will be stretched to the right margin. Run the command again to turn this off.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
