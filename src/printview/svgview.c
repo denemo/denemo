@@ -799,7 +799,7 @@ static gboolean update_playback_view (void)
  if ((changecount != Denemo.project->movement->changecount) || (Denemo.project->movement->changecount != Denemo.project->movement->smfsync))
         {
         set_tempo ();
-        call_out_to_guile (PartOnly?"(d-PlaybackView 'part)":"(d-PlaybackView)");//this installs the temporary directives to typeset svg and then
+        call_out_to_guile (PartOnly?"(d-PlaybackView 'part)":"(d-PlaybackView)");//this installs the temporary directives to typeset svg and thendisplay_svg (gdouble scale, gboolean part)
         Denemo.project->movement->smfsync = Denemo.project->movement->changecount;
         changecount = Denemo.project->movement->changecount;
         return TRUE;
