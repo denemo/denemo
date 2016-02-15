@@ -197,7 +197,7 @@ count_syllables (DenemoStaff * staff, gint from)
                 in_slur = TRUE;
               if (thechord->slur_end_p)
                 in_slur = FALSE;
-              if (thechord->is_tied)
+              if (thechord->is_tied && (!in_slur))
                 count--;
             }
         }                       //for objs
