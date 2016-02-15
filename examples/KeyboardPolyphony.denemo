@@ -2,22 +2,6 @@
 <score xmlns="http://denemo.org/xmlns/Denemo" version="8">
   <scoreheader-directives>
     <directive>
-      <tag>Title</tag>
-      <postfix>title = "Pavana &amp; Galliarda Dolorosa"
-</postfix>
-      <display>Pavana &amp; Galliarda Dolorosa</display>
-    </directive>
-    <directive>
-      <tag>Composer</tag>
-      <postfix>composer = "Peter Phillips"
-</postfix>
-    </directive>
-    <directive>
-      <tag>Arranger</tag>
-      <postfix>arrangement = "Edited by Richard Shann"
-</postfix>
-    </directive>
-    <directive>
       <tag>ScoreTagline</tag>
       <postfix>tagline = "Copyright (C) 2011 Richard Shann"
 </postfix>
@@ -35,6 +19,38 @@
       <postfix>date = "1593"
 </postfix>
       <display>1593</display>
+    </directive>
+    <directive>
+      <tag>BookTitle</tag>
+      <postfix>title = \markup { \with-url #'"scheme:(d-BookTitle)" "Pavana &amp; Galliarda Dolorosa"}
+</postfix>
+      <display>Pavana &amp;amp; G...</display>
+      <data>Pavana &amp; Galliarda Dolorosa</data>
+      <override>36</override>
+    </directive>
+    <directive>
+      <tag>BookArranger</tag>
+      <postfix>arranger = \markup { \with-url #'"scheme:(d-BookArranger)" "Edited by Richard Shann"}
+</postfix>
+      <display>Edited by ...</display>
+      <data>Edited by Richard Shann</data>
+      <override>36</override>
+    </directive>
+    <directive>
+      <tag>BookComposer</tag>
+      <postfix>composer = \markup { \with-url #'"scheme:(d-BookComposer)" "Peter Phillips"}
+</postfix>
+      <display>Peter Phil...</display>
+      <data>Peter Phillips</data>
+      <override>36</override>
+    </directive>
+    <directive>
+      <tag>BookDate</tag>
+      <postfix>date = \markup { \with-url #'"scheme:(d-BookDate)" "1593"}
+</postfix>
+      <display>1593</display>
+      <data>1593</data>
+      <override>36</override>
     </directive>
   </scoreheader-directives>
   <paper-directives>
@@ -73,23 +89,6 @@ tocTitle = "Contents."
     <orientation>1</orientation>
     <total-edit-time>9</total-edit-time>
     <score-directives>
-      <directive>
-        <tag>ScoreBlockProlog</tag>
-      </directive>
-      <directive>
-        <tag>LilyPondInclude:book-titling.ily</tag>
-        <prefix>\include "/usr/local/share/denemo/actions/lilypond/book-titling.ily"
-</prefix>
-        <display>book-titling.ily</display>
-        <override>268435456</override>
-      </directive>
-      <directive>
-        <tag>LilyPondInclude:simplified-book-titling.ily</tag>
-        <prefix>\include "/usr/local/share/denemo/actions/lilypond/simplified-book-titling.ily"
-</prefix>
-        <display>simplified-book-titling.ily</display>
-        <override>268435456</override>
-      </directive>
       <directive>
         <tag>CriticalCommentary</tag>
         <postfix>\pageBreak
@@ -175,9 +174,9 @@ Note that the double length bars are counted as two in the bar numbering.
       </directive>
       <directive>
         <tag>TopMargin</tag>
-        <prefix>#(define denemo-top-margin 0)
+        <prefix>#(define denemo-top-margin 6)
 </prefix>
-        <data>0</data>
+        <data>6</data>
         <override>16</override>
       </directive>
       <directive>
@@ -190,12 +189,12 @@ Note that the double length bars are counted as two in the bar numbering.
       </directive>
     </score-directives>
   </lilycontrol>
-  <movement-number>3</movement-number>
+  <movement-number>1</movement-number>
   <movement>
     <edit-info>
-      <staffno>5</staffno>
-      <measureno>130</measureno>
-      <cursorposition>1</cursorposition>
+      <staffno>2</staffno>
+      <measureno>140</measureno>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>81</zoom>
       <system-height>100</system-height>
@@ -204,15 +203,6 @@ Note that the double length bars are counted as two in the bar numbering.
       <page-width>771</page-width>
       <page-height>991</page-height>
     </edit-info>
-    <header-directives>
-      <directive>
-        <tag>ScoreTitle</tag>
-        <postfix>title = "Untitled"
-</postfix>
-        <display>Score Title: Untitled</display>
-        <override>36</override>
-      </directive>
-    </header-directives>
     <movementcontrol-directives>
       <directive>
         <tag>TableOfContents</tag>
@@ -224,9 +214,11 @@ Note that the double length bars are counted as two in the bar numbering.
       </directive>
       <directive>
         <tag>TitledPiece</tag>
-        <prefix>\titledPiece \markup "Pavana"
+        <prefix>\titledPiece \markup { \with-url #'"scheme:(d-TitledPiece)" "Pavana"}
 </prefix>
         <display>Pavana</display>
+        <data>Pavana</data>
+        <override>36</override>
       </directive>
     </movementcontrol-directives>
     <score-info>
@@ -9158,7 +9150,9 @@ Serif
                 <directive>
                   <tag>Duration</tag>
                   <prefix>\breve </prefix>
-                  <graphic_name>noteheads_sM1neomensural</graphic_name>
+                  <graphic_name>
+
+emmentaler</graphic_name>
                   <override>6</override>
                 </directive>
                 <directive>
@@ -9678,7 +9672,9 @@ Serif
                 <directive>
                   <tag>Duration</tag>
                   <prefix>\breve </prefix>
-                  <graphic_name>noteheads_sM1neomensural</graphic_name>
+                  <graphic_name>
+
+emmentaler</graphic_name>
                   <override>6</override>
                 </directive>
                 <directive>
@@ -17487,7 +17483,9 @@ Serif
                 <directive>
                   <tag>Duration</tag>
                   <prefix>\breve </prefix>
-                  <graphic_name>noteheads_sM1neomensural</graphic_name>
+                  <graphic_name>
+
+emmentaler</graphic_name>
                   <override>6</override>
                 </directive>
                 <directive>
@@ -21579,7 +21577,9 @@ Sans
                 <directive>
                   <tag>Duration</tag>
                   <prefix>\breve </prefix>
-                  <graphic_name>noteheads_sM1neomensural</graphic_name>
+                  <graphic_name>
+
+emmentaler</graphic_name>
                   <override>6</override>
                 </directive>
                 <directive>
@@ -21606,8 +21606,8 @@ Sans
   </movement>
   <movement>
     <edit-info>
-      <staffno>1</staffno>
-      <measureno>1</measureno>
+      <staffno>5</staffno>
+      <measureno>61</measureno>
       <cursorposition>1</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
@@ -24526,7 +24526,9 @@ Serif
                 <directive>
                   <tag>Duration</tag>
                   <prefix>\breve </prefix>
-                  <graphic_name>noteheads_sM1neomensural</graphic_name>
+                  <graphic_name>
+
+emmentaler</graphic_name>
                   <override>6</override>
                 </directive>
                 <directive>
@@ -26334,7 +26336,9 @@ Serif
                 <directive>
                   <tag>Duration</tag>
                   <prefix>\breve </prefix>
-                  <graphic_name>noteheads_sM1neomensural</graphic_name>
+                  <graphic_name>
+
+emmentaler</graphic_name>
                   <override>6</override>
                 </directive>
                 <directive>
@@ -27621,7 +27625,9 @@ Denemo
                 <directive>
                   <tag>Duration</tag>
                   <prefix>\breve </prefix>
-                  <graphic_name>noteheads_sM1neomensural</graphic_name>
+                  <graphic_name>
+
+emmentaler</graphic_name>
                   <override>6</override>
                 </directive>
                 <directive>
@@ -31549,7 +31555,9 @@ Denemo
                 <directive>
                   <tag>Duration</tag>
                   <prefix>\breve </prefix>
-                  <graphic_name>noteheads_sM1neomensural</graphic_name>
+                  <graphic_name>
+
+emmentaler</graphic_name>
                   <override>6</override>
                 </directive>
                 <directive>
@@ -31577,7 +31585,7 @@ Denemo
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>3</measureno>
+      <measureno>64</measureno>
       <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
@@ -39588,8 +39596,8 @@ Denemo
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>35</measureno>
-      <cursorposition>6</cursorposition>
+      <measureno>36</measureno>
+      <cursorposition>8</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -43504,8 +43512,8 @@ Denemo
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>2</measureno>
-      <cursorposition>0</cursorposition>
+      <measureno>1</measureno>
+      <cursorposition>1</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>

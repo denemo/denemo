@@ -15,8 +15,8 @@
       <tonalcenter>0</tonalcenter>
       <zoom>60</zoom>
       <system-height>100</system-height>
-      <page-zoom>0</page-zoom>
-      <page-system-height>0</page-system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
     </edit-info>
     <score-info>
       <tempo>
