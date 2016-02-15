@@ -1,0 +1,33 @@
+;;;;GenerateEnhancedMidi
+(let ((tag "GenerateEnhancedMidi")(changecount (d-Changecount))(saved (d-GetSaved)))
+    (define (no-tempo-at-start)
+        (define no-tempo #t)
+        (d-PushPosition)
+        (d-MoveToBeginning)
+      
+        (let loop ()
+          (if (Music?)
+            (set! no-tempo #t)
+            (if (d-Directive-standalone? "MetronomeMark")
+                (set! no-tempo #f)
+                (if (d-NextObjectInMeasure)
+                    (loop)
+                    (set! no-tempo #t)))))
+        (d-PopPosition)
+        no-tempo)
+    (d-IncreaseGuard)
+    (d-DirectivePut-score-prefix tag "\n\\include \"articulate.ly\"\n")
+    (d-DirectivePut-score-postfix tag "\n\\unfoldRepeats \\articulate\n")
+    (d-DirectivePut-movementcontrol-postfix tag "\n\\midi {}\n")
+    (d-DirectivePut-movementcontrol-override tag DENEMO_OVERRIDE_AFFIX)
+    (if (no-tempo-at-start)
+      (d-DirectivePut-voice-postfix tag (string-append " \\set Score.tempoHideNote = ##t \\tempo 4=" (number->string (d-MovementTempo)) " ")))
+
+    (d-InstallMidiViaLilyPond)
+    
+    (d-DirectiveDelete-voice tag)
+    (d-DirectiveDelete-score tag)
+    (d-DirectiveDelete-movementcontrol tag)
+    (d-SetSaved saved);
+    (d-Changecount changecount)
+    (d-DecreaseGuard))

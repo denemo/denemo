@@ -2840,6 +2840,14 @@ scheme_get_imported_midi_tracks (void)
         return scm_from_int (num);
 }
 
+
+SCM
+scheme_install_midi_via_lilypond (void)
+{
+ return SCM_BOOL (install_midi_via_lilypond ());
+}
+
+
 SCM
 scheme_get_recorded_midi_duration (void) {
     gdouble duration = get_recorded_midi_duration (); 

@@ -35,7 +35,9 @@
             (set! pagebreak (d-DirectiveGet-header-override "MovementPageBreak"))
             (d-DirectivePut-header-override "MovementPageBreak" DENEMO_OVERRIDE_HIDDEN)))
     (d-DirectivePut-score-override tag DENEMO_OVERRIDE_AFFIX)
-    (d-DirectivePut-score-prefix tag "\n\\include \"live-score.ily\"\n")
+    ;;;(if (d-CheckLilyVersion "2.19.0")
+        (d-DirectivePut-score-prefix tag "\n\\include \"grob-inspector.ily\"\n")
+       ;;; (d-DirectivePut-score-prefix tag "\n\\include \"live-score.ily\"\n"))
     (if (no-tempo-at-start)
       (d-DirectivePut-voice-postfix tag (string-append " \\set Score.tempoHideNote = ##t \\tempo 4=" (number->string (d-MovementTempo)) " ")))
     (d-DirectivePut-score-prefix tag2 "\n\\header { tagline = #f }\n")
@@ -55,10 +57,11 @@
         (d-DirectivePut-header-override "MovementPageBreak" pagebreak))   
     (d-DirectiveDelete-movementcontrol tag)
     (d-DirectiveDelete-paper tag)
-    (d-DirectiveDelete-score tag)
+    
     (d-DirectiveDelete-voice tag)
     (d-DirectiveDelete-score tag2)
-    (d-DirectivePut-score-prefix tag2 "\n%\\header { tagline = #f }\n") ;;to keep the same line numbers we don't delete this line but comment it out
+    (d-DirectivePut-score-prefix tag  "\n%playback view line number adjustment\n") ;;to keep the same line numbers we don't delete this line but comment it out
+    (d-DirectivePut-score-postfix tag "") ;;to keep the same line numbers we don't delete this line but comment it out
     (if booktitles
         (DenemoUseBookTitles))
     (d-SetSaved saved);(disp "Resetting " changecount "\n\n")

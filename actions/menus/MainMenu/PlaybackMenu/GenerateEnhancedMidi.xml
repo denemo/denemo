@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>GenerateEnhancedMidi</action>
+        <after>PlaybackView</after>
+        <_label>Generate Enhanced MIDI</_label>
+        <_tooltip>Tries to create a more full-featured MIDI rendering with trills, dynamics, rall. etc.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

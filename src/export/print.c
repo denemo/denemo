@@ -604,6 +604,9 @@ run_lilypond_for_svg (gchar * filename, gchar * lilyfile)
   };
   run_lilypond (arguments);
 }
+
+
+
 /*  create pdf of current score, optionally restricted to voices/staffs whose name match the current one.
  *  generate the lilypond text (on disk)
  *  Fork and run lilypond
@@ -636,7 +639,7 @@ create_pdf (gboolean part_only, gboolean all_movements)
   generate_lilypond (lilyfile, part_only, all_movements);
   run_lilypond_for_pdf (filename, lilyfile);
 }
-/*  create pdf of current score, optionally restricted to voices/staffs whose name match the current one.
+/*  create svg of current score, optionally restricted to voices/staffs whose name match the current one.
  *  generate the lilypond text (on disk)
  *  Fork and run lilypond
  */
@@ -668,6 +671,41 @@ create_svg (gboolean part_only, gboolean all_movements)
   generate_lilypond (lilyfile, part_only, all_movements);
   run_lilypond_for_svg (filename, lilyfile);
 }
+
+/*  create MIDI of current movement via lilypond, 
+ *  Fork and run lilypond
+ */
+void
+create_midi_via_lilypond (void)
+{
+        if (Denemo.printstatus->printpid != GPID_NONE)
+    {
+      if (confirm (_("Already Typesetting"), _("Abandon this typeset?")))
+        {
+          if (Denemo.printstatus->printpid != GPID_NONE)        //It could have died while the user was making up their mind...
+            kill_process (Denemo.printstatus->printpid);
+          Denemo.printstatus->printpid = GPID_NONE;
+        }
+      else
+        {
+          warningdialog (_("Cancelled"));
+          
+          return;
+        }
+    }
+  get_wysiwyg_info()->stage = TypesetForPlaybackView;
+  advance_printname ();
+  gchar *filename = Denemo.printstatus->printbasename[Denemo.printstatus->cycle];
+  gchar *lilyfile = Denemo.printstatus->printname_ly[Denemo.printstatus->cycle];
+  g_remove (lilyfile);
+  Denemo.printstatus->invalid = 0;
+  g_free (Denemo.printstatus->error_file);Denemo.printstatus->error_file = NULL;
+  generate_lilypond (lilyfile, FALSE, FALSE);
+  //run_lilypond_for_midi (filename, lilyfile);  to avoid actually generating an svg, or pdf we would need to avoid any layout block in the .ly, there is no command line option, so we just generate svg with the .midi
+  run_lilypond_for_svg (filename, lilyfile);  
+    
+}
+
 
 void create_pdf_for_lilypond (gchar *lilypond)
 {

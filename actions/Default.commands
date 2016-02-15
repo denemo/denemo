@@ -7688,6 +7688,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Ragged Right (On/Off)</_label>
         <_tooltip>If the current movement has only one system it will be stretched to the right margin. Run the command again to turn this off.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>GenerateEnhancedMidi</action>
+        <after>PlaybackView</after>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <_label>Generate Enhanced MIDI</_label>
+        <_tooltip>Tries to create a more full-featured MIDI rendering with trills, dynamics, rall. etc.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

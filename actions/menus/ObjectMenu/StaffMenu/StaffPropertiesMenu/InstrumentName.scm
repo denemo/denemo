@@ -25,10 +25,7 @@
                 (begin
                     (set! transparent-start "\\transparent {")
                     (set! transparent-end "}")))
-        (d-DirectivePut-staff-postfix tag  (string-append "\\set Staff.instrumentName = \\markup {  \\with-url #'\"scheme:(d-GoToPosition " 
-                movement 
-                " " staff " 1 1)(let ((choice (d-PopupMenu (list (cons (_ \\\"Change Name\\\") d-InstrumentName)   (cons (_ \\\"Change Indent\\\") d-ScoreIndent)))))
-                    (if choice (choice)))    \" " transparent-start "\"" current "\" " transparent-end"}"))
+        (d-DirectivePut-staff-postfix tag  (string-append "\\set Staff.instrumentName = \\markup { " transparent-start "\"" current "\" " transparent-end"}"))
 
         (if (> (string-length current) 0)
                     (d-StaffProperties (string-append "denemo_name=" current))

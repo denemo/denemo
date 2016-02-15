@@ -591,6 +591,8 @@ actions/menus/MainMenu/PlaybackMenu/ConvertMidiForBass.scm
 actions/menus/MainMenu/PlaybackMenu/ConvertMidiForBass.xml
 actions/menus/MainMenu/PlaybackMenu/DenemoPlayCursorToEnd.scm
 actions/menus/MainMenu/PlaybackMenu/DenemoPlayCursorToEnd.xml
+actions/menus/MainMenu/PlaybackMenu/GenerateEnhancedMidi.scm
+actions/menus/MainMenu/PlaybackMenu/GenerateEnhancedMidi.xml
 actions/menus/MainMenu/PlaybackMenu/Performance.scm
 actions/menus/MainMenu/PlaybackMenu/Performance.xml
 actions/menus/MainMenu/PlaybackMenu/PitchShift.scm

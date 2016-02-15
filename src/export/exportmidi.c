@@ -936,8 +936,9 @@ gdouble load_lilypond_midi (gchar * outfile, gboolean keep) {
     smf_t *smf = smf_load (midi_file);
     if (smf)
         {
-        if (!attach_timings ())
-            g_warning ("Attaching timings to objects failed\n");              
+       // if (!attach_timings ())
+        //    g_warning ("Attaching timings to objects failed\n");  
+        //g_print ("No need to attach timings\n");            
         if (outfile)
             save_smf_to_file (smf, outfile);             
         if (!keep )

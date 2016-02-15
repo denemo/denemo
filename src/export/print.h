@@ -130,6 +130,7 @@ gboolean stop_lilypond ();
 void process_lilypond_errors (gchar * filename);
 gchar *get_printfile_pathbasename (void);
 void create_pdf (gboolean part_only, gboolean all_movements);
+void create_midi_via_lilypond (void);
 void show_print_view (GtkAction * action, DenemoScriptParam * param);
 void create_svg (gboolean part_only, gboolean all_movements);
 #endif /*PRINT_H */

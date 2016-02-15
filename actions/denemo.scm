@@ -1149,7 +1149,7 @@
         (cons "𝅘𝅥𝅱" "1/32")
         (cons "𝅘𝅥𝅱" "1/64")
         (cons "𝅘𝅥𝅱" "1/128"))))
-                            
+                         
 ;;
 (define (DenemoSetTitles tag param editing)
     (let ((score (equal? tag "ScoreTitles"))
@@ -1180,8 +1180,8 @@
             (let ((header ""))
                 (define (url type)
                     (if score
-                            (string-append "\\with-url #'\"scheme:(DenemoSetTitles \\\"" tag "\\\" '" type " #t)\" ")
-                            (string-append "\\with-url #'\"scheme:(d-GoToPosition " (number->string (d-GetMovement)) " 1 1 1)(DenemoSetTitles \\\"" tag "\\\" '" type " #t)\"")))
+                            (string-append "\\with-url #'\"scheme:(DenemoSetScoreTitles '" type " #t)\" ")
+                            (string-append "\\with-url #'\"scheme:(d-GoToPosition " (number->string (d-GetMovement)) " 1 1 1)(DenemoSetMovementTitles '" type " #t)\"")))
             
                 (if dedication
                                 (set! header (string-append header "     dedication = \\markup " (url "dedication") " {" dedication "}\n"))
@@ -1240,9 +1240,10 @@
                 ;;; if setting movement titles but no score titles are set then initialize score titles to #f
                 (if (and (not score) (not (d-Directive-scoreheader? "ScoreTitles")))
                         (DenemoSetTitles "ScoreTitles" 'initialize #f))))
+ 
                         
-(define (form-pair name title)
-    (string-append "(cons '" name (if (string? title) (string-append " \"" (scheme-escape title) "\"") " #f") ")"))
+        (define (form-pair name title)
+            (string-append "(cons '" name (if (string? title) (string-append " \"" (scheme-escape title) "\"") " #f") ")"))
 ;;; procedure starts here
         (if score
             (set! data (d-DirectiveGet-scoreheader-data tag))
@@ -1388,6 +1389,11 @@
                         (d-DirectivePut-scoreheader-data tag thealist)
                         (d-DirectivePut-header-data tag thealist))
                     (write-titles))))))
+
+(define (DenemoSetScoreTitles param editing)
+    (DenemoSetTitles "ScoreTitles" param editing))
+(define (DenemoSetMovementTitles param editing)
+    (DenemoSetTitles "MovementTitles" param editing))
                     
 ;;;;;;;;;;;
 (define (DenemoSetVerticalSpacingDist tag type title default)

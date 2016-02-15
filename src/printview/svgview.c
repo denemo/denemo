@@ -44,17 +44,30 @@ static gboolean PartOnly = FALSE;
 static GtkAdjustment *VAdj = NULL;
 static gdouble ScrollTime = -1.0;
 static GtkWidget *ClearScrollPointsButton = NULL;
+
+
+typedef struct TempoChange {
+   gdouble time;//time modified by duration changes
+   gdouble base_time;//timing as emitted by LilyPond
+   gint metronome_count;
+   gint tempo_unit; 
+} TempoChange;
+
+
 typedef struct Timing {
-    gdouble time;
+    gdouble time;//time modified by duration changes
+    gdouble base_time;//timing as emitted by LilyPond
     gdouble duration;
     gdouble x;
     gdouble y;
     gint line;
     gint col;
+    GList *prevailing_tempo;// a reference only, do not free with the Timing
     DenemoObject *object;//the denemo object that corresponds to line, col
 } Timing;
 
 GList *TheTimings = NULL, *LastTiming=NULL, *NextTiming=NULL;
+GList *TheTempoChanges = NULL;
 gdouble TheScale = 1.0; //Scale of score font size relative to 18pt
 /* Defines for making traversing XML trees easier */
 
@@ -153,7 +166,34 @@ get_window_size (gint * w, gint * h)
 #endif
     }
 }
+static void display_timings (gchar *message)
+{
+  if (TheTimings == NULL)
+        return;
+  GList *g;
+  for (g=TheTimings;g;g=g->next)      
+    {
+        Timing *this = (Timing *)g->data;
+        DenemoObject *obj = get_object_at_lilypond (this->line, this->col);
+      //g_print ("at %d %d type %d at time %.3f, base_time %.3f, under tempo change link %p duration %.2f\n", this->line, this->col, obj?obj->type:-1, this->time, this->base_time, this->prevailing_tempo, this->duration);
+    }
+  g_print ("%s: A total of %d timings\n", message, g_list_length (TheTimings));
+}
+static void display_tempo_changes (gchar *message)
+{
+  if (TheTimings == NULL)
+        return;
+  GList *g;
+  for (g=TheTempoChanges;g;g=g->next)      
+    {
+        TempoChange *this = (TempoChange *)g->data;
+       
+      g_print (" time %.3f, base time %.3f count %d bpm, unit %d\n",  this->time,  this->base_time, this->metronome_count, this->tempo_unit);
+    }
+  g_print ("%s %d tempo changes\n", message, g_list_length (TheTempoChanges));
+}
 
+// attach timings to Denemo objects (notes/rests) that gave rise to them
 gboolean attach_timings (void)
 {
   if (TheTimings == NULL)
@@ -163,19 +203,68 @@ gboolean attach_timings (void)
     {
         Timing *this = (Timing *)g->data;
         DenemoObject *obj = get_object_at_lilypond (this->line, this->col);
-      //g_print ("at %d %d\n", this->line, this->col);
-            if (obj)
+        //g_print ("attaching at %d %d\n", this->line, this->col);
+            if (obj && (obj->type==CHORD))
                {
-                  obj->earliest_time = this->time;
-                  obj->latest_time = this->time + this->duration; //g_print ("Set %.2f %.2f\n", obj->earliest_time, obj->latest_time);
-                  this->object = obj;
+                  TempoChange *tc = this->prevailing_tempo->data;
+                  if(tc)
+                    {
+                      obj->earliest_time = this->time;
+                      obj->latest_time = this->time + this->duration; 
+                      //g_print ("Attach timings: Object at %d,%d Set %.2f %.2f from duration %.2f\n",this->line, this->col, obj->earliest_time, obj->latest_time, this->duration);
+                    }
+                 else return FALSE;
                 }
             else
                return FALSE;
     }
-    
   return TRUE;
 }
+
+static void attach_durations (void)
+ {
+ if (TheTimings == NULL)
+        return;
+  GList *g;
+  for (g=TheTimings;g;g=g->next)      
+    {
+        Timing *this = (Timing *)g->data;
+        TempoChange *tc = this->prevailing_tempo->data;
+        DenemoObject *obj = get_object_at_lilypond (this->line, this->col);
+        
+        if (obj && (obj->type==CHORD))
+          {
+              this->duration = (((60/4) * tc->tempo_unit)/((gdouble)tc->metronome_count)*obj->durinticks)/384;
+              this->object = obj;
+              //g_print ("Setting the duration at %.2f from %d durinticks\n", this->duration, obj->durinticks);
+          }
+    }
+ }
+
+
+
+static void attach_tempo_changes (void)
+    {
+        GList *g=TheTimings, *h = TheTempoChanges;
+#define next_timing g->next
+#define next_tempo (h?h->next:NULL)
+#define totc(h)  (h?((TempoChange*)h->data)->base_time:1e10)
+#define toti(g)  (((Timing*)g->data)->base_time)
+#define prevail(g) ((Timing*)g->data)->prevailing_tempo
+        for (;g;g=g->next)
+            {
+               if (toti(g) < (totc (next_tempo)) - 0.001)
+                prevail(g) = h;
+               else
+                {
+                    if(h)
+                        h = h->next;
+                    g = g->prev;
+                }
+            } 
+    }
+
+    
 DenemoObject *get_object_for_time (gdouble time, gboolean start)
 {
     if ((changecount != Denemo.project->movement->changecount) || (Denemo.project->movement->changecount != Denemo.project->movement->smfsync))
@@ -342,11 +431,7 @@ static Timing *get_svg_position(gchar *id, GList *ids)
     return NULL;
 }
 
-static void add_note (Timing *t)
-{
-    TheTimings = g_list_append (TheTimings, (gpointer)t);
-    //g_print ("Added %.2f seconds (%.2f,%.2f)\n", t->time, t->x, t->y);
-}
+
 static void free_timings (void)
 {
     GList *g;
@@ -357,127 +442,91 @@ static void free_timings (void)
     g_list_free (TheTimings);
     TheTimings = NULL;
     LastTiming = NextTiming = NULL;
-}
-
-static void compute_timings (gchar *base, GList *ids)
-{
-    free_timings();
-    gchar *events = g_build_filename (base, "events.txt", NULL);
-    FILE *fp = fopen (events, "r");  
-    //g_print ("Collected %d ids\n", g_list_length (ids));
-    if(fp)
+    for (g = TheTempoChanges; g;g=g->next)
         {
-            gdouble moment, duration;
-            gchar type [10];
-            gint duration_type, col, line, midi;
-            gdouble tempo = 60;
-            gdouble timeCoef =  4;
-            gdouble latestMoment = 0;
-            gdouble adjustedElapsedTime = 0;
-            gdouble nextTempo = 0;
-            gdouble nextTempoMoment = 0;
-            gboolean incomingTempo = FALSE;
-            while (2 == fscanf (fp, "%lf%10s", &moment, type)) 
-                {
-                // g_print ("moment %.2f %s latestMoment %.2f\n", moment, type, latestMoment);
-                  if (!strcmp (type, "tempo"))  
-                        {
-                            if (1 == fscanf (fp, "%lf", &nextTempo))
-                                {
-                                nextTempoMoment = moment;//g_print ("Next %s %.2f\n", type, nextTempo);
-                                incomingTempo = TRUE;
-                                } else g_warning ("Malformed events file");
-                        }
-                 else
-                    {
-                        if (!strcmp (type, "note"))
-                            {
-                            if (4 == fscanf (fp, "%*s%lf%*s%d%d%d", &duration, &col, &line, &midi))
-                                    {
-                                       // g_print ("moment ... %.2f %s %d %.2f %d %d %d\n", moment, type, duration_type, duration, col, line, midi); 
-                                       if (incomingTempo)
-                                        {
-                                            if (moment > nextTempoMoment)
-                                                {
-                                                    tempo = nextTempo;//g_print (" tempo %.2f\n", tempo);
-                                                    timeCoef = (60 / tempo);//g_print (" timeCoef %.2f\n", timeCoef);
-                                                    incomingTempo = FALSE;
-                                                }
-                                        }
-                                        gdouble elapsedTime = moment - latestMoment;
-                                        adjustedElapsedTime += elapsedTime * timeCoef;//g_print ("adjustedElapsedtime %f\n", adjustedElapsedTime);
-                                        gchar *idStr;
-                                        Timing *timing;
-
-                                                idStr = g_strdup_printf ("Note-%d-%d" , line, col);
-                                                timing = get_svg_position (idStr, ids);
-                                                
-                                                if(timing)
-                                                    {
-                                                    timing->line = line;
-                                                    timing->col = col;
-                                                    timing->time = adjustedElapsedTime;
-                                                    timing->duration = duration;
-                                                    add_note (timing);//g_print ("AdjustedElapsed time %.2f note %d\n", adjustedElapsedTime, midi);
-                                                    }
-                                    }
-                                    else
-                                    g_warning ("Could not parse type %s\n", type);
-                            }            
-                                    
-                        else if(!strcmp (type, "rest"))
-                            {
-                                if (3 == fscanf (fp, "%*s%lf%*s%d%d",  &duration, &col, &line))
-                                    {
-                                       // g_print ("moment ... %.2f %s %d %.2f %d %d %d\n", moment, type, duration_type, duration, col, line, midi); 
-                                       if (incomingTempo)
-                                        {
-                                            if (moment > nextTempoMoment)
-                                                {
-                                                    tempo = nextTempo;//g_print (" tempo %.2f\n", tempo);
-                                                    timeCoef = (60 / tempo);//g_print (" timeCoef %.2f\n", timeCoef);
-                                                    incomingTempo = FALSE;
-                                                }
-                                        }
-                                        gdouble elapsedTime = moment - latestMoment;
-                                        adjustedElapsedTime += elapsedTime * timeCoef;//g_print ("adjustedElapsedtime %f\n", adjustedElapsedTime);
-                                        gchar *idStr;
-                                        Timing *timing;                                        
-                                            
-                                            
-                                            
-                                            idStr = g_strdup_printf ("Rest-%d-%d" , line, col);
-                                            timing = get_svg_position (idStr, ids);
-                                            if(timing)
-                                                {
-                                                timing->line = line;
-                                                timing->col = col;
-                                                timing->time = adjustedElapsedTime;
-                                                add_note (timing);//g_print ("AdjustedElapsed time %.2f rest \n", adjustedElapsedTime);
-                                                }
-                                            
-                                } //rest
-                            else g_warning ("Don't know how to handle %s\n", type);
-                            }
-                            latestMoment = moment;
-                        }// not tempo
-                    } //while events
-                fclose (fp);
-            } //if events file
-                    
-    g_free (events); 
+            g_free(g->data);
+        }
+    g_list_free (TheTempoChanges);
+    TheTempoChanges = NULL;
 }
 
-static GList * create_positions (gchar *filename)
+static gboolean timing_is_earlier (Timing *t1, Timing *t2)
 {
-  GList *ret = NULL;
+    return t1->base_time > t2->base_time;
+}
+static gboolean tempo_is_earlier (TempoChange *t1, TempoChange *t2)
+{
+    return t1->base_time > t2->base_time;
+}
+
+static void adjust_timings_by_tempi (void)
+{
+   GList *h;
+   gdouble last_time = 0.0;
+   if (!TheTimings)
+    return;
+   
+    for (h=TheTimings;h;h=h->next)
+        {
+            Timing *timing = h->data;
+            GList *link = timing->prevailing_tempo;
+            TempoChange *tc = (TempoChange*)link->data;
+            gdouble interval_start_time = 0.0, last_time = 0.0;
+            if (link->prev)
+                {
+                    interval_start_time = ((TempoChange*)link->data)->base_time;
+                    last_time = ((TempoChange*)link->data)->time;
+                    
+                }
+            gdouble this_time = timing->base_time;
+           gdouble interval = this_time-interval_start_time;
+           timing->time = last_time + (((60)*tc->tempo_unit)/(gdouble)tc->metronome_count) * interval;
+        }
+   
+    //display_timings ("After Adjust");       
+}
+static void adjust_tempi_timings_by_tempi (void)
+{
+   GList *g;
+   for (g=TheTempoChanges;g;g=g->next)
+    {
+        if(g->prev==NULL) continue;
+        TempoChange *tc = (TempoChange *)g->prev->data;
+        gdouble scale =  ((60) * tc->tempo_unit)/((gdouble)tc->metronome_count);
+        gdouble last_tc_base_time = ((TempoChange *)g->prev->data)->base_time;
+        gdouble last_tc_time = ((TempoChange *)g->prev->data)->time;
+        tc = (TempoChange *)g->data;
+        tc->time =  (tc->base_time - last_tc_base_time)*scale + last_tc_time;
+    }
+}
+
+//seek out a node named name at any depth from node.
+xmlNodePtr xmlSeekChild (xmlNodePtr node, gchar *name)
+{
+    xmlNodePtr childElem;
+    if (ELEM_NAME_EQ (node, name))
+            return node;
+    FOREACH_CHILD_ELEM (childElem, node)
+        {
+        if (ELEM_NAME_EQ (childElem, name))
+            return childElem;
+        node = xmlSeekChild (childElem, name);
+        if (node)
+            return node;
+        }
+     return NULL;
+}
+
+static void create_positions (gchar *filename)
+{
+  free_timings ();
   GError *err = NULL;
   xmlDocPtr doc = NULL;
   xmlNsPtr ns;
   xmlNodePtr rootElem;
   /* ignore blanks between nodes that appear as "text" */
   xmlKeepBlanksDefault (0);
-  /* Try to parse the file(s). */
+  /* Try to parse the file. */
   filename = g_strdup (filename); //we may modify it
   while (g_file_test (filename, G_FILE_TEST_EXISTS))
     {
@@ -488,49 +537,87 @@ static GList * create_positions (gchar *filename)
          break;
         }
         else
-        {//g_print ("Parsing %s\n", filename);
+        {g_print ("Parsing %s\n", filename);
           rootElem = xmlDocGetRootElement (doc);
           xmlNodePtr childElem;
           FOREACH_CHILD_ELEM (childElem, rootElem)
-          {
+          {//g_print ("Child elem %s\n", childElem->name);
               if (ELEM_NAME_EQ (childElem, "g"))
                 { xmlNodePtr grandChildElem;
                   gchar *id = xmlGetProp (childElem, (xmlChar *) "id");
-                     FOREACH_CHILD_ELEM (grandChildElem, childElem)
-                       {
-                         if (ELEM_NAME_EQ (grandChildElem, "g"))   //grouping to set color to black
-                          { xmlNodePtr greatgrandChildElem;
-                            FOREACH_CHILD_ELEM (greatgrandChildElem, grandChildElem)
+                  gint line=0, col=0, metronome_count=0, tempo_unit=0;//g_print ("Got id %s\n", id);
+                  gdouble moment = 0.0;
+                  if (id) {
+                       if (3 == sscanf (id, "class:ly grob notehead;location %d:%d;data-moment:%lf", &line, &col,&moment))
+                            {
+                             //g_print ("Got %d %d for id %s\n",line, col, id);
+                             xmlNodePtr path_elem = xmlSeekChild (childElem, "path");
+                             if (path_elem)
                                 {
-                                    if (ELEM_NAME_EQ (greatgrandChildElem, "path"))
+                                    gchar *coords = xmlGetProp (path_elem, (xmlChar *) "transform");
+                                    //g_print ("ID %s has Coords %s\n", id, coords);
+                                    if (id && coords)
                                         {
-                                            gchar *coords = xmlGetProp (greatgrandChildElem, (xmlChar *) "transform");
-                                            //g_print ("ID %s has Coords %s\n", id, coords);
-                                            if (id && coords)
-                                                {
-                                                gchar *data = g_strconcat (id, coords, NULL);
-                                                ret = g_list_append (ret, data);
-                                                xmlFree (id);
-                                                xmlFree (coords);
-                                                }
-                                        } else g_debug ("create_positions: Found group containing %s - ignoring.", greatgrandChildElem->name);
-                                    }
+                                            Timing *timing = (Timing *)g_malloc0 (sizeof(Timing));
+                                            timing->base_time = moment;//we have to correct for tempo changes later
+                                            timing->line = line;
+                                            timing->col = col;
+                                            sscanf (coords, "translate(%lf, %lf)", &timing->x, &timing->y);
+                                            TheTimings = g_list_insert_sorted (TheTimings, timing, (GCompareFunc)timing_is_earlier);
+                                            xmlFree (id);
+                                            xmlFree (coords);
+                                        }
+                                }
+                             else g_debug ("no path elem.");
+                           } else 
+                       if (3 == sscanf (id, "class:ly grob metronomemark;data-moment:%lf;data-metronome-count:%d;data-tempo-unit:%d", &moment, &metronome_count, &tempo_unit)) 
+                            {//g_print ("Found %s %f, %d, %d\n", id, moment, metronome_count, tempo_unit);
+                                TempoChange *tc = g_malloc0 (sizeof (TempoChange));
+                                tc->base_time = moment;
+                                tc->metronome_count = metronome_count;
+                                tc->tempo_unit = tempo_unit;
+                                TheTempoChanges =  g_list_insert_sorted (TheTempoChanges, tc, (GCompareFunc)tempo_is_earlier);
                             }
-                        }
                     }
+                }
             }
-              if (doc != NULL)
+        if (doc != NULL)
             xmlFreeDoc (doc);
 
         }
-        //It may have spilt over into several svg files denemoprintA-page-1.svg etc
-       gint num_pos = strlen (filename)-5;//"<n>.svg"
-       *(filename+num_pos) = *(filename+num_pos) + 1; //no attempt beyond 9 pages!
-       //FIXME check that mtime of this file is later than the last, or delete old svg's before starting.
+        
+            //It may have spilt over into several svg files denemoprintA-page-1.svg etc
+        gint num;
+        if(1==sscanf(filename, "denemoprint%*c-page-%d.svg", &num))
+                {
+                gint num_pos = strlen (filename)-5;//"<n>.svg"
+                *(filename+num_pos) = *(filename+num_pos) + 1; //no attempt beyond 9 pages!
+                g_print ("\nTrying for %s\n\n\n", filename);//FIXME check that mtime of this file is later than the last, or delete old svg's before starting.
+                }
+        else
+            break;
+            
     }
     g_free (filename);
     //g_print ("Read %d ids from file %s\n", g_list_length (ret), filename);
-  return ret;  
+    if (TheTempoChanges && TheTimings)
+        {
+        //display_timings ("After Creation"); 
+        //display_tempo_changes ("Tempi after creation");
+
+        attach_tempo_changes ();
+        
+        //display_tempo_changes ("Tempi before adjustment");
+        adjust_tempi_timings_by_tempi ();
+        //display_tempo_changes ("Tempi after adjustment");
+        
+        adjust_timings_by_tempi ();
+        attach_durations ();
+
+        if (!attach_timings ())
+            g_warning ("Attaching timings to objects failed\n");              
+    } else
+    warningdialog (_("Error generating SVG file from LilyPond - does not parse correctly"));
 }
 static gint get_number_of_pages (gchar *base)
 {
@@ -595,8 +682,8 @@ set_playback_view (void)
  if (Denemo.printstatus->invalid == 0)
     {
  
-    compute_timings (g_path_get_dirname(filename), create_positions (filename)); 
-
+    //compute_timings (g_path_get_dirname(filename), create_positions (filename)); 
+    create_positions (filename);
 #if 1 //def G_OS_WIN32
     GError *err = NULL;
     err = NULL;
@@ -676,7 +763,31 @@ playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboole
   }
 }
 
+static void
+lilypond_midi_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean print)
+{
+  progressbar_stop ();
 
+  g_spawn_close_pid (Denemo.printstatus->printpid);
+  //g_print ("background %d\n", Denemo.printstatus->background);
+  if (Denemo.printstatus->background == STATE_NONE)
+    {
+      process_lilypond_errors ((gchar *) get_printfile_pathbasename ());
+    }
+  else
+    {
+      if (LilyPond_stderr != -1)
+        close (LilyPond_stderr);
+      LilyPond_stderr = -1;
+    }
+  Denemo.printstatus->printpid = GPID_NONE;
+
+  gdouble total_time;
+  changecount = Denemo.project->movement->changecount;
+  total_time = load_lilypond_midi (NULL, AllPartsTypeset);//g_print ("MIDI file total time = %.2f\n", total_time);
+  Denemo.project->movement->smfsync = Denemo.project->movement->changecount;
+  
+}
 
 static gboolean
 initialize_typesetting (void)
@@ -792,6 +903,11 @@ static void remake_playback_view (gboolean part)
     g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) playbackview_finished, (gpointer) (FALSE));
 }
 
+void install_midi_via_lilypond (void)
+{
+  create_midi_via_lilypond ();
+  g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) lilypond_midi_finished, (gpointer) (FALSE));
+}
 //returns TRUE if a re-build has been kicked off.
 static gboolean update_playback_view (void)
 {
@@ -1128,6 +1244,12 @@ static void part_button (void)
     call_out_to_guile ("(d-PlaybackView 'part)");//this installs the temporary directives to typeset svg and then
 
 }
+static void enhance_button (void)
+{
+   
+    call_out_to_guile ("(d-GenerateEnhancedMidi)");//this installs the temporary directives to typeset svg and then
+
+}
 static void movement_button (void)
 { 
     PartOnly = FALSE;
@@ -1231,19 +1353,33 @@ install_svgview (GtkWidget * top_vbox)
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, FALSE, 0);
 
   GtkWidget *button = (GtkWidget*)gtk_button_new_with_label (_("Play/Stop"));
+  gtk_widget_set_tooltip_text (button, _("Starts a complete performance, or stops it when it is already playing"))
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (play_button), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+
   button = (GtkWidget*)gtk_button_new_with_label (_("All Parts"));
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (movement_button), NULL);
+  gtk_widget_set_tooltip_text (button, _("Typesets all the parts of this movement, generating MIDI for playback"))
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-   button = (GtkWidget*)gtk_button_new_with_label (_("Current Part"));
+
+  button = (GtkWidget*)gtk_button_new_with_label (_("Current Part"));
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (part_button), NULL);
+  g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (movement_button), NULL);
+  gtk_widget_set_tooltip_text (button, _("Typesets the current part, generating MIDI for playback. Place the Denemo cursor on the part first."))
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-    button = (GtkWidget*)gtk_button_new_with_label (_("Set Scrolling"));
+
+  button = (GtkWidget*)gtk_button_new_with_label (_("Enhance"));
+  g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (enhance_button), NULL);
+  gtk_widget_set_tooltip_text (button, _("Creates an enhanced MIDI for playback."))
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+
+  button = (GtkWidget*)gtk_button_new_with_label (_("Set Scrolling"));
+  gtk_widget_set_tooltip_text (button, _("Provides simple scrolling control, set the rate to zero to disable this. You can manually scroll from time to time if the speed is not quite right."))
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (scroll_dialog), NULL); 
   ClearScrollPointsButton = gtk_button_new_with_label (_("Clear Scroll Points"));
   g_signal_connect (G_OBJECT (ClearScrollPointsButton), "clicked", G_CALLBACK (clear_scroll_points), NULL);
+  gtk_widget_set_tooltip_text (button, _("Clear all the scroll points that have been placed by left-clicking. Individual scroll points can be cleared by left-clicking them a second time."))
   gtk_box_pack_start (GTK_BOX (hbox), ClearScrollPointsButton, FALSE, FALSE, 0);
 
   button = gtk_button_new_with_label (_("Help"));
