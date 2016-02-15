@@ -1839,9 +1839,6 @@ write_status (DenemoProject * gui)
 {
   if(Denemo.non_interactive)
     return;
-
-  gint minutes = 0;
-  gdouble seconds = 0.0;
   gdouble early = 0.0, late = 0.0;
   gchar *selection;
   if (gui->movement == NULL)
@@ -1964,7 +1961,7 @@ write_status (DenemoProject * gui)
 
   
   if (gui->movement->smf && (gui->movement->smfsync == gui->movement->changecount) && Denemo.prefs.playback_controls)
-    g_string_append_printf (status, _("%d min %.2f sec %.2f %.2f"), minutes, seconds, early, late);
+    g_string_append_printf (status, _("start %.2f end %.2f"), early, late);
   else
     g_string_append_printf (status, _(" Staff %d Measure %d Position %d %s"), gui->movement->currentstaffnum, gui->movement->currentmeasurenum, gui->movement->cursor_x + 1, gui->movement->cursor_appending ? _("Appending") : _("Not Appending") /*not understood this one... , gui->movement->cursoroffend?"Off End":"Not Off End" */ );
 
