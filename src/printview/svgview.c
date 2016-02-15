@@ -32,6 +32,14 @@
 #include <libxml/tree.h>
 #include <librsvg/rsvg.h>
 
+
+#ifndef USE_EVINCE
+void set_continuous_typesetting (gboolean setting){return FALSE;}
+gboolean continuous_typesetting () {return FALSE;}
+
+}
+#endif
+
 static gint changecount = -1;   //changecount when the playback typeset was last created 
 static gboolean RightButtonPressed = FALSE;
 static gboolean LeftButtonPressed = FALSE;
