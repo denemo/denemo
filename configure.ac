@@ -165,6 +165,8 @@ AC_ARG_ENABLE(
   [ 
     if test "x$enableval" == "xno"; then
       useevince=no
+    else
+      useevince=yes
     fi 
   ], [ useevince=yes ])
 AM_CONDITIONAL(HAVE_EVINCE, [test x$useevince = xyes])
