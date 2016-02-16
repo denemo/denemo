@@ -7688,6 +7688,20 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Ragged Right (On/Off)</_label>
         <_tooltip>If the current movement has only one system it will be stretched to the right margin. Run the command again to turn this off.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>OpenEnharmonicSharpen</action>
+        <after>OpenOctaveUp</after>
+        <menupath>/ObjectMenu/Directives/Typesetter/Transposition</menupath>
+        <_label>Open Enharmonic Sharpen</_label>
+        <_tooltip>Opens a block of music that will be sharpened enharmonically (E-flat becomes D-sharp etc). The block should be close with a curly brace } </_tooltip>
+      </row>
+      <row type="scheme">
+        <action>OpenEnharmonicFlatten</action>
+        <after>OpenEnharmonicSharpen</after>
+        <menupath>/ObjectMenu/Directives/Typesetter/Transposition</menupath>
+        <_label>Open Enharmonic Flatten</_label>
+        <_tooltip>Opens a block of music that will be sharpened enharmonically (D-sharp becomes E-flat etc). The block should be closed with a curly brace }</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

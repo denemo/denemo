@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>OpenEnharmonicSharpen</action>
+        <after>OpenOctaveUp</after>
+        <_label>Open Enharmonic Sharpen</_label>
+        <_tooltip>Opens a block of music that will be sharpened enharmonically (E-flat becomes D-sharp etc). The block should be close with a curly brace } </_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

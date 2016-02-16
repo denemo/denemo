@@ -931,6 +931,10 @@ actions/menus/ObjectMenu/Directives/Typesetter/Tablature/TabFull.scm
 actions/menus/ObjectMenu/Directives/Typesetter/Tablature/TabFull.xml
 actions/menus/ObjectMenu/Directives/Typesetter/Transposition/CloseLilyBlock.scm
 actions/menus/ObjectMenu/Directives/Typesetter/Transposition/CloseLilyBlock.xml
+actions/menus/ObjectMenu/Directives/Typesetter/Transposition/OpenEnharmonicFlatten.scm
+actions/menus/ObjectMenu/Directives/Typesetter/Transposition/OpenEnharmonicFlatten.xml
+actions/menus/ObjectMenu/Directives/Typesetter/Transposition/OpenEnharmonicSharpen.scm
+actions/menus/ObjectMenu/Directives/Typesetter/Transposition/OpenEnharmonicSharpen.xml
 actions/menus/ObjectMenu/Directives/Typesetter/Transposition/OpenOctaveDown.scm
 actions/menus/ObjectMenu/Directives/Typesetter/Transposition/OpenOctaveDown.xml
 actions/menus/ObjectMenu/Directives/Typesetter/Transposition/OpenOctaveUp.scm
