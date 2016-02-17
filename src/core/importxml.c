@@ -1588,7 +1588,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, DenemoProject * gui)
               }
         else if (ELEM_NAME_EQ (childElem, "score-directives"))
           {
-            gui->lilycontrol.directives = parseWidgetDirectives (childElem, (gpointer) score_directive_put_graphic, NULL, NULL);
+            gui->lilycontrol.directives = parseWidgetDirectives (childElem, (gpointer) score_directive_put_graphic, NULL, &(gui->lilycontrol.directives));
           }
 
 
