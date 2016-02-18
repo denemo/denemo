@@ -187,7 +187,7 @@ struct callbackdata
  * @param cbdata pointer to the callback data structure containing the preference data to set.
  * @return none
  */
-void
+static void
 set_properties (struct callbackdata *cbdata)
 {
 
