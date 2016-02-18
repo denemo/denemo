@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="8">
+  <paper-directives>
+    <directive>
+      <tag>LimitInterSystemSpace</tag>
+      <postfix>
+page-limit-inter-system-space = ##t
+page-limit-inter-system-space-factor = 1.2</postfix>
+      <data>1.2</data>
+    </directive>
+  </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>18</fontsize>
@@ -49,6 +66,7 @@
       <voice id="id2">
         <voice-info>
           <voice-name>Harpsichord</voice-name>
+          <subpart>RH</subpart>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -76,7 +94,7 @@
           <volume>127</volume>
           <override_volume>0</override_volume>
           <mute>0</mute>
-          <midi_prognum>6</midi_prognum>
+          <midi_prognum>7</midi_prognum>
           <midi_channel>1</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
@@ -97,6 +115,7 @@
       <voice id="id3">
         <voice-info>
           <voice-name>Harpsichord</voice-name>
+          <subpart>LH</subpart>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -124,7 +143,7 @@
           <volume>127</volume>
           <override_volume>0</override_volume>
           <mute>0</mute>
-          <midi_prognum>6</midi_prognum>
+          <midi_prognum>7</midi_prognum>
           <midi_channel>2</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
