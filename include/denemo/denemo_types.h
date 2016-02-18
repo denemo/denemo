@@ -296,8 +296,9 @@ typedef struct
   /* Back to Hiller stuff */
   //  GString *staff_name;
 
-  GString *denemo_name; /**< denemo_name gets copied into lily_name */
-  GString *lily_name; /**< this is the name of the staff that is export to lilypond */
+  GString *denemo_name; /**< partname gets transformed into legitimate lily_name */
+  GString *subpart; /**< distinguishes staffs belonging to one part */
+  GString *lily_name; /**< this is the name of the staff that is exported to lilypond */
   GString *midi_instrument; /**< midi instrument name used for the staff when exported via midi */
   GString *device_port; /**< Device name and Port name concatenated into one string */ 
   gint midi_prognum; /**< midi prognum assigned to the staff voice */

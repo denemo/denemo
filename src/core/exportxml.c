@@ -1296,6 +1296,8 @@ exportXML (gchar * thefilename, DenemoProject * gui)
 
           parentElem = xmlNewChild (voiceElem, ns, (xmlChar *) "voice-info", NULL);
           xmlNewChild (parentElem, ns, (xmlChar *) "voice-name", (xmlChar *) curStaffStruct->denemo_name->str);
+          if (curStaffStruct->subpart)
+            xmlNewChild (parentElem, ns, (xmlChar *) "subpart", (xmlChar *) curStaffStruct->subpart->str);
           newXMLIntChild (parentElem, ns, (xmlChar *) "first-measure-number", 1);
 
           /*

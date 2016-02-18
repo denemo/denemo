@@ -2325,18 +2325,19 @@ static gchar *get_alt_overridden_prefix (GList *g)
     return g_string_free (s, FALSE);  
 }
 void
-set_staff_definition (GString * str, DenemoStaff * curstaffstruct, gchar * denemo_name)
+set_staff_definition (GString * str, DenemoStaff * curstaffstruct)
 {
   gint staff_override = get_lily_override (curstaffstruct->staff_directives);
 
   gchar *staff_prolog_insert = get_prefix (curstaffstruct->staff_directives);
   gchar *staff_epilog_insert = get_postfix (curstaffstruct->staff_directives);
+  gchar *denemo_name = curstaffstruct->subpart?g_strdup_printf("%s_%s", curstaffstruct->denemo_name->str, curstaffstruct->subpart->str): curstaffstruct->denemo_name->str;
   if (staff_override)
     {
       g_string_append_printf (str, "%s%s", staff_prolog_insert, staff_epilog_insert);
     }
   else
-    { 
+    {
      gchar *alt_override = get_alt_overridden_prefix (curstaffstruct->staff_directives);//AFFIX_OVERRIDE is for staff groupings
      if(*alt_override)
       g_string_append_printf (str, "\n%%Start of Staff\n %s  \\new Staff = \"%s\" << %s\n", alt_override, denemo_name, staff_epilog_insert);
@@ -2344,12 +2345,14 @@ set_staff_definition (GString * str, DenemoStaff * curstaffstruct, gchar * denem
       g_string_append_printf (str, "\n%%Start of Staff\n\\new Staff = \"%s\" %s << %s\n", denemo_name, staff_prolog_insert, staff_epilog_insert);
      g_free(alt_override);
     }
+    if (curstaffstruct->subpart)
+        g_free (denemo_name);
    g_free(staff_prolog_insert);
    g_free(staff_epilog_insert);
 }
 
 void
-set_voice_definition (GString * str, DenemoStaff * curstaffstruct, gchar * denemo_name)
+set_voice_definition (GString * str, DenemoStaff * curstaffstruct, gchar * voicetag)
 {
   gint voice_override = get_lily_override (curstaffstruct->voice_directives);
 
@@ -2361,7 +2364,7 @@ set_voice_definition (GString * str, DenemoStaff * curstaffstruct, gchar * denem
     }
   else
     {
-      g_string_append_printf (str, "\\new Voice = \"%s\" %s { %s\n", denemo_name, voice_prolog_insert, voice_epilog_insert);
+      g_string_append_printf (str, "\\new Voice = \"%s\" %s { %s\n", voicetag, voice_prolog_insert, voice_epilog_insert);
     }
 }
 

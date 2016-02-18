@@ -168,6 +168,7 @@ struct callbackdata
   DenemoProject *gui;
   DenemoStaff *staffstruct;
   GtkWidget *denemo_name;
+  GtkWidget *subpart;
   GtkWidget *midi_instrument;
   GtkWidget *midi_prognum;
   GtkWidget *midi_channel;
@@ -222,6 +223,12 @@ set_properties (struct callbackdata *cbdata)
 
   /* rename of set staff/voice name */
   canonicalize_denemo_name ((gchar *) gtk_entry_get_text (GTK_ENTRY (cbdata->denemo_name)), staffstruct->denemo_name);
+  if(cbdata->subpart)
+    {
+     if(staffstruct->subpart==NULL)
+        staffstruct->subpart = g_string_new ("");
+     canonicalize_denemo_name ((gchar *) gtk_entry_get_text (GTK_ENTRY (cbdata->subpart)), staffstruct->subpart);
+    }
   set_lily_name (staffstruct->denemo_name, staffstruct->lily_name);
 
 
@@ -434,7 +441,9 @@ staff_properties_change (void)
   NEWPAGE (_("Typeset Appearance"));
   TEXTENTRY (_("Part name:"), denemo_name);
   gtk_widget_set_tooltip_text (hbox, _( "All staffs with the same part name will be typeset with the Print Part command. Use a blank part name for staffs that should be printed with every part."));
- 
+  TEXTENTRY (_("Sub Part name:"), subpart);
+  gtk_widget_set_tooltip_text (hbox, _( "If a single part (e.g. piano) has more than one staff they should be named here."));
+  
   /* Display appearance tab */
   NEWPAGE ("Display Appearance");
   //gtk_widget_grab_focus (entrywidget);
@@ -507,7 +516,9 @@ staff_properties_change_cb (GtkAction * action, DenemoScriptParam * param)
       if (*query)
         if (!strcmp ("denemo_name", query))
           {
-            g_string_assign (param->string, staff->denemo_name->str);
+            g_string_assign (param->string, staff->denemo_name->str);  
+            if (staff->subpart)
+                g_string_append_printf (param->string, "_%s", staff->subpart->str);
             param->status = TRUE;
           }
       if (*query)
@@ -540,13 +551,17 @@ staff_properties_change_cb (GtkAction * action, DenemoScriptParam * param)
   take_snapshot ();
   signal_structural_change (Denemo.project);
   if (denemo_name)
-    {
-      g_string_assign (staff->denemo_name, denemo_name);
-      canonicalize_denemo_name (denemo_name, staff->denemo_name);
+    { gboolean ok;
+      gchar *name = strtok (denemo_name, "_");
+      gchar *subpart = strtok (NULL, "_");
+      ok = canonicalize_denemo_name (name, staff->denemo_name);
+      if (ok && subpart)
+        ok = canonicalize_denemo_name (subpart, staff->subpart);
       set_lily_name (staff->denemo_name, staff->lily_name);
-      param->status = TRUE;
+      param->status = ok;
       return;
     }
+ 
   if (device_port)
     {
       g_string_assign (staff->device_port, device_port);

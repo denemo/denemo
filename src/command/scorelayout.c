@@ -1539,7 +1539,7 @@ install_staff_with_voices (GList ** pstaffs, GtkWidget **pvbox, gchar *partname,
       g_signal_connect (G_OBJECT (frame), "destroy", G_CALLBACK (remove_from_staff_list), pstaffs);
 
       GString *staffprefix = g_string_new ("");
-      set_staff_definition (staffprefix, staff, staff->denemo_name->str);
+      set_staff_definition (staffprefix, staff);
 
 
      // if (staff->no_of_lines != 5) now done by a directive
@@ -2618,7 +2618,7 @@ selection_layout (void)
         {                       //the reason these are outside the staff frame is it makes them appear above the staff
           g_string_append_printf (sb->lilypond, "\n" TAB TAB "\\new ChordNames \\chordmode { \\%sChords }\n", get_voicename (movementnum, voice_count));
         }
-      set_staff_definition (sb->lilypond, staff, staff->denemo_name->str);
+      set_staff_definition (sb->lilypond, staff);
       
       
       

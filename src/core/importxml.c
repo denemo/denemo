@@ -2175,7 +2175,7 @@ static gint
 parseVoiceInfo (xmlNodePtr voiceInfoElem, DenemoMovement * si)
 {
   xmlNodePtr childElem;
-  gchar *voiceName;
+  gchar *voiceName, *subpart;
 
   FOREACH_CHILD_ELEM (childElem, voiceInfoElem)
   {
@@ -2190,6 +2190,20 @@ parseVoiceInfo (xmlNodePtr voiceInfoElem, DenemoMovement * si)
                 g_string_assign (thestaffstruct->denemo_name, voiceName);
                 g_free (voiceName);
                 set_lily_name (thestaffstruct->denemo_name, thestaffstruct->lily_name);
+              }
+          }
+        
+        else if (ELEM_NAME_EQ (childElem, "subpart"))
+          {
+            subpart = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            if (subpart != NULL)
+              {
+                DenemoStaff *thestaffstruct = (DenemoStaff *) si->currentstaff->data;
+                if(thestaffstruct->subpart)
+                    g_string_assign (thestaffstruct->subpart, subpart);
+                else
+                    thestaffstruct->subpart = g_string_new (subpart);
+                g_free (subpart);
               }
           }
         else if (ELEM_NAME_EQ (childElem, "first-measure-number"))
