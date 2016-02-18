@@ -1047,6 +1047,8 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
            if (si->leftmeasurenum == 1)//make a button of it if measure 1 is leftmost 
              {
               drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin /*KEY_MARGIN */ , y - staffname_offset + 10); 
+              if (thestaff->subpart)
+                drawnormaltext_cr (cr, thestaff->subpart->str, gui->leftmargin +20/*KEY_MARGIN */ , y - staffname_offset + 20); 
               cairo_save (cr);
               cairo_set_source_rgba (cr, 0.2, 0.8, 0.4, 0.4);
               cairo_rectangle (cr, gui->leftmargin, y - staffname_offset - 0, 30, 12);
@@ -1056,8 +1058,12 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
               cairo_stroke (cr);
               cairo_restore(cr);
              }
-            else
+           else
+             {
               drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 10); 
+              if (thestaff->subpart)
+                drawnormaltext_cr (cr, thestaff->subpart->str, gui->leftmargin + 20 /*KEY_MARGIN */ , y - staffname_offset + 20); 
+             }
             if(thestaff->hasfakechords)  drawnormaltext_cr (cr, _("Chord Symbols"), gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 20 + 2 * STAFF_HEIGHT); 
             if(thestaff->hasfigures)  drawnormaltext_cr (cr, _("Figured Bass"), gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 20 + 2 * STAFF_HEIGHT); 
         }
@@ -1068,6 +1074,8 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
           cairo_translate (cr, 2, (y - staffname_offset + 30));
           cairo_rotate (cr, -M_PI / 5.0);
           drawnormaltext_cr (cr, thestaff->denemo_name->str, 0, 0);
+          if (thestaff->subpart)
+                drawnormaltext_cr (cr, thestaff->subpart->str, 30, 20); 
           cairo_restore (cr);
         }
     }                           //if cr
