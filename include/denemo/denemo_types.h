@@ -540,7 +540,7 @@ typedef struct DenemoDirective
   GString *display; /**< some text to display to describe the LilyPond attached to the chord */
   gint tx,ty; /**< x and y offsets in pixels for the display text */
   gint minpixels;/**< horizontal space needed by the display */
-  gint x, y; /**< x and y offsets passed to LilyPond to control printed position */
+  guint x /*only_for*/, y /*ignored_by*/; /**< ids of score layouts that are to enable/ignore this directive */
   DenemoGraphic *graphic; /**< what to draw for this directive */
   GtkWidget *widget;  /**<  a button or menu item for accessing the directive for editing or actioning */
   gint gx, gy; /**< x and y offsets in pixels for the graphic */
