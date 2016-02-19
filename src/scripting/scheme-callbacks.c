@@ -4056,6 +4056,26 @@ scheme_put_standalone_directive (SCM tag, SCM width)
     }
   return SCM_BOOL_F;
 }
+
+SCM
+scheme_choose_tag_at_cursor (void)
+{
+ DenemoObject *curObj;
+  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data))
+    return SCM_BOOL_F;
+ gchar *tag;
+ gboolean is_note = choose_tag_at_cursor (&tag);
+ if (tag)
+    {
+        if (curObj->type == CHORD)
+            return scm_cons (scm_from_locale_string (tag), scm_from_bool (is_note));
+        else
+            return scm_from_locale_string (tag);
+    }
+ return SCM_BOOL_F;
+}
+
+
 SCM
 scheme_directive_change_tag (SCM tag)
 {   DenemoObject *curObj;

@@ -2086,7 +2086,10 @@ user_select_directive_at_cursor (gchar ** what, GList *** pdirectives, DenemoDir
             *pdirectives = &curnote->directives;
             *what = "note";
             gchar *instr = g_strdup_printf (_("Select a directive attached to the note \"%s\""), name);
-            *pdirective = select_directive (instr, **pdirectives);
+            if (g_list_length (curnote->directives) == 1)
+                *pdirective = (DenemoDirective*)(curnote->directives->data);
+            else
+                *pdirective = select_directive (instr, **pdirectives);
             g_free (instr);
             if (*pdirective)
               {
@@ -2105,7 +2108,10 @@ user_select_directive_at_cursor (gchar ** what, GList *** pdirectives, DenemoDir
       {
         *pdirectives = &curchord->directives;
         *what = "chord";
-        *pdirective = select_directive (instr, **pdirectives);
+        if (g_list_length (curchord->directives) == 1)
+            *pdirective = (DenemoDirective*)(curchord->directives->data);
+        else
+            *pdirective = select_directive (instr, **pdirectives);
       }
   }
   if (*pdirective == NULL && curnote)   //try nearest note
@@ -2114,7 +2120,10 @@ user_select_directive_at_cursor (gchar ** what, GList *** pdirectives, DenemoDir
         *pdirectives = &curnote->directives;
         *what = "note";
         gchar *instr = g_strdup_printf (_("Select a directive attached to the note \"%s\""), name);
-        *pdirective = select_directive (instr, **pdirectives);
+        if (g_list_length (curnote->directives) == 1)
+            *pdirective = (DenemoDirective*)(curnote->directives->data);
+        else
+            *pdirective = select_directive (instr, **pdirectives);
         g_free (instr);
         if (*pdirective && (g_list_length (**pdirectives) == 1))
           {
@@ -2132,6 +2141,29 @@ user_select_directive_at_cursor (gchar ** what, GList *** pdirectives, DenemoDir
   g_free (name);
   return;
 }
+
+gboolean choose_tag_at_cursor (gchar **ptag) {
+    gchar *what;
+    GList **ppdirectives;
+    DenemoDirective *pdirective;
+    user_select_directive_at_cursor (&what, &ppdirectives, &pdirective);
+    if (pdirective && (pdirective->tag == NULL))
+        pdirective->tag = g_string_new ("<Unknown Tag>");
+    *ptag = pdirective?pdirective->tag->str:NULL;
+    return g_strcmp0 (what, "chord");
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 static void
