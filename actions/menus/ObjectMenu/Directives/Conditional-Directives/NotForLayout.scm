@@ -10,4 +10,6 @@
         (d-SetSaved #f)
         (d-RefreshDisplay))
     (begin
-        (d-WarningDialog (_ "The cursor is not on a Denemo Directive.\nYou can place the \"Void\" Denemo Directive before the object you wish to omit\nand then make that directive conditional."))))) 
+          (if (Music?)
+            (d-DirectiveNotForLayout #f)
+            (d-WarningDialog (_ "The cursor is not on a Denemo Directive.\nYou can place the \"Void\" Denemo Directive before the object you wish to omit\nand then make that directive conditional."))))))

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>DirectiveNotForLayout</action>
+        <after>DirectiveOnlyForLayout</after>
+        <_label>Ignore for Current Layout</_label>
+        <_tooltip>Makes a (chosen) directive on the note/chord at the cursor be ignored for typesetting the current layout. The cursor should be positioned at the note height if a directive attached to the note is intended.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

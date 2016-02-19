@@ -1192,6 +1192,12 @@ actions/menus/ObjectMenu/NotesRests/ChangeDuration/SplitChord.xml
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/split.scm
 actions/menus/ObjectMenu/NotesRests/ChordComment.scm
 actions/menus/ObjectMenu/NotesRests/ChordComment.xml
+actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm
+actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.xml
+actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm
+actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.xml
+actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm
+actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.xml
 actions/menus/ObjectMenu/NotesRests/Directives/DeleteLilyPondOnNote.scm
 actions/menus/ObjectMenu/NotesRests/Directives/DeleteLilyPondOnNote.xml
 actions/menus/ObjectMenu/NotesRests/Directives/InsertNoteDirective.scm

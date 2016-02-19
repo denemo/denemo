@@ -292,12 +292,21 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
   gboolean override_chord_graphic = FALSE;
   if (cr)
     {
-      GList *g = thechord.directives;
+      GList *g;
       gint count = 0;
-      for (; g; g = g->next)
+      for (g = thechord.directives; g; g = g->next)
         {
           DenemoDirective *directive = (DenemoDirective *) g->data;
-
+          guint layout = selected_layout_id ();
+          gdouble only = directive->y ? ((directive->y == layout) ? 0.5 : 0.0) : 0.0;
+          gdouble exclude = directive->x ? ((directive->x == layout) ? 0.9 : 0.0) : 0.0;
+          if (directive->y && directive->y != layout)
+            exclude = 0.9;
+          if (exclude>0.0 || only >0.0)
+                {
+                    cairo_save (cr);
+                    cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, at_cursor ? 1.0 : 0.5);
+                }   
           if (directive->graphic)
             {
 
@@ -367,6 +376,8 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
                 }
             }
           count += 16;
+        if (exclude>0.0 || only >0.0)
+           cairo_restore (cr);
         }                       //for each chord directive
     }                           //if drawing do chord directives
   if ((!override_chord_graphic) || (override_chord_graphic && override_notehead))

@@ -7702,6 +7702,27 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Open Enharmonic Flatten</_label>
         <_tooltip>Opens a block of music that will be sharpened enharmonically (D-sharp becomes E-flat etc). The block should be closed with a curly brace }</_tooltip>
       </row>
+      <row type="scheme">
+        <action>DirectiveOnlyForLayout</action>
+        <after>InsertNoteDirective</after>
+        <menupath>/ObjectMenu/NotesRests/Directives/Conditional-Directives</menupath>
+        <_label>Exclusive to Current Layout</_label>
+        <_tooltip>Makes a (chosen) directive on the note/chord at the cursor take effect only for typesetting the current layout. The cursor should be positioned at the note height if a directive attached to the note is intended.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>DirectiveNotForLayout</action>
+        <after>DirectiveOnlyForLayout</after>
+        <menupath>/ObjectMenu/NotesRests/Directives/Conditional-Directives</menupath>
+        <_label>Ignore for Current Layout</_label>
+        <_tooltip>Makes a (chosen) directive on the note/chord at the cursor be ignored for typesetting the current layout. The cursor should be positioned at the note height if a directive attached to the note is intended.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>DirectiveForAllLayouts</action>
+        <after>DirectiveNotForLayout</after>
+        <menupath>/ObjectMenu/NotesRests/Directives/Conditional-Directives</menupath>
+        <_label>Reset for All Layours</_label>
+        <_tooltip>Makes a (chosen) directive on the note/chord at the cursor be typeset normally, i.e for all layouts. The cursor should be positioned at the note height if a directive attached to the note is intended.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

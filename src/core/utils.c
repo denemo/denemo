@@ -578,6 +578,16 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
   for (; directives; directives = directives->next, count += 10)
     {
       DenemoDirective *directive = (DenemoDirective *) directives->data;
+      guint layout = selected_layout_id ();
+      gdouble only = directive->y ? ((directive->y == layout) ? 0.5 : 0.0) : 0.0;
+      gdouble exclude = directive->x ? ((directive->x == layout) ? 0.9 : 0.0) : 0.0;
+      if (directive->y && directive->y != layout)
+        exclude = 0.9;
+      if (exclude>0.0 || only >0.0)
+            {
+                cairo_save (cr);
+                cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, at_cursor ? 1.0 : 0.5);
+            }   
       if (directive->graphic)
         {
           gint gwidth, gheight;
@@ -608,6 +618,8 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
             {
               *p = c;
             }
+         if (exclude>0.0 || only >0.0)
+           cairo_restore (cr);
         }
     }
 
