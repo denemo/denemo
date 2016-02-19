@@ -140,8 +140,11 @@ append_directives_information (GString * selection, GList * directives)
             g_string_append_printf (selection, _("LilyPond inserted in postfix to this object is <tt>\"%s\"</tt>\n"), lily);
             g_free (lily);
         }
+     if(directive->x || directive->y)
+        g_string_append (selection, _( "<span foreground=\"red\"weight=\"bold\">THIS DIRECTIVE IS CONDITIONAL ON THE LAYOUT\n</span>"));
      if(!directives->next)
         g_string_append (selection, "<span foreground=\"blue\"weight=\"bold\">---------------------------------------------------------</span>");
+    
     }
   while (directives->next && (directives = directives->next));
   g_string_append (selection, "\n");
@@ -508,7 +511,8 @@ display_current_object (void)
             else
                 g_string_append_printf (selection, _("This object does not affect the printed output (no LilyPond syntax is generated for the typesetter)\n"));//well this ignores possible effect of whitespace...
             g_free (text);
-            
+            if(directive->x || directive->y)
+                g_string_append (selection, _( "<span foreground=\"red\"weight=\"bold\">THIS DIRECTIVE IS CONDITIONAL ON THE LAYOUT\n</span>"));
             }
            if (gui->movement->currentobject->next == NULL && (gui->movement->currentmeasure->next == NULL))
               g_string_assign (warning, _("This Directive is at the end of the music" 
