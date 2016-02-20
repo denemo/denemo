@@ -1,4 +1,4 @@
-(ToggleDirective "layout" "postfix" "StaffStaffSpacing"  "\\context {  \\Score   \\override StaffGrouper.staff-staff-spacing.padding = #12 } ");;;;;;;;;CheckScore
+;;;CheckScore
 (define CheckScore::return #f)
 (define-once CheckScore::ignore 0)
 (define-once CheckScore::error-position #f)
