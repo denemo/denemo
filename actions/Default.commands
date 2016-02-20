@@ -7723,6 +7723,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Reset for All Layours</_label>
         <_tooltip>Makes a (chosen) directive on the note/chord at the cursor be typeset normally, i.e for all layouts. The cursor should be positioned at the note height if a directive attached to the note is intended.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>CheckScoreSkipping</action>
+        <after>CheckScore</after>
+        <menupath>/ObjectMenu/Score</menupath>
+        <_label>Check Score Skipping Some Errors</_label>
+        <_tooltip>Checks the score ignoring the first so many errors. Use this to skip errors that are ok to leave in.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

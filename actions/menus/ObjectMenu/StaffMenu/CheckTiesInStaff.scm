@@ -10,16 +10,17 @@
           (let ((note (d-GetNote)))
                     (if (and (d-NextNote) (Singlenote?))
                         (let ((nextnote (d-GetNote)))
-                            (if (or (equal? note nextnote) (positive? CheckScore::ignore))
+                            (if  (equal? note nextnote)
                                 (begin
-                                    (if (positive? CheckScore::ignore)
-                                            (set! CheckScore::ignore (1- CheckScore::ignore)))
                                    (if (d-NextNote)
                                     (loop)))
                                 (begin
-                                    (set! position (GetPosition))                    
-                                    (set! CheckTiesInStaff::return (_ "Tied notes not the same"))
-                                    (set! ok #f))))
+                                    (if (positive? CheckScore::ignore)
+                                            (set! CheckScore::ignore (1- CheckScore::ignore))
+                                            (begin
+				                    (set! position (GetPosition))                    
+				                    (set! CheckTiesInStaff::return (_ "Tied notes not the same"))
+				                    (set! ok #f))))))
                         (if (Singlenote?)
                             (begin
                                 (if (positive? CheckScore::ignore)

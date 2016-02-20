@@ -1,4 +1,5 @@
 ;;;CheckTimeSignatures
+ (define-once CheckScore::ignore 0)
  (define CheckTimeSignatures::return #f)
  (define-once CheckScore::error-position #f)
  (let ()
@@ -8,9 +9,11 @@
         (d-PushPosition)
         (if (d-MoveToStaffDown)
             (if (not (equal? timesig (d-GetPrevailingTimesig)))
-                (begin
-                    (set! result (string-append  (_ "Time Signature does not match ") timesig " : " (d-GetPrevailingTimesig)))
-                    (set! CheckScore::error-position (GetPosition)))))
+                (if (positive? CheckScore::ignore)
+                    (set! CheckScore::ignore (1- CheckScore::ignore))
+                    (begin
+                        (set! result (string-append  (_ "Time Signature does not match ") timesig " : " (d-GetPrevailingTimesig)))
+                        (set! CheckScore::error-position (GetPosition))))))
         (d-PopPosition)
         result)
         
@@ -21,10 +24,12 @@
                     (define result #f)
                     (while (and (not result) (d-NextObjectInMeasure))
                             (if (and (Timesignature?) (not (zero? (d-GetStartTick))))
+                                    (if (positive? CheckScore::ignore)
+                                        (set! CheckScore::ignore (1- CheckScore::ignore))
                                     (begin
                                         (set! result #t)
                                         (set! CheckScore::error-position (GetPosition))
-                                        (set! CheckTimeSignatures::return (_ "Time Signature not at start of measure")))))
+                                        (set! CheckTimeSignatures::return (_ "Time Signature not at start of measure"))))))
                                     
                     (if (not result)
                         (let ((timesig (d-GetPrevailingTimesig)))
@@ -34,7 +39,7 @@
                                         (set! CheckTimeSignatures::return result)
                                         (if (d-MoveToMeasureRight)
                                             (measure)))))))
-        (if (d-MoveToStaffDown)
+        (if (and (not CheckTimeSignatures::return) (d-MoveToStaffDown))
             (outer-loop #f)))
     (if (not CheckTimeSignatures::params) ;;; interactive when #f
         (begin
