@@ -7,13 +7,15 @@
     (define (check-down timesig)
         (define result #f)
         (d-PushPosition)
-        (if (d-MoveToStaffDown)
-            (if (not (equal? timesig (d-GetPrevailingTimesig)))
+        (if (d-MoveToStaffDown) 
+           (begin
+             (while (d-NextObjectInMeasure))
+             (if (not (equal? timesig (d-GetPrevailingTimesig)))
                 (if (positive? CheckScore::ignore)
                     (set! CheckScore::ignore (1- CheckScore::ignore))
                     (begin
                         (set! result (string-append  (_ "Time Signature does not match ") timesig " : " (d-GetPrevailingTimesig)))
-                        (set! CheckScore::error-position (GetPosition))))))
+                        (set! CheckScore::error-position (GetPosition)))))))
         (d-PopPosition)
         result)
         
