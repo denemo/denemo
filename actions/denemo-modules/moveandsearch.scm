@@ -188,3 +188,6 @@
 (define (LastMovement?) (not (Probe (lambda () #t) d-NextMovement)))
 
 (define (FirstMovement?) (not (Probe (lambda () #t) d-PreviousMovement)))
+
+(define (LastMeasure?) (not (Probe (lambda () #t) d-MoveToMeasureRight)))
+(define (FirstMeasure?) (not (Probe (lambda () #t) d-MoveToMeasureLeft)))

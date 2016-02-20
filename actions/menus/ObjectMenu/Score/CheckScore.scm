@@ -53,8 +53,22 @@
               (begin
                 (while (d-MoveToStaffUp))  
                   (let staff ()
-                    (d-ReBar 'noninteractive)
-                    (set! CheckScore::return ReBar::return)
+                  	(d-MoveToBeginning)
+                  	(let measure ()
+                  		(if (not (LastMeasure?)) 
+  					(if (or (FullDurationMeasure?)(ZeroDurationMeasure?))
+                  				(begin
+                  					(d-MoveToMeasureRight)
+                  					(measure))
+                  				(begin
+                  					 (if (positive? CheckScore::ignore)
+                                            (begin
+                                                (set! CheckScore::ignore (1- CheckScore::ignore))
+                                                (d-MoveToMeasureRight)
+                                                (measure))
+                                            (begin
+                                                (set! CheckScore::return (_ "Incorrect measure duration"))
+                                                (set! CheckScore::error-position (GetPosition))))))))
                     (if (not CheckScore::return)
                         (begin 
                             (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
@@ -83,5 +97,3 @@
                         (d-InfoDialog CheckScore::return))))
             (disp "Error location " CheckScore::error-position "\n"))
     (d-MasterVolume old-volume))
- 
-                   
