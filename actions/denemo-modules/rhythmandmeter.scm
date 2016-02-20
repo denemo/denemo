@@ -61,14 +61,14 @@
             0)))
 
 (define (MeasureFillStatus)
-(define MaxTicks (* 1536 (GetPrevailingTimeSig #t) )) ; How many ticks are in a 100% filled measure?
-(define ActualTicks (GetMeasureTicks))
-(cond 
-    ((not ActualTicks) #f) ; empty
-    ((< ActualTicks MaxTicks) #f) ; underful
-    ((= MaxTicks ActualTicks) 1)  ; 100% filled
-    ((< MaxTicks ActualTicks) 2) ; >100% filled
-    (else  (display "strange!")))) ; ?
+    (define MaxTicks (* 1536 (GetPrevailingTimeSig #t) )) ; How many ticks are in a 100% filled measure?
+    (define ActualTicks (GetMeasureTicks))
+    (cond 
+        ((not ActualTicks) #f) ; empty
+        ((< ActualTicks MaxTicks) #f) ; underful
+        ((= MaxTicks ActualTicks) 1)  ; 100% filled
+        ((< MaxTicks ActualTicks) 2) ; >100% filled
+        (else  (display "strange!")))) ; ?
     
 
 (define (EmptyMeasure?)
