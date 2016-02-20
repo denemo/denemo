@@ -148,7 +148,7 @@ timesig_change_insert (GtkAction * action, DenemoScriptParam * param)
   GET_1PARAM (action, param, timesigname);
   DenemoProject *gui = Denemo.project;
   if (query)
-    {
+    { draw_score (NULL);
       gchar *curtimesig = g_strdup_printf ("%d/%d", gui->movement->cursortime1, gui->movement->cursortime2);
       g_string_assign (param->string, curtimesig);
       g_free (curtimesig);
