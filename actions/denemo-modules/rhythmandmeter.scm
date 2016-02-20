@@ -75,7 +75,7 @@
   (not (d-GetEndTick)))
 
 (define (ZeroDurationMeasure?)
-    (or (EmptyMeasure?) (= (d-GetEndTick) 0)))
+    (or (EmptyMeasure?) (= (GetMeasureTicks) 0)))
   
 (define (UnderfullMeasure?)
   (or (EmptyMeasure?)

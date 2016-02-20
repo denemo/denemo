@@ -16,7 +16,7 @@
                             (begin
                                 (if CheckScore::error-position
                                     (apply d-GoToPosition CheckScore::error-position))
-                                (d-InfoDialog (string-append (_ "Error number: ") (number->string (+ 1 skip)) " :" CheckScore::return)))
+                                (d-InfoDialog (string-append (_ "Error number: ") (number->string (+ 1 skip)) ": " CheckScore::return)))
                             (begin
                                 (set! CheckScore::error-position #f)
                                 (d-InfoDialog  (_ "No problem detected in this score")))))))
