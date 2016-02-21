@@ -790,6 +790,53 @@ static void display_help(gchar *help)
        infowarningdialog (help, TRUE); 
     }
     
+    
+static void seek_directive(GtkWidget *button, gchar *type, gchar *tag)
+    {
+        gtk_widget_destroy (gtk_widget_get_toplevel (button));
+        GList *currentobject = Denemo.project->movement->currentobject;
+        gchar *script = type? g_strconcat ("(define-once EditSimilar::last #f)\n(set! EditSimilar::last (cons ",
+                                    type, " \"", 
+                                    tag, "\"))\n(d-ResumeEdit)",
+                                    NULL):
+                             g_strdup ("(d-EditSimilar)");
+        call_out_to_guile (script);
+        g_free(script);
+           
+        if (currentobject == Denemo.project->movement->currentobject)
+        edit_object();
+        else
+        reset_cursors ();  
+    }
+static void seek_note_directive(GtkWidget *button, gchar *tag)
+    { 
+        seek_directive (button, "'note", tag);
+    }
+static void seek_chord_directive(GtkWidget *button, gchar *tag)
+    { 
+        seek_directive (button, "'chord", tag);
+    }
+static void seek_keysig_directive(GtkWidget *button, gchar *tag)
+    { 
+        seek_directive (button, "'keysigdir", tag);
+    }
+static void seek_timesig_directive(GtkWidget *button, gchar *tag)
+    { 
+        seek_directive (button, "'timesigdir", tag);
+    }
+static void seek_stemdirective_directive(GtkWidget *button, gchar *tag)
+    { 
+        seek_directive (button, "'stemdir", tag);
+    }    
+static void seek_clef_directive(GtkWidget *button, gchar *tag)
+    { 
+        seek_directive (button, "'clefdir", tag);
+    }  
+static void seek_standalone_directive (GtkWidget *button, gchar *tag)
+    { 
+        seek_directive (button, NULL, tag);
+    }  
+      
 #if GTK_MAJOR_VERSION == 2
 #define GdkRGBA GdkColor
 #define gtk_widget_override_color gtk_widget_modify_fg
@@ -894,6 +941,45 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
             g_signal_connect (button, "clicked", G_CALLBACK (delete_directive), func);
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 30);
             
+            
+               {
+                   fn_type *func;
+                   switch (type) {
+                        case EDIT_NOTE:
+                                func = (fn_type *)seek_note_directive;//seek_directive (note, tag);
+                                break;
+                        case EDIT_CHORD:
+                                func = (fn_type *)seek_chord_directive;
+                                break;   
+
+                        case EDIT_CLEF:
+                                func = (fn_type *)seek_clef_directive;
+                                break;   
+                        case EDIT_KEY:
+                                func = (fn_type *)seek_keysig_directive;
+                                break;   
+                        case EDIT_TIMESIG:
+                                func = (fn_type *)seek_timesig_directive;
+                                break;   
+                        case EDIT_STEMDIR:
+                                func = (fn_type *)seek_stemdirective_directive;
+                                break;
+                        default:
+                                g_critical ("Unknown type");
+                                func = NULL;
+                                break;
+                
+                    }
+                    if(func) {
+                            button = gtk_button_new_with_label (_("Next ➡"));
+                            get_color (&color, 0.0, 0.7, 0.7, 1.0);
+                            gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+                            g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (func), (gpointer)label);
+                            gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+                    }
+                }       
+                
+                
             if (tooltip)
                 {
                     button = gtk_button_new_with_label (_("Help"));
@@ -1352,6 +1438,14 @@ edit_object (void)
                 g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
                 g_signal_connect (button, "clicked", G_CALLBACK (delete_standalone), NULL);
                 gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 30);
+                
+                button = gtk_button_new_with_label (_("Next ➡"));
+                get_color (&color, 0.0, 0.7, 0.7, 1.0);
+                gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+                g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (seek_standalone_directive), (gpointer)label);
+                gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+                
+                
                 
                 if (tooltip)
                     {
