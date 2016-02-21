@@ -586,7 +586,7 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
       if (exclude>0.0 || only >0.0)
             {
                 cairo_save (cr);
-                cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, at_cursor ? 1.0 : 0.5);
+                cairo_set_source_rgba (cr, 0.4 + exclude -only/2, 0.5 + only, 0.4 -only/2, at_cursor ? 1.0 : 0.7);
             }   
       if (directive->graphic)
         {

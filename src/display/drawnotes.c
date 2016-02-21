@@ -305,7 +305,8 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
           if (exclude>0.0 || only >0.0)
                 {
                     cairo_save (cr);
-                    cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, at_cursor ? 1.0 : 0.5);
+                    cairo_set_source_rgba (cr, 0.4 + exclude -only/2, 0.5 + only, 0.4 -only/2, at_cursor ? 1.0 : 0.7);
+                                        //cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, at_cursor ? 1.0 : 0.5); green is too pale.
                 }   
           if (directive->graphic)
             {
