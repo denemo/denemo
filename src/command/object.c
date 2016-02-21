@@ -835,8 +835,17 @@ static void seek_clef_directive(GtkWidget *button, gchar *tag)
 static void seek_standalone_directive (GtkWidget *button, gchar *tag)
     { 
         seek_directive (button, NULL, tag);
+    } 
+static void make_chord_directive_conditional (gchar *tag)
+    {gchar *script = g_strdup_printf ("(d-ChooseCondition (cons \"%s\" #f))", tag); 
+        call_out_to_guile (script);
+        g_free (script);
     }  
-      
+static void make_note_directive_conditional (gchar *tag)
+    {gchar *script = g_strdup_printf ("(d-ChooseCondition (cons \"%s\" #t))", tag); 
+        call_out_to_guile (script);
+        g_free (script);
+    }   
 #if GTK_MAJOR_VERSION == 2
 #define GdkRGBA GdkColor
 #define gtk_widget_override_color gtk_widget_modify_fg
@@ -942,43 +951,56 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 30);
             
             
-               {
-                   fn_type *func;
-                   switch (type) {
-                        case EDIT_NOTE:
-                                func = (fn_type *)seek_note_directive;//seek_directive (note, tag);
-                                break;
-                        case EDIT_CHORD:
-                                func = (fn_type *)seek_chord_directive;
-                                break;   
+           {
+               fn_type *func;
+               switch (type) {
+                    case EDIT_NOTE:
+                            func = (fn_type *)seek_note_directive;//seek_directive (note, tag);
+                            break;
+                    case EDIT_CHORD:
+                            func = (fn_type *)seek_chord_directive;
+                            break;   
 
-                        case EDIT_CLEF:
-                                func = (fn_type *)seek_clef_directive;
-                                break;   
-                        case EDIT_KEY:
-                                func = (fn_type *)seek_keysig_directive;
-                                break;   
-                        case EDIT_TIMESIG:
-                                func = (fn_type *)seek_timesig_directive;
-                                break;   
-                        case EDIT_STEMDIR:
-                                func = (fn_type *)seek_stemdirective_directive;
-                                break;
-                        default:
-                                g_critical ("Unknown type");
-                                func = NULL;
-                                break;
-                
-                    }
-                    if(func) {
-                            button = gtk_button_new_with_label (_("Next ➡"));
-                            get_color (&color, 0.0, 0.7, 0.7, 1.0);
-                            gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
-                            g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (func), (gpointer)label);
-                            gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-                    }
-                }       
-                
+                    case EDIT_CLEF:
+                            func = (fn_type *)seek_clef_directive;
+                            break;   
+                    case EDIT_KEY:
+                            func = (fn_type *)seek_keysig_directive;
+                            break;   
+                    case EDIT_TIMESIG:
+                            func = (fn_type *)seek_timesig_directive;
+                            break;   
+                    case EDIT_STEMDIR:
+                            func = (fn_type *)seek_stemdirective_directive;
+                            break;
+                    default:
+                            g_critical ("Unknown type");
+                            func = NULL;
+                            break;
+            
+                }
+                if(func) {
+                        button = gtk_button_new_with_label (_("Next ➡"));
+                        get_color (&color, 0.0, 0.7, 0.7, 1.0);
+                        gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+                        g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (func), (gpointer)label);
+                        gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+                }
+            }       
+            if ((type==EDIT_NOTE) || (type==EDIT_CHORD))
+               {
+                        button = gtk_button_new_with_label (_("Conditional"));
+                        get_color (&color, 0.0, 0., 0.5, 1.0);
+                        gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+                        if (type==EDIT_CHORD)
+                            g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (make_chord_directive_conditional), (gpointer)directive->tag->str);
+                        else
+                            g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (make_note_directive_conditional), (gpointer)directive->tag->str);
+                        
+                        
+                        
+                        gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+                }  
                 
             if (tooltip)
                 {

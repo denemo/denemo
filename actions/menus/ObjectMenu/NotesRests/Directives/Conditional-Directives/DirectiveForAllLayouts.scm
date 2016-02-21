@@ -1,8 +1,10 @@
 ;;;;;;;; DirectiveForAllLayouts
-(let ((tag (d-DirectiveGetTag-standalone)) (text #f) (note #f))
+(let ((params DirectiveForAllLayouts::params) (tag (d-DirectiveGetTag-standalone)) (text #f) (note #f))
   (if tag
      (d-ForAllLayouts #f)
-     (let ((params (d-ChooseTagAtCursor)))
+     (begin
+        (if (not (pair? params))
+            (set! params (d-ChooseTagAtCursor)))
         (if (pair? params)
             (begin
               (set! tag (car params))
@@ -13,5 +15,5 @@
                 (begin (d-DirectivePut-chord-x tag 0)(d-DirectivePut-chord-y tag 0)))
               (d-SetSaved #f))
             (begin
-              (d-WarningDialog (_ "No Denemo Directive to make unconditional here.")))))))
+              (d-WarningDialog (_ "Cancelled")))))))
         

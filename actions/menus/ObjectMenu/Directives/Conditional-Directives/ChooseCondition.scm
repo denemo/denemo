@@ -1,2 +1,2 @@
 ;;;ChooseCondition
-(SetDirectiveConditional)
+(SetDirectiveConditional ChooseCondition::params)
