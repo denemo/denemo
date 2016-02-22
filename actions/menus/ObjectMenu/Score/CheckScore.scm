@@ -11,18 +11,20 @@
         (d-CriticalCommentary))
 
     (while (d-PreviousMovement))
-
+    
     (let movement ()
       (d-EvenOutStaffLengths)
-      
+      (while (d-MoveToStaffUp))   
       (let staff ()
         (d-FixSlursInStaff)     
         (d-CheckTiesInStaff 'noninteractive)
         (if CheckTiesInStaff::return
                 (set! CheckScore::return CheckTiesInStaff::return))
-        (d-CheckDirectivePairs 'noninteractive)
-        (if CheckDirectivePairs::return
-                (set! CheckScore::return CheckDirectivePairs::return))
+        (if (not CheckScore::return)
+            (begin
+                (d-CheckDirectivePairs 'noninteractive)
+                (if CheckDirectivePairs::return
+                    (set! CheckScore::return CheckDirectivePairs::return))))
         (if (not CheckScore::return)
             (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
                 (staff))))
