@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2016-01-18"/>
+<meta name="create-date" content="2016-02-22"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -36,7 +36,7 @@ Copyright © 2009, 2010, 2011, 2012, 2013, 2014, 2015 Denemo Project
 </div>
 <div class="Indented">
 <div class="center">
-Updates for version 2.0.1
+Updates for version 2.0.4
 </div>
 
 </div>
@@ -415,15 +415,18 @@ Table of Contents
 <div class="toc">
 <a class="Link" href="#toc-Subsection-10.1">Subsection 10.1: Editing Objects and their properties.</a>
 </div>
-<div class="toc">
-<a class="Link" href="#toc-Subsection-10.2">Subsection 10.2: Creating Palette Buttons for Objects and Properties.</a>
-</div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection-10.2.1">Subsubsection 10.2.1: Create Button for Command</a>
+<a class="Link" href="#toc-Subsubsection-10.1.1">Subsubsection 10.1.1: Seeking, Editing and Conditionals</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection-10.2.2">Subsubsection 10.2.2: Create Button for Clone</a>
+<a class="Link" href="#toc-Subsubsection-10.1.2">Subsubsection 10.1.2: Creating Palette Buttons for Objects and Properties.</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection--39">Subsubsection: Create Button for Command</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection--40">Subsubsection: Create Button for Clone</a>
 </div>
 </div>
 </div>
@@ -620,7 +623,7 @@ Table of Contents
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection--39">Subsubsection: Adding More Features </a>
+<a class="Link" href="#toc-Subsubsection--41">Subsubsection: Adding More Features </a>
 </div>
 <div class="toc">
 <a class="Link" href="#toc-Subsubsection-23.2.1">Subsubsection 23.2.1: Recording a Denemo Macro </a>
@@ -770,10 +773,19 @@ A <i>score</i> is one or more movements usually interspersed with titles.
 A <i>staff</i> has the usual meaning, but note that it may contain several lines of music (voices).
 </li>
 <li>
+The term <i>voice</i> is used in two senses: as a line of music moving independently on a staff, and (as in <i>Voice 1</i>, <i>Voice 2</i>), a voice that has its stems in one direction, with corresponding changes to the placing of ties, slurs, ornaments etc). Voices are normally displayed on separate staffs in Denemo to make them easy to edit; the LilyPond typesetter has the task of placing them on the same staff.
+</li>
+<li>
+A chord is one or more notes of the same duration making a single musical object. If the notes are of different durations then they have to be placed in separate voices, they can’t be a chord, though they may appear so in the typeset.
+</li>
+<li>
 A <i>system </i>is what might be called a &ldquo;line&rdquo; of the music, that is all the music (over several staffs) that sounds together starting at the left-hand margin and ending at the right margin.
 </li>
 <li>
-<i>Staff Spaces</i> a unit of measurement: the distance between two staff lines. Generally when you need to specify a distance in Denemo this is the unit used.
+<i>Markup</i> is text - e.g. titles - that can have additional characters to indicate bold or italic, or in the case of Denemo even snippets of music, fret diagrams etc.
+</li>
+<li>
+<i>Staff Spaces</i> a unit of measurement: the distance between adjacent lines in a staff. Generally when you need to specify a distance in Denemo this is the unit used. So the Markup to System spacing is the spacing between the last title and the first staff.
 </li>
 <li>
 <a class="URL" href="http://lilypond.org/doc/v2.18/Documentation/music-glossary/index.html">http://lilypond.org/doc/v2.18/Documentation/music-glossary/index.html</a>is a good guide especially for non-native speakers of English.
@@ -1652,10 +1664,16 @@ The commands to explicitly set the prevailing duration are here (though usually 
 <a class="toc" name="toc-Subsubsection-3.6.10">3.6.10</a> Directives<a class="Label" name="sub:Directives"> </a> 
 </h3>
 <div class="Unindented">
-This covers all the things that aren’t notes but sit in between them. The most useful for regular music notation are barlines, dynamic markings, tempo marks, rehearsal marks etc in the Markings submenu. There is an enormous collection of stuff here though. 
+This covers all the things that aren’t notes but sit in between them - <i>standalone</i> Denemo Directives. The most useful for regular music notation are barlines, dynamic markings, tempo marks, rehearsal marks etc in the Markings submenu. There is an enormous collection of stuff here though.
+</div>
+<div class="Indented">
+All objects, including Denemo Directives can be inspected and edited via the Object Editor
 </div>
 <div class="Indented">
 One general feature is the Conditional Directives which can be used to restrict a directive to a particular type of score layout (e.g. only to be used when printing a part, or a full score). This can be used, for example, to prevent a cue being printed on the full score (as it is only relevant when printing the part).
+</div>
+<div class="Indented">
+Note there is a further class of Denemo Directives, the ones <i>attached</i> to notes/chords/staffs/movements/scores - these direct the typesetter to do special things such as attach fingerings, ornaments etc. Denemo Directives are described in a separate section<a class="Reference" href="#sec:Denemo-Directives">26↓</a>.
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-3.6.11">3.6.11</a> Lyrics 
@@ -2110,7 +2128,7 @@ Use the window controls on the Object Inspector’s title bar to dismiss the win
 <a class="toc" name="toc-Section-10">10</a> Object Editor<a class="Label" name="sec:Object-Editor"> </a>
 </h1>
 <div class="Unindented">
-<img class="embedded" src="images/ObjectEditor.png" alt="figure images/ObjectEditor.png" style="max-width: 842px; max-height: 339px;"/>
+<img class="embedded" src="images/ObjectEditor.png" alt="figure images/ObjectEditor.png" style="width: 492px; max-width: 984px; height: 202px; max-height: 405px;"/>
 
 </div>
 <div class="Indented">
@@ -2120,19 +2138,40 @@ The Object Editor allows you to edit the current Denemo Object and also to creat
 <a class="toc" name="toc-Subsection-10.1">10.1</a> Editing Objects and their properties.
 </h2>
 <div class="Unindented">
-This window is <i>modal, </i>that is you cannot interact with Denemo outside of the editor until you have dismissed it. To warn you of this the pointer turns to an X if you try to interact with the Denemo Input Display when the Object Editor is still open. Buttons are provided to move on to editing the next (or previous) object. For each Denemo Directive (either standalone or attached to the chord or note) there is a button &ldquo;Edit command: &lt;<i>name of command</i>&gt;&rdquo; - the tooltip of this button gives the help text of the command that created it. This button will run the command in edit mode. There are also buttons to do a low-level edit (Advanced) or to delete the directive.
+This window is <i>modal, </i>that is you cannot interact with Denemo outside of the editor until you have dismissed it. To warn you of this the pointer turns to an X if you try to interact with the Denemo Input Display when the Object Editor is still open. Buttons are provided to move on to editing the next (or previous) object. 
 </div>
 <div class="Indented">
-As with the Object Inspector the Object Editor is sensitive to the cursor height, with the same navigation control to move through the notes of a chord so as to allow editing the detail of each note. 
+As with the Object Inspector the Object Editor is sensitive to the cursor height, with the same navigation control (&ldquo;Next note in chord&rdquo;) to move through the notes of a chord so as to allow editing the detail of each note. 
 </div>
-<h2 class="Subsection">
-<a class="toc" name="toc-Subsection-10.2">10.2</a> Creating Palette Buttons for Objects and Properties.
-</h2>
+<div class="Indented">
+In the example the cursor is on a chord which has a trill on it. Within the chord it is on the note C-natural which has a fingering on it. These are the Denemo Directives attached to the chord and note - there can be even more.
+</div>
+<div class="Indented">
+For each Denemo Directive (either standalone or attached to the chord or note) there is a button &ldquo;Execute command: &lt;<i>name of command</i>&gt;&rdquo;. This button will run the command in edit mode - if it has one - or simply run the command if it doesn’t. 
+</div>
+<div class="Indented">
+Below this is a row of buttons - the first will delete the Denemo Directive, while the last (Advanced) allows a low-level edit. The rest of the buttons are described next
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-10.1.1">10.1.1</a> Seeking, Editing and Conditionals
+</h3>
+<div class="Unindented">
+The next three buttons allow you to seek and edit further occurrences of this particular Denemo Directive in the score (&ldquo;Next&rdquo;) to set conditional behavior on the Denemo Directive (&ldquo;Conditional&rdquo;) or to get the description of the command that originated this directive (&ldquo;Help&rdquo;).
+</div>
+<div class="Indented">
+The &ldquo;Next-&gt;&rdquo; button allows you to search on from the cursor for further occurrences of the Denemo Directive - other fingerings for button on the Fingering directive, for example. When found they can be edited and the search resumed (the usual shortcut for resuming the search is <tt>Ctrl-E,r). </tt>These search commands can be invoked from the Edit menu, but this button provides a convenient start point.
+</div>
+<div class="Indented">
+The &ldquo;Conditional&rdquo; button allows you to say if you want the directive to be ignored for certain <i>score layouts</i> <a class="Reference" href="#sec:The-Score-Layouts">13↓</a>. For example, a cue is usually only wanted when printing the part, not the full score. So clicking on this allows you to specify this. 
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-10.1.2">10.1.2</a> Creating Palette Buttons for Objects and Properties.
+</h3>
 <div class="Unindented">
 The Object Editor also has buttons for creating Palette Buttons for the Denemo Directive that it edits. There are two of these: one button would run the command that created the attribute/object the other will instantiate a duplicate - a clone - of the attribute/object.
 </div>
-<h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-10.2.1">10.2.1</a> Create Button for Command
+<h3 class="Subsubsection-">
+<a class="toc" name="toc-Subsubsection--39"></a>Create Button for Command
 </h3>
 <div class="Unindented">
 This creates a palette button to run the command that created the Denemo Directive you have Object Editor open on. You are asked which palette you want to place the button in, and can create a new, custom, palette at that stage.
@@ -2140,8 +2179,8 @@ This creates a palette button to run the command that created the Denemo Directi
 <div class="Indented">
 For example, if you use this on the Arranger attribute of a score you will get a button that runs the command Arranger (which is found in Score-&gt;Titles...). That button would then ask you to fill in the name of the arranger. Compare this with the next button, where you will create a button that will install a clone of Arranger attribute that you have on this score - the arranger will be already filled in, saving you having to enter your own name each time you create a new score.
 </div>
-<h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-10.2.2">10.2.2</a> Create Button for Clone
+<h3 class="Subsubsection-">
+<a class="toc" name="toc-Subsubsection--40"></a>Create Button for Clone
 </h3>
 <div class="Unindented">
 This creates a button which when clicked will insert a duplicate of the Denemo Directive that the Object Editor is looking at.
@@ -2156,7 +2195,7 @@ This button is particularly useful for things like your copyright notice which s
 <a class="toc" name="toc-Section-11">11</a> The Score and Movement Properties Editor<a class="Label" name="sec:The-Score-and"> </a>
 </h1>
 <div class="Unindented">
-<img class="embedded" src="images/ScorePropsEditor.png" alt="figure images/ScorePropsEditor.png" style="max-width: 683px; max-height: 601px;"/>
+<img class="embedded" src="images/ScorePropsEditor.png" alt="figure images/ScorePropsEditor.png" style="width: 478px; max-width: 683px; height: 420px; max-height: 601px;"/>
 
 </div>
 <div class="Indented">
@@ -2215,23 +2254,29 @@ As with the Object Editor<a class="Reference" href="#sec:Object-Editor">10↑</a
 <a class="toc" name="toc-Section-13">13</a> The Score Layouts Window<a class="Label" name="sec:The-Score-Layouts"> </a>
 </h1>
 <div class="Unindented">
+Score Layouts are ways of typesetting a score for different purposes. Even without ever looking at the score layouts window you may find that you have been using them all along. For example, if you print just one part from a chamber work, or the vocal part from a song with piano accompaniment a score layout is created for this. In fact, layouts are always created when you typeset music - for example from the Print Window Typeset, Part or Movement buttons, or from the Print menu. These are <i>default score layouts </i>they are created automatically, and you don’t have to think about them. However, if you want the music to be printed slightly differently for a part than for the full score then you can look at the Score Layouts window to see which is the current score layout (it is the last one that was typeset, unless you have selected another one since).
+</div>
+<div class="Indented">
+In addition to default score layouts some commands in the Print menu generate custom score layouts - for example a layout for the accompanist to play from, with the solo part printed on a smaller staff.
+</div>
+<div class="Indented">
 <img class="embedded" src="images/ScoreLayout.png" alt="figure images/ScoreLayout.png" style="width: 511px; max-width: 682px; height: 678px; max-height: 904px;"/>
 
 </div>
 <div class="Indented">
-The score layouts window is shown by checking View-&gt;Score Layout. Layouts are created when you typeset music - for example from the Print Window Typeset, Part or Movement buttons, or from the Print menu.
+The score layouts window is shown by checking View-&gt;Score Layout. 
 </div>
 <div class="Indented">
-You can use layouts to print the music in different ways. For example, one layout may have the score transposed, or be for just two parts printed together.
+You can create custom layouts to print the music in different ways. For example, one layout may have the score transposed, or be for just two parts printed together. You start from a default layout, setting the values you want, and then click the Customize button.
 </div>
 <div class="Indented">
-You can customize any layout in this window - positioning lyrics above the staff rather than below for example, or setting the staff groupings. You can add any staff to any movement in the layout using the &ldquo;Append Current Staff&rdquo; button (place the cursor in the staff you wish to append). The buttons marked X next to the staffs delete. You can also append whole movements and re-arrange the order of the movements using the additional buttons that appear once you have made the layout a customized layout (use the &ldquo;Customize&rdquo; button).
+You can customize any layout in this window - positioning lyrics above the staff rather than below for example, or setting the staff groupings. You can add any staff to any movement in the layout using the &ldquo;Append Current Staff&rdquo; button (place the cursor in the staff you wish to append). The buttons marked X next to the staffs delete. You can also append whole movements and re-arrange the order of the movements using the additional buttons that appear once you have made the layout a customized layout.
 </div>
 <div class="Indented">
 As well as appending staffs you can substitute the music for any specific voice by clicking on the &ldquo;Substitute&rdquo; button that appears when you expand the voice details.
 </div>
 <div class="Indented">
-Although all score layouts have access to the same music to arrange on the score the music can contain features that are exclusive to a one layout or exclude one layout, via Conditional Directives placed in the music. See the section on Denemo Directives<a class="Reference" href="#sub:Directives">3.6.10↑</a>for more details.
+Although all score layouts have access to the same music to arrange on the score the music can contain features that are exclusive to a one layout or exclude one layout, by making Denemo Directives conditional on the layout being typeset. See the commands under Directives-&gt;Make a Directive Conditional or Notes/Rests-&gt;Make a Directive Conditional for this, or use the Conditional button in the Object Editor <a class="Reference" href="#sec:Object-Editor">10↑</a>.
 </div>
 <div class="Indented">
 <div class="Shadowbox" style="width: 100%;">
@@ -2906,7 +2951,7 @@ Mouse Shortcuts are tricky to set - you are able to control what happens on mous
 <a class="toc" name="toc-Subsection-23.2">23.2</a> More Commands
 </h2>
 <h3 class="Subsubsection-">
-<a class="toc" name="toc-Subsubsection--39"></a>Adding More Features 
+<a class="toc" name="toc-Subsubsection--41"></a>Adding More Features 
 </h3>
 <div class="Unindented">
 It is possible to add more commands to the set that Denemo ships with. Some of these are shipped with Denemo, but not added automatically so as to keep the menu sizes manageable. Generally, you right-click to find more menu items to add; once added you can set a keyboard/mouse shortcut and keep the command in your default setup. Scheme to be executed at startup can be placed in the denemo.scm file.
@@ -4950,7 +4995,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-01-18T14:56:10.203047</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-02-22T17:59:24.492385</span>
 </div>
 </div>
 </body>

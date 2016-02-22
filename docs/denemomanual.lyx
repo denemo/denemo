@@ -121,7 +121,7 @@ Copyright © 2009, 2010, 2011, 2012, 2013, 2014, 2015 Denemo Project
 
 \begin_layout Standard
 \align center
-Updates for version 2.0.1
+Updates for version 2.0.4
 \end_layout
 
 \begin_layout Standard
@@ -240,6 +240,35 @@ staff
 \end_layout
 
 \begin_layout Itemize
+The term 
+\emph on
+voice
+\emph default
+ is used in two senses: as a line of music moving independently on a staff,
+ and (as in 
+\emph on
+Voice 1
+\emph default
+, 
+\emph on
+Voice 2
+\emph default
+), a voice that has its stems in one direction, with corresponding changes
+ to the placing of ties, slurs, ornaments etc).
+ Voices are normally displayed on separate staffs in Denemo to make them
+ easy to edit; the LilyPond typesetter has the task of placing them on the
+ same staff.
+\end_layout
+
+\begin_layout Itemize
+A chord is one or more notes of the same duration making a single musical
+ object.
+ If the notes are of different durations then they have to be placed in
+ separate voices, they can't be a chord, though they may appear so in the
+ typeset.
+\end_layout
+
+\begin_layout Itemize
 A 
 \emph on
 system 
@@ -259,11 +288,23 @@ line
 \begin_layout Itemize
 
 \emph on
+Markup
+\emph default
+ is text - e.g.
+ titles - that can have additional characters to indicate bold or italic,
+ or in the case of Denemo even snippets of music, fret diagrams etc.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
 Staff Spaces
 \emph default
- a unit of measurement: the distance between two staff lines.
+ a unit of measurement: the distance between adjacent lines in a staff.
  Generally when you need to specify a distance in Denemo this is the unit
  used.
+ So the Markup to System spacing is the spacing between the last title and
+ the first staff.
 \end_layout
 
 \begin_layout Itemize
@@ -2745,11 +2786,19 @@ name "sub:Directives"
 \end_layout
 
 \begin_layout Standard
-This covers all the things that aren't notes but sit in between them.
+This covers all the things that aren't notes but sit in between them - 
+\emph on
+standalone
+\emph default
+ Denemo Directives.
  The most useful for regular music notation are barlines, dynamic markings,
  tempo marks, rehearsal marks etc in the Markings submenu.
  There is an enormous collection of stuff here though.
- 
+\end_layout
+
+\begin_layout Standard
+All objects, including Denemo Directives can be inspected and edited via
+ the Object Editor
 \end_layout
 
 \begin_layout Standard
@@ -2758,6 +2807,23 @@ One general feature is the Conditional Directives which can be used to restrict
  only to be used when printing a part, or a full score).
  This can be used, for example, to prevent a cue being printed on the full
  score (as it is only relevant when printing the part).
+\end_layout
+
+\begin_layout Standard
+Note there is a further class of Denemo Directives, the ones 
+\emph on
+attached
+\emph default
+ to notes/chords/staffs/movements/scores - these direct the typesetter to
+ do special things such as attach fingerings, ornaments etc.
+ Denemo Directives are described in a separate section
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Denemo-Directives"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsubsection
@@ -4117,6 +4183,7 @@ name "sec:Object-Editor"
 \begin_layout Standard
 \begin_inset Graphics
 	filename images/ObjectEditor.png
+	scale 50
 
 \end_inset
 
@@ -4150,12 +4217,38 @@ that is you cannot interact with Denemo outside of the editor until you
  To warn you of this the pointer turns to an X if you try to interact with
  the Denemo Input Display when the Object Editor is still open.
  Buttons are provided to move on to editing the next (or previous) object.
- For each Denemo Directive (either standalone or attached to the chord or
+ 
+\end_layout
+
+\begin_layout Standard
+As with the Object Inspector the Object Editor is sensitive to the cursor
+ height, with the same navigation control (
+\begin_inset Quotes eld
+\end_inset
+
+Next note in chord
+\begin_inset Quotes erd
+\end_inset
+
+) to move through the notes of a chord so as to allow editing the detail
+ of each note.
+ 
+\end_layout
+
+\begin_layout Standard
+In the example the cursor is on a chord which has a trill on it.
+ Within the chord it is on the note C-natural which has a fingering on it.
+ These are the Denemo Directives attached to the chord and note - there
+ can be even more.
+\end_layout
+
+\begin_layout Standard
+For each Denemo Directive (either standalone or attached to the chord or
  note) there is a button 
 \begin_inset Quotes eld
 \end_inset
 
-Edit command: <
+Execute command: <
 \emph on
 name of command
 \emph default
@@ -4163,21 +4256,103 @@ name of command
 \begin_inset Quotes erd
 \end_inset
 
- - the tooltip of this button gives the help text of the command that created
- it.
- This button will run the command in edit mode.
- There are also buttons to do a low-level edit (Advanced) or to delete the
- directive.
-\end_layout
-
-\begin_layout Standard
-As with the Object Inspector the Object Editor is sensitive to the cursor
- height, with the same navigation control to move through the notes of a
- chord so as to allow editing the detail of each note.
+.
+ This button will run the command in edit mode - if it has one - or simply
+ run the command if it doesn't.
  
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Standard
+Below this is a row of buttons - the first will delete the Denemo Directive,
+ while the last (Advanced) allows a low-level edit.
+ The rest of the buttons are described next
+\end_layout
+
+\begin_layout Subsubsection
+Seeking, Editing and Conditionals
+\end_layout
+
+\begin_layout Standard
+The next three buttons allow you to seek and edit further occurrences of
+ this particular Denemo Directive in the score (
+\begin_inset Quotes eld
+\end_inset
+
+Next
+\begin_inset Quotes erd
+\end_inset
+
+) to set conditional behavior on the Denemo Directive (
+\begin_inset Quotes eld
+\end_inset
+
+Conditional
+\begin_inset Quotes erd
+\end_inset
+
+) or to get the description of the command that originated this directive
+ (
+\begin_inset Quotes eld
+\end_inset
+
+Help
+\begin_inset Quotes erd
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Quotes eld
+\end_inset
+
+Next->
+\begin_inset Quotes erd
+\end_inset
+
+ button allows you to search on from the cursor for further occurrences
+ of the Denemo Directive - other fingerings for button on the Fingering
+ directive, for example.
+ When found they can be edited and the search resumed (the usual shortcut
+ for resuming the search is 
+\family typewriter
+Ctrl-E,r).
+ 
+\family default
+These search commands can be invoked from the Edit menu, but this button
+ provides a convenient start point.
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Quotes eld
+\end_inset
+
+Conditional
+\begin_inset Quotes erd
+\end_inset
+
+ button allows you to say if you want the directive to be ignored for certain
+ 
+\emph on
+score layouts
+\emph default
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:The-Score-Layouts"
+
+\end_inset
+
+.
+ For example, a cue is usually only wanted when printing the part, not the
+ full score.
+ So clicking on this allows you to specify this.
+ 
+\end_layout
+
+\begin_layout Subsubsection
 Creating Palette Buttons for Objects and Properties.
 \end_layout
 
@@ -4189,7 +4364,7 @@ The Object Editor also has buttons for creating Palette Buttons for the
  the attribute/object.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Create Button for Command
 \end_layout
 
@@ -4210,7 +4385,7 @@ For example, if you use this on the Arranger attribute of a score you will
  own name each time you create a new score.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsubsection*
 Create Button for Clone
 \end_layout
 
@@ -4256,6 +4431,7 @@ name "sec:The-Score-and"
 \begin_layout Standard
 \begin_inset Graphics
 	filename images/ScorePropsEditor.png
+	scale 70
 
 \end_inset
 
@@ -4479,6 +4655,33 @@ name "sec:The-Score-Layouts"
 \end_layout
 
 \begin_layout Standard
+Score Layouts are ways of typesetting a score for different purposes.
+ Even without ever looking at the score layouts window you may find that
+ you have been using them all along.
+ For example, if you print just one part from a chamber work, or the vocal
+ part from a song with piano accompaniment a score layout is created for
+ this.
+ In fact, layouts are always created when you typeset music - for example
+ from the Print Window Typeset, Part or Movement buttons, or from the Print
+ menu.
+ These are 
+\emph on
+default score layouts 
+\emph default
+they are created automatically, and you don't have to think about them.
+ However, if you want the music to be printed slightly differently for a
+ part than for the full score then you can look at the Score Layouts window
+ to see which is the current score layout (it is the last one that was typeset,
+ unless you have selected another one since).
+\end_layout
+
+\begin_layout Standard
+In addition to default score layouts some commands in the Print menu generate
+ custom score layouts - for example a layout for the accompanist to play
+ from, with the solo part printed on a smaller staff.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Graphics
 	filename images/ScoreLayout.png
 	scale 75
@@ -4490,14 +4693,15 @@ name "sec:The-Score-Layouts"
 
 \begin_layout Standard
 The score layouts window is shown by checking View->Score Layout.
- Layouts are created when you typeset music - for example from the Print
- Window Typeset, Part or Movement buttons, or from the Print menu.
+ 
 \end_layout
 
 \begin_layout Standard
-You can use layouts to print the music in different ways.
+You can create custom layouts to print the music in different ways.
  For example, one layout may have the score transposed, or be for just two
  parts printed together.
+ You start from a default layout, setting the values you want, and then
+ click the Customize button.
 \end_layout
 
 \begin_layout Standard
@@ -4515,15 +4719,7 @@ Append Current Staff
  The buttons marked X next to the staffs delete.
  You can also append whole movements and re-arrange the order of the movements
  using the additional buttons that appear once you have made the layout
- a customized layout (use the 
-\begin_inset Quotes eld
-\end_inset
-
-Customize
-\begin_inset Quotes erd
-\end_inset
-
- button).
+ a customized layout.
 \end_layout
 
 \begin_layout Standard
@@ -4542,15 +4738,18 @@ Substitute
 \begin_layout Standard
 Although all score layouts have access to the same music to arrange on the
  score the music can contain features that are exclusive to a one layout
- or exclude one layout, via Conditional Directives placed in the music.
- See the section on Denemo Directives
+ or exclude one layout, by making Denemo Directives conditional on the layout
+ being typeset.
+ See the commands under Directives->Make a Directive Conditional or Notes/Rests-
+>Make a Directive Conditional for this, or use the Conditional button in
+ the Object Editor 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Directives"
+reference "sec:Object-Editor"
 
 \end_inset
 
-for more details.
+.
 \end_layout
 
 \begin_layout Standard
