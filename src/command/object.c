@@ -845,7 +845,12 @@ static void make_note_directive_conditional (gchar *tag)
     {gchar *script = g_strdup_printf ("(d-ChooseCondition (cons \"%s\" #t))", tag); 
         call_out_to_guile (script);
         g_free (script);
-    }   
+    }
+    
+
+    
+    
+       
 #if GTK_MAJOR_VERSION == 2
 #define GdkRGBA GdkColor
 #define gtk_widget_override_color gtk_widget_modify_fg
@@ -1467,7 +1472,15 @@ edit_object (void)
                 g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (seek_standalone_directive), (gpointer)label);
                 gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
                 
-                
+                {
+                        button = gtk_button_new_with_label (_("Conditional"));
+                        get_color (&color, 0.0, 0., 0.5, 1.0);
+                        gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+                        
+                        g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (call_out_to_guile), (gpointer)"(d-ChooseCondition #f)");
+                       
+                        gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+                }  
                 
                 if (tooltip)
                     {
