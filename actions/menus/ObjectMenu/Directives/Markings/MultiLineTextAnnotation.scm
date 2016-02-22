@@ -139,7 +139,16 @@
                                        
                             (if (not (d-Directive-standalone? tag))
                                 (d-DirectivePut-standalone tag))
-                            (d-DirectivePut-standalone-data tag (format #f "'~s" data))
+                           ;; (d-DirectivePut-standalone-data tag (format #f "'~s" data))
+                           (let ((text (string-append "(list (cons 'text \"" text "\")(cons 'scale \"" scale "\")" (if dim (string-append "(cons 'dimensions  \"" dim "\")") "")
+                                                      "(cons 'direction \"" direction "\")"
+                                                      (if x-offset (string-append "(cons 'x-offset \"" x-offset "\")") "")
+                                                      (if y-offset (string-append "(cons 'y-offset \"" y-offset "\")") "") ")")))
+                                (d-DirectivePut-standalone-data tag text))
+                           
+                           
+                           
+                           
                             (d-DirectivePut-standalone-display tag text)
                             (d-DirectivePut-standalone-postfix tag (string-append direction "\\markup"dimensions"\\scale #'(" scale " . " scale ")\\column{" markup "}"))
                             (d-DirectivePut-standalone-prefix tag prefix)
