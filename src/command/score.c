@@ -83,7 +83,7 @@ void set_movement_selector (DenemoProject *gui)
     return;
     
 
-  
+  reset_movement_numbers (gui);
   if(gui->movements_selector)
       gtk_widget_destroy (gui->movements_selector);
   gui->movements_selector = (GtkWidget*)gtk_hbox_new(FALSE,1);
@@ -164,7 +164,7 @@ new_movement (GtkAction * action, DenemoScriptParam * param, gboolean before)
   DenemoMovement *newsi = g_list_last (gui->movements)->data;
   gui->movements = g_list_delete_link (gui->movements, g_list_last (gui->movements));
   gui->movements = g_list_insert (gui->movements, newsi, before ? pos : pos + 1);
-  newsi->currentmovementnum = 1 + g_list_index (gui->movements, newsi);
+  //newsi->currentmovementnum = 1 + g_list_index (gui->movements, newsi); done in set_movement_selector()
   staff_set_current_primary (gui->movement);
   //gui->movements_selector = NULL;
   set_movement_selector (gui);
@@ -196,7 +196,7 @@ append_movement (GtkAction * action, gpointer param, gboolean populate)
       staff_copy (source_staff, dest_staff);
     }
   gui->movements = g_list_append (gui->movements, gui->movement);
-  gui->movement->currentmovementnum = 1 + g_list_index (gui->movements, gui->movement);
+  //gui->movement->currentmovementnum = 1 + g_list_index (gui->movements, gui->movement);
   set_movement_selector (gui);
   gui->movement->undo_guard = Denemo.prefs.disable_undo;
   call_out_to_guile ("(d-DirectivePut-header-postfix \"SuppressTitleRepeats\" \"title = ##f\ninstrument = ##f\n\")");

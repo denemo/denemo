@@ -446,13 +446,6 @@ swapmovements (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam
       this->prev = prevv;
       prev->next = next;
       prev->prev = this;
-      {gint i;
-          for (i=0, this = gui->movements;this;i++, this=this->next)
-            {
-                DenemoMovement *si = (DenemoMovement*)this->data;
-                si->currentmovementnum = i+1;
-            }
-      }
       set_movement_selector (gui);
       gchar *str = g_strdup_printf (_("This movement is now number %d in the score"), 1 + g_list_index (gui->movements, gui->movement));
       infodialog (str);
