@@ -1,3 +1,16 @@
+2016-02-23 Release 2.0.4
+    Conditional Directives on Chords/Notes
+        Create editions with/without ornaments, fingerings …
+        Conditional items are highlighed in the display
+        Object Inspector reports on them
+    Enhanced Object Editor
+        Set Conditional Behavior
+        Initiate Search/Edit from Object
+    New Commands
+        Gaps in Staffs
+        Enharmonic transpositions of passages
+    Generating Parts
+        Part naming extended to multi-staff instruments 
 2016-01-14 Release 2.0.2
 
     Playback View
