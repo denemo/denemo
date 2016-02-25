@@ -12,8 +12,9 @@
         (set! themarkup (d-GetUserInputWithSnippets (_ "Markup At End") (_ "Edit markup:") themarkup))
         (if themarkup
             (begin
-                (set! data (assq-set! data 'text (car themarkup)))
-                (d-DirectivePut-movementcontrol-data tag (format #f "'~s" data))
+                (set! data 
+                (string-append "(list (cons 'text \" "  (car themarkup)  "\"))"))
+                (d-DirectivePut-movementcontrol-data tag  data)
                 (set! themarkup (cdr themarkup))
                 (d-DirectivePut-movementcontrol-postfix tag (string-append "\\markup \\column { " themarkup " }"))
                 (d-SetSaved #f))
