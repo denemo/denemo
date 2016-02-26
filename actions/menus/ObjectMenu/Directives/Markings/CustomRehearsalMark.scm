@@ -23,7 +23,7 @@
 		  (d-DirectivePut-standalone-postfix tag  (string-append  " \\once \\override Score.RehearsalMark #'self-alignment-X = #" position " \\mark \\markup \\column {" text "}" ) )
 		  (d-DirectivePut-standalone-grob  tag  "RehearsalMark")
 		  (d-DirectivePut-standalone-minpixels  tag  30)
-		  (d-DirectivePut-standalone-data tag (format #f "'~s" (assq-set! '() 'value data)))
+		  (d-DirectivePut-standalone-data tag (string-append "(list (cons  'value \""  data "\"))"))
 		  (d-SetSaved #f)
 		  (d-RefreshDisplay))))))
 
