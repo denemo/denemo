@@ -1031,7 +1031,7 @@
 
 ;;;;;
 (define* (StandaloneText tag text #:optional (direction "-") (italic "\\italic ") (bold "\\bold "))
-    (set! tag (string-append tag "\n" text))
+    ;;;(set! tag (string-append tag "\n" text)) not needed, and with accented characters can cause illegal chars sent to pango_layout_set_text
     (d-Directive-standalone tag)
     (d-DirectivePut-standalone-prefix tag "<>")
     (d-DirectivePut-standalone-postfix tag (string-append direction "\\markup " italic bold "{\"" (scheme-escape text) "\" }"))
