@@ -6,6 +6,7 @@
 *.bak
 .libs
 .deps
+.dirstamp
 Makefile
 Makefile.in
 INSTALL
