@@ -1990,8 +1990,11 @@ write_status (DenemoProject * gui)
     }
 
   g_free (selection);
-  
+  gchar *end_valid;
+  if (!g_utf8_validate (status->str, -1, (const gchar **)&end_valid))
+    *end_valid = '\0';
   gtk_label_set_text (GTK_LABEL (Denemo.statuslabel), status->str);
+
   g_string_free (status, TRUE);
   update_object_info ();
 }
