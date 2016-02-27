@@ -5492,12 +5492,12 @@ scheme_highlight_cursor (SCM optional)
 }
 
 SCM
-scheme_get_type (SCM optional)
+scheme_get_type (SCM at_or_before)
 {
   DenemoObject *curObj;
   if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
     return scm_from_locale_string ("None");
-  if (Denemo.project->movement->cursor_appending)
+  if (scm_is_true (at_or_before) && Denemo.project->movement->cursor_appending)
     return scm_from_locale_string ("Appending");
   return scm_from_locale_string (DENEMO_OBJECT_TYPE_NAME (curObj));
 }
