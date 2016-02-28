@@ -31,25 +31,36 @@ void verse_set_current(DenemoStaff* staff, guint id){
     g_debug("Trying to set a verse on an invalid staff");
 }
 
-guint
+gint
 verse_get_current(DenemoStaff* staff){
   return g_list_position(staff->verse_views, staff->current_verse_view);
 }
 
 void 
-verse_set_current_text(DenemoStaff* staff, gchar* text){
-  guint pos = verse_get_current (staff);
-  GList* _current_verse = g_list_nth(staff->verses, pos);
-  if(_current_verse->data)
-    g_free(_current_verse->data);
-  _current_verse->data = text;
+verse_set_current_text(DenemoStaff* staff, gchar* text)
+{
+    if (text) {
+                gint pos = verse_get_current (staff);
+                if (pos>=0)
+                    {
+                    GList* the_current_verse = g_list_nth(staff->verses, pos);
+                    if(the_current_verse->data)
+                        g_free(the_current_verse->data);
+                    the_current_verse->data = text;
+                }
+            }
 }
 
 gchar* 
 verse_get_current_text(DenemoStaff* staff){
-  guint id = verse_get_current (staff);
-  GList* verse =  g_list_nth (staff->verses, id);
-  return (gchar*) verse->data;
+  gint id = verse_get_current (staff);
+  if (id>=0)
+    {
+        GList* verse =  g_list_nth (staff->verses, id);
+        if (verse)
+            return (gchar*) verse->data;
+        }
+    return NULL;
 }
 
 gboolean
@@ -425,7 +436,7 @@ delete_verse (GtkAction * action, DenemoScriptParam * param)
         {
         GtkTextView* verse_view = (GtkTextView*)verse_get_current_view (staff);
         gchar* verse_text = verse_get_current_text (staff);
-        if (verse_view)
+        if (verse_text && verse_view)
             {
               staff->verse_views = g_list_remove (staff->verse_views, verse_view);
               staff->verses = g_list_remove (staff->verses, verse_text);
