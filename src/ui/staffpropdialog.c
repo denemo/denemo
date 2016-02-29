@@ -551,10 +551,13 @@ staff_properties_change_cb (GtkAction * action, DenemoScriptParam * param)
   take_snapshot ();
   signal_structural_change (Denemo.project);
   if (denemo_name)
-    { gboolean ok;
+    { gboolean ok = TRUE;
       gchar *name = strtok (denemo_name, "_");
       gchar *subpart = strtok (NULL, "_");
-      ok = canonicalize_denemo_name (name, staff->denemo_name);
+      if (name)
+        ok = canonicalize_denemo_name (name, staff->denemo_name);
+      else
+        g_string_assign (staff->denemo_name, "");
       if (ok && subpart)
         ok = canonicalize_denemo_name (subpart, staff->subpart);
       set_lily_name (staff->denemo_name, staff->lily_name);

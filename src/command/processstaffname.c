@@ -128,7 +128,11 @@ canonicalize_denemo_name (gchar * proposal, GString * denemo_name)
   guint i;
   gchar c;
   gboolean last_char_was_space = FALSE;
-
+  if ((proposal==NULL) || (denemo_name == NULL))
+    {
+        g_critical ("Bad call to canonicalize_denemo_name");
+        return -1;
+    }
   //g_strdown (proposal);
 
   if (strspn (proposal, accept) == strlen (proposal))
