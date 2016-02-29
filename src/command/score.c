@@ -150,7 +150,7 @@ void set_movement_selector (DenemoProject *gui)
     
    
     if ((gui->movement) && gui->movement->lyricsbox && Denemo.prefs.lyrics_pane)
-      g_print("Showing\n"), gtk_widget_show (gui->movement->lyricsbox);
+      gtk_widget_show (gui->movement->lyricsbox), show_lyrics ();
     
   
 }
