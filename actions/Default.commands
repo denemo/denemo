@@ -7730,6 +7730,20 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Check Score Skipping Some Errors</_label>
         <_tooltip>Checks the score ignoring the first so many errors. Use this to skip errors that are ok to leave in.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>CenterPageNumber</action>
+        <after>PrintFirstPageNumber</after>
+        <menupath>/ObjectMenu/Score/Typesetter/Numbering</menupath>
+        <_label>Center Page Numbers</_label>
+        <_tooltip>Prints page numbers at center bottom of the page, or revert to default positioning.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>TwoSidedMargins</action>
+        <after>SetMargin</after>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout</menupath>
+        <_label>Two Sided Margins</_label>
+        <_tooltip>Uses different margins for left and right hand pages.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

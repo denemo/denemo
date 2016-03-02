@@ -1782,6 +1782,8 @@ actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberingInterval.scm
 actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberingInterval.xml
 actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumbers.scm
 actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumbers.xml
+actions/menus/ObjectMenu/Score/Typesetter/Numbering/CenterPageNumber.scm
+actions/menus/ObjectMenu/Score/Typesetter/Numbering/CenterPageNumber.xml
 actions/menus/ObjectMenu/Score/Typesetter/Numbering/FirstPageNumber.scm
 actions/menus/ObjectMenu/Score/Typesetter/Numbering/FirstPageNumber.xml
 actions/menus/ObjectMenu/Score/Typesetter/Numbering/PrintFirstPageNumber.scm
@@ -1806,6 +1808,8 @@ actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageSize.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageSize.xml
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/TwoSidedMargins.scm
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/TwoSidedMargins.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/LastBottomSpacingDist.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/LastBottomSpacingDist.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/LimitInterSystemSpace.scm
