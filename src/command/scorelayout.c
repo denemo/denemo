@@ -135,6 +135,8 @@ free_scoreblock (DenemoScoreblock * sb)
   sb->widget = 0;
   if (sb->lilypond)
     g_string_free ((GString *) (sb->lilypond), TRUE);
+  g_free (sb->instrumentation);
+  sb->instrumentation = NULL;
   sb->lilypond = NULL;
 }
 
@@ -2118,6 +2120,7 @@ recreate_standard_scoreblock (DenemoScoreblock ** psb)
 {
   gint movement = (*psb)->movement;
   gchar *partname = (*psb)->partname ? g_strdup ((*psb)->partname) : NULL;
+  gchar *instrumentation = (*psb)->instrumentation ? g_strdup ((*psb)->instrumentation) : NULL;
   gboolean visible = (*psb)->visible;
   GtkNotebook *notebook = GTK_NOTEBOOK (get_score_layout_notebook (Denemo.project));
   if((*psb)->widget)
@@ -2125,6 +2128,7 @@ recreate_standard_scoreblock (DenemoScoreblock ** psb)
   gint position = gtk_notebook_get_current_page(notebook);
   free_scoreblock ((*psb));     //this changes the page in the notebook if it was selected before. So if sb->visible then re-select this page after reconstruction
   create_standard_scoreblock (psb, movement, partname);
+  (*psb)->instrumentation = instrumentation;
   gtk_notebook_reorder_child (notebook, (*psb)->widget, position);
 //alternatively pass in desired position to create_standard_scoreblock....
 
@@ -2144,7 +2148,7 @@ scoreblock_name (DenemoScoreblock * sb)
 
 
 //refreshes the lilypond field of all the standard scoreblocks after re-computing the standard scoreblocks already present
-//does nothing if structure has not changed since they were computed. Warns if custom scoreblocks are present
+//returns FALSE if structure has not changed since they were computed. 
 static gboolean
 check_for_update (void)
 {
@@ -2156,11 +2160,10 @@ check_for_update (void)
         {
           DenemoScoreblock *sb = (DenemoScoreblock *) g->data;
           recreate_standard_scoreblock (&sb);
-        }
-      //if(gui->custom_scoreblocks)
-      //      warningdialog(_("You have customized layouts which may not work with the new structure of your score."));
+      }
+      return TRUE;
     }
-  return TRUE;
+  return FALSE;
 }
 
 static gboolean
@@ -2192,20 +2195,37 @@ refresh_lilypond (DenemoScoreblock * sb)
 {
   if (sb->widget)
     {
-      if (!is_lilypond_text_layout (sb))
-        {
-          //g_debug("Changing %s\n", sb->name);
-          //g_free(sb->name);
-          //sb->name = g_strdup(scoreblock_name(sb));
-          //g_debug("To new value %s\n", sb->name);
-          sb->id = crc32 ((guchar*) sb->name);
-          if (sb->lilypond == NULL)
-            sb->lilypond = g_string_new (sb->name);
-          else
-            g_string_assign (sb->lilypond, sb->name);
-          g_string_prepend (sb->lilypond, "%");
-          g_string_append_printf (sb->lilypond, "\n\\header{DenemoLayoutName = \"%s\"}\n", sb->name);
-          lilypond_for_layout (sb->lilypond, sb->widget);
+      if ((!is_lilypond_text_layout (sb)))
+        { 
+          if ((sb->lilypond == NULL) || check_for_update ())
+            {
+              gchar *instrumentation = sb->instrumentation;
+              gchar *set_instr = instrumentation? g_strdup (instrumentation):
+                                                 ((!strcmp (sb->name, DEFAULT_SCORE_LAYOUT))?g_strdup (_("Full Score")):
+                                                 ((g_str_has_prefix (sb->name, _("Movement")))?
+                                                        g_strdup (sb->name):
+                                                        NULL));
+                                                 
+                                                 
+              
+              
+              
+              instrumentation = set_instr? g_strdup_printf ("        instrumentation = \\markup { \\with-url #'\"scheme:(d-BookInstrumentation)\" \"%s\"}\n", set_instr):
+                                            g_strdup ("");
+              g_free (set_instr);
+              set_instr = instrumentation;
+              sb->id = crc32 ((guchar*) sb->name);
+              if (sb->lilypond == NULL)
+                sb->lilypond = g_string_new (sb->name);
+              else
+                g_string_assign (sb->lilypond, sb->name);
+              g_string_prepend (sb->lilypond, "%");
+              g_string_append_printf (sb->lilypond, "\n\\header{DenemoLayoutName = \"%s\"\n%s        }\n",
+              sb->name, 
+              set_instr);
+              g_free (set_instr);
+              lilypond_for_layout (sb->lilypond, sb->widget);
+            }
         }
     }
   else
@@ -2736,7 +2756,7 @@ GString *voice_tail = g_string_new ("");
 //if the call is all_movements is current (1) and no partname ie default, then current layout is returned, re-created (if need be) if it is a standard one
 //otherwise selects or creates a standard layout for the given spec: all_movements (0=all, 1 = current) and part (NULL is all parts, otherwise parts with partname).
 DenemoScoreblock *
-select_layout (gboolean all_movements, gchar * partname)
+select_layout (gboolean all_movements, gchar * partname, gchar * instrumentation)
 {
   GList *g;
   DenemoScoreblock *sb;
@@ -2749,7 +2769,7 @@ select_layout (gboolean all_movements, gchar * partname)
     {
       sb = selected_scoreblock ();
       if (sb)
-        {
+        { 
           if (is_in_standard_scoreblock (sb))
             {
               recreate_standard_scoreblock (&sb);
@@ -2776,6 +2796,7 @@ select_layout (gboolean all_movements, gchar * partname)
           g_critical ("No score layout available");
           return NULL;
         }
+      
       refresh_lilypond (sb);    //creating a scoreblock does *not* include generating the lilypond from its widgets.
     }
 
@@ -2858,6 +2879,7 @@ select_layout (gboolean all_movements, gchar * partname)
       create_standard_scoreblock (&sb, movement, partname);
       Denemo.project->standard_scoreblocks = g_list_prepend (Denemo.project->standard_scoreblocks, sb);
       sb->visible = TRUE;
+      sb->instrumentation = g_strdup (instrumentation); g_print ("instrumentation %s\n", sb->instrumentation);
       refresh_lilypond (sb);
       set_notebook_page (sb->widget);
       return sb;

@@ -58,7 +58,7 @@
 
 gchar *get_postfix (GList * g);
 
-static void output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * partname);
+static void output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * partname, gchar *instrumentation);
 static GtkTextTagTable *tagtable;
 
 /* inserts a navigation anchor into the lilypond textbuffer at curmark */
@@ -2207,13 +2207,13 @@ refresh_lily_cb (GtkAction * action, DenemoProject * gui)
       GtkTextMark *cursor = gtk_text_buffer_get_insert (Denemo.textbuffer);
       gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, cursor);
       gint offset = gtk_text_iter_get_offset (&iter);
-      output_score_to_buffer (gui, TRUE, NULL);
+      output_score_to_buffer (gui, TRUE, NULL, NULL);
       //restore the cursor position
       gtk_text_buffer_get_iter_at_offset (Denemo.textbuffer, &iter, offset);
       gtk_text_buffer_place_cursor (Denemo.textbuffer, &iter);
     }
   else
-    output_score_to_buffer (gui, TRUE, NULL);
+    output_score_to_buffer (gui, TRUE, NULL, NULL);
 }
 
 void
@@ -2408,8 +2408,8 @@ set_staff_termination (GString * str, DenemoStaff * curstaffstruct)
 
 void
 generate_lilypond_part (void)
-{
-  output_score_to_buffer (Denemo.project, TRUE, ((DenemoStaff *) (Denemo.project->movement->currentstaff->data))->lily_name->str);
+{DenemoStaff *staff = (DenemoStaff *) (Denemo.project->movement->currentstaff->data);
+  output_score_to_buffer (Denemo.project, TRUE, staff->lily_name->str, staff->denemo_name->str);
 }
 
 /*
@@ -2422,7 +2422,7 @@ generate_lilypond_part (void)
 
 
 static void
-output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * partname)
+output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * partname, gchar *instrumentation)
 {
   GString *definitions = g_string_new ("");
   GString *staffdefinitions = g_string_new ("");
@@ -2445,7 +2445,7 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
   //  create_lilywindow();
 
 
-  DenemoScoreblock *sb = select_layout (all_movements, partname);       //FIXME gui->namespec mechanism is probably redundant, and could well cause trouble...
+  DenemoScoreblock *sb = select_layout (all_movements, partname, instrumentation);       //FIXME gui->namespec mechanism is probably redundant, and could well cause trouble...
 
   if (gui->movement->markstaffnum)
     all_movements = FALSE;
@@ -2743,12 +2743,12 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
  * identifiers placed suitably. 
  */
 static void
-export_lilypond (gchar * thefilename, DenemoProject * gui, gboolean all_movements, gchar * partname)
+export_lilypond (gchar * thefilename, DenemoProject * gui, gboolean all_movements, gchar * partname, gchar *instrumentation)
 {
   GtkTextIter startiter, enditer, iter;
   gint offset;
   offset = get_cursor_offset ();
-  output_score_to_buffer (gui, all_movements, partname);
+  output_score_to_buffer (gui, all_movements, partname, instrumentation);
   GString *filename = g_string_new (thefilename);
   if (filename)
     {
@@ -2780,7 +2780,7 @@ export_lilypond (gchar * thefilename, DenemoProject * gui, gboolean all_movement
 void
 exportlilypond (gchar * thefilename, DenemoProject * gui, gboolean all_movements)
 {
-  export_lilypond (thefilename, gui, all_movements, NULL);
+  export_lilypond (thefilename, gui, all_movements, NULL, NULL);
 }
 
 
@@ -2791,8 +2791,8 @@ exportlilypond (gchar * thefilename, DenemoProject * gui, gboolean all_movements
  */
 void
 export_lilypond_part (char *filename, DenemoProject * gui, gboolean all_movements)
-{
-  export_lilypond (filename, gui, all_movements, ((DenemoStaff *) gui->movement->currentstaff->data)->lily_name->str);
+{ DenemoStaff *staff = (DenemoStaff *) gui->movement->currentstaff->data;
+  export_lilypond (filename, gui, all_movements, staff->lily_name->str, staff->denemo_name->str);
 }
 
 /* output lilypond for each part into a separate file
@@ -2820,7 +2820,7 @@ export_lilypond_parts (char *filename, DenemoProject * gui)
         }
       staff_filename = g_strconcat (filename, "_", curstaffstruct->lily_name->str, ".ly", NULL);
       *c = '.';
-      export_lilypond (staff_filename, gui, FALSE, ((DenemoStaff *) curstaff->data)->lily_name->str);
+      export_lilypond (staff_filename, gui, FALSE, ((DenemoStaff *) curstaff->data)->lily_name->str, ((DenemoStaff *) curstaff->data)->denemo_name->str);
 
     }
 
