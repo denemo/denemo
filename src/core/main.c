@@ -283,21 +283,21 @@ init_environment()
   if(fontpath)
       add_font_file (fontpath);
   else
-    g_critical("Could not find feta.ttf");
+    g_info("Did not find feta.ttf - perhaps installed in system");
   g_free(fontpath);
 
   fontpath = find_denemo_file(DENEMO_DIR_FONTS,  "Denemo.ttf");
   if(fontpath)
     add_font_file (fontpath);
   else
-    g_critical("Could not find Denemo.ttf");
+    g_info("Did not find Denemo.ttf - perhaps installed in system");
   g_free(fontpath);
 
   fontpath = find_denemo_file(DENEMO_DIR_FONTS,  "emmentaler.ttf");
   if(fontpath)
      add_font_file (fontpath);
   else
-    g_critical("Could not find emmentaler.ttf");
+    g_info("Did not find emmentaler.ttf - perhaps installed in system");
   g_free(fontpath);
   
   g_setenv ("LYEDITOR", "denemoclient %(line)s %(column)s", FALSE);
