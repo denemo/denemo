@@ -276,4 +276,10 @@
     <button label="+9" _tooltip="Inserts a chord at the cursor. Cursor height gives bass note. Use pending sharpen/flatten command for sharp/flat bass note." script=" (d-PutNote)&#10; (d-PutNoteName (d-GetCursorNoteWithOctave))&#10;(d-MoveCursorLeft)&#10;(ANS::AddIntervalAsChordnoteFromLowestUp 'A2)&#10;(d-CursorUp)&#10;(d-OctaveUp)&#10;(d-JumpDownOctave)&#10;(d-CursorDown)&#10;(d-MoveCursorRight)&#10;"/>
     <button label="any" _tooltip="Attaches an arbitrary chord symbol at the cursor - use for chords not listed." script="(d-PutNote)&#10;(d-MoveCursorLeft)&#10;(d-CompactChordSymbol)&#10;(d-MoveCursorRight)&#10;&#10;"/>
   </palette>
+  <palette _name="Playback" row-wise="0" limit="1" dock="0" hidden="1">
+    <button label="Mute/UnMute Staff" _tooltip="Mutes the current staff. Affects only playback." script="(d-MuteStaff)"/>
+    <button label="Play/Pause" _tooltip="Playback from start marker to end marker (Set these markers in the playback controls)" script="(d-Play)"/>
+    <button label="Stop" _tooltip="Stop Playback" script="(d-Stop)"/>
+    <button label="Play Selection" _tooltip="Plays all staffs for the duration of the selection or from the current cursor position to the end of the movement if no selection." script="(if (d-HasSelection)&#10;&#9;(begin&#10;&#9;&#9;(DenemoSetPlaybackIntervalToSelection)&#10;&#9;&#9;(d-Play))&#10;&#9;(d-DenemoPlayCursorToEnd))"/>
+  </palette>
 </Denemo>
