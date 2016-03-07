@@ -1284,9 +1284,12 @@ update_leadin_widget (gdouble secs)
 }
 
 static void
-pb_set_range (GtkWidget * button)
+pb_play_range (GtkWidget * button)
 {
-  call_out_to_guile ("(DenemoSetPlaybackIntervalToSelection)"); 
+    if(Denemo.project->movement->markstaffnum)
+        call_out_to_guile ("(DenemoSetPlaybackIntervalToSelection)(d-Play)"); 
+    else
+        call_out_to_guile ("(d-DenemoPlayCursorToEnd)");
 }
 
 static void
@@ -4451,7 +4454,7 @@ create_window (void)
                        , pb_panic, NULL, _("Resets the synthesizer, on JACK it sends a JACK panic."));
 
 
-    create_playbutton (inner, _("Set From Selection"), pb_set_range, NULL, _("Sets the playback range (green and red bars) to the current selection."));
+    create_playbutton (inner, _("Play Selection"), pb_play_range, NULL, _("Plays the current selection or from the cursor to the end if no selection present."));
     create_playbutton (inner, _("Playback Range"), pb_range, NULL, _("Pops up a dialog to get timings for start and end of playback."));
     GtkWidget *temperament_control = get_temperament_combo ();
     if (!gtk_widget_get_parent (temperament_control))

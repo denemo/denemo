@@ -628,7 +628,7 @@ init_score (DenemoMovement * si, DenemoProject * gui)
   else
     si->master_tempo = 1.0;
   si->savebuffer = NULL;
-
+  si->smfsync = G_MAXINT;
   if (gui->filename == NULL)
       gui->filename = g_string_new ("");
   gui->autosavename = g_string_new (g_build_filename (dir, "autosave.denemo", NULL));
@@ -852,10 +852,11 @@ clone_movement (DenemoMovement * si)
 
 
 
-  /*
+ 
 
+     newscore->smfsync = G_MAXINT;
+ /*
 
-     smfsync
      savebuffer
      Instruments
 
