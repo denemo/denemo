@@ -275,6 +275,11 @@ static void edit_tooltip_for_button (GtkWidget *button) {
     }
     g_free(newtooltip);
 }
+static void help_for_button (GtkWidget *button) {
+    gchar *tooltip = gtk_widget_get_tooltip_text (button);
+    if (tooltip)
+        infodialog (tooltip);
+}
 static void remove_button (GtkWidget *button) {
     DenemoPalette *pal = g_object_get_data (G_OBJECT(button), "palette");
     palette_delete_button (pal, button);
@@ -317,7 +322,11 @@ static void popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
   GtkWidget *menu = gtk_menu_new ();
   GtkWidget *item;
   gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view));//some menu items should be insensitive if the Scheme window is not visible
-
+  item = gtk_menu_item_new_with_label (_("Help"));
+  gtk_widget_set_tooltip_text (item, _("Show the help for this button"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (help_for_button), (gpointer) button);
+  
   item = gtk_menu_item_new_with_label (_("Edit Label"));
   gtk_widget_set_tooltip_text (item, _("Edit the label of this button"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
