@@ -8,7 +8,7 @@
         <after>CreateParts</after>
         <action>MergeRests</action>
         <_label>Merge Rests</_label>
-        <_tooltip>(Print) Merges rests where two voices have a common rest. Not for whole measure or multi-measure rests.</_tooltip>
+        <_tooltip>Merges rests where two voices have a common rest. Applies to the whole movement. For multi-measure rests you need to additionally suppress one of the multi-measure rest counts.</_tooltip>
       </row>
     </map>
   </merge>
