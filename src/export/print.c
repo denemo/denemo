@@ -329,7 +329,7 @@ static gchar * get_error_point (gchar *bytes, gint *line, gint *col)
                             *colon = 0;
                             while ((epoint != bytes) && (*epoint != '\n')) epoint--;//FIXME is epoint now referring to the main file or some include file, line col will not work for an include file
                             if(strcmp (Denemo.printstatus->printname_ly[Denemo.printstatus->cycle], epoint)) // error is in an include file
-                                Denemo.printstatus->error_file = g_strdup (epoint+1); g_print ("Files were %s and %s\n", Denemo.printstatus->printname_ly[Denemo.printstatus->cycle], epoint);
+                                Denemo.printstatus->error_file = g_strdup (epoint);
                             *colon = ':';
                             return epoint;
                         }
@@ -384,7 +384,7 @@ process_lilypond_errors (gchar * filename)
     }
   else
     {
-        console_output (_("Done"));
+       // console_output (_("Done"));
         set_lily_error (0, 0); /* line 0 meaning no line */
     }
   highlight_lily_error ();
