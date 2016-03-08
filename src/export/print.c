@@ -328,8 +328,8 @@ static gchar * get_error_point (gchar *bytes, gint *line, gint *col)
                             gchar *colon = epoint;
                             *colon = 0;
                             while ((epoint != bytes) && (*epoint != '\n')) epoint--;//FIXME is epoint now referring to the main file or some include file, line col will not work for an include file
-                            if(strcmp (Denemo.printstatus->printname_ly[Denemo.printstatus->cycle], epoint+1)) // error is in an include file
-                                Denemo.printstatus->error_file = g_strdup (epoint+1); 
+                            if(strcmp (Denemo.printstatus->printname_ly[Denemo.printstatus->cycle], epoint)) // error is in an include file
+                                Denemo.printstatus->error_file = g_strdup (epoint+1); g_print ("Files were %s and %s\n", Denemo.printstatus->printname_ly[Denemo.printstatus->cycle], epoint);
                             *colon = ':';
                             return epoint;
                         }
@@ -383,7 +383,10 @@ process_lilypond_errors (gchar * filename)
       // FIXME this causes a lock-up     warningdialog(_("Typesetter detected errors. Cursor is position on the error point.\nIf in doubt delete and re-enter the measure."));
     }
   else
-    set_lily_error (0, 0); /* line 0 meaning no line */
+    {
+        console_output (_("Done"));
+        set_lily_error (0, 0); /* line 0 meaning no line */
+    }
   highlight_lily_error ();
   if (lily_err != NULL)
     {
@@ -407,6 +410,7 @@ open_viewer (gint status, gchar * filename)
   gchar *printfile;
   gchar **arguments;
   progressbar_stop ();
+  console_output (_("Done"));
   g_spawn_close_pid (Denemo.printstatus->printpid);
   Denemo.printstatus->printpid = GPID_NONE;
   //normal_cursor();
@@ -419,21 +423,14 @@ open_viewer (gint status, gchar * filename)
         g_warning ("Lilypond did not end successfully: %s", err->message);
   }         
   
-#if 1 //ndef G_OS_WIN32
-  //status check seems to fail on windows, and errors are not highlighted for windows.
+
   if (status)
     {
       g_warning /* a warning dialog causes deadlock in threaded version of program */ ("LilyPond engraver failed - See highlighting in LilyPond window (open the LilyPond window and right click to print)");
     }
   else
-#endif
     {
-
-   
       printfile = g_strconcat (filename, ".png", NULL);
- 
-
-
       if (!g_file_test (printfile, G_FILE_TEST_EXISTS))
         {
           //FIXME use filename in message
@@ -505,7 +502,8 @@ run_lilypond (gchar ** arguments)
       g_error_free (lily_err);
       lily_err = NULL;
     }
-
+  console_output (NULL);
+  console_output (_("Typesetting ..."));
   gboolean lilypond_launch_success = g_spawn_async_with_pipes (locateprintdir (),       /* dir */
                                                                arguments,
                                                                NULL,    /* env */
@@ -893,10 +891,10 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui)
                     &ret, 
                     &err);
       if(!success)
-        g_critical("An error happened during lilypond launching: %s", err->message);
+        g_warning ("An error happened during lilypond launching: %s", err->message);
 
       if(ret != 0)
-        g_critical("Lilypond did not end successfully");
+        g_warning ("Lilypond did not end successfully");
 
       //These are in tmpdir and can be used for the .eps file, so don't delete them   
       //g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);

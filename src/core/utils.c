@@ -2395,14 +2395,17 @@ gchar *get_option (gchar *title, gchar * str, gint length)
 
 
 
-/* output text to the console window */
+/* output text to the console (lilypond errors) window. If text==NULL clear window*/
 void
 console_output (gchar * text)
 {
   GtkTextIter enditer;
   GtkTextBuffer *buffer = gtk_text_view_get_buffer ((GtkTextView *) (Denemo.console));
   gtk_text_buffer_get_end_iter (buffer, &enditer);
-  gtk_text_buffer_insert (buffer, &enditer, text, -1);
+  if (text)
+    gtk_text_buffer_insert (buffer, &enditer, text, -1);
+  else
+    gtk_text_buffer_set_text (buffer, "", -1);
 }
 
 /* returns an override flag ORd from all those in the list of directives, 

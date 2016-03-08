@@ -496,6 +496,7 @@ void
 printview_finished (G_GNUC_UNUSED GPid pid, gint status, gboolean print)
 {
   progressbar_stop ();
+  console_output (_("Done"));
   {
     GError* err = NULL;
     if(!g_spawn_check_exit_status (status, &err))
@@ -709,13 +710,8 @@ large_thumbnail_name (gchar * filepath)
 static void
 thumbnail_finished(GPid pid, gint status, gpointer data)
 {
-  /*
-  GError* err = NULL;
-  if(!g_spawn_check_exit_status (status, &err))
-    g_critical("Lilypond did not end successfully: %s", err->message);
-  */
   if(status)
-    g_critical("Thumbnailer: Lilyond did not end successfully");
+    g_warning ("Thumbnailer: Lilyond did not end successfully");
 }
 
 /***
