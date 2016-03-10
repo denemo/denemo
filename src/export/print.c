@@ -415,14 +415,14 @@ open_viewer (gint status, gchar * filename)
   Denemo.printstatus->printpid = GPID_NONE;
   //normal_cursor();
   process_lilypond_errors (filename);
-  
+#if GLIB_CHECK_VERSION(2,34,0)  
   {
     GError* err = NULL;
     status = g_spawn_check_exit_status (status, &err);
     if(!status)
         g_warning ("Lilypond did not end successfully: %s", err->message);
   }         
-  
+#endif  
 
   if (status)
     {

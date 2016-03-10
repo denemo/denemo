@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: denemo-2.0.4-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2016-02-23 09:30+0000\n"
-"PO-Revision-Date: 2016-02-25 23:04+0100\n"
+"PO-Revision-Date: 2016-03-09 20:39+0100\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Language: cs_CZ\n"
 "X-Source-Language: C\n"
@@ -18557,21 +18557,19 @@ msgstr "Vloží značku dynamiky do nynější sloky v bodě pro vložení v okn
 
 #: ../actions/menus/ObjectMenu/Lyrics/ToggleTypesetOfLyrics.scm:16
 msgid "Lyrics will appear in the Print View for the default layout"
-msgstr ""
+msgstr "Slova písně se objeví v pohledu na tisk pro výchozí rozvržení"
 
 #: ../actions/menus/ObjectMenu/Lyrics/ToggleTypesetOfLyrics.scm:17
 msgid "Lyrics will be omitted  in the Print View for the default layout"
-msgstr ""
+msgstr "Slova písně budou v pohledu na tisk pro výchozí rozvržení vynechána"
 
 #: ../actions/menus/ObjectMenu/Lyrics/ToggleTypesetOfLyrics.xml.h:1
-#, fuzzy
-#| msgid "Typeset Red Dots (Off/On)"
 msgid "Typeset Lyrics (Off/On)"
-msgstr "Červené tečky při sazbě (vypnuto/zapnuto)"
+msgstr "Sázet slova písně (vypnuto/zapnuto)"
 
 #: ../actions/menus/ObjectMenu/Lyrics/ToggleTypesetOfLyrics.xml.h:2
 msgid "Turns Off/On typesetting of lyrics for the entire score. The score will revert to typesetting verses when reloaded (except for any custom score layouts created) - the command does not count as a change in the score."
-msgstr ""
+msgstr "Vypne/Zapne sázení slov písně pro celý notový zápis. Notový zápis se vrátí k sazbě slok při novém nahrání (vyjma všech uživatelem vytvořených rozvržení notového zápisu) - příkaz se nepočítá jako změna v notovém zápisu."
 
 #: ../actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm:6
 msgid "Verses will no longer be printed at the end of the piece"
@@ -18687,14 +18685,12 @@ msgid "Allow too few notes/rests in this measure. Only affects the Denemo displa
 msgstr "Povolit příliš málo not/pomlk v tomto taktu. Ovlivní jen zobrazení Denema a ověřování na chyby. Sazba bude taktové čáry umísťovat podle skutečných dob trvání not, tedy jako obvykle."
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/InsertBreakInStaff.xml.h:1
-#, fuzzy
-#| msgid "Create Copy"
 msgid "Create Gap"
-msgstr "Vytvořit kopii"
+msgstr "Vytvořit mezeru"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/InsertBreakInStaff.xml.h:2
 msgid "Creates a gap between the previous measure and the current one. The clef is re-instated after the gap. The gap size can be adjusted by inserting or deleting empty measures in between."
-msgstr ""
+msgstr "Vytvoří mezeru mezi předchozím taktem a nynějším taktem. Klíč je po mezeře znovudosazen. Velikost mezery je možno upravit vložením nebo smazáním prázdných taktů uprostřed."
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/MergeWithNextMeasure.xml.h:1
 msgid "Merge with Next Measure"
@@ -19498,20 +19494,16 @@ msgid "Alter the indent of the opening system for the current movement."
 msgstr "Změnit odsazení úvodního notového systému pro nynější větu skladby."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/RaggedRight.scm:7
-#, fuzzy
-#| msgid "Cursor Right"
 msgid "Flush Right"
-msgstr "Ukazatel doprava"
+msgstr "Zarovnat vpravo"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/RaggedRight.xml.h:1
-#, fuzzy
-#| msgid "Grace Note (On/Off)"
 msgid "Ragged Right (On/Off)"
-msgstr "Ozdoba (zapnuto/vypnuto)"
+msgstr "Nezarovnaný vpravo (zapnuto/vypnuto)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/RaggedRight.xml.h:2
 msgid "If the current movement has only one system it will be stretched to the right margin. Run the command again to turn this off."
-msgstr ""
+msgstr "Pokud má nynější věta pouze jednu notovou osnovu, tato bude roztažena k pravému okraji. Pro vypnutí spusťte příkaz znovu."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.scm:4
 msgid "Normal System Spacing is restored"
@@ -19846,16 +19838,14 @@ msgstr "Připojit textovou poznámku k akordu v poloze ukazatele"
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:12
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:17
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:17
-#, fuzzy
-#| msgid "Directives"
 msgid "Directive "
-msgstr "Příkazy"
+msgstr "Příkaz "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:12
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:17
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:17
 msgid " on "
-msgstr ""
+msgstr " na "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:12
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:17
@@ -19866,46 +19856,36 @@ msgstr "Nota"
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:12
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:17
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:17
-#, fuzzy
-#| msgid "Chord "
 msgid "Chord"
-msgstr "Akord "
+msgstr "Akord"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:12
-#, fuzzy
-#| msgid "Movement will be typeset normally"
 msgid " will be typeset for all layouts "
-msgstr "Věta bude vysázena normálně"
+msgstr " bude vysázen pro všechna rozvržení "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.xml.h:1
-#, fuzzy
-#| msgid "Reset for All Layouts"
 msgid "Reset for All Layours"
 msgstr "Nastavit znovu pro všechna rozvržení"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.xml.h:2
 msgid "Makes a (chosen) directive on the note/chord at the cursor be typeset normally, i.e for all layouts. The cursor should be positioned at the note height if a directive attached to the note is intended."
-msgstr ""
+msgstr "Povede k tomu, že (vybraný) příkaz na notě/akordu bude vysázen normálně, totiž pro všechna rozvržení. Ukazatel by měl být umístěn ve výšce noty, pokud je zamýšlen příkaz připojený k notě."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:17
-#, fuzzy
-#| msgid "Time Signatures will not be typeset for this score"
 msgid " will not be typeset for layout "
-msgstr "Taktová označení nebudou sázena pro tento notový zápis"
+msgstr " nebude sázen pro rozvržení "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.xml.h:2
 msgid "Makes a (chosen) directive on the note/chord at the cursor be ignored for typesetting the current layout. The cursor should be positioned at the note height if a directive attached to the note is intended."
-msgstr ""
+msgstr "Povede k tomu, že (vybraný) příkaz na notě/akordu se bude při sázení nynějšího rozvržení přehlížet. Ukazatel by měl být umístěn ve výšce noty, pokud je zamýšlen příkaz připojený k notě."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:17
-#, fuzzy
-#| msgid "Movement will be typeset normally"
 msgid " will only typeset for layout "
-msgstr "Věta bude vysázena normálně"
+msgstr " bude vysázen pouze pro rozvržení "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.xml.h:2
 msgid "Makes a (chosen) directive on the note/chord at the cursor take effect only for typesetting the current layout. The cursor should be positioned at the note height if a directive attached to the note is intended."
-msgstr ""
+msgstr "Povede k tomu, že (vybraný) příkaz na notě/akordu bude účinkovat pouze při sázení nynějšího rozvržení. Ukazatel by měl být umístěn ve výšce noty, pokud je zamýšlen příkaz připojený k notě."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/DeleteLilyPondOnNote.xml.h:1
 msgid "Delete LilyPond on Note"
@@ -22400,10 +22380,8 @@ msgid "Choose whether tuplets should have brackets. Affects tuplets from the cur
 msgstr "Vybrat, zda mají mít nepravidelné rytmické skupiny závorky. Ovlivní nepravidelné rytmické skupiny od ukazatele dále."
 
 #: ../actions/menus/ObjectMenu/Score/CheckScore.scm:72
-#, fuzzy
-#| msgid "Ignore Measure Duration Error"
 msgid "Incorrect measure duration"
-msgstr "Přehlížet chybu týkající se doby trvání taktu"
+msgstr "Nesprávná doba trvání taktu"
 
 #: ../actions/menus/ObjectMenu/Score/CheckScore.scm:95
 #: ../actions/menus/ObjectMenu/Score/CheckScoreSkipping.scm:22
@@ -22413,21 +22391,19 @@ msgstr "V tomto notovém zápisu nebyly zjištěny žádné potíže"
 #: ../actions/menus/ObjectMenu/Score/CheckScoreSkipping.scm:4
 #: ../actions/menus/ObjectMenu/Score/CheckScoreSkipping.xml.h:1
 msgid "Check Score Skipping Some Errors"
-msgstr ""
+msgstr "Přeskakování některých chyb při ověřování notového zápisu"
 
 #: ../actions/menus/ObjectMenu/Score/CheckScoreSkipping.scm:4
-#, fuzzy
-#| msgid "Give number of groups: "
 msgid "Give number of errors to skip"
-msgstr "Zadat počet skupin: "
+msgstr "Zadejte počet chyb k přeskočení"
 
 #: ../actions/menus/ObjectMenu/Score/CheckScoreSkipping.scm:19
 msgid "Error number: "
-msgstr ""
+msgstr "Počet chyb: "
 
 #: ../actions/menus/ObjectMenu/Score/CheckScoreSkipping.xml.h:2
 msgid "Checks the score ignoring the first so many errors. Use this to skip errors that are ok to leave in."
-msgstr ""
+msgstr "Při ověřování notového zápisu se bude přehlížet tento počet chyb. Použijte k přeskočení chyb, které jsou vlastně natolik v pořádku, aby se nechaly plavat."
 
 #: ../actions/menus/ObjectMenu/Score/CheckScore.xml.h:1
 msgid "Check Score"
