@@ -167,7 +167,7 @@ get_prevailing_context (DenemoObjType type)
 void
 find_leftmost_staffcontext (DenemoStaff * curstaffstruct, DenemoMovement * si)
 {
-  measurenode *leftmeasure = g_list_nth (curstaffstruct->measures,
+  measurenode *leftmeasure = g_list_nth (curstaffstruct->themeasures,
                                          si->leftmeasurenum - 1);
   DenemoObject *obj;
 

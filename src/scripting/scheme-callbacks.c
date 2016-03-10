@@ -2380,19 +2380,7 @@ scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object)
     objectnum = scm_to_int (object);
   else
     objectnum = 1 + Denemo.project->movement->cursor_x;
-#if 0
-  // 1 is ambiguous, either empty measure or object 1
-  gboolean result = goto_movement_staff_obj (NULL, movementnum, staffnum, measurenum, objectnum);
-  if (Denemo.project->movement->currentmeasure->data == NULL && objectnum == 1)
-    return SCM_BOOL (goto_movement_staff_obj (NULL, movementnum, staffnum, measurenum, 0));
-  gint numobjs = (Denemo.project->movement->currentmeasure->data) ? g_list_length (Denemo.project->movement->currentmeasure->data) : 0;
-  if (objectnum == 1 + numobjs)
-    Denemo.project->movement->cursor_appending = TRUE;
-  write_status (Denemo.project);
-  if (objectnum > 1 + numobjs)
-    return SCM_BOOL_F;
-  return SCM_BOOL (result);
-#endif
+
   gint origmvt = g_list_index (Denemo.project->movements, Denemo.project->movement) + 1, origstaff = Denemo.project->movement->currentstaffnum, origmeas = Denemo.project->movement->currentmeasurenum, origpos = 1 + Denemo.project->movement->cursor_x;
   goto_movement_staff_obj (NULL, movementnum, staffnum, measurenum, objectnum, 0);
   if ((movementnum == g_list_index (Denemo.project->movements, Denemo.project->movement) + 1) && (staffnum == Denemo.project->movement->currentstaffnum) && (measurenum == Denemo.project->movement->currentmeasurenum) && (objectnum == 1 + Denemo.project->movement->cursor_x))
@@ -5352,7 +5340,7 @@ scheme_set_accidental (SCM optional)
         thenote->enshift = 0;
       if ((thenote->enshift < -2) || (thenote->enshift > 2))
         thenote->enshift = 0;
-      showwhichaccidentals ((objnode *) si->currentmeasure->data, si->curmeasurekey, si->curmeasureaccs);
+      showwhichaccidentals ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->curmeasurekey, si->curmeasureaccs);
       //  find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1,
       //                      si->cursortime2); causes a crash, si is not passed correctly, why???
       //thenote->mid_c_offset = interpret_lilypond_notename(str);
@@ -5709,7 +5697,7 @@ scheme_get_staffs_in_clipboard (SCM optional)
 SCM
 scheme_get_measures_in_staff (SCM optional)
 {
-  gint num = g_list_length (((DenemoStaff *) Denemo.project->movement->currentstaff->data)->measures);
+  gint num = g_list_length (((DenemoStaff *) Denemo.project->movement->currentstaff->data)->themeasures);
   return scm_from_int (num);
 }
 SCM

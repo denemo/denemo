@@ -1873,7 +1873,7 @@ outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint
   g_string_assign (staff_str, "");
 
   curmeasurenum = 0;
-  curmeasure = curstaffstruct->measures;
+  curmeasure = curstaffstruct->themeasures;
   if (!end)
     end = g_list_length (curmeasure);
   /* Now each measure */
@@ -1906,7 +1906,7 @@ outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint
           lastobj = 1 + gui->movement->selection.lastobjmarked;
         }
       //g_debug("First last, %d %d %d\n", firstobj, lastobj, start);
-      for (objnum = 1, curobjnode = (objnode *) curmeasure->data; /* curobjnode NULL checked at end */ ;
+      for (objnum = 1, curobjnode = (objnode *) ((DenemoMeasure*)curmeasure->data)->objects; /* curobjnode NULL checked at end */ ;
            curobjnode = curobjnode->next, objnum++)
         {
           curobj = NULL;        //avoid random values for debugabililty

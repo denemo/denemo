@@ -179,12 +179,12 @@ count_syllables (DenemoStaff * staff, gint from)
 {
   gint count = 0;
   gint i;
-  GList *curmeasure = staff->measures;
+  GList *curmeasure = staff->themeasures;
   gboolean in_slur = FALSE;
   for (i = 1; curmeasure && (i < from); i++, curmeasure = curmeasure->next)
     {
       objnode *curobj;
-      for (curobj = curmeasure->data; curobj; curobj = curobj->next)
+      for (curobj = ((DenemoMeasure*)curmeasure->data)->objects; curobj; curobj = curobj->next)
         {
           DenemoObject *obj = curobj->data;
 
@@ -794,7 +794,7 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
       si->cursorclef = itp->clef->type;
     }
 
-  curobj = (objnode *) curmeasure->data;
+  curobj = (objnode *) ((DenemoMeasure*)curmeasure->data)->objects;
   /* These default values for the markx'es may be necessary down
    * the road */
   if (si->selection.firststaffmarked == itp->staffnum && si->selection.firstmeasuremarked == itp->measurenum)
@@ -948,7 +948,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
   // if(si->marked_onset_position)
     //g_debug("repeat"),repeat = TRUE;//we set up the marked onset with this, then need to repeat to draw it
   //g_debug("drawing staff %d at %d\n", itp->staffnum, y);
-  gint nummeasures = g_list_length (thestaff->measures);
+  gint nummeasures = g_list_length (thestaff->themeasures);
  
   //g_debug("Of %d current %d\n", nummeasures, itp->measurenum);
   if (itp->measurenum > nummeasures)
@@ -1095,7 +1095,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
 
   /* Loop that will draw each measure. Basically a for loop, but was uglier
    * when written that way.  */
-  itp->curmeasure = g_list_nth (thestaff->measures, itp->measurenum - 1);
+  itp->curmeasure = g_list_nth (thestaff->themeasures, itp->measurenum - 1);
   //g_debug("measurenum %d\nx=%d\n", itp->measurenum, x);
 
   //FIX in measure.c for case where si->measurewidths is too short
@@ -1697,7 +1697,7 @@ draw_score (cairo_t * cr)
 
         si->rightmost_time = itp.rightmosttime;//g_debug("Setting rightmost time to %f\n", si->rightmost_time);
 
-        if ((system_num > 2) && Denemo.project->movement->playingnow && (si->playhead > leftmost) && itp.measurenum <= g_list_length (((DenemoStaff *) curstaff->data)->measures) /*(itp.measurenum > (si->rightmeasurenum+1)) */ )
+        if ((system_num > 2) && Denemo.project->movement->playingnow && (si->playhead > leftmost) && itp.measurenum <= g_list_length (((DenemoStaff *) curstaff->data)->themeasures) /*(itp.measurenum > (si->rightmeasurenum+1)) */ )
           {
             //put the next line of music at the top with a break marker
             itp.left = &gui->lefts[0];

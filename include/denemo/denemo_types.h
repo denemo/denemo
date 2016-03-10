@@ -270,7 +270,7 @@ typedef struct
   GtkMenu *staffmenu; /**< a menu to popup up with the staff directives attached */
   GtkMenu *voicemenu; /**< a menu to popup up with the voice directives attached */
   GList *sources;/**< List of source pixbufs, one for each measure staff-view */
-  measurenode *measures; /**< This is a pointer to each measure in the staff */
+  measurenode *themeasures; /**< This is a GList of DenemoMeasure objects */
   clef clef; /**< The initial clef see denemo_objects.h clefs */
   keysig keysig;
   timesig timesig;
@@ -333,6 +333,11 @@ typedef struct
  
 
 } DenemoStaff;
+
+typedef struct DenemoMeasure {
+    GList *objects;/* list of DenemoObject */
+    /* add cached values of clef, timesignature, keysignature prevailing at start of measure */
+}  DenemoMeasure;
 
 /* The ->data part of each staffnode points to a staff structure */
 

@@ -1208,7 +1208,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
 
       /* reset measure */
       curmeasurenum = 0;
-      curmeasure = curstaffstruct->measures;
+      curmeasure = curstaffstruct->themeasures;
 
       /* reset tick counters */
       ticks_read = 0;
@@ -1232,7 +1232,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
           ticks_at_bar = ticks_read;
 
           /* iterate over objects in measure */
-          for (curobjnode = (objnode *) curmeasure->data; curobjnode; curobjnode = curobjnode->next)
+          for (curobjnode = (objnode *) ((DenemoMeasure*)curmeasure->data)->objects; curobjnode; curobjnode = curobjnode->next)
             {
               curobj = (DenemoObject *) curobjnode->data;
               curobj->earliest_time = ticks_read * 60.0 / (cur_tempo * MIDI_RESOLUTION);        //smf_get_length_seconds(smf);

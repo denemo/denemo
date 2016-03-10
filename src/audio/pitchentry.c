@@ -663,10 +663,10 @@ apply_tones (DenemoMovement * si)
   GList *store;
   gint measurenum;
   store = (curstaff->tone_store);
-  measurenode *curmeasure = curstaff->measures;
+  measurenode *curmeasure = curstaff->themeasures;
   GList *store_el = NULL;
   // move cursor to start of current measure
-  si->currentobject = (objnode *) si->currentmeasure->data;
+  si->currentobject = (objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects;
   si->cursor_x = 0;
   si->cursor_appending = !GPOINTER_TO_INT (si->currentobject);
   //calcmarkboundaries (si);
@@ -675,7 +675,7 @@ apply_tones (DenemoMovement * si)
   if (curmeasure)
     {
       store_el = get_tones (store, measurenum);
-      objnode *curobj = curmeasure->data;
+      objnode *curobj = ((DenemoMeasure*)curmeasure->data)->objects;
       while (curobj)
         {
           tone *thetone = NULL;
@@ -714,7 +714,7 @@ apply_tones (DenemoMovement * si)
         }                       // while objects in measure
       if (store_el && !Denemo.prefs.continuous)
         sound_click ();         //extra tones in measure
-      showwhichaccidentals ((objnode *) si->currentmeasure->data, si->curmeasurekey, si->curmeasureaccs);
+      showwhichaccidentals ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->curmeasurekey, si->curmeasureaccs);
     }
   return ret;
 }
@@ -791,9 +791,9 @@ clear_tone_nodes (DenemoProject * gui)
   DenemoMovement *si = gui->movement;
   DenemoStaff *curstaff = ((DenemoStaff *) si->currentstaff->data);
   measurenode *curmeasure;
-  for (curmeasure = curstaff->measures; curmeasure; curmeasure = curmeasure->next)
+  for (curmeasure = curstaff->themeasures; curmeasure; curmeasure = curmeasure->next)
     {
-      objnode *curobj = curmeasure->data;
+      objnode *curobj = ((DenemoMeasure*)curmeasure->data)->objects;
       for (; curobj; curobj = curobj->next)
         {
           DenemoObject *theobj = (DenemoObject *) curobj->data;
@@ -845,7 +845,7 @@ static void
 clear_tone_nodes_currentmeasure (DenemoMovement * si)
 {
   measurenode *curmeasure = si->currentmeasure;
-  objnode *curobj = curmeasure->data;
+  objnode *curobj = ((DenemoMeasure*)curmeasure->data)->objects;
   for (; curobj; curobj = curobj->next)
     {
       DenemoObject *theobj = (DenemoObject *) curobj->data;

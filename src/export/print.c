@@ -720,7 +720,7 @@ printrangedialog (DenemoProject * gui)
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_add (GTK_CONTAINER (content_area), hbox);
 
-  gint max_measure = g_list_length (((DenemoStaff *) (gui->movement->thescore->data))->measures);
+  gint max_measure = g_list_length (((DenemoStaff *) (gui->movement->thescore->data))->themeasures);
 
   label = gtk_label_new (_("Print from Measure"));
   gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);

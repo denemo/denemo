@@ -7744,6 +7744,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Two Sided Margins</_label>
         <_tooltip>Uses different margins for left and right hand pages.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>NewFromSelection</action>
+        <after>DeleteSelectionLeaveEmpty</after>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
+        <_label>New Tab from Selection</_label>
+        <_tooltip>Creates a new score with just the selection. This can be used to debug problems in the music.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

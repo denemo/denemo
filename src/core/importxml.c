@@ -2480,7 +2480,7 @@ parseMeasures (xmlNodePtr measuresElem, DenemoMovement * si)
             //g_debug ("ImportXML Adding Measure \n currentmeasurenum %d", si->currentmeasurenum);
           }
           
-        si->currentmeasure->data = parseMeasure (childElem, &currentClef, 
+        ((DenemoMeasure*)si->currentmeasure->data)->objects = parseMeasure (childElem, &currentClef, 
             &((DenemoStaff *) si->currentstaff->data)->hasfigures, &((DenemoStaff *) si->currentstaff->data)->hasfakechords);
 
         si->currentmeasurenum++;

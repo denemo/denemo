@@ -425,7 +425,7 @@ exportabc (gchar * thefilename, DenemoProject * gui, gint start, gint end)
       /* Then the actual notes, measure for measure (sorry, excuse the bad
        * Shakespeare pun). */
 
-      for (curmeasure = curstaffstruct->measures, internalmeasurenum = MAX (start, 1), externalmeasurenum = 1; curmeasure != NULL && (end == 0 || internalmeasurenum <= end); curmeasure = curmeasure->next, externalmeasurenum++, internalmeasurenum++)
+      for (curmeasure = curstaffstruct->themeasures, internalmeasurenum = MAX (start, 1), externalmeasurenum = 1; curmeasure != NULL && (end == 0 || internalmeasurenum <= end); curmeasure = curmeasure->next, externalmeasurenum++, internalmeasurenum++)
         {
           /* Print the measure number every 5 measures. */
 
@@ -436,7 +436,7 @@ exportabc (gchar * thefilename, DenemoProject * gui, gint start, gint end)
 
           /* Print out everything in this measure. */
 
-          for (curobjnode = (objnode *) curmeasure->data; curobjnode; curobjnode = curobjnode->next)
+          for (curobjnode = (objnode *) ((DenemoMeasure*)curmeasure->data)->objects; curobjnode; curobjnode = curobjnode->next)
             {
               curobj = (DenemoObject *) curobjnode->data;
 

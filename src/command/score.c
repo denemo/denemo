@@ -404,9 +404,9 @@ get_object_by_position (gint movementnum, gint staffnum, gint measurenum, gint o
   this = g_list_nth (movement->thescore, staffnum - 1);
   if (this == NULL) return NULL;
   DenemoStaff *thestaff = (DenemoStaff*)this->data;
-  this = g_list_nth (thestaff->measures, measurenum -1);
+  this = g_list_nth (thestaff->themeasures, measurenum -1);
   if (this==NULL) return NULL;
-  this = g_list_nth (this->data, objnum-1);
+  this = g_list_nth (((DenemoMeasure*)this->data)->objects, objnum-1);
   if (this==NULL) return NULL;
    return this->data;
 }
@@ -819,27 +819,26 @@ clone_movement (DenemoMovement * si)
         newscore->currentprimarystaff = newscore->thescore;
       if (g == si->currentstaff)
         newscore->currentstaff = newscore->thescore;
-      newscore->currentmeasure = newscore->currentobject = thestaff->measures = NULL;
+      newscore->currentmeasure = newscore->currentobject = thestaff->themeasures = NULL;
       GList *h;
-      for (h = srcStaff->measures; h; h = h->next)
+      for (h = srcStaff->themeasures; h; h = h->next)
         {
-          objnode *theobjs = h->data;
-          GList *newmeasure = NULL;
+          objnode *theobjs = ((DenemoMeasure*)h->data)->objects;
+          DenemoMeasure *newmeasure = (DenemoMeasure*)g_malloc0(sizeof (DenemoMeasure));
           GList *i;
           for (i = theobjs; i; i = i->next)
             {
               DenemoObject *theobj = (DenemoObject *) i->data;
               DenemoObject *newobj = dnm_clone_object (theobj);
-              newmeasure = g_list_append (newmeasure, newobj);
+              newmeasure->objects = g_list_append (newmeasure->objects, newobj);
               if (i == si->currentobject)
                     /*g_print("current object %x\n", g_list_last(newmeasure)), */ 
-                newscore->currentobject = g_list_last (newmeasure);
-                        //???
+                newscore->currentobject = g_list_last(newmeasure->objects);
             }
-          thestaff->measures = g_list_append (thestaff->measures, newmeasure);
+          thestaff->themeasures = g_list_append (thestaff->themeasures, newmeasure);
           if (h == si->currentmeasure)
                     /*g_print("current measure %x\n", g_list_last(thestaff->measures)), */ 
-            newscore->currentmeasure = g_list_last (thestaff->measures);
+            newscore->currentmeasure = g_list_last (thestaff->themeasures);
                     //???
             }
     }

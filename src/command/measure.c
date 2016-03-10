@@ -47,14 +47,16 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
           for (j = 1, curstaff = si->thescore; curstaff; j++, curstaff = curstaff->next)
             {
               store_for_undo_measure_insert (si, j, pos);
-              ((DenemoStaff *) curstaff->data)->measures = g_list_insert (staff_first_measure_node (curstaff), barlinenode, pos);
+              barlinenode = g_malloc0 (sizeof (DenemoMeasure)); //use NULL  originally
+              ((DenemoStaff *) curstaff->data)->themeasures = g_list_insert (staff_first_measure_node (curstaff), barlinenode, pos);
               ((DenemoStaff *) curstaff->data)->nummeasures++;
             }
         }
       else
         {
           store_for_undo_measure_insert (si, si->currentstaffnum, pos);
-          ((DenemoStaff *) si->currentstaff->data)->measures = g_list_insert (staff_first_measure_node (si->currentstaff), barlinenode, pos);
+           barlinenode = g_malloc0 (sizeof (DenemoMeasure)); //use NULL  originally
+          ((DenemoStaff *) si->currentstaff->data)->themeasures = g_list_insert (staff_first_measure_node (si->currentstaff), barlinenode, pos);
           ((DenemoStaff *) si->currentstaff->data)->nummeasures++;
         }
 
@@ -108,7 +110,7 @@ freeobjlist (gpointer data, gpointer user_data)
   objnode *delobjs = (objnode *) data;
   if (delobjs)
     {
-      /* Free all the mudela objects */
+      /* Free all the Denemo objects */
       g_list_foreach (delobjs, freeit_object, NULL);
       /* Free the object list itself */
       g_list_free (delobjs);
@@ -131,10 +133,7 @@ staffremovemeasures (staffnode * curstaff, guint pos)
   take_snapshot ();
   measurenode *firstmeasure;
   measurenode *delmeasure;
-  if (((DenemoStaff *) curstaff->data)->is_parasite)
-    {
-      ((DenemoStaff *) curstaff->data)->measures = *((DenemoStaff *) curstaff->data)->is_parasite;
-    }
+
   firstmeasure = staff_first_measure_node (curstaff);
   delmeasure = g_list_nth (firstmeasure, pos);
   if (delmeasure)
@@ -144,8 +143,9 @@ staffremovemeasures (staffnode * curstaff, guint pos)
       //       firstmeasure, delmeasure, pos);
 
 
-      freeobjlist (delmeasure->data, NULL);
-      ((DenemoStaff *) curstaff->data)->measures = g_list_remove_link (firstmeasure, delmeasure);
+      freeobjlist (((DenemoMeasure*)delmeasure->data)->objects, NULL);
+      ((DenemoStaff *) curstaff->data)->themeasures = g_list_remove_link (firstmeasure, delmeasure); //FIXME DANGER
+      g_free ((DenemoMeasure*)delmeasure->data);
       g_list_free_1 (delmeasure);
 
       ((DenemoStaff *) curstaff->data)->nummeasures--;
@@ -184,7 +184,7 @@ removemeasures (DenemoMovement * si, guint pos, guint nummeasures, gboolean all)
                   staffremovemeasures (curstaff, pos);
                   if (!staff_first_measure_node (curstaff))
                     {
-                      ((DenemoStaff *) curstaff->data)->measures = g_list_append (NULL, NULL);
+                      ((DenemoStaff *) curstaff->data)->themeasures = g_list_append (NULL, g_malloc0(sizeof (DenemoMeasure)));
                       ((DenemoStaff *) curstaff->data)->nummeasures = 1;
                     }
                 }
@@ -762,7 +762,7 @@ forceaccidentals (DenemoObject * theobj)
 objnode *
 measure_first_obj_node (measurenode * mnode)
 {
-  return (objnode *) mnode->data;
+  return mnode?(objnode *) mnode->data:NULL; //FIXME DANGER was expecting a node with NULL data for the first object in the case of an empty measure.
 }
 
 /**
@@ -773,5 +773,5 @@ measure_first_obj_node (measurenode * mnode)
 objnode *
 measure_last_obj_node (measurenode * mnode)
 {
-  return g_list_last ((objnode *) mnode->data);
+  return g_list_last ((objnode *) ((DenemoMeasure*)mnode->data)->objects);
 }

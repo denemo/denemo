@@ -147,12 +147,12 @@ get_pos_at_syllable_count (DenemoStaff * staff, gint num, DenemoPosition *pos)
 {
   gint count = 0;
   gint measurenum, objnum;
-  GList *curmeasure = staff->measures;
+  GList *curmeasure = staff->themeasures;
   gboolean in_slur = FALSE;
   for (measurenum = 0; curmeasure && (count < num); measurenum++, curmeasure = curmeasure->next)
     {
       objnode *curobj;
-      for (objnum=0, curobj = curmeasure->data; curobj && (count < num); objnum++, curobj = curobj->next)
+      for (objnum=0, curobj = ((DenemoMeasure*)curmeasure->data)->objects; curobj && (count < num); objnum++, curobj = curobj->next)
         {
           DenemoObject *obj = curobj->data;
 
@@ -183,10 +183,10 @@ syllable_count (void)
   GList *curmeasure;
   gboolean in_slur = FALSE;
   objnode *curobj = Denemo.project->movement->currentobject;
-  for (curmeasure = thestaff->measures; curmeasure; curmeasure = curmeasure->next)
+  for (curmeasure = thestaff->themeasures; curmeasure; curmeasure = curmeasure->next)
     {
       objnode *thisobj;
-      for (thisobj = curmeasure->data; thisobj && (thisobj != curobj); thisobj = thisobj->next)
+      for (thisobj = ((DenemoMeasure*)curmeasure->data)->objects; thisobj && (thisobj != curobj); thisobj = thisobj->next)
         {
           DenemoObject *obj = thisobj->data;
           if (obj->type == CHORD)
