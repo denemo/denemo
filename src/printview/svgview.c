@@ -1058,14 +1058,14 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
     if (event->button == 3)
         return;    
     
-    
-    if (update_playback_view ())
+     if ((changecount != Denemo.project->movement->changecount) || (Denemo.project->movement->changecount != Denemo.project->movement->smfsync))
         {
-            if (continuous_typesetting ())
-               ;//warningdialog (_("Please turn continuous typsetting off first"));
-            else
-                warningdialog (_("Please wait while the Playback View is re-typeset then re-try"));
-            return;
+            static gboolean once = TRUE;
+            exportmidi (NULL, Denemo.project->movement);
+            g_print ("Now changecount %d d changecount %d, d-smfsync %d\n", Denemo.project->movement->changecount, Denemo.project->movement->smfsync);
+            if(once)
+                infodialog (_("Switching to simple MIDI - re-typeset for full MIDI."));
+           once = FALSE;
         }
     GList *g;
     for (g = TheTimings; g;g=g->next)
