@@ -61,6 +61,8 @@ denemo_SOURCES = \
   core/binreloc.c \
   core/binreloc.h \
   core/denemo_types.c \
+  core/cache.c \
+  core/cache.h \
   core/external.c \
   core/external.h \
   core/exportxml.c \

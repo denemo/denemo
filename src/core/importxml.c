@@ -16,6 +16,7 @@
 #include "command/processstaffname.h"
 #include "command/tuplet.h"
 #include "export/xmldefs.h"
+#include "core/cache.h"
 #include "core/view.h"
 #include "ui/texteditors.h"
 #include "command/lilydirectives.h"
@@ -2712,12 +2713,13 @@ parseMovement (xmlNodePtr childElem, DenemoProject * gui, ImportType type)
   si->currentstaff = g_list_nth (si->thescore, current_staff - 1);
   setcurrents (si);
   si->cursor_x = current_position;
-  si->currentobject = (objnode *) g_list_nth (si->currentmeasure->data, si->cursor_x);
-
+  //was si->currentobject = (objnode *) g_list_nth (si->currentmeasure->data, si->cursor_x);
+  si->currentobject = g_list_nth ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->cursor_x);
   if (!si->currentobject)
     {
      si->cursor_appending = TRUE;
-     si->currentobject = g_list_last (si->currentmeasure->data);
+     si->currentobject = g_list_last ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects);
+     //was si->currentobject = g_list_last (si->currentmeasure->data);
     }
   else
     si->cursor_appending = FALSE;
@@ -3022,6 +3024,7 @@ cleanup:
   //g_debug("Number of movements %d\n", g_list_length(gui->movements));
   reset_movement_numbers (gui);
   set_movement_selector (gui);
+  cache_all ();
   return ret;
 }
 
