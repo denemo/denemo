@@ -1233,11 +1233,6 @@ static void scroll_dialog (void)
 }
 
 
-static gint
-keypress_event (GtkWidget * widget, GdkEventKey * event)
-{
-    g_print ("Keypress event\n");
-}
 void
 install_svgview (GtkWidget * top_vbox)
 {
@@ -1304,13 +1299,6 @@ install_svgview (GtkWidget * top_vbox)
     g_signal_connect (G_OBJECT (event_box), "button_press_event", G_CALLBACK (button_press), NULL);
     g_signal_connect (G_OBJECT (event_box), "button_release_event", G_CALLBACK (button_release), NULL);
     g_signal_connect (G_OBJECT (event_box), "motion-notify-event", G_CALLBACK (motion_notify), NULL);
-   
-//these don't fire off  
-//gtk_widget_add_events (event_box, GDK_KEY_PRESS_MASK);
-//g_signal_connect (G_OBJECT (event_box), "key_press_event", G_CALLBACK (keypress_event), NULL);
-
-  
-  
   
   if (Denemo.prefs.newbie)
     gtk_widget_set_tooltip_markup (score_and_scroll_win,
