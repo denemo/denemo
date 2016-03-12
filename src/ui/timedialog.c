@@ -19,6 +19,7 @@
 #include "command/object.h"
 #include "command/staff.h"
 #include "core/utils.h"
+#include "core/cache.h"
 #include "command/select.h"
 
 /**
@@ -124,6 +125,8 @@ insert_timesig (DenemoMovement * si, DenemoStaff * curstaffstruct, gint time1, g
           g_list_free_1 (firstobj);
         } 
       ((DenemoMeasure *)curmeasure->data)->objects = g_list_prepend ((objnode *) ((DenemoMeasure *)curmeasure->data)->objects, dnm_newtimesigobj (time1, time2));
+      ((DenemoMeasure *)curmeasure->data)->timesig = ((DenemoObject*)((DenemoMeasure *)curmeasure->data)->objects->data)->object;
+      update_timesig_cache (curmeasure);
       if (curmeasure == si->currentmeasure)
         {
           if (!replacing)

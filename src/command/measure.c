@@ -51,6 +51,7 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
               ((DenemoStaff *) curstaff->data)->themeasures = g_list_insert (staff_first_measure_node (curstaff), barlinenode, pos);
               ((DenemoStaff *) curstaff->data)->nummeasures++;
             }
+            
         }
       else
         {
@@ -73,6 +74,12 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
 
 
     }
+    
+    
+    if (all)
+        cache_all();
+    else
+        cache_staff (si->currentstaff);
   set_measure_transition (-20 * nummeasures, all);
   measurenode *ret = g_list_nth (staff_first_measure_node (si->currentstaff), pos);
 //  displayhelper (Denemo.project);

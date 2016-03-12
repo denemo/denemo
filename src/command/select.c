@@ -363,6 +363,9 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
           if (!((DenemoMeasure*)curmeasure->data)->objects && !si->thescore->next)
             removemeasures (si, g_list_position (staff_first_measure_node (si->currentstaff), curmeasure), 1, TRUE);
         }
+        
+      cache_staff (si->currentstaff);
+        
       staff_show_which_accidentals ((DenemoStaff *) si->currentstaff->data);
       staff_beams_and_stems_dirs ((DenemoStaff *) si->currentstaff->data);
     }                           // end of single staff
@@ -376,6 +379,8 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
 
               removemeasures (si, si->selection.firstmeasuremarked - 1, lmeasurebreaksinbuffer + 1, TRUE);
               staffs_removed_measures = lmeasurebreaksinbuffer;
+              
+              cache_all ();
             }
           else
             for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
@@ -383,7 +388,9 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
                 curmeasure = g_list_nth (staff_first_measure_node (curstaff), si->selection.firstmeasuremarked - 1);
                 freeobjlist ( ((DenemoMeasure*)curmeasure->data)->objects, NULL);
                  ((DenemoMeasure*)curmeasure->data)->objects = NULL;
-
+                 
+                cache_staff (curstaff);
+             
                 staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
                 staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
               }
@@ -401,10 +408,16 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
                   freeobjlist ( ((DenemoMeasure*)curmeasure->data)->objects, NULL);
                    ((DenemoMeasure*)curmeasure->data)->objects = NULL;
                 }
+                
+              cache_staff (curstaff);
+      
               staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
               staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
             }
         }
+                
+
+        
     }
   si->selection.firststaffmarked = si->markstaffnum = 0;        //only the latter is needed, but there was some confusion at one time...
   /* And set some currents. This would probably be better to split off
@@ -476,6 +489,9 @@ get_clip_objs (gint m)
 void
 insert_object (DenemoObject * clonedobj)
 {
+    object_insert (Denemo.project, clonedobj);
+#if 0    
+    
   DenemoMovement *si = Denemo.project->movement;
   staffnode *curstaff = si->currentstaff;
   clonedobj->starttick = (si->currentobject ? ((DenemoObject *) si->currentobject->data)->starttickofnextnote : 0);
@@ -518,6 +534,7 @@ insert_object (DenemoObject * clonedobj)
 
   staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
   find_xes_in_all_measures (si);
+#endif
 }
 
 // insert the nth object from the copybuffer into music at the cursor position

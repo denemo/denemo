@@ -24,32 +24,80 @@ static void measure_set_cache (DenemoMeasure *meas, clef *clef, timesig *timesig
     meas->timesig = timesig;
     meas->keysig = keysig;
 }
-static void object_set_cache (DenemoObject *meas, clef *clef, timesig *timesig, keysig *keysig)
+static void object_set_cache (DenemoObject *obj, clef *clef, keysig *keysig)
 {
-    meas->clef = clef;
-    meas->timesig = timesig;
-    meas->keysig = keysig;
+    obj->clef = clef;
+    obj->keysig = keysig;
 }
 void cache_from_cursor (void)
 {
     
     
 }
-
-void cache_all (void)
+void update_timesig_cache (measurenode *mnode)
 {
-  GList *s;
-  if (Denemo.project->movement &&  (s = Denemo.project->movement->thescore))
-     for (; s; s = s->next)
-    {
+    DenemoMeasure *measure = mnode->data;
+    gint time1 = measure->timesig->time1;
+    gint time2 = measure->timesig->time2;
+    timesig *new = measure->timesig;
+    for (mnode=mnode->next;mnode;mnode=mnode->next)
+        {
+            measure = mnode->data;
+            if ((measure->timesig->time1 != time1) || (measure->timesig->time2 != time2))
+                measure->timesig = new;
+            else
+                return;
+        }
+}
+
+void update_clef_cache (measurenode *mnode, objnode *onode)
+{
+    DenemoMeasure *measure = mnode->data;
+    clef *current = onode?((DenemoObject*)onode->data)->clef: measure->clef;
+    if (onode) onode = onode->next;
+    for (;mnode;mnode=mnode->next, onode = mnode? ((DenemoMeasure*)mnode->data)->objects:NULL, 
+                                    mnode?((DenemoMeasure*)mnode->data)->clef = current:NULL)
+        {
+            while (onode)
+                    {
+                       DenemoObject *obj = (DenemoObject *)onode->data;
+                       if (obj->type == CLEF)
+                            return;
+                        obj->clef = current;
+                        onode = onode->next;
+                    }
+        }
+}
+
+void update_keysig_cache (measurenode *mnode, objnode *onode)
+{
+    DenemoMeasure *measure = mnode->data;
+    keysig *current =((DenemoObject*)onode->data)->keysig;
+    
+    for (onode = onode->next;mnode;mnode=mnode->next,
+                                    onode = mnode? ((DenemoMeasure*)mnode->data)->objects:NULL,
+                                    mnode?((DenemoMeasure*)mnode->data)->keysig = current:NULL)
+        {
+            while (onode)
+                    {
+                       DenemoObject *obj = (DenemoObject *)onode->data;
+                       if (obj->type == KEYSIG)
+                            return;
+                        obj->keysig = current;
+                        onode = onode->next;
+                    }
+        }
+}
+
+
+void cache_staff (staffnode *s)
+{
       DenemoStaff *staff = (DenemoStaff*)s->data;
       GList *m;
         DenemoMeasure *measure = (DenemoMeasure*)staff->themeasures->data;
         clef *cclef =  &staff->clef;
         timesig *ctim =  &staff->timesig;
         keysig *ckey =  &staff->keysig;
-        
-                
         for (m = staff->themeasures;m; m = m->next)
             {
                 GList *o;
@@ -62,11 +110,10 @@ void cache_all (void)
                             {
                                 case CLEF:
                                     cclef = obj->object;
-                                
                                 break;
                                 case TIMESIG:
                                     ctim = obj->object;
-                                
+                                    measure->timesig = ctim;
                                 break;
                                  case KEYSIG:
                                     ckey = obj->object;
@@ -76,8 +123,17 @@ void cache_all (void)
                                     break;
                                 
                             }
-                     object_set_cache (obj, cclef, ctim, ckey);  
+                     object_set_cache (obj, cclef, ckey);  
                     }
             }
-        }
+}
+
+
+
+void cache_all (void)
+{
+  GList *s;
+  if (Denemo.project->movement &&  (s = Denemo.project->movement->thescore))
+     for (; s; s = s->next)
+    cache_staff (s);
 }

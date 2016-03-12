@@ -18,6 +18,7 @@
 #include "command/object.h"
 #include "command/staff.h"
 #include "core/utils.h"
+#include "core/cache.h"
 
 #define COLUMN_NAME (0)
 #define COLUMN_ID (1)

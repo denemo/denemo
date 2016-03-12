@@ -24,7 +24,7 @@
 #include "command/scorelayout.h"
 #include "audio/pitchentry.h"
 #include <string.h>
-
+#include "core/cache.h"
 
 /* libxml includes: for libxml2 this should be <libxml.h> */
 #include <libxml/parser.h>

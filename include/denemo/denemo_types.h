@@ -229,7 +229,7 @@ typedef struct
    /* cached values of clef, timesignature, keysignature prevailing at the object */
     clef *clef;
     keysig *keysig;
-    timesig *timesig;
+    
 } DenemoObject;
 
 

@@ -17,6 +17,7 @@
 #include "command/object.h"
 #include "command/staff.h"
 #include "core/utils.h"
+#include "core/cache.h"
 #include "ui/keysigdialog.h"
 #include "audio/pitchentry.h"
 
@@ -149,17 +150,19 @@ insert_keysig (keysig_data * kdata)
               if (curmeasure)
                 {
                     if (curmeasure == si->currentmeasure) 
-                        curmeasure->data = g_list_insert ((objnode *) curmeasure->data, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode), si->cursor_x);
+                        ((DenemoMeasure*)curmeasure->data)->objects = g_list_insert ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode), si->cursor_x);
                     else
                     {
                         if(si->cursor_x<2)
-                            curmeasure->data = g_list_prepend ((objnode *) curmeasure->data, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode));
+                            ((DenemoMeasure*)curmeasure->data)->objects = g_list_prepend ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode));
                         else
-                            curmeasure->data = g_list_append ((objnode *) curmeasure->data, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode));
+                            ((DenemoMeasure*)curmeasure->data)->objects = g_list_append ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode));
                     }
+                    newkey->keysig = newkey->object;
+                    update_keysig_cache (curmeasure, g_list_find (((DenemoMeasure*)curmeasure->data)->objects, newkey));
                         
                   if (curmeasure == si->currentmeasure)
-                    si->currentobject = g_list_nth ((objnode *) curmeasure->data, si->cursor_x);
+                    si->currentobject = g_list_nth ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, si->cursor_x);
                   staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
                 }
             }                   /* End for */

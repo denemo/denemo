@@ -31,7 +31,7 @@
 #include "audio/pitchentry.h"
 #include "audio/audiointerface.h"
 #include "display/displayanimation.h"
-
+#include "core/cache.h"
 /**
  * Macro to get the current DenemoObject
  */
@@ -268,7 +268,11 @@ void
 object_insert (DenemoProject * gui, DenemoObject * mudela_obj_new)
 {
   DenemoMovement *si = gui->movement;
-
+  measurenode *curmeasure = si->currentmeasure;
+  if (mudela_obj_new->type == TIMESIG)
+    {
+    ((DenemoMeasure*)curmeasure->data)->timesig = mudela_obj_new->object;
+    }
   /* update undo information */
   DenemoUndoData *undo;
   if (!si->undo_guard)
@@ -277,9 +281,28 @@ object_insert (DenemoProject * gui, DenemoObject * mudela_obj_new)
       // should not be needed, we are inserting the object undo->object = dnm_clone_object (mudela_obj_new);
       //do position after inserting, so we can go back to it to delete
     }
-
+    objnode *obj = g_list_nth ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->cursor_x);
+    if (obj && obj->prev) {
+        mudela_obj_new->clef = (mudela_obj_new->type == CLEF)?mudela_obj_new->object:((DenemoObject*)obj->prev->data)->clef;
+        mudela_obj_new->keysig = (mudela_obj_new->type == KEYSIG)?mudela_obj_new->object:((DenemoObject*)obj->prev->data)->keysig;
+        
+    } else
+    {
+        
+         mudela_obj_new->clef = (mudela_obj_new->type == CLEF)?mudela_obj_new->object:((DenemoMeasure*)curmeasure->data)->clef;
+         mudela_obj_new->keysig = (mudela_obj_new->type == KEYSIG)?mudela_obj_new->object:((DenemoMeasure*)curmeasure->data)->keysig;
+    }
   ((DenemoMeasure*)si->currentmeasure->data)->objects = g_list_insert ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, mudela_obj_new, si->cursor_x);
 
+  obj = g_list_nth ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->cursor_x);//g_assert (obj->data == mudela_obj_new);
+
+  if (mudela_obj_new->type == CLEF)
+    update_clef_cache (si->currentmeasure, obj);
+  else if (mudela_obj_new->type == KEYSIG)
+     update_keysig_cache (si->currentmeasure, obj);
+  else if (mudela_obj_new->type == TIMESIG)
+     update_timesig_cache (si->currentmeasure); 
+        
   if (mudela_obj_new->type == CLEF)
     {
       reset_cursor_stats (si);
@@ -2529,6 +2552,7 @@ dnm_deleteobject (DenemoMovement * si)
 /* here we have to re-validate leftmost clef e.g. find_leftmost_allcontexts (gui->movement);
  which seems to be done... */
           delete_object_helper (si);
+          cache_staff (si->currentstaff);
           staff_fix_note_heights ((DenemoStaff *) si->currentstaff->data);
           staff_beams_and_stems_dirs ((DenemoStaff *) si->currentstaff->data);
           find_xes_in_all_measures (si);
@@ -2537,31 +2561,25 @@ dnm_deleteobject (DenemoMovement * si)
           /* Doesn't automatically delete sibling key signatures, though
            * I probably will have it do so soon */
           delete_object_helper (si);
+          cache_staff (si->currentstaff);
           staff_beams_and_stems_dirs ((DenemoStaff *) si->currentstaff->data);
           staff_show_which_accidentals ((DenemoStaff *) si->currentstaff->data);
           find_xes_in_all_measures (si);
           break;
         case TIMESIG:
           delete_object_helper (si);
-#if 0
-          //do not do this, as this is a primitive and should only delete one object
-          /* For time signature changes remove from all other staffs 
-           * if in the conventional, first, position */
-          for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
+          DenemoMeasure *measure = (DenemoMeasure *)si->currentmeasure->data;
+          if (si->currentmeasure->prev)
             {
-              curmeasure = g_list_nth (staff_first_measure_node (curstaff), si->currentmeasurenum - 1);
-              if (curmeasure && curmeasure->data)
-                {
-                  DenemoObject *first_obj = ((objnode *) curmeasure->data)->data;
-                  //g_debug("Deleting object of type %s\n", DenemoObjTypeNames[first_obj->type]);
-                  if (first_obj && first_obj->type == TIMESIG)
-                    {
-                      remove_object (curmeasure, (objnode *) curmeasure->data);
-                      staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
-                    }
-                }
+                DenemoMeasure *prevmeas = (DenemoMeasure *)si->currentmeasure->prev->data;
+                measure->timesig = prevmeas->timesig;
             }
-#endif
+            else
+            {
+              DenemoStaff *thestaff = (DenemoStaff *) si->currentstaff->data;
+              measure->timesig = &thestaff->timesig;
+            }   
+          update_timesig_cache (si->currentmeasure);
           reset_cursor_stats (si);
           find_xes_in_all_measures (si);
           break;
@@ -2600,6 +2618,7 @@ dnm_deleteobject (DenemoMovement * si)
         }
       si->markstaffnum = 0;
     }
+    
   if (!si->undo_guard)
     {
       get_position (si, &undo->position);
