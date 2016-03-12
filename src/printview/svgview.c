@@ -62,6 +62,11 @@ typedef struct Timing {
 
 GList *TheTimings = NULL, *LastTiming=NULL, *NextTiming=NULL;
 gdouble TheScale = 1.0; //Scale of score font size relative to 18pt
+static gint Locationx = -1, Locationy;
+
+
+
+
 /* Defines for making traversing XML trees easier */
 
 #define FOREACH_CHILD_ELEM(childElem, parentElem) \
@@ -133,10 +138,10 @@ show_playback_view (void)
 
 //draw a circle 
 static void
-place_spot (cairo_t * cr, gdouble x, gdouble y)
+place_spot (cairo_t * cr, gdouble x, gdouble y, gdouble size)
 {
   cairo_move_to (cr, x, y);
-  cairo_arc (cr, x, y, PRINTMARKER / 6.0, 0.0, 2 * M_PI);
+  cairo_arc (cr, x, y, size, 0.0, 2 * M_PI);
   cairo_fill (cr);
 }
 
@@ -217,6 +222,13 @@ overdraw_print (cairo_t * cr)
         
        return TRUE; 
     }
+  if ((!audio_is_playing()) && (LeftButtonX))
+            {
+                cairo_set_source_rgba (cr, 0.4, 0.6, 0.8, 0.5);
+                place_spot (cr, (gdouble)LeftButtonX, (gdouble)LeftButtonY, PRINTMARKER/2.0);
+                cairo_fill (cr);
+            } 
+    
   cairo_scale (cr, TheScale, TheScale);
   if(!audio_is_playing())
     {
@@ -228,13 +240,14 @@ overdraw_print (cairo_t * cr)
             {
                 DenemoScrollPoint *sp = (DenemoScrollPoint*)g->data;
                 //g_print ("drawing at %.2f %.2f\n", (gdouble)sp->x  - (PRINTMARKER/5)/4, (gdouble)sp->y - (PRINTMARKER/5)/2);
-                place_spot (cr, (gdouble)sp->x, (gdouble)sp->y);
+                place_spot (cr, (gdouble)sp->x, (gdouble)sp->y, PRINTMARKER / 6.0);
             }
+            
+    
         cairo_fill (cr);
     return TRUE;
     }
- // if (!Denemo.project->movement->playingnow)
- //   return TRUE;
+
   if (TheTimings == NULL)
         return TRUE;
 
@@ -829,7 +842,7 @@ display_svg (gdouble scale, gboolean part)
 }
 
 
-static gint Locationx, Locationy;
+
 static void button_press (GtkWidget *event_box, GdkEventButton *event)
 {
     Locationx = Locationy = -1;
@@ -1058,14 +1071,14 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
     if (event->button == 3)
         return;    
     
-    
-    if (update_playback_view ())
+     if ((changecount != Denemo.project->movement->changecount) || (Denemo.project->movement->changecount != Denemo.project->movement->smfsync))
         {
-            if (continuous_typesetting ())
-               ;//warningdialog (_("Please turn continuous typsetting off first"));
-            else
-                warningdialog (_("Please wait while the Playback View is re-typeset then re-try"));
-            return;
+            static gboolean once = TRUE;
+            exportmidi (NULL, Denemo.project->movement);
+            g_print ("Now changecount %d d changecount %d, d-smfsync %d\n", Denemo.project->movement->changecount, Denemo.project->movement->smfsync);
+            if(once)
+                infodialog (_("Switching to simple MIDI - re-typeset for full MIDI."));
+           once = FALSE;
         }
     GList *g;
     for (g = TheTimings; g;g=g->next)
@@ -1076,7 +1089,10 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
                     
                     if ((timing->col == Locationx) && (timing->line == Locationy))
                         {
-                            call_out_to_guile ("(d-DenemoPlayCursorToEnd)");
+                            if (!shift_held_down())
+                              call_out_to_guile ("(d-DenemoPlayCursorToEnd)");
+                            else
+                                call_out_to_guile ("(d-PlayMidiNote 67 255 9 100)"); 
                             //g_print ("Found same line %d column %d\n", timing->line, timing->col);
                         }
                     else
@@ -1094,7 +1110,7 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
                                         call_out_to_guile ("(d-OneShotTimer 500 \"(d-Play)\")");
                                 }
                                 else
-                                call_out_to_guile ("(d-PlayMidiNote 67 255 9 100)"); 
+                                    call_out_to_guile ("(d-PlayMidiNote 67 255 9 100)"); 
                         }
                     
                     break;
@@ -1117,7 +1133,7 @@ static void play_button (void)
    if (update_playback_view ())
         {
              if (continuous_typesetting ())
-                ;//warningdialog (_("2Please turn continuous typsetting off first"));
+                ;//warningdialog (_("Please turn continuous typsetting off first"));
             else
                 warningdialog (_("Please wait while the Playback View is re-typeset then re-try"));
             return;
