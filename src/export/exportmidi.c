@@ -1762,7 +1762,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
 
           measurewidth = bars2ticks (1, timesigupper, timesiglower);
 
-          if (curmeasure->data == NULL) //An empty measure - treat as whole measure silence
+          if (((DenemoMeasure*)curmeasure->data)->objects == NULL) //An empty measure - treat as whole measure silence
             ticks_read = ticks_at_bar + measurewidth;
           if (ticks_at_bar + measurewidth != ticks_read)
             {

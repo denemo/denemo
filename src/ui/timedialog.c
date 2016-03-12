@@ -119,19 +119,19 @@ insert_timesig (DenemoMovement * si, DenemoStaff * curstaffstruct, gint time1, g
       if (firstmudobj && firstmudobj->type == TIMESIG)
         {
           replacing = TRUE;
-          curmeasure->data = g_list_remove_link ((objnode *) curmeasure->data, firstobj);
+          ((DenemoMeasure *)curmeasure->data)->objects = g_list_remove_link ((objnode *) ((DenemoMeasure *)curmeasure->data)->objects, firstobj);
           freeobject (firstmudobj);
           g_list_free_1 (firstobj);
-        }
-      curmeasure->data = g_list_prepend ((objnode *) curmeasure->data, dnm_newtimesigobj (time1, time2));
+        } 
+      ((DenemoMeasure *)curmeasure->data)->objects = g_list_prepend ((objnode *) ((DenemoMeasure *)curmeasure->data)->objects, dnm_newtimesigobj (time1, time2));
       if (curmeasure == si->currentmeasure)
         {
           if (!replacing)
             si->cursor_x++;
           if (si->cursor_appending)
-            si->currentobject = g_list_last ((objnode *) curmeasure->data);
+            si->currentobject = g_list_last ((objnode *) ((DenemoMeasure *)curmeasure->data)->objects);
           else
-            si->currentobject = g_list_nth ((objnode *) curmeasure->data, si->cursor_x);
+            si->currentobject = g_list_nth ((objnode *) ((DenemoMeasure *)curmeasure->data)->objects, si->cursor_x);
         }
       staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
     }

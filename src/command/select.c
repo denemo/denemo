@@ -344,8 +344,8 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
       else
         for (; curmeasure && jcounter < si->selection.lastmeasuremarked; curmeasure = curmeasure->next, jcounter++)
           {
-            freeobjlist (curmeasure->data, NULL);
-            curmeasure->data = NULL;
+            freeobjlist (((DenemoMeasure*)curmeasure->data)->objects, NULL);
+            ((DenemoMeasure*)curmeasure->data)->objects = NULL;
           }
       /* Now clear the relevant part of the last measure selected */
       if (curmeasure && (jcounter <= si->selection.lastmeasuremarked))

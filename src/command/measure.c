@@ -762,7 +762,7 @@ forceaccidentals (DenemoObject * theobj)
 objnode *
 measure_first_obj_node (measurenode * mnode)
 {
-  return mnode?(objnode *) mnode->data:NULL; //FIXME DANGER was expecting a node with NULL data for the first object in the case of an empty measure.
+  return mnode?(objnode *) ((DenemoMeasure*)mnode->data)->objects:NULL; //FIXME DANGER was expecting a node with NULL data for the first object in the case of an empty measure.
 }
 
 /**

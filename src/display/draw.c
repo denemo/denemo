@@ -703,7 +703,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
         si->cursoroffend = (mudelaitem->starttickofnextnote > itp->tickspermeasure);
       if (si->cursor_appending)
         {
-          draw_cursor (cr, si, x + mudelaitem->x + extra, y, ((itp->curmeasure->next != NULL) && (objnode *) itp->curmeasure->next->data) ? -1 : 0 /*itp->last_gap */ , 0, si->cursorclef);
+          draw_cursor (cr, si, x + mudelaitem->x + extra, y, ((itp->curmeasure->next != NULL) && (objnode *) ((DenemoMeasure*)itp->curmeasure->next->data)->objects) ? -1 : 0 /*itp->last_gap */ , 0, si->cursorclef);
           memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
         }
       else
@@ -1104,7 +1104,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
   {
     //compute itp->leftmosttime here - the time at the start of this system
 
-    objnode *curobj = itp->curmeasure ? (objnode *) itp->curmeasure->data : NULL;
+    objnode *curobj = itp->curmeasure ? (objnode *) ((DenemoMeasure*)itp->curmeasure->data)->objects : NULL;
     if (curobj)
       {
         DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
