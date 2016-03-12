@@ -226,8 +226,7 @@ overdraw_print (cairo_t * cr)
             {
                 cairo_set_source_rgba (cr, 0.4, 0.6, 0.8, 0.5);
                 place_spot (cr, (gdouble)LeftButtonX, (gdouble)LeftButtonY, PRINTMARKER/2.0);
-                 g_print ("Spot at %d %d\n", LeftButtonX, LeftButtonY );
-                 cairo_fill (cr);
+                cairo_fill (cr);
             } 
     
   cairo_scale (cr, TheScale, TheScale);

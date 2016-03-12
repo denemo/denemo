@@ -15,6 +15,7 @@ static gchar *thumbnailsdirL = NULL;
 
 static gboolean retypeset (void);
 static gdouble get_center_staff_offset (void);
+static gboolean LeftButtonPressed;
 static unsigned
 file_get_mtime (gchar * filename)
 {
@@ -1231,10 +1232,6 @@ same_target (DenemoTarget * pos1, DenemoTarget * pos2)
 static gint
 action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
 {
-#ifdef G_OS_WIN32
-  g_debug ("Signal from evince widget received %d %d\n", get_wysiwyg_info()->grob, get_wysiwyg_info()->stage);
-#endif
-
  if (get_wysiwyg_info()->stage == TypesetForPlaybackView)
     {
         warningdialog (_("Use the Playback View or re-typeset"));
@@ -1257,9 +1254,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
     {
       return TRUE;              //?Better take over motion notify so as not to get this while working ...
     }
-#ifdef G_OS_WIN32
-  g_debug ("action_for_link: uri %s\n", uri);
-#endif
+
   //g_debug("acting on external signal %s type=%d directivenum=%d\n", uri, Denemo.project->movement->target.type, Denemo.project->movement->target.directivenum);
   if (uri)
     {
@@ -1271,9 +1266,13 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
         {
           DenemoTarget old_target = Denemo.project->movement->target;
           get_wysiwyg_info()->ObjectLocated = goto_lilypond_position (atoi (vec[2]), atoi (vec[3]));     //sets si->target
-#ifdef G_OS_WIN32
-          g_debug ("action_for_link: object located %d\n", get_wysiwyg_info()->ObjectLocated);
-#endif
+
+      if (LeftButtonPressed && (!shift_held_down ()) && (get_wysiwyg_info()->ObjectLocated))
+        {
+         call_out_to_guile ("(d-DenemoPlayCursorToEnd)");
+         return TRUE;  
+        }
+
           if (get_wysiwyg_info()->ObjectLocated)
             {
               if (!(get_wysiwyg_info()->grob == Beam && (get_wysiwyg_info()->stage == SelectingFarEnd)))
@@ -1709,7 +1708,15 @@ printarea_button_press (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event
   //DenemoTargetType type = Denemo.project->movement->target.type;
   gboolean left = (event->button == 1);
   gboolean right = !left;
+  LeftButtonPressed = left;
   //g_debug("Button press %d, %d %d\n",(int)event->x , (int)event->y, left);
+  
+  if (audio_is_playing ())
+    {
+        call_out_to_guile ("(DenemoStop)");
+       // get_wysiwyg_info()->Mark.width = 0;
+    }
+
   get_wysiwyg_info()->button = event->button;
   gint xx, yy;
   get_window_position (&xx, &yy);
