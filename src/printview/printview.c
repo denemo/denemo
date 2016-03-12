@@ -9,6 +9,8 @@
 #include "command/scorelayout.h"
 #include "command/lilydirectives.h"
 #include "export/exportlilypond.h"
+#include "source/sourceaudio.h"
+
 static gint changecount = -1;   //changecount when the printfile was last created FIXME multiple tabs are muddled
 static gchar *thumbnailsdirN = NULL;
 static gchar *thumbnailsdirL = NULL;
