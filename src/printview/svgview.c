@@ -1075,7 +1075,7 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
         {
             static gboolean once = TRUE;
             exportmidi (NULL, Denemo.project->movement);
-            g_print ("Now changecount %d d changecount %d, d-smfsync %d\n", Denemo.project->movement->changecount, Denemo.project->movement->smfsync);
+            g_print ("Now d-changecount %d, d-smfsync %d\n", Denemo.project->movement->changecount, Denemo.project->movement->smfsync);
             if(once)
                 infodialog (_("Switching to simple MIDI - re-typeset for full MIDI."));
            once = FALSE;
