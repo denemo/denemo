@@ -1612,6 +1612,7 @@ undo (DenemoProject * gui)
     }
   else
     warn_no_more_undo (gui);
+  cache_all ();
 }
 
 
@@ -1650,6 +1651,7 @@ redo (DenemoProject * gui)
     }
   else
     warn_no_more_undo (gui);
+  cache_all ();
 }
 
 
