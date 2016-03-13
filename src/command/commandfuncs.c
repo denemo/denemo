@@ -1630,17 +1630,10 @@ insertion_point_for_type (DenemoMovement * si, DenemoObjType type)
 void
 insertion_point (DenemoMovement * si)
 {
-  //gtk_widget_draw(Denemo.Denemo.scorearea, NULL);//FIXME efficiency????
-
-  //update_drawing_cache ();;
-
   gboolean next_measure;
   /* First, check to see if the insertion'll cause the cursor to
    * jump to the next measure. (Denemo will implicitly create it
    * if it doesn't exist already.) */
-
- // next_measure = si->cursoroffend && si->cursor_appending && ( (!si->currentmeasure->next) || (!si->currentmeasure->next->data) ||
-//                       ((((DenemoObject *)si->currentmeasure->next->data)->type == TIMESIG)   &&  ((si->currentmeasure->next->next==NULL) || (si->currentmeasure->next->next->data????==NULL))));
   //g_debug ("next_measure %d\n", next_measure);
   next_measure = FALSE;
   if(si->cursoroffend && si->cursor_appending) {
@@ -1648,7 +1641,7 @@ insertion_point (DenemoMovement * si)
       next_measure = TRUE;
      else 
         {
-            objnode *objnode = si->currentmeasure->next->data;
+            objnode *objnode = ((DenemoMeasure*)(si->currentmeasure->next->data)->objects;
             DenemoObject *obj = objnode->data;
             while (obj && (obj->type != CHORD)) 
                 { 

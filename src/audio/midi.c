@@ -546,7 +546,7 @@ get_previous (enharmonic * enote)
         {
           if (Denemo.project->movement->currentmeasure->prev && Denemo.project->movement->currentmeasure->prev->data)
             {
-              curObj = g_list_last (Denemo.project->movement->currentmeasure->prev->data)->data;
+              curObj = g_list_last (((DenemoMeasure*)Denemo.project->movement->currentmeasure->prev->data)->objects)->data;
             }
         }
     }
