@@ -39,7 +39,7 @@
     (if numberorstring
         (string->number (d-GetPrevailingTimesig))
         (d-GetPrevailingTimesig)))
-
+(define GetPrevailingTimesig GetPrevailingTimeSig)
 ;(define (d-GetStartTick)
 ;   (- (d-GetEndTick) (d-GetDurationInTicks)))
 
