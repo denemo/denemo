@@ -37,8 +37,8 @@
 
 (define* (GetPrevailingTimeSig #:optional (numberorstring #f) ) 
     (if numberorstring
-        (string->number (d-InsertTimeSig "query=timesigname"))
-        (d-InsertTimeSig "query=timesigname")))
+        (string->number (d-GetPrevailingTimesig))
+        (d-GetPrevailingTimesig)))
 
 ;(define (d-GetStartTick)
 ;   (- (d-GetEndTick) (d-GetDurationInTicks)))
