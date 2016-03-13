@@ -350,7 +350,7 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
       /* Now clear the relevant part of the last measure selected */
       if (curmeasure && (jcounter <= si->selection.lastmeasuremarked))
         {
-          for (i = 0; curmeasure->data && i <= si->selection.lastobjmarked; i++)
+          for (i = 0; ((DenemoMeasure*)curmeasure->data)->objects && i <= si->selection.lastobjmarked; i++)
             {
               tempobj = (objnode *)  ((DenemoMeasure*)curmeasure->data)->objects;
                ((DenemoMeasure*)curmeasure->data)->objects = g_list_remove_link ((objnode *)  ((DenemoMeasure*)curmeasure->data)->objects, tempobj);
