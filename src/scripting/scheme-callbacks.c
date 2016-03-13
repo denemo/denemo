@@ -2,6 +2,7 @@
 #include "scripting/scheme-callbacks.h"
 #include "command/commandfuncs.h"
 #include "command/grace.h"
+#include "command/lilydirectives.h"
 #include "command/measure.h"
 #include "command/object.h"
 #include "command/processstaffname.h"

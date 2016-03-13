@@ -23,6 +23,7 @@
 #include "core/kbd-custom.h"
 #include "core/view.h"
 #include "command/object.h"
+#include "command/scorelayout.h"
 #include <signal.h>             /*for SIGTERM */
 
 #include "config.h"
