@@ -1641,7 +1641,7 @@ insertion_point (DenemoMovement * si)
       next_measure = TRUE;
      else 
         {
-            objnode *objnode = ((DenemoMeasure*)(si->currentmeasure->next->data)->objects;
+            objnode *objnode = ((DenemoMeasure*)si->currentmeasure->next->data)->objects;
             DenemoObject *obj = objnode->data;
             while (obj && (obj->type != CHORD)) 
                 { 
