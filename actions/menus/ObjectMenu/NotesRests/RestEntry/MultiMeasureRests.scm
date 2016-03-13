@@ -21,7 +21,7 @@
                 (begin
                     (d-SetSaved #f)
                      (d-DirectivePut-standalone-display MMRtag (string-append "Rest " (number->string count)))
-                     (d-DirectivePut-standalone-postfix MMRtag (string-append "\\set Score.skipBars = ##t R1*" (d-InsertTimeSig "query=timesigname") "*" (number->string count))))))  
+                     (d-DirectivePut-standalone-postfix MMRtag (string-append "\\set Score.skipBars = ##t R1*" (GetPrevailingTimeSig) "*" (number->string count))))))  
  (define (ungroup)
     (if (d-Directive-standalone? MMRtag)
         (begin
@@ -78,7 +78,7 @@
                     (d-SetDurationInTicks (* 1536 (GetPrevailingTimeSig #t)))
                  (d-DirectivePut-standalone-display MMRtag (string-append "Rest " (number->string count)))
                     (d-DirectivePut-standalone-ty MMRtag -28)  
-                    (d-DirectivePut-standalone-postfix MMRtag (string-append "\\set Score.skipBars = ##t R1*" (d-InsertTimeSig "query=timesigname") "*" (number->string count)))))
+                    (d-DirectivePut-standalone-postfix MMRtag (string-append "\\set Score.skipBars = ##t R1*" (GetPrevailingTimeSig) "*" (number->string count)))))
            (d-SetSaved #f))
            
            

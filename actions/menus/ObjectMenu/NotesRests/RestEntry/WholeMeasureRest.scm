@@ -1,7 +1,7 @@
 ;;;WholeMeasureRest
 (if (or (d-IsAppending) (d-Directive-chord? DenemoWholeMeasureRestTag))
  (let ((timesig #f))
-    (set! timesig (d-InsertTimeSig "query=timesigname")) 
+    (set! timesig (GetPrevailingTimeSig)) 
     (if (not (d-Directive-chord? DenemoWholeMeasureRestTag))
         (d-InsertWholeRest)
         (TimedNotice (_ "Duration of whole measure rest has been re-calculated") 5000))
