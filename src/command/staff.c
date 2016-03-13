@@ -353,7 +353,7 @@ staff_new (DenemoProject * project, enum newstaffcallbackaction action, DenemoCo
     }
   if ( addat==1)
        staff->space_above = 20;
-
+  cache_staff (g_list_find (Denemo.project->movement->thescore, staff));
   return staff;
 }
 static void freemeasure (DenemoMeasure *meas)
