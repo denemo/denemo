@@ -302,7 +302,8 @@ object_insert (DenemoProject * gui, DenemoObject * mudela_obj_new)
      update_keysig_cache (si->currentmeasure, obj);
   else if (mudela_obj_new->type == TIMESIG)
      update_timesig_cache (si->currentmeasure); 
-        
+  else if (mudela_obj_new->type == STEMDIRECTIVE)
+     update_stemdir_cache (si->currentmeasure, obj);         
   if (mudela_obj_new->type == CLEF)
     {
       reset_cursor_stats (si);
@@ -2551,8 +2552,6 @@ dnm_deleteobject (DenemoMovement * si)
           find_xes_in_all_measures (si);
           break;
         case KEYSIG:
-          /* Doesn't automatically delete sibling key signatures, though
-           * I probably will have it do so soon */
           delete_object_helper (si);
           cache_staff (si->currentstaff);
           staff_beams_and_stems_dirs ((DenemoStaff *) si->currentstaff->data);
@@ -2578,6 +2577,7 @@ dnm_deleteobject (DenemoMovement * si)
           break;
         case STEMDIRECTIVE:
           delete_object_helper (si);
+          cache_staff (si->currentstaff);
           staff_beams_and_stems_dirs ((DenemoStaff *) si->currentstaff->data);
           find_xes_in_all_measures (si);
           break;

@@ -249,7 +249,6 @@ static gint
 draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui, struct infotopass *itp)
 {
 
-
   itp->highy = itp->lowy = 0;
   DenemoMovement *si = gui->movement;
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
@@ -758,7 +757,7 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
 
   memcpy (itp->curaccs, itp->keyaccs, SEVENGINTS);
   itp->wholenotewidth = si->measurewidth * itp->time2 / itp->time1;
-  if (curmeasure == si->currentmeasure)
+  if (curmeasure == si->currentmeasure) //FIXME side-effecting here. Now we have the time sig cached on the currentmeasure->data need to cache the stem direction it would seem!
     {
       si->curmeasureclef = itp->clef->type;
       memcpy (si->curmeasureaccs, itp->keyaccs, SEVENGINTS);

@@ -226,10 +226,10 @@ typedef struct
   gpointer object; /**< the structures pointed to are given in denemo_objects.h */
   gboolean isinvisible; /**< If  TRUE it will be drawn in a distinctive color and will be printed transparent. */
   GList *directives; /* Directives attached to the object. These are transient */
-   /* cached values of clef, timesignature, keysignature prevailing at the object */
+   /* cached values of clef, keysignature and stemdir prevailing at the object */
     clef *clef;
     keysig *keysig;
-    
+    stemdirective *stemdir;
 } DenemoObject;
 
 
@@ -340,10 +340,11 @@ typedef struct
 
 typedef struct DenemoMeasure {
     GList *objects;/* list of DenemoObject */
-    /* cached values of clef, timesignature, keysignature prevailing at start of measure */
+    /* cached values of clef, timesignature, keysignature and stemdir prevailing at start of measure */
     clef *clef;
     keysig *keysig;
     timesig *timesig;
+    stemdirective *stemdir;
 }  DenemoMeasure;
 
 /* The ->data part of each staffnode points to a staff structure */

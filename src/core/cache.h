@@ -26,6 +26,7 @@
 void update_timesig_cache (measurenode *mnode);
 void update_clef_cache (measurenode *mnode, objnode *onode);
 void update_keysig_cache (measurenode *mnode, objnode *onode);
+void update_stemdir_cache (measurenode *mnode, objnode *onode);
 void cache_staff (staffnode *s);
 void cache_all (void);
 
