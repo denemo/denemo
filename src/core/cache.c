@@ -56,7 +56,20 @@ void update_clef_cache (measurenode *mnode, objnode *onode)
 {
     DenemoMeasure *measure = mnode->data;
     clef *current = onode?((DenemoObject*)onode->data)->clef: measure->clef;
-    if (onode) onode = onode->next;
+    if (current == NULL) 
+        current =  measure->clef;
+    if (current == NULL)
+        {
+            g_critical ("update_clef_cache called with uncached measure clef");
+            cache_all();
+            return;
+        }
+        
+    if (onode) 
+        {
+            ((DenemoObject*)onode->data)->clef = current;
+            onode = onode->next;
+        }
     for (;mnode;mnode=mnode->next, onode = mnode? ((DenemoMeasure*)mnode->data)->objects:NULL, 
                                     mnode?((DenemoMeasure*)mnode->data)->clef = current:NULL)
         {
@@ -74,11 +87,24 @@ void update_clef_cache (measurenode *mnode, objnode *onode)
 void update_keysig_cache (measurenode *mnode, objnode *onode)
 {
     DenemoMeasure *measure = mnode->data;
-    keysig *current =((DenemoObject*)onode->data)->keysig;
+    keysig *current = onode?((DenemoObject*)onode->data)->keysig : measure->keysig;
     
-    for (onode = onode->next;mnode;mnode=mnode->next,
-                                    onode = mnode? ((DenemoMeasure*)mnode->data)->objects:NULL,
-                                    mnode?((DenemoMeasure*)mnode->data)->keysig = current:NULL)
+    if (current == NULL) 
+        current =  measure->keysig;
+    if (current == NULL)
+        {
+            g_critical ("update_keysig_cache called with uncached measure clef");
+            cache_all();
+            return;
+        }
+    if (onode)
+        {
+        ((DenemoObject*)onode->data)->keysig = current;
+        onode = onode->next;
+        }
+    for (;mnode;mnode=mnode->next,
+                onode = mnode? ((DenemoMeasure*)mnode->data)->objects:NULL,
+                mnode?((DenemoMeasure*)mnode->data)->keysig = current:NULL)
         {
             while (onode)
                     {
@@ -94,9 +120,22 @@ void update_keysig_cache (measurenode *mnode, objnode *onode)
 void update_stemdir_cache (measurenode *mnode, objnode *onode)
 {
     DenemoMeasure *measure = mnode->data;
-    stemdirective *current =((DenemoObject*)onode->data)->stemdir;
+    stemdirective *current = onode? ((DenemoObject*)onode->data)->stemdir : measure->stemdir;
     
-    for (onode = onode->next;mnode;mnode=mnode->next,
+    if (current == NULL) 
+        current =  measure->stemdir;
+    if (current == NULL)
+        {
+            g_critical ("update_stemdir_cache called with uncached measure clef");
+            cache_all();
+            return;
+        }
+     if (onode)
+        {
+        ((DenemoObject*)onode->data)->stemdir = current;
+        onode = onode->next;
+        }
+    for (;mnode;mnode=mnode->next,
                                     onode = mnode? ((DenemoMeasure*)mnode->data)->objects:NULL,
                                     mnode?((DenemoMeasure*)mnode->data)->stemdir = current:NULL)
         {
