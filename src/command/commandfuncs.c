@@ -1535,12 +1535,15 @@ shiftcursor (DenemoProject * gui, gint note_value)
               else //if tied modify the tied note(s) too, FIXME but this breaks the UNDO mechanism, see store_for_undo_change (gui->movement, theobj) above - now recursive - does that fix it?
                 {
                     modify_note (thechord, mid_c_offset, key->accs[note_value], dclef);
+                #if 0
+                   // modify_note already does tied notes
                     DenemoPosition pos;
                     get_position (Denemo.project->movement, &pos);
                     gboolean ret = cursor_to_next_chord ();
                     if (ret)
                         shiftcursor (gui, note_value);
                     goto_movement_staff_obj (NULL, -1, -1, pos.measure, pos.object, pos.leftmeasurenum);
+                #endif
                 }
             }
           gui->movement->undo_guard--;
