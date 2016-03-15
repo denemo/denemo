@@ -95,19 +95,7 @@ nextrhythm (GtkAction* action, DenemoScriptParam* param)
 void
 beamandstemdirhelper (DenemoMovement * si)
 {
-  DenemoObject *theclef = NULL;
-  if (si->currentmeasure->prev)
-    {
-      objnode *curobj = measure_last_obj_node (si->currentmeasure->prev);
-      if (curobj)
-        theclef = get_clef_before_object (curobj);
-    }
-  if (theclef)
-    si->curmeasureclef = ((clef *) theclef->object)->type;
-  else
-    si->curmeasureclef = ((DenemoStaff *) si->currentstaff->data)->clef.type;
-
-  calculatebeamsandstemdirs ((objnode *) (((DenemoMeasure*)si->currentmeasure->data)->objects), &(si->curmeasureclef), &(si->cursortime1), &(si->cursortime2), &(si->curmeasure_stem_directive));
+  calculatebeamsandstemdirs ((DenemoMeasure*)si->currentmeasure->data);
 }
 
 
@@ -285,12 +273,14 @@ object_insert (DenemoProject * gui, DenemoObject * mudela_obj_new)
     if (obj && obj->prev) {
         mudela_obj_new->clef = (mudela_obj_new->type == CLEF)?mudela_obj_new->object:((DenemoObject*)obj->prev->data)->clef;
         mudela_obj_new->keysig = (mudela_obj_new->type == KEYSIG)?mudela_obj_new->object:((DenemoObject*)obj->prev->data)->keysig;
+        mudela_obj_new->stemdir = (mudela_obj_new->type == STEMDIRECTIVE)?mudela_obj_new->object:((DenemoObject*)obj->prev->data)->stemdir;
         
     } else
     {
         
          mudela_obj_new->clef = (mudela_obj_new->type == CLEF)?mudela_obj_new->object:((DenemoMeasure*)curmeasure->data)->clef;
          mudela_obj_new->keysig = (mudela_obj_new->type == KEYSIG)?mudela_obj_new->object:((DenemoMeasure*)curmeasure->data)->keysig;
+         mudela_obj_new->stemdir = (mudela_obj_new->type == STEMDIRECTIVE)?mudela_obj_new->object:((DenemoMeasure*)curmeasure->data)->stemdir;
     }
   ((DenemoMeasure*)si->currentmeasure->data)->objects = g_list_insert ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, mudela_obj_new, si->cursor_x);
 
@@ -1429,7 +1419,8 @@ insert_note_following_pattern (DenemoProject * gui)
                   chord *thechord = (chord *) clipobj->object;
                   note *thenote = (note *) (thechord->notes->data);
                   thenote->mid_c_offset = gui->movement->cursor_y;
-                  thechord->lowesty = thechord->highesty = thenote->y = calculateheight (thenote->mid_c_offset, gui->movement->cursorclef);
+                  gint dclef = gui->movement->currentobject?((DenemoObject*)gui->movement->currentobject->data)->clef->type:((DenemoMeasure*)gui->movement->currentmeasure->data)->clef->type;
+                  thechord->lowesty = thechord->highesty = thenote->y = calculateheight (thenote->mid_c_offset, dclef);
                   thechord->lowestpitch = thechord->highestpitch = thechord->sum_mid_c_offset = thenote->mid_c_offset;
                   clipobj->isinvisible = FALSE;
                   note_inserted = TRUE;
@@ -1537,45 +1528,18 @@ shiftcursor (DenemoProject * gui, gint note_value)
             }
           else
             {                   /* single-note chord - change the note */
-              gint dclef = find_prevailing_clef (gui->movement);
+              gint dclef = theobj->clef->type;
+              keysig *key = theobj->keysig;
               if(!thechord->is_tied)
-                modify_note (thechord, mid_c_offset, gui->movement->curmeasureaccs[note_value], dclef);
-              else //if tied modify the tied note(s) too, FIXME but this breaks the UNDO mechanism, see store_for_undo_change (gui->movement, theobj) above 
+                modify_note (thechord, mid_c_offset, key->accs[note_value], dclef);
+              else //if tied modify the tied note(s) too, FIXME but this breaks the UNDO mechanism, see store_for_undo_change (gui->movement, theobj) above - now recursive - does that fix it?
                 {
-                  objnode *nextobj = gui->movement->currentobject;
-                  measurenode *current = gui->movement->currentmeasure;
-                  while (1)
-                    {
-                  
-                      if(nextobj)
-                        {
-                          DenemoObject *thenextobj= (DenemoObject *) nextobj->data;
-                              
-                          if (thenextobj->type == CHORD)  
-                            {
-                                DenemoMovement *si = Denemo.project->movement;
-                                chord *next = thenextobj->object;
-                                modify_note (next, mid_c_offset, gui->movement->curmeasureaccs[note_value], dclef); 
-                                calculatebeamsandstemdirs (current->data, &(si->curmeasureclef), &(si->cursortime1), &(si->cursortime2), &(si->curmeasure_stem_directive));
-                                if(next->is_tied)
-                                    {
-                                        if(nextobj->next==NULL)
-                                            {
-                                              current = current->next;
-                                              if(current && current->data)
-                                                {
-                                                   nextobj = current->data;
-                                                   continue;
-                                                }
-                                            }
-                                         nextobj = nextobj->next;
-                                         if(nextobj)
-                                            continue;
-                                    }    
-                            }
-                        }
-                    break;
-                    }
+                    DenemoPosition pos;
+                    get_position (Denemo.project->movement, &pos);
+                    gboolean ret = cursor_to_next_chord ();
+                    if (ret)
+                        shiftcursor (gui, note_value);
+                    goto_movement_staff_obj (NULL, -1, -1, pos.measure, pos.object, pos.leftmeasurenum);
                 }
             }
           gui->movement->undo_guard--;
@@ -1683,9 +1647,9 @@ insertion_point (DenemoMovement * si)
             si->currentobject = si->currentobject->next;
             si->cursor_x++;
         }
-      memcpy (si->cursoraccs, si->nextmeasureaccs, SEVENGINTS);
-      memcpy (si->curmeasureaccs, si->nextmeasureaccs, SEVENGINTS);
-      si->curmeasureclef = si->cursorclef;
+     // memcpy (si->cursoraccs, si->nextmeasureaccs, SEVENGINTS);
+     // memcpy (si->curmeasureaccs, si->nextmeasureaccs, SEVENGINTS);
+     // si->curmeasureclef = si->cursorclef;
     }
 }
 
@@ -1726,7 +1690,7 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
                 if(curObj->type==CHORD)
                     {//g_print("dur %d base %d\n", curObj->durinticks, curObj->basic_durinticks);
                         gint ticks  = (curObj->durinticks/ curObj->basic_durinticks) * WHOLE_NUMTICKS / (1 << duration); /* takes into account prevailing tuple */                  
-                        gint tickspermeasure =  WHOLE_NUMTICKS * si->cursortime1 / si->cursortime2;
+                        gint tickspermeasure =  WHOLE_NUMTICKS * ((DenemoMeasure*)si->currentmeasure->data)->timesig->time1 / ((DenemoMeasure*)si->currentmeasure->data)->timesig->time2;
                         if ((curObj->starttickofnextnote < tickspermeasure) && ((ticks + curObj->starttickofnextnote) > tickspermeasure))
                         {
                             dnm_insertchord (gui, duration+1, mode, rest); 
@@ -1743,15 +1707,29 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
 
   /* Now actually create the chord as an object (before insertion) */
   mudela_obj_new = newchord (duration, 0, 0);
+  { //we have to give the obj a clef to add the note to it
+    objnode *obj = g_list_nth ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->cursor_x);
+    if (obj && obj->prev) {
+        mudela_obj_new->clef = ((DenemoObject*)obj->prev->data)->clef;
+        mudela_obj_new->keysig = ((DenemoObject*)obj->prev->data)->keysig;
+        
+    } else
+    {
+        
+         mudela_obj_new->clef = ((DenemoMeasure*)si->currentmeasure->data)->clef;
+         mudela_obj_new->keysig = ((DenemoMeasure*)si->currentmeasure->data)->keysig;
+    }
+  }
+ 
   if ((mode & INPUTNORMAL) && (rest != TRUE))
     { 
         if(inserting_midi && si->recording && si->marked_onset && si->marked_onset->data)
         { 
             DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;
-            addtone (mudela_obj_new,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, si->cursorclef);
+            addtone (mudela_obj_new,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
             si->marked_onset = si->marked_onset->next;
         } else
-        addtone (mudela_obj_new, si->cursor_y, si->cursoraccs[si->staffletter_y], si->cursorclef);
+        addtone (mudela_obj_new, si->cursor_y, mudela_obj_new->keysig->accs[si->staffletter_y]);
 
     }
   if ((mode & INPUTBLANK) || (gui->mode & INPUTBLANK) || (!rest && (Denemo.project->input_source == INPUTMIDI) && (gui->mode & (INPUTRHYTHM))))
@@ -1919,18 +1897,18 @@ notechange (DenemoMovement * si, gboolean remove)
     {
       store_for_undo_change (si, curmudelaobj);
       if (remove == TRUE)
-        ret = removetone (curmudelaobj, si->cursor_y /*mid_c_offset */ , si->cursorclef /*dclef */ );
+        ret = removetone (curmudelaobj, si->cursor_y /*mid_c_offset */  );
       else {
           
         if(inserting_midi)
             {
             DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;
-            ret = (gboolean) (intptr_t) addtone (curmudelaobj,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, si->cursorclef);
+            ret = (gboolean) (intptr_t) addtone (curmudelaobj,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
             si->marked_onset = si->marked_onset->next;
             }
         else 
             ret = (gboolean) (intptr_t) addtone (curmudelaobj, si->cursor_y /* mid_c_offset */ ,
-                                             si->cursoraccs[si->staffletter_y] /* enshift */ , si->cursorclef /*dclef */ );
+                                             curmudelaobj->keysig->accs[si->staffletter_y] /* enshift */  );
         }
 
       if (Denemo.project->last_source == INPUTKEYBOARD)
@@ -2015,8 +1993,8 @@ displayhelper (DenemoProject * gui)
 
   DenemoMovement *si = gui->movement;
   beamandstemdirhelper (si);
-  showwhichaccidentals ((objnode *)((DenemoMeasure*)si->currentmeasure->data)->objects, si->curmeasurekey, si->curmeasureaccs);
-  find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1, si->cursortime2);
+  showwhichaccidentals ((objnode *)((DenemoMeasure*)si->currentmeasure->data)->objects);
+  find_xes_in_measure (si, si->currentmeasurenum);
   nudgerightward (gui);
   set_bottom_staff (gui);
   write_status (gui);
@@ -2049,8 +2027,8 @@ incrementenshift (DenemoProject * gui, gint direction)
       store_for_undo_change (si, curmudelaobj);
 
       shiftpitch (curmudelaobj, si->cursor_y, direction > 0);
-      showwhichaccidentals ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->curmeasurekey, si->curmeasureaccs);
-      find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1, si->cursortime2);
+      showwhichaccidentals ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects);
+      find_xes_in_measure (si, si->currentmeasurenum);
       
       
       //if tied ...
@@ -2075,7 +2053,7 @@ incrementenshift (DenemoProject * gui, gint direction)
                         {
                             chord *next = thenextobj->object;
                             shiftpitch (thenextobj, si->cursor_y, direction > 0);
-                            showwhichaccidentals ((objnode *) current->data, si->curmeasurekey, si->curmeasureaccs);
+                            showwhichaccidentals ((objnode *) current->data);
                             if(next->is_tied)
                              {
                                 if(nextobj->next==NULL)
@@ -2835,7 +2813,7 @@ caution (DenemoMovement * si)
   declarecurmudelaobj;
 
   forceaccidentals (curmudelaobj);
-  find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1, si->cursortime2);
+  find_xes_in_measure (si, si->currentmeasurenum);
 }
 
 /**

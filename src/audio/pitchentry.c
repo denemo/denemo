@@ -690,7 +690,7 @@ apply_tones (DenemoMovement * si)
                 ((chord *) theobj->object)->tone_node = NULL;
               else
                 {
-                  gint dclef = find_prevailing_clef (si);
+                  gint dclef = theobj->clef->type;
                   gint mid_c_offset = thetone->step;
                   ((chord *) theobj->object)->tone_node = store_el;
                   modify_note ((chord *) theobj->object, mid_c_offset, thetone->enshift, dclef);
@@ -714,7 +714,7 @@ apply_tones (DenemoMovement * si)
         }                       // while objects in measure
       if (store_el && !Denemo.prefs.continuous)
         sound_click ();         //extra tones in measure
-      showwhichaccidentals ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->curmeasurekey, si->curmeasureaccs);
+      showwhichaccidentals ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects);
     }
   return ret;
 }

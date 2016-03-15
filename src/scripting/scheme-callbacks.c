@@ -2649,8 +2649,8 @@ scheme_put_whole_measure_rests (void)
     return scm_from_int (0);
   else
     {
-      gint numerator = gui->movement->cursortime1;    // staff->timesig.time1;
-      gint denominator = gui->movement->cursortime2;  //staff->timesig.time2;
+      gint numerator = ((DenemoMeasure*)gui->movement->currentmeasure->data)->timesig->time1;    // staff->timesig.time1;
+      gint denominator = ((DenemoMeasure*)gui->movement->currentmeasure->data)->timesig->time2;   //staff->timesig.time2;
       gboolean dot = TRUE;
       if (numerator % 3)
         dot = FALSE;
@@ -3324,7 +3324,7 @@ scheme_change_chord_notes (SCM lilynotes)
           while (chordnote)
             {
               interpret_lilypond_notename (chordnote, &mid_c_offset, &enshift);
-              dnm_addtone (curObj, mid_c_offset, enshift, dclef);
+              dnm_addtone (curObj, mid_c_offset, enshift);
               chordnote = strtok (NULL, " ");
             }
           /* paste directives over */
@@ -5341,7 +5341,7 @@ scheme_set_accidental (SCM optional)
         thenote->enshift = 0;
       if ((thenote->enshift < -2) || (thenote->enshift > 2))
         thenote->enshift = 0;
-      showwhichaccidentals ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->curmeasurekey, si->curmeasureaccs);
+      showwhichaccidentals ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects);
       //  find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1,
       //                      si->cursortime2); causes a crash, si is not passed correctly, why???
       //thenote->mid_c_offset = interpret_lilypond_notename(str);
@@ -5394,7 +5394,7 @@ scheme_insert_note_in_chord (SCM lily)
       interpret_lilypond_notename (str, &mid_c_offset, &enshift);
 
       //g_debug("note %s gives %d and %d\n", str, mid_c_offset, enshift);
-      addtone (curObj, mid_c_offset, enshift, find_prevailing_clef (Denemo.project->movement));
+      addtone (curObj, mid_c_offset, enshift);
       score_status (gui, TRUE);
       displayhelper (Denemo.project);
       if (str)
@@ -5873,7 +5873,7 @@ scheme_diatonic_shift (SCM optional)
           gint shift;
           sscanf (str, "%d", &shift);
 //     g_debug("note shift %s ie %d\n", str, shift);
-          modify_note (thechord, thenote->mid_c_offset + shift, gui->movement->curmeasureaccs[offsettonumber (thenote->mid_c_offset + shift)], find_prevailing_clef (Denemo.project->movement));
+          modify_note (thechord, thenote->mid_c_offset + shift, curObj->keysig->accs[offsettonumber (thenote->mid_c_offset + shift)], find_prevailing_clef (Denemo.project->movement));
           free (str);
         }
     }

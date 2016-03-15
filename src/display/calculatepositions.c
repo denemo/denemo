@@ -285,11 +285,6 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
       accumulator += curobj->minpixelsalloted;  \
       non_chords = g_list_append (non_chords,  \
                                   new_list_info (start_tick, accumulator));  \
-      if (curobj->type == TIMESIG)  \
-    {  \
-      ret.a = ((timesig *)curobj->object)->time1;  \
-      ret.b = ((timesig *)curobj->object)->time2;  \
-    } \
       cur_obj_nodes[i] = cur_obj_nodes[i]->next;  \
     }  \
   if (cur_obj_nodes[i])  \
@@ -322,29 +317,40 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
  * @param measurenum the measure to set the x values for
  * @param time1 the nominator of the timesig
  * @param time2 the denominator of the timesig
- * @return structure containing the nominator and denominator of a timesig
+ * @return nothing
  */
-struct twoints
-find_xes_in_measure (DenemoMovement * si, gint measurenum, gint time1, gint time2)
+void
+find_xes_in_measure (DenemoMovement * si, gint measurenum)
 {
+  
+  gint time1, time2;
+  //timesig *thetime = g_list_  
+  staffnode *cur_staff = si->thescore;
+  measurenode *mnode = g_list_nth (((DenemoStaff*)cur_staff->data)->themeasures, measurenum-1);
+  if (mnode == NULL) { g_critical ("Call to find_xes_in_measure for bad measure number %d", measurenum); return;}
+  DenemoMeasure *meas = (DenemoMeasure*)mnode->data;
+  if (meas == NULL) { g_critical ("Call to find_xes_in_measure for bad measure number %d", measurenum);return;}
+  time1 = meas->timesig->time1; 
+  time2 = meas->timesig->time2; 
+    
+    
   gint num_staffs = g_list_length (si->thescore);
   gint base_x = 0;
   gint base_tick = 0;
   gint max_advance_ticks = 0;
   objnode **block_start_obj_nodes;
   objnode **cur_obj_nodes;
-  staffnode *cur_staff;
+  
   gint shortest_chord_duration = G_MAXINT;
   gint shortest_chord_pixels = 0;
-  struct twoints ret;
+  
   gint i;
   gint accumulator, start_tick;
   GList *non_chords = NULL;
   gint whole_note_width = si->measurewidth * time2 / time1;
   DenemoObject *curobj;
 
-  ret.a = time1;
-  ret.b = time2;
+  
   block_start_obj_nodes = (objnode **) g_malloc (sizeof (objnode *) * num_staffs);
   cur_obj_nodes = (objnode **) g_malloc (sizeof (objnode *) * num_staffs);
 
@@ -407,7 +413,7 @@ find_xes_in_measure (DenemoMovement * si, gint measurenum, gint time1, gint time
 
   g_free (block_start_obj_nodes);
   g_free (cur_obj_nodes);
-  return ret;
+
 }
 
 /**
@@ -421,13 +427,8 @@ void
 find_xes_in_all_measures (DenemoMovement * si)
 {
   gint i, n = g_list_length (si->measurewidths);
-  DenemoStaff *firststaffstruct = (DenemoStaff *) si->thescore->data;
-  struct twoints feed;
-
-  feed.a = firststaffstruct->timesig.time1;
-  feed.b = firststaffstruct->timesig.time2;
   //g_debug ("Number of measures in score %d\n", n);
   for (i = 1; i <= n; i++)
-    feed = find_xes_in_measure (si, i, feed.a, feed.b);
+    find_xes_in_measure (si, i);
   /* obviously inefficient; should fix this */
 }

@@ -15,9 +15,9 @@ void freeobjlist (gpointer data, gpointer user_data);
 
 measurenode *removemeasures (DenemoMovement * si, guint pos, guint nummeasures, gboolean all);
 
-void calculatebeamsandstemdirs (objnode * theobjs, gint * clef, gint * time1, gint * time2, gint * stemdirs);
+void calculatebeamsandstemdirs (DenemoMeasure *m);
 
-gint showwhichaccidentals (objnode * theobjs, gint initialnum, gint * initialaccs);
+void showwhichaccidentals (objnode * theobjs);
 
 void forceaccidentals (DenemoObject * theobj);
 

@@ -1943,8 +1943,8 @@ write_status (DenemoProject * gui)
           selection = g_strdup_printf (_("Cursor on an unknown object"));
         }
         
-        //DenemoMeasure *measure = gui->movement->currentmeasure->data;
-        //selection = g_strdup_printf ("%s %s %d/%d %d", selection, curObj->clef?get_clef_name (curObj->clef->type):"NULL", measure->timesig?measure->timesig->time1:0, measure->timesig?measure->timesig->time2:0, curObj->keysig?curObj->keysig->number:0xFFFF);
+        DenemoMeasure *measure = gui->movement->currentmeasure->data;
+        selection = g_strdup_printf ("%s %s %d/%d %d", selection, curObj->clef?get_clef_name (curObj->clef->type):"NULL", measure->timesig?measure->timesig->time1:0, measure->timesig?measure->timesig->time2:0, curObj->keysig?curObj->keysig->number:0xFFFF);
         
         
     }

@@ -62,6 +62,7 @@ point_to_new_movement (DenemoProject * gui)
 {
   point_to_empty_movement (gui);
   staff_new (gui, INITIAL, DENEMO_NONE);
+  cache_all ();
   gui->movement->undo_guard = Denemo.prefs.disable_undo;
 }
 
@@ -602,7 +603,7 @@ init_score (DenemoMovement * si, DenemoProject * gui)
   si->system_height = Denemo.prefs.system_height > 0 ? Denemo.prefs.system_height / 100.0 : 1.0;
 
   si->cursoroffend = FALSE;
-  si->cursortime1 = si->cursortime2 = 4;
+  //si->cursortime1 = si->cursortime2 = 4;
   si->markstaffnum = 0;
   si->markmeasurenum = 0;
   si->markcursor_x = 0;

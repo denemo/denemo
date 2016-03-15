@@ -363,9 +363,10 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
           if (!((DenemoMeasure*)curmeasure->data)->objects && !si->thescore->next)
             removemeasures (si, g_list_position (staff_first_measure_node (si->currentstaff), curmeasure), 1, TRUE);
         }
-        
+ 
       cache_staff (si->currentstaff);
-        
+      
+      staff_fix_note_heights ((DenemoStaff*)si->currentstaff->data);        
       staff_show_which_accidentals ((DenemoStaff *) si->currentstaff->data);
       staff_beams_and_stems_dirs ((DenemoStaff *) si->currentstaff->data);
     }                           // end of single staff
@@ -390,7 +391,7 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
                  ((DenemoMeasure*)curmeasure->data)->objects = NULL;
                  
                 cache_staff (curstaff);
-             
+                staff_fix_note_heights ((DenemoStaff*)curstaff->data);
                 staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
                 staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
               }
@@ -537,7 +538,7 @@ insert_object (DenemoObject * clonedobj)
 #endif
 }
 
-// insert the nth object from the copybuffer into music at the cursor position
+// insert the nth object from the mth staff from the copybuffer into music at the cursor position
 // return TRUE if inserted
 gboolean
 insert_clip_obj (gint m, gint n)
@@ -555,15 +556,20 @@ insert_clip_obj (gint m, gint n)
   DenemoObject *curobj = (DenemoObject *) curbufferobj->data;
   clonedobj = dnm_clone_object (curobj);
   insert_object (clonedobj);
+  cache_measure (si->currentmeasure);
 #if 0
   octave_up_key (Denemo.project);   //FIXME up and down to fix clef change bug !!!!!!!!
   octave_down_key (Denemo.project); //FIXME up and down to fix clef change bug !!!!!!!!
 #endif
   //reset_cursor_stats (si);
-  staff_fix_note_heights ((DenemoStaff *) si->currentstaff->data);
+  if (clonedobj->type == CLEF)
+    staff_fix_note_heights ((DenemoStaff *) si->currentstaff->data);
+  else
+    if (clonedobj->type == CHORD)
+        newclefify (clonedobj);
   staff_beams_and_stems_dirs ((DenemoStaff *) si->currentstaff->data);
   find_xes_in_all_measures (si);
-  showwhichaccidentals ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->curmeasurekey, si->curmeasureaccs);
+  showwhichaccidentals ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects);
 
   return TRUE;
 }
@@ -1304,6 +1310,9 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
       {
         //create empty measure in the chunk->position.staff at measure number chunk->position->object
         insertmeasureafter (NULL, NULL);
+        
+        cache_measure (Denemo.project->movement->currentmeasure);//rather than cache_staff (Denemo.project->movement->currentstaff); //rather than cach_all ();
+        
         chunk->action = ACTION_MEASURE_CREATE;
         chunk->position.measure++;
         if (!gui->movement->currentmeasure)
@@ -1341,7 +1350,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
       break;
     case ACTION_DELETE:
       {
-        object_insert (gui, chunk->object);
+        object_insert (gui, chunk->object);cache_all ();
         chunk->action = ACTION_INSERT;
         chunk->object = NULL;
       }
@@ -1351,7 +1360,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
         //FIXME guard against a corrupt undo queue here by checking  if(gui->movement->currentobject) {
         DenemoObject *temp = gui->movement->currentobject->data;
         gui->movement->currentobject->data = chunk->object;
-        chunk->object = temp;
+        chunk->object = temp;cache_all ();
       }
       break;
     case ACTION_SNAPSHOT:
@@ -1367,7 +1376,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
         if (find)
           {
             find->data = si;
-            GList *g, *gorig, *curstaff;
+            GList *g, *gorig = NULL, *curstaff;
             for (curstaff = gui->movement->thescore; curstaff; curstaff = curstaff->next)
               {
                 DenemoStaff *thestaff = curstaff->data;
@@ -1510,6 +1519,10 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
                   widget_for_layout_directive (directive);
                 }
             }
+            
+            cache_all ();
+              
+              
             gui->movement->smf = initial_smf;
             gui->movement->smfsync = -1;      //force recalculation of midi
             gui->movement->redo_invalid = initial_redo_invalid;
@@ -1522,6 +1535,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
                 movetoend (NULL, NULL);
               }
             gui->movement->currentstaffnum = 1 + g_list_position (gui->movement->thescore, gui->movement->currentstaff);
+          
           }
         else
           {
@@ -1612,7 +1626,7 @@ undo (DenemoProject * gui)
     }
   else
     warn_no_more_undo (gui);
-  cache_all ();
+  
 }
 
 

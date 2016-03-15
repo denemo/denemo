@@ -56,7 +56,7 @@ typedef struct keysig_data
   gboolean initial;
 } keysig_data;
 
-void set_keysig (struct keysig_data *data);
+
 /**
  * Finds key name and returns its numeric value
  *
@@ -84,7 +84,7 @@ findkey (GtkWidget * combobox, GList * list)
  * Sets the initial key signature on either the current staff or 
  * across the entire score.
  */
-void
+static void
 set_keysig (keysig_data * cbdata)
 {
   DenemoMovement *si = Denemo.project->movement;
@@ -123,7 +123,7 @@ set_keysig (keysig_data * cbdata)
  * Inserts a key signature change either on a single staff or
  * across the entire score
  */
-void
+static void
 insert_keysig (keysig_data * kdata)
 {
   staffnode *curstaff;
@@ -159,8 +159,8 @@ insert_keysig (keysig_data * kdata)
                             ((DenemoMeasure*)curmeasure->data)->objects = g_list_append ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode));
                     }
                     newkey->keysig = newkey->object;
-                    update_keysig_cache (curmeasure, g_list_find (((DenemoMeasure*)curmeasure->data)->objects, newkey));
-                        
+                    //update_keysig_cache (curmeasure, g_list_find (((DenemoMeasure*)curmeasure->data)->objects, newkey));
+                    cache_measure (curmeasure);    
                   if (curmeasure == si->currentmeasure)
                     si->currentobject = g_list_nth ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, si->cursor_x);
                   staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
@@ -171,6 +171,7 @@ insert_keysig (keysig_data * kdata)
         {
 
           object_insert (Denemo.project, newkey = dnm_newkeyobj (tokey - mode, isminor, mode));
+          cache_measure (curmeasure); 
           staff_show_which_accidentals ((DenemoStaff *) si->currentstaff->data);
         }
       si->cursor_appending = FALSE;

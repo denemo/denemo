@@ -124,9 +124,13 @@ insert_timesig (DenemoMovement * si, DenemoStaff * curstaffstruct, gint time1, g
           freeobject (firstmudobj);
           g_list_free_1 (firstobj);
         } 
-      ((DenemoMeasure *)curmeasure->data)->objects = g_list_prepend ((objnode *) ((DenemoMeasure *)curmeasure->data)->objects, dnm_newtimesigobj (time1, time2));
+      DenemoObject *timesigobj =  dnm_newtimesigobj (time1, time2);
+      ((DenemoMeasure *)curmeasure->data)->objects = g_list_prepend ((objnode *) ((DenemoMeasure *)curmeasure->data)->objects, timesigobj);
       ((DenemoMeasure *)curmeasure->data)->timesig = ((DenemoObject*)((DenemoMeasure *)curmeasure->data)->objects->data)->object;
-      update_timesig_cache (curmeasure);
+      timesigobj->clef = ((DenemoMeasure*)curmeasure->data)->clef;
+      timesigobj->keysig = ((DenemoMeasure*)curmeasure->data)->keysig;
+      timesigobj->stemdir = ((DenemoMeasure*)curmeasure->data)->stemdir;
+      
       if (curmeasure == si->currentmeasure)
         {
           if (!replacing)
@@ -152,7 +156,7 @@ timesig_change_insert (GtkAction * action, DenemoScriptParam * param)
   DenemoProject *gui = Denemo.project;
   if (query)
     { draw_score (NULL);
-      gchar *curtimesig = g_strdup_printf ("%d/%d", gui->movement->cursortime1, gui->movement->cursortime2);
+      gchar *curtimesig = g_strdup_printf ("%d/%d", ((DenemoMeasure*)gui->movement->currentmeasure->data)->timesig->time1, ((DenemoMeasure*)gui->movement->currentmeasure->data)->timesig->time2);
       g_string_assign (param->string, curtimesig);
       g_free (curtimesig);
       param->status = TRUE;

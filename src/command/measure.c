@@ -158,6 +158,7 @@ staffremovemeasures (staffnode * curstaff, guint pos)
       ((DenemoStaff *) curstaff->data)->nummeasures--;
     }
 //if the removed measures have a clef change in them the noteheights may need to change so...  
+  cache_staff (curstaff);
   staff_fix_note_heights (curstaff->data);
 }
 
@@ -210,6 +211,7 @@ removemeasures (DenemoMovement * si, guint pos, guint nummeasures, gboolean all)
             }
         }
       set_measure_transition (20, all);
+      all?  cache_all (): cache_staff (si->currentstaff);
     }
   else
     {
@@ -436,8 +438,11 @@ setsdir (objnode * starter, objnode * ender, gint beamgroup_sum, gint beamgroup_
  * next measure -- see staff_beams_and_stems_dirs for details
   */
 void
-calculatebeamsandstemdirs (objnode * theobjs, gint * pclef, gint * time1, gint * time2, gint * stem_directive)
-{
+calculatebeamsandstemdirs (DenemoMeasure *measure)
+{ 
+  if (measure == NULL) 
+    return;
+  objnode * theobjs = measure->objects;
   DenemoObject *prevobj = NULL, *theobj;
   objnode *curobjnode, *starter = NULL;
   chord chordval;
@@ -446,11 +451,19 @@ calculatebeamsandstemdirs (objnode * theobjs, gint * pclef, gint * time1, gint *
   gint beamgroup_number = 0;
   gint beamgroup_highest = 0;
   gint beamgroup_lowest = 0;
-  gint next_clef = *pclef;      /* Useful for when a clef intrudes
-                                   mid-beamgroup */
-  gint next_stem_directive = *stem_directive;
+  
+  
   gboolean isbeambreak;
-
+  gint  theclef = measure->clef->type;
+  gint  thetime1 = measure->timesig->time1;
+  gint  thetime2 = measure->timesig->time2;
+  gint  thestem_directive = measure->stemdir->type;
+  gint next_clef = theclef;      /* Useful for when a clef intrudes
+                                   mid-beamgroup */
+  gint next_stem_directive = thestem_directive;
+  
+  if (theobjs==NULL)
+    return;
 #if 0
   {
     static gint count = 0;
@@ -462,20 +475,8 @@ calculatebeamsandstemdirs (objnode * theobjs, gint * pclef, gint * time1, gint *
           ------------------------------\n", count, stem == 2 ? "Neutral" : stem == 1 ? "Down" : "Up", next_clef);
   }
 #endif
-  /* Check to see there is a time signature change indicator, is so use for whole measure
-   */
-  for (curobjnode = theobjs; curobjnode; curobjnode = curobjnode->next)
-    {
-      theobj = (DenemoObject *) curobjnode->data;
 
-      if (theobj->type == TIMESIG)
-        {
-          *time1 = ((timesig *) theobj->object)->time1;
-          *time2 = ((timesig *) theobj->object)->time2;
-        }
-    }
-
-  ticksperbeat = calcticksperbeat (*time1, *time2);
+  ticksperbeat = calcticksperbeat (thetime1, thetime2);
   settickvalsinmeasure (theobjs);
   beatendsat = ticksperbeat;
 
@@ -549,14 +550,14 @@ calculatebeamsandstemdirs (objnode * theobjs, gint * pclef, gint * time1, gint *
       if (prevobj && !prevobj->isend_beamgroup && theobj->isstart_beamgroup)
         {
           prevobj->isend_beamgroup = TRUE;
-          setsdir (starter, curobjnode->prev, beamgroup_sum, beamgroup_number, beamgroup_highest, beamgroup_lowest, *pclef, *stem_directive);
+          setsdir (starter, curobjnode->prev, beamgroup_sum, beamgroup_number, beamgroup_highest, beamgroup_lowest, theclef, thestem_directive);
         }
 
       /* Now that we've determined this note's status, what to actually
        * do about it: */
 
-      *pclef = next_clef;
-      *stem_directive = next_stem_directive;
+      theclef = theobj->clef->type;
+      thestem_directive = theobj->stemdir->type;
 
       if (theobj->isstart_beamgroup)
         {
@@ -575,11 +576,11 @@ calculatebeamsandstemdirs (objnode * theobjs, gint * pclef, gint * time1, gint *
         }
       if (theobj->isend_beamgroup)
         {
-          setsdir (starter, curobjnode, beamgroup_sum, beamgroup_number, beamgroup_highest, beamgroup_lowest, *pclef, *stem_directive);
+          setsdir (starter, curobjnode, beamgroup_sum, beamgroup_number, beamgroup_highest, beamgroup_lowest, theclef, thestem_directive);
         }
     }                           /* End object loop */
 }                               /* End function */
-
+
 
 
 
@@ -651,11 +652,15 @@ set_accidental_positions (DenemoObject * the_chord)
 
 /**
  * Calculate which accidentials should be shown
- *
+ * for each note of each chord of the measure whose list of objects is passed in
+ * It used to side-effect Keysig changes by setting the minpixelsalloted value by calling draw_key
  */
-gint
-showwhichaccidentals (objnode * theobjs, gint initialnum, gint * initialaccs)
-{
+void
+showwhichaccidentals (objnode * theobjs)
+{ 
+  if(theobjs==NULL) return;
+  gint initialnum;
+  gint * initialaccs;
   gint whatpersisted[7];
   static gint initialaccsthischord[7] = { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
   gint accsthischord[7];
@@ -663,13 +668,19 @@ showwhichaccidentals (objnode * theobjs, gint initialnum, gint * initialaccs)
   gboolean contradicted[7];
   gint otn;                     /* offsettonumber */
   objnode *curobjnode;
-  DenemoObject *theobj;
+  DenemoObject *theobj = (DenemoObject *) theobjs->data;;
   GList *curtone;
   note *thetone;
   gint ret[7];
-  gint retnum = initialnum;
   gint i;
 
+  keysig *thekeysig = theobj->keysig;
+  initialnum = thekeysig->number;
+  initialaccs = thekeysig->accs;
+
+
+
+  //retnum = initialnum;
   memcpy (ret, initialaccs, SEVENGINTS);
   memcpy (whatpersisted, initialaccs, SEVENGINTS);
   for (curobjnode = theobjs; curobjnode; curobjnode = curobjnode->next)
@@ -714,6 +725,8 @@ showwhichaccidentals (objnode * theobjs, gint initialnum, gint * initialaccs)
                 thetone->showaccidental = ((chord *) theobj->object)->hasanacc = TRUE;
               else
                 thetone->showaccidental = FALSE;
+                
+                
               // FIXME - you should use a script to apply these directives & set hasnacc with that.
               if (thetone->directives && ((DenemoDirective *) thetone->directives->data)->postfix && (*((DenemoDirective *) thetone->directives->data)->postfix->str == '!' || *((DenemoDirective *) thetone->directives->data)->postfix->str == '?'))
                 thetone->showaccidental = ((chord *) theobj->object)->hasanacc = (*((DenemoDirective *) thetone->directives->data)->postfix->str == '?') ? DENEMO_CAUTIONARY : DENEMO_REMINDER;
@@ -722,20 +735,20 @@ showwhichaccidentals (objnode * theobjs, gint initialnum, gint * initialaccs)
           set_accidental_positions (theobj);
           setpixelmin (theobj);
         }                       /* End if chord */
-      else if (theobj->type == KEYSIG)
-        {
-          for (i = 0; i < 7; i++)
-            initialaccsthischord[i] = UNSET;
-          memcpy (ret, ((keysig *) theobj->object)->accs, SEVENGINTS);
-          memcpy (whatpersisted, ret, SEVENGINTS);
-          theobj->minpixelsalloted = draw_key (NULL, 0, 0, ((keysig *) theobj->object)->number, retnum, 0, FALSE, (keysig *) theobj->object);
-          retnum = ((keysig *) theobj->object)->number;
-        }
+      //else if (theobj->type == KEYSIG)
+        //{
+          //for (i = 0; i < 7; i++)
+            //initialaccsthischord[i] = UNSET;
+          //memcpy (ret, ((keysig *) theobj->object)->accs, SEVENGINTS);
+          //memcpy (whatpersisted, ret, SEVENGINTS);
+          //theobj->minpixelsalloted = draw_key (NULL, 0, 0, ((keysig *) theobj->object)->number, retnum, 0, FALSE, (keysig *) theobj->object);
+          //retnum = ((keysig *) theobj->object)->number;
+        //}
 
 
     }                           /* End object loop */
   memcpy (initialaccs, ret, SEVENGINTS);
-  return retnum;
+  
 }
 
 /**

@@ -156,7 +156,16 @@ void cache_staff (staffnode *s)
             }
 }
 
-
+void cache_measure (measurenode *mnode)
+ {
+    if (mnode->data) {
+        objnode *onode = ((DenemoMeasure*) mnode->data)->objects;
+        update_clef_cache (mnode, onode);
+        update_keysig_cache (mnode, onode);
+        update_timesig_cache (mnode);
+        update_stemdir_cache (mnode, onode);
+    }
+}
 
 void cache_all (void)
 {

@@ -457,16 +457,10 @@ void
 staff_beams_and_stems_dirs (DenemoStaff * thestaff)
 {
   measurenode *curmeasure;
-  gint nclef, time1, time2, stem_directive;
-
-  nclef = thestaff->clef.type;
-  time1 = thestaff->timesig.time1;
-  time2 = thestaff->timesig.time2;
-  stem_directive = DENEMO_STEMBOTH;
 
   for (curmeasure = thestaff->themeasures; curmeasure; curmeasure = curmeasure->next)
     {
-      calculatebeamsandstemdirs ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, &nclef, &time1, &time2, &stem_directive);
+      calculatebeamsandstemdirs ((DenemoMeasure*)curmeasure->data);
     }
 }
 
@@ -478,14 +472,9 @@ staff_beams_and_stems_dirs (DenemoStaff * thestaff)
 void
 staff_show_which_accidentals (DenemoStaff * thestaff)
 {
-  gint feed[7];
-  gint feednum;
   measurenode *curmeasure;
-
-  memcpy (feed, thestaff->keysig.accs, SEVENGINTS);
-  feednum = thestaff->keysig.number;
   for (curmeasure = thestaff->themeasures; curmeasure; curmeasure = curmeasure->next)
-    feednum = showwhichaccidentals ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, feednum, feed);
+    showwhichaccidentals ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects);
 }
 
 /**
@@ -496,14 +485,14 @@ staff_show_which_accidentals (DenemoStaff * thestaff)
 void
 staff_fix_note_heights (DenemoStaff * thestaff)
 {
-  gint nclef = thestaff->clef.type;
+  //gint nclef = thestaff->clef.type;
   //gint time1 = thestaff->stime1;//USELESS
   //gint time2 = thestaff->stime2;//USELESS
   //gint initialclef;//USELESS
   measurenode *curmeasure;
   objnode *curobj;
   DenemoObject *theobj;
-
+g_warning ("Staff fix note heights called uselessly?");
   for (curmeasure = thestaff->themeasures; curmeasure; curmeasure = curmeasure->next)
     {
       //initialclef = nclef;
@@ -513,14 +502,7 @@ staff_fix_note_heights (DenemoStaff * thestaff)
           switch (theobj->type)
             {
             case CHORD:
-              newclefify (theobj, nclef);
-              break;
-            case TIMESIG:      //USELESS
-              //time1 = ((timesig *) theobj->object)->time1;
-              // time2 = ((timesig *) theobj->object)->time2;
-              break;
-            case CLEF:
-              nclef = ((clef *) theobj->object)->type;
+              newclefify (theobj);
               break;
             default:
               break;

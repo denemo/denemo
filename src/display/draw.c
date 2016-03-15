@@ -306,14 +306,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
   if (mudelaitem == itp->endobj)
     itp->endposition = x + mudelaitem->x/* + mudelaitem->minpixelsalloted*/;
 
-  /************ FIXME the drawing is side-effecting the DenemoMovement si here *******************/
-  if (si->currentobject == curobj)
-    {
-      si->cursorclef = itp->clef->type;
-      if (!si->cursor_appending)
-        memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
-    }
-
+ 
 
   if (cr)
     if (mudelaitem->type == CHORD && ((chord *) mudelaitem->object)->tone_node)
@@ -420,9 +413,10 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                     
                 //if MIDI RECORDING draw the pitch as a headless diamond note.
                 if(si->recording->type==DENEMO_RECORDING_MIDI)
-                    {                            
-                        removetone ((DenemoObject*)(MidiDrawObject->data), 0, si->cursorclef);//there is only one note in the chord so any mid_c_offset will do                 
-                        addtone (MidiDrawObject->data,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, si->cursorclef);
+                    {    g_warning ("Drawing MIDI recorded notes is disabled until the MidiDrawObject has been assigned clef field!!!!!!!!!!");
+                        if (0) {                        
+                        removetone ((DenemoObject*)(MidiDrawObject->data), 0);//there is only one note in the chord so any mid_c_offset will do                 
+                        addtone (MidiDrawObject->data,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
                         chord *thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
                         note *thenote = ((note*)(thechord->notes->data));
                         thenote->noteheadtype = DENEMO_DIAMOND_NOTEHEAD;
@@ -475,7 +469,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                             cairo_set_source_rgba (cr, 0, 0, 0, 1);
                         draw_chord (cr, MidiDrawObject, pos + x -extra_width, y, 0, itp->curaccs, FALSE, FALSE);    
                         cairo_restore (cr);
-                    
+                       } //end if(0) disabling this drawing
                     }
                     
                 draw_note_onset(cr, pos + x - extra_width, glyph, (g==si->marked_onset));
@@ -652,8 +646,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
               cairo_restore (cr);
             }
         }
-      if (si->currentobject == curobj && si->cursor_appending)
-        si->cursorclef = itp->clef->type;       //FIXME drawing is side-effecting the data, presumably to economize on searching for the prevailing clef at the cursor.
+      
       break;
     case KEYSIG:
       if (cr)
@@ -661,21 +654,14 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
       itp->key = ((keysig *) mudelaitem->object)->number;
       memcpy (itp->keyaccs, ((keysig *) mudelaitem->object)->accs, SEVENGINTS);
       memcpy (itp->curaccs, itp->keyaccs, SEVENGINTS);
-      if (si->currentmeasure == itp->curmeasure)
-        /* We're in the current measure */
-        memcpy (si->nextmeasureaccs, itp->keyaccs, SEVENGINTS);
+      
       break;
     case TIMESIG:
       itp->time1 = ((timesig *) mudelaitem->object)->time1;
       itp->time2 = ((timesig *) mudelaitem->object)->time2;
       if (cr)
         draw_timesig (cr, x + mudelaitem->x, y, itp->time1, itp->time2, (timesig *) mudelaitem->object);
-      if (si->currentmeasure == itp->curmeasure)
-        {
-          /* This is the current measure */
-          si->cursortime1 = itp->time1;
-          si->cursortime2 = itp->time2;
-        }
+     
       /* The following assumes no multiple simultaneous time signatures */
       itp->tickspermeasure = WHOLE_NUMTICKS * itp->time1 / itp->time2;
       itp->wholenotewidth = si->measurewidth * itp->time2 / itp->time1;
@@ -702,12 +688,12 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
         si->cursoroffend = (mudelaitem->starttickofnextnote > itp->tickspermeasure);
       if (si->cursor_appending)
         {
-          draw_cursor (cr, si, x + mudelaitem->x + extra, y, ((itp->curmeasure->next != NULL) && (objnode *) ((DenemoMeasure*)itp->curmeasure->next->data)->objects) ? -1 : 0 /*itp->last_gap */ , 0, si->cursorclef);
-          memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
+          draw_cursor (cr, si, x + mudelaitem->x + extra, y, ((itp->curmeasure->next != NULL) && (objnode *) ((DenemoMeasure*)itp->curmeasure->next->data)->objects) ? -1 : 0 /*itp->last_gap */ , 0, mudelaitem->clef->type);
+          
         }
       else
         {
-          draw_cursor (cr, si, x + mudelaitem->x, y, itp->last_gap, mudelaitem->type == CHORD ? 0 : mudelaitem->minpixelsalloted, si->cursorclef);
+          draw_cursor (cr, si, x + mudelaitem->x, y, itp->last_gap, mudelaitem->type == CHORD ? 0 : mudelaitem->minpixelsalloted, mudelaitem->clef->type);
         }
     }
   /* End cursor drawing */
@@ -757,16 +743,7 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
 
   memcpy (itp->curaccs, itp->keyaccs, SEVENGINTS);
   itp->wholenotewidth = si->measurewidth * itp->time2 / itp->time1;
-  if (curmeasure == si->currentmeasure) //FIXME side-effecting here. Now we have the time sig cached on the currentmeasure->data need to cache the stem direction it would seem!
-    {
-      si->curmeasureclef = itp->clef->type;
-      memcpy (si->curmeasureaccs, itp->keyaccs, SEVENGINTS);
-      memcpy (si->nextmeasureaccs, itp->keyaccs, SEVENGINTS);
-      si->curmeasurekey = itp->key;
-      si->curmeasure_stem_directive = itp->stem_directive;
-      si->cursortime1 = itp->time1;
-      si->cursortime2 = itp->time2;
-    }
+ 
 
   /*  paint the measure number at the preceding barline 
    */
@@ -789,8 +766,6 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
       si->cursoroffend = FALSE;
       has_cursor = TRUE;
       draw_cursor (cr, si, x, y, 0, gui->mode, itp->clef->type);
-      memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
-      si->cursorclef = itp->clef->type;
     }
 
   curobj = (objnode *) ((DenemoMeasure*)curmeasure->data)->objects;

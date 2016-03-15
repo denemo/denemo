@@ -2465,7 +2465,6 @@ dnm_setinitialkeysig (DenemoStaff * curstaff, gint tokey, gint type)
   curstaff->keysig.isminor = type;
 
   initkeyaccs (curstaff->keysig.accs, tokey);
-  //memcpy (curstaff->keysig.keyaccs, curstaff->leftmost_keyaccs, SEVENGINTS);
   curstaff->leftmost_keysig = &curstaff->keysig;
   staff_show_which_accidentals (curstaff);
   adjust_tonal_center (curstaff->keysig.accs);

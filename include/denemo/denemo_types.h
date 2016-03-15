@@ -954,14 +954,14 @@ typedef struct DenemoMovement
   gboolean cursor_appending;
   
   gboolean cursoroffend;
-  gint cursorclef;
-  gint cursoraccs[7];
-  gint cursortime1;
-  gint cursortime2;
-  gint curmeasureclef;
-  gint curmeasurekey;
-  gint curmeasureaccs[7];
-  gint nextmeasureaccs[7];
+  //gint cursorclef;
+  //gint cursoraccs[7];
+  //gint cursortime1;
+  //gint cursortime2;
+  //gint curmeasureclef;
+  //gint curmeasurekey;
+  //gint curmeasureaccs[7];
+  //gint nextmeasureaccs[7];
   /* These are used for determining what accidentals should be there
    * if the cursor advances to the next measure from the next "insert chord"
    * operation */

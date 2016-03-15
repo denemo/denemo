@@ -12,7 +12,7 @@
 #ifndef CHORDOPSH
 #define CHORDOPSH
 
-void newclefify (DenemoObject * thechord, gint dclef);
+void newclefify (DenemoObject * thechord);
 
 void findreversealigns (DenemoObject * thechord);
 
@@ -22,15 +22,15 @@ objnode *nearestnote (DenemoObject * thechord, gint mid_c_offset);
 
 void modify_note (chord * thechord, gint mid_c_offset, gint enshift, gint dclef);
 
-note *addtone (DenemoObject * mudelaobj, gint mid_c_offset, gint enshift, gint dclef);
+note *addtone (DenemoObject * mudelaobj, gint mid_c_offset, gint enshift);
 
 void addornament (DenemoObject * obj, Ornament orn);
 
-gboolean removetone (DenemoObject * mudelaobj, gint mid_c_offset, gint dclef);
+gboolean removetone (DenemoObject * mudelaobj, gint mid_c_offset);
 
 void shiftpitch (DenemoObject * mudelaobj, gint mid_c_offset, gint is_sharpening);
 
-void changenote (DenemoObject * thechord, gint mid_c_offset, gint new_offset, gint dclef);
+void changenote (DenemoObject * thechord, gint mid_c_offset, gint new_offset);
 
 void changeenshift (DenemoObject * thechord, gint mid_c_offset, gint accidental);
 

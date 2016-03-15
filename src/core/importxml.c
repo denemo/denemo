@@ -774,7 +774,7 @@ parseFakechord (xmlNodePtr fakechordElem, DenemoObject * curobj)
  * given chord.
  */
 static void
-parseNote (xmlNodePtr noteElem, DenemoObject * chordObj, gint currentClef)
+parseNote (xmlNodePtr noteElem, DenemoObject * chordObj, clef *currentClef)
 {
   xmlNodePtr childElem;
   gint middleCOffset = 0, accidental = 0, noteHeadType = DENEMO_NORMAL_NOTEHEAD;
@@ -864,8 +864,13 @@ parseNote (xmlNodePtr noteElem, DenemoObject * chordObj, gint currentClef)
   }
 
   /* Now actually construct the note object. */
+  chordObj->keysig = &((DenemoStaff *) Denemo.project->movement->currentstaff->data)->keysig;
+  chordObj->clef = &((DenemoStaff *) Denemo.project->movement->currentstaff->data)->clef;
+  static stemdirective dummy = {2, NULL};
+  chordObj->stemdir = &dummy;//is this needed?
 
-  note *newnote = addtone (chordObj, middleCOffset, accidental, currentClef);
+ //g_print ("Adding a note with keysig type %d\n", ((DenemoStaff *) Denemo.project->movement->currentstaff->data)->keysig.number);
+  note *newnote = addtone (chordObj, middleCOffset, accidental);
   newnote->directives = directives;
 
   if (noteHeadType != DENEMO_NORMAL_NOTEHEAD)
@@ -1145,7 +1150,7 @@ parseAudio (xmlNodePtr parentElem, DenemoMovement * si)
  * @return the new DenemoObject
  */
 static DenemoObject *
-parseChord (xmlNodePtr chordElem, gint currentClef)
+parseChord (xmlNodePtr chordElem, clef *currentClef)
 {
   DenemoObject *chordObj = parseBaseChord (chordElem);
   xmlNodePtr childElem, grandchildElem;
@@ -2321,7 +2326,7 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, DenemoMovement * si)
 
   return 0;
 }
-static GList *parseMeasure (xmlNodePtr measureElem, gint *pcurrentClef, gboolean *hasfigures, gboolean *hasfakechords)
+static GList *parseMeasure (xmlNodePtr measureElem, clef **pcurrentClef, gboolean *hasfigures, gboolean *hasfakechords)
 {
     DenemoObject *curObj;
     
@@ -2367,7 +2372,7 @@ static GList *parseMeasure (xmlNodePtr measureElem, gint *pcurrentClef, gboolean
               gchar *showProp = (gchar *) xmlGetProp (objElem, (xmlChar *) "show");
               if (showProp)
                 curObj->isinvisible = !strcmp (showProp, "false");
-              *pcurrentClef = ((clef *) curObj->object)->type;
+              *pcurrentClef = (clef *) curObj->object;
             }
           else if (ELEM_NAME_EQ (objElem, "lyric"))
             {
@@ -2464,7 +2469,7 @@ static gint
 parseMeasures (xmlNodePtr measuresElem, DenemoMovement * si)
 {
   xmlNodePtr childElem, objElem;
-  gint currentClef = ((DenemoStaff *) si->currentstaff->data)->clef.type;
+  clef *currentClef = &((DenemoStaff *) si->currentstaff->data)->clef;
   
   GList *slurEndChordElems = NULL;
   GList *crescEndChordElems = NULL;
@@ -2492,6 +2497,7 @@ parseMeasures (xmlNodePtr measuresElem, DenemoMovement * si)
         ILLEGAL_ELEM ("measures", childElem);
       }
   }
+
 
   if (slurEndChordElems != NULL)
     {
@@ -2697,9 +2703,10 @@ parseMovement (xmlNodePtr childElem, DenemoProject * gui, ImportType type)
         for(;curstaff;curstaff=curstaff->next)
             ((DenemoStaff *) curstaff->data)->midi_channel = ((previous_staffnum) < 9 ? (previous_staffnum) : previous_staffnum + 1) & 0xF;
     }
+  cache_all ();  
   for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
     {
-    
+      staff_fix_note_heights ((DenemoStaff *) curstaff->data);
       staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
       staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
     }
@@ -2743,8 +2750,11 @@ parseRhythmElem (xmlNodePtr sElem, RhythmPattern* r)
     childElem = getXMLChild (sElem, "objects");
     if (childElem) {
      gboolean dummy1, dummy2;
-     gint currentClef = DENEMO_TREBLE_CLEF;
-     r->clipboard = g_list_append (NULL, parseMeasure(childElem, &currentClef, &dummy1, &dummy2));
+     static clef dummyClef = {
+                        DENEMO_TREBLE_CLEF,
+                        NULL};
+     clef *acurrentClef = &dummyClef;
+     r->clipboard = g_list_append (NULL, parseMeasure(childElem, &acurrentClef, &dummy1, &dummy2));
      create_rhythm (r, FALSE);
     }
 }
@@ -3024,7 +3034,7 @@ cleanup:
   //g_debug("Number of movements %d\n", g_list_length(gui->movements));
   reset_movement_numbers (gui);
   set_movement_selector (gui);
-  cache_all ();
+  
   return ret;
 }
 
