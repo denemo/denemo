@@ -157,6 +157,8 @@ staffremovemeasures (staffnode * curstaff, guint pos)
 
       ((DenemoStaff *) curstaff->data)->nummeasures--;
     }
+ if ( ((DenemoStaff *) curstaff->data)->themeasures == NULL)
+    return;
 //if the removed measures have a clef change in them the noteheights may need to change so...  
   cache_staff (curstaff);
   staff_fix_note_heights (curstaff->data);
@@ -653,13 +655,13 @@ set_accidental_positions (DenemoObject * the_chord)
 /**
  * Calculate which accidentials should be shown
  * for each note of each chord of the measure whose list of objects is passed in
- * It used to side-effect Keysig changes by setting the minpixelsalloted value by calling draw_key
+ * It also changes minpixelsalloted value of keysginatures to cope with the varying size (dependent on previous keysignature) by calling draw_key in dry-run mode.
  */
 void
 showwhichaccidentals (objnode * theobjs)
 { 
   if(theobjs==NULL) return;
-  gint initialnum;
+  gint curkey;
   gint * initialaccs;
   gint whatpersisted[7];
   static gint initialaccsthischord[7] = { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
@@ -675,17 +677,16 @@ showwhichaccidentals (objnode * theobjs)
   gint i;
 
   keysig *thekeysig = theobj->keysig;
-  initialnum = thekeysig->number;
+  curkey = thekeysig->number;
   initialaccs = thekeysig->accs;
 
-
-
-  //retnum = initialnum;
   memcpy (ret, initialaccs, SEVENGINTS);
   memcpy (whatpersisted, initialaccs, SEVENGINTS);
+  
   for (curobjnode = theobjs; curobjnode; curobjnode = curobjnode->next)
     {
       theobj = (DenemoObject *) curobjnode->data;
+      
       if (theobj->type == CHORD)
         {
           ((chord *) theobj->object)->hasanacc = FALSE;
@@ -735,17 +736,16 @@ showwhichaccidentals (objnode * theobjs)
           set_accidental_positions (theobj);
           setpixelmin (theobj);
         }                       /* End if chord */
-      //else if (theobj->type == KEYSIG)
-        //{
-          //for (i = 0; i < 7; i++)
-            //initialaccsthischord[i] = UNSET;
-          //memcpy (ret, ((keysig *) theobj->object)->accs, SEVENGINTS);
-          //memcpy (whatpersisted, ret, SEVENGINTS);
-          //theobj->minpixelsalloted = draw_key (NULL, 0, 0, ((keysig *) theobj->object)->number, retnum, 0, FALSE, (keysig *) theobj->object);
-          //retnum = ((keysig *) theobj->object)->number;
-        //}
-
-
+      else if (theobj->type == KEYSIG)
+        {
+          for (i = 0; i < 7; i++)
+            initialaccsthischord[i] = UNSET;
+            memcpy (ret, ((keysig *) theobj->object)->accs, SEVENGINTS);
+            memcpy (whatpersisted, ret, SEVENGINTS);
+            theobj->minpixelsalloted = draw_key (NULL, 0, 0, ((keysig *) theobj->object)->number, curkey, 0, FALSE, (keysig *) theobj->object);
+            curkey = ((keysig *) theobj->object)->number;
+        }
+    
     }                           /* End object loop */
   memcpy (initialaccs, ret, SEVENGINTS);
   
