@@ -1535,7 +1535,7 @@ shiftcursor (DenemoProject * gui, gint note_value)
               else //if tied modify the tied note(s) too, FIXME but this breaks the UNDO mechanism, see store_for_undo_change (gui->movement, theobj) above - now recursive - does that fix it?
                 {
                     modify_note (thechord, mid_c_offset, key->accs[note_value], dclef);
-                #if 0
+                #if 1
                    // modify_note already does tied notes
                     DenemoPosition pos;
                     get_position (Denemo.project->movement, &pos);

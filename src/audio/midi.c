@@ -637,6 +637,9 @@ midiaction (gint notenum)
                     }
                   if (Denemo.project->movement->cursor_appending)
                     break;
+                    curObj = Denemo.project->movement->currentobject->data;
+                    thechord = (chord *) curObj->object;
+                    is_tied = thechord->is_tied;
                 }
               while ((!(Denemo.keyboard_state & ADDING_MASK)) && next_editable_note () && is_tied);
             }
