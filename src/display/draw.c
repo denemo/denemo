@@ -1348,6 +1348,7 @@ schedule_draw (gint * flip_count)
 gboolean
 draw_score (cairo_t * cr)
 {                               //g_debug("draw_score %p\n", cr);
+  if (cr == NULL) return TRUE;//no longer need to side effect the data while doing a dummy draw, however cr is set NULL during draw if no more drawing is needed, so we can't remove all the if (cr) conditionals...
   staffnode *curstaff;
   gint y = 0;
   struct infotopass itp;
