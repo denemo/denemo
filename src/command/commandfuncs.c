@@ -1557,6 +1557,71 @@ shiftcursor (DenemoProject * gui, gint note_value)
     gtk_widget_queue_draw(Denemo.scorearea);
 }
 
+/**
+ * edit_pitch
+ * edits the note at the cursor height to have given mid_c_offset and enshift
+ */
+void
+edit_pitch (gint note_value, gint enshift)
+{
+  DenemoProject *gui = Denemo.project;
+  gint oldstaffletter_y = gui->movement->staffletter_y;
+  gint oldcursor_y = gui->movement->cursor_y;
+  gui->movement->staffletter_y = note_value;
+  gui->movement->cursor_y = jumpcursor (gui->movement->cursor_y, oldstaffletter_y, gui->movement->staffletter_y);
+  int mid_c_offset = gui->movement->cursor_y;
+
+  if ((gui->mode & INPUTEDIT) && ((!gui->movement->cursor_appending) || prev_object_is_rhythm (gui)))
+    {
+      DenemoObject *theobj = (DenemoObject *) (gui->movement->currentobject->data);
+      chord *thechord;
+      if (theobj->type == CHORD && (thechord = (chord *) theobj->object)->notes)
+        {
+          store_for_undo_change (gui->movement, theobj);
+          //turn off further storage of UNDO info while this takes place
+          gui->movement->undo_guard++;
+          theobj->isinvisible = FALSE;
+          if (g_list_length (thechord->notes) > 1)
+            {                   /* multi-note chord - remove and add a note */
+              gui->movement->cursor_y = oldcursor_y;
+              delete_chordnote (gui);
+              gui->movement->cursor_y = mid_c_offset;
+              insert_chordnote (gui);
+            }
+          else
+            {                   /* single-note chord - change the note */
+              gint dclef = theobj->clef->type;
+              keysig *key = theobj->keysig;
+              if(!thechord->is_tied)
+                {
+                        modify_note (thechord, mid_c_offset, key->accs[note_value], dclef);
+                        setenshift (gui->movement, enshift);
+                    }
+              else //if tied modify the tied note(s) too, FIXME but this breaks the UNDO mechanism, see store_for_undo_change (gui->movement, theobj) above - now recursive - does that fix it?
+                {
+                    modify_note (thechord, mid_c_offset, key->accs[note_value], dclef);
+                    setenshift (gui->movement, enshift);
+                   // modify_note already does tied notes
+                    DenemoPosition pos;
+                    get_position (Denemo.project->movement, &pos);
+                    gboolean ret = cursor_to_next_chord ();
+                    if (ret)
+                        edit_pitch (note_value, enshift);
+                    goto_movement_staff_obj (NULL, -1, -1, pos.measure, pos.object, pos.leftmeasurenum);
+                }
+            }
+          gui->movement->undo_guard--;
+          score_status (gui, TRUE);
+        }
+    }
+  else
+   {
+       shiftcursor (gui, note_value);
+       setenshift (gui->movement, enshift);
+   }
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);
+}
 
 void
 insert_rhythm_pattern (GtkAction* action, DenemoScriptParam* param)
