@@ -4275,6 +4275,7 @@ set_master_tempo (DenemoMovement * si, gdouble tempo)
 static void toggle_dynamic_compression (gboolean *compression)
 {
     *compression = 100 * (!*compression);
+    Denemo.project->movement->smfsync = G_MAXINT;
 }
 
 /* create_window() creates the toplevel window and all the menus - it only
