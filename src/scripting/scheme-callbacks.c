@@ -138,6 +138,27 @@ static void toggle_value (gboolean *value)
 {
    *value = !*value; 
 }
+
+void check_all (GtkWidget *button) {
+    GList *children = gtk_container_get_children (gtk_widget_get_parent (button));
+    for (;children; children=children->next)
+        {
+            GtkWidget *child = children->data;
+            if (GTK_IS_CHECK_BUTTON (child))
+                gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (child), TRUE);
+        }
+}
+    
+void uncheck_all (GtkWidget *button) {
+    GList *children = gtk_container_get_children (gtk_widget_get_parent (button));
+    for (;children; children=children->next)
+        {
+            GtkWidget *child = children->data;
+            if (GTK_IS_CHECK_BUTTON (child))
+               gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (child), FALSE);
+        }
+}    
+    
 SCM
 scheme_check_boxes (SCM list, SCM title)
 {
@@ -152,12 +173,21 @@ scheme_check_boxes (SCM list, SCM title)
                                                  GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
                                                  NULL);
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+ 
   if (scm_is_list (list))
     {
       gint i;
       gint length = scm_to_int (scm_length (list));
       gboolean *status;
-      status = (gboolean*)g_malloc0 (length * sizeof (gboolean));
+      status = (gint*)g_malloc0 (length* sizeof (gboolean));
+      GtkWidget *button = gtk_button_new_with_label (_("Check all"));
+      g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK(check_all), NULL);
+      gtk_container_add (GTK_CONTAINER (content_area), button);
+      button = gtk_button_new_with_label (_("Un-check all"));
+      g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK(uncheck_all), NULL);
+      gtk_container_add (GTK_CONTAINER (content_area), button);
+      
+      
       scm_reverse (list);
       for (i = 0; i < length; i++)
         {
