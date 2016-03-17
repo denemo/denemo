@@ -7745,11 +7745,11 @@ and others in the LilyPond documentation.</_tooltip>
         <_tooltip>Uses different margins for left and right hand pages.</_tooltip>
       </row>
       <row type="scheme">
-        <action>NewFromSelection</action>
-        <after>DeleteSelectionLeaveEmpty</after>
-        <menupath>/MainMenu/EditMenu/Select</menupath>
-        <_label>New Tab from Selection</_label>
-        <_tooltip>Creates a new score with just the selection. This can be used to debug problems in the music.</_tooltip>
+        <action>MuteStaffs</action>
+        <after>PlayAtCursor</after>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <_label>Mute Stafffs</_label>
+        <_tooltip>Select which staffs should be muted during playback.</_tooltip>
       </row>
     </map>
   </merge>

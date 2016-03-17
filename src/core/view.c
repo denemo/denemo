@@ -1222,6 +1222,11 @@ pb_tempo (GtkAdjustment * adjustment)
   call_out_to_guile ("(DenemoTempo)");
   Denemo.project->movement->smfsync = G_MAXINT;
 }
+static void
+pb_mute_staffs ()
+{
+   call_out_to_guile ("(d-MuteStaffs)"); 
+}
 void
 update_tempo_widget (gdouble value)
 {
@@ -4478,7 +4483,7 @@ create_window (void)
       g_signal_connect (G_OBJECT (master_tempo_adj), "value_changed", G_CALLBACK (pb_tempo), NULL);
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
 
-      //create_playbutton(hbox, "Set Tempo", pb_set_tempo, NULL);
+      create_playbutton(hbox, _("Mute Staffs"), pb_mute_staffs, NULL, _("Select which staffs should be muted during playback."));
 
       // Volume
       label = gtk_label_new (_("Volume"));

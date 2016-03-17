@@ -593,6 +593,8 @@ actions/menus/MainMenu/PlaybackMenu/ConvertMidiForBass.scm
 actions/menus/MainMenu/PlaybackMenu/ConvertMidiForBass.xml
 actions/menus/MainMenu/PlaybackMenu/DenemoPlayCursorToEnd.scm
 actions/menus/MainMenu/PlaybackMenu/DenemoPlayCursorToEnd.xml
+actions/menus/MainMenu/PlaybackMenu/MuteStaffs.scm
+actions/menus/MainMenu/PlaybackMenu/MuteStaffs.xml
 actions/menus/MainMenu/PlaybackMenu/Performance.scm
 actions/menus/MainMenu/PlaybackMenu/Performance.xml
 actions/menus/MainMenu/PlaybackMenu/PitchShift.scm

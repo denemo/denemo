@@ -176,6 +176,7 @@ SCM scheme_attach_quit_callback (SCM);
 SCM scheme_detach_quit_callback (void);
 SCM scheme_get_input_source (void);
 SCM scheme_popup_menu (SCM);
+SCM scheme_check_boxes (SCM checkboxlist, SCM title);
 SCM scheme_get_target_info (void);
 SCM scheme_get_new_target (void);
 SCM scheme_get_new_point (void);

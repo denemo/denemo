@@ -134,6 +134,77 @@ scheme_popup_menu (SCM list)
     }
   return ReturnValue;
 }
+static void toggle_value (gboolean *value)
+{
+   *value = !*value; 
+}
+SCM
+scheme_check_boxes (SCM list, SCM title)
+{
+  gchar *thetitle = scm_is_string (title)?
+            scm_to_locale_string (title) :
+            _("Set Values");
+  GtkWidget *dialog = gtk_dialog_new_with_buttons (thetitle,
+                                                 GTK_WINDOW(Denemo.window),
+                                                 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                 GTK_STOCK_OK,
+                                                 GTK_RESPONSE_ACCEPT,
+                                                 GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+                                                 NULL);
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+  if (scm_is_list (list))
+    {
+      gint i;
+      gint length = scm_to_int (scm_length (list));
+      gboolean *status;
+      status = (gboolean*)g_malloc0 (length * sizeof (gboolean));
+      scm_reverse (list);
+      for (i = 0; i < length; i++)
+        {
+          SCM el = scm_list_ref (list, scm_from_int (i));
+          if (scm_is_pair (el))
+            {
+              gchar *label = NULL;
+              if (scm_is_string (scm_car (el)) && scm_is_bool (scm_cdr (el)))
+                {
+                  label = scm_to_locale_string (scm_car (el));
+                  status[i]  = scm_is_true (scm_cdr (el));
+                }
+              if (label)
+                {
+                  GtkWidget *item = gtk_check_button_new_with_label (label);
+                  
+                  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(item), status [i]);
+                  gtk_container_add (GTK_CONTAINER (content_area), item);
+                  g_signal_connect_swapped (G_OBJECT (item), "toggled", G_CALLBACK (toggle_value), &status[i]);
+                }
+             else
+             {
+              return SCM_BOOL_F;
+            }
+          }
+        }
+        gtk_widget_show_all (dialog);
+        gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+        switch (result)
+          {
+            case GTK_RESPONSE_ACCEPT:
+               for (i = 0; i < length; i++)
+                {
+                    scm_list_set_x (list, scm_from_int (i), scm_cons (scm_car (scm_list_ref (list, scm_from_int (i))), scm_from_bool (status[i])));
+                }
+               g_free (status);
+               break;
+            default:
+                gtk_widget_destroy (dialog);
+               return SCM_BOOL_F;
+          }
+        gtk_widget_destroy (dialog);
+    }
+  return list;
+}
+
+
 
 SCM
 scheme_create_palette_button (SCM palette, SCM lbl, SCM tltp, SCM scrp) 
