@@ -664,7 +664,7 @@ static void clear_scroll_points (void)
 
 static void help_scroll_points (void)
 {
-    infodialog (_("This the Playback View Window. Click on a note to play from that note to the end. Click again to stop play. Drag between two notes to play from the first to the last, shift drag to create a loop. Click on a note and drag earlier to position the Denemo cursor on that note in the Denemo Display.\n For simple scrolling set an Intro Time (during which no scrolling happens) and a rate for scrolling during the remainder of the piece. Set the rate at 0 for no scrolling. For more sophisticated control right click on a note when you have scrolled the page to the position you want it to be at when it is playing. First right click at the start of the second system (this means that the music will not scroll before that); then scroll to position the end and right click the first note of the last system of the piece. If there are changes of pace then right click on the note where this happens once you have scrolled the page. Enter all scroll points in playing order."));
+    infodialog (_("This the Playback View Window. Click on a note to play from that note to the end. Click again to stop play. Drag between two notes to play from the first to the last, shift drag to create a loop. Click on a note and drag earlier to position the Denemo cursor on that note in the Denemo Display.\n For simple scrolling check the box. For more sophisticated control right click on a note when you have scrolled the page to the position you want it to be at when it is playing. First right click at the start of the second system (this means that the music will not scroll before that); then scroll to position the end and right click the first note of the last system of the piece. If there are changes of pace then right click on the note where this happens once you have scrolled the page. Enter all scroll points in playing order."));
 }
 static void
 playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean print)
@@ -1179,57 +1179,12 @@ motion_notify (GtkWidget * window, GdkEventMotion * event)
 
 
 
-static void scroll_dialog (void)
+static void scroll_toggle (void)
 {
-  DenemoProject *gui = Denemo.project;
-  GtkWidget *dialog;
-  GtkWidget *label;
-  GtkWidget *hbox;
-
-  GtkWidget *intro;
-  GtkWidget *rate;
-  
-  dialog = gtk_dialog_new_with_buttons (_("Automatic Scrolling"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), _("_OK"), GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_RESPONSE_REJECT, NULL);
-
-  hbox = gtk_hbox_new (FALSE, 8);
-
-  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-  gtk_container_add (GTK_CONTAINER (content_area), hbox);
-
-  //TODO calculate hightest number in seconds
-  gdouble max_end_time = 7200.0;
-  //g_list_length (((DenemoStaff *) (gui->movement->thescore->data))->measures);
-  GtkWidget *button;
-  label = gtk_label_new (_("Introduction Time (secs)"));
-  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
-
-  intro = gtk_spin_button_new_with_range (0.0, 30.0, 1.0);
-  gtk_box_pack_start (GTK_BOX (hbox), intro, TRUE, TRUE, 0);
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (intro), (gdouble) IntroTime);
-
-  label = gtk_label_new (_("Scroll Rate"));
-  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
-
-  rate = gtk_spin_button_new_with_range (0.0, 100, 1.0);
-  gtk_box_pack_start (GTK_BOX (hbox), rate, TRUE, TRUE, 0);
-
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (rate), (gdouble) ScrollRate);
-
-
-
-  gtk_widget_show (hbox);
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);      
-  gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
-  gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
-  gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-  gtk_widget_show_all (dialog);
-
-  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
-    {
-      IntroTime = gtk_spin_button_get_value (GTK_SPIN_BUTTON (intro));
-      ScrollRate = gtk_spin_button_get_value (GTK_SPIN_BUTTON (rate));
-    }
-  gtk_widget_destroy (dialog);
+ 
+  if (ScrollRate > 0)
+    ScrollRate = 0.0;
+  else ScrollRate = 10.0;
 }
 
 
@@ -1256,9 +1211,17 @@ install_svgview (GtkWidget * top_vbox)
    button = (GtkWidget*)gtk_button_new_with_label (_("Current Part"));
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (part_button), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-    button = (GtkWidget*)gtk_button_new_with_label (_("Set Scrolling"));
+  
+  
+  
+    button = (GtkWidget*)gtk_check_button_new_with_label (_("Simple Scrolling"));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-  g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (scroll_dialog), NULL); 
+  g_signal_connect_swapped (G_OBJECT (button), "toggled", G_CALLBACK (scroll_toggle), NULL); 
+  
+  
+  
+  
   ClearScrollPointsButton = gtk_button_new_with_label (_("Clear Scroll Points"));
   g_signal_connect (G_OBJECT (ClearScrollPointsButton), "clicked", G_CALLBACK (clear_scroll_points), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), ClearScrollPointsButton, FALSE, FALSE, 0);
