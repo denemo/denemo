@@ -121,7 +121,7 @@ Copyright © 2009, 2010, 2011, 2012, 2013, 2014, 2015 Denemo Project
 
 \begin_layout Standard
 \align center
-Updates for version 2.0.4
+Updates for version 2.0.6
 \end_layout
 
 \begin_layout Standard
@@ -2141,6 +2141,21 @@ The playback starts at the playback start marker (a line in green down the
 \end_layout
 
 \begin_layout Standard
+The Play Selection button plays the selection or, if no selection plays
+ from the Denemo cursor position to the end.
+\end_layout
+
+\begin_layout Standard
+The Mute Staffs button allows you to select groups of staffs to play, muting
+ others.
+\end_layout
+
+\begin_layout Standard
+Always Full Volume if checked means that the dynamics in the piece are ignored
+ - good for checking note pitches are correct.
+\end_layout
+
+\begin_layout Standard
 Playing of sections of the music and looping is possible (including editing
  as the music loops, so that you can listen to different possibilities)
  as well as recording the audio output (mixed with anything you play on
@@ -2183,6 +2198,8 @@ Playback is not restricted to equal temperament - the drop down menu allows
 \begin_layout Standard
 All these commands can be used in conjunction with the Playback View window,
  which lets you see the playback animated on a properly typeset score.
+ And you can also initiate playback from the Typeset View by clicking on
+ noteheads there.
 \end_layout
 
 \begin_layout Subsection
@@ -3503,8 +3520,8 @@ name "sec:The-Print-View"
 The print view window is shown by checking View->Print View.
  This view shows the typeset score as it will be printed on paper.
  It also allows you to locate the place in the Denemo Display belonging
- to a particular note or mark in the score, and allows some graphical editing
- of the score.
+ to a particular note or mark in the score, start playing the music at any
+ note and allows some graphical editing of the score.
 \end_layout
 
 \begin_layout Subsection
@@ -3628,6 +3645,13 @@ The mouse scroll wheel enables vertical panning and with Shift horizontal
  With Control pressed you can zoom the view, which is very important for
  re-shaping slurs.
  Right click for help with tweaking beam angles, slurs etc.
+\end_layout
+
+\begin_layout Standard
+Shift-Clicking on a notehead or marking selects the object (blue box appears)
+ and positions the Denemo cursor at that point so that you can start editing.
+ Clicking without shift starts playing at that point - click again to stop
+ the play.
 \end_layout
 
 \begin_layout Standard
@@ -3804,8 +3828,7 @@ To start play from a note just click on the notehead, click again to stop
  the playback to end.
  To loop-play hold the shift key down as you drag from the start to the
  end of the passage to be looped over.
- To position the Denemo cursor at a note or rest click on it and drag to
- a previous note in the same part (it won't try to play backwards!).
+ To position the Denemo cursor at a note or rest shift-click a the notehead.
 \end_layout
 
 \begin_layout Standard

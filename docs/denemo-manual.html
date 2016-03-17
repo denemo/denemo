@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2016-02-22"/>
+<meta name="create-date" content="2016-03-17"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -36,7 +36,7 @@ Copyright © 2009, 2010, 2011, 2012, 2013, 2014, 2015 Denemo Project
 </div>
 <div class="Indented">
 <div class="center">
-Updates for version 2.0.4
+Updates for version 2.0.6
 </div>
 
 </div>
@@ -748,7 +748,7 @@ Table of Contents
 <a class="toc" name="toc-Part-I">Part I.</a> Getting Started
 </h1>
 <h1 class="Section-">
-<a class="toc" name="toc-Section--1"></a>Introduction  <span class="unknown">\pagenumbering</span>arabic  
+<a class="toc" name="toc-Section--1"></a>Introduction  
 </h1>
 <div class="Unindented">
 Denemo lets you create musical scores. You can type music in using the keyboard or play it in using a MIDI contoller or the microphone input. You can edit your music - the input display window shows you what you are working on in music notation - and you can playback to check how it sounds. The Print View window shows the final printed score, typeset to the highest standards used in the music publishing industry - thanks to the Lilypond music typesetting program.
@@ -1419,7 +1419,7 @@ Jumps to the last measure of the movement.
 <a class="toc" name="toc-Subsection-3.4">3.4</a> Playback Controls<a class="Label" name="sub:Playback-Controls"> </a>
 </h2>
 <div class="Unindented">
-<img class="embedded" src="images/playbackcontrols.png" alt="figure images/playbackcontrols.png" style="width: 789px; max-width: 1128px; height: 89px; max-height: 128px;"/>
+<img class="embedded" src="images/playbackcontrols.png" alt="figure images/playbackcontrols.png" style="width: 796px; max-width: 1138px; height: 78px; max-height: 112px;"/>
 
 </div>
 <div class="Indented">
@@ -1427,6 +1427,15 @@ As with all controls and menu items you should hover over the buttons with the m
 </div>
 <div class="Indented">
 The playback starts at the playback start marker (a line in green down the score in the Denemo Display) and stops at the playback end marker (a red line). These lines are not displayed all the time, just once the play has been used at least once. The start/end markers can be altered with the arrow keys on either side of the Play and Record buttons. The arrows to the left adjust the playback start, those to the right the playback end (hover over the arrows for details).
+</div>
+<div class="Indented">
+The Play Selection button plays the selection or, if no selection plays from the Denemo cursor position to the end.
+</div>
+<div class="Indented">
+The Mute Staffs button allows you to select groups of staffs to play, muting others.
+</div>
+<div class="Indented">
+Always Full Volume if checked means that the dynamics in the piece are ignored - good for checking note pitches are correct.
 </div>
 <div class="Indented">
 Playing of sections of the music and looping is possible (including editing as the music loops, so that you can listen to different possibilities) as well as recording the audio output (mixed with anything you play on your MIDI keyboard if you have recording set in the MIDI controls).
@@ -1444,7 +1453,7 @@ While playing back the note(s) being played are highlighted - the page view mode
 Playback is not restricted to equal temperament - the drop down menu allows you to choose from a variety of historic temperaments for playback.
 </div>
 <div class="Indented">
-All these commands can be used in conjunction with the Playback View window, which lets you see the playback animated on a properly typeset score.
+All these commands can be used in conjunction with the Playback View window, which lets you see the playback animated on a properly typeset score. And you can also initiate playback from the Typeset View by clicking on noteheads there.
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-3.5">3.5</a> Midi In Controls<a class="Label" name="sub:Midi-In-Controls"> </a>
@@ -1919,7 +1928,7 @@ In the pattern-following case you will be selecting snippets using <tt>Shift-Spa
 
 </div>
 <div class="Indented">
-The print view window is shown by checking View-&gt;Print View. This view shows the typeset score as it will be printed on paper. It also allows you to locate the place in the Denemo Display belonging to a particular note or mark in the score, and allows some graphical editing of the score.
+The print view window is shown by checking View-&gt;Print View. This view shows the typeset score as it will be printed on paper. It also allows you to locate the place in the Denemo Display belonging to a particular note or mark in the score, start playing the music at any note and allows some graphical editing of the score.
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-7.1">7.1</a> The Buttons
@@ -1965,6 +1974,9 @@ Next, Previous. Navigate to the next/previous page of the score. You can scroll 
 </h2>
 <div class="Unindented">
 The mouse scroll wheel enables vertical panning and with Shift horizontal panning. With Control pressed you can zoom the view, which is very important for re-shaping slurs. Right click for help with tweaking beam angles, slurs etc.
+</div>
+<div class="Indented">
+Shift-Clicking on a notehead or marking selects the object (blue box appears) and positions the Denemo cursor at that point so that you can start editing. Clicking without shift starts playing at that point - click again to stop the play.
 </div>
 <div class="Indented">
 Right clicking in a blank area of the typeset view (normal cursor) gives a menu providing help and allowing you to typeset with the control points for curves and the location points of objects marked as red dots and crosses. Be sure to turn off these red dots and crosses before printing or creating a customized score layout, as they are embedded in the score and will print.
@@ -2015,7 +2027,7 @@ Page or line breaks added by right-clicking on a note at a barline and choosing 
 This is a fully typeset view with full-featured MIDI playback. The music is typeset on one long page against a yellow background and scrolls up as it plays. As a bonus, a single part can be typeset in this view with the whole accompaniment included in the playback - you can play from the part while hearing the other instruments.
 </div>
 <div class="Indented">
-To start play from a note just click on the notehead, click again to stop playback. To play a short passage click on a notehead and drag to where you want the playback to end. To loop-play hold the shift key down as you drag from the start to the end of the passage to be looped over. To position the Denemo cursor at a note or rest click on it and drag to a previous note in the same part (it won’t try to play backwards!).
+To start play from a note just click on the notehead, click again to stop playback. To play a short passage click on a notehead and drag to where you want the playback to end. To loop-play hold the shift key down as you drag from the start to the end of the passage to be looped over. To position the Denemo cursor at a note or rest shift-click a the notehead.
 </div>
 <div class="Indented">
 <img class="embedded" src="images/PlaybackView.png" alt="figure images/PlaybackView.png" style="width: 365px; max-width: 731px; height: 376px; max-height: 752px;"/>
@@ -4995,7 +5007,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-02-22T17:59:24.492385</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-03-17T20:22:56.124437</span>
 </div>
 </div>
 </body>
