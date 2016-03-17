@@ -4272,6 +4272,11 @@ set_master_tempo (DenemoMovement * si, gdouble tempo)
     }
 }
 
+static void toggle_dynamic_compression (gboolean *compression)
+{
+    *compression = 100 * (!*compression);
+}
+
 /* create_window() creates the toplevel window and all the menus - it only
    called once per invocation of Denemo */
 static void
@@ -4502,7 +4507,12 @@ create_window (void)
       g_signal_connect (G_OBJECT (master_vol_adj), "value_changed", G_CALLBACK (pb_volume), NULL);
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
 
-
+      GtkWidget *always_full_volume = gtk_check_button_new_with_label (_("Always Full Volume"));
+      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (always_full_volume), Denemo.prefs.dynamic_compression);
+      g_signal_connect_swapped (G_OBJECT (always_full_volume), "toggled", G_CALLBACK (toggle_dynamic_compression), &Denemo.prefs.dynamic_compression);
+      gtk_box_pack_start (GTK_BOX (hbox), always_full_volume, FALSE, FALSE, 10);
+      
+      
       // Audio Volume
       Denemo.audio_vol_control = gtk_hbox_new (FALSE, 1);
       label = gtk_label_new (_("Audio Volume Cut"));
