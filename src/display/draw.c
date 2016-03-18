@@ -1789,7 +1789,7 @@ draw_callback (cairo_t * cr)
       gdk_color_parse ("lightblue", &col);
       gdk_cairo_set_source_color (cr, &col);
     }
-  else if (gtk_widget_has_focus (Denemo.scorearea))
+  else if (gtk_widget_has_focus (Denemo.scorearea) && gtk_widget_is_focus (Denemo.scorearea))
     {
       if (Denemo.project->input_source == INPUTMIDI && (Denemo.keyboard_state == GDK_LOCK_MASK || Denemo.keyboard_state == GDK_SHIFT_MASK))      //listening to MIDI-in
         cairo_set_source_rgb (cr, 0.9, 0.85, 1.0);
