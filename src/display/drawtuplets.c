@@ -22,6 +22,7 @@ draw_tupbracket (cairo_t * cr, gint xx, gint y, DenemoObject * theobj, gint star
   static GString *tupopentext = NULL;
   if (!tupopentext)
     tupopentext = g_string_new (NULL);
+  cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.4);
   if (((tuplet *) theobj->object)->directives)
     draw_for_directives (cr, ((tuplet *) theobj->object)->directives, xx, y - 4, TRUE);
   else
