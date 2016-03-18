@@ -1716,7 +1716,7 @@ printarea_button_press (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event
   if (audio_is_playing ())
     {
         call_out_to_guile ("(DenemoStop)");
-       // get_wysiwyg_info()->Mark.width = 0;
+        switch_back_to_main_window ();
     }
 
   get_wysiwyg_info()->button = event->button;
