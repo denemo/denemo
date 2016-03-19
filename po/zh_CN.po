@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: denemo-2.0.4-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2016-02-23 09:30+0000\n"
-"PO-Revision-Date: 2016-03-18 19:40+0800\n"
+"PO-Revision-Date: 2016-03-19 10:13+0800\n"
 "Last-Translator: Tianze Wang <zwpwjwtz@126.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -12414,7 +12414,7 @@ msgstr "判断音符所位于的间的名称"
 #.
 #: ../actions/menus/MainMenu/Educational/Note-Reading/StepSkipOrSame.xml.h:1
 msgid "Step, Skip, or Same?"
-msgstr "级进，跳进，还是"
+msgstr "级进，跳进，还是相同？"
 
 #: ../actions/menus/MainMenu/Educational/Note-Reading/StepSkipOrSame.xml.h:3
 #, no-c-format
@@ -22773,7 +22773,7 @@ msgstr "在第一页的右上角显示一小段文本。"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreArranger.xml.h:2
 msgid "Name of the arranger, flush-right below the composer."
-msgstr "编曲者姓名，置于作曲者右边。"
+msgstr "编曲者姓名，右对齐显示在作曲者下方。"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreBreakbefore.xml.h:1
 msgid "Breakbefore"
@@ -22785,7 +22785,7 @@ msgstr "强制在新的一页中显示标题（设置为 ##t 或 ##f）。"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreComposer.xml.h:2
 msgid "Name of the composer, flush-right below the subsubtitle."
-msgstr "作曲者姓名，置于小标题右边。"
+msgstr "作曲者姓名，右对齐显示在小标题下方。"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreCopyright.xml.h:2
 msgid "Copyright notice, centered at the bottom of the first page. To insert the copyright symbol, see Lilypond Text encoding."
@@ -22793,11 +22793,11 @@ msgstr "在第一页的底部居中显示版权声明。若要插入版权符号
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreDedication.xml.h:1
 msgid "Dedication"
-msgstr ""
+msgstr "题词"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreDedication.xml.h:2
 msgid "The dedicatee of the music, centered at the top of the first page."
-msgstr ""
+msgstr "接受题词者，居中显示在首页顶部。"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreInstrument.xml.h:1
 msgid "Instrument"
@@ -22809,11 +22809,11 @@ msgstr "居中显示在乐谱标题下方的乐器名称。也会居中显示在
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreMeter.xml.h:1
 msgid "Meter"
-msgstr ""
+msgstr "节拍"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreMeter.xml.h:2
 msgid "Meter string, flush-left below the poet."
-msgstr ""
+msgstr "节拍字符串，左对齐显示在诗人下方。"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScorePoet.xml.h:1
 msgid "Poet"
@@ -22821,7 +22821,7 @@ msgstr "诗人"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScorePoet.xml.h:2
 msgid "Name of the poet, flush-left below the subsubtitle."
-msgstr "诗人姓名，置于子标题左边。"
+msgstr "诗人姓名，左对齐显示在子标题下方。"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreSubsubtitle.xml.h:1
 msgid "Subsubtitle"
