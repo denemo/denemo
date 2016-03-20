@@ -863,12 +863,19 @@ parseNote (xmlNodePtr noteElem, DenemoObject * chordObj, clef *currentClef)
      */
   }
 
-  /* Now actually construct the note object. */
-  chordObj->keysig = &((DenemoStaff *) Denemo.project->movement->currentstaff->data)->keysig;
-  chordObj->clef = &((DenemoStaff *) Denemo.project->movement->currentstaff->data)->clef;
-  static stemdirective dummy = {2, NULL};
-  chordObj->stemdir = &dummy;//is this needed?
-
+  static stemdirective dummystem = {2, NULL};
+      chordObj->stemdir = &dummystem;//is this needed?
+  static clef dummyclef = {DENEMO_TREBLE_CLEF, NULL};
+      chordObj->clef = &dummyclef;
+  static keysig dummykey = {0};
+      chordObj->keysig = &dummykey;//is this needed?
+ if (Denemo.project->movement) //NULL for snippets
+     {
+      chordObj->keysig = &((DenemoStaff *) Denemo.project->movement->currentstaff->data)->keysig;
+      chordObj->clef = &((DenemoStaff *) Denemo.project->movement->currentstaff->data)->clef;
+    }
+  
+ /* Now actually construct the note object. */
  //g_print ("Adding a note with keysig type %d\n", ((DenemoStaff *) Denemo.project->movement->currentstaff->data)->keysig.number);
   note *newnote = addtone (chordObj, middleCOffset, accidental);
   newnote->directives = directives;
