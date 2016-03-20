@@ -1,3 +1,24 @@
+2016-03-20 Release 2.0.6
+    Play Back Controls
+        Buttons to play selection or from cursor
+            Fix bugs with initial use 
+        Mute Staffs
+            Mute/Un-mute all or groups of staffs 
+        Whole Score Volume Override
+    Denemo Display
+        Upbeat bar numbering matches typesetter
+    LilyPond Error Reporting
+        Separate report for each run
+        Only report include filenames when they error
+    Playback View
+        Shift-Click to Navigate
+        Revert to simple MIDI while editing
+    Playback from Typeset View
+        Unified interface with Playback View
+    Translations
+        Chinese (Simplified) Translation 
+
+
 2016-02-23 Release 2.0.4
     Conditional Directives on Chords/Notes
         Create editions with/without ornaments, fingerings …
