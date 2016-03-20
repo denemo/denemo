@@ -318,6 +318,7 @@ delete_movement (GtkAction * action, DenemoScriptParam* param)
 
 /* go to the movement voice measure staff and object numbers (starting from 1)
  movementnum<=0 means current movement
+ * objnum 0 finds first object if any
 possible_gui is really a flag interactive or not
 */
 gboolean

@@ -2898,7 +2898,7 @@ SCM
 scheme_get_imported_midi_track (SCM index)
 {
     if(scm_is_integer(index)) { 
-        gint idx =scm_to_int (index);
+        gint idx = scm_to_int (index);
         if(get_imported_midi_track (idx))
             return SCM_BOOL_F;
         }
@@ -2987,7 +2987,38 @@ scheme_get_measure_number (void)
   return scm_from_int (Denemo.project->movement->currentmeasurenum);
 }
 
+SCM
+scheme_set_measure_number_offset (SCM val)
+{
+    DenemoMeasure *themeasure;
+    if (scm_is_integer (val))
+        {
+            gint offset = scm_to_int (val);
+            DenemoPosition pos;
+            get_position (Denemo.project->movement, &pos);  
+            
+            gint i=1;
+            
+            while (goto_movement_staff_obj (NULL, -1, i++, pos.measure, 0, 0))
+                {
+                    themeasure = (DenemoMeasure *)Denemo.project->movement->currentmeasure->data;
+                    themeasure->measure_numbering_offset =  offset;
+                }
+            goto_movement_staff_obj (NULL, -1, pos.staff, pos.measure, pos.object, pos.leftmeasurenum);
+            cache_all ();
+        }
+    else 
+    return SCM_BOOL_F;
+  themeasure = Denemo.project->movement->currentmeasure->data;     
+  return scm_from_int (themeasure->measure_numbering_offset);
+}
 
+SCM
+scheme_get_measure_number_offset (void)
+{
+    DenemoMeasure *themeasure = Denemo.project->movement->currentmeasure->data;
+    return scm_from_int (themeasure->measure_numbering_offset);
+}
 
 
 SCM

@@ -182,6 +182,8 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Returns the tick count (PPQN) for the start of the object at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetStartTick", scheme_get_start_tick);
 
   install_scm_function (0, "Returns the measure number at cursor position.", DENEMO_SCHEME_PREFIX "GetMeasureNumber", scheme_get_measure_number);
+  install_scm_function (0, "Returns the value set on the current measure by which the measure numbers in the Denemo Displayed should be offset from this point on.", DENEMO_SCHEME_PREFIX "GetMeasureNumberOffset", scheme_get_measure_number_offset);
+  install_scm_function (1, "Takes a value to set on the current measure. The measure numbers in the Denemo Display will be offset from this point on by this amount. No effect on the typesetting.", DENEMO_SCHEME_PREFIX "SetMeasureNumberOffset", scheme_set_measure_number_offset);
 
 
   install_scm_function (0, "Takes LilyPond note name string. Moves the cursor to the line or space", DENEMO_SCHEME_PREFIX "CursorToNote", scheme_cursor_to_note);

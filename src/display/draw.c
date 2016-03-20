@@ -132,7 +132,7 @@ struct infotopass
   gint tickspermeasure;
   gint wholenotewidth;
   gint objnum;
-  gint measurenum;              //would need measurenum_adj to allow control of numbering after pickup etc...
+  gint measurenum;              
   gint staffnum;
   gboolean end;                 //if we have drawn the last measure
   gint top_y;
@@ -750,10 +750,19 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
 
   if (cr)
     {
+        
+     DenemoMeasure *meas = (DenemoMeasure*)curmeasure->data;
+     if (meas->measure_numbering_offset)
+        {
+          cairo_set_source_rgba (cr, 0.2, 0.1, 0.8, 0.7);
+          g_string_sprintf (mstring, "%d", meas->measure_numbering_offset);
+          drawlargetext_cr (cr, mstring->str, x - SPACE_FOR_BARLINE - 5, y + 2 * STAFF_HEIGHT - 10);
+        }
+        
       if (itp->measurenum > 1)
-        {                       //don't draw meassure number 1, as it collides and is obvious anyway and is never typeset thus
+        {                       //don't draw first measure number, as it collides and is obvious anyway and is never typeset thus
           cairo_set_source_rgba (cr, 0, 0, 0, 0.5);
-          g_string_sprintf (mstring, "%d", itp->measurenum);
+          g_string_sprintf (mstring, "%d", meas->measure_number);
           drawnormaltext_cr (cr, mstring->str, x - SPACE_FOR_BARLINE - 5, y - 3);
         }
     }

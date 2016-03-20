@@ -345,6 +345,8 @@ typedef struct DenemoMeasure {
     keysig *keysig;
     timesig *timesig;
     stemdirective *stemdir;
+    gint measure_number; //measure number to display
+    gint measure_numbering_offset;//measures from this one on should display numbers offset by this value from actual measure count.
 }  DenemoMeasure;
 
 /* The ->data part of each staffnode points to a staff structure */

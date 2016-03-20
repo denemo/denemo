@@ -1348,7 +1348,7 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem)
     g_free (locked);
     gchar *ticks = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) "ticks");
     if (ticks)
-    curobj->durinticks = atoi (ticks);
+        curobj->durinticks = atoi (ticks); //FIXME memory leak on ticks
   return curobj;
 }
 
@@ -2495,7 +2495,9 @@ parseMeasures (xmlNodePtr measuresElem, DenemoMovement * si)
           
         ((DenemoMeasure*)si->currentmeasure->data)->objects = parseMeasure (childElem, &currentClef, 
             &((DenemoStaff *) si->currentstaff->data)->hasfigures, &((DenemoStaff *) si->currentstaff->data)->hasfakechords);
-
+        gchar *offset = (gchar *) xmlGetProp (childElem, (xmlChar *) "offset");
+        if (offset)
+            ((DenemoMeasure*)si->currentmeasure->data)->measure_numbering_offset = atoi (offset); //FIXME memory leak on offset
         si->currentmeasurenum++;
         si->currentmeasure = si->currentmeasure->next;
       }                         /* end if childElem is a <measure> */

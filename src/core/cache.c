@@ -18,12 +18,13 @@
  */
 #include "core/cache.h"
 
-static void measure_set_cache (DenemoMeasure *meas, clef *clef, timesig *timesig, keysig *keysig, stemdirective *stem)
+static void measure_set_cache (DenemoMeasure *meas, clef *clef, timesig *timesig, keysig *keysig, stemdirective *stem, gint offset)
 {
     meas->clef = clef;
     meas->timesig = timesig;
     meas->keysig = keysig;
     meas->stemdir = stem;
+    meas->measure_number = offset;
 }
 static void object_set_cache (DenemoObject *obj, clef *clef, keysig *keysig, stemdirective *stem)
 {
@@ -163,11 +164,13 @@ void cache_staff (staffnode *s)
         timesig *ctim =  &staff->timesig;
         keysig *ckey =  &staff->keysig;
         stemdirective *cstem =  &StemNeutral;
+        gint offset = 0;
         for (m = staff->themeasures;m; m = m->next)
             {
                 GList *o;
                 measure = (DenemoMeasure*)m->data;
-                measure_set_cache (measure, cclef, ctim, ckey, cstem);
+                offset += measure->measure_numbering_offset;
+                measure_set_cache (measure, cclef, ctim, ckey, cstem, ++offset);
                 for (o=measure->objects; o; o = o->next)
                     {
                        DenemoObject *obj = (DenemoObject *)o->data;
