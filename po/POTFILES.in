@@ -1385,6 +1385,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DynamicsExtraSpace.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DynamicsExtraSpace.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/LengthenHairpin.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/LengthenHairpin.xml
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.scm
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.xml
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.scm
