@@ -7751,6 +7751,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Mute Stafffs</_label>
         <_tooltip>Select which staffs should be muted during playback.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>LengthenHairpin</action>
+        <after>DynamicsExtraSpace</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
+        <_label>Lengthen Hairpin</_label>
+        <_tooltip>Inserts a directive to lengthen the following cresc or dim hairpin.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

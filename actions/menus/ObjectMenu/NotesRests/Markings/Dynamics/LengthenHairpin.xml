@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>LengthenHairpin</action>
+        <after>DynamicsExtraSpace</after>
+        <_label>Lengthen Hairpin</_label>
+        <_tooltip>Inserts a directive to lengthen the following cresc or dim hairpin.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
