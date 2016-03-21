@@ -34,7 +34,9 @@ calcheight (gpointer data, gpointer user_data)
  */
 void
 newclefify (DenemoObject * thechord)
-{
+{ 
+  if (((chord *) thechord->object)->notes == NULL)
+    return;
   gint dclef = thechord->clef->type;
   g_list_foreach (((chord *) thechord->object)->notes, calcheight, GINT_TO_POINTER (dclef));
   ((chord *) thechord->object)->highesty = calculateheight (((chord *) thechord->object)->highestpitch, dclef);
