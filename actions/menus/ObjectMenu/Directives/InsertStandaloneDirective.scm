@@ -16,5 +16,5 @@
             (if (and answer (not (string=? answer "")))
                 (begin
                     (if replace 
-                        (d-DirectivePut-standalone-postfix (d-DirectiveGetTag-standalone) answer)
-                        (StandAloneDirectiveProto (cons (d-GetChecksum answer) answer))))))))
+                        (d-DirectivePut-standalone-postfix (d-DirectiveGetTag-standalone) (string-append answer " "))
+                        (StandAloneDirectiveProto (cons (d-GetChecksum answer) (string-append answer " ")))))))))
