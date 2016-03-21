@@ -323,7 +323,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
            {
             cairo_save (cr);
             //if staff->range and thechord->highesty staff->range_hi ...
-            if (itp->range && ((thechord->highestpitch > itp->range_hi) || (thechord->lowestpitch < itp->range_lo)))
+            if (thechord->notes && ((itp->range && ((thechord->highestpitch > itp->range_hi) || (thechord->lowestpitch < itp->range_lo)))))
                 cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, 1.0);
             else
                 cairo_set_source_rgba (cr, itp->red, itp->green, itp->blue, itp->alpha);
