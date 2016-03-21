@@ -394,6 +394,8 @@ removetone (DenemoObject * thechord, gint mid_c_offset)
       g_list_free_1 (tnode);
     }
 
+  if (((chord *) thechord->object)->notes==NULL)
+     ((chord *) thechord->object)->highesty = ((chord *) thechord->object)->lowesty = 0;
   return (gboolean) (intptr_t) tnode;
 }
 
