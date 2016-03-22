@@ -1671,7 +1671,7 @@ insertion_point (DenemoMovement * si)
   //g_debug ("next_measure %d\n", next_measure);
   next_measure = FALSE;
   if(si->cursoroffend && si->cursor_appending) {
-     if ( (!si->currentmeasure->next) || (!si->currentmeasure->next->data))
+     if ( (!si->currentmeasure->next) || (!((DenemoMeasure*)si->currentmeasure->next->data)->objects))
       next_measure = TRUE;
      else 
         {
@@ -1761,8 +1761,19 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
                         gint ticks  = (curObj->durinticks/ curObj->basic_durinticks) * WHOLE_NUMTICKS / (1 << duration); /* takes into account prevailing tuple */                  
                         gint tickspermeasure =  WHOLE_NUMTICKS * ((DenemoMeasure*)si->currentmeasure->data)->timesig->time1 / ((DenemoMeasure*)si->currentmeasure->data)->timesig->time2;
                         if ((curObj->starttickofnextnote < tickspermeasure) && ((ticks + curObj->starttickofnextnote) > tickspermeasure))
-                        {
+                        { 
+                           
+                            
+                            
+                            
                             dnm_insertchord (gui, duration+1, mode, rest); 
+                            //!!!!set si->cursoroffend if measure is full
+                            {
+                               DenemoObject *curObj = si->currentobject->data;  
+                               si->cursoroffend = (curObj->starttickofnextnote >= tickspermeasure);
+                            }
+                            
+                            
                             toggle_tie (NULL, NULL);
                             dnm_insertchord (gui, duration+1, mode, rest);
                             return;
