@@ -919,15 +919,18 @@ stem_down (GtkAction* action, DenemoScriptParam *param)
 void
 tie_notes_key (GtkAction* action, DenemoScriptParam *param)
 {
-  DenemoObject *curmudelaobj = (DenemoObject *) (Denemo.project->movement->currentobject ? Denemo.project->movement->currentobject->data : NULL);
+  DenemoObject *curObj = (DenemoObject *) (Denemo.project->movement->currentobject ? Denemo.project->movement->currentobject->data : NULL);
 
   /* Equals - toggle whether this note is tied */
-  if (curmudelaobj && curmudelaobj->type == CHORD && ((chord *) curmudelaobj->object)->notes)
+  if (curObj && curObj->type == CHORD && ((chord *) curObj->object)->notes)
     {
         if (Denemo.project->movement->cursor_appending)
             {
+              DenemoMovement *si = Denemo.project->movement;
+              gint tickspermeasure =  WHOLE_NUMTICKS * ((DenemoMeasure*)si->currentmeasure->data)->timesig->time1 / ((DenemoMeasure*)si->currentmeasure->data)->timesig->time2;
+              si->cursoroffend = (curObj->starttickofnextnote >= tickspermeasure);
               insertion_point (Denemo.project->movement);
-              object_insert (Denemo.project, dnm_clone_object (curmudelaobj));
+              object_insert (Denemo.project, dnm_clone_object (curObj));
               movecursorleft (NULL, NULL);
               movecursorleft (NULL, NULL);
               toggle_tie (NULL, NULL);
@@ -935,7 +938,7 @@ tie_notes_key (GtkAction* action, DenemoScriptParam *param)
               movecursorright (NULL, NULL);
           } else
           {
-              object_insert (Denemo.project, dnm_clone_object (curmudelaobj));
+              object_insert (Denemo.project, dnm_clone_object (curObj));
               movecursorleft (NULL, NULL);
               ((chord *) ((DenemoObject *)Denemo.project->movement->currentobject->data)->object)->is_tied = 1;
               movecursorright (NULL, NULL);

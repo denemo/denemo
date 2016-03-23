@@ -1750,41 +1750,29 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
 //well, they are cached as cursortime1 and 2 in the DenemoMovement structure.
 // is the curObj->starttickofnextnote > tickspermeasure where  tickspermeasure = WHOLE_NUMTICKS * time1 / time2
 
-    if(Denemo.prefs.spillover && si->cursor_appending)
+  if(Denemo.prefs.spillover && si->cursor_appending)
     { 
      DenemoObject *curObj;
     
-            if(duration>= 0 && si->currentobject && (curObj=si->currentobject->data))
-            {
-                if(curObj->type==CHORD)
-                    {//g_print("dur %d base %d\n", curObj->durinticks, curObj->basic_durinticks);
-                        gint ticks  = (curObj->durinticks/ curObj->basic_durinticks) * WHOLE_NUMTICKS / (1 << duration); /* takes into account prevailing tuple */                  
-                        gint tickspermeasure =  WHOLE_NUMTICKS * ((DenemoMeasure*)si->currentmeasure->data)->timesig->time1 / ((DenemoMeasure*)si->currentmeasure->data)->timesig->time2;
-                        if ((curObj->starttickofnextnote < tickspermeasure) && ((ticks + curObj->starttickofnextnote) > tickspermeasure))
-                        { 
-                           
-                            
-                            
-                            
-                            dnm_insertchord (gui, duration+1, mode, rest); 
-                            //!!!!set si->cursoroffend if measure is full
-                            {
-                               DenemoObject *curObj = si->currentobject->data;  
-                               si->cursoroffend = (curObj->starttickofnextnote >= tickspermeasure);
-                            }
-                            
-                            
-                            toggle_tie (NULL, NULL);
-                            dnm_insertchord (gui, duration+1, mode, rest);
-                            return;
-                        }
+        if(duration>= 0 && si->currentobject && (curObj=si->currentobject->data))
+        {
+        if(curObj->type==CHORD)
+            {//g_print("dur %d base %d\n", curObj->durinticks, curObj->basic_durinticks);
+                gint ticks  = (curObj->durinticks/ curObj->basic_durinticks) * WHOLE_NUMTICKS / (1 << duration); /* takes into account prevailing tuple */                  
+                gint tickspermeasure =  WHOLE_NUMTICKS * ((DenemoMeasure*)si->currentmeasure->data)->timesig->time1 / ((DenemoMeasure*)si->currentmeasure->data)->timesig->time2;
+                if ((curObj->starttickofnextnote < tickspermeasure) && ((ticks + curObj->starttickofnextnote) > tickspermeasure))
+                    { 
+                    dnm_insertchord (gui, duration+1, mode, rest); 
+                    //set si->cursoroffend if measure is full
+                    curObj = si->currentobject->data;  
+                    si->cursoroffend = (curObj->starttickofnextnote >= tickspermeasure);
+                    toggle_tie (NULL, NULL);
+                    dnm_insertchord (gui, duration+1, mode, rest);
+                    return;
                     }
+            }
         }   
     }
-
-
-
-
   /* Now actually create the chord as an object (before insertion) */
   mudela_obj_new = newchord (duration, 0, 0);
   { //we have to give the obj a clef to add the note to it
