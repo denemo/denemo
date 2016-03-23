@@ -290,6 +290,7 @@ set_properties (struct callbackdata *cbdata)
       play_midi_event (DEFAULT_BACKEND, staffstruct->midi_port, buffer);
     }
   //g_debug ("Staff Transposition %d\n", staffstruct->transposition);
+  gtk_widget_queue_draw (Denemo.scorearea);
   score_status (cbdata->gui, TRUE);
 }
 
