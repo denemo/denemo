@@ -2350,6 +2350,15 @@ scheme_get_verse (SCM number)
     }
   return SCM_BOOL_F;
 }
+
+SCM
+scheme_syllable_count (void)
+{
+  if(Denemo.project->movement->currentobject)
+    return scm_from_int (syllable_count ());
+  return SCM_BOOL_F;
+}
+
 SCM
 scheme_typeset_lyrics_for_staff (SCM on)
 {

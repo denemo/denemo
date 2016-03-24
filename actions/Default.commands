@@ -7758,6 +7758,12 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Lengthen Hairpin</_label>
         <_tooltip>Inserts a directive to lengthen the following cresc or dim hairpin.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>InsertSyllableSkips</action>
+        <after>InsertStanzaNumber</after>
+        <menupath>/ObjectMenu/Lyrics</menupath>
+        <_label>Skip Syllables in Selection</_label>
+        <_tooltip>Inserts blanks for the syllables from the start of the selection to the cursor.</_tooltip>
     </map>
   </merge>
 </Denemo>
