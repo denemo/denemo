@@ -14,7 +14,7 @@
 #include "display/draw.h"
 #include "command/lilydirectives.h"
 static GtkWidget *DummyVerse;   /* a non-existent verse */
-
+static gint SkipCount = 0; //count of syllables to be skipped
 GtkWidget*
 verse_get_current_view(DenemoStaff* staff){
   if(!staff)
@@ -112,11 +112,31 @@ scan_syllable (gchar ** next, GString * gs)
 {
   gboolean result;
   gchar *initial = *next;
+  if (SkipCount>0)
+    {
+      SkipCount--;
+      g_string_assign (gs, "(skip)");
+      return TRUE;  
+    }
   result = pango_scan_string ((const char **) next, gs);
   if (result && (*gs->str == '\\') && (*(gs->str + 1) != '\\') && (*(gs->str + 1) != '\"'))
   {
+    //if it is \repeat unfold n \skip 1 put the number n into SkipCount and return a space indicator  
+      if (!strcmp(gs->str, "\\repeat"))
+        {
+            result = pango_scan_string ((const char **) next, gs);
+            if (result && (!strcmp(gs->str, "unfold")))
+                {
+                    result = pango_scan_string ((const char **) next, gs);
+                    if(result)
+                        SkipCount = atoi (gs->str);
+                        while (**next && **next != '\n')
+                                (*next)++;              //ignore to end of line
+                        return scan_syllable (next, gs); 
+                }
+        }
     while (**next && **next != '\n')
-      (*next)++;              //skip to end of line
+      (*next)++;              //ignore to end of line
     return scan_syllable (next, gs);
   }
   if (result && ((!strcmp (gs->str, "--") || (!strcmp (gs->str, "__")))))
@@ -223,10 +243,10 @@ static gint get_character_count_at_syllable (gchar *text, gint count)
   g_string_free(gs, TRUE);
   return chars;
 }
-gboolean synchronize_lyric_cursor(void)
+gboolean synchronize_lyric_cursor(gint offset)
 {
   DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data; 
-  gint count = syllable_count() + 1;
+  gint count = syllable_count() + 1 + offset;
   GtkTextView* verse_view = (GtkTextView*)verse_get_current_view(thestaff);
   if (verse_view)
     {
@@ -488,6 +508,7 @@ lyric_iterator (GtkWidget * textview, gint count)
   }
   if (textview != DummyVerse)
   {
+    SkipCount = 0;
     if (lyrics)
       g_free (lyrics);
     lyrics = get_text_from_view (textview);
@@ -505,7 +526,7 @@ next_syllable (void)
   return lyric_iterator (NULL, 0);
 }
 
-/* rename reset_lyrics */
+/* reset_lyrics sets up the lyric iterator so that a call to next_syllable() will return the count'th syllable */
 void
 reset_lyrics (DenemoStaff * staff, gint count)
 {

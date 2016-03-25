@@ -2368,9 +2368,12 @@ scheme_typeset_lyrics_for_staff (SCM on)
     return scm_from_bool (!staff->hide_lyrics);
 }
 SCM
-scheme_synchronize_lyric_cursor (void)
+scheme_synchronize_lyric_cursor (SCM val)
 {
-    return SCM_BOOL(synchronize_lyric_cursor());
+    gint offset = 0;
+    if(scm_is_integer (val))
+        offset = scm_to_int (val);
+    return SCM_BOOL(synchronize_lyric_cursor(offset));
     
 }
 SCM
