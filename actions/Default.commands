@@ -7764,6 +7764,7 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/Lyrics</menupath>
         <_label>Skip Syllables in Selection</_label>
         <_tooltip>Inserts blanks for the syllables from the start of the selection to the cursor.</_tooltip>
+      </row>  
     </map>
   </merge>
 </Denemo>
