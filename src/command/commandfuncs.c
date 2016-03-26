@@ -1650,7 +1650,17 @@ insertion_point_for_type (DenemoMovement * si, DenemoObjType type)
     }
   insertion_point (si);
 }
-
+static void set_cursor_offend (void)
+{
+  DenemoMovement * si = Denemo.project->movement;
+  DenemoObject *curObj = si->currentobject?(DenemoObject*)si->currentobject->data:NULL;
+  if (curObj)
+    {
+        gint tickspermeasure =  WHOLE_NUMTICKS * ((DenemoMeasure*)si->currentmeasure->data)->timesig->time1 / ((DenemoMeasure*)si->currentmeasure->data)->timesig->time2;
+        si->cursoroffend = (curObj->starttickofnextnote >= tickspermeasure);
+    }
+    else si->cursoroffend = FALSE;
+}
 
 /**
  * insertion_point()
@@ -1668,7 +1678,7 @@ insertion_point (DenemoMovement * si)
   /* First, check to see if the insertion'll cause the cursor to
    * jump to the next measure. (Denemo will implicitly create it
    * if it doesn't exist already.) */
-  //g_debug ("next_measure %d\n", next_measure);
+  set_cursor_offend ();
   next_measure = FALSE;
   if(si->cursoroffend && si->cursor_appending) {
      if ( (!si->currentmeasure->next) || (!((DenemoMeasure*)si->currentmeasure->next->data)->objects))
@@ -2664,7 +2674,6 @@ dnm_deleteobject (DenemoMovement * si)
       undo->action = ACTION_DELETE;
       update_undo_info (si, undo);
     }
-
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
 }
