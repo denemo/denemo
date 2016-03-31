@@ -1171,12 +1171,12 @@
             (if (not initial)
                 (set! initial field))
             (if editing
-              (let ((response  (d-GetUserInputWithSnippets  (if score (_ "Score Titles")  (_ "Movement Titles")) (string-append (_ "Give ") field) initial)))
-                (if response
-                    (car response)
-                    #f))
-            (let ((response (d-GetUserInput (if score (_ "Score Titles")  (_ "Movement Titles")) (string-append (_ "Give ") field) initial)))
-                (if response (string-append "\"" response "\"") #f))))
+                (let ((response  (d-GetUserInputWithSnippets  (if score (_ "Score Titles")  (_ "Movement Titles")) (string-append (_ "Give ") field) initial)))
+                    (if response
+                        (car response)
+                        #f))
+                (let ((response (d-GetUserInput (if score (_ "Score Titles")  (_ "Movement Titles")) (string-append (_ "Give ") field) initial)))
+                    (if response (lilypond-markup-escape response) #f))))
             
         (define (write-titles)
             (let ((header ""))
@@ -1318,7 +1318,7 @@
  
             (case choice
                 ((dedication)
-                    (if title (set! editing #t))
+                    (if dedication (set! editing #t))
                     (set! choice (get-field (_ "dedication") dedication))
                     (if choice (set! dedication choice)))
                 ((title)
