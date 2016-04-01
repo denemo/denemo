@@ -132,7 +132,7 @@ static void
 set_printarea_doc (EvDocument * doc)
 {
   EvDocumentModel *model;
-
+  changecount = Denemo.project->changecount;
   model = g_object_get_data (G_OBJECT (Denemo.printarea), "model");     //there is no ev_view_get_model(), when there is use it
   if (model == NULL)
     {
@@ -2117,6 +2117,11 @@ implement_show_print_view (gboolean refresh_if_needed)
         }
     }
 #endif
+}
+
+gboolean printview_is_stale (void)
+{
+    return ((changecount != Denemo.project->changecount) || (Denemo.project->lilysync != Denemo.project->changecount));
 }
 
 void

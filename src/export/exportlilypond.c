@@ -29,6 +29,8 @@
 #include "command/contexts.h"
 #include "display/draw.h"
 #include "core/view.h"
+#include "audio/audiointerface.h"
+#include "printview/printview.h"
 
 #define ENTER_NOTIFY_EVENT "focus-in-event"
 #define LEAVE_NOTIFY_EVENT "focus-out-event"
@@ -2954,6 +2956,11 @@ goto_lilypond_position (gint line, gint column)
   DenemoProject *gui = Denemo.project;
   GtkTextIter enditer, iter;
 
+ if (gui->lilysync != gui->changecount)
+      refresh_lily_cb (NULL, gui);
+
+ if (printview_is_stale ())
+      play_note (DEFAULT_BACKEND, 0, 9, 69, 300, 100);
   //g_print ("goto_lilypond_position called for line %d column %d\n", line, column);
 
   gtk_text_buffer_get_end_iter (Denemo.textbuffer, &enditer);
@@ -3037,7 +3044,10 @@ goto_lilypond_position (gint line, gint column)
           return TRUE;
         }
       else
-        g_warning ("Anchor not found");
+        {
+            play_note (DEFAULT_BACKEND, 0, 9, 43, 300, 127);
+            g_warning ("Anchor not found");
+        }
     }                           //if reasonable column and line number
    
   return FALSE;
