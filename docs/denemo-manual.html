@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2016-03-19"/>
+<meta name="create-date" content="2016-04-02"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -773,10 +773,10 @@ A <i>score</i> is one or more movements usually interspersed with titles.
 A <i>staff</i> has the usual meaning, but note that it may contain several lines of music (voices).
 </li>
 <li>
-The term <i>voice</i> is used in two senses: as a line of music moving independently on a staff, and (as in <i>Voice 1</i>, <i>Voice 2</i>), a voice that has its stems in one direction, with corresponding changes to the placing of ties, slurs, ornaments etc). Voices are normally displayed on separate staffs in Denemo to make them easy to edit; the LilyPond typesetter has the task of placing them on the same staff.
+The term <i>voice</i> is used in two senses: as a line of music moving independently on a staff, <span class="versalitas">and</span> (as in <i>Voice 1</i>, <i>Voice 2</i>), a voice that has its stems in one direction, with corresponding changes to the placing of ties, slurs, ornaments etc). Voices are normally displayed on separate staffs in the Denemo Display to make them easy to edit; the LilyPond typesetter has the task of placing them on the same staff.
 </li>
 <li>
-A chord is one or more notes of the same duration making a single musical object. If the notes are of different durations then they have to be placed in separate voices, they can’t be a chord, though they may appear so in the typeset.
+A <i>chord</i> is one or more notes of the same duration making a single musical object. If the notes are of different durations then they have to be placed in separate voices, they can’t be a chord, though they may appear so in the typeset.
 </li>
 <li>
 A <i>system </i>is what might be called a &ldquo;line&rdquo; of the music, that is all the music (over several staffs) that sounds together starting at the left-hand margin and ending at the right margin.
@@ -1985,7 +1985,13 @@ Right clicking in a blank area of the typeset view (normal cursor) gives a menu 
 <a class="toc" name="toc-Subsection-7.3">7.3</a> Editing in the Print View - WYSIWYG
 </h2>
 <div class="Unindented">
-Clicking on the typeset score can locate the place in the Denemo Display belonging to it. For this to work look for the &ldquo;hand&rdquo; pointer as you move the mouse over the typeset score. Use a big enough zoom factor to make this easy. The hand pointer indicates a place where if you click the Denemo Cursor will move to the Denemo Object that belongs to that feature. The navigation works for noteheads, slurs, ties and various marks - some other things such as lyrics can’t be used to navigate - choose the note that the lyrics underlie to find the right place in the Denemo Display.
+Once you have finished entering music into Denemo you may find that you have a wrong note or two or a missed marking or slur when looking over the finished score in the Print View. It is convenient to shift-click (or click twice) on the notehead, marking etc. to position the Denemo Cursor on the object. For this to work look for the &ldquo;hand&rdquo; pointer as you move the mouse over the typeset score. The hand pointer indicates a place where if you click the Denemo Cursor will move to the Denemo Object that belongs to that feature. 
+</div>
+<div class="Indented">
+Once you have located the note you wish to edit you can press the keyboard shortcut (or play the MIDI key or any other editing method) to change the note - to add a staccato marking for example. The Print View will not instantly update, but you can continue editing while it does so. If the Print View is not up-to-date the shift-click may not locate the correct note as your edit may have displaced things; to minimize this it is best to correct faults on a page from the bottom upwards. You are given a warning noise when the print view is not up to date, and a big warning noise if the locating has completely failed.
+</div>
+<div class="Indented">
+The navigation using shift-click in the Print View works for noteheads, slurs, ties and various marks - some other things such as lyrics can’t be used to navigate - choose the note that the lyrics underlie to find the right place in the Denemo Display.
 </div>
 <div class="Indented">
 You can actually edit your input music using the mouse on the Print View window - something referred to as what-you-see-is-what-you-get (WYSIWYG), which is how the conventional music editors work all the time. But in doing this it will help if you keep in mind that the Denemo program does not know anything about what LilyPond has actually drawn in the Print View window - Denemo is just displaying the PDF file that LilyPond has created. The PDF file <i>does</i> contain links - the &ldquo;hand&rdquo; pointer - so it does &ldquo;know&rdquo; about where things are in the Denemo Display, but not the other way round. This means that to use wysiwyg features you have to tell Denemo more about what you are doing than you would expect.
@@ -5010,7 +5016,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-03-19T12:49:57.384160</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-04-02T11:59:06.605688</span>
 </div>
 </div>
 </body>

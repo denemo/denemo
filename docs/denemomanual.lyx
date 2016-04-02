@@ -245,7 +245,11 @@ The term
 voice
 \emph default
  is used in two senses: as a line of music moving independently on a staff,
- and (as in 
+ 
+\noun on
+and
+\noun default
+ (as in 
 \emph on
 Voice 1
 \emph default
@@ -255,14 +259,17 @@ Voice 2
 \emph default
 ), a voice that has its stems in one direction, with corresponding changes
  to the placing of ties, slurs, ornaments etc).
- Voices are normally displayed on separate staffs in Denemo to make them
- easy to edit; the LilyPond typesetter has the task of placing them on the
- same staff.
+ Voices are normally displayed on separate staffs in the Denemo Display
+ to make them easy to edit; the LilyPond typesetter has the task of placing
+ them on the same staff.
 \end_layout
 
 \begin_layout Itemize
-A chord is one or more notes of the same duration making a single musical
- object.
+A 
+\emph on
+chord
+\emph default
+ is one or more notes of the same duration making a single musical object.
  If the notes are of different durations then they have to be placed in
  separate voices, they can't be a chord, though they may appear so in the
  typeset.
@@ -3705,8 +3712,12 @@ Editing in the Print View - WYSIWYG
 \end_layout
 
 \begin_layout Standard
-Clicking on the typeset score can locate the place in the Denemo Display
- belonging to it.
+Once you have finished entering music into Denemo you may find that you
+ have a wrong note or two or a missed marking or slur when looking over
+ the finished score in the Print View.
+ It is convenient to shift-click (or click twice) on the notehead, marking
+ etc.
+ to position the Denemo Cursor on the object.
  For this to work look for the 
 \begin_inset Quotes eld
 \end_inset
@@ -3716,12 +3727,29 @@ hand
 \end_inset
 
  pointer as you move the mouse over the typeset score.
- Use a big enough zoom factor to make this easy.
  The hand pointer indicates a place where if you click the Denemo Cursor
  will move to the Denemo Object that belongs to that feature.
- The navigation works for noteheads, slurs, ties and various marks - some
- other things such as lyrics can't be used to navigate - choose the note
- that the lyrics underlie to find the right place in the Denemo Display.
+ 
+\end_layout
+
+\begin_layout Standard
+Once you have located the note you wish to edit you can press the keyboard
+ shortcut (or play the MIDI key or any other editing method) to change the
+ note - to add a staccato marking for example.
+ The Print View will not instantly update, but you can continue editing
+ while it does so.
+ If the Print View is not up-to-date the shift-click may not locate the
+ correct note as your edit may have displaced things; to minimize this it
+ is best to correct faults on a page from the bottom upwards.
+ You are given a warning noise when the print view is not up to date, and
+ a big warning noise if the locating has completely failed.
+\end_layout
+
+\begin_layout Standard
+The navigation using shift-click in the Print View works for noteheads,
+ slurs, ties and various marks - some other things such as lyrics can't
+ be used to navigate - choose the note that the lyrics underlie to find
+ the right place in the Denemo Display.
 \end_layout
 
 \begin_layout Standard
