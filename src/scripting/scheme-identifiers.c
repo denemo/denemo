@@ -182,6 +182,8 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Returns the tick count (PPQN) for the start of the object at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetStartTick", scheme_get_start_tick);
 
   install_scm_function (0, "Returns the measure number at cursor position.", DENEMO_SCHEME_PREFIX "GetMeasureNumber", scheme_get_measure_number);
+  install_scm_function (0, "Returns the value set on the current measure by which the measure numbers in the Denemo Displayed should be offset from this point on.", DENEMO_SCHEME_PREFIX "GetMeasureNumberOffset", scheme_get_measure_number_offset);
+  install_scm_function (1, "Takes a value to set on the current measure. The measure numbers in the Denemo Display will be offset from this point on by this amount. No effect on the typesetting.", DENEMO_SCHEME_PREFIX "SetMeasureNumberOffset", scheme_set_measure_number_offset);
 
 
   install_scm_function (0, "Takes LilyPond note name string. Moves the cursor to the line or space", DENEMO_SCHEME_PREFIX "CursorToNote", scheme_cursor_to_note);
@@ -260,6 +262,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Removes a callback from the current musical score", DENEMO_SCHEME_PREFIX "DetachQuitCallback", scheme_detach_quit_callback);
   install_scm_function (0, "Returns DENEMO_INPUTMIDI, DENEMO_INPUTKEYBOARD, DENEMO_INPUTAUDIO depending on the source of input to Denemo.", DENEMO_SCHEME_PREFIX "GetInputSource", scheme_get_input_source);
   install_scm_function (0, "Pops up a menu given by the list of pairs in the argument. Each pair should be a label string and an expression, the expression for the chosen label is returned. Alternatively the label string can be replaced by a pair of strings, label . tooltip. The third syntax is just a list of string labels, the chosen string is returned.", DENEMO_SCHEME_PREFIX "PopupMenu", scheme_popup_menu);
+  install_scm_function (1, "Pops up a dialog of check buttons given by the list of pairs in the argument and optional title argument. Each pair should be a label string and a boolean, the list is returned with booleans as chosen or #f returned of camce;;ed.", DENEMO_SCHEME_PREFIX "CheckBoxes", scheme_check_boxes);
   install_scm_function (0, "Returns a list of the target type and grob (if a directive). Target is set by clicking on the typeset version of the score at a link that LilyPond has inserted.", DENEMO_SCHEME_PREFIX "GetTargetInfo", scheme_get_target_info);
   install_scm_function (0, "Interactively sets a target (a click on a LilyPond link in the printview window) from the user ", DENEMO_SCHEME_PREFIX "GetNewTarget", scheme_get_new_target);
   install_scm_function (0, "Interactively sets a point in the printview window from the user", DENEMO_SCHEME_PREFIX "GetNewPoint", scheme_get_new_point);
@@ -1191,8 +1194,8 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Takes a string and returns a string representing an MD5 checksum for the passed string.", DENEMO_SCHEME_PREFIX "GetChecksum", scheme_get_checksum);
   install_scm_function (0, "Sets the newbie status to the passed value", DENEMO_SCHEME_PREFIX "SetNewbie", scheme_set_newbie);
   install_scm_function (0, "Gets the current verse of the current staff or #f if none, with an integer parameter, gets the nth verse", DENEMO_SCHEME_PREFIX "GetVerse", scheme_get_verse);
-  install_scm_function (0, "With a boolean parameter sets whether lyrics should be typeset for the current staff, else returns the current status.", DENEMO_SCHEME_PREFIX "TypesetLyricsForStaff", scheme_typeset_lyrics_for_staff);
-  install_scm_function (0, "Moves the lyric cursor to match the current Denemo Cursor position, switching the keyboard input to the lyrics pane", DENEMO_SCHEME_PREFIX "SynchronizeLyricCursor", scheme_synchronize_lyric_cursor);
+  install_scm_function (0, "Gets the number of lyric syllables in the current staff up to the cursor position.", DENEMO_SCHEME_PREFIX "SyllableCount", scheme_syllable_count);
+  install_scm_function (0, "Moves the lyric cursor to match the current Denemo Cursor position (offset by an optional integer parameter), switching the keyboard input to the lyrics pane", DENEMO_SCHEME_PREFIX "SynchronizeLyricCursor", scheme_synchronize_lyric_cursor);
   install_scm_function (1, "Inserts passed text at the lyric cursor in the lyrics pane, returns #f if no verse at cursor", DENEMO_SCHEME_PREFIX "InsertTextInVerse", scheme_insert_text_in_verse);
   install_scm_function (0, "Puts the passed string as the current verse of the current staff", DENEMO_SCHEME_PREFIX "PutVerse", scheme_put_verse);
   install_scm_function (0, "Appends the passed string to the current verse of the current staff", DENEMO_SCHEME_PREFIX "AppendToVerse", scheme_append_to_verse);

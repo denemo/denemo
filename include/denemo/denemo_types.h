@@ -226,6 +226,10 @@ typedef struct
   gpointer object; /**< the structures pointed to are given in denemo_objects.h */
   gboolean isinvisible; /**< If  TRUE it will be drawn in a distinctive color and will be printed transparent. */
   GList *directives; /* Directives attached to the object. These are transient */
+   /* cached values of clef, keysignature and stemdir prevailing at the object */
+    clef *clef;
+    keysig *keysig;
+    stemdirective *stemdir;
 } DenemoObject;
 
 
@@ -270,7 +274,7 @@ typedef struct
   GtkMenu *staffmenu; /**< a menu to popup up with the staff directives attached */
   GtkMenu *voicemenu; /**< a menu to popup up with the voice directives attached */
   GList *sources;/**< List of source pixbufs, one for each measure staff-view */
-  measurenode *measures; /**< This is a pointer to each measure in the staff */
+  measurenode *themeasures; /**< This is a GList of DenemoMeasure objects */
   clef clef; /**< The initial clef see denemo_objects.h clefs */
   keysig keysig;
   timesig timesig;
@@ -333,6 +337,17 @@ typedef struct
  
 
 } DenemoStaff;
+
+typedef struct DenemoMeasure {
+    GList *objects;/* list of DenemoObject */
+    /* cached values of clef, timesignature, keysignature and stemdir prevailing at start of measure */
+    clef *clef;
+    keysig *keysig;
+    timesig *timesig;
+    stemdirective *stemdir;
+    gint measure_number; //measure number to display
+    gint measure_numbering_offset;//measures from this one on should display numbers offset by this value from actual measure count.
+}  DenemoMeasure;
 
 /* The ->data part of each staffnode points to a staff structure */
 
@@ -941,14 +956,14 @@ typedef struct DenemoMovement
   gboolean cursor_appending;
   
   gboolean cursoroffend;
-  gint cursorclef;
-  gint cursoraccs[7];
-  gint cursortime1;
-  gint cursortime2;
-  gint curmeasureclef;
-  gint curmeasurekey;
-  gint curmeasureaccs[7];
-  gint nextmeasureaccs[7];
+  //gint cursorclef;
+  //gint cursoraccs[7];
+  //gint cursortime1;
+  //gint cursortime2;
+  //gint curmeasureclef;
+  //gint curmeasurekey;
+  //gint curmeasureaccs[7];
+  //gint nextmeasureaccs[7];
   /* These are used for determining what accidentals should be there
    * if the cursor advances to the next measure from the next "insert chord"
    * operation */

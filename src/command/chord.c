@@ -33,8 +33,11 @@ calcheight (gpointer data, gpointer user_data)
  *
  */
 void
-newclefify (DenemoObject * thechord, gint dclef)
-{
+newclefify (DenemoObject * thechord)
+{ 
+  if (((chord *) thechord->object)->notes == NULL)
+    return;
+  gint dclef = thechord->clef->type;
   g_list_foreach (((chord *) thechord->object)->notes, calcheight, GINT_TO_POINTER (dclef));
   ((chord *) thechord->object)->highesty = calculateheight (((chord *) thechord->object)->highestpitch, dclef);
   ((chord *) thechord->object)->lowesty = calculateheight (((chord *) thechord->object)->lowestpitch, dclef);
@@ -263,8 +266,8 @@ new_note (gint mid_c_offset, gint enshift, gint dclef)
  * return note added
  */
 note *
-addtone (DenemoObject * thechord, gint mid_c_offset, gint enshift, gint dclef)
-{
+addtone (DenemoObject * thechord, gint mid_c_offset, gint enshift)
+{ gint dclef = thechord->clef->type;
   note *newnote = new_note (mid_c_offset, (Denemo.project->movement?Denemo.project->movement->pending_enshift:0) + enshift, dclef);
   if(Denemo.project->movement) Denemo.project->movement->pending_enshift = 0;
   ((chord *) thechord->object)->notes = g_list_insert_sorted (((chord *) thechord->object)->notes, newnote, insertcomparefunc);
@@ -285,9 +288,9 @@ addtone (DenemoObject * thechord, gint mid_c_offset, gint enshift, gint dclef)
 }
 
 void
-dnm_addtone (DenemoObject * thechord, gint mid_c_offset, gint enshift, gint dclef)
+dnm_addtone (DenemoObject * thechord, gint mid_c_offset, gint enshift)
 {
-  addtone (thechord, mid_c_offset, enshift, dclef);
+  addtone (thechord, mid_c_offset, enshift);
 }
 
 /** 
@@ -348,11 +351,11 @@ nearestnote (DenemoObject * thechord, gint mid_c_offset)
  * false if chord is a rest.
  */
 gboolean
-removetone (DenemoObject * thechord, gint mid_c_offset, gint dclef)
+removetone (DenemoObject * thechord, gint mid_c_offset)
 {
   GList *tnode;                 /* Tone node to remove */
   note *tone;
-
+  gint dclef = thechord->clef->type;
   tnode = findclosest (((chord *) thechord->object)->notes, mid_c_offset);
   if (tnode)
     {
@@ -391,6 +394,8 @@ removetone (DenemoObject * thechord, gint mid_c_offset, gint dclef)
       g_list_free_1 (tnode);
     }
 
+  if (((chord *) thechord->object)->notes==NULL)
+     ((chord *) thechord->object)->highesty = ((chord *) thechord->object)->lowesty = 0;
   return (gboolean) (intptr_t) tnode;
 }
 

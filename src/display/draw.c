@@ -132,7 +132,7 @@ struct infotopass
   gint tickspermeasure;
   gint wholenotewidth;
   gint objnum;
-  gint measurenum;              //would need measurenum_adj to allow control of numbering after pickup etc...
+  gint measurenum;              
   gint staffnum;
   gboolean end;                 //if we have drawn the last measure
   gint top_y;
@@ -179,12 +179,12 @@ count_syllables (DenemoStaff * staff, gint from)
 {
   gint count = 0;
   gint i;
-  GList *curmeasure = staff->measures;
+  GList *curmeasure = staff->themeasures;
   gboolean in_slur = FALSE;
   for (i = 1; curmeasure && (i < from); i++, curmeasure = curmeasure->next)
     {
       objnode *curobj;
-      for (curobj = curmeasure->data; curobj; curobj = curobj->next)
+      for (curobj = ((DenemoMeasure*)curmeasure->data)->objects; curobj; curobj = curobj->next)
         {
           DenemoObject *obj = curobj->data;
 
@@ -249,7 +249,6 @@ static gint
 draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui, struct infotopass *itp)
 {
 
-
   itp->highy = itp->lowy = 0;
   DenemoMovement *si = gui->movement;
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
@@ -307,14 +306,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
   if (mudelaitem == itp->endobj)
     itp->endposition = x + mudelaitem->x/* + mudelaitem->minpixelsalloted*/;
 
-  /************ FIXME the drawing is side-effecting the DenemoMovement si here *******************/
-  if (si->currentobject == curobj)
-    {
-      si->cursorclef = itp->clef->type;
-      if (!si->cursor_appending)
-        memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
-    }
-
+ 
 
   if (cr)
     if (mudelaitem->type == CHORD && ((chord *) mudelaitem->object)->tone_node)
@@ -331,7 +323,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
            {
             cairo_save (cr);
             //if staff->range and thechord->highesty staff->range_hi ...
-            if (itp->range && ((thechord->highestpitch > itp->range_hi) || (thechord->lowestpitch < itp->range_lo)))
+            if (thechord->notes && ((itp->range && ((thechord->highestpitch > itp->range_hi) || (thechord->lowestpitch < itp->range_lo)))))
                 cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, 1.0);
             else
                 cairo_set_source_rgba (cr, itp->red, itp->green, itp->blue, itp->alpha);
@@ -421,9 +413,10 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                     
                 //if MIDI RECORDING draw the pitch as a headless diamond note.
                 if(si->recording->type==DENEMO_RECORDING_MIDI)
-                    {                            
-                        removetone ((DenemoObject*)(MidiDrawObject->data), 0, si->cursorclef);//there is only one note in the chord so any mid_c_offset will do                 
-                        addtone (MidiDrawObject->data,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift, si->cursorclef);
+                    {    g_warning ("Drawing MIDI recorded notes is disabled until the MidiDrawObject has been assigned clef field!!!!!!!!!!");
+                        if (0) {                        
+                        removetone ((DenemoObject*)(MidiDrawObject->data), 0);//there is only one note in the chord so any mid_c_offset will do                 
+                        addtone (MidiDrawObject->data,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
                         chord *thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
                         note *thenote = ((note*)(thechord->notes->data));
                         thenote->noteheadtype = DENEMO_DIAMOND_NOTEHEAD;
@@ -476,7 +469,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                             cairo_set_source_rgba (cr, 0, 0, 0, 1);
                         draw_chord (cr, MidiDrawObject, pos + x -extra_width, y, 0, itp->curaccs, FALSE, FALSE);    
                         cairo_restore (cr);
-                    
+                       } //end if(0) disabling this drawing
                     }
                     
                 draw_note_onset(cr, pos + x - extra_width, glyph, (g==si->marked_onset));
@@ -653,8 +646,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
               cairo_restore (cr);
             }
         }
-      if (si->currentobject == curobj && si->cursor_appending)
-        si->cursorclef = itp->clef->type;       //FIXME drawing is side-effecting the data, presumably to economize on searching for the prevailing clef at the cursor.
+      
       break;
     case KEYSIG:
       if (cr)
@@ -662,21 +654,14 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
       itp->key = ((keysig *) mudelaitem->object)->number;
       memcpy (itp->keyaccs, ((keysig *) mudelaitem->object)->accs, SEVENGINTS);
       memcpy (itp->curaccs, itp->keyaccs, SEVENGINTS);
-      if (si->currentmeasure == itp->curmeasure)
-        /* We're in the current measure */
-        memcpy (si->nextmeasureaccs, itp->keyaccs, SEVENGINTS);
+      
       break;
     case TIMESIG:
       itp->time1 = ((timesig *) mudelaitem->object)->time1;
       itp->time2 = ((timesig *) mudelaitem->object)->time2;
       if (cr)
         draw_timesig (cr, x + mudelaitem->x, y, itp->time1, itp->time2, (timesig *) mudelaitem->object);
-      if (si->currentmeasure == itp->curmeasure)
-        {
-          /* This is the current measure */
-          si->cursortime1 = itp->time1;
-          si->cursortime2 = itp->time2;
-        }
+     
       /* The following assumes no multiple simultaneous time signatures */
       itp->tickspermeasure = WHOLE_NUMTICKS * itp->time1 / itp->time2;
       itp->wholenotewidth = si->measurewidth * itp->time2 / itp->time1;
@@ -703,12 +688,12 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
         si->cursoroffend = (mudelaitem->starttickofnextnote > itp->tickspermeasure);
       if (si->cursor_appending)
         {
-          draw_cursor (cr, si, x + mudelaitem->x + extra, y, ((itp->curmeasure->next != NULL) && (objnode *) itp->curmeasure->next->data) ? -1 : 0 /*itp->last_gap */ , 0, si->cursorclef);
-          memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
+          draw_cursor (cr, si, x + mudelaitem->x + extra, y, ((itp->curmeasure->next != NULL) && (objnode *) ((DenemoMeasure*)itp->curmeasure->next->data)->objects) ? -1 : 0 /*itp->last_gap */ , 0, mudelaitem->clef->type);
+          
         }
       else
         {
-          draw_cursor (cr, si, x + mudelaitem->x, y, itp->last_gap, mudelaitem->type == CHORD ? 0 : mudelaitem->minpixelsalloted, si->cursorclef);
+          draw_cursor (cr, si, x + mudelaitem->x, y, itp->last_gap, mudelaitem->type == CHORD ? 0 : mudelaitem->minpixelsalloted, mudelaitem->clef->type);
         }
     }
   /* End cursor drawing */
@@ -758,26 +743,26 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
 
   memcpy (itp->curaccs, itp->keyaccs, SEVENGINTS);
   itp->wholenotewidth = si->measurewidth * itp->time2 / itp->time1;
-  if (curmeasure == si->currentmeasure)
-    {
-      si->curmeasureclef = itp->clef->type;
-      memcpy (si->curmeasureaccs, itp->keyaccs, SEVENGINTS);
-      memcpy (si->nextmeasureaccs, itp->keyaccs, SEVENGINTS);
-      si->curmeasurekey = itp->key;
-      si->curmeasure_stem_directive = itp->stem_directive;
-      si->cursortime1 = itp->time1;
-      si->cursortime2 = itp->time2;
-    }
+ 
 
   /*  paint the measure number at the preceding barline 
    */
 
   if (cr)
     {
+        
+     DenemoMeasure *meas = (DenemoMeasure*)curmeasure->data;
+     if (meas->measure_numbering_offset)
+        {
+          cairo_set_source_rgba (cr, 0.2, 0.1, 0.8, 0.7);
+          g_string_sprintf (mstring, "%d", meas->measure_numbering_offset);
+          drawlargetext_cr (cr, mstring->str, x - SPACE_FOR_BARLINE - 5, y + 2 * STAFF_HEIGHT - 10);
+        }
+        
       if (itp->measurenum > 1)
-        {                       //don't draw meassure number 1, as it collides and is obvious anyway and is never typeset thus
+        {                       //don't draw first measure number, as it collides and is obvious anyway and is never typeset thus
           cairo_set_source_rgba (cr, 0, 0, 0, 0.5);
-          g_string_sprintf (mstring, "%d", itp->measurenum);
+          g_string_sprintf (mstring, "%d", meas->measure_number);
           drawnormaltext_cr (cr, mstring->str, x - SPACE_FOR_BARLINE - 5, y - 3);
         }
     }
@@ -790,11 +775,9 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
       si->cursoroffend = FALSE;
       has_cursor = TRUE;
       draw_cursor (cr, si, x, y, 0, gui->mode, itp->clef->type);
-      memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
-      si->cursorclef = itp->clef->type;
     }
 
-  curobj = (objnode *) curmeasure->data;
+  curobj = (objnode *) ((DenemoMeasure*)curmeasure->data)->objects;
   /* These default values for the markx'es may be necessary down
    * the road */
   if (si->selection.firststaffmarked == itp->staffnum && si->selection.firstmeasuremarked == itp->measurenum)
@@ -948,7 +931,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
   // if(si->marked_onset_position)
     //g_debug("repeat"),repeat = TRUE;//we set up the marked onset with this, then need to repeat to draw it
   //g_debug("drawing staff %d at %d\n", itp->staffnum, y);
-  gint nummeasures = g_list_length (thestaff->measures);
+  gint nummeasures = g_list_length (thestaff->themeasures);
  
   //g_debug("Of %d current %d\n", nummeasures, itp->measurenum);
   if (itp->measurenum > nummeasures)
@@ -1095,7 +1078,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
 
   /* Loop that will draw each measure. Basically a for loop, but was uglier
    * when written that way.  */
-  itp->curmeasure = g_list_nth (thestaff->measures, itp->measurenum - 1);
+  itp->curmeasure = g_list_nth (thestaff->themeasures, itp->measurenum - 1);
   //g_debug("measurenum %d\nx=%d\n", itp->measurenum, x);
 
   //FIX in measure.c for case where si->measurewidths is too short
@@ -1104,7 +1087,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
   {
     //compute itp->leftmosttime here - the time at the start of this system
 
-    objnode *curobj = itp->curmeasure ? (objnode *) itp->curmeasure->data : NULL;
+    objnode *curobj = itp->curmeasure ? (objnode *) ((DenemoMeasure*)itp->curmeasure->data)->objects : NULL;
     if (curobj)
       {
         DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
@@ -1374,6 +1357,7 @@ schedule_draw (gint * flip_count)
 gboolean
 draw_score (cairo_t * cr)
 {                               //g_debug("draw_score %p\n", cr);
+  if (cr == NULL) return TRUE;//no longer need to side effect the data while doing a dummy draw, however cr is set NULL during draw if no more drawing is needed, so we can't remove all the if (cr) conditionals...
   staffnode *curstaff;
   gint y = 0;
   struct infotopass itp;
@@ -1697,7 +1681,7 @@ draw_score (cairo_t * cr)
 
         si->rightmost_time = itp.rightmosttime;//g_debug("Setting rightmost time to %f\n", si->rightmost_time);
 
-        if ((system_num > 2) && Denemo.project->movement->playingnow && (si->playhead > leftmost) && itp.measurenum <= g_list_length (((DenemoStaff *) curstaff->data)->measures) /*(itp.measurenum > (si->rightmeasurenum+1)) */ )
+        if ((system_num > 2) && Denemo.project->movement->playingnow && (si->playhead > leftmost) && itp.measurenum <= g_list_length (((DenemoStaff *) curstaff->data)->themeasures) /*(itp.measurenum > (si->rightmeasurenum+1)) */ )
           {
             //put the next line of music at the top with a break marker
             itp.left = &gui->lefts[0];
@@ -1814,7 +1798,7 @@ draw_callback (cairo_t * cr)
       gdk_color_parse ("lightblue", &col);
       gdk_cairo_set_source_color (cr, &col);
     }
-  else if (gtk_widget_has_focus (Denemo.scorearea))
+  else if (gtk_widget_has_focus (Denemo.scorearea) && gtk_widget_is_focus (Denemo.scorearea))
     {
       if (Denemo.project->input_source == INPUTMIDI && (Denemo.keyboard_state == GDK_LOCK_MASK || Denemo.keyboard_state == GDK_SHIFT_MASK))      //listening to MIDI-in
         cairo_set_source_rgb (cr, 0.9, 0.85, 1.0);

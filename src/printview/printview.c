@@ -9,12 +9,15 @@
 #include "command/scorelayout.h"
 #include "command/lilydirectives.h"
 #include "export/exportlilypond.h"
+#include "source/sourceaudio.h"
+
 static gint changecount = -1;   //changecount when the printfile was last created FIXME multiple tabs are muddled
 static gchar *thumbnailsdirN = NULL;
 static gchar *thumbnailsdirL = NULL;
 
 static gboolean retypeset (void);
 static gdouble get_center_staff_offset (void);
+static gboolean LeftButtonPressed;
 static unsigned
 file_get_mtime (gchar * filename)
 {
@@ -129,7 +132,7 @@ static void
 set_printarea_doc (EvDocument * doc)
 {
   EvDocumentModel *model;
-
+  changecount = Denemo.project->changecount;
   model = g_object_get_data (G_OBJECT (Denemo.printarea), "model");     //there is no ev_view_get_model(), when there is use it
   if (model == NULL)
     {
@@ -496,12 +499,14 @@ void
 printview_finished (G_GNUC_UNUSED GPid pid, gint status, gboolean print)
 {
   progressbar_stop ();
+  console_output (_("Done"));
+#if GLIB_CHECK_VERSION(2,34,0)
   {
     GError* err = NULL;
     if(!g_spawn_check_exit_status (status, &err))
         g_warning ("Lilypond did not end successfully: %s", err->message);
   }                       
-       
+#endif       
   g_spawn_close_pid (Denemo.printstatus->printpid);
   //g_debug("background %d\n", Denemo.printstatus->background);
   if (Denemo.printstatus->background == STATE_NONE)
@@ -709,13 +714,8 @@ large_thumbnail_name (gchar * filepath)
 static void
 thumbnail_finished(GPid pid, gint status, gpointer data)
 {
-  /*
-  GError* err = NULL;
-  if(!g_spawn_check_exit_status (status, &err))
-    g_critical("Lilypond did not end successfully: %s", err->message);
-  */
   if(status)
-    g_critical("Thumbnailer: Lilyond did not end successfully");
+    g_warning ("Thumbnailer: Lilyond did not end successfully");
 }
 
 /***
@@ -1234,10 +1234,6 @@ same_target (DenemoTarget * pos1, DenemoTarget * pos2)
 static gint
 action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
 {
-#ifdef G_OS_WIN32
-  g_debug ("Signal from evince widget received %d %d\n", get_wysiwyg_info()->grob, get_wysiwyg_info()->stage);
-#endif
-
  if (get_wysiwyg_info()->stage == TypesetForPlaybackView)
     {
         warningdialog (_("Use the Playback View or re-typeset"));
@@ -1260,9 +1256,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
     {
       return TRUE;              //?Better take over motion notify so as not to get this while working ...
     }
-#ifdef G_OS_WIN32
-  g_debug ("action_for_link: uri %s\n", uri);
-#endif
+
   //g_debug("acting on external signal %s type=%d directivenum=%d\n", uri, Denemo.project->movement->target.type, Denemo.project->movement->target.directivenum);
   if (uri)
     {
@@ -1274,9 +1268,13 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
         {
           DenemoTarget old_target = Denemo.project->movement->target;
           get_wysiwyg_info()->ObjectLocated = goto_lilypond_position (atoi (vec[2]), atoi (vec[3]));     //sets si->target
-#ifdef G_OS_WIN32
-          g_debug ("action_for_link: object located %d\n", get_wysiwyg_info()->ObjectLocated);
-#endif
+
+      if (LeftButtonPressed && (!shift_held_down ()) && (get_wysiwyg_info()->ObjectLocated))
+        {
+         call_out_to_guile ("(d-DenemoPlayCursorToEnd)");
+         return TRUE;  
+        }
+
           if (get_wysiwyg_info()->ObjectLocated)
             {
               if (!(get_wysiwyg_info()->grob == Beam && (get_wysiwyg_info()->stage == SelectingFarEnd)))
@@ -1712,7 +1710,15 @@ printarea_button_press (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event
   //DenemoTargetType type = Denemo.project->movement->target.type;
   gboolean left = (event->button == 1);
   gboolean right = !left;
+  LeftButtonPressed = left;
   //g_debug("Button press %d, %d %d\n",(int)event->x , (int)event->y, left);
+  
+  if (audio_is_playing ())
+    {
+        call_out_to_guile ("(DenemoStop)");
+        switch_back_to_main_window ();
+    }
+
   get_wysiwyg_info()->button = event->button;
   gint xx, yy;
   get_window_position (&xx, &yy);
@@ -2111,6 +2117,11 @@ implement_show_print_view (gboolean refresh_if_needed)
         }
     }
 #endif
+}
+
+gboolean printview_is_stale (void)
+{
+    return ((changecount != Denemo.project->changecount) || (Denemo.project->lilysync != Denemo.project->changecount));
 }
 
 void

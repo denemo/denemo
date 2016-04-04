@@ -23,6 +23,7 @@
 #include "core/kbd-custom.h"
 #include "core/view.h"
 #include "command/object.h"
+#include "command/scorelayout.h"
 #include <signal.h>             /*for SIGTERM */
 
 #include "config.h"
@@ -1941,6 +1942,11 @@ write_status (DenemoProject * gui)
         default:
           selection = g_strdup_printf (_("Cursor on an unknown object"));
         }
+        
+        //DenemoMeasure *measure = gui->movement->currentmeasure->data;
+        //selection = g_strdup_printf ("%s %s %d/%d %d", selection, curObj->clef?get_clef_name (curObj->clef->type):"NULL", measure->timesig?measure->timesig->time1:0, measure->timesig?measure->timesig->time2:0, curObj->keysig?curObj->keysig->number:0xFFFF);
+        
+        
     }
   else
     selection = g_strdup_printf (_("Cursor not on any object"));
@@ -2395,14 +2401,17 @@ gchar *get_option (gchar *title, gchar * str, gint length)
 
 
 
-/* output text to the console window */
+/* output text to the console (lilypond errors) window. If text==NULL clear window*/
 void
 console_output (gchar * text)
 {
   GtkTextIter enditer;
   GtkTextBuffer *buffer = gtk_text_view_get_buffer ((GtkTextView *) (Denemo.console));
   gtk_text_buffer_get_end_iter (buffer, &enditer);
-  gtk_text_buffer_insert (buffer, &enditer, text, -1);
+  if (text)
+    gtk_text_buffer_insert (buffer, &enditer, text, -1);
+  else
+    gtk_text_buffer_set_text (buffer, "", -1);
 }
 
 /* returns an override flag ORd from all those in the list of directives, 

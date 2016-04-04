@@ -10,7 +10,7 @@
                  
 ;Blank clears the console output. Don't use in released scripts, only for debugging.
 (define (Blank)
-	(system "clear"))
+    (system "clear"))
 
 ;disp is an advanced display. Just give anything you want to print, it appends strings automatically and does a line break in the end. Don't use in released scripts, only for debugging.
 (define disp (lambda args
@@ -20,8 +20,8 @@
                   (begin 
                      (display (car arg)) 
                      (disp-in (cdr arg))))))) 
-		     (disp-in args)
-		     (newline))))
+             (disp-in args)
+             (newline))))
 
 ;Doublequote constant to avoid backslashing
 (define DBLQ "\"")
@@ -32,44 +32,44 @@
 
 ; A function that returns #f for cases where commands work with chunks of code. this prevents the spamming of (lambda () #f) for a function that returns #f.
 (define (False) 
-	#f)
-	
+    #f)
+    
 ; A function that returns #t. See (False)
 (define (True) 
-	#t)
+    #t)
 
 ;repeat executes a proc n times
 (define (Repeat proc n)
-	(let loop ((counter 0))
-		(if (= n counter)
-			#t
-			(begin
-				(proc)
-				(loop (1+ counter))))))
+    (let loop ((counter 0))
+        (if (= n counter)
+            #t
+            (begin
+                (proc)
+                (loop (1+ counter))))))
 
 ;Repeat a command until it returns #f
 ;Warning: Functions that do not return #f create infinity loops!
 (define (RepeatUntilFail proc)
-	(let loop ()
-		(if (proc)
-			(loop)
-			#f)))
-			
+    (let loop ()
+        (if (proc)
+            (loop)
+            #f)))
+            
 ;Repeat a function while another (a test) returns #t. The return value of proc does NOT matter
 ;;Warning: From all Repeat functions this one has the highest probability to be stuck in a loop forever. Always use tests that MUST return #f in the end. Do NOT use the Denemo tests like (None?) or (Music?) for example, they know nothing about a staffs end.
 (define (RepeatProcWhileTest proc test)
-	(RepeatUntilFail 		
-		(lambda () 
-			(if (test)
-				(begin (proc) #t); this is a dumb script. It will try to execute proc again even if proc itself returned #f. 	
-				#f )))) ; test failed, let RepeatUntilFail fail.
-				
+    (RepeatUntilFail        
+        (lambda () 
+            (if (test)
+                (begin (proc) #t); this is a dumb script. It will try to execute proc again even if proc itself returned #f.    
+                #f )))) ; test failed, let RepeatUntilFail fail.
+                
 
     
 ; String Escaper
 ;; Escapes Strings
 ;; from brlewis http://srfi.schemers.org/srfi-13/mail-archive/msg00025.html
-
+;;; esc should be a list of pairs, each pair is a character and a substitute string.
 (define (string-escaper esc)
   (let ((spec (char-escape-spec esc)))
     (lambda (str) (string-escape str spec))))
@@ -78,81 +78,84 @@
   (let ((len (string-length str)))
     (let loop ((i 0))
       (if (= i len)
-	  #f
-	  (let ((c (string-ref str i)))
-	    (if (and (char>=? c (car esc))
-		     (char<=? c (cadr esc)))
-		#t
-		(loop (+ 1 i))))))))
+      #f
+      (let ((c (string-ref str i)))
+        (if (and (char>=? c (car esc))
+             (char<=? c (cadr esc)))
+        #t
+        (loop (+ 1 i))))))))
 
 (define (string-escape str esc)
   (if (string-needs-escape? str esc)
       (list->string
        (reverse
-	(let ((len (string-length str)))
-	  (let loop ((i 0)
-		     (li '()))
-	    (if (= i len)
-		li
-		(loop (+ 1 i)
-		      (let ((c (string-ref str i)))
-			(if (and (char>=? c (car esc))
-				 (char<=? c (cadr esc)))
-			    (let ((li2 (vector-ref
-					(caddr esc)
-					(- (char->integer c)
-					   (char->integer (car esc))))))
-			      (if li2
-				  (append li2 li)
-				  (cons c li)))
-			    (cons c li)))))))))
+    (let ((len (string-length str)))
+      (let loop ((i 0)
+             (li '()))
+        (if (= i len)
+        li
+        (loop (+ 1 i)
+              (let ((c (string-ref str i)))
+            (if (and (char>=? c (car esc))
+                 (char<=? c (cadr esc)))
+                (let ((li2 (vector-ref
+                    (caddr esc)
+                    (- (char->integer c)
+                       (char->integer (car esc))))))
+                  (if li2
+                  (append li2 li)
+                  (cons c li)))
+                (cons c li)))))))))
       str))
 
 (define (char-escape-spec speclist)
   (let ((minchar (caar speclist))
-	(maxchar (caar speclist)))
+    (maxchar (caar speclist)))
     (let loop ((li (cdr speclist)))
       (if (not (null? li))
-	  (begin
-	    (let ((testchar (caar li)))
-	      (if (char<? testchar minchar)
-		  (set! minchar testchar))
-	      (if (char>? testchar maxchar)
-		  (set! maxchar testchar)))
-	    (loop (cdr li)))))
+      (begin
+        (let ((testchar (caar li)))
+          (if (char<? testchar minchar)
+          (set! minchar testchar))
+          (if (char>? testchar maxchar)
+          (set! maxchar testchar)))
+        (loop (cdr li)))))
     (list
      minchar
      maxchar
      (let ((specv (make-vector (+ 1 (- (char->integer maxchar)
-				       (char->integer minchar))) #f)))
+                       (char->integer minchar))) #f)))
       (map (lambda (specpair)
-	     (vector-set! specv
-			  (- (char->integer (car specpair))
-			     (char->integer minchar))
-			  (reverse (string->list (cdr specpair)))))
-	   speclist)
+         (vector-set! specv
+              (- (char->integer (car specpair))
+                 (char->integer minchar))
+              (reverse (string->list (cdr specpair)))))
+       speclist)
       specv))))
-	  
+      
 ;; examples of use
 
 (define html-escape (string-escaper '((#\< . "&lt;")
-				      (#\> . "&gt;")
-				      (#\& . "&amp;"))))
+                      (#\> . "&gt;")
+                      (#\& . "&amp;"))))
 
 (define scheme-escape (string-escaper '((#\\ . "\\\\")
-					(#\" . "\\\""))))
-
+                    (#\" . "\\\""))))
+                    
+                    
+(define lilypond-markup-escape (string-escaper '((#\\ . "\\\\") (#\# . "\"#\"")
+                    (#\" . "\\\""))))
 
 #! (define latex-escape (string-escaper '((#\\ . "\\\\")
-				       (#\~ . "\\~")
-				       (#\# . "\\#")
-				       (#\$ . "\\$")
-				       (#\% . "\\%")
-				       (#\^ . "\\^")
-				       (#\& . "\\&")
-				       (#\{ . "\\{")
-				       (#\} . "\\}")
-				       (#\_ . "\\_")))) !#
+                       (#\~ . "\\~")
+                       (#\# . "\\#")
+                       (#\$ . "\\$")
+                       (#\% . "\\%")
+                       (#\^ . "\\^")
+                       (#\& . "\\&")
+                       (#\{ . "\\{")
+                       (#\} . "\\}")
+                       (#\_ . "\\_")))) !#
 
 
 ;;;;;;;;;; Parse strings for json values
@@ -185,9 +188,9 @@
 ;;; next element from.
 
 (define (Flip-coin) 
-	(if (= 1 (random 2))
-		#t
-		#f))
+    (if (= 1 (random 2))
+        #t
+        #f))
 
 (define (Merge-shuffle-list list)
 
@@ -251,7 +254,7 @@
               (merge! (shuffle! a) (shuffle! b)))))))
 ;; End Shuffle
 
-	
+    
 ; from http://icem.folkwang-hochschule.de/~finnendahl/cm_kurse/doc/t-y-scheme/t-y-scheme-Z-H-7.html
 ;; needed for define-macro defstruct
 (define list-position
@@ -319,15 +322,15 @@
                       
 ;InvertedMap takes a list of functions and applies each to a single value and returns a list of returnvalues.
 (define (InvertedMap val . funcs)
-	(concatenate
-		(map (lambda (proc) (call-with-values (lambda () (proc val)) list))
-		 funcs)))
-		 
+    (concatenate
+        (map (lambda (proc) (call-with-values (lambda () (proc val)) list))
+         funcs)))
+         
 #! (define (InvertedMap2 value . functions)
-	(define returnlist (list #f))
-	(for-each (lambda (x)
-		(define return (x value))
-		(if return
-			(append! returnlist (list return))))
-		functions)	
-	(list-tail returnlist 1)) !#
+    (define returnlist (list #f))
+    (for-each (lambda (x)
+        (define return (x value))
+        (if return
+            (append! returnlist (list return))))
+        functions)  
+    (list-tail returnlist 1)) !#

@@ -15,10 +15,12 @@
     
  (define (writeAllBars duration tempo old_tempo)    
     (if (and duration tempo)
-        (let ((numer (list-ref tempo 1))  (denom (list-ref tempo 2)) (spqn (list-ref tempo 3)) )
-            (define seconds_per_bar (* spqn (* numer (* (/ 4 denom)))))
-            (define bars (round (/ duration seconds_per_bar)))
-            (define thetimesig (string-append (number->string numer) "/" (number->string denom)))
+        (let* ( (numer (list-ref tempo 1))  
+                (denom (list-ref tempo 2)) 
+                (spqn (list-ref tempo 3))
+                (seconds_per_bar (* spqn (* numer (* (/ 4 denom)))))
+                (bars (round (/ duration seconds_per_bar)))
+                (thetimesig (string-append (number->string numer) "/" (number->string denom))))
             
             (if (not (None?))
                             (d-AddMeasure))

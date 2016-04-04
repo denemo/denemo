@@ -4664,7 +4664,7 @@ accidentals are usually printed over the note.</_tooltip>
         <after>CreateParts</after>
         <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
         <_label>Merge Rests</_label>
-        <_tooltip>(Print) Merges rests where two voices have a common rest. Not for whole measure or multi-measure rests.</_tooltip>
+        <_tooltip>Merges rests where two voices have a common rest. Applies to the whole movement. For multi-measure rests you need to additionally suppress one of the multi-measure rest counts.</_tooltip>
       </row>
       <row type="scheme">
         <action>MergeWithNextMeasure</action>
@@ -7744,6 +7744,27 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Two Sided Margins</_label>
         <_tooltip>Uses different margins for left and right hand pages.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>MuteStaffs</action>
+        <after>PlayAtCursor</after>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <_label>Mute Stafffs</_label>
+        <_tooltip>Select which staffs should be muted during playback.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>LengthenHairpin</action>
+        <after>DynamicsExtraSpace</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
+        <_label>Lengthen Hairpin</_label>
+        <_tooltip>Inserts a directive to lengthen the following cresc or dim hairpin.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>InsertSyllableSkips</action>
+        <after>InsertStanzaNumber</after>
+        <menupath>/ObjectMenu/Lyrics</menupath>
+        <_label>Skip Syllables in Selection</_label>
+        <_tooltip>Inserts blanks for the syllables from the start of the selection to the cursor.</_tooltip>
+      </row>  
     </map>
   </merge>
 </Denemo>

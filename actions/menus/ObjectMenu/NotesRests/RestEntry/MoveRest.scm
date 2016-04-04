@@ -16,6 +16,7 @@
             (d-MoveCursorLeft)
             (d-RefreshDisplay)))
     (d-DirectivePut-chord-postfix tag "\\rest")
+    (d-DirectivePrioritizeTag-chord tag)
     (d-DirectivePut-chord-graphic  tag (vector-ref Rests which))
     (d-DirectivePut-chord-override tag (logior DENEMO_OVERRIDE_VOLUME DENEMO_OVERRIDE_GRAPHIC DENEMO_ALT_OVERRIDE))))
 (d-SetSaved #f))

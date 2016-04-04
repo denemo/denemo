@@ -16,6 +16,7 @@
 #include "command/processstaffname.h"
 #include "command/tuplet.h"
 #include "export/xmldefs.h"
+#include "core/cache.h"
 #include "core/view.h"
 #include "ui/texteditors.h"
 #include "command/lilydirectives.h"
@@ -23,7 +24,7 @@
 #include "command/scorelayout.h"
 #include "audio/pitchentry.h"
 #include <string.h>
-
+#include "core/cache.h"
 
 /* libxml includes: for libxml2 this should be <libxml.h> */
 #include <libxml/parser.h>
@@ -773,7 +774,7 @@ parseFakechord (xmlNodePtr fakechordElem, DenemoObject * curobj)
  * given chord.
  */
 static void
-parseNote (xmlNodePtr noteElem, DenemoObject * chordObj, gint currentClef)
+parseNote (xmlNodePtr noteElem, DenemoObject * chordObj, clef *currentClef)
 {
   xmlNodePtr childElem;
   gint middleCOffset = 0, accidental = 0, noteHeadType = DENEMO_NORMAL_NOTEHEAD;
@@ -862,9 +863,21 @@ parseNote (xmlNodePtr noteElem, DenemoObject * chordObj, gint currentClef)
      */
   }
 
-  /* Now actually construct the note object. */
-
-  note *newnote = addtone (chordObj, middleCOffset, accidental, currentClef);
+  static stemdirective dummystem = {2, NULL};
+      chordObj->stemdir = &dummystem;//is this needed?
+  static clef dummyclef = {DENEMO_TREBLE_CLEF, NULL};
+      chordObj->clef = &dummyclef;
+  static keysig dummykey = {0};
+      chordObj->keysig = &dummykey;//is this needed?
+ if (Denemo.project->movement) //NULL for snippets
+     {
+      chordObj->keysig = &((DenemoStaff *) Denemo.project->movement->currentstaff->data)->keysig;
+      chordObj->clef = &((DenemoStaff *) Denemo.project->movement->currentstaff->data)->clef;
+    }
+  
+ /* Now actually construct the note object. */
+ //g_print ("Adding a note with keysig type %d\n", ((DenemoStaff *) Denemo.project->movement->currentstaff->data)->keysig.number);
+  note *newnote = addtone (chordObj, middleCOffset, accidental);
   newnote->directives = directives;
 
   if (noteHeadType != DENEMO_NORMAL_NOTEHEAD)
@@ -1144,7 +1157,7 @@ parseAudio (xmlNodePtr parentElem, DenemoMovement * si)
  * @return the new DenemoObject
  */
 static DenemoObject *
-parseChord (xmlNodePtr chordElem, gint currentClef)
+parseChord (xmlNodePtr chordElem, clef *currentClef)
 {
   DenemoObject *chordObj = parseBaseChord (chordElem);
   xmlNodePtr childElem, grandchildElem;
@@ -1335,7 +1348,7 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem)
     g_free (locked);
     gchar *ticks = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) "ticks");
     if (ticks)
-    curobj->durinticks = atoi (ticks);
+        curobj->durinticks = atoi (ticks); //FIXME memory leak on ticks
   return curobj;
 }
 
@@ -2320,7 +2333,7 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, DenemoMovement * si)
 
   return 0;
 }
-static GList *parseMeasure (xmlNodePtr measureElem, gint *pcurrentClef, gboolean *hasfigures, gboolean *hasfakechords)
+static GList *parseMeasure (xmlNodePtr measureElem, clef **pcurrentClef, gboolean *hasfigures, gboolean *hasfakechords)
 {
     DenemoObject *curObj;
     
@@ -2366,7 +2379,7 @@ static GList *parseMeasure (xmlNodePtr measureElem, gint *pcurrentClef, gboolean
               gchar *showProp = (gchar *) xmlGetProp (objElem, (xmlChar *) "show");
               if (showProp)
                 curObj->isinvisible = !strcmp (showProp, "false");
-              *pcurrentClef = ((clef *) curObj->object)->type;
+              *pcurrentClef = (clef *) curObj->object;
             }
           else if (ELEM_NAME_EQ (objElem, "lyric"))
             {
@@ -2463,7 +2476,7 @@ static gint
 parseMeasures (xmlNodePtr measuresElem, DenemoMovement * si)
 {
   xmlNodePtr childElem, objElem;
-  gint currentClef = ((DenemoStaff *) si->currentstaff->data)->clef.type;
+  clef *currentClef = &((DenemoStaff *) si->currentstaff->data)->clef;
   
   GList *slurEndChordElems = NULL;
   GList *crescEndChordElems = NULL;
@@ -2480,9 +2493,11 @@ parseMeasures (xmlNodePtr measuresElem, DenemoMovement * si)
             //g_debug ("ImportXML Adding Measure \n currentmeasurenum %d", si->currentmeasurenum);
           }
           
-        si->currentmeasure->data = parseMeasure (childElem, &currentClef, 
+        ((DenemoMeasure*)si->currentmeasure->data)->objects = parseMeasure (childElem, &currentClef, 
             &((DenemoStaff *) si->currentstaff->data)->hasfigures, &((DenemoStaff *) si->currentstaff->data)->hasfakechords);
-
+        gchar *offset = (gchar *) xmlGetProp (childElem, (xmlChar *) "offset");
+        if (offset)
+            ((DenemoMeasure*)si->currentmeasure->data)->measure_numbering_offset = atoi (offset); //FIXME memory leak on offset
         si->currentmeasurenum++;
         si->currentmeasure = si->currentmeasure->next;
       }                         /* end if childElem is a <measure> */
@@ -2491,6 +2506,7 @@ parseMeasures (xmlNodePtr measuresElem, DenemoMovement * si)
         ILLEGAL_ELEM ("measures", childElem);
       }
   }
+
 
   if (slurEndChordElems != NULL)
     {
@@ -2696,9 +2712,10 @@ parseMovement (xmlNodePtr childElem, DenemoProject * gui, ImportType type)
         for(;curstaff;curstaff=curstaff->next)
             ((DenemoStaff *) curstaff->data)->midi_channel = ((previous_staffnum) < 9 ? (previous_staffnum) : previous_staffnum + 1) & 0xF;
     }
+  cache_all ();  
   for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
     {
-    
+      staff_fix_note_heights ((DenemoStaff *) curstaff->data);
       staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
       staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
     }
@@ -2712,12 +2729,13 @@ parseMovement (xmlNodePtr childElem, DenemoProject * gui, ImportType type)
   si->currentstaff = g_list_nth (si->thescore, current_staff - 1);
   setcurrents (si);
   si->cursor_x = current_position;
-  si->currentobject = (objnode *) g_list_nth (si->currentmeasure->data, si->cursor_x);
-
+  //was si->currentobject = (objnode *) g_list_nth (si->currentmeasure->data, si->cursor_x);
+  si->currentobject = g_list_nth ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->cursor_x);
   if (!si->currentobject)
     {
      si->cursor_appending = TRUE;
-     si->currentobject = g_list_last (si->currentmeasure->data);
+     si->currentobject = g_list_last ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects);
+     //was si->currentobject = g_list_last (si->currentmeasure->data);
     }
   else
     si->cursor_appending = FALSE;
@@ -2741,8 +2759,11 @@ parseRhythmElem (xmlNodePtr sElem, RhythmPattern* r)
     childElem = getXMLChild (sElem, "objects");
     if (childElem) {
      gboolean dummy1, dummy2;
-     gint currentClef = DENEMO_TREBLE_CLEF;
-     r->clipboard = g_list_append (NULL, parseMeasure(childElem, &currentClef, &dummy1, &dummy2));
+     static clef dummyClef = {
+                        DENEMO_TREBLE_CLEF,
+                        NULL};
+     clef *acurrentClef = &dummyClef;
+     r->clipboard = g_list_append (NULL, parseMeasure(childElem, &acurrentClef, &dummy1, &dummy2));
      create_rhythm (r, FALSE);
     }
 }
@@ -3022,6 +3043,7 @@ cleanup:
   //g_debug("Number of movements %d\n", g_list_length(gui->movements));
   reset_movement_numbers (gui);
   set_movement_selector (gui);
+  
   return ret;
 }
 

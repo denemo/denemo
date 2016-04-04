@@ -1222,6 +1222,11 @@ pb_tempo (GtkAdjustment * adjustment)
   call_out_to_guile ("(DenemoTempo)");
   Denemo.project->movement->smfsync = G_MAXINT;
 }
+static void
+pb_mute_staffs ()
+{
+   call_out_to_guile ("(d-MuteStaffs)"); 
+}
 void
 update_tempo_widget (gdouble value)
 {
@@ -1284,9 +1289,12 @@ update_leadin_widget (gdouble secs)
 }
 
 static void
-pb_set_range (GtkWidget * button)
+pb_play_range (GtkWidget * button)
 {
-  call_out_to_guile ("(DenemoSetPlaybackIntervalToSelection)"); 
+    if(Denemo.project->movement->markstaffnum)
+        call_out_to_guile ("(DenemoSetPlaybackIntervalToSelection)(d-Play)"); 
+    else
+        call_out_to_guile ("(d-DenemoPlayCursorToEnd)");
 }
 
 static void
@@ -4264,6 +4272,12 @@ set_master_tempo (DenemoMovement * si, gdouble tempo)
     }
 }
 
+static void toggle_dynamic_compression (gboolean *compression)
+{
+    *compression = 100 * (!*compression);
+    Denemo.project->movement->smfsync = G_MAXINT;
+}
+
 /* create_window() creates the toplevel window and all the menus - it only
    called once per invocation of Denemo */
 static void
@@ -4451,7 +4465,7 @@ create_window (void)
                        , pb_panic, NULL, _("Resets the synthesizer, on JACK it sends a JACK panic."));
 
 
-    create_playbutton (inner, _("Set From Selection"), pb_set_range, NULL, _("Sets the playback range (green and red bars) to the current selection."));
+    create_playbutton (inner, _("Play Selection"), pb_play_range, NULL, _("Plays the current selection or from the cursor to the end if no selection present."));
     create_playbutton (inner, _("Playback Range"), pb_range, NULL, _("Pops up a dialog to get timings for start and end of playback."));
     GtkWidget *temperament_control = get_temperament_combo ();
     if (!gtk_widget_get_parent (temperament_control))
@@ -4475,7 +4489,7 @@ create_window (void)
       g_signal_connect (G_OBJECT (master_tempo_adj), "value_changed", G_CALLBACK (pb_tempo), NULL);
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
 
-      //create_playbutton(hbox, "Set Tempo", pb_set_tempo, NULL);
+      create_playbutton(hbox, _("Mute Staffs"), pb_mute_staffs, NULL, _("Select which staffs should be muted during playback."));
 
       // Volume
       label = gtk_label_new (_("Volume"));
@@ -4494,7 +4508,12 @@ create_window (void)
       g_signal_connect (G_OBJECT (master_vol_adj), "value_changed", G_CALLBACK (pb_volume), NULL);
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
 
-
+      GtkWidget *always_full_volume = gtk_check_button_new_with_label (_("Always Full Volume"));
+      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (always_full_volume), Denemo.prefs.dynamic_compression);
+      g_signal_connect_swapped (G_OBJECT (always_full_volume), "toggled", G_CALLBACK (toggle_dynamic_compression), &Denemo.prefs.dynamic_compression);
+      gtk_box_pack_start (GTK_BOX (hbox), always_full_volume, FALSE, FALSE, 10);
+      
+      
       // Audio Volume
       Denemo.audio_vol_control = gtk_hbox_new (FALSE, 1);
       label = gtk_label_new (_("Audio Volume Cut"));

@@ -81,6 +81,8 @@ src/command/tuplet.c
 src/command/tuplet.h
 src/core/binreloc.c
 src/core/binreloc.h
+src/core/cache.c
+src/core/cache.h
 src/core/denemo_types.c
 src/core/exportxml.c
 src/core/exportxml.h
@@ -591,6 +593,8 @@ actions/menus/MainMenu/PlaybackMenu/ConvertMidiForBass.scm
 actions/menus/MainMenu/PlaybackMenu/ConvertMidiForBass.xml
 actions/menus/MainMenu/PlaybackMenu/DenemoPlayCursorToEnd.scm
 actions/menus/MainMenu/PlaybackMenu/DenemoPlayCursorToEnd.xml
+actions/menus/MainMenu/PlaybackMenu/MuteStaffs.scm
+actions/menus/MainMenu/PlaybackMenu/MuteStaffs.xml
 actions/menus/MainMenu/PlaybackMenu/Performance.scm
 actions/menus/MainMenu/PlaybackMenu/Performance.xml
 actions/menus/MainMenu/PlaybackMenu/PitchShift.scm
@@ -981,6 +985,8 @@ actions/menus/ObjectMenu/Lyrics/InsertMelisma.scm
 actions/menus/ObjectMenu/Lyrics/InsertMelisma.xml
 actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm
 actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.xml
+actions/menus/ObjectMenu/Lyrics/InsertSyllableSkips.scm
+actions/menus/ObjectMenu/Lyrics/InsertSyllableSkips.xml
 actions/menus/ObjectMenu/Lyrics/LyricFont.scm
 actions/menus/ObjectMenu/Lyrics/LyricFontSize.scm
 actions/menus/ObjectMenu/Lyrics/LyricFontSize.xml
@@ -1381,6 +1387,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DynamicsExtraSpace.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DynamicsExtraSpace.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/LengthenHairpin.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/LengthenHairpin.xml
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.scm
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.xml
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.scm

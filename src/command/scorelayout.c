@@ -686,6 +686,8 @@ static void substitute_voice_name (GtkWidget *button, GtkWidget *frame)
           gchar *oldlily = (gchar *) g->data;
           edit_lilypond_prefix (frame, oldlily, g_strdup(lily->str));
           score_status (Denemo.project, TRUE);
+          gchar *text = g_strdup_printf (_("The music for this staff has been replaced by the music from the current staff, i.e. staff where the cursor is, Movement %d, Staff %d."), mvmnt, staffnum);
+          infodialog (text);
         }
     g_string_free (lily, TRUE);
 }
@@ -2190,42 +2192,38 @@ change_tab (GtkNotebook * notebook, GtkWidget * page, gint pagenum)
 
 //takes a DenemoScoreblock that has a valid widget field and recomputes the lilypond field of the scoreblock
 //from the widget. It also sets the name field of the scoreblock to the name on the Notebook tab.
+// It sets the instrumentation if set in the scoreblock structure.
 void
 refresh_lilypond (DenemoScoreblock * sb)
 {
   if (sb->widget)
     {
+
       if ((!is_lilypond_text_layout (sb)))
         { 
-          if ((sb->lilypond == NULL) || check_for_update ())
-            {
-              gchar *instrumentation = sb->instrumentation;
-              gchar *set_instr = instrumentation? g_strdup (instrumentation):
-                                                 ((!strcmp (sb->name, DEFAULT_SCORE_LAYOUT))?g_strdup (_("Full Score")):
-                                                 ((g_str_has_prefix (sb->name, _("Movement")))?
-                                                        g_strdup (sb->name):
-                                                        NULL));
-                                                 
-                                                 
-              
-              
-              
-              instrumentation = set_instr? g_strdup_printf ("        instrumentation = \\markup { \\with-url #'\"scheme:(d-BookInstrumentation)\" \"%s\"}\n", set_instr):
-                                            g_strdup ("");
-              g_free (set_instr);
-              set_instr = instrumentation;
-              sb->id = crc32 ((guchar*) sb->name);
-              if (sb->lilypond == NULL)
-                sb->lilypond = g_string_new (sb->name);
-              else
-                g_string_assign (sb->lilypond, sb->name);
-              g_string_prepend (sb->lilypond, "%");
-              g_string_append_printf (sb->lilypond, "\n\\header{DenemoLayoutName = \"%s\"\n%s        }\n",
-              sb->name, 
-              set_instr);
-              g_free (set_instr);
-              lilypond_for_layout (sb->lilypond, sb->widget);
-            }
+          gchar *instrumentation = sb->instrumentation;
+          gchar *set_instr = instrumentation? g_strdup (instrumentation):
+                                             ((!strcmp (sb->name, DEFAULT_SCORE_LAYOUT))?g_strdup (_("Full Score")):
+                                             ((g_str_has_prefix (sb->name, _("Movement")))?
+                                                    g_strdup (sb->name):
+                                                    NULL));
+
+          instrumentation = set_instr? g_strdup_printf ("        instrumentation = \\markup { \\with-url #'\"scheme:(d-BookInstrumentation)\" \"%s\"}\n", set_instr):
+                                        g_strdup ("");
+          g_free (set_instr);
+          set_instr = instrumentation;
+
+          sb->id = crc32 ((guchar*) sb->name);
+          if (sb->lilypond == NULL)
+            sb->lilypond = g_string_new (sb->name);
+          else
+            g_string_assign (sb->lilypond, sb->name);
+          g_string_prepend (sb->lilypond, "%");
+          g_string_append_printf (sb->lilypond, "\n\\header{DenemoLayoutName = \"%s\"\n%s        }\n",
+          sb->name, 
+          set_instr);
+          g_free (set_instr);
+          lilypond_for_layout (sb->lilypond, sb->widget);
         }
     }
   else

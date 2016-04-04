@@ -2,6 +2,7 @@
 #include "scripting/scheme-callbacks.h"
 #include "command/commandfuncs.h"
 #include "command/grace.h"
+#include "command/lilydirectives.h"
 #include "command/measure.h"
 #include "command/object.h"
 #include "command/processstaffname.h"
@@ -133,6 +134,107 @@ scheme_popup_menu (SCM list)
     }
   return ReturnValue;
 }
+static void toggle_value (gboolean *value)
+{
+   *value = !*value; 
+}
+
+void check_all (GtkWidget *button) {
+    GList *children = gtk_container_get_children (gtk_widget_get_parent (button));
+    for (;children; children=children->next)
+        {
+            GtkWidget *child = children->data;
+            if (GTK_IS_CHECK_BUTTON (child))
+                gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (child), TRUE);
+        }
+}
+    
+void uncheck_all (GtkWidget *button) {
+    GList *children = gtk_container_get_children (gtk_widget_get_parent (button));
+    for (;children; children=children->next)
+        {
+            GtkWidget *child = children->data;
+            if (GTK_IS_CHECK_BUTTON (child))
+               gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (child), FALSE);
+        }
+}    
+    
+SCM
+scheme_check_boxes (SCM list, SCM title)
+{
+  gchar *thetitle = scm_is_string (title)?
+            scm_to_locale_string (title) :
+            _("Set Values");
+  GtkWidget *dialog = gtk_dialog_new_with_buttons (thetitle,
+                                                 GTK_WINDOW(Denemo.window),
+                                                 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                 GTK_STOCK_OK,
+                                                 GTK_RESPONSE_ACCEPT,
+                                                 GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+                                                 NULL);
+  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+ 
+  if (scm_is_list (list))
+    {
+      gint i;
+      gint length = scm_to_int (scm_length (list));
+      gboolean *status;
+      status = (gint*)g_malloc0 (length* sizeof (gboolean));
+      GtkWidget *button = gtk_button_new_with_label (_("Check all"));
+      g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK(check_all), NULL);
+      gtk_container_add (GTK_CONTAINER (content_area), button);
+      button = gtk_button_new_with_label (_("Un-check all"));
+      g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK(uncheck_all), NULL);
+      gtk_container_add (GTK_CONTAINER (content_area), button);
+      
+      
+      scm_reverse (list);
+      for (i = 0; i < length; i++)
+        {
+          SCM el = scm_list_ref (list, scm_from_int (i));
+          if (scm_is_pair (el))
+            {
+              gchar *label = NULL;
+              if (scm_is_string (scm_car (el)) && scm_is_bool (scm_cdr (el)))
+                {
+                  label = scm_to_locale_string (scm_car (el));
+                  status[i]  = scm_is_true (scm_cdr (el));
+                }
+              if (label)
+                {
+                  GtkWidget *item = gtk_check_button_new_with_label (label);
+                  
+                  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(item), status [i]);
+                  gtk_container_add (GTK_CONTAINER (content_area), item);
+                  g_signal_connect_swapped (G_OBJECT (item), "toggled", G_CALLBACK (toggle_value), &status[i]);
+                }
+             else
+             {
+              return SCM_BOOL_F;
+            }
+          }
+        }
+        gtk_widget_show_all (dialog);
+        gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+        switch (result)
+          {
+            case GTK_RESPONSE_ACCEPT:
+               for (i = 0; i < length; i++)
+                {
+                    scm_list_set_x (list, scm_from_int (i), scm_cons (scm_car (scm_list_ref (list, scm_from_int (i))), scm_from_bool (status[i])));
+                }
+               g_free (status);
+               break;
+            default:
+                gtk_widget_destroy (dialog);
+               return SCM_BOOL_F;
+          }
+        gtk_widget_destroy (dialog);
+    }
+  return list;
+}
+
+
 
 SCM
 scheme_create_palette_button (SCM palette, SCM lbl, SCM tltp, SCM scrp) 
@@ -2248,6 +2350,15 @@ scheme_get_verse (SCM number)
     }
   return SCM_BOOL_F;
 }
+
+SCM
+scheme_syllable_count (void)
+{
+  if(Denemo.project->movement->currentobject)
+    return scm_from_int (syllable_count ());
+  return SCM_BOOL_F;
+}
+
 SCM
 scheme_typeset_lyrics_for_staff (SCM on)
 {
@@ -2257,9 +2368,12 @@ scheme_typeset_lyrics_for_staff (SCM on)
     return scm_from_bool (!staff->hide_lyrics);
 }
 SCM
-scheme_synchronize_lyric_cursor (void)
+scheme_synchronize_lyric_cursor (SCM val)
 {
-    return SCM_BOOL(synchronize_lyric_cursor());
+    gint offset = 0;
+    if(scm_is_integer (val))
+        offset = scm_to_int (val);
+    return SCM_BOOL(synchronize_lyric_cursor(offset));
     
 }
 SCM
@@ -2380,19 +2494,7 @@ scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object)
     objectnum = scm_to_int (object);
   else
     objectnum = 1 + Denemo.project->movement->cursor_x;
-#if 0
-  // 1 is ambiguous, either empty measure or object 1
-  gboolean result = goto_movement_staff_obj (NULL, movementnum, staffnum, measurenum, objectnum);
-  if (Denemo.project->movement->currentmeasure->data == NULL && objectnum == 1)
-    return SCM_BOOL (goto_movement_staff_obj (NULL, movementnum, staffnum, measurenum, 0));
-  gint numobjs = (Denemo.project->movement->currentmeasure->data) ? g_list_length (Denemo.project->movement->currentmeasure->data) : 0;
-  if (objectnum == 1 + numobjs)
-    Denemo.project->movement->cursor_appending = TRUE;
-  write_status (Denemo.project);
-  if (objectnum > 1 + numobjs)
-    return SCM_BOOL_F;
-  return SCM_BOOL (result);
-#endif
+
   gint origmvt = g_list_index (Denemo.project->movements, Denemo.project->movement) + 1, origstaff = Denemo.project->movement->currentstaffnum, origmeas = Denemo.project->movement->currentmeasurenum, origpos = 1 + Denemo.project->movement->cursor_x;
   goto_movement_staff_obj (NULL, movementnum, staffnum, measurenum, objectnum, 0);
   if ((movementnum == g_list_index (Denemo.project->movements, Denemo.project->movement) + 1) && (staffnum == Denemo.project->movement->currentstaffnum) && (measurenum == Denemo.project->movement->currentmeasurenum) && (objectnum == 1 + Denemo.project->movement->cursor_x))
@@ -2660,8 +2762,8 @@ scheme_put_whole_measure_rests (void)
     return scm_from_int (0);
   else
     {
-      gint numerator = gui->movement->cursortime1;    // staff->timesig.time1;
-      gint denominator = gui->movement->cursortime2;  //staff->timesig.time2;
+      gint numerator = ((DenemoMeasure*)gui->movement->currentmeasure->data)->timesig->time1;    // staff->timesig.time1;
+      gint denominator = ((DenemoMeasure*)gui->movement->currentmeasure->data)->timesig->time2;   //staff->timesig.time2;
       gboolean dot = TRUE;
       if (numerator % 3)
         dot = FALSE;
@@ -2808,7 +2910,7 @@ SCM
 scheme_get_imported_midi_track (SCM index)
 {
     if(scm_is_integer(index)) { 
-        gint idx =scm_to_int (index);
+        gint idx = scm_to_int (index);
         if(get_imported_midi_track (idx))
             return SCM_BOOL_F;
         }
@@ -2897,7 +2999,38 @@ scheme_get_measure_number (void)
   return scm_from_int (Denemo.project->movement->currentmeasurenum);
 }
 
+SCM
+scheme_set_measure_number_offset (SCM val)
+{
+    DenemoMeasure *themeasure;
+    if (scm_is_integer (val))
+        {
+            gint offset = scm_to_int (val);
+            DenemoPosition pos;
+            get_position (Denemo.project->movement, &pos);  
+            
+            gint i=1;
+            
+            while (goto_movement_staff_obj (NULL, -1, i++, pos.measure, 0, 0))
+                {
+                    themeasure = (DenemoMeasure *)Denemo.project->movement->currentmeasure->data;
+                    themeasure->measure_numbering_offset =  offset;
+                }
+            goto_movement_staff_obj (NULL, -1, pos.staff, pos.measure, pos.object, pos.leftmeasurenum);
+            cache_all ();
+        }
+    else 
+    return SCM_BOOL_F;
+  themeasure = Denemo.project->movement->currentmeasure->data;     
+  return scm_from_int (themeasure->measure_numbering_offset);
+}
 
+SCM
+scheme_get_measure_number_offset (void)
+{
+    DenemoMeasure *themeasure = Denemo.project->movement->currentmeasure->data;
+    return scm_from_int (themeasure->measure_numbering_offset);
+}
 
 
 SCM
@@ -3335,7 +3468,7 @@ scheme_change_chord_notes (SCM lilynotes)
           while (chordnote)
             {
               interpret_lilypond_notename (chordnote, &mid_c_offset, &enshift);
-              dnm_addtone (curObj, mid_c_offset, enshift, dclef);
+              dnm_addtone (curObj, mid_c_offset, enshift);
               chordnote = strtok (NULL, " ");
             }
           /* paste directives over */
@@ -5352,7 +5485,7 @@ scheme_set_accidental (SCM optional)
         thenote->enshift = 0;
       if ((thenote->enshift < -2) || (thenote->enshift > 2))
         thenote->enshift = 0;
-      showwhichaccidentals ((objnode *) si->currentmeasure->data, si->curmeasurekey, si->curmeasureaccs);
+      showwhichaccidentals ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects);
       //  find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1,
       //                      si->cursortime2); causes a crash, si is not passed correctly, why???
       //thenote->mid_c_offset = interpret_lilypond_notename(str);
@@ -5405,7 +5538,7 @@ scheme_insert_note_in_chord (SCM lily)
       interpret_lilypond_notename (str, &mid_c_offset, &enshift);
 
       //g_debug("note %s gives %d and %d\n", str, mid_c_offset, enshift);
-      addtone (curObj, mid_c_offset, enshift, find_prevailing_clef (Denemo.project->movement));
+      addtone (curObj, mid_c_offset, enshift);
       score_status (gui, TRUE);
       displayhelper (Denemo.project);
       if (str)
@@ -5709,7 +5842,7 @@ scheme_get_staffs_in_clipboard (SCM optional)
 SCM
 scheme_get_measures_in_staff (SCM optional)
 {
-  gint num = g_list_length (((DenemoStaff *) Denemo.project->movement->currentstaff->data)->measures);
+  gint num = g_list_length (((DenemoStaff *) Denemo.project->movement->currentstaff->data)->themeasures);
   return scm_from_int (num);
 }
 SCM
@@ -5884,7 +6017,7 @@ scheme_diatonic_shift (SCM optional)
           gint shift;
           sscanf (str, "%d", &shift);
 //     g_debug("note shift %s ie %d\n", str, shift);
-          modify_note (thechord, thenote->mid_c_offset + shift, gui->movement->curmeasureaccs[offsettonumber (thenote->mid_c_offset + shift)], find_prevailing_clef (Denemo.project->movement));
+          modify_note (thechord, thenote->mid_c_offset + shift, curObj->keysig->accs[offsettonumber (thenote->mid_c_offset + shift)], find_prevailing_clef (Denemo.project->movement));
           free (str);
         }
     }

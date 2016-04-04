@@ -41,7 +41,7 @@ signal_structural_change (DenemoProject * project)
 measurenode *
 staff_first_measure_node (staffnode * thestaff)
 {
-  return ((DenemoStaff *) thestaff->data)->measures;
+  return ((DenemoStaff *) thestaff->data)->themeasures;
 }
 
 /**
@@ -53,7 +53,7 @@ staff_first_measure_node (staffnode * thestaff)
 measurenode *
 staff_nth_measure_node (staffnode * thestaff, gint n)
 {
-  return g_list_nth (((DenemoStaff *) thestaff->data)->measures, n);
+  return g_list_nth (((DenemoStaff *) thestaff->data)->themeasures, n);
 }
 
 /**
@@ -255,7 +255,7 @@ staff_new (DenemoProject * project, enum newstaffcallbackaction action, DenemoCo
 
   for (i = 0; i < staff->nummeasures; i++)
     {
-      themeasures = g_list_append (themeasures, NULL);
+      themeasures = g_list_append (themeasures, (gpointer)g_malloc0(sizeof(DenemoMeasure)));
     };
 
   if (action == INITIAL || action == ADDFROMLOAD)
@@ -263,27 +263,14 @@ staff_new (DenemoProject * project, enum newstaffcallbackaction action, DenemoCo
       movement->currentmeasure = themeasures;
     }
 
-#if 0
-  // always go home for new staffs.
-  else
-    {
-      movement->currentmeasure = g_list_nth (themeasures, movement->currentmeasurenum - 1);
-
-    }
-#endif
-
   /* Now fix the stuff that shouldn't be directly copied from
    * the current staff, if this staff was non-initial and that
    * was done to begin with */
 
-  staff->measures = themeasures;
+  staff->themeasures = themeasures;
   staff->denemo_name = g_string_new ("");
   staff->lily_name = g_string_new ("");
 
-  //staff->staff_prolog = NULL;
-  // staff->lyrics_prolog = NULL;
-  //staff->figures_prolog = NULL;
-  //staff->fakechords_prolog = NULL;
   staff->context = context;
   if (action == INITIAL)
     g_string_sprintf (staff->denemo_name, _("Part 1"));
@@ -366,10 +353,14 @@ staff_new (DenemoProject * project, enum newstaffcallbackaction action, DenemoCo
     }
   if ( addat==1)
        staff->space_above = 20;
-
+  cache_staff (g_list_find (Denemo.project->movement->thescore, staff));
   return staff;
 }
-
+static void freemeasure (DenemoMeasure *meas)
+{
+  //g_list_foreach (meas->objects, freeobjlist, NULL);
+  freeobjlist (meas->objects, NULL);
+}
 /**
  * Remove the project->movement->currentstaff from the piece project and reset movement->currentstaff
  * if only one staff, inserts a new empty one
@@ -405,9 +396,9 @@ staff_delete (DenemoProject * project, gboolean interactive)
     gtk_widget_destroy ((GtkWidget *) (curstaffstruct->staffmenu));
     gtk_widget_destroy ((GtkWidget *) (curstaffstruct->voicemenu));
   }
-
-  g_list_foreach (curstaffstruct->measures, freeobjlist, NULL);
-  g_list_free (curstaffstruct->measures);
+//FIXME DANGER
+  g_list_foreach (curstaffstruct->themeasures, (GFunc)freemeasure, NULL);
+  g_list_free_full (curstaffstruct->themeasures, g_free);
   g_string_free (curstaffstruct->denemo_name, FALSE);   //FIXME these should all be TRUE??
   g_string_free (curstaffstruct->lily_name, FALSE);
   g_string_free (curstaffstruct->midi_instrument, FALSE);
@@ -466,16 +457,10 @@ void
 staff_beams_and_stems_dirs (DenemoStaff * thestaff)
 {
   measurenode *curmeasure;
-  gint nclef, time1, time2, stem_directive;
 
-  nclef = thestaff->clef.type;
-  time1 = thestaff->timesig.time1;
-  time2 = thestaff->timesig.time2;
-  stem_directive = DENEMO_STEMBOTH;
-
-  for (curmeasure = thestaff->measures; curmeasure; curmeasure = curmeasure->next)
+  for (curmeasure = thestaff->themeasures; curmeasure; curmeasure = curmeasure->next)
     {
-      calculatebeamsandstemdirs ((objnode *) curmeasure->data, &nclef, &time1, &time2, &stem_directive);
+      calculatebeamsandstemdirs ((DenemoMeasure*)curmeasure->data);
     }
 }
 
@@ -487,14 +472,9 @@ staff_beams_and_stems_dirs (DenemoStaff * thestaff)
 void
 staff_show_which_accidentals (DenemoStaff * thestaff)
 {
-  gint feed[7];
-  gint feednum;
   measurenode *curmeasure;
-
-  memcpy (feed, thestaff->keysig.accs, SEVENGINTS);
-  feednum = thestaff->keysig.number;
-  for (curmeasure = thestaff->measures; curmeasure; curmeasure = curmeasure->next)
-    feednum = showwhichaccidentals ((objnode *) curmeasure->data, feednum, feed);
+  for (curmeasure = thestaff->themeasures; curmeasure; curmeasure = curmeasure->next)
+    showwhichaccidentals ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects);
 }
 
 /**
@@ -505,31 +485,24 @@ staff_show_which_accidentals (DenemoStaff * thestaff)
 void
 staff_fix_note_heights (DenemoStaff * thestaff)
 {
-  gint nclef = thestaff->clef.type;
+  //gint nclef = thestaff->clef.type;
   //gint time1 = thestaff->stime1;//USELESS
   //gint time2 = thestaff->stime2;//USELESS
   //gint initialclef;//USELESS
   measurenode *curmeasure;
   objnode *curobj;
   DenemoObject *theobj;
-
-  for (curmeasure = thestaff->measures; curmeasure; curmeasure = curmeasure->next)
+g_warning ("Staff fix note heights called uselessly?");
+  for (curmeasure = thestaff->themeasures; curmeasure; curmeasure = curmeasure->next)
     {
       //initialclef = nclef;
-      for (curobj = (objnode *) curmeasure->data; curobj; curobj = curobj->next)
+      for (curobj = (objnode *) ((DenemoMeasure *)curmeasure->data)->objects; curobj; curobj = curobj->next)
         {
           theobj = (DenemoObject *) curobj->data;
           switch (theobj->type)
             {
             case CHORD:
-              newclefify (theobj, nclef);
-              break;
-            case TIMESIG:      //USELESS
-              //time1 = ((timesig *) theobj->object)->time1;
-              // time2 = ((timesig *) theobj->object)->time2;
-              break;
-            case CLEF:
-              nclef = ((clef *) theobj->object)->type;
+              newclefify (theobj);
               break;
             default:
               break;

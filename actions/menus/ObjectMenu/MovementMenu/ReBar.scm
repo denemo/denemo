@@ -172,8 +172,7 @@
         ))
         
         (define (GetTimeSigChange)
-            (d-RefreshDisplay);;forces the cached data about the time signature at the cursor to be updated (sigh)
-            (set! TimeSig (string->number (d-InsertTimeSig "query=timesigname") ))
+            (set! TimeSig (GetPrevailingTimesig #t))
         );GetTimeSig
         
 
@@ -380,7 +379,7 @@
 (if ReBar::params
    (begin
      (d-MoveToBeginning) 
-     (set! ReBar::return (AuditThisStaff (string->number (d-InsertTimeSig "query=timesigname")) #f #f #f))
+     (set! ReBar::return (AuditThisStaff (GetPrevailingTimesig #t) #f #f #f))
     )
     (let ((Pad #f) (Blank #f)(MergeAndSplit #f))
     (set! Input1 (d-GetOption (string-append (_ "Search for under/overfull bars") stop 
@@ -397,8 +396,8 @@
             (set! position (GetPosition))   ;let's try to return cursor to here when done.
             (if ScanAllStaffs (while (d-MoveToStaffUp)))    ;Start at top staff, top voice
             (if (not (equal? Input2 (_ "This Point Onwards"))) (d-MoveToBeginning))
-            (set! InitialTimeSig (d-InsertTimeSig "query=timesigname"))
-            (set! InitialTimeSig (string->number InitialTimeSig))
+            (set! InitialTimeSig (GetPrevailingTimesig #t))
+            
             (let ((AllOK #t))
                 (if (not (AuditThisStaff InitialTimeSig Pad Blank MergeAndSplit)) (set! AllOK #f))
                 (while (and ScanAllStaffs AllOK (or (d-MoveToVoiceDown) (d-MoveToStaffDown))) ;RebarAll if appropriate.

@@ -85,7 +85,7 @@ void cursorup (GtkAction * action, DenemoScriptParam * param);
 void cursordown (GtkAction * action, DenemoScriptParam * param);
 
 void shiftcursor (DenemoProject * gui, gint note_value);
-
+void edit_pitch (gint note_value, gint enshift);
 void setenshift (DenemoMovement * si, gint enshift);
 
 void changeduration (DenemoMovement * si, gint duration);

@@ -29,6 +29,8 @@
 #include "command/contexts.h"
 #include "display/draw.h"
 #include "core/view.h"
+#include "audio/audiointerface.h"
+#include "printview/printview.h"
 
 #define ENTER_NOTIFY_EVENT "focus-in-event"
 #define LEAVE_NOTIFY_EVENT "focus-out-event"
@@ -1873,7 +1875,7 @@ outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint
   g_string_assign (staff_str, "");
 
   curmeasurenum = 0;
-  curmeasure = curstaffstruct->measures;
+  curmeasure = curstaffstruct->themeasures;
   if (!end)
     end = g_list_length (curmeasure);
   /* Now each measure */
@@ -1906,7 +1908,7 @@ outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint
           lastobj = 1 + gui->movement->selection.lastobjmarked;
         }
       //g_debug("First last, %d %d %d\n", firstobj, lastobj, start);
-      for (objnum = 1, curobjnode = (objnode *) curmeasure->data; /* curobjnode NULL checked at end */ ;
+      for (objnum = 1, curobjnode = (objnode *) ((DenemoMeasure*)curmeasure->data)->objects; /* curobjnode NULL checked at end */ ;
            curobjnode = curobjnode->next, objnum++)
         {
           curobj = NULL;        //avoid random values for debugabililty
@@ -2954,6 +2956,11 @@ goto_lilypond_position (gint line, gint column)
   DenemoProject *gui = Denemo.project;
   GtkTextIter enditer, iter;
 
+ if (gui->lilysync != gui->changecount)
+      refresh_lily_cb (NULL, gui);
+
+ if (printview_is_stale ())
+      play_note (DEFAULT_BACKEND, 0, 9, 69, 300, 100);
   //g_print ("goto_lilypond_position called for line %d column %d\n", line, column);
 
   gtk_text_buffer_get_end_iter (Denemo.textbuffer, &enditer);
@@ -3037,7 +3044,10 @@ goto_lilypond_position (gint line, gint column)
           return TRUE;
         }
       else
-        g_warning ("Anchor not found");
+        {
+            play_note (DEFAULT_BACKEND, 0, 9, 43, 300, 127);
+            g_warning ("Anchor not found");
+        }
     }                           //if reasonable column and line number
    
   return FALSE;

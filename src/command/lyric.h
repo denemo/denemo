@@ -23,7 +23,7 @@ gchar *get_lyrics_for_current_verse (DenemoStaff * thestaff);
 gboolean put_lyrics_for_current_verse (DenemoStaff * staff, gchar * text);
 gchar *get_lyrics_for_verse_num (gint number);
 gboolean append_lyrics_for_current_verse (DenemoStaff * thestaff, gchar * text);
-gboolean synchronize_lyric_cursor(void);
+gboolean synchronize_lyric_cursor(gint offset);
 GtkWidget* verse_get_current_view(DenemoStaff* staff);
 void verse_set_current(DenemoStaff* staff, guint id);
 gint verse_get_current(DenemoStaff* staff);

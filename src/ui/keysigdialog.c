@@ -17,6 +17,7 @@
 #include "command/object.h"
 #include "command/staff.h"
 #include "core/utils.h"
+#include "core/cache.h"
 #include "ui/keysigdialog.h"
 #include "audio/pitchentry.h"
 
@@ -55,7 +56,7 @@ typedef struct keysig_data
   gboolean initial;
 } keysig_data;
 
-void set_keysig (struct keysig_data *data);
+
 /**
  * Finds key name and returns its numeric value
  *
@@ -83,7 +84,7 @@ findkey (GtkWidget * combobox, GList * list)
  * Sets the initial key signature on either the current staff or 
  * across the entire score.
  */
-void
+static void
 set_keysig (keysig_data * cbdata)
 {
   DenemoMovement *si = Denemo.project->movement;
@@ -122,7 +123,7 @@ set_keysig (keysig_data * cbdata)
  * Inserts a key signature change either on a single staff or
  * across the entire score
  */
-void
+static void
 insert_keysig (keysig_data * kdata)
 {
   staffnode *curstaff;
@@ -149,17 +150,19 @@ insert_keysig (keysig_data * kdata)
               if (curmeasure)
                 {
                     if (curmeasure == si->currentmeasure) 
-                        curmeasure->data = g_list_insert ((objnode *) curmeasure->data, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode), si->cursor_x);
+                        ((DenemoMeasure*)curmeasure->data)->objects = g_list_insert ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode), si->cursor_x);
                     else
                     {
                         if(si->cursor_x<2)
-                            curmeasure->data = g_list_prepend ((objnode *) curmeasure->data, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode));
+                            ((DenemoMeasure*)curmeasure->data)->objects = g_list_prepend ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode));
                         else
-                            curmeasure->data = g_list_append ((objnode *) curmeasure->data, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode));
+                            ((DenemoMeasure*)curmeasure->data)->objects = g_list_append ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode));
                     }
-                        
+                    newkey->keysig = newkey->object;
+                    //update_keysig_cache (curmeasure, g_list_find (((DenemoMeasure*)curmeasure->data)->objects, newkey));
+                    cache_measure (curmeasure);    
                   if (curmeasure == si->currentmeasure)
-                    si->currentobject = g_list_nth ((objnode *) curmeasure->data, si->cursor_x);
+                    si->currentobject = g_list_nth ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, si->cursor_x);
                   staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
                 }
             }                   /* End for */
@@ -168,6 +171,7 @@ insert_keysig (keysig_data * kdata)
         {
 
           object_insert (Denemo.project, newkey = dnm_newkeyobj (tokey - mode, isminor, mode));
+          cache_measure (curmeasure); 
           staff_show_which_accidentals ((DenemoStaff *) si->currentstaff->data);
         }
       si->cursor_appending = FALSE;

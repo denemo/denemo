@@ -19,6 +19,7 @@
 #include "command/object.h"
 #include "command/staff.h"
 #include "core/utils.h"
+#include "core/cache.h"
 #include "command/select.h"
 
 /**
@@ -119,19 +120,25 @@ insert_timesig (DenemoMovement * si, DenemoStaff * curstaffstruct, gint time1, g
       if (firstmudobj && firstmudobj->type == TIMESIG)
         {
           replacing = TRUE;
-          curmeasure->data = g_list_remove_link ((objnode *) curmeasure->data, firstobj);
+          ((DenemoMeasure *)curmeasure->data)->objects = g_list_remove_link ((objnode *) ((DenemoMeasure *)curmeasure->data)->objects, firstobj);
           freeobject (firstmudobj);
           g_list_free_1 (firstobj);
-        }
-      curmeasure->data = g_list_prepend ((objnode *) curmeasure->data, dnm_newtimesigobj (time1, time2));
+        } 
+      DenemoObject *timesigobj =  dnm_newtimesigobj (time1, time2);
+      ((DenemoMeasure *)curmeasure->data)->objects = g_list_prepend ((objnode *) ((DenemoMeasure *)curmeasure->data)->objects, timesigobj);
+      ((DenemoMeasure *)curmeasure->data)->timesig = ((DenemoObject*)((DenemoMeasure *)curmeasure->data)->objects->data)->object;
+      timesigobj->clef = ((DenemoMeasure*)curmeasure->data)->clef;
+      timesigobj->keysig = ((DenemoMeasure*)curmeasure->data)->keysig;
+      timesigobj->stemdir = ((DenemoMeasure*)curmeasure->data)->stemdir;
+      
       if (curmeasure == si->currentmeasure)
         {
           if (!replacing)
             si->cursor_x++;
           if (si->cursor_appending)
-            si->currentobject = g_list_last ((objnode *) curmeasure->data);
+            si->currentobject = g_list_last ((objnode *) ((DenemoMeasure *)curmeasure->data)->objects);
           else
-            si->currentobject = g_list_nth ((objnode *) curmeasure->data, si->cursor_x);
+            si->currentobject = g_list_nth ((objnode *) ((DenemoMeasure *)curmeasure->data)->objects, si->cursor_x);
         }
       staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
     }
@@ -149,7 +156,7 @@ timesig_change_insert (GtkAction * action, DenemoScriptParam * param)
   DenemoProject *gui = Denemo.project;
   if (query)
     { draw_score (NULL);
-      gchar *curtimesig = g_strdup_printf ("%d/%d", gui->movement->cursortime1, gui->movement->cursortime2);
+      gchar *curtimesig = g_strdup_printf ("%d/%d", ((DenemoMeasure*)gui->movement->currentmeasure->data)->timesig->time1, ((DenemoMeasure*)gui->movement->currentmeasure->data)->timesig->time2);
       g_string_assign (param->string, curtimesig);
       g_free (curtimesig);
       param->status = TRUE;

@@ -9,6 +9,6 @@
 #include <denemo/denemo.h>
 #include "core/twoints.h"
 
-struct twoints find_xes_in_measure (DenemoMovement * si, gint measurenum, gint time1, gint time2);
+void find_xes_in_measure (DenemoMovement * si, gint measurenum);
 
 void find_xes_in_all_measures (DenemoMovement * si);

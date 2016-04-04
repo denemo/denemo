@@ -31,6 +31,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         <tag>ScoreComment</tag>
         <display>The upbeat command needs to be repeated if you change the duration of the upbeat!
 Just right click on it to do this.
+Note that the upbeat measure does not count for the bar numbering.
 </display>
         <override>12</override>
       </directive>
@@ -40,8 +41,8 @@ Just right click on it to do this.
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>2</measureno>
-      <cursorposition>2</cursorposition>
+      <measureno>1</measureno>
+      <cursorposition>3</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -103,8 +104,8 @@ Just right click on it to do this.
           <hasfakechords>0</hasfakechords>
         </voice-props>
         <measures>
-          <measure>
-            <lily-directive ticks="1728">
+          <measure offset="-1">
+            <lily-directive locked="true" ticks="1728">
               <tag>Upbeat</tag>
               <postfix>\partial 256*96 </postfix>
               <display>Upbeat</display>
@@ -143,6 +144,21 @@ emmentaler
             </chord>
           </measure>
           <measure>
+            <lily-directive>
+              <tag>MultiLineTextAnnotation</tag>
+              <prefix>&lt;&gt;</prefix>
+              <postfix>^\markup\scale #'(1 . 1)\column{\line\large{The upbeat command needs to be repeated if you change the duration of the upbeat!
+}\line\large{Just right click on it to do this.
+}\line\large{Note that the upbeat measure does not count for the bar numbering.}
+}</postfix>
+              <display>The upbeat command needs to be repeated if you change the duration of the upbeat!
+¶Just right click on it to do this.
+¶Note that the upbeat measure does not count for the bar numbering.</display>
+              <data>(list (cons 'text "The upbeat command needs to be repeated if you change the duration of the upbeat!
+¶Just right click on it to do this.
+¶Note that the upbeat measure does not count for the bar numbering.")(cons 'scale "1")(cons 'direction "^"))</data>
+              <minpixels>30</minpixels>
+            </lily-directive>
             <chord show="true" id="id8">
               <duration base="eighth"></duration>
               <notes>

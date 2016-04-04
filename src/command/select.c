@@ -125,7 +125,7 @@ setcurrentobject (DenemoMovement * si, gint cursorpos)
 
   g_debug ("Set Current Object Cursor pos %d\n", cursorpos);
 
-  si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data, cursorpos);
+  si->currentobject = g_list_nth ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, cursorpos);
   //g_assert (si->currentobject != NULL);
 }
 
@@ -246,7 +246,7 @@ copytobuffer (DenemoMovement * si)
       /* Measure loop.  */
       for (j = si->selection.firstmeasuremarked, k = si->selection.firstobjmarked, curmeasure = g_list_nth (staff_first_measure_node (curstaff), j - 1); curmeasure && j <= si->selection.lastmeasuremarked; curmeasure = curmeasure->next, j++)
         {
-          for (curobj = g_list_nth ((objnode *) curmeasure->data, k);
+          for (curobj = g_list_nth ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, k);
                /* cursor_x is 0-indexed */
                curobj && (j < si->selection.lastmeasuremarked || k <= si->selection.lastobjmarked); curobj = curobj->next, k++)
             {
@@ -322,9 +322,9 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
         max = G_MAXINT;
       else
         max = si->selection.lastobjmarked;
-      for (i = si->selection.firstobjmarked; ((tempobj = g_list_nth ((objnode *) curmeasure->data, si->selection.firstobjmarked)) && i <= max); i++)
+      for (i = si->selection.firstobjmarked; ((tempobj = g_list_nth ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, si->selection.firstobjmarked)) && i <= max); i++)
         {
-          curmeasure->data = g_list_remove_link ((objnode *) curmeasure->data, tempobj);
+           ((DenemoMeasure*)curmeasure->data)->objects = g_list_remove_link ((objnode *)  ((DenemoMeasure*)curmeasure->data)->objects, tempobj);
           freeobject ((DenemoObject *) tempobj->data);
           g_list_free_1 (tempobj);
         }
@@ -344,25 +344,29 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
       else
         for (; curmeasure && jcounter < si->selection.lastmeasuremarked; curmeasure = curmeasure->next, jcounter++)
           {
-            freeobjlist (curmeasure->data, NULL);
-            curmeasure->data = NULL;
+            freeobjlist (((DenemoMeasure*)curmeasure->data)->objects, NULL);
+            ((DenemoMeasure*)curmeasure->data)->objects = NULL;
           }
       /* Now clear the relevant part of the last measure selected */
       if (curmeasure && (jcounter <= si->selection.lastmeasuremarked))
         {
-          for (i = 0; curmeasure->data && i <= si->selection.lastobjmarked; i++)
+          for (i = 0; ((DenemoMeasure*)curmeasure->data)->objects && i <= si->selection.lastobjmarked; i++)
             {
-              tempobj = (objnode *) curmeasure->data;
-              curmeasure->data = g_list_remove_link ((objnode *) curmeasure->data, tempobj);
+              tempobj = (objnode *)  ((DenemoMeasure*)curmeasure->data)->objects;
+               ((DenemoMeasure*)curmeasure->data)->objects = g_list_remove_link ((objnode *)  ((DenemoMeasure*)curmeasure->data)->objects, tempobj);
               freeobject ((DenemoObject *) tempobj->data);
               g_list_free_1 (tempobj);
             }
           /* And delete it, if the measure's been cleared and there's only
              one staff.  */
 
-          if (!curmeasure->data && !si->thescore->next)
+          if (!((DenemoMeasure*)curmeasure->data)->objects && !si->thescore->next)
             removemeasures (si, g_list_position (staff_first_measure_node (si->currentstaff), curmeasure), 1, TRUE);
         }
+ 
+      cache_staff (si->currentstaff);
+      
+      staff_fix_note_heights ((DenemoStaff*)si->currentstaff->data);        
       staff_show_which_accidentals ((DenemoStaff *) si->currentstaff->data);
       staff_beams_and_stems_dirs ((DenemoStaff *) si->currentstaff->data);
     }                           // end of single staff
@@ -376,14 +380,18 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
 
               removemeasures (si, si->selection.firstmeasuremarked - 1, lmeasurebreaksinbuffer + 1, TRUE);
               staffs_removed_measures = lmeasurebreaksinbuffer;
+              
+              cache_all ();
             }
           else
             for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
               {
                 curmeasure = g_list_nth (staff_first_measure_node (curstaff), si->selection.firstmeasuremarked - 1);
-                freeobjlist (curmeasure->data, NULL);
-                curmeasure->data = NULL;
-
+                freeobjlist ( ((DenemoMeasure*)curmeasure->data)->objects, NULL);
+                 ((DenemoMeasure*)curmeasure->data)->objects = NULL;
+                 
+                cache_staff (curstaff);
+                staff_fix_note_heights ((DenemoStaff*)curstaff->data);
                 staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
                 staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
               }
@@ -398,13 +406,19 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
               /* Measure loop */
               for (jcounter = si->selection.firstmeasuremarked, curmeasure = g_list_nth (staff_first_measure_node (curstaff), jcounter - 1); curmeasure && jcounter <= si->selection.lastmeasuremarked; curmeasure = curmeasure->next, jcounter++)
                 {
-                  freeobjlist (curmeasure->data, NULL);
-                  curmeasure->data = NULL;
+                  freeobjlist ( ((DenemoMeasure*)curmeasure->data)->objects, NULL);
+                   ((DenemoMeasure*)curmeasure->data)->objects = NULL;
                 }
+                
+              cache_staff (curstaff);
+      
               staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
               staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
             }
         }
+                
+
+        
     }
   si->selection.firststaffmarked = si->markstaffnum = 0;        //only the latter is needed, but there was some confusion at one time...
   /* And set some currents. This would probably be better to split off
@@ -423,14 +437,14 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
   si->currentmeasure = g_list_nth (staff_first_measure_node (si->currentstaff), si->currentmeasurenum - 1);
 
   si->cursor_x = si->selection.firstobjmarked;
-  if (si->cursor_x < (gint) (g_list_length ((objnode *) si->currentmeasure->data)))
+  if (si->cursor_x < (gint) (g_list_length ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects)))
     {
-      si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data, si->cursor_x);
+      si->currentobject = g_list_nth ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->cursor_x);
       si->cursor_appending = FALSE;
     }
   else
     {
-      si->currentobject = g_list_last ((objnode *) si->currentmeasure->data);
+      si->currentobject = g_list_last ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects);
       si->cursor_appending = TRUE;
     }
   //if clef has been deleted we need to re-validate leftmost clef - would only apply if the clef being deleted was off the left side of screen - some sort of scripting scenario...
@@ -476,6 +490,9 @@ get_clip_objs (gint m)
 void
 insert_object (DenemoObject * clonedobj)
 {
+    object_insert (Denemo.project, clonedobj);
+#if 0    
+    
   DenemoMovement *si = Denemo.project->movement;
   staffnode *curstaff = si->currentstaff;
   clonedobj->starttick = (si->currentobject ? ((DenemoObject *) si->currentobject->data)->starttickofnextnote : 0);
@@ -487,8 +504,9 @@ insert_object (DenemoObject * clonedobj)
       //undo->object = clonedobj;
       //do position after inserting, so we can go back to it to delete
     }
-
-  Denemo.project->movement->currentmeasure->data = g_list_insert ((objnode *) si->currentmeasure->data, clonedobj, si->cursor_x);
+  DenemoMeasure *m =si->currentmeasure->data;
+  ((DenemoMeasure*)si->currentmeasure->data)->objects =  g_list_insert (m->objects, clonedobj, si->cursor_x);
+//  Denemo.project->movement->currentmeasure->data =  g_list_insert ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, clonedobj, si->cursor_x); DANGER FIXME this was trying to insert an object
 
 
   if (!si->undo_guard)
@@ -503,23 +521,24 @@ insert_object (DenemoObject * clonedobj)
 
   si->cursor_x++;
   if (si->cursor_appending)
-    si->currentobject = g_list_last ((objnode *) si->currentmeasure->data);
+    si->currentobject = g_list_last ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects);
   else
-    si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data, si->cursor_x);
+    si->currentobject = g_list_nth ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->cursor_x);
 
   if (si->currentobject == NULL)
     {
-      g_warning ("problematic parameters on insert %d out of %d objects", si->cursor_x + 1, g_list_length ((objnode *) si->currentmeasure->data));
+      g_warning ("problematic parameters on insert %d out of %d objects", si->cursor_x + 1, g_list_length ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects));
       si->cursor_x--;
-      si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data, si->cursor_x);
+      si->currentobject = g_list_nth ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->cursor_x);
     }
 
 
   staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
   find_xes_in_all_measures (si);
+#endif
 }
 
-// insert the nth object from the copybuffer into music at the cursor position
+// insert the nth object from the mth staff from the copybuffer into music at the cursor position
 // return TRUE if inserted
 gboolean
 insert_clip_obj (gint m, gint n)
@@ -537,15 +556,20 @@ insert_clip_obj (gint m, gint n)
   DenemoObject *curobj = (DenemoObject *) curbufferobj->data;
   clonedobj = dnm_clone_object (curobj);
   insert_object (clonedobj);
+  cache_measure (si->currentmeasure);
 #if 0
   octave_up_key (Denemo.project);   //FIXME up and down to fix clef change bug !!!!!!!!
   octave_down_key (Denemo.project); //FIXME up and down to fix clef change bug !!!!!!!!
 #endif
   //reset_cursor_stats (si);
-  staff_fix_note_heights ((DenemoStaff *) si->currentstaff->data);
+  if (clonedobj->type == CLEF)
+    staff_fix_note_heights ((DenemoStaff *) si->currentstaff->data);
+  else
+    if (clonedobj->type == CHORD)
+        newclefify (clonedobj);
   staff_beams_and_stems_dirs ((DenemoStaff *) si->currentstaff->data);
   find_xes_in_all_measures (si);
-  showwhichaccidentals ((objnode *) si->currentmeasure->data, si->curmeasurekey, si->curmeasureaccs);
+  showwhichaccidentals ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects);
 
   return TRUE;
 }
@@ -560,8 +584,8 @@ get_mark_object (void)
     return NULL;
   staffnode *curstaff = g_list_nth (si->thescore, si->selection.firststaffmarked - 1);
   DenemoStaff *firststaff = (DenemoStaff *) curstaff->data;
-  measurenode *firstmeasure = g_list_nth (firststaff->measures, si->selection.firstmeasuremarked - 1);
-  objnode *firstobj = g_list_nth (firstmeasure->data, si->selection.firstobjmarked);
+  measurenode *firstmeasure = g_list_nth (firststaff->themeasures, si->selection.firstmeasuremarked - 1);
+  objnode *firstobj = g_list_nth (((DenemoMeasure*)firstmeasure->data)->objects, si->selection.firstobjmarked);
   //g_debug("First %d\n",  si->selection.firstobjmarked);
   return firstobj ? ((DenemoObject *) firstobj->data) : NULL;
 }
@@ -575,8 +599,8 @@ get_point_object (void)
     return NULL;
   staffnode *curstaff = g_list_nth (si->thescore, si->selection.laststaffmarked - 1);
   DenemoStaff *laststaff = (DenemoStaff *) curstaff->data;
-  measurenode *lastmeasure = g_list_nth (laststaff->measures, si->selection.lastmeasuremarked - 1);
-  objnode *lastobj = g_list_nth (lastmeasure->data, si->selection.lastobjmarked);
+  measurenode *lastmeasure = g_list_nth (laststaff->themeasures, si->selection.lastmeasuremarked - 1);
+  objnode *lastobj = g_list_nth (((DenemoMeasure*)lastmeasure->data)->objects, si->selection.lastobjmarked);
   return lastobj ? ((DenemoObject *) lastobj->data) : NULL;
 }
 
@@ -1286,6 +1310,9 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
       {
         //create empty measure in the chunk->position.staff at measure number chunk->position->object
         insertmeasureafter (NULL, NULL);
+        
+        cache_measure (Denemo.project->movement->currentmeasure);//rather than cache_staff (Denemo.project->movement->currentstaff); //rather than cach_all ();
+        
         chunk->action = ACTION_MEASURE_CREATE;
         chunk->position.measure++;
         if (!gui->movement->currentmeasure)
@@ -1323,7 +1350,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
       break;
     case ACTION_DELETE:
       {
-        object_insert (gui, chunk->object);
+        object_insert (gui, chunk->object);cache_all ();
         chunk->action = ACTION_INSERT;
         chunk->object = NULL;
       }
@@ -1333,7 +1360,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
         //FIXME guard against a corrupt undo queue here by checking  if(gui->movement->currentobject) {
         DenemoObject *temp = gui->movement->currentobject->data;
         gui->movement->currentobject->data = chunk->object;
-        chunk->object = temp;
+        chunk->object = temp;cache_all ();
       }
       break;
     case ACTION_SNAPSHOT:
@@ -1349,7 +1376,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
         if (find)
           {
             find->data = si;
-            GList *g, *gorig, *curstaff;
+            GList *g, *gorig = NULL, *curstaff;
             for (curstaff = gui->movement->thescore; curstaff; curstaff = curstaff->next)
               {
                 DenemoStaff *thestaff = curstaff->data;
@@ -1492,6 +1519,10 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
                   widget_for_layout_directive (directive);
                 }
             }
+            
+            cache_all ();
+              
+              
             gui->movement->smf = initial_smf;
             gui->movement->smfsync = -1;      //force recalculation of midi
             gui->movement->redo_invalid = initial_redo_invalid;
@@ -1504,6 +1535,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
                 movetoend (NULL, NULL);
               }
             gui->movement->currentstaffnum = 1 + g_list_position (gui->movement->thescore, gui->movement->currentstaff);
+          
           }
         else
           {
@@ -1594,6 +1626,7 @@ undo (DenemoProject * gui)
     }
   else
     warn_no_more_undo (gui);
+  
 }
 
 
@@ -1632,6 +1665,7 @@ redo (DenemoProject * gui)
     }
   else
     warn_no_more_undo (gui);
+  cache_all ();
 }
 
 

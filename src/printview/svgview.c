@@ -62,6 +62,11 @@ typedef struct Timing {
 
 GList *TheTimings = NULL, *LastTiming=NULL, *NextTiming=NULL;
 gdouble TheScale = 1.0; //Scale of score font size relative to 18pt
+static gint Locationx = -1, Locationy;
+
+
+
+
 /* Defines for making traversing XML trees easier */
 
 #define FOREACH_CHILD_ELEM(childElem, parentElem) \
@@ -133,10 +138,10 @@ show_playback_view (void)
 
 //draw a circle 
 static void
-place_spot (cairo_t * cr, gdouble x, gdouble y)
+place_spot (cairo_t * cr, gdouble x, gdouble y, gdouble size)
 {
   cairo_move_to (cr, x, y);
-  cairo_arc (cr, x, y, PRINTMARKER / 6.0, 0.0, 2 * M_PI);
+  cairo_arc (cr, x, y, size, 0.0, 2 * M_PI);
   cairo_fill (cr);
 }
 
@@ -217,6 +222,13 @@ overdraw_print (cairo_t * cr)
         
        return TRUE; 
     }
+  if ((!audio_is_playing()) && (LeftButtonX))
+            {
+                cairo_set_source_rgba (cr, 0.4, 0.6, 0.8, 0.5);
+                place_spot (cr, (gdouble)LeftButtonX, (gdouble)LeftButtonY, PRINTMARKER/2.0);
+                cairo_fill (cr);
+            } 
+    
   cairo_scale (cr, TheScale, TheScale);
   if(!audio_is_playing())
     {
@@ -228,13 +240,14 @@ overdraw_print (cairo_t * cr)
             {
                 DenemoScrollPoint *sp = (DenemoScrollPoint*)g->data;
                 //g_print ("drawing at %.2f %.2f\n", (gdouble)sp->x  - (PRINTMARKER/5)/4, (gdouble)sp->y - (PRINTMARKER/5)/2);
-                place_spot (cr, (gdouble)sp->x, (gdouble)sp->y);
+                place_spot (cr, (gdouble)sp->x, (gdouble)sp->y, PRINTMARKER / 6.0);
             }
+            
+    
         cairo_fill (cr);
     return TRUE;
     }
- // if (!Denemo.project->movement->playingnow)
- //   return TRUE;
+
   if (TheTimings == NULL)
         return TRUE;
 
@@ -651,7 +664,7 @@ static void clear_scroll_points (void)
 
 static void help_scroll_points (void)
 {
-    infodialog (_("This the Playback View Window. Click on a note to play from that note to the end. Click again to stop play. Drag between two notes to play from the first to the last, shift drag to create a loop. Click on a note and drag earlier to position the Denemo cursor on that note in the Denemo Display.\n For simple scrolling set an Intro Time (during which no scrolling happens) and a rate for scrolling during the remainder of the piece. Set the rate at 0 for no scrolling. For more sophisticated control right click on a note when you have scrolled the page to the position you want it to be at when it is playing. First right click at the start of the second system (this means that the music will not scroll before that); then scroll to position the end and right click the first note of the last system of the piece. If there are changes of pace then right click on the note where this happens once you have scrolled the page. Enter all scroll points in playing order."));
+    infodialog (_("This the Playback View Window. Click on a note to play from that note to the end. Click again to stop play. Drag between two notes to play from the first to the last, shift drag to create a loop. Click on a note and drag earlier to position the Denemo cursor on that note in the Denemo Display.\n For simple scrolling check the box. For more sophisticated control right click on a note when you have scrolled the page to the position you want it to be at when it is playing. First right click at the start of the second system (this means that the music will not scroll before that); then scroll to position the end and right click the first note of the last system of the piece. If there are changes of pace then right click on the note where this happens once you have scrolled the page. Enter all scroll points in playing order."));
 }
 static void
 playbackview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean print)
@@ -829,7 +842,7 @@ display_svg (gdouble scale, gboolean part)
 }
 
 
-static gint Locationx, Locationy;
+
 static void button_press (GtkWidget *event_box, GdkEventButton *event)
 {
     Locationx = Locationy = -1;
@@ -1058,14 +1071,14 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
     if (event->button == 3)
         return;    
     
-    
-    if (update_playback_view ())
+     if ((changecount != Denemo.project->movement->changecount) || (Denemo.project->movement->changecount != Denemo.project->movement->smfsync))
         {
-            if (continuous_typesetting ())
-               ;//warningdialog (_("Please turn continuous typsetting off first"));
-            else
-                warningdialog (_("Please wait while the Playback View is re-typeset then re-try"));
-            return;
+            static gboolean once = TRUE;
+            exportmidi (NULL, Denemo.project->movement);
+            g_print ("Now d-changecount %d, d-smfsync %d\n", Denemo.project->movement->changecount, Denemo.project->movement->smfsync);
+            if(once)
+                infodialog (_("Switching to simple MIDI - re-typeset for full MIDI."));
+           once = FALSE;
         }
     GList *g;
     for (g = TheTimings; g;g=g->next)
@@ -1076,7 +1089,10 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
                     
                     if ((timing->col == Locationx) && (timing->line == Locationy))
                         {
-                            call_out_to_guile ("(d-DenemoPlayCursorToEnd)");
+                            if (!shift_held_down())
+                              call_out_to_guile ("(d-DenemoPlayCursorToEnd)");
+                            else
+                                call_out_to_guile ("(d-PlayMidiNote 67 255 9 100)"); 
                             //g_print ("Found same line %d column %d\n", timing->line, timing->col);
                         }
                     else
@@ -1094,7 +1110,7 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
                                         call_out_to_guile ("(d-OneShotTimer 500 \"(d-Play)\")");
                                 }
                                 else
-                                call_out_to_guile ("(d-PlayMidiNote 67 255 9 100)"); 
+                                    call_out_to_guile ("(d-PlayMidiNote 67 255 9 100)"); 
                         }
                     
                     break;
@@ -1117,7 +1133,7 @@ static void play_button (void)
    if (update_playback_view ())
         {
              if (continuous_typesetting ())
-                ;//warningdialog (_("2Please turn continuous typsetting off first"));
+                ;//warningdialog (_("Please turn continuous typsetting off first"));
             else
                 warningdialog (_("Please wait while the Playback View is re-typeset then re-try"));
             return;
@@ -1163,65 +1179,15 @@ motion_notify (GtkWidget * window, GdkEventMotion * event)
 
 
 
-static void scroll_dialog (void)
+static void scroll_toggle (void)
 {
-  DenemoProject *gui = Denemo.project;
-  GtkWidget *dialog;
-  GtkWidget *label;
-  GtkWidget *hbox;
-
-  GtkWidget *intro;
-  GtkWidget *rate;
-  
-  dialog = gtk_dialog_new_with_buttons (_("Automatic Scrolling"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), _("_OK"), GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_RESPONSE_REJECT, NULL);
-
-  hbox = gtk_hbox_new (FALSE, 8);
-
-  GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-  gtk_container_add (GTK_CONTAINER (content_area), hbox);
-
-  //TODO calculate hightest number in seconds
-  gdouble max_end_time = 7200.0;
-  //g_list_length (((DenemoStaff *) (gui->movement->thescore->data))->measures);
-  GtkWidget *button;
-  label = gtk_label_new (_("Introduction Time (secs)"));
-  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
-
-  intro = gtk_spin_button_new_with_range (0.0, 30.0, 1.0);
-  gtk_box_pack_start (GTK_BOX (hbox), intro, TRUE, TRUE, 0);
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (intro), (gdouble) IntroTime);
-
-  label = gtk_label_new (_("Scroll Rate"));
-  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
-
-  rate = gtk_spin_button_new_with_range (0.0, 100, 1.0);
-  gtk_box_pack_start (GTK_BOX (hbox), rate, TRUE, TRUE, 0);
-
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (rate), (gdouble) ScrollRate);
-
-
-
-  gtk_widget_show (hbox);
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);      
-  gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
-  gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
-  gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-  gtk_widget_show_all (dialog);
-
-  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
-    {
-      IntroTime = gtk_spin_button_get_value (GTK_SPIN_BUTTON (intro));
-      ScrollRate = gtk_spin_button_get_value (GTK_SPIN_BUTTON (rate));
-    }
-  gtk_widget_destroy (dialog);
+ 
+  if (ScrollRate > 0)
+    ScrollRate = 0.0;
+  else ScrollRate = 10.0;
 }
 
 
-static gint
-keypress_event (GtkWidget * widget, GdkEventKey * event)
-{
-    g_print ("Keypress event\n");
-}
 void
 install_svgview (GtkWidget * top_vbox)
 {
@@ -1245,9 +1211,17 @@ install_svgview (GtkWidget * top_vbox)
    button = (GtkWidget*)gtk_button_new_with_label (_("Current Part"));
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (part_button), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-    button = (GtkWidget*)gtk_button_new_with_label (_("Set Scrolling"));
+  
+  
+  
+    button = (GtkWidget*)gtk_check_button_new_with_label (_("Simple Scrolling"));
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-  g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (scroll_dialog), NULL); 
+  g_signal_connect_swapped (G_OBJECT (button), "toggled", G_CALLBACK (scroll_toggle), NULL); 
+  
+  
+  
+  
   ClearScrollPointsButton = gtk_button_new_with_label (_("Clear Scroll Points"));
   g_signal_connect (G_OBJECT (ClearScrollPointsButton), "clicked", G_CALLBACK (clear_scroll_points), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), ClearScrollPointsButton, FALSE, FALSE, 0);
@@ -1288,13 +1262,6 @@ install_svgview (GtkWidget * top_vbox)
     g_signal_connect (G_OBJECT (event_box), "button_press_event", G_CALLBACK (button_press), NULL);
     g_signal_connect (G_OBJECT (event_box), "button_release_event", G_CALLBACK (button_release), NULL);
     g_signal_connect (G_OBJECT (event_box), "motion-notify-event", G_CALLBACK (motion_notify), NULL);
-   
-//these don't fire off  
-//gtk_widget_add_events (event_box, GDK_KEY_PRESS_MASK);
-//g_signal_connect (G_OBJECT (event_box), "key_press_event", G_CALLBACK (keypress_event), NULL);
-
-  
-  
   
   if (Denemo.prefs.newbie)
     gtk_widget_set_tooltip_markup (score_and_scroll_win,

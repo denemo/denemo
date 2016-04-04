@@ -132,9 +132,14 @@ void
 set_cursor_y_from_click (DenemoProject * gui, gdouble y)
 {
   DenemoStaff *staff = (DenemoStaff*)gui->movement->currentstaff->data;
+  gint cursorclef;
+  if (gui->movement->currentobject)
+    cursorclef = ((DenemoObject *)gui->movement->currentobject->data)->clef->type;
+  else
+    cursorclef = ((DenemoMeasure *)gui->movement->currentmeasure->data)->clef->type;
   /* Click height relative to the top of the staff.  */
   gdouble click_height = get_click_height (gui, y);
-  gint offset = offset_from_height (click_height, (enum clefs) gui->movement->cursorclef);
+  gint offset = offset_from_height (click_height, (enum clefs) cursorclef);
   //g_print ("Does %d come within range %d %d?\n", offset, staff->range_hi, staff->range_lo);
   if (staff->range)
   {
@@ -240,7 +245,7 @@ get_placement_from_coordinates (struct placement_info *pi, gdouble x, gdouble y,
   pi->the_measure = staff_nth_measure_node (pi->the_staff, pi->measure_number - 1);
   if (pi->the_measure != NULL)
     {                           /*check to make sure user did not click on empty space */
-      obj_iterator = (objnode *) pi->the_measure->data;
+      obj_iterator = (objnode *) ((DenemoMeasure *)pi->the_measure->data)->objects;
       pi->cursor_x = 0;
       pi->the_obj = NULL;
       if (obj_iterator)
@@ -648,7 +653,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
           gui->movement->currentmeasure = pi.the_measure;
           gui->movement->currentobject = pi.the_obj;
           gui->movement->cursor_x = pi.cursor_x;
-          gui->movement->cursor_appending = (gui->movement->cursor_x == (gint) (g_list_length ((objnode *) gui->movement->currentmeasure->data)));
+          gui->movement->cursor_appending = (gui->movement->cursor_x == (gint) (g_list_length ((objnode *) ((DenemoMeasure*)gui->movement->currentmeasure->data)->objects)));
 
           set_cursor_y_from_click (gui, event->y);
           if (lh_down & !selecting)
@@ -808,7 +813,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
       gui->movement->currentmeasure = pi.the_measure;
       gui->movement->currentobject = pi.the_obj;
       gui->movement->cursor_x = pi.cursor_x;
-      gui->movement->cursor_appending = (gui->movement->cursor_x == (gint) (g_list_length ((objnode *) gui->movement->currentmeasure->data)));
+      gui->movement->cursor_appending = (gui->movement->cursor_x == (gint) (g_list_length ((objnode *) ((DenemoMeasure*)gui->movement->currentmeasure->data)->objects)));
       set_cursor_y_from_click (gui, event->y);
       if (event->type==GDK_2BUTTON_PRESS) 
                 {

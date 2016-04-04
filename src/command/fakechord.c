@@ -161,10 +161,10 @@ delete_fakechords (GtkAction * action, DenemoScriptParam * param)
 
       score_status (gui, TRUE);
       measurenode *curmeasure;
-      for (curmeasure = thestaff->measures; curmeasure; curmeasure = curmeasure->next)
+      for (curmeasure = thestaff->themeasures; curmeasure; curmeasure = curmeasure->next)
         {
           objnode *curobj;
-          for (curobj = curmeasure->data; curobj; curobj = curobj->next)
+          for (curobj = ((DenemoMeasure*)curmeasure->data)->objects; curobj; curobj = curobj->next)
             {
               DenemoObject *curObj = (DenemoObject *) curobj->data;
               if (curObj && curObj->type == CHORD)

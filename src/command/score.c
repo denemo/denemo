@@ -62,6 +62,7 @@ point_to_new_movement (DenemoProject * gui)
 {
   point_to_empty_movement (gui);
   staff_new (gui, INITIAL, DENEMO_NONE);
+  cache_all ();
   gui->movement->undo_guard = Denemo.prefs.disable_undo;
 }
 
@@ -317,6 +318,7 @@ delete_movement (GtkAction * action, DenemoScriptParam* param)
 
 /* go to the movement voice measure staff and object numbers (starting from 1)
  movementnum<=0 means current movement
+ * objnum 0 finds first object if any
 possible_gui is really a flag interactive or not
 */
 gboolean
@@ -404,9 +406,9 @@ get_object_by_position (gint movementnum, gint staffnum, gint measurenum, gint o
   this = g_list_nth (movement->thescore, staffnum - 1);
   if (this == NULL) return NULL;
   DenemoStaff *thestaff = (DenemoStaff*)this->data;
-  this = g_list_nth (thestaff->measures, measurenum -1);
+  this = g_list_nth (thestaff->themeasures, measurenum -1);
   if (this==NULL) return NULL;
-  this = g_list_nth (this->data, objnum-1);
+  this = g_list_nth (((DenemoMeasure*)this->data)->objects, objnum-1);
   if (this==NULL) return NULL;
    return this->data;
 }
@@ -602,7 +604,7 @@ init_score (DenemoMovement * si, DenemoProject * gui)
   si->system_height = Denemo.prefs.system_height > 0 ? Denemo.prefs.system_height / 100.0 : 1.0;
 
   si->cursoroffend = FALSE;
-  si->cursortime1 = si->cursortime2 = 4;
+  //si->cursortime1 = si->cursortime2 = 4;
   si->markstaffnum = 0;
   si->markmeasurenum = 0;
   si->markcursor_x = 0;
@@ -628,7 +630,7 @@ init_score (DenemoMovement * si, DenemoProject * gui)
   else
     si->master_tempo = 1.0;
   si->savebuffer = NULL;
-
+  si->smfsync = G_MAXINT;
   if (gui->filename == NULL)
       gui->filename = g_string_new ("");
   gui->autosavename = g_string_new (g_build_filename (dir, "autosave.denemo", NULL));
@@ -819,27 +821,26 @@ clone_movement (DenemoMovement * si)
         newscore->currentprimarystaff = newscore->thescore;
       if (g == si->currentstaff)
         newscore->currentstaff = newscore->thescore;
-      newscore->currentmeasure = newscore->currentobject = thestaff->measures = NULL;
+      newscore->currentmeasure = newscore->currentobject = thestaff->themeasures = NULL;
       GList *h;
-      for (h = srcStaff->measures; h; h = h->next)
+      for (h = srcStaff->themeasures; h; h = h->next)
         {
-          objnode *theobjs = h->data;
-          GList *newmeasure = NULL;
+          objnode *theobjs = ((DenemoMeasure*)h->data)->objects;
+          DenemoMeasure *newmeasure = (DenemoMeasure*)g_malloc0(sizeof (DenemoMeasure));
           GList *i;
           for (i = theobjs; i; i = i->next)
             {
               DenemoObject *theobj = (DenemoObject *) i->data;
               DenemoObject *newobj = dnm_clone_object (theobj);
-              newmeasure = g_list_append (newmeasure, newobj);
+              newmeasure->objects = g_list_append (newmeasure->objects, newobj);
               if (i == si->currentobject)
                     /*g_print("current object %x\n", g_list_last(newmeasure)), */ 
-                newscore->currentobject = g_list_last (newmeasure);
-                        //???
+                newscore->currentobject = g_list_last(newmeasure->objects);
             }
-          thestaff->measures = g_list_append (thestaff->measures, newmeasure);
+          thestaff->themeasures = g_list_append (thestaff->themeasures, newmeasure);
           if (h == si->currentmeasure)
                     /*g_print("current measure %x\n", g_list_last(thestaff->measures)), */ 
-            newscore->currentmeasure = g_list_last (thestaff->measures);
+            newscore->currentmeasure = g_list_last (thestaff->themeasures);
                     //???
             }
     }
@@ -852,10 +853,11 @@ clone_movement (DenemoMovement * si)
 
 
 
-  /*
+ 
 
+     newscore->smfsync = G_MAXINT;
+ /*
 
-     smfsync
      savebuffer
      Instruments
 

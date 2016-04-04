@@ -720,8 +720,8 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>ToggleCursorHighlight</action>
-        <bind>grave</bind>
+        <action>ScoreTitles</action>
+        <bind>s,s</bind>
       </row>
       <row>
         <action>SlurTwo</action>

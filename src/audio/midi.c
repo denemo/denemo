@@ -393,8 +393,9 @@ action_note_into_score (gint mid_c_offset, gint enshift, gint octave)
   gui->last_source = INPUTMIDI;
   gui->movement->cursor_y = gui->movement->staffletter_y = mid_c_offset;
   gui->movement->cursor_y += 7 * octave;
-  shiftcursor (gui, mid_c_offset);
-  setenshift (gui->movement, enshift);
+  //shiftcursor (gui, mid_c_offset);
+  //setenshift (gui->movement, enshift);
+  edit_pitch (mid_c_offset, enshift);
   displayhelper (gui);
 }
 
@@ -546,7 +547,8 @@ get_previous (enharmonic * enote)
         {
           if (Denemo.project->movement->currentmeasure->prev && Denemo.project->movement->currentmeasure->prev->data)
             {
-              curObj = g_list_last (Denemo.project->movement->currentmeasure->prev->data)->data;
+             DenemoMeasure *m = (DenemoMeasure*)Denemo.project->movement->currentmeasure->prev->data;
+             curObj = m->objects?g_list_last (m->objects)->data:NULL;
             }
         }
     }
@@ -636,6 +638,9 @@ midiaction (gint notenum)
                     }
                   if (Denemo.project->movement->cursor_appending)
                     break;
+                    curObj = Denemo.project->movement->currentobject->data;
+                    thechord = (chord *) curObj->object;
+                    is_tied = thechord->is_tied;
                 }
               while ((!(Denemo.keyboard_state & ADDING_MASK)) && next_editable_note () && is_tied);
             }

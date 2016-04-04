@@ -113,10 +113,13 @@ get_clef_before_object (objnode * obj)
 gint
 find_prevailing_clef (DenemoMovement * si)
 {
+    return ((clef*)get_prevailing_context (CLEF))->type;
+/*
   DenemoStaff *curstaff = ((DenemoStaff *) si->currentstaff->data);
   DenemoObject *obj = find_context_of_object (si, CLEF);
 //g_debug("prevailing clef %d\n",  obj? ((clef *) obj->object)->type:curstaff->clef.type);
   return obj ? ((clef *) obj->object)->type : curstaff->clef.type;
+  * */
 }
 
 /* returns a pointer to a CLEF TIMESIG or KEYSIG structure which holds the information on the prevailing context for the current object */
@@ -124,29 +127,19 @@ gpointer
 get_prevailing_context (DenemoObjType type)
 {
   DenemoStaff *curstaff = ((DenemoStaff *) Denemo.project->movement->currentstaff->data);
-  DenemoObject *obj;
+  gpointer *obj;
   switch (type)
     {
     case CLEF:
-      obj = find_context_of_object (Denemo.project->movement, CLEF);
-      if (obj == NULL)
-        obj = (DenemoObject *) & curstaff->clef;
-      else
-        obj = obj->object;
+      obj = (gpointer)(Denemo.project->movement->currentobject?((DenemoObject*)Denemo.project->movement->currentobject->data)->clef:((DenemoMeasure*)Denemo.project->movement->currentmeasure->data)->clef);
       break;
     case KEYSIG:
-      obj = find_context_of_object (Denemo.project->movement, KEYSIG);
-      if (obj == NULL)
-        obj = (DenemoObject *) & curstaff->keysig;
-      else
-        obj = obj->object;
+      obj = (gpointer)(Denemo.project->movement->currentobject?((DenemoObject*)Denemo.project->movement->currentobject->data)->keysig:((DenemoMeasure*)Denemo.project->movement->currentmeasure->data)->keysig);
+
       break;
     case TIMESIG:
-      obj = find_context_of_object (Denemo.project->movement, TIMESIG);
-      if (obj == NULL)
-        obj = (DenemoObject *) & curstaff->timesig;
-      else
-        obj = obj->object;
+      obj = (gpointer)((DenemoMeasure*)Denemo.project->movement->currentmeasure->data)->timesig;
+
       break;
     default:
       g_critical ("Wrong type in call to get_prevailing_context");
@@ -167,7 +160,7 @@ get_prevailing_context (DenemoObjType type)
 void
 find_leftmost_staffcontext (DenemoStaff * curstaffstruct, DenemoMovement * si)
 {
-  measurenode *leftmeasure = g_list_nth (curstaffstruct->measures,
+  measurenode *leftmeasure = g_list_nth (curstaffstruct->themeasures,
                                          si->leftmeasurenum - 1);
   DenemoObject *obj;
 

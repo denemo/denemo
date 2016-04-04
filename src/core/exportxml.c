@@ -1324,15 +1324,13 @@ exportXML (gchar * thefilename, DenemoProject * gui)
 
           /* Write out the measures. */
           measuresElem = xmlNewChild (voiceElem, ns, (xmlChar *) "measures", NULL);
-          for (curMeasure = curStaffStruct->measures; curMeasure != NULL; curMeasure = curMeasure->next)
+          for (curMeasure = curStaffStruct->themeasures; curMeasure != NULL; curMeasure = curMeasure->next)
             {
-
+              DenemoMeasure *themeasure = (DenemoMeasure*)curMeasure->data;
               measureElem = xmlNewChild (measuresElem, ns, (xmlChar *) "measure", NULL);
-              parseObjects (measureElem, ns, (objnode *) curMeasure->data);
-
-
-
-
+              if (themeasure->measure_numbering_offset)
+                newXMLIntProp (measureElem, (xmlChar*)"offset", themeasure->measure_numbering_offset);
+              parseObjects (measureElem, ns, (objnode *) ((DenemoMeasure*)curMeasure->data)->objects);
             }                   /* end for each measure in voice */
 
           /* Clean up voice-specific variables. */
