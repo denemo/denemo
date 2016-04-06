@@ -1732,6 +1732,35 @@ insertion_point (DenemoMovement * si)
     }
 }
 
+//get the prevailing accidental for the current cursor height, that is the last accidental before the cursor at this height (from a note or keysig change), or the cached keysig accidental
+static gint get_cursoracc (void)
+    {
+      DenemoMovement *si = Denemo.project->movement;
+      gint noteheight = si->staffletter_y; 
+      measurenode *meas = si->currentmeasure;
+      objnode *obj = si->currentobject;
+      if ((!si->cursor_appending) && obj) 
+        obj = obj->prev;//want the object before the cursor unless appending
+     
+      for (;obj;obj = obj->prev)
+        {
+          DenemoObject *curobj = (DenemoObject*)obj->data; 
+          if (curobj->type == CHORD)
+            {
+                chord *thechord = (chord*) curobj->object;
+                GList *g;
+                for (g = thechord->notes?thechord->notes:NULL;g;g=g->next)
+                    {
+                            note *thenote = (note*)g->data;
+                            if (thenote->mid_c_offset == noteheight)
+                                return thenote->enshift;
+                    }
+            }
+         else if (curobj->type == KEYSIG)
+          return curobj->keysig->accs [noteheight];
+        }
+        return ((DenemoMeasure *)meas->data)->keysig->accs [noteheight];// p *((DenemoMeasure *)(Denemo.project->movement->currentmeasure->data))->keysig
+    }
 /**
  * Insert a chord into the score
  * @param si pointer to the scoreinfo structure
@@ -1807,7 +1836,7 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
             addtone (mudela_obj_new,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
             si->marked_onset = si->marked_onset->next;
         } else
-        addtone (mudela_obj_new, si->cursor_y, mudela_obj_new->keysig->accs[si->staffletter_y]);
+        addtone (mudela_obj_new, si->cursor_y, get_cursoracc ()); //mudela_obj_new->keysig->accs[si->staffletter_y]);
 
     }
   if ((mode & INPUTBLANK) || (gui->mode & INPUTBLANK) || (!rest && (Denemo.project->input_source == INPUTMIDI) && (gui->mode & (INPUTRHYTHM))))

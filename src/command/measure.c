@@ -747,7 +747,7 @@ showwhichaccidentals (objnode * theobjs)
         }
     
     }                           /* End object loop */
-  memcpy (initialaccs, ret, SEVENGINTS);
+  //memcpy (initialaccs, ret, SEVENGINTS);
   
 }
 

@@ -159,19 +159,20 @@ insert_keysig (keysig_data * kdata)
                             ((DenemoMeasure*)curmeasure->data)->objects = g_list_append ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode));
                     }
                     newkey->keysig = newkey->object;
-                    //update_keysig_cache (curmeasure, g_list_find (((DenemoMeasure*)curmeasure->data)->objects, newkey));
-                    cache_measure (curmeasure);    
-                  if (curmeasure == si->currentmeasure)
-                    si->currentobject = g_list_nth ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, si->cursor_x);
-                  staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
+                    cache_measure (curmeasure); //to give the new keysig cached values
+                    update_keysig_cache (curmeasure, g_list_find (((DenemoMeasure*)curmeasure->data)->objects, newkey));  //to update everything beyond the newkey
+                    if (curmeasure == si->currentmeasure)
+                        si->currentobject = g_list_nth ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, si->cursor_x);
+                    staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
                 }
-            }                   /* End for */
-        }                       /* End if */
+            }                   /* End for all staffs*/
+        }                       /* End if check button all staffs*/
       else
         {
-
           object_insert (Denemo.project, newkey = dnm_newkeyobj (tokey - mode, isminor, mode));
-          cache_measure (curmeasure); 
+          newkey->keysig = newkey->object;
+          cache_measure (si->currentmeasure); //to give the new keysig cached values
+          update_keysig_cache (si->currentmeasure, g_list_find (((DenemoMeasure*)si->currentmeasure->data)->objects, newkey)); //to update everything beyond the newkey
           staff_show_which_accidentals ((DenemoStaff *) si->currentstaff->data);
         }
       si->cursor_appending = FALSE;
@@ -179,7 +180,7 @@ insert_keysig (keysig_data * kdata)
         {
             adjust_tonal_center (((keysig *) (newkey->object))->accs);
         }   
-    }                           /* End if */
+    }                           /* End if valid key*/
 }
 //static void sensitize_ok_button (keysig_data *data) {
   //   gtk_widget_set_sensitive (data->okbutton, TRUE);
