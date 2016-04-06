@@ -9565,6 +9565,39 @@ Error.
 \end_layout
 
 \begin_layout Subsection
+Commands for MIDI Import
+\end_layout
+
+\begin_layout Standard
+A MIDI file can be loaded into Denemo in order to convert it to music notation.
+ This is not generally possible (because of the nature of the information
+ stored in the MIDI format), but it is worth trying sometimes.
+ 
+\end_layout
+
+\begin_layout Itemize
+(d-ImportMidi "guided=true") this call lets the user choose a MIDI file
+ and creates a MIDI structure to represent its contents.
+\end_layout
+
+\begin_layout Itemize
+(d-GetImportedMidiTracks) returns the number of MIDI tracks that have been
+ loaded or #f if none
+\end_layout
+
+\begin_layout Itemize
+(d-GetImportedMidiTrack n) gets the n'th MIDI track loads a MIDI track chosen
+ by the user, using the Clef, Time signature and key signature of the current
+ staff.
+ The track is represented by ...
+ the C routine compute_midi_note_durations() is called
+\end_layout
+
+\begin_layout Itemize
+(d-CreateClickStaffForMidi)
+\end_layout
+
+\begin_layout Subsection
 ...
  and More
 \end_layout
