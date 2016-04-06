@@ -413,8 +413,14 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                     
                 //if MIDI RECORDING draw the pitch as a headless diamond note.
                 if(si->recording->type==DENEMO_RECORDING_MIDI)
-                    {    g_warning ("Drawing MIDI recorded notes is disabled until the MidiDrawObject has been assigned clef field!!!!!!!!!!");
-                        if (0) {                        
+                    {
+                        
+                        DenemoObject *midiobj = (DenemoObject*)(MidiDrawObject->data); 
+                        DenemoMeasure *curmeasure = si->currentmeasure->data;
+                        midiobj->clef = curmeasure->clef;       
+                        midiobj->keysig = curmeasure->keysig;         
+                        midiobj->stemdir = curmeasure->stemdir;/// FIXME is there anything else
+                                  
                         removetone ((DenemoObject*)(MidiDrawObject->data), 0);//there is only one note in the chord so any mid_c_offset will do                 
                         addtone (MidiDrawObject->data,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
                         chord *thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
@@ -462,14 +468,11 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                             //midinote->objnum = itp->objnum;       
                         }
                         
-                        
-                        
                         cairo_save (cr);
                         (g==si->marked_onset) ?cairo_set_source_rgba (cr, 0, 0.5, 0, 1):
                             cairo_set_source_rgba (cr, 0, 0, 0, 1);
                         draw_chord (cr, MidiDrawObject, pos + x -extra_width, y, 0, itp->curaccs, FALSE, FALSE);    
                         cairo_restore (cr);
-                       } //end if(0) disabling this drawing
                     }
                     
                 draw_note_onset(cr, pos + x - extra_width, glyph, (g==si->marked_onset));
