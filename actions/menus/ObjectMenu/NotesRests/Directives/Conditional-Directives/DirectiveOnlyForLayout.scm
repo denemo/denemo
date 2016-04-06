@@ -1,5 +1,14 @@
 ;;;;;;;; DirectiveOnlyForLayout
 (let ((params DirectiveOnlyForLayout::params)(tag (d-DirectiveGetTag-standalone)) ( id (d-GetLayoutId)) (text #f) (note #f))
+  (define (do-rest)
+    (d-PushPosition)
+    (while (d-NextObject)
+        (if note
+            (if (d-Directive-note? tag)
+                (d-DirectivePut-note-y tag id))
+            (if (d-Directive-chord? tag)
+                (d-DirectivePut-chord-y tag id))))
+    (d-PopPosition))
   (if tag
      (d-OnlyForLayout #f)
      (begin
@@ -14,10 +23,21 @@
               (set! params (cdr params))
               (set! tag (car params))
               (set! note (cdr params))
-              (d-InfoDialog (string-append (_ "Directive ") tag (_ " on ") (if note (_ "Note") (_ "Chord")) (_ " will only typeset for layout ") (car layout)))
+             
               (if note
                 (d-DirectivePut-note-y tag id)
                 (d-DirectivePut-chord-y tag id))
+                
+                (if  (RadioBoxMenu
+                       (cons (_ "Apply condition to all further cases in this staff")   'yes)   
+                       (cons (_ "Just for this one") #f))
+                     (begin
+                            (do-rest)
+                            (d-InfoDialog (string-append (_ "Directives ") "\"" tag "\"" (_ " on ") (if note (_ "Notes") (_ "Chords")) (_ "  in this staff from the cursor onwards will not be typeset for the layout ") "\"" (car layout) "\"" )))
+                     (d-InfoDialog (string-append (_ "Directive ") "\"" tag "\"" (_ " on ") (if note (_ "Note") (_ "Chord")) (_ " will not be typeset for the layout ") "\"" (car layout) "\"")))
+                
+                
+                
               (d-SetSaved #f))
             (begin
               (d-WarningDialog (_ "Cancelled")))))))
