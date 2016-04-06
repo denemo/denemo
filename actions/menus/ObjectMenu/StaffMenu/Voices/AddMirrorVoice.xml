@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>AddMirrorVoice</action>
+        <after>NewVoice</after>
+        <_label>Add Voice (Borrowed/Mirrored Music)</_label>
+        <_tooltip>Adds a voice whose music is automatically mirrored from another staff of your choice. Use this e.g. to create a staff with two divisi parts, while keeping the second part as a separate staff. </_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
