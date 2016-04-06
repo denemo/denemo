@@ -36,7 +36,7 @@
                         (if (d-MoveCursorRight)
                                 (d-CursorToNthNoteHeight 1))) 
                       (loop) )))))
-
+;;moves the cursor through all the objects in the current measure, followed by all the objects in the measure below, skipping empty measures, after the last staff starts in the next measure on the top staff.
 (define  (FindNextObjectAllColumns test?)
     (if (not (MeasureEnd?))
         (d-MoveCursorRight))
