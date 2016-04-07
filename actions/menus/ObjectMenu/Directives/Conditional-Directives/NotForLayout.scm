@@ -1,5 +1,5 @@
 ;;;;;;; NotForLayout
- (let ((tag (d-DirectiveGetTag-standalone)) ( id (d-GetLayoutId)))
+ (let ((tag (d-DirectiveGetTag-standalone)) (id (d-GetLayoutId)))
    (define (do-rest)
     (d-PushPosition)
     (while (d-NextObject)
@@ -19,8 +19,8 @@
                         (cons (_ "Just for this one") #f))
                      (begin
                             (do-rest)
-                            (d-InfoDialog (string-append (_ "Standalone Directives ") "\"" tag "\"" (_ "  in this staff from the cursor onwards will not be typeset for the layout ") "\"" (car layout) "\"" )))
-                     (d-InfoDialog (string-append (_ "This Directive ") "\"" tag "\"" (_ " will not be typeset for the layout ") "\"" (car layout) "\"")))
+                            (d-InfoDialog (string-append (_ "Standalone Directives ") "\"" tag "\"" (_ "  in this staff from the cursor onwards will not be typeset for the layout ") "\"" (d-GetLayoutName) "\"" )))
+                     (d-InfoDialog (string-append (_ "This Directive ") "\"" tag "\"" (_ " will not be typeset for the layout ") "\"" (d-GetLayoutName) "\"")))
 
         (d-SetSaved #f)
         (d-RefreshDisplay))

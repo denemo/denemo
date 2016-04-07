@@ -7,7 +7,7 @@
             (d-DirectivePut-standalone-y tag id)))
     (d-PopPosition))
   (if tag
-    (let () (disp "params are " OnlyForLayout::params " ok")
+    (let ()
         (if OnlyForLayout::params
             (begin
                 (set! id (cdr OnlyForLayout::params))
@@ -22,8 +22,8 @@
                         (cons (_ "Just for this one") #f))
                      (begin
                             (do-rest)
-                            (d-InfoDialog (string-append (_ "Standalone Directives ") "\"" tag "\"" (_ "  in this staff from the cursor onwards will only be typeset for the layout ") "\"" (car layout) "\"" )))
-                     (d-InfoDialog (string-append (_ "This Directive ") "\"" tag "\"" (_ " will only be typeset for the layout ") "\"" (car layout) "\"")))
+                            (d-InfoDialog (string-append (_ "Standalone Directives ") "\"" tag "\"" (_ "  in this staff from the cursor onwards will only be typeset for the layout ") "\"" name "\"" )))
+                     (d-InfoDialog (string-append (_ "This Directive ") "\"" tag "\"" (_ " will only be typeset for the layout ") "\"" name "\"")))
         (d-SetSaved #f)
         (d-RefreshDisplay))
     (begin
