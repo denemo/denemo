@@ -18,8 +18,8 @@
                         (while (d-MoveToStaffUp))
                         (let loop ((count 0))
                             (set! voicenames (cons 
-                                (cons (unique-staff-name)  (cons (unique-staff-name)
-                                          (string-append "\\" (d-GetVoiceIdentifier))))
+                                (cons (unique-staff-name)  (cons  (unique-staff-name)
+                                          (string-append "{" (d-GetPrevailingClefAsLilyPond)(d-GetPrevailingTimesigAsLilyPond)(d-GetPrevailingKeysigAsLilyPond) "\\" (d-GetVoiceIdentifier) " } \\void ")))
                                                  voicenames))      
                             (if (d-MoveToStaffDown)
                                 (loop (1+ count))))
@@ -34,7 +34,7 @@
                         (set! cuename (RadioBoxMenuList cuename))
                         (if cuename
                             (begin
-                                (d-DirectivePut-voice-prefix tag (string-append (cdr cuename) " \\void "))
+                                (d-DirectivePut-voice-prefix tag (cdr cuename))
                                 (d-DirectivePut-voice-override tag  (logior DENEMO_ALT_OVERRIDE DENEMO_OVERRIDE_GRAPHIC))
                                 (d-DirectivePut-voice-display tag (car cuename))
                                 (d-SetColorOfStaff #xF0202000)
