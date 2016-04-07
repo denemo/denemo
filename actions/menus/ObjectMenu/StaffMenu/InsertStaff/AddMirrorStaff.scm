@@ -1,0 +1,2 @@
+;;AddMirrorStaff
+(d-AddMirrorVoice 'staff)
