@@ -1,8 +1,9 @@
 ;;AddMirrorVoice
-(let ((tag "help") (name (d-StaffProperties "query=denemo_name")))
+(let ((params AddMirrorVoice::params)(tag "help") (name (d-StaffProperties "query=denemo_name")))
 	(d-NewStructuredStaff)
 	(d-StaffProperties (string-append "denemo_name=" name) )
-	(d-SetCurrentStaffAsVoice)
+	(if (not params)
+		(d-SetCurrentStaffAsVoice))
 	(d-SubstituteMusic)
 	(d-Directive-standalone tag)
 	(d-DirectivePut-standalone-graphic tag (string-append "\n"
