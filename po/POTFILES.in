@@ -1904,6 +1904,8 @@ actions/menus/ObjectMenu/StaffMenu/FixSlursInStaff.scm
 actions/menus/ObjectMenu/StaffMenu/FixSlursInStaff.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/AddInstrumentStaff.scm
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/AddInstrumentStaff.xml
+actions/menus/ObjectMenu/StaffMenu/InsertStaff/AddMirrorStaff.scm
+actions/menus/ObjectMenu/StaffMenu/InsertStaff/AddMirrorStaff.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/CouleStaff.scm
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/CouleStaff.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/DynamicsStaff.scm
