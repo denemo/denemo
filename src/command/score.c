@@ -16,6 +16,7 @@
 #include "command/lyric.h"
 #include "audio/audiointerface.h"
 #include "source/sourceaudio.h"
+#include "core/cache.h"
 #include "core/utils.h"
 #include "core/view.h"
 #include "command/commandfuncs.h"

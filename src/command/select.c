@@ -21,6 +21,7 @@
 #include "command/lyric.h"
 #include "command/lilydirectives.h"
 #include "command/score.h"
+#include "core/cache.h"
 #include "core/view.h"
 #include "command/contexts.h"
 #include "ui/moveviewport.h"
