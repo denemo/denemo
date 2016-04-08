@@ -30,4 +30,5 @@ gint verse_get_current(DenemoStaff* staff);
 void verse_set_current_text(DenemoStaff* staff, gchar* text);
 gchar* verse_get_current_text(DenemoStaff* staff);
 gboolean insert_text_in_verse (gchar *text);
+gint syllable_count (void);
 #endif
