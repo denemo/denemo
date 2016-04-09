@@ -225,12 +225,12 @@ if (editwin)
 }
 
 static gint display_timeout_id = 0; //timeout to avoid calling display_current_object() repeatedly during rapid changes/entry of music
-static void
+static gboolean
 display_current_object_callback (void)
 {
   DenemoProject *gui = Denemo.project;
   if(Denemo.project->movement == NULL)
-    return;
+    return FALSE;
   gchar *type = "object";
   if (ObjectInfo == NULL)
     {
@@ -586,6 +586,7 @@ display_current_object_callback (void)
   gtk_window_present (GTK_WINDOW (ObjectInfo));
 #endif
   display_timeout_id = 0;
+  return FALSE;
 }
 void
 display_current_object (void) {
@@ -595,9 +596,9 @@ display_current_object (void) {
         delay = 10;
     }
     else {
-        delay += 100;
-        if (delay>1500)
-            delay = 10;
+        
+        if (delay<1500)
+            delay += 100;
     }
 }
 static void show_window (GtkWidget *w) {
