@@ -1,7 +1,9 @@
 ;;;SubstituteMusic
-(let ((tag "SubstituteMusic"))
-        (if (d-Directive-voice? tag)
+(let ((params SubstituteMusic::params)(tag "SubstituteMusic"))
+        (if (and (not params)(d-Directive-voice? tag))
             (begin
+                (d-MoveToBeginning)
+                (d-DirectiveDelete-standalone tag)
                 (d-SetColorOfStaff 0)
                 (d-DirectiveDelete-clef tag)
                 (d-DirectiveDelete-keysig tag)          
@@ -24,12 +26,12 @@
                             (if (d-MoveToStaffDown)
                                 (loop (1+ count))))
                         (d-PopPosition)
-                        voicenames)
-        ;;; procedure starts here                
+                        (reverse voicenames))
+                ;;;transform to mirrored music
                 (set! cuename (get-voicenames))
                 (if (null? cuename)
                     (begin
-                        (d-WarningDialog (_ "There are no other staffs for this one to take a cue from.")))
+                        (d-WarningDialog (_ "There are no other staffs for this one to mirror.")))
                     (begin
                         (set! cuename (RadioBoxMenuList cuename))
                         (if cuename
@@ -43,5 +45,12 @@
                                 (d-DirectivePut-clef-override tag (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND ))
                                 (d-DirectivePut-keysig-override tag  (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND))
                                 (d-DirectivePut-timesig-override tag  (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND))
-                                (d-SetSaved #f))))))))                  
+                                (d-MoveToBeginning)
+                                (d-Directive-standalone tag)
+                                (d-DirectivePut-standalone-display tag (_ "Right click to update clef/time/key"))
+                                (d-DirectivePut-standalone-override tag DENEMO_OVERRIDE_DYNAMIC);;to update clef etc
+                                (d-DirectivePut-standalone-minpixels tag 50)
+                                (d-DirectivePut-standalone-graphic tag (string-append "\n"
+                                (_ "Music here is mirrored from ") (d-DirectiveGet-voice-display tag) "\nDenemo\n20"))
+                                (d-SetSaved #f))))))))
 
