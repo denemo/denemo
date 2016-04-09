@@ -22,6 +22,7 @@
 #include "command/lilydirectives.h"
 #include "display/displayanimation.h"
 #include "command/select.h"
+#include "core/cache.h"
 #include "core/utils.h"
 #include "command/lyric.h"
 

@@ -20,6 +20,7 @@
 #include "ui/moveviewport.h"
 #include "command/staff.h"
 #include "command/score.h"
+#include "core/cache.h"
 #include "core/utils.h"
 #include "core/exportxml.h"
 #include "export/exportmidi.h"

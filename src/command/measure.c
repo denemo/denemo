@@ -15,6 +15,7 @@
 #include "command/staff.h"
 #include "string.h"
 #include "core/utils.h"
+#include "core/cache.h"
 #include "command/select.h"
 #include "display/displayanimation.h"
 #include "command/commandfuncs.h"
