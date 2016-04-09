@@ -1,29 +1,33 @@
 ;;;;;;;; OnlyForLayout
- (let ((tag (d-DirectiveGetTag-standalone)) ( id (d-GetLayoutId)) (text #f) (name (d-GetLayoutName)))
+ (let ((tag (d-DirectiveGetTag-standalone)) (params OnlyForLayout::params) (layout (d-GetLayoutName))(id (d-GetLayoutId)))
+ 
+    (define (put-cond)
+        (d-DirectivePut-standalone-y tag id)
+        (d-DirectivePut-standalone-display tag  (string-append (_ " for ") layout))
+        (d-DirectivePut-standalone-ty tag 60)
+        (d-DirectivePut-standalone-tx tag -30))
+        
     (define (do-rest)
     (d-PushPosition)
     (while (d-NextObject)
         (if (d-Directive-standalone? tag)
-            (d-DirectivePut-standalone-y tag id)))
+            (put-cond)))
     (d-PopPosition))
   (if tag
-    (let ()
-        (if OnlyForLayout::params
+      (begin
+        (if (pair? params)
             (begin
-                (set! id (cdr OnlyForLayout::params))
-                (set! name (car OnlyForLayout::params))))
-        (set! text (string-append (_ "for ") name))
-        (d-DirectivePut-standalone-display tag text)
-        (d-DirectivePut-standalone-ty tag 60)
-        (d-DirectivePut-standalone-tx tag -30)
-        (d-DirectivePut-standalone-y tag id)
+             (set! layout (car params))
+             (set! id (cdr params))))
+        (put-cond)
+
         (if  (RadioBoxMenu
                        (cons (_ "Apply condition to all further cases in this staff")   'yes)   
                         (cons (_ "Just for this one") #f))
                      (begin
                             (do-rest)
-                            (d-InfoDialog (string-append (_ "Standalone Directives ") "\"" tag "\"" (_ "  in this staff from the cursor onwards will only be typeset for the layout ") "\"" name "\"" )))
-                     (d-InfoDialog (string-append (_ "This Directive ") "\"" tag "\"" (_ " will only be typeset for the layout ") "\"" name "\"")))
+                            (d-InfoDialog (string-append (_ "Standalone Directives ") "\"" tag "\"" (_ "  in this staff from the cursor onwards will only be typeset for the layout ") "\"" layout "\"" )))
+                     (d-InfoDialog (string-append (_ "This Directive ") "\"" tag "\"" (_ " will only be typeset for the layout ") "\"" layout "\"")))
         (d-SetSaved #f)
         (d-RefreshDisplay))
     (begin
