@@ -223,10 +223,14 @@ if (editwin)
     edit_object();
     }
 }
-void
-display_current_object (void)
+
+static gint display_timeout_id = 0; //timeout to avoid calling display_current_object() repeatedly during rapid changes/entry of music
+static void
+display_current_object_callback (void)
 {
   DenemoProject *gui = Denemo.project;
+  if(Denemo.project->movement == NULL)
+    return;
   gchar *type = "object";
   if (ObjectInfo == NULL)
     {
@@ -581,8 +585,21 @@ display_current_object (void)
 #else
   gtk_window_present (GTK_WINDOW (ObjectInfo));
 #endif
+  display_timeout_id = 0;
 }
-
+void
+display_current_object (void) {
+  static gint delay = 10;  
+    if (display_timeout_id == 0) {
+        display_timeout_id = g_timeout_add (delay, (GSourceFunc)display_current_object_callback, NULL);
+        delay = 10;
+    }
+    else {
+        delay += 100;
+        if (delay>1500)
+            delay = 10;
+    }
+}
 static void show_window (GtkWidget *w) {
     w = gtk_widget_get_toplevel (w);
     gtk_widget_show (w);

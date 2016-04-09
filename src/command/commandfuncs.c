@@ -2105,14 +2105,7 @@ displayhelper (DenemoProject * gui)
   nudgerightward (gui);
   set_bottom_staff (gui);
   write_status (gui);
-
-#if 0
-  if ((gui->mode & (INPUTRHYTHM)) && si->currentobject && (((DenemoObject *) (si->currentobject->data))->type == CHORD) && ((DenemoObject *) (si->currentobject->data))->starttickofnextnote >= WHOLE_NUMTICKS * si->cursortime1 / si->cursortime2)
-    gdk_beep ();                //Signal new measures in Edit mode to catch out of step entry
-#endif
-  /*gtk_widget_draw (Denemo.scorearea, NULL); */
-  draw_score_area();
-  draw_score (NULL);
+  gtk_widget_queue_draw (Denemo.scorearea);
 }
 
 

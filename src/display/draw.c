@@ -1538,14 +1538,14 @@ draw_score (cairo_t * cr)
             cairo_set_source_rgb (cr, 0.5, 0.5, 1.0);
             cairo_rectangle (cr, 0, y, 20/*BASIC LEFT_MARGIN*/, STAFF_HEIGHT /*staff edit */ );
             cairo_fill (cr);
-            cairo_restore (cr);
+            //cairo_restore (cr);
 
-            if (staff->staff_directives, 1)
-              {
+            
+            //  {
 
                 guint width = gdk_pixbuf_get_width (GDK_PIXBUF (StaffDirectivesPixbuf));
                 guint height = gdk_pixbuf_get_height (GDK_PIXBUF (StaffDirectivesPixbuf));
-                cairo_save (cr);
+              // cairo_save (cr);
                 gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF (StaffDirectivesPixbuf), 0, y);
                 cairo_rectangle (cr, 0, y, width, height);
                 cairo_fill (cr);
@@ -1554,27 +1554,18 @@ draw_score (cairo_t * cr)
                 cairo_rectangle (cr, 0, y, width, height);
                 cairo_stroke (cr);
 
- 
-                cairo_restore (cr);
-                //gdk_draw_pixbuf(Denemo.pixmap, NULL, StaffDirectivesPixbuf,  0,0, 0,y, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
-              }
-            if (staff->voice_directives, 0)
-              {
-
-                guint width = gdk_pixbuf_get_width (GDK_PIXBUF (StaffDirectivesPixbuf));
-                guint height = gdk_pixbuf_get_height (GDK_PIXBUF (StaffDirectivesPixbuf));
-                cairo_save (cr);
-                gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF (StaffDirectivesPixbuf), 0, y + STAFF_HEIGHT / 2);
-                cairo_rectangle (cr, 0, y + STAFF_HEIGHT / 2, width, height);
-                cairo_fill (cr);
-
                 cairo_set_source_rgb (cr, 0, 0, 0);
-                cairo_rectangle (cr, 0, y + STAFF_HEIGHT / 2, width, height);
-                cairo_stroke (cr);
+                gint staffnumber = 1 + g_list_position (si->thescore,curstaff);
+                gchar *number = g_strdup_printf ("%d", staffnumber);
+                if(staffnumber>9)
+                    drawnormaltext_cr (cr, number, 0, y + STAFF_HEIGHT - 2);
+                else
+                    drawlargetext_cr (cr, number, 0, y + STAFF_HEIGHT - 2);
+                g_free (number);
                 
                 cairo_restore (cr);
-                //gdk_draw_pixbuf(Denemo.pixmap, NULL, StaffDirectivesPixbuf,  0,0, 0,y + STAFF_HEIGHT/2, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
-              }
+                
+           //  }
 
 
 
