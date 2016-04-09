@@ -1,27 +1,31 @@
 ;;;;;;; NotForLayout
- (let ((tag (d-DirectiveGetTag-standalone)) (id (d-GetLayoutId)))
+ (let ((tag (d-DirectiveGetTag-standalone)) (params NotForLayout::params) (layout (d-GetLayoutName))(id (d-GetLayoutId)))
+    (define (put-cond)
+        (d-DirectivePut-standalone-x tag id)
+        (d-DirectivePut-standalone-display tag  (string-append (_ "Not for ") layout))
+        (d-DirectivePut-standalone-ty tag 60)
+        (d-DirectivePut-standalone-tx tag -30))
    (define (do-rest)
     (d-PushPosition)
     (while (d-NextObject)
         (if (d-Directive-standalone? tag)
-            (d-DirectivePut-standalone-x tag id)))
+            (put-cond)))
     (d-PopPosition))
   (if tag
-    (let ()
-        (define text (string-append (_ "Not for ") (d-GetLayoutName)))
-        (d-DirectivePut-standalone-display tag text)
-        (d-DirectivePut-standalone-ty tag 60)
-        (d-DirectivePut-standalone-tx tag -30)
-        (d-DirectivePut-standalone-x tag id)
+    (begin
+        (if (pair? params)
+            (begin
+             (set! layout (car params))
+             (set! id (cdr params))))
+        (put-cond)
         
-         (if  (RadioBoxMenu
+        (if  (RadioBoxMenu
                        (cons (_ "Apply condition to all further cases in this staff")   'yes)   
                         (cons (_ "Just for this one") #f))
                      (begin
                             (do-rest)
-                            (d-InfoDialog (string-append (_ "Standalone Directives ") "\"" tag "\"" (_ "  in this staff from the cursor onwards will not be typeset for the layout ") "\"" (d-GetLayoutName) "\"" )))
-                     (d-InfoDialog (string-append (_ "This Directive ") "\"" tag "\"" (_ " will not be typeset for the layout ") "\"" (d-GetLayoutName) "\"")))
-
+                            (d-InfoDialog (string-append (_ "Standalone Directives ") "\"" tag "\"" (_ "  in this staff from the cursor onwards will not be typeset for the layout ") "\"" layout "\"" )))
+                     (d-InfoDialog (string-append (_ "This Directive ") "\"" tag "\"" (_ " will not be typeset for the layout ") "\"" layout"\"")))
         (d-SetSaved #f)
         (d-RefreshDisplay))
     (begin

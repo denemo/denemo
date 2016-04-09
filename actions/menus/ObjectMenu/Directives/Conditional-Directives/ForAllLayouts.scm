@@ -4,7 +4,7 @@
     (d-PushPosition)
     (while (d-NextObject)
         (if (d-Directive-standalone? tag)
-             (begin (d-DirectivePut-standalone-x tag 0)(d-DirectivePut-standalone-y tag 0))))
+             (begin  (d-DirectivePut-standalone-display tag "")(d-DirectivePut-standalone-x tag 0)(d-DirectivePut-standalone-y tag 0))))
     (d-PopPosition))
   (if tag
     (begin
