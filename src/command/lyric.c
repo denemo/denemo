@@ -4,7 +4,8 @@
  *
  * for Denemo, a gtk+ frontend for GNU Lilypond
  * (c)2009 Richard Shann
-   */
+ */
+#include <stdlib.h>
 #include <string.h>             /* for strcmp() */
 #include "command/lyric.h"
 #include "command/object.h"
