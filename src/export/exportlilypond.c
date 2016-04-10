@@ -2319,9 +2319,20 @@ print_cursor_cb (void)
 void
 set_initiate_scoreblock (DenemoMovement * si, GString * scoreblock)
 {
-  gchar *movement_prolog = get_postfix (si->movementcontrol.directives);
-  g_string_append_printf (scoreblock, "%s", get_lily_override (si->movementcontrol.directives) ? movement_prolog : "          <<\n");
-  g_free (movement_prolog);
+  GString *movement_prolog = g_string_new ("          ");
+  GList *g;
+  for (g = si->movementcontrol.directives; g; g = g->next)
+    {
+    DenemoDirective *d = (DenemoDirective *) g->data;
+    if ((d->override & DENEMO_OVERRIDE_AFFIX) && (d->prefix))
+        {
+         g_string_append (movement_prolog, d->prefix->str);
+        }
+    }
+  if(!get_lily_override (si->movementcontrol.directives))
+        g_string_append (movement_prolog, "<<\n");
+  g_string_append_printf (scoreblock, "%s", movement_prolog->str);
+  g_string_free (movement_prolog, FALSE);
 }
 
 static gchar *get_alt_overridden_prefix (GList *g)
