@@ -1,10 +1,10 @@
 ;;;RaggedRight
 (let ((tag "RaggedRight"))
-(if (d-Directive-movementcontrol? tag)
-       (d-DirectiveDelete-movementcontrol tag)
+(if (d-Directive-layout? tag)
+       (d-DirectiveDelete-layout tag)
        (begin
-               (d-DirectivePut-movementcontrol-postfix tag "\\layout {ragged-right=##f}\n")
-               (d-DirectivePut-movementcontrol-display tag (_ "Flush Right"))
-               (d-DirectivePut-movementcontrol-override tag 
+               (d-DirectivePut-layout-postfix tag "ragged-right=##f\n")
+               (d-DirectivePut-layout-display tag (_ "Flush Right"))
+               (d-DirectivePut-layout-override tag 
                     DENEMO_OVERRIDE_AFFIX)))
 (d-SetSaved #f))
