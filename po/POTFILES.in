@@ -1128,6 +1128,8 @@ actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/SwitchMensuralBarlines.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/SwitchMensuralBarlines.xml
+actions/menus/ObjectMenu/MovementMenu/Typesetter/TransposeMovementPrint.scm
+actions/menus/ObjectMenu/MovementMenu/Typesetter/TransposeMovementPrint.xml
 actions/menus/ObjectMenu/NotesRests/Beaming/Beam1234.scm
 actions/menus/ObjectMenu/NotesRests/Beaming/Beam1234.xml
 actions/menus/ObjectMenu/NotesRests/Beaming/BeamLeftNone.scm

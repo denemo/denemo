@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>TransposeMovementPrint</action>
+        <after>HideMovement</after>
+        <_label>Transpose on Print</_label>
+        <_tooltip>The current movement will be printed transposed by the interval given.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
