@@ -1,11 +1,9 @@
 ;;;WholeMeasureRest
-(if (or (ZeroDurationMeasure?) (d-Directive-chord? DenemoWholeMeasureRestTag))
+(if (or (d-IsAppending) (d-Directive-chord? DenemoWholeMeasureRestTag))
  (let ((timesig #f))
     (set! timesig (GetPrevailingTimeSig)) 
     (if (not (d-Directive-chord? DenemoWholeMeasureRestTag))
-        (begin
-            (d-InsertWholeRest)
-            (d-MoveCursorLeft))
+        (d-InsertWholeRest)
         (TimedNotice (_ "Duration of whole measure rest has been re-calculated") 5000))
         
     (d-SetDurationInTicks (* 1536 (GetPrevailingTimeSig #t)))
