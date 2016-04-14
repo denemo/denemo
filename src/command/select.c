@@ -195,7 +195,6 @@ saveselection (DenemoMovement * si)
 {
   if (si->markstaffnum == 0)    /* Indicator that there's no selection.  */
     return;
-
   clearbuffer ();
 
   staffsinbuffer = si->selection.laststaffmarked - si->selection.firststaffmarked + 1;
@@ -231,10 +230,19 @@ copytobuffer (DenemoMovement * si)
   gint i = 0, j = 0, k = 0;
 
   if (si->markstaffnum == 0)    /* Indicator that there's no selection.  */
-    return;
-
+    {
+     clearbuffer ();
+     call_out_to_guile ("(CreateScriptForDirective)");   
+     
+    }
+  else
+    {
+        call_out_to_guile ("(set! CreateScriptForDirective::clipboard #f)");
+        Denemo.project->movement->directive_on_clipboard = NULL;
+    }
+  if  (si->markstaffnum == 0)
+        return;
   clearbuffer ();
-
   staffsinbuffer = si->selection.laststaffmarked - si->selection.firststaffmarked + 1;
   g_debug ("No staffs in copybuffer %d\n", staffsinbuffer);
   /* Staff loop.  */
@@ -957,7 +965,11 @@ void
 pastewrapper (GtkAction * action, DenemoScriptParam * param)
 {
   stage_undo (Denemo.project->movement, ACTION_STAGE_END);        //undo is a queue (ie stack) so we push the end first
-  call_out_to_guile ("(DenemoPaste)");
+  
+  if (copybuffer == NULL)
+    call_out_to_guile ("(eval-string CreateScriptForDirective::clipboard)");
+  else
+    call_out_to_guile ("(DenemoPaste)");
   //FIXME if not success a ACTION_SCRIPT_ERROR will have been put in the undo queue...
   stage_undo (Denemo.project->movement, ACTION_STAGE_START);
 

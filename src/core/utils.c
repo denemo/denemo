@@ -596,8 +596,19 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
           gheight = directive->graphic->height;
 
           maxwidth = MAX (gwidth, maxwidth);
-          //g_debug("drawing a graphic at %d %d\n", xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2);
+         // g_print("%p %p drawing a graphic at %d %d\n",directive,Denemo.project->movement->directive_on_clipboard,   x + directive->gx + count - gwidth / 2, y + directive->gy - gheight / 2);
           drawbitmapinverse_cr (cr, directive->graphic, x + directive->gx + count - gwidth / 2, y + directive->gy - gheight / 2, FALSE);
+          
+          if (directive == Denemo.project->movement->directive_on_clipboard)
+            {
+                cairo_save (cr);
+                cairo_set_source_rgba (cr, 0.8, 0.8, 0.4, 0.7);
+                cairo_arc (cr,  x + directive->gx + count, y + directive->gy, MAX(gwidth, 8.0), 0.0, 2*M_PI);
+                cairo_fill (cr);
+                cairo_restore (cr);
+            }
+          
+          
 
         }
       if (directive->display)
@@ -615,6 +626,18 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
                 }
             }
           drawnormaltext_cr (cr, directive->display->str, x + directive->tx + count, y + directive->ty);
+               if (directive == Denemo.project->movement->directive_on_clipboard)
+            {   cairo_save (cr);
+                cairo_set_source_rgba (cr, 0.8, 0.8, 0.4, 0.7);
+                cairo_arc (cr,  x + directive->tx + count + 4, y + directive->ty - 4, 8.0, 0.0, 2*M_PI);
+                cairo_fill (cr);
+                cairo_restore (cr);
+            }
+          
+          
+          
+          
+          
           if (c)
             {
               *p = c;

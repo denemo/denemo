@@ -49,6 +49,14 @@
 ;Needed to see if lyimport / mxml import is called from inside or outside Denemo
 (define Denemo #t)
 
+(define DENEMO_WEIGHT_NORMAL "0");CAIRO_FONT_WEIGHT_NORMAL
+(define DENEMO_WEIGHT_BOLD "1");CAIRO_FONT_WEIGHT_BOLD
+(define DENEMO_SLANT_NORMAL "0");CAIRO_FONT_SLANT_NORMAL
+(define DENEMO_SLANT_ITALIC "1");CAIRO_FONT_SLANT_ITALIC
+(define DENEMO_SLANT_OBLIQUE "2");CAIRO_FONT_SLANT_OBLIQUE
+
+
+ 
 (define DenemoWholeMeasureRestTag "WholeMeasureRest") ;several commands have to coordinate there behavior around whole measure rests, which are not built-in
 (define DenemoWholeMeasureRestCommand d-WholeMeasureRest)
 (define DenemoWholeMeasureRestParams 'WholeMeasureRest::params)  ;these three must match for this to work.

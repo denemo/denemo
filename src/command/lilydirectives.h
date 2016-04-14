@@ -152,4 +152,5 @@ DECL_PUT_GRAPHIC(keysig)
 void widget_for_directive_menu (DenemoDirective * directive, void fn (), GtkMenu * menu);
 DenemoDirective *get_next_directive_at_cursor (void);
 void edit_system_directive (void);
+DenemoDirective *get_note_directive (gchar * tag);
 #endif

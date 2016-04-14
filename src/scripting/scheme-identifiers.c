@@ -311,6 +311,7 @@ create_scheme_identfiers (void)
   install_scm_function (1, "Inserts a Denemo Directive of the given tag, even if one already exists at the cursor, a pixel width can be passed as well", DENEMO_SCHEME_PREFIX "PutStandaloneDirective", scheme_put_standalone_directive);
   install_scm_function (1, "Changes the tag of the Denemo Directive at the cursor", DENEMO_SCHEME_PREFIX "DirectiveChangeTag", scheme_directive_change_tag);
   install_scm_function (0, "Choose a Denemo Directive at the cursor. Returns the tag or, if the directive is on a chord, a pair whose first element is the tag and second a boolean, true if the directive is on the note at the cursor, false if it is on the chord.", DENEMO_SCHEME_PREFIX "ChooseTagAtCursor", scheme_choose_tag_at_cursor);
+  install_scm_function (2, "Takes a tag and a boolean type. Returns a script for cloning the Denemo Directive with the passed tag at the cursor. If type is true the Directive is on a note, no chord.", DENEMO_SCHEME_PREFIX "GetScriptForDirective", scheme_get_script_for_directive);
 
 #define INSTALL_GET_TAG(what)\
   install_scm_function (0, "Takes a optional tag. Returns that tag if a "#what" directive exists at the cursor, else returns the tag of the first such directive at the cursor, or #f if none", DENEMO_SCHEME_PREFIX"DirectiveGetForTag"  "-" #what, scheme_##what##_directive_get_tag);

@@ -817,7 +817,7 @@ delete_header_directive (gchar * tag)
 }
 
 
-static DenemoDirective *
+DenemoDirective *
 get_note_directive (gchar * tag)
 {
   note *curnote = get_note ();

@@ -366,3 +366,29 @@
         (proc)
         (while (d-CursorToNextNoteHeight)
             (proc)))))
+
+;;;
+(define CreateScriptForDirective::clipboard #f)
+(define (CreateScriptForDirective)
+    (define copied #f)
+    (if (Music?)
+        (let ((tag #f)(note #f))
+            (set! tag (d-ChooseTagAtCursor))
+            (if tag
+                (begin
+                    
+                    (set! note (cdr tag))
+                    (set! tag (car tag))
+                    (set! copied tag)
+                    (set! CreateScriptForDirective::clipboard (d-GetScriptForDirective tag note))))))
+                    
+  (if (and (not copied) (not (None?)))
+      (begin
+            (d-SetMark)
+            (set! copied (string-append (_ "Object of type ") (d-GetType)))))
+                        
+  (if copied
+            (begin
+            (d-PlayMidiNote 39 255 9 200)
+            (Help::TimedNotice (string-append  "<span font_desc=\"16\" foreground=\"blue\">" (_ "Copied ") copied "</span>"))))) 
+        

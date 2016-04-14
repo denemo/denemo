@@ -4210,6 +4210,32 @@ scheme_choose_tag_at_cursor (void)
  return SCM_BOOL_F;
 }
 
+SCM
+scheme_get_script_for_directive (SCM tagname, SCM isnote)
+{
+ DenemoObject *curObj;
+ SCM ret = SCM_BOOL_F;
+  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || (curObj->type!=CHORD))
+    return SCM_BOOL_F;
+ gchar *tag, *script;
+ gboolean note = scm_is_true (isnote);
+ if (scm_is_string (tagname))
+    {
+      tag = scm_to_locale_string (tagname);
+     
+      DenemoDirective *directive = note? get_note_directive (tag) : find_directive (((chord*)curObj->object)->directives, tag);
+      if (directive)
+        {
+            Denemo.project->movement->directive_on_clipboard = (gpointer)directive;
+            script = get_script_for_directive (directive, note? "note":"chord");
+            ret = scm_from_locale_string (script);
+            g_free (script);
+        }
+    }
+return ret;
+}
+
+
 
 SCM
 scheme_directive_change_tag (SCM tag)
