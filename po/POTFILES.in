@@ -1678,6 +1678,8 @@ actions/menus/ObjectMenu/NotesRests/Tuplets/CreateTriplet.scm
 actions/menus/ObjectMenu/NotesRests/Tuplets/CreateTripletSlurred.scm
 actions/menus/ObjectMenu/NotesRests/Tuplets/CreateTripletSlurred.xml
 actions/menus/ObjectMenu/NotesRests/Tuplets/CreateTriplet.xml
+actions/menus/ObjectMenu/NotesRests/Tuplets/CurvedTupletBrackets.scm
+actions/menus/ObjectMenu/NotesRests/Tuplets/CurvedTupletBrackets.xml
 actions/menus/ObjectMenu/NotesRests/Tuplets/init.scm
 actions/menus/ObjectMenu/NotesRests/Tuplets/NoTupletNumbers.scm
 actions/menus/ObjectMenu/NotesRests/Tuplets/NoTupletNumbers.xml

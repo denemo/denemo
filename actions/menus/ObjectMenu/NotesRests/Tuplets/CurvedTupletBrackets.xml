@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>CurvedTupletBrackets</action>
+        <after>TupletPosition</after>
+        <_label>Curved Tuplet Brackets (Off/On)</_label>
+        <_tooltip>Tuplet brackets will have a curved shape (like a slur) with the tuplet number inside. Note these cannot be re-shaped like slurs, so turn tuplet brackets off and place slurs manually if you need to reshape them.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
