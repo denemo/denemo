@@ -57,7 +57,23 @@
 ; Display a message that deletes itself after timing (default 2500ms). No tag or Pop needed from the user.
 (define* (Help::TimedNotice string #:optional (timing 2500))
     (Help::Push (cons 'timednotice string))
-    (d-OneShotTimer timing "(Help::Pop)"))
+    (Help::Push (cons 'timednotice1 (string-append string "\n\n\n")))
+     (Help::Push (cons 'timednotice2 (string-append string "\n\n\n")))
+     (Help::Push (cons 'timednotice3 (string-append string "\n\n\n\n")))
+     (Help::Push (cons 'timednotice4 (string-append string "\n\n\n\n\n")))
+     (let ((at 0) (step 250))
+        (set! at (+ at step))
+        (d-OneShotTimer at "(Help::Pop)")
+        (set! at (+ at step)) 
+        (d-OneShotTimer at "(Help::Pop)")
+        (set! at (+ at step))
+        (d-OneShotTimer at "(Help::Pop)")        
+        (set! at (+ at step))
+        (d-OneShotTimer at "(Help::Pop)")        
+        (set! at (+ at step))
+  
+        (d-OneShotTimer (* 2 timing) "(Help::Pop)")))
+    
 
 (define* (TimedNotice string #:optional (timing 2500))
     (Help::TimedNotice (string-append  "<span font_desc=\"16\" foreground=\"blue\">" string   "</span>") timing))
