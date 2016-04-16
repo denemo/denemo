@@ -887,6 +887,23 @@ static void get_color (GdkRGBA *color, gdouble r, gdouble g, gdouble b, gdouble 
             }
 #endif 
 
+
+static void 
+copy_chord_directive_to_clipboard (gchar *tag)
+    {
+        gchar *script = g_strdup_printf ( "(CreateScriptForDirective (cons \"%s\" #f))", tag); 
+        call_out_to_guile (script);
+        g_free (script);
+    }
+    
+static void 
+copy_note_directive_to_clipboard (gchar *tag)
+    {
+        gchar *script = g_strdup_printf ( "(CreateScriptForDirective (cons \"%s\" 'note))", tag); 
+        call_out_to_guile (script);
+        g_free (script);
+    }    
+    
 static void
 place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
 {
@@ -1013,16 +1030,24 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
             if ((type==EDIT_NOTE) || (type==EDIT_CHORD))
                {
                         button = gtk_button_new_with_label (_("Conditional"));
-                        get_color (&color, 0.0, 0., 0.5, 1.0);
+                        get_color (&color, 0.0, 0.0, 0.5, 1.0);
                         gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
                         if (type==EDIT_CHORD)
                             g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (make_chord_directive_conditional), (gpointer)directive->tag->str);
                         else
                             g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (make_note_directive_conditional), (gpointer)directive->tag->str);
-                        
-                        
-                        
                         gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+                        
+                        button = gtk_button_new_with_label (_("Copy"));
+                        get_color (&color, 0.0, 0.4, 0.5, 1.0);
+                        gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+                        if (type==EDIT_CHORD)
+                            g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (copy_chord_directive_to_clipboard), (gpointer)directive->tag->str);
+                        else
+                            g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (copy_note_directive_to_clipboard), (gpointer)directive->tag->str);
+                        gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);                            
+
+                        
                 }  
                 
             if (tooltip)
@@ -1034,6 +1059,12 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
                     gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
                 }            
             if (tooltip == NULL) tooltip = _("No tooltip");
+            
+            
+            
+            
+            
+            
 
             if (action) {
                 button = gtk_button_new_with_label (_("Create Button for Command"));
