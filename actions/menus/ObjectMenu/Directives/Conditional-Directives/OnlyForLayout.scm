@@ -1,6 +1,7 @@
 ;;;;;;;; OnlyForLayout
  (let ((tag (d-DirectiveGetTag-standalone)) (params OnlyForLayout::params) (layout (d-GetLayoutName))(id (d-GetLayoutId)))
- 
+   (define (d-InfoDialog string)
+        (Help::TimedNotice (string-append string "\n") 5000)) 
     (define (put-cond)
         (d-DirectivePut-standalone-y tag id)
         (d-DirectivePut-standalone-display tag  (string-append (_ " for ") layout))

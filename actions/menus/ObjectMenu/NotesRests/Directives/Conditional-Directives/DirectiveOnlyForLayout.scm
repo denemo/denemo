@@ -1,5 +1,7 @@
 ;;;;;;;; DirectiveOnlyForLayout
 (let ((params DirectiveOnlyForLayout::params)(tag (d-DirectiveGetTag-standalone)) ( id (d-GetLayoutId)) (text #f) (note #f))
+ (define (d-InfoDialog string)
+        (Help::TimedNotice (string-append string "\n") 5000))
   (define (do-rest)
     (d-PushPosition)
     (while (d-NextObject)

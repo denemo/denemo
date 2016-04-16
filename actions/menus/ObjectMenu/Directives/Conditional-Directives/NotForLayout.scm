@@ -1,5 +1,7 @@
 ;;;;;;; NotForLayout
  (let ((tag (d-DirectiveGetTag-standalone)) (params NotForLayout::params) (layout (d-GetLayoutName))(id (d-GetLayoutId)))
+    (define (d-InfoDialog string)
+        (Help::TimedNotice (string-append string "\n") 5000))
     (define (put-cond)
         (d-DirectivePut-standalone-x tag id)
         (d-DirectivePut-standalone-display tag  (string-append (_ "Not for ") layout))
