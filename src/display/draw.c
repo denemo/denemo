@@ -259,7 +259,10 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
     if (itp->mark)
       {
         cairo_save (cr);
-        cairo_set_source_rgba (cr, 0.8, 0.8, 0.4, 0.7);
+        if (si->selection_is_copied)
+            cairo_set_source_rgba (cr, 0.4, 0.8, 0.5, 0.7);
+        else
+            cairo_set_source_rgba (cr, 0.8, 0.8, 0.4, 0.7);
         cairo_rectangle (cr, x + mudelaitem->x, y, mudelaitem->minpixelsalloted, 80);
         cairo_fill (cr);
         cairo_restore (cr);

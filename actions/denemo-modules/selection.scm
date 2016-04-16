@@ -369,14 +369,15 @@
 
 ;;;
 (define CreateScriptForDirective::clipboard #f)
-(define (CreateScriptForDirective)
+(define* (CreateScriptForDirective #:optional (tag #f))
     (define copied #f)
+    (define note #f)
     (if (Music?)
-        (let ((tag #f)(note #f))
-            (set! tag (d-ChooseTagAtCursor))
+        (begin
+            (if (not tag)
+                (set! tag (d-ChooseTagAtCursor)))
             (if tag
                 (begin
-                    
                     (set! note (cdr tag))
                     (set! tag (car tag))
                     (set! copied tag)

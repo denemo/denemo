@@ -22,13 +22,13 @@ gint headwidths[3] = { WHOLEHEAD_WIDTH, HALFHEAD_WIDTH, NOTEHEAD_WIDTH
 
 
 
-draw_selection_shading (cairo_t *cr, DenemoDirective *directive, gdouble x, gdouble y, gdouble diameter)
+static void draw_selection_shading (cairo_t *cr, DenemoDirective *directive, gdouble x, gdouble y, gdouble diameter)
 {
  if (directive == Denemo.project->movement->directive_on_clipboard)
             {
-                cairo_save (cr);
-                cairo_set_source_rgba (cr, 0.8, 0.8, 0.4, 0.7);
-                cairo_arc (cr,  x, y, 2*diameter, 0.0, 2*M_PI);
+                cairo_save (cr); 
+                cairo_set_source_rgba (cr, 0.4, 0.8, 0.5, 0.7);
+                cairo_arc (cr,  x, y - 4, 2*diameter, 0.0, 2*M_PI); //FIXME put these adjustments back into the caller code and pass diameter and y as final values
                 cairo_fill (cr);
                 cairo_restore (cr);
             }

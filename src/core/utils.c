@@ -602,7 +602,7 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
           if (directive == Denemo.project->movement->directive_on_clipboard)
             {
                 cairo_save (cr);
-                cairo_set_source_rgba (cr, 0.8, 0.8, 0.4, 0.7);
+                cairo_set_source_rgba (cr, 0.4, 0.8, 0.5, 0.7);
                 cairo_arc (cr,  x + directive->gx + count, y + directive->gy, MAX(gwidth, 8.0), 0.0, 2*M_PI);
                 cairo_fill (cr);
                 cairo_restore (cr);
@@ -628,7 +628,7 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
           drawnormaltext_cr (cr, directive->display->str, x + directive->tx + count, y + directive->ty);
                if (directive == Denemo.project->movement->directive_on_clipboard)
             {   cairo_save (cr);
-                cairo_set_source_rgba (cr, 0.8, 0.8, 0.4, 0.7);
+                cairo_set_source_rgba (cr, 0.4, 0.8, 0.5, 0.7);
                 cairo_arc (cr,  x + directive->tx + count + 4, y + directive->ty - 4, 8.0, 0.0, 2*M_PI);
                 cairo_fill (cr);
                 cairo_restore (cr);

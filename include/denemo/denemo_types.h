@@ -923,7 +923,7 @@ typedef struct DenemoMovement
   gdouble rightmost_time; /**< MIDI time of rightmost visible object */
   GList *scroll_points; /**< playback view scroll points for this movement */
   DenemoDirective* directive_on_clipboard;/**< when a (non-standalone) directive can be "pasted" using the script CreateScriptForDirective::clipboard this records its origin. Do not de-reference as it may no longer exist */
-
+  gboolean selection_is_copied;
   gdouble zoom;/**< zoom setting for this movement */
   gdouble preview_zoom; /**< zoom  of print preview pane */
   gdouble system_height;/**< fraction of scorearea height allotted to one system (line) in this movement of the score, the same for all lines */

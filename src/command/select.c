@@ -243,6 +243,7 @@ copytobuffer (DenemoMovement * si)
   if  (si->markstaffnum == 0)
         return;
   clearbuffer ();
+  si->selection_is_copied = TRUE;
   staffsinbuffer = si->selection.laststaffmarked - si->selection.firststaffmarked + 1;
   g_debug ("No staffs in copybuffer %d\n", staffsinbuffer);
   /* Staff loop.  */
@@ -631,6 +632,7 @@ get_point_object (void)
 static void
 mark_boundaries_helper (DenemoMovement * si, gint mark_staff, gint mark_measure, gint mark_object, gint point_staff, gint point_measure, gint point_object, enum drag_selection_type type)
 {
+  si->selection_is_copied = FALSE;
   if (mark_staff)
     {
       si->selection.firststaffmarked = MIN (mark_staff, point_staff);
@@ -691,6 +693,7 @@ void
 set_mark (GtkAction* action, DenemoScriptParam * param)
 {
   DenemoMovement *si = Denemo.project->movement;
+  si->selection_is_copied = FALSE;
   si->markstaffnum = si->currentstaffnum;
   si->markmeasurenum = si->currentmeasurenum;
   si->markcursor_x = si->cursor_x;
