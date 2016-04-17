@@ -1,3 +1,3 @@
-;;; FinishCadenza
-        	(StandAloneDirectiveProto (cons "CadenzaOff" "\\cadenzaOff" )) 
-	
+;;;FinishCadenza
+            (StandAloneDirectiveProto (cons "FinishCadenza" "\\cadenzaOff" )) 
+    
