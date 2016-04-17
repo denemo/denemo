@@ -904,6 +904,8 @@ actions/menus/ObjectMenu/Directives/Typesetter/DynamicUp.xml
 actions/menus/ObjectMenu/Directives/Typesetter/HideNotes.scm
 actions/menus/ObjectMenu/Directives/Typesetter/HideNotes.xml
 actions/menus/ObjectMenu/Directives/Typesetter/Hide.scm
+actions/menus/ObjectMenu/Directives/Typesetter/HideStems.scm
+actions/menus/ObjectMenu/Directives/Typesetter/HideStems.xml
 actions/menus/ObjectMenu/Directives/Typesetter/Hide.xml
 actions/menus/ObjectMenu/Directives/Typesetter/InstallCue.scm
 actions/menus/ObjectMenu/Directives/Typesetter/InstallCue.xml
@@ -919,6 +921,8 @@ actions/menus/ObjectMenu/Directives/Typesetter/SetBarNumber.scm
 actions/menus/ObjectMenu/Directives/Typesetter/SetBarNumber.xml
 actions/menus/ObjectMenu/Directives/Typesetter/ShiftNext.scm
 actions/menus/ObjectMenu/Directives/Typesetter/ShiftNext.xml
+actions/menus/ObjectMenu/Directives/Typesetter/ShowStems.scm
+actions/menus/ObjectMenu/Directives/Typesetter/ShowStems.xml
 actions/menus/ObjectMenu/Directives/Typesetter/SmallFontEnd.scm
 actions/menus/ObjectMenu/Directives/Typesetter/SmallFontEnd.xml
 actions/menus/ObjectMenu/Directives/Typesetter/SmallFontStart.scm

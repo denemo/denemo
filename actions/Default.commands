@@ -7800,6 +7800,20 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Curved Tuplet Brackets (Off/On)</_label>
         <_tooltip>Tuplet brackets will have a curved shape (like a slur) with the tuplet number inside. Note these cannot be re-shaped like slurs, so turn tuplet brackets off and place slurs manually if you need to reshape them.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>HideStems</action>
+        <after>BeamingOn</after>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
+        <_label>Hide Stems</_label>
+        <_tooltip>Hides stems on notes from this point on.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ShowStems</action>
+        <after>HideStems</after>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
+        <_label>Show Stems</_label>
+        <_tooltip>This directive turns on typesetting of stems on notes.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
