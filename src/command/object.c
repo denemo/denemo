@@ -704,13 +704,37 @@ static void delete_directive (GtkWidget *button, gpointer fn)
 }
 typedef enum DIRECTIVE_TYPE {DIRECTIVE_OBJECT = 0,  DIRECTIVE_SCORE = 1, DIRECTIVE_MOVEMENT = 2, DIRECTIVE_STAFF = 3, DIRECTIVE_VOICE = 4, DIRECTIVE_KEYSIG = 5, DIRECTIVE_TIMESIG = 6} DIRECTIVE_TYPE;
 
+static GList *OldCurrentObject;//current object when object editor was left
+GtkWidget *TheEditorWidget;
+static chuck_object_editor (void)
+{
+    if (TheEditorWidget)
+        gtk_widget_destroy (TheEditorWidget);
+    else
+        g_warning ("Call to chuck editor window, but it is not set\n");
+    TheEditorWidget = NULL;
+    OldCurrentObject= Denemo.project->movement->currentobject;
+}
+static gboolean recover_object_editor (void)
+{
+    if (OldCurrentObject == Denemo.project->movement->currentobject)
+        {
+            edit_object();
+            return TRUE;
+        }
+       else 
+        reset_cursors ();
+    return FALSE;
+}
+
 static void
 call_edit_on_action (GtkWidget *button, DIRECTIVE_TYPE score_edit)
 {
-   gtk_widget_destroy (gtk_widget_get_toplevel (button));
+   //gtk_widget_destroy (gtk_widget_get_toplevel (button));
    DenemoScriptParam param;
    GtkAction *action = (GtkAction*)g_object_get_data (G_OBJECT (button), "action");
-   GList *currentobject = Denemo.project->movement->currentobject;
+   //GList *currentobject = Denemo.project->movement->currentobject;
+   chuck_object_editor ();
    param.string = g_string_new ("edit");
    g_debug ("Script can look for params \"edit\" - a string to catch this");
    activate_script (action, &param);
@@ -731,9 +755,7 @@ call_edit_on_action (GtkWidget *button, DIRECTIVE_TYPE score_edit)
         
     } else
     {
-       if (!score_edit && (currentobject == Denemo.project->movement->currentobject))
-        edit_object();
-       else 
+       if (score_edit || (!recover_object_editor ()))
         reset_cursors (); 
     }
 }
@@ -855,20 +877,22 @@ static void seek_standalone_directive (GtkWidget *button, gchar *tag)
         seek_directive (button, NULL, tag);
     } 
 static void make_chord_directive_conditional (gchar *tag)
-    {gchar *script = g_strdup_printf ("(d-ChooseCondition (cons \"%s\" #f))", tag); 
+    {
+        gchar *script = g_strdup_printf ("(d-ChooseCondition (cons \"%s\" #f))", tag); 
+        chuck_object_editor ();
         call_out_to_guile (script);
         g_free (script);
+        recover_object_editor ();
     }  
 static void make_note_directive_conditional (gchar *tag)
-    {gchar *script = g_strdup_printf ("(d-ChooseCondition (cons \"%s\" #t))", tag); 
+    {
+        gchar *script = g_strdup_printf ("(d-ChooseCondition (cons \"%s\" #t))", tag); 
+        chuck_object_editor ();
         call_out_to_guile (script);
         g_free (script);
+        recover_object_editor ();
     }
-    
-
-    
-    
-       
+   
 #if GTK_MAJOR_VERSION == 2
 #define GdkRGBA GdkColor
 #define gtk_widget_override_color gtk_widget_modify_fg
@@ -1191,6 +1215,7 @@ edit_object (void)
       return;
     }
     GtkWidget *editwin = gtk_window_new (GTK_WINDOW_TOPLEVEL); 
+    TheEditorWidget = editwin;
     GdkRGBA color;
     get_color (&color, 1.0, 1.0, 1.0, 1.0);//.red = color.green = color.blue = color.alpha = 1.0;
     gtk_widget_override_background_color (editwin, GTK_STATE_FLAG_NORMAL, &color);
@@ -1768,6 +1793,7 @@ static void
 edit_score_and_movement_properties (gboolean show_score)
 {
     GtkWidget *editscorewin = gtk_window_new (GTK_WINDOW_TOPLEVEL); 
+    TheEditorWidget = editscorewin;
     GdkRGBA color;
     gint window_height = 800;
     //color.red = color.green = color.blue = color.alpha = 1.0;
@@ -1965,6 +1991,7 @@ static void
 edit_staff_and_voice_properties (gboolean show_staff)
 {
     GtkWidget *editstaffwin = gtk_window_new (GTK_WINDOW_TOPLEVEL); 
+    TheEditorWidget = editstaffwin;
     GdkRGBA color;
     gint window_height = 800;
     get_color (&color, 1.0, 1.0, 1.0, 1.0);
