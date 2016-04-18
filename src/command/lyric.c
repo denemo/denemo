@@ -88,7 +88,7 @@ new_lyric_editor (void)
   GtkTextTagTable *tagtable = (GtkTextTagTable *) gtk_text_tag_table_new ();
   GtkTextTag *t;
   t = gtk_text_tag_new ("highlight");
-  g_object_set (G_OBJECT (t), "background", "light gray", NULL);
+  g_object_set (G_OBJECT (t), "background", "white", NULL);
   gtk_text_tag_table_add (tagtable, t);
   GtkTextBuffer  *buffer = gtk_text_buffer_new (tagtable);
   GtkWidget *view = gtk_text_view_new_with_buffer (buffer);
