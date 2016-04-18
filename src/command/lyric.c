@@ -71,7 +71,12 @@ lyric_changed_cb (GtkTextBuffer * buffer)
   DenemoStaff *staff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   gchar* text = get_lyrics_for_current_verse (staff);
   verse_set_current_text (staff, text);
-
+ {
+    GtkTextIter startiter, enditer;
+    gtk_text_buffer_get_start_iter (buffer, &startiter);
+    gtk_text_buffer_get_end_iter (buffer, &enditer);
+    gtk_text_buffer_apply_tag_by_name (buffer, "highlight", &startiter, &enditer); 
+  }
   score_status (Denemo.project, TRUE);
   draw_score_area();
   return FALSE;
@@ -80,7 +85,13 @@ lyric_changed_cb (GtkTextBuffer * buffer)
 static GtkWidget *
 new_lyric_editor (void)
 {
-  GtkWidget *view = gtk_text_view_new ();
+  GtkTextTagTable *tagtable = (GtkTextTagTable *) gtk_text_tag_table_new ();
+  GtkTextTag *t;
+  t = gtk_text_tag_new ("highlight");
+  g_object_set (G_OBJECT (t), "background", "light gray", NULL);
+  gtk_text_tag_table_add (tagtable, t);
+  GtkTextBuffer  *buffer = gtk_text_buffer_new (tagtable);
+  GtkWidget *view = gtk_text_view_new_with_buffer (buffer);
   GtkWidget *sw = gtk_scrolled_window_new (gtk_adjustment_new (0,0,0,0,0,0), gtk_adjustment_new (0,0,0,0,0,0));
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   if (Denemo.prefs.newbie)
