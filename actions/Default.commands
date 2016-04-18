@@ -7814,6 +7814,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Show Stems</_label>
         <_tooltip>This directive turns on typesetting of stems on notes.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>InsertLyricAlignment</action>
+        <after>InsertStanzaNumber</after>
+        <menupath>/ObjectMenu/Lyrics</menupath>
+        <_label>Syllable Alignment</_label>
+        <_tooltip>Inserts some syntax into the lyric verse to determine the alignment of syllables under notes. Lyrics to be affected should be on the following lines.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

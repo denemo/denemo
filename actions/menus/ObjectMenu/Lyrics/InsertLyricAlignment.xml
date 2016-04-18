@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>InsertLyricAlignment</action>
+        <after>InsertStanzaNumber</after>
+        <_label>Syllable Alignment</_label>
+        <_tooltip>Inserts some syntax into the lyric verse to determine the alignment of syllables under notes. Lyrics to be affected should be on the following lines.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
