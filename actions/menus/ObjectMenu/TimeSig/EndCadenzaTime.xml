@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>EndCadenzaTime</action>
+        <after>CadenzaTime</after>
+        <_label>End Cadenza Time</_label>
+        <_tooltip>Inserts a non-printing time signature to resume normal measured music.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
