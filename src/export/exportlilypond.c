@@ -1993,7 +1993,7 @@ g_free(curobj->lilypond);
               if ((curobjnode == NULL) || (curobjnode->next == NULL))
                 {               //at end of measure
                   GString *endstr = g_string_new ("");
-                  if (empty_measure)    // measure has nothing to use up the duration, assume  SKIP 
+                  if (empty_measure && (cur_stime1<256))    // measure has nothing to use up the duration, assume  SKIP, 256 means cadenza time, do not skip.
                     {
                       g_string_append_printf (endstr, " s1*%d/%d ", cur_stime1, cur_stime2);
                       gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, curmark);
