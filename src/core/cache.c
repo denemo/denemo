@@ -46,6 +46,18 @@ void update_timesig_cache (measurenode *mnode)
     for (mnode=mnode->next;mnode;mnode=mnode->next)
         {
             measure = mnode->data;
+            
+          /*  examine objects in mnode - if there is a timesignature then don't change it
+            */
+            GList *h = measure->objects;
+            for (; h; h=h->next)
+                {
+                    DenemoObject *obj = h->data;
+                if (obj->object == measure->timesig)
+                    return;
+                if (obj->type == CHORD)
+                    break;
+                }
             if ((measure->timesig->time1 != time1) || (measure->timesig->time2 != time2))
                 measure->timesig = new;
             else
