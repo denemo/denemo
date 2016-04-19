@@ -7821,6 +7821,20 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Syllable Alignment</_label>
         <_tooltip>Inserts some syntax into the lyric verse to determine the alignment of syllables under notes. Lyrics to be affected should be on the following lines.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>CadenzaTime</action>
+        <after>NumericTimeSig</after>
+        <menupath>/ObjectMenu/TimeSig</menupath>
+        <_label>Start Cadenza Time</_label>
+        <_tooltip>Inserts a non-printing timesignature to indicate a cadenza follows. You must insert any barlines and beaming you require (otherwise none will typeset). End the cadenza by inserting an End Cadenza Time in a new Denemo bar.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>EndCadenzaTime</action>
+        <after>CadenzaTime</after>
+        <menupath>/ObjectMenu/TimeSig</menupath>
+        <_label>End Cadenza Time</_label>
+        <_tooltip>Inserts a non-printing time signature to resume normal measured music.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

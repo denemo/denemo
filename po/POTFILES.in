@@ -2066,10 +2066,14 @@ actions/menus/ObjectMenu/TimeSig/ApparentTimeSignature.scm
 actions/menus/ObjectMenu/TimeSig/ApparentTimeSignature.xml
 actions/menus/ObjectMenu/TimeSig/BeamHalfMeasure.scm
 actions/menus/ObjectMenu/TimeSig/BeamHalfMeasure.xml
+actions/menus/ObjectMenu/TimeSig/CadenzaTime.scm
+actions/menus/ObjectMenu/TimeSig/CadenzaTime.xml
 actions/menus/ObjectMenu/TimeSig/ChooseTimeSignature.scm
 actions/menus/ObjectMenu/TimeSig/ChooseTimeSignature.xml
 actions/menus/ObjectMenu/TimeSig/ChordChartTimeSignature.scm
 actions/menus/ObjectMenu/TimeSig/ChordChartTimeSignature.xml
+actions/menus/ObjectMenu/TimeSig/EndCadenzaTime.scm
+actions/menus/ObjectMenu/TimeSig/EndCadenzaTime.xml
 actions/menus/ObjectMenu/TimeSig/HideTimesig.scm
 actions/menus/ObjectMenu/TimeSig/HideTimesig.xml
 actions/menus/ObjectMenu/TimeSig/InsertBeamingRule.scm
