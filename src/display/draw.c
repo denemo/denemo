@@ -908,7 +908,6 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
       cairo_restore (cr);
     }                           //if cr
 
-  return extra_ticks != 0;
 }
 
 /**
