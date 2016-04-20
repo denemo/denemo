@@ -64,7 +64,10 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
               break;
             }
         }
-      drawnormaltext_cr (cr, lily->display->str, xx + lily->tx, y + lowy + lily->ty - 8);
+        if (at_cursor)
+            cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 1.0),drawlargetext_cr (cr, lily->display->str, xx + lily->tx, y + lowy + lily->ty - 8);
+        else
+            drawnormaltext_cr (cr, lily->display->str, xx + lily->tx, y + lowy + lily->ty - 8);
       if (c)
         {
           *p = c;
@@ -73,8 +76,11 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
   else
     //FIXME do this by creating a display field
   if ((!lily->graphic) && (*first == '%' || *first == '^' || *first == '_'))
-    {                           //display comments, and markup above and below
-      drawnormaltext_cr (cr, first + 1, xx, *first == '_' ? y + lowy + 20 : y - highy - 20);
+    { //display comments, and markup above and below 
+        if (at_cursor)
+                cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 1.0),drawlargetext_cr (cr, first + 1, xx, *first == '_' ? y + lowy + 20 : y - highy - 20);      
+        else
+            drawnormaltext_cr (cr, first + 1, xx, *first == '_' ? y + lowy + 20 : y - highy - 20);
     }
   cairo_restore (cr);
 }
