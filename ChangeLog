@@ -1,3 +1,28 @@
+2016-04-20 Release 2.0.8
+    Copy and Paste
+        Applies to note/chord attributes
+        CtrlC, Ctrl-V work for these
+        Copied marking is highlighted
+        Selection changes color when copied
+    Improved Acoustic Feedback
+        Trill makes a short trill sound on entry
+        Copy attributes sounds
+    Improved Visual Feedback
+        Status bar notices are animated
+        Characters are highlighted in Lyric Verses
+        Directives are made more legible when cursor is on them
+    Cadenza Time
+        For un-metered music
+        Music can still display in “bars”
+    New Commands
+        Tuplet Positioning
+        Curved Tuplet Brackets
+        Cadenza on/off uses Cadenza Time, sets smaller note size, editable text
+        Notes without stems
+    Bug Fixes
+        Standalone Multi-line text with backslash editing
+        Pasting into measures that precede a time signature change 
+
 2016-03-20 Release 2.0.6
     Play Back Controls
         Buttons to play selection or from cursor
