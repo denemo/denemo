@@ -730,9 +730,9 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
  * @param y
  * @param gui
  * @param itp
- * return TRUE if measure has correct number of beats
+ * return nothing
  */
-static gboolean
+static void
 draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProject * gui, struct infotopass *itp)
 {
   static GString *mstring;
@@ -854,10 +854,11 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
             } 
       if (curmeasure->data)
         {
-            
-            if (extra_ticks == -itp->tickspermeasure)
+            //overfull or underfull measure indicator 
+          if (extra_ticks == -itp->tickspermeasure)
                 extra_ticks = 0;//allow empty measures
-            
+          if(itp->time1 == 256) //Cadenza Time
+                extra_ticks = 0;
           if (extra_ticks > 0)
                 cairo_set_source_rgba (cr, 1.0, 0.6, 0.6, OPACITY);
           else if ((extra_ticks < 0)/* && curmeasure->next*/)
