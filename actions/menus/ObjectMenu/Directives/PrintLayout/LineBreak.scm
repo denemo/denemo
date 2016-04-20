@@ -8,7 +8,7 @@
                 (d-WarningDialog "The cursor is on a voice. Put line breaks in the main staff that the voice belongs to."))
 
             (let ((choice #f))
-                (if (not (d-Directive-standalone? "AllowLineBreak"))
+                (if (not (d-Directive-standalone?))
                     (while (not (Appending?)) (d-MoveCursorRight)))
                 (d-DirectivePut-standalone tag)
                 (d-DirectivePut-standalone-postfix tag "\\break")
