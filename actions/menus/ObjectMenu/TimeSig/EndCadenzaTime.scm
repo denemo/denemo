@@ -1,12 +1,13 @@
-;;;EndCadenzaTime
+;;EndCadenzaTime
 (let ((tag "EndCadenzaTime"))
     (define (insert-timesig time)
         (d-DirectivePut-timesig-postfix tag 
                  (string-append  "\\cadenzaOff \\bar \"|\" \\once \\override Staff.TimeSignature #'stencil = ##f  \\time " time " "))
             (d-DirectivePut-timesig-override tag (logior DENEMO_OVERRIDE_LILYPOND))
-            (d-DirectivePut-timesig-gy tag -15)
+            (d-DirectivePut-timesig-gy tag 75)
+            (d-DirectivePut-timesig-gx tag -5)
             (d-DirectivePut-timesig-display tag (_ "End Cad."))
-            (d-DirectivePut-timesig-graphic tag "\nŤ\nSerif\n40\nbold\nitalic"))
+            (d-DirectivePut-timesig-graphic tag "\nT\nSerif\n40\nbold\nitalic"))
     (if (d-Directive-timesig? tag)
         (d-InfoDialog (_ "Inserts a non-printing time signature to resume normal measured music."))
     (begin

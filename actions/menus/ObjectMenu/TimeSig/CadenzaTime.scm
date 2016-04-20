@@ -1,6 +1,8 @@
 ;;;CadenzaTime
 (let ((tag "CadenzaTime"))
- (if (and (Timesignature?) (d-Directive-timesig? tag))
+ (if  (not (d-Directive-timesig? tag))
+	 (GoToMeasureBeginning))
+ (if  (d-Directive-timesig? tag)
         (d-InfoDialog (_ "Inserts a non-printing timesignature to indicate a cadenza follows. You must insert any barlines and beaming you require (otherwise none will typeset). End the cadenza by inserting an End Cadenza Time in a new Denemo bar."))
         (let ()
             (define (insert-timesig)
@@ -11,7 +13,6 @@
                         (d-DirectivePut-timesig-gy tag 35)
                         (d-DirectivePut-timesig-display tag (_ "Cadenza"))
                         (d-DirectivePut-timesig-graphic tag "\nT\nSerif\n40\nbold\nitalic"))))
-            (GoToMeasureBeginning)
             (d-InsertTimeSig "256/1")
             (d-MoveCursorLeft)               
             (d-PushPosition)
