@@ -1,3 +1,3 @@
-;;;FinishCadenza
-            (StandAloneDirectiveProto (cons "FinishCadenza" "\\cadenzaOff" )) 
-    
+;;FinishCadenza
+(d-SmallFontEnd)
+(d-EndCadenzaTime)    
