@@ -6,10 +6,13 @@
         (y-offset #f)
         (prefix "<>")
         (direction #f)
+        (display-text #f)
         (dimensions "")
         (dim #f)
         (data #f)
         (modal "nonmodal"))
+     (define (get-display)
+     	(set! display-text (d-GetUserInput  (_ "Text")  (_ "Give text for Denemo Display") display-text)))
     (define (get-text) ;;(disp "modal is " modal " on entry")
         (if (string? text)
             (set! text (d-GetUserInputWithSnippets #f #f text 'format))
@@ -28,7 +31,7 @@
     (set! dim (assq-ref data 'dimensions))    
     (set! direction (assq-ref data 'direction))    
     (set! text (assq-ref data 'text))
-
+    (set! display-text (assq-ref data 'display))
     (set! scale (assq-ref data 'scale))
     (set! x-offset (assq-ref data 'x-offset))
     (set! y-offset (assq-ref data 'y-offset))
@@ -42,6 +45,8 @@
                 (set! dim  (assq-ref params 'direction)))
         (if  (assq-ref params 'text)
                 (set! text  (assq-ref params 'text)))
+        (if  (assq-ref params 'display)
+                (set! display-text  (assq-ref params 'display)))
         (if  (assq-ref params 'scale)
                 (set! scale  (assq-ref params 'scale)))                    
         (if  (assq-ref params 'x-offset)
@@ -63,6 +68,7 @@
                 (cons (_ "Edit Size") 'scale)
                 (cons (_ "Up/Down") 'position)
                 (cons (_ "Edit Position") 'offset)
+                (cons (_ "Edit Display Text") 'display)
                 (cons (_ "Edit Others") 'more)
                 (cons (_ "Delete") 'delete))))
             (set! params #f)
@@ -70,6 +76,9 @@
               ((text)
                 (set! params 'finished)
                 (get-text))
+              ((display)
+                (set! params 'finished)
+                (get-display))
               ((scale) 
                 (set! params 'finished)
                 (get-scale))
@@ -121,12 +130,15 @@
                (begin
                     (if (not scale)
                         (get-scale))
-
+		 (if (not display-text)
+		 	(set! display-text (car text)))
                     (if scale
                         (begin
                             (set! markup (cdr text))
                             (set! text (car text))
                             (set! data (assq-set! data 'text text))
+                            (if display
+                            	(set! data (assq-set! data 'display display-text)))
                             (set! data (assq-set! data 'scale scale))
                             (if dim 
                                 (set! data (assq-set! data 'dimensions dim))
@@ -142,14 +154,16 @@
                            ;; (d-DirectivePut-standalone-data tag (format #f "'~s" data))
                            (let ((text (string-append "(list (cons 'text \"" (scheme-escape text) "\")(cons 'scale \"" scale "\")" (if dim (string-append "(cons 'dimensions  \"" dim "\")") "")
                                                       "(cons 'direction \"" direction "\")"
+                                                       (if display (string-append "(cons 'display  \"" (scheme-escape display-text) "\")") "")
                                                       (if x-offset (string-append "(cons 'x-offset \"" x-offset "\")") "")
                                                       (if y-offset (string-append "(cons 'y-offset \"" y-offset "\")") "") ")")))
                                 (d-DirectivePut-standalone-data tag text))
                            
                            
                            
-                           
-                            (d-DirectivePut-standalone-display tag text)
+                           (if display
+                                (d-DirectivePut-standalone-display tag display-text)
+                            	(d-DirectivePut-standalone-display tag text))
                             (d-DirectivePut-standalone-postfix tag (string-append direction "\\markup"dimensions"\\scale #'(" scale " . " scale ")\\column{" markup "}"))
                             (d-DirectivePut-standalone-prefix tag prefix)
                             (d-DirectivePut-standalone-minpixels tag 30)
