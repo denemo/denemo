@@ -2353,10 +2353,13 @@ if(directive->field)\
   ADD_INTTEXT (gy);
 
 #undef ADD_INTTEXT
-  g_string_append (scheme, "(d-SetSaved #f)(d-RefreshDisplay))\n");
-  // quote_scheme(scheme);
-  //g_debug("Scheme is %s\n", scheme->str);
-   return g_string_free (scheme, FALSE);    
+  if (!strcmp (what, "note"))    
+      g_string_append (scheme, "(d-Chordize)(d-SetSaved #f))\n");
+  else if (!strcmp (what, "standalone"))
+            g_string_append (scheme, "(d-SetSaved #f)(d-RefreshDisplay))\n");
+        else
+            g_string_append (scheme, "(d-SetSaved #f))\n");
+ return g_string_free (scheme, FALSE);    
 }
   
 static void
