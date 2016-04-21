@@ -22,8 +22,8 @@
         (put-cond)
         
         (if  (RadioBoxMenu
-                       (cons (_ "Apply condition to all further cases in this staff")   'yes)   
-                        (cons (_ "Just for this one") #f))
+                (cons (_ "Just for this one") #f)
+                (cons (_ "Apply condition to all further cases in this staff")   'yes))
                      (begin
                             (do-rest)
                             (d-InfoDialog (string-append (_ "Standalone Directives ") "\"" tag "\"" (_ "  in this staff from the cursor onwards will not be typeset for the layout ") "\"" layout "\"" )))

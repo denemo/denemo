@@ -29,9 +29,9 @@
                 (d-DirectivePut-note-x tag id)
                 (d-DirectivePut-chord-x tag id))
                 
-                (if  (RadioBoxMenu
-                       (cons (_ "Apply condition to all further cases in this staff")   'yes)   
-                        (cons (_ "Just for this one") #f))
+             (if  (RadioBoxMenu
+                (cons (_ "Just for this one") #f)
+                (cons (_ "Apply condition to all further cases in this staff")   'yes))
                      (begin
                             (do-rest)
                             (d-InfoDialog (string-append (_ "Directives ") "\"" tag "\"" (_ " on ") (if note (_ "Notes") (_ "Chords")) (_ "  in this staff from the cursor onwards will not be typeset for the layout ") "\"" (car layout) "\"" )))

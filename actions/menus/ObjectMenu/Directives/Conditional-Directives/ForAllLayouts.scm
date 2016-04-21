@@ -13,9 +13,9 @@
         (d-DirectivePut-standalone-display tag "")
         (d-DirectivePut-standalone-x tag 0)
         (d-DirectivePut-standalone-y tag 0)
-        (if  (RadioBoxMenu
-                       (cons (_ "Apply condition to all further cases in this staff")   'yes)   
-                       (cons (_ "Just for this one") #f))
+        (if  (RadioBoxMenu   
+                (cons (_ "Just for this one") #f)
+                (cons (_ "Apply condition to all further cases in this staff")   'yes))
             (begin
                 (do-rest)              
                 (d-InfoDialog (string-append (_ "Standalone Directives ") "\"" tag "\"" (_ " in this staff from the cursor onwards will be typeset for all layouts "))))

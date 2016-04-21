@@ -26,8 +26,8 @@
                 (begin (d-DirectivePut-chord-x tag 0)(d-DirectivePut-chord-y tag 0)))
                 
               (if  (RadioBoxMenu
-                       (cons (_ "Apply condition to all further cases in this staff")   'yes)   
-                       (cons (_ "Just for this one") #f))
+                (cons (_ "Just for this one") #f)
+                (cons (_ "Apply condition to all further cases in this staff")   'yes))
                     (begin 
                         (do-rest)
                         (d-InfoDialog (string-append (_ "Directive ") "\"" tag "\"" (_ " on ") (if note (_ "Notes") (_ "Chords")) (_ " in this staff from the cursor onwards will be typeset for all layouts "))))
