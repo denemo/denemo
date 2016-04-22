@@ -1332,6 +1332,15 @@ LilyPond
 \end_inset
 
  formats, printing full score or parts, exporting to MIDI, Ogg, Wav, LilyPond
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+LilyPond
+\end_layout
+
+\end_inset
+
  (parts or score), PDF and Png formats.
  This is also where you open PDF files containing source material - e.g.
  manuscripts - that you wish to transcribe or proof-reading comments you
@@ -1737,6 +1746,16 @@ Menus of all the Denemo commands listed under type of object from Score
 
 \begin_layout Subsubsection*
 LilyPond
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+LilyPond
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2766,6 +2785,29 @@ This covers such things as the type of staff (e.g.
  to be typeset at the start of the staff and more.
 \end_layout
 
+\begin_layout Standard
+For historical reasons, some properties such as part-name are 
+\begin_inset Quotes eld
+\end_inset
+
+built-in
+\begin_inset Quotes erd
+\end_inset
+
+ and have their own dialog to set the values.
+ All are accessed from the Staff Properties Editor
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Staff Properties Editor
+\end_layout
+
+\end_inset
+
+ from this menu.
+\end_layout
+
 \begin_layout Subsubsection*
 The Add Staff Submenu
 \end_layout
@@ -2790,6 +2832,63 @@ Dynamics
  instruments (e.g.
  organ) with the ranges of acceptable notes for the instrument set on the
  staff(s).
+\end_layout
+
+\begin_layout Standard
+Staffs with 
+\begin_inset Quotes eld
+\end_inset
+
+mirrored
+\begin_inset Quotes erd
+\end_inset
+
+ music can also be added.
+ In this case the staff does not have music of its own, instead the music
+ mirrors that in another staff.
+ By setting the part-name
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Part Name
+\end_layout
+
+\end_inset
+
+ on such a staff a greater variety of parts can be printed from one score
+ without needing to create a custom layout
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Score Layout
+\end_layout
+
+\end_inset
+
+ for them.
+ For example, two flute parts can be printed separately and as c ombined
+ (
+\begin_inset Quotes eld
+\end_inset
+
+divisi
+\begin_inset Quotes erd
+\end_inset
+
+) part, using the same music.
+ Any marks etc that need to be handled differently can be made conditional
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Conditional Directive
+\end_layout
+
+\end_inset
+
+ on the part name.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -2849,6 +2948,11 @@ primary voice
  Voices can change their voice number during the music - the commands for
  this are in the Directives->Typesetter->Voices menu as they insert stem
  change objects in between the notes.
+\end_layout
+
+\begin_layout Standard
+As with staffs, voices can be created with no music of their own, simply
+ mirroring music from another staff.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -3479,8 +3583,28 @@ All objects, including Denemo Directives can be inspected and edited via
 \end_layout
 
 \begin_layout Standard
-One general feature is the Conditional Directives which can be used to restrict
- a directive to a particular type of score layout (e.g.
+One general feature is the Conditional Directives
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Conditional Directive
+\end_layout
+
+\end_inset
+
+ which can be used to restrict a directive to a particular type of score
+ layout
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Score Layout
+\end_layout
+
+\end_inset
+
+ (e.g.
  only to be used when printing a part, or a full score).
  This can be used, for example, to prevent a cue being printed on the full
  score (as it is only relevant when printing the part).
@@ -4421,7 +4545,17 @@ PDF
 
 \begin_layout Itemize
 Typeset.
- Offers a menu of score layouts to typeset.
+ Offers a menu of score layouts
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Score Layout
+\end_layout
+
+\end_inset
+
+ to typeset.
  If only one is available (the Default Score Layout) then it typesets that
  one.
 \end_layout
@@ -4767,6 +4901,87 @@ Page or line breaks added by right-clicking on a note at a barline and choosing
  This works because right-click positions the Denemo Cursor at the note
  and then the page or line break command is run just as if you were working
  directly in the Denemo Display.
+\end_layout
+
+\begin_layout Section
+The LilyPond
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+LilyPond
+\end_layout
+
+\end_inset
+
+ View
+\end_layout
+
+\begin_layout Standard
+In this view the music is shown in the form it is sent to the LilyPond music
+ typesetter.
+ The LilyPond typesetter uses a syntax that can be read and written by human
+ hand (the word c'' represents the note middle C for example) so this editor
+ allows editing and navigating the music.
+ 
+\end_layout
+
+\begin_layout Standard
+The lines are all numbered, and the bars always start a new line, with every
+ fifth bar numbered with a comment 
+\begin_inset Quotes eld
+\end_inset
+
+%n
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Directly editable text appears in bold, and additional syntax can be inserted
+ by right-clicking with the mouse.
+ (Equivalent to choosing the 
+\begin_inset Quotes eld
+\end_inset
+
+Insert LilyPond
+\begin_inset Quotes erd
+\end_inset
+
+ menu item).
+\end_layout
+
+\begin_layout Standard
+The first sections are definitions of the music for each staff/voice.
+\end_layout
+
+\begin_layout Standard
+The last section is the 
+\emph on
+score layout
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Score Layout
+\end_layout
+
+\end_inset
+
+
+\emph default
+ which can be a custom one or a default layout (or if continuous typesetting
+ is on, a temporary one).
+ If you want to edit the score layout directly as text then you can click
+ on the Score Layout button here and convert it to a custom layout.
+\end_layout
+
+\begin_layout Standard
+There is also a pane that shows any error messages that LilyPond may issue
+ when typesetting your score.
+ When an error occurs the remainder of the text is marked in red.
+ Using the arrow keys to move around this text, the Denemo cursor in the
+ Denemo Display will follow, using the little gray anchors that appear before
+ each note, rest, chord or other music object.
 \end_layout
 
 \begin_layout Section
@@ -5631,6 +5846,38 @@ Voice
 \end_inset
 
  Properties Editor
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Voice Properties Editor|see 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+Staff Properties Editor
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:The-Staff-and"
@@ -6220,10 +6467,20 @@ This tab affects the sounds you will hear via a connected audio system.
 \end_layout
 
 \begin_layout Standard
-There are settings for controlling the pitch spelling for MIDI in - augmented
- and diminished intervals switch to this channel; if you hear this on an
- interval that was not supposed to be augmented or diminished you are alerted
- that you have the enharmonic range wrongly set for the piece.
+There are settings for controlling the pitch spelling
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Pitch Spelling
+\end_layout
+
+\end_inset
+
+ for MIDI in - augmented and diminished intervals switch to this channel;
+ if you hear this on an interval that was not supposed to be augmented or
+ diminished you are alerted that you have the enharmonic range wrongly set
+ for the piece.
  You can set this to the instrument in use to avoid the effect.
 \end_layout
 
@@ -7188,8 +7445,17 @@ MIDI
 
 .
  Select Input->Midi Input.
- The control panel allows you to choose the enharmonic range, the default
- centers around the initial key signature
+ The control panel allows you to choose the enharmonic range
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Enharmonic Range
+\end_layout
+
+\end_inset
+
+, the default centers around the initial key signature
 \begin_inset Index idx
 status open
 
@@ -7203,6 +7469,15 @@ Key Signature
  E-flat to G-sharp for C-major).
  If you enter a diminished or augmented interval the note will be played
  in a separate MIDI channel which can be used to alert you to pitch-spelling
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Pitch Spelling
+\end_layout
+
+\end_inset
+
  mistakes (e.g.
  entering A-flat when G-sharp was meant, you will get a lot more augmented
  and dimished intervals if you have the enharmonic range set wrongly for
@@ -7239,10 +7514,19 @@ Once you have entered the rhythms for one or more measures you can play
 \end_layout
 
 \begin_layout Standard
-Under Input->MIDI are various "MIDI filters" that allow you to control how
- the MIDI input is used: with none active the behavior is as if you had
- entered the notes using the pc-keyboard, but with the following advantages
- 
+Under Input->MIDI are various "MIDI filters
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+MIDI Filters
+\end_layout
+
+\end_inset
+
+" that allow you to control how the MIDI input is used: with none active
+ the behavior is as if you had entered the notes using the pc-keyboard,
+ but with the following advantages 
 \end_layout
 
 \begin_layout Itemize
@@ -7892,7 +8176,17 @@ reference "sub:Musical-Scores-that-Do-Things"
 \end_layout
 
 \begin_layout Subsection
-Using Templates to Setup Scores
+Using Templates
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Templates
+\end_layout
+
+\end_inset
+
+ to Setup Scores
 \end_layout
 
 \begin_layout Standard
@@ -7923,6 +8217,16 @@ More Features
 
 \begin_layout Subsection
 Transposition
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Transposition
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -8146,6 +8450,16 @@ You will also need spacer rests for voices that are silent, and commands
 
 \begin_layout Subsection
 Entering Figured Bass
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Figured Bass
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -8548,7 +8862,17 @@ Turn off the Record before starting the search and replace, otherwise the
 \end_layout
 
 \begin_layout Subsubsection
-Editing a LilyPond Tweak
+Editing a LilyPond
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+LilyPond
+\end_layout
+
+\end_inset
+
+ Tweak
 \end_layout
 
 \begin_layout Standard
