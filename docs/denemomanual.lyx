@@ -243,6 +243,16 @@ staff
 The term 
 \emph on
 voice
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Voice
+\end_layout
+
+\end_inset
+
+
 \emph default
  is used in two senses: as a line of music moving independently on a staff,
  
@@ -269,6 +279,16 @@ A
 \emph on
 chord
 \emph default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Chord
+\end_layout
+
+\end_inset
+
  is one or more notes of the same duration making a single musical object.
  If the notes are of different durations then they have to be placed in
  separate voices, they can't be a chord, though they may appear so in the
@@ -278,7 +298,17 @@ chord
 \begin_layout Itemize
 A 
 \emph on
-system 
+system
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+System
+\end_layout
+
+\end_inset
+
+ 
 \emph default
 is what might be called a 
 \begin_inset Quotes eld
@@ -295,6 +325,15 @@ line
 \begin_layout Itemize
 
 \emph on
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Markup
+\end_layout
+
+\end_inset
+
 Markup
 \emph default
  is text - e.g.
@@ -655,7 +694,17 @@ B
 \family typewriter
 s
 \family default
-" for start repeat barline and "
+" for start repeat barline
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Barline
+\end_layout
+
+\end_inset
+
+ and "
 \family typewriter
 B
 \family default
@@ -858,8 +907,17 @@ When you have more than one movement numbered buttons appear in the score
 
 \begin_layout Standard
 Within a movement there are staffs (arranged vertically).
- Each Denemo Staff has in turn a Denemo Voice and within the voice are the
- Denemo Objects.
+ Each Denemo Staff has in turn a Denemo Voice
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Voice
+\end_layout
+
+\end_inset
+
+ and within the voice are the Denemo Objects.
  These can be notes, chords, key changes, time signature changes, voice
  change objects and Denemo Directive objects (see 
 \begin_inset CommandInset ref
@@ -946,8 +1004,8 @@ reference "sec:The-Staff-and"
 \begin_layout Standard
 If there is more than one voice on a staff it is best displayed on a separate
  staff in the Denemo Display, for ease of editing - the clef is drawn pale
- and there is no timesignature for such extra voices so it is easy to understand
- what is going on.
+ and there is no time signature for such extra voices so it is easy to understan
+d what is going on.
  The Print Preview window as usual shows the final typeset appearance.
  The clef in this case only affects the display, and any time signature
  or key signature set on it would also only affect the display.
@@ -1071,6 +1129,16 @@ You can hide staffs in the display if needed using the Staffs->Display Effects
 
 \begin_layout Subsection
 The Denemo Display
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Denemo Display
+\end_layout
+
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1243,9 +1311,28 @@ Use the
 File
 \series default
  menu to perform global operations related to storing and retrieving from
- file systems, importing from MusicXML, MIDI, and LilyPond formats, printing
- full score or parts, exporting to MIDI, Ogg, Wav, LilyPond (parts or score),
- PDF and Png formats.
+ file systems, importing from MusicXML
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+MusicXML
+\end_layout
+
+\end_inset
+
+, MIDI, and LilyPond
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+LilyPond
+\end_layout
+
+\end_inset
+
+ formats, printing full score or parts, exporting to MIDI, Ogg, Wav, LilyPond
+ (parts or score), PDF and Png formats.
  This is also where you open PDF files containing source material - e.g.
  manuscripts - that you wish to transcribe or proof-reading comments you
  wish to incorporate in your score.
@@ -1283,8 +1370,17 @@ The Open command (Ctrl-o) opens a Denemo file for editing.
 \end_layout
 
 \begin_layout Standard
-Open Proof Read PDF is for adding proof reading annotations into your score,
- see section 
+Open Proof Read PDF
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+PDF
+\end_layout
+
+\end_inset
+
+ is for adding proof reading annotations into your score, see section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Using-a-Proof-Read"
@@ -1358,8 +1454,17 @@ Bookmarks
 \end_layout
 
 \begin_layout Standard
-The commands cover finding the next/previous bookmark and moving to a bookmark
- by name.
+The commands cover finding the next/previous bookmark
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Bookmark
+\end_layout
+
+\end_inset
+
+ and moving to a bookmark by name.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -1369,7 +1474,17 @@ Cursor
 \begin_layout Standard
 This includes moving the cursor by measure, staff, and within a chord.
  There are moves that skip staffs that are hidden in the display and ones
- that skip over voices on a staff to move to the next staff.
+ that skip over staffs that are voice
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Voice
+\end_layout
+
+\end_inset
+
+s to move to the next primary staff.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -1473,7 +1588,17 @@ Hide/Show Menus
 \end_layout
 
 \begin_layout Standard
-Three ways of showing the Denemo display area are supported.
+Three ways of showing the Denemo display
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Denemo Display
+\end_layout
+
+\end_inset
+
+ area are supported.
  With/without the menus and as a multiline page (actually, any page can
  be a multi-line page, but usually the third one is chosen for this).
  This command cycles through the three displays - usually the Escape key
@@ -1634,7 +1759,17 @@ Score
 \end_layout
 
 \begin_layout Standard
-This hides/shows the main Denemo display.
+This hides/shows the main Denemo display
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Denemo Display
+\end_layout
+
+\end_inset
+
+ .
  This is probably useless for most people, but might help a very old slow
  machine playback smoothly.
 \end_layout
@@ -1675,6 +1810,16 @@ reference "sec:Palettes"
 
 \begin_layout Subsubsection*
 Display Zoom
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Denemo Display
+\end_layout
+
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Standard
@@ -2192,8 +2337,17 @@ The Mute Staffs button allows you to select groups of staffs to play, muting
 \end_layout
 
 \begin_layout Standard
-Always Full Volume if checked means that the dynamics in the piece are ignored
- - good for checking note pitches are correct.
+Always Full Volume if checked means that the dynamics
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Dynamics
+\end_layout
+
+\end_inset
+
+ in the piece are ignored - good for checking note pitches are correct.
 \end_layout
 
 \begin_layout Standard
@@ -2204,8 +2358,18 @@ Playing of sections of the music and looping is possible (including editing
 \end_layout
 
 \begin_layout Standard
-The master tempo and volume can be set, which will be overridden by tempo
- and dynamics placed in the music.
+The master tempo
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Tempo
+\end_layout
+
+\end_inset
+
+ and volume can be set, which will be overridden by tempo and dynamics placed
+ in the music.
 \end_layout
 
 \begin_layout Standard
@@ -2245,6 +2409,16 @@ All these commands can be used in conjunction with the Playback View window,
 
 \begin_layout Subsection
 Midi In Controls
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+MIDI Input
+\end_layout
+
+\end_inset
+
+ 
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Midi-In-Controls"
@@ -2265,8 +2439,8 @@ name "sub:Midi-In-Controls"
 
 \begin_layout Standard
 These are the controls for a MIDI keyboard attached to the computer.
- You should set the MIDI Input Device to your device in the Preferences
- to be sure all features are working.
+ You should set the MIDI InputDevice to your device in the Preferences to
+ be sure all features are working.
 \end_layout
 
 \begin_layout Standard
@@ -2401,7 +2575,17 @@ Score and Movement Properties Editor, open on the Score Editor pane.
 \end_layout
 
 \begin_layout Subsubsection*
-Titles Submenu
+Titles
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Titles
+\end_layout
+
+\end_inset
+
+ Submenu
 \end_layout
 
 \begin_layout Standard
@@ -2448,15 +2632,24 @@ Typesetter Submenu
 
 \begin_layout Standard
 Here such things as the overall font size to typeset the score, the rules
- for spacing system, any global transposition, control of page numbering
- etc can be set.
+ for spacing systems and titles, any global transposition, control of page
+ numbering, margins etc can be set.
 \end_layout
 
 \begin_layout Standard
-The beaming rules can be set both in general (invoke Set Beaming Rules without
- a selection) or with exceptions (by invoking with a selection that has
- been beamed manually using the [ and ] commands from the Notes/Rests->Beaming
- menu).
+The beaming
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Beaming
+\end_layout
+
+\end_inset
+
+ rules can be set both in general (invoke Set Beaming Rules without a selection)
+ or with exceptions (by invoking with a selection that has been beamed manually
+ using the [ and ] commands from the Notes/Rests->Beaming menu).
  Use this latter to break up very short notes, for example, that would otherwise
  be beamed together while leaving the longer durations as normal.
 \end_layout
@@ -2467,10 +2660,39 @@ Movements Menu
 
 \begin_layout Standard
 As with the Score Menu there may be Denemo Directives attached to the movement
- - e.g titles to be placed at the head of the movement will have a Denemo
- Directive associated with them.
+ - e.g titles
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Titles
+\end_layout
+
+\end_inset
+
+ to be placed at the head of the movement will have a Denemo Directive associate
+d with them.
  Other controls that can be applied on a per-movement basis include the
- barline and notehead style, printing of a custos at line ends, the indent
+ barline
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Barline
+\end_layout
+
+\end_inset
+
+ and notehead style, printing of a custos at line ends, the indent
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Indent
+\end_layout
+
+\end_inset
+
  before the first system (which can also be set on the score-wide basis).
 \end_layout
 
@@ -2514,6 +2736,15 @@ movement
 \end_layout
 
 \begin_layout Subsubsection
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Staff
+\end_layout
+
+\end_inset
+
 Staff/Voices Menu
 \end_layout
 
@@ -2541,8 +2772,17 @@ The Add Staff Submenu
 
 \begin_layout Standard
 This allows adding staffs to the current movement.
- Piano staffs can be added as well as specialized sorts of staff for dynamics,
- marks (so that they appear once for all layouts), and coulés (diagonal
+ Piano staffs can be added as well as specialized sorts of staff for dynamics
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Dynamics
+\end_layout
+
+\end_inset
+
+, marks (so that they appear once for all layouts), and coulés (diagonal
  lines positioned between thirds in some music).
  The Add Structured Staff command duplicates the current staff with regard
  to measures and time signature changes, ready for the insertion of music.
@@ -2553,7 +2793,17 @@ This allows adding staffs to the current movement.
 \end_layout
 
 \begin_layout Subsubsection*
-The Voices Submenu
+The Voices
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Voice
+\end_layout
+
+\end_inset
+
+ Submenu
 \end_layout
 
 \begin_layout Standard
@@ -2564,9 +2814,27 @@ Voices
  in Denemo are like staffs but are typeset on the preceding staff to achieve
  single-staff polyphony.
  The Denemo Display is normally set to display any extra voices on a separate
- staff so as to make it easy to work with - the voices have their clef displayed
- in yellow and do not show a key signature as these are supplied by the
- main staff (or 
+ staff so as to make it easy to work with - the voices have their clef
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Clef
+\end_layout
+
+\end_inset
+
+ displayed in yellow and do not show a key signature
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Key Signature
+\end_layout
+
+\end_inset
+
+ as these are supplied by the main staff (or 
 \begin_inset Quotes eld
 \end_inset
 
@@ -2584,7 +2852,17 @@ primary voice
 \end_layout
 
 \begin_layout Subsubsection*
-The Display Effects Submenu
+The Display
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Denemo Display
+\end_layout
+
+\end_inset
+
+ Effects Submenu
 \end_layout
 
 \begin_layout Standard
@@ -2602,6 +2880,16 @@ You can also give more/less room in the display to the staffs.
 
 \begin_layout Subsubsection*
 The Staff Groupings (Braces) Submenu
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Braces
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2612,7 +2900,17 @@ The braces at the start of each system are controlled from here.
 \end_layout
 
 \begin_layout Subsubsection
-Clefs Menu
+Clefs
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Clef
+\end_layout
+
+\end_inset
+
+ Menu
 \end_layout
 
 \begin_layout Standard
@@ -2625,14 +2923,33 @@ All sorts of clefs can be selected - the Set Initial and Clef Change commands
 \end_layout
 
 \begin_layout Standard
-Typeset-only and Display-only clefs enable you to work with a voice which
- is being typeset on a different staff, while keeping the music in the staff
- you wish to see it in or for entering music in a familiar staff which is
- to be typeset in an unfamiliar one.
+Typeset-only and Display-only clefs enable you to work with a voice
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Voice
+\end_layout
+
+\end_inset
+
+ which is being typeset on a different staff, while keeping the music in
+ the staff you wish to see it in or for entering music in a familiar staff
+ which is to be typeset in an unfamiliar one.
 \end_layout
 
 \begin_layout Subsubsection
 Keys Menu
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Key Signature
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2643,25 +2960,134 @@ Setting the initial key or a key signature change or to sharpen or flatten
 \end_layout
 
 \begin_layout Subsubsection
-Time Signatures Menu
+Time Signature
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Time Signature
+\end_layout
+
+\end_inset
+
+s Menu
 \end_layout
 
 \begin_layout Standard
 Besides basic time signatures various variants (numeric, single digit ...)
  are here.
- There is also beaming control applying just to the current passage (for
- beaming rules for the whole score see the Score->Typesetter menu or for
- the whole movement Movement->Typesetter menu).
+ There is also beaming
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Beaming
+\end_layout
+
+\end_inset
+
+ control applying just to the current passage (for beaming rules for the
+ whole score see the Score->Typesetter menu or for the whole movement Movement->
+Typesetter menu).
+\end_layout
+
+\begin_layout Standard
+Cadenza Time allows un-metered music to by typeset conveniently.
+ While in Cadenza Time no barlines except ones you explicitly place are
+ typeset, and no beaming is done except where you explicitly set beaming
+ indications.
+ You can use as many Denemo 
+\begin_inset Quotes eld
+\end_inset
+
+bars
+\begin_inset Quotes erd
+\end_inset
+
+ as you find convenient - they will not cause barlines to be typeset.
+ Other parts have to be given Cadenza Time too, and filled with non-printing
+ rests to match the duration of the music being typeset.
 \end_layout
 
 \begin_layout Subsubsection
-Measures Menu
+Measures
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Measure 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Bar|see
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+Measure
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ Menu
 \end_layout
 
 \begin_layout Standard
 Besides commands to insert/delete/navigate/merge/split measures (in one
- or all staffs) this menu includes commands to set an upbeat (anacrusis,
- pickup) measure at the start, or a short measure (e.g.
+ or all staffs) this menu includes commands to set an upbeat
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Upbeat
+\end_layout
+
+\end_inset
+
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Anacrusis
+\end_layout
+
+\end_inset
+
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Pickup
+\end_layout
+
+\end_inset
+
+ (anacrusis, pickup) measure at the start, or a short measure (e.g.
  during partial first & second time bars).
  First and second time bars markers themselves are to be found in the Directives
 ->Markings->Spanning menu.
@@ -2673,7 +3099,17 @@ The whole measure repeat sign is here and some commands to check the measure
 \end_layout
 
 \begin_layout Subsubsection
-Chords Menu
+Chords
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Chord
+\end_layout
+
+\end_inset
+
+ Menu
 \end_layout
 
 \begin_layout Standard
@@ -2683,23 +3119,114 @@ Here are commands to add notes to a chord either at the cursor, by note
 \end_layout
 
 \begin_layout Subsubsection
-Notes/Rests 
+Note
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Note
+\end_layout
+
+\end_inset
+
+s/Rests 
 \end_layout
 
 \begin_layout Standard
 This covers inserting, deleting and modifying notes in pitch, duration and
  appearance and all sorts of things that are attached to note objects such
- as slurs, phrasing slurs, ties, beaming controls, ornaments (trill, turn
- ...), grace notes, articulations (staccato, tenuto ...), fingerings, textual
- markings, cresc.
+ as slurs
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Slurs
+\end_layout
+
+\end_inset
+
+, phrasing slurs, ties
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Ties
+\end_layout
+
+\end_inset
+
+, beaming
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Beaming
+\end_layout
+
+\end_inset
+
+ controls, ornaments
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Ornaments
+\end_layout
+
+\end_inset
+
+ (trill, turn ...), grace notes, articulations (staccato, tenuto ...), fingerings,
+ textual markings, cresc.
  and dim.
  (both hairpins and extended cresc.
- --- poco --- a --- poco style) chord symbols (
+ --- poco --- a --- poco style) chord symbols
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Chord Symbols
+\end_layout
+
+\end_inset
+
+ (
 \begin_inset Quotes eld
 \end_inset
 
 fakechords
 \begin_inset Quotes erd
+\end_inset
+
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Fakechords|see
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+Chord Symbols
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \end_inset
 
 ), figured bass.
@@ -2734,6 +3261,16 @@ ous objects category.
 
 \begin_layout Subsubsection*
 The Append/Edit Note Submenu
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Notes
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2775,7 +3312,17 @@ Sharpen Next Note
 \end_layout
 
 \begin_layout Subsubsection*
-The Append/Insert Duration Submenu
+The Append/Insert Duration
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Duration
+\end_layout
+
+\end_inset
+
+ Submenu
 \end_layout
 
 \begin_layout Standard
@@ -2801,8 +3348,17 @@ The Edit Duration Submenu
 \end_layout
 
 \begin_layout Standard
-Here are the commands for changing the duration of the note/rest/chord at
- the cursor as well as doubling or dividing the note at the cursor.
+Here are the commands for changing the duration of the note/rest/chord
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Chord
+\end_layout
+
+\end_inset
+
+ at the cursor as well as doubling or dividing the note at the cursor.
 \end_layout
 
 \begin_layout Standard
@@ -2815,14 +3371,53 @@ Besides commands for dotting notes there are commands for turning the note
 
 \begin_layout Subsubsection*
 The Rest Insertion Submenu
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Rests
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 Besides inserting rests (Alt-0 etc) you can insert non-printing rests (where
- voices are silent) and move rests out of the way in polyphonic situations
- where LilyPond doesn't do what you want.
- Whole measure rests and multi-measure rests are here too with control over
- their numbering.
+ voice
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Voice
+\end_layout
+
+\end_inset
+
+s are silent) and move rests out of the way in polyphonic situations where
+ LilyPond doesn't do what you want.
+ Whole measure rest
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Whole Measure Rest
+\end_layout
+
+\end_inset
+
+s and multi-measure rest
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Multi-Measure Rest
+\end_layout
+
+\end_inset
+
+s are here too with control over their numbering.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -2838,6 +3433,16 @@ The commands to explicitly set the prevailing duration are here (though
 
 \begin_layout Subsubsection
 Directives
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Directives
+\end_layout
+
+\end_inset
+
+
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Directives"
@@ -2854,7 +3459,17 @@ standalone
 \emph default
  Denemo Directives.
  The most useful for regular music notation are barlines, dynamic markings,
- tempo marks, rehearsal marks etc in the Markings submenu.
+ tempo
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Tempo
+\end_layout
+
+\end_inset
+
+ marks, rehearsal marks etc in the Markings submenu.
  There is an enormous collection of stuff here though.
 \end_layout
 
@@ -2889,7 +3504,17 @@ reference "sec:Denemo-Directives"
 \end_layout
 
 \begin_layout Subsubsection
-Lyrics 
+Lyrics
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Lyrics
+\end_layout
+
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Standard
@@ -2930,8 +3555,20 @@ Stanza numbers can be entered as well as font-changing commands.
  Use 
 \family typewriter
 Melismata
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Melismata
+\end_layout
+
+\end_inset
+
+
 \family default
  command to extend syllables over more notes.
+ A selection of notes that have no lyrics can be skipped using the Skip
+ Syllables in Selection command.
  The lyrics menu also contains a command 
 \begin_inset Quotes eld
 \end_inset
@@ -2958,6 +3595,16 @@ This has been moved to the Edit Menu.
 
 \begin_layout Section
 Palettes
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Palettes
+\end_layout
+
+\end_inset
+
+
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Palettes"
@@ -2975,7 +3622,7 @@ Palettes are collections of commands arranged as a column, row or grid of
 
 \begin_layout Standard
 The buttons are not just for mouse users - palette buttons can be executed
- by clicking with the mouse or typing 
+ by typing 
 \family typewriter
 p
 \family default
@@ -3081,7 +3728,17 @@ Changes you make to palettes are automatically saved when you end the session.
 \end_layout
 
 \begin_layout Subsection
-Articulations Palette
+Articulations
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Articulations
+\end_layout
+
+\end_inset
+
+ Palette
 \end_layout
 
 \begin_layout Standard
@@ -3108,7 +3765,17 @@ reference "sub:The-Command-Tab"
 \end_layout
 
 \begin_layout Subsection
-Barlines Palette
+Barline
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Barline
+\end_layout
+
+\end_inset
+
+s Palette
 \end_layout
 
 \begin_layout Standard
@@ -3128,7 +3795,17 @@ These insert barlines - note only one barline can be at one moment in the
 \end_layout
 
 \begin_layout Subsection
-Beaming Palette
+Beaming
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Beaming
+\end_layout
+
+\end_inset
+
+ Palette
 \end_layout
 
 \begin_layout Standard
@@ -3146,7 +3823,17 @@ The ? button gives the overview for this palette.
 \end_layout
 
 \begin_layout Subsection
-Chord Symbols Palette
+Chord Symbols
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Chord Symbols
+\end_layout
+
+\end_inset
+
+ Palette
 \end_layout
 
 \begin_layout Standard
@@ -3163,7 +3850,17 @@ The ? button gives the overview for this palette.
 \end_layout
 
 \begin_layout Subsection
-Custom Ornaments Palette
+Custom Ornaments
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Custom Ornaments
+\end_layout
+
+\end_inset
+
+ Palette
 \end_layout
 
 \begin_layout Standard
@@ -3185,7 +3882,17 @@ Custom ornaments can be created as encapsulated postscript files using the
 \end_layout
 
 \begin_layout Subsection
-Dynamics Palette
+Dynamics
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Dynamics
+\end_layout
+
+\end_inset
+
+ Palette
 \end_layout
 
 \begin_layout Standard
@@ -3204,7 +3911,17 @@ endi - texts such as poco a poco can be inserted and the - - - can finish
 \end_layout
 
 \begin_layout Subsection
-Figured Bass Palette
+Figured Bass
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Figured Bass
+\end_layout
+
+\end_inset
+
+ Palette
 \end_layout
 
 \begin_layout Standard
@@ -3235,7 +3952,17 @@ This palette is for guided MIDI import.
 \end_layout
 
 \begin_layout Subsection
-Ornaments Palette
+Ornaments
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Ornaments
+\end_layout
+
+\end_inset
+
+ Palette
 \end_layout
 
 \begin_layout Standard
@@ -3265,7 +3992,17 @@ Piano/Organ Notation Palette
 \end_layout
 
 \begin_layout Subsection
-Polyphony Palette
+Polyphony
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Polyphony
+\end_layout
+
+\end_inset
+
+ Palette
 \end_layout
 
 \begin_layout Standard
@@ -3278,14 +4015,33 @@ Polyphony Palette
 \end_layout
 
 \begin_layout Standard
-These are the commands to control separate voices that appear on a single
- staff.
+These are the commands to control separate voice
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Voice
+\end_layout
+
+\end_inset
+
+s that appear on a single staff.
  The voices are best displayed on separate staffs in the Denemo display
  to ease the editing.
 \end_layout
 
 \begin_layout Subsection
-Repeats Palette
+Repeats
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Repeats
+\end_layout
+
+\end_inset
+
+ Palette
 \end_layout
 
 \begin_layout Standard
@@ -3317,12 +4073,32 @@ Stringed Instruments Palette
 \end_layout
 
 \begin_layout Standard
-Here are commands for fingerings, string numbers etc.
+Here are commands for fingerings
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Fingerings
+\end_layout
+
+\end_inset
+
+, string numbers etc.
  These are attached to individual notes (place the cursor on the note).
 \end_layout
 
 \begin_layout Subsection
 Tied Notes/Chords Palette
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Ties
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3335,8 +4111,18 @@ Tied Notes/Chords Palette
 \end_layout
 
 \begin_layout Standard
-Commands to insert ties on chords and individual notes, and to control their
- shape and direction are here.
+Commands to insert ties
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Ties
+\end_layout
+
+\end_inset
+
+ on chords and individual notes, and to control their shape and direction
+ are here.
 \end_layout
 
 \begin_layout Standard
@@ -3351,6 +4137,16 @@ name "sub:The-Command-Center"
 \end_inset
 
 The Command Center
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Command Center
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3383,8 +4179,18 @@ Fuzzy
 \end_layout
 
 \begin_layout Standard
-The search starts as you type in the first letter of any key words you want,
- so check after each letter to see if you have found the command you need.
+The search
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Search Commands
+\end_layout
+
+\end_inset
+
+ starts as you type in the first letter of any key words you want, so check
+ after each letter to see if you have found the command you need.
  To search for further commands matching your keywords press the arrow next
  to the search box.
  
@@ -3426,6 +4232,16 @@ In addition you can save and load whole sets of shortcuts and commands.
 
 \begin_layout Section
 Music Snippets
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Music Snippets
+\end_layout
+
+\end_inset
+
+
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Music-Snippets"
@@ -3542,6 +4358,16 @@ Shift-Space
 
 \begin_layout Section
 The Print View Window
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Print View
+\end_layout
+
+\end_inset
+
+
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:The-Print-View"
@@ -3580,7 +4406,17 @@ Print starts your system's print dialog to send the typeset score to a printer
 \end_layout
 
 \begin_layout Itemize
-PDF to generate a PDF document from the score.
+PDF
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+PDF
+\end_layout
+
+\end_inset
+
+ to generate a PDF document from the score.
 \end_layout
 
 \begin_layout Itemize
@@ -3674,7 +4510,17 @@ Next, Previous.
 \end_layout
 
 \begin_layout Subsection
-Mouse Controls
+Mouse
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Mouse
+\end_layout
+
+\end_inset
+
+ Controls
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Mouse-Controls"
@@ -3709,6 +4555,16 @@ Right clicking in a blank area of the typeset view (normal cursor) gives
 
 \begin_layout Subsection
 Editing in the Print View - WYSIWYG
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+WYSIWYG
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3747,9 +4603,29 @@ Once you have located the note you wish to edit you can press the keyboard
 
 \begin_layout Standard
 The navigation using shift-click in the Print View works for noteheads,
- slurs, ties and various marks - some other things such as lyrics can't
- be used to navigate - choose the note that the lyrics underlie to find
- the right place in the Denemo Display.
+ slurs
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Slurs
+\end_layout
+
+\end_inset
+
+, ties
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Ties
+\end_layout
+
+\end_inset
+
+ and various marks - some other things such as lyrics can't be used to navigate
+ - choose the note that the lyrics underlie to find the right place in the
+ Denemo Display.
 \end_layout
 
 \begin_layout Standard
@@ -3812,11 +4688,41 @@ You can also select an amount of padding to apply to some objects so that
 \end_layout
 
 \begin_layout Subsubsection
-Re-shaping Slurs and Ties
+Re-shaping Slurs
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Slurs
+\end_layout
+
+\end_inset
+
+ and Ties
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Ties
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Slurs and beaming can also be altered here.
+Slurs and beaming
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Beaming
+\end_layout
+
+\end_inset
+
+ can also be altered here.
  When you right-click on a slur or tie the Denemo Cursor moves to the note
  where the slur starts and you are offered the chance to edit the shape
  of the curve.
@@ -3865,6 +4771,16 @@ Page or line breaks added by right-clicking on a note at a barline and choosing
 
 \begin_layout Section
 The Playback View
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Playback View
+\end_layout
+
+\end_inset
+
+
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:The-Playback-View"
@@ -3879,7 +4795,7 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-This is a fully typeset view with full-featured MIDI playback.
+This is a fully typeset view with (more) full-featured MIDI playback.
  The music is typeset on one long page against a yellow background and scrolls
  up as it plays.
  As a bonus, a single part can be typeset in this view with the whole accompanim
@@ -4084,8 +5000,17 @@ height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
-Note: Tempo changes must have a metronome mark to take effect in the Playback
- View.
+Note: Tempo
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Tempo
+\end_layout
+
+\end_inset
+
+ changes must have a metronome mark to take effect in the Playback View.
  Repeat them in the part if you are just typesetting the part.
 \end_layout
 
@@ -4146,6 +5071,16 @@ Note: LilyPond Version 2.19.x is needed for some MIDI features (e.g.
 
 \begin_layout Section
 The Object Inspector
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Object Inspector
+\end_layout
+
+\end_inset
+
+
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:The-Object-Inspector"
@@ -4255,7 +5190,17 @@ Use the window controls on the Object Inspector's title bar to dismiss the
 \end_layout
 
 \begin_layout Section
+The Object Editor
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
 Object Editor
+\end_layout
+
+\end_inset
+
+
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Object-Editor"
@@ -4312,6 +5257,16 @@ As with the Object Inspector the Object Editor is sensitive to the cursor
 \end_inset
 
 Next note in chord
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Chord
+\end_layout
+
+\end_inset
+
+
 \begin_inset Quotes erd
 \end_inset
 
@@ -4354,7 +5309,49 @@ Below this is a row of buttons - the first will delete the Denemo Directive,
 \end_layout
 
 \begin_layout Subsubsection
-Seeking, Editing and Conditionals
+Seeking
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Seek
+\end_layout
+
+\end_inset
+
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Search Objects| see
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+Seek
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+, Editing and Conditionals
 \end_layout
 
 \begin_layout Standard
@@ -4372,6 +5369,16 @@ Next
 \end_inset
 
 Conditional
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Conditional Directive
+\end_layout
+
+\end_inset
+
+
 \begin_inset Quotes erd
 \end_inset
 
@@ -4503,7 +5510,17 @@ This button is particularly useful for things like your copyright notice
 \end_layout
 
 \begin_layout Section
-The Score and Movement Properties Editor
+The Score and Movement
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Movement
+\end_layout
+
+\end_inset
+
+ Properties Editor
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:The-Score-and"
@@ -4593,7 +5610,27 @@ modal.
 \end_layout
 
 \begin_layout Section
-The Staff and Voice Properties Editor
+The Staff
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Staff
+\end_layout
+
+\end_inset
+
+ and Voice
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Voice
+\end_layout
+
+\end_inset
+
+ Properties Editor
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:The-Staff-and"
@@ -4646,8 +5683,37 @@ The built-in staff properties can be edited using the next button - this
 \end_layout
 
 \begin_layout Standard
-There are also buttons to inspect/alter the initial clef, time signature
- and key.
+There are also buttons to inspect/alter the initial clef
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Clef
+\end_layout
+
+\end_inset
+
+, time signature
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Time Signature
+\end_layout
+
+\end_inset
+
+ and key signature
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Key Signature
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -4729,7 +5795,17 @@ modal.
 \end_layout
 
 \begin_layout Section
-The Score Layouts Window
+The Score Layouts
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Score Layout
+\end_layout
+
+\end_inset
+
+ Window
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:The-Score-Layouts"
@@ -4809,7 +5885,17 @@ Append Current Staff
 
 \begin_layout Standard
 As well as appending staffs you can substitute the music for any specific
- voice by clicking on the 
+ voice
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Voice
+\end_layout
+
+\end_inset
+
+ by clicking on the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -4863,7 +5949,17 @@ The score layout can only be edited graphically when first created.
 \end_layout
 
 \begin_layout Section
-Preferences Dialog
+Preferences
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Preferences
+\end_layout
+
+\end_inset
+
+ Dialog
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Preferences-Dialog"
@@ -5081,7 +6177,17 @@ The Autosave options guard against a power failure while you are working
 \end_layout
 
 \begin_layout Subsection
-The Audio Tab
+The Audio
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Audio
+\end_layout
+
+\end_inset
+
+ Tab
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:The-Audio-Tab"
@@ -5166,7 +6272,17 @@ reference "sub:Playback-Controls"
 \end_layout
 
 \begin_layout Subsection
-The MIDI tab
+The MIDI
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+MIDI
+\end_layout
+
+\end_inset
+
+ tab
 \end_layout
 
 \begin_layout Standard
@@ -5180,8 +6296,17 @@ The MIDI tab
 \end_layout
 
 \begin_layout Standard
-Here are the controls for a connected MIDI controller (usually a keyboard
- nowadays).
+Here are the controls for a connected MIDI controller
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+MIDI Controller
+\end_layout
+
+\end_inset
+
+ (usually a keyboard nowadays).
  With Rhythm Entry checked you can type in unpitched rhythms and immediately
  fill them in from the MIDI keyboard
 \begin_inset CommandInset ref
@@ -5236,6 +6361,16 @@ itles etc and other menus.
 
 \begin_layout Section
 Style, Layout, Titling
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Titles
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5259,6 +6394,15 @@ es.
 \begin_layout Standard
 Notehead style for the whole score is here (see the Notes/Rests->Notehead
  menu for individual notes) and a command for creating a custom barline
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Barline
+\end_layout
+
+\end_inset
+
  style which can then be used in the score.
  
 \end_layout
@@ -5398,6 +6542,16 @@ In this section the commands available for the various musical elements
 
 \begin_layout Subsection
 Beaming
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Beaming
+\end_layout
+
+\end_inset
+
+
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Beaming"
@@ -5450,6 +6604,16 @@ er->Start Beaming to insert a directive re-starting automatic beaming at
 
 \begin_layout Subsection
 Barlines
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Barline
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5481,7 +6645,17 @@ chunks
 \end_inset
 
 .
- Normally, of course, you will use one chunk per measure so they 
+ Normally, of course, you will use one chunk per measure
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Measure
+\end_layout
+
+\end_inset
+
+ so they 
 \emph on
 will
 \emph default
@@ -5513,7 +6687,27 @@ One curious consequence of this is what happens if you contrive to input
 \end_layout
 
 \begin_layout Subsection
-Ties and Slurs
+Ties
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Ties
+\end_layout
+
+\end_inset
+
+ and Slurs
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Slurs
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5578,6 +6772,38 @@ Phrasing slurs are slurs over the top of ordinary slurs, used in Romantic
 
 \begin_layout Subsection
 Triplets and Friends
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Triplets|see
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+Tuplets
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5586,6 +6812,16 @@ Collectively called
 \end_inset
 
 tuplets
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Tuplets
+\end_layout
+
+\end_inset
+
+
 \begin_inset Quotes erd
 \end_inset
 
@@ -5613,13 +6849,31 @@ There are specific commands for the more common tuplets, and arbitrary tuplets
 
 \begin_layout Subsection
 Grace Notes
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Grace Notes
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 Both appogiature and acciacature are supported, as well as inserting pairs
  of beamed grace notes (other amounts of grace notes should be manually
- beamed see the section on beaming ).
- Grace notes are ignored in the playback.
+ beamed see the section on beaming
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Beaming"
+
+\end_inset
+
+ ).
+ Grace notes are ignored in the simple playback, use the playback view to
+ hear them.
 \end_layout
 
 \begin_layout Standard
@@ -5668,6 +6922,16 @@ grace note hints
 
 \begin_layout Subsection
 Ornaments
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Ornaments
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5682,6 +6946,16 @@ Notes/Rests->Markings->Ornaments for ornaments attached to notes/chords.
 
 \begin_layout Subsection
 Dynamics
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Dynamics
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5724,7 +6998,17 @@ Sometimes, all parts have the same dynamics.
 \end_layout
 
 \begin_layout Subsection
-Tempo Markings
+Tempo
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Tempo
+\end_layout
+
+\end_inset
+
+ Markings
 \end_layout
 
 \begin_layout Standard
@@ -5735,6 +7019,16 @@ Directives->Markings->Tempi and Metronome Marks allows insertion of a tempo
 
 \begin_layout Subsection
 Text
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Text
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -5809,8 +7103,17 @@ Rehearsal Marks
 
 \begin_layout Standard
 The Directives->Markings subdirectory also holds the Rehearsal Marks commands.
- These can be custom text or default, and can be used as bookmarks for navigatio
-n.
+ These can be custom text or default, and can be used as bookmark
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Bookmark
+\end_layout
+
+\end_inset
+
+s for navigation.
 \end_layout
 
 \begin_layout Section
@@ -5873,10 +7176,30 @@ name "sub:Playing-Notes-into"
 \end_layout
 
 \begin_layout Standard
-Denemo can take pitches directly from MIDI input.
+Denemo can take pitches directly from MIDI input
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+MIDI
+\end_layout
+
+\end_inset
+
+.
  Select Input->Midi Input.
  The control panel allows you to choose the enharmonic range, the default
- centers around the initial key signature (e.g.
+ centers around the initial key signature
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Key Signature
+\end_layout
+
+\end_inset
+
+ (e.g.
  E-flat to G-sharp for C-major).
  If you enter a diminished or augmented interval the note will be played
  in a separate MIDI channel which can be used to alert you to pitch-spelling
@@ -5968,6 +7291,16 @@ The problem of entering the wrong enharmonic is largely avoided by Denemo's
 
 \begin_layout Subsubsection
 The Numeric Keypad
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Numeric Keypad
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -6011,9 +7344,19 @@ dottifies
  the tie key turns tied status off/on for the current note.
  Keypad 8 fills the rest of the bar with the current note or rest, while
  Enter duplicates the current bar.
- The enharmonic shifts can be pressed repeatedly to shift the set of accidentals
- to be used sharp-wise of flat-wise, subsequent notes played in will be
- taken from the new set, which is indicated on the status bar.
+ The enharmonic shifts
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Enharmonic Range
+\end_layout
+
+\end_inset
+
+ can be pressed repeatedly to shift the set of accidentals to be used sharp-wise
+ of flat-wise, subsequent notes played in will be taken from the new set,
+ which is indicated on the status bar.
  The duration keys, triplet key and dottify key can all be used with the
  Control modifier to slur from the previous note.
 \end_layout
@@ -6355,9 +7698,18 @@ name "sec:Transcribing-from-Facsimile"
 \end_layout
 
 \begin_layout Standard
-If you have a PDF of music you wish to transcribe with Denemo you can display
- it within Denemo and create links between the source material and your
- transcrition.
+If you have a PDF
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+PDF
+\end_layout
+
+\end_inset
+
+ of music you wish to transcribe with Denemo you can display it within Denemo
+ and create links between the source material and your transcrition.
  This means that when you later review your work you can quickly locate
  which point in the original manuscript belongs to which point in your transcrip
 tion.
@@ -6444,8 +7796,18 @@ name "sec:Using-a-Proof-Read"
 \end_layout
 
 \begin_layout Standard
-If you send the PDF output of your score to someone to proof-read they can
- make PDF annotations to it.
+If you send the PDF
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+PDF
+\end_layout
+
+\end_inset
+
+ output of your score to someone to proof-read they can make PDF annotations
+ to it.
  In the File->Open menu choose Open Proof Read PDF to open a proof-read
  PDF.
  It will open at the first annotation, and, by clicking on the note the
@@ -6676,6 +8038,16 @@ Replace
 \end_inset
 
 
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Seek
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -6702,13 +8074,19 @@ reference "sub:Recording-a-Denemo"
 \end_layout
 
 \begin_layout Standard
-The second sort of seach is in the Edit menu.
+The second sort of search is in the Edit menu (and also available from the
+ Object Editor).
  Ctrl-e,e starts a search for objects of the type that the cursor is on,
  while Ctrl-e, Ctrl-e offers all the types of object in the movement and
  allows you to select which to search for.
  Ctrl-e,r resumes the search.
  When found the object can be manually edited, deleted or modified using
  recorded commands as described above.
+ The search order is column-wise, that is everything at the same musical
+ moment is searched and then the next musical moment is searched from the
+ top staff downwards.
+ When the end of movement is reached you can wrap to the start of the movement
+ or move to the next movement or wrap round to the first movement.
 \end_layout
 
 \begin_layout Subsection
@@ -6728,11 +8106,30 @@ A piano staff can be added using the Staff->Add Staff menu (or by adding
 
 \begin_layout Subsection
 Single Staff Polyphony
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Polyphony
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Use the Staffs/Voices->Voices menu for placing more than one voice on a
- staff.
+Use the Staffs/Voice
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Voice
+\end_layout
+
+\end_inset
+
+s->Voices menu for placing more than one voice on a staff.
  You can set the initial voice number from this menu (voices 1 and 3 are
  stem up with slurs and ties etc adjusting to suit, voices 2 and 4 are stem
  down).
@@ -6771,6 +8168,16 @@ There is also a MIDI filter for entering figured bass in the Input->MIDI
 
 \begin_layout Subsection
 Fret Diagrams
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Fret Diagrams
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -6783,6 +8190,16 @@ Fret Diagrams can be placed on the score using the command Fret Diagram
 
 \begin_layout Subsection
 Tablature
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Tablature
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -6808,6 +8225,16 @@ It is possible to display the same music as both notation and tablature,
 
 \begin_layout Subsection
 Entering Chord Symbols
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Chord Symbols
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -7159,7 +8586,17 @@ reference "sec:Object-Editor"
 \end_layout
 
 \begin_layout Section
-Writing Scheme Scripts 
+Writing Scheme
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Scheme
+\end_layout
+
+\end_inset
+
+ Scripts 
 \end_layout
 
 \begin_layout Standard
@@ -9623,7 +11060,7 @@ To be merged with the above ...
 \begin_layout Itemize
 d-PutNoteName takes a string argument, a note in LilyPond notation.
  Changes the note at the cursor.
- Not for use with multi-note chords.
+ Not for use with multi-note chords.F
 \end_layout
 
 \begin_layout Itemize
@@ -9651,7 +11088,7 @@ d-NextStandaloneDirective as NextObject, stopping on a standalone directive.
 (d-Directive-type? optional-tag) where type is one of score, scoreheader,
  movementcontrol, header, paper, layout, clef, timesig, keysig, staff, voice,
  standalone, chord or note.This returns #t if the cursor is on a directive
- of type (with tag optional-tag if optional-tag is present) else #f
+ of type (with tag optional-tag if optional-tag is present) else #fGef
 \end_layout
 
 \begin_layout Itemize
@@ -11273,6 +12710,16 @@ end{verbatim}
 \noindent
 If you are not logged in as root user, for the last step type su and your
  root password, or alternately type sudo make install.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset index_print
+LatexCommand printindex
+type "idx"
+
+\end_inset
+
+
 \end_layout
 
 \end_body
