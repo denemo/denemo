@@ -93,6 +93,13 @@
 (define (MeasureComplete?)
     (d-RefreshCache)
     (FullDurationMeasure?))
+    
+(define (AcceptableDurationMeasure?)
+    (if (d-MoveToMeasureRight)
+        (begin
+            (d-MoveToMeasureLeft)
+            (or (ZeroDurationMeasure?) (FullDurationMeasure?)))
+        #t))
                    
 ;;;;;;;;;;Duration Conversions between Denemo, Lilypond and Tick syntax.
 ;; A table of common values
