@@ -176,14 +176,10 @@
     (Probe test d-PreviousNote))
 
 (define (MoveDownStaffOrVoice)
-    (if (d-MoveToVoiceDown)
-        #t
-        (d-MoveToStaffDown)))
+    (or (d-MoveToVoiceDown) (d-MoveToStaffDown)))
         
 (define (MoveUpStaffOrVoice)
-    (if (d-MoveToVoiceUp)
-        #t
-        (d-MoveToStaffUp)))     
+    (or (d-MoveToVoiceUp) (d-MoveToStaffUp)))
 
 (define (LastMovement?) (not (Probe (lambda () #t) d-NextMovement)))
 
