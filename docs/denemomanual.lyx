@@ -217,6 +217,16 @@ Besides the terms well-known to musicians, music notation has some specialized
 A
 \emph on
  movement
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Movement
+\end_layout
+
+\end_inset
+
+
 \emph default
  is a continous stretch of music (all the measures following on from each
  other) such as a song in a songbook, or a movement in a symphony.
@@ -226,6 +236,16 @@ A
 A 
 \emph on
 score
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+score
+\end_layout
+
+\end_inset
+
+
 \emph default
  is one or more movements usually interspersed with titles.
 \end_layout
@@ -234,9 +254,40 @@ score
 A 
 \emph on
 staff
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+staff
+\end_layout
+
+\end_inset
+
+
 \emph default
  has the usual meaning, but note that it may contain several lines of music
  (voices).
+ A Denemo staff may also be typeset as a line of Chord Symbols
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Chord Symbols
+\end_layout
+
+\end_inset
+
+, Fret Diagrams
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Fret Diagrams
+\end_layout
+
+\end_inset
+
+, or a line of dynamics markings above or below some other staff.
 \end_layout
 
 \begin_layout Itemize
@@ -291,8 +342,8 @@ Chord
 
  is one or more notes of the same duration making a single musical object.
  If the notes are of different durations then they have to be placed in
- separate voices, they can't be a chord, though they may appear so in the
- typeset.
+ separate voices, they can't be a chord, though they may appear so (by sharing
+ stems) in the typeset.
 \end_layout
 
 \begin_layout Itemize
@@ -318,8 +369,9 @@ line
 \begin_inset Quotes erd
 \end_inset
 
- of the music, that is all the music (over several staffs) that sounds together
- starting at the left-hand margin and ending at the right margin.
+ of the music on the page, that is all the music (over several staffs) that
+ sounds together starting at the left-hand margin and ending at the right
+ margin.
 \end_layout
 
 \begin_layout Itemize
@@ -338,7 +390,9 @@ Markup
 \emph default
  is text - e.g.
  titles - that can have additional characters to indicate bold or italic,
- or in the case of Denemo even snippets of music, fret diagrams etc.
+ repositioning etc.
+ In Denemo this may even include syntax for snippets of music, note-names
+ fret diagrams etc., so that these can appear in the text.
 \end_layout
 
 \begin_layout Itemize
@@ -683,6 +737,11 @@ Add/Subtract (
 +/-
 \family default
  on the numeric keypad) sharpens/flattens the note at the cursor.
+ On the main keyboard 
+\family typewriter
++/-
+\family default
+ make the next inserted note sharper/flatter.
 \end_layout
 
 \begin_layout Standard
@@ -1768,7 +1827,17 @@ Scheme Script
 \end_layout
 
 \begin_layout Standard
-Pops up a window for showing scripts written in Scheme.
+Pops up a window for showing scripts written in Scheme
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Scheme
+\end_layout
+
+\end_inset
+
+.
  These can be executed or saved as new commands.
  Sequences of commands can be recorded here.
 \end_layout
@@ -1794,7 +1863,17 @@ Denemo Display
 \end_layout
 
 \begin_layout Subsubsection*
-Cursor Highlighting (Off/On)
+Cursor Highlighting
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Cursor Highlighting
+\end_layout
+
+\end_inset
+
+ (Off/On)
 \end_layout
 
 \begin_layout Standard
@@ -1956,6 +2035,16 @@ reference "sub:Playback-Controls"
 
 \begin_layout Subsubsection
 Educational
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Educational
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1970,6 +2059,16 @@ There are games and exercises to help learn notation and to improve your
 
 \begin_layout Subsubsection
 Help
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Help
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2309,6 +2408,16 @@ Jumps to the last measure of the movement.
 
 \begin_layout Subsection
 Playback Controls
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Playback Controls
+\end_layout
+
+\end_inset
+
+
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Playback-Controls"
@@ -3223,17 +3332,27 @@ Here are commands to add notes to a chord either at the cursor, by note
 \end_layout
 
 \begin_layout Subsubsection
-Note
+Notes/Rests 
 \begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
-Note
+Notes
 \end_layout
 
 \end_inset
 
-s/Rests 
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Rests
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3279,9 +3398,48 @@ Ornaments
 
 \end_inset
 
- (trill, turn ...), grace notes, articulations (staccato, tenuto ...), fingerings,
- textual markings, cresc.
+ (trill, turn ...), grace notes, articulations
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Articulations
+\end_layout
+
+\end_inset
+
+ (staccato, tenuto ...), fingerings
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Fingerings
+\end_layout
+
+\end_inset
+
+, textual markings
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Markings
+\end_layout
+
+\end_inset
+
+, cresc.
  and dim.
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Cresc.
+ and dim.
+\end_layout
+
+\end_inset
+
  (both hairpins and extended cresc.
  --- poco --- a --- poco style) chord symbols
 \begin_inset Index idx
@@ -3342,7 +3500,17 @@ and
 \emph on
  p 
 \emph default
-are separate objects (see Directives->Markings->Dynamics).
+are separate objects (see Directives->Markings->Dynamics
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Dynamics
+\end_layout
+
+\end_inset
+
+).
  
 \end_layout
 
@@ -5865,7 +6033,7 @@ The Staff
 status open
 
 \begin_layout Plain Layout
-Staff
+Staff Properties Editor
 \end_layout
 
 \end_inset
@@ -5881,13 +6049,20 @@ Voice
 \end_inset
 
  Properties Editor
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:The-Staff-and"
+
+\end_inset
+
+
 \begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
-Voice Properties Editor|see 
+Voice Properties Editor |see
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -5898,7 +6073,7 @@ status open
 
 Staff Properties Editor
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -5909,13 +6084,6 @@ status open
 
 
 \end_layout
-
-\end_inset
-
-
-\begin_inset CommandInset label
-LatexCommand label
-name "sec:The-Staff-and"
 
 \end_inset
 
