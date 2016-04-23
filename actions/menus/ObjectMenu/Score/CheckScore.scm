@@ -55,26 +55,30 @@
               (begin
                 (while (d-MoveToStaffUp))  
                   (let staff ()
-                    (d-MoveToBeginning)
-                    (let measure ()
-                        (if (not (LastMeasure?)) 
-                    (if (or (FullDurationMeasure?)(ZeroDurationMeasure?))
+                    (while (and (d-Directive-voice? "SubstituteMusic") (d-MoveToStaffDown)))
+                    (if (not (d-Directive-voice? "SubstituteMusic"))
+                        (begin
+                            (d-MoveToBeginning)
+                            (let measure ()
+                                (if (not (LastMeasure?)) 
+                            (if (or (FullDurationMeasure?)(ZeroDurationMeasure?))
+                                        (begin
+                                            (d-MoveToMeasureRight)
+                                            (measure))
+                                        (begin
+                                             (if (positive? CheckScore::ignore)
+                                                    (begin
+                                                        (set! CheckScore::ignore (1- CheckScore::ignore))
+                                                        (d-MoveToMeasureRight)
+                                                        (measure))
+                                                    (begin
+                                                        (set! CheckScore::return (_ "Incorrect measure duration"))
+                                                        (set! CheckScore::error-position (GetPosition))))))))
+                            (if (not CheckScore::return)
                                 (begin
-                                    (d-MoveToMeasureRight)
-                                    (measure))
-                                (begin
-                                     (if (positive? CheckScore::ignore)
-                                            (begin
-                                                (set! CheckScore::ignore (1- CheckScore::ignore))
-                                                (d-MoveToMeasureRight)
-                                                (measure))
-                                            (begin
-                                                (set! CheckScore::return (_ "Incorrect measure duration"))
-                                                (set! CheckScore::error-position (GetPosition))))))))
-                    (if (not CheckScore::return)
-                        (begin 
-                            (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
-                            (staff)))))))
+                                   
+                                    (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
+                                    (staff)))))))))
                         
         (if (not CheckScore::return)
             (begin
