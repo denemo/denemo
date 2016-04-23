@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2016-04-22"/>
+<meta name="create-date" content="2016-04-23"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -1643,7 +1643,7 @@ Here are commands to add notes to a chord either at the cursor, by note name or 
 This covers inserting, deleting and modifying notes in pitch, duration and appearance and all sorts of things that are attached to note objects such as slurs<a class="IndexReference" name="entry-Slurs-0" href="#index-Slurs">↓</a>, phrasing slurs, ties<a class="IndexReference" name="entry-Ties-0" href="#index-Ties">↓</a>, beaming<a class="IndexReference" name="entry-Beaming-2" href="#index-Beaming">↓</a> controls, ornaments<a class="IndexReference" name="entry-Ornaments-0" href="#index-Ornaments">↓</a> (trill, turn ...), grace notes, articulations (staccato, tenuto ...), fingerings, textual markings, cresc. and dim. (both hairpins and extended cresc. — poco — a — poco style) chord symbols<a class="IndexReference" name="entry-Chord-Symbols-0" href="#index-Chord-Symbols">↓</a> (&ldquo;fakechords&rdquo;<a class="IndexReference" name="entry-Fakechords-seeChord-Symbols-0" href="#index-Fakechords-seeChord-Symbols">↓</a>), figured bass. Dynamic markings such as <i>f </i>and<i> p </i>are separate objects (see Directives-&gt;Markings-&gt;Dynamics). 
 </div>
 <div class="Indented">
-Also here is the tuplet menu, for groups of notes that have a duration that is a fraction of the written duration, such as triplets. These actually insert tuplet start and end objects, before and after the notes concerned so, strictly speaking they should come in a separate miscellaneous objects category. As usual, the most useful commands have shortcuts already - Tab starts/stops a triplet alternately (so you can press it once, enter the notes and press it again to finish the triplet). And Keypad 7, Keypad 7 turns the note entered into a triplet of notes (with Control as well they are slurred). This is set as a two-key shortcut so that you can type it in as a triplet rhythm: e.g. the three keypresses 4, KP_7, KP_7 will give a triplet of three 1/16th notes.
+Also here is the tuplet<a class="IndexReference" name="entry-Tuplets-0" href="#index-Tuplets">↓</a> menu, for groups of notes that have a duration that is a fraction of the written duration, such as triplets. These actually insert tuplet start and end objects, before and after the notes concerned so, strictly speaking they should come in a separate miscellaneous objects category. As usual, the most useful commands have shortcuts already - Tab starts/stops a triplet alternately (so you can press it once, enter the notes and press it again to finish the triplet). And the two key shortcut Keypad 7, Keypad 7 turns the note entered into a triplet of notes (with Control as well they are slurred). This is set as a two-key shortcut so that you can type it in as a triplet rhythm: e.g. the three keypresses 4, KP_7, KP_7 will give a triplet of three 1/16th notes.
 </div>
 <h3 class="Subsubsection-">
 <a class="toc" name="toc-Subsubsection--33"></a>The Append/Edit Note Submenu<a class="IndexReference" name="entry-Notes-0" href="#index-Notes">↓</a>
@@ -1670,7 +1670,7 @@ So called because the commands 0, 1, 2 ... append a note when the cursor is in t
 There are also a set of comands for appending notes which will be slurred from previous notes (Control-0, etc) which means that you can enter slurs as you enter the rhythm of a bar without extra key presses (which would otherwise break the rhythm of your entry).
 </div>
 <h3 class="Subsubsection-">
-<a class="toc" name="toc-Subsubsection--36"></a>The Edit Duration Submenu
+<a class="toc" name="toc-Subsubsection--36"></a>The Edit Duration<a class="IndexReference" name="entry-Duration-1" href="#index-Duration">↓</a> Submenu
 </h3>
 <div class="Unindented">
 Here are the commands for changing the duration of the note/rest/chord<a class="IndexReference" name="entry-Chord-2" href="#index-Chord">↓</a> at the cursor as well as doubling or dividing the note at the cursor.
@@ -1685,7 +1685,7 @@ Besides commands for dotting notes there are commands for turning the note at th
 Besides inserting rests (Alt-0 etc) you can insert non-printing rests (where voice<a class="IndexReference" name="entry-Voice-5" href="#index-Voice">↓</a>s are silent) and move rests out of the way in polyphonic situations where LilyPond doesn’t do what you want. Whole measure rest<a class="IndexReference" name="entry-Whole-Measure-Rest-0" href="#index-Whole-Measure-Rest">↓</a>s and multi-measure rest<a class="IndexReference" name="entry-Multi-Measure-Rest-0" href="#index-Multi-Measure-Rest">↓</a>s are here too with control over their numbering.
 </div>
 <h3 class="Subsubsection-">
-<a class="toc" name="toc-Subsubsection--38"></a>The Select Duration Submenu
+<a class="toc" name="toc-Subsubsection--38"></a>The Select Duration<a class="IndexReference" name="entry-Duration-2" href="#index-Duration">↓</a> Submenu
 </h3>
 <div class="Unindented">
 The commands to explicitly set the prevailing duration are here (though usually this is set by inserting a duration) and, more importantly the command to select a snippet as the prevailing duration (Shift+ Space) after which entered notes follow the pattern of the snippet.
@@ -1718,7 +1718,7 @@ This means that you will see the lyrics for the current staff disappear from the
 
 </div>
 <div class="Indented">
-Stanza numbers can be entered as well as font-changing commands. Use <tt>Melismata<a class="IndexReference" name="entry-Melismata-0" href="#index-Melismata">↓</a></tt> command to extend syllables over more notes. A selection of notes that have no lyrics can be skipped using the Skip Syllables in Selection command. The lyrics menu also contains a command &ldquo;Edit Lyric at Cursor&rdquo; (Ctrl-l, Ctrl-l) which finds the place in the lyrics corresponding to the cursor position allowing you to edit the syllable that underlies the current note. Verses can be typeset in columns at the end by using command Typeset Verses at End which invokes the external Inkscape (or other) editor.
+Stanza numbers can be entered as well as font-changing commands. Use <tt>Melismata<a class="IndexReference" name="entry-Melismata-0" href="#index-Melismata">↓</a></tt> command to extend syllables over more notes. A selection of notes that have no lyrics can be skipped using the Skip Syllables in Selection command. The lyrics menu also contains a command &ldquo;Edit Lyric at Cursor&rdquo; (<tt>Ctrl-l, Ctrl-l</tt>) which finds the place in the lyrics corresponding to the cursor position allowing you to edit the syllable that underlies the current note. Verses can be typeset in columns at the end by using command Typeset Verses at End which invokes the external Inkscape (or other) editor.
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-3.6.12">3.6.12</a> Notation Magick Menu
@@ -2033,7 +2033,7 @@ You can also select an amount of padding to apply to some objects so that they k
 <a class="toc" name="toc-Subsubsection-7.3.2">7.3.2</a> Re-shaping Slurs<a class="IndexReference" name="entry-Slurs-2" href="#index-Slurs">↓</a> and Ties<a class="IndexReference" name="entry-Ties-4" href="#index-Ties">↓</a>
 </h3>
 <div class="Unindented">
-Slurs and beaming<a class="IndexReference" name="entry-Beaming-4" href="#index-Beaming">↓</a> can also be altered here. When you right-click on a slur or tie the Denemo Cursor moves to the note where the slur starts and you are offered the chance to edit the shape of the curve. Choose a large zoom factor before you begin, and turn on the control points (red dots and crosses) as described <a class="Reference" href="#sub:Mouse-Controls">Mouse Controls↑</a>above. Then right click on the curve and choose Edit Shape. You have to click on the reference point first - this is on the center-line of the staff at the horizontal position of the notehead where the curve starts - this is marked with a red dot. Then you click and drag on the four &ldquo;control-points&rdquo; that define the shape of the curve. Once the shape looks good, right click in a blank area and click Apply. 
+Slurs, ties and beaming<a class="IndexReference" name="entry-Beaming-4" href="#index-Beaming">↓</a> can also be altered here. When you right-click on a slur or tie the Denemo Cursor moves to the note where the slur starts and you are offered the chance to edit the shape of the curve. Choose a large zoom factor before you begin, and turn on the control points (red dots and crosses) as described <a class="Reference" href="#sub:Mouse-Controls">Mouse Controls↑</a>above. Then right click on the curve and choose Edit Shape. You have to click on the reference point first - this is on the center-line of the staff at the horizontal position of the notehead where the curve starts - this is marked with a red dot. Then you click and drag on the four &ldquo;control-points&rdquo; that define the shape of the curve. Once the shape looks good, right click in a blank area and click Apply. 
 </div>
 <div class="Indented">
 With practice you can skip the use of the red dots and crosses as you can guess where they would be.
@@ -2091,16 +2091,16 @@ Set Scrolling pops up a dialog to control simple automatic scrolling. Clear Scro
 <a class="toc" name="toc-Subsection-9.2">9.2</a> MIDI Playback.
 </h2>
 <div class="Unindented">
-In the Playback View the MIDI is generated by LilyPond and has many more features than the simple MIDI generated by Denemo. This playback can still be controlled by the same commands in the Playback menu or the Playback Controls Panel, but in addition you can start play from any point in the music just by left-clicking on a note in the Playback View. To play a section of the music click and drag to the end note desired. For a looping play hold the shift key while dragging.
+In the Playback View the MIDI is generated by LilyPond and has many more features than the simple MIDI generated by Denemo. This playback can still be controlled by the same commands in the Playback menu or the Playback Controls Panel and left-clicking on a notehead in the Print View, but in addition you can start play from any point in the music just by left-clicking on a note in the Playback View. Furthermore, in the Playback View, to play a section of the music click and drag to the end note desired. For a looping play hold the shift key while dragging.
 </div>
 <div class="Indented">
-If you alter the music then you need to re-typeset this view before you can play.
+If you alter the music then you need to re-typeset this view before you can play with Playback View.
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-9.3">9.3</a> Scrolling
 </h2>
 <div class="Unindented">
-Use the Set Scrolling button to choose how if the page automatically scrolls down as you listen.
+You can either check the Set Scrolling check box to automatically scroll as you listen, or you can set scroll points to determine exactly where the page will be when the point clicked is playing.
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-9.3.1">9.3.1</a> Simple Scrolling Control
@@ -2586,7 +2586,7 @@ Phrasing slurs are slurs over the top of ordinary slurs, used in Romantic music 
 <a class="toc" name="toc-Subsection-18.4">18.4</a> Triplets and Friends<a class="IndexReference" name="entry-Triplets-seeTuplets-0" href="#index-Triplets-seeTuplets">↓</a>
 </h2>
 <div class="Unindented">
-Collectively called &ldquo;tuplets<a class="IndexReference" name="entry-Tuplets-0" href="#index-Tuplets">↓</a>&rdquo; these are handled in Denemo by two markers, one beginning the tuplet which holds the timing change and the other a simple end tuplet marker. The Denemo Display only knows how to display tuplets that start and end in the same bar, but the typesetter is not restricted in that way. You can stop and re-start the tuplets at measure breaks so that the Denemo Display understands what you mean, and control the placement of tuplet numbering and tuplet brackets using the Tuplet Brackets and Tuplet Numbering commands in the same menu. The typeset can also cope with nested tuplets perfectly well, though the Denemo Display will be strange.
+Collectively called &ldquo;tuplets<a class="IndexReference" name="entry-Tuplets-1" href="#index-Tuplets">↓</a>&rdquo; these are handled in Denemo by two markers, one beginning the tuplet which holds the timing change and the other a simple end tuplet marker. The Denemo Display only knows how to display tuplets that start and end in the same bar, but the typesetter is not restricted in that way. You can stop and re-start the tuplets at measure breaks so that the Denemo Display understands what you mean, and control the placement of tuplet numbering and tuplet brackets using the Tuplet Brackets and Tuplet Numbering commands in the same menu. The typeset can also cope with nested tuplets perfectly well, though the Denemo Display will be strange.
 </div>
 <div class="Indented">
 There are specific commands for the more common tuplets, and arbitrary tuplets can be started using the Arbitrary Tuplet command - you give the numbers to denote the fraction that the timing is changing by (e.g. triplets are 2/3 of the duration written so you give 2,3). If you wanted 7 notes in the time of 4 you would give 4, 7 so that the durations changed by 4/7, after seven 1/8-notes you would have the equivalent of 4 1/8-notes duration.
@@ -5122,7 +5122,7 @@ If you are not logged in as root user, for the last step type su and your root p
 <a class="printindex" name="index-Directives"></a>Directives: <a class="IndexArrow" href="#entry-Directives-0">↑</a>
 </p>
 <p class="printindex">
-<a class="printindex" name="index-Duration"></a>Duration: <a class="IndexArrow" href="#entry-Duration-0">↑</a>
+<a class="printindex" name="index-Duration"></a>Duration: <a class="IndexArrow" href="#entry-Duration-0">↑</a>, <a class="IndexArrow" href="#entry-Duration-1">↑</a>, <a class="IndexArrow" href="#entry-Duration-2">↑</a>
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Dynamics"></a>Dynamics: <a class="IndexArrow" href="#entry-Dynamics-0">↑</a>, <a class="IndexArrow" href="#entry-Dynamics-1">↑</a>, <a class="IndexArrow" href="#entry-Dynamics-2">↑</a>, <a class="IndexArrow" href="#entry-Dynamics-3">↑</a>
@@ -5299,7 +5299,7 @@ If you are not logged in as root user, for the last step type su and your root p
 <a class="printindex" name="index-Triplets-seeTuplets"></a>Triplets|seeTuplets: <a class="IndexArrow" href="#entry-Triplets-seeTuplets-0">↑</a>
 </p>
 <p class="printindex">
-<a class="printindex" name="index-Tuplets"></a>Tuplets: <a class="IndexArrow" href="#entry-Tuplets-0">↑</a>
+<a class="printindex" name="index-Tuplets"></a>Tuplets: <a class="IndexArrow" href="#entry-Tuplets-0">↑</a>, <a class="IndexArrow" href="#entry-Tuplets-1">↑</a>
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Upbeat"></a>Upbeat: <a class="IndexArrow" href="#entry-Upbeat-0">↑</a>
@@ -5319,7 +5319,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-04-22T18:15:06.647775</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-04-23T15:53:17.640992</span>
 </div>
 </div>
 </body>
