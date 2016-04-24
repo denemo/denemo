@@ -125,11 +125,33 @@ insert_markup (GtkWidget * button, gchar *text)
   GtkWidget *hbox = gtk_widget_get_parent (button);
   GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
   if (textbuffer)
-          gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1);
-   else
+    gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1);
+  else
+    g_warning ("Denemo program error, widget hierarchy changed???");
+    
+ GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
+ gtk_widget_grab_focus (textview);
+}
+static void
+markup_selection (GtkWidget * button, gchar *text)
+{
+  DenemoProject *gui = Denemo.project;
+  GtkWidget *hbox = gtk_widget_get_parent (button);
+  GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+  GtkTextIter start, end;
+  if (gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER (textbuffer), &start, &end))
     {
-      g_warning ("Denemo program error, widget hierarchy changed???");
-    }      
+      if (textbuffer)
+         {
+             gtk_text_buffer_insert (GTK_TEXT_BUFFER (textbuffer), &start, text, -1);
+             if (gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER (textbuffer), &start, &end))
+                gtk_text_buffer_insert (GTK_TEXT_BUFFER (textbuffer), &end, "}", -1);
+         }
+      else
+          g_warning ("Denemo program error, widget hierarchy changed???");
+    }
+  else
+    warningdialog ( _("Select the text first."));
  GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
  gtk_widget_grab_focus (textview);
 }
@@ -140,19 +162,32 @@ insert_font_mag (GtkWidget * button)
   DenemoProject *gui = Denemo.project;
   GtkWidget *hbox = gtk_widget_get_parent (button);
   GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+  if (!textbuffer)
+        {
+        g_warning ("Denemo program error, widget hierarchy changed???");
+        return;
+        }
+  GtkTextIter start, end;
+  if (!gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER (textbuffer), &start, &end))
+    {
+        warningdialog  ( _("Select the text first."));
+        return;
+    }
   gchar *text = string_dialog_entry (gui, _( "Font Magnification"), _("Give a relative font size +/- "), "-2");
+
   if (text && *text)
     {
-        gchar *out = g_strdup_printf ("\\fontsize #%s ", text);
-      if (textbuffer)
-              gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), out, -1);
-       else
-        {
-          g_warning ("Denemo program error, widget hierarchy changed???");
-        }      
-     GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
-     gtk_widget_grab_focus (textview);
-     g_free (out);
+        gchar *out = g_strdup_printf ("\\fontsize #%s { ", text);
+        gtk_text_buffer_select_range (GTK_TEXT_BUFFER (textbuffer), &start, &end);//the dialog has destroyed the selection
+        if (!gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER (textbuffer), &start, &end))
+            {
+            g_critical  ( _("Select the text first."));
+            return;
+            }
+        markup_selection (button, out);
+        GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
+        gtk_widget_grab_focus (textview);
+        g_free (out);
     }
  g_free (text);
 }
@@ -292,35 +327,35 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
   
 
   button = gtk_button_new_with_label (_("Bold"));
-  gtk_widget_set_tooltip_text (button, _("Inserts markup to make the following text bold. Enclose the passage to be bold in {}."));
-  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "\\bold ");
+  gtk_widget_set_tooltip_text (button, _("Inserts markup to make the selected text bold."));
+  g_signal_connect (button, "clicked", G_CALLBACK (markup_selection), "\\bold { ");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
   
   button = gtk_button_new_with_label (_("Italic"));
-  gtk_widget_set_tooltip_text (button, _("Inserts markup to make the following text italic. Enclose the passage to be italic in {}."));
-  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "\\italic ");
+  gtk_widget_set_tooltip_text (button, _("Inserts markup to make the selected text italic."));
+  g_signal_connect (button, "clicked", G_CALLBACK (markup_selection), "\\italic { ");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label (_("“"));
-  gtk_widget_set_tooltip_text (button, _("Inserts code for open quotes - leave a space after this code. Note that this is not the \" character which is used for grouping words not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."));
-  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "\\char ##x201C ");
+  gtk_widget_set_tooltip_text (button, _("Inserts open double quote. Note that this is not the \" character which is used for grouping words not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."));
+  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "“");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label (_("”"));
-  gtk_widget_set_tooltip_text (button, _("Inserts code for close quotes - leave a space after this code. Note that this is not the \" character which is used for grouping words  not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."));
-  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "\\char ##x201D ");
+  gtk_widget_set_tooltip_text (button, _("Inserts close double quote. Note that this is not the \" character which is used for grouping words  not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."));
+  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "”");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label (_("size"));
-  gtk_widget_set_tooltip_text (button, _("Inserts code to change the relative font size."));
+  gtk_widget_set_tooltip_text (button, _("Inserts markup to set the relative font size for the selected text."));
   g_signal_connect (button, "clicked", G_CALLBACK (insert_font_mag), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
     button = gtk_button_new_with_label ("⬆");
-  gtk_widget_set_tooltip_text (button, _("Inserts code to leave space above this line of text. Ineffective on the top line of standalone text, only titles"));
+  gtk_widget_set_tooltip_text (button, _("Inserts the markup needed to leave space above this line of text. Ineffective on the top line of standalone text, instead drag such text in the Print View"));
   g_signal_connect (button, "clicked", G_CALLBACK (insert_vert), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
     button = gtk_button_new_with_label (_("⬌"));
-  gtk_widget_set_tooltip_text (button, _("Inserts code to insert space at the cursor."));
+  gtk_widget_set_tooltip_text (button, _("Inserts the markup needed to insert space at the cursor."));
   g_signal_connect (button, "clicked", G_CALLBACK (insert_horiz), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
   
