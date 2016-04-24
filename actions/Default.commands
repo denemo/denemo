@@ -3862,7 +3862,6 @@ First it removes notes until just a non-printing rest remains, then deletes that
         <_label>End Beam</_label>
         <_tooltip>Instructs LilyPond engraver to stop previously started manual beaming. Print effect only.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>ToggleEndPhrasingSlur</action>
         <after>ToggleBeginPhrasingSlur</after>
@@ -7835,6 +7834,13 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/TimeSig</menupath>
         <_label>End Cadenza Time</_label>
         <_tooltip>Inserts a non-printing time signature to resume normal measured music.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>BlankPage</action>
+        <after>MovementPageBreak</after>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
+        <_label>Blank Page Before</_label>
+        <_tooltip>Inserts a blank page (with optional text) before the current movement.</_tooltip>
       </row>
     </map>
   </merge>

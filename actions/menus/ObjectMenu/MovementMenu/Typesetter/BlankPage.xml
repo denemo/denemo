@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>BlankPage</action>
+        <after>MovementPageBreak</after>
+        <_label>Blank Page Before</_label>
+        <_tooltip>Inserts a blank page (with optional text) before the current movement.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
