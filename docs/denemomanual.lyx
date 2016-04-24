@@ -2863,6 +2863,42 @@ movement
 ).
 \end_layout
 
+\begin_layout Standard
+The Typesetter submenu for the Movements Menu holds commands that affect
+ the current movement: per-movement transposition, inserting blank pages
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Blank Page
+\end_layout
+
+\end_inset
+
+ (to avoid page turns), page breaks
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Page Break
+\end_layout
+
+\end_inset
+
+, custos
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+custos
+\end_layout
+
+\end_inset
+
+ at the end of lines, note head style to apply to the whole movement, behavior
+ of staffs that are resting for an entire system etc.
+\end_layout
+
 \begin_layout Subsubsection
 \begin_inset Index idx
 status open
@@ -2877,10 +2913,19 @@ Staff/Voices Menu
 \end_layout
 
 \begin_layout Standard
-Things such as the music crossing to another staff, or Ossia staffs are
- contained here, along with commands for deleting parts of the staff, setting
- up multi-measure rests for a whole staff, muting the staff during playback,
- 
+Things such as the music crossing to another staff, or Ossia
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Ossia
+\end_layout
+
+\end_inset
+
+ staffs are contained here, along with commands for deleting parts of the
+ staff, setting up multi-measure rests for a whole staff, muting the staff
+ during playback, 
 \end_layout
 
 \begin_layout Subsubsection*
@@ -2904,7 +2949,7 @@ built-in
 \end_inset
 
  and have their own dialog to set the values.
- All are accessed from the Staff Properties Editor
+ All can be accessed from the Staff Properties Editor
 \begin_inset Index idx
 status open
 
@@ -7541,6 +7586,20 @@ italic etc to indicate what appearance is desired.
 \begin_layout Standard
 The text when it appears in the final typeset score can be edited via right-clic
 k for the position or content.
+ This same interface is also used if you edit the text of titles or the
+ text to show on a page intentionally left blank
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Blank Page
+\end_layout
+
+\end_inset
+
+, but in these cases the text will be on a single line (unless the 
+\backslash
+column markup is used).
 \end_layout
 
 \begin_layout Subsubsection
@@ -7548,9 +7607,10 @@ Text Spanning
 \end_layout
 
 \begin_layout Standard
-In the Directives->Markings->Spanning menu are commands that cause markings
- that span a passage of music, such as Cadenza and Piano Sustain pedal marks,
- ottava markings, and extended trill marks.
+In the Directives->Markings->Spanning Directives->Typesetter>Spanning menus
+ are commands that cause markings that span a passage of music, such as
+ Cadenza and Piano Sustain pedal marks, ottava markings, and extended trill
+ marks.
  Here also are 1st and 2nd (and nth) time bars, with shortcuts r,1 for starting
  a first time bar, r,2 starting a second time bar and r,e for ending either.
  The Nth time bar can be used to hold any text needed (i.e.

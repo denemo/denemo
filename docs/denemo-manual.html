@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2016-04-23"/>
+<meta name="create-date" content="2016-04-24"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -757,7 +757,7 @@ Table of Contents
 <a class="toc" name="toc-Part-I">Part I.</a> Getting Started
 </h1>
 <h1 class="Section-">
-<a class="toc" name="toc-Section--1"></a>Introduction  <span class="unknown">\pagenumbering</span>arabic  
+<a class="toc" name="toc-Section--1"></a>Introduction  
 </h1>
 <div class="Unindented">
 Denemo lets you create musical scores. You can type music in using the keyboard or play it in using a MIDI contoller or the microphone input. You can edit your music - the input display window shows you what you are working on in music notation - and you can playback to check how it sounds. The Print View window shows the final printed score, typeset to the highest standards used in the music publishing industry - thanks to the Lilypond music typesetting program.
@@ -795,6 +795,9 @@ A <i>system<a class="IndexReference" name="entry-System-0" href="#index-System">
 </li>
 <li>
 <i>Staff Spaces</i> a unit of measurement: the distance between adjacent lines in a staff. Generally when you need to specify a distance in Denemo this is the unit used. So the Markup to System spacing is the spacing between the last title and the first staff.
+</li>
+<li>
+<i>Part </i>is used with a special sense in Denemo: each staff has a part name associated with it (printed at top left of the staff, with a green background for editing it). All staffs with the same part name (or with none) are typeset together by the Print Part<a class="IndexReference" name="entry-Print-Part-0" href="#index-Print-Part">↓</a> command.
 </li>
 <li>
 <a class="URL" href="http://lilypond.org/doc/v2.18/Documentation/music-glossary/index.html">http://lilypond.org/doc/v2.18/Documentation/music-glossary/index.html</a>is a good guide especially for non-native speakers of English.
@@ -1549,11 +1552,14 @@ Various score checking routines work at movement level from this menu and a comm
 <div class="Indented">
 Again there are titles menus for either simple or book titles, and for inserting graphics between movements. These can be used as decorative separators between movements or to insert columns of verses at the end of songs (each song is a separate &ldquo;movement&rdquo;).
 </div>
+<div class="Indented">
+The Typesetter submenu for the Movements Menu holds commands that affect the current movement: per-movement transposition, inserting blank pages<a class="IndexReference" name="entry-Blank-Page-0" href="#index-Blank-Page">↓</a> (to avoid page turns), page breaks<a class="IndexReference" name="entry-Page-Break-0" href="#index-Page-Break">↓</a>, custos<a class="IndexReference" name="entry-custos-0" href="#index-custos">↓</a> at the end of lines, note head style to apply to the whole movement, behavior of staffs that are resting for an entire system etc.
+</div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-3.6.3">3.6.3</a> <a class="IndexReference" name="entry-Staff-0" href="#index-Staff">↓</a>Staff/Voices Menu
 </h3>
 <div class="Unindented">
-Things such as the music crossing to another staff, or Ossia staffs are contained here, along with commands for deleting parts of the staff, setting up multi-measure rests for a whole staff, muting the staff during playback, 
+Things such as the music crossing to another staff, or Ossia<a class="IndexReference" name="entry-Ossia-0" href="#index-Ossia">↓</a> staffs are contained here, along with commands for deleting parts of the staff, setting up multi-measure rests for a whole staff, muting the staff during playback, 
 </div>
 <h3 class="Subsubsection-">
 <a class="toc" name="toc-Subsubsection--28"></a>The Staff Properties Submenu
@@ -1562,7 +1568,7 @@ Things such as the music crossing to another staff, or Ossia staffs are containe
 This covers such things as the type of staff (e.g. Normal Notation, Tablature, Chord Symbols, Fret Diagrams) as well as the staff appearance and the playback instrument, instrument name or ambitus to be typeset at the start of the staff and more.
 </div>
 <div class="Indented">
-For historical reasons, some properties such as part-name are &ldquo;built-in&rdquo; and have their own dialog to set the values. All are accessed from the Staff Properties Editor<a class="IndexReference" name="entry-Staff-Properties-Editor-0" href="#index-Staff-Properties-Editor">↓</a> from this menu.
+For historical reasons, some properties such as part-name are &ldquo;built-in&rdquo; and have their own dialog to set the values. All can be accessed from the Staff Properties Editor<a class="IndexReference" name="entry-Staff-Properties-Editor-0" href="#index-Staff-Properties-Editor">↓</a> from this menu.
 </div>
 <h3 class="Subsubsection-">
 <a class="toc" name="toc-Subsubsection--29"></a>The Add Staff Submenu
@@ -1571,7 +1577,7 @@ For historical reasons, some properties such as part-name are &ldquo;built-in&rd
 This allows adding staffs to the current movement. Piano staffs can be added as well as specialized sorts of staff for dynamics<a class="IndexReference" name="entry-Dynamics-1" href="#index-Dynamics">↓</a>, marks (so that they appear once for all layouts), and coulés (diagonal lines positioned between thirds in some music). The Add Structured Staff command duplicates the current staff with regard to measures and time signature changes, ready for the insertion of music. Add Staff for Instrument allows you to add the staff(s) needed for various instruments (e.g. organ) with the ranges of acceptable notes for the instrument set on the staff(s).
 </div>
 <div class="Indented">
-Staffs with &ldquo;mirrored&rdquo; music can also be added. In this case the staff does not have music of its own, instead the music mirrors that in another staff. By setting the part-name<a class="IndexReference" name="entry-Part-Name-0" href="#index-Part-Name">↓</a> on such a staff a greater variety of parts can be printed from one score without needing to create a custom layout<a class="IndexReference" name="entry-Score-Layout-0" href="#index-Score-Layout">↓</a> for them. For example, two flute parts can be printed separately and as c ombined (&ldquo;divisi&rdquo;) part, using the same music. Any marks etc that need to be handled differently can be made conditional<a class="IndexReference" name="entry-Conditional-Directive-0" href="#index-Conditional-Directive">↓</a> on the part name.
+Staffs with &ldquo;mirrored&rdquo; music can also be added. In this case the staff does not have music of its own, instead the music mirrors that in another staff. By setting the part-name<a class="IndexReference" name="entry-Part-Name-0" href="#index-Part-Name">↓</a> on such a staff a greater variety of parts can be printed from one score without needing to create a custom layout<a class="IndexReference" name="entry-Score-Layout-0" href="#index-Score-Layout">↓</a> for them. For example, two flute parts can be printed separately and as a combined (&ldquo;divisi&rdquo;) part, using the same music. Any marks etc that need to be handled differently can be made conditional<a class="IndexReference" name="entry-Conditional-Directive-0" href="#index-Conditional-Directive">↓</a> on the part name.
 </div>
 <h3 class="Subsubsection-">
 <a class="toc" name="toc-Subsubsection--30"></a>The Voices<a class="IndexReference" name="entry-Voice-3" href="#index-Voice">↓</a> Submenu
@@ -2619,7 +2625,7 @@ Notes/Rests-&gt;Markings-&gt;Dynamics for dynamic spanners (cresc. dim. etc, bot
 In some circumstances it is desirable to place dynamics in a separate <i>Dynamics Line (or Staff). </i>This is often the case for the dynamics centered between piano staffs; it ensure that hairpins align with each other and that other dynamic markings are placed consistently. It also allows for positioning of dynamics markings other than directly on notes - they can be placed at slightly later or earlier times. To do this notes of shorter duration are put in the dynamics staff and the dynamic markings are attached to them. The notes are just dummy notes to indicate the timing of the onset of the dynamic attached.
 </div>
 <div class="Indented">
-Sometimes, all parts have the same dynamics. In this case a single Dynamics Line can be placed at the bottom of the system and given a blank part-name. Staffs with blank part-names are printed with every part, so this line of dynamic markings will appear under every part printed with the Print Part command (or the Part button in the Print View).
+Sometimes, all parts have the same dynamics. In this case a single Dynamics Line can be placed at the bottom of the system and given a blank part-name. Staffs with blank part-names are printed with every part, so this line of dynamic markings will appear under every part printed with the Print Part<a class="IndexReference" name="entry-Print-Part-1" href="#index-Print-Part">↓</a> command (or the Part button in the Print View).
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-18.8">18.8</a> Tempo<a class="IndexReference" name="entry-Tempo-3" href="#index-Tempo">↓</a> Markings
@@ -2643,13 +2649,13 @@ For simple use Directives-&gt;Markings-&gt;Textual Annotation command may suffic
 The most general command is Directives-&gt;Markings-&gt;Multi-line Text and Music. As the name implies, you can not only insert simple text but also control the italic, bold, superscript, font-size etc, as well as inserting actual notated music, fret-diagrams in the sentences. These work by inserting &ldquo;markup&rdquo;, that is the text is interspersed with \bold, \italic etc to indicate what appearance is desired. A Preview button is provided so that you can see the effect of the markup. Buttons are provided to create effects such as bold, italic and the insertion of note names (so that things like B-minor in a title will transpose when the score is transposed) - these buttons remember the LilyPond markup language for you, so you don’t need to look it up. There are also commands to insert fret diagrams etc.
 </div>
 <div class="Indented">
-The text when it appears in the final typeset score can be edited via right-click for the position or content.
+The text when it appears in the final typeset score can be edited via right-click for the position or content. This same interface is also used if you edit the text of titles or the text to show on a page intentionally left blank<a class="IndexReference" name="entry-Blank-Page-1" href="#index-Blank-Page">↓</a>, but in these cases the text will be on a single line (unless the \column markup is used).
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-18.9.3">18.9.3</a> Text Spanning 
 </h3>
 <div class="Unindented">
-In the Directives-&gt;Markings-&gt;Spanning menu are commands that cause markings that span a passage of music, such as Cadenza and Piano Sustain pedal marks, ottava markings, and extended trill marks. Here also are 1st and 2nd (and nth) time bars, with shortcuts r,1 for starting a first time bar, r,2 starting a second time bar and r,e for ending either. The Nth time bar can be used to hold any text needed (i.e. use this for a first time bar if the indication should be other that 1.).
+In the Directives-&gt;Markings-&gt;Spanning Directives-&gt;Typesetter&gt;Spanning menus are commands that cause markings that span a passage of music, such as Cadenza and Piano Sustain pedal marks, ottava markings, and extended trill marks. Here also are 1st and 2nd (and nth) time bars, with shortcuts r,1 for starting a first time bar, r,2 starting a second time bar and r,e for ending either. The Nth time bar can be used to hold any text needed (i.e. use this for a first time bar if the indication should be other that 1.).
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-18.9.4">18.9.4</a> Rehearsal Marks
@@ -5092,6 +5098,9 @@ If you are not logged in as root user, for the last step type su and your root p
 <a class="printindex" name="index-Beaming"></a>Beaming: <a class="IndexArrow" href="#entry-Beaming-0">↑</a>, <a class="IndexArrow" href="#entry-Beaming-1">↑</a>, <a class="IndexArrow" href="#entry-Beaming-2">↑</a>, <a class="IndexArrow" href="#entry-Beaming-3">↑</a>, <a class="IndexArrow" href="#entry-Beaming-4">↑</a>, <a class="IndexArrow" href="#entry-Beaming-5">↑</a>
 </p>
 <p class="printindex">
+<a class="printindex" name="index-Blank-Page"></a>Blank Page: <a class="IndexArrow" href="#entry-Blank-Page-0">↑</a>, <a class="IndexArrow" href="#entry-Blank-Page-1">↑</a>
+</p>
+<p class="printindex">
 <a class="printindex" name="index-Bookmark"></a>Bookmark: <a class="IndexArrow" href="#entry-Bookmark-0">↑</a>, <a class="IndexArrow" href="#entry-Bookmark-1">↑</a>
 </p>
 <p class="printindex">
@@ -5224,7 +5233,13 @@ If you are not logged in as root user, for the last step type su and your root p
 <a class="printindex" name="index-Ornaments"></a>Ornaments: <a class="IndexArrow" href="#entry-Ornaments-0">↑</a>, <a class="IndexArrow" href="#entry-Ornaments-1">↑</a>, <a class="IndexArrow" href="#entry-Ornaments-2">↑</a>
 </p>
 <p class="printindex">
+<a class="printindex" name="index-Ossia"></a>Ossia: <a class="IndexArrow" href="#entry-Ossia-0">↑</a>
+</p>
+<p class="printindex">
 <a class="printindex" name="index-PDF"></a>PDF: <a class="IndexArrow" href="#entry-PDF-0">↑</a>, <a class="IndexArrow" href="#entry-PDF-1">↑</a>, <a class="IndexArrow" href="#entry-PDF-2">↑</a>, <a class="IndexArrow" href="#entry-PDF-3">↑</a>
+</p>
+<p class="printindex">
+<a class="printindex" name="index-Page-Break"></a>Page Break: <a class="IndexArrow" href="#entry-Page-Break-0">↑</a>
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Palettes"></a>Palettes: <a class="IndexArrow" href="#entry-Palettes-0">↑</a>
@@ -5249,6 +5264,9 @@ If you are not logged in as root user, for the last step type su and your root p
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Preferences"></a>Preferences: <a class="IndexArrow" href="#entry-Preferences-0">↑</a>
+</p>
+<p class="printindex">
+<a class="printindex" name="index-Print-Part"></a>Print Part: <a class="IndexArrow" href="#entry-Print-Part-0">↑</a>, <a class="IndexArrow" href="#entry-Print-Part-1">↑</a>
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Print-View"></a>Print View: <a class="IndexArrow" href="#entry-Print-View-0">↑</a>
@@ -5332,6 +5350,9 @@ If you are not logged in as root user, for the last step type su and your root p
 <a class="printindex" name="index-Whole-Measure-Rest"></a>Whole Measure Rest: <a class="IndexArrow" href="#entry-Whole-Measure-Rest-0">↑</a>
 </p>
 <p class="printindex">
+<a class="printindex" name="index-custos"></a>custos: <a class="IndexArrow" href="#entry-custos-0">↑</a>
+</p>
+<p class="printindex">
 <a class="printindex" name="index-score"></a>score: <a class="IndexArrow" href="#entry-score-0">↑</a>
 </p>
 <p class="printindex">
@@ -5340,7 +5361,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-04-23T17:54:12.239962</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-04-24T16:58:36.852918</span>
 </div>
 </div>
 </body>
