@@ -200,9 +200,14 @@ insert_vert (GtkWidget * button)
   gchar *text = string_dialog_entry (gui, _( "Space Above"), _("Give space to leave above +/- "), "2");
   if (text && *text)
     {
-        gchar *out = g_strdup_printf ("\\vspace #%s ", text);
+        gchar *out = g_strdup_printf ("\\vspace #%s", text);
       if (textbuffer)
-              gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), out, -1);
+        {    
+            GtkTextIter cursor;
+            gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), out, -1);
+            gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER (textbuffer), &cursor, gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(textbuffer)));   
+            gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER (textbuffer), &cursor, " ",    -1,  "ineditable",NULL);
+        }
        else
         {
           g_warning ("Denemo program error, widget hierarchy changed???");
@@ -220,21 +225,30 @@ insert_horiz (GtkWidget * button)
   DenemoProject *gui = Denemo.project;
   GtkWidget *hbox = gtk_widget_get_parent (button);
   GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+  //gtk_widget_hide (gtk_widget_get_toplevel (hbox));
+  // gtk_widget_show (gtk_widget_get_toplevel (hbox));
+  switch_back_to_main_window ();
   gchar *text = string_dialog_entry (gui, _( "Insert Space"), _("Give space to insert +/- "), "2");
   if (text && *text)
     {
         gchar *out = g_strdup_printf ("\\hspace #%s ", text);
       if (textbuffer)
-              gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), out, -1);
+        {    
+            GtkTextIter cursor;
+            gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), out, -1);
+            gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER (textbuffer), &cursor, gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(textbuffer)));   
+            gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER (textbuffer), &cursor, " ",    -1,  "ineditable",NULL);
+        }
        else
         {
           g_warning ("Denemo program error, widget hierarchy changed???");
-        }      
+        }  
      GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
      gtk_widget_grab_focus (textview);
      g_free (out);
     }
- g_free (text);
+ 
+  g_free (text);
 }
 
 

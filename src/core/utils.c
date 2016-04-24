@@ -2188,7 +2188,7 @@ string_dialog_entry_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar 
   gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
-
+  gtk_window_present (GTK_WINDOW (dialog));
   if (modal)
     {
       gtk_widget_grab_focus (entry);
@@ -2240,10 +2240,15 @@ gchar *
 string_dialog_editor_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar * direction, gchar * PreValue, GtkWidget * widget, gboolean modal, gpointer keypress_callback)
 {
   GtkWidget *dialog;
-  GtkWidget *textview;
   GtkWidget *label;
-  textview = gtk_text_view_new ();
-  GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+  GtkTextTagTable *tagtable = (GtkTextTagTable *) gtk_text_tag_table_new ();
+  GtkTextTag *t = gtk_text_tag_new ("ineditable");
+  g_object_set (G_OBJECT (t), "background", "light gray", NULL);
+  g_object_set (G_OBJECT (t), "editable", FALSE, NULL);
+  gtk_text_tag_table_add (tagtable, t);
+  GtkTextBuffer  *textbuffer = gtk_text_buffer_new (tagtable);
+  GtkWidget *textview = gtk_text_view_new_with_buffer (textbuffer);
+ 
   gtk_text_buffer_set_text (textbuffer, PreValue ? PreValue : "", -1);
   GtkWidget *sw = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
   
