@@ -3,6 +3,7 @@ dist_image_DATA = \
 ArticulationsPalette.png \
 cut.png \
 MidiInControls.png \
+MultiLine.png \
 PaletteMenu.png \
 save.png \
 AudioPref.png \

@@ -408,6 +408,28 @@ Staff Spaces
 \end_layout
 
 \begin_layout Itemize
+
+\emph on
+Part 
+\emph default
+is used with a special sense in Denemo: each staff has a part name associated
+ with it (printed at top left of the staff, with a green background for
+ editing it).
+ All staffs with the same part name (or with none) are typeset together
+ by the Print Part
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Print Part
+\end_layout
+
+\end_inset
+
+ command.
+\end_layout
+
+\begin_layout Itemize
 \begin_inset CommandInset href
 LatexCommand href
 target "http://lilypond.org/doc/v2.18/Documentation/music-glossary/index.html"
@@ -3022,7 +3044,7 @@ Score Layout
 \end_inset
 
  for them.
- For example, two flute parts can be printed separately and as c ombined
+ For example, two flute parts can be printed separately and as a combined
  (
 \begin_inset Quotes eld
 \end_inset
@@ -7020,6 +7042,7 @@ With Book Titles you get a title page with a border and then each movement
 \begin_layout Standard
 \begin_inset Graphics
 	filename images/BookTitles.png
+	width 20cm
 
 \end_inset
 
@@ -7499,7 +7522,17 @@ Sometimes, all parts have the same dynamics.
  system and given a blank part-name.
  Staffs with blank part-names are printed with every part, so this line
  of dynamic markings will appear under every part printed with the Print
- Part command (or the Part button in the Print View).
+ Part
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Print Part
+\end_layout
+
+\end_inset
+
+ command (or the Part button in the Print View).
 \end_layout
 
 \begin_layout Subsection
@@ -7558,6 +7591,16 @@ name "sub:Multi-line-Text-and"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Graphics
+	filename images/MultiLine.png
+	width 20cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 The most general command is Directives->Markings->Multi-line Text and Music.
  As the name implies, you can not only insert simple text but also control
  the italic, bold, superscript, font-size etc, as well as inserting actual
@@ -7570,17 +7613,47 @@ markup
 \begin_inset Quotes erd
 \end_inset
 
-, that is the text is interspersed with 
+, that is the text is interspersed with markup commands - 
 \backslash
 bold, 
 \backslash
-italic etc to indicate what appearance is desired.
- A Preview button is provided so that you can see the effect of the markup.
+italic etc - to indicate what appearance is desired.
+ In the example illustrated here, the markup 
+\backslash
+bold has been replaced with 
+\backslash
+dynamic to access the special font used for dynamics.
+ Many other markup commands are available, documented in the LilyPond manual.
+\end_layout
+
+\begin_layout Standard
+The Bold, Italic and Size buttons work on the selected text.
+ Note that the markup commands are generated automatically in a distinctive
+ font, monospaced and bold.
+ This is not essential, but helps to remind you that it is a special syntax.
+ Take care when editing this as errors can make trouble when typesetting
+ it is essential that the braces {} form pairs, for example.
+\end_layout
+
+\begin_layout Standard
+By right-clicking in the Denemo Display on standalone markup objects you
+ can edit the text and many other aspects of the object, such as how it
+ displays itself in the Denemo Display.
+\end_layout
+
+\begin_layout Standard
+A Preview button is provided so that you can see the effect of the markup.
  Buttons are provided to create effects such as bold, italic and the insertion
  of note names (so that things like B-minor in a title will transpose when
  the score is transposed) - these buttons remember the LilyPond markup language
  for you, so you don't need to look it up.
  There are also commands to insert fret diagrams etc.
+\end_layout
+
+\begin_layout Standard
+As a final check, Preview is run automatically as you finish - if it does
+ not typeset correctly edit it again to remove the error or delete it -
+ don't leave it as you score will not typeset with bad markup in it.
 \end_layout
 
 \begin_layout Standard
