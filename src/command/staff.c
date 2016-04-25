@@ -113,7 +113,7 @@ staff_copy_properties (DenemoStaff * src, DenemoStaff * dest)
 
   dest->volume = src->volume;
   dest->voicecontrol = DENEMO_SECONDARY;
-  staff_beams_and_stems_dirs (dest);
+ // staff_beams_and_stems_dirs (dest); this crashes the cache code, and is anyway absurd, this is an empty voice.
 }
 
 
