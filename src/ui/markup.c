@@ -177,7 +177,7 @@ insert_font_mag (GtkWidget * button)
 
   if (text && *text)
     {
-        gchar *out = g_strdup_printf ("\\fontsize #%s { ", text);
+        gchar *out = g_strdup_printf ("\\fontsize #%s {", text);
         gtk_text_buffer_select_range (GTK_TEXT_BUFFER (textbuffer), &start, &end);//the dialog has destroyed the selection
         if (!gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER (textbuffer), &start, &end))
             {
@@ -343,12 +343,12 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
 
   button = gtk_button_new_with_label (_("Bold"));
   gtk_widget_set_tooltip_text (button, _("Inserts markup to make the selected text bold."));
-  g_signal_connect (button, "clicked", G_CALLBACK (markup_selection), "\\bold { ");
+  g_signal_connect (button, "clicked", G_CALLBACK (markup_selection), "\\bold {");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
   
   button = gtk_button_new_with_label (_("Italic"));
   gtk_widget_set_tooltip_text (button, _("Inserts markup to make the selected text italic."));
-  g_signal_connect (button, "clicked", G_CALLBACK (markup_selection), "\\italic { ");
+  g_signal_connect (button, "clicked", G_CALLBACK (markup_selection), "\\italic {");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label (_("“"));
@@ -370,7 +370,7 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
   g_signal_connect (button, "clicked", G_CALLBACK (insert_vert), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
     button = gtk_button_new_with_label (_("⬌"));
-  gtk_widget_set_tooltip_text (button, _("Inserts the markup needed to insert space at the cursor."));
+  gtk_widget_set_tooltip_text (button, _("Inserts the markup needed to insert/backup space (+/-) at the cursor."));
   g_signal_connect (button, "clicked", G_CALLBACK (insert_horiz), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
   
