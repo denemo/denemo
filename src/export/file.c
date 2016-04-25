@@ -419,7 +419,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
         updatescoreinfo (gui);
       else
         {
-          if ((gui->script) && !(type == ADD_STAFFS || type == ADD_MOVEMENTS))
+          if ((gui->script) && (*gui->script) && !(type == ADD_STAFFS || type == ADD_MOVEMENTS))
             {
               gui->has_script = TRUE;
               cache_all ();
@@ -516,11 +516,13 @@ save_in_format (gint format_id, DenemoProject * gui, gchar * filename)
          * saved with the file, if not 
          * delete the script.
          */
-
-        if (!Denemo.non_interactive && (!gui->has_script) && getNumCharsSchemeText ())
-          if (!confirm (_("You have a Script defined"), _("Use this script every time this file is opened?")))
+        if (getNumCharsSchemeText () == 0)
+            gui->has_script = FALSE;
+        if ((!Denemo.non_interactive) && getNumCharsSchemeText () && (!gui->has_script))
+          if (choose_option (_("You have a Script defined"), _("Normal Save"), _("Advanced: Execute the script every time this file is opened?")))
             {
               deleteSchemeText ();
+              gui->has_script = FALSE;
             }
         ret = exportXML (file, gui);
         break;

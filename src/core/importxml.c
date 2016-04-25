@@ -2910,6 +2910,7 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
         case REPLACE_SCORE:
           free_movements (gui);
           deleteSchemeText ();
+          gui->has_script = FALSE;
           reset_editing_timer ();
           gui->total_edit_time = 0;
           gui->has_script = FALSE;
