@@ -2000,7 +2000,7 @@ edit_staff_and_voice_properties (gboolean show_staff)
     gtk_window_set_title (GTK_WINDOW (editstaffwin), _("Staff and Voice Properties Editor"));
     gtk_window_set_transient_for (GTK_WINDOW(editstaffwin), GTK_WINDOW(Denemo.window));
     gtk_window_set_keep_above (GTK_WINDOW (editstaffwin), TRUE);
-    gtk_window_set_default_size (GTK_WINDOW (editstaffwin), 600, window_height);
+    gtk_window_set_default_size (GTK_WINDOW (editstaffwin), 800, window_height);
     
     
     GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
