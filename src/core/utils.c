@@ -2188,12 +2188,12 @@ string_dialog_entry_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar 
   gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
-  gtk_window_present (GTK_WINDOW (dialog));
+ 
   if (modal)
     {
       gtk_widget_grab_focus (entry);
       hide_windows();
- 
+      gtk_window_present (GTK_WINDOW (dialog));
       if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
         {
             gchar *string = NULL;
@@ -2219,6 +2219,7 @@ string_dialog_entry_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar 
     {
       g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_main_quit), entry);
       gtk_main ();
+      gtk_window_present (GTK_WINDOW (dialog));
       if (GTK_IS_WIDGET (entry))
         {
           entry_string = GTK_IS_WIDGET (entry) ? g_strdup ((gchar *) gtk_entry_get_text (GTK_ENTRY (entry))) : NULL;
@@ -2246,6 +2247,11 @@ string_dialog_editor_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar
   g_object_set (G_OBJECT (t), "background", "light gray", NULL);
   g_object_set (G_OBJECT (t), "editable", FALSE, NULL);
   gtk_text_tag_table_add (tagtable, t);
+  t = gtk_text_tag_new ("code");
+  g_object_set (G_OBJECT (t), "weight", PANGO_WEIGHT_BOLD, "family", "monospace", NULL);
+  gtk_text_tag_table_add (tagtable, t);
+  
+  
   GtkTextBuffer  *textbuffer = gtk_text_buffer_new (tagtable);
   GtkWidget *textview = gtk_text_view_new_with_buffer (textbuffer);
  
