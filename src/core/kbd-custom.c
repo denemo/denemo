@@ -1839,54 +1839,51 @@ static gint last_row = -1;      // implemented as last found idx
 static gboolean
 search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar * key, GtkTreeIter * iter, G_GNUC_UNUSED gpointer search_data)
 {
-  gchar *lookin;
-  gboolean notfound;
-  static gchar *last_key;
-  static gchar **search_strings;
-  static gint number_of_search_terms;
-  gboolean backspace = FALSE;
-  if (*key == 0)
+    gchar *lookin;
+    gboolean notfound;
+    static gchar *last_key;
+    static gchar **search_strings;
+    static gint number_of_search_terms;
+    gboolean backspace = FALSE;
+    if (*key == 0)
     return TRUE;
-  if ((!last_key) || strcmp (key, last_key))
+    if ((!last_key) || strcmp (key, last_key))
     {
 
      if(search_strings)
         g_strfreev (search_strings);
-     search_strings = g_strsplit (key, " ", -1);
-     gchar **p;
-     number_of_search_terms = 0;
-    for (p = search_strings;*p && **p;p++)
-        {gchar *c = *p;
-        *p = g_utf8_casefold (*p, -1);
-        g_free (c);
-        number_of_search_terms++;
-        }
-    backspace = last_key && (strlen(key)<strlen(last_key));
-     g_free (last_key);
-     last_key = g_strdup(key);   
+        search_strings = g_strsplit (key, " ", -1);
+        gchar **p;
+        number_of_search_terms = 0;
+        for (p = search_strings;*p && **p;p++)
+            {gchar *c = *p;
+            *p = g_utf8_casefold (*p, -1);
+            g_free (c);
+            number_of_search_terms++;
+            }
+        backspace = last_key && (strlen(key)<strlen(last_key));
+        g_free (last_key);
+        last_key = g_strdup(key);   
     }
-  if (backspace)
-    return FALSE;
-  gchar *tooltip; 
-   gtk_tree_model_get (model, iter, COL_TOOLTIP, &tooltip, -1);
-  gchar *label;
-   gtk_tree_model_get (model, iter, COL_LABEL, &label, -1);
-  gchar *name;
-   gtk_tree_model_get (model, iter, COL_NAME, &name, -1);
-    
-   
-  lookin = g_strconcat (tooltip, " ", label," ", name, NULL); 
-  gchar *this;
-  this = g_utf8_casefold (lookin, -1);
-  
+    if (backspace)
+      return FALSE;
+    gchar *tooltip; 
+    gtk_tree_model_get (model, iter, COL_TOOLTIP, &tooltip, -1);
+    gchar *label;
+    gtk_tree_model_get (model, iter, COL_LABEL, &label, -1);
+    gchar *name;
+    gtk_tree_model_get (model, iter, COL_NAME, &name, -1);
+
+    lookin = g_strconcat (tooltip, " ", label," ", name, NULL); 
+    gchar *this;
+    this = g_utf8_casefold (lookin, -1);
+
   GtkTreePath *path = gtk_tree_model_get_path (model, iter);
   gchar *thepath = path?gtk_tree_path_to_string (path):NULL;
   gint rownum = thepath?atoi (thepath):0;
   gtk_tree_path_free(path);
   g_free(thepath);
-  
-  //gtk_tree_model_get (model, iter, COL_NAME, &name, -1);
-  //const gint idx = rownum;//lookup_command_from_name(Denemo.map, name);//= lookup_action_from_name (name);
+  //g_print ("row %d\t", rownum);
   gchar **p;
   gint matches = 0;
   for (p = search_strings;*p && **p;p++)
@@ -1899,14 +1896,13 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
     notfound = (matches + fuzzy < number_of_search_terms);
   else
     notfound = !matches;
-
   if ((!notfound) && (rownum <= last_row))
     notfound = TRUE;
   if (!notfound) 
-        {
-         last_row = rownum;
-         if (Denemo.prefs.immediateplayback)
-            play_note (DEFAULT_BACKEND, 0, 9, 67, 300, 127);
+    {
+     last_row = rownum;
+     if (Denemo.prefs.immediateplayback)
+        play_note (DEFAULT_BACKEND, 0, 9, 67, 300, 127);
      }
   g_free(this);
   
@@ -1944,7 +1940,7 @@ static void
 search_next (GtkWidget *SearchEntry)
 {
     if ( gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW(get_command_view())), NULL, NULL))
-        last_row++;
+        ;//last_row++;
     else
        last_row = -1;
   //FIXME issue some signal to cause a search to be made instead of this:
@@ -1961,8 +1957,11 @@ static void selection_changed (GtkTreeSelection *selection, GtkTreeModel* model)
     const gchar *command_name;
     if(gtk_tree_selection_get_selected (selection, NULL, &iter))
       {
-        gtk_tree_model_get (model, &iter, COL_NAME, &command_name, -1);
-        last_row = lookup_command_from_name(Denemo.map, command_name);
+      GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
+      gchar *thepath = path?gtk_tree_path_to_string (path):NULL;
+      last_row = thepath?atoi (thepath):0;
+      gtk_tree_path_free(path);
+      g_free(thepath); //g_print ("Last row set to idx %d\n", last_row);   
       }
 }
 
