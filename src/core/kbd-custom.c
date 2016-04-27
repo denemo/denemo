@@ -1845,8 +1845,8 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
     static gchar **search_strings;
     static gint number_of_search_terms;
     gboolean backspace = FALSE;
-    if (*key == 0)
-    return TRUE;
+    if (*key == 0 || strlen(key)<4)
+        return TRUE;
     if ((!last_key) || strcmp (key, last_key))
     {
 
@@ -1874,7 +1874,7 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
     gchar *name;
     gtk_tree_model_get (model, iter, COL_NAME, &name, -1);
 
-    lookin = g_strconcat (tooltip, " ", label," ", name, NULL); 
+    lookin = g_strconcat (tooltip, " ", label," ", name, " ", NULL); 
     gchar *this;
     this = g_utf8_casefold (lookin, -1);
 
@@ -1888,8 +1888,8 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
   gint matches = 0;
   for (p = search_strings;*p && **p;p++)
     {
-        if (g_strstr_len (this, -1, *p))
-            matches++;//g_print ("%s in %s matches %d\n", this, *p, matches);
+       if (g_strstr_len (this, -1, *p))
+            matches++; 
     }
   //notfound = (matches <= number_of_search_terms/2);
   if (number_of_search_terms > 1)

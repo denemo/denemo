@@ -548,6 +548,18 @@ static void createMouseShortcut_from_data (keyboard_dialog_data *data) {
         createMouseShortcut (action);
         }
 }
+static gboolean search_entry_character (GtkWidget *entry,  GdkEventKey *event)
+{
+   gint key = event->keyval;
+   if ((key == GDK_KEY_Tab) || (event->keyval == GDK_KEY_Return)) 
+    { //transform into spaces
+        event->keyval = GDK_KEY_space;
+        event->hardware_keycode = 0x41;
+    }
+  return FALSE;  
+}
+
+
 void
 configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
 {
@@ -602,6 +614,8 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
     }
    if(SearchEntry==NULL) {
     SearchEntry = gtk_entry_new ();
+        g_signal_connect(G_OBJECT(SearchEntry), "key-press-event", G_CALLBACK(search_entry_character), NULL);
+
     SearchNext = gtk_button_new_with_label ("→");
     gtk_widget_set_tooltip_text (SearchEntry, _("Type search text here. Enter words that might be in the command label,\nor part of the text of a tooltip or the internal name.\nThe search is case insensitive. It goes on to the next match each time you enter letter that doesn't match the current command so check at each keypress.\nThe search re-starts from the top when you delete a letter."));
     gtk_widget_set_tooltip_text (SearchNext, _("Search for the next matching command. Starts again at the top once it has reached the end."));
