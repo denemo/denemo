@@ -4,10 +4,55 @@
         (text "1, 2.")
         (data #f)
         (choice #f)
-        (size "1.5")
-        (bold #f)
+        (size "1")
+        (bold #t)
         (italic #f))
-        
+ 
+   (define (create-volta size italic bold text)
+        (define instring #f)
+        (define result "")
+        (define (nameof adigit)
+            (case adigit
+                ((#\1) "\"one\"")
+                ((#\2) "\"two\"")
+                ((#\3) "\"three\"")
+                ((#\4) "\"four\"")
+                ((#\5) "\"five\"")
+                ((#\6) "\"six\"")
+                ((#\7) "\"seven")
+                ((#\8) "\"eight\"")
+                ((#\9) "\"nine\"")))
+                
+        (let loop ((n 0))
+            (if (< n (string-length text))
+                (let ()
+                    (define thischar (string-ref text n))
+                    (if (char-set-contains? char-set:digit thischar)
+                         (begin
+                            (if instring
+                                    (begin   ;( to balance
+                                        (set! result (string-append result "\")"))
+                                        (set! instring #f)))
+                            (set! result (string-append result "(make-musicglyph-markup " (nameof thischar) 
+                                                    ")(make-hspace-markup -0.5)")))
+                        (begin
+                            (if instring
+                                    (set! result (string-append result (make-string 1 thischar)))
+                                    (set! result (string-append result "(make-text-markup \"" (make-string 1 thischar))))  ;) to balance
+                            (set! instring #t)))
+                           
+                    (loop (1+ n)))
+                (if instring ;( to balance
+                        (set! result (string-append result "\")")))))
+        (string-append   "#(list (list 'volta (make-scale-markup '(" size " . " size ")"  
+                                (if bold "(make-bold-markup" "")
+                                (if italic "(make-italic-markup" "")
+                                "(make-line-markup (list " 
+                            result
+                                 (if bold ")" "")
+                                 (if italic ")" "")
+                                 ")))))"))      
+
     (set! data (d-DirectiveGet-standalone-data tag))
     (if data
             (begin
@@ -80,13 +125,8 @@
                         (set! size "1.5"))
                     (d-DirectivePut-standalone-minpixels  tag 50)
                     (d-DirectivePut-standalone-postfix tag (string-append "
-                    \\set Score.repeatCommands = #(list (list 'volta (make-scale-markup '(" size " . " size ")" 
-                        (if bold "(make-bold-markup" "")
-                        (if italic "(make-italic-markup" "")
-                         "(make-text-markup \"" text "\")"
-                         (if bold ")" "")
-                         (if italic ")" "")
-                         ")))"))
+                    \\set Score.repeatCommands = " (create-volta size italic bold text)))
+                   
 
                     (d-DirectivePut-standalone-gx  tag 8)
                     (d-DirectivePut-standalone-gy  tag -40)
