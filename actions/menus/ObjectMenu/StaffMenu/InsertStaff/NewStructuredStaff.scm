@@ -1,12 +1,9 @@
 ;;;; NewStructuredStaff
 (let ((params NewStructuredStaff::params))
 (d-MoveToBeginning) 
-(if params
-    (begin
-        (d-AddVoice)
-        (d-MoveToStaffUp)
-        (d-SplitVoices))
-    (d-AddAfter))
+(d-AddAfter)
+ (if params
+    (d-SetCurrentStaffAsVoice))
 (d-MoveToStaffUp)
 (if (or (Timesignature?) (d-Directive-standalone? "Upbeat")(d-Directive-standalone? "ShortMeasure"))
         (begin
