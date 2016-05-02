@@ -290,7 +290,20 @@ keypress (GtkWidget *textview, GdkEventKey *event )
 {
     guint keyval = event->keyval;
     if (keyval == 0xFF63)
-     return TRUE;// ignore Ins, don't want to have overwrite mode 
+     return TRUE;// ignore Ins, don't want to have overwrite mode
+     
+    if(keyval == 0xFF09) //TAB
+      return TRUE;
+    if(event->state & GDK_CONTROL_MASK) //allow save etc from lyrics pane
+        {
+            if (event->keyval == 0x6c)
+                 {
+                    switch_back_to_main_window ();
+                    return TRUE;
+                }
+            scorearea_keypress_event (textview, event );
+            return TRUE;
+        }
     return FALSE;
 }
 static gboolean 
