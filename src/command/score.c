@@ -195,7 +195,7 @@ append_movement (GtkAction * action, gpointer param, gboolean populate)
         break;
       GList *dest = g_list_last (gui->movement->thescore);
       DenemoStaff *dest_staff = dest->data;
-      staff_copy (source_staff, dest_staff);
+      staff_copy (source_staff, dest_staff, TRUE);
     }
   gui->movements = g_list_append (gui->movements, gui->movement);
   //gui->movement->currentmovementnum = 1 + g_list_index (gui->movements, gui->movement);

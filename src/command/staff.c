@@ -118,9 +118,11 @@ staff_copy_properties (DenemoStaff * src, DenemoStaff * dest)
 
 
 
-/* copies a staff without its music data to another staff */
+/* copies a staff without its music data to another staff
+ * if copy_all is FALSE directives attached to the staff are not copied nor the voicecontrol field
+ * so that a voice can be created with cloned properties. */
 void
-staff_copy (DenemoStaff * src, DenemoStaff * dest)
+staff_copy (DenemoStaff * src, DenemoStaff * dest, gboolean copy_all)
 {
   dest->denemo_name = g_string_new (src->denemo_name->str);
   dest->lily_name = g_string_new (src->lily_name->str);
@@ -138,18 +140,20 @@ staff_copy (DenemoStaff * src, DenemoStaff * dest)
   dest->range_hi = src->range_hi;/**< highest note playable by instrument, mid_c_offset */
   dest->range_lo = src->range_lo;/**< lowest note playable by instrument, mid_c_offset */
   dest->volume = src->volume;
-  dest->voicecontrol = src->voicecontrol;
+  
   dest->clef.type = src->clef.type;
   dest->leftmost_clefcontext = &dest->clef;
-
-  dest->staff_directives = clone_directives (src->staff_directives);
-  dest->voice_directives = clone_directives (src->voice_directives);
-  
-  dest->clef.directives = clone_directives (src->clef.directives);
-  dest->keysig.directives = clone_directives (src->keysig.directives);
-  dest->timesig.directives = clone_directives (src->timesig.directives);
-
-
+  if (copy_all)
+    {
+      dest->voicecontrol = src->voicecontrol;
+      dest->staff_directives = clone_directives (src->staff_directives);
+      dest->voice_directives = clone_directives (src->voice_directives);
+      
+      dest->clef.directives = clone_directives (src->clef.directives);
+      dest->keysig.directives = clone_directives (src->keysig.directives);
+      dest->timesig.directives = clone_directives (src->timesig.directives);
+    }
+    
   dest->keysig.number = src->keysig.number;
   dest->keysig.isminor = src->keysig.isminor;
   memcpy (dest->keysig.accs, src->keysig.accs, SEVENGINTS);

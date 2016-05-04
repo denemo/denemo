@@ -53,6 +53,6 @@ void staff_new_voice (GtkAction * action, DenemoScriptParam * param);
 
 void staff_new_last (GtkAction * action, DenemoScriptParam * param);
 
-void staff_copy (DenemoStaff * src, DenemoStaff * dest);
+void staff_copy (DenemoStaff * src, DenemoStaff * dest, gboolean copy_all);
 
 #endif /* __STAFFOPS_H__ */
