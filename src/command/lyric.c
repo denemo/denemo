@@ -37,6 +37,22 @@ verse_get_current(DenemoStaff* staff){
   return g_list_position(staff->verse_views, staff->current_verse_view);
 }
 
+static void previous_verse (void)
+{
+    DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data; 
+    GtkWidget *w = thestaff->verse_views->data;
+    GtkNotebook *notebook = gtk_widget_get_parent (gtk_widget_get_parent (w));
+    gtk_notebook_prev_page (notebook);
+}
+
+static void next_verse (void)
+{
+    DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data; 
+    GtkWidget *w = thestaff->verse_views->data;
+    GtkNotebook *notebook = gtk_widget_get_parent (gtk_widget_get_parent (w));
+    gtk_notebook_next_page (notebook);
+}
+
 void 
 verse_set_current_text(DenemoStaff* staff, gchar* text)
 {
@@ -288,7 +304,7 @@ synchronize_cursor(GtkWidget *textview)
 static gboolean 
 keypress (GtkWidget *textview, GdkEventKey *event )
 {
-    guint keyval = event->keyval;
+    guint keyval = event->keyval;//g_print ("press %x", event->keyval);
     if (keyval == 0xFF63)
      return TRUE;// ignore Ins, don't want to have overwrite mode
      
@@ -296,13 +312,33 @@ keypress (GtkWidget *textview, GdkEventKey *event )
       return TRUE;
     if(event->state & GDK_CONTROL_MASK) //allow save etc from lyrics pane
         {
-            if (event->keyval == 0x6c)
-                 {
-                    switch_back_to_main_window ();
-                    return TRUE;
+        switch (event->keyval) {
+            case 0x6C: //Control-l standard prefix for lyrics commands
+                switch_back_to_main_window ();
+                break;//return TRUE;
+            case 0xFF51: //Control-Left
+                previous_verse ();
+                return TRUE;
+            case 0xFF53: //Control-Right
+                next_verse ();
+                return TRUE;
+            case 0x73: //Control-s save but stay in verse
+             call_out_to_guile ("(d-Save)");
+              return TRUE;
+            case 0xFF52: //Control-up  
+              call_out_to_guile ("(d-MoveToStaffUp)(d-EditLyricAtCursor)");
+              return TRUE;
+            case 0xFF54: //Control-down  
+                call_out_to_guile ("(d-MoveToStaffDown)(d-EditLyricAtCursor)");
+                return TRUE;
+            default:
+                switch_back_to_main_window ();
+                break;
+                    
                 }
-            scorearea_keypress_event (textview, event );
-            return TRUE;
+        //use drawing area call back routine
+        scorearea_keypress_event (textview, event);
+        return TRUE;
         }
     return FALSE;
 }
@@ -311,7 +347,7 @@ text_inserted_cb (GtkWidget *textview, GdkEventKey *event )
 {
   static gboolean seen_space;
   gchar *str = event->string;
-  guint keyval = event->keyval;
+  guint keyval = event->keyval;// g_print ("release %x", event->keyval);
   if ((keyval==0x20) || (keyval==0xFF0D)|| (keyval==0xFF09)|| (keyval==0xFF8D)) //space return tab Enter
     {
       seen_space = TRUE;
@@ -392,6 +428,9 @@ populate_called (G_GNUC_UNUSED GtkWidget * view, GtkMenuShell * menu)
   prepend_menu_item (menu, _("Insert Stanza Number"), (gpointer) insert_stanza_number, _("Insert a stanza number using the LilyPond syntax"));
   return FALSE;
 }
+
+
+
 guint
 add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
 {
@@ -445,8 +484,8 @@ add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
   gdk_color_parse ("gray", &thecolor);
   gtk_widget_modify_bg (verse_view, GTK_STATE_NORMAL, &thecolor);     
 #else
-  GdkRGBA grayed = {0.5, 0.5, 0.5, 1.0};
-  GdkRGBA white = {0.7, 0.7, 0.7, 1.0};
+  GdkRGBA grayed = {0.5, 0.5, 0.5, 1.0}; //background away from letters, when not receiving input
+  GdkRGBA white = {0.7, 0.7, 0.7, 1.0}; //background of letters
   gtk_widget_override_background_color (GTK_WIDGET(verse_view), GTK_STATE_FLAG_FOCUSED, &white);
   gtk_widget_override_background_color (GTK_WIDGET(verse_view), GTK_STATE_FLAG_NORMAL, &grayed);
  #endif 
