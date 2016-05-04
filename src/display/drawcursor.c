@@ -63,9 +63,9 @@ draw_cursor (cairo_t * cr, DenemoMovement * si, gint xx, gint y, gint insert_con
     else if (si->cursoroffend)
       insert_pos = insert_control * CURSOR_WIDTH;
     static gboolean on;
-    on = !on;
+    on = !on;//g_print (" %d and %x\n", gtk_widget_has_focus (gtk_widget_get_parent (Denemo.scorearea)), gtk_widget_get_state_flags (Denemo.scorearea));
     //g_debug("on is %d %d\n", on,  Denemo.prefs.cursor_highlight);
-    if ((!Denemo.prefs.cursor_highlight) || (on && Denemo.prefs.cursor_highlight))
+    if (((!Denemo.prefs.cursor_highlight) || (on && Denemo.prefs.cursor_highlight)) && (gtk_widget_has_focus (Denemo.scorearea) && gtk_widget_is_focus (Denemo.scorearea)))
       {
         cairo_set_source_rgb (cr, 0, 0, 255);
         cairo_set_line_width (cr, 4);
