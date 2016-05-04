@@ -5893,6 +5893,21 @@ scheme_set_lines_in_staff (SCM lines)
   
   return scm_from_int (thestaff->no_of_lines);
 }
+SCM
+scheme_inherit_staff_properties (void)
+{  
+    DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+    DenemoStaff *prevstaff = (DenemoStaff *) (Denemo.project->movement->currentstaff->prev?Denemo.project->movement->currentstaff->prev->data:NULL);
+    
+    if (prevstaff)
+        {
+        staff_copy (prevstaff, thestaff, FALSE);
+        return SCM_BOOL_T;
+        }
+  
+  return SCM_BOOL_F;
+}
+
 static SCM
 set_staff_range (SCM setting, gboolean hi)
 {  

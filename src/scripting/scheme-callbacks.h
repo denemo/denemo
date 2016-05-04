@@ -64,6 +64,7 @@ SCM scheme_put_clip_obj (SCM tag, SCM value);
 SCM scheme_clear_clipboard (SCM);
 SCM scheme_get_staffs_in_clipboard (SCM);
 SCM scheme_get_measures_in_staff (SCM);
+SCM scheme_inherit_staff_properties (void);
 SCM scheme_set_lines_in_staff (SCM);
 SCM scheme_set_staff_range_lo (SCM);
 SCM scheme_set_staff_range_hi (SCM);
