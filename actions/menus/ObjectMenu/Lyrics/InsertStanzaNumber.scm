@@ -18,5 +18,5 @@
                                                 "1."))
        (if text 
             (begin
-            	(d-InsertTextInVerse (string-append "\\set stanza = \\markup {"  (do-bold) (do-italic)  text "}\n")))
-        	(d-SetSaved #f)))
+                (d-InsertTextInVerse (string-append (if (zero? (d-SyllableCount)) "" " ") "\\set stanza = \\markup {"  (do-bold) (do-italic)  text "}\n")))
+            (d-SetSaved #f)))
