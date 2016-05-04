@@ -121,7 +121,7 @@ Copyright © 2009, 2010, 2011, 2012, 2013, 2014, 2015 Denemo Project
 
 \begin_layout Standard
 \align center
-Updates for version 2.0.6
+Updates for version 2.0.10
 \end_layout
 
 \begin_layout Standard
@@ -240,7 +240,7 @@ score
 status open
 
 \begin_layout Plain Layout
-score
+Score
 \end_layout
 
 \end_inset
@@ -258,7 +258,7 @@ staff
 status open
 
 \begin_layout Plain Layout
-staff
+Staff
 \end_layout
 
 \end_inset
@@ -1435,6 +1435,15 @@ The New command starts a new score, while New Tab creates an empty score
  while leaving the current score open - a line of tabs appears at the top
  of the display for switching between these.
  Note that you do not have to have multiple scores open to copy and paste
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Copy/Cut and Paste
+\end_layout
+
+\end_inset
+
  between scores - opening a new score does not alter the clipboard.
 \end_layout
 
@@ -1638,9 +1647,19 @@ There are commands for deleting the object before the cursor, the object
 \begin_layout Standard
 There are commands for editing all the Denemo Objects of a chosen type across
  the whole of a score.
- Commands for managing 
+ Commands for managing the
 \emph on
-the selection 
+ selection
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Selection
+\end_layout
+
+\end_inset
+
+ 
 \emph default
 are also here.
  Editing using the keyboard to invoke a palette button is here too (usual
@@ -1652,13 +1671,77 @@ p
 \end_layout
 
 \begin_layout Standard
-Here, too, you invoke editing the Preferences.
+Here, too, you invoke editing the Preferences
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Preferences
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
 The NotationMagick submenu is for generating random notes, reflecting, reversing
 , shuffling notes etc - the sort of things computers can do with music easily
  but humans find more difficult.
+\end_layout
+
+\begin_layout Subsubsection*
+Copy/Cut and Paste
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Copy/Cut and Paste
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The usual shortcuts (
+\family typewriter
+Ctrl-c Ctrl-x Ctrl-v
+\family default
+) are set by default operating on the 
+\emph on
+selection
+\emph default
+ 
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Selection
+\end_layout
+
+\end_inset
+
+.
+ With no selection the Copy command copies an attribute attached to the
+ note/chord at the cursor, such as an ornament or fingering.
+ If there is more than one attribute set you are asked to choose which to
+ copy.
+ If there are none, the object at the cursor is copied.
+ In all cases 
+\emph on
+the copied item is highlighted in green 
+\emph default
+so you can be sure that your keypress has been 
+\begin_inset Quotes eld
+\end_inset
+
+heard
+\begin_inset Quotes erd
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1738,6 +1821,16 @@ Show the score layouts associated with this score.
 
 \begin_layout Subsubsection*
 Lyrics
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Lyrics
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3940,8 +4033,43 @@ This means that you will see the lyrics for the current staff disappear
 \end_layout
 
 \begin_layout Standard
+The Lyric pane shows only a few lines initially, but you can drag it upwards
+ if you need to see more.
+ Lyrics are entered as a 
+\emph on
+syllables
+\emph default
+ separated by spaces or new lines (which have no other meaning).
+ The full possible syntax is given in the LilyPond documentation, but Denemo
+ provides you with menu items for inserting the most useful extras such
+ as stanza numbers, font selection and skips.
+\end_layout
+
+\begin_layout Standard
+You can switch to the lyrics pane with 
+\family typewriter
+Ctrl-l, Ctrl-l
+\family default
+, and you can switch back from editing the lyrics to editing the music with
+ the Esc or Tab keys.
+ You can change verse with 
+\family typewriter
+Ctrl-left/right 
+\family default
+arrows and change staffs with 
+\family typewriter
+Ctrl-up/down,
+\family default
+ and save with
+\family typewriter
+ Ctrl-s
+\family default
+, all other control key sequences switch you to the main Denemo Display.
+\end_layout
+
+\begin_layout Standard
 Stanza numbers can be entered as well as font-changing commands.
- Use 
+ Use the 
 \family typewriter
 Melismata
 \begin_inset Index idx
@@ -3972,8 +4100,24 @@ Ctrl-l, Ctrl-l
 \family default
 ) which finds the place in the lyrics corresponding to the cursor position
  allowing you to edit the syllable that underlies the current note.
- Verses can be typeset in columns at the end by using command Typeset Verses
- at End which invokes the external Inkscape (or other) editor.
+ 
+\end_layout
+
+\begin_layout Standard
+Verses can be typeset in columns at the end by using command Typeset Verses
+ at End which can use an externally provided Encapsulated Postscript file,
+ or can invoke the external Inkscape (or other) vector graphics editor (see
+ preferences
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Preferences
+\end_layout
+
+\end_inset
+
+ to select this).
 \end_layout
 
 \begin_layout Subsubsection
@@ -4581,10 +4725,21 @@ Search Commands
 
 \end_inset
 
- starts as you type in the first letter of any key words you want, so check
- after each letter to see if you have found the command you need.
- To search for further commands matching your keywords press the arrow next
- to the search box.
+ starts once you have typed the fourth letter of any key words you want,
+ so check after each letter to see if you have found the command you need.
+ To search for further commands matching your keywords press 
+\family typewriter
+Space 
+\family default
+or
+\family typewriter
+ Tab 
+\family default
+or
+\family typewriter
+ Return 
+\family default
+or click the arrow next to the search box.
  
 \end_layout
 
