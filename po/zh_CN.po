@@ -5,17 +5,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: denemo-2.0.6-rc1\n"
+"Project-Id-Version: denemo-2.0.8-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
-"POT-Creation-Date: 2016-03-22 14:28+0000\n"
-"PO-Revision-Date: 2016-03-23 16:08+0800\n"
+"POT-Creation-Date: 2016-04-26 16:10+0100\n"
+"PO-Revision-Date: 2016-04-29 15:26+0800\n"
 "Last-Translator: Tianze Wang <zwpwjwtz@126.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.7.1\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. GtkFileFilter *filter;
@@ -26,16 +26,16 @@ msgstr "选择 SoundFont 文件"
 #. GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.script_view), GTK_TEXT_WINDOW_WIDGET))
 #: ../src/audio/fluid.c:211 ../src/audio/playback.c:121
 #: ../src/command/changenotehead.c:107 ../src/command/lilydirectives.c:1996
-#: ../src/command/lilydirectives.c:2461 ../src/core/utils.c:2070
-#: ../src/core/utils.c:2145 ../src/core/utils.c:2229 ../src/core/utils.c:2326
-#: ../src/export/file.c:164 ../src/export/file.c:826 ../src/export/file.c:886
-#: ../src/export/file.c:1110 ../src/export/print.c:716
+#: ../src/command/lilydirectives.c:2464 ../src/core/utils.c:2093
+#: ../src/core/utils.c:2168 ../src/core/utils.c:2263 ../src/core/utils.c:2360
+#: ../src/export/file.c:165 ../src/export/file.c:829 ../src/export/file.c:889
+#: ../src/export/file.c:1113 ../src/export/print.c:716
 #: ../src/printview/printview.c:1140 ../src/printview/svgview.c:720
-#: ../src/scripting/scheme-callbacks.c:4048 ../src/source/sourceaudio.c:397
+#: ../src/scripting/scheme-callbacks.c:4062 ../src/source/sourceaudio.c:397
 #: ../src/source/sourceaudio.c:758 ../src/ui/clefdialog.c:138
-#: ../src/ui/kbd-interface.c:462 ../src/ui/keysigdialog.c:360
+#: ../src/ui/kbd-interface.c:462 ../src/ui/keysigdialog.c:361
 #: ../src/ui/playbackprops.c:57 ../src/ui/prefdialog.c:414
-#: ../src/ui/scoreprops.c:131 ../src/ui/staffpropdialog.c:351
+#: ../src/ui/scoreprops.c:131 ../src/ui/staffpropdialog.c:352
 #: ../src/ui/texteditors.c:173 ../src/ui/texteditors.c:186
 #: ../src/ui/texteditors.c:238 ../src/ui/texteditors.c:277
 #: ../src/ui/texteditors.c:496 ../src/ui/timedialog.c:233
@@ -43,8 +43,8 @@ msgstr "选择 SoundFont 文件"
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: ../src/audio/fluid.c:211 ../src/core/utils.c:2071 ../src/export/file.c:826
-#: ../src/export/file.c:888 ../src/source/sourceaudio.c:398
+#: ../src/audio/fluid.c:211 ../src/core/utils.c:2094 ../src/export/file.c:829
+#: ../src/export/file.c:891 ../src/source/sourceaudio.c:398
 #: ../src/source/sourceaudio.c:759 ../src/ui/texteditors.c:278
 msgid "_Open"
 msgstr "打开(_O)"
@@ -149,13 +149,13 @@ msgstr "播放范围（秒）："
 #. GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.script_view), GTK_TEXT_WINDOW_WIDGET))
 #. parent window
 #: ../src/audio/playback.c:121 ../src/command/changenotehead.c:107
-#: ../src/command/lilydirectives.c:1995 ../src/command/lilydirectives.c:2460
-#: ../src/core/utils.c:2145 ../src/core/utils.c:2229 ../src/core/utils.c:2325
-#: ../src/export/print.c:716 ../src/scripting/scheme-callbacks.c:4047
+#: ../src/command/lilydirectives.c:1995 ../src/command/lilydirectives.c:2463
+#: ../src/core/utils.c:2168 ../src/core/utils.c:2263 ../src/core/utils.c:2359
+#: ../src/export/print.c:716 ../src/scripting/scheme-callbacks.c:4061
 #: ../src/ui/clefdialog.c:138 ../src/ui/kbd-interface.c:461
-#: ../src/ui/keysigdialog.c:360 ../src/ui/playbackprops.c:57
+#: ../src/ui/keysigdialog.c:361 ../src/ui/playbackprops.c:57
 #: ../src/ui/prefdialog.c:414 ../src/ui/scoreprops.c:131
-#: ../src/ui/staffpropdialog.c:351 ../src/ui/texteditors.c:186
+#: ../src/ui/staffpropdialog.c:352 ../src/ui/texteditors.c:186
 #: ../src/ui/texteditors.c:496 ../src/ui/timedialog.c:233
 #: ../src/ui/tomeasuredialog.c:48 ../src/ui/tupletdialog.c:16
 msgid "_OK"
@@ -174,7 +174,7 @@ msgstr "到"
 #. * Array of different Notehead types
 #.
 #: ../src/command/changenotehead.c:22 ../src/command/changenotehead.c:34
-#: ../actions/denemo.scm:271 ../actions/denemo.scm:332
+#: ../actions/denemo.scm:279 ../actions/denemo.scm:340
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:18
 #: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm:11
 #: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm:11
@@ -217,7 +217,7 @@ msgid "There is no previous movement to swap with"
 msgstr "没有可以交换的前一个小节"
 
 #. give info about removing matching context
-#: ../src/command/commandfuncs.c:491 ../src/command/staff.c:383
+#: ../src/command/commandfuncs.c:491 ../src/command/staff.c:384
 msgid "A context is set on this staff"
 msgstr "在此谱表中设置了上下文"
 
@@ -350,7 +350,7 @@ msgstr "添加显示文本（如果需要的话）"
 
 #. FIXME how is this supposed to be done?
 #: ../src/command/lilydirectives.c:406 ../src/command/lilydirectives.c:409
-#: ../src/command/scorelayout.c:980
+#: ../src/command/scorelayout.c:982
 msgid "Insert LilyPond"
 msgstr "插入 LilyPond"
 
@@ -421,7 +421,7 @@ msgstr "选择附加到和弦的记号"
 msgid "Select the directive %s on note \"%s\"?"
 msgstr "选择音符“%s”的记号 %s 吗？"
 
-#: ../src/command/lilydirectives.c:2216 ../src/command/object.c:1141
+#: ../src/command/lilydirectives.c:2216 ../src/command/object.c:1214
 msgid "No object here to edit"
 msgstr "没有可以编辑的对象"
 
@@ -437,132 +437,132 @@ msgstr "这标志着连音的终止位置（三连音等） - 它应当与连音
 msgid "No method for editing this type of object"
 msgstr "没有用于此类对象的编辑方式"
 
-#: ../src/command/lilydirectives.c:2401
+#: ../src/command/lilydirectives.c:2404
 #, c-format
 msgid "Could not get contents of %s"
 msgstr "无法获取 %s 的内容"
 
-#: ../src/command/lilydirectives.c:2414
+#: ../src/command/lilydirectives.c:2417
 msgid "There is already an edit script for this tag"
 msgstr "此标签已有编辑脚本"
 
-#: ../src/command/lilydirectives.c:2414 ../src/core/view.c:2497
-#: ../src/export/file.c:1242
+#: ../src/command/lilydirectives.c:2417 ../src/core/view.c:2497
+#: ../src/export/file.c:1245
 msgid "Do you want to replace it?"
 msgstr "你希望替换它吗？"
 
-#: ../src/command/lilydirectives.c:2424
+#: ../src/command/lilydirectives.c:2427
 msgid "Wrote edit script file to ~/.denemo/editscripts"
 msgstr "写入编辑脚本文件至 ~/.denemo/editscripts"
 
 #. for reset
-#: ../src/command/lilydirectives.c:2457
+#: ../src/command/lilydirectives.c:2460
 msgid "Low Level Denemo Directive Edit"
 msgstr "高级 Denemo 记号编辑"
 
-#: ../src/command/lilydirectives.c:2463 ../src/command/object.c:1149
+#: ../src/command/lilydirectives.c:2466 ../src/command/object.c:1223
 msgid "Denemo Object Editor"
 msgstr "Denemo 对象编辑器"
 
-#: ../src/command/lilydirectives.c:2465
+#: ../src/command/lilydirectives.c:2468
 msgid "Delete Directive"
 msgstr "删除记号"
 
-#: ../src/command/lilydirectives.c:2466
+#: ../src/command/lilydirectives.c:2469
 msgid "Create Script"
 msgstr "创建脚本"
 
-#: ../src/command/lilydirectives.c:2516
+#: ../src/command/lilydirectives.c:2519
 msgid " x:"
 msgstr " x："
 
-#: ../src/command/lilydirectives.c:2523
+#: ../src/command/lilydirectives.c:2526
 msgid " y:"
 msgstr " y："
 
-#: ../src/command/lilydirectives.c:2531
+#: ../src/command/lilydirectives.c:2534
 msgid "Postfix"
 msgstr "后缀"
 
-#: ../src/command/lilydirectives.c:2532
+#: ../src/command/lilydirectives.c:2535
 msgid "Prefix"
 msgstr "前缀"
 
-#: ../src/command/lilydirectives.c:2533
+#: ../src/command/lilydirectives.c:2536
 msgid "Display text"
 msgstr "显示文本"
 
-#: ../src/command/lilydirectives.c:2534
+#: ../src/command/lilydirectives.c:2537
 msgid "Text Position"
 msgstr "文本位置"
 
-#: ../src/command/lilydirectives.c:2535
+#: ../src/command/lilydirectives.c:2538
 msgid "Graphic"
 msgstr "图形"
 
-#: ../src/command/lilydirectives.c:2536
+#: ../src/command/lilydirectives.c:2539
 msgid "Graphic Position"
 msgstr "图形位置"
 
-#: ../src/command/lilydirectives.c:2537
+#: ../src/command/lilydirectives.c:2540
 msgid "Tag"
 msgstr "标签"
 
-#: ../src/command/lilydirectives.c:2538
+#: ../src/command/lilydirectives.c:2541
 msgid "LilyPond Grob Name"
 msgstr "LilyPond Grob 名称"
 
-#: ../src/command/lilydirectives.c:2539
+#: ../src/command/lilydirectives.c:2542
 msgid "Scheme Data"
 msgstr "项目数据"
 
-#: ../src/command/lilydirectives.c:2540
+#: ../src/command/lilydirectives.c:2543
 msgid "MidiBytes"
 msgstr "MidiBytes"
 
-#: ../src/command/lilydirectives.c:2541
+#: ../src/command/lilydirectives.c:2544
 msgid "Override Mask"
 msgstr "覆盖遮罩"
 
-#: ../src/command/lilydirectives.c:2542
+#: ../src/command/lilydirectives.c:2545
 msgid "Minimum pixel width"
 msgstr "最小像素宽度"
 
-#: ../src/command/lilydirectives.c:2543
+#: ../src/command/lilydirectives.c:2546
 msgid "Only Applies to Layout"
 msgstr "仅应用到布局"
 
-#: ../src/command/lilydirectives.c:2544
+#: ../src/command/lilydirectives.c:2547
 msgid "Ignored by Layout"
 msgstr "在布局中忽略"
 
-#: ../src/command/lilydirectives.c:2548
+#: ../src/command/lilydirectives.c:2551
 msgid "Get Edit Script"
 msgstr "获取编辑脚本"
 
-#: ../src/command/lilydirectives.c:2551
+#: ../src/command/lilydirectives.c:2554
 msgid "Put Edit Script"
 msgstr "设置编辑脚本"
 
 #. disabled until website can take uploading again
-#: ../src/command/lilydirectives.c:2556
+#: ../src/command/lilydirectives.c:2559
 msgid "Upload Edit Script"
 msgstr "上传编辑脚本"
 
-#: ../src/command/lilydirectives.c:2560
+#: ../src/command/lilydirectives.c:2563
 msgid "Show Current Script"
 msgstr "显示当前脚本"
 
-#: ../src/command/lilydirectives.c:2684 ../src/command/lilydirectives.c:2761
+#: ../src/command/lilydirectives.c:2687 ../src/command/lilydirectives.c:2764
 msgid "Directive Delete"
 msgstr "记号删除"
 
-#: ../src/command/lilydirectives.c:2684 ../src/command/lilydirectives.c:2761
+#: ../src/command/lilydirectives.c:2687 ../src/command/lilydirectives.c:2764
 msgid "Are you sure you want to delete the directive?"
 msgstr "你真的要删除记号？"
 
 #. here  ) to match the string paren open
-#: ../src/command/lilydirectives.c:2715 ../src/command/object.c:650
+#: ../src/command/lilydirectives.c:2718 ../src/command/object.c:668
 #: ../src/export/print.c:622 ../src/export/print.c:654
 #: ../src/export/print.c:685 ../src/ui/palettes.c:217
 #: ../src/ui/texteditors.c:60 ../actions/denemo-modules/directives.scm:28
@@ -570,19 +570,21 @@ msgstr "你真的要删除记号？"
 #: ../actions/denemo-modules/wysiwyg.scm:403
 #: ../actions/menus/MainMenu/PlaybackMenu/MuteStaffs.scm:22
 #: ../actions/menus/ObjectMenu/ClefMenu/TypesetOnlyClef.scm:25
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:165
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:179
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:157
 #: ../actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm:30
 #: ../actions/menus/ObjectMenu/MovementMenu/DuplicateOrMergeMovements.scm:35
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/InsertSpaceBeforeMovement.scm:20
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:18
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:23
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:23
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:27
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:38
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:42
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:45
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:28
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:128
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:35
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.scm:23
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/AvoidSlurAccidentalCollision.scm:16
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.scm:9
 #: ../actions/menus/ObjectMenu/Score/CheckScoreSkipping.scm:23
 #: ../actions/menus/ObjectMenu/Score/Titles/ScoreVersion.scm:40
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:138
@@ -591,7 +593,7 @@ msgstr "你真的要删除记号？"
 #: ../actions/menus/ObjectMenu/StaffMenu/DeleteCurrentStaff.scm:5
 #: ../actions/menus/ObjectMenu/StaffMenu/DeleteFromCursorToEnd.scm:18
 #: ../actions/menus/ObjectMenu/StaffMenu/DeleteMeasuresBeforeCursor.scm:14
-#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm:87
+#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm:89
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/LoadMidiTrack.scm:24
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:130
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:143
@@ -599,20 +601,20 @@ msgstr "你真的要删除记号？"
 msgid "Cancelled"
 msgstr "已取消"
 
-#: ../src/command/lilydirectives.c:2717
+#: ../src/command/lilydirectives.c:2720
 msgid "Use the ObjectMenu to modify this object - there are no directives here"
 msgstr "使用对象菜单来编辑此对象 - 此处没有记号"
 
-#: ../src/command/lilydirectives.c:2751
+#: ../src/command/lilydirectives.c:2754
 msgid "No directives here"
 msgstr "此处没有记号"
 
-#: ../src/command/lilydirectives.c:2756
+#: ../src/command/lilydirectives.c:2759
 msgid "No directive selected"
 msgstr "未选择记号"
 
 #. (TweakRelativeOffset tag (car amount) (cdr amount))
-#: ../src/command/lilydirectives.c:2764 ../src/core/view.c:2435
+#: ../src/command/lilydirectives.c:2767 ../src/core/view.c:2435
 #: ../actions/denemo-modules/directives.scm:77
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:25
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:31
@@ -621,7 +623,7 @@ msgstr "未选择记号"
 msgid "Operation cancelled"
 msgstr "操作已取消"
 
-#: ../src/command/lilydirectives.c:2789
+#: ../src/command/lilydirectives.c:2792
 msgid ""
 "Select a score or movement directive for advanced (low-level) edit.\n"
 "Note: these directives can be edited normally using Score/Movement Properties Editor from the Score or Movement menus."
@@ -629,80 +631,80 @@ msgstr ""
 "选择一个乐谱或乐章记号来进行高级（基础层次）编辑。\n"
 "注意：这些记号可以通过乐章或乐谱菜单中的乐谱/乐章属性编辑器来编辑。"
 
-#: ../src/command/lilydirectives.c:2835
+#: ../src/command/lilydirectives.c:2838
 msgid "Select a score directive - use Shift for advanced edit"
 msgstr "选择一个乐谱记号 - 按 Shift 进行高级编辑"
 
-#: ../src/command/lilydirectives.c:2842
+#: ../src/command/lilydirectives.c:2845
 msgid "Select a score header block directive - use Shift for advanced edit"
 msgstr "选择一个乐谱头部块记号 - 按 Shift 进行高级编辑"
 
-#: ../src/command/lilydirectives.c:2850
+#: ../src/command/lilydirectives.c:2853
 msgid "Select a score paper block directive - use Shift for advanced edit"
 msgstr "选择一个乐谱正文块记号 - 按 Shift 进行高级编辑"
 
-#: ../src/command/lilydirectives.c:2859
+#: ../src/command/lilydirectives.c:2862
 msgid "Select a movement header block directive - use Shift for advanced edit"
 msgstr "选择一个乐章头部块记号 - 按 Shift 进行高级编辑"
 
-#: ../src/command/lilydirectives.c:2867
+#: ../src/command/lilydirectives.c:2870
 msgid "Select a movement layout block directive - use Shift for advanced edit"
 msgstr "选择一个乐章布局块记号 - 按 Shift 进行高级编辑"
 
-#: ../src/command/lilydirectives.c:2875
+#: ../src/command/lilydirectives.c:2878
 msgid "Select a movement control directive - use Shift for advanced edit"
 msgstr "选择一个乐章控制记号 - 按 Shift 进行高级编辑"
 
-#: ../src/command/lilydirectives.c:2884
+#: ../src/command/lilydirectives.c:2887
 msgid "Select a clef directive - use Shift for advanced edit"
 msgstr "选择一个谱号记号 - 按 Shift 进行高级编辑"
 
-#: ../src/command/lilydirectives.c:2893
+#: ../src/command/lilydirectives.c:2896
 msgid "Select a key signature directive - use Shift for advanced edit"
 msgstr "选择一个调号记号 - 按 Shift 进行高级编辑"
 
-#: ../src/command/lilydirectives.c:2902 ../src/command/lilydirectives.c:2911
-#: ../src/command/lilydirectives.c:2920
+#: ../src/command/lilydirectives.c:2905 ../src/command/lilydirectives.c:2914
+#: ../src/command/lilydirectives.c:2923
 msgid "Select a time signature directive - use Shift for advanced edit"
 msgstr "选择一个时值记号 - 按 Shift 进行高级编辑"
 
-#: ../src/command/lilydirectives.c:2932
+#: ../src/command/lilydirectives.c:2935
 msgid "Select a staff directive - use Shift for advanced edit"
 msgstr "选择一个谱表记号 - 按 Shift 进行高级编辑"
 
-#: ../src/command/lilydirectives.c:2943
+#: ../src/command/lilydirectives.c:2946
 msgid "Select a voice directive - use Shift for advanced edit"
 msgstr "选择一个音色记号 - 按 Shift 进行高级编辑"
 
-#: ../src/command/lilydirectives.c:3080
+#: ../src/command/lilydirectives.c:3083
 msgid "ScoreDirectives"
 msgstr "乐谱记号"
 
-#: ../src/command/lilydirectives.c:3081
+#: ../src/command/lilydirectives.c:3084
 msgid "Score Header Block Directives"
 msgstr "乐谱头部块记号"
 
-#: ../src/command/lilydirectives.c:3082
+#: ../src/command/lilydirectives.c:3085
 msgid "Score Paper Block Directives"
 msgstr "乐谱正文块记号"
 
-#: ../src/command/lilydirectives.c:3083 ../src/command/lilydirectives.c:3146
+#: ../src/command/lilydirectives.c:3086 ../src/command/lilydirectives.c:3149
 msgid "Movement Header Block Directives"
 msgstr "乐章头部块记号"
 
-#: ../src/command/lilydirectives.c:3084
+#: ../src/command/lilydirectives.c:3087
 msgid "Layout Block Directives"
 msgstr "布局块记号"
 
-#: ../src/command/lilydirectives.c:3144
+#: ../src/command/lilydirectives.c:3147
 msgid "Layout Directives"
 msgstr "布局记号"
 
-#: ../src/command/lilydirectives.c:3145
+#: ../src/command/lilydirectives.c:3148
 msgid "Movement Directives"
 msgstr "乐章记号"
 
-#: ../src/command/lyric.c:86
+#: ../src/command/lyric.c:98
 msgid ""
 "The text of a verse can be typed or pasted here. Press Esc to return to editing notes.\n"
 "Separate syllables with space double hyphen space, -- , if they should have their own note(s).\n"
@@ -712,40 +714,40 @@ msgstr ""
 "可以使用双连字符 -- 来分隔音节，如果需要将它们与音符一一对应的话。\n"
 "程序不区分换行符和额外的空格。含有连音符的音符只能对应一个音节。可以用下划线 _ 表示空白音节。"
 
-#: ../src/command/lyric.c:323
+#: ../src/command/lyric.c:355
 #: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm:16
 msgid "Stanza Number"
 msgstr "小节数"
 
-#: ../src/command/lyric.c:323
+#: ../src/command/lyric.c:355
 msgid "Give text to appear before lyrics"
 msgstr "添加文本到歌词前"
 
-#: ../src/command/lyric.c:323
+#: ../src/command/lyric.c:355
 msgid "1. "
 msgstr "1. "
 
-#: ../src/command/lyric.c:347
+#: ../src/command/lyric.c:379
 #: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.xml.h:1
 msgid "Insert Stanza Number"
 msgstr "插入小节数"
 
-#: ../src/command/lyric.c:347
+#: ../src/command/lyric.c:379
 msgid "Insert a stanza number using the LilyPond syntax"
 msgstr "使用 LilyPond 语法插入小节数"
 
-#: ../src/command/lyric.c:384
+#: ../src/command/lyric.c:416
 #, c-format
 msgid "Verse %d"
 msgstr "歌词 %d"
 
-#: ../src/command/measure.c:220
+#: ../src/command/measure.c:221
 msgid "removemeasures: received request to delete more measures                   than exist.  Junking request."
 msgstr "removemeasures：收到删除请求的小节数超过现存小节数。视为无效请求。"
 
-#: ../src/command/object.c:104 ../src/command/object.c:475
-#: ../src/command/object.c:1018 ../src/command/object.c:1493
-#: ../src/command/object.c:1688
+#: ../src/command/object.c:104 ../src/command/object.c:479
+#: ../src/command/object.c:1085 ../src/command/object.c:1567
+#: ../src/command/object.c:1762
 msgid "No tooltip"
 msgstr "没有工具提示"
 
@@ -759,7 +761,7 @@ msgstr "命令记号：<span weight=\"bold\">\"%s\"</span>\n"
 msgid "Directive tagged: <span foreground=\"red\"weight=\"bold\">\"%s\"</span>\n"
 msgstr "标签记号：<span foreground=\"red\"weight=\"bold\">\"%s\"</span>\n"
 
-#: ../src/command/object.c:122 ../src/command/object.c:493
+#: ../src/command/object.c:122 ../src/command/object.c:497
 #, c-format
 msgid "Menu location for this command: <span style=\"italic\" weight=\"bold\">\"%s\"</span>\n"
 msgstr "此命令的菜单位置：<span style=\"italic\" weight=\"bold\">\"%s\"</span>\n"
@@ -783,7 +785,7 @@ msgstr "此对象前插入的 LilyPond 为<tt>“%s”</tt>\n"
 msgid "LilyPond inserted in postfix to this object is <tt>\"%s\"</tt>\n"
 msgstr "此对象后插入的 LilyPond 为<tt>“%s”</tt>\n"
 
-#: ../src/command/object.c:144 ../src/command/object.c:515
+#: ../src/command/object.c:144 ../src/command/object.c:519
 msgid ""
 "<span foreground=\"red\"weight=\"bold\">THIS DIRECTIVE IS CONDITIONAL ON THE LAYOUT\n"
 "</span>"
@@ -809,47 +811,47 @@ msgstr "前一小节为空"
 msgid "Subsequent measures are empty"
 msgstr "后一小节为空"
 
-#: ../src/command/object.c:234
+#: ../src/command/object.c:238
 msgid "Denemo Object Inspector"
 msgstr "Denemo 对象检查器"
 
-#: ../src/command/object.c:264
+#: ../src/command/object.c:268
 msgid "Inspect next note in chord"
 msgstr "检查和弦中的下一个音符"
 
-#: ../src/command/object.c:264
+#: ../src/command/object.c:268
 msgid "Inspect the note"
 msgstr "检查此音符"
 
-#: ../src/command/object.c:272
+#: ../src/command/object.c:276
 msgid "Run the Object Editor"
 msgstr "运行对象编辑器"
 
-#: ../src/command/object.c:277
+#: ../src/command/object.c:281
 msgid "The cursor is in the appending position after "
 msgstr ""
 
-#: ../src/command/object.c:277
+#: ../src/command/object.c:281
 msgid "The cursor is on "
 msgstr "光标位于"
 
-#: ../src/command/object.c:288
+#: ../src/command/object.c:292
 msgid "chord"
 msgstr "和弦"
 
-#: ../src/command/object.c:289
+#: ../src/command/object.c:293
 msgid "a chord.\n"
 msgstr "一个和弦。\n"
 
-#: ../src/command/object.c:293
+#: ../src/command/object.c:297
 msgid "note"
 msgstr "音符"
 
-#: ../src/command/object.c:294
+#: ../src/command/object.c:298
 msgid "a one-note chord.\n"
 msgstr "单音符和弦。\n"
 
-#: ../src/command/object.c:297
+#: ../src/command/object.c:301
 msgid ""
 "A slur starts from here.\n"
 "There should be a matching end slur later.\n"
@@ -857,7 +859,7 @@ msgstr ""
 "连音符起始于此。\n"
 "后面应当有相应的终止处。\n"
 
-#: ../src/command/object.c:299
+#: ../src/command/object.c:303
 msgid ""
 "A slur ends here\n"
 "There should be a matching start slur earlier.\n"
@@ -865,7 +867,7 @@ msgstr ""
 "连音符终止于此。\n"
 "前面应当有相应的起始处。\n"
 
-#: ../src/command/object.c:301
+#: ../src/command/object.c:305
 msgid ""
 "This is tied to the following note or chord.\n"
 "The following note or chord should have the same pitch\n"
@@ -873,111 +875,111 @@ msgstr ""
 "它与后面的音符或和弦相关联。\n"
 "后面的音符或和弦应当具有相同的音调\n"
 
-#: ../src/command/object.c:303
+#: ../src/command/object.c:307
 msgid "This note begins a crescendo. Use the Right Click → Dynamics menu to control this.\n"
 msgstr "此音符位于渐强开始处。可以单击 右键→力度菜单 来控制。\n"
 
-#: ../src/command/object.c:305
+#: ../src/command/object.c:309
 msgid "This note ends a crescendo. Use the Right Click → Dynamics menu to control this.\n"
 msgstr "此音符位于渐强结束处。可以单击 右键→力度菜单 来控制。\n"
 
-#: ../src/command/object.c:307
+#: ../src/command/object.c:311
 msgid "This note begins a diminuendo. Use the Right Click → Dynamics menu to control this.\n"
 msgstr "此音符位于渐弱开始处。可以单击 右键→力度菜单 来控制。\n"
 
-#: ../src/command/object.c:309
+#: ../src/command/object.c:313
 msgid "This note ends a diminuendo. Use the Right Click → Dynamics menu to control this.\n"
 msgstr "此音符位于渐弱结束处。可以单击 右键→力度菜单 来控制。\n"
 
-#: ../src/command/object.c:312
+#: ../src/command/object.c:316
 msgid "This is an acciaccatura note\n"
 msgstr "这是一个短倚音符\n"
 
-#: ../src/command/object.c:315
+#: ../src/command/object.c:319
 msgid "This is an appoggiatura note\n"
 msgstr "这是一个倚音符\n"
 
-#: ../src/command/object.c:317
+#: ../src/command/object.c:321
 msgid "This note denotes a rhythm - use a MIDI keyboard to add pitches by playing.\n"
 msgstr "此符号表示一段节奏 - 可以使用  MIDI 键盘演奏来添加音高\n"
 
-#: ../src/command/object.c:319
+#: ../src/command/object.c:323
 #, c-format
 msgid "A Chord Symbol \"%s\" is attached to this note.\n"
 msgstr "将和弦符号“%s”附加到此音符。\n"
 
-#: ../src/command/object.c:322
+#: ../src/command/object.c:326
 #, c-format
 msgid "A Bass Figure \"%s\" is attached to this note.\n"
 msgstr "将贝司符号“%s”附加到此音符。\n"
 
-#: ../src/command/object.c:330
+#: ../src/command/object.c:334
 #, c-format
 msgid "<b>Within the chord the cursor is on the note %s </b>\n"
 msgstr "<b>光标在和弦中的音符 %s 上</b>\n"
 
-#: ../src/command/object.c:334
+#: ../src/command/object.c:338
 msgid "Attached to this note:"
 msgstr "附加到此音符："
 
-#: ../src/command/object.c:339
+#: ../src/command/object.c:343
 msgid "This rhythm has extra notes added to it, delete them and use the foot-pedal or Alt key to enter chords with the MIDI controller.\n"
 msgstr "此节奏附加了额外的音符，请删除它们，然后使用脚踏板或 Alt 键通过 MIDI 控制器输入和弦。\n"
 
-#: ../src/command/object.c:344
+#: ../src/command/object.c:348
 msgid "rest"
 msgstr "休止符"
 
-#: ../src/command/object.c:345
+#: ../src/command/object.c:349
 msgid "a rest.\n"
 msgstr "一个休止符。\n"
 
-#: ../src/command/object.c:347
+#: ../src/command/object.c:351
 msgid "This rest has a slur start on it, use the Right Click  → Slurs menu to remove it\n"
 msgstr "此休止符位于连音符起始处，请单击 右键→连音符菜单来移除它\n"
 
-#: ../src/command/object.c:349
+#: ../src/command/object.c:353
 msgid "This rest has a slur end on it, use the Right Click → Slurs menu to remove it\n"
 msgstr "此休止符位于连音符终止处，请单击 右键→连音符菜单来移除它\n"
 
-#: ../src/command/object.c:351
+#: ../src/command/object.c:355
 msgid "This rest has a tie starting on it, use the Right Click  → Tied Note to remove it\n"
 msgstr "此休止符位于延音符起始处，请单击 右键→延音符来移除它\n"
 
-#: ../src/command/object.c:355
+#: ../src/command/object.c:359
 msgid "This rest will not print, just act as a spacer.\n"
 msgstr "此休止符仅作为间隔，将不会显示。\n"
 
-#: ../src/command/object.c:357
+#: ../src/command/object.c:361
 msgid "This rest has the grace attribute set: these objects are usually inserted automatically to match real grace notes in other parts, this helps the music typesetter place the grace note correctly in the Print View.\n"
 msgstr "此休止符被设置了装饰音属性：这些对象通常是自动插入的，以便匹配其他片段中的装饰音，以及在打印预览中对装饰音进行正确的排版。\n"
 
-#: ../src/command/object.c:362 ../src/command/object.c:1187
+#: ../src/command/object.c:366 ../src/command/object.c:1261
 msgid "Attached to the chord:"
 msgstr "附加到和弦："
 
-#: ../src/command/object.c:370
+#: ../src/command/object.c:374
 #, c-format
 msgid "This %s starts %d 𝅘𝅥  's into the measure and lasts %d 𝅘𝅥 's.\n"
 msgstr "此 %s 起始于小节中的第 %d 个𝅘𝅥 并持续 %d 个𝅘𝅥。\n"
 
-#: ../src/command/object.c:372
+#: ../src/command/object.c:376
 #, c-format
 msgid "This %s starts %d 𝅘𝅥  's into the measure and lasts %d/%d 𝅘𝅥 's.\n"
 msgstr "此 %s 起始于小节中的第 %d 个𝅘𝅥 并持续 %d/%d 个𝅘𝅥。\n"
 
-#: ../src/command/object.c:376
+#: ../src/command/object.c:380
 #, c-format
 msgid "This %s starts %d/%d 𝅘𝅥  's into the measure and lasts %d 𝅘𝅥 's.\n"
 msgstr "此 %s 起始于小节中的第 %d/%d 个𝅘𝅥 并持续 %d 个𝅘𝅥。\n"
 
-#: ../src/command/object.c:378
+#: ../src/command/object.c:382
 #, c-format
 msgid "This %s starts %d/%d 𝅘𝅥  's into the measure and lasts %d/%d 𝅘𝅥 's.\n"
 msgstr "此 %s 起始于小节中的第 %d/%d 个𝅘𝅥 并持续 %d/%d 个𝅘𝅥。\n"
 
 #. type = _("start tuplet marker");
-#: ../src/command/object.c:386
+#: ../src/command/object.c:390
 #, c-format
 msgid ""
 " a Start Tuplet object\n"
@@ -990,12 +992,12 @@ msgstr ""
 "直到遇到连音终止对象。\n"
 "请参见 音符/休止→连音 来控制连音的显示\n"
 
-#: ../src/command/object.c:389
+#: ../src/command/object.c:393
 msgid "Attached to the Start Tuplet:"
 msgstr "附加到连音起始："
 
 #. type = _("end tuplet marker");
-#: ../src/command/object.c:398
+#: ../src/command/object.c:402
 #, c-format
 msgid ""
 "an End Tuplet object\n"
@@ -1004,35 +1006,35 @@ msgstr ""
 "一个连音终止对象\n"
 "注意：必须与相应的连音起始对象位于同一小节内。\n"
 
-#: ../src/command/object.c:401
+#: ../src/command/object.c:405
 msgid "Attached to the End Tuplet:"
 msgstr "附加到连音终止："
 
 #. type = _("clef change object");
-#: ../src/command/object.c:411
+#: ../src/command/object.c:415
 #, c-format
 msgid "a Clef Change object.\n"
 msgstr "一个谱号变更对象。\n"
 
-#: ../src/command/object.c:414
+#: ../src/command/object.c:418
 msgid "Attached to the Clef Change:"
 msgstr "附加到谱号变更："
 
-#: ../src/command/object.c:418
+#: ../src/command/object.c:422
 msgid "This clef change is non-printing, it just affects the display.\n"
 msgstr "此谱号变更对象不会被打印，仅影响显示。\n"
 
 #. type = _("time signature change object");
-#: ../src/command/object.c:427
+#: ../src/command/object.c:431
 #, c-format
 msgid "a Time Signature Change object.\n"
 msgstr "一个时值变更对象。\n"
 
-#: ../src/command/object.c:430
+#: ../src/command/object.c:434
 msgid "Attached to the Time Signature Change:"
 msgstr "附加到时值变更："
 
-#: ../src/command/object.c:435
+#: ../src/command/object.c:439
 #, c-format
 msgid ""
 "A Time Signature Change should be the first object in a measure\n"
@@ -1042,34 +1044,34 @@ msgstr ""
 "除非你希望进行一些特殊的操作"
 
 #. type = _("key signature change object");
-#: ../src/command/object.c:443
+#: ../src/command/object.c:447
 #, c-format
 msgid "a Key Signature Change object.\n"
 msgstr "一个调号变更对象。\n"
 
-#: ../src/command/object.c:446
+#: ../src/command/object.c:450
 msgid "Attached to the Key Signature Change:"
 msgstr "附加到调号变更："
 
 #. type = _("stem direction change object");
-#: ../src/command/object.c:456
+#: ../src/command/object.c:460
 #, c-format
 msgid "a Stem Direction Control Object. The notes after the cursor %s"
 msgstr "一个符干方向控制对象。光标后的音符 %s"
 
-#: ../src/command/object.c:456
+#: ../src/command/object.c:460
 msgid "will have stems downwards."
 msgstr "的符干将会朝下。"
 
-#: ../src/command/object.c:456
+#: ../src/command/object.c:460
 msgid "will have stems upwards."
 msgstr "的符干将会朝上。"
 
-#: ../src/command/object.c:456
+#: ../src/command/object.c:460
 msgid "will have stems up or down as needed."
 msgstr "的符干方向将会视情况而定。"
 
-#: ../src/command/object.c:459
+#: ../src/command/object.c:463
 msgid ""
 "\n"
 "Attached to the Stemming Change:"
@@ -1077,17 +1079,17 @@ msgstr ""
 "\n"
 "附加到符干变更："
 
-#: ../src/command/object.c:478
+#: ../src/command/object.c:482
 #, c-format
 msgid "a Denemo Directive: <span weight=\"bold\">%s</span>\n"
 msgstr "一个 Denemo 记号：<span weight=\"bold\">%s</span>\n"
 
-#: ../src/command/object.c:480
+#: ../src/command/object.c:484
 #, c-format
 msgid "a Denemo Directive tagged: <span foreground=\"red\"weight=\"bold\">%s</span>\n"
 msgstr "一个 Denemo 标签记号：<span foreground=\"red\"weight=\"bold\">%s</span>\n"
 
-#: ../src/command/object.c:485
+#: ../src/command/object.c:489
 #, c-format
 msgid ""
 "\n"
@@ -1098,12 +1100,12 @@ msgstr ""
 "用于创建此记号的命令帮助：\n"
 "<big>\"%s\"</big>"
 
-#: ../src/command/object.c:489
+#: ../src/command/object.c:493
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: ../src/command/object.c:489
+#: ../src/command/object.c:493
 msgid ""
 "\n"
 "Not all layouts\n"
@@ -1111,7 +1113,7 @@ msgstr ""
 "\n"
 "并非所有布局\n"
 
-#: ../src/command/object.c:489
+#: ../src/command/object.c:493
 msgid ""
 "\n"
 "Only for one Layout\n"
@@ -1119,17 +1121,17 @@ msgstr ""
 "\n"
 "仅一种布局\n"
 
-#: ../src/command/object.c:506
+#: ../src/command/object.c:510
 #, c-format
 msgid "The LilyPond text inserted is <tt>%s%s</tt>\n"
 msgstr "插入的 LilyPond 文本为 <tt>%s%s</tt>\n"
 
-#: ../src/command/object.c:512
+#: ../src/command/object.c:516
 #, c-format
 msgid "This object does not affect the printed output (no LilyPond syntax is generated for the typesetter)\n"
 msgstr "此对象不影响打印输出（排版时不生成 LilyPond 语法）\n"
 
-#: ../src/command/object.c:518
+#: ../src/command/object.c:522
 msgid ""
 "This Directive is at the end of the music\n"
 "You may need a closing double bar line -\n"
@@ -1139,68 +1141,68 @@ msgstr ""
 "你可能需要双小节线 -\n"
 "见 记号→标记→插入小节线"
 
-#: ../src/command/object.c:525
+#: ../src/command/object.c:529
 msgid "The cursor is on an unknown object type. Please report how this happened!"
 msgstr "光标位于未知类型的对象上。请报告这一错误！"
 
-#: ../src/command/object.c:536
+#: ../src/command/object.c:540
 #, c-format
 msgid "Playback timing: %d minutes %1.2f seconds"
 msgstr "回放计时：%d 分 %1.2f 秒"
 
-#: ../src/command/object.c:542
+#: ../src/command/object.c:546
 msgid "<span font-desc=\"30\">Warning</span> "
 msgstr "<span font-desc=\"30\">警告</span> "
 
-#: ../src/command/object.c:643
+#: ../src/command/object.c:661
 #, c-format
 msgid "Clone %s"
 msgstr "克隆 %s"
 
-#: ../src/command/object.c:644 ../src/ui/texteditors.c:53
+#: ../src/command/object.c:662 ../src/ui/texteditors.c:53
 msgid "Palette Button Creation"
 msgstr "创建面板按钮"
 
-#: ../src/command/object.c:644 ../src/ui/texteditors.c:53
+#: ../src/command/object.c:662 ../src/ui/texteditors.c:53
 msgid "Give a (unique) name for the button"
 msgstr "为按钮指定（唯一）名称"
 
-#: ../src/command/object.c:647 ../actions/palettes.xml.h:96
+#: ../src/command/object.c:665 ../actions/palettes.xml.h:96
 msgid "Creates a cloned Denemo Directive"
 msgstr "创建一个克隆的 Denemo 记号"
 
-#: ../src/command/object.c:648 ../src/ui/texteditors.c:57
+#: ../src/command/object.c:666 ../src/ui/texteditors.c:57
 msgid "Could not create a button of that name in that palette"
 msgstr "无法在面板中创建此名称的按钮"
 
-#: ../src/command/object.c:782
+#: ../src/command/object.c:822
 msgid "To add or remove built-in attributes right click on the object in the display window"
 msgstr ""
 "要\n"
 "或删除内置属性，请在显示窗口中右击对象"
 
-#: ../src/command/object.c:898 ../src/command/object.c:1437
-#: ../src/command/object.c:1646
+#: ../src/command/object.c:957 ../src/command/object.c:1511
+#: ../src/command/object.c:1720
 msgid "Run the Edit Script for "
 msgstr "运行编辑脚本于"
 
-#: ../src/command/object.c:907 ../src/command/object.c:1446
-#: ../src/command/object.c:1655
+#: ../src/command/object.c:966 ../src/command/object.c:1520
+#: ../src/command/object.c:1729
 msgid "Execute command: "
 msgstr "执行命令："
 
-#: ../src/command/object.c:909 ../src/command/object.c:1448
-#: ../src/command/object.c:1657
+#: ../src/command/object.c:968 ../src/command/object.c:1522
+#: ../src/command/object.c:1731
 msgid "Re-run the command to edit the Denemo Directive"
 msgstr "重新运行命令来编辑 Denemo 记号"
 
 #. gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
-#: ../src/command/object.c:947 ../src/command/object.c:1460
-#: ../src/command/object.c:1670 ../src/command/scorelayout.c:512
+#: ../src/command/object.c:1006 ../src/command/object.c:1534
+#: ../src/command/object.c:1744 ../src/command/scorelayout.c:512
 #: ../src/command/scorelayout.c:546 ../src/generated/entries.h:409
 #: ../actions/denemo-modules/directives.scm:32
 #: ../actions/denemo-modules/directives.scm:107
-#: ../actions/denemo-modules/directives.scm:152 ../actions/denemo.scm:156
+#: ../actions/denemo-modules/directives.scm:152 ../actions/denemo.scm:164
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:38
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:45
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:62
@@ -1220,17 +1222,18 @@ msgstr "重新运行命令来编辑 Denemo 记号"
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeCoda.scm:6
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeFermata.scm:6
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeSegno.scm:6
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:67
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:73
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:8
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.scm:4
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.scm:6
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/StartTrillSpan.scm:8
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/EndVolta.scm:4
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/EndVolta.scm:6
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:46
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:55
 #: ../actions/menus/ObjectMenu/MeasureMenu/Upbeat.scm:59
 #: ../actions/menus/ObjectMenu/MeasureMenu/Upbeat.scm:68
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:16
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:15
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:17
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:5
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:5
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:18
@@ -1249,26 +1252,31 @@ msgstr "重新运行命令来编辑 Denemo 记号"
 msgid "Delete"
 msgstr "删除"
 
-#: ../src/command/object.c:988 ../src/command/object.c:1469
+#: ../src/command/object.c:1047 ../src/command/object.c:1543
 msgid "Next ➡"
 msgstr "后一个 ➡"
 
-#: ../src/command/object.c:997 ../src/command/object.c:1476
+#: ../src/command/object.c:1056 ../src/command/object.c:1550
 msgid "Conditional"
 msgstr "条件"
 
+#: ../src/command/object.c:1065 ../src/generated/entries.h:260
+#: ../src/generated/register_commands.h:240
+msgid "Copy"
+msgstr "复制"
+
 #. some menu items should be insensitive if the Scheme window is not visible
 #. if upbeat is present
-#: ../src/command/object.c:1012 ../src/command/object.c:1487
-#: ../src/command/object.c:1682 ../src/generated/entries.h:214
+#: ../src/command/object.c:1079 ../src/command/object.c:1561
+#: ../src/command/object.c:1756 ../src/generated/entries.h:214
 #: ../src/printview/svgview.c:1229 ../src/ui/palettes.c:325
 #: ../actions/denemo-modules/directives.scm:104
 #: ../actions/denemo-modules/directives.scm:152
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.scm:4
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.scm:8
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:21
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/StartTrillSpan.scm:8
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:27
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/EndVolta.scm:4
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/EndVolta.scm:8
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:21
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:46
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:50
 #: ../actions/menus/ObjectMenu/MeasureMenu/Upbeat.scm:59
@@ -1278,27 +1286,27 @@ msgstr "条件"
 msgid "Help"
 msgstr "帮助"
 
-#: ../src/command/object.c:1021 ../src/command/object.c:1496
-#: ../src/command/object.c:1691
+#: ../src/command/object.c:1094 ../src/command/object.c:1570
+#: ../src/command/object.c:1765
 msgid "Create Button for Command"
 msgstr "为命令创建按钮"
 
-#: ../src/command/object.c:1022 ../src/command/object.c:1692
+#: ../src/command/object.c:1095 ../src/command/object.c:1766
 msgid "Make a palette button for running the command that created this attribute."
 msgstr "为创建属性的命令设置一个面板按钮。"
 
-#: ../src/command/object.c:1028 ../src/command/object.c:1502
-#: ../src/command/object.c:1697
+#: ../src/command/object.c:1101 ../src/command/object.c:1576
+#: ../src/command/object.c:1771
 msgid "Create Button for Clone"
 msgstr "创建克隆按钮"
 
-#: ../src/command/object.c:1029
+#: ../src/command/object.c:1102
 msgid "Make a palette button for installing this attribute elsewhere."
 msgstr "为设置此属性设置一个面板按钮。"
 
-#: ../src/command/object.c:1034 ../src/command/object.c:1508
-#: ../src/command/object.c:1704 ../actions/denemo-modules/directives.scm:34
-#: ../actions/denemo.scm:148
+#: ../src/command/object.c:1107 ../src/command/object.c:1582
+#: ../src/command/object.c:1778 ../actions/denemo-modules/directives.scm:34
+#: ../actions/denemo.scm:156
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:42
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:47
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:66
@@ -1316,8 +1324,8 @@ msgstr "为设置此属性设置一个面板按钮。"
 #: ../actions/menus/ObjectMenu/ChordMenu/Directives/InsertChordDirective.scm:14
 #: ../actions/menus/ObjectMenu/Directives/InsertStandaloneDirective.scm:8
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:10
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.scm:4
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:27
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/EndVolta.scm:4
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:46
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:57
 #: ../actions/menus/ObjectMenu/MeasureMenu/Upbeat.scm:59
@@ -1337,212 +1345,212 @@ msgstr "为设置此属性设置一个面板按钮。"
 msgid "Advanced"
 msgstr "高级"
 
-#: ../src/command/object.c:1035
+#: ../src/command/object.c:1108
 msgid "Examine/Edit this directive at a low-level"
 msgstr "检查/在基础层次上编辑此记号"
 
-#: ../src/command/object.c:1045
+#: ../src/command/object.c:1118
 msgid "Built-in Chord Attributes"
 msgstr "内置和弦属性"
 
-#: ../src/command/object.c:1061
+#: ../src/command/object.c:1134
 msgid "Remove slur start"
 msgstr "移除连音起始"
 
-#: ../src/command/object.c:1067
+#: ../src/command/object.c:1140
 msgid "Remove slur end"
 msgstr "移除连音终止"
 
-#: ../src/command/object.c:1073
+#: ../src/command/object.c:1146
 msgid "Remove tie"
 msgstr "移除连结线"
 
-#: ../src/command/object.c:1079
+#: ../src/command/object.c:1152
 msgid "Remove Start cresc. marking"
 msgstr "移除渐强开始标记"
 
-#: ../src/command/object.c:1085
+#: ../src/command/object.c:1158
 msgid "Remove End cresc. marking"
 msgstr "移除渐强结束记号"
 
-#: ../src/command/object.c:1091
+#: ../src/command/object.c:1164
 msgid "Remove Start dim. marking"
 msgstr "移除渐弱开始标记"
 
-#: ../src/command/object.c:1097
+#: ../src/command/object.c:1170
 msgid "Remove End dim. marking"
 msgstr "移除渐弱结束记号"
 
-#: ../src/command/object.c:1104
+#: ../src/command/object.c:1177
 msgid "Un-grace the note"
 msgstr "取消装饰音"
 
-#: ../src/command/object.c:1154 ../src/command/object.c:1736
-#: ../src/command/object.c:1932
+#: ../src/command/object.c:1228 ../src/command/object.c:1811
+#: ../src/command/object.c:2008
 msgid "Close"
 msgstr "关闭"
 
-#: ../src/command/object.c:1162
+#: ../src/command/object.c:1236
 msgid "⬅ Previous Object"
 msgstr "⬅ 前一个对象"
 
-#: ../src/command/object.c:1169
+#: ../src/command/object.c:1243
 msgid "Next note in chord"
 msgstr "和弦中的下一个音符"
 
-#: ../src/command/object.c:1173
+#: ../src/command/object.c:1247
 msgid "Next Object ➡"
 msgstr "后一个对象 ➡"
 
-#: ../src/command/object.c:1188
+#: ../src/command/object.c:1262
 msgid "Attached to the rest:"
 msgstr "附加到休止："
 
-#: ../src/command/object.c:1206
+#: ../src/command/object.c:1280
 msgid "Edit the note"
 msgstr "编辑音符"
 
-#: ../src/command/object.c:1217
+#: ../src/command/object.c:1291
 #, c-format
 msgid "Attached to Note %s"
 msgstr "附加到音符 %s"
 
-#: ../src/command/object.c:1235
+#: ../src/command/object.c:1309
 #, c-format
 msgid "Nothing attached to Note %s"
 msgstr "没有可以附加到音符 %s"
 
-#: ../src/command/object.c:1251
+#: ../src/command/object.c:1325
 msgid "Assign Pitch to Rhythm"
 msgstr "将音高赋予节奏"
 
-#: ../src/command/object.c:1264
+#: ../src/command/object.c:1338
 msgid "Edit Chord Symbol"
 msgstr "编辑和弦符号"
 
-#: ../src/command/object.c:1271
+#: ../src/command/object.c:1345
 msgid "Edit Bass Figure"
 msgstr "编辑贝司音型"
 
-#: ../src/command/object.c:1285
+#: ../src/command/object.c:1359
 msgid "Add/Remove attributes"
 msgstr "添加/移除属性"
 
 #. type = _("start tuplet marker");
-#: ../src/command/object.c:1295
+#: ../src/command/object.c:1369
 msgid "Alter Tuplet Type"
 msgstr "更改连音类型"
 
-#: ../src/command/object.c:1300
+#: ../src/command/object.c:1374
 msgid "Attached to the tuplet start:"
 msgstr "附加到连音起始："
 
-#: ../src/command/object.c:1317
+#: ../src/command/object.c:1391
 msgid "Attached to the tuplet end:"
 msgstr "附加到连音终止："
 
-#: ../src/command/object.c:1337
+#: ../src/command/object.c:1411
 msgid "Attached to the clef change object:"
 msgstr "附加到谱号变更对象："
 
-#: ../src/command/object.c:1349
+#: ../src/command/object.c:1423
 msgid "Transform to printing clef"
 msgstr "转换为可见谱号："
 
-#: ../src/command/object.c:1362
+#: ../src/command/object.c:1436
 msgid "Attached to the time signature change object:"
 msgstr "附加到时值变更对象："
 
-#: ../src/command/object.c:1381
+#: ../src/command/object.c:1455
 msgid "Attached to the key signature change object:"
 msgstr "附加到调号变更对象："
 
-#: ../src/command/object.c:1401
+#: ../src/command/object.c:1475
 msgid "Attached to the stemming change object:"
 msgstr "附加到符干变更对象："
 
-#: ../src/command/object.c:1423
+#: ../src/command/object.c:1497
 msgid "Standalone Denemo Directive:"
 msgstr "独立 Denemo 记号："
 
-#: ../src/command/object.c:1497
+#: ../src/command/object.c:1571
 msgid "Make a palette button for running the command that created/inserted this object."
 msgstr "为创建/插入此对象的命令设置一个面板按钮。"
 
-#: ../src/command/object.c:1503
+#: ../src/command/object.c:1577
 msgid "Make a palette button for inserting a clone of this object elsewhere."
 msgstr "为插入对象副本设置一个面板按钮。"
 
-#: ../src/command/object.c:1606
+#: ../src/command/object.c:1680
 msgid "Score "
 msgstr "乐谱"
 
-#: ../src/command/object.c:1608
+#: ../src/command/object.c:1682
 msgid "Movement "
 msgstr "乐章"
 
-#: ../src/command/object.c:1610
+#: ../src/command/object.c:1684
 msgid "Score Header "
 msgstr "乐谱头部"
 
-#: ../src/command/object.c:1612
+#: ../src/command/object.c:1686
 msgid "Paper "
 msgstr "纸张"
 
-#: ../src/command/object.c:1614
+#: ../src/command/object.c:1688
 msgid "Movement Header "
 msgstr "乐章头部"
 
-#: ../src/command/object.c:1616
+#: ../src/command/object.c:1690
 msgid "Movement Layout "
 msgstr "乐章布局"
 
-#: ../src/command/object.c:1628
+#: ../src/command/object.c:1702
 #, c-format
 msgid "Denemo %s Directive tagged: %s"
 msgstr "Denemo %s 标签记号：%s"
 
-#: ../src/command/object.c:1630
+#: ../src/command/object.c:1704
 #, c-format
 msgid "Denemo %s Directive: %s"
 msgstr "Denemo %s 记号：%s"
 
-#: ../src/command/object.c:1698
+#: ../src/command/object.c:1772
 msgid "Make a palette button for installing a clone of this attribute elsewhere."
 msgstr "为克隆此属性设置一个面板按钮。"
 
-#: ../src/command/object.c:1728
+#: ../src/command/object.c:1803
 msgid "Score and Movement Properties Editor"
 msgstr "乐谱和乐章属性编辑器"
 
-#: ../src/command/object.c:1750 ../src/generated/entries.h:265
+#: ../src/command/object.c:1825 ../src/generated/entries.h:265
 #: ../src/generated/register_commands.h:245
 msgid "Score Properties"
 msgstr "乐谱属性"
 
-#: ../src/command/object.c:1775
+#: ../src/command/object.c:1850
 msgid "Edit Built-in Score Properties"
 msgstr "编辑内置乐谱属性"
 
-#: ../src/command/object.c:1785 ../src/command/scorelayout.c:1894
-#: ../src/command/scorelayout.c:2205 ../src/core/utils.c:1954
-#: ../src/printview/printview.c:2470
+#: ../src/command/object.c:1860 ../src/command/scorelayout.c:1896
+#: ../src/command/scorelayout.c:2207 ../src/core/utils.c:1977
+#: ../src/printview/printview.c:2475
 msgid "Movement"
 msgstr "乐章"
 
-#: ../src/command/object.c:1785
+#: ../src/command/object.c:1860
 msgid "Properties"
 msgstr "属性"
 
-#: ../src/command/object.c:1809
+#: ../src/command/object.c:1884
 msgid "⬅ Previous Movement"
 msgstr "⬅ 上一乐章"
 
-#: ../src/command/object.c:1816
+#: ../src/command/object.c:1891
 msgid "Next Movement ➡"
 msgstr "下一乐章 ➡"
 
-#: ../src/command/object.c:1866
+#: ../src/command/object.c:1941
 msgid ""
 "The clef here only affects the display as this voice is typeset on the staff above.\n"
 "Normally you will want it set the same as the staff the notes will appear on.\n"
@@ -1552,70 +1560,70 @@ msgstr ""
 "一般将其设置为所属谱表中的谱号。\n"
 "可以忽略此警告，并在之后弹出的对话框中进行所需更改。"
 
-#: ../src/command/object.c:1874
+#: ../src/command/object.c:1949
 msgid "This voice should have the same key signature as the staff it appears on. Use the key signature menu commands to correct it if needed."
 msgstr "此音色的调号与其所属谱表相同。若需要，可以使用调号菜单来改变它。"
 
-#: ../src/command/object.c:1878
+#: ../src/command/object.c:1953
 msgid "Change the keysignature by clicking on it, or via the Key Signatures menu (after closing this editor)."
 msgstr "通过点击，或通过调号菜单（需要线关闭此编辑器）来改变时值记号。"
 
-#: ../src/command/object.c:1887
+#: ../src/command/object.c:1962
 msgid "This voice should have the same time signature as the staff it appears on. Use the time signature menu commands to correct it if needed."
 msgstr "此音色的时值记号与其所属谱表相同。若需要，可以使用时值记号菜单来改变它。"
 
-#: ../src/command/object.c:1924
+#: ../src/command/object.c:2000
 msgid "Staff and Voice Properties Editor"
 msgstr "谱表和音色属性编辑器"
 
-#: ../src/command/object.c:1946 ../src/generated/entries.h:210
-#: ../src/ui/staffpropdialog.c:351
+#: ../src/command/object.c:2022 ../src/generated/entries.h:210
+#: ../src/ui/staffpropdialog.c:352
 msgid "Staff Properties"
 msgstr "谱表属性"
 
-#: ../src/command/object.c:1971
+#: ../src/command/object.c:2047
 msgid "Staff Above"
 msgstr "以上谱表"
 
-#: ../src/command/object.c:1978
+#: ../src/command/object.c:2054
 msgid "Staff Below"
 msgstr "以下谱表"
 
-#: ../src/command/object.c:1987
+#: ../src/command/object.c:2063
 msgid "<b>This voice will be typeset on the staff above</b>"
 msgstr "<b>当前音色将会显示在上一个谱表上方</b>"
 
-#: ../src/command/object.c:1994
+#: ../src/command/object.c:2070
 msgid "Edit Built-in Staff Properties"
 msgstr "编辑内置谱表属性"
 
-#: ../src/command/object.c:2000
+#: ../src/command/object.c:2076
 msgid "Clef: "
 msgstr "谱号："
 
-#: ../src/command/object.c:2006
+#: ../src/command/object.c:2082
 #, c-format
 msgid "Time: %d/%d"
 msgstr "时值：%d/%d"
 
-#: ../src/command/object.c:2012
+#: ../src/command/object.c:2088
 #, c-format
 msgid "Key: %s"
 msgstr "调号：%s"
 
-#: ../src/command/object.c:2022
+#: ../src/command/object.c:2098
 msgid "Key Signature Directives"
 msgstr "调号记号"
 
-#: ../src/command/object.c:2028
+#: ../src/command/object.c:2104
 msgid "Time Signature Directives"
 msgstr "时值记号"
 
-#: ../src/command/object.c:2034
+#: ../src/command/object.c:2110
 msgid "Voice Properties"
 msgstr "音色属性"
 
-#: ../src/command/score.c:124
+#: ../src/command/score.c:125
 #, c-format
 msgid ""
 "This is the current movement number %d\n"
@@ -1624,49 +1632,49 @@ msgstr ""
 "当前乐章编号 %d\n"
 "点击其他按钮来切换乐章"
 
-#: ../src/command/score.c:136
+#: ../src/command/score.c:137
 #, c-format
 msgid "Click to switch to movement number %d"
 msgstr "点击以便切换乐章编号 %d"
 
-#: ../src/command/score.c:282
+#: ../src/command/score.c:283
 msgid "This is the only movement"
 msgstr "这是唯一一个乐章"
 
-#: ../src/command/score.c:283
+#: ../src/command/score.c:284
 msgid "Delete it and start over?"
 msgstr "删除它并重新开始吗？"
 
-#: ../src/command/score.c:296
+#: ../src/command/score.c:297
 #, c-format
 msgid "This is movement #%d"
 msgstr "这是第 %d 乐章"
 
-#: ../src/command/score.c:297
+#: ../src/command/score.c:298
 msgid "Delete entire movement?"
 msgstr "删除整个乐章吗？"
 
-#: ../src/command/score.c:339
+#: ../src/command/score.c:340
 msgid "No such movement"
 msgstr "没有这一乐章"
 
-#: ../src/command/score.c:358
+#: ../src/command/score.c:359
 msgid "No such voice"
 msgstr "没有这一音色"
 
-#: ../src/command/score.c:364
+#: ../src/command/score.c:365
 msgid "No such measure"
 msgstr "没有这一小节"
 
-#: ../src/command/score.c:485
+#: ../src/command/score.c:486
 msgid "This is the last movement"
 msgstr "这是最后一个乐章"
 
-#: ../src/command/score.c:541
+#: ../src/command/score.c:542
 msgid "This is the first movement"
 msgstr "这是第一个乐章"
 
-#: ../src/command/score.c:648
+#: ../src/command/score.c:649
 msgid ""
 "A button bar that can be populated by Movement titles and other user generated buttons.\n"
 "Generally by clicking the button you can edit the title or value or execute the action of the button"
@@ -1682,8 +1690,8 @@ msgstr "LilyPond 文本编辑器"
 msgid "Default Score Layout"
 msgstr "默认乐谱布局"
 
-#: ../src/command/scorelayout.c:111 ../src/command/scorelayout.c:1021
-#: ../src/command/scorelayout.c:1089
+#: ../src/command/scorelayout.c:111 ../src/command/scorelayout.c:1023
+#: ../src/command/scorelayout.c:1091
 msgid "This button is for changing the score itself, it will not affect this custom layout"
 msgstr "此按钮仅改变乐谱自身，而不会影响自定义布局"
 
@@ -1719,7 +1727,7 @@ msgstr ""
 msgid "Actions for this Layout"
 msgstr "此布局的动作"
 
-#: ../src/command/scorelayout.c:483 ../src/printview/printview.c:2463
+#: ../src/command/scorelayout.c:483 ../src/printview/printview.c:2468
 msgid "Typeset"
 msgstr "排版"
 
@@ -1783,7 +1791,7 @@ msgstr ""
 "将第一个展开的乐章移至此布局末尾。\n"
 "该操作不改变乐谱，仅改变布局。要真正重排乐章，请见乐章菜单。"
 
-#: ../src/command/scorelayout.c:537 ../src/printview/printview.c:2480
+#: ../src/command/scorelayout.c:537 ../src/printview/printview.c:2485
 msgid "Refresh"
 msgstr "刷新"
 
@@ -1803,9 +1811,14 @@ msgstr "从此标准布局创建一个可以编辑的布局。"
 msgid "Discard this standard score layout."
 msgstr "舍弃此自定义乐谱布局。"
 
-#: ../src/command/scorelayout.c:699 ../src/command/scorelayout.c:898
+#: ../src/command/scorelayout.c:689
+#, c-format
+msgid "The music for this staff has been replaced by the music from the current staff, i.e. staff where the cursor is, Movement %d, Staff %d."
+msgstr "此谱表中的音乐已被当前谱表（第 %d 乐章的第 %d 谱表）替换。"
+
+#: ../src/command/scorelayout.c:701 ../src/command/scorelayout.c:900
 #: ../src/generated/entries.h:206 ../src/generated/entries.h:372
-#: ../actions/denemo-modules/directives.scm:152 ../actions/denemo.scm:157
+#: ../actions/denemo-modules/directives.scm:152 ../actions/denemo.scm:165
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:39
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:44
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:68
@@ -1838,11 +1851,11 @@ msgstr "舍弃此自定义乐谱布局。"
 msgid "Edit"
 msgstr "编辑"
 
-#: ../src/command/scorelayout.c:700
+#: ../src/command/scorelayout.c:702
 msgid "Edit the voice directives for this layout"
 msgstr "编辑此布局中的音色记号"
 
-#: ../src/command/scorelayout.c:705
+#: ../src/command/scorelayout.c:707
 msgid ""
 "Delete this voice from the score layout\n"
 "Note that if it is the first voice the clef time and keysignatures will be deleted too."
@@ -1850,47 +1863,47 @@ msgstr ""
 "从乐谱布局中删除此音色\n"
 "注意，如果这是第一个音色，那么谱号、时值和调号也会被删除。"
 
-#: ../src/command/scorelayout.c:710
+#: ../src/command/scorelayout.c:712
 msgid "Initial Signatures"
 msgstr "起始记号"
 
-#: ../src/command/scorelayout.c:714
+#: ../src/command/scorelayout.c:716
 msgid "Click here to view and edit the clef, key and time signatures of this staff"
 msgstr "点击此处来查看和编辑此谱表的谱号、调号和时值记号"
 
-#: ../src/command/scorelayout.c:719 ../src/generated/entries.h:289
+#: ../src/command/scorelayout.c:721 ../src/generated/entries.h:289
 msgid "Clef"
 msgstr "谱号"
 
-#: ../src/command/scorelayout.c:720
+#: ../src/command/scorelayout.c:722
 msgid "Edit the LilyPond definition of the clef. The editing affects only this layout."
 msgstr "编辑 LilyPond 格式的谱号。编辑只影响此布局。"
 
-#: ../src/command/scorelayout.c:725
+#: ../src/command/scorelayout.c:727
 msgid "Key"
 msgstr "调号"
 
-#: ../src/command/scorelayout.c:726
+#: ../src/command/scorelayout.c:728
 msgid "Edit the LilyPond definition of the key signature. The editing affects only this layout."
 msgstr "编辑 LilyPond 格式的调号。编辑只影响此布局。"
 
-#: ../src/command/scorelayout.c:731
+#: ../src/command/scorelayout.c:733
 msgid "Time"
 msgstr "时值"
 
-#: ../src/command/scorelayout.c:732
+#: ../src/command/scorelayout.c:734
 msgid "Edit the LilyPond definition of the time signature. The editing affects only this layout."
 msgstr "编辑 LilyPond 格式的时值记号。编辑只影响此布局。"
 
-#: ../src/command/scorelayout.c:742
+#: ../src/command/scorelayout.c:744
 msgid "The clef, time and key signatures attached to other voices are ignored, only the primary one has effect"
 msgstr "忽略附加到其他音色的谱号、时值和调号，只有第一个会被改变"
 
-#: ../src/command/scorelayout.c:745
+#: ../src/command/scorelayout.c:747
 msgid "Music for "
 msgstr "音乐"
 
-#: ../src/command/scorelayout.c:747
+#: ../src/command/scorelayout.c:749
 msgid ""
 "Click here to move the Denemo cursor to the start of this music.\n"
 "The actual notes live here. You can only edit these in the main Denemo display.\n"
@@ -1901,11 +1914,11 @@ msgstr ""
 "不过你也可以使用仅作用于此布局的条件记号。例如，可以在音乐中插入换页符，它仅影响当前布局。\n"
 "点击此处来将 Denemo 光标移动到音乐起始处。\n"
 
-#: ../src/command/scorelayout.c:753
+#: ../src/command/scorelayout.c:755
 msgid "Substitute"
 msgstr "替换"
 
-#: ../src/command/scorelayout.c:754
+#: ../src/command/scorelayout.c:756
 msgid ""
 "Substitute the music of this staff/voice with the music of the current staff/voice.\n"
 "You can click the \"Music for ...\" button to move the cursor in the Denemo Display onto the staff/voice whose music you want to use before clicking this button to substitute the music. The editing affects only this layout."
@@ -1913,24 +1926,24 @@ msgstr ""
 "用其他谱表中的谱表/音色替换此谱表/音色。\n"
 "可以点击“Music for...”按钮来移动 Denemo 显示窗口中的光标至要编辑的谱表/音色上，然后点击此按钮来替换音乐。编辑只影响此布局。"
 
-#: ../src/command/scorelayout.c:767
+#: ../src/command/scorelayout.c:769
 msgid "Drop this lyric part from the score layout"
 msgstr "在乐谱布局中舍弃此歌词部分"
 
-#: ../src/command/scorelayout.c:775
+#: ../src/command/scorelayout.c:777
 msgid "Move this lyric part above the staff for this score layout"
 msgstr "将乐谱布局中的歌词部分移到谱表之上"
 
-#: ../src/command/scorelayout.c:779
+#: ../src/command/scorelayout.c:781
 msgid "Move this lyric part below the staff for this score layout"
 msgstr "将乐谱布局中的歌词部分移到谱表之下"
 
-#: ../src/command/scorelayout.c:856
+#: ../src/command/scorelayout.c:858
 #: ../actions/denemo-modules/directives.scm:33
 msgid "Edit LilyPond"
 msgstr "编辑 LilyPond"
 
-#: ../src/command/scorelayout.c:856
+#: ../src/command/scorelayout.c:858
 msgid ""
 "Edit this using LilyPond syntax\n"
 "The editing applies just to this score layout"
@@ -1938,40 +1951,42 @@ msgstr ""
 "使用 LilyPond 语法进行编辑\n"
 "编辑只影响此乐谱布局"
 
-#: ../src/command/scorelayout.c:899
+#: ../src/command/scorelayout.c:901
 msgid "Edit this element for this layout"
 msgstr "编辑此布局中的元素"
 
-#: ../src/command/scorelayout.c:903
+#: ../src/command/scorelayout.c:905
 msgid "Move this element upwards for this score layout"
 msgstr "将乐谱布局中的元素向上移动"
 
-#: ../src/command/scorelayout.c:907
+#: ../src/command/scorelayout.c:909
 msgid "Move this element downwards for this score layout"
 msgstr "将乐谱布局中的元素向下移动"
 
-#: ../src/command/scorelayout.c:911
+#: ../src/command/scorelayout.c:913
 msgid "Remove this element from this layout"
 msgstr "从布局中移除此元素"
 
-#: ../src/command/scorelayout.c:933 ../actions/denemo-modules/wysiwyg.scm:551
+#: ../src/command/scorelayout.c:935 ../actions/denemo-modules/wysiwyg.scm:551
 #: ../actions/menus/ObjectMenu/Directives/PrintLayout/PageBreak.xml.h:1
 msgid "Page Break"
 msgstr "换页"
 
-#: ../src/command/scorelayout.c:934
+#: ../src/command/scorelayout.c:936
 msgid "This forces a new page, useful for avoiding page turns\n"
 msgstr "强制换页，用于避免不合理的分页方式\n"
 
-#: ../src/command/scorelayout.c:945
+#: ../src/command/scorelayout.c:947
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:11
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:20
 msgid "Blank Page"
 msgstr "空白页"
 
-#: ../src/command/scorelayout.c:946
+#: ../src/command/scorelayout.c:948
 msgid "This prints a page intentionally left blank, useful for avoiding page turns\n"
 msgstr "插入左空白页，用于避免不合理的分页方式\n"
 
-#: ../src/command/scorelayout.c:958
+#: ../src/command/scorelayout.c:960
 msgid ""
 "This lets you insert your own titles etc just for this layout.\n"
 "For book titles use \\titledPiece \\markup \"myname\"\n"
@@ -1983,11 +1998,11 @@ msgstr ""
 "简单的标题不应出现在这里，而应位于乐章结尾的头部块中。\n"
 "有关其他的用法，请参见 LilyPond 手册。"
 
-#: ../src/command/scorelayout.c:970
+#: ../src/command/scorelayout.c:972
 msgid "Create Page Break"
 msgstr "创建换页"
 
-#: ../src/command/scorelayout.c:971
+#: ../src/command/scorelayout.c:973
 msgid ""
 "This inserts a page break, useful for avoiding page turns\n"
 "Move it before the title (using the up arrow) once created!"
@@ -1995,51 +2010,51 @@ msgstr ""
 "插入一个换页符，用于避免不合理的分页方式\n"
 "请在创建之后将其移动到标题前面（使用上箭头）！"
 
-#: ../src/command/scorelayout.c:975
+#: ../src/command/scorelayout.c:977
 msgid "Create Blank Page"
 msgstr "创建空白页"
 
-#: ../src/command/scorelayout.c:976
+#: ../src/command/scorelayout.c:978
 msgid "This inserts a page intentionally left blank, useful for avoiding page turns when printing on both sides of the paper"
 msgstr "插入左空白页，用于在双页打印时避免不合理的分页方式"
 
-#: ../src/command/scorelayout.c:981
+#: ../src/command/scorelayout.c:983
 msgid "This creates a LilyPond comment which you can then edit to give titles etc for this movment, applying just to this layout."
 msgstr "创建一条可以编辑的 LilyPond 注释，用于为乐章添加标题等；仅应用到此布局。"
 
-#: ../src/command/scorelayout.c:1032
+#: ../src/command/scorelayout.c:1034
 msgid "Movement Titles, Page Breaks etc"
 msgstr "乐章标题、换页符等"
 
-#: ../src/command/scorelayout.c:1033
+#: ../src/command/scorelayout.c:1035
 msgid "In here are settings for the movement title, page breaks before the movement etc"
 msgstr "这里是有关乐章标题、（乐章前）换页符等的设置"
 
-#: ../src/command/scorelayout.c:1046
+#: ../src/command/scorelayout.c:1048
 msgid "Create Titles for Movement"
 msgstr "创建乐章标题"
 
-#: ../src/command/scorelayout.c:1048
+#: ../src/command/scorelayout.c:1050
 msgid "Set book titles for this movement in the score"
 msgstr "设置乐谱中此乐章的目录标题"
 
-#: ../src/command/scorelayout.c:1054
+#: ../src/command/scorelayout.c:1056
 msgid "Create for Custom Layout"
 msgstr "创建自定义布局"
 
-#: ../src/command/scorelayout.c:1055
+#: ../src/command/scorelayout.c:1057
 msgid "Create page breaks, blank pages ...for this layout"
 msgstr "在此布局中创建换页、空白页……"
 
-#: ../src/command/scorelayout.c:1320
+#: ../src/command/scorelayout.c:1322
 msgid "This brace connects together several staffs - you can delete it for a customized layout."
 msgstr "此括号与数个谱表相关联 - 你可以删除它来自定义布局。"
 
-#: ../src/command/scorelayout.c:1338
+#: ../src/command/scorelayout.c:1340
 msgid "Remove this staff brace from these staffs for a customized layout."
 msgstr "从谱表中删除谱表括号来进行自定义布局。"
 
-#: ../src/command/scorelayout.c:1446
+#: ../src/command/scorelayout.c:1448
 msgid ""
 "This shows the clef in the Denemo score - the actual clef printed may be modified by Directives attached to it.\n"
 "You can edit the clef for a custom layout - do this on the first voice on the staff."
@@ -2047,33 +2062,33 @@ msgstr ""
 "在 Denemo 乐谱中显示谱表 - 实际的谱号可能受到附加记号的影响。\n"
 "你可以编辑谱表的自定义布局 - 请在谱表中的第一个音色中进行操作。"
 
-#: ../src/command/scorelayout.c:1450
+#: ../src/command/scorelayout.c:1452
 msgid "Move this staff (with all its voices) above the preceding staff."
 msgstr "将此谱表（以及所有音色）移动到前一个谱表之前。"
 
-#: ../src/command/scorelayout.c:1454
+#: ../src/command/scorelayout.c:1456
 msgid "Move this staff (with all its voices) after the following staff."
 msgstr "将此谱表（以及所有音色）移动到后一个谱表之后。"
 
-#: ../src/command/scorelayout.c:1459
+#: ../src/command/scorelayout.c:1461
 msgid "Remove this staff (with all its voices) for customized layout."
 msgstr "移除此谱表（以及所有音色）以便自定义布局。"
 
 #. the reason these are outside the staff frame is it makes them appear above the staff
-#: ../src/command/scorelayout.c:1494 ../src/display/draw.c:1050
+#: ../src/command/scorelayout.c:1496 ../src/display/draw.c:1056
 msgid "Chord Symbols"
 msgstr "和弦记号"
 
-#: ../src/command/scorelayout.c:1503
+#: ../src/command/scorelayout.c:1505
 msgid "Staff Menu"
 msgstr "谱表菜单"
 
-#: ../src/command/scorelayout.c:1503
+#: ../src/command/scorelayout.c:1505
 #, c-format
 msgid "Staff %d Menu"
 msgstr "谱表 %d 菜单"
 
-#: ../src/command/scorelayout.c:1511
+#: ../src/command/scorelayout.c:1513
 msgid ""
 "Click for a menu to position the Denemo cursor on this staff\n"
 "or to alter this staff for a customized layout"
@@ -2081,19 +2096,19 @@ msgstr ""
 "点击菜单来定位 Denemo 光标在谱表中的位置\n"
 "或者自定义此谱表的布局"
 
-#: ../src/command/scorelayout.c:1515
+#: ../src/command/scorelayout.c:1517
 msgid "Move Denemo Cursor to this staff"
 msgstr "将 Denemo 光标移动到此谱表"
 
-#: ../src/command/scorelayout.c:1516
+#: ../src/command/scorelayout.c:1518
 msgid "This will move the Denemo Cursor to the start of this staff in this movement"
 msgstr "移动 Denemo 光标到乐章中此谱表的起始位置"
 
-#: ../src/command/scorelayout.c:1522
+#: ../src/command/scorelayout.c:1524
 msgid "Edit Staff Properties"
 msgstr "编辑谱表属性"
 
-#: ../src/command/scorelayout.c:1523
+#: ../src/command/scorelayout.c:1525
 msgid ""
 "Edit the properties of the staff to customize this layout\n"
 "Take care only alter the obvious bits, such as instrument name etc\n"
@@ -2103,11 +2118,11 @@ msgstr ""
 "请只修改那些浅显易懂的内容，例如乐器名称\n"
 "错误地删除 LilyPond 布局字符（如 {<<#）可能导致 LilyPond 布局器无法识别乐谱。如果出现问题，只需删除布局即可。"
 
-#: ../src/command/scorelayout.c:1533
+#: ../src/command/scorelayout.c:1535
 msgid "Set Staff Group Start/End"
 msgstr "设置谱表组起始/结束"
 
-#: ../src/command/scorelayout.c:1536
+#: ../src/command/scorelayout.c:1538
 msgid ""
 "The braces { and [ binding staffs together can be set here. Set the start on one staff and the end on a later staff.\n"
 "This is editing the score, not just customizing a layout.\n"
@@ -2117,71 +2132,71 @@ msgstr ""
 "此操作是对乐谱的编辑，而非自定义布局。\n"
 "在做出改变之后，请刷新布局视图（见 刷新 布局按钮下的选项）。"
 
-#: ../src/command/scorelayout.c:1572 ../src/generated/entries.h:212
+#: ../src/command/scorelayout.c:1574 ../src/generated/entries.h:212
 msgid "Voices"
 msgstr "音色"
 
-#: ../src/command/scorelayout.c:1572
+#: ../src/command/scorelayout.c:1574
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:9
 msgid "Voice"
 msgstr "音色"
 
-#: ../src/command/scorelayout.c:1574
+#: ../src/command/scorelayout.c:1576
 msgid "This holds the voice(s) of the staff - the clef, time signature, key signature and music are all here"
 msgstr "包括谱表中的音色 - 谱号、时值、调号和音乐"
 
 #. things like transpose whole score etc
-#: ../src/command/scorelayout.c:1648
+#: ../src/command/scorelayout.c:1650
 msgid "The Staff"
 msgstr "谱表"
 
-#: ../src/command/scorelayout.c:1648
+#: ../src/command/scorelayout.c:1650
 msgid "The Staffs"
 msgstr "谱表"
 
-#: ../src/command/scorelayout.c:1650
+#: ../src/command/scorelayout.c:1652
 msgid "This holds the staffs below which are the voices with the music."
 msgstr "包含音乐音色的谱表。"
 
-#: ../src/command/scorelayout.c:1655
+#: ../src/command/scorelayout.c:1657
 msgid "Append Current Staff"
 msgstr "附加当前谱表"
 
-#: ../src/command/scorelayout.c:1656
+#: ../src/command/scorelayout.c:1658
 msgid "Appends the current staff (the one where the cursor is in the Denemo Display) to this layout. The same staff can be placed at multiple positions in the layout with individual edits in each."
 msgstr "将当前谱表（Denemo 显示窗口中光标所在位置）附加至此布局。可以在布局中多次放置同一个谱表，并分别对其进行编辑。"
 
-#: ../src/command/scorelayout.c:1740
+#: ../src/command/scorelayout.c:1742
 #, c-format
 msgid "Movement %d"
 msgstr "乐章 %d"
 
-#: ../src/command/scorelayout.c:1764
+#: ../src/command/scorelayout.c:1766
 msgid "paper size"
 msgstr "纸张大小"
 
-#: ../src/command/scorelayout.c:1766
+#: ../src/command/scorelayout.c:1768
 msgid "Global staff size"
 msgstr "全局谱表大小"
 
-#: ../src/command/scorelayout.c:1767
+#: ../src/command/scorelayout.c:1769
 msgid "Paper Block"
 msgstr "正文块"
 
-#: ../src/command/scorelayout.c:1768
+#: ../src/command/scorelayout.c:1770
 msgid "Settings for whole score: includes overall staff size, paper size ...\n"
 msgstr "整个乐谱的设置：包括全局谱表大小、纸张大小……\n"
 
-#: ../src/command/scorelayout.c:1774
+#: ../src/command/scorelayout.c:1776
 msgid "the paper block contents"
 msgstr "正文块内容"
 
-#: ../src/command/scorelayout.c:1784 ../actions/denemo.scm:1174
-#: ../actions/denemo.scm:1178 ../actions/denemo.scm:1234
+#: ../src/command/scorelayout.c:1786 ../actions/denemo.scm:1182
+#: ../actions/denemo.scm:1186 ../actions/denemo.scm:1244
 msgid "Score Titles"
 msgstr "乐谱标题"
 
-#: ../src/command/scorelayout.c:1787
+#: ../src/command/scorelayout.c:1789
 msgid ""
 "Titles, layout settings, preferences etc for the whole score.\n"
 "Includes main title, composer, date, instrumentation, tagline"
@@ -2189,40 +2204,40 @@ msgstr ""
 "整个乐谱的标题、布局设置、首选项等。\n"
 "包括主标题、作曲者、时间、配器、标语"
 
-#: ../src/command/scorelayout.c:1795
+#: ../src/command/scorelayout.c:1797
 msgid "Default tagline"
 msgstr "默认标语"
 
-#: ../src/command/scorelayout.c:1817
+#: ../src/command/scorelayout.c:1819
 msgid "Score Directives"
 msgstr "乐谱记号"
 
-#: ../src/command/scorelayout.c:1818
+#: ../src/command/scorelayout.c:1820
 msgid "Includes the indent before first measure, LilyPond include files ..."
 msgstr "包含第一个乐章的缩进、LilyPond 包含文件……"
 
-#: ../src/command/scorelayout.c:1838
+#: ../src/command/scorelayout.c:1840
 msgid "Score-wide Settings."
 msgstr "乐谱范围内的设置。"
 
-#: ../src/command/scorelayout.c:1839
+#: ../src/command/scorelayout.c:1841
 msgid "Setting the score title, composer, headers and footers for this layout"
 msgstr "设置此布局中的乐谱标题、作曲者、头部和底部"
 
 #. having buttons that affect the score itself is confusing
-#: ../src/command/scorelayout.c:1847
+#: ../src/command/scorelayout.c:1849
 msgid "Create Book Titles"
 msgstr "创建目录标题"
 
-#: ../src/command/scorelayout.c:1849
+#: ../src/command/scorelayout.c:1851
 msgid "Set book titles for the score"
 msgstr "设置此乐谱的目录标题"
 
-#: ../src/command/scorelayout.c:1861
+#: ../src/command/scorelayout.c:1863
 msgid "Reload Score-Wide Settings"
 msgstr "重新加载乐谱范围内的设置"
 
-#: ../src/command/scorelayout.c:1862
+#: ../src/command/scorelayout.c:1864
 msgid ""
 "Reload the score wide settings for this layout from the current values in the score.\n"
 "Do this if you have made changes to the score titles etc which you wish to be used for this layout."
@@ -2230,49 +2245,49 @@ msgstr ""
 "从当前乐谱中重新加载乐谱范围内的设置至此布局。\n"
 "用于在改变乐谱标题等操作后将更改其应用到此布局。"
 
-#: ../src/command/scorelayout.c:1894
+#: ../src/command/scorelayout.c:1896
 #, c-format
 msgid "<b>Movement %d</b>"
 msgstr "<b>乐章 %d</b>"
 
-#: ../src/command/scorelayout.c:1897
+#: ../src/command/scorelayout.c:1899
 msgid "This contains the layout of the movement- the movement title, and the actual music itself"
 msgstr "包括乐章的布局 - 乐章标题和乐曲内容"
 
-#: ../src/command/scorelayout.c:1908
+#: ../src/command/scorelayout.c:1910
 msgid "Remove this movement from the score layout"
 msgstr "从乐谱布局中删除此乐章"
 
-#: ../src/command/scorelayout.c:1931
+#: ../src/command/scorelayout.c:1933
 msgid "Header block"
 msgstr "头部块"
 
-#: ../src/command/scorelayout.c:1952
+#: ../src/command/scorelayout.c:1954
 msgid "Layout block"
 msgstr "布局块"
 
-#: ../src/command/scorelayout.c:1974
+#: ../src/command/scorelayout.c:1976
 msgid "Movement Block"
 msgstr "乐章块"
 
-#: ../src/command/scorelayout.c:1996
+#: ../src/command/scorelayout.c:1998
 msgid "Movement Epilog"
 msgstr "乐章结语"
 
-#: ../src/command/scorelayout.c:2046
+#: ../src/command/scorelayout.c:2048
 msgid "The currently expanded movement is already at the end"
 msgstr "已位于当前展开的乐章末尾"
 
-#: ../src/command/scorelayout.c:2053
+#: ../src/command/scorelayout.c:2055
 msgid "No movement is expanded - don't know which movement to move"
 msgstr "没有展开的乐章 - 无法移动乐章"
 
-#: ../src/command/scorelayout.c:2204
+#: ../src/command/scorelayout.c:2206
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintScoreAndParts.scm:8
 msgid "Full Score"
 msgstr "全乐谱"
 
-#: ../src/command/scorelayout.c:2479
+#: ../src/command/scorelayout.c:2477
 msgid ""
 "This is a score layout - the buttons mostly customize the layout\n"
 "You can have several layouts and use them to print different versions of your score.\n"
@@ -2286,7 +2301,7 @@ msgstr ""
 "通过调用标准输出命令 - 打印、部分打印、打印乐章等来创建标准布局。\n"
 "这些标准布局可以方便地作为你自定义布局的模板。< b>注意事项 1</b>自定义布局无法保存以供下一次图形化编辑，只有排版命令会被保存。除非你懂得 LilyPond 语法，否则请在一次会话中完成所有的工作。< b>注意事项 2</b>布局的 LilyPond 文本中，第一个注释用于布局的名称。如果你改变了它，那么所有与之相关的条件记号也需要同时改变"
 
-#: ../src/command/scorelayout.c:2979
+#: ../src/command/scorelayout.c:2977
 msgid ""
 "The LilyPond text for this layout can be edited in the LilyPond view window.\n"
 "You can safely delete this layout if you no longer need it\n"
@@ -2297,7 +2312,7 @@ msgstr ""
 "如果你不需要此布局，可以安全地删除它\n"
 "（例如当你改变了乐谱的结构，且无法适用于此布局时）"
 
-#: ../src/command/scorelayout.c:2987
+#: ../src/command/scorelayout.c:2985
 msgid ""
 "This is a customized layout, which has been transformed into instructions for the LilyPond music typesetter.\n"
 "This is the form in which customized layouts are stored in a Denemo score on disk - the graphical interface is no longer available. You can, however still edit the layout with care (and some understanding of LilyPond).\n"
@@ -2309,28 +2324,28 @@ msgstr ""
 "请使用 视图→LilyPond 窗口来进行此操作。\n"
 "你也可以删除它，然后创建新的标准布局。"
 
-#: ../src/command/scorelayout.c:3012
+#: ../src/command/scorelayout.c:3010
 msgid "Custom Scoreblock"
 msgstr "自定义乐谱块"
 
-#: ../src/command/scorelayout.c:3120
+#: ../src/command/scorelayout.c:3118
 msgid "Typesets this layout"
 msgstr "对此布局进行排版"
 
-#: ../src/command/staff.c:276
+#: ../src/command/staff.c:277
 msgid "Part 1"
 msgstr "第 1 部分"
 
-#: ../src/command/staff.c:278
+#: ../src/command/staff.c:279
 #, c-format
 msgid "Part %d"
 msgstr "第 %d 部分"
 
-#: ../src/command/staff.c:383
+#: ../src/command/staff.c:384
 msgid "You will need to alter/delete the matching staff; Proceed?"
 msgstr "你将需要改变/删除匹配的谱表；继续吗？"
 
-#: ../src/command/staff.c:447
+#: ../src/command/staff.c:448
 msgid ""
 "The staff deleted had a start/end context; if you still have the staff with the matching end/start context\n"
 " then you should remove it (or its context) now.\n"
@@ -2354,11 +2369,11 @@ msgstr "图形文件"
 msgid "Obsolete form, use earlier Denemo version to convert"
 msgstr "该形式已过时，请使用更早的 Denemo 版本进行转换"
 
-#: ../src/core/importxml.c:2938
+#: ../src/core/importxml.c:2939
 msgid "Custom prolog is no longer supported. Use score directive prefix instead"
 msgstr "自定义前言已不被支持。请改用乐谱记号前缀"
 
-#: ../src/core/importxml.c:3008
+#: ../src/core/importxml.c:3009
 msgid "Erroneous call"
 msgstr "调用错误"
 
@@ -2458,42 +2473,42 @@ msgstr "配置错误"
 msgid "Save Command Set"
 msgstr "保存命令集"
 
-#: ../src/core/kbd-custom.c:2029
+#: ../src/core/kbd-custom.c:2028
 msgid "Command"
 msgstr "命令"
 
-#: ../src/core/kbd-custom.c:2039
+#: ../src/core/kbd-custom.c:2038
 msgid "Commands"
 msgstr "命令"
 
-#: ../src/core/kbd-custom.c:2047 ../src/generated/entries.h:208
+#: ../src/core/kbd-custom.c:2046 ../src/generated/entries.h:208
 msgid "Hidden"
 msgstr "隐藏"
 
-#: ../src/core/kbd-custom.c:2058
+#: ../src/core/kbd-custom.c:2057
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:27
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:27
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.scm:25
 msgid "Deleted"
 msgstr "删除"
 
-#: ../src/core/kbd-custom.c:2093
+#: ../src/core/kbd-custom.c:2092
 msgid "Search"
 msgstr "搜索"
 
-#: ../src/core/kbd-custom.c:2099
+#: ../src/core/kbd-custom.c:2098
 msgid "Fuzzy Search"
 msgstr "模糊搜索"
 
-#: ../src/core/kbd-custom.c:2100
+#: ../src/core/kbd-custom.c:2099
 msgid "Allow one non-matching word in the search."
 msgstr "允许搜索结果中有一个词不匹配"
 
-#: ../src/core/kbd-custom.c:2164
+#: ../src/core/kbd-custom.c:2163
 msgid "Not in menu system. You can create a palette button for it using the Add to Palette button."
 msgstr "不在菜单系统中。你可以使用“添加到面板”按钮命令为其创建一个面板按钮。"
 
-#: ../src/core/kbd-custom.c:2261
+#: ../src/core/kbd-custom.c:2260
 #, c-format
 msgid ""
 "%sCommand: %s\n"
@@ -2506,7 +2521,7 @@ msgstr ""
 "位置：%s\n"
 "内部名称：%s"
 
-#: ../src/core/kbd-custom.c:2261
+#: ../src/core/kbd-custom.c:2260
 msgid ""
 "WARNING!!:\n"
 "This command is hidden.\n"
@@ -2518,7 +2533,7 @@ msgstr ""
 "你可能需要继续查找其他更匹配的命令。\n"
 "隐藏的命令仅用于 LilyPond 用户，或基础层次的编辑界面。\n"
 
-#: ../src/core/kbd-custom.c:2289 ../src/generated/entries.h:337
+#: ../src/core/kbd-custom.c:2288 ../src/generated/entries.h:337
 #: ../src/generated/register_commands.h:311
 msgid "Shortcuts"
 msgstr "快捷键"
@@ -2712,191 +2727,191 @@ msgstr ""
 "指示 LilyPond 排版器正在处理 Denemo 乐谱。这可能花费较长时间，尤其是处理复音（要求各音色间不能冲突）时。你可以在排版的同时继续编辑。\n"
 "如果希望重新进行排版（比如在做了修改之后），请关闭此窗口。"
 
-#: ../src/core/utils.c:1646 ../src/export/file.c:205
+#: ../src/core/utils.c:1669 ../src/export/file.c:206
 msgid "(Untitled)"
 msgstr "(无标题)"
 
-#: ../src/core/utils.c:1689
+#: ../src/core/utils.c:1712
 msgid "Error"
 msgstr "错误"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 msgid "Chord "
 msgstr "和弦"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 msgid "Note "
 msgstr "音符"
 
-#: ../src/core/utils.c:1891
-#: ../actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureRest.scm:11
+#: ../src/core/utils.c:1914
+#: ../actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureRest.scm:12
 msgid "Rest "
 msgstr "休止符"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 msgid ", begin slur"
 msgstr "，连音起始"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 msgid ", end slur"
 msgstr "，连音终止"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 msgid ", tied"
 msgstr "，延音"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 msgid ", begin cresc."
 msgstr "，渐强起始"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 msgid ", end cresc."
 msgstr "，渐强终止"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 msgid ", begin dim."
 msgstr "，渐弱起始"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 msgid ", end dim."
 msgstr "，渐弱终止"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 msgid ", grace note"
 msgstr "，装饰音符"
 
-#: ../src/core/utils.c:1915
+#: ../src/core/utils.c:1938
 #, c-format
 msgid "Tuplet %d/%d"
 msgstr "%d/%d 连音"
 
-#: ../src/core/utils.c:1918
+#: ../src/core/utils.c:1941
 #, c-format
 msgid "End tuplet"
 msgstr "连音终止"
 
-#: ../src/core/utils.c:1921
+#: ../src/core/utils.c:1944
 #, c-format
 msgid "Clef change"
 msgstr "谱号变更"
 
-#: ../src/core/utils.c:1924
+#: ../src/core/utils.c:1947
 #, c-format
 msgid "Time signature change"
 msgstr "时值变更"
 
-#: ../src/core/utils.c:1927
+#: ../src/core/utils.c:1950
 #, c-format
 msgid "Key signature change"
 msgstr "调号变更"
 
-#: ../src/core/utils.c:1930
+#: ../src/core/utils.c:1953
 #, c-format
 msgid "Stem directive: %s"
 msgstr "符干记号：%s"
 
-#: ../src/core/utils.c:1930
+#: ../src/core/utils.c:1953
 msgid "stem down"
 msgstr "符干向下"
 
-#: ../src/core/utils.c:1930
+#: ../src/core/utils.c:1953
 msgid "stem up"
 msgstr "符干向上"
 
-#: ../src/core/utils.c:1930
+#: ../src/core/utils.c:1953
 msgid "normal stemming"
 msgstr "普通符干"
 
-#: ../src/core/utils.c:1933
+#: ../src/core/utils.c:1956
 #, c-format
 msgid "Dynamic: %s"
 msgstr "动态：%s"
 
-#: ../src/core/utils.c:1939
+#: ../src/core/utils.c:1962
 #, c-format
 msgid "Directive:(%.20s) %.20s%.50s"
 msgstr "指令：(%.20s) %.20s%.50s"
 
-#: ../src/core/utils.c:1939
+#: ../src/core/utils.c:1962
 msgid "Unknown Tag"
 msgstr "未知标签"
 
-#: ../src/core/utils.c:1939
+#: ../src/core/utils.c:1962
 msgid "Not all layouts"
 msgstr "并非所有布局"
 
-#: ../src/core/utils.c:1939
+#: ../src/core/utils.c:1962
 msgid "Only for one Layout"
 msgstr "仅一种布局"
 
-#: ../src/core/utils.c:1943
+#: ../src/core/utils.c:1966
 #, c-format
 msgid "Cursor on an unknown object"
 msgstr "光标位于未知对象上"
 
-#: ../src/core/utils.c:1952
+#: ../src/core/utils.c:1975
 #, c-format
 msgid "Cursor not on any object"
 msgstr "光标不在对象上"
 
-#: ../src/core/utils.c:1985
+#: ../src/core/utils.c:2008
 #, c-format
 msgid "%d min %.2f sec %.2f %.2f"
 msgstr "%d 分 %.2f 秒 %.2f %.2f"
 
-#: ../src/core/utils.c:1987
+#: ../src/core/utils.c:2010
 #, c-format
 msgid " Staff %d Measure %d Position %d %s"
 msgstr " 谱表 %d 小节 %d 位置 %d %s"
 
-#: ../src/core/utils.c:1987
+#: ../src/core/utils.c:2010
 msgid "Appending"
 msgstr "附加"
 
-#: ../src/core/utils.c:1987
+#: ../src/core/utils.c:2010
 msgid "Not Appending"
 msgstr "未附加"
 
-#: ../src/core/utils.c:2321
+#: ../src/core/utils.c:2355
 msgid "Select from List (or Cancel)"
 msgstr "从列表中选择（或取消）"
 
-#: ../src/core/utils.c:2354 ../src/core/utils.c:2386
+#: ../src/core/utils.c:2388 ../src/core/utils.c:2420
 msgid "More..."
 msgstr "更多..."
 
-#: ../src/core/utils.c:2603
+#: ../src/core/utils.c:2637
 #, c-format
 msgid "Mouse shortcut <span font_desc=\"24\" foreground=\"blue\">%s</span> invokes command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr "鼠标快捷操作 <span font_desc=\"24\" foreground=\"blue\">%s</span> 可以调用命令 <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 
-#: ../src/core/utils.c:2605
+#: ../src/core/utils.c:2639
 msgid "Mouse Shortcut"
 msgstr "鼠标快捷操作"
 
-#: ../src/core/utils.c:2624
+#: ../src/core/utils.c:2658
 #, c-format
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> invokes command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr "按键 <span font_desc=\"24\" foreground=\"blue\">%s</span> 可以调用命令 <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 
-#: ../src/core/utils.c:2629
+#: ../src/core/utils.c:2663
 #, c-format
 msgid "Key Presses <span font_desc=\"24\" foreground=\"blue\">%s</span> invoke command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr "按键组合 <span font_desc=\"24\" foreground=\"blue\">%s</span> 可以调用命令 <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 
-#: ../src/core/utils.c:2631
+#: ../src/core/utils.c:2665
 msgid "Single Key Press"
 msgstr "单键"
 
-#: ../src/core/utils.c:2631
+#: ../src/core/utils.c:2665
 msgid "Two Key Presses"
 msgstr "双键"
 
-#: ../src/core/utils.c:2640
+#: ../src/core/utils.c:2674
 msgid "Key Press"
 msgstr "按键"
 
-#: ../src/core/utils.c:2642
+#: ../src/core/utils.c:2676
 #, c-format
 msgid ""
 "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> Is not a shortcut.\n"
@@ -2905,33 +2920,33 @@ msgstr ""
 "按键 <span font_desc=\"24\" foreground=\"blue\">%s</span> 不是快捷键。\n"
 "%s"
 
-#: ../src/core/utils.c:2644
+#: ../src/core/utils.c:2678
 msgid "(The menus are now restored in case you are lost.)"
 msgstr "（为了方便操作，菜单已恢复。）"
 
-#: ../src/core/utils.c:2647
+#: ../src/core/utils.c:2681
 msgid "First Key Press"
 msgstr "第一个按键"
 
-#: ../src/core/utils.c:2649
+#: ../src/core/utils.c:2683
 #, c-format
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> Awaiting continuation"
 msgstr "按键 <span font_desc=\"24\" foreground=\"blue\">%s</span> 正等待下一个按键操作"
 
-#: ../src/core/utils.c:2652 ../src/generated/entries.h:414
+#: ../src/core/utils.c:2686 ../src/generated/entries.h:414
 msgid "Mouse"
 msgstr "鼠标"
 
-#: ../src/core/utils.c:2653
+#: ../src/core/utils.c:2687
 #, c-format
 msgid "Mouse <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 msgstr "鼠标 <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 
-#: ../src/core/utils.c:2656
+#: ../src/core/utils.c:2690
 msgid "Key + Mouse"
 msgstr "按键 + 鼠标"
 
-#: ../src/core/utils.c:2657
+#: ../src/core/utils.c:2691
 #, c-format
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 msgstr "按键 <span font_desc=\"24\" foreground=\"blue\">%s</span>"
@@ -2953,7 +2968,7 @@ msgstr "删除自动保存文件"
 msgid "Unnamed"
 msgstr "未命名"
 
-#: ../src/core/view.c:718 ../src/export/file.c:1271 ../src/export/file.c:1339
+#: ../src/core/view.c:718 ../src/export/file.c:1274 ../src/export/file.c:1342
 msgid "No selection text available"
 msgstr "没有可用的选择文本"
 
@@ -3645,7 +3660,7 @@ msgstr "音量"
 msgid "Set the (initial) volume of the movement"
 msgstr "设置乐章的（起始）音量"
 
-#: ../src/core/view.c:4511 ../src/ui/staffpropdialog.c:459
+#: ../src/core/view.c:4511 ../src/ui/staffpropdialog.c:460
 msgid "Always Full Volume"
 msgstr "总是使用最大音量"
 
@@ -3775,20 +3790,20 @@ msgstr ""
 "只需点击按钮，就可以编辑按钮的标题、值或其所对应的动作"
 
 #. KEY_MARGIN
-#: ../src/display/draw.c:1051 ../src/generated/entries.h:386
+#: ../src/display/draw.c:1057 ../src/generated/entries.h:386
 #: ../actions/palettes.xml.h:159
 msgid "Figured Bass"
 msgstr "数字低音"
 
-#: ../src/display/draw.c:1302
+#: ../src/display/draw.c:1308
 msgid "Playback Start"
 msgstr "回放起始"
 
-#: ../src/display/draw.c:1305
+#: ../src/display/draw.c:1311
 msgid "Playback End"
 msgstr "回放终止"
 
-#: ../src/display/draw.c:1508
+#: ../src/display/draw.c:1514
 msgid "Current staff is hidden - do not edit!"
 msgstr "当前谱表已隐藏 - 请勿编辑！"
 
@@ -3824,7 +3839,7 @@ msgstr ""
 msgid "%{error. defaulting to%}C"
 msgstr "%{ 错误。默认设为 %}C"
 
-#: ../src/export/exportabc.c:125 ../src/export/exportlilypond.c:371
+#: ../src/export/exportabc.c:125 ../src/export/exportlilypond.c:373
 msgid "%{error. defaulting to%}treble"
 msgstr "%{ 错误。默认设为 %}treble"
 
@@ -3833,7 +3848,7 @@ msgstr "%{ 错误。默认设为 %}treble"
 msgid "%% ABC file generated by Denemo version "
 msgstr "%% ABC 文件，由 Denemo "
 
-#: ../src/export/exportlilypond.c:143
+#: ../src/export/exportlilypond.c:145
 msgid ""
 "This scorelayout is purely for continuous typesetting, and will change as you edit the score.\n"
 "To get a real score layout turn off continuous typesetting in the Print View and typeset using Part, Movement or Typeset (Default Layout) buttons."
@@ -3841,61 +3856,61 @@ msgstr ""
 "此乐谱布局仅用于连续排版，并将根据编辑实时改变。\n"
 "若要获取真实的乐谱排版，请在打印视图历关闭连续排版，然后使用片段、乐章或排版（默认布局）按钮。"
 
-#: ../src/export/exportlilypond.c:157 ../src/export/exportlilypond.c:166
+#: ../src/export/exportlilypond.c:159 ../src/export/exportlilypond.c:168
 #, c-format
 msgid "Switch to Layout \"%s\""
 msgstr "切换到布局“%s”"
 
-#: ../src/export/exportlilypond.c:176
+#: ../src/export/exportlilypond.c:178
 msgid "Create Standard Score Layout"
 msgstr "创建默认乐谱布局"
 
-#: ../src/export/exportlilypond.c:230
+#: ../src/export/exportlilypond.c:232
 msgid "Score Layout Options"
 msgstr "乐谱布局选项"
 
-#: ../src/export/exportlilypond.c:239
+#: ../src/export/exportlilypond.c:241
 msgid "Temporary Score Layout"
 msgstr "临时乐谱布局"
 
-#: ../src/export/exportlilypond.c:331
+#: ../src/export/exportlilypond.c:333
 msgid "%{error. defaulting to%}c"
 msgstr "%{ 错误。默认设为 %}c"
 
-#: ../src/export/exportlilypond.c:1620
+#: ../src/export/exportlilypond.c:1622
 #, c-format
 msgid "%% LilyPond file generated by Denemo version "
 msgstr "%% LilyPond 文件，由 Denemo "
 
-#: ../src/export/exportlilypond.c:2145
+#: ../src/export/exportlilypond.c:2147
 msgid "The score has been altered so that this LilyPond text is out of date - ignoring request"
 msgstr "乐谱已被改变，因而 LilyPond 文本已过时 - 忽略此请求"
 
-#: ../src/export/exportlilypond.c:2471
+#: ../src/export/exportlilypond.c:2484
 msgid "No textbuffer"
 msgstr "没有文本缓冲区"
 
-#: ../src/export/exportlilypond.c:2766
+#: ../src/export/exportlilypond.c:2779
 msgid "Could not open output file for writing"
 msgstr "无法打开输出文件进行写入"
 
-#: ../src/export/exportlilypond.c:2818
+#: ../src/export/exportlilypond.c:2831
 msgid "Filename does not have extension"
 msgstr "文件名中没有扩展名"
 
-#: ../src/export/exportlilypond.c:2905
+#: ../src/export/exportlilypond.c:2918
 msgid "Find Current Object"
 msgstr "查找当前对象"
 
-#: ../src/export/exportlilypond.c:2905
+#: ../src/export/exportlilypond.c:2918
 msgid "Move the text cursor in this window to the object that the Denemo cursor is on"
 msgstr "将窗口中的文本光标移动到 Denemo 光标所在的对象"
 
-#: ../src/export/exportlilypond.c:2906
+#: ../src/export/exportlilypond.c:2919
 msgid "Insert LilyPond Text"
 msgstr "插入 LilyPond 文本"
 
-#: ../src/export/exportlilypond.c:2906
+#: ../src/export/exportlilypond.c:2919
 msgid ""
 "Insert LilyPond text at the cursor position.\n"
 "Warning! Shift click to position Denemo cursor first"
@@ -3903,15 +3918,15 @@ msgstr ""
 "在光标处插入 LilyPond 文本。\n"
 "警告！请先按 Shift 并点击合适位置来设定 Denemo 光标"
 
-#: ../src/export/exportlilypond.c:2908
+#: ../src/export/exportlilypond.c:2921
 msgid "Typeset this LilyPond text"
 msgstr "对此 LilyPond 文本进行排版"
 
-#: ../src/export/exportlilypond.c:2908
+#: ../src/export/exportlilypond.c:2921
 msgid "Typesets the current LilyPond text, which will display in the Print View window. Any errors are shown below in the errors pane."
 msgstr "对当前 LilyPond 文本进行排版，并将结果显示在打印预览窗口。所有的错误将会显示在下方的错误窗格中。"
 
-#: ../src/export/exportlilypond.c:3273
+#: ../src/export/exportlilypond.c:3294
 msgid ""
 "Shift left click in music in this window to move the Denemo cursor the corresponding position\n"
 "Using arrows to move the cursor in the music here also moves the Denemo cursor.\n"
@@ -3923,142 +3938,146 @@ msgstr ""
 "右键单击可以显示菜单。\n"
 "请在使用乐谱布局选项时关闭连续排版。"
 
-#: ../src/export/file.c:76
+#: ../src/export/file.c:77
 msgid "Denemo XML format (*.denemo)"
 msgstr "Denemo XML 格式（(*.denemo）"
 
-#: ../src/export/file.c:77
+#: ../src/export/file.c:78
 msgid "Denemo XML format (*.dnm)"
 msgstr "Denemo XML 格式（(*.dnm）"
 
-#: ../src/export/file.c:78
+#: ../src/export/file.c:79
 msgid "Lilypond (*.ly)"
 msgstr "Lilypond（*.ly）"
 
-#: ../src/export/file.c:79
+#: ../src/export/file.c:80
 msgid "PDF (*.pdf)"
 msgstr "PDF（*.pdf）"
 
-#: ../src/export/file.c:80
+#: ../src/export/file.c:81
 msgid "PNG Image format (*.png)"
 msgstr "PNG  图像格式（*.png）"
 
-#: ../src/export/file.c:81
+#: ../src/export/file.c:82
 msgid "ABC (*.abc)"
 msgstr "ABC（*.abc）"
 
-#: ../src/export/file.c:82
+#: ../src/export/file.c:83
 msgid "Midi (*.mid, *.midi)"
 msgstr "Midi（*.mid, *.midi）"
 
-#: ../src/export/file.c:83
+#: ../src/export/file.c:84
 msgid "CSound Score File (*.sco)"
 msgstr "CSound 乐谱文件（*.sco）"
 
-#: ../src/export/file.c:84
+#: ../src/export/file.c:85
 msgid "MusicXML file (*.mxml, *.xml)"
 msgstr "MusicXML 文件（*.mxml, *.xml）"
 
-#: ../src/export/file.c:162
+#: ../src/export/file.c:163
 msgid "Close without Saving"
 msgstr "关闭而不保存"
 
-#: ../src/export/file.c:166
+#: ../src/export/file.c:167
 msgid "Save _As"
 msgstr "另存为(_A)"
 
-#: ../src/export/file.c:205
+#: ../src/export/file.c:206
 #, c-format
 msgid "The score %s has unsaved changes"
 msgstr "乐谱 %s 有未保存的更改"
 
-#: ../src/export/file.c:206
+#: ../src/export/file.c:207
 msgid "Save changes?"
 msgstr "保存更改吗？"
 
-#: ../src/export/file.c:239
+#: ../src/export/file.c:240
 #, c-format
 msgid "Load of recently used file %s failed"
 msgstr "加载最近使用的文件 %s 失败"
 
-#: ../src/export/file.c:343
+#: ../src/export/file.c:344
 msgid "Music Snippets Can be Kept"
 msgstr "音乐片段可以被保留"
 
-#: ../src/export/file.c:343
+#: ../src/export/file.c:344
 msgid "Drop Music Snippets"
 msgstr "舍弃音乐片段"
 
-#: ../src/export/file.c:343
+#: ../src/export/file.c:344
 msgid "Keep Music Snippets"
 msgstr "保留音乐片段"
 
-#: ../src/export/file.c:520
+#: ../src/export/file.c:522
 msgid "You have a Script defined"
 msgstr "你定义了一个脚本"
 
-#: ../src/export/file.c:520
-msgid "Use this script every time this file is opened?"
-msgstr "每当打开此文件时都运行此脚本吗？"
+#: ../src/export/file.c:522
+msgid "Normal Save"
+msgstr "正常保存"
 
-#: ../src/export/file.c:610
+#: ../src/export/file.c:522
+msgid "Advanced: Execute the script every time this file is opened?"
+msgstr "高级选项：每当打开此文件时都运行此脚本吗？"
+
+#: ../src/export/file.c:613
 msgid "Could not create .denemo/templates for you personal templates"
 msgstr "无法为个人设置创建 .denemo/templates 文件夹"
 
-#: ../src/export/file.c:650
+#: ../src/export/file.c:653
 msgid "No examples directory in installation"
 msgstr "安装目录下没有示例文件夹"
 
-#: ../src/export/file.c:664
+#: ../src/export/file.c:667
 msgid "No templates directory in installation"
 msgstr "安装目录下没有模板文件夹"
 
-#: ../src/export/file.c:826 ../src/export/file.c:1112
+#: ../src/export/file.c:829 ../src/export/file.c:1115
 #: ../src/printview/printview.c:1142 ../src/printview/svgview.c:722
 #: ../src/ui/texteditors.c:174
 msgid "_Save"
 msgstr "保存(_S)"
 
-#: ../src/export/file.c:917
+#: ../src/export/file.c:920
 #, c-format
 msgid "Load of file %s failed"
 msgstr "加载文件 %s 失败"
 
-#: ../src/export/file.c:1048
+#: ../src/export/file.c:1051
 msgid "File save failed"
 msgstr "保存文件失败"
 
-#: ../src/export/file.c:1144
+#: ../src/export/file.c:1147
 msgid "Export As "
 msgstr "导出为"
 
-#: ../src/export/file.c:1158 ../src/generated/entries.h:231
+#: ../src/export/file.c:1161 ../src/generated/entries.h:231
 #: ../src/generated/register_commands.h:215
 msgid "Save As"
 msgstr "另存为"
 
-#: ../src/export/file.c:1241
+#: ../src/export/file.c:1244
 #, c-format
 msgid "A file with the name %s already exists"
 msgstr "文件 %s 已存在"
 
-#: ../src/export/file.c:1292
+#: ../src/export/file.c:1295
 msgid "Could not interpret selection as LilyPond notes"
 msgstr "无法将所选区域解析为 LilyPond 音符"
 
-#: ../src/export/file.c:1297
+#: ../src/export/file.c:1300
 msgid "Paste from Selection"
 msgstr "从选区粘贴"
 
-#: ../src/export/file.c:1297
+#: ../src/export/file.c:1300
 msgid "Paste this music into your score?"
 msgstr "将此音乐粘贴至乐谱吗？"
 
-#: ../src/export/file.c:1318
+#: ../src/export/file.c:1321
 msgid "Can only paste LilyPond text into the last tab, sorry"
 msgstr "抱歉，无法仅将 LilyPond 文本粘贴至上一个选项卡"
 
-#: ../src/export/file.c:1343
+#: ../src/export/file.c:1346
 msgid "Inserted:\n"
 msgstr "插入：\n"
 
@@ -5524,7 +5543,7 @@ msgid "Inserts the current music snippet, or if none is selected prompts for a n
 msgstr "插入当前音乐片段；若未选择片段，则提示输入要插入的片段编号（1,2...）。"
 
 #: ../src/generated/entries.h:200 ../src/generated/register_commands.h:199
-#: ../src/ui/markup.c:266
+#: ../src/ui/markup.c:316
 msgid "Next Snippet"
 msgstr "下一片段"
 
@@ -5988,7 +6007,7 @@ msgid "Export the score as a MIDI file"
 msgstr "将乐谱导出为 MIDI 文件"
 
 #: ../src/generated/entries.h:247 ../src/generated/entries.h:252
-#: ../src/generated/register_commands.h:234 ../src/printview/printview.c:2453
+#: ../src/generated/register_commands.h:234 ../src/printview/printview.c:2458
 msgid "Print"
 msgstr "打印"
 
@@ -6105,10 +6124,6 @@ msgstr "扩展选择"
 #: ../src/generated/entries.h:259
 msgid "Extend the selection"
 msgstr "扩展选区"
-
-#: ../src/generated/entries.h:260 ../src/generated/register_commands.h:240
-msgid "Copy"
-msgstr "复制"
 
 #: ../src/generated/entries.h:260 ../src/generated/register_commands.h:240
 msgid "Copy the music selected to the Denemo clipboard"
@@ -6400,7 +6415,7 @@ msgstr "设置当前谱表的起始调号"
 
 #. GUI setup
 #: ../src/generated/entries.h:294 ../src/generated/register_commands.h:270
-#: ../src/ui/keysigdialog.c:360
+#: ../src/ui/keysigdialog.c:361
 msgid "Key Signature Change"
 msgstr "调号变更"
 
@@ -7287,6 +7302,9 @@ msgstr ""
 "或以不同的谱号显示"
 
 #: ../src/generated/entries.h:383
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:33
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:37
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:38
 msgid "Chords"
 msgstr "和弦"
 
@@ -7612,7 +7630,7 @@ msgstr ""
 
 #. MIDI tab
 #: ../src/generated/entries.h:412 ../src/ui/prefdialog.c:720
-#: ../src/ui/staffpropdialog.c:456
+#: ../src/ui/staffpropdialog.c:457
 msgid "MIDI"
 msgstr "MIDI"
 
@@ -8911,7 +8929,7 @@ msgstr "（自定义乐谱布局）"
 msgid "See View->Score Layout to delete."
 msgstr "在 视图->乐谱布局 中删除。"
 
-#: ../src/printview/printview.c:333 ../src/printview/printview.c:2365
+#: ../src/printview/printview.c:333 ../src/printview/printview.c:2370
 msgid "Current Movement"
 msgstr "当前乐章"
 
@@ -9072,128 +9090,128 @@ msgstr "乐谱尺寸"
 msgid "Repeat"
 msgstr "反复"
 
-#: ../src/printview/printview.c:2155 ../src/printview/printview.c:2492
+#: ../src/printview/printview.c:2160 ../src/printview/printview.c:2497
 msgid "Duplex"
 msgstr "双面"
 
-#: ../src/printview/printview.c:2155
+#: ../src/printview/printview.c:2160
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:55
 msgid "Single"
 msgstr "单面"
 
-#: ../src/printview/printview.c:2317
+#: ../src/printview/printview.c:2322
 msgid "Measures before cursor:"
 msgstr "光标前一小节："
 
-#: ../src/printview/printview.c:2326
+#: ../src/printview/printview.c:2331
 msgid "Measures after cursor:"
 msgstr "光标后一小节："
 
-#: ../src/printview/printview.c:2337
+#: ../src/printview/printview.c:2342
 msgid "Staffs before cursor:"
 msgstr "光标前一谱表："
 
-#: ../src/printview/printview.c:2345
+#: ../src/printview/printview.c:2350
 msgid "Staffs after cursor:"
 msgstr "光标后一谱表："
 
 #. hbox = gtk_hbox_new (FALSE, 1);
 #. gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
-#: ../src/printview/printview.c:2360
+#: ../src/printview/printview.c:2365
 msgid "All Movements"
 msgstr "所有乐谱"
 
-#: ../src/printview/printview.c:2362
+#: ../src/printview/printview.c:2367
 msgid "If checked the current layout is re-typeset at every change"
 msgstr "若勾选，则每当做出更改后会重新排版当前布局"
 
-#: ../src/printview/printview.c:2367
+#: ../src/printview/printview.c:2372
 msgid "If checked the current movement is re-typeset at every change"
 msgstr "若勾选，则每当做出更改后会重新排版当前乐谱"
 
-#: ../src/printview/printview.c:2371
+#: ../src/printview/printview.c:2376
 msgid "Cursor Context"
 msgstr "光标上下文"
 
-#: ../src/printview/printview.c:2373
+#: ../src/printview/printview.c:2378
 msgid "If checked the range around the current cursor position is re-typeset at every change or when the cursor moves out of range."
 msgstr "若勾选，则每当做出更改，或光标移出所在范围后会重新对这一范围内的音乐进行排版。"
 
-#: ../src/printview/printview.c:2399
+#: ../src/printview/printview.c:2404
 msgid "Set background updates on/off."
 msgstr "开启/关闭自动更新乐谱。"
 
-#: ../src/printview/printview.c:2403
+#: ../src/printview/printview.c:2408
 msgid "Range"
 msgstr "范围"
 
-#: ../src/printview/printview.c:2404
+#: ../src/printview/printview.c:2409
 msgid "Set how much of the score to re-draw."
 msgstr "设置重绘乐谱的范围。"
 
-#: ../src/printview/printview.c:2422
+#: ../src/printview/printview.c:2427
 msgid "Set background updater on/off. This controls if typesetting is re-done after each change to the music. The amount of the score to be re-typeset can be set via this button."
 msgstr "开启/关闭自动更新乐谱。用于控制在音乐被更改后是否重新进行排版。可以使用此按钮设置需要进行重新排版的范围。"
 
-#: ../src/printview/printview.c:2454
+#: ../src/printview/printview.c:2459
 msgid "Pops up a Print dialog. From this you can send your typeset score to a printer or to a PDF file."
 msgstr "弹出打印对话框。用于将排版后的乐谱发送至打印机或生成 PDF 文件。"
 
-#: ../src/printview/printview.c:2458
+#: ../src/printview/printview.c:2463
 msgid "PDF"
 msgstr "PDF"
 
-#: ../src/printview/printview.c:2459
+#: ../src/printview/printview.c:2464
 msgid "Exports a pdf file for this layout"
 msgstr "将此布局导出为 pdf 文件"
 
-#: ../src/printview/printview.c:2465
+#: ../src/printview/printview.c:2470
 msgid "Typesets the music using the one of the created layouts. See View → Score Layouts to see the layouts you have created."
 msgstr "使用创建的布局排版音乐。见 视图→乐谱布局 来查看所创建的布局。"
 
-#: ../src/printview/printview.c:2471
+#: ../src/printview/printview.c:2476
 msgid "Typesets the music from the current movement. This creates a score layout comprising one movement."
 msgstr "对当前乐章进行排版。用于创建某个乐章的乐谱布局。"
 
-#: ../src/printview/printview.c:2475
+#: ../src/printview/printview.c:2480
 msgid "Part"
 msgstr "片段"
 
-#: ../src/printview/printview.c:2476
+#: ../src/printview/printview.c:2481
 msgid "Typesets the music from the current part for all movements. A part is all the music with the same staff-name. This creates a score layout with one part, all movements."
 msgstr "对所有乐章中的当前片段进行排版。“片段”可以是具有相同谱表名的音乐集合。用于创建所有乐章中某一片段的乐谱布局。"
 
-#: ../src/printview/printview.c:2481
+#: ../src/printview/printview.c:2486
 msgid "Re-issues the last print command. Use this after modifying the file to repeat the typesetting."
 msgstr "重新执行上一个打印命令。用于在修改文件后重新进行排版。"
 
-#: ../src/printview/printview.c:2493
+#: ../src/printview/printview.c:2498
 msgid "Shows pages side by side, so you can see page turns for back-to-back printing\n"
 msgstr "并排显示页面，以便查看双面打印的翻页效果\n"
 
-#: ../src/printview/printview.c:2497
+#: ../src/printview/printview.c:2502
 msgid "Next"
 msgstr "下一页"
 
-#: ../src/printview/printview.c:2498
+#: ../src/printview/printview.c:2503
 msgid "Move to the next page - you can also scroll with the scroll-wheel, and zoom with control-wheel"
 msgstr "转到下一页 - 也可以用滚轮进行滚动、Ctrl + 滚轮调整焦距"
 
-#: ../src/printview/printview.c:2501
+#: ../src/printview/printview.c:2506
 msgid "Previous"
 msgstr "上一页"
 
-#: ../src/printview/printview.c:2502
+#: ../src/printview/printview.c:2507
 msgid "Move to the previous page - you can also scroll with the scroll-wheel, and zoom with control-wheel"
 msgstr "转到上一页 - 也可以用滚轮进行滚动、Ctrl + 滚轮调整焦距"
 
 #. if(!Denemo.prefs.manualtypeset)
 #. gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
-#: ../src/printview/printview.c:2510
+#: ../src/printview/printview.c:2515
 msgid "Denemo Print View"
 msgstr "Denemo 打印预览"
 
-#: ../src/printview/printview.c:2532
+#: ../src/printview/printview.c:2537
 msgid ""
 "This window shows the final typeset score from which you can print or (via print to file) create a PDF document.\n"
 "This will be continuously updated while you edit the music in the main window.\n"
@@ -9207,11 +9225,16 @@ msgstr ""
 
 #: ../src/printview/svgview.c:667
 msgid ""
-"This the Playback View Window. Click on a note to play from that note to the end. Click again to stop play. Drag between two notes to play from the first to the last, shift drag to create a loop. Click on a note and drag earlier to position the Denemo cursor on that note in the Denemo Display.\n"
-" For simple scrolling check the box. For more sophisticated control right click on a note when you have scrolled the page to the position you want it to be at when it is playing. First right click at the start of the second system (this means that the music will not scroll before that); then scroll to position the end and right click the first note of the last system of the piece. If there are changes of pace then right click on the note where this happens once you have scrolled the page. Enter all scroll points in playing order."
+"This the Playback View Window. Click on a note to play from that note to the end. Click again to stop play. Drag between two notes to play from the first to the last, shift drag to create a loop.\n"
+"Shift-Click on a note to position the Denemo cursor on that note in the Denemo Display.\n"
+" For simple scrolling check the box. For more sophisticated control right click on a note when you have scrolled the page to the position you want it to be at when it is playing.\n"
+"First right click at the start of the second system (this means that the music will not scroll before that); then scroll to position the end and right click the first note of the last system of the piece.\n"
+"To delete a scroll point right-click on it.\n"
+"If there are changes of pace then set extra scroll points to control the scrolling in more detail."
 msgstr ""
-"回放视图窗口。点击某个音符来从该处回放至结尾。再次点击可以停止播放。在音符之间拖动来设置播放范围，按下 Shift 并拖动可以进行循环播放。在音符上点击并将其向前拖动可以使 Denemo 显示窗口中的光标移动到对应音符处。\n"
-"若要进行简单的滚动操作，可以勾选此方框。此外，在播放时，右键单击某个音符可以将页面滚动至该音符的位置：先右键单击第二个谱表组的开头（乐谱将不会滚动到该位置前），然后滚动到结尾处并右键单击最后一个谱表组的首个音符。若节奏有所改变，请在滚动页面后右键单击节奏改变处的音符。按照播放次序输入所有滚动点。"
+"回放视图窗口。点击某个音符来从该处回放至结尾。再次点击可以停止播放。在音符之间拖动来设置播放范围，按下 Shift 并拖动可以进行循环播放。按下 Shift 并在音符上点击可以将 Denemo 显示窗口中的光标移动到该音符处。\n"
+"若要进行简单的滚动操作，可以勾选此方框。此外，在播放时，右键单击某个音符可以将页面滚动至该音符的位置：先右键单击第二个谱表组的开头（乐谱将不会滚动到该位置前），然后滚动到结尾处并右键单击最后一个谱表组的首个音符。右键单击滚动点可以将其删除。\n"
+"若节奏有所改变，可以设置更多的滚动点以便精确控制滚动速度。"
 
 #: ../src/printview/svgview.c:717 ../src/printview/svgview.c:747
 msgid "SVG creation"
@@ -9271,19 +9294,19 @@ msgstr "Denemo 回放视图"
 msgid "This window shows the typeset score as one long page. During playback the notes playing are highlighted"
 msgstr "此窗口将排版的乐谱显示在一页上。回放时将高亮正在播放的音符。"
 
-#: ../src/scripting/scheme-callbacks.c:167
+#: ../src/scripting/scheme-callbacks.c:169
 msgid "Set Values"
 msgstr "设置值"
 
-#: ../src/scripting/scheme-callbacks.c:183
+#: ../src/scripting/scheme-callbacks.c:185
 msgid "Check all"
 msgstr "全部选中"
 
-#: ../src/scripting/scheme-callbacks.c:186
+#: ../src/scripting/scheme-callbacks.c:188
 msgid "Un-check all"
 msgstr "取消全选"
 
-#: ../src/scripting/scheme-callbacks.c:422
+#: ../src/scripting/scheme-callbacks.c:424
 msgid ""
 "Use <Tab> to switch palette\n"
 "<Return>to activate"
@@ -9291,23 +9314,23 @@ msgstr ""
 "使用 <Tab> 来切换面板\n"
 "<Return> 来启用"
 
-#: ../src/scripting/scheme-callbacks.c:460
+#: ../src/scripting/scheme-callbacks.c:462
 msgid "Key in (part of) label"
 msgstr ""
 
-#: ../src/scripting/scheme-callbacks.c:471
+#: ../src/scripting/scheme-callbacks.c:473
 msgid "No such label"
 msgstr "无此标签"
 
-#: ../src/scripting/scheme-callbacks.c:1033
+#: ../src/scripting/scheme-callbacks.c:1035
 msgid "Destroying Customized Buttons"
 msgstr "删除自定义按钮"
 
-#: ../src/scripting/scheme-callbacks.c:1033
+#: ../src/scripting/scheme-callbacks.c:1035
 msgid "Remove buttons and other customized scheme on startup?"
 msgstr "在启动时移除按钮和其他自定义项目吗？"
 
-#: ../src/scripting/scheme-callbacks.c:1437
+#: ../src/scripting/scheme-callbacks.c:1439
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:62
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:61
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:115
@@ -9315,15 +9338,15 @@ msgstr "在启动时移除按钮和其他自定义项目吗？"
 msgid "Choose File"
 msgstr "选择文件"
 
-#: ../src/scripting/scheme-callbacks.c:3548
+#: ../src/scripting/scheme-callbacks.c:3562
 msgid "Input Required"
 msgstr "需要输入"
 
-#: ../src/scripting/scheme-callbacks.c:3554
+#: ../src/scripting/scheme-callbacks.c:3568
 msgid "Give input: "
 msgstr "指定输入："
 
-#: ../src/scripting/scheme-callbacks.c:3601
+#: ../src/scripting/scheme-callbacks.c:3615
 msgid ""
 "Please delete the font size and bold/italic indications,\n"
 "leaving just the font family name."
@@ -9331,28 +9354,28 @@ msgstr ""
 "请删除字体大小和加粗/斜体记号，\n"
 "只保留字体名称。"
 
-#: ../src/scripting/scheme-callbacks.c:3621
-#: ../src/scripting/scheme-callbacks.c:3677
+#: ../src/scripting/scheme-callbacks.c:3635
+#: ../src/scripting/scheme-callbacks.c:3691
 msgid "Choose Font"
 msgstr "选择字体"
 
-#: ../src/scripting/scheme-callbacks.c:3753
+#: ../src/scripting/scheme-callbacks.c:3767
 msgid "Script error, wrong parameter type to d-InfoDialog"
 msgstr "脚本错误，传递给 d-InfoDialog 的参数类型有误"
 
-#: ../src/scripting/scheme-callbacks.c:4038
+#: ../src/scripting/scheme-callbacks.c:4052
 msgid "Already in a padding dialog"
 msgstr "已经位于填充对话框"
 
-#: ../src/scripting/scheme-callbacks.c:5939
+#: ../src/scripting/scheme-callbacks.c:5979
 msgid "Time Signatures do not match, will not make voice"
 msgstr "时值记号不匹配，将不会产生音色"
 
-#: ../src/scripting/scheme-callbacks.c:5948
+#: ../src/scripting/scheme-callbacks.c:5988
 msgid "Key Signatures do not match, will not make voice"
 msgstr "调号不匹配，将不会产生音色"
 
-#: ../src/scripting/scheme-callbacks.c:5956
+#: ../src/scripting/scheme-callbacks.c:5996
 msgid "This voice has a different clef from the staff it will be typeset on. This clef will be used for the display only."
 msgstr "此音色的谱号与其所属谱表不同。此谱号将仅用于显示。"
 
@@ -9594,11 +9617,13 @@ msgid "Choose the mouse button"
 msgstr "选择鼠标按键"
 
 #: ../src/ui/kbd-interface.c:485
+#: ../actions/menus/ObjectMenu/Lyrics/InsertLyricAlignment.scm:2
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:48
 msgid "Left"
 msgstr "左"
 
 #: ../src/ui/kbd-interface.c:488
+#: ../actions/menus/ObjectMenu/Lyrics/InsertLyricAlignment.scm:2
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:49
 msgid "Right"
 msgstr "右"
@@ -9755,27 +9780,27 @@ msgstr ""
 msgid "Set mouse shortcut"
 msgstr "设置鼠标快捷键"
 
-#: ../src/ui/keysigdialog.c:364
+#: ../src/ui/keysigdialog.c:365
 msgid "Change initial key signature"
 msgstr "改变起始调号"
 
-#: ../src/ui/keysigdialog.c:366
+#: ../src/ui/keysigdialog.c:367
 msgid "Insert key signature change"
 msgstr "插入调号变更对象"
 
-#: ../src/ui/keysigdialog.c:405
+#: ../src/ui/keysigdialog.c:406
 msgid "Select desired key signature"
 msgstr "选择所需的调号"
 
-#: ../src/ui/keysigdialog.c:408
+#: ../src/ui/keysigdialog.c:409
 msgid "Major"
 msgstr "大调"
 
-#: ../src/ui/keysigdialog.c:412
+#: ../src/ui/keysigdialog.c:413
 msgid "Minor"
 msgstr "小调"
 
-#: ../src/ui/keysigdialog.c:424
+#: ../src/ui/keysigdialog.c:425
 msgid "Current Staff Only?"
 msgstr "仅当前谱表吗？"
 
@@ -9783,7 +9808,7 @@ msgstr "仅当前谱表吗？"
 msgid "Note/Chord Name"
 msgstr "音符/和弦名"
 
-#: ../src/ui/markup.c:75 ../src/ui/markup.c:143
+#: ../src/ui/markup.c:75 ../src/ui/markup.c:176
 msgid "Give a relative font size +/- "
 msgstr "设置相对字体大小 +/-"
 
@@ -9791,33 +9816,37 @@ msgstr "设置相对字体大小 +/-"
 msgid "Give a font name "
 msgstr "设置字体名称"
 
-#: ../src/ui/markup.c:143 ../actions/denemo.scm:279 ../actions/denemo.scm:339
+#: ../src/ui/markup.c:154 ../src/ui/markup.c:173 ../src/ui/markup.c:184
+msgid "Select the text first."
+msgstr "请先选中文本。"
+
+#: ../src/ui/markup.c:176 ../actions/denemo.scm:287 ../actions/denemo.scm:347
 msgid "Font Magnification"
 msgstr "字体缩放"
 
-#: ../src/ui/markup.c:165
+#: ../src/ui/markup.c:200
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/InsertSpaceBeforeMovement.xml.h:1
 #: ../actions/menus/ObjectMenu/Score/Titles/FilledTitleLine.scm:8
 msgid "Space Above"
 msgstr "上间距"
 
-#: ../src/ui/markup.c:165
-msgid "Give space to leave above +/- "
-msgstr "设置上间距 +/-"
+#: ../src/ui/markup.c:200
+msgid "Give space to leave above + only "
+msgstr "设置上间距（必须为正值）"
 
-#: ../src/ui/markup.c:188
+#: ../src/ui/markup.c:230
 msgid "Insert Space"
 msgstr "插入间隔"
 
-#: ../src/ui/markup.c:188
+#: ../src/ui/markup.c:230
 msgid "Give space to insert +/- "
 msgstr "设置要插入的间隔 +/-"
 
-#: ../src/ui/markup.c:261
+#: ../src/ui/markup.c:311
 msgid "Paste Current Snippet"
 msgstr "粘贴当前片段"
 
-#: ../src/ui/markup.c:262
+#: ../src/ui/markup.c:312
 msgid ""
 "Pastes the music captured in the currently selected Snippet into the text at the cursor.\n"
 "The music appears here in the LilyPond syntax.\n"
@@ -9829,7 +9858,7 @@ msgstr ""
 "打印时将以排版后的嵌入片段显示在乐句中。\n"
 "可以根据 LilyPond 语法对其进行编辑。\n"
 
-#: ../src/ui/markup.c:267
+#: ../src/ui/markup.c:317
 msgid ""
 "Makes the next Snippet the one that can be pasted.\n"
 "To see the music snippets you need to check View → Snippets\n"
@@ -9839,11 +9868,11 @@ msgstr ""
 "要查看音乐片段，请见 视图→片段\n"
 "所选片段以黑色加粗字体显示。"
 
-#: ../src/ui/markup.c:276
+#: ../src/ui/markup.c:326
 msgid "Paste Note Name/Chord Symbol"
 msgstr "粘贴音符名/和弦记号"
 
-#: ../src/ui/markup.c:277
+#: ../src/ui/markup.c:327
 msgid ""
 "Pastes the note or chord at the cursor as a Note Name/Chord Symbol\n"
 "The music appears here in the LilyPond syntax.\n"
@@ -9855,11 +9884,11 @@ msgstr ""
 "打印时将以音符名/和弦记号显示在乐句中，并根据全局转调设置进行转调。\n"
 "用于指定某乐段的音调。\n"
 
-#: ../src/ui/markup.c:285
+#: ../src/ui/markup.c:335
 msgid "Paste Fret Diagram"
 msgstr "粘贴音品图"
 
-#: ../src/ui/markup.c:286
+#: ../src/ui/markup.c:336
 msgid ""
 "Pastes the chord at the cursor as a Fret Diagram\n"
 "The music appears here in the LilyPond syntax.\n"
@@ -9869,69 +9898,69 @@ msgstr ""
 "此处的音乐以 LilyPond 语法显示。\n"
 "打印时将以音品图显示在乐句中，并根据全局转调设置进行转调。\n"
 
-#: ../src/ui/markup.c:294 ../actions/denemo.scm:271 ../actions/denemo.scm:332
+#: ../src/ui/markup.c:344 ../actions/denemo.scm:279 ../actions/denemo.scm:340
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:12
 #: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm:5
 #: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm:5
 msgid "Bold"
 msgstr "加粗"
 
-#: ../src/ui/markup.c:295
-msgid "Inserts markup to make the following text bold. Enclose the passage to be bold in {}."
-msgstr "插入加粗记号，使其后的文本显示为粗体。请将需要加粗的段落置于 {} 中。"
+#: ../src/ui/markup.c:345
+msgid "Inserts markup to make the selected text bold."
+msgstr "插入加粗记号，使其后的文本显示为粗体。"
 
-#: ../src/ui/markup.c:299 ../actions/denemo.scm:273 ../actions/denemo.scm:334
+#: ../src/ui/markup.c:349 ../actions/denemo.scm:281 ../actions/denemo.scm:342
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:18
 #: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm:11
 #: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm:11
 msgid "Italic"
 msgstr "斜体"
 
-#: ../src/ui/markup.c:300
-msgid "Inserts markup to make the following text italic. Enclose the passage to be italic in {}."
-msgstr "插入斜体记号，使其后的文本显示为斜体。请将需要加粗的段落置于 {} 中。"
+#: ../src/ui/markup.c:350
+msgid "Inserts markup to make the selected text italic."
+msgstr "插入斜体记号，使其后的文本显示为斜体。"
 
-#: ../src/ui/markup.c:304
+#: ../src/ui/markup.c:354
 msgid "“"
 msgstr "“"
 
-#: ../src/ui/markup.c:305
-msgid "Inserts code for open quotes - leave a space after this code. Note that this is not the \" character which is used for grouping words not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."
-msgstr "插入左括号 - 请在此记号后保留一个空格。注意，此记号与 \" 字符不同，后者用于组合单词，而不是简单的记号。\" 字符必须成对，否则 LilyPond 无法正确排版音乐。"
+#: ../src/ui/markup.c:355
+msgid "Inserts open double quote. Note that this is not the \" character which is used for grouping words not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."
+msgstr "插入右括号。注意，此记号与 \" 字符不同，后者用于组合单词，而不是简单的记号。\" 字符必须成对，否则 LilyPond 无法正确排版音乐。"
 
-#: ../src/ui/markup.c:309
+#: ../src/ui/markup.c:359
 msgid "”"
 msgstr "”"
 
-#: ../src/ui/markup.c:310
-msgid "Inserts code for close quotes - leave a space after this code. Note that this is not the \" character which is used for grouping words  not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."
-msgstr "插入右括号 - 请在此记号后保留一个空格。注意，此记号与 \" 字符不同，后者用于组合单词，而不是简单的记号。\" 字符必须成对，否则 LilyPond 无法正确排版音乐。"
+#: ../src/ui/markup.c:360
+msgid "Inserts close double quote. Note that this is not the \" character which is used for grouping words  not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."
+msgstr "插入右括号。注意，此记号与 \" 字符不同，后者用于组合单词，而不是简单的记号。\" 字符必须成对，否则 LilyPond 无法正确排版音乐。"
 
-#: ../src/ui/markup.c:314
+#: ../src/ui/markup.c:364
 msgid "size"
 msgstr "尺寸"
 
-#: ../src/ui/markup.c:315
-msgid "Inserts code to change the relative font size."
-msgstr "插入改变相对字体大小的代码"
+#: ../src/ui/markup.c:365
+msgid "Inserts markup to set the relative font size for the selected text."
+msgstr "插入代码以改变所选文本的相对字体大小。"
 
-#: ../src/ui/markup.c:319
-msgid "Inserts code to leave space above this line of text. Ineffective on the top line of standalone text, only titles"
-msgstr "在此行文本上插入空间。仅用于标题，对于首行的独立文本无效。"
+#: ../src/ui/markup.c:369
+msgid "Inserts the markup needed to leave space above this line of text. Ineffective on the top line of standalone text, instead drag such text in the Print View"
+msgstr "在此行文本上插入空间。对于首行的独立文本无效，除非在打印预览中拖动此类文本"
 
-#: ../src/ui/markup.c:322
+#: ../src/ui/markup.c:372
 msgid "⬌"
 msgstr "⬌"
 
-#: ../src/ui/markup.c:323
-msgid "Inserts code to insert space at the cursor."
-msgstr "在光标处插入间隔。"
+#: ../src/ui/markup.c:373
+msgid "Inserts the markup needed to insert/backup space (+/-) at the cursor."
+msgstr "在光标处插入（+）/删除（-）间隔。"
 
-#: ../src/ui/markup.c:327
+#: ../src/ui/markup.c:377
 msgid "Preview"
 msgstr "预览"
 
-#: ../src/ui/markup.c:328
+#: ../src/ui/markup.c:378
 msgid "Shows what the text will look like when typeset in the Print View window. For score and movement titles the appearance is correct only relative to the default title."
 msgstr "以打印预览模式显示此文本。对于乐谱和乐章标题来说，仅显示相对于默认标题的外观。"
 
@@ -10840,57 +10869,57 @@ msgid "Landscape"
 msgstr ""
 
 #. Print appearance tab
-#: ../src/ui/staffpropdialog.c:441
+#: ../src/ui/staffpropdialog.c:442
 msgid "Typeset Appearance"
 msgstr "排版外观"
 
-#: ../src/ui/staffpropdialog.c:442
+#: ../src/ui/staffpropdialog.c:443
 msgid "Part name:"
 msgstr "片段名称："
 
-#: ../src/ui/staffpropdialog.c:443
+#: ../src/ui/staffpropdialog.c:444
 msgid "All staffs with the same part name will be typeset with the Print Part command. Use a blank part name for staffs that should be printed with every part."
 msgstr "将使用打印片段命令排版所有具有相同片段名称的谱表。请将那些需要在每个片段中进行排版的谱表的名称留空。"
 
-#: ../src/ui/staffpropdialog.c:444
+#: ../src/ui/staffpropdialog.c:445
 msgid "Sub Part name:"
 msgstr "子片段名称："
 
-#: ../src/ui/staffpropdialog.c:445
+#: ../src/ui/staffpropdialog.c:446
 msgid "If a single part (e.g. piano) has more than one staff they should be named here."
 msgstr "若某个片段（如钢琴）含有多个谱表，则可将其分别命名。"
 
 #. gtk_widget_grab_focus (entrywidget);
-#: ../src/ui/staffpropdialog.c:450
+#: ../src/ui/staffpropdialog.c:451
 msgid "Space above:"
 msgstr "上间距："
 
-#: ../src/ui/staffpropdialog.c:451
+#: ../src/ui/staffpropdialog.c:452
 msgid "Space below:"
 msgstr "下间距："
 
-#: ../src/ui/staffpropdialog.c:452
+#: ../src/ui/staffpropdialog.c:453
 msgid "Number of Display Staff Lines:"
 msgstr "显示的谱表行数："
 
-#: ../src/ui/staffpropdialog.c:457
+#: ../src/ui/staffpropdialog.c:458
 msgid "MIDI Instrument:"
 msgstr "MIDI 乐器："
 
-#: ../src/ui/staffpropdialog.c:458
+#: ../src/ui/staffpropdialog.c:459
 msgid "Transposition:"
 msgstr "转调："
 
-#: ../src/ui/staffpropdialog.c:460
+#: ../src/ui/staffpropdialog.c:461
 msgid "Master Volume:"
 msgstr "主音量："
 
 #. BOOLEANENTRY("Override MIDI Channel/Program", midi_prognum_override);
-#: ../src/ui/staffpropdialog.c:462
+#: ../src/ui/staffpropdialog.c:463
 msgid "Channel:"
 msgstr "通道："
 
-#: ../src/ui/staffpropdialog.c:463
+#: ../src/ui/staffpropdialog.c:464
 msgid "Program:"
 msgstr "程序："
 
@@ -11102,6 +11131,14 @@ msgstr "忽略片段布局 \""
 msgid "Cursor is not inside selection"
 msgstr "改变不在选区中"
 
+#: ../actions/denemo-modules/selection.scm:389
+msgid "Object of type "
+msgstr ""
+
+#: ../actions/denemo-modules/selection.scm:394
+msgid "Copied "
+msgstr ""
+
 #: ../actions/denemo-modules/wysiwyg.scm:306
 #: ../actions/denemo-modules/wysiwyg.scm:349
 msgid "Now drag the control points to make the shape desired - when finished click away from a control point"
@@ -11232,30 +11269,34 @@ msgstr "现在点击要放置对象的位置"
 msgid "Re-positioned"
 msgstr "位置已改变"
 
+#. TupletPosition
 #: ../actions/denemo-modules/wysiwyg.scm:453
 #: ../actions/denemo-modules/wysiwyg.scm:610
-#: ../actions/denemo-modules/wysiwyg.scm:613 ../actions/denemo.scm:1043
+#: ../actions/denemo-modules/wysiwyg.scm:613 ../actions/denemo.scm:1051
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:5
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm:7
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:19
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.scm:2
 msgid "Up"
 msgstr "上"
 
 #: ../actions/denemo-modules/wysiwyg.scm:453
 #: ../actions/denemo-modules/wysiwyg.scm:610
-#: ../actions/denemo-modules/wysiwyg.scm:614 ../actions/denemo.scm:1043
+#: ../actions/denemo-modules/wysiwyg.scm:614 ../actions/denemo.scm:1051
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:5
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm:7
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:19
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.scm:2
 msgid "Down"
 msgstr "下"
 
 #: ../actions/denemo-modules/wysiwyg.scm:453
 #: ../actions/denemo-modules/wysiwyg.scm:610
-#: ../actions/denemo-modules/wysiwyg.scm:615 ../actions/denemo.scm:1043
+#: ../actions/denemo-modules/wysiwyg.scm:615 ../actions/denemo.scm:1051
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:5
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm:7
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:19
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.scm:2
 msgid "Auto"
 msgstr "自动"
 
@@ -11291,14 +11332,14 @@ msgid "Play From Here"
 msgstr "从此处开始播放"
 
 #: ../actions/denemo-modules/wysiwyg.scm:515
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:64
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:69
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:7
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm:30
 msgid "Up/Down"
 msgstr "上/下"
 
-#: ../actions/denemo-modules/wysiwyg.scm:515 ../actions/denemo.scm:165
-#: ../actions/denemo.scm:168
+#: ../actions/denemo-modules/wysiwyg.scm:515 ../actions/denemo.scm:173
+#: ../actions/denemo.scm:176
 msgid "Offset Position"
 msgstr "偏移位置"
 
@@ -11419,87 +11460,88 @@ msgstr "改变延音形状"
 msgid "Allows you to drag the control points of the tie"
 msgstr "拖动延音线控制点进行设置"
 
-#: ../actions/denemo.scm:149
+#: ../actions/denemo.scm:157
 msgid "Place above staff"
 msgstr "置于谱表上方"
 
-#: ../actions/denemo.scm:150
+#: ../actions/denemo.scm:158
 msgid "Place below staff"
 msgstr "置于谱表下方"
 
-#: ../actions/denemo.scm:151
+#: ../actions/denemo.scm:159
 msgid "Set Relative Font Size"
 msgstr "设置相对字体大小"
 
-#: ../actions/denemo.scm:152
+#: ../actions/denemo.scm:160
 msgid "Offset Position (All)"
 msgstr "偏移位置（所有）"
 
-#: ../actions/denemo.scm:153
+#: ../actions/denemo.scm:161
 msgid "Offset Position (One)"
 msgstr "偏移位置（仅当前）"
 
-#: ../actions/denemo.scm:154
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:61
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:43
+#: ../actions/denemo.scm:162
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:66
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:43
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:17
 msgid "Edit Text"
 msgstr "编辑文本"
 
-#: ../actions/denemo.scm:155
+#: ../actions/denemo.scm:163
 msgid "Set Padding"
 msgstr "设置填充"
 
-#: ../actions/denemo.scm:158
+#: ../actions/denemo.scm:166
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:7
 msgid "Restore Position"
 msgstr "恢复位置"
 
-#: ../actions/denemo.scm:159
+#: ../actions/denemo.scm:167
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:6
 msgid "Nudge Position"
 msgstr "位置微调"
 
-#: ../actions/denemo.scm:165
+#: ../actions/denemo.scm:173
 msgid "Amount (+/-) to nudge in horizontal direction"
 msgstr "水平方向上的微调量（+/-）"
 
-#: ../actions/denemo.scm:168
+#: ../actions/denemo.scm:176
 msgid "Amount (+/-) to nudge in vertical direction"
 msgstr "垂直方向上的微调量（+/-）"
 
-#: ../actions/denemo.scm:273 ../actions/denemo.scm:334
+#: ../actions/denemo.scm:281 ../actions/denemo.scm:342
 msgid "Upright"
 msgstr "直立"
 
-#: ../actions/denemo.scm:276 ../actions/denemo.scm:337
+#: ../actions/denemo.scm:284 ../actions/denemo.scm:345
 msgid "Extra space above (0):"
 msgstr "上方额外空间（0）："
 
-#: ../actions/denemo.scm:279 ../actions/denemo.scm:339
+#: ../actions/denemo.scm:287 ../actions/denemo.scm:347
 msgid "Give font magnification required (+/-) 0 "
 msgstr "设置所需的字体缩放值（+/-）0"
 
-#: ../actions/denemo.scm:327
+#: ../actions/denemo.scm:335
 msgid "Give a name applying to the whole score"
 msgstr "为整个乐谱指定名称"
 
-#: ../actions/denemo.scm:485
+#: ../actions/denemo.scm:493
 msgid "End the selection at a note"
 msgstr "选区结束于音符"
 
-#: ../actions/denemo.scm:490
+#: ../actions/denemo.scm:498
 msgid "Start the selection at a note"
 msgstr "选区起始于音符"
 
-#: ../actions/denemo.scm:650
+#: ../actions/denemo.scm:658
 msgid "You had book titles for this score. These are being dropped. To re-instate them, re-set the title as a book title."
 msgstr "你为此乐谱设置了目录标题，但目录标题已被丢弃。若要恢复它，请将标题重新设置为目录标题。"
 
-#: ../actions/denemo.scm:925
+#: ../actions/denemo.scm:933
 msgid "Please enter a transpose interval"
 msgstr "请输入转调间隔"
 
-#: ../actions/denemo.scm:925
+#: ../actions/denemo.scm:933
 msgid ""
 "Please enter a transpose interval or two notes in Lilypond syntax.\n"
 "\n"
@@ -11511,72 +11553,72 @@ msgstr ""
 "例如：m2 减二度，M2 大二度，p5 五度，T 全音。\n"
 "或：c' e' 大三度。"
 
-#: ../actions/denemo.scm:1052
+#: ../actions/denemo.scm:1060
 msgid "This definition is not loaded ... trying to load"
 msgstr "此定义未被加载 … 请先加载"
 
-#: ../actions/denemo.scm:1174 ../actions/denemo.scm:1178
-#: ../actions/denemo.scm:1238
+#: ../actions/denemo.scm:1182 ../actions/denemo.scm:1186
+#: ../actions/denemo.scm:1248
 msgid "Movement Titles"
 msgstr "乐章标题"
 
-#: ../actions/denemo.scm:1174 ../actions/denemo.scm:1178
+#: ../actions/denemo.scm:1182 ../actions/denemo.scm:1186
 msgid "Give "
 msgstr "设置"
 
-#: ../actions/denemo.scm:1270 ../actions/denemo.scm:1319
+#: ../actions/denemo.scm:1280 ../actions/denemo.scm:1330
 msgid "dedication"
 msgstr "题词"
 
-#: ../actions/denemo.scm:1271 ../actions/denemo.scm:1323
+#: ../actions/denemo.scm:1281 ../actions/denemo.scm:1334
 msgid "title"
 msgstr "标题"
 
-#: ../actions/denemo.scm:1272 ../actions/denemo.scm:1327
+#: ../actions/denemo.scm:1282 ../actions/denemo.scm:1338
 msgid "subtitle"
 msgstr "子标题"
 
-#: ../actions/denemo.scm:1273 ../actions/denemo.scm:1331
+#: ../actions/denemo.scm:1283 ../actions/denemo.scm:1342
 msgid "subsubtitle"
 msgstr "小标题"
 
-#: ../actions/denemo.scm:1274 ../actions/denemo.scm:1335
+#: ../actions/denemo.scm:1284 ../actions/denemo.scm:1346
 msgid "instrument"
 msgstr "乐器"
 
-#: ../actions/denemo.scm:1275 ../actions/denemo.scm:1339
+#: ../actions/denemo.scm:1285 ../actions/denemo.scm:1350
 msgid "poet"
 msgstr "诗人"
 
-#: ../actions/denemo.scm:1276 ../actions/denemo.scm:1344
+#: ../actions/denemo.scm:1286 ../actions/denemo.scm:1354
 msgid "composer"
 msgstr "作曲者"
 
-#: ../actions/denemo.scm:1277 ../actions/denemo.scm:1348
+#: ../actions/denemo.scm:1287 ../actions/denemo.scm:1358
 msgid "meter"
 msgstr "节拍"
 
-#: ../actions/denemo.scm:1278 ../actions/denemo.scm:1352
+#: ../actions/denemo.scm:1288 ../actions/denemo.scm:1362
 msgid "arranger"
 msgstr "编曲者"
 
-#: ../actions/denemo.scm:1283 ../actions/denemo.scm:1356
+#: ../actions/denemo.scm:1293 ../actions/denemo.scm:1366
 msgid "tagline"
 msgstr "标语"
 
-#: ../actions/denemo.scm:1283 ../actions/denemo.scm:1360
+#: ../actions/denemo.scm:1293 ../actions/denemo.scm:1370
 msgid "copyright"
 msgstr "版权"
 
-#: ../actions/denemo.scm:1284 ../actions/denemo.scm:1364
+#: ../actions/denemo.scm:1294 ../actions/denemo.scm:1374
 msgid "piece"
 msgstr "片段"
 
-#: ../actions/denemo.scm:1284 ../actions/denemo.scm:1368
+#: ../actions/denemo.scm:1294 ../actions/denemo.scm:1378
 msgid "opus"
 msgstr "作品"
 
-#: ../actions/denemo.scm:1289
+#: ../actions/denemo.scm:1299
 msgid ""
 "You have book titles created for this score.\n"
 "You can delete them in the score and movement editor and then use simple titles."
@@ -11584,7 +11626,7 @@ msgstr ""
 "你为此乐谱创建了图书标题。\n"
 "你可以在乐谱和乐章编辑器中删除它们，然后使用简单标题。"
 
-#: ../actions/denemo.scm:1314
+#: ../actions/denemo.scm:1324
 msgid ""
 "You have simple titles created by an earlier version of Denemo.\n"
 "You can only edit these with 1.2.4 or earlier versions.\n"
@@ -11594,7 +11636,7 @@ msgstr ""
 "只能使用 1.2.4 及更早的版本编辑它们。\n"
 "你可以在乐谱和乐章编辑器中删除它们，然后重新恢复它们。"
 
-#: ../actions/denemo.scm:1397
+#: ../actions/denemo.scm:1407
 msgid "Give Spacing:"
 msgstr "设置间距："
 
@@ -12927,8 +12969,8 @@ msgstr "播放当前小节的上下文，然后等待你向当前小节中添加
 #: ../actions/menus/MainMenu/InputMenu/MIDI/ChordsOverBass.scm:214
 #: ../actions/menus/ObjectMenu/Directives/Comment.scm:16
 #: ../actions/menus/ObjectMenu/Directives/CriticalComment.scm:18
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:160
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:161
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:174
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:175
 #: ../actions/menus/ObjectMenu/MovementMenu/CreateIntro.scm:30
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:93
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/InsertSpaceBeforeMovement.scm:15
@@ -14036,13 +14078,13 @@ msgstr "和弦记号偏移"
 
 #: ../actions/menus/ObjectMenu/ChordMenu/ChordNameOffset.scm:16
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:65
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:87
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:96
 msgid "Give horizontal displacement required"
 msgstr "设置水平方向的位移值"
 
 #: ../actions/menus/ObjectMenu/ChordMenu/ChordNameOffset.scm:18
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:66
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:88
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:97
 msgid "Give vertical displacement required"
 msgstr "设置垂直方向的位移值"
 
@@ -14253,8 +14295,48 @@ msgstr "选择条件"
 msgid "Gives a menu for choosing whether the directive at the cursor should apply to the current part only or the default score or all layouts,"
 msgstr "在菜单中选择光标处指令所应用的范围（当前片段、默认乐谱或整个布局）。"
 
-#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:13
-#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:15
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:17
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:25
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:26
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:29
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:33
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:34
+msgid "Just for this one"
+msgstr "仅此处"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:18
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:26
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:27
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:30
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:34
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:35
+msgid "Apply condition to all further cases in this staff"
+msgstr "将此条件应用到当前谱表中的所有的情况"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:21
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:29
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:30
+msgid "Standalone Directives "
+msgstr "独立记号"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:21
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:33
+msgid " in this staff from the cursor onwards will be typeset for all layouts "
+msgstr "此谱表中光标之后的所有记号将被排版于所有布局中"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:22
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:30
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:31
+msgid "This Directive "
+msgstr "此记号"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:22
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:34
+msgid " will be typeset for all layouts "
+msgstr "将在所有布局中排版"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:29
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:36
 msgid ""
 "The cursor is not on a Denemo Directive.\n"
 "You can place the \"Void\" Denemo Directive before the object you wish to omit\n"
@@ -14272,9 +14354,21 @@ msgstr "重置所有布局"
 msgid "Clears conditional behaviour of this layout. The Directive will apply to all score layouts."
 msgstr "在此布局中清除所有条件动作。这些记号将应用到到所有乐谱布局。"
 
-#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:5
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:7
 msgid "Not for "
 msgstr "不用于"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:29
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:37
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:38
+msgid "  in this staff from the cursor onwards will not be typeset for the layout "
+msgstr "此谱表中光标之后的所有记号将不会被排版于布局"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:30
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:38
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:39
+msgid " will not be typeset for the layout "
+msgstr "将不会被排版于布局"
 
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.xml.h:1
@@ -14285,11 +14379,19 @@ msgstr "忽略当前布局"
 msgid "The Denemo Directive at the cursor will be ignored when printing from the current score layout (See View-&gt;Score Layout)"
 msgstr "光标处的 Denemo 记号将会在打印当前乐谱布局时被忽略（见 视图-&gt;乐谱布局）"
 
-#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:9
-msgid "for "
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:7
+msgid " for "
 msgstr "用于"
 
-#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:19
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:30
+msgid "  in this staff from the cursor onwards will only be typeset for the layout "
+msgstr "此谱表中光标之后的所有记号将仅被排版于布局"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:31
+msgid " will only be typeset for the layout "
+msgstr "将仅被排版于布局"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:37
 msgid ""
 "The cursor is not on a Denemo Directive.\n"
 "You can place the \"Hide Next\"  Denemo Directive before the object you wish to omit\n"
@@ -14713,22 +14815,22 @@ msgid "Edit Fret Diagram"
 msgstr "编辑音品图"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:56
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:62
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:67
 msgid "Edit Space Occupied"
 msgstr "编辑占据空间"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:56
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:65
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:70
 msgid "Edit Position"
 msgstr "编辑把位"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:60
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:82
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:91
 msgid "Space Occupied by Text/Music"
 msgstr "文本/音乐占据的空间"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:60
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:82
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:91
 msgid ""
 "Give space:\n"
 "(0 prevents dragging position\n"
@@ -14740,8 +14842,8 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:65
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:66
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:87
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:88
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:96
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:97
 msgid "Offsets"
 msgstr "偏移"
 
@@ -14806,14 +14908,19 @@ msgstr "节奏和节拍器标记"
 msgid "Insert tempi and/or metronome marks, printed or not, adjust playback tempo to suit"
 msgstr "插入（打印或非打印的）速度和/或节拍器，并调整回放速度"
 
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:16
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:15
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:19
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:24
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.scm:6
 #: ../actions/menus/ObjectMenu/Score/Titles/FilledTitleLine.scm:11
 msgid "Text"
 msgstr "文本"
 
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:17
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:15
+msgid "Give text for Denemo Display"
+msgstr "设置 Denemo 显示窗口的文本"
+
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:20
 msgid ""
 "Give text to appear with following note/chord - use the Preview button to see how it will print.\n"
 "The characters \\, \", ¶, { and } have a special meaning in the text,\n"
@@ -14829,24 +14936,28 @@ msgstr ""
 "包含于 \"\" 中记号将不会被解析为标记。\n"
 "有关其他标记命令 \\super，\\tiny 等，请见 LilyPond 文档。"
 
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:22
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:25
 msgid "Scaling Text"
 msgstr "缩放文本"
 
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:22
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:25
 msgid "Give text size: "
 msgstr "设置文本大小："
 
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:63
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:46
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:68
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:46
 msgid "Edit Size"
 msgstr "编辑大小"
 
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:66
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:71
+msgid "Edit Display Text"
+msgstr "编辑显示文本"
+
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:72
 msgid "Edit Others"
 msgstr "编辑其他"
 
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:160
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:174
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:30
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.scm:18
 msgid "Delete this text?"
@@ -17374,111 +17485,6 @@ msgstr "更多编辑选项"
 msgid "Inserts a rehearsal mark in the score. The default is to typeset as the letters A, B, ... The display shows simply A for all bookmarks. This mark also acts as a Denemo bookmark which can be searched for."
 msgstr "在乐谱中插入一个排列记号。默认将使用字母 A、B、……。显示窗口中对于所有书签都会显示为“A”。此标记也是可搜索的 Denemo 书签。"
 
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/CadenzaOn.xml.h:1
-msgid "Start Cadenza"
-msgstr "华彩段起始"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/CadenzaOn.xml.h:2
-msgid "Turns off barlines etc for cadenza"
-msgstr "在华彩段中取消显示小节线"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.scm:9
-msgid "This closes a 1st, 2nd, ... n'th time bar"
-msgstr "取消显示第一、第二 …… 第 n 个小节线"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.xml.h:1
-msgid "End Volta (1st, 2nd ... Time Bar)"
-msgstr "结束段落（第一、第二 …… 个重复段落）"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.xml.h:2
-msgid "Ends a volta, that is a n'th time bar; without this the opening of a first (Nth) time bar will not be printed."
-msgstr "标记第 n 个重复段落结束；若不插入此标记，则不会显示第 N 个重复段落记号。"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/FinishCadenza.xml.h:1
-msgid "End Cadenza"
-msgstr "华彩段终止"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/FinishCadenza.xml.h:2
-msgid "Returns to normal barlines etc after a cadenza"
-msgstr "在华彩段后恢复显示正常小节线"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenFirstTimeBar.xml.h:1
-msgid "Start a First Time Bar"
-msgstr "一次反复段落起始"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenFirstTimeBar.xml.h:2
-msgid "(Print) start (a) first time bar(s), use the End Volta command at the end of the first time bar(s)"
-msgstr "（打印）一次反复段落起始记号；请在一次反复段落后使用段落结束命令"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:22
-msgid "1st Time Bar"
-msgstr "一次反复小节"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:23
-msgid "2nd Time Bar"
-msgstr "二次反复小节"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:24
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.xml.h:1
-msgid "Arbitrary Text"
-msgstr "任意文本"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:28
-msgid "This marks the start of one or more measures to be played on one or more of the repeats. There must be a later End Volta mark else nothing prints"
-msgstr "指一个或多个要演奏一次或多次的小节起始处。其后必须有相应的反复段落结束记号，否则将不会显示。"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:44
-msgid "Set/Unset Bold"
-msgstr "设置/取消粗体"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:45
-msgid "Set/Unset Italic"
-msgstr "设置/取消斜体"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:51
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:55
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:65
-msgid "Nth Time Bar Text"
-msgstr "第 N 个反复标记文本"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:51
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:65
-msgid "Give text: "
-msgstr "设置文本："
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:55
-msgid "Give size: "
-msgstr "设置大小："
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.xml.h:1
-msgid "Start an Nth Time Bar"
-msgstr "第 N 个反复段落起始"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.xml.h:2
-msgid "Start passage to be played on one or more of the repeats as indicated by the text given by the user (e.g. 3 for third time bar). Finish the passage using the End Volta command."
-msgstr "设置要演奏一次或多次的段落，由用户设置文本来指定（如 3 表示第三次反复段落）。请在段落末尾使用结束段落命令。"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenSecondTimeBar.xml.h:1
-msgid "Start a Second Time Bar"
-msgstr "二次反复段落起始"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenSecondTimeBar.xml.h:2
-msgid "(Print) start (a) second time bar(s), use the End Volta command at the end of the first time bar(s)"
-msgstr "（打印）二次反复段落起始记号；请在一次反复段落后使用段落结束命令"
-
-#. OttavaStart
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/Ottava.scm:2
-msgid "Give -1 for ottava bassa, 1 for ottava alta and 0 for end ottava"
-msgstr "-1 表示低八度，1 表示高八度，0 表示八度范围结束"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/Ottava.xml.h:1
-msgid "Ottava"
-msgstr "八度"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/Ottava.xml.h:2
-msgid "Inserts an 8va mark (transposing the notes accordingly) or terminates one already started. Combine with a Print Transposition if you want to see the notes as typeset."
-msgstr "插入 8va 记号（音符转调）或终止前面的 8va 起始记号。若希望在排版时音符可见，请结合打印转调来使用。"
-
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/StartTrillSpan.scm:8
 msgid "No \"tr\" at start."
 msgstr "开始处无“tr”。"
@@ -17953,6 +17959,18 @@ msgstr "（打印）停止绘制音符"
 msgid "Stops the Lilypond engraving of notes"
 msgstr "停止使用 LilyPond 绘制音符"
 
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/HideStems.scm:4
+msgid "This directive turns off stems"
+msgstr "此记号停止显示符干"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/HideStems.xml.h:1
+msgid "Hide Stems"
+msgstr "隐藏符干"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/HideStems.xml.h:2
+msgid "Hides stems on notes from this point on."
+msgstr "此后音符的符干将会被隐藏。"
+
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/Hide.xml.h:1
 msgid "(Print) Hide object"
 msgstr "（打印）隐藏对象"
@@ -17962,7 +17980,7 @@ msgid "Hides the object at cursor position with a lilypond directive. Currently 
 msgstr "使用 LilyPond 记号隐藏光标处的对象。目前仅对音符和三连音记号有效，不包括休止符。"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/InstallCue.scm:9
-#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.scm:16
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.scm:18
 msgid " on Staff "
 msgstr "于谱表"
 
@@ -17994,7 +18012,6 @@ msgstr ""
 "注意不要插入多余的转调结束记号（不会被排版）。"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/InstallCue.scm:62
-#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.scm:32
 msgid "There are no other staffs for this one to take a cue from."
 msgstr "没有可以用于提示的其他谱表。"
 
@@ -18139,6 +18156,15 @@ msgstr "（打印）对象偏移"
 msgid "Asks for horizontal and vertical offsets and inserts a directive to displace the object at the cursor on printing."
 msgstr "插入设置对象的水平和垂直偏移量的记号至光标处对象。"
 
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/ShowStems.scm:4
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/ShowStems.xml.h:2
+msgid "This directive turns on typesetting of stems on notes."
+msgstr "此记号开启显示音符的符干。"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/ShowStems.xml.h:1
+msgid "Show Stems"
+msgstr "显示符干"
+
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/SmallFontEnd.xml.h:1
 msgid "End Small Size"
 msgstr "小尺寸结束"
@@ -18154,6 +18180,115 @@ msgstr "小尺寸"
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/SmallFontStart.xml.h:2
 msgid "Music after this is printed in a small size."
 msgstr "将使用较小尺寸显示此后的音乐。"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/CadenzaOn.xml.h:1
+msgid "Start Cadenza"
+msgstr "华彩段起始"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/CadenzaOn.xml.h:2
+msgid "Turns off barlines etc for cadenza"
+msgstr "在华彩段中取消显示小节线"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/EndVolta.scm:9
+msgid "This closes a 1st, 2nd, ... n'th time bar"
+msgstr "取消显示第一、第二 …… 第 n 个小节线"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/EndVolta.xml.h:1
+msgid "End Volta (1st, 2nd ... Time Bar)"
+msgstr "结束段落（第一、第二 …… 个重复段落）"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/EndVolta.xml.h:2
+msgid "Ends a volta, that is a n'th time bar; without this the opening of a first (Nth) time bar will not be printed."
+msgstr "标记第 n 个重复段落结束；若不插入此标记，则不会显示第 N 个重复段落记号。"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/FinishCadenza.xml.h:1
+msgid "End Cadenza"
+msgstr "华彩段终止"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/FinishCadenza.xml.h:2
+msgid "Returns to normal barlines etc after a cadenza"
+msgstr "在华彩段后恢复显示正常小节线"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenFirstTimeBar.xml.h:1
+msgid "Start a First Time Bar"
+msgstr "一次反复段落起始"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenFirstTimeBar.xml.h:2
+msgid "(Print) start (a) first time bar(s), use the End Volta command at the end of the first time bar(s)"
+msgstr "（打印）一次反复段落起始记号；请在一次反复段落后使用段落结束命令"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:22
+msgid "1st Time Bar"
+msgstr "一次反复小节"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:23
+msgid "2nd Time Bar"
+msgstr "二次反复小节"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:24
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.xml.h:1
+msgid "Arbitrary Text"
+msgstr "任意文本"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:28
+msgid "This marks the start of one or more measures to be played on one or more of the repeats. There must be a later End Volta mark else nothing prints"
+msgstr "指一个或多个要演奏一次或多次的小节起始处。其后必须有相应的反复段落结束记号，否则将不会显示。"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:44
+msgid "Set/Unset Bold"
+msgstr "设置/取消粗体"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:45
+msgid "Set/Unset Italic"
+msgstr "设置/取消斜体"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:51
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:55
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:65
+msgid "Nth Time Bar Text"
+msgstr "第 N 个反复标记文本"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:51
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:65
+msgid "Give text: "
+msgstr "设置文本："
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:55
+msgid "Give size: "
+msgstr "设置大小："
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.xml.h:1
+msgid "Start an Nth Time Bar"
+msgstr "第 N 个反复段落起始"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.xml.h:2
+msgid "Start passage to be played on one or more of the repeats as indicated by the text given by the user (e.g. 3 for third time bar). Finish the passage using the End Volta command."
+msgstr "设置要演奏一次或多次的段落，由用户设置文本来指定（如 3 表示第三次反复段落）。请在段落末尾使用结束段落命令。"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenSecondTimeBar.xml.h:1
+msgid "Start a Second Time Bar"
+msgstr "二次反复段落起始"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenSecondTimeBar.xml.h:2
+msgid "(Print) start (a) second time bar(s), use the End Volta command at the end of the first time bar(s)"
+msgstr "（打印）二次反复段落起始记号；请在一次反复段落后使用段落结束命令"
+
+#. OttavaStart
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/Ottava.scm:2
+msgid "Give -1 for ottava bassa, 1 for ottava alta and 0 for end ottava"
+msgstr "-1 表示低八度，1 表示高八度，0 表示八度范围结束"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/Ottava.scm:6
+msgid "End Ottava"
+msgstr "八度结束"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/Ottava.xml.h:1
+msgid "Ottava"
+msgstr "八度"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/Ottava.xml.h:2
+msgid "Inserts an 8va mark (transposing the notes accordingly) or terminates one already started. Combine with a Print Transposition if you want to see the notes as typeset."
+msgstr "插入 8va 记号（音符转调）或终止前面的 8va 起始记号。若希望在排版时音符可见，请结合打印转调来使用。"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/StartStaff.xml.h:1
 msgid "(Print) Start Drawing Staff (Again)"
@@ -18482,6 +18617,23 @@ msgstr "插入高亮歌词"
 msgid "Inserts a syllable which can be bold and/or italic."
 msgstr "插入可以设置加粗/斜体的音节。"
 
+#. InsertLyricAlignment
+#: ../actions/menus/ObjectMenu/Lyrics/InsertLyricAlignment.scm:2
+msgid "Center"
+msgstr "中"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertLyricAlignment.scm:4
+msgid "Note: start lyrics on a new line"
+msgstr "注意：在新的一行开始歌词"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertLyricAlignment.xml.h:1
+msgid "Syllable Alignment"
+msgstr "音节对其"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertLyricAlignment.xml.h:2
+msgid "Inserts some syntax into the lyric verse to determine the alignment of syllables under notes. Lyrics to be affected should be on the following lines."
+msgstr "在歌词中插入特定语法，以便控制音符下方音乐的对齐方式。需要控制的歌词应当位于紧随的下一行中。"
+
 #. InsertLyricTie
 #: ../actions/menus/ObjectMenu/Lyrics/InsertLyricTie.scm:2
 msgid "Printing"
@@ -18519,6 +18671,22 @@ msgstr "插入非歌词文本"
 #: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.xml.h:2
 msgid "Inserts a stanza number (or other text that is not part of the lyrics) in the current verse at the cursor position."
 msgstr "在光标处的当前歌词中插入一个节号（或其他不属于歌词的文本）。"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertSyllableSkips.scm:9
+msgid "Skip Syllables"
+msgstr "跳过音节"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertSyllableSkips.scm:10
+msgid "Give number of syllables to skip"
+msgstr "设置要跳过的音节数"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertSyllableSkips.xml.h:1
+msgid "Skip Syllables in Selection"
+msgstr "跳过所选音节"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertSyllableSkips.xml.h:2
+msgid "Inserts blanks for the syllables from the start of the selection to the cursor."
+msgstr "在选区起始处和光标之间插入空白音节。"
 
 #: ../actions/menus/ObjectMenu/Lyrics/LyricFont.scm:3
 msgid "Font Name"
@@ -18832,11 +19000,11 @@ msgstr "捕获并插入一小节"
 msgid "Capture the image of a single measure (as screenshot) inserting at the current measure."
 msgstr "捕获单个小节的图像并插入到当前小节。"
 
-#: ../actions/menus/ObjectMenu/MovementMenu/CheckForIncompleteMeasures.scm:14
+#: ../actions/menus/ObjectMenu/MovementMenu/CheckForIncompleteMeasures.scm:21
 msgid "All measures appear complete."
 msgstr "已完成所有小节。"
 
-#: ../actions/menus/ObjectMenu/MovementMenu/CheckForIncompleteMeasures.scm:16
+#: ../actions/menus/ObjectMenu/MovementMenu/CheckForIncompleteMeasures.scm:25
 msgid "This measure has the wrong duration."
 msgstr "此小节的时值有误。"
 
@@ -19303,6 +19471,23 @@ msgstr "设置此乐章的标题。可以在任意字段中填写任意标题（
 msgid "Prints the name given as a title above the current movement."
 msgstr "将设置的名称作为标题显示在乐谱上方。"
 
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:11
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:20
+msgid "Give text to appear on blank page, if any "
+msgstr "设置空白页上要显示的文本"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:11
+msgid "This page is intentionally left blank"
+msgstr "此页为空白页"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.xml.h:1
+msgid "Blank Page Before"
+msgstr "在前面插入空白页"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.xml.h:2
+msgid "Inserts a blank page (with optional text) before the current movement."
+msgstr "在当前乐章前面插入一个空白页（以及可选文本）。"
+
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/Custos.xml.h:1
 msgid "Custos (On/Off)"
 msgstr "保管人（开启/关闭）"
@@ -19524,6 +19709,45 @@ msgstr "（打印）定值小节线（开启/关闭）"
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/SwitchMensuralBarlines.xml.h:2
 msgid "Draw the barlines only between the staves but not inside."
 msgstr "仅在谱表间（而不是谱表内部）绘制小节线。"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/TransposeMovementPrint.scm:6
+#: ../actions/menus/ObjectMenu/Score/Typesetter/TransposeScorePrint.scm:47
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.scm:8
+msgid "Set Transpose Interval"
+msgstr "设置转调间隔"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/TransposeMovementPrint.scm:6
+msgid ""
+"Give Interval to transpose by as two note names, \n"
+"         for example \"c g\" means transpose 5th up.\n"
+"        Note names are in Dutch!!! a,b,c ... are the same but\n"
+"        \"es\" = flat, so e.g. bes means b-flat\n"
+"        \"is\" = sharp so e.g fis means f-sharp\n"
+"        Use commas for octave(s) down, \n"
+"        single-quotes for octave(s) up\n"
+"        e.g. c c' means octave up.\n"
+"        You do not have to start with c\n"
+"        e.g. d e means a tone higher.\n"
+"        "
+msgstr ""
+"设置表示转调间隔的两个音符名，\n"
+"     例如“c g”表示向上转调 5 个音。\n"
+"     注意，音符名使用荷兰语表示法！\n"
+"     “es” = 降调，因而 bes 表示降 B\n"
+"     “is” = 升调，因而 fis 表示升 F\n"
+"     逗号表示向下八度\n"
+"     单引号表示向上八度\n"
+"     例如 c c’ 表示升高八度。\n"
+"     第一个音可以不为为 c\n"
+"     例如 d e 表示升高一个音。"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/TransposeMovementPrint.xml.h:1
+msgid "Transpose on Print"
+msgstr "打印时转调"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/TransposeMovementPrint.xml.h:2
+msgid "The current movement will be printed transposed by the interval given."
+msgstr "将会根据设定值对当前乐章进行转调。"
 
 #. (d-MoveCursorRight)
 #. (d-RefreshDisplay)))
@@ -19835,33 +20059,39 @@ msgstr "添加注释到和弦"
 msgid "Attach a textual comment to the chord at the cursor"
 msgstr "向光标处的和弦附加文本注释"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:12
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:17
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:17
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:33
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:34
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:38
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:39
 msgid "Directive "
 msgstr "记号"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:12
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:17
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:17
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:33
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:34
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:37
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:38
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:38
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:39
 msgid " on "
 msgstr "于"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:12
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:17
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:17
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:33
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:37
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:38
+msgid "Notes"
+msgstr "音符"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:34
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:38
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:39
 msgid "Note"
 msgstr "音符"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:12
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:17
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:17
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:34
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:38
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:39
 msgid "Chord"
 msgstr "和弦"
-
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:12
-msgid " will be typeset for all layouts "
-msgstr "将在所有布局中排版"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.xml.h:1
 msgid "Reset for All Layours"
@@ -19871,21 +20101,18 @@ msgstr "重置所有布局"
 msgid "Makes a (chosen) directive on the note/chord at the cursor be typeset normally, i.e for all layouts. The cursor should be positioned at the note height if a directive attached to the note is intended."
 msgstr "在所有布局中正常排版光标处音符/和弦上（选中）的记号。若要将记号附加到音符上，光标应当位于音符所在高度。"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:17
-msgid " will not be typeset for layout "
-msgstr ""
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:37
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:38
+msgid "Directives "
+msgstr "记号"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.xml.h:2
 msgid "Makes a (chosen) directive on the note/chord at the cursor be ignored for typesetting the current layout. The cursor should be positioned at the note height if a directive attached to the note is intended."
 msgstr "在当前布局中正常排版光标处音符/和弦上（选中）的记号。若要将记号附加到音符上，光标应当位于音符所在高度。"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:17
-msgid " will only typeset for layout "
-msgstr ""
-
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.xml.h:2
 msgid "Makes a (chosen) directive on the note/chord at the cursor take effect only for typesetting the current layout. The cursor should be positioned at the note height if a directive attached to the note is intended."
-msgstr ""
+msgstr "将光标处音符/和弦上的（所选）记号仅在排版当前布局中起作用。若该记号需要附加到音符上，则应当将光标置于相应的音高上。"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/DeleteLilyPondOnNote.xml.h:1
 msgid "Delete LilyPond on Note"
@@ -20670,24 +20897,20 @@ msgid "Music is spaced out by the extra amount given to avoid textual dynamic ma
 msgstr "使用指定的额外间距来分隔音乐，以避免力度记号相互冲突。不用于逐渐渐强/渐弱记号。"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/LengthenHairpin.scm:4
-#, fuzzy
-#| msgid "Minimum Length"
 msgid "Hairpin Length"
-msgstr "最小宽度"
+msgstr "逐步渐弱（渐强）记号长度"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/LengthenHairpin.scm:4
-#, fuzzy
-#| msgid "Give extra spacing required"
 msgid "Give extra length required"
-msgstr "设置所需的额外间距"
+msgstr "设置所需的额外长度"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/LengthenHairpin.xml.h:1
 msgid "Lengthen Hairpin"
-msgstr ""
+msgstr "设置逐步渐弱（渐强）记号长度"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/LengthenHairpin.xml.h:2
 msgid "Inserts a directive to lengthen the following cresc or dim hairpin."
-msgstr ""
+msgstr "插入记号以设置逐步渐弱（渐强）记号的长度。"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.scm:10
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.scm:3
@@ -22284,6 +22507,22 @@ msgstr "创建三连音"
 msgid "If a MIDI controller is active takes the current note and appends two more making all three a triplet, otherwise same as Toggle Tripleting command."
 msgstr "若启用了 MIDI 控制器，则在当前音符后附加两个音符形成三连音，；否则，和切换三连音的命令效果相同。"
 
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CurvedTupletBrackets.scm:55
+msgid "Square Tuplet Brackets re-instated"
+msgstr "方形连音括号的形状已改变"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CurvedTupletBrackets.scm:58
+msgid "Tuplet Brackets Curved"
+msgstr "弯连音括号"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CurvedTupletBrackets.xml.h:1
+msgid "Curved Tuplet Brackets (Off/On)"
+msgstr "弯连音括号（关闭/开启）"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CurvedTupletBrackets.xml.h:2
+msgid "Tuplet brackets will have a curved shape (like a slur) with the tuplet number inside. Note these cannot be re-shaped like slurs, so turn tuplet brackets off and place slurs manually if you need to reshape them."
+msgstr "连音括号将会显示为弯曲的括号，连音数显示在括号内部。注意，此类括号的形状无法更改；若您需要更改，请用延音符替代连音符。"
+
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/NoTupletNumbers.xml.h:1
 msgid "No Tuplet Numbers"
 msgstr "不显示连音数"
@@ -22395,11 +22634,19 @@ msgstr "连音括号"
 msgid "Choose whether tuplets should have brackets. Affects tuplets from the cursor onwards."
 msgstr "选择可以含有括号的连音类型。作用于光标后的连音。"
 
-#: ../actions/menus/ObjectMenu/Score/CheckScore.scm:72
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.xml.h:1
+msgid "Tuplet Position"
+msgstr "连音符位置"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.xml.h:2
+msgid "Sets the positioning of the following tuplet (up/down/auto) to your choice."
+msgstr "设置此后连音符的方向（上方/下方/自动）。"
+
+#: ../actions/menus/ObjectMenu/Score/CheckScore.scm:75
 msgid "Incorrect measure duration"
 msgstr "小节时值错误"
 
-#: ../actions/menus/ObjectMenu/Score/CheckScore.scm:95
+#: ../actions/menus/ObjectMenu/Score/CheckScore.scm:99
 #: ../actions/menus/ObjectMenu/Score/CheckScoreSkipping.scm:22
 msgid "No problem detected in this score"
 msgstr "乐谱中没有问题"
@@ -23694,11 +23941,6 @@ msgid "Gets an interval from the user: the entire score is transposed by this in
 msgstr "设置转调值：排版时将使用此值对整个乐谱进行转调 - 音符、和弦和调号均会被改变。"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/TransposeScorePrint.scm:47
-#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.scm:8
-msgid "Set Transpose Interval"
-msgstr "设置转调间隔"
-
-#: ../actions/menus/ObjectMenu/Score/Typesetter/TransposeScorePrint.scm:47
 msgid ""
 "Give Interval to transpose by as two note names, \n"
 "     for example \"c g\" means transpose 5th up.\n"
@@ -23909,6 +24151,14 @@ msgstr "添加乐器谱表"
 msgid "Adds a staff at the bottom for the instrument selected from the templates/instruments directory. The name and range of the instrument is set with any transposition for playback if needed."
 msgstr "为模板/乐器目录中选择的乐器添加一个谱表，并插入到底部。若需要，可以设置乐器的名称和音域，以及回放时的转调。"
 
+#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/AddMirrorStaff.xml.h:1
+msgid "Add Staff (Borrowed/Mirrored Music)"
+msgstr "添加谱表（音乐镜像）"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/AddMirrorStaff.xml.h:2
+msgid "Adds a staff whose music is automatically mirrored from another staff of your choice. Use this e.g. to create a staff with two divisi parts, while keeping the second part as a separate staff, or to typeset both Fret Diagrams and Chord Symbols from the same music. Note that initial clef/key/time are copied not mirrored."
+msgstr "添加包含其他谱表中音乐的谱表。用于将一个谱表分为两个片段（第二个片段成为独立谱表），或同时排版同一个音乐中的将音品图和和弦记号等。注意，起始谱号/调号/时值记号为原谱表中的副本，而非镜像。"
+
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/CouleStaff.scm:4
 msgid "This staff creates notes drawn as a diagonal line. Use these to create a coule between two notes another part."
 msgstr "此谱表将音符显示为对角线。用于在两个音符之间创建斜线音符。"
@@ -23957,11 +24207,11 @@ msgstr ""
 "此谱表仅用于显示在谱表组顶部的记号，以避免需要在每个片段放置相同记号。此谱表的名称必须为空，以便可以在多处进行排版。谱表中的记号应当以伪音符或间隔来分隔。\n"
 "警告：不要在此谱表中插入谱号变更或其他非时值对象 - 否则可能在排版时创建多余的谱表！"
 
-#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm:77
+#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm:79
 msgid "Click Track Creation"
 msgstr "创建节拍音轨"
 
-#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm:77
+#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm:79
 msgid "Give number of measures required: "
 msgstr "时值所需的小节数："
 
@@ -24499,17 +24749,25 @@ msgstr "设置谱表大小"
 msgid "Sets the size of the staff on printing relative to the default 0. Value -3 is tiny 3 is large."
 msgstr "设置谱表相对于默认尺寸（0）的大小.例如，-3 表示很小，3 表示很大。"
 
-#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.scm:39
-msgid "Substituted Music"
-msgstr "替换音乐"
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.scm:34
+msgid "There are no other staffs for this one to mirror."
+msgstr "没有可以用于镜像的其他谱表。"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.scm:50
+msgid "Right click to update clef/time/key"
+msgstr "右键单击以更新谱号/时值/调号"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.scm:54
+msgid "Music here is mirrored from "
+msgstr "此处的音乐来自"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.xml.h:1
-msgid "Substitute Music (Off/On)"
-msgstr "替换音乐（关闭/开启）"
+msgid "Substitute Music (Borrowed/Mirrored)"
+msgstr "替换音乐（镜像）"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.xml.h:2
-msgid "Typesets this staff with the music from another staff, ignoring any music entered on this staff. Use this, for example, to typeset both Fret Diagrams and Chord Symbols from the same music."
-msgstr "使用其他谱表中的音乐来排版此谱表，同时忽略此谱表中的音乐。用于同时排版同一个音乐中的将音品图和和弦记号等。"
+msgid "Typesets this staff with the music from another staff, ignoring any music entered on this staff. Use this e.g. to create a staff with two divisi parts, while keeping the second part as a separate staff, or to typeset both Fret Diagrams and Chord Symbols from the same music. Note that initial clef/key/time are copied not mirrored."
+msgstr "使用其他谱表中的音乐来排版此谱表，同时忽略此谱表中的音乐。用于将一个谱表分为两个片段（第二个片段成为独立谱表），或同时排版同一个音乐中的将音品图和和弦记号等。"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Tablature/SetTabStrings.xml.h:1
 msgid "Set Open Strings"
@@ -24565,6 +24823,14 @@ msgstr "（打印）转调"
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.xml.h:2
 msgid "Prints this staff (only) transposed. This is in addition to any score-wide transposition"
 msgstr "仅显示转调后的当前谱表。该操作独立于乐谱范围的转调。"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/Voices/AddMirrorVoice.xml.h:1
+msgid "Add Voice (Borrowed/Mirrored Music)"
+msgstr "添加音色（音乐镜像）"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/Voices/AddMirrorVoice.xml.h:2
+msgid "Adds a voice whose music is automatically mirrored from another staff of your choice. Use this e.g. to create a staff with two divisi parts, while keeping the second part as a separate staff, or to typeset both Fret Diagrams and Chord Symbols from the same music. Note that initial clef/key/time are copied not mirrored."
+msgstr "添加包含其他音色中音乐的谱表。用于将一个谱表分为两个片段（第二个片段成为独立谱表），或同时排版同一个音乐中的将音品图和和弦记号等。注意，起始谱号/调号/时值记号为原谱表中的副本，而非镜像。"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/CreatePartsFromTop.xml.h:1
 msgid "Create Parts (Treble First)"
@@ -24903,6 +25169,19 @@ msgstr "半小节处符尾（关闭/开启）"
 msgid "In time signatures 3/N prevent beaming across the beat. Repeat the command to allow such beaming."
 msgstr "在时值为 3/N 的小节中，禁止符尾跨节拍连接音符。再次执行此命令可允许符尾跨节拍连接。"
 
+#: ../actions/menus/ObjectMenu/TimeSig/CadenzaTime.scm:6
+#: ../actions/menus/ObjectMenu/TimeSig/CadenzaTime.xml.h:2
+msgid "Inserts a non-printing timesignature to indicate a cadenza follows. You must insert any barlines and beaming you require (otherwise none will typeset). End the cadenza by inserting an End Cadenza Time in a new Denemo bar."
+msgstr "插入指示华彩段起始的非打印的时值记号。必须将其插入到任何小节线和符尾之前（否则将不会被排版）。之后请在新的 Denemo 小节中插入华彩段终止记号来结束华彩段。"
+
+#: ../actions/menus/ObjectMenu/TimeSig/CadenzaTime.scm:14
+msgid "Cadenza"
+msgstr "华彩段"
+
+#: ../actions/menus/ObjectMenu/TimeSig/CadenzaTime.xml.h:1
+msgid "Start Cadenza Time"
+msgstr "华彩段起始处"
+
 #: ../actions/menus/ObjectMenu/TimeSig/ChooseTimeSignature.xml.h:1
 msgid "Choose Typical Time Signature"
 msgstr "选择典型时值记号"
@@ -24918,6 +25197,19 @@ msgstr "和弦图表时值符号"
 #: ../actions/menus/ObjectMenu/TimeSig/ChordChartTimeSignature.xml.h:2
 msgid "Inserts a time signature (for use in Chord Charts)"
 msgstr "插入一个用于和弦图表中的时值记号"
+
+#: ../actions/menus/ObjectMenu/TimeSig/EndCadenzaTime.scm:9
+msgid "End Cad."
+msgstr "华彩段终止"
+
+#: ../actions/menus/ObjectMenu/TimeSig/EndCadenzaTime.scm:12
+#: ../actions/menus/ObjectMenu/TimeSig/EndCadenzaTime.xml.h:2
+msgid "Inserts a non-printing time signature to resume normal measured music."
+msgstr "插入指示华彩段结束的非打印时值记号。"
+
+#: ../actions/menus/ObjectMenu/TimeSig/EndCadenzaTime.xml.h:1
+msgid "End Cadenza Time"
+msgstr "华彩段终止处"
 
 #: ../actions/menus/ObjectMenu/TimeSig/HideTimesig.xml.h:2
 msgid "On printing, omit the time signature change at the cursor, or the initial time signature if the cursor is not on a time signature change."
@@ -25421,6 +25713,12 @@ msgstr "Denemo 的特别之处还在于，你可以真正使用创作的思路�
 msgid "Another great feature is the ability to put links in the score to the original source document that you transcribed from. Clicking on such a link opens the document for you and highlights the bar you are looking at. You can use this to continue work from where you left off, or for looking back at the source to check a doubtful bar."
 msgstr "此外，Denemo 还可以在乐谱中插入原稿文档（改编自的文档）的链接。点击此链接将会打开该文档，并高亮你所查看的小节。此功能可方便地用于恢复之前暂停的工作，或回查原稿中有疑问的小节。"
 
+#~ msgid "Inserts code for open quotes - leave a space after this code. Note that this is not the \" character which is used for grouping words not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."
+#~ msgstr "插入左括号 - 请在此记号后保留一个空格。注意，此记号与 \" 字符不同，后者用于组合单词，而不是简单的记号。\" 字符必须成对，否则 LilyPond 无法正确排版音乐。"
+
+#~ msgid "Substituted Music"
+#~ msgstr "替换音乐"
+
 #~ msgid "Set From Selection"
 #~ msgstr "根据所选区域设置"
 
@@ -25515,9 +25813,6 @@ msgstr "此外，Denemo 还可以在乐谱中插入原稿文档（改编自的�
 
 #~ msgid "Attaches multi-line text which can include music snippets. The snippets are surrounded by section markers \"§\" to distinguish them from ordinary text. These must come in pairs, before and after the LilyPond syntax."
 #~ msgstr "附加多行文本（可包含音乐片段）。音乐片段应被包含在“§”记号中，以便与普通文本相区分。“§”记号必须成对，分别置于 LilyPond 语法的前面和后面。"
-
-#~ msgid "Tuplet Brackets (On/Off)"
-#~ msgstr "连音括号（开启/关闭）"
 
 #~ msgid "Opus"
 #~ msgstr "作品"
