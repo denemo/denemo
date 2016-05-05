@@ -1752,7 +1752,7 @@ static gint get_cursoracc (void)
                 for (g = thechord->notes?thechord->notes:NULL;g;g=g->next)
                     {
                             note *thenote = (note*)g->data;
-                            if (thenote->mid_c_offset == noteheight)
+                            if (offsettonumber(thenote->mid_c_offset) == noteheight)
                                 return thenote->enshift;
                     }
             }
