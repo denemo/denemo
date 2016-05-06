@@ -214,7 +214,7 @@ register_command("OpenNewWindow", _("Open In New"), _("Open a file containing a 
 register_command("Save", _("Save"), _("Save the score. The score is saved to disk in XML format."), file_savewrapper);
 register_command("SaveAs", _("Save As"), _("Save the score under a new name"), file_saveaswrapper);
 register_command("SaveCopy", _("Create Copy"), _("Save a copy of the score"), file_copy_save);
-register_command("OpenTemplate", _("Open Template"), _("Start a new score from a built-in template file"), system_template_open_with_check);
+register_command("OpenTemplate", _("Open Standard Template"), _("Start a new score from a built-in template file"), system_template_open_with_check);
 register_command("OpenExample", _("Open Example"), _("Start a new score from a built-in example"), system_example_open_with_check);
 register_command("OpenMyTemplate", _("Open Custom Template"), _("Start a new score from one of your own template files"), local_template_open_with_check);
 register_command("SaveTemplate", _("Save Template"), _("Save the score as a template for re-use as a starting point for new scores"), template_save);

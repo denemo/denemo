@@ -230,7 +230,7 @@
 {"Save", GTK_STOCK_SAVE, N_("Save"), "",N_("Save the score. The score is saved to disk in XML format."),G_CALLBACK (file_savewrapper)},
 {"SaveAs", GTK_STOCK_SAVE_AS, N_("Save As"), "",N_("Save the score under a new name"),G_CALLBACK (file_saveaswrapper)},
 {"SaveCopy", GTK_STOCK_SAVE_AS, N_("Create Copy"), "",N_("Save a copy of the score"),G_CALLBACK (file_copy_save)},
-{"OpenTemplate", GTK_STOCK_OPEN, N_("Open Template"), "",N_("Start a new score from a built-in template file"),G_CALLBACK (system_template_open_with_check)},
+{"OpenTemplate", GTK_STOCK_OPEN, N_("Open Standard Template"), "",N_("Start a new score from a built-in template file"),G_CALLBACK (system_template_open_with_check)},
 {"OpenExample", GTK_STOCK_OPEN, N_("Open Example"), "",N_("Start a new score from a built-in example"),G_CALLBACK (system_example_open_with_check)},
 {"OpenMyTemplate", GTK_STOCK_OPEN, N_("Open Custom Template"), "",N_("Start a new score from one of your own template files"),G_CALLBACK (local_template_open_with_check)},
 {"SaveTemplate", GTK_STOCK_SAVE_AS, N_("Save Template"), "",N_("Save the score as a template for re-use as a starting point for new scores"),G_CALLBACK (template_save)},

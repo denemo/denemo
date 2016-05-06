@@ -1208,7 +1208,7 @@ Notes entered will follow the rhythmic pattern of this snippet</_tooltip>
       <row type="builtin">
         <action>OpenTemplate</action>
         <menupath>MainMenu/FileMenu/OpenMenu</menupath>
-        <_label>Open Template</_label>
+        <_label>Open Standard Template</_label>
         <_tooltip>Start a new score from a built-in template file</_tooltip>
       </row>
       <row type="builtin">

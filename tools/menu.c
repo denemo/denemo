@@ -291,7 +291,7 @@ struct name_and_function denemo_commands[] = {
   {"GTK_STOCK_SAVE", "Save the score. The score is saved to disk in XML format.", N_("Save"), "file_savewrapper", N_("Save")},
   {"GTK_STOCK_SAVE_AS", "Save the score under a new name", N_("SaveAs"), "file_saveaswrapper", N_("Save As")},
   {"GTK_STOCK_SAVE_AS", "Save a copy of the score", N_("SaveCopy"), "file_copy_save", N_("Create Copy")},
-  {"GTK_STOCK_OPEN", "Start a new score from a built-in template file", N_("OpenTemplate"), "system_template_open_with_check", N_("Open Template")},
+  {"GTK_STOCK_OPEN", "Start a new score from a built-in template file", N_("OpenTemplate"), "system_template_open_with_check", N_("Open Standard Template")},
   {"GTK_STOCK_OPEN", "Start a new score from a built-in example", N_("OpenExample"), "system_example_open_with_check", N_("Open Example")},
   {"GTK_STOCK_OPEN", "Start a new score from one of your own template files", N_("OpenMyTemplate"), "local_template_open_with_check", N_("Open Custom Template")},
   {"GTK_STOCK_SAVE_AS", "Save the score as a template for re-use as a starting point for new scores", N_("SaveTemplate"), "template_save", N_("Save Template")},

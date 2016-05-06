@@ -11,8 +11,8 @@
         </menu>
         <menuitem action="Open"/>
         <menuitem action="OpenTemplate"/>
-        <menuitem action="OpenExample"/>
         <menuitem action="OpenMyTemplate"/>
+        <menuitem action="OpenExample"/>
         <menuitem action="AddStaffs"/>
         <menuitem action="AddMovements"/>
         <menuitem action="OpenNewWindow"/>
