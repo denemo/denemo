@@ -45,9 +45,13 @@
   (define (groupable-wholemeasure-rest?)
     (and (d-Directive-chord? WMRtag) (not (d-GetNonprinting)) (not (d-DirectiveGetNthTag-chord 1))))
   ;;; procedure starts here  
+ 
+  (if (Appending?)
+    (d-MoveCursorLeft))
     (cond ((groupable-wholemeasure-rest?)
             (set! count 1)
             (d-DeleteObject)
+            (d-Directive-standalone MMRtag)
             (d-DirectivePut-standalone-minpixels MMRtag 100)
             (d-DirectivePut-standalone-graphic MMRtag  "MultiMeasureRests")
             (d-DirectivePut-standalone-gx  MMRtag  50)
@@ -55,20 +59,20 @@
             (d-PushPosition)
             (let loop ()
             (if (next-chord-good)
-                (begin      
+                (begin
                         (if (groupable-wholemeasure-rest?)
                         (begin
                                 (set! count (1+ count))
-                            (d-DeleteObject)
+                                (d-DeleteObject)
                                 (d-Directive-standalone MMRtag)
                                 (d-SetDurationInTicks (* 1536 (GetPrevailingTimeSig #t)))
                                 (d-DirectivePut-standalone-graphic MMRtag "BracketedWholeMeasureRest")
                                 (d-DirectivePut-standalone-gx MMRtag 50)
                                 (d-DirectivePut-standalone-gy MMRtag -2)
                                 (d-DirectivePut-standalone-postfix MMRtag "%{ grouped rest %}")
-                            (d-DirectivePut-standalone-override MMRtag DENEMO_OVERRIDE_LILYPOND)
+                                (d-DirectivePut-standalone-override MMRtag DENEMO_OVERRIDE_LILYPOND)
                                 (d-DirectivePut-standalone-display MMRtag (_ "Grouped in mm rest"))
-                            (d-DirectivePut-standalone-tx MMRtag 25)
+                                (d-DirectivePut-standalone-tx MMRtag 25)
                                 (d-DirectivePut-standalone-ty MMRtag -30)
                                 (d-DirectivePut-standalone-minpixels MMRtag 100)
                                 (loop))))))
@@ -76,27 +80,45 @@
             (if (d-Directive-standalone? MMRtag)
             (begin
                     (d-SetDurationInTicks (* 1536 (GetPrevailingTimeSig #t)))
-                 (d-DirectivePut-standalone-display MMRtag (string-append "Rest " (number->string count)))
+                    (d-DirectivePut-standalone-display MMRtag (string-append "Rest " (number->string count)))
                     (d-DirectivePut-standalone-ty MMRtag -28)  
                     (d-DirectivePut-standalone-postfix MMRtag (string-append "\\set Score.skipBars = ##t R1*" (GetPrevailingTimeSig) "*" (number->string count)))))
            (d-SetSaved #f))
            
            
-     ((d-Directive-standalone? MMRtag)
-        (if (equal? (d-DirectiveGet-standalone-postfix MMRtag) "%{ grouped rest %}")
-            (begin
-                (d-InfoDialog (_ "This whole measure rest is grouped with adjacent ones to form a multi-measure rest.\nThe first of the group should be the multi-measure rest itself. Place the cursor on that object to do editing.") #f))
-            (begin
-                (if (not (equal? MultiMeasureRests::params "edit"))
-                    (re-calculate)
-                    (let ((choice (d-PopupMenu (list (cons (_ "Help") 'help) (cons (_ "Recalculate") 'recalculate) (cons (_ "Un-group") 'ungroup)))))
-                    
-                        (cond ((equal? choice 'help)
-                                (d-InfoDialog (_ "This represents a number of whole measure rests.\nThe following measure rests are grouped with this one when typeset on their own. In full score they are typeset separately to match the other parts.\nIf you add further grouped whole measure rests, this Directive will need re-calculating.\nThe check score routine that is run before printing will do this for you.") #f))
-                            ((equal? choice 'recalculate)
-                                (re-calculate))
-                            ((equal? choice 'ungroup)
-                                (ungroup))))))))
-        (else (d-InfoDialog (_ "Invoke this command with the cursor on the first whole measure rest to be grouped") #f))))
+         ((d-Directive-standalone? MMRtag)
+            (if (equal? (d-DirectiveGet-standalone-postfix MMRtag) "%{ grouped rest %}")
+                (begin
+                    (d-InfoDialog (_ "This whole measure rest is grouped with adjacent ones to form a multi-measure rest.\nThe first of the group should be the multi-measure rest itself. Place the cursor on that object to do editing.") #f))
+                (begin
+                    (if (not (equal? MultiMeasureRests::params "edit"))
+                        (re-calculate)
+                        (let ((choice (d-PopupMenu (list (cons (_ "Help") 'help) (cons (_ "Recalculate") 'recalculate) (cons (_ "Un-group") 'ungroup)))))
+                        
+                            (cond ((equal? choice 'help)
+                                    (d-InfoDialog (_ "This represents a number of whole measure rests.\nThe following measure rests are grouped with this one when typeset on their own. In full score they are typeset separately to match the other parts.\nIf you add further grouped whole measure rests, this Directive will need re-calculating.\nThe check score routine that is run before printing will do this for you.") #f))
+                                ((equal? choice 'recalculate)
+                                    (re-calculate))
+                                ((equal? choice 'ungroup)
+                                    (ungroup))))))))
+         (else (let ((number (d-GetUserInput (_ "Creating Mulit-Measure Rests") (_ "Give number of whole measure rests to insert") "2")))
+            (if number
+                (let ((oldvol (d-MasterVolume)))
+                    (set! number (string->number number))
+                    (if (not (EmptyMeasure?))
+                        (d-AddMeasure))
+                    (d-PushPosition)
+                    (d-MasterVolume 0)
+                    (while (positive? number)
+                            (if (not (EmptyMeasure?))
+                                (d-InsertMeasure))
+                            (d-InsertWholeMeasureRest)
+                            (set! number (1- number)))
+                    (d-MasterVolume oldvol)
+                    (d-PopPosition)
+                    (GoToMeasureBeginning)
+                    (d-MultiMeasureRests))
+                (d-WarningDialog (_ "Cancelled")))))))
+                
  
 
