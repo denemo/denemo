@@ -426,6 +426,8 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
               executeScript ();
             }
         }
+        
+
       set_rightmeasurenum (gui->movement);
       select_lyrics ();
 
@@ -456,7 +458,26 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
     panic_all ();// g_print ("Reset synth in file open\n");
     gui->movement->undo_guard = Denemo.prefs.disable_undo;      //user pref to (dis)allow undo information to be collected
   }
-
+  //look for a link to a source file at the start of the score, open it if there is one
+  if ((result==0) && (type != ADD_STAFFS) && (type != ADD_MOVEMENTS) && Denemo.project->movement && Denemo.project->movement->thescore)
+        {
+        DenemoStaff*thestaff = (DenemoStaff*)Denemo.project->movement->thescore->data;
+        DenemoMeasure* themeasure = (DenemoMeasure*)thestaff->themeasures->data;
+        if (themeasure->objects)
+            {
+                DenemoObject *firstobj = (DenemoObject *)themeasure->objects->data;
+                if (firstobj->type == LILYDIRECTIVE)
+                    {
+                        DenemoDirective *direc = (DenemoDirective *)firstobj->object;
+                        if (direc->tag && !strcmp (direc->tag->str, "DenemoLink") &&direc->data)
+                            {
+                                gchar *script = g_strdup_printf ("(d-OpenSource (scheme-escape \"%s\"))", direc->data->str);
+                                call_out_to_guile (script);
+                                g_free (script);
+                            }
+                    }
+            }
+        }
   return result;
 }
 

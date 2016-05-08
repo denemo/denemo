@@ -965,6 +965,7 @@
 (define (InsertLink filepos)
   (d-Directive-standalone  "DenemoLink")
   (d-DirectivePut-standalone-postfix "DenemoLink" (string-append "%{" filepos "%}"))
+  (d-DirectivePut-standalone-data "DenemoLink" filepos)
   (d-DirectivePut-standalone-minpixels "DenemoLink" 30)
   (d-DirectivePut-standalone-graphic "DenemoLink" "\n⬁\ndenemo\n24")
   (d-DirectivePut-standalone-gy "DenemoLink" 10)
@@ -973,13 +974,13 @@
   
 
 ;;; The routine called by the DenemoLink command to follow the link
-(define (FollowLink)
-  (let ((link (d-DirectiveGet-standalone-postfix "DenemoLink")))
-    (if link
-     (begin
+;(define (FollowLink)
+;  (let ((link (d-DirectiveGet-standalone-postfix "DenemoLink")))
+;    (if link
+;     (begin
      ;(disp "link is " link "ok\n")
-      (set! link (string-trim-both link   (lambda (c)(or (eqv? c #\{) (eqv? c #\%)))))
-  (d-OpenSource link)))))
+;      (set! link (string-trim-both link   (lambda (c)(or (eqv? c #\{) (eqv? c #\%)))))
+;  (d-OpenSource link)))))
 
 ;;;; Routines for audio annotation
 (define (DenemoAudioAnnotation timing)
