@@ -103,11 +103,14 @@
                                     (ungroup))))))))
          (else (let ((number (d-GetUserInput (_ "Creating Mulit-Measure Rests") (_ "Give number of whole measure rests to insert") "2")))
             (if number
-                (let ((oldvol (d-MasterVolume)))
+                (let (  (meas #f)
+                        (merge (d-GetDurationInTicks))
+                        (oldvol (d-MasterVolume)))
+                    (if merge (set! merge (zero? merge))) ;; we will create mm rests in following bars and then merge the initial empty duration one
                     (set! number (string->number number))
                     (if (not (EmptyMeasure?))
                         (d-AddMeasure))
-                    (d-PushPosition)
+                    (set! meas (d-GetMeasure))
                     (d-MasterVolume 0)
                     (while (positive? number)
                             (if (not (EmptyMeasure?))
@@ -115,9 +118,10 @@
                             (d-InsertWholeMeasureRest)
                             (set! number (1- number)))
                     (d-MasterVolume oldvol)
-                    (d-PopPosition)
-                    (GoToMeasureBeginning)
-                    (d-MultiMeasureRests))
+                    (d-GoToPosition #f #f meas 1)
+                    (d-MultiMeasureRests)
+                    (if (and merge (d-MoveToMeasureLeft))
+                        (d-MergeWithNextMeasure)))
                 (d-WarningDialog (_ "Cancelled")))))))
                 
  
