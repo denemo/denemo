@@ -2697,8 +2697,8 @@ msgid ""
 "Create a button for this command, or a two-key keyboard shortcut or more options still"
 msgstr ""
 "Clic sinistro per eseguire il comando, premi un tasto per assegnare una scorciatoia al comando,\n"
-"Clic destro per ottenere un menù dal quale puoi\n"
-"Creare un pulsante per questo comando, o una scorciatoia con due tasti o altre opzioni ancora"
+"clic destro per ottenere un menù dal quale puoi\n"
+"creare un pulsante per questo comando, o una scorciatoia con due tasti o altre opzioni ancora"
 
 #: ../src/core/view.c:4284
 msgid "Denemo Main Window"
@@ -4647,7 +4647,7 @@ msgstr "Inserisce/elimina l'inizio della legatura di portamento su questa nota"
 
 #: ../src/generated/entries.h:190 ../src/generated/register_commands.h:189
 msgid "End Slur (Off/On)"
-msgstr "Inizia la legatura di portamento  (Disattiva/Attiva)"
+msgstr "Termina la legatura di portamento  (Disattiva/Attiva)"
 
 #: ../src/generated/entries.h:190 ../src/generated/register_commands.h:189
 msgid "Insert/delete end slur on this note"
