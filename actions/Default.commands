@@ -7844,6 +7844,12 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Blank Page Before</_label>
         <_tooltip>Inserts a blank page (with optional text) before the current movement.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ToggleArpeggio</action>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <_label>Arpeggio (Off/On)</_label>
+        <_tooltip>Mark/Unmark chord with an arpeggio</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

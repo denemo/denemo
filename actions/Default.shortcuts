@@ -919,6 +919,10 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>ToggleArpeggio</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>ToggleStaccato</action>
         <hidden>true</hidden>
       </row>
