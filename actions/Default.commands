@@ -7850,6 +7850,12 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Arpeggio (Off/On)</_label>
         <_tooltip>Mark/Unmark chord with an arpeggio</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ToggleStopped</action>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <_label>Stopped (Off/On)</_label>
+        <_tooltip>Mark/Unmark the current chord stopped</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

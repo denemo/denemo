@@ -923,6 +923,10 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>ToggleStopped</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>ToggleStaccato</action>
         <hidden>true</hidden>
       </row>
