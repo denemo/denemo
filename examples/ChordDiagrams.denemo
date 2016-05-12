@@ -56,7 +56,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       <measureno>2</measureno>
       <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
-      <zoom>75</zoom>
+      <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
       <page-system-height>100</page-system-height>
@@ -678,7 +678,7 @@ Eee -- i Eee -- i -- oh!</verse>
             <directive>
               <tag>InstrumentName</tag>
               <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 2 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
-				(if choice (choice)))    " "Vocal" }</postfix>
+                (if choice (choice)))    " "Vocal" }</postfix>
               <display>Vocal</display>
               <override>4</override>
             </directive>

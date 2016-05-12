@@ -57,7 +57,7 @@ a bug in LilyPond.
       <measureno>2</measureno>
       <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
-      <zoom>80</zoom>
+      <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>100</page-zoom>
       <page-system-height>100</page-system-height>

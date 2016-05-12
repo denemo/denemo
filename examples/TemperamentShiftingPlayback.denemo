@@ -62,7 +62,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       <measureno>1</measureno>
       <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
-      <zoom>99</zoom>
+      <zoom>100</zoom>
       <system-height>100</system-height>
       <page-zoom>50</page-zoom>
       <page-system-height>25</page-system-height>
