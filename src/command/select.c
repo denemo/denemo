@@ -495,58 +495,7 @@ get_clip_objs (gint m)
   return g_list_length (stafflist->data);
 }
 
-//FIXME yet another insert object, compare object_insert() in commandfuncs.c
 
-void
-insert_object (DenemoObject * clonedobj)
-{
-    object_insert (Denemo.project, clonedobj);
-#if 0    
-    
-  DenemoMovement *si = Denemo.project->movement;
-  staffnode *curstaff = si->currentstaff;
-  clonedobj->starttick = (si->currentobject ? ((DenemoObject *) si->currentobject->data)->starttickofnextnote : 0);
-  /* update undo information */
-  DenemoUndoData *undo;
-  if (!si->undo_guard)
-    {
-      undo = (DenemoUndoData *) g_malloc (sizeof (DenemoUndoData));
-      //undo->object = clonedobj;
-      //do position after inserting, so we can go back to it to delete
-    }
-  DenemoMeasure *m =si->currentmeasure->data;
-  ((DenemoMeasure*)si->currentmeasure->data)->objects =  g_list_insert (m->objects, clonedobj, si->cursor_x);
-//  Denemo.project->movement->currentmeasure->data =  g_list_insert ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, clonedobj, si->cursor_x); DANGER FIXME this was trying to insert an object
-
-
-  if (!si->undo_guard)
-    {
-      get_position (si, &undo->position);
-      undo->position.appending = 0;
-      undo->action = ACTION_INSERT;
-      update_undo_info (si, undo);
-    }
-
-
-
-  si->cursor_x++;
-  if (si->cursor_appending)
-    si->currentobject = g_list_last ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects);
-  else
-    si->currentobject = g_list_nth ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->cursor_x);
-
-  if (si->currentobject == NULL)
-    {
-      g_warning ("problematic parameters on insert %d out of %d objects", si->cursor_x + 1, g_list_length ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects));
-      si->cursor_x--;
-      si->currentobject = g_list_nth ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->cursor_x);
-    }
-
-
-  staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
-  find_xes_in_all_measures (si);
-#endif
-}
 
 // insert the nth object from the mth staff from the copybuffer into music at the cursor position
 // return TRUE if inserted
@@ -565,12 +514,8 @@ insert_clip_obj (gint m, gint n)
   DenemoObject *clonedobj;
   DenemoObject *curobj = (DenemoObject *) curbufferobj->data;
   clonedobj = dnm_clone_object (curobj);
-  insert_object (clonedobj);
+  object_insert (Denemo.project, clonedobj);
   cache_measure (si->currentmeasure);
-#if 0
-  octave_up_key (Denemo.project);   //FIXME up and down to fix clef change bug !!!!!!!!
-  octave_down_key (Denemo.project); //FIXME up and down to fix clef change bug !!!!!!!!
-#endif
   //reset_cursor_stats (si);
   if (clonedobj->type == CLEF)
     staff_fix_note_heights ((DenemoStaff *) si->currentstaff->data);
@@ -1544,10 +1489,18 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
             gui->movement->redo_invalid = initial_redo_invalid;
             gui->movement->undo_guard = initial_guard;        //we keep all the guards we had on entry which will be removed when
             gui->movement->changecount = initial_changecount;
-            position_for_chunk (gui, chunk);    //FIXME check return val
+            position_for_chunk (gui, chunk);// !!!!! this doesn't call goto_movement_staff_obj   //FIXME check return val
             if (!gui->movement->currentmeasure)
               {
-                g_warning ("positioning after snapshot Bug in select.c");
+                g_warning (
+                "positioning after snapshot Bug in select.c  movem %d, staff %d, measure %d, obj = %d, appending %d, offend %d, leftmeas %d\n", 
+                      chunk->position.movement,
+                      chunk->position.staff,
+                      chunk->position.measure,
+                      chunk->position.object,/**< 0 means no object */
+                      chunk->position.appending,/**< if cursor is in appending position */
+                      chunk->position.offend,/**< cursor is shown red in this case, obscure connection with appending */
+                      chunk->position.leftmeasurenum /**< start at 1 */);
                 movetoend (NULL, NULL);
               }
             gui->movement->currentstaffnum = 1 + g_list_position (gui->movement->thescore, gui->movement->currentstaff);

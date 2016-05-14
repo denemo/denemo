@@ -1430,7 +1430,7 @@ insert_note_following_pattern (DenemoProject * gui)
                }
               insertion_point_for_type (gui->movement, ((DenemoObject *) objs->data)->type);
 
-              insert_object (clipobj);
+               object_insert (Denemo.project, clipobj);
             }
             //g_assert (g_list_first(gui->cstep) == (((RhythmPattern *) gui->currhythm->data)->clipboard)->data);
           gui->cstep = (objs ? objs : (((RhythmPattern *) gui->currhythm->data)->clipboard)->data);
