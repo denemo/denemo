@@ -383,7 +383,7 @@
                     (set! copied tag)
                     (set! CreateScriptForDirective::clipboard (d-GetScriptForDirective tag note))))))
                     
-  (if (and (not copied) (not (None?)))
+  (if (and (not copied) (not (MeasureEnd?)))
       (begin
             (d-SetMark)
             (set! copied (string-append (_ "Object of type ") (d-GetType)))))
