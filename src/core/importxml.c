@@ -2744,7 +2744,7 @@ parseMovement (xmlNodePtr childElem, DenemoProject * gui, ImportType type)
   set_rightmeasurenum (gui->movement);
   set_bottom_staff (gui);
   set_width_to_work_with (gui);
-
+  si->undo_guard = 0;
   return ret;
 }
 
