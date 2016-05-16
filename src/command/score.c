@@ -356,13 +356,17 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
   if (!moveto_currentstaffnum (gui, staffnum))
     {
       if (possible_gui)
-        warningdialog (_("No such voice"));
+            warningdialog (_("No such voice"));
+        else
+            moveto_currentstaffnum (gui, 1);
       return FALSE;
     }
   if (!moveto_currentmeasurenum (gui, measurenum, leftmeasurenum))
     {
       if (possible_gui)
         warningdialog (_("No such measure"));
+      else
+        moveto_currentmeasurenum (gui, 1, leftmeasurenum);
       return FALSE;
     }
   //cursor_x is zero and we are on the first, if any, object
