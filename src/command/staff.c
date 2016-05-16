@@ -208,8 +208,8 @@ staff_new (DenemoProject * project, enum newstaffcallbackaction action, DenemoCo
   DenemoStaff *staff = (DenemoStaff *) g_malloc (sizeof (DenemoStaff));
 
   if(!Denemo.non_interactive){
-    staff->staffmenu = (GtkMenu *) gtk_menu_new ();
-    staff->voicemenu = (GtkMenu *) gtk_menu_new ();
+   // staff->staffmenu = (GtkMenu *) gtk_menu_new ();
+   // staff->voicemenu = (GtkMenu *) gtk_menu_new ();
   }
 
   measurenode *themeasures = NULL;      /* Initial set of measures in staff */
@@ -364,7 +364,7 @@ staff_new (DenemoProject * project, enum newstaffcallbackaction action, DenemoCo
 static void freemeasure (DenemoMeasure *meas)
 {
   //g_list_foreach (meas->objects, freeobjlist, NULL);
-  freeobjlist (meas->objects, NULL);
+  freeobjlist (meas->objects);
 }
 /**
  * Remove the project->movement->currentstaff from the piece project and reset movement->currentstaff
@@ -398,8 +398,8 @@ staff_delete (DenemoProject * project, gboolean interactive)
   free_directives (curstaffstruct->keysig.directives);
 
   if(!Denemo.non_interactive){
-    gtk_widget_destroy ((GtkWidget *) (curstaffstruct->staffmenu));
-    gtk_widget_destroy ((GtkWidget *) (curstaffstruct->voicemenu));
+  //  gtk_widget_destroy ((GtkWidget *) (curstaffstruct->staffmenu)); these aren't used
+  //  gtk_widget_destroy ((GtkWidget *) (curstaffstruct->voicemenu));
   }
 //FIXME DANGER
   g_list_foreach (curstaffstruct->themeasures, (GFunc)freemeasure, NULL);
