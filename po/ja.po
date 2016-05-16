@@ -7,10 +7,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: denemo 2.0.6-rc1\n"
+"Project-Id-Version: denemo 2.0.8-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
-"POT-Creation-Date: 2016-03-22 14:28+0000\n"
-"PO-Revision-Date: 2016-04-25 21:04+0900\n"
+"POT-Creation-Date: 2016-04-26 16:10+0100\n"
+"PO-Revision-Date: 2016-05-14 23:34+0900\n"
 "Last-Translator: Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
 "Language: ja\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 1.8.7.1\n"
-"X-Poedit-Basepath: denemo-2.0.5/po\n"
+"X-Poedit-Basepath: denemo-2.0.7/po\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #. GtkFileFilter *filter;
@@ -30,16 +30,16 @@ msgstr "SoundFont ファイルを選択"
 #. GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.script_view), GTK_TEXT_WINDOW_WIDGET))
 #: ../src/audio/fluid.c:211 ../src/audio/playback.c:121
 #: ../src/command/changenotehead.c:107 ../src/command/lilydirectives.c:1996
-#: ../src/command/lilydirectives.c:2461 ../src/core/utils.c:2070
-#: ../src/core/utils.c:2145 ../src/core/utils.c:2229 ../src/core/utils.c:2326
-#: ../src/export/file.c:164 ../src/export/file.c:826 ../src/export/file.c:886
-#: ../src/export/file.c:1110 ../src/export/print.c:716
+#: ../src/command/lilydirectives.c:2464 ../src/core/utils.c:2093
+#: ../src/core/utils.c:2168 ../src/core/utils.c:2263 ../src/core/utils.c:2360
+#: ../src/export/file.c:165 ../src/export/file.c:829 ../src/export/file.c:889
+#: ../src/export/file.c:1113 ../src/export/print.c:716
 #: ../src/printview/printview.c:1140 ../src/printview/svgview.c:720
-#: ../src/scripting/scheme-callbacks.c:4048 ../src/source/sourceaudio.c:397
+#: ../src/scripting/scheme-callbacks.c:4062 ../src/source/sourceaudio.c:397
 #: ../src/source/sourceaudio.c:758 ../src/ui/clefdialog.c:138
-#: ../src/ui/kbd-interface.c:462 ../src/ui/keysigdialog.c:360
+#: ../src/ui/kbd-interface.c:462 ../src/ui/keysigdialog.c:361
 #: ../src/ui/playbackprops.c:57 ../src/ui/prefdialog.c:414
-#: ../src/ui/scoreprops.c:131 ../src/ui/staffpropdialog.c:351
+#: ../src/ui/scoreprops.c:131 ../src/ui/staffpropdialog.c:352
 #: ../src/ui/texteditors.c:173 ../src/ui/texteditors.c:186
 #: ../src/ui/texteditors.c:238 ../src/ui/texteditors.c:277
 #: ../src/ui/texteditors.c:496 ../src/ui/timedialog.c:233
@@ -47,8 +47,8 @@ msgstr "SoundFont ファイルを選択"
 msgid "_Cancel"
 msgstr "キャンセル(_C)"
 
-#: ../src/audio/fluid.c:211 ../src/core/utils.c:2071 ../src/export/file.c:826
-#: ../src/export/file.c:888 ../src/source/sourceaudio.c:398
+#: ../src/audio/fluid.c:211 ../src/core/utils.c:2094 ../src/export/file.c:829
+#: ../src/export/file.c:891 ../src/source/sourceaudio.c:398
 #: ../src/source/sourceaudio.c:759 ../src/ui/texteditors.c:278
 msgid "_Open"
 msgstr "開く(_O)"
@@ -88,9 +88,8 @@ msgstr "クリックの音量"
 
 #. spinners to select silence, threshold, smoothing
 #: ../src/audio/pitchentry.c:1581
-#, fuzzy
 msgid "Pitch Recognition Parameters"
-msgstr "最高の音程"
+msgstr "音程認識のパラメータ"
 
 #: ../src/audio/pitchentry.c:1589
 msgid "Silence"
@@ -129,9 +128,8 @@ msgid "Greatest Interval"
 msgstr "時間間隔に達していないので %s の一時保管を行いません。\n"
 
 #: ../src/audio/pitchentry.c:1668
-#, fuzzy
 msgid "Input handling"
-msgstr "入力"
+msgstr "入力の処理"
 
 #: ../src/audio/pitchentry.c:1675
 #, fuzzy
@@ -148,9 +146,8 @@ msgid "Frequency Measurement"
 msgstr "周波数測定"
 
 #: ../src/audio/pitchentry.c:1697
-#, fuzzy
 msgid "Frequency smoothing"
-msgstr "周波数測定"
+msgstr "周波数の連続化"
 
 #: ../src/audio/playback.c:121
 msgid "Play range in seconds:"
@@ -161,13 +158,13 @@ msgstr "秒数で指定した範囲を演奏:"
 #. GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.script_view), GTK_TEXT_WINDOW_WIDGET))
 #. parent window
 #: ../src/audio/playback.c:121 ../src/command/changenotehead.c:107
-#: ../src/command/lilydirectives.c:1995 ../src/command/lilydirectives.c:2460
-#: ../src/core/utils.c:2145 ../src/core/utils.c:2229 ../src/core/utils.c:2325
-#: ../src/export/print.c:716 ../src/scripting/scheme-callbacks.c:4047
+#: ../src/command/lilydirectives.c:1995 ../src/command/lilydirectives.c:2463
+#: ../src/core/utils.c:2168 ../src/core/utils.c:2263 ../src/core/utils.c:2359
+#: ../src/export/print.c:716 ../src/scripting/scheme-callbacks.c:4061
 #: ../src/ui/clefdialog.c:138 ../src/ui/kbd-interface.c:461
-#: ../src/ui/keysigdialog.c:360 ../src/ui/playbackprops.c:57
+#: ../src/ui/keysigdialog.c:361 ../src/ui/playbackprops.c:57
 #: ../src/ui/prefdialog.c:414 ../src/ui/scoreprops.c:131
-#: ../src/ui/staffpropdialog.c:351 ../src/ui/texteditors.c:186
+#: ../src/ui/staffpropdialog.c:352 ../src/ui/texteditors.c:186
 #: ../src/ui/texteditors.c:496 ../src/ui/timedialog.c:233
 #: ../src/ui/tomeasuredialog.c:48 ../src/ui/tupletdialog.c:16
 msgid "_OK"
@@ -186,7 +183,7 @@ msgstr "から"
 #. * Array of different Notehead types
 #.
 #: ../src/command/changenotehead.c:22 ../src/command/changenotehead.c:34
-#: ../actions/denemo.scm:271 ../actions/denemo.scm:332
+#: ../actions/denemo.scm:279 ../actions/denemo.scm:340
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:18
 #: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm:11
 #: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm:11
@@ -229,13 +226,13 @@ msgid "There is no previous movement to swap with"
 msgstr "前の楽章がないので入れ替えできません"
 
 #. give info about removing matching context
-#: ../src/command/commandfuncs.c:491 ../src/command/staff.c:383
+#: ../src/command/commandfuncs.c:491 ../src/command/staff.c:384
 msgid "A context is set on this staff"
 msgstr "コンテキストがこの五線に設定されています"
 
 #: ../src/command/commandfuncs.c:491
 msgid "You will need to alter the staff → properties → context of this and the previous staff; Proceed?"
-msgstr ""
+msgstr "この五線と前の五線について、五線 → プロパティ → コンテキスト を交換する必要があります。続けますか?"
 
 #: ../src/command/commandfuncs.c:507
 msgid "Split off voices from this staff first"
@@ -279,7 +276,7 @@ msgstr "これは最後の五線です"
 
 #: ../src/command/fakechord.c:148
 msgid "There is no object here to attach a fakechord to."
-msgstr ""
+msgstr "ここにはフェイクコードを添付できるオブジェクトがありません。"
 
 #: ../src/command/fakechord.c:157
 msgid "Chord Symbol Deletion"
@@ -301,9 +298,8 @@ msgid ""
 msgstr ""
 
 #: ../src/command/figure.c:107
-#, fuzzy
 msgid "No current object to attach a figure to"
-msgstr "機能はオブジェクトが現在の状態にある時は使用できません"
+msgstr "現在、数字を追加できるオブジェクトを指定していません"
 
 #: ../src/command/keyresponses.c:30
 msgid "Recursive key capture not possible!"
@@ -320,16 +316,15 @@ msgstr ""
 
 #: ../src/command/lilydirectives.c:212 ../src/command/lilydirectives.c:220
 msgid "You must put the cursor on a chord to attach LilyPond"
-msgstr ""
+msgstr "カーソルを、Lilypond を追加する和音に乗せる必要があります"
 
 #: ../src/command/lilydirectives.c:228
 msgid "You must put the cursor on a note to attach LilyPond to the note"
-msgstr ""
+msgstr "カーソルを、Lilypond を追加する音符に乗せる必要があります"
 
 #: ../src/command/lilydirectives.c:281
-#, fuzzy
 msgid "Error in attach type"
-msgstr "LilyPond 言語を追加"
+msgstr "追加するタイプにエラーがあります"
 
 #: ../src/command/lilydirectives.c:294 ../src/command/lilydirectives.c:296
 msgid "Attach LilyPond"
@@ -337,7 +332,7 @@ msgstr "LilyPond 言語を追加"
 
 #: ../src/command/lilydirectives.c:294
 msgid "Give text to place before the note"
-msgstr ""
+msgstr "音符の前に置くテキストを入力してください"
 
 #: ../src/command/lilydirectives.c:295
 msgid "Attach LilyPond to Note"
@@ -349,28 +344,25 @@ msgstr "和音にLilyPond 言語を追加"
 
 #: ../src/command/lilydirectives.c:295
 msgid "Give LilyPond text to postfix to note of chord"
-msgstr ""
+msgstr "和音の中の音符に後置するLilypond テキストを入力してください"
 
 #: ../src/command/lilydirectives.c:295
 msgid "Give LilyPond text to postfix to chord"
-msgstr ""
+msgstr "和音に後置するLilypond テキストを入力してください"
 
 #: ../src/command/lilydirectives.c:296 ../src/command/lilydirectives.c:409
-#, fuzzy
 msgid "Give Display text if required"
-msgstr "テキストを表示"
+msgstr "必要なら表示するテキストを入力してください"
 
 #. FIXME how is this supposed to be done?
 #: ../src/command/lilydirectives.c:406 ../src/command/lilydirectives.c:409
-#: ../src/command/scorelayout.c:980
-#, fuzzy
+#: ../src/command/scorelayout.c:982
 msgid "Insert LilyPond"
-msgstr "Lilypond"
+msgstr "Lilypond を挿入"
 
 #: ../src/command/lilydirectives.c:406
-#, fuzzy
 msgid "Give LilyPond text to insert"
-msgstr "LilyPond テキストに変換"
+msgstr "挿入する LilyPond テキストを入力してください"
 
 #: ../src/command/lilydirectives.c:1320
 msgid ""
@@ -386,7 +378,7 @@ msgstr "Denemo エディタ:改行(Newline)で更新、Esc で高度な編集"
 
 #: ../src/command/lilydirectives.c:1456
 msgid "Cannot delete via this mechanism, sorry"
-msgstr ""
+msgstr "この仕組みからは、削除できません、すみません。"
 
 #: ../src/command/lilydirectives.c:1544
 #, c-format
@@ -439,7 +431,7 @@ msgstr "カーソル位置の和音/音符に付随する指示を削除"
 msgid "Select the directive %s on note \"%s\"?"
 msgstr "指示を編集"
 
-#: ../src/command/lilydirectives.c:2216 ../src/command/object.c:1141
+#: ../src/command/lilydirectives.c:2216 ../src/command/object.c:1214
 msgid "No object here to edit"
 msgstr "ここには編集できるオブジェクトがありません"
 
@@ -455,143 +447,143 @@ msgstr ""
 msgid "No method for editing this type of object"
 msgstr "この種類のオブジェクトを編集する手段がありません"
 
-#: ../src/command/lilydirectives.c:2401
+#: ../src/command/lilydirectives.c:2404
 #, c-format
 msgid "Could not get contents of %s"
 msgstr "%s の内容を取得できませんでした"
 
-#: ../src/command/lilydirectives.c:2414
+#: ../src/command/lilydirectives.c:2417
 msgid "There is already an edit script for this tag"
 msgstr "このタグにはすでに編集スクリプトが存在します"
 
-#: ../src/command/lilydirectives.c:2414 ../src/core/view.c:2497
-#: ../src/export/file.c:1242
+#: ../src/command/lilydirectives.c:2417 ../src/core/view.c:2497
+#: ../src/export/file.c:1245
 msgid "Do you want to replace it?"
 msgstr "上書きしますか？"
 
-#: ../src/command/lilydirectives.c:2424
+#: ../src/command/lilydirectives.c:2427
 msgid "Wrote edit script file to ~/.denemo/editscripts"
 msgstr "編集スクリプトファイルを ~/.denemo/editscripts に書き込みました"
 
 #. for reset
-#: ../src/command/lilydirectives.c:2457
+#: ../src/command/lilydirectives.c:2460
 #, fuzzy
 msgid "Low Level Denemo Directive Edit"
 msgstr "楽章の指示を編集"
 
-#: ../src/command/lilydirectives.c:2463 ../src/command/object.c:1149
+#: ../src/command/lilydirectives.c:2466 ../src/command/object.c:1223
 msgid "Denemo Object Editor"
 msgstr "Denemo オブジェクトエディタ"
 
-#: ../src/command/lilydirectives.c:2465
+#: ../src/command/lilydirectives.c:2468
 msgid "Delete Directive"
 msgstr "指示を削除"
 
-#: ../src/command/lilydirectives.c:2466
+#: ../src/command/lilydirectives.c:2469
 msgid "Create Script"
 msgstr "スクリプトを作成"
 
-#: ../src/command/lilydirectives.c:2516
+#: ../src/command/lilydirectives.c:2519
 #, fuzzy
 msgid " x:"
 msgstr "%x"
 
-#: ../src/command/lilydirectives.c:2523
+#: ../src/command/lilydirectives.c:2526
 #, fuzzy
 msgid " y:"
 msgstr "有効になっています"
 
-#: ../src/command/lilydirectives.c:2531
+#: ../src/command/lilydirectives.c:2534
 msgid "Postfix"
 msgstr ""
 
-#: ../src/command/lilydirectives.c:2532
+#: ../src/command/lilydirectives.c:2535
 #, fuzzy
 msgid "Prefix"
 msgstr "     --prio-prefix        標準入力の各行から先頭一致で検索します\n"
 
-#: ../src/command/lilydirectives.c:2533
+#: ../src/command/lilydirectives.c:2536
 msgid "Display text"
 msgstr "テキストを表示"
 
-#: ../src/command/lilydirectives.c:2534
+#: ../src/command/lilydirectives.c:2537
 msgid "Text Position"
 msgstr "テキストの位置"
 
-#: ../src/command/lilydirectives.c:2535
+#: ../src/command/lilydirectives.c:2538
 #, fuzzy
 msgid "Graphic"
 msgstr "video_out_syncfb: エラー (YUY2 はあなたのグラフィックカードでサポートされていません)\n"
 
-#: ../src/command/lilydirectives.c:2536
+#: ../src/command/lilydirectives.c:2539
 #, fuzzy
 msgid "Graphic Position"
 msgstr "位置をプッシュする"
 
-#: ../src/command/lilydirectives.c:2537
+#: ../src/command/lilydirectives.c:2540
 msgid "Tag"
 msgstr "タグ"
 
-#: ../src/command/lilydirectives.c:2538
+#: ../src/command/lilydirectives.c:2541
 #, fuzzy
 msgid "LilyPond Grob Name"
 msgstr "Lilypond"
 
-#: ../src/command/lilydirectives.c:2539
+#: ../src/command/lilydirectives.c:2542
 #, fuzzy
 msgid "Scheme Data"
 msgstr "Scheme スクリプト"
 
-#: ../src/command/lilydirectives.c:2540
+#: ../src/command/lilydirectives.c:2543
 msgid "MidiBytes"
 msgstr ""
 
-#: ../src/command/lilydirectives.c:2541
+#: ../src/command/lilydirectives.c:2544
 #, fuzzy
 msgid "Override Mask"
 msgstr "オンラインになっている CPU のマスク:"
 
-#: ../src/command/lilydirectives.c:2542
+#: ../src/command/lilydirectives.c:2545
 #, fuzzy
 msgid "Minimum pixel width"
 msgstr "小節の幅を最小にする"
 
-#: ../src/command/lilydirectives.c:2543
+#: ../src/command/lilydirectives.c:2546
 msgid "Only Applies to Layout"
 msgstr "レイアウトにのみ適用"
 
-#: ../src/command/lilydirectives.c:2544
+#: ../src/command/lilydirectives.c:2547
 #, fuzzy
 msgid "Ignored by Layout"
 msgstr "このレイアウトで組版"
 
-#: ../src/command/lilydirectives.c:2548
+#: ../src/command/lilydirectives.c:2551
 msgid "Get Edit Script"
 msgstr "編集スクリプトを取得"
 
-#: ../src/command/lilydirectives.c:2551
+#: ../src/command/lilydirectives.c:2554
 msgid "Put Edit Script"
 msgstr "編集スクリプトを配置"
 
 #. disabled until website can take uploading again
-#: ../src/command/lilydirectives.c:2556
+#: ../src/command/lilydirectives.c:2559
 msgid "Upload Edit Script"
 msgstr "編集スクリプトをアップロード"
 
-#: ../src/command/lilydirectives.c:2560
+#: ../src/command/lilydirectives.c:2563
 msgid "Show Current Script"
 msgstr "現在のスクリプトを表示"
 
-#: ../src/command/lilydirectives.c:2684 ../src/command/lilydirectives.c:2761
+#: ../src/command/lilydirectives.c:2687 ../src/command/lilydirectives.c:2764
 msgid "Directive Delete"
 msgstr "指示を削除"
 
-#: ../src/command/lilydirectives.c:2684 ../src/command/lilydirectives.c:2761
+#: ../src/command/lilydirectives.c:2687 ../src/command/lilydirectives.c:2764
 msgid "Are you sure you want to delete the directive?"
 msgstr "指示を削除してよろしいですか?"
 
 #. here  ) to match the string paren open
-#: ../src/command/lilydirectives.c:2715 ../src/command/object.c:650
+#: ../src/command/lilydirectives.c:2718 ../src/command/object.c:668
 #: ../src/export/print.c:622 ../src/export/print.c:654
 #: ../src/export/print.c:685 ../src/ui/palettes.c:217
 #: ../src/ui/texteditors.c:60 ../actions/denemo-modules/directives.scm:28
@@ -599,19 +591,21 @@ msgstr "指示を削除してよろしいですか?"
 #: ../actions/denemo-modules/wysiwyg.scm:403
 #: ../actions/menus/MainMenu/PlaybackMenu/MuteStaffs.scm:22
 #: ../actions/menus/ObjectMenu/ClefMenu/TypesetOnlyClef.scm:25
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:165
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:179
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:157
 #: ../actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm:30
 #: ../actions/menus/ObjectMenu/MovementMenu/DuplicateOrMergeMovements.scm:35
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/InsertSpaceBeforeMovement.scm:20
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:18
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:23
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:23
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:27
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:38
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:42
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:45
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:28
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:128
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:35
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.scm:23
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/AvoidSlurAccidentalCollision.scm:16
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.scm:9
 #: ../actions/menus/ObjectMenu/Score/CheckScoreSkipping.scm:23
 #: ../actions/menus/ObjectMenu/Score/Titles/ScoreVersion.scm:40
 #: ../actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm:138
@@ -620,7 +614,7 @@ msgstr "指示を削除してよろしいですか?"
 #: ../actions/menus/ObjectMenu/StaffMenu/DeleteCurrentStaff.scm:5
 #: ../actions/menus/ObjectMenu/StaffMenu/DeleteFromCursorToEnd.scm:18
 #: ../actions/menus/ObjectMenu/StaffMenu/DeleteMeasuresBeforeCursor.scm:14
-#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm:87
+#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm:89
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/LoadMidiTrack.scm:24
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:130
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:143
@@ -628,20 +622,20 @@ msgstr "指示を削除してよろしいですか?"
 msgid "Cancelled"
 msgstr "キャンセルされました"
 
-#: ../src/command/lilydirectives.c:2717
+#: ../src/command/lilydirectives.c:2720
 msgid "Use the ObjectMenu to modify this object - there are no directives here"
 msgstr ""
 
-#: ../src/command/lilydirectives.c:2751
+#: ../src/command/lilydirectives.c:2754
 msgid "No directives here"
 msgstr "ここには指示がありません"
 
-#: ../src/command/lilydirectives.c:2756
+#: ../src/command/lilydirectives.c:2759
 msgid "No directive selected"
 msgstr "指示が選択されていません"
 
 #. (TweakRelativeOffset tag (car amount) (cdr amount))
-#: ../src/command/lilydirectives.c:2764 ../src/core/view.c:2435
+#: ../src/command/lilydirectives.c:2767 ../src/core/view.c:2435
 #: ../actions/denemo-modules/directives.scm:77
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:25
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:31
@@ -650,144 +644,144 @@ msgstr "指示が選択されていません"
 msgid "Operation cancelled"
 msgstr "操作はキャンセルされました"
 
-#: ../src/command/lilydirectives.c:2789
+#: ../src/command/lilydirectives.c:2792
 msgid ""
 "Select a score or movement directive for advanced (low-level) edit.\n"
 "Note: these directives can be edited normally using Score/Movement Properties Editor from the Score or Movement menus."
 msgstr ""
 
-#: ../src/command/lilydirectives.c:2835
+#: ../src/command/lilydirectives.c:2838
 #, fuzzy
 msgid "Select a score directive - use Shift for advanced edit"
 msgstr "<b>使用するペアリング方法を選択してください：</b>"
 
-#: ../src/command/lilydirectives.c:2842
+#: ../src/command/lilydirectives.c:2845
 #, fuzzy
 msgid "Select a score header block directive - use Shift for advanced edit"
 msgstr "楽譜の指示を編集"
 
-#: ../src/command/lilydirectives.c:2850
+#: ../src/command/lilydirectives.c:2853
 #, fuzzy
 msgid "Select a score paper block directive - use Shift for advanced edit"
 msgstr "楽譜の指示を編集"
 
-#: ../src/command/lilydirectives.c:2859
+#: ../src/command/lilydirectives.c:2862
 #, fuzzy
 msgid "Select a movement header block directive - use Shift for advanced edit"
 msgstr "楽譜の指示を編集"
 
-#: ../src/command/lilydirectives.c:2867
+#: ../src/command/lilydirectives.c:2870
 msgid "Select a movement layout block directive - use Shift for advanced edit"
 msgstr ""
 
-#: ../src/command/lilydirectives.c:2875
+#: ../src/command/lilydirectives.c:2878
 #, fuzzy
 msgid "Select a movement control directive - use Shift for advanced edit"
 msgstr "楽章の指示を選択"
 
-#: ../src/command/lilydirectives.c:2884
+#: ../src/command/lilydirectives.c:2887
 #, fuzzy
 msgid "Select a clef directive - use Shift for advanced edit"
 msgstr "<b>使用するペアリング方法を選択してください：</b>"
 
-#: ../src/command/lilydirectives.c:2893
+#: ../src/command/lilydirectives.c:2896
 #, fuzzy
 msgid "Select a key signature directive - use Shift for advanced edit"
 msgstr "調子記号の指示を編集"
 
-#: ../src/command/lilydirectives.c:2902 ../src/command/lilydirectives.c:2911
-#: ../src/command/lilydirectives.c:2920
+#: ../src/command/lilydirectives.c:2905 ../src/command/lilydirectives.c:2914
+#: ../src/command/lilydirectives.c:2923
 #, fuzzy
 msgid "Select a time signature directive - use Shift for advanced edit"
 msgstr "拍子記号の指示を編集"
 
-#: ../src/command/lilydirectives.c:2932
+#: ../src/command/lilydirectives.c:2935
 #, fuzzy
 msgid "Select a staff directive - use Shift for advanced edit"
 msgstr "<b>使用するペアリング方法を選択してください：</b>"
 
-#: ../src/command/lilydirectives.c:2943
+#: ../src/command/lilydirectives.c:2946
 #, fuzzy
 msgid "Select a voice directive - use Shift for advanced edit"
 msgstr "<b>使用するペアリング方法を選択してください：</b>"
 
-#: ../src/command/lilydirectives.c:3080
+#: ../src/command/lilydirectives.c:3083
 #, fuzzy
 msgid "ScoreDirectives"
 msgstr "楽譜の指示を編集"
 
-#: ../src/command/lilydirectives.c:3081
+#: ../src/command/lilydirectives.c:3084
 #, fuzzy
 msgid "Score Header Block Directives"
 msgstr "楽譜の指示を編集"
 
-#: ../src/command/lilydirectives.c:3082
+#: ../src/command/lilydirectives.c:3085
 #, fuzzy
 msgid "Score Paper Block Directives"
 msgstr "楽譜の指示を編集"
 
-#: ../src/command/lilydirectives.c:3083 ../src/command/lilydirectives.c:3146
+#: ../src/command/lilydirectives.c:3086 ../src/command/lilydirectives.c:3149
 #, fuzzy
 msgid "Movement Header Block Directives"
 msgstr "楽章に付随する指示を編集"
 
-#: ../src/command/lilydirectives.c:3084
+#: ../src/command/lilydirectives.c:3087
 #, fuzzy
 msgid "Layout Block Directives"
 msgstr "ブロックのレイアウト"
 
-#: ../src/command/lilydirectives.c:3144
+#: ../src/command/lilydirectives.c:3147
 msgid "Layout Directives"
 msgstr "レイアウトの指示"
 
-#: ../src/command/lilydirectives.c:3145
+#: ../src/command/lilydirectives.c:3148
 msgid "Movement Directives"
 msgstr "楽章の指示"
 
-#: ../src/command/lyric.c:86
+#: ../src/command/lyric.c:98
 msgid ""
 "The text of a verse can be typed or pasted here. Press Esc to return to editing notes.\n"
 "Separate syllables with space double hyphen space, -- , if they should have their own note(s).\n"
 "New lines and extra spaces have no special significance. Slurs on notes make them take only one syllable. Use the underscore _ for blank syllables."
 msgstr ""
 
-#: ../src/command/lyric.c:323
+#: ../src/command/lyric.c:355
 #: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm:16
 #, fuzzy
 msgid "Stanza Number"
 msgstr " -<数値>                '-n <数値>' と同じ\n"
 
-#: ../src/command/lyric.c:323
+#: ../src/command/lyric.c:355
 msgid "Give text to appear before lyrics"
 msgstr ""
 
-#: ../src/command/lyric.c:323
+#: ../src/command/lyric.c:355
 #, fuzzy
 msgid "1. "
 msgstr "ブートストラップ: %1$sboot -> boot%1$s (既定値 %1$s)"
 
-#: ../src/command/lyric.c:347
+#: ../src/command/lyric.c:379
 #: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.xml.h:1
 #, fuzzy
 msgid "Insert Stanza Number"
 msgstr "挿入(_I)..."
 
-#: ../src/command/lyric.c:347
+#: ../src/command/lyric.c:379
 msgid "Insert a stanza number using the LilyPond syntax"
 msgstr ""
 
-#: ../src/command/lyric.c:384
+#: ../src/command/lyric.c:416
 #, fuzzy, c-format
 msgid "Verse %d"
 msgstr "連を削除"
 
-#: ../src/command/measure.c:220
+#: ../src/command/measure.c:221
 msgid "removemeasures: received request to delete more measures                   than exist.  Junking request."
 msgstr "小節の削除:存在する小節数より多くを削除する要求です。要求を破棄します"
 
-#: ../src/command/object.c:104 ../src/command/object.c:475
-#: ../src/command/object.c:1018 ../src/command/object.c:1493
-#: ../src/command/object.c:1688
+#: ../src/command/object.c:104 ../src/command/object.c:479
+#: ../src/command/object.c:1085 ../src/command/object.c:1567
+#: ../src/command/object.c:1762
 msgid "No tooltip"
 msgstr "ツールチップは(まだ)ありません"
 
@@ -801,7 +795,7 @@ msgstr ""
 msgid "Directive tagged: <span foreground=\"red\"weight=\"bold\">\"%s\"</span>\n"
 msgstr "<span foreground=\"red\">録音中</span>"
 
-#: ../src/command/object.c:122 ../src/command/object.c:493
+#: ../src/command/object.c:122 ../src/command/object.c:497
 #, c-format
 msgid "Menu location for this command: <span style=\"italic\" weight=\"bold\">\"%s\"</span>\n"
 msgstr "このコマンドのメニューでの位置: <span style=\"italic\" weight=\"bold\">\"%s\"</span>\n"
@@ -823,7 +817,7 @@ msgstr ""
 msgid "LilyPond inserted in postfix to this object is <tt>\"%s\"</tt>\n"
 msgstr ""
 
-#: ../src/command/object.c:144 ../src/command/object.c:515
+#: ../src/command/object.c:144 ../src/command/object.c:519
 msgid ""
 "<span foreground=\"red\"weight=\"bold\">THIS DIRECTIVE IS CONDITIONAL ON THE LAYOUT\n"
 "</span>"
@@ -849,48 +843,48 @@ msgstr "小節"
 msgid "Subsequent measures are empty"
 msgstr "小節"
 
-#: ../src/command/object.c:234
+#: ../src/command/object.c:238
 msgid "Denemo Object Inspector"
 msgstr "Denemo オブジェクトインスペクタ"
 
-#: ../src/command/object.c:264
+#: ../src/command/object.c:268
 msgid "Inspect next note in chord"
 msgstr "和音の中の次の音符を調査する"
 
-#: ../src/command/object.c:264
+#: ../src/command/object.c:268
 msgid "Inspect the note"
 msgstr "音符を調査する"
 
-#: ../src/command/object.c:272
+#: ../src/command/object.c:276
 msgid "Run the Object Editor"
 msgstr "オブジェクトエディタを実行"
 
 # after の訳は文の後半に。
-#: ../src/command/object.c:277
+#: ../src/command/object.c:281
 msgid "The cursor is in the appending position after "
 msgstr "カーソルは追加する位置にあり、"
 
-#: ../src/command/object.c:277
+#: ../src/command/object.c:281
 msgid "The cursor is on "
 msgstr "カーソルは"
 
-#: ../src/command/object.c:288
+#: ../src/command/object.c:292
 msgid "chord"
 msgstr "和音"
 
-#: ../src/command/object.c:289
+#: ../src/command/object.c:293
 msgid "a chord.\n"
 msgstr "和音の後ろにあります。\n"
 
-#: ../src/command/object.c:293
+#: ../src/command/object.c:297
 msgid "note"
 msgstr "音符"
 
-#: ../src/command/object.c:294
+#: ../src/command/object.c:298
 msgid "a one-note chord.\n"
 msgstr "1音符和音の後ろにあります。\n"
 
-#: ../src/command/object.c:297
+#: ../src/command/object.c:301
 msgid ""
 "A slur starts from here.\n"
 "There should be a matching end slur later.\n"
@@ -898,7 +892,7 @@ msgstr ""
 "スラーがここから始まります。\n"
 "後で対になるスラーの終わりがあるはずです。\n"
 
-#: ../src/command/object.c:299
+#: ../src/command/object.c:303
 msgid ""
 "A slur ends here\n"
 "There should be a matching start slur earlier.\n"
@@ -906,121 +900,121 @@ msgstr ""
 "スラーがここで終わります。\n"
 "前に対になるスラーの始まりがあるはずです。\n"
 
-#: ../src/command/object.c:301
+#: ../src/command/object.c:305
 msgid ""
 "This is tied to the following note or chord.\n"
 "The following note or chord should have the same pitch\n"
 msgstr ""
 
-#: ../src/command/object.c:303
+#: ../src/command/object.c:307
 msgid "This note begins a crescendo. Use the Right Click → Dynamics menu to control this.\n"
 msgstr ""
 
-#: ../src/command/object.c:305
+#: ../src/command/object.c:309
 msgid "This note ends a crescendo. Use the Right Click → Dynamics menu to control this.\n"
 msgstr ""
 
-#: ../src/command/object.c:307
+#: ../src/command/object.c:311
 msgid "This note begins a diminuendo. Use the Right Click → Dynamics menu to control this.\n"
 msgstr ""
 
-#: ../src/command/object.c:309
+#: ../src/command/object.c:313
 msgid "This note ends a diminuendo. Use the Right Click → Dynamics menu to control this.\n"
 msgstr ""
 
-#: ../src/command/object.c:312
+#: ../src/command/object.c:316
 #, fuzzy
 msgid "This is an acciaccatura note\n"
 msgstr "音符を調査する"
 
-#: ../src/command/object.c:315
+#: ../src/command/object.c:319
 #, fuzzy
 msgid "This is an appoggiatura note\n"
 msgstr "音符を調査する"
 
-#: ../src/command/object.c:317
+#: ../src/command/object.c:321
 msgid "This note denotes a rhythm - use a MIDI keyboard to add pitches by playing.\n"
 msgstr "このノートはリズムを表記しています - 音の高さを追加するには MIDI キーボードを使用してください。\n"
 
-#: ../src/command/object.c:319
+#: ../src/command/object.c:323
 #, c-format
 msgid "A Chord Symbol \"%s\" is attached to this note.\n"
 msgstr "この音符には和音記号 \"%s\" が付いています。\n"
 
-#: ../src/command/object.c:322
+#: ../src/command/object.c:326
 #, c-format
 msgid "A Bass Figure \"%s\" is attached to this note.\n"
 msgstr "この音符には低音表記のための数字 \"%s\" が付いています。\n"
 
-#: ../src/command/object.c:330
+#: ../src/command/object.c:334
 #, c-format
 msgid "<b>Within the chord the cursor is on the note %s </b>\n"
 msgstr "<b>和音の中でカーソルは音符 %s に位置しています</b>\n"
 
-#: ../src/command/object.c:334
+#: ../src/command/object.c:338
 #, fuzzy
 msgid "Attached to this note:"
 msgstr "結合"
 
-#: ../src/command/object.c:339
+#: ../src/command/object.c:343
 msgid "This rhythm has extra notes added to it, delete them and use the foot-pedal or Alt key to enter chords with the MIDI controller.\n"
 msgstr ""
 
-#: ../src/command/object.c:344
+#: ../src/command/object.c:348
 msgid "rest"
 msgstr "休符"
 
-#: ../src/command/object.c:345
+#: ../src/command/object.c:349
 msgid "a rest.\n"
 msgstr "休符の後ろにあります。\n"
 
-#: ../src/command/object.c:347
-msgid "This rest has a slur start on it, use the Right Click  → Slurs menu to remove it\n"
-msgstr ""
-
-#: ../src/command/object.c:349
-msgid "This rest has a slur end on it, use the Right Click → Slurs menu to remove it\n"
-msgstr ""
-
 #: ../src/command/object.c:351
-msgid "This rest has a tie starting on it, use the Right Click  → Tied Note to remove it\n"
-msgstr ""
+msgid "This rest has a slur start on it, use the Right Click  → Slurs menu to remove it\n"
+msgstr "この休符からスラーが始まっています。右クリック → スラー メニューから削除してください\n"
+
+#: ../src/command/object.c:353
+msgid "This rest has a slur end on it, use the Right Click → Slurs menu to remove it\n"
+msgstr "この休符でスラーが終わっています。右クリック → スラー メニューから削除してください\n"
 
 #: ../src/command/object.c:355
-msgid "This rest will not print, just act as a spacer.\n"
-msgstr ""
+msgid "This rest has a tie starting on it, use the Right Click  → Tied Note to remove it\n"
+msgstr "この休符からタイが始まっています。右クリック → タイ メニューから削除してください\n"
 
-#: ../src/command/object.c:357
+#: ../src/command/object.c:359
+msgid "This rest will not print, just act as a spacer.\n"
+msgstr "この休符は印刷されず、スペーサーとして働きます。\n"
+
+#: ../src/command/object.c:361
 msgid "This rest has the grace attribute set: these objects are usually inserted automatically to match real grace notes in other parts, this helps the music typesetter place the grace note correctly in the Print View.\n"
 msgstr ""
 
-#: ../src/command/object.c:362 ../src/command/object.c:1187
+#: ../src/command/object.c:366 ../src/command/object.c:1261
 #, fuzzy
 msgid "Attached to the chord:"
 msgstr "カーソル位置の和音/音符に付随する指示を削除"
 
-#: ../src/command/object.c:370
+#: ../src/command/object.c:374
 #, c-format
 msgid "This %s starts %d 𝅘𝅥  's into the measure and lasts %d 𝅘𝅥 's.\n"
 msgstr ""
 
-#: ../src/command/object.c:372
+#: ../src/command/object.c:376
 #, c-format
 msgid "This %s starts %d 𝅘𝅥  's into the measure and lasts %d/%d 𝅘𝅥 's.\n"
 msgstr ""
 
-#: ../src/command/object.c:376
+#: ../src/command/object.c:380
 #, c-format
 msgid "This %s starts %d/%d 𝅘𝅥  's into the measure and lasts %d 𝅘𝅥 's.\n"
 msgstr ""
 
-#: ../src/command/object.c:378
+#: ../src/command/object.c:382
 #, c-format
 msgid "This %s starts %d/%d 𝅘𝅥  's into the measure and lasts %d/%d 𝅘𝅥 's.\n"
 msgstr ""
 
 #. type = _("start tuplet marker");
-#: ../src/command/object.c:386
+#: ../src/command/object.c:390
 #, c-format
 msgid ""
 " a Start Tuplet object\n"
@@ -1029,106 +1023,108 @@ msgid ""
 "See the Notes/Rests → Tuplets for control over how tuplets print\n"
 msgstr ""
 
-#: ../src/command/object.c:389
+#: ../src/command/object.c:393
 #, fuzzy
 msgid "Attached to the Start Tuplet:"
 msgstr "連符を終了"
 
 #. type = _("end tuplet marker");
-#: ../src/command/object.c:398
+#: ../src/command/object.c:402
 #, c-format
 msgid ""
 "an End Tuplet object\n"
 "Note: the Start Tuplet must be in the same measure.\n"
 msgstr ""
 
-#: ../src/command/object.c:401
+#: ../src/command/object.c:405
 #, fuzzy
 msgid "Attached to the End Tuplet:"
 msgstr "連符を終了"
 
 #. type = _("clef change object");
-#: ../src/command/object.c:411
-#, fuzzy, c-format
+#: ../src/command/object.c:415
+#, c-format
 msgid "a Clef Change object.\n"
-msgstr "音部記号の変更"
+msgstr "音部記号変更のオブジェクト。\n"
 
-#: ../src/command/object.c:414
+#: ../src/command/object.c:418
 #, fuzzy
 msgid "Attached to the Clef Change:"
 msgstr "音部記号に付随する指示を編集"
 
-#: ../src/command/object.c:418
+#: ../src/command/object.c:422
 msgid "This clef change is non-printing, it just affects the display.\n"
-msgstr ""
+msgstr "この音部変更記号は印刷されず、表示にのみ影響します。\n"
 
 #. type = _("time signature change object");
-#: ../src/command/object.c:427
+#: ../src/command/object.c:431
 #, fuzzy, c-format
 msgid "a Time Signature Change object.\n"
 msgstr "最初の拍子記号を変更する"
 
-#: ../src/command/object.c:430
+#: ../src/command/object.c:434
 #, fuzzy
 msgid "Attached to the Time Signature Change:"
 msgstr "拍子記号の変更"
 
-#: ../src/command/object.c:435
+#: ../src/command/object.c:439
 #, c-format
 msgid ""
 "A Time Signature Change should be the first object in a measure\n"
 "unless you are trying to do something unusual"
 msgstr ""
+"拍子記号は、小節の最初のオブジェクトです\n"
+"何か特別なことをしようとしているのでない限り。"
 
 #. type = _("key signature change object");
-#: ../src/command/object.c:443
+#: ../src/command/object.c:447
 #, fuzzy, c-format
 msgid "a Key Signature Change object.\n"
 msgstr "初期の調号を変更する"
 
-#: ../src/command/object.c:446
+#: ../src/command/object.c:450
 #, fuzzy
 msgid "Attached to the Key Signature Change:"
 msgstr "初期の調号を変更する"
 
 #. type = _("stem direction change object");
-#: ../src/command/object.c:456
+#: ../src/command/object.c:460
 #, fuzzy, c-format
 msgid "a Stem Direction Control Object. The notes after the cursor %s"
 msgstr "カーソル位置の音符の タイ/タイなし を切替える"
 
-#: ../src/command/object.c:456
+#: ../src/command/object.c:460
 #, fuzzy
 msgid "will have stems downwards."
 msgstr "ここから符尾を下向きにする"
 
-#: ../src/command/object.c:456
+#: ../src/command/object.c:460
 #, fuzzy
 msgid "will have stems upwards."
 msgstr "符尾を下向きにする"
 
-#: ../src/command/object.c:456
+#: ../src/command/object.c:460
 msgid "will have stems up or down as needed."
 msgstr ""
 
-#: ../src/command/object.c:459
+#: ../src/command/object.c:463
 #, fuzzy
 msgid ""
 "\n"
 "Attached to the Stemming Change:"
 msgstr "結合"
 
-#: ../src/command/object.c:478
+#: ../src/command/object.c:482
 #, c-format
 msgid "a Denemo Directive: <span weight=\"bold\">%s</span>\n"
 msgstr ""
 
-#: ../src/command/object.c:480
+#: ../src/command/object.c:484
 #, c-format
 msgid "a Denemo Directive tagged: <span foreground=\"red\"weight=\"bold\">%s</span>\n"
 msgstr ""
 
-#: ../src/command/object.c:485
+#: ../src/command/object.c:489
 #, c-format
 msgid ""
 "\n"
@@ -1136,109 +1132,106 @@ msgid ""
 "<big>\"%s\"</big>"
 msgstr ""
 
-#: ../src/command/object.c:489
+#: ../src/command/object.c:493
 #, fuzzy, c-format
 msgid "%s"
 msgstr "%s"
 
-#: ../src/command/object.c:489
+#: ../src/command/object.c:493
 #, fuzzy
 msgid ""
 "\n"
 "Not all layouts\n"
 msgstr " -a, --all         全て (既定値)\n"
 
-#: ../src/command/object.c:489
+#: ../src/command/object.c:493
 #, fuzzy
 msgid ""
 "\n"
 "Only for one Layout\n"
 msgstr "レイアウトにのみ適用"
 
-#: ../src/command/object.c:506
+#: ../src/command/object.c:510
 #, fuzzy, c-format
 msgid "The LilyPond text inserted is <tt>%s%s</tt>\n"
 msgstr "Lilypond"
 
-#: ../src/command/object.c:512
+#: ../src/command/object.c:516
 #, c-format
 msgid "This object does not affect the printed output (no LilyPond syntax is generated for the typesetter)\n"
 msgstr ""
 
-#: ../src/command/object.c:518
+#: ../src/command/object.c:522
 msgid ""
 "This Directive is at the end of the music\n"
 "You may need a closing double bar line -\n"
 "see Directives → Markings → Inserting Barlines"
 msgstr ""
 
-#: ../src/command/object.c:525
+#: ../src/command/object.c:529
 msgid "The cursor is on an unknown object type. Please report how this happened!"
 msgstr ""
 
-#: ../src/command/object.c:536
+#: ../src/command/object.c:540
 #, c-format
 msgid "Playback timing: %d minutes %1.2f seconds"
 msgstr ""
 
-#: ../src/command/object.c:542
+#: ../src/command/object.c:546
 #, fuzzy
 msgid "<span font-desc=\"30\">Warning</span> "
 msgstr "<span font_desc=\"Denemo\">𝄻</span>"
 
-#: ../src/command/object.c:643
+#: ../src/command/object.c:661
 #, fuzzy, c-format
 msgid "Clone %s"
 msgstr "アカウント %s , サーバ %s"
 
-#: ../src/command/object.c:644 ../src/ui/texteditors.c:53
+#: ../src/command/object.c:662 ../src/ui/texteditors.c:53
 msgid "Palette Button Creation"
 msgstr "パレットボタン作成"
 
-#: ../src/command/object.c:644 ../src/ui/texteditors.c:53
+#: ../src/command/object.c:662 ../src/ui/texteditors.c:53
 #, fuzzy
 msgid "Give a (unique) name for the button"
 msgstr "この楽章を楽譜のレイアウトから削除"
 
-#: ../src/command/object.c:647 ../actions/palettes.xml.h:96
+#: ../src/command/object.c:665 ../actions/palettes.xml.h:96
 #, fuzzy
 msgid "Creates a cloned Denemo Directive"
 msgstr "楽章の指示を編集"
 
-#: ../src/command/object.c:648 ../src/ui/texteditors.c:57
+#: ../src/command/object.c:666 ../src/ui/texteditors.c:57
 msgid "Could not create a button of that name in that palette"
-msgstr ""
+msgstr "その名前ではパレットの中にボタンを作成することができません"
 
-#: ../src/command/object.c:782
+#: ../src/command/object.c:822
 msgid "To add or remove built-in attributes right click on the object in the display window"
 msgstr ""
 
-#: ../src/command/object.c:898 ../src/command/object.c:1437
-#: ../src/command/object.c:1646
+#: ../src/command/object.c:957 ../src/command/object.c:1511
+#: ../src/command/object.c:1720
 #, fuzzy
 msgid "Run the Edit Script for "
 msgstr "スクリプト"
 
-#: ../src/command/object.c:907 ../src/command/object.c:1446
-#: ../src/command/object.c:1655
-#, fuzzy
+#: ../src/command/object.c:966 ../src/command/object.c:1520
+#: ../src/command/object.c:1729
 msgid "Execute command: "
-msgstr ""
-"%s - 別のユーザーとしてコマンドを実行します\n"
-"\n"
+msgstr "コマンドを実行: "
 
-#: ../src/command/object.c:909 ../src/command/object.c:1448
-#: ../src/command/object.c:1657
+#: ../src/command/object.c:968 ../src/command/object.c:1522
+#: ../src/command/object.c:1731
 msgid "Re-run the command to edit the Denemo Directive"
 msgstr ""
 
 #. gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
-#: ../src/command/object.c:947 ../src/command/object.c:1460
-#: ../src/command/object.c:1670 ../src/command/scorelayout.c:512
+#: ../src/command/object.c:1006 ../src/command/object.c:1534
+#: ../src/command/object.c:1744 ../src/command/scorelayout.c:512
 #: ../src/command/scorelayout.c:546 ../src/generated/entries.h:409
 #: ../actions/denemo-modules/directives.scm:32
 #: ../actions/denemo-modules/directives.scm:107
-#: ../actions/denemo-modules/directives.scm:152 ../actions/denemo.scm:156
+#: ../actions/denemo-modules/directives.scm:152 ../actions/denemo.scm:164
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:38
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:45
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:62
@@ -1258,17 +1251,18 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeCoda.scm:6
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeFermata.scm:6
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeSegno.scm:6
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:67
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:73
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:8
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.scm:4
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.scm:6
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/StartTrillSpan.scm:8
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/EndVolta.scm:4
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/EndVolta.scm:6
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:46
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:55
 #: ../actions/menus/ObjectMenu/MeasureMenu/Upbeat.scm:59
 #: ../actions/menus/ObjectMenu/MeasureMenu/Upbeat.scm:68
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:16
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:15
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:17
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:5
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:5
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:18
@@ -1287,28 +1281,33 @@ msgstr ""
 msgid "Delete"
 msgstr "削除"
 
-#: ../src/command/object.c:988 ../src/command/object.c:1469
+#: ../src/command/object.c:1047 ../src/command/object.c:1543
 msgid "Next ➡"
 msgstr "次 ➡"
 
-#: ../src/command/object.c:997 ../src/command/object.c:1476
+#: ../src/command/object.c:1056 ../src/command/object.c:1550
 #, fuzzy
 #| msgid "Conditional Directives"
 msgid "Conditional"
 msgstr "条件付き指示"
 
+#: ../src/command/object.c:1065 ../src/generated/entries.h:260
+#: ../src/generated/register_commands.h:240
+msgid "Copy"
+msgstr "コピー"
+
 #. some menu items should be insensitive if the Scheme window is not visible
 #. if upbeat is present
-#: ../src/command/object.c:1012 ../src/command/object.c:1487
-#: ../src/command/object.c:1682 ../src/generated/entries.h:214
+#: ../src/command/object.c:1079 ../src/command/object.c:1561
+#: ../src/command/object.c:1756 ../src/generated/entries.h:214
 #: ../src/printview/svgview.c:1229 ../src/ui/palettes.c:325
 #: ../actions/denemo-modules/directives.scm:104
 #: ../actions/denemo-modules/directives.scm:152
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.scm:4
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.scm:8
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:21
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/StartTrillSpan.scm:8
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:27
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/EndVolta.scm:4
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/EndVolta.scm:8
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:21
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:46
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:50
 #: ../actions/menus/ObjectMenu/MeasureMenu/Upbeat.scm:59
@@ -1318,28 +1317,28 @@ msgstr "条件付き指示"
 msgid "Help"
 msgstr "ヘルプ"
 
-#: ../src/command/object.c:1021 ../src/command/object.c:1496
-#: ../src/command/object.c:1691
+#: ../src/command/object.c:1094 ../src/command/object.c:1570
+#: ../src/command/object.c:1765
 msgid "Create Button for Command"
 msgstr "コマンド ボタン を作成する"
 
-#: ../src/command/object.c:1022 ../src/command/object.c:1692
+#: ../src/command/object.c:1095 ../src/command/object.c:1766
 msgid "Make a palette button for running the command that created this attribute."
 msgstr ""
 
-#: ../src/command/object.c:1028 ../src/command/object.c:1502
-#: ../src/command/object.c:1697
+#: ../src/command/object.c:1101 ../src/command/object.c:1576
+#: ../src/command/object.c:1771
 #, fuzzy
 msgid "Create Button for Clone"
 msgstr "カテゴリ ボタンをタップしてカテゴリを定義してください。"
 
-#: ../src/command/object.c:1029
+#: ../src/command/object.c:1102
 msgid "Make a palette button for installing this attribute elsewhere."
 msgstr ""
 
-#: ../src/command/object.c:1034 ../src/command/object.c:1508
-#: ../src/command/object.c:1704 ../actions/denemo-modules/directives.scm:34
-#: ../actions/denemo.scm:148
+#: ../src/command/object.c:1107 ../src/command/object.c:1582
+#: ../src/command/object.c:1778 ../actions/denemo-modules/directives.scm:34
+#: ../actions/denemo.scm:156
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:42
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:47
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:66
@@ -1357,8 +1356,8 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/ChordMenu/Directives/InsertChordDirective.scm:14
 #: ../actions/menus/ObjectMenu/Directives/InsertStandaloneDirective.scm:8
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:10
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.scm:4
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:27
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/EndVolta.scm:4
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:46
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:57
 #: ../actions/menus/ObjectMenu/MeasureMenu/Upbeat.scm:59
@@ -1379,359 +1378,359 @@ msgstr ""
 msgid "Advanced"
 msgstr "詳細..."
 
-#: ../src/command/object.c:1035
+#: ../src/command/object.c:1108
 msgid "Examine/Edit this directive at a low-level"
 msgstr ""
 
-#: ../src/command/object.c:1045
+#: ../src/command/object.c:1118
 #, fuzzy
 msgid "Built-in Chord Attributes"
 msgstr "属性:"
 
-#: ../src/command/object.c:1061
+#: ../src/command/object.c:1134
 #, fuzzy
 msgid "Remove slur start"
 msgstr "スラーを削除"
 
-#: ../src/command/object.c:1067
+#: ../src/command/object.c:1140
 #, fuzzy
 msgid "Remove slur end"
 msgstr "挿入/削除 この音符でスラーを終了"
 
-#: ../src/command/object.c:1073
+#: ../src/command/object.c:1146
 #, fuzzy
 msgid "Remove tie"
 msgstr "一つだけのタイ"
 
-#: ../src/command/object.c:1079
+#: ../src/command/object.c:1152
 msgid "Remove Start cresc. marking"
 msgstr ""
 
-#: ../src/command/object.c:1085
+#: ../src/command/object.c:1158
 #, fuzzy
 msgid "Remove End cresc. marking"
 msgstr "下の声部へ移動"
 
-#: ../src/command/object.c:1091
+#: ../src/command/object.c:1164
 #, fuzzy
 msgid "Remove Start dim. marking"
 msgstr "AtkHyperlink オブジェクトの先頭インデックスです"
 
-#: ../src/command/object.c:1097
+#: ../src/command/object.c:1170
 msgid "Remove End dim. marking"
 msgstr ""
 
-#: ../src/command/object.c:1104
+#: ../src/command/object.c:1177
 #, fuzzy
 msgid "Un-grace the note"
 msgstr "装飾音符 オフ/オン"
 
-#: ../src/command/object.c:1154 ../src/command/object.c:1736
-#: ../src/command/object.c:1932
+#: ../src/command/object.c:1228 ../src/command/object.c:1811
+#: ../src/command/object.c:2008
 #, fuzzy
 msgid "Close"
 msgstr "閉じる"
 
-#: ../src/command/object.c:1162
+#: ../src/command/object.c:1236
 msgid "⬅ Previous Object"
 msgstr "⬅ 前のオブジェクト"
 
-#: ../src/command/object.c:1169
+#: ../src/command/object.c:1243
 #, fuzzy
 msgid "Next note in chord"
 msgstr "和音の中の次の音符を調査する"
 
-#: ../src/command/object.c:1173
+#: ../src/command/object.c:1247
 msgid "Next Object ➡"
 msgstr "次のオブジェクト ➡"
 
-#: ../src/command/object.c:1188
+#: ../src/command/object.c:1262
 #, fuzzy
 msgid "Attached to the rest:"
 msgstr "結合"
 
-#: ../src/command/object.c:1206
+#: ../src/command/object.c:1280
 msgid "Edit the note"
 msgstr "音符を編集"
 
-#: ../src/command/object.c:1217
+#: ../src/command/object.c:1291
 #, fuzzy, c-format
 msgid "Attached to Note %s"
 msgstr "結合"
 
-#: ../src/command/object.c:1235
+#: ../src/command/object.c:1309
 #, fuzzy, c-format
 msgid "Nothing attached to Note %s"
 msgstr "カーソル位置の和音/音符に付随する指示を削除"
 
-#: ../src/command/object.c:1251
+#: ../src/command/object.c:1325
 #, fuzzy
 msgid "Assign Pitch to Rhythm"
 msgstr "libblkid プローブをデバイスに割り当てることができません"
 
-#: ../src/command/object.c:1264
+#: ../src/command/object.c:1338
 msgid "Edit Chord Symbol"
 msgstr "和音記号を編集"
 
-#: ../src/command/object.c:1271
+#: ../src/command/object.c:1345
 msgid "Edit Bass Figure"
 msgstr "数字付き低音を編集"
 
-#: ../src/command/object.c:1285
+#: ../src/command/object.c:1359
 msgid "Add/Remove attributes"
 msgstr "属性を追加または削除"
 
 #. type = _("start tuplet marker");
-#: ../src/command/object.c:1295
+#: ../src/command/object.c:1369
 #, fuzzy
 msgid "Alter Tuplet Type"
 msgstr "連符数をカスタマイズ"
 
-#: ../src/command/object.c:1300
+#: ../src/command/object.c:1374
 #, fuzzy
 msgid "Attached to the tuplet start:"
 msgstr "連符を終了"
 
-#: ../src/command/object.c:1317
+#: ../src/command/object.c:1391
 #, fuzzy
 msgid "Attached to the tuplet end:"
 msgstr "連符を終了"
 
-#: ../src/command/object.c:1337
+#: ../src/command/object.c:1411
 #, fuzzy
 msgid "Attached to the clef change object:"
 msgstr "音部記号に付随する指示を編集"
 
-#: ../src/command/object.c:1349
+#: ../src/command/object.c:1423
 #, fuzzy
 msgid "Transform to printing clef"
 msgstr "ディスクレイアウトのスクリプトへの書き出しに失敗しました"
 
-#: ../src/command/object.c:1362
+#: ../src/command/object.c:1436
 #, fuzzy
 msgid "Attached to the time signature change object:"
 msgstr "拍子記号に付随する指示を編集する"
 
-#: ../src/command/object.c:1381
+#: ../src/command/object.c:1455
 #, fuzzy
 msgid "Attached to the key signature change object:"
 msgstr "調子記号に付随する指示を編集する"
 
-#: ../src/command/object.c:1401
+#: ../src/command/object.c:1475
 #, fuzzy
 msgid "Attached to the stemming change object:"
 msgstr "調号の変更"
 
-#: ../src/command/object.c:1423
+#: ../src/command/object.c:1497
 #, fuzzy
 msgid "Standalone Denemo Directive:"
 msgstr " 指示"
 
-#: ../src/command/object.c:1497
+#: ../src/command/object.c:1571
 msgid "Make a palette button for running the command that created/inserted this object."
 msgstr ""
 
-#: ../src/command/object.c:1503
+#: ../src/command/object.c:1577
 msgid "Make a palette button for inserting a clone of this object elsewhere."
 msgstr ""
 
-#: ../src/command/object.c:1606
+#: ../src/command/object.c:1680
 msgid "Score "
 msgstr "楽譜 "
 
-#: ../src/command/object.c:1608
+#: ../src/command/object.c:1682
 msgid "Movement "
 msgstr "楽章 "
 
-#: ../src/command/object.c:1610
+#: ../src/command/object.c:1684
 #, fuzzy
 msgid "Score Header "
 msgstr "楽譜を Lilypond ファイルとしてエクスポートする"
 
-#: ../src/command/object.c:1612
+#: ../src/command/object.c:1686
 msgid "Paper "
 msgstr "用紙サイズ "
 
-#: ../src/command/object.c:1614
+#: ../src/command/object.c:1688
 msgid "Movement Header "
 msgstr "楽章のヘッダ "
 
-#: ../src/command/object.c:1616
+#: ../src/command/object.c:1690
 msgid "Movement Layout "
 msgstr "楽章のレイアウト "
 
-#: ../src/command/object.c:1628
+#: ../src/command/object.c:1702
 #, fuzzy, c-format
 msgid "Denemo %s Directive tagged: %s"
 msgstr " 指示"
 
-#: ../src/command/object.c:1630
+#: ../src/command/object.c:1704
 #, fuzzy, c-format
 msgid "Denemo %s Directive: %s"
 msgstr " 指示"
 
-#: ../src/command/object.c:1698
+#: ../src/command/object.c:1772
 msgid "Make a palette button for installing a clone of this attribute elsewhere."
 msgstr ""
 
-#: ../src/command/object.c:1728
+#: ../src/command/object.c:1803
 #, fuzzy
 msgid "Score and Movement Properties Editor"
 msgstr "この楽章のプロパティを変更"
 
-#: ../src/command/object.c:1750 ../src/generated/entries.h:265
+#: ../src/command/object.c:1825 ../src/generated/entries.h:265
 #: ../src/generated/register_commands.h:245
 msgid "Score Properties"
 msgstr "楽譜のプロパティ"
 
-#: ../src/command/object.c:1775
+#: ../src/command/object.c:1850
 #, fuzzy
 msgid "Edit Built-in Score Properties"
 msgstr "楽譜のプロパティ"
 
-#: ../src/command/object.c:1785 ../src/command/scorelayout.c:1894
-#: ../src/command/scorelayout.c:2205 ../src/core/utils.c:1954
-#: ../src/printview/printview.c:2470
+#: ../src/command/object.c:1860 ../src/command/scorelayout.c:1896
+#: ../src/command/scorelayout.c:2207 ../src/core/utils.c:1977
+#: ../src/printview/printview.c:2475
 msgid "Movement"
 msgstr "楽章"
 
-#: ../src/command/object.c:1785
+#: ../src/command/object.c:1860
 msgid "Properties"
 msgstr "プロパティ"
 
-#: ../src/command/object.c:1809
+#: ../src/command/object.c:1884
 msgid "⬅ Previous Movement"
 msgstr "⬅ 前の楽章"
 
-#: ../src/command/object.c:1816
+#: ../src/command/object.c:1891
 msgid "Next Movement ➡"
 msgstr "次の楽章 ➡"
 
-#: ../src/command/object.c:1866
+#: ../src/command/object.c:1941
 msgid ""
 "The clef here only affects the display as this voice is typeset on the staff above.\n"
 "Normally you will want it set the same as the staff the notes will appear on.\n"
 "Dismiss this warning and make any needed changes via the popup dialog coming next."
 msgstr ""
 
-#: ../src/command/object.c:1874
+#: ../src/command/object.c:1949
 msgid "This voice should have the same key signature as the staff it appears on. Use the key signature menu commands to correct it if needed."
 msgstr ""
 
-#: ../src/command/object.c:1878
+#: ../src/command/object.c:1953
 msgid "Change the keysignature by clicking on it, or via the Key Signatures menu (after closing this editor)."
 msgstr ""
 
-#: ../src/command/object.c:1887
+#: ../src/command/object.c:1962
 msgid "This voice should have the same time signature as the staff it appears on. Use the time signature menu commands to correct it if needed."
 msgstr ""
 
-#: ../src/command/object.c:1924
+#: ../src/command/object.c:2000
 #, fuzzy
 msgid "Staff and Voice Properties Editor"
 msgstr "五線のプロパティを編集"
 
-#: ../src/command/object.c:1946 ../src/generated/entries.h:210
-#: ../src/ui/staffpropdialog.c:351
+#: ../src/command/object.c:2022 ../src/generated/entries.h:210
+#: ../src/ui/staffpropdialog.c:352
 msgid "Staff Properties"
 msgstr "五線のプロパティ"
 
-#: ../src/command/object.c:1971
+#: ../src/command/object.c:2047
 msgid "Staff Above"
 msgstr "上の五線"
 
-#: ../src/command/object.c:1978
+#: ../src/command/object.c:2054
 msgid "Staff Below"
 msgstr "下の五線"
 
-#: ../src/command/object.c:1987
+#: ../src/command/object.c:2063
 #, fuzzy
 msgid "<b>This voice will be typeset on the staff above</b>"
 msgstr "現在の五線は既に声部です"
 
-#: ../src/command/object.c:1994
+#: ../src/command/object.c:2070
 #, fuzzy
 msgid "Edit Built-in Staff Properties"
 msgstr "五線のプロパティを編集"
 
-#: ../src/command/object.c:2000
+#: ../src/command/object.c:2076
 msgid "Clef: "
 msgstr "音部記号: "
 
-#: ../src/command/object.c:2006
+#: ../src/command/object.c:2082
 #, fuzzy, c-format
 msgid "Time: %d/%d"
 msgstr "連符を終了"
 
-#: ../src/command/object.c:2012
+#: ../src/command/object.c:2088
 #, c-format
 msgid "Key: %s"
 msgstr "キー: %s"
 
-#: ../src/command/object.c:2022
+#: ../src/command/object.c:2098
 #, fuzzy
 msgid "Key Signature Directives"
 msgstr "調子記号の指示を編集"
 
-#: ../src/command/object.c:2028
+#: ../src/command/object.c:2104
 #, fuzzy
 msgid "Time Signature Directives"
 msgstr "拍子記号の指示を編集"
 
-#: ../src/command/object.c:2034
+#: ../src/command/object.c:2110
 msgid "Voice Properties"
 msgstr "声部のプロパティ"
 
-#: ../src/command/score.c:124
+#: ../src/command/score.c:125
 #, c-format
 msgid ""
 "This is the current movement number %d\n"
 "Click on another button to change movements"
 msgstr ""
 
-#: ../src/command/score.c:136
+#: ../src/command/score.c:137
 #, c-format
 msgid "Click to switch to movement number %d"
 msgstr ""
 
-#: ../src/command/score.c:282
+#: ../src/command/score.c:283
 msgid "This is the only movement"
 msgstr "これは唯一の楽章です"
 
-#: ../src/command/score.c:283
+#: ../src/command/score.c:284
 msgid "Delete it and start over?"
 msgstr "削除してやり直しますか?"
 
-#: ../src/command/score.c:296
+#: ../src/command/score.c:297
 #, c-format
 msgid "This is movement #%d"
 msgstr "これは楽章 #%d です"
 
-#: ../src/command/score.c:297
+#: ../src/command/score.c:298
 msgid "Delete entire movement?"
 msgstr "楽章すべてを削除しますか?"
 
-#: ../src/command/score.c:339
+#: ../src/command/score.c:340
 msgid "No such movement"
 msgstr "そのような楽章はありません"
 
-#: ../src/command/score.c:358
+#: ../src/command/score.c:359
 msgid "No such voice"
 msgstr "そのような声部は存在しません"
 
-#: ../src/command/score.c:364
+#: ../src/command/score.c:365
 msgid "No such measure"
 msgstr "そのような小節はありません"
 
-#: ../src/command/score.c:485
+#: ../src/command/score.c:486
 msgid "This is the last movement"
 msgstr "これは最後の楽章です"
 
-#: ../src/command/score.c:541
+#: ../src/command/score.c:542
 msgid "This is the first movement"
 msgstr "これは最初の楽章です"
 
-#: ../src/command/score.c:648
+#: ../src/command/score.c:649
 msgid ""
 "A button bar that can be populated by Movement titles and other user generated buttons.\n"
 "Generally by clicking the button you can edit the title or value or execute the action of the button"
@@ -1745,8 +1744,8 @@ msgstr "LilyPond テキストエディタ"
 msgid "Default Score Layout"
 msgstr "デフォルトの楽譜レイアウト"
 
-#: ../src/command/scorelayout.c:111 ../src/command/scorelayout.c:1021
-#: ../src/command/scorelayout.c:1089
+#: ../src/command/scorelayout.c:111 ../src/command/scorelayout.c:1023
+#: ../src/command/scorelayout.c:1091
 msgid "This button is for changing the score itself, it will not affect this custom layout"
 msgstr ""
 
@@ -1785,7 +1784,7 @@ msgstr ""
 msgid "Actions for this Layout"
 msgstr "ブロックのレイアウト"
 
-#: ../src/command/scorelayout.c:483 ../src/printview/printview.c:2463
+#: ../src/command/scorelayout.c:483 ../src/printview/printview.c:2468
 msgid "Typeset"
 msgstr "組版"
 
@@ -1857,7 +1856,7 @@ msgid ""
 "This does not alter the score, just this layout. To re-order the actual movements of the score see the Movements menu."
 msgstr ""
 
-#: ../src/command/scorelayout.c:537 ../src/printview/printview.c:2480
+#: ../src/command/scorelayout.c:537 ../src/printview/printview.c:2485
 #, fuzzy
 msgid "Refresh"
 msgstr "更新"
@@ -1880,9 +1879,14 @@ msgstr ""
 msgid "Discard this standard score layout."
 msgstr "新しい楽譜のレイアウト"
 
-#: ../src/command/scorelayout.c:699 ../src/command/scorelayout.c:898
+#: ../src/command/scorelayout.c:689
+#, c-format
+msgid "The music for this staff has been replaced by the music from the current staff, i.e. staff where the cursor is, Movement %d, Staff %d."
+msgstr ""
+
+#: ../src/command/scorelayout.c:701 ../src/command/scorelayout.c:900
 #: ../src/generated/entries.h:206 ../src/generated/entries.h:372
-#: ../actions/denemo-modules/directives.scm:152 ../actions/denemo.scm:157
+#: ../actions/denemo-modules/directives.scm:152 ../actions/denemo.scm:165
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:39
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:44
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:68
@@ -1915,143 +1919,145 @@ msgstr "新しい楽譜のレイアウト"
 msgid "Edit"
 msgstr "編集"
 
-#: ../src/command/scorelayout.c:700
+#: ../src/command/scorelayout.c:702
 #, fuzzy
 msgid "Edit the voice directives for this layout"
 msgstr "声部に付随する指示を編集する。"
 
-#: ../src/command/scorelayout.c:705
+#: ../src/command/scorelayout.c:707
 msgid ""
 "Delete this voice from the score layout\n"
 "Note that if it is the first voice the clef time and keysignatures will be deleted too."
 msgstr ""
 
-#: ../src/command/scorelayout.c:710
+#: ../src/command/scorelayout.c:712
 #, fuzzy
 msgid "Initial Signatures"
 msgstr "拍子記号"
 
-#: ../src/command/scorelayout.c:714
+#: ../src/command/scorelayout.c:716
 msgid "Click here to view and edit the clef, key and time signatures of this staff"
 msgstr ""
 
-#: ../src/command/scorelayout.c:719 ../src/generated/entries.h:289
+#: ../src/command/scorelayout.c:721 ../src/generated/entries.h:289
 msgid "Clef"
 msgstr "音部記号"
 
-#: ../src/command/scorelayout.c:720
+#: ../src/command/scorelayout.c:722
 msgid "Edit the LilyPond definition of the clef. The editing affects only this layout."
 msgstr ""
 
-#: ../src/command/scorelayout.c:725
+#: ../src/command/scorelayout.c:727
 msgid "Key"
 msgstr "キー"
 
-#: ../src/command/scorelayout.c:726
+#: ../src/command/scorelayout.c:728
 msgid "Edit the LilyPond definition of the key signature. The editing affects only this layout."
 msgstr ""
 
-#: ../src/command/scorelayout.c:731
+#: ../src/command/scorelayout.c:733
 #, fuzzy
 msgid "Time"
 msgstr "時刻:"
 
-#: ../src/command/scorelayout.c:732
+#: ../src/command/scorelayout.c:734
 msgid "Edit the LilyPond definition of the time signature. The editing affects only this layout."
 msgstr ""
 
-#: ../src/command/scorelayout.c:742
+#: ../src/command/scorelayout.c:744
 msgid "The clef, time and key signatures attached to other voices are ignored, only the primary one has effect"
 msgstr ""
 
-#: ../src/command/scorelayout.c:745
+#: ../src/command/scorelayout.c:747
 #, fuzzy
 msgid "Music for "
 msgstr "印刷される譜面"
 
-#: ../src/command/scorelayout.c:747
+#: ../src/command/scorelayout.c:749
 msgid ""
 "Click here to move the Denemo cursor to the start of this music.\n"
 "The actual notes live here. You can only edit these in the main Denemo display.\n"
 "However you can place conditional directives that are to be used only when using this layout. For example page breaks just for this layout can be placed at points in the music.\n"
 msgstr ""
 
-#: ../src/command/scorelayout.c:753
+#: ../src/command/scorelayout.c:755
 #, fuzzy
 msgid "Substitute"
 msgstr "以前に実行したコマンドがありません"
 
-#: ../src/command/scorelayout.c:754
+#: ../src/command/scorelayout.c:756
 msgid ""
 "Substitute the music of this staff/voice with the music of the current staff/voice.\n"
 "You can click the \"Music for ...\" button to move the cursor in the Denemo Display onto the staff/voice whose music you want to use before clicking this button to substitute the music. The editing affects only this layout."
 msgstr ""
 
-#: ../src/command/scorelayout.c:767
+#: ../src/command/scorelayout.c:769
 #, fuzzy
 msgid "Drop this lyric part from the score layout"
 msgstr "この楽章を楽譜のレイアウトから削除"
 
-#: ../src/command/scorelayout.c:775
+#: ../src/command/scorelayout.c:777
 #, fuzzy
 msgid "Move this lyric part above the staff for this score layout"
 msgstr "この楽章を楽譜のレイアウトから削除"
 
-#: ../src/command/scorelayout.c:779
+#: ../src/command/scorelayout.c:781
 msgid "Move this lyric part below the staff for this score layout"
 msgstr ""
 
-#: ../src/command/scorelayout.c:856
+#: ../src/command/scorelayout.c:858
 #: ../actions/denemo-modules/directives.scm:33
 #, fuzzy
 msgid "Edit LilyPond"
 msgstr "Lilypond 言語をカーソル位置の和音に追加/編集します。テキストを追加したりできます。Lilypond のドキュメントを参照してください。"
 
-#: ../src/command/scorelayout.c:856
+#: ../src/command/scorelayout.c:858
 msgid ""
 "Edit this using LilyPond syntax\n"
 "The editing applies just to this score layout"
 msgstr ""
 
-#: ../src/command/scorelayout.c:899
+#: ../src/command/scorelayout.c:901
 #, fuzzy
 msgid "Edit this element for this layout"
 msgstr "編集"
 
-#: ../src/command/scorelayout.c:903
+#: ../src/command/scorelayout.c:905
 #, fuzzy
 msgid "Move this element upwards for this score layout"
 msgstr "この楽章を楽譜のレイアウトから削除"
 
-#: ../src/command/scorelayout.c:907
+#: ../src/command/scorelayout.c:909
 #, fuzzy
 msgid "Move this element downwards for this score layout"
 msgstr "この楽章を楽譜のレイアウトから削除"
 
-#: ../src/command/scorelayout.c:911
+#: ../src/command/scorelayout.c:913
 #, fuzzy
 msgid "Remove this element from this layout"
 msgstr "この楽章を楽譜のレイアウトから削除"
 
-#: ../src/command/scorelayout.c:933 ../actions/denemo-modules/wysiwyg.scm:551
+#: ../src/command/scorelayout.c:935 ../actions/denemo-modules/wysiwyg.scm:551
 #: ../actions/menus/ObjectMenu/Directives/PrintLayout/PageBreak.xml.h:1
 msgid "Page Break"
 msgstr "改ページ"
 
-#: ../src/command/scorelayout.c:934
+#: ../src/command/scorelayout.c:936
 msgid "This forces a new page, useful for avoiding page turns\n"
 msgstr ""
 
-#: ../src/command/scorelayout.c:945
+#: ../src/command/scorelayout.c:947
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:11
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:20
 #, fuzzy
 msgid "Blank Page"
 msgstr "ページ"
 
-#: ../src/command/scorelayout.c:946
+#: ../src/command/scorelayout.c:948
 msgid "This prints a page intentionally left blank, useful for avoiding page turns\n"
 msgstr ""
 
-#: ../src/command/scorelayout.c:958
+#: ../src/command/scorelayout.c:960
 msgid ""
 "This lets you insert your own titles etc just for this layout.\n"
 "For book titles use \\titledPiece \\markup \"myname\"\n"
@@ -2059,303 +2065,303 @@ msgid ""
 "For other possible uses, see LilyPond manual."
 msgstr ""
 
-#: ../src/command/scorelayout.c:970
+#: ../src/command/scorelayout.c:972
 #, fuzzy
 msgid "Create Page Break"
 msgstr "改ページ"
 
-#: ../src/command/scorelayout.c:971
+#: ../src/command/scorelayout.c:973
 msgid ""
 "This inserts a page break, useful for avoiding page turns\n"
 "Move it before the title (using the up arrow) once created!"
 msgstr ""
 
-#: ../src/command/scorelayout.c:975
+#: ../src/command/scorelayout.c:977
 msgid "Create Blank Page"
 msgstr "空白ページを作成"
 
-#: ../src/command/scorelayout.c:976
+#: ../src/command/scorelayout.c:978
 msgid "This inserts a page intentionally left blank, useful for avoiding page turns when printing on both sides of the paper"
 msgstr ""
 
-#: ../src/command/scorelayout.c:981
+#: ../src/command/scorelayout.c:983
 msgid "This creates a LilyPond comment which you can then edit to give titles etc for this movment, applying just to this layout."
 msgstr ""
 
-#: ../src/command/scorelayout.c:1032
+#: ../src/command/scorelayout.c:1034
 msgid "Movement Titles, Page Breaks etc"
 msgstr ""
 
-#: ../src/command/scorelayout.c:1033
+#: ../src/command/scorelayout.c:1035
 msgid "In here are settings for the movement title, page breaks before the movement etc"
 msgstr ""
 
-#: ../src/command/scorelayout.c:1046
+#: ../src/command/scorelayout.c:1048
 msgid "Create Titles for Movement"
 msgstr "楽章のタイトルを作成"
 
-#: ../src/command/scorelayout.c:1048
+#: ../src/command/scorelayout.c:1050
 msgid "Set book titles for this movement in the score"
 msgstr ""
 
-#: ../src/command/scorelayout.c:1054
+#: ../src/command/scorelayout.c:1056
 #, fuzzy
 msgid "Create for Custom Layout"
 msgstr "カスタムコマンドセットを読み込む"
 
-#: ../src/command/scorelayout.c:1055
+#: ../src/command/scorelayout.c:1057
 msgid "Create page breaks, blank pages ...for this layout"
 msgstr ""
 
-#: ../src/command/scorelayout.c:1320
+#: ../src/command/scorelayout.c:1322
 msgid "This brace connects together several staffs - you can delete it for a customized layout."
 msgstr ""
 
-#: ../src/command/scorelayout.c:1338
+#: ../src/command/scorelayout.c:1340
 msgid "Remove this staff brace from these staffs for a customized layout."
 msgstr ""
 
-#: ../src/command/scorelayout.c:1446
+#: ../src/command/scorelayout.c:1448
 msgid ""
 "This shows the clef in the Denemo score - the actual clef printed may be modified by Directives attached to it.\n"
 "You can edit the clef for a custom layout - do this on the first voice on the staff."
 msgstr ""
 
-#: ../src/command/scorelayout.c:1450
+#: ../src/command/scorelayout.c:1452
 #, fuzzy
 msgid "Move this staff (with all its voices) above the preceding staff."
 msgstr "この五線を前の五線の声部としてマージする"
 
-#: ../src/command/scorelayout.c:1454
+#: ../src/command/scorelayout.c:1456
 #, fuzzy
 msgid "Move this staff (with all its voices) after the following staff."
 msgstr "この五線を前の五線の声部としてマージする"
 
-#: ../src/command/scorelayout.c:1459
+#: ../src/command/scorelayout.c:1461
 msgid "Remove this staff (with all its voices) for customized layout."
 msgstr ""
 
 #. the reason these are outside the staff frame is it makes them appear above the staff
-#: ../src/command/scorelayout.c:1494 ../src/display/draw.c:1050
+#: ../src/command/scorelayout.c:1496 ../src/display/draw.c:1056
 msgid "Chord Symbols"
 msgstr "和音記号"
 
-#: ../src/command/scorelayout.c:1503
+#: ../src/command/scorelayout.c:1505
 msgid "Staff Menu"
 msgstr "五線 のメニュー"
 
-#: ../src/command/scorelayout.c:1503
+#: ../src/command/scorelayout.c:1505
 #, c-format
 msgid "Staff %d Menu"
 msgstr "五線 %d のメニュー"
 
-#: ../src/command/scorelayout.c:1511
+#: ../src/command/scorelayout.c:1513
 msgid ""
 "Click for a menu to position the Denemo cursor on this staff\n"
 "or to alter this staff for a customized layout"
 msgstr ""
 
-#: ../src/command/scorelayout.c:1515
+#: ../src/command/scorelayout.c:1517
 #, fuzzy
 msgid "Move Denemo Cursor to this staff"
 msgstr "カーソルを左へ"
 
-#: ../src/command/scorelayout.c:1516
+#: ../src/command/scorelayout.c:1518
 msgid "This will move the Denemo Cursor to the start of this staff in this movement"
 msgstr ""
 
-#: ../src/command/scorelayout.c:1522
+#: ../src/command/scorelayout.c:1524
 msgid "Edit Staff Properties"
 msgstr "五線のプロパティを編集"
 
-#: ../src/command/scorelayout.c:1523
+#: ../src/command/scorelayout.c:1525
 msgid ""
 "Edit the properties of the staff to customize this layout\n"
 "Take care only alter the obvious bits, such as instrument name etc\n"
 "Injudicious deletion of the LilyPond typesetting characters {<<# etc can make the layout unreadable by the LilyPond typesetter. Just delete the layout if you get stuck."
 msgstr ""
 
-#: ../src/command/scorelayout.c:1533
+#: ../src/command/scorelayout.c:1535
 msgid "Set Staff Group Start/End"
 msgstr ""
 
-#: ../src/command/scorelayout.c:1536
+#: ../src/command/scorelayout.c:1538
 msgid ""
 "The braces { and [ binding staffs together can be set here. Set the start on one staff and the end on a later staff.\n"
 "This is editing the score, not just customizing a layout.\n"
 "Refresh the layout view (see under Options for this Layout button at the top) once you have made the changes."
 msgstr ""
 
-#: ../src/command/scorelayout.c:1572 ../src/generated/entries.h:212
+#: ../src/command/scorelayout.c:1574 ../src/generated/entries.h:212
 #, fuzzy
 msgid "Voices"
 msgstr "声部を結合"
 
-#: ../src/command/scorelayout.c:1572
+#: ../src/command/scorelayout.c:1574
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:9
 msgid "Voice"
 msgstr "声部"
 
-#: ../src/command/scorelayout.c:1574
+#: ../src/command/scorelayout.c:1576
 msgid "This holds the voice(s) of the staff - the clef, time signature, key signature and music are all here"
 msgstr ""
 
 #. things like transpose whole score etc
-#: ../src/command/scorelayout.c:1648
+#: ../src/command/scorelayout.c:1650
 #, fuzzy
 msgid "The Staff"
 msgstr "この五線:"
 
-#: ../src/command/scorelayout.c:1648
+#: ../src/command/scorelayout.c:1650
 #, fuzzy
 msgid "The Staffs"
 msgstr "五線を追加"
 
-#: ../src/command/scorelayout.c:1650
+#: ../src/command/scorelayout.c:1652
 msgid "This holds the staffs below which are the voices with the music."
 msgstr ""
 
-#: ../src/command/scorelayout.c:1655
+#: ../src/command/scorelayout.c:1657
 #, fuzzy
 msgid "Append Current Staff"
 msgstr "現在の五線を削除"
 
-#: ../src/command/scorelayout.c:1656
+#: ../src/command/scorelayout.c:1658
 msgid "Appends the current staff (the one where the cursor is in the Denemo Display) to this layout. The same staff can be placed at multiple positions in the layout with individual edits in each."
 msgstr ""
 
-#: ../src/command/scorelayout.c:1740
+#: ../src/command/scorelayout.c:1742
 #, c-format
 msgid "Movement %d"
 msgstr "楽章 %d"
 
-#: ../src/command/scorelayout.c:1764
+#: ../src/command/scorelayout.c:1766
 msgid "paper size"
 msgstr "用紙のサイズ"
 
-#: ../src/command/scorelayout.c:1766
+#: ../src/command/scorelayout.c:1768
 #, fuzzy
 msgid "Global staff size"
 msgstr "五線の大きさを設定"
 
-#: ../src/command/scorelayout.c:1767
+#: ../src/command/scorelayout.c:1769
 #, fuzzy
 msgid "Paper Block"
 msgstr "用紙のサイズ ="
 
-#: ../src/command/scorelayout.c:1768
+#: ../src/command/scorelayout.c:1770
 msgid "Settings for whole score: includes overall staff size, paper size ...\n"
 msgstr ""
 
-#: ../src/command/scorelayout.c:1774
+#: ../src/command/scorelayout.c:1776
 #, fuzzy
 msgid "the paper block contents"
 msgstr "編集セッションの内容が %s 内に残っています"
 
-#: ../src/command/scorelayout.c:1784 ../actions/denemo.scm:1174
-#: ../actions/denemo.scm:1178 ../actions/denemo.scm:1234
+#: ../src/command/scorelayout.c:1786 ../actions/denemo.scm:1182
+#: ../actions/denemo.scm:1186 ../actions/denemo.scm:1244
 msgid "Score Titles"
 msgstr "楽譜のタイトル"
 
-#: ../src/command/scorelayout.c:1787
+#: ../src/command/scorelayout.c:1789
 msgid ""
 "Titles, layout settings, preferences etc for the whole score.\n"
 "Includes main title, composer, date, instrumentation, tagline"
 msgstr ""
 
-#: ../src/command/scorelayout.c:1795
+#: ../src/command/scorelayout.c:1797
 #, fuzzy
 msgid "Default tagline"
 msgstr "タグの線"
 
-#: ../src/command/scorelayout.c:1817
+#: ../src/command/scorelayout.c:1819
 msgid "Score Directives"
 msgstr "楽譜の指示を編集"
 
-#: ../src/command/scorelayout.c:1818
+#: ../src/command/scorelayout.c:1820
 msgid "Includes the indent before first measure, LilyPond include files ..."
 msgstr ""
 
-#: ../src/command/scorelayout.c:1838
+#: ../src/command/scorelayout.c:1840
 msgid "Score-wide Settings."
 msgstr "楽譜全体の設定"
 
-#: ../src/command/scorelayout.c:1839
+#: ../src/command/scorelayout.c:1841
 msgid "Setting the score title, composer, headers and footers for this layout"
 msgstr ""
 
 #. having buttons that affect the score itself is confusing
-#: ../src/command/scorelayout.c:1847
+#: ../src/command/scorelayout.c:1849
 #, fuzzy
 msgid "Create Book Titles"
 msgstr "ブック数:"
 
-#: ../src/command/scorelayout.c:1849
+#: ../src/command/scorelayout.c:1851
 #, fuzzy
 msgid "Set book titles for the score"
 msgstr "楽譜のタイトル"
 
-#: ../src/command/scorelayout.c:1861
+#: ../src/command/scorelayout.c:1863
 #, fuzzy
 #| msgid "Score-wide Settings."
 msgid "Reload Score-Wide Settings"
 msgstr "楽譜全体の設定"
 
-#: ../src/command/scorelayout.c:1862
+#: ../src/command/scorelayout.c:1864
 msgid ""
 "Reload the score wide settings for this layout from the current values in the score.\n"
 "Do this if you have made changes to the score titles etc which you wish to be used for this layout."
 msgstr ""
 
-#: ../src/command/scorelayout.c:1894
+#: ../src/command/scorelayout.c:1896
 #, c-format
 msgid "<b>Movement %d</b>"
 msgstr "<b>楽章 %d</b>"
 
-#: ../src/command/scorelayout.c:1897
+#: ../src/command/scorelayout.c:1899
 msgid "This contains the layout of the movement- the movement title, and the actual music itself"
 msgstr ""
 
-#: ../src/command/scorelayout.c:1908
+#: ../src/command/scorelayout.c:1910
 #, fuzzy
 #| msgid "Delete this movement from the score layout"
 msgid "Remove this movement from the score layout"
 msgstr "この楽章を楽譜のレイアウトから削除"
 
-#: ../src/command/scorelayout.c:1931
+#: ../src/command/scorelayout.c:1933
 msgid "Header block"
 msgstr "ヘッダブロック"
 
-#: ../src/command/scorelayout.c:1952
+#: ../src/command/scorelayout.c:1954
 msgid "Layout block"
 msgstr "ブロックのレイアウト"
 
-#: ../src/command/scorelayout.c:1974
+#: ../src/command/scorelayout.c:1976
 msgid "Movement Block"
 msgstr "楽章ブロック"
 
-#: ../src/command/scorelayout.c:1996
+#: ../src/command/scorelayout.c:1998
 #, fuzzy
 msgid "Movement Epilog"
 msgstr "そのような楽章はありません"
 
-#: ../src/command/scorelayout.c:2046
+#: ../src/command/scorelayout.c:2048
 #, fuzzy
 #| msgid "The current staff is already a voice"
 msgid "The currently expanded movement is already at the end"
 msgstr "現在の五線は既に声部です"
 
-#: ../src/command/scorelayout.c:2053
+#: ../src/command/scorelayout.c:2055
 msgid "No movement is expanded - don't know which movement to move"
 msgstr ""
 
-#: ../src/command/scorelayout.c:2204
+#: ../src/command/scorelayout.c:2206
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintScoreAndParts.scm:8
 #, fuzzy
 msgid "Full Score"
 msgstr "楽譜"
 
-#: ../src/command/scorelayout.c:2479
+#: ../src/command/scorelayout.c:2477
 msgid ""
 "This is a score layout - the buttons mostly customize the layout\n"
 "You can have several layouts and use them to print different versions of your score.\n"
@@ -2364,7 +2370,7 @@ msgid ""
 "These standard layouts provide a convenient starting point for your customized layouts.<b>Note 1</b>Custom layouts are not saved for further graphical editing, only the typesetting commands are saved, so, unless you are familiar with LilyPond do all your work on the layout in one session.<b>Note 2</b>The first comment in the LilyPond text of the layout holds the name of the layout. If you change it any conditional directives that are for the layout will need refreshing"
 msgstr ""
 
-#: ../src/command/scorelayout.c:2979
+#: ../src/command/scorelayout.c:2977
 msgid ""
 "The LilyPond text for this layout can be edited in the LilyPond view window.\n"
 "You can safely delete this layout if you no longer need it\n"
@@ -2372,7 +2378,7 @@ msgid ""
 "not reflected in this layout)."
 msgstr ""
 
-#: ../src/command/scorelayout.c:2987
+#: ../src/command/scorelayout.c:2985
 msgid ""
 "This is a customized layout, which has been transformed into instructions for the LilyPond music typesetter.\n"
 "This is the form in which customized layouts are stored in a Denemo score on disk - the graphical interface is no longer available. You can, however still edit the layout with care (and some understanding of LilyPond).\n"
@@ -2380,29 +2386,29 @@ msgid ""
 "Otherwise you can delete it and create a new one from a standard layout."
 msgstr ""
 
-#: ../src/command/scorelayout.c:3012
+#: ../src/command/scorelayout.c:3010
 #, fuzzy
 msgid "Custom Scoreblock"
 msgstr "カスタムテンプレートを開く"
 
-#: ../src/command/scorelayout.c:3120
+#: ../src/command/scorelayout.c:3118
 msgid "Typesets this layout"
 msgstr "このレイアウトで組版"
 
-#: ../src/command/staff.c:276
+#: ../src/command/staff.c:277
 msgid "Part 1"
 msgstr "パート 1"
 
-#: ../src/command/staff.c:278
+#: ../src/command/staff.c:279
 #, c-format
 msgid "Part %d"
 msgstr "パート %d"
 
-#: ../src/command/staff.c:383
+#: ../src/command/staff.c:384
 msgid "You will need to alter/delete the matching staff; Proceed?"
 msgstr ""
 
-#: ../src/command/staff.c:447
+#: ../src/command/staff.c:448
 msgid ""
 "The staff deleted had a start/end context; if you still have the staff with the matching end/start context\n"
 " then you should remove it (or its context) now.\n"
@@ -2424,11 +2430,11 @@ msgstr "Links2 (グラフィック版) で確認"
 msgid "Obsolete form, use earlier Denemo version to convert"
 msgstr ""
 
-#: ../src/core/importxml.c:2938
+#: ../src/core/importxml.c:2939
 msgid "Custom prolog is no longer supported. Use score directive prefix instead"
 msgstr ""
 
-#: ../src/core/importxml.c:3008
+#: ../src/core/importxml.c:3009
 msgid "Erroneous call"
 msgstr ""
 
@@ -2521,43 +2527,43 @@ msgstr "エラー: "
 msgid "Save Command Set"
 msgstr "コマンドセットを保存"
 
-#: ../src/core/kbd-custom.c:2029
+#: ../src/core/kbd-custom.c:2028
 msgid "Command"
 msgstr "Command"
 
-#: ../src/core/kbd-custom.c:2039
+#: ../src/core/kbd-custom.c:2038
 msgid "Commands"
 msgstr "コマンド"
 
-#: ../src/core/kbd-custom.c:2047 ../src/generated/entries.h:208
+#: ../src/core/kbd-custom.c:2046 ../src/generated/entries.h:208
 msgid "Hidden"
 msgstr "隠されたもの"
 
-#: ../src/core/kbd-custom.c:2058
+#: ../src/core/kbd-custom.c:2057
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:27
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:27
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.scm:25
 msgid "Deleted"
 msgstr "削除されたもの"
 
-#: ../src/core/kbd-custom.c:2093
+#: ../src/core/kbd-custom.c:2092
 msgid "Search"
 msgstr "検索"
 
-#: ../src/core/kbd-custom.c:2099
+#: ../src/core/kbd-custom.c:2098
 #, fuzzy
 msgid "Fuzzy Search"
 msgstr "検索文字列:"
 
-#: ../src/core/kbd-custom.c:2100
+#: ../src/core/kbd-custom.c:2099
 msgid "Allow one non-matching word in the search."
 msgstr ""
 
-#: ../src/core/kbd-custom.c:2164
+#: ../src/core/kbd-custom.c:2163
 msgid "Not in menu system. You can create a palette button for it using the Add to Palette button."
 msgstr ""
 
-#: ../src/core/kbd-custom.c:2261
+#: ../src/core/kbd-custom.c:2260
 #, fuzzy, c-format
 msgid ""
 "%sCommand: %s\n"
@@ -2566,7 +2572,7 @@ msgid ""
 "Internal Name: %s"
 msgstr "詳しい情報については、 `%s --help' をお読みください。"
 
-#: ../src/core/kbd-custom.c:2261
+#: ../src/core/kbd-custom.c:2260
 msgid ""
 "WARNING!!:\n"
 "This command is hidden.\n"
@@ -2574,7 +2580,7 @@ msgid ""
 "Hidden commands are either for LilyPond users or low-level interfaces for more user-friendly versions.\n"
 msgstr ""
 
-#: ../src/core/kbd-custom.c:2289 ../src/generated/entries.h:337
+#: ../src/core/kbd-custom.c:2288 ../src/generated/entries.h:337
 #: ../src/generated/register_commands.h:311
 msgid "Shortcuts"
 msgstr "ショートカット"
@@ -2779,253 +2785,253 @@ msgid ""
 "Kill this window if you want to re-start the typesetting e.g. after fixing a mistake you just spotted."
 msgstr ""
 
-#: ../src/core/utils.c:1646 ../src/export/file.c:205
+#: ../src/core/utils.c:1669 ../src/export/file.c:206
 msgid "(Untitled)"
 msgstr "（無題）"
 
-#: ../src/core/utils.c:1689
+#: ../src/core/utils.c:1712
 msgid "Error"
 msgstr "エラー"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 msgid "Chord "
 msgstr "和音"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 msgid "Note "
 msgstr "音符"
 
-#: ../src/core/utils.c:1891
-#: ../actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureRest.scm:11
+#: ../src/core/utils.c:1914
+#: ../actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureRest.scm:12
 msgid "Rest "
 msgstr "休符"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 #, fuzzy
 msgid ", begin slur"
 msgstr "挿入/削除 この音符からスラーを開始"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 #, fuzzy
 msgid ", end slur"
 msgstr "挿入/削除 この音符でスラーを終了"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 #, fuzzy
 msgid ", tied"
 msgstr "タイでつながれた音符"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 #, fuzzy
 msgid ", begin cresc."
 msgstr "BSD 認証を開始できません"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 #, fuzzy
 msgid ", end cresc."
 msgstr "この日で終わる"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 #, fuzzy
 msgid ", begin dim."
 msgstr "BSD 認証を開始できません"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 #, fuzzy
 msgid ", end dim."
 msgstr "この日で終わる"
 
-#: ../src/core/utils.c:1891
+#: ../src/core/utils.c:1914
 #, fuzzy
 msgid ", grace note"
 msgstr "装飾音符 オフ/オン"
 
-#: ../src/core/utils.c:1915
+#: ../src/core/utils.c:1938
 #, fuzzy, c-format
 msgid "Tuplet %d/%d"
 msgstr "連符を終了"
 
-#: ../src/core/utils.c:1918
+#: ../src/core/utils.c:1941
 #, fuzzy, c-format
 msgid "End tuplet"
 msgstr "連符を終了"
 
-#: ../src/core/utils.c:1921
+#: ../src/core/utils.c:1944
 #, fuzzy, c-format
 msgid "Clef change"
 msgstr "音部記号変更"
 
-#: ../src/core/utils.c:1924
+#: ../src/core/utils.c:1947
 #, fuzzy, c-format
 msgid "Time signature change"
 msgstr "拍子記号の変更"
 
-#: ../src/core/utils.c:1927
+#: ../src/core/utils.c:1950
 #, fuzzy, c-format
 msgid "Key signature change"
 msgstr "調号の変更"
 
-#: ../src/core/utils.c:1930
+#: ../src/core/utils.c:1953
 #, fuzzy, c-format
 msgid "Stem directive: %s"
 msgstr "指示を編集"
 
-#: ../src/core/utils.c:1930
+#: ../src/core/utils.c:1953
 #, fuzzy
 msgid "stem down"
 msgstr "StemNeutral オブジェクトを符尾下方向に変更する"
 
-#: ../src/core/utils.c:1930
+#: ../src/core/utils.c:1953
 #, fuzzy
 msgid "stem up"
 msgstr "StemNeutral オブジェクトを符尾上方向に変更する"
 
-#: ../src/core/utils.c:1930
+#: ../src/core/utils.c:1953
 #, fuzzy
 msgid "normal stemming"
 msgstr "符尾を自動的に付加"
 
-#: ../src/core/utils.c:1933
+#: ../src/core/utils.c:1956
 #, fuzzy, c-format
 msgid "Dynamic: %s"
 msgstr "強弱記号"
 
-#: ../src/core/utils.c:1939
+#: ../src/core/utils.c:1962
 #, c-format
 msgid "Directive:(%.20s) %.20s%.50s"
 msgstr ""
 
-#: ../src/core/utils.c:1939
+#: ../src/core/utils.c:1962
 #, fuzzy
 msgid "Unknown Tag"
 msgstr "再生リスト: 不明なタグ %s が見つかりました\n"
 
-#: ../src/core/utils.c:1939
+#: ../src/core/utils.c:1962
 #, fuzzy
 msgid "Not all layouts"
 msgstr " -a, --all         全て (既定値)\n"
 
-#: ../src/core/utils.c:1939
+#: ../src/core/utils.c:1962
 #, fuzzy
 msgid "Only for one Layout"
 msgstr "レイアウトにのみ適用"
 
-#: ../src/core/utils.c:1943
+#: ../src/core/utils.c:1966
 #, fuzzy, c-format
 msgid "Cursor on an unknown object"
 msgstr "カーソル位置のオブジェクトを編集"
 
-#: ../src/core/utils.c:1952
+#: ../src/core/utils.c:1975
 #, fuzzy, c-format
 msgid "Cursor not on any object"
 msgstr "カーソル位置のオブジェクトを削除"
 
-#: ../src/core/utils.c:1985
+#: ../src/core/utils.c:2008
 #, c-format
 msgid "%d min %.2f sec %.2f %.2f"
 msgstr ""
 
-#: ../src/core/utils.c:1987
+#: ../src/core/utils.c:2010
 #, c-format
 msgid " Staff %d Measure %d Position %d %s"
 msgstr ""
 
-#: ../src/core/utils.c:1987
+#: ../src/core/utils.c:2010
 #, fuzzy
 msgid "Appending"
 msgstr ""
 "メニュー:\n"
 "音符を追加、変更、削除"
 
-#: ../src/core/utils.c:1987
+#: ../src/core/utils.c:2010
 #, fuzzy
 msgid "Not Appending"
 msgstr ""
 "メニュー:\n"
 "音符を追加、変更、削除"
 
-#: ../src/core/utils.c:2321
+#: ../src/core/utils.c:2355
 #, fuzzy
 msgid "Select from List (or Cancel)"
 msgstr "サーバ %s からの UID リスト をマージしました :"
 
-#: ../src/core/utils.c:2354 ../src/core/utils.c:2386
+#: ../src/core/utils.c:2388 ../src/core/utils.c:2420
 #, fuzzy
 msgid "More..."
 msgstr "--続きます--"
 
-#: ../src/core/utils.c:2603
+#: ../src/core/utils.c:2637
 #, c-format
 msgid "Mouse shortcut <span font_desc=\"24\" foreground=\"blue\">%s</span> invokes command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr ""
 
-#: ../src/core/utils.c:2605
+#: ../src/core/utils.c:2639
 #, fuzzy
 msgid "Mouse Shortcut"
 msgstr "マウス指揮 ON"
 
-#: ../src/core/utils.c:2624
+#: ../src/core/utils.c:2658
 #, c-format
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> invokes command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr ""
 
-#: ../src/core/utils.c:2629
+#: ../src/core/utils.c:2663
 #, c-format
 msgid "Key Presses <span font_desc=\"24\" foreground=\"blue\">%s</span> invoke command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr ""
 
-#: ../src/core/utils.c:2631
+#: ../src/core/utils.c:2665
 #, fuzzy
 msgid "Single Key Press"
 msgstr "何かキーを押してください。"
 
-#: ../src/core/utils.c:2631
+#: ../src/core/utils.c:2665
 #, fuzzy
 msgid "Two Key Presses"
 msgstr "声部2"
 
-#: ../src/core/utils.c:2640
+#: ../src/core/utils.c:2674
 #, fuzzy
 msgid "Key Press"
 msgstr "何かキーを押してください。"
 
-#: ../src/core/utils.c:2642
+#: ../src/core/utils.c:2676
 #, c-format
 msgid ""
 "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> Is not a shortcut.\n"
 "%s"
 msgstr ""
 
-#: ../src/core/utils.c:2644
+#: ../src/core/utils.c:2678
 msgid "(The menus are now restored in case you are lost.)"
 msgstr ""
 
-#: ../src/core/utils.c:2647
+#: ../src/core/utils.c:2681
 #, fuzzy
 msgid "First Key Press"
 msgstr "何かキーを押してください。"
 
-#: ../src/core/utils.c:2649
+#: ../src/core/utils.c:2683
 #, c-format
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> Awaiting continuation"
 msgstr ""
 
-#: ../src/core/utils.c:2652 ../src/generated/entries.h:414
+#: ../src/core/utils.c:2686 ../src/generated/entries.h:414
 #, fuzzy
 msgid "Mouse"
 msgstr "マウス指揮 OFF"
 
-#: ../src/core/utils.c:2653
+#: ../src/core/utils.c:2687
 #, fuzzy, c-format
 msgid "Mouse <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 msgstr "<span font_desc=\"Denemo\">𝄻</span>"
 
-#: ../src/core/utils.c:2656
+#: ../src/core/utils.c:2690
 #, fuzzy
 msgid "Key + Mouse"
 msgstr "マウス指揮 OFF"
 
-#: ../src/core/utils.c:2657
+#: ../src/core/utils.c:2691
 #, fuzzy, c-format
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 msgstr "<span font_desc=\"Denemo\">𝄻</span>"
@@ -3050,7 +3056,7 @@ msgstr "後ろの五線を削除"
 msgid "Unnamed"
 msgstr "名称未設定"
 
-#: ../src/core/view.c:718 ../src/export/file.c:1271 ../src/export/file.c:1339
+#: ../src/core/view.c:718 ../src/export/file.c:1274 ../src/export/file.c:1342
 #, fuzzy
 msgid "No selection text available"
 msgstr "ヘルプはありません。"
@@ -3590,11 +3596,11 @@ msgstr "Denemo メイン ウィンドウ"
 
 #: ../src/core/view.c:4388
 msgid "This is the Main Menu bar, where menus for the mostly non-musical aspects (saving, printing, setting up input sources etc) are placed. See the Object Menu bar for the commands that edit music"
-msgstr ""
+msgstr "これはメインメニューバーで、音楽に直接関わりのない保存、印刷、入力ソースの設定などが配置されています。音楽を編集するためのコマンドはオブジェクトメニューバーに配置されています。"
 
 #: ../src/core/view.c:4393
 msgid "This is the Object Menu bar, where menus for the commands that edit music live. They are arranged in a hierarchy Score, Movement, Staff (which contains Voices) and then the things that go on a staff, notes, clefs etc. Directives covers everything else that you can put in amongst the notes to change the behavior from that point in the music."
-msgstr ""
+msgstr "これはオブジェクトメインメニューバーで、音楽に直接関わりのあるコマンドが配置されています。楽譜、楽章、五線（その中に声部があります）の各階層にまとめられ、そして五線、音符、音部記号に関わる項目が続きます。指示メニューには、音符の間に記載し、ある点から音楽の振る舞いを変更することを示すためのその他のすべてが含まれています。"
 
 #: ../src/core/view.c:4397
 msgid ""
@@ -3746,7 +3752,7 @@ msgstr "音量:"
 msgid "Set the (initial) volume of the movement"
 msgstr "Aメジャーを初期調号にする"
 
-#: ../src/core/view.c:4511 ../src/ui/staffpropdialog.c:459
+#: ../src/core/view.c:4511 ../src/ui/staffpropdialog.c:460
 #, fuzzy
 msgid "Always Full Volume"
 msgstr "音量:"
@@ -3861,21 +3867,21 @@ msgid ""
 msgstr ""
 
 #. KEY_MARGIN
-#: ../src/display/draw.c:1051 ../src/generated/entries.h:386
+#: ../src/display/draw.c:1057 ../src/generated/entries.h:386
 #: ../actions/palettes.xml.h:159
 #, fuzzy
 msgid "Figured Bass"
 msgstr "現在の五線から数字付き低音を削除"
 
-#: ../src/display/draw.c:1302
+#: ../src/display/draw.c:1308
 msgid "Playback Start"
 msgstr "再生開始"
 
-#: ../src/display/draw.c:1305
+#: ../src/display/draw.c:1311
 msgid "Playback End"
 msgstr "再生終了"
 
-#: ../src/display/draw.c:1508
+#: ../src/display/draw.c:1514
 #, fuzzy
 msgid "Current staff is hidden - do not edit!"
 msgstr "現在の五線は声部ではありません"
@@ -3911,7 +3917,7 @@ msgstr ""
 msgid "%{error. defaulting to%}C"
 msgstr "%{エラーです。デフォルトを使います%}C"
 
-#: ../src/export/exportabc.c:125 ../src/export/exportlilypond.c:371
+#: ../src/export/exportabc.c:125 ../src/export/exportlilypond.c:373
 msgid "%{error. defaulting to%}treble"
 msgstr "%{エラーです。デフォルトを使います%}ト音記号"
 
@@ -3920,90 +3926,90 @@ msgstr "%{エラーです。デフォルトを使います%}ト音記号"
 msgid "%% ABC file generated by Denemo version "
 msgstr "%% ABC ファイル 作成ソフトウェアはDenemo version "
 
-#: ../src/export/exportlilypond.c:143
+#: ../src/export/exportlilypond.c:145
 msgid ""
 "This scorelayout is purely for continuous typesetting, and will change as you edit the score.\n"
 "To get a real score layout turn off continuous typesetting in the Print View and typeset using Part, Movement or Typeset (Default Layout) buttons."
 msgstr ""
 
-#: ../src/export/exportlilypond.c:157 ../src/export/exportlilypond.c:166
+#: ../src/export/exportlilypond.c:159 ../src/export/exportlilypond.c:168
 #, fuzzy, c-format
 msgid "Switch to Layout \"%s\""
 msgstr "%s 用のレジストリー \"%s\" へ切り替えることができません"
 
-#: ../src/export/exportlilypond.c:176
+#: ../src/export/exportlilypond.c:178
 #, fuzzy
 msgid "Create Standard Score Layout"
 msgstr "新しい楽譜のレイアウト"
 
-#: ../src/export/exportlilypond.c:230
+#: ../src/export/exportlilypond.c:232
 #, fuzzy
 msgid "Score Layout Options"
 msgstr "新しい楽譜のレイアウト"
 
-#: ../src/export/exportlilypond.c:239
+#: ../src/export/exportlilypond.c:241
 #, fuzzy
 msgid "Temporary Score Layout"
 msgstr "新しい楽譜のレイアウト"
 
-#: ../src/export/exportlilypond.c:331
+#: ../src/export/exportlilypond.c:333
 msgid "%{error. defaulting to%}c"
 msgstr "%{エラーです。デフォルトを使います%}c"
 
-#: ../src/export/exportlilypond.c:1620
+#: ../src/export/exportlilypond.c:1622
 #, c-format
 msgid "%% LilyPond file generated by Denemo version "
 msgstr "%% LilyPond ファイル 作成ソフトウェアはDnemo version "
 
-#: ../src/export/exportlilypond.c:2145
+#: ../src/export/exportlilypond.c:2147
 msgid "The score has been altered so that this LilyPond text is out of date - ignoring request"
 msgstr ""
 
-#: ../src/export/exportlilypond.c:2471
+#: ../src/export/exportlilypond.c:2484
 msgid "No textbuffer"
 msgstr ""
 
-#: ../src/export/exportlilypond.c:2766
+#: ../src/export/exportlilypond.c:2779
 #, fuzzy
 msgid "Could not open output file for writing"
 msgstr "ファイル %s を書き込みのためにオープンできません: %s"
 
-#: ../src/export/exportlilypond.c:2818
+#: ../src/export/exportlilypond.c:2831
 #, fuzzy
 msgid "Filename does not have extension"
 msgstr "%s には割り込み機能がありません。 "
 
-#: ../src/export/exportlilypond.c:2905
+#: ../src/export/exportlilypond.c:2918
 #, fuzzy
 msgid "Find Current Object"
 msgstr "機能はオブジェクトが現在の状態にある時は使用できません"
 
-#: ../src/export/exportlilypond.c:2905
+#: ../src/export/exportlilypond.c:2918
 #, fuzzy
 msgid "Move the text cursor in this window to the object that the Denemo cursor is on"
 msgstr "カーソルを1つ左のオブジェクトへ移動、選択範囲を変更しない"
 
-#: ../src/export/exportlilypond.c:2906
+#: ../src/export/exportlilypond.c:2919
 #, fuzzy
 msgid "Insert LilyPond Text"
 msgstr "LilyPond テキストに変換"
 
-#: ../src/export/exportlilypond.c:2906
+#: ../src/export/exportlilypond.c:2919
 msgid ""
 "Insert LilyPond text at the cursor position.\n"
 "Warning! Shift click to position Denemo cursor first"
 msgstr ""
 
-#: ../src/export/exportlilypond.c:2908
+#: ../src/export/exportlilypond.c:2921
 #, fuzzy
 msgid "Typeset this LilyPond text"
 msgstr "LilyPond テキストに変換"
 
-#: ../src/export/exportlilypond.c:2908
+#: ../src/export/exportlilypond.c:2921
 msgid "Typesets the current LilyPond text, which will display in the Print View window. Any errors are shown below in the errors pane."
 msgstr ""
 
-#: ../src/export/exportlilypond.c:3273
+#: ../src/export/exportlilypond.c:3294
 msgid ""
 "Shift left click in music in this window to move the Denemo cursor the corresponding position\n"
 "Using arrows to move the cursor in the music here also moves the Denemo cursor.\n"
@@ -4011,150 +4017,155 @@ msgid ""
 "Turn off continuous typesetting before using the score layout options."
 msgstr ""
 
-#: ../src/export/file.c:76
+#: ../src/export/file.c:77
 msgid "Denemo XML format (*.denemo)"
 msgstr "Denemo XML(*.denemo)形式"
 
-#: ../src/export/file.c:77
+#: ../src/export/file.c:78
 msgid "Denemo XML format (*.dnm)"
 msgstr "Denemo XML(*.dnm)形式"
 
-#: ../src/export/file.c:78
+#: ../src/export/file.c:79
 msgid "Lilypond (*.ly)"
 msgstr "Lilypond形式 (*.ly)"
 
-#: ../src/export/file.c:79
+#: ../src/export/file.c:80
 msgid "PDF (*.pdf)"
 msgstr "PDF (*.pdf)"
 
-#: ../src/export/file.c:80
+#: ../src/export/file.c:81
 msgid "PNG Image format (*.png)"
 msgstr "PNG 画像形式 (*.png)"
 
-#: ../src/export/file.c:81
+#: ../src/export/file.c:82
 msgid "ABC (*.abc)"
 msgstr "ABC(*.abc)形式"
 
-#: ../src/export/file.c:82
+#: ../src/export/file.c:83
 msgid "Midi (*.mid, *.midi)"
 msgstr "MIDI(*.mid, *.midi) 形式"
 
-#: ../src/export/file.c:83
+#: ../src/export/file.c:84
 msgid "CSound Score File (*.sco)"
 msgstr "CSound Score(*.sco)形式"
 
-#: ../src/export/file.c:84
+#: ../src/export/file.c:85
 msgid "MusicXML file (*.mxml, *.xml)"
 msgstr "MusicXML ファイル (*.mxml, *.xml)"
 
-#: ../src/export/file.c:162
+#: ../src/export/file.c:163
 msgid "Close without Saving"
 msgstr "保存せずに閉じる"
 
-#: ../src/export/file.c:166
+#: ../src/export/file.c:167
 msgid "Save _As"
 msgstr "別名で保存(_A)..."
 
-#: ../src/export/file.c:205
+#: ../src/export/file.c:206
 #, c-format
 msgid "The score %s has unsaved changes"
 msgstr "この楽譜 %s には保存されていない変更が含まれています"
 
-#: ../src/export/file.c:206
+#: ../src/export/file.c:207
 msgid "Save changes?"
 msgstr "変更を保存しますか?"
 
-#: ../src/export/file.c:239
+#: ../src/export/file.c:240
 #, c-format
 msgid "Load of recently used file %s failed"
 msgstr ""
 
-#: ../src/export/file.c:343
+#: ../src/export/file.c:344
 msgid "Music Snippets Can be Kept"
 msgstr ""
 
-#: ../src/export/file.c:343
+#: ../src/export/file.c:344
 #, fuzzy
 msgid "Drop Music Snippets"
 msgstr "スニペット"
 
-#: ../src/export/file.c:343
+#: ../src/export/file.c:344
 #, fuzzy
 msgid "Keep Music Snippets"
 msgstr "スニペット"
 
-#: ../src/export/file.c:520
+#: ../src/export/file.c:522
 #, fuzzy
 msgid "You have a Script defined"
 msgstr "保存していない作業があります"
 
-#: ../src/export/file.c:520
-msgid "Use this script every time this file is opened?"
+#: ../src/export/file.c:522
+#, fuzzy
+msgid "Normal Save"
+msgstr "通常"
+
+#: ../src/export/file.c:522
+msgid "Advanced: Execute the script every time this file is opened?"
 msgstr ""
 
-#: ../src/export/file.c:610
+#: ../src/export/file.c:613
 msgid "Could not create .denemo/templates for you personal templates"
 msgstr ""
 
-#: ../src/export/file.c:650
+#: ../src/export/file.c:653
 #, fuzzy
 msgid "No examples directory in installation"
 msgstr "ディレクトリが選択されていません"
 
-#: ../src/export/file.c:664
+#: ../src/export/file.c:667
 #, fuzzy
 msgid "No templates directory in installation"
 msgstr "テンプレート"
 
-#: ../src/export/file.c:826 ../src/export/file.c:1112
+#: ../src/export/file.c:829 ../src/export/file.c:1115
 #: ../src/printview/printview.c:1142 ../src/printview/svgview.c:722
 #: ../src/ui/texteditors.c:174
 msgid "_Save"
 msgstr "保存(_S)"
 
-#: ../src/export/file.c:917
+#: ../src/export/file.c:920
 #, fuzzy, c-format
 msgid "Load of file %s failed"
 msgstr "ファイルの読み込みに失敗しました\n"
 
-#: ../src/export/file.c:1048
+#: ../src/export/file.c:1051
 #, fuzzy
 msgid "File save failed"
 msgstr "ファイルを別名で保存する"
 
-#: ../src/export/file.c:1144
+#: ../src/export/file.c:1147
 msgid "Export As "
 msgstr "エクスポート"
 
-#: ../src/export/file.c:1158 ../src/generated/entries.h:231
+#: ../src/export/file.c:1161 ../src/generated/entries.h:231
 #: ../src/generated/register_commands.h:215
 msgid "Save As"
 msgstr "名前を付けて保存"
 
-#: ../src/export/file.c:1241
+#: ../src/export/file.c:1244
 #, c-format
 msgid "A file with the name %s already exists"
 msgstr "%sというファイルは既に存在します"
 
-#: ../src/export/file.c:1292
+#: ../src/export/file.c:1295
 msgid "Could not interpret selection as LilyPond notes"
 msgstr ""
 
-#: ../src/export/file.c:1297
+#: ../src/export/file.c:1300
 #, fuzzy
 msgid "Paste from Selection"
 msgstr "選択範囲に貼り付けて置換"
 
-#: ../src/export/file.c:1297
+#: ../src/export/file.c:1300
 #, fuzzy
 msgid "Paste this music into your score?"
 msgstr "楽譜を含むファイルを編集するために開く"
 
-#: ../src/export/file.c:1318
+#: ../src/export/file.c:1321
 msgid "Can only paste LilyPond text into the last tab, sorry"
 msgstr ""
 
-#: ../src/export/file.c:1343
+#: ../src/export/file.c:1346
 #, fuzzy
 msgid "Inserted:\n"
 msgstr ""
@@ -5709,7 +5720,7 @@ msgid "Inserts the current music snippet, or if none is selected prompts for a n
 msgstr ""
 
 #: ../src/generated/entries.h:200 ../src/generated/register_commands.h:199
-#: ../src/ui/markup.c:266
+#: ../src/ui/markup.c:316
 msgid "Next Snippet"
 msgstr "次のスニペット"
 
@@ -6154,7 +6165,7 @@ msgid "Export the score as a MIDI file"
 msgstr "楽譜を MIDI ファイルとしてエクスポートする"
 
 #: ../src/generated/entries.h:247 ../src/generated/entries.h:252
-#: ../src/generated/register_commands.h:234 ../src/printview/printview.c:2453
+#: ../src/generated/register_commands.h:234 ../src/printview/printview.c:2458
 msgid "Print"
 msgstr "印刷"
 
@@ -6263,10 +6274,6 @@ msgstr "選択を拡大"
 #: ../src/generated/entries.h:259
 msgid "Extend the selection"
 msgstr "選択範囲を拡大する"
-
-#: ../src/generated/entries.h:260 ../src/generated/register_commands.h:240
-msgid "Copy"
-msgstr "コピー"
 
 #: ../src/generated/entries.h:260 ../src/generated/register_commands.h:240
 msgid "Copy the music selected to the Denemo clipboard"
@@ -6557,7 +6564,7 @@ msgstr "現在の五線の初期の調号を設定する"
 
 #. GUI setup
 #: ../src/generated/entries.h:294 ../src/generated/register_commands.h:270
-#: ../src/ui/keysigdialog.c:360
+#: ../src/ui/keysigdialog.c:361
 msgid "Key Signature Change"
 msgstr "調号の変更"
 
@@ -7423,6 +7430,9 @@ msgid ""
 msgstr ""
 
 #: ../src/generated/entries.h:383
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:33
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:37
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:38
 msgid "Chords"
 msgstr "コード"
 
@@ -7737,7 +7747,7 @@ msgstr ""
 
 #. MIDI tab
 #: ../src/generated/entries.h:412 ../src/ui/prefdialog.c:720
-#: ../src/ui/staffpropdialog.c:456
+#: ../src/ui/staffpropdialog.c:457
 #, fuzzy
 msgid "MIDI"
 msgstr "MIDI 入力コントローラ"
@@ -9077,7 +9087,7 @@ msgstr "新しい楽譜のレイアウト"
 msgid "See View->Score Layout to delete."
 msgstr "この楽章を楽譜のレイアウトから削除"
 
-#: ../src/printview/printview.c:333 ../src/printview/printview.c:2365
+#: ../src/printview/printview.c:333 ../src/printview/printview.c:2370
 msgid "Current Movement"
 msgstr "現在の楽章"
 
@@ -9242,141 +9252,141 @@ msgstr "楽譜"
 msgid "Repeat"
 msgstr "リピート(_R)"
 
-#: ../src/printview/printview.c:2155 ../src/printview/printview.c:2492
+#: ../src/printview/printview.c:2160 ../src/printview/printview.c:2497
 #, fuzzy
 msgid "Duplex"
 msgstr "連符"
 
-#: ../src/printview/printview.c:2155
+#: ../src/printview/printview.c:2160
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:55
 #, fuzzy
 msgid "Single"
 msgstr "片"
 
-#: ../src/printview/printview.c:2317
+#: ../src/printview/printview.c:2322
 #, fuzzy
 msgid "Measures before cursor:"
 msgstr "小節"
 
-#: ../src/printview/printview.c:2326
+#: ../src/printview/printview.c:2331
 #, fuzzy
 msgid "Measures after cursor:"
 msgstr "小節"
 
-#: ../src/printview/printview.c:2337
+#: ../src/printview/printview.c:2342
 #, fuzzy
 msgid "Staffs before cursor:"
 msgstr "五線を低くする"
 
-#: ../src/printview/printview.c:2345
+#: ../src/printview/printview.c:2350
 #, fuzzy
 msgid "Staffs after cursor:"
 msgstr "五線を低くする"
 
 #. hbox = gtk_hbox_new (FALSE, 1);
 #. gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
-#: ../src/printview/printview.c:2360
+#: ../src/printview/printview.c:2365
 msgid "All Movements"
 msgstr "すべての楽章"
 
-#: ../src/printview/printview.c:2362
+#: ../src/printview/printview.c:2367
 msgid "If checked the current layout is re-typeset at every change"
 msgstr ""
 
-#: ../src/printview/printview.c:2367
+#: ../src/printview/printview.c:2372
 msgid "If checked the current movement is re-typeset at every change"
 msgstr ""
 
-#: ../src/printview/printview.c:2371
+#: ../src/printview/printview.c:2376
 #, fuzzy
 msgid "Cursor Context"
 msgstr "Selinux コンテキスト"
 
-#: ../src/printview/printview.c:2373
+#: ../src/printview/printview.c:2378
 msgid "If checked the range around the current cursor position is re-typeset at every change or when the cursor moves out of range."
 msgstr ""
 
-#: ../src/printview/printview.c:2399
+#: ../src/printview/printview.c:2404
 #, fuzzy
 msgid "Set background updates on/off."
 msgstr " --reverse       [on|off]          文字色と背景色を入れ替える\n"
 
-#: ../src/printview/printview.c:2403
+#: ../src/printview/printview.c:2408
 #, fuzzy
 msgid "Range"
 msgstr "ファイル識別子が SSL としては長過ぎます。"
 
-#: ../src/printview/printview.c:2404
+#: ../src/printview/printview.c:2409
 msgid "Set how much of the score to re-draw."
 msgstr ""
 
-#: ../src/printview/printview.c:2422
+#: ../src/printview/printview.c:2427
 msgid "Set background updater on/off. This controls if typesetting is re-done after each change to the music. The amount of the score to be re-typeset can be set via this button."
 msgstr ""
 
-#: ../src/printview/printview.c:2454
+#: ../src/printview/printview.c:2459
 msgid "Pops up a Print dialog. From this you can send your typeset score to a printer or to a PDF file."
 msgstr ""
 
-#: ../src/printview/printview.c:2458
+#: ../src/printview/printview.c:2463
 #, fuzzy
 msgid "PDF"
 msgstr "PDF にエクスポート"
 
-#: ../src/printview/printview.c:2459
+#: ../src/printview/printview.c:2464
 #, fuzzy
 msgid "Exports a pdf file for this layout"
 msgstr "楽譜をPDFファイルとしてエクスポートする"
 
-#: ../src/printview/printview.c:2465
+#: ../src/printview/printview.c:2470
 msgid "Typesets the music using the one of the created layouts. See View → Score Layouts to see the layouts you have created."
 msgstr ""
 
-#: ../src/printview/printview.c:2471
+#: ../src/printview/printview.c:2476
 msgid "Typesets the music from the current movement. This creates a score layout comprising one movement."
 msgstr ""
 
-#: ../src/printview/printview.c:2475
+#: ../src/printview/printview.c:2480
 #, fuzzy
 msgid "Part"
 msgstr " <part>                    パーティション番号\n"
 
-#: ../src/printview/printview.c:2476
+#: ../src/printview/printview.c:2481
 msgid "Typesets the music from the current part for all movements. A part is all the music with the same staff-name. This creates a score layout with one part, all movements."
 msgstr ""
 
-#: ../src/printview/printview.c:2481
+#: ../src/printview/printview.c:2486
 msgid "Re-issues the last print command. Use this after modifying the file to repeat the typesetting."
 msgstr ""
 
-#: ../src/printview/printview.c:2493
+#: ../src/printview/printview.c:2498
 msgid "Shows pages side by side, so you can see page turns for back-to-back printing\n"
 msgstr ""
 
-#: ../src/printview/printview.c:2497
+#: ../src/printview/printview.c:2502
 msgid "Next"
 msgstr "次"
 
-#: ../src/printview/printview.c:2498
+#: ../src/printview/printview.c:2503
 msgid "Move to the next page - you can also scroll with the scroll-wheel, and zoom with control-wheel"
 msgstr ""
 
-#: ../src/printview/printview.c:2501
+#: ../src/printview/printview.c:2506
 #, fuzzy
 msgid "Previous"
 msgstr "前へ"
 
-#: ../src/printview/printview.c:2502
+#: ../src/printview/printview.c:2507
 msgid "Move to the previous page - you can also scroll with the scroll-wheel, and zoom with control-wheel"
 msgstr ""
 
 #. if(!Denemo.prefs.manualtypeset)
 #. gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
-#: ../src/printview/printview.c:2510
+#: ../src/printview/printview.c:2515
 msgid "Denemo Print View"
 msgstr "Denemo 印刷表示"
 
-#: ../src/printview/printview.c:2532
+#: ../src/printview/printview.c:2537
 msgid ""
 "This window shows the final typeset score from which you can print or (via print to file) create a PDF document.\n"
 "This will be continuously updated while you edit the music in the main window.\n"
@@ -9386,8 +9396,12 @@ msgstr ""
 
 #: ../src/printview/svgview.c:667
 msgid ""
-"This the Playback View Window. Click on a note to play from that note to the end. Click again to stop play. Drag between two notes to play from the first to the last, shift drag to create a loop. Click on a note and drag earlier to position the Denemo cursor on that note in the Denemo Display.\n"
-" For simple scrolling check the box. For more sophisticated control right click on a note when you have scrolled the page to the position you want it to be at when it is playing. First right click at the start of the second system (this means that the music will not scroll before that); then scroll to position the end and right click the first note of the last system of the piece. If there are changes of pace then right click on the note where this happens once you have scrolled the page. Enter all scroll points in playing order."
+"This the Playback View Window. Click on a note to play from that note to the end. Click again to stop play. Drag between two notes to play from the first to the last, shift drag to create a loop.\n"
+"Shift-Click on a note to position the Denemo cursor on that note in the Denemo Display.\n"
+" For simple scrolling check the box. For more sophisticated control right click on a note when you have scrolled the page to the position you want it to be at when it is playing.\n"
+"First right click at the start of the second system (this means that the music will not scroll before that); then scroll to position the end and right click the first note of the last system of the piece.\n"
+"To delete a scroll point right-click on it.\n"
+"If there are changes of pace then set extra scroll points to control the scrolling in more detail."
 msgstr ""
 
 #: ../src/printview/svgview.c:717 ../src/printview/svgview.c:747
@@ -9461,47 +9475,47 @@ msgstr "Denemo 印刷表示"
 msgid "This window shows the typeset score as one long page. During playback the notes playing are highlighted"
 msgstr ""
 
-#: ../src/scripting/scheme-callbacks.c:167
+#: ../src/scripting/scheme-callbacks.c:169
 #, fuzzy
 #| msgid "Score Titles"
 msgid "Set Values"
 msgstr "楽譜のタイトル"
 
-#: ../src/scripting/scheme-callbacks.c:183
+#: ../src/scripting/scheme-callbacks.c:185
 #, fuzzy
 #| msgid "Check Braces"
 msgid "Check all"
 msgstr "カッコの確認"
 
-#: ../src/scripting/scheme-callbacks.c:186
+#: ../src/scripting/scheme-callbacks.c:188
 msgid "Un-check all"
 msgstr ""
 
-#: ../src/scripting/scheme-callbacks.c:422
+#: ../src/scripting/scheme-callbacks.c:424
 msgid ""
 "Use <Tab> to switch palette\n"
 "<Return>to activate"
 msgstr ""
 
-#: ../src/scripting/scheme-callbacks.c:460
+#: ../src/scripting/scheme-callbacks.c:462
 msgid "Key in (part of) label"
 msgstr ""
 
-#: ../src/scripting/scheme-callbacks.c:471
+#: ../src/scripting/scheme-callbacks.c:473
 #, fuzzy
 msgid "No such label"
 msgstr "ラベルはありません, "
 
-#: ../src/scripting/scheme-callbacks.c:1033
+#: ../src/scripting/scheme-callbacks.c:1035
 #, fuzzy
 msgid "Destroying Customized Buttons"
 msgstr "タイトル、ボタンなど"
 
-#: ../src/scripting/scheme-callbacks.c:1033
+#: ../src/scripting/scheme-callbacks.c:1035
 msgid "Remove buttons and other customized scheme on startup?"
 msgstr ""
 
-#: ../src/scripting/scheme-callbacks.c:1437
+#: ../src/scripting/scheme-callbacks.c:1439
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:62
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:61
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:115
@@ -9510,48 +9524,48 @@ msgstr ""
 msgid "Choose File"
 msgstr "ファイルを選択する"
 
-#: ../src/scripting/scheme-callbacks.c:3548
+#: ../src/scripting/scheme-callbacks.c:3562
 #, fuzzy
 msgid "Input Required"
 msgstr "入力"
 
-#: ../src/scripting/scheme-callbacks.c:3554
+#: ../src/scripting/scheme-callbacks.c:3568
 #, fuzzy
 msgid "Give input: "
 msgstr "root のパスワードを入力してください: "
 
-#: ../src/scripting/scheme-callbacks.c:3601
+#: ../src/scripting/scheme-callbacks.c:3615
 msgid ""
 "Please delete the font size and bold/italic indications,\n"
 "leaving just the font family name."
 msgstr ""
 
-#: ../src/scripting/scheme-callbacks.c:3621
-#: ../src/scripting/scheme-callbacks.c:3677
+#: ../src/scripting/scheme-callbacks.c:3635
+#: ../src/scripting/scheme-callbacks.c:3691
 #, fuzzy
 msgid "Choose Font"
 msgstr "ファイルを選択する"
 
-#: ../src/scripting/scheme-callbacks.c:3753
+#: ../src/scripting/scheme-callbacks.c:3767
 msgid "Script error, wrong parameter type to d-InfoDialog"
 msgstr ""
 
-#: ../src/scripting/scheme-callbacks.c:4038
+#: ../src/scripting/scheme-callbacks.c:4052
 #, fuzzy
 msgid "Already in a padding dialog"
 msgstr "新しいファイルのためのダイアログを開く"
 
-#: ../src/scripting/scheme-callbacks.c:5939
+#: ../src/scripting/scheme-callbacks.c:5979
 #, fuzzy
 msgid "Time Signatures do not match, will not make voice"
 msgstr "最初の拍子記号を変更する"
 
-#: ../src/scripting/scheme-callbacks.c:5948
+#: ../src/scripting/scheme-callbacks.c:5988
 #, fuzzy
 msgid "Key Signatures do not match, will not make voice"
 msgstr "最初の拍子記号を変更する"
 
-#: ../src/scripting/scheme-callbacks.c:5956
+#: ../src/scripting/scheme-callbacks.c:5996
 msgid "This voice has a different clef from the staff it will be typeset on. This clef will be used for the display only."
 msgstr ""
 
@@ -9791,12 +9805,14 @@ msgid "Choose the mouse button"
 msgstr "サウンドフォントを選択"
 
 #: ../src/ui/kbd-interface.c:485
+#: ../actions/menus/ObjectMenu/Lyrics/InsertLyricAlignment.scm:2
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:48
 #, fuzzy
 msgid "Left"
 msgstr "左"
 
 #: ../src/ui/kbd-interface.c:488
+#: ../actions/menus/ObjectMenu/Lyrics/InsertLyricAlignment.scm:2
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:49
 #, fuzzy
 msgid "Right"
@@ -9944,27 +9960,27 @@ msgstr ""
 msgid "Set mouse shortcut"
 msgstr "マウス指揮 ON"
 
-#: ../src/ui/keysigdialog.c:364
+#: ../src/ui/keysigdialog.c:365
 msgid "Change initial key signature"
 msgstr "初期の調号を変更する"
 
-#: ../src/ui/keysigdialog.c:366
+#: ../src/ui/keysigdialog.c:367
 msgid "Insert key signature change"
 msgstr "変更した初期の調号を挿入"
 
-#: ../src/ui/keysigdialog.c:405
+#: ../src/ui/keysigdialog.c:406
 msgid "Select desired key signature"
 msgstr "調号を選択"
 
-#: ../src/ui/keysigdialog.c:408
+#: ../src/ui/keysigdialog.c:409
 msgid "Major"
 msgstr "長調"
 
-#: ../src/ui/keysigdialog.c:412
+#: ../src/ui/keysigdialog.c:413
 msgid "Minor"
 msgstr "短調"
 
-#: ../src/ui/keysigdialog.c:424
+#: ../src/ui/keysigdialog.c:425
 msgid "Current Staff Only?"
 msgstr "現在の五線だけですか?"
 
@@ -9973,7 +9989,7 @@ msgstr "現在の五線だけですか?"
 msgid "Note/Chord Name"
 msgstr "名前で"
 
-#: ../src/ui/markup.c:75 ../src/ui/markup.c:143
+#: ../src/ui/markup.c:75 ../src/ui/markup.c:176
 #, fuzzy
 msgid "Give a relative font size +/- "
 msgstr "文書のフォントを大きくする"
@@ -9983,39 +9999,45 @@ msgstr "文書のフォントを大きくする"
 msgid "Give a font name "
 msgstr "root のパスワードを入力してください: "
 
-#: ../src/ui/markup.c:143 ../actions/denemo.scm:279 ../actions/denemo.scm:339
+#: ../src/ui/markup.c:154 ../src/ui/markup.c:173 ../src/ui/markup.c:184
+#, fuzzy
+#| msgid "Selects the whole staff"
+msgid "Select the text first."
+msgstr "五線全体を選択"
+
+#: ../src/ui/markup.c:176 ../actions/denemo.scm:287 ../actions/denemo.scm:347
 #, fuzzy
 msgid "Font Magnification"
 msgstr "字幕に使用するフォント"
 
-#: ../src/ui/markup.c:165
+#: ../src/ui/markup.c:200
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/InsertSpaceBeforeMovement.xml.h:1
 #: ../actions/menus/ObjectMenu/Score/Titles/FilledTitleLine.scm:8
 #, fuzzy
 msgid "Space Above"
 msgstr "五線の上に置く"
 
-#: ../src/ui/markup.c:165
+#: ../src/ui/markup.c:200
 #, fuzzy
-msgid "Give space to leave above +/- "
+msgid "Give space to leave above + only "
 msgstr "文書のフォントを大きくする"
 
-#: ../src/ui/markup.c:188
+#: ../src/ui/markup.c:230
 #, fuzzy
 #| msgid "Insert Snippet"
 msgid "Insert Space"
 msgstr "スニペットを挿入"
 
-#: ../src/ui/markup.c:188
+#: ../src/ui/markup.c:230
 #, fuzzy
 msgid "Give space to insert +/- "
 msgstr "メンテナンスを行います。 root のパスワードを入力してください\n"
 
-#: ../src/ui/markup.c:261
+#: ../src/ui/markup.c:311
 msgid "Paste Current Snippet"
 msgstr "現在のスニペットを貼り付け"
 
-#: ../src/ui/markup.c:262
+#: ../src/ui/markup.c:312
 msgid ""
 "Pastes the music captured in the currently selected Snippet into the text at the cursor.\n"
 "The music appears here in the LilyPond syntax.\n"
@@ -10023,19 +10045,19 @@ msgid ""
 "You can edit the syntax following the LilyPond syntax.\n"
 msgstr ""
 
-#: ../src/ui/markup.c:267
+#: ../src/ui/markup.c:317
 msgid ""
 "Makes the next Snippet the one that can be pasted.\n"
 "To see the music snippets you need to check View → Snippets\n"
 "The one selected is in bold black."
 msgstr ""
 
-#: ../src/ui/markup.c:276
+#: ../src/ui/markup.c:326
 #, fuzzy
 msgid "Paste Note Name/Chord Symbol"
 msgstr "和音記号を編集"
 
-#: ../src/ui/markup.c:277
+#: ../src/ui/markup.c:327
 msgid ""
 "Pastes the note or chord at the cursor as a Note Name/Chord Symbol\n"
 "The music appears here in the LilyPond syntax.\n"
@@ -10043,19 +10065,19 @@ msgid ""
 "Use, for example, to specify the key of a piece.\n"
 msgstr ""
 
-#: ../src/ui/markup.c:285
+#: ../src/ui/markup.c:335
 #, fuzzy
 msgid "Paste Fret Diagram"
 msgstr "貼り付け(_P)"
 
-#: ../src/ui/markup.c:286
+#: ../src/ui/markup.c:336
 msgid ""
 "Pastes the chord at the cursor as a Fret Diagram\n"
 "The music appears here in the LilyPond syntax.\n"
 "It will print as fret diagram in the sentence you are writing, transposed according to the global transposition set.\n"
 msgstr ""
 
-#: ../src/ui/markup.c:294 ../actions/denemo.scm:271 ../actions/denemo.scm:332
+#: ../src/ui/markup.c:344 ../actions/denemo.scm:279 ../actions/denemo.scm:340
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:12
 #: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm:5
 #: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm:5
@@ -10063,11 +10085,11 @@ msgstr ""
 msgid "Bold"
 msgstr "太字(_W)"
 
-#: ../src/ui/markup.c:295
-msgid "Inserts markup to make the following text bold. Enclose the passage to be bold in {}."
+#: ../src/ui/markup.c:345
+msgid "Inserts markup to make the selected text bold."
 msgstr ""
 
-#: ../src/ui/markup.c:299 ../actions/denemo.scm:273 ../actions/denemo.scm:334
+#: ../src/ui/markup.c:349 ../actions/denemo.scm:281 ../actions/denemo.scm:342
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:18
 #: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm:11
 #: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm:11
@@ -10075,55 +10097,55 @@ msgstr ""
 msgid "Italic"
 msgstr "斜体(_I)"
 
-#: ../src/ui/markup.c:300
-msgid "Inserts markup to make the following text italic. Enclose the passage to be italic in {}."
+#: ../src/ui/markup.c:350
+msgid "Inserts markup to make the selected text italic."
 msgstr ""
 
-#: ../src/ui/markup.c:304
+#: ../src/ui/markup.c:354
 msgid "“"
 msgstr ""
 
-#: ../src/ui/markup.c:305
-msgid "Inserts code for open quotes - leave a space after this code. Note that this is not the \" character which is used for grouping words not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."
+#: ../src/ui/markup.c:355
+msgid "Inserts open double quote. Note that this is not the \" character which is used for grouping words not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."
 msgstr ""
 
-#: ../src/ui/markup.c:309
+#: ../src/ui/markup.c:359
 msgid "”"
 msgstr ""
 
-#: ../src/ui/markup.c:310
-msgid "Inserts code for close quotes - leave a space after this code. Note that this is not the \" character which is used for grouping words  not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."
+#: ../src/ui/markup.c:360
+msgid "Inserts close double quote. Note that this is not the \" character which is used for grouping words  not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."
 msgstr ""
 
-#: ../src/ui/markup.c:314
+#: ../src/ui/markup.c:364
 #, fuzzy
 msgid "size"
 msgstr "サイズ"
 
-#: ../src/ui/markup.c:315
-msgid "Inserts code to change the relative font size."
+#: ../src/ui/markup.c:365
+msgid "Inserts markup to set the relative font size for the selected text."
 msgstr ""
 
-#: ../src/ui/markup.c:319
-msgid "Inserts code to leave space above this line of text. Ineffective on the top line of standalone text, only titles"
+#: ../src/ui/markup.c:369
+msgid "Inserts the markup needed to leave space above this line of text. Ineffective on the top line of standalone text, instead drag such text in the Print View"
 msgstr ""
 
-#: ../src/ui/markup.c:322
+#: ../src/ui/markup.c:372
 msgid "⬌"
 msgstr ""
 
-#: ../src/ui/markup.c:323
+#: ../src/ui/markup.c:373
 #, fuzzy
 #| msgid "Inserts the chord at the cursor."
-msgid "Inserts code to insert space at the cursor."
+msgid "Inserts the markup needed to insert/backup space (+/-) at the cursor."
 msgstr "現在のカーソル位置に和音を挿入する"
 
-#: ../src/ui/markup.c:327
+#: ../src/ui/markup.c:377
 #, fuzzy
 msgid "Preview"
 msgstr "印刷プレビュー"
 
-#: ../src/ui/markup.c:328
+#: ../src/ui/markup.c:378
 msgid "Shows what the text will look like when typeset in the Print View window. For score and movement titles the appearance is correct only relative to the default title."
 msgstr ""
 
@@ -11129,67 +11151,67 @@ msgid "Landscape"
 msgstr "横置き"
 
 #. Print appearance tab
-#: ../src/ui/staffpropdialog.c:441
+#: ../src/ui/staffpropdialog.c:442
 #, fuzzy
 msgid "Typeset Appearance"
 msgstr "組版"
 
-#: ../src/ui/staffpropdialog.c:442
+#: ../src/ui/staffpropdialog.c:443
 #, fuzzy
 msgid "Part name:"
 msgstr "部分を印刷"
 
-#: ../src/ui/staffpropdialog.c:443
+#: ../src/ui/staffpropdialog.c:444
 msgid "All staffs with the same part name will be typeset with the Print Part command. Use a blank part name for staffs that should be printed with every part."
 msgstr ""
 
-#: ../src/ui/staffpropdialog.c:444
+#: ../src/ui/staffpropdialog.c:445
 #, fuzzy
 msgid "Sub Part name:"
 msgstr "部分を印刷"
 
-#: ../src/ui/staffpropdialog.c:445
+#: ../src/ui/staffpropdialog.c:446
 msgid "If a single part (e.g. piano) has more than one staff they should be named here."
 msgstr ""
 
 #. gtk_widget_grab_focus (entrywidget);
-#: ../src/ui/staffpropdialog.c:450
+#: ../src/ui/staffpropdialog.c:451
 #, fuzzy
 msgid "Space above:"
 msgstr "五線の上に置く"
 
-#: ../src/ui/staffpropdialog.c:451
+#: ../src/ui/staffpropdialog.c:452
 #, fuzzy
 msgid "Space below:"
 msgstr "五線の下に置く"
 
-#: ../src/ui/staffpropdialog.c:452
+#: ../src/ui/staffpropdialog.c:453
 #, fuzzy
 msgid "Number of Display Staff Lines:"
 msgstr " -number      1 ページあたりの行数を指定します\n"
 
-#: ../src/ui/staffpropdialog.c:457
+#: ../src/ui/staffpropdialog.c:458
 #, fuzzy
 msgid "MIDI Instrument:"
 msgstr "楽器"
 
-#: ../src/ui/staffpropdialog.c:458
+#: ../src/ui/staffpropdialog.c:459
 #, fuzzy
 msgid "Transposition:"
 msgstr " J - 非接続時の文字列....."
 
-#: ../src/ui/staffpropdialog.c:460
+#: ../src/ui/staffpropdialog.c:461
 #, fuzzy
 msgid "Master Volume:"
 msgstr "宇宙の支配者"
 
 #. BOOLEANENTRY("Override MIDI Channel/Program", midi_prognum_override);
-#: ../src/ui/staffpropdialog.c:462
+#: ../src/ui/staffpropdialog.c:463
 #, fuzzy
 msgid "Channel:"
 msgstr "チャネル"
 
-#: ../src/ui/staffpropdialog.c:463
+#: ../src/ui/staffpropdialog.c:464
 #, fuzzy
 msgid "Program:"
 msgstr "外部プログラム サポート:"
@@ -11420,6 +11442,16 @@ msgstr "レイアウトにのみ適用"
 msgid "Cursor is not inside selection"
 msgstr "選択範囲を現在のカーソル位置まで広げる"
 
+#: ../actions/denemo-modules/selection.scm:389
+#, fuzzy
+#| msgid "Object Menu"
+msgid "Object of type "
+msgstr "オブジェクトメニュー"
+
+#: ../actions/denemo-modules/selection.scm:394
+msgid "Copied "
+msgstr ""
+
 #: ../actions/denemo-modules/wysiwyg.scm:306
 #: ../actions/denemo-modules/wysiwyg.scm:349
 msgid "Now drag the control points to make the shape desired - when finished click away from a control point"
@@ -11551,32 +11583,36 @@ msgstr ""
 msgid "Re-positioned"
 msgstr "再計算"
 
+#. TupletPosition
 #: ../actions/denemo-modules/wysiwyg.scm:453
 #: ../actions/denemo-modules/wysiwyg.scm:610
-#: ../actions/denemo-modules/wysiwyg.scm:613 ../actions/denemo.scm:1043
+#: ../actions/denemo-modules/wysiwyg.scm:613 ../actions/denemo.scm:1051
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:5
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm:7
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:19
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.scm:2
 #, fuzzy
 msgid "Up"
 msgstr "Up"
 
 #: ../actions/denemo-modules/wysiwyg.scm:453
 #: ../actions/denemo-modules/wysiwyg.scm:610
-#: ../actions/denemo-modules/wysiwyg.scm:614 ../actions/denemo.scm:1043
+#: ../actions/denemo-modules/wysiwyg.scm:614 ../actions/denemo.scm:1051
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:5
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm:7
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:19
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.scm:2
 #, fuzzy
 msgid "Down"
 msgstr "Down"
 
 #: ../actions/denemo-modules/wysiwyg.scm:453
 #: ../actions/denemo-modules/wysiwyg.scm:610
-#: ../actions/denemo-modules/wysiwyg.scm:615 ../actions/denemo.scm:1043
+#: ../actions/denemo-modules/wysiwyg.scm:615 ../actions/denemo.scm:1051
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm:5
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm:7
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:19
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.scm:2
 #, fuzzy
 msgid "Auto"
 msgstr "自動"
@@ -11618,15 +11654,15 @@ msgid "Play From Here"
 msgstr "指定した時刻から演奏"
 
 #: ../actions/denemo-modules/wysiwyg.scm:515
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:64
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:69
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:7
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm:30
 #, fuzzy
 msgid "Up/Down"
 msgstr "Up"
 
-#: ../actions/denemo-modules/wysiwyg.scm:515 ../actions/denemo.scm:165
-#: ../actions/denemo.scm:168
+#: ../actions/denemo-modules/wysiwyg.scm:515 ../actions/denemo.scm:173
+#: ../actions/denemo.scm:176
 #, fuzzy
 msgid "Offset Position"
 msgstr "位置が判りません"
@@ -11767,98 +11803,99 @@ msgstr "タイを削除"
 msgid "Allows you to drag the control points of the tie"
 msgstr "カーソルを小節の終わりへ移動"
 
-#: ../actions/denemo.scm:149
+#: ../actions/denemo.scm:157
 msgid "Place above staff"
 msgstr "五線の上に置く"
 
-#: ../actions/denemo.scm:150
+#: ../actions/denemo.scm:158
 msgid "Place below staff"
 msgstr "五線の下に置く"
 
-#: ../actions/denemo.scm:151
+#: ../actions/denemo.scm:159
 #, fuzzy
 msgid "Set Relative Font Size"
 msgstr "文書のフォントを大きくする"
 
-#: ../actions/denemo.scm:152
+#: ../actions/denemo.scm:160
 #, fuzzy
 msgid "Offset Position (All)"
 msgstr "位置をプッシュする"
 
-#: ../actions/denemo.scm:153
+#: ../actions/denemo.scm:161
 #, fuzzy
 msgid "Offset Position (One)"
 msgstr "位置が判りません"
 
-#: ../actions/denemo.scm:154
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:61
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:43
+#: ../actions/denemo.scm:162
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:66
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:43
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:17
 msgid "Edit Text"
 msgstr "テキストを編集"
 
-#: ../actions/denemo.scm:155
+#: ../actions/denemo.scm:163
 #, fuzzy
 msgid "Set Padding"
 msgstr "未セット"
 
-#: ../actions/denemo.scm:158
+#: ../actions/denemo.scm:166
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:7
 #, fuzzy
 msgid "Restore Position"
 msgstr "位置をプッシュする"
 
-#: ../actions/denemo.scm:159
+#: ../actions/denemo.scm:167
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:6
 #, fuzzy
 msgid "Nudge Position"
 msgstr "位置が判りません"
 
-#: ../actions/denemo.scm:165
+#: ../actions/denemo.scm:173
 msgid "Amount (+/-) to nudge in horizontal direction"
 msgstr ""
 
-#: ../actions/denemo.scm:168
+#: ../actions/denemo.scm:176
 msgid "Amount (+/-) to nudge in vertical direction"
 msgstr ""
 
-#: ../actions/denemo.scm:273 ../actions/denemo.scm:334
+#: ../actions/denemo.scm:281 ../actions/denemo.scm:342
 #, fuzzy
 msgid "Upright"
 msgstr "右下隅"
 
-#: ../actions/denemo.scm:276 ../actions/denemo.scm:337
+#: ../actions/denemo.scm:284 ../actions/denemo.scm:345
 msgid "Extra space above (0):"
 msgstr ""
 
-#: ../actions/denemo.scm:279 ../actions/denemo.scm:339
+#: ../actions/denemo.scm:287 ../actions/denemo.scm:347
 #, fuzzy
 msgid "Give font magnification required (+/-) 0 "
 msgstr "<b>使用するペアリング方法を選択してください：</b>"
 
-#: ../actions/denemo.scm:327
+#: ../actions/denemo.scm:335
 #, fuzzy
 msgid "Give a name applying to the whole score"
 msgstr "この楽章を楽譜のレイアウトから削除"
 
-#: ../actions/denemo.scm:485
+#: ../actions/denemo.scm:493
 #, fuzzy
 msgid "End the selection at a note"
 msgstr "選択範囲の終端を入れ替える"
 
-#: ../actions/denemo.scm:490
+#: ../actions/denemo.scm:498
 #, fuzzy
 msgid "Start the selection at a note"
 msgstr "選択領域の先頭へ"
 
-#: ../actions/denemo.scm:650
+#: ../actions/denemo.scm:658
 msgid "You had book titles for this score. These are being dropped. To re-instate them, re-set the title as a book title."
 msgstr ""
 
-#: ../actions/denemo.scm:925
+#: ../actions/denemo.scm:933
 msgid "Please enter a transpose interval"
 msgstr ""
 
-#: ../actions/denemo.scm:925
+#: ../actions/denemo.scm:933
 msgid ""
 "Please enter a transpose interval or two notes in Lilypond syntax.\n"
 "\n"
@@ -11866,105 +11903,105 @@ msgid ""
 "Or:  c' e' for a major third."
 msgstr ""
 
-#: ../actions/denemo.scm:1052
+#: ../actions/denemo.scm:1060
 msgid "This definition is not loaded ... trying to load"
 msgstr ""
 
-#: ../actions/denemo.scm:1174 ../actions/denemo.scm:1178
-#: ../actions/denemo.scm:1238
+#: ../actions/denemo.scm:1182 ../actions/denemo.scm:1186
+#: ../actions/denemo.scm:1248
 #, fuzzy
 msgid "Movement Titles"
 msgstr "楽章の指示を編集"
 
-#: ../actions/denemo.scm:1174 ../actions/denemo.scm:1178
+#: ../actions/denemo.scm:1182 ../actions/denemo.scm:1186
 #, fuzzy
 msgid "Give "
 msgstr "メンテナンスを行います。 root のパスワードを入力してください\n"
 
-#: ../actions/denemo.scm:1270 ../actions/denemo.scm:1319
+#: ../actions/denemo.scm:1280 ../actions/denemo.scm:1330
 #, fuzzy
 msgid "dedication"
 msgstr "アーティキュレーション"
 
-#: ../actions/denemo.scm:1271 ../actions/denemo.scm:1323
+#: ../actions/denemo.scm:1281 ../actions/denemo.scm:1334
 #, fuzzy
 #| msgid "Title"
 msgid "title"
 msgstr "曲名"
 
-#: ../actions/denemo.scm:1272 ../actions/denemo.scm:1327
+#: ../actions/denemo.scm:1282 ../actions/denemo.scm:1338
 #, fuzzy
 #| msgid "Subtitle"
 msgid "subtitle"
 msgstr "副題"
 
-#: ../actions/denemo.scm:1273 ../actions/denemo.scm:1331
+#: ../actions/denemo.scm:1283 ../actions/denemo.scm:1342
 #, fuzzy
 msgid "subsubtitle"
 msgstr "副題"
 
-#: ../actions/denemo.scm:1274 ../actions/denemo.scm:1335
+#: ../actions/denemo.scm:1284 ../actions/denemo.scm:1346
 #, fuzzy
 #| msgid "Instrument"
 msgid "instrument"
 msgstr "楽器"
 
-#: ../actions/denemo.scm:1275 ../actions/denemo.scm:1339
+#: ../actions/denemo.scm:1285 ../actions/denemo.scm:1350
 msgid "poet"
 msgstr ""
 
-#: ../actions/denemo.scm:1276 ../actions/denemo.scm:1344
+#: ../actions/denemo.scm:1286 ../actions/denemo.scm:1354
 #, fuzzy
 #| msgid "Composer"
 msgid "composer"
 msgstr "作曲者"
 
-#: ../actions/denemo.scm:1277 ../actions/denemo.scm:1348
+#: ../actions/denemo.scm:1287 ../actions/denemo.scm:1358
 #, fuzzy
 #| msgid "Meter"
 msgid "meter"
 msgstr "拍子"
 
-#: ../actions/denemo.scm:1278 ../actions/denemo.scm:1352
+#: ../actions/denemo.scm:1288 ../actions/denemo.scm:1362
 #, fuzzy
 #| msgid "Arranger"
 msgid "arranger"
 msgstr "編曲者"
 
-#: ../actions/denemo.scm:1283 ../actions/denemo.scm:1356
+#: ../actions/denemo.scm:1293 ../actions/denemo.scm:1366
 #, fuzzy
 #| msgid "Tagline"
 msgid "tagline"
 msgstr "タグの線"
 
-#: ../actions/denemo.scm:1283 ../actions/denemo.scm:1360
+#: ../actions/denemo.scm:1293 ../actions/denemo.scm:1370
 #, fuzzy
 msgid "copyright"
 msgstr "Copyright (c) %s by"
 
-#: ../actions/denemo.scm:1284 ../actions/denemo.scm:1364
+#: ../actions/denemo.scm:1294 ../actions/denemo.scm:1374
 #, fuzzy
 msgid "piece"
 msgstr "I ピースの色:"
 
-#: ../actions/denemo.scm:1284 ../actions/denemo.scm:1368
+#: ../actions/denemo.scm:1294 ../actions/denemo.scm:1378
 msgid "opus"
 msgstr ""
 
-#: ../actions/denemo.scm:1289
+#: ../actions/denemo.scm:1299
 msgid ""
 "You have book titles created for this score.\n"
 "You can delete them in the score and movement editor and then use simple titles."
 msgstr ""
 
-#: ../actions/denemo.scm:1314
+#: ../actions/denemo.scm:1324
 msgid ""
 "You have simple titles created by an earlier version of Denemo.\n"
 "You can only edit these with 1.2.4 or earlier versions.\n"
 "You can delete them in the score and movement editor and then re-instate them."
 msgstr ""
 
-#: ../actions/denemo.scm:1397
+#: ../actions/denemo.scm:1407
 #, fuzzy
 msgid "Give Spacing:"
 msgstr "空白を可視化する"
@@ -13365,8 +13402,8 @@ msgstr ""
 #: ../actions/menus/MainMenu/InputMenu/MIDI/ChordsOverBass.scm:214
 #: ../actions/menus/ObjectMenu/Directives/Comment.scm:16
 #: ../actions/menus/ObjectMenu/Directives/CriticalComment.scm:18
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:160
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:161
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:174
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:175
 #: ../actions/menus/ObjectMenu/MovementMenu/CreateIntro.scm:30
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:93
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/InsertSpaceBeforeMovement.scm:15
@@ -14569,14 +14606,14 @@ msgstr "和音記号を削除"
 
 #: ../actions/menus/ObjectMenu/ChordMenu/ChordNameOffset.scm:16
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:65
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:87
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:96
 #, fuzzy
 msgid "Give horizontal displacement required"
 msgstr "<b>使用するペアリング方法を選択してください：</b>"
 
 #: ../actions/menus/ObjectMenu/ChordMenu/ChordNameOffset.scm:18
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:66
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:88
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:97
 #, fuzzy
 msgid "Give vertical displacement required"
 msgstr "<b>使用するペアリング方法を選択してください：</b>"
@@ -14814,8 +14851,56 @@ msgstr "サウンドフォントを選択"
 msgid "Gives a menu for choosing whether the directive at the cursor should apply to the current part only or the default score or all layouts,"
 msgstr ""
 
-#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:13
-#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:15
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:17
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:25
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:26
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:29
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:33
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:34
+#, fuzzy
+msgid "Just for this one"
+msgstr "ブロックのレイアウト"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:18
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:26
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:27
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:30
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:34
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:35
+#, fuzzy
+#| msgid "A context is set on this staff"
+msgid "Apply condition to all further cases in this staff"
+msgstr "コンテキストがこの五線に設定されています"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:21
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:29
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:30
+#, fuzzy
+msgid "Standalone Directives "
+msgstr " 指示"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:21
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:33
+#, fuzzy
+msgid " in this staff from the cursor onwards will be typeset for all layouts "
+msgstr "組版"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:22
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:30
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:31
+#, fuzzy
+#| msgid " Directive"
+msgid "This Directive "
+msgstr " 指示"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:22
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:34
+#, fuzzy
+msgid " will be typeset for all layouts "
+msgstr "組版"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/ForAllLayouts.scm:29
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:36
 msgid ""
 "The cursor is not on a Denemo Directive.\n"
 "You can place the \"Void\" Denemo Directive before the object you wish to omit\n"
@@ -14831,10 +14916,23 @@ msgstr "リセット(_R)"
 msgid "Clears conditional behaviour of this layout. The Directive will apply to all score layouts."
 msgstr ""
 
-#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:5
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:7
 #, fuzzy
 msgid "Not for "
 msgstr "%s はディレクトリではありません!"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:29
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:37
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:38
+msgid "  in this staff from the cursor onwards will not be typeset for the layout "
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.scm:30
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:38
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:39
+#, fuzzy
+msgid " will not be typeset for the layout "
+msgstr "拍子記号"
 
 #: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/NotForLayout.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.xml.h:1
@@ -14846,11 +14944,21 @@ msgstr "無視(_I)"
 msgid "The Denemo Directive at the cursor will be ignored when printing from the current score layout (See View-&gt;Score Layout)"
 msgstr ""
 
-#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:9
-msgid "for "
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:7
+#, fuzzy
+msgid " for "
+msgstr "%s はディレクトリではありません!"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:30
+msgid "  in this staff from the cursor onwards will only be typeset for the layout "
 msgstr ""
 
-#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:19
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:31
+#, fuzzy
+msgid " will only be typeset for the layout "
+msgstr "組版"
+
+#: ../actions/menus/ObjectMenu/Directives/Conditional-Directives/OnlyForLayout.scm:37
 msgid ""
 "The cursor is not on a Denemo Directive.\n"
 "You can place the \"Hide Next\"  Denemo Directive before the object you wish to omit\n"
@@ -15314,24 +15422,24 @@ msgid "Edit Fret Diagram"
 msgstr "編集(_E)..."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:56
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:62
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:67
 #, fuzzy
 msgid "Edit Space Occupied"
 msgstr "空き領域"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:56
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:65
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:70
 #, fuzzy
 msgid "Edit Position"
 msgstr "位置をポップ"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:60
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:82
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:91
 msgid "Space Occupied by Text/Music"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:60
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:82
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:91
 msgid ""
 "Give space:\n"
 "(0 prevents dragging position\n"
@@ -15340,8 +15448,8 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:65
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:66
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:87
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:88
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:96
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:97
 msgid "Offsets"
 msgstr ""
 
@@ -15411,7 +15519,8 @@ msgstr "メディアマークの読み込みに失敗しました"
 msgid "Insert tempi and/or metronome marks, printed or not, adjust playback tempo to suit"
 msgstr ""
 
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:16
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:15
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:19
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:24
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.scm:6
 #: ../actions/menus/ObjectMenu/Score/Titles/FilledTitleLine.scm:11
@@ -15419,7 +15528,12 @@ msgstr ""
 msgid "Text"
 msgstr "テキストブロックを同期(_S)"
 
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:17
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:15
+#, fuzzy
+msgid "Give text for Denemo Display"
+msgstr "タグの線"
+
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:20
 msgid ""
 "Give text to appear with following note/chord - use the Preview button to see how it will print.\n"
 "The characters \\, \", ¶, { and } have a special meaning in the text,\n"
@@ -15429,28 +15543,34 @@ msgid ""
 "Other markup commands \\super, \\tiny etc, see LilyPond documentation."
 msgstr ""
 
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:22
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:25
 #, fuzzy
 msgid "Scaling Text"
 msgstr "テキストを表示"
 
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:22
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:25
 #, fuzzy
 msgid "Give text size: "
 msgstr "メンテナンスを行います。 root のパスワードを入力してください\n"
 
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:63
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:46
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:68
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:46
 #, fuzzy
 msgid "Edit Size"
 msgstr "編集(_E)..."
 
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:66
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:71
+#, fuzzy
+#| msgid "Display text"
+msgid "Edit Display Text"
+msgstr "テキストを表示"
+
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:72
 #, fuzzy
 msgid "Edit Others"
 msgstr "その他"
 
-#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:160
+#: ../actions/menus/ObjectMenu/Directives/Markings/MultiLineTextAnnotation.scm:174
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:30
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.scm:18
 msgid "Delete this text?"
@@ -18183,124 +18303,6 @@ msgstr ""
 msgid "Inserts a rehearsal mark in the score. The default is to typeset as the letters A, B, ... The display shows simply A for all bookmarks. This mark also acts as a Denemo bookmark which can be searched for."
 msgstr ""
 
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/CadenzaOn.xml.h:1
-#, fuzzy
-msgid "Start Cadenza"
-msgstr "起動時には"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/CadenzaOn.xml.h:2
-msgid "Turns off barlines etc for cadenza"
-msgstr ""
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.scm:9
-msgid "This closes a 1st, 2nd, ... n'th time bar"
-msgstr ""
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.xml.h:1
-msgid "End Volta (1st, 2nd ... Time Bar)"
-msgstr ""
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/EndVolta.xml.h:2
-msgid "Ends a volta, that is a n'th time bar; without this the opening of a first (Nth) time bar will not be printed."
-msgstr ""
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/FinishCadenza.xml.h:1
-#, fuzzy
-msgid "End Cadenza"
-msgstr "この日で終わる"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/FinishCadenza.xml.h:2
-msgid "Returns to normal barlines etc after a cadenza"
-msgstr ""
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenFirstTimeBar.xml.h:1
-#, fuzzy
-msgid "Start a First Time Bar"
-msgstr "開始時刻"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenFirstTimeBar.xml.h:2
-msgid "(Print) start (a) first time bar(s), use the End Volta command at the end of the first time bar(s)"
-msgstr ""
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:22
-#, fuzzy
-msgid "1st Time Bar"
-msgstr "ステータスバー(_B)"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:23
-#, fuzzy
-msgid "2nd Time Bar"
-msgstr "QNX4.x 第2パート"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:24
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.xml.h:1
-#, fuzzy
-msgid "Arbitrary Text"
-msgstr "テキストを表示"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:28
-msgid "This marks the start of one or more measures to be played on one or more of the repeats. There must be a later End Volta mark else nothing prints"
-msgstr ""
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:44
-#, fuzzy
-msgid "Set/Unset Bold"
-msgstr "マークを解除"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:45
-#, fuzzy
-msgid "Set/Unset Italic"
-msgstr "斜体(_I)"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:51
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:55
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:65
-#, fuzzy
-msgid "Nth Time Bar Text"
-msgstr " P - DTR drop 時間 (0=no)."
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:51
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:65
-#, fuzzy
-msgid "Give text: "
-msgstr "メンテナンスを行います。 root のパスワードを入力してください\n"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.scm:55
-#, fuzzy
-msgid "Give size: "
-msgstr "メンテナンスを行います。 root のパスワードを入力してください\n"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.xml.h:1
-#, fuzzy
-msgid "Start an Nth Time Bar"
-msgstr "開始時刻"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenNthTimeBar.xml.h:2
-msgid "Start passage to be played on one or more of the repeats as indicated by the text given by the user (e.g. 3 for third time bar). Finish the passage using the End Volta command."
-msgstr ""
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenSecondTimeBar.xml.h:1
-#, fuzzy
-msgid "Start a Second Time Bar"
-msgstr "開始時刻"
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/OpenSecondTimeBar.xml.h:2
-msgid "(Print) start (a) second time bar(s), use the End Volta command at the end of the first time bar(s)"
-msgstr ""
-
-#. OttavaStart
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/Ottava.scm:2
-msgid "Give -1 for ottava bassa, 1 for ottava alta and 0 for end ottava"
-msgstr ""
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/Ottava.xml.h:1
-msgid "Ottava"
-msgstr ""
-
-#: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/Ottava.xml.h:2
-msgid "Inserts an 8va mark (transposing the notes accordingly) or terminates one already started. Combine with a Print Transposition if you want to see the notes as typeset."
-msgstr ""
-
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/StartTrillSpan.scm:8
 #, fuzzy
 msgid "No \"tr\" at start."
@@ -18827,6 +18829,19 @@ msgstr ""
 msgid "Stops the Lilypond engraving of notes"
 msgstr "LilyPond の音符を貼り付け"
 
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/HideStems.scm:4
+msgid "This directive turns off stems"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/HideStems.xml.h:1
+#, fuzzy
+msgid "Hide Stems"
+msgstr "隠されたもの"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/HideStems.xml.h:2
+msgid "Hides stems on notes from this point on."
+msgstr ""
+
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/Hide.xml.h:1
 #, fuzzy
 msgid "(Print) Hide object"
@@ -18837,7 +18852,7 @@ msgid "Hides the object at cursor position with a lilypond directive. Currently 
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/InstallCue.scm:9
-#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.scm:16
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.scm:18
 #, fuzzy
 msgid " on Staff "
 msgstr "この五線:"
@@ -18867,7 +18882,6 @@ msgid ""
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/InstallCue.scm:62
-#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.scm:32
 msgid "There are no other staffs for this one to take a cue from."
 msgstr ""
 
@@ -19029,6 +19043,16 @@ msgstr "<Shift>"
 msgid "Asks for horizontal and vertical offsets and inserts a directive to displace the object at the cursor on printing."
 msgstr ""
 
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/ShowStems.scm:4
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/ShowStems.xml.h:2
+msgid "This directive turns on typesetting of stems on notes."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/ShowStems.xml.h:1
+#, fuzzy
+msgid "Show Stems"
+msgstr "表示:"
+
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/SmallFontEnd.xml.h:1
 #, fuzzy
 msgid "End Small Size"
@@ -19045,6 +19069,129 @@ msgstr "現在のサイズ:"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/SmallFontStart.xml.h:2
 msgid "Music after this is printed in a small size."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/CadenzaOn.xml.h:1
+#, fuzzy
+msgid "Start Cadenza"
+msgstr "起動時には"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/CadenzaOn.xml.h:2
+msgid "Turns off barlines etc for cadenza"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/EndVolta.scm:9
+msgid "This closes a 1st, 2nd, ... n'th time bar"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/EndVolta.xml.h:1
+msgid "End Volta (1st, 2nd ... Time Bar)"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/EndVolta.xml.h:2
+msgid "Ends a volta, that is a n'th time bar; without this the opening of a first (Nth) time bar will not be printed."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/FinishCadenza.xml.h:1
+#, fuzzy
+msgid "End Cadenza"
+msgstr "この日で終わる"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/FinishCadenza.xml.h:2
+msgid "Returns to normal barlines etc after a cadenza"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenFirstTimeBar.xml.h:1
+#, fuzzy
+msgid "Start a First Time Bar"
+msgstr "開始時刻"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenFirstTimeBar.xml.h:2
+msgid "(Print) start (a) first time bar(s), use the End Volta command at the end of the first time bar(s)"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:22
+#, fuzzy
+msgid "1st Time Bar"
+msgstr "ステータスバー(_B)"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:23
+#, fuzzy
+msgid "2nd Time Bar"
+msgstr "QNX4.x 第2パート"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:24
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.xml.h:1
+#, fuzzy
+msgid "Arbitrary Text"
+msgstr "テキストを表示"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:28
+msgid "This marks the start of one or more measures to be played on one or more of the repeats. There must be a later End Volta mark else nothing prints"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:44
+#, fuzzy
+msgid "Set/Unset Bold"
+msgstr "マークを解除"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:45
+#, fuzzy
+msgid "Set/Unset Italic"
+msgstr "斜体(_I)"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:51
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:55
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:65
+#, fuzzy
+msgid "Nth Time Bar Text"
+msgstr " P - DTR drop 時間 (0=no)."
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:51
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:65
+#, fuzzy
+msgid "Give text: "
+msgstr "メンテナンスを行います。 root のパスワードを入力してください\n"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.scm:55
+#, fuzzy
+msgid "Give size: "
+msgstr "メンテナンスを行います。 root のパスワードを入力してください\n"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.xml.h:1
+#, fuzzy
+msgid "Start an Nth Time Bar"
+msgstr "開始時刻"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenNthTimeBar.xml.h:2
+msgid "Start passage to be played on one or more of the repeats as indicated by the text given by the user (e.g. 3 for third time bar). Finish the passage using the End Volta command."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenSecondTimeBar.xml.h:1
+#, fuzzy
+msgid "Start a Second Time Bar"
+msgstr "開始時刻"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/OpenSecondTimeBar.xml.h:2
+msgid "(Print) start (a) second time bar(s), use the End Volta command at the end of the first time bar(s)"
+msgstr ""
+
+#. OttavaStart
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/Ottava.scm:2
+msgid "Give -1 for ottava bassa, 1 for ottava alta and 0 for end ottava"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/Ottava.scm:6
+#, fuzzy
+msgid "End Ottava"
+msgstr "連符を終了"
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/Ottava.xml.h:1
+msgid "Ottava"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/Ottava.xml.h:2
+msgid "Inserts an 8va mark (transposing the notes accordingly) or terminates one already started. Combine with a Print Transposition if you want to see the notes as typeset."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/StartStaff.xml.h:1
@@ -19393,6 +19540,40 @@ msgstr "歌詞の連を追加"
 msgid "Inserts a syllable which can be bold and/or italic."
 msgstr ""
 
+#. InsertLyricAlignment
+#: ../actions/menus/ObjectMenu/Lyrics/InsertLyricAlignment.scm:2
+#, fuzzy
+msgid "Center"
+msgstr ""
+"スピーカーがどのように配置されているか選んでください。xine がどのスピーカーから音を出すかを決定します:\n"
+"\n"
+"モノラル 1.0: スピーカーは1つ。\n"
+"ステレオ 2.0: スピーカーは2つ、左右のチャネル。\n"
+"ヘッドフォン 2.0: ヘッドフォンを使用。\n"
+"ステレオ 2.1: 左右のチャネルのスピーカー2つと、低周波用のサブウーファーを1つ。\n"
+"サラウンド 3.0: スピーカー3つ。左右のチャネルと1つのリアチャネル。\n"
+"サラウンド 4.0: スピーカー4つ。フロントの左右チャネルとリアの左右チャネル。\n"
+"サラウンド 4.1: フロントの左右チャネルとリアの左右チャネルの4つのスピーカーに加えて低周波用のサブウーファーを1つ。\n"
+"サラウンド 5.0: スピーカー5つ。フロントの左右チャネルとセンター、リアの左右チャネル。\n"
+"サラウンド 5.1: フロントの左右チャネルとセンター、リアの左右チャネルの5つのスピーカーに加えて低周波用のサブウーファーを1つ。\n"
+"サラウンド 6.0: スピーカー6つ。フロントの左右チャネルとセンター、リアの左右チャネルとセンター。\n"
+"サラウンド 6.1: フロントの左右チャネルとセンター、リアの左右チャネルとセンターの6つのスピーカーに加えて低周波用のサブウーファーを1つ。\n"
+"サラウンド 7.1: スピーカー7つ、フロントの左右チャネルとセンター、左と右、リアの左右チャネル に加えて低周波用のサブウーファーを1つ。\n"
+"通過接続: あなたのサウンドシステムは xine からデコードされていない信号を受け取ります。サウンドカードのデジタル出力をデコードできるデジタルサラウンドデコーダを接続する必要があります。"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertLyricAlignment.scm:4
+msgid "Note: start lyrics on a new line"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertLyricAlignment.xml.h:1
+#, fuzzy
+msgid "Syllable Alignment"
+msgstr "アライメントオフセット"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertLyricAlignment.xml.h:2
+msgid "Inserts some syntax into the lyric verse to determine the alignment of syllables under notes. Lyrics to be affected should be on the following lines."
+msgstr ""
+
 #. InsertLyricTie
 #: ../actions/menus/ObjectMenu/Lyrics/InsertLyricTie.scm:2
 #, fuzzy
@@ -19435,6 +19616,25 @@ msgstr "Lilypond"
 
 #: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.xml.h:2
 msgid "Inserts a stanza number (or other text that is not part of the lyrics) in the current verse at the cursor position."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertSyllableSkips.scm:9
+msgid "Skip Syllables"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertSyllableSkips.scm:10
+#, fuzzy
+msgid "Give number of syllables to skip"
+msgstr "メンテナンスを行います。 root のパスワードを入力してください\n"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertSyllableSkips.xml.h:1
+#, fuzzy
+#| msgid "Save Selection"
+msgid "Skip Syllables in Selection"
+msgstr "選択範囲を保存"
+
+#: ../actions/menus/ObjectMenu/Lyrics/InsertSyllableSkips.xml.h:2
+msgid "Inserts blanks for the syllables from the start of the selection to the cursor."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Lyrics/LyricFont.scm:3
@@ -19789,12 +19989,12 @@ msgstr "前に小節を挿入"
 msgid "Capture the image of a single measure (as screenshot) inserting at the current measure."
 msgstr "現在の小節の後に空の小節を挿入する(現在の五線に)"
 
-#: ../actions/menus/ObjectMenu/MovementMenu/CheckForIncompleteMeasures.scm:14
+#: ../actions/menus/ObjectMenu/MovementMenu/CheckForIncompleteMeasures.scm:21
 #, fuzzy
 msgid "All measures appear complete."
 msgstr "小節"
 
-#: ../actions/menus/ObjectMenu/MovementMenu/CheckForIncompleteMeasures.scm:16
+#: ../actions/menus/ObjectMenu/MovementMenu/CheckForIncompleteMeasures.scm:25
 #, fuzzy
 msgid "This measure has the wrong duration."
 msgstr "与えられた長さの音符をカーソル位置の高さに挿入する"
@@ -20298,6 +20498,26 @@ msgstr ""
 msgid "Prints the name given as a title above the current movement."
 msgstr "楽章を現在の楽章からの相対位置に挿入する"
 
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:11
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:20
+msgid "Give text to appear on blank page, if any "
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:11
+msgid "This page is intentionally left blank"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.xml.h:1
+#, fuzzy
+msgid "Blank Page Before"
+msgstr "ページ"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.xml.h:2
+#, fuzzy
+#| msgid "Insert a new movement before the current one"
+msgid "Inserts a blank page (with optional text) before the current movement."
+msgstr "現在の楽章の前に新しい楽章を挿入する"
+
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/Custos.xml.h:1
 #, fuzzy
 msgid "Custos (On/Off)"
@@ -20549,6 +20769,38 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/SwitchMensuralBarlines.xml.h:2
 msgid "Draw the barlines only between the staves but not inside."
 msgstr ""
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/TransposeMovementPrint.scm:6
+#: ../actions/menus/ObjectMenu/Score/Typesetter/TransposeScorePrint.scm:47
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.scm:8
+#, fuzzy
+msgid "Set Transpose Interval"
+msgstr "パスワード期限切れ警告の間隔"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/TransposeMovementPrint.scm:6
+msgid ""
+"Give Interval to transpose by as two note names, \n"
+"         for example \"c g\" means transpose 5th up.\n"
+"        Note names are in Dutch!!! a,b,c ... are the same but\n"
+"        \"es\" = flat, so e.g. bes means b-flat\n"
+"        \"is\" = sharp so e.g fis means f-sharp\n"
+"        Use commas for octave(s) down, \n"
+"        single-quotes for octave(s) up\n"
+"        e.g. c c' means octave up.\n"
+"        You do not have to start with c\n"
+"        e.g. d e means a tone higher.\n"
+"        "
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/TransposeMovementPrint.xml.h:1
+#, fuzzy
+msgid "Transpose on Print"
+msgstr "印刷"
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/TransposeMovementPrint.xml.h:2
+#, fuzzy
+msgid "The current movement will be printed transposed by the interval given."
+msgstr "現在の五線は既に声部です"
 
 #. (d-MoveCursorRight)
 #. (d-RefreshDisplay)))
@@ -20897,38 +21149,44 @@ msgstr "コメント:"
 msgid "Attach a textual comment to the chord at the cursor"
 msgstr ""
 
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:12
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:17
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:17
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:33
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:34
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:38
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:39
 #, fuzzy
 #| msgid "Directives"
 msgid "Directive "
 msgstr "指示"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:12
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:17
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:17
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:33
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:34
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:37
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:38
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:38
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:39
 msgid " on "
 msgstr ""
 
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:12
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:17
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:17
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:33
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:37
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:38
+#, fuzzy
+msgid "Notes"
+msgstr "音符を追加"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:34
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:38
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:39
 #, fuzzy
 msgid "Note"
 msgstr "音符を追加"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:12
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:17
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:17
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:34
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:38
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:39
 #, fuzzy
 msgid "Chord"
 msgstr "和音記号を削除"
-
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:12
-#, fuzzy
-msgid " will be typeset for all layouts "
-msgstr "組版"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.xml.h:1
 #, fuzzy
@@ -20939,19 +21197,16 @@ msgstr "リセット(_R)"
 msgid "Makes a (chosen) directive on the note/chord at the cursor be typeset normally, i.e for all layouts. The cursor should be positioned at the note height if a directive attached to the note is intended."
 msgstr ""
 
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:17
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:37
+#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:38
 #, fuzzy
-msgid " will not be typeset for layout "
-msgstr "拍子記号"
+#| msgid "Directives"
+msgid "Directives "
+msgstr "指示"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.xml.h:2
 msgid "Makes a (chosen) directive on the note/chord at the cursor be ignored for typesetting the current layout. The cursor should be positioned at the note height if a directive attached to the note is intended."
 msgstr ""
-
-#: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:17
-#, fuzzy
-msgid " will only typeset for layout "
-msgstr "組版"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.xml.h:2
 msgid "Makes a (chosen) directive on the note/chord at the cursor take effect only for typesetting the current layout. The cursor should be positioned at the note height if a directive attached to the note is intended."
@@ -23624,6 +23879,25 @@ msgstr "3連符を挿入"
 msgid "If a MIDI controller is active takes the current note and appends two more making all three a triplet, otherwise same as Toggle Tripleting command."
 msgstr ""
 
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CurvedTupletBrackets.scm:55
+#, fuzzy
+msgid "Square Tuplet Brackets re-instated"
+msgstr "連符数をカスタマイズ"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CurvedTupletBrackets.scm:58
+#, fuzzy
+msgid "Tuplet Brackets Curved"
+msgstr "連符数をカスタマイズ"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CurvedTupletBrackets.xml.h:1
+#, fuzzy
+msgid "Curved Tuplet Brackets (Off/On)"
+msgstr "連符数をカスタマイズ"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CurvedTupletBrackets.xml.h:2
+msgid "Tuplet brackets will have a curved shape (like a slur) with the tuplet number inside. Note these cannot be re-shaped like slurs, so turn tuplet brackets off and place slurs manually if you need to reshape them."
+msgstr ""
+
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/NoTupletNumbers.xml.h:1
 #, fuzzy
 msgid "No Tuplet Numbers"
@@ -23746,12 +24020,22 @@ msgstr "連符数をカスタマイズ"
 msgid "Choose whether tuplets should have brackets. Affects tuplets from the cursor onwards."
 msgstr ""
 
-#: ../actions/menus/ObjectMenu/Score/CheckScore.scm:72
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.xml.h:1
+#, fuzzy
+#| msgid "Text Position"
+msgid "Tuplet Position"
+msgstr "テキストの位置"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.xml.h:2
+msgid "Sets the positioning of the following tuplet (up/down/auto) to your choice."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Score/CheckScore.scm:75
 #, fuzzy
 msgid "Incorrect measure duration"
 msgstr "楽譜のチェック: この小節にエラーがあります"
 
-#: ../actions/menus/ObjectMenu/Score/CheckScore.scm:95
+#: ../actions/menus/ObjectMenu/Score/CheckScore.scm:99
 #: ../actions/menus/ObjectMenu/Score/CheckScoreSkipping.scm:22
 #, fuzzy
 msgid "No problem detected in this score"
@@ -25152,12 +25436,6 @@ msgid "Gets an interval from the user: the entire score is transposed by this in
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/TransposeScorePrint.scm:47
-#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.scm:8
-#, fuzzy
-msgid "Set Transpose Interval"
-msgstr "パスワード期限切れ警告の間隔"
-
-#: ../actions/menus/ObjectMenu/Score/Typesetter/TransposeScorePrint.scm:47
 msgid ""
 "Give Interval to transpose by as two note names, \n"
 "     for example \"c g\" means transpose 5th up.\n"
@@ -25390,6 +25668,14 @@ msgstr "前に五線を追加"
 msgid "Adds a staff at the bottom for the instrument selected from the templates/instruments directory. The name and range of the instrument is set with any transposition for playback if needed."
 msgstr ""
 
+#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/AddMirrorStaff.xml.h:1
+msgid "Add Staff (Borrowed/Mirrored Music)"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/AddMirrorStaff.xml.h:2
+msgid "Adds a staff whose music is automatically mirrored from another staff of your choice. Use this e.g. to create a staff with two divisi parts, while keeping the second part as a separate staff, or to typeset both Fret Diagrams and Chord Symbols from the same music. Note that initial clef/key/time are copied not mirrored."
+msgstr ""
+
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/CouleStaff.scm:4
 msgid "This staff creates notes drawn as a diagonal line. Use these to create a coule between two notes another part."
 msgstr ""
@@ -25434,12 +25720,12 @@ msgstr "メディアマークに追加(_M)"
 msgid "This staff is purely for holding marks that should appear once at the top of the system - avoiding having to put the marks in each part. It must have a blank part name, so that it is typeset with every part. The marks should be spaced using either dummy notes or spacers.\\nWARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!"
 msgstr ""
 
-#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm:77
+#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm:79
 #, fuzzy
 msgid "Click Track Creation"
 msgstr "クリック"
 
-#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm:77
+#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm:79
 #, fuzzy
 msgid "Give number of measures required: "
 msgstr "変更の間に必要な日数"
@@ -26030,19 +26316,28 @@ msgstr "コンテキストがこの五線に設定されています"
 msgid "Sets the size of the staff on printing relative to the default 0. Value -3 is tiny 3 is large."
 msgstr ""
 
-#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.scm:39
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.scm:34
 #, fuzzy
-msgid "Substituted Music"
-msgstr "以前に実行したコマンドがありません"
+#| msgid "There is no voice below this one to split from"
+msgid "There are no other staffs for this one to mirror."
+msgstr "これより下には分割できる声部がありません"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.scm:50
+msgid "Right click to update clef/time/key"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.scm:54
+msgid "Music here is mirrored from "
+msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.xml.h:1
 #, fuzzy
 #| msgid "Stopped  (Off/On)"
-msgid "Substitute Music (Off/On)"
+msgid "Substitute Music (Borrowed/Mirrored)"
 msgstr "ゲシュトップ (オフ/オン)"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SubstituteMusic.xml.h:2
-msgid "Typesets this staff with the music from another staff, ignoring any music entered on this staff. Use this, for example, to typeset both Fret Diagrams and Chord Symbols from the same music."
+msgid "Typesets this staff with the music from another staff, ignoring any music entered on this staff. Use this e.g. to create a staff with two divisi parts, while keeping the second part as a separate staff, or to typeset both Fret Diagrams and Chord Symbols from the same music. Note that initial clef/key/time are copied not mirrored."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Tablature/SetTabStrings.xml.h:1
@@ -26096,6 +26391,14 @@ msgstr "印刷"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.xml.h:2
 msgid "Prints this staff (only) transposed. This is in addition to any score-wide transposition"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/StaffMenu/Voices/AddMirrorVoice.xml.h:1
+msgid "Add Voice (Borrowed/Mirrored Music)"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/StaffMenu/Voices/AddMirrorVoice.xml.h:2
+msgid "Adds a voice whose music is automatically mirrored from another staff of your choice. Use this e.g. to create a staff with two divisi parts, while keeping the second part as a separate staff, or to typeset both Fret Diagrams and Chord Symbols from the same music. Note that initial clef/key/time are copied not mirrored."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/CreatePartsFromTop.xml.h:1
@@ -26454,6 +26757,21 @@ msgstr " --half-bright   [on|off]          薄暗色 (半輝度) \n"
 msgid "In time signatures 3/N prevent beaming across the beat. Repeat the command to allow such beaming."
 msgstr ""
 
+#: ../actions/menus/ObjectMenu/TimeSig/CadenzaTime.scm:6
+#: ../actions/menus/ObjectMenu/TimeSig/CadenzaTime.xml.h:2
+msgid "Inserts a non-printing timesignature to indicate a cadenza follows. You must insert any barlines and beaming you require (otherwise none will typeset). End the cadenza by inserting an End Cadenza Time in a new Denemo bar."
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/TimeSig/CadenzaTime.scm:14
+#, fuzzy
+msgid "Cadenza"
+msgstr "この日で終わる"
+
+#: ../actions/menus/ObjectMenu/TimeSig/CadenzaTime.xml.h:1
+#, fuzzy
+msgid "Start Cadenza Time"
+msgstr "起動時には"
+
 #: ../actions/menus/ObjectMenu/TimeSig/ChooseTimeSignature.xml.h:1
 #, fuzzy
 msgid "Choose Typical Time Signature"
@@ -26473,6 +26791,22 @@ msgstr "拍子記号の変更を挿入する"
 #, fuzzy
 msgid "Inserts a time signature (for use in Chord Charts)"
 msgstr "拍子記号の変更を現在の小節で編集/挿入する"
+
+#: ../actions/menus/ObjectMenu/TimeSig/EndCadenzaTime.scm:9
+#, fuzzy
+msgid "End Cad."
+msgstr "この日で終わる"
+
+#: ../actions/menus/ObjectMenu/TimeSig/EndCadenzaTime.scm:12
+#: ../actions/menus/ObjectMenu/TimeSig/EndCadenzaTime.xml.h:2
+#, fuzzy
+msgid "Inserts a non-printing time signature to resume normal measured music."
+msgstr "拍子記号の変更を現在の小節で編集/挿入する"
+
+#: ../actions/menus/ObjectMenu/TimeSig/EndCadenzaTime.xml.h:1
+#, fuzzy
+msgid "End Cadenza Time"
+msgstr "この日で終わる"
 
 #: ../actions/menus/ObjectMenu/TimeSig/HideTimesig.xml.h:2
 msgid "On printing, omit the time signature change at the cursor, or the initial time signature if the cursor is not on a time signature change."
@@ -27010,6 +27344,10 @@ msgid "Another great feature is the ability to put links in the score to the ori
 msgstr "もうひとつの素晴らしい機能は、楽譜から複写元の文書にリンクを張ることができることです。リンクをクリックすると、文書を開いてあなたが見ている小節をハイライト表示します。この機能を使って、中断したところから作業を継続したり、自信のない小節を見直すことができます。"
 
 #, fuzzy
+#~ msgid "Substituted Music"
+#~ msgstr "以前に実行したコマンドがありません"
+
+#, fuzzy
 #~ msgid "Set From Selection"
 #~ msgstr "選択範囲をファイル名と解釈してファイルを開く"
 
@@ -27044,10 +27382,6 @@ msgstr "もうひとつの素晴らしい機能は、楽譜から複写元の文
 #, fuzzy
 #~ msgid "LilyPond After Movement"
 #~ msgstr "後ろに楽章を挿入"
-
-#, fuzzy
-#~ msgid "Tuplet Brackets (On/Off)"
-#~ msgstr "連符数をカスタマイズ"
 
 #~ msgid "Opus"
 #~ msgstr "作品番号"
