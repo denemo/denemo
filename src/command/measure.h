@@ -11,7 +11,7 @@
 
 measurenode *addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all);
 
-void freeobjlist (gpointer data, gpointer user_data);
+void freeobjlist (gpointer data);
 
 measurenode *removemeasures (DenemoMovement * si, guint pos, guint nummeasures, gboolean all);
 
@@ -25,4 +25,7 @@ objnode *measure_first_obj_node (measurenode * mnode);
 
 objnode *measure_last_obj_node (measurenode * mnode);
 
+DenemoMeasure *clone_measure (DenemoMeasure *m);
+
+void free_measure (DenemoMeasure *m);
 #endif

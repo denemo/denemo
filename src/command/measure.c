@@ -47,7 +47,7 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
           gint j;
           for (j = 1, curstaff = si->thescore; curstaff; j++, curstaff = curstaff->next)
             {
-              store_for_undo_measure_insert (si, j, pos);
+              store_for_undo_measure_create (si, j, pos);
               barlinenode = g_malloc0 (sizeof (DenemoMeasure)); //use NULL  originally
               ((DenemoStaff *) curstaff->data)->themeasures = g_list_insert (staff_first_measure_node (curstaff), barlinenode, pos);
               ((DenemoStaff *) curstaff->data)->nummeasures++;
@@ -56,7 +56,7 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
         }
       else
         {
-          store_for_undo_measure_insert (si, si->currentstaffnum, pos);
+          store_for_undo_measure_create (si, si->currentstaffnum, pos);
            barlinenode = g_malloc0 (sizeof (DenemoMeasure)); //use NULL  originally
           ((DenemoStaff *) si->currentstaff->data)->themeasures = g_list_insert (staff_first_measure_node (si->currentstaff), barlinenode, pos);
           ((DenemoStaff *) si->currentstaff->data)->nummeasures++;
@@ -113,7 +113,7 @@ freeit_object (gpointer data, gpointer user_data)
  *
  */
 void
-freeobjlist (gpointer data, gpointer user_data)
+freeobjlist (gpointer data)
 {
   objnode *delobjs = (objnode *) data;
   if (delobjs)
@@ -125,7 +125,26 @@ freeobjlist (gpointer data, gpointer user_data)
     }
 }
 
+DenemoMeasure *
+clone_measure (DenemoMeasure* m)
+{ GList *g;
+   DenemoMeasure *ret = g_malloc0 (sizeof (DenemoMeasure));
+   memcpy (ret, m, sizeof (DenemoMeasure));
+   ret->objects = NULL;
+   for (g=m->objects;g;g=g->next)
+    ret->objects = g_list_append (ret->objects, dnm_clone_object (g->data));
+//the cache values will need recalculating depending on how the clone is used.
+    return ret;
+}
 
+void
+free_measure (DenemoMeasure *m)
+{
+  GList *g;
+   for (g=m->objects;g;g=g->next)
+     freeobjlist (g);  
+  m->objects = NULL;
+}
 /**
  * staffremovemeasures
  * Contains common code to remove a measure from a staff
@@ -138,7 +157,7 @@ void
 staffremovemeasures (staffnode * curstaff, guint pos)
 {
   //g_debug ("In Staffremovemeasures\n");
-  take_snapshot ();
+  DenemoMovement *si = Denemo.project->movement;
   measurenode *firstmeasure;
   measurenode *delmeasure;
 
@@ -147,22 +166,40 @@ staffremovemeasures (staffnode * curstaff, guint pos)
   if (delmeasure)
     {
 
-      //  g_debug ("Firstmeasure %x\t DelMeasure %x \t Position\n",
-      //       firstmeasure, delmeasure, pos);
-
-
-      freeobjlist (((DenemoMeasure*)delmeasure->data)->objects, NULL);
-      ((DenemoStaff *) curstaff->data)->themeasures = g_list_remove_link (firstmeasure, delmeasure); //FIXME DANGER
-      g_free ((DenemoMeasure*)delmeasure->data);
-      g_list_free_1 (delmeasure);
-
-      ((DenemoStaff *) curstaff->data)->nummeasures--;
+          //  g_debug ("Firstmeasure %x\t DelMeasure %x \t Position\n",
+          //       firstmeasure, delmeasure, pos);
+         
+          
+        DenemoUndoData *undo;
+        if (!si->undo_guard)
+            {
+              undo = (DenemoUndoData *) g_malloc (sizeof (DenemoUndoData));
+              undo->object = clone_measure ((DenemoMeasure*)delmeasure->data);
+            }
+       // freeobjlist (((DenemoMeasure*)delmeasure->data)->objects, NULL);
+        
+        free_measure (delmeasure->data);
+        ((DenemoStaff *) curstaff->data)->themeasures = g_list_remove_link (firstmeasure, delmeasure); //FIXME DANGER
+        g_free ((DenemoMeasure*)delmeasure->data);
+        g_list_free_1 (delmeasure);
+        ((DenemoStaff *) curstaff->data)->nummeasures--;
+        if ( ((DenemoStaff *) curstaff->data)->themeasures != NULL)
+            {//if the removed measures have a clef change in them the noteheights may need to change so...  
+            cache_staff (curstaff);
+            staff_fix_note_heights (curstaff->data);
+            }
+        if (!si->undo_guard)
+            {
+              get_position (si, &undo->position);
+              //!!!!!!!! that is setting the cursor position 
+                undo->position.staff = 1 + g_list_position (si->thescore, curstaff); 
+                g_print ("Setting staff %d\n", undo->position.staff);
+              undo->action = ACTION_MEASURE_DELETE;
+              update_undo_info (si, undo);
+            }
     }
- if ( ((DenemoStaff *) curstaff->data)->themeasures == NULL)
-    return;
-//if the removed measures have a clef change in them the noteheights may need to change so...  
-  cache_staff (curstaff);
-  staff_fix_note_heights (curstaff->data);
+ else
+    g_warning ("Request to delete non-existent measure %d", pos);
 }
 
 /**
@@ -185,6 +222,8 @@ removemeasures (DenemoMovement * si, guint pos, guint nummeasures, gboolean all)
 
   if (nummeasures <= g_list_length (staff_first_measure_node ((staffnode *) si->currentstaff)) - pos)
     {
+      if(all)
+        stage_undo (si, ACTION_STAGE_END); 
       for (i = 0; i < nummeasures; i++)
         {
           totalmeasures = 0;
@@ -215,6 +254,8 @@ removemeasures (DenemoMovement * si, guint pos, guint nummeasures, gboolean all)
         }
       set_measure_transition (20, all);
       all?  cache_all (): cache_staff (si->currentstaff);
+      if(all)
+        stage_undo (si, ACTION_STAGE_START); 
     }
   else
     {

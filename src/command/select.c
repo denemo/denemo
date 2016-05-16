@@ -13,6 +13,7 @@
 #include "command/commandfuncs.h"
 #include <denemo/denemo.h>
 #include "display/draw.h"
+#include "display/calculatepositions.h"
 #include "command/object.h"
 #include "command/measure.h"
 #include "command/select.h"
@@ -354,7 +355,7 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
       else
         for (; curmeasure && jcounter < si->selection.lastmeasuremarked; curmeasure = curmeasure->next, jcounter++)
           {
-            freeobjlist (((DenemoMeasure*)curmeasure->data)->objects, NULL);
+            freeobjlist (((DenemoMeasure*)curmeasure->data)->objects);
             ((DenemoMeasure*)curmeasure->data)->objects = NULL;
           }
       /* Now clear the relevant part of the last measure selected */
@@ -397,7 +398,7 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
             for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
               {
                 curmeasure = g_list_nth (staff_first_measure_node (curstaff), si->selection.firstmeasuremarked - 1);
-                freeobjlist ( ((DenemoMeasure*)curmeasure->data)->objects, NULL);
+                freeobjlist ( ((DenemoMeasure*)curmeasure->data)->objects);
                  ((DenemoMeasure*)curmeasure->data)->objects = NULL;
                  
                 cache_staff (curstaff);
@@ -416,7 +417,7 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
               /* Measure loop */
               for (jcounter = si->selection.firstmeasuremarked, curmeasure = g_list_nth (staff_first_measure_node (curstaff), jcounter - 1); curmeasure && jcounter <= si->selection.lastmeasuremarked; curmeasure = curmeasure->next, jcounter++)
                 {
-                  freeobjlist ( ((DenemoMeasure*)curmeasure->data)->objects, NULL);
+                  freeobjlist ( ((DenemoMeasure*)curmeasure->data)->objects);
                    ((DenemoMeasure*)curmeasure->data)->objects = NULL;
                 }
                 
@@ -1024,7 +1025,7 @@ store_for_undo_change (DenemoMovement * si, DenemoObject * curobj)
 }
 
 void
-store_for_undo_measure_insert (DenemoMovement * si, gint staffnum, gint measurenum)
+store_for_undo_measure_create (DenemoMovement * si, gint staffnum, gint measurenum)
 {
   if (!si->undo_guard)
     {
@@ -1058,6 +1059,12 @@ free_chunk (DenemoUndoData * chunk)
     case ACTION_MEASURE_REMOVE:
       g_free (chunk);
       break;
+    case ACTION_MEASURE_DELETE:
+    case ACTION_MEASURE_INSERT:
+      if (chunk->object)
+        free_measure (chunk->object);
+      g_free (chunk);
+      break;  
     case ACTION_SNAPSHOT:
       g_warning ("Snapshot free is not implemented");
       g_free (chunk);
@@ -1134,6 +1141,8 @@ get_last_change (DenemoMovement * si)
       break;
     case ACTION_MEASURE_REMOVE:
       return g_strdup_printf ("Remove %s; at staff %d measure %d position %d; ", DenemoObjTypeNames[((DenemoObject *) last->object)->type], last->position.staff, last->position.measure, last->position.object);
+    case ACTION_MEASURE_DELETE:
+      return g_strdup_printf ("Delete Measure at staff %d measure %d position %d; ", last->position.staff, last->position.measure, last->position.object);
     case ACTION_NOOP:
       return g_strdup_printf ("No-op; ");
       break;
@@ -1168,45 +1177,48 @@ static void
 print_queue (gchar * msg, GQueue * q)
 {
   GList *g;
-  g_debug ("%s", msg);
+  g_print ("%s", msg);
   for (g = q->head; g; g = g->next)
     {
       DenemoUndoData *chunk = g->data;
       switch (chunk->action)
         {
         case ACTION_STAGE_START:
-          g_debug ("[");
+          g_print ("[");
           break;
         case ACTION_STAGE_END:
-          g_debug ("]\n");
+          g_print ("]\n");
           break;
         case ACTION_SNAPSHOT:
-          g_debug ("Snapshot; ");
+          g_print ("Snapshot; ");
           break;
         case ACTION_INSERT:
-          g_debug ("Ins; ");
+          g_print ("Ins; ");
           break;
         case ACTION_DELETE:
-          g_debug ("Del %s; ", DenemoObjTypeNames[((DenemoObject *) chunk->object)->type]);
+          g_print ("Del %s; ", DenemoObjTypeNames[((DenemoObject *) chunk->object)->type]);
           break;
         case ACTION_CHANGE:
-          g_debug ("Chn %s; ", DenemoObjTypeNames[((DenemoObject *) chunk->object)->type]);
+          g_print ("Chn %s; ", DenemoObjTypeNames[((DenemoObject *) chunk->object)->type]);
           break;
         case ACTION_MEASURE_CREATE:
-          g_debug ("Create; ");
+          g_print ("Create; ");
           break;
         case ACTION_MEASURE_REMOVE:
-          g_debug ("Remove; ");
+          g_print ("Remove; ");
+          break;
+        case ACTION_MEASURE_DELETE:
+          g_print ("Delete Measure; ");
           break;
         case ACTION_NOOP:
-          g_debug ("No-op; ");
+          g_print ("No-op; ");
           break;
         default:
-          g_debug ("Unknown action %d\n", chunk->action);
+          g_print ("Unknown action %d\n", chunk->action);
 
         }
     }
-  g_debug ("End queue");
+  g_print ("End queue");
 }
 
 
@@ -1227,9 +1239,9 @@ position_for_chunk (DenemoProject * gui, DenemoUndoData * chunk)
     case ACTION_DELETE:
     case ACTION_MEASURE_CREATE:        //this creates an (blank)measure
     case ACTION_MEASURE_REMOVE:        //this is the action that removes a blank measure at pos
+    case ACTION_MEASURE_DELETE:        //this is the action that deletes measure at pos
       {
-        push_given_position (&chunk->position);
-        PopPosition (NULL, &param);
+        goto_movement_staff_obj (NULL /*non-interactive*/, -1, chunk->position.staff, chunk->position.measure, chunk->position.object, chunk->position.leftmeasurenum);
       }
       break;
     case ACTION_NOOP:
@@ -1284,8 +1296,33 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
           }
       }
       break;
-
-
+    case ACTION_MEASURE_DELETE:
+      {
+        //insert the chunk object (a DenemoMeasure) at chunk->position.staff
+        GList *curstaff = g_list_nth (gui->movement->thescore, chunk->position.staff -1); //g_print ("Selecting staff %d\n",  chunk->position.staff -1);
+        ((DenemoStaff *) curstaff->data)->themeasures = g_list_insert (staff_first_measure_node (curstaff), chunk->object, chunk->position.measure - 1);
+        ((DenemoStaff *) curstaff->data)->nummeasures++;
+        find_xes_in_measure (Denemo.project->movement,  chunk->position.measure);
+        cache_staff (curstaff);
+        staff_fix_note_heights (curstaff->data);
+        chunk->action = ACTION_MEASURE_INSERT;
+        chunk->position.measure++;
+        chunk->object = NULL;
+        //FIXME in the next line, what position should be used???
+        Denemo.project->movement->measurewidths = g_list_insert (Denemo.project->movement->measurewidths, GINT_TO_POINTER (Denemo.project->movement->measurewidth), chunk->position.measure);
+         if (chunk->position.measure > 1)
+          chunk->position.measure--, g_print ("moving to %d\n", chunk->position.measure);
+        position_for_chunk (gui, chunk); 
+        setcurrents (Denemo.project->movement);
+      }
+      break;
+    case ACTION_MEASURE_INSERT:
+      {
+        chunk->object = clone_measure (gui->movement->currentmeasure->data);
+        dnm_deletemeasure (gui->movement);
+        chunk->action = ACTION_MEASURE_DELETE;
+      }
+      break;
 
     case ACTION_STAGE_START:
       gui->undo_level++;
@@ -1295,7 +1332,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
     case ACTION_STAGE_END:
       gui->undo_level--;
       *pchunk = &ActionStageStart;
-
+      setcurrents (Denemo.project->movement);
       break;
     case ACTION_SCRIPT_ERROR:
       //chunk = &ActionScriptError;
@@ -1386,7 +1423,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
               for (direc = gui->movement->movementcontrol.directives; direc; direc = direc->next)
                 {
                   DenemoDirective *directive = direc->data;
-                  gtk_widget_destroy (directive->widget);
+                  if(directive->widget) gtk_widget_destroy (directive->widget);
                   directive->widget = NULL;
 
                 }
@@ -1396,7 +1433,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
               for (direc = gui->movement->header.directives; direc; direc = direc->next)
                 {
                   DenemoDirective *directive = direc->data;
-                  gtk_widget_destroy (directive->widget);
+                  if(directive->widget) gtk_widget_destroy (directive->widget);
                   directive->widget = NULL;
                 }
             }
@@ -1405,7 +1442,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
               for (direc = gui->movement->layout.directives; direc; direc = direc->next)
                 {
                   DenemoDirective *directive = direc->data;
-                  gtk_widget_destroy (directive->widget);
+                  if(directive->widget) gtk_widget_destroy (directive->widget);
                   directive->widget = NULL;
                 }
             }
@@ -1490,6 +1527,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
             gui->movement->undo_guard = initial_guard;        //we keep all the guards we had on entry which will be removed when
             gui->movement->changecount = initial_changecount;
             position_for_chunk (gui, chunk);// !!!!! this doesn't call goto_movement_staff_obj   //FIXME check return val
+            setcurrents (Denemo.project->movement);
             if (!gui->movement->currentmeasure)
               {
                 g_warning (
@@ -1503,7 +1541,8 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
                       chunk->position.leftmeasurenum /**< start at 1 */);
                 movetoend (NULL, NULL);
               }
-            gui->movement->currentstaffnum = 1 + g_list_position (gui->movement->thescore, gui->movement->currentstaff);
+           //without this currentstaffnum is set wrongly, and moveviewport causes a crash.
+           gui->movement->currentstaffnum = 1 + g_list_position (gui->movement->thescore, gui->movement->currentstaff);
           
           }
         else
@@ -1650,9 +1689,7 @@ redo (DenemoProject * gui)
 void
 update_undo_info (DenemoMovement * si, DenemoUndoData * undo)
 {
-
-
-  //g_debug ("Adding: Action %d at pos %d appending %d\n",  undo->action, undo->position.object, undo->position.appending); 
+  //g_print ("Adding: Action %d at pos %d appending %d\n",  undo->action, undo->position.object, undo->position.appending); 
 
   //  if (g_queue_get_length (si->undodata) == MAX_UNDOS)
   //    {

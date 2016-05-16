@@ -199,6 +199,8 @@ typedef enum  action_type {
   ACTION_SCRIPT_ERROR,//6
   ACTION_MEASURE_REMOVE,//7
   ACTION_MEASURE_CREATE,//8
+  ACTION_MEASURE_INSERT,//9
+  ACTION_MEASURE_DELETE,//10
   ACTION_NOOP = -1//
 }action_type;
 
@@ -756,7 +758,7 @@ typedef struct DenemoUndoData
 {
   enum action_type action; /*action type must come first*/
   
-  DenemoObject* object;    /* pointer to object to be undone/redone */
+  gpointer object;    /* pointer to object to be undone/redone */
   DenemoPosition position; /* position where delete/insert took place */
  
 } DenemoUndoData;

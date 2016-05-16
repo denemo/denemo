@@ -86,5 +86,5 @@ gchar *get_last_change (DenemoMovement * si);
 
 void insert_clipboard (GList * clipboard);
 gint get_clip_objs (gint m);
-void store_for_undo_measure_insert (DenemoMovement * si, gint staffnum, gint measurenum);
+void store_for_undo_measure_create (DenemoMovement * si, gint staffnum, gint measurenum);
 #endif
