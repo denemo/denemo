@@ -828,7 +828,8 @@ close_project (void)
 /* remove all the movements (ie the DenemoMovement) leaving it with project->movement NULL */
 void
 free_movements (DenemoProject * project)
-{gint success;
+{
+  gint success;
    if(!is_playing())
        success = delete_imported_midi(); g_print("Success %d\n", success);
   GList *g;
