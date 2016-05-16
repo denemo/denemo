@@ -1047,7 +1047,7 @@ what##_directive_put_##field(gchar *tag, gchar *value) {\
     directive->field = g_string_new(value);\
   if(!Denemo.non_interactive){\
     widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
-    g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
+    if (directive->widget) g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
   }\
   return TRUE;\
 }
@@ -1148,7 +1148,7 @@ what##_directive_put_##field(gchar *tag, gint value) {\
   directive->field = value;\
   if(!Denemo.non_interactive){\
     widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
-    g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
+    if (directive->widget) g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
   }\
   return TRUE;\
 }
@@ -1499,7 +1499,7 @@ void
 widget_for_directive_menu (DenemoDirective * directive, void fn (), GtkMenu * menu)
 {
   if(Denemo.non_interactive) return;
-  if (menu==NULL) return;
+ //if (menu==NULL) return; this kills the titles bar!
   GtkWidget *box;
   gchar *value = "";
   //FIXME we don't need value now...
@@ -1527,7 +1527,7 @@ widget_for_directive_menu (DenemoDirective * directive, void fn (), GtkMenu * me
 voice and staff directives no longer have these popup menus, instead the staff voice editor is used.
 however, at least the rest of this code expects a valid GtkWidget...
 #endif
-          g_print("Doing the staff or voice case");
+         //g_print("Doing the staff or voice case");
           directive->widget = GTK_WIDGET (gtk_menu_item_new_with_label (value));        //WARNING _with_label is important
 //          attach_textedit_widget (directive);
 //          g_signal_connect (G_OBJECT (directive->widget), "button-release-event", G_CALLBACK (button_callback), directive);
@@ -1663,7 +1663,7 @@ what##_directive_put_##field(gchar *tag, gchar *value) {\
     directive->field = g_string_new(value);\
   if(!Denemo.non_interactive){\
     widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
-    g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", (gpointer)&current->name); \
+    if (directive->widget) g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", (gpointer)&current->name); \
   }\
   return TRUE;\
 }
@@ -1684,7 +1684,7 @@ what##_directive_put_##field(gchar *tag, gint value) {\
   directive->field = value;\
   if(!Denemo.non_interactive){\
     widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
-    g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
+    if (directive->widget) g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
   }\
   return TRUE;\
 }
@@ -1709,7 +1709,7 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
     g_string_assign(directive->graphic_name, value);\
   if(!Denemo.non_interactive){\
     widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
-    g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
+    if (directive->widget) g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
   }\
   return directive != NULL;\
 }
