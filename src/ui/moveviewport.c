@@ -118,6 +118,7 @@ set_bottom_staff (DenemoProject * gui)
 
   /* Bump up si->top_staff, if necessary.  */
   staff_iterator = g_list_nth (gui->movement->thescore, gui->movement->top_staff - 1);
+  if (!staff_iterator) {gui->movement->top_staff = 1;g_critical ("Bad top staff number %d",gui->movement->top_staff);  return;}//g_assert (staff_iterator);
   if (!((DenemoStaff *) staff_iterator->data)->voicecontrol & DENEMO_PRIMARY)
     to_next_primary_voice (&gui->movement->top_staff, &staff_iterator);
 
@@ -147,6 +148,7 @@ set_bottom_staff (DenemoProject * gui)
 void
 isoffleftside (DenemoProject * gui)
 {
+  if (gui->movement->currentmeasurenum == 0) gui->movement->currentmeasurenum = 1;
   if (gui->movement->currentmeasurenum >= gui->movement->leftmeasurenum)
     return;
   while (gui->movement->currentmeasurenum < gui->movement->leftmeasurenum)
@@ -252,12 +254,13 @@ move_viewport_down (DenemoProject * gui)
 
 /**
  * Sets the si->currentmeasurenum to the given value
- * if exists, making it the leftmost measure visible, extending selection or not
+ * if exists, making it the leftmost measure visible, not extending selection
  *
  */
 static gboolean
-goto_currentmeasurenum (DenemoProject * gui, gint dest, gint leftmeasurenum)
+goto_currentmeasurenum (gint dest, gint leftmeasurenum)
 {
+  DenemoProject *gui = Denemo.project;
   if ((dest > 0) && (dest <= (gint) (g_list_length (gui->movement->measurewidths))))
     {
       //gui->movement->leftmeasurenum = dest;
@@ -285,7 +288,7 @@ goto_currentmeasurenum (DenemoProject * gui, gint dest, gint leftmeasurenum)
 gboolean
 set_currentmeasurenum (DenemoProject * gui, gint dest)
 {
-  return goto_currentmeasurenum (gui, dest, FALSE);
+  return goto_currentmeasurenum (dest, 0);
 }
 
 /**
@@ -296,7 +299,7 @@ set_currentmeasurenum (DenemoProject * gui, gint dest)
 gboolean
 moveto_currentmeasurenum (DenemoProject * gui, gint dest, gint leftmeasurenum)
 {
-  return goto_currentmeasurenum (gui, dest, leftmeasurenum);
+  return goto_currentmeasurenum (dest, leftmeasurenum);
 }
 
 
