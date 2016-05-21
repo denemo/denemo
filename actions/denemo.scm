@@ -1295,9 +1295,26 @@
                 (set! choice (append choice (list (cons (_ "piece") 'piece) (cons (_ "opus") 'opus)))))
 
            (if (d-Directive-scoreheader? "BookTitle")
-                (begin
-                    (set! param 'abort)
-                    (d-WarningDialog (_ "You have book titles created for this score.\nYou can delete them in the score and movement editor and then use simple titles."))))
+                (let ((decide (RadioBoxMenu (cons (_ "Switch to Simple Titles") 'switch) (cons (_ "Cancel") #f))))
+                    (if decide
+                        (begin
+                            (d-DirectiveDelete-score "TopMargin")
+                            (d-LilyPondInclude (cons 'delete "simplified-book-titling.ily"))
+                            (set! arranger (d-DirectiveGet-scoreheader-data "BookArranger"))
+                            (set! composer (d-DirectiveGet-scoreheader-data "BookComposer"))
+                            (set! instrument (d-DirectiveGet-scoreheader-data "BookInstrumentation"))
+                            (set! copyright (d-DirectiveGet-scoreheader-data "BookCopyright"))
+                            (set! meter (d-DirectiveGet-scoreheader-data "BookDate"))
+                            (set! poet (d-DirectiveGet-scoreheader-data "BookPoet"))
+                            (set! title (d-DirectiveGet-scoreheader-data "BookTitle"))
+                            (d-DirectiveDelete-scoreheader "BookArranger")
+                            (d-DirectiveDelete-scoreheader "BookComposer")
+                            (d-DirectiveDelete-scoreheader "BookInstrumentation")
+                            (d-DirectiveDelete-scoreheader "BookCopyright")
+                            (d-DirectiveDelete-scoreheader "BookDate")
+                            (d-DirectiveDelete-scoreheader "BookPoet")
+                            (d-DirectiveDelete-scoreheader "BookTitle"))
+                        (set! param 'abort))))
                 
             (if param
                 (set! choice param)
