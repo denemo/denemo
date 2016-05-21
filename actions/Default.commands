@@ -7856,6 +7856,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Stopped (Off/On)</_label>
         <_tooltip>Mark/Unmark the current chord stopped</_tooltip>
       </row>
+      <row type="scheme">
+        <action>Tongue</action>
+        <after>ToggleStopped</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <_label>Tongue</_label>
+        <_tooltip>Adds a tonguing indication, (a number of staccato dots) to the current note.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
