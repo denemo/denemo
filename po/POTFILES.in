@@ -1383,6 +1383,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleUpBow.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleUpBow.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleVeryLongFermata.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleVeryLongFermata.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Articulations/Tongue.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Articulations/Tongue.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/UpBowSelectionSwitcher.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/UpBowSelectionSwitcher.xml
 actions/menus/ObjectMenu/NotesRests/Markings/ChordSymbols/CompactChordSymbol.scm
