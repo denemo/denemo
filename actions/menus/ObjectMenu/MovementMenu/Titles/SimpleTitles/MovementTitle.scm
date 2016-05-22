@@ -4,4 +4,4 @@
         (d-DirectivePut-header-postfix "SuppressTitleRepeats" "title = ##f\ninstrument = ##f\n")
         (DenemoPrintAllHeaders)
         (d-SetSaved #f))
-    (DenemoSetTitles "MovementTitles" 'subtitle #f))
+    (DenemoSetTitles "MovementTitles" 'title #f))
