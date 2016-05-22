@@ -353,7 +353,7 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
     set_movement_selector (gui);
    }
    
-  if (!moveto_currentstaffnum (gui, staffnum))
+  if (staffnum>0 && !moveto_currentstaffnum (gui, staffnum))
     {
       if (possible_gui)
             warningdialog (_("No such voice"));
@@ -361,7 +361,7 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
             moveto_currentstaffnum (gui, 1);
       return FALSE;
     }
-  if (!moveto_currentmeasurenum (gui, measurenum, leftmeasurenum))
+  if (measurenum>0 && !moveto_currentmeasurenum (gui, measurenum, leftmeasurenum))
     {
       if (possible_gui)
         warningdialog (_("No such measure"));
