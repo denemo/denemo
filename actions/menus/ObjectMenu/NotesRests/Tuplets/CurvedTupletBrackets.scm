@@ -47,6 +47,8 @@
             (+ (* dir pad) (+ (cdr pos) (* -1 dir (cdr edge-height)))))
         )))
   \\override TupletBracket.staff-padding = #'()
+  #(define (invert-direction x) (if (eq? UP (ly:tuplet-bracket::calc-direction x)) DOWN UP))
+\\override TupletBracket.direction = #invert-direction
 }"))
 (let ((tag "CurvedTupletBrackets"))
     (if (d-Directive-layout? tag)
