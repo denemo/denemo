@@ -8527,6 +8527,9 @@ Select the File->Open menu and the item Open a Source for Transcribing.
 When you re-open the score to check or edit at some point you can click
  on a nearby link and the source file will be opened and the position highlighte
 d once again.
+ If you place a link as the very first item on the very first staff of a
+ movement then the link will be automatically opened when the score is opened
+ on that movement.
 \end_layout
 
 \begin_layout Standard
