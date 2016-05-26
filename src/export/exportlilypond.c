@@ -2324,6 +2324,9 @@ set_initiate_scoreblock (DenemoMovement * si, GString * scoreblock)
   for (g = si->movementcontrol.directives; g; g = g->next)
     {
     DenemoDirective *d = (DenemoDirective *) g->data;
+    DenemoScoreblock *sb = selected_scoreblock();
+    if (sb && !(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
+                        continue;
     if ((d->override & DENEMO_OVERRIDE_AFFIX) && (d->prefix))
         {
          g_string_append (movement_prolog, d->prefix->str);

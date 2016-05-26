@@ -23,6 +23,7 @@
 		 	(d-DirectiveDelete-movementcontrol tag)
 			(begin
 			  (d-DirectivePut-movementcontrol-override tag (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_TAGEDIT))
+			  (SetDirectiveConditional  #f (cons "movementcontrol"  tag))
 			  (d-DirectivePut-movementcontrol-display tag "Page Break before Movement")
 			  (d-DirectivePut-movementcontrol-prefix  tag "\n\\pageBreak\n")))
 		(d-DirectivePut-movementcontrol-display TitledPiece title)

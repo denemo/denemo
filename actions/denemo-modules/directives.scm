@@ -303,9 +303,9 @@
             (d-DirectivePut-chord-postfix tag lilypond)
             (if override
           (d-DirectivePut-chord-override tag override))
-           (d-SetSaved #f))))
-
-(define* (SetDirectiveConditional #:optional (directive #f))
+           (d-SetSaved #f))))      
+                                   
+(define* (SetDirectiveConditional #:optional (directive #f) (type/tag #f))
     (define choice (if (equal? (d-StaffProperties "query=lily_name") (d-GetLayoutName))
                         (RadioBoxMenu
                             (cons (string-append (_ "Only for Layout \"") (d-GetLayoutName) "\"") 'default)
@@ -317,19 +317,32 @@
                             (cons (string-append (_ "Only for Layout \"") (d-GetLayoutName) "\"") 'default)
                             (cons (string-append (_ "Ignore for Layout \"") (d-GetLayoutName) "\"") 'ignore-default)
                             (cons (_ "For all Layouts") 'all))))
-    (if (pair? directive)
-        (case choice
-            ((ignore-only) (d-DirectiveNotForLayout (cons (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId)) directive))) 
-            ((ignore-default)  (d-DirectiveNotForLayout (cons (cons (d-GetLayoutName) (d-GetLayoutId))directive)))
-            ((all) (d-DirectiveForAllLayouts directive))
-            ((default) (d-DirectiveOnlyForLayout (cons (cons (d-GetLayoutName) (d-GetLayoutId)) directive)))
-            ((only) (d-DirectiveOnlyForLayout  (cons (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId)) directive))))
-        (case choice
-            ((ignore-only) (d-NotForLayout (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId))))
-            ((ignore-default) (d-NotForLayout (cons (d-GetLayoutName) (d-GetLayoutId))))
-            ((all) (d-ForAllLayouts))
-            ((default) (d-OnlyForLayout (cons (d-GetLayoutName) (d-GetLayoutId))))
-            ((only) (d-OnlyForLayout (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId)))))))
+                            
+     (if type/tag 
+            (case choice
+                    ((ignore-only) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-x")) (cdr type/tag)  
+                                    (d-GetCurrentStaffLayoutId)))
+                    ((ignore-default) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-x")) (cdr type/tag)  
+                                    (d-GetLayoutId)))
+                    ((all) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-x")) (cdr type/tag)   0)
+                            ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-y")) (cdr type/tag)   0))
+                    ((default) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-y")) (cdr type/tag) 
+                            (d-GetLayoutId)))
+                    ((only) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-y")) (cdr type/tag) 
+                            (d-GetCurrentStaffLayoutId))))
+            (if (pair? directive)
+                (case choice
+                    ((ignore-only) (d-DirectiveNotForLayout (cons (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId)) directive))) 
+                    ((ignore-default)  (d-DirectiveNotForLayout (cons (cons (d-GetLayoutName) (d-GetLayoutId))directive)))
+                    ((all) (d-DirectiveForAllLayouts directive))
+                    ((default) (d-DirectiveOnlyForLayout (cons (cons (d-GetLayoutName) (d-GetLayoutId)) directive)))
+                    ((only) (d-DirectiveOnlyForLayout  (cons (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId)) directive))))
+                (case choice
+                    ((ignore-only) (d-NotForLayout (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId))))
+                    ((ignore-default) (d-NotForLayout (cons (d-GetLayoutName) (d-GetLayoutId))))
+                    ((all) (d-ForAllLayouts))
+                    ((default) (d-OnlyForLayout (cons (d-GetLayoutName) (d-GetLayoutId))))
+                    ((only) (d-OnlyForLayout (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId))))))))
 
 ;;; Toggle the DENEMO_OVERRIDE_HIDDEN override of the directive at the cursor
 (define (ToggleHidden type tag) ;;; eg (ToggleHidden "note" "Fingering")

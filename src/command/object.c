@@ -892,7 +892,18 @@ static void make_note_directive_conditional (gchar *tag)
         g_free (script);
         recover_object_editor ();
     }
-   
+static void make_movementcontrol_directive_conditional (DenemoDirective *directive)
+    {
+        gtk_widget_destroy (TheEditorWidget);
+        if (directive && directive->tag)
+            {
+                gchar *script = g_strdup_printf ("(SetDirectiveConditional  #f (cons \"movementcontrol\" \"%s\"))", directive->tag->str); 
+                call_out_to_guile (script);
+                g_free (script);
+                score_status (Denemo.project, TRUE);
+            }
+        edit_movement_properties();
+    }   
 #if GTK_MAJOR_VERSION == 2
 #define GdkRGBA GdkColor
 #define gtk_widget_override_color gtk_widget_modify_fg
@@ -1699,9 +1710,9 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
              GtkWidget *frame;
              gchar *text;
             if (label == NULL)
-                text = g_strdup_printf( _("Denemo %s Directive tagged: %s"), type, name);
+                text = g_strdup_printf( _("%sDenemo %s Directive tagged: %s"), (directive->x||directive->y)?_( "(Conditional) "):"", type, name);
             else
-                text = g_strdup_printf (_("Denemo %s Directive: %s"), type, label);
+                text = g_strdup_printf (_("%sDenemo %s Directive: %s"), (directive->x||directive->y)?_( "(Conditional) "):"",type, label);
             frame = gtk_frame_new (text);
             g_free(text);
             //gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
@@ -1714,7 +1725,8 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
             get_color (&color, 0.8, 0.8, 0.1, 1.0);
             gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
             gtk_container_add (GTK_CONTAINER (frame), inner_box);
-            GtkWidget *button;    
+            GtkWidget *button;   
+
              if (filename)
                 {
                 gchar *thelabel = g_strconcat ( _("Run the Edit Script for "), name, NULL);
@@ -1750,6 +1762,14 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
             g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
             g_signal_connect (button, "clicked", G_CALLBACK (delete_score_directive), NULL);
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 30);
+            if(!strcmp (field, "movementcontrol"))
+                {
+                    button = gtk_button_new_with_label (_("Conditional"));
+                    get_color (&color, 0.0, 0.0, 0.5, 1.0);
+                    gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+                    g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (make_movementcontrol_directive_conditional), (gpointer)directive);
+                    gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+                }
             
              if (tooltip)
             {
@@ -1759,6 +1779,9 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
                 g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (display_help), (gpointer)tooltip);
                 gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
             }
+            
+            
+            
             if (tooltip == NULL) tooltip = _("No tooltip");
 
             if (action) {
