@@ -176,9 +176,9 @@ Denemo 48</graphic_name>
               <minpixels>30</minpixels>
               <tx>-30</tx>
               <ty>60</ty>
-              <ignore>
+              <allow>
                 <layout>590638834</layout>
-              </ignore>
+              </allow>
             </lily-directive>
             <rest show="true" id="id4">
               <duration base="whole"></duration>
@@ -228,9 +228,9 @@ Denemo 48</graphic_name>
               <minpixels>30</minpixels>
               <tx>-30</tx>
               <ty>60</ty>
-              <ignore>
+              <allow>
                 <layout>590638834</layout>
-              </ignore>
+              </allow>
             </lily-directive>
           </measure>
           <measure>

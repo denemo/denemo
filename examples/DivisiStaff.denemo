@@ -116,9 +116,9 @@ Serif
               <minpixels>30</minpixels>
               <tx>-30</tx>
               <ty>60</ty>
-              <ignore>
+              <allow>
                 <layout>-88770580</layout>
-              </ignore>
+              </allow>
             </lily-directive>
             <chord show="true" id="id4">
               <duration base="quarter"></duration>
@@ -203,9 +203,9 @@ Serif
               <minpixels>30</minpixels>
               <tx>-30</tx>
               <ty>60</ty>
-              <ignore>
+              <allow>
                 <layout>-88770580</layout>
-              </ignore>
+              </allow>
             </lily-directive>
             <chord show="true" id="id11">
               <duration base="quarter"></duration>

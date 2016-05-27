@@ -206,9 +206,9 @@ Serif
               <minpixels>30</minpixels>
               <tx>-30</tx>
               <ty>60</ty>
-              <allow>
+              <ignore>
                 <layout>1565123411</layout>
-              </allow>
+              </ignore>
             </lily-directive>
             <chord show="true" id="id3">
               <duration base="half"></duration>
@@ -534,9 +534,9 @@ Serif
               <minpixels>30</minpixels>
               <tx>-30</tx>
               <ty>60</ty>
-              <allow>
+              <ignore>
                 <layout>1565123411</layout>
-              </allow>
+              </ignore>
             </lily-directive>
             <chord show="true" id="id56">
               <duration base="half"></duration>
@@ -830,9 +830,9 @@ Serif
               <minpixels>30</minpixels>
               <tx>-30</tx>
               <ty>60</ty>
-              <allow>
+              <ignore>
                 <layout>1565123411</layout>
-              </allow>
+              </ignore>
             </lily-directive>
             <chord show="true" id="id105">
               <duration base="half"></duration>
@@ -1149,9 +1149,9 @@ Serif
               <minpixels>30</minpixels>
               <tx>-30</tx>
               <ty>60</ty>
-              <allow>
+              <ignore>
                 <layout>1565123411</layout>
-              </allow>
+              </ignore>
             </lily-directive>
             <chord show="true" id="id156">
               <duration base="half"></duration>
