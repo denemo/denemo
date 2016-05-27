@@ -305,7 +305,7 @@ parseDirective (xmlNodePtr parentElem, DenemoDirective * directive)
         /* FIXME,handle not loaded */
       }
       
-  if (ELEM_NAME_EQ (childElem, "allowed"))
+  if (ELEM_NAME_EQ (childElem, "allow"))
         {
             directive->flag = DENEMO_ALLOW_FOR_LAYOUTS;
             directive->layouts = parseLayouts (childElem);

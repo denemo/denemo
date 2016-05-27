@@ -1810,7 +1810,7 @@ create_scoreheader_directives (GtkWidget * vbox)
       if (directive->postfix == NULL)
         continue;
       DenemoScoreblock *sb = selected_scoreblock();//FIXME should sb be passed in???
-      if (sb && wrong_layout (sb->id, directive))
+      if (sb && wrong_layout (directive, sb->id))
                         continue;  
         
       create_element (header_box, gtk_label_new (directive->tag->str), g_strdup (directive->postfix->str));
@@ -1836,7 +1836,7 @@ create_score_directives (GtkWidget * vbox)
     {
       DenemoDirective *directive = g->data;
       DenemoScoreblock *sb = selected_scoreblock();//FIXME should sb be passed in???
-      if (sb && wrong_layout (sb->id, directive))
+      if (sb && wrong_layout (directive, sb->id))
                         continue;               
       if (directive->prefix && !(directive->override & (DENEMO_OVERRIDE_AFFIX)))
         {

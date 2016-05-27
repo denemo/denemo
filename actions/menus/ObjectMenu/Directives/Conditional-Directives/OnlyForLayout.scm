@@ -3,7 +3,7 @@
    (define (d-InfoDialog string)
         (Help::TimedNotice (string-append string "\n") 5000)) 
     (define (put-cond)
-        (d-DirectivePut-standalone-y tag id)
+        (d-DirectivePut-standalone-allow tag id)
         (d-DirectivePut-standalone-display tag  (string-append (_ " for ") layout))
         (d-DirectivePut-standalone-ty tag 60)
         (d-DirectivePut-standalone-tx tag -30))

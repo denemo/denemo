@@ -320,15 +320,15 @@
                             
      (if type/tag 
             (case choice
-                    ((ignore-only) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-x")) (cdr type/tag)  
+                    ((ignore-only) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-ignore")) (cdr type/tag)  
                                     (d-GetCurrentStaffLayoutId)))
-                    ((ignore-default) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-x")) (cdr type/tag)  
+                    ((ignore-default) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-ignore")) (cdr type/tag)  
                                     (d-GetLayoutId)))
-                    ((all) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-x")) (cdr type/tag)   0)
-                            ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-y")) (cdr type/tag)   0))
-                    ((default) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-y")) (cdr type/tag) 
+                    ((all) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-ignore")) (cdr type/tag)   0)
+                            ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-allow")) (cdr type/tag)   0))
+                    ((default) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-allow")) (cdr type/tag) 
                             (d-GetLayoutId)))
-                    ((only) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-y")) (cdr type/tag) 
+                    ((only) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-allow")) (cdr type-and-tag) 
                             (d-GetCurrentStaffLayoutId))))
             (if (pair? directive)
                 (case choice
