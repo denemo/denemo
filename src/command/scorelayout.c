@@ -1066,7 +1066,7 @@ install_pre_movement_widgets (GtkWidget * vbox, DenemoMovement * si, gboolean st
         continue;
       if (d->override & DENEMO_OVERRIDE_HIDDEN)
         continue; 
-      if (!(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
+      if (sb && wrong_layout (d, sb->id))
         continue;
       if (d->prefix)
         {
@@ -1111,7 +1111,7 @@ install_scoreblock_overrides (GtkWidget * vbox, DenemoProject * gui, DenemoMovem
       if (d->override & DENEMO_OVERRIDE_AFFIX)
         continue;
       DenemoScoreblock *sb = selected_scoreblock();//FIXME should sb be passed in???
-      if (sb && !(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
+      if (sb && wrong_layout (d, sb->id))
                         continue;        
       gchar *start = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
       if (start)
@@ -1810,7 +1810,7 @@ create_scoreheader_directives (GtkWidget * vbox)
       if (directive->postfix == NULL)
         continue;
       DenemoScoreblock *sb = selected_scoreblock();//FIXME should sb be passed in???
-      if (sb && !(((directive->x == 0 || (directive->x!=sb->id))) && ((directive->y == 0 || (directive->y==sb->id)))))
+      if (sb && wrong_layout (sb->id, directive))
                         continue;  
         
       create_element (header_box, gtk_label_new (directive->tag->str), g_strdup (directive->postfix->str));
@@ -1836,7 +1836,7 @@ create_score_directives (GtkWidget * vbox)
     {
       DenemoDirective *directive = g->data;
       DenemoScoreblock *sb = selected_scoreblock();//FIXME should sb be passed in???
-      if (sb && !(((directive->x == 0 || (directive->x!=sb->id))) && ((directive->y == 0 || (directive->y==sb->id)))))
+      if (sb && wrong_layout (sb->id, directive))
                         continue;               
       if (directive->prefix && !(directive->override & (DENEMO_OVERRIDE_AFFIX)))
         {
@@ -1954,7 +1954,7 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
                   DenemoDirective *d = g->data;
                   if (d->override & DENEMO_OVERRIDE_HIDDEN)
                     continue;
-                  if (!(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
+                  if (sb && wrong_layout (d, sb->id))
                         continue;
                   gchar *lily = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
                   if (lily)
@@ -1976,7 +1976,7 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
                   DenemoDirective *d = g->data;
                   if (d->override & DENEMO_OVERRIDE_HIDDEN)
                     continue;
-                  if (!(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
+                  if (sb && wrong_layout (d, sb->id))
                         continue;
                   gchar *lily = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
                   if (lily)
@@ -1996,7 +1996,7 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
                   for (g = si->movementcontrol.directives; g; g = g->next)
                     {
                       DenemoDirective *d = (DenemoDirective *) g->data;
-                      if (!(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
+                      if (sb && wrong_layout (d, sb->id))
                         continue;
                       if (d->override & DENEMO_OVERRIDE_AFFIX && d->postfix)
                         {
@@ -2024,7 +2024,7 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
                     continue;
                   if (d->override & DENEMO_OVERRIDE_HIDDEN)
                     continue;
-                  if (!(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
+                  if (sb && wrong_layout (d, sb->id))
                         continue;
                   if (d->postfix)
                     {
@@ -2125,7 +2125,7 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
       if (!(d->override & DENEMO_OVERRIDE_AFFIX))
         continue;
       DenemoScoreblock *sb = selected_scoreblock();//FIXME should sb be passed in???
-      if (sb && !(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
+      if (sb && wrong_layout (d, sb->id))
                         continue;  
       gchar *post = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
       if (post)
@@ -2641,7 +2641,7 @@ selection_layout (void)
       if (d->override & DENEMO_OVERRIDE_AFFIX)
         continue;
       DenemoScoreblock *sb = selected_scoreblock();//FIXME should sb be passed in???
-      if (sb && !(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
+      if (sb && wrong_layout (d, sb->id))
                         continue;  
       gchar *start = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
       if (start)
@@ -2746,7 +2746,7 @@ GString *voice_tail = g_string_new ("");
           DenemoDirective *d = g->data;
           if (d->override & DENEMO_OVERRIDE_HIDDEN)
             continue;
-          if (!(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
+          if (wrong_layout (d, sb->id))
                         continue;
           gchar *lily = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
           if (lily)

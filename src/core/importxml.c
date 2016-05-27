@@ -254,6 +254,16 @@ addContext (gchar * string)
 #define DO_INTDIREC(field) if (ELEM_NAME_EQ (childElem, #field))\
          directive->field = getXMLIntChild(childElem);
 
+static GList *parseLayouts (xmlNodePtr parentElem)
+{
+    GList *g = NULL;
+   xmlNodePtr childElem;
+  FOREACH_CHILD_ELEM (childElem, parentElem)
+  {     
+    g = g_list_append (g,  GINT_TO_POINTER(getXMLIntChild(childElem)));
+    }
+return g;
+}
 static void
 parseDirective (xmlNodePtr parentElem, DenemoDirective * directive)
 {
@@ -269,8 +279,20 @@ parseDirective (xmlNodePtr parentElem, DenemoDirective * directive)
     DO_DIREC (grob);
     DO_INTDIREC (override);
     DO_INTDIREC (minpixels);
-    DO_INTDIREC (x);
-    DO_INTDIREC (y);
+   // DO_INTDIREC (x);
+    if (ELEM_NAME_EQ (childElem, "x"))
+         {
+             directive->flag = DENEMO_ALLOW_FOR_LAYOUTS;
+             directive->layouts = g_list_append (NULL, GINT_TO_POINTER(getXMLIntChild(childElem)));
+        }
+    
+    
+      //  DO_INTDIREC (y);
+    if (ELEM_NAME_EQ (childElem, "y"))
+         {
+             directive->flag = DENEMO_IGNORE_FOR_LAYOUTS;
+             directive->layouts = g_list_append (NULL, getXMLIntChild(childElem));
+        }
     DO_INTDIREC (tx);
     DO_INTDIREC (ty);
     DO_INTDIREC (gx);
@@ -282,6 +304,17 @@ parseDirective (xmlNodePtr parentElem, DenemoDirective * directive)
         loadGraphicItem (directive->graphic_name->str, (DenemoGraphic **) & directive->graphic);
         /* FIXME,handle not loaded */
       }
+      
+  if (ELEM_NAME_EQ (childElem, "allowed"))
+        {
+            directive->flag = DENEMO_ALLOW_FOR_LAYOUTS;
+            directive->layouts = parseLayouts (childElem);
+        }
+   if (ELEM_NAME_EQ (childElem, "ignore"))
+        {
+            directive->flag = DENEMO_IGNORE_FOR_LAYOUTS;
+            directive->layouts = parseLayouts (childElem);
+        }     
   }
   UPDATE_OVERRIDE (directive);
 
@@ -306,8 +339,19 @@ parseWidgetDirective (xmlNodePtr parentElem, gpointer fn, DenemoDirective * dire
     DO_DIREC (data);
     DO_INTDIREC (override);
     DO_INTDIREC (minpixels);
-    DO_INTDIREC (x);
-    DO_INTDIREC (y);
+    //DO_INTDIREC (x);
+    //DO_INTDIREC (y);
+        if (ELEM_NAME_EQ (childElem, "x"))
+         {
+             directive->flag = DENEMO_ALLOW_FOR_LAYOUTS;
+             directive->layouts = g_list_append (NULL, getXMLIntChild(childElem));
+        }
+    if (ELEM_NAME_EQ (childElem, "y"))
+         {
+             directive->flag = DENEMO_IGNORE_FOR_LAYOUTS;
+             directive->layouts = g_list_append (NULL, getXMLIntChild(childElem));
+        }
+
     DO_INTDIREC (tx);
     DO_INTDIREC (ty);
     DO_INTDIREC (gx);
@@ -1330,8 +1374,8 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem)
         thedirective->x = atoi(x);\
       g_free(x);
 
-      GET_INT_FIELD (x);
-      GET_INT_FIELD (y);
+      //GET_INT_FIELD (x);
+      //GET_INT_FIELD (y); no need to keep these for backward compatibility
       GET_INT_FIELD (tx);
       GET_INT_FIELD (ty);
       GET_INT_FIELD (gx);

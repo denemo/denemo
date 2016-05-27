@@ -352,6 +352,17 @@ newVersesElem (xmlNodePtr curElem, xmlNsPtr ns, GList * verses, gchar * type)
         xmlNewTextChild (versesElem, ns, (xmlChar *) "verse", (xmlChar *) verses->data);
     }
 }
+
+static void newLayoutsElem (xmlNodePtr layoutsElem, xmlNsPtr ns, DenemoDirective *directive) 
+{
+   GList *g;
+   for (g=directive->layouts;g;g=g->next)
+        {
+            newXMLIntChild (layoutsElem, ns, (xmlChar *)"layout",
+                             GPOINTER_TO_INT (g->data));
+        }
+}
+
 static void newDirectiveElem (xmlNodePtr directiveElem, xmlNsPtr ns, DenemoDirective *directive) 
 {
 /*      hhmmmm the set_action_script_for_tag is not modifying the directive - just associating a script with the tag. It is when we try to invoke the directive that we find there is an action script */
@@ -376,8 +387,8 @@ static void newDirectiveElem (xmlNodePtr directiveElem, xmlNsPtr ns, DenemoDirec
       DO_DIREC (graphic_name);
 
       DO_INTDIREC (minpixels);
-      DO_INTDIREC (x);
-      DO_INTDIREC (y);
+    //  DO_INTDIREC (x);
+    //  DO_INTDIREC (y);
       DO_INTDIREC (tx);
       DO_INTDIREC (ty);
       DO_INTDIREC (gx);
@@ -386,6 +397,11 @@ static void newDirectiveElem (xmlNodePtr directiveElem, xmlNsPtr ns, DenemoDirec
 
 #undef DO_DIREC
 #undef DO_INTDIREC
+    if (directive->layouts)
+        {
+            xmlNodePtr layoutsElem = xmlNewChild (directiveElem, ns, (xmlChar *) directive->flag==DENEMO_ALLOW_FOR_LAYOUTS?"allow":"ignore", NULL);    
+            newLayoutsElem (layoutsElem, ns, directive);  
+        }
 }
 
 static void

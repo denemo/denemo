@@ -140,8 +140,11 @@ append_directives_information (GString * selection, GList * directives)
             g_string_append_printf (selection, _("LilyPond inserted in postfix to this object is <tt>\"%s\"</tt>\n"), lily);
             g_free (lily);
         }
-     if(directive->x || directive->y)
-        g_string_append (selection, _( "<span foreground=\"red\"weight=\"bold\">THIS DIRECTIVE IS CONDITIONAL ON THE LAYOUT\n</span>"));
+     if(directive->layouts && (directive->flag==DENEMO_IGNORE_FOR_LAYOUTS))
+         g_string_append (selection, _( "<span foreground=\"red\"weight=\"bold\">THIS DIRECTIVE IS IGNORED FOR SOME LAYOUTS\n</span>"));
+     else
+         if(directive->layouts && (directive->flag==DENEMO_ALLOW_FOR_LAYOUTS))
+            g_string_append (selection, _( "<span foreground=\"red\"weight=\"bold\">THIS DIRECTIVE ONLY FOR SOME LAYOUTS\n</span>"));  
      if(!directives->next)
         g_string_append (selection, "<span foreground=\"blue\"weight=\"bold\">---------------------------------------------------------</span>");
     
@@ -490,7 +493,8 @@ display_current_object_callback (void)
                     g_free (tooltip_e);
                 }
 
-           g_string_append_printf (selection, _("%s"), directive->x ? _("\nNot all layouts\n") : directive->y ? _("\nOnly for one Layout\n"): "\n");
+           g_string_append_printf (selection, _("%s"), (directive->layouts && (directive->flag==DENEMO_IGNORE_FOR_LAYOUTS)) ? _("\nNot all layouts\n") :
+                                                        (directive->layouts && (directive->flag==DENEMO_ALLOW_FOR_LAYOUTS)) ? _("\nOnly for one Layout\n"): "\n");
            if(menupath)
                 {
                     gchar *menupath_e = g_markup_escape_text(menupath, -1);
@@ -515,7 +519,7 @@ display_current_object_callback (void)
             else
                 g_string_append_printf (selection, _("This object does not affect the printed output (no LilyPond syntax is generated for the typesetter)\n"));//well this ignores possible effect of whitespace...
             g_free (text);
-            if(directive->x || directive->y)
+            if(directive->layouts)
                 g_string_append (selection, _( "<span foreground=\"red\"weight=\"bold\">THIS DIRECTIVE IS CONDITIONAL ON THE LAYOUT\n</span>"));
             }
            if (gui->movement->currentobject->next == NULL && (gui->movement->currentmeasure->next == NULL))
@@ -1710,9 +1714,9 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
              GtkWidget *frame;
              gchar *text;
             if (label == NULL)
-                text = g_strdup_printf( _("%sDenemo %s Directive tagged: %s"), (directive->x||directive->y)?_( "(Conditional) "):"", type, name);
+                text = g_strdup_printf( _("%sDenemo %s Directive tagged: %s"), (directive->layouts)?_( "(Conditional) "):"", type, name);
             else
-                text = g_strdup_printf (_("%sDenemo %s Directive: %s"), (directive->x||directive->y)?_( "(Conditional) "):"",type, label);
+                text = g_strdup_printf (_("%sDenemo %s Directive: %s"), (directive->layouts)?_( "(Conditional) "):"",type, label);
             frame = gtk_frame_new (text);
             g_free(text);
             //gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);

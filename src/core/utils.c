@@ -580,10 +580,10 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
     {
       DenemoDirective *directive = (DenemoDirective *) directives->data;
       guint layout = selected_layout_id ();
-      gdouble only = directive->y ? ((directive->y == layout) ? 0.5 : 0.0) : 0.0;
-      gdouble exclude = directive->x ? ((directive->x == layout) ? 0.9 : 0.0) : 0.0;
-      if (directive->y && directive->y != layout)
-        exclude = 0.9;
+      gdouble only = (directive->layouts && !wrong_layout (directive, layout)) ? 0.5: 0.0;
+      gdouble exclude = (directive->layouts && wrong_layout (directive, layout)) ? 0.9 : 0.0;
+      //if (directive->y && directive->y != layout)
+      //  exclude = 0.9;
       if (exclude>0.0 || only >0.0)
             {
                 cairo_save (cr);
@@ -1959,7 +1959,7 @@ write_status (DenemoProject * gui)
         case LILYDIRECTIVE:
           {
             DenemoDirective *directive = (DenemoDirective *) curObj->object;
-            selection = g_strdup_printf (_("Directive:(%.20s) %.20s%.50s"), directive->tag ? directive->tag->str : _("Unknown Tag"), directive->x ? _("Not all layouts") : directive->y ? _("Only for one Layout") : "", directive->postfix ? directive->postfix->str : directive->prefix ? directive->prefix->str : directive->graphic_name ? directive->graphic_name->str : directive->display ? directive->display->str : "empty");
+            selection = g_strdup_printf (_("Directive:(%.20s) %.20s%.50s"), directive->tag ? directive->tag->str : _("Unknown Tag"), directive->layouts ? _("Not all layouts") : "", directive->postfix ? directive->postfix->str : directive->prefix ? directive->prefix->str : directive->graphic_name ? directive->graphic_name->str : directive->display ? directive->display->str : "empty");
           }
           break;
         default:

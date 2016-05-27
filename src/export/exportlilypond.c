@@ -1004,7 +1004,7 @@ directives_insert_##field##_editable (GList *directives, gint *popen_braces, gin
       continue;\
     if(directive->override&DENEMO_OVERRIDE_HIDDEN)\
       continue;\
-    if (!(((directive->x == 0 || (directive->x!=sbid))) && ((directive->y == 0 || (directive->y==sbid)))))\
+      if (wrong_layout (directive, sbid))\
         continue;\
     if(directive->field && directive->field->len) {\
       if(pprevduration) *pprevduration = -1;            \
@@ -1032,7 +1032,7 @@ directives_insert_affix_postfix_editable (GList * directives, gint * popen_brace
         continue;
       if (directive->override & DENEMO_OVERRIDE_HIDDEN)
         continue;
-      if (!(((directive->x == 0 || (directive->x!=sbid))) && ((directive->y == 0 || (directive->y==sbid)))))
+      if (wrong_layout (directive, sbid))
         continue;
       if (directive->postfix && directive->postfix->len)
         {
@@ -1203,7 +1203,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                     for (; g; g = g->next, num++)
                       {
                         DenemoDirective *directive = (DenemoDirective *) g->data;
-                        if (directive->prefix && (!(directive->override & DENEMO_ALT_OVERRIDE)) && ((directive->x == 0 || (directive->x!=sbid))) && ((directive->y == 0 || (directive->y==sbid))))
+                        if (directive->prefix && (!(directive->override & DENEMO_ALT_OVERRIDE)) && !wrong_layout(directive, sbid))
                           {
                             prevduration = -1;
                             insert_editable (&directive->prefix, directive->prefix->len ? directive->prefix->str : " ", iter, gui, lily_for_obj, TARGET_NOTE, movement_count, measurenum, voice_count, objnum, num, curnote->mid_c_offset);
@@ -1261,7 +1261,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                         for (num = 0; g; g = g->next, num++)
                           {
                             DenemoDirective *directive = (DenemoDirective *) g->data;
-                            if (directive->postfix && !(directive->override & DENEMO_OVERRIDE_HIDDEN) && (!(directive->override & DENEMO_ALT_OVERRIDE))&& ((directive->x == 0 || (directive->x!=sbid))) && ((directive->y == 0 || (directive->y==sbid))))
+                            if (directive->postfix && !(directive->override & DENEMO_OVERRIDE_HIDDEN) && (!(directive->override & DENEMO_ALT_OVERRIDE))&& !wrong_layout(directive, sbid))
                               {
                                 insert_editable (&directive->postfix, directive->postfix->len ? directive->postfix->str : " ", iter, gui, lily_for_obj, TARGET_NOTE, movement_count, measurenum, voice_count, objnum, num, curnote->mid_c_offset);
                                 prevduration = -1;
@@ -1354,7 +1354,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
             for (num = 0; g; g = g->next, num++)
               {
                 DenemoDirective *directive = (DenemoDirective *) g->data;
-                if (directive->postfix && directive->postfix->len && (!(directive->override & DENEMO_OVERRIDE_HIDDEN)) && ((directive->x == 0 || (directive->x!=sbid))) && ((directive->y == 0 || (directive->y==sbid))))
+                if (directive->postfix && directive->postfix->len && (!(directive->override & DENEMO_OVERRIDE_HIDDEN)) && !wrong_layout (directive, sbid))
       
                   {
                     prevduration = -1;
@@ -1933,7 +1933,7 @@ outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint
                     {
                       DenemoDirective *directive = ((lilydirective *) curobj->object);
 #define OUTPUT_LILY(what) \
-  if(directive->what && directive->what->len && ((directive->x == 0 || (directive->x!=sb->id))) && ((directive->y == 0 || (directive->y==sb->id))) \
+  if(directive->what && directive->what->len && !wrong_layout(directive, sb->id) \
      && (!(directive->override & DENEMO_OVERRIDE_HIDDEN)) \
      ) {                                \
       gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, curmark);\
@@ -2325,8 +2325,8 @@ set_initiate_scoreblock (DenemoMovement * si, GString * scoreblock)
     {
     DenemoDirective *d = (DenemoDirective *) g->data;
     DenemoScoreblock *sb = selected_scoreblock();
-    if (sb && !(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
-                        continue;
+    if (sb && wrong_layout (d, sb->id))
+        continue;
     if ((d->override & DENEMO_OVERRIDE_AFFIX) && (d->prefix))
         {
          g_string_append (movement_prolog, d->prefix->str);
