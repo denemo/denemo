@@ -282,7 +282,7 @@ parseDirective (xmlNodePtr parentElem, DenemoDirective * directive)
    // DO_INTDIREC (x);
     if (ELEM_NAME_EQ (childElem, "x"))
          {
-             directive->flag = DENEMO_ALLOW_FOR_LAYOUTS;
+             directive->flag = DENEMO_IGNORE_FOR_LAYOUTS;
              directive->layouts = g_list_append (NULL, GINT_TO_POINTER(getXMLIntChild(childElem)));
         }
     
@@ -290,7 +290,7 @@ parseDirective (xmlNodePtr parentElem, DenemoDirective * directive)
       //  DO_INTDIREC (y);
     if (ELEM_NAME_EQ (childElem, "y"))
          {
-             directive->flag = DENEMO_IGNORE_FOR_LAYOUTS;
+             directive->flag = DENEMO_ALLOW_FOR_LAYOUTS;
              directive->layouts = g_list_append (NULL, getXMLIntChild(childElem));
         }
     DO_INTDIREC (tx);
@@ -343,12 +343,12 @@ parseWidgetDirective (xmlNodePtr parentElem, gpointer fn, DenemoDirective * dire
     //DO_INTDIREC (y);
         if (ELEM_NAME_EQ (childElem, "x"))
          {
-             directive->flag = DENEMO_ALLOW_FOR_LAYOUTS;
+             directive->flag = DENEMO_IGNORE_FOR_LAYOUTS;
              directive->layouts = g_list_append (NULL, getXMLIntChild(childElem));
         }
     if (ELEM_NAME_EQ (childElem, "y"))
          {
-             directive->flag = DENEMO_IGNORE_FOR_LAYOUTS;
+             directive->flag = DENEMO_ALLOW_FOR_LAYOUTS;
              directive->layouts = g_list_append (NULL, getXMLIntChild(childElem));
         }
 
