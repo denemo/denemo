@@ -2338,9 +2338,7 @@ free_directive_data (DenemoDirective * directive)
         gtk_widget_destroy (texteditor);        //FIXME we may need to destroy its parents
       gtk_widget_destroy ((GtkWidget *) directive->widget);
     }
-
-
-
+    g_list_free (directive->layouts);
 }
 
 void
