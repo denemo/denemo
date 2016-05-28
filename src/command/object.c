@@ -2296,6 +2296,11 @@ clone_directive (DenemoDirective * directive)
       ret->widget = NULL;       //FIXME call widget_for_directive here???
       //   widget_for_directive(ret, fn);
     }
+    GList *g;
+    GList *start = directive->layouts;
+    directive->layouts = NULL;
+    for (g=start;g;g=g->next)
+        directive->layouts = g_list_append (directive->layouts, g->data);
   return ret;
 }
 
