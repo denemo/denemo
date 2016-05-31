@@ -925,7 +925,7 @@ static void install_conditional_button (GtkWidget *hbox, DenemoDirective *direct
            else if(!strcmp (field, "scoreheader"))  
             rerun = edit_score_properties;              
            else  if(!strcmp (field, "lilycontrol"))
-            rerun = edit_score_properties;              
+            field="score", rerun = edit_score_properties;              
            else  if(!strcmp (field, "header"))
             rerun = edit_score_properties;                 
            else  if(!strcmp (field, "layout"))
