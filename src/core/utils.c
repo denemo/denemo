@@ -2950,3 +2950,22 @@ gboolean shift_held_down(void)
 #endif        
         return (mask & GDK_SHIFT_MASK);
     }
+    
+    
+#if GTK_MAJOR_VERSION == 2
+#define GdkRGBA GdkColor
+#define gtk_widget_override_color gtk_widget_modify_fg
+#define gtk_widget_override_background_color gtk_widget_modify_bg
+#define GTK_STATE_FLAG_NORMAL (0)
+void get_color (GdkColor *color, gdouble r, gdouble g, gdouble b, gdouble a) {
+    gchar *col = g_strdup_printf ( "#%02x%02x%02x", (gint)(r*254),(gint)(g*254),(gint)(b*254));
+    gdk_color_parse (col, color);
+    g_free(col);
+}
+#else
+void get_color (GdkRGBA *color, gdouble r, gdouble g, gdouble b, gdouble a) {
+            color->red = r; color->green = g;
+            color->blue = b; 
+            color->alpha = a;
+            }
+#endif 

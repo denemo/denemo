@@ -325,4 +325,22 @@ gchar *escape_scheme (gchar *input);
 gchar *time_spent_editing(void);
 void reset_editing_timer(void);
 gboolean shift_held_down(void);
+
+#if GTK_MAJOR_VERSION == 2
+#define GdkRGBA GdkColor
+#define gtk_widget_override_color gtk_widget_modify_fg
+#define gtk_widget_override_background_color gtk_widget_modify_bg
+#define GTK_STATE_FLAG_NORMAL (0)
+void get_color (GdkColor *color, gdouble r, gdouble g, gdouble b, gdouble a);
+#else
+void get_color (GdkRGBA *color, gdouble r, gdouble g, gdouble b, gdouble a);
+#endif 
+
+
+
+
 #endif /* UTILS_H */
+
+
+
+
