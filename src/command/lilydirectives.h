@@ -154,4 +154,5 @@ DenemoDirective *get_next_directive_at_cursor (void);
 void edit_system_directive (void);
 DenemoDirective *get_note_directive (gchar * tag);
 gboolean wrong_layout (DenemoDirective *d, gint id);//TRUE if layout id is not allowed for directive d
+gboolean not_for_current_layout (DenemoDirective *d);
 #endif

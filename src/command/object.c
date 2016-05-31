@@ -896,36 +896,52 @@ static void make_note_directive_conditional (gchar *tag)
         g_free (script);
         recover_object_editor ();
     }
-static void make_movementcontrol_directive_conditional (DenemoDirective *directive)
+static void make_directive_conditional (GtkWidget *button, DenemoDirective *directive)
     {
         gtk_widget_destroy (TheEditorWidget);
+        gpointer rerun;
+        const gchar *field;
+        rerun = g_object_get_data (G_OBJECT (button), "rerun");
+        field = (const gchar *)g_object_get_data (G_OBJECT (button), "field");
         if (directive && directive->tag)
             {
-                gchar *script = g_strdup_printf ("(SetDirectiveConditional  #f (cons \"movementcontrol\" \"%s\"))", directive->tag->str); 
+                gchar *script = g_strdup_printf ("(SetDirectiveConditional  #f (cons \"%s\" \"%s\"))", field, directive->tag->str); 
                 call_out_to_guile (script);
                 g_free (script);
                 score_status (Denemo.project, TRUE);
             }
-        edit_movement_properties();
+        G_CALLBACK (rerun)();
     }   
-#if GTK_MAJOR_VERSION == 2
-#define GdkRGBA GdkColor
-#define gtk_widget_override_color gtk_widget_modify_fg
-#define gtk_widget_override_background_color gtk_widget_modify_bg
-#define GTK_STATE_FLAG_NORMAL (0)
-static void get_color (GdkColor *color, gdouble r, gdouble g, gdouble b, gdouble a) {
-    gchar *col = g_strdup_printf ( "#%02x%02x%02x", (gint)(r*254),(gint)(g*254),(gint)(b*254));
-    gdk_color_parse (col, color);
-    g_free(col);
-}
-#else
-static void get_color (GdkRGBA *color, gdouble r, gdouble g, gdouble b, gdouble a) {
-            color->red = r; color->green = g;
-            color->blue = b; 
-            color->alpha = a;
+ 
+static void install_conditional_button (GtkWidget *hbox, DenemoDirective *directive, gchar *field)
+    {
+        GdkRGBA color;
+        GtkWidget *button = gtk_button_new_with_label (_("Conditional"));
+        get_color (&color, 0.0, 0.0, 0.5, 1.0);
+        gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+       gpointer rerun = NULL;     
+       if(!strcmp (field, "movementcontrol"))
+            rerun = edit_movement_properties; 
+           else if(!strcmp (field, "scoreheader"))  
+            rerun = edit_score_properties;              
+           else  if(!strcmp (field, "lilycontrol"))
+            rerun = edit_score_properties;              
+           else  if(!strcmp (field, "header"))
+            rerun = edit_score_properties;                 
+           else  if(!strcmp (field, "layout"))
+            rerun = edit_score_properties;                 
+           else  if(!strcmp (field, "paper"))
+            rerun = edit_score_properties;                           
+           else    
+             g_warning ("The field %s should have a conditional button but doesnt.\n\n\n", field);   
+         g_object_set_data (G_OBJECT (button), "rerun", rerun);
+         g_object_set_data (G_OBJECT (button), "field", field);
+        if (rerun) 
+            {
+            g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (make_directive_conditional), (gpointer)directive);
+            gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
             }
-#endif 
-
+    }
 
 static void 
 copy_chord_directive_to_clipboard (gchar *tag)
@@ -1766,23 +1782,17 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
             g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
             g_signal_connect (button, "clicked", G_CALLBACK (delete_score_directive), NULL);
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 30);
-            if(!strcmp (field, "movementcontrol"))
+            
+            install_conditional_button (hbox, directive, field);
+          
+            if (tooltip)
                 {
-                    button = gtk_button_new_with_label (_("Conditional"));
-                    get_color (&color, 0.0, 0.0, 0.5, 1.0);
+                    button = gtk_button_new_with_label (_("Help"));
+                    get_color (&color, 0.0, 0.7, 0.3, 1.0);
                     gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
-                    g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (make_movementcontrol_directive_conditional), (gpointer)directive);
+                    g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (display_help), (gpointer)tooltip);
                     gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
                 }
-            
-             if (tooltip)
-            {
-                button = gtk_button_new_with_label (_("Help"));
-                get_color (&color, 0.0, 0.7, 0.3, 1.0);
-                gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
-                g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (display_help), (gpointer)tooltip);
-                gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-            }
             
             
             

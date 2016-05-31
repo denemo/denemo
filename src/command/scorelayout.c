@@ -1311,6 +1311,7 @@ install_staff_group_start (GList ** pstaffs, GtkWidget * vbox, GList * directive
       DenemoDirective *directive = g->data;
       if (directive->override & DENEMO_OVERRIDE_AFFIX)
         {
+          if (not_for_current_layout(directive)) continue;
           if (directive->prefix && (directive->prefix->len > 0))
             {
               GtkWidget *frame = (GtkWidget *) gtk_frame_new (directive->tag->str);
@@ -1360,6 +1361,8 @@ install_staff_group_end (GtkWidget * vbox, GList * directives, gint * nesting)
   for (g = directives; g; g = g->next)
     {
       DenemoDirective *directive = g->data;
+      if (not_for_current_layout(directive)) continue;
+
       if (directive->override & DENEMO_OVERRIDE_AFFIX)
         {
           if (directive->postfix && (directive->postfix->len > 0))
@@ -1809,9 +1812,8 @@ create_scoreheader_directives (GtkWidget * vbox)
         continue;
       if (directive->postfix == NULL)
         continue;
-      DenemoScoreblock *sb = selected_scoreblock();//FIXME should sb be passed in???
-      if (sb && wrong_layout (directive, sb->id))
-                        continue;  
+      if (not_for_current_layout(directive)) continue;
+
         
       create_element (header_box, gtk_label_new (directive->tag->str), g_strdup (directive->postfix->str));
     }
@@ -1835,9 +1837,8 @@ create_score_directives (GtkWidget * vbox)
   for (; g; g = g->next)
     {
       DenemoDirective *directive = g->data;
-      DenemoScoreblock *sb = selected_scoreblock();//FIXME should sb be passed in???
-      if (sb && wrong_layout (directive, sb->id))
-                        continue;               
+      if (not_for_current_layout(directive)) continue;
+            
       if (directive->prefix && !(directive->override & (DENEMO_OVERRIDE_AFFIX)))
         {
           GtkWidget *label = gtk_label_new (directive->tag->str);
@@ -1905,7 +1906,7 @@ static
 void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScoreblock ** psb, gchar *partname, gint movement_num, gboolean last, gboolean standard)
           {
           DenemoProject *gui = Denemo.project;
-          DenemoScoreblock *sb = *psb;if(sb)g_print ("Typesetting for id = %d\n\n\n\n", sb->id); else g_print ("No score layout\n\n");
+          DenemoScoreblock *sb = *psb;//if(sb)g_print ("Typesetting for id = %d\n\n\n\n", sb->id); else g_print ("No score layout\n\n");
           gchar *label_text = gui->movements->next ? g_strdup_printf (_("<b>Movement %d</b>"), movement_num) : g_strdup (_("Movement"));
           GtkWidget *movement_frame = gtk_expander_new (label_text);
           gtk_label_set_use_markup (GTK_LABEL (gtk_expander_get_label_widget (GTK_EXPANDER(movement_frame))), TRUE);
@@ -2124,9 +2125,8 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
         continue;
       if (!(d->override & DENEMO_OVERRIDE_AFFIX))
         continue;
-      DenemoScoreblock *sb = selected_scoreblock();//FIXME should sb be passed in???
-      if (sb && wrong_layout (d, sb->id))
-                        continue;  
+      if (not_for_current_layout(d)) continue;
+ 
       gchar *post = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
       if (post)
         {
@@ -2726,6 +2726,7 @@ GString *voice_tail = g_string_new ("");
       DenemoDirective *d = g->data;
       if (d->override & DENEMO_OVERRIDE_HIDDEN)
         continue;
+      if (not_for_current_layout(d)) continue;
 
       gchar *lily = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
       if (lily)

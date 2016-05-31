@@ -2567,6 +2567,12 @@ activate_directive (DenemoDirective * directive, gchar * what)
   return FALSE;
 }
 
+static void
+help_for_conditional (gchar *help)
+{
+    warningdialog (help);
+    
+}
 /* text_edit_directive
    textually edit the directive via a dialog.
    return FALSE if the user requests deletion of the directive.
@@ -2584,7 +2590,7 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
                                                    _("_OK"), GTK_RESPONSE_ACCEPT,
                                                    _("_Cancel"), GTK_RESPONSE_CANCEL,
                                                    NULL);
-  gtk_window_set_title (GTK_WINDOW (dialog), _("Denemo Object Editor"));
+ // gtk_window_set_title (GTK_WINDOW (dialog), _("Denemo Object Editor"));
 
   gtk_dialog_add_button (GTK_DIALOG (dialog), _("Delete Directive"), GTK_RESPONSE_REJECT);
   gtk_dialog_add_button (GTK_DIALOG (dialog), _("Create Script"), CREATE_SCRIPT);
@@ -2667,6 +2673,44 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
  // NEWUINTENTRY (_("Only Applies to Layout"), allowed); a new display for allowed and layouts fields needed...
  // NEWUINTENTRY (_("Ignored by Layout"), layouts);
 #undef TEXTENTRY
+
+  if (directive->layouts == NULL)
+    {
+        button = gtk_button_new_with_label (_("Applies to all layouts"));
+        GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));     
+        GdkRGBA color;
+        get_color (&color, 0.0, 1.0, 0.0, 1.0);
+        gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+        g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is honored by all layouts. Use the Score/Movement/Staff/Voice/Object Editor to make it conditional on the Current Layout, the Default Layout or the Default Layout for the current part."));
+    }
+  else
+    {
+        gboolean wrong = not_for_current_layout (directive);
+        if (directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
+            { 
+              button = gtk_button_new_with_label (wrong?
+                                _("Applies only to certain layouts, excluding the current one.")
+                                :_("Applies only to certain layouts, including the current one.")); 
+              GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));     
+              GdkRGBA color;
+              get_color (&color, wrong?1:0, wrong?0:1, 0.0, 1.0);
+              gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+              g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is honored only by certain layouts. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."));   
+            }
+        else
+            {
+              button = gtk_button_new_with_label (wrong?
+                                _("Excludes the current layout.")
+                                :_("Excludes certain layouts, but applies to the current one."));
+              GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));   
+              GdkRGBA color;
+              get_color (&color, wrong?1:0, wrong?0:1, 0.0, 1.0);
+              gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+              g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is disregarded by certain layouts. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."));
+            } 
+    }
+ gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
+
   hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
   button = gtk_button_new_with_label (_("Get Edit Script"));
@@ -3718,4 +3762,8 @@ gboolean wrong_layout (DenemoDirective *directive, gint id)
         }
     }
  return FALSE;   
+}
+gboolean not_for_current_layout (DenemoDirective *d)
+{
+    wrong_layout (d, selected_layout_id ());
 }

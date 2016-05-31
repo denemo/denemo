@@ -328,7 +328,7 @@
                             ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-allow")) (cdr type/tag)   0))
                     ((default) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-allow")) (cdr type/tag) 
                             (d-GetLayoutId)))
-                    ((only) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-allow")) (cdr type-and-tag) 
+                    ((only) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-allow")) (cdr type/tag) 
                             (d-GetCurrentStaffLayoutId))))
             (if (pair? directive)
                 (case choice
