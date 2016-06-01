@@ -304,7 +304,7 @@ synchronize_cursor(GtkWidget *textview)
 static gboolean 
 keypress (GtkWidget *textview, GdkEventKey *event )
 {
-    guint keyval = event->keyval;//g_print ("press %x", event->keyval);
+    guint keyval = event->keyval;g_print ("press %x", event->keyval);
     if (keyval == 0xFF63)
      return TRUE;// ignore Ins, don't want to have overwrite mode
      
@@ -332,13 +332,13 @@ keypress (GtkWidget *textview, GdkEventKey *event )
                 call_out_to_guile ("(d-MoveToStaffDown)(d-EditLyricAtCursor)");
                 return TRUE;
             default:
-                switch_back_to_main_window ();
+                //switch_back_to_main_window ();
                 break;
                     
                 }
         //use drawing area call back routine
-        scorearea_keypress_event (textview, event);
-        return TRUE;
+       // scorearea_keypress_event (textview, event);
+       // return TRUE;
         }
     return FALSE;
 }
